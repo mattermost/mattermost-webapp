@@ -22,7 +22,7 @@ export const Progress = (props: Props) => {
     }
 
     const dots = props.stepOrder.filter((step) => step !== WizardSteps.TransitioningOut).map((step) => {
-        let className = 'circle';
+        let className = 'PreparingWorkspaceProgress__circle';
         if (props.step === step) {
             className += ' active';
         }
@@ -35,8 +35,8 @@ export const Progress = (props: Props) => {
         );
     });
 
-    return (<div className='FullscreenWizard__progress'>
-        <div className='tutorial__circles'>{dots}</div>
+    return (<div className='PreparingWorkspaceProgress'>
+        <div className='PreparingWorkspaceProgress__circles'>{dots}</div>
     </div>);
 };
 

@@ -1,0 +1,56 @@
+@import 'utils/variables';
+@import 'utils/mixins';
+
+.PreparingWorkspaceProgress {
+    z-index: 1;
+    display: flex;
+    width: 120px;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+
+    &__circles {
+        display: flex;
+        flex-direction: column;
+        margin: 2em 0;
+    }
+
+    &__circle {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        margin: 5px 0;
+        background: $primary-color;
+        border-radius: 6px;
+        opacity: 0.2;
+
+        &.active {
+            opacity: 1;
+
+            &::after {
+                position: relative;
+                width: 12px;
+                height: 12px;
+                background: $primary-color;
+                border-radius: 12px;
+                content: '';
+                opacity: 0.2;
+            }
+        }
+    }
+
+    &.OnboardingWizardProgress {
+        &-exit {
+            opacity: 1;
+        }
+
+        &-exit-active {
+            opacity: 0;
+            transition: transform 300ms linear;
+        }
+
+        &-exit-done {
+            opacity: 0;
+        }
+    }
+}

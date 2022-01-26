@@ -1,10 +1,8 @@
 @import 'utils/variables';
 @import 'utils/mixins';
-@import './fullscreen_wizard';
+@import './mixins';
 
 .Url-body {
-    @include absolutely-fullscreen;
-
     display: flex;
 }
 
@@ -21,7 +19,12 @@
 
 .Url {
     &__input {
-        margin: 12px 24px 0;
+        @include input;
+    }
+
+    &__status {
+        font-size: 12px;
+        color: rgba(var(--center-channel-color-rgb), 0.72)
     }
 }
 

@@ -12,8 +12,9 @@ import Constants from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
+import OrganizationSVG from 'components/common/svg_images_components/organization-building.svg';
+
 import {Animations, mapAnimationReasonToClass, Form, TransitionProps} from './steps';
-import OrganizationSVG from './organization-building.svg';
 import PageLine from './page_line';
 import Title from './title';
 import Description from './description';
@@ -63,6 +64,7 @@ const OrganizationError = (props: {error: TeamNameToURL['error']}): JSX.Element 
 type Props = TransitionProps & {
     organization: Form['organization'];
     setOrganization: (organization: Form['organization']) => void;
+    className?: string;
 }
 
 const Organization = (props: Props) => {
@@ -90,6 +92,11 @@ const Organization = (props: Props) => {
     if (triedNext && validation.error !== false) {
         validationHint = <OrganizationError error={validation.error}/>;
     }
+
+    let className = 'Organization-body';
+    if (props.className) {
+        className += ' ' + props.className;
+    }
     return (
         <CSSTransition
             in={props.show}
@@ -98,7 +105,7 @@ const Organization = (props: Props) => {
             mountOnEnter={true}
             unmountOnExit={true}
         >
-            <div className='Organization-body'>
+            <div className={className}>
                 <div className='Organization-left-col'>
                     <OrganizationSVG/>
                     <PageLine
@@ -133,16 +140,18 @@ const Organization = (props: Props) => {
                         onKeyUp={onNext}
                         autoFocus={true}
                     />
-                    <button
-                        className='btn btn-primary'
-                        onClick={onNext}
-                        disabled={!props.organization}
-                    >
-                        <FormattedMessage
-                            id={'onboarding_wizard.next'}
-                            defaultMessage='Continue'
-                        />
-                    </button>
+                    <div>
+                        <button
+                            className='primary-button'
+                            onClick={onNext}
+                            disabled={!props.organization}
+                        >
+                            <FormattedMessage
+                                id={'onboarding_wizard.next'}
+                                defaultMessage='Continue'
+                            />
+                        </button>
+                    </div>
                     {validationHint}
                 </div>
             </div>

@@ -14,9 +14,14 @@ import './invite_members.scss';
 type Props = TransitionProps & {
     disableEdits: boolean;
     showInviteSuccess: boolean;
+    className?: string;
 }
 
 const InviteMembers = (props: Props) => {
+    let className = 'InviteMembers-body';
+    if (props.className) {
+        className += ' ' + props.className;
+    }
     return (
         <CSSTransition
             in={props.show}
@@ -25,7 +30,7 @@ const InviteMembers = (props: Props) => {
             mountOnEnter={true}
             unmountOnExit={true}
         >
-            <div className='InviteMembers-body'>
+            <div className={className}>
                 <PageLine height={'100px'}/>
                 {props.previous}
 
@@ -37,25 +42,27 @@ const InviteMembers = (props: Props) => {
                     id={'onboarding_wizard.invite_members.description'}
                     defaultMessage='Collaboration is tough by yourself. Invite a few team members. Separate each email address with a space or comma.'
                 />
-                <button
-                    className='btn btn-primary'
-                    disabled={props.disableEdits}
-                    onClick={props.next}
-                >
-                    <FormattedMessage
-                        id={'onboarding_wizard.invite_members.next'}
-                        defaultMessage='Send invites'
-                    />
-                </button>
-                <button
-                    className='tertiary-button'
-                    onClick={props.skip}
-                >
-                    <FormattedMessage
-                        id={'onboarding_wizard.invite_members.skip'}
-                        defaultMessage="I'll do this later"
-                    />
-                </button>
+                <div>
+                    <button
+                        className='primary-button'
+                        disabled={props.disableEdits}
+                        onClick={props.next}
+                    >
+                        <FormattedMessage
+                            id={'onboarding_wizard.invite_members.next'}
+                            defaultMessage='Send invites'
+                        />
+                    </button>
+                    <button
+                        className='tertiary-button'
+                        onClick={props.skip}
+                    >
+                        <FormattedMessage
+                            id={'onboarding_wizard.invite_members.skip'}
+                            defaultMessage="I'll do this later"
+                        />
+                    </button>
+                </div>
                 {/*TODO: <UsersEmailsInput> or something like it here*/}
                 <PageLine height={'calc(100vh - 100px - 400px'}/>
             </div>

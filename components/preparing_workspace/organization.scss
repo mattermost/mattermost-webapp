@@ -1,10 +1,8 @@
 @import 'utils/variables';
 @import 'utils/mixins';
-@import './fullscreen_wizard';
+@import './mixins';
 
 .Organization-body {
-    @include absolutely-fullscreen;
-
     display: flex;
 }
 
@@ -22,7 +20,7 @@
 
 .Organization {
     &__input {
-        margin: 12px 24px 0;
+        @include input;
     }
 }
 

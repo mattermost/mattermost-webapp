@@ -1,9 +1,0 @@
-@import 'utils/variables';
-@import 'utils/mixins';
-@import './fullscreen_wizard';
-
-.Plugins-body {
-    @include absolutely-fullscreen;
-}
-
-@include simple-in-and-out("Plugins");

@@ -7,7 +7,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {Action} from 'mattermost-redux/types/actions';
 import {checkIfTeamExists, createTeam} from 'mattermost-redux/actions/teams';
 
-import FullscreenWizard, {Actions} from './fullscreen_wizard';
+import PreparingWorkspace, {Actions} from './preparing_workspace';
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
@@ -20,4 +20,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
 
 const mapStateToProps = () => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(FullscreenWizard);
+export default connect(mapStateToProps, mapDispatchToProps)(PreparingWorkspace);

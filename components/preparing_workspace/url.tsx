@@ -10,21 +10,16 @@ import QuickInput from 'components/quick_input';
 
 import Constants from 'utils/constants';
 
+import LaptopEarthSVG from 'components/common/svg_images_components/laptop-earth.svg';
+
 import {Animations, mapAnimationReasonToClass, Form, TransitionProps} from './steps';
 
 import PageLine from './page_line';
-
-import LaptopEarthSVG from './laptop-earth.svg';
 
 import Title from './title';
 import Description from './description';
 
 import './url.scss';
-
-type Props = TransitionProps & {
-    url: Form['url'];
-    setUrl: (url: Form['url']) => void;
-}
 
 function checkUrl(url: string): UrlValidationError | false {
     if (url) {
@@ -36,64 +31,85 @@ function checkUrl(url: string): UrlValidationError | false {
 const UrlValidationErrors = {
     Empty: 'Empty',
     NotUrl: 'NotUrl',
-    Taken: 'Taken',
     NoConnection: 'NoConnection',
 } as const;
 type UrlValidationError = typeof UrlValidationErrors[keyof typeof UrlValidationErrors];
 
-function UrlCheckStatus(props: {tried: boolean; checking: boolean; error: UrlValidationError | false; available: boolean}) {
+function UrlStatus(props: {tried: boolean; checking: boolean; error: UrlValidationError | false; available: boolean}) {
+    const Status = (props: {children: React.ReactNode | React.ReactNodeArray}) => {
+        return (
+            <div className='Url__status'>
+                {props.children}
+            </div>
+        );
+    };
     if (props.available) {
         return (
-            <FormattedMessage
-                id={'onboarding_wizard.url.input_valid'}
-                defaultMessage='Test successful. This is a valid URL.'
-            />
+            <Status>
+                <FormattedMessage
+                    id={'onboarding_wizard.url.input_valid'}
+                    defaultMessage='Test successful. This is a valid URL.'
+                />
+            </Status>
         );
     }
     if (props.checking) {
         return (
-            <span>
+            <Status>
                 {'spinner here'}
                 <FormattedMessage
                     id={'onboarding_wizard.url.input_testing'}
                     defaultMessage='Testing URL'
                 />
-            </span>
+            </Status>
         );
     }
     if (!props.checking && !props.tried) {
-        return null;
+        return (
+            <Status>
+                <FormattedMessage
+                    id={'onboarding_wizard.url.input_help'}
+                    defaultMessage='Standard ports, such as 80 and 443, can be omitted, but non-standard ports are required'
+                />
+            </Status>
+        );
     }
+
     switch (props.error) {
     case UrlValidationErrors.Empty:
         return (
-            <FormattedMessage
-                id={'onboarding_wizard.url.input_invalid'}
-                defaultMessage='TODO: Invalid URL'
-            />
+            <Status>
+                <FormattedMessage
+                    id={'onboarding_wizard.url.input_invalid'}
+                    defaultMessage='Test unsuccessful: This is not a valid live URL. Press continue to use anyways.'
+                />
+            </Status>
         );
     case UrlValidationErrors.NoConnection:
         return (
-            <FormattedMessage
-                id={'onboarding_wizard.url.input_cant_connect'}
-                defaultMessage='TODO: Unable to connect to URL. Press continue to use anyways.'
-            />
-        );
-    case UrlValidationErrors.Taken:
-        return (
-            <FormattedMessage
-                id={'onboarding_wizard.url.input_taken'}
-                defaultMessage='TODO: This URL is already taken.'
-            />
+            <Status>
+                <FormattedMessage
+                    id={'onboarding_wizard.url.input_cant_connect'}
+                    defaultMessage='TODO: Unable to connect to URL. Press continue to use anyways.'
+                />
+            </Status>
         );
     default:
         return (
-            <FormattedMessage
-                id={'onboarding_wizard.url.input_invalid'}
-                defaultMessage='TODO: Invalid URL'
-            />
+            <Status>
+                <FormattedMessage
+                    id={'onboarding_wizard.url.input_invalid'}
+                    defaultMessage='TODO: Invalid URL'
+                />
+            </Status>
         );
     }
+}
+
+type Props = TransitionProps & {
+    url: Form['url'];
+    setUrl: (url: Form['url']) => void;
+    className?: string;
 }
 
 const Url = (props: Props) => {
@@ -107,11 +123,15 @@ const Url = (props: Props) => {
             }
         }
         setTriedNext(true);
-        if (validation === false) {
+        if (validation !== false) {
             return;
         }
         props.next?.();
     };
+    let className = 'Url-body';
+    if (props.className) {
+        className += ' ' + props.className;
+    }
     return (
         <CSSTransition
             in={props.show}
@@ -120,7 +140,7 @@ const Url = (props: Props) => {
             mountOnEnter={true}
             unmountOnExit={true}
         >
-            <div className='Url-body'>
+            <div className={className}>
                 <div className='Url-left-col'>
                     <PageLine
                         height={'100px'}
@@ -159,26 +179,24 @@ const Url = (props: Props) => {
                         onKeyUp={onNext}
                         autoFocus={true}
                     />
-                    <FormattedMessage
-                        id={'onboarding_wizard.url.input_help'}
-                        defaultMessage='Standard ports, such as 80 and 443, can be omitted, but non-standard ports are required'
-                    />
-                    <UrlCheckStatus
+                    <UrlStatus
                         tried={triedNext}
                         checking={false}
                         error={validation}
                         available={false}
                     />
-                    <button
-                        className='btn btn-primary'
-                        onClick={onNext}
-                        disabled={false}
-                    >
-                        <FormattedMessage
-                            id={'onboarding_wizard.next'}
-                            defaultMessage='Continue'
-                        />
-                    </button>
+                    <div>
+                        <button
+                            className='primary-button'
+                            onClick={onNext}
+                            disabled={false}
+                        >
+                            <FormattedMessage
+                                id={'onboarding_wizard.next'}
+                                defaultMessage='Continue'
+                            />
+                        </button>
+                    </div>
                 </div>
             </div>
         </CSSTransition>

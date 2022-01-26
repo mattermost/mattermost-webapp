@@ -1,6 +1,6 @@
 @import 'utils/variables';
 
-.WizardRadioButton {
+.MultiSelectCard {
     position: relative;
     display: inline-flex;
     min-width: 212px;
@@ -10,6 +10,7 @@
     padding: 12px;
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     margin-right: 16px;
+    margin-bottom: 16px;
     background: var(--center-channel-bg);
     border-radius: 8px;
     list-style-type: none;

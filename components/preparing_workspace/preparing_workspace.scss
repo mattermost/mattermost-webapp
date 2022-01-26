@@ -1,0 +1,51 @@
+@import 'utils/variables';
+@import 'utils/mixins';
+
+.PreparingWorkspace {
+    &__logo {
+        position: fixed;
+        z-index: 1;
+        top: 10px;
+        right: 10px;
+        width: 175px;
+    }
+
+    &__previous {
+        color: var(--button-bg);
+        font-size: 12px;
+        display: inline-flex;
+        align-items: center;
+        padding-right: 2px;
+        &:first-child {
+            margin-right: 5px;
+        }
+    }
+}
+
+.PreparingWorkspaceContainer {
+    display: flex;
+    flex-direction: row;
+    background: url('images/admin-onboarding-background.png');
+
+    .tertiary-button {
+        @include tertiary-button;
+
+        margin-left: 16px;
+    }
+
+    .primary-button {
+        @include primary-button;
+    }
+
+    .child-page {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100vh;
+    }
+}
+
+.PreparingWorkspacePageContainer {
+    position: relative;
+    width: calc(100vw - 120px);
+}

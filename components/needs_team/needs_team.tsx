@@ -97,10 +97,10 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             return;
         }
 
-        if (this.props.adminSetupRequired) {
-            this.props.history.push('/setup');
-            return;
-        }
+        // if (this.props.adminSetupRequired) {
+        //     this.props.history.push('/preparing-workspace');
+        //     return;
+        // }
 
         clearInterval(wakeUpInterval);
 

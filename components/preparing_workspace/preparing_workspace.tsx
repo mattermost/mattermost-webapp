@@ -4,7 +4,6 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {RouteComponentProps} from 'react-router';
-import {CSSTransition} from 'react-transition-group';
 import {FormattedMessage} from 'react-intl';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
@@ -20,8 +19,6 @@ import {Client4} from 'mattermost-redux/client';
 
 import {isFirstAdmin} from 'components/next_steps_view/steps';
 
-import './fullscreen_wizard.scss';
-
 import Constants, {OnboardingPreferences} from 'utils/constants';
 import {makeNewEmptyChannel} from 'utils/channel_utils';
 import {teamNameToUrl} from 'utils/url';
@@ -29,6 +26,8 @@ import {makeNewTeam} from 'utils/team_utils';
 
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {switchToChannel} from 'actions/views/channel';
+
+import logoImage from 'images/logo.png';
 
 import {WizardSteps, WizardStep, Animations, AnimationReason, Form, emptyForm} from './steps';
 
@@ -40,6 +39,8 @@ import Plugins from './plugins';
 import Progress from './progress';
 import Url from './url';
 import UseCase from './use_case';
+
+import './preparing_workspace.scss';
 
 const SubmissionStates = {
     Presubmit: 'Presubmit',
@@ -64,7 +65,7 @@ type Props = {
     actions: Actions;
 }
 
-export default function FullscreenWizard(props: Props & RouteComponentProps) {
+export default function PreparingWorkspace(props: Props & RouteComponentProps) {
     const user = useSelector(getCurrentUser);
 
     // const getState = useSelector(x => () => x);
@@ -83,7 +84,6 @@ export default function FullscreenWizard(props: Props & RouteComponentProps) {
     ].filter((x) => Boolean(x)) as WizardStep[];
 
     const existingUseCasePreference = useSelector((state: GlobalState) => get(state, Constants.Preferences.ONBOARDING, OnboardingPreferences.USE_CASE, false));
-    const shouldShowSetup = props.location.pathname.includes('/setup');
     const [currentStep, setCurrentStep] = useState<WizardStep>(stepOrder[0]);
     const [mostRecentStep, setMostRecentStep] = useState<WizardStep>(stepOrder[0]);
     const [submissionState, setSubmissionState] = useState<SubmissionState>(SubmissionStates.Presubmit);
@@ -214,7 +214,13 @@ export default function FullscreenWizard(props: Props & RouteComponentProps) {
         }
         return stepIndexesMax > mostRecentStepIndex ? Animations.Reasons.ExitToBefore : Animations.Reasons.ExitToAfter;
     };
-    const goPrevious = useCallback(() => {
+    const goPrevious = useCallback((e?: React.KeyboardEvent | React.MouseEvent) => {
+        if (e && (e as React.KeyboardEvent).key) {
+            const key = (e as React.KeyboardEvent).key;
+            if (key !== Constants.KeyCodes.ENTER[0] && key !== Constants.KeyCodes.SPACE[0]) {
+                return;
+            }
+        }
         if (submissionState !== SubmissionStates.Presubmit) {
             return;
         }
@@ -261,153 +267,155 @@ export default function FullscreenWizard(props: Props & RouteComponentProps) {
         });
     }, [form]);
 
-    const previous = (<div onClick={goPrevious}>
-        {'^ '}
-        <FormattedMessage
-            id={'onboarding_wizard.previous'}
-            defaultMessage='Previous'
-        />
-    </div>);
+    const previous = (
+        <div
+            onClick={goPrevious}
+            onKeyUp={goPrevious}
+            tabIndex={0}
+            className='PreparingWorkspace__previous'
+        >
+            <i className='icon-chevron-up'/>
+            <FormattedMessage
+                id={'onboarding_wizard.previous'}
+                defaultMessage='Previous'
+            />
+        </div>
+    );
 
     // TODO: figure out why CSSTransition isn't working for this top level route.
     return (
-        <CSSTransition
-            classNames='FullscreenWizard'
-            in={shouldShowSetup}
-            enter={true}
-            exit={true}
-            mountOnEnter={true}
-            unmountOnExit={true}
-            timeout={{
-                appear: 200,
-                enter: 200,
-                exit: 5000,
-            }}
-        >
-            <div className='fullscreen-wizard-container'>
-                {props.background}
-                <div className='FullscreenWizard__logo'>
-                    {'mattermost logo'}
-                </div>
-                <Progress
-                    step={currentStep}
-                    stepOrder={stepOrder}
-                    transitionSpeed={Animations.PAGE_SLIDE}
+        <div className='PreparingWorkspace PreparingWorkspaceContainer'>
+            {props.background}
+            <div className='PreparingWorkspace__logo'>
+                <img
+                    alt='Mattermost logo'
+                    src={logoImage}
                 />
-                <div className='fullscreen-page-container'>
-                    {isSelfHosted && (
-                        <Organization
-                            show={currentStep === WizardSteps.Organization}
-                            next={makeNext(WizardSteps.Organization)}
-                            direction={getTransitionDirection(WizardSteps.Organization)}
-                            organization={form.organization || ''}
-                            setOrganization={(organization: Form['organization']) => {
-                                setForm({
-                                    ...form,
-                                    organization,
-                                });
-                            }}
-                        />
-                    )}
-                    {isSelfHosted && (
-                        <Url
-                            previous={previous}
-                            show={currentStep === WizardSteps.Url}
-                            next={makeNext(WizardSteps.Url)}
-                            direction={getTransitionDirection(WizardSteps.Url)}
-                            url={form.url || ''}
-                            setUrl={(url: Form['url']) => {
-                                setForm({
-                                    ...form,
-                                    url,
-                                });
-                            }}
-                        />
-                    )}
-                    <UseCase
-                        previous={isSelfHosted ? previous : undefined}
-                        options={form.useCase}
-                        setOption={(option: keyof Form['useCase']) => {
-                            setForm({
-                                ...form,
-                                useCase: {
-                                    ...form.useCase,
-                                    [option]: !form.useCase[option],
-                                },
-                            });
-                        }}
-                        show={currentStep === WizardSteps.UseCase}
-                        next={makeNext(WizardSteps.UseCase)}
-                        direction={getTransitionDirection(WizardSteps.UseCase)}
-                    />
-                    <Plugins
-                        next={() => {
-                            makeNext(WizardSteps.Plugins)();
-                            skipPlugins(false);
-                        }}
-                        skip={() => {
-                            makeNext(WizardSteps.Plugins)();
-                            skipPlugins(true);
-                        }}
-                        options={form.plugins}
-                        setOption={(option: keyof Form['plugins']) => {
-                            setForm({
-                                ...form,
-                                plugins: {
-                                    ...form.plugins,
-                                    [option]: !form.plugins[option],
-                                },
-                            });
-                        }}
-                        previous={previous}
-                        show={currentStep === WizardSteps.Plugins}
-                        direction={getTransitionDirection(WizardSteps.Plugins)}
-                    />
-                    <ChannelComponent
-                        next={() => {
-                            makeNext(WizardSteps.Channel)();
-                            skipChannel(false);
-                        }}
-                        skip={() => {
-                            makeNext(WizardSteps.Channel)();
-                            skipChannel(true);
-                        }}
-                        previous={previous}
-                        show={currentStep === WizardSteps.Channel}
-                        direction={getTransitionDirection(WizardSteps.Channel)}
-                        name={form.channel.name}
-                        onChange={(newValue: string) => setForm({
-                            ...form,
-                            channel: {
-                                ...form.channel,
-                                name: newValue,
-                            },
-                        })}
-                    />
-                    <InviteMembers
-                        next={() => {
-                            skipTeamMembers(false);
-                            setSubmissionState(SubmissionStates.UserRequested);
-                        }}
-                        skip={() => {
-                            skipTeamMembers(true);
-                            setSubmissionState(SubmissionStates.UserRequested);
-                        }}
-                        previous={previous}
-                        show={currentStep === WizardSteps.InviteMembers}
-                        direction={getTransitionDirection(WizardSteps.InviteMembers)}
-                        disableEdits={submissionState !== SubmissionStates.Presubmit}
-                        showInviteSuccess={submissionState === SubmissionStates.SubmitSuccess}
-                    />
-                    <ChannelsPreview
-                        show={currentStep === WizardSteps.Channel || currentStep === WizardSteps.InviteMembers}
-                        step={currentStep}
-                        direction={getTransitionDirectionMultiStep([WizardSteps.Channel, WizardSteps.InviteMembers])}
-                        channelName={form.channel.name}
-                        teamName={'form.teamName'}
-                    />
-                </div>
             </div>
-        </CSSTransition>
+            <Progress
+                step={currentStep}
+                stepOrder={stepOrder}
+                transitionSpeed={Animations.PAGE_SLIDE}
+            />
+            <div className='PreparingWorkspacePageContainer'>
+                {isSelfHosted && (
+                    <Organization
+                        show={currentStep === WizardSteps.Organization}
+                        next={makeNext(WizardSteps.Organization)}
+                        direction={getTransitionDirection(WizardSteps.Organization)}
+                        organization={form.organization || ''}
+                        setOrganization={(organization: Form['organization']) => {
+                            setForm({
+                                ...form,
+                                organization,
+                            });
+                        }}
+                        className='child-page'
+                    />
+                )}
+                {isSelfHosted && (
+                    <Url
+                        previous={previous}
+                        show={currentStep === WizardSteps.Url}
+                        next={makeNext(WizardSteps.Url)}
+                        direction={getTransitionDirection(WizardSteps.Url)}
+                        url={form.url || ''}
+                        setUrl={(url: Form['url']) => {
+                            setForm({
+                                ...form,
+                                url,
+                            });
+                        }}
+                        className='child-page'
+                    />
+                )}
+                <UseCase
+                    previous={isSelfHosted ? previous : undefined}
+                    options={form.useCase}
+                    setOption={(option: keyof Form['useCase']) => {
+                        setForm({
+                            ...form,
+                            useCase: {
+                                ...form.useCase,
+                                [option]: !form.useCase[option],
+                            },
+                        });
+                    }}
+                    show={currentStep === WizardSteps.UseCase}
+                    next={makeNext(WizardSteps.UseCase)}
+                    direction={getTransitionDirection(WizardSteps.UseCase)}
+                    className='child-page'
+                />
+                <Plugins
+                    next={() => {
+                        makeNext(WizardSteps.Plugins)();
+                        skipPlugins(false);
+                    }}
+                    skip={() => {
+                        makeNext(WizardSteps.Plugins)();
+                        skipPlugins(true);
+                    }}
+                    options={form.plugins}
+                    setOption={(option: keyof Form['plugins']) => {
+                        setForm({
+                            ...form,
+                            plugins: {
+                                ...form.plugins,
+                                [option]: !form.plugins[option],
+                            },
+                        });
+                    }}
+                    previous={previous}
+                    show={currentStep === WizardSteps.Plugins}
+                    direction={getTransitionDirection(WizardSteps.Plugins)}
+                    className='child-page'
+                />
+                <ChannelComponent
+                    next={() => {
+                        makeNext(WizardSteps.Channel)();
+                        skipChannel(false);
+                    }}
+                    skip={() => {
+                        makeNext(WizardSteps.Channel)();
+                        skipChannel(true);
+                    }}
+                    previous={previous}
+                    show={currentStep === WizardSteps.Channel}
+                    direction={getTransitionDirection(WizardSteps.Channel)}
+                    name={form.channel.name}
+                    onChange={(newValue: string) => setForm({
+                        ...form,
+                        channel: {
+                            ...form.channel,
+                            name: newValue,
+                        },
+                    })}
+                    className='child-page'
+                />
+                <InviteMembers
+                    next={() => {
+                        skipTeamMembers(false);
+                        setSubmissionState(SubmissionStates.UserRequested);
+                    }}
+                    skip={() => {
+                        skipTeamMembers(true);
+                        setSubmissionState(SubmissionStates.UserRequested);
+                    }}
+                    previous={previous}
+                    show={currentStep === WizardSteps.InviteMembers}
+                    direction={getTransitionDirection(WizardSteps.InviteMembers)}
+                    disableEdits={submissionState !== SubmissionStates.Presubmit}
+                    showInviteSuccess={submissionState === SubmissionStates.SubmitSuccess}
+                    className='child-page'
+                />
+                <ChannelsPreview
+                    show={currentStep === WizardSteps.Channel || currentStep === WizardSteps.InviteMembers}
+                    step={currentStep}
+                    direction={getTransitionDirectionMultiStep([WizardSteps.Channel, WizardSteps.InviteMembers])}
+                    channelName={form.channel.name}
+                    teamName={'form.teamName'}
+                />
+            </div>
+        </div>
     );
 }

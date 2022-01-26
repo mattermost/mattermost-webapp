@@ -3,15 +3,17 @@
 
 import React from 'react';
 
-import './wizard_radio_button_container.scss';
+import Constants from 'utils/constants';
+
+import MultiSelectCard, {Props as CardProps} from './multi_select_card';
+import './index.scss';
 
 type Props = {
     next?: () => void;
-    children: React.ReactNode | React.ReactNodeArray;
+    cards: CardProps[];
 }
-import Constants from 'utils/constants';
 
-export default function WizardRadioButtonContainer(props: Props) {
+export default function MultiSelectCards(props: Props) {
     const onNext = (e: React.KeyboardEvent) => {
         if (e.key !== Constants.KeyCodes.ENTER[0]) {
             return;
@@ -26,10 +28,14 @@ export default function WizardRadioButtonContainer(props: Props) {
     return (
         <ul
             onKeyUp={onNext}
-            className='WizardRadioButtonContainer'
+            className='MultiSelectCards'
         >
-            {props.children}
+            {props.cards.map((card) => (
+                <MultiSelectCard
+                    key={card.id}
+                    {...card}
+                />
+            ))}
         </ul>
     );
 }
-

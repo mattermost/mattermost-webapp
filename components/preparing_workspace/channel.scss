@@ -1,0 +1,10 @@
+@import 'utils/mixins';
+@import './mixins';
+
+@include simple-in-and-out("Channel");
+
+.Channel {
+    &__input {
+        @include input;
+    }
+}
