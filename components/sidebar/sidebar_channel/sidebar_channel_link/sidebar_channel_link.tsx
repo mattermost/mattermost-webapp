@@ -66,6 +66,8 @@ type Props = {
 
     firstChannelName?: string;
 
+    isMobileView: boolean;
+
     actions: {
         clearChannelSelection: () => void;
         multiSelectChannelTo: (channelId: string) => void;
@@ -184,6 +186,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     offTopicDisplayName={this.props.offTopicDisplayName}
                     firstChannelName={this.props.firstChannelName}
                     openLhs={actions.openLhs}
+                    isMobileView={this.props.isMobileView}
                 />
             );
         }

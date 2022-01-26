@@ -477,7 +477,7 @@
         }
 
         button {
-            width: 70px;
+            width: fit-content;
             margin-left: auto;
 
             i {
@@ -499,7 +499,7 @@
         display: flex;
 
         .btn {
-            width: 100px;
+            width: 100%;
             height: 42px;
             padding: 0;
             margin: 0 auto;
