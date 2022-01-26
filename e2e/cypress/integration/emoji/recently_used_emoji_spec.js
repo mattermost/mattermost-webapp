@@ -104,7 +104,7 @@ describe('Recent Emoji', () => {
         cy.uiSave().wait(TIMEOUTS.THREE_SEC);
 
         // # Go back to home channel
-        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(townsquareLink);
 
         // # Post a system emoji
         cy.postMessage(`${MESSAGES.TINY}-second :lemon:`);
@@ -151,9 +151,11 @@ describe('Recent Emoji', () => {
             cy.findAllByText('Delete').should('have.length', 1).click();
         });
 
-        // # Confirm deletion and back to main channel view
+        // # Confirm deletion
         cy.get('#confirmModalButton').should('be.visible').click();
-        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+
+        // # Go back to home channel
+        cy.visit(townsquareLink);
 
         cy.reload();
 
