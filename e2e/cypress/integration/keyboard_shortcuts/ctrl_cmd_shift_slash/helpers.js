@@ -40,18 +40,19 @@ export function clickSmileEmojiFromEmojiPicker() {
 }
 
 /**
- * Check if 'smile' reaction was added to a post
+ * Check if an emoji reaction was added to a post, defaults check for 'smile' emoji
  * @param {String} postId Post ID of the message
+ * @param {String} emoji (Optional) Emoji name
  */
-export function checkReactionFromPost(postId) {
+export function checkReactionFromPost(postId, emoji = 'smile') {
     if (postId) {
         cy.get(`#${postId}_message`).within(() => {
             cy.findByLabelText('reactions').should('exist');
-            cy.findByLabelText('remove reaction smile').should('exist');
+            cy.findByLabelText(`remove reaction ${emoji}`).should('exist');
         });
     } else {
         cy.findByLabelText('reactions').should('exist');
-        cy.findByLabelText('remove reaction smile').should('exist');
+        cy.findByLabelText(`remove reaction ${emoji}}`).should('exist');
     }
 }
 

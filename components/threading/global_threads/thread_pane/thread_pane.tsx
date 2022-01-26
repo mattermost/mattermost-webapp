@@ -20,7 +20,6 @@ import FollowButton from '../../common/follow_button';
 import SimpleTooltip from 'components/widgets/simple_tooltip';
 import Header from 'components/widgets/header';
 import {useThreadRouting} from '../../hooks';
-
 import './thread_pane.scss';
 
 const getChannel = makeGetChannel();
@@ -73,7 +72,10 @@ const ThreadPane = ({
     }, [currentUserId, currentTeamId, threadId, isFollowing, setThreadFollow]);
 
     return (
-        <div className='ThreadPane'>
+        <div
+            id={'thread-pane-container'}
+            className='ThreadPane'
+        >
             <Header
                 className='ThreadPane___header'
                 heading={(

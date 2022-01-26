@@ -1,3 +1,3 @@
 ### In-line Images
 
-Mattermost/platform build status:  [![Build Status](https://travis-ci.org/mattermost/platform.svg?branch=master)](https://travis-ci.org/mattermost/platform)
+Mattermost/platform build status:  [![Build Status](https://docs.mattermost.com/_images/icon-76x76.png)](https://docs.mattermost.com/_images/icon-76x76.png)

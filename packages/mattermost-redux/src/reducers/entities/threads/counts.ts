@@ -6,6 +6,8 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {ThreadsState, UserThread} from 'mattermost-redux/types/threads';
 import {Team, TeamUnread} from 'mattermost-redux/types/teams';
 
+import Constants from 'utils/constants';
+
 import {ExtraData} from './types';
 
 function handleAllTeamThreadsRead(state: ThreadsState['counts'], action: GenericAction): ThreadsState['counts'] {
@@ -93,6 +95,23 @@ function handleLeaveChannel(state: ThreadsState['counts'] = {}, action: GenericA
     };
 }
 
+function handleDecrementThreadCounts(state: ThreadsState['counts'], action: GenericAction) {
+    const {teamId, replies, mentions} = action;
+    const counts = state[teamId];
+    if (!counts) {
+        return state;
+    }
+
+    return {
+        ...state,
+        [teamId]: {
+            total: Math.max(counts.total - 1, 0),
+            total_unread_mentions: Math.max(counts.total_unread_mentions - mentions, 0),
+            total_unread_threads: Math.max(counts.total_unread_threads - replies, 0),
+        },
+    };
+}
+
 export function countsIncludingDirectReducer(state: ThreadsState['counts'] = {}, action: GenericAction, extra: ExtraData) {
     switch (action.type) {
     case ThreadTypes.ALL_TEAM_THREADS_READ:
@@ -129,6 +148,8 @@ export function countsIncludingDirectReducer(state: ThreadsState['counts'] = {},
                 total_unread_mentions: action.data.total_unread_mentions,
             },
         };
+    case ThreadTypes.DECREMENT_THREAD_COUNTS:
+        return handleDecrementThreadCounts(state, action);
     case UserTypes.LOGOUT_SUCCESS:
         return {};
     }
@@ -162,6 +183,13 @@ export function countsReducer(state: ThreadsState['counts'] = {}, action: Generi
                 return result;
             }, {}),
         };
+    }
+    case ThreadTypes.DECREMENT_THREAD_COUNTS: {
+        const {channelType} = action;
+        if (channelType === Constants.DM_CHANNEL || channelType === Constants.GM_CHANNEL) {
+            return state;
+        }
+        return handleDecrementThreadCounts(state, action);
     }
     }
     return state;
