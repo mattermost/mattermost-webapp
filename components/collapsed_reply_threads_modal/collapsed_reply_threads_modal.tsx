@@ -26,13 +26,13 @@ function CollapsedReplyThreadsModal(props: Props) {
             onExited={props.onExited}
             modalHeaderText={(
                 <FormattedMessage
-                    id='collapsed_reply_threads_modal.title'
+                    id='collapsed_reply_threads_modal.deprecated.title'
                     defaultMessage={'You\'re accessing an early beta of Collapsed Reply Threads'}
                 />
             )}
             confirmButtonText={(
                 <FormattedMessage
-                    id={'collapsed_reply_threads_modal.confirm'}
+                    id={'collapsed_reply_threads_modal.deprecated.confirm'}
                     defaultMessage='Got it'
                 />
             )}
@@ -44,13 +44,13 @@ function CollapsedReplyThreadsModal(props: Props) {
                     mode='info'
                     title={(
                         <FormattedMarkdownMessage
-                            id='collapsed_reply_threads_modal.banner.title'
+                            id='collapsed_reply_threads_modal.deprecated.banner.title'
                             defaultMessage='Please  [review the list of known issues](!https://docs.mattermost.com/messaging/organizing-conversations.html#known-issues) as we work on stabilizing the feature.'
                         />
                     )}
                     message={(
                         <FormattedMessage
-                            id='collapsed_reply_threads_modal.banner.message'
+                            id='collapsed_reply_threads_modal.deprecated.banner.message'
                             defaultMessage='In particular, you may notice a number of channels and threads appear as unread when you enable Collapsed Reply Threads for the first time.'
                         />
                     )}
