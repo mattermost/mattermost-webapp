@@ -186,3 +186,39 @@ exports[`components/channel_members_dropdown should match snapshot opening dropd
   </Menu>
 </MenuWrapper>
 `;
+
+exports[`components/channel_members_dropdown should match snapshot with role change possible 1`] = `
+<MenuWrapper
+  animationComponent={[Function]}
+  className=""
+>
+  <button
+    className="dropdown-toggle theme color--link style--none"
+    type="button"
+  >
+    <span
+      className="sr-only"
+    />
+    <span>
+      <MemoizedFormattedMessage
+        defaultMessage="Channel Admin"
+        id="channel_members_dropdown.channel_admin"
+      />
+       
+    </span>
+    <DropdownIcon />
+  </button>
+  <Menu
+    ariaLabel="Change the role of channel member"
+    openLeft={true}
+    openUp={false}
+  >
+    <MenuItemAction
+      id="undefined-make-channel-member"
+      onClick={[Function]}
+      show={true}
+      text="Make Channel Member"
+    />
+  </Menu>
+</MenuWrapper>
+`;
