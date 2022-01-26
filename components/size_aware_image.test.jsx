@@ -17,6 +17,9 @@ describe('components/SizeAwareImage', () => {
         onImageLoadFail: jest.fn(),
         src: 'https://example.com/image.png',
         className: 'class',
+        fileInfo: {
+            "name": "photo-1533709752211-118fcaf03312"
+        },
     };
 
     test('should render an svg when first mounted with dimensions and img display set to none', () => {
@@ -143,4 +146,37 @@ describe('components/SizeAwareImage', () => {
 
         expect(wrapper.find('img').prop('className')).toBe(`${props.className} small-image--inside-container`);
     });
+
+    test('should load download and copy link buttons when an image is mounted', () => {
+        const fileURL = 'https://example.com/image.png';
+        const props = {
+            ...baseProps,
+            fileURL: fileURL,
+        };
+        const wrapper = shallow(<SizeAwareImage {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should load download hyperlink with href set to fileURL', () => {
+        const fileURL = 'https://example.com/image.png';
+        const props = {
+            ...baseProps,
+            fileURL: fileURL,
+        };
+        const wrapper = shallow(<SizeAwareImage {...props}/>);
+        expect(wrapper.find('.size-aware-image__download').prop('href')).toBe(fileURL);
+    });
+
+    test('clicking the copy button sets state.linkCopiedRecently to true', () => {
+        const fileURL = 'https://example.com/image.png';
+        const props = {
+            ...baseProps,
+            fileURL: fileURL,
+        };
+
+        const wrapper = shallow(<SizeAwareImage {...props}/>);
+        expect(wrapper.state('linkCopiedRecently')).toBe(false);
+        wrapper.find('.size-aware-image__copy_link').first().simulate('click');
+        expect(wrapper.state('linkCopiedRecently')).toBe(true);
+    })
 });
