@@ -3,9 +3,13 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import classNames from 'classnames';
+import {FormattedMessage} from 'react-intl';
 
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage, copyToClipboard} from 'utils/utils.jsx';
 import LoadingImagePreview from 'components/loading_image_preview';
+import Tooltip from 'components/tooltip';
+import OverlayTrigger from 'components/overlay_trigger';
 
 const MIN_IMAGE_SIZE = 48;
 
@@ -24,6 +28,11 @@ export default class SizeAwareImage extends React.PureComponent {
          */
         dimensions: PropTypes.object,
         fileInfo: PropTypes.object,
+
+        /**
+         * fileURL of the original image
+         */
+        fileURL: PropTypes.string,
 
         /*
          * Boolean value to pass for showing a loader when image is being loaded
@@ -64,6 +73,7 @@ export default class SizeAwareImage extends React.PureComponent {
             loaded: false,
             isSmallImage: this.dimensionsAvailable(dimensions) ? this.isSmallImage(
                 dimensions.width, dimensions.height) : false,
+            linkCopiedRecently: false,
         };
 
         this.heightTimeout = 0;
@@ -138,6 +148,7 @@ export default class SizeAwareImage extends React.PureComponent {
         const {
             fileInfo,
             src,
+            fileURL,
             ...props
         } = this.props;
 
@@ -169,6 +180,80 @@ export default class SizeAwareImage extends React.PureComponent {
                 onLoad={this.handleLoad}
             />
         );
+        // copyLink, download are two buttons overlayed on image preview
+        // copyLinkTooltip, downloadTooltip are tooltips for the buttons respectively.
+        // if linkCopiedRecently is true, defaultMessage would be 'Copy Link', else 'Copied!'
+        const copyLinkTooltip = (
+            <Tooltip
+                id='copy-link-tooltip'
+                className='hidden-xs'
+            >
+                <FormattedMessage
+                    id='single_image_view.copy_link_tooltip'
+                    defaultMessage={this.state.linkCopiedRecently ? 'Copied' : 'Copy link'}
+                />
+            </Tooltip>
+        )
+        const copyLink = (
+            <OverlayTrigger
+                className='hidden-xs'
+                delayShow={500}
+                placement='top'
+                overlay={copyLinkTooltip}
+                rootClose={true}
+            >
+                <button
+                    key='copy-link'
+                    className={classNames('style--none', 'size-aware-image__copy_link', {
+                        'size-aware-image__copy_link--recently_copied': this.state.linkCopiedRecently
+                    })}
+                    data-expanded={this.props.isEmbedVisible}
+                    aria-label='Copy Link to Asset'
+                    onClick={this.copyLinkToAsset}
+                >
+                    {!this.state.linkCopiedRecently &&
+                        <i className='icon icon-link-variant style--none'/>
+                    }
+                    {this.state.linkCopiedRecently &&
+                        <i className='icon icon-check style--none'/>
+                    }
+                </button>
+            </OverlayTrigger>
+        );
+
+        const downloadTooltip = (
+            <Tooltip
+                id='download-preview-tooltip'
+                className='hidden-xs'
+            >
+                <FormattedMessage
+                    id='single_image_view.download_tooltip'
+                    defaultMessage='Download'
+                />
+            </Tooltip>
+        )
+
+        const download = (
+            <OverlayTrigger
+                className='hidden-xs'
+                delayShow={500}
+                placement='top'
+                overlay={downloadTooltip}
+                rootClose={true}
+            >
+                <a
+                    href={fileURL}
+                    className='style--none size-aware-image__download'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    download={fileInfo.name}
+                >
+                    <i className='icon icon-download-outline style--none'/>
+                </a>
+            </OverlayTrigger>
+
+        );
+
 
         if (this.props.handleSmallImageContainer && this.state.isSmallImage) {
             let className = 'small-image__container cursor--pointer a11y--active';
@@ -189,7 +274,17 @@ export default class SizeAwareImage extends React.PureComponent {
             );
         }
 
-        return image;
+        return (
+            <div className={classNames('image-loaded-container')}>
+                {image}
+                <span
+                    className={classNames('image-preview-utility-buttons-container')}
+                >
+                    {copyLink}
+                    {download}
+                </span>
+            </div>
+        );
     }
 
     renderImageOrPlaceholder = () => {
@@ -228,6 +323,20 @@ export default class SizeAwareImage extends React.PureComponent {
                 </div>
             </React.Fragment>
         );
+    }
+
+    copyLinkToAsset = () => {
+        const fileURL = this.props.fileURL;
+        copyToClipboard(fileURL ?? '');
+
+        // set linkCopiedRecently to true, and reset to false after 4 seconds
+        this.setState({linkCopiedRecently: true});
+        if (this.timeout) {
+            clearTimeout(this.timeout);
+        }
+        this.timeout = setTimeout(() => {
+            this.setState({linkCopiedRecently: false});
+        }, 4000);
     }
 
     render() {
