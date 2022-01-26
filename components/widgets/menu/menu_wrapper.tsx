@@ -62,7 +62,7 @@ export default class MenuWrapper extends React.PureComponent<Props, State> {
         }
         return null;
     }
-    
+
     public componentDidUpdate(prevProps: Props, prevState: State) {
         if (this.state.open && !prevState.open) {
             this.addEventListeners();
