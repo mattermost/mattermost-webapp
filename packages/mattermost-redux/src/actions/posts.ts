@@ -29,6 +29,7 @@ import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
 import {logError} from './errors';
 import {systemEmojis, getCustomEmojiByName, getCustomEmojisByName} from './emojis';
 import {selectChannel} from './channels';
+import {decrementThreadCounts} from './threads';
 
 // receivedPost should be dispatched after a single post from the server. This typically happens when an existing post
 // is updated.
@@ -382,6 +383,9 @@ export function deletePost(post: ExtendedPost) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const delPost = {...post};
+        if (!post.root_id && isCollapsedThreadsEnabled(state)) {
+            dispatch(decrementThreadCounts(post));
+        }
         if (delPost.type === Posts.POST_TYPES.COMBINED_USER_ACTIVITY && delPost.system_post_ids) {
             delPost.system_post_ids.forEach((systemPostId) => {
                 const systemPost = Selectors.getPost(state, systemPostId);
@@ -1066,7 +1070,6 @@ export function removePost(post: ExtendedPost) {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         if (post.type === Posts.POST_TYPES.COMBINED_USER_ACTIVITY && post.system_post_ids) {
             const state = getState();
-
             for (const systemPostId of post.system_post_ids) {
                 const systemPost = Selectors.getPost(state, systemPostId);
 
@@ -1085,6 +1088,7 @@ export function removePost(post: ExtendedPost) {
                 );
             }
         }
+        return {data: true};
     };
 }
 

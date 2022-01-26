@@ -12,6 +12,10 @@ import * as Utils from 'utils/utils';
 import ThreadMenu from '../thread_menu';
 import Badge from 'components/widgets/badges/badge';
 
+import {WindowSizes} from 'utils/constants';
+
+import {TestHelper} from 'utils/test_helper';
+
 import ThreadItem from './thread_item';
 
 const mockRouting = {
@@ -30,9 +34,11 @@ const mockDispatch = jest.fn();
 let mockThread: UserThread;
 let mockPost: Post;
 let mockChannel: Channel;
+let mockState: any;
 
 jest.mock('react-redux', () => ({
     ...jest.requireActual('react-redux') as typeof import('react-redux'),
+    useSelector: (selector: (state: typeof mockState) => unknown) => selector(mockState),
     useDispatch: () => mockDispatch,
 }));
 
@@ -74,14 +80,31 @@ describe('components/threading/global_threads/thread_item', () => {
             create_at: 1610486901110,
             edit_at: 1611786714912,
         } as Post;
+        const user = TestHelper.getUserMock();
 
         mockChannel = {
             id: 'pnzsh7kwt7rmzgj8yb479sc9yw',
             name: 'test-team',
             display_name: 'Team name',
         } as Channel;
+        mockState = {
+            entities: {
+                users: {
+                    currentUserId: user.id,
+                },
+                preferences: {
+                    myPreferences: {},
+                },
+            },
+            views: {
+                browser: {
+                    windowSize: WindowSizes.DESKTOP_VIEW,
+                },
+            },
+        };
 
         props = {
+            isFirstThreadInList: false,
             channel: mockChannel,
             currentRelativeTeamUrl: '/tname',
             displayName: 'Someone',
