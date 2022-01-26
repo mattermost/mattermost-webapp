@@ -231,8 +231,8 @@ $tip-index: 1000;
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     background: var(--center-channel-bg);
     border-radius: 4px;
-    filter: drop-shadow(0 12px 32px rgba($black, 0.12));
     color: var(--center-channel-color);
+    filter: drop-shadow(0 12px 32px rgba($black, 0.12));
 
     .arrow {
         position: absolute;
