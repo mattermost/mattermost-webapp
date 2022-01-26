@@ -2731,8 +2731,6 @@
   "claim.oauth_to_email.title": "Переключить аккаунт {type} на E-Mail",
   "cloud_subscribe.contact_support": "Сравнить планы",
   "cloud_subscribe.select_plan": "Выберите план",
-  "collapsed_reply_threads_modal.banner.message": "В частности, вы можете заметить, что некоторые каналы и цепочки отображаются как непрочитанные при первом включении свернутых цепочек ответов.",
-  "collapsed_reply_threads_modal.confirm": "Понятно",
   "combined_system_message.added_to_channel.many_expanded": "{users} и {lastUser} были **добавлены на канал** пользователем {actor}.",
   "combined_system_message.added_to_channel.one": "{firstUser} **приглашается на канал**. Кем: {actor}.",
   "combined_system_message.added_to_channel.one_you": "Вы были **добавлены на канал** пользователем {actor}.",
