@@ -11,7 +11,7 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getProfilesInCurrentChannel, getCurrentUserId, getUser, getTotalUsersStats as getTotalUsersStatsSelector} from 'mattermost-redux/selectors/entities/users';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
-import {getChannelHeaderPluginComponents} from 'selectors/plugins';
+import {getChannelIntroPluginComponents} from 'selectors/plugins';
 
 import {getTotalUsersStats} from 'mattermost-redux/actions/users';
 
@@ -33,7 +33,7 @@ function mapStateToProps(state: GlobalState) {
     const channel = getCurrentChannel(state) || {};
     const teammate = getDirectTeammate(state, channel.id);
     const creator = getUser(state, channel.creator_id);
-    const boardComponent = getChannelHeaderPluginComponents(state).find((c) => c.pluginId === 'focalboard');
+    const boardComponent = getChannelIntroPluginComponents(state).find((c) => c.pluginId === 'focalboard');
 
     let usersLimit = parseInt(getConfig(state).ExperimentalCloudUserLimit! || '10', 10);
     if (usersLimit === 0) {

@@ -576,7 +576,6 @@ function createBoardsButton(channel: Channel, boardComponent?: PluginComponent) 
             className={'intro-links color--link channelIntroButton style--none'}
             onClick={() => {
                 if (boardComponent.action) {
-                    trackEvent(TELEMETRY_CATEGORIES.BOARDS, 'channelIntro_boardLink');
                     boardComponent.action();
                 }
             }}
