@@ -74,7 +74,7 @@ describe('Custom emojis', () => {
         cy.uiSave().wait(TIMEOUTS.THREE_SEC);
 
         // # Go back to home channel
-        cy.visit('/');
+        cy.visit(townsquareLink);
 
         // # Post a message
         cy.postMessage(messageText);
@@ -145,7 +145,7 @@ describe('Custom emojis', () => {
         cy.uiSave().wait(TIMEOUTS.THREE_SEC);
 
         // # Go back to home channel
-        cy.visit('/');
+        cy.visit(townsquareLink);
 
         // # Post a message
         cy.postMessage(messageText);
@@ -184,7 +184,7 @@ describe('Custom emojis', () => {
         cy.uiSave().wait(TIMEOUTS.THREE_SEC);
 
         // # Go back to home channel
-        cy.visit('/');
+        cy.visit(townsquareLink);
 
         // # Post a message with the emoji
         cy.postMessage(customEmojiWithColons);
@@ -207,7 +207,7 @@ describe('Custom emojis', () => {
         cy.get('#confirmModalButton').should('be.visible').click();
 
         // # Go back to home channel
-        cy.visit('/');
+        cy.visit(townsquareLink);
 
         cy.reload();
 
@@ -248,7 +248,7 @@ describe('Custom emojis', () => {
         cy.uiSave().wait(TIMEOUTS.THREE_SEC);
 
         // # Go back to home channel
-        cy.visit('/');
+        cy.visit(townsquareLink);
 
         // # Post a message to which we will react with the custom emoji
         cy.postMessage(MESSAGES.TINY);
@@ -291,7 +291,7 @@ describe('Custom emojis', () => {
         cy.get('#confirmModalButton').should('be.visible').click();
 
         // # Go back to home channel
-        cy.visit('/');
+        cy.visit(townsquareLink);
 
         cy.reload();
 
