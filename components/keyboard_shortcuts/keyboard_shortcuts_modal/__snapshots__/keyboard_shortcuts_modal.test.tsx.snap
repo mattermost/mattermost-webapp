@@ -264,6 +264,20 @@ exports[`components/KeyboardShortcutsModal should match snapshot modal 1`] = `
                   }
                 }
               />
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "Expand the right sidebar:	Ctrl|Shift|.",
+                      "id": "shortcuts.nav.expand_sidebar",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "Expand the right sidebar:	⌘|Shift|.",
+                      "id": "shortcuts.nav.expand_sidebar.mac",
+                    },
+                  }
+                }
+              />
             </div>
           </div>
         </div>

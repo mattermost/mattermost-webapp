@@ -56,6 +56,7 @@ const defaultPost: Post = {
 const defaultProps = {
     intl: jest.genMockFromModule<IntlShape>('react-intl'),
     canEditPost: true,
+    markdownPreviewFeatureIsEnabled: false,
     canDeletePost: true,
     codeBlockOnCtrlEnter: false,
     ctrlSend: false,
@@ -104,6 +105,7 @@ function createEditPost(
 ) {
     return (
         <EditPostModal
+            markdownPreviewFeatureIsEnabled={false}
             canEditPost={canEditPost}
             shouldShowPreview={false}
             canDeletePost={canDeletePost}
@@ -195,7 +197,7 @@ describe('components/EditPostModal', () => {
         await Promise.resolve();
         expect(actions.addMessageIntoHistory).toBeCalledWith('new message');
         expect(actions.editPost).toBeCalledWith({
-            ...defaultPost,
+            id: defaultPost.id,
             message: 'new message',
         });
         expect(actions.hideEditPostModal).toBeCalled();

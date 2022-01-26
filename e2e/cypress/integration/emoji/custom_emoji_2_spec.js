@@ -131,4 +131,50 @@ describe('Custom emojis', () => {
         // * The emoji should be displayed in the post
         verifyLastPostedEmoji(customEmojiWithColons, largeEmojiFileResized);
     });
+
+    it('MM-T4436 Emoji picker should show all custom emojis without overlaps', () => {
+        const {customEmojiWithColons: firstEmojiWithColon} = getCustomEmoji();
+        const {customEmojiWithColons: secondEmojiWithColon} = getCustomEmoji();
+
+        // # Open custom emoji
+        cy.uiOpenCustomEmoji();
+
+        // # Add two custom emojis
+        [firstEmojiWithColon, secondEmojiWithColon].forEach((emojiWithColon) => {
+            // # Click on add new emoji for adding a custom emoji
+            cy.findByText('Add Custom Emoji').should('be.visible').click();
+
+            // # Type emoji name
+            cy.get('#name').type(emojiWithColon);
+
+            // # Select emoji image
+            cy.get('input#select-emoji').attachFile(largeEmojiFile).wait(TIMEOUTS.THREE_SEC);
+
+            // # Click on Save
+            cy.uiSave().wait(TIMEOUTS.THREE_SEC);
+        });
+
+        // # Go back to home channel
+        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.TWO_SEC);
+
+        cy.reload().wait(TIMEOUTS.FIVE_SEC);
+
+        // # Open emoji picker
+        cy.uiOpenEmojiPicker();
+
+        cy.get('#emojiPicker').should('be.visible').within(() => {
+            // # Scroll to start of custom category section
+            cy.findByLabelText('emoji_picker.custom').should('exist').click().wait(TIMEOUTS.FIVE_SEC);
+
+            // * Verify custom category header is visible
+            cy.findByText('Custom').should('exist').and('is.visible');
+
+            // * Verify that first custom emoji exists and is visible to user
+            cy.findAllByAltText('custom emoji image').should('exist').eq(0).and('is.visible');
+
+            // * Verify second custom emoji exists and is visible to user,
+            // if both custom emojis are visible we can conclude that they are not overlapping
+            cy.findAllByAltText('custom emoji image').should('exist').eq(1).and('is.visible');
+        });
+    });
 });

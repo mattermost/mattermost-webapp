@@ -27,6 +27,7 @@ function Row({index, style, data}: Props) {
             key={itemId}
             style={style}
             threadId={itemId}
+            isFirstThreadInList={index === 0}
         />
     );
 }

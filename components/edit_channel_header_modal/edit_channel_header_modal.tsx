@@ -37,6 +37,8 @@ type Props = {
      */
     shouldShowPreview: boolean;
 
+    markdownPreviewFeatureIsEnabled: boolean;
+
     /**
      * Called when the modal has been hidden and should be removed.
      */
@@ -263,6 +265,7 @@ export default class EditChannelHeaderModal extends React.PureComponent<Props, S
                         </div>
                         <div className='post-create-footer'>
                             <TextboxLinks
+                                isMarkdownPreviewEnabled={this.props.markdownPreviewFeatureIsEnabled}
                                 characterLimit={1024}
                                 showPreview={this.props.shouldShowPreview}
                                 updatePreview={this.setShowPreview}

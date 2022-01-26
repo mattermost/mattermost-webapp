@@ -1066,7 +1066,6 @@ export function removePost(post: ExtendedPost) {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         if (post.type === Posts.POST_TYPES.COMBINED_USER_ACTIVITY && post.system_post_ids) {
             const state = getState();
-
             for (const systemPostId of post.system_post_ids) {
                 const systemPost = Selectors.getPost(state, systemPostId);
 
@@ -1085,6 +1084,7 @@ export function removePost(post: ExtendedPost) {
                 );
             }
         }
+        return {data: true};
     };
 }
 

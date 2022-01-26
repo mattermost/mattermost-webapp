@@ -85,6 +85,7 @@ class ChannelHeader extends React.PureComponent {
         customStatus: PropTypes.object,
         isCustomStatusEnabled: PropTypes.bool.isRequired,
         isCustomStatusExpired: PropTypes.bool.isRequired,
+        isFileAttachmentsEnabled: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -476,14 +477,16 @@ class ChannelHeader extends React.PureComponent {
                         onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
                     />
-                    <HeaderIconWrapper
-                        iconComponent={channelFilesIcon}
-                        ariaLabel={true}
-                        buttonClass={channelFilesIconClass}
-                        buttonId={'channelHeaderFilesButton'}
-                        onClick={this.showChannelFiles}
-                        tooltipKey={'channelFiles'}
-                    />
+                    {this.props.isFileAttachmentsEnabled &&
+                        <HeaderIconWrapper
+                            iconComponent={channelFilesIcon}
+                            ariaLabel={true}
+                            buttonClass={channelFilesIconClass}
+                            buttonId={'channelHeaderFilesButton'}
+                            onClick={this.showChannelFiles}
+                            tooltipKey={'channelFiles'}
+                        />
+                    }
                     {hasGuestsText}
                     <div
                         className='header-popover-text-measurer'
@@ -593,14 +596,16 @@ class ChannelHeader extends React.PureComponent {
                         onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
                     />
-                    <HeaderIconWrapper
-                        iconComponent={channelFilesIcon}
-                        ariaLabel={true}
-                        buttonClass={channelFilesIconClass}
-                        buttonId={'channelHeaderFilesButton'}
-                        onClick={this.showChannelFiles}
-                        tooltipKey={'channelFiles'}
-                    />
+                    {this.props.isFileAttachmentsEnabled &&
+                        <HeaderIconWrapper
+                            iconComponent={channelFilesIcon}
+                            ariaLabel={true}
+                            buttonClass={channelFilesIconClass}
+                            buttonId={'channelHeaderFilesButton'}
+                            onClick={this.showChannelFiles}
+                            tooltipKey={'channelFiles'}
+                        />
+                    }
                     {hasGuestsText}
                     {editMessage}
                 </div>
