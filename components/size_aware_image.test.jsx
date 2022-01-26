@@ -18,7 +18,7 @@ describe('components/SizeAwareImage', () => {
         src: 'https://example.com/image.png',
         className: 'class',
         fileInfo: {
-            "name": "photo-1533709752211-118fcaf03312"
+            name: 'photo-1533709752211-118fcaf03312',
         },
     };
 
@@ -151,7 +151,7 @@ describe('components/SizeAwareImage', () => {
         const fileURL = 'https://example.com/image.png';
         const props = {
             ...baseProps,
-            fileURL: fileURL,
+            fileURL,
         };
         const wrapper = shallow(<SizeAwareImage {...props}/>);
         expect(wrapper).toMatchSnapshot();
@@ -161,7 +161,7 @@ describe('components/SizeAwareImage', () => {
         const fileURL = 'https://example.com/image.png';
         const props = {
             ...baseProps,
-            fileURL: fileURL,
+            fileURL,
         };
         const wrapper = shallow(<SizeAwareImage {...props}/>);
         expect(wrapper.find('.size-aware-image__download').prop('href')).toBe(fileURL);
@@ -171,12 +171,12 @@ describe('components/SizeAwareImage', () => {
         const fileURL = 'https://example.com/image.png';
         const props = {
             ...baseProps,
-            fileURL: fileURL,
+            fileURL,
         };
 
         const wrapper = shallow(<SizeAwareImage {...props}/>);
         expect(wrapper.state('linkCopiedRecently')).toBe(false);
         wrapper.find('.size-aware-image__copy_link').first().simulate('click');
         expect(wrapper.state('linkCopiedRecently')).toBe(true);
-    })
+    });
 });

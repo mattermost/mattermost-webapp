@@ -282,40 +282,37 @@
 
             // styles for utility buttons i.e download, and copy source link in image preview
             .image-loaded-container {
-                display: inline-block;
                 position: relative;
+                display: inline-block;
 
                 .image-preview-utility-buttons-container {
                     // greater z-index than img
-                    display: none;
-                    z-index: 3;
                     position: absolute;
-                    right: 0px;
+                    z-index: 3;
+                    display: none;
                     padding: 2px;
                     margin: 4px;
-                    border-radius: 4px;
                     background-color: var(--center-channel-bg);
+                    border-radius: 4px;
 
                     button.size-aware-image__copy_link,
                     a.size-aware-image__download {
                         display: inline-block;
-                        padding: 2px;
-                        margin: 2px;
-                        color: rgba(var(--center-channel-color-rgb), 0.56);
                         width: 28px;
                         height: 28px;
+                        padding: 2px;
+                        margin: 2px;
                         border-radius: 4px;
-                        // line-height: 20px;
+                        color: rgba(var(--center-channel-color-rgb), 0.56);
 
                         &:hover {
-                            text-decoration: none;
                             background-color: rgba(var(--denim-center-channel-text-rgb), 0.08);
+                            text-decoration: none;
                         }
+
                         .icon {
-                            margin: 0px;
-                            padding: 0px;
-                            font-size: 18px;
                             height: 24px;
+                            font-size: 18px;
                         }
 
                         // handle 'copy successful' styles
@@ -324,12 +321,10 @@
                         }
                     }
 
-                    a.size-aware-image__download {
-                        margin-left: 0px;
-                    }
                     // handle 'copy successful' styles
                     button.size-aware-image__copy_link--recently_copied {
                         background: rgba(var(--denim-status-online-rgb), 0.16);
+
                         &:hover {
                             background: rgba(var(--denim-status-online-rgb), 0.16);
                         }
@@ -341,10 +336,10 @@
                     }
                 }
             }
+
             &:hover .image-preview-utility-buttons-container {
                 display: inline-block;
             }
-
         }
 
         .image-fade-in {

@@ -180,9 +180,11 @@ export default class SizeAwareImage extends React.PureComponent {
                 onLoad={this.handleLoad}
             />
         );
+
         // copyLink, download are two buttons overlayed on image preview
         // copyLinkTooltip, downloadTooltip are tooltips for the buttons respectively.
         // if linkCopiedRecently is true, defaultMessage would be 'Copy Link', else 'Copied!'
+
         const copyLinkTooltip = (
             <Tooltip
                 id='copy-link-tooltip'
@@ -193,7 +195,7 @@ export default class SizeAwareImage extends React.PureComponent {
                     defaultMessage={this.state.linkCopiedRecently ? 'Copied' : 'Copy link'}
                 />
             </Tooltip>
-        )
+        );
         const copyLink = (
             <OverlayTrigger
                 className='hidden-xs'
@@ -205,9 +207,8 @@ export default class SizeAwareImage extends React.PureComponent {
                 <button
                     key='copy-link'
                     className={classNames('style--none', 'size-aware-image__copy_link', {
-                        'size-aware-image__copy_link--recently_copied': this.state.linkCopiedRecently
+                        'size-aware-image__copy_link--recently_copied': this.state.linkCopiedRecently,
                     })}
-                    data-expanded={this.props.isEmbedVisible}
                     aria-label='Copy Link to Asset'
                     onClick={this.copyLinkToAsset}
                 >
@@ -231,7 +232,7 @@ export default class SizeAwareImage extends React.PureComponent {
                     defaultMessage='Download'
                 />
             </Tooltip>
-        )
+        );
 
         const download = (
             <OverlayTrigger
@@ -253,7 +254,6 @@ export default class SizeAwareImage extends React.PureComponent {
             </OverlayTrigger>
 
         );
-
 
         if (this.props.handleSmallImageContainer && this.state.isSmallImage) {
             let className = 'small-image__container cursor--pointer a11y--active';
