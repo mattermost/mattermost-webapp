@@ -4,7 +4,6 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-// import ScoreEllipseSvg from 'components/common/svg_images_components/score_ellipse_svg';
 import Chip from 'components/common/chip/chip';
 
 import './dashboard.scss';

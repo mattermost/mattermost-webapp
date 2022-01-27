@@ -3,7 +3,6 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-// import ScoreEllipseSvg from 'components/common/svg_images_components/score_ellipse_svg';
 import CircularChart from 'components/common/circular_chart/circular_chart';
 
 import './dashboard.scss';
