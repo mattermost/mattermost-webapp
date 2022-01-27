@@ -2,13 +2,13 @@
 // See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, {createRef} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
-import Constants, {Locations} from 'utils/constants';
+import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
@@ -90,10 +90,13 @@ export default class RhsRootPost extends React.PureComponent {
             testStateObj: true,
             dropdownOpened: false,
             fileDropdownOpened: false,
+            hover: false,
+            a11yActive: false,
         };
 
-        this.postHeaderRef = React.createRef();
-        this.dotMenuRef = React.createRef();
+        this.postHeaderRef = createRef();
+        this.dotMenuRef = createRef();
+        this.postRef = createRef();
     }
 
     handleShortcutReactToLastPost = (isLastPost) => {
@@ -137,15 +140,29 @@ export default class RhsRootPost extends React.PureComponent {
     componentDidMount() {
         document.addEventListener('keydown', this.handleAlt);
         document.addEventListener('keyup', this.handleAlt);
+
+        if (this.postRef.current) {
+            this.postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+            this.postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+        }
     }
 
     componentWillUnmount() {
         document.removeEventListener('keydown', this.handleAlt);
         document.removeEventListener('keyup', this.handleAlt);
+
+        if (this.postRef.current) {
+            this.postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+            this.postRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+        }
     }
 
     componentDidUpdate(prevProps) {
         const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;
+
+        if (this.state.a11yActive) {
+            this.postRef.current.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
+        }
 
         const shortcutReactToLastPostEmittedFromRHS = prevProps.shortcutReactToLastPostEmittedFrom !== shortcutReactToLastPostEmittedFrom &&
             shortcutReactToLastPostEmittedFrom === Locations.RHS_ROOT;
@@ -183,6 +200,22 @@ export default class RhsRootPost extends React.PureComponent {
             showEmojiPicker,
         });
     };
+
+    handleOnMouseOver = () => {
+        this.setState({hover: true});
+    }
+
+    handleOnMouseLeave = () => {
+        this.setState({hover: false});
+    }
+
+    handleA11yActivateEvent = () => {
+        this.setState({a11yActive: true});
+    }
+
+    handleA11yDeactivateEvent = () => {
+        this.setState({a11yActive: false});
+    }
 
     getClassName = (post, isSystemMessage, isMeMessage) => {
         let className = 'post post--root post--thread';
@@ -380,7 +413,7 @@ export default class RhsRootPost extends React.PureComponent {
         }
 
         let dotMenuContainer;
-        if (!isPostDeleted && this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
+        if ((!isPostDeleted && this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) && (this.state.hover || this.state.dropdownOpened || this.state.showEmojiPicker || this.state.a11yActive)) {
             dotMenuContainer = (
                 <div
                     ref={this.dotMenuRef}
@@ -442,13 +475,16 @@ export default class RhsRootPost extends React.PureComponent {
 
         return (
             <PostAriaLabelDiv
+                ref={this.postRef}
                 role='listitem'
                 id={'rhsPost_' + post.id}
                 tabIndex='-1'
+                post={post}
                 className={`thread__root a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage)}`}
                 onClick={this.handlePostClick}
+                onMouseOver={this.handleOnMouseOver}
+                onMouseLeave={this.handleOnMouseLeave}
                 data-a11y-sort-order='0'
-                post={post}
             >
                 <PostPreHeader
                     isFlagged={this.props.isFlagged}
