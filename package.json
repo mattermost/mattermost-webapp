@@ -6,7 +6,6 @@
   "version": "5.36.0-0",
   "private": true,
   "dependencies": {
-    "@floating-ui/react-dom": "0.4.3",
     "@mattermost/compass-components": "^0.2.12",
     "@mattermost/compass-icons": "^0.1.10",
     "@stripe/react-stripe-js": "1.6.0",

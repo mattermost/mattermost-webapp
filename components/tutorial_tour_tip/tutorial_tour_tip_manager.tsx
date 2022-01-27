@@ -86,12 +86,6 @@ const useTutorialTourTipManager = ({
         }
     };
 
-    const handleKeyDown = useCallback((e: KeyboardEvent): void => {
-        if (Utils.isKeyPressed(e, Utils.KeyCodes.ENTER) && show) {
-            handleNext();
-        }
-    }, [show]);
-
     useEffect(() => {
         if (autoTour) {
             setShow(true);
@@ -99,6 +93,11 @@ const useTutorialTourTipManager = ({
     }, [autoTour]);
 
     useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent): void => {
+            if (Utils.isKeyPressed(e, Utils.KeyCodes.ENTER)) {
+                handleNext();
+            }
+        };
         window.addEventListener('keydown', handleKeyDown);
         return () =>
             window.removeEventListener('keydown', handleKeyDown);
