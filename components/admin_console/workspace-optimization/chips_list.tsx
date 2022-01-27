@@ -29,16 +29,18 @@ const ChipsList = ({
         case 'info':
             chipLegend = (
                 <FormattedMessage
-                    id={'admin.reporting.workspace_optimization.suggestions'}
-                    defaultMessage={'Suggestions'}
+                    id={'admin.reporting.workspace_optimization.chip_suggestions'}
+                    defaultMessage={'Suggestions: {count}'}
+                    values={{count}}
                 />
             );
             break;
         case 'warning':
             chipLegend = (
                 <FormattedMessage
-                    id={'admin.reporting.workspace_optimization.warnings'}
-                    defaultMessage={'Warnings'}
+                    id={'admin.reporting.workspace_optimization.chip_warnings'}
+                    defaultMessage={'Warnings: {count}'}
+                    values={{count}}
                 />
             );
             break;
@@ -46,8 +48,9 @@ const ChipsList = ({
         default:
             chipLegend = (
                 <FormattedMessage
-                    id={'admin.reporting.workspace_optimization.problems'}
-                    defaultMessage={'Problems'}
+                    id={'admin.reporting.workspace_optimization.chip_problems'}
+                    defaultMessage={'Problems: {count}'}
+                    values={{count}}
                 />
             );
             break;
