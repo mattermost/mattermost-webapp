@@ -2,23 +2,22 @@
 // See LICENSE.txt for license information.
 
 import React, {useRef} from 'react';
-import Tippy from '@tippyjs/react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
+import Tippy from '@tippyjs/react';
+import {Placement} from 'tippy.js';
 
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light-border.css';
 import 'tippy.js/animations/scale-subtle.css';
 import 'tippy.js/animations/perspective-subtle.css';
-
-import {Placement} from 'tippy.js';
-
 import PulsatingDot from 'components/widgets/pulsating_dot';
 
-import TutorialTourTipBackdrop, {Coords, TutorialTourTipPunchout} from './tutorial_tour_tip_backdrop';
-
-import './tutorial_tour_tip.scss';
+import TutorialTourTipBackdrop, {TutorialTourTipPunchout} from './tutorial_tour_tip_backdrop';
 import useTutorialTourTipManager from './tutorial_tour_tip_manager';
+import './tutorial_tour_tip.scss';
+
+const rootPortal = document.getElementById('root-portal');
 
 const TourTipOverlay = ({children, show, onClick}: {children: React.ReactNode ; show: boolean; onClick: (e: React.MouseEvent) => void}) =>
     (show ? ReactDOM.createPortal(
@@ -28,7 +27,7 @@ const TourTipOverlay = ({children, show, onClick}: {children: React.ReactNode ; 
         >
             {children}
         </div>,
-        document.body,
+        rootPortal!,
     ) : null);
 
 type Props = {
@@ -47,7 +46,8 @@ type Props = {
     onNextNavigateTo?: () => void;
     onPrevNavigateTo?: () => void;
     autoTour?: boolean;
-    pulsatingDotPosition?: Coords | undefined;
+    pulsatingDotPlacement?: Omit<Placement, 'auto'| 'auto-end'>;
+    pulsatingDotTranslate?: {x: number; y: number};
     width?: string | number;
 }
 
@@ -65,7 +65,8 @@ const TutorialTourTip: React.FC<Props> = ({
     telemetryTag,
     placement,
     showOptOut,
-    pulsatingDotPosition,
+    pulsatingDotTranslate,
+    pulsatingDotPlacement,
     stopPropagation = true,
     preventDefault = true,
     width = 320,
@@ -227,8 +228,12 @@ const TutorialTourTip: React.FC<Props> = ({
                 ref={triggerRef}
                 onClick={handleOpen}
                 className='tutorial-tour-tip__pulsating-dot-ctr'
+                data-pulsating-dot-placement={pulsatingDotPlacement || 'right'}
+                style={{
+                    transform: `translate(${pulsatingDotTranslate?.x}px, ${pulsatingDotTranslate?.y}px)`,
+                }}
             >
-                <PulsatingDot coords={pulsatingDotPosition}/>
+                <PulsatingDot/>
             </div>
             <TourTipOverlay
                 show={show}
@@ -254,9 +259,10 @@ const TutorialTourTip: React.FC<Props> = ({
                     zIndex={9999}
                     reference={triggerRef}
                     interactive={true}
-                    appendTo={document.body}
+                    appendTo={rootPortal!}
+                    offset={[0, 2]}
                     className={'tutorial-tour-tip__box'}
-                    placement={placement}
+                    placement={placement || 'right-start'}
                 />
             )}
         </>
