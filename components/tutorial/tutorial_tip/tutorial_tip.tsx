@@ -285,6 +285,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         let steps = tutorialSteps;
 
         // temporary fix for filtering tutorial_step category based on role
+        // however this could work if TutorialSteps are converted to an enum and tips for only admins added last to the enum
         if (category === Preferences.TUTORIAL_STEP) {
             steps = Object.keys(steps).filter((key) => {
                 if (!this.props.isAdmin && key === 'START_TRIAL') {
