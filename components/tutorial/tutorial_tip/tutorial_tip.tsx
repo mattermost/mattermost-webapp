@@ -14,8 +14,6 @@ import PulsatingDot from 'components/widgets/pulsating_dot';
 
 import * as Utils from 'utils/utils';
 
-import {TSteps} from 'utils/tutorial_steps';
-
 import TutorialTipBackdrop, {Coords, TutorialTipPunchout} from './tutorial_tip_backdrop';
 
 const Preferences = Constants.Preferences;
@@ -54,12 +52,6 @@ type Props = {
     telemetryTag?: string;
     stopPropagation?: boolean;
     preventDefault?: boolean;
-
-    /*
-    filteredTutorialSteps are those steps filtered based on role like sysadmin. This is because some tips will only show
-    in components shown to admins only. filteredTutorialSteps are important to methods like getLastStep in this component.
-    **/
-    filteredTutorialSteps: TSteps;
 
     /*
     extraFunc is a function to run at the end of a tip or on handleSavePreferences
@@ -229,7 +221,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         }
 
         // if the next tip is start trial tip, open the product switcher to show tip
-        if ((this.props.currentStep + 1) === this.props.filteredTutorialSteps.START_TRIAL) {
+        if ((this.props.currentStep + 1) === OnBoardingTutorialStep.START_TRIAL) {
             this.props.actions.setProductMenuSwitcherOpen(true);
         }
 
@@ -256,13 +248,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             trackEvent('tutorial', tag);
         }
 
-        const TutorialStepsFiltered = {
-            [Preferences.TUTORIAL_STEP]: this.props.filteredTutorialSteps,
-            [Preferences.CRT_TUTORIAL_STEP]: Constants.CrtTutorialSteps,
-            [Preferences.CRT_THREAD_PANE_STEP]: Constants.CrtThreadPaneSteps,
-        };
-
-        if (this.getLastStep(TutorialStepsFiltered[this.props.tutorialCategory || Preferences.TUTORIAL_STEP]) === this.props.currentStep) {
+        if (this.getLastStep(TutorialSteps[this.props.tutorialCategory || Preferences.TUTORIAL_STEP]) === this.props.currentStep) {
             this.handleSavePreferences(auto, TutorialSteps[this.props.tutorialCategory || Preferences.TUTORIAL_STEP].FINISHED);
         } else {
             this.handleSavePreferences(auto, true);
@@ -322,13 +308,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             return buttonText;
         }
 
-        const TutorialStepsFiltered = {
-            [Preferences.TUTORIAL_STEP]: this.props.filteredTutorialSteps,
-            [Preferences.CRT_TUTORIAL_STEP]: Constants.CrtTutorialSteps,
-            [Preferences.CRT_THREAD_PANE_STEP]: Constants.CrtThreadPaneSteps,
-        };
-
-        const lastStep = this.getLastStep(TutorialStepsFiltered[category]);
+        const lastStep = this.getLastStep(TutorialSteps[category]);
         if (this.props.step === lastStep) {
             if (this.props.customLastStepButtonText) {
                 buttonText = (

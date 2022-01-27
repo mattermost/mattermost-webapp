@@ -21,8 +21,6 @@ import {setFirstChannelName} from 'actions/views/channel_sidebar';
 import {Preferences, RecommendedNextSteps} from 'utils/constants';
 import {GlobalState} from 'types/store';
 
-import {getTutorialSteps} from 'utils/tutorial_steps';
-
 import TutorialTip from './tutorial_tip';
 
 type OwnProps = {
@@ -31,7 +29,6 @@ type OwnProps = {
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-    const filteredTutorialSteps = getTutorialSteps(state);
     const currentUserId = getCurrentUserId(state);
     const categoryStep = ownProps.tutorialCategory || Preferences.TUTORIAL_STEP;
     const getCategory = makeGetCategory();
@@ -43,7 +40,6 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         currentStep: getInt(state, categoryStep, currentUserId, 0),
         autoTour: ownProps.tutorialCategory ? ownProps.autoTour : getAutoTourTreatment(state) === AutoTourTreatments.AUTO,
         firstChannelName: (firstChannelNameFromRedux || firstChannelNameFromPref?.value) || '',
-        filteredTutorialSteps,
     };
 }
 
