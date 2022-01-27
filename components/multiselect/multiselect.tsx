@@ -508,11 +508,11 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                 {this.props.saveButtonPosition === 'bottom' &&
                 <div className='multi-select__footer'>
                     {
-                        typeof this.props.backButtonClick === 'function' &&
+                        this.props.backButtonClick &&
                         <button
                             onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                                 e.preventDefault();
-                                if (typeof this.props.backButtonClick === 'function') {
+                                if (this.props.backButtonClick) {
                                     this.props.backButtonClick();
                                 }
                             }}
