@@ -3,7 +3,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {
     getAutoTourTreatment,
     getInt,
@@ -14,6 +14,7 @@ import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {AutoTourTreatments} from 'mattermost-redux/constants/config';
+import {isAdmin} from 'mattermost-redux/utils/user_utils';
 
 import {closeMenu as closeRhsMenu} from 'actions/views/rhs';
 import {setFirstChannelName} from 'actions/views/channel_sidebar';
@@ -40,6 +41,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         currentStep: getInt(state, categoryStep, currentUserId, 0),
         autoTour: ownProps.tutorialCategory ? ownProps.autoTour : getAutoTourTreatment(state) === AutoTourTreatments.AUTO,
         firstChannelName: (firstChannelNameFromRedux || firstChannelNameFromPref?.value) || '',
+        isAdmin: isAdmin(getCurrentUser(state).roles),
     };
 }
 

@@ -52,6 +52,7 @@ type Props = {
     telemetryTag?: string;
     stopPropagation?: boolean;
     preventDefault?: boolean;
+    isAdmin: boolean;
 
     /*
     extraFunc is a function to run at the end of a tip or on handleSavePreferences
@@ -221,7 +222,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         }
 
         // if the next tip is start trial tip, open the product switcher to show tip
-        if ((this.props.currentStep + 1) === OnBoardingTutorialStep.START_TRIAL) {
+        if (((this.props.currentStep + 1) === OnBoardingTutorialStep.START_TRIAL) && this.props.isAdmin) {
             this.props.actions.setProductMenuSwitcherOpen(true);
         }
 
@@ -248,7 +249,9 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             trackEvent('tutorial', tag);
         }
 
-        if (this.getLastStep(TutorialSteps[this.props.tutorialCategory || Preferences.TUTORIAL_STEP]) === this.props.currentStep) {
+        const category = this.props.tutorialCategory || Preferences.TUTORIAL_STEP;
+
+        if (this.getLastStep(TutorialSteps[category], category) === this.props.currentStep) {
             this.handleSavePreferences(auto, TutorialSteps[this.props.tutorialCategory || Preferences.TUTORIAL_STEP].FINISHED);
         } else {
             this.handleSavePreferences(auto, true);
@@ -278,8 +281,23 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         return this.targetRef.current;
     }
 
-    private getLastStep(tutorialSteps: Record<string, number>) {
-        return Object.values(tutorialSteps).reduce((maxStep, candidateMaxStep) => {
+    private getLastStep(tutorialSteps: Record<string, number>, category: string) {
+        let steps = tutorialSteps;
+
+        // temporary fix for filtering tutorial_step category based on role
+        if (category === Preferences.TUTORIAL_STEP) {
+            steps = Object.keys(steps).filter((key) => {
+                if (!this.props.isAdmin && key === 'START_TRIAL') {
+                    return false;
+                }
+                return true;
+            }).reduce((res, key) => {
+                res[key] = tutorialSteps[key];
+                return res;
+            }, {} as any);
+        }
+
+        return Object.values(steps).reduce((maxStep, candidateMaxStep) => {
             // ignore the "opt out" FINISHED step as the max step.
             if (candidateMaxStep > maxStep && candidateMaxStep !== tutorialSteps.FINISHED) {
                 return candidateMaxStep;
@@ -308,7 +326,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             return buttonText;
         }
 
-        const lastStep = this.getLastStep(TutorialSteps[category]);
+        const lastStep = this.getLastStep(TutorialSteps[category], category);
         if (this.props.step === lastStep) {
             if (this.props.customLastStepButtonText) {
                 buttonText = (
