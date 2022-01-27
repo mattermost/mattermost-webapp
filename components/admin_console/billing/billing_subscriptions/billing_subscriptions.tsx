@@ -255,24 +255,13 @@ export const creditCardExpiredBanner = (setShowCreditCardBanner: (value: boolean
                 />
             }
             message={
-                <>
-                    <FormattedMessage
-                        id='admin.billing.subscription.creditCardHasExpired.please'
-                        defaultMessage='Please '
-                    />
-                    <BlockableLink
-                        to='/admin_console/billing/payment_info'
-                    >
-                        <FormattedMessage
-                            id='admin.billing.subscription.creditCardHasExpired.description.updatePaymentInformation'
-                            defaultMessage='update your payment information'
-                        />
-                    </BlockableLink>
-                    <FormattedMessage
-                        id='admin.billing.subscription.creditCardHasExpired.description.avoidAnyDisruption'
-                        defaultMessage=' to avoid any disruption.'
-                    />
-                </>
+                <FormattedMessage
+                    id='admin.billing.subscription.creditCardHasExpired.description'
+                    defaultMessage='Please <link>update your payment information</link> to avoid any disruption.'
+                    values={{
+                        link: (text: string) => <BlockableLink to='/admin_console/billing/payment_info'>{text}</BlockableLink>,
+                    }}
+                />
             }
             onDismiss={() => setShowCreditCardBanner(false)}
         />
@@ -290,24 +279,13 @@ export const paymentFailedBanner = () => {
                 />
             }
             message={
-                <>
-                    <FormattedMessage
-                        id='billing.subscription.info.mostRecentPaymentFailed.description.mostRecentPaymentFailed'
-                        defaultMessage='It looks your most recent payment failed because the credit card on your account has expired. Please '
-                    />
-                    <BlockableLink
-                        to='/admin_console/billing/payment_info'
-                    >
-                        <FormattedMessage
-                            id='billing.subscription.info.mostRecentPaymentFailed.description.updatePaymentInformation'
-                            defaultMessage='update your payment information'
-                        />
-                    </BlockableLink>
-                    <FormattedMessage
-                        id='billing.subscription.info.mostRecentPaymentFailed.description.avoidAnyDisruption'
-                        defaultMessage=' to avoid any disruption.'
-                    />
-                </>
+                <FormattedMessage
+                    id='billing.subscription.info.mostRecentPaymentFailed.description.mostRecentPaymentFailed'
+                    defaultMessage='It looks your most recent payment failed because the credit card on your account has expired. Please  <link>update your payment information</link> to avoid any disruption.'
+                    values={{
+                        link: (text: string) => <BlockableLink to='/admin_console/billing/payment_info'>{text}</BlockableLink>,
+                    }}
+                />
             }
         />
     );

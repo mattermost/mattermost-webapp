@@ -25,7 +25,7 @@ function editingPost(state = defaultState, action: GenericAction) {
         };
 
     case UserTypes.LOGOUT_SUCCESS:
-        return '';
+        return defaultState;
     default:
         return state;
     }
