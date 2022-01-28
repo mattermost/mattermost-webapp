@@ -43,12 +43,20 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
 
         wrapper.instance().handleNext();
 
-        const expectedPref = [{
-            user_id: currentUserId,
-            category: Preferences.TUTORIAL_STEP,
-            name: currentUserId,
-            value: (requiredProps.currentStep + 1).toString(),
-        }];
+        const expectedPref = [
+            {
+                user_id: currentUserId,
+                category: Preferences.TUTORIAL_STEP,
+                name: currentUserId,
+                value: (requiredProps.currentStep + 1).toString(),
+            },
+            {
+                user_id: currentUserId,
+                category: Preferences.TUTORIAL_STEP_AUTO_TOUR_STATUS,
+                name: currentUserId,
+                value: Constants.AutoTourStatus.ENABLED.toString(),
+            },
+        ];
 
         expect(closeRhsMenu).toHaveBeenCalledTimes(1);
         expect(savePreferences).toHaveBeenCalledTimes(1);
