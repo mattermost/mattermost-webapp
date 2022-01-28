@@ -3,20 +3,16 @@
 
 import React from 'react';
 
-import {Client4} from 'mattermost-redux/client';
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {filterProfilesStartingWithTerm, isGuest} from 'mattermost-redux/utils/user_utils';
-import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
-import ProfilePicture from 'components/profile_picture';
+import {filterProfilesStartingWithTerm} from 'mattermost-redux/utils/user_utils';
+import {localizeMessage} from 'utils/utils.jsx';
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
-import AddIcon from 'components/widgets/icons/fa_add_icon';
-import GuestBadge from 'components/widgets/badges/guest_badge';
-import BotBadge from 'components/widgets/badges/bot_badge';
 
 import Constants from 'utils/constants';
+import MultiSelectOption from './multiselect_option/multiselect_option';
 
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = 256;
@@ -69,7 +65,7 @@ type State = {
 
 export default class AddUserToGroupMultiSelect extends React.PureComponent<Props, State> {
     private searchTimeoutId = 0;
-    private selectedItemRef = React.createRef<HTMLDivElement>();
+    selectedItemRef;
 
     public static defaultProps = {
         includeUsers: {},
@@ -85,6 +81,8 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
             saving: false,
             loadingUsers: true,
         } as State;
+
+        this.selectedItemRef = React.createRef<HTMLDivElement>();
     }
 
     private addValue = (value: UserProfileValue): void => {
@@ -184,46 +182,18 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
         return option.username;
     }
 
-    renderOption = (option: UserProfileValue, isSelected: boolean, onAdd: (user: UserProfileValue) => void, onMouseMove: (user: UserProfileValue) => void) => {
-        let rowSelected = '';
-        if (isSelected) {
-            rowSelected = 'more-modal__row--selected';
-        }
 
+    renderOption = (option: UserProfileValue, isSelected: boolean, onAdd: (user: UserProfileValue) => void, onMouseMove: (user: UserProfileValue) => void) => {
         return (
-            <div
-                key={option.id}
-                ref={isSelected ? this.selectedItemRef : option.id}
-                className={'more-modal__row clickable ' + rowSelected}
-                onClick={() => onAdd(option)}
-                onMouseMove={() => onMouseMove(option)}
-            >
-                <ProfilePicture
-                    src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
-                    status={this.props.userStatuses[option.id]}
-                    size='md'
-                    username={option.username}
-                />
-                <div className='more-modal__details'>
-                    <div className='more-modal__name'>
-                        {displayEntireNameForUser(option)}
-                        <BotBadge
-                            show={Boolean(option.is_bot)}
-                            className='badge-popoverlist'
-                        />
-                        <GuestBadge
-                            show={isGuest(option.roles)}
-                            className='popoverlist'
-                        />
-                    </div>
-                </div>
-                <div className='more-modal__actions'>
-                    <div className='more-modal__actions--round'>
-                        <AddIcon/>
-                    </div>
-                </div>
-            </div>
-        );
+            <MultiSelectOption
+                option={option}
+                onAdd={onAdd}
+                isSelected={isSelected}
+                onMouseMove={onMouseMove}
+                userStatuses={this.props.userStatuses}
+                ref={isSelected ? this.selectedItemRef : undefined}
+            />
+        )
     };
 
     public render = (): JSX.Element => {
