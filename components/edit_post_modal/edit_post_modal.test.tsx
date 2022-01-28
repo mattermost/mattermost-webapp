@@ -197,7 +197,7 @@ describe('components/EditPostModal', () => {
         await Promise.resolve();
         expect(actions.addMessageIntoHistory).toBeCalledWith('new message');
         expect(actions.editPost).toBeCalledWith({
-            ...defaultPost,
+            id: defaultPost.id,
             message: 'new message',
         });
         expect(actions.hideEditPostModal).toBeCalled();

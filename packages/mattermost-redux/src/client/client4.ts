@@ -1625,6 +1625,13 @@ export default class Client4 {
             `${this.getTeamRoute(teamId)}/channels${buildQueryString({page, per_page: perPage})}`,
             {method: 'get'},
         );
+    }
+
+    getAllTeamsChannels = () => {
+        return this.doFetch<ServerChannel[]>(
+            `${this.getUsersRoute()}/me/channels`,
+            {method: 'get'},
+        );
     };
 
     getArchivedChannels = (teamId: string, page = 0, perPage = PER_PAGE_DEFAULT) => {
@@ -1637,6 +1644,13 @@ export default class Client4 {
     getMyChannels = (teamId: string, includeDeleted = false) => {
         return this.doFetch<ServerChannel[]>(
             `${this.getUserRoute('me')}/teams/${teamId}/channels${buildQueryString({include_deleted: includeDeleted})}`,
+            {method: 'get'},
+        );
+    };
+
+    getAllChannelsMembers = (userId: string) => {
+        return this.doFetch<ChannelMembership[]>(
+            `${this.getUserRoute(userId)}/channel_members`,
             {method: 'get'},
         );
     };
@@ -1779,8 +1793,14 @@ export default class Client4 {
             ...opts,
         };
         const includeDeleted = Boolean(opts.include_deleted);
+        const nonAdminSearch = Boolean(opts.nonAdminSearch);
+        let queryParams: {include_deleted?: boolean; system_console?: boolean} = {include_deleted: includeDeleted};
+        if (nonAdminSearch) {
+            queryParams = {system_console: false};
+            delete body.nonAdminSearch;
+        }
         return this.doFetch<Channel[] | ChannelsWithTotalCount>(
-            `${this.getChannelsRoute()}/search?include_deleted=${includeDeleted}`,
+            `${this.getChannelsRoute()}/search${buildQueryString(queryParams)}`,
             {method: 'post', body: JSON.stringify(body)},
         );
     };

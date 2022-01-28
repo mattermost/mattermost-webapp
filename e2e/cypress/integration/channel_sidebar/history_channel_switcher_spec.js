@@ -10,6 +10,7 @@
 // Stage: @prod
 // Group: @channel_sidebar
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getRandomId} from '../../utils';
 
 describe('Channel sidebar', () => {
@@ -46,8 +47,10 @@ describe('Channel sidebar', () => {
 
         // # Search for Off-Topic and press Enter
         cy.get('.channel-switcher__suggestion-box #quickSwitchInput').click().type('Off-Topic');
+        cy.wait(TIMEOUTS.ONE_HUNDRED_MILLIS);
         cy.get('.channel-switcher__suggestion-box #suggestionList').should('be.visible');
-        cy.get('.channel-switcher__suggestion-box #quickSwitchInput').type('{enter}');
+        cy.get('.channel-switcher__suggestion-box .suggestion-list__item').its('length').should('eq', 3);
+        cy.get('.channel-switcher__suggestion-box .suggestion-list__item').contains(teamName).click();
 
         // * Verify that the channel switcher is closed and the active channel is now Off-Topic
         cy.get('.channel-switch__modal').should('not.exist');
