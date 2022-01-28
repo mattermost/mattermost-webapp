@@ -320,7 +320,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     );
                 }}
                 href={this.props.contactSalesLink}
-                target='_new'
+                target='_blank'
                 rel='noopener noreferrer'
             >
                 {text}
@@ -339,7 +339,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     );
                 }}
                 href={CloudLinks.PRORATED_PAYMENT}
-                target='_new'
+                target='_blank'
                 rel='noopener noreferrer'
             >
                 <FormattedMessage
@@ -556,7 +556,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                         }
                         href={CloudLinks.DEPLOYMENT_OPTIONS}
                         rel='noopener noreferrer'
-                        target='_new'
+                        target='_blank'
                     >
                         <FormattedMessage
                             defaultMessage={'Review your deployment options'}
@@ -623,7 +623,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                             {'\u00A0'}
                             <a
                                 href={CloudLinks.BILLING_DOCS}
-                                target='_new'
+                                target='_blank'
                                 rel='noopener noreferrer'
                             >
                                 <FormattedMessage
