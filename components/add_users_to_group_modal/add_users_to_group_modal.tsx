@@ -71,6 +71,7 @@ const AddUsersToGroupModal = (props: Props) => {
 
     const goBack = () => {
         props.backButtonCallback();
+        props.onExited();
     }
 
     return (
