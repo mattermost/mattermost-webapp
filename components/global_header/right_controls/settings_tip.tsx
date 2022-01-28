@@ -5,7 +5,7 @@ import React, {useMemo} from 'react';
 import {useSelector} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
 
-import TutorialTip from 'components/tutorial/tutorial_tip';
+import TutorialTip from 'components/tutorial/tutorial_tip_legacy';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import {getAnnouncementBarCount} from 'selectors/views/announcement_bar';
 import {TutorialSteps} from 'utils/constants';

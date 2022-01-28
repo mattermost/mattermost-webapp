@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/tutorial/tutorial_tip/tutorial_tip should match snapshot 1`] = `
+exports[`components/tutorial/tutorial_tip_legacy/tutorial_tip_legacy should match snapshot 1`] = `
 <div
   className="tip-div "
   id="tipButton"
@@ -20,7 +20,7 @@ exports[`components/tutorial/tutorial_tip/tutorial_tip should match snapshot 1`]
     rootClose={false}
     show={false}
   >
-    <TutorialTourTipBackdrop />
+    <TutorialTipBackdrop />
   </Overlay>
   <Overlay
     animation={[Function]}

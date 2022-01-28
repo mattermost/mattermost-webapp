@@ -8,8 +8,8 @@ import {ProductComponent} from 'types/store/plugins';
 
 import {Preferences, TutorialSteps, TopLevelProducts} from 'utils/constants';
 
-import TutorialTip from 'components/tutorial/tutorial_tip';
-import {useMeasurePunchouts} from 'components/tutorial_tour_tip/hooks';
+import TutorialTip from 'components/tutorial/tutorial_tip_legacy';
+import {useMeasurePunchoutsDepricated} from 'components/tutorial/tutorial_tip_legacy/hooks';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import {Props} from './index';
@@ -56,7 +56,7 @@ const ProductMenuTip = ({
     const [skippedBecauseIrrelevant, setSkippedBecauseIrrelevant] = useState(false);
     const tipIsRelevant = (step === TutorialSteps.PRODUCT_SWITCHER) && !skippedBecauseIrrelevant && products && checkHasPlaybooks(products) && checkHasBoards(products);
 
-    const punchOut = useMeasurePunchouts(['global-header'], [isAnnouncementBarOpen]);
+    const punchOut = useMeasurePunchoutsDepricated(['global-header'], [isAnnouncementBarOpen]);
     useEffect(() => {
         // We check this at the component level because we want to wait until
         // global header is visible to the user.

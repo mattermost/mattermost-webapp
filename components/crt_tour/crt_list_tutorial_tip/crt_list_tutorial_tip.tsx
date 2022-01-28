@@ -10,9 +10,9 @@ import {open as openLhs} from 'actions/views/lhs.js';
 import {getIsMobileView} from 'selectors/views/browser';
 import {Constants, Preferences} from 'utils/constants';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import TutorialTip from 'components/tutorial/tutorial_tip';
+import TutorialTip from 'components/tutorial/tutorial_tip_legacy';
 import {ShortcutKey, ShortcutKeyVariant} from 'components/shortcut_key';
-import {useMeasurePunchouts} from 'components/tutorial_tour_tip/hooks';
+import {useMeasurePunchoutsDepricated} from 'components/tutorial/tutorial_tip_legacy/hooks';
 
 type Props = {
     autoTour: boolean;
@@ -69,7 +69,7 @@ const CRTListTutorialTip = ({autoTour}: Props) => {
             overlayClass='tip-overlay--threads-list'
             autoTour={autoTour}
             onPrevNavigateTo={onPrevNavigateTo}
-            punchOut={useMeasurePunchouts(punchOutIds, [])}
+            punchOut={useMeasurePunchoutsDepricated(punchOutIds, [])}
         />
     );
 };
