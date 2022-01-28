@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @markdown
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Markdown', () => {
     before(() => {
         // # Update config
@@ -43,11 +45,11 @@ describe('Markdown', () => {
                 and('have.class', 'markdown-inline-img--hover').
                 and('have.class', 'markdown-inline-img--no-border').
                 and('have.attr', 'alt', 'Build Status').
-                and('have.attr', 'src', `${baseUrl}/api/v4/image?url=https%3A%2F%2Ftravis-ci.org%2Fmattermost%2Fplatform.svg%3Fbranch%3Dmaster`).
+                and('have.attr', 'src', `${baseUrl}/api/v4/image?url=https%3A%2F%2Fdocs.mattermost.com%2F_images%2Ficon-76x76.png`).
                 and((inlineImg) => {
-                    expect(inlineImg.height()).to.be.closeTo(20, 0.9);
+                    expect(inlineImg.height()).to.be.closeTo(76, 76);
                 }).
-                and('have.css', 'width', '98px');
+                and('have.css', 'width', '76px');
         });
     });
 
@@ -78,7 +80,7 @@ describe('Markdown', () => {
         // For example a png image
 
         // #  Post markdown message
-        cy.postMessageFromFile('markdown/markdown_inline_images_6.md');
+        cy.postMessageFromFile('markdown/markdown_inline_images_6.md').wait(TIMEOUTS.TWO_SEC);
 
         cy.uiGetPostBody().within(() => {
             cy.get('.markdown-inline-img').
@@ -120,7 +122,7 @@ describe('Markdown', () => {
 
     it('channel header is markdown image', () => {
         // # Update channel header
-        cy.updateChannelHeader('![MM Logo](https://www.mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png)');
+        cy.updateChannelHeader('![MM Logo](https://mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png)').wait(TIMEOUTS.TWO_SEC);
 
         // * Verify image in header
         cy.get('#channelHeaderDescription').find('div.markdown__paragraph-inline').as('imageDiv');
@@ -143,7 +145,7 @@ describe('Markdown', () => {
 
     it('channel header is markdown image that is also a link', () => {
         // # Update channel header
-        cy.updateChannelHeader('[![Build Status](https://travis-ci.org/mattermost/platform.svg?branch=master)](https://travis-ci.org/mattermost/platform)');
+        cy.updateChannelHeader('[![Build Status](https://mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png)](https://mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png)').wait(TIMEOUTS.TWO_SEC);
 
         // * Verify image in header
         cy.get('#channelHeaderDescription').find('div.markdown__paragraph-inline').as('imageDiv');

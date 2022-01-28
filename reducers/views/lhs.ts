@@ -3,7 +3,7 @@
 
 import {combineReducers} from 'redux';
 
-import {TeamTypes} from 'mattermost-redux/action_types';
+import {TeamTypes, UserTypes} from 'mattermost-redux/action_types';
 import type {GenericAction} from 'mattermost-redux/types/actions';
 
 import {ActionTypes} from 'utils/constants';
@@ -21,6 +21,9 @@ function isOpen(state = false, action: GenericAction) {
     case ActionTypes.OPEN_RHS_MENU:
         return false;
     case TeamTypes.SELECT_TEAM:
+        return false;
+
+    case UserTypes.LOGOUT_SUCCESS:
         return false;
     default:
         return state;
