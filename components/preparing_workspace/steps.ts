@@ -42,6 +42,17 @@ export function mapAnimationReasonToClass(classPrefix: string, animationReason: 
     }
 }
 
+type PluginNameMap = {
+    [Key in keyof Omit<Form['plugins'], 'skipped'>]: string
+};
+export const PLUGIN_NAME_TO_ID_MAP: PluginNameMap = {
+    github: 'github',
+    gitlab: 'com.github.manland.mattermost-plugin-gitlab',
+    jira: 'jira',
+    zoom: 'zoom',
+    todo: 'com.mattermost.plugin-todo',
+} as const;
+
 export type Form = {
     organization?: string;
     url?: string;

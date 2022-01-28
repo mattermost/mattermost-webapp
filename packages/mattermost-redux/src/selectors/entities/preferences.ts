@@ -227,3 +227,7 @@ export function getAddMembersToChannel(state: GlobalState): AddMembersToChannelt
 export function getInviteToTeamTreatment(state: GlobalState): InviteToTeamTreatments | undefined {
     return getFeatureFlagValue(state, 'InviteToTeam') as InviteToTeamTreatments | undefined;
 }
+
+export function getUseCaseOnboarding(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'UseCaseOnboarding') === 'true';
+}

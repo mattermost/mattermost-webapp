@@ -8,7 +8,7 @@ import {withRouter} from 'react-router-dom';
 import {fetchAllMyTeamsChannelsAndChannelMembers, fetchMyChannelsAndMembers, viewChannel} from 'mattermost-redux/actions/channels';
 import {getMyTeamUnreads, getTeamByName, selectTeam} from 'mattermost-redux/actions/teams';
 import {getGroups, getAllGroupsAssociatedToChannelsInTeam, getAllGroupsAssociatedToTeam, getGroupsByUserId} from 'mattermost-redux/actions/groups';
-import {isCollapsedThreadsEnabled, get} from 'mattermost-redux/selectors/entities/preferences';
+import {isCollapsedThreadsEnabled, get, getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
@@ -43,8 +43,10 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const currentUser = getCurrentUser(state);
     const plugins = state.plugins.components.NeedsTeamComponent;
     const isUserFirstAdmin = isFirstAdmin(state);
+    const useCaseOnboarding = getUseCaseOnboarding(state);
+
     let adminSetupRequired = false;
-    if (isUserFirstAdmin) {
+    if (useCaseOnboarding && isUserFirstAdmin) {
         const useCasePreference = get(state, Constants.Preferences.ONBOARDING, OnboardingPreferences.USE_CASE, false);
         if (!useCasePreference) {
             adminSetupRequired = true;

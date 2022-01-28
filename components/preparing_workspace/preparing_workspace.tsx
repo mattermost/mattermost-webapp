@@ -3,6 +3,7 @@
 
 import React, {useState, useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {RouterProps} from 'react-router-dom';
 import {RouteComponentProps} from 'react-router';
 import {FormattedMessage} from 'react-intl';
 
@@ -13,8 +14,9 @@ import {Team} from 'mattermost-redux/types/teams';
 import {Channel} from 'mattermost-redux/types/channels';
 import {sendEmailInvitesToTeamGracefully} from 'mattermost-redux/actions/teams';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {get, getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {Client4} from 'mattermost-redux/client';
 
 import {isFirstAdmin} from 'components/next_steps_view/steps';
@@ -29,7 +31,7 @@ import {switchToChannel} from 'actions/views/channel';
 
 import logoImage from 'images/logo.png';
 
-import {WizardSteps, WizardStep, Animations, AnimationReason, Form, emptyForm} from './steps';
+import {WizardSteps, WizardStep, Animations, AnimationReason, Form, emptyForm, PLUGIN_NAME_TO_ID_MAP} from './steps';
 
 import ChannelComponent from './channel';
 import ChannelsPreview from './channels_preview';
@@ -59,7 +61,7 @@ export type Actions = {
     checkIfTeamExists: (teamName: string) => ActionResult;
 }
 
-type Props = {
+type Props = RouterProps & {
     handleForm(form: Form): void;
     background?: JSX.Element | string;
     actions: Actions;
@@ -67,11 +69,11 @@ type Props = {
 
 export default function PreparingWorkspace(props: Props & RouteComponentProps) {
     const user = useSelector(getCurrentUser);
-
-    // const getState = useSelector(x => () => x);
     const isUserFirstAdmin = useSelector(isFirstAdmin);
+    const useCaseOnboarding = useSelector(getUseCaseOnboarding);
 
     const isSelfHosted = useSelector(getLicense).Cloud !== 'true';
+    const currentTeam = useSelector(getCurrentTeam);
 
     const stepOrder = [
         isSelfHosted && WizardSteps.Organization,
@@ -116,24 +118,28 @@ export default function PreparingWorkspace(props: Props & RouteComponentProps) {
         const {skipped: skippedPlugins, ...pluginChoices} = form.plugins;
         if (!skippedPlugins) {
             const pluginsToSetup = Object.entries(pluginChoices).reduce(
-                (acc: string[], [k, v]): string[] => (v ? [...acc, k] : acc), [],
+                (acc: string[], [k, v]): string[] => (v ? [...acc, PLUGIN_NAME_TO_ID_MAP[k as keyof Omit<Form['plugins'], 'skipped'>]] : acc), [],
             );
             const completeSetupRequest = {
-                plugins: pluginsToSetup,
+                install_plugins: pluginsToSetup,
             };
             try {
                 await Client4.completeSetup(completeSetupRequest);
             } catch (e) {
-                // TODO:
-                // uh oh. show error to user?
+                // TODO: show error to user?
                 // maybe a toast on the main screen?
                 console.error(`error setting up plugins ${e}`); //eslint-disable-line no-console
             }
         }
 
-        // TODO: fix types here, destructuring as necessary et cetera
-        // eslint-disable-next-line
-        const {data: team} = await props.actions.createTeam(makeNewTeam(form.organization, teamNameToUrl(form.organization || '').url));
+        let team = currentTeam;
+
+        if (form.organization) {
+            // TODO: fix types here, destructuring as necessary et cetera
+            // eslint-disable-next-line
+            const data = await props.actions.createTeam(makeNewTeam(form.organization, teamNameToUrl(form.organization || '').url));
+            team = data.data;
+        }
 
         let redirectChannel: Channel | null = null;
         if (!form.channel.skipped) {
@@ -174,14 +180,9 @@ export default function PreparingWorkspace(props: Props & RouteComponentProps) {
         sendForm();
     }, [submissionState]);
 
-    if (!isUserFirstAdmin) {
-        // TODO: Redirect user here.
-        throw new Error('user is not first admin');
-    }
-
-    // means the first admin has come back to this route after already having filled it out
-    if (Boolean(existingUseCasePreference) && submissionState === SubmissionStates.Presubmit) {
-        // TODO Redirect user here.
+    const adminRevisitedPage = Boolean(existingUseCasePreference) && submissionState === SubmissionStates.Presubmit;
+    if (!isUserFirstAdmin || adminRevisitedPage || !useCaseOnboarding) {
+        props.history.push('/');
     }
 
     const getTransitionDirection = (step: WizardStep): AnimationReason => {
@@ -282,7 +283,6 @@ export default function PreparingWorkspace(props: Props & RouteComponentProps) {
         </div>
     );
 
-    // TODO: figure out why CSSTransition isn't working for this top level route.
     return (
         <div className='PreparingWorkspace PreparingWorkspaceContainer'>
             {props.background}

@@ -17,7 +17,7 @@ import {
     ChannelSearchOpts,
 } from 'mattermost-redux/types/channels';
 
-import {CompleteSetup} from 'mattermost-redux/types/setup';
+import {CompleteOnboardingRequest} from 'mattermost-redux/types/setup';
 
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
 import {logError} from './errors';
@@ -957,7 +957,7 @@ export function removeDataRetentionCustomPolicyChannels(id: string, channels: st
     };
 }
 
-export function completeSetup(completeSetup: CompleteSetup): ActionFunc {
+export function completeSetup(completeSetup: CompleteOnboardingRequest): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.completeSetup,
         params: [completeSetup],
