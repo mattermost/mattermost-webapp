@@ -106,15 +106,15 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                 // get correct values to be inserted into the accordion item
                 switch (true) {
                 case newVersionParts[0] > installedVersionParts[0]:
-                    type = formatMessage({id: 'workspaceOptimization.version_type.major', defaultMessage: 'Major'});
+                    type = formatMessage({id: 'admin.reporting.workspace_optimization.version_type.major', defaultMessage: 'Major'});
                     status = 'error';
                     break;
                 case newVersionParts[1] > installedVersionParts[1]:
-                    type = formatMessage({id: 'workspaceOptimization.version_type.minor', defaultMessage: 'Minor'});
+                    type = formatMessage({id: 'admin.reporting.workspace_optimization.version_type.minor', defaultMessage: 'Minor'});
                     status = 'warning';
                     break;
                 case newVersionParts[2] > installedVersionParts[2]:
-                    type = formatMessage({id: 'workspaceOptimization.version_type.patch', defaultMessage: 'Patch'});
+                    type = formatMessage({id: 'admin.reporting.workspace_optimization.version_type.patch', defaultMessage: 'Patch'});
                     status = 'info';
                     break;
                 }
@@ -294,7 +294,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         },
     };
 
-    const overallScoreChipsData: ChipsInfoType = {
+    const overallScoreChips: ChipsInfoType = {
         info: 0,
         warning: 0,
         error: 0,
@@ -334,36 +334,31 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
             // chips will only be displayed for info aka Success, warning and error aka Problems
             if (item.status && item.status !== 'none' && item.status !== 'ok') {
                 accordionDataChips[item.status] += 1;
-                overallScoreChipsData[item.status] += 1;
+                overallScoreChips[item.status] += 1;
             }
         });
-        const chipsList = (<ChipsList chipsData={accordionDataChips}/>);
         const {title, description, icon} = accordionData;
         return {
             title,
             description,
             icon,
             items,
-            extraContent: chipsList,
+            extraContent: <ChipsList chipsData={accordionDataChips}/>,
         };
     });
-
-    const overallScoreChips = (<ChipsList chipsData={overallScoreChipsData}/>);
 
     return loading ? <p>{'Loading ...'}</p> : (
         <div className='WorkspaceOptimizationDashboard wrapper--fixed'>
             <FormattedAdminHeader
-                id='workspaceOptimization.title'
+                id='admin.reporting.workspace_optimization.title'
                 defaultMessage='Workspace Optimization'
             />
             <div className='admin-console__wrapper'>
-                <div className='admin-console__content'>
-                    <OverallScore chips={overallScoreChips}/>
-                    <Accordion
-                        accordionItemsData={accData}
-                        expandMultiple={true}
-                    />
-                </div>
+                <OverallScore chips={<ChipsList chipsData={overallScoreChips}/>}/>
+                <Accordion
+                    accordionItemsData={accData}
+                    expandMultiple={true}
+                />
             </div>
         </div>
     );

@@ -1820,6 +1820,10 @@
   "admin.reporting.workspace_optimization.chip_warnings": "Warnings: {count}",
   "admin.reporting.workspace_optimization.overall_workspace_score": "Overall Workspace Score",
   "admin.reporting.workspace_optimization.overall_workspace_score_description": "Stay on top of how optimized your workspace is! This score is a total of the categories of key indicators of health and growth below. Ensure your workspace is in its most optimized state so you and your user base get the most out of Mattermost.",
+  "admin.reporting.workspace_optimization.title": "Workspace Optimization",
+  "admin.reporting.workspace_optimization.version_type.major": "Major",
+  "admin.reporting.workspace_optimization.version_type.minor": "Minor",
+  "admin.reporting.workspace_optimization.version_type.patch": "Patch",
   "admin.requestButton.loading": " Loading...",
   "admin.requestButton.requestFailure": "Test Failure: {error}",
   "admin.requestButton.requestSuccess": "Test Successful",
@@ -4804,9 +4808,5 @@
   "widgets.users_emails_input.loading": "Loading",
   "widgets.users_emails_input.no_user_found_matching": "No one found matching **{text}**. Enter their email to invite them.",
   "widgets.users_emails_input.valid_email": "Add **{email}**",
-  "workspaceOptimization.title": "Workspace Optimization",
-  "workspaceOptimization.version_type.major": "Major",
-  "workspaceOptimization.version_type.minor": "Minor",
-  "workspaceOptimization.version_type.patch": "Patch",
   "yourcomputer": "Your computer"
 }

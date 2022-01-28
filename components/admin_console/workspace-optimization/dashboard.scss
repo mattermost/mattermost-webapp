@@ -29,27 +29,27 @@
         text-align: center;
 
         &.error {
-            background-color: rgba(var(--sys-error-text-color-rgb), 0.3);
-
             @extend .error;
+
+            background-color: rgba(var(--sys-error-text-color-rgb), 0.3);
         }
 
         &.info {
-            background-color: rgba(var(--sys-sidebar-text-active-border-rgb), 0.3);
-
             @extend .info;
+
+            background-color: rgba(var(--sys-sidebar-text-active-border-rgb), 0.3);
         }
 
         &.warning {
-            background-color: rgba(var(--sys-away-indicator-rgb), 0.3);
-
             @extend .warning;
+
+            background-color: rgba(var(--sys-away-indicator-rgb), 0.3);
         }
 
         &.ok {
-            background-color: rgba(var(--sys-online-indicator-rgb), 0.3);
-
             @extend .ok;
+
+            background-color: rgba(var(--sys-online-indicator-rgb), 0.3);
         }
     }
 

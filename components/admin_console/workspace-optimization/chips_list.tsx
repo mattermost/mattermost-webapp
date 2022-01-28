@@ -24,7 +24,6 @@ const ChipsList = ({
             return false;
         }
         let chipLegend;
-
         switch (chipKey) {
         case 'info':
             chipLegend = (
@@ -64,6 +63,11 @@ const ChipsList = ({
             />
         );
     });
+
+    if (chipsList.length === 0) {
+        return null;
+    }
+
     return (
         <>
             {chipsList}
