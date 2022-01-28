@@ -624,7 +624,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             showConfirm={false}
             unRegisterSaveAction={[Function]}
           />
-          <Connect(injectIntl(JobTable))
+          <Connect(JobTable)
             createJobButtonText={
               <Memo(MemoizedFormattedMessage)
                 defaultMessage="Setting Twelve"

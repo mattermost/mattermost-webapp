@@ -17,6 +17,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {open as openLhs} from 'actions/views/lhs.js';
 import {clearChannelSelection, multiSelectChannelAdd, multiSelectChannelTo} from 'actions/views/channel_sidebar';
 import {isChannelSelected} from 'selectors/views/channel_sidebar';
+import {getIsMobileView} from 'selectors/views/browser';
 import {GlobalState} from 'types/store';
 import Constants, {Preferences, RecommendedNextSteps} from 'utils/constants';
 
@@ -56,6 +57,7 @@ function makeMapStateToProps() {
             firstChannelName: enableTutorial && tutorialStep === Constants.TutorialSteps.ADD_FIRST_CHANNEL ? firstChannelName : '',
             townSquareDisplayName: channelsByName[Constants.DEFAULT_CHANNEL]?.display_name || '',
             offTopicDisplayName: channelsByName[Constants.OFFTOPIC_CHANNEL]?.display_name || '',
+            isMobileView: getIsMobileView(state),
         };
     };
 }

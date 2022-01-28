@@ -5,7 +5,7 @@ import React, {useEffect, useState} from 'react';
 import {FormattedDate, FormattedMessage, FormattedNumber} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {getCloudProducts, getCloudSubscription, getInvoices} from 'mattermost-redux/actions/cloud';
+import {getInvoices} from 'mattermost-redux/actions/cloud';
 import {Client4} from 'mattermost-redux/client';
 import {Invoice} from 'mattermost-redux/types/cloud';
 import {GlobalState} from 'mattermost-redux/types/store';
@@ -18,6 +18,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import EmptyBillingHistorySvg from 'components/common/svg_images_components/empty_billing_history.svg';
 
 import {CloudLinks} from 'utils/constants';
+
+import InvoiceUserCount from './invoice_user_count';
 
 import './billing_history.scss';
 
@@ -92,13 +94,6 @@ const getPaymentStatus = (status: string) => {
 const BillingHistory: React.FC<Props> = () => {
     const dispatch = useDispatch();
     const invoices = useSelector((state: GlobalState) => state.entities.cloud.invoices);
-    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
-    const product = useSelector((state: GlobalState) => {
-        if (state.entities.cloud.products && subscription) {
-            return state.entities.cloud.products[subscription?.product_id];
-        }
-        return undefined;
-    });
 
     const [billingHistory, setBillingHistory] = useState<Invoice[] | undefined>(undefined);
     const [firstRecord, setFirstRecord] = useState(1);
@@ -116,8 +111,6 @@ const BillingHistory: React.FC<Props> = () => {
         // TODO: When server paging, check if there are more invoices
     };
     useEffect(() => {
-        dispatch(getCloudProducts());
-        dispatch(getCloudSubscription());
         dispatch(getInvoices());
         pageVisited('cloud_admin', 'pageview_billing_history');
     }, []);
@@ -185,60 +178,48 @@ const BillingHistory: React.FC<Props> = () => {
                     </th>
                     <th>{''}</th>
                 </tr>
-                {billingHistory.map((invoice: Invoice) => {
-                    const fullUsers = invoice.line_items.filter((item) => item.type === 'full').reduce((val, item) => val + item.quantity, 0);
-                    const partialUsers = invoice.line_items.filter((item) => item.type === 'partial').reduce((val, item) => val + item.quantity, 0);
-
-                    return (
-                        <tr
-                            className='BillingHistory__table-row'
-                            key={invoice.id}
-                        >
-                            <td>
-                                <FormattedDate
-                                    value={new Date(invoice.period_start)}
-                                    month='2-digit'
-                                    day='2-digit'
-                                    year='numeric'
-                                    timeZone='UTC'
-                                />
-                            </td>
-                            <td>
-                                <div>{product?.name}</div>
-                                <div className='BillingHistory__table-bottomDesc'>
-                                    <FormattedMarkdownMessage
-                                        id='admin.billing.history.usersAndRates'
-                                        defaultMessage='{fullUsers} users at full rate, {partialUsers} users with partial charges'
-                                        values={{
-                                            fullUsers,
-                                            partialUsers,
-                                        }}
-                                    />
-                                </div>
-                            </td>
-                            <td className='BillingHistory__table-total'>
-                                <FormattedNumber
-                                    value={(invoice.total / 100.0)}
-                                    // eslint-disable-next-line react/style-prop-object
-                                    style='currency'
-                                    currency='USD'
-                                />
-                            </td>
-                            <td>
-                                {getPaymentStatus(invoice.status)}
-                            </td>
-                            <td className='BillingHistory__table-invoice'>
-                                <a
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    href={Client4.getInvoicePdfUrl(invoice.id)}
-                                >
-                                    <i className='icon icon-file-pdf-outline'/>
-                                </a>
-                            </td>
-                        </tr>
-                    );
-                })}
+                {billingHistory.map((invoice: Invoice) => (
+                    <tr
+                        className='BillingHistory__table-row'
+                        key={invoice.id}
+                    >
+                        <td>
+                            <FormattedDate
+                                value={new Date(invoice.period_start)}
+                                month='2-digit'
+                                day='2-digit'
+                                year='numeric'
+                                timeZone='UTC'
+                            />
+                        </td>
+                        <td>
+                            <div>{invoice.current_product_name}</div>
+                            <div className='BillingHistory__table-bottomDesc'>
+                                <InvoiceUserCount invoice={invoice}/>
+                            </div>
+                        </td>
+                        <td className='BillingHistory__table-total'>
+                            <FormattedNumber
+                                value={(invoice.total / 100.0)}
+                                // eslint-disable-next-line react/style-prop-object
+                                style='currency'
+                                currency='USD'
+                            />
+                        </td>
+                        <td>
+                            {getPaymentStatus(invoice.status)}
+                        </td>
+                        <td className='BillingHistory__table-invoice'>
+                            <a
+                                target='_new'
+                                rel='noopener noreferrer'
+                                href={Client4.getInvoicePdfUrl(invoice.id)}
+                            >
+                                <i className='icon icon-file-pdf-outline'/>
+                            </a>
+                        </td>
+                    </tr>
+                ))}
             </table>
             {paging}
         </>

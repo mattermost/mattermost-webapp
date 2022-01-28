@@ -188,6 +188,7 @@ export type ChannelViewResponse = {
 };
 
 export type ChannelSearchOpts = {
+    nonAdminSearch?: boolean;
     exclude_default_channels?: boolean;
     not_associated_to_group?: string;
     team_ids?: string[];

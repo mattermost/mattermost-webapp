@@ -17,22 +17,29 @@ import {AutoTourTreatments} from 'mattermost-redux/constants/config';
 import {closeMenu as closeRhsMenu} from 'actions/views/rhs';
 import {setFirstChannelName} from 'actions/views/channel_sidebar';
 
-import {Preferences, RecommendedNextSteps} from 'utils/constants';
+import Constants, {Preferences, RecommendedNextSteps} from 'utils/constants';
 import {GlobalState} from 'types/store';
 
 import TutorialTip from './tutorial_tip';
 
-function mapStateToProps(state: GlobalState) {
-    const getCategory = makeGetCategory();
+type OwnProps = {
+    tutorialCategory?: string;
+    autoTour: boolean;
+}
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const currentUserId = getCurrentUserId(state);
+    const categoryStep = ownProps.tutorialCategory || Preferences.TUTORIAL_STEP;
+    const getCategory = makeGetCategory();
     const preferences = getCategory(state, Preferences.AB_TEST_PREFERENCE_VALUE);
     const firstChannelNameFromPref = preferences.find((pref: PreferenceType) => pref.name === RecommendedNextSteps.CREATE_FIRST_CHANNEL);
     const firstChannelNameFromRedux = state.views.channelSidebar.firstChannelName;
-    const currentStep = getInt(state, Preferences.TUTORIAL_STEP, currentUserId, 0);
+    const onBoardingAutoTourStatus = getInt(state, Preferences.TUTORIAL_STEP_AUTO_TOUR_STATUS, currentUserId, Constants.AutoTourStatus.ENABLED) === Constants.AutoTourStatus.ENABLED;
+
     return {
         currentUserId,
-        currentStep,
-        autoTour: getAutoTourTreatment(state) === AutoTourTreatments.AUTO,
+        currentStep: getInt(state, categoryStep, currentUserId, 0),
+        autoTour: ownProps.tutorialCategory ? ownProps.autoTour : getAutoTourTreatment(state) === AutoTourTreatments.AUTO && onBoardingAutoTourStatus,
         firstChannelName: (firstChannelNameFromRedux || firstChannelNameFromPref?.value) || '',
     };
 }

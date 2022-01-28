@@ -5,6 +5,7 @@ import {combineReducers} from 'redux';
 
 import remove from 'lodash/remove';
 
+import {UserTypes} from 'mattermost-redux/action_types';
 import type {GenericAction} from 'mattermost-redux/types/actions';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 import {ClientPluginManifest} from 'mattermost-redux/types/plugins';
@@ -165,6 +166,8 @@ function plugins(state: IDMappedObjects<ClientPluginManifest> = {}, action: Gene
         return state;
     }
 
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
     default:
         return state;
     }
@@ -213,6 +216,9 @@ function components(state: PluginsState['components'] = initialComponents, actio
     case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
     case ActionTypes.REMOVED_WEBAPP_PLUGIN:
         return removePluginComponents(state, action);
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return initialComponents;
     default:
         return state;
     }
@@ -240,6 +246,9 @@ function postTypes(state: PluginsState['postTypes'] = {}, action: GenericAction)
     case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
     case ActionTypes.REMOVED_WEBAPP_PLUGIN:
         return removePostPluginComponents(state, action);
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
     default:
         return state;
     }
@@ -267,6 +276,9 @@ function postCardTypes(state: PluginsState['postTypes'] = {}, action: GenericAct
     case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
     case ActionTypes.REMOVED_WEBAPP_PLUGIN:
         return removePostPluginComponents(state, action);
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
     default:
         return state;
     }
@@ -298,6 +310,9 @@ function adminConsoleReducers(state: {[pluginId: string]: any} = {}, action: Gen
             return nextState;
         }
         return state;
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
     default:
         return state;
     }
@@ -334,6 +349,9 @@ function adminConsoleCustomComponents(state: {[pluginId: string]: Record<string,
         delete nextState[pluginId];
         return nextState;
     }
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
     default:
         return state;
     }
