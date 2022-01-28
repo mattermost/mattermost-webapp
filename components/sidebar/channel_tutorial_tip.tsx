@@ -16,6 +16,7 @@ type Props = {
     townSquareDisplayName?: string;
     offTopicDisplayName?: string;
     firstChannelName?: string;
+    isMobileView: boolean;
     openLhs: () => void;
 }
 
@@ -27,14 +28,15 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
     }
 
     render = () => {
-        let screens = [
-            <div key='first-screen'>
-                <h4>
-                    <FormattedMessage
-                        id='sidebar.tutorialChannelTypes.title'
-                        defaultMessage='Organize conversations in channels'
-                    />
-                </h4>
+        const title = (
+            <FormattedMessage
+                id='sidebar.tutorialChannelTypes.title'
+                defaultMessage={'Organize conversations in channels'}
+            />
+        );
+
+        let screen = (
+            <>
                 <p>
                     <FormattedMarkdownMessage
                         id='sidebar.tutorialChannelTypes.channels'
@@ -59,15 +61,15 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
                         defaultMessage={'**Direct messages** are for private conversations between individuals or small groups.'}
                     />
                 </p>
-            </div>,
-        ];
+            </>
+        );
 
         let sidebarContainer = document.getElementById('sidebar-left');
         let telemetryTagText = 'tutorial_tip_2_channels';
         if (this.props.firstChannelName) {
             const displayFirstChannelName = this.props.firstChannelName.split('-').join(' ').trim();
-            screens = [
-                <div key='screen'>
+            screen = (
+                <>
                     <h4>
                         <FormattedMessage
                             id='create_first_channel.tutorialTip.title'
@@ -84,11 +86,11 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
                     <p>
                         <FormattedMarkdownMessage
                             id='create_first_channel.tutorialTip1'
-                            defaultMessage='Start collaborating with your teammates and pull in your favorite plugins.'
+                            defaultMessage={'Start collaborating with your teammates and pull in your favorite plugins.'}
                         />
                     </p>
-                </div>,
-            ];
+                </>
+            );
 
             const channelId = this.props.firstChannelName.toLocaleLowerCase().replace(' ', '-');
             telemetryTagText = 'tutorial_tip_0_first_channel';
@@ -106,9 +108,11 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
 
         return (
             <TutorialTip
-                placement='right'
+                title={title}
+                showOptOut={true}
+                placement={this.props.isMobileView ? 'bottom' : 'right'}
                 step={this.props.firstChannelName ? TutorialSteps.ADD_FIRST_CHANNEL : TutorialSteps.CHANNEL_POPOVER}
-                screens={screens}
+                screen={screen}
                 overlayClass='tip-overlay--sidebar'
                 telemetryTag={telemetryTagText}
                 punchOut={tutorialTipPunchout}

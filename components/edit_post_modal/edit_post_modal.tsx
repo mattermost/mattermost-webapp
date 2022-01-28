@@ -38,7 +38,8 @@ const TOP_OFFSET = 0;
 const RIGHT_OFFSET = 10;
 
 export type Props = {
-    canEditPost?: boolean;
+    markdownPreviewFeatureIsEnabled: boolean;
+    canEditPost: boolean;
     canDeletePost?: boolean;
     channelId: string;
     codeBlockOnCtrlEnter: boolean;
@@ -274,7 +275,11 @@ export class EditPostModal extends React.PureComponent<Props, State> {
 
         actions.addMessageIntoHistory(updatedPost.message);
 
-        const data = await actions.editPost(updatedPost);
+        // Only message is getting updated, no other patchable attributes.
+        const data = await actions.editPost({
+            id: updatedPost.id,
+            message: updatedPost.message,
+        });
         if (data) {
             window.scrollTo(0, 0);
         }
@@ -633,6 +638,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
                         </div>
                         <div className='post-create-footer'>
                             <TextboxLinks
+                                isMarkdownPreviewEnabled={this.props.canEditPost && this.props.markdownPreviewFeatureIsEnabled}
                                 characterLimit={this.props.maxPostSize}
                                 showPreview={this.props.shouldShowPreview}
                                 updatePreview={this.setShowPreview}

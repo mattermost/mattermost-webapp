@@ -878,17 +878,6 @@
         }
     }
 
-    .tutorial-steps__container {
-        .tutorial__content {
-            .tutorial__steps {
-                max-height: 70%;
-                padding-bottom: 0;
-                margin-top: 15%;
-                margin-bottom: 15%;
-            }
-        }
-    }
-
     .prompt {
         .prompt__heading {
             display: block;
@@ -1275,21 +1264,6 @@
 
     .img-div {
         max-width: 100%;
-    }
-
-    .tip-div {
-        right: auto;
-        left: 15px;
-    }
-
-    .tip-overlay {
-        &.tip-overlay--chat {
-            margin-left: 10px;
-
-            .arrow {
-                left: 32px;
-            }
-        }
     }
 
     .file-details__container {
@@ -2200,10 +2174,6 @@
         }
     }
 
-    .tip-overlay.tip-overlay--sidebar {
-        min-height: 350px;
-    }
-
     .member-div {
         padding: 8px 0;
 
@@ -2338,54 +2308,6 @@
         .sidebar--left,
         #SidebarContainer {
             width: 220px;
-        }
-    }
-
-    .tutorial-steps__container {
-        position: fixed;
-        z-index: 9999;
-        top: 0;
-        left: 0;
-        background: v(center-channel-bg);
-
-        .tutorial__content {
-            .tutorial__steps {
-                width: 100%;
-                min-height: auto;
-                padding: 0 20px;
-                margin-top: 20px;
-
-                h1 {
-                    margin: -5px 0 20px;
-                    font-size: 2em;
-                }
-
-                h3 {
-                    margin-bottom: 10px;
-                    font-size: 1.5em;
-                }
-
-                .tutorial__app-icons {
-                    margin: 10px 0;
-                }
-
-                .tutorial__circles {
-                    position: relative;
-                    bottom: auto;
-                    margin: 15px 0 20px;
-                }
-
-                .tutorial__footer {
-                    position: relative;
-                    bottom: auto;
-                }
-            }
-        }
-    }
-
-    .tip-overlay {
-        &.tip-overlay--sidebar {
-            min-height: 440px;
         }
     }
 
