@@ -17,7 +17,7 @@ import {AutoTourTreatments} from 'mattermost-redux/constants/config';
 import {closeMenu as closeRhsMenu} from 'actions/views/rhs';
 import {setFirstChannelName} from 'actions/views/channel_sidebar';
 
-import {Preferences, RecommendedNextSteps} from 'utils/constants';
+import Constants, {Preferences, RecommendedNextSteps} from 'utils/constants';
 import {GlobalState} from 'types/store';
 
 import TutorialTip from './tutorial_tip';
@@ -34,10 +34,12 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const preferences = getCategory(state, Preferences.AB_TEST_PREFERENCE_VALUE);
     const firstChannelNameFromPref = preferences.find((pref: PreferenceType) => pref.name === RecommendedNextSteps.CREATE_FIRST_CHANNEL);
     const firstChannelNameFromRedux = state.views.channelSidebar.firstChannelName;
+    const onBoardingAutoTourStatus = getInt(state, Preferences.TUTORIAL_STEP_AUTO_TOUR_STATUS, currentUserId, Constants.AutoTourStatus.ENABLED) === Constants.AutoTourStatus.ENABLED;
+
     return {
         currentUserId,
         currentStep: getInt(state, categoryStep, currentUserId, 0),
-        autoTour: ownProps.tutorialCategory ? ownProps.autoTour : getAutoTourTreatment(state) === AutoTourTreatments.AUTO,
+        autoTour: ownProps.tutorialCategory ? ownProps.autoTour : getAutoTourTreatment(state) === AutoTourTreatments.AUTO && onBoardingAutoTourStatus,
         firstChannelName: (firstChannelNameFromRedux || firstChannelNameFromPref?.value) || '',
     };
 }

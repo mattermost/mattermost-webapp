@@ -273,7 +273,11 @@ export class EditPostModal extends React.PureComponent<Props, State> {
 
         actions.addMessageIntoHistory(updatedPost.message);
 
-        const data = await actions.editPost(updatedPost);
+        // Only message is getting updated, no other patchable attributes.
+        const data = await actions.editPost({
+            id: updatedPost.id,
+            message: updatedPost.message,
+        });
         if (data) {
             window.scrollTo(0, 0);
         }
