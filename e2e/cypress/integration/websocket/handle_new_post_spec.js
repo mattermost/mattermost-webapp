@@ -32,7 +32,7 @@ describe('Handle new post', () => {
         });
     });
 
-    it('should mark channel as unread when a message is sent in another channel', () => {
+    it('MM-T4609 - should mark channel as unread when a message is sent in another channel', () => {
         // # Explicitly click over to the test channel from Town Square
         // # to dismiss the unread + badge from adding `user` to the channel
         cy.get(`#sidebarItem_${channel1.name}`).click();
@@ -52,7 +52,7 @@ describe('Handle new post', () => {
         cy.get(`#sidebarItem_${channel1.name} .badge`).should('not.exist');
     });
 
-    it('should show the mention badge when a mention is sent in another channel', () => {
+    it('MM-T4610 - should show the mention badge when a mention is sent in another channel', () => {
         // # Explicitly click over to the test channel from Town Square
         // # to dismiss the unread + badge from the end of the previous test
         // # (maybe should use a new channel but then the same thing has to be done
@@ -80,7 +80,7 @@ describe('Handle new post', () => {
         cy.get(`#sidebarItem_${channel1.name} .badge`).should('exist').contains('2');
     });
 
-    it('should show the mention badge when added to another channel', () => {
+    it('MM-T2015 - should show the mention badge when added to another channel', () => {
         const baseUrl = Cypress.config('baseUrl');
 
         // # Have another user create a new channel
