@@ -9,7 +9,6 @@ import {
     Post,
     PostImage,
 } from 'mattermost-redux/types/posts';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import SizeAwareImage from 'components/size_aware_image';
 import ExternalImage from 'components/external_image';
@@ -236,7 +235,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent<Props> 
     }
 }
 
-export function getBestImageUrl(openGraphData?: OpenGraphMetadata, imagesMetadata?: Dictionary<PostImage>) {
+export function getBestImageUrl(openGraphData?: OpenGraphMetadata, imagesMetadata?: Record<string, PostImage>) {
     if (!openGraphData?.images?.length) {
         return undefined;
     }

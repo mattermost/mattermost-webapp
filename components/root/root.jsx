@@ -4,9 +4,10 @@
 import deepEqual from 'fast-deep-equal';
 import PropTypes from 'prop-types';
 import React from 'react';
-import FastClick from 'fastclick';
 import {Route, Switch, Redirect} from 'react-router-dom';
 import throttle from 'lodash/throttle';
+
+import classNames from 'classnames';
 
 import {rudderAnalytics, RudderTelemetryHandler} from 'mattermost-redux/client/rudder';
 import {Client4} from 'mattermost-redux/client';
@@ -31,7 +32,7 @@ import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
 import Pluggable from 'plugins/pluggable';
 import BrowserStore from 'stores/browser_store';
-import Constants, {StoragePrefixes} from 'utils/constants';
+import Constants, {StoragePrefixes, WindowSizes} from 'utils/constants';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
@@ -62,28 +63,30 @@ import {enableDevModeFeatures, isDevMode} from 'utils/utils';
 
 import A11yController from 'utils/a11y_controller';
 
+import TeamSidebar from 'components/team_sidebar';
+
 import {applyLuxonDefaults} from './effects';
 
 import RootRedirect from './root_redirect';
 
-const CreateTeam = makeAsyncComponent(LazyCreateTeam);
-const ErrorPage = makeAsyncComponent(LazyErrorPage);
-const TermsOfService = makeAsyncComponent(LazyTermsOfService);
-const LoginController = makeAsyncComponent(LazyLoginController);
-const AdminConsole = makeAsyncComponent(LazyAdminConsole);
-const LoggedIn = makeAsyncComponent(LazyLoggedIn);
-const PasswordResetSendLink = makeAsyncComponent(LazyPasswordResetSendLink);
-const PasswordResetForm = makeAsyncComponent(LazyPasswordResetForm);
-const SignupController = makeAsyncComponent(LazySignupController);
-const SignupEmail = makeAsyncComponent(LazySignupEmail);
-const ShouldVerifyEmail = makeAsyncComponent(LazyShouldVerifyEmail);
-const DoVerifyEmail = makeAsyncComponent(LazyDoVerifyEmail);
-const ClaimController = makeAsyncComponent(LazyClaimController);
-const HelpController = makeAsyncComponent(LazyHelpController);
-const LinkingLandingPage = makeAsyncComponent(LazyLinkingLandingPage);
-const SelectTeam = makeAsyncComponent(LazySelectTeam);
-const Authorize = makeAsyncComponent(LazyAuthorize);
-const Mfa = makeAsyncComponent(LazyMfa);
+const CreateTeam = makeAsyncComponent('CreateTeam', LazyCreateTeam);
+const ErrorPage = makeAsyncComponent('ErrorPage', LazyErrorPage);
+const TermsOfService = makeAsyncComponent('TermsOfService', LazyTermsOfService);
+const LoginController = makeAsyncComponent('LoginController', LazyLoginController);
+const AdminConsole = makeAsyncComponent('AdminConsole', LazyAdminConsole);
+const LoggedIn = makeAsyncComponent('LoggedIn', LazyLoggedIn);
+const PasswordResetSendLink = makeAsyncComponent('PasswordResedSendLink', LazyPasswordResetSendLink);
+const PasswordResetForm = makeAsyncComponent('PasswordResetForm', LazyPasswordResetForm);
+const SignupController = makeAsyncComponent('SignupController', LazySignupController);
+const SignupEmail = makeAsyncComponent('SignupEmail', LazySignupEmail);
+const ShouldVerifyEmail = makeAsyncComponent('ShouldVerifyEmail', LazyShouldVerifyEmail);
+const DoVerifyEmail = makeAsyncComponent('DoVerifyEmail', LazyDoVerifyEmail);
+const ClaimController = makeAsyncComponent('ClaimController', LazyClaimController);
+const HelpController = makeAsyncComponent('HelpController', LazyHelpController);
+const LinkingLandingPage = makeAsyncComponent('LinkingLandingPage', LazyLinkingLandingPage);
+const SelectTeam = makeAsyncComponent('SelectTeam', LazySelectTeam);
+const Authorize = makeAsyncComponent('Authorize', LazyAuthorize);
+const Mfa = makeAsyncComponent('Mfa', LazyMfa);
 
 const LoggedInRoute = ({component: Component, ...rest}) => (
     <Route
@@ -121,6 +124,9 @@ export default class Root extends React.PureComponent {
         // Redux
         setUrl(getSiteURL());
 
+        // Disable auth header to enable CSRF check
+        Client4.setAuthHeader = false;
+
         setSystemEmojis(EmojiIndicesByAlias);
 
         // Force logout of all tabs if one tab is logged out
@@ -141,9 +147,6 @@ export default class Root extends React.PureComponent {
             }
         });
 
-        // Fastclick
-        FastClick.attach(document.body);
-
         this.state = {
             configLoaded: false,
         };
@@ -154,7 +157,12 @@ export default class Root extends React.PureComponent {
         }
 
         // set initial window size state
-        this.props.actions.emitBrowserWindowResized();
+        this.desktopMediaQuery = window.matchMedia(`(min-width: ${Constants.DESKTOP_SCREEN_WIDTH + 1}px)`);
+        this.smallDesktopMediaQuery = window.matchMedia(`(min-width: ${Constants.TABLET_SCREEN_WIDTH + 1}px) and (max-width: ${Constants.DESKTOP_SCREEN_WIDTH}px)`);
+        this.tabletMediaQuery = window.matchMedia(`(min-width: ${Constants.MOBILE_SCREEN_WIDTH + 1}px) and (max-width: ${Constants.TABLET_SCREEN_WIDTH}px)`);
+        this.mobileMediaQuery = window.matchMedia(`(max-width: ${Constants.MOBILE_SCREEN_WIDTH}px)`);
+
+        this.updateWindowSize();
 
         store.subscribe(() => applyLuxonDefaults(store.getState()));
     }
@@ -266,14 +274,38 @@ export default class Root extends React.PureComponent {
         });
         trackLoadTime();
 
-        window.addEventListener('resize', this.handleWindowResizeEvent);
+        if (this.desktopMediaQuery.addEventListener) {
+            this.desktopMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
+            this.smallDesktopMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
+            this.tabletMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
+            this.mobileMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
+        } else if (this.desktopMediaQuery.addListener) {
+            this.desktopMediaQuery.addListener(this.handleMediaQueryChangeEvent);
+            this.smallDesktopMediaQuery.addListener(this.handleMediaQueryChangeEvent);
+            this.tabletMediaQuery.addListener(this.handleMediaQueryChangeEvent);
+            this.mobileMediaQuery.addListener(this.handleMediaQueryChangeEvent);
+        } else {
+            window.addEventListener('resize', this.handleWindowResizeEvent);
+        }
     }
 
     componentWillUnmount() {
         this.mounted = false;
         window.removeEventListener('storage', this.handleLogoutLoginSignal);
 
-        window.removeEventListener('resize', this.handleWindowResizeEvent);
+        if (this.desktopMediaQuery.removeEventListener) {
+            this.desktopMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
+            this.smallDesktopMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
+            this.tabletMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
+            this.mobileMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);
+        } else if (this.desktopMediaQuery.removeListener) {
+            this.desktopMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
+            this.smallDesktopMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
+            this.tabletMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
+            this.mobileMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
+        } else {
+            window.removeEventListener('resize', this.handleWindowResizeEvent);
+        }
     }
 
     handleLogoutLoginSignal = (e) => {
@@ -304,6 +336,29 @@ export default class Root extends React.PureComponent {
     handleWindowResizeEvent = throttle(() => {
         this.props.actions.emitBrowserWindowResized();
     }, 100);
+
+    handleMediaQueryChangeEvent = (e) => {
+        if (e.matches) {
+            this.updateWindowSize();
+        }
+    }
+
+    updateWindowSize = () => {
+        switch (true) {
+        case this.desktopMediaQuery.matches:
+            this.props.actions.emitBrowserWindowResized(WindowSizes.DESKTOP_VIEW);
+            break;
+        case this.smallDesktopMediaQuery.matches:
+            this.props.actions.emitBrowserWindowResized(WindowSizes.SMALL_DESKTOP_VIEW);
+            break;
+        case this.tabletMediaQuery.matches:
+            this.props.actions.emitBrowserWindowResized(WindowSizes.TABLET_VIEW);
+            break;
+        case this.mobileMediaQuery.matches:
+            this.props.actions.emitBrowserWindowResized(WindowSizes.MOBILE_VIEW);
+            break;
+        }
+    }
 
     render() {
         if (!this.state.configLoaded) {
@@ -392,41 +447,46 @@ export default class Root extends React.PureComponent {
                     <CompassThemeProvider theme={this.props.theme}>
                         <ModalController/>
                         <GlobalHeader/>
-                        <Switch>
-                            {this.props.products?.map((product) => (
-                                <Route
-                                    key={product.id}
-                                    path={product.baseURL}
-                                    render={(props) => (
-                                        <LoggedIn {...props}>
+                        <div className='mainContentRow d-flex flex-row'>
+                            <TeamSidebar/>
+                            <Switch>
+                                {this.props.products?.map((product) => (
+                                    <Route
+                                        key={product.id}
+                                        path={product.baseURL}
+                                        render={(props) => (
+                                            <LoggedIn {...props}>
+                                                <div className={classNames(['product-wrapper', {wide: !product.showTeamSidebar}])}>
+                                                    <Pluggable
+                                                        pluggableName={'Product'}
+                                                        subComponentName={'mainComponent'}
+                                                        pluggableId={product.id}
+                                                        webSocketClient={webSocketClient}
+                                                    />
+                                                </div>
+                                            </LoggedIn>
+                                        )}
+                                    />
+                                ))}
+                                {this.props.plugins?.map((plugin) => (
+                                    <Route
+                                        key={plugin.id}
+                                        path={'/plug/' + plugin.route}
+                                        render={() => (
                                             <Pluggable
-                                                pluggableName={'Product'}
-                                                subComponentName={'mainComponent'}
-                                                pluggableId={product.id}
-                                                webSocketClient={webSocketClient}
+                                                pluggableName={'CustomRouteComponent'}
+                                                pluggableId={plugin.id}
                                             />
-                                        </LoggedIn>
-                                    )}
+                                        )}
+                                    />
+                                ))}
+                                <LoggedInRoute
+                                    path={'/:team'}
+                                    component={NeedsTeam}
                                 />
-                            ))}
-                            {this.props.plugins?.map((plugin) => (
-                                <Route
-                                    key={plugin.id}
-                                    path={'/plug/' + plugin.route}
-                                    render={() => (
-                                        <Pluggable
-                                            pluggableName={'CustomRouteComponent'}
-                                            pluggableId={plugin.id}
-                                        />
-                                    )}
-                                />
-                            ))}
-                            <LoggedInRoute
-                                path={'/:team'}
-                                component={NeedsTeam}
-                            />
-                            <RootRedirect/>
-                        </Switch>
+                                <RootRedirect/>
+                            </Switch>
+                        </div>
                         <Pluggable pluggableName='Global'/>
                     </CompassThemeProvider>
                 </Switch>

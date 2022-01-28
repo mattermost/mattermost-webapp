@@ -101,6 +101,29 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
+            "id": "playbook_public",
+            "permissions": Array [
+              "playbook_public_create",
+              "playbook_public_manage_properties",
+              "playbook_public_manage_members",
+              "playbook_public_make_private",
+            ],
+          },
+          Object {
+            "id": "playbook_private",
+            "permissions": Array [
+              "playbook_private_create",
+              "playbook_private_manage_properties",
+              "playbook_private_manage_members",
+            ],
+          },
+          Object {
+            "id": "runs",
+            "permissions": Array [
+              "run_create",
+            ],
+          },
+          Object {
             "id": "posts",
             "permissions": Array [
               Object {
@@ -257,6 +280,29 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "delete_private_channel",
+            ],
+          },
+          Object {
+            "id": "playbook_public",
+            "permissions": Array [
+              "playbook_public_create",
+              "playbook_public_manage_properties",
+              "playbook_public_manage_members",
+              "playbook_public_make_private",
+            ],
+          },
+          Object {
+            "id": "playbook_private",
+            "permissions": Array [
+              "playbook_private_create",
+              "playbook_private_manage_properties",
+              "playbook_private_manage_members",
+            ],
+          },
+          Object {
+            "id": "runs",
+            "permissions": Array [
+              "run_create",
             ],
           },
           Object {
@@ -427,6 +473,29 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
+            "id": "playbook_public",
+            "permissions": Array [
+              "playbook_public_create",
+              "playbook_public_manage_properties",
+              "playbook_public_manage_members",
+              "playbook_public_make_private",
+            ],
+          },
+          Object {
+            "id": "playbook_private",
+            "permissions": Array [
+              "playbook_private_create",
+              "playbook_private_manage_properties",
+              "playbook_private_manage_members",
+            ],
+          },
+          Object {
+            "id": "runs",
+            "permissions": Array [
+              "run_create",
+            ],
+          },
+          Object {
             "id": "posts",
             "permissions": Array [
               Object {
@@ -591,6 +660,29 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "delete_private_channel",
+            ],
+          },
+          Object {
+            "id": "playbook_public",
+            "permissions": Array [
+              "playbook_public_create",
+              "playbook_public_manage_properties",
+              "playbook_public_manage_members",
+              "playbook_public_make_private",
+            ],
+          },
+          Object {
+            "id": "playbook_private",
+            "permissions": Array [
+              "playbook_private_create",
+              "playbook_private_manage_properties",
+              "playbook_private_manage_members",
+            ],
+          },
+          Object {
+            "id": "runs",
+            "permissions": Array [
+              "run_create",
             ],
           },
           Object {
@@ -761,6 +853,29 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
+            "id": "playbook_public",
+            "permissions": Array [
+              "playbook_public_create",
+              "playbook_public_manage_properties",
+              "playbook_public_manage_members",
+              "playbook_public_make_private",
+            ],
+          },
+          Object {
+            "id": "playbook_private",
+            "permissions": Array [
+              "playbook_private_create",
+              "playbook_private_manage_properties",
+              "playbook_private_manage_members",
+            ],
+          },
+          Object {
+            "id": "runs",
+            "permissions": Array [
+              "run_create",
+            ],
+          },
+          Object {
             "id": "posts",
             "permissions": Array [
               Object {
@@ -925,6 +1040,29 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "delete_private_channel",
+            ],
+          },
+          Object {
+            "id": "playbook_public",
+            "permissions": Array [
+              "playbook_public_create",
+              "playbook_public_manage_properties",
+              "playbook_public_manage_members",
+              "playbook_public_make_private",
+            ],
+          },
+          Object {
+            "id": "playbook_private",
+            "permissions": Array [
+              "playbook_private_create",
+              "playbook_private_manage_properties",
+              "playbook_private_manage_members",
+            ],
+          },
+          Object {
+            "id": "runs",
+            "permissions": Array [
+              "run_create",
             ],
           },
           Object {
@@ -1098,6 +1236,29 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "delete_private_channel",
+            ],
+          },
+          Object {
+            "id": "playbook_public",
+            "permissions": Array [
+              "playbook_public_create",
+              "playbook_public_manage_properties",
+              "playbook_public_manage_members",
+              "playbook_public_make_private",
+            ],
+          },
+          Object {
+            "id": "playbook_private",
+            "permissions": Array [
+              "playbook_private_create",
+              "playbook_private_manage_properties",
+              "playbook_private_manage_members",
+            ],
+          },
+          Object {
+            "id": "runs",
+            "permissions": Array [
+              "run_create",
             ],
           },
           Object {

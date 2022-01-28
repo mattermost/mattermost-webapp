@@ -72,6 +72,10 @@ export const Preferences = {
     CATEGORY_SIDEBAR_SETTINGS: 'sidebar_settings',
     CATEGORY_ADVANCED_SETTINGS: 'advanced_settings',
     TUTORIAL_STEP: 'tutorial_step',
+    CRT_TUTORIAL_TRIGGERED: 'crt_tutorial_triggered',
+    CRT_TUTORIAL_AUTO_TOUR_STATUS: 'crt_tutorial_auto_tour_status',
+    CRT_TUTORIAL_STEP: 'crt_tutorial_step',
+    CRT_THREAD_PANE_STEP: 'crt_thread_pane_step',
     CHANNEL_DISPLAY_MODE: 'channel_display_mode',
     CHANNEL_DISPLAY_MODE_CENTERED: 'centered',
     CHANNEL_DISPLAY_MODE_FULL_SCREEN: 'full',
@@ -120,6 +124,9 @@ export const Preferences = {
 
     // Category for actions/interactions that will happen just once
     UNIQUE: 'unique',
+
+    // A/B test preference value
+    AB_TEST_PREFERENCE_VALUE: 'ab_test_preference_value',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -130,6 +137,8 @@ export const Touched = {
 // Category for actions/interactions that will happen just once
 export const Unique = {
     HAS_CLOUD_PURCHASE: 'has_cloud_purchase',
+    REQUEST_TRIAL_AFTER_SERVER_UPGRADE: 'request_trial_after_upgrade',
+    CLICKED_UPGRADE_AND_TRIAL_BTN: 'clicked_upgradeandtrial_btn',
 };
 
 export const TrialPeriodDays = {
@@ -259,6 +268,8 @@ export const ActionTypes = keyMirror({
 
     SUPPRESS_RHS: null,
     UNSUPPRESS_RHS: null,
+
+    FIRST_CHANNEL_NAME: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -334,6 +345,7 @@ export const ModalIdentifiers = {
     JOIN_CHANNEL_PROMPT: 'join_channel_prompt',
     COLLAPSED_REPLY_THREADS_MODAL: 'collapsed_reply_threads_modal',
     NOTIFY_CONFIRM_MODAL: 'notify_confirm_modal',
+    CONFIRM_LICENSE_REMOVAL: 'confirm_license_removal',
     CONFIRM: 'confirm',
     POST_DELETED_MODAL: 'post_deleted_modal',
     FILE_PREVIEW_MODAL: 'file_preview_modal',
@@ -344,6 +356,7 @@ export const ModalIdentifiers = {
     USERS_TO_BE_REMOVED: 'users_to_be_removed',
     DELETE_DRAFT: 'delete_draft_modal',
     SEND_DRAFT: 'send_draft_modal',
+    UPLOAD_LICENSE: 'upload_license',
 };
 
 export const UserStatuses = {
@@ -467,12 +480,34 @@ export const SocketEvents = {
 };
 
 export const TutorialSteps = {
+    ADD_FIRST_CHANNEL: -1,
     POST_POPOVER: 0,
     CHANNEL_POPOVER: 1,
     ADD_CHANNEL_POPOVER: 2,
     MENU_POPOVER: 3,
     PRODUCT_SWITCHER: 4,
     SETTINGS: 5,
+    FINISHED: 999,
+};
+
+export const CrtTutorialSteps = {
+    WELCOME_POPOVER: 0,
+    LIST_POPOVER: 1,
+    UNREAD_POPOVER: 2,
+    FINISHED: 999,
+};
+export const CrtTutorialTriggerSteps = {
+    START: 0,
+    STARTED: 1,
+    FINISHED: 999,
+};
+export const AutoTourStatus = {
+    ENABLED: 0,
+    DISABLED: 1,
+};
+
+export const CrtThreadPaneSteps = {
+    THREADS_PANE_POPOVER: 0,
     FINISHED: 999,
 };
 
@@ -488,6 +523,7 @@ export const RecommendedNextSteps = {
     PREFERENCES_SETUP: 'preferences_setup',
     NOTIFICATION_SETUP: 'notification_setup',
     DOWNLOAD_APPS: 'download_apps',
+    CREATE_FIRST_CHANNEL: 'create_first_channel',
     HIDE: 'hide',
     SKIP: 'skip',
 };
@@ -871,6 +907,20 @@ export const PermissionsScope = {
     [Permissions.CONVERT_PRIVATE_CHANNEL_TO_PUBLIC]: 'channel_scope',
     [Permissions.MANAGE_SHARED_CHANNELS]: 'system_scope',
     [Permissions.MANAGE_SECURE_CONNECTIONS]: 'system_scope',
+    [Permissions.PLAYBOOK_PUBLIC_CREATE]: 'team_scope',
+    [Permissions.PLAYBOOK_PUBLIC_MANAGE_PROPERTIES]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PUBLIC_MANAGE_MEMBERS]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PUBLIC_VIEW]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PUBLIC_MAKE_PRIVATE]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PRIVATE_CREATE]: 'team_scope',
+    [Permissions.PLAYBOOK_PRIVATE_MANAGE_PROPERTIES]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PRIVATE_MANAGE_MEMBERS]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PRIVATE_VIEW]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PRIVATE_MAKE_PUBLIC]: 'playbook_scope',
+    [Permissions.RUN_CREATE]: 'playbook_scope',
+    [Permissions.RUN_MANAGE_MEMBERS]: 'run_scope',
+    [Permissions.RUN_MANAGE_PROPERTIES]: 'run_scope',
+    [Permissions.RUN_VIEW]: 'run_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -1002,6 +1052,10 @@ export const Constants = {
     UserStatuses,
     UserSearchOptions,
     TutorialSteps,
+    CrtTutorialSteps,
+    CrtTutorialTriggerSteps,
+    AutoTourStatus,
+    CrtThreadPaneSteps,
     PostTypes,
     ErrorPageTypes,
     AnnouncementBarTypes,

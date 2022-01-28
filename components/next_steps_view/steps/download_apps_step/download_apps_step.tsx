@@ -21,8 +21,8 @@ export default function DownloadAppsStep(props: StepComponentProps) {
 
     let finishMessage = (
         <FormattedMessage
-            id={props.finishButtonText.id}
-            defaultMessage={props.finishButtonText.defaultMessage}
+            id={props.completeStepButtonText.id}
+            defaultMessage={props.completeStepButtonText.defaultMessage}
         />);
 
     if (props.isLastStep) {
@@ -36,6 +36,7 @@ export default function DownloadAppsStep(props: StepComponentProps) {
     return (<>
         <DownloadSection
             isFirstAdmin={props.isAdmin}
+            isMobileView={props.isMobileView}
             withinNextStep={true}
         />
         <div className='NextStepsView__wizardButtons'>

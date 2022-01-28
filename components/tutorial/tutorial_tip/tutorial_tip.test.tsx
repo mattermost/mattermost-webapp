@@ -13,14 +13,16 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
     const currentUserId = 'currentUserId';
     const requiredProps = {
         currentUserId,
+        title: <>{'title'}</>,
         step: 1,
         currentStep: 1,
         autoTour: false,
         actions: {
             closeRhsMenu: jest.fn(),
             savePreferences: jest.fn(),
+            setFirstChannelName: jest.fn(),
         },
-        screens: [<></>, <></>, <></>],
+        screen: <></>,
         placement: 'right',
     };
 
@@ -29,35 +31,16 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should not call both closeRhsMenu and savePreferences', () => {
-        const savePreferences = jest.fn();
-        const closeRhsMenu = jest.fn();
-
-        const props = {...requiredProps, actions: {closeRhsMenu, savePreferences}};
-        const wrapper = shallow<TutorialTip>(
-            <TutorialTip {...props}/>,
-        );
-
-        wrapper.instance().handleNext();
-        expect(closeRhsMenu).toHaveBeenCalledTimes(0);
-        expect(savePreferences).toHaveBeenCalledTimes(0);
-
-        wrapper.instance().handleNext();
-        expect(closeRhsMenu).toHaveBeenCalledTimes(0);
-        expect(savePreferences).toHaveBeenCalledTimes(0);
-    });
-
     test('should have called both closeRhsMenu and savePreferences', () => {
         const savePreferences = jest.fn();
         const closeRhsMenu = jest.fn();
+        const setFirstChannelName = jest.fn();
 
-        const props = {...requiredProps, actions: {closeRhsMenu, savePreferences}};
+        const props = {...requiredProps, actions: {closeRhsMenu, savePreferences, setFirstChannelName}};
         const wrapper = shallow<TutorialTip>(
             <TutorialTip {...props}/>,
         );
 
-        wrapper.instance().handleNext();
-        wrapper.instance().handleNext();
         wrapper.instance().handleNext();
 
         const expectedPref = [{
@@ -89,11 +72,12 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
     test('should have called both closeRhsMenu and savePreferences when skipTutorial', () => {
         const savePreferences = jest.fn();
         const closeRhsMenu = jest.fn();
+        const setFirstChannelName = jest.fn();
         const mockEvent = {
             preventDefault: jest.fn(),
         } as unknown as React.MouseEvent<HTMLAnchorElement>;
 
-        const props = {...requiredProps, actions: {closeRhsMenu, savePreferences}};
+        const props = {...requiredProps, actions: {closeRhsMenu, savePreferences, setFirstChannelName}};
         const wrapper = shallow<TutorialTip>(
             <TutorialTip {...props}/>,
         );

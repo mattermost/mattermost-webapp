@@ -22,7 +22,7 @@
 }
 
 #SidebarContainer {
-    position: fixed;
+    position: absolute;
     z-index: 16;
     left: 0;
     display: flex;
@@ -1028,8 +1028,7 @@
 
         &:hover {
             .btn-close {
-                @include opacity(0.8);
-
+                opacity: 0.8;
                 visibility: visible;
             }
         }
@@ -1062,8 +1061,6 @@
         }
 
         .btn-close {
-            @include opacity(0);
-
             position: relative;
             width: 24px;
             height: 20px;
@@ -1072,11 +1069,12 @@
             font-size: 21px;
             font-weight: 600;
             line-height: 16px;
+            opacity: 0;
             text-align: center;
             visibility: hidden;
 
             &:hover {
-                @include opacity(1);
+                opacity: 1;
             }
         }
 
@@ -1346,10 +1344,10 @@
 
 .multi-teams {
     #SidebarContainer {
-        left: 65px;
+        left: 0;
 
         + .inner-wrap #app-content {
-            margin-left: 305px;
+            margin-left: 240px;
         }
     }
 }
@@ -1393,8 +1391,6 @@
 @media screen and (min-width: 769px) {
     // adjust height of sidebar to account for global header
     #SidebarContainer {
-        height: calc(100% - 40px);
-
         .SidebarChannelNavigator {
             margin-top: 0;
             margin-bottom: 11px;

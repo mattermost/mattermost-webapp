@@ -3,8 +3,6 @@
 
 import {AddChannelButtonTreatments, CollapsedThreads, AutoTourTreatments} from '../constants/config';
 
-import {Dictionary} from './utilities';
-
 import {ThemeKey} from './themes';
 
 export type ClientConfig = {
@@ -704,8 +702,10 @@ export type BleveSettings = {
 export type DataRetentionSettings = {
     EnableMessageDeletion: boolean;
     EnableFileDeletion: boolean;
+    EnableBoardsDeletion: boolean;
     MessageRetentionDays: number;
     FileRetentionDays: number;
+    BoardsRetentionDays: number;
     DeletionJobStartTime: string;
 };
 
@@ -736,8 +736,8 @@ export type PluginSettings = {
     EnableHealthCheck: boolean;
     Directory: string;
     ClientDirectory: string;
-    Plugins: Dictionary<any>;
-    PluginStates: Dictionary<{Enable: boolean}>;
+    Plugins: Record<string, any>;
+    PluginStates: Record<string, {Enable: boolean}>;
     EnableMarketplace: boolean;
     EnableRemoteMarketplace: boolean;
     AutomaticPrepackagedPlugins: boolean;
