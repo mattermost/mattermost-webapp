@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useState} from 'react';
 
 import {Modal} from 'react-bootstrap';
 
@@ -31,43 +31,28 @@ export type Props = {
     };
 }
 
-type State = {
-    show: boolean;
-    savingEnabled: boolean;
-    usersToAdd: UserProfile[];
-    showUnknownError: boolean;
-}
+const AddUsersToGroupModal = (props: Props) => {
+    const [show, setShow] = useState(true);
+    const [usersToAdd, setUsersToAdd] = useState<UserProfile[]>([]);
+    const [showUnknownError, setShowUnknownError] = useState(false);
 
-export default class AddUsersToGroupModal extends React.PureComponent<Props, State> {
-    constructor(props: Props) {
-        super(props);
-
-        this.state = {
-            show: true,
-            savingEnabled: false,
-            usersToAdd: [],
-            showUnknownError: false,
-        };
+    const doHide = () => {
+        setShow(false);
     }
 
-    doHide = () => {
-        this.setState({show: false});
-    }
-    isSaveEnabled = () => {
-        return this.state.usersToAdd.length > 0;
+    const isSaveEnabled = () => {
+        return usersToAdd.length > 0;
     }
 
-    private addUserCallback = (usersToAdd: UserProfile[]): void => {
-        this.setState({usersToAdd});
+    const addUserCallback = (users: UserProfile[]): void => {
+        setUsersToAdd(users);
     };
 
-    private deleteUserCallback = (usersToAdd: UserProfile[]): void => {
-        this.setState({usersToAdd});
+    const deleteUserCallback = (users: UserProfile[]): void => {
+        setUsersToAdd(users);
     };
 
-    addUsersToGroup = async (users?: UserProfile[]) => {
-        this.setState({showUnknownError: false});
-
+    const addUsersToGroup = async (users?: UserProfile[]) => {
         if (!users || users.length === 0) {
             return;
         }
@@ -75,97 +60,94 @@ export default class AddUsersToGroupModal extends React.PureComponent<Props, Sta
             return user.id;
         });
 
-        const data = await this.props.actions.addUsersToGroup(this.props.groupId, userIds);
+        const data = await props.actions.addUsersToGroup(props.groupId, userIds);
 
         if (data?.error) {
-            this.setState({showUnknownError: true});
+            setShowUnknownError(true);
         } else {
-            this.goBack();
+            goBack();
         }
     }
 
-    goBack = () => {
-        this.props.backButtonCallback();
-        this.props.onExited();
+    const goBack = () => {
+        props.backButtonCallback();
     }
 
-    render() {
-        const {group, groupId} = this.props;
-        return (
-            <Modal
-                dialogClassName='a11y__modal user-groups-modal-create'
-                show={this.state.show}
-                onHide={this.doHide}
-                onExited={this.props.onExited}
-                role='dialog'
-                aria-labelledby='createUserGroupsModalLabel'
-                id='addUsersToGroupsModal'
-            >
-                <Modal.Header closeButton={true}>
-                    <button
-                        type='button'
-                        className='modal-header-back-button btn-icon'
-                        aria-label='Close'
-                        onClick={() => {
-                            this.goBack();
-                        }}
-                    >
-                        <LocalizedIcon
-                            className='icon icon-arrow-left'
-                            ariaLabel={{id: t('user_groups_modal.goBackLabel'), defaultMessage: 'Back'}}
-                        />
-                    </button>
-                    <Modal.Title
-                        componentClass='h1'
-                        id='addUsersToGroupsModalLabel'
-                    >
-                        <FormattedMessage
-                            id='user_groups_modal.addPeopleTitle'
-                            defaultMessage='Add people to {group}'
-                            values={{
-                                group: group.display_name,
-                            }}
-                        />
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body
-                    className='overflow--visible'
+    return (
+        <Modal
+            dialogClassName='a11y__modal user-groups-modal-create'
+            show={show}
+            onHide={doHide}
+            onExited={props.onExited}
+            role='dialog'
+            aria-labelledby='createUserGroupsModalLabel'
+            id='addUsersToGroupsModal'
+        >
+            <Modal.Header closeButton={true}>
+                <button
+                    type='button'
+                    className='modal-header-back-button btn-icon'
+                    aria-label='Close'
+                    onClick={() => {
+                        goBack();
+                    }}
                 >
-                    <div className='user-groups-modal__content'>
-                        <form role='form'>
-                            <div className='group-add-user'>
-                                <AddUserToGroupMultiSelect
-                                    multilSelectKey={'addUsersToGroupKey'}
-                                    onSubmitCallback={this.addUsersToGroup}
-                                    focusOnLoad={false}
-                                    savingEnabled={this.isSaveEnabled()}
-                                    addUserCallback={this.addUserCallback}
-                                    deleteUserCallback={this.deleteUserCallback}
-                                    groupId={groupId}
-                                    searchOptions={{
-                                        not_in_group_id: groupId,
-                                    }}
-                                    buttonSubmitText={localizeMessage('multiselect.addPeopleToGroup', 'Add People')}
-                                    buttonSubmitLoadingText={localizeMessage('multiselect.adding', 'Adding...')}
-                                    backButtonClick={this.goBack}
-                                    backButtonClass={'multiselect-back'}
+                    <LocalizedIcon
+                        className='icon icon-arrow-left'
+                        ariaLabel={{id: t('user_groups_modal.goBackLabel'), defaultMessage: 'Back'}}
+                    />
+                </button>
+                <Modal.Title
+                    componentClass='h1'
+                    id='addUsersToGroupsModalLabel'
+                >
+                    <FormattedMessage
+                        id='user_groups_modal.addPeopleTitle'
+                        defaultMessage='Add people to {group}'
+                        values={{
+                            group: props.group.display_name,
+                        }}
+                    />
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body
+                className='overflow--visible'
+            >
+                <div className='user-groups-modal__content'>
+                    <form role='form'>
+                        <div className='group-add-user'>
+                            <AddUserToGroupMultiSelect
+                                multilSelectKey={'addUsersToGroupKey'}
+                                onSubmitCallback={addUsersToGroup}
+                                focusOnLoad={false}
+                                savingEnabled={isSaveEnabled()}
+                                addUserCallback={addUserCallback}
+                                deleteUserCallback={deleteUserCallback}
+                                groupId={props.groupId}
+                                searchOptions={{
+                                    not_in_group_id: props.groupId,
+                                }}
+                                buttonSubmitText={localizeMessage('multiselect.addPeopleToGroup', 'Add People')}
+                                buttonSubmitLoadingText={localizeMessage('multiselect.adding', 'Adding...')}
+                                backButtonClick={goBack}
+                                backButtonClass={'multiselect-back'}
+                            />
+                        </div>
+                        {
+                            showUnknownError &&
+                            <div className='Input___error group-error'>
+                                <i className='icon icon-alert-outline'/>
+                                <FormattedMessage
+                                    id='user_groups_modal.unknownError'
+                                    defaultMessage='An unknown error has occurred.'
                                 />
                             </div>
-                            {
-                                this.state.showUnknownError &&
-                                <div className='Input___error group-error'>
-                                    <i className='icon icon-alert-outline'/>
-                                    <FormattedMessage
-                                        id='user_groups_modal.unknownError'
-                                        defaultMessage='An unknown error has occurred.'
-                                    />
-                                </div>
-                            }
-                        </form>
-
-                    </div>
-                </Modal.Body>
-            </Modal>
-        );
-    }
+                        }
+                    </form>
+                </div>
+            </Modal.Body>
+        </Modal>
+    );
 }
+
+export default AddUsersToGroupModal;
