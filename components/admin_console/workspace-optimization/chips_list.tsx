@@ -8,9 +8,7 @@ import Chip from 'components/common/chip/chip';
 
 import './dashboard.scss';
 
-type ChipsInfoKeys = 'info' | 'warning' | 'error';
-
-export type ChipsInfoType = { [key in ChipsInfoKeys]: number };
+export type ChipsInfoType = { [key in 'info' | 'warning' | 'error']: number };
 
 type ChipsListProps = {
     chipsData: ChipsInfoType;

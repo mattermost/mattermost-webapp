@@ -18,14 +18,14 @@ const CircularChart = ({
     width,
     height,
     type,
-}: CircularChartProps): JSX.Element | null => {
+}: CircularChartProps): JSX.Element => {
     return (
         <div className='CircularChart'>
             <svg
                 viewBox='0 0 36 36'
                 className={`circular-chart ${type}`}
-                width={width ? width.toString() : '36'}
-                height={height ? height.toString() : '36'}
+                width={width >= 0 ? width.toString() : '36'}
+                height={height >= 0 ? height.toString() : '36'}
             >
                 <path
                     className='circle-bg'
