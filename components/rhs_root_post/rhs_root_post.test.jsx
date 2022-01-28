@@ -187,6 +187,16 @@ describe('components/RhsRootPost', () => {
         expect(props.actions.markPostAsUnread).not.toHaveBeenCalled();
     });
 
+    test('should match snapshot hovered', () => {
+        const wrapper = shallow(
+            <RhsRootPost {...baseProps}/>,
+        );
+
+        wrapper.setState({hover: true});
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should pass props correctly to PostPreHeader', () => {
         const wrapper = shallow(
             <RhsRootPost {...baseProps}/>,
