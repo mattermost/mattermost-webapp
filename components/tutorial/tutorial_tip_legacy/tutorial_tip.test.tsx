@@ -4,10 +4,10 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import TutorialTip from 'components/tutorial/tutorial_tip/tutorial_tip';
+import TutorialTip from 'components/tutorial/tutorial_tip_legacy/tutorial_tip';
 import {Constants, Preferences} from 'utils/constants';
 
-describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
+describe('components/tutorial/tutorial_tip_legacy/tutorial_tip_legacy', () => {
     jest.mock('actions/telemetry_actions.jsx');
 
     const currentUserId = 'currentUserId';

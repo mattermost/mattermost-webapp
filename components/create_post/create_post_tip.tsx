@@ -8,8 +8,8 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {TutorialSteps} from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import TutorialTip from 'components/tutorial/tutorial_tip';
-import {useMeasurePunchouts} from 'components/tutorial_tour_tip/hooks';
+import TutorialTip from 'components/tutorial/tutorial_tip_legacy';
+import {useMeasurePunchoutsDepricated} from 'components/tutorial/tutorial_tip_legacy/hooks';
 
 import PrewrittenChips from './prewritten_chips';
 
@@ -66,7 +66,7 @@ function CreatePostTip(props: Props) {
             screen={screen}
             overlayClass='tip-overlay--chat'
             telemetryTag='tutorial_tip_1_sending_messages'
-            punchOut={useMeasurePunchouts(['post-create'], [], {y: -11, height: 11, x: 0, width: 0})}
+            punchOut={useMeasurePunchoutsDepricated(['post-create'], [], {y: -11, height: 11, x: 0, width: 0})}
         />
     );
 }
