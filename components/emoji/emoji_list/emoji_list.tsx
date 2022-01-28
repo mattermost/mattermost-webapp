@@ -103,7 +103,12 @@ export default class EmojiList extends React.PureComponent<Props, State> {
             e.preventDefault();
         }
 
-        this.setState({page: this.state.page - 1, nextLoading: false});
+        this.setState({
+            page: this.state.page - 1,
+            nextLoading: false,
+            missingPages: true,
+        });
+
         this.props.scrollToTop();
     };
 
