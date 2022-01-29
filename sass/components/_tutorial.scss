@@ -9,12 +9,11 @@ $tip-index: 1000;
 .tutorial-tip {
     &__header {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         justify-content: flex-start;
 
         &__title {
-            flex: none;
-            flex-grow: 1;
+            flex: auto;
             order: 0;
             margin: 0;
             font-family: inherit;
@@ -261,6 +260,10 @@ $tip-index: 1000;
             top: 32px;
             left: -9px;
             margin-top: -10px;
+        }
+
+        &.first-channel {
+            margin-top: 108px;
         }
     }
 
