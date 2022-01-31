@@ -5,6 +5,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {SwitchTransition, CSSTransition} from 'react-transition-group';
 
 import {Posts} from 'mattermost-redux/constants/index';
 import {
@@ -649,16 +650,38 @@ export default class RhsComment extends React.PureComponent {
                         </div>
                         <div className={`post__body${postClass}`} >
                             {failedPostOptions}
-                            {isPostBeingEdited && <EditPost/>}
-                            <div className={isPostBeingEdited ? 'invisible' : ''}>
-                                <MessageWithAdditionalContent
-                                    post={post}
-                                    previewCollapsed={this.props.previewCollapsed}
-                                    previewEnabled={this.props.previewEnabled}
-                                    isEmbedVisible={this.props.isEmbedVisible}
-                                    pluginPostTypes={this.props.pluginPostTypes}
-                                />
-                            </div>
+                            <SwitchTransition>
+                                <CSSTransition
+                                    appear={false}
+                                    key={isPostBeingEdited ? 'rhs_comment_editing' : 'rhs_comment_not_editing'}
+                                    addEndListener={(node, done) => {
+                                        node.addEventListener('transitionend', done, false);
+                                    }}
+                                    classNames='fade'
+                                    onEnter={(node) => {
+                                        // hide the original post when entering editing mode to prevent massive intermitant
+                                        // height changes in between state transitions
+                                        if (isPostBeingEdited) {
+                                            node.firstChild.classList.add('hide-element');
+                                        } else {
+                                            node.firstChild.classList.remove('hide-element');
+                                        }
+                                    }}
+                                >
+                                    <div className={'post__body--transition'}>
+                                        <div>
+                                            <MessageWithAdditionalContent
+                                                post={post}
+                                                previewCollapsed={this.props.previewCollapsed}
+                                                previewEnabled={this.props.previewEnabled}
+                                                isEmbedVisible={this.props.isEmbedVisible}
+                                                pluginPostTypes={this.props.pluginPostTypes}
+                                            />
+                                        </div>
+                                        {isPostBeingEdited && <EditPost/>}
+                                    </div>
+                                </CSSTransition>
+                            </SwitchTransition>
                             {fileAttachment}
                             <ReactionList
                                 post={post}

@@ -4,6 +4,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {SwitchTransition, CSSTransition} from 'react-transition-group';
+import classNames from 'classnames';
 
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
@@ -359,7 +361,7 @@ export default class RhsRootPost extends React.PureComponent {
             );
         }
 
-        const postClass = PostUtils.isEdited(this.props.post) ? ' post--edited' : '';
+        const postClass = classNames('post__body--transition', {'post--edited': PostUtils.isEdited(this.props.post)});
 
         const dotMenu = (
             <DotMenu
@@ -494,17 +496,37 @@ export default class RhsRootPost extends React.PureComponent {
                             {!isPostBeingEdited && dotMenuContainer}
                         </div>
                         <div className='post__body'>
-                            <div className={postClass}>
-                                {isPostBeingEdited ? <EditPost/> : (
-                                    <MessageWithAdditionalContent
-                                        post={post}
-                                        previewCollapsed={this.props.previewCollapsed}
-                                        previewEnabled={this.props.previewEnabled}
-                                        isEmbedVisible={this.props.isEmbedVisible}
-                                        pluginPostTypes={this.props.pluginPostTypes}
-                                    />
-                                )}
-                            </div>
+                            <SwitchTransition>
+                                <CSSTransition
+                                    key={isPostBeingEdited ? 'rhs_root_post_editing' : 'rhs_root_post_not_editing'}
+                                    addEndListener={(node, done) => {
+                                        node.addEventListener('transitionend', done, false);
+                                    }}
+                                    classNames='fade'
+                                    onEnter={(node) => {
+                                        // hide the original post when entering editing mode to prevent massive intermitant
+                                        // height changes in between state transitions
+                                        if (isPostBeingEdited) {
+                                            node.firstChild.classList.add('hide-element');
+                                        } else {
+                                            node.firstChild.classList.remove('hide-element');
+                                        }
+                                    }}
+                                >
+                                    <div className={postClass}>
+                                        <div>
+                                            <MessageWithAdditionalContent
+                                                post={post}
+                                                previewCollapsed={this.props.previewCollapsed}
+                                                previewEnabled={this.props.previewEnabled}
+                                                isEmbedVisible={this.props.isEmbedVisible}
+                                                pluginPostTypes={this.props.pluginPostTypes}
+                                            />
+                                        </div>
+                                        {isPostBeingEdited && <EditPost/>}
+                                    </div>
+                                </CSSTransition>
+                            </SwitchTransition>
                             {fileAttachment}
                             <ReactionList
                                 post={post}

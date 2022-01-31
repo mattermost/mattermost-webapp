@@ -17,6 +17,7 @@ function editingPost(state = defaultState, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.TOGGLE_EDITING_POST:
         return {
+            ...state,
             ...action.data,
         };
 

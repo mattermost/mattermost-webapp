@@ -16,13 +16,13 @@ import type {GlobalState} from 'types/store';
 
 export function getIsPostBeingEdited(state: GlobalState, postId: string) {
     // TODO@Michel: remove `getIsInlinePostEditingEnabled` once the inline post editing feature is enabled by default
-    return getIsInlinePostEditingEnabled(state) && state.views.posts.editingPost.postId === postId;
+    return getIsInlinePostEditingEnabled(state) && state.views.posts.editingPost.postId === postId && state.views.posts.editingPost.show;
 }
 export function getIsPostBeingEditedInRHS(state: GlobalState, postId: string) {
     const editingPost = getEditingPost(state);
 
     // TODO@Michel: remove `getIsInlinePostEditingEnabled` once the inline post editing feature is enabled by default
-    return getIsInlinePostEditingEnabled(state) && editingPost.isRHS && editingPost.postId === postId;
+    return getIsInlinePostEditingEnabled(state) && editingPost.isRHS && editingPost.postId === postId && state.views.posts.editingPost.show;
 }
 
 export const getEditingPost = createSelector(

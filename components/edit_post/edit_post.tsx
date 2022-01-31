@@ -95,9 +95,31 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
 
     const {formatMessage} = useIntl();
 
+    const shouldScroll = (elementRect: DOMRect, containerRect: DOMRect): boolean => {
+        if (!elementRect || !containerRect) {
+            return false;
+        }
+
+        return elementRect.top < containerRect.top || elementRect.bottom > containerRect.bottom;
+    };
+
     useEffect(() => {
-        const scrollOptions: boolean|ScrollIntoViewOptions = isFirefox() ? {behavior: 'smooth', block: 'nearest'} : false;
-        setTimeout(() => wrapperRef.current?.scrollIntoView(scrollOptions), 0);
+        const className = `post-list__dynamic${editingPost.isRHS ? '--RHS' : ''}`;
+        const postListElement = document.getElementsByClassName(className)[0];
+
+        const elementCR = wrapperRef?.current?.getBoundingClientRect();
+        const parentCR = postListElement?.getBoundingClientRect();
+
+        if (elementCR && parentCR) {
+            // this is to prevent unnecessary scrolling when the container is fully visible
+            // => only scroll when parts are out of view
+            const shouldScrollIntoView = shouldScroll(elementCR, parentCR);
+
+            if (shouldScrollIntoView) {
+                const scrollOptions: boolean|ScrollIntoViewOptions = isFirefox() ? {behavior: 'smooth', block: 'nearest'} : false;
+                wrapperRef?.current?.scrollIntoView(scrollOptions);
+            }
+        }
 
         textboxRef?.current?.focus();
     }, []);

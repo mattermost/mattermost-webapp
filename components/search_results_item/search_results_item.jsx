@@ -4,6 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
+import {SwitchTransition, CSSTransition} from 'react-transition-group';
 
 import {Posts} from 'mattermost-redux/constants/index';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
@@ -195,17 +196,19 @@ export default class SearchResultsItem extends React.PureComponent {
     };
 
     getClassName = () => {
+        const {compactDisplay, isPostBeingEditedInRHS} = this.props;
+
         let className = 'post post--thread';
 
-        if (this.props.compactDisplay) {
+        if (compactDisplay) {
             className += ' post--compact';
         }
 
-        if ((this.state.dropdownOpened || this.state.fileDropdownOpened) && !this.props.isPostBeingEditedInRHS) {
+        if ((this.state.dropdownOpened || this.state.fileDropdownOpened) && !isPostBeingEditedInRHS) {
             className += ' post--hovered';
         }
 
-        if (this.props.isPostBeingEditedInRHS) {
+        if (isPostBeingEditedInRHS) {
             className += ' post--editing';
         }
 
@@ -255,7 +258,7 @@ export default class SearchResultsItem extends React.PureComponent {
     }
 
     render() {
-        const {post, channelIsArchived, teamDisplayName, canReply} = this.props;
+        const {post, channelIsArchived, teamDisplayName, canReply, isPostBeingEditedInRHS} = this.props;
         const channelName = this.getChannelName();
 
         let overrideUsername;
@@ -468,13 +471,35 @@ export default class SearchResultsItem extends React.PureComponent {
                                     {this.renderPostTime()}
                                     {postInfoIcon}
                                 </div>
-                                {!this.props.isPostBeingEditedInRHS && rhsControls}
+                                {!isPostBeingEditedInRHS && rhsControls}
                             </div>
                             <div className='search-item-snippet post__body'>
-                                <div className={postClass}>
-                                    {this.props.isPostBeingEditedInRHS ? <EditPost/> : message}
-                                    {fileAttachment}
-                                </div>
+                                <SwitchTransition>
+                                    <CSSTransition
+                                        key={isPostBeingEditedInRHS ? 'search_results_editing' : 'search_results_not_editing'}
+                                        addEndListener={(node, done) => {
+                                            node.addEventListener('transitionend', done, false);
+                                        }}
+                                        classNames='fade'
+                                        onEnter={(node) => {
+                                            // hide the original post when entering editing mode to prevent massive intermitant
+                                            // height changes in between state transitions
+                                            if (isPostBeingEditedInRHS) {
+                                                node.firstChild.classList.add('hide-element');
+                                            } else {
+                                                node.firstChild.classList.remove('hide-element');
+                                            }
+                                        }}
+                                    >
+                                        <div className={'post__body--transition'}>
+                                            <div className={postClass}>
+                                                <div>{message}</div>
+                                                {isPostBeingEditedInRHS && <EditPost/>}
+                                            </div>
+                                        </div>
+                                    </CSSTransition>
+                                </SwitchTransition>
+                                {fileAttachment}
                             </div>
                             {hasCRTFooter ? (
                                 <ThreadFooter

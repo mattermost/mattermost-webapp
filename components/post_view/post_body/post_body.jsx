@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {SwitchTransition, CSSTransition} from 'react-transition-group';
 
 import {Posts} from 'mattermost-redux/constants';
 
@@ -229,7 +230,29 @@ export default class PostBody extends React.PureComponent {
                     id={`${post.id}_message`}
                     className={`post__body ${mentionHighlightClass} ${ephemeralPostClass} ${postClass}`}
                 >
-                    {isBeingEdited ? <EditPost/> : messageWithAdditionalContent}
+                    <SwitchTransition>
+                        <CSSTransition
+                            key={isBeingEdited ? 'post_body_editing' : 'post_body_not_editing'}
+                            addEndListener={(node, done) => {
+                                node.addEventListener('transitionend', done, false);
+                            }}
+                            classNames='fade'
+                            onEnter={(node) => {
+                                // hide the original post when entering editing mode to prevent massive intermitant
+                                // height changes in between state transitions
+                                if (isBeingEdited) {
+                                    node.firstChild.classList.add('hide-element');
+                                } else {
+                                    node.firstChild.classList.remove('hide-element');
+                                }
+                            }}
+                        >
+                            <div className={'post__body--transition'}>
+                                <div>{messageWithAdditionalContent}</div>
+                                {isBeingEdited && <EditPost/>}
+                            </div>
+                        </CSSTransition>
+                    </SwitchTransition>
                     {fileAttachmentHolder}
                     <ReactionList post={post}/>
                 </div>
