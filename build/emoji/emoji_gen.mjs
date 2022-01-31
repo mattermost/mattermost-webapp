@@ -10,7 +10,7 @@
 * 'mattermost-server/model/emoji_data.go', (if server-dir argument is passed with path to server, otherwise it will be generated in './emoji_data.go'")
 *
 * For help on how to use this script, run:
-* npm run make-emojis -- --server-env ../mattermost-server
+* npm run make-emojis -- --help
 */
 
 import path from 'path';
