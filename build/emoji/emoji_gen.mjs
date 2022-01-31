@@ -32,7 +32,7 @@ const argv = yargs(process.argv.slice(2))
     .scriptName('make-emojis')
     .usage('Usage : npm run $0 -- [args]')
     .example('npm run $0 -- --excluded-emoji-file ./excludedEmojis.txt', 'removes mentioned emojis from the app')
-    .example('npm run $0 -- --server-env ../mattermost-server', 'defines path to emoji_data.go file on server application')
+    .example('npm run $0 -- --server-dir ../mattermost-server', 'path to mattermost-server for copying emoji_data.go file')
     .option('server-env', {
         description: 'Path to emoji_data.go',
         type: 'string',
