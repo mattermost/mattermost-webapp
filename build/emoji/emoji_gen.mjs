@@ -2,23 +2,16 @@
 // See LICENSE.txt for license information.
 
 /*
-* This script will auto generate all the needed files for both the webapp and server to use emojis from emoji-datasource
-* in order to locate the server path, you'll need to define the $SERVER_PATH environment variable,
-* otherwise the file will be placed in the root of the project.
-* if you don't want to set it but for this run you can run it like:
-* $ $SERVER_ENV=<path_to_server> npm run make-emojis
+* This function will generate the emoji files for both the webapp and server to use emojis from emoji-datasource
+* It will generate the following files:
+* 'mattermost-webapp/utils/emoji.jsx'
+* 'mattermost-webapp/sass/components/_emojisprite.scss'
+* 'mattermost-webapp/utils/emoji.json'
+* 'mattermost-server/model/emoji_data.go', (if SERVER_DIR environment variable is declared, otherwise it will be generated in 'mattermost-webapp/emoji_data.go')
 *
-* The script includes support for excluding emojis from the final set used to build the mattermost-webapp package.  To exclude specific emoji follow these steps:
-* 1. Clone https://github.com/mattermost/mattermost-webapp
-* 2. Identify the name of the emojis to be excluded.  You can find this in the Mattermost UI using the emoji picker in the channel view.
-* 3. Create a file with the name of each excluded emoji on a separate line.
-* 4. Use NPM to invoke this tool with the excluded emoji file:
-* `<path to mattermost-webapp git repo>$ npm run make-emojis -- --excluded-emoji-file ./excluded-emoji.txt`
-* 5. Build and package the modified mattermost-webapp repo
-* `<path to mattermost-webapp git repo>$ make package`
-# 6. Use the generated `mattermost-webapp.tar.gz` to overwrite the existing `<Mattermost Installation Directory>/client` folder.  Ensure the files are owned by the Mattermost service account.
-# 7. Restart Mattermost.
- */
+* For help on how to use this script, run:
+* npm run gen-emoji -- --help
+*/
 
 import path from 'path';
 import * as Fs from 'fs/promises';
@@ -36,13 +29,16 @@ const EMOJI_DEFAULT_SKIN = 'default';
 const endResults = [];
 
 const argv = yargs(process.argv.slice(2)).
-    scriptName('emoji_gen').
+    scriptName('make-emojis').
+    usage('Usage : npm run $0 -- [args]').
+    example('npm run $0 -- --excluded-emoji-file ./excludedEmojis.txt', 'removes mentioned emojis from the app').
     option('excluded-emoji-file', {
         description: 'Path to a file containing emoji short names to exclude',
         type: 'string',
     }).
     help().
-    alias('help', 'h').argv;
+    epilog('Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.').
+    argv;
 
 const argsExcludedEmojiFile = argv['excluded-emoji-file'];
 
@@ -213,16 +209,14 @@ function trimPropertiesFromEmoji(emoji) {
 // Extract excluded emoji shortnames as an array
 const excludedEmoji = [];
 if (argsExcludedEmojiFile) {
-    readFileSync(path.normalize(argv['excluded-emoji-file']), 'utf-8').split(/\r?\n/).forEach((line) => {
+    readFileSync(path.normalize(argsExcludedEmojiFile), 'utf-8').split(/\r?\n/).forEach((line) => {
         excludedEmoji.push(line);
     });
-    log(warnLogColor, `[WARNING] The following emoji will be excluded from the webapp: ${excludedEmoji}`);
+    log(warnLogColor, `\n[WARNING] The following emoji(s) will be excluded from the webapp: \n${excludedEmoji}\n`);
 }
 
 // Remove unwanted emoji
-const filteredEmojiJson = jsonData.filter((element) => {
-    return !excludedEmoji.some((e) => element.short_names.includes(e));
-});
+const filteredEmojiJson = jsonData.filter((element) => !excludedEmoji.some((e) => element.short_names.includes(e)));
 
 // populate skin tones as full emojis
 const fullEmoji = [...filteredEmojiJson];
@@ -376,8 +370,7 @@ var SystemEmojis = map[string]string{${emojiImagesByAlias.join(', ')}}
 const goPromise = writeFile('emoji_data.go', 'emoji_data.go', emojiGo);
 endResults.push(goPromise);
 
-// If SERVER_DIR is defined we can update the file emoji_data.go in
-// the server directory
+// If SERVER_DIR is defined we can update the file emoji_data.go in the server directory
 // eslint-disable-next-line no-process-env
 if (process.env.SERVER_DIR) {
     // eslint-disable-next-line no-process-env
@@ -392,7 +385,7 @@ if (process.env.SERVER_DIR) {
         });
     });
 } else {
-    log(warnLogColor, '[WARNING] $SERVER_DIR environment variable is not set, `emoji_data.go` will be located in the root of the project, remember to move it to the server');
+    log(warnLogColor, '\n[WARNING] $SERVER_DIR environment variable is not set, `emoji_data.go` will be located in the root of the project, remember to move it to the server\n');
 }
 
 // sprite css file
@@ -448,7 +441,7 @@ ${cssEmojis.join('\n')};
 endResults.push(writeFile('_emojisprite.scss', 'sass/components/_emojisprite.scss', cssRules));
 
 Promise.all(endResults).then(() => {
-    log(warnLogColor, '\nRemember to run `make i18n-extract` as categories might have changed.');
+    log(warnLogColor, '\n[WARNING] Remember to run `make i18n-extract` as categories might have changed.');
 }).catch((err) => {
     control.abort(); // cancel any other file writing
     log(errorLogColor, `[ERROR] There was an error writing emojis: ${err}`);

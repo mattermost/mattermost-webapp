@@ -295,6 +295,7 @@ export default class Post extends React.PureComponent {
         }
 
         if (this.props.compactDisplay) {
+            sameUserClass = '';
             className += ' post--compact';
         }
 

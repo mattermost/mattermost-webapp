@@ -421,9 +421,8 @@ describe('Integrations page', () => {
         // * Verify our created command is in the list
         cy.findByText(commandTitle).should('exist').and('be.visible').scrollIntoView();
 
-        cy.uiCloseAnnouncementBar().then(() => {
-            cy.findByText('Back to Mattermost').should('exist').and('be.visible').click();
-        });
+        // # Return to channels
+        cy.visit(`${testTeam.name}/channels/town-square`);
 
         const first2LettersOfCommandTrigger = commandTrigger.slice(0, 2);
 
