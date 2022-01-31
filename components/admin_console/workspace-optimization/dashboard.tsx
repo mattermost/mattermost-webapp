@@ -18,6 +18,7 @@ import PerformanceSvg from 'components/common/svg_images_components/performance_
 import SecuritySvg from 'components/common/svg_images_components/security_svg';
 import DataPrivacySvg from 'components/common/svg_images_components/data_privacy_svg';
 import EasyManagementSvg from 'components/common/svg_images_components/easy_management_svg';
+import SuccessIconSvg from 'components/common/svg_images_components/success_icon_svg';
 
 import {testSiteURL} from '../../../actions/admin_actions';
 import FormattedAdminHeader from '../../widgets/admin_console/formatted_admin_header';
@@ -63,6 +64,15 @@ const AccordionItem = styled.div<{iconColor: string}>`
         font-weight: bold;
     }
 `;
+
+const successIcon = (
+    <div className='success'>
+        <SuccessIconSvg
+            height={20}
+            width={20}
+        />
+    </div>
+);
 
 const WorkspaceOptimizationDashboard = (props: Props) => {
     const [loading, setLoading] = useState(true);
@@ -140,10 +150,12 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
             title: 'Updates and Errors',
             description: 'You have an update to consider',
             icon: (
-                <UpdatesAndErrorsSvg
-                    width={22}
-                    height={22}
-                />
+                <div className='icon'>
+                    <UpdatesAndErrorsSvg
+                        width={22}
+                        height={22}
+                    />
+                </div>
             ),
             items: [
                 {
@@ -160,10 +172,12 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
             title: 'Configuration',
             description: 'You have configuration problems to resolve',
             icon: (
-                <ConfigurationSvg
-                    width={20}
-                    height={20}
-                />
+                <div className='icon'>
+                    <ConfigurationSvg
+                        width={20}
+                        height={20}
+                    />
+                </div>
             ),
             items: [
                 {
@@ -184,14 +198,29 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                 },
             ],
         },
+        access2: {
+            title: 'Workspace Access',
+            description: 'Access to your workspace seems available',
+            icon: (
+                <div className='icon'>
+                    <WorkspaceAccessSvg
+                        width={20}
+                        height={20}
+                    />
+                </div>
+            ),
+            items: [],
+        },
         access: {
             title: 'Workspace Access',
             description: 'Web server settings could be affecting access.',
             icon: (
-                <WorkspaceAccessSvg
-                    width={20}
-                    height={20}
-                />
+                <div className='icon'>
+                    <WorkspaceAccessSvg
+                        width={20}
+                        height={20}
+                    />
+                </div>
             ),
             items: [
                 {
@@ -208,10 +237,12 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
             title: 'Performance',
             description: 'Your server could use some performance tweaks.',
             icon: (
-                <PerformanceSvg
-                    width={20}
-                    height={20}
-                />
+                <div className='icon'>
+                    <PerformanceSvg
+                        width={20}
+                        height={20}
+                    />
+                </div>
             ),
             items: [
                 {
@@ -228,10 +259,12 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
             title: 'Security Concerns',
             description: 'There are security concerns you should look at.',
             icon: (
-                <SecuritySvg
-                    width={20}
-                    height={20}
-                />
+                <div className='icon'>
+                    <SecuritySvg
+                        width={20}
+                        height={20}
+                    />
+                </div>
             ),
             items: [
                 {
@@ -248,10 +281,12 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
             title: 'Data Privacy',
             description: 'Get better insight and control over your data.',
             icon: (
-                <DataPrivacySvg
-                    width={20}
-                    height={20}
-                />
+                <div className='icon'>
+                    <DataPrivacySvg
+                        width={20}
+                        height={20}
+                    />
+                </div>
             ),
             items: [
                 {
@@ -268,10 +303,12 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
             title: 'Ease of management',
             description: 'We have suggestions that could make your managemenet easier.',
             icon: (
-                <EasyManagementSvg
-                    width={20}
-                    height={20}
-                />
+                <div className='icon'>
+                    <EasyManagementSvg
+                        width={20}
+                        height={20}
+                    />
+                </div>
             ),
             items: [
                 {
@@ -341,7 +378,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         return {
             title,
             description,
-            icon,
+            icon: items.length === 0 ? successIcon : icon,
             items,
             extraContent: <ChipsList chipsData={accordionDataChips}/>,
         };

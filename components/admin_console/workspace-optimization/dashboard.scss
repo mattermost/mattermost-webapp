@@ -165,17 +165,19 @@
                 background-color: var(--sys-center-channel-bg);
 
                 &__icon {
-                    z-index: 1;
-                    display: flex;
-                    width: 44px;
-                    height: 44px;
-                    justify-content: center;
-                    background-color: rgba(63, 67, 80, 0.16);
-                    border-radius: 50%;
-
-                    >svg {
-                        z-index: 2;
-                        align-self: center;
+                    div {
+                        z-index: 1;
+                        display: flex;
+                        width: 44px;
+                        height: 44px;
+                        justify-content: center;
+                        align-items: center;
+                        background-color: rgba(var(--sys-denim-center-channel-text-rgb), 0.16);
+                        border-radius: 50%;
+    
+                        &.success {
+                            background-color: rgba(var(--sys-online-indicator-rgb), 0.16);
+                        }
                     }
                 }
 
