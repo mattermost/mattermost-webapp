@@ -2,11 +2,9 @@
     position: relative;
     left: 100px;
     width: 1px;
-    background-color: black;
+    background-color: rgba(var(--center-channel-color-rgb), 0.24);
 
     &--no-left {
         left: initial;
     }
-
-    /* background-color: rgba(var(--center-channel-rgb), 0.24); */
 }

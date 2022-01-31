@@ -104,7 +104,7 @@ export default function PreparingWorkspace(props: Props & RouteComponentProps) {
     }, []);
 
     const sendForm = async () => {
-        setSubmissionState(SubmissionStates.Presubmit);
+        setSubmissionState(SubmissionStates.Submitting);
         dispatch(savePreferences(user.id, [
             {
                 category: Constants.Preferences.ONBOARDING,
@@ -128,7 +128,7 @@ export default function PreparingWorkspace(props: Props & RouteComponentProps) {
             } catch (e) {
                 // TODO: show error to user?
                 // maybe a toast on the main screen?
-                console.error(`error setting up plugins ${e}`); //eslint-disable-line no-console
+                console.error(`error setting up plugins ${e}`); // eslint-disable-line no-console
             }
         }
 
@@ -143,7 +143,7 @@ export default function PreparingWorkspace(props: Props & RouteComponentProps) {
 
         let redirectChannel: Channel | null = null;
         if (!form.channel.skipped) {
-            const {data: channel, error} = dispatch(createChannel(makeNewEmptyChannel(form.channel.name, team.id), user.id)) as ActionResult;
+            const {data: channel, error} = await dispatch(createChannel(makeNewEmptyChannel(form.channel.name, team.id), user.id)) as ActionResult;
             redirectChannel = channel;
             if (error) {
                 // TODO: Ruh Roah. Show some error?
@@ -153,24 +153,23 @@ export default function PreparingWorkspace(props: Props & RouteComponentProps) {
         }
 
         if (!form.teamMembers.skipped) {
-            // invite to team/channels gracefully
-            // TODO: Does on prem have a team at this point? May need to insert the team from creation on a prior screen.
-            dispatch(sendEmailInvitesToTeamGracefully(team.id, form.teamMembers.invites));
+            const inviteResult = await dispatch(sendEmailInvitesToTeamGracefully(team.id, form.teamMembers.invites));
+            console.log('inviteResult'); // eslint-disable-line no-console
+            console.log(inviteResult); // eslint-disable-line no-console
         }
 
         setSubmissionState(SubmissionStates.SubmitSuccess);
 
         setTimeout(() => {
+            // i.e. TransitioningOut
             makeNext(WizardSteps.InviteMembers)();
 
             setTimeout(() => {
                 if (redirectChannel) {
-                    dispatch(switchToChannel(redirectChannel.name));
+                    dispatch(switchToChannel(redirectChannel));
                 }
-            }, 12345);
+            }, 2345);
         }, DISPLAY_SUCCESS_TIME);
-
-        // i.e. TransitioningOut
     };
 
     useEffect(() => {
