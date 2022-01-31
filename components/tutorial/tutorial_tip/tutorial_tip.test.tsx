@@ -17,10 +17,12 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
         step: 1,
         currentStep: 1,
         autoTour: false,
+        isAdmin: false,
         actions: {
             closeRhsMenu: jest.fn(),
             savePreferences: jest.fn(),
             setFirstChannelName: jest.fn(),
+            setProductMenuSwitcherOpen: jest.fn(),
         },
         screen: <></>,
         placement: 'right',
@@ -35,8 +37,9 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
         const savePreferences = jest.fn();
         const closeRhsMenu = jest.fn();
         const setFirstChannelName = jest.fn();
+        const setProductMenuSwitcherOpen = jest.fn();
 
-        const props = {...requiredProps, actions: {closeRhsMenu, savePreferences, setFirstChannelName}};
+        const props = {...requiredProps, actions: {closeRhsMenu, savePreferences, setFirstChannelName, setProductMenuSwitcherOpen}};
         const wrapper = shallow<TutorialTip>(
             <TutorialTip {...props}/>,
         );
@@ -73,11 +76,12 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
         const savePreferences = jest.fn();
         const closeRhsMenu = jest.fn();
         const setFirstChannelName = jest.fn();
+        const setProductMenuSwitcherOpen = jest.fn();
         const mockEvent = {
             preventDefault: jest.fn(),
         } as unknown as React.MouseEvent<HTMLAnchorElement>;
 
-        const props = {...requiredProps, actions: {closeRhsMenu, savePreferences, setFirstChannelName}};
+        const props = {...requiredProps, actions: {closeRhsMenu, savePreferences, setFirstChannelName, setProductMenuSwitcherOpen}};
         const wrapper = shallow<TutorialTip>(
             <TutorialTip {...props}/>,
         );

@@ -60,7 +60,7 @@ type Props = {
     extraFunc?: Function;
 
     // the text to show on the button of last step of the tutorial
-    customLastStepButtonText: {
+    customLastStepButtonText?: {
         id: string;
         defaultMessage: string;
     };
