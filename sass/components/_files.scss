@@ -289,9 +289,11 @@
                     // greater z-index than img
                     position: absolute;
                     z-index: 3;
+                    right: 2px;
                     display: none;
                     padding: 2px;
-                    margin: 4px;
+                    margin-top: 4px;
+                    margin-right: 2px;
                     background-color: var(--center-channel-bg);
                     border-radius: 4px;
 
@@ -306,7 +308,7 @@
                         color: rgba(var(--center-channel-color-rgb), 0.56);
 
                         &:hover {
-                            background-color: rgba(var(--denim-center-channel-text-rgb), 0.08);
+                            background-color: rgba(var(--center-channel-color-rgb), 0.08);
                             text-decoration: none;
                         }
 
@@ -317,16 +319,16 @@
 
                         // handle 'copy successful' styles
                         .icon-check {
-                            color: var(--denim-status-online);
+                            color: var(--online-indicator);
                         }
                     }
 
                     // handle 'copy successful' styles
                     button.size-aware-image__copy_link--recently_copied {
-                        background: rgba(var(--denim-status-online-rgb), 0.16);
+                        background: rgba(var(--online-indicator-rgb), 0.16);
 
                         &:hover {
-                            background: rgba(var(--denim-status-online-rgb), 0.16);
+                            background: rgba(var(--online-indicator-rgb), 0.16);
                         }
                     }
 

@@ -212,12 +212,11 @@ export default class SizeAwareImage extends React.PureComponent {
                     aria-label='Copy Link to Asset'
                     onClick={this.copyLinkToAsset}
                 >
-                    {!this.state.linkCopiedRecently &&
-                        <i className='icon icon-link-variant style--none'/>
-                    }
-                    {this.state.linkCopiedRecently &&
+                    {this.state.linkCopiedRecently ? (
                         <i className='icon icon-check style--none'/>
-                    }
+                    ) : (
+                        <i className='icon icon-link-variant style--none'/>
+                    )}
                 </button>
             </OverlayTrigger>
         );
@@ -275,7 +274,7 @@ export default class SizeAwareImage extends React.PureComponent {
         }
 
         return (
-            <div className={classNames('image-loaded-container')}>
+            <figure className={classNames('image-loaded-container')}>
                 {image}
                 <span
                     className={classNames('image-preview-utility-buttons-container')}
@@ -283,7 +282,7 @@ export default class SizeAwareImage extends React.PureComponent {
                     {copyLink}
                     {download}
                 </span>
-            </div>
+            </figure>
         );
     }
 
