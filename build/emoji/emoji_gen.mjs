@@ -7,7 +7,7 @@
 * 'mattermost-webapp/utils/emoji.jsx'
 * 'mattermost-webapp/sass/components/_emojisprite.scss'
 * 'mattermost-webapp/utils/emoji.json'
-* 'mattermost-server/model/emoji_data.go', (if server-env flag is passed, otherwise it will be generated in 'mattermost-webapp/emoji_data.go')
+* 'mattermost-server/model/emoji_data.go', (if server-dir argument is passed with path to server, otherwise it will be generated in './emoji_data.go'")
 *
 * For help on how to use this script, run:
 * npm run make-emojis -- --server-env ../mattermost-server
