@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import classNames from 'classnames';
+
 import {
     OpenGraphMetadata,
     OpenGraphMetadataImage,
@@ -200,7 +202,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent<Props> 
         if (data.description || imageUrl) {
             body = (
                 <div className={'attachment__body attachment__body--opengraph'}>
-                    <div className={this.props.isInPermalink ? 'permalink__body--opengraph' : ''}>
+                    <div className={classNames({'permalink__body--opengraph': this.props.isInPermalink})}>
                         {this.truncateText(data.description)}
                         {' '}
                         {imageUrl && hasLargeImage && this.renderImageToggle()}
@@ -211,7 +213,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent<Props> 
         }
 
         return (
-            <div className={this.props.isInPermalink ? 'attachment attachment--opengraph permalink' : 'attachment attachment--opengraph'}>
+            <div className='attachment attachment--opengraph'>
                 <div className='attachment__content'>
                     <div className={'clearfix attachment__container attachment__container--opengraph'}>
                         <div className={'attachment__body__wrap attachment__body__wrap--opengraph'}>
