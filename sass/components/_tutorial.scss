@@ -300,7 +300,6 @@ $tip-index: 1000;
             border-right-color: var(--center-channel-bg);
             border-left-width: 0;
         }
-
     }
 
     &.tip-overlay--chat {
@@ -411,9 +410,9 @@ $tip-index: 1000;
     }
 
     &.tip-overlay--start-trial {
+        top: 80px;
         right: 0;
         left: unset;
-        top: 80px;
     }
 
     &.tip-overlay--header {
