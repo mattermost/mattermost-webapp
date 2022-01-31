@@ -74,7 +74,7 @@ describe('Custom emojis', () => {
         cy.uiSave().wait(TIMEOUTS.THREE_SEC);
 
         // # Go back to home channel
-        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(townsquareLink);
 
         // # Post a message
         cy.postMessage(messageText);
@@ -145,7 +145,7 @@ describe('Custom emojis', () => {
         cy.uiSave().wait(TIMEOUTS.THREE_SEC);
 
         // # Go back to home channel
-        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(townsquareLink);
 
         // # Post a message
         cy.postMessage(messageText);
@@ -184,7 +184,7 @@ describe('Custom emojis', () => {
         cy.uiSave().wait(TIMEOUTS.THREE_SEC);
 
         // # Go back to home channel
-        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(townsquareLink);
 
         // # Post a message with the emoji
         cy.postMessage(customEmojiWithColons);
@@ -203,9 +203,11 @@ describe('Custom emojis', () => {
             cy.findAllByText('Delete').should('have.length', 1).click();
         });
 
-        // # Confirm deletion and back to main channel view
+        // # Confirm deletion
         cy.get('#confirmModalButton').should('be.visible').click();
-        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+
+        // # Go back to home channel
+        cy.visit(townsquareLink);
 
         cy.reload();
 
@@ -246,7 +248,7 @@ describe('Custom emojis', () => {
         cy.uiSave().wait(TIMEOUTS.THREE_SEC);
 
         // # Go back to home channel
-        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(townsquareLink);
 
         // # Post a message to which we will react with the custom emoji
         cy.postMessage(MESSAGES.TINY);
@@ -285,9 +287,11 @@ describe('Custom emojis', () => {
             cy.findAllByText('Delete').should('have.length', 1).click();
         });
 
-        // # Confirm deletion and back to main channel view
+        // # Confirm deletion
         cy.get('#confirmModalButton').should('be.visible').click();
-        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+
+        // # Go back to home channel
+        cy.visit(townsquareLink);
 
         cy.reload();
 

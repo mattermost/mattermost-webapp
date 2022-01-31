@@ -8,7 +8,6 @@ import {General, Preferences} from 'mattermost-redux/constants';
 import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {
-    AddChannelButtonTreatments,
     AutoTourTreatments,
     AddMembersToChanneltreatments,
 } from 'mattermost-redux/constants/config';
@@ -205,10 +204,6 @@ export function isCollapsedThreadsEnabled(state: GlobalState): boolean {
 
 export function isGroupChannelManuallyVisible(state: GlobalState, channelId: string): boolean {
     return getBool(state, Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channelId, false);
-}
-
-export function getAddChannelButtonTreatment(state: GlobalState): AddChannelButtonTreatments | undefined {
-    return getFeatureFlagValue(state, 'AddChannelButton') as AddChannelButtonTreatments | undefined;
 }
 
 export function getAutoTourTreatment(state: GlobalState): AutoTourTreatments | undefined {

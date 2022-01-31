@@ -11,8 +11,6 @@ import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 
-import {AddChannelButtonTreatments} from 'mattermost-redux/constants/config';
-
 import AddChannelTutorialTip from './add_channel_tutorial_tip';
 
 type Props = {
@@ -28,7 +26,6 @@ type Props = {
     townSquareDisplayName: string;
     offTopicDisplayName: string;
     showTutorialTip: boolean;
-    addChannelButton?: AddChannelButtonTreatments;
 };
 
 type State = {
@@ -36,28 +33,6 @@ type State = {
 };
 
 class AddChannelDropdown extends React.PureComponent<Props, State> {
-    getClassModifierForAbTest(): string {
-        let modifier = '';
-        if (!this.props.addChannelButton) {
-            return '';
-        }
-        switch (this.props.addChannelButton) {
-        case AddChannelButtonTreatments.NONE:
-            modifier = '';
-            break;
-        case AddChannelButtonTreatments.BY_TEAM_NAME:
-            modifier = 'by-team-name';
-            break;
-        case AddChannelButtonTreatments.INVERTED_SIDEBAR_BG_COLOR:
-            modifier = 'inverted-sidebar-bg-color';
-            break;
-        default:
-            modifier = '';
-        }
-
-        return modifier ? ` AddChannelDropdown_dropdownButton--${modifier}` : modifier;
-    }
-
     renderDropdownItems = () => {
         const {intl, canCreateChannel, canJoinPublicChannel} = this.props;
 
@@ -163,7 +138,6 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
                 <AddChannelTutorialTip
                     townSquareDisplayName={this.props.townSquareDisplayName}
                     offTopicDisplayName={this.props.offTopicDisplayName}
-                    addChannelButton={this.props.addChannelButton}
                 />
             );
         }
@@ -180,7 +154,7 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
                 >
                     <>
                         <button
-                            className={'AddChannelDropdown_dropdownButton' + this.getClassModifierForAbTest()}
+                            className={'AddChannelDropdown_dropdownButton'}
                             aria-label={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Dropdown'})}
                         >
                             <i className='icon-plus'/>
