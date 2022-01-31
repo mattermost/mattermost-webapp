@@ -7,7 +7,7 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {Action} from 'mattermost-redux/types/actions';
 import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getInt, shouldShowUnreadsCategory, getAddChannelButtonTreatment} from 'mattermost-redux/selectors/entities/preferences';
+import {getInt, shouldShowUnreadsCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {openModal, closeModal} from 'actions/views/modals';
@@ -48,7 +48,6 @@ function mapStateToProps(state: GlobalState) {
         canGoBack: true, // TODO: Phase 1 only
         canGoForward: true,
         showUnreadsCategory: shouldShowUnreadsCategory(state),
-        addChannelButton: getAddChannelButtonTreatment(state),
         isQuickSwitcherOpen: isModalOpen(state, ModalIdentifiers.QUICK_SWITCH),
     };
 }
