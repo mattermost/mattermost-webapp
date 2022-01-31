@@ -10,6 +10,7 @@ import LeftControls from './left_controls/left_controls';
 import RightControls from './right_controls/right_controls';
 
 import {useCurrentProductId, useIsLoggedIn, useProducts} from './hooks';
+import TaskList from '../global_onboarding_list/onboarding_checklist';
 
 const GlobalHeaderContainer = styled.header`
     position: relative;
@@ -43,11 +44,14 @@ const GlobalHeader = (): JSX.Element | null => {
     }
 
     return (
+        <>
         <GlobalHeaderContainer id='global-header'>
             <LeftControls/>
             <CenterControls productId={currentProductID}/>
             <RightControls productId={currentProductID}/>
         </GlobalHeaderContainer>
+        <TaskList/>
+        </>
     );
 };
 
