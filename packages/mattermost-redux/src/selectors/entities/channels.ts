@@ -336,6 +336,20 @@ export const getChannelSetInCurrentTeam: (state: GlobalState) => string[] = crea
     },
 );
 
+export const getChannelSetForAllTeams: (state: GlobalState) => string[] = createSelector(
+    'getChannelSetForAllTeams',
+    getAllChannels,
+    (allChannels): string[] => {
+        const channelSet: string[] = [];
+        Object.values(allChannels).forEach((channel: Channel) => {
+            if (channel.type !== General.GM_CHANNEL && channel.type !== General.DM_CHANNEL) {
+                channelSet.push(channel.id);
+            }
+        });
+        return channelSet;
+    },
+);
+
 function sortAndInjectChannels(channels: IDMappedObjects<Channel>, channelSet: string[], locale: string): Channel[] {
     const currentChannels: Channel[] = [];
 
@@ -363,6 +377,17 @@ export const getChannelsInCurrentTeam: (state: GlobalState) => Channel[] = creat
         }
 
         return sortAndInjectChannels(channels, currentTeamChannelSet, locale);
+    },
+);
+
+export const getChannelsInAllTeams: (state: GlobalState) => Channel[] = createSelector(
+    'getChannelsInAllTeams',
+    getAllChannels,
+    getChannelSetForAllTeams,
+    getCurrentUser,
+    (channels: IDMappedObjects<Channel>, getChannelSetForAllTeams: string[], currentUser: UserProfile): Channel[] => {
+        const locale = currentUser?.locale || General.DEFAULT_LOCALE;
+        return sortAndInjectChannels(channels, getChannelSetForAllTeams, locale);
     },
 );
 

@@ -10,7 +10,6 @@ import {persistStore} from 'redux-persist';
 
 import {General, RequestStatus} from 'mattermost-redux/constants';
 import configureServiceStore from 'mattermost-redux/store';
-import reduxInitialState from 'mattermost-redux/store/initial_state';
 
 import {storageRehydrate, rehydrateDrafts} from 'actions/storage';
 import {clearUserCookie} from 'actions/views/cookie';
@@ -108,11 +107,6 @@ export default function configureStore(initialState) {
                             // Preserve any query string parameters on logout, including parameters
                             // used by the application such as extra and redirect_to.
                             window.location.href = `${basePath}${window.location.search}`;
-
-                            store.dispatch({
-                                type: General.OFFLINE_STORE_RESET,
-                                data: Object.assign({}, reduxInitialState, initialState),
-                            });
 
                             setTimeout(() => {
                                 purging = false;
