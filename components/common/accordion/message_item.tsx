@@ -10,7 +10,7 @@ type Props = {
     severity: 'info' | 'warning' | 'error';
 }
 
-const MessageItem: React.FC<Props> = ({title, description}: Props): JSX.Element | null => {
+const MessageItem = ({title, description}: Props): JSX.Element | null => {
     return (
         <div className='message-item'>
             <h2 className='message-item-title'>

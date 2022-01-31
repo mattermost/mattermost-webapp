@@ -37,7 +37,7 @@ const AccordionItem = ({
     };
 
     useEffect(() => {
-        if (!contentRef?.current) {
+        if (!contentRef?.current || data.items.length === 0) {
             return;
         }
         if (isExpanded) {
@@ -75,9 +75,9 @@ const AccordionItem = ({
                         {data.extraContent}
                     </div>
                 )}
-                <div className='accordion-item-header__chevron'>
+                {data.items.length > 0 && <div className='accordion-item-header__chevron'>
                     <i className='icon-chevron-down'/>
-                </div>
+                </div>}
             </div>
             <div
                 className='accordion-item-container'
