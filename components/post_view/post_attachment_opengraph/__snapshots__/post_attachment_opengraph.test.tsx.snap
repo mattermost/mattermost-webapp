@@ -2,7 +2,7 @@
 
 exports[` 1`] = `
 <div
-  className="attachment attachment--opengraph permalink"
+  className="attachment attachment--opengraph"
 >
   <div
     className="attachment__content"
