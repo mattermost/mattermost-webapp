@@ -23,14 +23,16 @@ export type Draft = Info & {
 export type DraftSelector = (state: GlobalState) => Draft[];
 export type DraftCountSelector = (state: GlobalState) => number;
 
-function getMyActiveChannels(state: GlobalState) {
-    return getMyChannels(state).flatMap((chan) => {
+const getMyActiveChannels = createSelector(
+    'getMyActiveChannels',
+    getMyChannels,
+    (channels) => channels.flatMap((chan) => {
         if (chan.delete_at > 0) {
             return [];
         }
         return chan.id;
-    });
-}
+    }),
+);
 
 function getInfoFromKey(key: string, prefix: string): Info|null {
     const keyArr = key.split('_');
@@ -101,7 +103,7 @@ export function makeGetDrafts(): DraftSelector {
             [...channelDrafts, ...rhsDrafts]
         ).
             filter((draft) => myChannels.indexOf(draft.value.channelId) !== -1).
-            sort((a, b) => new Date(b.value.updateAt).getTime() - new Date(a.value.updateAt).getTime()),
+            sort((a, b) => b.value.updateAt - a.value.updateAt),
     );
 }
 

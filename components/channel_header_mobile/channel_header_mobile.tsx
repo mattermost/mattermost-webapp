@@ -27,7 +27,7 @@ type Props = {
     currentRelativeTeamUrl?: string;
 
     inGlobalThreads?: boolean;
-    inDrafts: boolean;
+    inDrafts?: boolean;
     isMobileView: boolean;
     isMuted?: boolean;
     isReadOnly?: boolean;

@@ -15,12 +15,13 @@ export function removeDraft(key: string) {
 export function updateDraft(key: string, value: PostDraft|null) {
     let updatedValue = null;
     if (value) {
+        const timestamp = new Date().getTime();
         const item = localStorage.getItem(key);
         const data = item ? JSON.parse(item) : {};
         updatedValue = {
             ...value,
-            createAt: data.createAt || new Date(),
-            updateAt: new Date(),
+            createAt: data.createAt || timestamp,
+            updateAt: timestamp,
         };
         localStorage.setItem(key, JSON.stringify(updatedValue));
     } else {

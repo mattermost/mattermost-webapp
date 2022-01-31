@@ -17,7 +17,7 @@ import Avatar from 'components/widgets/users/avatar';
 import './draft_title.scss';
 
 type Props = {
-    channel: Channel;
+    channelType: Channel['type'];
     channelName: string;
     membersCount?: number;
     selfDraft: boolean;
@@ -27,7 +27,7 @@ type Props = {
 }
 
 function DraftTitle({
-    channel,
+    channelType,
     channelName,
     membersCount,
     selfDraft,
@@ -58,11 +58,11 @@ function DraftTitle({
 
     let icon = <i className='icon icon-globe'/>;
 
-    if (channel.type === Constants.PRIVATE_CHANNEL) {
+    if (channelType === Constants.PRIVATE_CHANNEL) {
         icon = <i className='icon icon-lock-outline'/>;
     }
 
-    if (channel.type === Constants.DM_CHANNEL && teammate) {
+    if (channelType === Constants.DM_CHANNEL && teammate) {
         icon = (
             <Avatar
                 size='xs'
@@ -73,7 +73,7 @@ function DraftTitle({
         );
     }
 
-    if (channel.type === Constants.GM_CHANNEL) {
+    if (channelType === Constants.GM_CHANNEL) {
         icon = (
             <div className='DraftTitle__group-icon'>
                 {membersCount}
@@ -83,8 +83,8 @@ function DraftTitle({
 
     if (type === 'thread') {
         if (
-            channel.type !== Constants.GM_CHANNEL &&
-            channel.type !== Constants.DM_CHANNEL
+            channelType !== Constants.GM_CHANNEL &&
+            channelType !== Constants.DM_CHANNEL
         ) {
             return (
                 <>
@@ -119,8 +119,8 @@ function DraftTitle({
     }
 
     if (
-        channel.type !== Constants.GM_CHANNEL &&
-        channel.type !== Constants.DM_CHANNEL
+        channelType !== Constants.GM_CHANNEL &&
+        channelType !== Constants.DM_CHANNEL
     ) {
         return (
             <FormattedMessage

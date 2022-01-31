@@ -24,8 +24,8 @@ export type PostDraft = {
     props?: any;
     caretPosition?: number;
     channelId: string;
-    createAt: Date;
-    updateAt: Date;
+    createAt: number;
+    updateAt: number;
     show?: boolean;
 };
 

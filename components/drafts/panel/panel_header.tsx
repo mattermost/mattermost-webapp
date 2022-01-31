@@ -27,7 +27,7 @@ const TIMESTAMP_PROPS: Partial<ComponentProps<typeof Timestamp>> = {
 type Props = {
     actions: React.ReactNode;
     hover: boolean;
-    timestamp: Date;
+    timestamp: number;
     title: React.ReactNode;
 }
 

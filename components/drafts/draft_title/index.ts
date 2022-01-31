@@ -49,6 +49,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 
     return {
         channelName,
+        channelType: channel.type,
         membersCount,
         selfDraft: teammateId === userId,
         teammate,

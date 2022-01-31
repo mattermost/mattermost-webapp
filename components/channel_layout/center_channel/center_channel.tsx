@@ -26,6 +26,7 @@ const LazyGlobalThreads = makeAsyncComponent(
 );
 
 const LazyDrafts = makeAsyncComponent(
+    'LazyDrafts',
     React.lazy(() => import('components/drafts')),
     (
         <div className='app__content'>

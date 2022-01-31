@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useRef} from 'react';
+import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import classNames from 'classnames';
 
@@ -19,8 +19,6 @@ type Props = {
 };
 
 function Action({name, icon, onClick, id, tooltipText}: Props) {
-    const buttonRef = useRef<HTMLButtonElement>(null);
-
     return (
         <div className='DraftAction'>
             <OverlayTrigger
@@ -37,7 +35,6 @@ function Action({name, icon, onClick, id, tooltipText}: Props) {
                 }
             >
                 <button
-                    ref={buttonRef}
                     className={classNames(
                         'DraftAction__button',
                         {'DraftAction__button--delete': name === 'delete'},
