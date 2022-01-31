@@ -5,7 +5,6 @@ import React, {memo, useMemo, useCallback} from 'react';
 import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 
-import {$ID} from 'mattermost-redux/types/utilities';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile, UserStatus} from 'mattermost-redux/types/users';
 
@@ -24,7 +23,7 @@ type Props = {
     channelUrl: string;
     displayName: string;
     draftId: string;
-    id: $ID<Channel>;
+    id: Channel['id'];
     status: UserStatus['status'];
     type: 'channel' | 'thread';
     user: UserProfile;

@@ -5,7 +5,6 @@ import React, {memo, useCallback, useMemo, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 
 import {getPost} from 'mattermost-redux/actions/posts';
-import {$ID} from 'mattermost-redux/types/utilities';
 import {UserThread, UserThreadSynthetic} from 'mattermost-redux/types/threads';
 import {Channel} from 'mattermost-redux/types/channels';
 import {Post} from 'mattermost-redux/types/posts';
@@ -27,7 +26,7 @@ type Props = {
     channel: Channel;
     displayName: string;
     draftId: string;
-    id: $ID<UserThread | UserThreadSynthetic>;
+    id: UserThread['id'] | UserThreadSynthetic['id'];
     status: UserStatus['status'];
     thread?: UserThread | UserThreadSynthetic;
     type: 'channel' | 'thread';
