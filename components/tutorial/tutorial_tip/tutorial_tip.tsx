@@ -282,23 +282,13 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
     }
 
     private getLastStep(tutorialSteps: Record<string, number>, category: string) {
-        let steps = tutorialSteps;
-
-        // temporary fix for filtering tutorial_step category based on role
-        // however this could work if TutorialSteps are converted to an enum and tips for only admins added last to the enum
-        if (category === Preferences.TUTORIAL_STEP) {
-            steps = Object.keys(steps).filter((key) => {
-                if (!this.props.isAdmin && key === 'START_TRIAL') {
-                    return false;
-                }
-                return true;
-            }).reduce((res, key) => {
-                res[key] = tutorialSteps[key];
-                return res;
-            }, {} as any);
+        // temporary fix for filtering tutorial_step category based on role. In this case, START_TRIAL point is
+        // only accessible by admins
+        if (!this.props.isAdmin && category === Preferences.TUTORIAL_STEP) {
+            delete tutorialSteps.START_TRIAL;
         }
 
-        return Object.values(steps).reduce((maxStep, candidateMaxStep) => {
+        return Object.values(tutorialSteps).reduce((maxStep, candidateMaxStep) => {
             // ignore the "opt out" FINISHED step as the max step.
             if (candidateMaxStep > maxStep && candidateMaxStep !== tutorialSteps.FINISHED) {
                 return candidateMaxStep;

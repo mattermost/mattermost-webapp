@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable no-warning-comments */
+
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
@@ -170,7 +172,7 @@ describe('Onboarding ADMIN', () => {
             and('contain', 'Invite people');
 
         // # Close the admin UI and inviting people tip
-        // Investigate why ENTER key does not work
+        // TODO (allan guwatudde): Investigate why ENTER key does not work
         cy.get(selectors.tipNext).click();
 
         // # Click the the next(settings) tip
