@@ -354,7 +354,10 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                 defaultMessage='Workspace Optimization'
             />
             <div className='admin-console__wrapper'>
-                <OverallScore chips={<ChipsList chipsData={overallScoreChips}/>}/>
+                <OverallScore
+                    chips={<ChipsList chipsData={overallScoreChips}/>}
+                    alertImageScore={true}
+                />
                 <Accordion
                     accordionItemsData={accData}
                     expandMultiple={true}
