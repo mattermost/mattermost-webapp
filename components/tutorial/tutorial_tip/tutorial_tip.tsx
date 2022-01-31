@@ -57,7 +57,7 @@ type Props = {
     /*
     extraFunc is a function to run at the end of a tip or on handleSavePreferences
     **/
-    extraFunc?: Function;
+    extraFunc?: () => void;
 
     // the text to show on the button of last step of the tutorial
     customLastStepButtonText?: {
@@ -282,15 +282,17 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
     }
 
     private getLastStep(tutorialSteps: Record<string, number>, category: string) {
+        const tmpSteps = {...tutorialSteps};
+
         // temporary fix for filtering tutorial_step category based on role. In this case, START_TRIAL point is
         // only accessible by admins
         if (!this.props.isAdmin && category === Preferences.TUTORIAL_STEP) {
-            delete tutorialSteps.START_TRIAL;
+            delete tmpSteps.START_TRIAL;
         }
 
-        return Object.values(tutorialSteps).reduce((maxStep, candidateMaxStep) => {
+        return Object.values(tmpSteps).reduce((maxStep, candidateMaxStep) => {
             // ignore the "opt out" FINISHED step as the max step.
-            if (candidateMaxStep > maxStep && candidateMaxStep !== tutorialSteps.FINISHED) {
+            if (candidateMaxStep > maxStep && candidateMaxStep !== tmpSteps.FINISHED) {
                 return candidateMaxStep;
             }
             return maxStep;
