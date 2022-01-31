@@ -18,10 +18,10 @@ import * as Fs from 'fs/promises';
 import {readFileSync} from 'fs';
 
 import yargs from 'yargs';
-import jsonData from 'emoji-datasource/emoji.json' assert {type: 'json'};
-import jsonCategories from 'emoji-datasource/categories.json' assert {type: 'json'};
+import jsonData from 'emoji-datasource/emoji.json';
+import jsonCategories from 'emoji-datasource/categories.json';
 
-import additionalShortnames from './additional_shortnames.json' assert {type: 'json'};
+import additionalShortnames from './additional_shortnames.json';
 
 const EMOJI_SIZE = 64;
 const EMOJI_SIZE_PADDED = EMOJI_SIZE + 2; // 1px per side
@@ -33,7 +33,7 @@ const argv = yargs(process.argv.slice(2))
     .usage('Usage : npm run $0 -- [args]')
     .example('npm run $0 -- --excluded-emoji-file ./excludedEmojis.txt', 'removes mentioned emojis from the app')
     .example('npm run $0 -- --server-dir ../mattermost-server', 'path to mattermost-server for copying emoji_data.go file')
-    .option('server-env', {
+    .option('server-dir', {
         description: 'Path to mattermost-server',
         type: 'string',
     })
@@ -46,6 +46,7 @@ const argv = yargs(process.argv.slice(2))
     .argv;
 
 const argsExcludedEmojiFile = argv['excluded-emoji-file'];
+const argsServerDirectory = argv['server-dir']
 
 // eslint-disable-next-line no-console
 const log = console.log;
@@ -375,11 +376,9 @@ var SystemEmojis = map[string]string{${emojiImagesByAlias.join(', ')}}
 const goPromise = writeFile('emoji_data.go', 'emoji_data.go', emojiGo);
 endResults.push(goPromise);
 
-// If SERVER_DIR is defined we can update the file emoji_data.go in the server directory
-// eslint-disable-next-line no-process-env
-if (argv['server-env']) {
-    // eslint-disable-next-line no-process-env
-    const destination = path.join(argv['server-env'], 'model/emoji_data.go');
+// If server-dir is defined we can update the file emoji_data.go in the server directory
+if (argsServerDirectory) {
+    const destination = path.join(argsServerDirectory, 'model/emoji_data.go');
     goPromise.then(() => {
         // this is an obvious race condition, as goPromise might be the last one, and then executed out of the `all` call below,
         // but it shouldn't be any problem other than a log out of place and a need to do an explicit catch.
@@ -390,7 +389,7 @@ if (argv['server-env']) {
         });
     });
 } else {
-    log(warnLogColor, '\n[WARNING] server-env path not defined, `emoji_data.go` will be located in the root of the project, remember to move it to the server\n');
+    log(warnLogColor, '\n[WARNING] server-dir path not defined, `emoji_data.go` will be located in the root of this project, remember to move it to the server\n');
 }
 
 // sprite css file
