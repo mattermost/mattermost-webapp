@@ -3,7 +3,7 @@
 
 import configureStore from 'store';
 import {getRecentEmojis, getEmojiMap} from 'selectors/emojis';
-import * as EmojiActions from 'actions/emoji_actions';;
+import * as EmojiActions from 'actions/emoji_actions';
 import preferences from 'mattermost-redux/action_types/preferences';
 
 const currentUserId = 'current_user_id';

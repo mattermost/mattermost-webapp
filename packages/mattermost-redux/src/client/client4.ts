@@ -38,7 +38,7 @@ import {
     AdminConfig,
     EnvironmentConfig,
 } from 'mattermost-redux/types/config';
-import {CustomEmoji, RecentEmojiData} from 'mattermost-redux/types/emojis';
+import {CustomEmoji} from 'mattermost-redux/types/emojis';
 import {ServerError} from 'mattermost-redux/types/errors';
 
 import {FileInfo, FileUploadResponse, FileSearchResults} from 'mattermost-redux/types/files';

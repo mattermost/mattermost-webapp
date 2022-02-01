@@ -108,7 +108,6 @@ import {getSiteURL} from 'utils/url';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
 import InteractiveDialog from 'components/interactive_dialog';
-import LocalStorageStore from 'stores/local_storage_store';
 
 const dispatch = store.dispatch;
 const getState = store.getState;

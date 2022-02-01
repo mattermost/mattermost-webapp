@@ -6,17 +6,13 @@ import {createSelector} from 'reselect';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {get, getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
-
-import LocalStorageStore from 'stores/local_storage_store';
+import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 import {Preferences} from 'utils/constants';
 import EmojiMap from 'utils/emoji_map';
 
 import type {GlobalState} from 'types/store';
 import {RecentEmojiData} from 'mattermost-redux/types/emojis';
-import { getPreferenceKey } from 'mattermost-redux/utils/preference_utils';
-import { PreferencesType } from 'mattermost-redux/types/preferences';
 
 export const getEmojiMap = createSelector(
     'getEmojiMap',

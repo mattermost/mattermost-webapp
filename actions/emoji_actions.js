@@ -9,7 +9,6 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getEmojiMap, getRecentEmojis, isCustomEmojiEnabled} from 'selectors/emojis';
 import {isCustomStatusEnabled, makeGetCustomStatus} from 'selectors/views/custom_status';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
-import LocalStorageStore from 'stores/local_storage_store';
 
 import Constants, {ActionTypes, Preferences} from 'utils/constants';
 import {EmojiIndicesByAlias} from 'utils/emoji';

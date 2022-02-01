@@ -3,8 +3,6 @@
 
 import assert from 'assert';
 
-import LocalStorageStore from 'stores/local_storage_store';
-
 import * as Selectors from 'selectors/emojis';
 
 describe('Selectors.Emojis', () => {
