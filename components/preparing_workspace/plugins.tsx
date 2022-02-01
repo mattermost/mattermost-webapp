@@ -43,7 +43,7 @@ const Plugins = (props: Props) => {
             unmountOnExit={true}
         >
             <div className={className}>
-                <PageLine height={'100px'}/>
+                <PageLine style={{height: '100px'}}/>
                 {props.previous}
                 {
                     <MultiSelectCards
@@ -133,7 +133,7 @@ const Plugins = (props: Props) => {
                         />
                     </button>
                 </div>
-                <PageLine height={'calc(100vh - 100px - 400px'}/>
+                <PageLine/>
             </div>
         </CSSTransition>
     );

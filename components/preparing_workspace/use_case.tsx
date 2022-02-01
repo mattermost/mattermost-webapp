@@ -51,12 +51,11 @@ const UseCase = (props: Props) => {
             <div className={className}>
                 <div className='UseCase-left-col'>
                     <PageLine
-                        height={'100px'}
+                        style={{height: '100px'}}
                         noLeft={true}
                     />
                     <LaptopSVG/>
                     <PageLine
-                        height={'calc(100vh - 250px)'}
                         noLeft={true}
                     />
                 </div>

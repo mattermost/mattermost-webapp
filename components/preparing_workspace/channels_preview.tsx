@@ -31,9 +31,10 @@ const ChannelsPreview = (props: Props) => {
             unmountOnExit={true}
         >
             <div className='ChannelsPreview-body'>
-                {props.channelName}
-                {props.teamName}
-                <ChannelsPreviewSVG/>
+                <ChannelsPreviewSVG
+                    channel={props.channelName}
+                    team={props.teamName}
+                />
                 <TeamMembers
                     show={props.step === WizardSteps.InviteMembers}
                     direction={(() => {

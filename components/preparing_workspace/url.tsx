@@ -143,12 +143,11 @@ const Url = (props: Props) => {
             <div className={className}>
                 <div className='Url-left-col'>
                     <PageLine
-                        height={'100px'}
+                        style={{height: '100px'}}
                         noLeft={true}
                     />
                     <LaptopEarthSVG/>
                     <PageLine
-                        height={'calc(100vh - 250px)'}
                         noLeft={true}
                     />
                 </div>

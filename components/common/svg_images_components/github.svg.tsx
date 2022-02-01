@@ -16,7 +16,7 @@ export default () => (
             cx='20.1992'
             cy='20.002'
             r='20'
-            fill='url(pattern-github)'
+            fill='url(#pattern-github)'
         />
         <defs>
             <pattern

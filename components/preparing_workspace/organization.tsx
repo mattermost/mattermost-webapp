@@ -109,7 +109,10 @@ const Organization = (props: Props) => {
                 <div className='Organization-left-col'>
                     <OrganizationSVG/>
                     <PageLine
-                        height={'calc(100vh - 250px)'}
+                        style={{
+                            marginTop: '5px',
+                            height: 'calc(100vh - 311px)',
+                        }}
                         noLeft={true}
                     />
                 </div>
@@ -140,6 +143,7 @@ const Organization = (props: Props) => {
                         onKeyUp={onNext}
                         autoFocus={true}
                     />
+                    {validationHint}
                     <div>
                         <button
                             className='primary-button'
@@ -152,7 +156,6 @@ const Organization = (props: Props) => {
                             />
                         </button>
                     </div>
-                    {validationHint}
                 </div>
             </div>
         </CSSTransition>

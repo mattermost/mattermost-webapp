@@ -6,7 +6,7 @@ import React from 'react';
 import './page_line.scss';
 
 type Props = {
-    height?: string;
+    style?: Record<string, string>;
     noLeft?: boolean;
 }
 const PageLine = (props: Props) => {
@@ -14,10 +14,20 @@ const PageLine = (props: Props) => {
     if (props.noLeft) {
         className += ' PageLine--no-left';
     }
+    const styles: Record<string, string> = {};
+    if (props?.style) {
+        Object.assign(styles, props.style);
+    }
+    if (!styles.height) {
+        styles.height = '100vh';
+    }
+    if ((!props.style?.height && styles.height === '100vh') && !styles.marginTop) {
+        styles.marginTop = '5px';
+    }
     return (
         <div
             className={className}
-            style={{height: props.height}}
+            style={styles}
         />
     );
 };

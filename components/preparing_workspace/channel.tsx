@@ -46,7 +46,7 @@ const Channel = (props: Props) => {
             unmountOnExit={true}
         >
             <div className={className}>
-                <PageLine height={'100px'}/>
+                <PageLine style={{height: '100px'}}/>
                 {props.previous}
                 <Title>
                     <FormattedMessage
@@ -87,7 +87,7 @@ const Channel = (props: Props) => {
                         />
                     </button>
                 </div>
-                <PageLine height={'calc(100vh - 100px - 400px'}/>
+                <PageLine/>
             </div>
         </CSSTransition>
     );

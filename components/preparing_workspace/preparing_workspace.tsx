@@ -423,7 +423,7 @@ export default function PreparingWorkspace(props: Props) {
                     step={currentStep}
                     direction={getTransitionDirectionMultiStep([WizardSteps.Channel, WizardSteps.InviteMembers])}
                     channelName={form.channel.name}
-                    teamName={'form.teamName'}
+                    teamName={form.organization}
                 />
             </div>
         </div>

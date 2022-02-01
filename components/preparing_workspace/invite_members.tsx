@@ -8,6 +8,8 @@ import {FormattedMessage} from 'react-intl';
 import {Animations, mapAnimationReasonToClass, TransitionProps} from './steps';
 
 import PageLine from './page_line';
+import Title from './title';
+import Description from './description';
 
 import './invite_members.scss';
 
@@ -31,17 +33,20 @@ const InviteMembers = (props: Props) => {
             unmountOnExit={true}
         >
             <div className={className}>
-                <PageLine height={'100px'}/>
+                <PageLine style={{height: '100px'}}/>
                 {props.previous}
-
-                <FormattedMessage
-                    id={'onboarding_wizard.invite_members.title'}
-                    defaultMessage='Invite your team members'
-                />
-                <FormattedMessage
-                    id={'onboarding_wizard.invite_members.description'}
-                    defaultMessage='Collaboration is tough by yourself. Invite a few team members. Separate each email address with a space or comma.'
-                />
+                <Title>
+                    <FormattedMessage
+                        id={'onboarding_wizard.invite_members.title'}
+                        defaultMessage='Invite your team members'
+                    />
+                </Title>
+                <Description>
+                    <FormattedMessage
+                        id={'onboarding_wizard.invite_members.description'}
+                        defaultMessage='Collaboration is tough by yourself. Invite a few team members. Separate each email address with a space or comma.'
+                    />
+                </Description>
                 <div>
                     <button
                         className='primary-button'
@@ -64,7 +69,7 @@ const InviteMembers = (props: Props) => {
                     </button>
                 </div>
                 {/*TODO: <UsersEmailsInput> or something like it here*/}
-                <PageLine height={'calc(100vh - 100px - 400px'}/>
+                <PageLine style={{marginTop: '5px'}}/>
             </div>
         </CSSTransition>
     );
