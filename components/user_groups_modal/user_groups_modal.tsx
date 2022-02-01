@@ -380,6 +380,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                 onScroll={this.onScroll}
                                 goToViewGroupModal={this.goToViewGroupModal}
                                 archiveGroup={this.archiveGroup}
+                                ref={this.divScrollRef}
                             />
                         </>
                     }
