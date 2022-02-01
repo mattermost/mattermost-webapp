@@ -138,18 +138,15 @@ export default class RhsRootPost extends React.PureComponent {
     }
 
     componentDidMount() {
-        document.addEventListener('keydown', this.handleAlt);
-        document.addEventListener('keyup', this.handleAlt);
-
         if (this.postRef.current) {
             this.postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
             this.postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
         }
     }
-
     componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleAlt);
-        document.removeEventListener('keyup', this.handleAlt);
+        if (this.state.show) {
+            this.removeKeyboardListeners();
+        }
 
         if (this.postRef.current) {
             this.postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
@@ -201,14 +198,6 @@ export default class RhsRootPost extends React.PureComponent {
         });
     };
 
-    handleOnMouseOver = () => {
-        this.setState({hover: true});
-    }
-
-    handleOnMouseLeave = () => {
-        this.setState({hover: false});
-    }
-
     handleA11yActivateEvent = () => {
         this.setState({a11yActive: true});
     }
@@ -241,6 +230,34 @@ export default class RhsRootPost extends React.PureComponent {
 
         return className;
     };
+
+    setHover = (e) => {
+        this.setState({
+            hover: true,
+            alt: e.altKey,
+        });
+
+        this.addKeyboardListeners();
+    }
+
+    unsetHover = () => {
+        this.setState({
+            hover: false,
+            alt: false,
+        });
+
+        this.removeKeyboardListeners();
+    }
+
+    addKeyboardListeners = () => {
+        document.addEventListener('keydown', this.handleAlt);
+        document.addEventListener('keyup', this.handleAlt);
+    }
+
+    removeKeyboardListeners = () => {
+        document.removeEventListener('keydown', this.handleAlt);
+        document.removeEventListener('keyup', this.handleAlt);
+    }
 
     handleAlt = (e) => {
         if (this.state.alt !== e.altKey) {
@@ -483,8 +500,8 @@ export default class RhsRootPost extends React.PureComponent {
                 post={post}
                 className={`thread__root a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage)}`}
                 onClick={this.handlePostClick}
-                onMouseOver={this.handleOnMouseOver}
-                onMouseLeave={this.handleOnMouseLeave}
+                onMouseOver={this.setHover}
+                onMouseLeave={this.unsetHover}
                 data-a11y-sort-order='0'
             >
                 <PostPreHeader
