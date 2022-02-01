@@ -219,6 +219,21 @@
                     border-top: 1px solid rgba(63, 67, 80, 0.06);
                     background-color: rgb(255, 255, 255);
                 }
+
+                .ctaButtons {
+                    display: flex;
+                    justify-content: flex-start;
+                    margin: 15px 0;
+
+                    button {
+                        margin-top: 0;
+                        margin-right: 10px;
+                        max-height: 32px;
+                        padding: 5px 20px !important;
+                        border-radius: 4px !important;
+                        font-weight: 600;
+                    }
+                }
             }
         }
     }

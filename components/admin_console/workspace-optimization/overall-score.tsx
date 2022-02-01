@@ -12,14 +12,14 @@ type OverallScoreProps = {
     title?: React.ReactNode;
     description?: React.ReactNode;
     chips: React.ReactNode;
-    alertImageScore: boolean;
+    chartValue: number;
 };
 
 const OverallScore = ({
     chips,
     title,
     description,
-    alertImageScore,
+    chartValue,
 }: OverallScoreProps): JSX.Element | null => {
     const contentTitle = title || (
         <FormattedMessage
@@ -36,7 +36,7 @@ const OverallScore = ({
     return (
         <div className='OverallScore'>
             <div className='OverallScore__scoreEllipseSvg'>
-                {alertImageScore ? (
+                {chartValue < 50 ? (
                     <div className='alertImageScore'>
                         <WarningSvg
                             width={48}
@@ -45,7 +45,7 @@ const OverallScore = ({
                     </div>
                 ) : (
                     <CircularChart
-                        value={77}
+                        value={chartValue}
                         isPercentage={false}
                         width={140}
                         height={140}

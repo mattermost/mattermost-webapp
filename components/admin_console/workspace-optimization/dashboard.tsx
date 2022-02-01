@@ -20,6 +20,8 @@ import DataPrivacySvg from 'components/common/svg_images_components/data_privacy
 import EasyManagementSvg from 'components/common/svg_images_components/easy_management_svg';
 import SuccessIconSvg from 'components/common/svg_images_components/success_icon_svg';
 
+import {ConsolePages} from 'utils/constants';
+
 import {testSiteURL} from '../../../actions/admin_actions';
 import FormattedAdminHeader from '../../widgets/admin_console/formatted_admin_header';
 
@@ -27,6 +29,7 @@ import {Props} from '../admin_console';
 
 import OverallScore from './overall-score';
 import ChipsList, {ChipsInfoType} from './chips_list';
+import CtaButtons from './cta_buttons';
 
 import './dashboard.scss';
 
@@ -46,6 +49,8 @@ type ItemModel = {
     title: string;
     description: string;
     configUrl: string;
+    configText: string;
+    telemetryAction: string;
     infoUrl: string;
     status: ItemStatus;
 }
@@ -163,6 +168,8 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                     title: versionData.status === 'ok' ? 'Your Mattermost server is running the latest version' : `${versionData.type} version update available`,
                     description: versionData.status === 'ok' ? 'Nothing to do here. All good!' : `Mattermost ${versionData.version} contains a medium level security fix. Upgrading to this release is recommended.`,
                     configUrl: '#',
+                    configText: formatMessage({id: 'admin.reporting.workspace_optimization.downloadUpdate', defaultMessage: 'Download Update'}),
+                    telemetryAction: 'set_here_the_telemetry_action',
                     infoUrl: '#',
                     status: versionData.status,
                 },
@@ -185,6 +192,8 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                     title: 'Configure SSL to make your server more secure',
                     description: 'You should configure SSL to secure how your server is accessed in a production environment.',
                     configUrl: '/ssl-settings',
+                    configText: formatMessage({id: 'admin.reporting.workspace_optimization.configureSSL', defaultMessage: 'Configure SSL'}),
+                    telemetryAction: 'set_here_the_telemetry_action',
                     infoUrl: 'https://www.google.de',
                     status: location.protocol === 'https:' ? 'info' : 'error',
                 },
@@ -193,6 +202,8 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                     title: 'Session length is still set to defaults',
                     description: 'Your session length is still set to the default of 30 days. Most servers adjust this according to thier organizations needs. To provide more convenience to your users consider increasing the lengths, however if tighter security is more top of mind then pick a length that better aligns with your organizations policies.',
                     configUrl: '/session-length',
+                    configText: formatMessage({id: 'admin.reporting.workspace_optimization.configureSessionLength', defaultMessage: 'Configure Session Length'}),
+                    telemetryAction: 'set_here_the_telemetry_action',
                     infoUrl: 'https://www.google.de',
                     status: sessionLengthWebInDays >= 30 ? 'warning' : 'info',
                 },
@@ -228,6 +239,8 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                     title: 'Misconfigured Web Server',
                     description: 'Your webserver settings are not passing a live URL test, this would prevent users from accessing this workspace, we recommend updating your settings.',
                     configUrl: '/site-url',
+                    configText: formatMessage({id: 'admin.reporting.workspace_optimization.configureWebServer', defaultMessage: 'Configure Web Server'}),
+                    telemetryAction: 'set_here_the_telemetry_action',
                     infoUrl: 'https://www.google.de',
                     status: 'info',
                 },
@@ -250,6 +263,8 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                     title: 'Search performance',
                     description: 'Your server has reached over 500 users and 2 million posts which could result in slow search performance. We recommend starting an enterprise trial with the elastic search feature for better performance.',
                     configUrl: '/site-url',
+                    configText: formatMessage({id: 'admin.reporting.workspace_optimization.startTrial', defaultMessage: 'Start Trial'}),
+                    telemetryAction: 'set_here_the_telemetry_action',
                     infoUrl: 'https://www.google.de',
                     status: 'info',
                 },
@@ -272,6 +287,8 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                     title: 'Failed login attempts detected',
                     description: '37 Failed login attempts have been detected. We recommend looking at the security logs to understand the risk.',
                     configUrl: '/site-url',
+                    configText: formatMessage({id: 'admin.reporting.workspace_optimization.viewServerLogs', defaultMessage: 'View Server Logs'}),
+                    telemetryAction: 'set_here_the_telemetry_action',
                     infoUrl: 'https://www.google.de',
                     status: 'warning',
                 },
@@ -294,6 +311,8 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                     title: 'Become more data aware',
                     description: 'Alot of organizations in highly regulated indsutries require more control and insight with thier data. Become more aware and take control of your data by trying out data retention and compliance features.',
                     configUrl: '/site-url',
+                    configText: formatMessage({id: 'admin.reporting.workspace_optimization.startTrial', defaultMessage: 'Start Trial'}),
+                    telemetryAction: 'set_here_the_telemetry_action',
                     infoUrl: 'https://www.google.de',
                     status: 'info',
                 },
@@ -315,7 +334,9 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                     id: 'ldap',
                     title: 'AD/LDAP integration recommended',
                     description: 'You’ve reached over 100 users, we can reduce your manual management pains through AD/LDAP with features like easier onboarding, automatic deactivations and automatic role assignments.',
-                    configUrl: '/site-url',
+                    configUrl: ConsolePages.LDAP,
+                    configText: formatMessage({id: 'admin.reporting.workspace_optimization.startTrial', defaultMessage: 'Start Trial'}),
+                    telemetryAction: 'set_here_the_telemetry_action',
                     infoUrl: 'https://www.google.de',
                     status: 'info',
                 },
@@ -324,12 +345,16 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                     title: 'Guest Accounts recommended',
                     description: 'We noticed several accounts using different domains from your Site URL. Gain more control over what other organizations can access with the guest account feature.',
                     configUrl: '/site-url',
+                    configText: formatMessage({id: 'admin.reporting.workspace_optimization.startTrial', defaultMessage: 'Start Trial'}),
+                    telemetryAction: 'set_here_the_telemetry_action',
                     infoUrl: 'https://www.google.de',
                     status: 'info',
                 },
             ],
         },
     };
+
+    const learnMoreText = formatMessage({id: 'benefits_trial.modal.learnMore', defaultMessage: 'Learn More'});
 
     const overallScoreChips: ChipsInfoType = {
         info: 0,
@@ -365,6 +390,12 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                         {item.title}
                     </h5>
                     <p>{item.description}</p>
+                    <CtaButtons
+                        learnMoreLink={item.infoUrl}
+                        learnMoreText={learnMoreText}
+                        actionLink={item.configUrl}
+                        actionText={item.configText}
+                    />
                 </AccordionItem>
             ));
 
@@ -393,7 +424,9 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
             <div className='admin-console__wrapper'>
                 <OverallScore
                     chips={<ChipsList chipsData={overallScoreChips}/>}
-                    alertImageScore={true}
+
+                    // temp to see either the alert image or the circular chart
+                    chartValue={Math.floor(Math.random() * 100) + 1}
                 />
                 <Accordion
                     accordionItemsData={accData}
