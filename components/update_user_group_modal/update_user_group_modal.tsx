@@ -44,11 +44,11 @@ const UpdateUserGroupModal = (props: Props) => {
 
     const doHide = () => {
         setShow(false);
-    }
+    };
 
     const isSaveEnabled = () => {
         return name.length > 0 && mention.length > 0 && hasUpdated && !saving;
-    }
+    };
 
     const updateNameState = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -62,14 +62,14 @@ const UpdateUserGroupModal = (props: Props) => {
         setName(value);
         setHasUpdated(true);
         setMention(newMention);
-    }
+    };
 
     const updateMentionState = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setHasUpdated(true);
         setMention(value);
         setMentionUpdatedManually(true);
-    }
+    };
 
     const patchGroup = async () => {
         setSaving(true);
@@ -112,11 +112,11 @@ const UpdateUserGroupModal = (props: Props) => {
         } else {
             goBack();
         }
-    }
+    };
     const goBack = () => {
         props.backButtonCallback();
         props.onExited();
-    }
+    };
 
     return (
         <Modal
@@ -216,6 +216,6 @@ const UpdateUserGroupModal = (props: Props) => {
             </Modal.Body>
         </Modal>
     );
-}
+};
 
 export default UpdateUserGroupModal;

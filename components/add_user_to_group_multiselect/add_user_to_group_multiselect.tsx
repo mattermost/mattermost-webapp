@@ -12,6 +12,7 @@ import {localizeMessage} from 'utils/utils.jsx';
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 
 import Constants from 'utils/constants';
+
 import MultiSelectOption from './multiselect_option/multiselect_option';
 
 const USERS_PER_PAGE = 50;
@@ -182,7 +183,6 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
         return option.username;
     }
 
-
     renderOption = (option: UserProfileValue, isSelected: boolean, onAdd: (user: UserProfileValue) => void, onMouseMove: (user: UserProfileValue) => void) => {
         return (
             <MultiSelectOption
@@ -193,7 +193,7 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
                 userStatuses={this.props.userStatuses}
                 ref={isSelected ? this.selectedItemRef : undefined}
             />
-        )
+        );
     };
 
     public render = (): JSX.Element => {

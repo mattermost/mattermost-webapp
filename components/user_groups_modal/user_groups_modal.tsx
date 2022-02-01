@@ -24,6 +24,7 @@ import ViewUserGroupModal from 'components/view_user_group_modal';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import NoResultsIndicator from 'components/no_results_indicator';
 import {NoResultsVariant} from 'components/no_results_indicator/types';
+
 import UserGroupsList from './user_groups_list/user_groups_list';
 
 const GROUPS_PER_PAGE = 60;

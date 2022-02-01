@@ -38,11 +38,11 @@ const AddUsersToGroupModal = (props: Props) => {
 
     const doHide = () => {
         setShow(false);
-    }
+    };
 
     const isSaveEnabled = () => {
         return usersToAdd.length > 0;
-    }
+    };
 
     const addUserCallback = (users: UserProfile[]): void => {
         setUsersToAdd(users);
@@ -67,12 +67,12 @@ const AddUsersToGroupModal = (props: Props) => {
         } else {
             goBack();
         }
-    }
+    };
 
     const goBack = () => {
         props.backButtonCallback();
         props.onExited();
-    }
+    };
 
     return (
         <Modal
@@ -149,6 +149,6 @@ const AddUsersToGroupModal = (props: Props) => {
             </Modal.Body>
         </Modal>
     );
-}
+};
 
 export default AddUsersToGroupModal;

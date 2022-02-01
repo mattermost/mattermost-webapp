@@ -33,7 +33,6 @@ const MultiSelectOption = React.forwardRef(({
     userStatuses,
     isSelected,
 }: Props, ref?: React.Ref<HTMLDivElement>) => {
-
     return (
         <div
             key={option.id}
