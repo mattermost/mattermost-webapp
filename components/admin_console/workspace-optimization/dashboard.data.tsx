@@ -1,11 +1,15 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 import React from 'react';
-import {formatMessage, useIntl} from 'react-intl';
+import {useIntl} from 'react-intl';
+
+// import DataPrivacySvg from 'components/common/svg_images_components/data_privacy_svg';
+// import EasyManagementSvg from 'components/common/svg_images_components/easy_management_svg';
+// import SecuritySvg from 'components/common/svg_images_components/security_svg';
 
 import ConfigurationSvg from 'components/common/svg_images_components/configuration_svg';
-import DataPrivacySvg from 'components/common/svg_images_components/data_privacy_svg';
-import EasyManagementSvg from 'components/common/svg_images_components/easy_management_svg';
 import PerformanceSvg from 'components/common/svg_images_components/performance_svg';
-import SecuritySvg from 'components/common/svg_images_components/security_svg';
 import UpdatesAndErrorsSvg from 'components/common/svg_images_components/updates_and_errors_svg';
 import WorkspaceAccessSvg from 'components/common/svg_images_components/workspace_access_svg';
 
