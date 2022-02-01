@@ -9,7 +9,7 @@ $tip-index: 1000;
 .tutorial-tip {
     &__header {
         display: flex;
-        align-items: flex-start;
+        align-items: center;
         justify-content: flex-start;
 
         &__title {
@@ -28,6 +28,7 @@ $tip-index: 1000;
             overflow: hidden;
             width: 3.2rem;
             height: 3.2rem;
+            flex-shrink: 0;
             align-items: center;
             justify-content: center;
             border: unset;
@@ -245,6 +246,18 @@ $tip-index: 1000;
         transform: rotate(-45deg);
     }
 
+    .svg-wrapper {
+        display: flex;
+
+        svg {
+            margin: 0 auto;
+        }
+    }
+
+    .handSvg.svg-wrapper {
+        margin: 20px 0 30px 0;
+    }
+
     &.tip-overlay--sidebar {
         margin: 154px 0 0 6px;
 
@@ -263,7 +276,7 @@ $tip-index: 1000;
         }
 
         &.first-channel {
-            margin-top: 108px;
+            margin-top: 131px;
         }
     }
 
