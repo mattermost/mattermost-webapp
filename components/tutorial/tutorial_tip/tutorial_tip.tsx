@@ -24,6 +24,7 @@ const TutorialSteps = {
     [Preferences.CRT_THREAD_PANE_STEP]: Constants.CrtThreadPaneSteps,
 };
 const TutorialAutoTourStatus = {
+    [Preferences.TUTORIAL_STEP]: Preferences.TUTORIAL_STEP_AUTO_TOUR_STATUS,
     [Preferences.CRT_TUTORIAL_STEP]: Preferences.CRT_TUTORIAL_AUTO_TOUR_STATUS,
 };
 
@@ -179,10 +180,10 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                 value: stepValue.toString(),
             },
         ];
-        if (tutorialCategory && !singleTip) {
+        if (!singleTip) {
             preferences.push({
                 user_id: currentUserId,
-                category: TutorialAutoTourStatus[tutorialCategory],
+                category: tutorialCategory ? TutorialAutoTourStatus[tutorialCategory] : TutorialAutoTourStatus[Preferences.TUTORIAL_STEP],
                 name: currentUserId,
                 value: autoTour ? Constants.AutoTourStatus.ENABLED.toString() : Constants.AutoTourStatus.DISABLED.toString(),
             });
