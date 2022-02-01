@@ -17,16 +17,15 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {get, getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
+import {getFirstAdminCompleteSetup, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {Client4} from 'mattermost-redux/client';
-
-import {isFirstAdmin} from 'components/next_steps_view/steps';
 
 import Constants, {OnboardingPreferences} from 'utils/constants';
 import {makeNewEmptyChannel} from 'utils/channel_utils';
 import {teamNameToUrl} from 'utils/url';
 import {makeNewTeam} from 'utils/team_utils';
 
-import {getFirstAdminCompleteSetup, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {switchToChannel} from 'actions/views/channel';
 
 import logoImage from 'images/logo.png';

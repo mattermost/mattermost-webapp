@@ -134,7 +134,7 @@ const Organization = (props: Props) => {
                         placeholder={
                             formatMessage({
                                 id: 'onboarding_wizard.organization.placeholder',
-                                defaultMessage: 'TODO: Organization',
+                                defaultMessage: 'Organization name',
                             })
                         }
                         className='Organization__input'

@@ -11,12 +11,10 @@ import {getGroups, getAllGroupsAssociatedToChannelsInTeam, getAllGroupsAssociate
 import {getFirstAdminCompleteSetup as getFirstAdminCompleteSetupAction} from 'mattermost-redux/actions/general';
 import {isCollapsedThreadsEnabled, getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense, getConfig, getFirstAdminCompleteSetup} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {Action} from 'mattermost-redux/types/actions';
-
-import {isFirstAdmin} from 'components/next_steps_view/steps';
 
 import {GlobalState} from 'types/store';
 
