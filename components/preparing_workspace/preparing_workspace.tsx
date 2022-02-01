@@ -4,11 +4,11 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {RouterProps} from 'react-router-dom';
-import {RouteComponentProps} from 'react-router';
 import {FormattedMessage} from 'react-intl';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {createChannel} from 'mattermost-redux/actions/channels';
+import {getFirstAdminCompleteSetup as getFirstAdminCompleteSetupAction, setFirstAdminCompleteSetup} from 'mattermost-redux/actions/general';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {Team} from 'mattermost-redux/types/teams';
 import {Channel} from 'mattermost-redux/types/channels';
@@ -26,7 +26,7 @@ import {makeNewEmptyChannel} from 'utils/channel_utils';
 import {teamNameToUrl} from 'utils/url';
 import {makeNewTeam} from 'utils/team_utils';
 
-import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getFirstAdminCompleteSetup, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {switchToChannel} from 'actions/views/channel';
 
 import logoImage from 'images/logo.png';
@@ -67,7 +67,8 @@ type Props = RouterProps & {
     actions: Actions;
 }
 
-export default function PreparingWorkspace(props: Props & RouteComponentProps) {
+export default function PreparingWorkspace(props: Props) {
+    const dispatch = useDispatch();
     const user = useSelector(getCurrentUser);
     const isUserFirstAdmin = useSelector(isFirstAdmin);
     const useCaseOnboarding = useSelector(getUseCaseOnboarding);
@@ -86,11 +87,15 @@ export default function PreparingWorkspace(props: Props & RouteComponentProps) {
     ].filter((x) => Boolean(x)) as WizardStep[];
 
     const existingUseCasePreference = useSelector((state: GlobalState) => get(state, Constants.Preferences.ONBOARDING, OnboardingPreferences.USE_CASE, false));
+    useEffect(() => {
+        dispatch(getFirstAdminCompleteSetupAction());
+    }, []);
+    const firstAdminCompletedSetup = useSelector(getFirstAdminCompleteSetup);
+
     const [currentStep, setCurrentStep] = useState<WizardStep>(stepOrder[0]);
     const [mostRecentStep, setMostRecentStep] = useState<WizardStep>(stepOrder[0]);
     const [submissionState, setSubmissionState] = useState<SubmissionState>(SubmissionStates.Presubmit);
     const [form, setForm] = useState(emptyForm);
-    const dispatch = useDispatch();
     const makeNext = useCallback((currentStep: WizardStep) => {
         return function innerMakeNext() {
             const stepIndex = stepOrder.indexOf(currentStep);
@@ -158,6 +163,12 @@ export default function PreparingWorkspace(props: Props & RouteComponentProps) {
             console.log(inviteResult); // eslint-disable-line no-console
         }
 
+        const completeSetupResult = await dispatch(setFirstAdminCompleteSetup()) as ActionResult;
+        if (completeSetupResult.error || completeSetupResult.data) {
+            console.log('completeSetupResult'); // eslint-disable-line no-console
+            console.log(completeSetupResult); // eslint-disable-line no-console
+        }
+
         setSubmissionState(SubmissionStates.SubmitSuccess);
 
         setTimeout(() => {
@@ -179,7 +190,7 @@ export default function PreparingWorkspace(props: Props & RouteComponentProps) {
         sendForm();
     }, [submissionState]);
 
-    const adminRevisitedPage = Boolean(existingUseCasePreference) && submissionState === SubmissionStates.Presubmit;
+    const adminRevisitedPage = (firstAdminCompletedSetup || Boolean(existingUseCasePreference)) && submissionState === SubmissionStates.Presubmit;
     if (!isUserFirstAdmin || adminRevisitedPage || !useCaseOnboarding) {
         props.history.push('/');
     }

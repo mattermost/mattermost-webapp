@@ -433,6 +433,10 @@ export default class Client4 {
         return `${this.getUserThreadsRoute(userId, teamId)}/${threadId}`;
     }
 
+    getSystemRoute(): string {
+        return `${this.getBaseRoute()}/system`;
+    }
+
     getCSRFFromCookie() {
         if (typeof document !== 'undefined' && typeof document.cookie !== 'undefined') {
             const cookies = document.cookie.split(';');
@@ -2346,6 +2350,20 @@ export default class Client4 {
         );
     };
 
+    setFirstAdminCompleteSetup = async () => {
+        return this.doFetch<StatusOK>(
+            `${this.getSystemRoute()}/first_admin_setup`,
+            {method: 'put'},
+        );
+    }
+
+    getFirstAdminCompleteSetup = async () => {
+        return this.doFetch<SystemSetting>(
+            `${this.getSystemRoute()}/first_admin_setup`,
+            {method: 'get'},
+        );
+    };
+
     getTranslations = (url: string) => {
         return this.doFetch<Record<string, string>>(
             url,
@@ -3775,7 +3793,7 @@ export default class Client4 {
 
     completeSetup = (completeOnboardingRequest: CompleteOnboardingRequest) => {
         return this.doFetch<StatusOK>(
-            '/system/onboarding/complete',
+            `${this.getSystemRoute()}/onboarding/complete`,
             {method: 'post', body: JSON.stringify(completeOnboardingRequest)},
         );
     }

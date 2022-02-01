@@ -220,6 +220,35 @@ export function getFirstAdminVisitMarketplaceStatus(): ActionFunc {
     };
 }
 
+export function setFirstAdminCompleteSetup(): ActionFunc {
+    return async (dispatch: DispatchFunc) => {
+        try {
+            await Client4.setFirstAdminCompleteSetup();
+        } catch (e) {
+            dispatch(logError(e));
+            return {error: e.message};
+        }
+        dispatch({type: GeneralTypes.FIRST_ADMIN_COMPLETE_SETUP_RECEIVED, data: true});
+        return {data: true};
+    };
+}
+
+export function getFirstAdminCompleteSetup(): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data;
+        try {
+            data = await Client4.getFirstAdminCompleteSetup();
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            return {error};
+        }
+
+        data = JSON.parse(data.value);
+        dispatch({type: GeneralTypes.FIRST_ADMIN_COMPLETE_SETUP_RECEIVED, data});
+        return {data};
+    };
+}
+
 export default {
     getPing,
     getClientConfig,

@@ -8,13 +8,13 @@ import {withRouter} from 'react-router-dom';
 import {fetchAllMyTeamsChannelsAndChannelMembers, fetchMyChannelsAndMembers, viewChannel} from 'mattermost-redux/actions/channels';
 import {getMyTeamUnreads, getTeamByName, selectTeam} from 'mattermost-redux/actions/teams';
 import {getGroups, getAllGroupsAssociatedToChannelsInTeam, getAllGroupsAssociatedToTeam, getGroupsByUserId} from 'mattermost-redux/actions/groups';
-import {isCollapsedThreadsEnabled, get, getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
-import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getFirstAdminCompleteSetup as getFirstAdminCompleteSetupAction} from 'mattermost-redux/actions/general';
+import {isCollapsedThreadsEnabled, getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
+import {getLicense, getConfig, getFirstAdminCompleteSetup} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {Action} from 'mattermost-redux/types/actions';
-import Constants, {OnboardingPreferences} from 'utils/constants';
 
 import {isFirstAdmin} from 'components/next_steps_view/steps';
 
@@ -47,8 +47,8 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 
     let adminSetupRequired = false;
     if (useCaseOnboarding && isUserFirstAdmin) {
-        const useCasePreference = get(state, Constants.Preferences.ONBOARDING, OnboardingPreferences.USE_CASE, false);
-        if (!useCasePreference) {
+        const firstAdminCompletedSetup = getFirstAdminCompleteSetup(state);
+        if (!firstAdminCompletedSetup) {
             adminSetupRequired = true;
         }
     }
@@ -66,6 +66,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         selectedThreadId: getSelectedThreadIdInCurrentTeam(state),
         shouldShowAppBar: shouldShowAppBar(state),
         adminSetupRequired,
+        isUserFirstAdmin,
     };
 }
 
@@ -86,6 +87,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             getAllGroupsAssociatedToTeam,
             getGroupsByUserId,
             getGroups,
+            getFirstAdminCompleteSetup: getFirstAdminCompleteSetupAction,
         }, dispatch),
     };
 }
