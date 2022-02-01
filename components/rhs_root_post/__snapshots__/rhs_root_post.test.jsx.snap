@@ -6,6 +6,8 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
   data-a11y-sort-order="0"
   id="rhsPost_id"
   onClick={[Function]}
+  onMouseLeave={[Function]}
+  onMouseOver={[Function]}
   post={
     Object {
       "channel_id": "channel_id",
@@ -214,6 +216,8 @@ exports[`components/RhsRootPost should match snapshot on CRT enabled 1`] = `
   data-a11y-sort-order="0"
   id="rhsPost_id"
   onClick={[Function]}
+  onMouseLeave={[Function]}
+  onMouseOver={[Function]}
   post={
     Object {
       "channel_id": "channel_id",
@@ -422,6 +426,8 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
   data-a11y-sort-order="0"
   id="rhsPost_id"
   onClick={[Function]}
+  onMouseLeave={[Function]}
+  onMouseOver={[Function]}
   post={
     Object {
       "channel_id": "channel_id",
@@ -588,6 +594,8 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
   data-a11y-sort-order="0"
   id="rhsPost_id"
   onClick={[Function]}
+  onMouseLeave={[Function]}
+  onMouseOver={[Function]}
   post={
     Object {
       "channel_id": "channel_id",
@@ -758,6 +766,8 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
   data-a11y-sort-order="0"
   id="rhsPost_id"
   onClick={[Function]}
+  onMouseLeave={[Function]}
+  onMouseOver={[Function]}
   post={
     Object {
       "channel_id": "channel_id",
