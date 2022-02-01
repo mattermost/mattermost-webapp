@@ -4,10 +4,9 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-// import DataPrivacySvg from 'components/common/svg_images_components/data_privacy_svg';
-// import EasyManagementSvg from 'components/common/svg_images_components/easy_management_svg';
-// import SecuritySvg from 'components/common/svg_images_components/security_svg';
-
+import EasyManagementSvg from 'components/common/svg_images_components/easy_management_svg';
+import DataPrivacySvg from 'components/common/svg_images_components/data_privacy_svg';
+import SecuritySvg from 'components/common/svg_images_components/security_svg';
 import ConfigurationSvg from 'components/common/svg_images_components/configuration_svg';
 import PerformanceSvg from 'components/common/svg_images_components/performance_svg';
 import UpdatesAndErrorsSvg from 'components/common/svg_images_components/updates_and_errors_svg';
@@ -209,79 +208,146 @@ const useMetricsData = () => {
         ],
     });
 
-    return {getAccessData, getConfigurationData, getUpdatesData, getPerformanceData};
-};
+    type SecurityParam = {
+        loginAttempts: {
+            count: number;
+            status: ItemStatus;
+        };
+    }
 
-// const data: DataModel = {
-//     security: {
-//         title: 'Security Concerns',
-//         description: 'There are security concerns you should look at.',
-//         icon: (
-//             <SecuritySvg
-//                 width={20}
-//                 height={20}
-//             />
-//         ),
-//         items: [
-//             {
-//                 id: 'security',
-//                 title: 'Failed login attempts detected',
-//                 description: '37 Failed login attempts have been detected. We recommend looking at the security logs to understand the risk.',
-//                 configUrl: '/site-url',
-//                 infoUrl: 'https://www.google.de',
-//                 status: 'warning',
-//             },
-//         ],
-//     },
-//     dataPrivacy: {
-//         title: 'Data Privacy',
-//         description: 'Get better insight and control over your data.',
-//         icon: (
-//             <DataPrivacySvg
-//                 width={20}
-//                 height={20}
-//             />
-//         ),
-//         items: [
-//             {
-//                 id: 'privacy',
-//                 title: 'Become more data aware',
-//                 description: 'A lot of organizations in highly regulated indsutries require more control and insight with thier data. Become more aware and take control of your data by trying out data retention and compliance features.',
-//                 configUrl: '/site-url',
-//                 infoUrl: 'https://www.google.de',
-//                 status: 'info',
-//             },
-//         ],
-//     },
-//     easyManagement: {
-//         title: 'Ease of management',
-//         description: 'We have suggestions that could make your managemenet easier.',
-//         icon: (
-//             <EasyManagementSvg
-//                 width={20}
-//                 height={20}
-//             />
-//         ),
-//         items: [
-//             {
-//                 id: 'ldap',
-//                 title: 'AD/LDAP integration recommended',
-//                 description: 'You’ve reached over 100 users, we can reduce your manual management pains through AD/LDAP with features like easier onboarding, automatic deactivations and automatic role assignments.',
-//                 configUrl: '/site-url',
-//                 infoUrl: 'https://www.google.de',
-//                 status: 'info',
-//             },
-//             {
-//                 id: 'guests_accounts',
-//                 title: 'Guest Accounts recommended',
-//                 description: 'We noticed several accounts using different domains from your Site URL. Gain more control over what other organizations can access with the guest account feature.',
-//                 configUrl: '/site-url',
-//                 infoUrl: 'https://www.google.de',
-//                 status: 'info',
-//             },
-//         ],
-//     },
-// };
+    // TBD
+    const getSecurityData = (data: SecurityParam) => ({
+        title: formatMessage({
+            id: getTranslationId('security.title'),
+            defaultMessage: 'Security Concerns',
+        }),
+        description: formatMessage({
+            id: getTranslationId('security.description'),
+            defaultMessage: 'There are security concerns you should look at.',
+        }),
+        icon: (
+            <SecuritySvg
+                width={20}
+                height={20}
+            />
+        ),
+        items: [
+            {
+                id: 'login-attempts',
+                title: formatMessage({
+                    id: getTranslationId('security.login_attempts.title'),
+                    defaultMessage: 'Failed login attempts detected',
+                }),
+                description: formatMessage({
+                    id: getTranslationId('security.login_attempts.description'),
+                    defaultMessage: '{attempts} Failed login attempts have been detected. We recommend looking at the security logs to understand the risk.',
+                }, {attempts: data.loginAttempts.count}),
+                configUrl: '/site-url',
+                infoUrl: 'https://www.google.de',
+                status: data.loginAttempts.status,
+            },
+        ],
+    });
+
+    type DataPrivacyParam = {
+        retention: {
+            status: ItemStatus;
+        };
+    }
+
+    // TBD
+    const getDataPrivacyData = (data: DataPrivacyParam) => ({
+        title: formatMessage({
+            id: getTranslationId('data_privacy.title'),
+            defaultMessage: 'Data Privacy',
+        }),
+        description: formatMessage({
+            id: getTranslationId('data_privacy.description'),
+            defaultMessage: 'Get better insight and control over your data.',
+        }),
+        icon: (
+            <DataPrivacySvg
+                width={20}
+                height={20}
+            />
+        ),
+        items: [
+            {
+                id: 'privacy',
+                title: formatMessage({
+                    id: getTranslationId('data_privacy.retention.title'),
+                    defaultMessage: 'Become more data aware',
+                }),
+                description: formatMessage({
+                    id: getTranslationId('data_privacy.retention.description'),
+                    defaultMessage: 'A lot of organizations in highly regulated indsutries require more control and insight with thier data. Become more aware and take control of your data by trying out data retention and compliance features.',
+                }),
+                configUrl: '/site-url',
+                infoUrl: 'https://www.google.de',
+                status: data.retention.status,
+            },
+        ],
+    });
+
+    type EaseOfManagementParam = {
+        ldap: {
+            status: ItemStatus;
+        };
+        guestAccounts: {
+            status: ItemStatus;
+        };
+    }
+
+    // TBD
+    const getEaseOfManagementData = (data: EaseOfManagementParam) => ({
+        title: formatMessage({
+            id: getTranslationId('ease_of_management.title'),
+            defaultMessage: 'Ease of management',
+        }),
+        description: formatMessage({
+            id: getTranslationId('ease_of_management.description'),
+            defaultMessage: 'We have suggestions that could make your managemenet easier.',
+        }),
+        icon: (
+            <EasyManagementSvg
+                width={20}
+                height={20}
+            />
+        ),
+        items: [
+            {
+                id: 'ldap',
+                title: formatMessage({
+                    id: getTranslationId('ease_of_management.ldap.title'),
+                    defaultMessage: 'AD/LDAP integration recommended',
+                }),
+                description: formatMessage({
+                    id: getTranslationId('ease_of_management.ldap.description'),
+                    defaultMessage: 'You’ve reached over 100 users, we can reduce your manual management pains through AD/LDAP with features like easier onboarding, automatic deactivations and automatic role assignments.',
+                }),
+                configUrl: '/site-url',
+                infoUrl: 'https://www.google.de',
+                status: data.ldap.status,
+            },
+            {
+                id: 'guests_accounts',
+                title: formatMessage({
+                    id: getTranslationId('ease_of_management.guests_accounts.title'),
+                    defaultMessage: 'Guest Accounts recommended',
+                }),
+                description: formatMessage({
+                    id: getTranslationId('ease_of_management.guests_accounts.description'),
+                    defaultMessage: 'We noticed several accounts using different domains from your Site URL. Gain more control over what other organizations can access with the guest account feature.',
+                }),
+                configUrl: '/site-url',
+                infoUrl: 'https://www.google.de',
+                status: data.guestAccounts.status,
+            },
+        ],
+    });
+
+    return {getAccessData, getConfigurationData, getUpdatesData, getPerformanceData, getSecurityData, getDataPrivacyData, getEaseOfManagementData};
+};
 
 export {DataModel, ItemModel, ItemStatus};
 export default useMetricsData;
