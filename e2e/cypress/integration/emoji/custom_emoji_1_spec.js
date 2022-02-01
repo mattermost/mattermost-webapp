@@ -88,7 +88,7 @@ describe('Custom emojis', () => {
         cy.get('.backstage-form__footer').findByText('Cancel').click().wait(TIMEOUTS.FIVE_SEC);
 
         // # Go back to home channel
-        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(offTopicUrl);
 
         // # Open emoji picker
         cy.uiOpenEmojiPicker();
@@ -120,7 +120,7 @@ describe('Custom emojis', () => {
         saveCustomEmoji(testTeam.name);
 
         // # Go back to home channel
-        cy.findByText('Back to Mattermost').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(offTopicUrl);
 
         // # Open emoji picker
         cy.uiOpenEmojiPicker();
@@ -174,7 +174,7 @@ describe('Custom emojis', () => {
         saveCustomEmoji(testTeam.name);
 
         // # Go back to home channel
-        cy.findByText('Back to Mattermost').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(offTopicUrl);
 
         // # Post a message with the emoji
         cy.postMessage(customEmojiWithColons);
