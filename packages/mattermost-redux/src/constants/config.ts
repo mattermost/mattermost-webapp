@@ -15,8 +15,3 @@ export enum AddMembersToChanneltreatments {
     TOP = 'top',
     BOTTOM = 'bottom',
 }
-
-export enum InviteToTeamTreatments {
-    NONE = 'none',
-    TOGGLE = 'toggle',
-}

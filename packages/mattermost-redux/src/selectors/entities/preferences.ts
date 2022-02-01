@@ -10,7 +10,6 @@ import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selec
 import {
     AutoTourTreatments,
     AddMembersToChanneltreatments,
-    InviteToTeamTreatments,
 } from 'mattermost-redux/constants/config';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
@@ -217,8 +216,4 @@ export function getCreateGuidedChannel(state: GlobalState): boolean {
 
 export function getAddMembersToChannel(state: GlobalState): AddMembersToChanneltreatments | undefined {
     return getFeatureFlagValue(state, 'AddMembersToChannel') as AddMembersToChanneltreatments | undefined;
-}
-
-export function getInviteToTeamTreatment(state: GlobalState): InviteToTeamTreatments | undefined {
-    return getFeatureFlagValue(state, 'InviteToTeam') as InviteToTeamTreatments | undefined;
 }
