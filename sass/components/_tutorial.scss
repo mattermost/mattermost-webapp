@@ -295,7 +295,7 @@ $tip-index: 1000;
         box-shadow: var(--elevation-2);
 
         .arrow {
-            top: 18px;
+            top: 25px;
             left: -10px;
             border-right-color: var(--center-channel-bg);
             border-left-width: 0;
@@ -410,8 +410,8 @@ $tip-index: 1000;
     }
 
     &.tip-overlay--start-trial {
-        top: 80px;
-        right: 0;
+        top: 15px;
+        right: -15px;
         left: unset;
     }
 

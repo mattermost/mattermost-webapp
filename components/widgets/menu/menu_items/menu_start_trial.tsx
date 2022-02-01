@@ -126,10 +126,10 @@ const MenuStartTrial = (props: Props): JSX.Element | null => {
                     </button>
                 </div>
             </> : <>
-                <span>
+                <div className='start_trial_content'>
                     {formatMessage({id: 'navbar_dropdown.tryTrialNow', defaultMessage: 'Try Enterprise for free now!'})}
                     {tutorialTip}
-                </span>
+                </div>
                 <button onClick={openStartTrialModal}>
                     {formatMessage({id: 'navbar_dropdown.startTrial', defaultMessage: 'Start Trial'})}
                 </button>
