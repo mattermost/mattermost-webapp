@@ -1,15 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import {Draggable} from 'react-beautiful-dnd';
+import React, {TransitionEvent, TransitionEventHandler} from 'react';
+import {Draggable, DraggableProvidedDraggableProps} from 'react-beautiful-dnd';
 import classNames from 'classnames';
 
 import {Channel} from 'mattermost-redux/types/channels';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {DraggingState} from 'types/store';
-import Constants, {DraggingStates} from 'utils/constants';
+import Constants from 'utils/constants';
 
 import SidebarBaseChannel from './sidebar_base_channel';
 import SidebarDirectChannel from './sidebar_direct_channel';
@@ -82,7 +82,7 @@ type Props = {
 };
 
 type State = {
-
+    show: boolean;
 };
 
 export default class SidebarChannel extends React.PureComponent<Props, State> {
@@ -90,24 +90,15 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
         isDraggable: true,
     }
 
+    constructor(props: Props) {
+        super(props);
+        this.state = {
+            show: true,
+        };
+    }
+
     isCollapsed = (props: Props) => {
         return props.isCategoryDragged || (props.isCategoryCollapsed && !this.props.isUnread && !props.isCurrentChannel);
-    }
-
-    componentDidUpdate(prevProps: Props) {
-        if (this.isCollapsed(this.props) !== this.isCollapsed(prevProps) && (this.props.draggingState.state !== DraggingStates.CAPTURE && this.props.draggingState.state !== DraggingStates.BEFORE)) {
-            const channelElement = this.getRef();
-            if (channelElement) {
-                channelElement.classList.add('animating');
-            }
-        }
-    }
-
-    removeAnimation = () => {
-        const channelElement = this.getRef();
-        if (channelElement) {
-            channelElement.classList.remove('animating');
-        }
     }
 
     getRef = () => {
@@ -118,6 +109,37 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
         return (ref: HTMLLIElement) => {
             this.props.setChannelRef(this.props.channel.id, ref);
             refMethod?.(ref);
+        };
+    }
+
+    handleTransitionEnd = (event: TransitionEvent<HTMLLIElement>, draggableOnTransitionEnd?: TransitionEventHandler<HTMLLIElement>) => {
+        if (draggableOnTransitionEnd) {
+            draggableOnTransitionEnd(event);
+        }
+
+        // On fully collapsed
+        if (event.propertyName === 'height' && this.isCollapsed(this.props)) {
+            this.setState({show: false});
+        }
+
+        // On fully expanded
+        if (event.propertyName === 'height' && !this.isCollapsed(this.props)) {
+            this.setState({show: true});
+        }
+    };
+
+    wrapTransitionEndHandler = (draggableProps: DraggableProvidedDraggableProps) => {
+        let handleTransitionEnd = this.handleTransitionEnd;
+        if (draggableProps && draggableProps.onTransitionEnd) {
+            // Pass the onTransitionEnd from draggable to the onTransitionEnd of the sidebar channel
+            handleTransitionEnd = (event: TransitionEvent<HTMLLIElement>) => this.handleTransitionEnd(event, draggableProps.onTransitionEnd);
+        }
+
+        return {
+            handleTransitionEnd,
+            style: draggableProps?.style,
+            'data-rbd-draggable-context-id': draggableProps?.['data-rbd-draggable-context-id'],
+            'data-rbd-draggable-id': draggableProps?.['data-rbd-draggable-id'],
         };
     }
 
@@ -143,20 +165,20 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
             ChannelComponent = SidebarGroupChannel;
         }
 
-        const component = (
+        const component = this.state.show ? (
             <ChannelComponent
                 isCollapsed={this.isCollapsed(this.props)}
                 channel={channel}
                 currentTeamName={currentTeamName}
             />
-        );
+        ) : null;
 
         let wrappedComponent: React.ReactNode;
 
         if (isDraggable) {
             let selectedCount: React.ReactNode;
             if (isChannelSelected && draggingState.state && draggingState.id === channel.id && multiSelectedChannelIds.length > 1) {
-                selectedCount = (
+                selectedCount = this.state.show ? (
                     <div className='SidebarChannel__selectedCount'>
                         <FormattedMarkdownMessage
                             id='sidebar_left.sidebar_channel.selectedCount'
@@ -164,7 +186,7 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
                             values={{count: multiSelectedChannelIds.length}}
                         />
                     </div>
-                );
+                ) : null;
             }
 
             wrappedComponent = (
@@ -173,11 +195,13 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
                     index={channelIndex}
                 >
                     {(provided, snapshot) => {
+                        const {handleTransitionEnd, ...draggableProps} = this.wrapTransitionEndHandler(provided.draggableProps);
+
                         return (
                             <li
                                 draggable='false'
                                 ref={this.setRef(provided.innerRef)}
-                                className={classNames('SidebarChannel', {
+                                className={classNames('SidebarChannel animating', {
                                     collapsed: this.isCollapsed(this.props),
                                     unread: isUnread,
                                     active: isCurrentChannel,
@@ -186,8 +210,8 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
                                     fadeOnDrop: snapshot.isDropAnimating && snapshot.draggingOver && autoSortedCategoryIds.has(snapshot.draggingOver),
                                     noFloat: isAutoSortedCategory && !snapshot.isDragging,
                                 })}
-                                onTransitionEnd={this.removeAnimation}
-                                {...provided.draggableProps}
+                                onTransitionEnd={handleTransitionEnd}
+                                {...draggableProps}
                                 {...provided.dragHandleProps}
                                 role='listitem'
                                 tabIndex={-1}
@@ -203,11 +227,12 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
             wrappedComponent = (
                 <li
                     ref={this.setRef()}
-                    className={classNames('SidebarChannel', {
+                    className={classNames('SidebarChannel animating', {
                         collapsed: this.isCollapsed(this.props),
                         unread: isUnread,
                         active: isCurrentChannel,
                     })}
+                    onTransitionEnd={this.handleTransitionEnd}
                     role='listitem'
                 >
                     {component}
