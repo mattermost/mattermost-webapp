@@ -11,9 +11,8 @@ import {isCustomStatusEnabled, makeGetCustomStatus} from 'selectors/views/custom
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import LocalStorageStore from 'stores/local_storage_store';
 
-import {ActionTypes, Preferences} from 'utils/constants';
+import Constants, {ActionTypes, Preferences} from 'utils/constants';
 import {EmojiIndicesByAlias} from 'utils/emoji';
-import {updateRecentEmojis} from 'mattermost-redux/actions/users';
 
 export function loadRecentlyUsedCustomEmojis() {
     return async (dispatch, getState) => {
@@ -80,15 +79,17 @@ export function addRecentEmoji(alias) {
         }
 
         let updatedRecentEmojis;
-        const currentEmojiInRecentList = recentEmojis.find((recentEmoji) => recentEmoji.name === name);
-        if (currentEmojiInRecentList) {
+        const currentEmojiIndexInRecentList = recentEmojis.findIndex((recentEmoji) => recentEmoji.name === name);
+        if (currentEmojiIndexInRecentList > -1) {
+            const currentEmojiInRecentList = recentEmojis[currentEmojiIndexInRecentList];
+
             // If the emoji is already in the recent list, remove it and add it to the front with updated usage count
-            const recentEmojisFiltered = recentEmojis.filter((recentEmoji) => recentEmoji.name !== name);
             const updatedCurrentEmojiData = {
                 name,
                 usageCount: currentEmojiInRecentList.usageCount + 1,
             };
-            updatedRecentEmojis = [...recentEmojisFiltered, updatedCurrentEmojiData].slice(-MAXIMUM_RECENT_EMOJI);
+            recentEmojis.splice(currentEmojiIndexInRecentList, 1);
+            updatedRecentEmojis = [...recentEmojis, updatedCurrentEmojiData].slice(-MAXIMUM_RECENT_EMOJI);
         } else {
             const currentEmojiData = {
                 name,
@@ -97,9 +98,7 @@ export function addRecentEmoji(alias) {
             updatedRecentEmojis = [...recentEmojis, currentEmojiData].slice(-MAXIMUM_RECENT_EMOJI);
         }
 
-        LocalStorageStore.setRecentEmojis(currentUserId, updatedRecentEmojis);
-
-        _dispatch(updateRecentEmojis(updatedRecentEmojis));
+        _dispatch(savePreferences(currentUserId, [{category: Constants.Preferences.RECENT_EMOJIS, name: currentUserId, user_id: currentUserId, value: JSON.stringify(updatedRecentEmojis)}]));
 
         return {data: true};
     };

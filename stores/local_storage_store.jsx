@@ -103,12 +103,6 @@ class LocalStorageStoreClass {
         return recentEmojis;
     }
 
-    setRecentEmojis(userId, recentEmojis = []) {
-        if (recentEmojis.length) {
-            this.setItem(getRecentEmojisKey(userId), JSON.stringify(recentEmojis));
-        }
-    }
-
     getTeamIdJoinedOnLoad() {
         return this.getItem(teamIdJoinedOnLoadKey);
     }

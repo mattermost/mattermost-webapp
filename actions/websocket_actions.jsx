@@ -1029,11 +1029,6 @@ export async function handleUserUpdatedEvent(msg) {
     if (user && user.props) {
         const customStatus = user.props.customStatus ? JSON.parse(user.props.customStatus) : undefined;
         dispatch(loadCustomEmojisIfNeeded([customStatus?.emoji]));
-
-        const recentEmojis = user.props.recentEmojis ? JSON.parse(user.props.recentEmojis) : undefined;
-        if (recentEmojis) {
-            LocalStorageStore.setRecentEmojis(user.id, recentEmojis);
-        }
     }
 
     if (currentUser.id === user.id) {

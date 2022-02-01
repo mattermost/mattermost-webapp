@@ -3,8 +3,8 @@
 
 import configureStore from 'store';
 import {getRecentEmojis, getEmojiMap} from 'selectors/emojis';
-import * as EmojiActions from 'actions/emoji_actions';
-import LocalStorageStore from 'stores/local_storage_store';
+import * as EmojiActions from 'actions/emoji_actions';;
+import preferences from 'mattermost-redux/action_types/preferences';
 
 const currentUserId = 'current_user_id';
 const initialState = {
@@ -15,7 +15,7 @@ const initialState = {
     },
 };
 
-const setRecentEmojisSpy = jest.spyOn(LocalStorageStore, 'setRecentEmojis').mockImplementation(() => {
+const setRecentEmojisSpy = jest.spyOn(preferences, 'setRecentEmojis').mockImplementation(() => {
     return true;
 });
 

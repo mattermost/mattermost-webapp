@@ -3827,13 +3827,6 @@ export default class Client4 {
             this.telemetryHandler.pageVisited(this.userId, userRoles, category, name);
         }
     }
-
-    updateRecentEmojis = (recentEmojis: RecentEmojiData[]) => {
-        return this.doFetch(
-            `${this.getUserRoute('me')}/recentEmojis`,
-            {method: 'put', body: JSON.stringify(recentEmojis)},
-        );
-    };
 }
 
 function parseAndMergeNestedHeaders(originalHeaders: any) {

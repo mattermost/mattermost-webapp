@@ -227,3 +227,12 @@ export function getAddMembersToChannel(state: GlobalState): AddMembersToChannelt
 export function getInviteToTeamTreatment(state: GlobalState): InviteToTeamTreatments | undefined {
     return getFeatureFlagValue(state, 'InviteToTeam') as InviteToTeamTreatments | undefined;
 }
+
+const getRecentEmojisPreference = createSelector(
+    'getRecentEmojisPreference',
+    getMyPreferences,
+    (state) => state.entities.users.currentUserId,
+    (myPreferences, currentUserId) => {
+        return myPreferences[getPreferenceKey(Preferences.RECENT_EMOJIS, currentUserId)];
+    },
+);

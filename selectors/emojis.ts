@@ -6,7 +6,7 @@ import {createSelector} from 'reselect';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {get, getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 
 import LocalStorageStore from 'stores/local_storage_store';
 
@@ -15,6 +15,8 @@ import EmojiMap from 'utils/emoji_map';
 
 import type {GlobalState} from 'types/store';
 import {RecentEmojiData} from 'mattermost-redux/types/emojis';
+import { getPreferenceKey } from 'mattermost-redux/utils/preference_utils';
+import { PreferencesType } from 'mattermost-redux/types/preferences';
 
 export const getEmojiMap = createSelector(
     'getEmojiMap',
@@ -27,19 +29,15 @@ export const getEmojiMap = createSelector(
 export const getShortcutReactToLastPostEmittedFrom = (state: GlobalState) =>
     state.views.emoji.shortcutReactToLastPostEmittedFrom;
 
-export const getRecentEmojis = createSelector(
-    'getRecentEmojis',
-    (state: GlobalState) =>
-        LocalStorageStore.getRecentEmojis(getCurrentUserId(state)),
-    (recentEmojis) => {
-        if (!recentEmojis) {
-            return [];
-        }
-
-        const recentEmojisArray: RecentEmojiData[] = JSON.parse(recentEmojis);
-        return recentEmojisArray;
-    },
-);
+export function getRecentEmojis(state: GlobalState): RecentEmojiData[] {
+    const recentEmojis = get(
+        state,
+        Preferences.RECENT_EMOJIS,
+        getCurrentUserId(state),
+        '[]',
+    );
+    return JSON.parse(recentEmojis);
+}
 
 export function getUserSkinTone(state: GlobalState) {
     return get(

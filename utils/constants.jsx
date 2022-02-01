@@ -123,6 +123,8 @@ export const Preferences = {
 
     // A/B test preference value
     AB_TEST_PREFERENCE_VALUE: 'ab_test_preference_value',
+
+    RECENT_EMOJIS: 'recent_emojis',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
