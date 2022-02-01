@@ -20,11 +20,11 @@ import {ModalData} from 'types/actions';
 import {debounce} from 'mattermost-redux/actions/helpers';
 import Input from 'components/input';
 import CreateUserGroupsModal from 'components/create_user_groups_modal';
-import LoadingScreen from 'components/loading_screen';
 import ViewUserGroupModal from 'components/view_user_group_modal';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import NoResultsIndicator from 'components/no_results_indicator';
 import {NoResultsVariant} from 'components/no_results_indicator/types';
+import UserGroupsList from './user_groups_list/user_groups_list';
 
 const GROUPS_PER_PAGE = 60;
 
@@ -244,15 +244,11 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
     leaveGroup = async (groupId: string) => {
         const {currentUserId, actions} = this.props;
 
-        // Should do some redux thing where I decrement the member_count of the group
-
         await actions.removeUsersFromGroup(groupId, [currentUserId]);
     }
 
     joinGroup = async (groupId: string) => {
         const {currentUserId, actions} = this.props;
-
-        // Should do some redux thing where I increment the member_count of the group
 
         await actions.addUsersToGroup(groupId, [currentUserId]);
     }
@@ -293,7 +289,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
 
     render() {
         const groups = this.state.selectedFilter === 'all' ? this.props.groups : this.props.myGroups;
-        const {groupPermissionsMap, canCreateCustomGroups} = this.props;
+        const {canCreateCustomGroups} = this.props;
 
         return (
             <Modal
@@ -376,90 +372,15 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                     </Menu>
                                 </MenuWrapper>
                             </div>
-
-                            <div
-                                className='user-groups-modal__content user-groups-list'
+                            <UserGroupsList
+                                groups={groups}
+                                searchTerm={this.props.searchTerm}
+                                loading={this.state.loading}
+                                groupPermissionsMap={this.props.groupPermissionsMap}
                                 onScroll={this.onScroll}
-                                ref={this.divScrollRef}
-                            >
-                                {(groups.length === 0 && this.props.searchTerm) &&
-                                    <NoResultsIndicator
-                                        variant={NoResultsVariant.ChannelSearch}
-                                        titleValues={{channelName: `"${this.props.searchTerm}"`}}
-                                    />
-                                }
-                                {groups.map((group) => {
-                                    return (
-                                        <div
-                                            className='group-row'
-                                            key={group.id}
-                                            onClick={() => {
-                                                this.goToViewGroupModal(group);
-                                            }}
-                                        >
-                                            <span className='group-display-name'>
-                                                {group.display_name}
-                                            </span>
-                                            <span className='group-name'>
-                                                {'@'}{group.name}
-                                            </span>
-                                            <div className='group-member-count'>
-                                                <FormattedMessage
-                                                    id='user_groups_modal.memberCount'
-                                                    defaultMessage='{member_count} {member_count, plural, one {member} other {members}}'
-                                                    values={{
-                                                        member_count: group.member_count,
-                                                    }}
-                                                />
-                                            </div>
-                                            <div className='group-action'>
-                                                <MenuWrapper
-                                                    isDisabled={false}
-                                                    stopPropagationOnToggle={true}
-                                                    id={`customWrapper-${group.id}`}
-                                                >
-                                                    <button className='action-wrapper'>
-                                                        <i className='icon icon-dots-vertical'/>
-                                                    </button>
-                                                    <Menu
-                                                        openLeft={true}
-                                                        openUp={false}
-                                                        className={'group-actions-menu'}
-                                                        ariaLabel={Utils.localizeMessage('admin.user_item.menuAriaLabel', 'User Actions Menu')}
-                                                    >
-                                                        <Menu.Group>
-                                                            <Menu.ItemAction
-                                                                onClick={() => {
-                                                                    this.goToViewGroupModal(group);
-                                                                }}
-                                                                icon={<i className='icon-account-multiple-outline'/>}
-                                                                text={Utils.localizeMessage('user_groups_modal.viewGroup', 'View Group')}
-                                                                disabled={false}
-                                                            />
-                                                        </Menu.Group>
-                                                        <Menu.Group>
-                                                            <Menu.ItemAction
-                                                                show={groupPermissionsMap[group.id].can_delete}
-                                                                onClick={() => {
-                                                                    this.archiveGroup(group.id);
-                                                                }}
-                                                                icon={<i className='icon-archive-outline'/>}
-                                                                text={Utils.localizeMessage('user_groups_modal.archiveGroup', 'Archive Group')}
-                                                                disabled={false}
-                                                                isDangerous={true}
-                                                            />
-                                                        </Menu.Group>
-                                                    </Menu>
-                                                </MenuWrapper>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                                {
-                                    (this.state.loading) &&
-                                    <LoadingScreen/>
-                                }
-                            </div>
+                                goToViewGroupModal={this.goToViewGroupModal}
+                                archiveGroup={this.archiveGroup}
+                            />
                         </>
                     }
 
