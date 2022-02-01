@@ -21,8 +21,9 @@ import EasyManagementSvg from 'components/common/svg_images_components/easy_mana
 
 import {testSiteURL} from '../../../actions/admin_actions';
 import FormattedAdminHeader from '../../widgets/admin_console/formatted_admin_header';
-
 import {Props} from '../admin_console';
+
+import useMetricsData from './dashboard.data';
 
 import OverallScore from './overall-score';
 import ChipsList, {ChipsInfoType} from './chips_list';
@@ -49,6 +50,8 @@ type ItemModel = {
     status: ItemStatus;
 }
 
+const getTranslationId = (key: string) => `admin.reporting.workspace_optimization.${key}`;
+
 const AccordionItem = styled.div<{iconColor: string}>`
     padding: 12px;
     border-bottom: 1px solid #BBB;
@@ -68,9 +71,12 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     const [loading, setLoading] = useState(true);
     const [versionData, setVersionData] = useState<{type: string; version: string; status: ItemStatus}>({type: '', version: '', status: 'none'});
     const {formatMessage} = useIntl();
+    const {getAccessData, getConfigurationData, getUpdatesData, getPerformanceData} = useMetricsData();
 
     // get the currently installed server version
     const installedVersion = useSelector((state: GlobalState) => getServerVersion(state));
+    const analytics = useSelector((state: GlobalState) => state.entities.admin.analytics);
+    const {TOTAL_USERS: totalUsers, TOTAL_POSTS: totalPosts} = analytics!;
 
     // gather locally available data
     const {ServiceSettings} = props.config;
@@ -106,15 +112,24 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                 // get correct values to be inserted into the accordion item
                 switch (true) {
                 case newVersionParts[0] > installedVersionParts[0]:
-                    type = formatMessage({id: 'admin.reporting.workspace_optimization.version_type.major', defaultMessage: 'Major'});
+                    type = formatMessage({
+                        id: getTranslationId('updates.server_version.update_type.major'),
+                        defaultMessage: 'Major',
+                    });
                     status = 'error';
                     break;
                 case newVersionParts[1] > installedVersionParts[1]:
-                    type = formatMessage({id: 'admin.reporting.workspace_optimization.version_type.minor', defaultMessage: 'Minor'});
+                    type = formatMessage({
+                        id: getTranslationId('updates.server_version.update_type.minor'),
+                        defaultMessage: 'Minor',
+                    });
                     status = 'warning';
                     break;
                 case newVersionParts[2] > installedVersionParts[2]:
-                    type = formatMessage({id: 'admin.reporting.workspace_optimization.version_type.patch', defaultMessage: 'Patch'});
+                    type = formatMessage({
+                        id: getTranslationId('updates.server_version.update_type.patch'),
+                        defaultMessage: 'Patch',
+                    });
                     status = 'info';
                     break;
                 }
@@ -136,9 +151,10 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     }, []);
 
     const data: DataModel = {
-        updates: {
-            title: 'Updates and Errors',
-            description: 'You have an update to consider',
+        updates: getUpdatesData({serverVersion: versionData}),
+        updates_DEPR: {
+            title: formatMessage({id: getTranslationId('updates.title'), defaultMessage: 'Updates and Errors'}),
+            description: formatMessage({id: getTranslationId('updates.description'), defaultMessage: 'You have an update to consider'}),
             icon: (
                 <UpdatesAndErrorsSvg
                     width={22}
@@ -148,17 +164,33 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
             items: [
                 {
                     id: 'server-version',
-                    title: versionData.status === 'ok' ? 'Your Mattermost server is running the latest version' : `${versionData.type} version update available`,
-                    description: versionData.status === 'ok' ? 'Nothing to do here. All good!' : `Mattermost ${versionData.version} contains a medium level security fix. Upgrading to this release is recommended.`,
+                    title: versionData.status === 'ok' ? formatMessage({
+                        id: getTranslationId('updates.server_version.status.ok.title'),
+                        defaultMessage: 'Your Mattermost server is running the latest version',
+                    }) : formatMessage({
+                        id: getTranslationId('updates.server_version.status.error.title'),
+                        defaultMessage: '{type} version update available',
+                    }, {type: versionData.type}),
+                    description: versionData.status === 'ok' ? formatMessage({
+                        id: getTranslationId('updates.server_version.status.ok.description'),
+                        defaultMessage: 'Placeholder: Nothing to do here. All good!',
+                    }) : formatMessage({
+                        id: getTranslationId('updates.server_version.status.error.description'),
+                        defaultMessage: 'Placeholder: Mattermost {version} contains a medium level security fix. Upgrading to this release is recommended.',
+                    }, {version: versionData.version}),
                     configUrl: '#',
                     infoUrl: '#',
                     status: versionData.status,
                 },
             ],
         },
-        configuration: {
-            title: 'Configuration',
-            description: 'You have configuration problems to resolve',
+        configuration: getConfigurationData({
+            ssl: {status: location.protocol === 'https:' ? 'info' : 'error'},
+            sessionLength: {status: sessionLengthWebInDays >= 30 ? 'warning' : 'info'},
+        }),
+        configuration_DEPR: {
+            title: formatMessage({id: getTranslationId('configuration.title'), defaultMessage: 'Configuration'}),
+            description: formatMessage({id: getTranslationId('configuration.description'), defaultMessage: 'You have configuration problems to resolve'}),
             icon: (
                 <ConfigurationSvg
                     width={20}
@@ -168,8 +200,14 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
             items: [
                 {
                     id: 'ssl',
-                    title: 'Configure SSL to make your server more secure',
-                    description: 'You should configure SSL to secure how your server is accessed in a production environment.',
+                    title: formatMessage({
+                        id: getTranslationId('configuration.ssl.title'),
+                        defaultMessage: 'Configure SSL to make your server more secure',
+                    }),
+                    description: formatMessage({
+                        id: getTranslationId('configuration.ssl.title'),
+                        defaultMessage: 'You should configure SSL to secure how your server is accessed in a production environment.',
+                    }),
                     configUrl: '/ssl-settings',
                     infoUrl: 'https://www.google.de',
                     status: location.protocol === 'https:' ? 'info' : 'error',
@@ -184,7 +222,8 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                 },
             ],
         },
-        access: {
+        access: getAccessData({siteUrl: {status: 'info'}}),
+        access_DEPR: {
             title: 'Workspace Access',
             description: 'Web server settings could be affecting access.',
             icon: (
@@ -204,7 +243,14 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                 },
             ],
         },
-        performance: {
+        performance: getPerformanceData({
+            search: {
+                status: totalPosts < 2000000 && totalUsers < 500 ? 'warning' : 'ok',
+                totalPosts: totalPosts as number,
+                totalUsers: totalUsers as number,
+            },
+        }),
+        performance_DEPR: {
             title: 'Performance',
             description: 'Your server could use some performance tweaks.',
             icon: (
@@ -257,7 +303,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                 {
                     id: 'privacy',
                     title: 'Become more data aware',
-                    description: 'Alot of organizations in highly regulated indsutries require more control and insight with thier data. Become more aware and take control of your data by trying out data retention and compliance features.',
+                    description: 'A lot of organizations in highly regulated indsutries require more control and insight with thier data. Become more aware and take control of your data by trying out data retention and compliance features.',
                     configUrl: '/site-url',
                     infoUrl: 'https://www.google.de',
                     status: 'info',
@@ -350,7 +396,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     return loading ? <p>{'Loading ...'}</p> : (
         <div className='WorkspaceOptimizationDashboard wrapper--fixed'>
             <FormattedAdminHeader
-                id='admin.reporting.workspace_optimization.title'
+                id={getTranslationId('title')}
                 defaultMessage='Workspace Optimization'
             />
             <div className='admin-console__wrapper'>
