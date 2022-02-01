@@ -8,11 +8,11 @@ import {FormattedMessage} from 'react-intl';
 import {t} from 'utils/i18n';
 import MultiSelectCards from 'components/common/multi_select_cards';
 
-import BoardsSVG from 'components/common/svg_images_components/boards.svg';
-import PlaybooksSVG from 'components/common/svg_images_components/playbooks.svg';
-import ChannelsSVG from 'components/common/svg_images_components/channels.svg';
+import BoardsSVG from 'components/common/svg_images_components/boards_svg';
+import PlaybooksSVG from 'components/common/svg_images_components/playbooks_svg';
+import ChannelsSVG from 'components/common/svg_images_components/channels_svg';
 
-import LaptopSVG from 'components/common/svg_images_components/laptop.svg';
+import LaptopSVG from 'components/common/svg_images_components/laptop_svg';
 
 import {Animations, mapAnimationReasonToClass, Form, TransitionProps} from './steps';
 

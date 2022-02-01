@@ -6,7 +6,7 @@ import {CSSTransition} from 'react-transition-group';
 
 import {Animations, AnimationReason, mapAnimationReasonToClass, WizardStep, WizardSteps} from './steps';
 
-import ChannelsPreviewSVG from './channels-preview.svg';
+import ChannelsPreviewSVG from './channels_preview_svg';
 import TeamMembers from './team_members';
 
 import './channels_preview.scss';

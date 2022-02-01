@@ -10,11 +10,11 @@ import MultiSelectCards from 'components/common/multi_select_cards';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-import GithubSVG from 'components/common/svg_images_components/github.svg';
-import GitlabSVG from 'components/common/svg_images_components/gitlab.svg';
-import JiraSVG from 'components/common/svg_images_components/jira.svg';
-import ZoomSVG from 'components/common/svg_images_components/zoom.svg';
-import TodoSVG from 'components/common/svg_images_components/todo.svg';
+import GithubSVG from 'components/common/svg_images_components/github_svg';
+import GitlabSVG from 'components/common/svg_images_components/gitlab_svg';
+import JiraSVG from 'components/common/svg_images_components/jira_svg';
+import ZoomSVG from 'components/common/svg_images_components/zoom_svg';
+import TodoSVG from 'components/common/svg_images_components/todo_svg';
 
 import {Animations, mapAnimationReasonToClass, Form, TransitionProps} from './steps';
 

@@ -12,7 +12,7 @@ import Constants from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-import OrganizationSVG from 'components/common/svg_images_components/organization-building.svg';
+import OrganizationSVG from 'components/common/svg_images_components/organization-building_svg';
 
 import {Animations, mapAnimationReasonToClass, Form, TransitionProps} from './steps';
 import PageLine from './page_line';
@@ -147,6 +147,7 @@ const Organization = (props: Props) => {
                     <div>
                         <button
                             className='primary-button'
+                            data-testid="continue"
                             onClick={onNext}
                             disabled={!props.organization}
                         >

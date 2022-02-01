@@ -10,7 +10,7 @@ import QuickInput from 'components/quick_input';
 
 import Constants from 'utils/constants';
 
-import LaptopEarthSVG from 'components/common/svg_images_components/laptop-earth.svg';
+import LaptopEarthSVG from 'components/common/svg_images_components/laptop-earth_svg';
 
 import {Animations, mapAnimationReasonToClass, Form, TransitionProps} from './steps';
 
