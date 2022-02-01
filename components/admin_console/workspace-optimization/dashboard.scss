@@ -66,14 +66,15 @@
 
         &__scoreEllipseSvg {
             .alertImageScore {
-                border-radius: 50%;
+                display: flex;
                 width: 112px;
                 height: 112px;
-                background-color: rgba(var(--sys-error-text-color-rgb), 0.3);
-                display: flex;
-                justify-content: center;
                 align-items: center;
+                justify-content: center;
+                background-color: rgba(var(--sys-error-text-color-rgb), 0.3);
+                border-radius: 50%;
             }
+
             .CircularChart {
                 .circular-chart {
                     display: block;
@@ -170,11 +171,11 @@
                         display: flex;
                         width: 44px;
                         height: 44px;
-                        justify-content: center;
                         align-items: center;
+                        justify-content: center;
                         background-color: rgba(var(--sys-denim-center-channel-text-rgb), 0.16);
                         border-radius: 50%;
-    
+
                         &.success {
                             background-color: rgba(var(--sys-online-indicator-rgb), 0.16);
                         }
@@ -226,10 +227,10 @@
                     margin: 15px 0;
 
                     button {
-                        margin-top: 0;
-                        margin-right: 10px;
                         max-height: 32px;
                         padding: 5px 20px !important;
+                        margin-top: 0;
+                        margin-right: 10px;
                         border-radius: 4px !important;
                         font-weight: 600;
                     }
