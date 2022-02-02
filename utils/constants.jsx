@@ -490,6 +490,7 @@ export const TutorialSteps = {
     FINISHED: 999,
 };
 
+// note: add steps in same order as the keys in TutorialSteps above
 export const AdminTutorialSteps = ['START_TRIAL'];
 
 export const CrtTutorialSteps = {

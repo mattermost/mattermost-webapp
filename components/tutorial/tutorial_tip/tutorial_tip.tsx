@@ -198,7 +198,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             stepValue -= 1;
 
             // if the previous tip step/steps are for only admins, skip them for non admins
-            for (const tipName of AdminOnBoardingTutorialStep) {
+            for (const tipName of [...AdminOnBoardingTutorialStep].reverse()) {
                 const keyForPrevStepValue = this.getKeyByValue(OnBoardingTutorialStep, stepValue);
                 if (!isAdmin && keyForPrevStepValue && keyForPrevStepValue === tipName) {
                     stepValue -= 1;
