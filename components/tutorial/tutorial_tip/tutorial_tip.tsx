@@ -18,6 +18,7 @@ import TutorialTipBackdrop, {Coords, TutorialTipPunchout} from './tutorial_tip_b
 
 const Preferences = Constants.Preferences;
 const OnBoardingTutorialStep = Constants.TutorialSteps;
+const AdminOnBoardingTutorialStep = Constants.AdminTutorialSteps;
 const TutorialSteps = {
     [Preferences.TUTORIAL_STEP]: Constants.TutorialSteps,
     [Preferences.CRT_TUTORIAL_STEP]: Constants.CrtTutorialSteps,
@@ -53,6 +54,18 @@ type Props = {
     telemetryTag?: string;
     stopPropagation?: boolean;
     preventDefault?: boolean;
+    isAdmin: boolean;
+
+    /*
+    extraFunc is a function to run at the end of a tip or on handleSavePreferences
+    **/
+    extraFunc?: () => void;
+
+    // the text to show on the button of last step of the tutorial
+    customLastStepButtonText?: {
+        id: string;
+        defaultMessage: string;
+    };
     tutorialCategory?: string;
     onNextNavigateTo?: () => void;
     onPrevNavigateTo?: () => void;
@@ -60,6 +73,7 @@ type Props = {
         closeRhsMenu: () => void;
         savePreferences: (currentUserId: string, preferences: Preference[]) => void;
         setFirstChannelName: (channelName: string) => (dispatch: DispatchFunc) => void;
+        setProductMenuSwitcherOpen: (open: boolean) => void;
     };
     autoTour: boolean;
     firstChannelName: string | undefined;
@@ -160,15 +174,39 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         }
     }
 
-    private handleSavePreferences = (autoTour: boolean, nextStep: boolean | number): void => {
-        const {currentUserId, tutorialCategory, actions, singleTip, onNextNavigateTo, onPrevNavigateTo} = this.props;
+    getKeyByValue = (obj: Record<string, number>, value: number) => {
+        return Object.keys(obj).find((key) => obj[key] === value);
+    }
+
+    handleSavePreferences = (autoTour: boolean, nextStep: boolean | number): void => {
+        const {isAdmin, currentUserId, tutorialCategory, actions, singleTip, onNextNavigateTo, onPrevNavigateTo} = this.props;
         const {closeRhsMenu, savePreferences, setFirstChannelName} = actions;
 
         let stepValue = this.props.currentStep;
         if (nextStep === true) {
             stepValue += 1;
+
+            // if the next tip step/steps are for only admins, skip them for non admins
+            for (const tipName of AdminOnBoardingTutorialStep) {
+                const keyForNextStepValue = this.getKeyByValue(OnBoardingTutorialStep, stepValue);
+                if (!isAdmin && keyForNextStepValue && keyForNextStepValue === tipName) {
+                    stepValue += 1;
+                } else {
+                    break;
+                }
+            }
         } else if (nextStep === false) {
             stepValue -= 1;
+
+            // if the previous tip step/steps are for only admins, skip them for non admins
+            for (const tipName of [...AdminOnBoardingTutorialStep].reverse()) {
+                const keyForPrevStepValue = this.getKeyByValue(OnBoardingTutorialStep, stepValue);
+                if (!isAdmin && keyForPrevStepValue && keyForPrevStepValue === tipName) {
+                    stepValue -= 1;
+                } else {
+                    break;
+                }
+            }
         } else {
             stepValue = nextStep;
         }
@@ -209,6 +247,15 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             setFirstChannelName('');
         }
 
+        // if the next tip is start trial tip, open the product switcher to show tip
+        if (((this.props.currentStep + 1) === OnBoardingTutorialStep.START_TRIAL) && this.props.isAdmin) {
+            this.props.actions.setProductMenuSwitcherOpen(true);
+        }
+
+        if (this.props.extraFunc) {
+            this.props.extraFunc();
+        }
+
         if (onNextNavigateTo && nextStep === true && autoTour) {
             onNextNavigateTo();
         } else if (onPrevNavigateTo && nextStep === false && autoTour) {
@@ -227,7 +274,10 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             const tag = this.props.telemetryTag + '_next';
             trackEvent('tutorial', tag);
         }
-        if (this.getLastStep(TutorialSteps[this.props.tutorialCategory || Preferences.TUTORIAL_STEP]) === this.props.currentStep) {
+
+        const category = this.props.tutorialCategory || Preferences.TUTORIAL_STEP;
+
+        if (this.getLastStep(TutorialSteps[category], category) === this.props.currentStep) {
             this.handleSavePreferences(auto, TutorialSteps[this.props.tutorialCategory || Preferences.TUTORIAL_STEP].FINISHED);
         } else {
             this.handleSavePreferences(auto, true);
@@ -257,10 +307,18 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         return this.targetRef.current;
     }
 
-    private getLastStep(tutorialSteps: Record<string, number>) {
-        return Object.values(tutorialSteps).reduce((maxStep, candidateMaxStep) => {
+    private getLastStep(tutorialSteps: Record<string, number>, category: string) {
+        const tmpSteps = {...tutorialSteps};
+
+        // temporary fix for filtering tutorial_step category based on role. In this case, START_TRIAL point is
+        // only accessible by admins
+        if (!this.props.isAdmin && category === Preferences.TUTORIAL_STEP) {
+            delete tmpSteps.START_TRIAL;
+        }
+
+        return Object.values(tmpSteps).reduce((maxStep, candidateMaxStep) => {
             // ignore the "opt out" FINISHED step as the max step.
-            if (candidateMaxStep > maxStep && candidateMaxStep !== tutorialSteps.FINISHED) {
+            if (candidateMaxStep > maxStep && candidateMaxStep !== tmpSteps.FINISHED) {
                 return candidateMaxStep;
             }
             return maxStep;
@@ -287,14 +345,23 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             return buttonText;
         }
 
-        const lastStep = this.getLastStep(TutorialSteps[category]);
+        const lastStep = this.getLastStep(TutorialSteps[category], category);
         if (this.props.step === lastStep) {
-            buttonText = (
-                <FormattedMessage
-                    id={'tutorial_tip.finish_tour'}
-                    defaultMessage={'Finish tour'}
-                />
-            );
+            if (this.props.customLastStepButtonText) {
+                buttonText = (
+                    <FormattedMessage
+                        id={this.props.customLastStepButtonText.id}
+                        defaultMessage={this.props.customLastStepButtonText.defaultMessage}
+                    />
+                );
+            } else {
+                buttonText = (
+                    <FormattedMessage
+                        id={'tutorial_tip.finish_tour'}
+                        defaultMessage={'Finish tour'}
+                    />
+                );
+            }
         }
 
         return buttonText;
