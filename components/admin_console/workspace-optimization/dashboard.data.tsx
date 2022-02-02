@@ -51,10 +51,12 @@ const useMetricsData = () => {
         title: formatMessage({id: 'admin.reporting.workspace_optimization.updates.title', defaultMessage: 'Updates and Errors'}),
         description: formatMessage({id: 'admin.reporting.workspace_optimization.updates.description', defaultMessage: 'You have an update to consider'}),
         icon: (
-            <UpdatesAndErrorsSvg
-                width={22}
-                height={22}
-            />
+            <div className='icon'>
+                <UpdatesAndErrorsSvg
+                    width={22}
+                    height={22}
+                />
+            </div>
         ),
         items: [
             {
@@ -95,10 +97,12 @@ const useMetricsData = () => {
         title: formatMessage({id: 'admin.reporting.workspace_optimization.configuration.title', defaultMessage: 'Configuration'}),
         description: formatMessage({id: 'admin.reporting.workspace_optimization.configuration.description', defaultMessage: 'You have configuration problems to resolve'}),
         icon: (
-            <ConfigurationSvg
-                width={20}
-                height={20}
-            />
+            <div className='icon'>
+                <ConfigurationSvg
+                    width={20}
+                    height={20}
+                />
+            </div>
         ),
         items: [
             {
@@ -152,10 +156,12 @@ const useMetricsData = () => {
             defaultMessage: 'Web server settings could be affecting access.',
         }),
         icon: (
-            <WorkspaceAccessSvg
-                width={20}
-                height={20}
-            />
+            <div className='icon'>
+                <WorkspaceAccessSvg
+                    width={20}
+                    height={20}
+                />
+            </div>
         ),
         items: [
             {
@@ -195,10 +201,12 @@ const useMetricsData = () => {
             defaultMessage: 'Your server could use some performance tweaks.',
         }),
         icon: (
-            <PerformanceSvg
-                width={20}
-                height={20}
-            />
+            <div className='icon'>
+                <PerformanceSvg
+                    width={20}
+                    height={20}
+                />
+            </div>
         ),
         items: [
             {
@@ -238,10 +246,12 @@ const useMetricsData = () => {
             defaultMessage: 'There are security concerns you should look at.',
         }),
         icon: (
-            <SecuritySvg
-                width={20}
-                height={20}
-            />
+            <div className='icon'>
+                <SecuritySvg
+                    width={20}
+                    height={20}
+                />
+            </div>
         ),
         items: [
             {
@@ -280,10 +290,12 @@ const useMetricsData = () => {
             defaultMessage: 'Get better insight and control over your data.',
         }),
         icon: (
-            <DataPrivacySvg
-                width={20}
-                height={20}
-            />
+            <div className='icon'>
+                <DataPrivacySvg
+                    width={20}
+                    height={20}
+                />
+            </div>
         ),
         items: [
             {
@@ -325,10 +337,12 @@ const useMetricsData = () => {
             defaultMessage: 'We have suggestions that could make your managemenet easier.',
         }),
         icon: (
-            <EasyManagementSvg
-                width={20}
-                height={20}
-            />
+            <div className='icon'>
+                <EasyManagementSvg
+                    width={20}
+                    height={20}
+                />
+            </div>
         ),
         items: [
             {
