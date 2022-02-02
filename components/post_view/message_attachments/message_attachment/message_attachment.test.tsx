@@ -110,7 +110,7 @@ describe('components/post_view/MessageAttachment', () => {
 
     test('should call openModal when showModal is called', () => {
         const props = {...baseProps, src: 'https://example.com/image.png'};
-        const wrapper = shallow(
+        const wrapper = shallow<MessageAttachment>(
             <MessageAttachment {...props}/>,
         );
 
