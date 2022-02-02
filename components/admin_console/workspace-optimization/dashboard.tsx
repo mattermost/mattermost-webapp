@@ -18,7 +18,7 @@ import {testSiteURL} from '../../../actions/admin_actions';
 import FormattedAdminHeader from '../../widgets/admin_console/formatted_admin_header';
 import {Props} from '../admin_console';
 
-import useMetricsData, {DataModel, getTranslationId, ItemStatus} from './dashboard.data';
+import useMetricsData, {DataModel, ItemStatus} from './dashboard.data';
 
 import OverallScore from './overall-score';
 import ChipsList, {ChipsInfoType} from './chips_list';
@@ -96,21 +96,21 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                 switch (true) {
                 case newVersionParts[0] > installedVersionParts[0]:
                     type = formatMessage({
-                        id: getTranslationId('updates.server_version.update_type.major'),
+                        id: 'admin.reporting.workspace_optimization.updates.server_version.update_type.major',
                         defaultMessage: 'Major',
                     });
                     status = 'error';
                     break;
                 case newVersionParts[1] > installedVersionParts[1]:
                     type = formatMessage({
-                        id: getTranslationId('updates.server_version.update_type.minor'),
+                        id: 'admin.reporting.workspace_optimization.updates.server_version.update_type.minor',
                         defaultMessage: 'Minor',
                     });
                     status = 'warning';
                     break;
                 case newVersionParts[2] > installedVersionParts[2]:
                     type = formatMessage({
-                        id: getTranslationId('updates.server_version.update_type.patch'),
+                        id: 'admin.reporting.workspace_optimization.updates.server_version.update_type.patch',
                         defaultMessage: 'Patch',
                     });
                     status = 'info';
@@ -216,7 +216,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     return loading ? <p>{'Loading ...'}</p> : (
         <div className='WorkspaceOptimizationDashboard wrapper--fixed'>
             <FormattedAdminHeader
-                id={getTranslationId('title')}
+                id={'admin.reporting.workspace_optimization.title'}
                 defaultMessage='Workspace Optimization'
             />
             <div className='admin-console__wrapper'>
