@@ -30,7 +30,7 @@ exports[`components/SizeAwareImage should load download and copy link buttons wh
       }
     }
   >
-    <div
+    <figure
       className="image-loaded-container"
     >
       <img
@@ -118,7 +118,7 @@ exports[`components/SizeAwareImage should load download and copy link buttons wh
           </a>
         </OverlayTrigger>
       </span>
-    </div>
+    </figure>
   </div>
 </Fragment>
 `;
@@ -153,7 +153,7 @@ exports[`components/SizeAwareImage should match snapshot when handleSmallImageCo
       }
     }
   >
-    <div
+    <figure
       className="image-loaded-container"
     >
       <img
@@ -240,7 +240,7 @@ exports[`components/SizeAwareImage should match snapshot when handleSmallImageCo
           </a>
         </OverlayTrigger>
       </span>
-    </div>
+    </figure>
   </div>
 </Fragment>
 `;
@@ -289,7 +289,7 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
       }
     }
   >
-    <div
+    <figure
       className="image-loaded-container"
     >
       <img
@@ -376,7 +376,7 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
           </a>
         </OverlayTrigger>
       </span>
-    </div>
+    </figure>
   </div>
 </Fragment>
 `;
