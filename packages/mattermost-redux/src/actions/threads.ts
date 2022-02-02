@@ -8,7 +8,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import ThreadConstants from 'mattermost-redux/constants/threads';
 
-import {DispatchFunc, GetStateFunc, batchActions} from 'mattermost-redux/types/actions';
+import {DispatchFunc, GetStateFunc, batchActions, ActionResult} from 'mattermost-redux/types/actions';
 
 import type {UserThread, UserThreadList} from 'mattermost-redux/types/threads';
 
@@ -20,7 +20,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
-import {getThreadsInChannel, getThread as getThreadSelector} from 'mattermost-redux/selectors/entities/threads';
+import {getThreadsInChannel, getThread as getThreadSelector, getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
@@ -110,6 +110,24 @@ export function getThreadCounts(userId: string, teamId: string) {
         });
 
         return {data};
+    };
+}
+
+export function getAllUnreadThreads(userId: string, teamId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let response: ActionResult = {error: true};
+
+        // get thread counts
+        await dispatch(getThreadCounts(userId, teamId));
+
+        const state = getState();
+        const counts = getThreadCountsInCurrentTeam(state);
+
+        if (counts.total_unread_threads > 0) {
+            response = await dispatch(getThreads(userId, teamId, {unread: true, perPage: counts.total_unread_threads}));
+        }
+
+        return response;
     };
 }
 
