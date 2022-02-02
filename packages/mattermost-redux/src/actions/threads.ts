@@ -31,16 +31,34 @@ import {forceLogoutIfNecessary} from './helpers';
 
 type ExtendedPost = Post & { system_post_ids?: string[] };
 
-export function getThreads(userId: string, teamId: string, {before = '', after = '', perPage = ThreadConstants.THREADS_CHUNK_SIZE, unread = false, totalsOnly = false} = {}) {
+function fetchThreads(userId: string, teamId: string, {before = '', after = '', perPage = ThreadConstants.THREADS_CHUNK_SIZE, unread = false, totalsOnly = false, threadsOnly = false} = {}) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let userThreadList: undefined | UserThreadList;
+        let data: undefined | UserThreadList;
 
         try {
-            userThreadList = await Client4.getUserThreads(userId, teamId, {before, after, perPage, extended: false, unread, totalsOnly});
+            data = await Client4.getUserThreads(userId, teamId, {before, after, perPage, extended: false, unread, totalsOnly, threadsOnly});
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(logError(error));
             return {error};
+        }
+
+        return {data};
+    };
+}
+
+export function getThreads(userId: string, teamId: string, {before = '', after = '', perPage = ThreadConstants.THREADS_CHUNK_SIZE, unread = false} = {}) {
+    return async (dispatch: DispatchFunc) => {
+        const response = await dispatch(fetchThreads(userId, teamId, {before, after, perPage, unread, totalsOnly: false, threadsOnly: true}));
+
+        if (response.error) {
+            return response;
+        }
+
+        const userThreadList: undefined | UserThreadList = response?.data;
+
+        if (!userThreadList) {
+            return {error: true};
         }
 
         if (userThreadList?.threads?.length) {
@@ -55,13 +73,43 @@ export function getThreads(userId: string, teamId: string, {before = '', after =
         dispatch({
             type: unread ? ThreadTypes.RECEIVED_UNREAD_THREADS : ThreadTypes.RECEIVED_THREADS,
             data: {
-                ...userThreadList,
                 threads: userThreadList?.threads?.map((thread) => ({...thread, is_following: true})) ?? [],
                 team_id: teamId,
             },
         });
 
         return {data: userThreadList};
+    };
+}
+
+export function getThreadCounts(userId: string, teamId: string) {
+    return async (dispatch: DispatchFunc) => {
+        const response = await dispatch(fetchThreads(userId, teamId, {totalsOnly: true, threadsOnly: false}));
+
+        if (response.error) {
+            return response;
+        }
+
+        const counts: undefined | UserThreadList = response?.data;
+        if (!counts) {
+            return {error: true};
+        }
+
+        const data = {
+            total: counts.total,
+            total_unread_threads: counts.total_unread_threads,
+            total_unread_mentions: counts.total_unread_mentions,
+        };
+
+        dispatch({
+            type: ThreadTypes.RECEIVED_THREAD_COUNTS,
+            data: {
+                ...data,
+                team_id: teamId,
+            },
+        });
+
+        return {data};
     };
 }
 

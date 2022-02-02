@@ -11,7 +11,7 @@ import {
     getThreadCountsInCurrentTeam, getThreadsInCurrentTeam,
 } from 'mattermost-redux/selectors/entities/threads';
 import {getInt, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {getThreads} from 'mattermost-redux/actions/threads';
+import {getThreadCounts} from 'mattermost-redux/actions/threads';
 
 import {t} from 'utils/i18n';
 
@@ -71,9 +71,9 @@ const GlobalThreadsLink = () => {
     useEffect(() => {
         // load counts if necessary
         if (isFeatureEnabled) {
-            dispatch(getThreads(currentUserId, currentTeamId, {perPage: 5, totalsOnly: true}));
+            dispatch(getThreadCounts(currentUserId, currentTeamId));
         }
-    }, [currentTeamId, isFeatureEnabled]);
+    }, [currentUserId, currentTeamId, isFeatureEnabled]);
 
     if (!isFeatureEnabled || (unreadsOnly && !inGlobalThreads && !someUnreadThreads)) {
         // hide link if feature disabled or filtering unreads and there are no unread threads
