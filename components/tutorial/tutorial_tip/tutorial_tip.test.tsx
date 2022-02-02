@@ -98,4 +98,60 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
         expect(savePreferences).toHaveBeenCalledTimes(1);
         expect(savePreferences).toHaveBeenCalledWith(currentUserId, expectedPref);
     });
+
+    test('handleSavePreferences next skip admin steps for non admins', () => {
+        const props = {
+            currentUserId,
+            title: <>{'title'}</>,
+            step: 5,
+            currentStep: 5,
+            autoTour: false,
+            isAdmin: false,
+            actions: {
+                closeRhsMenu: jest.fn(),
+                savePreferences: jest.fn(),
+                setFirstChannelName: jest.fn(),
+                setProductMenuSwitcherOpen: jest.fn(),
+            },
+            screen: <></>,
+            placement: 'right',
+
+        };
+        const wrapper = shallow<TutorialTip>(
+            <TutorialTip {...props}/>,
+        );
+
+        wrapper.instance().handleSavePreferences(false, true);
+
+        // current tip is 5, but tip 6, START_TRIAL is only for admins and is skipped to tip 7
+        expect(props.actions.savePreferences).toHaveBeenCalledWith('currentUserId', [{category: 'tutorial_step', name: 'currentUserId', user_id: 'currentUserId', value: '7'}]);
+    });
+
+    test('handleSavePreferences skip previous admin steps for non admins', () => {
+        const props = {
+            currentUserId,
+            title: <>{'title'}</>,
+            step: 7,
+            currentStep: 7,
+            autoTour: false,
+            isAdmin: false,
+            actions: {
+                closeRhsMenu: jest.fn(),
+                savePreferences: jest.fn(),
+                setFirstChannelName: jest.fn(),
+                setProductMenuSwitcherOpen: jest.fn(),
+            },
+            screen: <></>,
+            placement: 'right',
+
+        };
+        const wrapper = shallow<TutorialTip>(
+            <TutorialTip {...props}/>,
+        );
+
+        wrapper.instance().handleSavePreferences(false, false);
+
+        // current tip is 7, but tip 6, START_TRIAL is only for admins and is skipped to tip 5
+        expect(props.actions.savePreferences).toHaveBeenCalledWith('currentUserId', [{category: 'tutorial_step', name: 'currentUserId', user_id: 'currentUserId', value: '5'}]);
+    });
 });
