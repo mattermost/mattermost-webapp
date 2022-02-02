@@ -18,6 +18,7 @@ import TutorialTipBackdrop, {Coords, TutorialTipPunchout} from './tutorial_tip_b
 
 const Preferences = Constants.Preferences;
 const OnBoardingTutorialStep = Constants.TutorialSteps;
+const AdminOnBoardingTutorialStep = Constants.AdminTutorialSteps;
 const TutorialSteps = {
     [Preferences.TUTORIAL_STEP]: Constants.TutorialSteps,
     [Preferences.CRT_TUTORIAL_STEP]: Constants.CrtTutorialSteps,
@@ -172,13 +173,27 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         }
     }
 
+    getKeyByValue = (obj: Record<string, number>, value: number) => {
+        return Object.keys(obj).find((key) => obj[key] === value);
+    }
+
     private handleSavePreferences = (autoTour: boolean, nextStep: boolean | number): void => {
-        const {currentUserId, tutorialCategory, actions, singleTip, onNextNavigateTo, onPrevNavigateTo} = this.props;
+        const {isAdmin, currentUserId, tutorialCategory, actions, singleTip, onNextNavigateTo, onPrevNavigateTo} = this.props;
         const {closeRhsMenu, savePreferences, setFirstChannelName} = actions;
 
         let stepValue = this.props.currentStep;
         if (nextStep === true) {
             stepValue += 1;
+
+            // if the next tip step/steps are for only admins, skip them for non admins
+            for (const tipName of AdminOnBoardingTutorialStep) {
+                const keyForNextStepValue = this.getKeyByValue(OnBoardingTutorialStep, stepValue);
+                if (!isAdmin && keyForNextStepValue && keyForNextStepValue === tipName) {
+                    stepValue += 1;
+                } else {
+                    break;
+                }
+            }
         } else if (nextStep === false) {
             stepValue -= 1;
         } else {

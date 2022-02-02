@@ -490,6 +490,8 @@ export const TutorialSteps = {
     FINISHED: 999,
 };
 
+export const AdminTutorialSteps = ['START_TRIAL'];
+
 export const CrtTutorialSteps = {
     WELCOME_POPOVER: 0,
     LIST_POPOVER: 1,
@@ -1052,6 +1054,7 @@ export const Constants = {
     UserStatuses,
     UserSearchOptions,
     TutorialSteps,
+    AdminTutorialSteps,
     CrtTutorialSteps,
     CrtTutorialTriggerSteps,
     AutoTourStatus,
