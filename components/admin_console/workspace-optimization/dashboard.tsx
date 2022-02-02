@@ -223,7 +223,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                 <OverallScore
                     chips={<ChipsList chipsData={overallScoreChips}/>}
 
-                    // temp to see either the alert image or the circular chart
+                    // @TODO: Remove - temp to see either the alert image or the circular chart
                     chartValue={Math.floor(Math.random() * 100) + 1}
                 />
                 <Accordion
