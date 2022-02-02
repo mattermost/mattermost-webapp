@@ -13,8 +13,7 @@ $tip-index: 1000;
         justify-content: flex-start;
 
         &__title {
-            flex: none;
-            flex-grow: 1;
+            flex: auto;
             order: 0;
             margin: 0;
             font-family: inherit;
@@ -29,6 +28,7 @@ $tip-index: 1000;
             overflow: hidden;
             width: 3.2rem;
             height: 3.2rem;
+            flex-shrink: 0;
             align-items: center;
             justify-content: center;
             border: unset;
@@ -246,6 +246,18 @@ $tip-index: 1000;
         transform: rotate(-45deg);
     }
 
+    .svg-wrapper {
+        display: flex;
+
+        svg {
+            margin: 0 auto;
+        }
+    }
+
+    .handSvg.svg-wrapper {
+        margin: 20px 0 30px 0;
+    }
+
     &.tip-overlay--sidebar {
         margin: 154px 0 0 6px;
 
@@ -261,6 +273,10 @@ $tip-index: 1000;
             top: 32px;
             left: -9px;
             margin-top: -10px;
+        }
+
+        &.first-channel {
+            margin-top: 131px;
         }
     }
 
