@@ -29,9 +29,7 @@ describe('Recent Emoji', () => {
                 EnableCustomEmoji: true,
             },
         });
-    });
 
-    beforeEach(() => {
         cy.apiAdminLogin();
 
         cy.apiInitSetup().then(({team, user}) => {
@@ -89,6 +87,7 @@ describe('Recent Emoji', () => {
         const {customEmoji, customEmojiWithColons} = getCustomEmoji();
 
         // # Open custom emoji
+        cy.reload();
         cy.uiOpenCustomEmoji();
 
         // # Click on add new emoji button on custom emoji page
