@@ -305,6 +305,19 @@ $tip-index: 1000;
         }
     }
 
+    &.tip-overlay--start-trial {
+        margin-top: 100px;
+        margin-left: 5px;
+        box-shadow: var(--elevation-2);
+
+        .arrow {
+            top: 25px;
+            left: -10px;
+            border-right-color: var(--center-channel-bg);
+            border-left-width: 0;
+        }
+    }
+
     &.tip-overlay--chat {
         width: 40.8rem;
         margin-top: -7px;
@@ -410,6 +423,12 @@ $tip-index: 1000;
     &.tip-overlay--chat {
         right: unset;
         left: 0;
+    }
+
+    &.tip-overlay--start-trial {
+        top: 15px;
+        right: -15px;
+        left: unset;
     }
 
     &.tip-overlay--header {
