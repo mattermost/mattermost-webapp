@@ -2,8 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {withIntl} from 'tests/helpers/intl-test-helper';
+
 import {render, fireEvent} from '@testing-library/react';
+
+import {withIntl} from 'tests/helpers/intl-test-helper';
+
 import {Animations} from './steps';
 import Organization from './organization';
 
@@ -45,4 +48,4 @@ describe('Organization', () => {
         fireEvent.click(getByTestId('continue'));
         expect(props.next).toHaveBeenCalled();
     });
-})
+});

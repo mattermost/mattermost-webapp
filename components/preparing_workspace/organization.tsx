@@ -147,7 +147,7 @@ const Organization = (props: Props) => {
                     <div>
                         <button
                             className='primary-button'
-                            data-testid="continue"
+                            data-testid='continue'
                             onClick={onNext}
                             disabled={!props.organization}
                         >
