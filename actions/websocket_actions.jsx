@@ -17,7 +17,7 @@ import {
     IntegrationTypes,
     PreferenceTypes,
 } from 'mattermost-redux/action_types';
-import {WebsocketEvents, General, Permissions, Threads} from 'mattermost-redux/constants';
+import {WebsocketEvents, General, Permissions} from 'mattermost-redux/constants';
 import {addChannelToInitialCategory, fetchMyCategories, receivedCategoryOrder} from 'mattermost-redux/actions/channel_categories';
 import {
     getChannelAndMyMember,
