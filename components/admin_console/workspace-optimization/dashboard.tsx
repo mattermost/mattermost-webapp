@@ -18,7 +18,7 @@ import {testSiteURL} from '../../../actions/admin_actions';
 import FormattedAdminHeader from '../../widgets/admin_console/formatted_admin_header';
 import {Props} from '../admin_console';
 
-import useMetricsData, { DataModel, getTranslationId, ItemStatus } from './dashboard.data';
+import useMetricsData, {DataModel, getTranslationId, ItemStatus} from './dashboard.data';
 
 import OverallScore from './overall-score';
 import ChipsList, {ChipsInfoType} from './chips_list';
