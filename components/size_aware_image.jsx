@@ -262,13 +262,30 @@ export default class SizeAwareImage extends React.PureComponent {
 
             return (
                 <div
-                    onClick={this.handleImageClick}
-                    className={className}
-                    style={this.state.imageWidth > MIN_IMAGE_SIZE ? {
-                        width: this.state.imageWidth + 2, // 2px to account for the border
-                    } : {}}
+                    className={classNames('small-image-utility-buttons-wrapper')}
                 >
-                    {image}
+                    <div
+                        onClick={this.handleImageClick}
+                        className={className}
+                        style={this.state.imageWidth > MIN_IMAGE_SIZE ? {
+                            width: this.state.imageWidth + 2, // 2px to account for the border
+                        } : {}}
+                    >
+                        {image}
+                    </div>
+                    <span
+                        className={classNames('image-preview-utility-buttons-container', 'image-preview-utility-buttons-container--small-image')}
+                        style={this.state.imageWidth > MIN_IMAGE_SIZE ? {
+
+                            // for every pixel the image is wider than MIN, add that to left shift of buttons container
+                            // 20px is the width of collapse button.
+
+                            left: 26 + (this.state.imageWidth - MIN_IMAGE_SIZE),
+                        } : {}}
+                    >
+                        {copyLink}
+                        {download}
+                    </span>
                 </div>
             );
         }
