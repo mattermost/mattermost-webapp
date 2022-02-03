@@ -1,49 +1,66 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
-import styled, {css} from 'styled-components';
+import styled from 'styled-components';
 import StatusIcon from '@mattermost/compass-components/components/status-icon';
 
 const Animation = styled.div`
     position: absolute;
     z-index: 30;
-    display:flex;
-    flex-direction:column;
+    display: flex;
+    flex-direction: column;
     left: 4%;
     top: 0;
+
     &:before {
         content: '';
         background-color: var(--denim-status-online);
-        opacity: 1;
+        opacity: 0;
         border-radius: 50%;
         width: 1rem;
-        height:1rem;
+        top: 50%;
+        position: absolute;
+        height: 1rem;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
     }
+
     .x1 {
-        animation: moveUp 900ms linear, opacity 900ms ease-in-out;
+        opacity: 0;
+        animation-delay: 100ms;
     }
 
     .x2 {
         transform: scale(0.6);
         margin-left: 6px;
-        animation: moveUp 900ms linear, opacity 900ms ease-in-out;
         animation-delay: 200ms;
+        opacity: 0;
     }
     .x3 {
         transform: scale(0.6);
         margin-left: -6px;
-        animation: moveUp 900ms linear, opacity 900ms ease-in-out;
-        animation-delay: 100ms;
+        animation-delay: 250ms;
+        opacity: 0;
     }
     .x4 {
         transform: scale(0.2);
-        animation: moveUp 900ms linear, opacity 900ms ease-in-out;
-        animation-delay: 250ms;
+        animation-delay: 300ms;
+        opacity: 0;
     }
 
-    @keyframes moveUp { 
+    &.completed {
+        &:before {
+            animation: opacity 800ms ease-in-out, scale 800ms linear;
+        }
+        .x1, .x2, .x3, .x4 {
+            animation: opacity 900ms ease-in-out, moveUp 900ms linear;
+        }
+    }
+    @keyframes moveUp {
         0% { 
-            top: 50px;
+            top: 0;
         }
         100% { 
             top: -50px;
@@ -61,27 +78,40 @@ const Animation = styled.div`
             opacity: 0;
         }
     }
+
+    @keyframes scale {
+        0% { 
+            transform: scale(0);
+        }
+        50% { 
+            transform: scale(2);
+        }
+        100% { 
+            transform: scale(4);
+        }
+    }
+
 `;
 
-export const CompletedAnimation = () => {
+export const CompletedAnimation = (props: {completed: boolean}) => {
     return (
-        <Animation>
+        <Animation className={props.completed ? 'completed' : ''}>
             <StatusIcon
                 status={'online'}
                 className={'x1'}
             />
-            <StatusIcon 
+            <StatusIcon
                 status={'online'}
                 className={'x2'}
-            />                          
+            />
             <StatusIcon
                 status={'online'}
                 className={'x3'}
-            />                           
+            />
             <StatusIcon
                 status={'online'}
                 className={'x4'}
             />
         </Animation>
-    )
-}
+    );
+};

@@ -2,16 +2,12 @@
 // See LICENSE.txt for license information.
 import React, {useRef, useState, useCallback} from 'react';
 import styled, {css} from 'styled-components';
-import {Placement} from 'popper.js';
 import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 
 import checklistImg from 'images/onboarding-checklist.svg';
 
-import { TaskListPopover } from './onboarding_checklist_popover';
-import { Task } from './onboarding_checklist_task';
-
-export interface TaskListProps {
-}
+import {TaskListPopover} from './onboarding_checklist_popover';
+import {Task} from './onboarding_checklist_task';
 
 const TaskItems = styled.div`
     border-radius: 4px;
@@ -32,7 +28,7 @@ const TaskItems = styled.div`
     }
 `;
 
-const Button = styled.button((open: boolean) => {
+const Button = styled.button<{open: boolean}>(({open}) => {
     return css`
         width: 36px;
         height: 36px;
@@ -58,7 +54,7 @@ const Button = styled.button((open: boolean) => {
     `;
 });
 
-const TaskList = (props: TaskListProps): JSX.Element => {
+const TaskList = (): JSX.Element => {
     const [open, setOpen] = useState(false);
     const trigger = useRef();
     const closeMenu = useCallback(() => {
@@ -67,8 +63,11 @@ const TaskList = (props: TaskListProps): JSX.Element => {
 
     return (
         <>
-            <Button onClick={() => setOpen(!open)} ref={trigger}>
-                <Icon glyph={open ? 'close' : 'playlist-check'} />
+            <Button
+                onClick={() => setOpen(!open)}
+                ref={trigger}
+            >
+                <Icon glyph={open ? 'close' : 'playlist-check'}/>
             </Button>
             <TaskListPopover
                 isVisible={open}
@@ -77,8 +76,7 @@ const TaskList = (props: TaskListProps): JSX.Element => {
             >
                 <TaskItems className={open ? 'open' : ''}>
                     <h1 style={{fontSize: '20px', padding: '0 24px'}}>
-                        {' '}
-                        Welcome to Mattermost
+                        {'Welcome to Mattermost'}
                     </h1>
                     <p
                         style={{
@@ -87,18 +85,18 @@ const TaskList = (props: TaskListProps): JSX.Element => {
                             padding: '0 24px',
                         }}
                     >
-                        Let's get up and running.
+                        {"Let's get up and running."}
                     </p>
                     <img
                         src={checklistImg}
                         style={{display: 'block', margin: 'auto'}}
                     />
-                    <Task label='Take a tour of channels' />
-                    <Task label='Manage tasks with your first board' />
-                    <Task label='Invite team members to the workspace' />
-                    <Task label='Complete your profile' />
-                    <Task label='Download the Desktop and Mobile Apps' />
-                    <Task label='Visit the System Console to configure your worksace' />
+                    <Task label='Take a tour of channels'/>
+                    <Task label='Manage tasks with your first board'/>
+                    <Task label='Invite team members to the workspace'/>
+                    <Task label='Complete your profile'/>
+                    <Task label='Download the Desktop and Mobile Apps'/>
+                    <Task label='Visit the System Console to configure your worksace'/>
                     <p
                         style={{
                             fontSize: '12px',
@@ -106,7 +104,7 @@ const TaskList = (props: TaskListProps): JSX.Element => {
                             padding: '0 24px',
                         }}
                     >
-                        No thanks, I’ll figure it out myself
+                        {'No thanks, I’ll figure it out myself'}
                     </p>
                 </TaskItems>
             </TaskListPopover>
