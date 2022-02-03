@@ -98,7 +98,6 @@ export type Props = {
     actions: {
         logError: ({message, type}: {message: any; type: string}, status: boolean) => void;
         clearErrors: () => void;
-        getMe: () => void;
         updateMe: (user: UserProfile) => Promise<{
             data: boolean;
             error?: {
