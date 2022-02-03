@@ -365,7 +365,7 @@ export default class SizeAwareImage extends React.PureComponent {
         }
         this.timeout = setTimeout(() => {
             this.setState({linkCopiedRecently: false});
-        }, 4000);
+        }, 1500);
     }
 
     render() {
