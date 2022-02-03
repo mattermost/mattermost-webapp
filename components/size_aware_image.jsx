@@ -12,6 +12,7 @@ import Tooltip from 'components/tooltip';
 import OverlayTrigger from 'components/overlay_trigger';
 
 const MIN_IMAGE_SIZE = 48;
+const MIN_IMAGE_SIZE_FOR_INTERNAL_BUTTONS = 100;
 
 // SizeAwareImage is a component used for rendering images where the dimensions of the image are important for
 // ensuring that the page is laid out correctly.
@@ -294,7 +295,19 @@ export default class SizeAwareImage extends React.PureComponent {
             <figure className={classNames('image-loaded-container')}>
                 {image}
                 <span
-                    className={classNames('image-preview-utility-buttons-container')}
+                    className={classNames('image-preview-utility-buttons-container', {
+
+                        // cases for when image isn't a small image but width is < 100px
+
+                        'image-preview-utility-buttons-container--small-image': this.state.imageWidth < MIN_IMAGE_SIZE_FOR_INTERNAL_BUTTONS,
+                    })}
+                    style={this.state.imageWidth < MIN_IMAGE_SIZE_FOR_INTERNAL_BUTTONS ? {
+
+                        // for every pixel the image is wider than MIN, add that to left shift of buttons container
+                        // 20px is the width of collapse button.
+
+                        left: 26 + (this.state.imageWidth - MIN_IMAGE_SIZE),
+                    } : {}}
                 >
                     {copyLink}
                     {download}
