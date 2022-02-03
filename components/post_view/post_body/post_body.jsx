@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {SwitchTransition, CSSTransition} from 'react-transition-group';
 
 import {Posts} from 'mattermost-redux/constants';
 
@@ -20,6 +19,7 @@ import PostMessageView from 'components/post_view/post_message_view';
 import ReactionList from 'components/post_view/reaction_list';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import EditPost from '../../edit_post';
+import AutoHeight from '../../common/auto_height';
 
 const SENDING_ANIMATION_DELAY = 3000;
 
@@ -224,39 +224,20 @@ export default class PostBody extends React.PureComponent {
         const isBeingEdited = isPostBeingEdited && !isPostBeingEditedInRHS;
 
         return (
-            <div>
+            <AutoHeight
+                duration={500}
+                shouldScrollIntoView={isBeingEdited}
+            >
                 {comment}
                 <div
                     id={`${post.id}_message`}
                     className={`post__body ${mentionHighlightClass} ${ephemeralPostClass} ${postClass}`}
                 >
-                    <SwitchTransition>
-                        <CSSTransition
-                            key={isBeingEdited ? 'post_body_editing' : 'post_body_not_editing'}
-                            addEndListener={(node, done) => {
-                                node.addEventListener('transitionend', done, false);
-                            }}
-                            classNames='fade'
-                            onEnter={(node) => {
-                                // hide the original post when entering editing mode to prevent massive intermitant
-                                // height changes in between state transitions
-                                if (isBeingEdited) {
-                                    node.firstChild.classList.add('hide-element');
-                                } else {
-                                    node.firstChild.classList.remove('hide-element');
-                                }
-                            }}
-                        >
-                            <div className={'post__body--transition'}>
-                                <div>{messageWithAdditionalContent}</div>
-                                {isBeingEdited && <EditPost/>}
-                            </div>
-                        </CSSTransition>
-                    </SwitchTransition>
+                    {isBeingEdited ? <EditPost/> : messageWithAdditionalContent}
                     {fileAttachmentHolder}
                     <ReactionList post={post}/>
                 </div>
-            </div>
+            </AutoHeight>
         );
     }
 }

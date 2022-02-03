@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {SwitchTransition, CSSTransition} from 'react-transition-group';
 import classNames from 'classnames';
 
 import {Posts} from 'mattermost-redux/constants';
@@ -33,6 +32,7 @@ import PostPreHeader from 'components/post_view/post_pre_header';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import {Emoji} from 'mattermost-redux/types/emojis';
 import EditPost from 'components/edit_post';
+import AutoHeight from 'components/common/auto_height';
 
 export default class RhsRootPost extends React.PureComponent {
     static propTypes = {
@@ -496,42 +496,27 @@ export default class RhsRootPost extends React.PureComponent {
                             {!isPostBeingEdited && dotMenuContainer}
                         </div>
                         <div className='post__body'>
-                            <SwitchTransition>
-                                <CSSTransition
-                                    key={isPostBeingEdited ? 'rhs_root_post_editing' : 'rhs_root_post_not_editing'}
-                                    addEndListener={(node, done) => {
-                                        node.addEventListener('transitionend', done, false);
-                                    }}
-                                    classNames='fade'
-                                    onEnter={(node) => {
-                                        // hide the original post when entering editing mode to prevent massive intermitant
-                                        // height changes in between state transitions
-                                        if (isPostBeingEdited) {
-                                            node.firstChild.classList.add('hide-element');
-                                        } else {
-                                            node.firstChild.classList.remove('hide-element');
-                                        }
-                                    }}
-                                >
-                                    <div className={postClass}>
-                                        <div>
-                                            <MessageWithAdditionalContent
-                                                post={post}
-                                                previewCollapsed={this.props.previewCollapsed}
-                                                previewEnabled={this.props.previewEnabled}
-                                                isEmbedVisible={this.props.isEmbedVisible}
-                                                pluginPostTypes={this.props.pluginPostTypes}
-                                            />
-                                        </div>
-                                        {isPostBeingEdited && <EditPost/>}
-                                    </div>
-                                </CSSTransition>
-                            </SwitchTransition>
-                            {fileAttachment}
-                            <ReactionList
-                                post={post}
-                                isReadOnly={isReadOnly || channelIsArchived}
-                            />
+                            <AutoHeight
+                                duration={500}
+                                shouldScrollIntoView={isPostBeingEdited}
+                            >
+                                <div className={postClass}>
+                                    {isPostBeingEdited ? <EditPost/> : (
+                                        <MessageWithAdditionalContent
+                                            post={post}
+                                            previewCollapsed={this.props.previewCollapsed}
+                                            previewEnabled={this.props.previewEnabled}
+                                            isEmbedVisible={this.props.isEmbedVisible}
+                                            pluginPostTypes={this.props.pluginPostTypes}
+                                        />
+                                    )}
+                                </div>
+                                {fileAttachment}
+                                <ReactionList
+                                    post={post}
+                                    isReadOnly={isReadOnly || channelIsArchived}
+                                />
+                            </AutoHeight>
                         </div>
                     </div>
                 </div>

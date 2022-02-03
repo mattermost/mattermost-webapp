@@ -4,7 +4,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
-import {SwitchTransition, CSSTransition} from 'react-transition-group';
 
 import {Posts} from 'mattermost-redux/constants/index';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
@@ -29,6 +28,7 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 import EditPost from 'components/edit_post';
+import AutoHeight from 'components/common/auto_height';
 
 import Constants, {Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
@@ -474,31 +474,14 @@ export default class SearchResultsItem extends React.PureComponent {
                                 {!isPostBeingEditedInRHS && rhsControls}
                             </div>
                             <div className='search-item-snippet post__body'>
-                                <SwitchTransition>
-                                    <CSSTransition
-                                        key={isPostBeingEditedInRHS ? 'search_results_editing' : 'search_results_not_editing'}
-                                        addEndListener={(node, done) => {
-                                            node.addEventListener('transitionend', done, false);
-                                        }}
-                                        classNames='fade'
-                                        onEnter={(node) => {
-                                            // hide the original post when entering editing mode to prevent massive intermitant
-                                            // height changes in between state transitions
-                                            if (isPostBeingEditedInRHS) {
-                                                node.firstChild.classList.add('hide-element');
-                                            } else {
-                                                node.firstChild.classList.remove('hide-element');
-                                            }
-                                        }}
-                                    >
-                                        <div className={'post__body--transition'}>
-                                            <div className={postClass}>
-                                                <div>{message}</div>
-                                                {isPostBeingEditedInRHS && <EditPost/>}
-                                            </div>
-                                        </div>
-                                    </CSSTransition>
-                                </SwitchTransition>
+                                <AutoHeight
+                                    duration={500}
+                                    shouldScrollIntoView={isPostBeingEditedInRHS}
+                                >
+                                    <div className={postClass}>
+                                        {isPostBeingEditedInRHS ? <EditPost/> : message}
+                                    </div>
+                                </AutoHeight>
                                 {fileAttachment}
                             </div>
                             {hasCRTFooter ? (

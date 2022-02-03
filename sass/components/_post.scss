@@ -702,7 +702,7 @@
             }
 
             .custom-textarea {
-                max-height: 560px;
+                max-height: calc(50vh - 40px);
                 padding: 13px 0 12px 16px;
                 background-color: var(--center-channel-bg);
 
@@ -1556,35 +1556,6 @@
 
             a {
                 color: $white;
-            }
-        }
-
-        &--transition {
-            .hide-element {
-                display: none;
-            }
-
-            &.fade-enter {
-                opacity: 0;
-                transform: translateX(-30%);
-            }
-            &.fade-enter-active {
-                opacity: 1;
-                transform: translateX(0);
-            }
-            &.fade-exit {
-                opacity: 1;
-                transform: translateX(0);
-            }
-            &.fade-exit-active {
-                opacity: 0;
-                transform: translateX(30%);
-            }
-            &.fade-enter-active,
-            &.fade-exit-active {
-                body.enable-animations & {
-                    transition: opacity 250ms ease-in-out, transform 150ms ease-in-out 100ms;
-                }
             }
         }
     }
