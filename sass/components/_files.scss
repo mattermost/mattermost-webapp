@@ -285,12 +285,11 @@
                 // greater z-index than img
                 position: absolute;
                 z-index: 3;
-                right: 2px;
+                right: 8px;
+                top: 8px;
                 display: none;
-                padding: 2px;
+                padding: 4px;
                 border: 1px solid rgba(v(center-channel-color-rgb), 0.16);
-                margin-top: 4px;
-                margin-right: 2px;
                 background-color: var(--center-channel-bg);
                 border-radius: 4px;
                 box-shadow: $elevation-1;
@@ -302,6 +301,7 @@
                     height: 28px;
                     padding: 2px;
                     margin: 2px;
+                    margin-right: 0px;
                     border-radius: 4px;
                     color: rgba(var(--center-channel-color-rgb), 0.56);
 
@@ -347,14 +347,18 @@
             .image-loaded-container {
                 position: relative;
                 display: inline-block;
+
+                &:hover .image-preview-utility-buttons-container {
+                    display: inline-block;
+                }
             }
 
             .small-image-utility-buttons-wrapper {
                 display: inline-block;
-            }
 
-            &:hover .image-preview-utility-buttons-container {
-                display: inline-block;
+                &:hover .image-preview-utility-buttons-container {
+                    display: inline-block;
+                }
             }
         }
 
