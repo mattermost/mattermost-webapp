@@ -12,7 +12,7 @@ import {savePreferences as storeSavePreferences} from 'mattermost-redux/actions/
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import {trackEvent as trackEventAction} from 'actions/telemetry_actions';
 
-import {FINISHED, TTCategoriesMapToSteps} from './constant';
+import {FINISHED, SKIPPED, TTCategoriesMapToSteps} from './constant';
 
 import * as Utils from './utils';
 
@@ -157,7 +157,7 @@ const useTutorialTourTipManager = ({
             trackEvent('tutorial', tag);
         }
         if (getLastStep() === currentStep) {
-            handleSavePreferences(TTCategoriesMapToSteps[tutorialCategory].FINISHED);
+            handleSavePreferences(FINISHED);
         } else {
             handleSavePreferences(true);
         }
@@ -170,7 +170,7 @@ const useTutorialTourTipManager = ({
             const tag = telemetryTag + '_skip';
             trackEvent('tutorial', tag);
         }
-        savePreferences(currentUserId, FINISHED.toString());
+        savePreferences(currentUserId, SKIPPED.toString());
     };
 
     const getLastStep = () => {

@@ -1,9 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import {useLayoutEffect, useMemo, useState} from 'react';
+import {useSelector} from 'react-redux';
 import throttle from 'lodash/throttle';
 
+import {GlobalState} from 'types/store';
 import useElementAvailable from 'components/common/hooks/useElementAvailable';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
+import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 
 import {TutorialTourTipPunchout} from './tutorial_tour_tip_backdrop';
 
@@ -60,3 +64,11 @@ export function useMeasurePunchouts(elementIds: string[], additionalDeps: any[],
     }, [...elementIds, ...additionalDeps, size, elementsAvailable]);
     return channelPunchout;
 }
+
+export const useShowTutorialStep = (stepToShow: number, category: string): boolean => {
+    const currentUserId = useSelector<GlobalState, string>(getCurrentUserId);
+    const boundGetInt = (state: GlobalState) => getInt(state, category, currentUserId, 0);
+    const step = useSelector<GlobalState, number>(boundGetInt);
+
+    return step === stepToShow;
+};

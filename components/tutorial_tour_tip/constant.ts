@@ -4,6 +4,7 @@
 // This needs to replaced with the actual tour data based on product
 
 export const FINISHED = 999;
+export const SKIPPED = -999;
 
 export const AutoTourStatus = {
     ENABLED: 0,
@@ -20,13 +21,11 @@ export const TutorialTourCategories: Record<string, string> = {
 };
 
 export const AdminOnBoardingTourSteps = {
-    ADD_FIRST_CHANNEL: 0,
-    POST_POPOVER: 1,
-    CHANNEL_POPOVER: 2,
-    ADD_CHANNEL_POPOVER: 3,
-    MENU_POPOVER: 4,
-    PRODUCT_SWITCHER: 5,
-    SETTINGS: 6,
+    CHANNELS_AND_DIRECT_MESSAGES: 0,
+    CREATE_AND_JOIN_CHANNELS: 1,
+    INVITE_PEOPLE: 2,
+    SEND_MESSAGE: 3,
+    CUSTOMIZE_EXPERIENCE: 4,
     FINISHED,
 };
 

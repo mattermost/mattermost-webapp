@@ -11,10 +11,13 @@ export type TutorialTourTipPunchout = Coords & {
     height?: string;
 }
 
-const TutorialTourTipBackdrop = (props: TutorialTourTipPunchout) => {
-    const {x, y, width, height} = props;
+const TutorialTourTipBackdrop = ({x, y, width, height}: TutorialTourTipPunchout) => {
     if (!x || !y || !width || !height) {
-        return null;
+        return (
+            <div
+                className={'tutorial-tour-tip__backdrop'}
+            />
+        );
     }
 
     const vertices = [];
@@ -39,7 +42,7 @@ const TutorialTourTipBackdrop = (props: TutorialTourTipPunchout) => {
 
     return (
         <div
-            className={'tip-backdrop'}
+            className={'tutorial-tour-tip__backdrop'}
             style={{
                 clipPath: `polygon(${vertices.join(', ')})`,
             }}
