@@ -211,7 +211,7 @@ const BillingHistory: React.FC<Props> = () => {
                         </td>
                         <td className='BillingHistory__table-invoice'>
                             <a
-                                target='_new'
+                                target='_self'
                                 rel='noopener noreferrer'
                                 href={Client4.getInvoicePdfUrl(invoice.id)}
                             >
