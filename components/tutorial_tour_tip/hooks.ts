@@ -16,10 +16,10 @@ type PunchoutOffset = {
 
 export function useMeasurePunchouts(elementIds: string[], additionalDeps: any[], offset?: PunchoutOffset): TutorialTourTipPunchout | null | undefined {
     const elementsAvailable = useElementAvailable(elementIds);
-    const [size, setSize] = useState<DOMRect>();
+    const [size, setSize] = useState({x: window.innerWidth, y: window.innerHeight});
     const updateSize = throttle(() => {
-        setSize(document.getElementById('root')?.getBoundingClientRect());
-    }, 100);
+        setSize({x: window.innerWidth, y: window.innerHeight});
+    }, 100, {trailing: true});
 
     useLayoutEffect(() => {
         window.addEventListener('resize', updateSize);

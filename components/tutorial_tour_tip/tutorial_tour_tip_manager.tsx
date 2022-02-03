@@ -12,9 +12,9 @@ import {savePreferences as storeSavePreferences} from 'mattermost-redux/actions/
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import {trackEvent as trackEventAction} from 'actions/telemetry_actions';
 
-import {FINISHED, TTCategoriesMapToSteps} from './tutorial_tour_tip.constant';
+import {FINISHED, TTCategoriesMapToSteps} from './constant';
 
-import * as Utils from './tutorial_tour_tip.utils';
+import * as Utils from './utils';
 
 export interface TutorialTourTipManager {
     show: boolean;

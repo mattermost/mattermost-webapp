@@ -12,7 +12,7 @@ import {Constants, Preferences} from 'utils/constants';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import TutorialTip from 'components/tutorial/tutorial_tip_legacy';
 import {ShortcutKey, ShortcutKeyVariant} from 'components/shortcut_key';
-import {useMeasurePunchoutsDepricated} from 'components/tutorial/tutorial_tip_legacy/hooks';
+import {useMeasurePunchoutsDeprecated} from 'components/tutorial/tutorial_tip_legacy/hooks';
 
 type Props = {
     autoTour: boolean;
@@ -69,7 +69,7 @@ const CRTListTutorialTip = ({autoTour}: Props) => {
             overlayClass='tip-overlay--threads-list'
             autoTour={autoTour}
             onPrevNavigateTo={onPrevNavigateTo}
-            punchOut={useMeasurePunchoutsDepricated(punchOutIds, [])}
+            punchOut={useMeasurePunchoutsDeprecated(punchOutIds, [])}
         />
     );
 };

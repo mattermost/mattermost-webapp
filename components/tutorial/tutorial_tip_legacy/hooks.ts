@@ -13,7 +13,7 @@ type PunchoutOffset = {
     height: number;
 }
 
-export function useMeasurePunchoutsDepricated(elementIds: string[], additionalDeps: any[], offset?: PunchoutOffset): TutorialTipPunchout | null | undefined {
+export function useMeasurePunchoutsDeprecated(elementIds: string[], additionalDeps: any[], offset?: PunchoutOffset): TutorialTipPunchout | null | undefined {
     const elementsAvailable = useElementAvailable(elementIds);
 
     const channelPunchout = useMemo(() => {
