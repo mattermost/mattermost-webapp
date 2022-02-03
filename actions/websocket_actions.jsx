@@ -1039,10 +1039,10 @@ export async function handleUserUpdatedEvent(msg) {
     if (currentUser.id === user.id) {
         if (user.update_at > currentUser.update_at) {
             // update user to unsanitized user data recieved from websocket message
-            dispatch(batchActions([
-                {type: UserTypes.RECEIVED_ME, data: user},
-                {type: UserTypes.UPDATE_ME_SUCCESS},
-            ]));
+            dispatch({
+                type: UserTypes.RECEIVED_ME,
+                data: user,
+            });
             dispatch(loadRolesIfNeeded(user.roles.split(' ')));
         }
     } else {

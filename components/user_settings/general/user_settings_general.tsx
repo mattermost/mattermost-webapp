@@ -304,7 +304,11 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
             then(({data, error: err}) => {
                 if (data) {
                     this.updateSection('');
-                    this.props.actions.getMe();
+
+                    // this is handled by actions/websocket_actions/handleUserUpdatedEvent
+                    // ref: https://github.com/mattermost/mattermost-webapp/pull/9724
+                    // this.props.actions.getMe();
+
                     const verificationEnabled = this.props.requireEmailVerification && emailUpdated;
                     if (verificationEnabled) {
                         this.props.actions.clearErrors();
