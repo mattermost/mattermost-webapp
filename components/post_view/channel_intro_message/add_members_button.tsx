@@ -6,6 +6,8 @@ import {useSelector} from 'react-redux';
 
 import {FormattedMessage, useIntl} from 'react-intl';
 
+import EmptyStateThemeableSvg from 'components/common/svg_images_components/empty_state_themeable_svg';
+
 import {Channel} from 'mattermost-redux/types/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {Permissions} from 'mattermost-redux/constants';
@@ -15,7 +17,6 @@ import InvitationModal from 'components/invitation_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
-import EmptyStateThemeableSvg from 'components/common/svg_images_components/empty_state_themeable.svg';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
@@ -29,10 +30,11 @@ export interface AddMembersButtonProps {
     totalUsers?: number;
     usersLimit: number;
     channel: Channel;
-    setHeader: React.ReactNode;
+    setHeader?: React.ReactNode;
+    createBoard?: React.ReactNode;
 }
 
-const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLimit, channel, setHeader}: AddMembersButtonProps) => {
+const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLimit, channel, setHeader, createBoard}: AddMembersButtonProps) => {
     if (!totalUsers) {
         return (<LoadingSpinner/>);
     }
@@ -46,16 +48,17 @@ const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLim
             teamId={currentTeamId}
             permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
         >
-            {inviteUsers && !isPrivate ? lessThanMaxFreeUsers(setHeader) : moreThanMaxFreeUsers(channel, setHeader)}
+            {inviteUsers && !isPrivate ? lessThanMaxFreeUsers(setHeader, createBoard) : moreThanMaxFreeUsers(channel, setHeader, createBoard)}
         </TeamPermissionGate>
     );
 };
 
-const lessThanMaxFreeUsers = (setHeader: React.ReactNode) => {
+const lessThanMaxFreeUsers = (setHeader: React.ReactNode, createBoard: React.ReactNode) => {
     const {formatMessage} = useIntl();
 
     return (
         <>
+            {createBoard}
             {setHeader}
             <div className='LessThanMaxFreeUsers'>
                 <EmptyStateThemeableSvg
@@ -89,7 +92,7 @@ const lessThanMaxFreeUsers = (setHeader: React.ReactNode) => {
     );
 };
 
-const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode) => {
+const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode, createBoard: React.ReactNode) => {
     const modalId = channel.group_constrained ? ModalIdentifiers.ADD_GROUPS_TO_CHANNEL : ModalIdentifiers.CHANNEL_INVITE;
     const modal = channel.group_constrained ? AddGroupsToChannelModal : ChannelInviteModal;
     const channelIsArchived = channel.delete_at !== 0;
@@ -136,6 +139,7 @@ const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode) => {
                     </ToggleModalButtonRedux>
                 </ChannelPermissionGate>
             </div>
+            {createBoard}
             {setHeader}
         </div>
     );
