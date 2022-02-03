@@ -517,6 +517,7 @@ export const TELEMETRY_CATEGORIES = {
     CLOUD_ADMIN: 'cloud_admin',
     SELF_HOSTED_START_TRIAL_AUTO_MODAL: 'self_hosted_start_trial_auto_modal',
     SELF_HOSTED_START_TRIAL_MODAL: 'self_hosted_start_trial_modal',
+    WORKSPACE_OPTIMIZATION_DASHBOARD: 'workspace_optimization_dashboard',
 };
 
 export const PostTypes = {
@@ -1640,6 +1641,14 @@ export const ValidationErrors = {
     INVALID_FIRST_CHARACTER: 'INVALID_FIRST_CHARACTER',
     RESERVED_NAME: 'RESERVED_NAME',
     INVALID_LAST_CHARACTER: 'INVALID_LAST_CHARACTER',
+};
+
+export const ConsolePages = {
+    LDAP: '/admin_console/authentication/ldap',
+    DATA_RETENTION: '/admin_console/compliance/data_retention_settings',
+    COMPLIANCE_EXPORT: '/admin_console/compliance/export',
+    SAML: '/admin_console/authentication/saml',
+    CUSTOM_TERMS: '/admin_console/compliance/custom_terms_of_service',
 };
 
 export const WindowSizes = {

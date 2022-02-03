@@ -4,6 +4,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import CircularChart from 'components/common/circular_chart/circular_chart';
+import WarningSvg from 'components/common/svg_images_components/warning_svg';
 
 import './dashboard.scss';
 
@@ -11,12 +12,14 @@ type OverallScoreProps = {
     title?: React.ReactNode;
     description?: React.ReactNode;
     chips: React.ReactNode;
+    chartValue: number;
 };
 
 const OverallScore = ({
     chips,
     title,
     description,
+    chartValue,
 }: OverallScoreProps): JSX.Element | null => {
     const contentTitle = title || (
         <FormattedMessage
@@ -33,13 +36,22 @@ const OverallScore = ({
     return (
         <div className='OverallScore'>
             <div className='OverallScore__scoreEllipseSvg'>
-                <CircularChart
-                    value={77}
-                    isPercentage={false}
-                    width={140}
-                    height={140}
-                    type={'success'}
-                />
+                {chartValue < 50 ? (
+                    <div className='alertImageScore'>
+                        <WarningSvg
+                            width={48}
+                            height={48}
+                        />
+                    </div>
+                ) : (
+                    <CircularChart
+                        value={chartValue}
+                        isPercentage={false}
+                        width={140}
+                        height={140}
+                        type={'success'}
+                    />
+                )}
             </div>
             <div className='OverallScore__content'>
                 <div className='OverallScore__content__title'>

@@ -12,38 +12,19 @@ import {GlobalState} from 'mattermost-redux/types/store';
 
 import Accordion, {AccordionItemType} from 'components/common/accordion/accordion';
 
+import SuccessIconSvg from 'components/common/svg_images_components/success_icon_svg';
+
 import {testSiteURL} from '../../../actions/admin_actions';
 import FormattedAdminHeader from '../../widgets/admin_console/formatted_admin_header';
 import {Props} from '../admin_console';
 
-import useMetricsData from './dashboard.data';
+import useMetricsData, {DataModel, ItemStatus} from './dashboard.data';
 
 import OverallScore from './overall-score';
 import ChipsList, {ChipsInfoType} from './chips_list';
+import CtaButtons from './cta_buttons';
 
 import './dashboard.scss';
-
-type DataModel = {
-    [key: string]: {
-        title: string;
-        description: string;
-        items: ItemModel[];
-        icon: React.ReactNode;
-    };
-}
-
-type ItemStatus = 'none' | 'ok' | 'info' | 'warning' | 'error';
-
-type ItemModel = {
-    id: string;
-    title: string;
-    description: string;
-    configUrl: string;
-    infoUrl: string;
-    status: ItemStatus;
-}
-
-const getTranslationId = (key: string) => `admin.reporting.workspace_optimization.${key}`;
 
 const AccordionItem = styled.div<{iconColor: string}>`
     padding: 12px;
@@ -59,6 +40,15 @@ const AccordionItem = styled.div<{iconColor: string}>`
         font-weight: bold;
     }
 `;
+
+const successIcon = (
+    <div className='success'>
+        <SuccessIconSvg
+            height={20}
+            width={20}
+        />
+    </div>
+);
 
 const WorkspaceOptimizationDashboard = (props: Props) => {
     const [loading, setLoading] = useState(true);
@@ -106,21 +96,21 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                 switch (true) {
                 case newVersionParts[0] > installedVersionParts[0]:
                     type = formatMessage({
-                        id: getTranslationId('updates.server_version.update_type.major'),
+                        id: 'admin.reporting.workspace_optimization.updates.server_version.update_type.major',
                         defaultMessage: 'Major',
                     });
                     status = 'error';
                     break;
                 case newVersionParts[1] > installedVersionParts[1]:
                     type = formatMessage({
-                        id: getTranslationId('updates.server_version.update_type.minor'),
+                        id: 'admin.reporting.workspace_optimization.updates.server_version.update_type.minor',
                         defaultMessage: 'Minor',
                     });
                     status = 'warning';
                     break;
                 case newVersionParts[2] > installedVersionParts[2]:
                     type = formatMessage({
-                        id: getTranslationId('updates.server_version.update_type.patch'),
+                        id: 'admin.reporting.workspace_optimization.updates.server_version.update_type.patch',
                         defaultMessage: 'Patch',
                     });
                     status = 'info';
@@ -162,6 +152,8 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         easyManagement: getEaseOfManagementData({ldap: {status: totalUsers > 100 ? 'warning' : 'ok'}, guestAccounts: {status: 'warning'}}),
     };
 
+    const learnMoreText = formatMessage({id: 'benefits_trial.modal.learnMore', defaultMessage: 'Learn More'});
+
     const overallScoreChips: ChipsInfoType = {
         info: 0,
         warning: 0,
@@ -196,6 +188,12 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                         {item.title}
                     </h5>
                     <p>{item.description}</p>
+                    <CtaButtons
+                        learnMoreLink={item.infoUrl}
+                        learnMoreText={learnMoreText}
+                        actionLink={item.configUrl}
+                        actionText={item.configText}
+                    />
                 </AccordionItem>
             ));
 
@@ -209,7 +207,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         return {
             title,
             description,
-            icon,
+            icon: items.length === 0 ? successIcon : icon,
             items,
             extraContent: <ChipsList chipsData={accordionDataChips}/>,
         };
@@ -218,11 +216,16 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     return loading ? <p>{'Loading ...'}</p> : (
         <div className='WorkspaceOptimizationDashboard wrapper--fixed'>
             <FormattedAdminHeader
-                id={getTranslationId('title')}
+                id={'admin.reporting.workspace_optimization.title'}
                 defaultMessage='Workspace Optimization'
             />
             <div className='admin-console__wrapper'>
-                <OverallScore chips={<ChipsList chipsData={overallScoreChips}/>}/>
+                <OverallScore
+                    chips={<ChipsList chipsData={overallScoreChips}/>}
+
+                    // @TODO: Remove - temp to see either the alert image or the circular chart
+                    chartValue={Math.floor(Math.random() * 100) + 1}
+                />
                 <Accordion
                     accordionItemsData={accData}
                     expandMultiple={true}

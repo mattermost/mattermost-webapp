@@ -13,7 +13,7 @@ import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isModalOpen} from 'selectors/views/modals';
 import {GlobalState} from 'types/store';
 
-import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {ConsolePages, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -33,14 +33,6 @@ type Props = {
     onExited: () => void;
     trialJustStarted?: boolean;
 }
-
-const ConsolePages = {
-    LDAP: '/admin_console/authentication/ldap',
-    DATA_RETENTION: '/admin_console/compliance/data_retention_settings',
-    COMPLIANCE_EXPORT: '/admin_console/compliance/export',
-    SAML: '/admin_console/authentication/saml',
-    CUSTOM_TERMS: '/admin_console/compliance/custom_terms_of_service',
-};
 
 const TrialBenefitsModal: React.FC<Props> = (props: Props): JSX.Element | null => {
     const steps = [];

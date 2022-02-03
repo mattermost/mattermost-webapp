@@ -65,6 +65,16 @@
         box-shadow: var(--elevation-1);
 
         &__scoreEllipseSvg {
+            .alertImageScore {
+                display: flex;
+                width: 112px;
+                height: 112px;
+                align-items: center;
+                justify-content: center;
+                background-color: rgba(var(--sys-error-text-color-rgb), 0.3);
+                border-radius: 50%;
+            }
+
             .CircularChart {
                 .circular-chart {
                     display: block;
@@ -88,7 +98,7 @@
 
                     .circle-bg {
                         fill: none;
-                        stroke: var(--center-channel-bg);
+                        stroke: var(--sys-center-channel-bg);
                         stroke-width: 4.2;
                     }
 
@@ -106,7 +116,7 @@
                 }
 
                 .percentage {
-                    fill: var(--center-channel-color);
+                    fill: var(--sys-center-channel-color);
                     font-family: sans-serif;
                     font-size: 0.5em;
                     text-anchor: middle;
@@ -156,17 +166,19 @@
                 background-color: var(--sys-center-channel-bg);
 
                 &__icon {
-                    z-index: 1;
-                    display: flex;
-                    width: 44px;
-                    height: 44px;
-                    justify-content: center;
-                    background-color: rgba(63, 67, 80, 0.16);
-                    border-radius: 50%;
+                    div {
+                        z-index: 1;
+                        display: flex;
+                        width: 44px;
+                        height: 44px;
+                        align-items: center;
+                        justify-content: center;
+                        background-color: rgba(var(--sys-denim-center-channel-text-rgb), 0.16);
+                        border-radius: 50%;
 
-                    >svg {
-                        z-index: 2;
-                        align-self: center;
+                        &.success {
+                            background-color: rgba(var(--sys-online-indicator-rgb), 0.16);
+                        }
                     }
                 }
 
@@ -207,6 +219,21 @@
                 &__content {
                     border-top: 1px solid rgba(63, 67, 80, 0.06);
                     background-color: rgb(255, 255, 255);
+                }
+
+                .ctaButtons {
+                    display: flex;
+                    justify-content: flex-start;
+                    margin: 15px 0;
+
+                    button {
+                        max-height: 32px;
+                        padding: 5px 20px !important;
+                        margin-top: 0;
+                        margin-right: 10px;
+                        border-radius: 4px !important;
+                        font-weight: 600;
+                    }
                 }
             }
         }
