@@ -5,6 +5,7 @@ import React, {useEffect} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
+import TutorialTip from 'components/tutorial/tutorial_tip_legacy';
 import {ModalIdentifiers, Preferences, TELEMETRY_CATEGORIES, TutorialSteps} from 'utils/constants';
 import {isTrialLicense} from 'utils/license_utils';
 
@@ -18,7 +19,6 @@ import {GlobalState} from 'mattermost-redux/types/store';
 
 import StartTrialModal from 'components/start_trial_modal';
 import {makeAsyncComponent} from 'components/async_load';
-import TutorialTip from 'components/tutorial/tutorial_tip';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import './menu_item.scss';

@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import {Constants, Preferences} from 'utils/constants';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import TutorialTip from 'components/tutorial/tutorial_tip_legacy';
-import {useMeasurePunchoutsDepricated} from 'components/tutorial/tutorial_tip_legacy/hooks';
+import {useMeasurePunchoutsDeprecated} from 'components/tutorial/tutorial_tip_legacy/hooks';
 
 const CRTThreadsPaneTutorialTip = () => {
     const title = (
@@ -35,7 +35,7 @@ const CRTThreadsPaneTutorialTip = () => {
             tutorialCategory={Preferences.CRT_THREAD_PANE_STEP}
             screen={screen}
             overlayClass='tip-overlay--threads-pane'
-            punchOut={useMeasurePunchoutsDepricated(['rhsContainer'], [])}
+            punchOut={useMeasurePunchoutsDeprecated(['rhsContainer'], [])}
             autoTour={true}
         />
     );

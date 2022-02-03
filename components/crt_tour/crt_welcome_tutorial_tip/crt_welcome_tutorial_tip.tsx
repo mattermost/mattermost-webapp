@@ -9,7 +9,7 @@ import {Constants} from 'utils/constants';
 import {GlobalState} from 'types/store';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import TutorialTip from 'components/tutorial/tutorial_tip_legacy';
-import {useMeasurePunchoutsDepricated} from 'components/tutorial/tutorial_tip_legacy/hooks';
+import {useMeasurePunchoutsDeprecated} from 'components/tutorial/tutorial_tip_legacy/hooks';
 import {close as closeLhs} from 'actions/views/lhs';
 import {browserHistory} from 'utils/browser_history';
 
@@ -53,7 +53,7 @@ const CRTWelcomeTutorialTip = ({autoTour}: Props) => {
             screen={screen}
             overlayClass='tip-overlay--threads-welcome '
             autoTour={autoTour}
-            punchOut={useMeasurePunchoutsDepricated(['sidebar-threads-button'], [])}
+            punchOut={useMeasurePunchoutsDeprecated(['sidebar-threads-button'], [])}
             telemetryTag='tutorial_tip_threads-welcome'
         />
     );
