@@ -52,7 +52,7 @@ type Props = {
     zIndex?: number;
 }
 
-const TutorialTourTip: React.FC<Props> = ({
+const TutorialTourTip = ({
     title,
     screen,
     imageURL,
