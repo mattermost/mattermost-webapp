@@ -5,13 +5,11 @@ import React, {createRef, RefObject} from 'react';
 
 import {Modal} from 'react-bootstrap';
 
-import {FormattedMessage} from 'react-intl';
-
-import Constants, {ModalIdentifiers} from 'utils/constants';
+import Constants from 'utils/constants';
 
 import FaSearchIcon from 'components/widgets/icons/fa_search_icon';
 import * as Utils from 'utils/utils.jsx';
-import {Group, GroupSearachParams, GroupPermissions} from 'mattermost-redux/types/groups';
+import {Group, GroupSearachParams} from 'mattermost-redux/types/groups';
 
 import './user_groups_modal.scss';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
@@ -19,13 +17,11 @@ import Menu from 'components/widgets/menu/menu';
 import {ModalData} from 'types/actions';
 import {debounce} from 'mattermost-redux/actions/helpers';
 import Input from 'components/input';
-import CreateUserGroupsModal from 'components/create_user_groups_modal';
-import ViewUserGroupModal from 'components/view_user_group_modal';
-import {ActionResult} from 'mattermost-redux/types/actions';
 import NoResultsIndicator from 'components/no_results_indicator';
 import {NoResultsVariant} from 'components/no_results_indicator/types';
 
-import UserGroupsList from './user_groups_list/user_groups_list';
+import UserGroupsList from './user_groups_list';
+import UserGroupsModalHeader from './user_groups_modal_header';
 
 const GROUPS_PER_PAGE = 60;
 
@@ -36,8 +32,6 @@ export type Props = {
     searchTerm: string;
     currentUserId: string;
     backButtonAction: () => void;
-    groupPermissionsMap: Record<string, GroupPermissions>;
-    canCreateCustomGroups: boolean;
     actions: {
         getGroups: (
             filterAllowReference?: boolean,
@@ -53,13 +47,9 @@ export type Props = {
             perPage?: number,
             includeMemberCount?: boolean
         ) => Promise<{data: Group[]}>;
-        openModal: <P>(modalData: ModalData<P>) => void;
         searchGroups: (
             params: GroupSearachParams,
         ) => Promise<{data: Group[]}>;
-        removeUsersFromGroup: (groupId: string, userIds: string[]) => Promise<ActionResult>;
-        addUsersToGroup: (groupId: string, userIds: string[]) => Promise<ActionResult>;
-        archiveGroup: (groupId: string) => Promise<ActionResult>;
     };
 }
 
@@ -79,7 +69,6 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
 
     constructor(props: Props) {
         super(props);
-
         this.divScrollRef = createRef();
         this.searchTimeoutId = 0;
 
@@ -160,24 +149,12 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
         this.props.actions.setModalSearchTerm(term);
     }
 
-    resetSearch = () => {
-        this.props.actions.setModalSearchTerm('');
-    };
-
-    backButtonCallback = () => {
-        this.props.actions.openModal({
-            modalId: ModalIdentifiers.USER_GROUPS,
-            dialogType: CreateUserGroupsModal,
-        });
-    }
-
     scrollGetGroups = debounce(
         async () => {
             const {page} = this.state;
             const newPage = page + 1;
 
             this.setState({page: newPage});
-
             this.getGroups(newPage);
         },
         500,
@@ -190,7 +167,6 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
             const newPage = myGroupsPage + 1;
 
             this.setState({myGroupsPage: newPage});
-
             this.getMyGroups(newPage);
         },
         500,
@@ -207,70 +183,21 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
             if (this.state.selectedFilter === 'all' && this.state.loading === false && !this.state.allGroupsFull) {
                 this.scrollGetGroups();
             }
-
             if (this.state.selectedFilter !== 'all' && this.props.myGroups.length % GROUPS_PER_PAGE === 0 && this.state.loading === false) {
                 this.scrollGetMyGroups();
             }
         }
     }
 
-    goToCreateModal = () => {
-        this.props.actions.openModal({
-            modalId: ModalIdentifiers.USER_GROUPS_CREATE,
-            dialogType: CreateUserGroupsModal,
-            dialogProps: {
-                backButtonCallback: this.props.backButtonAction,
-            },
-        });
-
-        this.props.onExited();
-    }
-
-    goToViewGroupModal = (group: Group) => {
-        this.props.actions.openModal({
-            modalId: ModalIdentifiers.VIEW_USER_GROUP,
-            dialogType: ViewUserGroupModal,
-            dialogProps: {
-                groupId: group.id,
-                backButtonCallback: this.props.backButtonAction,
-                backButtonAction: () => {
-                    this.goToViewGroupModal(group);
-                },
-            },
-        });
-
-        this.props.onExited();
-    }
-
-    leaveGroup = async (groupId: string) => {
-        const {currentUserId, actions} = this.props;
-
-        await actions.removeUsersFromGroup(groupId, [currentUserId]);
-    }
-
-    joinGroup = async (groupId: string) => {
-        const {currentUserId, actions} = this.props;
-
-        await actions.addUsersToGroup(groupId, [currentUserId]);
-    }
-
-    archiveGroup = async (groupId: string) => {
-        const {actions} = this.props;
-
-        await actions.archiveGroup(groupId);
-    }
-
     getMyGroups = async (page: number) => {
         const {actions} = this.props;
 
         this.startLoad();
-
         const data = await actions.getGroupsByUserIdPaginated(this.props.currentUserId, false, page, GROUPS_PER_PAGE, true);
         if (data.data.length === 0) {
             this.setState({myGroupsFull: true});
         }
         this.loadComplete();
-
         this.setState({selectedFilter: 'my'});
     }
 
@@ -278,19 +205,16 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
         const {actions} = this.props;
 
         this.startLoad();
-
         const data = await actions.getGroups(false, page, GROUPS_PER_PAGE, true);
         if (data.data.length === 0) {
             this.setState({allGroupsFull: true});
         }
         this.loadComplete();
-
         this.setState({selectedFilter: 'all'});
     }
 
     render() {
         const groups = this.state.selectedFilter === 'all' ? this.props.groups : this.props.myGroups;
-        const {canCreateCustomGroups} = this.props;
 
         return (
             <Modal
@@ -302,29 +226,10 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                 aria-labelledby='userGroupsModalLabel'
                 id='userGroupsModal'
             >
-                <Modal.Header closeButton={true}>
-                    <Modal.Title
-                        componentClass='h1'
-                        id='userGroupsModalLabel'
-                    >
-                        <FormattedMessage
-                            id='user_groups_modal.title'
-                            defaultMessage='User Groups'
-                        />
-                    </Modal.Title>
-                    {
-                        canCreateCustomGroups &&
-                        <button
-                            className='user-groups-create btn btn-md btn-primary'
-                            onClick={this.goToCreateModal}
-                        >
-                            <FormattedMessage
-                                id='user_groups_modal.createNew'
-                                defaultMessage='Create Group'
-                            />
-                        </button>
-                    }
-                </Modal.Header>
+                <UserGroupsModalHeader
+                    onExited={this.props.onExited}
+                    backButtonAction={this.props.backButtonAction}
+                />
                 <Modal.Body>
                     {(groups.length === 0 && !this.props.searchTerm) ?
                         <NoResultsIndicator
@@ -377,15 +282,13 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                 groups={groups}
                                 searchTerm={this.props.searchTerm}
                                 loading={this.state.loading}
-                                groupPermissionsMap={this.props.groupPermissionsMap}
                                 onScroll={this.onScroll}
-                                goToViewGroupModal={this.goToViewGroupModal}
-                                archiveGroup={this.archiveGroup}
                                 ref={this.divScrollRef}
+                                onExited={this.props.onExited}
+                                backButtonAction={this.props.backButtonAction}
                             />
                         </>
                     }
-
                 </Modal.Body>
             </Modal>
         );

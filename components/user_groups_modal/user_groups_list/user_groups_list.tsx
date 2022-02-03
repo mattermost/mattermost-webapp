@@ -13,6 +13,10 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
 import * as Utils from 'utils/utils.jsx';
+import {ActionResult} from 'mattermost-redux/types/actions';
+import {ModalData} from 'types/actions';
+import {ModalIdentifiers} from 'utils/constants';
+import ViewUserGroupModal from 'components/view_user_group_modal';
 
 export type Props = {
     groups: Group[];
@@ -20,20 +24,44 @@ export type Props = {
     loading: boolean;
     groupPermissionsMap: Record<string, GroupPermissions>;
     onScroll: () => void;
-    goToViewGroupModal: (group: Group) => void;
-    archiveGroup: (id: string) => void;
+    onExited: () => void;
+    backButtonAction: () => void;
+    actions: {
+        archiveGroup: (groupId: string) => Promise<ActionResult>;
+        openModal: <P>(modalData: ModalData<P>) => void;
+    };
 }
 
-const UserGroupsList = React.forwardRef((props: Props, ref?: React.Ref<HTMLDivElement>) => {
+const UserGroupsList = React.forwardRef((props: Props, ref: React.Ref<HTMLDivElement>) => {
     const {
         groups,
         searchTerm,
         loading,
         groupPermissionsMap,
         onScroll,
-        goToViewGroupModal,
-        archiveGroup,
+        backButtonAction,
+        onExited,
+        actions,
     } = props;
+
+    const archiveGroup = async (groupId: string) => {
+        await actions.archiveGroup(groupId);
+    }
+
+    const goToViewGroupModal = (group: Group) => {
+        actions.openModal({
+            modalId: ModalIdentifiers.VIEW_USER_GROUP,
+            dialogType: ViewUserGroupModal,
+            dialogProps: {
+                groupId: group.id,
+                backButtonCallback: backButtonAction,
+                backButtonAction: () => {
+                    goToViewGroupModal(group);
+                },
+            },
+        });
+        onExited();
+    }
 
     return (
         <div
