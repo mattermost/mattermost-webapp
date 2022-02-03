@@ -49,6 +49,7 @@ type Props = {
     pulsatingDotPlacement?: Omit<Placement, 'auto'| 'auto-end'>;
     pulsatingDotTranslate?: {x: number; y: number};
     width?: string | number;
+    zIndex?: number;
 }
 
 const TutorialTourTip: React.FC<Props> = ({
@@ -63,13 +64,14 @@ const TutorialTourTip: React.FC<Props> = ({
     onNextNavigateTo,
     onPrevNavigateTo,
     telemetryTag,
-    placement,
     showOptOut,
     pulsatingDotTranslate,
     pulsatingDotPlacement,
+    placement = 'right-start',
     stopPropagation = true,
     preventDefault = true,
     width = 320,
+    zIndex = 999,
 }: Props) => {
     const triggerRef = useRef(null);
     const {
@@ -256,13 +258,13 @@ const TutorialTourTip: React.FC<Props> = ({
                     maxWidth={width}
                     aria={{content: 'labelledby'}}
                     allowHTML={true}
-                    zIndex={9999}
+                    zIndex={zIndex}
                     reference={triggerRef}
                     interactive={true}
                     appendTo={rootPortal!}
                     offset={[0, 2]}
                     className={'tutorial-tour-tip__box'}
-                    placement={placement || 'right-start'}
+                    placement={placement}
                 />
             )}
         </>
