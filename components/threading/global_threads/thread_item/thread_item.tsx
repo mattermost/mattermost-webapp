@@ -16,7 +16,7 @@ import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 import {Posts} from 'mattermost-redux/constants';
 
 import * as Utils from 'utils/utils';
-import {Constants, CrtTutorialSteps, Preferences} from 'utils/constants';
+import {CrtTutorialSteps, Preferences} from 'utils/constants';
 import {GlobalState} from 'types/store';
 import {getIsMobileView} from 'selectors/views/browser';
 import Badge from 'components/widgets/badges/badge';
