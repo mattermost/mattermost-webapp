@@ -13,11 +13,7 @@ import {useMeasurePunchouts} from 'components/tutorial/tutorial_tip/hooks';
 import {close as closeLhs} from 'actions/views/lhs';
 import {browserHistory} from 'utils/browser_history';
 
-type Props = {
-    autoTour: boolean;
-};
-
-const CRTWelcomeTutorialTip = ({autoTour}: Props) => {
+const CRTWelcomeTutorialTip = () => {
     const dispatch = useDispatch();
     const teamUrl = useSelector((state: GlobalState) => getCurrentRelativeTeamUrl(state));
     const nextUrl = `${teamUrl}/threads`;
@@ -52,7 +48,6 @@ const CRTWelcomeTutorialTip = ({autoTour}: Props) => {
             tutorialCategory={Constants.Preferences.CRT_TUTORIAL_STEP}
             screen={screen}
             overlayClass='tip-overlay--threads-welcome '
-            autoTour={autoTour}
             punchOut={useMeasurePunchouts(['sidebar-threads-button'], [])}
             telemetryTag='tutorial_tip_threads-welcome'
         />

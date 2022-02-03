@@ -36,7 +36,6 @@ const CRTThreadsPaneTutorialTip = () => {
             screen={screen}
             overlayClass='tip-overlay--threads-pane'
             punchOut={useMeasurePunchouts(['rhsContainer'], [])}
-            autoTour={true}
         />
     );
 };

@@ -66,7 +66,6 @@ const ThreadList = ({
     const tipStep = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_STEP, currentUserId));
     const showListTutorialTip = tipStep === CrtTutorialSteps.LIST_POPOVER;
     const showUnreadTutorialTip = tipStep === CrtTutorialSteps.UNREAD_POPOVER;
-    const tutorialTipAutoTour = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_AUTO_TOUR_STATUS, currentUserId, Constants.AutoTourStatus.ENABLED)) === Constants.AutoTourStatus.ENABLED;
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
 
@@ -183,7 +182,7 @@ const ThreadList = ({
                                     defaultMessage='Unreads'
                                 />
                             </Button>
-                            {showUnreadTutorialTip && <CRTUnreadTutorialTip autoTour={tutorialTipAutoTour}/>}
+                            {showUnreadTutorialTip && <CRTUnreadTutorialTip/>}
                         </div>
                     </>
                 )}
@@ -216,7 +215,7 @@ const ThreadList = ({
                     selectedThreadId={selectedThreadId}
                     total={unread ? totalUnread : total}
                 />
-                {showListTutorialTip && !isMobileView && <CRTListTutorialTip autoTour={tutorialTipAutoTour}/>}
+                {showListTutorialTip && !isMobileView && <CRTListTutorialTip/>}
                 {unread && !someUnread && isEmpty(unreadIds) ? (
                     <NoResultsIndicator
                         expanded={true}

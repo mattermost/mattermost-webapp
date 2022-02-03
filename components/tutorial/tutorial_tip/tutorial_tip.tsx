@@ -24,10 +24,6 @@ const TutorialSteps = {
     [Preferences.CRT_TUTORIAL_STEP]: Constants.CrtTutorialSteps,
     [Preferences.CRT_THREAD_PANE_STEP]: Constants.CrtThreadPaneSteps,
 };
-const TutorialAutoTourStatus = {
-    [Preferences.TUTORIAL_STEP]: Preferences.TUTORIAL_STEP_AUTO_TOUR_STATUS,
-    [Preferences.CRT_TUTORIAL_STEP]: Preferences.CRT_TUTORIAL_AUTO_TOUR_STATUS,
-};
 
 type Preference = {
     user_id: string;
@@ -75,7 +71,6 @@ type Props = {
         setFirstChannelName: (channelName: string) => (dispatch: DispatchFunc) => void;
         setProductMenuSwitcherOpen: (open: boolean) => void;
     };
-    autoTour: boolean;
     firstChannelName: string | undefined;
     punchOut?: TutorialTipPunchout | null;
     pulsatingDotPosition?: Coords | undefined;
@@ -84,16 +79,10 @@ type Props = {
 type State = {
     currentScreen: number;
     show: boolean;
-
-    // give auto tour a chance to engage
-    hasShown: boolean;
 }
-
-const COMPROMISE_WAIT_FOR_TIPS_AND_NEXT_STEPS_TIME = 150;
 
 export default class TutorialTip extends React.PureComponent<Props, State> {
     public targetRef: React.RefObject<HTMLImageElement>;
-    private showPendingTimeout?: NodeJS.Timeout;
 
     public static defaultProps: Partial<Props> = {
         overlayClass: '',
@@ -104,14 +93,13 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         this.state = {
             currentScreen: 0,
             show: false,
-            hasShown: false,
         };
 
         this.targetRef = React.createRef();
     }
 
     private show = (e?: React.MouseEvent): void => {
-        this.setState({show: true, hasShown: true});
+        this.setState({show: true});
         if (this.props.preventDefault && e) {
             e.preventDefault();
         }
@@ -126,7 +114,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
 
     private dismiss = (e: React.MouseEvent | React.KeyboardEvent): void => {
         this.hide();
-        this.handleNext(false);
+        this.handleNext();
         const wasEscapeDismissal = e.type === 'keyup';
         const tag = this.props.telemetryTag + '_dismiss';
         if (wasEscapeDismissal) {
@@ -151,35 +139,12 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         }
     }
 
-    private autoShow(couldAutoShow: boolean) {
-        const {autoTour, currentStep, step, firstChannelName} = this.props;
-        if (!couldAutoShow) {
-            return;
-        }
-        const isShowable = firstChannelName || (autoTour && !this.state.hasShown && currentStep === step);
-        if (isShowable) {
-            // POST_POPOVER is the only tip that is not automatically rendered if it is the currentStep.
-            // This is because tips and next steps may display.
-            // It can further happen that the post popover gets the first chance to display,
-            // and then tips and next steps determines it should display.
-            // So this is tutorial_tip's way of being polite to the user and not flashing its tip
-            // in the user's face right before showing tips and next steps.
-            if (this.props.step === OnBoardingTutorialStep.POST_POPOVER) {
-                this.showPendingTimeout = setTimeout(() => {
-                    this.show();
-                }, COMPROMISE_WAIT_FOR_TIPS_AND_NEXT_STEPS_TIME);
-            } else {
-                this.show();
-            }
-        }
-    }
-
     getKeyByValue = (obj: Record<string, number>, value: number) => {
         return Object.keys(obj).find((key) => obj[key] === value);
     }
 
-    handleSavePreferences = (autoTour: boolean, nextStep: boolean | number): void => {
-        const {isAdmin, currentUserId, tutorialCategory, actions, singleTip, onNextNavigateTo, onPrevNavigateTo} = this.props;
+    handleSavePreferences = (nextStep: boolean | number): void => {
+        const {isAdmin, currentUserId, tutorialCategory, actions} = this.props;
         const {closeRhsMenu, savePreferences, setFirstChannelName} = actions;
 
         let stepValue = this.props.currentStep;
@@ -218,14 +183,6 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                 value: stepValue.toString(),
             },
         ];
-        if (!singleTip) {
-            preferences.push({
-                user_id: currentUserId,
-                category: tutorialCategory ? TutorialAutoTourStatus[tutorialCategory] : TutorialAutoTourStatus[Preferences.TUTORIAL_STEP],
-                name: currentUserId,
-                value: autoTour ? Constants.AutoTourStatus.ENABLED.toString() : Constants.AutoTourStatus.DISABLED.toString(),
-            });
-        }
 
         if (!tutorialCategory) {
             closeRhsMenu();
@@ -255,20 +212,14 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         if (this.props.extraFunc) {
             this.props.extraFunc();
         }
-
-        if (onNextNavigateTo && nextStep === true && autoTour) {
-            onNextNavigateTo();
-        } else if (onPrevNavigateTo && nextStep === false && autoTour) {
-            onPrevNavigateTo();
-        }
     }
 
     public handlePrev = (e: React.MouseEvent): void => {
         e.preventDefault();
-        this.handleSavePreferences(true, false);
+        this.handleSavePreferences(false);
     }
 
-    public handleNext = (auto = true, e?: React.MouseEvent): void => {
+    public handleNext = (e?: React.MouseEvent): void => {
         e?.preventDefault();
         if (this.props.telemetryTag) {
             const tag = this.props.telemetryTag + '_next';
@@ -278,9 +229,9 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         const category = this.props.tutorialCategory || Preferences.TUTORIAL_STEP;
 
         if (this.getLastStep(TutorialSteps[category], category) === this.props.currentStep) {
-            this.handleSavePreferences(auto, TutorialSteps[this.props.tutorialCategory || Preferences.TUTORIAL_STEP].FINISHED);
+            this.handleSavePreferences(TutorialSteps[this.props.tutorialCategory || Preferences.TUTORIAL_STEP].FINISHED);
         } else {
-            this.handleSavePreferences(auto, true);
+            this.handleSavePreferences(true);
         }
     }
 
@@ -368,20 +319,10 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
     }
 
     public componentDidMount() {
-        this.autoShow(true);
         document.addEventListener('keydown', this.handleKeyDown);
     }
 
-    public componentDidUpdate(prevProps: Props) {
-        const currentStepChanged = prevProps.currentStep !== this.props.currentStep;
-        const autoTourChanged = prevProps.autoTour !== this.props.autoTour;
-        this.autoShow(currentStepChanged || autoTourChanged);
-    }
-
     public componentWillUnmount() {
-        if (this.showPendingTimeout) {
-            clearTimeout(this.showPendingTimeout);
-        }
         document.removeEventListener('keydown', this.handleKeyDown);
     }
 
@@ -411,7 +352,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                             key={'dotactive' + i}
                             className={className}
                             data-screen={i}
-                            onClick={() => this.handleSavePreferences(true, i)}
+                            onClick={() => this.handleSavePreferences(i)}
                         />
                     </div>,
                 );
@@ -483,7 +424,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                                     <button
                                         id='tipNextButton'
                                         className='tutorial-tip__btn tutorial-tip__confirm-btn'
-                                        onClick={(e) => this.handleNext(true, e)}
+                                        onClick={(e) => this.handleNext(e)}
                                     >
                                         {this.getButtonText(this.props.tutorialCategory || Preferences.TUTORIAL_STEP)}
                                     </button>

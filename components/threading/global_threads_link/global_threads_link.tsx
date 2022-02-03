@@ -55,7 +55,6 @@ const GlobalThreadsLink = () => {
     const appHaveOpenModal = useSelector((state: GlobalState) => isAnyModalOpen(state));
     const tipStep = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_STEP, currentUserId, CrtTutorialSteps.WELCOME_POPOVER));
     const crtTutorialTrigger = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_TRIGGERED, currentUserId, Constants.CrtTutorialTriggerSteps.START));
-    const tutorialTipAutoTour = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_AUTO_TOUR_STATUS, currentUserId, Constants.AutoTourStatus.ENABLED)) === Constants.AutoTourStatus.ENABLED;
     const threads = useSelector((state: GlobalState) => getThreadsInCurrentTeam(state));
     const showTutorialTip = crtTutorialTrigger === CrtTutorialTriggerSteps.STARTED && tipStep === CrtTutorialSteps.WELCOME_POPOVER && threads.length >= 1;
     const threadsCount = useSelector((state: GlobalState) => getThreadCountsInCurrentTeam(state));
@@ -114,7 +113,7 @@ const GlobalThreadsLink = () => {
                     )}
                     {showTutorialTrigger && <PulsatingDot/>}
                 </Link>
-                {showTutorialTip && <CRTWelcomeTutorialTip autoTour={tutorialTipAutoTour}/>}
+                {showTutorialTip && <CRTWelcomeTutorialTip/>}
             </li>
         </ul>
     );

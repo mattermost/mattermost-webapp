@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {CollapsedThreads, AutoTourTreatments} from '../constants/config';
+import {CollapsedThreads} from '../constants/config';
 
 import {ThemeKey} from './themes';
 
@@ -15,7 +15,6 @@ export type ClientConfig = {
     AndroidMinVersion: string;
     AppDownloadLink: string;
     AsymmetricSigningPublicKey: string;
-    AutoTour: AutoTourTreatments;
     AvailableLocales: string;
     BannerColor: string;
     BannerText: string;

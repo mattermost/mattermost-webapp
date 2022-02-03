@@ -72,7 +72,6 @@ function ThreadItem({
     const isMobileView = useSelector(getIsMobileView);
     const currentUserId = useSelector(getCurrentUserId);
     const tipStep = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_STEP, currentUserId));
-    const tutorialTipAutoTour = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_AUTO_TOUR_STATUS, currentUserId, Constants.AutoTourStatus.ENABLED)) === Constants.AutoTourStatus.ENABLED;
     const showListTutorialTip = tipStep === CrtTutorialSteps.LIST_POPOVER;
     const msgDeleted = formatMessage({id: 'post_body.deleted', defaultMessage: '(message deleted)'});
     const postAuthor = post.props?.override_username || displayName;
@@ -238,7 +237,7 @@ function ThreadItem({
                     </>
                 )}
             </div>
-            {showListTutorialTip && isFirstThreadInList && isMobileView && (<CRTListTutorialTip autoTour={tutorialTipAutoTour}/>)}
+            {showListTutorialTip && isFirstThreadInList && isMobileView && (<CRTListTutorialTip/>)}
         </article>
     );
 }

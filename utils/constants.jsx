@@ -72,9 +72,7 @@ export const Preferences = {
     CATEGORY_SIDEBAR_SETTINGS: 'sidebar_settings',
     CATEGORY_ADVANCED_SETTINGS: 'advanced_settings',
     TUTORIAL_STEP: 'tutorial_step',
-    TUTORIAL_STEP_AUTO_TOUR_STATUS: 'tutorial_step_auto_tour_status',
     CRT_TUTORIAL_TRIGGERED: 'crt_tutorial_triggered',
-    CRT_TUTORIAL_AUTO_TOUR_STATUS: 'crt_tutorial_auto_tour_status',
     CRT_TUTORIAL_STEP: 'crt_tutorial_step',
     CRT_THREAD_PANE_STEP: 'crt_thread_pane_step',
     CHANNEL_DISPLAY_MODE: 'channel_display_mode',
@@ -504,10 +502,6 @@ export const CrtTutorialTriggerSteps = {
     START: 0,
     STARTED: 1,
     FINISHED: 999,
-};
-export const AutoTourStatus = {
-    ENABLED: 0,
-    DISABLED: 1,
 };
 
 export const CrtThreadPaneSteps = {
@@ -1059,7 +1053,6 @@ export const Constants = {
     AdminTutorialSteps,
     CrtTutorialSteps,
     CrtTutorialTriggerSteps,
-    AutoTourStatus,
     CrtThreadPaneSteps,
     PostTypes,
     ErrorPageTypes,

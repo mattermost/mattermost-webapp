@@ -8,11 +8,7 @@ import TutorialTip from 'components/tutorial/tutorial_tip';
 import {Constants, Preferences} from 'utils/constants';
 import {useMeasurePunchouts} from 'components/tutorial/tutorial_tip/hooks';
 
-type Props = {
-    autoTour: boolean;
-};
-
-const CRTUnreadTutorialTip = ({autoTour}: Props) => {
+const CRTUnreadTutorialTip = () => {
     const title = (
         <FormattedMessage
             id='tutorial_threads.unread.title'
@@ -38,7 +34,6 @@ const CRTUnreadTutorialTip = ({autoTour}: Props) => {
             tutorialCategory={Preferences.CRT_TUTORIAL_STEP}
             screen={screen}
             overlayClass='tip-overlay--threads-unread'
-            autoTour={autoTour}
             punchOut={useMeasurePunchouts(['threads-list-unread-button'], [])}
         />
     );

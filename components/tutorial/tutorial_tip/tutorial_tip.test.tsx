@@ -16,7 +16,6 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
         title: <>{'title'}</>,
         step: 1,
         currentStep: 1,
-        autoTour: false,
         isAdmin: false,
         actions: {
             closeRhsMenu: jest.fn(),
@@ -52,12 +51,6 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
                 category: Preferences.TUTORIAL_STEP,
                 name: currentUserId,
                 value: (requiredProps.currentStep + 1).toString(),
-            },
-            {
-                user_id: currentUserId,
-                category: Preferences.TUTORIAL_STEP_AUTO_TOUR_STATUS,
-                name: currentUserId,
-                value: Constants.AutoTourStatus.ENABLED.toString(),
             },
         ];
 
@@ -113,7 +106,6 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
             title: <>{'title'}</>,
             step: 5,
             currentStep: 5,
-            autoTour: false,
             isAdmin: false,
             actions: {
                 closeRhsMenu: jest.fn(),
@@ -129,7 +121,7 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
             <TutorialTip {...props}/>,
         );
 
-        wrapper.instance().handleSavePreferences(false, true);
+        wrapper.instance().handleSavePreferences(true);
 
         // current tip is 5, but tip 6, START_TRIAL is only for admins and is skipped to tip 7
         expect(props.actions.savePreferences).toHaveBeenCalledWith('currentUserId', [{category: 'tutorial_step', name: 'currentUserId', user_id: 'currentUserId', value: '7'}]);
@@ -141,7 +133,6 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
             title: <>{'title'}</>,
             step: 7,
             currentStep: 7,
-            autoTour: false,
             isAdmin: false,
             actions: {
                 closeRhsMenu: jest.fn(),
@@ -157,7 +148,7 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
             <TutorialTip {...props}/>,
         );
 
-        wrapper.instance().handleSavePreferences(false, false);
+        wrapper.instance().handleSavePreferences(false);
 
         // current tip is 7, but tip 6, START_TRIAL is only for admins and is skipped to tip 5
         expect(props.actions.savePreferences).toHaveBeenCalledWith('currentUserId', [{category: 'tutorial_step', name: 'currentUserId', user_id: 'currentUserId', value: '5'}]);

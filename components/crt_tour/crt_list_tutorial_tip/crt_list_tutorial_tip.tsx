@@ -14,15 +14,11 @@ import TutorialTip from 'components/tutorial/tutorial_tip';
 import {ShortcutKey, ShortcutKeyVariant} from 'components/shortcut_key';
 import {useMeasurePunchouts} from 'components/tutorial/tutorial_tip/hooks';
 
-type Props = {
-    autoTour: boolean;
-};
-
 export const UpShortcut = () => <ShortcutKey variant={ShortcutKeyVariant.TutorialTip}>{'UP'}</ShortcutKey>;
 
 export const DownShortcut = () => <ShortcutKey variant={ShortcutKeyVariant.TutorialTip}>{'DOWN'}</ShortcutKey>;
 
-const CRTListTutorialTip = ({autoTour}: Props) => {
+const CRTListTutorialTip = () => {
     const isMobileView = useSelector((state: GlobalState) => getIsMobileView(state));
     const dispatch = useDispatch();
     const onPrevNavigateTo = () => dispatch(openLhs());
@@ -67,7 +63,6 @@ const CRTListTutorialTip = ({autoTour}: Props) => {
             stopPropagation={true}
             screen={screen}
             overlayClass='tip-overlay--threads-list'
-            autoTour={autoTour}
             onPrevNavigateTo={onPrevNavigateTo}
             punchOut={useMeasurePunchouts(punchOutIds, [])}
         />
