@@ -112,7 +112,6 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
             currentUserId,
             title: <>{'title'}</>,
             step: 5,
-            singleTip: true,
             currentStep: 5,
             autoTour: false,
             isAdmin: false,
@@ -133,7 +132,10 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
         wrapper.instance().handleSavePreferences(false, true);
 
         // current tip is 5, but tip 6, START_TRIAL is only for admins and is skipped to tip 7
-        expect(props.actions.savePreferences).toHaveBeenCalledWith('currentUserId', [{category: 'tutorial_step', name: 'currentUserId', user_id: 'currentUserId', value: '7'}]);
+        expect(props.actions.savePreferences).toHaveBeenCalledWith('currentUserId', [
+            {category: 'tutorial_step', name: 'currentUserId', user_id: 'currentUserId', value: '7'},
+            {category: 'tutorial_step_auto_tour_status', name: 'currentUserId', user_id: 'currentUserId', value: '1'},
+        ]);
     });
 
     test('handleSavePreferences skip previous admin steps for non admins', () => {
@@ -141,7 +143,6 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
             currentUserId,
             title: <>{'title'}</>,
             step: 7,
-            singleTip: true,
             currentStep: 7,
             autoTour: false,
             isAdmin: false,
@@ -162,6 +163,9 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
         wrapper.instance().handleSavePreferences(false, false);
 
         // current tip is 7, but tip 6, START_TRIAL is only for admins and is skipped to tip 5
-        expect(props.actions.savePreferences).toHaveBeenCalledWith('currentUserId', [{category: 'tutorial_step', name: 'currentUserId', user_id: 'currentUserId', value: '5'}]);
+        expect(props.actions.savePreferences).toHaveBeenCalledWith('currentUserId', [
+            {category: 'tutorial_step', name: 'currentUserId', user_id: 'currentUserId', value: '5'},
+            {category: 'tutorial_step_auto_tour_status', name: 'currentUserId', user_id: 'currentUserId', value: '1'},
+        ]);
     });
 });
