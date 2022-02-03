@@ -285,8 +285,8 @@
                 // greater z-index than img
                 position: absolute;
                 z-index: 3;
-                right: 8px;
                 top: 8px;
+                right: 8px;
                 display: none;
                 padding: 4px;
                 border: 1px solid rgba(v(center-channel-color-rgb), 0.16);
@@ -300,8 +300,7 @@
                     width: 28px;
                     height: 28px;
                     padding: 2px;
-                    margin: 2px;
-                    margin-right: 0px;
+                    margin: 2px 0 2px 2px;
                     border-radius: 4px;
                     color: rgba(var(--center-channel-color-rgb), 0.56);
 
