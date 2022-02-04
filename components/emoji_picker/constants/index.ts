@@ -58,3 +58,4 @@ export const EMOJIS_ROW = 'emojisRow';
 export const EMOJI_LAZY_LOAD_SCROLL_DEBOUNCE = 150;
 export const EMOJI_ROWS_OVERSCAN_COUNT = 1;
 
+export const CUSTOM_EMOJIS_PER_PAGE = 200;

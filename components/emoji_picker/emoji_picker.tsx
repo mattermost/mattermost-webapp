@@ -1,9 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable no-underscore-dangle */
+
 import React, {useRef, useState, useEffect, useCallback, memo, useMemo} from 'react';
 import {FormattedMessage} from 'react-intl';
 import type {FixedSizeList} from 'react-window';
+import type InfiniteLoader from 'react-window-infinite-loader';
 
 import {Emoji, EmojiCategory} from 'mattermost-redux/types/emojis';
 import {isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
@@ -70,7 +73,7 @@ const EmojiPicker = ({
 
     const searchInputRef = useRef<HTMLInputElement>(null);
 
-    const resultsListRef = useRef<FixedSizeList<CategoryOrEmojiRow[]>>(null);
+    const infiniteLoaderRef = React.useRef<InfiniteLoader & {_listRef: FixedSizeList<CategoryOrEmojiRow[]>}>(null);
 
     const shouldRunCreateCategoryAndEmojiRows = useRef<boolean>();
 
@@ -117,13 +120,13 @@ const EmojiPicker = ({
             setActiveCategory(getInitialActiveCategory());
         }
 
-        resultsListRef?.current?.scrollToItem(0, 'start');
+        infiniteLoaderRef?.current?._listRef?.scrollToItem(0, 'start');
     }, [filter]);
 
     // scroll as little as possible on cursor navigation
     useEffect(() => {
         if (cursor.emoji) {
-            resultsListRef?.current?.scrollToItem(cursor.rowIndex, 'auto');
+            infiniteLoaderRef?.current?._listRef?.scrollToItem(cursor.rowIndex, 'auto');
         }
     }, [cursor.rowIndex]);
 
@@ -146,7 +149,7 @@ const EmojiPicker = ({
         }
 
         setActiveCategory(categoryName);
-        resultsListRef?.current?.scrollToItem(categoryRowIndex, 'start');
+        infiniteLoaderRef?.current?._listRef?.scrollToItem(categoryRowIndex, 'start');
 
         const cursorEmoji = getEmojiById(emojiId);
         if (cursorEmoji) {
@@ -301,7 +304,7 @@ const EmojiPicker = ({
         if (clickedEmoji) {
             onEmojiClick(clickedEmoji);
         }
-    }, [cursor.categoryIndex, cursor.emojiIndex, onEmojiClick]);
+    }, [cursor.categoryIndex, cursor.emojiIndex]);
 
     const handleEmojiOnMouseOver = useCallback((cursor: EmojiCursor) => {
         setCursor(cursor);
@@ -371,7 +374,7 @@ const EmojiPicker = ({
                 />
             ) : (
                 <EmojiPickerCurrentResults
-                    ref={resultsListRef}
+                    ref={infiniteLoaderRef}
                     isFiltering={filter.length > 0}
                     activeCategory={activeCategory}
                     categoryOrEmojisRows={categoryOrEmojisRows}
@@ -380,6 +383,10 @@ const EmojiPicker = ({
                     setActiveCategory={setActiveCategory}
                     onEmojiClick={onEmojiClick}
                     onEmojiMouseOver={handleEmojiOnMouseOver}
+                    getCustomEmojis={getCustomEmojis}
+                    customEmojiPage={customEmojiPage}
+                    incrementEmojiPickerPage={incrementEmojiPickerPage}
+                    customEmojisEnabled={customEmojisEnabled}
                 />
             )}
             <div className='emoji-picker__footer'>

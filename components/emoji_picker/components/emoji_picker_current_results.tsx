@@ -4,13 +4,15 @@
 import React, {forwardRef, memo, useCallback} from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {FixedSizeList, ListItemKeySelector, ListOnScrollProps} from 'react-window';
+import InfiniteLoader from 'react-window-infinite-loader';
 import throttle from 'lodash/throttle';
 
-import {Emoji, EmojiCategory} from 'mattermost-redux/types/emojis';
+import {Emoji, EmojiCategory, CustomEmoji} from 'mattermost-redux/types/emojis';
+import {ServerError} from 'mattermost-redux/types/errors';
 
 import {CategoryOrEmojiRow, EmojiCursor} from 'components/emoji_picker/types';
 
-import {ITEM_HEIGHT, EMOJI_ROWS_OVERSCAN_COUNT, EMOJI_CONTAINER_HEIGHT} from 'components/emoji_picker/constants';
+import {ITEM_HEIGHT, EMOJI_ROWS_OVERSCAN_COUNT, EMOJI_CONTAINER_HEIGHT, CUSTOM_EMOJIS_PER_PAGE} from 'components/emoji_picker/constants';
 
 import {isCategoryHeaderRow} from 'components/emoji_picker/utils';
 import EmojiPickerCategoryOrEmojiRow from 'components/emoji_picker/components/emoji_picker_category_or_emoji_row';
@@ -21,12 +23,16 @@ interface Props {
     activeCategory: EmojiCategory;
     cursorCategoryIndex: number;
     cursorEmojiIndex: number;
+    customEmojisEnabled: boolean;
+    customEmojiPage: number;
     setActiveCategory: (category: EmojiCategory) => void;
     onEmojiClick: (emoji: Emoji) => void;
     onEmojiMouseOver: (cursor: EmojiCursor) => void;
+    incrementEmojiPickerPage: () => void;
+    getCustomEmojis: (page?: number, perPage?: number, sort?: string, loadUsers?: boolean) => Promise<{ data: CustomEmoji[]; error: ServerError }>;
 }
 
-const EmojiPickerCurrentResults = forwardRef<FixedSizeList<CategoryOrEmojiRow[]>, Props>(({categoryOrEmojisRows, isFiltering, activeCategory, cursorCategoryIndex, cursorEmojiIndex, setActiveCategory, onEmojiClick, onEmojiMouseOver}: Props, ref) => {
+const EmojiPickerCurrentResults = forwardRef<InfiniteLoader, Props>(({categoryOrEmojisRows, isFiltering, activeCategory, cursorCategoryIndex, cursorEmojiIndex, customEmojisEnabled, customEmojiPage, setActiveCategory, onEmojiClick, onEmojiMouseOver, getCustomEmojis, incrementEmojiPickerPage}: Props, ref) => {
     // Function to create unique key for each row
     const getItemKey = (index: Parameters<ListItemKeySelector>[0], rowsData: Parameters<ListItemKeySelector<CategoryOrEmojiRow[]>>[1]) => {
         const data = rowsData[index];
@@ -61,6 +67,25 @@ const EmojiPickerCurrentResults = forwardRef<FixedSizeList<CategoryOrEmojiRow[]>
     }, 150, {leading: false, trailing: true},
     ), [activeCategory, isFiltering, categoryOrEmojisRows]);
 
+    const handleIsItemLoaded = (index: number): boolean => {
+        return index < categoryOrEmojisRows.length;
+    };
+
+    const handleLoadMoreItems = async () => {
+        if (customEmojisEnabled === false) {
+            return;
+        }
+
+        const {data} = await getCustomEmojis(customEmojiPage, CUSTOM_EMOJIS_PER_PAGE);
+
+        // If data came back empty, or data is less than the perPage, then we know there are no more pages
+        if (!data || data.length < CUSTOM_EMOJIS_PER_PAGE) {
+            return;
+        }
+
+        incrementEmojiPickerPage();
+    };
+
     return (
         <div
             className='emoji-picker__items'
@@ -72,30 +97,40 @@ const EmojiPickerCurrentResults = forwardRef<FixedSizeList<CategoryOrEmojiRow[]>
             >
                 <AutoSizer>
                     {({height, width}) => (
-                        <FixedSizeList
+                        <InfiniteLoader
                             ref={ref}
-                            height={height}
-                            width={width}
-                            layout='vertical'
-                            overscanCount={EMOJI_ROWS_OVERSCAN_COUNT}
-                            itemCount={categoryOrEmojisRows.length}
-                            itemData={categoryOrEmojisRows}
-                            itemKey={getItemKey}
-                            itemSize={ITEM_HEIGHT}
-                            onScroll={throttledScroll}
+                            itemCount={categoryOrEmojisRows.length + 1} // +1 for the loading row
+                            isItemLoaded={handleIsItemLoaded}
+                            loadMoreItems={handleLoadMoreItems}
                         >
-                            {({index, style, data}) => (
-                                <EmojiPickerCategoryOrEmojiRow
-                                    index={index}
-                                    style={style}
-                                    data={data}
-                                    cursorCategoryIndex={cursorCategoryIndex}
-                                    cursorEmojiIndex={cursorEmojiIndex}
-                                    onEmojiClick={onEmojiClick}
-                                    onEmojiMouseOver={onEmojiMouseOver}
-                                />
+                            {({onItemsRendered, ref}) => (
+                                <FixedSizeList
+                                    ref={ref}
+                                    onItemsRendered={onItemsRendered}
+                                    height={height}
+                                    width={width}
+                                    layout='vertical'
+                                    overscanCount={EMOJI_ROWS_OVERSCAN_COUNT}
+                                    itemCount={categoryOrEmojisRows.length}
+                                    itemData={categoryOrEmojisRows}
+                                    itemKey={getItemKey}
+                                    itemSize={ITEM_HEIGHT}
+                                    onScroll={throttledScroll}
+                                >
+                                    {({index, style, data}) => (
+                                        <EmojiPickerCategoryOrEmojiRow
+                                            index={index}
+                                            style={style}
+                                            data={data}
+                                            cursorCategoryIndex={cursorCategoryIndex}
+                                            cursorEmojiIndex={cursorEmojiIndex}
+                                            onEmojiClick={onEmojiClick}
+                                            onEmojiMouseOver={onEmojiMouseOver}
+                                        />
+                                    )}
+                                </FixedSizeList>
                             )}
-                        </FixedSizeList>
+                        </InfiniteLoader>
                     )}
                 </AutoSizer>
             </div>
