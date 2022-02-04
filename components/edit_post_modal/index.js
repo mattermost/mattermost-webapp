@@ -23,6 +23,7 @@ import {editPost} from 'actions/views/posts';
 import {getEditingPost} from 'selectors/posts';
 import {runMessageWillBeUpdatedHooks} from 'actions/hooks';
 import Constants from 'utils/constants';
+import {isFeatureEnabled} from 'utils/utils';
 
 import EditPostModal from './edit_post_modal';
 
@@ -46,6 +47,7 @@ function mapStateToProps(state) {
     const useChannelMentions = haveIChannelPermission(state, teamId, channelId, Permissions.USE_CHANNEL_MENTIONS);
 
     return {
+        markdownPreviewFeatureIsEnabled: isFeatureEnabled(Constants.PRE_RELEASE_FEATURES.MARKDOWN_PREVIEW, state),
         canEditPost,
         canDeletePost,
         codeBlockOnCtrlEnter: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'code_block_ctrl_enter', true),

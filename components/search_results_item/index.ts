@@ -8,9 +8,7 @@ import {getChannel, getDirectTeammate} from 'mattermost-redux/selectors/entities
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
 
-// TODO@Michel: remove the import for `getIsInlinePostEditingEnabled` once the inline post editing feature is enabled by default
 import {
-    getIsInlinePostEditingEnabled,
     getMyPreferences,
     isCollapsedThreadsEnabled,
 } from 'mattermost-redux/selectors/entities/preferences';
@@ -91,8 +89,7 @@ export function mapStateToProps() {
             isBot: user ? user.is_bot : false,
             isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
 
-            // TODO@Michel: remove the call to `getIsInlinePostEditingEnabled` once inline post editing is enabled by default
-            isPostBeingEditedInRHS: getIsInlinePostEditingEnabled(state) && getIsPostBeingEditedInRHS(state, post.id),
+            isPostBeingEditedInRHS: getIsPostBeingEditedInRHS(state, post.id),
             displayName: getDisplayNameByUser(state, directTeammate),
             replyCount: getReplyCount(state, post),
             canReply,

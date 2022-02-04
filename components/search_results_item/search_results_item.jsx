@@ -28,6 +28,7 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 import EditPost from 'components/edit_post';
+import AutoHeight from 'components/common/auto_height';
 
 import Constants, {Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
@@ -195,17 +196,19 @@ export default class SearchResultsItem extends React.PureComponent {
     };
 
     getClassName = () => {
+        const {compactDisplay, isPostBeingEditedInRHS} = this.props;
+
         let className = 'post post--thread';
 
-        if (this.props.compactDisplay) {
+        if (compactDisplay) {
             className += ' post--compact';
         }
 
-        if ((this.state.dropdownOpened || this.state.fileDropdownOpened) && !this.props.isPostBeingEditedInRHS) {
+        if ((this.state.dropdownOpened || this.state.fileDropdownOpened) && !isPostBeingEditedInRHS) {
             className += ' post--hovered';
         }
 
-        if (this.props.isPostBeingEditedInRHS) {
+        if (isPostBeingEditedInRHS) {
             className += ' post--editing';
         }
 
@@ -255,7 +258,7 @@ export default class SearchResultsItem extends React.PureComponent {
     }
 
     render() {
-        const {post, channelIsArchived, teamDisplayName, canReply} = this.props;
+        const {post, channelIsArchived, teamDisplayName, canReply, isPostBeingEditedInRHS} = this.props;
         const channelName = this.getChannelName();
 
         let overrideUsername;
@@ -468,13 +471,18 @@ export default class SearchResultsItem extends React.PureComponent {
                                     {this.renderPostTime()}
                                     {postInfoIcon}
                                 </div>
-                                {!this.props.isPostBeingEditedInRHS && rhsControls}
+                                {!isPostBeingEditedInRHS && rhsControls}
                             </div>
                             <div className='search-item-snippet post__body'>
-                                <div className={postClass}>
-                                    {this.props.isPostBeingEditedInRHS ? <EditPost/> : message}
-                                    {fileAttachment}
-                                </div>
+                                <AutoHeight
+                                    duration={500}
+                                    shouldScrollIntoView={isPostBeingEditedInRHS}
+                                >
+                                    <div className={postClass}>
+                                        {isPostBeingEditedInRHS ? <EditPost/> : message}
+                                    </div>
+                                </AutoHeight>
+                                {fileAttachment}
                             </div>
                             {hasCRTFooter ? (
                                 <ThreadFooter

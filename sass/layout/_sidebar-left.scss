@@ -22,7 +22,7 @@
 }
 
 #SidebarContainer {
-    position: fixed;
+    position: absolute;
     z-index: 16;
     left: 0;
     display: flex;
@@ -1341,10 +1341,10 @@
 
 .multi-teams {
     #SidebarContainer {
-        left: 65px;
+        left: 0;
 
         + .inner-wrap #app-content {
-            margin-left: 305px;
+            margin-left: 240px;
         }
     }
 }
@@ -1388,8 +1388,6 @@
 @media screen and (min-width: 769px) {
     // adjust height of sidebar to account for global header
     #SidebarContainer {
-        height: calc(100% - 40px);
-
         .SidebarChannelNavigator {
             margin-top: 0;
             margin-bottom: 11px;

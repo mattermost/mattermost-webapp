@@ -5,6 +5,7 @@
         overflow: hidden;
         height: 100%;
         min-height: 46px;
+        max-height: 560px;
         border: none;
         background: transparent;
         border-radius: 4px;
@@ -665,6 +666,8 @@
     padding: 8px 0.5em 0 1.5em; // If this needs to be changed then .post-row__padding needs to be adjusted accordingly
     word-wrap: break-word;
 
+    transition: height 200ms, background-color 200ms;
+
     &:not(.post--editing):hover {
         background-color: rgba(v(center-channel-color-rgb), 0.04);
 
@@ -699,7 +702,7 @@
             }
 
             .custom-textarea {
-                max-height: 560px;
+                max-height: calc(50vh - 40px);
                 padding: 13px 0 12px 16px;
                 background-color: var(--center-channel-bg);
 
@@ -707,12 +710,6 @@
                     padding-right: 50px;
                 }
             }
-        }
-
-        .invisible {
-            position: absolute;
-            width: 100%;
-            opacity: 0;
         }
     }
 
@@ -1412,7 +1409,7 @@
         overflow: hidden;
         max-height: 1000px;
         padding-top: 5px;
-        transition: max-height 0.5 ease;
+        transition: max-height 500ms ease;
 
         &[hidden] {
             max-height: 0;

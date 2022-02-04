@@ -34,7 +34,6 @@ type Props = {
     isFocused: boolean;
     suggestionProviders: Provider[];
     isSearchingTerm: boolean;
-    isFocus: boolean;
     isSideBarRight?: boolean;
     searchType: string;
     clearSearchType?: () => void;
@@ -164,7 +163,6 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
                     dateComponent={SuggestionDate}
                     providers={suggestionProviders}
                     type='search'
-                    autoFocus={props.isFocus && searchTerms === ''}
                     delayInputUpdate={true}
                     renderDividers={true}
                     clearable={true}

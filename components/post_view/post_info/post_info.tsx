@@ -153,8 +153,8 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             showDotMenu: false,
         };
 
-        this.postHeaderRef = React.createRef();
-        this.dotMenuRef = React.createRef();
+        this.postHeaderRef = React.createRef<HTMLDivElement>();
+        this.dotMenuRef = React.createRef<HTMLDivElement>();
     }
 
     toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
@@ -189,7 +189,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         this.props.handleDropdownOpened(open || this.state.showEmojiPicker);
     };
 
-    getDotMenu = (): HTMLDivElement | null => this.dotMenuRef.current;
+    getDotMenu = (): HTMLDivElement => this.dotMenuRef.current as HTMLDivElement;
 
     buildOptions = (post: Post, isSystemMessage: boolean, fromAutoResponder: boolean): React.ReactNode => {
         if (!this.props.shouldShowDotMenu || this.props.isPostBeingEdited) {

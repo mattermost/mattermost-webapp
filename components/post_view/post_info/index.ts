@@ -4,14 +4,13 @@
 import {connect} from 'react-redux';
 import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 
-import {removePost} from 'mattermost-redux/actions/posts';
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {removePost, ExtendedPost} from 'mattermost-redux/actions/posts';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
 
-// TODO@Michel: remove the import for `getIsInlinePostEditingEnabled` once the inline post editing feature is enabled by default
 import {
     get,
-    getIsInlinePostEditingEnabled,
     isCollapsedThreadsEnabled,
 } from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -20,10 +19,12 @@ import {Post} from 'mattermost-redux/types/posts';
 
 import {GlobalState} from 'types/store';
 
+import {closeRightHandSide} from 'actions/views/rhs';
 import {emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
 import {Preferences} from 'utils/constants';
 import {shouldShowDotMenu} from 'utils/post_utils';
 import {getSelectedPostCard} from 'selectors/rhs';
+import {isThreadOpen} from 'selectors/views/threads';
 import {getShortcutReactToLastPostEmittedFrom, getOneClickReactionEmojis} from 'selectors/emojis';
 import {getIsPostBeingEdited} from '../../../selectors/posts';
 
@@ -31,6 +32,16 @@ import PostInfo from './post_info';
 
 type OwnProps = {
     post: Post;
+}
+
+function removePostAndCloseRHS(post: ExtendedPost) {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState() as GlobalState;
+        if (isThreadOpen(state, post.id)) {
+            dispatch(closeRightHandSide());
+        }
+        return dispatch(removePost(post));
+    };
 }
 
 function makeMapStateToProps() {
@@ -57,8 +68,7 @@ function makeMapStateToProps() {
             isMobile: state.views.channel.mobileView,
             isCardOpen: selectedCard && selectedCard.id === ownProps.post.id,
 
-            // TODO@Michel: remove the call to `getIsInlinePostEditingEnabled` once inline post editing is enabled by default
-            isPostBeingEdited: getIsInlinePostEditingEnabled(state) && getIsPostBeingEdited(state, ownProps.post.id),
+            isPostBeingEdited: getIsPostBeingEdited(state, ownProps.post.id),
             enableEmojiPicker,
             isReadOnly: channelIsArchived,
             shouldShowDotMenu: shouldShowDotMenu(state, ownProps.post, channel),
@@ -74,7 +84,7 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
     return {
         actions: bindActionCreators({
-            removePost,
+            removePost: removePostAndCloseRHS,
             emitShortcutReactToLastPostFrom,
         }, dispatch),
     };

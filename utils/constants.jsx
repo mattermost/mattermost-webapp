@@ -72,6 +72,10 @@ export const Preferences = {
     CATEGORY_SIDEBAR_SETTINGS: 'sidebar_settings',
     CATEGORY_ADVANCED_SETTINGS: 'advanced_settings',
     TUTORIAL_STEP: 'tutorial_step',
+    CRT_TUTORIAL_TRIGGERED: 'crt_tutorial_triggered',
+    CRT_TUTORIAL_AUTO_TOUR_STATUS: 'crt_tutorial_auto_tour_status',
+    CRT_TUTORIAL_STEP: 'crt_tutorial_step',
+    CRT_THREAD_PANE_STEP: 'crt_thread_pane_step',
     CHANNEL_DISPLAY_MODE: 'channel_display_mode',
     CHANNEL_DISPLAY_MODE_CENTERED: 'centered',
     CHANNEL_DISPLAY_MODE_FULL_SCREEN: 'full',
@@ -133,6 +137,8 @@ export const Touched = {
 // Category for actions/interactions that will happen just once
 export const Unique = {
     HAS_CLOUD_PURCHASE: 'has_cloud_purchase',
+    REQUEST_TRIAL_AFTER_SERVER_UPGRADE: 'request_trial_after_upgrade',
+    CLICKED_UPGRADE_AND_TRIAL_BTN: 'clicked_upgradeandtrial_btn',
 };
 
 export const TrialPeriodDays = {
@@ -351,6 +357,7 @@ export const ModalIdentifiers = {
     GET_PUBLIC_LINK_MODAL: 'get_public_link_modal',
     KEYBOARD_SHORTCUTS_MODAL: 'keyboar_shortcuts_modal',
     USERS_TO_BE_REMOVED: 'users_to_be_removed',
+    UPLOAD_LICENSE: 'upload_license',
 };
 
 export const UserStatuses = {
@@ -481,6 +488,27 @@ export const TutorialSteps = {
     MENU_POPOVER: 3,
     PRODUCT_SWITCHER: 4,
     SETTINGS: 5,
+    FINISHED: 999,
+};
+
+export const CrtTutorialSteps = {
+    WELCOME_POPOVER: 0,
+    LIST_POPOVER: 1,
+    UNREAD_POPOVER: 2,
+    FINISHED: 999,
+};
+export const CrtTutorialTriggerSteps = {
+    START: 0,
+    STARTED: 1,
+    FINISHED: 999,
+};
+export const AutoTourStatus = {
+    ENABLED: 0,
+    DISABLED: 1,
+};
+
+export const CrtThreadPaneSteps = {
+    THREADS_PANE_POPOVER: 0,
     FINISHED: 999,
 };
 
@@ -1025,6 +1053,10 @@ export const Constants = {
     UserStatuses,
     UserSearchOptions,
     TutorialSteps,
+    CrtTutorialSteps,
+    CrtTutorialTriggerSteps,
+    AutoTourStatus,
+    CrtThreadPaneSteps,
     PostTypes,
     ErrorPageTypes,
     AnnouncementBarTypes,

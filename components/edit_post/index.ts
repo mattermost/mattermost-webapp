@@ -7,9 +7,9 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {addMessageIntoHistory} from 'mattermost-redux/actions/posts';
 import {Preferences, Permissions} from 'mattermost-redux/constants';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -27,14 +27,14 @@ function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const editingPost = getEditingPost(state);
     const currentUserId = getCurrentUserId(state);
-    const channelId = editingPost?.post?.channel_id || getCurrentChannelId(state);
+    const channelId = editingPost.post.channel_id;
     const teamId = getCurrentTeamId(state);
 
     const isAuthor = editingPost?.post?.user_id === currentUserId;
     const deletePermission = isAuthor ? Permissions.DELETE_POST : Permissions.DELETE_OTHERS_POSTS;
     const editPermission = isAuthor ? Permissions.EDIT_POST : Permissions.EDIT_OTHERS_POSTS;
 
-    const channel = state.entities.channels.channels[channelId] || {};
+    const channel = getChannel(state, channelId);
     const useChannelMentions = haveIChannelPermission(state, teamId, channelId, Permissions.USE_CHANNEL_MENTIONS);
 
     return {
@@ -46,7 +46,7 @@ function mapStateToProps(state: GlobalState) {
         editingPost,
         channelId,
         maxPostSize: parseInt(config.MaxPostSize || '0', 10) || Constants.DEFAULT_CHARACTER_LIMIT,
-        readOnlyChannel: !isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && channel.name === Constants.DEFAULT_CHANNEL,
+        readOnlyChannel: !isCurrentUserSystemAdmin(state) && channel.name === Constants.DEFAULT_CHANNEL,
         useChannelMentions,
     };
 }

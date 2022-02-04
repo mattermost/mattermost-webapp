@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
-import {getIsInlinePostEditingEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getIsPostBeingEdited, getIsPostBeingEditedInRHS} from '../../../selectors/posts';
 
@@ -19,15 +18,12 @@ function mapStateToProps(state, ownProps) {
         parentPostUser = parentPost ? getUser(state, parentPost.user_id) : null;
     }
 
-    // TODO@Michel: remove the call to `getIsInlinePostEditingEnabled` once inline post editing is enabled by default
-    const isInlinePostEditingEnabled = getIsInlinePostEditingEnabled(state);
-
     return {
         parentPost,
         parentPostUser,
         pluginPostTypes: state.plugins.postTypes,
-        isPostBeingEdited: isInlinePostEditingEnabled && getIsPostBeingEdited(state, ownProps.post.id),
-        isPostBeingEditedInRHS: isInlinePostEditingEnabled && getIsPostBeingEditedInRHS(state, ownProps.post.id),
+        isPostBeingEdited: getIsPostBeingEdited(state, ownProps.post.id),
+        isPostBeingEditedInRHS: getIsPostBeingEditedInRHS(state, ownProps.post.id),
     };
 }
 

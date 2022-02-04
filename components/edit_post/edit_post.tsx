@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 
@@ -24,22 +24,18 @@ import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Textbox, {TextboxClass} from 'components/textbox';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
-import {isFirefox} from '../../utils/user_agent';
+import {ModalData} from 'types/actions';
 
-type OpenModal = {
-    ModalId: string;
-    dialogType: typeof React.Component;
-    dialogProps: {
-        post: Post;
-        isRHS?: boolean;
-    };
+type DialogProps = {
+    post?: Post;
+    isRHS?: boolean;
 };
 
 export type Actions = {
     addMessageIntoHistory: (message: string) => void;
     editPost: (input: Partial<Post>) => Promise<Post>;
     unsetEditingPost: () => void;
-    openModal: (input: OpenModal) => void;
+    openModal: (input: ModalData<DialogProps>) => void;
     scrollPostListToBottom: () => void;
 }
 
@@ -98,33 +94,11 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
 
     const {formatMessage} = useIntl();
 
-    const shouldScroll = (elementRect: DOMRect, containerRect: DOMRect): boolean => {
-        if (!elementRect || !containerRect) {
-            return false;
-        }
-
-        return elementRect.top < containerRect.top || elementRect.bottom > containerRect.bottom;
-    };
-
     useEffect(() => {
-        const className = `post-list__dynamic${editingPost.isRHS ? '--RHS' : ''}`;
-        const postListElement = document.getElementsByClassName(className)[0];
-
-        const elementCR = wrapperRef?.current?.getBoundingClientRect();
-        const parentCR = postListElement?.getBoundingClientRect();
-
-        if (elementCR && parentCR) {
-            const shouldScrollIntoView = shouldScroll(elementCR, parentCR);
-
-            if (shouldScrollIntoView) {
-                const scrollOptions: boolean|ScrollIntoViewOptions = isFirefox() ? {behavior: 'smooth', block: 'nearest'} : false;
-                wrapperRef?.current?.scrollIntoView(scrollOptions);
-            }
-        }
-
         textboxRef?.current?.focus();
     }, []);
 
+    // TODO@all: this could be exported to a custom hook once the TextBox component is ported to a functional component
     useEffect(() => {
         const handlePaste = (e: ClipboardEvent) => {
             if (
@@ -206,26 +180,11 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
 
     const handleRefocusAndExit = (refocusId: string|null) => {
         if (refocusId) {
-            setTimeout(() => {
-                const element = document.getElementById(refocusId);
-                if (element) {
-                    element.focus();
-                }
-            });
+            const element = document.getElementById(refocusId);
+            element?.focus();
         }
 
-        setCaretPosition(1);
-        setPostError(null);
-        setErrorClass('');
-        setShowEmojiPicker(false);
-        setRenderScrollbar(false);
-
         actions.unsetEditingPost();
-    };
-
-    const handleHide = (doRefocus = true) => {
-        setEditText(editingPost.post?.message || '');
-        handleRefocusAndExit(doRefocus && editingPost.refocusId ? editingPost.refocusId : null);
     };
 
     const handleEdit = async () => {
@@ -246,7 +205,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
         }
 
         if (updatedPost.message === (editingPost.post?.message_source || editingPost.post?.message)) {
-            handleHide();
+            handleRefocusAndExit(editingPost.refocusId || null);
             return;
         }
 
@@ -254,10 +213,10 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
             editingPost.post?.file_ids && editingPost.post?.file_ids.length > 0,
         );
         if (updatedPost.message.trim().length === 0 && !hasAttachment) {
-            handleHide(false);
+            handleRefocusAndExit(null);
 
             const deletePostModalData = {
-                ModalId: ModalIdentifiers.DELETE_POST,
+                modalId: ModalIdentifiers.DELETE_POST,
                 dialogType: DeletePostModal,
                 dialogProps: {
                     post: editingPost.post,
@@ -269,13 +228,9 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
             return;
         }
 
-        const data = await actions.editPost(updatedPost as Post);
+        await actions.editPost(updatedPost as Post);
 
-        if (data) {
-            window.scrollTo(0, 0);
-        }
-
-        handleHide();
+        handleRefocusAndExit(editingPost.refocusId || null);
     };
 
     const handleEditKeyPress = (e: React.KeyboardEvent) => {
@@ -325,7 +280,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
         } else if (ctrlEnterKeyCombo) {
             handleEdit();
         } else if (Utils.isKeyPressed(e, KeyCodes.ESCAPE) && !showEmojiPicker) {
-            handleHide();
+            handleRefocusAndExit(editingPost.refocusId || null);
         } else if ((ctrlKeyCombo && markdownHotkey) || (ctrlAltCombo && markdownLinkKey)) {
             applyHotkeyMarkdown(e);
         }
@@ -406,6 +361,9 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
         }
     };
 
+    const getEmojiContainerRef = useCallback(() => textboxRef.current, [textboxRef]);
+    const getEmojiTargetRef = useCallback(() => emojiButtonRef.current, [emojiButtonRef]);
+
     let emojiPicker = null;
     const emojiButtonAriaLabel = formatMessage({
         id: 'emoji_picker.emojiPicker',
@@ -414,11 +372,11 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
 
     if (rest.config.EnableEmojiPicker === 'true') {
         emojiPicker = (
-            <div>
+            <>
                 <EmojiPickerOverlay
                     show={showEmojiPicker}
-                    container={() => textboxRef.current}
-                    target={() => emojiButtonRef.current}
+                    container={getEmojiContainerRef}
+                    target={getEmojiTargetRef}
                     onHide={hideEmojiPicker}
                     onEmojiClick={handleEmojiClick}
                     onGifClick={handleGifClick}
@@ -435,7 +393,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
                 >
                     <EmojiIcon className='icon icon--emoji'/>
                 </button>
-            </div>
+            </>
         );
     }
 
@@ -462,7 +420,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
                 value={editText}
                 channelId={rest.channelId}
                 emojiEnabled={rest.config.EnableEmojiPicker === 'true'}
-                createMessage={Utils.localizeMessage('edit_post.editPost', 'Edit the post...')}
+                createMessage={formatMessage({id: 'edit_post.editPost', defaultMessage: 'Edit the post...'})}
                 supportsCommands={false}
                 suggestionListPosition='bottom'
                 id='edit_textbox'

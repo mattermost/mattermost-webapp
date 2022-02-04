@@ -22,7 +22,7 @@ import './confirm_license_removal_modal.scss';
 
 type Props = {
     onExited?: () => void;
-    handleRemove?: (e: any) => Promise<void>;
+    handleRemove?: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>;
 }
 
 const ConfirmLicenseRemovalModal: React.FC<Props> = (props: Props): JSX.Element | null => {
@@ -40,7 +40,7 @@ const ConfirmLicenseRemovalModal: React.FC<Props> = (props: Props): JSX.Element 
         dispatch(closeModal(ModalIdentifiers.CONFIRM_LICENSE_REMOVAL));
     };
 
-    const handleRemoval = (e: any) => {
+    const handleRemoval = (e: React.MouseEvent<HTMLButtonElement>) => {
         if (props.handleRemove) {
             props.handleRemove(e);
         }

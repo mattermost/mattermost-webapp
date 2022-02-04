@@ -117,7 +117,6 @@ export type ClientConfig = {
     ExperimentalGroupUnreadChannels: string;
     ExperimentalPrimaryTeam: string;
     ExperimentalTimezone: string;
-    ExperimentalTownSquareIsReadOnly: string;
     ExperimentalViewArchivedChannels: string;
     FileLevel: string;
     GfycatAPIKey: string;
@@ -703,8 +702,10 @@ export type BleveSettings = {
 export type DataRetentionSettings = {
     EnableMessageDeletion: boolean;
     EnableFileDeletion: boolean;
+    EnableBoardsDeletion: boolean;
     MessageRetentionDays: number;
     FileRetentionDays: number;
+    BoardsRetentionDays: number;
     DeletionJobStartTime: string;
 };
 
