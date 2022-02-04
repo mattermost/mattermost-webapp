@@ -192,6 +192,7 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
                 onMouseMove={onMouseMove}
                 userStatuses={this.props.userStatuses}
                 ref={isSelected ? this.selectedItemRef : undefined}
+                key={option.id}
             />
         );
     };

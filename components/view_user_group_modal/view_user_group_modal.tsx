@@ -12,7 +12,6 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import Constants from 'utils/constants';
 
 import FaSearchIcon from 'components/widgets/icons/fa_search_icon';
-import Avatar from 'components/widgets/users/avatar';
 import * as Utils from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen';
 import {Group} from 'mattermost-redux/types/groups';
@@ -20,14 +19,13 @@ import {Group} from 'mattermost-redux/types/groups';
 import './view_user_group_modal.scss';
 import {debounce} from 'mattermost-redux/actions/helpers';
 
-import LocalizedIcon from 'components/localized_icon';
-import {t} from 'utils/i18n';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import Input from 'components/input';
 import NoResultsIndicator from 'components/no_results_indicator';
 import {NoResultsVariant} from 'components/no_results_indicator/types';
 
 import ViewUserGroupModalHeader from './view_user_group_modal_header';
+import ViewUserGroupListItem from './view_user_group_list_item';
 
 const USERS_PER_PAGE = 60;
 
@@ -39,13 +37,11 @@ export type Props = {
     users: UserProfile[];
     backButtonCallback: () => void;
     backButtonAction: () => void;
-    permissionToLeaveGroup: boolean;
     actions: {
         getGroup: (groupId: string, includeMemberCount: boolean) => Promise<{data: Group}>;
         getUsersInGroup: (groupId: string, page: number, perPage: number) => Promise<{data: UserProfile[]}>;
         setModalSearchTerm: (term: string) => void;
         searchProfiles: (term: string, options: any) => Promise<ActionResult>;
-        removeUsersFromGroup: (groupId: string, userIds: string[]) => Promise<ActionResult>;
     };
 }
 
@@ -167,14 +163,6 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
         }
     }
 
-    removeUserFromGroup = async (userId: string) => {
-        const {groupId, actions} = this.props;
-
-        await actions.removeUsersFromGroup(groupId, [userId]).then(() => {
-            this.decrementMemberCount();
-        });
-    }
-
     mentionName = () => {
         const {group} = this.props;
 
@@ -259,41 +247,12 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                                 }
                                 {users.map((user) => {
                                     return (
-                                        <div
+                                        <ViewUserGroupListItem
+                                            groupId={groupId}
+                                            user={user}
+                                            decrementMemberCount={this.decrementMemberCount}
                                             key={user.id}
-                                            className='group-member-row'
-                                        >
-                                            <>
-                                                <Avatar
-                                                    username={user.username}
-                                                    size={'sm'}
-                                                    url={Utils.imageURLForUser(user?.id ?? '')}
-                                                    className={'avatar-post-preview'}
-                                                />
-                                            </>
-                                            <div className='group-member-name'>
-                                                {Utils.getFullName(user)}
-                                            </div>
-                                            <div className='group-member-username'>
-                                                {`@${user.username}`}
-                                            </div>
-                                            {
-                                                (group.source.toLowerCase() !== 'ldap' && this.props.permissionToLeaveGroup) &&
-                                                <button
-                                                    type='button'
-                                                    className='remove-group-member btn-icon'
-                                                    aria-label='Close'
-                                                    onClick={() => {
-                                                        this.removeUserFromGroup(user.id);
-                                                    }}
-                                                >
-                                                    <LocalizedIcon
-                                                        className='icon icon-trash-can-outline'
-                                                        ariaLabel={{id: t('user_groups_modal.goBackLabel'), defaultMessage: 'Back'}}
-                                                    />
-                                                </button>
-                                            }
-                                        </div>
+                                        />
                                     );
                                 })}
                                 {

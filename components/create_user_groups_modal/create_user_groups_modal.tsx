@@ -75,7 +75,6 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
                 mention = `@${mention}`;
             }
         }
-
         this.setState({name: value, mention});
     }
 

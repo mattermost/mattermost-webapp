@@ -28,7 +28,6 @@ type Actions = {
     setModalSearchTerm: (term: string) => void;
     openModal: <P>(modalData: ModalData<P>) => void;
     searchProfiles: (term: string, options: any) => Promise<ActionResult>;
-    removeUsersFromGroup: (groupId: string, userIds: string[]) => Promise<ActionResult>;
 };
 
 type OwnProps = {
@@ -47,13 +46,10 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         users = getProfilesInGroup(state, ownProps.groupId);
     }
 
-    const permissionToLeaveGroup = haveIGroupPermission(state, ownProps.groupId, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS);
-
     return {
         group,
         users,
         searchTerm,
-        permissionToLeaveGroup,
     };
 }
 
@@ -65,7 +61,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
             setModalSearchTerm,
             openModal,
             searchProfiles,
-            removeUsersFromGroup,
         }, dispatch),
     };
 }
