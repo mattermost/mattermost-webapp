@@ -105,7 +105,7 @@ const GlobalThreads = () => {
     }, [currentUserId, currentTeamId]);
 
     const isOnlySelectedThreadInList = (list: string[]) => {
-        return selectedThreadId && list.length === 1 && list.includes(selectedThreadId);
+        return selectedThreadId && list.length === 1 && list[0] === selectedThreadId;
     };
 
     const shouldLoadThreads = (counts && counts.total !== 0) && (isEmpty(threadIds) || isOnlySelectedThreadInList(threadIds));
