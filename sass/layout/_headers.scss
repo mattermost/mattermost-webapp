@@ -611,12 +611,6 @@
                     opacity: 1;
                 }
             }
-
-            .header__info {
-                .sidebar-header-dropdown__icon {
-                    opacity: 1;
-                }
-            }
         }
 
         .d-flex {
@@ -703,7 +697,6 @@
                 }
             }
 
-            .sidebar-header-dropdown__icon,
             .admin-navbar-dropdown__icon {
                 position: relative;
                 top: 0;
@@ -728,20 +721,6 @@
             flex-grow: 1;
             padding: 2px 36px 0 0;
             color: var(--sidebar-header-text-color);
-
-            .sidebar-header-dropdown__icon {
-                position: absolute;
-                top: 4px;
-                right: 1px;
-                width: 36px;
-                height: 36px;
-                border-radius: 36px;
-                fill: var(--sidebar-header-text-color);
-                line-height: 36px;
-                opacity: 0.8;
-                text-align: center;
-                transition: opacity $transition-quick ease-in-out;
-            }
         }
 
         .header__info__content {

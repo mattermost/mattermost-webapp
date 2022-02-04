@@ -5,7 +5,7 @@ import {ChannelTypes, PostTypes, TeamTypes, ThreadTypes, UserTypes} from 'matter
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {Team} from 'mattermost-redux/types/teams';
 import {ThreadsState, UserThread} from 'mattermost-redux/types/threads';
-import type {$ID, IDMappedObjects} from 'mattermost-redux/types/utilities';
+import type {IDMappedObjects} from 'mattermost-redux/types/utilities';
 
 import {ExtraData} from './types';
 
@@ -14,7 +14,7 @@ type State = ThreadsState['threadsInTeam'] | ThreadsState['unreadThreadsInTeam']
 // return true only if it's 'newer' than other threads
 // older threads will be added by scrolling so no need to manually add.
 // furthermore manually adding older thread will BREAK pagination
-function shouldAddThreadId(ids: Array<$ID<UserThread>>, thread: UserThread, threads: IDMappedObjects<UserThread>) {
+function shouldAddThreadId(ids: Array<UserThread['id']>, thread: UserThread, threads: IDMappedObjects<UserThread>) {
     return ids.some((id) => {
         const t = threads![id];
         return thread.last_reply_at > t.last_reply_at;

@@ -41,6 +41,7 @@ import {
     handleThreadArrived,
     handleAllThreadsInChannelMarkedRead,
     updateThreadRead,
+    decrementThreadCounts,
 } from 'mattermost-redux/actions/threads';
 
 import {setServerVersion} from 'mattermost-redux/actions/general';
@@ -684,11 +685,17 @@ export function handlePostEditEvent(msg) {
 
 async function handlePostDeleteEvent(msg) {
     const post = JSON.parse(msg.data.post);
+    const state = getState();
+    const collapsedThreads = isCollapsedThreadsEnabled(state);
+
+    if (!post.root_id && collapsedThreads) {
+        dispatch(decrementThreadCounts(post));
+    }
+
     dispatch(postDeleted(post));
 
     // update thread when a comment is deleted and CRT is on
-    const state = getState();
-    if (post.root_id && isCollapsedThreadsEnabled(state)) {
+    if (post.root_id && collapsedThreads) {
         const thread = getThread(state, post.root_id);
         if (thread) {
             const userId = getCurrentUserId(state);

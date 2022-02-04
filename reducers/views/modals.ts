@@ -3,6 +3,7 @@
 
 import {combineReducers} from 'redux';
 
+import {UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {ViewsState} from 'types/store/views';
@@ -25,6 +26,9 @@ export function modalState(state: ViewsState['modals']['modalState'] = {}, actio
         Reflect.deleteProperty(newState, action.modalId);
         return newState;
     }
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
     default:
         return state;
     }

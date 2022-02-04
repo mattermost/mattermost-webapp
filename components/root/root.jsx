@@ -4,7 +4,6 @@
 import deepEqual from 'fast-deep-equal';
 import PropTypes from 'prop-types';
 import React from 'react';
-import FastClick from 'fastclick';
 import {Route, Switch, Redirect} from 'react-router-dom';
 import throttle from 'lodash/throttle';
 
@@ -70,24 +69,24 @@ import {applyLuxonDefaults} from './effects';
 
 import RootRedirect from './root_redirect';
 
-const CreateTeam = makeAsyncComponent(LazyCreateTeam);
-const ErrorPage = makeAsyncComponent(LazyErrorPage);
-const TermsOfService = makeAsyncComponent(LazyTermsOfService);
-const LoginController = makeAsyncComponent(LazyLoginController);
-const AdminConsole = makeAsyncComponent(LazyAdminConsole);
-const LoggedIn = makeAsyncComponent(LazyLoggedIn);
-const PasswordResetSendLink = makeAsyncComponent(LazyPasswordResetSendLink);
-const PasswordResetForm = makeAsyncComponent(LazyPasswordResetForm);
-const SignupController = makeAsyncComponent(LazySignupController);
-const SignupEmail = makeAsyncComponent(LazySignupEmail);
-const ShouldVerifyEmail = makeAsyncComponent(LazyShouldVerifyEmail);
-const DoVerifyEmail = makeAsyncComponent(LazyDoVerifyEmail);
-const ClaimController = makeAsyncComponent(LazyClaimController);
-const HelpController = makeAsyncComponent(LazyHelpController);
-const LinkingLandingPage = makeAsyncComponent(LazyLinkingLandingPage);
-const SelectTeam = makeAsyncComponent(LazySelectTeam);
-const Authorize = makeAsyncComponent(LazyAuthorize);
-const Mfa = makeAsyncComponent(LazyMfa);
+const CreateTeam = makeAsyncComponent('CreateTeam', LazyCreateTeam);
+const ErrorPage = makeAsyncComponent('ErrorPage', LazyErrorPage);
+const TermsOfService = makeAsyncComponent('TermsOfService', LazyTermsOfService);
+const LoginController = makeAsyncComponent('LoginController', LazyLoginController);
+const AdminConsole = makeAsyncComponent('AdminConsole', LazyAdminConsole);
+const LoggedIn = makeAsyncComponent('LoggedIn', LazyLoggedIn);
+const PasswordResetSendLink = makeAsyncComponent('PasswordResedSendLink', LazyPasswordResetSendLink);
+const PasswordResetForm = makeAsyncComponent('PasswordResetForm', LazyPasswordResetForm);
+const SignupController = makeAsyncComponent('SignupController', LazySignupController);
+const SignupEmail = makeAsyncComponent('SignupEmail', LazySignupEmail);
+const ShouldVerifyEmail = makeAsyncComponent('ShouldVerifyEmail', LazyShouldVerifyEmail);
+const DoVerifyEmail = makeAsyncComponent('DoVerifyEmail', LazyDoVerifyEmail);
+const ClaimController = makeAsyncComponent('ClaimController', LazyClaimController);
+const HelpController = makeAsyncComponent('HelpController', LazyHelpController);
+const LinkingLandingPage = makeAsyncComponent('LinkingLandingPage', LazyLinkingLandingPage);
+const SelectTeam = makeAsyncComponent('SelectTeam', LazySelectTeam);
+const Authorize = makeAsyncComponent('Authorize', LazyAuthorize);
+const Mfa = makeAsyncComponent('Mfa', LazyMfa);
 
 const LoggedInRoute = ({component: Component, ...rest}) => (
     <Route
@@ -125,6 +124,9 @@ export default class Root extends React.PureComponent {
         // Redux
         setUrl(getSiteURL());
 
+        // Disable auth header to enable CSRF check
+        Client4.setAuthHeader = false;
+
         setSystemEmojis(EmojiIndicesByAlias);
 
         // Force logout of all tabs if one tab is logged out
@@ -144,9 +146,6 @@ export default class Root extends React.PureComponent {
                 e.stopPropagation();
             }
         });
-
-        // Fastclick
-        FastClick.attach(document.body);
 
         this.state = {
             configLoaded: false,
@@ -448,44 +447,46 @@ export default class Root extends React.PureComponent {
                     <CompassThemeProvider theme={this.props.theme}>
                         <ModalController/>
                         <GlobalHeader/>
-                        <TeamSidebar/>
-                        <Switch>
-                            {this.props.products?.map((product) => (
-                                <Route
-                                    key={product.id}
-                                    path={product.baseURL}
-                                    render={(props) => (
-                                        <LoggedIn {...props}>
-                                            <div className={classNames(['product-wrapper', {wide: !product.showTeamSidebar}])}>
-                                                <Pluggable
-                                                    pluggableName={'Product'}
-                                                    subComponentName={'mainComponent'}
-                                                    pluggableId={product.id}
-                                                    webSocketClient={webSocketClient}
-                                                />
-                                            </div>
-                                        </LoggedIn>
-                                    )}
+                        <div className='mainContentRow d-flex flex-row'>
+                            <TeamSidebar/>
+                            <Switch>
+                                {this.props.products?.map((product) => (
+                                    <Route
+                                        key={product.id}
+                                        path={product.baseURL}
+                                        render={(props) => (
+                                            <LoggedIn {...props}>
+                                                <div className={classNames(['product-wrapper', {wide: !product.showTeamSidebar}])}>
+                                                    <Pluggable
+                                                        pluggableName={'Product'}
+                                                        subComponentName={'mainComponent'}
+                                                        pluggableId={product.id}
+                                                        webSocketClient={webSocketClient}
+                                                    />
+                                                </div>
+                                            </LoggedIn>
+                                        )}
+                                    />
+                                ))}
+                                {this.props.plugins?.map((plugin) => (
+                                    <Route
+                                        key={plugin.id}
+                                        path={'/plug/' + plugin.route}
+                                        render={() => (
+                                            <Pluggable
+                                                pluggableName={'CustomRouteComponent'}
+                                                pluggableId={plugin.id}
+                                            />
+                                        )}
+                                    />
+                                ))}
+                                <LoggedInRoute
+                                    path={'/:team'}
+                                    component={NeedsTeam}
                                 />
-                            ))}
-                            {this.props.plugins?.map((plugin) => (
-                                <Route
-                                    key={plugin.id}
-                                    path={'/plug/' + plugin.route}
-                                    render={() => (
-                                        <Pluggable
-                                            pluggableName={'CustomRouteComponent'}
-                                            pluggableId={plugin.id}
-                                        />
-                                    )}
-                                />
-                            ))}
-                            <LoggedInRoute
-                                path={'/:team'}
-                                component={NeedsTeam}
-                            />
-                            <RootRedirect/>
-                        </Switch>
+                                <RootRedirect/>
+                            </Switch>
+                        </div>
                         <Pluggable pluggableName='Global'/>
                     </CompassThemeProvider>
                 </Switch>
