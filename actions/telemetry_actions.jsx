@@ -2,6 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {Client4} from 'mattermost-redux/client';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
+import reduxStore from 'stores/redux_store.jsx';
 
 import {isDevMode} from 'utils/utils';
 
@@ -13,6 +16,15 @@ const SUPPORTS_MEASURE_METHODS = isSupported([
     performance.getEntriesByName,
     performance.clearMeasures,
 ]);
+
+export function isTelemetryEnabled(store = reduxStore) {
+    const config = getConfig(store.getState());
+    return config.DiagnosticsEnabled === 'true';
+}
+
+export function shouldTrackPerformance(store = reduxStore) {
+    return isDevMode(store) || isTelemetryEnabled(store);
+}
 
 export function trackEvent(category, event, props) {
     Client4.trackEvent(category, event, props);
@@ -33,14 +45,14 @@ export function pageVisited(category, name) {
  *
  */
 export function clearMarks(names) {
-    if (!isDevMode() || !SUPPORTS_CLEAR_MARKS) {
+    if (!shouldTrackPerformance() || !SUPPORTS_CLEAR_MARKS) {
         return;
     }
     names.forEach((name) => performance.clearMarks(name));
 }
 
 export function mark(name) {
-    if (!isDevMode() || !SUPPORTS_MARK) {
+    if (!shouldTrackPerformance() || !SUPPORTS_MARK) {
         return;
     }
     performance.mark(name);
@@ -60,7 +72,7 @@ export function mark(name) {
  *
  */
 export function measure(name1, name2) {
-    if (!isDevMode() || !SUPPORTS_MEASURE_METHODS) {
+    if (!shouldTrackPerformance() || !SUPPORTS_MEASURE_METHODS) {
         return [-1, ''];
     }
 
