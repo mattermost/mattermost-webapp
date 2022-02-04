@@ -23,6 +23,12 @@ describe('components/admin_console/billing/billing_history', () => {
                     IsLicensed: 'true',
                 },
             },
+            users: {
+                currentUserId: 'current_user_id',
+                profiles: {
+                    current_user_id: {roles: 'system_role'},
+                },
+            },
             cloud: {
                 invoices: {
                     in_1KNb3DI67GP2qpb4ueaJYBt8: {
