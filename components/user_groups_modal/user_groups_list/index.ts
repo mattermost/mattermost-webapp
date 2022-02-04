@@ -50,4 +50,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserGroupsList);
+export default connect(mapStateToProps, mapDispatchToProps, null, {forwardRef: true})(UserGroupsList);

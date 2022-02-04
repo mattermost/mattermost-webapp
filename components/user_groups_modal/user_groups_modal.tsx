@@ -64,7 +64,7 @@ type State = {
 }
 
 export default class UserGroupsModal extends React.PureComponent<Props, State> {
-    private divScrollRef: RefObject<HTMLDivElement>;
+    divScrollRef: RefObject<HTMLDivElement>;
     private searchTimeoutId: number
 
     constructor(props: Props) {

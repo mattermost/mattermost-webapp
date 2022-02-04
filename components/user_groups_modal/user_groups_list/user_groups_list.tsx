@@ -32,7 +32,7 @@ export type Props = {
     };
 }
 
-const UserGroupsList = React.forwardRef((props: Props, ref: React.Ref<HTMLDivElement>) => {
+const UserGroupsList = React.forwardRef((props: Props, ref?: React.Ref<HTMLDivElement>) => {
     const {
         groups,
         searchTerm,

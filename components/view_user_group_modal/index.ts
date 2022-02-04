@@ -8,16 +8,15 @@ import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/ac
 
 import {GlobalState} from 'types/store';
 
-import {getCurrentUserId, getProfilesInGroup, searchProfilesInGroup} from 'mattermost-redux/selectors/entities/users';
-import {getGroup as getGroupById, isMyGroup} from 'mattermost-redux/selectors/entities/groups';
-import {addUsersToGroup, archiveGroup, getGroup, removeUsersFromGroup} from 'mattermost-redux/actions/groups';
+import {getProfilesInGroup, searchProfilesInGroup} from 'mattermost-redux/selectors/entities/users';
+import {getGroup as getGroupById} from 'mattermost-redux/selectors/entities/groups';
+import {getGroup, removeUsersFromGroup} from 'mattermost-redux/actions/groups';
 import {Group} from 'mattermost-redux/types/groups';
 import {ModalData} from 'types/actions';
 import {openModal} from 'actions/views/modals';
 import {setModalSearchTerm} from 'actions/views/search';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {getProfilesInGroup as getUsersInGroup, searchProfiles} from 'mattermost-redux/actions/users';
-
 import {haveIGroupPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
 
@@ -30,8 +29,6 @@ type Actions = {
     openModal: <P>(modalData: ModalData<P>) => void;
     searchProfiles: (term: string, options: any) => Promise<ActionResult>;
     removeUsersFromGroup: (groupId: string, userIds: string[]) => Promise<ActionResult>;
-    addUsersToGroup: (groupId: string, userIds: string[]) => Promise<ActionResult>;
-    archiveGroup: (groupId: string) => Promise<ActionResult>;
 };
 
 type OwnProps = {
@@ -50,23 +47,13 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         users = getProfilesInGroup(state, ownProps.groupId);
     }
 
-    const isGroupMember = isMyGroup(state, ownProps.groupId);
-
-    const permissionToEditGroup = haveIGroupPermission(state, ownProps.groupId, Permissions.EDIT_CUSTOM_GROUP);
-    const permissionToJoinGroup = haveIGroupPermission(state, ownProps.groupId, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS);
     const permissionToLeaveGroup = haveIGroupPermission(state, ownProps.groupId, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS);
-    const permissionToArchiveGroup = haveIGroupPermission(state, ownProps.groupId, Permissions.DELETE_CUSTOM_GROUP);
 
     return {
         group,
         users,
         searchTerm,
-        currentUserId: getCurrentUserId(state),
-        permissionToEditGroup,
-        permissionToJoinGroup,
         permissionToLeaveGroup,
-        permissionToArchiveGroup,
-        isGroupMember,
     };
 }
 
@@ -79,8 +66,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
             openModal,
             searchProfiles,
             removeUsersFromGroup,
-            addUsersToGroup,
-            archiveGroup,
         }, dispatch),
     };
 }
