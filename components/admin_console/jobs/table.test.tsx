@@ -3,10 +3,10 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {shallow} from 'enzyme';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
-
-import JobTable from './table.jsx';
+import JobTable, {Props} from './table';
+import JobCancelButton from './job_cancel_button';
 
 describe('components/admin_console/jobs/table', () => {
     const createJobButtonText = (
@@ -26,8 +26,7 @@ describe('components/admin_console/jobs/table', () => {
     const createJob = jest.fn(() => Promise.resolve({}));
     const getJobsByType = jest.fn(() => Promise.resolve({}));
 
-    const baseProps = {
-        config: {},
+    const baseProps: Props = {
         createJobButtonText,
         createJobHelpText,
         disabled: false,
@@ -38,52 +37,80 @@ describe('components/admin_console/jobs/table', () => {
         },
         jobType: 'data_retention',
         jobs: [{
-            created_at: 1540834294674,
+            create_at: 1540834294674,
             last_activity_at: 1540834294674,
             id: '1231',
             status: 'success',
             type: 'data_retention',
+            priority: 0,
+            start_at: 0,
+            progress: 0,
+            data: '',
         }, {
-            created_at: 1540834294674,
+            create_at: 1540834294674,
             last_activity_at: 1540834294674,
             id: '1232',
             status: 'pending',
             type: 'data_retention',
+            priority: 0,
+            start_at: 0,
+            progress: 0,
+            data: '',
         }, {
-            created_at: 1540834294674,
+            create_at: 1540834294674,
             last_activity_at: 1540834294674,
             id: '1233',
             status: 'in_progress',
             type: 'data_retention',
+            priority: 0,
+            start_at: 0,
+            progress: 0,
+            data: '',
         }, {
-            created_at: 1540834294674,
+            create_at: 1540834294674,
             last_activity_at: 1540834294674,
             id: '1234',
             status: 'cancel_requested',
             type: 'data_retention',
+            priority: 0,
+            start_at: 0,
+            progress: 0,
+            data: '',
         }, {
-            created_at: 1540834294674,
+            create_at: 1540834294674,
             last_activity_at: 1540834294674,
             id: '1235',
             status: 'canceled',
             type: 'data_retention',
+            priority: 0,
+            start_at: 0,
+            progress: 0,
+            data: '',
         }, {
-            created_at: 1540834294674,
+            create_at: 1540834294674,
             last_activity_at: 1540834294674,
             id: '1236',
             status: 'error',
             type: 'data_retention',
+            priority: 0,
+            start_at: 0,
+            progress: 0,
+            data: '',
         }, {
-            created_at: 1540834294674,
+            create_at: 1540834294674,
             last_activity_at: 1540834294674,
             id: '1236',
             status: 'warning',
             type: 'data_retention',
+            priority: 0,
+            start_at: 0,
+            progress: 0,
+            data: '',
         }],
     };
 
     test('should call create job func', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <JobTable {...baseProps}/>,
         );
 
@@ -92,11 +119,11 @@ describe('components/admin_console/jobs/table', () => {
     });
 
     test('should call cancel job func', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <JobTable {...baseProps}/>,
         );
 
-        wrapper.find('.job-table__cancel-button').first().simulate('click', {preventDefault: jest.fn(), currentTarget: {getAttribute: () => '1234'}});
+        wrapper.find(JobCancelButton).first().simulate('click', {preventDefault: jest.fn(), currentTarget: {getAttribute: () => '1234'}});
         expect(cancelJob).toHaveBeenCalledTimes(1);
     });
 
@@ -110,7 +137,7 @@ describe('components/admin_console/jobs/table', () => {
             {header: 'Details'},
         ];
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <JobTable
                 {...baseProps}
                 jobType='message_export'
@@ -140,10 +167,9 @@ describe('components/admin_console/jobs/table', () => {
             {header: 'Details'},
         ];
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <JobTable
                 {...baseProps}
-                jobType='not a message export'
                 downloadExportResults={false}
             />,
         );
@@ -162,7 +188,7 @@ describe('components/admin_console/jobs/table', () => {
     });
 
     test('hide create job button', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <JobTable
                 {...baseProps}
                 hideJobCreateButton={true}
@@ -174,7 +200,7 @@ describe('components/admin_console/jobs/table', () => {
     });
 
     test('add custom class', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <JobTable
                 {...baseProps}
                 className={'job-table__data-retention'}

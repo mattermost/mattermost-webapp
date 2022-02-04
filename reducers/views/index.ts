@@ -21,6 +21,7 @@ import channelSelectorModal from './channel_selector_modal';
 import settings from './settings';
 import marketplace from './marketplace';
 import channelSidebar from './channel_sidebar';
+import productMenu from './product_menu';
 import textbox from './textbox';
 import nextSteps from './next_steps';
 import statusDropdown from './status_dropdown';
@@ -49,4 +50,5 @@ export default combineReducers({
     nextSteps,
     statusDropdown,
     threads,
+    productMenu,
 });

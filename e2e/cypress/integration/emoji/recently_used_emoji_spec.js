@@ -104,13 +104,15 @@ describe('Recent Emoji', () => {
         cy.uiSave().wait(TIMEOUTS.THREE_SEC);
 
         // # Go back to home channel
-        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(townsquareLink);
 
         // # Post a system emoji
         cy.postMessage(`${MESSAGES.TINY}-second :lemon:`);
 
         // # Post a custom emoji
-        cy.postMessage(`${MESSAGES.TINY}-recent ${customEmojiWithColons}`);
+        // We let autocomplete emoji to be shown as this is a custom emoji, properties are loaded then we press enter twice, first one to auto complete add, next for post enter
+        cy.get('#post_textbox').clear().type(`${MESSAGES.TINY}-recent ${customEmojiWithColons.slice(0, -1)}`).wait(TIMEOUTS.TWO_SEC);
+        cy.get('#post_textbox').type('{enter} {enter}').wait(TIMEOUTS.TWO_SEC);
 
         // # Hover over the last post by opening dot menu on it
         cy.clickPostDotMenu();
@@ -151,9 +153,11 @@ describe('Recent Emoji', () => {
             cy.findAllByText('Delete').should('have.length', 1).click();
         });
 
-        // # Confirm deletion and back to main channel view
+        // # Confirm deletion
         cy.get('#confirmModalButton').should('be.visible').click();
-        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+
+        // # Go back to home channel
+        cy.visit(townsquareLink);
 
         cy.reload();
 
