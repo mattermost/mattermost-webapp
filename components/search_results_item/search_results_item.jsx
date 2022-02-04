@@ -474,14 +474,11 @@ export default class SearchResultsItem extends React.PureComponent {
                                 {!isPostBeingEditedInRHS && rhsControls}
                             </div>
                             <div className='search-item-snippet post__body'>
-                                <AutoHeight
-                                    duration={500}
-                                    shouldScrollIntoView={isPostBeingEditedInRHS}
-                                >
-                                    <div className={postClass}>
+                                <div className={postClass}>
+                                    <AutoHeight shouldScrollIntoView={isPostBeingEditedInRHS}>
                                         {isPostBeingEditedInRHS ? <EditPost/> : message}
-                                    </div>
-                                </AutoHeight>
+                                    </AutoHeight>
+                                </div>
                                 {fileAttachment}
                             </div>
                             {hasCRTFooter ? (

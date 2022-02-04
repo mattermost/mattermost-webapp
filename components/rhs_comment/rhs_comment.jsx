@@ -650,10 +650,7 @@ export default class RhsComment extends React.PureComponent {
                         </div>
                         <div className={`post__body${postClass}`} >
                             {failedPostOptions}
-                            <AutoHeight
-                                duration={500}
-                                shouldScrollIntoView={isPostBeingEdited}
-                            >
+                            <AutoHeight shouldScrollIntoView={isPostBeingEdited}>
                                 {isPostBeingEdited ? <EditPost/> : (
                                     <MessageWithAdditionalContent
                                         post={post}
@@ -663,12 +660,12 @@ export default class RhsComment extends React.PureComponent {
                                         pluginPostTypes={this.props.pluginPostTypes}
                                     />
                                 )}
-                                {fileAttachment}
-                                <ReactionList
-                                    post={post}
-                                    isReadOnly={isReadOnly || channelIsArchived}
-                                />
                             </AutoHeight>
+                            {fileAttachment}
+                            <ReactionList
+                                post={post}
+                                isReadOnly={isReadOnly || channelIsArchived}
+                            />
                         </div>
                     </div>
                 </div>

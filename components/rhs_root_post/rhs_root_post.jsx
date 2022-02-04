@@ -496,11 +496,8 @@ export default class RhsRootPost extends React.PureComponent {
                             {!isPostBeingEdited && dotMenuContainer}
                         </div>
                         <div className='post__body'>
-                            <AutoHeight
-                                duration={500}
-                                shouldScrollIntoView={isPostBeingEdited}
-                            >
-                                <div className={postClass}>
+                            <div className={postClass}>
+                                <AutoHeight shouldScrollIntoView={isPostBeingEdited}>
                                     {isPostBeingEdited ? <EditPost/> : (
                                         <MessageWithAdditionalContent
                                             post={post}
@@ -510,13 +507,13 @@ export default class RhsRootPost extends React.PureComponent {
                                             pluginPostTypes={this.props.pluginPostTypes}
                                         />
                                     )}
-                                </div>
-                                {fileAttachment}
-                                <ReactionList
-                                    post={post}
-                                    isReadOnly={isReadOnly || channelIsArchived}
-                                />
-                            </AutoHeight>
+                                </AutoHeight>
+                            </div>
+                            {fileAttachment}
+                            <ReactionList
+                                post={post}
+                                isReadOnly={isReadOnly || channelIsArchived}
+                            />
                         </div>
                     </div>
                 </div>

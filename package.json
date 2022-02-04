@@ -67,6 +67,7 @@
     "react-redux": "7.2.4",
     "react-router-dom": "5.2.0",
     "react-select": "2.4.4",
+    "react-slidedown": "2.4.7",
     "react-transition-group": "4.4.2",
     "react-virtualized-auto-sizer": "1.0.6",
     "react-window": "1.8.6",

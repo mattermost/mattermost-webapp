@@ -224,20 +224,19 @@ export default class PostBody extends React.PureComponent {
         const isBeingEdited = isPostBeingEdited && !isPostBeingEditedInRHS;
 
         return (
-            <AutoHeight
-                duration={500}
-                shouldScrollIntoView={isBeingEdited}
-            >
+            <>
                 {comment}
                 <div
                     id={`${post.id}_message`}
                     className={`post__body ${mentionHighlightClass} ${ephemeralPostClass} ${postClass}`}
                 >
-                    {isBeingEdited ? <EditPost/> : messageWithAdditionalContent}
+                    <AutoHeight shouldScrollIntoView={isBeingEdited}>
+                        {isBeingEdited ? <EditPost/> : messageWithAdditionalContent}
+                    </AutoHeight>
                     {fileAttachmentHolder}
                     <ReactionList post={post}/>
                 </div>
-            </AutoHeight>
+            </>
         );
     }
 }

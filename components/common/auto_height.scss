@@ -3,23 +3,4 @@
 
 .AutoHeight {
     overflow: hidden;
-
-    &.fade-enter {
-        opacity: 0.01;
-    }
-    &.fade-enter-active {
-        opacity: 1;
-    }
-    &.fade-exit {
-        opacity: 1;
-    }
-    &.fade-exit-active {
-        opacity: 0.01;
-    }
-    &.fade-enter-active,
-    &.fade-exit-active {
-        body.enable-animations & {
-            transition: opacity 250ms ease-in-out;
-        }
-    }
 }
