@@ -8,8 +8,8 @@ import {Client4} from 'mattermost-redux/client';
 
 import computerWithAlert from 'images/cloud/computer-with-alert.svg';
 
-import MattermostCloudSvg from 'components/common/svg_images_components/mattermost_cloud.svg';
-import BackgroundSvg from 'components/common/svg_images_components/background.svg';
+import MattermostCloudSvg from 'components/common/svg_images_components/mattermost_cloud_svg';
+import BackgroundSvg from 'components/common/svg_images_components/background_svg';
 
 const WorkspaceUserLimitReached: React.FC = () => {
     useEffect(() => {

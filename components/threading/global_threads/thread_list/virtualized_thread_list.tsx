@@ -43,7 +43,13 @@ function VirtualizedThreadList({
                 infiniteLoaderRef.current?._listRef.scrollToItem(index);
             }
         }
-    }, [selectedThreadId, ids]);
+
+        // ids should not be on the dependency list as
+        // it will auto scroll to selected item upon
+        // infinite loading
+        // when the selectedThreadId changes it will get
+        // the new ids so no issue there
+    }, [selectedThreadId]);
 
     const data = useMemo(() => ({ids, selectedThreadId}), [ids, selectedThreadId]);
 

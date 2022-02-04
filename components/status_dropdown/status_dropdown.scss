@@ -309,3 +309,9 @@ button.custom_status__row {
         transform: scale(2.5);
     }
 }
+
+.status-dropdpwn-menu .status-dropdown-menu__clear-container .input-clear {
+    position: absolute;
+    color: rgba(var(--center-channel-color-rgb), 0.72);
+    opacity: 1;
+}
