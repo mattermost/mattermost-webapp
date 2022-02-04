@@ -44,12 +44,19 @@ const Button = styled.button<{open: boolean}>(({open}) => {
         i {
             color: var(--sidear);
         }
-        &:before {
-            content: ${open ? 'X' : ''};
-        }
-
-        &:after {
-            content: ${open ? 'X' : ''};
+        span {
+            width: 15px;
+            height: 12px;
+            background: var(--sidebar-text-active-border);
+            position: fixed;
+            display: ${open ? 'none' : 'block'};
+            border-radius: 12px;
+            color: var(--sidebar-unread-text);
+            font-weight: bold;
+            font-size: 10px;
+            line-height: 11px;
+            margin-top: -35px;
+            margin-left: 14px;
         }
     `;
 });
@@ -57,6 +64,14 @@ const Button = styled.button<{open: boolean}>(({open}) => {
 const TaskList = (): JSX.Element => {
     const [open, setOpen] = useState(false);
     const trigger = useRef();
+    const taskLabels = [
+        'Take a tour of channels',
+        'Manage tasks with your first board',
+        'Invite team members to the workspace',
+        'Complete your profile',
+        'Download the Desktop and Mobile Apps',
+        'Visit the System Console to configure your worksace',
+    ];
     const closeMenu = useCallback(() => {
         setOpen(false);
     }, []);
@@ -66,8 +81,11 @@ const TaskList = (): JSX.Element => {
             <Button
                 onClick={() => setOpen(!open)}
                 ref={trigger}
+                count={taskLabels.length}
+                open={open}
             >
                 <Icon glyph={open ? 'close' : 'playlist-check'}/>
+                <span>{taskLabels.length}</span>
             </Button>
             <TaskListPopover
                 isVisible={open}
@@ -75,33 +93,35 @@ const TaskList = (): JSX.Element => {
                 onClick={closeMenu}
             >
                 <TaskItems className={open ? 'open' : ''}>
-                    <h1 style={{fontSize: '20px', padding: '0 24px'}}>
+                    <h1 style={{fontSize: '20px', padding: '0 24px', marginBottom: '0'}}>
                         {'Welcome to Mattermost'}
                     </h1>
                     <p
                         style={{
                             fontSize: '12px',
                             color: 'rgba(var(--center-channel-color-rgb), 0.72)',
-                            padding: '0 24px',
+                            padding: '4px 24px',
                         }}
                     >
                         {"Let's get up and running."}
                     </p>
                     <img
                         src={checklistImg}
-                        style={{display: 'block', margin: 'auto'}}
+                        style={{display: 'block', margin: '1rem auto'}}
                     />
-                    <Task label='Take a tour of channels'/>
-                    <Task label='Manage tasks with your first board'/>
-                    <Task label='Invite team members to the workspace'/>
-                    <Task label='Complete your profile'/>
-                    <Task label='Download the Desktop and Mobile Apps'/>
-                    <Task label='Visit the System Console to configure your worksace'/>
+                    {taskLabels.map((label) => (
+                        <Task
+                            key={label}
+                            label={label}
+                        />
+                    ))}
                     <p
+                        onClick={() => {}}
                         style={{
                             fontSize: '12px',
                             color: 'var(--button-bg)',
                             padding: '0 24px',
+                            fontWeight: 'bold',
                         }}
                     >
                         {'No thanks, I’ll figure it out myself'}

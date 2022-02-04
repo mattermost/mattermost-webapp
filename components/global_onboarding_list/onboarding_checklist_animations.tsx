@@ -18,7 +18,7 @@ const Animation = styled.div`
         opacity: 0;
         border-radius: 50%;
         width: 1rem;
-        top: 50%;
+        top: 30%;
         position: absolute;
         height: 1rem;
         margin-left: auto;
