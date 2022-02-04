@@ -1,3 +1,5 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 import React from 'react';
 
 import {Group} from 'mattermost-redux/types/groups';
@@ -32,7 +34,7 @@ const ViewUserGroupListItem = (props: Props) => {
         await actions.removeUsersFromGroup(groupId, [userId]).then(() => {
             decrementMemberCount();
         });
-    }
+    };
 
     return (
         <div
@@ -71,6 +73,6 @@ const ViewUserGroupListItem = (props: Props) => {
             }
         </div>
     );
-}
+};
 
 export default ViewUserGroupListItem;
