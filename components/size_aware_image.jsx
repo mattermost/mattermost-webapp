@@ -206,11 +206,10 @@ export default class SizeAwareImage extends React.PureComponent {
                 rootClose={true}
             >
                 <button
-                    key='copy-link'
                     className={classNames('style--none', 'size-aware-image__copy_link', {
                         'size-aware-image__copy_link--recently_copied': this.state.linkCopiedRecently,
                     })}
-                    aria-label='Copy Link to Asset'
+                    aria-label={ariaLabelImage + localizeMessage('copy url')}
                     onClick={this.copyLinkToAsset}
                 >
                     {this.state.linkCopiedRecently ? (
@@ -248,6 +247,7 @@ export default class SizeAwareImage extends React.PureComponent {
                     target='_blank'
                     rel='noopener noreferrer'
                     download={fileInfo.name}
+                    aria-label={ariaLabelImage + localizeMessage('download image')}
                 >
                     <i className='icon icon-download-outline style--none'/>
                 </a>
@@ -263,7 +263,7 @@ export default class SizeAwareImage extends React.PureComponent {
 
             return (
                 <div
-                    className={classNames('small-image-utility-buttons-wrapper')}
+                    className='small-image-utility-buttons-wrapper'
                 >
                     <div
                         onClick={this.handleImageClick}
