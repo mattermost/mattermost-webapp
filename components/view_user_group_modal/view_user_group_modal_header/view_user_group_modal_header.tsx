@@ -1,3 +1,5 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
@@ -49,7 +51,7 @@ const ViewUserGroupModalHeader = (props: Props) => {
             },
         });
         props.onExited();
-    }
+    };
 
     const goToEditGroupModal = () => {
         const {actions, groupId} = props;
@@ -63,7 +65,7 @@ const ViewUserGroupModalHeader = (props: Props) => {
             },
         });
         props.onExited();
-    }
+    };
 
     const showSubMenu = (source: string) => {
         const {permissionToEditGroup, permissionToJoinGroup, permissionToLeaveGroup, permissionToArchiveGroup} = props;
@@ -75,7 +77,7 @@ const ViewUserGroupModalHeader = (props: Props) => {
                 permissionToLeaveGroup ||
                 permissionToArchiveGroup
             );
-    }
+    };
 
     const leaveGroup = async (groupId: string) => {
         const {currentUserId, actions, decrementMemberCount} = props;
@@ -83,7 +85,7 @@ const ViewUserGroupModalHeader = (props: Props) => {
         await actions.removeUsersFromGroup(groupId, [currentUserId]).then(() => {
             decrementMemberCount();
         });
-    }
+    };
 
     const joinGroup = async (groupId: string) => {
         const {currentUserId, actions, incrementMemberCount} = props;
@@ -91,7 +93,7 @@ const ViewUserGroupModalHeader = (props: Props) => {
         await actions.addUsersToGroup(groupId, [currentUserId]).then(() => {
             incrementMemberCount();
         });
-    }
+    };
 
     const archiveGroup = async (groupId: string) => {
         const {actions} = props;
@@ -100,7 +102,7 @@ const ViewUserGroupModalHeader = (props: Props) => {
             props.backButtonCallback();
             props.onExited();
         });
-    }
+    };
 
     const modalTitle = () => {
         const {group} = props;
@@ -116,7 +118,7 @@ const ViewUserGroupModalHeader = (props: Props) => {
             );
         }
         return (<></>);
-    }
+    };
 
     const addPeopleButton = () => {
         const {group, permissionToJoinGroup} = props;
@@ -135,7 +137,7 @@ const ViewUserGroupModalHeader = (props: Props) => {
             );
         }
         return (<></>);
-    }
+    };
 
     const subMenuButton = () => {
         const {group, isGroupMember} = props;
@@ -199,7 +201,7 @@ const ViewUserGroupModalHeader = (props: Props) => {
             );
         }
         return (<></>);
-    }
+    };
 
     return (
         <Modal.Header closeButton={true}>
@@ -222,6 +224,6 @@ const ViewUserGroupModalHeader = (props: Props) => {
             {subMenuButton()}
         </Modal.Header>
     );
-}
+};
 
 export default ViewUserGroupModalHeader;

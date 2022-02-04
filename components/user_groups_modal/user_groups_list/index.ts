@@ -15,7 +15,6 @@ import {Permissions} from 'mattermost-redux/constants';
 import {openModal} from 'actions/views/modals';
 import {haveIGroupPermission} from 'mattermost-redux/selectors/entities/roles';
 
-
 import UserGroupsList from './user_groups_list';
 
 type Actions = {

@@ -26,6 +26,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 import Input from 'components/input';
 import NoResultsIndicator from 'components/no_results_indicator';
 import {NoResultsVariant} from 'components/no_results_indicator/types';
+
 import ViewUserGroupModalHeader from './view_user_group_modal_header';
 
 const USERS_PER_PAGE = 60;

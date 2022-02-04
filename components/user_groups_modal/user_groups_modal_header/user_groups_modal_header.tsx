@@ -1,3 +1,5 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 import React from 'react';
 
 import {Modal} from 'react-bootstrap';
@@ -7,7 +9,6 @@ import {FormattedMessage} from 'react-intl';
 import CreateUserGroupsModal from 'components/create_user_groups_modal';
 import {ModalData} from 'types/actions';
 import {ModalIdentifiers} from 'utils/constants';
-
 
 export type Props = {
     canCreateCustomGroups: boolean;
@@ -28,7 +29,7 @@ const UserGroupsModalHeader = (props: Props) => {
             },
         });
         props.onExited();
-    }
+    };
 
     return (
         <Modal.Header closeButton={true}>
@@ -55,6 +56,6 @@ const UserGroupsModalHeader = (props: Props) => {
             }
         </Modal.Header>
     );
-}
+};
 
 export default UserGroupsModalHeader;

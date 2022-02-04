@@ -46,7 +46,7 @@ const UserGroupsList = React.forwardRef((props: Props, ref?: React.Ref<HTMLDivEl
 
     const archiveGroup = async (groupId: string) => {
         await actions.archiveGroup(groupId);
-    }
+    };
 
     const goToViewGroupModal = (group: Group) => {
         actions.openModal({
@@ -61,7 +61,7 @@ const UserGroupsList = React.forwardRef((props: Props, ref?: React.Ref<HTMLDivEl
             },
         });
         onExited();
-    }
+    };
 
     return (
         <div
