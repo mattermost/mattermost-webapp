@@ -76,30 +76,13 @@ function UrlStatus(props: {tried: boolean; checking: boolean; error: UrlValidati
     }
 
     switch (props.error) {
-    case UrlValidationErrors.Empty:
+    default:
+        // TODO: Flesh this out in a follow up PR.
         return (
             <Status>
                 <FormattedMessage
                     id={'onboarding_wizard.url.input_invalid'}
                     defaultMessage='Test unsuccessful: This is not a valid live URL. Press continue to use anyways.'
-                />
-            </Status>
-        );
-    case UrlValidationErrors.NoConnection:
-        return (
-            <Status>
-                <FormattedMessage
-                    id={'onboarding_wizard.url.input_cant_connect'}
-                    defaultMessage='TODO: Unable to connect to URL. Press continue to use anyways.'
-                />
-            </Status>
-        );
-    default:
-        return (
-            <Status>
-                <FormattedMessage
-                    id={'onboarding_wizard.url.input_invalid'}
-                    defaultMessage='TODO: Invalid URL'
                 />
             </Status>
         );
@@ -162,14 +145,14 @@ const Url = (props: Props) => {
                     <Description>
                         <FormattedMarkdownMessage
                             id={'onboarding_wizard.url.description'}
-                            defaultMessage='This is the URL that users will use to access Mattermost. [See Documentation](https://TODO) for more.'
+                            defaultMessage='This is the URL that users will use to access Mattermost. [See Documentation](https://docs.mattermost.com/configure/configuration-settings.html#site-url) for more.'
                         />
                     </Description>
                     <QuickInput
                         placeholder={
                             formatMessage({
                                 id: 'onboarding_wizard.url.placeholder',
-                                defaultMessage: 'TODO: URL',
+                                defaultMessage: 'your-workspace',
                             })
                         }
                         value={props.url || ''}

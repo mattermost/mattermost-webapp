@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {createChannel} from 'mattermost-redux/actions/channels';
-import {getFirstAdminCompleteSetup as getFirstAdminCompleteSetupAction, setFirstAdminCompleteSetup} from 'mattermost-redux/actions/general';
+import {getFirstAdminCompleteSetup as getFirstAdminCompleteSetupAction} from 'mattermost-redux/actions/general';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {Team} from 'mattermost-redux/types/teams';
 import {Channel} from 'mattermost-redux/types/channels';
@@ -118,24 +118,6 @@ export default function PreparingWorkspace(props: Props) {
             },
         ]));
 
-        // send plugins
-        const {skipped: skippedPlugins, ...pluginChoices} = form.plugins;
-        if (!skippedPlugins) {
-            const pluginsToSetup = Object.entries(pluginChoices).reduce(
-                (acc: string[], [k, v]): string[] => (v ? [...acc, PLUGIN_NAME_TO_ID_MAP[k as keyof Omit<Form['plugins'], 'skipped'>]] : acc), [],
-            );
-            const completeSetupRequest = {
-                install_plugins: pluginsToSetup,
-            };
-            try {
-                await Client4.completeSetup(completeSetupRequest);
-            } catch (e) {
-                // TODO: show error to user?
-                // maybe a toast on the main screen?
-                console.error(`error setting up plugins ${e}`); // eslint-disable-line no-console
-            }
-        }
-
         let team = currentTeam;
 
         if (form.organization) {
@@ -162,10 +144,22 @@ export default function PreparingWorkspace(props: Props) {
             console.log(inviteResult); // eslint-disable-line no-console
         }
 
-        const completeSetupResult = await dispatch(setFirstAdminCompleteSetup()) as ActionResult;
-        if (completeSetupResult.error || completeSetupResult.data) {
-            console.log('completeSetupResult'); // eslint-disable-line no-console
-            console.log(completeSetupResult); // eslint-disable-line no-console
+        // send plugins
+        const {skipped: skippedPlugins, ...pluginChoices} = form.plugins;
+        if (!skippedPlugins) {
+            const pluginsToSetup = Object.entries(pluginChoices).reduce(
+                (acc: string[], [k, v]): string[] => (v ? [...acc, PLUGIN_NAME_TO_ID_MAP[k as keyof Omit<Form['plugins'], 'skipped'>]] : acc), [],
+            );
+            const completeSetupRequest = {
+                install_plugins: pluginsToSetup,
+            };
+            try {
+                await Client4.completeSetup(completeSetupRequest);
+            } catch (e) {
+                // TODO: show error to user?
+                // maybe a toast on the main screen?
+                console.error(`error setting up plugins ${e}`); // eslint-disable-line no-console
+            }
         }
 
         setSubmissionState(SubmissionStates.SubmitSuccess);

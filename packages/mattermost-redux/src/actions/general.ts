@@ -220,19 +220,7 @@ export function getFirstAdminVisitMarketplaceStatus(): ActionFunc {
     };
 }
 
-export function setFirstAdminCompleteSetup(): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
-        try {
-            await Client4.setFirstAdminCompleteSetup();
-        } catch (e) {
-            dispatch(logError(e));
-            return {error: e.message};
-        }
-        dispatch({type: GeneralTypes.FIRST_ADMIN_COMPLETE_SETUP_RECEIVED, data: true});
-        return {data: true};
-    };
-}
-
+// accompanying "set" happens as part of Client4.completeSetup
 export function getFirstAdminCompleteSetup(): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let data;
