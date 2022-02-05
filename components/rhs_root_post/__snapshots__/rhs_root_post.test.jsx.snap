@@ -81,8 +81,7 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
             key="user_id"
             userId="user_id"
           />
-          <CustomStatusEmoji
-            emojiSize={16}
+          <Memo(CustomStatusEmoji)
             emojiStyle={
               Object {
                 "marginLeft": 4,
@@ -90,8 +89,6 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
               }
             }
             showTooltip={true}
-            spanStyle={Object {}}
-            tooltipDirection="top"
             userID="user_id"
           />
         </div>
@@ -291,8 +288,7 @@ exports[`components/RhsRootPost should match snapshot on CRT enabled 1`] = `
             key="user_id"
             userId="user_id"
           />
-          <CustomStatusEmoji
-            emojiSize={16}
+          <Memo(CustomStatusEmoji)
             emojiStyle={
               Object {
                 "marginLeft": 4,
@@ -300,8 +296,6 @@ exports[`components/RhsRootPost should match snapshot on CRT enabled 1`] = `
               }
             }
             showTooltip={true}
-            spanStyle={Object {}}
-            tooltipDirection="top"
             userID="user_id"
           />
         </div>
@@ -503,8 +497,7 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
             key="user_id"
             userId="user_id"
           />
-          <CustomStatusEmoji
-            emojiSize={16}
+          <Memo(CustomStatusEmoji)
             emojiStyle={
               Object {
                 "marginLeft": 4,
@@ -512,8 +505,6 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
               }
             }
             showTooltip={true}
-            spanStyle={Object {}}
-            tooltipDirection="top"
             userID="user_id"
           />
         </div>
@@ -673,8 +664,7 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
             key="user_id"
             userId="user_id"
           />
-          <CustomStatusEmoji
-            emojiSize={16}
+          <Memo(CustomStatusEmoji)
             emojiStyle={
               Object {
                 "marginLeft": 4,
@@ -682,8 +672,6 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
               }
             }
             showTooltip={true}
-            spanStyle={Object {}}
-            tooltipDirection="top"
             userID="user_id"
           />
         </div>
@@ -841,8 +829,7 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
             key="user_id"
             userId="user_id"
           />
-          <CustomStatusEmoji
-            emojiSize={16}
+          <Memo(CustomStatusEmoji)
             emojiStyle={
               Object {
                 "marginLeft": 4,
@@ -850,8 +837,6 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
               }
             }
             showTooltip={true}
-            spanStyle={Object {}}
-            tooltipDirection="top"
             userID="user_id"
           />
         </div>
