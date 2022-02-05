@@ -331,7 +331,7 @@
                 &--small-image {
                     position: absolute;
                     top: -8px;
-                    left: 26px;
+                    right: -39px;
                     width: 70px;
                 }
 
@@ -353,6 +353,7 @@
 
             .small-image-utility-buttons-wrapper {
                 display: inline-block;
+                position: relative;
 
                 &:hover .image-preview-utility-buttons-container {
                     display: inline-block;

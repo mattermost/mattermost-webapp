@@ -276,13 +276,6 @@ export default class SizeAwareImage extends React.PureComponent {
                     </div>
                     <span
                         className={classNames('image-preview-utility-buttons-container', 'image-preview-utility-buttons-container--small-image')}
-                        style={this.state.imageWidth > MIN_IMAGE_SIZE ? {
-
-                            // for every pixel the image is wider than MIN, add that to left shift of buttons container
-                            // 20px is the width of collapse button.
-
-                            left: 26 + (this.state.imageWidth - MIN_IMAGE_SIZE),
-                        } : {}}
                     >
                         {copyLink}
                         {download}
@@ -301,13 +294,6 @@ export default class SizeAwareImage extends React.PureComponent {
 
                         'image-preview-utility-buttons-container--small-image': this.state.imageWidth < MIN_IMAGE_SIZE_FOR_INTERNAL_BUTTONS,
                     })}
-                    style={this.state.imageWidth < MIN_IMAGE_SIZE_FOR_INTERNAL_BUTTONS ? {
-
-                        // for every pixel the image is wider than MIN, add that to left shift of buttons container
-                        // 20px is the width of collapse button.
-
-                        left: 26 + (this.state.imageWidth - MIN_IMAGE_SIZE),
-                    } : {}}
                 >
                     {copyLink}
                     {download}
