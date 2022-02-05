@@ -81,8 +81,7 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
             key="user_id"
             userId="user_id"
           />
-          <CustomStatusEmoji
-            emojiSize={16}
+          <Memo(CustomStatusEmoji)
             emojiStyle={
               Object {
                 "marginLeft": 4,
@@ -90,8 +89,6 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
               }
             }
             showTooltip={true}
-            spanStyle={Object {}}
-            tooltipDirection="top"
             userID="user_id"
           />
         </div>
