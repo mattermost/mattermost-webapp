@@ -9,8 +9,8 @@ const Animation = styled.div`
     z-index: 30;
     display: flex;
     flex-direction: column;
-    left: 4%;
-    top: 0;
+    left: 15px;
+    bottom: 0;
 
     &:before {
         content: '';
@@ -18,7 +18,7 @@ const Animation = styled.div`
         opacity: 0;
         border-radius: 50%;
         width: 1rem;
-        top: 30%;
+        bottom: 15%;
         position: absolute;
         height: 1rem;
         margin-left: auto;
@@ -46,7 +46,6 @@ const Animation = styled.div`
     }
     .x4 {
         transform: scale(0.2);
-        animation-delay: 300ms;
         opacity: 0;
     }
 

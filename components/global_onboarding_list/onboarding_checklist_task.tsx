@@ -17,9 +17,9 @@ const StyledTask = styled.div`
     background-color: rgb(255, 255, 255);
     cursor: pointer;
     width: 100%;
-    padding: 12px 20px;
+    padding: 8px 20px;
     font-size: 14px;
-    align-items: center;
+    align-items: flex-start;
     color: var(--center-channel-color);
     position: relative;
 
@@ -30,8 +30,13 @@ const StyledTask = styled.div`
             text-decoration: line-through;
         }
     }
-    i {
-        margin-right: 10px;
+
+    i.play {
+        margin: 3px 10px 0 0;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+        &.completed {
+            color: var(--denim-status-online);
+        }
     }
     :hover {
         background: rgba(var(--center-channel-color-rgb), 0.08);
@@ -50,6 +55,7 @@ const StyledTask = styled.div`
 export const Task = (props: TaskProps): JSX.Element => {
     const {label, onClick} = props;
     const [completed, setCompleted] = useState(false);
+
     const handleOnClick = () => {
         if (onClick) {
             onClick();
@@ -64,9 +70,9 @@ export const Task = (props: TaskProps): JSX.Element => {
         >
             {completed && <CompletedAnimation completed={completed}/>}
             <Icon
+                className={completed ? 'play completed' : 'play'}
                 glyph={completed ? 'check' : 'play'}
                 size={16}
-                color={completed ? 'success' : 'primary'}
             />
             <span>{label}</span>
         </StyledTask>

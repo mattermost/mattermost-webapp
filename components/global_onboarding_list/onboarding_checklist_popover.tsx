@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, { MutableRefObject } from 'react';
+import React, {MutableRefObject} from 'react';
 import {usePopper} from 'react-popper';
 import {CSSTransition} from 'react-transition-group';
 import styled from 'styled-components';
@@ -22,7 +22,7 @@ const Overlay = styled.div`
     overscroll-behavior: contain;
     pointer-events: auto;
     -ms-scroll-chaining: none;
-    transition: 600ms;
+    transition: 150ms;
     transition-property: background-color;
     transition-timing-function: ease-in-out;
     z-index: 20;
@@ -87,7 +87,7 @@ export const TaskListPopover = ({
     return (
         <>
             <CSSTransition
-                timeout={300}
+                timeout={150}
                 classNames='fade'
                 in={isVisible}
                 unmountOnExit={true}

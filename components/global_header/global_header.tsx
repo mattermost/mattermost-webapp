@@ -5,8 +5,6 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import TaskList from '../global_onboarding_list/onboarding_checklist';
-
 import CenterControls from './center_controls/center_controls';
 import LeftControls from './left_controls/left_controls';
 import RightControls from './right_controls/right_controls';
@@ -51,7 +49,6 @@ const GlobalHeader = (): JSX.Element | null => {
                 <CenterControls productId={currentProductID}/>
                 <RightControls productId={currentProductID}/>
             </GlobalHeaderContainer>
-            <TaskList/>
         </>
     );
 };
