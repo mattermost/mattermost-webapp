@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {TransitionEvent, TransitionEventHandler} from 'react';
-import {Draggable, DraggableProvidedDraggableProps} from 'react-beautiful-dnd';
+import React, {AnimationEvent} from 'react';
+import {Draggable} from 'react-beautiful-dnd';
 import classNames from 'classnames';
 
 import {Channel} from 'mattermost-redux/types/channels';
@@ -112,35 +112,16 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
         };
     }
 
-    handleTransitionEnd = (event: TransitionEvent<HTMLLIElement>, draggableOnTransitionEnd?: TransitionEventHandler<HTMLLIElement>) => {
-        if (draggableOnTransitionEnd) {
-            draggableOnTransitionEnd(event);
-        }
-
-        // On fully collapsed
-        if (event.propertyName === 'height' && this.isCollapsed(this.props)) {
-            this.setState({show: false});
-        }
-
-        // On fully expanded
-        if (event.propertyName === 'height' && !this.isCollapsed(this.props)) {
+    handleAnimationStart = (event: AnimationEvent) => {
+        if (event && event.animationName === 'toOpaqueAnimation' && !this.isCollapsed(this.props)) {
             this.setState({show: true});
         }
-    };
+    }
 
-    wrapTransitionEndHandler = (draggableProps: DraggableProvidedDraggableProps) => {
-        let handleTransitionEnd = this.handleTransitionEnd;
-        if (draggableProps && draggableProps.onTransitionEnd) {
-            // Pass the onTransitionEnd from draggable to the onTransitionEnd of the sidebar channel
-            handleTransitionEnd = (event: TransitionEvent<HTMLLIElement>) => this.handleTransitionEnd(event, draggableProps.onTransitionEnd);
+    handleAnimationEnd = (event: AnimationEvent) => {
+        if (event && event.animationName === 'toTransparentAnimation' && this.isCollapsed(this.props)) {
+            this.setState({show: false});
         }
-
-        return {
-            handleTransitionEnd,
-            style: draggableProps?.style,
-            'data-rbd-draggable-context-id': draggableProps?.['data-rbd-draggable-context-id'],
-            'data-rbd-draggable-id': draggableProps?.['data-rbd-draggable-id'],
-        };
     }
 
     render() {
@@ -195,14 +176,13 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
                     index={channelIndex}
                 >
                     {(provided, snapshot) => {
-                        const {handleTransitionEnd, ...draggableProps} = this.wrapTransitionEndHandler(provided.draggableProps);
-
                         return (
                             <li
                                 draggable='false'
                                 ref={this.setRef(provided.innerRef)}
-                                className={classNames('SidebarChannel animating', {
+                                className={classNames('SidebarChannel', {
                                     collapsed: this.isCollapsed(this.props),
+                                    expanded: !this.isCollapsed(this.props),
                                     unread: isUnread,
                                     active: isCurrentChannel,
                                     dragging: snapshot.isDragging,
@@ -210,9 +190,10 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
                                     fadeOnDrop: snapshot.isDropAnimating && snapshot.draggingOver && autoSortedCategoryIds.has(snapshot.draggingOver),
                                     noFloat: isAutoSortedCategory && !snapshot.isDragging,
                                 })}
-                                onTransitionEnd={handleTransitionEnd}
-                                {...draggableProps}
+                                {...provided.draggableProps}
                                 {...provided.dragHandleProps}
+                                onAnimationStart={this.handleAnimationStart}
+                                onAnimationEnd={this.handleAnimationEnd}
                                 role='listitem'
                                 tabIndex={-1}
                             >
@@ -227,12 +208,14 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
             wrappedComponent = (
                 <li
                     ref={this.setRef()}
-                    className={classNames('SidebarChannel animating', {
+                    className={classNames('SidebarChannel', {
                         collapsed: this.isCollapsed(this.props),
+                        expanded: !this.isCollapsed(this.props),
                         unread: isUnread,
                         active: isCurrentChannel,
                     })}
-                    onTransitionEnd={this.handleTransitionEnd}
+                    onAnimationStart={this.handleAnimationStart}
+                    onAnimationEnd={this.handleAnimationEnd}
                     role='listitem'
                 >
                     {component}

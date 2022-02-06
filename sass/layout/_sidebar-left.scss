@@ -1001,7 +1001,11 @@
         color: rgba(var(--sidebar-text-rgb), 0.6);
         list-style-type: none;
         opacity: 1;
+        transition-duration: 0.3s;
+        transition-property: height;
+        transition-timing-function: ease;
         visibility: visible;
+        will-change: transform opacity;
 
         &:hover {
             .btn-close {
@@ -1094,30 +1098,29 @@
                 text-overflow: ellipsis;
             }
         }
-    }
 
-    .SidebarChannel.animating {
-        transition-duration: 0.15s, 0.15s, 0.15s, 0.15s, 0.15s; /* collapse animation speed */
-        transition-property: height, padding, color, opacity, visibility;
-        transition-timing-function: ease, ease, ease, ease-in, step-start;
+        &.expanded {
+            animation-direction: normal;
+            animation-duration: 0.4s;
+            animation-fill-mode: forwards;
+            animation-iteration-count: 1;
+            animation-name: toOpaqueAnimation;
+            animation-play-state: running;
+        }
 
         &.collapsed {
-            transition-timing-function: ease, ease, ease, ease-out, step-end;
+            height: 0 !important;
+            animation-direction: normal;
+            animation-duration: 0.4s;
+            animation-fill-mode: forwards;
+            animation-iteration-count: 1;
+            animation-name: toTransparentAnimation;
+            animation-play-state: running;
         }
     }
 
     .SidebarChannel.invisible {
         opacity: 0;
-    }
-
-    .SidebarChannel.collapsed {
-        height: 0 !important;
-        padding-top: 0;
-        padding-bottom: 0;
-        border-top: none;
-        border-bottom: none;
-        opacity: 0;
-        visibility: hidden;
     }
 
     /* fade out collapsing list item */
@@ -1369,5 +1372,25 @@
             margin-top: 0;
             margin-bottom: 11px;
         }
+    }
+}
+
+@keyframes toOpaqueAnimation {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes toTransparentAnimation {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
     }
 }
