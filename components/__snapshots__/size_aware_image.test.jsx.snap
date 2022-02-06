@@ -45,7 +45,6 @@ exports[`components/SizeAwareImage should load download and copy link buttons wh
       />
       <span
         className="image-preview-utility-buttons-container"
-        style={Object {}}
       >
         <OverlayTrigger
           className="hidden-xs"
@@ -72,9 +71,8 @@ exports[`components/SizeAwareImage should load download and copy link buttons wh
           }
         >
           <button
-            aria-label="Copy Link to Asset"
+            aria-label="file thumbnail photo-1533709752211-118fcaf03312copy url"
             className="style--none size-aware-image__copy_link"
-            key="copy-link"
             onClick={[Function]}
           >
             <i
@@ -107,6 +105,7 @@ exports[`components/SizeAwareImage should load download and copy link buttons wh
           }
         >
           <a
+            aria-label="file thumbnail photo-1533709752211-118fcaf03312download image"
             className="style--none size-aware-image__download"
             download="photo-1533709752211-118fcaf03312"
             href="https://example.com/image.png"
@@ -169,7 +168,6 @@ exports[`components/SizeAwareImage should match snapshot when handleSmallImageCo
       />
       <span
         className="image-preview-utility-buttons-container"
-        style={Object {}}
       >
         <OverlayTrigger
           className="hidden-xs"
@@ -196,9 +194,8 @@ exports[`components/SizeAwareImage should match snapshot when handleSmallImageCo
           }
         >
           <button
-            aria-label="Copy Link to Asset"
+            aria-label="file thumbnail photo-1533709752211-118fcaf03312copy url"
             className="style--none size-aware-image__copy_link"
-            key="copy-link"
             onClick={[Function]}
           >
             <i
@@ -231,6 +228,7 @@ exports[`components/SizeAwareImage should match snapshot when handleSmallImageCo
           }
         >
           <a
+            aria-label="file thumbnail photo-1533709752211-118fcaf03312download image"
             className="style--none size-aware-image__download"
             download="photo-1533709752211-118fcaf03312"
             rel="noopener noreferrer"
@@ -306,7 +304,6 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
       />
       <span
         className="image-preview-utility-buttons-container"
-        style={Object {}}
       >
         <OverlayTrigger
           className="hidden-xs"
@@ -333,9 +330,8 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
           }
         >
           <button
-            aria-label="Copy Link to Asset"
+            aria-label="file thumbnail photo-1533709752211-118fcaf03312copy url"
             className="style--none size-aware-image__copy_link"
-            key="copy-link"
             onClick={[Function]}
           >
             <i
@@ -368,6 +364,7 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
           }
         >
           <a
+            aria-label="file thumbnail photo-1533709752211-118fcaf03312download image"
             className="style--none size-aware-image__download"
             download="photo-1533709752211-118fcaf03312"
             rel="noopener noreferrer"
