@@ -1,9 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {combineReducers, AnyAction} from 'redux';
-
-import {General} from '../constants';
+import {combineReducers} from 'redux';
 
 import {enableBatching, Action, Reducer} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'mattermost-redux/types/store';
@@ -15,18 +13,7 @@ export function createReducer(baseState: GlobalState, ...reducers: Reducer[]): R
     reducerRegistry.setReducers(Object.assign({}, ...reducers));
     const baseReducer = combineReducers(reducerRegistry.getReducers());
 
-    // Root reducer wrapper that listens for reset events.
-    // Returns whatever is passed for the data property
-    // as the new state.
-    const offlineReducer = (state: GlobalState, action: Action) => {
-        if ('type' in action && 'data' in action && action.type === General.OFFLINE_STORE_RESET) {
-            return baseReducer(action.data || baseState, action);
-        }
-
-        return baseReducer(state, action as AnyAction);
-    };
-
-    return enableFreezing(enableBatching(offlineReducer as Reducer<GlobalState, Action>));
+    return enableFreezing(enableBatching(baseReducer as any));
 }
 
 function enableFreezing(reducer: Reducer) {

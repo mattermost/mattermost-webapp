@@ -39,6 +39,7 @@ describe('components/ChannelHeader', () => {
         currentRelativeTeamUrl: '',
         isCustomStatusEnabled: false,
         isCustomStatusExpired: false,
+        isFileAttachmentsEnabled: true,
     };
 
     const populatedProps = {

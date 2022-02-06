@@ -10,8 +10,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import BlockableLink from 'components/admin_console/blockable_link';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
-import UpgradeSvg from 'components/common/svg_images_components/upgrade.svg';
-import EmptyBillingHistorySvg from 'components/common/svg_images_components/empty_billing_history.svg';
+import UpgradeSvg from 'components/common/svg_images_components/upgrade_svg';
+import EmptyBillingHistorySvg from 'components/common/svg_images_components/empty_billing_history_svg';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -36,7 +36,7 @@ export const noBillingHistory = (
             />
         </div>
         <a
-            target='_new'
+            target='_blank'
             rel='noopener noreferrer'
             href={CloudLinks.BILLING_DOCS}
             className='BillingSummary__noBillingHistory-link'
@@ -65,9 +65,9 @@ export const upgradeFreeTierMattermostCloud = (onUpgradeMattermostCloud: () => v
             />
         </div>
         <div className='UpgradeMattermostCloud__description'>
-            <FormattedMarkdownMessage
+            <FormattedMessage
                 id='admin.billing.subscription.upgradeMattermostCloud.description'
-                defaultMessage='The free tier is available until **January 31, 2022.** Add your payment information to continue after January 31st.'
+                defaultMessage='The free tier is limited to 10 users. Get access to more users, teams and other great features.'
             />
         </div>
         <button
@@ -329,7 +329,7 @@ export const lastInvoiceInfo = (invoice: any, product: any, fullCharges: any, pa
             </div>
             <div className='BillingSummary__lastInvoice-download'>
                 <a
-                    target='_new'
+                    target='_self'
                     rel='noopener noreferrer'
                     href={Client4.getInvoicePdfUrl(invoice.id)}
                     className='BillingSummary__lastInvoice-downloadButton'

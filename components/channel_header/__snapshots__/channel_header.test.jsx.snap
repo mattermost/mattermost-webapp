@@ -1516,8 +1516,7 @@ exports[`components/ChannelHeader should render properly when custom status is s
               defaultMessage="Offline"
               id="status_dropdown.set_offline"
             />
-            <CustomStatusEmoji
-              emojiSize={16}
+            <Memo(CustomStatusEmoji)
               emojiStyle={
                 Object {
                   "margin": "0 4px 1px",
@@ -1525,7 +1524,6 @@ exports[`components/ChannelHeader should render properly when custom status is s
                 }
               }
               showTooltip={true}
-              spanStyle={Object {}}
               tooltipDirection="bottom"
               userID="user_id"
             />

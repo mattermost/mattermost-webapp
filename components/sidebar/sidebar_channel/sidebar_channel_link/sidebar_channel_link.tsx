@@ -66,6 +66,8 @@ type Props = {
 
     firstChannelName?: string;
 
+    isMobileView: boolean;
+
     actions: {
         clearChannelSelection: () => void;
         multiSelectChannelTo: (channelId: string) => void;
@@ -137,7 +139,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
     removeTooltipLink = (): void => this.gmItemRef.current?.removeAttribute?.('aria-describedby');
 
     handleChannelClick = (event: React.MouseEvent<HTMLAnchorElement>): void => {
-        mark('SidebarLink#click');
+        mark('SidebarChannelLink#click');
         trackEvent('ui', 'ui_channel_selected_v2');
 
         this.handleSelectChannel(event);
@@ -184,6 +186,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     offTopicDisplayName={this.props.offTopicDisplayName}
                     firstChannelName={this.props.firstChannelName}
                     openLhs={actions.openLhs}
+                    isMobileView={this.props.isMobileView}
                 />
             );
         }

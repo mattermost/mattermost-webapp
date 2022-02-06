@@ -99,7 +99,7 @@ exports[`components/BleveSettings should match snapshot, disabled 1`] = `
           <div
             className="job-table-setting"
           >
-            <Connect(injectIntl(JobTable))
+            <Connect(JobTable)
               createJobButtonText={
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Index Now"
@@ -362,7 +362,7 @@ exports[`components/BleveSettings should match snapshot, enabled 1`] = `
           <div
             className="job-table-setting"
           >
-            <Connect(injectIntl(JobTable))
+            <Connect(JobTable)
               createJobButtonText={
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Index Now"

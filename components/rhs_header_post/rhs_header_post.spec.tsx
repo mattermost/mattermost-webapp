@@ -80,6 +80,9 @@ describe('rhs_header_post', () => {
             browser: {
                 windowSize: WindowSizes.DESKTOP_VIEW,
             },
+            channelSidebar: {
+                firstChannelName: 'town-square',
+            },
         },
     };
 

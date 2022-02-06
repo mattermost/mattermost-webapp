@@ -2225,7 +2225,7 @@ const AdminDefinition = {
                         label: t('admin.environment.notifications.contents.label'),
                         label_default: 'Email Notification Contents:',
                         help_text: t('admin.environment.notifications.contents.help'),
-                        help_text_default: '**Send full message contents** - Sender name and channel are included in email notifications. Typically used for compliance reasons if Mattermost contains confidential information and policy dictates it cannot be stored in email.\n  **Send generic description with only sender name** - Only the name of the person who sent the message, with no information about channel name or message contents are included in email notifications. Typically used for compliance reasons if Mattermost contains confidential information and policy dictates it cannot be stored in email.',
+                        help_text_default: '**Send full message contents** - Sender name and channel are included in email notifications.\n  **Send generic description with only sender name** - Only the name of the person who sent the message, with no information about channel name or message contents are included in email notifications. Typically used for compliance reasons if Mattermost contains confidential information and policy dictates it cannot be stored in email.',
                         help_text_markdown: true,
                         options: [
                             {
