@@ -63,6 +63,8 @@ describe('components/Menu', () => {
         location: {
             pathname: '/team',
         },
+        guestAccessEnabled: true,
+        canInviteTeamMember: true,
         actions: {
             openModal: jest.fn(),
             showMentions: jest.fn(),
@@ -275,5 +277,15 @@ describe('components/Menu', () => {
         );
 
         expect(wrapper.find('#startTrial')).toHaveLength(0);
+    });
+
+    test('should match snapshot with guest access disabled and no team invite permission', () => {
+        const props = {
+            ...defaultProps,
+            guestAccessEnabled: false,
+            canInviteTeamMember: false,
+        };
+        const wrapper = getMainMenuWrapper(props);
+        expect(wrapper).toMatchSnapshot();
     });
 });
