@@ -32,13 +32,13 @@ export type Props = {
 }
 
 const UpdateUserGroupModal = (props: Props) => {
-    const [saving, setSaving] = useState(false);
-    const [show, setShow] = useState(true);
+    const [hasUpdated, setHasUpdated] = useState(false);
     const [name, setName] = useState(props.group.display_name);
     const [mention, setMention] = useState(`@${props.group.name}`);
+    const [saving, setSaving] = useState(false);
+    const [show, setShow] = useState(true);
     const [mentionInputErrorText, setMentionInputErrorText] = useState('');
     const [nameInputErrorText, setNameInputErrorText] = useState('');
-    const [hasUpdated, setHasUpdated] = useState(false);
     const [showUnknownError, setShowUnknownError] = useState(false);
     const [mentionUpdatedManually, setMentionUpdatedManually] = useState(false);
 
