@@ -27,9 +27,6 @@ export type Props = {
     unreadFilterEnabled: boolean;
     canCreateChannel: boolean;
     showUnreadsCategory: boolean;
-    townSquareDisplayName: string;
-    offTopicDisplayName: string;
-    showTutorialTip: boolean;
     isQuickSwitcherOpen: boolean;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;

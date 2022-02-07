@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import {FormattedMessage, IntlShape, injectIntl} from 'react-intl';
+import React, {useLayoutEffect, useRef, useState} from 'react';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -10,11 +10,10 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
-
-import AddChannelTutorialTip from './add_channel_tutorial_tip';
+import CreateAndJoinChannelsTour from 'components/onboarding_tour/create_and_join_channels_tour_tip';
+import {InvitePeopleTour} from 'components/onboarding_tour/invite_people_tour_tip';
 
 type Props = {
-    intl: IntlShape;
     canCreateChannel: boolean;
     canJoinPublicChannel: boolean;
     showMoreChannelsModal: () => void;
@@ -23,28 +22,46 @@ type Props = {
     showCreateCategoryModal: () => void;
     handleOpenDirectMessagesModal: (e: Event) => void;
     unreadFilterEnabled: boolean;
-    townSquareDisplayName: string;
-    offTopicDisplayName: string;
-    showTutorialTip: boolean;
+    showCreateTutorialTip: boolean;
+    showInviteTutorialTip: boolean;
+    isAddChannelOpen?: boolean;
 };
 
-type State = {
+const AddChannelDropdown = ({
+    canCreateChannel,
+    canJoinPublicChannel,
+    showMoreChannelsModal,
+    invitePeopleModal,
+    showNewChannelModal,
+    showCreateCategoryModal,
+    handleOpenDirectMessagesModal,
+    unreadFilterEnabled,
+    showCreateTutorialTip,
+    showInviteTutorialTip,
+    isAddChannelOpen,
+}: Props) => {
+    const intl = useIntl();
+    const menuRef = useRef<HTMLDivElement>(null);
+    const [menuCtr, setMenuCtr] = useState({});
+    const [open, setOpen] = useState(false);
 
-};
+    useLayoutEffect(() => {
+        if (menuRef?.current) {
+            setMenuCtr(menuRef?.current.getBoundingClientRect());
+        }
+    }, [menuRef.current, showCreateTutorialTip, showInviteTutorialTip]);
 
-class AddChannelDropdown extends React.PureComponent<Props, State> {
-    renderDropdownItems = () => {
-        const {intl, canCreateChannel, canJoinPublicChannel} = this.props;
-
+    const renderDropdownItems = () => {
         const invitePeople = (
             <Menu.Group>
                 <Menu.ItemAction
                     id='invitePeople'
-                    onClick={this.props.invitePeopleModal}
+                    onClick={invitePeopleModal}
                     icon={<i className='icon-account-plus-outline'/>}
                     text={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.invitePeople', defaultMessage: 'Invite People'})}
                     extraText={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.invitePeopleExtraText', defaultMessage: 'Add people to the team'})}
                 />
+                {showInviteTutorialTip && menuCtr !== {} && <InvitePeopleTour/>}
             </Menu.Group>
         );
 
@@ -53,7 +70,7 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
             joinPublicChannel = (
                 <Menu.ItemAction
                     id='showMoreChannels'
-                    onClick={this.props.showMoreChannelsModal}
+                    onClick={showMoreChannelsModal}
                     icon={<i className='icon-globe'/>}
                     text={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.browseChannels', defaultMessage: 'Browse Channels'})}
                 />
@@ -65,7 +82,7 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
             createChannel = (
                 <Menu.ItemAction
                     id='showNewChannel'
-                    onClick={this.props.showNewChannelModal}
+                    onClick={showNewChannelModal}
                     icon={<i className='icon-plus'/>}
                     text={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.createNewChannel', defaultMessage: 'Create New Channel'})}
                 />
@@ -73,12 +90,12 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
         }
 
         let createCategory;
-        if (!this.props.unreadFilterEnabled) {
+        if (!unreadFilterEnabled) {
             createCategory = (
                 <Menu.Group>
                     <Menu.ItemAction
                         id='createCategory'
-                        onClick={this.props.showCreateCategoryModal}
+                        onClick={showCreateCategoryModal}
                         icon={<i className='icon-folder-plus-outline'/>}
                         text={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.createCategory', defaultMessage: 'Create New Category'})}
                     />
@@ -88,7 +105,7 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
         const createDirectMessage = (
             <Menu.ItemAction
                 id={'browseDirectMessages'}
-                onClick={this.props.handleOpenDirectMessagesModal}
+                onClick={handleOpenDirectMessagesModal}
                 icon={<i className='icon-account-outline'/>}
                 text={intl.formatMessage({id: 'sidebar.openDirectMessage', defaultMessage: 'Open a direct message'})}
             />
@@ -100,77 +117,67 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
                     {joinPublicChannel}
                     {createChannel}
                     {createDirectMessage}
+                    {showCreateTutorialTip && menuCtr !== {} && <CreateAndJoinChannelsTour/>}
                 </Menu.Group>
                 {createCategory}
                 {invitePeople}
             </>
         );
-    }
+    };
 
-    trackOpen(opened: boolean) {
+    const trackOpen = (opened: boolean) => {
+        setOpen(opened);
         if (opened) {
             trackEvent('ui', 'ui_add_channel_dropdown_opened');
         }
+    };
+
+    if (!(canCreateChannel || canJoinPublicChannel)) {
+        return null;
     }
 
-    render() {
-        const {intl, canCreateChannel, canJoinPublicChannel} = this.props;
+    const tooltip = (
+        <Tooltip
+            id='new-group-tooltip'
+            className='hidden-xs'
+        >
+            <FormattedMessage
+                id={'sidebar_left.add_channel_dropdown.browseOrCreateChannels'}
+                defaultMessage='Browse or create channels'
+            />
+        </Tooltip>
+    );
 
-        if (!(canCreateChannel || canJoinPublicChannel)) {
-            return null;
-        }
-
-        const tooltip = (
-            <Tooltip
-                id='new-group-tooltip'
-                className='hidden-xs'
+    return (
+        <MenuWrapper
+            className='AddChannelDropdown'
+            onToggle={trackOpen}
+            open={isAddChannelOpen || open}
+        >
+            <OverlayTrigger
+                delayShow={500}
+                placement='top'
+                overlay={tooltip}
             >
-                <FormattedMessage
-                    id={'sidebar_left.add_channel_dropdown.browseOrCreateChannels'}
-                    defaultMessage='Browse or create channels'
-                />
-            </Tooltip>
-        );
-
-        let tutorialTip = null;
-        if (this.props.showTutorialTip) {
-            tutorialTip = (
-                <AddChannelTutorialTip
-                    townSquareDisplayName={this.props.townSquareDisplayName}
-                    offTopicDisplayName={this.props.offTopicDisplayName}
-                />
-            );
-        }
-
-        return (
-            <MenuWrapper
-                className='AddChannelDropdown'
-                onToggle={this.trackOpen}
-            >
-                <OverlayTrigger
-                    delayShow={500}
-                    placement='top'
-                    overlay={tooltip}
-                >
-                    <>
-                        <button
-                            className={'AddChannelDropdown_dropdownButton'}
-                            aria-label={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Dropdown'})}
-                        >
-                            <i className='icon-plus'/>
-                        </button>
-                        {tutorialTip}
-                    </>
-                </OverlayTrigger>
+                <>
+                    <button
+                        className={'AddChannelDropdown_dropdownButton'}
+                        aria-label={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Dropdown'})}
+                    >
+                        <i className='icon-plus'/>
+                    </button>
+                </>
+            </OverlayTrigger>
+            <div ref={menuRef}>
                 <Menu
                     id='AddChannelDropdown'
                     ariaLabel={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Dropdown'})}
                 >
-                    {this.renderDropdownItems()}
+                    {renderDropdownItems()}
                 </Menu>
-            </MenuWrapper>
-        );
-    }
-}
+            </div>
+        </MenuWrapper>
+    );
+};
 
-export default injectIntl(AddChannelDropdown);
+export default AddChannelDropdown;

@@ -18,7 +18,6 @@ import {useClickOutsideRef, useCurrentProductId, useProducts} from '../../hooks'
 import ProductBranding from './product_branding';
 import ProductMenuItem from './product_menu_item';
 import ProductMenuList from './product_menu_list';
-import ProductMenuTip from './product_menu_tip';
 
 export const ProductMenuContainer = styled.nav`
     display: flex;
@@ -82,7 +81,6 @@ const ProductMenu = (): JSX.Element => {
                         active={switcherOpen}
                         aria-label='Select to open product switch menu.'
                     />
-                    <ProductMenuTip/>
                     <ProductBranding/>
                 </ProductMenuContainer>
                 <Menu

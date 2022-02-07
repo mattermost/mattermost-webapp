@@ -14,7 +14,6 @@ exports[`components/global/product_switcher should have an active button state w
         active={true}
         aria-label="Select to open product switch menu."
       />
-      <Connect(ProductMenuTip) />
       <ProductBranding />
     </ProductMenuContainer>
     <Menu
@@ -103,7 +102,6 @@ exports[`components/global/product_switcher should match snapshot with product s
         active={true}
         aria-label="Select to open product switch menu."
       />
-      <Connect(ProductMenuTip) />
       <ProductBranding />
     </ProductMenuContainer>
     <Menu
@@ -156,7 +154,6 @@ exports[`components/global/product_switcher should render once when there are no
         active={true}
         aria-label="Select to open product switch menu."
       />
-      <Connect(ProductMenuTip) />
       <ProductBranding />
     </ProductMenuContainer>
     <Menu
@@ -209,7 +206,6 @@ exports[`components/global/product_switcher should render the correct amount of 
         active={true}
         aria-label="Select to open product switch menu."
       />
-      <Connect(ProductMenuTip) />
       <ProductBranding />
     </ProductMenuContainer>
     <Menu

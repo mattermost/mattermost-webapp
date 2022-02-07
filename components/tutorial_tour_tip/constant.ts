@@ -4,23 +4,23 @@
 // This needs to replaced with the actual tour data based on product
 
 export const FINISHED = 999;
-export const SKIPPED = -999;
+export const SKIPPED = 999;
 
 export const AutoTourStatus = {
     ENABLED: 0,
     DISABLED: 1,
 };
 
-const AutoStatusSuffix = '_at_status';
+const AutoStatusSuffix = '_auto_status';
 
-export const TutorialTourCategories: Record<string, string> = {
-    ADMIN_ON_BOARDING: 'admin_on_boarding',
+export const TutorialTourCategories = {
+    ON_BOARDING: 'tutorial_step',
     CRT_TUTORIAL_STEP: 'crt_tutorial_step',
     CRT_THREAD_PANE_STEP: 'crt_thread_pane_step',
-    TUTORIAL_STEP: 'tutorial_step',
+    START_TRIAL: 'start_trial',
 };
 
-export const AdminOnBoardingTourSteps = {
+export const OnBoardingTourSteps = {
     CHANNELS_AND_DIRECT_MESSAGES: 0,
     CREATE_AND_JOIN_CHANNELS: 1,
     INVITE_PEOPLE: 2,
@@ -53,16 +53,22 @@ export const CrtTutorialTriggerSteps = {
     FINISHED: 999,
 };
 
-export const TTCategoriesMapToSteps: Record<string, Record<string, number>> = {
-    [TutorialTourCategories.ADMIN_ON_BOARDING]: AdminOnBoardingTourSteps,
-    [TutorialTourCategories.TUTORIAL_STEP]: TutorialSteps,
-    [TutorialTourCategories.CRT_TUTORIAL_STEP]: CrtTutorialSteps,
-    [TutorialTourCategories.CRT_THREAD_PANE_STEP]: CrtTutorialTriggerSteps,
+export const StartTrialTriggerSteps = {
+    START: 0,
+    STARTED: 1,
+    FINISHED: 999,
 };
 
-export const TTCategoriesMapToAutoTourStatusKey: Record<string, string> = {
-    [TutorialTourCategories.ADMIN_ON_BOARDING]: TutorialTourCategories.ADMIN_ON_BOARDING + AutoStatusSuffix,
-    [TutorialTourCategories.TUTORIAL_STEP]: [TutorialTourCategories.TUTORIAL_STEP] + AutoStatusSuffix,
-    [TutorialTourCategories.CRT_TUTORIAL_STEP]: [TutorialTourCategories.TUTORIAL_STEP] + AutoStatusSuffix,
-    [TutorialTourCategories.CRT_THREAD_PANE_STEP]: [TutorialTourCategories.TUTORIAL_STEP] + AutoStatusSuffix,
+export const TTCategoriesMapToSteps = {
+    [TutorialTourCategories.ON_BOARDING]: OnBoardingTourSteps,
+    [TutorialTourCategories.CRT_TUTORIAL_STEP]: CrtTutorialSteps,
+    [TutorialTourCategories.CRT_THREAD_PANE_STEP]: CrtTutorialTriggerSteps,
+    [TutorialTourCategories.START_TRIAL]: StartTrialTriggerSteps,
+};
+
+export const TTCategoriesMapToAutoTourStatusKey = {
+    [TutorialTourCategories.ON_BOARDING]: TutorialTourCategories.ON_BOARDING + AutoStatusSuffix,
+    [TutorialTourCategories.CRT_TUTORIAL_STEP]: [TutorialTourCategories.CRT_TUTORIAL_STEP] + AutoStatusSuffix,
+    [TutorialTourCategories.CRT_THREAD_PANE_STEP]: [TutorialTourCategories.CRT_THREAD_PANE_STEP] + AutoStatusSuffix,
+    [TutorialTourCategories.START_TRIAL]: [TutorialTourCategories.START_TRIAL] + AutoStatusSuffix,
 };

@@ -169,6 +169,9 @@ export const isFirstAdmin = createSelector(
         if (!currentUser.roles.includes('system_admin')) {
             return false;
         }
+
+        // this needs to be removed
+        return true;
         const userIds = Object.keys(users);
         for (const userId of userIds) {
             const user = users[userId];

@@ -2,19 +2,23 @@
 // See LICENSE.txt for license information.
 
 import {MutableRefObject, useEffect, useRef} from 'react';
+
 import {useSelector} from 'react-redux';
+
 import {useLocation} from 'react-router';
+
+import {getInt} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+
+import {UserProfile} from 'mattermost-redux/types/users';
+
+import {isModalOpen} from 'selectors/views/modals';
 
 import {GlobalState} from 'types/store';
 import {ProductComponent} from 'types/store/plugins';
 import {Preferences} from 'utils/constants';
-
-import {UserProfile} from 'mattermost-redux/types/users';
-import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getInt} from 'mattermost-redux/selectors/entities/preferences';
-
-import {isModalOpen} from 'selectors/views/modals';
 import {getCurrentProductId} from '../../utils/products';
+import {isFirstAdmin} from '../next_steps_view/steps';
 
 const selectProducts = (state: GlobalState) => state.plugins.components.Product;
 
@@ -51,12 +55,16 @@ export const useCurrentProductId = (products?: ProductComponent[]): string | nul
     return getCurrentProductId(products, useLocation().pathname);
 };
 
-export const useShowTutorialStep = (stepToShow: number): boolean => {
+export const useShowTutorialStep = (stepToShow: number, category = Preferences.TUTORIAL_STEP): boolean => {
     const currentUserId = useSelector<GlobalState, string>(getCurrentUserId);
-    const boundGetInt = (state: GlobalState) => getInt(state, Preferences.TUTORIAL_STEP, currentUserId, 0);
+    const boundGetInt = (state: GlobalState) => getInt(state, category, currentUserId, 0);
     const step = useSelector<GlobalState, number>(boundGetInt);
 
     return step === stepToShow;
+};
+
+export const useFirstAdminUser = (): boolean => {
+    return Boolean(useSelector(isFirstAdmin));
 };
 
 export const useIsLoggedIn = (): boolean => {
