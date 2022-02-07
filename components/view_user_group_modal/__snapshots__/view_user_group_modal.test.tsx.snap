@@ -30,101 +30,14 @@ exports[`component/update_user_group_modal should match snapshot 1`] = `
   role="dialog"
   show={true}
 >
-  <ModalHeader
-    bsClass="modal-header"
-    closeButton={true}
-    closeLabel="Close"
-  >
-    <button
-      aria-label="Close"
-      className="modal-header-back-button btn-icon"
-      onClick={[Function]}
-      type="button"
-    >
-      <LocalizedIcon
-        ariaLabel={
-          Object {
-            "defaultMessage": "Back",
-            "id": "user_groups_modal.goBackLabel",
-          }
-        }
-        className="icon icon-arrow-left"
-      />
-    </button>
-    <ModalTitle
-      bsClass="modal-title"
-      componentClass="h1"
-      id="userGroupsModalLabel"
-    >
-      Group Name
-    </ModalTitle>
-    <button
-      className="user-groups-create btn btn-md btn-primary"
-      onClick={[Function]}
-    >
-      <MemoizedFormattedMessage
-        defaultMessage="AddPeople"
-        id="user_groups_modal.addPeople"
-      />
-    </button>
-    <div
-      className="details-action"
-    >
-      <MenuWrapper
-        animationComponent={[Function]}
-        className=""
-        id="detailsCustomWrapper-groupid123"
-        isDisabled={false}
-        stopPropagationOnToggle={false}
-      >
-        <button
-          className="action-wrapper btn-icon"
-        >
-          <LocalizedIcon
-            ariaLabel={
-              Object {
-                "defaultMessage": "Back",
-                "id": "user_groups_modal.goBackLabel",
-              }
-            }
-            className="icon icon-dots-vertical"
-          />
-        </button>
-        <Menu
-          ariaLabel="User Actions Menu"
-          openLeft={false}
-          openUp={false}
-        >
-          <MenuItemAction
-            disabled={false}
-            onClick={[Function]}
-            show={true}
-            text="Edit Details"
-          />
-          <MenuItemAction
-            disabled={false}
-            onClick={[Function]}
-            show={true}
-            text="Join Group"
-          />
-          <MenuItemAction
-            disabled={false}
-            isDangerous={true}
-            onClick={[Function]}
-            show={false}
-            text="Leave Group"
-          />
-          <MenuItemAction
-            disabled={false}
-            isDangerous={true}
-            onClick={[Function]}
-            show={true}
-            text="Archive Group"
-          />
-        </Menu>
-      </MenuWrapper>
-    </div>
-  </ModalHeader>
+  <Connect(ViewUserGroupModalHeader)
+    backButtonAction={[MockFunction]}
+    backButtonCallback={[MockFunction]}
+    decrementMemberCount={[Function]}
+    groupId="groupid123"
+    incrementMemberCount={[Function]}
+    onExited={[MockFunction]}
+  />
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
@@ -168,80 +81,34 @@ exports[`component/update_user_group_modal should match snapshot 1`] = `
           }
         />
       </h2>
-      <div
-        className="group-member-row"
+      <Connect(ViewUserGroupListItem)
+        decrementMemberCount={[Function]}
+        groupId="groupid123"
         key="user-1"
-      >
-        <Memo(Avatar)
-          className="avatar-post-preview"
-          size="sm"
-          url="/api/v4/users/user-1/image?_=0"
-          username="user1"
-        />
-        <div
-          className="group-member-name"
-        >
-          user one
-        </div>
-        <div
-          className="group-member-username"
-        >
-          @user1
-        </div>
-        <button
-          aria-label="Close"
-          className="remove-group-member btn-icon"
-          onClick={[Function]}
-          type="button"
-        >
-          <LocalizedIcon
-            ariaLabel={
-              Object {
-                "defaultMessage": "Back",
-                "id": "user_groups_modal.goBackLabel",
-              }
-            }
-            className="icon icon-trash-can-outline"
-          />
-        </button>
-      </div>
-      <div
-        className="group-member-row"
+        user={
+          Object {
+            "delete_at": 0,
+            "first_name": "user",
+            "id": "user-1",
+            "last_name": "one",
+            "username": "user1",
+          }
+        }
+      />
+      <Connect(ViewUserGroupListItem)
+        decrementMemberCount={[Function]}
+        groupId="groupid123"
         key="user-2"
-      >
-        <Memo(Avatar)
-          className="avatar-post-preview"
-          size="sm"
-          url="/api/v4/users/user-2/image?_=0"
-          username="user2"
-        />
-        <div
-          className="group-member-name"
-        >
-          user otwo
-        </div>
-        <div
-          className="group-member-username"
-        >
-          @user2
-        </div>
-        <button
-          aria-label="Close"
-          className="remove-group-member btn-icon"
-          onClick={[Function]}
-          type="button"
-        >
-          <LocalizedIcon
-            ariaLabel={
-              Object {
-                "defaultMessage": "Back",
-                "id": "user_groups_modal.goBackLabel",
-              }
-            }
-            className="icon icon-trash-can-outline"
-          />
-        </button>
-      </div>
+        user={
+          Object {
+            "delete_at": 0,
+            "first_name": "user",
+            "id": "user-2",
+            "last_name": "otwo",
+            "username": "user2",
+          }
+        }
+      />
       <LoadingScreen
         position="relative"
         style={Object {}}
