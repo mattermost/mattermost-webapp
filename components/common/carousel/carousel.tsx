@@ -9,8 +9,8 @@ type Props = {
     dataSlides: React.ReactNode[];
     id: string;
     infiniteSlide: boolean;
-    onNextSlideClick?: () => void;
-    onPrevSlideClick?: () => void;
+    onNextSlideClick?: (slideIndex: number) => void;
+    onPrevSlideClick?: (slideIndex: number) => void;
 }
 const Carousel: React.FC<Props> = ({
     dataSlides,
@@ -25,29 +25,29 @@ const Carousel: React.FC<Props> = ({
 
     const nextSlide = () => {
         setPrevButtonDisabled(false);
-        if (slideIndex !== dataSlides.length) {
-            setSlideIndex(slideIndex + 1);
-        } else if (slideIndex === dataSlides.length) {
-            if (infiniteSlide) {
-                setSlideIndex(1);
+
+        const newSlideIndex = slideIndex === dataSlides.length && infiniteSlide ? 1 : (slideIndex !== dataSlides.length && slideIndex + 1) || undefined;
+
+        if (newSlideIndex) {
+            setSlideIndex(newSlideIndex);
+
+            if (onNextSlideClick) {
+                onNextSlideClick(newSlideIndex);
             }
-        }
-        if (onNextSlideClick) {
-            onNextSlideClick();
         }
     };
 
     const prevSlide = () => {
         setNextButtonDisabled(false);
-        if (slideIndex !== 1) {
-            setSlideIndex(slideIndex - 1);
-        } else if (slideIndex === 1) {
-            if (infiniteSlide) {
-                setSlideIndex(dataSlides.length);
+
+        const newSlideIndex = slideIndex === 1 && infiniteSlide ? dataSlides.length : (slideIndex !== 1 && slideIndex - 1) || undefined;
+
+        if (newSlideIndex) {
+            setSlideIndex(newSlideIndex);
+
+            if (onPrevSlideClick) {
+                onPrevSlideClick(newSlideIndex);
             }
-        }
-        if (onPrevSlideClick) {
-            onPrevSlideClick();
         }
     };
 
