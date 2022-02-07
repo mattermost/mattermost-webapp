@@ -71,10 +71,6 @@ class BrowserStoreClass {
         return loginId === sessionStorage.getItem(StoragePrefixes.LOGIN);
     }
 
-    clear(options?: {exclude: any}) { // TODO add more specific types
-        dispatch(Actions.clear(options));
-    }
-
     isLocalStorageSupported() {
         if (this.hasCheckedLocalStorage) {
             return this.localStorageSupported;

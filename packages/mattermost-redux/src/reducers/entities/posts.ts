@@ -1242,7 +1242,13 @@ function storeOpenGraphForPost(state: any, post: Post) {
     }, state);
 }
 
-function messagesHistory(state: Partial<MessageHistory> = {}, action: GenericAction) {
+function messagesHistory(state: Partial<MessageHistory> = {
+    messages: [],
+    index: {
+        post: -1,
+        comment: -1,
+    },
+}, action: GenericAction) {
     switch (action.type) {
     case PostTypes.ADD_MESSAGE_INTO_HISTORY: {
         const nextIndex: Record<string, number> = {};
