@@ -4,13 +4,7 @@ import React from 'react';
 
 import {shallow} from 'enzyme';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-
-import {Value} from 'components/multiselect/multiselect';
-
 import AddUsersToGroupModal from './add_users_to_group_modal';
-
-type UserProfileValue = Value & UserProfile;
 
 describe('component/add_users_to_group_modal', () => {
     const baseProps = {
