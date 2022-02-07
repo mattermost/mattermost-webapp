@@ -1,3 +1,8 @@
 @import 'utils/mixins';
 
 @include simple-in-and-out-before("InviteMembers");
+
+.InviteMembers-body {
+    // page width - channels preview width - progress dots width - people overlap width
+    max-width: calc(100vw - 600px - 120px - 30px);
+}

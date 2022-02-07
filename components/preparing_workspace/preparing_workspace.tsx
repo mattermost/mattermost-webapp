@@ -435,6 +435,17 @@ export default function PreparingWorkspace(props: Props) {
                     disableEdits={submissionState !== SubmissionStates.Presubmit}
                     showInviteSuccess={submissionState === SubmissionStates.SubmitSuccess}
                     className='child-page'
+                    emails={form.teamMembers.invites}
+                    setEmails={(emails: string[]) => {
+                        setForm({
+                            ...form,
+                            teamMembers: {
+                                ...form.teamMembers,
+                                invites: emails,
+                            },
+                        });
+                    }}
+                    teamInviteId={(currentTeam || myTeams?.[0]).invite_id || ''}
                 />
                 <ChannelsPreview
                     show={currentStep === WizardSteps.Channel || currentStep === WizardSteps.InviteMembers}
