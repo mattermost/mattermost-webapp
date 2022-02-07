@@ -157,6 +157,8 @@ export default class Client4 {
     userRoles?: string;
 
     telemetryHandler?: TelemetryHandler;
+    totalRequests = 0;
+    requestMarks: {[x: string]: number} = {};
 
     getUrl() {
         return this.url;
@@ -215,6 +217,26 @@ export default class Client4 {
 
     setTelemetryHandler(telemetryHandler?: TelemetryHandler) {
         this.telemetryHandler = telemetryHandler;
+    }
+
+    markRequests(name: string) {
+        this.requestMarks[name] = this.totalRequests;
+    }
+
+    measureRequests(name1: string, name2: string): number {
+        if (!this.requestMarks[name1] || !this.requestMarks[name2]) {
+            return -1;
+        }
+
+        return this.requestMarks[name2] - this.requestMarks[name1];
+    }
+
+    clearRequestsMark(name: string) {
+        delete this.requestMarks[name];
+    }
+
+    getTotalRequests(): number {
+        return this.totalRequests;
     }
 
     getServerVersion() {
@@ -3783,6 +3805,9 @@ export default class Client4 {
     doFetchWithResponse = async <T>(url: string, options: Options): Promise<ClientResponse<T>> => {
         const response = await fetch(url, this.getOptions(options));
         const headers = parseAndMergeNestedHeaders(response.headers);
+
+        this.totalRequests += 1;
+        console.log(url);
 
         let data;
         try {

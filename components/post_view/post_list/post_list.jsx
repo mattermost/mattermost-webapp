@@ -18,10 +18,11 @@ export const MAX_EXTRA_PAGES_LOADED = 10;
 // Measures the time between channel or team switch started and the post list component rendering posts.
 // Set "fresh" to true when the posts have not been loaded before.
 function markAndMeasureChannelSwitchEnd(fresh = false) {
+    console.log('end');
     mark('PostList#component');
 
-    const [dur1] = measure('SidebarChannelLink#click', 'PostList#component');
-    const [dur2] = measure('TeamLink#click', 'PostList#component');
+    const [dur1, requests1] = measure('SidebarChannelLink#click', 'PostList#component');
+    const [dur2, requests2] = measure('TeamLink#click', 'PostList#component');
 
     clearMarks([
         'SidebarChannelLink#click',
@@ -30,10 +31,10 @@ function markAndMeasureChannelSwitchEnd(fresh = false) {
     ]);
 
     if (dur1 !== -1) {
-        trackEvent('performance', 'channel_switch', {duration: Math.round(dur1), fresh});
+        trackEvent('performance', 'channel_switch', {duration: Math.round(dur1), api_requests: requests1, fresh});
     }
     if (dur2 !== -1) {
-        trackEvent('performance', 'team_switch', {duration: Math.round(dur2), fresh});
+        trackEvent('performance', 'team_switch', {duration: Math.round(dur2), api_requests: requests2, fresh});
     }
 }
 

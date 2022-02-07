@@ -30,7 +30,7 @@ export function trackEvent(category, event, props) {
     Client4.trackEvent(category, event, props);
     if (isDevMode() && category === 'performance' && props) {
         // eslint-disable-next-line no-console
-        console.log(`${event}: ${props.duration}ms, fresh: ${props.fresh}`);
+        console.log(`${event}: ${props.duration}ms, api requests: ${props.api_requests}, fresh: ${props.fresh}`);
     }
 }
 
@@ -48,7 +48,12 @@ export function clearMarks(names) {
     if (!shouldTrackPerformance() || !SUPPORTS_CLEAR_MARKS) {
         return;
     }
-    names.forEach((name) => performance.clearMarks(name));
+    names.forEach((name) => clearMark(name));
+}
+
+function clearMark(name) {
+    performance.clearMarks(name);
+    Client4.clearRequestsMark(name);
 }
 
 export function mark(name) {
@@ -56,7 +61,14 @@ export function mark(name) {
         return;
     }
     performance.mark(name);
+    Client4.markRequests(name);
 }
+
+function getTotalRequests() {
+    return Client4.getTotalRequests();
+}
+
+window.getTotalRequests = getTotalRequests;
 
 /**
  * Takes the names of two markers and invokes performance.measure on
@@ -87,9 +99,11 @@ export function measure(name1, name2) {
     performance.measure(measurementName, name1, name2);
     const lastDuration = mostRecentDurationByEntryName(measurementName);
 
+    const totalRequests = Client4.measureRequests(name1, name2);
+
     // Clean up the measures we created
     performance.clearMeasures(measurementName);
-    return [lastDuration, measurementName];
+    return [lastDuration, totalRequests, measurementName];
 }
 
 export function trackLoadTime() {
@@ -104,7 +118,7 @@ export function trackLoadTime() {
     setTimeout(() => {
         const {loadEventEnd, navigationStart} = window.performance.timing;
         const pageLoadTime = loadEventEnd - navigationStart;
-        trackEvent('performance', 'page_load', {duration: pageLoadTime});
+        trackEvent('performance', 'page_load', {duration: pageLoadTime, api_requests: Client4.getTotalRequests()});
     }, tenSeconds);
 }
 
