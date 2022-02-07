@@ -3,8 +3,9 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {ExclamationThickIcon} from '@mattermost/compass-icons/components';
+
 import CircularChart from 'components/common/circular_chart/circular_chart';
-import WarningSvg from 'components/common/svg_images_components/warning_svg';
 
 import './dashboard.scss';
 
@@ -38,9 +39,9 @@ const OverallScore = ({
             <div className='OverallScore__scoreEllipseSvg'>
                 {chartValue < 50 ? (
                     <div className='alertImageScore'>
-                        <WarningSvg
-                            width={48}
-                            height={48}
+                        <ExclamationThickIcon
+                            size={48}
+                            color={'var(--sys-dnd-indicator)'}
                         />
                     </div>
                 ) : (

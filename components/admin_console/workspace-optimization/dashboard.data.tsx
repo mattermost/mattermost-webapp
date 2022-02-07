@@ -4,13 +4,15 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import UpdatesAndErrorsSvg from 'components/common/svg_images_components/updates_and_errors_svg';
-import ConfigurationSvg from 'components/common/svg_images_components/configuration_svg';
-import WorkspaceAccessSvg from 'components/common/svg_images_components/workspace_access_svg';
-import PerformanceSvg from 'components/common/svg_images_components/performance_svg';
-import SecuritySvg from 'components/common/svg_images_components/security_svg';
-import DataPrivacySvg from 'components/common/svg_images_components/data_privacy_svg';
-import EasyManagementSvg from 'components/common/svg_images_components/easy_management_svg';
+import {
+    ChartLineIcon,
+    ServerVariantIcon,
+    ArrowUpBoldCircleOutlineIcon,
+    TuneIcon,
+    LockIcon,
+    AccountMultipleOutlineIcon,
+    ShieldAlertOutlineIcon,
+} from '@mattermost/compass-icons/components';
 
 import {ConsolePages} from 'utils/constants';
 
@@ -52,9 +54,9 @@ const useMetricsData = () => {
         description: formatMessage({id: 'admin.reporting.workspace_optimization.updates.description', defaultMessage: 'You have an update to consider'}),
         icon: (
             <div className='icon'>
-                <UpdatesAndErrorsSvg
-                    width={22}
-                    height={22}
+                <ArrowUpBoldCircleOutlineIcon
+                    size={22}
+                    color={'var(--sys-center-channel-color'}
                 />
             </div>
         ),
@@ -98,9 +100,9 @@ const useMetricsData = () => {
         description: formatMessage({id: 'admin.reporting.workspace_optimization.configuration.description', defaultMessage: 'You have configuration problems to resolve'}),
         icon: (
             <div className='icon'>
-                <ConfigurationSvg
-                    width={20}
-                    height={20}
+                <TuneIcon
+                    size={20}
+                    color={'var(--sys-center-channel-color'}
                 />
             </div>
         ),
@@ -157,9 +159,9 @@ const useMetricsData = () => {
         }),
         icon: (
             <div className='icon'>
-                <WorkspaceAccessSvg
-                    width={20}
-                    height={20}
+                <ServerVariantIcon
+                    size={20}
+                    color={'var(--sys-center-channel-color'}
                 />
             </div>
         ),
@@ -202,9 +204,9 @@ const useMetricsData = () => {
         }),
         icon: (
             <div className='icon'>
-                <PerformanceSvg
-                    width={20}
-                    height={20}
+                <ChartLineIcon
+                    size={20}
+                    color={'var(--sys-center-channel-color'}
                 />
             </div>
         ),
@@ -247,9 +249,9 @@ const useMetricsData = () => {
         }),
         icon: (
             <div className='icon'>
-                <SecuritySvg
-                    width={20}
-                    height={20}
+                <ShieldAlertOutlineIcon
+                    size={20}
+                    color={'var(--sys-center-channel-color'}
                 />
             </div>
         ),
@@ -291,9 +293,9 @@ const useMetricsData = () => {
         }),
         icon: (
             <div className='icon'>
-                <DataPrivacySvg
-                    width={20}
-                    height={20}
+                <LockIcon
+                    size={20}
+                    color={'var(--sys-center-channel-color'}
                 />
             </div>
         ),
@@ -338,9 +340,9 @@ const useMetricsData = () => {
         }),
         icon: (
             <div className='icon'>
-                <EasyManagementSvg
-                    width={20}
-                    height={20}
+                <AccountMultipleOutlineIcon
+                    size={20}
+                    color={'var(--sys-center-channel-color'}
                 />
             </div>
         ),

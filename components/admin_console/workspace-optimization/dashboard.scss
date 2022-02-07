@@ -178,6 +178,14 @@
 
                         &.success {
                             background-color: rgba(var(--sys-online-indicator-rgb), 0.16);
+
+                            svg {
+                                opacity: 1;
+                            }
+                        }
+
+                        svg {
+                            opacity: 0.56;
                         }
                     }
                 }

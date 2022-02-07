@@ -7,12 +7,12 @@ import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 import classNames from 'classnames';
 
+import {CheckIcon} from '@mattermost/compass-icons/components';
+
 import {getServerVersion} from 'mattermost-redux/selectors/entities/general';
 import {GlobalState} from 'mattermost-redux/types/store';
 
 import Accordion, {AccordionItemType} from 'components/common/accordion/accordion';
-
-import SuccessIconSvg from 'components/common/svg_images_components/success_icon_svg';
 
 import {testSiteURL} from '../../../actions/admin_actions';
 import FormattedAdminHeader from '../../widgets/admin_console/formatted_admin_header';
@@ -43,9 +43,9 @@ const AccordionItem = styled.div<{iconColor: string}>`
 
 const successIcon = (
     <div className='success'>
-        <SuccessIconSvg
-            height={20}
-            width={20}
+        <CheckIcon
+            size={20}
+            color={'var(--sys-online-indicator)'}
         />
     </div>
 );
@@ -68,6 +68,9 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     const sessionLengthWebInDays = ServiceSettings?.SessionLengthWebInDays || -1;
 
     const testURL = () => {
+        if (!data.access.items[0]) {
+            return false;
+        }
         const onSuccess = ({status}: any) => {
             data.access.items[0].status = status === 'OK' ? 'none' : 'error';
         };
