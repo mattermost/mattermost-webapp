@@ -4424,7 +4424,7 @@
   "upgrade.cloud_banner_reached": "You have reached the user limit for the free tier",
   "upgradeLink.warn.upgrade_now": "Upgrade now",
   "upload_overlay.info": "Drop a file to upload it.",
-  "user_groups_modal.addPeople": "AddPeople",
+  "user_groups_modal.addPeople": "Add People",
   "user_groups_modal.addPeopleTitle": "Add people to {group}",
   "user_groups_modal.allGroups": "All Groups",
   "user_groups_modal.archiveGroup": "Archive Group",

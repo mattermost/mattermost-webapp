@@ -363,6 +363,7 @@
                     }
 
                     button[disabled] {
+                        background-color: rgba(var(--center-channel-color-rgb), 0.08);
                         color: rgba(var(--center-channel-color-rgb), 0.32);
                     }
 
