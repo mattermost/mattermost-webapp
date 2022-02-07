@@ -263,7 +263,7 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Custom Status"
+        ariaLabel="In a meeting"
         className="MenuItem__primary-text custom_status__row"
         dialogType={[Function]}
         id="status-menu-custom-status"
@@ -559,7 +559,7 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Custom Status"
+        ariaLabel="Set a Custom Status"
         className="MenuItem__primary-text custom_status__row"
         dialogType={[Function]}
         id="status-menu-custom-status"
@@ -807,7 +807,7 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Custom Status"
+        ariaLabel="Set a Custom Status"
         className="MenuItem__primary-text custom_status__row"
         dialogType={[Function]}
         id="status-menu-custom-status"
@@ -1055,7 +1055,7 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Custom Status"
+        ariaLabel="Set a Custom Status"
         className="MenuItem__primary-text custom_status__row"
         dialogType={[Function]}
         id="status-menu-custom-status"
@@ -1738,7 +1738,7 @@ exports[`components/StatusDropdown should not show clear status button when cust
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Custom Status"
+        ariaLabel="Set a Custom Status"
         className="MenuItem__primary-text custom_status__row"
         dialogType={[Function]}
         id="status-menu-custom-status"
@@ -1986,7 +1986,7 @@ exports[`components/StatusDropdown should show clear status button when custom s
     </MenuGroup>
     <MenuGroup>
       <MenuItemToggleModalRedux
-        ariaLabel="Custom Status"
+        ariaLabel="In a meeting"
         className="MenuItem__primary-text custom_status__row"
         dialogType={[Function]}
         id="status-menu-custom-status"
