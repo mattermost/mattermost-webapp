@@ -221,8 +221,6 @@ export const ActionTypes = keyMirror({
     OPEN_RHS_MENU: null,
     CLOSE_RHS_MENU: null,
 
-    STORE_REHYDRATION_FAILED: null,
-
     DISMISS_NOTICE: null,
     SHOW_NOTICE: null,
 
@@ -652,7 +650,6 @@ export const StorageTypes = keyMirror({
     REMOVE_ITEM: null,
     SET_GLOBAL_ITEM: null,
     REMOVE_GLOBAL_ITEM: null,
-    CLEAR: null,
     ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX: null,
     STORAGE_REHYDRATE: null,
 });
