@@ -5,11 +5,11 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Pluggable from 'plugins/pluggable';
-import {TutorialSteps} from '../../../utils/constants';
+import CustomizeYourExperienceTour from 'components/onboarding_tour/customize_your_experience_tour_tip';
 import StatusDropdown from '../../status_dropdown';
+import {OnBoardingTourSteps, TutorialTourCategories} from 'components/tutorial_tour_tip/constant';
 import {useShowTutorialStep} from '../hooks';
 
-import SettingsTip from './settings_tip';
 import AtMentionsButton from './at_mentions_button/at_mentions_button';
 import SavedPostsButton from './saved_posts_button/saved_posts_button';
 import SettingsButton from './settings_button';
@@ -19,6 +19,7 @@ const RightControlsContainer = styled.div`
     align-items: center;
     height: 40px;
     flex-shrink: 0;
+    position: relative;
 
     > * + * {
         margin-left: 8px;
@@ -30,16 +31,18 @@ export type Props = {
 }
 
 const RightControls = ({productId = null}: Props): JSX.Element => {
-    const showSettingsTip = useShowTutorialStep(TutorialSteps.SETTINGS);
+    const showCustomizeTip = useShowTutorialStep(OnBoardingTourSteps.CUSTOMIZE_EXPERIENCE, TutorialTourCategories.ON_BOARDING);
 
     return (
-        <RightControlsContainer>
+        <RightControlsContainer
+            id={'RightControlsContainer'}
+        >
             {productId === null ? (
                 <>
                     <AtMentionsButton/>
                     <SavedPostsButton/>
                     <SettingsButton/>
-                    {showSettingsTip && <SettingsTip/>}
+                    {showCustomizeTip && <CustomizeYourExperienceTour/>}
                 </>
             ) : (
                 <Pluggable

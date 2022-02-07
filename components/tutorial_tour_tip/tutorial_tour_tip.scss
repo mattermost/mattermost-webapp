@@ -175,15 +175,20 @@
         flex-direction: column;
         margin-top: 0.6rem;
 
-        p {
+        p,
+        div {
             margin: 0 0 0.8rem;
             font-size: 1.4rem;
             line-height: 2rem;
 
-            &:last-of-type {
+            &:last-child {
                 margin-bottom: 0;
             }
         }
+    }
+
+    &__body:last-child {
+        margin-bottom: 0;
     }
 
     &__image {

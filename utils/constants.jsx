@@ -209,6 +209,7 @@ export const ActionTypes = keyMirror({
     SET_RECENT_SKIN: null,
 
     STATUS_DROPDOWN_TOGGLE: null,
+    ADD_CHANNEL_DROPDOWN_TOGGLE: null,
     TOGGLE_LHS: null,
     OPEN_LHS: null,
     CLOSE_LHS: null,

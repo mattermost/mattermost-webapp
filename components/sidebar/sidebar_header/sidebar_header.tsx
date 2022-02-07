@@ -9,20 +9,17 @@ import Flex from '@mattermost/compass-components/utilities/layout/Flex';
 import Heading from '@mattermost/compass-components/components/heading';
 
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {getInt} from 'mattermost-redux/selectors/entities/preferences';
-import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
-
 import {GlobalState} from 'types/store';
-import Constants, {Preferences, TutorialSteps} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import Constants from 'utils/constants';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import MainMenu from 'components/main_menu';
-import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
 import AddChannelDropdown from 'components/sidebar/add_channel_dropdown';
+import {OnBoardingTourSteps, TutorialTourCategories} from 'components/tutorial_tour_tip/constant';
+import {useShowTutorialStep} from 'components/tutorial_tour_tip/hooks';
+import {isAddChannelDropdownOpen} from 'selectors/views/add_channel_dropdown';
 
 type SidebarHeaderContainerProps = {
     id?: string;
@@ -99,15 +96,9 @@ export type Props = {
 
 const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
     const currentTeam = useSelector((state: GlobalState) => getCurrentTeam(state));
-    const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
-    const tipStep = useSelector((state: GlobalState) => getInt(state, Preferences.TUTORIAL_STEP, currentUser.id));
-    const isMobile = Utils.isMobile();
-
-    const showMenuTip = tipStep === TutorialSteps.MENU_POPOVER && !isMobile;
-    const showAddChannelTip = tipStep === TutorialSteps.ADD_CHANNEL_POPOVER && !isMobile;
-    const channelsByName = useSelector((state: GlobalState) => getChannelsNameMapInCurrentTeam(state));
-    const townSquareDisplayName = channelsByName[Constants.DEFAULT_CHANNEL]?.display_name || '';
-    const offTopicDisplayName = channelsByName[Constants.OFFTOPIC_CHANNEL]?.display_name || '';
+    const showCreateTutorialTip = useShowTutorialStep(OnBoardingTourSteps.CREATE_AND_JOIN_CHANNELS, TutorialTourCategories.ON_BOARDING);
+    const showInviteTutorialTip = useShowTutorialStep(OnBoardingTourSteps.INVITE_PEOPLE, TutorialTourCategories.ON_BOARDING);
+    const isAddChannelOpen = useSelector(isAddChannelDropdownOpen);
 
     const [menuToggled, setMenuToggled] = useState(false);
 
@@ -134,13 +125,6 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                         <SidebarHeading>
                             <span className='title'>{currentTeam.display_name}</span>
                             <i className='icon icon-chevron-down'/>
-                            {showMenuTip && (
-                                <MenuTutorialTip
-                                    stopPropagation={true}
-                                    onBottom={false}
-                                    inHeading={true}
-                                />
-                            )}
                         </SidebarHeading>
                         <MainMenu id='sidebarDropdownMenu'/>
                     </MenuWrapper>
@@ -154,9 +138,9 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                     canJoinPublicChannel={props.canJoinPublicChannel}
                     handleOpenDirectMessagesModal={props.handleOpenDirectMessagesModal}
                     unreadFilterEnabled={props.unreadFilterEnabled}
-                    townSquareDisplayName={townSquareDisplayName}
-                    offTopicDisplayName={offTopicDisplayName}
-                    showTutorialTip={showAddChannelTip}
+                    showCreateTutorialTip={showCreateTutorialTip}
+                    showInviteTutorialTip={showInviteTutorialTip}
+                    isAddChannelOpen={isAddChannelOpen}
                 />
             </SidebarHeaderContainer>
         </>

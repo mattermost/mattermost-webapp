@@ -34,7 +34,9 @@ type Props = {
     screen: JSX.Element;
     title: JSX.Element;
     imageURL?: string;
-    punchOut?: TutorialTourTipPunchout | null;
+
+    // if you don't want punchOut just assign FULL, keep null as hook may return null first than actual value
+    punchOut: TutorialTourTipPunchout | 'Full' | null;
     step: number;
     singleTip?: boolean;
     showOptOut?: boolean;
@@ -45,9 +47,11 @@ type Props = {
     tutorialCategory: string;
     onNextNavigateTo?: () => void;
     onPrevNavigateTo?: () => void;
+    onDismiss?: () => void;
     autoTour?: boolean;
     pulsatingDotPlacement?: Omit<Placement, 'auto'| 'auto-end'>;
     pulsatingDotTranslate?: {x: number; y: number};
+    offset?: [number, number];
     width?: string | number;
     zIndex?: number;
 }
@@ -63,11 +67,13 @@ const TutorialTourTip = ({
     step,
     onNextNavigateTo,
     onPrevNavigateTo,
+    onDismiss,
     telemetryTag,
-    showOptOut,
     pulsatingDotTranslate,
     pulsatingDotPlacement,
+    offset = [-18, 4],
     placement = 'right-start',
+    showOptOut = true,
     stopPropagation = true,
     preventDefault = true,
     width = 320,
@@ -78,7 +84,6 @@ const TutorialTourTip = ({
         show,
         tourSteps,
         handleOpen,
-        handleHide,
         handleDismiss,
         handleNext,
         handlePrevious,
@@ -92,6 +97,7 @@ const TutorialTourTip = ({
         tutorialCategory,
         onNextNavigateTo,
         onPrevNavigateTo,
+        onDismiss,
         stopPropagation,
         preventDefault,
     });
@@ -120,8 +126,8 @@ const TutorialTourTip = ({
         if (step === lastStep) {
             buttonText = (
                 <FormattedMessage
-                    id={'tutorial_tip.finish_tour'}
-                    defaultMessage={'Finish tour'}
+                    id={'tutorial_tip.done'}
+                    defaultMessage={'Done'}
                 />
             );
         }
@@ -239,16 +245,16 @@ const TutorialTourTip = ({
             </div>
             <TourTipOverlay
                 show={show}
-                onClick={handleHide}
+                onClick={handleDismiss}
             >
                 <TutorialTourTipBackdrop
-                    x={punchOut?.x}
-                    y={punchOut?.y}
-                    width={punchOut?.width}
-                    height={punchOut?.height}
+                    x={(punchOut === 'Full') ? '' : punchOut?.x}
+                    y={(punchOut === 'Full') ? '' : punchOut?.y}
+                    width={(punchOut === 'Full') ? '' : punchOut?.width}
+                    height={(punchOut === 'Full') ? '' : punchOut?.height}
                 />
             </TourTipOverlay>
-            {show && (
+            {show && punchOut && (
                 <Tippy
                     showOnCreate={show}
                     content={content}
@@ -262,7 +268,7 @@ const TutorialTourTip = ({
                     reference={triggerRef}
                     interactive={true}
                     appendTo={rootPortal!}
-                    offset={[0, 2]}
+                    offset={offset}
                     className={'tutorial-tour-tip__box'}
                     placement={placement}
                 />

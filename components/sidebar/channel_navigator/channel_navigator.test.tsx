@@ -24,9 +24,6 @@ describe('Components/ChannelNavigator', () => {
             unreadFilterEnabled: true,
             canCreateChannel: true,
             showUnreadsCategory: true,
-            townSquareDisplayName: 'idk',
-            offTopicDisplayName: 'idk',
-            showTutorialTip: true,
             isQuickSwitcherOpen: false,
             actions: {
                 openModal: jest.fn(),
