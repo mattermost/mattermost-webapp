@@ -18,12 +18,12 @@ import {get, getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/pre
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 import {getCurrentTeam, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
-import {getFirstAdminSetupComplete, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getFirstAdminSetupComplete, getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {Client4} from 'mattermost-redux/client';
 
 import Constants, {OnboardingPreferences} from 'utils/constants';
 import {makeNewEmptyChannel} from 'utils/channel_utils';
-import {teamNameToUrl} from 'utils/url';
+import {teamNameToUrl, getSiteURL} from 'utils/url';
 import {makeNewTeam} from 'utils/team_utils';
 
 import {switchToChannel} from 'actions/views/channel';
@@ -67,6 +67,7 @@ type Props = RouterProps & {
     actions: Actions;
 }
 
+//const defaultSiteUrl = 'http://localhost:8065'
 export default function PreparingWorkspace(props: Props) {
     const dispatch = useDispatch();
     const user = useSelector(getCurrentUser);
@@ -76,6 +77,8 @@ export default function PreparingWorkspace(props: Props) {
     const isSelfHosted = useSelector(getLicense).Cloud !== 'true';
     const currentTeam = useSelector(getCurrentTeam);
     const myTeams = useSelector(getMyTeams);
+    const config = useSelector(getConfig);
+    const configSiteUrl = config.SiteURL;
 
     const stepOrder = [
         isSelfHosted && WizardSteps.Organization,
@@ -96,7 +99,10 @@ export default function PreparingWorkspace(props: Props) {
     const [currentStep, setCurrentStep] = useState<WizardStep>(stepOrder[0]);
     const [mostRecentStep, setMostRecentStep] = useState<WizardStep>(stepOrder[0]);
     const [submissionState, setSubmissionState] = useState<SubmissionState>(SubmissionStates.Presubmit);
-    const [form, setForm] = useState(emptyForm);
+    const [form, setForm] = useState({
+        ...emptyForm,
+        url: configSiteUrl || getSiteURL(),
+    });
     const makeNext = useCallback((currentStep: WizardStep) => {
         return function innerMakeNext() {
             const stepIndex = stepOrder.indexOf(currentStep);
@@ -322,10 +328,27 @@ export default function PreparingWorkspace(props: Props) {
                     <Url
                         previous={previous}
                         show={currentStep === WizardSteps.Url}
-                        next={makeNext(WizardSteps.Url)}
+                        next={(inferredProtocol: 'http' | 'https' | null) => {
+                            makeNext(WizardSteps.Url)();
+                            setForm({
+                                ...form,
+                                inferredProtocol,
+                                urlSkipped: false,
+                            });
+                        }}
+                        skip={() => {
+                            makeNext(WizardSteps.Url)();
+                            const withSkippedUrl = {
+                                ...form,
+                                urlSkipped: false,
+                                inferredProtocol: null,
+                            };
+                            delete withSkippedUrl.url;
+                            setForm(withSkippedUrl);
+                        }}
                         direction={getTransitionDirection(WizardSteps.Url)}
                         url={form.url || ''}
-                        setUrl={(url: Form['url']) => {
+                        setUrl={(url: string) => {
                             setForm({
                                 ...form,
                                 url,

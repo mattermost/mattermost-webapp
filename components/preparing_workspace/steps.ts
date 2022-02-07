@@ -56,6 +56,8 @@ export const PLUGIN_NAME_TO_ID_MAP: PluginNameMap = {
 export type Form = {
     organization?: string;
     url?: string;
+    urlSkipped: boolean;
+    inferredProtocol: 'http' | 'https' | null;
     useCase: {
         boards: boolean;
         playbooks: boolean;
@@ -82,6 +84,8 @@ export type Form = {
 }
 
 export const emptyForm = deepFreeze({
+    inferredProtocol: null,
+    urlSkipped: false,
     useCase: {
         boards: false,
         playbooks: false,

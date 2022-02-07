@@ -269,13 +269,11 @@ export default class Root extends React.PureComponent {
 
     async redirectToOnboardingOrDefaultTeam() {
         const isUserAdmin = isCurrentUserSystemAdmin(store.getState());
-        console.log("isUserAdmin ",isUserAdmin )
         if (!isUserAdmin) {
             GlobalActions.redirectUserToDefaultTeam();
             return;
         }
         const firstAdminSetupComplete = await this.props.actions.getFirstAdminSetupComplete();
-        console.log("firstAdminSetupComplete",firstAdminSetupComplete)
         if (!firstAdminSetupComplete?.data) {
             this.props.history.push('/preparing-workspace');
             return;
