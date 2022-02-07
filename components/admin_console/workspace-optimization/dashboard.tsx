@@ -61,19 +61,25 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     const {TOTAL_USERS: totalUsers, TOTAL_POSTS: totalPosts} = analytics!;
 
     // gather locally available data
-    const {ServiceSettings} = props.config;
+    const {ServiceSettings, DataRetentionSettings} = props.config;
     const {location} = document;
 
     const sessionLengthWebInDays = ServiceSettings?.SessionLengthWebInDays || -1;
+    const dataRetentionEnabled = DataRetentionSettings?.EnableMessageDeletion || DataRetentionSettings?.EnableFileDeletion;
 
     const testURL = () => {
-        const onSuccess = ({status}: any) => {
-            data.access.items[0].status = status === 'OK' ? 'none' : 'error';
-        };
-        const onError = () => {
-            data.access.items[0].status = 'error';
-        };
-        return testSiteURL(onSuccess, onError, location.origin);
+        const index = data.access.items.findIndex((item) => item.id === 'site-url');
+        if (index >= 0) {
+            const onSuccess = ({status}: any) => {
+                data.access.items[index].status = status === 'OK' ? 'none' : 'error';
+            };
+            const onError = () => {
+                data.access.items[0].status = 'error';
+            };
+            return testSiteURL(onSuccess, onError, location.origin);
+        }
+
+        return Promise.resolve();
     };
 
     const fetchVersion = async () => {
@@ -136,15 +142,24 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
             ssl: {status: location.protocol === 'https:' ? 'ok' : 'error'},
             sessionLength: {status: sessionLengthWebInDays >= 30 ? 'warning' : 'ok'},
         }),
+
+        // site-url item will be updated in a useEffect call
         access: getAccessData({siteUrl: {status: 'info'}}),
         performance: getPerformanceData({
             search: {
                 status: totalPosts < 2_000_000 && totalUsers < 500 ? 'ok' : 'warning',
             },
         }),
+
+        // TBD
         security: getSecurityData({loginAttempts: {status: 'warning', count: 24}}),
-        dataPrivacy: getDataPrivacyData({retention: {status: 'warning'}}),
-        easyManagement: getEaseOfManagementData({ldap: {status: totalUsers > 100 ? 'warning' : 'ok'}, guestAccounts: {status: 'warning'}}),
+        dataPrivacy: getDataPrivacyData({retention: {status: dataRetentionEnabled ? 'ok' : 'warning'}}),
+        easyManagement: getEaseOfManagementData({
+            ldap: {status: totalUsers > 500 ? 'warning' : 'ok'},
+
+            // TBD - @see https://github.com/mattermost/mattermost-server/pull/19437
+            guestAccounts: {status: 'warning'},
+        }),
     };
 
     const learnMoreText = formatMessage({id: 'benefits_trial.modal.learnMore', defaultMessage: 'Learn More'});

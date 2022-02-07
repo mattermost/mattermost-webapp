@@ -65,7 +65,7 @@ const useMetricsData = () => {
 
     const trialOrEnterpriseCtaConfig = {
         configUrl: ConsolePages.LICENSE,
-        configText: prevTrialLicense ? formatMessage({id: 'admin.reporting.workspace_optimization.cta.upgradeLicense', defaultMessage: 'Upgrade to Enterprise'}) : formatMessage({id: 'admin.reporting.workspace_optimization.cta.startTrial', defaultMessage: 'Start Trial'}),
+        configText: prevTrialLicense?.IsLicensed === 'true' ? formatMessage({id: 'admin.reporting.workspace_optimization.cta.upgradeLicense', defaultMessage: 'Upgrade to Enterprise'}) : formatMessage({id: 'admin.reporting.workspace_optimization.cta.startTrial', defaultMessage: 'Start Trial'}),
         telemetryAction: 'set_here_the_telemetry_action',
     };
 
@@ -199,10 +199,9 @@ const useMetricsData = () => {
                     id: 'admin.reporting.workspace_optimization.access.site_url.description',
                     defaultMessage: 'Your webserver settings are not passing a live URL test, this would prevent users from accessing this workspace, we recommend updating your settings.',
                 }),
-                configUrl: '/site-url',
-                telemetryAction: 'set_here_the_telemetry_action',
+                configUrl: ConsolePages.WEB_SERVER,
                 configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.configureWebServer', defaultMessage: 'Configure Web Server'}),
-                infoUrl: '#',
+                telemetryAction: 'set_here_the_telemetry_action',
                 status: data.siteUrl.status,
                 scoreImpact: 12,
                 impactModifier: impactModifiers[data.siteUrl.status],

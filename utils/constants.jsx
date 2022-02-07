@@ -1651,6 +1651,7 @@ export const ConsolePages = {
     LICENSE: '/admin_console/about/license',
     SAML: '/admin_console/authentication/saml',
     SESSION_LENGTHS: '/admin_console/environment/session_lengths',
+    WEB_SERVER: '/admin_console/environment/web_server',
 };
 
 export const WindowSizes = {

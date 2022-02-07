@@ -28,7 +28,15 @@ const CtaButtons = ({
 }: CtaButtonsProps): JSX.Element => {
     const history = useHistory();
 
-    const trackClick = () => {
+    const handleButtonClick = () => {
+        if (typeof actionButtonCallback === 'function') {
+            actionButtonCallback();
+        } else if (actionLink?.startsWith('/')) {
+            history.push(actionLink);
+        } else if (actionLink?.startsWith('http')) {
+            window.open(actionLink, '_blank');
+        }
+
         if (telemetryAction) {
             trackEvent(
                 TELEMETRY_CATEGORIES.WORKSPACE_OPTIMIZATION_DASHBOARD,
@@ -37,35 +45,23 @@ const CtaButtons = ({
         }
     };
 
-    const handleActionButtonClick = () => {
-        if (actionButtonCallback) {
-            actionButtonCallback();
-        } else if (actionLink) {
-            history.push(actionLink);
-            trackClick();
-        }
-    };
-
     return (
         <div className='ctaButtons'>
             {actionLink && actionText && (
                 <button
                     className='actionButton annnouncementBar__purchaseNow'
-                    onClick={handleActionButtonClick}
+                    onClick={handleButtonClick}
                 >
                     {actionText}
                 </button>
             )}
             {learnMoreLink && learnMoreText && (
-                <a
+                <button
                     className='learnMoreButton light-blue-btn'
-                    href={learnMoreLink}
-                    target={learnMoreLink.startsWith('http') ? '_blank' : '_self'}
-                    onClick={trackClick}
-                    rel='noreferrer'
+                    onClick={handleButtonClick}
                 >
                     {learnMoreText}
-                </a>
+                </button>
             )}
         </div>
     );
