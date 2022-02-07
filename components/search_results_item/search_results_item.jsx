@@ -476,8 +476,11 @@ export default class SearchResultsItem extends React.PureComponent {
                             <div className='search-item-snippet post__body'>
                                 <div className={postClass}>
                                     <AutoHeight shouldScrollIntoView={isPostBeingEditedInRHS}>
-                                        {isPostBeingEditedInRHS ? <EditPost/> : message}
+                                        {isPostBeingEditedInRHS ? <EditPost/> : null}
                                     </AutoHeight>
+                                    <div className={isPostBeingEditedInRHS ? 'hide-element' : ''}>
+                                        {message}
+                                    </div>
                                 </div>
                                 {fileAttachment}
                             </div>

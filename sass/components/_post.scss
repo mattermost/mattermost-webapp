@@ -676,6 +676,10 @@
         }
     }
 
+    .hide-element {
+        display: none;
+    }
+
     &.post--editing {
         overflow: visible;
         background-color: rgba(var(--button-bg-rgb), 0.08);

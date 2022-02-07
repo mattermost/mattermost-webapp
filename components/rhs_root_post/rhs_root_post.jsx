@@ -498,16 +498,17 @@ export default class RhsRootPost extends React.PureComponent {
                         <div className='post__body'>
                             <div className={postClass}>
                                 <AutoHeight shouldScrollIntoView={isPostBeingEdited}>
-                                    {isPostBeingEdited ? <EditPost/> : (
-                                        <MessageWithAdditionalContent
-                                            post={post}
-                                            previewCollapsed={this.props.previewCollapsed}
-                                            previewEnabled={this.props.previewEnabled}
-                                            isEmbedVisible={this.props.isEmbedVisible}
-                                            pluginPostTypes={this.props.pluginPostTypes}
-                                        />
-                                    )}
+                                    {isPostBeingEdited ? <EditPost/> : null}
                                 </AutoHeight>
+                                <div className={isPostBeingEdited ? 'hide-element' : ''}>
+                                    <MessageWithAdditionalContent
+                                        post={post}
+                                        previewCollapsed={this.props.previewCollapsed}
+                                        previewEnabled={this.props.previewEnabled}
+                                        isEmbedVisible={this.props.isEmbedVisible}
+                                        pluginPostTypes={this.props.pluginPostTypes}
+                                    />
+                                </div>
                             </div>
                             {fileAttachment}
                             <ReactionList
