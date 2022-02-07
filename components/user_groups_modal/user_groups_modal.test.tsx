@@ -47,18 +47,6 @@ describe('component/user_groups_modal', () => {
         return groups;
     }
 
-    function getPermissions(groups: Group[], myGroups: Group[]) {
-        const groupPermissionsMap: Record<string, GroupPermissions> = {};
-        [...groups, ...myGroups].forEach((g) => {
-            groupPermissionsMap[g.id] = {
-                can_delete: true,
-                can_manage_members: true,
-            };
-        });
-
-        return groupPermissionsMap;
-    }
-
     test('should match snapshot without groups', () => {
         const wrapper = shallow(
             <UserGroupsModal

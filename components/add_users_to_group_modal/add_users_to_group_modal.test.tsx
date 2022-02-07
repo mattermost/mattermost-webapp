@@ -13,18 +13,6 @@ import AddUsersToGroupModal from './add_users_to_group_modal';
 type UserProfileValue = Value & UserProfile;
 
 describe('component/add_users_to_group_modal', () => {
-    const users = [{
-        id: 'user-1',
-        label: 'user-1',
-        value: 'user-1',
-        delete_at: 0,
-    } as UserProfileValue, {
-        id: 'user-2',
-        label: 'user-2',
-        value: 'user-2',
-        delete_at: 0,
-    } as UserProfileValue];
-
     const baseProps = {
         onExited: jest.fn(),
         backButtonCallback: jest.fn(),
