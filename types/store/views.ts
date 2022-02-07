@@ -90,6 +90,9 @@ export type ViewsState = {
     };
 
     emoji: {
+        categoryOffsets: {
+            [category: string]: number;
+        };
         emojiPickerCustomPage: 0;
         shortcutReactToLastPostEmittedFrom: string;
     };

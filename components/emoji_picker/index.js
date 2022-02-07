@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 
 import {getCustomEmojis, searchCustomEmojis} from 'mattermost-redux/actions/emojis';
 
-import {incrementEmojiPickerPage, setUserSkinTone} from 'actions/emoji_actions';
+import {setCategoryOffset, incrementEmojiPickerPage, setUserSkinTone} from 'actions/emoji_actions';
 import {getEmojiMap, getRecentEmojis, getUserSkinTone} from 'selectors/emojis';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
@@ -30,6 +30,7 @@ function mapDispatchToProps(dispatch) {
             getCustomEmojis,
             searchCustomEmojis,
             incrementEmojiPickerPage,
+            setCategoryOffset,
             setUserSkinTone,
         }, dispatch),
     };

@@ -35,6 +35,18 @@ export function loadRecentlyUsedCustomEmojis() {
     };
 }
 
+export function setCategoryOffset(category, offset) {
+    return async (dispatch) => {
+        dispatch({
+            type: ActionTypes.SET_CATEGORY_OFFSET,
+            category,
+            offset,
+        });
+
+        return {data: true};
+    };
+}
+
 export function incrementEmojiPickerPage() {
     return async (dispatch) => {
         dispatch({

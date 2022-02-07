@@ -66,7 +66,6 @@ function createCategory(name) {
         id: Emoji.CategoryTranslations.get(name, `emoji_picker.${name}`),
         className: categoryClass.get(name, DEFAULT_CLASS),
         message: Emoji.CategoryMessage.get(name, name),
-        offset: 0,
     };
 }
 
@@ -109,6 +108,7 @@ export default class EmojiPicker extends React.PureComponent {
             getCustomEmojis: PropTypes.func.isRequired,
             searchCustomEmojis: PropTypes.func.isRequired,
             incrementEmojiPickerPage: PropTypes.func.isRequired,
+            setCategoryOffset: PropTypes.func.isRequired,
             setUserSkinTone: PropTypes.func.isRequired,
         }).isRequired,
         filter: PropTypes.string.isRequired,
@@ -310,13 +310,13 @@ export default class EmojiPicker extends React.PureComponent {
         this.searchInput = input;
     };
 
-    handleCategoryClick = (categoryName) => {
+    handleCategoryClick = (categoryName, categoryOffsets) => {
         this.setState({
             cursor: [Object.keys(this.state.categories).indexOf(categoryName), 0],
         });
-        if (this.state.categories[categoryName]) {
-            this.updateEmojisToShow(this.state.categories[categoryName].offset);
-            this.emojiPickerContainer.scrollTop = this.state.categories[categoryName].offset;
+        if (categoryOffsets[categoryName]) {
+            this.updateEmojisToShow(categoryOffsets[categoryName]);
+            this.emojiPickerContainer.scrollTop = categoryOffsets[categoryName];
         }
     }
 
@@ -799,15 +799,7 @@ export default class EmojiPicker extends React.PureComponent {
 
     updateCategoryOffset = (categoryName, offset) => {
         if (categoryName !== CATEGORY_SEARCH_RESULTS) {
-            this.setState((state) => ({
-                categories: {
-                    ...state.categories,
-                    [categoryName]: {
-                        ...state.categories[categoryName],
-                        offset,
-                    },
-                },
-            }));
+            this.props.actions.setCategoryOffset(categoryName, offset);
         }
     }
 

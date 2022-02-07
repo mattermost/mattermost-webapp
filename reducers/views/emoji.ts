@@ -8,6 +8,18 @@ import type {GenericAction} from 'mattermost-redux/types/actions';
 
 import {ActionTypes, Locations} from 'utils/constants';
 
+function categoryOffsets(state = {}, action: GenericAction) {
+    switch (action.type) {
+    case ActionTypes.SET_CATEGORY_OFFSET:
+        return {
+            ...state,
+            [action.category]: action.offset,
+        };
+    default:
+        return state;
+    }
+}
+
 function emojiPickerCustomPage(state = 0, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.INCREMENT_EMOJI_PICKER_PAGE:
@@ -39,6 +51,7 @@ function shortcutReactToLastPostEmittedFrom(state = '', action: GenericAction) {
 }
 
 export default combineReducers({
+    categoryOffsets,
     emojiPickerCustomPage,
     shortcutReactToLastPostEmittedFrom,
 });

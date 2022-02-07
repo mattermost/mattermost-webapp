@@ -2,8 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {connect} from 'react-redux';
 import {injectIntl, FormattedMessage, IntlShape} from 'react-intl';
 
+import type {ViewsState} from 'types/store/views';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import {Constants} from 'utils/constants';
@@ -19,8 +21,9 @@ type Category = {
 type Props = {
     intl: IntlShape;
     category: Category;
+    categoryOffsets: ViewsState['emoji']['categoryOffsets'];
     icon: React.ReactNode;
-    onCategoryClick: (categoryName: string) => void;
+    onCategoryClick: (categoryName: string, categoryOffsets: ViewsState['emoji']['categoryOffsets']) => void;
     selected: boolean;
     enable: boolean;
 }
@@ -33,7 +36,7 @@ class EmojiPickerCategory extends React.Component<Props> {
 
     handleClick = (e: React.MouseEvent) => {
         e.preventDefault();
-        this.props.onCategoryClick(this.props.category.name);
+        this.props.onCategoryClick(this.props.category.name, this.props.categoryOffsets);
     }
 
     render() {
@@ -79,4 +82,11 @@ class EmojiPickerCategory extends React.Component<Props> {
     }
 }
 
-export default injectIntl(EmojiPickerCategory);
+function mapStateToProps(state: { views: { emoji: { categoryOffsets: ViewsState['emoji']['categoryOffsets']}}}) {
+    return {
+        categoryOffsets: state.views.emoji.categoryOffsets,
+    };
+}
+
+export default injectIntl(
+    connect(mapStateToProps, null, null, {forwardRef: true})(EmojiPickerCategory));

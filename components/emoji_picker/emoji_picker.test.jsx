@@ -43,6 +43,7 @@ describe('components/emoji_picker/EmojiPicker', () => {
         getCustomEmojis: jest.fn(),
         incrementEmojiPickerPage: jest.fn(),
         searchCustomEmojis: jest.fn(),
+        setCategoryOffset: jest.fn(),
         setUserSkinTone: jest.fn(),
     };
 
