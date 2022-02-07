@@ -202,6 +202,7 @@
     "webpack-livereload-plugin": "3.0.2",
     "webpack-node-externals": "3.0.0",
     "webpack-pwa-manifest": "4.3.0",
+    "yargs": "16.2.0",
     "yup": "0.32.11"
   },
   "jest": {

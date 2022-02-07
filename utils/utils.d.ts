@@ -153,3 +153,4 @@ export function renderPurchaseLicense(): React.ReactNode;
 export function deleteKeysFromObject(value: any, keys: string[]): any;
 
 export function makeIsEligibleForClick(selector = ''): (event: MouseEvent) => boolean;
+export function numberToFixedDynamic(num: number, places: number): number

@@ -37,12 +37,12 @@ describe('Search', () => {
         // # Post a message
         cy.postMessage(searchWord);
 
-        // # Search word in searchBox and validate searchWord
+        // * Search word in searchBox and validate searchWord
         cy.get('#searchBox').click().type(searchWord + '{enter}').should('have.value', searchWord);
 
         // # Click on "x" displayed on searchbox
         cy.get('#searchbarContainer').should('be.visible').within(() => {
-            cy.get('#searchFormContainer').find('.input-clear-x').click({force: true});
+            cy.get('#searchFormContainer').find('.input-clear-x').wait(TIMEOUTS.ONE_SEC).click({force: true});
             cy.get('#searchbar-help-popup').should('be.visible');
             cy.get('#searchBox').type('{esc}');
         });
