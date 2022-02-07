@@ -98,7 +98,7 @@ const useMetricsData = () => {
                     defaultMessage: 'Placeholder: Mattermost {version} contains a medium level security fix. Upgrading to this release is recommended.',
                 }, {version: data.serverVersion.version}),
                 configUrl: 'https://docs.mattermost.com/upgrade/upgrading-mattermost-server.html',
-                configText: formatMessage({id: 'admin.reporting.workspace_optimization.downloadUpdate', defaultMessage: 'Download Update'}),
+                configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.downloadUpdate', defaultMessage: 'Download Update'}),
                 telemetryAction: 'set_here_the_telemetry_action',
                 status: data.serverVersion.status,
                 scoreImpact: 15,
@@ -148,11 +148,11 @@ const useMetricsData = () => {
             {
                 id: 'session-length',
                 title: formatMessage({
-                    id: 'admin.reporting.workspace_optimization.session_length.title',
+                    id: 'admin.reporting.workspace_optimization.configuration.session_length.title',
                     defaultMessage: 'Session length is still set to defaults',
                 }),
                 description: formatMessage({
-                    id: 'admin.reporting.workspace_optimization.session_length.description',
+                    id: 'admin.reporting.workspace_optimization.configuration.session_length.description',
                     defaultMessage: 'Your session length is still set to the default of 30 days (or higher). Most servers adjust this according to their organizations needs. To provide more convenience to your users consider increasing the lengths, however if tighter security is more top of mind then pick a length that better aligns with your organizations policies.',
                 }),
                 configUrl: ConsolePages.SESSION_LENGTHS,
