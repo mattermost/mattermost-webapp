@@ -28,9 +28,7 @@ const CtaButtons = ({
 }: CtaButtonsProps): JSX.Element => {
     const history = useHistory();
 
-    const redirectToConsolePage = (route: string) => {
-        history.push(route);
-
+    const trackClick = () => {
         if (telemetryAction) {
             trackEvent(
                 TELEMETRY_CATEGORIES.WORKSPACE_OPTIMIZATION_DASHBOARD,
@@ -43,42 +41,32 @@ const CtaButtons = ({
         if (actionButtonCallback) {
             actionButtonCallback();
         } else if (actionLink) {
-            redirectToConsolePage(actionLink);
+            history.push(actionLink);
+            trackClick();
         }
     };
 
-    let learnMoreButton;
-    if (learnMoreLink === undefined || !learnMoreText) {
-        learnMoreButton = null;
-    } else {
-        learnMoreButton = (
-            <button
-                className='learnMoreButton light-blue-btn'
-                onClick={() => redirectToConsolePage(learnMoreLink)}
-            >
-                {learnMoreText}
-            </button>
-        );
-    }
-
-    let actionButton;
-    if (actionLink === undefined || !actionText) {
-        actionButton = null;
-    } else {
-        actionButton = (
-            <button
-                className='actionButton annnouncementBar__purchaseNow'
-                onClick={handleActionButtonClick}
-            >
-                {actionText}
-            </button>
-        );
-    }
-
     return (
         <div className='ctaButtons'>
-            {actionButton}
-            {learnMoreButton}
+            {actionLink && actionText && (
+                <button
+                    className='actionButton annnouncementBar__purchaseNow'
+                    onClick={handleActionButtonClick}
+                >
+                    {actionText}
+                </button>
+            )}
+            {learnMoreLink && learnMoreText && (
+                <a
+                    className='learnMoreButton light-blue-btn'
+                    href={learnMoreLink}
+                    target={learnMoreLink.startsWith('http') ? '_blank' : '_self'}
+                    onClick={trackClick}
+                    rel='noreferrer'
+                >
+                    {learnMoreText}
+                </a>
+            )}
         </div>
     );
 };

@@ -2,7 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
 import {useIntl} from 'react-intl';
+
+import {useSelector} from 'react-redux';
+
+import {GlobalState} from 'mattermost-redux/types/store';
 
 import UpdatesAndErrorsSvg from 'components/common/svg_images_components/updates_and_errors_svg';
 import ConfigurationSvg from 'components/common/svg_images_components/configuration_svg';
@@ -29,11 +34,13 @@ type ItemModel = {
     id: string;
     title: string;
     description: string;
-    configUrl: string;
-    configText: string;
-    telemetryAction: string;
-    infoUrl: string;
     status: ItemStatus;
+    scoreImpact: number;
+    impactModifier: number;
+    configUrl?: string;
+    configText?: string;
+    telemetryAction?: string;
+    infoUrl?: string;
 }
 
 type UpdatesParam = {
@@ -44,8 +51,23 @@ type UpdatesParam = {
     };
 }
 
+const impactModifiers: Record<ItemStatus, number> = {
+    none: 1,
+    ok: 1,
+    info: 0.9,
+    warning: 0.5,
+    error: 0,
+};
+
 const useMetricsData = () => {
     const {formatMessage} = useIntl();
+    const prevTrialLicense = useSelector((state: GlobalState) => state.entities.admin.prevTrialLicense);
+
+    const trialOrEnterpriseCtaConfig = {
+        configUrl: ConsolePages.LICENSE,
+        configText: prevTrialLicense ? formatMessage({id: 'admin.reporting.workspace_optimization.cta.upgradeLicense', defaultMessage: 'Upgrade to Enterprise'}) : formatMessage({id: 'admin.reporting.workspace_optimization.cta.startTrial', defaultMessage: 'Start Trial'}),
+        telemetryAction: 'set_here_the_telemetry_action',
+    };
 
     const getUpdatesData = (data: UpdatesParam) => ({
         title: formatMessage({id: 'admin.reporting.workspace_optimization.updates.title', defaultMessage: 'Updates and Errors'}),
@@ -75,11 +97,12 @@ const useMetricsData = () => {
                     id: 'admin.reporting.workspace_optimization.updates.server_version.status.error.description',
                     defaultMessage: 'Placeholder: Mattermost {version} contains a medium level security fix. Upgrading to this release is recommended.',
                 }, {version: data.serverVersion.version}),
-                configUrl: '#',
+                configUrl: 'https://docs.mattermost.com/upgrade/upgrading-mattermost-server.html',
                 configText: formatMessage({id: 'admin.reporting.workspace_optimization.downloadUpdate', defaultMessage: 'Download Update'}),
                 telemetryAction: 'set_here_the_telemetry_action',
-                infoUrl: '#',
                 status: data.serverVersion.status,
+                scoreImpact: 15,
+                impactModifier: impactModifiers[data.serverVersion.status],
             },
         ],
     });
@@ -112,14 +135,15 @@ const useMetricsData = () => {
                     defaultMessage: 'Configure SSL to make your server more secure',
                 }),
                 description: formatMessage({
-                    id: 'admin.reporting.workspace_optimization.configuration.ssl.title',
-                    defaultMessage: 'You should configure SSL to secure how your server is accessed in a production environment.',
+                    id: 'admin.reporting.workspace_optimization.configuration.ssl.description',
+                    defaultMessage: 'Make your server more secure by configuring SSL.',
                 }),
-                configUrl: '/ssl-settings',
                 telemetryAction: 'set_here_the_telemetry_action',
-                configText: formatMessage({id: 'admin.reporting.workspace_optimization.configureSSL', defaultMessage: 'Configure SSL'}),
-                infoUrl: 'https://www.google.de',
+                infoUrl: 'https://docs.mattermost.com/onboard/ssl-client-certificate.html',
+                infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),
                 status: data.ssl.status,
+                scoreImpact: 25,
+                impactModifier: impactModifiers[data.ssl.status],
             },
             {
                 id: 'session-length',
@@ -128,14 +152,15 @@ const useMetricsData = () => {
                     defaultMessage: 'Session length is still set to defaults',
                 }),
                 description: formatMessage({
-                    id: 'admin.reporting.workspace_optimization.session_length.title',
-                    defaultMessage: 'Your session length is still set to the default of 30 days. Most servers adjust this according to thier organizations needs. To provide more convenience to your users consider increasing the lengths, however if tighter security is more top of mind then pick a length that better aligns with your organizations policies.',
+                    id: 'admin.reporting.workspace_optimization.session_length.description',
+                    defaultMessage: 'Your session length is still set to the default of 30 days (or higher). Most servers adjust this according to their organizations needs. To provide more convenience to your users consider increasing the lengths, however if tighter security is more top of mind then pick a length that better aligns with your organizations policies.',
                 }),
-                configUrl: '/session-length',
+                configUrl: ConsolePages.SESSION_LENGTHS,
+                configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.configureSessionLength', defaultMessage: 'Configure Session Length'}),
                 telemetryAction: 'set_here_the_telemetry_action',
-                configText: formatMessage({id: 'admin.reporting.workspace_optimization.configureSessionLength', defaultMessage: 'Configure Session Length'}),
-                infoUrl: 'https://www.google.de',
                 status: data.sessionLength.status,
+                scoreImpact: 8,
+                impactModifier: impactModifiers[data.sessionLength.status],
             },
         ],
     });
@@ -176,17 +201,17 @@ const useMetricsData = () => {
                 }),
                 configUrl: '/site-url',
                 telemetryAction: 'set_here_the_telemetry_action',
-                configText: formatMessage({id: 'admin.reporting.workspace_optimization.configureWebServer', defaultMessage: 'Configure Web Server'}),
-                infoUrl: 'https://www.google.de',
+                configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.configureWebServer', defaultMessage: 'Configure Web Server'}),
+                infoUrl: '#',
                 status: data.siteUrl.status,
+                scoreImpact: 12,
+                impactModifier: impactModifiers[data.siteUrl.status],
             },
         ],
     });
 
     type PerformanceParam = {
         search: {
-            totalUsers: number;
-            totalPosts: number;
             status: ItemStatus;
         };
     }
@@ -217,13 +242,14 @@ const useMetricsData = () => {
                 }),
                 description: formatMessage({
                     id: 'admin.reporting.workspace_optimization.performance.search.description',
-                    defaultMessage: 'Your server has reached over {users} users and {posts} posts which could result in slow search performance. We recommend starting an enterprise trial with the elastic search feature for better performance.',
-                }, {users: data.search.totalUsers, posts: data.search.totalPosts}),
-                configUrl: '/site-url',
-                telemetryAction: 'set_here_the_telemetry_action',
-                configText: formatMessage({id: 'admin.reporting.workspace_optimization.startTrial', defaultMessage: 'Start Trial'}),
-                infoUrl: 'https://www.google.de',
+                    defaultMessage: 'Your server has reached over 500 users and 2 million posts which can result in slow search performance. We recommend starting an Enterprise trial and enabling Elasticsearch for better performance.',
+                }),
+                ...trialOrEnterpriseCtaConfig,
+                infoUrl: 'https://docs.mattermost.com/scale/elasticsearch.html',
+                infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),
                 status: data.search.status,
+                scoreImpact: 20,
+                impactModifier: impactModifiers[data.search.status],
             },
         ],
     });
@@ -262,13 +288,14 @@ const useMetricsData = () => {
                 }),
                 description: formatMessage({
                     id: 'admin.reporting.workspace_optimization.security.login_attempts.description',
-                    defaultMessage: '{attempts} Failed login attempts have been detected. We recommend looking at the security logs to understand the risk.',
+                    defaultMessage: '{attempts} failed login attempts have been detected on this workspace. We recommend reviewing your security logs to understand this security risk.',
                 }, {attempts: data.loginAttempts.count}),
-                configUrl: '/site-url',
+                configUrl: '/admin_console/reporting/server_logs',
                 telemetryAction: 'set_here_the_telemetry_action',
-                configText: formatMessage({id: 'admin.reporting.workspace_optimization.viewServerLogs', defaultMessage: 'View Server Logs'}),
-                infoUrl: 'https://www.google.de',
+                configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.viewServerLogs', defaultMessage: 'View Server Logs'}),
                 status: data.loginAttempts.status,
+                scoreImpact: 10,
+                impactModifier: impactModifiers[data.loginAttempts.status],
             },
         ],
     });
@@ -306,13 +333,14 @@ const useMetricsData = () => {
                 }),
                 description: formatMessage({
                     id: 'admin.reporting.workspace_optimization.data_privacy.retention.description',
-                    defaultMessage: 'A lot of organizations in highly regulated indsutries require more control and insight with thier data. Become more aware and take control of your data by trying out data retention and compliance features.',
+                    defaultMessage: 'Organizations in highly regulated industries require more control and insight with their data. We recommend starting an Enterprise trial to take advantage of Mattermost Data Retention and Compliance features.',
                 }),
-                configUrl: '/site-url',
-                telemetryAction: 'set_here_the_telemetry_action',
-                configText: formatMessage({id: 'admin.reporting.workspace_optimization.startTrial', defaultMessage: 'Start Trial'}),
-                infoUrl: 'https://www.google.de',
+                ...trialOrEnterpriseCtaConfig,
+                infoUrl: 'https://docs.mattermost.com/comply/data-retention-policy.html',
+                infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),
                 status: data.retention.status,
+                scoreImpact: 16,
+                impactModifier: impactModifiers[data.retention.status],
             },
         ],
     });
@@ -353,13 +381,13 @@ const useMetricsData = () => {
                 }),
                 description: formatMessage({
                     id: 'admin.reporting.workspace_optimization.ease_of_management.ldap.description',
-                    defaultMessage: 'You’ve reached over 100 users, we can reduce your manual management pains through AD/LDAP with features like easier onboarding, automatic deactivations and automatic role assignments.',
+                    defaultMessage: 'You\'ve reached over 100 users! We recommend starting an Enterprise trial and setting up AD/LDAP user authentication for easier onboarding as well as automated deactivations and role assignments.',
                 }),
-                configUrl: ConsolePages.LDAP,
-                telemetryAction: 'set_here_the_telemetry_action',
-                configText: formatMessage({id: 'admin.reporting.workspace_optimization.startTrial', defaultMessage: 'Start Trial'}),
-                infoUrl: 'https://www.google.de',
+                ...trialOrEnterpriseCtaConfig,
+                infoUrl: 'https://docs.mattermost.com/configure/configuration-settings.html#ad-ldap',
                 status: data.ldap.status,
+                scoreImpact: 22,
+                impactModifier: impactModifiers[data.ldap.status],
             },
             {
                 id: 'guests_accounts',
@@ -369,13 +397,14 @@ const useMetricsData = () => {
                 }),
                 description: formatMessage({
                     id: 'admin.reporting.workspace_optimization.ease_of_management.guests_accounts.description',
-                    defaultMessage: 'We noticed several accounts using different domains from your Site URL. Gain more control over what other organizations can access with the guest account feature.',
+                    defaultMessage: 'Several user accounts are using different domains than your Site URL. You can control user access to channels and teams with guest accounts. We recommend starting an Enterprise trial and enabling Guest Access.',
                 }),
-                configUrl: '/site-url',
-                telemetryAction: 'set_here_the_telemetry_action',
-                configText: formatMessage({id: 'admin.reporting.workspace_optimization.startTrial', defaultMessage: 'Start Trial'}),
-                infoUrl: 'https://www.google.de',
+                ...trialOrEnterpriseCtaConfig,
+                infoUrl: 'https://docs.mattermost.com/onboard/guest-accounts.html',
+                infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),
                 status: data.guestAccounts.status,
+                scoreImpact: 6,
+                impactModifier: impactModifiers[data.guestAccounts.status],
             },
         ],
     });

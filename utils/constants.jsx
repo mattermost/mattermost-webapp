@@ -1644,11 +1644,13 @@ export const ValidationErrors = {
 };
 
 export const ConsolePages = {
-    LDAP: '/admin_console/authentication/ldap',
-    DATA_RETENTION: '/admin_console/compliance/data_retention_settings',
     COMPLIANCE_EXPORT: '/admin_console/compliance/export',
-    SAML: '/admin_console/authentication/saml',
     CUSTOM_TERMS: '/admin_console/compliance/custom_terms_of_service',
+    DATA_RETENTION: '/admin_console/compliance/data_retention_settings',
+    LDAP: '/admin_console/authentication/ldap',
+    LICENSE: '/admin_console/about/license',
+    SAML: '/admin_console/authentication/saml',
+    SESSION_LENGTHS: '/admin_console/environment/session_lengths',
 };
 
 export const WindowSizes = {
