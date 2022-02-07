@@ -3457,6 +3457,7 @@
   "intro_messages.addGroupsToTeam": "Andere Gruppen zu diesem Team hinzufügen",
   "intro_messages.anyMember": " Jedes Mitglied kann diesem Kanal beitreten und folgen.",
   "intro_messages.beginning": "Start von {name}",
+  "intro_messages.createBoard": "Ein Board erstellen",
   "intro_messages.creator": "Dies ist der Start von {name}, erstellt durch {creator} am {date}.",
   "intro_messages.creatorPrivate": "Dies ist der Start von {name}, erstellt durch {creator} am {date}.",
   "intro_messages.default": "**Willkommen bei {display_name}!**\n \nSenden Sie Nachrichten hier, die jeder sehen können soll. Jeder wird automatisch ein permanentes Mitglied in diesem Kanal, wenn Sie dem Team beitreten.",
