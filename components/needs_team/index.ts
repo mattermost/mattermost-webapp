@@ -8,10 +8,9 @@ import {withRouter} from 'react-router-dom';
 import {fetchAllMyTeamsChannelsAndChannelMembers, fetchMyChannelsAndMembers, viewChannel} from 'mattermost-redux/actions/channels';
 import {getMyTeamUnreads, getTeamByName, selectTeam} from 'mattermost-redux/actions/teams';
 import {getGroups, getAllGroupsAssociatedToChannelsInTeam, getAllGroupsAssociatedToTeam, getGroupsByUserId} from 'mattermost-redux/actions/groups';
-import {getFirstAdminCompleteSetup as getFirstAdminCompleteSetupAction} from 'mattermost-redux/actions/general';
-import {isCollapsedThreadsEnabled, getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
-import {getLicense, getConfig, getFirstAdminCompleteSetup} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentUser, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {Action} from 'mattermost-redux/types/actions';
@@ -40,16 +39,6 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const config = getConfig(state);
     const currentUser = getCurrentUser(state);
     const plugins = state.plugins.components.NeedsTeamComponent;
-    const isUserFirstAdmin = isFirstAdmin(state);
-    const useCaseOnboarding = getUseCaseOnboarding(state);
-
-    let adminSetupRequired = false;
-    if (useCaseOnboarding && isUserFirstAdmin) {
-        const firstAdminCompletedSetup = getFirstAdminCompleteSetup(state);
-        if (!firstAdminCompletedSetup) {
-            adminSetupRequired = true;
-        }
-    }
 
     return {
         license,
@@ -63,8 +52,6 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         plugins,
         selectedThreadId: getSelectedThreadIdInCurrentTeam(state),
         shouldShowAppBar: shouldShowAppBar(state),
-        adminSetupRequired,
-        isUserFirstAdmin,
     };
 }
 
@@ -85,7 +72,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
             getAllGroupsAssociatedToTeam,
             getGroupsByUserId,
             getGroups,
-            getFirstAdminCompleteSetup: getFirstAdminCompleteSetupAction,
         }, dispatch),
     };
 }

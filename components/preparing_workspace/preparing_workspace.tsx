@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {createChannel} from 'mattermost-redux/actions/channels';
-import {getFirstAdminCompleteSetup as getFirstAdminCompleteSetupAction} from 'mattermost-redux/actions/general';
+import {getFirstAdminSetupComplete as getFirstAdminSetupCompleteAction} from 'mattermost-redux/actions/general';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {Team} from 'mattermost-redux/types/teams';
 import {Channel} from 'mattermost-redux/types/channels';
@@ -16,9 +16,9 @@ import {sendEmailInvitesToTeamGracefully} from 'mattermost-redux/actions/teams';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {get, getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeam, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
-import {getFirstAdminCompleteSetup, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getFirstAdminSetupComplete, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {Client4} from 'mattermost-redux/client';
 
 import Constants, {OnboardingPreferences} from 'utils/constants';
@@ -54,6 +54,7 @@ const SubmissionStates = {
 type SubmissionState = typeof SubmissionStates[keyof typeof SubmissionStates];
 
 const DISPLAY_SUCCESS_TIME = 3000;
+const WAIT_FOR_REDIRECT_TIME = 2000;
 
 export type Actions = {
     createTeam: (team: Team) => ActionResult;
@@ -74,6 +75,7 @@ export default function PreparingWorkspace(props: Props) {
 
     const isSelfHosted = useSelector(getLicense).Cloud !== 'true';
     const currentTeam = useSelector(getCurrentTeam);
+    const myTeams = useSelector(getMyTeams);
 
     const stepOrder = [
         isSelfHosted && WizardSteps.Organization,
@@ -87,9 +89,9 @@ export default function PreparingWorkspace(props: Props) {
 
     const existingUseCasePreference = useSelector((state: GlobalState) => get(state, Constants.Preferences.ONBOARDING, OnboardingPreferences.USE_CASE, false));
     useEffect(() => {
-        dispatch(getFirstAdminCompleteSetupAction());
+        dispatch(getFirstAdminSetupCompleteAction());
     }, []);
-    const firstAdminCompletedSetup = useSelector(getFirstAdminCompleteSetup);
+    const firstAdminSetupComplete = useSelector(getFirstAdminSetupComplete);
 
     const [currentStep, setCurrentStep] = useState<WizardStep>(stepOrder[0]);
     const [mostRecentStep, setMostRecentStep] = useState<WizardStep>(stepOrder[0]);
@@ -172,7 +174,7 @@ export default function PreparingWorkspace(props: Props) {
                 if (redirectChannel) {
                     dispatch(switchToChannel(redirectChannel));
                 }
-            }, 2345);
+            }, WAIT_FOR_REDIRECT_TIME);
         }, DISPLAY_SUCCESS_TIME);
     };
 
@@ -183,7 +185,7 @@ export default function PreparingWorkspace(props: Props) {
         sendForm();
     }, [submissionState]);
 
-    const adminRevisitedPage = (firstAdminCompletedSetup || Boolean(existingUseCasePreference)) && submissionState === SubmissionStates.Presubmit;
+    const adminRevisitedPage = (firstAdminSetupComplete || Boolean(existingUseCasePreference)) && submissionState === SubmissionStates.Presubmit;
     if (!isUserFirstAdmin || adminRevisitedPage || !useCaseOnboarding) {
         props.history.push('/');
     }
@@ -415,8 +417,8 @@ export default function PreparingWorkspace(props: Props) {
                     show={currentStep === WizardSteps.Channel || currentStep === WizardSteps.InviteMembers}
                     step={currentStep}
                     direction={getTransitionDirectionMultiStep([WizardSteps.Channel, WizardSteps.InviteMembers])}
-                    channelName={form.channel.name}
-                    teamName={form.organization}
+                    channelName={form.channel.name || ''}
+                    teamName={isSelfHosted ? form.organization || '' : (currentTeam || myTeams?.[0]).display_name || ''}
                 />
             </div>
         </div>

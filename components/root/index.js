@@ -8,6 +8,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {shouldShowTermsOfService, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
+import {getFirstAdminSetupComplete} from 'mattermost-redux/actions/general';
 
 import {loadMeAndConfig} from 'actions/views/root';
 import {emitBrowserWindowResized} from 'actions/views/browser';
@@ -41,6 +42,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             loadMeAndConfig,
             emitBrowserWindowResized,
+            getFirstAdminSetupComplete,
         }, dispatch),
     };
 }

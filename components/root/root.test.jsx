@@ -12,6 +12,7 @@ import Root from 'components/root/root';
 import * as GlobalActions from 'actions/global_actions';
 import * as Utils from 'utils/utils';
 import Constants, {StoragePrefixes, WindowSizes} from 'utils/constants';
+import {GeneralTypes} from 'mattermost-redux/action_types';
 
 jest.mock('rudder-sdk-js', () => ({
     identify: jest.fn(),
@@ -50,6 +51,10 @@ describe('components/Root', () => {
         actions: {
             loadMeAndConfig: async () => [{}, {}, {data: true}], // eslint-disable-line no-empty-function
             emitBrowserWindowResized: () => {},
+            getFirstAdminSetupComplete: jest.fn(() => ({
+                type: GeneralTypes.FIRST_ADMIN_COMPLETE_SETUP_RECEIVED,
+                data: true,
+            })),
         },
         location: {
             pathname: '/',

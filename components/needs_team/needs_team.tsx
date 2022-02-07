@@ -61,7 +61,6 @@ type Props = {
         getAllGroupsAssociatedToTeam: (teamId: string, filterAllowReference: boolean) => Promise<{data: Group[]}>;
         getGroupsByUserId: (userID: string) => Promise<{data: Group[]}>;
         getGroups: (filterAllowReference: boolean, page: number, perPage: number) => Promise<{data: Group[]}>;
-        getFirstAdminCompleteSetup: () => void;
     };
     mfaRequired: boolean;
     match: {
@@ -78,8 +77,6 @@ type Props = {
     plugins?: any;
     selectedThreadId: string | null;
     shouldShowAppBar: boolean;
-    isUserFirstAdmin: boolean;
-    adminSetupRequired: boolean;
 }
 
 type State = {
@@ -97,11 +94,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
 
         if (this.props.mfaRequired) {
             this.props.history.push('/mfa/setup');
-            return;
-        }
-
-        if (this.props.adminSetupRequired) {
-            this.props.history.push('/preparing-workspace');
             return;
         }
 
@@ -148,10 +140,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         startPeriodicStatusUpdates();
         startPeriodicSync();
         this.fetchAllTeams();
-
-        if (this.props.isUserFirstAdmin) {
-            this.props.actions.getFirstAdminCompleteSetup();
-        }
 
         // Set up tracking for whether the window is active
         window.isActive = true;

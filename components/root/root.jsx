@@ -14,7 +14,7 @@ import {Client4} from 'mattermost-redux/client';
 import {setUrl} from 'mattermost-redux/actions/general';
 import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions';
 import * as GlobalActions from 'actions/global_actions';
@@ -112,6 +112,7 @@ export default class Root extends React.PureComponent {
         actions: PropTypes.shape({
             loadMeAndConfig: PropTypes.func.isRequired,
             emitBrowserWindowResized: PropTypes.func.isRequired,
+            getFirstAdminSetupComplete: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
         products: PropTypes.array,
@@ -266,11 +267,28 @@ export default class Root extends React.PureComponent {
         }
     }
 
+    async redirectToOnboardingOrDefaultTeam() {
+        const isUserAdmin = isCurrentUserSystemAdmin(store.getState());
+        console.log("isUserAdmin ",isUserAdmin )
+        if (!isUserAdmin) {
+            GlobalActions.redirectUserToDefaultTeam();
+            return;
+        }
+        const firstAdminSetupComplete = await this.props.actions.getFirstAdminSetupComplete();
+        console.log("firstAdminSetupComplete",firstAdminSetupComplete)
+        if (!firstAdminSetupComplete?.data) {
+            this.props.history.push('/preparing-workspace');
+            return;
+        }
+
+        GlobalActions.redirectUserToDefaultTeam();
+    }
+
     componentDidMount() {
         this.mounted = true;
         this.props.actions.loadMeAndConfig().then((response) => {
             if (this.props.location.pathname === '/' && response[2] && response[2].data) {
-                GlobalActions.redirectUserToDefaultTeam();
+                this.redirectToOnboardingOrDefaultTeam();
             }
             this.onConfigLoaded();
         });

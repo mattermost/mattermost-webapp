@@ -10,11 +10,10 @@ import {
     selectChannel,
 } from 'mattermost-redux/actions/channels';
 import {logout, loadMe} from 'mattermost-redux/actions/users';
-import {getFirstAdminCompleteSetup as getFirstAdminCompleteSetupAction} from 'mattermost-redux/actions/general';
-import {getConfig, getFirstAdminCompleteSetup} from 'mattermost-redux/selectors/entities/general';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId, getMyTeams, getTeam, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
-import {isCollapsedThreadsEnabled, getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUser, getCurrentUserId, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannelStats, getCurrentChannelId, getMyChannelMember, getRedirectChannelNameForTeam, getChannelsNameMapInTeam, getAllDirectChannels, getChannelMessageCount} from 'mattermost-redux/selectors/entities/channels';
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {ChannelTypes} from 'mattermost-redux/action_types';
@@ -328,25 +327,12 @@ export async function redirectUserToDefaultTeam() {
         return;
     }
 
-    const isUserFirstAdmin = isFirstAdmin(state);
-    const useCaseOnboarding = getUseCaseOnboarding(state);
-    let firstAdminNeedsToCompleteSetup = false;
-    if (useCaseOnboarding && isUserFirstAdmin) {
-        await dispatch(getFirstAdminCompleteSetupAction());
-        state = getState();
-        firstAdminNeedsToCompleteSetup = !getFirstAdminCompleteSetup(state);
-    }
-
     const locale = getCurrentLocale(state);
     const teamId = LocalStorageStore.getPreviousTeamId(user.id);
 
     let myTeams = getMyTeams(state);
     if (myTeams.length === 0) {
-        if (firstAdminNeedsToCompleteSetup) {
-            browserHistory.push('/preparing-workspace');
-        } else {
-            browserHistory.push('/select_team');
-        }
+        browserHistory.push('/select_team');
         return;
     }
 
@@ -376,9 +362,5 @@ export async function redirectUserToDefaultTeam() {
         }
     }
 
-    if (firstAdminNeedsToCompleteSetup) {
-        browserHistory.push('/preparing-workspace');
-    } else {
-        browserHistory.push('/select_team');
-    }
+    browserHistory.push('/select_team');
 }
