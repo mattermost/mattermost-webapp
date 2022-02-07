@@ -214,6 +214,10 @@ export default class Root extends React.PureComponent {
                 },
                 anonymousId: '00000000000000000000000000',
             });
+
+            rudderAnalytics.ready(() => {
+                Client4.setTelemetryHandler(new RudderTelemetryHandler());
+            });
         }
 
         if (this.props.location.pathname === '/' && this.props.noAccounts) {
