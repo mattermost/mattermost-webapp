@@ -317,9 +317,9 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
     };
 
     showModal = (e: {preventDefault: () => void}, link: string) => {
-        const extension = this.getFileExtensionFromUrl(link);
-
         e.preventDefault();
+
+        const extension = this.getFileExtensionFromUrl(link);
 
         this.props.actions.openModal({
             modalId: ModalIdentifiers.FILE_PREVIEW_MODAL,
