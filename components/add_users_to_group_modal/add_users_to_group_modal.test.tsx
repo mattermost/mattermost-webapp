@@ -58,47 +58,4 @@ describe('component/add_users_to_group_modal', () => {
         );
         expect(wrapper).toMatchSnapshot();
     });
-
-    test('should add users successfully', () => {
-        const wrapper = shallow<AddUsersToGroupModal>(
-            <AddUsersToGroupModal
-                {...baseProps}
-            />,
-        );
-        wrapper.setState({usersToAdd: users});
-        wrapper.instance().addUsersToGroup(users);
-        expect(wrapper.instance().props.actions.addUsersToGroup).toHaveBeenCalledTimes(1);
-        process.nextTick(() => {
-            expect(wrapper.state('showUnknownError')).toEqual(false);
-        });
-    });
-
-    test('should show unknown error', () => {
-        const addUsersToGroup = jest.fn().mockImplementation(() => Promise.resolve({error: {message: 'test error'}}));
-        const wrapper = shallow<AddUsersToGroupModal>(
-            <AddUsersToGroupModal
-                {...baseProps}
-                actions={{
-                    ...baseProps.actions,
-                    addUsersToGroup,
-                }}
-            />,
-        );
-        wrapper.setState({usersToAdd: users});
-        wrapper.instance().addUsersToGroup(users);
-        expect(wrapper.instance().props.actions.addUsersToGroup).toHaveBeenCalledTimes(1);
-        process.nextTick(() => {
-            expect(wrapper.state('showUnknownError')).toEqual(true);
-        });
-    });
-
-    test('no users to add', () => {
-        const wrapper = shallow<AddUsersToGroupModal>(
-            <AddUsersToGroupModal
-                {...baseProps}
-            />,
-        );
-        wrapper.instance().addUsersToGroup([]);
-        expect(wrapper.instance().props.actions.addUsersToGroup).toHaveBeenCalledTimes(0);
-    });
 });

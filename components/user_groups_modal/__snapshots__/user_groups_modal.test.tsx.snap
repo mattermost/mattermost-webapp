@@ -31,31 +31,10 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
   role="dialog"
   show={true}
 >
-  <ModalHeader
-    bsClass="modal-header"
-    closeButton={true}
-    closeLabel="Close"
-  >
-    <ModalTitle
-      bsClass="modal-title"
-      componentClass="h1"
-      id="userGroupsModalLabel"
-    >
-      <MemoizedFormattedMessage
-        defaultMessage="User Groups"
-        id="user_groups_modal.title"
-      />
-    </ModalTitle>
-    <button
-      className="user-groups-create btn btn-md btn-primary"
-      onClick={[Function]}
-    >
-      <MemoizedFormattedMessage
-        defaultMessage="Create Group"
-        id="user_groups_modal.createNew"
-      />
-    </button>
-  </ModalHeader>
+  <Connect(UserGroupsModalHeader)
+    backButtonAction={[MockFunction]}
+    onExited={[MockFunction]}
+  />
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
@@ -116,25 +95,8 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
         </Menu>
       </MenuWrapper>
     </div>
-    <ForwardRef
-      archiveGroup={[Function]}
-      goToViewGroupModal={[Function]}
-      groupPermissionsMap={
-        Object {
-          "group0": Object {
-            "can_delete": true,
-            "can_manage_members": true,
-          },
-          "group1": Object {
-            "can_delete": true,
-            "can_manage_members": true,
-          },
-          "group2": Object {
-            "can_delete": true,
-            "can_manage_members": true,
-          },
-        }
-      }
+    <Connect(Component)
+      backButtonAction={[MockFunction]}
       groups={
         Array [
           Object {
@@ -185,6 +147,7 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
         ]
       }
       loading={true}
+      onExited={[MockFunction]}
       onScroll={[Function]}
       searchTerm=""
     />
@@ -223,31 +186,10 @@ exports[`component/user_groups_modal should match snapshot with groups, myGroups
   role="dialog"
   show={true}
 >
-  <ModalHeader
-    bsClass="modal-header"
-    closeButton={true}
-    closeLabel="Close"
-  >
-    <ModalTitle
-      bsClass="modal-title"
-      componentClass="h1"
-      id="userGroupsModalLabel"
-    >
-      <MemoizedFormattedMessage
-        defaultMessage="User Groups"
-        id="user_groups_modal.title"
-      />
-    </ModalTitle>
-    <button
-      className="user-groups-create btn btn-md btn-primary"
-      onClick={[Function]}
-    >
-      <MemoizedFormattedMessage
-        defaultMessage="Create Group"
-        id="user_groups_modal.createNew"
-      />
-    </button>
-  </ModalHeader>
+  <Connect(UserGroupsModalHeader)
+    backButtonAction={[MockFunction]}
+    onExited={[MockFunction]}
+  />
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
@@ -308,25 +250,8 @@ exports[`component/user_groups_modal should match snapshot with groups, myGroups
         </Menu>
       </MenuWrapper>
     </div>
-    <ForwardRef
-      archiveGroup={[Function]}
-      goToViewGroupModal={[Function]}
-      groupPermissionsMap={
-        Object {
-          "group0": Object {
-            "can_delete": true,
-            "can_manage_members": true,
-          },
-          "group1": Object {
-            "can_delete": true,
-            "can_manage_members": true,
-          },
-          "group2": Object {
-            "can_delete": true,
-            "can_manage_members": true,
-          },
-        }
-      }
+    <Connect(Component)
+      backButtonAction={[MockFunction]}
       groups={
         Array [
           Object {
@@ -347,6 +272,7 @@ exports[`component/user_groups_modal should match snapshot with groups, myGroups
         ]
       }
       loading={true}
+      onExited={[MockFunction]}
       onScroll={[Function]}
       searchTerm=""
     />
@@ -385,31 +311,10 @@ exports[`component/user_groups_modal should match snapshot without groups 1`] = 
   role="dialog"
   show={true}
 >
-  <ModalHeader
-    bsClass="modal-header"
-    closeButton={true}
-    closeLabel="Close"
-  >
-    <ModalTitle
-      bsClass="modal-title"
-      componentClass="h1"
-      id="userGroupsModalLabel"
-    >
-      <MemoizedFormattedMessage
-        defaultMessage="User Groups"
-        id="user_groups_modal.title"
-      />
-    </ModalTitle>
-    <button
-      className="user-groups-create btn btn-md btn-primary"
-      onClick={[Function]}
-    >
-      <MemoizedFormattedMessage
-        defaultMessage="Create Group"
-        id="user_groups_modal.createNew"
-      />
-    </button>
-  </ModalHeader>
+  <Connect(UserGroupsModalHeader)
+    backButtonAction={[MockFunction]}
+    onExited={[MockFunction]}
+  />
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
