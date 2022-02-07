@@ -10,15 +10,13 @@ import {GlobalState} from 'types/store';
 
 import {getProfilesInGroup, searchProfilesInGroup} from 'mattermost-redux/selectors/entities/users';
 import {getGroup as getGroupById} from 'mattermost-redux/selectors/entities/groups';
-import {getGroup, removeUsersFromGroup} from 'mattermost-redux/actions/groups';
+import {getGroup} from 'mattermost-redux/actions/groups';
 import {Group} from 'mattermost-redux/types/groups';
 import {ModalData} from 'types/actions';
 import {openModal} from 'actions/views/modals';
 import {setModalSearchTerm} from 'actions/views/search';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {getProfilesInGroup as getUsersInGroup, searchProfiles} from 'mattermost-redux/actions/users';
-import {haveIGroupPermission} from 'mattermost-redux/selectors/entities/roles';
-import {Permissions} from 'mattermost-redux/constants';
 
 import ViewUserGroupModal from './view_user_group_modal';
 
