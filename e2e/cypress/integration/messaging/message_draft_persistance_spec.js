@@ -31,7 +31,7 @@ describe('Message Draft Persistance', () => {
         localForage.clear();
     });
 
-    it('Persisting a draft in the current channel', () => {
+    it('MM-T4639 Persisting a draft in the current channel', () => {
         const testText = 'this is a test';
 
         // # Go to Off-Topic
@@ -48,7 +48,7 @@ describe('Message Draft Persistance', () => {
         cy.get('#post_textbox').should('have.text', testText);
     });
 
-    it('Persisting a draft in another channel', () => {
+    it('MM-T4640 Persisting a draft in another channel', () => {
         const testText = 'this is another test';
 
         // # Go to Off-Topic
@@ -86,7 +86,7 @@ describe('Message Draft Persistance', () => {
         cy.get('#post_textbox').should('have.text', testText);
     });
 
-    it('Migration of drafts from redux-persist@4.0.0', () => {
+    it('MM-T4641 Migration of drafts from redux-persist@4.0.0', () => {
         const testText = 'this is a migration test';
 
         // # Go to Off-Topic
