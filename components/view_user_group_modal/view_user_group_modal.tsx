@@ -121,8 +121,12 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
             this.searchTimeoutId = searchTimeoutId;
         }
         if (prevProps.group?.member_count !== this.props.group?.member_count) {
-            this.setState({memberCount: this.props.group?.member_count || 0});
+            this.setMemberCount(this.props.group?.member_count || 0);
         }
+    }
+
+    setMemberCount = (count: number) => {
+        this.setState({memberCount: count});
     }
 
     startLoad = () => {
