@@ -68,9 +68,6 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     const sessionLengthWebInDays = ServiceSettings?.SessionLengthWebInDays || -1;
 
     const testURL = () => {
-        if (!data.access.items[0]) {
-            return false;
-        }
         const onSuccess = ({status}: any) => {
             data.access.items[0].status = status === 'OK' ? 'none' : 'error';
         };
