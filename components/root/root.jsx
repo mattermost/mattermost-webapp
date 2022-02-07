@@ -183,8 +183,6 @@ export default class Root extends React.PureComponent {
         }
 
         if (rudderKey != null && rudderKey !== '' && this.props.telemetryEnabled) {
-            Client4.setTelemetryHandler(new RudderTelemetryHandler());
-
             rudderAnalytics.load(rudderKey, rudderUrl);
 
             rudderAnalytics.identify(telemetryId, {}, {
