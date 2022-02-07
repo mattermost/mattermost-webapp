@@ -24,13 +24,13 @@ const OverallScore = ({
     const contentTitle = title || (
         <FormattedMessage
             id='admin.reporting.workspace_optimization.overall_workspace_score'
-            defaultMessage='Overall Workspace Score'
+            defaultMessage='Overall Score'
         />
     );
     const contentDescription = description || (
         <FormattedMessage
             id='admin.reporting.workspace_optimization.overall_workspace_score_description'
-            defaultMessage='Stay on top of how optimized your workspace is! This score is a total of the categories of key indicators of health and growth below. Ensure your workspace is in its most optimized state so you and your user base get the most out of Mattermost.'
+            defaultMessage='Stay on top of optimizing your Mattermost workspace by reviewing your overall score below based on our recommended indicators of health and growth. Ensure your workspace is running smoothly so your users can get the most out of Mattermost.'
         />
     );
     return (
