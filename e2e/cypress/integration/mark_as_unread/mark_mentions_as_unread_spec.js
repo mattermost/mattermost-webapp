@@ -179,6 +179,5 @@ describe('Mark post with mentions as unread', () => {
 
         // * Verify that ChannelB no longer has unread mention in LHS
         cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
-
     });
 });

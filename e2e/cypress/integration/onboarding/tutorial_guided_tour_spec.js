@@ -103,7 +103,7 @@ describe('Onboarding ADMIN', () => {
         cy.get(selectors.tipNext).click();
 
         // # Click the the next(settings) tip
-        cy.get(`${selectors.tip}`).click({force:true});
+        cy.get(`${selectors.tip}`).click({force: true});
 
         // * Observe the settings tip
         cy.get(selectors.tipText).
