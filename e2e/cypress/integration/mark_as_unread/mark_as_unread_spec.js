@@ -343,11 +343,11 @@ describe('Mark as Unread', () => {
         // * Verify the RHS does not have the NotificationSeparator line
         cy.get('#rhsContainer').find('.NotificationSeparator').should('not.exist');
 
-        // # Switch to channelB
-        switchToChannel(channelB);
-
         // # Switch to channelA
         switchToChannel(channelA);
+
+        // # Switch to channelB
+        switchToChannel(channelB);
 
         // * Verify the channelA does not have unread in LHS
         cy.get(`#sidebarItem_${channelA.name}`).should(beRead);

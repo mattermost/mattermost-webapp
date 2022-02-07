@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @mark_as_unread
 
-import {beUnread} from '../../support/assertions';
+import {beRead, beUnread} from '../../support/assertions';
 
 import {verifyPostNextToNewMessageSeparator, switchToChannel} from './helpers';
 
@@ -178,6 +178,7 @@ describe('Mark post with mentions as unread', () => {
         verifyPostNextToNewMessageSeparator(`@${userB.username} : hello4`);
 
         // * Verify that ChannelB no longer has unread mention in LHS
-        cy.get(`#sidebarItem_${channelB.name}`).children('#unreadMentions').should('not.exist');
+        cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
+
     });
 });
