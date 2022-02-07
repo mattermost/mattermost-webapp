@@ -185,12 +185,14 @@ export default class Root extends React.PureComponent {
         if (rudderKey != null && rudderKey !== '' && this.props.telemetryEnabled) {
             Client4.setTelemetryHandler(new RudderTelemetryHandler());
 
-            const siteURL = getConfig(store.getState()).SiteURL;
             const rudderCfg = {};
-            try {
-                rudderCfg.setCookieDomain = new URL(siteURL).hostname;
+            const siteURL = getConfig(store.getState()).SiteURL;
+            if (siteURL !== '') {
+                try {
+                    rudderCfg.setCookieDomain = new URL(siteURL).hostname;
                 // eslint-disable-next-line no-empty
-            } catch (e) {}
+                } catch (_) {}
+            }
             rudderAnalytics.load(rudderKey, rudderUrl, rudderCfg);
 
             rudderAnalytics.identify(telemetryId, {}, {
