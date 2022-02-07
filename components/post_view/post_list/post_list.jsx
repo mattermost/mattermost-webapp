@@ -8,11 +8,34 @@ import LoadingScreen from 'components/loading_screen';
 import {PostRequestTypes} from 'utils/constants';
 
 import {getOldestPostId, getLatestPostId} from 'utils/post_utils';
+import {clearMarks, mark, measure, trackEvent} from 'actions/telemetry_actions.jsx';
 
 import VirtPostList from 'components/post_view/post_list_virtualized/post_list_virtualized';
 
 const MAX_NUMBER_OF_AUTO_RETRIES = 3;
 export const MAX_EXTRA_PAGES_LOADED = 10;
+
+// Measures the time between channel or team switch started and the post list component rendering posts.
+// Set "fresh" to true when the posts have not been loaded before.
+function markAndMeasureChannelSwitchEnd(fresh = false) {
+    mark('PostList#component');
+
+    const [dur1] = measure('SidebarChannelLink#click', 'PostList#component');
+    const [dur2] = measure('TeamLink#click', 'PostList#component');
+
+    clearMarks([
+        'SidebarChannelLink#click',
+        'TeamLink#click',
+        'PostList#component',
+    ]);
+
+    if (dur1 !== -1) {
+        trackEvent('performance', 'channel_switch', {duration: Math.round(dur1), fresh});
+    }
+    if (dur2 !== -1) {
+        trackEvent('performance', 'team_switch', {duration: Math.round(dur2), fresh});
+    }
+}
 
 export default class PostList extends React.PureComponent {
     static propTypes = {
@@ -131,7 +154,6 @@ export default class PostList extends React.PureComponent {
         };
 
         this.autoRetriesCount = 0;
-        this.loadingMorePosts = null;
         this.actionsForPostList = {
             loadOlderPosts: this.getPostsBefore,
             loadNewerPosts: this.getPostsAfter,
@@ -146,12 +168,18 @@ export default class PostList extends React.PureComponent {
         this.mounted = true;
         if (this.props.channelId) {
             this.postsOnLoad(this.props.channelId);
+            if (this.props.postListIds) {
+                markAndMeasureChannelSwitchEnd();
+            }
         }
     }
 
     componentDidUpdate(prevProps) {
         if (this.props.channelId !== prevProps.channelId) {
             this.postsOnLoad(this.props.channelId);
+        }
+        if (this.props.postListIds != null && prevProps.postListIds == null) {
+            markAndMeasureChannelSwitchEnd(true);
         }
     }
 

@@ -7,12 +7,10 @@ import styled from 'styled-components';
 
 import Flex from '@mattermost/compass-components/utilities/layout/Flex';
 import Heading from '@mattermost/compass-components/components/heading';
-import IconButton from '@mattermost/compass-components/components/icon-button';
 
-import {AddChannelButtonTreatments} from 'mattermost-redux/constants/config';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {getInt, getAddChannelButtonTreatment} from 'mattermost-redux/selectors/entities/preferences';
+import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
 
 import {GlobalState} from 'types/store';
@@ -27,12 +25,10 @@ import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
 import AddChannelDropdown from 'components/sidebar/add_channel_dropdown';
 
 type SidebarHeaderContainerProps = {
-    menuInHeading: boolean;
     id?: string;
 }
 
 type SidebarHeaderProps = {
-    menuInHeading?: boolean;
 }
 
 const SidebarHeaderContainer = styled(Flex).attrs(() => ({
@@ -46,8 +42,8 @@ const SidebarHeaderContainer = styled(Flex).attrs(() => ({
 
     .dropdown-menu {
         position: absolute;
-        transform: translate(${(p) => (p.menuInHeading ? '0' : '-100%')}, 0);
-        margin-left: ${(p) => (p.menuInHeading ? '0' : '100')}%;
+        transform: translate(0, 0);
+        margin-left: 0;
         min-width: 210px;
         max-width: 210px;
     }
@@ -61,7 +57,7 @@ const SidebarHeaderContainer = styled(Flex).attrs(() => ({
 const HEADING_WIDTH = 200;
 const CHEVRON_WIDTH = 26;
 const ADD_CHANNEL_DROPDOWN_WIDTH = 28;
-const TREATMENT_WIDTH = (HEADING_WIDTH - CHEVRON_WIDTH - ADD_CHANNEL_DROPDOWN_WIDTH).toString();
+const TITLE_WIDTH = (HEADING_WIDTH - CHEVRON_WIDTH - ADD_CHANNEL_DROPDOWN_WIDTH).toString();
 
 const SidebarHeading = styled(Heading).attrs(() => ({
     element: 'h1',
@@ -69,16 +65,11 @@ const SidebarHeading = styled(Heading).attrs(() => ({
     size: 200,
 }))<SidebarHeaderProps>`
     color: var(--sidebar-header-text-color);
-    ${(p) => (p.menuInHeading ? 'cursor: pointer;' : '')}
-    ${(p) => (p.menuInHeading ? 'display: flex;' : '')}
-    ${(p) => (p.menuInHeading ? '' : `
-              overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-              `)}
+    cursor: pointer;
+    display: flex;
 
     .title {
-        max-width: ${(p) => (p.menuInHeading ? TREATMENT_WIDTH : '200')}px;
+        max-width: ${TITLE_WIDTH}px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -106,8 +97,6 @@ export type Props = {
     unreadFilterEnabled: boolean;
 }
 
-const noop = () => {};
-
 const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
     const currentTeam = useSelector((state: GlobalState) => getCurrentTeam(state));
     const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
@@ -116,8 +105,6 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
 
     const showMenuTip = tipStep === TutorialSteps.MENU_POPOVER && !isMobile;
     const showAddChannelTip = tipStep === TutorialSteps.ADD_CHANNEL_POPOVER && !isMobile;
-    const addChannelButton = useSelector((state: GlobalState) => getAddChannelButtonTreatment(state));
-    const hasAddChannelTreatment = Boolean(addChannelButton) && addChannelButton !== AddChannelButtonTreatments.NONE;
     const channelsByName = useSelector((state: GlobalState) => getChannelsNameMapInCurrentTeam(state));
     const townSquareDisplayName = channelsByName[Constants.DEFAULT_CHANNEL]?.display_name || '';
     const offTopicDisplayName = channelsByName[Constants.OFFTOPIC_CHANNEL]?.display_name || '';
@@ -128,75 +115,10 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
         setMenuToggled(!menuToggled);
     };
 
-    let menu = (
-        <MenuWrapper onToggle={handleMenuToggle}>
-            <IconButton
-                icon='dots-vertical'
-                size='sm'
-                compact={true}
-                inverted={true}
-                active={menuToggled}
-                onClick={noop}
-            />
-            <MainMenu id='sidebarDropdownMenu'/>
-        </MenuWrapper>
-    );
-
-    if (hasAddChannelTreatment) {
-        menu = (
-            <AddChannelDropdown
-                showNewChannelModal={props.showNewChannelModal}
-                showMoreChannelsModal={props.showMoreChannelsModal}
-                invitePeopleModal={props.invitePeopleModal}
-                showCreateCategoryModal={props.showCreateCategoryModal}
-                canCreateChannel={props.canCreateChannel}
-                canJoinPublicChannel={props.canJoinPublicChannel}
-                handleOpenDirectMessagesModal={props.handleOpenDirectMessagesModal}
-                unreadFilterEnabled={props.unreadFilterEnabled}
-                townSquareDisplayName={townSquareDisplayName}
-                offTopicDisplayName={offTopicDisplayName}
-                showTutorialTip={showAddChannelTip}
-                addChannelButton={addChannelButton}
-            />
-        );
-    }
-
-    let sidebarHeadingContent: JSX.Element = (
-        <SidebarHeading>
-            {currentTeam.display_name}
-        </SidebarHeading>
-    );
-
-    if (hasAddChannelTreatment) {
-        sidebarHeadingContent = (
-            <>
-                <MenuWrapper
-                    onToggle={handleMenuToggle}
-                    className='SidebarHeaderMenuWrapper'
-                >
-                    <SidebarHeading menuInHeading={true}>
-                        <span className='title'>{currentTeam.display_name}</span>
-                        <i className='icon icon-chevron-down'/>
-                        {showMenuTip && (
-                            <MenuTutorialTip
-                                stopPropagation={true}
-                                onBottom={false}
-                                inHeading={true}
-                            />
-                        )}
-                    </SidebarHeading>
-                    <MainMenu id='sidebarDropdownMenu'/>
-                </MenuWrapper>
-            </>
-        );
-    }
-
     return (
         <>
-            {(showMenuTip && !hasAddChannelTreatment) ? <MenuTutorialTip onBottom={false}/> : null}
             <SidebarHeaderContainer
                 id={'sidebar-header-container'}
-                menuInHeading={hasAddChannelTreatment}
             >
                 <OverlayTrigger
                     delayShow={Constants.OVERLAY_TIME_DELAY}
@@ -205,9 +127,37 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                         <Tooltip id='team-name__tooltip'>{currentTeam.description}</Tooltip>
                     ) : <></>}
                 >
-                    {sidebarHeadingContent}
+                    <MenuWrapper
+                        onToggle={handleMenuToggle}
+                        className='SidebarHeaderMenuWrapper'
+                    >
+                        <SidebarHeading>
+                            <span className='title'>{currentTeam.display_name}</span>
+                            <i className='icon icon-chevron-down'/>
+                            {showMenuTip && (
+                                <MenuTutorialTip
+                                    stopPropagation={true}
+                                    onBottom={false}
+                                    inHeading={true}
+                                />
+                            )}
+                        </SidebarHeading>
+                        <MainMenu id='sidebarDropdownMenu'/>
+                    </MenuWrapper>
                 </OverlayTrigger>
-                {menu}
+                <AddChannelDropdown
+                    showNewChannelModal={props.showNewChannelModal}
+                    showMoreChannelsModal={props.showMoreChannelsModal}
+                    invitePeopleModal={props.invitePeopleModal}
+                    showCreateCategoryModal={props.showCreateCategoryModal}
+                    canCreateChannel={props.canCreateChannel}
+                    canJoinPublicChannel={props.canJoinPublicChannel}
+                    handleOpenDirectMessagesModal={props.handleOpenDirectMessagesModal}
+                    unreadFilterEnabled={props.unreadFilterEnabled}
+                    townSquareDisplayName={townSquareDisplayName}
+                    offTopicDisplayName={offTopicDisplayName}
+                    showTutorialTip={showAddChannelTip}
+                />
             </SidebarHeaderContainer>
         </>
     );
