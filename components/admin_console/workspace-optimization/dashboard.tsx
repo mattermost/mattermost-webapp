@@ -15,11 +15,11 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import Accordion, {AccordionItemType} from 'components/common/accordion/accordion';
 
 import {testSiteURL} from '../../../actions/admin_actions';
+import LoadingScreen from '../../loading_screen';
 import FormattedAdminHeader from '../../widgets/admin_console/formatted_admin_header';
 import {Props} from '../admin_console';
 
 import useMetricsData, {DataModel, ItemStatus} from './dashboard.data';
-
 import OverallScore from './overall-score';
 import ChipsList, {ChipsInfoType} from './chips_list';
 import CtaButtons from './cta_buttons';
@@ -78,9 +78,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     };
 
     const fetchVersion = async () => {
-        // TODO@Michel: replace this with the server API endpoint once the PR got merged
-        // @see https://github.com/mattermost/mattermost-server/pull/19366
-        const result = await fetch('https://api.github.com/repos/mattermost/mattermost-server/releases/latest').then((result) => result.json());
+        const result = await fetch('/api/v4/latest_version').then((result) => result.json());
 
         if (result.tag_name) {
             const sanitizedVersion = result.tag_name.startsWith('v') ? result.tag_name.slice(1) : result.tag_name;
@@ -136,15 +134,13 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     const data: DataModel = {
         updates: getUpdatesData({serverVersion: versionData}),
         configuration: getConfigurationData({
-            ssl: {status: location.protocol === 'https:' ? 'info' : 'error'},
-            sessionLength: {status: sessionLengthWebInDays >= 30 ? 'warning' : 'info'},
+            ssl: {status: location.protocol === 'https:' ? 'ok' : 'error'},
+            sessionLength: {status: sessionLengthWebInDays >= 30 ? 'warning' : 'ok'},
         }),
         access: getAccessData({siteUrl: {status: 'info'}}),
         performance: getPerformanceData({
             search: {
-                status: totalPosts < 2000000 && totalUsers < 500 ? 'warning' : 'ok',
-                totalPosts: totalPosts as number,
-                totalUsers: totalUsers as number,
+                status: totalPosts < 2_000_000 && totalUsers < 500 ? 'ok' : 'warning',
             },
         }),
         security: getSecurityData({loginAttempts: {status: 'warning', count: 24}}),
@@ -158,6 +154,11 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         info: 0,
         warning: 0,
         error: 0,
+    };
+
+    const overallScore = {
+        max: 0,
+        current: 0,
     };
 
     const accData: AccordionItemType[] = Object.entries(data).map(([accordionKey, accordionData]) => {
@@ -197,6 +198,10 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                 </AccordionItem>
             ));
 
+            // add the items impact to the overall score here
+            overallScore.max += item.scoreImpact;
+            overallScore.current += item.scoreImpact * item.impactModifier;
+
             // chips will only be displayed for info aka Success, warning and error aka Problems
             if (item.status && item.status !== 'none' && item.status !== 'ok') {
                 accordionDataChips[item.status] += 1;
@@ -213,7 +218,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         };
     });
 
-    return loading ? <p>{'Loading ...'}</p> : (
+    return loading ? <LoadingScreen/> : (
         <div className='WorkspaceOptimizationDashboard wrapper--fixed'>
             <FormattedAdminHeader
                 id={'admin.reporting.workspace_optimization.title'}
@@ -222,9 +227,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
             <div className='admin-console__wrapper'>
                 <OverallScore
                     chips={<ChipsList chipsData={overallScoreChips}/>}
-
-                    // @TODO: Remove - temp to see either the alert image or the circular chart
-                    chartValue={Math.floor(Math.random() * 100) + 1}
+                    chartValue={Math.floor((overallScore.current / overallScore.max) * 100)}
                 />
                 <Accordion
                     accordionItemsData={accData}
