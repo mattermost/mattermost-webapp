@@ -46,7 +46,7 @@ const OverallScore = ({
                     </div>
                 ) : (
                     <CircularChart
-                        value={chartValue}
+                        value={71}
                         isPercentage={false}
                         width={140}
                         height={140}

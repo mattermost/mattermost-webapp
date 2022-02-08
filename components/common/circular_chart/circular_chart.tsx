@@ -38,7 +38,7 @@ const CircularChart = ({
                 />
                 <text
                     x='18'
-                    y='20.35'
+                    y='20.70'
                     className='percentageOrNumber'
                 >
                     {`${value}${isPercentage ? ' %' : ''}`}
