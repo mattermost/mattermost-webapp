@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import React, {RefObject, useState} from 'react';
 
-import AccordionItem from './accordion_item';
+import AccordionCard from './accordion_card';
 import './accordion.scss';
 
 export type AccordionItemType = {
@@ -47,7 +47,7 @@ const Accordion = ({
             {accordionItemsData.map((accordionItem, index) => {
                 const isExpanded = Boolean((expandMultiple ? (currentIndexes.includes(index)) : (index === currentIndex)));
                 return (
-                    <AccordionItem
+                    <AccordionCard
                         key={index.toString()}
                         data={accordionItem}
                         isExpanded={isExpanded}
