@@ -1001,11 +1001,10 @@
         color: rgba(var(--sidebar-text-rgb), 0.6);
         list-style-type: none;
         opacity: 1;
-        transition-duration: 0.3s;
+        transition-duration: 0.18s;
         transition-property: height;
         transition-timing-function: ease;
         visibility: visible;
-        will-change: transform opacity;
 
         &:hover {
             .btn-close {
@@ -1101,7 +1100,7 @@
 
         &.expanded {
             animation-direction: normal;
-            animation-duration: 0.4s;
+            animation-duration: 0.15s;
             animation-fill-mode: forwards;
             animation-iteration-count: 1;
             animation-name: toOpaqueAnimation;
@@ -1111,7 +1110,7 @@
         &.collapsed {
             height: 0 !important;
             animation-direction: normal;
-            animation-duration: 0.4s;
+            animation-duration: 0.15s;
             animation-fill-mode: forwards;
             animation-iteration-count: 1;
             animation-name: toTransparentAnimation;
