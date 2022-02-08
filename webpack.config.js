@@ -296,7 +296,7 @@ var config = {
                 {from: 'images/c_avatar.png', to: 'images'},
                 {from: 'images/c_download.png', to: 'images'},
                 {from: 'images/c_socket.png', to: 'images'},
-                {from: 'images/admin-onboarding-background.png', to: 'images'},
+                {from: 'images/diagonal-pills-background.png', to: 'images'},
             ],
         }),
 

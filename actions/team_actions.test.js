@@ -9,7 +9,7 @@ import * as channelActions from 'mattermost-redux/actions/channels';
 import * as userActions from 'mattermost-redux/actions/users';
 import {ChannelTypes} from 'mattermost-redux/action_types';
 
-import * as Actions from 'actions/team_actions.jsx';
+import * as Actions from 'actions/team_actions';
 import {browserHistory} from 'utils/browser_history';
 
 jest.mock('mattermost-redux/actions/teams', () => ({

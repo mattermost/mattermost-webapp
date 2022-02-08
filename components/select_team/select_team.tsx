@@ -38,7 +38,7 @@ const TEAM_MEMBERSHIP_DENIAL_ERROR_ID = 'api.team.add_members.user_denied';
 type Actions = {
     getTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => any;
     loadRolesIfNeeded: (roles: Iterable<string>) => any;
-    addUserToTeam: (teamId: string, userId?: string) => any;
+    addUserToTeam: (teamId: string, userId: string) => any;
 }
 
 type Props = {

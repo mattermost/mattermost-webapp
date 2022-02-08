@@ -8,13 +8,15 @@ import {getCurrentChannelId, isManuallyUnread} from 'mattermost-redux/selectors/
 import {getUser} from 'mattermost-redux/actions/users';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {browserHistory} from 'utils/browser_history';
 import {Preferences} from 'utils/constants';
 import {selectTeam} from 'mattermost-redux/actions/teams';
+import {Team} from 'mattermost-redux/types/teams';
 
-export function removeUserFromTeamAndGetStats(teamId, userId) {
-    return async (dispatch, getState) => {
+export function removeUserFromTeamAndGetStats(teamId: string, userId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const response = await dispatch(TeamActions.removeUserFromTeam(teamId, userId));
         dispatch(getUser(userId));
         dispatch(TeamActions.getTeamStats(teamId));
@@ -23,8 +25,8 @@ export function removeUserFromTeamAndGetStats(teamId, userId) {
     };
 }
 
-export function addUserToTeamFromInvite(token, inviteId) {
-    return async (dispatch) => {
+export function addUserToTeamFromInvite(token: string, inviteId: string) {
+    return async (dispatch: DispatchFunc) => {
         const {data: member, error} = await dispatch(TeamActions.addUserToTeamFromInvite(token, inviteId));
         if (member) {
             const {data} = await dispatch(TeamActions.getTeam(member.team_id));
@@ -45,8 +47,8 @@ export function addUserToTeamFromInvite(token, inviteId) {
     };
 }
 
-export function addUserToTeam(teamId, userId) {
-    return async (dispatch) => {
+export function addUserToTeam(teamId: string, userId: string) {
+    return async (dispatch: DispatchFunc) => {
         const {data: member, error} = await dispatch(TeamActions.addUserToTeam(teamId, userId));
         if (member) {
             const {data} = await dispatch(TeamActions.getTeam(member.team_id));
@@ -67,8 +69,8 @@ export function addUserToTeam(teamId, userId) {
     };
 }
 
-export function addUsersToTeam(teamId, userIds) {
-    return async (dispatch, getState) => {
+export function addUsersToTeam(teamId: string, userIds: string[]) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const {data, error} = await dispatch(TeamActions.addUsersToTeamGracefully(teamId, userIds));
 
         if (error) {
@@ -81,8 +83,8 @@ export function addUsersToTeam(teamId, userIds) {
     };
 }
 
-export function switchTeam(url, setTeam = undefined) {
-    return (dispatch, getState) => {
+export function switchTeam(url: string, setTeam: string | Team | undefined = undefined): ActionFunc {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const currentChannelId = getCurrentChannelId(state);
         if (!isManuallyUnread(state, currentChannelId)) {
@@ -94,11 +96,12 @@ export function switchTeam(url, setTeam = undefined) {
         } else {
             browserHistory.push(url);
         }
+        return {data: true};
     };
 }
 
-export function updateTeamsOrderForUser(teamIds) {
-    return async (dispatch, getState) => {
+export function updateTeamsOrderForUser(teamIds: string[]): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const currentUserId = getCurrentUserId(state);
         const teamOrderPreferences = [{
@@ -108,5 +111,6 @@ export function updateTeamsOrderForUser(teamIds) {
             value: teamIds.join(','),
         }];
         dispatch(savePreferences(currentUserId, teamOrderPreferences));
+        return {data: true};
     };
 }

@@ -35,7 +35,7 @@ import {getCurrentProduct} from '../../selectors/products';
 
 import TeamButton from './components/team_button';
 
-type Actions = {
+export type Actions = {
     getTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => void;
     switchTeam: (url: string, team?: Team) => (dispatch: Dispatch<GenericAction>, getState: GetStateFunc) => void;
     updateTeamsOrderForUser: (teamIds: string[]) => (dispatch: Dispatch<GenericAction>, getState: GetStateFunc) => Promise<void>;

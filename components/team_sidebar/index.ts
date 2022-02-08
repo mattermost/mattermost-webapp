@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {withRouter} from 'react-router-dom';
 
@@ -19,17 +19,17 @@ import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entitie
 
 import {ClientConfig} from 'mattermost-redux/types/config';
 
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
 import {getCurrentLocale} from 'selectors/i18n';
 import {getIsLhsOpen} from 'selectors/lhs';
-import {switchTeam, updateTeamsOrderForUser} from 'actions/team_actions.jsx';
+import {switchTeam, updateTeamsOrderForUser} from 'actions/team_actions';
 import {Preferences} from 'utils/constants.jsx';
 import {GlobalState} from 'types/store';
 
 import {getThreadCounts} from 'mattermost-redux/selectors/entities/threads';
 
-import TeamSidebar from './team_sidebar';
+import TeamSidebar, {Actions} from './team_sidebar';
 
 function mapStateToProps(state: GlobalState) {
     const config: Partial<ClientConfig> = getConfig(state);
@@ -56,7 +56,7 @@ function mapStateToProps(state: GlobalState) {
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             getTeams,
             switchTeam,
             updateTeamsOrderForUser,

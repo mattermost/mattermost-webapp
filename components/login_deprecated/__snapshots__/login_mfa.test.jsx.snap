@@ -1,57 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/login/LoginMfa should match snapshot 1`] = `
-<form
-  onSubmit={[Function]}
->
-  <div
-    className="signup__email-container"
-  >
-    <p>
-      <MemoizedFormattedMessage
-        defaultMessage="To complete the sign in process, please enter a token from your smartphone's authenticator"
-        id="login_mfa.enterToken"
-      />
-    </p>
-    <div
-      className="form-group"
-    />
-    <div
-      className="form-group"
-    >
-      <LocalizedInput
-        autoComplete="off"
-        autoFocus={true}
-        className="form-control"
-        name="token"
-        onChange={[Function]}
-        placeholder={
-          Object {
-            "defaultMessage": "MFA Token",
-            "id": "login_mfa.token",
-          }
-        }
-        spellCheck="false"
-        type="text"
-      />
-    </div>
-    <div
-      className="form-group"
-    >
-      <SaveButton
-        btnClass="btn-primary"
-        defaultMessage="Submit"
-        disabled={false}
-        extraClasses=""
-        onClick={[Function]}
-        saving={false}
-        savingMessage="Submitting..."
-      />
-    </div>
-  </div>
-</form>
-`;
-
 exports[`components/login_deprecated/LoginMfa should match snapshot 1`] = `
 <form
   onSubmit={[Function]}
