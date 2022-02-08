@@ -9,7 +9,7 @@ import {emailToOAuth} from 'actions/admin_actions.jsx';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n.jsx';
-import LoginMfa from 'components/login/login_mfa.jsx';
+import LoginMfa from 'components/login_deprecated/login_mfa.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 export default class EmailToOAuth extends React.PureComponent {
