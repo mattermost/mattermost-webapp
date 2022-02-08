@@ -1218,6 +1218,20 @@ exports[`components/AdminSidebar should match snapshot with workspace optimizati
             }
           >
             <AdminSidebarSection
+              definitionKey="reporting.workspace_optimization"
+              key="reporting.workspace_optimization"
+              name="reporting/workspace_optimization"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Workspace Optimization"
+                  id="admin.sidebar.workspaceOptimization"
+                />
+              }
+            />
+            <AdminSidebarSection
               definitionKey="reporting.system_analytics"
               key="reporting.system_analytics"
               name="reporting/system_analytics"

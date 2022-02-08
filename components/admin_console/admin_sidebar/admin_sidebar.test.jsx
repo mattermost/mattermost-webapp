@@ -112,7 +112,7 @@ describe('components/AdminSidebar', () => {
             config: {
                 ...defaultProps.config,
                 FeatureFlags: {
-                    WorkspaceOptimizationDashboard: false,
+                    WorkspaceOptimizationDashboard: true,
                 },
             },
         };
