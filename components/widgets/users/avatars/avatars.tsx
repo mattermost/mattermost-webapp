@@ -20,6 +20,10 @@ import Avatar from 'components/widgets/users/avatar';
 
 import './avatars.scss';
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
+import ProfilePopover from '../../../profile_popover';
+import StatusIcon from '../../../status_icon';
+import OverlayTrigger, {BaseOverlayTrigger} from '../../../overlay_trigger';
+import * as Utils from '../../../../utils/utils';
 
 type Props = {
     userIds: Array<UserProfile['id']>;
@@ -28,6 +32,10 @@ type Props = {
     size?: ComponentProps<typeof Avatar>['size'];
     fetchMissingUsers?: boolean;
 };
+
+interface MMOverlayTrigger extends BaseOverlayTrigger {
+    hide: () => void;
+}
 
 const OTHERS_DISPLAY_LIMIT = 99;
 
@@ -59,18 +67,69 @@ function UserAvatar({
     const user = useSelector((state: GlobalState) => selectUser(state, userId)) as UserProfile | undefined;
     const name = useSelector((state: GlobalState) => displayNameGetter(state, true)(user));
 
+    const overlay = React.createRef<MMOverlayTrigger>();
+
+    const hideProfilePopover = () => {
+        if (overlay.current) {
+            overlay.current.hide();
+        }
+    };
+
+    const getProfilePictureURL = (): string => {
+        if (userId) {
+            return Utils.imageURLForUser(userId);
+        }
+        return '';
+    };
+
+    const profileSrc = getProfilePictureURL();
+
+    /*const profileSrc = (typeof this.props.profileSrc === 'string' && this.props.profileSrc !== '') ?
+        this.props.profileSrc :
+        this.props.src;
+
+    const profileIconClass = `profile-icon ${this.props.isEmoji ? 'emoji' : ''}`;
+
+    const hideStatus = this.props.isBot || this.props.fromAutoResponder || this.props.fromWebhook;*/
+
     return (
-        <SimpleTooltip
-            id={`name-${userId}`}
-            content={name}
-            {...overlayProps}
+        <OverlayTrigger
+            ref={overlay}
+            trigger='click'
+            placement='right'
+            rootClose={true}
+            overlay={
+                <ProfilePopover
+                    className='user-profile-popover'
+                    userId={userId}
+                    src={profileSrc}
+                    // isBusy={this.props.isBusy}
+                    // hide={this.hideProfilePopover}
+                    // isRHS={this.props.isRHS}
+                    // channelId={this.props.channelId}
+                    // hasMention={this.props.hasMention}
+                    // overwriteIcon={this.props.overwriteIcon}
+                    // overwriteName={this.props.overwriteName}
+                    // hideStatus={hideStatus}
+                />
+            }
         >
-            <Avatar
-                url={imageURLForUser(userId, user?.last_picture_update)}
-                tabIndex={0}
-                {...props}
-            />
-        </SimpleTooltip>
+            <button
+                className={'status-wrapper style--none'}
+                tabIndex={-1}
+            >
+                {/*<Avatar
+                                username={this.props.username}
+                                size={this.props.size}
+                                url={this.props.src}
+                            />*/}
+                <Avatar
+                    url={imageURLForUser(userId, user?.last_picture_update)}
+                    tabIndex={0}
+                    {...props}
+                />
+            </button>
+        </OverlayTrigger>
     );
 }
 
