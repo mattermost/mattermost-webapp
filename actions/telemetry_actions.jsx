@@ -4,7 +4,7 @@
 import {Client4} from 'mattermost-redux/client';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import reduxStore from 'stores/redux_store.jsx';
+import store from 'stores/redux_store.jsx';
 
 import {isDevMode} from 'utils/utils';
 
@@ -17,13 +17,13 @@ const SUPPORTS_MEASURE_METHODS = isSupported([
     performance.clearMeasures,
 ]);
 
-export function isTelemetryEnabled(store = reduxStore) {
-    const config = getConfig(store.getState());
+export function isTelemetryEnabled(state = store.getState()) {
+    const config = getConfig(state);
     return config.DiagnosticsEnabled === 'true';
 }
 
-export function shouldTrackPerformance(store = reduxStore) {
-    return isDevMode(store) || isTelemetryEnabled(store);
+export function shouldTrackPerformance(state = store.getState()) {
+    return isDevMode(state) || isTelemetryEnabled(state);
 }
 
 export function trackEvent(category, event, props) {
