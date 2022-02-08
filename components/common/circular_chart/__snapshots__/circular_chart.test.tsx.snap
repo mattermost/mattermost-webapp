@@ -22,7 +22,7 @@ exports[`/components/common/CircularChart should match snapshot 1`] = `
     <text
       className="percentageOrNumber"
       x="18"
-      y="20.35"
+      y="20.70"
     >
       75
     </text>
