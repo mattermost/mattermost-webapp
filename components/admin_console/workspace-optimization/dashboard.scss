@@ -14,6 +14,15 @@
     color: var(--sys-online-indicator);
 }
 
+.scoreGraph {
+    display: flex;
+    width: 112px;
+    height: 112px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
 .WorkspaceOptimizationDashboard {
     background-color: #fff;
 
@@ -70,17 +79,21 @@
         box-shadow: var(--elevation-1);
 
         &__scoreEllipseSvg {
+            display: flex;
             width: 140px;
             height: 140px;
+            align-items: center;
 
             .alertImageScore {
-                display: flex;
-                width: 112px;
-                height: 112px;
-                align-items: center;
-                justify-content: center;
+                @extend .scoreGraph;
+
                 background-color: rgba(var(--sys-error-text-color-rgb), 0.3);
-                border-radius: 50%;
+            }
+
+            .successImageScore {
+                @extend .scoreGraph;
+
+                background-color: rgba(var(--sys-online-indicator-rgb), 0.3);
             }
 
             .CircularChart {
@@ -241,15 +254,27 @@
 
                 &__chevron {
                     padding: 0;
-                    margin: 30px 30px 30px 0;
-                    font-size: 24px;
+                    margin: 32px 32px 32px 0;
+                    font-size: 20px;
                 }
             }
 
             .accordion-item-container {
                 &__content {
+                    padding: 16px 24px;
                     border-top: 1px solid rgba(63, 67, 80, 0.06);
                     background-color: rgb(255, 255, 255);
+
+                    div[class*=' AccordionItem'],
+                    div[class^='AccordionItem'] {
+                        padding: 16px 8px;
+
+                        i {
+                            margin-right: 4px;
+                            margin-left: -5px;
+                            font-size: 20px;
+                        }
+                    }
                 }
 
                 .ctaButtons {

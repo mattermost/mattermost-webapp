@@ -26,14 +26,11 @@ import CtaButtons from './cta_buttons';
 
 import './dashboard.scss';
 
-const AccordionItem = styled.div<{iconColor: string}>`
+const AccordionItem = styled.div`
     padding: 12px;
-    border-bottom: 1px solid #BBB;
-
     &:last-child {
         border-bottom: none;
     }
-
     h5 {
         display: inline-flex;
         align-items: center;
@@ -190,7 +187,6 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
             items.push((
                 <AccordionItem
                     key={`${accordionKey}-item_${item.id}`}
-                    iconColor={item.status}
                 >
                     <h5>
                         <i

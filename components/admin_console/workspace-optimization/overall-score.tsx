@@ -3,7 +3,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ExclamationThickIcon} from '@mattermost/compass-icons/components';
+import {CheckIcon, ExclamationThickIcon} from '@mattermost/compass-icons/components';
 
 import CircularChart from 'components/common/circular_chart/circular_chart';
 
@@ -34,25 +34,46 @@ const OverallScore = ({
             defaultMessage='Stay on top of optimizing your Mattermost workspace by reviewing your overall score below based on our recommended indicators of health and growth. Ensure your workspace is running smoothly so your users can get the most out of Mattermost.'
         />
     );
+
+    let scoreGraph;
+
+    switch (chartValue) {
+    case 0:
+        scoreGraph = (
+            <div className='alertImageScore'>
+                <ExclamationThickIcon
+                    size={48}
+                    color={'var(--sys-dnd-indicator)'}
+                />
+            </div>
+        );
+        break;
+    case 100:
+        scoreGraph = (
+            <div className='successImageScore'>
+                <CheckIcon
+                    size={48}
+                    color={'var(--sys-online-indicator)'}
+                />
+            </div>
+        );
+        break;
+    default:
+        scoreGraph = (
+            <CircularChart
+                value={chartValue}
+                isPercentage={false}
+                width={140}
+                height={140}
+                type={'success'}
+            />
+        );
+        break;
+    }
     return (
         <div className='OverallScore'>
             <div className='OverallScore__scoreEllipseSvg'>
-                {chartValue < 50 ? (
-                    <div className='alertImageScore'>
-                        <ExclamationThickIcon
-                            size={48}
-                            color={'var(--sys-dnd-indicator)'}
-                        />
-                    </div>
-                ) : (
-                    <CircularChart
-                        value={71}
-                        isPercentage={false}
-                        width={140}
-                        height={140}
-                        type={'success'}
-                    />
-                )}
+                {scoreGraph}
             </div>
             <div className='OverallScore__content'>
                 <div className='OverallScore__content__title'>
