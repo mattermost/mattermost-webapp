@@ -25,7 +25,7 @@ import {makeAsyncComponent} from 'components/async_load';
 import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
 import GlobalHeader from 'components/global_header/global_header';
 import ModalController from 'components/modal_controller';
-import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
+import {HFTRouteNew, HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
 
@@ -46,6 +46,8 @@ const LazyAdminConsole = React.lazy(() => import('components/admin_console'));
 const LazyLoggedIn = React.lazy(() => import('components/logged_in'));
 const LazyPasswordResetSendLink = React.lazy(() => import('components/password_reset_send_link'));
 const LazyPasswordResetForm = React.lazy(() => import('components/password_reset_form'));
+const LazySignupControllerDeprecated = React.lazy(() => import('components/signup_deprecated/signup_controller'));
+const LazySignupEmailDeprecated = React.lazy(() => import('components/signup_deprecated/signup_email'));
 const LazySignupController = React.lazy(() => import('components/signup/signup_controller'));
 const LazySignupEmail = React.lazy(() => import('components/signup/signup_email'));
 const LazyTermsOfService = React.lazy(() => import('components/terms_of_service'));
@@ -82,6 +84,8 @@ const AdminConsole = makeAsyncComponent('AdminConsole', LazyAdminConsole);
 const LoggedIn = makeAsyncComponent('LoggedIn', LazyLoggedIn);
 const PasswordResetSendLink = makeAsyncComponent('PasswordResedSendLink', LazyPasswordResetSendLink);
 const PasswordResetForm = makeAsyncComponent('PasswordResetForm', LazyPasswordResetForm);
+const SignupControllerDeprecated = makeAsyncComponent('SignupControllerDeprecated', LazySignupControllerDeprecated);
+const SignupEmailDeprecated = makeAsyncComponent('SignupEmailDeprecated', LazySignupEmailDeprecated);
 const SignupController = makeAsyncComponent('SignupController', LazySignupController);
 const SignupEmail = makeAsyncComponent('SignupEmail', LazySignupEmail);
 const ShouldVerifyEmail = makeAsyncComponent('ShouldVerifyEmail', LazyShouldVerifyEmail);
@@ -397,7 +401,7 @@ export default class Root extends React.PureComponent {
                     />
                     {useCaseOnboarding ?
                         (
-                            <Route
+                            <HFTRouteNew
                                 path={'/login'}
                                 component={LoginController}
                             />
@@ -417,14 +421,36 @@ export default class Root extends React.PureComponent {
                         path={'/reset_password_complete'}
                         component={PasswordResetForm}
                     />
-                    <HFTRoute
-                        path={'/signup_user_complete'}
-                        component={SignupController}
-                    />
-                    <HFTRoute
-                        path={'/signup_email'}
-                        component={SignupEmail}
-                    />
+                    {
+                        useCaseOnboarding ?
+                            (
+                                <HFTRouteNew
+                                    path={'/signup_user_complete'}
+                                    component={SignupController}
+                                />
+                            ) :
+                            (
+                                <HFTRoute
+                                    path={'/signup_user_complete'}
+                                    component={SignupControllerDeprecated}
+                                />
+                            )
+                    }
+                    {
+                        useCaseOnboarding ?
+                            (
+                                <HFTRouteNew
+                                    path={'/signup_email'}
+                                    component={SignupEmail}
+                                />
+                            ) :
+                            (
+                                <HFTRoute
+                                    path={'/signup_email'}
+                                    component={SignupEmailDeprecated}
+                                />
+                            )
+                    }
                     <HFTRoute
                         path={'/should_verify_email'}
                         component={ShouldVerifyEmail}
