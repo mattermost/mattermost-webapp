@@ -54,7 +54,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     const [loading, setLoading] = useState(true);
     const [versionData, setVersionData] = useState<{type: string; version: string; status: ItemStatus}>({type: '', version: '', status: 'none'});
     const {formatMessage} = useIntl();
-    const {getAccessData, getConfigurationData, getUpdatesData, getPerformanceData, getSecurityData, getDataPrivacyData, getEaseOfManagementData} = useMetricsData();
+    const {getAccessData, getConfigurationData, getUpdatesData, getPerformanceData, getDataPrivacyData, getEaseOfManagementData} = useMetricsData();
 
     // get the currently installed server version
     const installedVersion = useSelector((state: GlobalState) => getServerVersion(state));
@@ -153,7 +153,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         }),
 
         // TBD
-        security: getSecurityData({loginAttempts: {status: 'warning', count: 24}}),
+        // security: getSecurityData({loginAttempts: {status: 'warning', count: 24}}),
         dataPrivacy: getDataPrivacyData({retention: {status: dataRetentionEnabled ? 'ok' : 'warning'}}),
         easyManagement: getEaseOfManagementData({
             ldap: {status: totalUsers > 500 ? 'warning' : 'ok'},

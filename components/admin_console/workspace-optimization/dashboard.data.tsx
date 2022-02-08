@@ -254,53 +254,6 @@ const useMetricsData = () => {
         ],
     });
 
-    // we decided to postpone development of this for now, since it would introduce a lot of complexity on back- and frontend
-    // type SecurityParam = {
-    //     loginAttempts: {
-    //         count: number;
-    //         status: ItemStatus;
-    //     };
-    // }
-    //
-    // // TBD
-    // const getSecurityData = (data: SecurityParam) => ({
-    //     title: formatMessage({
-    //         id: 'admin.reporting.workspace_optimization.security.title',
-    //         defaultMessage: 'Security Concerns',
-    //     }),
-    //     description: formatMessage({
-    //         id: 'admin.reporting.workspace_optimization.security.description',
-    //         defaultMessage: 'There are security concerns you should look at.',
-    //     }),
-    //     icon: (
-    //         <div className='icon'>
-    //             <ShieldAlertOutlineIcon
-    //                 size={20}
-    //                 color={'var(--sys-center-channel-color'}
-    //             />
-    //         </div>
-    //     ),
-    //     items: [
-    //         {
-    //             id: 'login-attempts',
-    //             title: formatMessage({
-    //                 id: 'admin.reporting.workspace_optimization.security.login_attempts.title',
-    //                 defaultMessage: 'Failed login attempts detected',
-    //             }),
-    //             description: formatMessage({
-    //                 id: 'admin.reporting.workspace_optimization.security.login_attempts.description',
-    //                 defaultMessage: '{attempts} failed login attempts have been detected on this workspace. We recommend reviewing your security logs to understand this security risk.',
-    //             }, {attempts: data.loginAttempts.count}),
-    //             configUrl: '/admin_console/reporting/server_logs',
-    //             configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.viewServerLogs', defaultMessage: 'View Server Logs'}),
-    //             telemetryAction: 'login-attempts',
-    //             status: data.loginAttempts.status,
-    //             scoreImpact: 10,
-    //             impactModifier: impactModifiers[data.loginAttempts.status],
-    //         },
-    //     ],
-    // });
-
     type DataPrivacyParam = {
         retention: {
             status: ItemStatus;
