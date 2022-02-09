@@ -84,6 +84,7 @@ const ProductMenu = (): JSX.Element => {
                     <ProductBranding/>
                 </ProductMenuContainer>
                 <Menu
+                    listId={'product-switcher-menu-dropdown'}
                     className={'product-switcher-menu'}
                     ariaLabel={'switcherOpen'}
                 >

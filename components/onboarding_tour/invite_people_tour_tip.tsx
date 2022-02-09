@@ -13,7 +13,7 @@ import {
 import {setAddChannelDropdown} from '../../actions/views/add_channel_dropdown';
 import {useMeasurePunchouts} from '../tutorial_tour_tip/hooks';
 
-export const InvitePeopleTour = () => {
+const InvitePeopleTour = () => {
     const dispatch = useDispatch();
     const telemetryTagText = `tutorial_tip_${OnBoardingTourSteps.INVITE_PEOPLE}_Invite_People`;
 
@@ -62,3 +62,4 @@ export const InvitePeopleTour = () => {
     );
 };
 
+export default InvitePeopleTour;

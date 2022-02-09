@@ -16,8 +16,11 @@ import PulsatingDot from 'components/widgets/pulsating_dot';
 import TutorialTourTipBackdrop, {TutorialTourTipPunchout} from './tutorial_tour_tip_backdrop';
 import useTutorialTourTipManager from './tutorial_tour_tip_manager';
 import './tutorial_tour_tip.scss';
+import {getLastStep} from './utils';
 
 const rootPortal = document.getElementById('root-portal');
+
+export type DataEventSource = 'next' | 'prev' | 'dismiss' | 'jump' | 'skipped'
 
 const TourTipOverlay = ({children, show, onClick}: {children: React.ReactNode ; show: boolean; onClick: (e: React.MouseEvent) => void}) =>
     (show ? ReactDOM.createPortal(
@@ -40,13 +43,18 @@ type Props = {
     step: number;
     singleTip?: boolean;
     showOptOut?: boolean;
+    showNextBtn?: boolean;
+    showPrevBtn?: boolean;
     placement?: Placement;
     telemetryTag?: string;
-    stopPropagation?: boolean;
+    eventPropagation?: boolean;
     preventDefault?: boolean;
     tutorialCategory: string;
     onNextNavigateTo?: () => void;
     onPrevNavigateTo?: () => void;
+    onPunchOutClick?: () => void;
+    handleSaveData?: (source?: DataEventSource, step?: number, autoTourStatus?: boolean) => void;
+    extraFunc?: (source?: DataEventSource, step?: string,) => void;
     onDismiss?: () => void;
     autoTour?: boolean;
     pulsatingDotPlacement?: Omit<Placement, 'auto'| 'auto-end'>;
@@ -67,14 +75,19 @@ const TutorialTourTip = ({
     step,
     onNextNavigateTo,
     onPrevNavigateTo,
+    handleSaveData,
+    extraFunc,
     onDismiss,
+    onPunchOutClick,
     telemetryTag,
     pulsatingDotTranslate,
     pulsatingDotPlacement,
+    showNextBtn = true,
+    showPrevBtn = true,
     offset = [-18, 4],
     placement = 'right-start',
     showOptOut = true,
-    stopPropagation = true,
+    eventPropagation = false,
     preventDefault = true,
     width = 320,
     zIndex = 999,
@@ -87,9 +100,9 @@ const TutorialTourTip = ({
         handleDismiss,
         handleNext,
         handlePrevious,
+        handlePunchOutClick,
         handleSkipTutorial,
         handleSavePreferences,
-        getLastStep,
     } = useTutorialTourTipManager({
         step,
         autoTour,
@@ -97,8 +110,11 @@ const TutorialTourTip = ({
         tutorialCategory,
         onNextNavigateTo,
         onPrevNavigateTo,
+        onPunchOutClick,
+        handleSaveData,
+        extraFunc,
         onDismiss,
-        stopPropagation,
+        eventPropagation,
         preventDefault,
     });
 
@@ -122,7 +138,7 @@ const TutorialTourTip = ({
             return buttonText;
         }
 
-        const lastStep = getLastStep();
+        const lastStep = getLastStep(tourSteps);
         if (step === lastStep) {
             buttonText = (
                 <FormattedMessage
@@ -185,11 +201,11 @@ const TutorialTourTip = ({
                     />
                 </div>
             )}
-            <div className='tutorial-tour-tip__footer'>
+            {(showNextBtn || showPrevBtn || showOptOut) && (<div className='tutorial-tour-tip__footer'>
                 <div className='tutorial-tour-tip__footer-buttons'>
                     <div className='tutorial-tour-tip__circles-ctr'>{dots}</div>
                     <div className={'tutorial-tour-tip__btn-ctr'}>
-                        {step !== 0 && (
+                        {step !== 0 && showPrevBtn && (
                             <button
                                 id='tipPreviousButton'
                                 className='tutorial-tour-tip__btn tutorial-tour-tip__cancel-btn'
@@ -202,31 +218,36 @@ const TutorialTourTip = ({
                                 />
                             </button>
                         )}
-                        <button
-                            id='tipNextButton'
-                            className='tutorial-tour-tip__btn tutorial-tour-tip__confirm-btn'
-                            onClick={handleNext}
-                        >
-                            {getButtonText()}
-                        </button>
+                        {showNextBtn && (
+                            <button
+                                id='tipNextButton'
+                                className='tutorial-tour-tip__btn tutorial-tour-tip__confirm-btn'
+                                onClick={handleNext}
+                            >
+                                {getButtonText()}
+                            </button>
+                        )}
                     </div>
                 </div>
-                {showOptOut && <div className='tutorial-tour-tip__opt'>
-                    <FormattedMessage
-                        id='tutorial_tip.seen'
-                        defaultMessage='Seen this before? '
-                    />
-                    <a
-                        href='#'
-                        onClick={handleSkipTutorial}
-                    >
+                {showOptOut && (
+                    <div className='tutorial-tour-tip__opt'>
                         <FormattedMessage
-                            id='tutorial_tip.out'
-                            defaultMessage='Opt out of these tips.'
+                            id='tutorial_tip.seen'
+                            defaultMessage='Seen this before? '
                         />
-                    </a>
-                </div>}
+                        <a
+                            href='#'
+                            onClick={handleSkipTutorial}
+                        >
+                            <FormattedMessage
+                                id='tutorial_tip.out'
+                                defaultMessage='Opt out of these tips.'
+                            />
+                        </a>
+                    </div>
+                )}
             </div>
+            )}
         </>
     );
 
@@ -245,9 +266,10 @@ const TutorialTourTip = ({
             </div>
             <TourTipOverlay
                 show={show}
-                onClick={handleDismiss}
+                onClick={onPunchOutClick ? handlePunchOutClick : handleDismiss}
             >
                 <TutorialTourTipBackdrop
+                    handleClick={onPunchOutClick ? handleDismiss : undefined}
                     x={(punchOut === 'Full') ? '' : punchOut?.x}
                     y={(punchOut === 'Full') ? '' : punchOut?.y}
                     width={(punchOut === 'Full') ? '' : punchOut?.width}

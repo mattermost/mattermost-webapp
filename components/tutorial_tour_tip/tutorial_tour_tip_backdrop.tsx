@@ -9,9 +9,10 @@ export type Coords = {
 export type TutorialTourTipPunchout = Coords & {
     width?: string;
     height?: string;
+    handleClick?: (e: React.MouseEvent) => void;
 }
 
-const TutorialTourTipBackdrop = ({x, y, width, height}: TutorialTourTipPunchout) => {
+const TutorialTourTipBackdrop = ({x, y, width, height, handleClick}: TutorialTourTipPunchout) => {
     if (!x || !y || !width || !height) {
         return (
             <div
@@ -42,6 +43,7 @@ const TutorialTourTipBackdrop = ({x, y, width, height}: TutorialTourTipPunchout)
 
     return (
         <div
+            onClick={handleClick}
             className={'tutorial-tour-tip__backdrop'}
             style={{
                 clipPath: `polygon(${vertices.join(', ')})`,

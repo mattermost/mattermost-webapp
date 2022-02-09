@@ -37,6 +37,7 @@ describe('components/global/product_switcher_menu', () => {
         canManageSystemBots: false,
         canManageIntegrations: true,
         enablePluginMarketplace: false,
+        showVisitSystemConsoleTour: false,
         onClick: () => jest.fn,
     };
 

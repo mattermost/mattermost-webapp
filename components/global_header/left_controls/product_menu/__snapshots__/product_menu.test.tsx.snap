@@ -19,6 +19,7 @@ exports[`components/global/product_switcher should have an active button state w
     <Menu
       ariaLabel="switcherOpen"
       className="product-switcher-menu"
+      listId="product-switcher-menu-dropdown"
     >
       <ProductMenuItem
         active={true}
@@ -107,6 +108,7 @@ exports[`components/global/product_switcher should match snapshot with product s
     <Menu
       ariaLabel="switcherOpen"
       className="product-switcher-menu"
+      listId="product-switcher-menu-dropdown"
     >
       <ProductMenuItem
         active={true}
@@ -159,6 +161,7 @@ exports[`components/global/product_switcher should render once when there are no
     <Menu
       ariaLabel="switcherOpen"
       className="product-switcher-menu"
+      listId="product-switcher-menu-dropdown"
     >
       <ProductMenuItem
         active={true}
@@ -211,6 +214,7 @@ exports[`components/global/product_switcher should render the correct amount of 
     <Menu
       ariaLabel="switcherOpen"
       className="product-switcher-menu"
+      listId="product-switcher-menu-dropdown"
     >
       <ProductMenuItem
         active={true}

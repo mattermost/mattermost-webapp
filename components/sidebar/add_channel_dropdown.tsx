@@ -11,7 +11,7 @@ import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import CreateAndJoinChannelsTour from 'components/onboarding_tour/create_and_join_channels_tour_tip';
-import {InvitePeopleTour} from 'components/onboarding_tour/invite_people_tour_tip';
+import InvitePeopleTour from 'components/onboarding_tour/invite_people_tour_tip';
 
 type Props = {
     canCreateChannel: boolean;

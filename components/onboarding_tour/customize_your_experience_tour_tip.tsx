@@ -30,7 +30,7 @@ const CustomizeYourExperienceTour = () => {
         </p>
     );
 
-    const punchOut = useMeasurePunchouts(['RightControlsContainer'], [], {y: 6, height: 6, x: 74, width: 0}) || null;
+    const punchOut = useMeasurePunchouts(['RightControlsContainer'], [], {y: 6, height: -6, x: 64, width: 0}) || null;
 
     return (
         <TutorialTourTip

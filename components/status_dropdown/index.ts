@@ -8,7 +8,7 @@ import {setStatus, unsetCustomStatus} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {Preferences} from 'mattermost-redux/constants';
 
-import {get, getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {get, getBool, getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {openModal} from 'actions/views/modals';
@@ -19,6 +19,11 @@ import {makeGetCustomStatus, isCustomStatusEnabled, showStatusDropdownPulsatingD
 import {isStatusDropdownOpen} from 'selectors/views/status_dropdown';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'types/store';
+import {
+    OnBoardingTaskCategory,
+    OnBoardingTaskName,
+    TaskNameMapToSteps,
+} from 'components/onboarding_tasks/constant';
 
 import StatusDropdown from './status_dropdown';
 
@@ -31,6 +36,8 @@ function makeMapStateToProps() {
         const userId = currentUser?.id;
         const customStatus = getCustomStatus(state, userId);
         const isMilitaryTime = getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false);
+        const step = getInt(state, OnBoardingTaskCategory, OnBoardingTaskName.COMPLETE_YOUR_PROFILE, 0);
+        const showCompleteYourProfileTour = step === TaskNameMapToSteps[OnBoardingTaskName.COMPLETE_YOUR_PROFILE].STARTED;
         return {
             userId,
             profilePicture: Client4.getProfilePictureUrl(userId, currentUser?.last_picture_update),
@@ -43,6 +50,7 @@ function makeMapStateToProps() {
             isMilitaryTime,
             isStatusDropdownOpen: isStatusDropdownOpen(state),
             showCustomStatusPulsatingDot: showStatusDropdownPulsatingDot(state),
+            showCompleteYourProfileTour,
             timezone: getCurrentUserTimezone(state),
         };
     };

@@ -3,6 +3,8 @@
 
 import {connect} from 'react-redux';
 
+import {getInt} from 'mattermost-redux/selectors/entities/preferences';
+
 import {
     getConfig,
     getFirstAdminVisitMarketplaceStatus,
@@ -12,6 +14,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
 import {GlobalState} from 'types/store';
+import {OnBoardingTaskCategory, OnBoardingTaskName, TaskNameMapToSteps} from 'components/onboarding_tasks/constant';
 
 import ProductMenuList from './product_menu_list';
 
@@ -30,6 +33,8 @@ function mapStateToProps(state: GlobalState) {
     const canManageTeamIntegrations = (haveICurrentTeamPermission(state, Permissions.MANAGE_SLASH_COMMANDS) || haveICurrentTeamPermission(state, Permissions.MANAGE_OAUTH) || haveICurrentTeamPermission(state, Permissions.MANAGE_INCOMING_WEBHOOKS) || haveICurrentTeamPermission(state, Permissions.MANAGE_OUTGOING_WEBHOOKS));
     const canManageSystemBots = (haveISystemPermission(state, {permission: Permissions.MANAGE_BOTS}) || haveISystemPermission(state, {permission: Permissions.MANAGE_OTHERS_BOTS}));
     const canManageIntegrations = canManageTeamIntegrations || canManageSystemBots;
+    const step = getInt(state, OnBoardingTaskCategory, OnBoardingTaskName.COMPLETE_YOUR_PROFILE, 0);
+    const showVisitSystemConsoleTour = step === TaskNameMapToSteps[OnBoardingTaskName.VISIT_SYSTEM_CONSOLE].STARTED;
 
     return {
         isMobile: state.views.channel.mobileView,
@@ -47,6 +52,7 @@ function mapStateToProps(state: GlobalState) {
         teamName: currentTeam.name,
         currentUser,
         firstAdminVisitMarketplaceStatus: getFirstAdminVisitMarketplaceStatus(state),
+        showVisitSystemConsoleTour,
     };
 }
 

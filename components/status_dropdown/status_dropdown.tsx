@@ -35,6 +35,7 @@ import {ModalData} from 'types/actions';
 import {Constants, ModalIdentifiers, UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {getCurrentDateTimeForTimezone, getCurrentMomentForTimezone} from 'utils/timezone';
+import CompleteYourProfileTour from 'components/onboarding_tasks/complete_your_profile_tour_tip';
 import {localizeMessage} from 'utils/utils.jsx';
 import './status_dropdown.scss';
 import Tooltip from 'components/tooltip';
@@ -56,6 +57,7 @@ type Props = {
     isCustomStatusExpired: boolean;
     isMilitaryTime: boolean;
     isStatusDropdownOpen: boolean;
+    showCompleteYourProfileTour: boolean;
     showCustomStatusPulsatingDot: boolean;
     timezone?: string;
     globalHeader?: boolean;
@@ -423,6 +425,7 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                 <Menu
                     ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
                     id={'statusDropdownMenu'}
+                    listId={'status-drop-down-menu-list'}
                 >
                     {globalHeader && currentUser && (
                         <Menu.Header>
@@ -519,7 +522,9 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                                     glyph={'account-outline'}
                                 />
                             ) : <i className='fa fa-cog'/>}
-                        />
+                        >
+                            {this.props.showCompleteYourProfileTour && (<CompleteYourProfileTour/>)}
+                        </Menu.ItemToggleModalRedux>
                     </Menu.Group>
                     <Menu.Group>
                         <Menu.ItemAction

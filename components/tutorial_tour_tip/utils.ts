@@ -1,5 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import {FINISHED} from './constant';
+
 export const KeyCodes: Record<string, [string, number]> = {
     ENTER: ['Enter', 13],
     COMPOSING: ['Composing', 229],
@@ -26,3 +28,13 @@ export function isKeyPressed(event: KeyboardEvent, key: [string, number]): boole
     // used for different language keyboards to detect the position of keys
     return event.keyCode === key[1];
 }
+
+export const getLastStep = (Steps: Record<string, number>) => {
+    return Object.values(Steps).reduce((maxStep, candidateMaxStep) => {
+        // ignore the "opt out" FINISHED step as the max step.
+        if (candidateMaxStep > maxStep && candidateMaxStep !== FINISHED) {
+            return candidateMaxStep;
+        }
+        return maxStep;
+    }, Number.MIN_SAFE_INTEGER);
+};
