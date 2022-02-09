@@ -4,9 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import LoginMfa from './login_mfa.jsx';
+import LoginMfa from 'components/login/login_mfa.jsx';
 
-describe('components/login_deprecated/LoginMfa', () => {
+describe('components/login/LoginMfa', () => {
     const baseProps = {
         loginId: 'logid_id',
         password: 'password',
