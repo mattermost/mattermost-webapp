@@ -74,7 +74,13 @@ describe('components/admin_console/billing/plan_details', () => {
             </WrapperComponent>,
         );
 
-        const wrappers = [wrapperProfessional, wrapperEnterprise, wrapperStarter];
+        const wrapperFreeTier = shallow(
+            <WrapperComponent>
+                {featureList(CloudProducts.PROFESSIONAL, false)}
+            </WrapperComponent>,
+        );
+
+        const wrappers = [wrapperProfessional, wrapperEnterprise, wrapperStarter, wrapperFreeTier];
 
         wrappers.forEach((wrapper: ShallowWrapper<typeof WrapperComponent>) => {
             const featuresSpanElements = wrapper.find('div.PlanDetails__feature > span');
