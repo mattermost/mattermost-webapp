@@ -26,7 +26,8 @@ const Carousel: React.FC<Props> = ({
     const nextSlide = () => {
         setPrevButtonDisabled(false);
 
-        const newSlideIndex = slideIndex === dataSlides.length && infiniteSlide ? 1 : (slideIndex !== dataSlides.length && slideIndex + 1) || undefined;
+        const isLastIndex = slideIndex === dataSlides.length;
+        const newSlideIndex = isLastIndex && infiniteSlide ? 1 : (!isLastIndex && slideIndex + 1) || undefined;
 
         if (newSlideIndex) {
             setSlideIndex(newSlideIndex);
@@ -40,7 +41,8 @@ const Carousel: React.FC<Props> = ({
     const prevSlide = () => {
         setNextButtonDisabled(false);
 
-        const newSlideIndex = slideIndex === 1 && infiniteSlide ? dataSlides.length : (slideIndex !== 1 && slideIndex - 1) || undefined;
+        const isFirstSlide = slideIndex === 1;
+        const newSlideIndex = isFirstSlide && infiniteSlide ? dataSlides.length : (!isFirstSlide && slideIndex - 1) || undefined;
 
         if (newSlideIndex) {
             setSlideIndex(newSlideIndex);
