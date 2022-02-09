@@ -10,8 +10,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import BlockableLink from 'components/admin_console/blockable_link';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
-import UpgradeSvg from 'components/common/svg_images_components/upgrade.svg';
-import EmptyBillingHistorySvg from 'components/common/svg_images_components/empty_billing_history.svg';
+import UpgradeSvg from 'components/common/svg_images_components/upgrade_svg';
+import EmptyBillingHistorySvg from 'components/common/svg_images_components/empty_billing_history_svg';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
