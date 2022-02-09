@@ -91,6 +91,11 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
     }, [props.searchTerms]);
 
     useEffect(() => {
+        // reset search type when switching views
+        setSearchType(props.searchType);
+    }, [props.isFlaggedPosts, props.isPinnedPosts, props.isMentionSearch]);
+
+    useEffect(() => {
         // after the first page of search results, there is no way to
         // know if the search has more results to return, so we search
         // for the second page and stop if it yields no results
