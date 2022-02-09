@@ -70,7 +70,7 @@ describe('Custom emojis', () => {
         cy.uiSave().wait(TIMEOUTS.THREE_SEC);
 
         // # Go back to home channel
-        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(townsquareLink);
 
         // # Open emoji picker
         cy.uiOpenEmojiPicker();
@@ -108,7 +108,7 @@ describe('Custom emojis', () => {
         cy.uiSave().wait(TIMEOUTS.THREE_SEC);
 
         // # Go back to home channel
-        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(townsquareLink);
 
         // # Post a message with the emoji
         cy.postMessage(customEmojiWithColons);
@@ -155,7 +155,7 @@ describe('Custom emojis', () => {
         });
 
         // # Go back to home channel
-        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.TWO_SEC);
+        cy.visit(townsquareLink);
 
         cy.reload().wait(TIMEOUTS.FIVE_SEC);
 

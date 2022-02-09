@@ -9,4 +9,5 @@ export default keyMirror({
     FOLLOW_CHANGED_THREAD: null,
     READ_CHANGED_THREAD: null,
     ALL_TEAM_THREADS_READ: null,
+    DECREMENT_THREAD_COUNTS: null,
 });

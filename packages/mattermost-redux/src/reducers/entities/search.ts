@@ -71,7 +71,7 @@ function matches(state: Record<string, string[]> = {}, action: GenericAction) {
     }
     case SearchTypes.REMOVE_SEARCH_POSTS:
     case UserTypes.LOGOUT_SUCCESS:
-        return [];
+        return {};
 
     default:
         return state;
@@ -205,7 +205,7 @@ function pinned(state: Record<string, string[]> = {}, action: GenericAction) {
         return state;
     }
     case UserTypes.LOGOUT_SUCCESS:
-        return [];
+        return {};
 
     default:
         return state;
