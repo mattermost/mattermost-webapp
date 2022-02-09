@@ -32,16 +32,19 @@ describe('Handle new post', () => {
         });
     });
 
-    it('should mark channel as unread when a message is sent in another channel', () => {
-        // * Verify that the channel starts read
-        cy.visit(`/${team1.name}/channels/${channel1.name}`);
+    it('MM-T4609 - should mark channel as unread when a message is sent in another channel', () => {
+        // # Explicitly click over to the test channel from Town Square
+        // # to dismiss the unread + badge from adding `user` to the channel
+        cy.get(`#sidebarItem_${channel1.name}`).click();
+
+        // * Verify those are now gone
         cy.get(`#sidebarItem_${channel1.name}`).should(beRead);
         cy.get(`#sidebarItem_${channel1.name} .badge`).should('not.exist');
 
-        // # Switch away from the channel
+        // # Switch back to Town Square
         cy.get('#sidebarItem_town-square').click();
 
-        // # Have another user post in the channel
+        // # Have another user post in the test channel
         cy.postMessageAs({sender: admin, message: 'post', channelId: channel1.id});
 
         // * Verify that the channel is now unread
@@ -49,16 +52,20 @@ describe('Handle new post', () => {
         cy.get(`#sidebarItem_${channel1.name} .badge`).should('not.exist');
     });
 
-    it('should show the mention badge when a mention is sent in another channel', () => {
-        // * Verify that the channel starts read
-        cy.visit(`/${team1.name}/channels/${channel1.name}`);
+    it('MM-T4610 - should show the mention badge when a mention is sent in another channel', () => {
+        // # Explicitly click over to the test channel from Town Square
+        // # to dismiss the unread + badge from the end of the previous test
+        // # (maybe should use a new channel but then the same thing has to be done
+        // # for that anyways)
+        cy.get(`#sidebarItem_${channel1.name}`).click();
+
         cy.get(`#sidebarItem_${channel1.name}`).should(beRead);
         cy.get(`#sidebarItem_${channel1.name} .badge`).should('not.exist');
 
-        // # Switch away from the channel
+        // # Switch back to Town Square
         cy.get('#sidebarItem_town-square').click();
 
-        // # Have another user post in the channel
+        // # Have another user post in the test channel
         cy.postMessageAs({sender: admin, message: `@${user1.username}`, channelId: channel1.id});
 
         // * Verify that the channel is now unread with one mention
@@ -73,7 +80,7 @@ describe('Handle new post', () => {
         cy.get(`#sidebarItem_${channel1.name} .badge`).should('exist').contains('2');
     });
 
-    it('should show the mention badge when added to another channel', () => {
+    it('MM-T2015 - should show the mention badge when added to another channel', () => {
         const baseUrl = Cypress.config('baseUrl');
 
         // # Have another user create a new channel
