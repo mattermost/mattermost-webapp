@@ -5,8 +5,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
-
 import {LicenseSkus} from 'mattermost-redux/types/general';
+
 import {Constants} from 'utils/constants';
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n';
@@ -359,7 +359,7 @@ const AdminDefinition = {
                 id: 'WorkspaceOptimizationDashboard',
                 component: WorkspaceOptimizationDashboard,
             },
-            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.REPORTING.SITE_STATISTICS)),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.REPORTING.SITE_STATISTICS)) && it.configIsFalse('FeatureFlags', 'WorkspaceOptimizationDashboard'),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.REPORTING.SITE_STATISTICS)),
         },
         system_analytics: {
