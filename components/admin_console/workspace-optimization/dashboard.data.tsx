@@ -14,7 +14,6 @@ import {
     TuneIcon,
     LockIcon,
     AccountMultipleOutlineIcon,
-    ShieldAlertOutlineIcon,
 } from '@mattermost/compass-icons/components';
 
 import {GlobalState} from 'mattermost-redux/types/store';
@@ -68,7 +67,6 @@ const useMetricsData = () => {
     const trialOrEnterpriseCtaConfig = {
         configUrl: ConsolePages.LICENSE,
         configText: prevTrialLicense?.IsLicensed === 'true' ? formatMessage({id: 'admin.reporting.workspace_optimization.cta.upgradeLicense', defaultMessage: 'Upgrade to Enterprise'}) : formatMessage({id: 'admin.reporting.workspace_optimization.cta.startTrial', defaultMessage: 'Start Trial'}),
-        telemetryAction: 'set_here_the_telemetry_action',
     };
 
     const getUpdatesData = (data: UpdatesParam) => ({
@@ -101,7 +99,7 @@ const useMetricsData = () => {
                 }, {version: data.serverVersion.version}),
                 configUrl: 'https://docs.mattermost.com/upgrade/upgrading-mattermost-server.html',
                 configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.downloadUpdate', defaultMessage: 'Download Update'}),
-                telemetryAction: 'set_here_the_telemetry_action',
+                telemetryAction: 'server-version',
                 status: data.serverVersion.status,
                 scoreImpact: 15,
                 impactModifier: impactModifiers[data.serverVersion.status],
@@ -140,9 +138,9 @@ const useMetricsData = () => {
                     id: 'admin.reporting.workspace_optimization.configuration.ssl.description',
                     defaultMessage: 'Make your server more secure by configuring SSL.',
                 }),
-                telemetryAction: 'set_here_the_telemetry_action',
                 infoUrl: 'https://docs.mattermost.com/onboard/ssl-client-certificate.html',
                 infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),
+                telemetryAction: 'ssl',
                 status: data.ssl.status,
                 scoreImpact: 25,
                 impactModifier: impactModifiers[data.ssl.status],
@@ -159,7 +157,7 @@ const useMetricsData = () => {
                 }),
                 configUrl: ConsolePages.SESSION_LENGTHS,
                 configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.configureSessionLength', defaultMessage: 'Configure Session Length'}),
-                telemetryAction: 'set_here_the_telemetry_action',
+                telemetryAction: 'session-length',
                 status: data.sessionLength.status,
                 scoreImpact: 8,
                 impactModifier: impactModifiers[data.sessionLength.status],
@@ -203,7 +201,7 @@ const useMetricsData = () => {
                 }),
                 configUrl: ConsolePages.WEB_SERVER,
                 configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.configureWebServer', defaultMessage: 'Configure Web Server'}),
-                telemetryAction: 'set_here_the_telemetry_action',
+                telemetryAction: 'site-url',
                 status: data.siteUrl.status,
                 scoreImpact: 12,
                 impactModifier: impactModifiers[data.siteUrl.status],
@@ -248,55 +246,10 @@ const useMetricsData = () => {
                 ...trialOrEnterpriseCtaConfig,
                 infoUrl: 'https://docs.mattermost.com/scale/elasticsearch.html',
                 infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),
+                telemetryAction: 'search-optimization',
                 status: data.search.status,
                 scoreImpact: 20,
                 impactModifier: impactModifiers[data.search.status],
-            },
-        ],
-    });
-
-    type SecurityParam = {
-        loginAttempts: {
-            count: number;
-            status: ItemStatus;
-        };
-    }
-
-    // TBD
-    const getSecurityData = (data: SecurityParam) => ({
-        title: formatMessage({
-            id: 'admin.reporting.workspace_optimization.security.title',
-            defaultMessage: 'Security Concerns',
-        }),
-        description: formatMessage({
-            id: 'admin.reporting.workspace_optimization.security.description',
-            defaultMessage: 'There are security concerns you should look at.',
-        }),
-        icon: (
-            <div className='icon'>
-                <ShieldAlertOutlineIcon
-                    size={20}
-                    color={'var(--sys-center-channel-color'}
-                />
-            </div>
-        ),
-        items: [
-            {
-                id: 'login-attempts',
-                title: formatMessage({
-                    id: 'admin.reporting.workspace_optimization.security.login_attempts.title',
-                    defaultMessage: 'Failed login attempts detected',
-                }),
-                description: formatMessage({
-                    id: 'admin.reporting.workspace_optimization.security.login_attempts.description',
-                    defaultMessage: '{attempts} failed login attempts have been detected on this workspace. We recommend reviewing your security logs to understand this security risk.',
-                }, {attempts: data.loginAttempts.count}),
-                configUrl: '/admin_console/reporting/server_logs',
-                telemetryAction: 'set_here_the_telemetry_action',
-                configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.viewServerLogs', defaultMessage: 'View Server Logs'}),
-                status: data.loginAttempts.status,
-                scoreImpact: 10,
-                impactModifier: impactModifiers[data.loginAttempts.status],
             },
         ],
     });
@@ -327,7 +280,7 @@ const useMetricsData = () => {
         ),
         items: [
             {
-                id: 'privacy',
+                id: 'data-retention',
                 title: formatMessage({
                     id: 'admin.reporting.workspace_optimization.data_privacy.retention.title',
                     defaultMessage: 'Become more data aware',
@@ -339,6 +292,7 @@ const useMetricsData = () => {
                 ...trialOrEnterpriseCtaConfig,
                 infoUrl: 'https://docs.mattermost.com/comply/data-retention-policy.html',
                 infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),
+                telemetryAction: 'data-retention',
                 status: data.retention.status,
                 scoreImpact: 16,
                 impactModifier: impactModifiers[data.retention.status],
@@ -375,7 +329,7 @@ const useMetricsData = () => {
         ),
         items: [
             {
-                id: 'ldap',
+                id: 'ad-ldap',
                 title: formatMessage({
                     id: 'admin.reporting.workspace_optimization.ease_of_management.ldap.title',
                     defaultMessage: 'AD/LDAP integration recommended',
@@ -386,12 +340,14 @@ const useMetricsData = () => {
                 }),
                 ...trialOrEnterpriseCtaConfig,
                 infoUrl: 'https://docs.mattermost.com/configure/configuration-settings.html#ad-ldap',
+                infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),
+                telemetryAction: 'ad-ldap',
                 status: data.ldap.status,
                 scoreImpact: 22,
                 impactModifier: impactModifiers[data.ldap.status],
             },
             {
-                id: 'guests_accounts',
+                id: 'guest-accounts',
                 title: formatMessage({
                     id: 'admin.reporting.workspace_optimization.ease_of_management.guests_accounts.title',
                     defaultMessage: 'Guest Accounts recommended',
@@ -403,6 +359,7 @@ const useMetricsData = () => {
                 ...trialOrEnterpriseCtaConfig,
                 infoUrl: 'https://docs.mattermost.com/onboard/guest-accounts.html',
                 infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),
+                telemetryAction: 'guest-accounts',
                 status: data.guestAccounts.status,
                 scoreImpact: 6,
                 impactModifier: impactModifiers[data.guestAccounts.status],
@@ -410,7 +367,7 @@ const useMetricsData = () => {
         ],
     });
 
-    return {getAccessData, getConfigurationData, getUpdatesData, getPerformanceData, getSecurityData, getDataPrivacyData, getEaseOfManagementData};
+    return {getAccessData, getConfigurationData, getUpdatesData, getPerformanceData, getDataPrivacyData, getEaseOfManagementData};
 };
 
 export {DataModel, ItemModel, ItemStatus};
