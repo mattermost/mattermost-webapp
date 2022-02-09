@@ -151,9 +151,6 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                 status: totalPosts < 2_000_000 && totalUsers < 500 ? 'ok' : 'warning',
             },
         }),
-
-        // TBD - not yet ready to implement
-        // security: getSecurityData({loginAttempts: {status: 'warning', count: 24}}),
         dataPrivacy: getDataPrivacyData({retention: {status: dataRetentionEnabled ? 'ok' : 'warning'}}),
         easyManagement: getEaseOfManagementData({
             ldap: {status: totalUsers > 500 ? 'warning' : 'ok'},
