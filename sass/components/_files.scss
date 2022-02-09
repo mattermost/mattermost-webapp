@@ -146,6 +146,10 @@
     position: relative;
     margin: 5px 0;
 
+    &:not(.image-permalink) {
+        margin: 5px 0 0;
+    }
+
     .file__image {
         @include pie-clearfix;
 

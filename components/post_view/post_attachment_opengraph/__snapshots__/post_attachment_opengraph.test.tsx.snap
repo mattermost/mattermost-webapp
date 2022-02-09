@@ -5,10 +5,10 @@ exports[` 1`] = `
   className="attachment attachment--opengraph"
 >
   <div
-    className="attachment__content"
+    className="attachment__content permalink--opengraph"
   >
     <div
-      className="clearfix attachment__container attachment__container--opengraph"
+      className="clearfix attachment__container attachment__container--opengraph permalink--opengraph"
     >
       <div
         className="attachment__body__wrap attachment__body__wrap--opengraph"

@@ -112,6 +112,13 @@
             background: var(--center-channel-bg);
             border-radius: 0 4px 4px 0;
 
+            &.permalink--opengraph {
+                box-sizing: border-box;
+                border: 1px solid rgba(61, 60, 64, 0.08);
+                margin: 5px 0 0 20px;
+                border-radius: 4px;
+            }
+
             &.attachment__content--permalink {
                 border-left-width: 1px;
                 border-left-style: solid;
@@ -128,9 +135,12 @@
 
         .attachment__container {
             padding: 12px;
-            border-left-width: 4px;
-            border-left-style: solid;
             border-left-color: var(--sidebar-header-bg);
+
+            &:not(.permalink--opengraph) {
+                border-left-width: 4px;
+                border-left-style: solid;
+            }
 
             &.attachment__container--good {
                 border-left-color: #00c100;

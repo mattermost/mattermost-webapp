@@ -179,6 +179,8 @@ export default class PostAttachmentOpenGraph extends React.PureComponent<Props> 
             return null;
         }
 
+        const permalinkClass = this.props.isInPermalink ? 'permalink--opengraph' : '';
+
         const imageUrl = getBestImageUrl(data, this.props.post.metadata.images);
         const imageMetadata = this.getImageMetadata(imageUrl);
         const hasLargeImage = this.isLargeImage(imageMetadata);
@@ -214,8 +216,8 @@ export default class PostAttachmentOpenGraph extends React.PureComponent<Props> 
 
         return (
             <div className='attachment attachment--opengraph'>
-                <div className='attachment__content'>
-                    <div className={'clearfix attachment__container attachment__container--opengraph'}>
+                <div className={classNames('attachment__content', permalinkClass)}>
+                    <div className={classNames('clearfix', 'attachment__container', 'attachment__container--opengraph', permalinkClass)}>
                         <div className={'attachment__body__wrap attachment__body__wrap--opengraph'}>
                             {!this.props.isInPermalink && <span className='sitename'>
                                 {this.truncateText(data.site_name)}

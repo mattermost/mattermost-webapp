@@ -205,7 +205,7 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
 
         return (
             <div
-                className='file-view--single'
+                className={classNames('file-view--single', permalinkClass)}
             >
                 <div
                     className='file__image'
@@ -213,7 +213,7 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
                     {fileHeader}
                     {this.props.isEmbedVisible &&
                     <div
-                        className='image-container'
+                        className={classNames('image-container', permalinkClass)}
                         style={imageContainerStyle}
                     >
                         <div
