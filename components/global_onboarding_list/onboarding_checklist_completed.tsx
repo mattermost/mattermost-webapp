@@ -59,7 +59,13 @@ const CompletedWrapper = styled.div`
     }
 `;
 
-const Completed = (): JSX.Element => {
+interface Props {
+    dismissAction: () => void;
+}
+
+const Completed = (props: Props): JSX.Element => {
+    const {dismissAction} = props;
+
     return (
         <>
             <CSSTransition
@@ -80,10 +86,20 @@ const Completed = (): JSX.Element => {
                     <p>
                         <FormattedMessage
                             id={'onboarding_checklist.completed_subtitle'}
-                            defaultMessage='We hope Mattermost is more familiar now. Need more help? See our documentation.'
+                            defaultMessage='We hope Mattermost is more familiar now. Need more help?'
                         />
+                        <a
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            href={'https://docs.mattermost.com/'}
+                        >
+                            <FormattedMessage
+                                id='onboarding_checklist.documentation_link'
+                                defaultMessage='See our documentation.'
+                            />
+                        </a>
                     </p>
-                    <button>
+                    <button onClick={dismissAction}>
                         <FormattedMessage
                             id={'collapsed_reply_threads_modal.confirm'}
                             defaultMessage='Got it'

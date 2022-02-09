@@ -174,7 +174,7 @@ const TaskList = (): JSX.Element => {
         <FormattedMessage
             id='onboarding_checklist.task_system_console'
             defaultMessage='Visit the System Console to configure your worksace'
-        />
+        />,
     ];
     const closeTaskList = useCallback(() => {
         setOpen(false);
@@ -198,7 +198,7 @@ const TaskList = (): JSX.Element => {
                 onClick={closeTaskList}
             >
                 <TaskItems className={open ? 'open' : ''}>
-                    {completedCount === taskLabels.length ? <Completed/> : (
+                    {completedCount === taskLabels.length ? <Completed dismissAction={dismissChecklist}/> : (
                         <>
                             <h1>
                                 <FormattedMessage

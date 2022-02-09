@@ -11,6 +11,7 @@ import {getTheme, getBool} from 'mattermost-redux/selectors/entities/preferences
 
 import {loadMeAndConfig} from 'actions/views/root';
 import {emitBrowserWindowResized} from 'actions/views/browser';
+import {isFirstAdmin} from 'components/next_steps_view/steps';
 import LocalStorageStore from 'stores/local_storage_store';
 import {Preferences} from 'utils/constants';
 
@@ -26,6 +27,7 @@ function mapStateToProps(state) {
     const permalinkRedirectTeam = getTeam(state, teamId);
     const currentUserId = getCurrentUserId(state);
     const dismissChecklist = getBool(state, Preferences.DISMISS_ONBOARDING_CHECKLIST, currentUserId);
+    const isUserFirstAdmin = isFirstAdmin(state);
 
     return {
         theme: getTheme(state),
@@ -37,6 +39,7 @@ function mapStateToProps(state) {
         plugins,
         products,
         dismissChecklist,
+        isUserFirstAdmin,
     };
 }
 
