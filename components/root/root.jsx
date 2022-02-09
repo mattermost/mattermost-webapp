@@ -41,7 +41,6 @@ import webSocketClient from 'client/web_websocket_client.jsx';
 
 const LazyErrorPage = React.lazy(() => import('components/error_page'));
 const LazyLoginControllerDeprecated = React.lazy(() => import('components/login_deprecated/login_controller'));
-const LazyLoginController = React.lazy(() => import('components/login'));
 const LazyAdminConsole = React.lazy(() => import('components/admin_console'));
 const LazyLoggedIn = React.lazy(() => import('components/logged_in'));
 const LazyPasswordResetSendLink = React.lazy(() => import('components/password_reset_send_link'));
@@ -76,8 +75,6 @@ const CreateTeam = makeAsyncComponent('CreateTeam', LazyCreateTeam);
 const ErrorPage = makeAsyncComponent('ErrorPage', LazyErrorPage);
 const TermsOfService = makeAsyncComponent('TermsOfService', LazyTermsOfService);
 const LoginControllerDeprecated = makeAsyncComponent('LoginControllerDeprecated', LazyLoginControllerDeprecated);
-const LoginController = makeAsyncComponent('LoginController', LazyLoginController);
-
 const AdminConsole = makeAsyncComponent('AdminConsole', LazyAdminConsole);
 const LoggedIn = makeAsyncComponent('LoggedIn', LazyLoggedIn);
 const PasswordResetSendLink = makeAsyncComponent('PasswordResedSendLink', LazyPasswordResetSendLink);
@@ -395,20 +392,10 @@ export default class Root extends React.PureComponent {
                         path={'/error'}
                         component={ErrorPage}
                     />
-                    {useCaseOnboarding ?
-                        (
-                            <Route
-                                path={'/login'}
-                                component={LoginController}
-                            />
-                        ) :
-                        (
-                            <HFTRoute
-                                path={'/login'}
-                                component={LoginControllerDeprecated}
-                            />
-                        )
-                    }
+                    <HFTRoute
+                        path={'/login'}
+                        component={useCaseOnboarding ? () => <div>{'LoginController'}</div> : LoginControllerDeprecated}
+                    />
                     <HFTRoute
                         path={'/reset_password'}
                         component={PasswordResetSendLink}
