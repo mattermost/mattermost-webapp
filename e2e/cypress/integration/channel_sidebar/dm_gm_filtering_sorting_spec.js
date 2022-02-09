@@ -10,6 +10,7 @@
 // Stage: @prod
 // Group: @dm_category
 
+import * as MESSAGES from '../../fixtures/messages';
 import {getAdminAccount} from '../../support/env';
 
 describe('DM/GM filtering and sorting', () => {
@@ -43,12 +44,12 @@ describe('DM/GM filtering and sorting', () => {
                     // # Post a message as the new user
                     cy.postMessageAs({
                         sender: user,
-                        message: `Hey ${receivingUser.username}`,
+                        message: MESSAGES.TINY,
                         channelId: channel.id,
                     });
 
                     // * Verify that the DM count is now correct
-                    cy.get('.SidebarChannelGroup:contains(DIRECT MESSAGES) a[id^="sidebarItem"]').should('have.length', Math.min(i + 1, 20));
+                    cy.get('.SidebarChannelGroup:contains(DIRECT MESSAGES) a[id^="sidebarItem"]').should('have.length', Math.min(i + 1, 2));
 
                     // # Click on the new DM channel to mark it read
                     cy.get(`#sidebarItem_${channel.name}`).should('be.visible').click();
