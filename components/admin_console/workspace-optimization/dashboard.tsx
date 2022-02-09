@@ -72,7 +72,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         const index = data.access.items.findIndex((item) => item.id === 'site-url');
         if (index >= 0) {
             const onSuccess = ({status}: any) => {
-                data.access.items[index].status = status === 'OK' ? 'none' : 'error';
+                data.access.items[index].status = status === 'OK' ? 'ok' : 'error';
             };
             const onError = () => {
                 data.access.items[0].status = 'error';
