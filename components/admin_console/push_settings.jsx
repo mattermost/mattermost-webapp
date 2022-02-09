@@ -126,28 +126,28 @@ export default class PushSettings extends AdminSettings {
             sendHelpText = (
                 <FormattedMarkdownMessage
                     id='admin.email.pushOffHelp'
-                    defaultMessage='Please see [documentation on push notifications](!https://about.mattermost.com/default-mobile-push-notifications/) to learn more about setup options.'
+                    defaultMessage='Please see [documentation on push notifications](!https://docs.mattermost.com/deploy/mobile-hpns.html) to learn more about setup options.'
                 />
             );
         } else if (this.state.pushNotificationServerType === PUSH_NOTIFICATIONS_MHPNS) {
             pushServerHelpText = (
                 <FormattedMarkdownMessage
                     id='admin.email.mhpnsHelp'
-                    defaultMessage='Download [Mattermost iOS app](!https://about.mattermost.com/mattermost-ios-app/) from iTunes. Download [Mattermost Android app](!https://about.mattermost.com/mattermost-android-app/) from Google Play. Learn more about the [Mattermost Hosted Push Notification Service](!https://about.mattermost.com/default-hpns/).'
+                    defaultMessage='Download [Mattermost iOS app](!https://apps.apple.com/us/app/mattermost/id1257222717) from iTunes. Download [Mattermost Android app](!https://play.google.com/store/apps/details?id=com.mattermost.rn) from Google Play. Learn more about the [Mattermost Hosted Push Notification Service](!https://docs.mattermost.com/deploy/mobile-hpns.html).'
                 />
             );
         } else if (this.state.pushNotificationServerType === PUSH_NOTIFICATIONS_MTPNS) {
             pushServerHelpText = (
                 <FormattedMarkdownMessage
                     id='admin.email.mtpnsHelp'
-                    defaultMessage='Download [Mattermost iOS app](!https://about.mattermost.com/mattermost-ios-app/) from iTunes. Download [Mattermost Android app](!https://about.mattermost.com/mattermost-android-app/) from Google Play. Learn more about the [Mattermost Test Push Notification Service](!https://about.mattermost.com/default-tpns/).'
+                    defaultMessage='Download [Mattermost iOS app](!https://apps.apple.com/us/app/mattermost/id1257222717) from iTunes. Download [Mattermost Android app](!https://play.google.com/store/apps/details?id=com.mattermost.rn) from Google Play. Learn more about the [Mattermost Test Push Notification Service](!https://docs.mattermost.com/deploy/mobile-hpns.html).'
                 />
             );
         } else {
             pushServerHelpText = (
                 <FormattedMarkdownMessage
                     id='admin.email.easHelp'
-                    defaultMessage='Learn more about compiling and deploying your own mobile apps from an [Enterprise App Store](!https://about.mattermost.com/default-enterprise-app-store).'
+                    defaultMessage='Learn more about compiling and deploying your own mobile apps from an [Enterprise App Store](!https://docs.mattermost.com/).'
                 />
             );
         }

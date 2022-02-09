@@ -147,7 +147,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent<Props
                                 <a
                                     target='_blank'
                                     rel='noopener noreferrer'
-                                    href='https://about.mattermost.com/default-app-directory/'
+                                    href='https://mattermost.com/marketplace/#privateApps'
                                 >
                                     <FormattedMessage
                                         id='installed_incoming_webhooks.help.appDirectory'

@@ -157,7 +157,7 @@ export default class InstalledOAuthApps extends React.PureComponent<Props, State
                                 <a
                                     target='_blank'
                                     rel='noopener noreferrer'
-                                    href='https://about.mattermost.com/default-app-directory/'
+                                    href='https://mattermost.com/marketplace/#privateApps'
                                 >
                                     <FormattedMessage
                                         id='installed_oauth_apps.help.appDirectory'
