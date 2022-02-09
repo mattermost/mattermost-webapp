@@ -10,7 +10,6 @@ import ChannelHeader from 'components/channel_header';
 import CreatePost from 'components/create_post';
 import FileUploadOverlay from 'components/file_upload_overlay';
 import PostView from 'components/post_view';
-import {clearMarks, mark, measure, trackEvent} from 'actions/telemetry_actions.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import {browserHistory} from 'utils/browser_history';
@@ -105,23 +104,6 @@ export default class ChannelView extends React.PureComponent<Props, State> {
 
     componentDidUpdate(prevProps: Props) {
         if (prevProps.channelId !== this.props.channelId || prevProps.channelIsArchived !== this.props.channelIsArchived) {
-            mark('ChannelView#componentDidUpdate');
-
-            const [dur1] = measure('SidebarChannelLink#click', 'ChannelView#componentDidUpdate');
-            const [dur2] = measure('TeamLink#click', 'ChannelView#componentDidUpdate');
-
-            clearMarks([
-                'SidebarChannelLink#click',
-                'ChannelView#componentDidUpdate',
-                'TeamLink#click',
-            ]);
-
-            if (dur1 !== -1) {
-                trackEvent('performance', 'channel_switch', {duration: Math.round(dur1)});
-            }
-            if (dur2 !== -1) {
-                trackEvent('performance', 'team_switch', {duration: Math.round(dur2)});
-            }
             if (this.props.channelIsArchived && !this.props.viewArchivedChannels) {
                 this.props.actions.goToLastViewedChannel();
             }

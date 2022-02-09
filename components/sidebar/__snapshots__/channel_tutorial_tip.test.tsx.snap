@@ -2,21 +2,10 @@
 
 exports[`component/legacy_sidebar/ChannelTutorialTip should match snapshot, with firstChannelName set 1`] = `
 <Connect(TutorialTip)
-  overlayClass="tip-overlay--sidebar"
+  overlayClass="tip-overlay--sidebar first-channel"
   placement="right"
   screen={
     <React.Fragment>
-      <h4>
-        <Memo(MemoizedFormattedMessage)
-          defaultMessage="Welcome to {firstChannelName}, your first channel!"
-          id="create_first_channel.tutorialTip.title"
-          values={
-            Object {
-              "firstChannelName": "Firstchannelname",
-            }
-          }
-        />
-      </h4>
       <div
         className="handSvg svg-wrapper"
       >
@@ -38,8 +27,13 @@ exports[`component/legacy_sidebar/ChannelTutorialTip should match snapshot, with
   telemetryTag="tutorial_tip_0_first_channel"
   title={
     <Memo(MemoizedFormattedMessage)
-      defaultMessage="Organize conversations in channels"
-      id="sidebar.tutorialChannelTypes.title"
+      defaultMessage="Welcome to {firstChannelName}, your first channel!"
+      id="create_first_channel.tutorialTip.title"
+      values={
+        Object {
+          "firstChannelName": "Firstchannelname",
+        }
+      }
     />
   }
 />
