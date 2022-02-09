@@ -7,7 +7,6 @@ import {IntlShape} from 'react-intl';
 import {mountWithThemedIntl} from 'tests/helpers/themed-intl-test-helper';
 
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
-import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
 import {Team} from 'mattermost-redux/types/teams';
 
 import ResultView from './result_view';
@@ -16,7 +15,6 @@ import NoPermissionsView from './no_permissions_view';
 import InvitationModal, {Props, View, InvitationModal as BaseInvitationModal} from './invitation_modal';
 
 const defaultProps: Props = deepFreeze({
-    inviteToTeamTreatment: InviteToTeamTreatments.NONE,
     actions: {
         searchChannels: jest.fn(),
         regenerateTeamInviteId: jest.fn(),

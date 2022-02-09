@@ -8,14 +8,12 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannel, getChannelsInCurrentTeam, getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
 import {haveIChannelPermission, haveICurrentTeamPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getInviteToTeamTreatment} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig, getLicense, getSubscriptionStats} from 'mattermost-redux/selectors/entities/general';
 import {getProfiles, searchProfiles as reduxSearchProfiles} from 'mattermost-redux/actions/users';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {searchChannels as reduxSearchChannels} from 'mattermost-redux/actions/channels';
 import {regenerateTeamInviteId} from 'mattermost-redux/actions/teams';
 import {Permissions} from 'mattermost-redux/constants';
-import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
 
 import {CloseModalType} from 'actions/views/modals';
 import {Constants} from 'utils/constants';
@@ -71,7 +69,6 @@ export function mapStateToProps(state: GlobalState) {
     const isFreeTierWithNoFreeSeats = isCloud && subscriptionStats?.is_paid_tier === 'false' && subscriptionStats?.remaining_seats <= 0;
 
     const canAddUsers = haveICurrentTeamPermission(state, Permissions.ADD_USER_TO_TEAM);
-    const inviteToTeamTreatment = getInviteToTeamTreatment(state) || InviteToTeamTreatments.NONE;
 
     return {
         invitableChannels,
@@ -83,7 +80,6 @@ export function mapStateToProps(state: GlobalState) {
         isCloud,
         isAdmin: isAdmin(getCurrentUser(state).roles),
         cloudUserLimit: config.ExperimentalCloudUserLimit || '10',
-        inviteToTeamTreatment,
         currentChannel,
         subscriptionStats,
         townSquareDisplayName,

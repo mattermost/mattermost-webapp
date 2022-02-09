@@ -10,8 +10,8 @@ import BlockableLink from 'components/admin_console/blockable_link';
 import AlertBanner from 'components/alert_banner';
 
 import {CloudLinks, CloudProducts} from 'utils/constants';
-import PrivateCloudSvg from 'components/common/svg_images_components/private_cloud.svg';
-import CloudTrialSvg from 'components/common/svg_images_components/cloud_trial.svg';
+import PrivateCloudSvg from 'components/common/svg_images_components/private_cloud_svg';
+import CloudTrialSvg from 'components/common/svg_images_components/cloud_trial_svg';
 
 export const contactSalesCard = (
     contactSalesLink: any,
