@@ -1047,6 +1047,10 @@
         > i {
             margin-right: 2px;
         }
+
+        > i::before {
+            letter-spacing: 0;
+        }
     }
 
     .emoticon {
