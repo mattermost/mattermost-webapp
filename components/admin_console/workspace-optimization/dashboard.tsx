@@ -184,31 +184,6 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
             if (item.status === undefined) {
                 return;
             }
-            items.push((
-                <AccordionItem
-                    key={`${accordionKey}-item_${item.id}`}
-                    iconColor={item.status}
-                >
-                    <h5>
-                        <i
-                            className={classNames(`icon ${item.status}`, {
-                                'icon-check-circle-outline': item.status === 'ok',
-                                'icon-alert-outline': item.status === 'warning',
-                                'icon-alert-circle-outline': item.status === 'error',
-                                'icon-information-outline': item.status === 'info',
-                            })}
-                        />
-                        {item.title}
-                    </h5>
-                    <p>{item.description}</p>
-                    <CtaButtons
-                        learnMoreLink={item.infoUrl}
-                        learnMoreText={learnMoreText}
-                        actionLink={item.configUrl}
-                        actionText={item.configText}
-                    />
-                </AccordionItem>
-            ));
 
             // add the items impact to the overall score here
             overallScore.max += item.scoreImpact;
@@ -216,6 +191,31 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
 
             // chips will only be displayed for info aka Success, warning and error aka Problems
             if (item.status && item.status !== 'none' && item.status !== 'ok') {
+                items.push((
+                    <AccordionItem
+                        key={`${accordionKey}-item_${item.id}`}
+                        iconColor={item.status}
+                    >
+                        <h5>
+                            <i
+                                className={classNames(`icon ${item.status}`, {
+                                    'icon-alert-outline': item.status === 'warning',
+                                    'icon-alert-circle-outline': item.status === 'error',
+                                    'icon-information-outline': item.status === 'info',
+                                })}
+                            />
+                            {item.title}
+                        </h5>
+                        <p>{item.description}</p>
+                        <CtaButtons
+                            learnMoreLink={item.infoUrl}
+                            learnMoreText={learnMoreText}
+                            actionLink={item.configUrl}
+                            actionText={item.configText}
+                        />
+                    </AccordionItem>
+                ));
+
                 accordionDataChips[item.status] += 1;
                 overallScoreChips[item.status] += 1;
             }

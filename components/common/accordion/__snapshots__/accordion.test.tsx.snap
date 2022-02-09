@@ -4,7 +4,7 @@ exports[`/components/common/Accordion should match snapshot 1`] = `
 <ul
   className="Accordion"
 >
-  <AccordionItem
+  <AccordionCard
     data={
       Object {
         "description": "First accordion Item Description",
@@ -28,7 +28,7 @@ exports[`/components/common/Accordion should match snapshot 1`] = `
     onButtonClick={[Function]}
     onHeaderClick={[MockFunction]}
   />
-  <AccordionItem
+  <AccordionCard
     data={
       Object {
         "description": "Second accordion Item Description",
