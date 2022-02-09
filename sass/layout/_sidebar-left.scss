@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+/* Height durations for height and opacity of sidebar channels needs to be different for optimum fps see PR #9732 */
+$sidebarHeightTransitionDuration: 0.18s;
+$sidebarOpacityAnimationDuration: 0.15s;
+
 #TeamSidebar {
     position: fixed;
     z-index: 13;
@@ -1001,7 +1005,7 @@
         color: rgba(var(--sidebar-text-rgb), 0.6);
         list-style-type: none;
         opacity: 1;
-        transition-duration: 0.18s;
+        transition-duration: $sidebarHeightTransitionDuration;
         transition-property: height;
         transition-timing-function: ease;
         visibility: visible;
@@ -1100,7 +1104,7 @@
 
         &.expanded {
             animation-direction: normal;
-            animation-duration: 0.15s;
+            animation-duration: $sidebarOpacityAnimationDuration;
             animation-fill-mode: forwards;
             animation-iteration-count: 1;
             animation-name: toOpaqueAnimation;
@@ -1110,7 +1114,7 @@
         &.collapsed {
             height: 0 !important;
             animation-direction: normal;
-            animation-duration: 0.15s;
+            animation-duration: $sidebarOpacityAnimationDuration;
             animation-fill-mode: forwards;
             animation-iteration-count: 1;
             animation-name: toTransparentAnimation;
