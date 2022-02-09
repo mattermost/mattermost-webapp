@@ -29,10 +29,6 @@ body {
 .sticky {
     background: $white;
 
-    &--background-image {
-        background: url('images/diagonal-pills-background.png');
-    }
-
     > .channel-view {
         overflow: auto;
         height: 100vh;

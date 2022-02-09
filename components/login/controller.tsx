@@ -36,6 +36,8 @@ import Markdown from 'components/markdown';
 
 import LoginMfa from './mfa';
 
+import './controller.scss';
+
 export type Actions = {
     login: (loginId: string, password: string, mfaToken: string) => Promise<ActionResult>;
     addUserToTeamFromInvite: (token: string, inviteId: string) => Promise<ActionResult>;

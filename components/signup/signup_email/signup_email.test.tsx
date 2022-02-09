@@ -6,10 +6,10 @@ import {shallow} from 'enzyme';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
+import SignupEmail from 'components/signup/signup_email/signup_email';
+
 import {browserHistory} from 'utils/browser_history';
 import {PasswordConfig} from 'utils/utils';
-
-import SignupEmail from './signup_email';
 
 describe('components/SignupEmail', () => {
     const requiredProps = {
