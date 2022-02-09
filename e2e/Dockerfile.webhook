@@ -1,4 +1,4 @@
-FROM node:14-alpine
+FROM node:14-alpine@sha256:9a2aa545388a135b496bd55cef2be920b96c4526c99c140170e05a8de3fce653
 
 RUN apk update && apk upgrade && \
     apk add --no-cache bash git openssh
