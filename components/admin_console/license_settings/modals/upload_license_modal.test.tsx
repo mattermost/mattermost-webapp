@@ -158,6 +158,24 @@ describe('components/admin_console/license_settings/modals/upload_license_modal'
         expect(wrapper.find('UploadLicenseModal').find('#done-button')).toHaveLength(1);
     });
 
+    test('should format users number', () => {
+        const licensedState = {
+            general: {
+                license: {...license, Users: '123456789'},
+            },
+        };
+        const localStore = {...state, entities: licensedState};
+        const mockStore = configureStore([thunk]);
+        const store = mockStore(localStore);
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <UploadLicenseModal {...props}/>
+            </Provider>,
+        );
+        const modalSubtitle = wrapper.find('UploadLicenseModal').find('.subtitle').text();
+        expect(modalSubtitle).toContain('123,456,789');
+    });
+
     test('should hide the upload modal', () => {
         const UploadLicenseModalHidden = {
             modals: {

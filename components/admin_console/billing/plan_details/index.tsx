@@ -12,7 +12,7 @@ import {GlobalState} from 'types/store';
 
 import {
     seatsAndSubscriptionDates,
-    getPlanDetailElements,
+    getPlanPricing,
     planDetailsTopElements,
     currentPlanText,
     featureList,
@@ -44,17 +44,13 @@ const PlanDetails: React.FC<PlanDetailsProps> = ({isFreeTrial, subscriptionPlan}
     const showSeatsAndSubscriptionDates = false;
     const isPaidTier = Boolean(subscription?.is_paid_tier === 'true');
 
-    const {
-        planPricing,
-        planDetailsDescription,
-    } = getPlanDetailElements(userLimit, isPaidTier, product);
+    const planPricing = getPlanPricing(userLimit, isPaidTier, product);
 
     return (
         <div className='PlanDetails'>
             {planDetailsTopElements(userCount, isPaidTier, isFreeTrial, userLimit, subscriptionPlan)}
             {planPricing}
             {showSeatsAndSubscriptionDates && seatsAndSubscriptionDates(locale, userCount, subscription.seats, new Date(subscription.start_at), new Date(subscription.end_at))}
-            {planDetailsDescription}
             <div className='PlanDetails__teamAndChannelCount'>
                 <FormattedMessage
                     id='admin.billing.subscription.planDetails.features.unlimitedTeamsAndChannels'
