@@ -7,10 +7,14 @@ import StatusIcon from '@mattermost/compass-components/components/status-icon';
 const Animation = styled.div`
     position: absolute;
     z-index: 30;
-    display: flex;
     flex-direction: column;
     left: 15px;
     bottom: 0;
+    display: none;
+
+    &.completed {
+        display: flex;
+    }
 
     &:before {
         content: '';

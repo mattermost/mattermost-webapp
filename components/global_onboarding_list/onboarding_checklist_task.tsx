@@ -7,7 +7,7 @@ import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 import {CompletedAnimation} from './onboarding_checklist_animations';
 
 export interface TaskProps {
-    label: string;
+    label: React.ReactElement | string;
     icon?: React.ReactNode;
     onClick?: () => void;
 }

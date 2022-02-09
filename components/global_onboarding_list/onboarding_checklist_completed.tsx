@@ -12,7 +12,7 @@ const CompletedWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 100px 30px;
+    padding: 100px 8px;
     margin: auto;
     text-align: center;
     word-break: break-word;
@@ -46,18 +46,12 @@ const CompletedWrapper = styled.div`
         font-weight: bold;
     }
 
-    img {
-        display: block;
-        margin: 1rem auto;
-        border-radius: 4px;
-    }
-
     h1 {
         font-size: 20px;
         padding: 0 24px;
-        margin: 16px 0px 0;
+        margin: 0 0 10px;
     }
-    
+
     p {
         font-size: 14px;
         color: rgba(var(--center-channel-color-rgb), 0.72);
@@ -74,14 +68,20 @@ const Completed = (): JSX.Element => {
                 classNames='fade'
             >
                 <CompletedWrapper>
-                    <h1>
-                        {'Well done. You’ve completed all of the tasks!'}
-                    </h1>
                     <img
                         src={completedImg}
                     />
+                    <h1>
+                        <FormattedMessage
+                            id={'onboarding_checklist.completed_title'}
+                            defaultMessage='Well done. You’ve completed all of the tasks!'
+                        />
+                    </h1>
                     <p>
-                        {'We hope Mattermost is more familiar now. Need more help? See our documentation.'}
+                        <FormattedMessage
+                            id={'onboarding_checklist.completed_subtitle'}
+                            defaultMessage='We hope Mattermost is more familiar now. Need more help? See our documentation.'
+                        />
                     </p>
                     <button>
                         <FormattedMessage

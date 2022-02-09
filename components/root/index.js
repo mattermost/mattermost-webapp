@@ -7,11 +7,12 @@ import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {shouldShowTermsOfService, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
+import {getTheme, getBool} from 'mattermost-redux/selectors/entities/preferences';
 
 import {loadMeAndConfig} from 'actions/views/root';
 import {emitBrowserWindowResized} from 'actions/views/browser';
 import LocalStorageStore from 'stores/local_storage_store';
+import {Preferences} from 'utils/constants';
 
 import Root from './root.jsx';
 
@@ -23,6 +24,8 @@ function mapStateToProps(state) {
 
     const teamId = LocalStorageStore.getPreviousTeamId(getCurrentUserId(state));
     const permalinkRedirectTeam = getTeam(state, teamId);
+    const currentUserId = getCurrentUserId(state);
+    const dismissChecklist = getBool(state, Preferences.DISMISS_ONBOARDING_CHECKLIST, currentUserId);
 
     return {
         theme: getTheme(state),
@@ -33,6 +36,7 @@ function mapStateToProps(state) {
         showTermsOfService,
         plugins,
         products,
+        dismissChecklist,
     };
 }
 

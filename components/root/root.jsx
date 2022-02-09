@@ -114,6 +114,7 @@ export default class Root extends React.PureComponent {
         }).isRequired,
         plugins: PropTypes.array,
         products: PropTypes.array,
+        dismissChecklist: PropTypes.bool,
     }
 
     constructor(props) {
@@ -448,7 +449,7 @@ export default class Root extends React.PureComponent {
                     <CompassThemeProvider theme={this.props.theme}>
                         <ModalController/>
                         <GlobalHeader/>
-                        <TaskList/>
+                        {this.props.dismissChecklist && <TaskList/>}
                         <div className='mainContentRow d-flex flex-row'>
                             <TeamSidebar/>
                             <Switch>

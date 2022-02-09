@@ -1,10 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React, {useRef, useState, useCallback} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import styled, {css} from 'styled-components';
+
 import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 
+import {FormattedMessage} from 'react-intl';
+
+import {savePreferences} from 'mattermost-redux/actions/preferences';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+
 import checklistImg from 'images/onboarding-checklist.svg';
+import {Preferences} from 'utils/constants';
 
 import {TaskListPopover} from './onboarding_checklist_popover';
 import {Task} from './onboarding_checklist_task';
@@ -49,6 +57,7 @@ const TaskItems = styled.div`
         padding: 12px 24px 0;
         font-weight: bold;
         cursor: pointer;
+        display: block;
     }
 `;
 
@@ -56,6 +65,7 @@ const Button = styled.button<{open: boolean}>(({open}) => {
     return css`
         width: 36px;
         height: 36px;
+        padding: 7px;
         border-radius: 50%;
         left: 20px;
         bottom: 20px;
@@ -116,22 +126,57 @@ const PlayButton = styled.button`
         border-color: rgba(var(--center-channel-color-rgb), 0.24);
         box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.16);
     }
+
+    i {
+        margin-right: 10px;
+        vertical-align: middle;
+    }
 `;
 
 const TaskList = (): JSX.Element => {
     const [open, setOpen] = useState(false);
     const [completedCount, setCompletedCount] = useState(0);
     const trigger = useRef();
+    const dispatch = useDispatch();
+    const currentUserId = useSelector(getCurrentUserId);
+
+    const dismissChecklist = useCallback(() => {
+        const preferences = [{
+            user_id: currentUserId,
+            category: Preferences.DISMISS_ONBOARDING_CHECKLIST,
+            name: currentUserId,
+            value: 'true',
+        }];
+        dispatch(savePreferences(currentUserId, preferences));
+    }, [currentUserId]);
 
     const taskLabels = [
-        'Take a tour of channels',
-        'Manage tasks with your first board',
-        'Invite team members to the workspace',
-        'Complete your profile',
-        'Download the Desktop and Mobile Apps',
-        'Visit the System Console to configure your worksace',
+        <FormattedMessage
+            id='onboarding_checklist.task_channels_tour'
+            defaultMessage='Take a tour of channels'
+        />,
+        <FormattedMessage
+            id='onboarding_checklist.task_boards_tour'
+            defaultMessage='Manage tasks with your first board'
+        />,
+        <FormattedMessage
+            id='onboarding_checklist.task_invite'
+            defaultMessage='Invite team members to the workspace'
+        />,
+        <FormattedMessage
+            id='onboarding_checklist.task_complete_profile'
+            defaultMessage='Complete your profile'
+        />,
+        <FormattedMessage
+            id='onboarding_checklist.task_download_apps'
+            defaultMessage='Download the Desktop and Mobile Apps'
+        />,
+        <FormattedMessage
+            id='onboarding_checklist.task_system_console'
+            defaultMessage='Visit the System Console to configure your worksace'
+        />
     ];
-    const closeMenu = useCallback(() => {
+    const closeTaskList = useCallback(() => {
         setOpen(false);
     }, []);
 
@@ -150,14 +195,22 @@ const TaskList = (): JSX.Element => {
             <TaskListPopover
                 isVisible={open}
                 trigger={trigger}
-                onClick={closeMenu}
+                onClick={closeTaskList}
             >
                 <TaskItems className={open ? 'open' : ''}>
                     {completedCount === taskLabels.length ? <Completed/> : (
                         <>
-                            <h1>{'Welcome to Mattermost'}</h1>
+                            <h1>
+                                <FormattedMessage
+                                    id='next_steps_view.welcomeToMattermost'
+                                    defaultMessage='Welcome to Mattermost'
+                                />
+                            </h1>
                             <p>
-                                {"Let's get up and running."}
+                                <FormattedMessage
+                                    id='onboarding_checklist.main_subtitle'
+                                    defaultMessage="Let's get up and running."
+                                />
                             </p>
                             <img
                                 src={checklistImg}
@@ -167,11 +220,15 @@ const TaskList = (): JSX.Element => {
                                 <Icon
                                     glyph={'play'}
                                     size={16}
-                                /> {'Watch overview'}
+                                />
+                                <FormattedMessage
+                                    id='onboarding_checklist.video_title'
+                                    defaultMessage='Watch overview'
+                                />
                             </PlayButton>
-                            {taskLabels.map((label) => (
+                            {taskLabels.map((label, i) => (
                                 <Task
-                                    key={label}
+                                    key={i}
                                     label={label}
                                     onClick={() => {
                                         setCompletedCount(completedCount + 1);
@@ -180,9 +237,12 @@ const TaskList = (): JSX.Element => {
                             ))}
                             <span
                                 className='link'
-                                onClick={() => {}}
+                                onClick={dismissChecklist}
                             >
-                                {'No thanks, I’ll figure it out myself'}
+                                <FormattedMessage
+                                    id='onboarding_checklist.dismiss_link'
+                                    defaultMessage='No thanks, I’ll figure it out myself'
+                                />
                             </span>
                         </>
                     )}
