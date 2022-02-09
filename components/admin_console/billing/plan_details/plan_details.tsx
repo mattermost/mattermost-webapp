@@ -338,7 +338,7 @@ export const featureList = (subscriptionPlan: string | undefined, isPaidTier: bo
 
     return features?.map((feature, i) => (
         <div
-            key={`PlanDetails__feature${i}`}
+            key={`PlanDetails__feature${i.toString()}`}
             className='PlanDetails__feature'
         >
             <i className='icon-check'/>
