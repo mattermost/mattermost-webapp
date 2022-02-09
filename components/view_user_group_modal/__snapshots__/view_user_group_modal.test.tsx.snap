@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`component/update_user_group_modal should match snapshot 1`] = `
+exports[`component/view_user_group_modal should match snapshot 1`] = `
 <Modal
   animation={true}
   aria-labelledby="viewUserGroupModalLabel"
@@ -48,7 +48,7 @@ exports[`component/update_user_group_modal should match snapshot 1`] = `
       <span
         className="group-name"
       >
-        @group
+        @ group
       </span>
     </div>
     <div

@@ -8,7 +8,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 
 import ViewUserGroupModal from './view_user_group_modal';
 
-describe('component/update_user_group_modal', () => {
+describe('component/view_user_group_modal', () => {
     const users = [
         {
             id: 'user-1',
