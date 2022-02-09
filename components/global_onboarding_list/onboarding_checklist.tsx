@@ -11,11 +11,12 @@ import {FormattedMessage} from 'react-intl';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
+import {trackEvent} from 'actions/telemetry_actions';
 import checklistImg from 'images/onboarding-checklist.svg';
 import {Preferences} from 'utils/constants';
 
 import {TaskListPopover} from './onboarding_checklist_popover';
-import {Task} from './onboarding_checklist_task';
+import {Task, TaskProps} from './onboarding_checklist_task';
 import Completed from './onboarding_checklist_completed';
 import {CompletedAnimation} from './onboarding_checklist_animations';
 
@@ -140,6 +141,12 @@ const TaskList = (): JSX.Element => {
     const dispatch = useDispatch();
     const currentUserId = useSelector(getCurrentUserId);
 
+    const completeTask = () => {
+        //TODO: this will be implemented fully when we have all the Preferences for the tours merged.
+        setCompletedCount(completedCount + 1);
+        trackEvent('ui', 'onboarding_checklist_task_completed');
+    }
+
     const dismissChecklist = useCallback(() => {
         const preferences = [{
             user_id: currentUserId,
@@ -148,6 +155,8 @@ const TaskList = (): JSX.Element => {
             value: 'true',
         }];
         dispatch(savePreferences(currentUserId, preferences));
+        trackEvent('ui', 'onboarding_checklist_dismissed');
+
     }, [currentUserId]);
 
     const taskLabels = [
@@ -231,7 +240,7 @@ const TaskList = (): JSX.Element => {
                                     key={i}
                                     label={label}
                                     onClick={() => {
-                                        setCompletedCount(completedCount + 1);
+                                        completeTask();
                                     }}
                                 />
                             ))}
