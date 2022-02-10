@@ -11,6 +11,7 @@
 // Group: @filesearch
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
+
 import {interceptFileUpload, waitUntilUploadComplete} from './helpers';
 
 describe('Channel files', () => {
