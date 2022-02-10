@@ -17,14 +17,14 @@
     list-style-type: none;
     text-align: center;
 
-    &:hover {
+    &:hover, &:active, &:focus {
         border: 2px solid rgba(var(--center-channel-color-rgb), 0.32);
         box-shadow: $elevation-4;
     }
 
     &--small {
         min-width: 160px;
-        padding: 24px 12px;
+        padding: 24px 12px 20px;
 
         .MultiSelectCard__label {
             padding-top: 12px;
@@ -44,9 +44,12 @@
         border: 2px solid var(--button-bg);
         box-shadow: $elevation-2;
 
-        &:hover {
+        &:hover, &:active, &:focus {
             border: 2px solid var(--button-bg);
             box-shadow: $elevation-2;
+        }
+        &:focus {
+            box-shadow: $elevation-4;
         }
     }
 

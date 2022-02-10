@@ -119,6 +119,10 @@ export default function PreparingWorkspace(props: Props) {
     useEffect(() => {
         setTimeout(() => setShowFirstPage(true), 40);
         dispatch(getFirstAdminSetupCompleteAction());
+        document.body.classList.add('admin-onboarding');
+        return () => {
+            document.body.classList.remove('admin-onboarding');
+        }
     }, []);
     useEffect(() => {
         const urlStepPlacement = stepOrder.indexOf(WizardSteps.Url);
@@ -527,7 +531,7 @@ export default function PreparingWorkspace(props: Props) {
                     show={currentStep === WizardSteps.Channel || currentStep === WizardSteps.InviteMembers}
                     step={currentStep}
                     direction={getTransitionDirectionMultiStep([WizardSteps.Channel, WizardSteps.InviteMembers])}
-                    channelName={form.channel.name || ''}
+                    channelName={form.channel.name || 'Channel name'}
                     teamName={isSelfHosted ? form.organization || '' : (currentTeam || myTeams?.[0]).display_name || ''}
                 />
             </div>

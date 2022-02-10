@@ -7,16 +7,20 @@
 }
 
 .Organization-form-wrapper {
-    padding-top: 116px;
+    position: relative;
 }
 
 .Organization-left-col {
+    width: 210px;
+    min-width: 210px;
+}
+
+.Organization-right-col {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    text-align: center;
+    justify-content: center;
 }
+
 
 .Organization {
     &__input {
@@ -38,6 +42,17 @@
                 font-size: 16px;
             }
         }
+    }
+
+    &__progress-path {
+        position: absolute;
+        top: -25px;
+        left: -210px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        text-align: center;
     }
 }
 

@@ -3,7 +3,7 @@
 
 import React, {useEffect} from 'react';
 import {CSSTransition} from 'react-transition-group';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import Constants from 'utils/constants';
 import QuickInput from 'components/quick_input';
@@ -29,6 +29,7 @@ const Channel = (props: Props) => {
         className += ' ' + props.className;
     }
 
+    const intl = useIntl();
     useEffect(props.onPageView, []);
 
     const onNext = async (e?: React.KeyboardEvent | React.MouseEvent) => {
@@ -70,6 +71,7 @@ const Channel = (props: Props) => {
                         onKeyUp={onNext}
                         autoFocus={true}
                         className='Channel__input'
+                        placeholder={intl.formatMessage({id: 'onboarding_wizard.channel.input', defaultMessage: 'Enter a channel name'})}
                     />
                 </PageBody>
                 <div>

@@ -38,10 +38,8 @@ const MultiSelectCard = (props: Props) => {
     }
 
     return (
-        <li
+        <button
             {...buttonProps}
-            tabIndex={0}
-            aria-role='button'
             onKeyUp={(e: React.KeyboardEvent) => {
                 if (e.key !== Constants.KeyCodes.SPACE[0]) {
                     return;
@@ -58,7 +56,7 @@ const MultiSelectCard = (props: Props) => {
                     defaultMessage={props.defaultMessage}
                 />
             </span>
-        </li>
+        </button>
     );
 };
 

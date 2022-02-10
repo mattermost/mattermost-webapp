@@ -3834,6 +3834,7 @@
   "numMembers": "{num, number} {num, plural, one {member} other {members}}",
   "onboarding_wizard.channel.description": "Channels are where you can communicate with your team about a topic or project. What are you working on right now?",
   "onboarding_wizard.channel.title": "Let's create your first channel",
+  "onboarding_wizard.channel.input": "Enter a channel name",
   "onboarding_wizard.invite_members.copied_link": "Link Copied",
   "onboarding_wizard.invite_members.copy_link": "Copy Link",
   "onboarding_wizard.invite_members.copy_link_input": "team invite link",

@@ -22,9 +22,9 @@ const InviteMembersLink = (props: Props) => {
     const intl = useIntl();
 
     return (
-        <div className='share-link-input-block'>
+        <div className='InviteMembersLink'>
             <input
-                className='share-link-input'
+                className='InviteMembersLink__input'
                 type='text'
                 readOnly={true}
                 value={props.inviteURL}
@@ -35,7 +35,7 @@ const InviteMembersLink = (props: Props) => {
                 data-testid='shareLinkInput'
             />
             <button
-                className='share-link-input-button'
+                className='InviteMembersLink__button'
                 onClick={copyText.onClick}
                 data-testid='shareLinkInputButton'
             >

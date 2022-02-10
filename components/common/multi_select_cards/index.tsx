@@ -28,7 +28,7 @@ export default function MultiSelectCards(props: Props) {
     };
 
     return (
-        <ul
+        <div
             onKeyUp={onNext}
             className='MultiSelectCards'
         >
@@ -39,6 +39,6 @@ export default function MultiSelectCards(props: Props) {
                     {...card}
                 />
             ))}
-        </ul>
+        </div>
     );
 }

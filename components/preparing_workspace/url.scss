@@ -7,14 +7,18 @@
 }
 
 .Url-form-wrapper {
-    padding-top: 116px;
+    position: relative;
 }
 
 .Url-left-col {
+    width: 210px;
+    min-width: 210px;
+}
+
+.Url-right-col {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    justify-content: center;
 }
 
 .Url {
@@ -52,6 +56,17 @@
     &__status-spinner {
         width: 16px;
         margin-right: 3px;
+    }
+
+    &__progress-path {
+        position: absolute;
+        top: -25px;
+        left: -210px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        text-align: center;
     }
 }
 

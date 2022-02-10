@@ -72,57 +72,61 @@ const Organization = (props: Props) => {
         >
             <div className={className}>
                 <div className='Organization-left-col'>
-                    <OrganizationSVG/>
-                    <PageLine
-                        style={{
-                            marginTop: '5px',
-                            height: 'calc(100vh - 311px)',
-                        }}
-                        noLeft={true}
-                    />
                 </div>
-                <div className='Organization-form-wrapper'>
-                    {props.previous}
-                    <Title>
-                        <FormattedMessage
-                            id={'onboarding_wizard.organization.title'}
-                            defaultMessage="What's the name of your organization?"
-                        />
-                    </Title>
-                    <Description>
-                        <FormattedMessage
-                            id={'onboarding_wizard.organization.description'}
-                            defaultMessage="We'll use this to help personalize your workspace."
-                        />
-                    </Description>
-                    <PageBody>
-                        <QuickInput
-                            placeholder={
-                                formatMessage({
+                <div className='Organization-right-col'>
+                    <div className='Organization-form-wrapper'>
+                        <div className="Organization__progress-path">
+                            <OrganizationSVG/>
+                            <PageLine
+                                style={{
+                                    marginTop: '5px',
+                                    height: 'calc(50vh)',
+                                }}
+                                noLeft={true}
+                            />
+                        </div>
+                        {props.previous}
+                        <Title>
+                            <FormattedMessage
+                                id={'onboarding_wizard.organization.title'}
+                                defaultMessage="What's the name of your organization?"
+                            />
+                        </Title>
+                        <Description>
+                            <FormattedMessage
+                                id={'onboarding_wizard.organization.description'}
+                                defaultMessage="We'll use this to help personalize your workspace."
+                            />
+                        </Description>
+                        <PageBody>
+                            <QuickInput
+                                placeholder={
+                                    formatMessage({
                                     id: 'onboarding_wizard.organization.placeholder',
                                     defaultMessage: 'Organization name',
                                 })
-                            }
-                            className='Organization__input'
-                            value={props.organization || ''}
-                            onChange={(e) => props.setOrganization(e.target.value)}
-                            onKeyUp={onNext}
-                            autoFocus={true}
-                        />
-                        <OrganizationStatus error={triedNext && validation.error}/>
-                    </PageBody>
-                    <div>
-                        <button
-                            className='primary-button'
-                            data-testid='continue'
-                            onClick={onNext}
-                            disabled={!props.organization}
-                        >
-                            <FormattedMessage
-                                id={'onboarding_wizard.next'}
-                                defaultMessage='Continue'
+                                }
+                                className='Organization__input'
+                                value={props.organization || ''}
+                                onChange={(e) => props.setOrganization(e.target.value)}
+                                onKeyUp={onNext}
+                                autoFocus={true}
                             />
-                        </button>
+                            <OrganizationStatus error={triedNext && validation.error}/>
+                        </PageBody>
+                        <div>
+                            <button
+                                className='primary-button'
+                                data-testid='continue'
+                                onClick={onNext}
+                                disabled={!props.organization}
+                            >
+                                <FormattedMessage
+                                    id={'onboarding_wizard.next'}
+                                    defaultMessage='Continue'
+                                />
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

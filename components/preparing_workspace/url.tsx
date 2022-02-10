@@ -78,90 +78,97 @@ const Url = (props: Props) => {
         >
             <div className={className}>
                 <div className='Url-left-col'>
-                    <PageLine
-                        style={{height: '100px'}}
-                        noLeft={true}
-                    />
-                    <LaptopEarthSVG/>
-                    <PageLine
-                        noLeft={true}
-                    />
                 </div>
-                <div className='Url-form-wrapper'>
-                    {props.previous}
-                    <Title>
-                        <FormattedMessage
-                            id={'onboarding_wizard.url.title'}
-                            defaultMessage="Confirm your server's URL"
-                        />
-                    </Title>
-                    <Description>
-                        <FormattedMessage
-                            id={'onboarding_wizard.url.description'}
-                            defaultMessage='This is the URL that users will use to access Mattermost. <a>See Documentation</a> for more.'
-                            values={{
-                                a: (chunks: React.ReactNode | React.ReactNodeArray) => (
-                                    <a
-                                        href='https://docs.mattermost.com/configure/configuration-settings.html#site-url'
-                                        target='_blank'
-                                        rel='noreferrer'
-                                    >
-                                        {chunks}
-                                    </a>
-                                ),
-                            }}
-                        />
-                    </Description>
-                    <PageBody>
-                        <QuickInput
-                            placeholder={
-                                formatMessage({
+                <div className='Url-right-col'>
+                    <div className='Url-form-wrapper'>
+                        <div className="Url__progress-path">
+                            <PageLine
+                                style={{
+                                    height: '50vh',
+                                    position: 'absolute',
+                                }}
+                                noLeft={true}
+                            />
+                            <LaptopEarthSVG/>
+                            <PageLine
+                                noLeft={true}
+                            />
+                        </div>
+                        {props.previous}
+                        <Title>
+                            <FormattedMessage
+                                id={'onboarding_wizard.url.title'}
+                                defaultMessage="Confirm your server's URL"
+                            />
+                        </Title>
+                        <Description>
+                            <FormattedMessage
+                                id={'onboarding_wizard.url.description'}
+                                defaultMessage='This is the URL that users will use to access Mattermost. <a>See Documentation</a> for more.'
+                                values={{
+                                    a: (chunks: React.ReactNode | React.ReactNodeArray) => (
+                                        <a
+                                            href='https://docs.mattermost.com/configure/configuration-settings.html#site-url'
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {chunks}
+                                        </a>
+                                    ),
+                                }}
+                            />
+                        </Description>
+                        <PageBody>
+                            <QuickInput
+                                placeholder={
+                                    formatMessage({
                                     id: 'onboarding_wizard.url.placeholder',
                                     defaultMessage: 'your-workspace',
                                 })
-                            }
-                            value={props.url}
-                            onChange={(e) => {
-                                props.setUrl(e.target.value);
-                                setUserEdited(true);
-                                urlValidator.validate(e.target.value);
-                            }}
-                            className='Url__input'
-                            onKeyUp={onNext}
-                            autoFocus={true}
-                        />
-                        <UrlStatus
-                            checking={urlValidator.verifying}
-                            error={urlValidator.result.error}
-                            valid={urlValidator.result.valid}
-                            userEdited={userEdited}
-                        />
-                    </PageBody>
-                    <div>
-                        <button
-                            className='primary-button'
-                            onClick={onNext}
-                            disabled={urlValidator.verifying || !urlValidator.result.valid}
-                        >
-                            <FormattedMessage
-                                id={'onboarding_wizard.next'}
-                                defaultMessage='Continue'
+                                }
+                                value={props.url}
+                                onChange={(e) => {
+                                    props.setUrl(e.target.value);
+                                    setUserEdited(true);
+                                    urlValidator.validate(e.target.value);
+                                }}
+                                className='Url__input'
+                                onKeyUp={onNext}
+                                autoFocus={true}
                             />
-                        </button>
-                        {
-                            userEdited && !urlValidator.verifying && !urlValidator.result.valid && (
+                            <UrlStatus
+                                checking={urlValidator.verifying}
+                                error={urlValidator.result.error}
+                                valid={urlValidator.result.valid}
+                                userEdited={userEdited}
+                            />
+                        </PageBody>
+                        <div>
+                            <button
+                                className='primary-button'
+                                onClick={onNext}
+                                disabled={urlValidator.verifying || !urlValidator.result.valid}
+                            >
+                                <FormattedMessage
+                                    id={'onboarding_wizard.next'}
+                                    defaultMessage='Continue'
+                                />
+                            </button>
+                            {
+                                userEdited && !urlValidator.verifying && !urlValidator.result.valid && (
 
-                                <button
-                                    className='tertiary-button'
-                                    onClick={props.skip}
-                                >
-                                    <FormattedMessage
-                                        id={'onboarding_wizard.url.skip'}
-                                        defaultMessage="I'll do this later"
-                                    />
-                                </button>
-                            )
-                        }
+                                    <button
+                                        className='tertiary-button'
+                                        onClick={props.skip}
+                                    >
+                                        <FormattedMessage
+                                            id={'onboarding_wizard.url.skip'}
+                                            defaultMessage="I'll do this later"
+                                        />
+                                    </button>
+                                )
+                            }
+                        </div>
                     </div>
                 </div>
             </div>

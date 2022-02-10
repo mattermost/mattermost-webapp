@@ -18,7 +18,7 @@
         font-size: 12px;
         font-weight: 600;
 
-        &:first-child {
+        :first-child {
             margin-right: 5px;
         }
     }
@@ -27,7 +27,7 @@
 .PreparingWorkspaceContainer {
     display: flex;
     flex-direction: row;
-    background: url('images/admin-onboarding-background.png');
+    max-width: 1200px;
 
     .tertiary-button {
         @include tertiary-button;
