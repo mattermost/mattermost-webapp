@@ -78,7 +78,7 @@ describe('Keyboard Shortcuts', () => {
         verifyUserIsFoundAndDMOpensOnClick(this.otherUser);
     });
 
-    it('MM-T1228 CTRL/CMD+K_4 - Open DM with user belonging to both teams / with TEAM', function() {
+    it('MM-T1228_4 CTRL/CMD+K - Open DM with user belonging to both teams / with TEAM', function() {
         cy.apiUpdateConfig({
             TeamSettings: {
                 RestrictDirectMessage: 'team',
