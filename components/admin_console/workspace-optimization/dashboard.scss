@@ -178,13 +178,13 @@
         width: 872px;
         margin-left: 4px;
 
-        li.accordion-item {
+        li.accordion-card {
             box-sizing: border-box;
             border: 1px solid rgba(63, 67, 80, 0.08) !important;
             margin-top: 16px;
             background-color: var(--sys-center-channel-bg);
 
-            .accordion-item-header {
+            .accordion-card-header {
                 max-height: 92px;
                 padding: 0;
                 background-color: var(--sys-center-channel-bg);
@@ -259,7 +259,7 @@
                 }
             }
 
-            .accordion-item-container {
+            .accordion-card-container {
                 &__content {
                     padding: 16px 24px;
                     border-top: 1px solid rgba(63, 67, 80, 0.06);
