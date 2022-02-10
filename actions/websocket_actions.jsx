@@ -60,7 +60,6 @@ import {clearErrors, logError} from 'mattermost-redux/actions/errors';
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {
     checkForModifiedUsers,
-    getMe,
     getMissingProfilesByIds,
     getStatusesByIds,
     getUser as loadUser,
@@ -1039,9 +1038,12 @@ export async function handleUserUpdatedEvent(msg) {
 
     if (currentUser.id === user.id) {
         if (user.update_at > currentUser.update_at) {
-            // Need to request me to make sure we don't override with sanitized fields from the
-            // websocket event
-            getMe()(dispatch, getState);
+            // update user to unsanitized user data recieved from websocket message
+            dispatch({
+                type: UserTypes.RECEIVED_ME,
+                data: user,
+            });
+            dispatch(loadRolesIfNeeded(user.roles.split(' ')));
         }
     } else {
         dispatch({
