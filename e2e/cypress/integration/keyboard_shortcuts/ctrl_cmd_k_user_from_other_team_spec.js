@@ -61,7 +61,7 @@ describe('Keyboard Shortcuts', () => {
         cy.findByTestId(this.otherUser.username).should('not.exist');
     });
 
-    it('MM-T1228 CTRL/CMD+K_3 - Open DM with user belonging to both teams / with ANY', function() {
+    it('MM-T1228_3 CTRL/CMD+K - Open DM with user belonging to both teams / with ANY', function() {
         cy.apiUpdateConfig({
             TeamSettings: {
                 RestrictDirectMessage: 'any',
