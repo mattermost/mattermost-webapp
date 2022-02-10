@@ -145,7 +145,6 @@ const TaskList = (): JSX.Element => {
     const completeTask = () => {
         //TODO: this will be implemented fully when we have all the Preferences for the tours merged.
         setCompletedCount(completedCount + 1);
-        setOpen(false);
         trackEvent('ui', 'onboarding_checklist_task_completed');
     };
 
