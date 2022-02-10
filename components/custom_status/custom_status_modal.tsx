@@ -130,9 +130,16 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         dispatch(loadCustomEmojisIfNeeded(Array.from(emojisToLoad)));
     };
 
+    const handleStatusExpired = () => {
+        if (customStatusExpired && currentCustomStatus) {
+            dispatch(unsetCustomStatus());
+        }
+    };
+
     useEffect(() => {
         handleCustomStatusInitializationState();
         loadCustomEmojisForRecentStatuses();
+        handleStatusExpired();
     }, []);
 
     const handleSetStatus = () => {
