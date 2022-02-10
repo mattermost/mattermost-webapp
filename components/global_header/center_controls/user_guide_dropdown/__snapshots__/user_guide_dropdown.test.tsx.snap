@@ -240,6 +240,7 @@ exports[`components/channel_header/components/UserGuideDropdown should match sna
       <MenuItemAction
         id="testId_pluginmenuitem"
         key="testId_pluginmenuitem"
+        onClick={[Function]}
         show={true}
         text="Test Item"
       />
