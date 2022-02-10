@@ -29,7 +29,6 @@ function mapStateToProps(state) {
     const currentUserId = getCurrentUserId(state);
     const dismissChecklist = getBool(state, Preferences.DISMISS_ONBOARDING_CHECKLIST, currentUserId);
     const isUserFirstAdmin = isFirstAdmin(state);
-
     return {
         theme: getTheme(state),
         telemetryEnabled: config.DiagnosticsEnabled === 'true',
