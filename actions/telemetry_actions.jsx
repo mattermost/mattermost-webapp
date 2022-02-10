@@ -17,7 +17,7 @@ const SUPPORTS_MEASURE_METHODS = isSupported([
     performance.clearMeasures,
 ]);
 
-export function isTelemetryEnabled(state = store.getState()) {
+export function isTelemetryEnabled(state) {
     const config = getConfig(state);
     return config.DiagnosticsEnabled === 'true';
 }
