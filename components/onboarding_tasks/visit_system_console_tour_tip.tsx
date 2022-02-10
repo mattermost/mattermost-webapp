@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback} from 'react';
+import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import TutorialTourTip, {DataEventSource} from 'components/tutorial_tour_tip/tutorial_tour_tip';
@@ -9,10 +9,10 @@ import {browserHistory} from 'utils/browser_history';
 import {useMeasurePunchouts} from 'components/tutorial_tour_tip/hooks';
 
 import {OnBoardingTaskName, TaskNameMapToSteps} from './constant';
-import useOnBoardingTasksManager from './onboarding_tasks_manager';
+import {useHandleOnBoardingTaskData} from './onboarding_tasks_manager';
 
 export const VisitSystemConsoleTour = () => {
-    const handleTask = useOnBoardingTasksManager();
+    const handleTask = useHandleOnBoardingTaskData();
     const taskName = OnBoardingTaskName.VISIT_SYSTEM_CONSOLE;
     const steps = TaskNameMapToSteps[taskName];
 
@@ -33,16 +33,16 @@ export const VisitSystemConsoleTour = () => {
 
     const punchOut = useMeasurePunchouts(['product-switcher-menu-dropdown'], []) || null;
 
-    const handleSaveData = useCallback((source?: DataEventSource) => {
+    const handleSaveData = (source?: DataEventSource) => {
         if (source && source === 'dismiss') {
             handleTask(taskName, steps.start, true, source);
         }
-    }, [handleTask]);
+    };
 
-    const onPunchOutClick = useCallback(() => {
+    const onPunchOutClick = () => {
         browserHistory.push('/admin_console');
         handleTask(taskName, steps.FINISHED, true, 'finished');
-    }, [handleTask]);
+    };
 
     return (
         <TutorialTourTip

@@ -25,7 +25,7 @@ export default function useElementAvailable(
                     checkAvailableInterval.current = null;
                 }
             }
-        }, 500);
+        }, 50);
     }, []);
 
     return useMemo(() => available, [available]);

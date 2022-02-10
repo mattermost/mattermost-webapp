@@ -14,6 +14,8 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {trackEvent} from 'actions/telemetry_actions';
 import checklistImg from 'images/onboarding-checklist.svg';
 import {Preferences} from 'utils/constants';
+import {OnBoardingTaskName} from 'components/onboarding_tasks/constant';
+import {useHandleOnBoardingTaskTrigger} from 'components/onboarding_tasks/onboarding_tasks_manager';
 
 import {TaskListPopover} from './onboarding_checklist_popover';
 import {Task} from './onboarding_checklist_task';
@@ -144,14 +146,15 @@ const Skeleton = styled.div`
 const TaskList = (): JSX.Element => {
     const [open, setOpen] = useState(false);
     const [completedCount, setCompletedCount] = useState(0);
-    const trigger = useRef();
+    const trigger = useRef<HTMLButtonElement>(null);
     const dispatch = useDispatch();
     const currentUserId = useSelector(getCurrentUserId);
+    const handleTaskTrigger = useHandleOnBoardingTaskTrigger();
 
-    const completeTask = () => {
-        //TODO: this will be implemented fully when we have all the Preferences for the tours merged.
+    const startTask = (taskName: string) => {
+        handleTaskTrigger(taskName);
         setCompletedCount(completedCount + 1);
-        trackEvent('ui', 'onboarding_checklist_task_completed');
+        closeTaskList();
     };
 
     const dismissChecklist = useCallback(() => {
@@ -166,36 +169,62 @@ const TaskList = (): JSX.Element => {
     }, [currentUserId]);
 
     const taskLabels = [
-        <FormattedMessage
-            key={1}
-            id='onboarding_checklist.task_channels_tour'
-            defaultMessage='Take a tour of channels'
-        />,
-        <FormattedMessage
-            key={2}
-            id='onboarding_checklist.task_boards_tour'
-            defaultMessage='Manage tasks with your first board'
-        />,
-        <FormattedMessage
-            key={3}
-            id='onboarding_checklist.task_invite'
-            defaultMessage='Invite team members to the workspace'
-        />,
-        <FormattedMessage
-            key={4}
-            id='onboarding_checklist.task_complete_profile'
-            defaultMessage='Complete your profile'
-        />,
-        <FormattedMessage
-            key={5}
-            id='onboarding_checklist.task_download_apps'
-            defaultMessage='Download the Desktop and Mobile Apps'
-        />,
-        <FormattedMessage
-            key={6}
-            id='onboarding_checklist.task_system_console'
-            defaultMessage='Visit the System Console to configure your workspace'
-        />,
+        {
+            label: (
+                <FormattedMessage
+                    id='onboarding_checklist.task_channels_tour'
+                    defaultMessage='Take a tour of channels'
+                />),
+            taskName: OnBoardingTaskName.CHANNELS_TOUR,
+        },
+        {
+            label: (
+                <FormattedMessage
+                    id='onboarding_checklist.task_boards_tour'
+                    defaultMessage='Manage tasks with your first board'
+                />),
+            taskName: OnBoardingTaskName.BOARDS_TOUR,
+        },
+        {
+            label: (
+                <FormattedMessage
+                    id='onboarding_checklist.task_playbooks_tour'
+                    defaultMessage='Explore workflows with your first Playbook'
+                />),
+            taskName: OnBoardingTaskName.PLAYBOOKS_TOUR,
+        },
+        {
+            label: (
+                <FormattedMessage
+                    id='onboarding_checklist.task_invite'
+                    defaultMessage='Invite team members to the workspace'
+                />),
+            taskName: OnBoardingTaskName.INVITE_PEOPLE,
+        },
+        {
+            label: (
+                <FormattedMessage
+                    id='onboarding_checklist.task_complete_profile'
+                    defaultMessage='Complete your profile'
+                />),
+            taskName: OnBoardingTaskName.COMPLETE_YOUR_PROFILE,
+        },
+        {
+            label: (
+                <FormattedMessage
+                    id='onboarding_checklist.task_download_apps'
+                    defaultMessage='Download the Desktop and Mobile Apps'
+                />),
+            taskName: OnBoardingTaskName.DOWNLOAD_APP,
+        },
+        {
+            label: (
+                <FormattedMessage
+                    id='onboarding_checklist.task_system_console'
+                    defaultMessage='Visit the System Console to configure your worksace'
+                />),
+            taskName: OnBoardingTaskName.VISIT_SYSTEM_CONSOLE,
+        },
     ];
     const closeTaskList = useCallback(() => {
         setOpen(false);
@@ -206,7 +235,7 @@ const TaskList = (): JSX.Element => {
             <CompletedAnimation completed={completedCount === taskLabels.length}/>
             <Button
                 onClick={() => setOpen(!open)}
-                ref={trigger as unknown as React.RefObject<HTMLButtonElement>}
+                ref={trigger}
                 open={open}
             >
                 <Icon glyph={open ? 'close' : 'playlist-check'}/>
@@ -248,12 +277,12 @@ const TaskList = (): JSX.Element => {
                                     defaultMessage='Watch overview'
                                 />
                             </PlayButton>
-                            {taskLabels.map((label, i) => (
+                            {taskLabels.map((task, i) => (
                                 <Task
                                     key={i}
-                                    label={label}
+                                    label={task.label}
                                     onClick={() => {
-                                        completeTask();
+                                        startTask(task.taskName);
                                     }}
                                 />
                             ))}

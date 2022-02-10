@@ -276,7 +276,7 @@ const TutorialTourTip = ({
                     height={(punchOut === 'Full') ? '' : punchOut?.height}
                 />
             </TourTipOverlay>
-            {show && punchOut && (
+            {show && (
                 <Tippy
                     showOnCreate={show}
                     content={content}

@@ -8,10 +8,10 @@ import TutorialTourTip, {DataEventSource} from 'components/tutorial_tour_tip/tut
 import {useMeasurePunchouts} from '../tutorial_tour_tip/hooks';
 
 import {OnBoardingTaskName, TaskNameMapToSteps} from './constant';
-import useOnBoardingTasksManager from './onboarding_tasks_manager';
+import {useHandleOnBoardingTaskData} from './onboarding_tasks_manager';
 
 export const InvitePeopleTour = () => {
-    const handleTask = useOnBoardingTasksManager();
+    const handleTask = useHandleOnBoardingTaskData();
     const taskName = OnBoardingTaskName.START_TRIAL;
     const steps = TaskNameMapToSteps[taskName];
 

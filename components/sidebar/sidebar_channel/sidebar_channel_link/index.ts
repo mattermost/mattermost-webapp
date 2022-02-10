@@ -18,6 +18,7 @@ import {getFirstChannelName} from 'selectors/onboarding';
 import {isChannelSelected} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
 import {OnBoardingTourSteps, TutorialTourCategories} from 'components/tutorial_tour_tip/constant';
+import {OnBoardingTaskCategory, OnBoardingTaskName, TaskNameMapToSteps} from '../../../onboarding_tasks/constant';
 
 import SidebarChannelLink from './sidebar_channel_link';
 
@@ -36,7 +37,9 @@ function makeMapStateToProps() {
         const enableTutorial = config.EnableTutorial === 'true';
         const currentUserId = getCurrentUserId(state);
         const tutorialStep = getInt(state, TutorialTourCategories.ON_BOARDING, currentUserId, 0);
-        const showChannelsTutorialStep = enableTutorial && tutorialStep === OnBoardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES;
+        const triggerStep = getInt(state, OnBoardingTaskCategory, OnBoardingTaskName.CHANNELS_TOUR, 0);
+        const channelTourTriggered = triggerStep === TaskNameMapToSteps[OnBoardingTaskName.CHANNELS_TOUR].STARTED;
+        const showChannelsTutorialStep = enableTutorial && channelTourTriggered && tutorialStep === OnBoardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES;
 
         return {
             unreadMentions: unreadCount.mentions,

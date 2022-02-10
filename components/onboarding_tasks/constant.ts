@@ -8,7 +8,9 @@ export const OnBoardingTaskCategory = 'on_boarding_task_list';
 export const OnBoardingTaskName = {
     START_TRIAL: 'start_trial',
     CHANNELS_TOUR: 'channels_tour',
-    BOARDS_TOUR: 'BOARDS_TOUR',
+    BOARDS_TOUR: 'boards_tour',
+    INVITE_PEOPLE: 'invite_people',
+    DOWNLOAD_APP: 'download_app',
     PLAYBOOKS_TOUR: 'playbooks_tour',
     COMPLETE_YOUR_PROFILE: 'complete_your_profile',
     VISIT_SYSTEM_CONSOLE: 'visit_system_console',
@@ -27,5 +29,6 @@ export const TaskNameMapToSteps = {
     [OnBoardingTaskName.PLAYBOOKS_TOUR]: GenericTaskSteps,
     [OnBoardingTaskName.COMPLETE_YOUR_PROFILE]: GenericTaskSteps,
     [OnBoardingTaskName.VISIT_SYSTEM_CONSOLE]: GenericTaskSteps,
+    [OnBoardingTaskName.INVITE_PEOPLE]: GenericTaskSteps,
 };
 

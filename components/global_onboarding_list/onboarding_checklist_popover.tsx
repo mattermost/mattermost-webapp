@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {MutableRefObject} from 'react';
+import React, {RefObject} from 'react';
 import {usePopper} from 'react-popper';
 import {CSSTransition} from 'react-transition-group';
 import styled from 'styled-components';
@@ -47,7 +47,7 @@ const Overlay = styled.div`
 `;
 
 interface TaskListPopoverProps {
-    trigger: MutableRefObject<undefined>;
+    trigger: RefObject<HTMLButtonElement>;
     isVisible: boolean;
     placement?: Placement;
     offset?: [number | null | undefined, number | null | undefined];
