@@ -1,0 +1,349 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/admin_console/license_settings/enterprise_edition/enterprise_edition_right_panel should render for E20 no Trial 1`] = `
+<div
+  className="EnterpriseEditionRightPannel"
+>
+  <div
+    className="svg-image"
+  >
+    <TwoPeopleChattingSvg
+      height={200}
+      width={200}
+    />
+  </div>
+  <div
+    className="upgrade-title"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Need to increase your headcount?"
+      id="admin.license.enterprisePlanTitle"
+    />
+  </div>
+  <div
+    className="upgrade-subtitle"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="We’re here to work with you and your needs. Contact us today to get more seats on your plan."
+      id="admin.license.enterprisePlanSubtitle"
+    />
+  </div>
+  <div
+    className="purchase_buttons"
+  >
+    <div
+      className="purchase-card"
+    >
+      <ContactUsButton
+        customClass="light-blue-btn"
+        eventID="post_trial_contact_sales"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/license_settings/enterprise_edition/enterprise_edition_right_panel should render for Enterprise no Trial 1`] = `
+<div
+  className="EnterpriseEditionRightPannel"
+>
+  <div
+    className="svg-image"
+  >
+    <TwoPeopleChattingSvg
+      height={200}
+      width={200}
+    />
+  </div>
+  <div
+    className="upgrade-title"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Need to increase your headcount?"
+      id="admin.license.enterprisePlanTitle"
+    />
+  </div>
+  <div
+    className="upgrade-subtitle"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="We’re here to work with you and your needs. Contact us today to get more seats on your plan."
+      id="admin.license.enterprisePlanSubtitle"
+    />
+  </div>
+  <div
+    className="purchase_buttons"
+  >
+    <div
+      className="purchase-card"
+    >
+      <ContactUsButton
+        customClass="light-blue-btn"
+        eventID="post_trial_contact_sales"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/license_settings/enterprise_edition/enterprise_edition_right_panel should render for Gov no Trial no Enterprise 1`] = `
+<div
+  className="EnterpriseEditionRightPannel"
+>
+  <div
+    className="svg-image"
+  >
+    <WomanUpArrowsAndCloudsSvg
+      height={200}
+      width={200}
+    />
+  </div>
+  <div
+    className="upgrade-title"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Upgrade to the Enterprise Gov Plan"
+      id="admin.license.upgradeToEnterpriseGov"
+    />
+  </div>
+  <div
+    className="upgrade-subtitle"
+  >
+    <div
+      className="advantages-list"
+    >
+      <div
+        className="item"
+        key="0"
+      >
+        <i
+          className="fa fa-lock"
+        />
+        AD/LDAP Group sync
+      </div>
+      <div
+        className="item"
+        key="1"
+      >
+        <i
+          className="fa fa-lock"
+        />
+        High Availability
+      </div>
+      <div
+        className="item"
+        key="2"
+      >
+        <i
+          className="fa fa-lock"
+        />
+        Advanced compliance
+      </div>
+      <div
+        className="item"
+        key="3"
+      >
+        <i
+          className="fa fa-lock"
+        />
+        Advanced roles and permissions
+      </div>
+      <div
+        className="item"
+        key="4"
+      >
+        <i
+          className="fa fa-lock"
+        />
+        And more...
+      </div>
+    </div>
+  </div>
+  <div
+    className="purchase_buttons"
+  >
+    <div
+      className="purchase-card"
+    >
+      <ContactUsButton
+        customClass="light-blue-btn"
+        eventID="post_trial_contact_sales"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/license_settings/enterprise_edition/enterprise_edition_right_panel should render for Trial Gov 1`] = `
+<div
+  className="EnterpriseEditionRightPannel"
+>
+  <div
+    className="svg-image"
+  >
+    <WomanWithCardSvg
+      height={200}
+      width={200}
+    />
+  </div>
+  <div
+    className="upgrade-title"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Purchase the Enterprise Gov Plan"
+      id="admin.license.purchaseEnterpriseGovPlanTitle"
+    />
+  </div>
+  <div
+    className="upgrade-subtitle"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Continue your access to Enterprise features by purchasing a license today."
+      id="admin.license.purchaseEnterprisePlanSubtitle"
+    />
+  </div>
+  <div
+    className="purchase_buttons"
+  >
+    <div
+      className="purchase-card"
+    >
+      <ContactUsButton
+        customClass="light-blue-btn"
+        eventID="post_trial_contact_sales"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/license_settings/enterprise_edition/enterprise_edition_right_panel should render for Trial no Gov 1`] = `
+<div
+  className="EnterpriseEditionRightPannel"
+>
+  <div
+    className="svg-image"
+  >
+    <WomanWithCardSvg
+      height={200}
+      width={200}
+    />
+  </div>
+  <div
+    className="upgrade-title"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Purchase the Enterprise Plan"
+      id="admin.license.purchaseEnterprisePlanTitle"
+    />
+  </div>
+  <div
+    className="upgrade-subtitle"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Continue your access to Enterprise features by purchasing a license today."
+      id="admin.license.purchaseEnterprisePlanSubtitle"
+    />
+  </div>
+  <div
+    className="purchase_buttons"
+  >
+    <div
+      className="purchase-card"
+    >
+      <ContactUsButton
+        customClass="light-blue-btn"
+        eventID="post_trial_contact_sales"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/license_settings/enterprise_edition/enterprise_edition_right_panel should render for no Gov no Trial no Enterprise 1`] = `
+<div
+  className="EnterpriseEditionRightPannel"
+>
+  <div
+    className="svg-image"
+  >
+    <WomanUpArrowsAndCloudsSvg
+      height={200}
+      width={200}
+    />
+  </div>
+  <div
+    className="upgrade-title"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Upgrade to the Enterprise Plan"
+      id="admin.license.upgradeToEnterprise"
+    />
+  </div>
+  <div
+    className="upgrade-subtitle"
+  >
+    <div
+      className="advantages-list"
+    >
+      <div
+        className="item"
+        key="0"
+      >
+        <i
+          className="fa fa-lock"
+        />
+        AD/LDAP Group sync
+      </div>
+      <div
+        className="item"
+        key="1"
+      >
+        <i
+          className="fa fa-lock"
+        />
+        High Availability
+      </div>
+      <div
+        className="item"
+        key="2"
+      >
+        <i
+          className="fa fa-lock"
+        />
+        Advanced compliance
+      </div>
+      <div
+        className="item"
+        key="3"
+      >
+        <i
+          className="fa fa-lock"
+        />
+        Advanced roles and permissions
+      </div>
+      <div
+        className="item"
+        key="4"
+      >
+        <i
+          className="fa fa-lock"
+        />
+        And more...
+      </div>
+    </div>
+  </div>
+  <div
+    className="purchase_buttons"
+  >
+    <div
+      className="purchase-card"
+    >
+      <ContactUsButton
+        customClass="light-blue-btn"
+        eventID="post_trial_contact_sales"
+      />
+    </div>
+  </div>
+</div>
+`;
