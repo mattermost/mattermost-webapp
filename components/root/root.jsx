@@ -15,6 +15,7 @@ import {setUrl} from 'mattermost-redux/actions/general';
 import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions';
 import * as GlobalActions from 'actions/global_actions';
@@ -268,11 +269,19 @@ export default class Root extends React.PureComponent {
     }
 
     async redirectToOnboardingOrDefaultTeam() {
-        const isUserAdmin = isCurrentUserSystemAdmin(store.getState());
+        const storeState = store.getState();
+        const isUserAdmin = isCurrentUserSystemAdmin(storeState);
         if (!isUserAdmin) {
             GlobalActions.redirectUserToDefaultTeam();
             return;
         }
+
+        const useCaseOnboarding = getUseCaseOnboarding(storeState);
+        if (!useCaseOnboarding) {
+            GlobalActions.redirectUserToDefaultTeam();
+            return;
+        }
+
         const firstAdminSetupComplete = await this.props.actions.getFirstAdminSetupComplete();
         if (!firstAdminSetupComplete?.data) {
             this.props.history.push('/preparing-workspace');

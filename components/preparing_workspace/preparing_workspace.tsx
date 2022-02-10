@@ -21,12 +21,13 @@ import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getFirstAdminSetupComplete, getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {Client4} from 'mattermost-redux/client';
 
-import Constants, {OnboardingPreferences} from 'utils/constants';
+import Constants, {OnboardingPreferences, Preferences, RecommendedNextSteps} from 'utils/constants';
 import {makeNewEmptyChannel} from 'utils/channel_utils';
 import {teamNameToUrl, getSiteURL} from 'utils/url';
 import {makeNewTeam} from 'utils/team_utils';
 
 import {switchToChannel} from 'actions/views/channel';
+import {setFirstChannelName} from 'actions/views/channel_sidebar';
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 
 import logoImage from 'images/logo.png';
@@ -107,8 +108,7 @@ export default function PreparingWorkspace(props: Props) {
     const existingUseCasePreference = useSelector((state: GlobalState) => get(state, Constants.Preferences.ONBOARDING, OnboardingPreferences.USE_CASE, false));
     const firstAdminSetupComplete = useSelector(getFirstAdminSetupComplete);
 
-    const [currentStep, setCurrentStep] = useState<WizardStep>(stepOrder[0]);
-    const [mostRecentStep, setMostRecentStep] = useState<WizardStep>(stepOrder[0]);
+    const [[mostRecentStep, currentStep], setStepHistory] = useState<[WizardStep, WizardStep]>([stepOrder[0], stepOrder[0]]);
     const [submissionState, setSubmissionState] = useState<SubmissionState>(SubmissionStates.Presubmit);
     const browserSiteUrl = useMemo(getSiteURL, []);
     const [form, setForm] = useState({
@@ -126,8 +126,8 @@ export default function PreparingWorkspace(props: Props) {
         // If admin changes config during onboarding, we want to back them up to this step
         if (isConfigSiteUrlDefault && !lastIsConfigSiteUrlDefaultRef.current && urlStepPlacement > -1 && stepOrder.indexOf(currentStep) > urlStepPlacement) {
             lastIsConfigSiteUrlDefaultRef.current = isConfigSiteUrlDefault;
-            setCurrentStep(WizardSteps.Url);
-            setMostRecentStep(stepOrder[Math.min(urlStepPlacement + 1, stepOrder.length - 1)]);
+            const newMostRecentStep = stepOrder[Math.min(urlStepPlacement + 1, stepOrder.length - 1)];
+            setStepHistory([newMostRecentStep, WizardSteps.Url]);
         } else if (isConfigSiteUrlDefault && !lastIsConfigSiteUrlDefaultRef.current) {
             lastIsConfigSiteUrlDefaultRef.current = isConfigSiteUrlDefault;
         }
@@ -148,9 +148,7 @@ export default function PreparingWorkspace(props: Props) {
             if (stepIndex === -1 || stepIndex >= stepOrder.length) {
                 return;
             }
-            setCurrentStep(stepOrder[stepIndex + 1]);
-
-            setMostRecentStep(currentStep);
+            setStepHistory([currentStep, stepOrder[stepIndex + 1]]);
 
             const progressName = (skip ? mapStepToSkipName : mapStepToNextName)(currentStep);
             trackEvent('first_admin_setup', progressName, trackingProps);
@@ -183,9 +181,16 @@ export default function PreparingWorkspace(props: Props) {
             redirectChannel = channel;
             if (error) {
                 // TODO: Ruh Roah. Show some error?
-            }
+            } else if (redirectChannel) {
+                const category = Preferences.AB_TEST_PREFERENCE_VALUE;
+                const name = RecommendedNextSteps.CREATE_FIRST_CHANNEL;
+                const firstChannelNamePref = {category, name, user_id: user.id, value: redirectChannel.name};
+                const defaultStepPref = {user_id: user.id, category: Preferences.TUTORIAL_STEP, name: user.id, value: '-1'};
 
-            // send them to the channel they just created instead of town square?
+                // store the firstChannelName value to redux and in preferences, also set the defaultStep to firstChannelName (-1)
+                dispatch(setFirstChannelName(redirectChannel.name));
+                dispatch(savePreferences(user.id, [firstChannelNamePref, defaultStepPref]));
+            }
         }
 
         if (!form.teamMembers.skipped && !isConfigSiteUrlDefault) {
@@ -216,13 +221,13 @@ export default function PreparingWorkspace(props: Props) {
 
         setTimeout(() => {
             // i.e. TransitioningOut
-            let inviteMembersProps;
+            let inviteMembersTracking;
             if (!form.teamMembers.skipped) {
-                inviteMembersProps = {
+                inviteMembersTracking = {
                     inviteCount: form.teamMembers.invites.length,
                 };
             }
-            makeNext(WizardSteps.InviteMembers, form.teamMembers.skipped)(inviteMembersProps);
+            makeNext(WizardSteps.InviteMembers, form.teamMembers.skipped)(inviteMembersTracking);
 
             setTimeout(() => {
                 if (redirectChannel) {
@@ -263,10 +268,10 @@ export default function PreparingWorkspace(props: Props) {
         }
         const stepIndexes = steps.map((step) => stepOrder.indexOf(step));
         stepIndexes.sort();
-        const [stepIndexesMin, stepIndexesMax] = [stepIndexes[0], stepIndexes.length - 1];
+        const [stepIndexesMin, stepIndexesMax] = [stepIndexes[0], stepIndexes[stepIndexes.length - 1]];
         const currentStepIndex = stepOrder.indexOf(currentStep);
         const mostRecentStepIndex = stepOrder.indexOf(mostRecentStep);
-        if (steps.length === 0 || stepIndexes.some((step) => step === -1) || currentStepIndex === -1 || mostRecentStepIndex === -1) {
+        if (stepIndexes.some((step) => step === -1) || currentStepIndex === -1 || mostRecentStepIndex === -1) {
             return Animations.Reasons.EnterFromBefore;
         }
         if (currentStepIndex >= stepIndexesMin && currentStepIndex <= stepIndexesMax) {
@@ -289,7 +294,7 @@ export default function PreparingWorkspace(props: Props) {
             return;
         }
         trackEvent('first_admin_setup', mapStepToPrevious(currentStep));
-        setCurrentStep(stepOrder[stepIndex - 1]);
+        setStepHistory([currentStep, stepOrder[stepIndex - 1]]);
     }, [currentStep]);
     const skipPlugins = useCallback((skipped: boolean) => {
         if (skipped === form.plugins.skipped) {

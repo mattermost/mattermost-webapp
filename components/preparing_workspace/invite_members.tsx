@@ -182,7 +182,7 @@ const InviteMembers = (props: Props) => {
                         </button>
                     )}
                 </div>
-                <PageLine style={{marginTop: '5px'}}/>
+                <PageLine/>
             </div>
         </CSSTransition>
     );
