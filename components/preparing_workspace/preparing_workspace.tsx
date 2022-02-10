@@ -122,7 +122,7 @@ export default function PreparingWorkspace(props: Props) {
         document.body.classList.add('admin-onboarding');
         return () => {
             document.body.classList.remove('admin-onboarding');
-        }
+        };
     }, []);
     useEffect(() => {
         const urlStepPlacement = stepOrder.indexOf(WizardSteps.Url);

@@ -71,11 +71,10 @@ const Organization = (props: Props) => {
             unmountOnExit={true}
         >
             <div className={className}>
-                <div className='Organization-left-col'>
-                </div>
+                <div className='Organization-left-col'/>
                 <div className='Organization-right-col'>
                     <div className='Organization-form-wrapper'>
-                        <div className="Organization__progress-path">
+                        <div className='Organization__progress-path'>
                             <OrganizationSVG/>
                             <PageLine
                                 style={{
@@ -102,9 +101,9 @@ const Organization = (props: Props) => {
                             <QuickInput
                                 placeholder={
                                     formatMessage({
-                                    id: 'onboarding_wizard.organization.placeholder',
-                                    defaultMessage: 'Organization name',
-                                })
+                                        id: 'onboarding_wizard.organization.placeholder',
+                                        defaultMessage: 'Organization name',
+                                    })
                                 }
                                 className='Organization__input'
                                 value={props.organization || ''}

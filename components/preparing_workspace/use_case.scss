@@ -6,14 +6,31 @@
 }
 
 .UseCase-form-wrapper {
-    padding-top: 116px;
+    position: relative;
 }
 
 .UseCase-left-col {
+    width: 210px;
+    min-width: 210px;
+}
+
+.UseCase-right-col {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    justify-content: center;
+}
+
+.UseCase {
+    &__progress-path {
+        position: absolute;
+        top: -10px;
+        left: -210px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        text-align: center;
+    }
 }
 
 // 1136 is width at which the cards start hitting screen and wrapping to next line.
@@ -35,12 +52,6 @@
                 margin-bottom: 0;
             }
         }
-    }
-}
-
-@media screen and (max-width: 700px) {
-    .UseCase-left-col {
-        display: none;
     }
 }
 

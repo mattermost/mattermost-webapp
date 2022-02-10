@@ -1,6 +1,7 @@
 @import 'utils/mixins';
 
 .Plugins-body {
+    display: flex;
     width: 100%;
     max-width: 1126px;
 }

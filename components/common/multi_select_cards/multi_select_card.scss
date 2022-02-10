@@ -17,7 +17,9 @@
     list-style-type: none;
     text-align: center;
 
-    &:hover, &:active, &:focus {
+    &:hover,
+    &:active,
+    &:focus {
         border: 2px solid rgba(var(--center-channel-color-rgb), 0.32);
         box-shadow: $elevation-4;
     }
@@ -44,10 +46,13 @@
         border: 2px solid var(--button-bg);
         box-shadow: $elevation-2;
 
-        &:hover, &:active, &:focus {
+        &:hover,
+        &:active,
+        &:focus {
             border: 2px solid var(--button-bg);
             box-shadow: $elevation-2;
         }
+
         &:focus {
             box-shadow: $elevation-4;
         }

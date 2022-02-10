@@ -77,15 +77,16 @@ const Url = (props: Props) => {
             unmountOnExit={true}
         >
             <div className={className}>
-                <div className='Url-left-col'>
-                </div>
+                <div className='Url-left-col'/>
                 <div className='Url-right-col'>
                     <div className='Url-form-wrapper'>
-                        <div className="Url__progress-path">
+                        <div className='Url__progress-path'>
                             <PageLine
                                 style={{
                                     height: '50vh',
                                     position: 'absolute',
+                                    transform: 'translateY(-100%)',
+                                    top: '-20px',
                                 }}
                                 noLeft={true}
                             />
@@ -122,9 +123,9 @@ const Url = (props: Props) => {
                             <QuickInput
                                 placeholder={
                                     formatMessage({
-                                    id: 'onboarding_wizard.url.placeholder',
-                                    defaultMessage: 'your-workspace',
-                                })
+                                        id: 'onboarding_wizard.url.placeholder',
+                                        defaultMessage: 'your-workspace',
+                                    })
                                 }
                                 value={props.url}
                                 onChange={(e) => {

@@ -1,8 +1,10 @@
 @import 'utils/mixins';
 
+$svg_height: 500px;
+
 .ChannelsPreview-body {
     position: absolute;
-    top: calc(50vh - 250px);
+    top: calc(50vh - #{$svg_height / 2});
     right: 0;
 }
 

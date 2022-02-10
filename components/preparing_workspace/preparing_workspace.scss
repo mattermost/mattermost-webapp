@@ -26,8 +26,8 @@
 
 .PreparingWorkspaceContainer {
     display: flex;
-    flex-direction: row;
     max-width: 1200px;
+    flex-direction: row;
 
     .tertiary-button {
         @include tertiary-button;

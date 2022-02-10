@@ -52,68 +52,76 @@ const UseCase = (props: Props) => {
             unmountOnExit={true}
         >
             <div className={className}>
-                <div className='UseCase-left-col'>
-                    <PageLine
-                        style={{height: '100px'}}
-                        noLeft={true}
-                    />
-                    <LaptopSVG/>
-                    <PageLine
-                        noLeft={true}
-                    />
-                </div>
-                <div className='UseCase-form-wrapper'>
-                    {props.previous}
-                    <Title>
-                        <FormattedMessage
-                            id={'onboarding_wizard.use_case.title'}
-                            defaultMessage='How do you plan to use Mattermost?'
-                        />
-                    </Title>
-                    <Description>
-                        <FormattedMessage
-                            id={'onboarding_wizard.use_case.description'}
-                            defaultMessage="This will help us set up your workspace in a way that's most relevant to you. Select all that apply."
-                        />
-                    </Description>
-                    <PageBody>
-                        <MultiSelectCards
-                            next={props.next}
-                            cards={[
-                                {
-                                    onClick: () => props.setOption('channels'),
-                                    icon: <ChannelsSVG/>,
-                                    id: t('onboarding_wizard.use_case.channels'),
-                                    defaultMessage: 'Team communication and collaboration',
-                                    checked: props.options.channels,
-                                },
-                                {
-                                    onClick: () => props.setOption('boards'),
-                                    icon: <BoardsSVG/>,
-                                    id: t('onboarding_wizard.use_case.boards'),
-                                    defaultMessage: 'Project planning and management',
-                                    checked: props.options.boards,
-                                },
-                                {
-                                    onClick: () => props.setOption('playbooks'),
-                                    icon: <PlaybooksSVG/>,
-                                    id: t('onboarding_wizard.use_case.playbooks'),
-                                    defaultMessage: 'Processes, workflows, and automation',
-                                    checked: props.options.playbooks,
-                                },
-                            ]}
-                        />
-                    </PageBody>
-                    <div>
-                        <button
-                            className='primary-button'
-                            onClick={props.next}
-                        >
-                            <FormattedMessage
-                                id={'onboarding_wizard.next'}
-                                defaultMessage='Continue'
+                <div className='UseCase-left-col'/>
+                <div className='UseCase-right-col'>
+                    <div className='UseCase-form-wrapper'>
+                        <div className='UseCase__progress-path'>
+                            <PageLine
+                                style={{
+                                    height: '50vh',
+                                    position: 'absolute',
+                                    transform: 'translateY(-100%)',
+                                    top: '-20px',
+                                }}
+                                noLeft={true}
                             />
-                        </button>
+                            <LaptopSVG/>
+                            <PageLine
+                                noLeft={true}
+                            />
+                        </div>
+                        {props.previous}
+                        <Title>
+                            <FormattedMessage
+                                id={'onboarding_wizard.use_case.title'}
+                                defaultMessage='How do you plan to use Mattermost?'
+                            />
+                        </Title>
+                        <Description>
+                            <FormattedMessage
+                                id={'onboarding_wizard.use_case.description'}
+                                defaultMessage="This will help us set up your workspace in a way that's most relevant to you. Select all that apply."
+                            />
+                        </Description>
+                        <PageBody>
+                            <MultiSelectCards
+                                next={props.next}
+                                cards={[
+                                    {
+                                        onClick: () => props.setOption('channels'),
+                                        icon: <ChannelsSVG/>,
+                                        id: t('onboarding_wizard.use_case.channels'),
+                                        defaultMessage: 'Team communication and collaboration',
+                                        checked: props.options.channels,
+                                    },
+                                    {
+                                        onClick: () => props.setOption('boards'),
+                                        icon: <BoardsSVG/>,
+                                        id: t('onboarding_wizard.use_case.boards'),
+                                        defaultMessage: 'Project planning and management',
+                                        checked: props.options.boards,
+                                    },
+                                    {
+                                        onClick: () => props.setOption('playbooks'),
+                                        icon: <PlaybooksSVG/>,
+                                        id: t('onboarding_wizard.use_case.playbooks'),
+                                        defaultMessage: 'Processes, workflows, and automation',
+                                        checked: props.options.playbooks,
+                                    },
+                                ]}
+                            />
+                        </PageBody>
+                        <div>
+                            <button
+                                className='primary-button'
+                                onClick={props.next}
+                            >
+                                <FormattedMessage
+                                    id={'onboarding_wizard.next'}
+                                    defaultMessage='Continue'
+                                />
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
