@@ -106,18 +106,19 @@ export default class EditChannelHeaderModal extends React.PureComponent<Props, S
             this.setState({saving: true});
             const {channel, actions} = this.props;
             const {error} = await actions.patchChannel(channel.id!, {header});
-            if (error)
+            if (error) {
                 this.setState({serverError: error, saving: false});
-                console.log(error)
+            }
+            console.log(error);
         }
-        console.log(this.state)
-        this.hideModal()
+        console.log(this.state);
+        this.hideModal();
     }
 
     private cleanHeaderText = () => {
-        let {header} = this.state
-        header = header?.trim()
-        return header
+        let {header} = this.state;
+        header = header?.trim();
+        return header;
     }
 
     private hideModal = (): void => {
