@@ -13,7 +13,7 @@ type Props = {
     onHeaderClick?: <T>(ref: RefObject<HTMLLIElement>) => T | void;
 }
 
-const AccordionItem = ({
+const AccordionCard = ({
     data,
     isExpanded,
     onButtonClick,
@@ -23,7 +23,6 @@ const AccordionItem = ({
     const itemRef = useRef<HTMLLIElement>(null);
 
     const [height, setHeight] = useState(0);
-
     const [open, setOpen] = useState(isExpanded);
 
     const toggle = () => {
@@ -49,43 +48,51 @@ const AccordionItem = ({
         setOpen(isExpanded);
     }, [isExpanded]);
 
+    const hasItems = data.items.length > 0;
+
     return (
         <li
-            className={`accordion-item ${open ? 'active' : ''}`}
+            className={`accordion-card ${open ? 'active' : ''}`}
             ref={itemRef}
         >
             <div
-                className='accordion-item-header'
-                onClick={toggle}
-                role='button'
+                className='accordion-card-header'
+                onClick={hasItems ? toggle : undefined}
+                role={hasItems ? 'button' : undefined}
             >
-                {data.icon && <div className='accordion-item-header__icon'>
-                    {data.icon}
-                </div>}
-                <div className='accordion-item-header__body'>
-                    <div className='accordion-item-header__body__title'>
+                {data.icon && (
+                    <div className='accordion-card-header__icon'>
+                        {data.icon}
+                    </div>
+                )}
+                <div className='accordion-card-header__body'>
+                    <div className='accordion-card-header__body__title'>
                         {data.title}
                     </div>
-                    {data.description && <div className='accordion-item-header__body__description'>
-                        {data.description}
-                    </div>}
+                    {data.description && (
+                        <div className='accordion-card-header__body__description'>
+                            {data.description}
+                        </div>
+                    )}
                 </div>
                 {data.extraContent && (
-                    <div className='accordion-item-header__extraContent'>
+                    <div className='accordion-card-header__extraContent'>
                         {data.extraContent}
                     </div>
                 )}
-                {data.items.length > 0 && <div className='accordion-item-header__chevron'>
-                    <i className='icon-chevron-down'/>
-                </div>}
+                {hasItems && (
+                    <div className='accordion-card-header__chevron'>
+                        <i className='icon-chevron-down'/>
+                    </div>
+                )}
             </div>
             <div
-                className='accordion-item-container'
+                className='accordion-card-container'
                 style={{height}}
             >
                 <div
                     ref={contentRef}
-                    className='accordion-item-container__content'
+                    className='accordion-card-container__content'
                 >
                     {data.items}
                 </div>
@@ -94,4 +101,4 @@ const AccordionItem = ({
     );
 };
 
-export default AccordionItem;
+export default AccordionCard;

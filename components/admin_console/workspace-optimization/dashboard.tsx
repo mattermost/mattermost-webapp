@@ -69,7 +69,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         const index = data.access.items.findIndex((item) => item.id === 'site-url');
         if (index >= 0) {
             const onSuccess = ({status}: any) => {
-                data.access.items[index].status = status === 'OK' ? 'none' : 'error';
+                data.access.items[index].status = status === 'OK' ? 'ok' : 'error';
             };
             const onError = () => {
                 data.access.items[0].status = 'error';
@@ -138,25 +138,22 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         updates: getUpdatesData({serverVersion: versionData}),
         configuration: getConfigurationData({
             ssl: {status: location.protocol === 'https:' ? 'ok' : 'error'},
-            sessionLength: {status: sessionLengthWebInDays >= 30 ? 'warning' : 'ok'},
+            sessionLength: {status: sessionLengthWebInDays >= 30 ? 'info' : 'ok'},
         }),
 
         // site-url item will be updated in a useEffect call
-        access: getAccessData({siteUrl: {status: 'info'}}),
+        access: getAccessData({siteUrl: {status: 'none'}}),
         performance: getPerformanceData({
             search: {
-                status: totalPosts < 2_000_000 && totalUsers < 500 ? 'ok' : 'warning',
+                status: totalPosts < 2_000_000 && totalUsers < 500 ? 'ok' : 'info',
             },
         }),
-
-        // TBD
-        // security: getSecurityData({loginAttempts: {status: 'warning', count: 24}}),
-        dataPrivacy: getDataPrivacyData({retention: {status: dataRetentionEnabled ? 'ok' : 'warning'}}),
+        dataPrivacy: getDataPrivacyData({retention: {status: dataRetentionEnabled ? 'ok' : 'info'}}),
         easyManagement: getEaseOfManagementData({
-            ldap: {status: totalUsers > 500 ? 'warning' : 'ok'},
+            ldap: {status: totalUsers > 500 ? 'info' : 'ok'},
 
             // TBD - @see https://github.com/mattermost/mattermost-server/pull/19437
-            guestAccounts: {status: 'warning'},
+            guestAccounts: {status: 'info'},
         }),
     };
 
@@ -184,30 +181,6 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
             if (item.status === undefined) {
                 return;
             }
-            items.push((
-                <AccordionItem
-                    key={`${accordionKey}-item_${item.id}`}
-                >
-                    <h5>
-                        <i
-                            className={classNames(`icon ${item.status}`, {
-                                'icon-check-circle-outline': item.status === 'ok',
-                                'icon-alert-outline': item.status === 'warning',
-                                'icon-alert-circle-outline': item.status === 'error',
-                                'icon-information-outline': item.status === 'info',
-                            })}
-                        />
-                        {item.title}
-                    </h5>
-                    <p>{item.description}</p>
-                    <CtaButtons
-                        learnMoreLink={item.infoUrl}
-                        learnMoreText={learnMoreText}
-                        actionLink={item.configUrl}
-                        actionText={item.configText}
-                    />
-                </AccordionItem>
-            ));
 
             // add the items impact to the overall score here
             overallScore.max += item.scoreImpact;
@@ -215,6 +188,30 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
 
             // chips will only be displayed for info aka Success, warning and error aka Problems
             if (item.status && item.status !== 'none' && item.status !== 'ok') {
+                items.push((
+                    <AccordionItem
+                        key={`${accordionKey}-item_${item.id}`}
+                    >
+                        <h5>
+                            <i
+                                className={classNames(`icon ${item.status}`, {
+                                    'icon-alert-outline': item.status === 'warning',
+                                    'icon-alert-circle-outline': item.status === 'error',
+                                    'icon-information-outline': item.status === 'info',
+                                })}
+                            />
+                            {item.title}
+                        </h5>
+                        <p>{item.description}</p>
+                        <CtaButtons
+                            learnMoreLink={item.infoUrl}
+                            learnMoreText={learnMoreText}
+                            actionLink={item.configUrl}
+                            actionText={item.configText}
+                        />
+                    </AccordionItem>
+                ));
+
                 accordionDataChips[item.status] += 1;
                 overallScoreChips[item.status] += 1;
             }

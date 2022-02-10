@@ -95,7 +95,7 @@ const useMetricsData = () => {
                     defaultMessage: 'Placeholder: Nothing to do here. All good!',
                 }) : formatMessage({
                     id: 'admin.reporting.workspace_optimization.updates.server_version.status.error.description',
-                    defaultMessage: 'Placeholder: Mattermost {version} contains a medium level security fix. Upgrading to this release is recommended.',
+                    defaultMessage: 'We recommend upgrading your Mattermost server to {version}.',
                 }, {version: data.serverVersion.version}),
                 configUrl: 'https://docs.mattermost.com/upgrade/upgrading-mattermost-server.html',
                 configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.downloadUpdate', defaultMessage: 'Download Update'}),
