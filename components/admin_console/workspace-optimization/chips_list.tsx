@@ -12,13 +12,15 @@ export type ChipsInfoType = { [key in 'info' | 'warning' | 'error']: number };
 
 type ChipsListProps = {
     chipsData: ChipsInfoType;
+    hideCountZeroChips: boolean;
 };
 
 const ChipsList = ({
     chipsData,
+    hideCountZeroChips,
 }: ChipsListProps): JSX.Element | null => {
     const chipsList = Object.entries(chipsData).map(([chipKey, count]) => {
-        if (count === 0) {
+        if (hideCountZeroChips && count === 0) {
             return false;
         }
         let chipLegend;
