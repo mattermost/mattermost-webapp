@@ -156,6 +156,10 @@ export type ViewsState = {
         filter: string;
     };
 
+    productMenu: {
+        switcherOpen: boolean;
+    };
+
     channelSidebar: {
         unreadFilterEnabled: boolean;
         draggingState: DraggingState;

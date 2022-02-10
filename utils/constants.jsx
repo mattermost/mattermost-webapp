@@ -72,6 +72,7 @@ export const Preferences = {
     CATEGORY_SIDEBAR_SETTINGS: 'sidebar_settings',
     CATEGORY_ADVANCED_SETTINGS: 'advanced_settings',
     TUTORIAL_STEP: 'tutorial_step',
+    TUTORIAL_STEP_AUTO_TOUR_STATUS: 'tutorial_step_auto_tour_status',
     CRT_TUTORIAL_TRIGGERED: 'crt_tutorial_triggered',
     CRT_TUTORIAL_AUTO_TOUR_STATUS: 'crt_tutorial_auto_tour_status',
     CRT_TUTORIAL_STEP: 'crt_tutorial_step',
@@ -150,6 +151,7 @@ export const TrialPeriodDays = {
 };
 
 export const ActionTypes = keyMirror({
+    SET_PRODUCT_SWITCHER_OPEN: null,
     RECEIVED_FOCUSED_POST: null,
     SELECT_POST: null,
     HIGHLIGHT_REPLY: null,
@@ -221,8 +223,6 @@ export const ActionTypes = keyMirror({
     TOGGLE_RHS_MENU: null,
     OPEN_RHS_MENU: null,
     CLOSE_RHS_MENU: null,
-
-    STORE_REHYDRATION_FAILED: null,
 
     DISMISS_NOTICE: null,
     SHOW_NOTICE: null,
@@ -488,8 +488,12 @@ export const TutorialSteps = {
     MENU_POPOVER: 3,
     PRODUCT_SWITCHER: 4,
     SETTINGS: 5,
+    START_TRIAL: 6,
     FINISHED: 999,
 };
+
+// note: add steps in same order as the keys in TutorialSteps above
+export const AdminTutorialSteps = ['START_TRIAL'];
 
 export const CrtTutorialSteps = {
     WELCOME_POPOVER: 0,
@@ -649,7 +653,6 @@ export const StorageTypes = keyMirror({
     REMOVE_ITEM: null,
     SET_GLOBAL_ITEM: null,
     REMOVE_GLOBAL_ITEM: null,
-    CLEAR: null,
     ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX: null,
     STORAGE_REHYDRATE: null,
 });
@@ -1053,6 +1056,7 @@ export const Constants = {
     UserStatuses,
     UserSearchOptions,
     TutorialSteps,
+    AdminTutorialSteps,
     CrtTutorialSteps,
     CrtTutorialTriggerSteps,
     AutoTourStatus,

@@ -23,7 +23,13 @@ describe('components/widgets/menu/menu_items/menu_start_trial', () => {
     test('should render when no trial license has ever been used and there is no license currently loaded', () => {
         const state = {
             entities: {
+                users: {
+                    currentUserId: 'test_id',
+                },
                 general: {
+                    config: {
+                        EnableTutorial: true,
+                    },
                     license: {
                         IsLicensed: 'false',
                     },
@@ -31,6 +37,16 @@ describe('components/widgets/menu/menu_items/menu_start_trial', () => {
                 admin: {
                     prevTrialLicense: {
                         IsLicensed: 'false',
+                    },
+                },
+                preferences: {
+                    myPreferences: {
+                        'tutorial_step-test_id': {
+                            user_id: 'test_id',
+                            category: 'tutorial_step',
+                            name: 'test_id',
+                            value: '6',
+                        },
                     },
                 },
             },
@@ -45,7 +61,13 @@ describe('components/widgets/menu/menu_items/menu_start_trial', () => {
     test('should render null when prevTrialLicense was used and there is no license currently loaded', () => {
         const state = {
             entities: {
+                users: {
+                    currentUserId: 'test_id',
+                },
                 general: {
+                    config: {
+                        EnableTutorial: true,
+                    },
                     license: {
                         IsLicensed: 'false',
                         IsTrial: 'false',
@@ -54,6 +76,16 @@ describe('components/widgets/menu/menu_items/menu_start_trial', () => {
                 admin: {
                     prevTrialLicense: {
                         IsLicensed: 'true',
+                    },
+                },
+                preferences: {
+                    myPreferences: {
+                        'tutorial_step-test_id': {
+                            user_id: 'test_id',
+                            category: 'tutorial_step',
+                            name: 'test_id',
+                            value: '6',
+                        },
                     },
                 },
             },
@@ -68,7 +100,13 @@ describe('components/widgets/menu/menu_items/menu_start_trial', () => {
     test('should render null when no trial license has ever been used but there is a license currently loaded', () => {
         const state = {
             entities: {
+                users: {
+                    currentUserId: 'test_id',
+                },
                 general: {
+                    config: {
+                        EnableTutorial: true,
+                    },
                     license: {
                         IsLicensed: 'true',
                         IsTrial: 'false',
@@ -77,6 +115,16 @@ describe('components/widgets/menu/menu_items/menu_start_trial', () => {
                 admin: {
                     prevTrialLicense: {
                         IsLicensed: 'false',
+                    },
+                },
+                preferences: {
+                    myPreferences: {
+                        'tutorial_step-test_id': {
+                            user_id: 'test_id',
+                            category: 'tutorial_step',
+                            name: 'test_id',
+                            value: '6',
+                        },
                     },
                 },
             },
@@ -91,7 +139,13 @@ describe('components/widgets/menu/menu_items/menu_start_trial', () => {
     test('should render menu option that open the start trial benefits modal when is current licensed but is trial', () => {
         const state = {
             entities: {
+                users: {
+                    currentUserId: 'test_id',
+                },
                 general: {
+                    config: {
+                        EnableTutorial: true,
+                    },
                     license: {
                         IsLicensed: 'true',
                         IsTrial: 'true',
@@ -100,6 +154,16 @@ describe('components/widgets/menu/menu_items/menu_start_trial', () => {
                 admin: {
                     prevTrialLicense: {
                         IsLicensed: 'false',
+                    },
+                },
+                preferences: {
+                    myPreferences: {
+                        'tutorial_step-test_id': {
+                            user_id: 'test_id',
+                            category: 'tutorial_step',
+                            name: 'test_id',
+                            value: '6',
+                        },
                     },
                 },
             },
@@ -115,7 +179,13 @@ describe('components/widgets/menu/menu_items/menu_start_trial', () => {
     test('should render menu option that open the start trial modal when has no license and no previous license', () => {
         const state = {
             entities: {
+                users: {
+                    currentUserId: 'test_id',
+                },
                 general: {
+                    config: {
+                        EnableTutorial: true,
+                    },
                     license: {
                         IsLicensed: 'false',
                         IsTrial: 'false',
@@ -124,6 +194,16 @@ describe('components/widgets/menu/menu_items/menu_start_trial', () => {
                 admin: {
                     prevTrialLicense: {
                         IsLicensed: 'false',
+                    },
+                },
+                preferences: {
+                    myPreferences: {
+                        'tutorial_step-test_id': {
+                            user_id: 'test_id',
+                            category: 'tutorial_step',
+                            name: 'test_id',
+                            value: '6',
+                        },
                     },
                 },
             },
