@@ -25,7 +25,7 @@ describe('Keyboard Shortcuts', () => {
             );
     });
 
-    it('MM-T1228 CTRL/CMD+K_1 - Open DM with user not on the current team / with ANY', function() {
+    it('MM-T1228_1 CTRL/CMD+K - Open DM with user not on the current team / with ANY', function() {
         cy.apiUpdateConfig({
             TeamSettings: {
                 RestrictDirectMessage: 'any',
