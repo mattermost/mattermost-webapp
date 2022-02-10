@@ -21,7 +21,6 @@ import Avatar from 'components/widgets/users/avatar';
 import './avatars.scss';
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 import ProfilePopover from '../../../profile_popover';
-import StatusIcon from '../../../status_icon';
 import OverlayTrigger, {BaseOverlayTrigger} from '../../../overlay_trigger';
 import * as Utils from '../../../../utils/utils';
 
@@ -58,38 +57,21 @@ const displayNameGetter = makeDisplayNameGetter();
 
 function UserAvatar({
     userId,
-    overlayProps,
     ...props
 }: {
     userId: UserProfile['id'];
     overlayProps: Partial<ComponentProps<typeof SimpleTooltip>>;
 } & ComponentProps<typeof Avatar>) {
     const user = useSelector((state: GlobalState) => selectUser(state, userId)) as UserProfile | undefined;
-    const name = useSelector((state: GlobalState) => displayNameGetter(state, true)(user));
 
     const overlay = React.createRef<MMOverlayTrigger>();
-
-    const hideProfilePopover = () => {
-        if (overlay.current) {
-            overlay.current.hide();
-        }
-    };
 
     const getProfilePictureURL = (): string => {
         if (userId) {
             return Utils.imageURLForUser(userId);
         }
-        console.log("props: ", props);
         return '';
     };
-
-    /*const profileSrc = (typeof this.props.profileSrc === 'string' && this.props.profileSrc !== '') ?
-        this.props.profileSrc :
-        this.props.src;
-
-    const profileIconClass = `profile-icon ${this.props.isEmoji ? 'emoji' : ''}`;
-
-    const hideStatus = this.props.isBot || this.props.fromAutoResponder || this.props.fromWebhook;*/
 
     return (
         <OverlayTrigger
@@ -102,10 +84,6 @@ function UserAvatar({
                     className='user-profile-popover'
                     userId={userId}
                     src={getProfilePictureURL()}
-                    // hide={hideProfilePopover}
-                    // channelId={this.props.channelId}
-                    // isBusy={this.props.isBusy}
-                    // hasMention={this.props.hasMention}
                 />
             }
         >
@@ -113,11 +91,6 @@ function UserAvatar({
                 className={'status-wrapper style--none'}
                 tabIndex={-1}
             >
-                {/*<Avatar
-                                username={this.props.username}
-                                size={this.props.size}
-                                url={this.props.src}
-                            />*/}
                 <Avatar
                     url={imageURLForUser(userId, user?.last_picture_update)}
                     tabIndex={0}
