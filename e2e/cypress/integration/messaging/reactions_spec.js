@@ -90,6 +90,9 @@ describe('Messaging', () => {
                 // # Click the expand arrows in top right to expand RHS
                 cy.uiExpandRHS();
 
+                // # mouse ove the root post
+                cy.get(`#rhsPost_${postId}`).trigger('mouseover');
+
                 // # Hover over the message, observe emoji picker icon
                 cy.get(`#RHS_ROOT_reaction_${postId}`).should('exist').click({force: true});
 

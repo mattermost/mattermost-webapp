@@ -331,7 +331,7 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
         <CardBody
           expanded={true}
         >
-          <Connect(injectIntl(JobTable))
+          <Connect(JobTable)
             className="job-table__data-retention"
             createJobButtonText={
               <Memo(MemoizedFormattedMessage)
@@ -730,7 +730,7 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
         <CardBody
           expanded={true}
         >
-          <Connect(injectIntl(JobTable))
+          <Connect(JobTable)
             className="job-table__data-retention"
             createJobButtonText={
               <Memo(MemoizedFormattedMessage)
@@ -1124,7 +1124,7 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
         <CardBody
           expanded={true}
         >
-          <Connect(injectIntl(JobTable))
+          <Connect(JobTable)
             className="job-table__data-retention"
             createJobButtonText={
               <Memo(MemoizedFormattedMessage)
@@ -1448,7 +1448,7 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
         <CardBody
           expanded={true}
         >
-          <Connect(injectIntl(JobTable))
+          <Connect(JobTable)
             className="job-table__data-retention"
             createJobButtonText={
               <Memo(MemoizedFormattedMessage)
