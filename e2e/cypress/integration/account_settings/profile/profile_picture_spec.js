@@ -82,6 +82,8 @@ describe('Profile > Profile Settings > Profile Picture', () => {
         cy.uiSave().wait(TIMEOUTS.HALF_SEC);
 
         // # Verify error message
-        cy.get('.has-error').should('be.visible');
+        cy.get('.has-error').
+            should('be.visible').
+            and('contain', 'Image limits check failed. Resolution is too high.');
     });
 });
