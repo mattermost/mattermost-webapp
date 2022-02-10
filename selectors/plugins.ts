@@ -7,13 +7,21 @@ import {AppBinding} from 'mattermost-redux/types/apps';
 import {appBarEnabled, getAppBarAppBindings} from 'mattermost-redux/selectors/entities/apps';
 
 import {GlobalState} from 'types/store';
-import {FileDropdownPluginComponent, PluginComponent} from '../types/store/plugins';
+import {FileDropdownPluginComponent, UserGuideDropdownPluginComponent, PluginComponent} from '../types/store/plugins';
 
 export const getFilesDropdownPluginMenuItems = createSelector(
     'getFilesDropdownPluginMenuItems',
     (state: GlobalState) => state.plugins.components.FilesDropdown,
     (components) => {
         return (components || []) as unknown as FileDropdownPluginComponent[];
+    },
+);
+
+export const getUserGuideDropdownPluginMenuItems = createSelector(
+    'getUserGuideDropdownPluginMenuItems',
+    (state: GlobalState) => state.plugins.components.UserGuideDropdown,
+    (components) => {
+        return (components || []) as unknown as UserGuideDropdownPluginComponent[];
     },
 );
 

@@ -85,6 +85,13 @@ export type FileDropdownPluginComponent = {
     action: (fileInfo: FileInfo) => void;
 };
 
+export type UserGuideDropdownPluginComponent = {
+    id: string;
+    pluginId: string;
+    text: string | React.ReactElement;
+    action: () => void;
+};
+
 export type PostPluginComponent = {
     id: string;
     pluginId: string;
