@@ -117,6 +117,10 @@
                 border: 1px solid rgba(61, 60, 64, 0.08);
                 margin: 5px 0 0 20px;
                 border-radius: 4px;
+
+                &:hover {
+                    box-shadow: 0 2px 3px 0 rgba($black, 0.1), 0 2px 3px 0 rgba($black, 0.1);
+                }
             }
 
             &.attachment__content--permalink {
