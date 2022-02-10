@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {setAddChannelDropdown} from 'actions/views/add_channel_dropdown';
@@ -12,7 +12,9 @@ import {
     OnBoardingTourSteps,
     TutorialTourCategories,
 } from 'components/tutorial_tour_tip/constant';
+import {setOnBoardingTaskList} from '../../actions/views/onboarding_task_list';
 import PrewrittenChips from '../create_post/prewritten_chips';
+import {isFirstAdmin} from '../next_steps_view/steps';
 import {useMeasurePunchouts} from '../tutorial_tour_tip/hooks';
 
 type Props = {
@@ -29,6 +31,7 @@ const SendMessageTour = ({
     currentChannelTeammateUsername,
 }: Props) => {
     const dispatch = useDispatch();
+    const isUserFirstAdmin = useSelector(isFirstAdmin);
     const chips = (
         <PrewrittenChips
             prefillMessage={prefillMessage}
@@ -63,6 +66,12 @@ const SendMessageTour = ({
         </>
     );
 
+    const onDismiss = () => {
+        if (isUserFirstAdmin) {
+            dispatch(setOnBoardingTaskList(true));
+        }
+    };
+
     const punchOut = useMeasurePunchouts(['post-create'], [], {y: -11, height: 11, x: 0, width: 0}) || null;
 
     return (
@@ -79,6 +88,7 @@ const SendMessageTour = ({
             autoTour={true}
             punchOut={punchOut}
             onPrevNavigateTo={onPrevNavigateTo}
+            onDismiss={onDismiss}
         />
     );
 };

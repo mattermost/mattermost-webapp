@@ -210,6 +210,7 @@ export const ActionTypes = keyMirror({
 
     STATUS_DROPDOWN_TOGGLE: null,
     ADD_CHANNEL_DROPDOWN_TOGGLE: null,
+    ON_BOARDING_TASK_LIST_TOGGLE: null,
     TOGGLE_LHS: null,
     OPEN_LHS: null,
     CLOSE_LHS: null,

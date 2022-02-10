@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useRef, useState, useCallback} from 'react';
+import React, {useRef, useState, useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled, {css} from 'styled-components';
 
@@ -16,6 +16,8 @@ import checklistImg from 'images/onboarding-checklist.svg';
 import {Preferences} from 'utils/constants';
 import {OnBoardingTaskName} from 'components/onboarding_tasks/constant';
 import {useHandleOnBoardingTaskTrigger} from 'components/onboarding_tasks/onboarding_tasks_manager';
+import {setAddChannelDropdown} from 'actions/views/add_channel_dropdown';
+import {isOnBoardingTaskListOpen} from 'selectors/views/onboarding_task_list';
 
 import {TaskListPopover} from './onboarding_checklist_popover';
 import {Task} from './onboarding_checklist_task';
@@ -33,7 +35,7 @@ const TaskItems = styled.div`
     box-shadow: 0px 20px 32px rgba(0, 0, 0, 0.12);
     transition: opacity 150ms ease-in-out 0ms, transform 150ms ease-in-out 0ms;
     transform-origin: left bottom;
-    min-height: 518px;
+    height: 566px;
     max-height: ${document.documentElement.clientHeight}px;
     overflow-y: auto;
 
@@ -125,6 +127,7 @@ const PlayButton = styled.button`
     left: 0;
     right: 0;
     top: 136px;
+    width: fit-content;
 
     &:hover {
         border-color: rgba(var(--center-channel-color-rgb), 0.24);
@@ -144,17 +147,26 @@ const Skeleton = styled.div`
 `;
 
 const TaskList = (): JSX.Element => {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
     const [completedCount, setCompletedCount] = useState(0);
     const trigger = useRef<HTMLButtonElement>(null);
     const dispatch = useDispatch();
     const currentUserId = useSelector(getCurrentUserId);
+    const isToggledFromOutside = useSelector(isOnBoardingTaskListOpen);
     const handleTaskTrigger = useHandleOnBoardingTaskTrigger();
+
+    useEffect(() => {
+        if (isToggledFromOutside) {
+            setOpen(isToggledFromOutside);
+        }
+    }, [isToggledFromOutside]);
 
     const startTask = (taskName: string) => {
         handleTaskTrigger(taskName);
         setCompletedCount(completedCount + 1);
-        closeTaskList();
+        if (taskName === OnBoardingTaskName.CHANNELS_TOUR || taskName === OnBoardingTaskName.VISIT_SYSTEM_CONSOLE) {
+            closeTaskList();
+        }
     };
 
     const dismissChecklist = useCallback(() => {
@@ -228,6 +240,7 @@ const TaskList = (): JSX.Element => {
     ];
     const closeTaskList = useCallback(() => {
         setOpen(false);
+        dispatch(setAddChannelDropdown(false));
     }, []);
 
     return (

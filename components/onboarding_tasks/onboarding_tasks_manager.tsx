@@ -11,9 +11,9 @@ import {trackEvent as trackEventAction} from 'actions/telemetry_actions';
 import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
 import {setStatusDropdown} from 'actions/views/status_dropdown';
 import {browserHistory} from 'utils/browser_history';
-import {openModal} from '../../actions/views/modals';
-import {ModalIdentifiers} from '../../utils/constants';
-import InvitationModal from '../invitation_modal';
+import {openModal} from 'actions/views/modals';
+import {ModalIdentifiers} from 'utils/constants';
+import InvitationModal from 'components/invitation_modal';
 import {TTCategoriesMapToAutoTourStatusKey, TutorialTourCategories} from '../tutorial_tour_tip/constant';
 
 import {OnBoardingTaskCategory, OnBoardingTaskName, TaskNameMapToSteps} from './constant';
@@ -71,7 +71,6 @@ export const useHandleOnBoardingTaskTrigger = () => {
     const trigger = (taskName: string) => {
         switch (taskName) {
         case OnBoardingTaskName.CHANNELS_TOUR: {
-            browserHistory.push('/');
             handleSaveData(taskName, TaskNameMapToSteps[taskName].STARTED, true);
             const preferences = [
                 {
@@ -88,6 +87,7 @@ export const useHandleOnBoardingTaskTrigger = () => {
                 },
             ];
             dispatch(storeSavePreferences(currentUserId, preferences));
+            browserHistory.push('/');
             break;
         }
         case OnBoardingTaskName.BOARDS_TOUR: {

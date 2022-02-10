@@ -26,6 +26,7 @@ import textbox from './textbox';
 import nextSteps from './next_steps';
 import statusDropdown from './status_dropdown';
 import addChannelDropdown from './add_channel_dropdown';
+import onBoardingTaskList from './onboarding_task_list';
 import threads from './threads';
 
 export default combineReducers({
@@ -51,6 +52,7 @@ export default combineReducers({
     nextSteps,
     statusDropdown,
     addChannelDropdown,
+    onBoardingTaskList,
     threads,
     productMenu,
 });

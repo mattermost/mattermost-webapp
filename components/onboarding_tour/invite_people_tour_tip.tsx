@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import TutorialTourTip from 'components/tutorial_tour_tip/tutorial_tour_tip';
 import {
@@ -11,10 +11,13 @@ import {
     TutorialTourCategories,
 } from 'components/tutorial_tour_tip/constant';
 import {setAddChannelDropdown} from '../../actions/views/add_channel_dropdown';
+import {setOnBoardingTaskList} from '../../actions/views/onboarding_task_list';
+import {isFirstAdmin} from '../next_steps_view/steps';
 import {useMeasurePunchouts} from '../tutorial_tour_tip/hooks';
 
 const InvitePeopleTour = () => {
     const dispatch = useDispatch();
+    const isUserFirstAdmin = useSelector(isFirstAdmin);
     const telemetryTagText = `tutorial_tip_${OnBoardingTourSteps.INVITE_PEOPLE}_Invite_People`;
 
     const title = (
@@ -40,6 +43,12 @@ const InvitePeopleTour = () => {
         dispatch(setAddChannelDropdown(false));
     };
 
+    const onDismiss = () => {
+        if (isUserFirstAdmin) {
+            dispatch(setOnBoardingTaskList(true));
+        }
+    };
+
     const punchOut = useMeasurePunchouts(['showMoreChannels', 'invitePeople'], [], {y: -8, height: 16, x: 0, width: 0}) || null;
 
     return (
@@ -57,7 +66,7 @@ const InvitePeopleTour = () => {
             punchOut={punchOut}
             onNextNavigateTo={closeAddChannelDropdown}
             onPrevNavigateTo={openAddChannelDropdown}
-            onDismiss={closeAddChannelDropdown}
+            onDismiss={onDismiss}
         />
     );
 };

@@ -4,15 +4,21 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {useDispatch, useSelector} from 'react-redux';
+
 import TutorialTourTip from 'components/tutorial_tour_tip/tutorial_tour_tip';
 import {
     OnBoardingTourSteps,
     TutorialTourCategories,
 } from 'components/tutorial_tour_tip/constant';
+import {setOnBoardingTaskList} from '../../actions/views/onboarding_task_list';
+import {isFirstAdmin} from '../next_steps_view/steps';
 import {useMeasurePunchouts} from '../tutorial_tour_tip/hooks';
 import CustomImg from 'images/Customize-Your-Experience.gif';
 
 const CustomizeYourExperienceTour = () => {
+    const dispatch = useDispatch();
+    const isUserFirstAdmin = useSelector(isFirstAdmin);
     const telemetryTagText = `tutorial_tip_${OnBoardingTourSteps.SEND_MESSAGE}_Send_Message`;
 
     const title = (
@@ -32,6 +38,12 @@ const CustomizeYourExperienceTour = () => {
 
     const punchOut = useMeasurePunchouts(['RightControlsContainer'], [], {y: 6, height: -6, x: 64, width: 0}) || null;
 
+    const openOnBoardingTaskList = () => {
+        if (isUserFirstAdmin) {
+            dispatch(setOnBoardingTaskList(true));
+        }
+    };
+
     return (
         <TutorialTourTip
             title={title}
@@ -47,6 +59,8 @@ const CustomizeYourExperienceTour = () => {
             width={352}
             autoTour={true}
             punchOut={punchOut}
+            onDismiss={openOnBoardingTaskList}
+            extraFunc={openOnBoardingTaskList}
         />
     );
 };

@@ -17,6 +17,8 @@ import {
 } from 'components/tutorial_tour_tip/constant';
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
+import {setOnBoardingTaskList} from '../../actions/views/onboarding_task_list';
+import {isFirstAdmin} from '../next_steps_view/steps';
 import {useMeasurePunchouts} from '../tutorial_tour_tip/hooks';
 import ChannelsImg from 'images/channels_and_direct_tour_tip.svg';
 
@@ -40,6 +42,7 @@ const firstChannel = (firstChannelName: string) => {
 
 const ChannelsAndDirectMessagesTour = ({firstChannelName}: Props) => {
     const dispatch = useDispatch();
+    const isUserFirstAdmin = useSelector(isFirstAdmin);
     const telemetryTagText = `tutorial_tip_${OnBoardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES}_first_channel`;
     const channelsByName = useSelector((state: GlobalState) => getChannelsNameMapInCurrentTeam(state));
     const townSquareDisplayName = channelsByName[Constants.DEFAULT_CHANNEL]?.display_name || Constants.DEFAULT_CHANNEL_UI_NAME;
@@ -82,6 +85,12 @@ const ChannelsAndDirectMessagesTour = ({firstChannelName}: Props) => {
 
     const punchOut = useMeasurePunchouts(['sidebar-droppable-categories'], []) || null;
 
+    const onDismiss = () => {
+        if (isUserFirstAdmin) {
+            dispatch(setOnBoardingTaskList(true));
+        }
+    };
+
     return (
         <TutorialTourTip
             title={title}
@@ -96,6 +105,7 @@ const ChannelsAndDirectMessagesTour = ({firstChannelName}: Props) => {
             autoTour={true}
             punchOut={punchOut}
             onNextNavigateTo={onNextNavigateTo}
+            onDismiss={onDismiss}
         />
     );
 };

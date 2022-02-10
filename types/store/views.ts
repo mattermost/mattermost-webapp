@@ -180,6 +180,10 @@ export type ViewsState = {
         isOpen: boolean;
     };
 
+    onBoardingTaskList: {
+        isOpen: boolean;
+    };
+
     threads: {
         selectedThreadIdInTeam: RelationOneToOne<Team, UserThread['id'] | null>;
         lastViewedAt: {[id: string]: number};
