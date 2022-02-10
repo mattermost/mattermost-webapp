@@ -116,6 +116,7 @@ export default class Root extends React.PureComponent {
         products: PropTypes.array,
         dismissChecklist: PropTypes.bool,
         isUserFirstAdmin: PropTypes.bool,
+        isMobile: PropTypes.bool,
     }
 
     constructor(props) {
@@ -450,7 +451,7 @@ export default class Root extends React.PureComponent {
                     <CompassThemeProvider theme={this.props.theme}>
                         <ModalController/>
                         <GlobalHeader/>
-                        {this.props.isUserFirstAdmin && !this.props.dismissChecklist && <TaskList/>}
+                        {this.props.isUserFirstAdmin && !this.props.isMobile && this.props.dismissChecklist && <TaskList/>}
                         <TeamSidebar/>
                         <Switch>
                             {this.props.products?.map((product) => (

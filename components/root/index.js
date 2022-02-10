@@ -14,6 +14,7 @@ import {emitBrowserWindowResized} from 'actions/views/browser';
 import {isFirstAdmin} from 'components/next_steps_view/steps';
 import LocalStorageStore from 'stores/local_storage_store';
 import {Preferences} from 'utils/constants';
+import {isMobile} from 'utils/utils.jsx';
 
 import Root from './root.jsx';
 
@@ -40,6 +41,7 @@ function mapStateToProps(state) {
         products,
         dismissChecklist,
         isUserFirstAdmin,
+        isMobile: isMobile(state),
     };
 }
 

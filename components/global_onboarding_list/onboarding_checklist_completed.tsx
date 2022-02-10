@@ -46,7 +46,7 @@ const CompletedWrapper = styled.div`
         font-weight: bold;
     }
 
-    h1 {
+    h2 {
         font-size: 20px;
         padding: 0 24px;
         margin: 0 0 10px;
@@ -77,12 +77,12 @@ const Completed = (props: Props): JSX.Element => {
                     <img
                         src={completedImg}
                     />
-                    <h1>
+                    <h2>
                         <FormattedMessage
                             id={'onboarding_checklist.completed_title'}
                             defaultMessage='Well done. You’ve completed all of the tasks!'
                         />
-                    </h1>
+                    </h2>
                     <p>
                         <FormattedMessage
                             id={'onboarding_checklist.completed_subtitle'}

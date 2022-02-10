@@ -16,7 +16,7 @@ import checklistImg from 'images/onboarding-checklist.svg';
 import {Preferences} from 'utils/constants';
 
 import {TaskListPopover} from './onboarding_checklist_popover';
-import {Task, TaskProps} from './onboarding_checklist_task';
+import {Task} from './onboarding_checklist_task';
 import Completed from './onboarding_checklist_completed';
 import {CompletedAnimation} from './onboarding_checklist_animations';
 
@@ -43,7 +43,7 @@ const TaskItems = styled.div`
     h1 {
         font-size: 20px;
         padding: 0 24px;
-        margin: 16px 0px 0;
+        margin: 16px 0 0;
     }
 
     p {
@@ -102,14 +102,15 @@ const Button = styled.button<{open: boolean}>(({open}) => {
             font-weight: bold;
             font-size: 11px;
             line-height: 16px;
-            margin-top: -31px;
-            margin-left: 14px;
+            bottom: 47px;
+            left: 41px;
         }
     `;
 });
 
 const PlayButton = styled.button`
     padding: 10px 20px;
+    max-width: 175px;
     background: var(--button-bg);
     border-radius: 4px;
     color: var(--sidebar-text);
@@ -144,8 +145,9 @@ const TaskList = (): JSX.Element => {
     const completeTask = () => {
         //TODO: this will be implemented fully when we have all the Preferences for the tours merged.
         setCompletedCount(completedCount + 1);
+        setOpen(false);
         trackEvent('ui', 'onboarding_checklist_task_completed');
-    }
+    };
 
     const dismissChecklist = useCallback(() => {
         const preferences = [{
@@ -156,31 +158,36 @@ const TaskList = (): JSX.Element => {
         }];
         dispatch(savePreferences(currentUserId, preferences));
         trackEvent('ui', 'onboarding_checklist_dismissed');
-
     }, [currentUserId]);
 
     const taskLabels = [
         <FormattedMessage
+            key={1}
             id='onboarding_checklist.task_channels_tour'
             defaultMessage='Take a tour of channels'
         />,
         <FormattedMessage
+            key={2}
             id='onboarding_checklist.task_boards_tour'
             defaultMessage='Manage tasks with your first board'
         />,
         <FormattedMessage
+            key={3}
             id='onboarding_checklist.task_invite'
             defaultMessage='Invite team members to the workspace'
         />,
         <FormattedMessage
+            key={4}
             id='onboarding_checklist.task_complete_profile'
             defaultMessage='Complete your profile'
         />,
         <FormattedMessage
+            key={5}
             id='onboarding_checklist.task_download_apps'
             defaultMessage='Download the Desktop and Mobile Apps'
         />,
         <FormattedMessage
+            key={6}
             id='onboarding_checklist.task_system_console'
             defaultMessage='Visit the System Console to configure your worksace'
         />,
@@ -194,8 +201,7 @@ const TaskList = (): JSX.Element => {
             <CompletedAnimation completed={completedCount === taskLabels.length}/>
             <Button
                 onClick={() => setOpen(!open)}
-                ref={trigger}
-                count={taskLabels.length}
+                ref={trigger as unknown as React.RefObject<HTMLButtonElement>}
                 open={open}
             >
                 <Icon glyph={open ? 'close' : 'playlist-check'}/>
