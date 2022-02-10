@@ -232,7 +232,6 @@ export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = tr
             BrowserStore.signalLogout();
         }
 
-        BrowserStore.clear();
         stopPeriodicStatusUpdates();
         WebsocketActions.close();
 
