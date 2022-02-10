@@ -11,9 +11,11 @@ import './index.scss';
 type Props = {
     next?: () => void;
     cards: CardProps[];
+    size?: 'regular' | 'small';
 }
 
 export default function MultiSelectCards(props: Props) {
+    const size = props.size || 'regular';
     const onNext = (e: React.KeyboardEvent) => {
         if (e.key !== Constants.KeyCodes.ENTER[0]) {
             return;
@@ -32,6 +34,7 @@ export default function MultiSelectCards(props: Props) {
         >
             {props.cards.map((card) => (
                 <MultiSelectCard
+                    size={size}
                     key={card.id}
                     {...card}
                 />

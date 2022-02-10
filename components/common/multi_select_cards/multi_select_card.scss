@@ -7,35 +7,62 @@
     max-width: 257px;
     flex-direction: column;
     align-items: center;
-    padding: 12px;
-    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+    padding: 16px 24px 24px;
+    border: 2px solid rgba(var(--center-channel-color-rgb), 0.16);
     margin-right: 16px;
-    margin-bottom: 16px;
     background: var(--center-channel-bg);
     border-radius: 8px;
+    box-shadow: $elevation-3;
+    cursor: pointer;
     list-style-type: none;
     text-align: center;
+
+    &:hover {
+        border: 2px solid rgba(var(--center-channel-color-rgb), 0.32);
+        box-shadow: $elevation-4;
+    }
+
+    &--small {
+        min-width: 160px;
+        padding: 24px 12px;
+
+        .MultiSelectCard__label {
+            padding-top: 12px;
+        }
+
+        .MultiSelectCard__checkmark {
+            width: 28px;
+            height: 28px;
+        }
+    }
 
     &:last-child {
         margin-right: 0;
     }
 
     &--checked {
-        border: 2px solid blue;
+        border: 2px solid var(--button-bg);
+        box-shadow: $elevation-2;
+
+        &:hover {
+            border: 2px solid var(--button-bg);
+            box-shadow: $elevation-2;
+        }
     }
 
     &__checkmark {
         position: absolute;
-        top: 0;
-        right: 0;
-        width: 10px;
-        height: 10px;
-        background-image: url('images/icons/check-circle-outline.svg');
-        color: blue;
+        top: 11px;
+        right: 11px;
+        width: 31px;
+        height: 31px;
+        color: var(--button-bg);
+        font-size: 31px;
     }
 
     &__label {
-        padding-top: 4px;
+        font-family: Metropolis, sans-serif;
         font-size: 18px;
+        font-weight: 600;
     }
 }

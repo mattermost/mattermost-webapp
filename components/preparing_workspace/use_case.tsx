@@ -19,6 +19,7 @@ import {Animations, mapAnimationReasonToClass, Form, PreparingWorkspacePageProps
 import PageLine from './page_line';
 import Title from './title';
 import Description from './description';
+import PageBody from './page_body';
 
 import './use_case.scss';
 
@@ -75,32 +76,34 @@ const UseCase = (props: Props) => {
                             defaultMessage="This will help us set up your workspace in a way that's most relevant to you. Select all that apply."
                         />
                     </Description>
-                    <MultiSelectCards
-                        next={props.next}
-                        cards={[
-                            {
-                                onClick: () => props.setOption('channels'),
-                                icon: <ChannelsSVG/>,
-                                id: t('onboarding_wizard.use_case.channels'),
-                                defaultMessage: 'Team communication and collaboration',
-                                checked: props.options.channels,
-                            },
-                            {
-                                onClick: () => props.setOption('boards'),
-                                icon: <BoardsSVG/>,
-                                id: t('onboarding_wizard.use_case.boards'),
-                                defaultMessage: 'Project planning and management',
-                                checked: props.options.boards,
-                            },
-                            {
-                                onClick: () => props.setOption('playbooks'),
-                                icon: <PlaybooksSVG/>,
-                                id: t('onboarding_wizard.use_case.playbooks'),
-                                defaultMessage: 'Processes, workflows, and automation',
-                                checked: props.options.playbooks,
-                            },
-                        ]}
-                    />
+                    <PageBody>
+                        <MultiSelectCards
+                            next={props.next}
+                            cards={[
+                                {
+                                    onClick: () => props.setOption('channels'),
+                                    icon: <ChannelsSVG/>,
+                                    id: t('onboarding_wizard.use_case.channels'),
+                                    defaultMessage: 'Team communication and collaboration',
+                                    checked: props.options.channels,
+                                },
+                                {
+                                    onClick: () => props.setOption('boards'),
+                                    icon: <BoardsSVG/>,
+                                    id: t('onboarding_wizard.use_case.boards'),
+                                    defaultMessage: 'Project planning and management',
+                                    checked: props.options.boards,
+                                },
+                                {
+                                    onClick: () => props.setOption('playbooks'),
+                                    icon: <PlaybooksSVG/>,
+                                    id: t('onboarding_wizard.use_case.playbooks'),
+                                    defaultMessage: 'Processes, workflows, and automation',
+                                    checked: props.options.playbooks,
+                                },
+                            ]}
+                        />
+                    </PageBody>
                     <div>
                         <button
                             className='primary-button'

@@ -16,6 +16,7 @@ export type Props = {
     defaultMessage: string;
     checked: boolean;
     tooltip?: string;
+    size?: 'regular' | 'small';
 }
 const MultiSelectCard = (props: Props) => {
     const buttonProps: {
@@ -32,6 +33,10 @@ const MultiSelectCard = (props: Props) => {
     if (props.checked) {
         buttonProps.className += ' MultiSelectCard--checked';
     }
+    if (props.size === 'small') {
+        buttonProps.className += ' MultiSelectCard--small';
+    }
+
     return (
         <li
             {...buttonProps}
@@ -45,7 +50,7 @@ const MultiSelectCard = (props: Props) => {
                 props.onClick();
             }}
         >
-            {props.checked && <span className='MultiSelectCard__checkmark'/>}
+            {props.checked && <i className='MultiSelectCard__checkmark icon icon-check-circle'/>}
             {props.icon}
             <span className='MultiSelectCard__label'>
                 <FormattedMessage

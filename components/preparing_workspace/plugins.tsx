@@ -19,6 +19,7 @@ import {Animations, mapAnimationReasonToClass, Form, PreparingWorkspacePageProps
 import PageLine from './page_line';
 import Title from './title';
 import Description from './description';
+import PageBody from './page_body';
 
 import './plugins.scss';
 
@@ -59,85 +60,88 @@ const Plugins = (props: Props) => {
                         defaultMessage={"Choose the tools you work with, and we'll add them to your workspace. Additional set up may be needed later."}
                     />
                 </Description>
-                <MultiSelectCards
-                    next={props.next}
-                    cards={[
-                        {
-                            onClick: () => props.setOption('github'),
-                            icon: <GithubSVG/>,
-                            id: t('onboarding_wizard.plugins.github'),
-                            defaultMessage: 'Github',
-                            checked: props.options.github,
-                            tooltip: formatMessage({
-                                id: 'onboarding_wizard.plugins.github.tooltip',
-                                defaultMessage: 'Subscribe to repositories, stay up to date with reviews, assignments',
-                            }),
-                        },
-                        {
-                            onClick: () => props.setOption('gitlab'),
-                            icon: <GitlabSVG/>,
-                            id: t('onboarding_wizard.plugins.gitlab'),
-                            defaultMessage: 'Gitlab',
-                            checked: props.options.gitlab,
-                            tooltip: formatMessage({
-                                id: 'onboarding_wizard.plugins.gitlab.tooltip',
-                                defaultMessage: 'Gitlab tooltip',
-                            }),
-                        },
-                        {
-                            onClick: () => props.setOption('jira'),
-                            icon: <JiraSVG/>,
-                            id: t('onboarding_wizard.plugins.jira'),
-                            defaultMessage: 'Jira',
-                            checked: props.options.jira,
-                            tooltip: formatMessage({
-                                id: 'onboarding_wizard.plugins.jira.tooltip',
-                                defaultMessage: 'Jira tooltip',
-                            }),
-                        },
-                        {
-                            onClick: () => props.setOption('zoom'),
-                            icon: <ZoomSVG/>,
-                            id: t('onboarding_wizard.plugins.zoom'),
-                            defaultMessage: 'Zoom',
-                            checked: props.options.zoom,
-                            tooltip: formatMessage({
-                                id: 'onboarding_wizard.plugins.zoom.tooltip',
-                                defaultMessage: 'Zoom tooltip',
-                            }),
-                        },
-                        {
-                            onClick: () => props.setOption('todo'),
-                            icon: <TodoSVG/>,
-                            id: t('onboarding_wizard.plugins.todo'),
-                            defaultMessage: 'To do',
-                            checked: props.options.todo,
-                            tooltip: formatMessage({
-                                id: 'onboarding_wizard.plugins.todo.tooltip',
-                                defaultMessage: 'To do tooltip',
-                            }),
-                        },
-                    ]}
-                />
-                <div className='Plugins__marketplace'>
-                    <FormattedMessage
-                        id='onboarding_wizard.plugins.marketplace'
-                        defaultMessage='More tools can be added once your workspace is set up. To see all available integrations, <a>visit the Marketplace.</a>'
-                        values={{
-                            a: (chunks: React.ReactNode | React.ReactNodeArray) => (
-                                <strong>
-                                    <a
-                                        href='https://mattermost.com/marketplace/'
-                                        target='_blank'
-                                        rel='noreferrer'
-                                    >
-                                        {chunks}
-                                    </a>
-                                </strong>
-                            ),
-                        }}
+                <PageBody>
+                    <MultiSelectCards
+                        size='small'
+                        next={props.next}
+                        cards={[
+                            {
+                                onClick: () => props.setOption('github'),
+                                icon: <GithubSVG/>,
+                                id: t('onboarding_wizard.plugins.github'),
+                                defaultMessage: 'Github',
+                                checked: props.options.github,
+                                tooltip: formatMessage({
+                                    id: 'onboarding_wizard.plugins.github.tooltip',
+                                    defaultMessage: 'Subscribe to repositories, stay up to date with reviews, assignments',
+                                }),
+                            },
+                            {
+                                onClick: () => props.setOption('gitlab'),
+                                icon: <GitlabSVG/>,
+                                id: t('onboarding_wizard.plugins.gitlab'),
+                                defaultMessage: 'Gitlab',
+                                checked: props.options.gitlab,
+                                tooltip: formatMessage({
+                                    id: 'onboarding_wizard.plugins.gitlab.tooltip',
+                                    defaultMessage: 'Gitlab tooltip',
+                                }),
+                            },
+                            {
+                                onClick: () => props.setOption('jira'),
+                                icon: <JiraSVG/>,
+                                id: t('onboarding_wizard.plugins.jira'),
+                                defaultMessage: 'Jira',
+                                checked: props.options.jira,
+                                tooltip: formatMessage({
+                                    id: 'onboarding_wizard.plugins.jira.tooltip',
+                                    defaultMessage: 'Jira tooltip',
+                                }),
+                            },
+                            {
+                                onClick: () => props.setOption('zoom'),
+                                icon: <ZoomSVG/>,
+                                id: t('onboarding_wizard.plugins.zoom'),
+                                defaultMessage: 'Zoom',
+                                checked: props.options.zoom,
+                                tooltip: formatMessage({
+                                    id: 'onboarding_wizard.plugins.zoom.tooltip',
+                                    defaultMessage: 'Zoom tooltip',
+                                }),
+                            },
+                            {
+                                onClick: () => props.setOption('todo'),
+                                icon: <TodoSVG/>,
+                                id: t('onboarding_wizard.plugins.todo'),
+                                defaultMessage: 'To do',
+                                checked: props.options.todo,
+                                tooltip: formatMessage({
+                                    id: 'onboarding_wizard.plugins.todo.tooltip',
+                                    defaultMessage: 'To do tooltip',
+                                }),
+                            },
+                        ]}
                     />
-                </div>
+                    <div className='Plugins__marketplace'>
+                        <FormattedMessage
+                            id='onboarding_wizard.plugins.marketplace'
+                            defaultMessage='More tools can be added once your workspace is set up. To see all available integrations, <a>visit the Marketplace.</a>'
+                            values={{
+                                a: (chunks: React.ReactNode | React.ReactNodeArray) => (
+                                    <strong>
+                                        <a
+                                            href='https://mattermost.com/marketplace/'
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {chunks}
+                                        </a>
+                                    </strong>
+                                ),
+                            }}
+                        />
+                    </div>
+                </PageBody>
                 <div>
                     <button
                         className='primary-button'

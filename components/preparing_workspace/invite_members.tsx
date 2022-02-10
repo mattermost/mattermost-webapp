@@ -17,6 +17,7 @@ import {Animations, mapAnimationReasonToClass, Form, PreparingWorkspacePageProps
 import PageLine from './page_line';
 import Title from './title';
 import Description from './description';
+import PageBody from './page_body';
 
 import './invite_members.scss';
 import InviteMembersLink from './invite_members_link';
@@ -147,7 +148,9 @@ const InviteMembers = (props: Props) => {
                 <Description>
                     {description}
                 </Description>
-                {inviteInteraction}
+                <PageBody>
+                    {inviteInteraction}
+                </PageBody>
                 <div>
                     <button
                         className='primary-button'

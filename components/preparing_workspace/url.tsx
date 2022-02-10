@@ -21,6 +21,7 @@ import PageLine from './page_line';
 
 import Title from './title';
 import Description from './description';
+import PageBody from './page_body';
 import UrlStatus from './url_status';
 
 import './url.scss';
@@ -111,29 +112,31 @@ const Url = (props: Props) => {
                             }}
                         />
                     </Description>
-                    <QuickInput
-                        placeholder={
-                            formatMessage({
-                                id: 'onboarding_wizard.url.placeholder',
-                                defaultMessage: 'your-workspace',
-                            })
-                        }
-                        value={props.url}
-                        onChange={(e) => {
-                            props.setUrl(e.target.value);
-                            setUserEdited(true);
-                            urlValidator.validate(e.target.value);
-                        }}
-                        className='Url__input'
-                        onKeyUp={onNext}
-                        autoFocus={true}
-                    />
-                    <UrlStatus
-                        checking={urlValidator.verifying}
-                        error={urlValidator.result.error}
-                        valid={urlValidator.result.valid}
-                        userEdited={userEdited}
-                    />
+                    <PageBody>
+                        <QuickInput
+                            placeholder={
+                                formatMessage({
+                                    id: 'onboarding_wizard.url.placeholder',
+                                    defaultMessage: 'your-workspace',
+                                })
+                            }
+                            value={props.url}
+                            onChange={(e) => {
+                                props.setUrl(e.target.value);
+                                setUserEdited(true);
+                                urlValidator.validate(e.target.value);
+                            }}
+                            className='Url__input'
+                            onKeyUp={onNext}
+                            autoFocus={true}
+                        />
+                        <UrlStatus
+                            checking={urlValidator.verifying}
+                            error={urlValidator.result.error}
+                            valid={urlValidator.result.valid}
+                            userEdited={userEdited}
+                        />
+                    </PageBody>
                     <div>
                         <button
                             className='primary-button'

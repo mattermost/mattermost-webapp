@@ -2,12 +2,11 @@
 
 .Plugins-body {
     width: 100%;
+    max-width: 1126px;
 }
 
-.Plugins {
-    &__marketplace {
-        margin-bottom: 24px;
-    }
+.Plugins__marketplace {
+    margin-top: 24px;
 }
 
 // 1136 is width at which the cards start hitting screen and wrapping to next line.
@@ -23,6 +22,11 @@
             max-width: 500px;
             flex-grow: 1;
             margin-right: 0;
+            margin-bottom: 16px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
         }
     }
 }

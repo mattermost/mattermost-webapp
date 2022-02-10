@@ -30,7 +30,7 @@ import {switchToChannel} from 'actions/views/channel';
 import {setFirstChannelName} from 'actions/views/channel_sidebar';
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 
-import logoImage from 'images/logo.png';
+import LogoSvg from 'components/common/svg_images_components/logo_dark_blue_svg';
 
 import {
     WizardSteps,
@@ -352,10 +352,7 @@ export default function PreparingWorkspace(props: Props) {
         <div className='PreparingWorkspace PreparingWorkspaceContainer'>
             {props.background}
             <div className='PreparingWorkspace__logo'>
-                <img
-                    alt='Mattermost logo'
-                    src={logoImage}
-                />
+                <LogoSvg/>
             </div>
             <Progress
                 step={currentStep}

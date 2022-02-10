@@ -20,6 +20,7 @@ import {Animations, mapAnimationReasonToClass, Form, PreparingWorkspacePageProps
 import PageLine from './page_line';
 import Title from './title';
 import Description from './description';
+import PageBody from './page_body';
 
 import './organization.scss';
 
@@ -94,20 +95,22 @@ const Organization = (props: Props) => {
                             defaultMessage="We'll use this to help personalize your workspace."
                         />
                     </Description>
-                    <QuickInput
-                        placeholder={
-                            formatMessage({
-                                id: 'onboarding_wizard.organization.placeholder',
-                                defaultMessage: 'Organization name',
-                            })
-                        }
-                        className='Organization__input'
-                        value={props.organization || ''}
-                        onChange={(e) => props.setOrganization(e.target.value)}
-                        onKeyUp={onNext}
-                        autoFocus={true}
-                    />
-                    <OrganizationStatus error={triedNext && validation.error}/>
+                    <PageBody>
+                        <QuickInput
+                            placeholder={
+                                formatMessage({
+                                    id: 'onboarding_wizard.organization.placeholder',
+                                    defaultMessage: 'Organization name',
+                                })
+                            }
+                            className='Organization__input'
+                            value={props.organization || ''}
+                            onChange={(e) => props.setOrganization(e.target.value)}
+                            onKeyUp={onNext}
+                            autoFocus={true}
+                        />
+                        <OrganizationStatus error={triedNext && validation.error}/>
+                    </PageBody>
                     <div>
                         <button
                             className='primary-button'

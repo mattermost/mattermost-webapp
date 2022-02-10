@@ -29,6 +29,11 @@
             max-width: 500px;
             flex-grow: 1;
             margin-right: 0;
+            margin-bottom: 16px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
         }
     }
 }

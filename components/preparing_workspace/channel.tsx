@@ -14,6 +14,7 @@ import {Animations, mapAnimationReasonToClass, PreparingWorkspacePageProps} from
 
 import Title from './title';
 import Description from './description';
+import PageBody from './page_body';
 
 import './channel.scss';
 
@@ -62,13 +63,15 @@ const Channel = (props: Props) => {
                         defaultMessage='Channels are where you can communicate with your team about a topic or project. What are you working on right now?'
                     />
                 </Description>
-                <QuickInput
-                    value={props.name}
-                    onChange={(e) => props.onChange(e.target.value)}
-                    onKeyUp={onNext}
-                    autoFocus={true}
-                    className='Channel__input'
-                />
+                <PageBody>
+                    <QuickInput
+                        value={props.name}
+                        onChange={(e) => props.onChange(e.target.value)}
+                        onKeyUp={onNext}
+                        autoFocus={true}
+                        className='Channel__input'
+                    />
+                </PageBody>
                 <div>
                     <button
                         className='primary-button'
