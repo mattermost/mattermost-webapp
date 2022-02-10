@@ -79,10 +79,9 @@ function UserAvatar({
         if (userId) {
             return Utils.imageURLForUser(userId);
         }
+        console.log("props: ", props);
         return '';
     };
-
-    const profileSrc = getProfilePictureURL();
 
     /*const profileSrc = (typeof this.props.profileSrc === 'string' && this.props.profileSrc !== '') ?
         this.props.profileSrc :
@@ -102,15 +101,11 @@ function UserAvatar({
                 <ProfilePopover
                     className='user-profile-popover'
                     userId={userId}
-                    src={profileSrc}
-                    // isBusy={this.props.isBusy}
-                    // hide={this.hideProfilePopover}
-                    // isRHS={this.props.isRHS}
+                    src={getProfilePictureURL()}
+                    // hide={hideProfilePopover}
                     // channelId={this.props.channelId}
+                    // isBusy={this.props.isBusy}
                     // hasMention={this.props.hasMention}
-                    // overwriteIcon={this.props.overwriteIcon}
-                    // overwriteName={this.props.overwriteName}
-                    // hideStatus={hideStatus}
                 />
             }
         >
