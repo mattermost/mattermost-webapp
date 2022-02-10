@@ -7,23 +7,22 @@ import {FormattedMessage} from 'react-intl';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
+import {Team} from 'mattermost-redux/types/teams';
+
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import MemberListTeam from 'components/member_list_team';
 import InvitationModal from 'components/invitation_modal';
 
+import {ModalData} from 'types/actions';
+
 import {ModalIdentifiers} from 'utils/constants';
 
 type Props = {
-    currentTeam: {
-        id: string;
-        display_name: string;
-    };
-    onHide: () => void;
+    currentTeam: Team;
+    onExited: () => void;
     onLoad?: () => void;
     actions: {
-        openModal: (modalData: {modalId: string; dialogType: any}) => Promise<{
-            data: boolean;
-        }>;
+        openModal: <P>(modalData: ModalData<P>) => void;
     };
 }
 
@@ -50,10 +49,6 @@ export default class TeamMembersModal extends React.PureComponent<Props, State> 
         this.setState({show: false});
     }
 
-    handleExit = () => {
-        this.props.onHide();
-    }
-
     handleInvitePeople = () => {
         const {actions} = this.props;
 
@@ -62,7 +57,7 @@ export default class TeamMembersModal extends React.PureComponent<Props, State> 
             dialogType: InvitationModal,
         });
 
-        this.handleExit();
+        this.handleHide();
     }
 
     render() {
@@ -76,7 +71,7 @@ export default class TeamMembersModal extends React.PureComponent<Props, State> 
                 dialogClassName='a11y__modal more-modal'
                 show={this.state.show}
                 onHide={this.handleHide}
-                onExited={this.handleExit}
+                onExited={this.props.onExited}
                 role='dialog'
                 aria-labelledby='teamMemberModalLabel'
                 id='teamMembersModal'

@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @team_settings
 
 import {getAdminAccount} from '../../support/env';
@@ -41,7 +42,7 @@ describe('Team Settings', () => {
         }).then(({config}) => {
             siteName = config.TeamSettings.SiteName;
         });
-        cy.apiEmailTest();
+        cy.shouldHaveEmailEnabled();
 
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
@@ -74,8 +75,8 @@ describe('Team Settings', () => {
         cy.wait(TIMEOUTS.HALF_SEC);
 
         if (isLicensed) {
-            // # Click "Invite members"
-            cy.findByTestId('inviteMembersLink').should('be.visible').click();
+            // # Click invite members if needed
+            cy.get('.InviteAs').findByTestId('inviteMembersLink').click();
         }
 
         cy.findByRole('textbox', {name: 'Add or Invite People'}).type(email, {force: true}).wait(TIMEOUTS.HALF_SEC).type('{enter}', {force: true});
@@ -113,13 +114,7 @@ describe('Team Settings', () => {
         // * Check that the display name of the team the user was invited to is being correctly displayed
         cy.uiGetLHSHeader().findByText(testTeam.display_name);
 
-        // * Check that 'Town Square' is currently being selected
-        cy.get('.active').within(() => {
-            cy.get('#sidebarItem_town-square').should('exist');
-        });
-
         // * Check that the 'Welcome to Mattermost' message is visible
         cy.findByText(`Welcome to ${siteName}`).should('be.visible');
     });
 });
-

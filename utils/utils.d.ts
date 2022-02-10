@@ -23,10 +23,6 @@ export function isUnhandledLineBreakKeyCombo(e: React.KeyboardEvent): boolean;
 export function insertLineBreakFromKeyEvent(e: React.KeyboardEvent): string;
 
 export function isInRole(roles: string, inRole: string): boolean;
-export function isChannelAdmin(isLicensed: boolean, roles: string, hasAdminScheme = false): boolean;
-export function isAdmin(roles: string): boolean;
-export function isSystemAdmin(roles: string): boolean;
-export function isGuest(user: UserProfile): boolean;
 
 export function getTeamRelativeUrl(team: Team): boolean;
 export function getPermalinkUrl(state: GlobalState, teamId: string, postId: string): string;
@@ -41,9 +37,6 @@ export function getTimestamp(): number;
 
 export function getRemainingDaysFromFutureTimestamp(timestamp: number | undefined): number;
 export function getLocaleDateFromUTC(timestamp: number, format = 'YYYY/MM/DD HH:mm:ss', userTimezone = ''): number;
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function areObjectsEqual(x: any, y: any): boolean;
 
 export function replaceHtmlEntities(text: string): string;
 
@@ -104,9 +97,6 @@ export function getDirectChannelName(id: string, otherId: string): string;
 export function getUserIdFromChannelName(channel: Channel): string;
 export function getUserIdFromChannelId(channelId: string, currentUserId?: string): string;
 
-export function windowWidth(): number;
-export function windowHeight(): number;
-
 export function isFeatureEnabled(feature: {label: string}, state: GlobalState): boolean;
 
 export function fillArray<T>(value: T, length: number): T[];
@@ -163,3 +153,4 @@ export function renderPurchaseLicense(): React.ReactNode;
 export function deleteKeysFromObject(value: any, keys: string[]): any;
 
 export function makeIsEligibleForClick(selector = ''): (event: MouseEvent) => boolean;
+export function numberToFixedDynamic(num: number, places: number): number

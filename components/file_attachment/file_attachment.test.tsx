@@ -42,6 +42,9 @@ describe('FileAttachment', () => {
         enablePublicLink: false,
         pluginMenuItems: [],
         handleFileDropdownOpened: jest.fn(() => null),
+        actions: {
+            openModal: jest.fn(),
+        },
     };
 
     test('should match snapshot, regular file', () => {
@@ -113,18 +116,6 @@ describe('FileAttachment', () => {
 
     test('should match snapshot, without compact display and without can download', () => {
         const props = {...baseProps, canDownloadFiles: false};
-        const wrapper = shallow(<FileAttachment {...props}/>);
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot, file with long name', () => {
-        const fileInfo = {
-            ...baseFileInfo,
-            extension: 'pdf',
-            name: 'a-quite-long-filename-to-test-the-filename-shortener.pdf',
-
-        };
-        const props = {...baseProps, fileInfo};
         const wrapper = shallow(<FileAttachment {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });

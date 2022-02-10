@@ -532,7 +532,7 @@ describe('makeGetOptions', () => {
         ]);
     });
 
-    test('should return users without DMs as long as a search term is being used', () => {
+    test('should return users without DMs as long as either there are no recents or a search term is being used', () => {
         const getOptions = makeGetOptions();
 
         const user1 = {
@@ -548,7 +548,12 @@ describe('makeGetOptions', () => {
             username: 'carrot',
         };
 
-        let state = baseState;
+        const dm1 = {
+            ...TestHelper.fakeChannelWithId(''),
+            type: General.DM_CHANNEL,
+            name: ChannelUtils.getDirectChannelName(currentUserId, user1.id),
+            last_post_at: 2000,
+        };
 
         const users = [
             user1,
@@ -557,9 +562,47 @@ describe('makeGetOptions', () => {
         ];
         const values = [];
 
-        expect(getOptions(state, users, values)).toEqual([]);
+        let state = mergeObjects(baseState, {
+            users: {
+                profiles: {
+                    [user1.id]: user1,
+                    [user2.id]: user2,
+                    [user3.id]: user3,
+                },
+            },
+        });
 
-        state = mergeObjects(baseState, {
+        // No recent DMs exist, so show all the users
+        expect(getOptions(state, users, values)).toEqual([
+            {...user1, last_post_at: 0},
+            {...user2, last_post_at: 0},
+            {...user3, last_post_at: 0},
+        ]);
+
+        state = mergeObjects(state, {
+            entities: {
+                channels: {
+                    channels: {
+                        [dm1.id]: dm1,
+                    },
+                    channelsInTeam: {
+                        '': [dm1.id],
+                    },
+                },
+                users: {
+                    profilesInChannel: {
+                        [dm1.id]: [user1.id],
+                    },
+                },
+            },
+        });
+
+        // Now a recent DM exists, so only show that
+        expect(getOptions(state, users, values)).toEqual([
+            {...user1, last_post_at: 2000},
+        ]);
+
+        state = mergeObjects(state, {
             views: {
                 search: {
                     modalSearch: 'asdfasdfasdf',
@@ -567,9 +610,10 @@ describe('makeGetOptions', () => {
             },
         });
 
-        // users is expected to have been filtered by the search term already even if it doesn't match at this point
+        // And now a search term has been entered, so show other users again. Note that users is expected to have been
+        // filtered by the search term already even if it doesn't match at this point
         expect(getOptions(state, users, values)).toEqual([
-            {...user1, last_post_at: 0},
+            {...user1, last_post_at: 2000},
             {...user2, last_post_at: 0},
             {...user3, last_post_at: 0},
         ]);

@@ -4,15 +4,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Tooltip} from 'react-bootstrap';
 
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
+import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
 import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 const ROWS_FROM_BOTTOM_TO_OPEN_UP = 3;
 
@@ -22,7 +23,6 @@ export default class ChannelMembersDropdown extends React.PureComponent {
         user: PropTypes.object.isRequired,
         currentUserId: PropTypes.string.isRequired,
         channelMember: PropTypes.object.isRequired,
-        isLicensed: PropTypes.bool.isRequired,
         canChangeMemberRoles: PropTypes.bool.isRequired,
         canRemoveMember: PropTypes.bool.isRequired,
         index: PropTypes.number.isRequired,
@@ -110,12 +110,15 @@ export default class ChannelMembersDropdown extends React.PureComponent {
         );
     }
 
-    render() {
-        const {index, totalUsers, isLicensed, channelMember, user, channel, currentUserId, canChangeMemberRoles, canRemoveMember} = this.props;
-        const {serverError} = this.state;
+    isChannelAdmin(channelMember) {
+        return UserUtils.isChannelAdmin(channelMember.roles) || channelMember.scheme_admin;
+    }
 
-        const isChannelAdmin = Utils.isChannelAdmin(isLicensed, channelMember.roles, channelMember.scheme_admin);
-        const isGuest = Utils.isGuest(user);
+    render() {
+        const {index, totalUsers, channelMember, user, channel, currentUserId, canChangeMemberRoles, canRemoveMember} = this.props;
+        const {serverError} = this.state;
+        const isChannelAdmin = this.isChannelAdmin(channelMember);
+        const isGuest = UserUtils.isGuest(user.roles);
         const isMember = !isChannelAdmin && !isGuest;
         const isDefaultChannel = channel.name === Constants.DEFAULT_CHANNEL;
         const currentRole = this.renderRole(isChannelAdmin, isGuest);
@@ -154,7 +157,7 @@ export default class ChannelMembersDropdown extends React.PureComponent {
         }
 
         const canMakeUserChannelMember = canChangeMemberRoles && isChannelAdmin;
-        const canMakeUserChannelAdmin = canChangeMemberRoles && isLicensed && isMember;
+        const canMakeUserChannelAdmin = canChangeMemberRoles && isMember;
         const canRemoveUserFromChannel = canRemoveMember && (!channel.group_constrained || user.is_bot) && (!isDefaultChannel || isGuest);
 
         if (canMakeUserChannelMember || canMakeUserChannelAdmin || canRemoveUserFromChannel) {

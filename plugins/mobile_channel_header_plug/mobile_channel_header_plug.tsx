@@ -67,6 +67,7 @@ class MobileChannelHeaderPlug extends React.PureComponent<Props> {
         return (
             <li className='flex-parent--center'>
                 <button
+                    id={`${binding.app_id}_${binding.location}`}
                     className='navbar-toggle navbar-right__icon'
                     onClick={onClick}
                 >
@@ -162,7 +163,11 @@ class MobileChannelHeaderPlug extends React.PureComponent<Props> {
             break;
         }
         case AppCallResponseTypes.NAVIGATE:
+            break;
         case AppCallResponseTypes.FORM:
+            if (callResp.form) {
+                this.props.actions.openAppsModal(callResp.form, callRequest);
+            }
             break;
         default: {
             const errorMessage = this.props.intl.formatMessage(

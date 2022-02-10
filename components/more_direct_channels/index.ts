@@ -27,7 +27,7 @@ import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {openDirectChannelToUserId, openGroupChannelToUserIds} from 'actions/channel_actions';
-import {loadStatusesForProfilesList, loadStatusesByIds} from 'actions/status_actions.jsx';
+import {loadStatusesForProfilesList, loadProfilesMissingStatus} from 'actions/status_actions.jsx';
 import {loadProfilesForGroupChannels} from 'actions/user_actions.jsx';
 import {setModalSearchTerm} from 'actions/views/search';
 
@@ -75,7 +75,6 @@ const makeMapStateToProps = () => {
             currentTeamName: team.name,
             searchTerm,
             users,
-            statuses: state.entities.users.statuses,
             currentChannelMembers,
             currentUserId,
             restrictDirectMessage,
@@ -87,7 +86,7 @@ const makeMapStateToProps = () => {
 type Actions = {
     getProfiles: (page?: number | undefined, perPage?: number | undefined, options?: any) => Promise<any>;
     getProfilesInTeam: (teamId: string, page: number, perPage?: number | undefined, sort?: string | undefined, options?: any) => Promise<any>;
-    loadStatusesByIds: (userIds: string[]) => ActionFunc;
+    loadProfilesMissingStatus: (users: UserProfile[]) => ActionFunc;
     getTotalUsersStats: () => ActionFunc;
     loadStatusesForProfilesList: (users: any) => {
         data: boolean;
@@ -105,7 +104,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Actions>({
             getProfiles,
             getProfilesInTeam,
-            loadStatusesByIds,
+            loadProfilesMissingStatus,
             getTotalUsersStats,
             loadStatusesForProfilesList,
             loadProfilesForGroupChannels,

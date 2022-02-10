@@ -8,12 +8,30 @@ import {searchHintOptions} from 'utils/constants';
 
 import SearchHint from 'components/search_hint/search_hint';
 
+let mockState: any;
+
+jest.mock('react-redux', () => ({
+    ...jest.requireActual('react-redux') as typeof import('react-redux'),
+    useSelector: (selector: (state: typeof mockState) => unknown) => selector(mockState),
+}));
+
 describe('components/SearchHint', () => {
     const baseProps = {
         withTitle: false,
         onOptionSelected: jest.fn(),
         options: searchHintOptions,
     };
+    beforeEach(() => {
+        mockState = {
+            entities: {
+                general: {
+                    config: {
+                        EnableFileAttachments: 'true',
+                    },
+                },
+            },
+        };
+    });
 
     test('should match snapshot, with title', () => {
         const props = {

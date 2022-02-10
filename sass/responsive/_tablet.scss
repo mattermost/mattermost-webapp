@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 @media screen and (max-width: 960px) {
     .system-users__filter-row {
@@ -35,7 +35,7 @@
                     }
 
                     .modal-close {
-                        @include opacity(1);
+                        opacity: 1;
                     }
                 }
 
@@ -130,6 +130,28 @@
 
 // Tablet and desktop
 @media screen and (min-width: 769px) {
+    // ensure the global header always sits on top of it's immediate sibling
+    > header {
+        z-index: 2;
+
+        + * {
+            position: relative;
+            z-index: 1;
+        }
+    }
+
+    .channel__wrap {
+
+        // indicates the RHS is open
+        &.move--left {
+
+            // adjust channel header width
+            #channel-header {
+                width: calc(100% - 400px);
+            }
+        }
+    }
+
     .search-help-popover {
         width: 274px;
     }
@@ -165,7 +187,7 @@
         }
 
         &.move--left {
-            @include translateX(0);
+            transform: translateX(0);
 
             .search-bar__container {
                 display: none;
@@ -262,7 +284,7 @@
                         }
 
                         .post__time {
-                            @include opacity(0.6);
+                            opacity: 0.6;
                         }
                     }
                 }
@@ -398,7 +420,7 @@
         &.same--root {
             &.same--user {
                 .post__time {
-                    @include opacity(0);
+                    opacity: 0;
                 }
 
                 .post__header {
@@ -453,11 +475,10 @@
     }
 
     .sidebar--right {
-        @include single-transition(all, 0.35s, ease);
-        @include translateX(100%);
-
         z-index: 13;
         top: 0;
+        transform: translateX(100%);
+        transition: all 0.35s ease;
 
         .announcement-bar--fixed & {
             top: 32px;

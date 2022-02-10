@@ -10,7 +10,7 @@ import LatexInline from 'components/latex_inline';
 import LinkTooltip from 'components/link_tooltip/link_tooltip';
 import MarkdownImage from 'components/markdown_image';
 import PostEmoji from 'components/post_emoji';
-import PostEditedIndicator from 'components/post_view/post_edited_indicator/post_edited_indicator';
+import PostEditedIndicator from 'components/post_view/post_edited_indicator';
 
 /*
  * Converts HTML to React components using html-to-react.

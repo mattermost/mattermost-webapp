@@ -25,7 +25,7 @@ describe('Email notification', () => {
 
     before(() => {
         // # Do email test if setup properly
-        cy.apiEmailTest();
+        cy.shouldHaveEmailEnabled();
 
         // # Get config
         cy.apiGetConfig().then((data) => {

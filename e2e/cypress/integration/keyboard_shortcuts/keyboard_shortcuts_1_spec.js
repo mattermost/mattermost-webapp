@@ -10,6 +10,7 @@
 // Stage: @prod
 // Group: @keyboard_shortcuts
 
+import * as messages from '../../fixtures/messages';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Keyboard Shortcuts', () => {
@@ -422,13 +423,13 @@ describe('Keyboard Shortcuts', () => {
     });
 
     it('MM-T1252 - CTRL/CMD+SHIFT+A', () => {
-        // # Type CTRL/CMD+SHIFT+A to open 'Account Settings' modal
+        // # Type CTRL/CMD+SHIFT+A to open 'Profile' modal
         cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}A');
-        cy.get('#accountSettingsHeader').should('be.visible');
+        cy.uiGetSettingsModal().should('be.visible');
 
-        // # Type CTRL/CMD+SHIFT+A to close 'Account Settings' modal
+        // # Type CTRL/CMD+SHIFT+A to close 'Profile' modal
         cy.get('body').cmdOrCtrlShortcut('{shift}A');
-        cy.get('#accountSettingsHeader').should('not.exist');
+        cy.uiGetSettingsModal().should('not.exist');
     });
 
     it('MM-T1278 - CTRL/CMD+SHIFT+K', () => {
@@ -439,6 +440,46 @@ describe('Keyboard Shortcuts', () => {
         // # Type CTRL/CMD+SHIFT+K to close 'Direct Messages' modal
         cy.get('body').cmdOrCtrlShortcut('{shift}K');
         cy.get('#moreDmModal').should('not.exist');
+    });
+
+    it('MM-T4452 - CTRL/CMD+SHIFT+. Expand or collapse RHS when RHS is already open', () => {
+        // # Post a message in center
+        cy.postMessage(messages.TINY);
+
+        // # Mouseover the post and click post comment icon.
+        cy.clickPostCommentIcon();
+
+        // # Type CTRL/CMD+SHIFT+. to expand 'RHS'
+        cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}.');
+
+        // * Verify RHS is now expanded
+        cy.uiGetRHS().isExpanded();
+
+        // # Type CTRL/CMD+SHIFT+. to collapse 'RHS'
+        cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}.');
+
+        // * Verify RHS is now in collapsed state
+        cy.get('#sidebar-right').should('be.visible').and('not.have.class', 'sidebar--right--expanded');
+    });
+
+    it('MM-T4452 - CTRL/CMD+SHIFT+. Expand or collapse RHS when RHS is in closed state', () => {
+        // # Type CTRL/CMD+SHIFT+. to open 'RHS'
+        cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}.');
+
+        // * Verify RHS is now open and is in collapsed state
+        cy.get('#sidebar-right').should('be.visible').and('not.have.class', 'sidebar--right--expanded');
+
+        // # Type CTRL/CMD+SHIFT+. to expand 'RHS'
+        cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}.');
+
+        // * Verify RHS is now fully expanded
+        cy.uiGetRHS().isExpanded();
+
+        // # Type CTRL/CMD+SHIFT+. to collapse 'RHS'
+        cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}.');
+
+        // * Verify RHS is now in collapsed state
+        cy.get('#sidebar-right').should('be.visible').and('not.have.class', 'sidebar--right--expanded');
     });
 
     function markAsFavorite(channelName) {

@@ -18,6 +18,7 @@ import PostHeader from 'components/post_view/post_header';
 import PostContext from 'components/post_view/post_context';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
+import {trackEvent} from 'actions/telemetry_actions';
 
 // When adding clickable targets within a root post to exclude from post's on click to open thread,
 // please add to/maintain the selector below
@@ -103,6 +104,8 @@ export default class Post extends React.PureComponent {
         isFlagged: PropTypes.bool.isRequired,
 
         isCollapsedThreadsEnabled: PropTypes.bool,
+
+        clickToReply: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -126,9 +129,6 @@ export default class Post extends React.PureComponent {
     }
 
     componentDidMount() {
-        document.addEventListener('keydown', this.handleAlt);
-        document.addEventListener('keyup', this.handleAlt);
-
         // Refs can be null when this component is shallowly rendered for testing
         if (this.postRef.current) {
             this.postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
@@ -143,8 +143,9 @@ export default class Post extends React.PureComponent {
     }
 
     componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleAlt);
-        document.removeEventListener('keyup', this.handleAlt);
+        if (this.state.hover) {
+            this.removeKeyboardListeners();
+        }
 
         if (this.postRef.current) {
             this.postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
@@ -178,7 +179,7 @@ export default class Post extends React.PureComponent {
     }
 
     handlePostClick = (e) => {
-        const {post, isCollapsedThreadsEnabled} = this.props;
+        const {post, clickToReply} = this.props;
 
         if (!post) {
             return;
@@ -189,10 +190,11 @@ export default class Post extends React.PureComponent {
 
         if (
             !e.altKey &&
-            isCollapsedThreadsEnabled &&
+            clickToReply &&
             (fromAutoResponder || !isSystemMessage) &&
             isEligibleForClick(e)
         ) {
+            trackEvent('crt', 'clicked_to_reply');
             this.props.actions.selectPost(post);
         }
 
@@ -293,6 +295,7 @@ export default class Post extends React.PureComponent {
         }
 
         if (this.props.compactDisplay) {
+            sameUserClass = '';
             className += ' post--compact';
         }
 
@@ -304,22 +307,39 @@ export default class Post extends React.PureComponent {
             className += ' post--pinned-or-flagged';
         }
 
-        if (
-            (this.state.alt && !(this.props.channelIsArchived || post.system_post_ids)) ||
-            (this.props.isCollapsedThreadsEnabled && (fromAutoResponder || !isSystemMessage))
-        ) {
+        if (this.state.alt && !(this.props.channelIsArchived || post.system_post_ids)) {
             className += ' cursor--pointer';
         }
 
         return className + ' ' + sameUserClass + ' ' + rootUser + ' ' + postType + ' ' + currentUserCss;
     }
 
-    setHover = () => {
-        this.setState({hover: true});
+    setHover = (e) => {
+        this.setState({
+            hover: true,
+            alt: e.altKey,
+        });
+
+        this.addKeyboardListeners();
     }
 
     unsetHover = () => {
-        this.setState({hover: false});
+        this.setState({
+            hover: false,
+            alt: false,
+        });
+
+        this.removeKeyboardListeners();
+    }
+
+    addKeyboardListeners = () => {
+        document.addEventListener('keydown', this.handleAlt);
+        document.addEventListener('keyup', this.handleAlt);
+    }
+
+    removeKeyboardListeners = () => {
+        document.removeEventListener('keydown', this.handleAlt);
+        document.removeEventListener('keyup', this.handleAlt);
     }
 
     handleAlt = (e) => {

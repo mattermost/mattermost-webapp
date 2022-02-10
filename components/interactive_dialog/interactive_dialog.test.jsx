@@ -23,7 +23,7 @@ describe('components/interactive_dialog/InteractiveDialog', () => {
         submitLabel: 'Yes',
         notifyOnCancel: true,
         state: 'some state',
-        onHide: () => {},
+        onExited: () => {},
         actions: {
             submitInteractiveDialog: () => ({}),
         },

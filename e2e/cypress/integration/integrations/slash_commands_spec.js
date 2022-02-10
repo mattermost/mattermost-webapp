@@ -188,12 +188,15 @@ describe('Integrations', () => {
         cy.apiLogin(user1);
         cy.visit(offTopicUrl1);
 
-        // # Post message
-        cy.postMessage('http://www.mattermost.org/wp-content/uploads/2016/04/icon_WS.png');
-        cy.getLastPostId().as('postID');
-
         // # Post command
         cy.uiPostMessageQuickly('/expand ');
+
+        // * System post received confirming the new setting
+        cy.getLastPost().should('contain', 'Image links now expand by default').and('contain', 'System');
+
+        // # Post message
+        cy.postMessage('http://mattermost.org/wp-content/uploads/2016/04/icon_WS.png');
+        cy.getLastPostId().as('postID');
 
         cy.get('@postID').then((postID) => {
             cy.get(`#post_${postID}`).should('be.visible').within(() => {
@@ -205,9 +208,6 @@ describe('Integrations', () => {
                 cy.findByLabelText('file thumbnail').should('be.visible');
             });
         });
-
-        // * System post received confirming the new setting
-        cy.getLastPost().should('contain', 'Image links now expand by default').and('contain', 'System');
     });
 
     it('MM-T689 capital letter autocomplete, /collapse', () => {
@@ -253,7 +253,7 @@ describe('Integrations', () => {
         cy.visit(offTopicUrl1);
 
         // # Navigate to slash commands and create the slash command
-        cy.uiOpenProductSwitchMenu('Integrations');
+        cy.uiOpenProductMenu('Integrations');
         cy.get('#slashCommands').click();
         cy.get('#addSlashCommand').click();
         cy.get('#displayName').type(`Test${timestamp}`);

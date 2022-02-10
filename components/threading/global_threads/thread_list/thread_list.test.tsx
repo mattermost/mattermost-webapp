@@ -6,11 +6,15 @@ import React, {ComponentProps} from 'react';
 import {shallow} from 'enzyme';
 
 import {markAllThreadsInTeamRead} from 'mattermost-redux/actions/threads';
+import {TestHelper} from 'utils/test_helper';
+
 jest.mock('mattermost-redux/actions/threads');
 
 import Header from 'components/widgets/header';
 
 import Button from '../../common/button';
+
+import {WindowSizes} from 'utils/constants';
 
 import ThreadList, {ThreadFilter} from './thread_list';
 
@@ -35,14 +39,6 @@ jest.mock('react-redux', () => ({
     useDispatch: () => mockDispatch,
 }));
 
-jest.mock('react-intl', () => {
-    const reactIntl = jest.requireActual('react-intl');
-    return {
-        ...reactIntl,
-        useIntl: () => reactIntl.createIntl({locale: 'en', defaultLocale: 'en', timeZone: 'Etc/UTC', textComponent: 'span'}),
-    };
-});
-
 describe('components/threading/global_threads/thread_list', () => {
     let props: ComponentProps<typeof ThreadList>;
 
@@ -54,17 +50,36 @@ describe('components/threading/global_threads/thread_list', () => {
             unreadIds: ['2'],
             setFilter: jest.fn(),
         };
+        const user = TestHelper.getUserMock();
+        const profiles = {
+            [user.id]: user,
+        };
 
         mockState = {
             entities: {
+                users: {
+                    currentUserId: user.id,
+                    profiles,
+                },
+                preferences: {
+                    myPreferences: {},
+                },
                 threads: {
-                    counts: {
+                    countsIncludingDirect: {
                         tid: {
                             total: 0,
                             total_unread_threads: 0,
                             total_unread_mentions: 0,
                         },
                     },
+                },
+                teams: {
+                    currentTeamId: 'tid',
+                },
+            },
+            views: {
+                browser: {
+                    windowSize: WindowSizes.DESKTOP_VIEW,
                 },
             },
         };
@@ -104,4 +119,3 @@ describe('components/threading/global_threads/thread_list', () => {
         expect(markAllThreadsInTeamRead).toHaveBeenCalledWith('uid', 'tid');
     });
 });
-

@@ -12,6 +12,8 @@ import {compareEmojis} from 'utils/emoji_utils';
 import {t} from 'utils/i18n';
 import imgTrans from 'images/img_trans.gif';
 
+import {getSkin} from 'utils/emoticons';
+
 import LocalizedInput from 'components/localized_input/localized_input';
 
 import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator.tsx';
@@ -538,6 +540,26 @@ export default class EmojiPicker extends React.PureComponent {
         ];
     }
 
+    // Note : This function is not an idea implementation, a more better and efficeint way to do this come when we make changes to emoji json.
+    convertEmojiToUserSkinTone = (emoji, emojiSkin, userSkinTone) => {
+        let newEmojiId = '';
+
+        // If its a default (yellow) emoji, get the skin variation from its property
+        if (emojiSkin === 'default') {
+            const variation = Object.keys(emoji.skin_variations).find((skinVariation) => skinVariation.includes(userSkinTone));
+            newEmojiId = variation ? emoji.skin_variations[variation].unified : emoji.unified;
+        } else if (userSkinTone === 'default') {
+            // If default (yellow) skin is selected, remove the skin code from emoji id
+            newEmojiId = emoji.unified.replaceAll(/-(1F3FB|1F3FC|1F3FD|1F3FE|1F3FF)/g, '');
+        } else {
+            // If non default skin is selected, add the new skin selected code to emoji id
+            newEmojiId = emoji.unified.replaceAll(/(1F3FB|1F3FC|1F3FD|1F3FE|1F3FF)/g, userSkinTone);
+        }
+
+        const emojiIndex = Emoji.EmojiIndicesByUnicode.get(newEmojiId.toLowerCase());
+        return Emoji.Emojis[emojiIndex];
+    }
+
     getEmojisByCategory(category) {
         if (this.props.filter) {
             const emojis = Object.values(this.state.allEmojis).filter((emoji) => {
@@ -553,6 +575,38 @@ export default class EmojiPicker extends React.PureComponent {
 
             return this.sortEmojis(emojis);
         }
+
+        if (category.name === 'recent') {
+            const recentEmojiIds = this.state.categories?.recent?.emojiIds ?? [];
+            if (recentEmojiIds.length === 0) {
+                return [];
+            }
+
+            const recentEmojis = new Map();
+
+            recentEmojiIds.forEach((emojiId) => {
+                const emoji = this.state.allEmojis[emojiId];
+
+                // If its a custom emoji
+                if (emoji.category === 'custom') {
+                    recentEmojis.set(emojiId, emoji);
+                } else {
+                    // If its a system emoji
+                    const emojiSkin = getSkin(emoji);
+                    if (emojiSkin && emojiSkin !== this.props.userSkinTone) {
+                        const emojiWithUserSkin = this.convertEmojiToUserSkinTone(emoji, emojiSkin, this.props.userSkinTone);
+                        if (emojiWithUserSkin && emojiWithUserSkin.unified) {
+                            recentEmojis.set(emojiWithUserSkin.unified, emojiWithUserSkin);
+                        }
+                    } else {
+                        recentEmojis.set(emojiId, emoji);
+                    }
+                }
+            });
+
+            return Array.from(recentEmojis.values());
+        }
+
         return this.state.categories[category.name].emojiIds.map((emojiId) =>
             this.state.allEmojis[emojiId]);
     }
@@ -603,6 +657,7 @@ export default class EmojiPicker extends React.PureComponent {
                 />
             );
         });
+
         return (
             <div
                 id='emojiPickerCategories'
@@ -659,24 +714,27 @@ export default class EmojiPicker extends React.PureComponent {
             const emojis = this.getEmojisByCategory(category);
             const items = this.emojiCurrentResultsItems(i, emojis, numEmojisLoaded);
             numEmojisLoaded += items.length;
-            categoryComponents = [...categoryComponents, (
-                <EmojiPickerCategorySection
-                    key={category.id}
-                    categoryName={category.name}
-                    updateCategoryOffset={this.updateCategoryOffset}
-                    role='application'
-                >
-                    {items}
-                </EmojiPickerCategorySection>
-            )];
 
-            if (items.length === 0) {
-                return (
-                    <NoResultsIndicator
-                        variant={NoResultsVariant.ChannelSearch}
-                        titleValues={{channelName: `"${this.props.filter}"`}}
-                    />);
+            if (items.length > 0) {
+                categoryComponents = [...categoryComponents, (
+                    <EmojiPickerCategorySection
+                        key={category.id}
+                        categoryName={category.name}
+                        updateCategoryOffset={this.updateCategoryOffset}
+                        role='application'
+                    >
+                        {items}
+                    </EmojiPickerCategorySection>
+                )];
             }
+        }
+
+        if (categoryComponents.length === 0) {
+            return (
+                <NoResultsIndicator
+                    variant={NoResultsVariant.ChannelSearch}
+                    titleValues={{channelName: `"${this.props.filter}"`}}
+                />);
         }
 
         return (
@@ -783,5 +841,3 @@ export default class EmojiPicker extends React.PureComponent {
         );
     }
 }
-
-/* eslint-enable max-lines */

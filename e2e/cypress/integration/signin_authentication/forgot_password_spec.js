@@ -22,7 +22,7 @@ describe('Signin/Authentication', () => {
 
     before(() => {
         // # Do email test if setup properly
-        cy.apiEmailTest();
+        cy.shouldHaveEmailEnabled();
 
         // # Create new team and users
         cy.apiInitSetup().then(({team, user}) => {

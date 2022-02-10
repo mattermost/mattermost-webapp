@@ -26,7 +26,7 @@ describe('Notifications', () => {
     let receiver;
 
     before(() => {
-        cy.apiEmailTest();
+        cy.shouldHaveEmailEnabled();
 
         // # Get config
         cy.apiGetConfig().then((data) => {

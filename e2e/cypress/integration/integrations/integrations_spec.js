@@ -189,7 +189,7 @@ describe('Integrations page', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Open product menu and click 'Integrations'
-        cy.uiOpenProductSwitchMenu('Integrations');
+        cy.uiOpenProductMenu('Integrations');
 
         cy.get('.integration-option__title').contains('Incoming Webhooks').click();
 
@@ -205,7 +205,7 @@ describe('Integrations page', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Click 'Integrations' at product menu
-        cy.uiOpenProductSwitchMenu('Integrations');
+        cy.uiOpenProductMenu('Integrations');
 
         // * Verify we are at integrations page URL
         cy.url().should('include', '/integrations');
@@ -277,7 +277,7 @@ describe('Integrations page', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Click 'Integrations' at product menu
-        cy.uiOpenProductSwitchMenu('Integrations');
+        cy.uiOpenProductMenu('Integrations');
 
         // * Verify we are at integrations page URL
         cy.url().should('include', '/integrations');
@@ -365,7 +365,7 @@ describe('Integrations page', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Click 'Integrations' at product menu
-        cy.uiOpenProductSwitchMenu('Integrations');
+        cy.uiOpenProductMenu('Integrations');
 
         // * Verify we are at integrations page URL
         cy.url().should('include', '/integrations');
@@ -421,9 +421,8 @@ describe('Integrations page', () => {
         // * Verify our created command is in the list
         cy.findByText(commandTitle).should('exist').and('be.visible').scrollIntoView();
 
-        cy.uiCloseAnnouncementBar().then(() => {
-            cy.findByText('Back to Mattermost').should('exist').and('be.visible').click();
-        });
+        // # Return to channels
+        cy.visit(`${testTeam.name}/channels/town-square`);
 
         const first2LettersOfCommandTrigger = commandTrigger.slice(0, 2);
 

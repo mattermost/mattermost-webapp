@@ -5,38 +5,45 @@ import path from 'path';
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
-export function downloadAndUnzipExportFile(targetDownload) {
+export function downloadAndUnzipExportFile(targetFolder = '') {
     // # Get the download link
     cy.get('@firstRow').findByText('Download').parents('a').should('exist').then((fileAttachment) => {
         // # Getting export file url
         const fileURL = fileAttachment.attr('href');
+        const targetFilePath = path.join(targetFolder);
+        const zipFile = targetFilePath + '.zip';
 
-        const zipFilePath = path.join(targetDownload, 'export.zip');
-
-        // # Downloading zip file
+        // # Download zip file
         cy.request({url: fileURL, encoding: 'binary'}).then((response) => {
             expect(response.status).to.equal(200);
-            cy.writeFile(zipFilePath, response.body, 'binary');
+            cy.writeFile(zipFile, response.body, 'binary');
         });
 
-        // # Unzipping exported file
-        cy.exec(`unzip ${zipFilePath} -d ${targetDownload}`);
-        cy.exec(`find ${targetDownload}/export -name '*.zip' | xargs unzip -d ${targetDownload}`);
+        // # Unzip exported file then "csv_export.zip"
+        cy.shellUnzip(zipFile, targetFilePath);
+        cy.shellFind(targetFilePath, /csv_export.zip/).then((files) => {
+            cy.shellUnzip(files[files.length - 1], targetFilePath);
+        });
     });
 }
 
-export function getXMLFile(targetDownload) {
-    // Finding xml file location
-    return cy.exec(`find ${targetDownload} -name '*.xml'`);
+export function verifyPostsCSVFile(targetFolder, type, match) {
+    cy.readFile(`${targetFolder}/posts.csv`).
+        should('exist').
+        and(type, match);
 }
 
-export function deleteExportFolder(targetDownload) {
-    // Delete local download folder
-    cy.exec(`rm -rf ${targetDownload}`);
+export function verifyActianceXMLFile(targetFolder, type, match) {
+    cy.shellFind(targetFolder, /actiance_export.xml/).
+        then((files) => {
+            cy.readFile(files[files.length - 1]).
+                should('exist').
+                and(type, match);
+        });
 }
 
 export function verifyExportedMessagesCount(expectedNumber) {
-    // * Verifying no of exported messages
+    // * Verifying number of exported messages
     cy.get('@firstRow').find('td:eq(5)').should('have.text', `${expectedNumber} messages exported.`);
 }
 
@@ -92,17 +99,31 @@ export function gotoGlobalPolicy() {
 }
 
 export function editGlobalPolicyMessageRetention(input, result) {
-    // # Click message retention dropdown
-    cy.get('.DataRetentionSettings #global_direct_message_dropdown #DropdownInput_channel_message_retention').should('be.visible').click();
+    cy.get('.DataRetentionSettings #global_direct_message_dropdown #DropdownInput_channel_message_retention').as('dropDown');
 
-    // # Select days from message retention dropdown
+    // * Checking if Global Policy is already created
+    cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/data_retention/policy',
+        method: 'GET',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        if (response.body.message_deletion_enabled === true) {
+            // # Click message retention dropdown and select 'Keep forever' option
+            cy.get('@dropDown').click();
+            cy.get('.channel_message_retention_dropdown__menu .channel_message_retention_dropdown__option span.option_forever').should('be.visible').click();
+        }
+    });
+
+    // # Click message retention dropdown and select 'Days' option
+    cy.get('@dropDown').click();
     cy.get('.channel_message_retention_dropdown__menu .channel_message_retention_dropdown__option span.option_days').should('be.visible').click();
 
     // # Input retention days
     cy.get('.DataRetentionSettings #global_direct_message_dropdown input#channel_message_retention_input').clear().type(input);
 
     // # Save Global Policy
-    cy.findByRole('button', {name: /save/i}).should('be.visible').click();
+    cy.findByRole('button', {name: 'Save'}).should('be.visible').click();
 
     // * Assert global policy data table is visible
     cy.get('#global_policy_table .DataGrid').should('be.visible');
@@ -124,7 +145,7 @@ export function editGlobalPolicyFileRetention(input, result) {
     cy.get('.DataRetentionSettings #global_file_dropdown input#file_retention_input').clear().type(input);
 
     // # Save Global Policy
-    cy.findByRole('button', {name: /save/i}).should('be.visible').click();
+    cy.findByRole('button', {name: 'Save'}).should('be.visible').click();
 
     // * Assert global policy data table is visible
     cy.get('#global_policy_table .DataGrid').should('be.visible');
@@ -133,4 +154,36 @@ export function editGlobalPolicyFileRetention(input, result) {
     cy.findByTestId('global_file_retention_cell').within(() => {
         cy.get('span').should('have.text', result);
     });
+}
+
+export function runDataRetentionAndVerifyPostDeleted(testTeam, testChannel, postText) {
+    cy.uiGoToDataRetentionPage();
+
+    cy.findByRole('button', {name: 'Run Deletion Job Now'}).click();
+
+    // # Small wait to ensure new row is add
+    cy.wait(TIMEOUTS.FIVE_SEC);
+
+    // # Waiting for Data Retention process to finish
+    cy.get('.job-table__table').find('tbody > tr').eq(0).as('firstRow');
+    cy.get('@firstRow').within(() => {
+        cy.get('td:eq(1)', {timeout: TIMEOUTS.FOUR_MIN}).should('have.text', 'Success');
+    });
+
+    // * Verifying if post has been deleted
+    cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+    cy.reload();
+    cy.findAllByTestId('postView').should('have.length', 1);
+    cy.findAllByTestId('postView').should('not.contain', postText);
+}
+
+export function verifyPostNotDeleted(testTeam, testChannel, postText, expectedNoOfPosts = 2) {
+    cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+    cy.findAllByTestId('postView').should('have.length', expectedNoOfPosts);
+
+    if (expectedNoOfPosts === 2) {
+        cy.findAllByTestId('postView').should('contain', postText);
+    } else {
+        cy.findAllByTestId('postView').should('not.contain', postText);
+    }
 }

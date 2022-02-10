@@ -1,0 +1,21 @@
+@import 'components/toggle';
+
+.InviteAs {
+    &__label {
+        color: var(--center-channel-color);
+
+        &--parenthetical {
+            color: rgba(var(--center-channel-color-rgb), 0.8);
+        }
+    }
+
+    .radio {
+        &:first-child {
+            margin-top: 0;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}

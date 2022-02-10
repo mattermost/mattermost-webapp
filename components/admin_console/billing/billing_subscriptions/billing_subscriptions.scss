@@ -1,3 +1,5 @@
+@import 'sass/utils/_mixins';
+
 .BillingSubscriptions {
     .BillingSubscriptions__topWrapper {
         display: flex;
@@ -168,7 +170,9 @@
 
 .PrivateCloudCard__actionButton {
     display: block;
-    width: fit-content;
+
+    @include fit-content;
+
     padding: 13px 20px;
     border: none;
     margin-top: 16px;
@@ -222,7 +226,9 @@
 
 .cancelSubscriptionSection__contactUs {
     display: block;
-    width: fit-content;
+
+    @include fit-content;
+
     padding: 13px 20px;
     margin-top: 16px;
     border-radius: 4px;

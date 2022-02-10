@@ -44,8 +44,13 @@ exports[`components/integrations/InstalledCommand should call onDelete function 
           />
         </Link>
          - 
-        <DeleteIntegration
-          messageId="installed_commands.delete.confirm"
+        <Connect(DeleteIntegrationLink)
+          modalMessage={
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="This action permanently deletes the slash command and breaks any integrations using it. Are you sure you want to delete it?"
+              id="installed_commands.delete.confirm"
+            />
+          }
           onDelete={[Function]}
         />
       </div>
@@ -147,8 +152,13 @@ exports[`components/integrations/InstalledCommand should call onRegenToken funct
           />
         </Link>
          - 
-        <DeleteIntegration
-          messageId="installed_commands.delete.confirm"
+        <Connect(DeleteIntegrationLink)
+          modalMessage={
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="This action permanently deletes the slash command and breaks any integrations using it. Are you sure you want to delete it?"
+              id="installed_commands.delete.confirm"
+            />
+          }
           onDelete={[Function]}
         />
       </div>

@@ -30,7 +30,7 @@ describe('components/ReactionList', () => {
         post,
         teamId,
         reactions,
-        enableEmojiPicker: true,
+        canAddReactions: true,
         actions,
     };
 

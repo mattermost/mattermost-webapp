@@ -12,25 +12,31 @@ import {DispatchFunc, GetStateFunc, batchActions} from 'mattermost-redux/types/a
 
 import type {UserThread, UserThreadList} from 'mattermost-redux/types/threads';
 
+import {Post} from 'mattermost-redux/types/posts';
+
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
-import {getThreadsInChannel} from 'mattermost-redux/selectors/entities/threads';
+import {getThreadsInChannel, getThread as getThreadSelector} from 'mattermost-redux/selectors/entities/threads';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
+
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {logError} from './errors';
 import {forceLogoutIfNecessary} from './helpers';
 
-export function getThreads(userId: string, teamId: string, {before = '', after = '', perPage = ThreadConstants.THREADS_CHUNK_SIZE, unread = false} = {}) {
+type ExtendedPost = Post & { system_post_ids?: string[] };
+
+export function getThreads(userId: string, teamId: string, {before = '', after = '', perPage = ThreadConstants.THREADS_CHUNK_SIZE, unread = false, totalsOnly = false} = {}) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let userThreadList: undefined | UserThreadList;
 
         try {
-            userThreadList = await Client4.getUserThreads(userId, teamId, {before, after, perPage, extended: false, unread});
+            userThreadList = await Client4.getUserThreads(userId, teamId, {before, after, perPage, extended: false, unread, totalsOnly});
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(logError(error));
@@ -59,10 +65,11 @@ export function getThreads(userId: string, teamId: string, {before = '', after =
     };
 }
 
-export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFunc, threadData: UserThread, teamId: string) {
+export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFunc, threadData: UserThread, teamId: string, previousUnreadReplies?: number, previousUnreadMentions?: number) {
     const state = getState();
     const currentUserId = getCurrentUserId(state);
     const currentTeamId = getCurrentTeamId(state);
+    const crtEnabled = isCollapsedThreadsEnabled(state);
     const thread = {...threadData, is_following: true};
 
     dispatch({
@@ -73,6 +80,7 @@ export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFu
     dispatch({
         type: PostTypes.RECEIVED_POST,
         data: {...thread.post, update_at: 0},
+        features: {crtEnabled},
     });
 
     dispatch({
@@ -84,19 +92,30 @@ export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFu
     });
 
     const oldThreadData = state.entities.threads.threads[threadData.id];
-    handleReadChanged(
-        dispatch,
-        thread.id,
-        teamId || currentTeamId,
-        thread.post.channel_id,
-        {
-            lastViewedAt: thread.last_viewed_at,
-            prevUnreadMentions: oldThreadData?.unread_mentions ?? 0,
-            newUnreadMentions: thread.unread_mentions,
-            prevUnreadReplies: oldThreadData?.unread_replies ?? 0,
-            newUnreadReplies: thread.unread_replies,
-        },
-    );
+
+    // update thread read if and only if we have previous unread values
+    // upon receiving a thread.
+    // we need that guard to ensure that fetching a thread won't skew the counts
+    //
+    // PS: websocket events should always provide the previous unread values
+    if (
+        (previousUnreadMentions != null && previousUnreadReplies != null) ||
+        oldThreadData != null
+    ) {
+        handleReadChanged(
+            dispatch,
+            thread.id,
+            teamId || currentTeamId,
+            thread.post.channel_id,
+            {
+                lastViewedAt: thread.last_viewed_at,
+                prevUnreadMentions: oldThreadData?.unread_mentions ?? previousUnreadMentions,
+                newUnreadMentions: thread.unread_mentions,
+                prevUnreadReplies: oldThreadData?.unread_replies ?? previousUnreadReplies,
+                newUnreadReplies: thread.unread_replies,
+            },
+        );
+    }
 
     return thread;
 }
@@ -244,4 +263,26 @@ export function handleAllThreadsInChannelMarkedRead(dispatch: DispatchFunc, getS
     }
 
     dispatch(batchActions(actions));
+}
+
+export function decrementThreadCounts(post: ExtendedPost) {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        const thread = getThreadSelector(state, post.id);
+
+        if (!thread || (thread.unread_replies === 0 && thread.unread_mentions === 0)) {
+            return {data: false};
+        }
+
+        const channel = getChannel(state, post.channel_id);
+        const teamId = channel?.team_id || getCurrentTeamId(state);
+
+        return dispatch({
+            type: ThreadTypes.DECREMENT_THREAD_COUNTS,
+            teamId,
+            replies: thread.unread_replies,
+            mentions: thread.unread_mentions,
+            channelType: channel.type,
+        });
+    };
 }

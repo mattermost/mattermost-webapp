@@ -189,5 +189,15 @@ declare namespace Cypress {
          *   cy.shouldHaveFeatureFlag('feature', 'expected-value');
          */
         shouldHaveFeatureFlag(feature: string, expectedValue: any): Chainable;
+
+        /**
+         * Require email service to be reachable by the server
+         * thru "/api/v4/email/test" if sysadmin account has
+         * permission to do so. Otherwise, skip email test.
+         *
+         * @example
+         *   cy.shouldHaveEmailEnabled();
+         */
+        shouldHaveEmailEnabled(): Chainable;
     }
 }

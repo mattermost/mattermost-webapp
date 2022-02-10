@@ -9,8 +9,6 @@ import {Team} from 'mattermost-redux/types/teams';
 import NextStepsView from 'components/next_steps_view/next_steps_view';
 import {TestHelper} from 'utils/test_helper';
 
-import DownloadSection from './download_section';
-
 describe('components/next_steps_view', () => {
     const baseProps = {
         steps: [
@@ -23,6 +21,10 @@ describe('components/next_steps_view', () => {
                 },
                 component: jest.fn(),
                 visible: true,
+                completeStepButtonText: {
+                    id: 'fId',
+                    defaultMessage: 'message',
+                },
             },
             {
                 id: 'step_2',
@@ -33,6 +35,10 @@ describe('components/next_steps_view', () => {
                 roles: [],
                 component: jest.fn(),
                 visible: true,
+                completeStepButtonText: {
+                    id: 'fId',
+                    defaultMessage: 'message',
+                },
             },
             {
                 id: 'step_3',
@@ -43,20 +49,26 @@ describe('components/next_steps_view', () => {
                 roles: [],
                 component: jest.fn(),
                 visible: true,
+                completeStepButtonText: {
+                    id: 'fId',
+                    defaultMessage: 'message',
+                },
             },
         ],
         currentUser: TestHelper.getUserMock(),
         preferences: [],
         isFirstAdmin: true,
+        isAdmin: true,
         isCloud: false,
+        isMobileView: false,
         team: {name: 'TestTeam'} as Team,
-        globalHeaderEnabled: true,
         downloadAppsAsNextStep: false,
         actions: {
             setShowNextStepsView: jest.fn(),
             savePreferences: jest.fn(),
             closeRightHandSide: jest.fn(),
             getProfiles: jest.fn(),
+            selectChannel: jest.fn(),
         },
     };
 
@@ -138,30 +150,7 @@ describe('components/next_steps_view', () => {
             <NextStepsView {...props}/>,
         );
 
-        wrapper.instance().transitionToFinalScreen = jest.fn();
         wrapper.instance().nextStep(jest.fn(), 'step_1');
         jest.runOnlyPendingTimers();
-        expect(wrapper.instance().transitionToFinalScreen).toBeCalled();
-    });
-
-    test('should show DownloadSection when not in DownloadAppsCTA test', () => {
-        const wrapper = shallow(
-            <NextStepsView {...baseProps}/>,
-        );
-        wrapper.setState({show: true});
-
-        expect(wrapper.find(DownloadSection)).toHaveLength(1);
-    });
-
-    test('should not show DownloadSection when in DownloadAppsCTA test', () => {
-        const wrapper = shallow(
-            <NextStepsView
-                {...baseProps}
-                downloadAppsAsNextStep={true}
-            />,
-        );
-        wrapper.setState({show: true});
-
-        expect(wrapper.find(DownloadSection)).toHaveLength(0);
     });
 });

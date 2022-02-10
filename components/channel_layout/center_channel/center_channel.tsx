@@ -5,15 +5,18 @@ import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
 import classNames from 'classnames';
 
-import {Action, ActionFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import LoadingScreen from 'components/loading_screen';
 import PermalinkView from 'components/permalink_view';
 import ChannelHeaderMobile from 'components/channel_header_mobile';
 import ChannelIdentifierRouter from 'components/channel_layout/channel_identifier_router';
 import PlaybookRunner from 'components/channel_layout/playbook_runner';
+import NextStepsView from 'components/next_steps_view';
 import {makeAsyncComponent} from 'components/async_load';
+
 const LazyGlobalThreads = makeAsyncComponent(
+    'LazyGlobalThreads',
     React.lazy(() => import('components/threading/global_threads')),
     (
         <div className='app__content'>
@@ -35,12 +38,8 @@ type Props = {
     rhsMenuOpen: boolean;
     isCollapsedThreadsEnabled: boolean;
     currentUserId: string;
-    showNextSteps: boolean;
-    showNextStepsTips: boolean;
-    isOnboardingHidden: boolean;
-    showNextStepsEphemeral: boolean;
+    enableTipsViewRoute: boolean;
     actions: {
-        setShowNextStepsView: (show: boolean) => Action;
         getProfiles: (page?: number, perPage?: number, options?: Record<string, string | boolean>) => ActionFunc;
     };
 };
@@ -70,22 +69,12 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
     }
 
     async componentDidMount() {
-        const {actions, showNextSteps, showNextStepsTips, isOnboardingHidden} = this.props;
+        const {actions} = this.props;
         await actions.getProfiles();
-        if ((showNextSteps || showNextStepsTips) && !isOnboardingHidden) {
-            actions.setShowNextStepsView(true);
-        }
-    }
-
-    componentDidUpdate(prevProps: Props) {
-        const {location, showNextStepsEphemeral, actions} = this.props;
-        if (location.pathname !== prevProps.location.pathname && showNextStepsEphemeral) {
-            actions.setShowNextStepsView(false);
-        }
     }
 
     render() {
-        const {lastChannelPath, isCollapsedThreadsEnabled} = this.props;
+        const {lastChannelPath, isCollapsedThreadsEnabled, enableTipsViewRoute} = this.props;
         const url = this.props.match.url;
         return (
             <div
@@ -121,6 +110,13 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
                         >
                             <PlaybookRunner/>
                         </Route>
+                        {enableTipsViewRoute ? (
+                            <Route
+                                path='/:team/tips'
+                                component={NextStepsView}
+                            />
+
+                        ) : null}
                         {isCollapsedThreadsEnabled ? (
                             <Route
                                 path='/:team/threads/:threadIdentifier?'

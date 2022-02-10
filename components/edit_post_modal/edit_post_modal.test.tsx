@@ -56,6 +56,7 @@ const defaultPost: Post = {
 const defaultProps = {
     intl: jest.genMockFromModule<IntlShape>('react-intl'),
     canEditPost: true,
+    markdownPreviewFeatureIsEnabled: false,
     canDeletePost: true,
     codeBlockOnCtrlEnter: false,
     ctrlSend: false,
@@ -104,6 +105,7 @@ function createEditPost(
 ) {
     return (
         <EditPostModal
+            markdownPreviewFeatureIsEnabled={false}
             canEditPost={canEditPost}
             shouldShowPreview={false}
             canDeletePost={canDeletePost}
@@ -195,7 +197,7 @@ describe('components/EditPostModal', () => {
         await Promise.resolve();
         expect(actions.addMessageIntoHistory).toBeCalledWith('new message');
         expect(actions.editPost).toBeCalledWith({
-            ...defaultPost,
+            id: defaultPost.id,
             message: 'new message',
         });
         expect(actions.hideEditPostModal).toBeCalled();
@@ -285,17 +287,15 @@ describe('components/EditPostModal', () => {
         expect((wrapper.state() as EditPostModalState).editText).toBe('test  :thumbsup: ');
     });
 
-    it('should set the focus and recalculate the size of the edit box after entering', () => {
+    it('should set the focus to the edit box after entering', () => {
         const wrapper = shallowWithIntl(createEditPost({...defaultProps}));
         const instance = wrapper.instance() as EditPostModalClass;
-        (instance as any).editbox = {focus: jest.fn(), recalculateSize: jest.fn()};
+        (instance as any).editbox = {focus: jest.fn()};
 
         const ref = (instance as any).editbox;
         expect(ref.focus).not.toBeCalled();
-        expect(ref.recalculateSize).not.toBeCalled();
         instance.handleEntered();
         expect(ref.focus).toBeCalled();
-        expect(ref.recalculateSize).toBeCalled();
     });
 
     it('should hide the preview when exiting', () => {
@@ -357,7 +357,7 @@ describe('components/EditPostModal', () => {
 
         expect(actions.hideEditPostModal).toBeCalled();
         expect(actions.openModal).toHaveBeenCalledWith({
-            ModalId: ModalIdentifiers.DELETE_POST,
+            modalId: ModalIdentifiers.DELETE_POST,
             dialogType: DeletePostModal,
             dialogProps: {
                 post: {

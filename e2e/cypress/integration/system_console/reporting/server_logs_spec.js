@@ -7,12 +7,14 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @system_console
+// Group: @system_console @not_cloud
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('System Console > Server Logs', () => {
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         // # Visit the system console.
         cy.visit('/admin_console');
 

@@ -105,7 +105,7 @@ export function makeGetOptions(): (state: GlobalState, users: UserProfile[], val
 
             // Only show the 20 most recent DMs and GMs when no search term has been entered. If a search term has been
             // entered, `users` is expected to have already been filtered by it
-            if (!isSearch) {
+            if (!isSearch && recents.length > 0) {
                 return recents.slice(0, 20);
             }
 

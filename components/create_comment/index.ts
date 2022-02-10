@@ -8,6 +8,8 @@ import {GlobalState} from 'types/store/index.js';
 
 import {PostDraft} from 'types/store/rhs.js';
 
+import {ModalData} from 'types/actions.js';
+
 import {ActionFunc, ActionResult, DispatchFunc} from 'mattermost-redux/types/actions.js';
 
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
@@ -36,6 +38,8 @@ import {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 import {getPostDraft, getIsRhsExpanded, getSelectedPostFocussedAt} from 'selectors/rhs';
 import {showPreviewOnCreateComment} from 'selectors/views/textbox';
 import {setShowPreviewOnCreateComment} from 'actions/views/textbox';
+import {openModal} from 'actions/views/modals';
+import {isFeatureEnabled} from 'utils/utils';
 
 import CreateComment from './create_comment';
 
@@ -94,6 +98,7 @@ function makeMapStateToProps() {
             groupsWithAllowReference,
             useGroupMentions,
             channelMemberCountsByGroup,
+            markdownPreviewFeatureIsEnabled: isFeatureEnabled(Constants.PRE_RELEASE_FEATURES.MARKDOWN_PREVIEW, state),
         };
     };
 }
@@ -116,6 +121,7 @@ type Actions = {
     emitShortcutReactToLastPostFrom: (location: string) => void;
     setShowPreview: (showPreview: boolean) => void;
     getChannelMemberCountsByGroup: (channelID: string) => void;
+    openModal: <P>(modalData: ModalData<P>) => void;
 }
 
 function makeMapDispatchToProps() {
@@ -166,6 +172,7 @@ function makeMapDispatchToProps() {
             emitShortcutReactToLastPostFrom,
             setShowPreview: setShowPreviewOnCreateComment,
             getChannelMemberCountsByGroup,
+            openModal,
         }, dispatch);
     };
 }

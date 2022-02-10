@@ -10,7 +10,7 @@ import {Post} from 'mattermost-redux/types/posts.js';
 
 import {FileInfo} from 'mattermost-redux/types/files.js';
 
-import {ActionResult, GenericAction} from 'mattermost-redux/types/actions.js';
+import {ActionResult} from 'mattermost-redux/types/actions.js';
 
 import {CommandArgs} from 'mattermost-redux/types/integrations.js';
 
@@ -25,7 +25,7 @@ import {getCurrentChannel, getCurrentChannelStats, getChannelMemberCountsByGroup
 import {getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
-import {get, getInt, getBool, getPrewrittenMessagesTreatment} from 'mattermost-redux/selectors/entities/preferences';
+import {get, getInt, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {
@@ -58,7 +58,7 @@ import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {openModal} from 'actions/views/modals';
 import {Constants, Preferences, StoragePrefixes, TutorialSteps, UserStatuses} from 'utils/constants';
 import {canUploadFiles} from 'utils/file_utils';
-import {PrewrittenMessagesTreatments} from 'mattermost-redux/constants/config';
+import {isFeatureEnabled} from 'utils/utils';
 
 import CreatePost from './create_post';
 
@@ -89,9 +89,8 @@ function makeMapStateToProps() {
         const channelMemberCountsByGroup = selectChannelMemberCountsByGroup(state, currentChannel.id);
         const currentTeamId = getCurrentTeamId(state);
         const groupsWithAllowReference = useGroupMentions ? getAssociatedGroupsForReferenceByMention(state, currentTeamId, currentChannel.id) : null;
-        const prewrittenMessages = getPrewrittenMessagesTreatment(state);
         const enableTutorial = config.EnableTutorial === 'true';
-        const showTutorialTip = enableTutorial && tutorialStep === TutorialSteps.POST_POPOVER && prewrittenMessages !== PrewrittenMessagesTreatments.AROUND_INPUT;
+        const showTutorialTip = enableTutorial && tutorialStep === TutorialSteps.POST_POPOVER;
 
         return {
             currentTeamId,
@@ -126,14 +125,14 @@ function makeMapStateToProps() {
             useGroupMentions,
             channelMemberCountsByGroup,
             isLDAPEnabled,
-            prewrittenMessages,
             tutorialStep,
+            markdownPreviewFeatureIsEnabled: isFeatureEnabled(Constants.PRE_RELEASE_FEATURES.MARKDOWN_PREVIEW, state),
         };
     };
 }
 
 function onSubmitPost(post: Post, fileInfos: FileInfo[]) {
-    return (dispatch: Dispatch<GenericAction>) => {
+    return (dispatch: Dispatch) => {
         dispatch(createPost(post, fileInfos) as any);
     };
 }
@@ -146,13 +145,14 @@ type Actions = {
     addReaction: (postId: string, emojiName: string) => void;
     onSubmitPost: (post: Post, fileInfos: FileInfo[]) => void;
     removeReaction: (postId: string, emojiName: string) => void;
-    clearDraftUploads: (prefix: string, action: (key: string, value?: PostDraft) => PostDraft | undefined) => void;
+    clearDraftUploads: () => void;
     runMessageWillBePostedHooks: (originalPost: Post) => ActionResult;
     runSlashCommandWillBePostedHooks: (originalMessage: string, originalArgs: CommandArgs) => ActionResult;
     setDraft: (name: string, value: PostDraft | null) => void;
     setEditingPost: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
     selectPostFromRightHandSideSearchByPostId: (postId: string) => void;
-    openModal: (modalData: ModalData) => void;
+    openModal: <P>(modalData: ModalData<P>) => void;
+    closeModal: (modalId: string) => void;
     executeCommand: (message: string, args: CommandArgs) => ActionResult;
     getChannelTimezones: (channelId: string) => ActionResult;
     scrollPostListToBottom: () => void;
@@ -172,7 +172,17 @@ function setDraft(key: string, value: PostDraft) {
     return setGlobalItem(key, value);
 }
 
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+function clearDraftUploads() {
+    return actionOnGlobalItemsWithPrefix(StoragePrefixes.DRAFT, (_key: string, draft: PostDraft) => {
+        if (!draft || !draft.uploadsInProgress || draft.uploadsInProgress.length === 0) {
+            return draft;
+        }
+
+        return {...draft, uploadsInProgress: []};
+    });
+}
+
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
             addMessageIntoHistory,
@@ -182,7 +192,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             addReaction,
             removeReaction,
             setDraft,
-            clearDraftUploads: actionOnGlobalItemsWithPrefix,
+            clearDraftUploads,
             selectPostFromRightHandSideSearchByPostId,
             setEditingPost,
             emitShortcutReactToLastPostFrom,

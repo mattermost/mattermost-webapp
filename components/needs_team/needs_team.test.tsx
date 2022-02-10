@@ -81,6 +81,7 @@ describe('components/needs_team', () => {
 
     const actions = {
         fetchMyChannelsAndMembers: jest.fn().mockResolvedValue({data: true}),
+        fetchAllMyTeamsChannelsAndChannelMembers: jest.fn().mockResolvedValue({data: true}),
         fetchThreadMentionCountsByChannel: jest.fn().mockResolvedValue({data: true}),
         getMyTeamUnreads: jest.fn(),
         viewChannel: jest.fn(),
@@ -108,6 +109,7 @@ describe('components/needs_team', () => {
         previousTeamId: '',
         selectedThreadId: null,
         collapsedThreads: true,
+        shouldShowAppBar: true,
     };
     it('should match snapshots for init with existing team', () => {
         const fetchMyChannelsAndMembers = jest.fn().mockResolvedValue({data: true});

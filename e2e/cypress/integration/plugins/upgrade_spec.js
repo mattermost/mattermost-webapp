@@ -34,6 +34,17 @@ describe('Plugin remains enabled when upgraded', () => {
     });
 
     it('MM-T40 Plugin remains enabled when upgraded', () => {
+        // # Set plugin settings
+        const newSettings = {
+            ServiceSettings: {
+                EnableGifPicker: true,
+            },
+            FileSettings: {
+                EnablePublicLink: true,
+            },
+        };
+        cy.apiUpdateConfig(newSettings);
+
         // * Upload Demo plugin from the browser
         const mimeType = 'application/gzip';
         cy.fixture(demoPluginOld.filename, 'binary').

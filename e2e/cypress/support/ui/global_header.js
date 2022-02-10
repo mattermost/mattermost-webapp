@@ -1,25 +1,25 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-Cypress.Commands.add('uiGetProductSwitchButton', () => {
+Cypress.Commands.add('uiGetProductMenuButton', () => {
     return cy.findByRole('button', {name: 'Select to open product switch menu.'}).should('be.visible');
 });
 
-Cypress.Commands.add('uiGetProductSwitchMenu', () => {
+Cypress.Commands.add('uiGetProductMenu', () => {
     return cy.get('.product-switcher-menu').should('be.visible');
 });
 
-Cypress.Commands.add('uiOpenProductSwitchMenu', (item = '') => {
+Cypress.Commands.add('uiOpenProductMenu', (item = '') => {
     // # Click on product switch button
-    cy.uiGetProductSwitchButton().click();
+    cy.uiGetProductMenuButton().click();
 
     if (!item) {
         // # Return the menu if no item is passed
-        return cy.uiGetProductSwitchMenu();
+        return cy.uiGetProductMenu();
     }
 
     // # Click on a particular item
-    return cy.uiGetProductSwitchMenu().
+    return cy.uiGetProductMenu().
         findByText(item).
         scrollIntoView().
         should('be.visible').
@@ -122,20 +122,23 @@ Cypress.Commands.add('uiGetSettingsButton', () => {
     return cy.findByRole('button', {name: 'Select to open the settings modal.'}).should('be.visible');
 });
 
+Cypress.Commands.add('uiGetSettingsModal', () => {
+    // # Get settings modal
+    return cy.findByRole('dialog', {name: 'Settings'});
+});
+
 Cypress.Commands.add('uiOpenSettingsModal', (section = '') => {
     // # Open settings modal
     cy.uiGetSettingsButton().click();
 
-    const settingsModal = () => cy.findByRole('dialog', {name: 'Settings'}).should('be.visible');
-
     if (!section) {
-        return settingsModal();
+        return cy.uiGetSettingsModal();
     }
 
     // # Click on a particular section
     cy.findByRoleExtended('button', {name: section}).should('be.visible').click();
 
-    return settingsModal();
+    return cy.uiGetSettingsModal();
 });
 
 Cypress.Commands.add('uiLogout', () => {

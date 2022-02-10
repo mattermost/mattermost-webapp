@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging @smoke
 
 import * as MESSAGES from '../../fixtures/messages';
@@ -40,17 +41,17 @@ function verifySingleImageThumbnail({mode = null} = {}) {
 
     // # Make a post with some text and a single image
     cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
-    cy.get('post-image__thumbnail').should('be.visible');
+    cy.get('.post-image__thumbnail').should('be.visible');
 
     cy.postMessage(MESSAGES.MEDIUM);
 
     cy.get('div.file__image').last().within(() => {
-        // *  The name of the image appears on a new line and is not bolded
-        cy.contains('div', filename).should('be.visible').and('have.css', 'font-weight', '400');
+        // *  The name of the image should not show
+        cy.contains('div', filename).should('not.exist');
 
         // * There are arrows to collapse the preview
         cy.get('img[src*="preview"]').should('be.visible');
-        cy.findByLabelText('Toggle Embed Visibility').should('exist').and('have.attr', 'data-expanded', 'true').click();
+        cy.findByLabelText('Toggle Embed Visibility').should('exist').and('have.attr', 'data-expanded', 'true').click({force: true});
         cy.findByLabelText('Toggle Embed Visibility').should('exist').and('have.attr', 'data-expanded', 'false');
         cy.get('img[src*="preview"]').should('not.exist');
     });

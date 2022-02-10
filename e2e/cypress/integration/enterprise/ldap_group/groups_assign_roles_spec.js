@@ -97,13 +97,13 @@ describe('LDAP Group Sync', () => {
         cy.get('#add_team_or_channel').click();
         cy.get('#add_team').click();
         cy.get('#multiSelectList').should('be.visible').children().first().click({force: true});
-        cy.get('#saveItems').should('be.visible').click();
+        cy.uiGetButton('Add').click();
 
         // # Add the first channel in the group list then save
         cy.get('#add_team_or_channel').click();
         cy.get('#add_channel').click();
         cy.get('#multiSelectList').children().first().click();
-        cy.get('#saveItems').click();
+        cy.uiGetButton('Add').click();
 
         // # Wait until the groups retrieved and show up
         cy.wait(TIMEOUTS.HALF_SEC); //eslint-disable-line cypress/no-unnecessary-waiting

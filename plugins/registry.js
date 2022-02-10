@@ -143,6 +143,37 @@ export default class PluginRegistry {
         return id;
     }
 
+    // Add a button to the channel intro message.
+    // Accepts the following:
+    // - icon - React element to use as the button's icon
+    // - action - a function called when the button is clicked, passed the channel and channel member as arguments
+    // - tooltip_text - string or React element shown for tooltip appear on hover
+    registerChannelIntroButtonAction(icon, action, tooltipText) {
+        const id = generateId();
+
+        const data = {
+            id,
+            pluginId: this.id,
+            icon: resolveReactElement(icon),
+            action,
+            tooltipText: resolveReactElement(tooltipText),
+        };
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'ChannelIntroButton',
+            data,
+        });
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'MobileChannelIntroButton',
+            data,
+        });
+
+        return id;
+    }
+
     // Add a "call button"" next to the attach file button. If there are more than one button registered by any
     // plugin, a dropdown menu is created to contain all the call plugin buttons.
     // Accepts the following:
@@ -716,9 +747,10 @@ export default class PluginRegistry {
     // - mainComponent - The component to be displayed below the global header when your route is active.
     // - headerComponent - A component to fill the generic area in the center of
     //                     the global header when your route is active.
+    // - showTeamSidebar - A flag to display or hide the team sidebar in products. Defaults to false (hidden).
     // All parameters are required.
     // Returns a unique identifier.
-    registerProduct(baseURL, switcherIcon, switcherText, switcherLinkURL, mainComponent, headerCentreComponent = () => null, headerRightComponent = () => null) {
+    registerProduct(baseURL, switcherIcon, switcherText, switcherLinkURL, mainComponent, headerCentreComponent = () => null, headerRightComponent = () => null, showTeamSidebar = false) {
         const id = generateId();
 
         store.dispatch({
@@ -734,6 +766,7 @@ export default class PluginRegistry {
                 mainComponent,
                 headerCentreComponent,
                 headerRightComponent,
+                showTeamSidebar,
             },
         });
 
@@ -762,6 +795,57 @@ export default class PluginRegistry {
                 pluginId: this.id,
                 hook,
             },
+        });
+
+        return id;
+    }
+
+    // INTERNAL: Subject to change without notice.
+    // Register a component to render in the LHS next to a channel's link label.
+    // All parameters are required.
+    // Returns a unique identifier.
+    registerSidebarChannelLinkLabelComponent(component) {
+        return dispatchPluginComponentAction('SidebarChannelLinkLabel', this.id, component);
+    }
+
+    // INTERNAL: Subject to change without notice.
+    // Register a component to render in channel's center view, in place of a channel toast.
+    // All parameters are required.
+    // Returns a unique identifier.
+    registerChannelToastComponent(component) {
+        return dispatchPluginComponentAction('ChannelToast', this.id, component);
+    }
+
+    // INTERNAL: Subject to change without notice.
+    // Register a global component at the root of the app that survives across product switches.
+    // All parameters are required.
+    // Returns a unique identifier.
+    registerGlobalComponent(component) {
+        return dispatchPluginComponentAction('Global', this.id, component);
+    }
+
+    // INTERNAL: Subject to change without notice.
+    // Add a component to the App Bar.
+    // Accepts the following:
+    // - iconUrl - A resolvable URL to use as the button's icon
+    // - action - A function called when the button is clicked, passed the channel and channel member as arguments
+    // - tooltip_text - A string or React element shown for tooltip appear on hover
+    // Returns a unique identifier.
+    registerAppBarComponent(iconUrl, action, tooltipText) {
+        const id = generateId();
+
+        const data = {
+            id,
+            pluginId: this.id,
+            iconUrl,
+            action,
+            tooltipText: resolveReactElement(tooltipText),
+        };
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'AppBar',
+            data,
         });
 
         return id;

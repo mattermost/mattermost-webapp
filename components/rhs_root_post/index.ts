@@ -15,8 +15,9 @@ import {Post} from 'mattermost-redux/types/posts';
 
 import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 
-import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
+import {getShortcutReactToLastPostEmittedFrom, getOneClickReactionEmojis} from 'selectors/emojis';
 import {isEmbedVisible} from 'selectors/posts';
+import {getIsMobileView} from 'selectors/views/browser';
 
 import {GlobalState} from 'types/store';
 import {FakePost} from 'types/store/rhs';
@@ -42,6 +43,12 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const user = getUser(state, ownProps.post.user_id);
     const isBot = Boolean(user && user.is_bot);
 
+    let emojis = [];
+    const oneClickReactionsEnabled = get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.ONE_CLICK_REACTIONS_ENABLED, Preferences.ONE_CLICK_REACTIONS_ENABLED_DEFAULT) === 'true';
+    if (oneClickReactionsEnabled) {
+        emojis = getOneClickReactionEmojis(state);
+    }
+
     return {
         isBot,
         enableEmojiPicker,
@@ -55,6 +62,10 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
         shortcutReactToLastPostEmittedFrom,
         collapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
+        oneClickReactionsEnabled,
+        recentEmojis: emojis,
+        isExpanded: state.views.rhs.isSidebarExpanded,
+        isMobileView: getIsMobileView(state),
     };
 }
 
