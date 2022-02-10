@@ -7,20 +7,33 @@
 }
 
 .warning {
-    color: var(--sys-away-indicator);
+    color: var(--sys-away-indicator-black-opacity);
 }
 
 .ok {
     color: var(--sys-online-indicator);
 }
 
+.scoreGraph {
+    display: flex;
+    width: 112px;
+    height: 112px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
 .WorkspaceOptimizationDashboard {
+    background-color: #fff;
+
     button[class*=' StyledChip'],
     button[class^='StyledChip'] {
         width: 120px;
         height: 24px;
         justify-content: space-around;
         border: none;
+        margin-right: 8px;
+        margin-bottom: 0;
         box-shadow: none;
         font-size: 12px;
         font-style: normal;
@@ -31,25 +44,25 @@
         &.error {
             @extend .error;
 
-            background-color: rgba(var(--sys-error-text-color-rgb), 0.3);
+            background-color: rgba(var(--sys-error-text-color-rgb), 0.16);
         }
 
         &.info {
             @extend .info;
 
-            background-color: rgba(var(--sys-sidebar-text-active-border-rgb), 0.3);
+            background-color: rgba(var(--sys-sidebar-text-active-border-rgb), 0.16);
         }
 
         &.warning {
             @extend .warning;
 
-            background-color: rgba(var(--sys-away-indicator-rgb), 0.3);
+            background-color: rgba(var(--sys-away-indicator-rgb), 0.16);
         }
 
         &.ok {
             @extend .ok;
 
-            background-color: rgba(var(--sys-online-indicator-rgb), 0.3);
+            background-color: rgba(var(--sys-online-indicator-rgb), 0.16);
         }
     }
 
@@ -57,22 +70,30 @@
         display: flex;
         width: 872px;
         box-sizing: border-box;
-        padding: 20px;
-        border: 1px solid rgba(var(--center-channel-text-rgb) 0.08);
-        margin-left: 25px;
-        background: var(--center-channel-bg);
+        align-items: center;
+        padding: 24px;
+        border: 1px solid rgba(var(--sys-denim-center-channel-text-rgb), 0.08) !important;
+        margin-left: 4px;
+        background: var(--sys-center-channel-bg);
         border-radius: 4px;
         box-shadow: var(--elevation-1);
 
         &__scoreEllipseSvg {
+            display: flex;
+            width: 140px;
+            height: 140px;
+            align-items: center;
+
             .alertImageScore {
-                display: flex;
-                width: 112px;
-                height: 112px;
-                align-items: center;
-                justify-content: center;
+                @extend .scoreGraph;
+
                 background-color: rgba(var(--sys-error-text-color-rgb), 0.3);
-                border-radius: 50%;
+            }
+
+            .successImageScore {
+                @extend .scoreGraph;
+
+                background-color: rgba(var(--sys-online-indicator-rgb), 0.3);
             }
 
             .CircularChart {
@@ -96,16 +117,16 @@
                         stroke: var(--sys-error-text);
                     }
 
-                    .circle-bg {
-                        fill: none;
-                        stroke: var(--sys-center-channel-bg);
-                        stroke-width: 4.2;
-                    }
-
                     .circle {
                         animation: progress 1s ease-out forwards;
                         fill: none;
-                        stroke-width: 3.2;
+                        stroke-width: 3.55;
+                    }
+
+                    .percentageOrNumber {
+                        font-family: Metropolis;
+                        font-size: 0.65em;
+                        font-weight: 550;
                     }
                 }
 
@@ -113,13 +134,6 @@
                     0% {
                         stroke-dasharray: 0 100;
                     }
-                }
-
-                .percentage {
-                    fill: var(--sys-center-channel-color);
-                    font-family: sans-serif;
-                    font-size: 0.5em;
-                    text-anchor: middle;
                 }
             }
         }
@@ -149,23 +163,36 @@
             &__chips {
                 display: flex;
                 flex-direction: row;
+
+                button[class*=' StyledChip'],
+                button[class^='StyledChip'] {
+                    width: 180px;
+                    height: 32px;
+                    margin-right: 16px;
+                }
             }
         }
     }
 
     ul.Accordion {
         width: 872px;
-        margin-left: 25px;
+        margin-left: 4px;
 
-        li.accordion-item {
+        li.accordion-card {
+            box-sizing: border-box;
             border: 1px solid rgba(63, 67, 80, 0.08) !important;
-            margin-top: 10px;
+            margin-top: 16px;
             background-color: var(--sys-center-channel-bg);
 
-            .accordion-item-header {
+            .accordion-card-header {
+                max-height: 92px;
+                padding: 0;
                 background-color: var(--sys-center-channel-bg);
 
                 &__icon {
+                    padding: 0;
+                    margin: 24px 0 24px 24px;
+
                     div {
                         z-index: 1;
                         display: flex;
@@ -191,7 +218,8 @@
                 }
 
                 &__body {
-                    margin-left: 10px;
+                    padding: 0;
+                    margin: 27px 0 26px 16px;
 
                     &__title {
                         margin-bottom: 5px;
@@ -215,18 +243,38 @@
                     display: flex;
                     flex-direction: row;
                     align-items: flex-end;
+                    margin-top: 34px;
                     margin-left: auto;
+
+                    button[class*=' StyledChip'],
+                    button[class^='StyledChip'] {
+                        margin-right: 24px;
+                    }
                 }
 
                 &__chevron {
-                    margin-left: 0 !important;
+                    padding: 0;
+                    margin: 32px 32px 32px 0;
+                    font-size: 20px;
                 }
             }
 
-            .accordion-item-container {
+            .accordion-card-container {
                 &__content {
+                    padding: 16px 24px;
                     border-top: 1px solid rgba(63, 67, 80, 0.06);
                     background-color: rgb(255, 255, 255);
+
+                    div[class*=' AccordionItem'],
+                    div[class^='AccordionItem'] {
+                        padding: 16px 8px;
+
+                        i {
+                            margin-right: 4px;
+                            margin-left: -5px;
+                            font-size: 20px;
+                        }
+                    }
                 }
 
                 .ctaButtons {

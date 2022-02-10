@@ -1,6 +1,7 @@
 :root {
     // Cloned default hex values from base/css_variables to be used in the system console
     --sys-away-indicator: #ffbc1f;
+    --sys-away-indicator-black-opacity: #997113;
     --sys-button-bg: #166de0;
     --sys-button-color: #fff;
     --sys-center-channel-bg: #fff;
@@ -29,6 +30,7 @@
 
     // Cloned RGB values from base/css_variables, to be used as rgba(var(--sys-color), opacity_here) to apply opacity to base colors
     --sys-away-indicator-rgb: 255, 188, 31;
+    --sys-away-indicator-black-opacity-rgb: 153, 113, 19;
     --sys-button-bg-rgb: 22, 109, 224;
     --sys-button-color-rgb: 255, 255, 255;
     --sys-center-channel-bg-rgb: 255, 255, 255;
