@@ -1,10 +1,15 @@
 @import 'utils/mixins';
 @import './mixins';
 
-@include simple-in-and-out("Channel");
+.Channel-body {
+    // page width - channels preview width - progress dots width - people overlap width
+    max-width: calc(100vw - 600px - 120px - 30px);
+}
 
 .Channel {
     &__input {
         @include input;
     }
 }
+
+@include simple-in-and-out("Channel");

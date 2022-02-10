@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState, useCallback, useEffect} from 'react';
+import React, {useState, useCallback, useEffect, useMemo, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {RouterProps} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
@@ -27,10 +27,23 @@ import {teamNameToUrl, getSiteURL} from 'utils/url';
 import {makeNewTeam} from 'utils/team_utils';
 
 import {switchToChannel} from 'actions/views/channel';
+import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 
 import logoImage from 'images/logo.png';
 
-import {WizardSteps, WizardStep, Animations, AnimationReason, Form, emptyForm, PLUGIN_NAME_TO_ID_MAP} from './steps';
+import {
+    WizardSteps,
+    WizardStep,
+    Animations,
+    AnimationReason,
+    Form,
+    emptyForm,
+    mapStepToNextName,
+    mapStepToSkipName,
+    mapStepToPageView,
+    mapStepToPrevious,
+    PLUGIN_NAME_TO_ID_MAP,
+} from './steps';
 
 import ChannelComponent from './channel';
 import ChannelsPreview from './channels_preview';
@@ -67,7 +80,6 @@ type Props = RouterProps & {
     actions: Actions;
 }
 
-//const defaultSiteUrl = 'http://localhost:8065'
 export default function PreparingWorkspace(props: Props) {
     const dispatch = useDispatch();
     const user = useSelector(getCurrentUser);
@@ -79,10 +91,12 @@ export default function PreparingWorkspace(props: Props) {
     const myTeams = useSelector(getMyTeams);
     const config = useSelector(getConfig);
     const configSiteUrl = config.SiteURL;
+    const isConfigSiteUrlDefault = Boolean(config.SiteURL && config.SiteURL === Constants.DEFAULT_SITE_URL);
+    const lastIsConfigSiteUrlDefaultRef = useRef(isConfigSiteUrlDefault);
 
     const stepOrder = [
         isSelfHosted && WizardSteps.Organization,
-        isSelfHosted && WizardSteps.Url,
+        isSelfHosted && isConfigSiteUrlDefault && WizardSteps.Url,
         WizardSteps.UseCase,
         WizardSteps.Plugins,
         WizardSteps.Channel,
@@ -91,20 +105,45 @@ export default function PreparingWorkspace(props: Props) {
     ].filter((x) => Boolean(x)) as WizardStep[];
 
     const existingUseCasePreference = useSelector((state: GlobalState) => get(state, Constants.Preferences.ONBOARDING, OnboardingPreferences.USE_CASE, false));
-    useEffect(() => {
-        dispatch(getFirstAdminSetupCompleteAction());
-    }, []);
     const firstAdminSetupComplete = useSelector(getFirstAdminSetupComplete);
 
     const [currentStep, setCurrentStep] = useState<WizardStep>(stepOrder[0]);
     const [mostRecentStep, setMostRecentStep] = useState<WizardStep>(stepOrder[0]);
     const [submissionState, setSubmissionState] = useState<SubmissionState>(SubmissionStates.Presubmit);
+    const browserSiteUrl = useMemo(getSiteURL, []);
     const [form, setForm] = useState({
         ...emptyForm,
-        url: configSiteUrl || getSiteURL(),
+        url: configSiteUrl || browserSiteUrl,
     });
-    const makeNext = useCallback((currentStep: WizardStep) => {
-        return function innerMakeNext() {
+    const [showFirstPage, setShowFirstPage] = useState(false);
+    useEffect(() => {
+        setTimeout(() => setShowFirstPage(true), 40);
+        dispatch(getFirstAdminSetupCompleteAction());
+    }, []);
+    useEffect(() => {
+        const urlStepPlacement = stepOrder.indexOf(WizardSteps.Url);
+
+        // If admin changes config during onboarding, we want to back them up to this step
+        if (isConfigSiteUrlDefault && !lastIsConfigSiteUrlDefaultRef.current && urlStepPlacement > -1 && stepOrder.indexOf(currentStep) > urlStepPlacement) {
+            lastIsConfigSiteUrlDefaultRef.current = isConfigSiteUrlDefault;
+            setCurrentStep(WizardSteps.Url);
+            setMostRecentStep(stepOrder[Math.min(urlStepPlacement + 1, stepOrder.length - 1)]);
+        } else if (isConfigSiteUrlDefault && !lastIsConfigSiteUrlDefaultRef.current) {
+            lastIsConfigSiteUrlDefaultRef.current = isConfigSiteUrlDefault;
+        }
+    }, [stepOrder.indexOf(WizardSteps.Url), currentStep, isConfigSiteUrlDefault]);
+    const shouldShowPage = (step: WizardStep) => {
+        if (currentStep !== step) {
+            return false;
+        }
+        const isFirstPage = stepOrder.indexOf(step) === 0;
+        if (isFirstPage) {
+            return showFirstPage;
+        }
+        return true;
+    };
+    const makeNext = useCallback((currentStep: WizardStep, skip?: boolean) => {
+        return function innerMakeNext(trackingProps?: Record<string, any>) {
             const stepIndex = stepOrder.indexOf(currentStep);
             if (stepIndex === -1 || stepIndex >= stepOrder.length) {
                 return;
@@ -112,8 +151,11 @@ export default function PreparingWorkspace(props: Props) {
             setCurrentStep(stepOrder[stepIndex + 1]);
 
             setMostRecentStep(currentStep);
+
+            const progressName = (skip ? mapStepToSkipName : mapStepToNextName)(currentStep);
+            trackEvent('first_admin_setup', progressName, trackingProps);
         };
-    }, []);
+    }, [stepOrder]);
 
     const sendForm = async () => {
         setSubmissionState(SubmissionStates.Submitting);
@@ -146,7 +188,7 @@ export default function PreparingWorkspace(props: Props) {
             // send them to the channel they just created instead of town square?
         }
 
-        if (!form.teamMembers.skipped) {
+        if (!form.teamMembers.skipped && !isConfigSiteUrlDefault) {
             const inviteResult = await dispatch(sendEmailInvitesToTeamGracefully(team.id, form.teamMembers.invites));
             console.log('inviteResult'); // eslint-disable-line no-console
             console.log(inviteResult); // eslint-disable-line no-console
@@ -174,7 +216,13 @@ export default function PreparingWorkspace(props: Props) {
 
         setTimeout(() => {
             // i.e. TransitioningOut
-            makeNext(WizardSteps.InviteMembers)();
+            let inviteMembersProps;
+            if (!form.teamMembers.skipped) {
+                inviteMembersProps = {
+                    inviteCount: form.teamMembers.invites.length,
+                };
+            }
+            makeNext(WizardSteps.InviteMembers, form.teamMembers.skipped)(inviteMembersProps);
 
             setTimeout(() => {
                 if (redirectChannel) {
@@ -240,6 +288,7 @@ export default function PreparingWorkspace(props: Props) {
         if (stepIndex <= 0) {
             return;
         }
+        trackEvent('first_admin_setup', mapStepToPrevious(currentStep));
         setCurrentStep(stepOrder[stepIndex - 1]);
     }, [currentStep]);
     const skipPlugins = useCallback((skipped: boolean) => {
@@ -311,7 +360,10 @@ export default function PreparingWorkspace(props: Props) {
             <div className='PreparingWorkspacePageContainer'>
                 {isSelfHosted && (
                     <Organization
-                        show={currentStep === WizardSteps.Organization}
+                        onPageView={() => {
+                            pageVisited('first_admin_setup', mapStepToPageView(WizardSteps.Organization));
+                        }}
+                        show={shouldShowPage(WizardSteps.Organization)}
                         next={makeNext(WizardSteps.Organization)}
                         direction={getTransitionDirection(WizardSteps.Organization)}
                         organization={form.organization || ''}
@@ -326,8 +378,11 @@ export default function PreparingWorkspace(props: Props) {
                 )}
                 {isSelfHosted && (
                     <Url
+                        onPageView={() => {
+                            pageVisited('first_admin_setup', mapStepToPageView(WizardSteps.Url));
+                        }}
                         previous={previous}
-                        show={currentStep === WizardSteps.Url}
+                        show={shouldShowPage(WizardSteps.Url)}
                         next={(inferredProtocol: 'http' | 'https' | null) => {
                             makeNext(WizardSteps.Url)();
                             setForm({
@@ -337,7 +392,7 @@ export default function PreparingWorkspace(props: Props) {
                             });
                         }}
                         skip={() => {
-                            makeNext(WizardSteps.Url)();
+                            makeNext(WizardSteps.Url, true)();
                             const withSkippedUrl = {
                                 ...form,
                                 urlSkipped: false,
@@ -358,6 +413,9 @@ export default function PreparingWorkspace(props: Props) {
                     />
                 )}
                 <UseCase
+                    onPageView={() => {
+                        pageVisited('first_admin_setup', mapStepToPageView(WizardSteps.UseCase));
+                    }}
                     previous={isSelfHosted ? previous : undefined}
                     options={form.useCase}
                     setOption={(option: keyof Form['useCase']) => {
@@ -369,18 +427,23 @@ export default function PreparingWorkspace(props: Props) {
                             },
                         });
                     }}
-                    show={currentStep === WizardSteps.UseCase}
-                    next={makeNext(WizardSteps.UseCase)}
+                    show={shouldShowPage(WizardSteps.UseCase)}
+                    next={() => makeNext(WizardSteps.UseCase)(form.useCase)}
                     direction={getTransitionDirection(WizardSteps.UseCase)}
                     className='child-page'
                 />
                 <Plugins
+                    onPageView={() => {
+                        pageVisited('first_admin_setup', mapStepToPageView(WizardSteps.Plugins));
+                    }}
                     next={() => {
-                        makeNext(WizardSteps.Plugins)();
+                        const pluginChoices = {...form.plugins};
+                        delete pluginChoices.skipped;
+                        makeNext(WizardSteps.Plugins)(pluginChoices);
                         skipPlugins(false);
                     }}
                     skip={() => {
-                        makeNext(WizardSteps.Plugins)();
+                        makeNext(WizardSteps.Plugins, true)();
                         skipPlugins(true);
                     }}
                     options={form.plugins}
@@ -394,21 +457,24 @@ export default function PreparingWorkspace(props: Props) {
                         });
                     }}
                     previous={previous}
-                    show={currentStep === WizardSteps.Plugins}
+                    show={shouldShowPage(WizardSteps.Plugins)}
                     direction={getTransitionDirection(WizardSteps.Plugins)}
                     className='child-page'
                 />
                 <ChannelComponent
+                    onPageView={() => {
+                        pageVisited('first_admin_setup', mapStepToPageView(WizardSteps.Channel));
+                    }}
                     next={() => {
                         makeNext(WizardSteps.Channel)();
                         skipChannel(false);
                     }}
                     skip={() => {
-                        makeNext(WizardSteps.Channel)();
+                        makeNext(WizardSteps.Channel, true)();
                         skipChannel(true);
                     }}
                     previous={previous}
-                    show={currentStep === WizardSteps.Channel}
+                    show={shouldShowPage(WizardSteps.Channel)}
                     direction={getTransitionDirection(WizardSteps.Channel)}
                     name={form.channel.name}
                     onChange={(newValue: string) => setForm({
@@ -421,6 +487,9 @@ export default function PreparingWorkspace(props: Props) {
                     className='child-page'
                 />
                 <InviteMembers
+                    onPageView={() => {
+                        pageVisited('first_admin_setup', mapStepToPageView(WizardSteps.InviteMembers));
+                    }}
                     next={() => {
                         skipTeamMembers(false);
                         setSubmissionState(SubmissionStates.UserRequested);
@@ -430,7 +499,7 @@ export default function PreparingWorkspace(props: Props) {
                         setSubmissionState(SubmissionStates.UserRequested);
                     }}
                     previous={previous}
-                    show={currentStep === WizardSteps.InviteMembers}
+                    show={shouldShowPage(WizardSteps.InviteMembers)}
                     direction={getTransitionDirection(WizardSteps.InviteMembers)}
                     disableEdits={submissionState !== SubmissionStates.Presubmit}
                     showInviteSuccess={submissionState === SubmissionStates.SubmitSuccess}
@@ -446,6 +515,11 @@ export default function PreparingWorkspace(props: Props) {
                         });
                     }}
                     teamInviteId={(currentTeam || myTeams?.[0]).invite_id || ''}
+                    configSiteUrl={configSiteUrl}
+                    formUrl={form.url}
+                    browserSiteUrl={browserSiteUrl}
+                    inferredProtocol={form.inferredProtocol}
+                    showInviteLink={isConfigSiteUrlDefault}
                 />
                 <ChannelsPreview
                     show={currentStep === WizardSteps.Channel || currentStep === WizardSteps.InviteMembers}

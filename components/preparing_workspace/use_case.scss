@@ -16,5 +16,27 @@
     text-align: center;
 }
 
-// Cloud does not need the before animations, but self-hosted does.
+// 1136 is width at which the cards start hitting screen and wrapping to next line.
+@media screen and (max-width: 1136px) {
+    .UseCase-body .MultiSelectCards {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-right: 16px;
+
+        .MultiSelectCard {
+            width: 100%;
+            max-width: 500px;
+            flex-grow: 1;
+            margin-right: 0;
+        }
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .UseCase-left-col {
+        display: none;
+    }
+}
+
 @include simple-in-and-out("UseCase");

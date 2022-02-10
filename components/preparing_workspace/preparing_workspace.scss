@@ -15,7 +15,9 @@
         align-items: center;
         padding-right: 2px;
         color: var(--button-bg);
+        cursor: pointer;
         font-size: 12px;
+        font-weight: 600;
 
         &:first-child {
             margin-right: 5px;

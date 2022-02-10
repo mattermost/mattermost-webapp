@@ -22,7 +22,7 @@ const PageLine = (props: Props) => {
         styles.height = '100vh';
     }
     if ((!props.style?.height && styles.height === '100vh') && !styles.marginTop) {
-        styles.marginTop = '5px';
+        styles.marginTop = '50px';
     }
     return (
         <div

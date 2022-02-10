@@ -23,6 +23,90 @@ export const Animations = {
     } as const,
 };
 
+export function mapStepToNextName(step: WizardStep): string {
+    switch (step) {
+    case WizardSteps.Organization:
+        return 'admin_onboarding_next_organization';
+    case WizardSteps.Url:
+        return 'admin_onboarding_next_url';
+    case WizardSteps.UseCase:
+        return 'admin_onboarding_next_use_case';
+    case WizardSteps.Plugins:
+        return 'admin_onboarding_next_plugins';
+    case WizardSteps.Channel:
+        return 'admin_onboarding_next_channel';
+    case WizardSteps.InviteMembers:
+        return 'admin_onboarding_next_invite_members';
+    case WizardSteps.TransitioningOut:
+        return 'admin_onboarding_next_transitioning_out';
+    default:
+        return 'admin_onboarding_next_unknown';
+    }
+}
+
+export function mapStepToPrevious(step: WizardStep): string {
+    switch (step) {
+    case WizardSteps.Organization:
+        return 'admin_onboarding_previous_organization';
+    case WizardSteps.Url:
+        return 'admin_onboarding_previous_url';
+    case WizardSteps.UseCase:
+        return 'admin_onboarding_previous_use_case';
+    case WizardSteps.Plugins:
+        return 'admin_onboarding_previous_plugins';
+    case WizardSteps.Channel:
+        return 'admin_onboarding_previous_channel';
+    case WizardSteps.InviteMembers:
+        return 'admin_onboarding_previous_invite_members';
+    case WizardSteps.TransitioningOut:
+        return 'admin_onboarding_previous_transitioning_out';
+    default:
+        return 'admin_onboarding_previous_unknown';
+    }
+}
+
+export function mapStepToPageView(step: WizardStep): string {
+    switch (step) {
+    case WizardSteps.Organization:
+        return 'pageview_admin_onboarding_organization';
+    case WizardSteps.Url:
+        return 'pageview_admin_onboarding_url';
+    case WizardSteps.UseCase:
+        return 'pageview_admin_onboarding_use_case';
+    case WizardSteps.Plugins:
+        return 'pageview_admin_onboarding_plugins';
+    case WizardSteps.Channel:
+        return 'pageview_admin_onboarding_channel';
+    case WizardSteps.InviteMembers:
+        return 'pageview_admin_onboarding_invite_members';
+    case WizardSteps.TransitioningOut:
+        return 'pageview_admin_onboarding_transitioning_out';
+    default:
+        return 'pageview_admin_onboarding_unknown';
+    }
+}
+
+export function mapStepToSkipName(step: WizardStep): string {
+    switch (step) {
+    case WizardSteps.Organization:
+        return 'admin_onboarding_skip_organization';
+    case WizardSteps.Url:
+        return 'admin_onboarding_skip_url';
+    case WizardSteps.UseCase:
+        return 'admin_onboarding_skip_use_case';
+    case WizardSteps.Plugins:
+        return 'admin_onboarding_skip_plugins';
+    case WizardSteps.Channel:
+        return 'admin_onboarding_skip_channel';
+    case WizardSteps.InviteMembers:
+        return 'admin_onboarding_skip_invite_members';
+    case WizardSteps.TransitioningOut:
+        return 'admin_onboarding_skip_transitioning_out';
+    default:
+        return 'admin_onboarding_skip_unknown';
+    }
+}
+
 export type AnimationReason = typeof Animations['Reasons'][keyof typeof Animations['Reasons']];
 
 export type WizardStep = typeof WizardSteps[keyof typeof WizardSteps];
@@ -111,11 +195,12 @@ export const emptyForm = deepFreeze({
     },
 });
 
-export type TransitionProps = {
+export type PreparingWorkspacePageProps = {
     direction: AnimationReason;
     next?: () => void;
     skip?: () => void;
     previous?: JSX.Element;
     show: boolean;
+    onPageView: () => void;
 }
 

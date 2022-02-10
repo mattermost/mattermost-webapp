@@ -17,6 +17,7 @@ describe('Organization', () => {
         direction: Animations.Reasons.EnterFromBefore,
         organization: '',
         setOrganization: jest.fn(),
+        onPageView: jest.fn(),
     };
     beforeEach(() => {
         props = {
@@ -25,6 +26,7 @@ describe('Organization', () => {
             direction: Animations.Reasons.EnterFromBefore,
             organization: '',
             setOrganization: jest.fn(),
+            onPageView: jest.fn(),
         };
     });
     test('disables continuing without input', () => {

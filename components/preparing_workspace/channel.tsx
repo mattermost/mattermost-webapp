@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {CSSTransition} from 'react-transition-group';
 import {FormattedMessage} from 'react-intl';
 
@@ -10,14 +10,14 @@ import QuickInput from 'components/quick_input';
 
 import PageLine from './page_line';
 
-import {Animations, mapAnimationReasonToClass, TransitionProps} from './steps';
+import {Animations, mapAnimationReasonToClass, PreparingWorkspacePageProps} from './steps';
 
 import Title from './title';
 import Description from './description';
 
 import './channel.scss';
 
-type Props = TransitionProps & {
+type Props = PreparingWorkspacePageProps & {
     name: string;
     onChange: (newValue: string) => void;
     className?: string;
@@ -27,6 +27,8 @@ const Channel = (props: Props) => {
     if (props.className) {
         className += ' ' + props.className;
     }
+
+    useEffect(props.onPageView, []);
 
     const onNext = async (e?: React.KeyboardEvent | React.MouseEvent) => {
         if (e && (e as React.KeyboardEvent).key) {

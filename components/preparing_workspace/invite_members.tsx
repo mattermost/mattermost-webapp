@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {CSSTransition} from 'react-transition-group';
 import {FormattedMessage, useIntl} from 'react-intl';
 
@@ -9,28 +9,30 @@ import {UserProfile} from 'mattermost-redux/types/users';
 
 import {t} from 'utils/i18n';
 import {Constants} from 'utils/constants';
-import {getSiteURL} from 'utils/url';
 
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input';
-import useCopyText from 'components/common/hooks/useCopyText';
-import {trackEvent} from 'actions/telemetry_actions';
-import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 
-import {Animations, mapAnimationReasonToClass, Form, TransitionProps} from './steps';
+import {Animations, mapAnimationReasonToClass, Form, PreparingWorkspacePageProps} from './steps';
 
 import PageLine from './page_line';
 import Title from './title';
 import Description from './description';
 
 import './invite_members.scss';
+import InviteMembersLink from './invite_members_link';
 
-type Props = TransitionProps & {
+type Props = PreparingWorkspacePageProps & {
     disableEdits: boolean;
     showInviteSuccess: boolean;
     className?: string;
     emails: Form['teamMembers']['invites'];
     setEmails: (emails: Form['teamMembers']['invites']) => void;
     teamInviteId: string;
+    formUrl: Form['url'];
+    configSiteUrl?: string;
+    browserSiteUrl: string;
+    inferredProtocol: 'http' | 'https' | null;
+    showInviteLink: boolean;
 }
 
 const InviteMembers = (props: Props) => {
@@ -40,6 +42,8 @@ const InviteMembers = (props: Props) => {
     if (props.className) {
         className += ' ' + props.className;
     }
+
+    useEffect(props.onPageView, []);
 
     const placeholder = formatMessage({
         id: 'invite_modal.add_invites',
@@ -57,41 +61,16 @@ const InviteMembers = (props: Props) => {
     };
 
     const inviteURL = useMemo(() => {
-        return `${getSiteURL()}/signup_user_complete/?id=${props.teamInviteId}`;
-    }, [props.teamInviteId]);
-
-    const copyText = useCopyText({
-        trackCallback: () => trackEvent(getAnalyticsCategory(true), 'admin_setup_click_copy_invite_link'),
-        text: inviteURL,
-    });
-
-    const copyButton = (
-        <button
-            onClick={copyText.onClick}
-            data-testid='InviteView__copyInviteLink'
-            aria-label='team invite link'
-            className='InviteView__copyLink tertiary-button'
-        >
-            {!copyText.copiedRecently && (
-                <>
-                    <i className='icon icon-link-variant'/>
-                    <FormattedMessage
-                        id='invite_modal.copy_link'
-                        defaultMessage='Copy invite link'
-                    />
-                </>
-            )}
-            {copyText.copiedRecently && (
-                <>
-                    <i className='icon icon-check'/>
-                    <FormattedMessage
-                        id='invite_modal.copied'
-                        defaultMessage='Copied'
-                    />
-                </>
-            )}
-        </button>
-    );
+        let urlBase = '';
+        if (props.configSiteUrl && !props.configSiteUrl.includes('localhost')) {
+            urlBase = props.configSiteUrl;
+        } else if (props.formUrl && !props.formUrl.includes('localhost')) {
+            urlBase = props.formUrl;
+        } else {
+            urlBase = props.browserSiteUrl;
+        }
+        return `${urlBase}/signup_user_complete/?id=${props.teamInviteId}`;
+    }, [props.teamInviteId, props.configSiteUrl, props.browserSiteUrl, props.formUrl]);
 
     let suppressNoOptionsMessage = true;
     if (props.emails.length > Constants.MAX_ADD_MEMBERS_BATCH) {
@@ -101,6 +80,53 @@ const InviteMembers = (props: Props) => {
         // is the max users warning
         suppressNoOptionsMessage = false;
     }
+
+    let description = (
+        <FormattedMessage
+            id={'onboarding_wizard.invite_members.description'}
+            defaultMessage='Collaboration is tough by yourself. Invite a few team members. Separate each email address with a space or comma.'
+        />
+    );
+    if (props.showInviteLink) {
+        description = (
+            <FormattedMessage
+                id={'onboarding_wizard.invite_members.description_link'}
+                defaultMessage='Collaboration is tough by yourself. Invite a few team members using the invitation link below.'
+            />
+        );
+    }
+
+    let inviteInteraction = (
+        <UsersEmailsInput
+            {...errorProperties}
+            usersLoader={() => Promise.resolve([])}
+            placeholder={placeholder}
+            ariaLabel={formatMessage({
+                id: 'invitation_modal.members.search_and_add.title',
+                defaultMessage: 'Invite People',
+            })}
+            onChange={(emails: Array<UserProfile | string>) => {
+                // There should not be any users found or passed,
+                // because the usersLoader should never return any.
+                // Filtering them out in case there are any
+                // and to resolve Typescript errors
+                props.setEmails(emails.filter((x) => typeof x === 'string') as string[]);
+            }}
+            value={props.emails}
+            onInputChange={setEmail}
+            inputValue={email}
+            emailInvitationsEnabled={true}
+            autoFocus={true}
+            validAddressMessageId={t('invitation_modal.members.users_emails_input.valid_email')}
+            validAddressMessageDefault={'Invite **{email}** as a team member'}
+            suppressNoOptionsMessage={suppressNoOptionsMessage}
+        />
+    );
+
+    if (props.showInviteLink) {
+        inviteInteraction = <InviteMembersLink inviteURL={inviteURL}/>;
+    }
+
     return (
         <CSSTransition
             in={props.show}
@@ -119,58 +145,43 @@ const InviteMembers = (props: Props) => {
                     />
                 </Title>
                 <Description>
-                    <FormattedMessage
-                        id={'onboarding_wizard.invite_members.description'}
-                        defaultMessage='Collaboration is tough by yourself. Invite a few team members. Separate each email address with a space or comma.'
-                    />
+                    {description}
                 </Description>
-                {copyButton}
-                <UsersEmailsInput
-                    {...errorProperties}
-                    usersLoader={() => Promise.resolve([])}
-                    placeholder={placeholder}
-                    ariaLabel={formatMessage({
-                        id: 'invitation_modal.members.search_and_add.title',
-                        defaultMessage: 'Invite People',
-                    })}
-                    onChange={(emails: Array<UserProfile | string>) => {
-                        // There should not be any users found or passed,
-                        // because the usersLoader should never return any.
-                        // Filtering them out in case there are any
-                        // and to resolve Typescript errors
-                        props.setEmails(emails.filter((x) => typeof x === 'string') as string[]);
-                    }}
-                    value={props.emails}
-                    onInputChange={setEmail}
-                    inputValue={email}
-                    emailInvitationsEnabled={true}
-                    autoFocus={true}
-                    validAddressMessageId={t('invitation_modal.members.users_emails_input.valid_email')}
-                    validAddressMessageDefault={'Invite **{email}** as a team member'}
-                    suppressNoOptionsMessage={suppressNoOptionsMessage}
-                />
+                {inviteInteraction}
                 <div>
                     <button
                         className='primary-button'
                         disabled={props.disableEdits}
                         onClick={props.next}
                     >
-                        <FormattedMessage
-                            id={'onboarding_wizard.invite_members.next'}
-                            defaultMessage='Send invites'
-                        />
+                        {
+                            props.showInviteLink ?
+                                (
+                                    <FormattedMessage
+                                        id={'onboarding_wizard.invite_members.next_link'}
+                                        defaultMessage='Finish setup'
+                                    />
+                                ) :
+                                (
+                                    <FormattedMessage
+                                        id={'onboarding_wizard.invite_members.next'}
+                                        defaultMessage='Send invites'
+                                    />
+                                )
+                        }
                     </button>
-                    <button
-                        className='tertiary-button'
-                        onClick={props.skip}
-                    >
-                        <FormattedMessage
-                            id={'onboarding_wizard.invite_members.skip'}
-                            defaultMessage="I'll do this later"
-                        />
-                    </button>
+                    {!props.showInviteLink && (
+                        <button
+                            className='tertiary-button'
+                            onClick={props.skip}
+                        >
+                            <FormattedMessage
+                                id={'onboarding_wizard.invite_members.skip'}
+                                defaultMessage="I'll do this later"
+                            />
+                        </button>
+                    )}
                 </div>
-                {/*TODO: <UsersEmailsInput> or something like it here*/}
                 <PageLine style={{marginTop: '5px'}}/>
             </div>
         </CSSTransition>

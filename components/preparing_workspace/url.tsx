@@ -4,8 +4,8 @@
 import React, {useState, useEffect} from 'react';
 import {CSSTransition} from 'react-transition-group';
 import {FormattedMessage, useIntl} from 'react-intl';
+import debounce from 'lodash/debounce';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import QuickInput from 'components/quick_input';
 
 import Constants from 'utils/constants';
@@ -13,7 +13,9 @@ import Constants from 'utils/constants';
 import LaptopEarthSVG from 'components/common/svg_images_components/laptop-earth_svg';
 import useValidateUrl from 'components/common/hooks/useValidateUrl';
 
-import {Animations, mapAnimationReasonToClass, TransitionProps} from './steps';
+import {trackEvent} from 'actions/telemetry_actions';
+
+import {Animations, mapAnimationReasonToClass, PreparingWorkspacePageProps} from './steps';
 
 import PageLine from './page_line';
 
@@ -23,12 +25,18 @@ import UrlStatus from './url_status';
 
 import './url.scss';
 
-type Props = Omit<TransitionProps, 'next'> & {
+type Props = Omit<PreparingWorkspacePageProps, 'next'> & {
     url: string;
     setUrl: (url: string) => void;
     className?: string;
     next: (inferredProtocol: 'http' | 'https' | null) => void;
 }
+
+const reportValidationError = debounce((url: string, valid: boolean) => {
+    if (!valid && url) {
+        trackEvent('first_admin_setup', 'validate_url_error');
+    }
+}, 700, {leading: false});
 
 const Url = (props: Props) => {
     const {formatMessage} = useIntl();
@@ -37,7 +45,12 @@ const Url = (props: Props) => {
 
     useEffect(() => {
         urlValidator.validate(props.url);
+        props.onPageView();
     }, []);
+
+    useEffect(() => {
+        reportValidationError(props.url, urlValidator.result.valid);
+    }, [props.url, urlValidator.result.valid]);
 
     const onNext = async (e?: React.KeyboardEvent | React.MouseEvent) => {
         if (e && (e as React.KeyboardEvent).key) {
@@ -82,9 +95,20 @@ const Url = (props: Props) => {
                         />
                     </Title>
                     <Description>
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id={'onboarding_wizard.url.description'}
-                            defaultMessage='This is the URL that users will use to access Mattermost. [See Documentation](https://docs.mattermost.com/configure/configuration-settings.html#site-url) for more.'
+                            defaultMessage='This is the URL that users will use to access Mattermost. <a>See Documentation</a> for more.'
+                            values={{
+                                a: (chunks: React.ReactNode | React.ReactNodeArray) => (
+                                    <a
+                                        href='https://docs.mattermost.com/configure/configuration-settings.html#site-url'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {chunks}
+                                    </a>
+                                ),
+                            }}
                         />
                     </Description>
                     <QuickInput

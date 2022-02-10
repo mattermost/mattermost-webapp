@@ -159,7 +159,7 @@
 
         &-enter-active {
             transform: translateY(0);
-            transition: transform $transition_time linear;
+            transition: transform $transition_time ease-in-out;
         }
 
         &-enter-done {
@@ -174,7 +174,7 @@
 
         &-exit-active {
             transform: translateY(-100vh);
-            transition: transform $transition_time linear;
+            transition: transform $transition_time ease-in-out;
         }
 
         &-exit-done {
@@ -191,7 +191,7 @@
 
         &-enter-active {
             transform: translateY(0);
-            transition: transform $transition_time linear;
+            transition: transform $transition_time ease-in-out;
         }
 
         &-enter-done {
@@ -206,7 +206,7 @@
 
         &-exit-active {
             transform: translateY(100vh);
-            transition: transform $transition_time linear;
+            transition: transform $transition_time ease-in-out;
         }
 
         &-exit-done {

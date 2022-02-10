@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {CSSTransition} from 'react-transition-group';
 import {FormattedMessage} from 'react-intl';
 
@@ -14,7 +14,7 @@ import ChannelsSVG from 'components/common/svg_images_components/channels_svg';
 
 import LaptopSVG from 'components/common/svg_images_components/laptop_svg';
 
-import {Animations, mapAnimationReasonToClass, Form, TransitionProps} from './steps';
+import {Animations, mapAnimationReasonToClass, Form, PreparingWorkspacePageProps} from './steps';
 
 import PageLine from './page_line';
 import Title from './title';
@@ -29,7 +29,7 @@ const UseCases = {
 } as const;
 
 type UseCase = typeof UseCases [keyof typeof UseCases];
-type Props = TransitionProps & {
+type Props = PreparingWorkspacePageProps & {
     options: Form['useCase'];
     setOption: (options: keyof Form['useCase']) => void;
     className?: string;
@@ -40,6 +40,8 @@ const UseCase = (props: Props) => {
     if (props.className) {
         className += ' ' + props.className;
     }
+
+    useEffect(props.onPageView, []);
     return (
         <CSSTransition
             in={props.show}

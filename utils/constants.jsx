@@ -1673,6 +1673,7 @@ export const Constants = {
     ACCEPT_EMOJI_IMAGE: '.jpeg,.jpg,.png,.gif',
     THREADS_PAGE_SIZE: 25,
     TRIAL_MODAL_AUTO_SHOWN: 'trial_modal_auto_shown',
+    DEFAULT_SITE_URL: 'http://localhost:8065',
 };
 
 export const ValidationErrors = {
