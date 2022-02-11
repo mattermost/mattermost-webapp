@@ -31,7 +31,7 @@ const TaskItems = styled.div`
     box-shadow: 0px 20px 32px rgba(0, 0, 0, 0.12);
     transition: opacity 150ms ease-in-out 0ms, transform 150ms ease-in-out 0ms;
     transform-origin: left bottom;
-    height: 518px;
+    min-height: 518px;
     max-height: ${document.documentElement.clientHeight}px;
     overflow-y: auto;
 
@@ -135,6 +135,12 @@ const PlayButton = styled.button`
     }
 `;
 
+const Skeleton = styled.div`
+    width: 304px;
+    height: 137px;
+    margin: auto;
+`;
+
 const TaskList = (): JSX.Element => {
     const [open, setOpen] = useState(false);
     const [completedCount, setCompletedCount] = useState(0);
@@ -188,7 +194,7 @@ const TaskList = (): JSX.Element => {
         <FormattedMessage
             key={6}
             id='onboarding_checklist.task_system_console'
-            defaultMessage='Visit the System Console to configure your worksace'
+            defaultMessage='Visit the System Console to configure your workspace'
         />,
     ];
     const closeTaskList = useCallback(() => {
@@ -226,10 +232,12 @@ const TaskList = (): JSX.Element => {
                                     defaultMessage="Let's get up and running."
                                 />
                             </p>
-                            <img
-                                src={checklistImg}
-                                style={{display: 'block', margin: '1rem auto', borderRadius: '4px'}}
-                            />
+                            <Skeleton>
+                                <img
+                                    src={checklistImg}
+                                    style={{display: 'block', margin: '1rem auto', borderRadius: '4px'}}
+                                />
+                            </Skeleton>
                             <PlayButton>
                                 <Icon
                                     glyph={'play'}
