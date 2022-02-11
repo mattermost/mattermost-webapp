@@ -1,11 +1,11 @@
 @import 'utils/mixins';
 
-$svg_height: 500px;
-
 .ChannelsPreview-body {
-    position: absolute;
-    top: calc(50vh - #{$svg_height / 2});
-    right: 0;
+    position: fixed;
+    // 50vh for midscreen, 230px to center the main content,
+    // because the whole SVG contains some extra padding on bottom to account for shadow.
+    top: calc(50vh - 230px);
+    right: -150px;
 }
 
 @include simple-in-and-out-before("ChannelsPreview");

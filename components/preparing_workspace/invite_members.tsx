@@ -14,10 +14,10 @@ import UsersEmailsInput from 'components/widgets/inputs/users_emails_input';
 
 import {Animations, mapAnimationReasonToClass, Form, PreparingWorkspacePageProps} from './steps';
 
-import PageLine from './page_line';
 import Title from './title';
 import Description from './description';
 import PageBody from './page_body';
+import SingleColumnLayout from './single_column_layout';
 
 import './invite_members.scss';
 import InviteMembersLink from './invite_members_link';
@@ -137,55 +137,55 @@ const InviteMembers = (props: Props) => {
             unmountOnExit={true}
         >
             <div className={className}>
-                <PageLine style={{height: '100px'}}/>
-                {props.previous}
-                <Title>
-                    <FormattedMessage
-                        id={'onboarding_wizard.invite_members.title'}
-                        defaultMessage='Invite your team members'
-                    />
-                </Title>
-                <Description>
-                    {description}
-                </Description>
-                <PageBody>
-                    {inviteInteraction}
-                </PageBody>
-                <div>
-                    <button
-                        className='primary-button'
-                        disabled={props.disableEdits}
-                        onClick={props.next}
-                    >
-                        {
-                            props.showInviteLink ?
-                                (
-                                    <FormattedMessage
-                                        id={'onboarding_wizard.invite_members.next_link'}
-                                        defaultMessage='Finish setup'
-                                    />
-                                ) :
-                                (
-                                    <FormattedMessage
-                                        id={'onboarding_wizard.invite_members.next'}
-                                        defaultMessage='Send invites'
-                                    />
-                                )
-                        }
-                    </button>
-                    {!props.showInviteLink && (
+                <SingleColumnLayout>
+                    {props.previous}
+                    <Title>
+                        <FormattedMessage
+                            id={'onboarding_wizard.invite_members.title'}
+                            defaultMessage='Invite your team members'
+                        />
+                    </Title>
+                    <Description>
+                        {description}
+                    </Description>
+                    <PageBody>
+                        {inviteInteraction}
+                    </PageBody>
+                    <div>
                         <button
-                            className='tertiary-button'
-                            onClick={props.skip}
+                            className='primary-button'
+                            disabled={props.disableEdits}
+                            onClick={props.next}
                         >
-                            <FormattedMessage
-                                id={'onboarding_wizard.invite_members.skip'}
-                                defaultMessage="I'll do this later"
-                            />
+                            {
+                                props.showInviteLink ?
+                                    (
+                                        <FormattedMessage
+                                            id={'onboarding_wizard.invite_members.next_link'}
+                                            defaultMessage='Finish setup'
+                                        />
+                                    ) :
+                                    (
+                                        <FormattedMessage
+                                            id={'onboarding_wizard.invite_members.next'}
+                                            defaultMessage='Send invites'
+                                        />
+                                    )
+                            }
                         </button>
-                    )}
-                </div>
-                <PageLine/>
+                        {!props.showInviteLink && (
+                            <button
+                                className='tertiary-button'
+                                onClick={props.skip}
+                            >
+                                <FormattedMessage
+                                    id={'onboarding_wizard.invite_members.skip'}
+                                    defaultMessage="I'll do this later"
+                                />
+                            </button>
+                        )}
+                    </div>
+                </SingleColumnLayout>
             </div>
         </CSSTransition>
     );

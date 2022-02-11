@@ -88,13 +88,13 @@ const Organization = (props: Props) => {
                         <Title>
                             <FormattedMessage
                                 id={'onboarding_wizard.organization.title'}
-                                defaultMessage="What's the name of your organization?"
+                                defaultMessage='What’s the name of your organization?'
                             />
                         </Title>
                         <Description>
                             <FormattedMessage
                                 id={'onboarding_wizard.organization.description'}
-                                defaultMessage="We'll use this to help personalize your workspace."
+                                defaultMessage='We’ll use this to help personalize your workspace.'
                             />
                         </Description>
                         <PageBody>

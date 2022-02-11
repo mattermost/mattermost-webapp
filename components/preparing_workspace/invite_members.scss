@@ -1,12 +1,9 @@
 @import 'utils/mixins';
 
 .InviteMembers-body {
+    display: flex;
     // page width - channels preview width - progress dots width - people overlap width
     max-width: calc(100vw - 600px - 120px - 30px);
-
-    .share-link-input-block {
-        margin-bottom: 24px;
-    }
 }
 
 @include simple-in-and-out-before("InviteMembers");

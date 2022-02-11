@@ -80,7 +80,7 @@ const UseCase = (props: Props) => {
                         <Description>
                             <FormattedMessage
                                 id={'onboarding_wizard.use_case.description'}
-                                defaultMessage="This will help us set up your workspace in a way that's most relevant to you. Select all that apply."
+                                defaultMessage='This will help us set up your workspace in a way that’s most relevant to you. Select all that apply.'
                             />
                         </Description>
                         <PageBody>

@@ -8,13 +8,12 @@ import {FormattedMessage, useIntl} from 'react-intl';
 import Constants from 'utils/constants';
 import QuickInput from 'components/quick_input';
 
-import PageLine from './page_line';
-
 import {Animations, mapAnimationReasonToClass, PreparingWorkspacePageProps} from './steps';
 
 import Title from './title';
 import Description from './description';
 import PageBody from './page_body';
+import SingleColumnLayout from './single_column_layout';
 
 import './channel.scss';
 
@@ -50,51 +49,51 @@ const Channel = (props: Props) => {
             unmountOnExit={true}
         >
             <div className={className}>
-                <PageLine style={{height: '100px'}}/>
-                {props.previous}
-                <Title>
-                    <FormattedMessage
-                        id={'onboarding_wizard.channel.title'}
-                        defaultMessage="Let's create your first channel"
-                    />
-                </Title>
-                <Description>
-                    <FormattedMessage
-                        id={'onboarding_wizard.channel.description'}
-                        defaultMessage='Channels are where you can communicate with your team about a topic or project. What are you working on right now?'
-                    />
-                </Description>
-                <PageBody>
-                    <QuickInput
-                        value={props.name}
-                        onChange={(e) => props.onChange(e.target.value)}
-                        onKeyUp={onNext}
-                        autoFocus={true}
-                        className='Channel__input'
-                        placeholder={intl.formatMessage({id: 'onboarding_wizard.channel.input', defaultMessage: 'Enter a channel name'})}
-                    />
-                </PageBody>
-                <div>
-                    <button
-                        className='primary-button'
-                        onClick={props.next}
-                    >
+                <SingleColumnLayout>
+                    {props.previous}
+                    <Title>
                         <FormattedMessage
-                            id={'onboarding_wizard.next'}
-                            defaultMessage='Continue'
+                            id={'onboarding_wizard.channel.title'}
+                            defaultMessage='Let’s create your first channel'
                         />
-                    </button>
-                    <button
-                        className='tertiary-button'
-                        onClick={props.skip}
-                    >
+                    </Title>
+                    <Description>
                         <FormattedMessage
-                            id={'onboarding_wizard.skip'}
-                            defaultMessage='Skip for now'
+                            id={'onboarding_wizard.channel.description'}
+                            defaultMessage='Channels are where you can communicate with your team about a topic or project. What are you working on right now?'
                         />
-                    </button>
-                </div>
-                <PageLine/>
+                    </Description>
+                    <PageBody>
+                        <QuickInput
+                            value={props.name}
+                            onChange={(e) => props.onChange(e.target.value)}
+                            onKeyUp={onNext}
+                            autoFocus={true}
+                            className='Channel__input'
+                            placeholder={intl.formatMessage({id: 'onboarding_wizard.channel.input', defaultMessage: 'Enter a channel name'})}
+                        />
+                    </PageBody>
+                    <div>
+                        <button
+                            className='primary-button'
+                            onClick={props.next}
+                        >
+                            <FormattedMessage
+                                id={'onboarding_wizard.next'}
+                                defaultMessage='Continue'
+                            />
+                        </button>
+                        <button
+                            className='tertiary-button'
+                            onClick={props.skip}
+                        >
+                            <FormattedMessage
+                                id={'onboarding_wizard.skip'}
+                                defaultMessage='Skip for now'
+                            />
+                        </button>
+                    </div>
+                </SingleColumnLayout>
             </div>
         </CSSTransition>
     );

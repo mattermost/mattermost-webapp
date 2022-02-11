@@ -58,7 +58,7 @@ const Plugins = (props: Props) => {
                     <Description>
                         <FormattedMessage
                             id={'onboarding_wizard.plugins.description'}
-                            defaultMessage={"Choose the tools you work with, and we'll add them to your workspace. Additional set up may be needed later."}
+                            defaultMessage={'Choose the tools you work with, and we’ll add them to your workspace. Additional set up may be needed later.'}
                         />
                     </Description>
                     <PageBody>

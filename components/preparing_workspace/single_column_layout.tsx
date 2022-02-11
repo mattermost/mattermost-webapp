@@ -12,6 +12,8 @@ type Props = {
     beforePath?: boolean;
     afterPath?: boolean;
     style?: Record<string, string>;
+    lineDistance?: number;
+    lineLeft?: number;
 };
 
 export default function SingleColumnLayout(props: Props) {
@@ -25,21 +27,23 @@ export default function SingleColumnLayout(props: Props) {
         showAfterPath = false;
     }
 
+    const lineDistance = props.lineDistance === undefined ? 40 : Math.abs(props.lineDistance);
+    const lineLeft = props.lineLeft === undefined ? 68 : Math.abs(props.lineLeft);
+
     return (
         <div
             className='SingleColumnLayout'
             style={props.style}
         >
             <div className='SingleColumnLayout__inner'>
-
                 {showBeforePath && (
                     <PageLine
                         style={{
                             height: '50vh',
                             position: 'absolute',
                             transform: 'translateY(-100%)',
-                            top: '-20px',
-                            left: '100px',
+                            top: `-${lineDistance}px`,
+                            left: `${lineLeft}px`,
                         }}
                     />
                 )}
@@ -49,8 +53,8 @@ export default function SingleColumnLayout(props: Props) {
                         style={{
                             height: '50vh',
                             position: 'absolute',
-                            top: '100%',
-                            left: '100px',
+                            top: `calc(100% + ${lineDistance}px)`,
+                            left: `${lineLeft}px`,
                         }}
                     />
                 )}

@@ -99,7 +99,7 @@ const Url = (props: Props) => {
                         <Title>
                             <FormattedMessage
                                 id={'onboarding_wizard.url.title'}
-                                defaultMessage="Confirm your server's URL"
+                                defaultMessage='Confirm your server’s URL'
                             />
                         </Title>
                         <Description>
@@ -164,7 +164,7 @@ const Url = (props: Props) => {
                                     >
                                         <FormattedMessage
                                             id={'onboarding_wizard.url.skip'}
-                                            defaultMessage="I'll do this later"
+                                            defaultMessage='I’ll do this later'
                                         />
                                     </button>
                                 )
