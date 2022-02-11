@@ -16,7 +16,7 @@ import {ModalIdentifiers} from 'utils/constants';
 import InvitationModal from 'components/invitation_modal';
 import {TTCategoriesMapToAutoTourStatusKey, TutorialTourCategories} from '../tutorial_tour_tip/constant';
 
-import {OnBoardingTaskCategory, OnBoardingTaskName, TaskNameMapToSteps} from './constant';
+import {OnBoardingTaskCategory, OnBoardingTaskName, TaskNameMapToSteps} from './constants';
 import {generateTelemetryTag} from './utils';
 
 export const useHandleOnBoardingTaskData = () => {
@@ -126,3 +126,4 @@ export const useHandleOnBoardingTaskTrigger = () => {
     };
     return trigger;
 };
+

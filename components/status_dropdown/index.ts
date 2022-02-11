@@ -4,6 +4,8 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
+import {savePreferences} from 'mattermost-redux/actions/preferences';
+
 import {setStatus, unsetCustomStatus} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {Preferences} from 'mattermost-redux/constants';
@@ -23,7 +25,7 @@ import {
     OnBoardingTaskCategory,
     OnBoardingTaskName,
     TaskNameMapToSteps,
-} from 'components/onboarding_tasks/constant';
+} from 'components/onboarding_tasks';
 
 import StatusDropdown from './status_dropdown';
 
@@ -63,6 +65,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             setStatus,
             unsetCustomStatus,
             setStatusDropdown,
+            savePreferences,
         }, dispatch),
     };
 }

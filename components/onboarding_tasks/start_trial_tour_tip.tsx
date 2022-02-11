@@ -4,10 +4,9 @@
 import React, {useCallback} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import TutorialTourTip, {DataEventSource} from 'components/tutorial_tour_tip/tutorial_tour_tip';
-import {useMeasurePunchouts} from '../tutorial_tour_tip/hooks';
+import TourTip, {useMeasurePunchouts} from 'components/widgets/tour_tip';
 
-import {OnBoardingTaskName, TaskNameMapToSteps} from './constant';
+import {OnBoardingTaskName, TaskNameMapToSteps} from './constants';
 import {useHandleOnBoardingTaskData} from './onboarding_tasks_manager';
 
 export const InvitePeopleTour = () => {
@@ -30,37 +29,26 @@ export const InvitePeopleTour = () => {
         </p>
     );
 
-    const punchOut = useMeasurePunchouts([], []) || null;
+    const overlayPunchOut = useMeasurePunchouts([], []) || null;
 
-    const handleSaveData = useCallback((source?: DataEventSource) => {
-        if (source && source === 'dismiss') {
-            handleTask(taskName, steps.start, true, source);
-        }
-    }, [handleTask]);
-
-    const onPunchOutClick = useCallback(() => {
-        handleTask(taskName, steps.FINISHED, true, 'finished');
+    const onDismiss = useCallback(() => {
+        handleTask(taskName, steps.start, true, 'dismiss');
     }, [handleTask]);
 
     return (
-        <TutorialTourTip
+        <TourTip
+            show={true}
             title={title}
             screen={screen}
-            tutorialCategory={taskName}
+            overlayPunchOut={overlayPunchOut}
             step={steps.STARTED}
             placement='left-start'
             pulsatingDotPlacement='left'
             pulsatingDotTranslate={{x: 0, y: -2}}
-            width={352}
-            autoTour={true}
-            punchOut={punchOut}
-            showNextBtn={false}
-            showPrevBtn={false}
+            handleDismiss={onDismiss}
             singleTip={true}
             showOptOut={false}
-            eventPropagation={true}
-            handleSaveData={handleSaveData}
-            onPunchOutClick={onPunchOutClick}
+            interactivePunchOut={true}
         />
     );
 };

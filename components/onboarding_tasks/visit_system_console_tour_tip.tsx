@@ -4,11 +4,9 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import TutorialTourTip, {DataEventSource} from 'components/tutorial_tour_tip/tutorial_tour_tip';
-import {browserHistory} from 'utils/browser_history';
-import {useMeasurePunchouts} from 'components/tutorial_tour_tip/hooks';
+import TourTip, {useMeasurePunchouts} from 'components/widgets/tour_tip';
 
-import {OnBoardingTaskName, TaskNameMapToSteps} from './constant';
+import {OnBoardingTaskName, TaskNameMapToSteps} from './constants';
 import {useHandleOnBoardingTaskData} from './onboarding_tasks_manager';
 
 export const VisitSystemConsoleTour = () => {
@@ -31,39 +29,28 @@ export const VisitSystemConsoleTour = () => {
         </p>
     );
 
-    const punchOut = useMeasurePunchouts(['product-switcher-menu-dropdown'], []) || null;
+    const overlayPunchOut = useMeasurePunchouts(['product-switcher-menu-dropdown'], []) || null;
 
-    const handleSaveData = (source?: DataEventSource) => {
-        if (source && source === 'dismiss') {
-            handleTask(taskName, steps.start, true, source);
-        }
-    };
-
-    const onPunchOutClick = () => {
-        browserHistory.push('/admin_console');
-        handleTask(taskName, steps.FINISHED, true, 'finished');
+    const onDismiss = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        e.preventDefault();
+        handleTask(taskName, steps.start, true, 'dismiss');
     };
 
     return (
-        <TutorialTourTip
+        <TourTip
+            show={true}
             title={title}
             screen={screen}
-            tutorialCategory={taskName}
+            overlayPunchOut={overlayPunchOut}
             step={steps.STARTED}
             placement='left-start'
             pulsatingDotPlacement='right'
-            pulsatingDotTranslate={{x: 0, y: 0}}
-            width={352}
-            autoTour={true}
-            punchOut={punchOut}
-            showNextBtn={false}
-            showPrevBtn={false}
+            pulsatingDotTranslate={{x: 0, y: -2}}
+            handleDismiss={onDismiss}
             singleTip={true}
             showOptOut={false}
-            handleSaveData={handleSaveData}
-            onPunchOutClick={onPunchOutClick}
+            interactivePunchOut={true}
         />
     );
 };
-
-export default VisitSystemConsoleTour;

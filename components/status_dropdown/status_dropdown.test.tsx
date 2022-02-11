@@ -26,6 +26,7 @@ describe('components/StatusDropdown', () => {
         setStatus: jest.fn(),
         unsetCustomStatus: jest.fn(),
         setStatusDropdown: jest.fn(),
+        savePreferences: jest.fn(),
     };
 
     const baseProps = {

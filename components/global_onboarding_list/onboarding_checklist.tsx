@@ -14,7 +14,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {trackEvent} from 'actions/telemetry_actions';
 import checklistImg from 'images/onboarding-checklist.svg';
 import {Preferences} from 'utils/constants';
-import {OnBoardingTaskName} from 'components/onboarding_tasks/constant';
+import {OnBoardingTaskName} from 'components/onboarding_tasks';
 import {useHandleOnBoardingTaskTrigger} from 'components/onboarding_tasks/onboarding_tasks_manager';
 import {setAddChannelDropdown} from 'actions/views/add_channel_dropdown';
 import {isOnBoardingTaskListOpen} from 'selectors/views/onboarding_task_list';
@@ -164,9 +164,7 @@ const TaskList = (): JSX.Element => {
     const startTask = (taskName: string) => {
         handleTaskTrigger(taskName);
         setCompletedCount(completedCount + 1);
-        if (taskName === OnBoardingTaskName.CHANNELS_TOUR || taskName === OnBoardingTaskName.VISIT_SYSTEM_CONSOLE) {
-            closeTaskList();
-        }
+        closeTaskList();
     };
 
     const dismissChecklist = useCallback(() => {

@@ -18,7 +18,7 @@ import Menu from 'components/widgets/menu/menu';
 import {ModalIdentifiers} from 'utils/constants';
 import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
-import VisitSystemConsoleTour from 'components/onboarding_tasks/visit_system_console_tour_tip';
+import {VisitSystemConsoleTour} from 'components/onboarding_tasks';
 
 import './product_menu_list.scss';
 
@@ -39,6 +39,7 @@ export type Props = {
     enablePluginMarketplace: boolean;
     showVisitSystemConsoleTour: boolean;
     onClick?: React.MouseEventHandler<HTMLElement>;
+    handleVisitConsoleClick: React.MouseEventHandler<HTMLElement>;
 };
 
 const ProductMenuList = (props: Props): JSX.Element | null => {
@@ -58,6 +59,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
         enablePluginMarketplace,
         showVisitSystemConsoleTour,
         onClick,
+        handleVisitConsoleClick,
         isMobile = false,
     } = props;
     const {formatMessage} = useIntl();
@@ -90,7 +92,14 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                         text={(
                             <>
                                 {formatMessage({id: 'navbar_dropdown.console', defaultMessage: 'System Console'})}
-                                {showVisitSystemConsoleTour && (<VisitSystemConsoleTour/>)}
+                                {showVisitSystemConsoleTour && (
+                                    <div
+                                        onClick={handleVisitConsoleClick}
+                                        className={'system-console-visit'}
+                                    >
+                                        <VisitSystemConsoleTour/>
+                                    </div>
+                                )}
                             </>
                         )}
                         icon={

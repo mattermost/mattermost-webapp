@@ -3,19 +3,13 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {useDispatch} from 'react-redux';
 
-import TutorialTourTip, {DataEventSource} from 'components/tutorial_tour_tip/tutorial_tour_tip';
-import {openModal} from 'actions/views/modals';
-import {ModalIdentifiers} from 'utils/constants';
-import {useMeasurePunchouts} from 'components/tutorial_tour_tip/hooks';
-import UserSettingsModal from 'components/user_settings/modal';
+import TourTip, {useMeasurePunchouts} from 'components/widgets/tour_tip';
 
-import {OnBoardingTaskName, TaskNameMapToSteps} from './constant';
+import {OnBoardingTaskName, TaskNameMapToSteps} from './constants';
 import {useHandleOnBoardingTaskData} from './onboarding_tasks_manager';
 
-const CompleteYourProfileTour = () => {
-    const dispatch = useDispatch();
+export const CompleteYourProfileTour = () => {
     const handleTask = useHandleOnBoardingTaskData();
     const taskName = OnBoardingTaskName.COMPLETE_YOUR_PROFILE;
     const steps = TaskNameMapToSteps[taskName];
@@ -35,44 +29,27 @@ const CompleteYourProfileTour = () => {
         </p>
     );
 
-    const punchOut = useMeasurePunchouts(['status-drop-down-menu-list'], [], {y: -6, height: 6, x: 0, width: 0}) || null;
-    const handleSaveData = (source?: DataEventSource) => {
-        if (source && source === 'dismiss') {
-            handleTask(taskName, steps.start, true, source);
-        }
-    };
-
-    const onPunchOutClick = () => {
-        dispatch(openModal({
-            modalId: ModalIdentifiers.USER_SETTINGS,
-            dialogType: UserSettingsModal,
-            dialogProps: {
-                isContentProductSettings: false,
-            },
-        }));
-        handleTask(taskName, steps.FINISHED, true, 'finished');
+    const overlayPunchOut = useMeasurePunchouts(['status-drop-down-menu-list'], [], {y: -6, height: 12, x: 0, width: 0}) || null;
+    const onDismiss = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        e.preventDefault();
+        handleTask(taskName, steps.start, true, 'dismiss');
     };
 
     return (
-        <TutorialTourTip
+        <TourTip
+            show={true}
             title={title}
             screen={screen}
-            tutorialCategory={OnBoardingTaskName.COMPLETE_YOUR_PROFILE}
+            overlayPunchOut={overlayPunchOut}
             step={steps.STARTED}
             placement='left-start'
             pulsatingDotPlacement='left'
             pulsatingDotTranslate={{x: 0, y: -2}}
-            width={352}
-            autoTour={true}
-            punchOut={punchOut}
-            showNextBtn={false}
-            showPrevBtn={false}
+            handleDismiss={onDismiss}
             singleTip={true}
             showOptOut={false}
-            handleSaveData={handleSaveData}
-            onPunchOutClick={onPunchOutClick}
+            interactivePunchOut={true}
         />
     );
 };
-
-export default CompleteYourProfileTour;

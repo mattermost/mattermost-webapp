@@ -14,7 +14,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
 import {GlobalState} from 'types/store';
-import {OnBoardingTaskCategory, OnBoardingTaskName, TaskNameMapToSteps} from 'components/onboarding_tasks/constant';
+import {OnBoardingTaskCategory, OnBoardingTaskName, TaskNameMapToSteps} from 'components/onboarding_tasks';
 
 import ProductMenuList from './product_menu_list';
 

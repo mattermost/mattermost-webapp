@@ -45,6 +45,7 @@ exports[`components/global/product_switcher should have an active button state w
         text="Playbooks"
       />
       <Connect(ProductMenuList)
+        handleVisitConsoleClick={[Function]}
         isMessaging={true}
         onClick={[Function]}
       />
@@ -134,6 +135,7 @@ exports[`components/global/product_switcher should match snapshot with product s
         text="Playbooks"
       />
       <Connect(ProductMenuList)
+        handleVisitConsoleClick={[Function]}
         isMessaging={true}
         onClick={[Function]}
       />
@@ -187,6 +189,7 @@ exports[`components/global/product_switcher should render once when there are no
         text="Playbooks"
       />
       <Connect(ProductMenuList)
+        handleVisitConsoleClick={[Function]}
         isMessaging={true}
         onClick={[Function]}
       />
@@ -240,6 +243,7 @@ exports[`components/global/product_switcher should render the correct amount of 
         text="Playbooks"
       />
       <Connect(ProductMenuList)
+        handleVisitConsoleClick={[Function]}
         isMessaging={true}
         onClick={[Function]}
       />

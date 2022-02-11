@@ -12,6 +12,7 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 import {isSwitcherOpen} from 'selectors/views/product_menu';
 import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
+import {OnBoardingTaskName, TaskNameMapToSteps, useHandleOnBoardingTaskData} from 'components/onboarding_tasks';
 
 import {useClickOutsideRef, useCurrentProductId, useProducts} from '../../hooks';
 
@@ -56,6 +57,13 @@ const ProductMenu = (): JSX.Element => {
 
     const handleClick = () => dispatch(setProductMenuSwitcherOpen(!switcherOpen));
 
+    const handleOnBoardingTaskData = useHandleOnBoardingTaskData();
+    const taskName = OnBoardingTaskName.VISIT_SYSTEM_CONSOLE;
+    const handleVisitConsoleClick = () => {
+        const steps = TaskNameMapToSteps[taskName];
+        handleOnBoardingTaskData(taskName, steps.FINISHED, true, 'finish');
+    };
+
     useClickOutsideRef(menuRef, () => {
         dispatch(setProductMenuSwitcherOpen(false));
     });
@@ -99,6 +107,7 @@ const ProductMenu = (): JSX.Element => {
                     <ProductMenuList
                         isMessaging={currentProductID === null}
                         onClick={handleClick}
+                        handleVisitConsoleClick={handleVisitConsoleClick}
                     />
                 </Menu>
             </MenuWrapper>

@@ -18,7 +18,7 @@ import {getFirstChannelName} from 'selectors/onboarding';
 import {isChannelSelected} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
 import {OnBoardingTourSteps, TutorialTourCategories} from 'components/tutorial_tour_tip/constant';
-import {OnBoardingTaskCategory, OnBoardingTaskName, TaskNameMapToSteps} from '../../../onboarding_tasks/constant';
+import {OnBoardingTaskCategory, OnBoardingTaskName, TaskNameMapToSteps} from 'components/onboarding_tasks';
 
 import SidebarChannelLink from './sidebar_channel_link';
 

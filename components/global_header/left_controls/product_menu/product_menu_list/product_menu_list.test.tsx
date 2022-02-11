@@ -39,6 +39,7 @@ describe('components/global/product_switcher_menu', () => {
         enablePluginMarketplace: false,
         showVisitSystemConsoleTour: false,
         onClick: () => jest.fn,
+        handleVisitConsoleClick: () => jest.fn,
     };
 
     test('should match snapshot with id', () => {
