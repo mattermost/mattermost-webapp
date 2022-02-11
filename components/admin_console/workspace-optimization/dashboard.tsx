@@ -216,10 +216,10 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                 overallScoreChips[item.status] += 1;
             }
         });
-        const {title, description, icon} = accordionData;
+        const {title, description, descriptionOk, icon} = accordionData;
         return {
             title,
-            description,
+            description: items.length === 0 ? descriptionOk : description,
             icon: items.length === 0 ? successIcon : icon,
             items,
             extraContent: (

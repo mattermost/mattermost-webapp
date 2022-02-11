@@ -24,6 +24,7 @@ type DataModel = {
     [key: string]: {
         title: string;
         description: string;
+        descriptionOk: string;
         items: ItemModel[];
         icon: React.ReactNode;
     };
@@ -70,8 +71,18 @@ const useMetricsData = () => {
     };
 
     const getUpdatesData = (data: UpdatesParam) => ({
-        title: formatMessage({id: 'admin.reporting.workspace_optimization.updates.title', defaultMessage: 'Updates and Errors'}),
-        description: formatMessage({id: 'admin.reporting.workspace_optimization.updates.description', defaultMessage: 'You have an update to consider'}),
+        title: formatMessage({
+            id: 'admin.reporting.workspace_optimization.updates.title',
+            defaultMessage: 'Server Updates',
+        }),
+        description: formatMessage({
+            id: 'admin.reporting.workspace_optimization.updates.description',
+            defaultMessage: 'You have an update to consider',
+        }),
+        descriptionOk: formatMessage({
+            id: 'admin.reporting.workspace_optimization.updates.descriptionOk',
+            defaultMessage: 'Your workspace is completely up to date!',
+        }),
         icon: (
             <div className='icon'>
                 <ArrowUpBoldCircleOutlineIcon
@@ -117,8 +128,18 @@ const useMetricsData = () => {
     }
 
     const getConfigurationData = (data: ConfigurationParam) => ({
-        title: formatMessage({id: 'admin.reporting.workspace_optimization.configuration.title', defaultMessage: 'Configuration'}),
-        description: formatMessage({id: 'admin.reporting.workspace_optimization.configuration.description', defaultMessage: 'You have configuration problems to resolve'}),
+        title: formatMessage({
+            id: 'admin.reporting.workspace_optimization.configuration.title',
+            defaultMessage: 'Configuration',
+        }),
+        description: formatMessage({
+            id: 'admin.reporting.workspace_optimization.configuration.description',
+            defaultMessage: 'You have configuration problems to resolve',
+        }),
+        descriptionOk: formatMessage({
+            id: 'admin.reporting.workspace_optimization.configuration.descriptionOk',
+            defaultMessage: 'You seem to have good configuration for SSL and Session Lengths!',
+        }),
         icon: (
             <div className='icon'>
                 <TuneIcon
@@ -180,6 +201,10 @@ const useMetricsData = () => {
             id: 'admin.reporting.workspace_optimization.access.description',
             defaultMessage: 'Web server settings could be affecting access.',
         }),
+        descriptionOk: formatMessage({
+            id: 'admin.reporting.workspace_optimization.access.descriptionOk',
+            defaultMessage: 'Access to your workspace seems available!',
+        }),
         icon: (
             <div className='icon'>
                 <ServerVariantIcon
@@ -223,6 +248,10 @@ const useMetricsData = () => {
         description: formatMessage({
             id: 'admin.reporting.workspace_optimization.performance.description',
             defaultMessage: 'Your server could use some performance tweaks.',
+        }),
+        descriptionOk: formatMessage({
+            id: 'admin.reporting.workspace_optimization.performance.descriptionOk',
+            defaultMessage: 'Your search performance suits your workspace usage!',
         }),
         icon: (
             <div className='icon'>
@@ -269,6 +298,10 @@ const useMetricsData = () => {
         description: formatMessage({
             id: 'admin.reporting.workspace_optimization.data_privacy.description',
             defaultMessage: 'Get better insight and control over your data.',
+        }),
+        descriptionOk: formatMessage({
+            id: 'admin.reporting.workspace_optimization.data_privacy.descriptionOk',
+            defaultMessage: 'You seem to be using data retention and compliance features!',
         }),
         icon: (
             <div className='icon'>
@@ -318,6 +351,10 @@ const useMetricsData = () => {
         description: formatMessage({
             id: 'admin.reporting.workspace_optimization.ease_of_management.description',
             defaultMessage: 'We have suggestions that could make your managemenet easier.',
+        }),
+        descriptionOk: formatMessage({
+            id: 'admin.reporting.workspace_optimization.ease_of_management.descriptionOk',
+            defaultMessage: 'For your current usage scale, manually managing users and guests seems apropriate!',
         }),
         icon: (
             <div className='icon'>
