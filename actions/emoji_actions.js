@@ -97,6 +97,7 @@ export function addRecentEmoji(alias) {
             updatedRecentEmojis = [...recentEmojis, currentEmojiData].slice(-MAXIMUM_RECENT_EMOJI);
         }
 
+        // sort emojis by count in the ascending order
         updatedRecentEmojis.sort(
             (emojiA, emojiB) => emojiA.usageCount - emojiB.usageCount,
         );
