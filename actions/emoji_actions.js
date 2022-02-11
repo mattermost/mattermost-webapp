@@ -64,7 +64,7 @@ export function addRecentEmoji(alias) {
     return (dispatch, getState) => {
         const state = getState();
         const currentUserId = getCurrentUserId(state);
-        const recentEmojis = getRecentEmojis(state);
+        const recentEmojis = getRecentEmojis(state, false);
         const emojiMap = getEmojiMap(state);
 
         let name;

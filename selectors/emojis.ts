@@ -27,19 +27,25 @@ export const getShortcutReactToLastPostEmittedFrom = (state: GlobalState) =>
 
 export const getRecentEmojis = createSelector(
     'getRecentEmojis',
-    (state: GlobalState) => {
-        return get(
+    (state: GlobalState, getSimplifiedData = true) => {
+        const recentEmojis = get(
             state,
             Preferences.RECENT_EMOJIS,
             getCurrentUserId(state),
             '[]',
         );
+        return {
+            recentEmojis,
+            getSimplifiedData,
+        };
     },
-    (recentEmojis) => {
+    ({recentEmojis, getSimplifiedData}: { recentEmojis: string; getSimplifiedData: boolean}) => {
         if (!recentEmojis) {
             return [];
         }
-        return JSON.parse(recentEmojis);
+        const parsedEmojiData: RecentEmojiData[] = JSON.parse(recentEmojis);
+        const toReturnRecentEmojis = getSimplifiedData ? parsedEmojiData.map((emoji) => emoji.name) : parsedEmojiData;
+        return toReturnRecentEmojis;
     },
 );
 
