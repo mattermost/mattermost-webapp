@@ -301,7 +301,7 @@ const useMetricsData = () => {
         }),
         descriptionOk: formatMessage({
             id: 'admin.reporting.workspace_optimization.data_privacy.descriptionOk',
-            defaultMessage: 'You seem to be using data retention and compliance features!',
+            defaultMessage: 'You've enabled data retention and compliance features!',
         }),
         icon: (
             <div className='icon'>
