@@ -15,11 +15,13 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {createCategory, clearChannelSelection} from 'actions/views/channel_sidebar';
 import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
-import {openModal} from 'actions/views/modals';
+import {closeModal, openModal} from 'actions/views/modals';
 import {ModalData} from 'types/actions';
 import {GlobalState} from 'types/store';
 import {getIsLhsOpen} from 'selectors/lhs';
 import {getIsMobileView} from 'selectors/views/browser';
+import {isModalOpen} from '../../selectors/views/modals';
+import {ModalIdentifiers} from '../../utils/constants';
 
 import Sidebar from './sidebar';
 
@@ -51,6 +53,7 @@ function mapStateToProps(state: GlobalState) {
         isCloud: getLicense(state).Cloud === 'true',
         unreadFilterEnabled,
         isMobileView: getIsMobileView(state),
+        isKeyBoardShortcutModalOpen: isModalOpen(state, ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL),
     };
 }
 
@@ -59,6 +62,7 @@ type Actions = {
     createCategory: (teamId: string, categoryName: string) => {data: string};
     openModal: <P>(modalData: ModalData<P>) => void;
     clearChannelSelection: () => void;
+    closeModal: (modalId: string) => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -68,6 +72,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             createCategory,
             fetchMyCategories,
             openModal,
+            closeModal,
         }, dispatch),
     };
 }
