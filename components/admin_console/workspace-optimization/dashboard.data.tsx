@@ -73,7 +73,7 @@ const useMetricsData = () => {
     const getUpdatesData = (data: UpdatesParam) => ({
         title: formatMessage({
             id: 'admin.reporting.workspace_optimization.updates.title',
-            defaultMessage: 'Server Updates',
+            defaultMessage: 'Server updates',
         }),
         description: formatMessage({
             id: 'admin.reporting.workspace_optimization.updates.description',
