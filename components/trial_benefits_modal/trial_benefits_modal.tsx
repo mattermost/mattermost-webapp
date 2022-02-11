@@ -27,6 +27,7 @@ import PersonWithServersSvg from 'components/common/svg_images_components/person
 import PersonWithSheetSvg from 'components/common/svg_images_components/person_with_sheet_svg';
 
 import './trial_benefits_modal.scss';
+import PersonWithChecklistSvg from 'components/common/svg_images_components/person_with_checklist';
 
 type Props = {
     onClose?: () => void;
@@ -41,6 +42,8 @@ const ConsolePages = {
     SAML: '/admin_console/authentication/saml',
     CUSTOM_TERMS: '/admin_console/compliance/custom_terms_of_service',
 };
+
+const playbooksStartPage = '/playbooks/start';
 
 const TrialBenefitsModal: React.FC<Props> = (props: Props): JSX.Element | null => {
     const steps = [];
@@ -62,13 +65,16 @@ const TrialBenefitsModal: React.FC<Props> = (props: Props): JSX.Element | null =
     };
 
     const redirectToConsolePage = (route: string) => {
+        redirectTo(route, route.split('/').pop() ?? 'unknown');
+    };
+
+    const redirectTo = (route: string, telemetryName: string) => {
         history.push(route);
         handleOnClose();
 
-        const lastSection = route.split('/').pop();
         trackEvent(
             TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
-            'benefits_modal_section_opened_' + lastSection,
+            'benefits_modal_section_opened_' + telemetryName,
         );
     };
 
@@ -80,34 +86,30 @@ const TrialBenefitsModal: React.FC<Props> = (props: Props): JSX.Element | null =
 
     const trialStartSlide = (
         <div className='slide-container'>
-            {props.trialJustStarted ?
-                <div className='title'>
-                    {formatMessage({id: 'trial_benefits.modal.trialStarttitle', defaultMessage: 'Your trial has started! Explore the benefits of Enterprise'})}
-                </div> :
-                <div className='title'>
-                    {formatMessage({id: 'trial_benefits.modal.postTrialStarttitle', defaultMessage: 'You are on the Enterprise plan! Explore the benefits of Enterprise'})}
-                </div>
+            {props.trialJustStarted ? <div className='title'>
+                {formatMessage({id: 'trial_benefits.modal.trialStarttitle', defaultMessage: 'Your trial has started! Explore the benefits of Enterprise'})}
+            </div> : <div className='title'>
+                {formatMessage({id: 'trial_benefits.modal.postTrialStarttitle', defaultMessage: 'You are on the Enterprise plan! Explore the benefits of Enterprise'})}
+            </div>
             }
 
-            {props.trialJustStarted ?
-                <div className='description'>
-                    {formatMessage(
-                        {
-                            id: 'trial_benefits.modal.trialStartDescription',
-                            defaultMessage: 'Welcome to your Mattermost Enterprise trial! It expires on {trialExpirationDate}. Until then, enjoy the following benefits of Enterprise:',
-                        },
-                        {trialExpirationDate: trialEndDate},
-                    )}
-                </div> :
-                <div className='description'>
-                    {formatMessage(
-                        {
-                            id: 'trial_benefits.modal.postTrialStartDescription',
-                            defaultMessage: 'Welcome to Enterprise! Your plan expires on {trialExpirationDate}. Until then, enjoy the following benefits of Enterprise:',
-                        },
-                        {trialExpirationDate: trialEndDate},
-                    )}
-                </div>
+            {props.trialJustStarted ? <div className='description'>
+                {formatMessage(
+                    {
+                        id: 'trial_benefits.modal.trialStartDescription',
+                        defaultMessage: 'Welcome to your Mattermost Enterprise trial! It expires on {trialExpirationDate}. Until then, enjoy the following benefits of Enterprise:',
+                    },
+                    {trialExpirationDate: trialEndDate},
+                )}
+            </div> : <div className='description'>
+                {formatMessage(
+                    {
+                        id: 'trial_benefits.modal.postTrialStartDescription',
+                        defaultMessage: 'Welcome to Enterprise! Your plan expires on {trialExpirationDate}. Until then, enjoy the following benefits of Enterprise:',
+                    },
+                    {trialExpirationDate: trialEndDate},
+                )}
+            </div>
             }
             <div className='handsSvg svg-wrapper'>
                 <HandsSvg
@@ -233,6 +235,30 @@ const TrialBenefitsModal: React.FC<Props> = (props: Props): JSX.Element | null =
         </div>
     );
     steps.push(customTermsSlide);
+
+    const playbooksSlide = (
+        <div className='slide-container'>
+            <div className='title'>
+                {formatMessage({id: 'trial_benefits.modal.playbooksTitle', defaultMessage: 'Playbooks get superpowers'})}
+            </div>
+            <div className='description'>
+                {formatMessage({id: 'trial_benefits.modal.playbooksDescription', defaultMessage: 'Create private playbooks, manage granular permissions schemes, and track custom metrics with a dedicated dashboard.'})}
+            </div>
+            <a
+                className='learnMoreButton playbooks'
+                onClick={() => redirectTo(playbooksStartPage, 'playbooks')}
+            >
+                {formatMessage({id: 'trial_benefits.modal.playbooksButton', defaultMessage: 'Open Playbooks'})}
+            </a>
+            <div className='personSheetSvg svg-wrapper'>
+                <PersonWithChecklistSvg
+                    width={250}
+                    height={200}
+                />
+            </div>
+        </div>
+    );
+    steps.push(playbooksSlide);
 
     return (
         <GenericModal

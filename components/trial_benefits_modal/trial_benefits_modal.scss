@@ -114,6 +114,11 @@
             font-size: 14px;
             font-weight: 600;
             line-height: 14px;
+            text-align: center;
+
+            &.playbooks {
+                width: 150px;
+            }
 
             &:hover:not(.disabled) {
                 background: rgba(var(--sys-button-bg-rgb), 0.04);
