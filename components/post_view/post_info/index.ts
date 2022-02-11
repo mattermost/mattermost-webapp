@@ -7,7 +7,8 @@ import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 import {showActionsMenuPulsatingDot} from 'selectors/actions_menu';
 import {setActionsMenuInitialisationState} from 'mattermost-redux/actions/preferences';
 
-import {removePost} from 'mattermost-redux/actions/posts';
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {removePost, ExtendedPost} from 'mattermost-redux/actions/posts';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
 import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
@@ -17,16 +18,28 @@ import {Post} from 'mattermost-redux/types/posts';
 
 import {GlobalState} from 'types/store';
 
+import {closeRightHandSide} from 'actions/views/rhs';
 import {emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
 import {Preferences} from 'utils/constants';
 import {shouldShowDotMenu, shouldShowActionsMenu} from 'utils/post_utils';
 import {getSelectedPostCard} from 'selectors/rhs';
+import {isThreadOpen} from 'selectors/views/threads';
 import {getShortcutReactToLastPostEmittedFrom, getOneClickReactionEmojis} from 'selectors/emojis';
 
 import PostInfo from './post_info';
 
 type OwnProps = {
     post: Post;
+}
+
+function removePostAndCloseRHS(post: ExtendedPost) {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState() as GlobalState;
+        if (isThreadOpen(state, post.id)) {
+            dispatch(closeRightHandSide());
+        }
+        return dispatch(removePost(post));
+    };
 }
 
 function makeMapStateToProps() {
@@ -70,7 +83,7 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
     return {
         actions: bindActionCreators({
-            removePost,
+            removePost: removePostAndCloseRHS,
             emitShortcutReactToLastPostFrom,
             setActionsMenuInitialisationState,
         }, dispatch),

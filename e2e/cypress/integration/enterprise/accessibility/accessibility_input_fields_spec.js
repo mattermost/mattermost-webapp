@@ -37,18 +37,7 @@ describe('Verify Accessibility Support in different input fields', () => {
         cy.uiOpenTeamMenu('Invite People');
 
         // # Click invite members if needed
-        cy.get('.InviteAs').then(($inviteAs) => {
-            const hasABToggleTreatment = $inviteAs.find('#inviteAsToggleControl').length > 0;
-            if (hasABToggleTreatment) {
-                if ($inviteAs.find('#inviteMembersLink').length > 0) {
-                    // Has A/B test toggle treatment and is in guest mode.
-                    cy.findByTestId('inviteMembersLink').click();
-                }
-            } else {
-                // Has A/B test radio treatment, so inviteMembersLink is always visible.
-                cy.findByTestId('inviteMembersLink').click();
-            }
-        });
+        cy.get('.InviteAs').findByTestId('inviteMembersLink').click();
 
         // * Verify Accessibility support in Share this link input field
         cy.findByTestId('InviteView__copyInviteLink').should('have.attr', 'aria-label', 'team invite link');

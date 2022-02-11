@@ -8,6 +8,9 @@
 // ***************************************************************
 
 // Stage: @prod
+// Group: @keyboard_shortcuts
+
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Keyboard Shortcuts', () => {
     let sysadmin;
@@ -50,7 +53,7 @@ describe('Keyboard Shortcuts', () => {
         cy.visit(`/${testTeam.name}/messages/@${sysadmin.username}`);
 
         // * Verify that the channel is loaded
-        cy.get('#channelHeaderTitle').should('contain', sysadmin.username);
+        cy.get('#channelHeaderTitle').should('contain', sysadmin.username).wait(TIMEOUTS.ONE_SEC);
 
         // * Switch to channels by Alt+Up/Down keypress and verify
         verifyChannelSwitch(testTeam.name, townSquare, dmWithSysadmin, '{uparrow}');
@@ -66,7 +69,7 @@ describe('Keyboard Shortcuts', () => {
         cy.visit(`/${testTeam.name}/channels/${publicChannel.name}`);
 
         // * Verify that the channel is loaded
-        cy.get('#channelHeaderTitle').should('contain', publicChannel.display_name);
+        cy.get('#channelHeaderTitle').should('contain', publicChannel.display_name).wait(TIMEOUTS.ONE_SEC);
 
         // # Switch to channels by Alt+Up/Down keypress and verify
         verifyChannelSwitch(testTeam.name, offTopic, publicChannel, '{downarrow}');

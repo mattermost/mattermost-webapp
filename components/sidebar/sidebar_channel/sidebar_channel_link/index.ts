@@ -15,7 +15,9 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {open as openLhs} from 'actions/views/lhs.js';
 import {clearChannelSelection, multiSelectChannelAdd, multiSelectChannelTo} from 'actions/views/channel_sidebar';
+import {getFirstChannelName} from 'selectors/onboarding';
 import {isChannelSelected} from 'selectors/views/channel_sidebar';
+import {getIsMobileView} from 'selectors/views/browser';
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
 
@@ -33,6 +35,8 @@ function makeMapStateToProps() {
 
         const unreadCount = getUnreadCount(state, ownProps.channel.id);
 
+        const firstChannelName = getFirstChannelName(state);
+
         const channelsByName = getChannelsNameMapInCurrentTeam(state);
         const config = getConfig(state);
         const enableTutorial = config.EnableTutorial === 'true';
@@ -46,8 +50,10 @@ function makeMapStateToProps() {
             isMuted: isChannelMuted(member),
             isChannelSelected: isChannelSelected(state, ownProps.channel.id),
             showTutorialTip: enableTutorial && tutorialStep === Constants.TutorialSteps.CHANNEL_POPOVER,
+            firstChannelName: enableTutorial && tutorialStep === Constants.TutorialSteps.ADD_FIRST_CHANNEL ? firstChannelName : '',
             townSquareDisplayName: channelsByName[Constants.DEFAULT_CHANNEL]?.display_name || '',
             offTopicDisplayName: channelsByName[Constants.OFFTOPIC_CHANNEL]?.display_name || '',
+            isMobileView: getIsMobileView(state),
         };
     };
 }

@@ -4,7 +4,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
 <MenuWrapper
   animationComponent={[Function]}
   className=""
-  onToggle={[MockFunction]}
+  onToggle={[Function]}
 >
   <OverlayTrigger
     className="hidden-xs"
@@ -12,10 +12,8 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
     delayShow={500}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         className="hidden-xs"
         id="dotmenu-icon-tooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="More"
@@ -189,7 +187,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
 <MenuWrapper
   animationComponent={[Function]}
   className=""
-  onToggle={[MockFunction]}
+  onToggle={[Function]}
 >
   <OverlayTrigger
     className="hidden-xs"
@@ -197,10 +195,8 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     delayShow={500}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         className="hidden-xs"
         id="dotmenu-icon-tooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="More"

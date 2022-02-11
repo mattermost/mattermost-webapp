@@ -21,7 +21,7 @@ describe('components/next_steps_view', () => {
                 },
                 component: jest.fn(),
                 visible: true,
-                finishButtonText: {
+                completeStepButtonText: {
                     id: 'fId',
                     defaultMessage: 'message',
                 },
@@ -35,7 +35,7 @@ describe('components/next_steps_view', () => {
                 roles: [],
                 component: jest.fn(),
                 visible: true,
-                finishButtonText: {
+                completeStepButtonText: {
                     id: 'fId',
                     defaultMessage: 'message',
                 },
@@ -49,7 +49,7 @@ describe('components/next_steps_view', () => {
                 roles: [],
                 component: jest.fn(),
                 visible: true,
-                finishButtonText: {
+                completeStepButtonText: {
                     id: 'fId',
                     defaultMessage: 'message',
                 },
@@ -60,6 +60,7 @@ describe('components/next_steps_view', () => {
         isFirstAdmin: true,
         isAdmin: true,
         isCloud: false,
+        isMobileView: false,
         team: {name: 'TestTeam'} as Team,
         downloadAppsAsNextStep: false,
         actions: {
@@ -67,6 +68,7 @@ describe('components/next_steps_view', () => {
             savePreferences: jest.fn(),
             closeRightHandSide: jest.fn(),
             getProfiles: jest.fn(),
+            selectChannel: jest.fn(),
         },
     };
 

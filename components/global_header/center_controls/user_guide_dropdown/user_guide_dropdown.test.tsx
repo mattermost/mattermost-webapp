@@ -22,9 +22,15 @@ jest.mock('actions/telemetry_actions.jsx', () => {
 describe('components/channel_header/components/UserGuideDropdown', () => {
     const baseProps = {
         helpLink: 'helpLink',
+        isMobileView: false,
         reportAProblemLink: 'reportAProblemLink',
         enableAskCommunityLink: 'true',
         showGettingStarted: false,
+        location: {
+            pathname: '/team/channel/channelId',
+        },
+        showDueToStepsNotFinished: false,
+        teamUrl: '/team',
         actions: {
             unhideNextSteps: jest.fn(),
             openModal: jest.fn(),

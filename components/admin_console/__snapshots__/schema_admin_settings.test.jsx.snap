@@ -624,7 +624,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             showConfirm={false}
             unRegisterSaveAction={[Function]}
           />
-          <Connect(injectIntl(JobTable))
+          <Connect(JobTable)
             createJobButtonText={
               <Memo(MemoizedFormattedMessage)
                 defaultMessage="Setting Twelve"
@@ -717,9 +717,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
       target={null}
     >
       <Tooltip
-        bsClass="tooltip"
         id="error-tooltip"
-        placement="right"
       />
     </Overlay>
   </div>

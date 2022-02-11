@@ -4,17 +4,16 @@
 import React from 'react';
 import classNames from 'classnames';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
-import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
 import {UserThread} from 'mattermost-redux/types/threads';
-import {$ID} from 'mattermost-redux/types/utilities';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {Locations, ModalIdentifiers, Constants, EventTypes, TELEMETRY_CATEGORIES, TELEMETRY_LABELS} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import DelayedAction from 'utils/delayed_action';
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
@@ -46,6 +45,7 @@ type Props = {
     channelIsArchived?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     currentTeamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
     teamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
+    isMobileView: boolean;
 
     /**
      * Components for overriding provided by plugins
@@ -101,7 +101,7 @@ type Props = {
     canEdit: boolean;
     canDelete: boolean;
     userId: string;
-    threadId: $ID<UserThread>;
+    threadId: UserThread['id'];
     isCollapsedThreadsEnabled: boolean;
     isFollowingThread?: boolean;
     isMentionedInRootPost?: boolean;
@@ -432,7 +432,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     id={`${this.props.location}_dropdown_${this.props.post.id}`}
                     openLeft={true}
                     openUp={this.state.openUp}
-                    ref={this.refCallback}
                     ariaLabel={Utils.localizeMessage('post_info.menuAriaLabel', 'Post extra options')}
                 >
                     <Menu.ItemAction

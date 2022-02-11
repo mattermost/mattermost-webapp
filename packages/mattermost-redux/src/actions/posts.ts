@@ -18,7 +18,6 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {Post, PostList} from 'mattermost-redux/types/posts';
 import {Reaction} from 'mattermost-redux/types/reactions';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getProfilesByIds, getProfilesByUsernames, getStatusesByIds} from './users';
@@ -30,6 +29,7 @@ import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
 import {logError} from './errors';
 import {systemEmojis, getCustomEmojiByName, getCustomEmojisByName} from './emojis';
 import {selectChannel} from './channels';
+import {decrementThreadCounts} from './threads';
 
 // receivedPost should be dispatched after a single post from the server. This typically happens when an existing post
 // is updated.
@@ -383,6 +383,9 @@ export function deletePost(post: ExtendedPost) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const delPost = {...post};
+        if (!post.root_id && isCollapsedThreadsEnabled(state)) {
+            dispatch(decrementThreadCounts(post));
+        }
         if (delPost.type === Posts.POST_TYPES.COMBINED_USER_ACTIVITY && delPost.system_post_ids) {
             delPost.system_post_ids.forEach((systemPostId) => {
                 const systemPost = Selectors.getPost(state, systemPostId);
@@ -938,7 +941,7 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
         return Promise.resolve();
     }
 
-    const postsDictionary: Dictionary<Post> = {};
+    const postsDictionary: Record<string, Post> = {};
     for (let i = 0; i < postsArray.length; i++) {
         postsDictionary[postsArray[i].id] = postsArray[i];
     }
@@ -998,8 +1001,29 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<strin
     return Promise.all(promises);
 }
 
+export function getPostsByIds(ids: string[]) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let posts;
+
+        try {
+            posts = await Client4.getPostsByIds(ids);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        dispatch({
+            type: PostTypes.RECEIVED_POSTS,
+            data: {posts},
+        });
+
+        return {data: {posts}};
+    };
+}
+
 export function getNeededAtMentionedUsernames(state: GlobalState, posts: Post[]): Set<string> {
-    let usersByUsername: Dictionary<UserProfile>; // Populate this lazily since it's relatively expensive
+    let usersByUsername: Record<string, UserProfile>; // Populate this lazily since it's relatively expensive
 
     const usernamesToLoad = new Set<string>();
 
@@ -1042,7 +1066,6 @@ export function removePost(post: ExtendedPost) {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         if (post.type === Posts.POST_TYPES.COMBINED_USER_ACTIVITY && post.system_post_ids) {
             const state = getState();
-
             for (const systemPostId of post.system_post_ids) {
                 const systemPost = Selectors.getPost(state, systemPostId);
 
@@ -1061,6 +1084,7 @@ export function removePost(post: ExtendedPost) {
                 );
             }
         }
+        return {data: true};
     };
 }
 

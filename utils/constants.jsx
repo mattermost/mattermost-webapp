@@ -72,6 +72,11 @@ export const Preferences = {
     CATEGORY_SIDEBAR_SETTINGS: 'sidebar_settings',
     CATEGORY_ADVANCED_SETTINGS: 'advanced_settings',
     TUTORIAL_STEP: 'tutorial_step',
+    TUTORIAL_STEP_AUTO_TOUR_STATUS: 'tutorial_step_auto_tour_status',
+    CRT_TUTORIAL_TRIGGERED: 'crt_tutorial_triggered',
+    CRT_TUTORIAL_AUTO_TOUR_STATUS: 'crt_tutorial_auto_tour_status',
+    CRT_TUTORIAL_STEP: 'crt_tutorial_step',
+    CRT_THREAD_PANE_STEP: 'crt_thread_pane_step',
     CHANNEL_DISPLAY_MODE: 'channel_display_mode',
     CHANNEL_DISPLAY_MODE_CENTERED: 'centered',
     CHANNEL_DISPLAY_MODE_FULL_SCREEN: 'full',
@@ -120,6 +125,9 @@ export const Preferences = {
 
     // Category for actions/interactions that will happen just once
     UNIQUE: 'unique',
+
+    // A/B test preference value
+    AB_TEST_PREFERENCE_VALUE: 'ab_test_preference_value',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -130,6 +138,8 @@ export const Touched = {
 // Category for actions/interactions that will happen just once
 export const Unique = {
     HAS_CLOUD_PURCHASE: 'has_cloud_purchase',
+    REQUEST_TRIAL_AFTER_SERVER_UPGRADE: 'request_trial_after_upgrade',
+    CLICKED_UPGRADE_AND_TRIAL_BTN: 'clicked_upgradeandtrial_btn',
 };
 
 export const TrialPeriodDays = {
@@ -141,6 +151,7 @@ export const TrialPeriodDays = {
 };
 
 export const ActionTypes = keyMirror({
+    SET_PRODUCT_SWITCHER_OPEN: null,
     RECEIVED_FOCUSED_POST: null,
     SELECT_POST: null,
     HIGHLIGHT_REPLY: null,
@@ -210,8 +221,6 @@ export const ActionTypes = keyMirror({
     OPEN_RHS_MENU: null,
     CLOSE_RHS_MENU: null,
 
-    STORE_REHYDRATION_FAILED: null,
-
     DISMISS_NOTICE: null,
     SHOW_NOTICE: null,
 
@@ -259,6 +268,8 @@ export const ActionTypes = keyMirror({
 
     SUPPRESS_RHS: null,
     UNSUPPRESS_RHS: null,
+
+    FIRST_CHANNEL_NAME: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -334,6 +345,7 @@ export const ModalIdentifiers = {
     JOIN_CHANNEL_PROMPT: 'join_channel_prompt',
     COLLAPSED_REPLY_THREADS_MODAL: 'collapsed_reply_threads_modal',
     NOTIFY_CONFIRM_MODAL: 'notify_confirm_modal',
+    CONFIRM_LICENSE_REMOVAL: 'confirm_license_removal',
     CONFIRM: 'confirm',
     POST_DELETED_MODAL: 'post_deleted_modal',
     FILE_PREVIEW_MODAL: 'file_preview_modal',
@@ -342,6 +354,7 @@ export const ModalIdentifiers = {
     GET_PUBLIC_LINK_MODAL: 'get_public_link_modal',
     KEYBOARD_SHORTCUTS_MODAL: 'keyboar_shortcuts_modal',
     USERS_TO_BE_REMOVED: 'users_to_be_removed',
+    UPLOAD_LICENSE: 'upload_license',
 };
 
 export const UserStatuses = {
@@ -466,6 +479,7 @@ export const SocketEvents = {
 };
 
 export const TutorialSteps = {
+    ADD_FIRST_CHANNEL: -1,
     POST_POPOVER: 0,
     CHANNEL_POPOVER: 1,
     ADD_CHANNEL_POPOVER: 2,
@@ -473,6 +487,31 @@ export const TutorialSteps = {
     PRODUCT_SWITCHER: 4,
     SETTINGS: 5,
     ACTIONS_MENU: 6,
+    START_TRIAL: 6,
+    FINISHED: 999,
+};
+
+// note: add steps in same order as the keys in TutorialSteps above
+export const AdminTutorialSteps = ['START_TRIAL'];
+
+export const CrtTutorialSteps = {
+    WELCOME_POPOVER: 0,
+    LIST_POPOVER: 1,
+    UNREAD_POPOVER: 2,
+    FINISHED: 999,
+};
+export const CrtTutorialTriggerSteps = {
+    START: 0,
+    STARTED: 1,
+    FINISHED: 999,
+};
+export const AutoTourStatus = {
+    ENABLED: 0,
+    DISABLED: 1,
+};
+
+export const CrtThreadPaneSteps = {
+    THREADS_PANE_POPOVER: 0,
     FINISHED: 999,
 };
 
@@ -488,6 +527,7 @@ export const RecommendedNextSteps = {
     PREFERENCES_SETUP: 'preferences_setup',
     NOTIFICATION_SETUP: 'notification_setup',
     DOWNLOAD_APPS: 'download_apps',
+    CREATE_FIRST_CHANNEL: 'create_first_channel',
     HIDE: 'hide',
     SKIP: 'skip',
 };
@@ -626,7 +666,6 @@ export const StorageTypes = keyMirror({
     REMOVE_ITEM: null,
     SET_GLOBAL_ITEM: null,
     REMOVE_GLOBAL_ITEM: null,
-    CLEAR: null,
     ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX: null,
     STORAGE_REHYDRATE: null,
 });
@@ -885,6 +924,20 @@ export const PermissionsScope = {
     [Permissions.CONVERT_PRIVATE_CHANNEL_TO_PUBLIC]: 'channel_scope',
     [Permissions.MANAGE_SHARED_CHANNELS]: 'system_scope',
     [Permissions.MANAGE_SECURE_CONNECTIONS]: 'system_scope',
+    [Permissions.PLAYBOOK_PUBLIC_CREATE]: 'team_scope',
+    [Permissions.PLAYBOOK_PUBLIC_MANAGE_PROPERTIES]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PUBLIC_MANAGE_MEMBERS]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PUBLIC_VIEW]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PUBLIC_MAKE_PRIVATE]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PRIVATE_CREATE]: 'team_scope',
+    [Permissions.PLAYBOOK_PRIVATE_MANAGE_PROPERTIES]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PRIVATE_MANAGE_MEMBERS]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PRIVATE_VIEW]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PRIVATE_MAKE_PUBLIC]: 'playbook_scope',
+    [Permissions.RUN_CREATE]: 'playbook_scope',
+    [Permissions.RUN_MANAGE_MEMBERS]: 'run_scope',
+    [Permissions.RUN_MANAGE_PROPERTIES]: 'run_scope',
+    [Permissions.RUN_VIEW]: 'run_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -1016,6 +1069,11 @@ export const Constants = {
     UserStatuses,
     UserSearchOptions,
     TutorialSteps,
+    AdminTutorialSteps,
+    CrtTutorialSteps,
+    CrtTutorialTriggerSteps,
+    AutoTourStatus,
+    CrtThreadPaneSteps,
     PostTypes,
     ErrorPageTypes,
     AnnouncementBarTypes,

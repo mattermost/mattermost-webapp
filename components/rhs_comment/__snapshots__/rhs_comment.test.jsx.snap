@@ -80,8 +80,7 @@ exports[`components/RhsComment should match snapshot 1`] = `
             isRHS={true}
             userId="user_id"
           />
-          <CustomStatusEmoji
-            emojiSize={16}
+          <Memo(CustomStatusEmoji)
             emojiStyle={
               Object {
                 "marginLeft": 4,
@@ -89,8 +88,6 @@ exports[`components/RhsComment should match snapshot 1`] = `
               }
             }
             showTooltip={true}
-            spanStyle={Object {}}
-            tooltipDirection="top"
             userID="user_id"
           />
         </div>
@@ -248,8 +245,7 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
             isRHS={true}
             userId="user_id"
           />
-          <CustomStatusEmoji
-            emojiSize={16}
+          <Memo(CustomStatusEmoji)
             emojiStyle={
               Object {
                 "marginLeft": 4,
@@ -257,8 +253,6 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
               }
             }
             showTooltip={true}
-            spanStyle={Object {}}
-            tooltipDirection="top"
             userID="user_id"
           />
         </div>
@@ -484,8 +478,7 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
             isRHS={true}
             userId="user_id"
           />
-          <CustomStatusEmoji
-            emojiSize={16}
+          <Memo(CustomStatusEmoji)
             emojiStyle={
               Object {
                 "marginLeft": 4,
@@ -493,8 +486,6 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
               }
             }
             showTooltip={true}
-            spanStyle={Object {}}
-            tooltipDirection="top"
             userID="user_id"
           />
         </div>
@@ -665,8 +656,7 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
             isRHS={true}
             userId="user_id"
           />
-          <CustomStatusEmoji
-            emojiSize={16}
+          <Memo(CustomStatusEmoji)
             emojiStyle={
               Object {
                 "marginLeft": 4,
@@ -674,8 +664,6 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
               }
             }
             showTooltip={true}
-            spanStyle={Object {}}
-            tooltipDirection="top"
             userID="user_id"
           />
         </div>
@@ -894,8 +882,7 @@ exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
             isRHS={true}
             userId="user_id"
           />
-          <CustomStatusEmoji
-            emojiSize={16}
+          <Memo(CustomStatusEmoji)
             emojiStyle={
               Object {
                 "marginLeft": 4,
@@ -903,8 +890,6 @@ exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
               }
             }
             showTooltip={true}
-            spanStyle={Object {}}
-            tooltipDirection="top"
             userID="user_id"
           />
         </div>
@@ -923,6 +908,7 @@ exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
             }
           />
         </div>
+<<<<<<< HEAD
         <div
           className="col post-menu"
           data-testid="post-menu-id"
@@ -984,6 +970,8 @@ exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
             }
           />
         </div>
+=======
+>>>>>>> master
       </div>
       <div
         className="post__body"
@@ -1123,8 +1111,7 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
             isRHS={true}
             userId="user_id"
           />
-          <CustomStatusEmoji
-            emojiSize={16}
+          <Memo(CustomStatusEmoji)
             emojiStyle={
               Object {
                 "marginLeft": 4,
@@ -1132,8 +1119,6 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
               }
             }
             showTooltip={true}
-            spanStyle={Object {}}
-            tooltipDirection="top"
             userID="user_id"
           />
         </div>
@@ -1152,6 +1137,7 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
             }
           />
         </div>
+<<<<<<< HEAD
         <div
           className="col post-menu"
           data-testid="post-menu-id"
@@ -1213,6 +1199,8 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
             }
           />
         </div>
+=======
+>>>>>>> master
       </div>
       <div
         className="post__body"

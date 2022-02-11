@@ -3,9 +3,8 @@
 import {shallow} from 'enzyme';
 import React, {ComponentProps} from 'react';
 
-import {Tooltip} from 'react-bootstrap';
-
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 import {GlobalState} from '../../../types/store';
 
@@ -29,6 +28,7 @@ describe('components/file_preview_modal/file_preview_modal_main_actions/FilePrev
             fileInfo: TestHelper.getFileInfoMock({}),
             enablePublicLink: false,
             canDownloadFiles: true,
+            showPublicLink: true,
             fileURL: 'http://example.com/img.png',
             filename: 'img.png',
             handleModalClose: jest.fn(),
@@ -72,6 +72,17 @@ describe('components/file_preview_modal/file_preview_modal_main_actions/FilePrev
         const overlayWrapper = wrapper.find(OverlayTrigger).first();
         expect(overlayWrapper.prop('overlay').type).toEqual(Tooltip);
         expect(overlayWrapper.prop('children')).toMatchSnapshot();
+    });
+
+    test('should match snapshot for external image with public links enabled', () => {
+        const props = {
+            ...defaultProps,
+            enablePublicLink: true,
+            showPublicLink: false,
+        };
+
+        const wrapper = shallow(<FilePreviewModalMainActions {...props}/>);
+        expect(wrapper).toMatchSnapshot();
     });
 
     test('should call public link callback', () => {

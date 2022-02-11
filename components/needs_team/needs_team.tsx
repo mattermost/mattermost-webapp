@@ -27,7 +27,7 @@ import Pluggable from 'plugins/pluggable';
 import LocalStorageStore from 'stores/local_storage_store';
 import type {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
-const BackstageController = makeAsyncComponent(LazyBackstageController);
+const BackstageController = makeAsyncComponent('BackstageController', LazyBackstageController);
 
 let wakeUpInterval: number;
 let lastTime = Date.now();
@@ -48,6 +48,7 @@ type Props = {
     currentTeamId?: string;
     actions: {
         fetchMyChannelsAndMembers: (teamId: string) => Promise<{ data: { channels: Channel[]; members: ChannelMembership[] } }>;
+        fetchAllMyTeamsChannelsAndChannelMembers: () => Promise<{ data: { channels: Channel[]; members: ChannelMembership[]} }>;
         getMyTeamUnreads: (collapsedThreads: boolean) => Promise<{data: any; error?: any}>;
         viewChannel: (channelId: string, prevChannelId?: string | undefined) => Promise<{data: boolean}>;
         markChannelAsReadOnFocus: (channelId: string) => Promise<{data: any; error?: any}>;
@@ -75,6 +76,7 @@ type Props = {
     collapsedThreads: ReturnType<typeof isCollapsedThreadsEnabled>;
     plugins?: any;
     selectedThreadId: string | null;
+    shouldShowAppBar: boolean;
 }
 
 type State = {
@@ -101,7 +103,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             const currentTime = (new Date()).getTime();
             if (currentTime > (lastTime + WAKEUP_THRESHOLD)) { // ignore small delays
                 console.log('computer woke up - fetching latest'); //eslint-disable-line no-console
-                reconnect(false);
+                reconnect(true);
             }
             lastTime = currentTime;
         }, WAKEUP_CHECK_INTERVAL);
@@ -137,6 +139,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
     public componentDidMount() {
         startPeriodicStatusUpdates();
         startPeriodicSync();
+        this.fetchAllTeams();
 
         // Set up tracking for whether the window is active
         window.isActive = true;
@@ -261,6 +264,10 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         return team;
     }
 
+    fetchAllTeams = () => {
+        this.props.actions.fetchAllMyTeamsChannelsAndChannelMembers();
+    }
+
     updateCurrentTeam = (props: Props) => {
         // First check to make sure you're in the current team
         // for the current url.
@@ -321,6 +328,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                 <Route
                     render={() => (
                         <ChannelController
+                            shouldShowAppBar={this.props.shouldShowAppBar}
                             fetchingChannels={!this.state.finishedFetchingChannels}
                         />
                     )}

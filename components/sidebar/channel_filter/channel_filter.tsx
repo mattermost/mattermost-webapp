@@ -2,11 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
 import classNames from 'classnames';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import {localizeMessage} from 'utils/utils';
 
 type Props = {

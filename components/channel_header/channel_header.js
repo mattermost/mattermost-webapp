@@ -3,7 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Tooltip, Overlay} from 'react-bootstrap';
+import {Overlay} from 'react-bootstrap';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import classNames from 'classnames';
 
@@ -11,11 +11,10 @@ import {Permissions} from 'mattermost-redux/constants';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {displayUsername, isGuest} from 'mattermost-redux/utils/user_utils';
 
-import 'bootstrap';
-
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import Markdown from 'components/markdown';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import PopoverListMembers from 'components/popover_list_members';
 import StatusIcon from 'components/status_icon';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
@@ -86,6 +85,7 @@ class ChannelHeader extends React.PureComponent {
         customStatus: PropTypes.object,
         isCustomStatusEnabled: PropTypes.bool.isRequired,
         isCustomStatusExpired: PropTypes.bool.isRequired,
+        isFileAttachmentsEnabled: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -477,14 +477,16 @@ class ChannelHeader extends React.PureComponent {
                         onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
                     />
-                    <HeaderIconWrapper
-                        iconComponent={channelFilesIcon}
-                        ariaLabel={true}
-                        buttonClass={channelFilesIconClass}
-                        buttonId={'channelHeaderFilesButton'}
-                        onClick={this.showChannelFiles}
-                        tooltipKey={'channelFiles'}
-                    />
+                    {this.props.isFileAttachmentsEnabled &&
+                        <HeaderIconWrapper
+                            iconComponent={channelFilesIcon}
+                            ariaLabel={true}
+                            buttonClass={channelFilesIconClass}
+                            buttonId={'channelHeaderFilesButton'}
+                            onClick={this.showChannelFiles}
+                            tooltipKey={'channelFiles'}
+                        />
+                    }
                     {hasGuestsText}
                     <div
                         className='header-popover-text-measurer'
@@ -594,14 +596,16 @@ class ChannelHeader extends React.PureComponent {
                         onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
                     />
-                    <HeaderIconWrapper
-                        iconComponent={channelFilesIcon}
-                        ariaLabel={true}
-                        buttonClass={channelFilesIconClass}
-                        buttonId={'channelHeaderFilesButton'}
-                        onClick={this.showChannelFiles}
-                        tooltipKey={'channelFiles'}
-                    />
+                    {this.props.isFileAttachmentsEnabled &&
+                        <HeaderIconWrapper
+                            iconComponent={channelFilesIcon}
+                            ariaLabel={true}
+                            buttonClass={channelFilesIconClass}
+                            buttonId={'channelHeaderFilesButton'}
+                            onClick={this.showChannelFiles}
+                            tooltipKey={'channelFiles'}
+                        />
+                    }
                     {hasGuestsText}
                     {editMessage}
                 </div>

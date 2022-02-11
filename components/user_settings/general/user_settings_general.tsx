@@ -98,7 +98,6 @@ export type Props = {
     actions: {
         logError: ({message, type}: {message: any; type: string}, status: boolean) => void;
         clearErrors: () => void;
-        getMe: () => void;
         updateMe: (user: UserProfile) => Promise<{
             data: boolean;
             error?: {
@@ -304,7 +303,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
             then(({data, error: err}) => {
                 if (data) {
                     this.updateSection('');
-                    this.props.actions.getMe();
+
                     const verificationEnabled = this.props.requireEmailVerification && emailUpdated;
                     if (verificationEnabled) {
                         this.props.actions.clearErrors();

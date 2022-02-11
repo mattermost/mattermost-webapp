@@ -7,7 +7,7 @@ import {Modal, Button} from 'react-bootstrap';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import {isModalOpen} from 'selectors/views/modals';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from 'types/store';
 import {ModalIdentifiers} from 'utils/constants';
 import {closeModal, openModal} from 'actions/views/modals';
 import {getLicenseConfig} from 'mattermost-redux/actions/general';
@@ -15,9 +15,11 @@ import {requestTrialLicense} from 'actions/admin_actions';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import TrialBenefitsModal from 'components/trial_benefits_modal/trial_benefits_modal';
+import {makeAsyncComponent} from 'components/async_load';
 
 import StartTrialModalSvg from './start_trial_modal_svg';
+
+const TrialBenefitsModal = makeAsyncComponent('TrialBenefisModal', React.lazy(() => import('components/trial_benefits_modal/trial_benefits_modal')));
 
 import './start_trial_modal.scss';
 

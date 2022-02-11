@@ -2,20 +2,20 @@
 // See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, {createRef} from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Tooltip} from 'react-bootstrap';
 
 import {Posts, Preferences} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
-import Constants, {Locations} from 'utils/constants';
+import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
 import ActionsMenu from 'components/actions_menu';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import PostProfilePicture from 'components/post_profile_picture';
 import PostAriaLabelDiv from 'components/post_view/post_aria_label_div';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
@@ -86,6 +86,7 @@ export default class RhsRootPost extends React.PureComponent {
         recentEmojis: PropTypes.arrayOf(Emoji),
 
         isExpanded: PropTypes.bool,
+        isMobileView: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
@@ -102,16 +103,26 @@ export default class RhsRootPost extends React.PureComponent {
             showEmojiPicker: false,
             testStateObj: true,
             fileDropdownOpened: false,
+            hover: false,
+            a11yActive: false,
         };
 
-        this.postHeaderRef = React.createRef();
-        this.dotMenuRef = React.createRef();
+        this.postHeaderRef = createRef();
+        this.dotMenuRef = createRef();
+        this.postRef = createRef();
     }
 
     handleShortcutReactToLastPost = (isLastPost) => {
         if (isLastPost) {
-            const {post, enableEmojiPicker, channelIsArchived,
-                actions: {emitShortcutReactToLastPostFrom}} = this.props;
+            const {
+                channelIsArchived,
+                enableEmojiPicker,
+                isMobileView,
+                post,
+                actions: {
+                    emitShortcutReactToLastPostFrom,
+                },
+            } = this.props;
 
             // Setting the last message emoji action to empty to clean up the redux state
             emitShortcutReactToLastPostFrom(Locations.NO_WHERE);
@@ -129,7 +140,7 @@ export default class RhsRootPost extends React.PureComponent {
                 boundingRectOfPostInfo.bottom < (window.innerHeight);
 
             if (isPostHeaderVisibleToUser) {
-                if (!isEphemeralPost && !isSystemMessage && !isDeletedPost && !isFailedPost && !Utils.isMobile() &&
+                if (!isEphemeralPost && !isSystemMessage && !isDeletedPost && !isFailedPost && !isMobileView &&
                     !channelIsArchived && !isPostsFakeParentDeleted && enableEmojiPicker) {
                     // As per issue in #2 of mattermost-webapp/pull/4478#pullrequestreview-339313236
                     // We are not not handling focus condition as we did for rhs_comment as the dot menu is already in dom and not visible
@@ -140,17 +151,28 @@ export default class RhsRootPost extends React.PureComponent {
     }
 
     componentDidMount() {
-        document.addEventListener('keydown', this.handleAlt);
-        document.addEventListener('keyup', this.handleAlt);
+        if (this.postRef.current) {
+            this.postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+            this.postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+        }
     }
-
     componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleAlt);
-        document.removeEventListener('keyup', this.handleAlt);
+        if (this.state.show) {
+            this.removeKeyboardListeners();
+        }
+
+        if (this.postRef.current) {
+            this.postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+            this.postRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+        }
     }
 
     componentDidUpdate(prevProps) {
         const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;
+
+        if (this.state.a11yActive) {
+            this.postRef.current.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
+        }
 
         const shortcutReactToLastPostEmittedFromRHS = prevProps.shortcutReactToLastPostEmittedFrom !== shortcutReactToLastPostEmittedFrom &&
             shortcutReactToLastPostEmittedFrom === Locations.RHS_ROOT;
@@ -186,6 +208,14 @@ export default class RhsRootPost extends React.PureComponent {
         this.setState({showEmojiPicker});
     };
 
+    handleA11yActivateEvent = () => {
+        this.setState({a11yActive: true});
+    }
+
+    handleA11yDeactivateEvent = () => {
+        this.setState({a11yActive: false});
+    }
+
     getClassName = (post, isSystemMessage, isMeMessage) => {
         let className = 'post post--root post--thread';
         if (this.props.currentUserId === post.user_id) {
@@ -210,6 +240,34 @@ export default class RhsRootPost extends React.PureComponent {
 
         return className;
     };
+
+    setHover = (e) => {
+        this.setState({
+            hover: true,
+            alt: e.altKey,
+        });
+
+        this.addKeyboardListeners();
+    }
+
+    unsetHover = () => {
+        this.setState({
+            hover: false,
+            alt: false,
+        });
+
+        this.removeKeyboardListeners();
+    }
+
+    addKeyboardListeners = () => {
+        document.addEventListener('keydown', this.handleAlt);
+        document.addEventListener('keyup', this.handleAlt);
+    }
+
+    removeKeyboardListeners = () => {
+        document.removeEventListener('keydown', this.handleAlt);
+        document.removeEventListener('keyup', this.handleAlt);
+    }
 
     handleAlt = (e) => {
         if (this.state.alt !== e.altKey) {
@@ -254,7 +312,15 @@ export default class RhsRootPost extends React.PureComponent {
     };
 
     render() {
-        const {post, isReadOnly, teamId, channelIsArchived, collapsedThreadsEnabled, isBot} = this.props;
+        const {
+            channelIsArchived,
+            collapsedThreadsEnabled,
+            isBot,
+            isMobileView,
+            isReadOnly,
+            post,
+            teamId,
+        } = this.props;
 
         const isPostDeleted = post && post.state === Posts.POST_DELETED;
         const isEphemeral = Utils.isPostEphemeral(post);
@@ -381,7 +447,7 @@ export default class RhsRootPost extends React.PureComponent {
         );
 
         let postFlagIcon;
-        const showFlagIcon = !isEphemeral && !post.failed && !isSystemMessage && !Utils.isMobile();
+        const showFlagIcon = !isEphemeral && !post.failed && !isSystemMessage && !isMobileView;
         if (showFlagIcon) {
             postFlagIcon = (
                 <PostFlagIcon
@@ -393,7 +459,8 @@ export default class RhsRootPost extends React.PureComponent {
         }
 
         let dotMenuContainer;
-        if (!isPostDeleted && this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
+        if ((!isPostDeleted && this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) &&
+            (this.state.hover || this.state.dropdownOpened || this.state.showEmojiPicker || this.state.a11yActive)) {
             dotMenuContainer = (
                 <div
                     ref={this.dotMenuRef}
@@ -456,13 +523,16 @@ export default class RhsRootPost extends React.PureComponent {
 
         return (
             <PostAriaLabelDiv
+                ref={this.postRef}
                 role='listitem'
                 id={'rhsPost_' + post.id}
                 tabIndex='-1'
+                post={post}
                 className={`thread__root a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage)}`}
                 onClick={this.handlePostClick}
+                onMouseOver={this.setHover}
+                onMouseLeave={this.unsetHover}
                 data-a11y-sort-order='0'
-                post={post}
             >
                 <PostPreHeader
                     isFlagged={this.props.isFlagged}

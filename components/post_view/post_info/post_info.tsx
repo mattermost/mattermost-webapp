@@ -3,7 +3,6 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Tooltip} from 'react-bootstrap';
 
 import ActionsMenu from 'components/actions_menu';
 
@@ -20,6 +19,7 @@ import Constants, {EventTypes, TELEMETRY_CATEGORIES, TELEMETRY_LABELS, Locations
 import CommentIcon from 'components/post_view/comment_icon';
 import DotMenu from 'components/dot_menu';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostReaction from 'components/post_view/post_reaction';
 import PostRecentReactions from 'components/post_view/post_recent_reactions';
