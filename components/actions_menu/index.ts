@@ -17,6 +17,7 @@ import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {ModalData} from 'types/actions';
+import {getIsMobileView} from 'selectors/views/browser';
 import {AppBinding} from 'mattermost-redux/types/apps';
 import {Post} from 'mattermost-redux/types/posts';
 import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
@@ -64,6 +65,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         pluginMenuItems: state.plugins.components.PostDropdownMenu,
         teamId: getCurrentTeamId(state),
         userId,
+        isMobileView: getIsMobileView(state),
         ...ownProps,
     };
 }

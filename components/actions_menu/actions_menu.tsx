@@ -11,7 +11,7 @@ import {Tooltip} from 'react-bootstrap';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import {Post} from 'mattermost-redux/types/posts';
-import {AppBinding} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 
 import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
@@ -70,6 +70,8 @@ type Props = {
          * Function to post the ephemeral message for a call response
          */
         postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
+
+        openAppsModal: (form: AppForm, call: AppCallRequest) => void;
 
         /**
          * Function to get the post menu bindings for this post.
@@ -163,10 +165,12 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         this.props.actions.openModal(openMarketplaceData);
     };
 
-    onClickAppBinding = async (binding: AppBinding): Promise<void> => {
+    onClickAppBinding = async (binding: AppBinding) => {
         const {post, intl} = this.props;
 
-        if (!binding.call) {
+        const call = binding.form?.call || binding.call;
+
+        if (!call) {
             return;
         }
         const context = createCallContext(
@@ -177,15 +181,21 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
             this.props.post.id,
             this.props.post.root_id,
         );
-        const call = createCallRequest(
-            binding.call,
+        const callRequest = createCallRequest(
+            call,
             context,
             {
                 post: AppExpandLevels.ALL,
             },
         );
 
-        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, intl);
+        if (binding.form) {
+            this.props.actions.openAppsModal(binding.form, callRequest);
+            return;
+        }
+
+        const res = await this.props.actions.doAppCall(callRequest, AppCallTypes.SUBMIT, intl);
+
         if (res.error) {
             const errorResponse = res.error;
             const errorMessage = errorResponse.error || intl.formatMessage({
@@ -204,7 +214,11 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
             }
             break;
         case AppCallResponseTypes.NAVIGATE:
+            break;
         case AppCallResponseTypes.FORM:
+            if (callResp.form) {
+                this.props.actions.openAppsModal(callResp.form, callRequest);
+            }
             break;
         default: {
             const errorMessage = intl.formatMessage({
@@ -252,7 +266,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
     render(): React.ReactNode {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
 
-        // const isMobile = Utils.isMobile(); TODO
+        // const isMobile = this.props.isMobileView TODO;
 
         const pluginItems = this.props.pluginMenuItems?.
             filter((item) => {

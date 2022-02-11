@@ -395,8 +395,8 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     render(): JSX.Element {
+        const isMobile = this.props.isMobileView;
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
-        const isMobile = Utils.isMobile();
         const deleteShortcutText = (
             <span className='MenuItem__opacity'>
                 {'delete'}
