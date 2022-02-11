@@ -266,10 +266,10 @@ export default class EditChannelHeaderModal extends React.PureComponent<Props, S
                         <div className='post-create-footer'>
                             <TextboxLinks
                                 isMarkdownPreviewEnabled={this.props.markdownPreviewFeatureIsEnabled}
-                                characterLimit={1024}
                                 showPreview={this.props.shouldShowPreview}
                                 updatePreview={this.setShowPreview}
-                                message={this.state.header}
+                                hasText={this.state.header ? this.state.header.length > 0 : false}
+                                hasExceededCharacterLimit={this.state.header ? this.state.header.length > 1024 : false}
                                 previewMessageLink={localizeMessage('edit_channel_header.previewHeader', 'Edit Header')}
                             />
                         </div>
