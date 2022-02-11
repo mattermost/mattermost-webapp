@@ -81,7 +81,7 @@ const useMetricsData = () => {
         }),
         descriptionOk: formatMessage({
             id: 'admin.reporting.workspace_optimization.updates.descriptionOk',
-            defaultMessage: 'Your workspace is completely up to date!',
+            defaultMessage: 'Your workspace is using the latest version of Mattermost!',
         }),
         icon: (
             <div className='icon'>
