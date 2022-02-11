@@ -203,7 +203,7 @@ const useMetricsData = () => {
         }),
         descriptionOk: formatMessage({
             id: 'admin.reporting.workspace_optimization.access.descriptionOk',
-            defaultMessage: 'Access to your workspace seems available!',
+            defaultMessage: 'Your web server configuration is passing a live URL test!',
         }),
         icon: (
             <div className='icon'>
