@@ -1208,6 +1208,8 @@ export default class Client4 {
     };
 
     getTeamByName = (teamName: string) => {
+        this.trackEvent('api', 'api_teams_get_team_by_name');
+
         return this.doFetch<Team>(
             this.getTeamNameRoute(teamName),
             {method: 'get'},
@@ -3388,6 +3390,7 @@ export default class Client4 {
     };
 
     getGroupsNotAssociatedToTeam = (teamID: string, q = '', page = 0, perPage = PER_PAGE_DEFAULT) => {
+        this.trackEvent('api', 'api_groups_get_not_associated_to_team', {team_id: teamID});
         return this.doFetch<Group[]>(
             `${this.getGroupsRoute()}${buildQueryString({not_associated_to_team: teamID, page, per_page: perPage, q, include_member_count: true})}`,
             {method: 'get'},
@@ -3395,6 +3398,7 @@ export default class Client4 {
     };
 
     getGroupsNotAssociatedToChannel = (channelID: string, q = '', page = 0, perPage = PER_PAGE_DEFAULT, filterParentTeamPermitted = false) => {
+        this.trackEvent('api', 'api_groups_get_not_associated_to_channel', {channel_id: channelID});
         const query = {
             not_associated_to_channel: channelID,
             page,
@@ -3445,6 +3449,8 @@ export default class Client4 {
     }
 
     getGroupsAssociatedToTeam = (teamID: string, q = '', page = 0, perPage = PER_PAGE_DEFAULT, filterAllowReference = false) => {
+        this.trackEvent('api', 'api_groups_get_associated_to_team', {team_id: teamID});
+
         return this.doFetch<{
             groups: Group[];
             total_group_count: number;
@@ -3455,6 +3461,8 @@ export default class Client4 {
     };
 
     getGroupsAssociatedToChannel = (channelID: string, q = '', page = 0, perPage = PER_PAGE_DEFAULT, filterAllowReference = false) => {
+        this.trackEvent('api', 'api_groups_get_associated_to_channel', {channel_id: channelID});
+
         return this.doFetch<{
             groups: Group[];
             total_group_count: number;
