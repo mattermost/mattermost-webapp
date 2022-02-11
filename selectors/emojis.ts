@@ -27,6 +27,8 @@ export const getShortcutReactToLastPostEmittedFrom = (state: GlobalState) =>
 
 export const getRecentEmojis = createSelector(
     'getRecentEmojis',
+
+    // if getSimplifiedData is true then return array of emoji names instead of RecentEmojiData object
     (state: GlobalState, getSimplifiedData = true) => {
         const recentEmojis = get(
             state,
