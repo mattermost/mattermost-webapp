@@ -61,7 +61,7 @@ export function setUserSkinTone(skin) {
 export const MAXIMUM_RECENT_EMOJI = 27;
 
 export function addRecentEmoji(alias) {
-    return (_dispatch, getState) => {
+    return (dispatch, getState) => {
         const state = getState();
         const currentUserId = getCurrentUserId(state);
         const recentEmojis = getRecentEmojis(state);
@@ -97,7 +97,11 @@ export function addRecentEmoji(alias) {
             updatedRecentEmojis = [...recentEmojis, currentEmojiData].slice(-MAXIMUM_RECENT_EMOJI);
         }
 
-        _dispatch(savePreferences(currentUserId, [{category: Constants.Preferences.RECENT_EMOJIS, name: currentUserId, user_id: currentUserId, value: JSON.stringify(updatedRecentEmojis)}]));
+        updatedRecentEmojis.sort(
+            (emojiA, emojiB) => emojiA.usageCount - emojiB.usageCount,
+        );
+
+        dispatch(savePreferences(currentUserId, [{category: Constants.Preferences.RECENT_EMOJIS, name: currentUserId, user_id: currentUserId, value: JSON.stringify(updatedRecentEmojis)}]));
 
         return {data: true};
     };

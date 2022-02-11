@@ -25,15 +25,23 @@ export const getEmojiMap = createSelector(
 export const getShortcutReactToLastPostEmittedFrom = (state: GlobalState) =>
     state.views.emoji.shortcutReactToLastPostEmittedFrom;
 
-export function getRecentEmojis(state: GlobalState): RecentEmojiData[] {
-    const recentEmojis = get(
-        state,
-        Preferences.RECENT_EMOJIS,
-        getCurrentUserId(state),
-        '[]',
-    );
-    return JSON.parse(recentEmojis);
-}
+export const getRecentEmojis = createSelector(
+    'getRecentEmojis',
+    (state: GlobalState) => {
+        return get(
+            state,
+            Preferences.RECENT_EMOJIS,
+            getCurrentUserId(state),
+            '[]',
+        );
+    },
+    (recentEmojis) => {
+        if (!recentEmojis) {
+            return [];
+        }
+        return JSON.parse(recentEmojis);
+    },
+);
 
 export function getUserSkinTone(state: GlobalState) {
     return get(
@@ -53,16 +61,12 @@ export const getOneClickReactionEmojis = createSelector(
     'getOneClickReactionEmojis',
     getEmojiMap,
     getRecentEmojis,
-    (emojiMap, recentEmojis) => {
+    (emojiMap, recentEmojis: RecentEmojiData[]) => {
         if (recentEmojis.length === 0) {
             return [];
         }
 
-        const sortedRecentEmojis = recentEmojis.sort(
-            (emojiA, emojiB) => emojiA.usageCount - emojiB.usageCount,
-        );
-
-        return sortedRecentEmojis.
+        return recentEmojis.
             map((recentEmoji) => emojiMap.get(recentEmoji.name)).
             filter(Boolean).
             slice(-3).
