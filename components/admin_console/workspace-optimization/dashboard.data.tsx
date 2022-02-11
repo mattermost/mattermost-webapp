@@ -354,7 +354,7 @@ const useMetricsData = () => {
         }),
         descriptionOk: formatMessage({
             id: 'admin.reporting.workspace_optimization.ease_of_management.descriptionOk',
-            defaultMessage: 'For your current usage scale, manually managing users and guests seems apropriate!',
+            defaultMessage: 'Based on current usage, manually managing users and guests manually is a good choice!',
         }),
         icon: (
             <div className='icon'>
