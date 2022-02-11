@@ -10,8 +10,7 @@ import TutorialTip from 'components/tutorial/tutorial_tip';
 
 export default class ActionsTutorialTip extends React.PureComponent {
     render = (): JSX.Element => {
-        const screens = [];
-        screens.push(
+        const screen = (
             <div>
                 <h4>
                     <FormattedMessage
@@ -25,13 +24,13 @@ export default class ActionsTutorialTip extends React.PureComponent {
                         defaultMessage='Message actions that are provided\nthrough apps, integrations or plugins\nhave moved to this menu item.'
                     />
                 </p>
-            </div>,
+            </div>
         );
 
         return (
             <TutorialTip
                 placement='top'
-                screens={screens}
+                screen={screen}
                 overlayClass='tip-overlay--actions'
             />
         );

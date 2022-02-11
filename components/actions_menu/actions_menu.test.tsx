@@ -36,6 +36,7 @@ describe('components/actions_menu/ActionsMenu', () => {
         actions: {
             doAppCall: jest.fn(),
             openModal: jest.fn(),
+            openAppsModal: jest.fn(),
             postEphemeralCallResponseForPost: jest.fn(),
             fetchBindings: jest.fn(),
         },

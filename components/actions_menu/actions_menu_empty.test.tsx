@@ -30,6 +30,7 @@ describe('components/actions_menu/ActionsMenu returning empty ("")', () => {
             teamId: 'team_id_1',
             actions: {
                 openModal: jest.fn(),
+                openAppsModal: jest.fn(),
                 doAppCall: jest.fn(),
                 postEphemeralCallResponseForPost: jest.fn(),
                 fetchBindings: jest.fn(),
