@@ -138,7 +138,7 @@ const useMetricsData = () => {
         }),
         descriptionOk: formatMessage({
             id: 'admin.reporting.workspace_optimization.configuration.descriptionOk',
-            defaultMessage: 'You've successfully configured SSL and Session Lengths!',
+            defaultMessage: "You've successfully configured SSL and Session Lengths!",
         }),
         icon: (
             <div className='icon'>
@@ -301,7 +301,7 @@ const useMetricsData = () => {
         }),
         descriptionOk: formatMessage({
             id: 'admin.reporting.workspace_optimization.data_privacy.descriptionOk',
-            defaultMessage: 'You've enabled data retention and compliance features!',
+            defaultMessage: "You've enabled data retention and compliance features!",
         }),
         icon: (
             <div className='icon'>
