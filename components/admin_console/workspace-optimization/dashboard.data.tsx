@@ -138,7 +138,7 @@ const useMetricsData = () => {
         }),
         descriptionOk: formatMessage({
             id: 'admin.reporting.workspace_optimization.configuration.descriptionOk',
-            defaultMessage: 'You seem to have good configuration for SSL and Session Lengths!',
+            defaultMessage: 'You've successfully configured SSL and Session Lengths!',
         }),
         icon: (
             <div className='icon'>
