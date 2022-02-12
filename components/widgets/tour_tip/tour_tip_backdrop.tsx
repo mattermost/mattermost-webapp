@@ -4,8 +4,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 export type Coords = {
-    x: string;
-    y: string;
+    x?: string;
+    y?: string;
 }
 export type TourTipOverlayPunchOut = Coords & {
     width: string;

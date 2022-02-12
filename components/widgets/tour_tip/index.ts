@@ -7,3 +7,8 @@ export {
 export {
     useMeasurePunchouts,
 } from './hooks';
+
+export {
+    Coords,
+    TourTipOverlayPunchOut,
+} from './tour_tip_backdrop';

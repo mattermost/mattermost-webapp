@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {getCurrentUserId, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
+import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 
 import {Channel} from 'mattermost-redux/types/channels';
@@ -17,8 +17,12 @@ import {clearChannelSelection, multiSelectChannelAdd, multiSelectChannelTo} from
 import {getFirstChannelName} from 'selectors/onboarding';
 import {isChannelSelected} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
-import {OnBoardingTourSteps, TutorialTourCategories} from 'components/tutorial_tour_tip/constant';
-import {OnBoardingTaskCategory, OnBoardingTaskName, TaskNameMapToSteps} from 'components/onboarding_tasks';
+import {
+    GenericTaskSteps,
+    OnBoardingTaskCategory,
+    OnBoardingTaskName,
+} from 'components/onboarding_tasks';
+import {ChannelsTour, OnBoardingTourSteps, TutorialTourName} from 'components/onboarding_tour';
 
 import SidebarChannelLink from './sidebar_channel_link';
 
@@ -35,10 +39,9 @@ function makeMapStateToProps() {
         const firstChannelName = getFirstChannelName(state);
         const config = getConfig(state);
         const enableTutorial = config.EnableTutorial === 'true';
-        const currentUserId = getCurrentUserId(state);
-        const tutorialStep = getInt(state, TutorialTourCategories.ON_BOARDING, currentUserId, 0);
+        const tutorialStep = getInt(state, ChannelsTour, TutorialTourName.ON_BOARDING_STEP, 0);
         const triggerStep = getInt(state, OnBoardingTaskCategory, OnBoardingTaskName.CHANNELS_TOUR, 0);
-        const channelTourTriggered = triggerStep === TaskNameMapToSteps[OnBoardingTaskName.CHANNELS_TOUR].STARTED;
+        const channelTourTriggered = triggerStep === GenericTaskSteps.STARTED;
         const showChannelsTutorialStep = enableTutorial && channelTourTriggered && tutorialStep === OnBoardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES;
 
         return {

@@ -32,7 +32,7 @@ export const InvitePeopleTour = () => {
     const overlayPunchOut = useMeasurePunchouts([], []) || null;
 
     const onDismiss = useCallback(() => {
-        handleTask(taskName, steps.start, true, 'dismiss');
+        handleTask(taskName, steps.START, true, 'dismiss');
     }, [handleTask]);
 
     return (

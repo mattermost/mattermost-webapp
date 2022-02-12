@@ -138,7 +138,7 @@ const TourTip = ({
             )}
             {(nextBtn || prevBtn || showOptOut) && (<div className='tour-tip__footer'>
                 <div className='tour-tip__footer-buttons'>
-                    <div className='tour-tip__circles-ctr'>{dots}</div>
+                    <div className='tour-tip__dot-ctr'>{dots}</div>
                     <div className={'tour-tip__btn-ctr'}>
                         {step !== 0 && prevBtn && (
                             <button

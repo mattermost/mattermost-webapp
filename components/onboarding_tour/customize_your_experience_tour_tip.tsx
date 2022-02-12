@@ -4,23 +4,12 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {useDispatch, useSelector} from 'react-redux';
-
-import TutorialTourTip from 'components/tutorial_tour_tip/tutorial_tour_tip';
-import {
-    OnBoardingTourSteps,
-    TutorialTourCategories,
-} from 'components/tutorial_tour_tip/constant';
-import {setOnBoardingTaskList} from '../../actions/views/onboarding_task_list';
-import {isFirstAdmin} from '../next_steps_view/steps';
-import {useMeasurePunchouts} from '../tutorial_tour_tip/hooks';
 import CustomImg from 'images/Customize-Your-Experience.gif';
+import {useMeasurePunchouts} from 'components/widgets/tour_tip';
 
-const CustomizeYourExperienceTour = () => {
-    const dispatch = useDispatch();
-    const isUserFirstAdmin = useSelector(isFirstAdmin);
-    const telemetryTagText = `tutorial_tip_${OnBoardingTourSteps.SEND_MESSAGE}_Send_Message`;
+import OnBoardingTourTip from './onboarding_tour_tip';
 
+export const CustomizeYourExperienceTour = () => {
     const title = (
         <FormattedMessage
             id='onBoardingTour.customizeYourExperience.title'
@@ -36,33 +25,20 @@ const CustomizeYourExperienceTour = () => {
         </p>
     );
 
-    const punchOut = useMeasurePunchouts(['RightControlsContainer'], [], {y: 6, height: -6, x: 64, width: 0}) || null;
-
-    const openOnBoardingTaskList = () => {
-        if (isUserFirstAdmin) {
-            dispatch(setOnBoardingTaskList(true));
-        }
-    };
+    const overlayPunchOut = useMeasurePunchouts(['RightControlsContainer'], [], {y: 6, height: -6, x: 64, width: 0}) || null;
 
     return (
-        <TutorialTourTip
+        <OnBoardingTourTip
             title={title}
             screen={screen}
             imageURL={CustomImg}
-            tutorialCategory={TutorialTourCategories.ON_BOARDING}
-            step={OnBoardingTourSteps.CUSTOMIZE_EXPERIENCE}
             placement='bottom-end'
             pulsatingDotPlacement='bottom'
             pulsatingDotTranslate={{x: 20, y: -6}}
             offset={[18, 4]}
-            telemetryTag={telemetryTagText}
             width={352}
-            autoTour={true}
-            punchOut={punchOut}
-            onDismiss={openOnBoardingTaskList}
-            extraFunc={openOnBoardingTaskList}
+            overlayPunchOut={overlayPunchOut}
         />
     );
 };
 
-export default CustomizeYourExperienceTour;

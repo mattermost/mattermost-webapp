@@ -5,10 +5,13 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Pluggable from 'plugins/pluggable';
-import CustomizeYourExperienceTour from 'components/onboarding_tour/customize_your_experience_tour_tip';
-import StatusDropdown from '../../status_dropdown';
-import {OnBoardingTourSteps, TutorialTourCategories} from 'components/tutorial_tour_tip/constant';
-import {useShowTutorialStep} from '../hooks';
+import {
+    ChannelsTour,
+    CustomizeYourExperienceTour,
+    OnBoardingTourSteps, TutorialTourName,
+    useShowTutorialStep,
+} from 'components/onboarding_tour';
+import StatusDropdown from 'components/status_dropdown';
 
 import AtMentionsButton from './at_mentions_button/at_mentions_button';
 import SavedPostsButton from './saved_posts_button/saved_posts_button';
@@ -31,7 +34,7 @@ export type Props = {
 }
 
 const RightControls = ({productId = null}: Props): JSX.Element => {
-    const showCustomizeTip = useShowTutorialStep(OnBoardingTourSteps.CUSTOMIZE_EXPERIENCE, TutorialTourCategories.ON_BOARDING);
+    const showCustomizeTip = useShowTutorialStep(ChannelsTour, TutorialTourName.ON_BOARDING_STEP, OnBoardingTourSteps.CUSTOMIZE_EXPERIENCE);
 
     return (
         <RightControlsContainer

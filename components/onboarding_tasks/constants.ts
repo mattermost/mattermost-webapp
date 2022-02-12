@@ -17,7 +17,7 @@ export const OnBoardingTaskName = {
 };
 
 export const GenericTaskSteps = {
-    start: 0,
+    START: 0,
     STARTED: 1,
     FINISHED,
 };

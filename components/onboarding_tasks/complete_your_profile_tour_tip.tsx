@@ -33,7 +33,7 @@ export const CompleteYourProfileTour = () => {
     const onDismiss = (e: React.MouseEvent) => {
         e.stopPropagation();
         e.preventDefault();
-        handleTask(taskName, steps.start, true, 'dismiss');
+        handleTask(taskName, steps.START, true, 'dismiss');
     };
 
     return (

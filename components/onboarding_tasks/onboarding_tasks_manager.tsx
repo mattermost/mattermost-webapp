@@ -14,7 +14,7 @@ import {browserHistory} from 'utils/browser_history';
 import {openModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
 import InvitationModal from 'components/invitation_modal';
-import {TTCategoriesMapToAutoTourStatusKey, TutorialTourCategories} from '../tutorial_tour_tip/constant';
+import {AutoTourStatus, ChannelsTour, OnBoardingTourSteps, TutorialTourName} from 'components/onboarding_tour';
 
 import {OnBoardingTaskCategory, OnBoardingTaskName, TaskNameMapToSteps} from './constants';
 import {generateTelemetryTag} from './utils';
@@ -44,7 +44,7 @@ export const useHandleOnBoardingTaskData = () => {
 
     // Function to save the tutorial step in redux store end here
 
-    const handleTask = useCallback((
+    return useCallback((
         taskName: string,
         step: number,
         trackEvent = true,
@@ -58,7 +58,6 @@ export const useHandleOnBoardingTaskData = () => {
             trackUserEvent(taskName, telemetryTag);
         }
     }, [savePreferences, trackUserEvent]);
-    return handleTask;
 };
 
 export const useHandleOnBoardingTaskTrigger = () => {
@@ -68,22 +67,22 @@ export const useHandleOnBoardingTaskTrigger = () => {
 
     // const products = useSelector((state: GlobalState) => state.plugins.components.Product);
 
-    const trigger = (taskName: string) => {
+    return (taskName: string) => {
         switch (taskName) {
         case OnBoardingTaskName.CHANNELS_TOUR: {
             handleSaveData(taskName, TaskNameMapToSteps[taskName].STARTED, true);
             const preferences = [
                 {
                     user_id: currentUserId,
-                    category: TutorialTourCategories.ON_BOARDING,
-                    name: currentUserId,
-                    value: '0',
+                    category: ChannelsTour,
+                    name: TutorialTourName.ON_BOARDING_STEP,
+                    value: OnBoardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES.toString(),
                 },
                 {
                     user_id: currentUserId,
-                    category: TTCategoriesMapToAutoTourStatusKey[TutorialTourCategories.ON_BOARDING],
-                    name: currentUserId,
-                    value: '0',
+                    category: ChannelsTour,
+                    name: TutorialTourName.AutoTourStatus,
+                    value: AutoTourStatus.ENABLED.toString(),
                 },
             ];
             dispatch(storeSavePreferences(currentUserId, preferences));
@@ -124,6 +123,5 @@ export const useHandleOnBoardingTaskTrigger = () => {
         default:
         }
     };
-    return trigger;
 };
 

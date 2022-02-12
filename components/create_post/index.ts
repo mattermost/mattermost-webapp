@@ -56,10 +56,10 @@ import {getCurrentLocale} from 'selectors/i18n';
 import {getEmojiMap, getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {openModal} from 'actions/views/modals';
-import {OnBoardingTourSteps, TutorialTourCategories} from 'components/tutorial_tour_tip/constant';
 import {Constants, Preferences, StoragePrefixes, UserStatuses} from 'utils/constants';
 import {canUploadFiles} from 'utils/file_utils';
 import {isFeatureEnabled} from 'utils/utils';
+import {ChannelsTour, OnBoardingTourSteps, TutorialTourName} from 'components/onboarding_tour';
 
 import CreatePost from './create_post';
 
@@ -90,7 +90,7 @@ function makeMapStateToProps() {
         const currentTeamId = getCurrentTeamId(state);
         const groupsWithAllowReference = useGroupMentions ? getAssociatedGroupsForReferenceByMention(state, currentTeamId, currentChannel.id) : null;
         const enableTutorial = config.EnableTutorial === 'true';
-        const tutorialStep = getInt(state, TutorialTourCategories.ON_BOARDING, currentUserId, 0);
+        const tutorialStep = getInt(state, ChannelsTour, TutorialTourName.ON_BOARDING_STEP, 0);
         const showSendTutorialTip = enableTutorial && tutorialStep === OnBoardingTourSteps.SEND_MESSAGE;
 
         return {

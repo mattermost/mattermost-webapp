@@ -56,7 +56,7 @@ import {ModalData} from 'types/actions';
 import {FileInfo} from 'mattermost-redux/types/files';
 import {Emoji} from 'mattermost-redux/types/emojis';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
-import SendMessageTour from 'components/onboarding_tour/send_message_tour_tip';
+import {SendMessageTour} from 'components/onboarding_tour';
 const KeyCodes = Constants.KeyCodes;
 
 const CreatePostDraftTimeoutMilliseconds = 500;

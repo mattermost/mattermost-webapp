@@ -2,101 +2,137 @@
 // See LICENSE.txt for license information.
 
 import React, {useCallback, useEffect, useState} from 'react';
-
 import {useDispatch, useSelector} from 'react-redux';
 
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
-
 import {savePreferences as storeSavePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
+import {setAddChannelDropdown} from 'actions/views/add_channel_dropdown';
+import {setOnBoardingTaskList} from 'actions/views/onboarding_task_list';
+import {open as openLhs} from 'actions/views/lhs.js';
+import {isFirstAdmin} from 'components/next_steps_view/steps';
 
 import {
-    AutoTourStatus,
-    FINISHED,
-    SKIPPED,
-    TTCategoriesMapToAutoTourStatusKey,
-    TTCategoriesMapToSteps, TutorialTourCategories,
+    AutoTourStatus, ChannelsTour,
+    FINISHED, OnBoardingTourSteps,
+    SKIPPED, TutorialTourName,
 } from './constant';
-import {DataEventSource} from './onboarding_tour_tip';
-import {getLastStep} from './utils';
+import {getLastStep, isKeyPressed, KeyCodes} from './utils';
 
-import * as Utils from './utils';
+export type ActionType = 'next' | 'prev' | 'dismiss' | 'jump' | 'skipped'
 
-export interface TutorialTourTipManager {
+export interface OnBoardingTourTipManager {
     show: boolean;
+    currentStep: number;
     tourSteps: Record<string, number>;
     handleOpen: (e: React.MouseEvent) => void;
     handleSkip: (e: React.MouseEvent) => void;
     handleDismiss: (e: React.MouseEvent) => void;
-    handleSavePreferences: (step: number) => void;
     handlePrevious: (e: React.MouseEvent) => void;
-    handlePunchOut: (e: React.MouseEvent) => void;
-    handleNext: (e?: React.MouseEvent) => void;
+    handleNext: (e: React.MouseEvent) => void;
+    handleJump: (e: React.MouseEvent, jumpStep: number) => void;
 }
 
-type Props = {
-    onNextNavigateTo?: () => void;
-    onPrevNavigateTo?: () => void;
-    onPunchOutClick?: () => void;
-    extraFunc?: (source?: DataEventSource, step?: string,) => void;
-    onDismiss?: () => void;
-    eventPropagation?: boolean;
-    preventDefault?: boolean;
-}
+const useHandleNavigationAndExtraActions = () => {
+    const dispatch = useDispatch();
+    const isUserFirstAdmin = useSelector(isFirstAdmin);
+    const nextStepActions = useCallback((step: number) => {
+        switch (step) {
+        case OnBoardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES : {
+            dispatch(openLhs());
+            break;
+        }
+        case OnBoardingTourSteps.CREATE_AND_JOIN_CHANNELS : {
+            dispatch(setAddChannelDropdown(true));
+            break;
+        }
+        case OnBoardingTourSteps.INVITE_PEOPLE : {
+            dispatch(setAddChannelDropdown(true));
+            break;
+        }
+        case OnBoardingTourSteps.SEND_MESSAGE : {
+            break;
+        }
+        case OnBoardingTourSteps.CUSTOMIZE_EXPERIENCE : {
+            break;
+        }
+        case OnBoardingTourSteps.FINISHED: {
+            if (isUserFirstAdmin) {
+                dispatch(setOnBoardingTaskList(true));
+            }
+            break;
+        }
+        default:
+        }
+    }, []);
+    const lastStepActions = useCallback((lastStep: number) => {
+        switch (lastStep) {
+        case OnBoardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES : {
+            break;
+        }
+        case OnBoardingTourSteps.CREATE_AND_JOIN_CHANNELS : {
+            dispatch(setAddChannelDropdown(false));
+            break;
+        }
+        case OnBoardingTourSteps.INVITE_PEOPLE : {
+            dispatch(setAddChannelDropdown(false));
+            break;
+        }
+        case OnBoardingTourSteps.SEND_MESSAGE : {
+            break;
+        }
+        case OnBoardingTourSteps.CUSTOMIZE_EXPERIENCE : {
+            break;
+        }
+        default:
+        }
+    }, []);
 
-const useOnBoardingTourTipManager = ({
-    onNextNavigateTo,
-    onPrevNavigateTo,
-    onPunchOutClick,
-    onDismiss,
-    eventPropagation,
-    preventDefault = true,
-}: Props): TutorialTourTipManager => {
+    return useCallback((step: number, lastStep: number) => {
+        lastStepActions(lastStep);
+        nextStepActions(step);
+    }, [nextStepActions, lastStepActions]);
+};
+
+const useOnBoardingTourTipManager = (): OnBoardingTourTipManager => {
     const [show, setShow] = useState(false);
-    const tutorialCategory = TutorialTourCategories.ON_BOARDING;
-    const tourSteps = TTCategoriesMapToSteps[tutorialCategory];
+    const tourSteps = OnBoardingTourSteps;
 
     // Function to save the tutorial step in redux store start here which needs to be modified
     const dispatch = useDispatch();
     const currentUserId = useSelector(getCurrentUserId);
-    const currentStep = useSelector((state: GlobalState) => getInt(state, tutorialCategory, currentUserId, 0));
-    const autoTourStatus = useSelector((state: GlobalState) => getInt(state, TTCategoriesMapToAutoTourStatusKey[tutorialCategory], currentUserId, 0));
+    const tourName = TutorialTourName.ON_BOARDING_STEP;
+    const currentStep = useSelector((state: GlobalState) => getInt(state, ChannelsTour, tourName, 0));
+    const autoTourStatus = useSelector((state: GlobalState) => getInt(state, ChannelsTour, TutorialTourName.AutoTourStatus, 0));
     const isAutoTourEnabled = autoTourStatus === AutoTourStatus.ENABLED;
+    const handleActions = useHandleNavigationAndExtraActions();
     const handleSaveData = useCallback(
-        (stepValue: number, source?: DataEventSource, autoTour?: boolean) => {
-            let preferences = [
+        (stepValue: number, eventSource: ActionType, autoTour = true) => {
+            const preferences = [
                 {
                     user_id: currentUserId,
-                    category: tutorialCategory,
-                    name: currentUserId,
+                    category: ChannelsTour,
+                    name: tourName,
                     value: stepValue.toString(),
                 },
+                {
+                    user_id: currentUserId,
+                    category: ChannelsTour,
+                    name: TutorialTourName.AutoTourStatus,
+                    value: (autoTour ? AutoTourStatus.ENABLED : AutoTourStatus.DISABLED).toString(),
+                },
             ];
-            if (TTCategoriesMapToAutoTourStatusKey[tutorialCategory]) {
-                preferences = [...preferences,
-                    {
-                        user_id: currentUserId,
-                        category: TTCategoriesMapToAutoTourStatusKey[tutorialCategory],
-                        name: currentUserId,
-                        value: (autoTour ? AutoTourStatus.ENABLED : AutoTourStatus.DISABLED).toString(),
-                    },
-                ];
-            }
             dispatch(storeSavePreferences(currentUserId, preferences));
         },
-        [tutorialCategory, currentUserId],
+        [currentUserId],
     );
 
     // Function to save the tutorial step in redux store end here
 
     const handleEventPropagationAndDefault = (e: React.MouseEvent | KeyboardEvent) => {
-        if (!eventPropagation) {
-            e.stopPropagation();
-        }
-        if (preventDefault) {
-            e.preventDefault();
-        }
+        e.stopPropagation();
+        e.preventDefault();
     };
 
     useEffect(() => {
@@ -112,38 +148,31 @@ const useOnBoardingTourTipManager = ({
     const handleOpen = useCallback((e: React.MouseEvent): void => {
         handleEventPropagationAndDefault(e);
         setShow(true);
-    }, []);
+    }, [isAutoTourEnabled]);
 
     const handleSavePreferences = useCallback((nextStep: boolean | number): void => {
         let stepValue = currentStep;
-        let source: DataEventSource;
+        let type: ActionType;
         if (nextStep === true) {
             stepValue += 1;
-            source = 'next';
+            type = 'next';
         } else if (nextStep === false) {
             stepValue -= 1;
-            source = 'prev';
+            type = 'prev';
         } else {
             stepValue = nextStep;
-            source = 'jump';
+            type = 'jump';
         }
         handleHide();
-        handleSaveData(stepValue, source);
-        if (onNextNavigateTo && nextStep === true) {
-            onNextNavigateTo();
-        } else if (onPrevNavigateTo && nextStep === false) {
-            onPrevNavigateTo();
-        }
-    }, [currentStep, onNextNavigateTo, onPrevNavigateTo, handleSaveData]);
+        handleSaveData(stepValue, type);
+        handleActions(stepValue, currentStep);
+    }, [currentStep, handleHide, handleSaveData, handleActions]);
 
     const handleDismiss = useCallback((e: React.MouseEvent): void => {
         handleEventPropagationAndDefault(e);
         handleHide();
-        if (onDismiss) {
-            onDismiss();
-        }
         handleSaveData(currentStep, 'dismiss', false);
-    }, [handleSaveData, onDismiss]);
+    }, [handleSaveData, handleHide]);
 
     const handlePrevious = useCallback((e: React.MouseEvent): void => {
         handleEventPropagationAndDefault(e);
@@ -161,21 +190,22 @@ const useOnBoardingTourTipManager = ({
         }
     }, [handleSavePreferences]);
 
-    const handleSkip = useCallback((e: React.MouseEvent): void => {
-        handleEventPropagationAndDefault(e);
-        handleSaveData(SKIPPED, 'skipped');
+    const handleJump = useCallback((e: React.MouseEvent, jumpStep: number): void => {
+        if (e) {
+            handleEventPropagationAndDefault(e);
+        }
+        handleSavePreferences(jumpStep);
     }, [handleSavePreferences]);
 
-    const handlePunchOut = useCallback((e: React.MouseEvent): void => {
+    const handleSkip = useCallback((e: React.MouseEvent): void => {
         handleEventPropagationAndDefault(e);
-        if (onPunchOutClick) {
-            onPunchOutClick();
-        }
-    }, [onPunchOutClick]);
+        handleHide();
+        handleSaveData(SKIPPED, 'skipped', false);
+    }, [handleSaveData, handleHide]);
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent): void => {
-            if (Utils.isKeyPressed(e, Utils.KeyCodes.ENTER)) {
+            if (isKeyPressed(e, KeyCodes.ENTER)) {
                 handleNext();
             }
         };
@@ -186,14 +216,14 @@ const useOnBoardingTourTipManager = ({
 
     return {
         show,
+        currentStep,
         tourSteps,
         handleOpen,
         handleDismiss,
         handleNext,
+        handleJump,
         handlePrevious,
-        handlePunchOut,
         handleSkip,
-        handleSavePreferences,
     };
 };
 

@@ -19,7 +19,7 @@ import Constants from 'utils/constants';
 import {wrapEmojis} from 'utils/emoji_utils';
 import {isDesktopApp} from 'utils/user_agent';
 import {cmdOrCtrlPressed, localizeMessage} from 'utils/utils';
-import ChannelsAndDirectMessagesTour from 'components/onboarding_tour/channels_and_direct_messages_tour_tip';
+import {ChannelsAndDirectMessagesTour} from 'components/onboarding_tour';
 
 import ChannelMentionBadge from '../channel_mention_badge';
 import SidebarChannelIcon from '../sidebar_channel_icon';

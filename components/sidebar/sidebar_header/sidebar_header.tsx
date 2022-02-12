@@ -17,9 +17,8 @@ import Tooltip from 'components/tooltip';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import MainMenu from 'components/main_menu';
 import AddChannelDropdown from 'components/sidebar/add_channel_dropdown';
-import {OnBoardingTourSteps, TutorialTourCategories} from 'components/tutorial_tour_tip/constant';
-import {useShowTutorialStep} from 'components/tutorial_tour_tip/hooks';
 import {isAddChannelDropdownOpen} from 'selectors/views/add_channel_dropdown';
+import {ChannelsTour, OnBoardingTourSteps, TutorialTourName, useShowTutorialStep} from 'components/onboarding_tour';
 
 type SidebarHeaderContainerProps = {
     id?: string;
@@ -96,8 +95,8 @@ export type Props = {
 
 const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
     const currentTeam = useSelector((state: GlobalState) => getCurrentTeam(state));
-    const showCreateTutorialTip = useShowTutorialStep(OnBoardingTourSteps.CREATE_AND_JOIN_CHANNELS, TutorialTourCategories.ON_BOARDING);
-    const showInviteTutorialTip = useShowTutorialStep(OnBoardingTourSteps.INVITE_PEOPLE, TutorialTourCategories.ON_BOARDING);
+    const showCreateTutorialTip = useShowTutorialStep(ChannelsTour, TutorialTourName.ON_BOARDING_STEP, OnBoardingTourSteps.CREATE_AND_JOIN_CHANNELS);
+    const showInviteTutorialTip = useShowTutorialStep(ChannelsTour, TutorialTourName.ON_BOARDING_STEP, OnBoardingTourSteps.INVITE_PEOPLE);
     const isAddChannelOpen = useSelector(isAddChannelDropdownOpen);
 
     const [menuToggled, setMenuToggled] = useState(false);

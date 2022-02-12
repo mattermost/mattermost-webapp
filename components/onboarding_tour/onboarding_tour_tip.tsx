@@ -7,22 +7,17 @@ import {FormattedMessage} from 'react-intl';
 import {Placement} from 'tippy.js';
 
 import TourTip from 'components/widgets/tour_tip/tour_tip';
-
-import {OnBoardingTourSteps} from '../tutorial_tour_tip/constant';
-import {TourTipOverlayPunchOut} from '../widgets/tour_tip/tour_tip_backdrop';
+import {TourTipOverlayPunchOut} from 'components/widgets/tour_tip/tour_tip_backdrop';
 
 import useBoardingTourTipManager from './onboarding_tour_manager';
 
 import {getLastStep} from './utils';
-
-export type DataEventSource = 'next' | 'prev' | 'dismiss' | 'jump' | 'skipped'
 
 type Props = {
     screen: JSX.Element;
     title: JSX.Element;
     imageURL?: string;
     overlayPunchOut: TourTipOverlayPunchOut | null;
-    step: number;
     singleTip?: boolean;
     placement?: Placement;
     pulsatingDotPlacement?: Omit<Placement, 'auto'| 'auto-end'>;
@@ -37,7 +32,6 @@ const OnBoardingTourTip = ({
     imageURL,
     overlayPunchOut,
     singleTip,
-    step,
     pulsatingDotTranslate,
     pulsatingDotPlacement,
     offset = [-18, 4],
@@ -74,7 +68,7 @@ const OnBoardingTourTip = ({
         }
 
         const lastStep = getLastStep(tourSteps);
-        if (step === lastStep) {
+        if (currentStep === lastStep) {
             buttonText = (
                 <FormattedMessage
                     id={'tutorial_tip.done'}
@@ -87,14 +81,15 @@ const OnBoardingTourTip = ({
 
     const {
         show,
+        currentStep,
         tourSteps,
         handleOpen,
         handleDismiss,
         handleNext,
         handlePrevious,
-        handlePunchOut,
         handleSkip,
-    } = useBoardingTourTipManager({});
+        handleJump,
+    } = useBoardingTourTipManager();
 
     return (
         <TourTip
@@ -106,7 +101,7 @@ const OnBoardingTourTip = ({
             overlayPunchOut={overlayPunchOut}
             nextBtn={nextBtn()}
             prevBtn={prevBtn}
-            step={OnBoardingTourSteps.SEND_MESSAGE}
+            step={currentStep}
             placement={placement}
             pulsatingDotPlacement={pulsatingDotPlacement}
             pulsatingDotTranslate={pulsatingDotTranslate}
@@ -116,8 +111,8 @@ const OnBoardingTourTip = ({
             handleDismiss={handleDismiss}
             handleNext={handleNext}
             handlePrevious={handlePrevious}
-            handlePunchOut={handlePunchOut}
             handleSkip={handleSkip}
+            handleJump={handleJump}
         />
     );
 };

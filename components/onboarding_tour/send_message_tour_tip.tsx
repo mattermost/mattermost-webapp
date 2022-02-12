@@ -3,19 +3,12 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {useDispatch, useSelector} from 'react-redux';
 
 import {Channel} from 'mattermost-redux/types/channels';
-import {setAddChannelDropdown} from 'actions/views/add_channel_dropdown';
-import TutorialTourTip from 'components/tutorial_tour_tip/tutorial_tour_tip';
-import {
-    OnBoardingTourSteps,
-    TutorialTourCategories,
-} from 'components/tutorial_tour_tip/constant';
-import {setOnBoardingTaskList} from '../../actions/views/onboarding_task_list';
-import PrewrittenChips from '../create_post/prewritten_chips';
-import {isFirstAdmin} from '../next_steps_view/steps';
-import {useMeasurePunchouts} from '../tutorial_tour_tip/hooks';
+import PrewrittenChips from 'components/create_post/prewritten_chips';
+import {useMeasurePunchouts} from 'components/widgets/tour_tip';
+
+import OnBoardingTourTip from './onboarding_tour_tip';
 
 type Props = {
     prefillMessage: (msg: string, shouldFocus: boolean) => void;
@@ -24,14 +17,12 @@ type Props = {
     currentChannelTeammateUsername?: string;
 }
 
-const SendMessageTour = ({
+export const SendMessageTour = ({
     prefillMessage,
     currentChannel,
     currentUserId,
     currentChannelTeammateUsername,
 }: Props) => {
-    const dispatch = useDispatch();
-    const isUserFirstAdmin = useSelector(isFirstAdmin);
     const chips = (
         <PrewrittenChips
             prefillMessage={prefillMessage}
@@ -40,7 +31,6 @@ const SendMessageTour = ({
             currentChannelTeammateUsername={currentChannelTeammateUsername}
         />
     );
-    const telemetryTagText = `tutorial_tip_${OnBoardingTourSteps.SEND_MESSAGE}_Send_Message`;
 
     const title = (
         <FormattedMessage
@@ -49,9 +39,6 @@ const SendMessageTour = ({
         />
     );
 
-    const onPrevNavigateTo = () => {
-        dispatch(setAddChannelDropdown(true));
-    };
     const screen = (
         <>
             <p>
@@ -65,33 +52,18 @@ const SendMessageTour = ({
             </div>
         </>
     );
-
-    const onDismiss = () => {
-        if (isUserFirstAdmin) {
-            dispatch(setOnBoardingTaskList(true));
-        }
-    };
-
-    const punchOut = useMeasurePunchouts(['post-create'], [], {y: -11, height: 11, x: 0, width: 0}) || null;
+    const overlayPunchOut = useMeasurePunchouts(['post-create'], [], {y: -11, height: 11, x: 0, width: 0}) || null;
 
     return (
-        <TutorialTourTip
+        <OnBoardingTourTip
             title={title}
             screen={screen}
-            tutorialCategory={TutorialTourCategories.ON_BOARDING}
-            step={OnBoardingTourSteps.SEND_MESSAGE}
             placement='top-start'
             pulsatingDotPlacement='top-start'
             pulsatingDotTranslate={{x: -6, y: -6}}
-            telemetryTag={telemetryTagText}
             width={400}
-            autoTour={true}
-            punchOut={punchOut}
-            onPrevNavigateTo={onPrevNavigateTo}
-            onDismiss={onDismiss}
+            overlayPunchOut={overlayPunchOut}
         />
     );
 };
-
-export default SendMessageTour;
 

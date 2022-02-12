@@ -3,30 +3,23 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
-import {setAddChannelDropdown} from 'actions/views/add_channel_dropdown';
+import {useMeasurePunchouts} from 'components/widgets/tour_tip';
 import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
-
 import {toTitleCase} from 'utils/utils';
-import TutorialTourTip from 'components/tutorial_tour_tip/tutorial_tour_tip';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import {
-    OnBoardingTourSteps,
-    TutorialTourCategories,
-} from 'components/tutorial_tour_tip/constant';
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
-import {setOnBoardingTaskList} from '../../actions/views/onboarding_task_list';
-import {isFirstAdmin} from '../next_steps_view/steps';
-import {useMeasurePunchouts} from '../tutorial_tour_tip/hooks';
 import ChannelsImg from 'images/channels_and_direct_tour_tip.svg';
+
+import OnBoardingTourTip from './onboarding_tour_tip';
 
 type Props = {
     firstChannelName?: string;
 }
 
-const firstChannel = (firstChannelName: string) => {
+export const firstChannel = (firstChannelName: string) => {
     const displayFirstChannelName = firstChannelName.split('-').join(' ').trim();
     return (
         <>
@@ -40,10 +33,7 @@ const firstChannel = (firstChannelName: string) => {
     );
 };
 
-const ChannelsAndDirectMessagesTour = ({firstChannelName}: Props) => {
-    const dispatch = useDispatch();
-    const isUserFirstAdmin = useSelector(isFirstAdmin);
-    const telemetryTagText = `tutorial_tip_${OnBoardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES}_first_channel`;
+export const ChannelsAndDirectMessagesTour = ({firstChannelName}: Props) => {
     const channelsByName = useSelector((state: GlobalState) => getChannelsNameMapInCurrentTeam(state));
     const townSquareDisplayName = channelsByName[Constants.DEFAULT_CHANNEL]?.display_name || Constants.DEFAULT_CHANNEL_UI_NAME;
     const offTopicDisplayName = channelsByName[Constants.OFFTOPIC_CHANNEL]?.display_name || Constants.OFFTOPIC_CHANNEL_UI_NAME;
@@ -79,35 +69,18 @@ const ChannelsAndDirectMessagesTour = ({firstChannelName}: Props) => {
         </>
     );
 
-    const onNextNavigateTo = () => {
-        dispatch(setAddChannelDropdown(true));
-    };
-
-    const punchOut = useMeasurePunchouts(['sidebar-droppable-categories'], []) || null;
-
-    const onDismiss = () => {
-        if (isUserFirstAdmin) {
-            dispatch(setOnBoardingTaskList(true));
-        }
-    };
+    const overlayPunchOut = useMeasurePunchouts(['sidebar-droppable-categories'], []) || null;
 
     return (
-        <TutorialTourTip
+        <OnBoardingTourTip
             title={title}
             screen={screen}
             imageURL={ChannelsImg}
-            tutorialCategory={TutorialTourCategories.ON_BOARDING}
-            step={OnBoardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES}
             placement='right-start'
             pulsatingDotPlacement='right'
-            telemetryTag={telemetryTagText}
             width={352}
-            autoTour={true}
-            punchOut={punchOut}
-            onNextNavigateTo={onNextNavigateTo}
-            onDismiss={onDismiss}
+            overlayPunchOut={overlayPunchOut}
         />
     );
 };
 
-export default ChannelsAndDirectMessagesTour;
