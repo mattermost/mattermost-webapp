@@ -21,10 +21,10 @@ describe('Keyboard Shortcuts', () => {
     });
 
     it('MM-T1244 CTRL/CMD+K - Esc closes modal', () => {
-        const searchTerm = 'test';
+        const searchTerm = 'test' + Date.now();
 
         // # Open Channel switcher modal by click on the button
-        cy.findByRole('button', {name: 'Channel Switcher'}).click();
+        cy.findByRole('button', {name: 'Find Channels'}).click();
 
         // # Type in the quick switch input box
         cy.get('#quickSwitchInput').type(searchTerm, {force: true});

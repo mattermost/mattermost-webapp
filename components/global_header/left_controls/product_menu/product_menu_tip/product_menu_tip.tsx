@@ -22,14 +22,15 @@ function checkHasBoards(products: ProductComponent[]): boolean {
     return products.some((x) => x.switcherText === TopLevelProducts.BOARDS);
 }
 
-const screens = [
-    <div key='first-screen'>
-        <h4>
-            <FormattedMessage
-                id='sidebar.tutorialProductSwitcher.title'
-                defaultMessage='Try Boards and Playbooks'
-            />
-        </h4>
+const title = (
+    <FormattedMessage
+        id='sidebar.tutorialProductSwitcher.title'
+        defaultMessage={'Try Boards and Playbooks'}
+    />
+);
+
+const screen = (
+    <>
         <p>
             <FormattedMarkdownMessage
                 id='sidebar.tutorialProductSwitcher.switchProducts'
@@ -42,8 +43,8 @@ const screens = [
                 defaultMessage={'System Admins can also configure and customize Mattermost using the **System Console** and install Mattermost Apps from the **Marketplace**.'}
             />
         </p>
-    </div>,
-];
+    </>
+);
 
 const ProductMenuTip = ({
     products = [],
@@ -86,7 +87,7 @@ const ProductMenuTip = ({
                 value: (TutorialSteps.PRODUCT_SWITCHER + 1).toString(),
             }],
         ).then(() => setSkippedBecauseIrrelevant(true));
-    }, []);
+    }, [skippedBecauseIrrelevant, step, products, currentUserId]);
 
     if (!tipIsRelevant) {
         return null;
@@ -94,8 +95,10 @@ const ProductMenuTip = ({
 
     return (
         <TutorialTip
+            title={title}
+            showOptOut={true}
             placement='bottom'
-            screens={screens}
+            screen={screen}
             step={TutorialSteps.PRODUCT_SWITCHER}
             stopPropagation={true}
             overlayClass='tip-overlay--product-switcher'

@@ -13,7 +13,6 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 
 import Constants from 'utils/constants';
 
-// import {t} from 'utils/i18n';
 import {isKeyPressed} from 'utils/utils';
 
 type Props = {
@@ -22,23 +21,38 @@ type Props = {
     currentTeamId: string;
     numOfPublicChannels: number;
     numOfPrivateChannels: number;
-    onHide: () => void;
-    show: boolean;
+    onExited: () => void;
     actions: {
         leaveTeam: (teamId: string, userId: string) => ActionFunc;
         toggleSideBarRightMenu: () => void;
     };
 };
 
-export default class LeaveTeamModal extends React.PureComponent<Props> {
+type State = {
+    show: boolean;
+};
+
+export default class LeaveTeamModal extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            show: true,
+        };
+    }
+
     componentDidMount() {
-        if (this.props.show) {
-            document.addEventListener('keypress', this.handleKeyPress);
-        }
+        document.addEventListener('keypress', this.handleKeyPress);
     }
 
     componentWillUnmount() {
         document.removeEventListener('keypress', this.handleKeyPress);
+    }
+
+    handleHide = () => {
+        this.setState({
+            show: false,
+        });
     }
 
     handleKeyPress = (e: KeyboardEvent) => {
@@ -48,7 +62,8 @@ export default class LeaveTeamModal extends React.PureComponent<Props> {
     };
 
     handleSubmit = () => {
-        this.props.onHide();
+        this.handleHide();
+
         this.props.actions.leaveTeam(
             this.props.currentTeamId,
             this.props.currentUserId,
@@ -138,8 +153,9 @@ export default class LeaveTeamModal extends React.PureComponent<Props> {
             <Modal
                 dialogClassName='a11y__modal'
                 className='modal-confirm'
-                show={this.props.show}
-                onHide={this.props.onHide}
+                show={this.state.show}
+                onExited={this.props.onExited}
+                onHide={this.handleHide}
                 id='leaveTeamModal'
                 role='dialog'
                 aria-labelledby='leaveTeamModalLabel'
@@ -162,7 +178,7 @@ export default class LeaveTeamModal extends React.PureComponent<Props> {
                     <button
                         type='button'
                         className='btn btn-link'
-                        onClick={this.props.onHide}
+                        onClick={this.handleHide}
                         id='leaveTeamNo'
                     >
                         <FormattedMessage

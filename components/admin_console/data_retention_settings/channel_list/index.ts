@@ -16,14 +16,13 @@ import {Channel, ChannelSearchOpts, ChannelWithTeamData} from 'mattermost-redux/
 import {GlobalState} from 'types/store';
 
 import {setChannelListSearch, setChannelListFilters} from 'actions/views/search';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {DataRetentionCustomPolicy} from 'mattermost-redux/types/data_retention';
 
 import ChannelList from './channel_list';
 
 type OwnProps = {
     policyId?: string;
-    channelsToAdd: Dictionary<ChannelWithTeamData>;
+    channelsToAdd: Record<string, ChannelWithTeamData>;
 }
 
 type Actions = {
@@ -33,7 +32,7 @@ type Actions = {
     setChannelListFilters: (filters: ChannelSearchOpts) => ActionResult;
 }
 
-function searchChannelsToAdd(channels: Dictionary<Channel>, term: string, filters: ChannelSearchOpts): Dictionary<Channel> {
+function searchChannelsToAdd(channels: Record<string, Channel>, term: string, filters: ChannelSearchOpts): Record<string, Channel> {
     let filteredTeams = filterChannelsMatchingTerm(Object.keys(channels).map((key) => channels[key]), term);
     filteredTeams = filterChannelList(filteredTeams, filters);
     return channelListToMap(filteredTeams);
@@ -53,7 +52,7 @@ function mapStateToProps() {
 
         if (searchTerm || (filters && Object.keys(filters).length !== 0)) {
             channels = policyId ? searchChannelsInPolicy(state, policyId, searchTerm, filters) as ChannelWithTeamData[] : [];
-            channelsToAdd = searchChannelsToAdd(channelsToAdd, searchTerm, filters) as Dictionary<ChannelWithTeamData>;
+            channelsToAdd = searchChannelsToAdd(channelsToAdd, searchTerm, filters) as Record<string, ChannelWithTeamData>;
             totalCount = channels.length;
         } else {
             channels = policyId ? getPolicyChannels(state, {policyId}) as ChannelWithTeamData[] : [];

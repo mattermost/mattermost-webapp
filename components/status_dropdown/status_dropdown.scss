@@ -40,11 +40,7 @@
     }
 }
 
-#channelHeaderDropdownIconRight_status-menu-dnd-timed {
-    margin-top: -15px;
-}
-
-#status-menu-dnd-timed_menuitem {
+#status-menu-dnd_menuitem {
     .SubMenuItem.MenuItem {
         flex-grow: 1;
     }
@@ -54,6 +50,15 @@
         &:focus {
             background-color: unset;
         }
+    }
+
+    #dndTime-tomorrow .dndTime-tomorrow_timestamp {
+        &::before {
+            content: "\00a0";
+        }
+
+        margin-left: auto;
+        opacity: 0.7;
     }
 }
 
@@ -205,6 +210,10 @@ button.custom_status__row {
     #status-menu-dnd {
         padding: 1px 16px;
 
+        .flex {
+            display: flex;
+        }
+
         .MenuItem__primary-text,
         .grid {
             display: grid;
@@ -299,4 +308,10 @@ button.custom_status__row {
         opacity: 0;
         transform: scale(2.5);
     }
+}
+
+.status-dropdpwn-menu .status-dropdown-menu__clear-container .input-clear {
+    position: absolute;
+    color: rgba(var(--center-channel-color-rgb), 0.72);
+    opacity: 1;
 }

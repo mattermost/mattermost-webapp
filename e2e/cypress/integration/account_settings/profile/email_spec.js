@@ -13,7 +13,7 @@
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {reUrl, getRandomId} from '../../../utils';
 
-describe('Account Settings > Profile > Email', () => {
+describe('Profile > Profile Settings > Email', () => {
     let siteName;
     let testUser;
     let otherUser;
@@ -39,8 +39,8 @@ describe('Account Settings > Profile > Email', () => {
     });
 
     beforeEach(() => {
-        // # Go to Account Settings
-        cy.uiOpenAccountSettingsModal();
+        // # Go to Profile
+        cy.uiOpenProfileModal();
     });
 
     afterEach(() => {
@@ -161,7 +161,7 @@ describe('Account Settings > Profile > Email', () => {
                 expect(subject).to.equal(`[${siteName}] Your email address has changed`);
             });
 
-            cy.uiOpenAccountSettingsModal();
+            cy.uiOpenProfileModal();
 
             // * Verify new email address
             cy.get('#emailDesc').should('be.visible').should('have.text', email);

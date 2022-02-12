@@ -39,16 +39,23 @@ export default function SetupPreferencesStep(props: StepComponentProps) {
         }));
     };
 
+    let buttonMessageId = props.completeStepButtonText.id;
+    let buttonDefaultMessage = props.completeStepButtonText.defaultMessage;
+
+    if (props.isLastStep) {
+        buttonMessageId = t('next_steps_view.invite_members_step.finish');
+        buttonDefaultMessage = 'Finish';
+    }
+
     return (
         <>
             <TextCardWithAction
                 cardBodyMessageId={t('next_steps_view.preferenceSetup')}
                 cardBodyDefaultMessage={'From your Avatar, set your availability, add a custom status, and manage your profile. Access customize notification preferences, custom theme colors, and more in **Settings**.'}
-                buttonMessageId={t('next_steps_view.preferenceSetup.setPreferences')}
-                buttonDefaultMessage={'Set Preferences'}
+                buttonMessageId={buttonMessageId as string}
+                buttonDefaultMessage={buttonDefaultMessage as string}
                 onClick={onClick}
             />
         </>
     );
 }
-

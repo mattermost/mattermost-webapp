@@ -17,7 +17,7 @@ import Renderer from './renderer';
 
 const removeMarkdown = new RemoveMarkdown();
 
-export function format(text: string, options = {}, emojiMap: EmojiMap) {
+export function format(text: string, options = {}, emojiMap?: EmojiMap) {
     return formatWithRenderer(text, new Renderer({}, options, emojiMap));
 }
 

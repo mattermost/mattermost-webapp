@@ -38,6 +38,8 @@ export type Props = {
      */
     onExited: () => void;
 
+    isMobileView: boolean;
+
     actions: {
         joinChannelById: (channelId: string) => Promise<ActionResult>;
         switchToChannel: (channel: Channel) => Promise<ActionResult>;
@@ -151,13 +153,13 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
             <h1>
                 <FormattedMessage
                     id='quick_switch_modal.switchChannels'
-                    defaultMessage='Switch Channels'
+                    defaultMessage='Find Channels'
                 />
             </h1>
         );
 
         let help;
-        if (Utils.isMobile()) {
+        if (this.props.isMobileView) {
             help = (
                 <FormattedMarkdownMessage
                     id='quick_switch_modal.help_mobile'

@@ -3,24 +3,18 @@
 
 import React, {useEffect, useRef, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
-
 import tinycolor from 'tinycolor2';
 
-import {applyTheme} from 'utils/utils.jsx';
-
-import SettingItemMax from '../../../../setting_item_max';
 import {OsColorSchemeName} from 'mattermost-redux/types/general';
-
 import {PreferenceType} from 'mattermost-redux/types/preferences';
-import {Theme} from 'mattermost-redux/types/themes';
-
 import {ActionResult} from 'mattermost-redux/types/actions';
-
-import AppDispatcher from '../../../../../dispatcher/app_dispatcher';
-
-import {ActionTypes} from '../../../../../utils/constants';
-
+import {Theme} from 'mattermost-redux/types/themes';
 import {Preferences} from 'mattermost-redux/constants';
+import {applyTheme} from 'utils/utils.jsx';
+import {ModalIdentifiers} from 'utils/constants';
+import SettingItemMax from 'components/setting_item_max';
+import ImportThemeModal from 'components/user_settings/import_theme_modal';
+import {ModalData} from 'types/actions';
 
 import SyncWithOsCheckbox from './sync_with_os_checkbox';
 import ThemeChooser from './theme_chooser';
@@ -86,10 +80,12 @@ const Expanded: React.FC<Props> = (props: Props) => {
     };
 
     const handleImportModal = (callback: (theme: Theme) => void) => () => {
-        AppDispatcher.handleViewAction({
-            type: ActionTypes.TOGGLE_IMPORT_THEME_MODAL,
-            value: true,
-            callback,
+        props.actions.openModal({
+            modalId: ModalIdentifiers.IMPORT_THEME_MODAL,
+            dialogType: ImportThemeModal,
+            dialogProps: {
+                callback,
+            },
         });
 
         props.setEnforceFocus(false);
@@ -257,6 +253,7 @@ type Props = {
 export type Actions = {
     savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<ActionResult>;
     deleteTeamSpecificThemes: () => Promise<ActionResult>;
+    openModal: <P>(modalData: ModalData<P>) => void;
 }
 
 type FormState = {

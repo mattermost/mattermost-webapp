@@ -11,11 +11,11 @@
 
 describe('DND Status - Setting Your Own DND Status', () => {
     const dndTimes = [
-        'dndTime-30mins_menuitem',
-        'dndTime-1hour_menuitem',
-        'dndTime-2hours_menuitem',
-        'dndTime-Tomorrow_menuitem',
-        'dndTime-Custom_menuitem',
+        'dndTime-thirty_minutes_menuitem',
+        'dndTime-one_hour_menuitem',
+        'dndTime-two_hours_menuitem',
+        'dndTime-tomorrow_menuitem',
+        'dndTime-custom_menuitem',
     ];
 
     before(() => {

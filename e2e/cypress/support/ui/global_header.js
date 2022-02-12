@@ -122,20 +122,23 @@ Cypress.Commands.add('uiGetSettingsButton', () => {
     return cy.findByRole('button', {name: 'Select to open the settings modal.'}).should('be.visible');
 });
 
+Cypress.Commands.add('uiGetSettingsModal', () => {
+    // # Get settings modal
+    return cy.findByRole('dialog', {name: 'Settings'});
+});
+
 Cypress.Commands.add('uiOpenSettingsModal', (section = '') => {
     // # Open settings modal
     cy.uiGetSettingsButton().click();
 
-    const settingsModal = () => cy.findByRole('dialog', {name: 'Settings'}).should('be.visible');
-
     if (!section) {
-        return settingsModal();
+        return cy.uiGetSettingsModal();
     }
 
     // # Click on a particular section
     cy.findByRoleExtended('button', {name: section}).should('be.visible').click();
 
-    return settingsModal();
+    return cy.uiGetSettingsModal();
 });
 
 Cypress.Commands.add('uiLogout', () => {

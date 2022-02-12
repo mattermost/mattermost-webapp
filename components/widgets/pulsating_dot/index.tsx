@@ -2,16 +2,25 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 
+import {Coords} from 'components/tutorial/tutorial_tip/tutorial_tip_backdrop';
+
 import './pulsating_dot.scss';
 
 type Props = {
     targetRef?: React.RefObject<HTMLImageElement>;
     className?: string;
     onClick?: (e: React.MouseEvent) => void;
+    coords?: Coords;
 }
 
 export class PulsatingDot extends React.PureComponent<Props> {
     public render() {
+        let customStyles = {};
+        if (this.props?.coords) {
+            customStyles = {
+                transform: `translate(${this.props.coords?.x}px, ${this.props.coords?.y}px)`,
+            };
+        }
         let effectiveClassName = 'pulsating_dot';
         if (this.props.onClick) {
             effectiveClassName += ' pulsating_dot-clickable';
@@ -25,6 +34,7 @@ export class PulsatingDot extends React.PureComponent<Props> {
                 className={effectiveClassName}
                 onClick={this.props.onClick}
                 ref={this.props.targetRef}
+                style={{...customStyles}}
             />
         );
     }

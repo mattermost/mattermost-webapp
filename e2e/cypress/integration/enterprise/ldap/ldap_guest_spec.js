@@ -196,7 +196,7 @@ describe('LDAP guest', () => {
                     cy.findByTestId('syncGroupSwitch').scrollIntoView().click();
 
                     // # Add board group to team
-                    cy.findByTestId('addGroupsToTeamToggle').scrollIntoView().click();
+                    cy.get('#addGroupsToTeamToggle').scrollIntoView().click();
                     cy.get('#multiSelectList').should('be.visible');
                     cy.get('#multiSelectList>div').children().eq(0).click();
                     cy.uiGetButton('Add').click();

@@ -2,30 +2,31 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
-import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
+import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
 import IconButton from '@mattermost/compass-components/components/icon-button';
+import {matchPath} from 'react-router-dom';
+
+import {trackEvent} from 'actions/telemetry_actions';
+
+import {ModalIdentifiers} from 'utils/constants';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
-import {toggleShortcutsModal} from 'actions/global_actions';
-import {trackEvent} from 'actions/telemetry_actions';
-import * as Utils from 'utils/utils';
+import Tooltip from 'components/tooltip';
+import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
+
+import {browserHistory} from 'utils/browser_history';
+
+import type {PropsFromRedux} from './index';
 
 const askTheCommunityUrl = 'https://mattermost.com/pl/default-ask-mattermost-community/';
 
-type Props = {
-    intl: IntlShape;
-    helpLink: string;
-    reportAProblemLink: string;
-    enableAskCommunityLink: string;
-    showGettingStarted: boolean;
-    showNextStepsTips: boolean;
-    actions: {
-        unhideNextSteps: () => void;
+type Props = WrappedComponentProps & PropsFromRedux & {
+    location: {
+        pathname: string;
     };
-};
+}
 
 type State = {
     buttonActive: boolean;
@@ -39,9 +40,12 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
         };
     }
 
-    toggleShortcutsModal = (e: MouseEvent) => {
+    openKeyboardShortcutsModal = (e: MouseEvent) => {
         e.preventDefault();
-        toggleShortcutsModal();
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL,
+            dialogType: KeyboardShortcutsModal,
+        });
     }
 
     buttonToggleState = (menuActive: boolean) => {
@@ -54,8 +58,18 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
         trackEvent('ui', 'help_ask_the_community');
     }
 
+    unhideNextStepsAndNavigateToTipsView = () => {
+        this.props.actions.unhideNextSteps();
+        browserHistory.push(`${this.props.teamUrl}/tips`);
+    }
+
     renderDropdownItems = (): React.ReactNode => {
-        const {intl, showGettingStarted, showNextStepsTips} = this.props;
+        const {
+            intl,
+            isMobileView,
+            showDueToStepsNotFinished,
+        } = this.props;
+        const inTipsView = matchPath(this.props.location.pathname, {path: '/:team/tips'}) != null;
 
         return (
             <Menu.Group>
@@ -74,10 +88,10 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                 />
                 <Menu.ItemAction
                     id='gettingStarted'
-                    show={showGettingStarted}
-                    onClick={() => this.props.actions.unhideNextSteps()}
-                    text={intl.formatMessage({id: showNextStepsTips ? 'sidebar_next_steps.tipsAndNextSteps' : 'navbar_dropdown.gettingStarted', defaultMessage: showNextStepsTips ? 'Tips & Next Steps' : 'Getting Started'})}
-                    icon={Utils.isMobile() && <i className={`icon ${showNextStepsTips ? 'icon-lightbulb-outline' : 'icon-play'}`}/>}
+                    show={showDueToStepsNotFinished && !inTipsView}
+                    onClick={() => this.unhideNextStepsAndNavigateToTipsView()}
+                    text={intl.formatMessage({id: 'navbar_dropdown.gettingStarted', defaultMessage: 'Getting Started'})}
+                    icon={isMobileView && <i className='icon icon-play'/>}
                 />
                 <Menu.ItemExternalLink
                     id='reportAProblemLink'
@@ -86,7 +100,7 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                 />
                 <Menu.ItemAction
                     id='keyboardShortcuts'
-                    onClick={this.toggleShortcutsModal}
+                    onClick={this.openKeyboardShortcutsModal}
                     text={intl.formatMessage({id: 'userGuideHelp.keyboardShortcuts', defaultMessage: 'Keyboard shortcuts'})}
                 />
             </Menu.Group>

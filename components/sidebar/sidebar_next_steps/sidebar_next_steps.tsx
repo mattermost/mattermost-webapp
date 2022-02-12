@@ -4,14 +4,21 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
+import {matchPath} from 'react-router-dom';
+
+import {browserHistory} from 'utils/browser_history';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import {trackEvent} from 'actions/telemetry_actions';
+
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import {StepType} from 'components/next_steps_view/steps';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import ProgressBar from 'components/progress_bar';
+
+import {ModalData} from 'types/actions';
+
 import {ModalIdentifiers, RecommendedNextSteps, Preferences} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
@@ -20,18 +27,20 @@ import './sidebar_next_steps.scss';
 import RemoveNextStepsModal from './remove_next_steps_modal';
 
 type Props = {
-    active: boolean;
     showNextSteps: boolean;
     currentUserId: string;
     preferences: PreferenceType[];
     steps: StepType[];
     isAdmin: boolean;
     enableOnboardingFlow: boolean;
+    teamUrl: string;
+    location: {
+        pathname: string;
+    };
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
-        openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => void;
+        openModal: <P>(modalData: ModalData<P>) => void;
         closeModal: (modalId: string) => void;
-        setShowNextStepsView: (show: boolean) => void;
     };
 };
 
@@ -49,15 +58,11 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
     }
 
     closeNextSteps = (event: React.SyntheticEvent): void => {
-        const {showNextSteps, isAdmin} = this.props;
+        const {isAdmin} = this.props;
         event.stopPropagation();
-        if (showNextSteps) {
-            trackEvent(getAnalyticsCategory(isAdmin), 'click_skip_getting_started', {channel_sidebar: true});
-        } else {
-            trackEvent(getAnalyticsCategory(isAdmin), 'click_skip_tips');
-        }
+        trackEvent(getAnalyticsCategory(isAdmin), 'click_skip_getting_started', {channel_sidebar: true});
 
-        const screenTitle = showNextSteps ? localizeMessage('sidebar_next_steps.gettingStarted', 'Getting Started') : localizeMessage('sidebar_next_steps.tipsAndNextSteps', 'Tips & Next Steps');
+        const screenTitle = localizeMessage('sidebar_next_steps.gettingStarted', 'Getting Started');
 
         this.props.actions.openModal({
             modalId: ModalIdentifiers.REMOVE_NEXT_STEPS_MODAL,
@@ -71,13 +76,8 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
     }
 
     showNextSteps = () => {
-        if (this.props.showNextSteps) {
-            trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_getting_started');
-        } else {
-            trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_tips');
-        }
-
-        this.props.actions.setShowNextStepsView(true);
+        trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_getting_started');
+        browserHistory.push(`${this.props.teamUrl}/tips`);
     }
 
     onCloseModal = () => {
@@ -92,13 +92,9 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
             value: 'true',
         }]);
 
-        if (!this.props.showNextSteps) {
-            trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_confirm_remove_tips');
-        }
-
-        this.props.actions.setShowNextStepsView(false);
-
         this.onCloseModal();
+
+        browserHistory.goBack();
     }
 
     render() {
@@ -114,25 +110,27 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
             return null;
         }
 
+        if (this.props.preferences.some((pref) => pref.name === RecommendedNextSteps.SKIP && pref.value === 'true')) {
+            return null;
+        }
+
+        if (!this.props.showNextSteps) {
+            return null;
+        }
+
         const total = this.props.steps.length;
         const complete = this.props.preferences.filter((pref) => pref.name !== RecommendedNextSteps.HIDE && pref.value === 'true').length;
 
-        let header = (
+        const inTipsView = matchPath(this.props.location.pathname, {path: '/:team/tips'}) != null;
+
+        const header = (
             <FormattedMessage
                 id='sidebar_next_steps.gettingStarted'
                 defaultMessage='Getting Started'
             />
         );
-        if (!this.props.showNextSteps) {
-            header = (
-                <FormattedMessage
-                    id='sidebar_next_steps.tipsAndNextSteps'
-                    defaultMessage='Tips & Next Steps'
-                />
-            );
-        }
 
-        let middleSection = (
+        const middleSection = (
             <FormattedMarkdownMessage
                 id='sidebar_next_steps.stepsComplete'
                 defaultMessage='{complete} / {total} steps complete'
@@ -142,19 +140,11 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
                 }}
             />
         );
-        if (!this.props.showNextSteps) {
-            middleSection = (
-                <FormattedMessage
-                    id='sidebar_next_steps.otherAreasToExplore'
-                    defaultMessage='A few other areas to explore'
-                />
-            );
-        }
+
         return (
             <div
                 className={classNames('SidebarNextSteps', {
-                    active: this.props.active,
-                    tips: !this.props.showNextSteps,
+                    active: inTipsView,
                 })}
                 onClick={this.showNextSteps}
             >
@@ -170,15 +160,13 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
                 <div className='SidebarNextSteps__middle'>
                     <span>{middleSection}</span>
                 </div>
-                {this.props.showNextSteps && (
-                    <div className='SidebarNextSteps__progressBar'>
-                        <ProgressBar
-                            current={complete}
-                            total={total}
-                            basePercentage={4}
-                        />
-                    </div>
-                )}
+                <div className='SidebarNextSteps__progressBar'>
+                    <ProgressBar
+                        current={complete}
+                        total={total}
+                        basePercentage={4}
+                    />
+                </div>
             </div>
         );
     }

@@ -22,8 +22,6 @@ import Textbox from 'components/textbox';
 jest.mock('actions/global_actions', () => ({
     emitLocalUserTypingEvent: jest.fn(),
     emitUserPostedEvent: jest.fn(),
-    showChannelNameUpdateModal: jest.fn(),
-    toggleShortcutsModal: jest.fn(),
 }));
 
 jest.mock('actions/post_actions.jsx', () => ({
@@ -105,6 +103,8 @@ function createPost({
     emojiMap = new EmojiMap(new Map()),
     isTimezoneEnabled = false,
     useGroupMentions = true,
+    canPost = true,
+    isMarkdownPreviewEnabled = false,
 } = {}) {
     return (
         <CreatePost
@@ -133,10 +133,11 @@ function createPost({
             badConnection={false}
             shouldShowPreview={false}
             isTimezoneEnabled={isTimezoneEnabled}
-            canPost={true}
+            canPost={canPost}
             useChannelMentions={true}
             useGroupMentions={useGroupMentions}
             tutorialStep={tutorialStep}
+            isMarkdownPreviewEnabled={isMarkdownPreviewEnabled}
         />
     );
 }
@@ -654,18 +655,6 @@ describe('components/create_post', () => {
         expect(openModal.mock.calls[0][0].dialogProps.channel).toEqual(currentChannelProp);
     });
 
-    it('onSubmit test for "/rename" message', () => {
-        const wrapper = shallowWithIntl(createPost());
-
-        wrapper.setState({
-            message: '/rename',
-        });
-
-        const form = wrapper.find('#create_post');
-        form.simulate('Submit', {preventDefault: jest.fn()});
-        expect(GlobalActions.showChannelNameUpdateModal).toHaveBeenCalledWith(currentChannelProp);
-    });
-
     it('onSubmit test for "/unknown" message ', async () => {
         jest.mock('actions/channel_actions.jsx', () => ({
             executeCommand: jest.fn((message, _args, resolve) => resolve()),
@@ -887,19 +876,6 @@ describe('components/create_post', () => {
         expect(instance.handleFileUploadChange).toHaveBeenCalledTimes(1);
     });
 
-    it('Should call Shortcut modal on FORWARD_SLASH+cntrl/meta', () => {
-        const wrapper = shallowWithIntl(createPost());
-        const instance = wrapper.instance();
-        instance.documentKeyHandler({ctrlKey: true, key: Constants.KeyCodes.BACK_SLASH[0], keyCode: Constants.KeyCodes.BACK_SLASH[1], preventDefault: jest.fn()});
-        expect(GlobalActions.toggleShortcutsModal).not.toHaveBeenCalled();
-        instance.documentKeyHandler({ctrlKey: true, key: 'ù', keyCode: Constants.KeyCodes.FORWARD_SLASH[1], preventDefault: jest.fn()});
-        expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
-        instance.documentKeyHandler({ctrlKey: true, key: '/', keyCode: Constants.KeyCodes.SEVEN[1], preventDefault: jest.fn()});
-        expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
-        instance.documentKeyHandler({ctrlKey: true, key: Constants.KeyCodes.FORWARD_SLASH[0], keyCode: Constants.KeyCodes.FORWARD_SLASH[1], preventDefault: jest.fn()});
-        expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
-    });
-
     it('Should just return as ctrlSend is enabled and its ctrl+enter', () => {
         const wrapper = shallowWithIntl(createPost({
             ctrlSend: true,
@@ -992,16 +968,6 @@ describe('components/create_post', () => {
             showTutorialTip: true,
         }));
         expect(wrapper).toMatchSnapshot();
-    });
-
-    it('Toggle showPostDeletedModal state', () => {
-        const wrapper = shallowWithIntl(createPost());
-        const instance = wrapper.instance();
-        instance.showPostDeletedModal();
-        expect(wrapper.state('showPostDeletedModal')).toBe(true);
-
-        instance.hidePostDeletedModal();
-        expect(wrapper.state('showPostDeletedModal')).toBe(false);
     });
 
     it('Should have called actions.onSubmitPost on sendMessage', async () => {
@@ -1335,5 +1301,29 @@ describe('components/create_post', () => {
         const e = makeSelectionEvent(value, 7, 14);
         textbox.props().onSelect(e);
         expect(setSelectionRangeFn).toHaveBeenCalledWith(8, 13);
+    });
+
+    it('should match snapshot, can post; preview enabled', () => {
+        const wrapper = shallowWithIntl(createPost({canPost: true, isMarkdownPreviewEnabled: true}));
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should match snapshot, can post; preview disabled', () => {
+        const wrapper = shallowWithIntl(createPost({canPost: true, isMarkdownPreviewEnabled: false}));
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should match snapshot, cannot post; preview enabled', () => {
+        const wrapper = shallowWithIntl(createPost({canPost: false, isMarkdownPreviewEnabled: true}));
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should match snapshot, cannot post; preview disabled', () => {
+        const wrapper = shallowWithIntl(createPost({canPost: false, isMarkdownPreviewEnabled: false}));
+
+        expect(wrapper).toMatchSnapshot();
     });
 });

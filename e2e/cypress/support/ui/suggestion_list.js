@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-Cypress.Commands.add('uiVerifyAtMentionInSuggestionList', (sectionDividerName, user, isSelected = false) => {
+Cypress.Commands.add('uiVerifyAtMentionInSuggestionList', (user, isSelected = false, sectionDividerName = null) => {
     // * Verify that the suggestion list is open and visible
     return cy.get('#suggestionList').should('be.visible').within(() => {
         if (sectionDividerName) {

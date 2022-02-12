@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import {connect} from 'react-redux';
-
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {
@@ -12,20 +11,14 @@ import {
     makeGetCategory,
 } from 'mattermost-redux/selectors/entities/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
-
 import {getAllowCustomThemes, getOsColorScheme} from 'mattermost-redux/selectors/entities/general';
-
 import {getCurrentTeamId, getMyTeamsCount} from 'mattermost-redux/selectors/entities/teams';
-
-import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
-
+import {Action, GenericAction} from 'mattermost-redux/types/actions';
 import {deleteTeamSpecificThemes, savePreferences} from 'mattermost-redux/actions/preferences';
-
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-
 import {Preferences} from 'mattermost-redux/constants';
-
-import {getAllowedThemes} from '../../../../../selectors/theme';
+import {getAllowedThemes} from 'selectors/theme';
+import {openModal} from 'actions/views/modals';
 
 import Expanded, {Actions} from './expanded';
 
@@ -49,9 +42,10 @@ const mapStateToProps = (state: GlobalState) => {
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<GenericAction>) => ({
-    actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+    actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
         savePreferences,
         deleteTeamSpecificThemes,
+        openModal,
     }, dispatch),
 });
 

@@ -19,9 +19,24 @@ export default function DownloadAppsStep(props: StepComponentProps) {
         }
     }, [props.expanded]);
 
+    let finishMessage = (
+        <FormattedMessage
+            id={props.completeStepButtonText.id}
+            defaultMessage={props.completeStepButtonText.defaultMessage}
+        />);
+
+    if (props.isLastStep) {
+        finishMessage = (
+            <FormattedMessage
+                id='next_steps_view.invite_members_step.finish'
+                defaultMessage='Finish'
+            />);
+    }
+
     return (<>
         <DownloadSection
             isFirstAdmin={props.isAdmin}
+            isMobileView={props.isMobileView}
             withinNextStep={true}
         />
         <div className='NextStepsView__wizardButtons'>
@@ -30,10 +45,7 @@ export default function DownloadAppsStep(props: StepComponentProps) {
                 className={classNames('NextStepsView__button NextStepsView__finishButton primary')}
                 onClick={() => props.onFinish(props.id)}
             >
-                <FormattedMessage
-                    id='next_steps_view.downloadDesktopAndMobile.primary'
-                    defaultMessage='Finish'
-                />
+                {finishMessage}
             </button>
         </div>
     </>);

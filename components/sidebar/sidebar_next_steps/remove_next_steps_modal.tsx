@@ -49,8 +49,7 @@ export default function RemoveNextStepsModal(props: Props) {
             )}
             <GenericModal
                 className='RemoveNextStepsModal'
-                show={true}
-                onHide={onCancel}
+                onExited={onCancel}
                 handleConfirm={onConfirm}
                 handleCancel={onCancel}
                 container={modalRoot}

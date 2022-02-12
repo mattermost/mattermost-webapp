@@ -5,11 +5,9 @@ import {CustomEmoji} from './emojis';
 import {FileInfo} from './files';
 import {Reaction} from './reactions';
 import {
-    $ID,
     RelationOneToOne,
     RelationOneToMany,
     IDMappedObjects,
-    Dictionary,
 } from './utilities';
 
 export type PostType = 'system_add_remove' |
@@ -47,7 +45,7 @@ export type PostMetadata = {
     embeds: PostEmbed[];
     emojis: CustomEmoji[];
     files: FileInfo[];
-    images: Dictionary<PostImage>;
+    images: Record<string, PostImage>;
     reactions: Reaction[];
 };
 
@@ -75,7 +73,7 @@ export type Post = {
     state?: 'DELETED';
     filenames?: string[];
     last_reply_at?: number;
-    participants?: any; //Array<UserProfile | $ID<UserProfile>>;
+    participants?: any; //Array<UserProfile | UserProfile['id']>;
     message_source?: string;
     is_following?: boolean;
     exists?: boolean;
@@ -87,7 +85,7 @@ export type UserActivityPost = Post & {
 }
 
 export type PostList = {
-    order: Array<$ID<Post>>;
+    order: Array<Post['id']>;
     posts: Map<string, Post>;
     next_post_id: string;
     prev_post_id: string;
@@ -124,16 +122,16 @@ export type MessageHistory = {
 
 export type PostsState = {
     posts: IDMappedObjects<Post>;
-    postsReplies: {[x in $ID<Post>]: number};
-    postsInChannel: Dictionary<PostOrderBlock[]>;
+    postsReplies: {[x in Post['id']]: number};
+    postsInChannel: Record<string, PostOrderBlock[]>;
     postsInThread: RelationOneToMany<Post, Post>;
-    reactions: RelationOneToOne<Post, Dictionary<Reaction>>;
-    openGraph: RelationOneToOne<Post, Dictionary<OpenGraphMetadata>>;
+    reactions: RelationOneToOne<Post, Record<string, Reaction>>;
+    openGraph: RelationOneToOne<Post, Record<string, OpenGraphMetadata>>;
     pendingPostIds: string[];
     selectedPostId: string;
     currentFocusedPostId: string;
     messagesHistory: MessageHistory;
-    expandedURLs: Dictionary<string>;
+    expandedURLs: Record<string, string>;
 };
 
 export declare type OpenGraphMetadataImage = {

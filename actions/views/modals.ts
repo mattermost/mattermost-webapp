@@ -14,7 +14,12 @@ export function openModal<P>(modalData: ModalData<P>) {
     };
 }
 
-export function closeModal(modalId: string) {
+export type CloseModalType = {
+    type: string;
+    modalId: string;
+}
+
+export function closeModal(modalId: string): CloseModalType {
     return {
         type: ActionTypes.MODAL_CLOSE,
         modalId,

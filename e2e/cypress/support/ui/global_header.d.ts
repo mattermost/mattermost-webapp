@@ -105,7 +105,7 @@ declare namespace Cypress {
         /**
          * Open user menu
          *
-         * @param {string} item - menu item ex. Account Settings, Logout, etc.
+         * @param {string} item - menu item ex. Profile, Logout, etc.
          *
          * @example
          *   cy.uiOpenUserMenu();
@@ -151,6 +151,14 @@ declare namespace Cypress {
          *   cy.uiGetSettingsButton();
          */
         uiGetSettingsButton(): Chainable;
+
+        /**
+         * Get settings modal
+         *
+         * @example
+         *   cy.uiGetSettingsModal();
+         */
+        uiGetSettingsModal(): Chainable;
 
         /**
          * Open settings modal

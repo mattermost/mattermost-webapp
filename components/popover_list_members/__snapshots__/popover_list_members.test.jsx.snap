@@ -2,6 +2,7 @@
 
 exports[`components/PopoverListMembers should match snapshot 1`] = `
 <div
+  className="channel-members-popver"
   id="channelMember"
 >
   <OverlayTrigger
@@ -10,9 +11,7 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
     disabled={false}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="channelMembersTooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Members"
@@ -84,7 +83,7 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
           <Connect(PopoverListMembersItem)
             key="member_id_1"
             onItemClick={[Function]}
-            showMessageIcon={true}
+            showMessageIcon={false}
             status="online"
             user={
               Object {
@@ -95,7 +94,7 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
           <Connect(PopoverListMembersItem)
             key="member_id_2"
             onItemClick={[Function]}
-            showMessageIcon={true}
+            showMessageIcon={false}
             status="offline"
             user={
               Object {
@@ -112,6 +111,7 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
 
 exports[`components/PopoverListMembers should match snapshot with archived channel 1`] = `
 <div
+  className="channel-members-popver"
   id="channelMember"
 >
   <OverlayTrigger
@@ -120,9 +120,7 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
     disabled={false}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="channelMembersTooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Members"
@@ -194,7 +192,7 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
           <Connect(PopoverListMembersItem)
             key="member_id_1"
             onItemClick={[Function]}
-            showMessageIcon={true}
+            showMessageIcon={false}
             status="online"
             user={
               Object {
@@ -205,7 +203,7 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
           <Connect(PopoverListMembersItem)
             key="member_id_2"
             onItemClick={[Function]}
-            showMessageIcon={true}
+            showMessageIcon={false}
             status="offline"
             user={
               Object {
@@ -222,6 +220,7 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
 
 exports[`components/PopoverListMembers should match snapshot with group-constrained channel 1`] = `
 <div
+  className="channel-members-popver"
   id="channelMember"
 >
   <OverlayTrigger
@@ -230,9 +229,7 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
     disabled={false}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="channelMembersTooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Members"
@@ -312,7 +309,7 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
           <Connect(PopoverListMembersItem)
             key="member_id_1"
             onItemClick={[Function]}
-            showMessageIcon={true}
+            showMessageIcon={false}
             status="online"
             user={
               Object {
@@ -323,7 +320,7 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
           <Connect(PopoverListMembersItem)
             key="member_id_2"
             onItemClick={[Function]}
-            showMessageIcon={true}
+            showMessageIcon={false}
             status="offline"
             user={
               Object {

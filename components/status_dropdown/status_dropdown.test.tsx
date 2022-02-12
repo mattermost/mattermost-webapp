@@ -6,9 +6,21 @@ import {shallow} from 'enzyme';
 
 import {CustomStatusDuration, UserProfile} from 'mattermost-redux/types/users';
 
+import {fakeDate} from 'tests/helpers/date';
+
 import StatusDropdown from './status_dropdown';
 
 describe('components/StatusDropdown', () => {
+    let resetFakeDate: () => void;
+
+    beforeEach(() => {
+        resetFakeDate = fakeDate(new Date('2021-11-02T22:48:57Z'));
+    });
+
+    afterEach(() => {
+        resetFakeDate();
+    });
+
     const actions = {
         openModal: jest.fn(),
         setStatus: jest.fn(),
@@ -30,6 +42,7 @@ describe('components/StatusDropdown', () => {
             manualTimezone: '',
         },
         isTimezoneEnabled: true,
+        isMilitaryTime: false,
         isCustomStatusEnabled: false,
         isCustomStatusExpired: false,
         isStatusDropdownOpen: false,
@@ -132,6 +145,47 @@ describe('components/StatusDropdown', () => {
         const wrapper = shallow(
             <StatusDropdown {...props}/>,
         );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should show clear status button when custom status is set', () => {
+        const customStatus = {
+            emoji: 'calendar',
+            text: 'In a meeting',
+            duration: CustomStatusDuration.TODAY,
+            expires_at: '2021-05-03T23:59:59.000Z',
+        };
+        const props = {
+            ...baseProps,
+            isStatusDropdownOpen: true,
+            isCustomStatusEnabled: true,
+            isCustomStatusExpired: false,
+            customStatus,
+        };
+
+        const wrapper = shallow(
+            <StatusDropdown {...props}/>,
+        );
+
+        expect(wrapper.find('.status-dropdown-menu__clear-container').exists()).toBe(true);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should not show clear status button when custom status is not set', () => {
+        const customStatus = undefined;
+        const props = {
+            ...baseProps,
+            isStatusDropdownOpen: true,
+            isCustomStatusEnabled: true,
+            isCustomStatusExpired: false,
+            customStatus,
+        };
+
+        const wrapper = shallow(
+            <StatusDropdown {...props}/>,
+        );
+
+        expect(wrapper.find('.status-dropdown-menu__clear-container').exists()).toBe(false);
         expect(wrapper).toMatchSnapshot();
     });
 });

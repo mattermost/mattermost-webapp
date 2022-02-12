@@ -95,8 +95,12 @@ Cypress.Commands.add('uiAddDirectMessage', () => {
     return cy.findByRole('button', {name: 'Write a direct message'});
 });
 
-Cypress.Commands.add('uiGetChannelSwitcher', () => {
-    return cy.get('#lhsNavigator').findByRole('button', {name: 'Channel Switcher'});
+Cypress.Commands.add('uiGetFindChannels', () => {
+    return cy.get('#lhsNavigator').findByRole('button', {name: 'Find Channels'});
+});
+
+Cypress.Commands.add('uiOpenFindChannels', () => {
+    cy.uiGetFindChannels().click();
 });
 
 Cypress.Commands.add('uiGetChannelSidebarMenu', (channelName) => {
@@ -111,6 +115,11 @@ Cypress.Commands.add('uiClickSidebarItem', (name) => {
     cy.uiGetSidebarItem(name).click();
 
     if (name === 'threads') {
+        cy.get('body').then((body) => {
+            if (body.find('#genericModalLabel').length > 0) {
+                cy.uiCloseModal('A new way to view and follow threads');
+            }
+        });
         cy.findByRole('heading', {name: 'Followed threads'});
     } else {
         cy.findAllByTestId('postView').should('be.visible');

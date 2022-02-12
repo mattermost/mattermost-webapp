@@ -23,6 +23,7 @@ exports[`components/GetLinkModal should have called onHide 1`] = `
       "remove": [Function],
     }
   }
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -117,6 +118,7 @@ exports[`components/GetLinkModal should have called onHide 2`] = `
       "remove": [Function],
     }
   }
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -202,6 +204,7 @@ exports[`components/GetLinkModal should match snapshot when all props is set 1`]
       "remove": [Function],
     }
   }
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -292,6 +295,7 @@ exports[`components/GetLinkModal should match snapshot when helpText is not set 
       "remove": [Function],
     }
   }
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}

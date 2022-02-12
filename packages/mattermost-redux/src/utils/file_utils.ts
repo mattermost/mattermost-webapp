@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {Files, General} from '../constants';
 import {Client4} from 'mattermost-redux/client';
 import {FileInfo} from 'mattermost-redux/types/files';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
 const mimeDB = require('mime-db');
 
@@ -52,7 +52,7 @@ export function getFileType(file: FileInfo): string {
     }) || 'other';
 }
 
-let extToMime: Dictionary<string>;
+let extToMime: Record<string, string>;
 function buildExtToMime() {
     extToMime = {};
     Object.keys(mimeDB).forEach((key) => {

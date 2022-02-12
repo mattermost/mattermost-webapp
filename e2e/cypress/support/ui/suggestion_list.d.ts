@@ -19,14 +19,14 @@ declare namespace Cypress {
 
         /**
          * Verify user's at-mention in the suggestion list
-         * @param {UserProfile} sectionDividerName - name of the section in suggestion list, ex. "Channel Members"
          * @param {UserProfile} user - user object
          * @param {boolean} isSelected - check if user is selected with false as default
+         * @param {string} sectionDividerName - name of the section in suggestion list, ex. "Channel Members"
          *
          * @example
-         *   cy.uiVerifyAtMentionInSuggestionList('Channel Members', user, true);
+         *   cy.uiVerifyAtMentionInSuggestionList(user, true, 'Channel Members');
          */
-        uiVerifyAtMentionInSuggestionList(sectionDividerName: string, user: UserProfile, isSelected: boolean): Chainable;
+        uiVerifyAtMentionInSuggestionList(user: UserProfile, isSelected: boolean, sectionDividerName: string): Chainable;
 
         /**
          * Verify user's at-mention suggestion

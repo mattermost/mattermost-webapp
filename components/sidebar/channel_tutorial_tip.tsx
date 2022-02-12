@@ -8,9 +8,15 @@ import TutorialTip from 'components/tutorial/tutorial_tip';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import {TutorialSteps} from 'utils/constants';
 
+import HandsSvg from 'components/common/svg_images_components/hands_svg';
+
+import {toTitleCase} from 'utils/utils';
+
 type Props = {
     townSquareDisplayName?: string;
     offTopicDisplayName?: string;
+    firstChannelName?: string;
+    isMobileView: boolean;
     openLhs: () => void;
 }
 
@@ -22,14 +28,16 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
     }
 
     render = () => {
-        const screens = [
-            <div key='first-screen'>
-                <h4>
-                    <FormattedMessage
-                        id='sidebar.tutorialChannelTypes.title'
-                        defaultMessage='Organize conversations in channels'
-                    />
-                </h4>
+        let overlayClass = 'tip-overlay--sidebar';
+        let title = (
+            <FormattedMessage
+                id='sidebar.tutorialChannelTypes.title'
+                defaultMessage={'Organize conversations in channels'}
+            />
+        );
+
+        let screen = (
+            <>
                 <p>
                     <FormattedMarkdownMessage
                         id='sidebar.tutorialChannelTypes.channels'
@@ -54,10 +62,43 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
                         defaultMessage={'**Direct messages** are for private conversations between individuals or small groups.'}
                     />
                 </p>
-            </div>,
-        ];
+            </>
+        );
 
-        const sidebarContainer = document.getElementById('sidebar-left');
+        let sidebarContainer = document.getElementById('sidebar-left');
+        let telemetryTagText = 'tutorial_tip_2_channels';
+        if (this.props.firstChannelName) {
+            const displayFirstChannelName = this.props.firstChannelName.split('-').join(' ').trim();
+            overlayClass += ' first-channel';
+            title = (
+                <FormattedMessage
+                    id='create_first_channel.tutorialTip.title'
+                    defaultMessage='Welcome to {firstChannelName}, your first channel!'
+                    values={{firstChannelName: toTitleCase(displayFirstChannelName)}}
+                />
+            );
+            screen = (
+                <>
+                    <div className='handSvg svg-wrapper'>
+                        <HandsSvg
+                            width={60}
+                            height={60}
+                        />
+                    </div>
+                    <p>
+                        <FormattedMarkdownMessage
+                            id='create_first_channel.tutorialTip1'
+                            defaultMessage={'Start collaborating with your teammates and pull in your favorite plugins.'}
+                        />
+                    </p>
+                </>
+            );
+
+            const channelId = this.props.firstChannelName.toLocaleLowerCase().replace(' ', '-');
+            telemetryTagText = 'tutorial_tip_0_first_channel';
+            sidebarContainer = document.getElementById('sidebarItem_' + channelId);
+        }
+
         const sidebarContainerPosition = sidebarContainer && sidebarContainer.getBoundingClientRect();
 
         const tutorialTipPunchout = sidebarContainerPosition ? {
@@ -69,11 +110,13 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
 
         return (
             <TutorialTip
-                placement='right'
-                step={TutorialSteps.CHANNEL_POPOVER}
-                screens={screens}
-                overlayClass='tip-overlay--sidebar'
-                telemetryTag='tutorial_tip_2_channels'
+                title={title}
+                showOptOut={true}
+                placement={this.props.isMobileView ? 'bottom' : 'right'}
+                step={this.props.firstChannelName ? TutorialSteps.ADD_FIRST_CHANNEL : TutorialSteps.CHANNEL_POPOVER}
+                screen={screen}
+                overlayClass={overlayClass}
+                telemetryTag={telemetryTagText}
                 punchOut={tutorialTipPunchout}
             />
         );

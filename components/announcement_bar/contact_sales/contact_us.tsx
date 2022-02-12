@@ -11,18 +11,19 @@ import './contact_us.scss';
 export interface Props {
     buttonTextElement?: JSX.Element;
     eventID?: string;
+    customClass?: string;
 }
 
 const ContactUsButton: React.FC<Props> = (props: Props) => {
     const handleContactUsLinkClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         trackEvent('admin', props.eventID || 'in_trial_contact_sales');
-        window.open('https://mattermost.com/contact-us/', '_blank');
+        window.open('https://mattermost.com/contact-sales/', '_blank');
     };
 
     return (
         <button
-            className='contact-us'
+            className={`contact-us ${props.customClass ? props.customClass : ''}`}
             onClick={(e) => handleContactUsLinkClick(e)}
         >
             {props.buttonTextElement || (

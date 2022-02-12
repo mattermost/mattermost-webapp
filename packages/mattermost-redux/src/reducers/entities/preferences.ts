@@ -6,7 +6,6 @@ import {combineReducers} from 'redux';
 import {PreferenceTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
 function getKey(preference: PreferenceType) {
     return `${preference.category}--${preference.name}`;
@@ -24,7 +23,7 @@ function setAllPreferences(preferences: PreferenceType[]): any {
     return nextState;
 }
 
-function myPreferences(state: Dictionary<PreferenceType> = {}, action: GenericAction) {
+function myPreferences(state: Record<string, PreferenceType> = {}, action: GenericAction) {
     switch (action.type) {
     case PreferenceTypes.RECEIVED_ALL_PREFERENCES:
         return setAllPreferences(action.data);

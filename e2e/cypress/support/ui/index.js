@@ -16,6 +16,7 @@ import './emoji';
 import './file_preview';
 import './login';
 import './menu';
+import './mfa';
 import './modal';
 import './post';
 import './post_dropdown_menu';

@@ -51,7 +51,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <div
       className="divider-dark first"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       section="name"
       title="Team Name"
       updateSection={[Function]}
@@ -59,7 +59,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <div
       className="divider-light"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       describe={
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Click 'Edit' to add a team description."
@@ -96,7 +96,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <div
       className="divider-light"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       describe={
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Click 'Edit' to add an email domain whitelist."
@@ -110,16 +110,16 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <div
       className="divider-light"
     />
-    <SettingItemMin
-      describe="No"
-      section="open_invite"
-      title="Allow any user with an account on this server to join this team"
-      updateSection={[Function]}
+    <OpenInvite
+      isActive={false}
+      onToggle={[Function]}
+      patchTeam={[MockFunction]}
+      teamId="team_id"
     />
     <div
       className="divider-light"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       describe="Click 'Edit' to regenerate Invite Code."
       section="invite_id"
       title="Invite Code"
@@ -183,7 +183,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <div
       className="divider-dark first"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       section="name"
       title="Team Name"
       updateSection={[Function]}
@@ -191,7 +191,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <div
       className="divider-light"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       describe={
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Click 'Edit' to add a team description."
@@ -228,7 +228,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <div
       className="divider-light"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       describe={
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Click 'Edit' to add an email domain whitelist."
@@ -242,11 +242,11 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <div
       className="divider-light"
     />
-    <SettingItemMin
-      describe="No"
-      section="open_invite"
-      title="Allow any user with an account on this server to join this team"
-      updateSection={[Function]}
+    <OpenInvite
+      isActive={false}
+      onToggle={[Function]}
+      patchTeam={[MockFunction]}
+      teamId="team_id"
     />
     <div
       className="divider-light"
@@ -309,7 +309,7 @@ exports[`components/TeamSettings should match snapshot when team is group constr
     <div
       className="divider-dark first"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       describe="TestTeam"
       section="name"
       title="Team Name"
@@ -318,7 +318,7 @@ exports[`components/TeamSettings should match snapshot when team is group constr
     <div
       className="divider-light"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       describe="The Test Team"
       section="description"
       title="Team Description"
@@ -350,11 +350,12 @@ exports[`components/TeamSettings should match snapshot when team is group constr
     <div
       className="divider-light"
     />
-    <SettingItemMin
-      describe="No, members of this team are added and removed by linked groups."
-      section="open_invite"
-      title="Allow any user with an account on this server to join this team"
-      updateSection={[Function]}
+    <OpenInvite
+      isActive={false}
+      isGroupConstrained={true}
+      onToggle={[Function]}
+      patchTeam={[MockFunction]}
+      teamId="team_id"
     />
     <div
       className="divider-dark"

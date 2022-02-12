@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @enterprise @not_cloud @system_console
+// Group: @enterprise @not_cloud @system_console @license_removal
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {getAdminAccount} from '../../../../support/env';
@@ -48,6 +48,25 @@ describe('System console', () => {
                 });
             });
         });
+    });
+
+    it('MM-41397 - License page shows upgrade to Enterprise for E20 licenses', () => {
+        cy.visit('/admin_console/about/license');
+        cy.get('.admin-console__header').
+            should('be.visible').
+            and('have.text', 'Edition and License');
+
+        // Validate prompt to increase headcount in Enterprise licenses
+        cy.get('.EnterpriseEditionRightPannel').
+            should('be.visible').
+            within(() => {
+                cy.findByText('Need to increase your headcount?');
+                cy.findByText('We’re here to work with you and your needs. Contact us today to get more seats on your plan.');
+                cy.findByRole('button', {name: 'Contact sales'});
+            });
+
+        // Validate Compare plans link is not present for Enterprise licenses
+        cy.findByRole('link', {name: 'Compare Plans'}).should('not.exist');
     });
 
     it('MM-T1201 - Remove and re-add license - Permissions freeze in place when license is removed (and then re-added)', () => {

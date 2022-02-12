@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
+import {withRouter} from 'react-router-dom';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 
@@ -12,6 +13,7 @@ import {
 import {
     getJoinableTeamIds,
     getCurrentTeam,
+    getCurrentRelativeTeamUrl,
 } from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
@@ -27,7 +29,6 @@ import {getRhsState} from 'selectors/rhs';
 
 import {
     showOnboarding,
-    showNextStepsTips,
     showNextSteps,
 } from 'components/next_steps_view/steps';
 
@@ -77,11 +78,10 @@ function mapStateToProps(state: GlobalState) {
         currentUser,
         isMentionSearch: rhsState === RHSStates.MENTION,
         teamIsGroupConstrained: Boolean(currentTeam.group_constrained),
-        isLicensedForLDAPGroups:
-            state.entities.general.license.LDAPGroups === 'true',
+        isLicensedForLDAPGroups: state.entities.general.license.LDAPGroups === 'true',
         showGettingStarted: showOnboarding(state),
-        showNextStepsTips: showNextStepsTips(state),
-        showNextSteps: showNextSteps(state),
+        showDueToStepsNotFinished: showNextSteps(state),
+        teamUrl: getCurrentRelativeTeamUrl(state),
     };
 }
 
@@ -99,4 +99,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainMenu);
+export default withRouter<any, any>(connect(mapStateToProps, mapDispatchToProps)(MainMenu));

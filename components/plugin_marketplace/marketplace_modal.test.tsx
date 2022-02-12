@@ -9,7 +9,7 @@ import type {PluginStatusRedux} from 'mattermost-redux/types/plugins';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
-import {AllListing, InstalledListing, MarketplaceModal, MarketplaceModalProps} from './marketplace_modal';
+import MarketplaceModal, {AllListing, InstalledListing, MarketplaceModalProps} from './marketplace_modal';
 
 jest.mock('actions/telemetry_actions.jsx', () => {
     const original = jest.requireActual('actions/telemetry_actions.jsx');

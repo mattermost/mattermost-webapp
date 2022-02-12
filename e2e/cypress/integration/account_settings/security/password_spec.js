@@ -7,9 +7,10 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @account_setting
 
-describe('Account Settings', () => {
+describe('Profile', () => {
     let testUser;
     let offTopic;
 
@@ -27,8 +28,8 @@ describe('Account Settings', () => {
         // # Reload the page to help run each test cleanly
         cy.reload();
 
-        // # Go to Account Settings
-        cy.uiOpenAccountSettingsModal('Security');
+        // # Go to Profile
+        cy.uiOpenProfileModal('Security');
 
         // * Check that the Security tab is loaded
         cy.get('#securityButton').should('be.visible');
