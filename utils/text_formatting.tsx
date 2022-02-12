@@ -1,24 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-ignore
 import XRegExp from 'xregexp';
 import emojiRegex from 'emoji-regex';
-
 import {Renderer} from 'marked';
 
 import {formatWithRenderer} from 'utils/markdown';
 
 import * as Emoticons from './emoticons';
 import * as Markdown from './markdown';
-
 import Constants from './constants';
-
 import EmojiMap from './emoji_map.js';
 
-const punctuation = XRegExp.cache('[^\\pL\\d]', '');
-
+const punctuationRegex = /[^\p{L}\d]/u;
 const AT_MENTION_PATTERN = /(?:\B|\b_+)@([a-z0-9.\-_]+)/gi;
 const UNICODE_EMOJI_REGEX = emojiRegex();
 const htmlEmojiPattern = /^<p>\s*(?:<img class="emoticon"[^>]*>|<span data-emoticon[^>]*>[^<]*<\/span>\s*|<span class="emoticon emoticon--unicode">[^<]*<\/span>\s*)+<\/p>$/;
@@ -343,25 +337,8 @@ export function sanitizeHtml(text: string): string {
 }
 
 // Copied from our fork of commonmark.js
-const emailAlphaNumericChars = '\\p{L}\\p{Nd}';
-const emailSpecialCharacters = "!#$%&'*+\\-\\/=?^_`{|}~";
-const emailRestrictedSpecialCharacters = '\\s(),:;<>@\\[\\]';
-const emailValidCharacters = emailAlphaNumericChars + emailSpecialCharacters;
-const emailValidRestrictedCharacters = emailValidCharacters + emailRestrictedSpecialCharacters;
-const emailStartPattern =
-  '(?:[' +
-  emailValidCharacters +
-  '](?:[' +
-  emailValidCharacters +
-  ']|\\.(?!\\.|@))*|\\"[' +
-  emailValidRestrictedCharacters +
-  '.]+\\")@';
-const reEmail = XRegExp.cache(
-    '(^|[^\\pL\\d])(' +
-    emailStartPattern +
-    '[\\pL\\d.\\-]+[.]\\pL{2,4}(?=$|[^\\p{L}]))',
-    'g',
-);
+// eslint-disable-next-line no-useless-escape
+const emailRegex = /(^|[^\p{L}\d])((?:[\p{L}\p{Nd}!#$%&'*+-/=?^_`\{|\}~](?:[\p{L}\p{Nd}!#$%&'*+-/=?^_`\{|\}~]|.(?!.|@))*|"[\p{L}\p{Nd}!#$%&'*+-/=?^_`\{|\}~\s(),:;<>@[].\]+")@[\p{L}\d.-]+[.]\p{L}{2,4}(?=$|[^\p{L}]))/gu;
 
 // Convert emails into tokens
 function autolinkEmails(text: string, tokens: Tokens) {
@@ -383,7 +360,7 @@ function autolinkEmails(text: string, tokens: Tokens) {
         return prefix + alias;
     }
 
-    return XRegExp.replace(text, reEmail, replaceEmailWithToken);
+    return XRegExp.replace(text, emailRegex, replaceEmailWithToken);
 }
 
 export function autolinkAtMentions(text: string, tokens: Tokens): string {
@@ -492,7 +469,7 @@ function autolinkChannelMentions(
         const originalChannelName = channelNameLower;
 
         for (let c = channelNameLower.length; c > 0; c--) {
-            if (punctuation.test(channelNameLower[c - 1])) {
+            if (punctuationRegex.test(channelNameLower[c - 1])) {
                 channelNameLower = channelNameLower.substring(0, c - 1);
 
                 if (channelMentionExists(channelNameLower)) {
@@ -693,8 +670,8 @@ function autolinkHashtags(
     );
 }
 
-const puncStart = XRegExp.cache('^[^\\pL\\d\\s#]+', '');
-const puncEnd = XRegExp.cache('[^\\pL\\d\\s]+$', '');
+const puncStart = /^[^\p{L}\d\s#]+/u;
+const puncEnd = /[^\p{L}\d\s]+$/u;
 
 export function parseSearchTerms(searchTerm: string): string[] {
     let terms = [];
