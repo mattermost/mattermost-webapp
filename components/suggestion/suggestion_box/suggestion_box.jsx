@@ -771,6 +771,7 @@ export default class SuggestionBox extends React.PureComponent {
         Reflect.deleteProperty(props, 'forceSuggestionsWhenBlur');
         Reflect.deleteProperty(props, 'onSuggestionsReceived');
         Reflect.deleteProperty(props, 'actions');
+        Reflect.deleteProperty(props, 'shouldSearchCompleteText');
 
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;
