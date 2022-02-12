@@ -20,9 +20,9 @@ import Avatar from 'components/widgets/users/avatar';
 
 import './avatars.scss';
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
-import ProfilePopover from '../../../profile_popover';
-import OverlayTrigger, {BaseOverlayTrigger} from '../../../overlay_trigger';
-import * as Utils from '../../../../utils/utils';
+import ProfilePopover from 'components/profile_popover';
+import OverlayTrigger, {BaseOverlayTrigger} from 'components/overlay_trigger';
+import * as Utils from 'utils/utils';
 
 type Props = {
     userIds: Array<UserProfile['id']>;
@@ -94,7 +94,7 @@ function UserAvatar({
                 <Avatar
                     url={imageURLForUser(userId, user?.last_picture_update)}
                     tabIndex={0}
-                    {...props}
+                    size={props.size}
                 />
             </button>
         </OverlayTrigger>
