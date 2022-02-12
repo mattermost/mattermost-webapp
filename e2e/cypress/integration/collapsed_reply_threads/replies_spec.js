@@ -119,6 +119,28 @@ describe('Collapsed Reply Threads', () => {
         cy.get('article.ThreadItem').find('.activity').should('have.text', '1 new reply');
     });
 
+    it('should open popover when avatar is clicked', () => {
+        cy.uiWaitUntilMessagePostedIncludes(rootPost.data.message);
+
+        // # Get thread footer of last post
+        cy.uiGetPostThreadFooter(rootPost.id).within(() => {
+            // * Click the avatar
+            // cy.get('.ReplyButton').should('have.text', '3 replies');
+
+            // * Popover should be visible
+            // cy.get('.Avatar').should('have.lengthOf', 2);
+        });
+
+        // # Visit global threads
+        cy.uiClickSidebarItem('threads');
+
+        // * Click the avatar
+        cy.get('article.ThreadItem').find('.activity').find('.Avatars').find('button').click({multiple: true});
+
+        // * Popover should be visible
+        cy.get('div.user-profile-popover').should('be.visible');
+    });
+
     it('MM-T4143 Emoji reaction - type +:+1:', () => {
         // # Create a root post
         cy.postMessage('Hello!');
