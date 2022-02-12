@@ -60,7 +60,7 @@ describe('Interactive Menu', () => {
 
         // * Verify that it renders markdown with link
         cy.getLastPostId().then((postId) => {
-            cy.get(`#postMessageText_${postId}`).should('have.html', '<p>a <a class="theme markdown__link" href="http://a" rel="noreferrer" target="_blank"> b </a> a</p>');
+            cy.get(`#postMessageText_${postId}`).should('have.html', '<p>a <a class="theme markdown__link" href="http://a" rel="noreferrer" target="_blank"><span> b </span></a> a</p>');
         });
     });
 });

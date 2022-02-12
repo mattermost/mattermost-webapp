@@ -211,7 +211,7 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
     it('MM-T1804_4 Should add reaction to same post on which emoji picker was opened', () => {
         // # Save the post id which user initially intended to add reaction to, for later use
         cy.getLastPostId().then((lastPostId) => {
-            cy.get(`#${lastPostId}_message`).as('postIdForAddingReaction');
+            cy.wrap(lastPostId).as('postIdForAddingReaction');
         });
 
         // # Do keyboard shortcut without focus
@@ -232,8 +232,8 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
         clickSmileEmojiFromEmojiPicker();
 
         // * Check if emoji is shown as reaction to the message it initially intended
-        cy.get('@postIdForAddingReaction').within(() => {
-            checkReactionFromPost();
+        cy.get('@postIdForAddingReaction').then((postIdForAddingReaction) => {
+            checkReactionFromPost(postIdForAddingReaction);
         });
 
         // * Check if last message didn't get a reaction

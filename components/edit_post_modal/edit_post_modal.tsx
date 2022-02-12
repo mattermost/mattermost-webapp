@@ -273,7 +273,11 @@ export class EditPostModal extends React.PureComponent<Props, State> {
 
         actions.addMessageIntoHistory(updatedPost.message);
 
-        const data = await actions.editPost(updatedPost);
+        // Only message is getting updated, no other patchable attributes.
+        const data = await actions.editPost({
+            id: updatedPost.id,
+            message: updatedPost.message,
+        });
         if (data) {
             window.scrollTo(0, 0);
         }
@@ -633,10 +637,10 @@ export class EditPostModal extends React.PureComponent<Props, State> {
                         <div className='post-create-footer'>
                             <TextboxLinks
                                 isMarkdownPreviewEnabled={this.props.canEditPost && this.props.markdownPreviewFeatureIsEnabled}
-                                characterLimit={this.props.maxPostSize}
+                                hasExceededCharacterLimit={this.state.editText.length > this.props.maxPostSize}
                                 showPreview={this.props.shouldShowPreview}
                                 updatePreview={this.setShowPreview}
-                                message={this.state.editText}
+                                hasText={this.state.editText.length > 0}
                             />
                             <div className={errorBoxClass}>{postError}</div>
                         </div>
