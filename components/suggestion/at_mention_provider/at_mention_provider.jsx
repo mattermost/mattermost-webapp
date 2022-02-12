@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import XRegExp from 'xregexp';
-
 import {getSuggestionsSplitBy, getSuggestionsSplitByMultiple} from 'mattermost-redux/utils/user_utils';
 
 import {Constants} from 'utils/constants';
@@ -11,9 +9,11 @@ import Provider from '../provider.jsx';
 
 import AtMentionSuggestion from './at_mention_suggestion.jsx';
 
+const regexForAtMention = /(?:^|\W)@([\p{L}\d_. -]*)$/ui;
+
 // The AtMentionProvider provides matches for at mentions, including @here, @channel, @all,
 // users in the channel and users not in the channel. It mixes together results from the local
-// store with results fetch from the server.
+// store with results fetched from the server.
 export default class AtMentionProvider extends Provider {
     constructor(props) {
         super();
@@ -299,7 +299,7 @@ export default class AtMentionProvider extends Provider {
     }
 
     handlePretextChanged(pretext, resultCallback) {
-        const captured = XRegExp.cache('(?:^|\\W)@([\\pL\\d\\-_. ]*)$', 'i').exec(pretext.toLowerCase());
+        const captured = regexForAtMention.exec(pretext.toLowerCase());
         if (!captured) {
             return false;
         }
