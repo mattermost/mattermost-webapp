@@ -31,7 +31,7 @@ export function handleBindingClick<Res=unknown>(binding: AppBinding, context: Ap
             );
 
             const res = await dispatch(doAppFetchForm<Res>(callRequest, intl));
-            return {data: res};
+            return res;
         }
 
         // Open form
@@ -68,8 +68,7 @@ export function handleBindingClick<Res=unknown>(binding: AppBinding, context: Ap
         );
 
         const res = await dispatch(doAppSubmit<Res>(callRequest, intl));
-
-        return {data: res};
+        return res;
     };
 }
 
