@@ -5,6 +5,7 @@ import {connect, ConnectedProps} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {GlobalState} from 'types/store';
 
@@ -17,9 +18,11 @@ import SingleImageView from 'components/single_image_view/single_image_view';
 
 function mapStateToProps(state: GlobalState) {
     const isRhsOpen = getIsRhsOpen(state);
+    const config = getConfig(state);
 
     return {
         isRhsOpen,
+        enablePublicLink: config.EnablePublicLink === 'true',
     };
 }
 

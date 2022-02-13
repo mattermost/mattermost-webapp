@@ -64,6 +64,11 @@ export default class SizeAwareImage extends React.PureComponent {
          * Enables the logic of surrounding small images with a bigger container div for better click/tap targeting
          */
         handleSmallImageContainer: PropTypes.bool,
+
+        /**
+         * Enables copy URL functionality through a button on image hover.
+         */
+        enablePublicLink: PropTypes.bool,
     }
 
     constructor(props) {
@@ -150,6 +155,7 @@ export default class SizeAwareImage extends React.PureComponent {
             fileInfo,
             src,
             fileURL,
+            enablePublicLink,
             ...props
         } = this.props;
 
@@ -158,6 +164,7 @@ export default class SizeAwareImage extends React.PureComponent {
         Reflect.deleteProperty(props, 'onImageLoadFail');
         Reflect.deleteProperty(props, 'dimensions');
         Reflect.deleteProperty(props, 'handleSmallImageContainer');
+        Reflect.deleteProperty(props, 'enablePublicLink');
         Reflect.deleteProperty(props, 'onClick');
 
         let ariaLabelImage = localizeMessage('file_attachment.thumbnail', 'file thumbnail');
@@ -275,9 +282,11 @@ export default class SizeAwareImage extends React.PureComponent {
                         {image}
                     </div>
                     <span
-                        className={classNames('image-preview-utility-buttons-container', 'image-preview-utility-buttons-container--small-image')}
+                        className={classNames('image-preview-utility-buttons-container', 'image-preview-utility-buttons-container--small-image', {
+                            'image-preview-utility-buttons-container--small-image-no-copy-button': !enablePublicLink,
+                        })}
                     >
-                        {copyLink}
+                        {enablePublicLink && copyLink}
                         {download}
                     </span>
                 </div>
@@ -293,9 +302,10 @@ export default class SizeAwareImage extends React.PureComponent {
                         // cases for when image isn't a small image but width is < 100px
 
                         'image-preview-utility-buttons-container--small-image': this.state.imageWidth < MIN_IMAGE_SIZE_FOR_INTERNAL_BUTTONS,
+                        'image-preview-utility-buttons-container--small-image-no-copy-button': !enablePublicLink && this.state.imageWidth < MIN_IMAGE_SIZE_FOR_INTERNAL_BUTTONS,
                     })}
                 >
-                    {copyLink}
+                    {enablePublicLink && copyLink}
                     {download}
                 </span>
             </figure>

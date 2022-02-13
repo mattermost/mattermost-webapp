@@ -335,6 +335,11 @@
                     width: 70px;
                 }
 
+                &--small-image-no-copy-button {
+                    right: -15px;
+                    width: 38px;
+                }
+
                 &:hover button.size-aware-image__copy_link,
                 &:hover a.size-aware-image__download {
                     color: rgba(var(--center-channel-color-rgb), 0.72);

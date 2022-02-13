@@ -20,6 +20,7 @@ describe('components/SizeAwareImage', () => {
         fileInfo: {
             name: 'photo-1533709752211-118fcaf03312',
         },
+        enablePublicLink: true,
     };
 
     test('should render an svg when first mounted with dimensions and img display set to none', () => {
@@ -178,5 +179,15 @@ describe('components/SizeAwareImage', () => {
         expect(wrapper.state('linkCopiedRecently')).toBe(false);
         wrapper.find('.size-aware-image__copy_link').first().simulate('click');
         expect(wrapper.state('linkCopiedRecently')).toBe(true);
+    });
+
+    test('does not render copy button if enablePublicLink is false', () => {
+        const props = {
+            ...baseProps,
+            enablePublicLink: false,
+        };
+
+        const wrapper = shallow(<SizeAwareImage {...props}/>);
+        expect(wrapper.find('button.size-aware-image__copy_link').exists()).toEqual(false);
     });
 });
