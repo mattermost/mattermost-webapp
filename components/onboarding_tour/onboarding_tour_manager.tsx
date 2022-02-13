@@ -12,6 +12,8 @@ import {setAddChannelDropdown} from 'actions/views/add_channel_dropdown';
 import {setOnBoardingTaskList} from 'actions/views/onboarding_task_list';
 import {open as openLhs} from 'actions/views/lhs.js';
 import {isFirstAdmin} from 'components/next_steps_view/steps';
+import {trackEvent as trackEventAction} from 'actions/telemetry_actions';
+import {generateTelemetryTag} from 'components/onboarding_tasks';
 
 import {
     AutoTourStatus, ChannelsTour,
@@ -107,8 +109,9 @@ const useOnBoardingTourTipManager = (): OnBoardingTourTipManager => {
     const autoTourStatus = useSelector((state: GlobalState) => getInt(state, ChannelsTour, TutorialTourName.AutoTourStatus, 0));
     const isAutoTourEnabled = autoTourStatus === AutoTourStatus.ENABLED;
     const handleActions = useHandleNavigationAndExtraActions();
-    const handleSaveData = useCallback(
-        (stepValue: number, eventSource: ActionType, autoTour = true) => {
+
+    const handleSaveDataAndTrackEvent = useCallback(
+        (stepValue: number, eventSource: ActionType, autoTour = true, trackEvent = true) => {
             const preferences = [
                 {
                     user_id: currentUserId,
@@ -124,6 +127,11 @@ const useOnBoardingTourTipManager = (): OnBoardingTourTipManager => {
                 },
             ];
             dispatch(storeSavePreferences(currentUserId, preferences));
+            if (trackEvent) {
+                const eventSuffix = `${stepValue}--${eventSource}`;
+                const telemetryTag = generateTelemetryTag(ChannelsTour, tourName, eventSuffix);
+                trackEventAction(tourName, telemetryTag);
+            }
         },
         [currentUserId],
     );
@@ -164,15 +172,15 @@ const useOnBoardingTourTipManager = (): OnBoardingTourTipManager => {
             type = 'jump';
         }
         handleHide();
-        handleSaveData(stepValue, type);
+        handleSaveDataAndTrackEvent(stepValue, type);
         handleActions(stepValue, currentStep);
-    }, [currentStep, handleHide, handleSaveData, handleActions]);
+    }, [currentStep, handleHide, handleSaveDataAndTrackEvent, handleActions]);
 
     const handleDismiss = useCallback((e: React.MouseEvent): void => {
         handleEventPropagationAndDefault(e);
         handleHide();
-        handleSaveData(currentStep, 'dismiss', false);
-    }, [handleSaveData, handleHide]);
+        handleSaveDataAndTrackEvent(currentStep, 'dismiss', false);
+    }, [handleSaveDataAndTrackEvent, handleHide]);
 
     const handlePrevious = useCallback((e: React.MouseEvent): void => {
         handleEventPropagationAndDefault(e);
@@ -200,8 +208,8 @@ const useOnBoardingTourTipManager = (): OnBoardingTourTipManager => {
     const handleSkip = useCallback((e: React.MouseEvent): void => {
         handleEventPropagationAndDefault(e);
         handleHide();
-        handleSaveData(SKIPPED, 'skipped', false);
-    }, [handleSaveData, handleHide]);
+        handleSaveDataAndTrackEvent(SKIPPED, 'skipped', false);
+    }, [handleSaveDataAndTrackEvent, handleHide]);
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent): void => {
