@@ -27,6 +27,7 @@ import ModalController from 'components/modal_controller';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
+import TaskList from 'components/global_onboarding_list/onboarding_checklist';
 
 import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
@@ -113,6 +114,9 @@ export default class Root extends React.PureComponent {
         }).isRequired,
         plugins: PropTypes.array,
         products: PropTypes.array,
+        dismissChecklist: PropTypes.bool,
+        isUserFirstAdmin: PropTypes.bool,
+        isMobile: PropTypes.bool,
     }
 
     constructor(props) {
@@ -455,6 +459,7 @@ export default class Root extends React.PureComponent {
                     <CompassThemeProvider theme={this.props.theme}>
                         <ModalController/>
                         <GlobalHeader/>
+                        {this.props.isUserFirstAdmin && !this.props.isMobile && this.props.dismissChecklist && <TaskList/>}
                         <TeamSidebar/>
                         <Switch>
                             {this.props.products?.map((product) => (
