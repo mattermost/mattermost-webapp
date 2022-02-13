@@ -11,6 +11,7 @@
 // Group: @channel_sidebar
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import * as MESSAGES from '../../fixtures/messages';
 import {getAdminAccount} from '../../support/env';
 
 describe('Channel sidebar', () => {
@@ -46,22 +47,28 @@ describe('Channel sidebar', () => {
         // # Check that the CHANNELS group header is visible
         cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('be.visible').as('channelsGroup');
 
-        // * Verify that both channels are visible when not collapsed
-        cy.get('.SidebarChannel:contains(Off-Topic)').should('be.visible');
-        cy.get('.SidebarChannel:contains(Town Square)').should('be.visible');
+        cy.get('.SidebarChannelGroup').should('exist').and('be.visible').within(() => {
+            // * Verify that both channels are visible when not collapsed
+            cy.findByText('Town Square').should('exist').and('be.visible');
+            cy.findByText('Off-Topic').should('exist').and('be.visible');
+        });
 
         // # Click on CHANNELS
         cy.get('@channelsGroup').click();
 
-        // * Verify that Off-Topic is no longer visible but Town Square still is
-        cy.get('.SidebarChannel:contains(Off-Topic)').should('not.be.visible');
-        cy.get('.SidebarChannel:contains(Town Square)').should('be.visible');
+        cy.get('.SidebarChannelGroup').should('exist').and('be.visible').within(() => {
+            // * Verify that both channels are visible when not collapsed
+            cy.findByText('Town Square').should('exist').and('be.visible');
+            cy.findByText('Off-Topic').should('not.exist');
+        });
     });
 
     it('should collapse channels that are not unread channels', () => {
+        const uniqueChannelName = MESSAGES.TINY;
+
         // Create a new channel and post a message into it
-        cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel Test').then(({channel}) => {
-            cy.postMessageAs({sender: sysadmin, message: 'Test', channelId: channel.id});
+        cy.apiCreateChannel(testTeam.id, 'channel-test', uniqueChannelName, 'O', '', '', false).then(({channel}) => {
+            cy.postMessageAs({sender: sysadmin, message: MESSAGES.SMALL, channelId: channel.id});
 
             // Force a reload to ensure the unread message displays
             cy.reload();
@@ -70,16 +77,20 @@ describe('Channel sidebar', () => {
             // # Check that the CHANNELS group header is visible
             cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('be.visible').as('channelsGroup');
 
-            // * Verify that all channels are visible
-            cy.get('.SidebarChannel:contains(Off-Topic)').should('be.visible');
-            cy.get('.SidebarChannel:contains(Channel Test)').should('be.visible').should('has.class', 'unread');
+            cy.get('.SidebarChannelGroup').should('exist').and('be.visible').within(() => {
+                // * Verify that all channels are visible
+                cy.findByText('Off-Topic').should('exist').and('be.visible');
+                cy.findByText(uniqueChannelName).should('exist').and('be.visible');
+            });
 
             // # Click on CHANNELS
             cy.get('@channelsGroup').click();
 
-            // * Verify that Off-Topic is no longer visible but Channel Test still is
-            cy.get('.SidebarChannel:contains(Off-Topic)').should('not.be.visible');
-            cy.get('.SidebarChannel:contains(Channel Test)').should('be.visible');
+            cy.get('.SidebarChannelGroup').should('exist').and('be.visible').within(() => {
+                // * Verify that Off-Topic is no longer visible but Channel Test still is
+                cy.findByText('Off-Topic').should('not.exist');
+                cy.findByText(uniqueChannelName).should('be.visible').and('exist');
+            });
         });
     });
 
