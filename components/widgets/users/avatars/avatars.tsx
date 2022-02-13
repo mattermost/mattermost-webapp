@@ -9,6 +9,7 @@ import tinycolor from 'tinycolor2';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {getUser as selectUser, makeDisplayNameGetter} from 'mattermost-redux/selectors/entities/users';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
+import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 
 import {GlobalState} from 'types/store';
 
@@ -17,11 +18,10 @@ import {imageURLForUser} from 'utils/utils';
 
 import SimpleTooltip, {useSynchronizedImmediate} from 'components/widgets/simple_tooltip';
 import Avatar from 'components/widgets/users/avatar';
-
-import './avatars.scss';
-import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 import ProfilePopover from 'components/profile_popover';
 import OverlayTrigger, {BaseOverlayTrigger} from 'components/overlay_trigger';
+
+import './avatars.scss';
 import * as Utils from 'utils/utils';
 
 type Props = {
@@ -60,18 +60,11 @@ function UserAvatar({
     ...props
 }: {
     userId: UserProfile['id'];
-    overlayProps: Partial<ComponentProps<typeof SimpleTooltip>>;
 } & ComponentProps<typeof Avatar>) {
     const user = useSelector((state: GlobalState) => selectUser(state, userId)) as UserProfile | undefined;
 
     const overlay = React.createRef<MMOverlayTrigger>();
-
-    const getProfilePictureURL = (): string => {
-        if (userId) {
-            return Utils.imageURLForUser(userId);
-        }
-        return '';
-    };
+    const profilePictureURL = userId ? Utils.imageURLForUser(userId) : '';
 
     return (
         <OverlayTrigger
@@ -83,7 +76,7 @@ function UserAvatar({
                 <ProfilePopover
                     className='user-profile-popover'
                     userId={userId}
-                    src={getProfilePictureURL()}
+                    src={profilePictureURL}
                 />
             }
         >
@@ -93,8 +86,7 @@ function UserAvatar({
             >
                 <Avatar
                     url={imageURLForUser(userId, user?.last_picture_update)}
-                    tabIndex={0}
-                    size={props.size}
+                    {...props}
                 />
             </button>
         </OverlayTrigger>
@@ -138,7 +130,6 @@ function Avatars({
                     userId={id}
                     size={size}
                     tabIndex={0}
-                    overlayProps={overlayProps}
                 />
             ))}
             {Boolean(nonDisplayCount) && (

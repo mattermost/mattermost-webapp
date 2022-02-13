@@ -75,13 +75,6 @@ exports[`components/threading/channel_threads/thread_footer should report total 
       >
         <UserAvatar
           key="5"
-          overlayProps={
-            Object {
-              "animation": true,
-              "delayShow": undefined,
-              "onEntered": [Function],
-            }
-          }
           size="sm"
           style={
             Object {
@@ -160,6 +153,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
               >
                 <Memo(Avatar)
                   size="sm"
+                  style={
+                    Object {
+                      "background": "rgb(240, 240, 241)",
+                    }
+                  }
                   tabIndex={0}
                   url="/api/v4/users/5/image?_=0"
                 >
@@ -167,6 +165,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                     alt="user profile image"
                     className="Avatar Avatar-sm"
                     src="/api/v4/users/5/image?_=0"
+                    style={
+                      Object {
+                        "background": "rgb(240, 240, 241)",
+                      }
+                    }
                     tabIndex={0}
                   />
                 </Memo(Avatar)>
@@ -176,13 +179,6 @@ exports[`components/threading/channel_threads/thread_footer should report total 
         </UserAvatar>
         <UserAvatar
           key="4"
-          overlayProps={
-            Object {
-              "animation": true,
-              "delayShow": undefined,
-              "onEntered": [Function],
-            }
-          }
           size="sm"
           style={
             Object {
@@ -261,6 +257,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
               >
                 <Memo(Avatar)
                   size="sm"
+                  style={
+                    Object {
+                      "background": "rgb(240, 240, 241)",
+                    }
+                  }
                   tabIndex={0}
                   url="/api/v4/users/4/image?_=0"
                 >
@@ -268,6 +269,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                     alt="user profile image"
                     className="Avatar Avatar-sm"
                     src="/api/v4/users/4/image?_=0"
+                    style={
+                      Object {
+                        "background": "rgb(240, 240, 241)",
+                      }
+                    }
                     tabIndex={0}
                   />
                 </Memo(Avatar)>
@@ -277,13 +283,6 @@ exports[`components/threading/channel_threads/thread_footer should report total 
         </UserAvatar>
         <UserAvatar
           key="3"
-          overlayProps={
-            Object {
-              "animation": true,
-              "delayShow": undefined,
-              "onEntered": [Function],
-            }
-          }
           size="sm"
           style={
             Object {
@@ -362,6 +361,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
               >
                 <Memo(Avatar)
                   size="sm"
+                  style={
+                    Object {
+                      "background": "rgb(240, 240, 241)",
+                    }
+                  }
                   tabIndex={0}
                   url="/api/v4/users/3/image?_=0"
                 >
@@ -369,6 +373,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                     alt="user profile image"
                     className="Avatar Avatar-sm"
                     src="/api/v4/users/3/image?_=0"
+                    style={
+                      Object {
+                        "background": "rgb(240, 240, 241)",
+                      }
+                    }
                     tabIndex={0}
                   />
                 </Memo(Avatar)>
@@ -849,13 +858,6 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
       >
         <UserAvatar
           key="5"
-          overlayProps={
-            Object {
-              "animation": true,
-              "delayShow": undefined,
-              "onEntered": [Function],
-            }
-          }
           size="sm"
           style={
             Object {
@@ -934,6 +936,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
               >
                 <Memo(Avatar)
                   size="sm"
+                  style={
+                    Object {
+                      "background": "rgb(240, 240, 241)",
+                    }
+                  }
                   tabIndex={0}
                   url="/api/v4/users/5/image?_=0"
                 >
@@ -941,6 +948,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                     alt="user profile image"
                     className="Avatar Avatar-sm"
                     src="/api/v4/users/5/image?_=0"
+                    style={
+                      Object {
+                        "background": "rgb(240, 240, 241)",
+                      }
+                    }
                     tabIndex={0}
                   />
                 </Memo(Avatar)>
@@ -950,13 +962,6 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
         </UserAvatar>
         <UserAvatar
           key="4"
-          overlayProps={
-            Object {
-              "animation": true,
-              "delayShow": undefined,
-              "onEntered": [Function],
-            }
-          }
           size="sm"
           style={
             Object {
@@ -1035,6 +1040,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
               >
                 <Memo(Avatar)
                   size="sm"
+                  style={
+                    Object {
+                      "background": "rgb(240, 240, 241)",
+                    }
+                  }
                   tabIndex={0}
                   url="/api/v4/users/4/image?_=0"
                 >
@@ -1042,6 +1052,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                     alt="user profile image"
                     className="Avatar Avatar-sm"
                     src="/api/v4/users/4/image?_=0"
+                    style={
+                      Object {
+                        "background": "rgb(240, 240, 241)",
+                      }
+                    }
                     tabIndex={0}
                   />
                 </Memo(Avatar)>
@@ -1051,13 +1066,6 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
         </UserAvatar>
         <UserAvatar
           key="3"
-          overlayProps={
-            Object {
-              "animation": true,
-              "delayShow": undefined,
-              "onEntered": [Function],
-            }
-          }
           size="sm"
           style={
             Object {
@@ -1136,6 +1144,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
               >
                 <Memo(Avatar)
                   size="sm"
+                  style={
+                    Object {
+                      "background": "rgb(240, 240, 241)",
+                    }
+                  }
                   tabIndex={0}
                   url="/api/v4/users/3/image?_=0"
                 >
@@ -1143,6 +1156,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                     alt="user profile image"
                     className="Avatar Avatar-sm"
                     src="/api/v4/users/3/image?_=0"
+                    style={
+                      Object {
+                        "background": "rgb(240, 240, 241)",
+                      }
+                    }
                     tabIndex={0}
                   />
                 </Memo(Avatar)>

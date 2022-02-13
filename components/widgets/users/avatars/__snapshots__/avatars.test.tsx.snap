@@ -20,13 +20,6 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
   >
     <UserAvatar
       key="1"
-      overlayProps={
-        Object {
-          "animation": true,
-          "delayShow": undefined,
-          "onEntered": [Function],
-        }
-      }
       size="xl"
       style={
         Object {
@@ -105,6 +98,11 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
           >
             <Memo(Avatar)
               size="xl"
+              style={
+                Object {
+                  "background": "rgb(240, 240, 241)",
+                }
+              }
               tabIndex={0}
               url="/api/v4/users/1/image?_=1620680333191"
             >
@@ -112,6 +110,11 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
                 alt="user profile image"
                 className="Avatar Avatar-xl"
                 src="/api/v4/users/1/image?_=1620680333191"
+                style={
+                  Object {
+                    "background": "rgb(240, 240, 241)",
+                  }
+                }
                 tabIndex={0}
               />
             </Memo(Avatar)>
@@ -121,13 +124,6 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
     </UserAvatar>
     <UserAvatar
       key="6"
-      overlayProps={
-        Object {
-          "animation": true,
-          "delayShow": undefined,
-          "onEntered": [Function],
-        }
-      }
       size="xl"
       style={
         Object {
@@ -206,6 +202,11 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
           >
             <Memo(Avatar)
               size="xl"
+              style={
+                Object {
+                  "background": "rgb(240, 240, 241)",
+                }
+              }
               tabIndex={0}
               url="/api/v4/users/6/image?_=0"
             >
@@ -213,6 +214,11 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
                 alt="user profile image"
                 className="Avatar Avatar-xl"
                 src="/api/v4/users/6/image?_=0"
+                style={
+                  Object {
+                    "background": "rgb(240, 240, 241)",
+                  }
+                }
                 tabIndex={0}
               />
             </Memo(Avatar)>
@@ -222,13 +228,6 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
     </UserAvatar>
     <UserAvatar
       key="7"
-      overlayProps={
-        Object {
-          "animation": true,
-          "delayShow": undefined,
-          "onEntered": [Function],
-        }
-      }
       size="xl"
       style={
         Object {
@@ -307,6 +306,11 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
           >
             <Memo(Avatar)
               size="xl"
+              style={
+                Object {
+                  "background": "rgb(240, 240, 241)",
+                }
+              }
               tabIndex={0}
               url="/api/v4/users/7/image?_=0"
             >
@@ -314,6 +318,11 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
                 alt="user profile image"
                 className="Avatar Avatar-xl"
                 src="/api/v4/users/7/image?_=0"
+                style={
+                  Object {
+                    "background": "rgb(240, 240, 241)",
+                  }
+                }
                 tabIndex={0}
               />
             </Memo(Avatar)>
@@ -464,13 +473,6 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
   >
     <UserAvatar
       key="1"
-      overlayProps={
-        Object {
-          "animation": true,
-          "delayShow": undefined,
-          "onEntered": [Function],
-        }
-      }
       size="xl"
       style={
         Object {
@@ -549,6 +551,11 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
           >
             <Memo(Avatar)
               size="xl"
+              style={
+                Object {
+                  "background": "rgb(240, 240, 241)",
+                }
+              }
               tabIndex={0}
               url="/api/v4/users/1/image?_=1620680333191"
             >
@@ -556,6 +563,11 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
                 alt="user profile image"
                 className="Avatar Avatar-xl"
                 src="/api/v4/users/1/image?_=1620680333191"
+                style={
+                  Object {
+                    "background": "rgb(240, 240, 241)",
+                  }
+                }
                 tabIndex={0}
               />
             </Memo(Avatar)>
@@ -565,13 +577,6 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
     </UserAvatar>
     <UserAvatar
       key="2"
-      overlayProps={
-        Object {
-          "animation": true,
-          "delayShow": undefined,
-          "onEntered": [Function],
-        }
-      }
       size="xl"
       style={
         Object {
@@ -650,6 +655,11 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
           >
             <Memo(Avatar)
               size="xl"
+              style={
+                Object {
+                  "background": "rgb(240, 240, 241)",
+                }
+              }
               tabIndex={0}
               url="/api/v4/users/2/image?_=1620680333191"
             >
@@ -657,6 +667,11 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
                 alt="user profile image"
                 className="Avatar Avatar-xl"
                 src="/api/v4/users/2/image?_=1620680333191"
+                style={
+                  Object {
+                    "background": "rgb(240, 240, 241)",
+                  }
+                }
                 tabIndex={0}
               />
             </Memo(Avatar)>
@@ -666,13 +681,6 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
     </UserAvatar>
     <UserAvatar
       key="3"
-      overlayProps={
-        Object {
-          "animation": true,
-          "delayShow": undefined,
-          "onEntered": [Function],
-        }
-      }
       size="xl"
       style={
         Object {
@@ -751,6 +759,11 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
           >
             <Memo(Avatar)
               size="xl"
+              style={
+                Object {
+                  "background": "rgb(240, 240, 241)",
+                }
+              }
               tabIndex={0}
               url="/api/v4/users/3/image?_=1620680333191"
             >
@@ -758,6 +771,11 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
                 alt="user profile image"
                 className="Avatar Avatar-xl"
                 src="/api/v4/users/3/image?_=1620680333191"
+                style={
+                  Object {
+                    "background": "rgb(240, 240, 241)",
+                  }
+                }
                 tabIndex={0}
               />
             </Memo(Avatar)>
@@ -906,13 +924,6 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
   >
     <UserAvatar
       key="1"
-      overlayProps={
-        Object {
-          "animation": true,
-          "delayShow": undefined,
-          "onEntered": [Function],
-        }
-      }
       size="xl"
       style={
         Object {
@@ -991,6 +1002,11 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
           >
             <Memo(Avatar)
               size="xl"
+              style={
+                Object {
+                  "background": "rgb(240, 240, 241)",
+                }
+              }
               tabIndex={0}
               url="/api/v4/users/1/image?_=1620680333191"
             >
@@ -998,6 +1014,11 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
                 alt="user profile image"
                 className="Avatar Avatar-xl"
                 src="/api/v4/users/1/image?_=1620680333191"
+                style={
+                  Object {
+                    "background": "rgb(240, 240, 241)",
+                  }
+                }
                 tabIndex={0}
               />
             </Memo(Avatar)>
@@ -1007,13 +1028,6 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
     </UserAvatar>
     <UserAvatar
       key="2"
-      overlayProps={
-        Object {
-          "animation": true,
-          "delayShow": undefined,
-          "onEntered": [Function],
-        }
-      }
       size="xl"
       style={
         Object {
@@ -1092,6 +1106,11 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
           >
             <Memo(Avatar)
               size="xl"
+              style={
+                Object {
+                  "background": "rgb(240, 240, 241)",
+                }
+              }
               tabIndex={0}
               url="/api/v4/users/2/image?_=1620680333191"
             >
@@ -1099,6 +1118,11 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
                 alt="user profile image"
                 className="Avatar Avatar-xl"
                 src="/api/v4/users/2/image?_=1620680333191"
+                style={
+                  Object {
+                    "background": "rgb(240, 240, 241)",
+                  }
+                }
                 tabIndex={0}
               />
             </Memo(Avatar)>
@@ -1108,13 +1132,6 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
     </UserAvatar>
     <UserAvatar
       key="3"
-      overlayProps={
-        Object {
-          "animation": true,
-          "delayShow": undefined,
-          "onEntered": [Function],
-        }
-      }
       size="xl"
       style={
         Object {
@@ -1193,6 +1210,11 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
           >
             <Memo(Avatar)
               size="xl"
+              style={
+                Object {
+                  "background": "rgb(240, 240, 241)",
+                }
+              }
               tabIndex={0}
               url="/api/v4/users/3/image?_=1620680333191"
             >
@@ -1200,6 +1222,11 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
                 alt="user profile image"
                 className="Avatar Avatar-xl"
                 src="/api/v4/users/3/image?_=1620680333191"
+                style={
+                  Object {
+                    "background": "rgb(240, 240, 241)",
+                  }
+                }
                 tabIndex={0}
               />
             </Memo(Avatar)>

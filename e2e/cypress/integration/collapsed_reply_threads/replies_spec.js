@@ -136,6 +136,7 @@ describe('Collapsed Reply Threads', () => {
 
         // # Get thread footer of last post and find avatars
         cy.uiGetPostThreadFooter(postForAvatar.id).find('.Avatars').find('button').each(($el) => {
+
             // # Click the avatar
             cy.wrap($el).click();
 
@@ -149,6 +150,7 @@ describe('Collapsed Reply Threads', () => {
 
         // * Find avatars
         cy.get('article.ThreadItem').find('.activity').find('.Avatars').find('button').each(($el) => {
+
             // # Click avatar
             cy.wrap($el).click();
 
