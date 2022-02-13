@@ -26,6 +26,10 @@ jest.mock('mattermost-redux/actions/channels', () => ({
         }
         throw new Error('ERROR');
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    getChannelMembersByIds: (channelId: string, userIds: string[]) => {
+        return ({type: 'MOCK_RECEIVED_CHANNEL_MEMBERS'});
+    },
 }));
 
 jest.mock('mattermost-redux/actions/teams', () => ({

@@ -218,7 +218,7 @@ describe('Mark as Unread', () => {
         verifyPostNextToNewMessageSeparator('post3');
     });
 
-    it('Should show cursor pointer when holding down alt', () => {
+    it('Should show cursor pointer when holding down alt -- KNOWN ISSUE: MM-41538', () => {
         const componentIds = [
             `#post_${post1.id}`,
             `#post_${post2.id}`,

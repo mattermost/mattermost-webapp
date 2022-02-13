@@ -55,7 +55,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-dark first"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       section="password"
       title={
         <Memo(MemoizedFormattedMessage)
@@ -91,7 +91,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-light"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       describe={
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Email and Password"
@@ -221,7 +221,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-dark first"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       section="password"
       title={
         <Memo(MemoizedFormattedMessage)
@@ -257,7 +257,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-light"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       describe={
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Email and Password"
@@ -387,7 +387,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-dark first"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       section="password"
       title={
         <Memo(MemoizedFormattedMessage)
@@ -423,7 +423,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-light"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       describe={
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Email and Password"
@@ -553,7 +553,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-dark first"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       section="password"
       title={
         <Memo(MemoizedFormattedMessage)
@@ -589,7 +589,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-light"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       describe={
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Email and Password"

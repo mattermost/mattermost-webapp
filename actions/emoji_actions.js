@@ -6,10 +6,10 @@ import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis'
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {setRecentEmojis} from 'actions/local_storage';
 import {getEmojiMap, getRecentEmojis, isCustomEmojiEnabled} from 'selectors/emojis';
 import {isCustomStatusEnabled, makeGetCustomStatus} from 'selectors/views/custom_status';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
+import LocalStorageStore from 'stores/local_storage_store';
 
 import {ActionTypes, Preferences} from 'utils/constants';
 import {EmojiIndicesByAlias} from 'utils/emoji';
@@ -59,36 +59,37 @@ export function setUserSkinTone(skin) {
     };
 }
 
-const MAXIMUM_RECENT_EMOJI = 27;
+export const MAXIMUM_RECENT_EMOJI = 27;
 
 export function addRecentEmoji(alias) {
-    return (dispatch, getState) => {
+    return (_dispatch, getState) => {
         const state = getState();
+        const currentUserId = getCurrentUserId(state);
         const recentEmojis = getRecentEmojis(state);
         const emojiMap = getEmojiMap(state);
 
         let name;
         const emoji = emojiMap.get(alias);
         if (!emoji) {
-            return;
+            return {data: false};
         } else if (emoji.short_name) {
             name = emoji.short_name;
         } else {
             name = emoji.name;
         }
 
-        const index = recentEmojis.indexOf(name);
-        if (index !== -1) {
-            recentEmojis.splice(index, 1);
+        let updatedRecentEmojis;
+        if (recentEmojis.includes(name)) {
+            // If the emoji is already in the recent list, remove it and add it to the front
+            const recentEmojisFiltered = recentEmojis.filter((recentEmoji) => recentEmoji !== name);
+            updatedRecentEmojis = [...recentEmojisFiltered, name].slice(-MAXIMUM_RECENT_EMOJI);
+        } else {
+            updatedRecentEmojis = [...recentEmojis, name].slice(-MAXIMUM_RECENT_EMOJI);
         }
 
-        recentEmojis.push(name);
+        LocalStorageStore.setRecentEmojis(currentUserId, updatedRecentEmojis);
 
-        if (recentEmojis.length > MAXIMUM_RECENT_EMOJI) {
-            recentEmojis.splice(0, recentEmojis.length - MAXIMUM_RECENT_EMOJI);
-        }
-
-        dispatch(setRecentEmojis(recentEmojis));
+        return {data: true};
     };
 }
 

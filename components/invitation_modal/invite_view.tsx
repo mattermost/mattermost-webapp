@@ -6,7 +6,6 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
-import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Team} from 'mattermost-redux/types/teams';
@@ -51,7 +50,6 @@ export type Props = InviteState & {
     onClose: () => void;
     currentTeam: Team;
     currentChannel: Channel;
-    inviteToTeamTreatment: InviteToTeamTreatments;
     setCustomMessage: (message: string) => void;
     toggleCustomMessage: () => void;
     channelsLoader: (value: string, callback?: (channels: Channel[]) => void) => Promise<Channel[]>;
@@ -94,7 +92,7 @@ export default function InviteView(props: Props) {
             onClick={copyText.onClick}
             data-testid='InviteView__copyInviteLink'
             aria-label='team invite link'
-            className='btn btn-cancel style--none InviteView__copyLink'
+            className='InviteView__copyLink tertiary-button'
         >
             {!copyText.copiedRecently && (
                 <>
@@ -254,7 +252,6 @@ export default function InviteView(props: Props) {
                 <InviteAs
                     inviteType={props.inviteType}
                     setInviteAs={props.setInviteAs}
-                    inviteToTeamTreatment={props.inviteToTeamTreatment}
                     titleClass='InviteView__sectionTitle'
                 />
                 }

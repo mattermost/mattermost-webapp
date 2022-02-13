@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import {SystemSetting} from 'mattermost-redux/types/general';
 
 import {General} from '../constants';
@@ -121,6 +123,7 @@ import {TelemetryHandler} from './telemetry';
 const FormData = require('form-data');
 const HEADER_AUTH = 'Authorization';
 const HEADER_BEARER = 'BEARER';
+const HEADER_CONTENT_TYPE = 'Content-Type';
 const HEADER_REQUESTED_WITH = 'X-Requested-With';
 const HEADER_USER_AGENT = 'User-Agent';
 const HEADER_X_CLUSTER_ID = 'X-Cluster-Id';
@@ -465,6 +468,13 @@ export default class Client4 {
 
         if (this.userAgent) {
             headers[HEADER_USER_AGENT] = this.userAgent;
+        }
+
+        if (options.body) {
+            // when the body is an instance of FormData we let fetch to set the Content-Type header so it defines a correct boundary
+            if (!(options.body instanceof FormData)) {
+                headers[HEADER_CONTENT_TYPE] = 'application/json';
+            }
         }
 
         if (newOptions.headers) {
@@ -1615,6 +1625,13 @@ export default class Client4 {
             `${this.getTeamRoute(teamId)}/channels${buildQueryString({page, per_page: perPage})}`,
             {method: 'get'},
         );
+    }
+
+    getAllTeamsChannels = () => {
+        return this.doFetch<ServerChannel[]>(
+            `${this.getUsersRoute()}/me/channels`,
+            {method: 'get'},
+        );
     };
 
     getArchivedChannels = (teamId: string, page = 0, perPage = PER_PAGE_DEFAULT) => {
@@ -1627,6 +1644,13 @@ export default class Client4 {
     getMyChannels = (teamId: string, includeDeleted = false) => {
         return this.doFetch<ServerChannel[]>(
             `${this.getUserRoute('me')}/teams/${teamId}/channels${buildQueryString({include_deleted: includeDeleted})}`,
+            {method: 'get'},
+        );
+    };
+
+    getAllChannelsMembers = (userId: string) => {
+        return this.doFetch<ChannelMembership[]>(
+            `${this.getUserRoute(userId)}/channel_members`,
             {method: 'get'},
         );
     };
@@ -1769,8 +1793,14 @@ export default class Client4 {
             ...opts,
         };
         const includeDeleted = Boolean(opts.include_deleted);
+        const nonAdminSearch = Boolean(opts.nonAdminSearch);
+        let queryParams: {include_deleted?: boolean; system_console?: boolean} = {include_deleted: includeDeleted};
+        if (nonAdminSearch) {
+            queryParams = {system_console: false};
+            delete body.nonAdminSearch;
+        }
         return this.doFetch<Channel[] | ChannelsWithTotalCount>(
-            `${this.getChannelsRoute()}/search?include_deleted=${includeDeleted}`,
+            `${this.getChannelsRoute()}/search${buildQueryString(queryParams)}`,
             {method: 'post', body: JSON.stringify(body)},
         );
     };

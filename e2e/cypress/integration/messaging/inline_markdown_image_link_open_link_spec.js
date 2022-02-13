@@ -28,8 +28,8 @@ describe('Messaging', () => {
             cy.uiSaveAndClose();
         });
 
-        const linkUrl = 'https://travis-ci.org/mattermost/platform';
-        const imageUrl = 'https://travis-ci.org/mattermost/platform.svg?branch=master';
+        const linkUrl = 'https://www.google.com';
+        const imageUrl = 'https://docs.mattermost.com/_images/icon-76x76.png';
         const label = 'Build Status';
         const baseUrl = Cypress.config('baseUrl');
 

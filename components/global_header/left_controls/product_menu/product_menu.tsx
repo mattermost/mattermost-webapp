@@ -1,13 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useRef, useState} from 'react';
+import React, {useRef} from 'react';
 import styled from 'styled-components';
+import {useDispatch, useSelector} from 'react-redux';
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+
+import {isSwitcherOpen} from 'selectors/views/product_menu';
+import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
 
 import {useClickOutsideRef, useCurrentProductId, useProducts} from '../../hooks';
 
@@ -45,15 +49,16 @@ export const ProductMenuButton = styled(IconButton).attrs(() => ({
 
 const ProductMenu = (): JSX.Element => {
     const products = useProducts();
-    const [switcherOpen, setSwitcherOpen] = useState(false);
+    const dispatch = useDispatch();
+    const switcherOpen = useSelector(isSwitcherOpen);
     const menuRef = useRef<HTMLDivElement>(null);
 
     const currentProductID = useCurrentProductId(products);
 
-    const handleClick = () => setSwitcherOpen(!switcherOpen);
+    const handleClick = () => dispatch(setProductMenuSwitcherOpen(!switcherOpen));
 
     useClickOutsideRef(menuRef, () => {
-        setSwitcherOpen(false);
+        dispatch(setProductMenuSwitcherOpen(false));
     });
 
     const productItems = products?.map((product) => (

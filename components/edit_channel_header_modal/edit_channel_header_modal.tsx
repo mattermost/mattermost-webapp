@@ -37,6 +37,8 @@ type Props = {
      */
     shouldShowPreview: boolean;
 
+    markdownPreviewFeatureIsEnabled: boolean;
+
     /**
      * Called when the modal has been hidden and should be removed.
      */
@@ -263,10 +265,11 @@ export default class EditChannelHeaderModal extends React.PureComponent<Props, S
                         </div>
                         <div className='post-create-footer'>
                             <TextboxLinks
-                                characterLimit={1024}
+                                isMarkdownPreviewEnabled={this.props.markdownPreviewFeatureIsEnabled}
                                 showPreview={this.props.shouldShowPreview}
                                 updatePreview={this.setShowPreview}
-                                message={this.state.header}
+                                hasText={this.state.header ? this.state.header.length > 0 : false}
+                                hasExceededCharacterLimit={this.state.header ? this.state.header.length > 1024 : false}
                                 previewMessageLink={localizeMessage('edit_channel_header.previewHeader', 'Edit Header')}
                             />
                         </div>

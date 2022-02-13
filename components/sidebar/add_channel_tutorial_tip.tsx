@@ -6,7 +6,6 @@ import {useSelector} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
 
 import {getAnnouncementBarCount} from 'selectors/views/announcement_bar';
-import {AddChannelButtonTreatments} from 'mattermost-redux/constants/config';
 
 import TutorialTip from 'components/tutorial/tutorial_tip';
 import {useMeasurePunchouts} from 'components/tutorial/tutorial_tip/hooks';
@@ -17,7 +16,6 @@ import {Constants} from 'utils/constants';
 type Props = {
     townSquareDisplayName?: string;
     offTopicDisplayName?: string;
-    addChannelButton?: AddChannelButtonTreatments;
 }
 
 export default function ChannelTutorialTip(props: Props) {
@@ -33,14 +31,15 @@ export default function ChannelTutorialTip(props: Props) {
 
     const isAnnouncementBarOpen = useSelector(getAnnouncementBarCount) > 0;
 
-    const screens = [
-        <div key='first-screen'>
-            <h4>
-                <FormattedMessage
-                    id='sidebar.tutorialAddChannel.title'
-                    defaultMessage='Create and join channels'
-                />
-            </h4>
+    const title = (
+        <FormattedMessage
+            id='sidebar.tutorialAddChannel.title'
+            defaultMessage={'Create and join channels'}
+        />
+    );
+
+    const screen = (
+        <>
             <p>
                 <FormattedMarkdownMessage
                     id='sidebar.tutorialAddChannel.channelDiscovery'
@@ -71,19 +70,18 @@ export default function ChannelTutorialTip(props: Props) {
                     }}
                 />
             </p>
-        </div>,
-    ];
+        </>
+    );
 
-    let overlayClass = 'tip-overlay--add-channels';
-    if (props.addChannelButton === AddChannelButtonTreatments.BY_TEAM_NAME || props.addChannelButton === AddChannelButtonTreatments.INVERTED_SIDEBAR_BG_COLOR) {
-        overlayClass += ' tip-overlay--top-row-placement';
-    }
+    const overlayClass = 'tip-overlay--add-channels  tip-overlay--top-row-placement';
 
     return (
         <TutorialTip
+            title={title}
+            showOptOut={true}
             placement='right'
             step={Constants.TutorialSteps.ADD_CHANNEL_POPOVER}
-            screens={screens}
+            screen={screen}
             stopPropagation={true}
             overlayClass={overlayClass}
             punchOut={useMeasurePunchouts(['lhsNavigator', 'sidebar-header-container'], [isAnnouncementBarOpen])}
