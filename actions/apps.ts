@@ -24,20 +24,20 @@ import {sendEphemeralPost} from './global_actions';
 export function handleBindingClick<Res=unknown>(binding: AppBinding, context: AppContext, intl: any): ActionFunc {
     return async (dispatch: DispatchFunc) => {
         // Fetch form
-        if (binding.form?.source) {
-            const callRequest = createCallRequest(
-                binding.form.source,
-                context,
-            );
-
+        let form = binding.form;
+        if (form?.source) {
+            const callRequest = createCallRequest(form.source, context);
             const res = await dispatch(doAppFetchForm<Res>(callRequest, intl));
-            return res;
+            if (res.error) {
+                return res;
+            }
+            form = res.data.form;
         }
 
         // Open form
-        if (binding.form) {
+        if (form) {
             // This should come properly formed, but using preventive checks
-            if (!binding.form?.submit) {
+            if (!form?.submit) {
                 const errMsg = intl.formatMessage({
                     id: 'apps.error.malformed_binding',
                     defaultMessage: 'This binding is not properly formed. Contact the App developer.',
@@ -47,7 +47,7 @@ export function handleBindingClick<Res=unknown>(binding: AppBinding, context: Ap
 
             const res: AppCallResponse = {
                 type: AppCallResponseTypes.FORM,
-                form: binding.form,
+                form,
             };
             return {data: res};
         }

@@ -82,6 +82,7 @@ export class ButtonBinding extends React.PureComponent<Props, State> {
             }
             break;
         case AppCallResponseTypes.NAVIGATE:
+            // already handled
             break;
         case AppCallResponseTypes.FORM:
             if (callResp.form) {
@@ -104,7 +105,7 @@ export class ButtonBinding extends React.PureComponent<Props, State> {
         const {binding} = this.props;
         let customButtonStyle;
 
-        if (!binding.form?.submit && !binding.form?.source) {
+        if (!binding.submit && !binding.form?.submit && !binding.form?.source) {
             return null;
         }
 
