@@ -13,11 +13,13 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import checklistImg from 'images/onboarding-checklist.svg';
-import {Preferences} from 'utils/constants';
+import {ModalIdentifiers, Preferences} from 'utils/constants';
 import {OnBoardingTaskName} from 'components/onboarding_tasks';
 import {useHandleOnBoardingTaskTrigger} from 'components/onboarding_tasks/onboarding_tasks_manager';
 import {setAddChannelDropdown} from 'actions/views/add_channel_dropdown';
 import {isOnBoardingTaskListOpen} from 'selectors/views/onboarding_task_list';
+import {openModal} from 'actions/views/modals';
+import OnBoardingVideoModal from '../onboarding_tasks/onboarding_video_modal/onboarding_video_modal';
 
 import {TaskListPopover} from './onboarding_checklist_popover';
 import {Task} from './onboarding_checklist_task';
@@ -241,6 +243,15 @@ const TaskList = (): JSX.Element => {
         dispatch(setAddChannelDropdown(false));
     }, []);
 
+    const openVideoModal = useCallback(() => {
+        closeTaskList();
+        dispatch(openModal({
+            modalId: ModalIdentifiers.ON_BOARDING_VIDEO_MODAL,
+            dialogType: OnBoardingVideoModal,
+            dialogProps: {},
+        }));
+    }, []);
+
     return (
         <>
             <CompletedAnimation completed={completedCount === taskLabels.length}/>
@@ -278,7 +289,9 @@ const TaskList = (): JSX.Element => {
                                     style={{display: 'block', margin: '1rem auto', borderRadius: '4px'}}
                                 />
                             </Skeleton>
-                            <PlayButton>
+                            <PlayButton
+                                onClick={openVideoModal}
+                            >
                                 <Icon
                                     glyph={'play'}
                                     size={16}
