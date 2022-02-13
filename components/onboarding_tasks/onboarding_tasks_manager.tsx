@@ -1,23 +1,98 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {useCallback} from 'react';
-
+import React, {useCallback} from 'react';
+import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {savePreferences as storeSavePreferences} from 'mattermost-redux/actions/preferences';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import {trackEvent as trackEventAction} from 'actions/telemetry_actions';
+import {openModal} from 'actions/views/modals';
 import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
 import {setStatusDropdown} from 'actions/views/status_dropdown';
-import {browserHistory} from 'utils/browser_history';
-import {openModal} from 'actions/views/modals';
-import {ModalIdentifiers} from 'utils/constants';
 import InvitationModal from 'components/invitation_modal';
 import {AutoTourStatus, ChannelsTour, OnBoardingTourSteps, TutorialTourName} from 'components/onboarding_tour';
+import {savePreferences, savePreferences as storeSavePreferences} from 'mattermost-redux/actions/preferences';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
-import {OnBoardingTaskCategory, OnBoardingTaskName, TaskNameMapToSteps} from './constants';
+import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+
+import {GlobalState} from 'types/store';
+import {browserHistory} from 'utils/browser_history';
+import {ModalIdentifiers} from 'utils/constants';
+
+import {OnBoardingTaskCategory, OnBoardingTaskList, OnBoardingTasksName, TaskNameMapToSteps} from './constants';
 import {generateTelemetryTag} from './utils';
+
+const getCategory = makeGetCategory();
+
+const taskLabels = {
+    [OnBoardingTasksName.CHANNELS_TOUR]: (
+        <FormattedMessage
+            id='onBoardingTask.checklist.task_channels_tour'
+            defaultMessage='Take a tour of channels'
+        />
+    ),
+    [OnBoardingTasksName.BOARDS_TOUR]: (
+        <FormattedMessage
+            id='onBoardingTask.checklist.task_boards_tour'
+            defaultMessage='Manage tasks with your first board'
+        />),
+    [OnBoardingTasksName.PLAYBOOKS_TOUR]: (
+        <FormattedMessage
+            id='onBoardingTask.checklist.task_playbooks_tour'
+            defaultMessage='Explore workflows with your first Playbook'
+        />
+    ),
+    [OnBoardingTasksName.INVITE_PEOPLE]: (
+        <FormattedMessage
+            id='onBoardingTask.checklist.task_invite'
+            defaultMessage='Invite team members to the workspace'
+        />
+    ),
+    [OnBoardingTasksName.COMPLETE_YOUR_PROFILE]: (
+        <FormattedMessage
+            id='onBoardingTask.checklist.task_complete_profile'
+            defaultMessage='Complete your profile'
+        />
+    ),
+    [OnBoardingTasksName.DOWNLOAD_APP]: (
+        <FormattedMessage
+            id='onBoardingTask.checklist.task_download_apps'
+            defaultMessage='Download the Desktop and Mobile Apps'
+        />
+    ),
+    [OnBoardingTasksName.VISIT_SYSTEM_CONSOLE]: (
+        <FormattedMessage
+            id='onBoardingTask.checklist.task_system_console'
+            defaultMessage='Visit the System Console to configure your workspace'
+        />
+    ),
+};
+
+export const getTasksList = () => {
+    const pluginsList = useSelector((state: GlobalState) => state.plugins.plugins);
+    const list: Record<string, string> = {...OnBoardingTasksName};
+    if (!pluginsList.focalboard) {
+        delete list.BOARDS_TOUR;
+    }
+    if (!pluginsList.playbooks) {
+        delete list[OnBoardingTasksName.PLAYBOOKS_TOUR];
+    }
+    return Object.values(list);
+};
+
+export const getTasksListWithStatus = () => {
+    const dataInDb = useSelector((state: GlobalState) => getCategory(state, OnBoardingTaskCategory));
+    const tasksList = getTasksList();
+    return tasksList.map((task) => {
+        const status = dataInDb.find((pref) => pref.name === task)?.value;
+        return {
+            name: task,
+            status: Boolean(status),
+            label: taskLabels[task],
+        };
+    });
+};
 
 export const useHandleOnBoardingTaskData = () => {
     // Function to save the tutorial step in redux store start here which needs to be modified
@@ -55,7 +130,7 @@ export const useHandleOnBoardingTaskData = () => {
         if (trackEvent) {
             const eventSuffix = trackEventSuffix ? `${step}--${trackEventSuffix}` : step.toString();
             const telemetryTag = generateTelemetryTag(OnBoardingTaskCategory, taskName, eventSuffix);
-            trackUserEvent(taskName, telemetryTag);
+            trackUserEvent(OnBoardingTaskCategory, telemetryTag);
         }
     }, [savePreferences, trackUserEvent]);
 };
@@ -69,7 +144,7 @@ export const useHandleOnBoardingTaskTrigger = () => {
 
     return (taskName: string) => {
         switch (taskName) {
-        case OnBoardingTaskName.CHANNELS_TOUR: {
+        case OnBoardingTasksName.CHANNELS_TOUR: {
             handleSaveData(taskName, TaskNameMapToSteps[taskName].STARTED, true);
             const preferences = [
                 {
@@ -89,25 +164,34 @@ export const useHandleOnBoardingTaskTrigger = () => {
             browserHistory.push('/');
             break;
         }
-        case OnBoardingTaskName.BOARDS_TOUR: {
+        case OnBoardingTasksName.BOARDS_TOUR: {
             browserHistory.push('/boards');
+            handleSaveData(taskName, TaskNameMapToSteps[taskName].FINISHED, true);
             break;
         }
-        case OnBoardingTaskName.PLAYBOOKS_TOUR: {
+        case OnBoardingTasksName.PLAYBOOKS_TOUR: {
             browserHistory.push('/playbooks');
+            handleSaveData(taskName, TaskNameMapToSteps[taskName].FINISHED, true);
             break;
         }
-        case OnBoardingTaskName.COMPLETE_YOUR_PROFILE: {
+        case OnBoardingTasksName.COMPLETE_YOUR_PROFILE: {
             dispatch(setStatusDropdown(true));
             handleSaveData(taskName, TaskNameMapToSteps[taskName].STARTED, true);
             break;
         }
-        case OnBoardingTaskName.VISIT_SYSTEM_CONSOLE: {
+        case OnBoardingTasksName.VISIT_SYSTEM_CONSOLE: {
             dispatch(setProductMenuSwitcherOpen(true));
             handleSaveData(taskName, TaskNameMapToSteps[taskName].STARTED, true);
+            const preferences = [{
+                user_id: currentUserId,
+                category: OnBoardingTaskCategory,
+                name: OnBoardingTaskList.ON_BOARDING_TASK_LIST_OPEN,
+                value: String(!open),
+            }];
+            dispatch(savePreferences(currentUserId, preferences));
             break;
         }
-        case OnBoardingTaskName.INVITE_PEOPLE: {
+        case OnBoardingTasksName.INVITE_PEOPLE: {
             dispatch(openModal({
                 modalId: ModalIdentifiers.INVITATION,
                 dialogType: InvitationModal,
@@ -115,9 +199,25 @@ export const useHandleOnBoardingTaskTrigger = () => {
                 },
             }));
             handleSaveData(taskName, TaskNameMapToSteps[taskName].FINISHED, true);
+            const preferences = [{
+                user_id: currentUserId,
+                category: OnBoardingTaskCategory,
+                name: OnBoardingTaskList.ON_BOARDING_TASK_LIST_OPEN,
+                value: String(!open),
+            }];
+            dispatch(savePreferences(currentUserId, preferences));
             break;
         }
-        case OnBoardingTaskName.DOWNLOAD_APP: {
+        case OnBoardingTasksName.DOWNLOAD_APP: {
+            handleSaveData(taskName, TaskNameMapToSteps[taskName].FINISHED, true);
+            const preferences = [{
+                user_id: currentUserId,
+                category: OnBoardingTaskCategory,
+                name: OnBoardingTaskList.ON_BOARDING_TASK_LIST_OPEN,
+                value: String(!open),
+            }];
+            dispatch(savePreferences(currentUserId, preferences));
+            window.open('https://mattermost.com/download/', '_blank', 'noopener,noreferrer');
             break;
         }
         default:

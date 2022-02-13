@@ -6,14 +6,13 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {savePreferences as storeSavePreferences} from 'mattermost-redux/actions/preferences';
+import {savePreferences, savePreferences as storeSavePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import {setAddChannelDropdown} from 'actions/views/add_channel_dropdown';
-import {setOnBoardingTaskList} from 'actions/views/onboarding_task_list';
 import {open as openLhs} from 'actions/views/lhs.js';
 import {isFirstAdmin} from 'components/next_steps_view/steps';
 import {trackEvent as trackEventAction} from 'actions/telemetry_actions';
-import {generateTelemetryTag} from 'components/onboarding_tasks';
+import {generateTelemetryTag, OnBoardingTaskCategory, OnBoardingTaskList} from 'components/onboarding_tasks';
 
 import {
     AutoTourStatus, ChannelsTour,
@@ -39,6 +38,7 @@ export interface OnBoardingTourTipManager {
 const useHandleNavigationAndExtraActions = () => {
     const dispatch = useDispatch();
     const isUserFirstAdmin = useSelector(isFirstAdmin);
+    const currentUserId = useSelector(getCurrentUserId);
     const nextStepActions = useCallback((step: number) => {
         switch (step) {
         case OnBoardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES : {
@@ -61,7 +61,13 @@ const useHandleNavigationAndExtraActions = () => {
         }
         case OnBoardingTourSteps.FINISHED: {
             if (isUserFirstAdmin) {
-                dispatch(setOnBoardingTaskList(true));
+                const preferences = [{
+                    user_id: currentUserId,
+                    category: OnBoardingTaskCategory,
+                    name: OnBoardingTaskList.ON_BOARDING_TASK_LIST_OPEN,
+                    value: 'true',
+                }];
+                dispatch(savePreferences(currentUserId, preferences));
             }
             break;
         }

@@ -12,8 +12,8 @@ import {getTheme, getBool} from 'mattermost-redux/selectors/entities/preferences
 import {loadMeAndConfig} from 'actions/views/root';
 import {emitBrowserWindowResized} from 'actions/views/browser';
 import {isFirstAdmin} from 'components/next_steps_view/steps';
+import {OnBoardingTaskCategory, OnBoardingTaskList} from 'components/onboarding_tasks';
 import LocalStorageStore from 'stores/local_storage_store';
-import {Preferences} from 'utils/constants';
 import {isMobile} from 'utils/utils.jsx';
 
 import Root from './root.jsx';
@@ -26,9 +26,10 @@ function mapStateToProps(state) {
 
     const teamId = LocalStorageStore.getPreviousTeamId(getCurrentUserId(state));
     const permalinkRedirectTeam = getTeam(state, teamId);
-    const currentUserId = getCurrentUserId(state);
-    const dismissChecklist = getBool(state, Preferences.DISMISS_ONBOARDING_CHECKLIST, currentUserId);
+    const taskListStatus = getBool(state, OnBoardingTaskCategory, OnBoardingTaskList.ON_BOARDING_TASK_LIST_SHOW);
     const isUserFirstAdmin = isFirstAdmin(state);
+    const isMobileView = isMobile();
+    const showTaskList = isUserFirstAdmin && !taskListStatus && !isMobileView;
     return {
         theme: getTheme(state),
         telemetryEnabled: config.DiagnosticsEnabled === 'true',
@@ -38,9 +39,7 @@ function mapStateToProps(state) {
         showTermsOfService,
         plugins,
         products,
-        dismissChecklist,
-        isUserFirstAdmin,
-        isMobile: isMobile(state),
+        showTaskList,
     };
 }
 

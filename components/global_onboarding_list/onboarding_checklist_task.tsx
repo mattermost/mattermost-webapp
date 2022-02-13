@@ -10,6 +10,7 @@ export interface TaskProps {
     label: React.ReactElement | string;
     icon?: React.ReactNode;
     onClick?: () => void;
+    completedStatus: boolean;
 }
 
 const StyledTask = styled.div`
@@ -53,8 +54,8 @@ const StyledTask = styled.div`
 `;
 
 export const Task = (props: TaskProps): JSX.Element => {
-    const {label, onClick} = props;
-    const [completed, setCompleted] = useState(false);
+    const {label, completedStatus, onClick} = props;
+    const [completed, setCompleted] = useState(completedStatus);
 
     const handleOnClick = () => {
         if (onClick) {

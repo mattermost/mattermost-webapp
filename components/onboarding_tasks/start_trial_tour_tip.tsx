@@ -6,12 +6,14 @@ import {FormattedMessage} from 'react-intl';
 
 import TourTip, {useMeasurePunchouts} from 'components/widgets/tour_tip';
 
-import {OnBoardingTaskName, TaskNameMapToSteps} from './constants';
+import {TaskNameMapToSteps} from './constants';
 import {useHandleOnBoardingTaskData} from './onboarding_tasks_manager';
 
-export const InvitePeopleTour = () => {
+export const StartTrialTour = () => {
     const handleTask = useHandleOnBoardingTaskData();
-    const taskName = OnBoardingTaskName.START_TRIAL;
+
+    // please add this in OnBoardingTasksName in constants files
+    const taskName = 'start_trial';
     const steps = TaskNameMapToSteps[taskName];
 
     const title = (

@@ -37,7 +37,7 @@ import {ModalData} from 'types/actions';
 import {Constants, ModalIdentifiers, UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {getCurrentDateTimeForTimezone, getCurrentMomentForTimezone} from 'utils/timezone';
-import {OnBoardingTaskCategory, OnBoardingTaskName, TaskNameMapToSteps, CompleteYourProfileTour} from 'components/onboarding_tasks';
+import {OnBoardingTaskCategory, OnBoardingTasksName, TaskNameMapToSteps, CompleteYourProfileTour} from 'components/onboarding_tasks';
 import {localizeMessage} from 'utils/utils.jsx';
 import './status_dropdown.scss';
 import Tooltip from 'components/tooltip';
@@ -206,7 +206,7 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
     }
 
     handleCompleteYourProfileTask = (): void => {
-        const taskName = OnBoardingTaskName.COMPLETE_YOUR_PROFILE;
+        const taskName = OnBoardingTasksName.COMPLETE_YOUR_PROFILE;
         const steps = TaskNameMapToSteps[taskName];
         const currentUserId = this.props.currentUser.id;
         const preferences = [

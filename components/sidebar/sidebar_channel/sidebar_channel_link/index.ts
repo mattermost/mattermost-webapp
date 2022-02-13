@@ -20,7 +20,7 @@ import {GlobalState} from 'types/store';
 import {
     GenericTaskSteps,
     OnBoardingTaskCategory,
-    OnBoardingTaskName,
+    OnBoardingTasksName,
 } from 'components/onboarding_tasks';
 import {ChannelsTour, OnBoardingTourSteps, TutorialTourName} from 'components/onboarding_tour';
 
@@ -40,7 +40,7 @@ function makeMapStateToProps() {
         const config = getConfig(state);
         const enableTutorial = config.EnableTutorial === 'true';
         const tutorialStep = getInt(state, ChannelsTour, TutorialTourName.ON_BOARDING_STEP, 0);
-        const triggerStep = getInt(state, OnBoardingTaskCategory, OnBoardingTaskName.CHANNELS_TOUR, 0);
+        const triggerStep = getInt(state, OnBoardingTaskCategory, OnBoardingTasksName.CHANNELS_TOUR, 0);
         const channelTourTriggered = triggerStep === GenericTaskSteps.STARTED;
         const showChannelsTutorialStep = enableTutorial && channelTourTriggered && tutorialStep === OnBoardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES;
 

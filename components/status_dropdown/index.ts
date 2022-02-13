@@ -23,7 +23,7 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'types/store';
 import {
     OnBoardingTaskCategory,
-    OnBoardingTaskName,
+    OnBoardingTasksName,
     TaskNameMapToSteps,
 } from 'components/onboarding_tasks';
 
@@ -38,8 +38,8 @@ function makeMapStateToProps() {
         const userId = currentUser?.id;
         const customStatus = getCustomStatus(state, userId);
         const isMilitaryTime = getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false);
-        const step = getInt(state, OnBoardingTaskCategory, OnBoardingTaskName.COMPLETE_YOUR_PROFILE, 0);
-        const showCompleteYourProfileTour = step === TaskNameMapToSteps[OnBoardingTaskName.COMPLETE_YOUR_PROFILE].STARTED;
+        const step = getInt(state, OnBoardingTaskCategory, OnBoardingTasksName.COMPLETE_YOUR_PROFILE, 0);
+        const showCompleteYourProfileTour = step === TaskNameMapToSteps[OnBoardingTasksName.COMPLETE_YOUR_PROFILE].STARTED;
         return {
             userId,
             profilePicture: Client4.getProfilePictureUrl(userId, currentUser?.last_picture_update),

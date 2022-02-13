@@ -6,12 +6,12 @@ import {FormattedMessage} from 'react-intl';
 
 import TourTip, {useMeasurePunchouts} from 'components/widgets/tour_tip';
 
-import {OnBoardingTaskName, TaskNameMapToSteps} from './constants';
+import {OnBoardingTasksName, TaskNameMapToSteps} from './constants';
 import {useHandleOnBoardingTaskData} from './onboarding_tasks_manager';
 
 export const VisitSystemConsoleTour = () => {
     const handleTask = useHandleOnBoardingTaskData();
-    const taskName = OnBoardingTaskName.VISIT_SYSTEM_CONSOLE;
+    const taskName = OnBoardingTasksName.VISIT_SYSTEM_CONSOLE;
     const steps = TaskNameMapToSteps[taskName];
 
     const title = (

@@ -4,8 +4,7 @@
 import React, {useCallback, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 
-import {ModalIdentifiers} from 'utils/constants';
-
+import {OnBoardingTaskList} from '../constants';
 import './onboarding_video_modal.scss';
 
 type Props = {
@@ -21,7 +20,7 @@ const OnBoardingVideoModal = ({onExited}: Props) => {
 
     return (
         <Modal
-            id={ModalIdentifiers.ON_BOARDING_VIDEO_MODAL}
+            id={OnBoardingTaskList.ON_BOARDING_VIDEO_MODAL}
             dialogClassName='a11y__modal on-boarding-video_modal'
             show={show}
             onHide={handleHide}
