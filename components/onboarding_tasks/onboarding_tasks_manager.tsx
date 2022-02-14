@@ -76,7 +76,7 @@ export const getTasksList = () => {
         delete list.BOARDS_TOUR;
     }
     if (!pluginsList.playbooks) {
-        delete list[OnBoardingTasksName.PLAYBOOKS_TOUR];
+        delete list.PLAYBOOKS_TOUR;
     }
     return Object.values(list);
 };
