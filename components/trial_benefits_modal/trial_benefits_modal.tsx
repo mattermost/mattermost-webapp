@@ -1,30 +1,29 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import {useSelector} from 'react-redux';
 import {useIntl} from 'react-intl';
-import {useHistory} from 'react-router-dom';
 
 import moment from 'moment';
+
+import {trackEvent} from 'actions/telemetry_actions';
+
+import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {isModalOpen} from 'selectors/views/modals';
 import {GlobalState} from 'types/store';
 
-import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
-
-import {trackEvent} from 'actions/telemetry_actions';
-
 import Carousel from 'components/common/carousel/carousel';
 import GenericModal from 'components/generic_modal';
 import HandsSvg from 'components/common/svg_images_components/hands_svg';
-import LdapSvg from 'components/common/svg_images_components/ldap_svg';
-import PersonWithBoxSvg from 'components/common/svg_images_components/person_with_box_svg';
+import GuestAccessSvg from 'components/common/svg_images_components/guest_access_svg';
 import PersonMacSvg from 'components/common/svg_images_components/person_mac_svg';
-import PersonWithServersSvg from 'components/common/svg_images_components/person_with_servers_svg';
-import PersonWithSheetSvg from 'components/common/svg_images_components/person_with_sheet_svg';
+import PushNotificationsSvg from 'components/common/svg_images_components/push_notifications_svg';
+
+import TrialBenefitsModalStep, {TrialBenefitsModalStepProps} from './trial_benefits_modal_step';
 
 import './trial_benefits_modal.scss';
 
@@ -35,216 +34,151 @@ type Props = {
 }
 
 const ConsolePages = {
-    LDAP: '/admin_console/authentication/ldap',
-    DATA_RETENTION: '/admin_console/compliance/data_retention_settings',
+    GUEST_ACCESS: '/admin_console/authentication/guest_access',
     COMPLIANCE_EXPORT: '/admin_console/compliance/export',
-    SAML: '/admin_console/authentication/saml',
-    CUSTOM_TERMS: '/admin_console/compliance/custom_terms_of_service',
+    PUSH_NOTIFICATION_CENTER: '/admin_console/environment/push_notification_server',
 };
 
-const TrialBenefitsModal: React.FC<Props> = (props: Props): JSX.Element | null => {
-    const steps = [];
-    const license = useSelector((state: GlobalState) => getLicense(state));
-
+const TrialBenefitsModal = (
+    {
+        onClose,
+        onExited,
+        trialJustStarted,
+    }: Props): JSX.Element | null => {
     const {formatMessage} = useIntl();
 
-    const history = useHistory();
+    const license = useSelector((state: GlobalState) => getLicense(state));
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.TRIAL_BENEFITS_MODAL));
+
     if (!show) {
         return null;
     }
 
-    const handleOnClose = () => {
-        if (props.onClose) {
-            props.onClose();
+    useEffect(() => {
+        if (!trialJustStarted) {
+            trackEvent(
+                TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
+                'benefits_modal_post_enterprise_view',
+            );
         }
-        props.onExited();
-    };
-
-    const redirectToConsolePage = (route: string) => {
-        history.push(route);
-        handleOnClose();
-
-        const lastSection = route.split('/').pop();
-        trackEvent(
-            TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
-            'benefits_modal_section_opened_' + lastSection,
-        );
-    };
-
-    const learnMoreText = formatMessage({id: 'benefits_trial.modal.learnMore', defaultMessage: 'Learn More'});
+    }, []);
 
     // by default all licence last 30 days plus 8 hours. We use this value as a fallback for the trial license duration information shown in the modal
     const trialLicenseDuration = (1000 * 60 * 60 * 24 * 30) + (1000 * 60 * 60 * 8);
     const trialEndDate = moment.unix((Number(license?.ExpiresAt) || new Date(Date.now()).getTime() + trialLicenseDuration) / 1000).format('DD/MM/YYYY');
 
-    const trialStartSlide = (
-        <div className='slide-container'>
-            {props.trialJustStarted ?
-                <div className='title'>
-                    {formatMessage({id: 'trial_benefits.modal.trialStarttitle', defaultMessage: 'Your trial has started! Explore the benefits of Enterprise'})}
-                </div> :
-                <div className='title'>
-                    {formatMessage({id: 'trial_benefits.modal.postTrialStarttitle', defaultMessage: 'You are on the Enterprise plan! Explore the benefits of Enterprise'})}
-                </div>
-            }
-
-            {props.trialJustStarted ?
-                <div className='description'>
-                    {formatMessage(
-                        {
-                            id: 'trial_benefits.modal.trialStartDescription',
-                            defaultMessage: 'Welcome to your Mattermost Enterprise trial! It expires on {trialExpirationDate}. Until then, enjoy the following benefits of Enterprise:',
-                        },
-                        {trialExpirationDate: trialEndDate},
-                    )}
-                </div> :
-                <div className='description'>
-                    {formatMessage(
-                        {
-                            id: 'trial_benefits.modal.postTrialStartDescription',
-                            defaultMessage: 'Welcome to Enterprise! Your plan expires on {trialExpirationDate}. Until then, enjoy the following benefits of Enterprise:',
-                        },
-                        {trialExpirationDate: trialEndDate},
-                    )}
-                </div>
-            }
-            <div className='handsSvg svg-wrapper'>
+    const steps: TrialBenefitsModalStepProps[] = useMemo(() => [
+        {
+            id: trialJustStarted ? 'trialStart' : 'postTrialStart',
+            title: trialJustStarted ?
+                formatMessage({id: 'trial_benefits.modal.trialStarttitle', defaultMessage: 'Your trial has started! Explore the benefits of Enterprise'}) :
+                formatMessage({id: 'trial_benefits.modal.postTrialStarttitle', defaultMessage: 'You are on the Enterprise plan! Explore the benefits of Enterprise'}),
+            description: trialJustStarted ?
+                formatMessage(
+                    {
+                        id: 'trial_benefits.modal.trialStartDescription',
+                        defaultMessage: 'Welcome to your Mattermost Enterprise trial! It expires on {trialExpirationDate}. Until then, enjoy the following benefits of Enterprise:',
+                    },
+                    {trialExpirationDate: trialEndDate},
+                ) :
+                formatMessage(
+                    {
+                        id: 'trial_benefits.modal.postTrialStartDescription',
+                        defaultMessage: 'Welcome to Enterprise! Your plan expires on {trialExpirationDate}. Until then, enjoy the following benefits of Enterprise:',
+                    },
+                    {trialExpirationDate: trialEndDate},
+                ),
+            svgWrapperClassName: 'handsSvg',
+            svgElement: (
                 <HandsSvg
-                    width={150}
+                    width={200}
                     height={100}
                 />
-            </div>
-            <div className='bottom-text-left-message'>
-                {formatMessage({id: 'trial_benefits.modal.onlyVisibleToAdmins', defaultMessage: 'Only visible to admins'})}
-            </div>
-        </div>
-    );
-    steps.push(trialStartSlide);
-
-    const ldapSlide = (
-        <div className='slide-container'>
-            <div className='title'>
-                {formatMessage({id: 'trial_benefits.modal.ldapTitle', defaultMessage: 'Synchronize your Active Directory/LDAP groups'})}
-            </div>
-            <div className='description'>
-                {formatMessage({id: 'trial_benefits.modal.ldapDescription', defaultMessage: 'Use AD/LDAP groups to organize and apply actions to multiple users at once. Manage team and channel memberships, permissions, and more.'})}
-            </div>
-            <a
-                className='learnMoreButton'
-                onClick={() => redirectToConsolePage(ConsolePages.LDAP)}
-            >
-                {learnMoreText}
-            </a>
-            <div className='ldapSvg svg-wrapper'>
-                <LdapSvg
-                    width={250}
-                    height={200}
+            ),
+            bottomLeftMessage: formatMessage({id: 'trial_benefits.modal.onlyVisibleToAdmins', defaultMessage: 'Only visible to admins'}),
+        },
+        {
+            id: 'guestAccess',
+            title: formatMessage({id: 'trial_benefits.modal.guestAccessTitle', defaultMessage: 'Determine user access with Guest Accounts'}),
+            description: formatMessage({id: 'trial_benefits.modal.guestAccessDescription', defaultMessage: 'Collaborate with users outside of your organization while tightly controlling their access channels and team members.'}),
+            svgWrapperClassName: 'guestAccessSvg',
+            svgElement: (
+                <GuestAccessSvg
+                    width={400}
+                    height={180}
                 />
-            </div>
-        </div>
-    );
-    steps.push(ldapSlide);
-
-    const dataRetentionSlide = (
-        <div className='slide-container'>
-            <div className='title'>
-                {formatMessage({id: 'trial_benefits.modal.dataRetentionTitle', defaultMessage: 'Create data retention schedules'})}
-            </div>
-            <div className='description'>
-                {formatMessage({id: 'trial_benefits.modal.dataRetentionDescription', defaultMessage: 'Hold on to your data only as long as you need to. Create data retention jobs for select channels and teams to automatically delete disposable data.'})}
-            </div>
-            <a
-                className='learnMoreButton'
-                onClick={() => redirectToConsolePage(ConsolePages.DATA_RETENTION)}
-            >{learnMoreText}</a>
-            <div className='personBoxSvg svg-wrapper'>
-                <PersonWithBoxSvg
-                    width={250}
-                    height={200}
-                />
-            </div>
-        </div>
-    );
-    steps.push(dataRetentionSlide);
-
-    const complianceExportSlide = (
-        <div className='slide-container'>
-            <div className='title'>
-                {formatMessage({id: 'trial_benefits.modal.complianceExportTitle', defaultMessage: 'Run compliance exports'})}
-            </div>
-            <div className='description'>
-                {formatMessage({id: 'trial_benefits.modal.complianceExportDescription', defaultMessage: 'Run daily compliance reports and export them to a variety of formats consumable by third-party integration tools such as Smarsh (Actiance).'})}
-            </div>
-            <a
-                className='learnMoreButton'
-                onClick={() => redirectToConsolePage(ConsolePages.COMPLIANCE_EXPORT)}
-            >{learnMoreText}</a>
-            <div className='personMacSvg svg-wrapper'>
+            ),
+            pageURL: ConsolePages.GUEST_ACCESS,
+        },
+        {
+            id: 'complianceExport',
+            title: formatMessage({id: 'trial_benefits.modal.complianceExportTitle', defaultMessage: 'Automate compliance exports'}),
+            description: formatMessage({id: 'trial_benefits.modal.complianceExportDescription', defaultMessage: 'Run daily compliance reports and export them to a variety of formats consumable by third-party integration tools such as Smarsh (Actiance).'}),
+            svgWrapperClassName: 'personMacSvg',
+            svgElement: (
                 <PersonMacSvg
-                    width={250}
+                    width={400}
+                    height={180}
+                />
+            ),
+            pageURL: ConsolePages.COMPLIANCE_EXPORT,
+        },
+        {
+            id: 'pushNotificationService',
+            title: formatMessage({id: 'trial_benefits.modal.pushNotificationServiceTitle', defaultMessage: 'Mobile Secure-ID Push Notifications'}),
+            description: formatMessage({id: 'trial_benefits.modal.pushNotificationServiceDescription', defaultMessage: 'ID-only push notification setting offers a high level of privacy while still allowing your team members to benefit from mobile push notifications.'}),
+            svgWrapperClassName: 'personBoxSvg',
+            svgElement: (
+                <PushNotificationsSvg
+                    width={400}
                     height={200}
                 />
-            </div>
-        </div>
-    );
-    steps.push(complianceExportSlide);
+            ),
+            pageURL: ConsolePages.PUSH_NOTIFICATION_CENTER,
+        },
+    ], [trialJustStarted, trialEndDate]);
 
-    const controlledAccessSlide = (
-        <div className='slide-container'>
-            <div className='title'>
-                {formatMessage({id: 'trial_benefits.modal.controlledAccessTitle', defaultMessage: 'Control access via single sign-on (SSO)'})}
-            </div>
-            <div className='description'>
-                {formatMessage({id: 'trial_benefits.modal.controlledAccessDescription', defaultMessage: 'Use SSO with SAML, AD/LDAP, Google, O365 or OpenID Connect to centralize identity management and automate account provisioning.'})}
-            </div>
-            <a
-                className='learnMoreButton'
-                onClick={() => redirectToConsolePage(ConsolePages.SAML)}
-            >{learnMoreText}</a>
-            <div className='personServerSvg svg-wrapper'>
-                <PersonWithServersSvg
-                    width={250}
-                    height={200}
-                />
-            </div>
-        </div>
-    );
-    steps.push(controlledAccessSlide);
+    const handleOnClose = useCallback(() => {
+        if (onClose) {
+            onClose();
+        }
 
-    const customTermsSlide = (
-        <div className='slide-container'>
-            <div className='title'>
-                {formatMessage({id: 'trial_benefits.modal.customTermsTitle', defaultMessage: 'Create custom terms of service'})}
-            </div>
-            <div className='description'>
-                {formatMessage({id: 'trial_benefits.modal.customTermsDescription', defaultMessage: 'Create your own terms of service that new users must accept before accessing your Mattermost instance on desktop, web, or mobile.'})}
-            </div>
-            <a
-                className='learnMoreButton'
-                onClick={() => redirectToConsolePage(ConsolePages.CUSTOM_TERMS)}
-            >{learnMoreText}</a>
-            <div className='personSheetSvg svg-wrapper'>
-                <PersonWithSheetSvg
-                    width={250}
-                    height={200}
-                />
-            </div>
-        </div>
-    );
-    steps.push(customTermsSlide);
+        onExited();
+    }, [onClose, onExited]);
+
+    const handleOnPrevNextSlideClick = useCallback((slideIndex: number) => {
+        const slideId = steps[slideIndex - 1]?.id;
+
+        if (slideId) {
+            trackEvent(
+                TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
+                'benefits_modal_slide_shown_' + slideId,
+            );
+        }
+    }, [steps]);
+
+    const getSlides = useCallback(() => steps.map(({id, ...rest}) => (
+        <TrialBenefitsModalStep
+            {...rest}
+            id={id}
+            key={id}
+            onClose={handleOnClose}
+        />
+    )), [steps, handleOnClose]);
 
     return (
         <GenericModal
-            className={'TrialBenefitsModal'}
+            className='TrialBenefitsModal'
             show={show}
             id='trialBenefitsModal'
             onExited={handleOnClose}
         >
             <Carousel
-                dataSlides={steps}
+                dataSlides={getSlides()}
                 id={'trialBenefitsModalCarousel'}
                 infiniteSlide={false}
+                onNextSlideClick={handleOnPrevNextSlideClick}
+                onPrevSlideClick={handleOnPrevNextSlideClick}
             />
         </GenericModal>
     );
