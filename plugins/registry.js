@@ -174,25 +174,23 @@ export default class PluginRegistry {
         return id;
     }
 
-    // Add a "call button"" next to the attach file button. If there are more than one button registered by any
+    // Add a "call button" to the channel header. If there are more than one button registered by any
     // plugin, a dropdown menu is created to contain all the call plugin buttons.
     // Accepts the following:
-    // - icon - React element to use as the button's icon
-    // - action - a function called when the button is clicked, passed the channel and channel member as arguments
-    // - dropdown_text - string or React element shown for the dropdown button description
-    // - tooltip_text - string shown for tooltip appear on hover
+    // - button - a React element to use as the main button to be displayed in case of a single registration.
+    // - dropdownButton - a React element to use as the dropdown button to be displayed in case of multiple registrations.
+    // - action - a function called when the button is clicked, passed the channel and channel member as arguments.
     // Returns an unique identifier
-    // Minimum required version: 5.28
-    registerCallButtonAction(icon, action, dropdownText, tooltipText) {
+    // Minimum required version: 6.5
+    registerCallButtonAction(button, dropdownButton, action) {
         const id = generateId();
 
         const data = {
             id,
             pluginId: this.id,
-            icon: resolveReactElement(icon),
+            button: resolveReactElement(button),
+            dropdownButton: resolveReactElement(dropdownButton),
             action,
-            dropdownText: resolveReactElement(dropdownText),
-            tooltipText,
         };
 
         store.dispatch({

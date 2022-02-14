@@ -1,22 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {CSSProperties, useState} from 'react';
 import {injectIntl, IntlShape} from 'react-intl';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
-import CameraIcon from 'components/widgets/icons/camera_icon';
 
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {PluginComponent} from 'types/store/plugins';
 
-const customStyles: React.CSSProperties = {
-    left: 'inherit',
-    right: 0,
-    bottom: '100%',
-    top: 'auto',
-};
+import './call_button.scss';
 
 type Props = {
     currentChannel: Channel;
@@ -27,18 +21,28 @@ type Props = {
 }
 
 function CallButton(props: Props) {
+    if (props.pluginCallMethods.length === 0) {
+        return null;
+    }
+
     const {formatMessage} = props.intl;
 
-    let bodyAction;
+    const [active, setActive] = useState(false);
 
-    if (props.pluginCallMethods.length === 0) {
-        bodyAction = null;
-    } else if (props.pluginCallMethods.length === 1) {
+    const style = {
+        container: {
+            marginTop: '16px',
+            height: '32px',
+        } as CSSProperties,
+    };
+
+    if (props.pluginCallMethods.length === 1) {
         const item = props.pluginCallMethods[0];
-        bodyAction = (
-            <button
-                type='button'
-                className='style--none post-action icon icon--attachment'
+
+        return (
+            <div
+                style={style.container}
+                className='flex-child'
                 onClick={() => {
                     if (item.action) {
                         item.action(props.currentChannel, props.channelMember);
@@ -50,56 +54,66 @@ function CallButton(props: Props) {
                     }
                 }}
             >
-                {item.icon}
-            </button>
+                {item.button}
+            </div>
         );
-    } else {
-        const pluginCallMethods = props.pluginCallMethods.map((item) => {
-            return (
-                <li
-                    key={item.id}
-                    onClick={(e) => {
-                        e.preventDefault();
-                        if (item.action) {
-                            item.action(props.currentChannel, props.channelMember);
-                        }
-                    }}
-                >
-                    <a href='#'>
-                        <span className='call-plugin-icon'>
-                            {item.icon}
-                        </span>
-                        {item.dropdownText}
-                    </a>
-                </li>
-            );
-        });
-        bodyAction = (
-            <MenuWrapper>
+    }
+
+    const pluginCallMethods = props.pluginCallMethods.map((item) => {
+        return (
+            <li
+                className='MenuItem'
+                key={item.id}
+                onClick={(e) => {
+                    e.preventDefault();
+                    if (item.action) {
+                        item.action(props.currentChannel, props.channelMember);
+                    }
+                }}
+            >
+
+                {item.dropdownButton}
+            </li>
+        );
+    });
+    return (
+        <div
+            style={style.container}
+            className='flex-child'
+        >
+            <MenuWrapper
+                onToggle={(toggle: boolean) => {
+                    setActive(toggle);
+                }}
+            >
                 <button
                     type='button'
-                    className='style--none post-action'
+                    className={'style--none call-button dropdown ' + (active ? 'active' : '')}
                 >
-                    <div
-                        className='icon icon--attachment'
-                    >
-                        <CameraIcon className='d-flex'/>
-                    </div>
+                    <span
+                        className='icon icon-phone-outline'
+                        aria-label={formatMessage({id: 'generic_icons.call', defaultMessage: 'Call Icon'}).toLowerCase()}
+                    />
+                    <span className='call-button-label'>{'Call'}</span>
+                    <span
+                        className='icon icon-chevron-down'
+                        aria-label={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'}).toLowerCase()}
+                    />
                 </button>
                 <Menu
                     id='callOptions'
-                    openLeft={true}
-                    openUp={true}
                     ariaLabel={formatMessage({id: 'call_button.menuAriaLabel', defaultMessage: 'Call type selector'})}
-                    customStyles={customStyles}
+                    customStyles={{
+                        top: 'auto',
+                        left: 'auto',
+                        right: 0,
+                    }}
                 >
                     {pluginCallMethods}
                 </Menu>
             </MenuWrapper>
-        );
-    }
-
-    return bodyAction;
+        </div>
+    );
 }
 
 CallButton.defaultProps = {

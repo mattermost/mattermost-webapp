@@ -25,6 +25,7 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Popover from 'components/widgets/popover';
+import CallButton from 'components/call_button';
 
 import {
     Constants,
@@ -469,6 +470,7 @@ class ChannelHeader extends React.PureComponent {
                     {dmHeaderIconStatus}
                     {dmHeaderTextStatus}
                     {popoverListMembers}
+
                     <HeaderIconWrapper
                         iconComponent={pinnedIcon}
                         ariaLabel={true}
@@ -588,6 +590,7 @@ class ChannelHeader extends React.PureComponent {
                     {dmHeaderIconStatus}
                     {dmHeaderTextStatus}
                     {popoverListMembers}
+
                     <HeaderIconWrapper
                         iconComponent={pinnedIcon}
                         ariaLabel={true}
@@ -773,6 +776,8 @@ class ChannelHeader extends React.PureComponent {
                         channel={channel}
                         channelMember={channelMember}
                     />
+
+                    <CallButton/>
                 </div>
             </div>
         );
