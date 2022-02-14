@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
-import {getBool, getInt} from 'mattermost-redux/selectors/entities/preferences';
+import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {GenericAction} from 'mattermost-redux/types/actions';
@@ -23,8 +23,7 @@ import {
     OnBoardingTasksName,
 } from 'components/onboarding_tasks';
 import {ChannelsTour, OnBoardingTourSteps, TutorialTourName} from 'components/onboarding_tour';
-import {Preferences, RecommendedNextSteps} from '../../../../utils/constants';
-import {isFirstAdmin, nextStepsNotFinished} from '../../../next_steps_view/steps';
+import {isFirstAdmin, showNextSteps} from 'components/next_steps_view/steps';
 
 import SidebarChannelLink from './sidebar_channel_link';
 
@@ -44,11 +43,10 @@ function makeMapStateToProps() {
         const tutorialStep = getInt(state, ChannelsTour, TutorialTourName.ON_BOARDING_STEP, 0);
         const triggerStep = getInt(state, OnBoardingTaskCategory, OnBoardingTasksName.CHANNELS_TOUR, 0);
         const channelTourTriggered = triggerStep === GenericTaskSteps.STARTED;
-        const nextStep = nextStepsNotFinished(state);
+        const nextStep = showNextSteps(state);
         const isUserFirstAdmin = isFirstAdmin(state);
-        const isRecommendedStepSkipped = getBool(state, Preferences.RECOMMENDED_NEXT_STEPS, RecommendedNextSteps.SKIP);
-        const showChannelsTour = tutorialStep === OnBoardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES;
-        const showChannelsTutorialStep = enableTutorial && showChannelsTour && ((channelTourTriggered && isUserFirstAdmin) || ((!nextStep || isRecommendedStepSkipped) && !isUserFirstAdmin));
+        const showChannelsTour = enableTutorial && channelTourTriggered && tutorialStep === OnBoardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES;
+        const showChannelsTutorialStep = showChannelsTour && (isUserFirstAdmin || (!nextStep && !isUserFirstAdmin));
 
         return {
             unreadMentions: unreadCount.mentions,
