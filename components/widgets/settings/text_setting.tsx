@@ -88,6 +88,7 @@ export default class TextSetting extends React.PureComponent<WidgetTextSettingPr
                     maxLength={this.props.maxLength}
                     onChange={this.handleChange}
                     disabled={this.props.disabled}
+                    autoComplete='off'
                 />
             );
         }
