@@ -1,189 +1,166 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint max-nested-callbacks: ["error", 3] */
-
 import Observable from 'zen-observable';
-import localForage from 'localforage';
+import baseLocalForage from 'localforage';
 import {extendPrototype} from 'localforage-observable';
-import {persistStore} from 'redux-persist';
+
+import {persistStore, REHYDRATE} from 'redux-persist';
 
 import {General, RequestStatus} from 'mattermost-redux/constants';
 import configureServiceStore from 'mattermost-redux/store';
-import reduxInitialState from 'mattermost-redux/store/initial_state';
 
-import {storageRehydrate, rehydrateDrafts} from 'actions/storage';
 import {clearUserCookie} from 'actions/views/cookie';
-import appReducer from 'reducers';
-import {ActionTypes} from 'utils/constants';
+import appReducers from 'reducers';
 import {getBasePath} from 'selectors/general';
 
-function getAppReducer() {
+function getAppReducers() {
     return require('../reducers'); // eslint-disable-line global-require
 }
 
-// This is a hack to get the whitelist to work with our storage keys
-// We will implement it properly when we eventually upgrade redux-persist
-const whitelist = {
-    keys: [], // add normal whitelist keys here
-    prefixes: ['storage'], // add any whitelist prefixes here
-    indexOf: function indexOf(key) {
-        if (this.keys.indexOf(key) !== -1) {
-            return 0;
-        }
-
-        for (let i = 0; i < this.prefixes.length; i++) {
-            if (key.startsWith(this.prefixes[i])) {
-                return 0;
-            }
-        }
-
-        return -1;
-    },
-};
-
 window.Observable = Observable;
 
-export default function configureStore(initialState) {
-    const offlineOptions = {
-        persist: (store, options) => {
-            const localforage = extendPrototype(localForage);
-            const storage = localforage;
-            const KEY_PREFIX = 'reduxPersist:';
+const localForage = extendPrototype(baseLocalForage);
 
-            localforage.ready().then(() => {
-                const persistor = persistStore(store, {storage, keyPrefix: KEY_PREFIX, ...options}, () => {
-                    store.dispatch({
-                        type: General.STORE_REHYDRATION_COMPLETE,
-                        complete: true,
-                    });
-                });
+export default function configureStore(preloadedState) {
+    const store = configureServiceStore({
+        appReducers,
+        getAppReducers,
+        preloadedState,
+    });
 
-                localforage.configObservables({
-                    crossTabNotification: true,
-                });
-
-                const observable = localforage.newObservable({
-                    crossTabNotification: true,
-                    changeDetection: true,
-                });
-
-                const restoredState = {};
-                localforage.iterate((value, key) => {
-                    if (key && key.indexOf(KEY_PREFIX + 'storage:') === 0) {
-                        const keyspace = key.substr((KEY_PREFIX + 'storage:').length);
-                        restoredState[keyspace] = value;
-                    }
-                }).then(() => {
-                    storageRehydrate(restoredState, persistor)(store.dispatch, store.getState);
-                    store.dispatch(rehydrateDrafts());
-                });
-
-                observable.subscribe({
-                    next: (args) => {
-                        if (args.key && args.key.indexOf(KEY_PREFIX + 'storage:') === 0 && args.oldValue === null) {
-                            const keyspace = args.key.substr((KEY_PREFIX + 'storage:').length);
-
-                            var statePartial = {};
-                            statePartial[keyspace] = args.newValue;
-
-                            storageRehydrate(statePartial, persistor)(store.dispatch, store.getState);
-                        }
-                    },
-                });
-
-                let purging = false;
-
-                // check to see if the logout request was successful
-                store.subscribe(() => {
-                    const state = store.getState();
-                    const basePath = getBasePath(state);
-
-                    if (state.requests.users.logout.status === RequestStatus.SUCCESS && !purging) {
-                        purging = true;
-
-                        persistor.purge().then(() => {
-                            clearUserCookie();
-
-                            // Preserve any query string parameters on logout, including parameters
-                            // used by the application such as extra and redirect_to.
-                            window.location.href = `${basePath}${window.location.search}`;
-
-                            store.dispatch({
-                                type: General.OFFLINE_STORE_RESET,
-                                data: Object.assign({}, reduxInitialState, initialState),
-                            });
-
-                            setTimeout(() => {
-                                purging = false;
-                            }, 500);
-                        });
-                    }
-                });
-            }).catch((error) => {
-                store.dispatch({
-                    type: ActionTypes.STORE_REHYDRATION_FAILED,
-                    error,
-                });
+    localForage.ready().then(() => {
+        const persistor = persistStore(store, null, () => {
+            store.dispatch({
+                type: General.STORE_REHYDRATION_COMPLETE,
+                complete: true,
             });
-        },
-        persistOptions: {
-            autoRehydrate: {
-                log: false,
-            },
-            whitelist,
-            debounce: 30,
-            _stateIterator: (collection, callback) => {
-                return Object.keys(collection).forEach((key) => {
-                    if (key === 'storage') {
-                        Object.keys(collection.storage.storage).forEach((storageKey) => {
-                            callback(collection.storage.storage[storageKey], 'storage:' + storageKey);
-                        });
-                    } else {
-                        callback(collection[key], key);
+
+            migratePersistedState(store, persistor);
+        });
+
+        localForage.configObservables({
+            crossTabNotification: true,
+        });
+
+        const observable = localForage.newObservable({
+            crossTabNotification: true,
+            changeDetection: true,
+        });
+
+        // Rehydrate redux-persist when another tab changes localForage
+        observable.subscribe({
+            next: (args) => {
+                if (!args.crossTabNotification) {
+                    // Ignore changes made by this tab
+                    return;
+                }
+
+                const keyPrefix = 'persist:';
+
+                if (!args.key.startsWith(keyPrefix)) {
+                    // Ignore changes that weren't made by redux-persist
+                    return;
+                }
+
+                const key = args.key.substring(keyPrefix.length);
+                const newValue = JSON.parse(args.newValue);
+
+                const payload = {};
+
+                for (const reducerKey of Object.keys(newValue)) {
+                    if (reducerKey === '_persist') {
+                        // Don't overwrite information used by redux-persist itself
+                        continue;
                     }
+
+                    payload[reducerKey] = JSON.parse(newValue[reducerKey]);
+                }
+
+                store.dispatch({
+                    type: REHYDRATE,
+                    key,
+                    payload,
                 });
             },
-            _stateGetter: (state, key) => {
-                if (key.indexOf('storage:') === 0) {
-                    return state.storage?.storage?.[key.substr(8)];
-                }
-                return state[key];
-            },
-            _stateSetter: (state, key, value) => {
-                // eslint-disable-next-line no-process-env
-                if (process.env.NODE_ENV === 'production') {
-                    if (key.indexOf('storage:') === 0) {
-                        state.storage = state.storage || {storage: {}};
-                        state.storage.storage[key.substr(8)] = value;
-                    } else {
-                        state[key] = value;
-                    }
+        });
 
-                    return state;
-                }
+        let purging = false;
 
-                // In non-production environments, the store is immutable.
-                if (key.indexOf('storage:') === 0) {
-                    return {
-                        ...state,
-                        storage: {
-                            ...state.storage,
-                            storage: {
-                                ...state.storage?.storage,
-                                [key.substr(8)]: value,
-                            },
-                        },
-                    };
-                }
+        // Clean up after a logout
+        store.subscribe(() => {
+            const state = store.getState();
+            const basePath = getBasePath(state);
 
-                return {
-                    ...state,
-                    key: value,
-                };
-            },
-        },
-    };
+            if (state.requests.users.logout.status === RequestStatus.SUCCESS && !purging) {
+                purging = true;
 
-    return configureServiceStore(initialState, appReducer, offlineOptions, getAppReducer);
+                persistor.purge().then(() => {
+                    clearUserCookie();
+
+                    // Preserve any query string parameters on logout, including parameters
+                    // used by the application such as extra and redirect_to.
+                    window.location.href = `${basePath}${window.location.search}`;
+
+                    setTimeout(() => {
+                        purging = false;
+                    }, 500);
+                });
+            }
+        });
+    }).catch((e) => {
+        // eslint-disable-next-line no-console
+        console.error('Failed to initialize localForage', e);
+    });
+
+    return store;
+}
+
+/**
+ * Migrates state.storage from redux-persist@4 to redux-persist@6
+ */
+function migratePersistedState(store, persistor) {
+    const oldKeyPrefix = 'reduxPersist:storage:';
+
+    const restoredState = {};
+    localForage.iterate((value, key) => {
+        if (key && key.startsWith(oldKeyPrefix)) {
+            restoredState[key.substring(oldKeyPrefix.length)] = value;
+        }
+    }).then(async () => {
+        if (Object.keys(restoredState).length === 0) {
+            // Nothing to migrate
+            return;
+        }
+
+        // eslint-disable-next-line no-console
+        console.log('Migrating storage for redux-persist@6 upgrade');
+
+        persistor.pause();
+
+        const persistedState = {};
+
+        for (const [key, value] of Object.entries(restoredState)) {
+            // eslint-disable-next-line no-console
+            console.log('Migrating `' + key + '`', JSON.parse(value));
+            persistedState[key] = JSON.parse(value);
+        }
+
+        store.dispatch({
+            type: REHYDRATE,
+            key: 'storage',
+            payload: persistedState,
+        });
+
+        // Persist the migrated values and resume
+        persistor.persist();
+
+        // Remove the leftover values from localForage
+        for (const key of Object.keys(restoredState)) {
+            localForage.removeItem(oldKeyPrefix + key);
+        }
+
+        // eslint-disable-next-line no-console
+        console.log('Done migration for redux-persist@6 upgrade');
+    });
 }

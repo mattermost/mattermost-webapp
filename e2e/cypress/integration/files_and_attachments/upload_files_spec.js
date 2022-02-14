@@ -283,7 +283,7 @@ describe('Upload Files', () => {
         });
     });
 
-    it('MM-T2261 Upload SVG and post', () => {
+    it('MM-T2261 Upload SVG and post -- KNOWN ISSUE: MM-38982', () => {
         const filename = 'svg.svg';
         const aspectRatio = 1;
 

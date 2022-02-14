@@ -21,7 +21,7 @@ describe('Direct messages: redirections', () => {
 
             cy.apiCreateUser().then(({user: createdUser}) => {
                 firstDMUser = createdUser;
-                cy.apiAddUserToTeam(team.id, firstDMUser.id);
+                cy.apiAddUserToTeam(testTeam.id, firstDMUser.id);
             });
 
             // # Create a second test user
@@ -32,12 +32,10 @@ describe('Direct messages: redirections', () => {
 
             // # Login as test user
             cy.apiLogin(testUser);
-        });
-    });
 
-    beforeEach(() => {
-        // # View 'off-topic' channel
-        cy.visit(offTopicChannelUrl);
+            // # View 'off-topic' channel
+            cy.visit(offTopicChannelUrl);
+        });
     });
 
     it('MM-T453_1 Closing a direct message should redirect to town square channel', () => {

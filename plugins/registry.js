@@ -143,6 +143,37 @@ export default class PluginRegistry {
         return id;
     }
 
+    // Add a button to the channel intro message.
+    // Accepts the following:
+    // - icon - React element to use as the button's icon
+    // - action - a function called when the button is clicked, passed the channel and channel member as arguments
+    // - tooltip_text - string or React element shown for tooltip appear on hover
+    registerChannelIntroButtonAction(icon, action, tooltipText) {
+        const id = generateId();
+
+        const data = {
+            id,
+            pluginId: this.id,
+            icon: resolveReactElement(icon),
+            action,
+            tooltipText: resolveReactElement(tooltipText),
+        };
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'ChannelIntroButton',
+            data,
+        });
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'MobileChannelIntroButton',
+            data,
+        });
+
+        return id;
+    }
+
     // Add a "call button"" next to the attach file button. If there are more than one button registered by any
     // plugin, a dropdown menu is created to contain all the call plugin buttons.
     // Accepts the following:

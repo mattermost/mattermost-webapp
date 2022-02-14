@@ -165,6 +165,10 @@
         // adjust height of team sidebar
         height: calc(100% - 40px);
         border-right: solid 1px rgba(var(--center-channel-color-rgb), 0.08);
+
+        body.announcement-bar--fixed & {
+            height: calc(100% - #{$announcement-bar-height} - 40px);
+        }
     }
 }
 

@@ -1533,10 +1533,10 @@ class CreatePost extends React.PureComponent<Props, State> {
                             />
                             <TextboxLinks
                                 isMarkdownPreviewEnabled={this.props.canPost && this.props.markdownPreviewFeatureIsEnabled}
-                                characterLimit={this.props.maxPostSize}
+                                hasExceededCharacterLimit={readOnlyChannel ? false : this.state.message.length > this.props.maxPostSize}
                                 showPreview={this.props.shouldShowPreview}
                                 updatePreview={this.setShowPreview}
-                                message={readOnlyChannel ? '' : this.state.message}
+                                hasText={readOnlyChannel ? false : this.state.message.length > 0}
                             />
                         </div>
                         <div>
