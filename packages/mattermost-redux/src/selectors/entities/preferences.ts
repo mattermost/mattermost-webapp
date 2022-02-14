@@ -218,11 +218,6 @@ export function getAddMembersToChannel(state: GlobalState): AddMembersToChannelt
     return getFeatureFlagValue(state, 'AddMembersToChannel') as AddMembersToChanneltreatments | undefined;
 }
 
-// TODO: revert to actual value before committng.
-// export function getUseCaseOnboarding(state: GlobalState): boolean {
-//     // return getFeatureFlagValue(state, 'UseCaseOnboarding') === 'true';
-// }
-
-export function getUseCaseOnboarding(): boolean {
-    return true;
+export function getUseCaseOnboarding(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'UseCaseOnboarding') === 'true';
 }
