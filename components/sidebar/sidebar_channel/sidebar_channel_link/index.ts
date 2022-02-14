@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
-import {getInt} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool, getInt} from 'mattermost-redux/selectors/entities/preferences';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {GenericAction} from 'mattermost-redux/types/actions';
@@ -23,6 +23,7 @@ import {
     OnBoardingTasksName,
 } from 'components/onboarding_tasks';
 import {ChannelsTour, OnBoardingTourSteps, TutorialTourName} from 'components/onboarding_tour';
+import {Preferences, RecommendedNextSteps} from '../../../../utils/constants';
 import {isFirstAdmin, nextStepsNotFinished} from '../../../next_steps_view/steps';
 
 import SidebarChannelLink from './sidebar_channel_link';
@@ -45,8 +46,9 @@ function makeMapStateToProps() {
         const channelTourTriggered = triggerStep === GenericTaskSteps.STARTED;
         const nextStep = nextStepsNotFinished(state);
         const isUserFirstAdmin = isFirstAdmin(state);
+        const isRecommendedStepSkipped = getBool(state, Preferences.RECOMMENDED_NEXT_STEPS, RecommendedNextSteps.SKIP);
         const showChannelsTour = tutorialStep === OnBoardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES;
-        const showChannelsTutorialStep = enableTutorial && showChannelsTour && ((channelTourTriggered && isUserFirstAdmin) || (!nextStep && !isUserFirstAdmin));
+        const showChannelsTutorialStep = enableTutorial && showChannelsTour && ((channelTourTriggered && isUserFirstAdmin) || ((!nextStep || isRecommendedStepSkipped) && !isUserFirstAdmin));
 
         return {
             unreadMentions: unreadCount.mentions,
