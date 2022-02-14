@@ -317,7 +317,7 @@ export function makeGetChannelUnreadCount(): (state: GlobalState, channelId: str
         (state: GlobalState, channelId: string) => getChannelMessageCount(state, channelId),
         (state: GlobalState, channelId: string) => getMyChannelMembership(state, channelId),
         isCollapsedThreadsEnabled,
-        (messageCount: ChannelMessageCount, member: ChannelMembership, crtEnabled: boolean) => {
+        (messageCount: ChannelMessageCount, member: ChannelMembership, crtEnabled) => {
             return calculateUnreadCount(messageCount, member, crtEnabled);
         },
     );
