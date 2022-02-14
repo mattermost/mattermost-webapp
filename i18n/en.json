@@ -1842,7 +1842,7 @@
   "admin.reporting.workspace_optimization.data_privacy.retention.title": "Become more data aware",
   "admin.reporting.workspace_optimization.data_privacy.title": "Data Privacy",
   "admin.reporting.workspace_optimization.ease_of_management.description": "Make it easier to manage your Mattermost workspace.",
-  "admin.reporting.workspace_optimization.ease_of_management.descriptionOk": "For your current usage scale, manually managing users and guests seems apropriate!",
+  "admin.reporting.workspace_optimization.ease_of_management.descriptionOk": "Based on current usage, manually managing users and guests is a good choice!",
   "admin.reporting.workspace_optimization.ease_of_management.guests_accounts.description": "We noticed several accounts using different domains from your Site URL. Gain more control over what other organizations can access with the guest account feature.",
   "admin.reporting.workspace_optimization.ease_of_management.guests_accounts.title": "Guest Accounts recommended",
   "admin.reporting.workspace_optimization.ease_of_management.ldap.description": "You've reached over 100 users! We recommend starting an Enterprise trial and setting up AD/LDAP user authentication for easier onboarding as well as automated deactivations and role assignments.",

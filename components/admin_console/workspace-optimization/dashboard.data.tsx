@@ -138,7 +138,7 @@ const useMetricsData = () => {
         }),
         descriptionOk: formatMessage({
             id: 'admin.reporting.workspace_optimization.configuration.descriptionOk',
-            defaultMessage: "You've successfully configured SSL and Session Lengths!",
+            defaultMessage: 'You\'ve successfully configured SSL and Session Lengths!',
         }),
         icon: (
             <div className='icon'>
@@ -301,7 +301,7 @@ const useMetricsData = () => {
         }),
         descriptionOk: formatMessage({
             id: 'admin.reporting.workspace_optimization.data_privacy.descriptionOk',
-            defaultMessage: "You've enabled data retention and compliance features!",
+            defaultMessage: 'You\'ve enabled data retention and compliance features!',
         }),
         icon: (
             <div className='icon'>
@@ -354,7 +354,7 @@ const useMetricsData = () => {
         }),
         descriptionOk: formatMessage({
             id: 'admin.reporting.workspace_optimization.ease_of_management.descriptionOk',
-            defaultMessage: 'Based on current usage, manually managing users and guests manually is a good choice!',
+            defaultMessage: 'Based on current usage, manually managing users and guests is a good choice!',
         }),
         icon: (
             <div className='icon'>
