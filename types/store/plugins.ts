@@ -24,6 +24,7 @@ export type PluginsState = {
         ChannelHeaderButton: PluginComponent[];
         MobileChannelHeaderButton: PluginComponent[];
         AppBar: PluginComponent[];
+        UserGuideDropdownItem: PluginComponent[];
         [componentName: string]: PluginComponent[];
     };
 
@@ -83,13 +84,6 @@ export type FileDropdownPluginComponent = {
     text: string | React.ReactElement;
     match: (fileInfo: FileInfo) => boolean;
     action: (fileInfo: FileInfo) => void;
-};
-
-export type UserGuideDropdownPluginComponent = {
-    id: string;
-    pluginId: string;
-    text: string | React.ReactElement;
-    action: () => void;
 };
 
 export type PostPluginComponent = {
