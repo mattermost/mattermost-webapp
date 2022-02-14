@@ -302,8 +302,6 @@
   "admin.billing.subscription.planDetails.features.autoComplianceExports": "Автоматизиран износ за съответствие",
   "admin.billing.subscription.planDetails.features.channelModeration": "Модерация на канал",
   "admin.billing.subscription.planDetails.features.customRetentionPolicies": "Персонализирани политики за съхранение на данни",
-  "admin.billing.subscription.planDetails.features.enterpriseAdminSso": "Корпоративно администриране и SSO",
-  "admin.billing.subscription.planDetails.features.enterpriseAdministration": "Корпоративно администриране и SSO",
   "admin.billing.subscription.planDetails.features.groupAndOneToOneMessaging": "Групови и лични съобщения, споделяне на файлове и търсене",
   "admin.billing.subscription.planDetails.features.guestAccounts": "Профили за гости",
   "admin.billing.subscription.planDetails.features.incidentCollaboration": "Сътрудничество при инциденти",
