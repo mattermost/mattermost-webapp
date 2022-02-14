@@ -231,9 +231,8 @@ export default class PostBody extends React.PureComponent {
                     className={`post__body ${mentionHighlightClass} ${ephemeralPostClass} ${postClass}`}
                 >
                     <AutoHeight shouldScrollIntoView={isBeingEdited}>
-                        {isBeingEdited ? <EditPost/> : null}
+                        {isBeingEdited ? <EditPost/> : messageWithAdditionalContent}
                     </AutoHeight>
-                    <div className={isBeingEdited ? 'hide-element' : ''}>{messageWithAdditionalContent}</div>
                     {fileAttachmentHolder}
                     <ReactionList post={post}/>
                 </div>

@@ -668,17 +668,16 @@ export default class RhsComment extends React.PureComponent {
                         <div className={`post__body${postClass}`} >
                             {failedPostOptions}
                             <AutoHeight shouldScrollIntoView={isPostBeingEdited}>
-                                {isPostBeingEdited ? <EditPost/> : null}
+                                {isPostBeingEdited ? <EditPost/> : (
+                                    <MessageWithAdditionalContent
+                                        post={post}
+                                        previewCollapsed={this.props.previewCollapsed}
+                                        previewEnabled={this.props.previewEnabled}
+                                        isEmbedVisible={this.props.isEmbedVisible}
+                                        pluginPostTypes={this.props.pluginPostTypes}
+                                    />
+                                )}
                             </AutoHeight>
-                            <div className={isPostBeingEdited ? 'hide-element' : ''}>
-                                <MessageWithAdditionalContent
-                                    post={post}
-                                    previewCollapsed={this.props.previewCollapsed}
-                                    previewEnabled={this.props.previewEnabled}
-                                    isEmbedVisible={this.props.isEmbedVisible}
-                                    pluginPostTypes={this.props.pluginPostTypes}
-                                />
-                            </div>
                             {fileAttachment}
                             <ReactionList
                                 post={post}
