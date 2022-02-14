@@ -49,7 +49,7 @@ describe('Onboarding ADMIN', () => {
         cy.visit(`/${theteam.name}/channels/town-square`);
     });
 
-    it('MM-T4148 Takes the user through the steps of using the app', () => {
+    it('MM-T4642 Takes the user through the steps of using the app - ADMIN', () => {
         // # Click the tip on posting messages
         cy.get(`#create_post ${selectors.tip}`).click();
 
@@ -103,7 +103,7 @@ describe('Onboarding ADMIN', () => {
         cy.get(selectors.tipNext).click();
 
         // # Click the the next(settings) tip
-        cy.get(`${selectors.tip}`).click({force: true});
+        cy.get(`${selectors.tip}`).click();
 
         // * Observe the settings tip
         cy.get(selectors.tipText).
@@ -121,7 +121,7 @@ describe('Onboarding ADMIN', () => {
             and('contain', 'Try our premium features for free');
     });
 
-    it('Takes the user through the steps of using the app using the ENTER key', () => {
+    it('MM-T4148 Takes the user through the steps of using the app by the ENTER key', () => {
         // # Click the tip on posting messages
         cy.get(`#create_post ${selectors.tip}`).click();
 
@@ -223,7 +223,7 @@ describe('Onboarding', () => {
         cy.visit(`/${theteam.name}/channels/town-square`);
     });
 
-    it('MM-T4148 Takes the user through the steps of using the app', () => {
+    it('MM-T4643 Takes the user through the steps of using the app NON-ADMIN', () => {
         // # Click the tip on posting messages
         cy.get(`#create_post ${selectors.tip}`).click();
 
@@ -277,7 +277,7 @@ describe('Onboarding', () => {
         cy.get(selectors.tipNext).click();
     });
 
-    it('Takes the user through the steps of using the app using the ENTER key', () => {
+    it('MM-T4644 Takes the user through the steps of using the app using the ENTER key NON-ADMIN', () => {
         // # Click the tip on posting messages
         cy.get(`#create_post ${selectors.tip}`).click();
 
