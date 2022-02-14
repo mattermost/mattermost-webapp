@@ -24,7 +24,7 @@ import {GlobalState} from 'types/store';
 import {isArchivedChannel} from 'utils/channel_utils';
 import {Preferences} from 'utils/constants';
 import {areConsecutivePostsBySameUser} from 'utils/post_utils';
-import {getIsPostBeingEdited} from '../../../selectors/posts';
+import {getIsPostBeingEdited, getIsPostBeingEditedInRHS} from '../../../selectors/posts';
 
 import PostComponent from './post';
 
@@ -73,7 +73,7 @@ function makeMapStateToProps() {
 
         return {
             post,
-            isBeingEdited: getIsPostBeingEdited(state, post.id),
+            isBeingEdited: getIsPostBeingEdited(state, post.id) && !getIsPostBeingEditedInRHS(state, post.id),
             currentUserId: getCurrentUserId(state),
             isFirstReply: previousPost ? isFirstReply(post, previousPost) : false,
             consecutivePostByUser,
