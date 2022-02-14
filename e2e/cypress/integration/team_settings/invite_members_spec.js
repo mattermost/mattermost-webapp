@@ -103,6 +103,20 @@ describe('Invite Members', () => {
             verifyInvitationError(testTeam, userToBeInvited);
         });
     });
+
+    describe('default interface', () => {
+        it('focuses user email input by default', () => {
+            // # Login and visit
+            cy.apiLogin(testUser);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
+
+            // # Open and select invite menu item
+            cy.uiOpenTeamMenu('Invite People');
+
+            // * Users emails input is focused by default
+            cy.get('.users-emails-input__control--is-focused').should('be.visible');
+        });
+    });
 });
 
 function verifyInvitationTable($subel, tableTitle, user, reason) {

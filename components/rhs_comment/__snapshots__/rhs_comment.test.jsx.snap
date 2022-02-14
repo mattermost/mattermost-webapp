@@ -80,8 +80,7 @@ exports[`components/RhsComment should match snapshot 1`] = `
             isRHS={true}
             userId="user_id"
           />
-          <CustomStatusEmoji
-            emojiSize={16}
+          <Memo(CustomStatusEmoji)
             emojiStyle={
               Object {
                 "marginLeft": 4,
@@ -89,8 +88,6 @@ exports[`components/RhsComment should match snapshot 1`] = `
               }
             }
             showTooltip={true}
-            spanStyle={Object {}}
-            tooltipDirection="top"
             userID="user_id"
           />
         </div>
@@ -248,8 +245,7 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
             isRHS={true}
             userId="user_id"
           />
-          <CustomStatusEmoji
-            emojiSize={16}
+          <Memo(CustomStatusEmoji)
             emojiStyle={
               Object {
                 "marginLeft": 4,
@@ -257,8 +253,6 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
               }
             }
             showTooltip={true}
-            spanStyle={Object {}}
-            tooltipDirection="top"
             userID="user_id"
           />
         </div>
@@ -464,8 +458,7 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
             isRHS={true}
             userId="user_id"
           />
-          <CustomStatusEmoji
-            emojiSize={16}
+          <Memo(CustomStatusEmoji)
             emojiStyle={
               Object {
                 "marginLeft": 4,
@@ -473,8 +466,6 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
               }
             }
             showTooltip={true}
-            spanStyle={Object {}}
-            tooltipDirection="top"
             userID="user_id"
           />
         </div>
@@ -645,8 +636,7 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
             isRHS={true}
             userId="user_id"
           />
-          <CustomStatusEmoji
-            emojiSize={16}
+          <Memo(CustomStatusEmoji)
             emojiStyle={
               Object {
                 "marginLeft": 4,
@@ -654,8 +644,6 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
               }
             }
             showTooltip={true}
-            spanStyle={Object {}}
-            tooltipDirection="top"
             userID="user_id"
           />
         </div>
@@ -854,8 +842,7 @@ exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
             isRHS={true}
             userId="user_id"
           />
-          <CustomStatusEmoji
-            emojiSize={16}
+          <Memo(CustomStatusEmoji)
             emojiStyle={
               Object {
                 "marginLeft": 4,
@@ -863,8 +850,6 @@ exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
               }
             }
             showTooltip={true}
-            spanStyle={Object {}}
-            tooltipDirection="top"
             userID="user_id"
           />
         </div>
@@ -879,47 +864,6 @@ exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
             timestampProps={
               Object {
                 "style": undefined,
-              }
-            }
-          />
-        </div>
-        <div
-          className="col post-menu"
-          data-testid="post-menu-id"
-        >
-          <Connect(PostReaction)
-            channelId="channel_id"
-            getDotMenuRef={[Function]}
-            location="RHS_COMMENT"
-            postId="id"
-            showEmojiPicker={false}
-            teamId="team_id"
-            toggleEmojiPicker={[Function]}
-          />
-          <Connect(injectIntl(DotMenuClass))
-            enableEmojiPicker={true}
-            handleAddReactionClick={[Function]}
-            handleDropdownOpened={[Function]}
-            isFlagged={true}
-            isMenuOpen={false}
-            isReadOnly={false}
-            location="RHS_COMMENT"
-            post={
-              Object {
-                "channel_id": "channel_id",
-                "create_at": 1502715365009,
-                "delete_at": 0,
-                "edit_at": 1502715372443,
-                "id": "id",
-                "is_pinned": false,
-                "message": "post message",
-                "original_id": "",
-                "pending_post_id": "",
-                "props": Object {},
-                "root_id": "",
-                "type": "",
-                "update_at": 1502715372443,
-                "user_id": "user_id",
               }
             }
           />
@@ -1063,8 +1007,7 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
             isRHS={true}
             userId="user_id"
           />
-          <CustomStatusEmoji
-            emojiSize={16}
+          <Memo(CustomStatusEmoji)
             emojiStyle={
               Object {
                 "marginLeft": 4,
@@ -1072,8 +1015,6 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
               }
             }
             showTooltip={true}
-            spanStyle={Object {}}
-            tooltipDirection="top"
             userID="user_id"
           />
         </div>
@@ -1090,47 +1031,6 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
                 "style": undefined,
               }
             }
-          />
-        </div>
-        <div
-          className="col post-menu"
-          data-testid="post-menu-id"
-        >
-          <Connect(injectIntl(DotMenuClass))
-            enableEmojiPicker={true}
-            handleAddReactionClick={[Function]}
-            handleDropdownOpened={[Function]}
-            isFlagged={true}
-            isMenuOpen={false}
-            isReadOnly={false}
-            location="RHS_COMMENT"
-            post={
-              Object {
-                "channel_id": "channel_id",
-                "create_at": 1502715365009,
-                "delete_at": 0,
-                "edit_at": 1502715372443,
-                "id": "id",
-                "is_pinned": false,
-                "message": "post message",
-                "original_id": "",
-                "pending_post_id": "",
-                "props": Object {},
-                "root_id": "",
-                "type": "",
-                "update_at": 1502715372443,
-                "user_id": "user_id",
-              }
-            }
-          />
-          <Connect(PostReaction)
-            channelId="channel_id"
-            getDotMenuRef={[Function]}
-            location="RHS_COMMENT"
-            postId="id"
-            showEmojiPicker={false}
-            teamId="team_id"
-            toggleEmojiPicker={[Function]}
           />
         </div>
       </div>

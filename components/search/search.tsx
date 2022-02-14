@@ -71,7 +71,15 @@ const determineVisibleSearchHintOptions = (searchTerms: string, searchType: Sear
 };
 
 const Search: React.FC<Props> = (props: Props): JSX.Element => {
-    const {actions, searchTerms, searchType, currentChannel, hideSearchBar, enableFindShortcut} = props;
+    const {
+        actions,
+        currentChannel,
+        enableFindShortcut,
+        hideSearchBar,
+        isMobileView,
+        searchTerms,
+        searchType,
+    } = props;
 
     const intl = useIntl();
     const currentChannelName = useSelector(getCurrentChannelNameForSearchShortcut);
@@ -128,24 +136,16 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
     }, [hideSearchBar, currentChannelName]);
 
     useEffect((): void => {
-        if (!Utils.isMobile()) {
+        if (!isMobileView) {
             setVisibleSearchHintOptions(determineVisibleSearchHintOptions(searchTerms, searchType));
         }
-    }, [searchTerms, searchType]);
+    }, [isMobileView, searchTerms, searchType]);
 
     useEffect((): void => {
-        if (!Utils.isMobile() && focused && keepInputFocused) {
+        if (!isMobileView && focused && keepInputFocused) {
             handleBlur();
         }
-    }, [searchTerms]);
-
-    useEffect((): void => {
-        if (props.isFocus && !props.isRhsOpen) {
-            handleFocus();
-        } else {
-            handleBlur();
-        }
-    }, [props.isRhsOpen]);
+    }, [isMobileView, searchTerms]);
 
     // handle cloding of rhs-flyout
     const handleClose = (): void => actions.closeRightHandSide();
@@ -269,7 +269,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
     };
 
     const handleSearchOnSuccess = (): void => {
-        if (Utils.isMobile()) {
+        if (isMobileView) {
             handleClear();
         }
     };
@@ -454,13 +454,12 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                 suggestionProviders={suggestionProviders.current}
                 isSideBarRight={props.isSideBarRight}
                 isSearchingTerm={props.isSearchingTerm}
-                isFocus={props.isFocus}
                 getFocus={props.getFocus}
                 searchTerms={searchTerms}
                 searchType={searchType}
                 clearSearchType={() => actions.updateSearchType('')}
             >
-                {!Utils.isMobile() && renderHintPopover()}
+                {!props.isMobileView && renderHintPopover()}
             </SearchBar>
         </>
     );
@@ -533,7 +532,6 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
 const defaultProps: Partial<Props> = {
     searchTerms: '',
     channelDisplayName: '',
-    isFocus: false,
     isSideBarRight: false,
     getFocus: () => {},
 };

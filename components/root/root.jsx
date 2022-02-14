@@ -4,7 +4,6 @@
 import deepEqual from 'fast-deep-equal';
 import PropTypes from 'prop-types';
 import React from 'react';
-import FastClick from 'fastclick';
 import {Route, Switch, Redirect} from 'react-router-dom';
 import throttle from 'lodash/throttle';
 
@@ -28,6 +27,7 @@ import ModalController from 'components/modal_controller';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
+import TaskList from 'components/global_onboarding_list/onboarding_checklist';
 
 import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
@@ -70,24 +70,24 @@ import {applyLuxonDefaults} from './effects';
 
 import RootRedirect from './root_redirect';
 
-const CreateTeam = makeAsyncComponent(LazyCreateTeam);
-const ErrorPage = makeAsyncComponent(LazyErrorPage);
-const TermsOfService = makeAsyncComponent(LazyTermsOfService);
-const LoginController = makeAsyncComponent(LazyLoginController);
-const AdminConsole = makeAsyncComponent(LazyAdminConsole);
-const LoggedIn = makeAsyncComponent(LazyLoggedIn);
-const PasswordResetSendLink = makeAsyncComponent(LazyPasswordResetSendLink);
-const PasswordResetForm = makeAsyncComponent(LazyPasswordResetForm);
-const SignupController = makeAsyncComponent(LazySignupController);
-const SignupEmail = makeAsyncComponent(LazySignupEmail);
-const ShouldVerifyEmail = makeAsyncComponent(LazyShouldVerifyEmail);
-const DoVerifyEmail = makeAsyncComponent(LazyDoVerifyEmail);
-const ClaimController = makeAsyncComponent(LazyClaimController);
-const HelpController = makeAsyncComponent(LazyHelpController);
-const LinkingLandingPage = makeAsyncComponent(LazyLinkingLandingPage);
-const SelectTeam = makeAsyncComponent(LazySelectTeam);
-const Authorize = makeAsyncComponent(LazyAuthorize);
-const Mfa = makeAsyncComponent(LazyMfa);
+const CreateTeam = makeAsyncComponent('CreateTeam', LazyCreateTeam);
+const ErrorPage = makeAsyncComponent('ErrorPage', LazyErrorPage);
+const TermsOfService = makeAsyncComponent('TermsOfService', LazyTermsOfService);
+const LoginController = makeAsyncComponent('LoginController', LazyLoginController);
+const AdminConsole = makeAsyncComponent('AdminConsole', LazyAdminConsole);
+const LoggedIn = makeAsyncComponent('LoggedIn', LazyLoggedIn);
+const PasswordResetSendLink = makeAsyncComponent('PasswordResedSendLink', LazyPasswordResetSendLink);
+const PasswordResetForm = makeAsyncComponent('PasswordResetForm', LazyPasswordResetForm);
+const SignupController = makeAsyncComponent('SignupController', LazySignupController);
+const SignupEmail = makeAsyncComponent('SignupEmail', LazySignupEmail);
+const ShouldVerifyEmail = makeAsyncComponent('ShouldVerifyEmail', LazyShouldVerifyEmail);
+const DoVerifyEmail = makeAsyncComponent('DoVerifyEmail', LazyDoVerifyEmail);
+const ClaimController = makeAsyncComponent('ClaimController', LazyClaimController);
+const HelpController = makeAsyncComponent('HelpController', LazyHelpController);
+const LinkingLandingPage = makeAsyncComponent('LinkingLandingPage', LazyLinkingLandingPage);
+const SelectTeam = makeAsyncComponent('SelectTeam', LazySelectTeam);
+const Authorize = makeAsyncComponent('Authorize', LazyAuthorize);
+const Mfa = makeAsyncComponent('Mfa', LazyMfa);
 
 const LoggedInRoute = ({component: Component, ...rest}) => (
     <Route
@@ -114,6 +114,9 @@ export default class Root extends React.PureComponent {
         }).isRequired,
         plugins: PropTypes.array,
         products: PropTypes.array,
+        dismissChecklist: PropTypes.bool,
+        isUserFirstAdmin: PropTypes.bool,
+        isMobile: PropTypes.bool,
     }
 
     constructor(props) {
@@ -124,6 +127,9 @@ export default class Root extends React.PureComponent {
 
         // Redux
         setUrl(getSiteURL());
+
+        // Disable auth header to enable CSRF check
+        Client4.setAuthHeader = false;
 
         setSystemEmojis(EmojiIndicesByAlias);
 
@@ -144,9 +150,6 @@ export default class Root extends React.PureComponent {
                 e.stopPropagation();
             }
         });
-
-        // Fastclick
-        FastClick.attach(document.body);
 
         this.state = {
             configLoaded: false,
@@ -186,7 +189,15 @@ export default class Root extends React.PureComponent {
         if (rudderKey != null && rudderKey !== '' && this.props.telemetryEnabled) {
             Client4.setTelemetryHandler(new RudderTelemetryHandler());
 
-            rudderAnalytics.load(rudderKey, rudderUrl);
+            const rudderCfg = {};
+            const siteURL = getConfig(store.getState()).SiteURL;
+            if (siteURL !== '') {
+                try {
+                    rudderCfg.setCookieDomain = new URL(siteURL).hostname;
+                // eslint-disable-next-line no-empty
+                } catch (_) {}
+            }
+            rudderAnalytics.load(rudderKey, rudderUrl, rudderCfg);
 
             rudderAnalytics.identify(telemetryId, {}, {
                 context: {
@@ -448,6 +459,7 @@ export default class Root extends React.PureComponent {
                     <CompassThemeProvider theme={this.props.theme}>
                         <ModalController/>
                         <GlobalHeader/>
+                        {this.props.isUserFirstAdmin && !this.props.isMobile && this.props.dismissChecklist && <TaskList/>}
                         <TeamSidebar/>
                         <Switch>
                             {this.props.products?.map((product) => (

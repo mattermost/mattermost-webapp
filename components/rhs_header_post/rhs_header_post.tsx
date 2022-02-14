@@ -10,14 +10,19 @@ import LocalizedIcon from 'components/localized_icon';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import FollowButton from 'components/threading/common/follow_button';
+import KeyboardShortcutSequence, {
+    KEYBOARD_SHORTCUTS,
+} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 
 import {browserHistory} from 'utils/browser_history';
 import Constants, {RHSStates} from 'utils/constants';
 import {t} from 'utils/i18n';
-import {isMobile} from 'utils/utils';
+import CRTThreadsPaneTutorialTip
+    from 'components/crt_tour/crt_threads_pane_tutorial_tip/crt_threads_pane_tutorial_tip';
 
 interface RhsHeaderPostProps {
     isExpanded: boolean;
+    isMobileView: boolean;
     rootPostId: string;
     previousRhsState?: string;
     relativeTeamUrl: string;
@@ -25,6 +30,7 @@ interface RhsHeaderPostProps {
     isCollapsedThreadsEnabled: boolean;
     isFollowingThread?: boolean;
     currentTeamId: string;
+    showThreadsTutorialTip: boolean;
     currentUserId: string;
     setRhsExpanded: (b: boolean) => void;
     showMentions: () => void;
@@ -59,7 +65,7 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
     }
 
     handleJumpClick = () => {
-        if (isMobile()) {
+        if (this.props.isMobileView) {
             this.props.closeRightHandSide();
         }
 
@@ -125,7 +131,12 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
             <Tooltip id='expandSidebarTooltip'>
                 <FormattedMessage
                     id='rhs_header.expandSidebarTooltip'
-                    defaultMessage='Expand Sidebar'
+                    defaultMessage='Expand the right sidebar'
+                />
+                <KeyboardShortcutSequence
+                    shortcut={KEYBOARD_SHORTCUTS.navExpandSidebar}
+                    hideDescription={true}
+                    isInsideTooltip={true}
                 />
             </Tooltip>
         );
@@ -134,7 +145,12 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
             <Tooltip id='shrinkSidebarTooltip'>
                 <FormattedMessage
                     id='rhs_header.collapseSidebarTooltip'
-                    defaultMessage='Collapse Sidebar'
+                    defaultMessage='Collapse the right sidebar'
+                />
+                <KeyboardShortcutSequence
+                    shortcut={KEYBOARD_SHORTCUTS.navExpandSidebar}
+                    hideDescription={true}
+                    isInsideTooltip={true}
                 />
             </Tooltip>
         );
@@ -190,7 +206,7 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
 
                     <OverlayTrigger
                         delayShow={Constants.OVERLAY_TIME_DELAY}
-                        placement='top'
+                        placement='bottom'
                         overlay={this.props.isExpanded ? shrinkSidebarTooltip : expandSidebarTooltip}
                     >
                         <button
@@ -229,6 +245,7 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
                         </button>
                     </OverlayTrigger>
                 </div>
+                {this.props.showThreadsTutorialTip && <CRTThreadsPaneTutorialTip/>}
             </div>
         );
     }

@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import {SystemSetting} from 'mattermost-redux/types/general';
 
 import {General} from '../constants';
@@ -101,7 +103,7 @@ import {
     GetFilteredUsersStatsOpts,
     UserCustomStatus,
 } from 'mattermost-redux/types/users';
-import {$ID, RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {ProductNotices} from 'mattermost-redux/types/product_notices';
 import {
     DataRetentionCustomPolicies,
@@ -121,6 +123,7 @@ import {TelemetryHandler} from './telemetry';
 const FormData = require('form-data');
 const HEADER_AUTH = 'Authorization';
 const HEADER_BEARER = 'BEARER';
+const HEADER_CONTENT_TYPE = 'Content-Type';
 const HEADER_REQUESTED_WITH = 'X-Requested-With';
 const HEADER_USER_AGENT = 'User-Agent';
 const HEADER_X_CLUSTER_ID = 'X-Cluster-Id';
@@ -146,6 +149,7 @@ export default class Client4 {
     userId = '';
     diagnosticId = '';
     includeCookies = true;
+    setAuthHeader = true;
     translations = {
         connectionError: 'There appears to be a problem with your internet connection.',
         unknownError: 'We received an unexpected status code from the server.',
@@ -449,7 +453,7 @@ export default class Client4 {
             ...this.defaultHeaders,
         };
 
-        if (this.token) {
+        if (this.setAuthHeader && this.token) {
             headers[HEADER_AUTH] = `${HEADER_BEARER} ${this.token}`;
         }
 
@@ -464,6 +468,13 @@ export default class Client4 {
 
         if (this.userAgent) {
             headers[HEADER_USER_AGENT] = this.userAgent;
+        }
+
+        if (options.body) {
+            // when the body is an instance of FormData we let fetch to set the Content-Type header so it defines a correct boundary
+            if (!(options.body instanceof FormData)) {
+                headers[HEADER_CONTENT_TYPE] = 'application/json';
+            }
         }
 
         if (newOptions.headers) {
@@ -587,9 +598,7 @@ export default class Client4 {
     }
 
     getKnownUsers = () => {
-        this.trackEvent('api', 'api_get_known_users');
-
-        return this.doFetch<Array<$ID<UserProfile>>>(
+        return this.doFetch<Array<UserProfile['id']>>(
             `${this.getUsersRoute()}/known`,
             {method: 'get'},
         );
@@ -679,7 +688,7 @@ export default class Client4 {
         );
     }
 
-    login = (loginId: string, password: string, token = '', deviceId = '', ldapOnly = false) => {
+    login = async (loginId: string, password: string, token = '', deviceId = '', ldapOnly = false) => {
         this.trackEvent('api', 'api_users_login');
 
         if (ldapOnly) {
@@ -697,10 +706,19 @@ export default class Client4 {
             body.ldap_only = 'true';
         }
 
-        return this.doFetch<UserProfile>(
+        const {
+            data: profile,
+            headers,
+        } = await this.doFetchWithResponse<UserProfile>(
             `${this.getUsersRoute()}/login`,
             {method: 'post', body: JSON.stringify(body)},
         );
+
+        if (headers.has('Token')) {
+            this.setToken(headers.get('Token')!);
+        }
+
+        return profile;
     };
 
     loginById = (id: string, password: string, token = '', deviceId = '') => {
@@ -736,8 +754,6 @@ export default class Client4 {
     };
 
     getProfiles = (page = 0, perPage = PER_PAGE_DEFAULT, options = {}) => {
-        this.trackEvent('api', 'api_profiles_get');
-
         return this.doFetch<UserProfile[]>(
             `${this.getUsersRoute()}${buildQueryString({page, per_page: perPage, ...options})}`,
             {method: 'get'},
@@ -745,8 +761,6 @@ export default class Client4 {
     };
 
     getProfilesByIds = (userIds: string[], options = {}) => {
-        this.trackEvent('api', 'api_profiles_get_by_ids');
-
         return this.doFetch<UserProfile[]>(
             `${this.getUsersRoute()}/ids${buildQueryString(options)}`,
             {method: 'post', body: JSON.stringify(userIds)},
@@ -754,8 +768,6 @@ export default class Client4 {
     };
 
     getProfilesByUsernames = (usernames: string[]) => {
-        this.trackEvent('api', 'api_profiles_get_by_usernames');
-
         return this.doFetch<UserProfile[]>(
             `${this.getUsersRoute()}/usernames`,
             {method: 'post', body: JSON.stringify(usernames)},
@@ -763,8 +775,6 @@ export default class Client4 {
     };
 
     getProfilesInTeam = (teamId: string, page = 0, perPage = PER_PAGE_DEFAULT, sort = '', options = {}) => {
-        this.trackEvent('api', 'api_profiles_get_in_team', {team_id: teamId, sort});
-
         return this.doFetch<UserProfile[]>(
             `${this.getUsersRoute()}${buildQueryString({...options, in_team: teamId, page, per_page: perPage, sort})}`,
             {method: 'get'},
@@ -772,8 +782,6 @@ export default class Client4 {
     };
 
     getProfilesNotInTeam = (teamId: string, groupConstrained: boolean, page = 0, perPage = PER_PAGE_DEFAULT) => {
-        this.trackEvent('api', 'api_profiles_get_not_in_team', {team_id: teamId, group_constrained: groupConstrained});
-
         const queryStringObj: any = {not_in_team: teamId, page, per_page: perPage};
         if (groupConstrained) {
             queryStringObj.group_constrained = true;
@@ -786,8 +794,6 @@ export default class Client4 {
     };
 
     getProfilesWithoutTeam = (page = 0, perPage = PER_PAGE_DEFAULT, options = {}) => {
-        this.trackEvent('api', 'api_profiles_get_without_team');
-
         return this.doFetch<UserProfile[]>(
             `${this.getUsersRoute()}${buildQueryString({...options, without_team: 1, page, per_page: perPage})}`,
             {method: 'get'},
@@ -795,8 +801,6 @@ export default class Client4 {
     };
 
     getProfilesInChannel = (channelId: string, page = 0, perPage = PER_PAGE_DEFAULT, sort = '', options: {active?: boolean} = {}) => {
-        this.trackEvent('api', 'api_profiles_get_in_channel', {channel_id: channelId});
-
         const serverVersion = this.getServerVersion();
         let queryStringObj;
         if (isMinimumServerVersion(serverVersion, 4, 7)) {
@@ -811,8 +815,6 @@ export default class Client4 {
     };
 
     getProfilesInGroupChannels = (channelsIds: string[]) => {
-        this.trackEvent('api', 'api_profiles_get_in_group_channels', {channelsIds});
-
         return this.doFetch<Record<string, UserProfile[]>>(
             `${this.getUsersRoute()}/group_channels`,
             {method: 'post', body: JSON.stringify(channelsIds)},
@@ -820,8 +822,6 @@ export default class Client4 {
     };
 
     getProfilesNotInChannel = (teamId: string, channelId: string, groupConstrained: boolean, page = 0, perPage = PER_PAGE_DEFAULT) => {
-        this.trackEvent('api', 'api_profiles_get_not_in_channel', {team_id: teamId, channel_id: channelId, group_constrained: groupConstrained});
-
         const queryStringObj: any = {in_team: teamId, not_in_channel: channelId, page, per_page: perPage};
         if (groupConstrained) {
             queryStringObj.group_constrained = true;
@@ -1576,8 +1576,6 @@ export default class Client4 {
     };
 
     getChannel = (channelId: string) => {
-        this.trackEvent('api', 'api_channel_get', {channel_id: channelId});
-
         return this.doFetch<ServerChannel>(
             `${this.getChannelRoute(channelId)}`,
             {method: 'get'},
@@ -1592,8 +1590,6 @@ export default class Client4 {
     };
 
     getChannelByNameAndTeamName = (teamName: string, channelName: string, includeDeleted = false) => {
-        this.trackEvent('api', 'api_channel_get_by_name_and_teamName', {include_deleted: includeDeleted});
-
         return this.doFetch<ServerChannel>(
             `${this.getTeamNameRoute(teamName)}/channels/name/${channelName}?include_deleted=${includeDeleted}`,
             {method: 'get'},
@@ -1603,6 +1599,13 @@ export default class Client4 {
     getChannels = (teamId: string, page = 0, perPage = PER_PAGE_DEFAULT) => {
         return this.doFetch<ServerChannel[]>(
             `${this.getTeamRoute(teamId)}/channels${buildQueryString({page, per_page: perPage})}`,
+            {method: 'get'},
+        );
+    }
+
+    getAllTeamsChannels = () => {
+        return this.doFetch<ServerChannel[]>(
+            `${this.getUsersRoute()}/me/channels`,
             {method: 'get'},
         );
     };
@@ -1617,6 +1620,13 @@ export default class Client4 {
     getMyChannels = (teamId: string, includeDeleted = false) => {
         return this.doFetch<ServerChannel[]>(
             `${this.getUserRoute('me')}/teams/${teamId}/channels${buildQueryString({include_deleted: includeDeleted})}`,
+            {method: 'get'},
+        );
+    };
+
+    getAllChannelsMembers = (userId: string) => {
+        return this.doFetch<ChannelMembership[]>(
+            `${this.getUserRoute(userId)}/channel_members`,
             {method: 'get'},
         );
     };
@@ -1759,8 +1769,14 @@ export default class Client4 {
             ...opts,
         };
         const includeDeleted = Boolean(opts.include_deleted);
+        const nonAdminSearch = Boolean(opts.nonAdminSearch);
+        let queryParams: {include_deleted?: boolean; system_console?: boolean} = {include_deleted: includeDeleted};
+        if (nonAdminSearch) {
+            queryParams = {system_console: false};
+            delete body.nonAdminSearch;
+        }
         return this.doFetch<Channel[] | ChannelsWithTotalCount>(
-            `${this.getChannelsRoute()}/search?include_deleted=${includeDeleted}`,
+            `${this.getChannelsRoute()}/search${buildQueryString(queryParams)}`,
             {method: 'post', body: JSON.stringify(body)},
         );
     };
@@ -1917,8 +1933,6 @@ export default class Client4 {
     };
 
     getPostsBefore = (channelId: string, postId: string, page = 0, perPage = PER_PAGE_DEFAULT, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false) => {
-        this.trackEvent('api', 'api_posts_get_before', {channel_id: channelId});
-
         return this.doFetch<PostList>(
             `${this.getChannelRoute(channelId)}/posts${buildQueryString({before: postId, page, per_page: perPage, skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended})}`,
             {method: 'get'},
@@ -1926,8 +1940,6 @@ export default class Client4 {
     };
 
     getPostsAfter = (channelId: string, postId: string, page = 0, perPage = PER_PAGE_DEFAULT, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false) => {
-        this.trackEvent('api', 'api_posts_get_after', {channel_id: channelId});
-
         return this.doFetch<PostList>(
             `${this.getChannelRoute(channelId)}/posts${buildQueryString({after: postId, page, per_page: perPage, skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended})}`,
             {method: 'get'},
@@ -1935,8 +1947,8 @@ export default class Client4 {
     };
 
     getUserThreads = (
-        userId: $ID<UserProfile> = 'me',
-        teamId: $ID<Team>,
+        userId: UserProfile['id'] = 'me',
+        teamId: Team['id'],
         {
             before = '',
             after = '',

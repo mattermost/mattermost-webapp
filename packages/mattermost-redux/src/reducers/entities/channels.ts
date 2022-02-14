@@ -24,7 +24,6 @@ import {
     RelationOneToMany,
     RelationOneToOne,
     IDMappedObjects,
-    UserIDMappedObjects,
 } from 'mattermost-redux/types/utilities';
 
 import {Team} from 'mattermost-redux/types/teams';
@@ -32,7 +31,7 @@ import {channelListToMap, splitRoles} from 'mattermost-redux/utils/channel_utils
 
 import messageCounts from './channels/message_counts';
 
-function removeMemberFromChannels(state: RelationOneToOne<Channel, UserIDMappedObjects<ChannelMembership>>, action: GenericAction) {
+function removeMemberFromChannels(state: RelationOneToOne<Channel, Record<string, ChannelMembership>>, action: GenericAction) {
     const nextState = {...state};
     Object.keys(state).forEach((channel) => {
         nextState[channel] = {...nextState[channel]};
@@ -182,7 +181,7 @@ function channels(state: IDMappedObjects<Channel> = {}, action: GenericAction) {
         };
     }
     case ChannelTypes.LEAVE_CHANNEL: {
-        if (action.data && action.data.type === General.PRIVATE_CHANNEL) {
+        if (action.data) {
             const nextState = {...state};
             Reflect.deleteProperty(nextState, action.data.id);
             return nextState;
@@ -268,7 +267,7 @@ function channelsInTeam(state: RelationOneToMany<Team, Channel> = {}, action: Ge
         return channelListToSet(state, action);
     }
     case ChannelTypes.LEAVE_CHANNEL: {
-        if (action.data && action.data.type === General.PRIVATE_CHANNEL) {
+        if (action.data) {
             return removeChannelFromSet(state, action);
         }
         return state;
@@ -473,7 +472,7 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
     }
 }
 
-function membersInChannel(state: RelationOneToOne<Channel, UserIDMappedObjects<ChannelMembership>> = {}, action: GenericAction) {
+function membersInChannel(state: RelationOneToOne<Channel, Record<string, ChannelMembership>> = {}, action: GenericAction) {
     switch (action.type) {
     case ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER:
     case ChannelTypes.RECEIVED_CHANNEL_MEMBER: {

@@ -1,15 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {AddChannelButtonTreatments, CollapsedThreads, AutoTourTreatments} from '../constants/config';
-
-import {Dictionary} from './utilities';
+import {CollapsedThreads, AutoTourTreatments} from '../constants/config';
 
 import {ThemeKey} from './themes';
 
 export type ClientConfig = {
     AboutLink: string;
-    AddChannelButton: AddChannelButtonTreatments;
     AllowBannerDismissal: string;
     AllowCustomThemes: string;
     AllowedThemes: string;
@@ -704,8 +701,10 @@ export type BleveSettings = {
 export type DataRetentionSettings = {
     EnableMessageDeletion: boolean;
     EnableFileDeletion: boolean;
+    EnableBoardsDeletion: boolean;
     MessageRetentionDays: number;
     FileRetentionDays: number;
+    BoardsRetentionDays: number;
     DeletionJobStartTime: string;
 };
 
@@ -736,8 +735,8 @@ export type PluginSettings = {
     EnableHealthCheck: boolean;
     Directory: string;
     ClientDirectory: string;
-    Plugins: Dictionary<any>;
-    PluginStates: Dictionary<{Enable: boolean}>;
+    Plugins: Record<string, any>;
+    PluginStates: Record<string, {Enable: boolean}>;
     EnableMarketplace: boolean;
     EnableRemoteMarketplace: boolean;
     AutomaticPrepackagedPlugins: boolean;

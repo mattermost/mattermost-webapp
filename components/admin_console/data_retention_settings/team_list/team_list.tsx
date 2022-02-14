@@ -8,7 +8,6 @@ import {debounce} from 'lodash';
 import Constants from 'utils/constants';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {Team, TeamSearchOpts} from 'mattermost-redux/types/teams';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import * as Utils from 'utils/utils.jsx';
 
@@ -26,8 +25,8 @@ type Props = {
 
     onRemoveCallback: (user: Team) => void;
     onAddCallback: (users: Team[]) => void;
-    teamsToRemove: Dictionary<Team>;
-    teamsToAdd: Dictionary<Team>;
+    teamsToRemove: Record<string, Team>;
+    teamsToAdd: Record<string, Team>;
 
     actions: {
         searchTeams: (id: string, term: string, opts: TeamSearchOpts) => Promise<{ data: Team[] }>;
