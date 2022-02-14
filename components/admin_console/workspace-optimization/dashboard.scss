@@ -7,7 +7,7 @@
 }
 
 .warning {
-    color: var(--sys-away-indicator-black-opacity);
+    color: var(--sys-away-indicator-dark);
 }
 
 .ok {
@@ -254,8 +254,8 @@
 
                 &__chevron {
                     padding: 0;
-                    margin: 32px 32px 32px 0;
-                    font-size: 20px;
+                    margin: 30px 30px 30px 0;
+                    font-size: 24px;
                 }
             }
 
@@ -267,12 +267,20 @@
 
                     div[class*=' AccordionItem'],
                     div[class^='AccordionItem'] {
-                        padding: 16px 8px;
+                        padding: 16px 0;
+
+                        h5 {
+                            margin-top: 0;
+                            margin-bottom: 4px;
+                        }
 
                         i {
-                            margin-right: 4px;
                             margin-left: -5px;
                             font-size: 20px;
+
+                            &.warning {
+                                color: var(--sys-away-indicator);
+                            }
                         }
                     }
                 }
@@ -280,7 +288,7 @@
                 .ctaButtons {
                     display: flex;
                     justify-content: flex-start;
-                    margin: 15px 0;
+                    margin: 15px 0 0 0;
 
                     a,
                     button {

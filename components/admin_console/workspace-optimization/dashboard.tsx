@@ -216,13 +216,18 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                 overallScoreChips[item.status] += 1;
             }
         });
-        const {title, description, icon} = accordionData;
+        const {title, description, descriptionOk, icon} = accordionData;
         return {
             title,
-            description,
+            description: items.length === 0 ? descriptionOk : description,
             icon: items.length === 0 ? successIcon : icon,
             items,
-            extraContent: <ChipsList chipsData={accordionDataChips}/>,
+            extraContent: (
+                <ChipsList
+                    chipsData={accordionDataChips}
+                    hideCountZeroChips={true}
+                />
+            ),
         };
     });
 
@@ -234,7 +239,12 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
             />
             <div className='admin-console__wrapper'>
                 <OverallScore
-                    chips={<ChipsList chipsData={overallScoreChips}/>}
+                    chips={
+                        <ChipsList
+                            chipsData={overallScoreChips}
+                            hideCountZeroChips={false}
+                        />
+                    }
                     chartValue={Math.floor((overallScore.current / overallScore.max) * 100)}
                 />
                 <Accordion

@@ -54,7 +54,6 @@ const StyledChip = styled.button<{ otherOption?: boolean }>`
 export default class Chip extends React.PureComponent<Props> {
     onClick = (e: React.MouseEvent) => {
         e.preventDefault();
-        e.stopPropagation();
         this.props.onClick?.();
     }
 
