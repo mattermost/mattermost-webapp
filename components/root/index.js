@@ -5,14 +5,13 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {shouldShowTermsOfService, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {shouldShowTermsOfService, getCurrentUserId, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getFirstAdminSetupComplete} from 'mattermost-redux/actions/general';
 import {getTheme, getBool} from 'mattermost-redux/selectors/entities/preferences';
 
 import {loadMeAndConfig} from 'actions/views/root';
 import {emitBrowserWindowResized} from 'actions/views/browser';
-import {isFirstAdmin} from 'components/next_steps_view/steps';
 import LocalStorageStore from 'stores/local_storage_store';
 import {Preferences} from 'utils/constants';
 import {isMobile} from 'utils/utils.jsx';
