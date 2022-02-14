@@ -12,7 +12,12 @@ import {setAddChannelDropdown} from 'actions/views/add_channel_dropdown';
 import {open as openLhs} from 'actions/views/lhs.js';
 import {isFirstAdmin} from 'components/next_steps_view/steps';
 import {trackEvent as trackEventAction} from 'actions/telemetry_actions';
-import {generateTelemetryTag, OnBoardingTaskCategory, OnBoardingTaskList} from 'components/onboarding_tasks';
+import {
+    generateTelemetryTag,
+    OnBoardingTaskCategory,
+    OnBoardingTaskList,
+    OnBoardingTasksName,
+} from 'components/onboarding_tasks';
 
 import {
     AutoTourStatus, ChannelsTour,
@@ -60,13 +65,23 @@ const useHandleNavigationAndExtraActions = () => {
             break;
         }
         case OnBoardingTourSteps.FINISHED: {
-            if (isUserFirstAdmin) {
-                const preferences = [{
+            let preferences = [
+                {
                     user_id: currentUserId,
                     category: OnBoardingTaskCategory,
-                    name: OnBoardingTaskList.ON_BOARDING_TASK_LIST_OPEN,
-                    value: 'true',
-                }];
+                    name: OnBoardingTasksName.CHANNELS_TOUR,
+                    value: FINISHED.toString(),
+                },
+            ];
+            if (isUserFirstAdmin) {
+                preferences = [...preferences,
+                    {
+                        user_id: currentUserId,
+                        category: OnBoardingTaskCategory,
+                        name: OnBoardingTaskList.ON_BOARDING_TASK_LIST_OPEN,
+                        value: 'true',
+                    },
+                ];
                 dispatch(savePreferences(currentUserId, preferences));
             }
             break;

@@ -23,6 +23,7 @@ import {
     OnBoardingTasksName,
 } from 'components/onboarding_tasks';
 import {ChannelsTour, OnBoardingTourSteps, TutorialTourName} from 'components/onboarding_tour';
+import {isFirstAdmin, nextStepsNotFinished} from '../../../next_steps_view/steps';
 
 import SidebarChannelLink from './sidebar_channel_link';
 
@@ -42,7 +43,10 @@ function makeMapStateToProps() {
         const tutorialStep = getInt(state, ChannelsTour, TutorialTourName.ON_BOARDING_STEP, 0);
         const triggerStep = getInt(state, OnBoardingTaskCategory, OnBoardingTasksName.CHANNELS_TOUR, 0);
         const channelTourTriggered = triggerStep === GenericTaskSteps.STARTED;
-        const showChannelsTutorialStep = enableTutorial && channelTourTriggered && tutorialStep === OnBoardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES;
+        const nextStep = nextStepsNotFinished(state);
+        const isUserFirstAdmin = isFirstAdmin(state);
+        const showChannelsTour = tutorialStep === OnBoardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES;
+        const showChannelsTutorialStep = enableTutorial && showChannelsTour && ((channelTourTriggered && isUserFirstAdmin) || (!nextStep && !isUserFirstAdmin));
 
         return {
             unreadMentions: unreadCount.mentions,

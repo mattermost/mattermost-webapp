@@ -55,24 +55,22 @@ const StyledTask = styled.div`
 
 export const Task = (props: TaskProps): JSX.Element => {
     const {label, completedStatus, onClick} = props;
-    const [completed, setCompleted] = useState(completedStatus);
 
     const handleOnClick = () => {
         if (onClick) {
             onClick();
         }
-        setCompleted(true);
     };
 
     return (
         <StyledTask
-            className={completed ? 'completed' : ''}
+            className={completedStatus ? 'completed' : ''}
             onClick={handleOnClick}
         >
-            {completed && <CompletedAnimation completed={completed}/>}
+            {completedStatus && <CompletedAnimation completed={completedStatus}/>}
             <Icon
-                className={completed ? 'play completed' : 'play'}
-                glyph={completed ? 'check' : 'play'}
+                className={completedStatus ? 'play completed' : 'play'}
+                glyph={completedStatus ? 'check' : 'play'}
                 size={16}
             />
             <span>{label}</span>

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -84,14 +84,15 @@ export const getTasksList = () => {
 export const getTasksListWithStatus = () => {
     const dataInDb = useSelector((state: GlobalState) => getCategory(state, OnBoardingTaskCategory));
     const tasksList = getTasksList();
-    return tasksList.map((task) => {
-        const status = dataInDb.find((pref) => pref.name === task)?.value;
-        return {
-            name: task,
-            status: Boolean(status),
-            label: taskLabels[task],
-        };
-    });
+    return useMemo(() =>
+        tasksList.map((task) => {
+            const status = dataInDb.find((pref) => pref.name === task)?.value;
+            return {
+                name: task,
+                status: status === '999',
+                label: taskLabels[task],
+            };
+        }), [dataInDb]);
 };
 
 export const useHandleOnBoardingTaskData = () => {
