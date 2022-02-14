@@ -27,9 +27,14 @@ import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import {DraggingState, GlobalState} from 'types/store';
 
-export function isUnreadFilterEnabled(state: GlobalState): boolean {
-    return state.views.channelSidebar.unreadFilterEnabled && !shouldShowUnreadsCategory(state);
-}
+export const isUnreadFilterEnabled = createSelector(
+    'isUnreadFilterEnabled',
+    (state: GlobalState) => state.views.channelSidebar.unreadFilterEnabled,
+    shouldShowUnreadsCategory,
+    (isUnreadFilterEnabled, showUnreadsCategory) => {
+        return isUnreadFilterEnabled && !showUnreadsCategory;
+    },
+);
 
 export const getCategoriesForCurrentTeam: (state: GlobalState) => ChannelCategory[] = (() => {
     const getCategoriesForTeam = makeGetCategoriesForTeam();
