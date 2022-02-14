@@ -42,7 +42,7 @@ node_modules: package.json package-lock.json
 
 	node skip_integrity_check.js
 
-	npm install
+	npm ci
 	touch $@
 
 package: build ## Packages app
@@ -54,7 +54,7 @@ package: build ## Packages app
 	mv tmp/client dist
 	rmdir tmp
 
-package-ci: ## used in the CI to build the package and bypass the npm install
+package-ci: ## used in the CI to build the package and bypass the npm ci
 	@echo Building mattermost Webapp
 
 	rm -rf dist
@@ -127,7 +127,7 @@ e2e-test: node_modules
 	cd $(BUILD_SERVER_DIR) && $(MAKE) test-data
 
 	@echo E2E: Running end-to-end testing
-	cd e2e && npm install && npm run cypress:run
+	cd e2e && npm ci && npm run cypress:run
 
 	@echo E2E: Stoppping the server
 	cd $(BUILD_SERVER_DIR) && $(MAKE) stop
