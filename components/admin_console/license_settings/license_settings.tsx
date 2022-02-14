@@ -11,7 +11,7 @@ import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {StatusOK} from 'mattermost-redux/types/client4';
 
-import {isLicenseExpired, isLicenseExpiring, isTrialLicense} from 'utils/license_utils.jsx';
+import {isLicenseExpired, isLicenseExpiring, isTrialLicense, isEnterpriseOrE20License} from 'utils/license_utils';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
 import {trackEvent} from 'actions/telemetry_actions';
@@ -379,7 +379,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                                 <div className='panel-card'>
                                     {rightPanel}
                                 </div>
-                                {this.comparePlans}
+                                {!isEnterpriseOrE20License(license) && this.comparePlans}
                             </div>
                         </div>
                     </div>

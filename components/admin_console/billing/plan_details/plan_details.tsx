@@ -305,11 +305,11 @@ export const featureList = (subscriptionPlan: string | undefined, isPaidTier: bo
     ];
 
     const featuresCloudEnterprise = [
-        localizeMessage('admin.billing.subscription.planDetails.features.enterpriseAdministration', 'Enterprise administration & SSO'),
+        localizeMessage('admin.billing.subscription.planDetails.features.enterpriseAdminAndSso', 'Enterprise administration & SSO'),
         localizeMessage('admin.billing.subscription.planDetails.features.autoComplianceExports', 'Automated compliance exports'),
         localizeMessage('admin.billing.subscription.planDetails.features.customRetentionPolicies', 'Custom data retention policies'),
         localizeMessage('admin.billing.subscription.planDetails.features.sharedChannels', 'Shared channels (coming soon)'),
-        localizeMessage('admin.billing.subscription.planDetails.features.enterpriseAdminSso', 'Enterprise administration & SSO'),
+        localizeMessage('admin.billing.subscription.planDetails.features.ldapSync', 'AD/LDAP group sync to teams & channels'),
         localizeMessage('admin.billing.subscription.planDetails.features.premiumSupport', 'Premium Support (optional upgrade)'),
     ];
 
@@ -338,7 +338,7 @@ export const featureList = (subscriptionPlan: string | undefined, isPaidTier: bo
 
     return features?.map((feature, i) => (
         <div
-            key={`PlanDetails__feature${i}`}
+            key={`PlanDetails__feature${i.toString()}`}
             className='PlanDetails__feature'
         >
             <i className='icon-check'/>
