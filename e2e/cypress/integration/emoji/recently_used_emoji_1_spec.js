@@ -18,9 +18,6 @@ import {getCustomEmoji} from './helpers';
 describe('Recent Emoji', () => {
     const largeEmojiFile = 'gif-image-file.gif';
 
-    let testTeam;
-    let testUser;
-    let otherUser;
     let townsquareLink;
 
     before(() => {
@@ -35,16 +32,8 @@ describe('Recent Emoji', () => {
         cy.apiAdminLogin();
 
         cy.apiInitSetup().then(({team, user}) => {
-            testTeam = team;
-            testUser = user;
+            cy.apiLogin(user);
             townsquareLink = `/${team.name}/channels/town-square`;
-        });
-
-        cy.apiCreateUser().then(({user: user1}) => {
-            otherUser = user1;
-            cy.apiAddUserToTeam(testTeam.id, otherUser.id);
-        }).then(() => {
-            cy.apiLogin(testUser);
             cy.visit(townsquareLink);
         });
     });
@@ -177,50 +166,5 @@ describe('Recent Emoji', () => {
 
         // * Verify most recent one is the system emoji in emoji picker and not the custom emoji
         cy.findAllByTestId('emojiItem').eq(0).find('img').should('have.attr', 'aria-label', 'lemon emoji');
-    });
-
-    it('MM-T4438 Changing the skin of emojis should apply the same skin to emojis in recent section', () => {
-        // # Post a sample message
-        cy.postMessage(MESSAGES.TINY);
-
-        // # Post reaction to post
-        cy.clickPostReactionIcon();
-
-        cy.get('#emojiPicker').should('be.visible').within(() => {
-            // # Open skin picker
-            cy.findByAltText('emoji skin tone picker').should('exist').parent().click().wait(TIMEOUTS.ONE_SEC);
-
-            // # Select default yellow skin
-            cy.findByTestId('skin-pick-default').should('exist').parent().click();
-
-            // # Search for a system emoji with skin
-            cy.findByPlaceholderText('Search emojis').should('exist').type('thumbsup').wait(TIMEOUTS.HALF_SEC);
-
-            // # Select the emoji to add to post with default skin
-            cy.findByTestId('+1,thumbsup').parent().click();
-        });
-
-        // # Open emoji picker again to check if thumbsup emoji is present in recent section
-        cy.uiOpenEmojiPicker().wait(TIMEOUTS.TWO_SEC);
-
-        cy.get('#emojiPicker').should('be.visible').within(() => {
-            // * Verify recently used category is present in emoji picker
-            cy.findByText('Recently Used').should('exist').and('be.visible');
-
-            // * Verify most recent one is the thumbsup emoji with default skin
-            cy.findAllByTestId('emojiItem').eq(0).find('img').should('have.attr', 'aria-label', '+1 emoji');
-
-            // # Open skin picker again to change the skin
-            cy.findByAltText('emoji skin tone picker').should('exist').parent().click().wait(TIMEOUTS.ONE_SEC);
-
-            // # Select a dark skin tone
-            cy.findByTestId('skin-pick-1F3FF').should('exist').parent().click();
-
-            // * Verify most recent one is the same thumbsup emoji but now with a dark skin tone
-            cy.findAllByTestId('emojiItem').eq(0).find('img').should('have.attr', 'aria-label', '+1 dark skin tone emoji');
-        });
-
-        // # Close emoji picker
-        cy.get('body').type('{esc}', {force: true});
     });
 });
