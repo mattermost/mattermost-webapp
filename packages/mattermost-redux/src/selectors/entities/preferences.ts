@@ -199,10 +199,10 @@ export const isCollapsedThreadsEnabled = createSelector(
     'isCollapsedThreadsEnabled',
     isCollapsedThreadsAllowed,
     getCollapsedThreadsPreference,
-    (state: GlobalState) => getConfig(state).CollapsedThreads as string,
-    (collapsedThreadAllowed, collapsedThreadPreference, collapsedThreadConfig) => {
+    getConfig,
+    (collapsedThreadAllowed, collapsedThreadPreference, config) => {
         return collapsedThreadAllowed &&
-            (collapsedThreadPreference === Preferences.COLLAPSED_REPLY_THREADS_ON || collapsedThreadConfig === 'always_on');
+            (collapsedThreadPreference === Preferences.COLLAPSED_REPLY_THREADS_ON || (config.CollapsedThreads as string) === 'always_on');
     },
 );
 
