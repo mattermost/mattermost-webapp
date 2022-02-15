@@ -1,12 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {CSSProperties, useState} from 'react';
+import React, {CSSProperties, useState, useEffect, useRef} from 'react';
 import {injectIntl, IntlShape} from 'react-intl';
 import classNames from 'classnames';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
+import {Constants} from 'utils/constants';
 
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {PluginComponent} from 'types/store/plugins';
@@ -19,6 +20,7 @@ type Props = {
     intl: IntlShape;
     locale: string;
     pluginCallComponents: PluginComponent[];
+    sidebarOpen: boolean;
 }
 
 function CallButton(props: Props) {
@@ -29,6 +31,24 @@ function CallButton(props: Props) {
     const {formatMessage} = props.intl;
 
     const [active, setActive] = useState(false);
+    const [clickEnabled, setClickEnabled] = useState(true);
+
+    const prevSidebarOpen = ((val: boolean) => {
+        const ref = useRef<boolean>();
+        useEffect(() => {
+            ref.current = val;
+        });
+        return ref.current;
+    })(props.sidebarOpen);
+
+    useEffect(() => {
+        if (prevSidebarOpen && !props.sidebarOpen) {
+            setClickEnabled(false);
+            setTimeout(() => {
+                setClickEnabled(true);
+            }, Constants.CHANNEL_HEADER_BUTTON_DISABLE_TIMEOUT);
+        }
+    }, [props.sidebarOpen]);
 
     const style = {
         container: {
@@ -45,12 +65,12 @@ function CallButton(props: Props) {
                 style={style.container}
                 className='flex-child'
                 onClick={() => {
-                    if (item.action) {
+                    if (item.action && clickEnabled) {
                         item.action(props.currentChannel, props.channelMember);
                     }
                 }}
                 onTouchEnd={() => {
-                    if (item.action) {
+                    if (item.action && clickEnabled) {
                         item.action(props.currentChannel, props.channelMember);
                     }
                 }}

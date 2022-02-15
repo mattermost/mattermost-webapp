@@ -1665,6 +1665,7 @@ export const Constants = {
     ACCEPT_EMOJI_IMAGE: '.jpeg,.jpg,.png,.gif',
     THREADS_PAGE_SIZE: 25,
     TRIAL_MODAL_AUTO_SHOWN: 'trial_modal_auto_shown',
+    CHANNEL_HEADER_BUTTON_DISABLE_TIMEOUT: 1000,
 };
 
 export const ValidationErrors = {

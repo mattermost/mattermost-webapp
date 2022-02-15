@@ -16,6 +16,7 @@ function mapStateToProps(state: GlobalState) {
         locale: getCurrentLocale(state),
         pluginCallComponents: state.plugins.components.CallButton,
         channelMember: getMyCurrentChannelMembership(state),
+        sidebarOpen: state.views.rhs.isSidebarOpen,
     };
 }
 
