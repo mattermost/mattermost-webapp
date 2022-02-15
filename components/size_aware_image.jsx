@@ -216,7 +216,7 @@ export default class SizeAwareImage extends React.PureComponent {
                     className={classNames('style--none', 'size-aware-image__copy_link', {
                         'size-aware-image__copy_link--recently_copied': this.state.linkCopiedRecently,
                     })}
-                    aria-label={ariaLabelImage + localizeMessage('copy url')}
+                    aria-label={`${ariaLabelImage}${localizeMessage('copy url')}`}
                     onClick={this.copyLinkToAsset}
                 >
                     {this.state.linkCopiedRecently ? (
@@ -254,7 +254,7 @@ export default class SizeAwareImage extends React.PureComponent {
                     target='_blank'
                     rel='noopener noreferrer'
                     download={fileInfo.name}
-                    aria-label={ariaLabelImage + localizeMessage('download image')}
+                    aria-label={`${ariaLabelImage}${localizeMessage('download image')}`}
                 >
                     <i className='icon icon-download-outline style--none'/>
                 </a>
@@ -300,7 +300,6 @@ export default class SizeAwareImage extends React.PureComponent {
                     className={classNames('image-preview-utility-buttons-container', {
 
                         // cases for when image isn't a small image but width is < 100px
-
                         'image-preview-utility-buttons-container--small-image': this.state.imageWidth < MIN_IMAGE_SIZE_FOR_INTERNAL_BUTTONS,
                         'image-preview-utility-buttons-container--small-image-no-copy-button': !enablePublicLink && this.state.imageWidth < MIN_IMAGE_SIZE_FOR_INTERNAL_BUTTONS,
                     })}
