@@ -1,21 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
+import {AnyAction} from 'redux';
+
 import {GlobalState} from './store';
 
 export type GetStateFunc = () => GlobalState;
-export type GenericAction = {
-    type: string;
-    data?: any;
-    meta?: any;
-    error?: any;
-    index?: number;
-    displayable?: boolean;
-    postId?: string;
-    sessionId?: string;
-    currentUserId?: string;
-    timestamp?: number;
-    [extraProps: string]: any;
-};
+export type GenericAction = AnyAction;
 export type Thunk = (b: DispatchFunc, a: GetStateFunc) => Promise<ActionResult> | ActionResult;
 
 type BatchAction = {
@@ -38,20 +29,7 @@ export type PlatformType = 'web' | 'ios' | 'android';
 
 export const BATCH = 'BATCHING_REDUCER.BATCH';
 
+// TODO remove me in favour of just using redux-batched-actions directly
 export function batchActions(actions: Action[], type = BATCH) {
     return {type, meta: {batch: true}, payload: actions};
-}
-
-export type Reducer<S = any, A extends Action = Action> = (
-    state: S | undefined,
-    action: A
-) => S
-
-export function enableBatching<S>(reduce: Reducer<S>): Reducer<S> {
-    return function batchingReducer(state, action) {
-        if (action && 'meta' in action && action.meta.batch) {
-            return action.payload.reduce(batchingReducer, state);
-        }
-        return reduce(state, action);
-    };
 }

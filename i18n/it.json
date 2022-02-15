@@ -2797,7 +2797,7 @@
   "intro_messages.purpose": " Lo scopo di questa chat è: {purpose}",
   "intro_messages.purposePrivate": " Lo scopo di questa chat privata è: {purpose}",
   "intro_messages.readonly.default": "**Benvenuto in {display_name}!**\n \nI messaggi possono essere pubblicati solo dagli amministratori di sistema. Tutti diventeranno automaticamente membri permanenti di questo canale quando si uniranno alla squadra.",
-  "intro_messages.setHeader": "Imposta un intestazione",
+  "intro_messages.setHeader": "Imposta un'intestazione",
   "intro_messages.teammate": "Questo è l'inizio della tua conversazione privata con questi colleghi. Messaggi privati e file condivisi qui non sono accessibili ad altre persone.",
   "invitation-modal.confirm.details-header": "Dettagli",
   "invitation-modal.confirm.not-valid-channel": "Nessun canale corrispondente.",

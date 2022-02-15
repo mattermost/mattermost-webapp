@@ -158,7 +158,11 @@ function searchTerms(state = '', action: GenericAction) {
     switch (action.type) {
     case ActionTypes.UPDATE_RHS_SEARCH_TERMS:
         return action.terms;
-
+    case ActionTypes.UPDATE_RHS_STATE:
+        if (action.state !== RHSStates.SEARCH) {
+            return '';
+        }
+        return state;
     case UserTypes.LOGOUT_SUCCESS:
         return '';
     default:
@@ -170,7 +174,11 @@ function searchType(state = '', action: GenericAction) {
     switch (action.type) {
     case ActionTypes.UPDATE_RHS_SEARCH_TYPE:
         return action.searchType;
-
+    case ActionTypes.UPDATE_RHS_STATE:
+        if (action.state !== RHSStates.SEARCH) {
+            return '';
+        }
+        return state;
     case UserTypes.LOGOUT_SUCCESS:
         return '';
     default:

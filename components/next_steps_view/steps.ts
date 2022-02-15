@@ -166,7 +166,7 @@ export const isFirstAdmin = createSelector(
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => getUsers(state),
     (currentUser, users) => {
-        if (!currentUser.roles.includes('system_admin')) {
+        if (!currentUser?.roles.includes('system_admin')) {
             return false;
         }
         const userIds = Object.keys(users);
