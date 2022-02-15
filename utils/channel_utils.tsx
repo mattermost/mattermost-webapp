@@ -23,6 +23,8 @@ import * as Utils from 'utils/utils.jsx';
 
 import {browserHistory} from './browser_history';
 
+import {cleanUpUrlable} from './url';
+
 export function canManageMembers(state: GlobalState, channel: Channel) {
     if (channel.type === Constants.PRIVATE_CHANNEL) {
         return haveIChannelPermission(
@@ -113,7 +115,7 @@ export function joinPrivateChannelPrompt(team: Team, channel: Channel, handleOnC
 export function makeNewEmptyChannel(displayName: string, teamId: string): Channel {
     return {
         team_id: teamId,
-        name: displayName.split(' ').join('-').toLowerCase(),
+        name: cleanUpUrlable(displayName),
         display_name: displayName,
         purpose: '',
         header: '',

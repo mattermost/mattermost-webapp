@@ -306,7 +306,8 @@ export default class Root extends React.PureComponent {
     componentDidMount() {
         this.mounted = true;
         this.props.actions.loadMeAndConfig().then((response) => {
-            if (this.props.location.pathname === '/' && response[2] && response[2].data) {
+            const successfullyLoadedMe = response[2] && response[2].data;
+            if (this.props.location.pathname === '/' && successfullyLoadedMe) {
                 this.redirectToOnboardingOrDefaultTeam();
             }
             this.onConfigLoaded();

@@ -1,12 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {CSSTransition} from 'react-transition-group';
 import {FormattedMessage, useIntl} from 'react-intl';
+import debounce from 'lodash/debounce';
 
+import {channelNameToUrl} from 'utils/url';
 import Constants from 'utils/constants';
 import QuickInput from 'components/quick_input';
+import {trackEvent} from 'actions/telemetry_actions';
 
 import {Animations, mapAnimationReasonToClass, PreparingWorkspacePageProps} from './steps';
 
@@ -14,8 +17,13 @@ import Title from './title';
 import Description from './description';
 import PageBody from './page_body';
 import SingleColumnLayout from './single_column_layout';
+import ChannelStatus from './channel_status';
 
 import './channel.scss';
+
+const reportValidationError = debounce(() => {
+    trackEvent('first_admin_setup', 'validate_organization_error');
+}, 700, {leading: false});
 
 type Props = PreparingWorkspacePageProps & {
     name: string;
@@ -23,13 +31,15 @@ type Props = PreparingWorkspacePageProps & {
     className?: string;
 }
 const Channel = (props: Props) => {
+    const [triedNext, setTriedNext] = useState(false);
+    const validation = channelNameToUrl(props.name);
+    const intl = useIntl();
+    useEffect(props.onPageView, []);
+
     let className = 'Channel-body';
     if (props.className) {
         className += ' ' + props.className;
     }
-
-    const intl = useIntl();
-    useEffect(props.onPageView, []);
 
     const onNext = async (e?: React.KeyboardEvent | React.MouseEvent) => {
         if (e && (e as React.KeyboardEvent).key) {
@@ -37,6 +47,16 @@ const Channel = (props: Props) => {
                 return;
             }
         }
+
+        if (!triedNext) {
+            setTriedNext(true);
+        }
+
+        if (validation.error) {
+            reportValidationError();
+            return;
+        }
+
         props.next?.();
     };
 
@@ -44,7 +64,7 @@ const Channel = (props: Props) => {
         <CSSTransition
             in={props.show}
             timeout={Animations.PAGE_SLIDE}
-            classNames={mapAnimationReasonToClass('Channel', props.direction)}
+            classNames={mapAnimationReasonToClass('Channel', props.transitionDirection)}
             mountOnEnter={true}
             unmountOnExit={true}
         >
@@ -72,11 +92,13 @@ const Channel = (props: Props) => {
                             className='Channel__input'
                             placeholder={intl.formatMessage({id: 'onboarding_wizard.channel.input', defaultMessage: 'Enter a channel name'})}
                         />
+                        <ChannelStatus error={triedNext && validation.error}/>
                     </PageBody>
                     <div>
                         <button
                             className='primary-button'
-                            onClick={props.next}
+                            disabled={!props.name}
+                            onClick={onNext}
                         >
                             <FormattedMessage
                                 id={'onboarding_wizard.next'}

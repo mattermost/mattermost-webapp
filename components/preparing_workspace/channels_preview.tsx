@@ -16,7 +16,7 @@ type Props = {
     teamName: string;
     show: boolean;
     step: WizardStep;
-    direction: AnimationReason;
+    transitionDirection: AnimationReason;
 }
 
 const ChannelsPreview = (props: Props) => {
@@ -26,7 +26,7 @@ const ChannelsPreview = (props: Props) => {
         <CSSTransition
             in={props.show}
             timeout={Animations.PAGE_SLIDE}
-            classNames={mapAnimationReasonToClass('ChannelsPreview', props.direction)}
+            classNames={mapAnimationReasonToClass('ChannelsPreview', props.transitionDirection)}
             mountOnEnter={true}
             unmountOnExit={true}
         >
@@ -37,7 +37,7 @@ const ChannelsPreview = (props: Props) => {
                 />
                 <TeamMembers
                     show={props.step === WizardSteps.InviteMembers}
-                    direction={(() => {
+                    transitionDirection={(() => {
                         if (props.step === WizardSteps.Channel) {
                             return Animations.Reasons.ExitToBefore;
                         } else if (props.step === WizardSteps.InviteMembers) {

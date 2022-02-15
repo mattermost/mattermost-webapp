@@ -196,7 +196,7 @@ export const emptyForm = deepFreeze({
 });
 
 export type PreparingWorkspacePageProps = {
-    direction: AnimationReason;
+    transitionDirection: AnimationReason;
     next?: () => void;
     skip?: () => void;
     previous?: JSX.Element;

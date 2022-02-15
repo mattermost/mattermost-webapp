@@ -72,7 +72,7 @@ const Url = (props: Props) => {
         <CSSTransition
             in={props.show}
             timeout={Animations.PAGE_SLIDE}
-            classNames={mapAnimationReasonToClass('Url', props.direction)}
+            classNames={mapAnimationReasonToClass('Url', props.transitionDirection)}
             mountOnEnter={true}
             unmountOnExit={true}
         >

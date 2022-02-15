@@ -42,7 +42,7 @@ const Plugins = (props: Props) => {
         <CSSTransition
             in={props.show}
             timeout={Animations.PAGE_SLIDE}
-            classNames={mapAnimationReasonToClass('Plugins', props.direction)}
+            classNames={mapAnimationReasonToClass('Plugins', props.transitionDirection)}
             mountOnEnter={true}
             unmountOnExit={true}
         >

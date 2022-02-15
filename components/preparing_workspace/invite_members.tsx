@@ -132,7 +132,7 @@ const InviteMembers = (props: Props) => {
         <CSSTransition
             in={props.show}
             timeout={Animations.PAGE_SLIDE}
-            classNames={mapAnimationReasonToClass('InviteMembers', props.direction)}
+            classNames={mapAnimationReasonToClass('InviteMembers', props.transitionDirection)}
             mountOnEnter={true}
             unmountOnExit={true}
         >

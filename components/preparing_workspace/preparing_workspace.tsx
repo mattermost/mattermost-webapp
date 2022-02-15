@@ -371,7 +371,7 @@ export default function PreparingWorkspace(props: Props) {
                         }}
                         show={shouldShowPage(WizardSteps.Organization)}
                         next={makeNext(WizardSteps.Organization)}
-                        direction={getTransitionDirection(WizardSteps.Organization)}
+                        transitionDirection={getTransitionDirection(WizardSteps.Organization)}
                         organization={form.organization || ''}
                         setOrganization={(organization: Form['organization']) => {
                             setForm({
@@ -407,7 +407,7 @@ export default function PreparingWorkspace(props: Props) {
                             delete withSkippedUrl.url;
                             setForm(withSkippedUrl);
                         }}
-                        direction={getTransitionDirection(WizardSteps.Url)}
+                        transitionDirection={getTransitionDirection(WizardSteps.Url)}
                         url={form.url || ''}
                         setUrl={(url: string) => {
                             setForm({
@@ -435,7 +435,7 @@ export default function PreparingWorkspace(props: Props) {
                     }}
                     show={shouldShowPage(WizardSteps.UseCase)}
                     next={() => makeNext(WizardSteps.UseCase)(form.useCase)}
-                    direction={getTransitionDirection(WizardSteps.UseCase)}
+                    transitionDirection={getTransitionDirection(WizardSteps.UseCase)}
                     className='child-page'
                 />
                 <Plugins
@@ -464,7 +464,7 @@ export default function PreparingWorkspace(props: Props) {
                     }}
                     previous={previous}
                     show={shouldShowPage(WizardSteps.Plugins)}
-                    direction={getTransitionDirection(WizardSteps.Plugins)}
+                    transitionDirection={getTransitionDirection(WizardSteps.Plugins)}
                     className='child-page'
                 />
                 <ChannelComponent
@@ -481,7 +481,7 @@ export default function PreparingWorkspace(props: Props) {
                     }}
                     previous={previous}
                     show={shouldShowPage(WizardSteps.Channel)}
-                    direction={getTransitionDirection(WizardSteps.Channel)}
+                    transitionDirection={getTransitionDirection(WizardSteps.Channel)}
                     name={form.channel.name}
                     onChange={(newValue: string) => setForm({
                         ...form,
@@ -506,7 +506,7 @@ export default function PreparingWorkspace(props: Props) {
                     }}
                     previous={previous}
                     show={shouldShowPage(WizardSteps.InviteMembers)}
-                    direction={getTransitionDirection(WizardSteps.InviteMembers)}
+                    transitionDirection={getTransitionDirection(WizardSteps.InviteMembers)}
                     disableEdits={submissionState !== SubmissionStates.Presubmit}
                     showInviteSuccess={submissionState === SubmissionStates.SubmitSuccess}
                     className='child-page'
@@ -530,7 +530,7 @@ export default function PreparingWorkspace(props: Props) {
                 <ChannelsPreview
                     show={currentStep === WizardSteps.Channel || currentStep === WizardSteps.InviteMembers}
                     step={currentStep}
-                    direction={getTransitionDirectionMultiStep([WizardSteps.Channel, WizardSteps.InviteMembers])}
+                    transitionDirection={getTransitionDirectionMultiStep([WizardSteps.Channel, WizardSteps.InviteMembers])}
                     channelName={form.channel.name || 'Channel name'}
                     teamName={isSelfHosted ? form.organization || '' : (currentTeam || myTeams?.[0]).display_name || ''}
                 />

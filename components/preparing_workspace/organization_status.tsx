@@ -4,10 +4,10 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {BadUrlReasons, TeamNameToURL} from 'utils/url';
+import {BadUrlReasons, UrlValidationCheck} from 'utils/url';
 import Constants from 'utils/constants';
 
-const OrganizationStatus = (props: {error: TeamNameToURL['error']}): JSX.Element => {
+const OrganizationStatus = (props: {error: UrlValidationCheck['error']}): JSX.Element => {
     let children = null;
     let className = 'Organization__status';
     if (props.error) {

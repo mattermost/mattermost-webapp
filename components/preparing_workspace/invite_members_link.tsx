@@ -39,24 +39,26 @@ const InviteMembersLink = (props: Props) => {
                 onClick={copyText.onClick}
                 data-testid='shareLinkInputButton'
             >
-                {!copyText.copiedRecently && (
-                    <>
-                        <i className='icon icon-link-variant'/>
-                        <FormattedMessage
-                            id='onboarding_wizard.invite_members.copy_link'
-                            defaultMessage='Copy Link'
-                        />
-                    </>
-                )}
-                {copyText.copiedRecently && (
-                    <>
-                        <i className='icon icon-check'/>
-                        <FormattedMessage
-                            id='onboarding_wizard.invite_members.copied_link'
-                            defaultMessage='Link Copied'
-                        />
-                    </>
-                )}
+                {copyText.copiedRecently ?
+                    (
+                        <>
+                            <i className='icon icon-check'/>
+                            <FormattedMessage
+                                id='onboarding_wizard.invite_members.copied_link'
+                                defaultMessage='Link Copied'
+                            />
+                        </>
+                    ) :
+                    (
+                        <>
+                            <i className='icon icon-link-variant'/>
+                            <FormattedMessage
+                                id='onboarding_wizard.invite_members.copy_link'
+                                defaultMessage='Copy Link'
+                            />
+                        </>
+                    )
+                }
             </button>
         </div>
     );

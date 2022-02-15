@@ -187,7 +187,7 @@ export function isPermalinkURL(url: string): boolean {
     return isInternalURL(url, siteURL) && (regexp.test(url));
 }
 
-export type TeamNameToURL = {
+export type UrlValidationCheck = {
     url: string;
     error: typeof BadUrlReasons[keyof typeof BadUrlReasons] | false;
 }
@@ -199,7 +199,7 @@ export const BadUrlReasons = {
     Taken: 'Taken',
 } as const;
 
-export function teamNameToUrl(teamName: string): TeamNameToURL {
+export function teamNameToUrl(teamName: string): UrlValidationCheck {
     // borrowed from team_url, which has some peculiarities tied to being a part of a two screen UI
     // that allows more variation between team name and url than we allow in usages of this function
     const url = cleanUpUrlable(teamName.trim());
@@ -214,6 +214,22 @@ export function teamNameToUrl(teamName: string): TeamNameToURL {
 
     if (Constants.RESERVED_TEAM_NAMES.some((reservedName) => url.startsWith(reservedName))) {
         return {url, error: BadUrlReasons.Reserved};
+    }
+
+    return {url, error: false};
+}
+
+export function channelNameToUrl(channelName: string): UrlValidationCheck {
+    // borrowed from team_url, which has some peculiarities tied to being a part of a two screen UI
+    // that allows more variation between team name and url than we allow in usages of this function
+    const url = cleanUpUrlable(channelName.trim());
+
+    if (!url) {
+        return {url, error: BadUrlReasons.Empty};
+    }
+
+    if (url.length < Constants.MIN_CHANNELNAME_LENGTH || url.length > Constants.MAX_CHANNELNAME_LENGTH) {
+        return {url, error: BadUrlReasons.Length};
     }
 
     return {url, error: false};

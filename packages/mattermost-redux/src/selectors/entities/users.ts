@@ -683,7 +683,7 @@ export const isFirstAdmin = createSelector(
     (state: GlobalState) => getUsers(state),
     (currentUser, users) => {
         if (!currentUser) {
-            return false
+            return false;
         }
         if (!currentUser.roles.includes('system_admin')) {
             return false;

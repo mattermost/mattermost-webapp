@@ -47,7 +47,7 @@ const UseCase = (props: Props) => {
         <CSSTransition
             in={props.show}
             timeout={Animations.PAGE_SLIDE}
-            classNames={mapAnimationReasonToClass('UseCase', props.direction)}
+            classNames={mapAnimationReasonToClass('UseCase', props.transitionDirection)}
             mountOnEnter={true}
             unmountOnExit={true}
         >

@@ -66,7 +66,7 @@ const Organization = (props: Props) => {
         <CSSTransition
             in={props.show}
             timeout={Animations.PAGE_SLIDE}
-            classNames={mapAnimationReasonToClass('Organization', props.direction)}
+            classNames={mapAnimationReasonToClass('Organization', props.transitionDirection)}
             mountOnEnter={true}
             unmountOnExit={true}
         >

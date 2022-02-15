@@ -14,7 +14,7 @@ describe('Organization', () => {
     let props = {
         show: true,
         next: jest.fn(),
-        direction: Animations.Reasons.EnterFromBefore,
+        transitionDirection: Animations.Reasons.EnterFromBefore,
         organization: '',
         setOrganization: jest.fn(),
         onPageView: jest.fn(),
@@ -23,7 +23,7 @@ describe('Organization', () => {
         props = {
             show: true,
             next: jest.fn(),
-            direction: Animations.Reasons.EnterFromBefore,
+            transitionDirection: Animations.Reasons.EnterFromBefore,
             organization: '',
             setOrganization: jest.fn(),
             onPageView: jest.fn(),

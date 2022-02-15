@@ -13,7 +13,7 @@ import PersonElbowSVG from './person-elbow.svg';
 import './team_members.scss';
 
 type Props = {
-    direction: AnimationReason;
+    transitionDirection: AnimationReason;
     show: boolean;
 }
 
@@ -22,7 +22,7 @@ const TeamMembers = (props: Props) => {
         <CSSTransition
             in={props.show}
             timeout={Animations.PAGE_SLIDE}
-            classNames={mapAnimationReasonToClass('TeamMembers', props.direction)}
+            classNames={mapAnimationReasonToClass('TeamMembers', props.transitionDirection)}
             mountOnEnter={true}
             unmountOnExit={true}
         >
