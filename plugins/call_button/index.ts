@@ -14,7 +14,7 @@ function mapStateToProps(state: GlobalState) {
     return {
         currentChannel: getCurrentChannel(state),
         locale: getCurrentLocale(state),
-        pluginCallMethods: state.plugins.components.CallButton,
+        pluginCallComponents: state.plugins.components.CallButton,
         channelMember: getMyCurrentChannelMembership(state),
     };
 }

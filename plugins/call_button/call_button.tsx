@@ -3,6 +3,7 @@
 
 import React, {CSSProperties, useState} from 'react';
 import {injectIntl, IntlShape} from 'react-intl';
+import classNames from 'classnames';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
@@ -17,11 +18,11 @@ type Props = {
     channelMember?: ChannelMembership;
     intl: IntlShape;
     locale: string;
-    pluginCallMethods: PluginComponent[];
+    pluginCallComponents: PluginComponent[];
 }
 
 function CallButton(props: Props) {
-    if (props.pluginCallMethods.length === 0) {
+    if (props.pluginCallComponents.length === 0) {
         return null;
     }
 
@@ -36,8 +37,8 @@ function CallButton(props: Props) {
         } as CSSProperties,
     };
 
-    if (props.pluginCallMethods.length === 1) {
-        const item = props.pluginCallMethods[0];
+    if (props.pluginCallComponents.length === 1) {
+        const item = props.pluginCallComponents[0];
 
         return (
             <div
@@ -59,7 +60,7 @@ function CallButton(props: Props) {
         );
     }
 
-    const pluginCallMethods = props.pluginCallMethods.map((item) => {
+    const pluginCallComponents = props.pluginCallComponents.map((item) => {
         return (
             <li
                 className='MenuItem'
@@ -88,7 +89,7 @@ function CallButton(props: Props) {
             >
                 <button
                     type='button'
-                    className={'style--none call-button dropdown ' + (active ? 'active' : '')}
+                    className={classNames('style--none call-button', 'dropdown', {active})}
                 >
                     <span
                         className='icon icon-phone-outline'
@@ -109,7 +110,7 @@ function CallButton(props: Props) {
                         right: 0,
                     }}
                 >
-                    {pluginCallMethods}
+                    {pluginCallComponents}
                 </Menu>
             </MenuWrapper>
         </div>
@@ -117,7 +118,7 @@ function CallButton(props: Props) {
 }
 
 CallButton.defaultProps = {
-    pluginCallMethods: [],
+    pluginCallComponents: [],
 };
 
 const wrappedComponent = injectIntl(CallButton);

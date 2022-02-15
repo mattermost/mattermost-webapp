@@ -25,7 +25,7 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Popover from 'components/widgets/popover';
-import CallButton from 'components/call_button';
+import CallButton from 'plugins/call_button';
 
 import {
     Constants,
