@@ -4361,8 +4361,6 @@
   "timestamp.datetime": "{relativeOrDate} at {time}",
   "trial_benefits.modal.complianceExportDescription": "Run daily compliance reports and export them to a variety of formats consumable by third-party integration tools such as Smarsh (Actiance).",
   "trial_benefits.modal.complianceExportTitle": "Run compliance exports",
-  "trial_benefits.modal.customTermsTitle": "Create custom Terms of Service",
-  "trial_benefits.modal.ldapTitle": "Synchronise your Active Directory/LDAP groups",
   "trial_benefits.modal.onlyVisibleToAdmins": "Only visible to admins",
   "trial_benefits.modal.postTrialStartDescription": "Welcome to Enterprise! Your plan expires on {trialExpirationDate}. Until then, enjoy the following benefits of Enterprise:",
   "trial_benefits.modal.postTrialStarttitle": "You are on the Enterprise plan! Explore the benefits of Enterprise",
