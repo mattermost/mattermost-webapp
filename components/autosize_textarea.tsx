@@ -115,6 +115,7 @@ export class AutosizeTextarea extends React.PureComponent<Props> {
                     {...otherProps as any}
                     data-testid={`${id}_placeholder`}
                     style={style.placeholder}
+                    id={`${id}_lcp_element`}
                 >
                     {placeholder}
                 </div>

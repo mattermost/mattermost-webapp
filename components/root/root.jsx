@@ -263,6 +263,38 @@ export default class Root extends React.PureComponent {
         Utils.applyTheme(this.props.theme);
     }
 
+    trackWithPerformanceObserver = (entryList, perfObserver) => {
+        for (const entry of entryList.getEntries()) {
+            // We measure the time it takes to paint the post textbox on screen
+            if (entry.id === 'post_textbox_lcp_element' && entry.entryType === 'largest-contentful-paint') {
+                // eslint-disable-next-line no-console
+                console.log('Largest contentful paint', entry.startTime, 'ms');
+
+                perfObserver.disconnect();
+            }
+        }
+    }
+
+    initiatePerformanceObservers = () => {
+        try {
+            const perfType = [];
+
+            const perfTypesSupported = PerformanceObserver.supportedEntryTypes;
+
+            if (perfTypesSupported.includes('largest-contentful-paint')) {
+                perfType.push('largest-contentful-paint');
+            } else {
+                perfType.push('paint');
+            }
+
+            const perfObserver = new PerformanceObserver(this.trackWithPerformanceObserver);
+            perfObserver.observe({type: perfType, buffered: true});
+        } catch (e) {
+            // eslint-disable-next-line no-console
+            console.warn('PerformanceObserver is not supported in this browser.');
+        }
+    }
+
     componentDidUpdate(prevProps) {
         if (!deepEqual(prevProps.theme, this.props.theme)) {
             Utils.applyTheme(this.props.theme);
@@ -278,6 +310,9 @@ export default class Root extends React.PureComponent {
 
     componentDidMount() {
         this.mounted = true;
+
+        this.initiatePerformanceObservers();
+
         this.props.actions.loadMeAndConfig().then((response) => {
             if (this.props.location.pathname === '/' && response[2] && response[2].data) {
                 GlobalActions.redirectUserToDefaultTeam();
