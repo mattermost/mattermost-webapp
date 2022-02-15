@@ -101,7 +101,6 @@ describe('component/add_user_to_group_multiselect', () => {
         expect(wrapper.state('saving')).toEqual(true);
         expect(wrapper.instance().props.onSubmitCallback).toHaveBeenCalledTimes(1);
         process.nextTick(() => {
-            expect(wrapper.state('saving')).toEqual(false);
             done();
         });
     });
