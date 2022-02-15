@@ -50,10 +50,13 @@ export const getRecentCustomStatuses = createSelector(
     },
 );
 
-export function isCustomStatusEnabled(state: GlobalState) {
-    const config = getConfig(state);
-    return config && config.EnableCustomUserStatuses === 'true';
-}
+export const isCustomStatusEnabled = createSelector(
+    'isCustomStatusEnabled',
+    (state: GlobalState) => getConfig(state),
+    (config) => {
+        return config && config.EnableCustomUserStatuses === 'true';
+    },
+);
 
 function showCustomStatusPulsatingDotAndPostHeader(state: GlobalState) {
     const customStatusTutorialState = get(state, Preferences.CATEGORY_CUSTOM_STATUS, Preferences.NAME_CUSTOM_STATUS_TUTORIAL_STATE);
