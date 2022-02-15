@@ -4359,8 +4359,6 @@
   "timestamp.datetime": "{relativeOrDate} の {time}",
   "trial_benefits.modal.complianceExportDescription": "毎日コンプライアンスレポート機能を実行し、Smarsh（Actiance）などのサードパーティの連携ツールで利用可能なさまざまなフォーマットにエクスポートします。",
   "trial_benefits.modal.complianceExportTitle": "コンプライアンスエクスポートを実行する",
-  "trial_benefits.modal.customTermsTitle": "カスタム利用規約の作成",
-  "trial_benefits.modal.ldapTitle": "Active Directory/LDAPグループと同期する",
   "trial_benefits.modal.onlyVisibleToAdmins": "管理者のみ表示可能",
   "trial_benefits.modal.postTrialStartDescription": "エンタープライズ版へようこそ! あなたのプランは {trialExpirationDate} に終了します。それまでは、以下のようなエンタープライズ版の機能をお楽しみください。",
   "trial_benefits.modal.postTrialStarttitle": "あなたはEnterprise版を利用中です。エンタープライズ版の機能を見る",
