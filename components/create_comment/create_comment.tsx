@@ -1265,7 +1265,6 @@ class CreateComment extends React.PureComponent<Props, State> {
                             </div>
                             <div className='col col-auto'>
                                 <TextboxLinks
-                                    characterLimit={this.props.maxPostSize}
                                     showPreview={this.props.shouldShowPreview}
                                     updatePreview={this.setShowPreview}
                                 />
