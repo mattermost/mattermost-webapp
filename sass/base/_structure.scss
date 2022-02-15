@@ -82,7 +82,6 @@ body {
 
     position: relative;
     height: 100%;
-    flex: 1;
 
     #root {
         display: flex;
@@ -96,8 +95,4 @@ body {
 
 img {
     max-width: 100%;
-}
-
-.mainContentRow {
-    height: 100%;
 }
