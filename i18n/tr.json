@@ -4376,7 +4376,6 @@
   "trial_benefits.modal.complianceExportTitle": "Uygunluk raporlarını oluştur",
   "trial_benefits.modal.guestAccessDescription": "Kuruluşunuzun dışındaki kullanıcılar ile iş birliği yapın ve erişim kanalları ile takım üyelerini sıkıca denetleyin.",
   "trial_benefits.modal.guestAccessTitle": "Konuk hesapları ile kullanıcı erişimini belirleyin",
-  "trial_benefits.modal.ldapTitle": "Aktif Dizin/LDAP gruplarınızı eşitleyin",
   "trial_benefits.modal.onlyVisibleToAdmins": "Yalnız yöneticiler görebilir",
   "trial_benefits.modal.postTrialStartDescription": "Enterprise tarifesine hoş geldiniz! Tarifenizin süresi {trialExpirationDate} tarihinde sona erecek. O zamana kadar şu Enterprise tarifesi özelliklerinden yararlanabilirsiniz:",
   "trial_benefits.modal.postTrialStarttitle": "Enterprise tarifesini kullanıyorsunuz! Enterprise tarifesinin özelliklerini keşfedin",

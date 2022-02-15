@@ -4355,8 +4355,6 @@
   "timestamp.datetime": "{relativeOrDate} kl {time}",
   "trial_benefits.modal.complianceExportDescription": "Skapa dagliga efterlevnadsrapporter och exportera dem i en mängd olika format som kan användas av integrationsverktyg från tredje part, till exempel Smarsh (Actiance).",
   "trial_benefits.modal.complianceExportTitle": "Kör efterlevnadsexporter",
-  "trial_benefits.modal.customTermsTitle": "Skriv egna användarvillkor",
-  "trial_benefits.modal.ldapTitle": "Synkronisera dina Active Directory/LDAP-grupper",
   "trial_benefits.modal.onlyVisibleToAdmins": "Visas endast för administratörer",
   "trial_benefits.modal.postTrialStartDescription": "Välkommen till Enterprise! Din plan tar slut den {trialExpirationDate}. Till dess kan du utnyttja följande fördelar med Enterprise:",
   "trial_benefits.modal.postTrialStarttitle": "Du har nu Enterpriseabbonemanget! Utforska möjligheterna med Enterprise",

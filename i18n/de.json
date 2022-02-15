@@ -4376,7 +4376,6 @@
   "trial_benefits.modal.complianceExportTitle": "Starte Compliance Exporte",
   "trial_benefits.modal.guestAccessDescription": "Arbeiten Sie mit Benutzern außerhalb Ihrer Organisation zusammen, während der Zugriff auf Kanäle und Teammitglieder eng kontrolliert wird.",
   "trial_benefits.modal.guestAccessTitle": "Festlegen des Benutzerzugangs mit Gastkonten",
-  "trial_benefits.modal.ldapTitle": "Synchronisieren Sie Ihre Active Directory/LDAP Gruppen",
   "trial_benefits.modal.onlyVisibleToAdmins": "Nur für Admins sichtbar",
   "trial_benefits.modal.postTrialStartDescription": "Willkommen bei Enterprise! Ihr Abonnement läuft am {trialExpirationDate} ab. Bis dahin freuen Sie sich über die folgenden Vorteile von Enterprise:",
   "trial_benefits.modal.postTrialStarttitle": "Sie sind auf dem Enterprise Abonnement! Erkunden Sie die Vorteile von Enterprise",

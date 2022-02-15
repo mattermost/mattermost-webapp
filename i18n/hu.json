@@ -4374,8 +4374,6 @@
   "timestamp.datetime": "{relativeOrDate} {time}",
   "trial_benefits.modal.complianceExportDescription": "Futtasson napi megfelelősségi jelentéseket és exportálja őket különböző formátumokba amiket harmadik féltől származó integrációs eszközökbe tud beolvasni, mint például Smarsh (Actiance).",
   "trial_benefits.modal.complianceExportTitle": "Futtasson megfelelősségi exportokat",
-  "trial_benefits.modal.customTermsTitle": "Egyéni általános szerződési feltételek létrehozása",
-  "trial_benefits.modal.ldapTitle": "Szinkronizálja az Active Directory/LDAP csoportokat",
   "trial_benefits.modal.onlyVisibleToAdmins": "Csak rendszergazdák számára látható",
   "trial_benefits.modal.postTrialStartDescription": "Üdvözöljük az Enterprise kiadásban! Előfizetésének lejárati dátuma {trialExpirationDate}. Addig is élvezze az Enterprise alábbi előnyeit:",
   "trial_benefits.modal.postTrialStarttitle": "Ön az Enterprise előfizetést használja! Tekintse át az Enterprise kiadás előnyeit",
