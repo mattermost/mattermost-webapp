@@ -31,8 +31,10 @@ const ViewUserGroupListItem = (props: Props) => {
     const removeUserFromGroup = async (userId: string) => {
         const {groupId, actions, decrementMemberCount} = props;
 
-        await actions.removeUsersFromGroup(groupId, [userId]).then(() => {
-            decrementMemberCount();
+        await actions.removeUsersFromGroup(groupId, [userId]).then((data) => {
+            if (!data.error) {
+                decrementMemberCount();
+            }
         });
     };
 
