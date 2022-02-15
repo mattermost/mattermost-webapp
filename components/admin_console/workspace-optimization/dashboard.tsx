@@ -50,6 +50,8 @@ const successIcon = (
 const WorkspaceOptimizationDashboard = (props: Props) => {
     const [loading, setLoading] = useState(true);
     const [versionData, setVersionData] = useState<{type: string; version: string; status: ItemStatus}>({type: '', version: '', status: 'none'});
+    const [guestAccountStatus, setGuestAccountStatus] = useState<ItemStatus>('none');
+    const [liveUrlStatus, setLiveUrlStatus] = useState<ItemStatus>('none');
     const {formatMessage} = useIntl();
     const {getAccessData, getConfigurationData, getUpdatesData, getPerformanceData, getDataPrivacyData, getEaseOfManagementData} = useMetricsData();
 
@@ -59,25 +61,16 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     const {TOTAL_USERS: totalUsers, TOTAL_POSTS: totalPosts} = analytics!;
 
     // gather locally available data
-    const {ServiceSettings, DataRetentionSettings} = props.config;
+    const {ServiceSettings, DataRetentionSettings, TeamSettings, GuestAccountsSettings} = props.config;
     const {location} = document;
 
     const sessionLengthWebInDays = ServiceSettings?.SessionLengthWebInDays || -1;
     const dataRetentionEnabled = DataRetentionSettings?.EnableMessageDeletion || DataRetentionSettings?.EnableFileDeletion;
 
     const testURL = () => {
-        const index = data.access.items.findIndex((item) => item.id === 'site-url');
-        if (index >= 0) {
-            const onSuccess = ({status}: any) => {
-                data.access.items[index].status = status === 'OK' ? 'ok' : 'error';
-            };
-            const onError = () => {
-                data.access.items[0].status = 'error';
-            };
-            return testSiteURL(onSuccess, onError, location.origin);
-        }
-
-        return Promise.resolve();
+        const onSuccess = ({status}: any) => setLiveUrlStatus(status === 'OK' ? 'ok' : 'error');
+        const onError = () => setLiveUrlStatus('error');
+        return testSiteURL(onSuccess, onError, location.origin);
     };
 
     const fetchVersion = async () => {
@@ -120,17 +113,34 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
             }
 
             setVersionData({type, version: result.tag_name, status});
-            return;
+        }
+    };
+
+    const fetchGuestAccounts = async () => {
+        if (TeamSettings?.EnableOpenServer && GuestAccountsSettings?.Enable) {
+            let usersArray = await fetch('/api/v4/users/invalid_emails').then((result) => result.json());
+
+            // this setting is just a string with a list of domains, or an empty string
+            if (GuestAccountsSettings?.RestrictCreationToDomains) {
+                const domainList = GuestAccountsSettings?.RestrictCreationToDomains;
+                usersArray = usersArray.filter(({email}: Record<string, unknown>) => domainList.includes((email as string).split('@')[1]));
+            }
+
+            // if guest accounts make up more than 5% of the user base show the info accordion
+            if (usersArray.length > (totalUsers as number * 0.05)) {
+                setGuestAccountStatus('info');
+                return;
+            }
         }
 
-        const versionIndex = data.updates.items.findIndex((item) => item.id === 'server-version');
-        data.updates.items.splice(versionIndex, 1);
+        setGuestAccountStatus('ok');
     };
 
     useEffect(() => {
         const promises = [];
         promises.push(testURL());
         promises.push(fetchVersion());
+        promises.push(fetchGuestAccounts());
         Promise.all(promises).then(() => setLoading(false));
     }, []);
 
@@ -140,9 +150,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
             ssl: {status: location.protocol === 'https:' ? 'ok' : 'error'},
             sessionLength: {status: sessionLengthWebInDays >= 30 ? 'info' : 'ok'},
         }),
-
-        // site-url item will be updated in a useEffect call
-        access: getAccessData({siteUrl: {status: 'none'}}),
+        access: getAccessData({siteUrl: {status: liveUrlStatus}}),
         performance: getPerformanceData({
             search: {
                 status: totalPosts < 2_000_000 && totalUsers < 500 ? 'ok' : 'info',
@@ -151,9 +159,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         dataPrivacy: getDataPrivacyData({retention: {status: dataRetentionEnabled ? 'ok' : 'info'}}),
         easyManagement: getEaseOfManagementData({
             ldap: {status: totalUsers > 500 ? 'info' : 'ok'},
-
-            // TBD - @see https://github.com/mattermost/mattermost-server/pull/19437
-            guestAccounts: {status: 'info'},
+            guestAccounts: {status: guestAccountStatus},
         }),
     };
 
