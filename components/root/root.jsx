@@ -29,6 +29,8 @@ import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_rout
 import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
 import TaskList from 'components/global_onboarding_list/onboarding_checklist';
+import Transitioning, {TRANSITIONING_FULLSCREEN_Z_INDEX} from 'components/preparing_workspace/transitioning';
+import {Animations} from 'components/preparing_workspace/steps';
 
 import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
@@ -103,6 +105,8 @@ const LoggedInRoute = ({component: Component, ...rest}) => (
     />
 );
 
+const noop = () => {}; // eslint-disable-line no-empty-function
+
 export default class Root extends React.PureComponent {
     static propTypes = {
         theme: PropTypes.object,
@@ -121,6 +125,7 @@ export default class Root extends React.PureComponent {
         dismissChecklist: PropTypes.bool,
         isUserFirstAdmin: PropTypes.bool,
         isMobile: PropTypes.bool,
+        showSetupTransitioning: PropTypes.bool,
     }
 
     constructor(props) {
@@ -489,6 +494,15 @@ export default class Root extends React.PureComponent {
                         to={`/${this.props.permalinkRedirectTeamName}/pl/:postid`}
                     />
                     <CompassThemeProvider theme={this.props.theme}>
+                        {(this.props.showSetupTransitioning && !this.props.location.pathname.includes('/preparing-workspace') &&
+                            <Transitioning
+                                fullscreen={true}
+                                zIndex={TRANSITIONING_FULLSCREEN_Z_INDEX}
+                                show={true}
+                                onPageView={noop}
+                                transitionDirection={Animations.Reasons.EnterFromBefore}
+                            />
+                        )}
                         <ModalController/>
                         <GlobalHeader/>
                         {this.props.isUserFirstAdmin && !this.props.isMobile && this.props.dismissChecklist && <TaskList/>}

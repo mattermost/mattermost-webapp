@@ -6,19 +6,19 @@
     .wave {
         position: absolute;
         top: 250px;
-        right: 150px;
+        right: 300px;
     }
 
     .smile {
         position: absolute;
         top: 125px;
-        right: 225px;
+        right: 375px;
     }
 
     .elbow {
         position: absolute;
         top: 200px;
-        right: 425px;
+        right: 575px;
     }
 }
 
@@ -29,7 +29,7 @@
 
     &-enter-active {
         transform: translateY(0);
-        transition: transform 300ms linear;
+        transition: transform 300ms ease-in-out;
     }
 
     &-enter-done {
@@ -37,14 +37,14 @@
     }
 }
 
-.TeamMembers--exit-to-after {
+.TeamMembers--exit-to-before {
     &-exit {
         transform: translateY(0);
     }
 
     &-exit-active {
         transform: translateY(100vh);
-        transition: transform 300ms linear;
+        transition: transform 300ms ease-in-out;
     }
 
     &-exit-done {

@@ -5,9 +5,9 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-import Constants from 'utils/constants';
-
 import './multi_select_card.scss';
+import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 export type Props = {
     onClick: () => void;
@@ -22,14 +22,10 @@ const MultiSelectCard = (props: Props) => {
     const buttonProps: {
         className: string;
         onClick: () => void;
-        tooltip?: string;
     } = {
         className: 'MultiSelectCard',
         onClick: props.onClick,
     };
-    if (props.tooltip) {
-        buttonProps.tooltip = props.tooltip;
-    }
     if (props.checked) {
         buttonProps.className += ' MultiSelectCard--checked';
     }
@@ -37,16 +33,9 @@ const MultiSelectCard = (props: Props) => {
         buttonProps.className += ' MultiSelectCard--small';
     }
 
-    return (
+    let button = (
         <button
             {...buttonProps}
-            onKeyUp={(e: React.KeyboardEvent) => {
-                if (e.key !== Constants.KeyCodes.SPACE[0]) {
-                    return;
-                }
-
-                props.onClick();
-            }}
         >
             {props.checked && <i className='MultiSelectCard__checkmark icon icon-check-circle'/>}
             {props.icon}
@@ -58,6 +47,28 @@ const MultiSelectCard = (props: Props) => {
             </span>
         </button>
     );
+
+    if (props.tooltip) {
+        button = (
+            <OverlayTrigger
+                className='hidden-xs'
+                delayShow={500}
+                placement='top'
+                overlay={
+                    <Tooltip
+                        id={props.tooltip}
+                        className='hidden-xs'
+                    >
+                        {props.tooltip}
+                    </Tooltip>
+                }
+            >
+                {button}
+            </OverlayTrigger>
+        );
+    }
+
+    return button;
 };
 
 export default MultiSelectCard;

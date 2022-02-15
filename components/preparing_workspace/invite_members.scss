@@ -6,4 +6,53 @@
     max-width: calc(100vw - 600px - 120px - 30px);
 }
 
+.InviteMembers {
+    &__success {
+        padding-left: 9px;
+        color: var(--denim-status-online);
+        font-size: 16px;
+        font-weight: 600;
+
+        .icon {
+            font-size: 16px;
+        }
+    }
+
+    &__submit {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+}
+
 @include simple-in-and-out-before("InviteMembers");
+
+.ChannelsPreview--enter-from-after {
+    &-enter {
+        transform: translateX(-100vw);
+    }
+
+    &-enter-active {
+        transform: translateX(0);
+        transition: transform 300ms ease-in-out;
+    }
+
+    &-enter-done {
+        transform: translateX(0);
+    }
+}
+
+.ChannelsPreview--exit-to-after {
+    &-exit {
+        transform: translateX(0);
+    }
+
+    &-exit-active {
+        transform: translateX(-100vw);
+        transition: transform 300ms ease-in-out;
+    }
+
+    &-exit-done {
+        transform: translateX(-100vw);
+    }
+}

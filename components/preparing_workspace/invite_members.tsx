@@ -151,7 +151,7 @@ const InviteMembers = (props: Props) => {
                     <PageBody>
                         {inviteInteraction}
                     </PageBody>
-                    <div>
+                    <div className='InviteMembers__submit'>
                         <button
                             className='primary-button'
                             disabled={props.disableEdits}
@@ -173,7 +173,7 @@ const InviteMembers = (props: Props) => {
                                     )
                             }
                         </button>
-                        {!props.showInviteLink && (
+                        {!props.showInviteSuccess && !props.showInviteLink && (
                             <button
                                 className='tertiary-button'
                                 onClick={props.skip}
@@ -183,6 +183,15 @@ const InviteMembers = (props: Props) => {
                                     defaultMessage="I'll do this later"
                                 />
                             </button>
+                        )}
+                        {props.showInviteSuccess && !props.showInviteLink && (
+                            <span className='InviteMembers__success'>
+                                <i className='icon icon-check'/>
+                                <FormattedMessage
+                                    id={'onboarding_wizard.invite_members.success'}
+                                    defaultMessage='Invitations Sent!'
+                                />
+                            </span>
                         )}
                     </div>
                 </SingleColumnLayout>

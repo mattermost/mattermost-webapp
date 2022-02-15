@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {RouterProps} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 
+import {GeneralTypes} from 'mattermost-redux/action_types';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {createChannel} from 'mattermost-redux/actions/channels';
 import {getFirstAdminSetupComplete as getFirstAdminSetupCompleteAction} from 'mattermost-redux/actions/general';
@@ -13,15 +14,14 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 import {Team} from 'mattermost-redux/types/teams';
 import {Channel} from 'mattermost-redux/types/channels';
 import {sendEmailInvitesToTeamGracefully} from 'mattermost-redux/actions/teams';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {get, getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
+import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 import {getCurrentTeam, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getFirstAdminSetupComplete, getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {Client4} from 'mattermost-redux/client';
 
-import Constants, {OnboardingPreferences, Preferences, RecommendedNextSteps} from 'utils/constants';
+import Constants, {Preferences, RecommendedNextSteps} from 'utils/constants';
 import {makeNewEmptyChannel} from 'utils/channel_utils';
 import {teamNameToUrl, getSiteURL} from 'utils/url';
 import {makeNewTeam} from 'utils/team_utils';
@@ -52,10 +52,15 @@ import InviteMembers from './invite_members';
 import Organization from './organization';
 import Plugins from './plugins';
 import Progress from './progress';
+import Transitioning, {START_TRANSITIONING_OUT} from './transitioning';
 import Url from './url';
 import UseCase from './use_case';
 
 import './preparing_workspace.scss';
+
+export const OnboardingPreferences = {
+    USE_CASE: 'use_case',
+};
 
 const SubmissionStates = {
     Presubmit: 'Presubmit',
@@ -67,8 +72,10 @@ const SubmissionStates = {
 
 type SubmissionState = typeof SubmissionStates[keyof typeof SubmissionStates];
 
-const DISPLAY_SUCCESS_TIME = 3000;
-const WAIT_FOR_REDIRECT_TIME = 2000;
+const DISPLAY_SUCCESS_TIME = 500;
+
+// We want an apparent total wait of two seconds
+const WAIT_FOR_REDIRECT_TIME = 2000 - START_TRANSITIONING_OUT;
 
 export type Actions = {
     createTeam: (team: Team) => ActionResult;
@@ -80,6 +87,22 @@ type Props = RouterProps & {
     background?: JSX.Element | string;
     actions: Actions;
 }
+
+function makeOnPageView(step: WizardStep) {
+    return function onPageViewInner() {
+        pageVisited('first_admin_setup', mapStepToPageView(step));
+    };
+}
+
+const onPageViews = {
+    [WizardSteps.Organization]: makeOnPageView(WizardSteps.Organization),
+    [WizardSteps.Url]: makeOnPageView(WizardSteps.Url),
+    [WizardSteps.UseCase]: makeOnPageView(WizardSteps.UseCase),
+    [WizardSteps.Plugins]: makeOnPageView(WizardSteps.Plugins),
+    [WizardSteps.Channel]: makeOnPageView(WizardSteps.Channel),
+    [WizardSteps.InviteMembers]: makeOnPageView(WizardSteps.InviteMembers),
+    [WizardSteps.TransitioningOut]: makeOnPageView(WizardSteps.TransitioningOut),
+};
 
 export default function PreparingWorkspace(props: Props) {
     const dispatch = useDispatch();
@@ -94,6 +117,7 @@ export default function PreparingWorkspace(props: Props) {
     const configSiteUrl = config.SiteURL;
     const isConfigSiteUrlDefault = Boolean(config.SiteURL && config.SiteURL === Constants.DEFAULT_SITE_URL);
     const lastIsConfigSiteUrlDefaultRef = useRef(isConfigSiteUrlDefault);
+    const showOnMountTimeout = useRef<NodeJS.Timeout>();
 
     const stepOrder = [
         isSelfHosted && WizardSteps.Organization,
@@ -105,7 +129,6 @@ export default function PreparingWorkspace(props: Props) {
         WizardSteps.TransitioningOut,
     ].filter((x) => Boolean(x)) as WizardStep[];
 
-    const existingUseCasePreference = useSelector((state: GlobalState) => get(state, Constants.Preferences.ONBOARDING, OnboardingPreferences.USE_CASE, false));
     const firstAdminSetupComplete = useSelector(getFirstAdminSetupComplete);
 
     const [[mostRecentStep, currentStep], setStepHistory] = useState<[WizardStep, WizardStep]>([stepOrder[0], stepOrder[0]]);
@@ -117,11 +140,14 @@ export default function PreparingWorkspace(props: Props) {
     });
     const [showFirstPage, setShowFirstPage] = useState(false);
     useEffect(() => {
-        setTimeout(() => setShowFirstPage(true), 40);
+        showOnMountTimeout.current = setTimeout(() => setShowFirstPage(true), 40);
         dispatch(getFirstAdminSetupCompleteAction());
         document.body.classList.add('admin-onboarding');
         return () => {
             document.body.classList.remove('admin-onboarding');
+            if (showOnMountTimeout.current) {
+                clearTimeout(showOnMountTimeout.current);
+            }
         };
     }, []);
     useEffect(() => {
@@ -205,20 +231,25 @@ export default function PreparingWorkspace(props: Props) {
 
         // send plugins
         const {skipped: skippedPlugins, ...pluginChoices} = form.plugins;
+        let pluginsToSetup: string[] = [];
         if (!skippedPlugins) {
-            const pluginsToSetup = Object.entries(pluginChoices).reduce(
+            pluginsToSetup = Object.entries(pluginChoices).reduce(
                 (acc: string[], [k, v]): string[] => (v ? [...acc, PLUGIN_NAME_TO_ID_MAP[k as keyof Omit<Form['plugins'], 'skipped'>]] : acc), [],
             );
-            const completeSetupRequest = {
-                install_plugins: pluginsToSetup,
-            };
-            try {
-                await Client4.completeSetup(completeSetupRequest);
-            } catch (e) {
-                // TODO: show error to user?
-                // maybe a toast on the main screen?
-                console.error(`error setting up plugins ${e}`); // eslint-disable-line no-console
-            }
+        }
+
+        // This endpoint sets setup complete state, so we need to make this request
+        // even if admin skipped submitting plugins.
+        const completeSetupRequest = {
+            install_plugins: pluginsToSetup,
+        };
+        try {
+            await Client4.completeSetup(completeSetupRequest);
+            dispatch({type: GeneralTypes.FIRST_ADMIN_COMPLETE_SETUP_RECEIVED, data: true});
+        } catch (e) {
+            // TODO: show error to user?
+            // maybe a toast on the main screen?
+            console.error(`error setting up plugins ${e}`); // eslint-disable-line no-console
         }
 
         setSubmissionState(SubmissionStates.SubmitSuccess);
@@ -233,11 +264,13 @@ export default function PreparingWorkspace(props: Props) {
             }
             makeNext(WizardSteps.InviteMembers, form.teamMembers.skipped)(inviteMembersTracking);
 
-            setTimeout(() => {
+            const goToChannels = () => {
                 if (redirectChannel) {
                     dispatch(switchToChannel(redirectChannel));
                 }
-            }, WAIT_FOR_REDIRECT_TIME);
+            };
+            (window as any).goToChannels = goToChannels;
+            setTimeout(goToChannels, WAIT_FOR_REDIRECT_TIME);
         }, DISPLAY_SUCCESS_TIME);
     };
 
@@ -248,10 +281,13 @@ export default function PreparingWorkspace(props: Props) {
         sendForm();
     }, [submissionState]);
 
-    const adminRevisitedPage = (firstAdminSetupComplete || Boolean(existingUseCasePreference)) && submissionState === SubmissionStates.Presubmit;
-    if (!isUserFirstAdmin || adminRevisitedPage || !useCaseOnboarding) {
-        props.history.push('/');
-    }
+    const adminRevisitedPage = firstAdminSetupComplete && submissionState === SubmissionStates.Presubmit;
+    const shouldRedirect = !isUserFirstAdmin || adminRevisitedPage || !useCaseOnboarding;
+    useEffect(() => {
+        if (shouldRedirect) {
+            props.history.push('/');
+        }
+    }, [shouldRedirect]);
 
     const getTransitionDirection = (step: WizardStep): AnimationReason => {
         const stepIndex = stepOrder.indexOf(step);
@@ -261,9 +297,9 @@ export default function PreparingWorkspace(props: Props) {
             return Animations.Reasons.EnterFromBefore;
         }
         if (currentStep === step) {
-            return currentStepIndex > mostRecentStepIndex ? Animations.Reasons.EnterFromBefore : Animations.Reasons.EnterFromAfter;
+            return currentStepIndex >= mostRecentStepIndex ? Animations.Reasons.EnterFromBefore : Animations.Reasons.EnterFromAfter;
         }
-        return stepIndex > mostRecentStepIndex ? Animations.Reasons.ExitToBefore : Animations.Reasons.ExitToAfter;
+        return stepIndex > currentStepIndex ? Animations.Reasons.ExitToBefore : Animations.Reasons.ExitToAfter;
     };
 
     const getTransitionDirectionMultiStep = (steps: WizardStep[]): AnimationReason => {
@@ -279,9 +315,9 @@ export default function PreparingWorkspace(props: Props) {
             return Animations.Reasons.EnterFromBefore;
         }
         if (currentStepIndex >= stepIndexesMin && currentStepIndex <= stepIndexesMax) {
-            return currentStepIndex > mostRecentStepIndex ? Animations.Reasons.EnterFromBefore : Animations.Reasons.EnterFromAfter;
+            return currentStepIndex >= mostRecentStepIndex ? Animations.Reasons.EnterFromBefore : Animations.Reasons.EnterFromAfter;
         }
-        return stepIndexesMax > mostRecentStepIndex ? Animations.Reasons.ExitToBefore : Animations.Reasons.ExitToAfter;
+        return stepIndexesMax > currentStepIndex ? Animations.Reasons.ExitToBefore : Animations.Reasons.ExitToAfter;
     };
     const goPrevious = useCallback((e?: React.KeyboardEvent | React.MouseEvent) => {
         if (e && (e as React.KeyboardEvent).key) {
@@ -366,9 +402,7 @@ export default function PreparingWorkspace(props: Props) {
             <div className='PreparingWorkspacePageContainer'>
                 {isSelfHosted && (
                     <Organization
-                        onPageView={() => {
-                            pageVisited('first_admin_setup', mapStepToPageView(WizardSteps.Organization));
-                        }}
+                        onPageView={onPageViews[WizardSteps.Organization]}
                         show={shouldShowPage(WizardSteps.Organization)}
                         next={makeNext(WizardSteps.Organization)}
                         transitionDirection={getTransitionDirection(WizardSteps.Organization)}
@@ -384,9 +418,7 @@ export default function PreparingWorkspace(props: Props) {
                 )}
                 {isSelfHosted && (
                     <Url
-                        onPageView={() => {
-                            pageVisited('first_admin_setup', mapStepToPageView(WizardSteps.Url));
-                        }}
+                        onPageView={onPageViews[WizardSteps.Url]}
                         previous={previous}
                         show={shouldShowPage(WizardSteps.Url)}
                         next={(inferredProtocol: 'http' | 'https' | null) => {
@@ -419,9 +451,7 @@ export default function PreparingWorkspace(props: Props) {
                     />
                 )}
                 <UseCase
-                    onPageView={() => {
-                        pageVisited('first_admin_setup', mapStepToPageView(WizardSteps.UseCase));
-                    }}
+                    onPageView={onPageViews[WizardSteps.UseCase]}
                     previous={isSelfHosted ? previous : undefined}
                     options={form.useCase}
                     setOption={(option: keyof Form['useCase']) => {
@@ -439,9 +469,7 @@ export default function PreparingWorkspace(props: Props) {
                     className='child-page'
                 />
                 <Plugins
-                    onPageView={() => {
-                        pageVisited('first_admin_setup', mapStepToPageView(WizardSteps.Plugins));
-                    }}
+                    onPageView={onPageViews[WizardSteps.Plugins]}
                     next={() => {
                         const pluginChoices = {...form.plugins};
                         delete pluginChoices.skipped;
@@ -468,9 +496,7 @@ export default function PreparingWorkspace(props: Props) {
                     className='child-page'
                 />
                 <ChannelComponent
-                    onPageView={() => {
-                        pageVisited('first_admin_setup', mapStepToPageView(WizardSteps.Channel));
-                    }}
+                    onPageView={onPageViews[WizardSteps.Channel]}
                     next={() => {
                         makeNext(WizardSteps.Channel)();
                         skipChannel(false);
@@ -493,9 +519,7 @@ export default function PreparingWorkspace(props: Props) {
                     className='child-page'
                 />
                 <InviteMembers
-                    onPageView={() => {
-                        pageVisited('first_admin_setup', mapStepToPageView(WizardSteps.InviteMembers));
-                    }}
+                    onPageView={onPageViews[WizardSteps.InviteMembers]}
                     next={() => {
                         skipTeamMembers(false);
                         setSubmissionState(SubmissionStates.UserRequested);
@@ -533,6 +557,11 @@ export default function PreparingWorkspace(props: Props) {
                     transitionDirection={getTransitionDirectionMultiStep([WizardSteps.Channel, WizardSteps.InviteMembers])}
                     channelName={form.channel.name || 'Channel name'}
                     teamName={isSelfHosted ? form.organization || '' : (currentTeam || myTeams?.[0]).display_name || ''}
+                />
+                <Transitioning
+                    onPageView={onPageViews[WizardSteps.TransitioningOut]}
+                    show={currentStep === WizardSteps.TransitioningOut}
+                    transitionDirection={getTransitionDirection(WizardSteps.TransitioningOut)}
                 />
             </div>
         </div>

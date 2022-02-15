@@ -133,10 +133,6 @@ export const Preferences = {
     ONBOARDING: 'onboarding',
 };
 
-export const OnboardingPreferences = {
-    USE_CASE: 'use_case',
-};
-
 // For one off things that have a special, attention-grabbing UI until you interact with them
 export const Touched = {
     INVITE_MEMBERS: 'invite_members',
