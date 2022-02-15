@@ -66,6 +66,8 @@ import A11yController from 'utils/a11y_controller';
 
 import TeamSidebar from 'components/team_sidebar';
 
+import {Preferences} from 'mattermost-redux/constants';
+
 import {applyLuxonDefaults} from './effects';
 
 import RootRedirect from './root_redirect';
@@ -418,10 +420,20 @@ export default class Root extends React.PureComponent {
                         path={'/landing'}
                         component={LinkingLandingPage}
                     />
-                    <LoggedInRoute
+                    <Route
                         path={'/admin_console'}
-                        component={AdminConsole}
-                    />
+                    >
+                        <CompassThemeProvider theme={Preferences.THEMES.denim}>
+                            <Switch>
+                                <LoggedInRoute
+                                    path={'/admin_console'}
+                                    component={AdminConsole}
+                                />
+                                <RootRedirect/>
+                            </Switch>
+                            {this.props.showTaskList && <TaskList/>}
+                        </CompassThemeProvider>
+                    </Route>
                     <LoggedInHFTRoute
                         path={'/select_team'}
                         component={SelectTeam}

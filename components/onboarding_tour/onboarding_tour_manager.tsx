@@ -146,8 +146,8 @@ const useOnBoardingTourTipManager = (): OnBoardingTourTipManager => {
                 },
                 {
                     user_id: currentUserId,
-                    category: ChannelsTour,
-                    name: TutorialTourName.AUTO_TOUR_STATUS,
+                    category: tourCategory,
+                    name: TTNameMapToATStatusKey[tourCategory],
                     value: (autoTour ? AutoTourStatus.ENABLED : AutoTourStatus.DISABLED).toString(),
                 },
             ];

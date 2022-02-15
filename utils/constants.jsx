@@ -71,7 +71,6 @@ export const Preferences = {
     CATEGORY_DISPLAY_SETTINGS: 'display_settings',
     CATEGORY_SIDEBAR_SETTINGS: 'sidebar_settings',
     CATEGORY_ADVANCED_SETTINGS: 'advanced_settings',
-    DISMISS_ONBOARDING_CHECKLIST: 'dismiss_onboarding_checklist',
     TUTORIAL_STEP: 'tutorial_step',
     TUTORIAL_STEP_AUTO_TOUR_STATUS: 'tutorial_step_auto_tour_status',
     CRT_TUTORIAL_TRIGGERED: 'crt_tutorial_triggered',
@@ -210,7 +209,7 @@ export const ActionTypes = keyMirror({
 
     STATUS_DROPDOWN_TOGGLE: null,
     ADD_CHANNEL_DROPDOWN_TOGGLE: null,
-    ON_BOARDING_TASK_LIST_TOGGLE: null,
+
     TOGGLE_LHS: null,
     OPEN_LHS: null,
     CLOSE_LHS: null,
