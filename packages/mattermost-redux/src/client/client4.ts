@@ -2324,7 +2324,7 @@ export default class Client4 {
 
     getFirstAdminSetupComplete = async () => {
         return this.doFetch<SystemSetting>(
-            `${this.getSystemRoute()}/first_admin_setup`,
+            `${this.getSystemRoute()}/onboarding/complete`,
             {method: 'get'},
         );
     };
