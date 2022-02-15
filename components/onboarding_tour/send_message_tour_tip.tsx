@@ -52,7 +52,7 @@ export const SendMessageTour = ({
             </div>
         </>
     );
-    const overlayPunchOut = useMeasurePunchouts(['post-create'], [], {y: -11, height: 11, x: 0, width: 0}) || null;
+    const overlayPunchOut = useMeasurePunchouts(['post-create'], [], {y: -11, height: 11, x: 0, width: 0});
 
     return (
         <OnBoardingTourTip

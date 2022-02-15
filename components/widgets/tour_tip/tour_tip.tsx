@@ -15,7 +15,7 @@ import PulsatingDot from 'components/widgets/pulsating_dot';
 import TourTipBackdrop, {TourTipOverlayPunchOut} from './tour_tip_backdrop';
 import './tour_tip.scss';
 
-// This needs to be changed if root-portal node isn't available to maybe to body
+// This needs to be changed if root-portal node isn't available to maybe body
 const rootPortal = document.getElementById('root-portal');
 
 export type TourTipEventSource = 'next' | 'prev' | 'dismiss' | 'jump' | 'skipped' | 'open' | 'punchOut'
@@ -39,7 +39,7 @@ type Props = {
     width?: string | number;
     zIndex?: number;
 
-    // if you don't want punchOut just assign FULL, keep null as hook may return null first than actual value
+    // if you don't want punchOut just assign null, keep null as hook may return null first than actual value
     overlayPunchOut: TourTipOverlayPunchOut | null;
 
     // if we want to interact with element visible via punchOut

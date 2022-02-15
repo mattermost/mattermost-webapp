@@ -19,7 +19,7 @@ type Props = {
     firstChannelName?: string;
 }
 
-export const firstChannel = (firstChannelName: string) => {
+const FirstChannel = ({firstChannelName}: {firstChannelName: string}) => {
     const displayFirstChannelName = firstChannelName.split('-').join(' ').trim();
     return (
         <>
@@ -47,8 +47,8 @@ export const ChannelsAndDirectMessagesTour = ({firstChannelName}: Props) => {
     const screen = (
         <>
             <p>
-                {firstChannelName && firstChannel(firstChannelName)}
-                <FormattedMarkdownMessage
+                {firstChannelName && <FirstChannel firstChannelName={firstChannelName}/>}
+                <FormattedMessage
                     id='onBoardingTour.ChannelsAndDirectMessagesTour.channels'
                     defaultMessage={'Channels are where you can communicate with your team about a topic or project.'}
                 />
@@ -69,7 +69,7 @@ export const ChannelsAndDirectMessagesTour = ({firstChannelName}: Props) => {
         </>
     );
 
-    const overlayPunchOut = useMeasurePunchouts(['sidebar-droppable-categories'], []) || null;
+    const overlayPunchOut = useMeasurePunchouts(['sidebar-droppable-categories'], []);
 
     return (
         <OnBoardingTourTip

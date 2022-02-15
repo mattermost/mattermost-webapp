@@ -31,7 +31,7 @@ export const StartTrialTour = () => {
         </p>
     );
 
-    const overlayPunchOut = useMeasurePunchouts([], []) || null;
+    const overlayPunchOut = useMeasurePunchouts([], []);
 
     const onDismiss = useCallback(() => {
         handleTask(taskName, steps.START, true, 'dismiss');

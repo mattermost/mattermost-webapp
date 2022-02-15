@@ -14,7 +14,7 @@ type PunchOutOffset = {
     height: number;
 }
 
-export const useMeasurePunchouts = (elementIds: string[], additionalDeps: any[], offset?: PunchOutOffset): TourTipOverlayPunchOut | null | undefined => {
+export const useMeasurePunchouts = (elementIds: string[], additionalDeps: any[], offset?: PunchOutOffset): TourTipOverlayPunchOut | null => {
     const elementsAvailable = useElementAvailable(elementIds);
     const [size, setSize] = useState({x: window.innerWidth, y: window.innerHeight});
     const updateSize = throttle(() => {

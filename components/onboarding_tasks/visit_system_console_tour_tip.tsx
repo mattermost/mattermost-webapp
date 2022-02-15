@@ -29,7 +29,7 @@ export const VisitSystemConsoleTour = () => {
         </p>
     );
 
-    const overlayPunchOut = useMeasurePunchouts(['product-switcher-menu-dropdown'], []) || null;
+    const overlayPunchOut = useMeasurePunchouts(['product-switcher-menu-dropdown'], []);
 
     const onDismiss = (e: React.MouseEvent) => {
         e.stopPropagation();

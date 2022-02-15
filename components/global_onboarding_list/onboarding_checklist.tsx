@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useRef, useState, useCallback, useEffect} from 'react';
+import React, {useRef, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled, {css} from 'styled-components';
 
@@ -13,7 +13,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {trackEvent} from 'actions/telemetry_actions';
 import checklistImg from 'images/onboarding-checklist.svg';
 import {
-    getTasksListWithStatus,
+    useTasksListWithStatus,
     OnBoardingTaskCategory,
     OnBoardingTaskList,
 } from 'components/onboarding_tasks';
@@ -35,7 +35,7 @@ const TaskItems = styled.div`
     padding: 1rem 0;
     transform: scale(0);
     opacity: 0;
-    box-shadow: 0 20px 32px rgba(0, 0, 0, 0.12);
+    box-shadow: var(--elevation-6);
     transition: opacity 150ms ease-in-out 0ms, transform 150ms ease-in-out 0ms;
     transform-origin: left bottom;
     height: 566px;
@@ -83,7 +83,7 @@ const Button = styled.button<{open: boolean}>(({open}) => {
         align-items: center;
         background: var(--center-channel-bg);
         border: solid 1px rgba(var(--center-channel-color-rgb), 0.16);
-        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.16);
+        box-shadow: var(--elevation-3);
         
         i {
             color: rgba(var(--center-channel-color-rgb), 0.56);
@@ -91,7 +91,7 @@ const Button = styled.button<{open: boolean}>(({open}) => {
         
         &:hover {
             border-color: rgba(var(--center-channel-color-rgb), 0.24);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+            box-shadow: var(--elevation-4);
             
             i {
                 color: rgba(var(--center-channel-color-rgb), 0.72)
@@ -134,7 +134,7 @@ const PlayButton = styled.button`
 
     &:hover {
         border-color: rgba(var(--center-channel-color-rgb), 0.24);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+        box-shadow: var(--elevation-4);
     }
 
     i {
@@ -150,18 +150,13 @@ const Skeleton = styled.div`
 `;
 
 const TaskList = (): JSX.Element => {
-    const open = useSelector(((state: GlobalState) => getBool(state, OnBoardingTaskCategory, OnBoardingTaskList.ON_BOARDING_TASK_LIST_OPEN))) || false;
+    const open = useSelector(((state: GlobalState) => getBool(state, OnBoardingTaskCategory, OnBoardingTaskList.ON_BOARDING_TASK_LIST_OPEN)));
     const trigger = useRef<HTMLButtonElement>(null);
     const dispatch = useDispatch();
     const currentUserId = useSelector(getCurrentUserId);
     const handleTaskTrigger = useHandleOnBoardingTaskTrigger();
-    const tasksList = getTasksListWithStatus();
-    const [completedCount, setCompletedCount] = useState(0);
-
-    useEffect(() => {
-        const completedTasks = [...tasksList].filter((task) => task.status);
-        setCompletedCount(completedTasks.length);
-    }, [tasksList]);
+    const tasksList = useTasksListWithStatus();
+    const completedCount = tasksList.filter((task) => task.status).length;
 
     const startTask = (taskName: string) => {
         handleTaskTrigger(taskName);
@@ -187,7 +182,7 @@ const TaskList = (): JSX.Element => {
             value: String(!open),
         }];
         dispatch(savePreferences(currentUserId, preferences));
-    }, [open]);
+    }, [open, currentUserId]);
 
     const openVideoModal = useCallback(() => {
         toggleTaskList();

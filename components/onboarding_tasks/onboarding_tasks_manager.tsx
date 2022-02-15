@@ -10,7 +10,13 @@ import {openModal} from 'actions/views/modals';
 import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
 import {setStatusDropdown} from 'actions/views/status_dropdown';
 import InvitationModal from 'components/invitation_modal';
-import {AutoTourStatus, ChannelsTour, OnBoardingTourSteps, TutorialTourName} from 'components/onboarding_tour';
+import {
+    AutoTourStatus,
+    ChannelsTour,
+    FINISHED,
+    OnBoardingTourSteps,
+    TutorialTourName,
+} from 'components/onboarding_tour';
 import {savePreferences, savePreferences as storeSavePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
@@ -69,7 +75,7 @@ const taskLabels = {
     ),
 };
 
-export const getTasksList = () => {
+export const useTasksList = () => {
     const pluginsList = useSelector((state: GlobalState) => state.plugins.plugins);
     const list: Record<string, string> = {...OnBoardingTasksName};
     if (!pluginsList.focalboard) {
@@ -81,22 +87,21 @@ export const getTasksList = () => {
     return Object.values(list);
 };
 
-export const getTasksListWithStatus = () => {
+export const useTasksListWithStatus = () => {
     const dataInDb = useSelector((state: GlobalState) => getCategory(state, OnBoardingTaskCategory));
-    const tasksList = getTasksList();
+    const tasksList = useTasksList();
     return useMemo(() =>
         tasksList.map((task) => {
             const status = dataInDb.find((pref) => pref.name === task)?.value;
             return {
                 name: task,
-                status: status === '999',
+                status: status === FINISHED.toString(),
                 label: taskLabels[task],
             };
-        }), [dataInDb]);
+        }), [dataInDb, tasksList]);
 };
 
 export const useHandleOnBoardingTaskData = () => {
-    // Function to save the tutorial step in redux store start here which needs to be modified
     const dispatch = useDispatch();
     const currentUserId = useSelector(getCurrentUserId);
     const savePreferences = useCallback(
@@ -114,12 +119,6 @@ export const useHandleOnBoardingTaskData = () => {
         [currentUserId],
     );
 
-    const trackUserEvent = useCallback((category, event, props?) => {
-        trackEventAction(category, event, props);
-    }, []);
-
-    // Function to save the tutorial step in redux store end here
-
     return useCallback((
         taskName: string,
         step: number,
@@ -131,17 +130,15 @@ export const useHandleOnBoardingTaskData = () => {
         if (trackEvent) {
             const eventSuffix = trackEventSuffix ? `${step}--${trackEventSuffix}` : step.toString();
             const telemetryTag = generateTelemetryTag(OnBoardingTaskCategory, taskName, eventSuffix);
-            trackUserEvent(OnBoardingTaskCategory, telemetryTag);
+            trackEventAction(OnBoardingTaskCategory, telemetryTag);
         }
-    }, [savePreferences, trackUserEvent]);
+    }, [savePreferences, trackEventAction]);
 };
 
 export const useHandleOnBoardingTaskTrigger = () => {
     const dispatch = useDispatch();
     const handleSaveData = useHandleOnBoardingTaskData();
     const currentUserId = useSelector(getCurrentUserId);
-
-    // const products = useSelector((state: GlobalState) => state.plugins.components.Product);
 
     return (taskName: string) => {
         switch (taskName) {

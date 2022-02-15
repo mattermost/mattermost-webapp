@@ -49,7 +49,7 @@ export const useCurrentProductId = (products?: ProductComponent[]): string | nul
 };
 
 export const useFirstAdminUser = (): boolean => {
-    return Boolean(useSelector(isFirstAdmin));
+    return useSelector(isFirstAdmin);
 };
 
 export const useIsLoggedIn = (): boolean => {
