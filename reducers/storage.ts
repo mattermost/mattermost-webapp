@@ -1,16 +1,42 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import localForage from 'localforage';
 import {combineReducers} from 'redux';
+import {persistReducer, REHYDRATE} from 'redux-persist';
 
 import {General} from 'mattermost-redux/constants';
 
+import {UserTypes} from 'mattermost-redux/action_types';
 import type {GenericAction} from 'mattermost-redux/types/actions';
 
 import {StorageTypes} from 'utils/constants';
 
+type StorageEntry = {
+    timestamp: Date;
+    data: any;
+}
+
 function storage(state: Record<string, any> = {}, action: GenericAction) {
     switch (action.type) {
+    case REHYDRATE: {
+        if (!action.payload || action.key !== 'storage') {
+            return state;
+        }
+
+        // We have to do some transformation here to correct for the transformation we do when persisting storage state
+        const nextState = {...state};
+
+        for (const [key, value] of Object.entries(action.payload)) {
+            const nextValue = {...value as StorageEntry};
+            if (nextValue.timestamp && typeof nextValue.timestamp === 'string') {
+                nextValue.timestamp = new Date(nextValue.timestamp);
+            }
+            nextState[key] = nextValue;
+        }
+
+        return nextState;
+    }
     case StorageTypes.SET_ITEM: {
         if (!state[action.data.prefix + action.data.name] ||
             !state[action.data.prefix + action.data.name].timestamp ||
@@ -49,17 +75,6 @@ function storage(state: Record<string, any> = {}, action: GenericAction) {
         Reflect.deleteProperty(nextState, action.data.name);
         return nextState;
     }
-    case StorageTypes.CLEAR: {
-        const cleanState: Record<string, any> = {};
-        if (action.data && action.data.exclude && action.data.exclude.forEach) {
-            action.data.exclude.forEach((excluded: any) => {
-                if (state[excluded]) {
-                    cleanState[excluded] = state[excluded];
-                }
-            });
-        }
-        return cleanState;
-    }
     case StorageTypes.ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX: {
         const nextState = {...state};
         let changed = false;
@@ -87,6 +102,9 @@ function storage(state: Record<string, any> = {}, action: GenericAction) {
     case StorageTypes.STORAGE_REHYDRATE: {
         return {...state, ...action.data};
     }
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
     default:
         return state;
     }
@@ -103,6 +121,6 @@ function initialized(state = false, action: GenericAction) {
 }
 
 export default combineReducers({
-    storage,
+    storage: persistReducer({key: 'storage', storage: localForage}, storage),
     initialized,
 });
