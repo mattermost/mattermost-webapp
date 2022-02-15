@@ -22,7 +22,7 @@ const GlobalHeaderContainer = styled.header`
     border-bottom: solid 1px rgba(var(--center-channel-color-rgb), 0.08);
     color: rgba(var(--global-header-text-rgb), 0.64);
     padding: 0 12px;
-    z-index: 100;
+    z-index: 20;
 
     > * + * {
         margin-left: 12px;
@@ -43,11 +43,13 @@ const GlobalHeader = (): JSX.Element | null => {
     }
 
     return (
-        <GlobalHeaderContainer id='global-header'>
-            <LeftControls/>
-            <CenterControls productId={currentProductID}/>
-            <RightControls productId={currentProductID}/>
-        </GlobalHeaderContainer>
+        <>
+            <GlobalHeaderContainer id='global-header'>
+                <LeftControls/>
+                <CenterControls productId={currentProductID}/>
+                <RightControls productId={currentProductID}/>
+            </GlobalHeaderContainer>
+        </>
     );
 };
 
