@@ -19,7 +19,7 @@ export default class SessionLengthSettings extends AdminSettings {
         config.ServiceSettings.ExtendSessionLengthWithActivity = this.state.extendSessionLengthWithActivity;
         config.ServiceSettings.SessionLengthWebInDays = this.parseIntNonZero(this.state.sessionLengthWebInDays);
         config.ServiceSettings.SessionLengthMobileInDays = this.parseIntNonZero(this.state.sessionLengthMobileInDays);
-        config.ServiceSettings.SessionLengthSSOInDays = this.parseFloatNonZero(this.state.sessionLengthSSOInDays, 1, 0.042);
+        config.ServiceSettings.SessionLengthSSOInDays = this.parseIntNonZero(this.state.sessionLengthSSOInDays);
         config.ServiceSettings.SessionCacheInMinutes = this.parseIntNonZero(this.state.sessionCacheInMinutes);
         config.ServiceSettings.SessionIdleTimeoutInMinutes = this.parseIntZeroOrMin(this.state.sessionIdleTimeoutInMinutes, MINIMUM_IDLE_TIMEOUT);
 
