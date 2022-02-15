@@ -13,7 +13,7 @@ import {SearchTypes} from 'utils/constants';
 function modalSearch(state = '', action: GenericAction) {
     switch (action.type) {
     case SearchTypes.SET_MODAL_SEARCH: {
-        return action.data.trim();
+        return action.data;
     }
 
     case UserTypes.LOGOUT_SUCCESS:
