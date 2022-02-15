@@ -150,11 +150,7 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
         if (userIds.length === 0) {
             return;
         }
-        this.props.onSubmitCallback(this.state.values).then(() => {
-            this.setState({
-                saving: false,
-            });
-        });
+        this.props.onSubmitCallback(this.state.values);
     };
 
     public search = (searchTerm: string): void => {

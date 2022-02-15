@@ -76,7 +76,7 @@ const UpdateUserGroupModal = (props: Props) => {
         let newMention = mention;
         const displayName = name;
 
-        if (displayName.length < 1) {
+        if (!displayName || !displayName.trim()) {
             setNameInputErrorText(Utils.localizeMessage('user_groups_modal.nameIsEmpty', 'Name is a required field.'));
             return;
         }

@@ -103,7 +103,7 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
         let mention = this.state.mention;
         const displayName = this.state.name;
 
-        if (displayName.length < 1) {
+        if (!displayName || !displayName.trim()) {
             this.setState({nameInputErrorText: Utils.localizeMessage('user_groups_modal.nameIsEmpty', 'Name is a required field.')});
             return;
         }
