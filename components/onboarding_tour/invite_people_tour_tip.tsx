@@ -6,19 +6,19 @@ import {FormattedMessage} from 'react-intl';
 
 import {useMeasurePunchouts} from '../widgets/tour_tip';
 
-import OnBoardingTourTip from './onboarding_tour_tip';
+import OnboardingTourTip from './onboarding_tour_tip';
 
 export const InvitePeopleTour = () => {
     const title = (
         <FormattedMessage
-            id='onBoardingTour.invitePeople.title'
+            id='onboardingTour.invitePeople.title'
             defaultMessage={'Invite people to the team'}
         />
     );
     const screen = (
         <p>
             <FormattedMessage
-                id='onBoardingTour.invitePeople.Description'
+                id='onboardingTour.invitePeople.Description'
                 defaultMessage={'Invite members of your organization or external guests to the team and start collaborating with them.'}
             />
         </p>
@@ -27,7 +27,7 @@ export const InvitePeopleTour = () => {
     const overlayPunchOut = useMeasurePunchouts(['showMoreChannels', 'invitePeople'], [], {y: -8, height: 16, x: 0, width: 0});
 
     return (
-        <OnBoardingTourTip
+        <OnboardingTourTip
             title={title}
             screen={screen}
             placement='right-start'

@@ -3,11 +3,16 @@
 
 import {useSelector} from 'react-redux';
 
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+
 import {GlobalState} from 'types/store';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 
-export const useShowTutorialStep = (category: string, name: string, stepToShow: number): boolean => {
-    const boundGetInt = (state: GlobalState) => getInt(state, category, name, 0);
+import {TutorialTourName} from './constant';
+
+export const useShowOnboardingTutorialStep = (stepToShow: number): boolean => {
+    const currentUserId = useSelector(getCurrentUserId);
+    const boundGetInt = (state: GlobalState) => getInt(state, TutorialTourName.ONBOARDING_TUTORIAL_STEP, currentUserId, 0);
     const step = useSelector<GlobalState, number>(boundGetInt);
     return step === stepToShow;
 };

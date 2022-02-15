@@ -23,7 +23,7 @@ import {ModalIdentifiers, RecommendedNextSteps, Preferences} from 'utils/constan
 import {localizeMessage} from 'utils/utils';
 
 import './sidebar_next_steps.scss';
-import {GenericTaskSteps, OnBoardingTaskCategory, OnBoardingTasksName} from 'components/onboarding_tasks';
+import {GenericTaskSteps, OnboardingTaskCategory, OnboardingTasksName} from 'components/onboarding_tasks';
 
 import RemoveNextStepsModal from './remove_next_steps_modal';
 
@@ -95,8 +95,8 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
             },
             {
                 user_id: this.props.currentUserId,
-                category: OnBoardingTaskCategory,
-                name: OnBoardingTasksName.CHANNELS_TOUR,
+                category: OnboardingTaskCategory,
+                name: OnboardingTasksName.CHANNELS_TOUR,
                 value: GenericTaskSteps.STARTED.toString(),
             },
         ]);

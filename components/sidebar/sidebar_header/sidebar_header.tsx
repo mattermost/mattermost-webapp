@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
-import {useSelector} from 'react-redux';
+import React, {useCallback, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
 import Flex from '@mattermost/compass-components/utilities/layout/Flex';
@@ -18,7 +18,8 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import MainMenu from 'components/main_menu';
 import AddChannelDropdown from 'components/sidebar/add_channel_dropdown';
 import {isAddChannelDropdownOpen} from 'selectors/views/add_channel_dropdown';
-import {ChannelsTour, OnBoardingTourSteps, TutorialTourName, useShowTutorialStep} from 'components/onboarding_tour';
+import {OnboardingTourSteps, useShowOnboardingTutorialStep} from 'components/onboarding_tour';
+import {setAddChannelDropdown} from '../../../actions/views/add_channel_dropdown';
 
 type SidebarHeaderContainerProps = {
     id?: string;
@@ -94,10 +95,14 @@ export type Props = {
 }
 
 const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
+    const dispatch = useDispatch();
     const currentTeam = useSelector((state: GlobalState) => getCurrentTeam(state));
-    const showCreateTutorialTip = useShowTutorialStep(ChannelsTour, TutorialTourName.ON_BOARDING_STEP, OnBoardingTourSteps.CREATE_AND_JOIN_CHANNELS);
-    const showInviteTutorialTip = useShowTutorialStep(ChannelsTour, TutorialTourName.ON_BOARDING_STEP, OnBoardingTourSteps.INVITE_PEOPLE);
+    const showCreateTutorialTip = useShowOnboardingTutorialStep(OnboardingTourSteps.CREATE_AND_JOIN_CHANNELS);
+    const showInviteTutorialTip = useShowOnboardingTutorialStep(OnboardingTourSteps.INVITE_PEOPLE);
     const isAddChannelOpen = useSelector(isAddChannelDropdownOpen);
+    const openAddChannelOpen = useCallback((open: boolean) => {
+        dispatch(setAddChannelDropdown(open));
+    }, []);
 
     const [menuToggled, setMenuToggled] = useState(false);
 
@@ -140,6 +145,7 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                     showCreateTutorialTip={showCreateTutorialTip}
                     showInviteTutorialTip={showInviteTutorialTip}
                     isAddChannelOpen={isAddChannelOpen}
+                    openAddChannelOpen={openAddChannelOpen}
                 />
             </SidebarHeaderContainer>
         </>

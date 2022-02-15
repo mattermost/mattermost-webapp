@@ -6,24 +6,24 @@ import {FormattedMessage} from 'react-intl';
 
 import TourTip, {useMeasurePunchouts} from 'components/widgets/tour_tip';
 
-import {OnBoardingTasksName, TaskNameMapToSteps} from './constants';
+import {OnboardingTasksName, TaskNameMapToSteps} from './constants';
 import {useHandleOnBoardingTaskData} from './onboarding_tasks_manager';
 
 export const VisitSystemConsoleTour = () => {
     const handleTask = useHandleOnBoardingTaskData();
-    const taskName = OnBoardingTasksName.VISIT_SYSTEM_CONSOLE;
+    const taskName = OnboardingTasksName.VISIT_SYSTEM_CONSOLE;
     const steps = TaskNameMapToSteps[taskName];
 
     const title = (
         <FormattedMessage
-            id='onBoardingTask.visitSystemConsole.title'
+            id='onboardingTask.visitSystemConsole.title'
             defaultMessage={'Visit the System Console'}
         />
     );
     const screen = (
         <p>
             <FormattedMessage
-                id='onBoardingTask.visitSystemConsole.Description'
+                id='onboardingTask.visitSystemConsole.Description'
                 defaultMessage={'More detailed configuration settings for your workspace can be accessed here.'}
             />
         </p>

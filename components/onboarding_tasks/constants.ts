@@ -3,10 +3,10 @@
 
 const FINISHED = 999;
 
-export const OnBoardingTaskCategory = 'on_boarding_task_list';
+export const OnboardingTaskCategory = 'on_boarding_task_list';
 
 // Whole task list is based on these
-export const OnBoardingTasksName = {
+export const OnboardingTasksName = {
     CHANNELS_TOUR: 'channels_tour',
     BOARDS_TOUR: 'boards_tour',
     PLAYBOOKS_TOUR: 'playbooks_tour',
@@ -16,10 +16,10 @@ export const OnBoardingTasksName = {
     VISIT_SYSTEM_CONSOLE: 'visit_system_console',
 };
 
-export const OnBoardingTaskList = {
-    ON_BOARDING_TASK_LIST_OPEN: 'on_boarding_task_list_open',
-    ON_BOARDING_TASK_LIST_SHOW: 'on_boarding_task_list_show',
-    ON_BOARDING_VIDEO_MODAL: 'on_boarding_video_modal',
+export const OnboardingTaskList = {
+    ONBOARDING_TASK_LIST_OPEN: 'on_boarding_task_list_open',
+    ONBOARDING_TASK_LIST_SHOW: 'on_boarding_task_list_show',
+    ONBOARDING_VIDEO_MODAL: 'on_boarding_video_modal',
 };
 
 export const GenericTaskSteps = {
@@ -29,12 +29,12 @@ export const GenericTaskSteps = {
 };
 
 export const TaskNameMapToSteps = {
-    [OnBoardingTasksName.CHANNELS_TOUR]: GenericTaskSteps,
-    [OnBoardingTasksName.BOARDS_TOUR]: GenericTaskSteps,
-    [OnBoardingTasksName.PLAYBOOKS_TOUR]: GenericTaskSteps,
-    [OnBoardingTasksName.COMPLETE_YOUR_PROFILE]: GenericTaskSteps,
-    [OnBoardingTasksName.DOWNLOAD_APP]: GenericTaskSteps,
-    [OnBoardingTasksName.VISIT_SYSTEM_CONSOLE]: GenericTaskSteps,
-    [OnBoardingTasksName.INVITE_PEOPLE]: GenericTaskSteps,
+    [OnboardingTasksName.CHANNELS_TOUR]: GenericTaskSteps,
+    [OnboardingTasksName.BOARDS_TOUR]: GenericTaskSteps,
+    [OnboardingTasksName.PLAYBOOKS_TOUR]: GenericTaskSteps,
+    [OnboardingTasksName.COMPLETE_YOUR_PROFILE]: GenericTaskSteps,
+    [OnboardingTasksName.DOWNLOAD_APP]: GenericTaskSteps,
+    [OnboardingTasksName.VISIT_SYSTEM_CONSOLE]: GenericTaskSteps,
+    [OnboardingTasksName.INVITE_PEOPLE]: GenericTaskSteps,
 };
 

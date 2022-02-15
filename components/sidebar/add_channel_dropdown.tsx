@@ -23,7 +23,8 @@ type Props = {
     unreadFilterEnabled: boolean;
     showCreateTutorialTip: boolean;
     showInviteTutorialTip: boolean;
-    isAddChannelOpen?: boolean;
+    isAddChannelOpen: boolean;
+    openAddChannelOpen: (open: boolean) => void;
 };
 
 const AddChannelDropdown = ({
@@ -38,11 +39,11 @@ const AddChannelDropdown = ({
     showCreateTutorialTip,
     showInviteTutorialTip,
     isAddChannelOpen,
+    openAddChannelOpen,
 }: Props) => {
     const intl = useIntl();
     const menuRef = useRef<HTMLDivElement>(null);
     const [menuCtr, setMenuCtr] = useState({});
-    const [open, setOpen] = useState(false);
 
     useLayoutEffect(() => {
         if (menuRef?.current) {
@@ -125,7 +126,7 @@ const AddChannelDropdown = ({
     };
 
     const trackOpen = (opened: boolean) => {
-        setOpen(opened);
+        openAddChannelOpen(opened);
         if (opened) {
             trackEvent('ui', 'ui_add_channel_dropdown_opened');
         }
@@ -151,7 +152,7 @@ const AddChannelDropdown = ({
         <MenuWrapper
             className='AddChannelDropdown'
             onToggle={trackOpen}
-            open={isAddChannelOpen || open}
+            open={isAddChannelOpen}
         >
             <OverlayTrigger
                 delayShow={500}

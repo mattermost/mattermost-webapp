@@ -15,7 +15,7 @@ import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import {Preferences, RecommendedNextSteps} from 'utils/constants';
 
 import loadingIcon from 'images/spinner-48x48-blue.apng';
-import {GenericTaskSteps, OnBoardingTaskCategory, OnBoardingTasksName} from 'components/onboarding_tasks';
+import {GenericTaskSteps, OnboardingTaskCategory, OnboardingTasksName} from 'components/onboarding_tasks';
 
 import {StepType} from './steps';
 import './next_steps_view.scss';
@@ -115,9 +115,9 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                     value: 'true',
                 },
                 {
-                    category: OnBoardingTaskCategory,
+                    category: OnboardingTaskCategory,
                     user_id: this.props.currentUser.id,
-                    name: OnBoardingTasksName.CHANNELS_TOUR,
+                    name: OnboardingTasksName.CHANNELS_TOUR,
                     value: GenericTaskSteps.STARTED.toString(),
                 },
             ]);
@@ -140,9 +140,9 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                             value: 'true',
                         },
                         {
-                            category: OnBoardingTaskCategory,
+                            category: OnboardingTaskCategory,
                             user_id: this.props.currentUser.id,
-                            name: OnBoardingTasksName.CHANNELS_TOUR,
+                            name: OnboardingTasksName.CHANNELS_TOUR,
                             value: GenericTaskSteps.STARTED.toString(),
                         },
                     ]);

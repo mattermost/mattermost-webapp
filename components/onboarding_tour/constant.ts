@@ -5,24 +5,24 @@ export const FINISHED = 999;
 export const SKIPPED = 999;
 
 export const ChannelsTourTelemetryPrefix = 'channels-tour';
-const AutoStatusSuffix = '_at';
+const AutoStatusSuffix = '_auto_tour_status';
 
 export const AutoTourStatus = {
-    ENABLED: 0,
-    DISABLED: 1,
+    ENABLED: 1,
+    DISABLED: 0,
 };
 
 // this should be used as for the tours related to channels
 export const ChannelsTour = 'channels_tour';
 
 export const TutorialTourName = {
-    ON_BOARDING_STEP: 'on_boarding_step',
+    ONBOARDING_TUTORIAL_STEP: 'tutorial_step',
     CRT_TUTORIAL_STEP: 'crt_tutorial_step',
     CRT_THREAD_PANE_STEP: 'crt_thread_pane_step',
-    AutoTourStatus: 'auto_tour_status',
+    AUTO_TOUR_STATUS: 'auto_tour_status',
 };
 
-export const OnBoardingTourSteps = {
+export const OnboardingTourSteps = {
     CHANNELS_AND_DIRECT_MESSAGES: 0,
     CREATE_AND_JOIN_CHANNELS: 1,
     INVITE_PEOPLE: 2,
@@ -45,7 +45,7 @@ export const CrtTutorialTriggerSteps = {
 };
 
 export const TTNameMapToATStatusKey = {
-    [TutorialTourName.ON_BOARDING_STEP]: TutorialTourName.ON_BOARDING_STEP + AutoStatusSuffix,
+    [TutorialTourName.ONBOARDING_TUTORIAL_STEP]: TutorialTourName.ONBOARDING_TUTORIAL_STEP + AutoStatusSuffix,
     [TutorialTourName.CRT_TUTORIAL_STEP]: TutorialTourName.CRT_TUTORIAL_STEP + AutoStatusSuffix,
     [TutorialTourName.CRT_THREAD_PANE_STEP]: [TutorialTourName.CRT_THREAD_PANE_STEP] + AutoStatusSuffix,
 };

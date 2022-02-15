@@ -13,7 +13,7 @@ import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
 import ChannelsImg from 'images/channels_and_direct_tour_tip.svg';
 
-import OnBoardingTourTip from './onboarding_tour_tip';
+import OnboardingTourTip from './onboarding_tour_tip';
 
 type Props = {
     firstChannelName?: string;
@@ -24,7 +24,7 @@ const FirstChannel = ({firstChannelName}: {firstChannelName: string}) => {
     return (
         <>
             <FormattedMarkdownMessage
-                id='onBoardingTour.ChannelsAndDirectMessagesTour.firstChannel'
+                id='onboardingTour.ChannelsAndDirectMessagesTour.firstChannel'
                 defaultMessage='Hey look, there’s your **{firstChannelName}** channel! '
                 values={{firstChannelName: toTitleCase(displayFirstChannelName)}}
             />
@@ -40,7 +40,7 @@ export const ChannelsAndDirectMessagesTour = ({firstChannelName}: Props) => {
 
     const title = (
         <FormattedMessage
-            id='onBoardingTour.ChannelsAndDirectMessagesTour.title'
+            id='onboardingTour.ChannelsAndDirectMessagesTour.title'
             defaultMessage={'Channels and direct messages'}
         />
     );
@@ -49,20 +49,20 @@ export const ChannelsAndDirectMessagesTour = ({firstChannelName}: Props) => {
             <p>
                 {firstChannelName && <FirstChannel firstChannelName={firstChannelName}/>}
                 <FormattedMessage
-                    id='onBoardingTour.ChannelsAndDirectMessagesTour.channels'
+                    id='onboardingTour.ChannelsAndDirectMessagesTour.channels'
                     defaultMessage={'Channels are where you can communicate with your team about a topic or project.'}
                 />
             </p>
             <p>
                 <FormattedMarkdownMessage
-                    id='onBoardingTour.ChannelsAndDirectMessagesTour.townSquare'
+                    id='onboardingTour.ChannelsAndDirectMessagesTour.townSquare'
                     defaultMessage={'We’ve also added the **{townSquare}** and **{offTopic}** channels for everyone on your team.'}
                     values={{townSquare: toTitleCase(townSquareDisplayName), offTopic: toTitleCase(offTopicDisplayName)}}
                 />
             </p>
             <p>
                 <FormattedMarkdownMessage
-                    id='onBoardingTour.ChannelsAndDirectMessagesTour.directMessages'
+                    id='onboardingTour.ChannelsAndDirectMessagesTour.directMessages'
                     defaultMessage={'**Direct messages** are for private conversations between individuals or small groups.'}
                 />
             </p>
@@ -72,7 +72,7 @@ export const ChannelsAndDirectMessagesTour = ({firstChannelName}: Props) => {
     const overlayPunchOut = useMeasurePunchouts(['sidebar-droppable-categories'], []);
 
     return (
-        <OnBoardingTourTip
+        <OnboardingTourTip
             title={title}
             screen={screen}
             imageURL={ChannelsImg}

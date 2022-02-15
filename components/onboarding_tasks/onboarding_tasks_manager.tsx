@@ -12,9 +12,8 @@ import {setStatusDropdown} from 'actions/views/status_dropdown';
 import InvitationModal from 'components/invitation_modal';
 import {
     AutoTourStatus,
-    ChannelsTour,
     FINISHED,
-    OnBoardingTourSteps,
+    OnboardingTourSteps, TTNameMapToATStatusKey,
     TutorialTourName,
 } from 'components/onboarding_tour';
 import {savePreferences, savePreferences as storeSavePreferences} from 'mattermost-redux/actions/preferences';
@@ -26,50 +25,50 @@ import {GlobalState} from 'types/store';
 import {browserHistory} from 'utils/browser_history';
 import {ModalIdentifiers} from 'utils/constants';
 
-import {OnBoardingTaskCategory, OnBoardingTaskList, OnBoardingTasksName, TaskNameMapToSteps} from './constants';
+import {OnboardingTaskCategory, OnboardingTaskList, OnboardingTasksName, TaskNameMapToSteps} from './constants';
 import {generateTelemetryTag} from './utils';
 
 const getCategory = makeGetCategory();
 
 const taskLabels = {
-    [OnBoardingTasksName.CHANNELS_TOUR]: (
+    [OnboardingTasksName.CHANNELS_TOUR]: (
         <FormattedMessage
-            id='onBoardingTask.checklist.task_channels_tour'
+            id='onboardingTask.checklist.task_channels_tour'
             defaultMessage='Take a tour of channels'
         />
     ),
-    [OnBoardingTasksName.BOARDS_TOUR]: (
+    [OnboardingTasksName.BOARDS_TOUR]: (
         <FormattedMessage
-            id='onBoardingTask.checklist.task_boards_tour'
+            id='onboardingTask.checklist.task_boards_tour'
             defaultMessage='Manage tasks with your first board'
         />),
-    [OnBoardingTasksName.PLAYBOOKS_TOUR]: (
+    [OnboardingTasksName.PLAYBOOKS_TOUR]: (
         <FormattedMessage
-            id='onBoardingTask.checklist.task_playbooks_tour'
+            id='onboardingTask.checklist.task_playbooks_tour'
             defaultMessage='Explore workflows with your first Playbook'
         />
     ),
-    [OnBoardingTasksName.INVITE_PEOPLE]: (
+    [OnboardingTasksName.INVITE_PEOPLE]: (
         <FormattedMessage
-            id='onBoardingTask.checklist.task_invite'
+            id='onboardingTask.checklist.task_invite'
             defaultMessage='Invite team members to the workspace'
         />
     ),
-    [OnBoardingTasksName.COMPLETE_YOUR_PROFILE]: (
+    [OnboardingTasksName.COMPLETE_YOUR_PROFILE]: (
         <FormattedMessage
-            id='onBoardingTask.checklist.task_complete_profile'
+            id='onboardingTask.checklist.task_complete_profile'
             defaultMessage='Complete your profile'
         />
     ),
-    [OnBoardingTasksName.DOWNLOAD_APP]: (
+    [OnboardingTasksName.DOWNLOAD_APP]: (
         <FormattedMessage
-            id='onBoardingTask.checklist.task_download_apps'
+            id='onboardingTask.checklist.task_download_apps'
             defaultMessage='Download the Desktop and Mobile Apps'
         />
     ),
-    [OnBoardingTasksName.VISIT_SYSTEM_CONSOLE]: (
+    [OnboardingTasksName.VISIT_SYSTEM_CONSOLE]: (
         <FormattedMessage
-            id='onBoardingTask.checklist.task_system_console'
+            id='onboardingTask.checklist.task_system_console'
             defaultMessage='Visit the System Console to configure your workspace'
         />
     ),
@@ -77,7 +76,7 @@ const taskLabels = {
 
 export const useTasksList = () => {
     const pluginsList = useSelector((state: GlobalState) => state.plugins.plugins);
-    const list: Record<string, string> = {...OnBoardingTasksName};
+    const list: Record<string, string> = {...OnboardingTasksName};
     if (!pluginsList.focalboard) {
         delete list.BOARDS_TOUR;
     }
@@ -88,7 +87,7 @@ export const useTasksList = () => {
 };
 
 export const useTasksListWithStatus = () => {
-    const dataInDb = useSelector((state: GlobalState) => getCategory(state, OnBoardingTaskCategory));
+    const dataInDb = useSelector((state: GlobalState) => getCategory(state, OnboardingTaskCategory));
     const tasksList = useTasksList();
     return useMemo(() =>
         tasksList.map((task) => {
@@ -124,13 +123,13 @@ export const useHandleOnBoardingTaskData = () => {
         step: number,
         trackEvent = true,
         trackEventSuffix?: string,
-        taskCategory = OnBoardingTaskCategory,
+        taskCategory = OnboardingTaskCategory,
     ) => {
         savePreferences(taskCategory, taskName, step);
         if (trackEvent) {
             const eventSuffix = trackEventSuffix ? `${step}--${trackEventSuffix}` : step.toString();
-            const telemetryTag = generateTelemetryTag(OnBoardingTaskCategory, taskName, eventSuffix);
-            trackEventAction(OnBoardingTaskCategory, telemetryTag);
+            const telemetryTag = generateTelemetryTag(OnboardingTaskCategory, taskName, eventSuffix);
+            trackEventAction(OnboardingTaskCategory, telemetryTag);
         }
     }, [savePreferences, trackEventAction]);
 };
@@ -142,19 +141,20 @@ export const useHandleOnBoardingTaskTrigger = () => {
 
     return (taskName: string) => {
         switch (taskName) {
-        case OnBoardingTasksName.CHANNELS_TOUR: {
+        case OnboardingTasksName.CHANNELS_TOUR: {
             handleSaveData(taskName, TaskNameMapToSteps[taskName].STARTED, true);
+            const tourCategory = TutorialTourName.ONBOARDING_TUTORIAL_STEP;
             const preferences = [
                 {
                     user_id: currentUserId,
-                    category: ChannelsTour,
-                    name: TutorialTourName.ON_BOARDING_STEP,
-                    value: OnBoardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES.toString(),
+                    category: tourCategory,
+                    name: currentUserId,
+                    value: OnboardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES.toString(),
                 },
                 {
                     user_id: currentUserId,
-                    category: ChannelsTour,
-                    name: TutorialTourName.AutoTourStatus,
+                    category: tourCategory,
+                    name: TTNameMapToATStatusKey[tourCategory],
                     value: AutoTourStatus.ENABLED.toString(),
                 },
             ];
@@ -162,34 +162,34 @@ export const useHandleOnBoardingTaskTrigger = () => {
             browserHistory.push('/');
             break;
         }
-        case OnBoardingTasksName.BOARDS_TOUR: {
+        case OnboardingTasksName.BOARDS_TOUR: {
             browserHistory.push('/boards');
             handleSaveData(taskName, TaskNameMapToSteps[taskName].FINISHED, true);
             break;
         }
-        case OnBoardingTasksName.PLAYBOOKS_TOUR: {
+        case OnboardingTasksName.PLAYBOOKS_TOUR: {
             browserHistory.push('/playbooks');
             handleSaveData(taskName, TaskNameMapToSteps[taskName].FINISHED, true);
             break;
         }
-        case OnBoardingTasksName.COMPLETE_YOUR_PROFILE: {
+        case OnboardingTasksName.COMPLETE_YOUR_PROFILE: {
             dispatch(setStatusDropdown(true));
             handleSaveData(taskName, TaskNameMapToSteps[taskName].STARTED, true);
             break;
         }
-        case OnBoardingTasksName.VISIT_SYSTEM_CONSOLE: {
+        case OnboardingTasksName.VISIT_SYSTEM_CONSOLE: {
             dispatch(setProductMenuSwitcherOpen(true));
             handleSaveData(taskName, TaskNameMapToSteps[taskName].STARTED, true);
             const preferences = [{
                 user_id: currentUserId,
-                category: OnBoardingTaskCategory,
-                name: OnBoardingTaskList.ON_BOARDING_TASK_LIST_OPEN,
-                value: String(!open),
+                category: OnboardingTaskCategory,
+                name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
+                value: 'true',
             }];
             dispatch(savePreferences(currentUserId, preferences));
             break;
         }
-        case OnBoardingTasksName.INVITE_PEOPLE: {
+        case OnboardingTasksName.INVITE_PEOPLE: {
             dispatch(openModal({
                 modalId: ModalIdentifiers.INVITATION,
                 dialogType: InvitationModal,
@@ -197,21 +197,23 @@ export const useHandleOnBoardingTaskTrigger = () => {
                 },
             }));
             handleSaveData(taskName, TaskNameMapToSteps[taskName].FINISHED, true);
-            const preferences = [{
-                user_id: currentUserId,
-                category: OnBoardingTaskCategory,
-                name: OnBoardingTaskList.ON_BOARDING_TASK_LIST_OPEN,
-                value: String(!open),
-            }];
+            const preferences = [
+                {
+                    user_id: currentUserId,
+                    category: OnboardingTaskCategory,
+                    name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
+                    value: 'true',
+                },
+            ];
             dispatch(savePreferences(currentUserId, preferences));
             break;
         }
-        case OnBoardingTasksName.DOWNLOAD_APP: {
+        case OnboardingTasksName.DOWNLOAD_APP: {
             handleSaveData(taskName, TaskNameMapToSteps[taskName].FINISHED, true);
             const preferences = [{
                 user_id: currentUserId,
-                category: OnBoardingTaskCategory,
-                name: OnBoardingTaskList.ON_BOARDING_TASK_LIST_OPEN,
+                category: OnboardingTaskCategory,
+                name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
                 value: String(!open),
             }];
             dispatch(savePreferences(currentUserId, preferences));

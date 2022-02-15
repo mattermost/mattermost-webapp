@@ -6,24 +6,24 @@ import {FormattedMessage} from 'react-intl';
 
 import TourTip, {useMeasurePunchouts} from 'components/widgets/tour_tip';
 
-import {OnBoardingTasksName, TaskNameMapToSteps} from './constants';
+import {OnboardingTasksName, TaskNameMapToSteps} from './constants';
 import {useHandleOnBoardingTaskData} from './onboarding_tasks_manager';
 
 export const CompleteYourProfileTour = () => {
     const handleTask = useHandleOnBoardingTaskData();
-    const taskName = OnBoardingTasksName.COMPLETE_YOUR_PROFILE;
+    const taskName = OnboardingTasksName.COMPLETE_YOUR_PROFILE;
     const steps = TaskNameMapToSteps[taskName];
 
     const title = (
         <FormattedMessage
-            id='onBoardingTask.completeYourProfileTour.title'
+            id='onboardingTask.completeYourProfileTour.title'
             defaultMessage={'Edit your profile'}
         />
     );
     const screen = (
         <p>
             <FormattedMessage
-                id='onBoardingTask.completeYourProfileTour.Description'
+                id='onboardingTask.completeYourProfileTour.Description'
                 defaultMessage={'Use this menu item to update your profile details and security settings.'}
             />
         </p>

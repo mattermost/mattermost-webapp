@@ -7,19 +7,19 @@ import {FormattedMessage} from 'react-intl';
 import CustomImg from 'images/Customize-Your-Experience.gif';
 import {useMeasurePunchouts} from 'components/widgets/tour_tip';
 
-import OnBoardingTourTip from './onboarding_tour_tip';
+import OnboardingTourTip from './onboarding_tour_tip';
 
 export const CustomizeYourExperienceTour = () => {
     const title = (
         <FormattedMessage
-            id='onBoardingTour.customizeYourExperience.title'
+            id='onboardingTour.customizeYourExperience.title'
             defaultMessage={'Customize your experience'}
         />
     );
     const screen = (
         <p>
             <FormattedMessage
-                id='onBoardingTour.customizeYourExperience.Description'
+                id='onboardingTour.customizeYourExperience.Description'
                 defaultMessage={'Set your availability, add a custom status, and access Settings and your Profile to configure your experience, including notification preferences and custom theme colors.'}
             />
         </p>
@@ -28,7 +28,7 @@ export const CustomizeYourExperienceTour = () => {
     const overlayPunchOut = useMeasurePunchouts(['RightControlsContainer'], [], {y: 6, height: -6, x: 64, width: 0});
 
     return (
-        <OnBoardingTourTip
+        <OnboardingTourTip
             title={title}
             screen={screen}
             imageURL={CustomImg}

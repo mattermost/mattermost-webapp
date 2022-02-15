@@ -14,15 +14,19 @@ import {isFirstAdmin} from 'components/next_steps_view/steps';
 import {trackEvent as trackEventAction} from 'actions/telemetry_actions';
 import {
     generateTelemetryTag,
-    OnBoardingTaskCategory,
-    OnBoardingTaskList,
-    OnBoardingTasksName,
+    OnboardingTaskCategory,
+    OnboardingTaskList,
+    OnboardingTasksName,
 } from 'components/onboarding_tasks';
 
 import {
-    AutoTourStatus, ChannelsTour,
-    FINISHED, OnBoardingTourSteps,
-    SKIPPED, TutorialTourName,
+    AutoTourStatus,
+    ChannelsTour,
+    FINISHED,
+    OnboardingTourSteps,
+    SKIPPED,
+    TTNameMapToATStatusKey,
+    TutorialTourName,
 } from './constant';
 import {getLastStep, isKeyPressed, KeyCodes} from './utils';
 
@@ -46,30 +50,30 @@ const useHandleNavigationAndExtraActions = () => {
     const currentUserId = useSelector(getCurrentUserId);
     const nextStepActions = useCallback((step: number) => {
         switch (step) {
-        case OnBoardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES : {
+        case OnboardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES : {
             dispatch(openLhs());
             break;
         }
-        case OnBoardingTourSteps.CREATE_AND_JOIN_CHANNELS : {
+        case OnboardingTourSteps.CREATE_AND_JOIN_CHANNELS : {
             dispatch(setAddChannelDropdown(true));
             break;
         }
-        case OnBoardingTourSteps.INVITE_PEOPLE : {
+        case OnboardingTourSteps.INVITE_PEOPLE : {
             dispatch(setAddChannelDropdown(true));
             break;
         }
-        case OnBoardingTourSteps.SEND_MESSAGE : {
+        case OnboardingTourSteps.SEND_MESSAGE : {
             break;
         }
-        case OnBoardingTourSteps.CUSTOMIZE_EXPERIENCE : {
+        case OnboardingTourSteps.CUSTOMIZE_EXPERIENCE : {
             break;
         }
-        case OnBoardingTourSteps.FINISHED: {
+        case OnboardingTourSteps.FINISHED: {
             let preferences = [
                 {
                     user_id: currentUserId,
-                    category: OnBoardingTaskCategory,
-                    name: OnBoardingTasksName.CHANNELS_TOUR,
+                    category: OnboardingTaskCategory,
+                    name: OnboardingTasksName.CHANNELS_TOUR,
                     value: FINISHED.toString(),
                 },
             ];
@@ -77,8 +81,8 @@ const useHandleNavigationAndExtraActions = () => {
                 preferences = [...preferences,
                     {
                         user_id: currentUserId,
-                        category: OnBoardingTaskCategory,
-                        name: OnBoardingTaskList.ON_BOARDING_TASK_LIST_OPEN,
+                        category: OnboardingTaskCategory,
+                        name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
                         value: 'true',
                     },
                 ];
@@ -91,21 +95,21 @@ const useHandleNavigationAndExtraActions = () => {
     }, []);
     const lastStepActions = useCallback((lastStep: number) => {
         switch (lastStep) {
-        case OnBoardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES : {
+        case OnboardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES : {
             break;
         }
-        case OnBoardingTourSteps.CREATE_AND_JOIN_CHANNELS : {
+        case OnboardingTourSteps.CREATE_AND_JOIN_CHANNELS : {
             dispatch(setAddChannelDropdown(false));
             break;
         }
-        case OnBoardingTourSteps.INVITE_PEOPLE : {
+        case OnboardingTourSteps.INVITE_PEOPLE : {
             dispatch(setAddChannelDropdown(false));
             break;
         }
-        case OnBoardingTourSteps.SEND_MESSAGE : {
+        case OnboardingTourSteps.SEND_MESSAGE : {
             break;
         }
-        case OnBoardingTourSteps.CUSTOMIZE_EXPERIENCE : {
+        case OnboardingTourSteps.CUSTOMIZE_EXPERIENCE : {
             break;
         }
         default:
@@ -120,14 +124,14 @@ const useHandleNavigationAndExtraActions = () => {
 
 const useOnBoardingTourTipManager = (): OnBoardingTourTipManager => {
     const [show, setShow] = useState(false);
-    const tourSteps = OnBoardingTourSteps;
+    const tourSteps = OnboardingTourSteps;
 
     // Function to save the tutorial step in redux store start here which needs to be modified
     const dispatch = useDispatch();
     const currentUserId = useSelector(getCurrentUserId);
-    const tourName = TutorialTourName.ON_BOARDING_STEP;
-    const currentStep = useSelector((state: GlobalState) => getInt(state, ChannelsTour, tourName, 0));
-    const autoTourStatus = useSelector((state: GlobalState) => getInt(state, ChannelsTour, TutorialTourName.AutoTourStatus, 0));
+    const tourCategory = TutorialTourName.ONBOARDING_TUTORIAL_STEP;
+    const currentStep = useSelector((state: GlobalState) => getInt(state, tourCategory, currentUserId, FINISHED));
+    const autoTourStatus = useSelector((state: GlobalState) => getInt(state, tourCategory, TTNameMapToATStatusKey[tourCategory], 0));
     const isAutoTourEnabled = autoTourStatus === AutoTourStatus.ENABLED;
     const handleActions = useHandleNavigationAndExtraActions();
 
@@ -136,22 +140,22 @@ const useOnBoardingTourTipManager = (): OnBoardingTourTipManager => {
             const preferences = [
                 {
                     user_id: currentUserId,
-                    category: ChannelsTour,
-                    name: tourName,
+                    category: tourCategory,
+                    name: currentUserId,
                     value: stepValue.toString(),
                 },
                 {
                     user_id: currentUserId,
                     category: ChannelsTour,
-                    name: TutorialTourName.AutoTourStatus,
+                    name: TutorialTourName.AUTO_TOUR_STATUS,
                     value: (autoTour ? AutoTourStatus.ENABLED : AutoTourStatus.DISABLED).toString(),
                 },
             ];
             dispatch(storeSavePreferences(currentUserId, preferences));
             if (trackEvent) {
                 const eventSuffix = `${stepValue}--${eventSource}`;
-                const telemetryTag = generateTelemetryTag(ChannelsTour, tourName, eventSuffix);
-                trackEventAction(tourName, telemetryTag);
+                const telemetryTag = generateTelemetryTag(ChannelsTour, tourCategory, eventSuffix);
+                trackEventAction(tourCategory, telemetryTag);
             }
         },
         [currentUserId],

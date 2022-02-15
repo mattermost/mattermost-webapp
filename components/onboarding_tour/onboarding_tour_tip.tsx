@@ -26,7 +26,7 @@ type Props = {
     width?: string | number;
 }
 
-const OnBoardingTourTip = ({
+const OnboardingTourTip = ({
     title,
     screen,
     imageURL,
@@ -117,4 +117,4 @@ const OnBoardingTourTip = ({
     );
 };
 
-export default OnBoardingTourTip;
+export default OnboardingTourTip;

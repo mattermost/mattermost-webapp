@@ -80,13 +80,13 @@ const Completed = (props: Props): JSX.Element => {
                     />
                     <h2>
                         <FormattedMessage
-                            id={'onBoardingTask.checklist.completed_title'}
+                            id={'onboardingTask.checklist.completed_title'}
                             defaultMessage='Well done. You’ve completed all of the tasks!'
                         />
                     </h2>
                     <p>
                         <FormattedMessage
-                            id={'onBoardingTask.checklist.completed_subtitle'}
+                            id={'onboardingTask.checklist.completed_subtitle'}
                             defaultMessage='We hope Mattermost is more familiar now. Need more help?'
                         />
                         <a
@@ -95,7 +95,7 @@ const Completed = (props: Props): JSX.Element => {
                             href={'https://docs.mattermost.com/'}
                         >
                             <FormattedMessage
-                                id='onBoardingTask.checklist.documentation_link'
+                                id='onboardingTask.checklist.documentation_link'
                                 defaultMessage='See our documentation.'
                             />
                         </a>

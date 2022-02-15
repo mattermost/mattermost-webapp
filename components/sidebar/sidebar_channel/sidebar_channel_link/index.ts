@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
+import {getCurrentUserId, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 
 import {Channel} from 'mattermost-redux/types/channels';
@@ -19,10 +19,10 @@ import {isChannelSelected} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
 import {
     GenericTaskSteps,
-    OnBoardingTaskCategory,
-    OnBoardingTasksName,
+    OnboardingTaskCategory,
+    OnboardingTasksName,
 } from 'components/onboarding_tasks';
-import {ChannelsTour, OnBoardingTourSteps, TutorialTourName} from 'components/onboarding_tour';
+import {FINISHED, OnboardingTourSteps, TutorialTourName} from 'components/onboarding_tour';
 import {isFirstAdmin, showNextSteps} from 'components/next_steps_view/steps';
 
 import SidebarChannelLink from './sidebar_channel_link';
@@ -40,12 +40,13 @@ function makeMapStateToProps() {
         const firstChannelName = getFirstChannelName(state);
         const config = getConfig(state);
         const enableTutorial = config.EnableTutorial === 'true';
-        const tutorialStep = getInt(state, ChannelsTour, TutorialTourName.ON_BOARDING_STEP, 0);
-        const triggerStep = getInt(state, OnBoardingTaskCategory, OnBoardingTasksName.CHANNELS_TOUR, 0);
+        const currentUserId = getCurrentUserId(state);
+        const tutorialStep = getInt(state, TutorialTourName.ONBOARDING_TUTORIAL_STEP, currentUserId, FINISHED);
+        const triggerStep = getInt(state, OnboardingTaskCategory, OnboardingTasksName.CHANNELS_TOUR, FINISHED);
         const channelTourTriggered = triggerStep === GenericTaskSteps.STARTED;
         const nextStep = showNextSteps(state);
         const isUserFirstAdmin = isFirstAdmin(state);
-        const showChannelsTour = enableTutorial && channelTourTriggered && tutorialStep === OnBoardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES;
+        const showChannelsTour = enableTutorial && channelTourTriggered && tutorialStep === OnboardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES;
         const showChannelsTutorialStep = showChannelsTour && (isUserFirstAdmin || (!nextStep && !isUserFirstAdmin));
 
         return {

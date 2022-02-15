@@ -8,7 +8,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 import PrewrittenChips from 'components/create_post/prewritten_chips';
 import {useMeasurePunchouts} from 'components/widgets/tour_tip';
 
-import OnBoardingTourTip from './onboarding_tour_tip';
+import OnboardingTourTip from './onboarding_tour_tip';
 
 type Props = {
     prefillMessage: (msg: string, shouldFocus: boolean) => void;
@@ -34,7 +34,7 @@ export const SendMessageTour = ({
 
     const title = (
         <FormattedMessage
-            id='onBoardingTour.sendMessage.title'
+            id='onboardingTour.sendMessage.title'
             defaultMessage={'Send messages'}
         />
     );
@@ -43,7 +43,7 @@ export const SendMessageTour = ({
         <>
             <p>
                 <FormattedMessage
-                    id='onBoardingTour.sendMessage.Description'
+                    id='onboardingTour.sendMessage.Description'
                     defaultMessage={'Start collaborating with others by typing or selecting one of the messages below. You can also drag and drop attachments into the text field or upload them using the paperclip icon.'}
                 />
             </p>
@@ -55,7 +55,7 @@ export const SendMessageTour = ({
     const overlayPunchOut = useMeasurePunchouts(['post-create'], [], {y: -11, height: 11, x: 0, width: 0});
 
     return (
-        <OnBoardingTourTip
+        <OnboardingTourTip
             title={title}
             screen={screen}
             placement='top-start'

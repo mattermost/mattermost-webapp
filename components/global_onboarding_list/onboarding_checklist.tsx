@@ -14,8 +14,8 @@ import {trackEvent} from 'actions/telemetry_actions';
 import checklistImg from 'images/onboarding-checklist.svg';
 import {
     useTasksListWithStatus,
-    OnBoardingTaskCategory,
-    OnBoardingTaskList,
+    OnboardingTaskCategory,
+    OnboardingTaskList,
 } from 'components/onboarding_tasks';
 import {useHandleOnBoardingTaskTrigger} from 'components/onboarding_tasks/onboarding_tasks_manager';
 import {openModal} from 'actions/views/modals';
@@ -150,7 +150,7 @@ const Skeleton = styled.div`
 `;
 
 const TaskList = (): JSX.Element => {
-    const open = useSelector(((state: GlobalState) => getBool(state, OnBoardingTaskCategory, OnBoardingTaskList.ON_BOARDING_TASK_LIST_OPEN)));
+    const open = useSelector(((state: GlobalState) => getBool(state, OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN)));
     const trigger = useRef<HTMLButtonElement>(null);
     const dispatch = useDispatch();
     const currentUserId = useSelector(getCurrentUserId);
@@ -166,19 +166,19 @@ const TaskList = (): JSX.Element => {
     const dismissChecklist = useCallback(() => {
         const preferences = [{
             user_id: currentUserId,
-            category: OnBoardingTaskCategory,
-            name: OnBoardingTaskList.ON_BOARDING_TASK_LIST_SHOW,
+            category: OnboardingTaskCategory,
+            name: OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW,
             value: 'true',
         }];
         dispatch(savePreferences(currentUserId, preferences));
-        trackEvent(OnBoardingTaskCategory, OnBoardingTaskList.ON_BOARDING_TASK_LIST_SHOW);
+        trackEvent(OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW);
     }, [currentUserId]);
 
     const toggleTaskList = useCallback(() => {
         const preferences = [{
             user_id: currentUserId,
-            category: OnBoardingTaskCategory,
-            name: OnBoardingTaskList.ON_BOARDING_TASK_LIST_OPEN,
+            category: OnboardingTaskCategory,
+            name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
             value: String(!open),
         }];
         dispatch(savePreferences(currentUserId, preferences));
@@ -187,7 +187,7 @@ const TaskList = (): JSX.Element => {
     const openVideoModal = useCallback(() => {
         toggleTaskList();
         dispatch(openModal({
-            modalId: OnBoardingTaskList.ON_BOARDING_VIDEO_MODAL,
+            modalId: OnboardingTaskList.ONBOARDING_VIDEO_MODAL,
             dialogType: OnBoardingVideoModal,
             dialogProps: {},
         }));
@@ -220,7 +220,7 @@ const TaskList = (): JSX.Element => {
                             </h1>
                             <p>
                                 <FormattedMessage
-                                    id='onBoardingTask.checklist.main_subtitle'
+                                    id='onboardingTask.checklist.main_subtitle'
                                     defaultMessage="Let's get up and running."
                                 />
                             </p>
@@ -239,13 +239,13 @@ const TaskList = (): JSX.Element => {
                                     size={16}
                                 />
                                 <FormattedMessage
-                                    id='onBoardingTask.checklist.video_title'
+                                    id='onboardingTask.checklist.video_title'
                                     defaultMessage='Watch overview'
                                 />
                             </PlayButton>
                             {tasksList.map((task) => (
                                 <Task
-                                    key={OnBoardingTaskCategory + task.name}
+                                    key={OnboardingTaskCategory + task.name}
                                     label={task.label}
                                     onClick={() => {
                                         startTask(task.name);
@@ -258,7 +258,7 @@ const TaskList = (): JSX.Element => {
                                 onClick={dismissChecklist}
                             >
                                 <FormattedMessage
-                                    id='onBoardingTask.checklist.dismiss_link'
+                                    id='onboardingTask.checklist.dismiss_link'
                                     defaultMessage='No thanks, I’ll figure it out myself'
                                 />
                             </span>

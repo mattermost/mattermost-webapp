@@ -6,10 +6,9 @@ import styled from 'styled-components';
 
 import Pluggable from 'plugins/pluggable';
 import {
-    ChannelsTour,
     CustomizeYourExperienceTour,
-    OnBoardingTourSteps, TutorialTourName,
-    useShowTutorialStep,
+    OnboardingTourSteps,
+    useShowOnboardingTutorialStep,
 } from 'components/onboarding_tour';
 import StatusDropdown from 'components/status_dropdown';
 
@@ -34,7 +33,7 @@ export type Props = {
 }
 
 const RightControls = ({productId = null}: Props): JSX.Element => {
-    const showCustomizeTip = useShowTutorialStep(ChannelsTour, TutorialTourName.ON_BOARDING_STEP, OnBoardingTourSteps.CUSTOMIZE_EXPERIENCE);
+    const showCustomizeTip = useShowOnboardingTutorialStep(OnboardingTourSteps.CUSTOMIZE_EXPERIENCE);
 
     return (
         <RightControlsContainer
