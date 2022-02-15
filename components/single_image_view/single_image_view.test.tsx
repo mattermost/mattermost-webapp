@@ -18,6 +18,7 @@ describe('components/SingleImageView', () => {
             toggleEmbedVisibility: jest.fn(),
             openModal: jest.fn(),
         },
+        enablePublicLink: false,
     };
 
     test('should match snapshot', () => {
