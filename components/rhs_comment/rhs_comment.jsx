@@ -617,16 +617,15 @@ export default class RhsComment extends React.PureComponent {
 
         return (
             <PostAriaLabelDiv
-                role='listitem'
-                post={post}
                 ref={this.postRef}
+                role='listitem'
                 id={'rhsPost_' + post.id}
                 tabIndex='-1'
+                post={post}
                 className={`a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage)}`}
                 onClick={this.handlePostClick}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
-                onFocus={this.handlePostFocus}
                 data-a11y-sort-order={this.props.a11yIndex}
             >
                 <PostPreHeader
