@@ -372,7 +372,7 @@ const useMetricsData = () => {
                 }),
                 ...(isLicensed ? {
                     configUrl: ConsolePages.GUEST_ACCOUNTS,
-                    configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.configureLDAP', defaultMessage: 'Configure Guest Accounts'}),
+                    configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.configureGuestAccounts', defaultMessage: 'Configure Guest Accounts'}),
                 } : trialOrEnterpriseCtaConfig),
                 infoUrl: DocLinks.GUEST_ACCOUNTS,
                 infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),

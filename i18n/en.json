@@ -1830,7 +1830,7 @@
   "admin.reporting.workspace_optimization.configuration.title": "Configuration",
   "admin.reporting.workspace_optimization.cta.configureDataRetention": "Configure Data Retention",
   "admin.reporting.workspace_optimization.cta.configureElasticsearch": "Configure Elasticsearch",
-  "admin.reporting.workspace_optimization.cta.configureGuestAccoutns": "Configure Guest Accounts",
+  "admin.reporting.workspace_optimization.cta.configureGuestAccounts": "Configure Guest Accounts",
   "admin.reporting.workspace_optimization.cta.configureLDAP": "Configure AD/LDAP",
   "admin.reporting.workspace_optimization.cta.configureSessionLength": "Configure Session Length",
   "admin.reporting.workspace_optimization.cta.configureWebServer": "Configure Web Server",
