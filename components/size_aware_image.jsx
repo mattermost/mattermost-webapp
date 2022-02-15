@@ -112,7 +112,7 @@ export default class SizeAwareImage extends React.PureComponent {
     };
 
     handleImageClick = (e) => {
-        this.props.onClick(e, this.props.src);
+        this.props.onClick?.(e, this.props.src);
     }
 
     onEnterKeyDown = (e) => {
