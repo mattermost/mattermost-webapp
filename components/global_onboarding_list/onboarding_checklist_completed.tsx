@@ -87,7 +87,7 @@ const Completed = (props: Props): JSX.Element => {
                     <p>
                         <FormattedMessage
                             id={'onboardingTask.checklist.completed_subtitle'}
-                            defaultMessage='We hope Mattermost is more familiar now. Need more help?'
+                            defaultMessage='We hope Mattermost is more familiar now. Need more help? '
                         />
                         <a
                             target='_blank'

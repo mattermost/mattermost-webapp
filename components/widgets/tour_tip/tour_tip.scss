@@ -37,6 +37,7 @@
         position: absolute;
         width: 14px;
         height: 14px;
+        cursor: pointer;
     }
 
     &__pulsating-dot-ctr[data-pulsating-dot-placement=top] {
@@ -150,6 +151,7 @@
             border-radius: 4px;
             color: rgba(var(--center-channel-color-rgb), 0.56);
             font-weight: 600;
+            margin-right: -8px;
 
             &:hover {
                 background: rgba(var(--center-channel-color-rgb), 0.08);
@@ -356,19 +358,23 @@
 .tippy-box[data-placement^=right] > .tippy-arrow::before {
     border-width: 1px 0 0 1px;
     transform: rotate(-45deg);
+    top: -1px;
 }
 
 .tippy-box[data-placement^=left] > .tippy-arrow::before {
     border-width: 1px 1px 0 0;
     transform: rotate(45deg);
+    top: -1px;
 }
 
 .tippy-box[data-placement^=bottom] > .tippy-arrow::before {
     border-width: 1px 0 0 1px;
     transform: rotate(45deg);
+    left: 1px;
 }
 
 .tippy-box[data-placement^=top] > .tippy-arrow::before {
     border-width: 0 0 1px 1px;
     transform: rotate(-45deg);
+    left: 1px;
 }

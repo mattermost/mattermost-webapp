@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import {Placement} from 'popper.js';
 
 const Overlay = styled.div`
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: flex-end;
     justify-content: center;

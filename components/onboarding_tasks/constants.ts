@@ -17,9 +17,9 @@ export const OnboardingTasksName = {
 };
 
 export const OnboardingTaskList = {
-    ONBOARDING_TASK_LIST_OPEN: 'on_boarding_task_list_open',
-    ONBOARDING_TASK_LIST_SHOW: 'on_boarding_task_list_show',
-    ONBOARDING_VIDEO_MODAL: 'on_boarding_video_modal',
+    ONBOARDING_TASK_LIST_OPEN: 'onboarding_task_list_open',
+    ONBOARDING_TASK_LIST_SHOW: 'onboarding_task_list_show',
+    ONBOARDING_VIDEO_MODAL: 'onboarding_video_modal',
 };
 
 export const GenericTaskSteps = {

@@ -32,13 +32,12 @@ const TaskItems = styled.div`
     border: solid 1px rgba(var(--center-channel-color-rgb), 0.16);
     background-color: var(--center-channel-bg);
     max-width: 352px;
-    padding: 1rem 0;
+    padding: 24px 0;
     transform: scale(0);
     opacity: 0;
     box-shadow: var(--elevation-6);
-    transition: opacity 150ms ease-in-out 0ms, transform 150ms ease-in-out 0ms;
+    transition: opacity 250ms ease-in-out 0ms, transform 250ms ease-in-out 0ms;
     transform-origin: left bottom;
-    height: 566px;
     max-height: ${document.documentElement.clientHeight}px;
     overflow-y: auto;
 
@@ -50,7 +49,7 @@ const TaskItems = styled.div`
     h1 {
         font-size: 20px;
         padding: 0 24px;
-        margin: 16px 0 0;
+        margin: 0;
     }
 
     p {
@@ -66,6 +65,9 @@ const TaskItems = styled.div`
         font-weight: bold;
         cursor: pointer;
         display: block;
+        :hover{
+          text-decoration: underline
+        }
     }
 `;
 
@@ -129,9 +131,8 @@ const PlayButton = styled.button`
     margin-right: auto;
     left: 0;
     right: 0;
-    top: 136px;
-    width: fit-content;
-
+    top: 48px;
+  
     &:hover {
         border-color: rgba(var(--center-channel-color-rgb), 0.24);
         box-shadow: var(--elevation-4);
@@ -146,7 +147,8 @@ const PlayButton = styled.button`
 const Skeleton = styled.div`
     width: 304px;
     height: 137px;
-    margin: auto;
+    margin: 8px auto;
+    position: relative;
 `;
 
 const TaskList = (): JSX.Element => {
@@ -193,6 +195,8 @@ const TaskList = (): JSX.Element => {
         }));
     }, []);
 
+    const itemsLeft = tasksList.length - completedCount;
+
     return (
         <>
             <CompletedAnimation completed={completedCount === tasksList.length}/>
@@ -202,7 +206,7 @@ const TaskList = (): JSX.Element => {
                 open={open}
             >
                 <Icon glyph={open ? 'close' : 'playlist-check'}/>
-                <span>{tasksList.length - completedCount}</span>
+                {itemsLeft !== 0 && (<span>{itemsLeft}</span>)}
             </Button>
             <TaskListPopover
                 isVisible={open}
@@ -230,19 +234,19 @@ const TaskList = (): JSX.Element => {
                                     alt={'On Boarding video'}
                                     style={{display: 'block', margin: '1rem auto', borderRadius: '4px'}}
                                 />
+                                <PlayButton
+                                    onClick={openVideoModal}
+                                >
+                                    <Icon
+                                        glyph={'play'}
+                                        size={16}
+                                    />
+                                    <FormattedMessage
+                                        id='onboardingTask.checklist.video_title'
+                                        defaultMessage='Watch overview'
+                                    />
+                                </PlayButton>
                             </Skeleton>
-                            <PlayButton
-                                onClick={openVideoModal}
-                            >
-                                <Icon
-                                    glyph={'play'}
-                                    size={16}
-                                />
-                                <FormattedMessage
-                                    id='onboardingTask.checklist.video_title'
-                                    defaultMessage='Watch overview'
-                                />
-                            </PlayButton>
                             {tasksList.map((task) => (
                                 <Task
                                     key={OnboardingTaskCategory + task.name}

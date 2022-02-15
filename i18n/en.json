@@ -3833,7 +3833,7 @@
   "notify_here.question": "By using **@here** you are about to send notifications to up to **{totalMembers} people**. Are you sure you want to do this?",
   "notify_here.question_timezone": "By using **@here** you are about to send notifications to up to **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?",
   "numMembers": "{num, number} {num, plural, one {member} other {members}}",
-  "onboardingTask.checklist.completed_subtitle": "We hope Mattermost is more familiar now. Need more help?",
+  "onboardingTask.checklist.completed_subtitle": "We hope Mattermost is more familiar now. Need more help? ",
   "onboardingTask.checklist.completed_title": "Well done. You’ve completed all of the tasks!",
   "onboardingTask.checklist.dismiss_link": "No thanks, I’ll figure it out myself",
   "onboardingTask.checklist.documentation_link": "See our documentation.",
