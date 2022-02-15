@@ -56,6 +56,7 @@ describe('Components/SidebarHeader', () => {
             },
             views: {
                 addChannelDropdown: {
+                    isOpen: false,
                 },
             },
         };
