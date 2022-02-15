@@ -18,6 +18,7 @@ const AutoHeight = ({children, duration = 250, shouldScrollIntoView = false}: Au
     const wrapperRef = useRef<HTMLDivElement>(null);
     const [animate, setAnimate] = useState<boolean>(false);
     const [height, setHeight] = useState<string>('auto');
+    const [overflow, setOverflow] = useState<string>('visible');
     const [childs, setChilds] = useState(children);
 
     useEffect(() => {
@@ -40,9 +41,13 @@ const AutoHeight = ({children, duration = 250, shouldScrollIntoView = false}: Au
         <Transition
             in={animate}
             timeout={0}
-            onEnter={() => setHeight('2000')}
+            onEnter={() => {
+                setHeight('2000');
+                setOverflow('hidden');
+            }}
             onEntered={() => {
                 setHeight('auto');
+                setOverflow('visible');
                 setAnimate(false);
                 setChilds(children);
             }}
@@ -50,6 +55,7 @@ const AutoHeight = ({children, duration = 250, shouldScrollIntoView = false}: Au
             <div
                 className={'AutoHeight'}
                 ref={wrapperRef}
+                style={{overflow}}
             >
                 <AnimateHeight
                     duration={duration}
