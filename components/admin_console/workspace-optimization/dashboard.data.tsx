@@ -32,7 +32,13 @@ type DataModel = {
     };
 }
 
-type ItemStatus = 'none' | 'ok' | 'info' | 'warning' | 'error';
+enum ItemStatus {
+    NONE,
+    OK,
+    INFO,
+    WARNING,
+    ERROR,
+}
 
 type ItemModel = {
     id: string;
@@ -56,11 +62,11 @@ type UpdatesParam = {
 }
 
 const impactModifiers: Record<ItemStatus, number> = {
-    none: 1,
-    ok: 1,
-    info: 0.9,
-    warning: 0.5,
-    error: 0,
+    [ItemStatus.NONE]: 1,
+    [ItemStatus.OK]: 1,
+    [ItemStatus.INFO]: 0.9,
+    [ItemStatus.WARNING]: 0.5,
+    [ItemStatus.ERROR]: 0,
 };
 
 const useMetricsData = () => {
@@ -99,14 +105,14 @@ const useMetricsData = () => {
         items: [
             {
                 id: 'server_version',
-                title: data.serverVersion.status === 'ok' ? formatMessage({
+                title: data.serverVersion.status === ItemStatus.OK ? formatMessage({
                     id: 'admin.reporting.workspace_optimization.updates.server_version.status.ok.title',
                     defaultMessage: 'Your Mattermost server is running the latest version',
                 }) : formatMessage({
                     id: 'admin.reporting.workspace_optimization.updates.server_version.status.error.title',
                     defaultMessage: '{type} version update available',
                 }, {type: data.serverVersion.type}),
-                description: data.serverVersion.status === 'ok' ? formatMessage({
+                description: data.serverVersion.status === ItemStatus.OK ? formatMessage({
                     id: 'admin.reporting.workspace_optimization.updates.server_version.status.ok.description',
                     defaultMessage: 'Placeholder: Nothing to do here. All good!',
                 }) : formatMessage({
@@ -348,7 +354,7 @@ const useMetricsData = () => {
         ldap: {
             status: ItemStatus;
         };
-        guestAccounts: {
+        guestAccounts?: {
             status: ItemStatus;
         };
     }
@@ -397,27 +403,27 @@ const useMetricsData = () => {
                 scoreImpact: 22,
                 impactModifier: impactModifiers[data.ldap.status],
             },
-            {
-                id: 'guest-accounts',
-                title: formatMessage({
-                    id: 'admin.reporting.workspace_optimization.ease_of_management.guests_accounts.title',
-                    defaultMessage: 'Guest Accounts recommended',
-                }),
-                description: formatMessage({
-                    id: 'admin.reporting.workspace_optimization.ease_of_management.guests_accounts.description',
-                    defaultMessage: 'Several user accounts are using different domains than your Site URL. You can control user access to channels and teams with guest accounts. We recommend starting an Enterprise trial and enabling Guest Access.',
-                }),
-                ...(isLicensed ? {
-                    configUrl: ConsolePages.GUEST_ACCOUNTS,
-                    configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.configureGuestAccounts', defaultMessage: 'Configure Guest Accounts'}),
-                } : trialOrEnterpriseCtaConfig),
-                infoUrl: DocLinks.GUEST_ACCOUNTS,
-                infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),
-                telemetryAction: 'guest-accounts',
-                status: data.guestAccounts.status,
-                scoreImpact: 6,
-                impactModifier: impactModifiers[data.guestAccounts.status],
-            },
+
+            // commented out for now.
+            // @see discussion here: https://github.com/mattermost/mattermost-webapp/pull/9822#discussion_r806879385
+            // {
+            //     id: 'guest-accounts',
+            //     title: formatMessage({
+            //         id: 'admin.reporting.workspace_optimization.ease_of_management.guests_accounts.title',
+            //         defaultMessage: 'Guest Accounts recommended',
+            //     }),
+            //     description: formatMessage({
+            //         id: 'admin.reporting.workspace_optimization.ease_of_management.guests_accounts.description',
+            //         defaultMessage: 'Several user accounts are using different domains than your Site URL. You can control user access to channels and teams with guest accounts. We recommend starting an Enterprise trial and enabling Guest Access.',
+            //     }),
+            //     ...trialOrEnterpriseCtaConfig,
+            //     infoUrl: 'https://docs.mattermost.com/onboard/guest-accounts.html',
+            //     infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),
+            //     telemetryAction: 'guest-accounts',
+            //     status: data.guestAccounts.status,
+            //     scoreImpact: 6,
+            //     impactModifier: impactModifiers[data.guestAccounts.status],
+            // },
         ],
     });
 

@@ -1,14 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
-
 import {FormattedMessage} from 'react-intl';
 
 import Chip from 'components/common/chip/chip';
 
+import {ItemStatus} from './dashboard.data';
+
 import './dashboard.scss';
 
-export type ChipsInfoType = { [key in 'info' | 'warning' | 'error']: number };
+export type ChipsInfoType = Record<ItemStatus.INFO | ItemStatus.WARNING | ItemStatus.ERROR, number>;
 
 type ChipsListProps = {
     chipsData: ChipsInfoType;

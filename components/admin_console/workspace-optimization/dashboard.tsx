@@ -1,17 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {CheckIcon} from '@mattermost/compass-icons/components';
+import classNames from 'classnames';
+
 import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
-import classNames from 'classnames';
 
-import {CheckIcon} from '@mattermost/compass-icons/components';
-
-import {getServerVersion} from 'mattermost-redux/selectors/entities/general';
 import {GlobalState} from 'mattermost-redux/types/store';
-
+import {getServerVersion} from 'mattermost-redux/selectors/entities/general';
 import Accordion, {AccordionItemType} from 'components/common/accordion/accordion';
 
 import {testSiteURL} from '../../../actions/admin_actions';
@@ -19,12 +18,13 @@ import LoadingScreen from '../../loading_screen';
 import FormattedAdminHeader from '../../widgets/admin_console/formatted_admin_header';
 import {Props} from '../admin_console';
 
-import useMetricsData, {DataModel, ItemStatus} from './dashboard.data';
-import OverallScore from './overall-score';
 import ChipsList, {ChipsInfoType} from './chips_list';
 import CtaButtons from './cta_buttons';
 
+import useMetricsData, {DataModel, ItemStatus} from './dashboard.data';
+
 import './dashboard.scss';
+import OverallScore from './overall-score';
 
 const AccordionItem = styled.div`
     padding: 12px;
@@ -49,7 +49,10 @@ const successIcon = (
 
 const WorkspaceOptimizationDashboard = (props: Props) => {
     const [loading, setLoading] = useState(true);
-    const [versionData, setVersionData] = useState<{type: string; version: string; status: ItemStatus}>({type: '', version: '', status: 'none'});
+    const [versionData, setVersionData] = useState<{type: string; version: string; status: ItemStatus}>({type: '', version: '', status: ItemStatus.NONE});
+
+    // const [guestAccountStatus, setGuestAccountStatus] = useState<ItemStatus>('none');
+    const [liveUrlStatus, setLiveUrlStatus] = useState<ItemStatus>(ItemStatus.NONE);
     const {formatMessage} = useIntl();
     const {getAccessData, getConfigurationData, getUpdatesData, getPerformanceData, getDataPrivacyData, getEaseOfManagementData} = useMetricsData();
 
@@ -59,25 +62,22 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     const {TOTAL_USERS: totalUsers, TOTAL_POSTS: totalPosts} = analytics!;
 
     // gather locally available data
-    const {ServiceSettings, DataRetentionSettings} = props.config;
+    const {
+        ServiceSettings,
+        DataRetentionSettings,
+
+        // TeamSettings,
+        // GuestAccountsSettings,
+    } = props.config;
     const {location} = document;
 
     const sessionLengthWebInDays = ServiceSettings?.SessionLengthWebInDays || -1;
     const dataRetentionEnabled = DataRetentionSettings?.EnableMessageDeletion || DataRetentionSettings?.EnableFileDeletion;
 
     const testURL = () => {
-        const index = data.access.items.findIndex((item) => item.id === 'site-url');
-        if (index >= 0) {
-            const onSuccess = ({status}: any) => {
-                data.access.items[index].status = status === 'OK' ? 'ok' : 'error';
-            };
-            const onError = () => {
-                data.access.items[0].status = 'error';
-            };
-            return testSiteURL(onSuccess, onError, location.origin);
-        }
-
-        return Promise.resolve();
+        const onSuccess = ({status}: any) => setLiveUrlStatus(status === 'OK' ? ItemStatus.OK : ItemStatus.ERROR);
+        const onError = () => setLiveUrlStatus(ItemStatus.ERROR);
+        return testSiteURL(onSuccess, onError, location.origin);
     };
 
     const fetchVersion = async () => {
@@ -90,7 +90,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
 
             // quick general check if a newer version is available
             let type = '';
-            let status: ItemStatus = 'ok';
+            let status: ItemStatus = ItemStatus.OK;
 
             if (newVersionParts.join('') > installedVersionParts.join('')) {
                 // get correct values to be inserted into the accordion item
@@ -100,69 +100,86 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                         id: 'admin.reporting.workspace_optimization.updates.server_version.update_type.major',
                         defaultMessage: 'Major',
                     });
-                    status = 'error';
+                    status = ItemStatus.ERROR;
                     break;
                 case newVersionParts[1] > installedVersionParts[1]:
                     type = formatMessage({
                         id: 'admin.reporting.workspace_optimization.updates.server_version.update_type.minor',
                         defaultMessage: 'Minor',
                     });
-                    status = 'warning';
+                    status = ItemStatus.WARNING;
                     break;
                 case newVersionParts[2] > installedVersionParts[2]:
                     type = formatMessage({
                         id: 'admin.reporting.workspace_optimization.updates.server_version.update_type.patch',
                         defaultMessage: 'Patch',
                     });
-                    status = 'info';
+                    status = ItemStatus.INFO;
                     break;
                 }
             }
 
             setVersionData({type, version: result.tag_name, status});
-            return;
         }
-
-        const versionIndex = data.updates.items.findIndex((item) => item.id === 'server-version');
-        data.updates.items.splice(versionIndex, 1);
     };
+
+    // commented out for now.
+    // @see discussion here: https://github.com/mattermost/mattermost-webapp/pull/9822#discussion_r806879385
+    // const fetchGuestAccounts = async () => {
+    //     if (TeamSettings?.EnableOpenServer && GuestAccountsSettings?.Enable) {
+    //         let usersArray = await fetch('/api/v4/users/invalid_emails').then((result) => result.json());
+    //
+    //         // this setting is just a string with a list of domains, or an empty string
+    //         if (GuestAccountsSettings?.RestrictCreationToDomains) {
+    //             const domainList = GuestAccountsSettings?.RestrictCreationToDomains;
+    //             usersArray = usersArray.filter(({email}: Record<string, unknown>) => domainList.includes((email as string).split('@')[1]));
+    //         }
+    //
+    //         // if guest accounts make up more than 5% of the user base show the info accordion
+    //         if (usersArray.length > (totalUsers as number * 0.05)) {
+    //             setGuestAccountStatus(ItemStatus.INFO);
+    //             return;
+    //         }
+    //     }
+    //
+    //     setGuestAccountStatus(ItemStatus.OK);
+    // };
 
     useEffect(() => {
         const promises = [];
         promises.push(testURL());
         promises.push(fetchVersion());
+
+        // promises.push(fetchGuestAccounts());
         Promise.all(promises).then(() => setLoading(false));
     }, []);
 
     const data: DataModel = {
         updates: getUpdatesData({serverVersion: versionData}),
         configuration: getConfigurationData({
-            ssl: {status: location.protocol === 'https:' ? 'ok' : 'error'},
-            sessionLength: {status: sessionLengthWebInDays >= 30 ? 'info' : 'ok'},
+            ssl: {status: location.protocol === 'https:' ? ItemStatus.OK : ItemStatus.ERROR},
+            sessionLength: {status: sessionLengthWebInDays >= 30 ? ItemStatus.INFO : ItemStatus.OK},
         }),
-
-        // site-url item will be updated in a useEffect call
-        access: getAccessData({siteUrl: {status: 'none'}}),
+        access: getAccessData({siteUrl: {status: liveUrlStatus}}),
         performance: getPerformanceData({
             search: {
-                status: totalPosts < 2_000_000 && totalUsers < 500 ? 'ok' : 'info',
+                status: totalPosts < 2_000_000 && totalUsers < 500 ? ItemStatus.OK : ItemStatus.INFO,
             },
         }),
-        dataPrivacy: getDataPrivacyData({retention: {status: dataRetentionEnabled ? 'ok' : 'info'}}),
+        dataPrivacy: getDataPrivacyData({retention: {status: dataRetentionEnabled ? ItemStatus.OK : ItemStatus.INFO}}),
         easyManagement: getEaseOfManagementData({
-            ldap: {status: totalUsers > 500 ? 'info' : 'ok'},
+            ldap: {status: totalUsers > 500 ? ItemStatus.INFO : ItemStatus.OK},
 
-            // TBD - @see https://github.com/mattermost/mattermost-server/pull/19437
-            guestAccounts: {status: 'info'},
+            // guestAccounts: {status: guestAccountStatus},
         }),
     };
 
     const learnMoreText = formatMessage({id: 'benefits_trial.modal.learnMore', defaultMessage: 'Learn More'});
 
     const overallScoreChips: ChipsInfoType = {
-        info: 0,
-        warning: 0,
-        error: 0,
+        [ItemStatus.INFO]: 0,
+        [ItemStatus.WARNING]: 0,
+        [ItemStatus.ERROR]: 0,
     };
 
     const overallScore = {
@@ -172,9 +189,9 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
 
     const accData: AccordionItemType[] = Object.entries(data).map(([accordionKey, accordionData]) => {
         const accordionDataChips: ChipsInfoType = {
-            info: 0,
-            warning: 0,
-            error: 0,
+            [ItemStatus.INFO]: 0,
+            [ItemStatus.WARNING]: 0,
+            [ItemStatus.ERROR]: 0,
         };
         const items: React.ReactNode[] = [];
         accordionData.items.forEach((item) => {
@@ -187,7 +204,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
             overallScore.current += item.scoreImpact * item.impactModifier;
 
             // chips will only be displayed for info aka Success, warning and error aka Problems
-            if (item.status && item.status !== 'none' && item.status !== 'ok') {
+            if (item.status && item.status !== ItemStatus.OK) {
                 items.push((
                     <AccordionItem
                         key={`${accordionKey}-item_${item.id}`}
@@ -195,9 +212,9 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                         <h5>
                             <i
                                 className={classNames(`icon ${item.status}`, {
-                                    'icon-alert-outline': item.status === 'warning',
-                                    'icon-alert-circle-outline': item.status === 'error',
-                                    'icon-information-outline': item.status === 'info',
+                                    'icon-alert-outline': item.status === ItemStatus.WARNING,
+                                    'icon-alert-circle-outline': item.status === ItemStatus.ERROR,
+                                    'icon-information-outline': item.status === ItemStatus.INFO,
                                 })}
                             />
                             {item.title}
