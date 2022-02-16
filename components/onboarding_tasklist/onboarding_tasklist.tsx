@@ -15,7 +15,7 @@ import checklistImg from 'images/onboarding-checklist.svg';
 import {
     useTasksListWithStatus,
     OnboardingTaskCategory,
-    OnboardingTaskList,
+    OnboardingTaskList, OnboardingTasksName,
 } from 'components/onboarding_tasks';
 import {useHandleOnBoardingTaskTrigger} from 'components/onboarding_tasks/onboarding_tasks_manager';
 import {openModal} from 'actions/views/modals';
@@ -165,13 +165,16 @@ const OnBoardingTaskList = (): JSX.Element => {
 
     const startTask = (taskName: string) => {
         handleTaskTrigger(taskName);
-        toggleTaskList();
+        if (taskName !== OnboardingTasksName.DOWNLOAD_APP) {
+            toggleTaskList();
+        }
     };
 
     // Done to show task done animation in closed state as well
     useEffect(() => {
         const newCCount = tasksList.filter((task) => task.status).length;
-        if ((completedCount + 1) === newCCount && !open && countCalculated.current) {
+        const show = localStorage.getItem(OnboardingTaskCategory);
+        if (show || ((completedCount + 1) === newCCount && !open && countCalculated.current)) {
             countCalculated.current = true;
             setTimeout(() => {
                 setShowAnimation(true);
@@ -181,6 +184,7 @@ const OnBoardingTaskList = (): JSX.Element => {
                 setShowAnimation(false);
                 setCompletedCount(newCCount);
             }, 500);
+            localStorage.removeItem(OnboardingTaskCategory);
         } else {
             setCompletedCount(newCCount);
         }

@@ -12,7 +12,12 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 import {isSwitcherOpen} from 'selectors/views/product_menu';
 import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
-import {OnboardingTasksName, TaskNameMapToSteps, useHandleOnBoardingTaskData} from 'components/onboarding_tasks';
+import {
+    OnboardingTaskCategory,
+    OnboardingTasksName,
+    TaskNameMapToSteps,
+    useHandleOnBoardingTaskData,
+} from 'components/onboarding_tasks';
 
 import {useClickOutsideRef, useCurrentProductId, useProducts} from '../../hooks';
 
@@ -62,6 +67,7 @@ const ProductMenu = (): JSX.Element => {
     const handleVisitConsoleClick = () => {
         const steps = TaskNameMapToSteps[taskName];
         handleOnBoardingTaskData(taskName, steps.FINISHED, true, 'finish');
+        localStorage.setItem(OnboardingTaskCategory, 'true');
     };
 
     useClickOutsideRef(menuRef, () => {

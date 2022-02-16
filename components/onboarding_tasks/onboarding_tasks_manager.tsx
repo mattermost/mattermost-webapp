@@ -5,6 +5,13 @@ import React, {useCallback, useMemo} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
+import {matchPath, useLocation} from 'react-router-dom';
+
+import {
+    getCurrentTeamId,
+    getTeam,
+} from 'mattermost-redux/selectors/entities/teams';
+
 import {trackEvent as trackEventAction} from 'actions/telemetry_actions';
 import {openModal} from 'actions/views/modals';
 import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
@@ -24,7 +31,8 @@ import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 
 import {GlobalState} from 'types/store';
 import {browserHistory} from 'utils/browser_history';
-import {ModalIdentifiers} from 'utils/constants';
+import {Constants, ModalIdentifiers} from 'utils/constants';
+import LocalStorageStore from '../../stores/local_storage_store';
 
 import {OnboardingTaskCategory, OnboardingTaskList, OnboardingTasksName, TaskNameMapToSteps} from './constants';
 import {generateTelemetryTag} from './utils';
@@ -139,6 +147,19 @@ export const useHandleOnBoardingTaskTrigger = () => {
     const dispatch = useDispatch();
     const handleSaveData = useHandleOnBoardingTaskData();
     const currentUserId = useSelector(getCurrentUserId);
+    const teamId = useSelector(getCurrentTeamId) || LocalStorageStore.getPreviousTeamId(currentUserId);
+    const team = useSelector((state: GlobalState) => getTeam(state, teamId || ''));
+
+    const {pathname} = useLocation();
+
+    const navigateToChannels = (condition: 'admin' | 'channels' = 'admin'): string => {
+        const inAdminConsole = matchPath(pathname, {path: '/admin_console'}) != null;
+        const inChannels = matchPath(pathname, {path: '/:team/channels/:chanelId'}) != null;
+        if ((inAdminConsole && condition === 'admin') || (!inChannels && condition === 'channels')) {
+            return `/${team.name}/channels/${Constants.DEFAULT_CHANNEL}`;
+        }
+        return '';
+    };
 
     return (taskName: string) => {
         switch (taskName) {
@@ -160,22 +181,25 @@ export const useHandleOnBoardingTaskTrigger = () => {
                 },
             ];
             dispatch(storeSavePreferences(currentUserId, preferences));
-            browserHistory.push('/');
+            browserHistory.push(navigateToChannels('channels'));
             break;
         }
         case OnboardingTasksName.BOARDS_TOUR: {
             browserHistory.push('/boards');
+            localStorage.setItem(OnboardingTaskCategory, 'true');
             handleSaveData(taskName, TaskNameMapToSteps[taskName].FINISHED, true);
             break;
         }
         case OnboardingTasksName.PLAYBOOKS_TOUR: {
             browserHistory.push('/playbooks/start');
+            localStorage.setItem(OnboardingTaskCategory, 'true');
             handleSaveData(taskName, TaskNameMapToSteps[taskName].FINISHED, true);
             break;
         }
         case OnboardingTasksName.COMPLETE_YOUR_PROFILE: {
             dispatch(setStatusDropdown(true));
             handleSaveData(taskName, TaskNameMapToSteps[taskName].STARTED, true);
+            browserHistory.push(navigateToChannels());
             break;
         }
         case OnboardingTasksName.VISIT_SYSTEM_CONSOLE: {
@@ -191,12 +215,28 @@ export const useHandleOnBoardingTaskTrigger = () => {
             break;
         }
         case OnboardingTasksName.INVITE_PEOPLE: {
-            dispatch(openModal({
-                modalId: ModalIdentifiers.INVITATION,
-                dialogType: InvitationModal,
-                dialogProps: {
-                },
-            }));
+            const path = navigateToChannels();
+
+            // hack to let app load so that modal is available (find some better solution)
+            if (path) {
+                browserHistory.push(path);
+                setTimeout(() => {
+                    dispatch(openModal({
+                        modalId: ModalIdentifiers.INVITATION,
+                        dialogType: InvitationModal,
+                        dialogProps: {
+                        },
+                    }));
+                }, 1000);
+            } else {
+                dispatch(openModal({
+                    modalId: ModalIdentifiers.INVITATION,
+                    dialogType: InvitationModal,
+                    dialogProps: {
+                    },
+                }));
+            }
+
             handleSaveData(taskName, TaskNameMapToSteps[taskName].FINISHED, true);
             const preferences = [
                 {
