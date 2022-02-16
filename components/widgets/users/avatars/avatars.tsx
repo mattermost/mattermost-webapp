@@ -52,11 +52,14 @@ const displayNameGetter = makeDisplayNameGetter();
 
 function UserAvatar({
     userId,
+    overlayProps,
     ...props
 }: {
     userId: UserProfile['id'];
+    overlayProps: Partial<ComponentProps<typeof SimpleTooltip>>;
 } & ComponentProps<typeof Avatar>) {
     const user = useSelector((state: GlobalState) => selectUser(state, userId)) as UserProfile | undefined;
+    const name = useSelector((state: GlobalState) => displayNameGetter(state, true)(user));
 
     const profilePictureURL = userId ? imageURLForUser(userId) : '';
 
@@ -73,15 +76,21 @@ function UserAvatar({
                 />
             }
         >
-            <button
-                className={'status-wrapper style--none'}
-                tabIndex={-1}
+            <SimpleTooltip
+                id={`name-${userId}`}
+                content={name}
+                {...overlayProps}
             >
-                <Avatar
-                    url={imageURLForUser(userId, user?.last_picture_update)}
-                    {...props}
-                />
-            </button>
+                <button
+                    className={'status-wrapper style--none'}
+                    tabIndex={-1}
+                >
+                    <Avatar
+                        url={imageURLForUser(userId, user?.last_picture_update)}
+                        {...props}
+                    />
+                </button>
+            </SimpleTooltip>
         </OverlayTrigger>
     );
 }
@@ -123,6 +132,7 @@ function Avatars({
                     userId={id}
                     size={size}
                     tabIndex={0}
+                    overlayProps={overlayProps}
                 />
             ))}
             {Boolean(nonDisplayCount) && (
