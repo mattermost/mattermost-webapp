@@ -800,6 +800,19 @@ export const CloudLinks = {
     DEPLOYMENT_OPTIONS: 'https://mattermost.com/deploy/',
 };
 
+export const DocLinks = {
+    AD_LDAP: 'https://docs.mattermost.com/configure/configuration-settings.html#ad-ldap',
+    DATA_RETENTION_POLICY: 'https://docs.mattermost.com/comply/data-retention-policy.html',
+    ELASTICSEARCH: 'https://docs.mattermost.com/scale/elasticsearch.html',
+    GUEST_ACCOUNTS: 'https://docs.mattermost.com/onboard/guest-accounts.html',
+    SSL_CERTIFICATE: 'https://docs.mattermost.com/onboard/ssl-client-certificate.html',
+    UPGRADE_SERVER: 'https://docs.mattermost.com/upgrade/upgrading-mattermost-server.html',
+};
+
+export const LicenseLinks = {
+    CONTACT_SALES: 'https://mattermost.com/contact-sales/',
+};
+
 export const BillingSchemes = {
     FLAT_FEE: 'flat_fee',
     PER_SEAT: 'per_seat',
@@ -1644,10 +1657,12 @@ export const ValidationErrors = {
 };
 
 export const ConsolePages = {
+    AD_LDAP: '/admin_console/authentication/ldap',
     COMPLIANCE_EXPORT: '/admin_console/compliance/export',
     CUSTOM_TERMS: '/admin_console/compliance/custom_terms_of_service',
     DATA_RETENTION: '/admin_console/compliance/data_retention_settings',
-    LDAP: '/admin_console/authentication/ldap',
+    ELASTICSEARCH: '/admin_console/environment/elasticsearch',
+    GUEST_ACCOUNTS: '/admin_console/authentication/guest_access',
     LICENSE: '/admin_console/about/license',
     SAML: '/admin_console/authentication/saml',
     SESSION_LENGTHS: '/admin_console/environment/session_lengths',

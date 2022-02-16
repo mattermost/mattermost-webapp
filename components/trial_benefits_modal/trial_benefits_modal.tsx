@@ -72,34 +72,30 @@ const TrialBenefitsModal: React.FC<Props> = (props: Props): JSX.Element | null =
 
     const trialStartSlide = (
         <div className='slide-container'>
-            {props.trialJustStarted ?
-                <div className='title'>
-                    {formatMessage({id: 'trial_benefits.modal.trialStarttitle', defaultMessage: 'Your trial has started! Explore the benefits of Enterprise'})}
-                </div> :
-                <div className='title'>
-                    {formatMessage({id: 'trial_benefits.modal.postTrialStarttitle', defaultMessage: 'You are on the Enterprise plan! Explore the benefits of Enterprise'})}
-                </div>
+            {props.trialJustStarted ? <div className='title'>
+                {formatMessage({id: 'trial_benefits.modal.trialStarttitle', defaultMessage: 'Your trial has started! Explore the benefits of Enterprise'})}
+            </div> : <div className='title'>
+                {formatMessage({id: 'trial_benefits.modal.postTrialStarttitle', defaultMessage: 'You are on the Enterprise plan! Explore the benefits of Enterprise'})}
+            </div>
             }
 
-            {props.trialJustStarted ?
-                <div className='description'>
-                    {formatMessage(
-                        {
-                            id: 'trial_benefits.modal.trialStartDescription',
-                            defaultMessage: 'Welcome to your Mattermost Enterprise trial! It expires on {trialExpirationDate}. Until then, enjoy the following benefits of Enterprise:',
-                        },
-                        {trialExpirationDate: trialEndDate},
-                    )}
-                </div> :
-                <div className='description'>
-                    {formatMessage(
-                        {
-                            id: 'trial_benefits.modal.postTrialStartDescription',
-                            defaultMessage: 'Welcome to Enterprise! Your plan expires on {trialExpirationDate}. Until then, enjoy the following benefits of Enterprise:',
-                        },
-                        {trialExpirationDate: trialEndDate},
-                    )}
-                </div>
+            {props.trialJustStarted ? <div className='description'>
+                {formatMessage(
+                    {
+                        id: 'trial_benefits.modal.trialStartDescription',
+                        defaultMessage: 'Welcome to your Mattermost Enterprise trial! It expires on {trialExpirationDate}. Until then, enjoy the following benefits of Enterprise:',
+                    },
+                    {trialExpirationDate: trialEndDate},
+                )}
+            </div> : <div className='description'>
+                {formatMessage(
+                    {
+                        id: 'trial_benefits.modal.postTrialStartDescription',
+                        defaultMessage: 'Welcome to Enterprise! Your subscription expires on {trialExpirationDate}. Until then, enjoy the following benefits of Enterprise:',
+                    },
+                    {trialExpirationDate: trialEndDate},
+                )}
+            </div>
             }
             <div className='handsSvg svg-wrapper'>
                 <HandsSvg
@@ -124,7 +120,7 @@ const TrialBenefitsModal: React.FC<Props> = (props: Props): JSX.Element | null =
             </div>
             <a
                 className='learnMoreButton'
-                onClick={() => redirectToConsolePage(ConsolePages.LDAP)}
+                onClick={() => redirectToConsolePage(ConsolePages.AD_LDAP)}
             >
                 {learnMoreText}
             </a>
