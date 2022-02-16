@@ -217,13 +217,13 @@ h6.markdown__heading {
         padding: 6.5px;
         border: 1px solid rgba(v(center-channel-color-rgb), 0.2);
         margin: 5px 0;
+        background: var(--center-channel-big);
         border-radius: 0.25em;
         cursor: auto;
         font-size: 13px;
         overflow-x: auto;
         visibility: visible;
         white-space: pre;
-        background: var(--center-channel-big);
     }
 }
 
