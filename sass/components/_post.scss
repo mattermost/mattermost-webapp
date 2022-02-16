@@ -1275,9 +1275,13 @@
             display: flex;
             min-width: 0;
             flex: 0 auto;
-            margin-right: 7px;
+            margin-right: 8px;
             font-weight: 600;
             text-overflow: ellipsis;
+
+            &.permalink--username {
+                margin-right: 6px;
+            }
 
             .user-popover {
                 @include clearfix;
@@ -1812,10 +1816,6 @@
             }
         }
 
-        .user-popover {
-            padding-left: 8px;
-        }
-
         .post-message__text-container {
             overflow: hidden;
         }
@@ -1834,10 +1834,6 @@
             border: none;
             background: none;
             font-size: 12px;
-        }
-
-        .post-preview__time {
-            margin-left: 6px;
         }
 
         .post-image__columns div.post-image__column {

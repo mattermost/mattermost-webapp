@@ -5,6 +5,8 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
+import classNames from 'classnames';
+
 import {Post, PostPreviewMetadata} from 'mattermost-redux/types/posts';
 import UserProfileComponent from 'components/user_profile';
 import {UserProfile} from 'mattermost-redux/types/users';
@@ -141,7 +143,7 @@ const PostMessagePreview = (props: Props) => {
                             </span>
                         </div>
                     </div>
-                    <div className='col col__name'>
+                    <div className={classNames('col col__name', 'permalink--username')}>
                         <UserProfileComponent
                             userId={user?.id}
                             hasMention={true}
