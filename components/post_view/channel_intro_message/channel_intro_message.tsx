@@ -25,6 +25,7 @@ import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 
 import {getMonthLong, t} from 'utils/i18n.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {PluginComponent} from 'types/store/plugins';
 
 import AddMembersButton from './add_members_button';
 
@@ -45,6 +46,7 @@ type Props = {
     actions: {
         getTotalUsersStats: () => any;
     };
+    boardComponent?: PluginComponent;
 }
 
 export default class ChannelIntroMessage extends React.PureComponent<Props> {
@@ -68,6 +70,7 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
             teammateName,
             stats,
             usersLimit,
+            boardComponent,
         } = this.props;
 
         let centeredIntro = '';
@@ -76,21 +79,21 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
         }
 
         if (channel.type === Constants.DM_CHANNEL) {
-            return createDMIntroMessage(channel, centeredIntro, teammate, teammateName);
+            return createDMIntroMessage(channel, centeredIntro, teammate, teammateName, boardComponent);
         } else if (channel.type === Constants.GM_CHANNEL) {
-            return createGMIntroMessage(channel, centeredIntro, channelProfiles, currentUserId);
+            return createGMIntroMessage(channel, centeredIntro, channelProfiles, currentUserId, boardComponent);
         } else if (channel.name === Constants.DEFAULT_CHANNEL) {
-            return createDefaultIntroMessage(channel, centeredIntro, stats, usersLimit, enableUserCreation, isReadOnly, teamIsGroupConstrained);
+            return createDefaultIntroMessage(channel, centeredIntro, stats, usersLimit, enableUserCreation, isReadOnly, teamIsGroupConstrained, boardComponent);
         } else if (channel.name === Constants.OFFTOPIC_CHANNEL) {
-            return createOffTopicIntroMessage(channel, centeredIntro, stats, usersLimit);
+            return createOffTopicIntroMessage(channel, centeredIntro, stats, usersLimit, boardComponent);
         } else if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
-            return createStandardIntroMessage(channel, centeredIntro, stats, usersLimit, locale, creatorName);
+            return createStandardIntroMessage(channel, centeredIntro, stats, usersLimit, locale, creatorName, boardComponent);
         }
         return null;
     }
 }
 
-function createGMIntroMessage(channel: Channel, centeredIntro: string, profiles: UserProfileRedux[], currentUserId: string) {
+function createGMIntroMessage(channel: Channel, centeredIntro: string, profiles: UserProfileRedux[], currentUserId: string, boardComponent?: PluginComponent) {
     const channelIntroId = 'channelIntro';
 
     if (profiles.length > 0) {
@@ -123,6 +126,7 @@ function createGMIntroMessage(channel: Channel, centeredIntro: string, profiles:
                         }}
                     />
                 </p>
+                {createBoardsButton(channel, boardComponent)}
                 {createSetHeaderButton(channel)}
             </div>
         );
@@ -143,10 +147,17 @@ function createGMIntroMessage(channel: Channel, centeredIntro: string, profiles:
     );
 }
 
-function createDMIntroMessage(channel: Channel, centeredIntro: string, teammate?: UserProfileRedux, teammateName?: string) {
+function createDMIntroMessage(channel: Channel, centeredIntro: string, teammate?: UserProfileRedux, teammateName?: string, boardComponent?: PluginComponent) {
     const channelIntroId = 'channelIntro';
     if (teammate) {
         const src = teammate ? Utils.imageURLForUser(teammate.id, teammate.last_picture_update) : '';
+
+        let setHeaderButton = null;
+        let boardCreateButton = null;
+        if (!teammate?.is_bot) {
+            boardCreateButton = createBoardsButton(channel, boardComponent);
+            setHeaderButton = createSetHeaderButton(channel);
+        }
 
         return (
             <div
@@ -178,7 +189,8 @@ function createDMIntroMessage(channel: Channel, centeredIntro: string, teammate?
                         }}
                     />
                 </p>
-                {teammate?.is_bot ? null : createSetHeaderButton(channel)}
+                {boardCreateButton}
+                {setHeaderButton}
             </div>
         );
     }
@@ -198,8 +210,9 @@ function createDMIntroMessage(channel: Channel, centeredIntro: string, teammate?
     );
 }
 
-function createOffTopicIntroMessage(channel: Channel, centeredIntro: string, stats: any, usersLimit: number) {
+function createOffTopicIntroMessage(channel: Channel, centeredIntro: string, stats: any, usersLimit: number, boardComponent?: PluginComponent) {
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
+    const boardCreateButton = createBoardsButton(channel, boardComponent);
     const children = createSetHeaderButton(channel);
     const totalUsers = stats.total_users_count;
 
@@ -222,6 +235,7 @@ function createOffTopicIntroMessage(channel: Channel, centeredIntro: string, sta
             totalUsers={totalUsers}
             usersLimit={usersLimit}
             channel={channel}
+            createBoard={boardCreateButton}
         />
     );
 
@@ -261,13 +275,16 @@ export function createDefaultIntroMessage(
     enableUserCreation?: boolean,
     isReadOnly?: boolean,
     teamIsGroupConstrained?: boolean,
+    boardComponent?: PluginComponent,
 ) {
     let teamInviteLink = null;
     const totalUsers = stats.total_users_count;
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
 
     let setHeaderButton = null;
+    let boardCreateButton = null;
     if (!isReadOnly) {
+        boardCreateButton = createBoardsButton(channel, boardComponent);
         const children = createSetHeaderButton(channel);
         if (children) {
             setHeaderButton = (
@@ -298,6 +315,7 @@ export function createDefaultIntroMessage(
                             totalUsers={totalUsers}
                             usersLimit={usersLimit}
                             channel={channel}
+                            createBoard={boardCreateButton}
                         />
                     }
                     {teamIsGroupConstrained &&
@@ -357,13 +375,14 @@ export function createDefaultIntroMessage(
                 }
             </p>
             {teamInviteLink}
+            {teamIsGroupConstrained && boardCreateButton}
             {teamIsGroupConstrained && setHeaderButton}
             <br/>
         </div>
     );
 }
 
-function createStandardIntroMessage(channel: Channel, centeredIntro: string, stats: any, usersLimit: number, locale: string, creatorName: string) {
+function createStandardIntroMessage(channel: Channel, centeredIntro: string, stats: any, usersLimit: number, locale: string, creatorName: string, boardComponent?: PluginComponent) {
     const uiName = channel.display_name;
     let memberMessage;
     const channelIsArchived = channel.delete_at !== 0;
@@ -485,12 +504,15 @@ function createStandardIntroMessage(channel: Channel, centeredIntro: string, sta
         );
     }
 
+    const boardCreateButton = createBoardsButton(channel, boardComponent);
+
     const channelInviteButton = (
         <AddMembersButton
             totalUsers={totalUsers}
             usersLimit={usersLimit}
             channel={channel}
             setHeader={setHeaderButton}
+            createBoard={boardCreateButton}
         />
     );
 
@@ -529,7 +551,7 @@ function createSetHeaderButton(channel: Channel) {
         <ToggleModalButtonRedux
             modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
             ariaLabel={Utils.localizeMessage('intro_messages.setHeader', 'Set a Header')}
-            className={'intro-links color--link setHeaderButton'}
+            className={'intro-links color--link channelIntroButton'}
             dialogType={EditChannelHeaderModal}
             dialogProps={{channel}}
         >
@@ -539,5 +561,30 @@ function createSetHeaderButton(channel: Channel) {
                 defaultMessage='Set a Header'
             />
         </ToggleModalButtonRedux>
+    );
+}
+
+function createBoardsButton(channel: Channel, boardComponent?: PluginComponent) {
+    const channelIsArchived = channel.delete_at !== 0;
+    if (channelIsArchived || boardComponent === undefined) {
+        return null;
+    }
+
+    return (
+        <button
+            className={'intro-links color--link channelIntroButton style--none'}
+            onClick={() => {
+                if (boardComponent.action) {
+                    boardComponent.action();
+                }
+            }}
+            aria-label={Utils.localizeMessage('intro_messages.createBoard', 'Create a board')}
+        >
+            {boardComponent.icon}
+            <FormattedMessage
+                id='intro_messages.createBoard'
+                defaultMessage='Create a board'
+            />
+        </button>
     );
 }

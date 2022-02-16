@@ -9,6 +9,8 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 
+import {getUserGuideDropdownPluginMenuItems} from 'selectors/plugins';
+
 import {GlobalState} from 'types/store';
 
 import {unhideNextSteps} from 'actions/views/next_steps';
@@ -32,6 +34,7 @@ function mapStateToProps(state: GlobalState) {
         enableAskCommunityLink: EnableAskCommunityLink || '',
         showDueToStepsNotFinished: showNextSteps(state),
         teamUrl: getCurrentRelativeTeamUrl(state),
+        pluginMenuItems: getUserGuideDropdownPluginMenuItems(state),
     };
 }
 

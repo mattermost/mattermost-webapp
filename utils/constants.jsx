@@ -71,7 +71,13 @@ export const Preferences = {
     CATEGORY_DISPLAY_SETTINGS: 'display_settings',
     CATEGORY_SIDEBAR_SETTINGS: 'sidebar_settings',
     CATEGORY_ADVANCED_SETTINGS: 'advanced_settings',
+    DISMISS_ONBOARDING_CHECKLIST: 'dismiss_onboarding_checklist',
     TUTORIAL_STEP: 'tutorial_step',
+    TUTORIAL_STEP_AUTO_TOUR_STATUS: 'tutorial_step_auto_tour_status',
+    CRT_TUTORIAL_TRIGGERED: 'crt_tutorial_triggered',
+    CRT_TUTORIAL_AUTO_TOUR_STATUS: 'crt_tutorial_auto_tour_status',
+    CRT_TUTORIAL_STEP: 'crt_tutorial_step',
+    CRT_THREAD_PANE_STEP: 'crt_thread_pane_step',
     CHANNEL_DISPLAY_MODE: 'channel_display_mode',
     CHANNEL_DISPLAY_MODE_CENTERED: 'centered',
     CHANNEL_DISPLAY_MODE_FULL_SCREEN: 'full',
@@ -146,6 +152,7 @@ export const TrialPeriodDays = {
 };
 
 export const ActionTypes = keyMirror({
+    SET_PRODUCT_SWITCHER_OPEN: null,
     RECEIVED_FOCUSED_POST: null,
     SELECT_POST: null,
     HIGHLIGHT_REPLY: null,
@@ -214,8 +221,6 @@ export const ActionTypes = keyMirror({
     TOGGLE_RHS_MENU: null,
     OPEN_RHS_MENU: null,
     CLOSE_RHS_MENU: null,
-
-    STORE_REHYDRATION_FAILED: null,
 
     DISMISS_NOTICE: null,
     SHOW_NOTICE: null,
@@ -481,6 +486,31 @@ export const TutorialSteps = {
     MENU_POPOVER: 3,
     PRODUCT_SWITCHER: 4,
     SETTINGS: 5,
+    START_TRIAL: 6,
+    FINISHED: 999,
+};
+
+// note: add steps in same order as the keys in TutorialSteps above
+export const AdminTutorialSteps = ['START_TRIAL'];
+
+export const CrtTutorialSteps = {
+    WELCOME_POPOVER: 0,
+    LIST_POPOVER: 1,
+    UNREAD_POPOVER: 2,
+    FINISHED: 999,
+};
+export const CrtTutorialTriggerSteps = {
+    START: 0,
+    STARTED: 1,
+    FINISHED: 999,
+};
+export const AutoTourStatus = {
+    ENABLED: 0,
+    DISABLED: 1,
+};
+
+export const CrtThreadPaneSteps = {
+    THREADS_PANE_POPOVER: 0,
     FINISHED: 999,
 };
 
@@ -622,7 +652,6 @@ export const StorageTypes = keyMirror({
     REMOVE_ITEM: null,
     SET_GLOBAL_ITEM: null,
     REMOVE_GLOBAL_ITEM: null,
-    CLEAR: null,
     ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX: null,
     STORAGE_REHYDRATE: null,
 });
@@ -1039,6 +1068,11 @@ export const Constants = {
     UserStatuses,
     UserSearchOptions,
     TutorialSteps,
+    AdminTutorialSteps,
+    CrtTutorialSteps,
+    CrtTutorialTriggerSteps,
+    AutoTourStatus,
+    CrtThreadPaneSteps,
     PostTypes,
     ErrorPageTypes,
     AnnouncementBarTypes,

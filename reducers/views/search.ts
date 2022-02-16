@@ -3,6 +3,7 @@
 
 import {combineReducers} from 'redux';
 
+import {UserTypes} from 'mattermost-redux/action_types';
 import type {GenericAction} from 'mattermost-redux/types/actions';
 
 import type {ViewsState} from 'types/store/views';
@@ -14,6 +15,9 @@ function modalSearch(state = '', action: GenericAction) {
     case SearchTypes.SET_MODAL_SEARCH: {
         return action.data.trim();
     }
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return '';
     default:
         return state;
     }
@@ -27,6 +31,9 @@ function modalFilters(state: ViewsState['search']['modalFilters'] = {}, action: 
             ...filters,
         };
     }
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
     default:
         return state;
     }
@@ -37,6 +44,9 @@ function systemUsersSearch(state: Partial<ViewsState['search']['systemUsersSearc
     case SearchTypes.SET_SYSTEM_USERS_SEARCH: {
         return action.data;
     }
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
     default:
         return state;
     }
@@ -58,6 +68,9 @@ function userGridSearch(state: Partial<ViewsState['search']['userGridSearch']> =
             filters,
         };
     }
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
     default:
         return state;
     }
@@ -68,6 +81,9 @@ function teamListSearch(state = '', action: GenericAction) {
     case SearchTypes.SET_TEAM_LIST_SEARCH: {
         return action.data.trim();
     }
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return '';
     default:
         return state;
     }
@@ -89,6 +105,9 @@ function channelListSearch(state: Partial<ViewsState['search']['channelListSearc
             filters,
         };
     }
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
     default:
         return state;
     }
