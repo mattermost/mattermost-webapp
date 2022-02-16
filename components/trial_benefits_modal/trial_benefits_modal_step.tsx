@@ -45,6 +45,7 @@ const TrialBenefitsModalStep = (
             </div>
             {pageURL && (
                 <TrialBenefitsModalStepMore
+                    id={id}
                     route={pageURL}
                     message={formatMessage({id: 'benefits_trial.modal.learnMore', defaultMessage: 'Learn More'})}
                     onClick={onClose}
