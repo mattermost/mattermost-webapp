@@ -59,8 +59,8 @@ export function emitChannelClickEvent(channel: Channel) {
         const isRHSOpened = getIsRhsOpen(state);
         const isPinnedPostsShowing = getRhsState(state) === RHSStates.PIN;
         const isChannelFilesShowing = getRhsState(state) === RHSStates.CHANNEL_FILES;
-        console.log('switchToChannel');
         const member = getMyChannelMember(state, chan.id);
+        const currentChannelId = getCurrentChannelId(state);
         dispatch(getChannelStats(chan.id));
 
         const penultimate = LocalStorageStore.getPreviousChannelName(userId, teamId);
@@ -77,6 +77,10 @@ export function emitChannelClickEvent(channel: Channel) {
 
         if (isRHSOpened && isChannelFilesShowing) {
             dispatch(updateRhsState(RHSStates.CHANNEL_FILES, chan.id));
+        }
+
+        if (currentChannelId) {
+            loadProfilesForSidebar();
         }
 
         dispatch(batchActions([
