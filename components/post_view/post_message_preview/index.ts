@@ -32,11 +32,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     const config = getConfig(state);
     let user = null;
     let embedVisible = false;
-    let previewPost = ownProps.previewPost;
-
-    if (!previewPost) {
-        previewPost = getPost(state, ownProps.metadata.post_id);
-    }
+    const previewPost = getPost(state, ownProps.metadata.post_id) || ownProps.previewPost;
 
     if (previewPost && previewPost.user_id) {
         user = getUser(state, previewPost.user_id);
