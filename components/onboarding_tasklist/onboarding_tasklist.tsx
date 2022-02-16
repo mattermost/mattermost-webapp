@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useRef, useCallback} from 'react';
+import React, {useRef, useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled, {css} from 'styled-components';
 
@@ -158,12 +158,33 @@ const OnBoardingTaskList = (): JSX.Element => {
     const currentUserId = useSelector(getCurrentUserId);
     const handleTaskTrigger = useHandleOnBoardingTaskTrigger();
     const tasksList = useTasksListWithStatus();
-    const completedCount = tasksList.filter((task) => task.status).length;
+    const countCalculated = useRef(false);
+    const [completedCount, setCompletedCount] = useState(0);
+    const [showAnimation, setShowAnimation] = useState(false);
+    const itemsLeft = tasksList.length - completedCount;
 
     const startTask = (taskName: string) => {
         handleTaskTrigger(taskName);
         toggleTaskList();
     };
+
+    // Done to show task done animation in closed state as well
+    useEffect(() => {
+        const newCCount = tasksList.filter((task) => task.status).length;
+        if ((completedCount + 1) === newCCount && !open && countCalculated.current) {
+            countCalculated.current = true;
+            setTimeout(() => {
+                setShowAnimation(true);
+                setCompletedCount(newCCount);
+            }, 100);
+            setTimeout(() => {
+                setShowAnimation(false);
+                setCompletedCount(newCCount);
+            }, 500);
+        } else {
+            setCompletedCount(newCCount);
+        }
+    }, [tasksList, completedCount]);
 
     const dismissChecklist = useCallback(() => {
         const preferences = [{
@@ -195,11 +216,9 @@ const OnBoardingTaskList = (): JSX.Element => {
         }));
     }, []);
 
-    const itemsLeft = tasksList.length - completedCount;
-
     return (
         <>
-            <CompletedAnimation completed={completedCount === tasksList.length}/>
+            <CompletedAnimation completed={showAnimation}/>
             <Button
                 onClick={toggleTaskList}
                 ref={trigger}
