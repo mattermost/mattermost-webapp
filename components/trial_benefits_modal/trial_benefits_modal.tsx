@@ -91,7 +91,7 @@ const TrialBenefitsModal: React.FC<Props> = (props: Props): JSX.Element | null =
                 {formatMessage(
                     {
                         id: 'trial_benefits.modal.postTrialStartDescription',
-                        defaultMessage: 'Welcome to Enterprise! Your plan expires on {trialExpirationDate}. Until then, enjoy the following benefits of Enterprise:',
+                        defaultMessage: 'Welcome to Enterprise! Your subscription expires on {trialExpirationDate}. Until then, enjoy the following benefits of Enterprise:',
                     },
                     {trialExpirationDate: trialEndDate},
                 )}
