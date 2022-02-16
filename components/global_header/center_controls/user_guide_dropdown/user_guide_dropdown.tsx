@@ -68,8 +68,20 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
             intl,
             isMobileView,
             showDueToStepsNotFinished,
+            pluginMenuItems,
         } = this.props;
         const inTipsView = matchPath(this.props.location.pathname, {path: '/:team/tips'}) != null;
+
+        const pluginItems = pluginMenuItems?.map((item) => {
+            return (
+                <Menu.ItemAction
+                    id={item.id + '_pluginmenuitem'}
+                    key={item.id + '_pluginmenuitem'}
+                    onClick={item.action}
+                    text={item.text}
+                />
+            );
+        });
 
         return (
             <Menu.Group>
@@ -103,6 +115,7 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                     onClick={this.openKeyboardShortcutsModal}
                     text={intl.formatMessage({id: 'userGuideHelp.keyboardShortcuts', defaultMessage: 'Keyboard shortcuts'})}
                 />
+                {pluginItems}
             </Menu.Group>
         );
     }
