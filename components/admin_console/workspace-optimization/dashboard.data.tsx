@@ -30,7 +30,13 @@ type DataModel = {
     };
 }
 
-type ItemStatus = 'none' | 'ok' | 'info' | 'warning' | 'error';
+enum ItemStatus {
+    NONE,
+    OK,
+    INFO,
+    WARNING,
+    ERROR,
+}
 
 type ItemModel = {
     id: string;
@@ -54,11 +60,11 @@ type UpdatesParam = {
 }
 
 const impactModifiers: Record<ItemStatus, number> = {
-    none: 1,
-    ok: 1,
-    info: 0.9,
-    warning: 0.5,
-    error: 0,
+    [ItemStatus.NONE]: 1,
+    [ItemStatus.OK]: 1,
+    [ItemStatus.INFO]: 0.9,
+    [ItemStatus.WARNING]: 0.5,
+    [ItemStatus.ERROR]: 0,
 };
 
 const useMetricsData = () => {
@@ -94,14 +100,14 @@ const useMetricsData = () => {
         items: [
             {
                 id: 'server_version',
-                title: data.serverVersion.status === 'ok' ? formatMessage({
+                title: data.serverVersion.status === ItemStatus.OK ? formatMessage({
                     id: 'admin.reporting.workspace_optimization.updates.server_version.status.ok.title',
                     defaultMessage: 'Your Mattermost server is running the latest version',
                 }) : formatMessage({
                     id: 'admin.reporting.workspace_optimization.updates.server_version.status.error.title',
                     defaultMessage: '{type} version update available',
                 }, {type: data.serverVersion.type}),
-                description: data.serverVersion.status === 'ok' ? formatMessage({
+                description: data.serverVersion.status === ItemStatus.OK ? formatMessage({
                     id: 'admin.reporting.workspace_optimization.updates.server_version.status.ok.description',
                     defaultMessage: 'Placeholder: Nothing to do here. All good!',
                 }) : formatMessage({
