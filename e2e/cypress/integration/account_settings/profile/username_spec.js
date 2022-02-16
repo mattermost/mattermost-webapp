@@ -128,8 +128,6 @@ describe('Settings > Sidebar > General > Edit', () => {
             // # Click on the @ button
             cy.uiGetRecentMentionButton().should('be.visible').click();
 
-            // * Ensure that the user's name is in the search box after clicking on the @ button
-            cy.get('#searchBox').should('be.visible').and('have.value', `@${newTempUserName} `);
             cy.get('#search-items-container').should('be.visible').within(() => {
                 // * Ensure that the mentions are visible in the RHS
                 cy.findByText(`${newTempUserName}`);

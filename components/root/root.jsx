@@ -187,8 +187,6 @@ export default class Root extends React.PureComponent {
         }
 
         if (rudderKey != null && rudderKey !== '' && this.props.telemetryEnabled) {
-            Client4.setTelemetryHandler(new RudderTelemetryHandler());
-
             const rudderCfg = {};
             const siteURL = getConfig(store.getState()).SiteURL;
             if (siteURL !== '') {
@@ -225,6 +223,10 @@ export default class Root extends React.PureComponent {
                     ip: '0.0.0.0',
                 },
                 anonymousId: '00000000000000000000000000',
+            });
+
+            rudderAnalytics.ready(() => {
+                Client4.setTelemetryHandler(new RudderTelemetryHandler());
             });
         }
 

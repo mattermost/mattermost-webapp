@@ -3,6 +3,7 @@
 
 import {shallow} from 'enzyme';
 import React from 'react';
+import rudderAnalytics from 'rudder-sdk-js';
 
 import matchMedia from 'tests/helpers/match_media.mock.ts';
 
@@ -17,6 +18,7 @@ jest.mock('rudder-sdk-js', () => ({
     identify: jest.fn(),
     load: jest.fn(),
     page: jest.fn(),
+    ready: jest.fn((callback) => callback()),
     track: jest.fn(),
 }));
 
@@ -200,6 +202,13 @@ describe('components/Root', () => {
             },
         };
 
+        afterEach(() => {
+            Client4.telemetryHandler = undefined;
+
+            Constants.TELEMETRY_RUDDER_KEY = 'placeholder_rudder_key';
+            Constants.TELEMETRY_RUDDER_DATAPLANE_URL = 'placeholder_rudder_dataplane_url';
+        });
+
         test('should not set a TelemetryHandler when onConfigLoaded is called if Rudder is not configured', () => {
             const wrapper = shallow(<Root {...props}/>);
 
@@ -223,6 +232,25 @@ describe('components/Root', () => {
             Client4.trackEvent('category', 'event');
 
             expect(Client4.telemetryHandler).toBeDefined();
+
+            wrapper.unmount();
+        });
+
+        test('should not set a TelemetryHandler when onConfigLoaded is called but Rudder has been blocked', () => {
+            rudderAnalytics.ready.mockImplementation(() => {
+                // Simulate an error occurring and the callback not getting called
+            });
+
+            Constants.TELEMETRY_RUDDER_KEY = 'testKey';
+            Constants.TELEMETRY_RUDDER_DATAPLANE_URL = 'url';
+
+            const wrapper = shallow(<Root {...props}/>);
+
+            wrapper.instance().onConfigLoaded();
+
+            Client4.trackEvent('category', 'event');
+
+            expect(Client4.telemetryHandler).not.toBeDefined();
 
             wrapper.unmount();
         });
