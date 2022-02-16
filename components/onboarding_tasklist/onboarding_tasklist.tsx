@@ -22,10 +22,10 @@ import {openModal} from 'actions/views/modals';
 import {GlobalState} from 'types/store';
 import OnBoardingVideoModal from 'components/onboarding_tasks/onboarding_video_modal/onboarding_video_modal';
 
-import {TaskListPopover} from './onboarding_checklist_popover';
-import {Task} from './onboarding_checklist_task';
-import Completed from './onboarding_checklist_completed';
-import {CompletedAnimation} from './onboarding_checklist_animations';
+import {TaskListPopover} from './onboarding_tasklist_popover';
+import {Task} from './onboarding_tasklist_task';
+import Completed from './onboarding_tasklist_completed';
+import {CompletedAnimation} from './onboarding_tasklist_animations';
 
 const TaskItems = styled.div`
     border-radius: 4px;
@@ -151,7 +151,7 @@ const Skeleton = styled.div`
     position: relative;
 `;
 
-const TaskList = (): JSX.Element => {
+const OnBoardingTaskList = (): JSX.Element => {
     const open = useSelector(((state: GlobalState) => getBool(state, OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN)));
     const trigger = useRef<HTMLButtonElement>(null);
     const dispatch = useDispatch();
@@ -274,4 +274,4 @@ const TaskList = (): JSX.Element => {
     );
 };
 
-export default TaskList;
+export default OnBoardingTaskList;

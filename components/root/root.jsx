@@ -27,7 +27,7 @@ import ModalController from 'components/modal_controller';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
-import TaskList from 'components/global_onboarding_list/onboarding_checklist';
+import OnBoardingTaskList from 'components/onboarding_tasklist';
 
 import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
@@ -431,7 +431,7 @@ export default class Root extends React.PureComponent {
                                 />
                                 <RootRedirect/>
                             </Switch>
-                            {this.props.showTaskList && <TaskList/>}
+                            {this.props.showTaskList && <OnBoardingTaskList/>}
                         </CompassThemeProvider>
                     </Route>
                     <LoggedInHFTRoute
@@ -461,7 +461,7 @@ export default class Root extends React.PureComponent {
                     <CompassThemeProvider theme={this.props.theme}>
                         <ModalController/>
                         <GlobalHeader/>
-                        {this.props.showTaskList && <TaskList/>}
+                        {this.props.showTaskList && <OnBoardingTaskList/>}
                         <TeamSidebar/>
                         <Switch>
                             {this.props.products?.map((product) => (

@@ -5,8 +5,6 @@ import React, {useCallback, useMemo} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {getTeam} from 'mattermost-redux/actions/teams';
-
 import {trackEvent as trackEventAction} from 'actions/telemetry_actions';
 import {openModal} from 'actions/views/modals';
 import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
@@ -15,7 +13,8 @@ import InvitationModal from 'components/invitation_modal';
 import {
     AutoTourStatus,
     FINISHED,
-    OnboardingTourSteps, TTNameMapToATStatusKey,
+    OnboardingTourSteps,
+    TTNameMapToATStatusKey,
     TutorialTourName,
 } from 'components/onboarding_tour';
 import {savePreferences, savePreferences as storeSavePreferences} from 'mattermost-redux/actions/preferences';
@@ -140,7 +139,6 @@ export const useHandleOnBoardingTaskTrigger = () => {
     const dispatch = useDispatch();
     const handleSaveData = useHandleOnBoardingTaskData();
     const currentUserId = useSelector(getCurrentUserId);
-    const defaultTeam = useSelector(getTeam);
 
     return (taskName: string) => {
         switch (taskName) {
