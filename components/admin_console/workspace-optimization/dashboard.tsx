@@ -50,7 +50,8 @@ const successIcon = (
 const WorkspaceOptimizationDashboard = (props: Props) => {
     const [loading, setLoading] = useState(true);
     const [versionData, setVersionData] = useState<{type: string; version: string; status: ItemStatus}>({type: '', version: '', status: 'none'});
-    const [guestAccountStatus, setGuestAccountStatus] = useState<ItemStatus>('none');
+
+    // const [guestAccountStatus, setGuestAccountStatus] = useState<ItemStatus>('none');
     const [liveUrlStatus, setLiveUrlStatus] = useState<ItemStatus>('none');
     const {formatMessage} = useIntl();
     const {getAccessData, getConfigurationData, getUpdatesData, getPerformanceData, getDataPrivacyData, getEaseOfManagementData} = useMetricsData();
@@ -61,7 +62,13 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     const {TOTAL_USERS: totalUsers, TOTAL_POSTS: totalPosts} = analytics!;
 
     // gather locally available data
-    const {ServiceSettings, DataRetentionSettings, TeamSettings, GuestAccountsSettings} = props.config;
+    const {
+        ServiceSettings,
+        DataRetentionSettings,
+
+        // TeamSettings,
+        // GuestAccountsSettings,
+    } = props.config;
     const {location} = document;
 
     const sessionLengthWebInDays = ServiceSettings?.SessionLengthWebInDays || -1;
@@ -116,31 +123,34 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         }
     };
 
-    const fetchGuestAccounts = async () => {
-        if (TeamSettings?.EnableOpenServer && GuestAccountsSettings?.Enable) {
-            let usersArray = await fetch('/api/v4/users/invalid_emails').then((result) => result.json());
-
-            // this setting is just a string with a list of domains, or an empty string
-            if (GuestAccountsSettings?.RestrictCreationToDomains) {
-                const domainList = GuestAccountsSettings?.RestrictCreationToDomains;
-                usersArray = usersArray.filter(({email}: Record<string, unknown>) => domainList.includes((email as string).split('@')[1]));
-            }
-
-            // if guest accounts make up more than 5% of the user base show the info accordion
-            if (usersArray.length > (totalUsers as number * 0.05)) {
-                setGuestAccountStatus('info');
-                return;
-            }
-        }
-
-        setGuestAccountStatus('ok');
-    };
+    // commented out for now.
+    // @see discussion here: https://github.com/mattermost/mattermost-webapp/pull/9822#discussion_r806879385
+    // const fetchGuestAccounts = async () => {
+    //     if (TeamSettings?.EnableOpenServer && GuestAccountsSettings?.Enable) {
+    //         let usersArray = await fetch('/api/v4/users/invalid_emails').then((result) => result.json());
+    //
+    //         // this setting is just a string with a list of domains, or an empty string
+    //         if (GuestAccountsSettings?.RestrictCreationToDomains) {
+    //             const domainList = GuestAccountsSettings?.RestrictCreationToDomains;
+    //             usersArray = usersArray.filter(({email}: Record<string, unknown>) => domainList.includes((email as string).split('@')[1]));
+    //         }
+    //
+    //         // if guest accounts make up more than 5% of the user base show the info accordion
+    //         if (usersArray.length > (totalUsers as number * 0.05)) {
+    //             setGuestAccountStatus('info');
+    //             return;
+    //         }
+    //     }
+    //
+    //     setGuestAccountStatus('ok');
+    // };
 
     useEffect(() => {
         const promises = [];
         promises.push(testURL());
         promises.push(fetchVersion());
-        promises.push(fetchGuestAccounts());
+
+        // promises.push(fetchGuestAccounts());
         Promise.all(promises).then(() => setLoading(false));
     }, []);
 
@@ -159,7 +169,8 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         dataPrivacy: getDataPrivacyData({retention: {status: dataRetentionEnabled ? 'ok' : 'info'}}),
         easyManagement: getEaseOfManagementData({
             ldap: {status: totalUsers > 500 ? 'info' : 'ok'},
-            guestAccounts: {status: guestAccountStatus},
+
+            // guestAccounts: {status: guestAccountStatus},
         }),
     };
 

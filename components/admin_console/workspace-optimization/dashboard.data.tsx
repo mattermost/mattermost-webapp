@@ -337,7 +337,7 @@ const useMetricsData = () => {
         ldap: {
             status: ItemStatus;
         };
-        guestAccounts: {
+        guestAccounts?: {
             status: ItemStatus;
         };
     }
@@ -383,24 +383,27 @@ const useMetricsData = () => {
                 scoreImpact: 22,
                 impactModifier: impactModifiers[data.ldap.status],
             },
-            {
-                id: 'guest-accounts',
-                title: formatMessage({
-                    id: 'admin.reporting.workspace_optimization.ease_of_management.guests_accounts.title',
-                    defaultMessage: 'Guest Accounts recommended',
-                }),
-                description: formatMessage({
-                    id: 'admin.reporting.workspace_optimization.ease_of_management.guests_accounts.description',
-                    defaultMessage: 'Several user accounts are using different domains than your Site URL. You can control user access to channels and teams with guest accounts. We recommend starting an Enterprise trial and enabling Guest Access.',
-                }),
-                ...trialOrEnterpriseCtaConfig,
-                infoUrl: 'https://docs.mattermost.com/onboard/guest-accounts.html',
-                infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),
-                telemetryAction: 'guest-accounts',
-                status: data.guestAccounts.status,
-                scoreImpact: 6,
-                impactModifier: impactModifiers[data.guestAccounts.status],
-            },
+
+            // commented out for now.
+            // @see discussion here: https://github.com/mattermost/mattermost-webapp/pull/9822#discussion_r806879385
+            // {
+            //     id: 'guest-accounts',
+            //     title: formatMessage({
+            //         id: 'admin.reporting.workspace_optimization.ease_of_management.guests_accounts.title',
+            //         defaultMessage: 'Guest Accounts recommended',
+            //     }),
+            //     description: formatMessage({
+            //         id: 'admin.reporting.workspace_optimization.ease_of_management.guests_accounts.description',
+            //         defaultMessage: 'Several user accounts are using different domains than your Site URL. You can control user access to channels and teams with guest accounts. We recommend starting an Enterprise trial and enabling Guest Access.',
+            //     }),
+            //     ...trialOrEnterpriseCtaConfig,
+            //     infoUrl: 'https://docs.mattermost.com/onboard/guest-accounts.html',
+            //     infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),
+            //     telemetryAction: 'guest-accounts',
+            //     status: data.guestAccounts.status,
+            //     scoreImpact: 6,
+            //     impactModifier: impactModifiers[data.guestAccounts.status],
+            // },
         ],
     });
 
