@@ -25,7 +25,7 @@ const Overlay = styled.div`
     transition: 150ms;
     transition-property: background-color;
     transition-timing-function: ease-in-out;
-    z-index: 20;
+    z-index: 100;
     &.fade-enter {
         background-color: rgba(0, 0, 0, 0);
     }

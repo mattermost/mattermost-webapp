@@ -80,7 +80,7 @@ const Button = styled.button<{open: boolean}>(({open}) => {
         left: 20px;
         bottom: 20px;
         position: fixed;
-        z-index: 21;
+        z-index: 101;
         display: flex;
         align-items: center;
         background: var(--center-channel-bg);
