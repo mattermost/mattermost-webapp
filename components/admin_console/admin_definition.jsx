@@ -1911,15 +1911,6 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'SupportSettings.SupportEmail',
-                        label: t('admin.support.emailTitle'),
-                        label_default: 'Support Email:',
-                        help_text: t('admin.support.emailHelp'),
-                        help_text_default: 'Email address displayed on email notifications.',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'SupportSettings.TermsOfServiceLink',
                         label: t('admin.support.termsTitle'),
                         label_default: 'Terms of Use Link:',
@@ -2284,6 +2275,15 @@ const AdminDefinition = {
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTIFICATIONS)),
                             it.stateIsFalse('EmailSettings.SendEmailNotifications'),
                         ),
+                    },
+                    {
+                       type: Constants.SettingsTypes.TYPE_TEXT,
+                       key: 'EmailSettings.SupportEmail',
+                       label: t('admin.environment.notifications.supportEmail.label'),
+                       label_default: 'Support Email Address:',
+                       help_text: t('admin.environment.notifications.supportEmail.help'),
+                       help_text_default: 'Email address displayed on support emails.',
+                       isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
