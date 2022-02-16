@@ -6,6 +6,7 @@ import {bindActionCreators} from 'redux';
 
 import {getConfig, getLicense, getSubscriptionStats as subscriptionStatsSelector} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 import {getTeamInviteInfo} from 'mattermost-redux/actions/teams';
 
 import {getGlobalItem} from 'selectors/storage';
@@ -31,6 +32,8 @@ function mapStateToProps(state, ownProps) {
     const samlLoginButtonText = config.SamlLoginButtonText;
     const ldapLoginFieldName = config.LdapLoginFieldName;
     const siteName = config.SiteName;
+
+    const useCaseOnboarding = getUseCaseOnboarding(state);
 
     let usedBefore;
     if (ownProps.location.search) {
@@ -59,6 +62,7 @@ function mapStateToProps(state, ownProps) {
         siteName,
         usedBefore,
         subscriptionStats,
+        useCaseOnboarding,
     };
 }
 
