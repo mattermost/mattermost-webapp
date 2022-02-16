@@ -120,6 +120,6 @@ describe('Onboarding', () => {
         });
 
         // * Check that the 'Welcome to Mattermost' message is visible
-        cy.findByText('Welcome to Mattermost').should('be.visible');
+        cy.findByText('Welcome to Mattermost').should('be.visible').wait(TIMEOUTS.ONE_SEC);
     });
 });
