@@ -103,7 +103,7 @@ const Button = styled.button<{open: boolean}>(({open}) => {
         span {
             width: 20px;
             height: 16px;
-            background: var(--sidebar-text-active-border);
+            background: var(--button-bg);
             position: fixed;
             display: ${open ? 'none' : 'block'};
             border-radius: 12px;
@@ -122,7 +122,7 @@ const PlayButton = styled.button`
     max-width: 175px;
     background: var(--button-bg);
     border-radius: 4px;
-    color: var(--sidebar-text);
+    color: var(--button-color);
     border: none;
     font-weight: bold;
     position: absolute;

@@ -5,6 +5,8 @@ import React, {useCallback, useMemo} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
+import {getTeam} from 'mattermost-redux/actions/teams';
+
 import {trackEvent as trackEventAction} from 'actions/telemetry_actions';
 import {openModal} from 'actions/views/modals';
 import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
@@ -138,6 +140,7 @@ export const useHandleOnBoardingTaskTrigger = () => {
     const dispatch = useDispatch();
     const handleSaveData = useHandleOnBoardingTaskData();
     const currentUserId = useSelector(getCurrentUserId);
+    const defaultTeam = useSelector(getTeam);
 
     return (taskName: string) => {
         switch (taskName) {
@@ -168,7 +171,7 @@ export const useHandleOnBoardingTaskTrigger = () => {
             break;
         }
         case OnboardingTasksName.PLAYBOOKS_TOUR: {
-            browserHistory.push('/playbooks');
+            browserHistory.push('/playbooks/start');
             handleSaveData(taskName, TaskNameMapToSteps[taskName].FINISHED, true);
             break;
         }

@@ -15,7 +15,7 @@ export interface TaskProps {
 
 const StyledTask = styled.div`
     display: flex;
-    background-color: rgb(255, 255, 255);
+    background-color: var(--center-channel-bg);
     cursor: pointer;
     width: 100%;
     padding: 8px 20px;

@@ -3,7 +3,7 @@
 
 const FINISHED = 999;
 
-export const OnboardingTaskCategory = 'on_boarding_task_list';
+export const OnboardingTaskCategory = 'onboarding_task_list';
 
 // Whole task list is based on these
 export const OnboardingTasksName = {
