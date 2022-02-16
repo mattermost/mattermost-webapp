@@ -3858,6 +3858,7 @@
   "onboarding_wizard.invite_members.description_link": "Collaboration is tough by yourself. Invite a few team members using the invitation link below.",
   "onboarding_wizard.invite_members.next": "Send invites",
   "onboarding_wizard.invite_members.next_link": "Finish setup",
+  "onboarding_wizard.invite_members.placeholder": "Enter email addresses",
   "onboarding_wizard.invite_members.skip": "I'll do this later",
   "onboarding_wizard.invite_members.success": "Invitations Sent!",
   "onboarding_wizard.invite_members.title": "Invite your team members",

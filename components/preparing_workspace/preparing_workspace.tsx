@@ -544,7 +544,7 @@ export default function PreparingWorkspace(props: Props) {
                             },
                         });
                     }}
-                    teamInviteId={(currentTeam || myTeams?.[0]).invite_id || ''}
+                    teamInviteId={(currentTeam || myTeams?.[0])?.invite_id || ''}
                     configSiteUrl={configSiteUrl}
                     formUrl={form.url}
                     browserSiteUrl={browserSiteUrl}
@@ -556,7 +556,7 @@ export default function PreparingWorkspace(props: Props) {
                     step={currentStep}
                     transitionDirection={getTransitionDirectionMultiStep([WizardSteps.Channel, WizardSteps.InviteMembers])}
                     channelName={form.channel.name || 'Channel name'}
-                    teamName={isSelfHosted ? form.organization || '' : (currentTeam || myTeams?.[0]).display_name || ''}
+                    teamName={isSelfHosted ? form.organization || '' : (currentTeam || myTeams?.[0])?.display_name || ''}
                 />
                 <Transitioning
                     onPageView={onPageViews[WizardSteps.TransitioningOut]}

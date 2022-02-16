@@ -4,6 +4,10 @@
     display: flex;
     // page width - channels preview width - progress dots width - people overlap width
     max-width: calc(100vw - 600px - 120px - 30px);
+
+    .UsersEmailsInput {
+        max-width: 420px;
+    }
 }
 
 .InviteMembers {

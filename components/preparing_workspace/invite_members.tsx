@@ -47,8 +47,8 @@ const InviteMembers = (props: Props) => {
     useEffect(props.onPageView, []);
 
     const placeholder = formatMessage({
-        id: 'invite_modal.add_invites',
-        defaultMessage: 'Enter a name or email address',
+        id: 'onboarding_wizard.invite_members.placeholder',
+        defaultMessage: 'Enter email addresses',
     });
     const errorProperties = {
         showError: false,
