@@ -58,16 +58,10 @@ describe('Search', () => {
         // * Verify the pinned post RHS is open
         cy.uiGetRHS().should('contain', 'Pinned Posts');
 
-        // * Check that search input value remains the same as we entered before
-        cy.uiGetSearchBox().should('have.value', searchText);
-
         // # Now click on the saved post button from the header
         cy.uiGetSavedPostButton().click();
 
         // * Verify the pinned post RHS is open
         cy.uiGetRHS().should('contain', 'Saved posts');
-
-        // * Again check that search input value remains the same as we entered before
-        cy.uiGetSearchBox().should('have.value', searchText);
     });
 });
