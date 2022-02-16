@@ -16,7 +16,7 @@ import Constants from 'utils/constants';
 import MultiSelectOption from './multiselect_option/multiselect_option';
 
 const USERS_PER_PAGE = 50;
-const MAX_SELECTABLE_VALUES = 256;
+const MAX_SELECTABLE_VALUES = 30;
 
 type UserProfileValue = Value & UserProfile;
 
@@ -234,7 +234,6 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
                 backButtonClick={this.props.backButtonClick}
                 backButtonClass={this.props.backButtonClass}
                 backButtonText={this.props.backButtonText}
-                numRemainingText={<></>}
             />
         );
     }
