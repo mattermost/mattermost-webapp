@@ -125,7 +125,7 @@ describe('Collapsed Reply Threads', () => {
         cy.get('article.ThreadItem').find('.activity').should('have.text', '1 new reply');
     });
 
-    it('should open popover when avatar is clicked', () => {
+    it('MM-T4646 should open popover when avatar is clicked', () => {
         cy.uiWaitUntilMessagePostedIncludes(postForAvatar.data.message);
 
         // # Post a reply post as current user
