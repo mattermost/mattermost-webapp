@@ -264,17 +264,13 @@ export const isCurrentChannelMuted: (state: GlobalState) => boolean = createSele
 export const isCurrentChannelArchived: (state: GlobalState) => boolean = createSelector(
     'isCurrentChannelArchived',
     getCurrentChannel,
-    (channel) => {
-        return channel.delete_at !== 0;
-    },
+    (channel) => channel.delete_at !== 0,
 );
 
 export const isCurrentChannelDefault: (state: GlobalState) => boolean = createSelector(
     'isCurrentChannelDefault',
     getCurrentChannel,
-    (channel) => {
-        return isDefault(channel);
-    },
+    (channel) => isDefault(channel),
 );
 
 export function isCurrentChannelReadOnly(state: GlobalState): boolean {
@@ -320,9 +316,8 @@ export function makeGetChannelUnreadCount(): (state: GlobalState, channelId: str
         (state: GlobalState, channelId: string) => getChannelMessageCount(state, channelId),
         (state: GlobalState, channelId: string) => getMyChannelMembership(state, channelId),
         isCollapsedThreadsEnabled,
-        (messageCount: ChannelMessageCount, member: ChannelMembership, crtEnabled) => {
-            return calculateUnreadCount(messageCount, member, crtEnabled);
-        },
+        (messageCount: ChannelMessageCount, member: ChannelMembership, crtEnabled) =>
+            calculateUnreadCount(messageCount, member, crtEnabled),
     );
 }
 

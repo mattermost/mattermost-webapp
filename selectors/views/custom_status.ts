@@ -53,9 +53,7 @@ export const getRecentCustomStatuses = createSelector(
 export const isCustomStatusEnabled = createSelector(
     'isCustomStatusEnabled',
     (state: GlobalState) => getConfig(state),
-    (config) => {
-        return config && config.EnableCustomUserStatuses === 'true';
-    },
+    (config) => config && config.EnableCustomUserStatuses === 'true',
 );
 
 function showCustomStatusPulsatingDotAndPostHeader(state: GlobalState) {

@@ -31,9 +31,7 @@ export const isUnreadFilterEnabled = createSelector(
     'isUnreadFilterEnabled',
     (state: GlobalState) => state.views.channelSidebar.unreadFilterEnabled,
     shouldShowUnreadsCategory,
-    (isUnreadFilterEnabled, showUnreadsCategory) => {
-        return isUnreadFilterEnabled && !showUnreadsCategory;
-    },
+    (isUnreadFilterEnabled, showUnreadsCategory) => isUnreadFilterEnabled && !showUnreadsCategory,
 );
 
 export const getCategoriesForCurrentTeam: (state: GlobalState) => ChannelCategory[] = (() => {

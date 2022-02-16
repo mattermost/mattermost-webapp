@@ -200,10 +200,8 @@ export const isCollapsedThreadsEnabled = createSelector(
     isCollapsedThreadsAllowed,
     getCollapsedThreadsPreference,
     getConfig,
-    (collapsedThreadAllowed, collapsedThreadPreference, config) => {
-        return collapsedThreadAllowed &&
-            (collapsedThreadPreference === Preferences.COLLAPSED_REPLY_THREADS_ON || (config.CollapsedThreads as string) === 'always_on');
-    },
+    (collapsedThreadAllowed, collapsedThreadPreference, config) => collapsedThreadAllowed &&
+            (collapsedThreadPreference === Preferences.COLLAPSED_REPLY_THREADS_ON || (config.CollapsedThreads as string) === 'always_on'),
 );
 
 export function isGroupChannelManuallyVisible(state: GlobalState, channelId: string): boolean {
