@@ -30,7 +30,7 @@ exports[`PostMessagePreview nested previews should render file preview 1`] = `
         </div>
       </div>
       <div
-        className="col col__name"
+        className="col col__name permalink--username"
       >
         <Connect(UserProfile)
           disablePopover={true}
@@ -137,7 +137,7 @@ exports[`PostMessagePreview nested previews should render opengraph preview 1`] 
         </div>
       </div>
       <div
-        className="col col__name"
+        className="col col__name permalink--username"
       >
         <Connect(UserProfile)
           disablePopover={true}
@@ -252,7 +252,7 @@ exports[`PostMessagePreview should not render bot icon 1`] = `
         </div>
       </div>
       <div
-        className="col col__name"
+        className="col col__name permalink--username"
       >
         <Connect(UserProfile)
           disablePopover={true}
@@ -344,7 +344,7 @@ exports[`PostMessagePreview should render bot icon 1`] = `
         </div>
       </div>
       <div
-        className="col col__name"
+        className="col col__name permalink--username"
       >
         <Connect(UserProfile)
           disablePopover={true}
@@ -436,7 +436,7 @@ exports[`PostMessagePreview should render correctly 1`] = `
         </div>
       </div>
       <div
-        className="col col__name"
+        className="col col__name permalink--username"
       >
         <Connect(UserProfile)
           disablePopover={true}
