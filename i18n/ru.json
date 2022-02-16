@@ -302,8 +302,6 @@
   "admin.billing.subscription.planDetails.features.autoComplianceExports": "Автоматический экспорт комплаенса",
   "admin.billing.subscription.planDetails.features.channelModeration": "Модерация канала",
   "admin.billing.subscription.planDetails.features.customRetentionPolicies": "Пользовательские политики хранения данных",
-  "admin.billing.subscription.planDetails.features.enterpriseAdminSso": "Администрирование предприятия и SSO",
-  "admin.billing.subscription.planDetails.features.enterpriseAdministration": "Администрирование предприятия и SSO",
   "admin.billing.subscription.planDetails.features.groupAndOneToOneMessaging": "Групповой и индивидуальный обмен сообщениями, обмен файлами и поиск",
   "admin.billing.subscription.planDetails.features.guestAccounts": "Гостевые учетные записи",
   "admin.billing.subscription.planDetails.features.incidentCollaboration": "Совместная работа с происшествиями",

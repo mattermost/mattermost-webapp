@@ -302,8 +302,6 @@
   "admin.billing.subscription.planDetails.features.autoComplianceExports": "自动合规导出",
   "admin.billing.subscription.planDetails.features.channelModeration": "频道管理",
   "admin.billing.subscription.planDetails.features.customRetentionPolicies": "自定义数据保留策略",
-  "admin.billing.subscription.planDetails.features.enterpriseAdminSso": "企业管理与 SSO",
-  "admin.billing.subscription.planDetails.features.enterpriseAdministration": "企业管理与 SSO",
   "admin.billing.subscription.planDetails.features.groupAndOneToOneMessaging": "群组和一对一消息传递、文件共享和搜索",
   "admin.billing.subscription.planDetails.features.guestAccounts": "访客帐号",
   "admin.billing.subscription.planDetails.features.incidentCollaboration": "事件协作",
