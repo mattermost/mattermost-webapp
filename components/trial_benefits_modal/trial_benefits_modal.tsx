@@ -39,12 +39,11 @@ const ConsolePages = {
     PUSH_NOTIFICATION_CENTER: '/admin_console/environment/push_notification_server',
 };
 
-const TrialBenefitsModal = (
-    {
-        onClose,
-        onExited,
-        trialJustStarted,
-    }: Props): JSX.Element | null => {
+const TrialBenefitsModal = ({
+    onClose,
+    onExited,
+    trialJustStarted,
+}: Props): JSX.Element | null => {
     const {formatMessage} = useIntl();
 
     const license = useSelector((state: GlobalState) => getLicense(state));
@@ -70,24 +69,20 @@ const TrialBenefitsModal = (
     const steps: TrialBenefitsModalStepProps[] = useMemo(() => [
         {
             id: trialJustStarted ? 'trialStart' : 'postTrialStart',
-            title: trialJustStarted ?
-                formatMessage({id: 'trial_benefits.modal.trialStarttitle', defaultMessage: 'Your trial has started! Explore the benefits of Enterprise'}) :
-                formatMessage({id: 'trial_benefits.modal.postTrialStarttitle', defaultMessage: 'You are on the Enterprise plan! Explore the benefits of Enterprise'}),
-            description: trialJustStarted ?
-                formatMessage(
-                    {
-                        id: 'trial_benefits.modal.trialStartDescription',
-                        defaultMessage: 'Welcome to your Mattermost Enterprise trial! It expires on {trialExpirationDate}. Until then, enjoy the following benefits of Enterprise:',
-                    },
-                    {trialExpirationDate: trialEndDate},
-                ) :
-                formatMessage(
-                    {
-                        id: 'trial_benefits.modal.postTrialStartDescription',
-                        defaultMessage: 'Welcome to Enterprise! Your plan expires on {trialExpirationDate}. Until then, enjoy the following benefits of Enterprise:',
-                    },
-                    {trialExpirationDate: trialEndDate},
-                ),
+            title: trialJustStarted ? formatMessage({id: 'trial_benefits.modal.trialStarttitle', defaultMessage: 'Your trial has started! Explore the benefits of Enterprise'}) : formatMessage({id: 'trial_benefits.modal.postTrialStarttitle', defaultMessage: 'You are on the Enterprise plan! Explore the benefits of Enterprise'}),
+            description: trialJustStarted ? formatMessage(
+                {
+                    id: 'trial_benefits.modal.trialStartDescription',
+                    defaultMessage: 'Welcome to your Mattermost Enterprise trial! It expires on {trialExpirationDate}. Until then, enjoy the following benefits of Enterprise:',
+                },
+                {trialExpirationDate: trialEndDate},
+            ) : formatMessage(
+                {
+                    id: 'trial_benefits.modal.postTrialStartDescription',
+                    defaultMessage: 'Welcome to Enterprise! Your plan expires on {trialExpirationDate}. Until then, enjoy the following benefits of Enterprise:',
+                },
+                {trialExpirationDate: trialEndDate},
+            ),
             svgWrapperClassName: 'handsSvg',
             svgElement: (
                 <HandsSvg
