@@ -43,8 +43,6 @@
     }
 
     > button {
-        border: var(--border-width) solid rgba(var(--center-channel-bg-rgb), 1);
-
         &:not(:first-child) {
             margin-left: var(--offset);
         }
