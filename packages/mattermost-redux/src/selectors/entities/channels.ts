@@ -98,7 +98,9 @@ export function getChannelsInPolicy() {
 
             const policyChannels: Channel[] = [];
 
-            Object.entries(getAllChannels).forEach((channelEntry: [string, Channel]) => {
+            const values = Object.entries(getAllChannels);
+            console.log('getChannelsInPolicy: ' + values.length);
+            values.forEach((channelEntry: [string, Channel]) => {
                 const [, channel] = channelEntry;
                 if (channel.policy_id === policy.id) {
                     policyChannels.push(channel);
@@ -180,6 +182,7 @@ export function makeGetChannelsForIds(): (state: GlobalState, ids: string[]) => 
         getAllChannels,
         (state: GlobalState, ids: string[]) => ids,
         (allChannels, ids) => {
+            console.log('makeGetChannelsForIds: ' + ids.length);
             return ids.map((id) => allChannels[id]);
         },
     );
@@ -341,7 +344,9 @@ export const getChannelSetForAllTeams: (state: GlobalState) => string[] = create
     getAllChannels,
     (allChannels): string[] => {
         const channelSet: string[] = [];
-        Object.values(allChannels).forEach((channel: Channel) => {
+        const channels = Object.values(allChannels);
+        console.log('getChannelSetForAllTeams: ' + channels.length);
+        channels.forEach((channel: Channel) => {
             if (channel.type !== General.GM_CHANNEL && channel.type !== General.DM_CHANNEL) {
                 channelSet.push(channel.id);
             }
@@ -357,6 +362,7 @@ function sortAndInjectChannels(channels: IDMappedObjects<Channel>, channelSet: s
         return currentChannels;
     }
 
+    console.log('sortAndInjectChannels: ' + channelSet.size);
     channelSet.forEach((c) => {
         currentChannels.push(channels[c]);
     });
@@ -399,6 +405,7 @@ export const getChannelsNameMapInTeam: (state: GlobalState, teamId: string) => R
     (channels: IDMappedObjects<Channel>, channelsInTeams: RelationOneToMany<Team, Channel>, teamId: string): Record<string, Channel> => {
         const channelsInTeam = channelsInTeams[teamId] || [];
         const channelMap: Record<string, Channel> = {};
+        console.log('getChannelsNameMapInTeam: ' + channelsInTeam.size);
         channelsInTeam.forEach((id) => {
             const channel = channels[id];
             channelMap[channel.name] = channel;
@@ -413,6 +420,7 @@ export const getChannelsNameMapInCurrentTeam: (state: GlobalState) => Record<str
     getChannelSetInCurrentTeam,
     (channels: IDMappedObjects<Channel>, currentTeamChannelSet: string[]): Record<string, Channel> => {
         const channelMap: Record<string, Channel> = {};
+        console.log('getChannelsNameMapInCurrentTeam: ' + currentTeamChannelSet.size);
         currentTeamChannelSet.forEach((id) => {
             const channel = channels[id];
             channelMap[channel.name] = channel;
@@ -427,6 +435,7 @@ export const getChannelNameToDisplayNameMap: (state: GlobalState) => Record<stri
     getChannelSetInCurrentTeam,
     (channels: IDMappedObjects<Channel>, currentTeamChannelSet: string[]) => {
         const channelMap: Record<string, string> = {};
+        console.log('getChannelNameToDisplayNameMap: ' + currentTeamChannelSet.size);
         for (const id of currentTeamChannelSet) {
             const channel = channels[id];
             channelMap[channel.name] = channel.display_name;
@@ -444,6 +453,7 @@ export const getAllDirectChannels: (state: GlobalState) => Channel[] = createSel
     getTeammateNameDisplaySetting,
     (channels: IDMappedObjects<Channel>, channelSet: Set<string>, users: UsersState, teammateNameDisplay: string): Channel[] => {
         const dmChannels: Channel[] = [];
+        console.log('getAllDirectChannels: ' + channelSet.size);
         channelSet.forEach((c) => {
             dmChannels.push(completeDirectChannelInfo(users, teammateNameDisplay, channels[c]));
         });
@@ -459,6 +469,7 @@ export const getAllDirectChannelsNameMapInCurrentTeam: (state: GlobalState) => R
     getTeammateNameDisplaySetting,
     (channels: IDMappedObjects<Channel>, channelSet: Set<string>, users: UsersState, teammateNameDisplay: string): Record<string, Channel> => {
         const channelMap: Record<string, Channel> = {};
+        console.log('getAllDirectChannelsNameMapInCurrentTeam: ' + channelSet.size);
         channelSet.forEach((id) => {
             const channel = channels[id];
             channelMap[channel.name] = completeDirectChannelInfo(users, teammateNameDisplay, channel);
@@ -476,6 +487,7 @@ export const getGroupChannels: (state: GlobalState) => Channel[] = createSelecto
     getTeammateNameDisplaySetting,
     (channels: IDMappedObjects<Channel>, channelSet: Set<string>, users: UsersState, teammateNameDisplay: string): Channel[] => {
         const gmChannels: Channel[] = [];
+        console.log('getGroupChannels: ' + channelSet.size);
         channelSet.forEach((id) => {
             const channel = channels[id];
 
@@ -493,7 +505,9 @@ export const getMyChannels: (state: GlobalState) => Channel[] = createSelector(
     getAllDirectChannels,
     getMyChannelMemberships,
     (channels: Channel[], directChannels: Channel[], myMembers: RelationOneToOne<Channel, ChannelMembership>): Channel[] => {
-        return [...channels, ...directChannels].filter((c) => myMembers.hasOwnProperty(c.id));
+        const allChannels = [...channels, ...directChannels];
+        console.log('getMyChannels: ' + allChannels.length);
+        return allChannels.filter((c) => myMembers.hasOwnProperty(c.id));
     },
 );
 
@@ -503,6 +517,7 @@ export const getOtherChannels: (state: GlobalState, archived?: boolean | null) =
     getMyChannelMemberships,
     (state: GlobalState, archived: boolean | undefined | null = true) => archived,
     (channels: Channel[], myMembers: RelationOneToOne<Channel, ChannelMembership>, archived?: boolean | null): Channel[] => {
+        console.log('getOtherChannels: ' + channels.length);
         return channels.filter((c) => !myMembers.hasOwnProperty(c.id) && c.type === General.OPEN_CHANNEL && (archived ? true : c.delete_at === 0));
     },
 );
@@ -554,10 +569,12 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
         threadCounts,
         threadCountsIncludingDirect,
     ) => {
+        const values = Object.entries(myMembers);
+        console.log('getUnreadStatus: ' + values.length);
         const {
             messages: currentTeamUnreadMessages,
             mentions: currentTeamUnreadMentions,
-        } = Object.entries(myMembers).reduce((counts, [channelId, membership]) => {
+        } = values.reduce((counts, [channelId, membership]) => {
             const channel = channels[channelId];
 
             if (!channel || !membership) {
@@ -658,6 +675,7 @@ export const getUnreadStatusInCurrentTeam: (state: GlobalState) => BasicUnreadSt
         collapsedThreads,
         threadCounts,
     ) => {
+        console.log('getUnreadStatusInCurrentTeam: ' + channels.length);
         const {
             messages: currentTeamUnreadMessages,
             mentions: currentTeamUnreadMentions,
@@ -749,7 +767,9 @@ export const canManageAnyChannelMembersInCurrentTeam: (state: GlobalState) => bo
     getCurrentTeamId,
     (state: GlobalState): GlobalState => state,
     (members: RelationOneToOne<Channel, ChannelMembership>, currentTeamId: string, state: GlobalState): boolean => {
-        for (const channelId of Object.keys(members)) {
+        const keys = Object.keys(members);
+        console.log('canManageAnyChannelMembersInCurrentTeam: ' + keys.length);
+        for (const channelId of keys) {
             const channel = getChannel(state, channelId);
 
             if (!channel || channel.team_id !== currentTeamId) {
@@ -815,6 +835,7 @@ export const getUnreadChannelIds: (state: GlobalState, lastUnreadChannel?: Chann
         teamChannelIds: string[],
         lastUnreadChannel?: Channel | null,
     ): string[] => {
+        console.log('getUnreadChannelIds: ' + teamChannelIds.length);
         const unreadIds = teamChannelIds.filter((id) => {
             return calculateUnreadCount(messageCounts[id], members[id], collapsedThreads).showUnread;
         });
@@ -842,6 +863,7 @@ export const getUnreadChannels: (state: GlobalState, lastUnreadChannel?: Channel
             return [];
         }
 
+        console.log('getUnreadChannels: ' + unreadIds.length);
         const allUnreadChannels = unreadIds.filter((id) => channels[id] && channels[id].delete_at === 0).map((id) => {
             const c = channels[id];
 
@@ -874,7 +896,9 @@ export const getDirectAndGroupChannels: (a: GlobalState) => Channel[] = createSe
             return [];
         }
 
-        return Object.keys(channels).
+        const keys = Object.keys(channels);
+        console.log('getDirectAndGroupChannels: ' + keys.length);
+        return keys.
             map((key) => channels[key]).
             filter((channel: Channel): boolean => Boolean(channel)).
             filter((channel: Channel): boolean => channel.type === General.DM_CHANNEL || channel.type === General.GM_CHANNEL).
@@ -904,6 +928,7 @@ export const getChannelsWithUserProfiles: (state: GlobalState) => Array<{
     getGroupChannels,
     getCurrentUserId,
     (channelUserMap: RelationOneToManyUnique<Channel, UserProfile>, users: IDMappedObjects<UserProfile>, channels: Channel[], currentUserId: string) => {
+        console.log('getChannelsWithUserProfiles: ' + channels.length);
         return channels.map((channel: Channel): {
             profiles: UserProfile[];
         } & Channel => {
@@ -944,7 +969,9 @@ export const getMyFirstChannelForTeams: (state: GlobalState) => RelationOneToOne
 
         for (const team of myTeams) {
         // Get a sorted array of all channels in the team that the current user is a member of
-            const teamChannels = Object.values(allChannels).filter((channel: Channel) => channel && channel.team_id === team.id && Boolean(myChannelMemberships[channel.id])).sort(sortChannelsByDisplayName.bind(null, locale));
+            const values = Object.values(allChannels);
+            console.log('getMyFirstChannelForTeams: ' + values.length);
+            const teamChannels = values.filter((channel: Channel) => channel && channel.team_id === team.id && Boolean(myChannelMemberships[channel.id])).sort(sortChannelsByDisplayName.bind(null, locale));
 
             if (teamChannels.length === 0) {
                 continue;

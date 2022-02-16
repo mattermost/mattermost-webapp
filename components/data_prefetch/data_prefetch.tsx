@@ -53,6 +53,7 @@ export default class DataPrefetch extends React.PureComponent<Props> {
         const {currentChannelId, prefetchQueueObj, sidebarLoaded} = this.props;
         if (currentChannelId && sidebarLoaded && (!prevProps.currentChannelId || !prevProps.sidebarLoaded)) {
             queue.add(async () => this.prefetchPosts(currentChannelId));
+            console.log('loadProfilesForSidebar from data_prefetch:componentDidUpdate');
             await loadProfilesForSidebar();
             this.prefetchData();
         } else if (prevProps.prefetchQueueObj !== prefetchQueueObj) {

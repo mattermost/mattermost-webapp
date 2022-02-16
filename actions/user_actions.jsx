@@ -325,6 +325,7 @@ export async function loadProfilesForGM() {
 
         if (!isVisible) {
             const messageCount = getChannelMessageCount(state, channel.id);
+            console.log('loadProfilesForGM');
             const member = getMyChannelMember(state, channel.id);
 
             const unreadCount = calculateUnreadCount(messageCount, member, collapsedThreads);
@@ -364,6 +365,7 @@ export async function loadProfilesForDM() {
     const currentUserId = Selectors.getCurrentUserId(state);
     const collapsedThreads = isCollapsedThreadsEnabled(state);
 
+    console.log('loadProfilesForDM: ' + channels.length);
     for (let i = 0; i < channels.length; i++) {
         const channel = channels[i];
         if (channel.type !== Constants.DM_CHANNEL) {

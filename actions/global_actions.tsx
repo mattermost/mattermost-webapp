@@ -59,8 +59,8 @@ export function emitChannelClickEvent(channel: Channel) {
         const isRHSOpened = getIsRhsOpen(state);
         const isPinnedPostsShowing = getRhsState(state) === RHSStates.PIN;
         const isChannelFilesShowing = getRhsState(state) === RHSStates.CHANNEL_FILES;
+        console.log('switchToChannel');
         const member = getMyChannelMember(state, chan.id);
-        const currentChannelId = getCurrentChannelId(state);
         dispatch(getChannelStats(chan.id));
 
         const penultimate = LocalStorageStore.getPreviousChannelName(userId, teamId);
@@ -77,10 +77,6 @@ export function emitChannelClickEvent(channel: Channel) {
 
         if (isRHSOpened && isChannelFilesShowing) {
             dispatch(updateRhsState(RHSStates.CHANNEL_FILES, chan.id));
-        }
-
-        if (currentChannelId) {
-            loadProfilesForSidebar();
         }
 
         dispatch(batchActions([
@@ -106,6 +102,7 @@ export function emitChannelClickEvent(channel: Channel) {
 }
 
 function setLastUnreadChannel(state: GlobalState, channel: Channel) {
+    console.log('setLastUnreadChannel');
     const member = getMyChannelMember(state, channel.id);
     const messageCount = getChannelMessageCount(state, channel.id);
 
@@ -285,6 +282,7 @@ export async function getTeamRedirectChannelIfIsAccesible(user: UserProfile, tea
 
     let channelMember: ChannelMembership | null | undefined;
     if (channel) {
+        console.log('getTeamRedirectChannelIfIsAccesible1');
         channelMember = getMyChannelMember(state, channel.id);
     }
 
@@ -294,12 +292,14 @@ export async function getTeamRedirectChannelIfIsAccesible(user: UserProfile, tea
         state = getState();
         teamChannels = getChannelsNameMapInTeam(state, team.id);
         channel = teamChannels[channelName];
+        console.log('getTeamRedirectChannelIfIsAccesible2');
         channelMember = getMyChannelMember(state, channel && channel.id);
     }
 
     if (!channel || !channelMember) {
         const redirectedChannelName = getRedirectChannelNameForTeam(state, team.id);
         channel = teamChannels[redirectedChannelName];
+        console.log('getTeamRedirectChannelIfIsAccesible3');
         channelMember = getMyChannelMember(state, channel && channel.id);
     }
 
