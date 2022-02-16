@@ -186,7 +186,7 @@ function restart() {
     reconnect(false);
 
     // We fetch the client config again on the server restart.
-    getClientConfig()(dispatch, getState);
+    dispatch(getClientConfig());
 }
 
 export function reconnect(includeWebSocket = true) {
