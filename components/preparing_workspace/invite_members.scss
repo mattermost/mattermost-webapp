@@ -11,17 +11,6 @@
 }
 
 .InviteMembers {
-    &__success {
-        padding-left: 9px;
-        color: var(--denim-status-online);
-        font-size: 16px;
-        font-weight: 600;
-
-        .icon {
-            font-size: 16px;
-        }
-    }
-
     &__submit {
         display: flex;
         align-items: center;

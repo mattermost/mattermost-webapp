@@ -24,7 +24,6 @@ import InviteMembersLink from './invite_members_link';
 
 type Props = PreparingWorkspacePageProps & {
     disableEdits: boolean;
-    showInviteSuccess: boolean;
     className?: string;
     emails: Form['teamMembers']['invites'];
     setEmails: (emails: Form['teamMembers']['invites']) => void;
@@ -173,7 +172,7 @@ const InviteMembers = (props: Props) => {
                                     )
                             }
                         </button>
-                        {!props.showInviteSuccess && !props.showInviteLink && (
+                        {!props.showInviteLink && (
                             <button
                                 className='tertiary-button'
                                 onClick={props.skip}
@@ -183,15 +182,6 @@ const InviteMembers = (props: Props) => {
                                     defaultMessage="I'll do this later"
                                 />
                             </button>
-                        )}
-                        {props.showInviteSuccess && !props.showInviteLink && (
-                            <span className='InviteMembers__success'>
-                                <i className='icon icon-check'/>
-                                <FormattedMessage
-                                    id={'onboarding_wizard.invite_members.success'}
-                                    defaultMessage='Invitations Sent!'
-                                />
-                            </span>
                         )}
                     </div>
                 </SingleColumnLayout>

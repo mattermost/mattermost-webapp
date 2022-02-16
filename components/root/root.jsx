@@ -29,7 +29,7 @@ import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_rout
 import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
 import TaskList from 'components/global_onboarding_list/onboarding_checklist';
-import Transitioning, {TRANSITIONING_FULLSCREEN_Z_INDEX} from 'components/preparing_workspace/transitioning';
+import LaunchingWorkspace, {LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX} from 'components/preparing_workspace/launching_workspace';
 import {Animations} from 'components/preparing_workspace/steps';
 
 import {initializePlugins} from 'plugins';
@@ -495,9 +495,9 @@ export default class Root extends React.PureComponent {
                     />
                     <CompassThemeProvider theme={this.props.theme}>
                         {(this.props.showSetupTransitioning && !this.props.location.pathname.includes('/preparing-workspace') &&
-                            <Transitioning
+                            <LaunchingWorkspace
                                 fullscreen={true}
-                                zIndex={TRANSITIONING_FULLSCREEN_Z_INDEX}
+                                zIndex={LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX}
                                 show={true}
                                 onPageView={noop}
                                 transitionDirection={Animations.Reasons.EnterFromBefore}

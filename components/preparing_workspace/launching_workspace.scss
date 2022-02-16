@@ -1,4 +1,4 @@
-.TransitioningFullscreenWrapper-body {
+.LaunchingWorkspaceFullscreenWrapper-body {
     position: fixed;
     top: 0;
     right: 0;
@@ -11,7 +11,7 @@
     text-align: center;
 }
 
-.TransitioningFullscreenWrapper {
+.LaunchingWorkspaceFullscreenWrapper {
     &-exit {
         opacity: 1;
     }
@@ -33,7 +33,7 @@
     }
 }
 
-.Transitioning-body {
+.LaunchingWorkspace-body {
     display: flex;
     width: 420px;
     height: 100vh;
@@ -49,14 +49,14 @@
     }
 }
 
-.Transitioning {
+.LaunchingWorkspace {
     &__spinner {
         width: 32px;
         margin-bottom: 16px;
     }
 }
 
-.Transitioning--enter-from-before {
+.LaunchingWorkspace--enter-from-before {
     &-enter {
         opacity: 0;
     }
@@ -68,5 +68,20 @@
 
     &-enter-done {
         opacity: 1;
+    }
+}
+
+.LaunchingWorkspace--exit-to-before {
+    &-exit {
+        opacity: 1;
+    }
+
+    &-exit-active {
+        opacity: 0;
+        transition: opacity 300ms ease-in-out;
+    }
+
+    &-exit-done {
+        opacity: 0;
     }
 }

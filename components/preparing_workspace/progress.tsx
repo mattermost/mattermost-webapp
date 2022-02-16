@@ -21,7 +21,7 @@ export const Progress = (props: Props) => {
         return null;
     }
 
-    const dots = props.stepOrder.filter((step) => step !== WizardSteps.TransitioningOut).map((step) => {
+    const dots = props.stepOrder.filter((step) => step !== WizardSteps.LaunchingWorkspace).map((step) => {
         let className = 'PreparingWorkspaceProgress__circle';
         if (props.step === step) {
             className += ' active';
@@ -43,7 +43,7 @@ export const Progress = (props: Props) => {
 export default function TransitionedProgress(props: Props) {
     return (
         <CSSTransition
-            in={props.step !== WizardSteps.TransitioningOut}
+            in={props.step !== WizardSteps.LaunchingWorkspace}
             timeout={props.transitionSpeed}
             classNames={'OnboardingWizardProgress'}
             mountOnEnter={true}

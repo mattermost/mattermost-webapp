@@ -14,7 +14,7 @@ import Description from './description';
 
 import {Animations, mapAnimationReasonToClass, PreparingWorkspacePageProps} from './steps';
 
-import './transitioning.scss';
+import './launching_workspace.scss';
 
 type Props = PreparingWorkspacePageProps & {
     fullscreen?: boolean;
@@ -26,9 +26,9 @@ type Props = PreparingWorkspacePageProps & {
 export const START_TRANSITIONING_OUT = 500;
 
 // needs to be on top. Current known highest is tour tip at 1000
-export const TRANSITIONING_FULLSCREEN_Z_INDEX = 1001;
+export const LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX = 1001;
 
-function Transitioning(props: Props) {
+function LaunchingWorkspace(props: Props) {
     const [hasEntered, setHasEntered] = useState(false);
     useEffect(props.onPageView, []);
 
@@ -45,26 +45,26 @@ function Transitioning(props: Props) {
         }, START_TRANSITIONING_OUT);
     }, [hasEntered, props.fullscreen]);
 
-    let bodyClass = 'Transitioning-body';
+    let bodyClass = 'LaunchingWorkspace-body';
     if (!props.fullscreen) {
-        bodyClass += ' Transitioning-body--non-fullscreen';
+        bodyClass += ' LaunchingWorkspace-body--non-fullscreen';
     }
     const body = (
         <div className={bodyClass}>
-            <div className='Transitioning__spinner'>
+            <div className='LaunchingWorkspace__spinner'>
                 <img
                     src={loadingIcon}
                 />
             </div>
             <Title>
                 <FormattedMessage
-                    id='onboarding_wizard.transitioning.title'
+                    id='onboarding_wizard.launching_workspace.title'
                     defaultMessage='Launching your workspace now'
                 />
             </Title>
             <Description>
                 <FormattedMessage
-                    id='onboarding_wizard.transitioning.description'
+                    id='onboarding_wizard.launching_workspace.description'
                     defaultMessage='It’ll be ready in a moment'
                 />
             </Description>
@@ -77,19 +77,19 @@ function Transitioning(props: Props) {
             <CSSTransition
                 in={props.show && !hasEntered}
                 timeout={500}
-                classNames={'TransitioningFullscreenWrapper'}
+                classNames={'LaunchingWorkspaceFullscreenWrapper'}
                 exit={true}
                 enter={false}
                 mountOnEnter={true}
                 unmountOnExit={true}
             >
                 <div
-                    className='TransitioningFullscreenWrapper-body'
+                    className='LaunchingWorkspaceFullscreenWrapper-body'
                     style={{
                         zIndex: props.zIndex,
                     }}
                 >
-                    <div className='TransitioningFullscreenWrapper__logo'>
+                    <div className='LaunchingWorkspaceFullscreenWrapper__logo'>
                         <LogoSvg/>
                     </div>
                     {body}
@@ -102,7 +102,7 @@ function Transitioning(props: Props) {
             <CSSTransition
                 in={props.show}
                 timeout={Animations.PAGE_SLIDE}
-                classNames={mapAnimationReasonToClass('Transitioning', props.transitionDirection)}
+                classNames={mapAnimationReasonToClass('LaunchingWorkspace', props.transitionDirection)}
                 mountOnEnter={true}
                 unmountOnExit={true}
             >
@@ -113,4 +113,4 @@ function Transitioning(props: Props) {
     return content;
 }
 
-export default Transitioning;
+export default LaunchingWorkspace;

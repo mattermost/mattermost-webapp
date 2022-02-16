@@ -22,6 +22,16 @@
             margin-right: 5px;
         }
     }
+
+    &__submit-error {
+        position: fixed;
+        width: 50vw;
+        min-width: 300px;
+        max-width: 500px;
+        margin: 0 auto;
+        background-color: pink;
+        color: green;
+    }
 }
 
 .PreparingWorkspaceContainer {

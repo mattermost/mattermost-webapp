@@ -43,6 +43,7 @@ import {
     mapStepToSkipName,
     mapStepToPageView,
     mapStepToPrevious,
+    mapStepToSubmitFail,
     PLUGIN_NAME_TO_ID_MAP,
 } from './steps';
 
@@ -52,7 +53,7 @@ import InviteMembers from './invite_members';
 import Organization from './organization';
 import Plugins from './plugins';
 import Progress from './progress';
-import Transitioning, {START_TRANSITIONING_OUT} from './transitioning';
+import LaunchingWorkspace, {START_TRANSITIONING_OUT} from './launching_workspace';
 import Url from './url';
 import UseCase from './use_case';
 
@@ -66,16 +67,14 @@ const SubmissionStates = {
     Presubmit: 'Presubmit',
     UserRequested: 'UserRequested',
     Submitting: 'Submitting',
-    SubmitSuccess: 'SubmitSuccess',
     SubmitFail: 'SubmitFail',
 } as const;
 
 type SubmissionState = typeof SubmissionStates[keyof typeof SubmissionStates];
 
-const DISPLAY_SUCCESS_TIME = 500;
-
-// We want an apparent total wait of two seconds
-const WAIT_FOR_REDIRECT_TIME = 2000 - START_TRANSITIONING_OUT;
+// We want an apparent total wait of at least two seconds
+// START_TRANSITIONING_OUT is how long the other side of the transitioning screen
+const WAIT_FOR_REDIRECT_TIME = 3000 - START_TRANSITIONING_OUT;
 
 export type Actions = {
     createTeam: (team: Team) => ActionResult;
@@ -94,6 +93,22 @@ function makeOnPageView(step: WizardStep) {
     };
 }
 
+function makeSubmitFail(step: WizardStep) {
+    return function onPageViewInner() {
+        trackEvent('first_admin_setup', mapStepToSubmitFail(step));
+    };
+}
+
+const trackSubmitFail = {
+    [WizardSteps.Organization]: makeSubmitFail(WizardSteps.Organization),
+    [WizardSteps.Url]: makeSubmitFail(WizardSteps.Url),
+    [WizardSteps.UseCase]: makeSubmitFail(WizardSteps.UseCase),
+    [WizardSteps.Plugins]: makeSubmitFail(WizardSteps.Plugins),
+    [WizardSteps.Channel]: makeSubmitFail(WizardSteps.Channel),
+    [WizardSteps.InviteMembers]: makeSubmitFail(WizardSteps.InviteMembers),
+    [WizardSteps.LaunchingWorkspace]: makeSubmitFail(WizardSteps.LaunchingWorkspace),
+};
+
 const onPageViews = {
     [WizardSteps.Organization]: makeOnPageView(WizardSteps.Organization),
     [WizardSteps.Url]: makeOnPageView(WizardSteps.Url),
@@ -101,8 +116,60 @@ const onPageViews = {
     [WizardSteps.Plugins]: makeOnPageView(WizardSteps.Plugins),
     [WizardSteps.Channel]: makeOnPageView(WizardSteps.Channel),
     [WizardSteps.InviteMembers]: makeOnPageView(WizardSteps.InviteMembers),
-    [WizardSteps.TransitioningOut]: makeOnPageView(WizardSteps.TransitioningOut),
+    [WizardSteps.LaunchingWorkspace]: makeOnPageView(WizardSteps.LaunchingWorkspace),
 };
+
+type MockFails = {
+    useCase: boolean;
+    team: boolean;
+    channel: boolean;
+    invites: boolean;
+    plugins: boolean;
+}
+
+const mockFails: MockFails = {
+    useCase: false,
+    team: false,
+    channel: false,
+    invites: false,
+    plugins: false,
+};
+
+(window as any).failUseCase = function failUseCase(fail: boolean) {
+    mockFails.useCase = fail;
+};
+
+(window as any).failTeam = function failTeam(fail: boolean) {
+    mockFails.team = fail;
+};
+
+(window as any).failChannel = function failChannel(fail: boolean) {
+    mockFails.channel = fail;
+};
+
+(window as any).failInvites = function failInvites(fail: boolean) {
+    mockFails.invites = fail;
+};
+
+(window as any).failPlugins = function failPlugins(fail: boolean) {
+    mockFails.plugins = fail;
+};
+
+(window as any).getFails = function getFails() {
+    // eslint-disable-next-line no-console
+    console.log('fails:\n' + Object.entries(mockFails).reduce(
+        (acc, [k, v]) => {
+            return acc + `    ${k}: ${v}\n`;
+        },
+        '',
+    ));
+};
+
+async function fail(message: string) {
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+
+    throw new Error(message);
+}
 
 export default function PreparingWorkspace(props: Props) {
     const dispatch = useDispatch();
@@ -126,7 +193,7 @@ export default function PreparingWorkspace(props: Props) {
         WizardSteps.Plugins,
         WizardSteps.Channel,
         WizardSteps.InviteMembers,
-        WizardSteps.TransitioningOut,
+        WizardSteps.LaunchingWorkspace,
     ].filter((x) => Boolean(x)) as WizardStep[];
 
     const firstAdminSetupComplete = useSelector(getFirstAdminSetupComplete);
@@ -139,6 +206,7 @@ export default function PreparingWorkspace(props: Props) {
         url: configSiteUrl || browserSiteUrl,
     });
     const [showFirstPage, setShowFirstPage] = useState(false);
+    const [submitError, setSubmitError] = useState<string | null>(null);
     useEffect(() => {
         showOnMountTimeout.current = setTimeout(() => setShowFirstPage(true), 40);
         dispatch(getFirstAdminSetupCompleteAction());
@@ -185,33 +253,71 @@ export default function PreparingWorkspace(props: Props) {
         };
     }, [stepOrder]);
 
+    const redirectWithError = useCallback((redirectTo: WizardStep, error: string) => {
+        setStepHistory([WizardSteps.LaunchingWorkspace, redirectTo]);
+        setSubmissionState(SubmissionStates.SubmitFail);
+        setSubmitError(error);
+        trackSubmitFail[redirectTo]();
+    }, []);
+
     const sendForm = async () => {
+        const sendFormStart = Date.now();
         setSubmissionState(SubmissionStates.Submitting);
-        dispatch(savePreferences(user.id, [
-            {
-                category: Constants.Preferences.ONBOARDING,
-                name: OnboardingPreferences.USE_CASE,
-                user_id: user.id,
-                value: JSON.stringify(form.useCase),
-            },
-        ]));
+        try {
+            if (mockFails.useCase) {
+                await fail('failed use case');
+            }
+            dispatch(savePreferences(user.id, [
+                {
+                    category: Constants.Preferences.ONBOARDING,
+                    name: OnboardingPreferences.USE_CASE,
+                    user_id: user.id,
+                    value: JSON.stringify(form.useCase),
+                },
+            ]));
+        } catch (e) {
+            redirectWithError(WizardSteps.UseCase, 'Failed to save use case. Try again.');
+            return;
+        }
 
         let team = currentTeam;
 
         if (form.organization) {
-            // TODO: fix types here, destructuring as necessary et cetera
-            // eslint-disable-next-line
-            const data = await props.actions.createTeam(makeNewTeam(form.organization, teamNameToUrl(form.organization || '').url));
-            team = data.data;
+            try {
+                if (mockFails.team) {
+                    await fail('failed team creation');
+                }
+                // eslint-disable-next-line
+                const data = await props.actions.createTeam(makeNewTeam(form.organization, teamNameToUrl(form.organization || '').url));
+                if (data.error) {
+                    redirectWithError(WizardSteps.Organization, data.error);
+                    return;
+                }
+                team = data.data;
+            } catch (e) {
+                redirectWithError(WizardSteps.Organization, 'Failed to create team. Try again.');
+                return;
+            }
         }
 
         let redirectChannel: Channel | null = null;
         if (!form.channel.skipped) {
-            const {data: channel, error} = await dispatch(createChannel(makeNewEmptyChannel(form.channel.name, team.id), user.id)) as ActionResult;
-            redirectChannel = channel;
-            if (error) {
-                // TODO: Ruh Roah. Show some error?
-            } else if (redirectChannel) {
+            try {
+                if (mockFails.channel) {
+                    await fail('failed channel creation');
+                }
+                const {data: channel, error} = await dispatch(createChannel(makeNewEmptyChannel(form.channel.name, team.id), user.id)) as ActionResult;
+
+                if (error) {
+                    redirectWithError(WizardSteps.Channel, error);
+                    return;
+                }
+                redirectChannel = channel;
+            } catch (e) {
+                redirectWithError(WizardSteps.Channel, 'Failed to create channel. Try again or skip this step.');
+                return;
+            }
+            if (redirectChannel) {
                 const category = Preferences.AB_TEST_PREFERENCE_VALUE;
                 const name = RecommendedNextSteps.CREATE_FIRST_CHANNEL;
                 const firstChannelNamePref = {category, name, user_id: user.id, value: redirectChannel.name};
@@ -224,9 +330,17 @@ export default function PreparingWorkspace(props: Props) {
         }
 
         if (!form.teamMembers.skipped && !isConfigSiteUrlDefault) {
-            const inviteResult = await dispatch(sendEmailInvitesToTeamGracefully(team.id, form.teamMembers.invites));
-            console.log('inviteResult'); // eslint-disable-line no-console
-            console.log(inviteResult); // eslint-disable-line no-console
+            try {
+                if (mockFails.invites) {
+                    await fail('failed inviting members');
+                }
+                const inviteResult = await dispatch(sendEmailInvitesToTeamGracefully(team.id, form.teamMembers.invites));
+                console.log('inviteResult'); // eslint-disable-line no-console
+                console.log(inviteResult); // eslint-disable-line no-console
+            } catch (e) {
+                redirectWithError(WizardSteps.InviteMembers, 'Failed to invite members to team.');
+                return;
+            }
         }
 
         // send plugins
@@ -244,34 +358,30 @@ export default function PreparingWorkspace(props: Props) {
             install_plugins: pluginsToSetup,
         };
         try {
+            if (mockFails.plugins) {
+                await fail('failed initializing plugins');
+            }
             await Client4.completeSetup(completeSetupRequest);
             dispatch({type: GeneralTypes.FIRST_ADMIN_COMPLETE_SETUP_RECEIVED, data: true});
         } catch (e) {
-            // TODO: show error to user?
-            // maybe a toast on the main screen?
-            console.error(`error setting up plugins ${e}`); // eslint-disable-line no-console
+            redirectWithError(WizardSteps.Plugins, 'Failed to set up tools. Try again or skip this step.');
+            return;
         }
 
-        setSubmissionState(SubmissionStates.SubmitSuccess);
-
-        setTimeout(() => {
-            // i.e. TransitioningOut
-            let inviteMembersTracking;
-            if (!form.teamMembers.skipped) {
-                inviteMembersTracking = {
-                    inviteCount: form.teamMembers.invites.length,
-                };
+        const goToChannels = () => {
+            if (redirectChannel) {
+                dispatch(switchToChannel(redirectChannel));
+            } else {
+                props.history.push(`/${team.name}/channels${Constants.DEFAULT_CHANNEL}`);
             }
-            makeNext(WizardSteps.InviteMembers, form.teamMembers.skipped)(inviteMembersTracking);
-
-            const goToChannels = () => {
-                if (redirectChannel) {
-                    dispatch(switchToChannel(redirectChannel));
-                }
-            };
-            (window as any).goToChannels = goToChannels;
-            setTimeout(goToChannels, WAIT_FOR_REDIRECT_TIME);
-        }, DISPLAY_SUCCESS_TIME);
+        };
+        const sendFormEnd = Date.now();
+        const timeToWait = (sendFormEnd - sendFormStart) - WAIT_FOR_REDIRECT_TIME;
+        if (timeToWait > 0) {
+            setTimeout(goToChannels, timeToWait);
+        } else {
+            goToChannels();
+        }
     };
 
     useEffect(() => {
@@ -390,6 +500,11 @@ export default function PreparingWorkspace(props: Props) {
 
     return (
         <div className='PreparingWorkspace PreparingWorkspaceContainer'>
+            {submissionState === SubmissionStates.SubmitFail && submitError && (
+                <div className='PreparingWorkspace__submit-error'>
+                    {submitError}
+                </div>
+            )}
             {props.background}
             <div className='PreparingWorkspace__logo'>
                 <LogoSvg/>
@@ -522,17 +637,21 @@ export default function PreparingWorkspace(props: Props) {
                     onPageView={onPageViews[WizardSteps.InviteMembers]}
                     next={() => {
                         skipTeamMembers(false);
+                        const inviteMembersTracking = {
+                            inviteCount: form.teamMembers.invites.length,
+                        };
                         setSubmissionState(SubmissionStates.UserRequested);
+                        makeNext(WizardSteps.InviteMembers)(inviteMembersTracking);
                     }}
                     skip={() => {
                         skipTeamMembers(true);
                         setSubmissionState(SubmissionStates.UserRequested);
+                        makeNext(WizardSteps.InviteMembers, true)();
                     }}
                     previous={previous}
                     show={shouldShowPage(WizardSteps.InviteMembers)}
                     transitionDirection={getTransitionDirection(WizardSteps.InviteMembers)}
-                    disableEdits={submissionState !== SubmissionStates.Presubmit}
-                    showInviteSuccess={submissionState === SubmissionStates.SubmitSuccess}
+                    disableEdits={submissionState !== SubmissionStates.Presubmit && submissionState !== SubmissionStates.SubmitFail}
                     className='child-page'
                     emails={form.teamMembers.invites}
                     setEmails={(emails: string[]) => {
@@ -556,12 +675,12 @@ export default function PreparingWorkspace(props: Props) {
                     step={currentStep}
                     transitionDirection={getTransitionDirectionMultiStep([WizardSteps.Channel, WizardSteps.InviteMembers])}
                     channelName={form.channel.name || 'Channel name'}
-                    teamName={isSelfHosted ? form.organization || '' : (currentTeam || myTeams?.[0])?.display_name || ''}
+                    teamName={isSelfHosted ? form.organization || 'Team name' : (currentTeam || myTeams?.[0])?.display_name || 'Team name'}
                 />
-                <Transitioning
-                    onPageView={onPageViews[WizardSteps.TransitioningOut]}
-                    show={currentStep === WizardSteps.TransitioningOut}
-                    transitionDirection={getTransitionDirection(WizardSteps.TransitioningOut)}
+                <LaunchingWorkspace
+                    onPageView={onPageViews[WizardSteps.LaunchingWorkspace]}
+                    show={currentStep === WizardSteps.LaunchingWorkspace}
+                    transitionDirection={getTransitionDirection(WizardSteps.LaunchingWorkspace)}
                 />
             </div>
         </div>
