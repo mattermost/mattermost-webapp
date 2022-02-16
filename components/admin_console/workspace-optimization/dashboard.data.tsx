@@ -16,9 +16,11 @@ import {
     AccountMultipleOutlineIcon,
 } from '@mattermost/compass-icons/components';
 
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
+
 import {GlobalState} from 'mattermost-redux/types/store';
 
-import {ConsolePages} from 'utils/constants';
+import {ConsolePages, DocLinks, LicenseLinks} from 'utils/constants';
 
 type DataModel = {
     [key: string]: {
@@ -70,10 +72,13 @@ const impactModifiers: Record<ItemStatus, number> = {
 const useMetricsData = () => {
     const {formatMessage} = useIntl();
     const prevTrialLicense = useSelector((state: GlobalState) => state.entities.admin.prevTrialLicense);
+    const license = useSelector((state: GlobalState) => getLicense(state));
+    const canStartTrial = license?.IsLicensed === 'false' && prevTrialLicense?.IsLicensed === 'false';
+    const isLicensed = license?.IsLicensed === 'true';
 
     const trialOrEnterpriseCtaConfig = {
-        configUrl: ConsolePages.LICENSE,
-        configText: prevTrialLicense?.IsLicensed === 'true' ? formatMessage({id: 'admin.reporting.workspace_optimization.cta.upgradeLicense', defaultMessage: 'Upgrade to Enterprise'}) : formatMessage({id: 'admin.reporting.workspace_optimization.cta.startTrial', defaultMessage: 'Start Trial'}),
+        configUrl: canStartTrial ? ConsolePages.LICENSE : LicenseLinks.CONTACT_SALES,
+        configText: canStartTrial ? formatMessage({id: 'admin.reporting.workspace_optimization.cta.startTrial', defaultMessage: 'Start Trial'}) : formatMessage({id: 'admin.reporting.workspace_optimization.cta.upgradeLicense', defaultMessage: 'Contact Sales'}),
     };
 
     const getUpdatesData = (data: UpdatesParam) => ({
@@ -114,7 +119,7 @@ const useMetricsData = () => {
                     id: 'admin.reporting.workspace_optimization.updates.server_version.status.error.description',
                     defaultMessage: 'We recommend upgrading your Mattermost server to {version}.',
                 }, {version: data.serverVersion.version}),
-                configUrl: 'https://docs.mattermost.com/upgrade/upgrading-mattermost-server.html',
+                configUrl: DocLinks.UPGRADE_SERVER,
                 configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.downloadUpdate', defaultMessage: 'Download Update'}),
                 telemetryAction: 'server-version',
                 status: data.serverVersion.status,
@@ -165,7 +170,7 @@ const useMetricsData = () => {
                     id: 'admin.reporting.workspace_optimization.configuration.ssl.description',
                     defaultMessage: 'Make your server more secure by configuring SSL.',
                 }),
-                infoUrl: 'https://docs.mattermost.com/onboard/ssl-client-certificate.html',
+                infoUrl: DocLinks.SSL_CERTIFICATE,
                 infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),
                 telemetryAction: 'ssl',
                 status: data.ssl.status,
@@ -278,8 +283,11 @@ const useMetricsData = () => {
                     id: 'admin.reporting.workspace_optimization.performance.search.description',
                     defaultMessage: 'Your server has reached over 500 users and 2 million posts which can result in slow search performance. We recommend starting an Enterprise trial and enabling Elasticsearch for better performance.',
                 }),
-                ...trialOrEnterpriseCtaConfig,
-                infoUrl: 'https://docs.mattermost.com/scale/elasticsearch.html',
+                ...(isLicensed ? {
+                    configUrl: ConsolePages.ELASTICSEARCH,
+                    configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.configureElasticsearch', defaultMessage: 'Configure Elasticsearch'}),
+                } : trialOrEnterpriseCtaConfig),
+                infoUrl: DocLinks.ELASTICSEARCH,
                 infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),
                 telemetryAction: 'search-optimization',
                 status: data.search.status,
@@ -328,8 +336,11 @@ const useMetricsData = () => {
                     id: 'admin.reporting.workspace_optimization.data_privacy.retention.description',
                     defaultMessage: 'Organizations in highly regulated industries require more control and insight with their data. We recommend starting an Enterprise trial to take advantage of Mattermost Data Retention and Compliance features.',
                 }),
-                ...trialOrEnterpriseCtaConfig,
-                infoUrl: 'https://docs.mattermost.com/comply/data-retention-policy.html',
+                ...(isLicensed ? {
+                    configUrl: ConsolePages.DATA_RETENTION,
+                    configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.configureDataRetention', defaultMessage: 'Configure Data Retention'}),
+                } : trialOrEnterpriseCtaConfig),
+                infoUrl: DocLinks.DATA_RETENTION_POLICY,
                 infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),
                 telemetryAction: 'data-retention',
                 status: data.retention.status,
@@ -381,8 +392,11 @@ const useMetricsData = () => {
                     id: 'admin.reporting.workspace_optimization.ease_of_management.ldap.description',
                     defaultMessage: 'You\'ve reached over 100 users! We recommend starting an Enterprise trial and setting up AD/LDAP user authentication for easier onboarding as well as automated deactivations and role assignments.',
                 }),
-                ...trialOrEnterpriseCtaConfig,
-                infoUrl: 'https://docs.mattermost.com/configure/configuration-settings.html#ad-ldap',
+                ...(isLicensed ? {
+                    configUrl: ConsolePages.AD_LDAP,
+                    configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.configureLDAP', defaultMessage: 'Configure AD/LDAP'}),
+                } : trialOrEnterpriseCtaConfig),
+                infoUrl: DocLinks.AD_LDAP,
                 infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),
                 telemetryAction: 'ad-ldap',
                 status: data.ldap.status,
