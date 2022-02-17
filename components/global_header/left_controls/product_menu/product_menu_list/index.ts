@@ -2,9 +2,11 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {getInt} from 'mattermost-redux/selectors/entities/preferences';
+import {Action} from 'mattermost-redux/types/actions';
 
+import {getInt, isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {
     getConfig,
     getFirstAdminVisitMarketplaceStatus,
@@ -15,8 +17,14 @@ import {haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redu
 import {Permissions} from 'mattermost-redux/constants';
 import {GlobalState} from 'types/store';
 import {OnboardingTaskCategory, OnboardingTasksName, TaskNameMapToSteps} from 'components/onboarding_tasks';
+import {openModal} from 'actions/views/modals';
+import {ModalData} from 'types/actions';
 
 import ProductMenuList from './product_menu_list';
+
+type Actions = {
+    openModal: <P>(modalData: ModalData<P>) => void;
+}
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
@@ -35,6 +43,7 @@ function mapStateToProps(state: GlobalState) {
     const canManageIntegrations = canManageTeamIntegrations || canManageSystemBots;
     const step = getInt(state, OnboardingTaskCategory, OnboardingTasksName.VISIT_SYSTEM_CONSOLE, 0);
     const showVisitSystemConsoleTour = step === TaskNameMapToSteps[OnboardingTasksName.VISIT_SYSTEM_CONSOLE].STARTED;
+    const enableCustomUserGroups = isCustomGroupsEnabled(state);
 
     return {
         isMobile: state.views.channel.mobileView,
@@ -53,7 +62,16 @@ function mapStateToProps(state: GlobalState) {
         currentUser,
         firstAdminVisitMarketplaceStatus: getFirstAdminVisitMarketplaceStatus(state),
         showVisitSystemConsoleTour,
+        enableCustomUserGroups,
     };
 }
 
-export default connect(mapStateToProps)(ProductMenuList);
+function mapDispatchToProps(dispatch: Dispatch) {
+    return {
+        actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
+            openModal,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductMenuList);

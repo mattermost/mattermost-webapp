@@ -337,13 +337,10 @@ export default class AtMentionProvider extends Provider {
             if (showLoadingIndicator) {
                 clearTimeout(showLoadingIndicator);
             }
-
             if (this.shouldCancelDispatch(prefix)) {
                 return;
             }
-
             this.data = data;
-
             this.searchAssociatedGroupsForReference(prefix).then((groupsData) => {
                 if (this.data && groupsData && groupsData.data) {
                     this.data.groups = groupsData.data;

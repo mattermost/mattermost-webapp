@@ -218,6 +218,10 @@ export function getAddMembersToChannel(state: GlobalState): AddMembersToChannelt
     return getFeatureFlagValue(state, 'AddMembersToChannel') as AddMembersToChanneltreatments | undefined;
 }
 
+export function isCustomGroupsEnabled(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'CustomGroups') === 'true' && getConfig(state).EnableCustomGroups === 'true';
+}
+
 export function getUseCaseOnboarding(state: GlobalState): boolean {
     return getFeatureFlagValue(state, 'UseCaseOnboarding') === 'true';
 }

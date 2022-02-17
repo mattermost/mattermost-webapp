@@ -40,6 +40,10 @@ describe('components/global/product_switcher_menu', () => {
         showVisitSystemConsoleTour: false,
         onClick: () => jest.fn,
         handleVisitConsoleClick: () => jest.fn,
+        enableCustomUserGroups: false,
+        actions: {
+            openModal: jest.fn(),
+        },
     };
 
     test('should match snapshot with id', () => {

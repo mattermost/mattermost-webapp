@@ -15,7 +15,9 @@ import {CreateAndJoinChannelsTour, InvitePeopleTour} from 'components/onboarding
 type Props = {
     canCreateChannel: boolean;
     canJoinPublicChannel: boolean;
+    userGroupsEnabled: boolean;
     showMoreChannelsModal: () => void;
+    showCreateUserGroupModal: () => void;
     invitePeopleModal: () => void;
     showNewChannelModal: () => void;
     showCreateCategoryModal: () => void;
@@ -25,12 +27,14 @@ type Props = {
     showInviteTutorialTip: boolean;
     isAddChannelOpen: boolean;
     openAddChannelOpen: (open: boolean) => void;
+    canCreateCustomGroups: boolean;
 };
 
 const AddChannelDropdown = ({
     canCreateChannel,
     canJoinPublicChannel,
     showMoreChannelsModal,
+    showCreateUserGroupModal,
     invitePeopleModal,
     showNewChannelModal,
     showCreateCategoryModal,
@@ -40,6 +44,7 @@ const AddChannelDropdown = ({
     showInviteTutorialTip,
     isAddChannelOpen,
     openAddChannelOpen,
+    canCreateCustomGroups,
 }: Props) => {
     const intl = useIntl();
 
@@ -103,6 +108,18 @@ const AddChannelDropdown = ({
             />
         );
 
+        let createUserGroup;
+        if (canCreateCustomGroups) {
+            createUserGroup = (
+                <Menu.ItemAction
+                    id={'createUserGroup'}
+                    onClick={showCreateUserGroupModal}
+                    icon={<i className='icon-account-multiple-plus-outline'/>}
+                    text={intl.formatMessage({id: 'sidebar.createUserGroup', defaultMessage: 'Create New User Group'})}
+                />
+            );
+        }
+
         return (
             <>
                 <Menu.Group>
@@ -110,6 +127,7 @@ const AddChannelDropdown = ({
                     {createChannel}
                     {createDirectMessage}
                     {showCreateTutorialTip && <CreateAndJoinChannelsTour/>}
+                    {createUserGroup}
                 </Menu.Group>
                 {createCategory}
                 {invitePeople}

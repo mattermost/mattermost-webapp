@@ -5,7 +5,9 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {Action} from 'mattermost-redux/types/actions';
-import {shouldShowUnreadsCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {shouldShowUnreadsCategory, isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
+import Permissions from 'mattermost-redux/constants/permissions';
 
 import {openModal, closeModal} from 'actions/views/modals';
 import {browserHistory} from 'utils/browser_history';
@@ -33,11 +35,13 @@ function goForward() {
 }
 
 function mapStateToProps(state: GlobalState) {
+    const canCreateCustomGroups = haveISystemPermission(state, {permission: Permissions.CREATE_CUSTOM_GROUP}) && isCustomGroupsEnabled(state);
     return {
         canGoBack: true, // TODO: Phase 1 only
         canGoForward: true,
         showUnreadsCategory: shouldShowUnreadsCategory(state),
         isQuickSwitcherOpen: isModalOpen(state, ModalIdentifiers.QUICK_SWITCH),
+        canCreateCustomGroups,
     };
 }
 

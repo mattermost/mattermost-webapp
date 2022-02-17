@@ -294,7 +294,8 @@ type Props = {
 
     groupsWithAllowReference: Map<string, Group> | null;
     channelMemberCountsByGroup: ChannelMemberCountsByGroup;
-    useGroupMentions: boolean;
+    useLDAPGroupMentions: boolean;
+    useCustomGroupMentions: boolean;
     markdownPreviewFeatureIsEnabled: boolean;
 }
 
@@ -363,7 +364,7 @@ class CreatePost extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        const {useGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
+        const {useLDAPGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
         this.onOrientationChange();
         actions.setShowPreview(false);
         actions.clearDraftUploads();
@@ -373,18 +374,18 @@ class CreatePost extends React.PureComponent<Props, State> {
         window.addEventListener('beforeunload', this.unloadHandler);
         this.setOrientationListeners();
 
-        if (useGroupMentions) {
+        if (useLDAPGroupMentions) {
             actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
         }
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {
-        const {useGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
+        const {useLDAPGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
         if (prevProps.currentChannel.id !== currentChannel.id) {
             this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
             this.saveDraft(prevProps);
-            if (useGroupMentions) {
+            if (useLDAPGroupMentions) {
                 actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
             }
         }
@@ -621,7 +622,8 @@ class CreatePost extends React.PureComponent<Props, State> {
             groupsWithAllowReference,
             channelMemberCountsByGroup,
             currentChannelMembersCount,
-            useGroupMentions,
+            useLDAPGroupMentions,
+            useCustomGroupMentions,
         } = this.props;
 
         const notificationsToChannel = this.props.enableConfirmNotificationsToChannel && this.props.useChannelMentions;
@@ -632,18 +634,24 @@ class CreatePost extends React.PureComponent<Props, State> {
         const specialMentions = specialMentionsInText(this.state.message);
         const hasSpecialMentions = Object.values(specialMentions).includes(true);
 
-        if (this.props.enableConfirmNotificationsToChannel && !hasSpecialMentions && useGroupMentions) {
+        if (this.props.enableConfirmNotificationsToChannel && !hasSpecialMentions && (useLDAPGroupMentions || useCustomGroupMentions)) {
             // Groups mentioned in users text
             const mentionGroups = groupsMentionedInText(this.state.message, groupsWithAllowReference);
             if (mentionGroups.length > 0) {
-                mentions = mentionGroups.
-                    map((group) => {
+                mentionGroups.
+                    forEach((group) => {
+                        if (group.source === 'ldap' && !useLDAPGroupMentions) {
+                            return;
+                        }
+                        if (group.source === 'custom' && !useCustomGroupMentions) {
+                            return;
+                        }
                         const mappedValue = channelMemberCountsByGroup[group.id];
                         if (mappedValue && mappedValue.channel_member_count > Constants.NOTIFY_ALL_MEMBERS && mappedValue.channel_member_count > memberNotifyCount) {
                             memberNotifyCount = mappedValue.channel_member_count;
                             channelTimezoneCount = mappedValue.channel_member_timezones_count;
                         }
-                        return `@${group.name}`;
+                        mentions.push(`@${group.name}`);
                     });
                 mentions = [...new Set(mentions)];
             }
@@ -721,9 +729,10 @@ class CreatePost extends React.PureComponent<Props, State> {
             currentChannel,
             currentUserId,
             draft,
-            useGroupMentions,
+            useLDAPGroupMentions,
             useChannelMentions,
             groupsWithAllowReference,
+            useCustomGroupMentions,
         } = this.props;
 
         let post = originalPost;
@@ -740,7 +749,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         if (!useChannelMentions && containsAtChannel(post.message, {checkAllMentions: true})) {
             post.props.mentionHighlightDisabled = true;
         }
-        if (!useGroupMentions && groupsMentionedInText(post.message, groupsWithAllowReference)) {
+        if (!useLDAPGroupMentions && !useCustomGroupMentions && groupsMentionedInText(post.message, groupsWithAllowReference)) {
             post.props.disable_group_highlight = true;
         }
 
