@@ -836,7 +836,7 @@ export function viewChannel(channelId: string, prevChannelId = ''): ActionFunc {
         if (!prevChanManuallyUnread && prevMember && prevLastViewedAtTime) {
             actions.push({
                 type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER,
-                data: {...prevMember, last_viewed_at: new Date().getTime()},
+                data: {...prevMember, last_viewed_at: prevLastViewedAtTime},
             });
             dispatch(loadRolesIfNeeded(prevMember.roles.split(' ')));
         }
@@ -859,13 +859,14 @@ export function actionsToMarkChannelAsViewed(getState: GetStateFunc, channelId: 
     const actions: Redux.AnyAction[] = [];
 
     const state = getState();
-    const {myMembers} = state.entities.channels;
+    const {myMembers, channels} = state.entities.channels;
 
     const member = myMembers[channelId];
-    if (member) {
+    const channel = channels[channelId];
+    if (member && channel) {
         actions.push({
             type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER,
-            data: {...member, last_viewed_at: Date.now()},
+            data: {...member, last_viewed_at: channel.last_post_at},
         });
 
         if (isManuallyUnread(state, channelId)) {
@@ -877,10 +878,11 @@ export function actionsToMarkChannelAsViewed(getState: GetStateFunc, channelId: 
     }
 
     const prevMember = myMembers[prevChannelId];
+    const prevChannel = channels[channelId];
     if (prevMember && !isManuallyUnread(state, prevChannelId)) {
         actions.push({
             type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER,
-            data: {...prevMember, last_viewed_at: Date.now()},
+            data: {...prevMember, last_viewed_at: prevChannel.last_post_at},
         });
     }
 
