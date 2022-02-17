@@ -17,7 +17,7 @@ import {AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-re
 import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
 import {Locations, Constants, ModalIdentifiers} from 'utils/constants';
 import Permissions from 'mattermost-redux/constants/permissions';
-import ActionsTutorialTip from 'components/actions_menu/actions_menu_tutorial_tip';
+import {ActionsTutorialTip} from 'components/actions_menu/actions_menu_tutorial_tip';
 import {ModalData} from 'types/actions';
 import MarketplaceModal from 'components/plugin_marketplace';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -376,7 +376,9 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         }
 
         return (
-            <MenuWrapper onToggle={this.props.handleDropdownOpened}>
+            <MenuWrapper
+                onToggle={this.props.handleDropdownOpened}
+            >
                 <OverlayTrigger
                     className='hidden-xs'
                     delayShow={500}

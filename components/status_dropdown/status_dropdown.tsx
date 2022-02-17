@@ -234,7 +234,7 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
         const customStatusEmoji = isStatusSet ? (
             <span className='d-flex'>
                 <CustomStatusEmoji
-                    showTooltip={false}
+                    showTooltip={true}
                     emojiStyle={{marginLeft: 0}}
                 />
             </span>

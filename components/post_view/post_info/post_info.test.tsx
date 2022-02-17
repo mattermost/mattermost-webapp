@@ -43,7 +43,7 @@ describe('components/post_view/PostInfo', () => {
             setActionsMenuInitialisationState: jest.fn(),
         },
         shouldShowDotMenu: true,
-        firstTimeActionsMenuOpened: false,
+        showActionsMenuPulsatingDot: false,
         shouldShowActionsMenu: true,
         isReadOnly: true,
         collapsedThreadsEnabled: false,

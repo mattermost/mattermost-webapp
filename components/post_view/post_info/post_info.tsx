@@ -115,9 +115,9 @@ type Props = {
     isLastPost?: boolean;
 
     /**
-     * true when Actions Menu is first time opened
+     * true when want to show the Actions Menu with pulsating dot for tutorial
      */
-    firstTimeActionsMenuOpened: boolean;
+    showActionsMenuPulsatingDot: boolean;
 
     actions: {
 
@@ -207,9 +207,9 @@ export default class PostInfo extends React.PureComponent<Props, State> {
     };
 
     handleActionsMenuOpened = (open: boolean) => {
-        const {actions} = this.props;
-        if (this.props.firstTimeActionsMenuOpened) {
-            actions.setActionsMenuInitialisationState?.(({[Preferences.ACTIONS_MENU_VIEWED]: true}));
+        // if showing pulsating dot do not allow menu to open.  only the
+        // tutorial tip
+        if (this.props.showActionsMenuPulsatingDot) {
             return;
         }
 
@@ -298,7 +298,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
                 post={post}
                 handleDropdownOpened={this.handleActionsMenuOpened}
                 isMenuOpen={this.state.showActionsMenu}
-                showTutorialTip={this.props.firstTimeActionsMenuOpened}
+                showTutorialTip={this.props.showActionsMenuPulsatingDot}
             />
         );
 

@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {showActionsMenuPulsatingDot} from 'selectors/actions_menu';
+import {showActionsDropdownPulsatingDot} from 'selectors/actions_menu';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
@@ -43,7 +43,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 
     const user = getUser(state, ownProps.post.user_id);
     const isBot = Boolean(user && user.is_bot);
-    const firstTimeActionsMenuOpened = showActionsMenuPulsatingDot(state);
+    const showActionsMenuPulsatingDot = showActionsDropdownPulsatingDot(state);
 
     let emojis = [];
     const oneClickReactionsEnabled = get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.ONE_CLICK_REACTIONS_ENABLED, Preferences.ONE_CLICK_REACTIONS_ENABLED_DEFAULT) === 'true';
@@ -64,7 +64,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
         shortcutReactToLastPostEmittedFrom,
         shouldShowActionsMenu: shouldShowActionsMenu(state, ownProps.post),
-        firstTimeActionsMenuOpened,
+        showActionsMenuPulsatingDot,
         collapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
         oneClickReactionsEnabled,
         recentEmojis: emojis,

@@ -92,9 +92,9 @@ export default class RhsComment extends React.PureComponent {
         shouldShowActionsMenu: PropTypes.bool,
 
         /**
-        * true when Actions Menu is first time opened
+        * true when want to show the Actions Menu with pulsating dot for tutorial
          */
-        firstTimeActionsMenuOpened: PropTypes.bool,
+        showActionsMenuPulsatingDot: PropTypes.bool,
 
         /**
          * To Check if the current post is to be highlighted and scrolled into center view of RHS
@@ -288,7 +288,7 @@ export default class RhsComment extends React.PureComponent {
 
     handleActionsMenuOpened = (open) => {
         const {actions} = this.props;
-        if (this.props.firstTimeActionsMenuOpened) {
+        if (this.props.showActionsMenuPulsatingDot) {
             actions.setActionsMenuInitialisationState?.(({[Preferences.ACTIONS_MENU_VIEWED]: true}));
             return;
         }
@@ -567,7 +567,7 @@ export default class RhsComment extends React.PureComponent {
                     post={post}
                     handleDropdownOpened={this.handleActionsMenuOpened}
                     isMenuOpen={this.state.showActionsMenu}
-                    showTutorialTip={this.props.firstTimeActionsMenuOpened}
+                    showTutorialTip={this.props.showActionsMenuPulsatingDot}
                 />
             );
             const dotMenu = (
