@@ -64,8 +64,6 @@ describe('Keyboard Shortcuts', () => {
         // # Type CTRL/CMD+SHIFT+M to open search
         cy.get('body').cmdOrCtrlShortcut('{shift}M');
 
-        // * Search box should appear with the current user name pre-populated
-        cy.get('#searchBox').should('have.attr', 'value', `@${testUser.username} `);
         cy.get('.sidebar--right__title').should('contain', 'Recent Mentions');
 
         // # Verify that the correct number of mentions are returned

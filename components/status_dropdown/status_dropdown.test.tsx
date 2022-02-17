@@ -26,6 +26,7 @@ describe('components/StatusDropdown', () => {
         setStatus: jest.fn(),
         unsetCustomStatus: jest.fn(),
         setStatusDropdown: jest.fn(),
+        savePreferences: jest.fn(),
     };
 
     const baseProps = {
@@ -47,6 +48,7 @@ describe('components/StatusDropdown', () => {
         isCustomStatusExpired: false,
         isStatusDropdownOpen: false,
         showCustomStatusPulsatingDot: false,
+        showCompleteYourProfileTour: false,
     };
 
     test('should match snapshot in default state', () => {

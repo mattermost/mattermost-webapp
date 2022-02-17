@@ -54,6 +54,7 @@ type Props = {
     emailInvitationsEnabled: boolean;
     extraErrorText?: React.ReactNode;
     autoFocus?: boolean;
+    suppressNoOptionsMessage?: boolean;
 }
 
 export type EmailInvite = {
@@ -234,7 +235,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
     );
 
     components = {
-        NoOptionsMessage: this.NoOptionsMessage,
+        NoOptionsMessage: this.props.suppressNoOptionsMessage ? () => null : this.NoOptionsMessage,
         MultiValueRemove: this.MultiValueRemove,
         IndicatorsContainer: () => null,
     };
