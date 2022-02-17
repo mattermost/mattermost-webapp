@@ -93,7 +93,7 @@ export default class Textbox extends React.PureComponent<Props> {
         this.suggestionProviders.push(
             new AtMentionProvider({
                 currentUserId: this.props.currentUserId,
-                currentChannelId: this.props.channelId,
+                channelId: this.props.channelId,
                 autocompleteUsersInChannel: (prefix: string) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
                 useChannelMentions: this.props.useChannelMentions,
                 autocompleteGroups: this.props.autocompleteGroups,
@@ -134,7 +134,7 @@ export default class Textbox extends React.PureComponent<Props> {
                 if (provider instanceof AtMentionProvider) {
                     provider.setProps({
                         currentUserId: this.props.currentUserId,
-                        currentChannelId: this.props.channelId,
+                        channelId: this.props.channelId,
                         autocompleteUsersInChannel: (prefix: string) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
                         useChannelMentions: this.props.useChannelMentions,
                         autocompleteGroups: this.props.autocompleteGroups,

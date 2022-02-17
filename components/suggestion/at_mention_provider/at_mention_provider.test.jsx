@@ -24,8 +24,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
 
     const baseParams = {
         currentUserId: 'userid1',
-        currentTeamId: 'teamid1',
-        currentChannelId: 'channelid1',
+        channelId: 'channelid1',
         autocompleteUsersInChannel: jest.fn().mockResolvedValue(false),
         autocompleteGroups: [groupid1, groupid2, groupid3],
         useChannelMentions: true,
