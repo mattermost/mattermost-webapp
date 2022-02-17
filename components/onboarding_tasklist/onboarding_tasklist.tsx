@@ -1,37 +1,43 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useRef, useState, useCallback} from 'react';
+import React, {useRef, useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled, {css} from 'styled-components';
 
 import Icon from '@mattermost/compass-components/foundations/icon/Icon';
-
 import {FormattedMessage} from 'react-intl';
 
+import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-
 import {trackEvent} from 'actions/telemetry_actions';
 import checklistImg from 'images/onboarding-checklist.svg';
-import {Preferences} from 'utils/constants';
+import {
+    useTasksListWithStatus,
+    OnboardingTaskCategory,
+    OnboardingTaskList,
+} from 'components/onboarding_tasks';
+import {useHandleOnBoardingTaskTrigger} from 'components/onboarding_tasks/onboarding_tasks_manager';
+import {openModal} from 'actions/views/modals';
+import {GlobalState} from 'types/store';
+import OnBoardingVideoModal from 'components/onboarding_tasks/onboarding_video_modal/onboarding_video_modal';
 
-import {TaskListPopover} from './onboarding_checklist_popover';
-import {Task} from './onboarding_checklist_task';
-import Completed from './onboarding_checklist_completed';
-import {CompletedAnimation} from './onboarding_checklist_animations';
+import {TaskListPopover} from './onboarding_tasklist_popover';
+import {Task} from './onboarding_tasklist_task';
+import Completed from './onboarding_tasklist_completed';
+import {CompletedAnimation} from './onboarding_tasklist_animations';
 
 const TaskItems = styled.div`
     border-radius: 4px;
     border: solid 1px rgba(var(--center-channel-color-rgb), 0.16);
     background-color: var(--center-channel-bg);
     max-width: 352px;
-    padding: 1rem 0;
+    padding: 24px 0;
     transform: scale(0);
     opacity: 0;
-    box-shadow: 0px 20px 32px rgba(0, 0, 0, 0.12);
-    transition: opacity 150ms ease-in-out 0ms, transform 150ms ease-in-out 0ms;
+    box-shadow: var(--elevation-6);
+    transition: opacity 250ms ease-in-out 0ms, transform 250ms ease-in-out 0ms;
     transform-origin: left bottom;
-    min-height: 518px;
     max-height: ${document.documentElement.clientHeight}px;
     overflow-y: auto;
 
@@ -43,11 +49,11 @@ const TaskItems = styled.div`
     h1 {
         font-size: 20px;
         padding: 0 24px;
-        margin: 16px 0 0;
+        margin: 0;
     }
 
     p {
-        fontSize: 12px;
+        font-size: 12px;
         color: rgba(var(--center-channel-color-rgb), 0.72);
         padding: 4px 24px;
     }
@@ -59,6 +65,9 @@ const TaskItems = styled.div`
         font-weight: bold;
         cursor: pointer;
         display: block;
+        :hover{
+          text-decoration: underline
+        }
     }
 `;
 
@@ -71,12 +80,12 @@ const Button = styled.button<{open: boolean}>(({open}) => {
         left: 20px;
         bottom: 20px;
         position: fixed;
-        z-index: 21;
+        z-index: 101;
         display: flex;
         align-items: center;
         background: var(--center-channel-bg);
         border: solid 1px rgba(var(--center-channel-color-rgb), 0.16);
-        box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.16);
+        box-shadow: var(--elevation-3);
         
         i {
             color: rgba(var(--center-channel-color-rgb), 0.56);
@@ -84,7 +93,7 @@ const Button = styled.button<{open: boolean}>(({open}) => {
         
         &:hover {
             border-color: rgba(var(--center-channel-color-rgb), 0.24);
-            box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.16);
+            box-shadow: var(--elevation-4);
             
             i {
                 color: rgba(var(--center-channel-color-rgb), 0.72)
@@ -94,7 +103,7 @@ const Button = styled.button<{open: boolean}>(({open}) => {
         span {
             width: 20px;
             height: 16px;
-            background: var(--sidebar-text-active-border);
+            background: var(--button-bg);
             position: fixed;
             display: ${open ? 'none' : 'block'};
             border-radius: 12px;
@@ -113,7 +122,7 @@ const PlayButton = styled.button`
     max-width: 175px;
     background: var(--button-bg);
     border-radius: 4px;
-    color: var(--sidebar-text);
+    color: var(--button-color);
     border: none;
     font-weight: bold;
     position: absolute;
@@ -122,11 +131,11 @@ const PlayButton = styled.button`
     margin-right: auto;
     left: 0;
     right: 0;
-    top: 136px;
-
+    top: 48px;
+  
     &:hover {
         border-color: rgba(var(--center-channel-color-rgb), 0.24);
-        box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.16);
+        box-shadow: var(--elevation-4);
     }
 
     i {
@@ -138,87 +147,93 @@ const PlayButton = styled.button`
 const Skeleton = styled.div`
     width: 304px;
     height: 137px;
-    margin: auto;
+    margin: 8px auto;
+    position: relative;
 `;
 
-const TaskList = (): JSX.Element => {
-    const [open, setOpen] = useState(false);
-    const [completedCount, setCompletedCount] = useState(0);
-    const trigger = useRef();
+const OnBoardingTaskList = (): JSX.Element => {
+    const open = useSelector(((state: GlobalState) => getBool(state, OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN)));
+    const trigger = useRef<HTMLButtonElement>(null);
     const dispatch = useDispatch();
     const currentUserId = useSelector(getCurrentUserId);
+    const handleTaskTrigger = useHandleOnBoardingTaskTrigger();
+    const tasksList = useTasksListWithStatus();
+    const [completedCount, setCompletedCount] = useState(tasksList.filter((task) => task.status).length);
+    const [showAnimation, setShowAnimation] = useState(false);
+    const itemsLeft = tasksList.length - completedCount;
 
-    const completeTask = () => {
-        //TODO: this will be implemented fully when we have all the Preferences for the tours merged.
-        setCompletedCount(completedCount + 1);
-        trackEvent('ui', 'onboarding_checklist_task_completed');
+    const startTask = (taskName: string) => {
+        toggleTaskList();
+        handleTaskTrigger(taskName);
     };
+
+    // Done to show task done animation in closed state as well
+    useEffect(() => {
+        const newCCount = tasksList.filter((task) => task.status).length;
+        const show = localStorage.getItem(OnboardingTaskCategory);
+        if (show || ((completedCount + 1) === newCCount && !open)) {
+            setTimeout(() => {
+                setShowAnimation(true);
+                setCompletedCount(newCCount);
+            }, 100);
+            setTimeout(() => {
+                setShowAnimation(false);
+                setCompletedCount(newCCount);
+            }, 500);
+            localStorage.removeItem(OnboardingTaskCategory);
+        } else {
+            setCompletedCount(newCCount);
+        }
+    }, [tasksList, completedCount]);
 
     const dismissChecklist = useCallback(() => {
         const preferences = [{
             user_id: currentUserId,
-            category: Preferences.DISMISS_ONBOARDING_CHECKLIST,
-            name: currentUserId,
+            category: OnboardingTaskCategory,
+            name: OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW,
             value: 'true',
         }];
         dispatch(savePreferences(currentUserId, preferences));
-        trackEvent('ui', 'onboarding_checklist_dismissed');
+        trackEvent(OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW);
     }, [currentUserId]);
 
-    const taskLabels = [
-        <FormattedMessage
-            key={1}
-            id='onboarding_checklist.task_channels_tour'
-            defaultMessage='Take a tour of channels'
-        />,
-        <FormattedMessage
-            key={2}
-            id='onboarding_checklist.task_boards_tour'
-            defaultMessage='Manage tasks with your first board'
-        />,
-        <FormattedMessage
-            key={3}
-            id='onboarding_checklist.task_invite'
-            defaultMessage='Invite team members to the workspace'
-        />,
-        <FormattedMessage
-            key={4}
-            id='onboarding_checklist.task_complete_profile'
-            defaultMessage='Complete your profile'
-        />,
-        <FormattedMessage
-            key={5}
-            id='onboarding_checklist.task_download_apps'
-            defaultMessage='Download the Desktop and Mobile Apps'
-        />,
-        <FormattedMessage
-            key={6}
-            id='onboarding_checklist.task_system_console'
-            defaultMessage='Visit the System Console to configure your workspace'
-        />,
-    ];
-    const closeTaskList = useCallback(() => {
-        setOpen(false);
+    const toggleTaskList = useCallback(() => {
+        const preferences = [{
+            user_id: currentUserId,
+            category: OnboardingTaskCategory,
+            name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
+            value: String(!open),
+        }];
+        dispatch(savePreferences(currentUserId, preferences));
+    }, [open, currentUserId]);
+
+    const openVideoModal = useCallback(() => {
+        toggleTaskList();
+        dispatch(openModal({
+            modalId: OnboardingTaskList.ONBOARDING_VIDEO_MODAL,
+            dialogType: OnBoardingVideoModal,
+            dialogProps: {},
+        }));
     }, []);
 
     return (
         <>
-            <CompletedAnimation completed={completedCount === taskLabels.length}/>
+            <CompletedAnimation completed={showAnimation}/>
             <Button
-                onClick={() => setOpen(!open)}
-                ref={trigger as unknown as React.RefObject<HTMLButtonElement>}
+                onClick={toggleTaskList}
+                ref={trigger}
                 open={open}
             >
                 <Icon glyph={open ? 'close' : 'playlist-check'}/>
-                <span>{taskLabels.length - completedCount}</span>
+                {itemsLeft !== 0 && (<span>{itemsLeft}</span>)}
             </Button>
             <TaskListPopover
                 isVisible={open}
                 trigger={trigger}
-                onClick={closeTaskList}
+                onClick={toggleTaskList}
             >
                 <TaskItems className={open ? 'open' : ''}>
-                    {completedCount === taskLabels.length ? <Completed dismissAction={dismissChecklist}/> : (
+                    {completedCount === tasksList.length ? <Completed dismissAction={dismissChecklist}/> : (
                         <>
                             <h1>
                                 <FormattedMessage
@@ -228,33 +243,37 @@ const TaskList = (): JSX.Element => {
                             </h1>
                             <p>
                                 <FormattedMessage
-                                    id='onboarding_checklist.main_subtitle'
+                                    id='onboardingTask.checklist.main_subtitle'
                                     defaultMessage="Let's get up and running."
                                 />
                             </p>
                             <Skeleton>
                                 <img
                                     src={checklistImg}
+                                    alt={'On Boarding video'}
                                     style={{display: 'block', margin: '1rem auto', borderRadius: '4px'}}
                                 />
+                                <PlayButton
+                                    onClick={openVideoModal}
+                                >
+                                    <Icon
+                                        glyph={'play'}
+                                        size={16}
+                                    />
+                                    <FormattedMessage
+                                        id='onboardingTask.checklist.video_title'
+                                        defaultMessage='Watch overview'
+                                    />
+                                </PlayButton>
                             </Skeleton>
-                            <PlayButton>
-                                <Icon
-                                    glyph={'play'}
-                                    size={16}
-                                />
-                                <FormattedMessage
-                                    id='onboarding_checklist.video_title'
-                                    defaultMessage='Watch overview'
-                                />
-                            </PlayButton>
-                            {taskLabels.map((label, i) => (
+                            {tasksList.map((task) => (
                                 <Task
-                                    key={i}
-                                    label={label}
+                                    key={OnboardingTaskCategory + task.name}
+                                    label={task.label}
                                     onClick={() => {
-                                        completeTask();
+                                        startTask(task.name);
                                     }}
+                                    completedStatus={task.status}
                                 />
                             ))}
                             <span
@@ -262,7 +281,7 @@ const TaskList = (): JSX.Element => {
                                 onClick={dismissChecklist}
                             >
                                 <FormattedMessage
-                                    id='onboarding_checklist.dismiss_link'
+                                    id='onboardingTask.checklist.dismiss_link'
                                     defaultMessage='No thanks, I’ll figure it out myself'
                                 />
                             </span>
@@ -274,4 +293,4 @@ const TaskList = (): JSX.Element => {
     );
 };
 
-export default TaskList;
+export default OnBoardingTaskList;

@@ -13,8 +13,9 @@ type PunchoutOffset = {
     height: number;
 }
 
-export function useMeasurePunchouts(elementIds: string[], additionalDeps: any[], offset?: PunchoutOffset): TutorialTipPunchout | null | undefined {
+export function useMeasurePunchoutsDeprecated(elementIds: string[], additionalDeps: any[], offset?: PunchoutOffset): TutorialTipPunchout | null | undefined {
     const elementsAvailable = useElementAvailable(elementIds);
+
     const channelPunchout = useMemo(() => {
         let minX = Number.MAX_SAFE_INTEGER;
         let minY = Number.MAX_SAFE_INTEGER;

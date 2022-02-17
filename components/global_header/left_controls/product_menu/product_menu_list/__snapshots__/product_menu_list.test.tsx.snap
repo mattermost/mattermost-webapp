@@ -95,7 +95,11 @@ exports[`components/global/product_switcher_menu should match snapshot with id 1
         }
         id="systemConsole"
         show={true}
-        text="System Console"
+        text={
+          <React.Fragment>
+            System Console
+          </React.Fragment>
+        }
         to="/admin_console"
       />
     </Connect(SystemPermissionGate)>
@@ -299,7 +303,11 @@ exports[`components/global/product_switcher_menu should match snapshot with most
         }
         id="systemConsole"
         show={true}
-        text="System Console"
+        text={
+          <React.Fragment>
+            System Console
+          </React.Fragment>
+        }
         to="/admin_console"
       />
     </Connect(SystemPermissionGate)>
@@ -507,7 +515,11 @@ exports[`components/global/product_switcher_menu should show integrations should
         }
         id="systemConsole"
         show={true}
-        text="System Console"
+        text={
+          <React.Fragment>
+            System Console
+          </React.Fragment>
+        }
         to="/admin_console"
       />
     </Connect(SystemPermissionGate)>

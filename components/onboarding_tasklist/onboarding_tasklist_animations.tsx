@@ -33,19 +33,19 @@ const Animation = styled.div`
 
     .x1 {
         opacity: 0;
-        animation-delay: 100ms;
+        animation-delay: 150ms;
     }
 
     .x2 {
         transform: scale(0.6);
         margin-left: 6px;
-        animation-delay: 200ms;
+        animation-delay: 250ms;
         opacity: 0;
     }
     .x3 {
         transform: scale(0.6);
         margin-left: -6px;
-        animation-delay: 250ms;
+        animation-delay: 300ms;
         opacity: 0;
     }
     .x4 {

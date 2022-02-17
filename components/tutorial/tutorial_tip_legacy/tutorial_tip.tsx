@@ -164,7 +164,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             // This is because tips and next steps may display.
             // It can further happen that the post popover gets the first chance to display,
             // and then tips and next steps determines it should display.
-            // So this is tutorial_tip's way of being polite to the user and not flashing its tip
+            // So this is tutorial_tip_legacy's way of being polite to the user and not flashing its tip
             // in the user's face right before showing tips and next steps.
             if (this.props.step === OnBoardingTutorialStep.POST_POPOVER) {
                 this.showPendingTimeout = setTimeout(() => {

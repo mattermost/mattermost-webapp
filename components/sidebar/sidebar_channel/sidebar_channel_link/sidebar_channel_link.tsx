@@ -19,12 +19,12 @@ import Constants from 'utils/constants';
 import {wrapEmojis} from 'utils/emoji_utils';
 import {isDesktopApp} from 'utils/user_agent';
 import {cmdOrCtrlPressed, localizeMessage} from 'utils/utils';
+import {ChannelsAndDirectMessagesTour} from 'components/onboarding_tour';
 
 import ChannelMentionBadge from '../channel_mention_badge';
 import SidebarChannelIcon from '../sidebar_channel_icon';
 import SidebarChannelMenu from '../sidebar_channel_menu';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
-import ChannelTutorialTip from 'components/sidebar/channel_tutorial_tip';
 
 type Props = {
     channel: Channel;
@@ -58,21 +58,14 @@ type Props = {
 
     teammateId?: string;
 
-    showTutorialTip: boolean;
-
-    townSquareDisplayName: string;
-
-    offTopicDisplayName: string;
-
     firstChannelName?: string;
 
-    isMobileView: boolean;
+    showChannelsTutorialStep: boolean;
 
     actions: {
         clearChannelSelection: () => void;
         multiSelectChannelTo: (channelId: string) => void;
         multiSelectChannelAdd: (channelId: string) => void;
-        openLhs: () => void;
     };
 };
 
@@ -165,7 +158,6 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
 
     render(): JSX.Element {
         const {
-            actions,
             channel,
             icon,
             isChannelSelected,
@@ -173,22 +165,14 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
             isUnread,
             label,
             link,
-            showTutorialTip,
             unreadMentions,
             firstChannelName,
+            showChannelsTutorialStep,
         } = this.props;
 
-        let tutorialTip: JSX.Element | null = null;
-        if ((showTutorialTip && channel.name === Constants.DEFAULT_CHANNEL) || firstChannelName === channel.name) {
-            tutorialTip = (
-                <ChannelTutorialTip
-                    townSquareDisplayName={this.props.townSquareDisplayName}
-                    offTopicDisplayName={this.props.offTopicDisplayName}
-                    firstChannelName={this.props.firstChannelName}
-                    openLhs={actions.openLhs}
-                    isMobileView={this.props.isMobileView}
-                />
-            );
+        let channelsTutorialTip: JSX.Element | null = null;
+        if (firstChannelName === channel.name || (showChannelsTutorialStep && channel.name === Constants.DEFAULT_CHANNEL)) {
+            channelsTutorialTip = (<ChannelsAndDirectMessagesTour firstChannelName={firstChannelName}/>);
         }
 
         let labelElement: JSX.Element = (
@@ -291,7 +275,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                 tabIndex={this.props.isCollapsed ? -1 : 0}
             >
                 {content}
-                {tutorialTip}
+                {channelsTutorialTip}
             </Link>
         );
 

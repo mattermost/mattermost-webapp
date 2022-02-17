@@ -1,20 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 
-import {CompletedAnimation} from './onboarding_checklist_animations';
+import {CompletedAnimation} from './onboarding_tasklist_animations';
 
 export interface TaskProps {
     label: React.ReactElement | string;
     icon?: React.ReactNode;
     onClick?: () => void;
+    completedStatus: boolean;
 }
 
 const StyledTask = styled.div`
     display: flex;
-    background-color: rgb(255, 255, 255);
+    background-color: var(--center-channel-bg);
     cursor: pointer;
     width: 100%;
     padding: 8px 20px;
@@ -53,25 +54,23 @@ const StyledTask = styled.div`
 `;
 
 export const Task = (props: TaskProps): JSX.Element => {
-    const {label, onClick} = props;
-    const [completed, setCompleted] = useState(false);
+    const {label, completedStatus, onClick} = props;
 
     const handleOnClick = () => {
         if (onClick) {
             onClick();
         }
-        setCompleted(true);
     };
 
     return (
         <StyledTask
-            className={completed ? 'completed' : ''}
+            className={completedStatus ? 'completed' : ''}
             onClick={handleOnClick}
         >
-            {completed && <CompletedAnimation completed={completed}/>}
+            {completedStatus && <CompletedAnimation completed={completedStatus}/>}
             <Icon
-                className={completed ? 'play completed' : 'play'}
-                glyph={completed ? 'check' : 'play'}
+                className={completedStatus ? 'play completed' : 'play'}
+                glyph={completedStatus ? 'check' : 'play'}
                 size={16}
             />
             <span>{label}</span>

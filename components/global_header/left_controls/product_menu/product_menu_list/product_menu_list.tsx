@@ -8,18 +8,18 @@ import Icon from '@mattermost/compass-components/foundations/icon';
 
 import {Permissions} from 'mattermost-redux/constants';
 import {UserProfile} from 'mattermost-redux/types/users';
-
 import AboutBuildModal from 'components/about_build_modal';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import MarketplaceModal from 'components/plugin_marketplace';
 import Menu from 'components/widgets/menu/menu';
-
 import {ModalIdentifiers} from 'utils/constants';
 import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
+import {VisitSystemConsoleTour} from 'components/onboarding_tasks';
 import UserGroupsModal from 'components/user_groups_modal';
 import {ModalData} from 'types/actions';
+import './product_menu_list.scss';
 
 export type Props = {
     isMobile: boolean;
@@ -36,7 +36,9 @@ export type Props = {
     canManageSystemBots: boolean;
     canManageIntegrations: boolean;
     enablePluginMarketplace: boolean;
+    showVisitSystemConsoleTour: boolean;
     onClick?: React.MouseEventHandler<HTMLElement>;
+    handleVisitConsoleClick: React.MouseEventHandler<HTMLElement>;
     enableCustomUserGroups?: boolean;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
@@ -58,7 +60,9 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
         canManageSystemBots,
         canManageIntegrations,
         enablePluginMarketplace,
+        showVisitSystemConsoleTour,
         onClick,
+        handleVisitConsoleClick,
         isMobile = false,
         enableCustomUserGroups,
     } = props;
@@ -99,7 +103,19 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                         id='systemConsole'
                         show={!isMobile}
                         to='/admin_console'
-                        text={formatMessage({id: 'navbar_dropdown.console', defaultMessage: 'System Console'})}
+                        text={(
+                            <>
+                                {formatMessage({id: 'navbar_dropdown.console', defaultMessage: 'System Console'})}
+                                {showVisitSystemConsoleTour && (
+                                    <div
+                                        onClick={handleVisitConsoleClick}
+                                        className={'system-console-visit'}
+                                    >
+                                        <VisitSystemConsoleTour/>
+                                    </div>
+                                )}
+                            </>
+                        )}
                         icon={
                             <Icon
                                 size={16}

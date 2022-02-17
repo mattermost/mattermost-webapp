@@ -11,7 +11,6 @@ import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions';
-import {trackEvent} from 'actions/telemetry_actions.jsx';
 import Constants, {StoragePrefixes, ModalIdentifiers, Locations, A11yClassNames} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {
@@ -57,9 +56,7 @@ import {ModalData} from 'types/actions';
 import {FileInfo} from 'mattermost-redux/types/files';
 import {Emoji} from 'mattermost-redux/types/emojis';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
-
-import CreatePostTip from './create_post_tip';
-
+import {SendMessageTour} from 'components/onboarding_tour';
 const KeyCodes = Constants.KeyCodes;
 
 const CreatePostDraftTimeoutMilliseconds = 500;
@@ -123,12 +120,7 @@ type Props = {
     /**
   *  Data used for deciding if tutorial tip is to be shown
   */
-    showTutorialTip: boolean;
-
-    /**
-  *  Data used for advancing from create post tip
-  */
-    tutorialStep: number;
+    showSendTutorialTip: boolean;
 
     /**
   *  Data used populating message state when triggered by shortcuts
@@ -589,11 +581,6 @@ class CreatePost extends React.PureComponent<Props, State> {
 
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
         this.draftsForChannel[channelId] = null;
-
-        const shouldCompleteTip = this.props.tutorialStep === Constants.TutorialSteps.POST_POPOVER;
-        if (shouldCompleteTip) {
-            this.completePostTip('send_message');
-        }
     }
 
     handleNotifyAllConfirmation = () => {
@@ -1297,25 +1284,12 @@ class CreatePost extends React.PureComponent<Props, State> {
         });
     }
 
-    completePostTip = (source: string) => {
-        this.props.actions.savePreferences(
-            this.props.currentUserId,
-            [{
-                user_id: this.props.currentUserId,
-                category: Constants.Preferences.TUTORIAL_STEP,
-                name: this.props.currentUserId,
-                value: (Constants.TutorialSteps.POST_POPOVER + 1).toString(),
-            }],
-        );
-        trackEvent('ui', 'tutorial_tip_1_complete_' + source);
-    }
-
     render() {
         const {
             currentChannel,
             draft,
             fullWidthTextBox,
-            showTutorialTip,
+            showSendTutorialTip,
             canPost,
         } = this.props;
         const readOnlyChannel = !canPost;
@@ -1357,10 +1331,10 @@ class CreatePost extends React.PureComponent<Props, State> {
             postFooterClassName += ' has-error';
         }
 
-        let tutorialTip = null;
-        if (showTutorialTip) {
-            tutorialTip = (
-                <CreatePostTip
+        let SendTutorialTip = null;
+        if (showSendTutorialTip) {
+            SendTutorialTip = (
+                <SendMessageTour
                     prefillMessage={this.prefillMessage}
                     currentChannel={this.props.currentChannel}
                     currentUserId={this.props.currentUserId}
@@ -1528,7 +1502,7 @@ class CreatePost extends React.PureComponent<Props, State> {
                                 </a>
                             </span>
                         </div>
-                        {tutorialTip}
+                        {SendTutorialTip}
                     </div>
                     <div
                         id='postCreateFooter'

@@ -1,13 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {MutableRefObject} from 'react';
+import React, {RefObject} from 'react';
 import {usePopper} from 'react-popper';
 import {CSSTransition} from 'react-transition-group';
 import styled from 'styled-components';
 import {Placement} from 'popper.js';
 
 const Overlay = styled.div`
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: flex-end;
     justify-content: center;
@@ -25,7 +25,7 @@ const Overlay = styled.div`
     transition: 150ms;
     transition-property: background-color;
     transition-timing-function: ease-in-out;
-    z-index: 20;
+    z-index: 100;
     &.fade-enter {
         background-color: rgba(0, 0, 0, 0);
     }
@@ -47,7 +47,7 @@ const Overlay = styled.div`
 `;
 
 interface TaskListPopoverProps {
-    trigger: MutableRefObject<undefined>;
+    trigger: RefObject<HTMLButtonElement>;
     isVisible: boolean;
     placement?: Placement;
     offset?: [number | null | undefined, number | null | undefined];
