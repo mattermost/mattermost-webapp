@@ -21,6 +21,8 @@ import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getFirstAdminSetupComplete, getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {Client4} from 'mattermost-redux/client';
 
+import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks/constants';
+
 import Constants, {Preferences, RecommendedNextSteps} from 'utils/constants';
 import {makeNewEmptyChannel} from 'utils/channel_utils';
 import {teamNameToUrl, getSiteURL} from 'utils/url';
@@ -316,6 +318,23 @@ export default function PreparingWorkspace(props: Props) {
                 props.history.push(`/${team.name}/channels${Constants.DEFAULT_CHANNEL}`);
             }
         };
+
+        // prepare task list to open in the next view
+        dispatch(savePreferences(user.id, [
+            {
+                user_id: user.id,
+                category: OnboardingTaskCategory,
+                name: OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW,
+                value: 'true',
+            },
+            {
+                user_id: user.id,
+                category: OnboardingTaskCategory,
+                name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
+                value: 'true',
+            }
+        ]));
+
         const sendFormEnd = Date.now();
         const timeToWait = (sendFormEnd - sendFormStart) - WAIT_FOR_REDIRECT_TIME;
         if (timeToWait > 0) {
