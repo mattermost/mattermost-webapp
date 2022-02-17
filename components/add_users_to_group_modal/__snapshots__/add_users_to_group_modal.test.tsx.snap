@@ -93,6 +93,7 @@ exports[`component/add_users_to_group_modal should match snapshot 1`] = `
             groupId="groupid123"
             multilSelectKey="addUsersToGroupKey"
             onSubmitCallback={[Function]}
+            saving={false}
             savingEnabled={false}
             searchOptions={
               Object {

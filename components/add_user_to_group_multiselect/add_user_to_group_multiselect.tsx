@@ -43,6 +43,7 @@ export type Props = {
     profiles: UserProfileValue[];
 
     savingEnabled: boolean;
+    saving: boolean;
     buttonSubmitText?: string;
     buttonSubmitLoadingText?: string;
     backButtonClick?: () => void;
@@ -60,7 +61,6 @@ export type Props = {
 type State = {
     values: UserProfileValue[];
     term: string;
-    saving: boolean;
     loadingUsers: boolean;
 }
 
@@ -79,7 +79,6 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
         this.state = {
             values: [],
             term: '',
-            saving: false,
             loadingUsers: true,
         } as State;
 
@@ -143,9 +142,6 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
     };
 
     public handleSubmit = (): void => {
-        this.setState({
-            saving: true,
-        });
         const userIds = this.state.values.map((v) => v.id);
         if (userIds.length === 0) {
             return;
@@ -225,7 +221,7 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
                 maxValues={MAX_SELECTABLE_VALUES}
                 buttonSubmitText={buttonSubmitText}
                 buttonSubmitLoadingText={buttonSubmitLoadingText}
-                saving={this.state.saving}
+                saving={this.props.saving}
                 loading={this.state.loadingUsers}
                 placeholderText={localizeMessage('multiselect.placeholder', 'Search for people')}
                 valueWithImage={true}

@@ -41,6 +41,7 @@ type State = {
     mentionInputErrorText: string;
     nameInputErrorText: string;
     showUnknownError: boolean;
+    saving: boolean;
 }
 
 export default class CreateUserGroupsModal extends React.PureComponent<Props, State> {
@@ -57,6 +58,7 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
             mentionInputErrorText: '',
             nameInputErrorText: '',
             showUnknownError: false,
+            saving: false,
         };
     }
 
@@ -99,16 +101,17 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
     }
 
     createGroup = async (users?: UserProfile[]) => {
-        this.setState({showUnknownError: false, mentionInputErrorText: '', nameInputErrorText: ''});
+        this.setState({showUnknownError: false, mentionInputErrorText: '', nameInputErrorText: '', saving: true});
         let mention = this.state.mention;
         const displayName = this.state.name;
 
         if (!displayName || !displayName.trim()) {
-            this.setState({nameInputErrorText: Utils.localizeMessage('user_groups_modal.nameIsEmpty', 'Name is a required field.')});
+            this.setState({nameInputErrorText: Utils.localizeMessage('user_groups_modal.nameIsEmpty', 'Name is a required field.'), saving: false});
             return;
         }
 
         if (!users || users.length === 0) {
+            this.setState({saving: false});
             return;
         }
         if (mention.substring(0, 1) === '@') {
@@ -116,13 +119,13 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
         }
 
         if (mention.length < 1) {
-            this.setState({mentionInputErrorText: Utils.localizeMessage('user_groups_modal.mentionIsEmpty', 'Mention is a required field.')});
+            this.setState({mentionInputErrorText: Utils.localizeMessage('user_groups_modal.mentionIsEmpty', 'Mention is a required field.'), saving: false});
             return;
         }
 
         const mentionRegEx = new RegExp(/[^A-Za-z0-9]/g);
         if (mentionRegEx.test(mention)) {
-            this.setState({mentionInputErrorText: Utils.localizeMessage('user_groups_modal.mentionInvalidError', 'Invalid character in mention.')});
+            this.setState({mentionInputErrorText: Utils.localizeMessage('user_groups_modal.mentionInvalidError', 'Invalid character in mention.'), saving: false});
             return;
         }
 
@@ -144,6 +147,7 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
             } else {
                 this.setState({showUnknownError: true});
             }
+            this.setState({saving: false});
         } else if (typeof this.props.backButtonCallback === 'function') {
             this.goBack();
         } else {
@@ -250,6 +254,7 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
                                             this.doHide
                                     }
                                     backButtonClass={'multiselect-back'}
+                                    saving={this.state.saving}
                                 />
                             </div>
                             {

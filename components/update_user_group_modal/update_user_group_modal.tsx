@@ -78,6 +78,7 @@ const UpdateUserGroupModal = (props: Props) => {
 
         if (!displayName || !displayName.trim()) {
             setNameInputErrorText(Utils.localizeMessage('user_groups_modal.nameIsEmpty', 'Name is a required field.'));
+            setSaving(false);
             return;
         }
 
@@ -87,12 +88,14 @@ const UpdateUserGroupModal = (props: Props) => {
 
         if (newMention.length < 1) {
             setMentionInputErrorText(Utils.localizeMessage('user_groups_modal.mentionIsEmpty', 'Mention is a required field.'));
+            setSaving(false);
             return;
         }
 
         const mentionRegEx = new RegExp(/[^A-Za-z0-9]/g);
         if (mentionRegEx.test(newMention)) {
             setMentionInputErrorText(Utils.localizeMessage('user_groups_modal.mentionInvalidError', 'Invalid character in mention.'));
+            setSaving(false);
             return;
         }
 

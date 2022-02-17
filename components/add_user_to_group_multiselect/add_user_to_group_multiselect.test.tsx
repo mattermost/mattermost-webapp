@@ -40,6 +40,7 @@ describe('component/add_user_to_group_multiselect', () => {
         deleteUserCallback: jest.fn(),
         profiles: [],
         userStatuses: {},
+        saving: false,
         actions: {
             getProfiles: jest.fn().mockImplementation(() => Promise.resolve()),
             getProfilesNotInGroup: jest.fn().mockImplementation(() => Promise.resolve()),
@@ -98,7 +99,6 @@ describe('component/add_user_to_group_multiselect', () => {
 
         wrapper.setState({values: users});
         wrapper.instance().handleSubmit();
-        expect(wrapper.state('saving')).toEqual(true);
         expect(wrapper.instance().props.onSubmitCallback).toHaveBeenCalledTimes(1);
         process.nextTick(() => {
             done();

@@ -33,6 +33,7 @@ export type Props = {
 
 const AddUsersToGroupModal = (props: Props) => {
     const [show, setShow] = useState(true);
+    const [saving, setSaving] = useState(false);
     const [usersToAdd, setUsersToAdd] = useState<UserProfile[]>([]);
     const [showUnknownError, setShowUnknownError] = useState(false);
 
@@ -53,7 +54,9 @@ const AddUsersToGroupModal = (props: Props) => {
     };
 
     const addUsersToGroup = async (users?: UserProfile[]) => {
+        setSaving(true);
         if (!users || users.length === 0) {
+            setSaving(false);
             return;
         }
         const userIds = users.map((user) => {
@@ -64,6 +67,7 @@ const AddUsersToGroupModal = (props: Props) => {
 
         if (data?.error) {
             setShowUnknownError(true);
+            setSaving(false);
         } else {
             goBack();
         }
@@ -132,6 +136,7 @@ const AddUsersToGroupModal = (props: Props) => {
                                 buttonSubmitLoadingText={localizeMessage('multiselect.adding', 'Adding...')}
                                 backButtonClick={goBack}
                                 backButtonClass={'multiselect-back'}
+                                saving={saving}
                             />
                         </div>
                         {

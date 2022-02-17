@@ -119,6 +119,7 @@ exports[`component/create_user_groups_modal should match snapshot with back butt
             focusOnLoad={false}
             multilSelectKey="addUsersToGroupKey"
             onSubmitCallback={[Function]}
+            saving={false}
             savingEnabled={false}
           />
         </div>
@@ -231,6 +232,7 @@ exports[`component/create_user_groups_modal should match snapshot without back b
             focusOnLoad={false}
             multilSelectKey="addUsersToGroupKey"
             onSubmitCallback={[Function]}
+            saving={false}
             savingEnabled={false}
           />
         </div>
