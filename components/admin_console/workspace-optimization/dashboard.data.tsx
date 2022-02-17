@@ -33,11 +33,11 @@ type DataModel = {
 }
 
 enum ItemStatus {
-    NONE,
-    OK,
-    INFO,
-    WARNING,
-    ERROR,
+    NONE = 'none',
+    OK = 'ok',
+    INFO = 'info',
+    WARNING = 'warning',
+    ERROR = 'error',
 }
 
 type ItemModel = {

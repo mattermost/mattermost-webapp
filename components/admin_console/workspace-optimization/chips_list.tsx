@@ -26,7 +26,7 @@ const ChipsList = ({
         }
         let chipLegend;
         switch (chipKey) {
-        case 'info':
+        case ItemStatus.INFO:
             chipLegend = (
                 <FormattedMessage
                     id={'admin.reporting.workspace_optimization.chip_suggestions'}
@@ -35,7 +35,7 @@ const ChipsList = ({
                 />
             );
             break;
-        case 'warning':
+        case ItemStatus.WARNING:
             chipLegend = (
                 <FormattedMessage
                     id={'admin.reporting.workspace_optimization.chip_warnings'}
@@ -44,7 +44,7 @@ const ChipsList = ({
                 />
             );
             break;
-        case 'error':
+        case ItemStatus.ERROR:
         default:
             chipLegend = (
                 <FormattedMessage
