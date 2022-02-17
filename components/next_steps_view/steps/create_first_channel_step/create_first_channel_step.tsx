@@ -8,7 +8,6 @@ import {useSelector, useDispatch} from 'react-redux';
 
 import {createChannel} from 'mattermost-redux/actions/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {Channel, ChannelType} from 'mattermost-redux/types/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
@@ -26,6 +25,7 @@ import {t} from 'utils/i18n';
 
 import Constants, {Preferences, RecommendedNextSteps} from 'utils/constants';
 import {isKeyPressed} from 'utils/utils.jsx';
+import {makeNewEmptyChannel} from 'utils/channel_utils';
 
 import {GlobalState} from 'types/store';
 
@@ -53,25 +53,7 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
     }, [(channelNameValue.length > Constants.MIN_CHANNELNAME_LENGTH)]);
 
     const onSubmitChannel = async (displayName: string) => {
-        const channel: Channel = {
-            team_id: currentTeam.id,
-            name: displayName.split(' ').join('-').toLowerCase(),
-            display_name: displayName,
-            purpose: '',
-            header: '',
-            type: Constants.OPEN_CHANNEL as ChannelType,
-            create_at: 0,
-            creator_id: '',
-            delete_at: 0,
-            group_constrained: false,
-            id: '',
-            last_post_at: 0,
-            last_root_post_at: 0,
-            scheme_id: '',
-            update_at: 0,
-        };
-
-        const {data, error} = await dispatch(createChannel(channel, userId)) as ActionResult;
+        const {data, error} = await dispatch(createChannel(makeNewEmptyChannel(displayName, currentTeam.id), userId)) as ActionResult;
         if (error) {
             setChannelCreateError(true);
             setTimeout(() => {

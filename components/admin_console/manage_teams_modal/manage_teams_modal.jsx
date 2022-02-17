@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
 
-import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
+import {filterAndSortTeamsByDisplayName} from 'utils/team_utils';
 import * as Utils from 'utils/utils.jsx';
 import {isAdmin} from 'mattermost-redux/utils/user_utils';
 import LoadingScreen from 'components/loading_screen';

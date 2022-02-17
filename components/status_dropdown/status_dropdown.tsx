@@ -12,6 +12,8 @@ import React, {ReactNode} from 'react';
 
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 
+import {PreferenceType} from 'mattermost-redux/types/preferences';
+
 import * as GlobalActions from 'actions/global_actions';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusModal from 'components/custom_status/custom_status_modal';
@@ -35,6 +37,7 @@ import {ModalData} from 'types/actions';
 import {Constants, ModalIdentifiers, UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {getCurrentDateTimeForTimezone, getCurrentMomentForTimezone} from 'utils/timezone';
+import {OnboardingTaskCategory, OnboardingTasksName, TaskNameMapToSteps, CompleteYourProfileTour} from 'components/onboarding_tasks';
 import {localizeMessage} from 'utils/utils.jsx';
 import './status_dropdown.scss';
 import Tooltip from 'components/tooltip';
@@ -48,6 +51,7 @@ type Props = {
         openModal: <P>(modalData: ModalData<P>) => void;
         setStatus: (status: UserStatus) => ActionFunc;
         unsetCustomStatus: () => ActionFunc;
+        savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         setStatusDropdown: (open: boolean) => void;
     };
     customStatus?: UserCustomStatus;
@@ -56,6 +60,7 @@ type Props = {
     isCustomStatusExpired: boolean;
     isMilitaryTime: boolean;
     isStatusDropdownOpen: boolean;
+    showCompleteYourProfileTour: boolean;
     showCustomStatusPulsatingDot: boolean;
     timezone?: string;
     globalHeader?: boolean;
@@ -198,6 +203,21 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
 
     onToggle = (open: boolean): void => {
         this.props.actions.setStatusDropdown(open);
+    }
+
+    handleCompleteYourProfileTask = (): void => {
+        const taskName = OnboardingTasksName.COMPLETE_YOUR_PROFILE;
+        const steps = TaskNameMapToSteps[taskName];
+        const currentUserId = this.props.currentUser.id;
+        const preferences = [
+            {
+                user_id: currentUserId,
+                category: OnboardingTaskCategory,
+                name: taskName,
+                value: steps.FINISHED.toString(),
+            },
+        ];
+        this.props.actions.savePreferences(currentUserId, preferences);
     }
 
     handleCustomStatusEmojiClick = (event: React.MouseEvent): void => {
@@ -423,6 +443,7 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                 <Menu
                     ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
                     id={'statusDropdownMenu'}
+                    listId={'status-drop-down-menu-list'}
                 >
                     {globalHeader && currentUser && (
                         <Menu.Header>
@@ -519,7 +540,16 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                                     glyph={'account-outline'}
                                 />
                             ) : <i className='fa fa-cog'/>}
-                        />
+                        >
+                            {this.props.showCompleteYourProfileTour && (
+                                <div
+                                    onClick={this.handleCompleteYourProfileTask}
+                                    className={'account-settings-complete'}
+                                >
+                                    <CompleteYourProfileTour/>
+                                </div>
+                            )}
+                        </Menu.ItemToggleModalRedux>
                     </Menu.Group>
                     <Menu.Group>
                         <Menu.ItemAction

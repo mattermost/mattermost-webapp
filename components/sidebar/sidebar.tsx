@@ -20,6 +20,7 @@ import {ModalData} from 'types/actions';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
+import CreateUserGroupsModal from 'components/create_user_groups_modal';
 import KeyboardShortcutsModal from '../keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
 
 import ChannelNavigator from './channel_navigator';
@@ -44,6 +45,8 @@ type Props = {
     isCloud: boolean;
     unreadFilterEnabled: boolean;
     isMobileView: boolean;
+    userGroupsEnabled: boolean;
+    canCreateCustomGroups: boolean;
 };
 
 type State = {
@@ -164,6 +167,14 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         trackEvent('ui', 'ui_channels_create_channel_v2');
     }
 
+    showCreateUserGroupModal = () => {
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.USER_GROUPS_CREATE,
+            dialogType: CreateUserGroupsModal,
+        });
+        trackEvent('ui', 'ui_channels_create_user_group');
+    }
+
     handleOpenMoreDirectChannelsModal = (e: Event) => {
         e.preventDefault();
         if (this.state.showDirectChannelsModal) {
@@ -218,12 +229,15 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     <SidebarHeader
                         showNewChannelModal={this.showNewChannelModal}
                         showMoreChannelsModal={this.showMoreChannelsModal}
+                        showCreateUserGroupModal={this.showCreateUserGroupModal}
                         invitePeopleModal={this.invitePeopleModal}
                         showCreateCategoryModal={this.showCreateCategoryModal}
                         canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
                         canJoinPublicChannel={this.props.canJoinPublicChannel}
                         handleOpenDirectMessagesModal={this.handleOpenMoreDirectChannelsModal}
                         unreadFilterEnabled={this.props.unreadFilterEnabled}
+                        userGroupsEnabled={this.props.userGroupsEnabled}
+                        canCreateCustomGroups={this.props.canCreateCustomGroups}
                     />
                 )}
                 <div
@@ -236,12 +250,14 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     <ChannelNavigator
                         showNewChannelModal={this.showNewChannelModal}
                         showMoreChannelsModal={this.showMoreChannelsModal}
+                        showCreateUserGroupModal={this.showCreateUserGroupModal}
                         invitePeopleModal={this.invitePeopleModal}
                         showCreateCategoryModal={this.showCreateCategoryModal}
                         canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
                         canJoinPublicChannel={this.props.canJoinPublicChannel}
                         handleOpenDirectMessagesModal={this.handleOpenMoreDirectChannelsModal}
                         unreadFilterEnabled={this.props.unreadFilterEnabled}
+                        userGroupsEnabled={this.props.userGroupsEnabled}
                     />
                 </div>
                 <div className='sidebar--left__icons'>

@@ -78,6 +78,22 @@ export function getAllChannels(state: GlobalState): IDMappedObjects<Channel> {
     return state.entities.channels.channels;
 }
 
+export const getAllDmChannels = createSelector(
+    'getAllDmChannels',
+    getAllChannels,
+    (allChannels) => {
+        let allDmChannels: Record<string, Channel> = {};
+
+        Object.values(allChannels).forEach((channel: Channel) => {
+            if (channel.type === General.DM_CHANNEL) {
+                allDmChannels = {...allDmChannels, [channel.name]: channel};
+            }
+        });
+
+        return allDmChannels;
+    },
+);
+
 export function getAllChannelStats(state: GlobalState): RelationOneToOne<Channel, ChannelStats> {
     return state.entities.channels.stats;
 }
@@ -959,7 +975,6 @@ export const getMyFirstChannelForTeams: (state: GlobalState) => RelationOneToOne
 
 export const getRedirectChannelNameForTeam = (state: GlobalState, teamId: string): string => {
     const defaultChannelForTeam = getDefaultChannelForTeams(state)[teamId];
-    const myFirstChannelForTeam = getMyFirstChannelForTeams(state)[teamId];
     const canIJoinPublicChannelsInTeam = haveITeamPermission(state,
         teamId,
         Permissions.JOIN_PUBLIC_CHANNELS,
@@ -970,6 +985,8 @@ export const getRedirectChannelNameForTeam = (state: GlobalState, teamId: string
     if (iAmMemberOfTheTeamDefaultChannel || canIJoinPublicChannelsInTeam) {
         return General.DEFAULT_CHANNEL;
     }
+
+    const myFirstChannelForTeam = getMyFirstChannelForTeams(state)[teamId];
 
     return (myFirstChannelForTeam && myFirstChannelForTeam.name) || General.DEFAULT_CHANNEL;
 };
