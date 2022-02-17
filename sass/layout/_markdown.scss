@@ -217,7 +217,7 @@ h6.markdown__heading {
         padding: 6.5px;
         border: 1px solid rgba(v(center-channel-color-rgb), 0.2);
         margin: 5px 0;
-        background: var(--center-channel-big);
+        background: var(--center-channel-bg);
         border-radius: 0.25em;
         cursor: auto;
         font-size: 13px;
@@ -256,7 +256,7 @@ h6.markdown__heading {
     top: 5px;
     right: 0;
     display: flex;
-    padding: 8px;
+    padding: 4px 4px 0;
     border-radius: 0 0 0 2px;
     color: $white;
     user-select: none;
