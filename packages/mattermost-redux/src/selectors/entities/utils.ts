@@ -4,7 +4,7 @@
 import {createSelector} from 'reselect';
 
 import {getMyChannelMemberships, getAllChannels} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentUserId, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getUserStatuses} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Channel} from 'mattermost-redux/types/channels';
@@ -18,16 +18,9 @@ export function makeAddLastViewAtToProfiles(): (state: GlobalState, profiles: Us
         getCurrentUserId,
         getMyChannelMemberships,
         getAllChannels,
-        (state: GlobalState, profiles: UserProfile[]) => {
-            return profiles.map((profile) => {
-                const status = getStatusForUserId(state, profile.id);
-                return {
-                    ...profile,
-                    status,
-                };
-            });
-        },
-        (currentUserId, memberships, allChannels, profiles) => {
+        getUserStatuses,
+        (_: GlobalState, profiles: UserProfile[]) => profiles,
+        (currentUserId, memberships, allChannels, userStatuses, profiles) => {
             const DMchannels = Object.values(allChannels).reduce((acc: Record<string, Channel>, channel) => {
                 if (channel.type === General.DM_CHANNEL) {
                     return {
@@ -42,11 +35,15 @@ export function makeAddLastViewAtToProfiles(): (state: GlobalState, profiles: Us
                 const channelName = getDirectChannelName(currentUserId, profile.id);
                 const channel = DMchannels[channelName];
                 const membership = channel ? memberships[channel.id] : null;
+                const status = userStatuses[profile.id];
+
                 return {
                     ...profile,
+                    status,
                     last_viewed_at: channel && membership ? membership.last_viewed_at : 0,
                 };
             });
+
             return formattedProfiles;
         },
     );

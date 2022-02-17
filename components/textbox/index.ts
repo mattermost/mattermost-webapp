@@ -29,8 +29,6 @@ type Props = {
     rootId?: string;
 };
 
-/* eslint-disable camelcase */
-
 const getProfilesInChannelOptions = {active: true};
 
 const makeMapStateToProps = () => {
