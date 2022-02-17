@@ -1,18 +1,29 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {FormattedMessage} from 'react-intl';
+import {useDispatch, useSelector} from 'react-redux';
 
 import TourTip, {useMeasurePunchouts} from 'components/widgets/tour_tip';
+import {setShowOnboardingVisitConsoleTour} from 'actions/views/onboarding_tasks';
+import {isShowOnboardingVisitConsoleTour} from 'selectors/views/onboarding_tasks';
 
 import {OnboardingTasksName, TaskNameMapToSteps} from './constants';
 import {useHandleOnBoardingTaskData} from './onboarding_tasks_manager';
 
 export const VisitSystemConsoleTour = () => {
+    const dispatch = useDispatch();
     const handleTask = useHandleOnBoardingTaskData();
     const taskName = OnboardingTasksName.VISIT_SYSTEM_CONSOLE;
     const steps = TaskNameMapToSteps[taskName];
+    const isOpen = useSelector(isShowOnboardingVisitConsoleTour);
+
+    useEffect(() => {
+        return () => {
+            dispatch(setShowOnboardingVisitConsoleTour(false));
+        };
+    }, []);
 
     const title = (
         <FormattedMessage
@@ -39,7 +50,7 @@ export const VisitSystemConsoleTour = () => {
 
     return (
         <TourTip
-            show={true}
+            show={isOpen}
             title={title}
             screen={screen}
             overlayPunchOut={overlayPunchOut}

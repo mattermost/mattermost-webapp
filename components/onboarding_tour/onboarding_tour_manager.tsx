@@ -18,6 +18,7 @@ import {
     OnboardingTaskList,
     OnboardingTasksName,
 } from 'components/onboarding_tasks';
+import {switchToChannels} from 'actions/views/onboarding_tasks';
 
 import {
     AutoTourStatus,
@@ -63,6 +64,7 @@ const useHandleNavigationAndExtraActions = () => {
             break;
         }
         case OnboardingTourSteps.SEND_MESSAGE : {
+            dispatch(switchToChannels());
             break;
         }
         case OnboardingTourSteps.CUSTOMIZE_EXPERIENCE : {
@@ -130,7 +132,7 @@ const useOnBoardingTourTipManager = (): OnBoardingTourTipManager => {
     const dispatch = useDispatch();
     const currentUserId = useSelector(getCurrentUserId);
     const tourCategory = TutorialTourName.ONBOARDING_TUTORIAL_STEP;
-    const currentStep = useSelector((state: GlobalState) => getInt(state, tourCategory, currentUserId, FINISHED));
+    const currentStep = useSelector((state: GlobalState) => getInt(state, tourCategory, currentUserId, 0));
     const autoTourStatus = useSelector((state: GlobalState) => getInt(state, tourCategory, TTNameMapToATStatusKey[tourCategory], 0));
     const isAutoTourEnabled = autoTourStatus === AutoTourStatus.ENABLED;
     const handleActions = useHandleNavigationAndExtraActions();
@@ -148,7 +150,7 @@ const useOnBoardingTourTipManager = (): OnBoardingTourTipManager => {
                     user_id: currentUserId,
                     category: tourCategory,
                     name: TTNameMapToATStatusKey[tourCategory],
-                    value: (autoTour ? AutoTourStatus.ENABLED : AutoTourStatus.DISABLED).toString(),
+                    value: (autoTour && !(eventSource === 'skipped' || eventSource === 'dismiss') ? AutoTourStatus.ENABLED : AutoTourStatus.DISABLED).toString(),
                 },
             ];
             dispatch(storeSavePreferences(currentUserId, preferences));

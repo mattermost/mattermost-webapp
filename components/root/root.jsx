@@ -427,7 +427,7 @@ export default class Root extends React.PureComponent {
                     <Route
                         path={'/admin_console'}
                     >
-                        <CompassThemeProvider theme={Preferences.THEMES.denim}>
+                        <>
                             <Switch>
                                 <LoggedInRoute
                                     path={'/admin_console'}
@@ -435,8 +435,10 @@ export default class Root extends React.PureComponent {
                                 />
                                 <RootRedirect/>
                             </Switch>
-                            {this.props.showTaskList && <OnBoardingTaskList/>}
-                        </CompassThemeProvider>
+                            <CompassThemeProvider theme={this.props.theme}>
+                                {this.props.showTaskList && <OnBoardingTaskList/>}
+                            </CompassThemeProvider>
+                        </>
                     </Route>
                     <LoggedInHFTRoute
                         path={'/select_team'}

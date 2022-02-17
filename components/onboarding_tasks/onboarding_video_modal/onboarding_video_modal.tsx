@@ -3,8 +3,12 @@
 
 import React, {useCallback, useState} from 'react';
 import {Modal} from 'react-bootstrap';
+import {useDispatch, useSelector} from 'react-redux';
 
-import {OnboardingTaskList} from '../constants';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
+
+import {OnboardingTaskCategory, OnboardingTaskList} from '../constants';
 import './onboarding_video_modal.scss';
 
 type Props = {
@@ -13,9 +17,18 @@ type Props = {
 
 const OnBoardingVideoModal = ({onExited}: Props) => {
     const [show, setShow] = useState(true);
+    const dispatch = useDispatch();
+    const currentUserId = useSelector(getCurrentUserId);
 
     const handleHide = useCallback(() => {
-        setShow(!show);
+        setShow(false);
+        const preferences = [{
+            user_id: currentUserId,
+            category: OnboardingTaskCategory,
+            name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
+            value: 'true',
+        }];
+        dispatch(savePreferences(currentUserId, preferences));
     }, [show]);
 
     return (

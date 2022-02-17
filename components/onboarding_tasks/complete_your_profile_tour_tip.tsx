@@ -1,18 +1,30 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {useDispatch, useSelector} from 'react-redux';
+
 import TourTip, {useMeasurePunchouts} from 'components/widgets/tour_tip';
+import {isShowOnboardingCompleteProfileTour} from 'selectors/views/onboarding_tasks';
+import {setShowOnboardingCompleteProfileTour} from '../../actions/views/onboarding_tasks';
 
 import {OnboardingTasksName, TaskNameMapToSteps} from './constants';
 import {useHandleOnBoardingTaskData} from './onboarding_tasks_manager';
 
 export const CompleteYourProfileTour = () => {
+    const dispatch = useDispatch();
     const handleTask = useHandleOnBoardingTaskData();
     const taskName = OnboardingTasksName.COMPLETE_YOUR_PROFILE;
     const steps = TaskNameMapToSteps[taskName];
+    const isOpen = useSelector(isShowOnboardingCompleteProfileTour);
+
+    useEffect(() => {
+        return () => {
+            dispatch(setShowOnboardingCompleteProfileTour(false));
+        };
+    }, []);
 
     const title = (
         <FormattedMessage
@@ -38,7 +50,7 @@ export const CompleteYourProfileTour = () => {
 
     return (
         <TourTip
-            show={true}
+            show={isOpen}
             title={title}
             screen={screen}
             overlayPunchOut={overlayPunchOut}

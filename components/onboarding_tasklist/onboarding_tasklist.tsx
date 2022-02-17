@@ -15,7 +15,7 @@ import checklistImg from 'images/onboarding-checklist.svg';
 import {
     useTasksListWithStatus,
     OnboardingTaskCategory,
-    OnboardingTaskList, OnboardingTasksName,
+    OnboardingTaskList,
 } from 'components/onboarding_tasks';
 import {useHandleOnBoardingTaskTrigger} from 'components/onboarding_tasks/onboarding_tasks_manager';
 import {openModal} from 'actions/views/modals';
@@ -158,24 +158,20 @@ const OnBoardingTaskList = (): JSX.Element => {
     const currentUserId = useSelector(getCurrentUserId);
     const handleTaskTrigger = useHandleOnBoardingTaskTrigger();
     const tasksList = useTasksListWithStatus();
-    const countCalculated = useRef(false);
-    const [completedCount, setCompletedCount] = useState(0);
+    const [completedCount, setCompletedCount] = useState(tasksList.filter((task) => task.status).length);
     const [showAnimation, setShowAnimation] = useState(false);
     const itemsLeft = tasksList.length - completedCount;
 
     const startTask = (taskName: string) => {
+        toggleTaskList();
         handleTaskTrigger(taskName);
-        if (taskName !== OnboardingTasksName.DOWNLOAD_APP) {
-            toggleTaskList();
-        }
     };
 
     // Done to show task done animation in closed state as well
     useEffect(() => {
         const newCCount = tasksList.filter((task) => task.status).length;
         const show = localStorage.getItem(OnboardingTaskCategory);
-        if (show || ((completedCount + 1) === newCCount && !open && countCalculated.current)) {
-            countCalculated.current = true;
+        if (show || ((completedCount + 1) === newCCount && !open)) {
             setTimeout(() => {
                 setShowAnimation(true);
                 setCompletedCount(newCCount);

@@ -41,13 +41,14 @@ function makeMapStateToProps() {
         const config = getConfig(state);
         const enableTutorial = config.EnableTutorial === 'true';
         const currentUserId = getCurrentUserId(state);
-        const tutorialStep = getInt(state, TutorialTourName.ONBOARDING_TUTORIAL_STEP, currentUserId, FINISHED);
+        const tutorialStep = getInt(state, TutorialTourName.ONBOARDING_TUTORIAL_STEP, currentUserId, 0);
         const triggerStep = getInt(state, OnboardingTaskCategory, OnboardingTasksName.CHANNELS_TOUR, FINISHED);
         const channelTourTriggered = triggerStep === GenericTaskSteps.STARTED;
         const nextStep = showNextSteps(state);
+        const isOnboardingFlowEnabled = config.EnableOnboardingFlow;
         const isUserFirstAdmin = isFirstAdmin(state);
-        const showChannelsTour = enableTutorial && channelTourTriggered && tutorialStep === OnboardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES;
-        const showChannelsTutorialStep = showChannelsTour && (isUserFirstAdmin || (!nextStep && !isUserFirstAdmin));
+        const showChannelsTour = enableTutorial && tutorialStep === OnboardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES;
+        const showChannelsTutorialStep = showChannelsTour && ((channelTourTriggered && isUserFirstAdmin) || (isOnboardingFlowEnabled === 'true' && !nextStep && !isUserFirstAdmin) || (isOnboardingFlowEnabled !== 'true' && !isUserFirstAdmin));
 
         return {
             unreadMentions: unreadCount.mentions,

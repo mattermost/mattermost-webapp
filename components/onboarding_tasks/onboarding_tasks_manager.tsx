@@ -4,19 +4,11 @@
 import React, {useCallback, useMemo} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
-
 import {matchPath, useLocation} from 'react-router-dom';
 
-import {
-    getCurrentTeamId,
-    getTeam,
-} from 'mattermost-redux/selectors/entities/teams';
-
 import {trackEvent as trackEventAction} from 'actions/telemetry_actions';
-import {openModal} from 'actions/views/modals';
 import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
 import {setStatusDropdown} from 'actions/views/status_dropdown';
-import InvitationModal from 'components/invitation_modal';
 import {
     AutoTourStatus,
     FINISHED,
@@ -31,8 +23,12 @@ import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 
 import {GlobalState} from 'types/store';
 import {browserHistory} from 'utils/browser_history';
-import {Constants, ModalIdentifiers} from 'utils/constants';
-import LocalStorageStore from '../../stores/local_storage_store';
+import {
+    openInvitationsModal,
+    setShowOnboardingCompleteProfileTour,
+    setShowOnboardingVisitConsoleTour,
+    switchToChannels,
+} from 'actions/views/onboarding_tasks';
 
 import {OnboardingTaskCategory, OnboardingTaskList, OnboardingTasksName, TaskNameMapToSteps} from './constants';
 import {generateTelemetryTag} from './utils';
@@ -147,19 +143,9 @@ export const useHandleOnBoardingTaskTrigger = () => {
     const dispatch = useDispatch();
     const handleSaveData = useHandleOnBoardingTaskData();
     const currentUserId = useSelector(getCurrentUserId);
-    const teamId = useSelector(getCurrentTeamId) || LocalStorageStore.getPreviousTeamId(currentUserId);
-    const team = useSelector((state: GlobalState) => getTeam(state, teamId || ''));
-
     const {pathname} = useLocation();
-
-    const navigateToChannels = (condition: 'admin' | 'channels' = 'admin'): string => {
-        const inAdminConsole = matchPath(pathname, {path: '/admin_console'}) != null;
-        const inChannels = matchPath(pathname, {path: '/:team/channels/:chanelId'}) != null;
-        if ((inAdminConsole && condition === 'admin') || (!inChannels && condition === 'channels')) {
-            return `/${team.name}/channels/${Constants.DEFAULT_CHANNEL}`;
-        }
-        return '';
-    };
+    const inAdminConsole = matchPath(pathname, {path: '/admin_console'}) != null;
+    const inChannels = matchPath(pathname, {path: '/:team/channels/:chanelId'}) != null;
 
     return (taskName: string) => {
         switch (taskName) {
@@ -181,7 +167,9 @@ export const useHandleOnBoardingTaskTrigger = () => {
                 },
             ];
             dispatch(storeSavePreferences(currentUserId, preferences));
-            browserHistory.push(navigateToChannels('channels'));
+            if (!inChannels) {
+                dispatch(switchToChannels());
+            }
             break;
         }
         case OnboardingTasksName.BOARDS_TOUR: {
@@ -198,55 +186,28 @@ export const useHandleOnBoardingTaskTrigger = () => {
         }
         case OnboardingTasksName.COMPLETE_YOUR_PROFILE: {
             dispatch(setStatusDropdown(true));
+            dispatch(setShowOnboardingCompleteProfileTour(true));
             handleSaveData(taskName, TaskNameMapToSteps[taskName].STARTED, true);
-            browserHistory.push(navigateToChannels());
+            if (inAdminConsole) {
+                dispatch(switchToChannels());
+            }
             break;
         }
         case OnboardingTasksName.VISIT_SYSTEM_CONSOLE: {
             dispatch(setProductMenuSwitcherOpen(true));
+            dispatch(setShowOnboardingVisitConsoleTour(true));
             handleSaveData(taskName, TaskNameMapToSteps[taskName].STARTED, true);
-            const preferences = [{
-                user_id: currentUserId,
-                category: OnboardingTaskCategory,
-                name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
-                value: 'true',
-            }];
-            dispatch(savePreferences(currentUserId, preferences));
             break;
         }
         case OnboardingTasksName.INVITE_PEOPLE: {
-            const path = navigateToChannels();
+            localStorage.setItem(OnboardingTaskCategory, 'true');
 
-            // hack to let app load so that modal is available (find some better solution)
-            if (path) {
-                browserHistory.push(path);
-                setTimeout(() => {
-                    dispatch(openModal({
-                        modalId: ModalIdentifiers.INVITATION,
-                        dialogType: InvitationModal,
-                        dialogProps: {
-                        },
-                    }));
-                }, 1000);
+            if (inAdminConsole) {
+                dispatch(openInvitationsModal(1000));
             } else {
-                dispatch(openModal({
-                    modalId: ModalIdentifiers.INVITATION,
-                    dialogType: InvitationModal,
-                    dialogProps: {
-                    },
-                }));
+                dispatch(openInvitationsModal());
             }
-
             handleSaveData(taskName, TaskNameMapToSteps[taskName].FINISHED, true);
-            const preferences = [
-                {
-                    user_id: currentUserId,
-                    category: OnboardingTaskCategory,
-                    name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
-                    value: 'true',
-                },
-            ];
-            dispatch(savePreferences(currentUserId, preferences));
             break;
         }
         case OnboardingTasksName.DOWNLOAD_APP: {
@@ -255,7 +216,7 @@ export const useHandleOnBoardingTaskTrigger = () => {
                 user_id: currentUserId,
                 category: OnboardingTaskCategory,
                 name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
-                value: String(!open),
+                value: 'true',
             }];
             dispatch(savePreferences(currentUserId, preferences));
             window.open('https://mattermost.com/download/', '_blank', 'noopener,noreferrer');
