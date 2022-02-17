@@ -89,7 +89,6 @@ function createPost({
     currentChannel = currentChannelProp,
     currentTeamId = currentTeamIdProp,
     currentUserId = currentUserIdProp,
-    tutorialStep = Constants.TutorialSteps.POST_POPOVER + 1,
     showSendTutorialTip = showTutorialTipProp,
     currentChannelMembersCount = currentChannelMembersCountProp,
     fullWidthTextBox = fullWidthTextBoxProp,
@@ -139,7 +138,6 @@ function createPost({
             useChannelMentions={true}
             useLDAPGroupMentions={useLDAPGroupMentions}
             useCustomGroupMentions={useCustomGroupMentions}
-            tutorialStep={tutorialStep}
             isMarkdownPreviewEnabled={isMarkdownPreviewEnabled}
         />
     );
