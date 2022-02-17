@@ -93,6 +93,7 @@ const TrialBenefitsModal = (
                 />
             ),
             bottomLeftMessage: formatMessage({id: 'trial_benefits.modal.onlyVisibleToAdmins', defaultMessage: 'Only visible to admins'}),
+            buttonLabel: formatMessage({id: 'benefits_trial.modal.learnMore', defaultMessage: 'Learn More'}),
         },
         {
             id: 'guestAccess',
@@ -106,6 +107,7 @@ const TrialBenefitsModal = (
                 />
             ),
             pageURL: ConsolePages.GUEST_ACCESS,
+            buttonLabel: formatMessage({id: 'benefits_trial.modal.learnMore', defaultMessage: 'Learn More'}),
         },
         {
             id: 'complianceExport',
@@ -119,6 +121,7 @@ const TrialBenefitsModal = (
                 />
             ),
             pageURL: ConsolePages.COMPLIANCE_EXPORT,
+            buttonLabel: formatMessage({id: 'benefits_trial.modal.learnMore', defaultMessage: 'Learn More'}),
         },
         {
             id: 'pushNotificationService',
@@ -132,6 +135,7 @@ const TrialBenefitsModal = (
                 />
             ),
             pageURL: ConsolePages.PUSH_NOTIFICATION_CENTER,
+            buttonLabel: formatMessage({id: 'benefits_trial.modal.learnMore', defaultMessage: 'Learn More'}),
         },
         {
             id: 'playbooks',
@@ -145,6 +149,7 @@ const TrialBenefitsModal = (
                 />
             ),
             pageURL: '/playbooks/start',
+            buttonLabel: formatMessage({id: 'trial_benefits.modal.playbooksButton', defaultMessage: 'Open Playbooks'}),
         },
     ], [trialJustStarted, trialEndDate]);
 
