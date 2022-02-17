@@ -12,8 +12,8 @@ import {getTheme, getBool} from 'mattermost-redux/selectors/entities/preferences
 
 import {loadMeAndConfig} from 'actions/views/root';
 import {emitBrowserWindowResized} from 'actions/views/browser';
+import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks';
 import LocalStorageStore from 'stores/local_storage_store';
-import {Preferences} from 'utils/constants';
 import {isMobile} from 'utils/utils.jsx';
 import {getFirstChannelNameViews} from 'selectors/onboarding';
 
@@ -27,9 +27,10 @@ function mapStateToProps(state) {
 
     const teamId = LocalStorageStore.getPreviousTeamId(getCurrentUserId(state));
     const permalinkRedirectTeam = getTeam(state, teamId);
-    const currentUserId = getCurrentUserId(state);
-    const dismissChecklist = getBool(state, Preferences.DISMISS_ONBOARDING_CHECKLIST, currentUserId);
+    const taskListStatus = getBool(state, OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW);
     const isUserFirstAdmin = isFirstAdmin(state);
+    const isMobileView = isMobile();
+    const showTaskList = isUserFirstAdmin && !taskListStatus && !isMobileView;
 
     // Only intended to be true on first page load directly following completion of first admin setup.
     const showSetupTransitioning = isUserFirstAdmin && Boolean(getFirstChannelNameViews(state)) && getFirstAdminSetupCompleteSelector(state);
@@ -43,9 +44,7 @@ function mapStateToProps(state) {
         showTermsOfService,
         plugins,
         products,
-        dismissChecklist,
-        isUserFirstAdmin,
-        isMobile: isMobile(state),
+        showTaskList,
         showSetupTransitioning,
     };
 }

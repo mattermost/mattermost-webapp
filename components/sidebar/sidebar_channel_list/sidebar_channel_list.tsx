@@ -495,6 +495,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
                             {(provided) => {
                                 return (
                                     <div
+                                        id={'sidebar-droppable-categories'}
                                         ref={provided.innerRef}
                                         {...provided.droppableProps}
                                     >

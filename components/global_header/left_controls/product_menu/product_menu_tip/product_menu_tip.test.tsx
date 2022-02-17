@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import TutorialTip from 'components/tutorial/tutorial_tip';
+import TutorialTip from 'components/tutorial/tutorial_tip_legacy';
 import {TutorialSteps, TopLevelProducts} from 'utils/constants';
 
 import {TestHelper} from 'utils/test_helper';

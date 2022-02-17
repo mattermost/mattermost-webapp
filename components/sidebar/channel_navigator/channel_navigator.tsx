@@ -28,9 +28,6 @@ export type Props = {
     unreadFilterEnabled: boolean;
     canCreateChannel: boolean;
     showUnreadsCategory: boolean;
-    townSquareDisplayName: string;
-    offTopicDisplayName: string;
-    showTutorialTip: boolean;
     isQuickSwitcherOpen: boolean;
     userGroupsEnabled: boolean;
     canCreateCustomGroups: boolean;

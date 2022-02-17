@@ -37,8 +37,10 @@ describe('components/global/product_switcher_menu', () => {
         canManageSystemBots: false,
         canManageIntegrations: true,
         enablePluginMarketplace: false,
-        enableCustomUserGroups: false,
+        showVisitSystemConsoleTour: false,
         onClick: () => jest.fn,
+        handleVisitConsoleClick: () => jest.fn,
+        enableCustomUserGroups: false,
         actions: {
             openModal: jest.fn(),
         },
