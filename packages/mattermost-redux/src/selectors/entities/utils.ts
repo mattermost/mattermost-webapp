@@ -3,37 +3,25 @@
 
 import {createSelector} from 'reselect';
 
-import {getMyChannelMemberships, getAllChannels} from 'mattermost-redux/selectors/entities/channels';
+import {getMyChannelMemberships, getAllDmChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId, getUserStatuses} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'mattermost-redux/types/store';
-import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile, UserProfileWithLastViewAt} from 'mattermost-redux/types/users';
 import {getDirectChannelName} from 'mattermost-redux/utils/channel_utils';
-import {General} from 'mattermost-redux/constants';
 
 export function makeAddLastViewAtToProfiles(): (state: GlobalState, profiles: UserProfile[]) => UserProfileWithLastViewAt[] {
     return createSelector(
         'makeAddLastViewAtToProfiles',
         getCurrentUserId,
         getMyChannelMemberships,
-        getAllChannels,
+        getAllDmChannels,
         getUserStatuses,
         (_: GlobalState, profiles: UserProfile[]) => profiles,
-        (currentUserId, memberships, allChannels, userStatuses, profiles) => {
-            const DMchannels = Object.values(allChannels).reduce((acc: Record<string, Channel>, channel) => {
-                if (channel.type === General.DM_CHANNEL) {
-                    return {
-                        ...acc,
-                        [channel.name]: channel,
-                    };
-                }
-                return acc;
-            }, {});
-
+        (currentUserId, memberships, allDmChannels, userStatuses, profiles) => {
             const formattedProfiles: UserProfileWithLastViewAt[] = profiles.map((profile) => {
                 const channelName = getDirectChannelName(currentUserId, profile.id);
-                const channel = DMchannels[channelName];
+                const channel = allDmChannels[channelName];
                 const membership = channel ? memberships[channel.id] : null;
                 const status = userStatuses[profile.id];
 
