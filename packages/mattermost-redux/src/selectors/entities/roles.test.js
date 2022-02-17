@@ -92,7 +92,21 @@ describe('Selectors.Roles', () => {
         test_channel_c_role1: {permissions: ['channel_c_role1']},
         test_channel_c_role2: {permissions: ['channel_c_role2']},
         test_user_role2: {permissions: ['user_role2']},
+        custom_group_user: {permissions: ['custom_group_user']},
     };
+
+    const group1 = TestHelper.fakeGroup('group1');
+    const group2 = TestHelper.fakeGroup('group2');
+    const group3 = TestHelper.fakeGroup('group3');
+    const group4 = TestHelper.fakeGroup('group4');
+    const group5 = TestHelper.fakeGroup('group5');
+
+    const groups = {};
+    groups['group1'] = group1;
+    groups['group2'] = group2;
+    groups['group3'] = group3;
+    groups['group4'] = group4;
+    groups['group5'] = group5;
 
     const testState = deepFreezeAndThrowOnMutation({
         entities: {
@@ -109,6 +123,10 @@ describe('Selectors.Roles', () => {
                 channels,
                 roles: channelsRoles,
             },
+            groups: {
+                groups,
+                myGroups: ['group1'],
+            },
             roles: {
                 roles,
             },
@@ -120,15 +138,20 @@ describe('Selectors.Roles', () => {
         teamsRoles[team1.id] = new Set(['test_team1_role1', 'test_team1_role2']);
         teamsRoles[team2.id] = new Set(['test_team2_role1', 'test_team2_role2']);
 
+        const groupRoles = {};
+        groupRoles[group1.id] = new Set(['custom_group_user']);
+
         const myRoles = {
             system: new Set(['test_user_role', 'test_user_role2']),
             team: teamsRoles,
             channel: channelsRoles,
+            group: groupRoles,
         };
         assert.deepEqual(Selectors.getMyRoles(testState), myRoles);
         assert.deepEqual(getMySystemRoles(testState), myRoles.system);
         assert.deepEqual(Selectors.getMyTeamRoles(testState), myRoles.team);
         assert.deepEqual(Selectors.getMyChannelRoles(testState), myRoles.channel);
+        assert.deepEqual(Selectors.getMyGroupRoles(testState), myRoles.group);
     });
 
     it('should return current loaded roles on getRoles', () => {
@@ -142,6 +165,7 @@ describe('Selectors.Roles', () => {
             test_channel_c_role1: {permissions: ['channel_c_role1']},
             test_channel_c_role2: {permissions: ['channel_c_role2']},
             test_user_role2: {permissions: ['user_role2']},
+            custom_group_user: {permissions: ['custom_group_user']},
         };
         assert.deepEqual(getRoles(testState), loadedRoles);
     });
