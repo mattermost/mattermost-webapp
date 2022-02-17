@@ -5,7 +5,7 @@
 
 import {combineReducers} from 'redux';
 import shallowEquals from 'shallow-equals';
-import deepEqual from 'fast-deep-equal';
+import isEqual from 'lodash/isEqual';
 
 import {AdminTypes, ChannelTypes, UserTypes, SchemeTypes, GroupTypes, PostTypes} from 'mattermost-redux/action_types';
 
@@ -286,7 +286,7 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
         const newMember = action.data;
         const oldMember = state[newMember.channel_id];
 
-        if (deepEqual(oldMember, newMember)) {
+        if (isEqual(oldMember, newMember)) {
             return state;
         }
 
@@ -308,7 +308,7 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
 
         for (const cm of action.data) {
             const oldMember = nextState[cm.channel_id];
-            if (!stateUpdated && deepEqual(oldMember, cm)) {
+            if (!stateUpdated && isEqual(oldMember, cm)) {
                 // If state has not already been modified, do deep comparisons and only update state if there's a change
                 nextState[cm.channel_id] = cm;
                 stateUpdated = true;
