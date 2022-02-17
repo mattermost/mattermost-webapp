@@ -350,6 +350,11 @@ export const ModalIdentifiers = {
     NOTIFY_CONFIRM_MODAL: 'notify_confirm_modal',
     CONFIRM_LICENSE_REMOVAL: 'confirm_license_removal',
     CONFIRM: 'confirm',
+    USER_GROUPS: 'user_groups',
+    USER_GROUPS_CREATE: 'user_groups_create',
+    VIEW_USER_GROUP: 'view_user_group',
+    ADD_USERS_TO_GROUP: 'add_users_to_group',
+    EDIT_GROUP_MODAL: 'edit_group_modal',
     POST_DELETED_MODAL: 'post_deleted_modal',
     FILE_PREVIEW_MODAL: 'file_preview_modal',
     IMPORT_THEME_MODAL: 'import_theme_modal',
@@ -461,6 +466,8 @@ export const SocketEvents = {
     PLUGIN_STATUSES_CHANGED: 'plugin_statuses_changed',
     OPEN_DIALOG: 'open_dialog',
     RECEIVED_GROUP: 'received_group',
+    GROUP_MEMBER_ADD: 'group_member_add',
+    GROUP_MEMBER_DELETED: 'group_member_deleted',
     RECEIVED_GROUP_ASSOCIATED_TO_TEAM: 'received_group_associated_to_team',
     RECEIVED_GROUP_NOT_ASSOCIATED_TO_TEAM: 'received_group_not_associated_to_team',
     RECEIVED_GROUP_ASSOCIATED_TO_CHANNEL: 'received_group_associated_to_channel',
@@ -925,6 +932,10 @@ export const PermissionsScope = {
     [Permissions.RUN_MANAGE_MEMBERS]: 'run_scope',
     [Permissions.RUN_MANAGE_PROPERTIES]: 'run_scope',
     [Permissions.RUN_VIEW]: 'run_scope',
+    [Permissions.CREATE_CUSTOM_GROUP]: 'system_scope',
+    [Permissions.EDIT_CUSTOM_GROUP]: 'system_scope',
+    [Permissions.DELETE_CUSTOM_GROUP]: 'system_scope',
+    [Permissions.MANAGE_CUSTOM_GROUP_MEMBERS]: 'system_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -964,6 +975,10 @@ export const DefaultRolePermissions = {
         Permissions.JOIN_PUBLIC_TEAMS,
         Permissions.USE_CHANNEL_MENTIONS,
         Permissions.USE_GROUP_MENTIONS,
+        Permissions.CREATE_CUSTOM_GROUP,
+        Permissions.EDIT_CUSTOM_GROUP,
+        Permissions.DELETE_CUSTOM_GROUP,
+        Permissions.MANAGE_CUSTOM_GROUP_MEMBERS,
     ],
     channel_admin: [
         Permissions.MANAGE_CHANNEL_ROLES,

@@ -25,6 +25,9 @@ describe('Components/SidebarHeader', () => {
             canJoinPublicChannel: true,
             handleOpenDirectMessagesModal: jest.fn(),
             unreadFilterEnabled: true,
+            showCreateUserGroupModal: jest.fn(),
+            userGroupsEnabled: false,
+            canCreateCustomGroups: true,
         };
     });
 

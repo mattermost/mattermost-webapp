@@ -2,6 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
+
+import {Action} from 'mattermost-redux/types/actions';
 
 import {
     getConfig,
@@ -10,10 +13,17 @@ import {
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
+import {isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {Permissions} from 'mattermost-redux/constants';
 import {GlobalState} from 'types/store';
+import {openModal} from 'actions/views/modals';
+import {ModalData} from 'types/actions';
 
 import ProductMenuList from './product_menu_list';
+
+type Actions = {
+    openModal: <P>(modalData: ModalData<P>) => void;
+}
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
@@ -30,6 +40,7 @@ function mapStateToProps(state: GlobalState) {
     const canManageTeamIntegrations = (haveICurrentTeamPermission(state, Permissions.MANAGE_SLASH_COMMANDS) || haveICurrentTeamPermission(state, Permissions.MANAGE_OAUTH) || haveICurrentTeamPermission(state, Permissions.MANAGE_INCOMING_WEBHOOKS) || haveICurrentTeamPermission(state, Permissions.MANAGE_OUTGOING_WEBHOOKS));
     const canManageSystemBots = (haveISystemPermission(state, {permission: Permissions.MANAGE_BOTS}) || haveISystemPermission(state, {permission: Permissions.MANAGE_OTHERS_BOTS}));
     const canManageIntegrations = canManageTeamIntegrations || canManageSystemBots;
+    const enableCustomUserGroups = isCustomGroupsEnabled(state);
 
     return {
         isMobile: state.views.channel.mobileView,
@@ -47,7 +58,16 @@ function mapStateToProps(state: GlobalState) {
         teamName: currentTeam.name,
         currentUser,
         firstAdminVisitMarketplaceStatus: getFirstAdminVisitMarketplaceStatus(state),
+        enableCustomUserGroups,
     };
 }
 
-export default connect(mapStateToProps)(ProductMenuList);
+function mapDispatchToProps(dispatch: Dispatch) {
+    return {
+        actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
+            openModal,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductMenuList);

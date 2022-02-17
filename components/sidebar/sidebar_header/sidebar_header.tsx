@@ -89,12 +89,15 @@ const SidebarHeading = styled(Heading).attrs(() => ({
 export type Props = {
     showNewChannelModal: () => void;
     showMoreChannelsModal: () => void;
+    showCreateUserGroupModal: () => void;
     invitePeopleModal: () => void;
     showCreateCategoryModal: () => void;
     canCreateChannel: boolean;
     canJoinPublicChannel: boolean;
     handleOpenDirectMessagesModal: (e: Event) => void;
     unreadFilterEnabled: boolean;
+    userGroupsEnabled: boolean;
+    canCreateCustomGroups: boolean;
 }
 
 const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
@@ -157,6 +160,9 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                     townSquareDisplayName={townSquareDisplayName}
                     offTopicDisplayName={offTopicDisplayName}
                     showTutorialTip={showAddChannelTip}
+                    canCreateCustomGroups={props.canCreateCustomGroups}
+                    showCreateUserGroupModal={props.showCreateUserGroupModal}
+                    userGroupsEnabled={props.userGroupsEnabled}
                 />
             </SidebarHeaderContainer>
         </>

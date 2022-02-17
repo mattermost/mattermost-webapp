@@ -7,8 +7,10 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {Action} from 'mattermost-redux/types/actions';
 import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getInt, shouldShowUnreadsCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {getInt, shouldShowUnreadsCategory, isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
+import Permissions from 'mattermost-redux/constants/permissions';
 
 import {openModal, closeModal} from 'actions/views/modals';
 import {browserHistory} from 'utils/browser_history';
@@ -40,6 +42,7 @@ function mapStateToProps(state: GlobalState) {
     const channelsByName = getChannelsNameMapInCurrentTeam(state);
     const enableTutorial = config.EnableTutorial === 'true';
     const tutorialStep = getInt(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED);
+    const canCreateCustomGroups = haveISystemPermission(state, {permission: Permissions.CREATE_CUSTOM_GROUP}) && isCustomGroupsEnabled(state);
 
     return {
         townSquareDisplayName: channelsByName[Constants.DEFAULT_CHANNEL]?.display_name || '',
@@ -49,6 +52,7 @@ function mapStateToProps(state: GlobalState) {
         canGoForward: true,
         showUnreadsCategory: shouldShowUnreadsCategory(state),
         isQuickSwitcherOpen: isModalOpen(state, ModalIdentifiers.QUICK_SWITCH),
+        canCreateCustomGroups,
     };
 }
 
