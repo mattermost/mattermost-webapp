@@ -282,26 +282,44 @@ function channelsInTeam(state: RelationOneToMany<Team, Channel> = {}, action: Ge
 function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, action: GenericAction) {
     switch (action.type) {
     case ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER: {
-        const channelMember = action.data;
+        const newMember = action.data;
+        const oldMember = state[newMember.channel_id] || {};
+
+        if (newMember.last_viewed_at === oldMember.last_viewed_at && newMember.last_update_at === oldMember.last_update_at) {
+            return state;
+        }
+
         return {
             ...state,
-            [channelMember.channel_id]: channelMember,
+            [newMember.channel_id]: newMember,
         };
     }
     case ChannelTypes.RECEIVED_MY_CHANNEL_MEMBERS: {
         const nextState = {...state};
         const remove = action.remove as string[];
+        let stateUpdated = false;
         if (remove) {
             remove.forEach((id: string) => {
                 Reflect.deleteProperty(nextState, id);
             });
+            stateUpdated = true;
         }
 
         for (const cm of action.data) {
-            nextState[cm.channel_id] = cm;
+            const current = nextState[cm.channel_id];
+            if (!current) {
+                nextState[cm.channel_id] = cm;
+                stateUpdated = true;
+            } else if (cm.last_update_at !== current.last_update_at) {
+                nextState[cm.channel_id] = cm;
+                stateUpdated = true;
+            }
         }
 
-        return nextState;
+        if (stateUpdated) {
+            return nextState;
+        }
+        return state;
     }
     case ChannelTypes.RECEIVED_CHANNEL_PROPS: {
         const member = {...state[action.data.channel_id]};
@@ -369,6 +387,10 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
 
         const member = state[channelId];
 
+        if (amount === 0 && amountRoot === 0) {
+            return state;
+        }
+
         if (!member) {
             // Don't keep track of unread posts until we've loaded the actual channel member
             return state;
@@ -415,6 +437,10 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
         const {channelId, amount, amountRoot} = action.data;
         const member = state[channelId];
 
+        if (amount === 0 && amountRoot === 0) {
+            return state;
+        }
+
         if (!member) {
             // Don't keep track of unread posts until we've loaded the actual channel member
             return state;
@@ -432,6 +458,10 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
     case ChannelTypes.RECEIVED_LAST_VIEWED_AT: {
         const {data} = action;
         let member = state[data.channel_id];
+
+        if (member.last_viewed_at === data.last_viewed_at) {
+            return state;
+        }
 
         member = {
             ...member,

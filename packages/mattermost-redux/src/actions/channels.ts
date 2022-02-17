@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import * as Redux from 'redux';
 
 import {ChannelTypes, PreferenceTypes, UserTypes} from 'mattermost-redux/action_types';
@@ -24,7 +26,7 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {Action, ActionFunc, batchActions, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
-import {Channel, ChannelNotifyProps, ChannelMembership, ChannelModerationPatch, ChannelsWithTotalCount, ChannelSearchOpts} from 'mattermost-redux/types/channels';
+import {Channel, ChannelNotifyProps, ChannelMembership, ChannelModerationPatch, ChannelsWithTotalCount, ChannelSearchOpts, ChannelViewResponse} from 'mattermost-redux/types/channels';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
@@ -796,8 +798,9 @@ export function viewChannel(channelId: string, prevChannelId = ''): ActionFunc {
             savePreferences(currentUserId, preferences)(dispatch);
         }
 
+        let viewResp: ChannelViewResponse;
         try {
-            await Client4.viewMyChannel(channelId, prevChanManuallyUnread ? '' : prevChannelId);
+            viewResp = await Client4.viewMyChannel(channelId, prevChanManuallyUnread ? '' : prevChannelId);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(logError(error));
@@ -806,6 +809,8 @@ export function viewChannel(channelId: string, prevChannelId = ''): ActionFunc {
         }
 
         const actions: Action[] = [];
+
+        const lastViewedAtTime = viewResp.last_viewed_at_times[channelId];
 
         const {myMembers} = getState().entities.channels;
         const member = myMembers[channelId];
@@ -816,15 +821,19 @@ export function viewChannel(channelId: string, prevChannelId = ''): ActionFunc {
                     data: {channelId},
                 });
             }
-            actions.push({
-                type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER,
-                data: {...member, last_viewed_at: new Date().getTime()},
-            });
+            if (lastViewedAtTime) {
+                actions.push({
+                    type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER,
+                    data: {...member, last_viewed_at: lastViewedAtTime},
+                });
+            }
             dispatch(loadRolesIfNeeded(member.roles.split(' ')));
         }
 
+        const prevLastViewedAtTime = viewResp.last_viewed_at_times[prevChannelId];
+
         const prevMember = myMembers[prevChannelId];
-        if (!prevChanManuallyUnread && prevMember) {
+        if (!prevChanManuallyUnread && prevMember && prevLastViewedAtTime) {
             actions.push({
                 type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER,
                 data: {...prevMember, last_viewed_at: new Date().getTime()},
