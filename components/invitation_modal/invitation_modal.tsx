@@ -6,7 +6,6 @@ import {Modal} from 'react-bootstrap';
 
 import {injectIntl, IntlShape} from 'react-intl';
 
-import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {ActionFunc} from 'mattermost-redux/types/actions';
@@ -34,7 +33,6 @@ import './invitation_modal.scss';
 type Backdrop = 'static' | boolean
 
 export type Props = {
-    inviteToTeamTreatment: InviteToTeamTreatments;
     actions: {
         searchChannels: (teamId: string, term: string) => ActionFunc;
         regenerateTeamInviteId: (teamId: string) => void;
@@ -335,7 +333,6 @@ export class InvitationModal extends React.PureComponent<Props, State> {
         let view = (
             <InviteView
                 setInviteAs={this.setInviteAs}
-                inviteToTeamTreatment={this.props.inviteToTeamTreatment}
                 invite={this.invite}
                 setCustomMessage={this.setCustomMessage}
                 channelsLoader={this.channelsLoader}

@@ -8,6 +8,8 @@ import moment from 'moment';
 
 import {fakeDate} from 'tests/helpers/date';
 
+import {LicenseSkus} from 'mattermost-redux/types/general';
+
 import LicenseSettings from './license_settings.tsx';
 
 const flushPromises = () => new Promise(setImmediate);
@@ -30,7 +32,7 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
             IssuedAt: '1517714643650',
             StartsAt: '1517714643650',
             ExpiresAt: '1620335443650',
-            SkuShortName: 'E20',
+            SkuShortName: LicenseSkus.E20,
             Name: 'LicenseName',
             Company: 'Mattermost Inc.',
             Users: '100',
@@ -193,13 +195,19 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
     });
 
     test('should match snapshot enterprise build with E20 license', () => {
-        const props = {...defaultProps, license: {...defaultProps.license, SkuShortName: 'E20'}};
+        const props = {...defaultProps, license: {...defaultProps.license, SkuShortName: LicenseSkus.E20}};
         const wrapper = shallow(<LicenseSettings {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot enterprise build with E10 license', () => {
-        const props = {...defaultProps, license: {...defaultProps.license, SkuShortName: 'E10'}};
+        const props = {...defaultProps, license: {...defaultProps.license, SkuShortName: LicenseSkus.E10}};
+        const wrapper = shallow(<LicenseSettings {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot enterprise build with Enterprise license', () => {
+        const props = {...defaultProps, license: {...defaultProps.license, SkuShortName: LicenseSkus.Enterprise}};
         const wrapper = shallow(<LicenseSettings {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });

@@ -27,6 +27,7 @@ import ModalController from 'components/modal_controller';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
+import TaskList from 'components/global_onboarding_list/onboarding_checklist';
 
 import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
@@ -113,6 +114,9 @@ export default class Root extends React.PureComponent {
         }).isRequired,
         plugins: PropTypes.array,
         products: PropTypes.array,
+        dismissChecklist: PropTypes.bool,
+        isUserFirstAdmin: PropTypes.bool,
+        isMobile: PropTypes.bool,
     }
 
     constructor(props) {
@@ -183,9 +187,15 @@ export default class Root extends React.PureComponent {
         }
 
         if (rudderKey != null && rudderKey !== '' && this.props.telemetryEnabled) {
-            Client4.setTelemetryHandler(new RudderTelemetryHandler());
-
-            rudderAnalytics.load(rudderKey, rudderUrl);
+            const rudderCfg = {};
+            const siteURL = getConfig(store.getState()).SiteURL;
+            if (siteURL !== '') {
+                try {
+                    rudderCfg.setCookieDomain = new URL(siteURL).hostname;
+                // eslint-disable-next-line no-empty
+                } catch (_) {}
+            }
+            rudderAnalytics.load(rudderKey, rudderUrl, rudderCfg);
 
             rudderAnalytics.identify(telemetryId, {}, {
                 context: {
@@ -213,6 +223,10 @@ export default class Root extends React.PureComponent {
                     ip: '0.0.0.0',
                 },
                 anonymousId: '00000000000000000000000000',
+            });
+
+            rudderAnalytics.ready(() => {
+                Client4.setTelemetryHandler(new RudderTelemetryHandler());
             });
         }
 
@@ -447,46 +461,45 @@ export default class Root extends React.PureComponent {
                     <CompassThemeProvider theme={this.props.theme}>
                         <ModalController/>
                         <GlobalHeader/>
-                        <div className='mainContentRow d-flex flex-row'>
-                            <TeamSidebar/>
-                            <Switch>
-                                {this.props.products?.map((product) => (
-                                    <Route
-                                        key={product.id}
-                                        path={product.baseURL}
-                                        render={(props) => (
-                                            <LoggedIn {...props}>
-                                                <div className={classNames(['product-wrapper', {wide: !product.showTeamSidebar}])}>
-                                                    <Pluggable
-                                                        pluggableName={'Product'}
-                                                        subComponentName={'mainComponent'}
-                                                        pluggableId={product.id}
-                                                        webSocketClient={webSocketClient}
-                                                    />
-                                                </div>
-                                            </LoggedIn>
-                                        )}
-                                    />
-                                ))}
-                                {this.props.plugins?.map((plugin) => (
-                                    <Route
-                                        key={plugin.id}
-                                        path={'/plug/' + plugin.route}
-                                        render={() => (
-                                            <Pluggable
-                                                pluggableName={'CustomRouteComponent'}
-                                                pluggableId={plugin.id}
-                                            />
-                                        )}
-                                    />
-                                ))}
-                                <LoggedInRoute
-                                    path={'/:team'}
-                                    component={NeedsTeam}
+                        {this.props.isUserFirstAdmin && !this.props.isMobile && this.props.dismissChecklist && <TaskList/>}
+                        <TeamSidebar/>
+                        <Switch>
+                            {this.props.products?.map((product) => (
+                                <Route
+                                    key={product.id}
+                                    path={product.baseURL}
+                                    render={(props) => (
+                                        <LoggedIn {...props}>
+                                            <div className={classNames(['product-wrapper', {wide: !product.showTeamSidebar}])}>
+                                                <Pluggable
+                                                    pluggableName={'Product'}
+                                                    subComponentName={'mainComponent'}
+                                                    pluggableId={product.id}
+                                                    webSocketClient={webSocketClient}
+                                                />
+                                            </div>
+                                        </LoggedIn>
+                                    )}
                                 />
-                                <RootRedirect/>
-                            </Switch>
-                        </div>
+                            ))}
+                            {this.props.plugins?.map((plugin) => (
+                                <Route
+                                    key={plugin.id}
+                                    path={'/plug/' + plugin.route}
+                                    render={() => (
+                                        <Pluggable
+                                            pluggableName={'CustomRouteComponent'}
+                                            pluggableId={plugin.id}
+                                        />
+                                    )}
+                                />
+                            ))}
+                            <LoggedInRoute
+                                path={'/:team'}
+                                component={NeedsTeam}
+                            />
+                            <RootRedirect/>
+                        </Switch>
                         <Pluggable pluggableName='Global'/>
                     </CompassThemeProvider>
                 </Switch>

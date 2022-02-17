@@ -28,7 +28,8 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
     }
 
     render = () => {
-        const title = (
+        let overlayClass = 'tip-overlay--sidebar';
+        let title = (
             <FormattedMessage
                 id='sidebar.tutorialChannelTypes.title'
                 defaultMessage={'Organize conversations in channels'}
@@ -68,15 +69,16 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
         let telemetryTagText = 'tutorial_tip_2_channels';
         if (this.props.firstChannelName) {
             const displayFirstChannelName = this.props.firstChannelName.split('-').join(' ').trim();
+            overlayClass += ' first-channel';
+            title = (
+                <FormattedMessage
+                    id='create_first_channel.tutorialTip.title'
+                    defaultMessage='Welcome to {firstChannelName}, your first channel!'
+                    values={{firstChannelName: toTitleCase(displayFirstChannelName)}}
+                />
+            );
             screen = (
                 <>
-                    <h4>
-                        <FormattedMessage
-                            id='create_first_channel.tutorialTip.title'
-                            defaultMessage='Welcome to {firstChannelName}, your first channel!'
-                            values={{firstChannelName: toTitleCase(displayFirstChannelName)}}
-                        />
-                    </h4>
                     <div className='handSvg svg-wrapper'>
                         <HandsSvg
                             width={60}
@@ -113,7 +115,7 @@ export default class ChannelTutorialTip extends React.PureComponent<Props> {
                 placement={this.props.isMobileView ? 'bottom' : 'right'}
                 step={this.props.firstChannelName ? TutorialSteps.ADD_FIRST_CHANNEL : TutorialSteps.CHANNEL_POPOVER}
                 screen={screen}
-                overlayClass='tip-overlay--sidebar'
+                overlayClass={overlayClass}
                 telemetryTag={telemetryTagText}
                 punchOut={tutorialTipPunchout}
             />
