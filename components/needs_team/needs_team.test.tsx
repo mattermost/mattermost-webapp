@@ -95,6 +95,7 @@ describe('components/needs_team', () => {
         getAllGroupsAssociatedToTeam: jest.fn().mockResolvedValue({data: true}),
         getGroups: jest.fn().mockResolvedValue({data: true}),
         getGroupsByUserId: jest.fn().mockResolvedValue({data: true}),
+        getFirstAdminCompleteSetup: jest.fn().mockResolvedValue(false),
     };
     const baseProps = {
         license: {},
@@ -110,6 +111,8 @@ describe('components/needs_team', () => {
         selectedThreadId: null,
         collapsedThreads: true,
         shouldShowAppBar: true,
+        adminSetupRequired: false,
+        isUserFirstAdmin: false,
     };
     it('should match snapshots for init with existing team', () => {
         const fetchMyChannelsAndMembers = jest.fn().mockResolvedValue({data: true});

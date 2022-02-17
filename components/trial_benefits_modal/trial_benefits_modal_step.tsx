@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {useIntl} from 'react-intl';
 
 import TrialBenefitsModalStepMore from './trial_benefits_modal_step_more';
 
@@ -15,6 +14,7 @@ export type TrialBenefitsModalStepProps = {
     svgWrapperClassName: string;
     svgElement: React.ReactNode;
     bottomLeftMessage?: string;
+    buttonLabel: string;
     pageURL?: string;
     onClose?: () => void;
 }
@@ -27,11 +27,10 @@ const TrialBenefitsModalStep = (
         svgWrapperClassName,
         svgElement,
         bottomLeftMessage,
+        buttonLabel,
         pageURL,
         onClose,
     }: TrialBenefitsModalStepProps) => {
-    const {formatMessage} = useIntl();
-
     return (
         <div
             id={`trialBenefitsModalStep-${id}`}
@@ -45,8 +44,9 @@ const TrialBenefitsModalStep = (
             </div>
             {pageURL && (
                 <TrialBenefitsModalStepMore
+                    id={id}
                     route={pageURL}
-                    message={formatMessage({id: 'benefits_trial.modal.learnMore', defaultMessage: 'Learn More'})}
+                    message={buttonLabel}
                     onClick={onClose}
                 />
             )}

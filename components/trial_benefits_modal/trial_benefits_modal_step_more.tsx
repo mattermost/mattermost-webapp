@@ -11,6 +11,7 @@ import {TELEMETRY_CATEGORIES} from 'utils/constants';
 import './trial_benefits_modal_step_more.scss';
 
 export type TrialBenefitsModalStepMoreProps = {
+    id: string;
     route: string;
     message: string;
     onClick?: () => void;
@@ -18,6 +19,7 @@ export type TrialBenefitsModalStepMoreProps = {
 
 const TrialBenefitsModalStepMore = (
     {
+        id,
         route,
         message,
         onClick,
@@ -28,10 +30,9 @@ const TrialBenefitsModalStepMore = (
         history.push(route);
         onClick!();
 
-        const lastSection = route.split('/').pop();
         trackEvent(
             TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
-            'benefits_modal_section_opened_' + lastSection,
+            'benefits_modal_section_opened_' + id,
         );
     }, [route, onClick]);
 

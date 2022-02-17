@@ -3,6 +3,9 @@
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import Permissions from 'mattermost-redux/constants/permissions';
 
+import {Channel, ChannelType} from 'mattermost-redux/types/channels';
+import {Team} from 'mattermost-redux/types/teams';
+import {GetStateFunc, DispatchFunc, ActionFunc} from 'mattermost-redux/types/actions';
 import {removeUserFromTeam} from 'mattermost-redux/actions/teams';
 import {TeamTypes} from 'mattermost-redux/action_types';
 import {getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
@@ -13,12 +16,16 @@ import {openModal} from 'actions/views/modals';
 import JoinPrivateChannelModal from 'components/join_private_channel_modal';
 import LocalStorageStore from 'stores/local_storage_store';
 
+import {GlobalState} from 'types/store';
+
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 import {browserHistory} from './browser_history';
 
-export function canManageMembers(state, channel) {
+import {cleanUpUrlable} from './url';
+
+export function canManageMembers(state: GlobalState, channel: Channel) {
     if (channel.type === Constants.PRIVATE_CHANNEL) {
         return haveIChannelPermission(
             state,
@@ -40,7 +47,7 @@ export function canManageMembers(state, channel) {
     return true;
 }
 
-export function findNextUnreadChannelId(curChannelId, allChannelIds, unreadChannelIds, direction) {
+export function findNextUnreadChannelId(curChannelId: string, allChannelIds: string[], unreadChannelIds: string[], direction: number) {
     const curIndex = allChannelIds.indexOf(curChannelId);
 
     for (let i = 1; i < allChannelIds.length; i++) {
@@ -54,13 +61,19 @@ export function findNextUnreadChannelId(curChannelId, allChannelIds, unreadChann
     return -1;
 }
 
-export function isArchivedChannel(channel) {
+export function isArchivedChannel(channel: Channel) {
     return Boolean(channel && channel.delete_at !== 0);
 }
 
-export function joinPrivateChannelPrompt(team, channel, handleOnCancel = true) {
-    return async (dispatch, getState) => {
-        const result = await new Promise((resolve) => {
+type JoinPrivateChannelPromptResult = {
+    data: {
+        join: boolean;
+    };
+};
+
+export function joinPrivateChannelPrompt(team: Team, channel: Channel, handleOnCancel = true): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const result: JoinPrivateChannelPromptResult = await new Promise((resolve) => {
             const modalData = {
                 modalId: ModalIdentifiers.JOIN_CHANNEL_PROMPT,
                 dialogType: JoinPrivateChannelModal,
@@ -96,5 +109,25 @@ export function joinPrivateChannelPrompt(team, channel, handleOnCancel = true) {
             dispatch(openModal(modalData));
         });
         return result;
+    };
+}
+
+export function makeNewEmptyChannel(displayName: string, teamId: string): Channel {
+    return {
+        team_id: teamId,
+        name: cleanUpUrlable(displayName),
+        display_name: displayName,
+        purpose: '',
+        header: '',
+        type: Constants.OPEN_CHANNEL as ChannelType,
+        create_at: 0,
+        creator_id: '',
+        delete_at: 0,
+        group_constrained: false,
+        id: '',
+        last_post_at: 0,
+        last_root_post_at: 0,
+        scheme_id: '',
+        update_at: 0,
     };
 }

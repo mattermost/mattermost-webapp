@@ -217,3 +217,7 @@ export function getCreateGuidedChannel(state: GlobalState): boolean {
 export function getAddMembersToChannel(state: GlobalState): AddMembersToChanneltreatments | undefined {
     return getFeatureFlagValue(state, 'AddMembersToChannel') as AddMembersToChanneltreatments | undefined;
 }
+
+export function getUseCaseOnboarding(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'UseCaseOnboarding') === 'true';
+}
