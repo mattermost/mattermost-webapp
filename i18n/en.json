@@ -3886,6 +3886,7 @@
   "onboarding_wizard.plugins.zoom.tooltip": "Zoom tooltip",
   "onboarding_wizard.previous": "Previous",
   "onboarding_wizard.skip": "Skip for now",
+  "onboarding_wizard.submit_error.generic": "Something went wrong. Please try again.",
   "onboarding_wizard.url.description": "This is the URL that users will use to access Mattermost. <a>See Documentation</a> for more.",
   "onboarding_wizard.url.input_help": "Standard ports, such as 80 and 443, can be omitted, but non-standard ports are required",
   "onboarding_wizard.url.input_invalid": "Test unsuccessful. This is not a valid URL.",

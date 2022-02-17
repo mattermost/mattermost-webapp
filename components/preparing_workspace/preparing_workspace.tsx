@@ -4,7 +4,7 @@
 import React, {useState, useCallback, useEffect, useMemo, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {RouterProps} from 'react-router-dom';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import {GeneralTypes} from 'mattermost-redux/action_types';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
@@ -174,6 +174,11 @@ async function fail(message: string) {
 export default function PreparingWorkspace(props: Props) {
     const dispatch = useDispatch();
     const user = useSelector(getCurrentUser);
+    const intl = useIntl();
+    const genericSubmitError = intl.formatMessage({
+        id: 'onboarding_wizard.submit_error.generic',
+        defaultMessage: 'Something went wrong. Please try again.',
+    });
     const isUserFirstAdmin = useSelector(isFirstAdmin);
     const useCaseOnboarding = useSelector(getUseCaseOnboarding);
 
@@ -247,6 +252,7 @@ export default function PreparingWorkspace(props: Props) {
                 return;
             }
             setStepHistory([currentStep, stepOrder[stepIndex + 1]]);
+            setSubmitError(null);
 
             const progressName = (skip ? mapStepToSkipName : mapStepToNextName)(currentStep);
             trackEvent('first_admin_setup', progressName, trackingProps);
@@ -276,7 +282,7 @@ export default function PreparingWorkspace(props: Props) {
                 },
             ]));
         } catch (e) {
-            redirectWithError(WizardSteps.UseCase, 'Failed to save use case. Try again.');
+            redirectWithError(WizardSteps.UseCase, genericSubmitError);
             return;
         }
 
@@ -290,12 +296,12 @@ export default function PreparingWorkspace(props: Props) {
                 // eslint-disable-next-line
                 const data = await props.actions.createTeam(makeNewTeam(form.organization, teamNameToUrl(form.organization || '').url));
                 if (data.error) {
-                    redirectWithError(WizardSteps.Organization, data.error);
+                    redirectWithError(WizardSteps.Organization, genericSubmitError);
                     return;
                 }
                 team = data.data;
             } catch (e) {
-                redirectWithError(WizardSteps.Organization, 'Failed to create team. Try again.');
+                redirectWithError(WizardSteps.Organization, genericSubmitError);
                 return;
             }
         }
@@ -309,12 +315,12 @@ export default function PreparingWorkspace(props: Props) {
                 const {data: channel, error} = await dispatch(createChannel(makeNewEmptyChannel(form.channel.name, team.id), user.id)) as ActionResult;
 
                 if (error) {
-                    redirectWithError(WizardSteps.Channel, error);
+                    redirectWithError(WizardSteps.Channel, genericSubmitError);
                     return;
                 }
                 redirectChannel = channel;
             } catch (e) {
-                redirectWithError(WizardSteps.Channel, 'Failed to create channel. Try again or skip this step.');
+                redirectWithError(WizardSteps.Channel, genericSubmitError);
                 return;
             }
             if (redirectChannel) {
@@ -336,11 +342,11 @@ export default function PreparingWorkspace(props: Props) {
                 }
                 const inviteResult = await dispatch(sendEmailInvitesToTeamGracefully(team.id, form.teamMembers.invites));
                 if ((inviteResult as ActionResult).error) {
-                    redirectWithError(WizardSteps.InviteMembers, 'Failed to invite members to team.');
+                    redirectWithError(WizardSteps.InviteMembers, genericSubmitError);
                     return;
                 }
             } catch (e) {
-                redirectWithError(WizardSteps.InviteMembers, 'Failed to invite members to team.');
+                redirectWithError(WizardSteps.InviteMembers, genericSubmitError);
                 return;
             }
         }
@@ -366,7 +372,7 @@ export default function PreparingWorkspace(props: Props) {
             await Client4.completeSetup(completeSetupRequest);
             dispatch({type: GeneralTypes.FIRST_ADMIN_COMPLETE_SETUP_RECEIVED, data: true});
         } catch (e) {
-            redirectWithError(WizardSteps.Plugins, 'Failed to set up tools. Try again or skip this step.');
+            redirectWithError(WizardSteps.Plugins, genericSubmitError);
             return;
         }
 
@@ -438,7 +444,7 @@ export default function PreparingWorkspace(props: Props) {
                 return;
             }
         }
-        if (submissionState !== SubmissionStates.Presubmit) {
+        if (submissionState !== SubmissionStates.Presubmit && submissionState !== SubmissionStates.SubmitFail) {
             return;
         }
         const stepIndex = stepOrder.indexOf(currentStep);
@@ -504,7 +510,12 @@ export default function PreparingWorkspace(props: Props) {
         <div className='PreparingWorkspace PreparingWorkspaceContainer'>
             {submissionState === SubmissionStates.SubmitFail && submitError && (
                 <div className='PreparingWorkspace__submit-error'>
-                    {submitError}
+                    <i className='icon icon-alert-outline'/>
+                    <span className='PreparingWorkspace__submit-error-message'>{submitError}</span>
+                    <i
+                        className='icon icon-close'
+                        onClick={() => setSubmitError(null)}
+                    />
                 </div>
             )}
             {props.background}

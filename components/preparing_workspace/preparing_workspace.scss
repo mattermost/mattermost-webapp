@@ -25,12 +25,29 @@
 
     &__submit-error {
         position: fixed;
-        width: 50vw;
-        min-width: 300px;
-        max-width: 500px;
-        margin: 0 auto;
-        background-color: pink;
-        color: green;
+        z-index: 1;
+        bottom: 24px;
+        left: calc(50vw - 202px);
+        display: flex;
+        width: 404px;
+        align-items: center;
+        padding: 10px;
+        background-color: var(--dnd-indicator);
+        border-radius: 4px;
+        box-shadow: $elevation-3;
+        color: var(--center-channel-bg);
+        font-size: 14px;
+        font-weight: 600;
+
+        .icon-close {
+            cursor: pointer;
+        }
+    }
+
+    &__submit-error-message {
+        flex-grow: 1;
+        flex-shrink: 0;
+        padding-left: 9px;
     }
 }
 
