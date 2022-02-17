@@ -122,12 +122,18 @@ export default class AtMentionProvider extends Provider {
         return groupSuggestions.some((suggestion) => suggestion.startsWith(prefixLower));
     }
 
-    // localMembers matches up to 25 local results from the store before the server has responded.
-    localMembers() {
+    getProfilesWithLastViewAtInChannel() {
         const state = store.getState();
+
         const profilesInChannel = this.getProfilesInChannel(state, this.currentChannelId, profilesInChannelOptions);
         const profilesWithLastViewAtInChannel = this.addLastViewAtToProfiles(state, profilesInChannel);
-        const localMembers = profilesWithLastViewAtInChannel.
+
+        return profilesWithLastViewAtInChannel;
+    }
+
+    // localMembers matches up to 25 local results from the store before the server has responded.
+    localMembers() {
+        const localMembers = this.getProfilesWithLastViewAtInChannel().
             filter((profile) => this.filterProfile(profile)).
             map((profile) => this.createFromProfile(profile, Constants.MENTION_MEMBERS)).
             splice(0, 25);
