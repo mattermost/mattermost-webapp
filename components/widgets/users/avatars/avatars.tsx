@@ -84,6 +84,7 @@ function UserAvatar({
                 <button
                     className={'status-wrapper style--none'}
                     tabIndex={-1}
+                    onClick={(e) => e.stopPropagation()}
                 >
                     <Avatar
                         url={imageURLForUser(userId, user?.last_picture_update)}
