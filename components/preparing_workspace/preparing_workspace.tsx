@@ -332,7 +332,7 @@ export default function PreparingWorkspace(props: Props) {
                 category: OnboardingTaskCategory,
                 name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
                 value: 'true',
-            }
+            },
         ]));
 
         const sendFormEnd = Date.now();
