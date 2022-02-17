@@ -14,7 +14,8 @@ import {Client4} from 'mattermost-redux/client';
 import {setUrl} from 'mattermost-redux/actions/general';
 import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions';
 import * as GlobalActions from 'actions/global_actions';
@@ -28,6 +29,8 @@ import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_rout
 import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
 import TaskList from 'components/global_onboarding_list/onboarding_checklist';
+import LaunchingWorkspace, {LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX} from 'components/preparing_workspace/launching_workspace';
+import {Animations} from 'components/preparing_workspace/steps';
 
 import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
@@ -57,6 +60,7 @@ const LazySelectTeam = React.lazy(() => import('components/select_team'));
 const LazyAuthorize = React.lazy(() => import('components/authorize'));
 const LazyCreateTeam = React.lazy(() => import('components/create_team'));
 const LazyMfa = React.lazy(() => import('components/mfa/mfa_controller'));
+const LazyPreparingWorkspace = React.lazy(() => import('components/preparing_workspace'));
 
 import store from 'stores/redux_store.jsx';
 import {getSiteURL} from 'utils/url';
@@ -88,6 +92,7 @@ const LinkingLandingPage = makeAsyncComponent('LinkingLandingPage', LazyLinkingL
 const SelectTeam = makeAsyncComponent('SelectTeam', LazySelectTeam);
 const Authorize = makeAsyncComponent('Authorize', LazyAuthorize);
 const Mfa = makeAsyncComponent('Mfa', LazyMfa);
+const PreparingWorkspace = makeAsyncComponent('PreparingWorkspace', LazyPreparingWorkspace);
 
 const LoggedInRoute = ({component: Component, ...rest}) => (
     <Route
@@ -100,6 +105,8 @@ const LoggedInRoute = ({component: Component, ...rest}) => (
     />
 );
 
+const noop = () => {}; // eslint-disable-line no-empty-function
+
 export default class Root extends React.PureComponent {
     static propTypes = {
         theme: PropTypes.object,
@@ -111,12 +118,14 @@ export default class Root extends React.PureComponent {
         actions: PropTypes.shape({
             loadMeAndConfig: PropTypes.func.isRequired,
             emitBrowserWindowResized: PropTypes.func.isRequired,
+            getFirstAdminSetupComplete: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
         products: PropTypes.array,
         dismissChecklist: PropTypes.bool,
         isUserFirstAdmin: PropTypes.bool,
         isMobile: PropTypes.bool,
+        showSetupTransitioning: PropTypes.bool,
     }
 
     constructor(props) {
@@ -278,11 +287,35 @@ export default class Root extends React.PureComponent {
         }
     }
 
+    async redirectToOnboardingOrDefaultTeam() {
+        const storeState = store.getState();
+        const isUserAdmin = isCurrentUserSystemAdmin(storeState);
+        if (!isUserAdmin) {
+            GlobalActions.redirectUserToDefaultTeam();
+            return;
+        }
+
+        const useCaseOnboarding = getUseCaseOnboarding(storeState);
+        if (!useCaseOnboarding) {
+            GlobalActions.redirectUserToDefaultTeam();
+            return;
+        }
+
+        const firstAdminSetupComplete = await this.props.actions.getFirstAdminSetupComplete();
+        if (!firstAdminSetupComplete?.data) {
+            this.props.history.push('/preparing-workspace');
+            return;
+        }
+
+        GlobalActions.redirectUserToDefaultTeam();
+    }
+
     componentDidMount() {
         this.mounted = true;
         this.props.actions.loadMeAndConfig().then((response) => {
-            if (this.props.location.pathname === '/' && response[2] && response[2].data) {
-                GlobalActions.redirectUserToDefaultTeam();
+            const successfullyLoadedMe = response[2] && response[2].data;
+            if (this.props.location.pathname === '/' && successfullyLoadedMe) {
+                this.redirectToOnboardingOrDefaultTeam();
             }
             this.onConfigLoaded();
         });
@@ -450,6 +483,10 @@ export default class Root extends React.PureComponent {
                         path={'/mfa'}
                         component={Mfa}
                     />
+                    <LoggedInRoute
+                        path={'/preparing-workspace'}
+                        component={PreparingWorkspace}
+                    />
                     <Redirect
                         from={'/_redirect/integrations/:subpath*'}
                         to={`/${this.props.permalinkRedirectTeamName}/integrations/:subpath*`}
@@ -459,6 +496,15 @@ export default class Root extends React.PureComponent {
                         to={`/${this.props.permalinkRedirectTeamName}/pl/:postid`}
                     />
                     <CompassThemeProvider theme={this.props.theme}>
+                        {(this.props.showSetupTransitioning && !this.props.location.pathname.includes('/preparing-workspace') &&
+                            <LaunchingWorkspace
+                                fullscreen={true}
+                                zIndex={LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX}
+                                show={true}
+                                onPageView={noop}
+                                transitionDirection={Animations.Reasons.EnterFromBefore}
+                            />
+                        )}
                         <ModalController/>
                         <GlobalHeader/>
                         {this.props.isUserFirstAdmin && !this.props.isMobile && this.props.dismissChecklist && <TaskList/>}

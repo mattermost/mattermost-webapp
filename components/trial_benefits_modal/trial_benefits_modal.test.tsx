@@ -149,7 +149,7 @@ describe('components/trial_benefits_modal/trial_benefits_modal', () => {
             </Provider>,
         );
 
-        wrapper.find(Carousel).props().onNextSlideClick!(5);
+        wrapper.find(Carousel).props().onNextSlideClick!(6);
 
         expect(trackEvent).not.toHaveBeenCalled();
 

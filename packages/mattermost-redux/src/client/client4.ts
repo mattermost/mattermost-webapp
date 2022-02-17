@@ -114,6 +114,7 @@ import {
     PatchDataRetentionCustomPolicy,
     GetDataRetentionCustomPoliciesRequest,
 } from 'mattermost-redux/types/data_retention';
+import {CompleteOnboardingRequest} from 'mattermost-redux/types/setup';
 
 import {buildQueryString, isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 import {cleanUrlForLogging} from 'mattermost-redux/utils/sentry';
@@ -433,6 +434,10 @@ export default class Client4 {
 
     getUserThreadRoute(userId: string, teamId: string, threadId: string): string {
         return `${this.getUserThreadsRoute(userId, teamId)}/${threadId}`;
+    }
+
+    getSystemRoute(): string {
+        return `${this.getBaseRoute()}/system`;
     }
 
     getCSRFFromCookie() {
@@ -2327,6 +2332,13 @@ export default class Client4 {
         );
     };
 
+    getFirstAdminSetupComplete = async () => {
+        return this.doFetch<SystemSetting>(
+            `${this.getSystemRoute()}/onboarding/complete`,
+            {method: 'get'},
+        );
+    };
+
     getTranslations = (url: string) => {
         return this.doFetch<Record<string, string>>(
             url,
@@ -3796,6 +3808,13 @@ export default class Client4 {
         return this.doFetch<string[]>(
             `${this.getPermissionsRoute()}/ancillary?subsection_permissions=${subsectionPermissions.join(',')}`,
             {method: 'get'},
+        );
+    }
+
+    completeSetup = (completeOnboardingRequest: CompleteOnboardingRequest) => {
+        return this.doFetch<StatusOK>(
+            `${this.getSystemRoute()}/onboarding/complete`,
+            {method: 'post', body: JSON.stringify(completeOnboardingRequest)},
         );
     }
 
