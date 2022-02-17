@@ -196,6 +196,11 @@ const TaskList = (): JSX.Element => {
             id='onboarding_checklist.task_system_console'
             defaultMessage='Visit the System Console to configure your workspace'
         />,
+        <FormattedMessage
+            key={7}
+            id='onboarding_checklist.task_start_trial'
+            defaultMessage='Learn more about Enterprise-level high-security features'
+        />,
     ];
     const closeTaskList = useCallback(() => {
         setOpen(false);
