@@ -153,7 +153,7 @@ const InviteMembers = (props: Props) => {
                     <div className='InviteMembers__submit'>
                         <button
                             className='primary-button'
-                            disabled={props.disableEdits}
+                            disabled={props.disableEdits || (!props.showInviteLink && props.emails.length === 0)}
                             onClick={props.next}
                         >
                             {

@@ -335,8 +335,10 @@ export default function PreparingWorkspace(props: Props) {
                     await fail('failed inviting members');
                 }
                 const inviteResult = await dispatch(sendEmailInvitesToTeamGracefully(team.id, form.teamMembers.invites));
-                console.log('inviteResult'); // eslint-disable-line no-console
-                console.log(inviteResult); // eslint-disable-line no-console
+                if ((inviteResult as ActionResult).error) {
+                    redirectWithError(WizardSteps.InviteMembers, 'Failed to invite members to team.');
+                    return;
+                }
             } catch (e) {
                 redirectWithError(WizardSteps.InviteMembers, 'Failed to invite members to team.');
                 return;
