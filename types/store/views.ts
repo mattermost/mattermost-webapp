@@ -6,10 +6,6 @@ import {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketpl
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {Team} from 'mattermost-redux/types/teams';
 import {UserThread} from 'mattermost-redux/types/threads';
-import {
-    isShowOnboardingCompleteProfileTour,
-    isShowOnboardingVisitConsoleTour,
-} from '../../selectors/views/onboarding_tasks';
 
 import {I18nState} from './i18n';
 import {RhsViewState} from './rhs';
