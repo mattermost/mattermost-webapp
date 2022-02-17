@@ -16,7 +16,7 @@ import {
     TTNameMapToATStatusKey,
     TutorialTourName,
 } from 'components/onboarding_tour';
-import {savePreferences, savePreferences as storeSavePreferences} from 'mattermost-redux/actions/preferences';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
@@ -108,7 +108,7 @@ export const useTasksListWithStatus = () => {
 export const useHandleOnBoardingTaskData = () => {
     const dispatch = useDispatch();
     const currentUserId = useSelector(getCurrentUserId);
-    const savePreferences = useCallback(
+    const storeSavePreferences = useCallback(
         (taskCategory: string, taskName, step: number) => {
             const preferences = [
                 {
@@ -118,7 +118,7 @@ export const useHandleOnBoardingTaskData = () => {
                     value: step.toString(),
                 },
             ];
-            dispatch(storeSavePreferences(currentUserId, preferences));
+            dispatch(savePreferences(currentUserId, preferences));
         },
         [currentUserId],
     );
@@ -130,13 +130,13 @@ export const useHandleOnBoardingTaskData = () => {
         trackEventSuffix?: string,
         taskCategory = OnboardingTaskCategory,
     ) => {
-        savePreferences(taskCategory, taskName, step);
+        storeSavePreferences(taskCategory, taskName, step);
         if (trackEvent) {
             const eventSuffix = trackEventSuffix ? `${step}--${trackEventSuffix}` : step.toString();
             const telemetryTag = generateTelemetryTag(OnboardingTaskCategory, taskName, eventSuffix);
             trackEventAction(OnboardingTaskCategory, telemetryTag);
         }
-    }, [savePreferences, trackEventAction]);
+    }, [storeSavePreferences]);
 };
 
 export const useHandleOnBoardingTaskTrigger = () => {
@@ -166,7 +166,7 @@ export const useHandleOnBoardingTaskTrigger = () => {
                     value: AutoTourStatus.ENABLED.toString(),
                 },
             ];
-            dispatch(storeSavePreferences(currentUserId, preferences));
+            dispatch(savePreferences(currentUserId, preferences));
             if (!inChannels) {
                 dispatch(switchToChannels());
             }

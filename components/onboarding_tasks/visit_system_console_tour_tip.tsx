@@ -12,6 +12,8 @@ import {isShowOnboardingVisitConsoleTour} from 'selectors/views/onboarding_tasks
 import {OnboardingTasksName, TaskNameMapToSteps} from './constants';
 import {useHandleOnBoardingTaskData} from './onboarding_tasks_manager';
 
+const translate = {x: 0, y: -2};
+
 export const VisitSystemConsoleTour = () => {
     const dispatch = useDispatch();
     const handleTask = useHandleOnBoardingTaskData();
@@ -57,7 +59,7 @@ export const VisitSystemConsoleTour = () => {
             step={steps.STARTED}
             placement='left-start'
             pulsatingDotPlacement='right'
-            pulsatingDotTranslate={{x: 0, y: -2}}
+            pulsatingDotTranslate={translate}
             handleDismiss={onDismiss}
             singleTip={true}
             showOptOut={false}

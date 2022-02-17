@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useLayoutEffect, useRef, useState} from 'react';
+import React from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions';
@@ -42,14 +42,6 @@ const AddChannelDropdown = ({
     openAddChannelOpen,
 }: Props) => {
     const intl = useIntl();
-    const menuRef = useRef<HTMLDivElement>(null);
-    const [menuCtr, setMenuCtr] = useState({});
-
-    useLayoutEffect(() => {
-        if (menuRef?.current) {
-            setMenuCtr(menuRef?.current.getBoundingClientRect());
-        }
-    }, [menuRef.current, showCreateTutorialTip, showInviteTutorialTip]);
 
     const renderDropdownItems = () => {
         const invitePeople = (
@@ -61,7 +53,7 @@ const AddChannelDropdown = ({
                     text={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.invitePeople', defaultMessage: 'Invite People'})}
                     extraText={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.invitePeopleExtraText', defaultMessage: 'Add people to the team'})}
                 />
-                {showInviteTutorialTip && menuCtr !== {} && <InvitePeopleTour/>}
+                {showInviteTutorialTip && <InvitePeopleTour/>}
             </Menu.Group>
         );
 
@@ -117,7 +109,7 @@ const AddChannelDropdown = ({
                     {joinPublicChannel}
                     {createChannel}
                     {createDirectMessage}
-                    {showCreateTutorialTip && menuCtr !== {} && <CreateAndJoinChannelsTour/>}
+                    {showCreateTutorialTip && <CreateAndJoinChannelsTour/>}
                 </Menu.Group>
                 {createCategory}
                 {invitePeople}
@@ -168,14 +160,12 @@ const AddChannelDropdown = ({
                     </button>
                 </>
             </OverlayTrigger>
-            <div ref={menuRef}>
-                <Menu
-                    id='AddChannelDropdown'
-                    ariaLabel={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Dropdown'})}
-                >
-                    {renderDropdownItems()}
-                </Menu>
-            </div>
+            <Menu
+                id='AddChannelDropdown'
+                ariaLabel={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Dropdown'})}
+            >
+                {renderDropdownItems()}
+            </Menu>
         </MenuWrapper>
     );
 };

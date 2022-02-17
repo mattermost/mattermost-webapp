@@ -49,6 +49,7 @@ const useHandleNavigationAndExtraActions = () => {
     const dispatch = useDispatch();
     const isUserFirstAdmin = useSelector(isFirstAdmin);
     const currentUserId = useSelector(getCurrentUserId);
+
     const nextStepActions = useCallback((step: number) => {
         switch (step) {
         case OnboardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES : {
@@ -94,7 +95,8 @@ const useHandleNavigationAndExtraActions = () => {
         }
         default:
         }
-    }, []);
+    }, [currentUserId]);
+
     const lastStepActions = useCallback((lastStep: number) => {
         switch (lastStep) {
         case OnboardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES : {
@@ -116,7 +118,7 @@ const useHandleNavigationAndExtraActions = () => {
         }
         default:
         }
-    }, []);
+    }, [currentUserId]);
 
     return useCallback((step: number, lastStep: number) => {
         lastStepActions(lastStep);

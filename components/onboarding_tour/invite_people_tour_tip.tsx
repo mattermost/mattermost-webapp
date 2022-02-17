@@ -8,6 +8,8 @@ import {useMeasurePunchouts} from '../widgets/tour_tip';
 
 import OnboardingTourTip from './onboarding_tour_tip';
 
+const translate = {x: 0, y: -18};
+
 export const InvitePeopleTour = () => {
     const title = (
         <FormattedMessage
@@ -32,7 +34,7 @@ export const InvitePeopleTour = () => {
             screen={screen}
             placement='right-start'
             pulsatingDotPlacement='right-end'
-            pulsatingDotTranslate={{x: 0, y: -18}}
+            pulsatingDotTranslate={translate}
             width={352}
             overlayPunchOut={overlayPunchOut}
         />

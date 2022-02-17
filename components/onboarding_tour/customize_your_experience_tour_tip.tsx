@@ -9,6 +9,9 @@ import {useMeasurePunchouts} from 'components/widgets/tour_tip';
 
 import OnboardingTourTip from './onboarding_tour_tip';
 
+const translate = {x: 20, y: -6};
+const offset: [number, number] = [18, 4];
+
 export const CustomizeYourExperienceTour = () => {
     const title = (
         <FormattedMessage
@@ -34,8 +37,8 @@ export const CustomizeYourExperienceTour = () => {
             imageURL={CustomImg}
             placement='bottom-end'
             pulsatingDotPlacement='bottom'
-            pulsatingDotTranslate={{x: 20, y: -6}}
-            offset={[18, 4]}
+            pulsatingDotTranslate={translate}
+            offset={offset}
             width={352}
             overlayPunchOut={overlayPunchOut}
         />

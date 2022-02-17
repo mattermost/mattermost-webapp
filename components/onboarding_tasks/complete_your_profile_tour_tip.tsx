@@ -13,6 +13,8 @@ import {setShowOnboardingCompleteProfileTour} from '../../actions/views/onboardi
 import {OnboardingTasksName, TaskNameMapToSteps} from './constants';
 import {useHandleOnBoardingTaskData} from './onboarding_tasks_manager';
 
+const translate = {x: 0, y: -2};
+
 export const CompleteYourProfileTour = () => {
     const dispatch = useDispatch();
     const handleTask = useHandleOnBoardingTaskData();
@@ -57,7 +59,7 @@ export const CompleteYourProfileTour = () => {
             step={steps.STARTED}
             placement='left-start'
             pulsatingDotPlacement='left'
-            pulsatingDotTranslate={{x: 0, y: -2}}
+            pulsatingDotTranslate={translate}
             handleDismiss={onDismiss}
             singleTip={true}
             showOptOut={false}

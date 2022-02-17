@@ -17,6 +17,8 @@ type Props = {
     currentChannelTeammateUsername?: string;
 }
 
+const translate = {x: -6, y: -6};
+
 export const SendMessageTour = ({
     prefillMessage,
     currentChannel,
@@ -60,7 +62,7 @@ export const SendMessageTour = ({
             screen={screen}
             placement='top-start'
             pulsatingDotPlacement='top-start'
-            pulsatingDotTranslate={{x: -6, y: -6}}
+            pulsatingDotTranslate={translate}
             width={400}
             overlayPunchOut={overlayPunchOut}
         />
