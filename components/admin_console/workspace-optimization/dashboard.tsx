@@ -204,7 +204,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
             overallScore.current += item.scoreImpact * item.impactModifier;
 
             // chips will only be displayed for info aka Success, warning and error aka Problems
-            if (item.status && item.status !== ItemStatus.OK) {
+            if (item.status && item.status !== ItemStatus.OK && item.status !== ItemStatus.NONE) {
                 items.push((
                     <AccordionItem
                         key={`${accordionKey}-item_${item.id}`}
