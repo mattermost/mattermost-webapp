@@ -614,18 +614,19 @@ describe('Actions.Channels', () => {
                 },
             });
 
+            const now = Date.now();
+            const prevNow = Date.now();
+
             nock(Client4.getBaseRoute()).
                 post('/channels/members/me/view', {channel_id: channelId, prev_channel_id: prevChannelId, collapsed_threads_supported: true}).
-                reply(200, OK_RESPONSE);
-
-            const now = Date.now();
+                reply(200, {last_viewed_at_times: {[channelId]: now, [prevChannelId]: prevNow}});
 
             const result = await store.dispatch(Actions.viewChannel(channelId, prevChannelId));
             expect(result).toEqual({data: true});
 
             const state = store.getState();
-            expect(state.entities.channels.myMembers[channelId].last_viewed_at).toBeGreaterThan(now);
-            expect(state.entities.channels.myMembers[prevChannelId].last_viewed_at).toBeGreaterThan(now);
+            expect(state.entities.channels.myMembers[channelId].last_viewed_at).toBe(now);
+            expect(state.entities.channels.myMembers[prevChannelId].last_viewed_at).toBe(prevNow);
         });
 
         test('should clear manually unread state from current channel', async () => {
@@ -653,9 +654,11 @@ describe('Actions.Channels', () => {
                 },
             });
 
+            const now = Date.now();
+
             nock(Client4.getBaseRoute()).
                 post('/channels/members/me/view', {channel_id: channelId, prev_channel_id: '', collapsed_threads_supported: true}).
-                reply(200, OK_RESPONSE);
+                reply(200, {last_viewed_at_times: {[channelId]: now}});
 
             const result = await store.dispatch(Actions.viewChannel(channelId));
             expect(result).toEqual({data: true});
@@ -695,17 +698,18 @@ describe('Actions.Channels', () => {
                 },
             });
 
+            const now = Date.now();
+            const prevNow = Date.now();
+
             nock(Client4.getBaseRoute()).
                 post('/channels/members/me/view', {channel_id: channelId, prev_channel_id: '', collapsed_threads_supported: true}).
-                reply(200, OK_RESPONSE);
-
-            const now = Date.now();
+                reply(200, {last_viewed_at_times: {[channelId]: now, [prevChannelId]: prevNow}});
 
             const result = await store.dispatch(Actions.viewChannel(channelId, prevChannelId));
             expect(result).toEqual({data: true});
 
             const state = store.getState();
-            expect(state.entities.channels.myMembers[channelId].last_viewed_at).toBeGreaterThan(now);
+            expect(state.entities.channels.myMembers[channelId].last_viewed_at).toBe(now);
             expect(state.entities.channels.myMembers[prevChannelId].last_viewed_at).toBe(1000);
         });
     });
@@ -719,10 +723,11 @@ describe('Actions.Channels', () => {
             TestHelper.fakeChannel(TestHelper.basicTeam.id),
         );
 
+        const now = Date.now();
         nock(Client4.getBaseRoute()).
             get(`/users/me/teams/${TestHelper.basicTeam.id}/channels`).
             query(true).
-            reply(200, [userChannel, TestHelper.basicChannel]);
+            reply(200, [userChannel, {...TestHelper.basicChannel, last_post_at: now}]);
 
         nock(Client4.getBaseRoute()).
             get(`/users/me/teams/${TestHelper.basicTeam.id}/channels/members`).
@@ -730,7 +735,6 @@ describe('Actions.Channels', () => {
 
         await store.dispatch(Actions.fetchMyChannelsAndMembers(TestHelper.basicTeam.id));
 
-        const timestamp = Date.now();
         let members = store.getState().entities.channels.myMembers;
         let member = members[TestHelper.basicChannel.id];
         const otherMember = members[userChannel.id];
@@ -743,7 +747,10 @@ describe('Actions.Channels', () => {
 
         members = store.getState().entities.channels.myMembers;
         member = members[TestHelper.basicChannel.id];
-        assert.ok(member.last_viewed_at > timestamp);
+        const channels = store.getState().entities.channels.channels;
+        const channel = channels[TestHelper.basicChannel.id];
+        assert.ok(member.last_viewed_at === channel.last_post_at);
+        assert.ok(member.last_viewed_at === now);
     });
 
     describe('markChannelAsUnread', () => {

@@ -283,9 +283,9 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
     switch (action.type) {
     case ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER: {
         const newMember = action.data;
-        const oldMember = state[newMember.channel_id] || {};
+        const oldMember = state[newMember.channel_id];
 
-        if (newMember.last_viewed_at === oldMember.last_viewed_at && newMember.last_update_at === oldMember.last_update_at) {
+        if (oldMember && newMember.last_viewed_at === oldMember.last_viewed_at && newMember.last_update_at === oldMember.last_update_at) {
             return state;
         }
 
