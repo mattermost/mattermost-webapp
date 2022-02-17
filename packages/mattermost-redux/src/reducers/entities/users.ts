@@ -454,7 +454,7 @@ function profilesNotInGroup(state: RelationOneToMany<Group, UserProfile> = {}, a
     }
 }
 
-function saveToState<T>(state: Record<string, T>, key: string, value: T): Record<string, T> {
+function addToState<T>(state: Record<string, T>, key: string, value: T): Record<string, T> {
     if (state[key] === value) {
         return state;
     }
@@ -471,12 +471,12 @@ function statuses(state: RelationOneToOne<UserProfile, string> = {}, action: Gen
         const userId = action.data.user_id;
         const status = action.data.status;
 
-        return saveToState(state, userId, status);
+        return addToState(state, userId, status);
     }
     case UserTypes.RECEIVED_STATUSES: {
         const userStatuses: UserStatus[] = action.data;
 
-        return userStatuses.reduce((nextState, userStatus) => saveToState(nextState, userStatus.user_id, userStatus.status), state);
+        return userStatuses.reduce((nextState, userStatus) => addToState(nextState, userStatus.user_id, userStatus.status), state);
     }
 
     case UserTypes.PROFILE_NO_LONGER_VISIBLE: {
@@ -501,12 +501,12 @@ function isManualStatus(state: RelationOneToOne<UserProfile, boolean> = {}, acti
         const userId = action.data.user_id;
         const manual = action.data.manual;
 
-        return saveToState(state, userId, manual);
+        return addToState(state, userId, manual);
     }
     case UserTypes.RECEIVED_STATUSES: {
         const userStatuses: UserStatus[] = action.data;
 
-        return userStatuses.reduce((nextState, userStatus) => saveToState(nextState, userStatus.user_id, userStatus.manual || false), state);
+        return userStatuses.reduce((nextState, userStatus) => addToState(nextState, userStatus.user_id, userStatus.manual || false), state);
     }
 
     case UserTypes.PROFILE_NO_LONGER_VISIBLE: {
