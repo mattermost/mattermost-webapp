@@ -119,58 +119,6 @@ const onPageViews = {
     [WizardSteps.LaunchingWorkspace]: makeOnPageView(WizardSteps.LaunchingWorkspace),
 };
 
-type MockFails = {
-    useCase: boolean;
-    team: boolean;
-    channel: boolean;
-    invites: boolean;
-    plugins: boolean;
-}
-
-const mockFails: MockFails = {
-    useCase: false,
-    team: false,
-    channel: false,
-    invites: false,
-    plugins: false,
-};
-
-(window as any).failUseCase = function failUseCase(fail: boolean) {
-    mockFails.useCase = fail;
-};
-
-(window as any).failTeam = function failTeam(fail: boolean) {
-    mockFails.team = fail;
-};
-
-(window as any).failChannel = function failChannel(fail: boolean) {
-    mockFails.channel = fail;
-};
-
-(window as any).failInvites = function failInvites(fail: boolean) {
-    mockFails.invites = fail;
-};
-
-(window as any).failPlugins = function failPlugins(fail: boolean) {
-    mockFails.plugins = fail;
-};
-
-(window as any).getFails = function getFails() {
-    // eslint-disable-next-line no-console
-    console.log('fails:\n' + Object.entries(mockFails).reduce(
-        (acc, [k, v]) => {
-            return acc + `    ${k}: ${v}\n`;
-        },
-        '',
-    ));
-};
-
-async function fail(message: string) {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-
-    throw new Error(message);
-}
-
 export default function PreparingWorkspace(props: Props) {
     const dispatch = useDispatch();
     const user = useSelector(getCurrentUser);
@@ -270,9 +218,6 @@ export default function PreparingWorkspace(props: Props) {
         const sendFormStart = Date.now();
         setSubmissionState(SubmissionStates.Submitting);
         try {
-            if (mockFails.useCase) {
-                await fail('failed use case');
-            }
             dispatch(savePreferences(user.id, [
                 {
                     category: Constants.Preferences.ONBOARDING,
@@ -290,9 +235,6 @@ export default function PreparingWorkspace(props: Props) {
 
         if (form.organization) {
             try {
-                if (mockFails.team) {
-                    await fail('failed team creation');
-                }
                 // eslint-disable-next-line
                 const data = await props.actions.createTeam(makeNewTeam(form.organization, teamNameToUrl(form.organization || '').url));
                 if (data.error) {
@@ -309,9 +251,6 @@ export default function PreparingWorkspace(props: Props) {
         let redirectChannel: Channel | null = null;
         if (!form.channel.skipped) {
             try {
-                if (mockFails.channel) {
-                    await fail('failed channel creation');
-                }
                 const {data: channel, error} = await dispatch(createChannel(makeNewEmptyChannel(form.channel.name, team.id), user.id)) as ActionResult;
 
                 if (error) {
@@ -337,9 +276,6 @@ export default function PreparingWorkspace(props: Props) {
 
         if (!form.teamMembers.skipped && !isConfigSiteUrlDefault) {
             try {
-                if (mockFails.invites) {
-                    await fail('failed inviting members');
-                }
                 const inviteResult = await dispatch(sendEmailInvitesToTeamGracefully(team.id, form.teamMembers.invites));
                 if ((inviteResult as ActionResult).error) {
                     redirectWithError(WizardSteps.InviteMembers, genericSubmitError);
@@ -366,9 +302,6 @@ export default function PreparingWorkspace(props: Props) {
             install_plugins: pluginsToSetup,
         };
         try {
-            if (mockFails.plugins) {
-                await fail('failed initializing plugins');
-            }
             await Client4.completeSetup(completeSetupRequest);
             dispatch({type: GeneralTypes.FIRST_ADMIN_COMPLETE_SETUP_RECEIVED, data: true});
         } catch (e) {
