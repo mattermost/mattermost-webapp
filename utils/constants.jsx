@@ -129,6 +129,8 @@ export const Preferences = {
 
     // A/B test preference value
     AB_TEST_PREFERENCE_VALUE: 'ab_test_preference_value',
+
+    ONBOARDING: 'onboarding',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -1665,6 +1667,7 @@ export const Constants = {
     ACCEPT_EMOJI_IMAGE: '.jpeg,.jpg,.png,.gif',
     THREADS_PAGE_SIZE: 25,
     TRIAL_MODAL_AUTO_SHOWN: 'trial_modal_auto_shown',
+    DEFAULT_SITE_URL: 'http://localhost:8065',
 };
 
 export const ValidationErrors = {
