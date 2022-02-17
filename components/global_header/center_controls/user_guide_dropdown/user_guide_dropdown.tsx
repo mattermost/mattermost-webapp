@@ -100,7 +100,7 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                 />
                 <Menu.ItemAction
                     id='gettingStarted'
-                    show={showDueToStepsNotFinished && !inTipsView}
+                    show={showDueToStepsNotFinished && !inTipsView && !(this.props.useCaseOnboarding && this.props.isFirstAdmin)}
                     onClick={() => this.unhideNextStepsAndNavigateToTipsView()}
                     text={intl.formatMessage({id: 'navbar_dropdown.gettingStarted', defaultMessage: 'Getting Started'})}
                     icon={isMobileView && <i className='icon icon-play'/>}
