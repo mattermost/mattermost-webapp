@@ -189,7 +189,7 @@ h6.markdown__heading {
     &:hover .post-code__overlay {
         top: 6px;
         right: 1px;
-        padding: 6px 6px 0;
+        padding: 4px 4px 0;
         background: var(--center-channel-bg);
         border-radius: 4px;
     }
@@ -214,7 +214,7 @@ h6.markdown__heading {
         position: relative;
         display: flex;
         flex-direction: row;
-        padding: 6.5px;
+        padding: 8.5px;
         border: 1px solid rgba(v(center-channel-color-rgb), 0.2);
         margin: 5px 0;
         background: var(--center-channel-bg);
