@@ -52,6 +52,18 @@ describe('components/PopoverListMembers', () => {
         sortedUsers: [{id: 'member_id_1'}, {id: 'member_id_2'}],
     };
 
+    const bottomProps = {
+        ...baseProps,
+        addMembersABTest: 'bottom',
+        channel: {...channel, delete_at: 0},
+    };
+
+    const topProps = {
+        ...baseProps,
+        addMembersABTest: 'top',
+        channel: {...channel, delete_at: 0},
+    };
+
     test('should match snapshot', () => {
         const wrapper = shallow(
             <PopoverListMembers {...baseProps}/>,
@@ -113,10 +125,8 @@ describe('components/PopoverListMembers', () => {
     });
 
     test('should place the Add button at the top when the flag for placement is TOP', () => {
-        const props = {...baseProps, addMembersABTest: 'top', channel: {...channel, delete_at: 0}};
-
         const wrapper = shallow(
-            <PopoverListMembers {...props}/>,
+            <PopoverListMembers {...topProps}/>,
         );
 
         const addBtn = wrapper.find('button#addBtn');
@@ -124,8 +134,8 @@ describe('components/PopoverListMembers', () => {
         expect(addBtn).toHaveLength(1);
     });
 
-    test('should SHOW the Add button when there are no permissions to manage members', () => {
-        const props = {...baseProps, addMembersABTest: 'top', channel: {...channel, delete_at: 0}, manageMembers: true};
+    test('should SHOW the Add button when there are permissions to manage members', () => {
+        const props = {...topProps, manageMembers: true};
 
         const wrapper = shallow(
             <PopoverListMembers {...props}/>,
@@ -137,7 +147,7 @@ describe('components/PopoverListMembers', () => {
     });
 
     test('should HIDE the Add button when there are no permissions to manage members', () => {
-        const props = {...baseProps, addMembersABTest: 'top', channel: {...channel, delete_at: 0}, manageMembers: false};
+        const props = {...topProps, manageMembers: false};
 
         const wrapper = shallow(
             <PopoverListMembers {...props}/>,
@@ -148,11 +158,32 @@ describe('components/PopoverListMembers', () => {
         expect(addBtn).toHaveLength(0);
     });
 
-    test('should place the edit button at the top when the flag for placement is BOTTOM', () => {
-        const props = {...baseProps, addMembersABTest: 'bottom', channel: {...channel, delete_at: 0}};
+    test('should SHOW the Add button when there are permissions to manage members and the placement is BOTTTOM', () => {
+        const props = {...bottomProps, manageMembers: true};
 
         const wrapper = shallow(
             <PopoverListMembers {...props}/>,
+        );
+
+        const addBtn = wrapper.find('.more-modal__button button').findWhere((button) => button.text() === 'Add Members');
+
+        expect(addBtn).toHaveLength(0);
+    });
+    test('should HIDE the Add button when there are no permissions to manage members and the placement is BOTTTOM', () => {
+        const props = {...bottomProps, manageMembers: false};
+
+        const wrapper = shallow(
+            <PopoverListMembers {...props}/>,
+        );
+
+        const addBtn = wrapper.find('.more-modal__button button').findWhere((button) => button.text() === 'Add Members');
+
+        expect(addBtn).toHaveLength(0);
+    });
+
+    test('should place the edit button at the top when the flag for placement is BOTTOM', () => {
+        const wrapper = shallow(
+            <PopoverListMembers {...bottomProps}/>,
         );
 
         const addBtn = wrapper.find('button#editBtn');
