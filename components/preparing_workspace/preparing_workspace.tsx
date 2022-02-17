@@ -76,7 +76,7 @@ type SubmissionState = typeof SubmissionStates[keyof typeof SubmissionStates];
 
 // We want an apparent total wait of at least two seconds
 // START_TRANSITIONING_OUT is how long the other side of the transitioning screen
-const WAIT_FOR_REDIRECT_TIME = 3000 - START_TRANSITIONING_OUT;
+const WAIT_FOR_REDIRECT_TIME = 2000 - START_TRANSITIONING_OUT;
 
 export type Actions = {
     createTeam: (team: Team) => ActionResult;
