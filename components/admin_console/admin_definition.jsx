@@ -2281,6 +2281,8 @@ const AdminDefinition = {
                        key: 'EmailSettings.SupportEmail',
                        label: t('admin.environment.notifications.supportEmail.label'),
                        label_default: 'Support Email Address:',
+                       placeholder: t('admin.environment.notifications.supportAddress.placeholder'),
+                       placeholder_default: 'Ex: "support@yourcompany.com", "admin@yourcompany.com"',
                        help_text: t('admin.environment.notifications.supportEmail.help'),
                        help_text_default: 'Email address displayed on support emails.',
                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
