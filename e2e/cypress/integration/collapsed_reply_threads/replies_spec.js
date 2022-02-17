@@ -135,27 +135,21 @@ describe('Collapsed Reply Threads', () => {
         cy.postMessageAs({sender: otherUser, message: 'another reply!', channelId: testChannel.id, rootId: postForAvatar.id});
 
         // # Get thread footer of last post and find avatars
-        cy.uiGetPostThreadFooter(postForAvatar.id).find('.Avatars').find('button').each(($el) => {
-            // # Click the avatar
-            cy.wrap($el).click();
+        cy.uiGetPostThreadFooter(postForAvatar.id).find('.Avatars').find('button').first().click();
 
-            // * Profile popover should be visible and close on ESC
-            cy.get('div.user-profile-popover').should('be.visible');
-            cy.get('div.user-profile-popover').type('{esc}');
-        });
+        // * Profile popover should be visible and close on ESC
+        cy.get('div.user-profile-popover').first().should('be.visible');
+        cy.get('div.user-profile-popover').first().type('{esc}');
 
         // # Visit global threads
         cy.uiClickSidebarItem('threads');
 
-        // * Find avatars
-        cy.get('article.ThreadItem').find('.activity').find('.Avatars').find('button').each(($el) => {
-            // # Click avatar
-            cy.wrap($el).click();
+        // * Find the first avatar and click it
+        cy.get('article.ThreadItem').find('.activity').find('.Avatars').find('button').first().click();
 
-            // * Profile popover should be visible and close on ESC
-            cy.get('div.user-profile-popover').should('be.visible');
-            cy.get('div.user-profile-popover').type('{esc}');
-        });
+        // * Profile popover should be visible and close on ESC
+        cy.get('div.user-profile-popover').first().should('be.visible');
+        cy.get('div.user-profile-popover').first().type('{esc}');
     });
 
     it('MM-T4143 Emoji reaction - type +:+1:', () => {
