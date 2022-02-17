@@ -36,6 +36,7 @@ type Props = {
     lhsOpen: boolean;
     rhsOpen: boolean;
     rhsMenuOpen: boolean;
+    isMobile: boolean;
     isCollapsedThreadsEnabled: boolean;
     currentUserId: string;
     enableTipsViewRoute: boolean;
@@ -74,7 +75,7 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const {lastChannelPath, isCollapsedThreadsEnabled, enableTipsViewRoute} = this.props;
+        const {lastChannelPath, isCollapsedThreadsEnabled, enableTipsViewRoute, isMobile} = this.props;
         const url = this.props.match.url;
         return (
             <div
@@ -87,7 +88,7 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
             >
                 <div className='row header'>
                     <div id='navbar_wrapper'>
-                        <ChannelHeaderMobile/>
+                        {isMobile ? <ChannelHeaderMobile/> : null}
                     </div>
                 </div>
                 <div className='row main'>

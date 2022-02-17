@@ -45,6 +45,7 @@ const mapStateToProps = (state: GlobalState, ownProps: Props) => {
         lhsOpen: getIsLhsOpen(state),
         rhsOpen: getIsRhsOpen(state),
         rhsMenuOpen: getIsRhsMenuOpen(state),
+        isMobile: state.views.channel.mobileView,
         isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
         currentUserId: getCurrentUserId(state),
         enableTipsViewRoute: enableOnboardingFlow && showNextSteps(state) && !(useCaseOnboarding && isFirstAdmin(state)),
