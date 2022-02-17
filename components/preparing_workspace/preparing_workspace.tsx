@@ -336,7 +336,7 @@ export default function PreparingWorkspace(props: Props) {
         ]));
 
         const sendFormEnd = Date.now();
-        const timeToWait = (sendFormEnd - sendFormStart) - WAIT_FOR_REDIRECT_TIME;
+        const timeToWait = WAIT_FOR_REDIRECT_TIME - (sendFormEnd - sendFormStart);
         if (timeToWait > 0) {
             setTimeout(goToChannels, timeToWait);
         } else {
