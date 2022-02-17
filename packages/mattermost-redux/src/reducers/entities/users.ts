@@ -56,7 +56,7 @@ function addProfileToSet(state: RelationOneToMany<Team, UserProfile>, id: string
         // both of those just in case
         if (Array.isArray(state[id]) && state[id].includes(userId)) {
             return state;
-        } else if ((state[id] as unknown as Set<string>).has(userId)) {
+        } else if (!Array.isArray(state[id]) && (state[id] as unknown as Set<string>).has(userId)) {
             return state;
         }
     }
@@ -89,7 +89,7 @@ function removeProfileFromSet(state: RelationOneToMany<Team, UserProfile>, actio
         // both of those just in case
         if (Array.isArray(state[id]) && !state[id].includes(userId)) {
             return state;
-        } else if (!(state[id] as unknown as Set<string>).has(userId)) {
+        } else if (!Array.isArray(state[id]) && !(state[id] as unknown as Set<string>).has(userId)) {
             return state;
         }
     }
