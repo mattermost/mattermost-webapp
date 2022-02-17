@@ -4,15 +4,14 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
+import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentUserId, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
-
 import {Channel} from 'mattermost-redux/types/channels';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {makeGetChannelUnreadCount} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-
 import {clearChannelSelection, multiSelectChannelAdd, multiSelectChannelTo} from 'actions/views/channel_sidebar';
 import {getFirstChannelName} from 'selectors/onboarding';
 import {isChannelSelected} from 'selectors/views/channel_sidebar';
@@ -23,7 +22,7 @@ import {
     OnboardingTasksName,
 } from 'components/onboarding_tasks';
 import {FINISHED, OnboardingTourSteps, TutorialTourName} from 'components/onboarding_tour';
-import {isFirstAdmin, showNextSteps} from 'components/next_steps_view/steps';
+import {showNextSteps} from 'components/next_steps_view/steps';
 
 import SidebarChannelLink from './sidebar_channel_link';
 

@@ -5,13 +5,12 @@ import {MutableRefObject, useEffect, useRef} from 'react';
 import {useSelector} from 'react-redux';
 import {useLocation} from 'react-router';
 
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {isModalOpen} from 'selectors/views/modals';
 import {GlobalState} from 'types/store';
 import {ProductComponent} from 'types/store/plugins';
-import {getCurrentProductId} from '../../utils/products';
-import {isFirstAdmin} from '../next_steps_view/steps';
+import {getCurrentProductId} from 'utils/products';
 
 const selectProducts = (state: GlobalState) => state.plugins.components.Product;
 
