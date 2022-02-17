@@ -17,8 +17,6 @@ describe('System Console', () => {
         // * Check if server has license for ID Loaded Push Notifications
         cy.apiRequireLicenseForFeature('IDLoadedPushNotifications');
 
-
-
         // # Update to default config
         cy.apiUpdateConfig({
             EmailSettings: {
@@ -90,28 +88,28 @@ describe('System Console', () => {
 
     it('MM-T1210+MM-41671 Can change Support Email setting', () => {
         // # Scroll Support Email section into view and verify that it's visible
-        cy.findByTestId('EmailSettings.SupportEmail').scrollIntoView().should('be.visible');
+        cy.findByTestId('SupportSettings.SupportEmail').scrollIntoView().should('be.visible');
 
         // * Verify that setting label is visible and matches text content
-        cy.findByTestId('EmailSettings.SupportEmaillabel').should('be.visible').and('have.text', 'Support Email Address:');
+        cy.findByTestId('SupportSettings.SupportEmaillabel').should('be.visible').and('have.text', 'Support Email Address:');
 
         // * Verify the Support Email input box has default value. The default value depends on the setup before running the test.
-        cy.findByTestId('EmailSettings.SupportEmailinput').should('have.value', origConfig.EmailSettings.SupportEmail);
+        cy.findByTestId('SupportSettings.SupportEmailinput').should('have.value', origConfig.EmailSettings.SupportEmail);
 
         // * Verify that the help text is visible and matches text content
-        cy.findByTestId('EmailSettings.SupportEmailhelp-text').find('span').should('be.visible').and('have.text', 'Email address displayed on support emails.');
+        cy.findByTestId('SupportSettings.SupportEmailhelp-text').find('span').should('be.visible').and('have.text', 'Email address displayed on support emails.');
 
         const newEmail = 'support@example.com';
 
         // * Verify that set value is visible and matches text
-        cy.findByTestId('EmailSettings.SupportEmail').find('input').clear().type(newEmail).should('have.value', newEmail);
+        cy.findByTestId('SupportSettings.SupportEmail').find('input').clear().type(newEmail).should('have.value', newEmail);
 
         // # Save setting
         cy.get('#saveSetting').click();
 
         // * Verify that the config is correctly saved in the server
         cy.apiGetConfig().then(({config}) => {
-            expect(config.EmailSettings.SupportEmail).to.equal(newEmail);
+            expect(config.SupportSettings.SupportEmail).to.equal(newEmail);
         });
     });
 });

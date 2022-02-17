@@ -451,7 +451,6 @@ export type EmailSettings = {
     FeedbackName: string;
     FeedbackEmail: string;
     ReplyToAddress: string;
-    SupportEmail: string;
     FeedbackOrganization: string;
     EnableSMTPAuth: boolean;
     SMTPUsername: string;
@@ -495,6 +494,7 @@ export type SupportSettings = {
     AboutLink: string;
     HelpLink: string;
     ReportAProblemLink: string;
+    SupportEmail: string;
     CustomTermsOfServiceEnabled: boolean;
     CustomTermsOfServiceReAcceptancePeriod: number;
 };

@@ -2278,7 +2278,7 @@ const AdminDefinition = {
                     },
                     {
                        type: Constants.SettingsTypes.TYPE_TEXT,
-                       key: 'EmailSettings.SupportEmail',
+                       key: 'SupportSettings.SupportEmail',
                        label: t('admin.environment.notifications.supportEmail.label'),
                        label_default: 'Support Email Address:',
                        placeholder: t('admin.environment.notifications.supportAddress.placeholder'),
