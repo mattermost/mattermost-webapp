@@ -57,6 +57,8 @@ describe('components/Menu', () => {
         pluginMenuItems: [],
         isMentionSearch: false,
         showGettingStarted: false,
+        useCaseOnboarding: false,
+        isFirstAdmin: false,
         intl: createIntl({locale: 'en', defaultLocale: 'en', timeZone: 'Etc/UTC', textComponent: 'span'}),
         showDueToStepsNotFinished: false,
         teamUrl: '/team',
