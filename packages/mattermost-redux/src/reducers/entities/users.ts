@@ -454,25 +454,31 @@ function profilesNotInGroup(state: RelationOneToMany<Group, UserProfile> = {}, a
     }
 }
 
+function saveToState<T>(state: Record<string, T>, key: string, value: T): Record<string, T> {
+    if (state[key] === value) {
+        return state;
+    }
+
+    return {
+        ...state,
+        [key]: value,
+    };
+}
+
 function statuses(state: RelationOneToOne<UserProfile, string> = {}, action: GenericAction) {
     switch (action.type) {
     case UserTypes.RECEIVED_STATUS: {
-        const nextState = Object.assign({}, state);
-        nextState[action.data.user_id] = action.data.status;
+        const userId = action.data.user_id;
+        const status = action.data.status;
 
-        return nextState;
+        return saveToState(state, userId, status);
     }
     case UserTypes.RECEIVED_STATUSES: {
-        const nextState = Object.assign({}, state);
+        const userStatuses: UserStatus[] = action.data;
 
-        for (const s of action.data) {
-            nextState[s.user_id] = s.status;
-        }
-
-        return nextState;
+        return userStatuses.reduce((nextState, userStatus) => saveToState(nextState, userStatus.user_id, userStatus.status), state);
     }
-    case UserTypes.LOGOUT_SUCCESS:
-        return {};
+
     case UserTypes.PROFILE_NO_LONGER_VISIBLE: {
         if (state[action.data.user_id]) {
             const newState = {...state};
@@ -481,33 +487,9 @@ function statuses(state: RelationOneToOne<UserProfile, string> = {}, action: Gen
         }
         return state;
     }
-    case UserTypes.RECEIVED_BATCHED_PROFILES_IN_CHANNEL: { // Used by the mobile app
-        const {data} = action;
-        if (data && data.length) {
-            const nextState = {...state};
-            const ids = new Set();
 
-            let hasNewStatuses = false;
-            data.forEach((d: any) => {
-                const {statuses: st} = d.data;
-                if (st && st.length) {
-                    st.forEach((u: UserStatus) => {
-                        if (!ids.has(u.user_id)) {
-                            ids.add(u.user_id);
-                            nextState[u.user_id] = u.status;
-                            hasNewStatuses = true;
-                        }
-                    });
-                }
-            });
-
-            if (hasNewStatuses) {
-                return nextState;
-            }
-        }
-
-        return state;
-    }
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
     default:
         return state;
     }
@@ -516,22 +498,17 @@ function statuses(state: RelationOneToOne<UserProfile, string> = {}, action: Gen
 function isManualStatus(state: RelationOneToOne<UserProfile, boolean> = {}, action: GenericAction) {
     switch (action.type) {
     case UserTypes.RECEIVED_STATUS: {
-        const nextState = Object.assign({}, state);
-        nextState[action.data.user_id] = action.data.manual;
+        const userId = action.data.user_id;
+        const manual = action.data.manual;
 
-        return nextState;
+        return saveToState(state, userId, manual);
     }
     case UserTypes.RECEIVED_STATUSES: {
-        const nextState = Object.assign({}, state);
+        const userStatuses: UserStatus[] = action.data;
 
-        for (const s of action.data) {
-            nextState[s.user_id] = s.manual;
-        }
-
-        return nextState;
+        return userStatuses.reduce((nextState, userStatus) => saveToState(nextState, userStatus.user_id, userStatus.manual || false), state);
     }
-    case UserTypes.LOGOUT_SUCCESS:
-        return {};
+
     case UserTypes.PROFILE_NO_LONGER_VISIBLE: {
         if (state[action.data.user_id]) {
             const newState = {...state};
@@ -540,6 +517,9 @@ function isManualStatus(state: RelationOneToOne<UserProfile, boolean> = {}, acti
         }
         return state;
     }
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
     default:
         return state;
     }
