@@ -23,17 +23,13 @@
         justify-content: center;
         white-space: nowrap;
 
-        > p {
-            overflow: hidden;
-            margin: 0;
-            text-overflow: ellipsis;
-        }
-
         > span {
+            overflow: hidden;
             font-size: 14px;
             font-style: normal;
             font-weight: 600;
             line-height: 20px;
+            text-overflow: ellipsis;
         }
 
         .annnouncementBar__purchaseNow,

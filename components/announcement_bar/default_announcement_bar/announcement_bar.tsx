@@ -39,7 +39,22 @@ type Props = {
     };
 }
 
-export default class AnnouncementBar extends React.PureComponent<Props> {
+type State = {
+    showTooltip: boolean;
+}
+
+export default class AnnouncementBar extends React.PureComponent<Props, State> {
+    messageRef: React.RefObject<HTMLDivElement>;
+    constructor(props: Props) {
+        super(props);
+
+        this.messageRef = React.createRef();
+
+        this.state = {
+            showTooltip: false,
+        };
+    }
+
     static defaultProps = {
         showCloseButton: false,
         color: '',
@@ -47,6 +62,16 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
         type: AnnouncementBarTypes.CRITICAL,
         showLinkAsButton: false,
         isTallBanner: false,
+    }
+
+    enableToolTipIfNeeded = () => {
+        const elm = this.messageRef.current;
+        if (elm) {
+            const enable = elm.offsetWidth < elm.scrollWidth;
+            this.setState({showTooltip: enable});
+            return;
+        }
+        this.setState({showTooltip: false});
     }
 
     componentDidMount() {
@@ -112,7 +137,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                 <FormattedMarkdownMessage id={this.props.message}/>
             );
         }
-        const announcementTooltip = (
+        const announcementTooltip = this.state.showTooltip && (
             <Tooltip id='announcement-bar__tooltip'>
                 {this.props.tooltipMsg ? this.props.tooltipMsg : message}
             </Tooltip>
@@ -135,7 +160,12 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                 >
                     <div className='announcement-bar__text'>
                         {this.props.icon ? this.props.icon : announcementIcon()}
-                        {message}
+                        <span
+                            ref={this.messageRef}
+                            onMouseEnter={this.enableToolTipIfNeeded}
+                        >
+                            {message}
+                        </span>
                         {
                             !this.props.showLinkAsButton &&
                             <span className='announcement-bar__link'>
