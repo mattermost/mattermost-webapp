@@ -995,7 +995,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
         let config = JSON.parse(JSON.stringify(this.props.config));
         config = this.getConfigFromState(config);
 
-        const {error} = await this.props.updateConfig(config, this.props.schema.id);
+        const {error} = await this.props.updateConfig(config);
         if (error) {
             this.setState({
                 serverError: error.message,

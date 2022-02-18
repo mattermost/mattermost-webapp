@@ -55,7 +55,7 @@ export function getConfig(): ActionFunc {
     });
 }
 
-export function updateConfig(config: Record<string, any>, schemaId?: string): ActionFunc {
+export function updateConfig(config: Record<string, any>): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.updateConfig,
         onRequest: AdminTypes.UPDATE_CONFIG_REQUEST,
@@ -63,7 +63,6 @@ export function updateConfig(config: Record<string, any>, schemaId?: string): Ac
         onFailure: AdminTypes.UPDATE_CONFIG_FAILURE,
         params: [
             config,
-            schemaId,
         ],
     });
 }

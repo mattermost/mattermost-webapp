@@ -128,7 +128,6 @@ const HEADER_REQUESTED_WITH = 'X-Requested-With';
 const HEADER_USER_AGENT = 'User-Agent';
 const HEADER_X_CLUSTER_ID = 'X-Cluster-Id';
 const HEADER_X_CSRF_TOKEN = 'X-CSRF-Token';
-const HEADER_X_SYS_SCHEMA_ID = 'X-Sys-Schema-Id';
 export const HEADER_X_VERSION_ID = 'X-Version-Id';
 const PER_PAGE_DEFAULT = 60;
 const LOGS_PER_PAGE_DEFAULT = 10000;
@@ -2823,16 +2822,10 @@ export default class Client4 {
         );
     };
 
-    updateConfig = (config: AdminConfig, schemaId?: string) => {
-        const request: any = {method: 'put', body: JSON.stringify(config)};
-
-        if (schemaId) {
-            request.headers = {[HEADER_X_SYS_SCHEMA_ID]: schemaId};
-        }
-
+    updateConfig = (config: AdminConfig) => {
         return this.doFetch<AdminConfig>(
             `${this.getBaseRoute()}/config`,
-            request,
+            {method: 'put', body: JSON.stringify(config)},
         );
     };
 
