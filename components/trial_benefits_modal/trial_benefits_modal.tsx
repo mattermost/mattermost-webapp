@@ -3,7 +3,7 @@
 
 import React, {useCallback, useEffect, useMemo} from 'react';
 import {useSelector} from 'react-redux';
-import {useIntl} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import moment from 'moment';
 
@@ -70,32 +70,6 @@ const TrialBenefitsModal = (
 
     const steps: TrialBenefitsModalStepProps[] = useMemo(() => [
         {
-            id: trialJustStarted ? 'trialStart' : 'postTrialStart',
-            title: trialJustStarted ? formatMessage({id: 'trial_benefits.modal.trialStarttitle', defaultMessage: 'Your trial has started! Explore the benefits of Enterprise'}) : formatMessage({id: 'trial_benefits.modal.postTrialStarttitle', defaultMessage: 'You are on the Enterprise plan! Explore the benefits of Enterprise'}),
-            description: trialJustStarted ? formatMessage(
-                {
-                    id: 'trial_benefits.modal.trialStartDescription',
-                    defaultMessage: 'Welcome to your Mattermost Enterprise trial! It expires on {trialExpirationDate}. Until then, enjoy the following benefits of Enterprise:',
-                },
-                {trialExpirationDate: trialEndDate},
-            ) : formatMessage(
-                {
-                    id: 'trial_benefits.modal.postTrialStartDescription',
-                    defaultMessage: 'Welcome to Enterprise! Your plan expires on {trialExpirationDate}. Until then, enjoy the following benefits of Enterprise:',
-                },
-                {trialExpirationDate: trialEndDate},
-            ),
-            svgWrapperClassName: 'handsSvg',
-            svgElement: (
-                <HandsSvg
-                    width={200}
-                    height={100}
-                />
-            ),
-            bottomLeftMessage: formatMessage({id: 'trial_benefits.modal.onlyVisibleToAdmins', defaultMessage: 'Only visible to admins'}),
-            buttonLabel: formatMessage({id: 'benefits_trial.modal.learnMore', defaultMessage: 'Learn More'}),
-        },
-        {
             id: 'guestAccess',
             title: formatMessage({id: 'trial_benefits.modal.guestAccessTitle', defaultMessage: 'Determine user access with Guest Accounts'}),
             description: formatMessage({id: 'trial_benefits.modal.guestAccessDescription', defaultMessage: 'Collaborate with users outside of your organization while tightly controlling their access channels and team members.'}),
@@ -151,7 +125,28 @@ const TrialBenefitsModal = (
             pageURL: '/playbooks/start',
             buttonLabel: formatMessage({id: 'trial_benefits.modal.playbooksButton', defaultMessage: 'Open Playbooks'}),
         },
-    ], [trialJustStarted, trialEndDate]);
+    ], [trialEndDate]);
+
+    // this declares the content shown just after the trial has started
+    const trialJustStartedDeclaration = {
+        id: 'trialStart',
+        title: formatMessage({id: 'trial_benefits.modal.trialStartTitle', defaultMessage: 'Your trial has started! Explore the benefits of Enterprise'}),
+        description: formatMessage(
+            {
+                id: 'trial_benefits.modal.trialStartDescription',
+                defaultMessage: 'Welcome to your Mattermost Enterprise trial! It expires on {trialExpirationDate}. You now have access to {guestAccounts}, {autoComplianceReports}, and {mobileSecureNotifications}, among many other features.',
+            },
+            {trialExpirationDate: trialEndDate},
+        ),
+        svgWrapperClassName: 'handsSvg',
+        svgElement: (
+            <HandsSvg
+                width={200}
+                height={100}
+            />
+        ),
+        bottomLeftMessage: formatMessage({id: 'trial_benefits.modal.onlyVisibleToAdmins', defaultMessage: 'Only visible to admins'}),
+    };
 
     const handleOnClose = useCallback(() => {
         if (onClose) {
@@ -181,13 +176,11 @@ const TrialBenefitsModal = (
         />
     )), [steps, handleOnClose]);
 
-    return (
-        <GenericModal
-            className='TrialBenefitsModal'
-            show={show}
-            id='trialBenefitsModal'
-            onExited={handleOnClose}
-        >
+    const content = () => {
+        if (trialJustStarted) {
+            return trialJustStartedSlide(trialJustStartedDeclaration);
+        }
+        return (
             <Carousel
                 dataSlides={getSlides()}
                 id={'trialBenefitsModalCarousel'}
@@ -195,7 +188,55 @@ const TrialBenefitsModal = (
                 onNextSlideClick={handleOnPrevNextSlideClick}
                 onPrevSlideClick={handleOnPrevNextSlideClick}
             />
+        );
+    };
+
+    return (
+        <GenericModal
+            className='TrialBenefitsModal'
+            show={show}
+            id='trialBenefitsModal'
+            onExited={handleOnClose}
+        >
+            {content()}
         </GenericModal>
+    );
+};
+
+const trialJustStartedSlide = (declaration: Omit<TrialBenefitsModalStepProps, 'pageURL' | 'buttonLabel'>) => {
+    const {id, title, description, svgWrapperClassName, svgElement, bottomLeftMessage} = declaration;
+    return (
+        <div
+            id={`trialBenefitsModalStep-${id}`}
+            className='TrialBenefitsModalStep slide-container'
+        >
+            <div className='title'>
+                {title}
+            </div>
+            <div className='description'>
+                {description}
+            </div>
+            <div className={`${svgWrapperClassName} svg-wrapper`}>
+                {svgElement}
+            </div>
+            <div className='buttons-section-wrapper'>
+                <a>
+                    <FormattedMessage
+                        id='trial_benefits_modal.trial_just_started.buttons.close'
+                        defaultMessage='Close'
+                    />
+                    <FormattedMessage
+                        id='trial_benefits_modal.trial_just_started.buttons.close'
+                        defaultMessage='Set up system console'
+                    />
+                </a>
+            </div>
+            {bottomLeftMessage && (
+                <div className='bottom-text-left-message'>
+                    {bottomLeftMessage}
+                </div>
+            )}
+        </div>
     );
 };
 
