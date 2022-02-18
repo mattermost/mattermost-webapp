@@ -5,8 +5,8 @@ exports[`components/admin_console/workspace-optimization/chips_list should match
   <Chip
     additionalMarkup={
       <Memo(MemoizedFormattedMessage)
-        defaultMessage="Problems: {count}"
-        id="admin.reporting.workspace_optimization.chip_problems"
+        defaultMessage="Suggestions: {count}"
+        id="admin.reporting.workspace_optimization.chip_suggestions"
         values={
           Object {
             "count": 3,
@@ -14,14 +14,14 @@ exports[`components/admin_console/workspace-optimization/chips_list should match
         }
       />
     }
-    className="2"
-    key="2"
+    className="info"
+    key="info"
   />
   <Chip
     additionalMarkup={
       <Memo(MemoizedFormattedMessage)
-        defaultMessage="Problems: {count}"
-        id="admin.reporting.workspace_optimization.chip_problems"
+        defaultMessage="Warnings: {count}"
+        id="admin.reporting.workspace_optimization.chip_warnings"
         values={
           Object {
             "count": 2,
@@ -29,8 +29,8 @@ exports[`components/admin_console/workspace-optimization/chips_list should match
         }
       />
     }
-    className="3"
-    key="3"
+    className="warning"
+    key="warning"
   />
   <Chip
     additionalMarkup={
@@ -44,8 +44,8 @@ exports[`components/admin_console/workspace-optimization/chips_list should match
         }
       />
     }
-    className="4"
-    key="4"
+    className="error"
+    key="error"
   />
 </Fragment>
 `;
