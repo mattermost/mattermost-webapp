@@ -16,6 +16,7 @@ describe('Collapsed Reply Threads', () => {
     let otherUser;
     let testChannel;
     let rootPost;
+    let postForAvatar;
 
     before(() => {
         cy.apiUpdateConfig({
@@ -41,6 +42,11 @@ describe('Collapsed Reply Threads', () => {
                     // # Post a message as other user
                     cy.postMessageAs({sender: otherUser, message: 'Root post', channelId: testChannel.id}).then((post) => {
                         rootPost = post;
+                    });
+
+                    // # Post a message as other user for clicking avatar test
+                    cy.postMessageAs({sender: otherUser, message: 'Root post for clicking avatar', channelId: testChannel.id}).then((post) => {
+                        postForAvatar = post;
                     });
                 });
             });
@@ -117,6 +123,33 @@ describe('Collapsed Reply Threads', () => {
 
         // * The sole thread item should have text in footer saying '1 new reply'
         cy.get('article.ThreadItem').find('.activity').should('have.text', '1 new reply');
+    });
+
+    it('MM-T4646 should open popover when avatar is clicked', () => {
+        cy.uiWaitUntilMessagePostedIncludes(postForAvatar.data.message);
+
+        // # Post a reply post as current user
+        cy.postMessageAs({sender: testUser, message: 'reply!', channelId: testChannel.id, rootId: postForAvatar.id});
+
+        // # Post another reply as other user
+        cy.postMessageAs({sender: otherUser, message: 'another reply!', channelId: testChannel.id, rootId: postForAvatar.id});
+
+        // # Get thread footer of last post and find avatars
+        cy.uiGetPostThreadFooter(postForAvatar.id).find('.Avatars').find('button').first().click();
+
+        // * Profile popover should be visible and close on ESC
+        cy.get('div.user-profile-popover').first().should('be.visible');
+        cy.get('div.user-profile-popover').first().type('{esc}');
+
+        // # Visit global threads
+        cy.uiClickSidebarItem('threads');
+
+        // * Find the first avatar and click it
+        cy.get('article.ThreadItem').find('.activity').find('.Avatars').find('button').first().click();
+
+        // * Profile popover should be visible and close on ESC
+        cy.get('div.user-profile-popover').first().should('be.visible');
+        cy.get('div.user-profile-popover').first().type('{esc}');
     });
 
     it('MM-T4143 Emoji reaction - type +:+1:', () => {

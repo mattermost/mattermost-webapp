@@ -29,6 +29,8 @@ describe('components/channel_view', () => {
             setShowNextStepsView: jest.fn(),
             getProfiles: jest.fn(),
         },
+        isFirstAdmin: false,
+        useCaseOnboarding: false,
     };
 
     it('Should match snapshot with base props', () => {

@@ -30,7 +30,7 @@ function mapStateToProps(state) {
     const taskListStatus = getBool(state, OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW);
     const isUserFirstAdmin = isFirstAdmin(state);
     const isMobileView = isMobile();
-    const showTaskList = isUserFirstAdmin && !taskListStatus && !isMobileView;
+    const showTaskList = isUserFirstAdmin && taskListStatus && !isMobileView;
 
     // Only intended to be true on first page load directly following completion of first admin setup.
     const showSetupTransitioning = isUserFirstAdmin && Boolean(getFirstChannelNameViews(state)) && getFirstAdminSetupCompleteSelector(state);
