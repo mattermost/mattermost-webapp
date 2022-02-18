@@ -178,8 +178,6 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         }),
     };
 
-    const learnMoreText = formatMessage({id: 'benefits_trial.modal.learnMore', defaultMessage: 'Learn More'});
-
     const overallScoreChips: ChipsInfoType = {
         [ItemStatus.INFO]: 0,
         [ItemStatus.WARNING]: 0,
@@ -226,7 +224,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                         <p>{item.description}</p>
                         <CtaButtons
                             learnMoreLink={item.infoUrl}
-                            learnMoreText={learnMoreText}
+                            learnMoreText={item.infoText}
                             actionLink={item.configUrl}
                             actionText={item.configText}
                         />

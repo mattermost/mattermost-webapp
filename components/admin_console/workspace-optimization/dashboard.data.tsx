@@ -12,7 +12,7 @@ import {
     ServerVariantIcon,
     ArrowUpBoldCircleOutlineIcon,
     TuneIcon,
-    LockIcon,
+    LockOutlineIcon,
     AccountMultipleOutlineIcon,
 } from '@mattermost/compass-icons/components';
 
@@ -51,6 +51,7 @@ type ItemModel = {
     configText?: string;
     telemetryAction?: string;
     infoUrl?: string;
+    infoText?: string;
 }
 
 type UpdatesParam = {
@@ -78,7 +79,7 @@ const useMetricsData = () => {
 
     const trialOrEnterpriseCtaConfig = {
         configUrl: canStartTrial ? ConsolePages.LICENSE : LicenseLinks.CONTACT_SALES,
-        configText: canStartTrial ? formatMessage({id: 'admin.reporting.workspace_optimization.cta.startTrial', defaultMessage: 'Start Trial'}) : formatMessage({id: 'admin.reporting.workspace_optimization.cta.upgradeLicense', defaultMessage: 'Contact Sales'}),
+        configText: canStartTrial ? formatMessage({id: 'admin.reporting.workspace_optimization.cta.startTrial', defaultMessage: 'Start trial'}) : formatMessage({id: 'admin.reporting.workspace_optimization.cta.upgradeLicense', defaultMessage: 'Contact Sales'}),
     };
 
     const getUpdatesData = (data: UpdatesParam) => ({
@@ -311,7 +312,7 @@ const useMetricsData = () => {
     const getDataPrivacyData = (data: DataPrivacyParam) => ({
         title: formatMessage({
             id: 'admin.reporting.workspace_optimization.data_privacy.title',
-            defaultMessage: 'Data Privacy',
+            defaultMessage: 'Data privacy',
         }),
         description: formatMessage({
             id: 'admin.reporting.workspace_optimization.data_privacy.description',
@@ -323,7 +324,7 @@ const useMetricsData = () => {
         }),
         icon: (
             <div className='icon'>
-                <LockIcon
+                <LockOutlineIcon
                     size={20}
                     color={'var(--sys-center-channel-color'}
                 />
@@ -338,7 +339,7 @@ const useMetricsData = () => {
                 }),
                 description: formatMessage({
                     id: 'admin.reporting.workspace_optimization.data_privacy.retention.description',
-                    defaultMessage: 'Organizations in highly regulated industries require more control and insight with their data. We recommend starting an Enterprise trial to take advantage of Mattermost Data Retention and Compliance features.',
+                    defaultMessage: 'Organizations in highly regulated industries require more control and insight with their data. We recommend enabling Data Retention and Compliance features.',
                 }),
                 ...(isLicensed ? {
                     configUrl: ConsolePages.DATA_RETENTION,
