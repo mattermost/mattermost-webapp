@@ -19,6 +19,7 @@ describe('components/channel_layout/CenterChannel', () => {
         match: {
             url: '/url',
         },
+        isMobile: false,
         currentUserId: 'testUserId',
         showNextSteps: false,
         isOnboardingHidden: true,
