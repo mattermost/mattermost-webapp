@@ -9,7 +9,6 @@ import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/ac
 import {GlobalState} from 'types/store';
 
 import {archiveGroup} from 'mattermost-redux/actions/groups';
-import {Group} from 'mattermost-redux/types/groups';
 import {ModalData} from 'types/actions';
 import {openModal} from 'actions/views/modals';
 import {getGroupListPermissions} from 'mattermost-redux/selectors/entities/roles';
