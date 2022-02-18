@@ -44,7 +44,7 @@ function mapStateToProps(state) {
         showTermsOfService,
         plugins,
         products,
-        showTaskList,
+        showTaskList: true,
         showSetupTransitioning,
     };
 }

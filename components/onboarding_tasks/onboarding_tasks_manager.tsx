@@ -6,9 +6,10 @@ import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {matchPath, useLocation} from 'react-router-dom';
 
-import {trackEvent as trackEventAction} from 'actions/telemetry_actions';
+import {trackEvent, trackEvent as trackEventAction} from 'actions/telemetry_actions';
 import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
 import {setStatusDropdown} from 'actions/views/status_dropdown';
+import {openModal} from 'actions/views/modals';
 import {
     AutoTourStatus,
     FINISHED,
@@ -16,6 +17,7 @@ import {
     TTNameMapToATStatusKey,
     TutorialTourName,
 } from 'components/onboarding_tour';
+import StartTrialModal from 'components/start_trial_modal';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
@@ -30,8 +32,10 @@ import {
     switchToChannels,
 } from 'actions/views/onboarding_tasks';
 
-import {OnboardingTaskCategory, OnboardingTaskList, OnboardingTasksName, TaskNameMapToSteps} from './constants';
+import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
+
 import {generateTelemetryTag} from './utils';
+import {OnboardingTaskCategory, OnboardingTaskList, OnboardingTasksName, TaskNameMapToSteps} from './constants';
 
 const getCategory = makeGetCategory();
 
@@ -75,6 +79,12 @@ const taskLabels = {
         <FormattedMessage
             id='onboardingTask.checklist.task_system_console'
             defaultMessage='Visit the System Console to configure your workspace'
+        />
+    ),
+    [OnboardingTasksName.START_TRIAL]: (
+        <FormattedMessage
+            id='onboarding_checklist.task_start_trial'
+            defaultMessage='Learn more about Enterprise-level high-security features'
         />
     ),
 };
@@ -220,6 +230,19 @@ export const useHandleOnBoardingTaskTrigger = () => {
             }];
             dispatch(savePreferences(currentUserId, preferences));
             window.open('https://mattermost.com/download/', '_blank', 'noopener,noreferrer');
+            break;
+        }
+        case OnboardingTasksName.START_TRIAL: {
+            trackEvent(
+                TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
+                'open_start_trial_modal',
+            );
+            dispatch(openModal({
+                modalId: ModalIdentifiers.START_TRIAL_MODAL,
+                dialogType: StartTrialModal,
+            }));
+
+            handleSaveData(taskName, TaskNameMapToSteps[taskName].FINISHED, true);
             break;
         }
         default:
