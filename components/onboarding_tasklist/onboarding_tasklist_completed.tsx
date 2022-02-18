@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+import React, {useEffect} from 'react';
 import {CSSTransition} from 'react-transition-group';
 import styled from 'styled-components';
 
@@ -15,6 +15,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 import {openModal} from 'actions/views/modals';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 
 import {isTrialLicense} from 'utils/license_utils';
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
@@ -79,6 +80,10 @@ const Completed = (props: Props): JSX.Element => {
 
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        dispatch(getPrevTrialLicense());
+    }, []);
+
     const prevTrialLicense = useSelector((state: GlobalState) => state.entities.admin.prevTrialLicense);
     const license = useSelector(getLicense);
     const isPrevLicensed = prevTrialLicense?.IsLicensed;
@@ -137,12 +142,24 @@ const Completed = (props: Props): JSX.Element => {
                     </p>
 
                     {showStartTrialBtn ? (
-                        <button onClick={openStartTrialModalAndDismiss}>
-                            <FormattedMessage
-                                id='start_trial.modal_btn.start'
-                                defaultMessage='Start free 30-day trial'
-                            />
-                        </button>
+                        <>
+                            <p>
+                                <FormattedMessage
+                                    id='ui'
+                                    defaultMessage='Interested in our higher-security features?'
+                                /> <br/>
+                                <FormattedMessage
+                                    id='ln'
+                                    defaultMessage='Start your free Enterprise trial now!'
+                                />
+                            </p>
+                            <button onClick={openStartTrialModalAndDismiss}>
+                                <FormattedMessage
+                                    id='start_trial.modal_btn.start'
+                                    defaultMessage='Start free 30-day trial'
+                                />
+                            </button>
+                        </>
 
                     ) : (
                         <button onClick={dismissAction}>
