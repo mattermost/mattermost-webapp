@@ -201,16 +201,6 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     help_text: 'escaped-help-text-a',
                     help_text_default: 'This is some help text for the first escaped field.',
                 },
-                {
-                    key: 'RequiredSettings.text',
-                    label: 'rs-t',
-                    label_default: 'Required Setting Text',
-                    type: 'text',
-                    default: '',
-                    isRequired: true,
-                    required_text: 'Required setting text is required'
-
-                },
             ],
         };
 

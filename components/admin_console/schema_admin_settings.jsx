@@ -366,13 +366,6 @@ export default class SchemaAdminSettings extends React.PureComponent {
         return Utils.localizeMessage(setting.label, setting.label_default);
     }
 
-    renderRequiredText = (setting) => {
-        if (setting.translate === false) {
-            return setting.required_text;
-        }
-        return Utils.localizeMessage(setting.required_text, setting.required_text_default);
-    }
-
     isDisabled = (setting) => {
         const enterpriseReady = this.props.config.BuildEnterpriseReady === 'true';
         if (typeof setting.isDisabled === 'function') {
@@ -386,13 +379,6 @@ export default class SchemaAdminSettings extends React.PureComponent {
             return setting.isHidden(this.props.config, this.state, this.props.license);
         }
         return Boolean(setting.isHidden);
-    }
-
-    isRequired = (setting) => {
-        if (typeof setting.isRequired === 'function') {
-            return setting.isRequired();
-        }
-        return Boolean(setting.isRequired);
     }
 
     buildButtonSetting = (setting) => {
@@ -462,6 +448,17 @@ export default class SchemaAdminSettings extends React.PureComponent {
             value = setting.dynamic_value(value, this.props.config, this.state, this.props.license);
         }
 
+        let footer = null;
+        if (setting.validate) {
+            const err = setting.validate(value).error();
+            footer = err ? (
+                <FormError
+                    type='backstrage'
+                    error={err}
+                />
+            ) : footer;
+        }
+
         return (
             <TextSetting
                 key={this.props.schema.id + '_text_' + setting.key}
@@ -475,8 +472,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleChange}
                 maxLength={setting.max_length}
-                required={this.isRequired(setting)}
-                requiredText={this.renderRequiredText(setting)}
+                footer={footer}
             />
         );
     }
@@ -1102,10 +1098,17 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 continue;
             }
 
-            if (this.isRequired(setting) && !this.state[setting.key]) {
-                return false;
+            if (setting.validate) {
+                const result = setting.validate(this.state[setting.key]);
+                if (!result.isValid()) {
+                    this.setState({clientWarning: result.error()});
+                    return false;
+                }
             }
         }
+        this.setState({
+            clientWarning: '',
+        });
 
         return true;
     }

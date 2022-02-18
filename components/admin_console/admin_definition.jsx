@@ -34,6 +34,7 @@ import LicenseSettings from './license_settings';
 import PermissionSchemesSettings from './permission_schemes_settings';
 import PermissionSystemSchemeSettings from './permission_schemes_settings/permission_system_scheme_settings';
 import PermissionTeamSchemeSettings from './permission_schemes_settings/permission_team_scheme_settings';
+import ValidationResult from './validation';
 import SystemRoles from './system_roles';
 import SystemRole from './system_roles/system_role';
 import SystemUsers from './system_users';
@@ -203,6 +204,10 @@ export const it = {
     userHasReadPermissionOnSomeResources: (key) => Object.values(key).some((resource) => it.userHasReadPermissionOnResource(resource)),
     userHasWritePermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.write?.[key],
     isSystemAdmin: (config, state, license, enterpriseReady, consoleAccess, icloud, isSystemAdmin) => isSystemAdmin,
+};
+
+export const validators = {
+    isRequired: (text, textDefault) => (value) => new ValidationResult(Boolean(value), text, textDefault),
 };
 
 const usesLegacyOauth = (config, state, license, enterpriseReady, consoleAccess, cloud) => {
@@ -2246,9 +2251,7 @@ const AdminDefinition = {
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTIFICATIONS)),
                             it.stateIsFalse('EmailSettings.SendEmailNotifications'),
                         ),
-                        isRequired: true,
-                        required_text: t('admin.environment.notifications.notificationDisplay.required'),
-                        required_text_default: '"Notification Display Name" is required',
+                        validate: validators.isRequired(t('admin.environment.notifications.notificationDisplay.required'), '"Notification Display Name" is required'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2264,9 +2267,7 @@ const AdminDefinition = {
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTIFICATIONS)),
                             it.stateIsFalse('EmailSettings.SendEmailNotifications'),
                         ),
-                        isRequired: true,
-                        required_text: t('admin.environment.notifications.feedbackEmail.required'),
-                        required_text_default: '"Notification From Address" is required',
+                        validate: validators.isRequired(t('admin.environment.notifications.feedbackEmail.required'), '"Notification From Address" is required'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2278,9 +2279,7 @@ const AdminDefinition = {
                         help_text: t('admin.environment.notifications.supportEmail.help'),
                         help_text_default: 'Email address displayed on support emails.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
-                        isRequired: true,
-                        required_text: t('admin.environment.notifications.supportEmail.required'),
-                        required_text_default: '"Support Email Address" is required',
+                        validate: validators.isRequired(t('admin.environment.notifications.supportEmail.required'), '"Support Email Address" is required'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,

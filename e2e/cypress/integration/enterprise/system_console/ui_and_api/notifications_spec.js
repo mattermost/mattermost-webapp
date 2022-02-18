@@ -11,8 +11,6 @@
 // Group: @enterprise @system_console
 
 describe('System Console', () => {
-    let origConfig;
-
     before(() => {
         // * Check if server has license for ID Loaded Push Notifications
         cy.apiRequireLicenseForFeature('IDLoadedPushNotifications');
@@ -27,8 +25,6 @@ describe('System Console', () => {
             SupportSettings: {
                 SupportEmail: 'support@mattertest.com',
             },
-        }).then(({config}) => {
-            origConfig = config;
         });
 
         // #  Visit Notifications admin console page

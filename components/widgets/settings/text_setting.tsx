@@ -22,8 +22,6 @@ export type WidgetTextSettingProps = {
     disabled?: boolean;
     type: InputTypes;
     autoFocus?: boolean;
-    required?: boolean;
-    requiredText?: React.ReactNode;
 }
 
 // Since handle change is read from input and textarea element
