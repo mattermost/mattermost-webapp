@@ -1,0 +1,18 @@
+{
+  "name": "@mattermost/client",
+  "version": "6.4.0-0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "27.0.6",
+    "nock": "13.2.1"
+  },
+  "dependencies": {
+    "form-data": "4.0.0"
+  }
+}
