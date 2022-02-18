@@ -102,11 +102,11 @@ describe('Selectors.Roles', () => {
     const group5 = TestHelper.fakeGroup('group5');
 
     const groups = {};
-    groups['group1'] = group1;
-    groups['group2'] = group2;
-    groups['group3'] = group3;
-    groups['group4'] = group4;
-    groups['group5'] = group5;
+    groups.group1 = group1;
+    groups.group2 = group2;
+    groups.group3 = group3;
+    groups.group4 = group4;
+    groups.group5 = group5;
 
     const testState = deepFreezeAndThrowOnMutation({
         entities: {
@@ -171,7 +171,7 @@ describe('Selectors.Roles', () => {
 
     it('should return my system permission on getMySystemPermissions', () => {
         assert.deepEqual(getMySystemPermissions(testState), new Set([
-            'user_role2', Permissions.EDIT_CUSTOM_GROUP, Permissions.CREATE_CUSTOM_GROUP, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS, Permissions.DELETE_CUSTOM_GROUP
+            'user_role2', Permissions.EDIT_CUSTOM_GROUP, Permissions.CREATE_CUSTOM_GROUP, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS, Permissions.DELETE_CUSTOM_GROUP,
         ]));
     });
 
@@ -182,7 +182,7 @@ describe('Selectors.Roles', () => {
 
     it('should return my team permission on getMyTeamPermissions', () => {
         assert.deepEqual(Selectors.getMyTeamPermissions(testState, team1.id), new Set([
-            'user_role2', 'team1_role1', Permissions.EDIT_CUSTOM_GROUP, Permissions.CREATE_CUSTOM_GROUP, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS, Permissions.DELETE_CUSTOM_GROUP
+            'user_role2', 'team1_role1', Permissions.EDIT_CUSTOM_GROUP, Permissions.CREATE_CUSTOM_GROUP, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS, Permissions.DELETE_CUSTOM_GROUP,
         ]));
     });
 
@@ -195,7 +195,7 @@ describe('Selectors.Roles', () => {
 
     it('should return my team permission on getMyCurrentTeamPermissions', () => {
         assert.deepEqual(Selectors.getMyCurrentTeamPermissions(testState), new Set([
-            'user_role2', 'team1_role1', Permissions.EDIT_CUSTOM_GROUP, Permissions.CREATE_CUSTOM_GROUP, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS, Permissions.DELETE_CUSTOM_GROUP
+            'user_role2', 'team1_role1', Permissions.EDIT_CUSTOM_GROUP, Permissions.CREATE_CUSTOM_GROUP, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS, Permissions.DELETE_CUSTOM_GROUP,
         ]));
     });
 
@@ -208,7 +208,7 @@ describe('Selectors.Roles', () => {
 
     it('should return my channel permission on getMyChannelPermissions', () => {
         assert.deepEqual(Selectors.getMyChannelPermissions(testState, team1.id, channel1.id), new Set([
-            'user_role2', 'team1_role1', 'channel_a_role1', 'channel_a_role2', Permissions.EDIT_CUSTOM_GROUP, Permissions.CREATE_CUSTOM_GROUP, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS, Permissions.DELETE_CUSTOM_GROUP
+            'user_role2', 'team1_role1', 'channel_a_role1', 'channel_a_role2', Permissions.EDIT_CUSTOM_GROUP, Permissions.CREATE_CUSTOM_GROUP, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS, Permissions.DELETE_CUSTOM_GROUP,
         ]));
     });
 
@@ -222,7 +222,7 @@ describe('Selectors.Roles', () => {
 
     it('should return my current channel permission on getMyCurrentChannelPermissions', () => {
         assert.deepEqual(Selectors.getMyCurrentChannelPermissions(testState), new Set([
-            'user_role2', 'team1_role1', 'channel_a_role1', 'channel_a_role2', Permissions.EDIT_CUSTOM_GROUP, Permissions.CREATE_CUSTOM_GROUP, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS, Permissions.DELETE_CUSTOM_GROUP
+            'user_role2', 'team1_role1', 'channel_a_role1', 'channel_a_role2', Permissions.EDIT_CUSTOM_GROUP, Permissions.CREATE_CUSTOM_GROUP, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS, Permissions.DELETE_CUSTOM_GROUP,
         ]));
     });
 
@@ -240,7 +240,7 @@ describe('Selectors.Roles', () => {
 
     it('should return group permissions on getMyGroupPermissions', () => {
         assert.deepEqual(Selectors.getMyGroupPermissions(testState, group1.id), new Set([
-            'user_role2', 'custom_group_user', Permissions.EDIT_CUSTOM_GROUP, Permissions.CREATE_CUSTOM_GROUP, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS, Permissions.DELETE_CUSTOM_GROUP
+            'user_role2', 'custom_group_user', Permissions.EDIT_CUSTOM_GROUP, Permissions.CREATE_CUSTOM_GROUP, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS, Permissions.DELETE_CUSTOM_GROUP,
         ]));
     });
 

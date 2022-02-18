@@ -60,7 +60,7 @@ export const getGroupListPermissions: (state: GlobalState) => Record<string, Gro
         const groups = Object.entries(allGroups).filter((entry) => (entry[1].allow_reference && entry[1].delete_at === 0)).map((entry) => entry[1]);
 
         const permissions = new Set<string>();
-        groups.forEach(group => {
+        groups.forEach((group) => {
             if (myGroupRoles[group.id!]) {
                 for (const roleName of myGroupRoles[group.id!]) {
                     if (roles[roleName]) {
@@ -71,11 +71,11 @@ export const getGroupListPermissions: (state: GlobalState) => Record<string, Gro
                 }
             }
         });
-        
+
         for (const permission of systemPermissions) {
             permissions.add(permission);
         }
-        
+
         const groupPermissionsMap: Record<string, GroupPermissions> = {};
         groups.forEach((g) => {
             groupPermissionsMap[g.id] = {

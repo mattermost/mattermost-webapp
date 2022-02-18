@@ -21,11 +21,7 @@ type Actions = {
     archiveGroup: (groupId: string) => Promise<ActionResult>;
 };
 
-type Props = {
-    groups: Group[];
-};
-
-function mapStateToProps(state: GlobalState, ownProps: Props) {
+function mapStateToProps(state: GlobalState) {
     const groupPermissionsMap = getGroupListPermissions(state);
     return {
         groupPermissionsMap,
