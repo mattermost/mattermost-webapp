@@ -125,7 +125,7 @@ const HEADER_REQUESTED_WITH = 'X-Requested-With';
 const HEADER_USER_AGENT = 'User-Agent';
 export const HEADER_X_CLUSTER_ID = 'X-Cluster-Id';
 const HEADER_X_CSRF_TOKEN = 'X-CSRF-Token';
-export const HEADER_X_VERSION_ID = 'X-Version-Id';
+const HEADER_X_VERSION_ID = 'X-Version-Id';
 
 const AUTOCOMPLETE_LIMIT_DEFAULT = 25;
 const PER_PAGE_DEFAULT = 60;

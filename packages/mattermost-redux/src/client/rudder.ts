@@ -6,7 +6,7 @@
 import * as rudderAnalytics from 'rudder-sdk-js';
 export {rudderAnalytics};
 
-import {TelemetryHandler} from './telemetry';
+import {TelemetryHandler} from '@mattermost/client/telemetry';
 
 export class RudderTelemetryHandler implements TelemetryHandler {
     trackEvent(userId: string, userRoles: string, category: string, event: string, props?: any) {
