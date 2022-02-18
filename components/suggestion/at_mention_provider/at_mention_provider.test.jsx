@@ -24,9 +24,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
 
     const baseParams = {
         currentUserId: 'userid1',
-        currentTeamId: 'teamid1',
-        currentChannelId: 'channelid1',
-        profilesInChannel: [userid10, userid3, userid1, userid2],
+        channelId: 'channelid1',
         autocompleteUsersInChannel: jest.fn().mockResolvedValue(false),
         autocompleteGroups: [groupid1, groupid2, groupid3],
         useChannelMentions: true,
@@ -78,6 +76,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
         };
 
         const provider = new AtMentionProvider(params);
+        jest.spyOn(provider, 'getProfilesWithLastViewAtInChannel').mockImplementation(() => [userid10, userid3, userid1, userid2]);
+
         const resultCallback = jest.fn();
         expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
 
@@ -212,6 +212,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
         };
 
         const provider = new AtMentionProvider(params);
+        jest.spyOn(provider, 'getProfilesWithLastViewAtInChannel').mockImplementation(() => [userid10, userid3, userid1, userid2]);
+
         const resultCallback = jest.fn();
         expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
 
@@ -353,10 +355,11 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                 userid11,
                 userid12,
             ],
-            profilesInChannel: [userid10, userid3, userid1, userid2, userid12],
         };
 
         const provider = new AtMentionProvider(params);
+        jest.spyOn(provider, 'getProfilesWithLastViewAtInChannel').mockImplementation(() => [userid10, userid3, userid1, userid2, userid12]);
+
         const resultCallback = jest.fn();
         expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
 
@@ -498,10 +501,11 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                 userid11,
                 userid12,
             ],
-            profilesInChannel: [userid10, {...userid3, last_viewed_at: 10}, {...userid1, last_viewed_at: 11}, userid2, userid12],
         };
 
         const provider = new AtMentionProvider(params);
+        jest.spyOn(provider, 'getProfilesWithLastViewAtInChannel').mockImplementation(() => [userid10, {...userid3, last_viewed_at: 10}, {...userid1, last_viewed_at: 11}, userid2, userid12]);
+
         const resultCallback = jest.fn();
         expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
 
@@ -611,6 +615,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
         };
 
         const provider = new AtMentionProvider(params);
+        jest.spyOn(provider, 'getProfilesWithLastViewAtInChannel').mockImplementation(() => [userid10, userid3, userid1, userid2]);
+
         const resultCallback = jest.fn();
         expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
 
@@ -692,6 +698,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
         };
 
         const provider = new AtMentionProvider(params);
+        jest.spyOn(provider, 'getProfilesWithLastViewAtInChannel').mockImplementation(() => [userid10, userid3, userid1, userid2]);
+
         const resultCallback = jest.fn();
         expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
 
@@ -760,6 +768,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
         };
 
         const provider = new AtMentionProvider(params);
+        jest.spyOn(provider, 'getProfilesWithLastViewAtInChannel').mockImplementation(() => [userid10, userid3, userid1, userid2]);
+
         const resultCallback = jest.fn();
         expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
 
@@ -831,6 +841,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
         };
 
         const provider = new AtMentionProvider(params);
+        jest.spyOn(provider, 'getProfilesWithLastViewAtInChannel').mockImplementation(() => [userid10, userid3, userid1, userid2]);
+
         const resultCallback = jest.fn();
         expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
 
@@ -889,6 +901,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
         };
 
         const provider = new AtMentionProvider(params);
+        jest.spyOn(provider, 'getProfilesWithLastViewAtInChannel').mockImplementation(() => [userid10, userid3, userid1, userid2]);
+
         const resultCallback = jest.fn();
         expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
 
@@ -947,6 +961,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
         };
 
         const provider = new AtMentionProvider(params);
+        jest.spyOn(provider, 'getProfilesWithLastViewAtInChannel').mockImplementation(() => [userid10, userid3, userid1, userid2]);
+
         const resultCallback = jest.fn();
         expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
 
@@ -1004,6 +1020,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
         };
 
         const provider = new AtMentionProvider(params);
+        jest.spyOn(provider, 'getProfilesWithLastViewAtInChannel').mockImplementation(() => [userid10, userid3, userid1, userid2]);
+
         const resultCallback = jest.fn();
         expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
 
@@ -1063,6 +1081,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
         };
 
         const provider = new AtMentionProvider(params);
+        jest.spyOn(provider, 'getProfilesWithLastViewAtInChannel').mockImplementation(() => [userid10, userid3, userid1, userid2]);
+
         const resultCallback = jest.fn();
         expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
 
@@ -1129,6 +1149,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
         };
 
         const provider = new AtMentionProvider(params);
+        jest.spyOn(provider, 'getProfilesWithLastViewAtInChannel').mockImplementation(() => [userid10, userid3, userid1, userid2]);
+
         const resultCallback = jest.fn();
         expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
 
@@ -1196,6 +1218,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
         };
 
         const provider = new AtMentionProvider(params);
+        jest.spyOn(provider, 'getProfilesWithLastViewAtInChannel').mockImplementation(() => [userid10, userid3, userid1, userid2]);
+
         const resultCallback = jest.fn();
         expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
 
@@ -1270,6 +1294,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
         };
 
         const provider = new AtMentionProvider(params);
+        jest.spyOn(provider, 'getProfilesWithLastViewAtInChannel').mockImplementation(() => [userid10, userid3, userid1, userid2]);
+
         const resultCallback = jest.fn();
         expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
 
@@ -1344,6 +1370,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
         };
 
         const provider = new AtMentionProvider(params);
+        jest.spyOn(provider, 'getProfilesWithLastViewAtInChannel').mockImplementation(() => [userid10, userid3, userid1, userid2]);
+
         const resultCallback = jest.fn();
         expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
 
@@ -1412,6 +1440,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
         };
 
         const provider = new AtMentionProvider(params);
+        jest.spyOn(provider, 'getProfilesWithLastViewAtInChannel').mockImplementation(() => [userid10, userid3, userid1, userid2]);
+
         const resultCallback = jest.fn();
         expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
 
@@ -1478,6 +1508,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
         };
 
         const provider = new AtMentionProvider(params);
+        jest.spyOn(provider, 'getProfilesWithLastViewAtInChannel').mockImplementation(() => [userid10, userid3, userid1, userid2]);
+
         const resultCallback = jest.fn();
         expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
 
@@ -1518,7 +1550,6 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
         const params = {
             ...baseParams,
             useChannelMentions: false,
-            profilesInChannel: [],
             autocompleteUsersInChannel: jest.fn().mockImplementation(() => new Promise((resolve) => {
                 resolve({data: {
                     users: [],
@@ -1533,6 +1564,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
         };
 
         const provider = new AtMentionProvider(params);
+        jest.spyOn(provider, 'getProfilesWithLastViewAtInChannel').mockImplementation(() => []);
+
         const resultCallback = jest.fn();
         expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
 
@@ -1551,6 +1584,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
     });
+
     it('should suggest for full group display name match "software engineers"', async () => {
         const pretext = '@software engineers';
         const matchedPretext = '@software engineers';
@@ -1574,6 +1608,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
         };
 
         const provider = new AtMentionProvider(params);
+        jest.spyOn(provider, 'getProfilesWithLastViewAtInChannel').mockImplementation(() => [userid10, userid3, userid1, userid2]);
+
         const resultCallback = jest.fn();
         expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
 
