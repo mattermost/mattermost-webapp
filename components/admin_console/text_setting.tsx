@@ -4,6 +4,7 @@
 import React from 'react';
 
 import TextSetting, {WidgetTextSettingProps} from 'components/widgets/settings/text_setting';
+import FormError from 'components/form_error';
 
 import SetByEnv from './set_by_env';
 
@@ -12,17 +13,28 @@ interface Props extends WidgetTextSettingProps {
     disabled?: boolean;
 }
 
-const AdminTextSetting: React.SFC<Props> = (props: Props): JSX.Element => {
-    const {setByEnv, disabled, ...sharedProps} = props;
+const AdminTextSetting: React.FunctionComponent<Props> = (props: Props): JSX.Element => {
+    const {setByEnv, disabled, required, requiredText, value, ...sharedProps} = props;
     const isTextDisabled = disabled || setByEnv;
+
+    let footer = (required && !value) ? (
+        <FormError
+            error={requiredText}
+            type='backstage'
+        />
+    ) : null;
+    if (setByEnv) {
+        footer = <SetByEnv/>;
+    }
 
     return (
         <TextSetting
             {...sharedProps}
+            value={value}
             labelClassName='col-sm-4'
             inputClassName='col-sm-8'
             disabled={isTextDisabled}
-            footer={setByEnv ? <SetByEnv/> : null}
+            footer={footer}
         />
     );
 };

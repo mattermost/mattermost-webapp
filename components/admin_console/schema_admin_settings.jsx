@@ -366,6 +366,13 @@ export default class SchemaAdminSettings extends React.PureComponent {
         return Utils.localizeMessage(setting.label, setting.label_default);
     }
 
+    renderRequiredText = (setting) => {
+        if (setting.translate === false) {
+            return setting.required_text;
+        }
+        return Utils.localizeMessage(setting.required_text, setting.required_text_default);
+    }
+
     isDisabled = (setting) => {
         const enterpriseReady = this.props.config.BuildEnterpriseReady === 'true';
         if (typeof setting.isDisabled === 'function') {
@@ -379,6 +386,13 @@ export default class SchemaAdminSettings extends React.PureComponent {
             return setting.isHidden(this.props.config, this.state, this.props.license);
         }
         return Boolean(setting.isHidden);
+    }
+
+    isRequired = (setting) => {
+        if (typeof setting.isRequired === 'function') {
+            return setting.isRequired();
+        }
+        return Boolean(setting.isRequired);
     }
 
     buildButtonSetting = (setting) => {
@@ -461,6 +475,8 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleChange}
                 maxLength={setting.max_length}
+                required={this.isRequired(setting)}
+                requiredText={this.renderRequiredText(setting)}
             />
         );
     }
@@ -1073,6 +1089,25 @@ export default class SchemaAdminSettings extends React.PureComponent {
             );
         }
         return null;
+    }
+
+    canSave = () => {
+        if (!this.props.schema || !this.props.schema.settings) {
+            return true;
+        }
+
+        for (const setting of this.props.schema.settings) {
+            // don't validate elements set by env.
+            if (this.isSetByEnv(setting.key)) {
+                continue;
+            }
+
+            if (this.isRequired(setting) && !this.state[setting.key]) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     render = () => {
