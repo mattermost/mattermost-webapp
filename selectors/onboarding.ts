@@ -23,11 +23,10 @@ const getFirstChannelNamePref = createSelector(
     },
 );
 
-export function getFirstChannelName(state: GlobalState) {
-    let firstChannelName = state.views.channelSidebar.firstChannelName;
-    if (!firstChannelName) {
-        firstChannelName = getFirstChannelNamePref(state)?.value || '';
-    }
+export function getFirstChannelNameViews(state: GlobalState) {
+    return state.views.channelSidebar.firstChannelName;
+}
 
-    return firstChannelName;
+export function getFirstChannelName(state: GlobalState) {
+    return getFirstChannelNameViews(state) || getFirstChannelNamePref(state)?.value || '';
 }

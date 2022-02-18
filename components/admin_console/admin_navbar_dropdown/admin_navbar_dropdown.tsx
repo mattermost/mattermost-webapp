@@ -9,7 +9,7 @@ import {Team} from 'mattermost-redux/types/teams';
 import * as GlobalActions from 'actions/global_actions';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
-import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
+import {filterAndSortTeamsByDisplayName} from 'utils/team_utils';
 import {ModalIdentifiers} from 'utils/constants';
 import {t} from 'utils/i18n';
 
