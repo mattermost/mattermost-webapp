@@ -24,6 +24,8 @@ interface Props {
     subtitleValues?: Record<string, ReactNode>;
     style?: CSSProperties;
     layout?: NoResultsLayout;
+    titleClassName?: string;
+    subtitleClassName?: string;
 }
 
 const iconMap: {[key in NoResultsVariant]: React.ReactNode } = {
@@ -103,6 +105,8 @@ const NoResultsIndicator = ({
         />
     ) : null,
     layout = NoResultsLayout.Vertical,
+    titleClassName,
+    subtitleClassName,
 }: Props) => {
     let content = (
         <div
@@ -115,13 +119,13 @@ const NoResultsIndicator = ({
                 className='no-results__text-container'
             >
                 {title && (
-                    <h3 className={classNames('no-results__title', {'only-title': !subtitle})}>
+                    <h3 className={classNames('no-results__title', {'only-title': !subtitle}, titleClassName)}>
                         {title}
                     </h3>
                 )}
 
                 {subtitle && (
-                    <div className='no-results__subtitle'>
+                    <div className={classNames('no-results__subtitle', subtitleClassName)}>
                         {subtitle}
                     </div>
                 )}

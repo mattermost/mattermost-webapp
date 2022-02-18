@@ -105,6 +105,7 @@ function VirtualizedThreadList({
                                 itemSize={133}
                                 style={style}
                                 width={width}
+                                className='virtualized-thread-list'
                             >
                                 {Row}
                             </FixedSizeList>
@@ -120,7 +121,9 @@ function VirtualizedThreadList({
 function areEqual(prevProps: Props, nextProps: Props) {
     return (
         prevProps.selectedThreadId === nextProps.selectedThreadId &&
-        prevProps.ids.join() === nextProps.ids.join()
+        prevProps.ids.join() === nextProps.ids.join() &&
+        prevProps.isLoading === nextProps.isLoading &&
+        prevProps.hasLoaded === nextProps.hasLoaded
     );
 }
 

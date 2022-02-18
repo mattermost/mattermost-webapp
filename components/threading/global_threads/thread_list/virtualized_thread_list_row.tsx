@@ -11,10 +11,11 @@ import LoadingScreen from 'components/loading_screen';
 import NoResultsIndicator from 'components/no_results_indicator';
 import {NoResultsLayout} from 'components/no_results_indicator/types';
 import {SearchShortcut} from 'components/search_shortcut/search_shortcut';
+import {ShortcutKeyVariant} from 'components/shortcut_key';
 
 import {Constants} from 'utils/constants';
 
-import SearchPostsIllustration from '../../common/search_posts_illustration';
+import SearchHintSVG from 'components/common/svg_images_components/search_hint_svg';
 import ThreadItem from '../thread_item';
 
 type Props = {
@@ -42,8 +43,8 @@ function Row({index, style, data}: Props) {
     if (itemId === Constants.THREADS_NO_RESULTS_ITEM_ID) {
         return (
             <NoResultsIndicator
-                style={{...style, padding: '18px 18px 18px 28px', background: 'rgba(var(--center-channel-color-rgb), 0.04)'}}
-                iconGraphic={SearchPostsIllustration}
+                style={{...style, padding: '16px 16px 16px 24px', background: 'rgba(var(--center-channel-color-rgb), 0.04)'}}
+                iconGraphic={<SearchHintSVG/>}
                 title={
                     <FormattedMessage
                         id='globalThreads.searchGuidance.title'
@@ -55,10 +56,17 @@ function Row({index, style, data}: Props) {
                         id='globalThreads.searchGuidance.subtitle'
                         defaultMessage='If you’re looking for older conversations, try searching with {searchShortcut}'
                         values={{
-                            searchShortcut: <SearchShortcut/>,
+                            searchShortcut: (
+                                <SearchShortcut
+                                    className='thread-no-results-subtitle-shortcut'
+                                    variant={ShortcutKeyVariant.TutorialTip}
+                                />
+                            ),
                         }}
                     />
                 }
+                titleClassName='thread-no-results-title'
+                subtitleClassName='thread-no-results-subtitle'
                 layout={NoResultsLayout.Horizontal}
             />
         );
