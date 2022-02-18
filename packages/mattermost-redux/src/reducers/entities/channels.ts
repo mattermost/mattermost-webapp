@@ -257,6 +257,9 @@ function channelsInTeam(state: RelationOneToMany<Team, Channel> = {}, action: Ge
     switch (action.type) {
     case ChannelTypes.RECEIVED_CHANNEL: {
         const nextSet = new Set(state[action.data.team_id]);
+        if (nextSet.has(action.data.id)) {
+            return state;
+        }
         nextSet.add(action.data.id);
         return {
             ...state,

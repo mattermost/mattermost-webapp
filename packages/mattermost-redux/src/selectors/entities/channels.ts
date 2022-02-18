@@ -549,8 +549,6 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
     getAllChannels,
     getMyChannelMemberships,
     getChannelMessageCounts,
-    getUsers,
-    getCurrentUserId,
     getCurrentTeamId,
     getMyTeams,
     getTeamMemberships,
@@ -561,8 +559,6 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
         channels,
         myMembers,
         messageCounts,
-        users,
-        currentUserId,
         currentTeamId,
         myTeams,
         myTeamMemberships,
@@ -589,7 +585,7 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
                 return counts;
             }
 
-            const channelExists = channel.type === General.DM_CHANNEL ? users[getUserIdFromChannelName(currentUserId, channel.name)]?.delete_at === 0 : channel.delete_at === 0;
+            const channelExists = channel.delete_at === 0;
             if (!channelExists) {
                 return counts;
             }

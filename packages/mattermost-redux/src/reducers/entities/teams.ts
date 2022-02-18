@@ -160,6 +160,10 @@ function myMembers(state: RelationOneToOne<Team, TeamMembership> = {}, action: G
         const {teamId, amount, amountRoot, onlyMentions} = action.data;
         const member = state[teamId];
 
+        if (amount === 0 && amountRoot === 0) {
+            return state;
+        }
+
         if (!member) {
             // Don't keep track of unread posts until we've loaded the actual team member
             return state;
@@ -182,6 +186,10 @@ function myMembers(state: RelationOneToOne<Team, TeamMembership> = {}, action: G
         const {teamId, amount, amountRoot} = action.data;
         const member = state[teamId];
 
+        if (amount === 0 && amountRoot === 0) {
+            return state;
+        }
+
         if (!member) {
             // Don't keep track of unread posts until we've loaded the actual team member
             return state;
@@ -200,6 +208,10 @@ function myMembers(state: RelationOneToOne<Team, TeamMembership> = {}, action: G
         const {teamId, amount, amountRoot} = action.data;
         const member = state[teamId];
 
+        if (amount === 0 && amountRoot === 0) {
+            return state;
+        }
+
         if (!member) {
             // Don't keep track of unread posts until we've loaded the actual team member
             return state;
@@ -217,6 +229,10 @@ function myMembers(state: RelationOneToOne<Team, TeamMembership> = {}, action: G
     case ChannelTypes.DECREMENT_UNREAD_MENTION_COUNT: {
         const {teamId, amount, amountRoot} = action.data;
         const member = state[teamId];
+
+        if (amount === 0 && amountRoot === 0) {
+            return state;
+        }
 
         if (!member) {
             // Don't keep track of unread posts until we've loaded the actual team member
