@@ -52,7 +52,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     const [versionData, setVersionData] = useState<{type: string; version: string; status: ItemStatus}>({type: '', version: '', status: ItemStatus.NONE});
 
     // const [guestAccountStatus, setGuestAccountStatus] = useState<ItemStatus>('none');
-    const [liveUrlStatus, setLiveUrlStatus] = useState<ItemStatus>(ItemStatus.NONE);
+    const [liveUrlStatus, setLiveUrlStatus] = useState<ItemStatus>(ItemStatus.ERROR);
     const {formatMessage} = useIntl();
     const {getAccessData, getConfigurationData, getUpdatesData, getPerformanceData, getDataPrivacyData, getEaseOfManagementData} = useMetricsData();
 
@@ -75,9 +75,13 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     const dataRetentionEnabled = DataRetentionSettings?.EnableMessageDeletion || DataRetentionSettings?.EnableFileDeletion;
 
     const testURL = () => {
+        if (!ServiceSettings?.SiteURL) {
+            return Promise.resolve();
+        }
+
         const onSuccess = ({status}: any) => setLiveUrlStatus(status === 'OK' ? ItemStatus.OK : ItemStatus.ERROR);
         const onError = () => setLiveUrlStatus(ItemStatus.ERROR);
-        return testSiteURL(onSuccess, onError, location.origin);
+        return testSiteURL(onSuccess, onError, ServiceSettings?.SiteURL);
     };
 
     const fetchVersion = async () => {
