@@ -2,9 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-
+import moment from 'moment';
 import {useIntl} from 'react-intl';
-
 import {useSelector} from 'react-redux';
 
 import {
@@ -74,8 +73,14 @@ const useMetricsData = () => {
     const {formatMessage} = useIntl();
     const prevTrialLicense = useSelector((state: GlobalState) => state.entities.admin.prevTrialLicense);
     const license = useSelector((state: GlobalState) => getLicense(state));
-    const canStartTrial = license?.IsLicensed === 'false' && prevTrialLicense?.IsLicensed === 'false';
-    const isLicensed = license?.IsLicensed === 'true';
+
+    const canStartTrial = !license?.IsLicensed && !prevTrialLicense?.IsLicensed;
+
+    const today = moment(Date.now());
+    const endOfLicense = moment(new Date(parseInt(license?.ExpiresAt, 10)));
+    const daysToEndLicense = endOfLicense.diff(today, 'days');
+
+    const isLicensed = license?.IsLicensed === 'true' && daysToEndLicense > 0;
 
     const trialOrEnterpriseCtaConfig = {
         configUrl: canStartTrial ? ConsolePages.LICENSE : LicenseLinks.CONTACT_SALES,
@@ -399,7 +404,7 @@ const useMetricsData = () => {
                 }),
                 ...(isLicensed ? {
                     configUrl: ConsolePages.AD_LDAP,
-                    configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.configureLDAP', defaultMessage: 'Configure AD/LDAP'}),
+                    configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.configureLDAP', defaultMessage: 'Try AD/LDAP'}),
                 } : trialOrEnterpriseCtaConfig),
                 infoUrl: DocLinks.AD_LDAP,
                 infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),
@@ -432,7 +437,7 @@ const useMetricsData = () => {
         ],
     });
 
-    return {getAccessData, getConfigurationData, getUpdatesData, getPerformanceData, getDataPrivacyData, getEaseOfManagementData};
+    return {getAccessData, getConfigurationData, getUpdatesData, getPerformanceData, getDataPrivacyData, getEaseOfManagementData, isLicensed};
 };
 
 export {DataModel, ItemModel, ItemStatus};

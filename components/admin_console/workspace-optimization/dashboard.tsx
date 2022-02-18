@@ -13,7 +13,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {getServerVersion} from 'mattermost-redux/selectors/entities/general';
 import Accordion, {AccordionItemType} from 'components/common/accordion/accordion';
 
-import {elasticsearchTest, testSiteURL} from '../../../actions/admin_actions';
+import {elasticsearchTest, ldapTest, testSiteURL} from '../../../actions/admin_actions';
 import LoadingScreen from '../../loading_screen';
 import FormattedAdminHeader from '../../widgets/admin_console/formatted_admin_header';
 import {Props} from '../admin_console';
@@ -54,8 +54,9 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     // const [guestAccountStatus, setGuestAccountStatus] = useState<ItemStatus>('none');
     const [liveUrlStatus, setLiveUrlStatus] = useState<ItemStatus>(ItemStatus.ERROR);
     const [elastisearchStatus, setElasticsearchStatus] = useState<ItemStatus>(ItemStatus.INFO);
+    const [ldapStatus, setLdapStatus] = useState<ItemStatus>(ItemStatus.INFO);
     const {formatMessage} = useIntl();
-    const {getAccessData, getConfigurationData, getUpdatesData, getPerformanceData, getDataPrivacyData, getEaseOfManagementData} = useMetricsData();
+    const {getAccessData, getConfigurationData, getUpdatesData, getPerformanceData, getDataPrivacyData, getEaseOfManagementData, isLicensed} = useMetricsData();
 
     // get the currently installed server version
     const installedVersion = useSelector((state: GlobalState) => getServerVersion(state));
@@ -68,6 +69,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         DataRetentionSettings,
         ComplianceSettings,
         ElasticsearchSettings,
+        LdapSettings,
 
         // TeamSettings,
         // GuestAccountsSettings,
@@ -75,7 +77,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     const {location} = document;
 
     const sessionLengthWebInDays = ServiceSettings?.SessionLengthWebInDays || -1;
-    const dataRetentionEnabled = (Boolean(DataRetentionSettings?.EnableMessageDeletion) || Boolean(DataRetentionSettings?.EnableFileDeletion)) && Boolean(ComplianceSettings?.Enable);
+    const dataRetentionEnabled = isLicensed && (DataRetentionSettings?.EnableMessageDeletion || DataRetentionSettings?.EnableFileDeletion) && ComplianceSettings?.Enable;
 
     const testURL = () => {
         if (!ServiceSettings?.SiteURL) {
@@ -131,7 +133,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     };
 
     const testElasticsearch = () => {
-        if (!ElasticsearchSettings?.EnableSearching) {
+        if (!isLicensed || !ElasticsearchSettings?.EnableSearching) {
             return Promise.resolve();
         }
 
@@ -139,6 +141,17 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         const onError = () => setElasticsearchStatus(ItemStatus.INFO);
 
         return elasticsearchTest(props.config, onSuccess, onError);
+    };
+
+    const testLdap = () => {
+        if (!isLicensed || !LdapSettings?.Enable) {
+            return Promise.resolve();
+        }
+
+        const onSuccess = ({status}: any) => setLdapStatus(status === 'OK' ? ItemStatus.OK : ItemStatus.INFO);
+        const onError = () => setLdapStatus(ItemStatus.INFO);
+
+        return ldapTest(onSuccess, onError);
     };
 
     // commented out for now.
@@ -166,6 +179,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     useEffect(() => {
         const promises = [];
         promises.push(testURL());
+        promises.push(testLdap());
         promises.push(fetchVersion());
         promises.push(testElasticsearch());
 
@@ -187,7 +201,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         }),
         dataPrivacy: getDataPrivacyData({retention: {status: dataRetentionEnabled ? ItemStatus.OK : ItemStatus.INFO}}),
         easyManagement: getEaseOfManagementData({
-            ldap: {status: totalUsers > 100 ? ItemStatus.INFO : ItemStatus.OK},
+            ldap: {status: totalUsers < 100 ? ItemStatus.OK : ldapStatus},
 
             // guestAccounts: {status: guestAccountStatus},
         }),
