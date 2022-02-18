@@ -84,7 +84,7 @@ const useMetricsData = () => {
     const getUpdatesData = (data: UpdatesParam) => ({
         title: formatMessage({
             id: 'admin.reporting.workspace_optimization.updates.title',
-            defaultMessage: 'Server updates',
+            defaultMessage: 'Server Updates',
         }),
         description: formatMessage({
             id: 'admin.reporting.workspace_optimization.updates.description',
@@ -92,13 +92,13 @@ const useMetricsData = () => {
         }),
         descriptionOk: formatMessage({
             id: 'admin.reporting.workspace_optimization.updates.descriptionOk',
-            defaultMessage: 'Your workspace is using the latest version of Mattermost!',
+            defaultMessage: 'Your workspace is completely up to date!',
         }),
         icon: (
             <div className='icon'>
                 <ArrowUpBoldCircleOutlineIcon
-                    size={22}
-                    color={'var(--sys-center-channel-color'}
+                    size={20}
+                    color={'var(--sys-center-channel-color)'}
                 />
             </div>
         ),
@@ -110,17 +110,19 @@ const useMetricsData = () => {
                     defaultMessage: 'Your Mattermost server is running the latest version',
                 }) : formatMessage({
                     id: 'admin.reporting.workspace_optimization.updates.server_version.status.error.title',
-                    defaultMessage: '{type} version update available',
+                    defaultMessage: '{type} version update available.',
                 }, {type: data.serverVersion.type}),
                 description: data.serverVersion.status === ItemStatus.OK ? formatMessage({
                     id: 'admin.reporting.workspace_optimization.updates.server_version.status.ok.description',
-                    defaultMessage: 'Placeholder: Nothing to do here. All good!',
+                    defaultMessage: 'Placeholder: Your s',
                 }) : formatMessage({
                     id: 'admin.reporting.workspace_optimization.updates.server_version.status.error.description',
-                    defaultMessage: 'We recommend upgrading your Mattermost server to {version}.',
+                    defaultMessage: 'Placeholder: We recommend upgrading your Mattermost server to {version}.',
                 }, {version: data.serverVersion.version}),
                 configUrl: DocLinks.UPGRADE_SERVER,
-                configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.downloadUpdate', defaultMessage: 'Download Update'}),
+                configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.downloadUpdate', defaultMessage: 'Download update'}),
+                infoUrl: DocLinks.UPGRADE_SERVER,
+                infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),
                 telemetryAction: 'server-version',
                 status: data.serverVersion.status,
                 scoreImpact: 15,
@@ -145,7 +147,7 @@ const useMetricsData = () => {
         }),
         description: formatMessage({
             id: 'admin.reporting.workspace_optimization.configuration.description',
-            defaultMessage: 'You have configuration problems to resolve',
+            defaultMessage: 'You have configuration issues to resolve',
         }),
         descriptionOk: formatMessage({
             id: 'admin.reporting.workspace_optimization.configuration.descriptionOk',
@@ -155,7 +157,7 @@ const useMetricsData = () => {
             <div className='icon'>
                 <TuneIcon
                     size={20}
-                    color={'var(--sys-center-channel-color'}
+                    color={'var(--sys-center-channel-color)'}
                 />
             </div>
         ),
@@ -168,7 +170,7 @@ const useMetricsData = () => {
                 }),
                 description: formatMessage({
                     id: 'admin.reporting.workspace_optimization.configuration.ssl.description',
-                    defaultMessage: 'Make your server more secure by configuring SSL.',
+                    defaultMessage: 'We strongly recommend securing your Mattermost workspace by configuring SSL in production environments.',
                 }),
                 infoUrl: DocLinks.SSL_CERTIFICATE,
                 infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),
@@ -181,14 +183,16 @@ const useMetricsData = () => {
                 id: 'session-length',
                 title: formatMessage({
                     id: 'admin.reporting.workspace_optimization.configuration.session_length.title',
-                    defaultMessage: 'Session length is still set to defaults',
+                    defaultMessage: 'Session lengths is set to default',
                 }),
                 description: formatMessage({
                     id: 'admin.reporting.workspace_optimization.configuration.session_length.description',
-                    defaultMessage: 'Your session length is still set to the default of 30 days (or higher). Most servers adjust this according to their organizations needs. To provide more convenience to your users consider increasing the lengths, however if tighter security is more top of mind then pick a length that better aligns with your organizations policies.',
+                    defaultMessage: 'Your session length is set to the default of 30 days. A longer session length provides convenience, and a shorter session provides tighter security. We recommend adjusting this based on your organization\'s security policies.',
                 }),
                 configUrl: ConsolePages.SESSION_LENGTHS,
-                configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.configureSessionLength', defaultMessage: 'Configure Session Length'}),
+                configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.configureSessionLength', defaultMessage: 'Configure session length'}),
+                infoUrl: DocLinks.SESSION_LENGTHS,
+                infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),
                 telemetryAction: 'session-length',
                 status: data.sessionLength.status,
                 scoreImpact: 8,

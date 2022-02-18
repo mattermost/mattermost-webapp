@@ -28,29 +28,29 @@ const CtaButtons = ({
 }: CtaButtonsProps): JSX.Element => {
     const history = useHistory();
 
-    const getClickHandler = (id: string) => () => {
-        if (typeof actionButtonCallback === 'function') {
-            actionButtonCallback();
-        } else if (actionLink?.startsWith('/')) {
-            history.push(actionLink);
-        } else if (actionLink?.startsWith('http')) {
-            window.open(actionLink, '_blank');
-        }
-
+    const getClickHandler = (id: string, link?: string) => () => {
         if (telemetryAction) {
             trackEvent(
                 TELEMETRY_CATEGORIES.WORKSPACE_OPTIMIZATION_DASHBOARD,
                 `workspace_dashboard_${telemetryAction}_${id}`,
             );
         }
+
+        if (id === 'cta' && typeof actionButtonCallback === 'function') {
+            actionButtonCallback();
+        } else if (link?.startsWith('/')) {
+            history.push(link);
+        } else if (link?.startsWith('http')) {
+            window.open(link, '_blank');
+        }
     };
 
     return (
         <div className='ctaButtons'>
-            {actionLink && actionText && (
+            {(actionLink || actionButtonCallback) && actionText && (
                 <button
                     className='actionButton annnouncementBar__purchaseNow'
-                    onClick={getClickHandler('cta')}
+                    onClick={getClickHandler('cta', actionLink)}
                 >
                     {actionText}
                 </button>
@@ -58,7 +58,7 @@ const CtaButtons = ({
             {learnMoreLink && learnMoreText && (
                 <button
                     className='learnMoreButton light-blue-btn'
-                    onClick={getClickHandler('learn-more')}
+                    onClick={getClickHandler('learn-more', learnMoreLink)}
                 >
                     {learnMoreText}
                 </button>
