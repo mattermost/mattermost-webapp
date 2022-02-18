@@ -36,6 +36,7 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
   <Menu
     ariaLabel="Set a status"
     id="statusDropdownMenu"
+    listId="status-drop-down-menu-list"
   >
     <MenuGroup>
       <MenuItemAction
@@ -257,6 +258,7 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
   <Menu
     ariaLabel="Set a status"
     id="statusDropdownMenu"
+    listId="status-drop-down-menu-list"
   >
     <MenuGroup>
       <MenuItemAction
@@ -559,6 +561,7 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
   <Menu
     ariaLabel="Set a status"
     id="statusDropdownMenu"
+    listId="status-drop-down-menu-list"
   >
     <MenuGroup>
       <MenuItemAction
@@ -813,6 +816,7 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
   <Menu
     ariaLabel="Set a status"
     id="statusDropdownMenu"
+    listId="status-drop-down-menu-list"
   >
     <MenuGroup>
       <MenuItemAction
@@ -1067,6 +1071,7 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
   <Menu
     ariaLabel="Set a status"
     id="statusDropdownMenu"
+    listId="status-drop-down-menu-list"
   >
     <MenuGroup>
       <MenuItemAction
@@ -1326,6 +1331,7 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
   <Menu
     ariaLabel="Set a status"
     id="statusDropdownMenu"
+    listId="status-drop-down-menu-list"
   >
     <MenuGroup>
       <MenuItemAction
@@ -1547,6 +1553,7 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
   <Menu
     ariaLabel="Set a status"
     id="statusDropdownMenu"
+    listId="status-drop-down-menu-list"
   >
     <MenuGroup>
       <MenuItemAction
@@ -1768,6 +1775,7 @@ exports[`components/StatusDropdown should not show clear status button when cust
   <Menu
     ariaLabel="Set a status"
     id="statusDropdownMenu"
+    listId="status-drop-down-menu-list"
   >
     <MenuGroup>
       <MenuItemAction
@@ -2016,6 +2024,7 @@ exports[`components/StatusDropdown should show clear status button when custom s
   <Menu
     ariaLabel="Set a status"
     id="statusDropdownMenu"
+    listId="status-drop-down-menu-list"
   >
     <MenuGroup>
       <MenuItemAction

@@ -15,8 +15,10 @@ import {
     getCurrentTeam,
     getCurrentRelativeTeamUrl,
 } from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
+import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 import {haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
+
 import {getSubscriptionStats} from 'mattermost-redux/actions/cloud';
 import {Permissions} from 'mattermost-redux/constants';
 
@@ -82,6 +84,8 @@ function mapStateToProps(state: GlobalState) {
         showGettingStarted: showOnboarding(state),
         showDueToStepsNotFinished: showNextSteps(state),
         teamUrl: getCurrentRelativeTeamUrl(state),
+        isFirstAdmin: isFirstAdmin(state),
+        useCaseOnboarding: getUseCaseOnboarding(state),
     };
 }
 
