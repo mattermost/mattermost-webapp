@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {WarnMetricStatus} from 'mattermost-redux/types/config';
 
 import {Constants, AnnouncementBarTypes, ModalIdentifiers} from 'utils/constants';
+import {isStringContainingUrl} from 'utils/url';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -41,6 +42,7 @@ type Props = {
 
 type State = {
     showTooltip: boolean;
+    isStringContainingUrl: boolean;
 }
 
 export default class AnnouncementBar extends React.PureComponent<Props, State> {
@@ -52,6 +54,7 @@ export default class AnnouncementBar extends React.PureComponent<Props, State> {
 
         this.state = {
             showTooltip: false,
+            isStringContainingUrl: false,
         };
     }
 
@@ -69,6 +72,9 @@ export default class AnnouncementBar extends React.PureComponent<Props, State> {
         if (elm) {
             const enable = elm.offsetWidth < elm.scrollWidth;
             this.setState({showTooltip: enable});
+            if (typeof this.props.message == 'string') {
+                this.setState({isStringContainingUrl: isStringContainingUrl(this.props.message)});
+            }
             return;
         }
         this.setState({showTooltip: false});
@@ -157,6 +163,7 @@ export default class AnnouncementBar extends React.PureComponent<Props, State> {
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={announcementTooltip}
+                    delayHide={this.state.isStringContainingUrl ? Constants.OVERLAY_ANNOUNCEMENT_HIDE_DELAY : 0}
                 >
                     <div className='announcement-bar__text'>
                         {this.props.icon ? this.props.icon : announcementIcon()}

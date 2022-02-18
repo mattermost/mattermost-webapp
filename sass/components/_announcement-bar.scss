@@ -25,11 +25,17 @@
 
         > span {
             overflow: hidden;
+            padding: 0 8px;
             font-size: 14px;
             font-style: normal;
             font-weight: 600;
             line-height: 20px;
             text-overflow: ellipsis;
+
+            &::after {
+                display: block;
+                content: '';
+            }
         }
 
         .annnouncementBar__purchaseNow,
