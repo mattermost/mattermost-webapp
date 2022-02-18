@@ -235,6 +235,7 @@ var config = {
             path.resolve(__dirname),
         ],
         alias: {
+            '@mattermost/client': 'packages/client/src',
             'mattermost-redux/test': 'packages/mattermost-redux/test',
             'mattermost-redux': 'packages/mattermost-redux/src',
             reselect: 'packages/reselect/src',
