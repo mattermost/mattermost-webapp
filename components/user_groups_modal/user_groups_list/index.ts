@@ -27,7 +27,6 @@ type Props = {
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     const groupPermissionsMap = getGroupListPermissions(state);
-
     return {
         groupPermissionsMap,
     };

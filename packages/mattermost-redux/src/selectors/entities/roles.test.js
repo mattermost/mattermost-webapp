@@ -6,7 +6,7 @@ import assert from 'assert';
 import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
 import TestHelper from 'mattermost-redux/test/test_helper';
 import * as Selectors from 'mattermost-redux/selectors/entities/roles';
-import {General} from 'mattermost-redux/constants';
+import {General, Permissions} from 'mattermost-redux/constants';
 import {getMySystemPermissions, getMySystemRoles, getRoles} from 'mattermost-redux/selectors/entities/roles_helpers';
 
 describe('Selectors.Roles', () => {
@@ -91,7 +91,7 @@ describe('Selectors.Roles', () => {
         test_channel_b_role2: {permissions: ['channel_b_role2']},
         test_channel_c_role1: {permissions: ['channel_c_role1']},
         test_channel_c_role2: {permissions: ['channel_c_role2']},
-        test_user_role2: {permissions: ['user_role2']},
+        test_user_role2: {permissions: ['user_role2', Permissions.EDIT_CUSTOM_GROUP, Permissions.CREATE_CUSTOM_GROUP, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS, Permissions.DELETE_CUSTOM_GROUP]},
         custom_group_user: {permissions: ['custom_group_user']},
     };
 
@@ -133,7 +133,7 @@ describe('Selectors.Roles', () => {
         },
     });
 
-    it('should return my roles by scope on getMyRoles/getMySystemRoles/getMyTeamRoles/getMyChannelRoles', () => {
+    it('should return my roles by scope on getMyRoles/getMySystemRoles/getMyTeamRoles/getMyChannelRoles/getMyGroupRoles', () => {
         const teamsRoles = {};
         teamsRoles[team1.id] = new Set(['test_team1_role1', 'test_team1_role2']);
         teamsRoles[team2.id] = new Set(['test_team2_role1', 'test_team2_role2']);
@@ -145,13 +145,12 @@ describe('Selectors.Roles', () => {
             system: new Set(['test_user_role', 'test_user_role2']),
             team: teamsRoles,
             channel: channelsRoles,
-            group: groupRoles,
         };
         assert.deepEqual(Selectors.getMyRoles(testState), myRoles);
         assert.deepEqual(getMySystemRoles(testState), myRoles.system);
         assert.deepEqual(Selectors.getMyTeamRoles(testState), myRoles.team);
         assert.deepEqual(Selectors.getMyChannelRoles(testState), myRoles.channel);
-        assert.deepEqual(Selectors.getMyGroupRoles(testState), myRoles.group);
+        assert.deepEqual(Selectors.getMyGroupRoles(testState), groupRoles);
     });
 
     it('should return current loaded roles on getRoles', () => {
@@ -164,7 +163,7 @@ describe('Selectors.Roles', () => {
             test_channel_b_role2: {permissions: ['channel_b_role2']},
             test_channel_c_role1: {permissions: ['channel_c_role1']},
             test_channel_c_role2: {permissions: ['channel_c_role2']},
-            test_user_role2: {permissions: ['user_role2']},
+            test_user_role2: {permissions: ['user_role2', Permissions.EDIT_CUSTOM_GROUP, Permissions.CREATE_CUSTOM_GROUP, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS, Permissions.DELETE_CUSTOM_GROUP]},
             custom_group_user: {permissions: ['custom_group_user']},
         };
         assert.deepEqual(getRoles(testState), loadedRoles);
@@ -172,7 +171,7 @@ describe('Selectors.Roles', () => {
 
     it('should return my system permission on getMySystemPermissions', () => {
         assert.deepEqual(getMySystemPermissions(testState), new Set([
-            'user_role2',
+            'user_role2', Permissions.EDIT_CUSTOM_GROUP, Permissions.CREATE_CUSTOM_GROUP, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS, Permissions.DELETE_CUSTOM_GROUP
         ]));
     });
 
@@ -183,7 +182,7 @@ describe('Selectors.Roles', () => {
 
     it('should return my team permission on getMyTeamPermissions', () => {
         assert.deepEqual(Selectors.getMyTeamPermissions(testState, team1.id), new Set([
-            'user_role2', 'team1_role1',
+            'user_role2', 'team1_role1', Permissions.EDIT_CUSTOM_GROUP, Permissions.CREATE_CUSTOM_GROUP, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS, Permissions.DELETE_CUSTOM_GROUP
         ]));
     });
 
@@ -196,7 +195,7 @@ describe('Selectors.Roles', () => {
 
     it('should return my team permission on getMyCurrentTeamPermissions', () => {
         assert.deepEqual(Selectors.getMyCurrentTeamPermissions(testState), new Set([
-            'user_role2', 'team1_role1',
+            'user_role2', 'team1_role1', Permissions.EDIT_CUSTOM_GROUP, Permissions.CREATE_CUSTOM_GROUP, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS, Permissions.DELETE_CUSTOM_GROUP
         ]));
     });
 
@@ -209,7 +208,7 @@ describe('Selectors.Roles', () => {
 
     it('should return my channel permission on getMyChannelPermissions', () => {
         assert.deepEqual(Selectors.getMyChannelPermissions(testState, team1.id, channel1.id), new Set([
-            'user_role2', 'team1_role1', 'channel_a_role1', 'channel_a_role2',
+            'user_role2', 'team1_role1', 'channel_a_role1', 'channel_a_role2', Permissions.EDIT_CUSTOM_GROUP, Permissions.CREATE_CUSTOM_GROUP, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS, Permissions.DELETE_CUSTOM_GROUP
         ]));
     });
 
@@ -223,7 +222,7 @@ describe('Selectors.Roles', () => {
 
     it('should return my current channel permission on getMyCurrentChannelPermissions', () => {
         assert.deepEqual(Selectors.getMyCurrentChannelPermissions(testState), new Set([
-            'user_role2', 'team1_role1', 'channel_a_role1', 'channel_a_role2',
+            'user_role2', 'team1_role1', 'channel_a_role1', 'channel_a_role2', Permissions.EDIT_CUSTOM_GROUP, Permissions.CREATE_CUSTOM_GROUP, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS, Permissions.DELETE_CUSTOM_GROUP
         ]));
     });
 
@@ -233,5 +232,38 @@ describe('Selectors.Roles', () => {
         assert.equal(Selectors.haveICurrentChannelPermission(testState, 'team2_role2'), false);
         assert.equal(Selectors.haveICurrentChannelPermission(testState, 'channel_a_role1'), true);
         assert.equal(Selectors.haveICurrentChannelPermission(testState, 'channel_b_role1'), false);
+    });
+
+    it('should return group memberships on getGroupMemberships', () => {
+        assert.deepEqual(Selectors.getGroupMemberships(testState), {[group1.id]: {user_id: user.id, roles: 'custom_group_user'}});
+    });
+
+    it('should return group permissions on getMyGroupPermissions', () => {
+        assert.deepEqual(Selectors.getMyGroupPermissions(testState, group1.id), new Set([
+            'user_role2', 'custom_group_user', Permissions.EDIT_CUSTOM_GROUP, Permissions.CREATE_CUSTOM_GROUP, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS, Permissions.DELETE_CUSTOM_GROUP
+        ]));
+    });
+
+    it('should return if i have a group permission on haveIGroupPermission', () => {
+        assert.equal(Selectors.haveIGroupPermission(testState, group1.id, Permissions.EDIT_CUSTOM_GROUP), true);
+        assert.equal(Selectors.haveIGroupPermission(testState, group1.id, Permissions.CREATE_CUSTOM_GROUP), true);
+        assert.equal(Selectors.haveIGroupPermission(testState, group1.id, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS), true);
+        assert.equal(Selectors.haveIGroupPermission(testState, group1.id, Permissions.DELETE_CUSTOM_GROUP), true);
+
+        // You don't have to be a member to perform these actions
+        assert.equal(Selectors.haveIGroupPermission(testState, group2.id, Permissions.EDIT_CUSTOM_GROUP), true);
+        assert.equal(Selectors.haveIGroupPermission(testState, group2.id, Permissions.CREATE_CUSTOM_GROUP), true);
+        assert.equal(Selectors.haveIGroupPermission(testState, group2.id, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS), true);
+        assert.equal(Selectors.haveIGroupPermission(testState, group2.id, Permissions.DELETE_CUSTOM_GROUP), true);
+    });
+
+    it('should return group set with permissions on getGroupListPermissions', () => {
+        assert.deepEqual(Selectors.getGroupListPermissions(testState), {
+            [group1.id]: {can_delete: true, can_manage_members: true},
+            [group2.id]: {can_delete: true, can_manage_members: true},
+            [group3.id]: {can_delete: true, can_manage_members: true},
+            [group4.id]: {can_delete: true, can_manage_members: true},
+            [group5.id]: {can_delete: true, can_manage_members: true},
+        });
     });
 });
