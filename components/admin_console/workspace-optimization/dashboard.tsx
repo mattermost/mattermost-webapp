@@ -172,7 +172,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         }),
         dataPrivacy: getDataPrivacyData({retention: {status: dataRetentionEnabled ? ItemStatus.OK : ItemStatus.INFO}}),
         easyManagement: getEaseOfManagementData({
-            ldap: {status: totalUsers > 500 ? ItemStatus.INFO : ItemStatus.OK},
+            ldap: {status: totalUsers > 100 ? ItemStatus.INFO : ItemStatus.OK},
 
             // guestAccounts: {status: guestAccountStatus},
         }),
@@ -206,7 +206,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
             overallScore.current += item.scoreImpact * item.impactModifier;
 
             // chips will only be displayed for info aka Success, warning and error aka Problems
-            if (item.status && item.status !== ItemStatus.OK && item.status !== ItemStatus.NONE) {
+            if (item.status !== ItemStatus.OK && item.status !== ItemStatus.NONE) {
                 items.push((
                     <AccordionItem
                         key={`${accordionKey}-item_${item.id}`}

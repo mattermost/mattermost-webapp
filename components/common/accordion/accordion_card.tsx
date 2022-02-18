@@ -1,5 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import classNames from 'classnames';
+
+// See LICENSE.txt for license information.
 import React, {RefObject, useEffect, useRef, useState} from 'react';
 
 import {AccordionItemType} from './accordion';
@@ -52,7 +55,7 @@ const AccordionCard = ({
 
     return (
         <li
-            className={`accordion-card ${open ? 'active' : ''}`}
+            className={classNames('accordion-card', {active: open})}
             ref={itemRef}
         >
             <div
@@ -86,17 +89,19 @@ const AccordionCard = ({
                     </div>
                 )}
             </div>
-            <div
-                className='accordion-card-container'
-                style={{height}}
-            >
+            {hasItems && (
                 <div
-                    ref={contentRef}
-                    className='accordion-card-container__content'
+                    className='accordion-card-container'
+                    style={{height}}
                 >
-                    {data.items}
+                    <div
+                        ref={contentRef}
+                        className='accordion-card-container__content'
+                    >
+                        {data.items}
+                    </div>
                 </div>
-            </div>
+            )}
         </li>
     );
 };

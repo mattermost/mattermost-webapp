@@ -211,7 +211,7 @@ const useMetricsData = () => {
     const getAccessData = (data: AccessParam) => ({
         title: formatMessage({
             id: 'admin.reporting.workspace_optimization.access.title',
-            defaultMessage: 'Workspace Access',
+            defaultMessage: 'Workspace access',
         }),
         description: formatMessage({
             id: 'admin.reporting.workspace_optimization.access.description',
@@ -263,7 +263,7 @@ const useMetricsData = () => {
         }),
         description: formatMessage({
             id: 'admin.reporting.workspace_optimization.performance.description',
-            defaultMessage: 'Your server could use some performance tweaks.',
+            defaultMessage: 'Your server would benefit from some performance tweaks.',
         }),
         descriptionOk: formatMessage({
             id: 'admin.reporting.workspace_optimization.performance.descriptionOk',
@@ -286,11 +286,11 @@ const useMetricsData = () => {
                 }),
                 description: formatMessage({
                     id: 'admin.reporting.workspace_optimization.performance.search.description',
-                    defaultMessage: 'Your server has reached over 500 users and 2 million posts which can result in slow search performance. We recommend starting an Enterprise trial and enabling Elasticsearch for better performance.',
+                    defaultMessage: 'Your server has reached over 500 users and 2 million posts which can result in slow search performance. We recommend enabling Elasticsearch for better performance.',
                 }),
                 ...(isLicensed ? {
                     configUrl: ConsolePages.ELASTICSEARCH,
-                    configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.configureElasticsearch', defaultMessage: 'Configure Elasticsearch'}),
+                    configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.configureElasticsearch', defaultMessage: 'Try Elasticsearch'}),
                 } : trialOrEnterpriseCtaConfig),
                 infoUrl: DocLinks.ELASTICSEARCH,
                 infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),
@@ -372,7 +372,7 @@ const useMetricsData = () => {
         }),
         description: formatMessage({
             id: 'admin.reporting.workspace_optimization.ease_of_management.description',
-            defaultMessage: 'We have suggestions that could make your managemenet easier.',
+            defaultMessage: 'Make it easier to manage your Mattermost workspace.',
         }),
         descriptionOk: formatMessage({
             id: 'admin.reporting.workspace_optimization.ease_of_management.descriptionOk',
@@ -395,7 +395,7 @@ const useMetricsData = () => {
                 }),
                 description: formatMessage({
                     id: 'admin.reporting.workspace_optimization.ease_of_management.ldap.description',
-                    defaultMessage: 'You\'ve reached over 100 users! We recommend starting an Enterprise trial and setting up AD/LDAP user authentication for easier onboarding as well as automated deactivations and role assignments.',
+                    defaultMessage: 'You\'ve reached over 100 users! We recommend setting up AD/LDAP user authentication for easier onboarding as well as automated deactivations and role assignments.',
                 }),
                 ...(isLicensed ? {
                     configUrl: ConsolePages.AD_LDAP,
