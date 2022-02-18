@@ -37,5 +37,6 @@ export const TaskNameMapToSteps = {
     [OnboardingTasksName.DOWNLOAD_APP]: GenericTaskSteps,
     [OnboardingTasksName.VISIT_SYSTEM_CONSOLE]: GenericTaskSteps,
     [OnboardingTasksName.INVITE_PEOPLE]: GenericTaskSteps,
+    [OnboardingTasksName.START_TRIAL]: GenericTaskSteps,
 };
 
