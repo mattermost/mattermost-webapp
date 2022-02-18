@@ -4,8 +4,6 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import Icon from '@mattermost/compass-components/foundations/icon';
-
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
