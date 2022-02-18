@@ -34,7 +34,6 @@ import {
 } from 'actions/views/onboarding_tasks';
 
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
-import {isTrialLicense} from 'utils/license_utils';
 
 import {generateTelemetryTag} from './utils';
 import {OnboardingTaskCategory, OnboardingTaskList, OnboardingTasksName, TaskNameMapToSteps} from './constants';
@@ -97,10 +96,9 @@ export const useTasksList = () => {
     const license = useSelector(getLicense);
     const isPrevLicensed = prevTrialLicense?.IsLicensed;
     const isCurrentLicensed = license?.IsLicensed;
-    const isCurrentLicenseTrial = isTrialLicense(license);
 
     // Show this CTA if the instance is currently not licensed and has never had a trial license loaded before
-    const showStartTrialTask = (isCurrentLicensed === 'false' && isPrevLicensed === 'false') || isCurrentLicenseTrial;
+    const showStartTrialTask = (isCurrentLicensed === 'false' && isPrevLicensed === 'false');
     const list: Record<string, string> = {...OnboardingTasksName};
     if (!pluginsList.focalboard) {
         delete list.BOARDS_TOUR;
@@ -248,7 +246,7 @@ export const useHandleOnBoardingTaskTrigger = () => {
         }
         case OnboardingTasksName.START_TRIAL: {
             trackEvent(
-                TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
+                TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_TASK_LIST,
                 'open_start_trial_modal',
             );
             dispatch(openModal({
