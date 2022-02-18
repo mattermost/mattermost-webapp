@@ -343,7 +343,7 @@ const useMetricsData = () => {
                 }),
                 ...(isLicensed ? {
                     configUrl: ConsolePages.DATA_RETENTION,
-                    configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.configureDataRetention', defaultMessage: 'Configure Data Retention'}),
+                    configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.configureDataRetention', defaultMessage: 'Try data retention'}),
                 } : trialOrEnterpriseCtaConfig),
                 infoUrl: DocLinks.DATA_RETENTION_POLICY,
                 infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),

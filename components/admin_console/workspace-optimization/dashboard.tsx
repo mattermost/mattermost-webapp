@@ -66,6 +66,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     const {
         ServiceSettings,
         DataRetentionSettings,
+        ComplianceSettings,
         ElasticsearchSettings,
 
         // TeamSettings,
@@ -74,7 +75,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     const {location} = document;
 
     const sessionLengthWebInDays = ServiceSettings?.SessionLengthWebInDays || -1;
-    const dataRetentionEnabled = DataRetentionSettings?.EnableMessageDeletion || DataRetentionSettings?.EnableFileDeletion;
+    const dataRetentionEnabled = (Boolean(DataRetentionSettings?.EnableMessageDeletion) || Boolean(DataRetentionSettings?.EnableFileDeletion)) && Boolean(ComplianceSettings?.Enable);
 
     const testURL = () => {
         if (!ServiceSettings?.SiteURL) {
