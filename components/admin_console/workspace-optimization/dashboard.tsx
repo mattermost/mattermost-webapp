@@ -13,7 +13,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {getServerVersion} from 'mattermost-redux/selectors/entities/general';
 import Accordion, {AccordionItemType} from 'components/common/accordion/accordion';
 
-import {testSiteURL} from '../../../actions/admin_actions';
+import {elasticsearchTest, testSiteURL} from '../../../actions/admin_actions';
 import LoadingScreen from '../../loading_screen';
 import FormattedAdminHeader from '../../widgets/admin_console/formatted_admin_header';
 import {Props} from '../admin_console';
@@ -53,6 +53,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
 
     // const [guestAccountStatus, setGuestAccountStatus] = useState<ItemStatus>('none');
     const [liveUrlStatus, setLiveUrlStatus] = useState<ItemStatus>(ItemStatus.ERROR);
+    const [elastisearchStatus, setElasticsearchStatus] = useState<ItemStatus>(ItemStatus.INFO);
     const {formatMessage} = useIntl();
     const {getAccessData, getConfigurationData, getUpdatesData, getPerformanceData, getDataPrivacyData, getEaseOfManagementData} = useMetricsData();
 
@@ -65,6 +66,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     const {
         ServiceSettings,
         DataRetentionSettings,
+        ElasticsearchSettings,
 
         // TeamSettings,
         // GuestAccountsSettings,
@@ -127,6 +129,17 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         }
     };
 
+    const testElasticsearch = () => {
+        if (!ElasticsearchSettings?.EnableSearching) {
+            return Promise.resolve();
+        }
+
+        const onSuccess = ({status}: any) => setElasticsearchStatus(status === 'OK' ? ItemStatus.OK : ItemStatus.INFO);
+        const onError = () => setElasticsearchStatus(ItemStatus.INFO);
+
+        return elasticsearchTest(props.config, onSuccess, onError);
+    };
+
     // commented out for now.
     // @see discussion here: https://github.com/mattermost/mattermost-webapp/pull/9822#discussion_r806879385
     // const fetchGuestAccounts = async () => {
@@ -153,6 +166,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         const promises = [];
         promises.push(testURL());
         promises.push(fetchVersion());
+        promises.push(testElasticsearch());
 
         // promises.push(fetchGuestAccounts());
         Promise.all(promises).then(() => setLoading(false));
@@ -167,7 +181,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         access: getAccessData({siteUrl: {status: liveUrlStatus}}),
         performance: getPerformanceData({
             search: {
-                status: totalPosts < 2_000_000 && totalUsers < 500 ? ItemStatus.OK : ItemStatus.INFO,
+                status: totalPosts < 2_000_000 && totalUsers < 500 ? ItemStatus.OK : elastisearchStatus,
             },
         }),
         dataPrivacy: getDataPrivacyData({retention: {status: dataRetentionEnabled ? ItemStatus.OK : ItemStatus.INFO}}),
