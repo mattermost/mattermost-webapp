@@ -1,0 +1,76 @@
+@import 'utils/variables';
+
+.MultiSelectCard {
+    position: relative;
+    display: inline-flex;
+    min-width: 212px;
+    max-width: 257px;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 24px 24px;
+    border: 2px solid rgba(var(--center-channel-color-rgb), 0.16);
+    margin-right: 16px;
+    background: var(--center-channel-bg);
+    border-radius: 8px;
+    box-shadow: $elevation-3;
+    cursor: pointer;
+    list-style-type: none;
+    text-align: center;
+
+    &:hover,
+    &:active,
+    &:focus {
+        border: 2px solid rgba(var(--center-channel-color-rgb), 0.32);
+        box-shadow: $elevation-4;
+    }
+
+    &--small {
+        min-width: 160px;
+        padding: 24px 12px 20px;
+
+        .MultiSelectCard__label {
+            padding-top: 12px;
+        }
+
+        .MultiSelectCard__checkmark {
+            width: 28px;
+            height: 28px;
+        }
+    }
+
+    &:last-child {
+        margin-right: 0;
+    }
+
+    &--checked {
+        border: 2px solid var(--button-bg);
+        box-shadow: $elevation-2;
+
+        &:hover,
+        &:active,
+        &:focus {
+            border: 2px solid var(--button-bg);
+            box-shadow: $elevation-2;
+        }
+
+        &:focus {
+            box-shadow: $elevation-4;
+        }
+    }
+
+    &__checkmark {
+        position: absolute;
+        top: 11px;
+        right: 11px;
+        width: 31px;
+        height: 31px;
+        color: var(--button-bg);
+        font-size: 31px;
+    }
+
+    &__label {
+        font-family: Metropolis, sans-serif;
+        font-size: 18px;
+        font-weight: 600;
+    }
+}

@@ -42,7 +42,7 @@ import WebSocketClient from 'client/web_websocket_client.jsx';
 import {GlobalState} from 'types/store';
 
 import {ActionTypes, PostTypes, RHSStates, ModalIdentifiers} from 'utils/constants';
-import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
+import {filterAndSortTeamsByDisplayName} from 'utils/team_utils';
 import * as Utils from 'utils/utils.jsx';
 import SubMenuModal from '../components/widgets/menu/menu_modals/submenu_modal/submenu_modal';
 

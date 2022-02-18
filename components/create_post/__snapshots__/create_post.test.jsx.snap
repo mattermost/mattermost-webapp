@@ -102,16 +102,6 @@ exports[`components/create_post Show tutorial 1`] = `
           </a>
         </span>
       </div>
-      <CreatePostTip
-        currentChannel={
-          Object {
-            "id": "owsyt8n43jfxjpzh9np93mx1wa",
-            "type": "O",
-          }
-        }
-        currentUserId="zaktnt8bpbgu8mb6ez9k64r7sa"
-        prefillMessage={[Function]}
-      />
     </div>
     <div
       className="post-create-footer"
