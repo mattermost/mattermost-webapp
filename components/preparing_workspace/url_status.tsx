@@ -55,7 +55,7 @@ export default function UrlStatus(props: Props) {
     if (!props.checking && props.error) {
         return (
             <Status className='Url__status--error'>
-                <i className='icon icon-alert-ouline'/>
+                <i className='icon icon-alert-outline'/>
                 <FormattedMessage
                     id={'onboarding_wizard.url.input_invalid'}
                     defaultMessage='Test unsuccessful. This is not a valid URL.'

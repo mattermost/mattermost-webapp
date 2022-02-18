@@ -9,4 +9,13 @@
     &:focus {
         border: 2px solid var(--button-bg);
     }
+
+    &--error {
+        border: 2px solid var(--dnd-indicator);
+
+        &:active,
+        &:focus {
+            border: 2px solid var(--dnd-indicator);
+        }
+    }
 }

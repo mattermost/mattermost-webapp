@@ -62,6 +62,11 @@ const Organization = (props: Props) => {
     if (props.className) {
         className += ' ' + props.className;
     }
+    let inputClass = 'Organization__input';
+
+    if (triedNext && validation.error) {
+        inputClass += ' Organization__input--error';
+    }
     return (
         <CSSTransition
             in={props.show}
@@ -105,7 +110,7 @@ const Organization = (props: Props) => {
                                         defaultMessage: 'Organization name',
                                     })
                                 }
-                                className='Organization__input'
+                                className={inputClass}
                                 value={props.organization || ''}
                                 onChange={(e) => props.setOrganization(e.target.value)}
                                 onKeyUp={onNext}
