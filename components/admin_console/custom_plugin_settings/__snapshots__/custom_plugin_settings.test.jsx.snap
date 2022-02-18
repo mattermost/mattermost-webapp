@@ -45,6 +45,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             label="Setting One"
             onChange={[Function]}
             placeholder="e.g. some setting"
+            required={false}
             setByEnv={false}
             type="input"
             value="setting_default"
@@ -356,6 +357,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             label="Setting One"
             onChange={[Function]}
             placeholder="e.g. some setting"
+            required={false}
             setByEnv={false}
             type="input"
             value="fsdsdg"

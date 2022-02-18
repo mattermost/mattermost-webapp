@@ -78,6 +78,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             label="Setting One"
             onChange={[Function]}
             placeholder="e.g. some setting"
+            required={false}
             setByEnv={false}
             type="input"
             value="fsdsdg"
@@ -229,6 +230,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             label="Setting Seven"
             onChange={[Function]}
             placeholder="e.g. some setting"
+            required={false}
             setByEnv={false}
             type="number"
             value={7}
@@ -247,6 +249,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             label="Setting Eight"
             onChange={[Function]}
             placeholder="e.g. some setting"
+            required={false}
             setByEnv={false}
             type="number"
             value={10}
