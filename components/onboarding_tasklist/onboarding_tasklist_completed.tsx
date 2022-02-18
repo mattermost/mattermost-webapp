@@ -17,7 +17,6 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 
-import {isTrialLicense} from 'utils/license_utils';
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 
 const CompletedWrapper = styled.div`
@@ -88,10 +87,9 @@ const Completed = (props: Props): JSX.Element => {
     const license = useSelector(getLicense);
     const isPrevLicensed = prevTrialLicense?.IsLicensed;
     const isCurrentLicensed = license?.IsLicensed;
-    const isCurrentLicenseTrial = isTrialLicense(license);
 
     // Show this CTA if the instance is currently not licensed and has never had a trial license loaded before
-    const showStartTrialBtn = (isCurrentLicensed === 'false' && isPrevLicensed === 'false') || isCurrentLicenseTrial;
+    const showStartTrialBtn = (isCurrentLicensed === 'false' && isPrevLicensed === 'false');
 
     const openStartTrialModalAndDismiss = () => {
         trackEvent(
