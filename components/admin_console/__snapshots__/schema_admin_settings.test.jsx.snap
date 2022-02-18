@@ -673,6 +673,19 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             }
             value={true}
           />
+          <AdminTextSetting
+            disabled={false}
+            helpText={null}
+            id="RequiredSettings.text"
+            key="Config_text_RequiredSettings.text"
+            label="Required Setting Text"
+            onChange={[Function]}
+            required={true}
+            requiredText="Required setting text is required"
+            setByEnv={false}
+            type="input"
+            value=""
+          />
         </SettingsGroup>
       </form>
     </div>
