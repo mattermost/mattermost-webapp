@@ -14,7 +14,7 @@ exports[`components/AnnouncementBar should match snapshot, bar not showing 1`] =
     defaultOverlayShown={false}
     delayHide={0}
     delayShow={400}
-    overlay={false}
+    overlay={<React.Fragment />}
     placement="bottom"
     trigger={
       Array [
@@ -55,7 +55,7 @@ exports[`components/AnnouncementBar should match snapshot, bar showing 1`] = `
     defaultOverlayShown={false}
     delayHide={0}
     delayShow={400}
-    overlay={false}
+    overlay={<React.Fragment />}
     placement="bottom"
     trigger={
       Array [
@@ -96,7 +96,7 @@ exports[`components/AnnouncementBar should match snapshot, bar showing, no dismi
     defaultOverlayShown={false}
     delayHide={0}
     delayShow={400}
-    overlay={false}
+    overlay={<React.Fragment />}
     placement="bottom"
     trigger={
       Array [
@@ -137,7 +137,7 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 1`] = `
     defaultOverlayShown={false}
     delayHide={0}
     delayShow={400}
-    overlay={false}
+    overlay={<React.Fragment />}
     placement="bottom"
     trigger={
       Array [
@@ -178,7 +178,7 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 2`] = `
     defaultOverlayShown={false}
     delayHide={0}
     delayShow={400}
-    overlay={false}
+    overlay={<React.Fragment />}
     placement="bottom"
     trigger={
       Array [
@@ -219,7 +219,7 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 3`] = `
     defaultOverlayShown={false}
     delayHide={0}
     delayShow={400}
-    overlay={false}
+    overlay={<React.Fragment />}
     placement="bottom"
     trigger={
       Array [
@@ -260,7 +260,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 1`] = `
     defaultOverlayShown={false}
     delayHide={0}
     delayShow={400}
-    overlay={false}
+    overlay={<React.Fragment />}
     placement="bottom"
     trigger={
       Array [
@@ -301,7 +301,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 2`] = `
     defaultOverlayShown={false}
     delayHide={0}
     delayShow={400}
-    overlay={false}
+    overlay={<React.Fragment />}
     placement="bottom"
     trigger={
       Array [
@@ -342,7 +342,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 3`] = `
     defaultOverlayShown={false}
     delayHide={0}
     delayShow={400}
-    overlay={false}
+    overlay={<React.Fragment />}
     placement="bottom"
     trigger={
       Array [
@@ -383,7 +383,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 4`] = `
     defaultOverlayShown={false}
     delayHide={0}
     delayShow={400}
-    overlay={false}
+    overlay={<React.Fragment />}
     placement="bottom"
     trigger={
       Array [

@@ -143,11 +143,11 @@ export default class AnnouncementBar extends React.PureComponent<Props, State> {
                 <FormattedMarkdownMessage id={this.props.message}/>
             );
         }
-        const announcementTooltip = this.state.showTooltip && (
+        const announcementTooltip = this.state.showTooltip ? (
             <Tooltip id='announcement-bar__tooltip'>
                 {this.props.tooltipMsg ? this.props.tooltipMsg : message}
             </Tooltip>
-        );
+        ) : <></>;
 
         const announcementIcon = () => {
             return this.props.showLinkAsButton &&
