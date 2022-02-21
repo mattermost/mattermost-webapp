@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {matchPath, useLocation} from 'react-router-dom';
 
-import {trackEvent, trackEvent as trackEventAction} from 'actions/telemetry_actions';
+import {trackEvent as trackEventAction} from 'actions/telemetry_actions';
 import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
 import {setStatusDropdown} from 'actions/views/status_dropdown';
 import {openModal} from 'actions/views/modals';
@@ -84,7 +84,7 @@ const taskLabels = {
     ),
     [OnboardingTasksName.START_TRIAL]: (
         <FormattedMessage
-            id='onboarding_checklist.task_start_trial'
+            id='onboardingTask.checklist.task_start_trial'
             defaultMessage='Learn more about Enterprise-level high-security features'
         />
     ),
@@ -245,7 +245,7 @@ export const useHandleOnBoardingTaskTrigger = () => {
             break;
         }
         case OnboardingTasksName.START_TRIAL: {
-            trackEvent(
+            trackEventAction(
                 TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_TASK_LIST,
                 'open_start_trial_modal',
             );
