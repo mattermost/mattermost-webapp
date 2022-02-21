@@ -29,25 +29,18 @@ function CallButton(props: Props) {
     }
 
     const {formatMessage} = props.intl;
-
     const [active, setActive] = useState(false);
     const [clickEnabled, setClickEnabled] = useState(true);
-
-    const prevSidebarOpen = ((val: boolean) => {
-        const ref = useRef<boolean>();
-        useEffect(() => {
-            ref.current = val;
-        });
-        return ref.current;
-    })(props.sidebarOpen);
+    const prevSidebarOpen = useRef(props.sidebarOpen);
 
     useEffect(() => {
-        if (prevSidebarOpen && !props.sidebarOpen) {
+        if (prevSidebarOpen.current && !props.sidebarOpen) {
             setClickEnabled(false);
             setTimeout(() => {
                 setClickEnabled(true);
             }, Constants.CHANNEL_HEADER_BUTTON_DISABLE_TIMEOUT);
         }
+        prevSidebarOpen.current = props.sidebarOpen;
     }, [props.sidebarOpen]);
 
     const style = {
