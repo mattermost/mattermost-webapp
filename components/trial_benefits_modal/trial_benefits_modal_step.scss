@@ -1,3 +1,6 @@
+@import 'utils/variables';
+@import 'utils/mixins';
+
 .TrialBenefitsModalStep {
     &.slide-container {
         padding: 0 24px;
@@ -45,6 +48,37 @@
             font-style: normal;
             font-weight: normal;
             line-height: 16px;
+        }
+
+        &.trial-just-started {
+            .title {
+                text-align: center;
+            }
+            .description {
+                font-size: 12px;
+            }
+            .svg-wrapper {
+                margin-top: 0;
+                min-height: 180px;
+            }
+            .buttons-section-wrapper {
+                display: flex;
+                justify-content: flex-end;
+                margin-top: 10px;
+    
+                .tertiary-button {
+                    @include tertiary-button;
+                    height: 32px;
+                    font-size: 12px;
+                }
+            
+                .primary-button {
+                    @include primary-button;
+                    margin-left: 8px;
+                    height: 32px;
+                    font-size: 12px;
+                }
+            }
         }
     }
 }

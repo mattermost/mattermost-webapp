@@ -10,7 +10,7 @@ import './trial_benefits_modal_step.scss';
 export type TrialBenefitsModalStepProps = {
     id: string;
     title: string;
-    description: string;
+    description: string | JSX.Element;
     svgWrapperClassName: string;
     svgElement: React.ReactNode;
     bottomLeftMessage?: string;

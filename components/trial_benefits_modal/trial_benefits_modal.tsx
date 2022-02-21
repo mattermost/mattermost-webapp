@@ -23,6 +23,7 @@ import GuestAccessSvg from 'components/common/svg_images_components/guest_access
 import PersonMacSvg from 'components/common/svg_images_components/person_mac_svg';
 import PushNotificationsSvg from 'components/common/svg_images_components/push_notifications_svg';
 import PersonWithChecklistSvg from 'components/common/svg_images_components/person_with_checklist';
+import BlockableLink from 'components/admin_console/blockable_link';
 
 import TrialBenefitsModalStep, {TrialBenefitsModalStepProps} from './trial_benefits_modal_step';
 
@@ -66,7 +67,7 @@ const TrialBenefitsModal = (
 
     // by default all licence last 30 days plus 8 hours. We use this value as a fallback for the trial license duration information shown in the modal
     const trialLicenseDuration = (1000 * 60 * 60 * 24 * 30) + (1000 * 60 * 60 * 8);
-    const trialEndDate = moment.unix((Number(license?.ExpiresAt) || new Date(Date.now()).getTime() + trialLicenseDuration) / 1000).format('DD/MM/YYYY');
+    const trialEndDate = moment.unix((Number(license?.ExpiresAt) || new Date(Date.now()).getTime() + trialLicenseDuration) / 1000).format('MMMM,DD,YYYY');
 
     const steps: TrialBenefitsModalStepProps[] = useMemo(() => [
         {
@@ -127,16 +128,50 @@ const TrialBenefitsModal = (
         },
     ], [trialEndDate]);
 
-    // this declares the content shown just after the trial has started
+    // declares the content shown just after the trial has started
     const trialJustStartedDeclaration = {
         id: 'trialStart',
         title: formatMessage({id: 'trial_benefits.modal.trialStartTitle', defaultMessage: 'Your trial has started! Explore the benefits of Enterprise'}),
-        description: formatMessage(
-            {
-                id: 'trial_benefits.modal.trialStartDescription',
-                defaultMessage: 'Welcome to your Mattermost Enterprise trial! It expires on {trialExpirationDate}. You now have access to {guestAccounts}, {autoComplianceReports}, and {mobileSecureNotifications}, among many other features.',
-            },
-            {trialExpirationDate: trialEndDate},
+        description: (
+            <>
+                <FormattedMessage
+                    id='trial_benefits.modal.trialStartedDescriptionIntro'
+                    defaultMessage='Welcome to your Mattermost Enterprise trial! It expires on {trialExpirationDate}. '
+                    values={{
+                        trialExpirationDate: trialEndDate,
+                    }}
+                />
+                <FormattedMessage
+                    id='trial_benefits.modal.trialStartedDescriptionBody'
+                    defaultMessage='You now have access to <guestAccountsLink>guest accounts</guestAccountsLink>, <autoComplianceReportsLink>automated compliance reports</autoComplianceReportsLink>, and <mobileSecureNotificationsLink>mobile secure-ID push notifications</mobileSecureNotificationsLink>, among many other features.'
+                    values={{
+                        guestAccountsLink: (text: string) => (
+                            <BlockableLink
+                                to={ConsolePages.GUEST_ACCESS}
+                                onClick={handleOnClose}
+                            >
+                                {text}
+                            </BlockableLink>
+                        ),
+                        autoComplianceReportsLink: (text: string) => (
+                            <BlockableLink
+                                to={ConsolePages.COMPLIANCE_EXPORT}
+                                onClick={handleOnClose}
+                            >
+                                {text}
+                            </BlockableLink>
+                        ),
+                        mobileSecureNotificationsLink: (text: string) => (
+                            <BlockableLink
+                                to={ConsolePages.PUSH_NOTIFICATION_CENTER}
+                                onClick={handleOnClose}
+                            >
+                                {text}
+                            </BlockableLink>
+                        ),
+                    }}
+                />
+            </>
         ),
         svgWrapperClassName: 'handsSvg',
         svgElement: (
@@ -176,9 +211,55 @@ const TrialBenefitsModal = (
         />
     )), [steps, handleOnClose]);
 
+    const trialJustStartedScreen = (declaration: Omit<TrialBenefitsModalStepProps, 'pageURL' | 'buttonLabel'>) => {
+        const {id, title, description, svgWrapperClassName, svgElement, bottomLeftMessage} = declaration;
+        return (
+            <div
+                id={`trialBenefitsModalStarted-${id}`}
+                className='TrialBenefitsModalStep trial-just-started slide-container'
+            >
+                <div className='title'>
+                    {title}
+                </div>
+                <div className='description'>
+                    {description}
+                </div>
+                <div className={`${svgWrapperClassName} svg-wrapper`}>
+                    {svgElement}
+                </div>
+                <div className='buttons-section-wrapper'>
+                    <a
+                        className='tertiary-button'
+                        onClick={handleOnClose}
+                    >
+                        <FormattedMessage
+                            id='trial_benefits_modal.trial_just_started.buttons.close'
+                            defaultMessage='Close'
+                        />
+                    </a>
+                    <BlockableLink
+                        className='primary-button'
+                        to={ConsolePages.GUEST_ACCESS}
+                        onClick={handleOnClose}
+                    >
+                        <FormattedMessage
+                            id='trial_benefits_modal.trial_just_started.buttons.close'
+                            defaultMessage='Set up system console'
+                        />
+                    </BlockableLink>
+                </div>
+                {bottomLeftMessage && (
+                    <div className='bottom-text-left-message'>
+                        {bottomLeftMessage}
+                    </div>
+                )}
+            </div>
+        );
+    };
+
     const content = () => {
         if (trialJustStarted) {
-            return trialJustStartedSlide(trialJustStartedDeclaration);
+            return trialJustStartedScreen(trialJustStartedDeclaration);
         }
         return (
             <Carousel
@@ -200,43 +281,6 @@ const TrialBenefitsModal = (
         >
             {content()}
         </GenericModal>
-    );
-};
-
-const trialJustStartedSlide = (declaration: Omit<TrialBenefitsModalStepProps, 'pageURL' | 'buttonLabel'>) => {
-    const {id, title, description, svgWrapperClassName, svgElement, bottomLeftMessage} = declaration;
-    return (
-        <div
-            id={`trialBenefitsModalStep-${id}`}
-            className='TrialBenefitsModalStep slide-container'
-        >
-            <div className='title'>
-                {title}
-            </div>
-            <div className='description'>
-                {description}
-            </div>
-            <div className={`${svgWrapperClassName} svg-wrapper`}>
-                {svgElement}
-            </div>
-            <div className='buttons-section-wrapper'>
-                <a>
-                    <FormattedMessage
-                        id='trial_benefits_modal.trial_just_started.buttons.close'
-                        defaultMessage='Close'
-                    />
-                    <FormattedMessage
-                        id='trial_benefits_modal.trial_just_started.buttons.close'
-                        defaultMessage='Set up system console'
-                    />
-                </a>
-            </div>
-            {bottomLeftMessage && (
-                <div className='bottom-text-left-message'>
-                    {bottomLeftMessage}
-                </div>
-            )}
-        </div>
     );
 };
 
