@@ -234,7 +234,7 @@ export class TestHelper {
             name: 'group_name',
             display_name: 'group_display_name',
             description: '',
-            type: '',
+            source: '',
             remote_id: '',
             create_at: 1,
             update_at: 1,

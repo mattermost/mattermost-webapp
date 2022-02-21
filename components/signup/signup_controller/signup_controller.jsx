@@ -44,6 +44,7 @@ export default class SignupController extends React.PureComponent {
         openidButtonColor: PropTypes.string,
         subscriptionStats: PropTypes.object,
         isCloud: PropTypes.bool,
+        useCaseOnboarding: PropTypes.bool,
         actions: PropTypes.shape({
             removeGlobalItem: PropTypes.func.isRequired,
             getTeamInviteInfo: PropTypes.func.isRequired,
@@ -115,7 +116,15 @@ export default class SignupController extends React.PureComponent {
             } else if (inviteId) {
                 this.getInviteInfo(inviteId);
             } else if (userLoggedIn) {
-                GlobalActions.redirectUserToDefaultTeam();
+                if (this.props.useCaseOnboarding) {
+                    // need info about whether admin or not,
+                    // and whether admin has already completed
+                    // first tiem onboarding. Instead of fetching and orchestrating that here,
+                    // let the default root component handle it.
+                    browserHistory.push('/');
+                } else {
+                    GlobalActions.redirectUserToDefaultTeam();
+                }
             }
         }
     }

@@ -79,6 +79,11 @@ export function shallowWithIntl<T extends IntlInjectedElement>(element: T, optio
     );
 }
 
+// for non-mounted use cases like react-testing-library
+export function withIntl(element: ReactElement) {
+    return <IntlProvider {...defaultIntl}>{element}</IntlProvider>;
+}
+
 interface MountWithIntlOptions extends MountRendererProps {
     intl?: IntlShape;
 }

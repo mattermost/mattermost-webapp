@@ -31,6 +31,8 @@ import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
 import {loadProfilesForSidebar} from 'actions/user_actions';
 import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
+import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {showNextSteps} from 'components/next_steps_view/steps';
 
 import Header from 'components/widgets/header';
@@ -63,6 +65,8 @@ const GlobalThreads = () => {
     const selectedPost = useSelector((state: GlobalState) => getPost(state, threadIdentifier!));
     const showNextStepsEphemeral = useSelector((state: GlobalState) => state.views.nextSteps.show);
     const showSteps = useSelector((state: GlobalState) => showNextSteps(state));
+    const useCaseOnboarding = useSelector(getUseCaseOnboarding);
+    const isUserFirstAdmin = useSelector(isFirstAdmin);
     const config = useSelector(getConfig);
     const teamUrl = useSelector((state: GlobalState) => getCurrentRelativeTeamUrl(state));
     const threadIds = useSelector((state: GlobalState) => getThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
@@ -144,7 +148,7 @@ const GlobalThreads = () => {
 
     useEffect(() => {
         const enableOnboardingFlow = config.EnableOnboardingFlow === 'true';
-        if (enableOnboardingFlow && showSteps && !showNextStepsEphemeral) {
+        if (enableOnboardingFlow && showSteps && !showNextStepsEphemeral && !(useCaseOnboarding && isUserFirstAdmin)) {
             dispatch(setShowNextStepsView(true));
             browserHistory.push(`${teamUrl}/tips`);
         }

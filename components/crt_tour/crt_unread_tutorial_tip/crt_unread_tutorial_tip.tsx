@@ -4,9 +4,9 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import TutorialTip from 'components/tutorial/tutorial_tip';
+import TutorialTip from 'components/tutorial/tutorial_tip_legacy';
 import {Constants, Preferences} from 'utils/constants';
-import {useMeasurePunchouts} from 'components/tutorial/tutorial_tip/hooks';
+import {useMeasurePunchoutsDeprecated} from 'components/tutorial/tutorial_tip_legacy/hooks';
 
 type Props = {
     autoTour: boolean;
@@ -39,7 +39,7 @@ const CRTUnreadTutorialTip = ({autoTour}: Props) => {
             screen={screen}
             overlayClass='tip-overlay--threads-unread'
             autoTour={autoTour}
-            punchOut={useMeasurePunchouts(['threads-list-unread-button'], [])}
+            punchOut={useMeasurePunchoutsDeprecated(['threads-list-unread-button'], [])}
         />
     );
 };

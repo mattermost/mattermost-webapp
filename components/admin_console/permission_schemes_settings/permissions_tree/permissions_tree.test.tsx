@@ -30,6 +30,7 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
             LDAPGroups: 'true',
             isLicensed: 'true',
         },
+        customGroupsEnabled: true,
     };
 
     test('should match snapshot on default data', () => {
