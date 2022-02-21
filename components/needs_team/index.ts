@@ -7,7 +7,7 @@ import {withRouter} from 'react-router-dom';
 
 import {fetchAllMyTeamsChannelsAndChannelMembers, fetchMyChannelsAndMembers, viewChannel} from 'mattermost-redux/actions/channels';
 import {getMyTeamUnreads, getTeamByName, selectTeam} from 'mattermost-redux/actions/teams';
-import {getGroups, getAllGroupsAssociatedToChannelsInTeam, getAllGroupsAssociatedToTeam, getGroupsByUserId} from 'mattermost-redux/actions/groups';
+import {getGroups, getAllGroupsAssociatedToChannelsInTeam, getAllGroupsAssociatedToTeam, getGroupsByUserIdPaginated} from 'mattermost-redux/actions/groups';
 
 // TODO@Michel: remove the import for `getIsInlinePostEditingEnabled` once the inline post editing feature is enabled by default
 import {isCollapsedThreadsEnabled, getIsInlinePostEditingEnabled} from 'mattermost-redux/selectors/entities/preferences';
@@ -75,7 +75,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             loadStatusesForChannelAndSidebar,
             getAllGroupsAssociatedToChannelsInTeam,
             getAllGroupsAssociatedToTeam,
-            getGroupsByUserId,
+            getGroupsByUserIdPaginated,
             getGroups,
         }, dispatch),
     };
