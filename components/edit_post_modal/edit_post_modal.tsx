@@ -599,7 +599,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
                 >
                     <div className='post-create__container'>
                         <div
-                            className={classNames('textarea-wrapper', {
+                            className={classNames('textarea-wrapper post--editing__wrapper', {
                                 scroll: this.state.renderScrollbar,
                             })}
                             style={
