@@ -154,38 +154,12 @@ exports[`components/SearchResultsItem should hide reply button when said so 1`] 
           <div
             className=" post--edited"
           >
-            <Memo(AutoHeight)>
-              <Connect(PostBodyAdditionalContent)
-                options={
-                  Object {
-                    "searchMatches": undefined,
-                    "searchTerm": "test",
-                  }
-                }
-                post={
-                  Object {
-                    "channel_id": "channel_id",
-                    "create_at": 1502715365009,
-                    "delete_at": 0,
-                    "edit_at": 1502715372443,
-                    "id": "id",
-                    "is_pinned": false,
-                    "message": "post message",
-                    "original_id": "",
-                    "pending_post_id": "",
-                    "props": Object {},
-                    "root_id": "",
-                    "type": "",
-                    "update_at": 1502715372443,
-                    "user_id": "user_id",
-                  }
-                }
-              >
-                <Connect(PostMessageView)
-                  isRHS={true}
+            <Memo(AutoHeight)
+              showSlot={1}
+              slot1={
+                <Memo(Connect(PostBodyAdditionalContent))
                   options={
                     Object {
-                      "mentionHighlight": false,
                       "searchMatches": undefined,
                       "searchTerm": "test",
                     }
@@ -208,9 +182,39 @@ exports[`components/SearchResultsItem should hide reply button when said so 1`] 
                       "user_id": "user_id",
                     }
                   }
-                />
-              </Connect(PostBodyAdditionalContent)>
-            </Memo(AutoHeight)>
+                >
+                  <Memo(Connect(PostMessageView))
+                    isRHS={true}
+                    options={
+                      Object {
+                        "mentionHighlight": false,
+                        "searchMatches": undefined,
+                        "searchTerm": "test",
+                      }
+                    }
+                    post={
+                      Object {
+                        "channel_id": "channel_id",
+                        "create_at": 1502715365009,
+                        "delete_at": 0,
+                        "edit_at": 1502715372443,
+                        "id": "id",
+                        "is_pinned": false,
+                        "message": "post message",
+                        "original_id": "",
+                        "pending_post_id": "",
+                        "props": Object {},
+                        "root_id": "",
+                        "type": "",
+                        "update_at": 1502715372443,
+                        "user_id": "user_id",
+                      }
+                    }
+                  />
+                </Memo(Connect(PostBodyAdditionalContent))>
+              }
+              slot2={<Memo(Connect(EditPost)) />}
+            />
           </div>
         </div>
       </div>
@@ -389,38 +393,12 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
           <div
             className=" post--edited"
           >
-            <Memo(AutoHeight)>
-              <Connect(PostBodyAdditionalContent)
-                options={
-                  Object {
-                    "searchMatches": undefined,
-                    "searchTerm": "test",
-                  }
-                }
-                post={
-                  Object {
-                    "channel_id": "channel_id",
-                    "create_at": 1502715365009,
-                    "delete_at": 0,
-                    "edit_at": 1502715372443,
-                    "id": "id",
-                    "is_pinned": true,
-                    "message": "post message",
-                    "original_id": "",
-                    "pending_post_id": "",
-                    "props": Object {},
-                    "root_id": "",
-                    "type": "",
-                    "update_at": 1502715372443,
-                    "user_id": "user_id",
-                  }
-                }
-              >
-                <Connect(PostMessageView)
-                  isRHS={true}
+            <Memo(AutoHeight)
+              showSlot={1}
+              slot1={
+                <Memo(Connect(PostBodyAdditionalContent))
                   options={
                     Object {
-                      "mentionHighlight": false,
                       "searchMatches": undefined,
                       "searchTerm": "test",
                     }
@@ -443,9 +421,39 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
                       "user_id": "user_id",
                     }
                   }
-                />
-              </Connect(PostBodyAdditionalContent)>
-            </Memo(AutoHeight)>
+                >
+                  <Memo(Connect(PostMessageView))
+                    isRHS={true}
+                    options={
+                      Object {
+                        "mentionHighlight": false,
+                        "searchMatches": undefined,
+                        "searchTerm": "test",
+                      }
+                    }
+                    post={
+                      Object {
+                        "channel_id": "channel_id",
+                        "create_at": 1502715365009,
+                        "delete_at": 0,
+                        "edit_at": 1502715372443,
+                        "id": "id",
+                        "is_pinned": true,
+                        "message": "post message",
+                        "original_id": "",
+                        "pending_post_id": "",
+                        "props": Object {},
+                        "root_id": "",
+                        "type": "",
+                        "update_at": 1502715372443,
+                        "user_id": "user_id",
+                      }
+                    }
+                  />
+                </Memo(Connect(PostBodyAdditionalContent))>
+              }
+              slot2={<Memo(Connect(EditPost)) />}
+            />
           </div>
         </div>
       </div>
@@ -627,38 +635,12 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
           <div
             className=" post--edited"
           >
-            <Memo(AutoHeight)>
-              <Connect(PostBodyAdditionalContent)
-                options={
-                  Object {
-                    "searchMatches": undefined,
-                    "searchTerm": "test",
-                  }
-                }
-                post={
-                  Object {
-                    "channel_id": "channel_id",
-                    "create_at": 1502715365009,
-                    "delete_at": 0,
-                    "edit_at": 1502715372443,
-                    "id": "id",
-                    "is_pinned": false,
-                    "message": "post message",
-                    "original_id": "",
-                    "pending_post_id": "",
-                    "props": Object {},
-                    "root_id": "",
-                    "type": "",
-                    "update_at": 1502715372443,
-                    "user_id": "user_id",
-                  }
-                }
-              >
-                <Connect(PostMessageView)
-                  isRHS={true}
+            <Memo(AutoHeight)
+              showSlot={1}
+              slot1={
+                <Memo(Connect(PostBodyAdditionalContent))
                   options={
                     Object {
-                      "mentionHighlight": false,
                       "searchMatches": undefined,
                       "searchTerm": "test",
                     }
@@ -681,9 +663,39 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
                       "user_id": "user_id",
                     }
                   }
-                />
-              </Connect(PostBodyAdditionalContent)>
-            </Memo(AutoHeight)>
+                >
+                  <Memo(Connect(PostMessageView))
+                    isRHS={true}
+                    options={
+                      Object {
+                        "mentionHighlight": false,
+                        "searchMatches": undefined,
+                        "searchTerm": "test",
+                      }
+                    }
+                    post={
+                      Object {
+                        "channel_id": "channel_id",
+                        "create_at": 1502715365009,
+                        "delete_at": 0,
+                        "edit_at": 1502715372443,
+                        "id": "id",
+                        "is_pinned": false,
+                        "message": "post message",
+                        "original_id": "",
+                        "pending_post_id": "",
+                        "props": Object {},
+                        "root_id": "",
+                        "type": "",
+                        "update_at": 1502715372443,
+                        "user_id": "user_id",
+                      }
+                    }
+                  />
+                </Memo(Connect(PostBodyAdditionalContent))>
+              }
+              slot2={<Memo(Connect(EditPost)) />}
+            />
           </div>
         </div>
       </div>
@@ -854,38 +866,12 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
           <div
             className=" post--edited"
           >
-            <Memo(AutoHeight)>
-              <Connect(PostBodyAdditionalContent)
-                options={
-                  Object {
-                    "searchMatches": undefined,
-                    "searchTerm": "test",
-                  }
-                }
-                post={
-                  Object {
-                    "channel_id": "channel_id",
-                    "create_at": 1502715365009,
-                    "delete_at": 0,
-                    "edit_at": 1502715372443,
-                    "id": "id",
-                    "is_pinned": false,
-                    "message": "post message",
-                    "original_id": "",
-                    "pending_post_id": "",
-                    "props": Object {},
-                    "root_id": "",
-                    "type": "",
-                    "update_at": 1502715372443,
-                    "user_id": "user_id",
-                  }
-                }
-              >
-                <Connect(PostMessageView)
-                  isRHS={true}
+            <Memo(AutoHeight)
+              showSlot={1}
+              slot1={
+                <Memo(Connect(PostBodyAdditionalContent))
                   options={
                     Object {
-                      "mentionHighlight": false,
                       "searchMatches": undefined,
                       "searchTerm": "test",
                     }
@@ -908,9 +894,39 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
                       "user_id": "user_id",
                     }
                   }
-                />
-              </Connect(PostBodyAdditionalContent)>
-            </Memo(AutoHeight)>
+                >
+                  <Memo(Connect(PostMessageView))
+                    isRHS={true}
+                    options={
+                      Object {
+                        "mentionHighlight": false,
+                        "searchMatches": undefined,
+                        "searchTerm": "test",
+                      }
+                    }
+                    post={
+                      Object {
+                        "channel_id": "channel_id",
+                        "create_at": 1502715365009,
+                        "delete_at": 0,
+                        "edit_at": 1502715372443,
+                        "id": "id",
+                        "is_pinned": false,
+                        "message": "post message",
+                        "original_id": "",
+                        "pending_post_id": "",
+                        "props": Object {},
+                        "root_id": "",
+                        "type": "",
+                        "update_at": 1502715372443,
+                        "user_id": "user_id",
+                      }
+                    }
+                  />
+                </Memo(Connect(PostBodyAdditionalContent))>
+              }
+              slot2={<Memo(Connect(EditPost)) />}
+            />
           </div>
         </div>
       </div>
@@ -1046,14 +1062,18 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
           <div
             className=" post--edited"
           >
-            <Memo(AutoHeight)>
-              <p>
-                <MemoizedFormattedMessage
-                  defaultMessage="(message deleted)"
-                  id="post_body.deleted"
-                />
-              </p>
-            </Memo(AutoHeight)>
+            <Memo(AutoHeight)
+              showSlot={1}
+              slot1={
+                <p>
+                  <Memo(MemoizedFormattedMessage)
+                    defaultMessage="(message deleted)"
+                    id="post_body.deleted"
+                  />
+                </p>
+              }
+              slot2={<Memo(Connect(EditPost)) />}
+            />
           </div>
           <Connect(FileAttachmentList)
             compactDisplay={true}
@@ -1219,14 +1239,18 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
           <div
             className=" post--edited"
           >
-            <Memo(AutoHeight)>
-              <p>
-                <MemoizedFormattedMessage
-                  defaultMessage="(message deleted)"
-                  id="post_body.deleted"
-                />
-              </p>
-            </Memo(AutoHeight)>
+            <Memo(AutoHeight)
+              showSlot={1}
+              slot1={
+                <p>
+                  <Memo(MemoizedFormattedMessage)
+                    defaultMessage="(message deleted)"
+                    id="post_body.deleted"
+                  />
+                </p>
+              }
+              slot2={<Memo(Connect(EditPost)) />}
+            />
           </div>
           <Connect(FileAttachmentList)
             compactDisplay={true}
@@ -1430,39 +1454,12 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
           <div
             className=" post--edited"
           >
-            <Memo(AutoHeight)>
-              <Connect(PostBodyAdditionalContent)
-                options={
-                  Object {
-                    "searchMatches": undefined,
-                    "searchTerm": "test",
-                  }
-                }
-                post={
-                  Object {
-                    "channel_id": "channel_id",
-                    "create_at": 1502715365009,
-                    "delete_at": 0,
-                    "edit_at": 1502715372443,
-                    "id": "id",
-                    "is_pinned": false,
-                    "message": "post message",
-                    "original_id": "",
-                    "pending_post_id": "",
-                    "props": Object {},
-                    "reply_count": 4,
-                    "root_id": "",
-                    "type": "",
-                    "update_at": 1502715372443,
-                    "user_id": "user_id",
-                  }
-                }
-              >
-                <Connect(PostMessageView)
-                  isRHS={true}
+            <Memo(AutoHeight)
+              showSlot={1}
+              slot1={
+                <Memo(Connect(PostBodyAdditionalContent))
                   options={
                     Object {
-                      "mentionHighlight": false,
                       "searchMatches": undefined,
                       "searchTerm": "test",
                     }
@@ -1486,9 +1483,40 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
                       "user_id": "user_id",
                     }
                   }
-                />
-              </Connect(PostBodyAdditionalContent)>
-            </Memo(AutoHeight)>
+                >
+                  <Memo(Connect(PostMessageView))
+                    isRHS={true}
+                    options={
+                      Object {
+                        "mentionHighlight": false,
+                        "searchMatches": undefined,
+                        "searchTerm": "test",
+                      }
+                    }
+                    post={
+                      Object {
+                        "channel_id": "channel_id",
+                        "create_at": 1502715365009,
+                        "delete_at": 0,
+                        "edit_at": 1502715372443,
+                        "id": "id",
+                        "is_pinned": false,
+                        "message": "post message",
+                        "original_id": "",
+                        "pending_post_id": "",
+                        "props": Object {},
+                        "reply_count": 4,
+                        "root_id": "",
+                        "type": "",
+                        "update_at": 1502715372443,
+                        "user_id": "user_id",
+                      }
+                    }
+                  />
+                </Memo(Connect(PostBodyAdditionalContent))>
+              }
+              slot2={<Memo(Connect(EditPost)) />}
+            />
           </div>
         </div>
       </div>
@@ -1662,39 +1690,12 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
           <div
             className=" post--edited"
           >
-            <Memo(AutoHeight)>
-              <Connect(PostBodyAdditionalContent)
-                options={
-                  Object {
-                    "searchMatches": undefined,
-                    "searchTerm": "test",
-                  }
-                }
-                post={
-                  Object {
-                    "channel_id": "channel_id",
-                    "create_at": 1502715365009,
-                    "delete_at": 0,
-                    "edit_at": 1502715372443,
-                    "id": "id",
-                    "is_pinned": false,
-                    "message": "post message",
-                    "original_id": "",
-                    "pending_post_id": "",
-                    "props": Object {},
-                    "reply_count": 0,
-                    "root_id": "",
-                    "type": "",
-                    "update_at": 1502715372443,
-                    "user_id": "user_id",
-                  }
-                }
-              >
-                <Connect(PostMessageView)
-                  isRHS={true}
+            <Memo(AutoHeight)
+              showSlot={1}
+              slot1={
+                <Memo(Connect(PostBodyAdditionalContent))
                   options={
                     Object {
-                      "mentionHighlight": false,
                       "searchMatches": undefined,
                       "searchTerm": "test",
                     }
@@ -1718,9 +1719,40 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
                       "user_id": "user_id",
                     }
                   }
-                />
-              </Connect(PostBodyAdditionalContent)>
-            </Memo(AutoHeight)>
+                >
+                  <Memo(Connect(PostMessageView))
+                    isRHS={true}
+                    options={
+                      Object {
+                        "mentionHighlight": false,
+                        "searchMatches": undefined,
+                        "searchTerm": "test",
+                      }
+                    }
+                    post={
+                      Object {
+                        "channel_id": "channel_id",
+                        "create_at": 1502715365009,
+                        "delete_at": 0,
+                        "edit_at": 1502715372443,
+                        "id": "id",
+                        "is_pinned": false,
+                        "message": "post message",
+                        "original_id": "",
+                        "pending_post_id": "",
+                        "props": Object {},
+                        "reply_count": 0,
+                        "root_id": "",
+                        "type": "",
+                        "update_at": 1502715372443,
+                        "user_id": "user_id",
+                      }
+                    }
+                  />
+                </Memo(Connect(PostBodyAdditionalContent))>
+              }
+              slot2={<Memo(Connect(EditPost)) />}
+            />
           </div>
         </div>
       </div>
@@ -1902,39 +1934,12 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
           <div
             className=" post--edited"
           >
-            <Memo(AutoHeight)>
-              <Connect(PostBodyAdditionalContent)
-                options={
-                  Object {
-                    "searchMatches": undefined,
-                    "searchTerm": "test",
-                  }
-                }
-                post={
-                  Object {
-                    "channel_id": "channel_id",
-                    "create_at": 1502715365009,
-                    "delete_at": 0,
-                    "edit_at": 1502715372443,
-                    "id": "id",
-                    "is_pinned": false,
-                    "message": "post message",
-                    "original_id": "",
-                    "pending_post_id": "",
-                    "props": Object {},
-                    "reply_count": 0,
-                    "root_id": "",
-                    "type": "",
-                    "update_at": 1502715372443,
-                    "user_id": "user_id",
-                  }
-                }
-              >
-                <Connect(PostMessageView)
-                  isRHS={true}
+            <Memo(AutoHeight)
+              showSlot={1}
+              slot1={
+                <Memo(Connect(PostBodyAdditionalContent))
                   options={
                     Object {
-                      "mentionHighlight": false,
                       "searchMatches": undefined,
                       "searchTerm": "test",
                     }
@@ -1958,9 +1963,40 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
                       "user_id": "user_id",
                     }
                   }
-                />
-              </Connect(PostBodyAdditionalContent)>
-            </Memo(AutoHeight)>
+                >
+                  <Memo(Connect(PostMessageView))
+                    isRHS={true}
+                    options={
+                      Object {
+                        "mentionHighlight": false,
+                        "searchMatches": undefined,
+                        "searchTerm": "test",
+                      }
+                    }
+                    post={
+                      Object {
+                        "channel_id": "channel_id",
+                        "create_at": 1502715365009,
+                        "delete_at": 0,
+                        "edit_at": 1502715372443,
+                        "id": "id",
+                        "is_pinned": false,
+                        "message": "post message",
+                        "original_id": "",
+                        "pending_post_id": "",
+                        "props": Object {},
+                        "reply_count": 0,
+                        "root_id": "",
+                        "type": "",
+                        "update_at": 1502715372443,
+                        "user_id": "user_id",
+                      }
+                    }
+                  />
+                </Memo(Connect(PostBodyAdditionalContent))>
+              }
+              slot2={<Memo(Connect(EditPost)) />}
+            />
           </div>
         </div>
       </div>
@@ -2134,39 +2170,12 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
           <div
             className=" post--edited"
           >
-            <Memo(AutoHeight)>
-              <Connect(PostBodyAdditionalContent)
-                options={
-                  Object {
-                    "searchMatches": undefined,
-                    "searchTerm": "test",
-                  }
-                }
-                post={
-                  Object {
-                    "channel_id": "channel_id",
-                    "create_at": 1502715365009,
-                    "delete_at": 0,
-                    "edit_at": 1502715372443,
-                    "id": "id",
-                    "is_pinned": false,
-                    "message": "post message",
-                    "original_id": "",
-                    "pending_post_id": "",
-                    "props": Object {},
-                    "reply_count": 4,
-                    "root_id": "",
-                    "type": "",
-                    "update_at": 1502715372443,
-                    "user_id": "user_id",
-                  }
-                }
-              >
-                <Connect(PostMessageView)
-                  isRHS={true}
+            <Memo(AutoHeight)
+              showSlot={1}
+              slot1={
+                <Memo(Connect(PostBodyAdditionalContent))
                   options={
                     Object {
-                      "mentionHighlight": false,
                       "searchMatches": undefined,
                       "searchTerm": "test",
                     }
@@ -2190,9 +2199,40 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
                       "user_id": "user_id",
                     }
                   }
-                />
-              </Connect(PostBodyAdditionalContent)>
-            </Memo(AutoHeight)>
+                >
+                  <Memo(Connect(PostMessageView))
+                    isRHS={true}
+                    options={
+                      Object {
+                        "mentionHighlight": false,
+                        "searchMatches": undefined,
+                        "searchTerm": "test",
+                      }
+                    }
+                    post={
+                      Object {
+                        "channel_id": "channel_id",
+                        "create_at": 1502715365009,
+                        "delete_at": 0,
+                        "edit_at": 1502715372443,
+                        "id": "id",
+                        "is_pinned": false,
+                        "message": "post message",
+                        "original_id": "",
+                        "pending_post_id": "",
+                        "props": Object {},
+                        "reply_count": 4,
+                        "root_id": "",
+                        "type": "",
+                        "update_at": 1502715372443,
+                        "user_id": "user_id",
+                      }
+                    }
+                  />
+                </Memo(Connect(PostBodyAdditionalContent))>
+              }
+              slot2={<Memo(Connect(EditPost)) />}
+            />
           </div>
         </div>
         <Memo(ThreadFooter)
@@ -2378,39 +2418,12 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
           <div
             className=" post--edited"
           >
-            <Memo(AutoHeight)>
-              <Connect(PostBodyAdditionalContent)
-                options={
-                  Object {
-                    "searchMatches": undefined,
-                    "searchTerm": "test",
-                  }
-                }
-                post={
-                  Object {
-                    "channel_id": "channel_id",
-                    "create_at": 1502715365009,
-                    "delete_at": 0,
-                    "edit_at": 1502715372443,
-                    "id": "id",
-                    "is_pinned": false,
-                    "message": "post message",
-                    "original_id": "",
-                    "pending_post_id": "",
-                    "props": Object {},
-                    "reply_count": 4,
-                    "root_id": "parentpostid",
-                    "type": "",
-                    "update_at": 1502715372443,
-                    "user_id": "user_id",
-                  }
-                }
-              >
-                <Connect(PostMessageView)
-                  isRHS={true}
+            <Memo(AutoHeight)
+              showSlot={1}
+              slot1={
+                <Memo(Connect(PostBodyAdditionalContent))
                   options={
                     Object {
-                      "mentionHighlight": false,
                       "searchMatches": undefined,
                       "searchTerm": "test",
                     }
@@ -2434,9 +2447,40 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
                       "user_id": "user_id",
                     }
                   }
-                />
-              </Connect(PostBodyAdditionalContent)>
-            </Memo(AutoHeight)>
+                >
+                  <Memo(Connect(PostMessageView))
+                    isRHS={true}
+                    options={
+                      Object {
+                        "mentionHighlight": false,
+                        "searchMatches": undefined,
+                        "searchTerm": "test",
+                      }
+                    }
+                    post={
+                      Object {
+                        "channel_id": "channel_id",
+                        "create_at": 1502715365009,
+                        "delete_at": 0,
+                        "edit_at": 1502715372443,
+                        "id": "id",
+                        "is_pinned": false,
+                        "message": "post message",
+                        "original_id": "",
+                        "pending_post_id": "",
+                        "props": Object {},
+                        "reply_count": 4,
+                        "root_id": "parentpostid",
+                        "type": "",
+                        "update_at": 1502715372443,
+                        "user_id": "user_id",
+                      }
+                    }
+                  />
+                </Memo(Connect(PostBodyAdditionalContent))>
+              }
+              slot2={<Memo(Connect(EditPost)) />}
+            />
           </div>
         </div>
       </div>
@@ -2610,39 +2654,12 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
           <div
             className=" post--edited"
           >
-            <Memo(AutoHeight)>
-              <Connect(PostBodyAdditionalContent)
-                options={
-                  Object {
-                    "searchMatches": undefined,
-                    "searchTerm": "test",
-                  }
-                }
-                post={
-                  Object {
-                    "channel_id": "channel_id",
-                    "create_at": 1502715365009,
-                    "delete_at": 0,
-                    "edit_at": 1502715372443,
-                    "id": "id",
-                    "is_pinned": false,
-                    "message": "post message",
-                    "original_id": "",
-                    "pending_post_id": "",
-                    "props": Object {},
-                    "reply_count": 4,
-                    "root_id": "",
-                    "type": "",
-                    "update_at": 1502715372443,
-                    "user_id": "user_id",
-                  }
-                }
-              >
-                <Connect(PostMessageView)
-                  isRHS={true}
+            <Memo(AutoHeight)
+              showSlot={1}
+              slot1={
+                <Memo(Connect(PostBodyAdditionalContent))
                   options={
                     Object {
-                      "mentionHighlight": false,
                       "searchMatches": undefined,
                       "searchTerm": "test",
                     }
@@ -2666,9 +2683,40 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
                       "user_id": "user_id",
                     }
                   }
-                />
-              </Connect(PostBodyAdditionalContent)>
-            </Memo(AutoHeight)>
+                >
+                  <Memo(Connect(PostMessageView))
+                    isRHS={true}
+                    options={
+                      Object {
+                        "mentionHighlight": false,
+                        "searchMatches": undefined,
+                        "searchTerm": "test",
+                      }
+                    }
+                    post={
+                      Object {
+                        "channel_id": "channel_id",
+                        "create_at": 1502715365009,
+                        "delete_at": 0,
+                        "edit_at": 1502715372443,
+                        "id": "id",
+                        "is_pinned": false,
+                        "message": "post message",
+                        "original_id": "",
+                        "pending_post_id": "",
+                        "props": Object {},
+                        "reply_count": 4,
+                        "root_id": "",
+                        "type": "",
+                        "update_at": 1502715372443,
+                        "user_id": "user_id",
+                      }
+                    }
+                  />
+                </Memo(Connect(PostBodyAdditionalContent))>
+              }
+              slot2={<Memo(Connect(EditPost)) />}
+            />
           </div>
         </div>
         <Memo(ThreadFooter)
@@ -2848,38 +2896,12 @@ exports[`components/SearchResultsItem should show team name when provided 1`] = 
           <div
             className=" post--edited"
           >
-            <Memo(AutoHeight)>
-              <Connect(PostBodyAdditionalContent)
-                options={
-                  Object {
-                    "searchMatches": undefined,
-                    "searchTerm": "test",
-                  }
-                }
-                post={
-                  Object {
-                    "channel_id": "channel_id",
-                    "create_at": 1502715365009,
-                    "delete_at": 0,
-                    "edit_at": 1502715372443,
-                    "id": "id",
-                    "is_pinned": false,
-                    "message": "post message",
-                    "original_id": "",
-                    "pending_post_id": "",
-                    "props": Object {},
-                    "root_id": "",
-                    "type": "",
-                    "update_at": 1502715372443,
-                    "user_id": "user_id",
-                  }
-                }
-              >
-                <Connect(PostMessageView)
-                  isRHS={true}
+            <Memo(AutoHeight)
+              showSlot={1}
+              slot1={
+                <Memo(Connect(PostBodyAdditionalContent))
                   options={
                     Object {
-                      "mentionHighlight": false,
                       "searchMatches": undefined,
                       "searchTerm": "test",
                     }
@@ -2902,9 +2924,39 @@ exports[`components/SearchResultsItem should show team name when provided 1`] = 
                       "user_id": "user_id",
                     }
                   }
-                />
-              </Connect(PostBodyAdditionalContent)>
-            </Memo(AutoHeight)>
+                >
+                  <Memo(Connect(PostMessageView))
+                    isRHS={true}
+                    options={
+                      Object {
+                        "mentionHighlight": false,
+                        "searchMatches": undefined,
+                        "searchTerm": "test",
+                      }
+                    }
+                    post={
+                      Object {
+                        "channel_id": "channel_id",
+                        "create_at": 1502715365009,
+                        "delete_at": 0,
+                        "edit_at": 1502715372443,
+                        "id": "id",
+                        "is_pinned": false,
+                        "message": "post message",
+                        "original_id": "",
+                        "pending_post_id": "",
+                        "props": Object {},
+                        "root_id": "",
+                        "type": "",
+                        "update_at": 1502715372443,
+                        "user_id": "user_id",
+                      }
+                    }
+                  />
+                </Memo(Connect(PostBodyAdditionalContent))>
+              }
+              slot2={<Memo(Connect(EditPost)) />}
+            />
           </div>
         </div>
       </div>

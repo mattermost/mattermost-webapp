@@ -109,32 +109,36 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
         <div
           className="post__body--transition post--edited"
         >
-          <Memo(AutoHeight)>
-            <MessageWithAdditionalContent
-              isEmbedVisible={false}
-              pluginPostTypes={Object {}}
-              post={
-                Object {
-                  "channel_id": "channel_id",
-                  "create_at": 1502715365009,
-                  "delete_at": 0,
-                  "edit_at": 1502715372443,
-                  "id": "id",
-                  "is_pinned": false,
-                  "message": "post message",
-                  "original_id": "",
-                  "pending_post_id": "",
-                  "props": Object {},
-                  "root_id": "",
-                  "type": "",
-                  "update_at": 1502715372443,
-                  "user_id": "user_id",
+          <Memo(AutoHeight)
+            showSlot={1}
+            slot1={
+              <MessageWithAdditionalContent
+                isEmbedVisible={false}
+                pluginPostTypes={Object {}}
+                post={
+                  Object {
+                    "channel_id": "channel_id",
+                    "create_at": 1502715365009,
+                    "delete_at": 0,
+                    "edit_at": 1502715372443,
+                    "id": "id",
+                    "is_pinned": false,
+                    "message": "post message",
+                    "original_id": "",
+                    "pending_post_id": "",
+                    "props": Object {},
+                    "root_id": "",
+                    "type": "",
+                    "update_at": 1502715372443,
+                    "user_id": "user_id",
+                  }
                 }
-              }
-              previewCollapsed=""
-              previewEnabled={false}
-            />
-          </Memo(AutoHeight)>
+                previewCollapsed=""
+                previewEnabled={false}
+              />
+            }
+            slot2={<Memo(Connect(EditPost)) />}
+          />
         </div>
         <Connect(ReactionList)
           isReadOnly={false}
@@ -318,32 +322,36 @@ exports[`components/RhsRootPost should match snapshot hovered 1`] = `
         <div
           className="post__body--transition post--edited"
         >
-          <Memo(AutoHeight)>
-            <MessageWithAdditionalContent
-              isEmbedVisible={false}
-              pluginPostTypes={Object {}}
-              post={
-                Object {
-                  "channel_id": "channel_id",
-                  "create_at": 1502715365009,
-                  "delete_at": 0,
-                  "edit_at": 1502715372443,
-                  "id": "id",
-                  "is_pinned": false,
-                  "message": "post message",
-                  "original_id": "",
-                  "pending_post_id": "",
-                  "props": Object {},
-                  "root_id": "",
-                  "type": "",
-                  "update_at": 1502715372443,
-                  "user_id": "user_id",
+          <Memo(AutoHeight)
+            showSlot={1}
+            slot1={
+              <MessageWithAdditionalContent
+                isEmbedVisible={false}
+                pluginPostTypes={Object {}}
+                post={
+                  Object {
+                    "channel_id": "channel_id",
+                    "create_at": 1502715365009,
+                    "delete_at": 0,
+                    "edit_at": 1502715372443,
+                    "id": "id",
+                    "is_pinned": false,
+                    "message": "post message",
+                    "original_id": "",
+                    "pending_post_id": "",
+                    "props": Object {},
+                    "root_id": "",
+                    "type": "",
+                    "update_at": 1502715372443,
+                    "user_id": "user_id",
+                  }
                 }
-              }
-              previewCollapsed=""
-              previewEnabled={false}
-            />
-          </Memo(AutoHeight)>
+                previewCollapsed=""
+                previewEnabled={false}
+              />
+            }
+            slot2={<Memo(Connect(EditPost)) />}
+          />
         </div>
         <Connect(ReactionList)
           isReadOnly={false}
@@ -481,32 +489,36 @@ exports[`components/RhsRootPost should match snapshot on CRT enabled 1`] = `
         <div
           className="post__body--transition post--edited"
         >
-          <Memo(AutoHeight)>
-            <MessageWithAdditionalContent
-              isEmbedVisible={false}
-              pluginPostTypes={Object {}}
-              post={
-                Object {
-                  "channel_id": "channel_id",
-                  "create_at": 1502715365009,
-                  "delete_at": 0,
-                  "edit_at": 1502715372443,
-                  "id": "id",
-                  "is_pinned": false,
-                  "message": "post message",
-                  "original_id": "",
-                  "pending_post_id": "",
-                  "props": Object {},
-                  "root_id": "",
-                  "type": "",
-                  "update_at": 1502715372443,
-                  "user_id": "user_id",
+          <Memo(AutoHeight)
+            showSlot={1}
+            slot1={
+              <MessageWithAdditionalContent
+                isEmbedVisible={false}
+                pluginPostTypes={Object {}}
+                post={
+                  Object {
+                    "channel_id": "channel_id",
+                    "create_at": 1502715365009,
+                    "delete_at": 0,
+                    "edit_at": 1502715372443,
+                    "id": "id",
+                    "is_pinned": false,
+                    "message": "post message",
+                    "original_id": "",
+                    "pending_post_id": "",
+                    "props": Object {},
+                    "root_id": "",
+                    "type": "",
+                    "update_at": 1502715372443,
+                    "user_id": "user_id",
+                  }
                 }
-              }
-              previewCollapsed=""
-              previewEnabled={false}
-            />
-          </Memo(AutoHeight)>
+                previewCollapsed=""
+                previewEnabled={false}
+              />
+            }
+            slot2={<Memo(Connect(EditPost)) />}
+          />
         </div>
         <Connect(ReactionList)
           isReadOnly={false}
@@ -646,33 +658,37 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
         <div
           className="post__body--transition post--edited"
         >
-          <Memo(AutoHeight)>
-            <MessageWithAdditionalContent
-              isEmbedVisible={false}
-              pluginPostTypes={Object {}}
-              post={
-                Object {
-                  "channel_id": "channel_id",
-                  "create_at": 1502715365009,
-                  "delete_at": 0,
-                  "edit_at": 1502715372443,
-                  "id": "id",
-                  "is_pinned": false,
-                  "message": "post message",
-                  "original_id": "",
-                  "pending_post_id": "",
-                  "props": Object {},
-                  "root_id": "",
-                  "state": "DELETED",
-                  "type": "",
-                  "update_at": 1502715372443,
-                  "user_id": "user_id",
+          <Memo(AutoHeight)
+            showSlot={1}
+            slot1={
+              <MessageWithAdditionalContent
+                isEmbedVisible={false}
+                pluginPostTypes={Object {}}
+                post={
+                  Object {
+                    "channel_id": "channel_id",
+                    "create_at": 1502715365009,
+                    "delete_at": 0,
+                    "edit_at": 1502715372443,
+                    "id": "id",
+                    "is_pinned": false,
+                    "message": "post message",
+                    "original_id": "",
+                    "pending_post_id": "",
+                    "props": Object {},
+                    "root_id": "",
+                    "state": "DELETED",
+                    "type": "",
+                    "update_at": 1502715372443,
+                    "user_id": "user_id",
+                  }
                 }
-              }
-              previewCollapsed=""
-              previewEnabled={false}
-            />
-          </Memo(AutoHeight)>
+                previewCollapsed=""
+                previewEnabled={false}
+              />
+            }
+            slot2={<Memo(Connect(EditPost)) />}
+          />
         </div>
         <Connect(ReactionList)
           isReadOnly={false}
@@ -815,34 +831,38 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
         <div
           className="post__body--transition post--edited"
         >
-          <Memo(AutoHeight)>
-            <MessageWithAdditionalContent
-              isEmbedVisible={false}
-              pluginPostTypes={Object {}}
-              post={
-                Object {
-                  "channel_id": "channel_id",
-                  "create_at": 1502715365009,
-                  "delete_at": 0,
-                  "edit_at": 1502715372443,
-                  "id": "id",
-                  "isFlagged": true,
-                  "is_pinned": false,
-                  "message": "post message",
-                  "original_id": "",
-                  "pending_post_id": "",
-                  "props": Object {},
-                  "root_id": "",
-                  "state": "DELETED",
-                  "type": "",
-                  "update_at": 1502715372443,
-                  "user_id": "user_id",
+          <Memo(AutoHeight)
+            showSlot={1}
+            slot1={
+              <MessageWithAdditionalContent
+                isEmbedVisible={false}
+                pluginPostTypes={Object {}}
+                post={
+                  Object {
+                    "channel_id": "channel_id",
+                    "create_at": 1502715365009,
+                    "delete_at": 0,
+                    "edit_at": 1502715372443,
+                    "id": "id",
+                    "isFlagged": true,
+                    "is_pinned": false,
+                    "message": "post message",
+                    "original_id": "",
+                    "pending_post_id": "",
+                    "props": Object {},
+                    "root_id": "",
+                    "state": "DELETED",
+                    "type": "",
+                    "update_at": 1502715372443,
+                    "user_id": "user_id",
+                  }
                 }
-              }
-              previewCollapsed=""
-              previewEnabled={false}
-            />
-          </Memo(AutoHeight)>
+                previewCollapsed=""
+                previewEnabled={false}
+              />
+            }
+            slot2={<Memo(Connect(EditPost)) />}
+          />
         </div>
         <Connect(ReactionList)
           isReadOnly={false}
@@ -982,32 +1002,36 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
         <div
           className="post__body--transition post--edited"
         >
-          <Memo(AutoHeight)>
-            <MessageWithAdditionalContent
-              isEmbedVisible={false}
-              pluginPostTypes={Object {}}
-              post={
-                Object {
-                  "channel_id": "channel_id",
-                  "create_at": 1502715365009,
-                  "delete_at": 0,
-                  "edit_at": 1502715372443,
-                  "id": "id",
-                  "is_pinned": false,
-                  "message": "post message",
-                  "original_id": "",
-                  "pending_post_id": "",
-                  "props": Object {},
-                  "root_id": "",
-                  "type": "",
-                  "update_at": 1502715372443,
-                  "user_id": "user_id",
+          <Memo(AutoHeight)
+            showSlot={1}
+            slot1={
+              <MessageWithAdditionalContent
+                isEmbedVisible={false}
+                pluginPostTypes={Object {}}
+                post={
+                  Object {
+                    "channel_id": "channel_id",
+                    "create_at": 1502715365009,
+                    "delete_at": 0,
+                    "edit_at": 1502715372443,
+                    "id": "id",
+                    "is_pinned": false,
+                    "message": "post message",
+                    "original_id": "",
+                    "pending_post_id": "",
+                    "props": Object {},
+                    "root_id": "",
+                    "type": "",
+                    "update_at": 1502715372443,
+                    "user_id": "user_id",
+                  }
                 }
-              }
-              previewCollapsed=""
-              previewEnabled={false}
-            />
-          </Memo(AutoHeight)>
+                previewCollapsed=""
+                previewEnabled={false}
+              />
+            }
+            slot2={<Memo(Connect(EditPost)) />}
+          />
         </div>
         <Connect(ReactionList)
           isReadOnly={false}
