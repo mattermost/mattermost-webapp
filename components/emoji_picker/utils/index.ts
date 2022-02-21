@@ -12,6 +12,8 @@ import {
     CategoryOrEmojiRow,
     CategoryHeaderRow,
     EmojiRow,
+    EmojiWithRow,
+    EmojiCursor,
 } from 'components/emoji_picker/types';
 
 import {EmojiIndicesByCategory, Emojis as EmojisJson, EmojiIndicesByUnicode} from 'utils/emoji.jsx';
@@ -265,6 +267,27 @@ function splitEmojisToRows(emojis: Emoji[], categoryIndex: number, categoryName:
     return [emojiRows, emojiRowIndexCounter];
 }
 
+function createEmojiCursors(categoryOrEmojiRows: CategoryOrEmojiRow[]) {
+    let emojisSortedByCategory: EmojiWithRow[] = [];
+    let emojiIndexCounter = 0;
+    categoryOrEmojiRows.forEach((categoryOrEmojiRow) => {
+        if (categoryOrEmojiRow.type === 'emojisRow') {
+            const rowIndex = categoryOrEmojiRow.index;
+            emojiIndexCounter++;
+            const emojisOfARow = categoryOrEmojiRow.items.map((emojiItem) => ({
+                rowIndex,
+                emojiIndex: emojiIndexCounter,
+                categoryName: emojiItem.categoryName,
+                emojiId: emojiItem.emojiId,
+            }));
+
+            emojisSortedByCategory = [...emojisSortedByCategory, ...emojisOfARow];
+        }
+    });
+
+    return emojisSortedByCategory;
+}
+
 /**
  * Creates rows of category and emoji.
  * @param allEmojis the map of all emojis
@@ -279,15 +302,13 @@ export function createCategoryAndEmojiRows(
     categories: Categories,
     filter: string,
     userSkinTone: string,
-): CategoryOrEmojiRow[] {
+): [CategoryOrEmojiRow[], EmojiWithRow[]] {
     if (isEmpty(allEmojis) || isEmpty(categories)) {
-        return [];
+        return [[], []];
     }
 
     // If search is active, return filtered emojis
     if (filter.length) {
-        const filteredEmojis = getFilteredEmojis(allEmojis, filter, categories[RECENT]?.emojiIds ?? []);
-
         const searchCategoryRow: CategoryHeaderRow = {
             index: 0,
             type: CATEGORY_HEADER_ROW,
@@ -299,10 +320,18 @@ export function createCategoryAndEmojiRows(
                 item: categories.searchResults,
             }],
         };
+
+        const filteredEmojis = getFilteredEmojis(allEmojis, filter, categories[RECENT]?.emojiIds ?? []);
         const [searchEmojisRows] = splitEmojisToRows(filteredEmojis, 0, SEARCH_RESULTS, 1);
 
-        return [searchCategoryRow, ...searchEmojisRows];
+        const searchEmojiRowsWithCategoryHeader: CategoryOrEmojiRow[] = [searchCategoryRow, ...searchEmojisRows];
+
+        const emojisSortedByCategory = createEmojiCursors(searchEmojiRowsWithCategoryHeader);
+
+        return [searchEmojiRowsWithCategoryHeader, emojisSortedByCategory];
     }
+
+    let sortedEmojis: Emoji[] = [];
 
     let rowIndexCounter = 0;
     let categoryOrEmojisRows: CategoryOrEmojiRow[] = [];
@@ -313,6 +342,8 @@ export function createCategoryAndEmojiRows(
             categoryName as EmojiCategory,
             userSkinTone,
         );
+
+        sortedEmojis = [...sortedEmojis, ...emojis];
 
         // Add for the category header
         const categoryRow: CategoryHeaderRow = {
@@ -337,5 +368,21 @@ export function createCategoryAndEmojiRows(
         categoryOrEmojisRows = [...categoryOrEmojisRows, ...emojiRows];
     });
 
-    return categoryOrEmojisRows;
+    const emojisSortedByCategory = createEmojiCursors(categoryOrEmojisRows);
+
+    return [categoryOrEmojisRows, emojisSortedByCategory];
+}
+
+export function getCursorProperties(cursorRowIndex: EmojiCursor['rowIndex'], cursorEmojiId: EmojiCursor['emojiId'], categoryOrEmojisRows: EmojiRow[]): [string, number, number] {
+    if (cursorEmojiId.length === 0 || cursorRowIndex === -1) {
+        return ['', -1, -1];
+    }
+
+    const cursorCategory = categoryOrEmojisRows[cursorRowIndex].items[0].categoryName;
+    const cursorCategoryIndex = categoryOrEmojisRows[cursorRowIndex].items[0].categoryIndex;
+    const cursorEmojiIndex = categoryOrEmojisRows[cursorRowIndex].items.find((emojiItem) => {
+        return emojiItem.emojiId === cursorEmojiId;
+    })?.emojiIndex ?? -1;
+
+    return [cursorCategory, cursorCategoryIndex, cursorEmojiIndex];
 }

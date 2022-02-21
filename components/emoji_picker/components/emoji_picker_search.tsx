@@ -10,14 +10,13 @@ import React, {
 import {useIntl} from 'react-intl';
 
 import {NavigationDirection} from 'components/emoji_picker/types';
-
 import {EMOJI_PER_ROW} from 'components/emoji_picker/constants';
 
 interface Props {
     value: string;
-    customEmojisEnabled: boolean;
     cursorCategoryIndex: number;
     cursorEmojiIndex: number;
+    customEmojisEnabled: boolean;
     focus: () => void;
     onEnter: () => void;
     onChange: (value: string) => void;
@@ -47,7 +46,7 @@ const EmojiPickerSearch = forwardRef<HTMLInputElement, Props>(({value, customEmo
         switch (event.key) {
         case 'ArrowRight':
             // If the cursor is at the end of the textbox and an emoji is currently selected, move it to the next emoji
-            if ((event.currentTarget?.selectionStart ?? 0) + 1 > value.length || (cursorEmojiIndex !== -1 || cursorCategoryIndex !== -1)) {
+            if ((event.currentTarget?.selectionStart ?? 0) + 1 > value.length || (cursorCategoryIndex !== -1 || cursorEmojiIndex !== -1)) {
                 event.preventDefault();
                 onKeyDown(NavigationDirection.NextEmoji);
             }
@@ -74,7 +73,8 @@ const EmojiPickerSearch = forwardRef<HTMLInputElement, Props>(({value, customEmo
                 event.currentTarget.selectionStart = 0;
                 event.currentTarget.selectionEnd = 0;
             } else if (cursorCategoryIndex === 0 && cursorEmojiIndex < EMOJI_PER_ROW) {
-                // If the cursor is highlighting an emoji in the top row, move the cursor back into the text box to the end of the string.
+                // If the cursor is highlighting an emoji in the top row,
+                // move the cursor back into the text box to the end of the string.
                 resetCursorPosition();
                 event.currentTarget.selectionStart = value.length;
                 event.currentTarget.selectionEnd = value.length;

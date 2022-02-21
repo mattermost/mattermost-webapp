@@ -16,20 +16,19 @@ import Tooltip from 'components/tooltip';
 interface Props {
     category: Category;
     categoryRowIndex: CategoryOrEmojiRow['index'];
-    categoryIndex: number;
     selected: boolean;
     enable: boolean;
-    onClick: (categoryRowIndex: CategoryOrEmojiRow['index'], categoryIndex: number, categoryName: EmojiCategory, firstEmojiId: string) => void;
+    onClick: (categoryRowIndex: CategoryOrEmojiRow['index'], categoryName: EmojiCategory, firstEmojiId: string) => void;
 }
 
-function EmojiPickerCategory({category, categoryIndex, categoryRowIndex, selected, enable, onClick}: Props) {
+function EmojiPickerCategory({category, categoryRowIndex, selected, enable, onClick}: Props) {
     const handleClick = (event: React.MouseEvent) => {
         event.preventDefault();
 
         if (enable) {
             const firstEmojiId = category?.emojiIds?.[0] ?? '';
 
-            onClick(categoryRowIndex, categoryIndex, category.name, firstEmojiId);
+            onClick(categoryRowIndex, category.name, firstEmojiId);
         }
     };
 

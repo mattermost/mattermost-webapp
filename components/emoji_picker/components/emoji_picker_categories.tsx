@@ -19,7 +19,7 @@ interface Props {
     isFiltering: boolean;
     active: EmojiCategory;
     categories: Categories;
-    onClick: (categoryRowIndex: CategoryOrEmojiRow['index'], categoryIndex: number, categoryName: EmojiCategory, firstEmojiId: string) => void;
+    onClick: (categoryRowIndex: CategoryOrEmojiRow['index'], categoryName: EmojiCategory, firstEmojiId: string) => void;
     onKeyDown: (moveTo: NavigationDirection) => void;
     focusOnSearchInput: () => void;
 }
@@ -64,14 +64,13 @@ function EmojiPickerCategories({
             onKeyDown={handleKeyDown}
             role='application'
         >
-            {Object.keys(categories).map((categoryName, index) => {
+            {Object.keys(categories).map((categoryName) => {
                 const category = categories[categoryName as EmojiCategory];
 
                 return (
                     <EmojiPickerCategory
                         key={`${category.id}-${category.name}`}
                         category={category}
-                        categoryIndex={index}
                         categoryRowIndex={calculateCategoryRowIndex(categories, categoryName as EmojiCategory)}
                         onClick={onClick}
                         selected={activeCategory === category.name}

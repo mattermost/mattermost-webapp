@@ -7,29 +7,33 @@ import classNames from 'classnames';
 import throttle from 'lodash/throttle';
 
 import {getEmojiImageUrl, isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
-import {Emoji, EmojiCategory} from 'mattermost-redux/types/emojis';
-
-import {EmojiCursor} from 'components/emoji_picker/types';
+import {Emoji} from 'mattermost-redux/types/emojis';
 
 import imgTrans from 'images/img_trans.gif';
+import {EmojiCursor} from 'components/emoji_picker/types';
 import {EMOJI_LAZY_LOAD_SCROLL_DEBOUNCE} from 'components/emoji_picker/constants';
 
 interface Props {
     emoji: Emoji;
     rowIndex: number;
-    categoryIndex: number;
-    categoryName: EmojiCategory;
-    emojiIndex: number;
     isSelected?: boolean;
     onClick: (emoji: Emoji) => void;
     onMouseOver: (cursor: EmojiCursor) => void;
 }
 
-function EmojiPickerItem({emoji, rowIndex, categoryIndex, categoryName, emojiIndex, isSelected, onClick, onMouseOver}: Props) {
+function EmojiPickerItem({emoji, rowIndex, isSelected, onClick, onMouseOver}: Props) {
     const {formatMessage} = useIntl();
 
     const handleMouseOver = () => {
-        onMouseOver({rowIndex, categoryIndex, categoryName, emojiIndex, emoji});
+        if (!isSelected) {
+            let emojiId = '';
+            if (isSystemEmoji(emoji)) {
+                emojiId = emoji.unified;
+            } else {
+                emojiId = emoji.id;
+            }
+            onMouseOver({rowIndex, emojiId, emoji});
+        }
     };
 
     const throttledMouseOver = useCallback(
@@ -56,7 +60,6 @@ function EmojiPickerItem({emoji, rowIndex, categoryIndex, categoryName, emojiInd
                         src={getEmojiImageUrl(emoji)}
                         className={'emoji-category--custom'}
                         onClick={handleClick}
-                        loading='lazy'
                     />
                 </div>
             </div>

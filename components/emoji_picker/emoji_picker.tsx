@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-console */
 
 import React, {useRef, useState, useEffect, useCallback, memo, useMemo} from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -12,10 +12,10 @@ import {Emoji, EmojiCategory} from 'mattermost-redux/types/emojis';
 import {isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
 
 import {NoResultsVariant} from 'components/no_results_indicator/types';
-import {CategoryOrEmojiRow, Categories, EmojiCursor, NavigationDirection} from 'components/emoji_picker/types';
+import {CategoryOrEmojiRow, Categories, EmojiCursor, NavigationDirection, EmojiWithRow, EmojiRow} from 'components/emoji_picker/types';
 
-import {CATEGORIES, RECENT_EMOJI_CATEGORY, RECENT, SMILEY_EMOTION, SEARCH_RESULTS, EMOJI_PER_ROW, EMOJIS_ROW} from 'components/emoji_picker/constants';
-import {createCategoryAndEmojiRows, getUpdatedCategoriesAndAllEmojis} from 'components/emoji_picker/utils';
+import {CATEGORIES, RECENT_EMOJI_CATEGORY, RECENT, SMILEY_EMOTION, SEARCH_RESULTS, EMOJI_PER_ROW} from 'components/emoji_picker/constants';
+import {createCategoryAndEmojiRows, getCursorProperties, getUpdatedCategoriesAndAllEmojis} from 'components/emoji_picker/utils';
 
 import NoResultsIndicator from 'components/no_results_indicator';
 import EmojiPickerPreview from 'components/emoji_picker/components/emoji_picker_preview';
@@ -57,9 +57,7 @@ const EmojiPicker = ({
 
     const [cursor, setCursor] = useState<EmojiCursor>({
         rowIndex: -1,
-        categoryIndex: -1,
-        categoryName: '',
-        emojiIndex: -1,
+        emojiId: '',
         emoji: undefined,
     });
 
@@ -71,18 +69,19 @@ const EmojiPicker = ({
 
     const [categoryOrEmojisRows, setCategoryOrEmojisRows] = useState<CategoryOrEmojiRow[]>([]);
 
+    // contains all emojis visible on screen sorted by category
+    const [sortedEmojis, setSortedEmojis] = useState<EmojiWithRow[]>([]);
+
     const searchInputRef = useRef<HTMLInputElement>(null);
 
     const infiniteLoaderRef = React.useRef<InfiniteLoader & {_listRef: FixedSizeList<CategoryOrEmojiRow[]>}>(null);
 
     const shouldRunCreateCategoryAndEmojiRows = useRef<boolean>();
 
-    const categoryNames = Object.keys(categories) as EmojiCategory[];
-
     useEffect(() => {
         // Delay taking focus because this briefly renders offscreen when using an Overlay
         // so focusing it immediately on mount can cause weird scrolling
-        window.requestAnimationFrame(() => {
+        const searchFocusAnimationFrame = window.requestAnimationFrame(() => {
             searchInputRef.current?.focus();
         });
 
@@ -91,6 +90,7 @@ const EmojiPicker = ({
 
         return () => {
             rootComponent?.classList.remove('emoji-picker--active');
+            window.cancelAnimationFrame(searchFocusAnimationFrame);
         };
     }, []);
 
@@ -105,8 +105,10 @@ const EmojiPicker = ({
     useEffect(() => {
         shouldRunCreateCategoryAndEmojiRows.current = false;
 
-        const updatedCategoryOrEmojisRows = createCategoryAndEmojiRows(allEmojis, categories, filter, userSkinTone);
+        const [updatedCategoryOrEmojisRows, sortedEmojisByCategory] = createCategoryAndEmojiRows(allEmojis, categories, filter, userSkinTone);
+
         setCategoryOrEmojisRows(updatedCategoryOrEmojisRows);
+        setSortedEmojis(sortedEmojisByCategory);
     }, [filter, userSkinTone, shouldRunCreateCategoryAndEmojiRows.current]);
 
     // Hack for getting focus on search input when tab changes to emoji from gifs
@@ -120,12 +122,14 @@ const EmojiPicker = ({
             setActiveCategory(getInitialActiveCategory());
         }
 
+        // eslint-disable-next-line no-underscore-dangle
         infiniteLoaderRef?.current?._listRef?.scrollToItem(0, 'start');
     }, [filter]);
 
     // scroll as little as possible on cursor navigation
     useEffect(() => {
-        if (cursor.emoji) {
+        if (cursor.emojiId) {
+            // eslint-disable-next-line no-underscore-dangle
             infiniteLoaderRef?.current?._listRef?.scrollToItem(cursor.rowIndex, 'auto');
         }
     }, [cursor.rowIndex]);
@@ -138,26 +142,25 @@ const EmojiPicker = ({
         if (!emojiId) {
             return null;
         }
-
-        const emoji = allEmojis[emojiId];
+        const emoji = allEmojis[emojiId] || allEmojis[emojiId.toUpperCase()] || allEmojis[emojiId.toLowerCase()];
         return emoji;
     };
 
-    const handleCategoryClick = useCallback((categoryRowIndex: CategoryOrEmojiRow['index'], categoryIndex: number, categoryName: EmojiCategory, emojiId: string) => {
-        if (!categoryName || categoryName === activeCategory) {
+    const handleCategoryClick = useCallback((categoryRowIndex: CategoryOrEmojiRow['index'], categoryName: EmojiCategory, emojiId: string) => {
+        if (!categoryName || categoryName === activeCategory || !emojiId) {
             return;
         }
 
         setActiveCategory(categoryName);
+
+        // eslint-disable-next-line no-underscore-dangle
         infiniteLoaderRef?.current?._listRef?.scrollToItem(categoryRowIndex, 'start');
 
         const cursorEmoji = getEmojiById(emojiId);
         if (cursorEmoji) {
             setCursor({
                 rowIndex: categoryRowIndex + 1, // +1 because next row is the emoji row
-                categoryIndex,
-                categoryName,
-                emojiIndex: 0, // first emoji of the category
+                emojiId,
                 emoji: cursorEmoji,
             });
         }
@@ -166,136 +169,85 @@ const EmojiPicker = ({
     const resetCursor = useCallback(() => {
         setCursor({
             rowIndex: -1,
-            categoryIndex: -1,
-            categoryName: '',
-            emojiIndex: -1,
+            emojiId: '',
             emoji: undefined,
         });
     }, []);
 
-    const handleWithSearchKeyboardEmojiNavigation = (emojiIndex: EmojiCursor['emojiIndex']) => {
-        if (emojiIndex < 0 || categoryOrEmojisRows.length <= 1) {
-            return;
-        }
-
-        let rowIndex = Math.ceil(emojiIndex / EMOJI_PER_ROW);
-        rowIndex = rowIndex === 0 ? 1 : rowIndex;
-        const emojiIndexInsideRow = (emojiIndex % EMOJI_PER_ROW);
-
-        const emoji = categoryOrEmojisRows?.[rowIndex]?.items?.[emojiIndexInsideRow] ?? null;
-        const a = categoryOrEmojisRows?.[rowIndex]?.items;
-        console.log({emojiIndex, categoryOrEmojisRows, rowIndex, emojiIndexInsideRow, a});
-        if (!emoji) {
-            return;
-        }
-
-        setCursor({
-            rowIndex,
-            categoryIndex: 0,
-            categoryName: emoji.categoryName,
-            emojiIndex,
-            emoji: emoji.item as Emoji,
-        });
-    };
-
-    const handleNavigateToNextEmoji = ({emojiIndex, categoryIndex, categoryName}: EmojiCursor) => {
-        const navigateToEmojiIndex = emojiIndex + 1;
-
-        let cursorCategory = categories[categoryName as EmojiCategory];
-        if (categoryIndex === -1 || categoryName === '') {
-            cursorCategory = categories[Object.keys(categories)[0] as EmojiCategory];
-        }
-
-        if (cursorCategory.emojiIds && cursorCategory.emojiIds.length === 0) {
-            return;
-        }
-
-        const doesNewEmojiExistInCategory = navigateToEmojiIndex < (cursorCategory.emojiIds as string[]).length;
-        console.log(cursorCategory, doesNewEmojiExistInCategory);
-        if (doesNewEmojiExistInCategory) {
-            const newEmojiId = cursorCategory?.emojiIds?.[navigateToEmojiIndex] as string;
-            const newEmoji = getEmojiById(newEmojiId);
-            if (newEmoji) {
-                setCursor({
-                    rowIndex: 1,
-                    categoryIndex,
-                    categoryName,
-                    emojiIndex: navigateToEmojiIndex,
-                    emoji: newEmoji,
-                });
-            }
-        }
-    };
-
-    const getEmojiByCursor = (categoryIndex: EmojiCursor['categoryIndex'], emojiIndex: EmojiCursor['emojiIndex']) => {
-        const categoryName = categoryNames[categoryIndex];
-        console.log('categoryName', categoryName);
-    };
+    const [cursorCategory, cursorCategoryIndex, cursorEmojiIndex] = getCursorProperties(cursor.rowIndex, cursor.emojiId, categoryOrEmojisRows as EmojiRow[]);
 
     const handleKeyboardEmojiNavigation = (moveTo: NavigationDirection) => {
-        const {rowIndex, categoryIndex, categoryName, emojiIndex} = cursor;
-        console.log('handleKeyboardEmojiNavigation', moveTo, emojiIndex, filter);
+        console.log('handleKeyboardEmojiNavigation', moveTo);
 
-        switch (moveTo) {
-        case NavigationDirection.NextEmoji: {
-            if (filter.length !== 0) {
-                handleWithSearchKeyboardEmojiNavigation(emojiIndex + 1);
-            } else {
-                handleNavigateToNextEmoji(cursor);
+        let currentCursorIndexInEmojis = -1;
+        let newCursorIndex = -1;
+
+        // If cursor is on an emoji
+        if (cursor.emojiId.length !== 0) {
+            currentCursorIndexInEmojis = sortedEmojis.findIndex((sortedEmoji) =>
+                sortedEmoji.rowIndex === cursor.rowIndex &&
+                    sortedEmoji.emojiId.toLowerCase() === cursor.emojiId.toLowerCase(),
+            );
+
+            if (currentCursorIndexInEmojis === -1) {
+                newCursorIndex = 0;
+            } else if (moveTo === NavigationDirection.NextEmoji && ((currentCursorIndexInEmojis + 1) < sortedEmojis.length)) {
+                newCursorIndex = currentCursorIndexInEmojis + 1;
+            } else if (moveTo === NavigationDirection.PreviousEmoji) {
+                newCursorIndex = currentCursorIndexInEmojis - 1;
+                if (newCursorIndex < 0) {
+                    // If cursor was at first emoji then focus on search input on LEFT arrow press
+                    focusOnSearchInput();
+                }
+            } else if (moveTo === NavigationDirection.NextEmojiRow && ((currentCursorIndexInEmojis + EMOJI_PER_ROW) < sortedEmojis.length)) {
+                newCursorIndex = currentCursorIndexInEmojis + EMOJI_PER_ROW;
+            } else if (moveTo === NavigationDirection.PreviousEmojiRow) {
+                // Either we can go to previous category's last emoji or in a row above in the same category
+                // todo
             }
-            break;
-        }
-        case NavigationDirection.PreviousEmoji: {
-            if (filter.length !== 0) {
-                handleWithSearchKeyboardEmojiNavigation(emojiIndex - 1);
-            }
-            break;
-        }
-        case NavigationDirection.NextEmojiRow: {
-            if (filter.length !== 0) {
-                handleWithSearchKeyboardEmojiNavigation(emojiIndex + (EMOJI_PER_ROW - 1));
-            }
-            break;
-        }
-        case NavigationDirection.PreviousEmojiRow:
-        {
-            if (filter.length !== 0) {
-                handleWithSearchKeyboardEmojiNavigation(emojiIndex - (EMOJI_PER_ROW - 1));
-            }
-            break;
-        }
-        default:
-            break;
+        } else if (cursor.emojiId.length === 0 && (moveTo === NavigationDirection.NextEmoji || moveTo === NavigationDirection.NextEmojiRow)) {
+            // if no cursor is selected, set the first emoji on arrows right / down
+            newCursorIndex = 0;
         }
 
-        // const offsetDirectionInSameCategory = moveTo === CURSOR_DIRECTION.NEXT ? offset : -(offset);
+        // If newCursorIndex is less than 0, abort and do nothing
+        if (newCursorIndex < 0) {
+            alert('No more emojis to navigate to');
+            return;
+        }
 
-        // // moving to next or previous emoji in same category
-        // const newCursorInSameCategory: EmojiCursor = [categoryIndex, emojiIndex + offsetDirectionInSameCategory];
-        // if (getEmojiById(newCursorInSameCategory)) {
-        //     setCursor(newCursorInSameCategory);
-        //     return null;
+        
+        // This can be search category when filter is active and other categories when filter is inactive
+        // const cursorEmojiCategory = categoryOrEmojisRows[cursor.rowIndex].items[0].categoryName;
+        
+        const newEmojiRowIndex = sortedEmojis[newCursorIndex].rowIndex;
+        const newEmojiCategory = sortedEmojis[newCursorIndex].categoryName;
+        const newEmojiId = sortedEmojis[newCursorIndex].emojiId;
+        const newEmoji = getEmojiById(newEmojiId) as Emoji;
+        console.log('keyboard nav');
+        console.log({newCursorIndex, currentCursorIndexInEmojis, newEmoji, newEmojiId});
+        setCursor({
+            rowIndex: newEmojiRowIndex,
+            emojiId: newEmojiId,
+            emoji: newEmoji,
+        });
+
+        // const categoriesNames = Object.keys(getInitialCategories());
+
+        // let newEmoji: Emoji;
+        // let newEmojiId: string;
+
+        // // we jumped to next another category
+        // if ((moveTo === NavigationDirection.NextEmojiRow && categoriesNames.indexOf(newEmojiCategory) > categoriesNames.indexOf(cursorEmojiCategory)) || (
+        //     moveTo === NavigationDirection.PreviousEmojiRow && categoriesNames.indexOf(newEmojiCategory) < categoriesNames.indexOf(cursorEmojiCategory))) {
+        //     newEmojiId = categoryOrEmojisRows[newEmojiRowIndex].items[0].emojiId;
+        //     newEmoji = categoryOrEmojisRows[newEmojiRowIndex].items[0].item as Emoji;
+        // } else {
+        //     newEmojiId = sortedEmojis[position].emojiId;
+        //     newEmoji = getEmojiById(newEmojiId) as Emoji;
         // }
 
-        // // In next direction, if next emoji doesn't exist in same category, move to next category
-        // const firstCursorInNextCategory: EmojiCursor = [categoryIndex + 1, 0]; // first emoji in next category
-        // if (direction === CURSOR_DIRECTION.NEXT && getEmojiById(firstCursorInNextCategory)) {
-        //     setCursor(firstCursorInNextCategory);
-        //     return null;
-        // }
-
-        // // In previous direction, if previous emoji doesn't exist in same category, move to last emoji of previous category
-        // if (direction === CURSOR_DIRECTION.PREVIOUS && categoryIndex !== 0) {
-        //     const previousCategoryIndex = categoryIndex - 1;
-        //     const numOfEmojisInPreviousCategory = categoriesOffsetsAndIndices.numOfEmojis[previousCategoryIndex];
-        //     const lastCursorInPreviousCategory: EmojiCursor = [previousCategoryIndex, numOfEmojisInPreviousCategory - 1]; // last emoji in previous category
-        //     if (getEmojiById(lastCursorInPreviousCategory)) {
-        //         setCursor(lastCursorInPreviousCategory);
-        //         return null;
-        //     }
-        // }
-
-        // return null;
+        
     };
 
     const handleEnterOnEmoji = useCallback(() => {
@@ -304,11 +256,12 @@ const EmojiPicker = ({
         if (clickedEmoji) {
             onEmojiClick(clickedEmoji);
         }
-    }, [cursor.categoryIndex, cursor.emojiIndex]);
+    }, [cursor.emojiId]);
 
-    const handleEmojiOnMouseOver = useCallback((cursor: EmojiCursor) => {
+    const handleEmojiOnMouseOver = (cursor: EmojiCursor) => {
+        console.log('handleEmojiOnMouseOver', cursor);
         setCursor(cursor);
-    }, []);
+    };
 
     const cursorEmojiName = useMemo(() => {
         const {emoji} = cursor;
@@ -319,10 +272,11 @@ const EmojiPicker = ({
 
         const name = isSystemEmoji(emoji) ? emoji.short_name : emoji.name;
         return name.replace(/_/g, ' ');
-    }, [cursor.categoryIndex, cursor.emojiIndex]);
+    }, [cursor.emojiId]);
 
     const areSearchResultsEmpty = filter.length !== 0 && categoryOrEmojisRows.length === 1 && categoryOrEmojisRows?.[0]?.items?.[0]?.categoryName === SEARCH_RESULTS;
 
+    console.log('cursor', cursor);
     return (
         <div
             className='emoji-picker__inner'
@@ -345,8 +299,8 @@ const EmojiPicker = ({
                     ref={searchInputRef}
                     value={filter}
                     customEmojisEnabled={customEmojisEnabled}
-                    cursorCategoryIndex={cursor.categoryIndex}
-                    cursorEmojiIndex={cursor.emojiIndex}
+                    cursorCategoryIndex={cursorCategoryIndex}
+                    cursorEmojiIndex={cursorEmojiIndex}
                     focus={focusOnSearchInput}
                     onEnter={handleEnterOnEmoji}
                     onChange={handleFilterChange}
@@ -378,8 +332,8 @@ const EmojiPicker = ({
                     isFiltering={filter.length > 0}
                     activeCategory={activeCategory}
                     categoryOrEmojisRows={categoryOrEmojisRows}
-                    cursorCategoryIndex={cursor.categoryIndex}
-                    cursorEmojiIndex={cursor.emojiIndex}
+                    cursorEmojiId={cursor.emojiId}
+                    cursorRowIndex={cursor.rowIndex}
                     setActiveCategory={setActiveCategory}
                     onEmojiClick={onEmojiClick}
                     onEmojiMouseOver={handleEmojiOnMouseOver}

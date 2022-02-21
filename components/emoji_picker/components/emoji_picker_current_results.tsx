@@ -7,7 +7,7 @@ import {FixedSizeList, ListItemKeySelector, ListOnScrollProps} from 'react-windo
 import InfiniteLoader from 'react-window-infinite-loader';
 import throttle from 'lodash/throttle';
 
-import {Emoji, EmojiCategory, CustomEmoji} from 'mattermost-redux/types/emojis';
+import {Emoji, EmojiCategory, CustomEmoji, SystemEmoji} from 'mattermost-redux/types/emojis';
 import {ServerError} from 'mattermost-redux/types/errors';
 
 import {CategoryOrEmojiRow, EmojiCursor} from 'components/emoji_picker/types';
@@ -21,8 +21,8 @@ interface Props {
     categoryOrEmojisRows: CategoryOrEmojiRow[];
     isFiltering: boolean;
     activeCategory: EmojiCategory;
-    cursorCategoryIndex: number;
-    cursorEmojiIndex: number;
+    cursorRowIndex: number;
+    cursorEmojiId: SystemEmoji['unified'] | CustomEmoji['name'];
     customEmojisEnabled: boolean;
     customEmojiPage: number;
     setActiveCategory: (category: EmojiCategory) => void;
@@ -32,7 +32,7 @@ interface Props {
     getCustomEmojis: (page?: number, perPage?: number, sort?: string, loadUsers?: boolean) => Promise<{ data: CustomEmoji[]; error: ServerError }>;
 }
 
-const EmojiPickerCurrentResults = forwardRef<InfiniteLoader, Props>(({categoryOrEmojisRows, isFiltering, activeCategory, cursorCategoryIndex, cursorEmojiIndex, customEmojisEnabled, customEmojiPage, setActiveCategory, onEmojiClick, onEmojiMouseOver, getCustomEmojis, incrementEmojiPickerPage}: Props, ref) => {
+const EmojiPickerCurrentResults = forwardRef<InfiniteLoader, Props>(({categoryOrEmojisRows, isFiltering, activeCategory, cursorRowIndex, cursorEmojiId, customEmojisEnabled, customEmojiPage, setActiveCategory, onEmojiClick, onEmojiMouseOver, getCustomEmojis, incrementEmojiPickerPage}: Props, ref) => {
     // Function to create unique key for each row
     const getItemKey = (index: Parameters<ListItemKeySelector>[0], rowsData: Parameters<ListItemKeySelector<CategoryOrEmojiRow[]>>[1]) => {
         const data = rowsData[index];
@@ -122,8 +122,8 @@ const EmojiPickerCurrentResults = forwardRef<InfiniteLoader, Props>(({categoryOr
                                             index={index}
                                             style={style}
                                             data={data}
-                                            cursorCategoryIndex={cursorCategoryIndex}
-                                            cursorEmojiIndex={cursorEmojiIndex}
+                                            cursorRowIndex={cursorRowIndex}
+                                            cursorEmojiId={cursorEmojiId}
                                             onEmojiClick={onEmojiClick}
                                             onEmojiMouseOver={onEmojiMouseOver}
                                         />

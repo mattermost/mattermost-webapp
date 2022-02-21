@@ -4,7 +4,7 @@
 import React, {memo} from 'react';
 import {ListChildComponentProps, areEqual} from 'react-window';
 
-import {Emoji} from 'mattermost-redux/types/emojis';
+import {CustomEmoji, Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
 
 import {CategoryOrEmojiRow, EmojiCursor} from 'components/emoji_picker/types';
 
@@ -13,13 +13,13 @@ import EmojiPickerCategorySection from 'components/emoji_picker/components/emoji
 import EmojiPickerItem from 'components/emoji_picker/components/emoji_picker_item';
 
 interface Props extends ListChildComponentProps<CategoryOrEmojiRow[]> {
-    cursorCategoryIndex: number;
-    cursorEmojiIndex: number;
+    cursorRowIndex: number;
+    cursorEmojiId: SystemEmoji['unified'] | CustomEmoji['id'];
     onEmojiClick: (emoji: Emoji) => void;
     onEmojiMouseOver: (cursor: EmojiCursor) => void;
 }
 
-function EmojiPickerCategoryOrEmojiRow({index, style, data, cursorCategoryIndex, cursorEmojiIndex, onEmojiClick, onEmojiMouseOver}: Props) {
+function EmojiPickerCategoryOrEmojiRow({index, style, data, cursorRowIndex, cursorEmojiId, onEmojiClick, onEmojiMouseOver}: Props) {
     const row = data[index];
 
     if (isCategoryHeaderRow(row)) {
@@ -38,16 +38,13 @@ function EmojiPickerCategoryOrEmojiRow({index, style, data, cursorCategoryIndex,
         >
             {row.items.map((emojiColumn) => {
                 const emoji = emojiColumn.item;
-                const isSelected = emojiColumn.categoryIndex === cursorCategoryIndex && emojiColumn.emojiIndex === cursorEmojiIndex;
+                const isSelected = emojiColumn.emojiId.toLowerCase() === cursorEmojiId.toLowerCase() && cursorRowIndex === index;
 
                 return (
                     <EmojiPickerItem
                         key={`${emojiColumn.categoryName}-${emojiColumn.emojiId}`}
                         emoji={emoji}
                         rowIndex={row.index}
-                        categoryIndex={emojiColumn.categoryIndex}
-                        categoryName={emojiColumn.categoryName}
-                        emojiIndex={emojiColumn.emojiIndex}
                         isSelected={isSelected}
                         onClick={onEmojiClick}
                         onMouseOver={onEmojiMouseOver}

@@ -2,11 +2,13 @@
 // See LICENSE.txt for license information.
 
 import {connect, ConnectedProps} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
+import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {getCustomEmojisEnabled} from 'mattermost-redux/selectors/entities/emojis';
 import {getCustomEmojis, searchCustomEmojis} from 'mattermost-redux/actions/emojis';
+import {CustomEmoji} from 'mattermost-redux/types/emojis';
+import {ServerError} from 'mattermost-redux/types/errors';
 
 import {GlobalState} from 'types/store';
 
@@ -27,9 +29,16 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 
+type Actions = {
+    getCustomEmojis: (page?: number, perPage?: number, sort?: string, loadUsers?: boolean) => Promise<{ data: CustomEmoji[]; error: ServerError }>;
+    searchCustomEmojis: (term: string, options?: any, loadUsers?: boolean) => ActionFunc;
+    incrementEmojiPickerPage: () => void;
+    setUserSkinTone: (skin: string) => void;
+};
+
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
             getCustomEmojis,
             searchCustomEmojis,
             incrementEmojiPickerPage,

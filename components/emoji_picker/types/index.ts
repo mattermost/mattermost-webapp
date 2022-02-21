@@ -46,11 +46,15 @@ export type EmojiRow = {
 
 export type EmojiCursor = {
     rowIndex: number;
-    categoryIndex: number;
-    categoryName: string;
-    emojiIndex: number;
+    emojiId: CustomEmoji['id'] | SystemEmoji['unified'];
     emoji: Emoji | undefined;
 };
+
+export type EmojiWithRow = {
+    rowIndex: number;
+    emojiId: CustomEmoji['id'] | SystemEmoji['unified'];
+    categoryName: string;
+}
 
 export enum NavigationDirection {
     NextEmoji = 'next',
