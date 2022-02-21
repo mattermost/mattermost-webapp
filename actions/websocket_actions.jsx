@@ -196,7 +196,11 @@ export function reconnect(includeWebSocket = true) {
 
     Object.values(pluginReconnectHandlers).forEach((handler) => {
         if (handler && typeof handler === 'function') {
-            handler();
+            try {
+                handler();
+            } catch (e) {
+                console.error('Error calling plugin reconnect handler: ' + e.message);
+            }
         }
     });
 
