@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {latinise} from 'utils/latinise';
 import {t} from 'utils/i18n';
 import * as TextFormatting from 'utils/text_formatting';
+import Constants from 'utils/constants.jsx';
 
 type WindowObject = {
     location: {
@@ -186,7 +187,56 @@ export function isPermalinkURL(url: string): boolean {
     return isInternalURL(url, siteURL) && (regexp.test(url));
 }
 
+
 export function isStringContainingUrl(text: string): boolean {
     const regex = new RegExp('([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?(/.*)?');
     return regex.test(text);
+}
+
+export type UrlValidationCheck = {
+    url: string;
+    error: typeof BadUrlReasons[keyof typeof BadUrlReasons] | false;
+}
+
+export const BadUrlReasons = {
+    Empty: 'Empty',
+    Length: 'Length',
+    Reserved: 'Reserved',
+    Taken: 'Taken',
+} as const;
+
+export function teamNameToUrl(teamName: string): UrlValidationCheck {
+    // borrowed from team_url, which has some peculiarities tied to being a part of a two screen UI
+    // that allows more variation between team name and url than we allow in usages of this function
+    const url = cleanUpUrlable(teamName.trim());
+
+    if (!url) {
+        return {url, error: BadUrlReasons.Empty};
+    }
+
+    if (url.length < Constants.MIN_TEAMNAME_LENGTH || url.length > Constants.MAX_TEAMNAME_LENGTH) {
+        return {url, error: BadUrlReasons.Length};
+    }
+
+    if (Constants.RESERVED_TEAM_NAMES.some((reservedName) => url.startsWith(reservedName))) {
+        return {url, error: BadUrlReasons.Reserved};
+    }
+
+    return {url, error: false};
+}
+
+export function channelNameToUrl(channelName: string): UrlValidationCheck {
+    // borrowed from team_url, which has some peculiarities tied to being a part of a two screen UI
+    // that allows more variation between team name and url than we allow in usages of this function
+    const url = cleanUpUrlable(channelName.trim());
+
+    if (!url) {
+        return {url, error: BadUrlReasons.Empty};
+    }
+
+    if (url.length < Constants.MIN_CHANNELNAME_LENGTH || url.length > Constants.MAX_CHANNELNAME_LENGTH) {
+        return {url, error: BadUrlReasons.Length};
+    }
+
+    return {url, error: false};
 }
