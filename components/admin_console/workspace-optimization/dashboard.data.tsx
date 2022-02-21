@@ -111,19 +111,13 @@ const useMetricsData = () => {
         items: [
             {
                 id: 'server_version',
-                title: data.serverVersion.status === ItemStatus.OK ? formatMessage({
-                    id: 'admin.reporting.workspace_optimization.updates.server_version.status.ok.title',
-                    defaultMessage: 'Your Mattermost server is running the latest version',
-                }) : formatMessage({
-                    id: 'admin.reporting.workspace_optimization.updates.server_version.status.error.title',
+                title: formatMessage({
+                    id: 'admin.reporting.workspace_optimization.updates.server_version.status.title',
                     defaultMessage: '{type} version update available.',
                 }, {type: data.serverVersion.type}),
-                description: data.serverVersion.status === ItemStatus.OK ? formatMessage({
-                    id: 'admin.reporting.workspace_optimization.updates.server_version.status.ok.description',
-                    defaultMessage: 'Placeholder: Your s',
-                }) : formatMessage({
-                    id: 'admin.reporting.workspace_optimization.updates.server_version.status.error.description',
-                    defaultMessage: 'Placeholder: We recommend upgrading your Mattermost server to {version}.',
+                description: formatMessage({
+                    id: 'admin.reporting.workspace_optimization.updates.server_version.status.description',
+                    defaultMessage: 'Upgrading your Mattermost server to {version} is recommended.',
                 }, {version: data.serverVersion.version}),
                 configUrl: DocLinks.UPGRADE_SERVER,
                 configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.downloadUpdate', defaultMessage: 'Download update'}),
