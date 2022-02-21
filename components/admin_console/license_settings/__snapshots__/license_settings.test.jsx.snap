@@ -704,7 +704,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -713,7 +713,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
