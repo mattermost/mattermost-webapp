@@ -76,8 +76,8 @@ describe('Mark as Unread', () => {
         // # Switch to channelA
         switchToChannel(channelA);
 
-        // * Verify the channelA does not have unread in LHS
-        cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
+        // * Verify the channelB does not have unread in LHS
+        cy.get(`#sidebarItem_${channelB.name}`).should(beRead);
 
         // # Open RHS (reply thread)
         cy.clickPostCommentIcon(post1.id);

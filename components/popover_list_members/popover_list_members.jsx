@@ -152,7 +152,7 @@ export default class PopoverListMembers extends React.PureComponent {
                 );
             }
 
-            if (this.props.addMembersABTest === AddMembersToChanneltreatments.BOTTOM) {
+            if (this.props.addMembersABTest === AddMembersToChanneltreatments.BOTTOM && this.props.manageMembers) {
                 handleButtonOnClick = () => this.onAddNewMembersButton(AddMembersToChanneltreatments.BOTTOM);
                 membersName = (
                     <FormattedMessage
@@ -173,7 +173,7 @@ export default class PopoverListMembers extends React.PureComponent {
                         />
                     </button>
                 );
-            } else if (this.props.addMembersABTest === AddMembersToChanneltreatments.TOP) {
+            } else if (this.props.addMembersABTest === AddMembersToChanneltreatments.TOP && this.props.manageMembers) {
                 editButton = (
                     <button
                         className='btn btn-link'

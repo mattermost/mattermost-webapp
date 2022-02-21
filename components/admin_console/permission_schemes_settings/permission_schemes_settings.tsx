@@ -413,3 +413,5 @@ t('admin.permissions.group.runs.name');
 t('admin.permissions.group.runs.description');
 t('admin.permissions.permission.run_create.name');
 t('admin.permissions.permission.run_create.description');
+t('admin.permissions.group.custom_groups.name');
+t('admin.permissions.group.custom_groups.description');

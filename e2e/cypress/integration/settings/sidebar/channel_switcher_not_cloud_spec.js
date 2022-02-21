@@ -61,8 +61,6 @@ describe('Settings > Sidebar > Channel Switcher', () => {
         // * Suggestion list should not be visible
         cy.get('#suggestionList').should('not.exist');
 
-        // * searchbox should appear
-        cy.get('#searchBox').should('have.attr', 'value', `${testUser.username} @${testUser.username} `);
         cy.get('.sidebar--right__title').should('contain', 'Recent Mentions');
     });
 });
