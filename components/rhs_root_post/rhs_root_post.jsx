@@ -32,7 +32,7 @@ import PostPreHeader from 'components/post_view/post_pre_header';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import {Emoji} from 'mattermost-redux/types/emojis';
 import EditPost from 'components/edit_post';
-import AutoHeight from 'components/common/auto_height';
+import AutoHeightSwitcher from 'components/common/auto_height_switcher';
 
 export default class RhsRootPost extends React.PureComponent {
     static propTypes = {
@@ -501,6 +501,16 @@ export default class RhsRootPost extends React.PureComponent {
             );
         }
 
+        const message = (
+            <MessageWithAdditionalContent
+                post={post}
+                previewCollapsed={this.props.previewCollapsed}
+                previewEnabled={this.props.previewEnabled}
+                isEmbedVisible={this.props.isEmbedVisible}
+                pluginPostTypes={this.props.pluginPostTypes}
+            />
+        );
+
         return (
             <PostAriaLabelDiv
                 ref={this.postRef}
@@ -551,17 +561,12 @@ export default class RhsRootPost extends React.PureComponent {
                         </div>
                         <div className='post__body'>
                             <div className={postClass}>
-                                <AutoHeight shouldScrollIntoView={isPostBeingEdited}>
-                                    {isPostBeingEdited ? <EditPost/> : (
-                                        <MessageWithAdditionalContent
-                                            post={post}
-                                            previewCollapsed={this.props.previewCollapsed}
-                                            previewEnabled={this.props.previewEnabled}
-                                            isEmbedVisible={this.props.isEmbedVisible}
-                                            pluginPostTypes={this.props.pluginPostTypes}
-                                        />
-                                    )}
-                                </AutoHeight>
+                                <AutoHeightSwitcher
+                                    showSlot={isPostBeingEdited ? 2 : 1}
+                                    shouldScrollIntoView={isPostBeingEdited}
+                                    slot1={message}
+                                    slot2={<EditPost/>}
+                                />
                             </div>
                             {fileAttachment}
                             <ReactionList

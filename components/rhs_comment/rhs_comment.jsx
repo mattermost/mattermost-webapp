@@ -36,7 +36,7 @@ import UserProfile from 'components/user_profile';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import {Emoji} from 'mattermost-redux/types/emojis';
 import EditPost from 'components/edit_post';
-import AutoHeight from 'components/common/auto_height';
+import AutoHeightSwitcher from 'components/common/auto_height_switcher';
 
 export default class RhsComment extends React.PureComponent {
     static propTypes = {
@@ -623,6 +623,16 @@ export default class RhsComment extends React.PureComponent {
             );
         }
 
+        const message = (
+            <MessageWithAdditionalContent
+                post={post}
+                previewCollapsed={this.props.previewCollapsed}
+                previewEnabled={this.props.previewEnabled}
+                isEmbedVisible={this.props.isEmbedVisible}
+                pluginPostTypes={this.props.pluginPostTypes}
+            />
+        );
+
         return (
             <PostAriaLabelDiv
                 ref={this.postRef}
@@ -667,17 +677,12 @@ export default class RhsComment extends React.PureComponent {
                         </div>
                         <div className={`post__body${postClass}`} >
                             {failedPostOptions}
-                            <AutoHeight shouldScrollIntoView={isPostBeingEdited}>
-                                {isPostBeingEdited ? <EditPost/> : (
-                                    <MessageWithAdditionalContent
-                                        post={post}
-                                        previewCollapsed={this.props.previewCollapsed}
-                                        previewEnabled={this.props.previewEnabled}
-                                        isEmbedVisible={this.props.isEmbedVisible}
-                                        pluginPostTypes={this.props.pluginPostTypes}
-                                    />
-                                )}
-                            </AutoHeight>
+                            <AutoHeightSwitcher
+                                showSlot={isPostBeingEdited ? 2 : 1}
+                                shouldScrollIntoView={isPostBeingEdited}
+                                slot1={message}
+                                slot2={<EditPost/>}
+                            />
                             {fileAttachment}
                             <ReactionList
                                 post={post}

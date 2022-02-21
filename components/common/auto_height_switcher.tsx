@@ -9,22 +9,27 @@ import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 import './auto_height.scss';
 
 type AutoHeightProps = {
-    show: boolean;
+    showSlot: 1 | 2;
     duration?: number;
     shouldScrollIntoView?: boolean;
-    children: React.ReactNode | React.ReactNode[];
+    slot1: React.ReactNode | React.ReactNode[];
+    slot2: React.ReactNode | React.ReactNode[];
 };
 
-const AutoHeightSwitcher = ({show, children, duration = 250, shouldScrollIntoView = false}: AutoHeightProps) => {
+const AutoHeight = ({showSlot, slot1, slot2, duration = 250, shouldScrollIntoView = false}: AutoHeightProps) => {
     const wrapperRef = useRef<HTMLDivElement>(null);
+    const prevShow = useRef<AutoHeightProps['showSlot']>(showSlot);
     const [animate, setAnimate] = useState<boolean>(false);
-    const [height, setHeight] = useState<string>('auto');
+    const [height, setHeight] = useState<string | number>('auto');
     const [overflow, setOverflow] = useState<string>('visible');
-    const [childs, setChilds] = useState(children);
+    const [child, setChild] = useState(showSlot === 1 ? slot1 : slot2);
 
     useEffect(() => {
-        setAnimate(true);
-    }, [show]);
+        if (prevShow.current !== showSlot) {
+            setAnimate(true);
+            prevShow.current = showSlot;
+        }
+    }, [showSlot]);
 
     useEffect(() => {
         if (shouldScrollIntoView) {
@@ -50,7 +55,7 @@ const AutoHeightSwitcher = ({show, children, duration = 250, shouldScrollIntoVie
                 setHeight('auto');
                 setOverflow('visible');
                 setAnimate(false);
-                setChilds(children);
+                setChild(showSlot === 1 ? slot1 : slot2);
             }}
         >
             <div
@@ -62,11 +67,11 @@ const AutoHeightSwitcher = ({show, children, duration = 250, shouldScrollIntoVie
                     duration={duration}
                     height={height}
                 >
-                    {childs}
+                    {child}
                 </AnimateHeight>
             </div>
         </Transition>
     );
 };
 
-export default memo(AutoHeightSwitcher);
+export default memo(AutoHeight);

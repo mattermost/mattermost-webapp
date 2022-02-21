@@ -686,6 +686,7 @@
         .post__body {
             position: relative;
             background: transparent;
+            overflow: visible;
 
             .post--editing__wrapper {
                 position: relative;
