@@ -154,7 +154,7 @@ exports[`components/SearchResultsItem should hide reply button when said so 1`] 
           <div
             className=" post--edited"
           >
-            <Memo(AutoHeight)
+            <Memo(AutoHeightSwitcher)
               showSlot={1}
               slot1={
                 <Memo(Connect(PostBodyAdditionalContent))
@@ -393,7 +393,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
           <div
             className=" post--edited"
           >
-            <Memo(AutoHeight)
+            <Memo(AutoHeightSwitcher)
               showSlot={1}
               slot1={
                 <Memo(Connect(PostBodyAdditionalContent))
@@ -635,7 +635,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
           <div
             className=" post--edited"
           >
-            <Memo(AutoHeight)
+            <Memo(AutoHeightSwitcher)
               showSlot={1}
               slot1={
                 <Memo(Connect(PostBodyAdditionalContent))
@@ -866,7 +866,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
           <div
             className=" post--edited"
           >
-            <Memo(AutoHeight)
+            <Memo(AutoHeightSwitcher)
               showSlot={1}
               slot1={
                 <Memo(Connect(PostBodyAdditionalContent))
@@ -1062,7 +1062,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
           <div
             className=" post--edited"
           >
-            <Memo(AutoHeight)
+            <Memo(AutoHeightSwitcher)
               showSlot={1}
               slot1={
                 <p>
@@ -1239,7 +1239,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
           <div
             className=" post--edited"
           >
-            <Memo(AutoHeight)
+            <Memo(AutoHeightSwitcher)
               showSlot={1}
               slot1={
                 <p>
@@ -1454,7 +1454,7 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
           <div
             className=" post--edited"
           >
-            <Memo(AutoHeight)
+            <Memo(AutoHeightSwitcher)
               showSlot={1}
               slot1={
                 <Memo(Connect(PostBodyAdditionalContent))
@@ -1690,7 +1690,7 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
           <div
             className=" post--edited"
           >
-            <Memo(AutoHeight)
+            <Memo(AutoHeightSwitcher)
               showSlot={1}
               slot1={
                 <Memo(Connect(PostBodyAdditionalContent))
@@ -1934,7 +1934,7 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
           <div
             className=" post--edited"
           >
-            <Memo(AutoHeight)
+            <Memo(AutoHeightSwitcher)
               showSlot={1}
               slot1={
                 <Memo(Connect(PostBodyAdditionalContent))
@@ -2170,7 +2170,7 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
           <div
             className=" post--edited"
           >
-            <Memo(AutoHeight)
+            <Memo(AutoHeightSwitcher)
               showSlot={1}
               slot1={
                 <Memo(Connect(PostBodyAdditionalContent))
@@ -2418,7 +2418,7 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
           <div
             className=" post--edited"
           >
-            <Memo(AutoHeight)
+            <Memo(AutoHeightSwitcher)
               showSlot={1}
               slot1={
                 <Memo(Connect(PostBodyAdditionalContent))
@@ -2654,7 +2654,7 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
           <div
             className=" post--edited"
           >
-            <Memo(AutoHeight)
+            <Memo(AutoHeightSwitcher)
               showSlot={1}
               slot1={
                 <Memo(Connect(PostBodyAdditionalContent))
@@ -2896,7 +2896,7 @@ exports[`components/SearchResultsItem should show team name when provided 1`] = 
           <div
             className=" post--edited"
           >
-            <Memo(AutoHeight)
+            <Memo(AutoHeightSwitcher)
               showSlot={1}
               slot1={
                 <Memo(Connect(PostBodyAdditionalContent))

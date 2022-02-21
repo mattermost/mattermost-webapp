@@ -6,7 +6,7 @@ import {Transition} from 'react-transition-group';
 import AnimateHeight from 'react-animate-height';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 
-import './auto_height.scss';
+import './auto_height_switcher.scss';
 
 type AutoHeightProps = {
     showSlot: 1 | 2;
@@ -16,7 +16,7 @@ type AutoHeightProps = {
     slot2: React.ReactNode | React.ReactNode[];
 };
 
-const AutoHeight = ({showSlot, slot1, slot2, duration = 250, shouldScrollIntoView = false}: AutoHeightProps) => {
+const AutoHeightSwitcher = ({showSlot, slot1, slot2, duration = 250, shouldScrollIntoView = false}: AutoHeightProps) => {
     const wrapperRef = useRef<HTMLDivElement>(null);
     const prevShow = useRef<AutoHeightProps['showSlot']>(showSlot);
     const [animate, setAnimate] = useState<boolean>(false);
@@ -74,4 +74,4 @@ const AutoHeight = ({showSlot, slot1, slot2, duration = 250, shouldScrollIntoVie
     );
 };
 
-export default memo(AutoHeight);
+export default memo(AutoHeightSwitcher);
