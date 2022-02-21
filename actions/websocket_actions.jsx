@@ -199,7 +199,7 @@ export function reconnect(includeWebSocket = true) {
             try {
                 handler();
             } catch (e) {
-                console.error('Error calling plugin reconnect handler: ' + e.message);
+                console.error('Error calling plugin reconnect handler: ' + e.message); //eslint-disable-line no-console
             }
         }
     });
