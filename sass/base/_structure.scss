@@ -20,6 +20,11 @@ body {
             -webkit-overflow-scrolling: touch;
         }
     }
+
+    &.admin-onboarding {
+        background: url('images/admin-onboarding-background.png');
+        background-size: cover;
+    }
 }
 
 *:focus {
