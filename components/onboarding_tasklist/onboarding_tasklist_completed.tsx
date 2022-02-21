@@ -143,11 +143,11 @@ const Completed = (props: Props): JSX.Element => {
                         <>
                             <p>
                                 <FormattedMessage
-                                    id='ui'
+                                    id='onboardingTask.checklist.higher_security_features'
                                     defaultMessage='Interested in our higher-security features?'
                                 /> <br/>
                                 <FormattedMessage
-                                    id='ln'
+                                    id='onboardingTask.checklist.start_enterprise_now'
                                     defaultMessage='Start your free Enterprise trial now!'
                                 />
                             </p>
