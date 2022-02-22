@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback, useState} from 'react';
+import React, {useState} from 'react';
 
 import {useIntl} from 'react-intl';
 
@@ -15,7 +15,9 @@ import {GlobalState} from 'types/store';
 import {requestTrialLicense} from 'actions/admin_actions';
 import {trackEvent} from 'actions/telemetry_actions';
 
-import {closeModal} from 'actions/views/modals';
+import {closeModal, openModal} from 'actions/views/modals';
+
+import TrialBenefitsModal from 'components/trial_benefits_modal/trial_benefits_modal';
 
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 
@@ -53,11 +55,20 @@ const StartTrialBtn = ({
         const {error} = await dispatch(requestTrialLicense(requestedUsers, true, true, 'license'));
         if (error) {
             setLoadStatus(TrialLoadStatus.Failed);
+            return;
         }
 
         setLoadStatus(TrialLoadStatus.Success);
         await dispatch(getLicenseConfig());
         await dispatch(closeModal(ModalIdentifiers.LEARN_MORE_TRIAL_MODAL));
+    };
+
+    const openTrialBenefitsModal = async () => {
+        await dispatch(openModal({
+            modalId: ModalIdentifiers.TRIAL_BENEFITS_MODAL,
+            dialogType: TrialBenefitsModal,
+            dialogProps: {trialJustStarted: true},
+        }));
     };
 
     const btnText = (status: TrialLoadStatus): string => {
@@ -72,14 +83,15 @@ const StartTrialBtn = ({
             return message;
         }
     };
-    const startTrial = useCallback(async () => {
+    const startTrial = async () => {
         await requestLicense();
+        await openTrialBenefitsModal();
         onClick!();
         trackEvent(
             TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
-            'start_trial_from_',
+            'start_trial_from_learn_more_about_trial_modal',
         );
-    }, [onClick]);
+    };
 
     return (
         <a

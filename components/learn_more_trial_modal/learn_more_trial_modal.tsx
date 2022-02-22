@@ -113,7 +113,6 @@ const LearnMoreTrialModal = (
             {...rest}
             id={id}
             key={id}
-            onClose={handleOnClose}
         />
     )), [steps, handleOnClose]);
 

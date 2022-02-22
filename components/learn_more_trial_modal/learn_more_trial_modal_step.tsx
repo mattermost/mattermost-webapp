@@ -3,18 +3,9 @@
 
 import React from 'react';
 
-import {useDispatch} from 'react-redux';
-
 import {FormattedMessage, useIntl} from 'react-intl';
 
-import {DispatchFunc} from 'mattermost-redux/types/actions';
-
-import {ModalIdentifiers} from 'utils/constants';
-
-import TrialBenefitsModal from 'components/trial_benefits_modal/trial_benefits_modal';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-
-import {openModal} from 'actions/views/modals';
 
 import StartTrialBtn from './start_trial_btn';
 
@@ -29,7 +20,6 @@ export type LearnMoreTrialModalStepProps = {
     bottomLeftMessage?: string;
     buttonLabel: string;
     pageURL?: string;
-    onClose?: () => void;
 }
 
 const LearnMoreTrialModalStep = (
@@ -40,21 +30,10 @@ const LearnMoreTrialModalStep = (
         svgWrapperClassName,
         svgElement,
         bottomLeftMessage,
-
-        // onClose,
     }: LearnMoreTrialModalStepProps) => {
     const {formatMessage} = useIntl();
-    const dispatch = useDispatch<DispatchFunc>();
 
     const startTrialBtnMsg = formatMessage({id: 'start_trial.modal_btn.start_free_trial', defaultMessage: 'Start free 30-day trial'});
-
-    const openTrialBenefitsModal = async () => {
-        await dispatch(openModal({
-            modalId: ModalIdentifiers.TRIAL_BENEFITS_MODAL,
-            dialogType: TrialBenefitsModal,
-            dialogProps: {trialJustStarted: true},
-        }));
-    };
 
     return (
         <div
@@ -78,7 +57,6 @@ const LearnMoreTrialModalStep = (
             </div>
             <StartTrialBtn
                 message={startTrialBtnMsg}
-                onClick={openTrialBenefitsModal}
             />
             <div className='disclaimer'>
                 <span>
