@@ -49,7 +49,9 @@ export const getMyGroupRoles: (state: GlobalState) => Record<string, Set<string>
         return roles;
     },
 );
-
+/**
+ * Returns a map of permissions, keyed by group id, for all groups that are mentionable and not deleted.
+ */
 export const getGroupListPermissions: (state: GlobalState) => Record<string, GroupPermissions> = createSelector(
     'getGroupListPermissions',
     getMyGroupRoles,
@@ -61,8 +63,9 @@ export const getGroupListPermissions: (state: GlobalState) => Record<string, Gro
 
         const permissions = new Set<string>();
         groups.forEach((group) => {
-            if (myGroupRoles[group.id!]) {
-                for (const roleName of myGroupRoles[group.id!]) {
+            const roleNames = myGroupRoles[group.id!];
+            if (roleNames) {
+                for (const roleName of roleNames) {
                     if (roles[roleName]) {
                         for (const permission of roles[roleName].permissions) {
                             permissions.add(permission);
