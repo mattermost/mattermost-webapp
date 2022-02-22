@@ -45,6 +45,7 @@
         }
 
         .disclaimer {
+            width: 90%;
             height: 32px;
             margin-top: 15px;
             color: rgba(var(--center-channel-color-rgb), 0.72);
@@ -53,7 +54,6 @@
             font-style: normal;
             font-weight: normal;
             line-height: 16px;
-            width: 90%;
         }
 
         .bottom-text-left-message {

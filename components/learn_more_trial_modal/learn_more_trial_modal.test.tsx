@@ -10,15 +10,11 @@ import thunk from 'redux-thunk';
 
 import {shallow} from 'enzyme';
 
-import {trackEvent} from 'actions/telemetry_actions.jsx';
-
 import Carousel from 'components/common/carousel/carousel';
 import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_trial_modal';
 import GenericModal from 'components/generic_modal';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
-
-import {TELEMETRY_CATEGORIES} from 'utils/constants';
 
 jest.mock('actions/telemetry_actions.jsx', () => {
     const original = jest.requireActual('actions/telemetry_actions.jsx');
@@ -32,6 +28,14 @@ describe('components/learn_more_trial_modal/learn_more_trial_modal', () => {
     // required state to mount using the provider
     const state = {
         entities: {
+            admin: {
+                analytics: {
+                    TOTAL_USERS: 9,
+                },
+                prevTrialLicense: {
+                    IsLicensed: 'false',
+                },
+            },
             general: {
                 license: {
                     IsLicensed: 'false',
@@ -51,7 +55,6 @@ describe('components/learn_more_trial_modal/learn_more_trial_modal', () => {
 
     const props = {
         onExited: jest.fn(),
-        trialJustStarted: false,
     };
 
     const mockStore = configureStore([thunk]);
@@ -66,19 +69,7 @@ describe('components/learn_more_trial_modal/learn_more_trial_modal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot when trial has already started', () => {
-        const wrapper = shallow(
-            <Provider store={store}>
-                <LearnMoreTrialModal
-                    {...props}
-                    trialJustStarted={true}
-                />
-            </Provider>,
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should show the benefits modal', () => {
+    test('should show the learn more about trial modal carousel slides', () => {
         const wrapper = mountWithIntl(
             <Provider store={store}>
                 <LearnMoreTrialModal {...props}/>
@@ -87,7 +78,7 @@ describe('components/learn_more_trial_modal/learn_more_trial_modal', () => {
         expect(wrapper.find('LearnMoreTrialModal').find('Carousel')).toHaveLength(1);
     });
 
-    test('should hide the benefits modal', () => {
+    test('should hide the learn more about trial modal', () => {
         const learnMoreTrialModalHidden = {
             modals: {
                 modalState: {},
@@ -112,7 +103,6 @@ describe('components/learn_more_trial_modal/learn_more_trial_modal', () => {
                 <LearnMoreTrialModal
                     {...props}
                     onClose={mockOnClose}
-                    trialJustStarted={true}
                 />
             </Provider>,
         );
@@ -139,32 +129,46 @@ describe('components/learn_more_trial_modal/learn_more_trial_modal', () => {
         expect(mockOnExited).toHaveBeenCalled();
     });
 
-    test('should handle slide prev next click', () => {
+    test('should move the slides when clicking carousel next and prev buttons', () => {
         const wrapper = mountWithIntl(
             <Provider store={store}>
                 <LearnMoreTrialModal
                     {...props}
-                    trialJustStarted={true}
                 />
             </Provider>,
         );
 
-        wrapper.find(Carousel).props().onNextSlideClick!(6);
+        // validate the value of the first slide
+        let activeSlide = wrapper.find(Carousel).find('.slide.active-anim');
+        let activeSlideId = activeSlide.find('LearnMoreTrialModalStep').props().id;
 
-        expect(trackEvent).not.toHaveBeenCalled();
+        expect(activeSlideId).toBe('guestAccess');
 
-        wrapper.find(Carousel).props().onNextSlideClick!(4);
+        const nextButton = wrapper.find(Carousel).find('CarouselButton a.next');
+        const prevButton = wrapper.find(Carousel).find('CarouselButton a.prev');
 
-        expect(trackEvent).toHaveBeenCalledWith(
-            TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
-            'learn_more_trial_modal_slide_shown_pushNotificationService',
-        );
+        // move to the second slide
+        nextButton.simulate('click');
 
-        wrapper.find(Carousel).props().onPrevSlideClick!(2);
+        activeSlide = wrapper.find(Carousel).find('.slide.active-anim');
+        activeSlideId = activeSlide.find('LearnMoreTrialModalStep').props().id;
 
-        expect(trackEvent).toHaveBeenCalledWith(
-            TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
-            'learn_more_trial_modal_slide_shown_guestAccess',
-        );
+        expect(activeSlideId).toBe('complianceExport');
+
+        // move to the third slide
+        nextButton.simulate('click');
+
+        activeSlide = wrapper.find(Carousel).find('.slide.active-anim');
+        activeSlideId = activeSlide.find('LearnMoreTrialModalStep').props().id;
+
+        expect(activeSlideId).toBe('pushNotificationService');
+
+        // move back to the second slide
+        prevButton.simulate('click');
+
+        activeSlide = wrapper.find(Carousel).find('.slide.active-anim');
+        activeSlideId = activeSlide.find('LearnMoreTrialModalStep').props().id;
+
+        expect(activeSlideId).toBe('complianceExport');
     });
 });

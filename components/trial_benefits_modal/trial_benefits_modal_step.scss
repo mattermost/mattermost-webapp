@@ -54,28 +54,33 @@
             .title {
                 text-align: center;
             }
+
             .description {
                 font-size: 12px;
             }
+
             .svg-wrapper {
-                margin-top: 0;
                 min-height: 180px;
+                margin-top: 0;
             }
+
             .buttons-section-wrapper {
                 display: flex;
                 justify-content: flex-end;
                 margin-top: 10px;
-    
+
                 .tertiary-button {
                     @include tertiary-button;
+
                     height: 32px;
                     font-size: 12px;
                 }
-            
+
                 .primary-button {
                     @include primary-button;
-                    margin-left: 8px;
+
                     height: 32px;
+                    margin-left: 8px;
                     font-size: 12px;
                 }
             }
