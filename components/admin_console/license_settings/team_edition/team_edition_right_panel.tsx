@@ -70,7 +70,7 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
                         >
                             <FormattedMessage
                                 id='admin.license.enterprise.upgrade'
-                                defaultMessage='Upgrade'
+                                defaultMessage='Upgrade to Enterprise Edition'
                             />
                         </LoadingWrapper>
                     </button>
@@ -162,7 +162,7 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
             <div className='upgrade-title'>
                 <FormattedMessage
                     id='admin.license.enterprise.upgrade'
-                    defaultMessage='Upgrade to the Enterprise Edition'
+                    defaultMessage='Upgrade to Enterprise Edition'
                 />
             </div>
             <div className='upgrade-subtitle'>
