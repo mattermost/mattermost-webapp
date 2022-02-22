@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import * as TIMEOUTS from '../fixtures/timeouts';
+
 import {getAdminAccount} from './env';
 
 Cypress.Commands.add('visitLDAPSettings', () => {
