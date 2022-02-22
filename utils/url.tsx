@@ -188,7 +188,7 @@ export function isPermalinkURL(url: string): boolean {
 }
 
 export function isStringContainingUrl(text: string): boolean {
-    const regex = new RegExp('([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?(/.*)?');
+    const regex = new RegExp('(https?://|www.)');
     return regex.test(text);
 }
 
