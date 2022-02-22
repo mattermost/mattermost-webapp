@@ -175,7 +175,11 @@
   "add_outgoing_webhook.token": "**Token**: {token}",
   "add_outgoing_webhook.token.message": "Stellen Sie sicher, dass Sie diesen Bot-Account zu Teams und Kanälen hinzufügen, in denen er interagieren soll. Erfahren Sie mehr in der [Dokumentation](https:/mattermost.com/pl/default-bot-accounts).",
   "add_outgoing_webhook.triggerWords": "Auslösewörter (eins pro Zeile)",
+<<<<<<< HEAD
   "add_outgoing_webhook.triggerWords.help": "Geben Sie die Auslösewörter an, die eine HTTP-POST-Anforderung an Ihre Anwendung senden. Wenn Sie nur den Kanal auswählen, ist dies optional. Der Auslöser kann für den Kanal, den ausgehenden Webhook oder beides sein, aber wenn Sie ihn für beide festlegen, muss die Nachricht mit beiden Werten übereinstimmen.",
+=======
+  "add_outgoing_webhook.triggerWords.help": "Geben Sie ein oder mehrere Wörter an, die das Senden einer HTTP-POST-Anforderung an Ihre Anwendung auslösen. Wenn Sie nur den Kanal auswählen, ist dies optional. Die Wörter können für den Kanal, den ausgehenden Webhook oder beides sein, aber wenn Sie ihn für beide festlegen, muss die Nachricht mit beiden Werten übereinstimmen.",
+>>>>>>> 102000f30 (Translated using Weblate (German))
   "add_outgoing_webhook.triggerWordsOrChannelRequired": "Ein gültiger Kanal oder eine Liste von Auslösewörtern wird benötigt",
   "add_outgoing_webhook.triggerWordsTriggerWhen": "Auslösen sobald",
   "add_outgoing_webhook.triggerWordsTriggerWhen.help": "Geben Sie an, wann der ausgehende Webhook ausgelöst werden soll.",
@@ -2898,7 +2902,7 @@
   "create_team.team_url.hint3": "Muss mit einem Buchstaben beginnen und darf nicht mit einem Bindestrich enden",
   "create_team.team_url.regex": "Nur Kleinbuchstaben, Ziffern und Bindestriche verwenden. Es muss mit einem Buchstaben begonnen werden und darf nicht mit einem Bindestrich enden.",
   "create_team.team_url.required": "Dieses Feld ist erforderlich",
-  "create_team.team_url.taken": "Diese URL [startet mit einem reservierten Wort](!https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url) oder ist nicht verfügbar. Bitte eine andere versuchen.",
+  "create_team.team_url.taken": "Diese URL [startet mit einem reservierten Wort](!https://docs.mattermost.com/messaging/creating-teams.html#team-url) oder ist nicht verfügbar. Bitte eine andere versuchen.",
   "create_team.team_url.teamUrl": "Team URL",
   "create_team.team_url.unavailable": "Diese URL ist in Verwendung oder nicht verfügbar. Bitte eine andere versuchen.",
   "create_team.team_url.webAddress": "Wählen Sie die Webadresse für ihr neues Team:",
