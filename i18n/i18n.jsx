@@ -125,7 +125,7 @@ const languages = {
         order: 15,
         url: uk,
     },
-    ko: {
+    fa: {
         value: 'fa',
         name: 'فارسی (Beta)',
         order: 16,
