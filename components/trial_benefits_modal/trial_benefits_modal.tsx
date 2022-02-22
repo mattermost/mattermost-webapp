@@ -243,7 +243,7 @@ const TrialBenefitsModal = (
                         onClick={handleOnClose}
                     >
                         <FormattedMessage
-                            id='trial_benefits_modal.trial_just_started.buttons.close'
+                            id='trial_benefits_modal.trial_just_started.buttons.setUp'
                             defaultMessage='Set up system console'
                         />
                     </BlockableLink>
