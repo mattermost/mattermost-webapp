@@ -11,7 +11,6 @@ import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions';
-import {trackEvent} from 'actions/telemetry_actions.jsx';
 import Constants, {StoragePrefixes, ModalIdentifiers, Locations, A11yClassNames} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {
@@ -57,9 +56,7 @@ import {ModalData} from 'types/actions';
 import {FileInfo} from 'mattermost-redux/types/files';
 import {Emoji} from 'mattermost-redux/types/emojis';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
-
-import CreatePostTip from './create_post_tip';
-
+import {SendMessageTour} from 'components/onboarding_tour';
 const KeyCodes = Constants.KeyCodes;
 
 const CreatePostDraftTimeoutMilliseconds = 500;
@@ -123,12 +120,7 @@ type Props = {
     /**
   *  Data used for deciding if tutorial tip is to be shown
   */
-    showTutorialTip: boolean;
-
-    /**
-  *  Data used for advancing from create post tip
-  */
-    tutorialStep: number;
+    showSendTutorialTip: boolean;
 
     /**
   *  Data used populating message state when triggered by shortcuts
@@ -302,7 +294,8 @@ type Props = {
 
     groupsWithAllowReference: Map<string, Group> | null;
     channelMemberCountsByGroup: ChannelMemberCountsByGroup;
-    useGroupMentions: boolean;
+    useLDAPGroupMentions: boolean;
+    useCustomGroupMentions: boolean;
     markdownPreviewFeatureIsEnabled: boolean;
 }
 
@@ -371,7 +364,7 @@ class CreatePost extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        const {useGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
+        const {useLDAPGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
         this.onOrientationChange();
         actions.setShowPreview(false);
         actions.clearDraftUploads();
@@ -381,18 +374,18 @@ class CreatePost extends React.PureComponent<Props, State> {
         window.addEventListener('beforeunload', this.unloadHandler);
         this.setOrientationListeners();
 
-        if (useGroupMentions) {
+        if (useLDAPGroupMentions) {
             actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
         }
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {
-        const {useGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
+        const {useLDAPGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
         if (prevProps.currentChannel.id !== currentChannel.id) {
             this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
             this.saveDraft(prevProps);
-            if (useGroupMentions) {
+            if (useLDAPGroupMentions) {
                 actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
             }
         }
@@ -410,7 +403,7 @@ class CreatePost extends React.PureComponent<Props, State> {
     componentWillUnmount() {
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.documentKeyHandler);
-        window.addEventListener('beforeunload', this.unloadHandler);
+        window.removeEventListener('beforeunload', this.unloadHandler);
         this.removeOrientationListeners();
         this.saveDraft();
     }
@@ -588,11 +581,6 @@ class CreatePost extends React.PureComponent<Props, State> {
 
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
         this.draftsForChannel[channelId] = null;
-
-        const shouldCompleteTip = this.props.tutorialStep === Constants.TutorialSteps.POST_POPOVER;
-        if (shouldCompleteTip) {
-            this.completePostTip('send_message');
-        }
     }
 
     handleNotifyAllConfirmation = () => {
@@ -634,7 +622,8 @@ class CreatePost extends React.PureComponent<Props, State> {
             groupsWithAllowReference,
             channelMemberCountsByGroup,
             currentChannelMembersCount,
-            useGroupMentions,
+            useLDAPGroupMentions,
+            useCustomGroupMentions,
         } = this.props;
 
         const notificationsToChannel = this.props.enableConfirmNotificationsToChannel && this.props.useChannelMentions;
@@ -645,18 +634,24 @@ class CreatePost extends React.PureComponent<Props, State> {
         const specialMentions = specialMentionsInText(this.state.message);
         const hasSpecialMentions = Object.values(specialMentions).includes(true);
 
-        if (this.props.enableConfirmNotificationsToChannel && !hasSpecialMentions && useGroupMentions) {
+        if (this.props.enableConfirmNotificationsToChannel && !hasSpecialMentions && (useLDAPGroupMentions || useCustomGroupMentions)) {
             // Groups mentioned in users text
             const mentionGroups = groupsMentionedInText(this.state.message, groupsWithAllowReference);
             if (mentionGroups.length > 0) {
-                mentions = mentionGroups.
-                    map((group) => {
+                mentionGroups.
+                    forEach((group) => {
+                        if (group.source === 'ldap' && !useLDAPGroupMentions) {
+                            return;
+                        }
+                        if (group.source === 'custom' && !useCustomGroupMentions) {
+                            return;
+                        }
                         const mappedValue = channelMemberCountsByGroup[group.id];
                         if (mappedValue && mappedValue.channel_member_count > Constants.NOTIFY_ALL_MEMBERS && mappedValue.channel_member_count > memberNotifyCount) {
                             memberNotifyCount = mappedValue.channel_member_count;
                             channelTimezoneCount = mappedValue.channel_member_timezones_count;
                         }
-                        return `@${group.name}`;
+                        mentions.push(`@${group.name}`);
                     });
                 mentions = [...new Set(mentions)];
             }
@@ -734,9 +729,10 @@ class CreatePost extends React.PureComponent<Props, State> {
             currentChannel,
             currentUserId,
             draft,
-            useGroupMentions,
+            useLDAPGroupMentions,
             useChannelMentions,
             groupsWithAllowReference,
+            useCustomGroupMentions,
         } = this.props;
 
         let post = originalPost;
@@ -753,7 +749,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         if (!useChannelMentions && containsAtChannel(post.message, {checkAllMentions: true})) {
             post.props.mentionHighlightDisabled = true;
         }
-        if (!useGroupMentions && groupsMentionedInText(post.message, groupsWithAllowReference)) {
+        if (!useLDAPGroupMentions && !useCustomGroupMentions && groupsMentionedInText(post.message, groupsWithAllowReference)) {
             post.props.disable_group_highlight = true;
         }
 
@@ -1288,25 +1284,12 @@ class CreatePost extends React.PureComponent<Props, State> {
         });
     }
 
-    completePostTip = (source: string) => {
-        this.props.actions.savePreferences(
-            this.props.currentUserId,
-            [{
-                user_id: this.props.currentUserId,
-                category: Constants.Preferences.TUTORIAL_STEP,
-                name: this.props.currentUserId,
-                value: (Constants.TutorialSteps.POST_POPOVER + 1).toString(),
-            }],
-        );
-        trackEvent('ui', 'tutorial_tip_1_complete_' + source);
-    }
-
     render() {
         const {
             currentChannel,
             draft,
             fullWidthTextBox,
-            showTutorialTip,
+            showSendTutorialTip,
             canPost,
         } = this.props;
         const readOnlyChannel = !canPost;
@@ -1348,10 +1331,10 @@ class CreatePost extends React.PureComponent<Props, State> {
             postFooterClassName += ' has-error';
         }
 
-        let tutorialTip = null;
-        if (showTutorialTip) {
-            tutorialTip = (
-                <CreatePostTip
+        let SendTutorialTip = null;
+        if (showSendTutorialTip) {
+            SendTutorialTip = (
+                <SendMessageTour
                     prefillMessage={this.prefillMessage}
                     currentChannel={this.props.currentChannel}
                     currentUserId={this.props.currentUserId}
@@ -1519,7 +1502,7 @@ class CreatePost extends React.PureComponent<Props, State> {
                                 </a>
                             </span>
                         </div>
-                        {tutorialTip}
+                        {SendTutorialTip}
                     </div>
                     <div
                         id='postCreateFooter'

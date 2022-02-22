@@ -51,6 +51,8 @@ describe('plugins/MainMenuActions', () => {
         isCloud: false,
         subscription: {},
         userIsAdmin: true,
+        isFirstAdmin: false,
+        useCaseOnboarding: false,
     };
 
     test('should match snapshot in web view', () => {

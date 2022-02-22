@@ -32,9 +32,9 @@ jest.mock('actions/telemetry_actions.jsx', () => {
 });
 
 describe('components/trial_benefits_modal/trial_benefits_modal_step_more', () => {
-    const lastSection = 'page';
     const props = {
-        route: `/test/${lastSection}`,
+        id: 'thing',
+        route: '/test/page',
         message: 'Test Message',
     };
 
@@ -60,6 +60,6 @@ describe('components/trial_benefits_modal/trial_benefits_modal_step_more', () =>
 
         expect(mockHistory.push).toHaveBeenCalledWith(props.route);
         expect(mockOnClick).toHaveBeenCalled();
-        expect(trackEvent).toHaveBeenCalledWith(TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL, `benefits_modal_section_opened_${lastSection}`);
+        expect(trackEvent).toHaveBeenCalledWith(TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL, 'benefits_modal_section_opened_thing');
     });
 });

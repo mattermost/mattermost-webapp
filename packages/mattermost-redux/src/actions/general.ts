@@ -220,6 +220,23 @@ export function getFirstAdminVisitMarketplaceStatus(): ActionFunc {
     };
 }
 
+// accompanying "set" happens as part of Client4.completeSetup
+export function getFirstAdminSetupComplete(): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data;
+        try {
+            data = await Client4.getFirstAdminSetupComplete();
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            return {error};
+        }
+
+        data = JSON.parse(data.value);
+        dispatch({type: GeneralTypes.FIRST_ADMIN_COMPLETE_SETUP_RECEIVED, data});
+        return {data};
+    };
+}
+
 export default {
     getPing,
     getClientConfig,

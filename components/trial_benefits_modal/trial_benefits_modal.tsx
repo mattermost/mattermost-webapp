@@ -22,6 +22,7 @@ import HandsSvg from 'components/common/svg_images_components/hands_svg';
 import GuestAccessSvg from 'components/common/svg_images_components/guest_access_svg';
 import PersonMacSvg from 'components/common/svg_images_components/person_mac_svg';
 import PushNotificationsSvg from 'components/common/svg_images_components/push_notifications_svg';
+import PersonWithChecklistSvg from 'components/common/svg_images_components/person_with_checklist';
 
 import TrialBenefitsModalStep, {TrialBenefitsModalStepProps} from './trial_benefits_modal_step';
 
@@ -91,6 +92,7 @@ const TrialBenefitsModal = ({
                 />
             ),
             bottomLeftMessage: formatMessage({id: 'trial_benefits.modal.onlyVisibleToAdmins', defaultMessage: 'Only visible to admins'}),
+            buttonLabel: formatMessage({id: 'benefits_trial.modal.learnMore', defaultMessage: 'Learn More'}),
         },
         {
             id: 'guestAccess',
@@ -104,6 +106,7 @@ const TrialBenefitsModal = ({
                 />
             ),
             pageURL: ConsolePages.GUEST_ACCESS,
+            buttonLabel: formatMessage({id: 'benefits_trial.modal.learnMore', defaultMessage: 'Learn More'}),
         },
         {
             id: 'complianceExport',
@@ -117,6 +120,7 @@ const TrialBenefitsModal = ({
                 />
             ),
             pageURL: ConsolePages.COMPLIANCE_EXPORT,
+            buttonLabel: formatMessage({id: 'benefits_trial.modal.learnMore', defaultMessage: 'Learn More'}),
         },
         {
             id: 'pushNotificationService',
@@ -130,6 +134,21 @@ const TrialBenefitsModal = ({
                 />
             ),
             pageURL: ConsolePages.PUSH_NOTIFICATION_CENTER,
+            buttonLabel: formatMessage({id: 'benefits_trial.modal.learnMore', defaultMessage: 'Learn More'}),
+        },
+        {
+            id: 'playbooks',
+            title: formatMessage({id: 'trial_benefits.modal.playbooksTitle', defaultMessage: 'Playbooks get superpowers'}),
+            description: formatMessage({id: 'trial_benefits.modal.playbooksDescription', defaultMessage: 'Create private playbooks, manage granular permissions schemes, and track custom metrics with a dedicated dashboard.'}),
+            svgWrapperClassName: 'personSheetSvg',
+            svgElement: (
+                <PersonWithChecklistSvg
+                    width={250}
+                    height={200}
+                />
+            ),
+            pageURL: '/playbooks/start',
+            buttonLabel: formatMessage({id: 'trial_benefits.modal.playbooksButton', defaultMessage: 'Open Playbooks'}),
         },
     ], [trialJustStarted, trialEndDate]);
 

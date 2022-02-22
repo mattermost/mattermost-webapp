@@ -14,7 +14,7 @@ import {getTeammateNameDisplaySetting, getAddMembersToChannel} from 'mattermost-
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {loadProfilesAndStatusesInChannel} from 'actions/user_actions.jsx';
 import {openModal} from 'actions/views/modals';
-import {canManageMembers} from 'utils/channel_utils.jsx';
+import {canManageMembers} from 'utils/channel_utils';
 import {sortUsersByStatusAndDisplayName} from 'utils/utils.jsx';
 
 import PopoverListMembers from './popover_list_members.jsx';
