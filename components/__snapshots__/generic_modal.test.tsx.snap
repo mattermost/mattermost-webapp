@@ -36,29 +36,23 @@ exports[`components/GenericModal should match snapshot for base case 1`] = `
     closeButton={true}
     closeLabel="Close"
   />
-  <form>
-    <ModalBody
-      bsClass="modal-body"
-      componentClass="div"
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <div
+      className="GenericModal__header"
     >
-      <div
-        className="GenericModal__header"
+      <h1
+        id="genericModalLabel"
       >
-        <h1
-          id="genericModalLabel"
-        >
-          Modal Header Text
-        </h1>
-      </div>
-      <div
-        className="GenericModal__body"
-      />
-    </ModalBody>
-    <ModalFooter
-      bsClass="modal-footer"
-      componentClass="div"
+        Modal Header Text
+      </h1>
+    </div>
+    <div
+      className="GenericModal__body"
     />
-  </form>
+  </ModalBody>
 </Modal>
 `;
 
@@ -98,50 +92,48 @@ exports[`components/GenericModal should match snapshot with both buttons 1`] = `
     closeButton={true}
     closeLabel="Close"
   />
-  <form>
-    <ModalBody
-      bsClass="modal-body"
-      componentClass="div"
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <div
+      className="GenericModal__header"
     >
-      <div
-        className="GenericModal__header"
+      <h1
+        id="genericModalLabel"
       >
-        <h1
-          id="genericModalLabel"
-        >
-          Modal Header Text
-        </h1>
-      </div>
-      <div
-        className="GenericModal__body"
+        Modal Header Text
+      </h1>
+    </div>
+    <div
+      className="GenericModal__body"
+    />
+  </ModalBody>
+  <ModalFooter
+    bsClass="modal-footer"
+    componentClass="div"
+  >
+    <button
+      className="GenericModal__button cancel"
+      onClick={[Function]}
+      type="button"
+    >
+      <MemoizedFormattedMessage
+        defaultMessage="Cancel"
+        id="generic_modal.cancel"
       />
-    </ModalBody>
-    <ModalFooter
-      bsClass="modal-footer"
-      componentClass="div"
+    </button>
+    <button
+      className="GenericModal__button confirm undefined"
+      onClick={[Function]}
+      type="submit"
     >
-      <button
-        className="GenericModal__button cancel"
-        onClick={[Function]}
-        type="button"
-      >
-        <MemoizedFormattedMessage
-          defaultMessage="Cancel"
-          id="generic_modal.cancel"
-        />
-      </button>
-      <button
-        className="GenericModal__button confirm undefined"
-        onClick={[Function]}
-        type="submit"
-      >
-        <MemoizedFormattedMessage
-          defaultMessage="Confirm"
-          id="generic_modal.confirm"
-        />
-      </button>
-    </ModalFooter>
-  </form>
+      <MemoizedFormattedMessage
+        defaultMessage="Confirm"
+        id="generic_modal.confirm"
+      />
+    </button>
+  </ModalFooter>
 </Modal>
 `;
 
@@ -181,40 +173,38 @@ exports[`components/GenericModal should match snapshot with disabled confirm but
     closeButton={true}
     closeLabel="Close"
   />
-  <form>
-    <ModalBody
-      bsClass="modal-body"
-      componentClass="div"
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <div
+      className="GenericModal__header"
     >
-      <div
-        className="GenericModal__header"
+      <h1
+        id="genericModalLabel"
       >
-        <h1
-          id="genericModalLabel"
-        >
-          Modal Header Text
-        </h1>
-      </div>
-      <div
-        className="GenericModal__body"
+        Modal Header Text
+      </h1>
+    </div>
+    <div
+      className="GenericModal__body"
+    />
+  </ModalBody>
+  <ModalFooter
+    bsClass="modal-footer"
+    componentClass="div"
+  >
+    <button
+      className="GenericModal__button confirm undefined disabled"
+      disabled={true}
+      onClick={[Function]}
+      type="submit"
+    >
+      <MemoizedFormattedMessage
+        defaultMessage="Confirm"
+        id="generic_modal.confirm"
       />
-    </ModalBody>
-    <ModalFooter
-      bsClass="modal-footer"
-      componentClass="div"
-    >
-      <button
-        className="GenericModal__button confirm undefined disabled"
-        disabled={true}
-        onClick={[Function]}
-        type="submit"
-      >
-        <MemoizedFormattedMessage
-          defaultMessage="Confirm"
-          id="generic_modal.confirm"
-        />
-      </button>
-    </ModalFooter>
-  </form>
+    </button>
+  </ModalFooter>
 </Modal>
 `;
