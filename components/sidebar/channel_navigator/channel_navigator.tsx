@@ -20,6 +20,7 @@ export type Props = {
     canGoBack: boolean;
     canJoinPublicChannel: boolean;
     showMoreChannelsModal: () => void;
+    showCreateUserGroupModal: () => void;
     invitePeopleModal: () => void;
     showNewChannelModal: () => void;
     showCreateCategoryModal: () => void;
@@ -27,10 +28,9 @@ export type Props = {
     unreadFilterEnabled: boolean;
     canCreateChannel: boolean;
     showUnreadsCategory: boolean;
-    townSquareDisplayName: string;
-    offTopicDisplayName: string;
-    showTutorialTip: boolean;
     isQuickSwitcherOpen: boolean;
+    userGroupsEnabled: boolean;
+    canCreateCustomGroups: boolean;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
         closeModal: (modalId: string) => void;

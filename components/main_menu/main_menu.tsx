@@ -62,6 +62,8 @@ export type Props = {
     showDueToStepsNotFinished: boolean;
     intl: IntlShape;
     teamUrl: string;
+    isFirstAdmin: boolean;
+    useCaseOnboarding: boolean;
     location: {
         pathname: string;
     };
@@ -342,7 +344,7 @@ export class MainMenu extends React.PureComponent<Props> {
                     />
                     <Menu.ItemAction
                         id='gettingStarted'
-                        show={this.props.showDueToStepsNotFinished && !inTipsView}
+                        show={!(this.props.useCaseOnboarding && this.props.isFirstAdmin) && this.props.showDueToStepsNotFinished && !inTipsView}
                         onClick={() => this.unhideNextStepsAndNavigateToTipsView()}
                         text={formatMessage({id: 'navbar_dropdown.gettingStarted', defaultMessage: 'Getting Started'})}
                         icon={<i className='icon icon-play'/>}

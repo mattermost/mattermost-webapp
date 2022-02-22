@@ -905,6 +905,7 @@ export function getPostsAround(channelId: string, postId: string, perPage = Post
 // getThreadsForPosts is intended for an array of posts that have been batched
 // (see the actions/websocket_actions/handleNewPostEvents function in the webapp)
 export function getThreadsForPosts(posts: Post[], fetchThreads = true) {
+    const rootsSet = new Set<string>();
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         if (!Array.isArray(posts) || !posts.length) {
             return {data: true};
@@ -917,11 +918,15 @@ export function getThreadsForPosts(posts: Post[], fetchThreads = true) {
             if (!post.root_id) {
                 return;
             }
-
             const rootPost = Selectors.getPost(state, post.root_id);
+
             if (!rootPost) {
-                promises.push(dispatch(getPostThread(post.root_id, fetchThreads)));
+                rootsSet.add(post.root_id);
             }
+        });
+
+        rootsSet.forEach((rootId) => {
+            promises.push(dispatch(getPostThread(rootId, fetchThreads)));
         });
 
         return Promise.all(promises);

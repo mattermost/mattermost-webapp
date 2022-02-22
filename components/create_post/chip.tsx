@@ -26,6 +26,7 @@ const StyledChip = styled.button<{ otherOption?: boolean }>`
     flex-shrink: 0;
     align-items: center;
     box-shadow: var(--elevation-1);
+    font-weight: bold;
 
     padding: 6px 12px;
     margin-right: 12px;

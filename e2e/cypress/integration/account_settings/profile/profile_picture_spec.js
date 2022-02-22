@@ -69,4 +69,21 @@ describe('Profile > Profile Settings > Profile Picture', () => {
             should('have.attr', 'src').
             and('not.include', customImageMatch);
     });
+
+    it('MM-T2077 Profile picture: non image file shows error', () => {
+        // # Go to Profile
+        cy.uiOpenProfileModal();
+
+        // # Click "Edit" to the right of "Profile Picture"
+        cy.get('#pictureEdit').should('be.visible').click();
+
+        // # Upload and save profile picture
+        cy.findByTestId('uploadPicture').attachFile('txt-changed-as-png.png');
+        cy.uiSave().wait(TIMEOUTS.HALF_SEC);
+
+        // # Verify error message
+        cy.get('.has-error').
+            should('be.visible').
+            and('contain', 'Image limits check failed. Resolution is too high.');
+    });
 });

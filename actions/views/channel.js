@@ -204,11 +204,12 @@ export function autocompleteUsersInChannel(prefix, channelId) {
         const state = getState();
         const currentTeamId = getCurrentTeamId(state);
 
-        const respose = await dispatch(autocompleteUsers(prefix, currentTeamId, channelId));
-        const data = respose.data;
+        const response = await dispatch(autocompleteUsers(prefix, currentTeamId, channelId));
+
+        const data = response.data;
         if (data) {
             return {
-                ...respose,
+                ...response,
                 data: {
                     ...data,
                     users: addLastViewAtToProfiles(state, data.users || []),
@@ -217,7 +218,7 @@ export function autocompleteUsersInChannel(prefix, channelId) {
             };
         }
 
-        return respose;
+        return response;
     };
 }
 
