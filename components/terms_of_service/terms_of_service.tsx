@@ -38,6 +38,7 @@ export interface TermsOfServiceProps {
         ) => {data: UpdateMyTermsOfServiceStatusResponse};
     };
     emojiMap: EmojiMap;
+    useCaseOnboarding: boolean;
 }
 
 interface TermsOfServiceState {
@@ -110,6 +111,12 @@ export default class TermsOfService extends React.PureComponent<TermsOfServicePr
                 const redirectTo = query.get('redirect_to');
                 if (redirectTo && redirectTo.match(/^\/([^/]|$)/)) {
                     browserHistory.push(redirectTo);
+                } else if (this.props.useCaseOnboarding) {
+                    // need info about whether admin or not,
+                    // and whether admin has already completed
+                    // first tiem onboarding. Instead of fetching and orchestrating that here,
+                    // let the default root component handle it.
+                    browserHistory.push('/');
                 } else {
                     GlobalActions.redirectUserToDefaultTeam();
                 }

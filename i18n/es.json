@@ -302,8 +302,6 @@
   "admin.billing.subscription.planDetails.features.autoComplianceExports": "Exportaciones de conformidad automatizadas",
   "admin.billing.subscription.planDetails.features.channelModeration": "Moderación de Canal",
   "admin.billing.subscription.planDetails.features.customRetentionPolicies": "Políticas de conservación de datos personalizadas",
-  "admin.billing.subscription.planDetails.features.enterpriseAdminSso": "Administración empresarial y SSO",
-  "admin.billing.subscription.planDetails.features.enterpriseAdministration": "Administración empresarial y SSO",
   "admin.billing.subscription.planDetails.features.groupAndOneToOneMessaging": "Mensajes en grupo y directos, archivos compartidos y búsquedas",
   "admin.billing.subscription.planDetails.features.guestAccounts": "Cuentas de Húesped",
   "admin.billing.subscription.planDetails.features.incidentCollaboration": "Colaboración de incidentes",

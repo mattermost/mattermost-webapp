@@ -60,7 +60,6 @@ import {clearErrors, logError} from 'mattermost-redux/actions/errors';
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {
     checkForModifiedUsers,
-    getMe,
     getMissingProfilesByIds,
     getStatusesByIds,
     getUser as loadUser,
@@ -472,6 +471,14 @@ export function handleEvent(msg) {
 
     case SocketEvents.RECEIVED_GROUP:
         handleGroupUpdatedEvent(msg);
+        break;
+
+    case SocketEvents.GROUP_MEMBER_ADD:
+        dispatch(handleGroupAddedMemberEvent(msg));
+        break;
+
+    case SocketEvents.GROUP_MEMBER_DELETED:
+        dispatch(handleGroupDeletedMemberEvent(msg));
         break;
 
     case SocketEvents.RECEIVED_GROUP_ASSOCIATED_TO_TEAM:
@@ -1039,9 +1046,12 @@ export async function handleUserUpdatedEvent(msg) {
 
     if (currentUser.id === user.id) {
         if (user.update_at > currentUser.update_at) {
-            // Need to request me to make sure we don't override with sanitized fields from the
-            // websocket event
-            getMe()(dispatch, getState);
+            // update user to unsanitized user data recieved from websocket message
+            dispatch({
+                type: UserTypes.RECEIVED_ME,
+                data: user,
+            });
+            dispatch(loadRolesIfNeeded(user.roles.split(' ')));
         }
     } else {
         dispatch({
@@ -1297,16 +1307,48 @@ function handleOpenDialogEvent(msg) {
 
 function handleGroupUpdatedEvent(msg) {
     const data = JSON.parse(msg.data.group);
-    dispatch(batchActions([
+    dispatch(
         {
-            type: GroupTypes.RECEIVED_GROUP,
+            type: GroupTypes.PATCHED_GROUP,
             data,
         },
-        {
-            type: GroupTypes.RECEIVED_MY_GROUPS,
-            data: [data],
-        },
-    ]));
+    );
+}
+
+function handleGroupAddedMemberEvent(msg) {
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+        const currentUserId = getCurrentUserId(state);
+        const data = JSON.parse(msg.data.group_member);
+
+        if (currentUserId === data.user_id) {
+            dispatch(
+                {
+                    type: GroupTypes.ADD_MY_GROUP,
+                    data,
+                    id: data.group_id,
+                },
+            );
+        }
+    };
+}
+
+function handleGroupDeletedMemberEvent(msg) {
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+        const currentUserId = getCurrentUserId(state);
+        const data = JSON.parse(msg.data.group_member);
+
+        if (currentUserId === data.user_id) {
+            dispatch(
+                {
+                    type: GroupTypes.REMOVE_MY_GROUP,
+                    data,
+                    id: data.group_id,
+                },
+            );
+        }
+    };
 }
 
 function handleGroupAssociatedToTeamEvent(msg) {

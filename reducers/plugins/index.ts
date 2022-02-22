@@ -184,6 +184,7 @@ const initialComponents: PluginsState['components'] = {
     PostDropdownMenu: [],
     Product: [],
     RightHandSidebarComponent: [],
+    UserGuideDropdownItem: [],
 };
 
 function components(state: PluginsState['components'] = initialComponents, action: GenericAction) {
