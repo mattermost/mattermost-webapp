@@ -80,7 +80,7 @@ const useMetricsData = () => {
     const endOfLicense = moment(new Date(parseInt(license?.ExpiresAt, 10)));
     const daysToEndLicense = endOfLicense.diff(today, 'days');
 
-    const isLicensed = license?.IsLicensed === 'true' && daysToEndLicense > 0;
+    const isLicensed = license?.IsLicensed === 'true' && daysToEndLicense >= 0;
 
     const trialOrEnterpriseCtaConfig = {
         configUrl: canStartTrial ? ConsolePages.LICENSE : LicenseLinks.CONTACT_SALES,
