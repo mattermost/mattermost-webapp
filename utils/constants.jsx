@@ -562,6 +562,7 @@ export const TELEMETRY_CATEGORIES = {
     CLOUD_ADMIN: 'cloud_admin',
     SELF_HOSTED_START_TRIAL_AUTO_MODAL: 'self_hosted_start_trial_auto_modal',
     SELF_HOSTED_START_TRIAL_MODAL: 'self_hosted_start_trial_modal',
+    SELF_HOSTED_START_TRIAL_TASK_LIST: 'self_hosted_start_trial_task_list',
 };
 
 export const PostTypes = {
