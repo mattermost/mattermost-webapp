@@ -233,14 +233,16 @@ const useMetricsData = () => {
                 id: 'site-url',
                 title: formatMessage({
                     id: 'admin.reporting.workspace_optimization.access.site_url.title',
-                    defaultMessage: 'Misconfigured Web Server',
+                    defaultMessage: 'Misconfigured web server',
                 }),
                 description: formatMessage({
                     id: 'admin.reporting.workspace_optimization.access.site_url.description',
-                    defaultMessage: 'Your webserver settings are not passing a live URL test, this would prevent users from accessing this workspace, we recommend updating your settings.',
+                    defaultMessage: 'Your web server settings aren\'t passing a live URL test which means your workspace may not be accessible to users. We recommend updating your web server settings.',
                 }),
                 configUrl: ConsolePages.WEB_SERVER,
-                configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.configureWebServer', defaultMessage: 'Configure Web Server'}),
+                configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.configureWebServer', defaultMessage: 'Configure web server'}),
+                infoUrl: DocLinks.SITE_URL,
+                infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),
                 telemetryAction: 'site-url',
                 status: data.siteUrl.status,
                 scoreImpact: 12,
@@ -375,7 +377,7 @@ const useMetricsData = () => {
         }),
         descriptionOk: formatMessage({
             id: 'admin.reporting.workspace_optimization.ease_of_management.descriptionOk',
-            defaultMessage: 'Based on current usage, manually managing users and guests is a good choice!',
+            defaultMessage: 'For your current usage scale, manually managing users and guests seems apropriate!',
         }),
         icon: (
             <div className='icon'>
