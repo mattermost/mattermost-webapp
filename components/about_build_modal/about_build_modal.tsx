@@ -124,7 +124,7 @@ export default class AboutBuildModal extends React.PureComponent<Props, State> {
                     <a
                         target='_blank'
                         rel='noopener noreferrer'
-                        href='http://mattermost.com/'
+                        href='https://mattermost.com/'
                     >
                         {'mattermost.com'}
                     </a>
