@@ -24,6 +24,7 @@ import {GlobalState} from 'types/store';
 import {getCurrentMomentForTimezone} from 'utils/timezone';
 import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
+import {localizeMessage} from 'utils/utils';
 
 import CustomStatusSuggestion from 'components/custom_status/custom_status_suggestion';
 import ExpiryMenu from 'components/custom_status/expiry_menu';
@@ -327,6 +328,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
             handleConfirm={handleSetStatus}
             handleCancel={handleClearStatus}
             confirmButtonClassName='btn btn-primary'
+            ariaLabel={localizeMessage('custom_status.set_status', 'Set a status')}
         >
             <div className='StatusModal__body'>
                 <div className='StatusModal__input'>
