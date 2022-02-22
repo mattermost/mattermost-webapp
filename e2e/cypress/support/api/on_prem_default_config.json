@@ -231,9 +231,9 @@
     "SupportSettings": {
         "TermsOfServiceLink": "https://mattermost.com/terms-of-use/",
         "PrivacyPolicyLink": "https://mattermost.com/privacy-policy/",
-        "AboutLink": "https://about.mattermost.com/default-about/",
-        "HelpLink": "https://about.mattermost.com/default-help/",
-        "ReportAProblemLink": "https://about.mattermost.com/default-report-a-problem/",
+        "AboutLink": "https://docs.mattermost.com/about/product.html",
+        "HelpLink": "https://docs.mattermost.com/",
+        "ReportAProblemLink": "https://handbook.mattermost.com/contributors/contributors/ways-to-contribute#report-a-bug",
         "SupportEmail": "",
         "CustomTermsOfServiceEnabled": false,
         "CustomTermsOfServiceReAcceptancePeriod": 365,
@@ -363,8 +363,8 @@
     },
     "NativeAppSettings": {
         "AppDownloadLink": "https://mattermost.com/download/#mattermostApps",
-        "AndroidAppDownloadLink": "https://about.mattermost.com/mattermost-android-app/",
-        "IosAppDownloadLink": "https://about.mattermost.com/mattermost-ios-app/"
+        "AndroidAppDownloadLink": "https://play.google.com/store/apps/details?id=com.mattermost.rn",
+        "IosAppDownloadLink": "https://apps.apple.com/us/app/mattermost/id1257222717"
     },
     "ClusterSettings": {
         "Enable": false,

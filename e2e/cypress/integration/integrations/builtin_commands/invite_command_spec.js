@@ -222,10 +222,10 @@ describe('Integrations', () => {
         // * Error appears: "Could not find the channel [channel name]. Please use the channel handle to identify channels."
         cy.uiWaitUntilMessagePostedIncludes(`Could not find the channel ${testChannel.display_name}. Please use the channel handle to identify channels.`);
 
-        // * "channel handle" is a live link to https://about.mattermost.com/default-channel-handle-documentation
+        // * "channel handle" is a live link to https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).
-                contains('a', 'channel handle').should('have.attr', 'href', 'https://about.mattermost.com/default-channel-handle-documentation');
+                contains('a', 'channel handle').should('have.attr', 'href', 'https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel');
         });
     });
 });

@@ -27,13 +27,13 @@ describe('Main menu', () => {
         cy.findByText('About Mattermost').click();
 
         // * Verify server link text has correct link destination and opens in a new tab
-        verifyLink('server', 'https://about.mattermost.com/platform-notice-txt/');
+        verifyLink('server', 'https://github.com/mattermost/mattermost-server/blob/master/NOTICE.txt');
 
         // * Verify link text has correct link destination and opens in a new tab
-        verifyLink('desktop', 'https://about.mattermost.com/desktop-notice-txt/');
+        verifyLink('desktop', 'https://github.com/mattermost/desktop/blob/master/NOTICE.txt');
 
         // * Verify link text has correct matches link destination and opens in a new tab
-        verifyLink('mobile', 'https://about.mattermost.com/mobile-notice-txt/');
+        verifyLink('mobile', 'https://github.com/mattermost/mattermost-mobile/blob/master/NOTICE.txt');
 
         // * Verify version exists in modal
         cy.findByText('Mattermost Version:').should('be.visible');

@@ -167,7 +167,7 @@ export default class PushSettings extends AdminSettings {
                         />
                         <FormattedMarkdownMessage
                             id='admin.email.agreeHPNS'
-                            defaultMessage=' I understand and accept the Mattermost Hosted Push Notification Service [Terms of Service](!https://about.mattermost.com/hpns-terms/) and [Privacy Policy](!https://about.mattermost.com/hpns-privacy/).'
+                            defaultMessage=' I understand and accept the Mattermost Hosted Push Notification Service [Terms of Service](!https://mattermost.com/hpns-terms/) and [Privacy Policy](!https://mattermost.com/data-processing-addendum/).'
                         />
                     </div>
                 </div>
