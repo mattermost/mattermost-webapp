@@ -5,6 +5,10 @@ import React, {CSSProperties, useState, useEffect, useRef} from 'react';
 import {injectIntl, IntlShape} from 'react-intl';
 import classNames from 'classnames';
 
+import PhoneOutlineIcon from '@mattermost/compass-icons/components/phone-outline';
+
+import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
+
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import {Constants} from 'utils/constants';
@@ -45,28 +49,21 @@ function CallButton(props: Props) {
 
     const style = {
         container: {
-            marginTop: '16px',
-            height: '32px',
+            marginTop: 16,
+            height: 32,
         } as CSSProperties,
     };
 
     if (props.pluginCallComponents.length === 1) {
         const item = props.pluginCallComponents[0];
+        const clickHandler = () => item.action?.(props.currentChannel, props.channelMember);
 
         return (
             <div
                 style={style.container}
                 className='flex-child'
-                onClick={() => {
-                    if (item.action && clickEnabled) {
-                        item.action(props.currentChannel, props.channelMember);
-                    }
-                }}
-                onTouchEnd={() => {
-                    if (item.action && clickEnabled) {
-                        item.action(props.currentChannel, props.channelMember);
-                    }
-                }}
+                onClick={clickEnabled ? clickHandler : undefined}
+                onTouchEnd={clickEnabled ? clickHandler : undefined}
             >
                 {item.button}
             </div>
@@ -80,9 +77,7 @@ function CallButton(props: Props) {
                 key={item.id}
                 onClick={(e) => {
                     e.preventDefault();
-                    if (item.action) {
-                        item.action(props.currentChannel, props.channelMember);
-                    }
+                    item.action?.(props.currentChannel, props.channelMember);
                 }}
             >
 
@@ -90,29 +85,29 @@ function CallButton(props: Props) {
             </li>
         );
     });
+
     return (
         <div
             style={style.container}
             className='flex-child'
         >
-            <MenuWrapper
-                onToggle={(toggle: boolean) => {
-                    setActive(toggle);
-                }}
-            >
+            <MenuWrapper onToggle={(toggle: boolean) => setActive(toggle)}>
                 <button
-                    type='button'
                     className={classNames('style--none call-button', 'dropdown', {active})}
                 >
-                    <span
-                        className='icon icon-phone-outline'
-                        aria-label={formatMessage({id: 'generic_icons.call', defaultMessage: 'Call Icon'}).toLowerCase()}
-                    />
+                    <span>
+                        <PhoneOutlineIcon
+                            color=''
+                            aria-label={formatMessage({id: 'generic_icons.call', defaultMessage: 'Call Icon'}).toLowerCase()}
+                        />
+                    </span>
                     <span className='call-button-label'>{'Call'}</span>
-                    <span
-                        className='icon icon-chevron-down'
-                        aria-label={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'}).toLowerCase()}
-                    />
+                    <span>
+                        <ChevronDownIcon
+                            color=''
+                            aria-label={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'}).toLowerCase()}
+                        />
+                    </span>
                 </button>
                 <Menu
                     id='callOptions'

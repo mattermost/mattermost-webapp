@@ -67,7 +67,7 @@ button.call-button.disabled {
     }
 
     &:active {
-        background: revert;
+        background: none;
         color: rgba(var(--center-channel-color-rgb), 0.32);
         fill: rgba(var(--center-channel-color-rgb), 0.32);
     }
