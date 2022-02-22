@@ -94,7 +94,7 @@ const useMetricsData = () => {
         }),
         description: formatMessage({
             id: 'admin.reporting.workspace_optimization.updates.description',
-            defaultMessage: 'You have an update to consider',
+            defaultMessage: 'An update is available.',
         }),
         descriptionOk: formatMessage({
             id: 'admin.reporting.workspace_optimization.updates.descriptionOk',
@@ -224,7 +224,7 @@ const useMetricsData = () => {
             <div className='icon'>
                 <ServerVariantIcon
                     size={20}
-                    color={'var(--sys-center-channel-color'}
+                    color={'var(--sys-center-channel-color)'}
                 />
             </div>
         ),
@@ -272,7 +272,7 @@ const useMetricsData = () => {
             <div className='icon'>
                 <ChartLineIcon
                     size={20}
-                    color={'var(--sys-center-channel-color'}
+                    color={'var(--sys-center-channel-color)'}
                 />
             </div>
         ),
@@ -325,7 +325,7 @@ const useMetricsData = () => {
             <div className='icon'>
                 <LockOutlineIcon
                     size={20}
-                    color={'var(--sys-center-channel-color'}
+                    color={'var(--sys-center-channel-color)'}
                 />
             </div>
         ),
@@ -381,7 +381,7 @@ const useMetricsData = () => {
             <div className='icon'>
                 <AccountMultipleOutlineIcon
                     size={20}
-                    color={'var(--sys-center-channel-color'}
+                    color={'var(--sys-center-channel-color)'}
                 />
             </div>
         ),
