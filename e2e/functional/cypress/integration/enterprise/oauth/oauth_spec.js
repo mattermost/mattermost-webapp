@@ -11,13 +11,13 @@
 // Group: @enterprise @integrations
 
 import {getRandomId} from '../../../utils';
-import {checkboxesTitleToIdMap} from '../../enterprise/system_console/channel_moderation/constants';
+import {checkboxesTitleToIdMap} from '../system_console/channel_moderation/constants';
 
 import {
     enablePermission,
     goToSystemScheme,
     saveConfigForScheme,
-} from '../../enterprise/system_console/channel_moderation/helpers';
+} from '../system_console/channel_moderation/helpers';
 
 describe('Integrations page', () => {
     const webhookBaseUrl = Cypress.env('webhookBaseUrl');
