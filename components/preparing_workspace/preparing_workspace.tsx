@@ -21,6 +21,8 @@ import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getFirstAdminSetupComplete, getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {Client4} from 'mattermost-redux/client';
 
+import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks/constants';
+
 import Constants, {Preferences, RecommendedNextSteps} from 'utils/constants';
 import {makeNewEmptyChannel} from 'utils/channel_utils';
 import {teamNameToUrl, getSiteURL} from 'utils/url';
@@ -74,7 +76,7 @@ type SubmissionState = typeof SubmissionStates[keyof typeof SubmissionStates];
 
 // We want an apparent total wait of at least two seconds
 // START_TRANSITIONING_OUT is how long the other side of the transitioning screen
-const WAIT_FOR_REDIRECT_TIME = 3000 - START_TRANSITIONING_OUT;
+const WAIT_FOR_REDIRECT_TIME = 2000 - START_TRANSITIONING_OUT;
 
 export type Actions = {
     createTeam: (team: Team) => ActionResult;
@@ -316,8 +318,25 @@ export default function PreparingWorkspace(props: Props) {
                 props.history.push(`/${team.name}/channels${Constants.DEFAULT_CHANNEL}`);
             }
         };
+
+        // prepare task list to open in the next view
+        dispatch(savePreferences(user.id, [
+            {
+                user_id: user.id,
+                category: OnboardingTaskCategory,
+                name: OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW,
+                value: 'true',
+            },
+            {
+                user_id: user.id,
+                category: OnboardingTaskCategory,
+                name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
+                value: 'true',
+            },
+        ]));
+
         const sendFormEnd = Date.now();
-        const timeToWait = (sendFormEnd - sendFormStart) - WAIT_FOR_REDIRECT_TIME;
+        const timeToWait = WAIT_FOR_REDIRECT_TIME - (sendFormEnd - sendFormStart);
         if (timeToWait > 0) {
             setTimeout(goToChannels, timeToWait);
         } else {

@@ -63,11 +63,10 @@ const CreateFirstChannelStep = (props: StepComponentProps) => {
             const category = Preferences.AB_TEST_PREFERENCE_VALUE;
             const name = RecommendedNextSteps.CREATE_FIRST_CHANNEL;
             const firstChannelNamePref = {category, name, user_id: userId, value: data.name};
-            const defaultStepPref = {user_id: userId, category: Preferences.TUTORIAL_STEP, name: userId, value: '-1'};
 
             // store the firstChannelName value to redux and in preferences, also set the defaultStep to firstChannelName (-1)
             dispatch(setFirstChannelName(data.name));
-            dispatch(savePreferences(userId, [firstChannelNamePref, defaultStepPref]));
+            dispatch(savePreferences(userId, [firstChannelNamePref]));
 
             dispatch(switchToChannel(data));
             if (typeof props.onFinish === 'function') {
