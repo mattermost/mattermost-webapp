@@ -123,7 +123,7 @@ export default class Root extends React.PureComponent {
         plugins: PropTypes.array,
         products: PropTypes.array,
         showTaskList: PropTypes.bool,
-        showSetupTransitioning: PropTypes.bool,
+        showLaunchingWorkspace: PropTypes.bool,
     }
 
     constructor(props) {
@@ -506,7 +506,7 @@ export default class Root extends React.PureComponent {
                         to={`/${this.props.permalinkRedirectTeamName}/pl/:postid`}
                     />
                     <CompassThemeProvider theme={this.props.theme}>
-                        {(this.props.showSetupTransitioning && !this.props.location.pathname.includes('/preparing-workspace') &&
+                        {(this.props.showLaunchingWorkspace && !this.props.location.pathname.includes('/preparing-workspace') &&
                             <LaunchingWorkspace
                                 fullscreen={true}
                                 zIndex={LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX}

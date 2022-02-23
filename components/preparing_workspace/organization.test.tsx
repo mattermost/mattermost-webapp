@@ -7,6 +7,8 @@ import {render, fireEvent} from '@testing-library/react';
 
 import {withIntl} from 'tests/helpers/intl-test-helper';
 
+import Constants from 'utils/constants';
+
 import {Animations} from './steps';
 import Organization from './organization';
 
@@ -39,7 +41,7 @@ describe('Organization', () => {
         const {getByTestId, getByText} = render(withIntl(<Organization {...props}/>));
         expect(getByTestId('continue')).not.toBeDisabled();
         fireEvent.click(getByTestId('continue'));
-        getByText('between 2 and 15', {exact: false});
+        getByText(`between ${Constants.MIN_TEAMNAME_LENGTH} and ${Constants.MAX_TEAMNAME_LENGTH}`, {exact: false});
     });
 
     test('enables continuing with valid input', () => {

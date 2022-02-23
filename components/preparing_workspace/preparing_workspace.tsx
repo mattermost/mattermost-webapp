@@ -312,6 +312,7 @@ export default function PreparingWorkspace(props: Props) {
         }
 
         const goToChannels = () => {
+            dispatch({type: GeneralTypes.SHOW_LAUNCHING_WORKSPACE, open: true});
             if (redirectChannel) {
                 dispatch(switchToChannel(redirectChannel));
             } else {
