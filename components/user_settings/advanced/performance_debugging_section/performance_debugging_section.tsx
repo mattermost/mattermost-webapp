@@ -128,7 +128,7 @@ function PerformanceDebuggingSectionExpanded(props: Props) {
                     <div className='mt-5'>
                         <FormattedMessage
                             id='user.settings.advance.performance.info1'
-                            defaultMessage="These settings are only intended to be used temporarily while debugging. Remember to turn them off when you're done since they may negatively impact your experience using Mattermost."
+                            defaultMessage='You may enable these settings temporarily to help isolate performance issues while debugging. It is not recommended to leave these settings enabled for an extended period of time as they can negatively impact your user experience.'
                         />
                         <br/>
                         <br/>
