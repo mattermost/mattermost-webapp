@@ -55,6 +55,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     const [liveUrlStatus, setLiveUrlStatus] = useState<ItemStatus>(ItemStatus.ERROR);
     const [elastisearchStatus, setElasticsearchStatus] = useState<ItemStatus>(ItemStatus.INFO);
     const [ldapStatus, setLdapStatus] = useState<ItemStatus>(ItemStatus.INFO);
+    const [dataRetentionStatus, setDataRetentionStatus] = useState<ItemStatus>(ItemStatus.INFO);
     const {formatMessage} = useIntl();
     const {getAccessData, getConfigurationData, getUpdatesData, getPerformanceData, getDataPrivacyData, getEaseOfManagementData, isLicensed, isEnterpriseLicense} = useMetricsData();
 
@@ -76,7 +77,6 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     const {location} = document;
 
     const sessionLengthWebInDays = ServiceSettings?.SessionLengthWebInDays || -1;
-    const dataRetentionEnabled = isLicensed && isEnterpriseLicense && (DataRetentionSettings?.EnableMessageDeletion || DataRetentionSettings?.EnableFileDeletion);
 
     const testURL = () => {
         if (!ServiceSettings?.SiteURL) {
@@ -86,6 +86,22 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         const onSuccess = ({status}: any) => setLiveUrlStatus(status === 'OK' ? ItemStatus.OK : ItemStatus.ERROR);
         const onError = () => setLiveUrlStatus(ItemStatus.ERROR);
         return testSiteURL(onSuccess, onError, ServiceSettings?.SiteURL);
+    };
+
+    const testDataRetention = async () => {
+        if (!isLicensed || !isEnterpriseLicense) {
+            return Promise.resolve();
+        }
+
+        if (DataRetentionSettings?.EnableMessageDeletion || DataRetentionSettings?.EnableFileDeletion) {
+            setDataRetentionStatus(ItemStatus.OK);
+            return Promise.resolve();
+        }
+
+        const result = await fetch('/api/v4/policies?page=0&per_page=0').then((result) => result.json());
+
+        setDataRetentionStatus(result.total_count > 0 ? ItemStatus.OK : ItemStatus.INFO);
+        return Promise.resolve();
     };
 
     const fetchVersion = async () => {
@@ -132,7 +148,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     };
 
     const testElasticsearch = () => {
-        if (!isLicensed || !isEnterpriseLicense || !ElasticsearchSettings?.EnableSearching) {
+        if (!isLicensed || !isEnterpriseLicense || !(ElasticsearchSettings?.EnableIndexing && ElasticsearchSettings?.EnableSearching)) {
             return Promise.resolve();
         }
 
@@ -181,6 +197,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         promises.push(testLdap());
         promises.push(fetchVersion());
         promises.push(testElasticsearch());
+        promises.push(testDataRetention());
 
         // promises.push(fetchGuestAccounts());
         Promise.all(promises).then(() => setLoading(false));
@@ -198,7 +215,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                 status: totalPosts < 2_000_000 && totalUsers < 500 ? ItemStatus.OK : elastisearchStatus,
             },
         }),
-        dataPrivacy: getDataPrivacyData({retention: {status: dataRetentionEnabled ? ItemStatus.OK : ItemStatus.INFO}}),
+        dataPrivacy: getDataPrivacyData({retention: {status: dataRetentionStatus}}),
         easyManagement: getEaseOfManagementData({
             ldap: {status: totalUsers < 100 ? ItemStatus.OK : ldapStatus},
 
