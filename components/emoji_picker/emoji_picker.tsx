@@ -183,7 +183,7 @@ const EmojiPicker = ({
         let newCursorIndex = -1;
 
         // If cursor is on an emoji
-        if (cursor.emojiId.length !== 0) {         
+        if (cursor.emojiId.length !== 0) {
             currentCursorIndexInEmojis = sortedEmojis.findIndex((sortedEmoji) =>
                 sortedEmoji.rowIndex === cursor.rowIndex &&
                     sortedEmoji.emojiId.toLowerCase() === cursor.emojiId.toLowerCase(),
@@ -193,7 +193,7 @@ const EmojiPicker = ({
                 newCursorIndex = 0;
             } else if (moveTo === NavigationDirection.NextEmoji && ((currentCursorIndexInEmojis + 1) < sortedEmojis.length)) {
                 newCursorIndex = currentCursorIndexInEmojis + 1;
-            } else if (moveTo === NavigationDirection.PreviousEmoji) { 
+            } else if (moveTo === NavigationDirection.PreviousEmoji) {
                 newCursorIndex = currentCursorIndexInEmojis - 1;
                 if (newCursorIndex < 0) {
                     // If cursor was at first emoji then focus on search input on LEFT arrow press

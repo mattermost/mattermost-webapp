@@ -38,7 +38,7 @@ type Actions = {
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject, Actions>({
             getCustomEmojis,
             searchCustomEmojis,
             incrementEmojiPickerPage,
