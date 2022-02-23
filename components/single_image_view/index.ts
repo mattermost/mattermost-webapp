@@ -11,6 +11,7 @@ import {GlobalState} from 'types/store';
 
 import {toggleEmbedVisibility} from 'actions/post_actions';
 import {openModal} from 'actions/views/modals';
+import {getFilePublicLink} from 'mattermost-redux/actions/files';
 
 import {getIsRhsOpen} from 'selectors/rhs';
 
@@ -31,6 +32,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators({
             toggleEmbedVisibility,
             openModal,
+            getFilePublicLink,
         }, dispatch),
     };
 }

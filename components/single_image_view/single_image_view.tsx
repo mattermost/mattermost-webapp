@@ -99,6 +99,10 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
         this.props.actions.toggleEmbedVisibility(this.props.postId);
     }
 
+    getFilePublicLink = () => {
+        return this.props.actions.getFilePublicLink(this.props.fileInfo.id);
+    }
+
     render() {
         const {fileInfo, compactDisplay, isInPermalink} = this.props;
         const {
@@ -233,6 +237,7 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
                                     showLoader={this.props.isEmbedVisible}
                                     handleSmallImageContainer={true}
                                     enablePublicLink={this.props.enablePublicLink}
+                                    getFilePublicLink={this.getFilePublicLink}
                                 />
                             </div>
                         </div>

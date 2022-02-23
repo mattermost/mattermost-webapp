@@ -69,6 +69,11 @@ export default class SizeAwareImage extends React.PureComponent {
          * Enables copy URL functionality through a button on image hover.
          */
         enablePublicLink: PropTypes.bool,
+
+        /**
+         * Action to fetch public link of an image from server.
+         */
+        getFilePublicLink: PropTypes.func,
     }
 
     constructor(props) {
@@ -80,6 +85,7 @@ export default class SizeAwareImage extends React.PureComponent {
             isSmallImage: this.dimensionsAvailable(dimensions) ? this.isSmallImage(
                 dimensions.width, dimensions.height) : false,
             linkCopiedRecently: false,
+            linkCopyInProgress: false,
         };
 
         this.heightTimeout = 0;
@@ -350,17 +356,28 @@ export default class SizeAwareImage extends React.PureComponent {
     }
 
     copyLinkToAsset = () => {
-        const fileURL = this.props.fileURL;
-        copyToClipboard(fileURL ?? '');
+        // if linkCopyInProgress is true return
+        if (this.state.linkCopyInProgress === true) {
+            return
+        } else {
+            // set linkCopyInProgress to true to prevent multiple api calls
+            this.setState({linkCopyInProgress: true});
 
-        // set linkCopiedRecently to true, and reset to false after 4 seconds
-        this.setState({linkCopiedRecently: true});
-        if (this.timeout) {
-            clearTimeout(this.timeout);
+            // copying public link to clipboard
+            this.props.getFilePublicLink().then((data) => {
+                const fileURL = data.data.link;
+                copyToClipboard(fileURL ?? '');
+
+                // set linkCopiedRecently to true, and reset to false after 1.5 seconds
+                this.setState({linkCopiedRecently: true});
+                if (this.timeout) {
+                    clearTimeout(this.timeout);
+                }
+                this.timeout = setTimeout(() => {
+                    this.setState({linkCopiedRecently: false, linkCopyInProgress: false});
+                }, 1500);
+            });
         }
-        this.timeout = setTimeout(() => {
-            this.setState({linkCopiedRecently: false});
-        }, 1500);
     }
 
     render() {
