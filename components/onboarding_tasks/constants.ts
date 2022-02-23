@@ -14,6 +14,7 @@ export const OnboardingTasksName = {
     DOWNLOAD_APP: 'download_app',
     COMPLETE_YOUR_PROFILE: 'complete_your_profile',
     VISIT_SYSTEM_CONSOLE: 'visit_system_console',
+    START_TRIAL: 'start_trial',
 };
 
 export const OnboardingTaskList = {
@@ -36,5 +37,6 @@ export const TaskNameMapToSteps = {
     [OnboardingTasksName.DOWNLOAD_APP]: GenericTaskSteps,
     [OnboardingTasksName.VISIT_SYSTEM_CONSOLE]: GenericTaskSteps,
     [OnboardingTasksName.INVITE_PEOPLE]: GenericTaskSteps,
+    [OnboardingTasksName.START_TRIAL]: GenericTaskSteps,
 };
 

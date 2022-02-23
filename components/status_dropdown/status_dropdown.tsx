@@ -311,7 +311,7 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
         return (
             <Menu.Group>
                 <Menu.ItemToggleModalRedux
-                    ariaLabel='Custom Status'
+                    ariaLabel={customStatusText || customStatusHelpText}
                     modalId={ModalIdentifiers.CUSTOM_STATUS}
                     dialogType={CustomStatusModal}
                     className={classNames('MenuItem__primary-text custom_status__row', {
