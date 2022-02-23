@@ -81,6 +81,7 @@ const useMetricsData = () => {
     const daysToEndLicense = endOfLicense.diff(today, 'days');
 
     const isLicensed = license?.IsLicensed === 'true' && daysToEndLicense >= 0;
+    const isProfessionalLicense = license?.SkuShortName === 'professional';
 
     const trialOrEnterpriseCtaConfig = {
         configUrl: canStartTrial ? ConsolePages.LICENSE : LicenseLinks.CONTACT_SALES,
@@ -289,7 +290,7 @@ const useMetricsData = () => {
                     id: 'admin.reporting.workspace_optimization.performance.search.description',
                     defaultMessage: 'Your server has reached over 500 users and 2 million posts which can result in slow search performance. We recommend enabling Elasticsearch for better performance.',
                 }),
-                ...(isLicensed ? {
+                ...(isLicensed && !isProfessionalLicense ? {
                     configUrl: ConsolePages.ELASTICSEARCH,
                     configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.configureElasticsearch', defaultMessage: 'Try Elasticsearch'}),
                 } : trialOrEnterpriseCtaConfig),
@@ -342,7 +343,7 @@ const useMetricsData = () => {
                     id: 'admin.reporting.workspace_optimization.data_privacy.retention.description',
                     defaultMessage: 'Organizations in highly regulated industries require more control and insight with their data. We recommend enabling Data Retention and Compliance features.',
                 }),
-                ...(isLicensed ? {
+                ...(isLicensed && !isProfessionalLicense ? {
                     configUrl: ConsolePages.DATA_RETENTION,
                     configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.configureDataRetention', defaultMessage: 'Try data retention'}),
                 } : trialOrEnterpriseCtaConfig),
