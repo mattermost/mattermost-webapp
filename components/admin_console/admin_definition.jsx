@@ -34,6 +34,7 @@ import LicenseSettings from './license_settings';
 import PermissionSchemesSettings from './permission_schemes_settings';
 import PermissionSystemSchemeSettings from './permission_schemes_settings/permission_system_scheme_settings';
 import PermissionTeamSchemeSettings from './permission_schemes_settings/permission_team_scheme_settings';
+import ValidationResult from './validation';
 import SystemRoles from './system_roles';
 import SystemRole from './system_roles/system_role';
 import SystemUsers from './system_users';
@@ -203,6 +204,10 @@ export const it = {
     userHasReadPermissionOnSomeResources: (key) => Object.values(key).some((resource) => it.userHasReadPermissionOnResource(resource)),
     userHasWritePermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.write?.[key],
     isSystemAdmin: (config, state, license, enterpriseReady, consoleAccess, icloud, isSystemAdmin) => isSystemAdmin,
+};
+
+export const validators = {
+    isRequired: (text, textDefault) => (value) => new ValidationResult(Boolean(value), text, textDefault),
 };
 
 const usesLegacyOauth = (config, state, license, enterpriseReady, consoleAccess, cloud) => {
@@ -1911,15 +1916,6 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'SupportSettings.SupportEmail',
-                        label: t('admin.support.emailTitle'),
-                        label_default: 'Support Email:',
-                        help_text: t('admin.support.emailHelp'),
-                        help_text_default: 'Email address displayed on email notifications.',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'SupportSettings.TermsOfServiceLink',
                         label: t('admin.support.termsTitle'),
                         label_default: 'Terms of Use Link:',
@@ -2268,6 +2264,7 @@ const AdminDefinition = {
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTIFICATIONS)),
                             it.stateIsFalse('EmailSettings.SendEmailNotifications'),
                         ),
+                        validate: validators.isRequired(t('admin.environment.notifications.notificationDisplay.required'), '"Notification Display Name" is required'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2283,6 +2280,19 @@ const AdminDefinition = {
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTIFICATIONS)),
                             it.stateIsFalse('EmailSettings.SendEmailNotifications'),
                         ),
+                        validate: validators.isRequired(t('admin.environment.notifications.feedbackEmail.required'), '"Notification From Address" is required'),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'SupportSettings.SupportEmail',
+                        label: t('admin.environment.notifications.supportEmail.label'),
+                        label_default: 'Support Email Address:',
+                        placeholder: t('admin.environment.notifications.supportAddress.placeholder'),
+                        placeholder_default: 'Ex: "support@yourcompany.com", "admin@yourcompany.com"',
+                        help_text: t('admin.environment.notifications.supportEmail.help'),
+                        help_text_default: 'Email address displayed on support emails.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
+                        validate: validators.isRequired(t('admin.environment.notifications.supportEmail.required'), '"Support Email Address" is required'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
