@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 
 import {Modal} from 'react-bootstrap';
 
@@ -42,15 +42,15 @@ const UpdateUserGroupModal = (props: Props) => {
     const [showUnknownError, setShowUnknownError] = useState(false);
     const [mentionUpdatedManually, setMentionUpdatedManually] = useState(false);
 
-    const doHide = () => {
+    const doHide = useCallback(() => {
         setShow(false);
-    };
+    }, []);
 
-    const isSaveEnabled = () => {
+    const isSaveEnabled = useCallback(() => {
         return name.length > 0 && mention.length > 0 && hasUpdated && !saving;
-    };
+    }, [name, mention, hasUpdated, saving]);
 
-    const updateNameState = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const updateNameState = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         let newMention = mention;
         if (!mentionUpdatedManually) {
@@ -62,16 +62,16 @@ const UpdateUserGroupModal = (props: Props) => {
         setName(value);
         setHasUpdated(true);
         setMention(newMention);
-    };
+    }, []);
 
-    const updateMentionState = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const updateMentionState = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setHasUpdated(true);
         setMention(value);
         setMentionUpdatedManually(true);
-    };
+    }, []);
 
-    const patchGroup = async () => {
+    const patchGroup = useCallback(async () => {
         setSaving(true);
         let newMention = mention;
         const displayName = name;
@@ -115,11 +115,12 @@ const UpdateUserGroupModal = (props: Props) => {
         } else {
             goBack();
         }
-    };
-    const goBack = () => {
+    }, []);
+
+    const goBack = useCallback(() => {
         props.backButtonCallback();
         props.onExited();
-    };
+    }, [props.backButtonCallback, props.onExited]);
 
     return (
         <Modal
@@ -136,9 +137,7 @@ const UpdateUserGroupModal = (props: Props) => {
                     type='button'
                     className='modal-header-back-button btn-icon'
                     aria-label='Close'
-                    onClick={() => {
-                        goBack();
-                    }}
+                    onClick={goBack}
                 >
                     <LocalizedIcon
                         className='icon icon-arrow-left'
@@ -221,4 +220,4 @@ const UpdateUserGroupModal = (props: Props) => {
     );
 };
 
-export default UpdateUserGroupModal;
+export default React.memo(UpdateUserGroupModal);
