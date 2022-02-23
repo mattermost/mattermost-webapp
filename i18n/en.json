@@ -4552,7 +4552,7 @@
   "user.settings.advance.onForAllMessages": "On for all messages",
   "user.settings.advance.onForCode": "On only for code blocks starting with ```",
   "user.settings.advance.performance.disableClientPlugins": "Disable Client-side Plugins",
-  "user.settings.advance.performance.info1": "These settings are only intended to be used temporarily while debugging. Remember to turn them off when you\\'re done since they may negatively impact your experience using Mattermost.",
+  "user.settings.advance.performance.info1": "These settings are only intended to be used temporarily while debugging. Remember to turn them off when you're done since they may negatively impact your experience using Mattermost.",
   "user.settings.advance.performance.info2": "You may need to refresh the page before these settings will take effect.",
   "user.settings.advance.performance.noneEnabled": "No settings enabled",
   "user.settings.advance.performance.settingsEnabled": "{count, number} {count, plural, one {setting} other {settings}} enabled",
