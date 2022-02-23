@@ -9,10 +9,10 @@ import debounce from 'lodash/debounce';
 import QuickInput from 'components/quick_input';
 import {trackEvent} from 'actions/telemetry_actions';
 
-import {teamNameToUrl} from 'utils/url';
 import Constants from 'utils/constants';
 
 import OrganizationSVG from 'components/common/svg_images_components/organization-building_svg';
+import useValidateTeam from 'components/common/hooks/useValidateTeam';
 
 import OrganizationStatus from './organization_status';
 
@@ -30,16 +30,23 @@ type Props = PreparingWorkspacePageProps & {
     className?: string;
 }
 
-const reportValidationError = debounce(() => {
-    trackEvent('first_admin_setup', 'validate_organization_error');
+const reportValidationError = debounce((teamName: string, valid: boolean) => {
+    if (!valid && teamName) {
+        trackEvent('first_admin_setup', 'validate_organization_error');
+    }
 }, 700, {leading: false});
+
+//	api.BaseRoutes.TeamByName.Handle("/exists", api.APISessionRequired(teamExists)).Methods("GET")
 
 const Organization = (props: Props) => {
     const {formatMessage} = useIntl();
-    const [triedNext, setTriedNext] = useState(false);
-    const validation = teamNameToUrl(props.organization || '');
+    const [userEdited, setUserEdited] = useState(false);
+    const teamValidator = useValidateTeam();
 
-    useEffect(props.onPageView, []);
+    useEffect(() => {
+        teamValidator.validate(props.organization || '');
+        props.onPageView();
+    }, []);
 
     const onNext = (e?: React.KeyboardEvent | React.MouseEvent) => {
         if (e && (e as React.KeyboardEvent).key) {
@@ -47,16 +54,23 @@ const Organization = (props: Props) => {
                 return;
             }
         }
-        if (!triedNext) {
-            setTriedNext(true);
+
+        if (!userEdited) {
+            setUserEdited(true);
         }
 
-        if (validation.error) {
-            reportValidationError();
+        if (teamValidator.verifying) {
+            return;
+        }
+        if (!teamValidator.result.valid) {
             return;
         }
         props.next?.();
     };
+
+    useEffect(() => {
+        reportValidationError(props.organization || '', teamValidator.result.valid);
+    }, [props.organization, teamValidator.result.valid, teamValidator.result.valid]);
 
     let className = 'Organization-body';
     if (props.className) {
@@ -64,7 +78,7 @@ const Organization = (props: Props) => {
     }
     let inputClass = 'Organization__input';
 
-    if (triedNext && validation.error) {
+    if (userEdited && !teamValidator.verifying && teamValidator.result.error) {
         inputClass += ' Organization__input--error';
     }
     return (
@@ -112,18 +126,26 @@ const Organization = (props: Props) => {
                                 }
                                 className={inputClass}
                                 value={props.organization || ''}
-                                onChange={(e) => props.setOrganization(e.target.value)}
+                                onChange={(e) => {
+                                    props.setOrganization(e.target.value);
+                                    teamValidator.validate(e.target.value);
+                                    setUserEdited(true);
+                                }}
                                 onKeyUp={onNext}
                                 autoFocus={true}
                             />
-                            <OrganizationStatus error={triedNext && validation.error}/>
+                            <OrganizationStatus
+                                checking={teamValidator.verifying}
+                                error={teamValidator.result.error}
+                                userEdited={userEdited}
+                            />
                         </PageBody>
                         <div>
                             <button
                                 className='primary-button'
                                 data-testid='continue'
                                 onClick={onNext}
-                                disabled={!props.organization}
+                                disabled={!teamValidator.result.valid}
                             >
                                 <FormattedMessage
                                     id={'onboarding_wizard.next'}

@@ -69,6 +69,9 @@ const InviteMembers = (props: Props) => {
         } else {
             urlBase = props.browserSiteUrl;
         }
+        if (props.inferredProtocol) {
+            urlBase = props.inferredProtocol + '://' + urlBase;
+        }
         return `${urlBase}/signup_user_complete/?id=${props.teamInviteId}`;
     }, [props.teamInviteId, props.configSiteUrl, props.browserSiteUrl, props.formUrl]);
 

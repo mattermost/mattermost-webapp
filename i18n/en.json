@@ -3870,6 +3870,7 @@
   "onboarding_wizard.organization.other": "Invalid organization name: {reason}",
   "onboarding_wizard.organization.placeholder": "Organization name",
   "onboarding_wizard.organization.reserved": "Organization name may not <a>start with a reserved word</a>.",
+  "onboarding_wizard.organization.taken": "This team has already been created. Create a new team.",
   "onboarding_wizard.organization.title": "What’s the name of your organization?",
   "onboarding_wizard.plugins.description": "Choose the tools you work with, and we’ll add them to your workspace. Additional set up may be needed later.",
   "onboarding_wizard.plugins.github": "GitHub",
