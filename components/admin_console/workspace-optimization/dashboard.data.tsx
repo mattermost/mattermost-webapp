@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import moment from 'moment';
 import {useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
 
@@ -20,6 +19,7 @@ import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {GlobalState} from 'mattermost-redux/types/store';
 
 import {ConsolePages, DocLinks, LicenseLinks} from 'utils/constants';
+import {daysToLicenseExpire, isEnterpriseOrE20License} from '../../../utils/license_utils';
 
 type DataModel = {
     [key: string]: {
@@ -75,13 +75,10 @@ const useMetricsData = () => {
     const license = useSelector((state: GlobalState) => getLicense(state));
 
     const canStartTrial = license?.IsLicensed !== 'true' && prevTrialLicense?.IsLicensed !== 'true';
+    const daysUntilExpiration = daysToLicenseExpire(license) || -1;
 
-    const today = moment(Date.now());
-    const endOfLicense = moment(new Date(parseInt(license?.ExpiresAt, 10)));
-    const daysToEndLicense = endOfLicense.diff(today, 'days');
-
-    const isLicensed = license?.IsLicensed === 'true' && daysToEndLicense >= 0;
-    const isProfessionalLicense = license?.SkuShortName === 'professional';
+    const isLicensed = license?.IsLicensed === 'true' && daysUntilExpiration >= 0;
+    const isEnterpriseLicense = isEnterpriseOrE20License(license);
 
     const trialOrEnterpriseCtaConfig = {
         configUrl: canStartTrial ? ConsolePages.LICENSE : LicenseLinks.CONTACT_SALES,
@@ -290,7 +287,7 @@ const useMetricsData = () => {
                     id: 'admin.reporting.workspace_optimization.performance.search.description',
                     defaultMessage: 'Your server has reached over 500 users and 2 million posts which can result in slow search performance. We recommend enabling Elasticsearch for better performance.',
                 }),
-                ...(isLicensed && !isProfessionalLicense ? {
+                ...(isLicensed && isEnterpriseLicense ? {
                     configUrl: ConsolePages.ELASTICSEARCH,
                     configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.configureElasticsearch', defaultMessage: 'Try Elasticsearch'}),
                 } : trialOrEnterpriseCtaConfig),
@@ -343,7 +340,7 @@ const useMetricsData = () => {
                     id: 'admin.reporting.workspace_optimization.data_privacy.retention.description',
                     defaultMessage: 'Organizations in highly regulated industries require more control and insight with their data. We recommend enabling Data Retention and Compliance features.',
                 }),
-                ...(isLicensed && !isProfessionalLicense ? {
+                ...(isLicensed && isEnterpriseLicense ? {
                     configUrl: ConsolePages.DATA_RETENTION,
                     configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.configureDataRetention', defaultMessage: 'Try data retention'}),
                 } : trialOrEnterpriseCtaConfig),
@@ -434,7 +431,7 @@ const useMetricsData = () => {
         ],
     });
 
-    return {getAccessData, getConfigurationData, getUpdatesData, getPerformanceData, getDataPrivacyData, getEaseOfManagementData, isLicensed};
+    return {getAccessData, getConfigurationData, getUpdatesData, getPerformanceData, getDataPrivacyData, getEaseOfManagementData, isLicensed, isEnterpriseLicense};
 };
 
 export {DataModel, ItemModel, ItemStatus};

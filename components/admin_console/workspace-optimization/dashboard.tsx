@@ -56,7 +56,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     const [elastisearchStatus, setElasticsearchStatus] = useState<ItemStatus>(ItemStatus.INFO);
     const [ldapStatus, setLdapStatus] = useState<ItemStatus>(ItemStatus.INFO);
     const {formatMessage} = useIntl();
-    const {getAccessData, getConfigurationData, getUpdatesData, getPerformanceData, getDataPrivacyData, getEaseOfManagementData, isLicensed} = useMetricsData();
+    const {getAccessData, getConfigurationData, getUpdatesData, getPerformanceData, getDataPrivacyData, getEaseOfManagementData, isLicensed, isEnterpriseLicense} = useMetricsData();
 
     // get the currently installed server version
     const installedVersion = useSelector((state: GlobalState) => getServerVersion(state));
@@ -76,7 +76,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     const {location} = document;
 
     const sessionLengthWebInDays = ServiceSettings?.SessionLengthWebInDays || -1;
-    const dataRetentionEnabled = isLicensed && (DataRetentionSettings?.EnableMessageDeletion || DataRetentionSettings?.EnableFileDeletion);
+    const dataRetentionEnabled = isLicensed && isEnterpriseLicense && (DataRetentionSettings?.EnableMessageDeletion || DataRetentionSettings?.EnableFileDeletion);
 
     const testURL = () => {
         if (!ServiceSettings?.SiteURL) {
@@ -132,7 +132,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     };
 
     const testElasticsearch = () => {
-        if (!isLicensed || !ElasticsearchSettings?.EnableSearching) {
+        if (!isLicensed || !isEnterpriseLicense || !ElasticsearchSettings?.EnableSearching) {
             return Promise.resolve();
         }
 
@@ -184,7 +184,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
 
         // promises.push(fetchGuestAccounts());
         Promise.all(promises).then(() => setLoading(false));
-    }, []);
+    }, [props.config, isLicensed, isEnterpriseLicense]);
 
     const data: DataModel = {
         updates: getUpdatesData({serverVersion: versionData}),
