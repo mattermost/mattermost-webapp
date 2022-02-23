@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState, memo, useRef} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {Transition} from 'react-transition-group';
 import AnimateHeight from 'react-animate-height';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
@@ -25,11 +25,15 @@ const AutoHeightSwitcher = ({showSlot, slot1, slot2, duration = 250, shouldScrol
     const [child, setChild] = useState(showSlot === 1 ? slot1 : slot2);
 
     useEffect(() => {
-        if (prevShow.current !== showSlot) {
+        if (prevShow.current === showSlot) {
+            // slot that is currently in view gets updated
+            setChild(showSlot === 1 ? slot1 : slot2);
+        } else {
+            // switch slots using height animation
             setAnimate(true);
             prevShow.current = showSlot;
         }
-    }, [showSlot]);
+    }, [showSlot, slot1, slot2]);
 
     useEffect(() => {
         if (shouldScrollIntoView) {
@@ -74,4 +78,4 @@ const AutoHeightSwitcher = ({showSlot, slot1, slot2, duration = 250, shouldScrol
     );
 };
 
-export default memo(AutoHeightSwitcher);
+export default AutoHeightSwitcher;
