@@ -428,7 +428,7 @@ export default class RhsRootPost extends React.PureComponent {
                 post={this.props.post}
                 handleDropdownOpened={this.handleActionsMenuOpened}
                 isMenuOpen={this.state.showActionsMenu}
-                showTutorialTip={this.props.showActionsMenuPulsatingDot}
+                showPulsatingDot={this.props.showActionsMenuPulsatingDot}
             />
         );
 

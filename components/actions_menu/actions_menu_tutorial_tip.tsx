@@ -3,42 +3,61 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {useDispatch} from 'react-redux';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import {Preferences} from 'mattermost-redux/constants';
-import {setActionsMenuInitialisationState} from 'mattermost-redux/actions/preferences';
+import TourTip, {useMeasurePunchouts} from 'components/widgets/tour_tip';
 
-import TutorialTip from 'components/tutorial/tutorial_tip';
+const translate = {x: 6, y: -10};
 
-export const ActionsTutorialTip: React.FC = () => {
-    const dispatch = useDispatch();
+type Props = {
+    handleNext: (e: React.MouseEvent) => void;
+    handleOpen: (e: React.MouseEvent) => void;
+    handleDismiss: () => void;
+    showTip: boolean;
+}
+
+export const ActionsTutorialTip = ({handleOpen, handleDismiss, handleNext, showTip}: Props) => {
+    const title = (
+        <FormattedMessage
+            id='post_info.actions.tutorialTip.title'
+            defaultMessage='Actions for messages'
+        />
+    );
     const screen = (
-        <div>
-            <h4>
-                <FormattedMessage
-                    id='post_info.actions.tutorialTip.title'
-                    defaultMessage='Actions for messages'
-                />
-            </h4>
-            <p>
-                <FormattedMarkdownMessage
-                    id='post_info.actions.tutorialTip'
-                    defaultMessage='Message actions that are provided\nthrough apps, integrations or plugins\nhave moved to this menu item.'
-                />
-            </p>
-        </div>
+        <FormattedMarkdownMessage
+            id='post_info.actions.tutorialTip'
+            defaultMessage='Message actions that are provided\nthrough apps, integrations or plugins\nhave moved to this menu item.'
+        />
     );
 
+    const overlayPunchOut = useMeasurePunchouts([], []);
+
+    const nextBtn = (): JSX.Element => {
+        return (
+            <FormattedMessage
+                id={'tutorial_tip.got_it'}
+                defaultMessage={'Got it'}
+            />
+        );
+    };
+
     return (
-        <TutorialTip
-            placement='top'
+        <TourTip
+            show={showTip}
             screen={screen}
-            overlayClass='tip-overlay--actions'
+            title={title}
+            overlayPunchOut={overlayPunchOut}
+            placement='top'
+            pulsatingDotPlacement='left'
+            pulsatingDotTranslate={translate}
+            step={1}
             singleTip={true}
-            extraFunc={() => {
-                dispatch(setActionsMenuInitialisationState?.(({[Preferences.ACTIONS_MENU_VIEWED]: true})));
-            }}
+            showOptOut={true}
+            interactivePunchOut={true}
+            handleDismiss={handleDismiss}
+            handleNext={handleNext}
+            handleOpen={handleOpen}
+            nextBtn={nextBtn()}
         />
     );
 };

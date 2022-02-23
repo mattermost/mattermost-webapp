@@ -152,6 +152,7 @@ type State = {
     showDotMenu: boolean;
     showActionsMenu: boolean;
     showOptionsMenuWithoutHover: boolean;
+    showActionTip: boolean;
 };
 
 export default class PostInfo extends React.PureComponent<Props, State> {
@@ -166,6 +167,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             showOptionsMenuWithoutHover: false,
             showDotMenu: false,
             showActionsMenu: false,
+            showActionTip: false,
         };
 
         this.postHeaderRef = React.createRef();
@@ -182,7 +184,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             showEmojiPicker,
             showOptionsMenuWithoutHover: false,
         });
-        this.props.handleDropdownOpened(showEmojiPicker || this.state.showDotMenu);
+        this.props.handleDropdownOpened(showEmojiPicker);
     };
 
     removePost = () => {
@@ -207,14 +209,27 @@ export default class PostInfo extends React.PureComponent<Props, State> {
     };
 
     handleActionsMenuOpened = (open: boolean) => {
-        // if showing pulsating dot do not allow menu to open.  only the
-        // tutorial tip
         if (this.props.showActionsMenuPulsatingDot) {
+            this.setState({showActionTip: true});
+            this.props.handleDropdownOpened(true);
             return;
         }
-
         this.setState({showActionsMenu: open});
-        this.props.handleDropdownOpened(open);
+    };
+
+    handleActionsMenuTipOpened = (): void => {
+        this.setState({showActionTip: true});
+        this.props.handleDropdownOpened(true);
+    };
+
+    handleActionsMenuGotItClick = (): void => {
+        this.props.actions.setActionsMenuInitialisationState?.(({[Preferences.ACTIONS_MENU_VIEWED]: true}));
+        this.props.handleDropdownOpened(false);
+        this.setState({showActionTip: false});
+    };
+
+    handleTipDismissed = () => {
+        this.setState({showActionTip: false});
     };
 
     getDotMenu = (): HTMLDivElement => {
@@ -227,7 +242,13 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         }
 
         const {isMobile, isReadOnly, collapsedThreadsEnabled} = this.props;
-        const hover = this.props.hover || this.state.showEmojiPicker || this.state.showDotMenu || this.state.showActionsMenu || this.state.showOptionsMenuWithoutHover;
+
+        const hover = this.props.hover ||
+            this.state.showEmojiPicker ||
+            this.state.showDotMenu ||
+            this.state.showActionsMenu ||
+            this.state.showActionTip ||
+            this.state.showOptionsMenuWithoutHover;
 
         const showCommentIcon = fromAutoResponder ||
         (!isSystemMessage && (isMobile || hover || (!post.root_id && Boolean(this.props.hasReplies)) || this.props.isFirstReply));
@@ -298,7 +319,11 @@ export default class PostInfo extends React.PureComponent<Props, State> {
                 post={post}
                 handleDropdownOpened={this.handleActionsMenuOpened}
                 isMenuOpen={this.state.showActionsMenu}
-                showTutorialTip={this.props.showActionsMenuPulsatingDot}
+                showPulsatingDot={this.props.showActionsMenuPulsatingDot}
+                showTutorialTip={this.state.showActionTip}
+                handleOpenTip={this.handleActionsMenuTipOpened}
+                handleNextTip={this.handleActionsMenuGotItClick}
+                handleDismissTip={this.handleTipDismissed}
             />
         );
 

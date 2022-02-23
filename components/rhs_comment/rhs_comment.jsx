@@ -567,7 +567,7 @@ export default class RhsComment extends React.PureComponent {
                     post={post}
                     handleDropdownOpened={this.handleActionsMenuOpened}
                     isMenuOpen={this.state.showActionsMenu}
-                    showTutorialTip={this.props.showActionsMenuPulsatingDot}
+                    showPulsatingDot={this.props.showActionsMenuPulsatingDot}
                 />
             );
             const dotMenu = (

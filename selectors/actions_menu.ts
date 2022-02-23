@@ -10,4 +10,3 @@ export function showActionsDropdownPulsatingDot(state: GlobalState): boolean {
     const modalAlreadyViewed = actionsMenuTutorialState && JSON.parse(actionsMenuTutorialState)[Preferences.ACTIONS_MENU_VIEWED];
     return !modalAlreadyViewed;
 }
-

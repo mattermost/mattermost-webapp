@@ -43,9 +43,13 @@ type Props = {
     location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
     pluginMenuItems?: PluginComponent[];
     post: Post;
-    showTutorialTip: boolean;
     teamId: string;
     userId: string;
+    handleOpenTip: () => void;
+    handleNextTip: (e: React.MouseEvent) => void;
+    handleDismissTip: () => void;
+    showPulsatingDot: boolean;
+    showTutorialTip: boolean;
 
     /**
      * Components for overriding provided by plugins
@@ -263,6 +267,13 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         );
     }
 
+    handleActionsIconClick = (e: React.MouseEvent) => {
+        if (this.props.showPulsatingDot || this.props.showTutorialTip) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    };
+
     render(): React.ReactNode {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
 
@@ -304,7 +315,11 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
             appBindings = this.state.appBindings.map((item) => {
                 let icon: JSX.Element | undefined;
                 if (item.icon) {
-                    icon = (<img src={item.icon}/>);
+                    icon = (
+                        <img
+                            key={item.app_id + 'app_icon'}
+                            src={item.icon}
+                        />);
                 }
 
                 return (
@@ -347,13 +362,6 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         }
 
         let menuItems;
-        let tutorialTip = null;
-        if (this.props.showTutorialTip) {
-            tutorialTip = (
-                <ActionsTutorialTip/>
-            );
-        }
-
         const hasApps = Boolean(appBindings.length);
         const hasPluggables = Boolean(this.props.components[PLUGGABLE_COMPONENT]?.length);
         const hasPluginItems = Boolean(pluginItems?.length);
@@ -377,6 +385,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
 
         return (
             <MenuWrapper
+                open={this.props.isMenuOpen}
                 onToggle={this.props.handleDropdownOpened}
             >
                 <OverlayTrigger
@@ -387,6 +396,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                     rootClose={true}
                 >
                     <button
+                        key='more-actions-button'
                         ref={this.buttonRef}
                         id={`${this.props.location}_button_${this.props.post.id}`}
                         aria-label={Utils.localizeMessage('post_info.dot_menu.tooltip.more_actions', 'Actions').toLowerCase()}
@@ -395,9 +405,17 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                         })}
                         type='button'
                         aria-expanded='false'
+                        onClick={this.handleActionsIconClick}
                     >
                         <i className={'icon icon-apps'}/>
-                        {tutorialTip}
+                        {this.props.showPulsatingDot &&
+                            <ActionsTutorialTip
+                                showTip={this.props.showTutorialTip}
+                                handleNext={this.props.handleNextTip}
+                                handleOpen={this.props.handleOpenTip}
+                                handleDismiss={this.props.handleDismissTip}
+                            />
+                        }
                     </button>
                 </OverlayTrigger>
                 <Menu
