@@ -5,14 +5,11 @@ import React from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import classNames from 'classnames';
 
+import {Constants} from 'utils/constants';
+import * as Emoji from 'utils/emoji.jsx';
+import imgTrans from 'images/img_trans.gif';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
-
-import {Constants} from 'utils/constants';
-
-import * as Emoji from 'utils/emoji.jsx';
-
-import imgTrans from 'images/img_trans.gif';
 
 const skinsList = [['raised_hand_with_fingers_splayed', 'default'],
     ['raised_hand_with_fingers_splayed_light_skin_tone', '1F3FB'],

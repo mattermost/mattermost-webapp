@@ -50,9 +50,7 @@ export type EmojiCursor = {
     emoji: Emoji | undefined;
 };
 
-export type EmojiWithRow = {
-    rowIndex: number;
-    emojiId: CustomEmoji['id'] | SystemEmoji['unified'];
+export type EmojiPosition = Omit<EmojiCursor, 'emoji'> &{
     categoryName: string;
 }
 

@@ -7,7 +7,6 @@ import {ListChildComponentProps, areEqual} from 'react-window';
 import {CustomEmoji, Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
 
 import {CategoryOrEmojiRow, EmojiCursor} from 'components/emoji_picker/types';
-
 import {isCategoryHeaderRow} from 'components/emoji_picker/utils';
 import EmojiPickerCategorySection from 'components/emoji_picker/components/emoji_picker_category_row';
 import EmojiPickerItem from 'components/emoji_picker/components/emoji_picker_item';

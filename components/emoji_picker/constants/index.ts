@@ -55,7 +55,7 @@ export const EMOJI_CONTAINER_HEIGHT = 290; // If this changes, the spaceRequired
 export const CATEGORY_HEADER_ROW = 'categoryHeaderRow';
 export const EMOJIS_ROW = 'emojisRow';
 
-export const EMOJI_LAZY_LOAD_SCROLL_DEBOUNCE = 150;
+export const EMOJI_SCROLL_THROTTLE_DELAY = 150;
 export const EMOJI_ROWS_OVERSCAN_COUNT = 1;
 
 export const CUSTOM_EMOJIS_PER_PAGE = 200;

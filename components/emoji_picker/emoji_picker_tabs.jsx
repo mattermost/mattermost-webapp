@@ -8,7 +8,6 @@ import {Tab, Tabs} from 'react-bootstrap';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import GfycatIcon from 'components/widgets/icons/gfycat_icon';
 import {makeAsyncComponent} from 'components/async_load';
-
 import EmojiPicker from 'components/emoji_picker';
 import EmojiPickerHeader from 'components/emoji_picker/components/emoji_picker_header';
 

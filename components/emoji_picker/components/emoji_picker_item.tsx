@@ -11,7 +11,7 @@ import {Emoji} from 'mattermost-redux/types/emojis';
 
 import imgTrans from 'images/img_trans.gif';
 import {EmojiCursor} from 'components/emoji_picker/types';
-import {EMOJI_LAZY_LOAD_SCROLL_DEBOUNCE} from 'components/emoji_picker/constants';
+import {EMOJI_SCROLL_THROTTLE_DELAY} from 'components/emoji_picker/constants';
 
 interface Props {
     emoji: Emoji;
@@ -37,9 +37,9 @@ function EmojiPickerItem({emoji, rowIndex, isSelected, onClick, onMouseOver}: Pr
     };
 
     const throttledMouseOver = useCallback(
-        throttle(handleMouseOver, EMOJI_LAZY_LOAD_SCROLL_DEBOUNCE, {
+        throttle(handleMouseOver, EMOJI_SCROLL_THROTTLE_DELAY, {
             leading: true,
-            trailing: true,
+            trailing: false,
         }), []);
 
     const handleClick = () => {
@@ -96,10 +96,10 @@ function EmojiPickerItem({emoji, rowIndex, isSelected, onClick, onMouseOver}: Pr
     );
 }
 
-function arePropsEqual(prevProps: Props, nextProps: Props) {
+function areEqual(prevProps: Props, nextProps: Props) {
     return (
         prevProps.isSelected === nextProps.isSelected
     );
 }
 
-export default memo(EmojiPickerItem, arePropsEqual);
+export default memo(EmojiPickerItem, areEqual);

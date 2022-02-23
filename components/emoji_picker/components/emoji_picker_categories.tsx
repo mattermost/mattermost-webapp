@@ -10,9 +10,7 @@ import {
     CategoryOrEmojiRow,
     NavigationDirection,
 } from 'components/emoji_picker/types';
-
 import {calculateCategoryRowIndex} from 'components/emoji_picker/utils';
-
 import EmojiPickerCategory from 'components/emoji_picker/components/emoji_picker_category';
 
 interface Props {

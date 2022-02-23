@@ -12,7 +12,7 @@ import {
     CategoryOrEmojiRow,
     CategoryHeaderRow,
     EmojiRow,
-    EmojiWithRow,
+    EmojiPosition,
     EmojiCursor,
 } from 'components/emoji_picker/types';
 
@@ -268,7 +268,7 @@ function splitEmojisToRows(emojis: Emoji[], categoryIndex: number, categoryName:
 }
 
 function createEmojiCursors(categoryOrEmojiRows: CategoryOrEmojiRow[]) {
-    let emojisSortedByCategory: EmojiWithRow[] = [];
+    let emojisSortedByCategory: EmojiPosition[] = [];
     let emojiIndexCounter = 0;
     categoryOrEmojiRows.forEach((categoryOrEmojiRow) => {
         if (categoryOrEmojiRow.type === 'emojisRow') {
@@ -302,7 +302,7 @@ export function createCategoryAndEmojiRows(
     categories: Categories,
     filter: string,
     userSkinTone: string,
-): [CategoryOrEmojiRow[], EmojiWithRow[]] {
+): [CategoryOrEmojiRow[], EmojiPosition[]] {
     if (isEmpty(allEmojis) || isEmpty(categories)) {
         return [[], []];
     }

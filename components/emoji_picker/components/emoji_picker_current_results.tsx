@@ -11,9 +11,7 @@ import {Emoji, EmojiCategory, CustomEmoji, SystemEmoji} from 'mattermost-redux/t
 import {ServerError} from 'mattermost-redux/types/errors';
 
 import {CategoryOrEmojiRow, EmojiCursor} from 'components/emoji_picker/types';
-
-import {ITEM_HEIGHT, EMOJI_ROWS_OVERSCAN_COUNT, EMOJI_CONTAINER_HEIGHT, CUSTOM_EMOJIS_PER_PAGE} from 'components/emoji_picker/constants';
-
+import {ITEM_HEIGHT, EMOJI_ROWS_OVERSCAN_COUNT, EMOJI_CONTAINER_HEIGHT, CUSTOM_EMOJIS_PER_PAGE, EMOJI_SCROLL_THROTTLE_DELAY} from 'components/emoji_picker/constants';
 import {isCategoryHeaderRow} from 'components/emoji_picker/utils';
 import EmojiPickerCategoryOrEmojiRow from 'components/emoji_picker/components/emoji_picker_category_or_emoji_row';
 
@@ -64,7 +62,7 @@ const EmojiPickerCurrentResults = forwardRef<InfiniteLoader, Props>(({categoryOr
 
     const throttledScroll = useCallback(throttle(({scrollOffset}: ListOnScrollProps) => {
         handleScroll(scrollOffset, activeCategory, isFiltering, categoryOrEmojisRows);
-    }, 150, {leading: false, trailing: true},
+    }, EMOJI_SCROLL_THROTTLE_DELAY, {leading: false, trailing: true},
     ), [activeCategory, isFiltering, categoryOrEmojisRows]);
 
     const handleIsItemLoaded = (index: number): boolean => {

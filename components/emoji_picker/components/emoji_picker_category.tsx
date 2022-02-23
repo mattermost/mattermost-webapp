@@ -9,7 +9,6 @@ import {Category, CategoryOrEmojiRow} from 'components/emoji_picker/types';
 import {EmojiCategory} from 'mattermost-redux/types/emojis';
 
 import {Constants} from 'utils/constants';
-
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 
