@@ -183,7 +183,7 @@ const EmojiPicker = ({
         let newCursorIndex = -1;
 
         // If cursor is on an emoji
-        if (cursor.emojiId.length !== 0) {
+        if (cursor.emojiId.length !== 0) {         
             currentCursorIndexInEmojis = sortedEmojis.findIndex((sortedEmoji) =>
                 sortedEmoji.rowIndex === cursor.rowIndex &&
                     sortedEmoji.emojiId.toLowerCase() === cursor.emojiId.toLowerCase(),
@@ -193,7 +193,7 @@ const EmojiPicker = ({
                 newCursorIndex = 0;
             } else if (moveTo === NavigationDirection.NextEmoji && ((currentCursorIndexInEmojis + 1) < sortedEmojis.length)) {
                 newCursorIndex = currentCursorIndexInEmojis + 1;
-            } else if (moveTo === NavigationDirection.PreviousEmoji) {
+            } else if (moveTo === NavigationDirection.PreviousEmoji) { 
                 newCursorIndex = currentCursorIndexInEmojis - 1;
                 if (newCursorIndex < 0) {
                     // If cursor was at first emoji then focus on search input on LEFT arrow press
@@ -216,10 +216,8 @@ const EmojiPicker = ({
             return;
         }
 
-        
         // This can be search category when filter is active and other categories when filter is inactive
         // const cursorEmojiCategory = categoryOrEmojisRows[cursor.rowIndex].items[0].categoryName;
-        
         const newEmojiRowIndex = sortedEmojis[newCursorIndex].rowIndex;
         const newEmojiCategory = sortedEmojis[newCursorIndex].categoryName;
         const newEmojiId = sortedEmojis[newCursorIndex].emojiId;
@@ -246,8 +244,6 @@ const EmojiPicker = ({
         //     newEmojiId = sortedEmojis[position].emojiId;
         //     newEmoji = getEmojiById(newEmojiId) as Emoji;
         // }
-
-        
     };
 
     const handleEnterOnEmoji = useCallback(() => {

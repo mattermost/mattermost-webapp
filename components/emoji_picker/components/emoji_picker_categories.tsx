@@ -37,22 +37,24 @@ function EmojiPickerCategories({
         case 'ArrowRight':
             event.preventDefault();
             onKeyDown(NavigationDirection.NextEmoji);
+            focusOnSearchInput();
             break;
         case 'ArrowLeft':
             event.preventDefault();
             onKeyDown(NavigationDirection.PreviousEmoji);
+            focusOnSearchInput();
             break;
         case 'ArrowUp':
             event.preventDefault();
             onKeyDown(NavigationDirection.PreviousEmojiRow);
+            focusOnSearchInput();
             break;
         case 'ArrowDown':
             event.preventDefault();
             onKeyDown(NavigationDirection.NextEmojiRow);
+            focusOnSearchInput();
             break;
         }
-
-        focusOnSearchInput();
     };
 
     const activeCategory = isFiltering ? Object.keys(categories)[0] : active;
@@ -62,7 +64,6 @@ function EmojiPickerCategories({
             id='emojiPickerCategories'
             className='emoji-picker__categories'
             onKeyDown={handleKeyDown}
-            role='application'
         >
             {Object.keys(categories).map((categoryName) => {
                 const category = categories[categoryName as EmojiCategory];
