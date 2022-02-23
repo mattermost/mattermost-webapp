@@ -143,6 +143,7 @@ export default (props: Props) => {
                     y='74'
                     style={{
                         fontSize: '14px',
+                        fontFamily: 'Metropolis, sans-serif',
                     }}
                     ref={topChannelRef}
                 >

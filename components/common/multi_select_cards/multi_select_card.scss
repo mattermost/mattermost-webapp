@@ -22,7 +22,6 @@
     &:active,
     &:focus {
         box-shadow: $elevation-4;
-        outline: 2px solid rgba(var(--center-channel-color-rgb), 0.32);
     }
 
     &--small {

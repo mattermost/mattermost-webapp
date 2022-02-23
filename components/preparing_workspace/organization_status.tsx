@@ -67,7 +67,7 @@ const OrganizationStatus = (props: {error: UrlValidationCheck['error']}): JSX.El
         }
     }
     return (<div className={className}>
-        {props.error && <i className='icon icon-alert-ouline'/>}
+        {props.error && <i className='icon icon-alert-outline'/>}
         {message}
     </div>);
 };
