@@ -131,33 +131,6 @@ describe('Customization', () => {
         });
     });
 
-    it('MM-T1210 Can change Support Email setting', () => {
-        // # Scroll Support Email section into view and verify that it's visible
-        cy.findByTestId('SupportSettings.SupportEmail').scrollIntoView().should('be.visible');
-
-        // * Verify that setting label is visible and matches text content
-        cy.findByTestId('SupportSettings.SupportEmaillabel').should('be.visible').and('have.text', 'Support Email:');
-
-        // * Verify the Support Email input box has default value. The default value depends on the setup before running the test.
-        cy.findByTestId('SupportSettings.SupportEmailinput').should('have.value', origConfig.SupportSettings.SupportEmail);
-
-        // * Verify that the help text is visible and matches text content
-        cy.findByTestId('SupportSettings.SupportEmailhelp-text').find('span').should('be.visible').and('have.text', 'Email address displayed on email notifications.');
-
-        const newEmail = 'support@example.com';
-
-        // * Verify that set value is visible and matches text
-        cy.findByTestId('SupportSettings.SupportEmail').find('input').clear().type(newEmail).should('have.value', newEmail);
-
-        // # Save setting
-        saveSetting();
-
-        // * Verify that the config is correctly saved in the server
-        cy.apiGetConfig().then(({config}) => {
-            expect(config.SupportSettings.SupportEmail).to.equal(newEmail);
-        });
-    });
-
     it('MM-T1206 - Can change Enable Custom Branding setting', () => {
         // # Make sure necessary field is false
         cy.apiUpdateConfig({TeamSettings: {EnableCustomBrand: false}});
