@@ -53,11 +53,11 @@ type ItemModel = {
     infoText?: string;
 }
 
-type UpdatesParam = {
+export type UpdatesParam = {
     serverVersion: {
-        version: string;
         type: string;
         status: ItemStatus;
+        description: string;
     };
 }
 
@@ -113,10 +113,7 @@ const useMetricsData = () => {
                     id: 'admin.reporting.workspace_optimization.updates.server_version.status.title',
                     defaultMessage: '{type} version update available.',
                 }, {type: data.serverVersion.type}),
-                description: formatMessage({
-                    id: 'admin.reporting.workspace_optimization.updates.server_version.status.description',
-                    defaultMessage: 'Upgrading your Mattermost server to {version} is recommended.',
-                }, {version: data.serverVersion.version}),
+                description: data.serverVersion.description,
                 configUrl: DocLinks.UPGRADE_SERVER,
                 configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.downloadUpdate', defaultMessage: 'Download update'}),
                 infoUrl: DocLinks.UPGRADE_SERVER,

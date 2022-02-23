@@ -21,7 +21,7 @@ import {Props} from '../admin_console';
 import ChipsList, {ChipsInfoType} from './chips_list';
 import CtaButtons from './cta_buttons';
 
-import useMetricsData, {DataModel, ItemStatus} from './dashboard.data';
+import useMetricsData, {DataModel, ItemStatus, UpdatesParam} from './dashboard.data';
 
 import './dashboard.scss';
 import OverallScore from './overall-score';
@@ -49,7 +49,7 @@ const successIcon = (
 
 const WorkspaceOptimizationDashboard = (props: Props) => {
     const [loading, setLoading] = useState(true);
-    const [versionData, setVersionData] = useState<{type: string; version: string; status: ItemStatus}>({type: '', version: '', status: ItemStatus.NONE});
+    const [versionData, setVersionData] = useState<UpdatesParam['serverVersion']>({type: '', description: '', status: ItemStatus.NONE});
 
     // const [guestAccountStatus, setGuestAccountStatus] = useState<ItemStatus>('none');
     const [liveUrlStatus, setLiveUrlStatus] = useState<ItemStatus>(ItemStatus.ERROR);
@@ -143,7 +143,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
                 }
             }
 
-            setVersionData({type, version: result.tag_name, status});
+            setVersionData({type, description: result.body, status});
         }
     };
 
