@@ -2001,6 +2001,8 @@
   "admin.service.outWebhooksTitle": "Enable Outgoing Webhooks: ",
   "admin.service.overrideDescription": "When true, webhooks, slash commands and other integrations, such as [Zapier](!https://docs.mattermost.com/integrations/zapier.html), will be allowed to change the username they are posting as. Note: Combined with allowing integrations to override profile picture icons, users may be able to perform phishing attacks by attempting to impersonate other users.",
   "admin.service.overrideTitle": "Enable integrations to override usernames:",
+  "admin.service.performanceDebuggingDescription": "When true, users will have access to settings in **Settings > Advanced > Performance Debugging** that will assist in debugging performance issues affecting them. Those settings will only affect them and not other users.",
+  "admin.service.performanceDebuggingTitle": "Enable Client Performance Debugging: ",
   "admin.service.readTimeout": "Read Timeout:",
   "admin.service.readTimeoutDescription": "Maximum time allowed from when the connection is accepted to when the request body is fully read.",
   "admin.service.sessionCache": "Session Cache (minutes):",
