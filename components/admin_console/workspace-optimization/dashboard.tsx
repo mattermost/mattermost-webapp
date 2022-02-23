@@ -98,7 +98,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
             return Promise.resolve();
         }
 
-        const result = await fetch('/api/v4/policies?page=0&per_page=0').then((result) => result.json());
+        const result = await fetch('/api/v4/data_retention/policies?page=0&per_page=0').then((result) => result.json());
 
         setDataRetentionStatus(result.total_count > 0 ? ItemStatus.OK : ItemStatus.INFO);
         return Promise.resolve();
