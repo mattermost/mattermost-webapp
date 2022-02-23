@@ -49,6 +49,7 @@ export const getMyGroupRoles: (state: GlobalState) => Record<string, Set<string>
         return roles;
     },
 );
+
 /**
  * Returns a map of permissions, keyed by group id, for all groups that are mentionable and not deleted.
  */
