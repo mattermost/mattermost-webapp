@@ -113,7 +113,7 @@ class AdminNavbarDropdown extends React.PureComponent<Props> {
                     />
                     <Menu.ItemExternalLink
                         onClick={() => trackEvent('admin', 'click_administrators_forum')}
-                        url={'https://forum.mattermost.org/t/how-to-use-the-troubleshooting-forum/150'}
+                        url={'https://forum.mattermost.com/t/how-to-use-the-troubleshooting-forum/150'}
                         text={formatMessage({id: 'admin.nav.troubleshootingForum', defaultMessage: 'Troubleshooting Forum'})}
                     />
                     {commercialSupport}

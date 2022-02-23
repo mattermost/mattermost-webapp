@@ -38,7 +38,7 @@ describe('Image Link Preview', () => {
     });
 
     it('MM-T331 Image link preview - Collapse and expand', () => {
-        const link = 'https://mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png';
+        const link = 'http://mattermost.com/wp-content/uploads/2022/02/logoHorizontal.png';
 
         // # Post a link to an externally hosted image
         cy.postMessage(link);

@@ -195,7 +195,7 @@ describe('Integrations', () => {
         cy.getLastPost().should('contain', 'Image links now expand by default').and('contain', 'System');
 
         // # Post message
-        cy.postMessage('http://mattermost.org/wp-content/uploads/2016/04/icon_WS.png');
+        cy.postMessage('http://mattermost.com/wp-content/uploads/2022/02/icon_WS.png');
         cy.getLastPostId().as('postID');
 
         cy.get('@postID').then((postID) => {
@@ -215,7 +215,7 @@ describe('Integrations', () => {
         cy.visit(offTopicUrl1);
 
         // # Post message
-        cy.postMessage('http://www.mattermost.org/wp-content/uploads/2016/04/icon_WS.png');
+        cy.postMessage('http://mattermost.com/wp-content/uploads/2022/02/icon_WS.png');
         cy.getLastPostId().as('postID');
 
         // # Open RHS

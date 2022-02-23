@@ -126,7 +126,7 @@ const notices: Notice[] = [
         body: (
             <FormattedMarkdownMessage
                 id='system_notice.body.ie11_deprecation'
-                defaultMessage='Your browser, IE11, will no longer be supported in an upcoming release. [Find out how to move to another browser in one simple step](!https://forum.mattermost.org/t/mattermost-is-dropping-support-for-internet-explorer-ie11-in-v5-16/7575).'
+                defaultMessage='Your browser, IE11, will no longer be supported in an upcoming release. [Find out how to move to another browser in one simple step](!https://forum.mattermost.com/t/mattermost-is-dropping-support-for-internet-explorer-ie11-in-v5-16/7575).'
             />
         ),
         show: (serverVersion) => {

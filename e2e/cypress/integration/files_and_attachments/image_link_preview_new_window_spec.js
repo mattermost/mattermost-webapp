@@ -30,7 +30,7 @@ describe('Image Link Preview', () => {
     });
 
     it('MM-T329 Image link preview', () => {
-        const link = 'https://mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png';
+        const link = 'http://mattermost.com/wp-content/uploads/2022/02/logoHorizontal.png';
         const baseUrl = Cypress.config('baseUrl');
         const encodedIconUrl = encodeURIComponent(link);
 

@@ -1,3 +1,3 @@
 ### In-line Images
 
-![test image](https://mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png)
+![test image](http://mattermost.com/wp-content/uploads/2022/02/logoHorizontal.png)
