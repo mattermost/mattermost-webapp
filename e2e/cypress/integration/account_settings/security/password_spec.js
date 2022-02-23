@@ -127,7 +127,7 @@ describe('Profile', () => {
         // # Create expected timestamp
         const timestamp = `Last updated ${date} at ${time}`;
 
-        // # Verify that password description field contains valid timestamp
+        // * Verify that password description field contains valid timestamp
         cy.get('#passwordDesc').should('have.text', timestamp);
 
         // # Wait for the mail to be sent out.
