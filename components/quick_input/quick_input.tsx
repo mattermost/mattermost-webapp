@@ -63,6 +63,11 @@ export type Props = {
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 
     /**
+     * Callback to handle the key up of the input
+     */
+    onKeyUp?: (event: React.KeyboardEvent) => void;
+
+    /**
      * When true, and an onClear callback is defined, show an X on the input field even if
      * the input is empty.
      */

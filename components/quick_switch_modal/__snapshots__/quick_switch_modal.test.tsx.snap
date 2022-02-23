@@ -90,6 +90,7 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
           ]
         }
         renderDividers={true}
+        shouldSearchCompleteText={true}
         spellCheck="false"
         value=""
       />

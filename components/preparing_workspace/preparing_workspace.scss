@@ -1,0 +1,80 @@
+@import 'utils/variables';
+@import 'utils/mixins';
+
+.PreparingWorkspace {
+    &__logo {
+        position: fixed;
+        z-index: 1;
+        top: 32px;
+        right: 32px;
+    }
+
+    &__previous {
+        display: inline-flex;
+        align-items: center;
+        padding-right: 2px;
+        color: var(--button-bg);
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+
+        :first-child {
+            margin-right: 5px;
+        }
+    }
+
+    &__submit-error {
+        position: fixed;
+        z-index: 1;
+        bottom: 24px;
+        left: calc(50vw - 202px);
+        display: flex;
+        width: 404px;
+        align-items: center;
+        padding: 10px;
+        background-color: var(--dnd-indicator);
+        border-radius: 4px;
+        box-shadow: $elevation-3;
+        color: var(--center-channel-bg);
+        font-size: 14px;
+        font-weight: 600;
+
+        .icon-close {
+            cursor: pointer;
+        }
+    }
+
+    &__submit-error-message {
+        flex-grow: 1;
+        flex-shrink: 0;
+        padding-left: 9px;
+    }
+}
+
+.PreparingWorkspaceContainer {
+    display: flex;
+    max-width: 1200px;
+    flex-direction: row;
+
+    .tertiary-button {
+        @include tertiary-button;
+
+        margin-left: 16px;
+    }
+
+    .primary-button {
+        @include primary-button;
+    }
+
+    .child-page {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100vh;
+    }
+}
+
+.PreparingWorkspacePageContainer {
+    position: relative;
+    width: calc(100vw - 120px);
+}
