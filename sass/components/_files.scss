@@ -317,6 +317,12 @@
                     .icon-check {
                         color: var(--online-indicator);
                     }
+
+                    &:active {
+                        background: rgba(var(--button-bg-rgb), 0.08);
+                        color: v(button-bg);
+                        fill: v(button-bg);
+                    }
                 }
 
                 // handle 'copy successful' styles
