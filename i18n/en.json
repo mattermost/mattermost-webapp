@@ -1847,7 +1847,7 @@
   "admin.reporting.workspace_optimization.data_privacy.retention.title": "Become more data aware",
   "admin.reporting.workspace_optimization.data_privacy.title": "Data privacy",
   "admin.reporting.workspace_optimization.ease_of_management.description": "Make it easier to manage your Mattermost workspace.",
-  "admin.reporting.workspace_optimization.ease_of_management.descriptionOk": "For your current usage scale, manually managing users and guests seems apropriate!",
+  "admin.reporting.workspace_optimization.ease_of_management.descriptionOk": "Your user authentication setup is appropriate based on your current usage!",
   "admin.reporting.workspace_optimization.ease_of_management.ldap.description": "You've reached over 100 users! We recommend setting up AD/LDAP user authentication for easier onboarding as well as automated deactivations and role assignments.",
   "admin.reporting.workspace_optimization.ease_of_management.ldap.title": "AD/LDAP integration recommended",
   "admin.reporting.workspace_optimization.ease_of_management.title": "Ease of management",

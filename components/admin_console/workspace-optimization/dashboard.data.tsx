@@ -372,7 +372,7 @@ const useMetricsData = () => {
         }),
         descriptionOk: formatMessage({
             id: 'admin.reporting.workspace_optimization.ease_of_management.descriptionOk',
-            defaultMessage: 'For your current usage scale, manually managing users and guests seems apropriate!',
+            defaultMessage: 'Your user authentication setup is appropriate based on your current usage!',
         }),
         icon: (
             <div className='icon'>
