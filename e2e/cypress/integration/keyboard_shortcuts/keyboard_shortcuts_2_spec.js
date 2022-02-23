@@ -52,7 +52,7 @@ describe('Keyboard Shortcuts', () => {
                 if (isMac()) {
                     cy.findByText('⌘').should('be.visible');
                 } else {
-                    cy.findByText('CTRL').should('be.visible');
+                    cy.findByText('Ctrl').should('be.visible');
                 }
                 cy.findByText('U').should('be.visible');
             });
