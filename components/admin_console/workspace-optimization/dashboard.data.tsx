@@ -74,7 +74,7 @@ const useMetricsData = () => {
     const prevTrialLicense = useSelector((state: GlobalState) => state.entities.admin.prevTrialLicense);
     const license = useSelector((state: GlobalState) => getLicense(state));
 
-    const canStartTrial = !license?.IsLicensed && !prevTrialLicense?.IsLicensed;
+    const canStartTrial = license?.IsLicensed !== 'true' && prevTrialLicense?.IsLicensed !== 'true';
 
     const today = moment(Date.now());
     const endOfLicense = moment(new Date(parseInt(license?.ExpiresAt, 10)));
@@ -214,7 +214,7 @@ const useMetricsData = () => {
         }),
         description: formatMessage({
             id: 'admin.reporting.workspace_optimization.access.description',
-            defaultMessage: 'Web server settings could be affecting access.',
+            defaultMessage: 'Web server configuration may be affecting access to your Mattermost workspace.',
         }),
         descriptionOk: formatMessage({
             id: 'admin.reporting.workspace_optimization.access.descriptionOk',

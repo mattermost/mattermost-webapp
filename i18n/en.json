@@ -1817,7 +1817,7 @@
   "admin.reload.reloadDescription.featureName": "Reload Configuration from Disk",
   "admin.reload.reloadDescription.recycleDatabaseConnections": "Environment > Database > Recycle Database Connections",
   "admin.reload.reloadFail": "Reloading unsuccessful: {error}",
-  "admin.reporting.workspace_optimization.access.description": "Web server settings could be affecting access.",
+  "admin.reporting.workspace_optimization.access.description": "Web server configuration may be affecting access to your Mattermost workspace.",
   "admin.reporting.workspace_optimization.access.descriptionOk": "Access to your workspace seems available!",
   "admin.reporting.workspace_optimization.access.site_url.description": "Your web server settings aren't passing a live URL test which means your workspace may not be accessible to users. We recommend updating your web server settings.",
   "admin.reporting.workspace_optimization.access.site_url.title": "Misconfigured web server",

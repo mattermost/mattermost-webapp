@@ -67,7 +67,6 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     const {
         ServiceSettings,
         DataRetentionSettings,
-        ComplianceSettings,
         ElasticsearchSettings,
         LdapSettings,
 
@@ -77,7 +76,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     const {location} = document;
 
     const sessionLengthWebInDays = ServiceSettings?.SessionLengthWebInDays || -1;
-    const dataRetentionEnabled = isLicensed && (DataRetentionSettings?.EnableMessageDeletion || DataRetentionSettings?.EnableFileDeletion) && ComplianceSettings?.Enable;
+    const dataRetentionEnabled = isLicensed && (DataRetentionSettings?.EnableMessageDeletion || DataRetentionSettings?.EnableFileDeletion);
 
     const testURL = () => {
         if (!ServiceSettings?.SiteURL) {
@@ -191,7 +190,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         updates: getUpdatesData({serverVersion: versionData}),
         configuration: getConfigurationData({
             ssl: {status: location.protocol === 'https:' ? ItemStatus.OK : ItemStatus.ERROR},
-            sessionLength: {status: sessionLengthWebInDays >= 30 ? ItemStatus.INFO : ItemStatus.OK},
+            sessionLength: {status: sessionLengthWebInDays === 30 ? ItemStatus.INFO : ItemStatus.OK},
         }),
         access: getAccessData({siteUrl: {status: liveUrlStatus}}),
         performance: getPerformanceData({
