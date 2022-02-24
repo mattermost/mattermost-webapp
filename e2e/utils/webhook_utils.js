@@ -197,7 +197,7 @@ function getUserAndChannelDialog(triggerId, webhookBaseUrl) {
             callback_id: 'somecallbackid',
             title: 'Title for Dialog Test with user and channel element',
             icon_url:
-                'http://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
+                'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
             submit_label: 'Submit Test',
             notify_on_cancel: true,
             state: 'somestate',
