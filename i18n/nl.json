@@ -770,7 +770,6 @@
   "admin.environment.notifications.replyToAddress.help": "E-mailadres dat wordt gebruikt in de header Reply-To bij het verzenden van e-mailberichten van Mattermost.",
   "admin.environment.notifications.replyToAddress.label": "Notificatie Antwoord-naar Adres:",
   "admin.environment.notifications.replyToAddress.placeholder": "Bijv.: \"mattermost@yourcompany.com\", \"admin@yourcompany.com\"",
-  "admin.environment.notifications.supportEmail.required": "",
   "admin.environment.pushNotificationServer": "Push Notificatie Server",
   "admin.environment.smtp": "SMTP",
   "admin.environment.smtp.connectionSecurity.option.none": "Geen",
