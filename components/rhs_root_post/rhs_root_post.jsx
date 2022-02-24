@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React, {createRef} from 'react';
 import {FormattedMessage} from 'react-intl';
+import classNames from 'classnames';
 
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
@@ -30,6 +31,8 @@ import UserProfile from 'components/user_profile';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import {Emoji} from 'mattermost-redux/types/emojis';
+import EditPost from 'components/edit_post';
+import AutoHeightSwitcher from 'components/common/auto_height_switcher';
 
 export default class RhsRootPost extends React.PureComponent {
     static propTypes = {
@@ -74,6 +77,11 @@ export default class RhsRootPost extends React.PureComponent {
         recentEmojis: PropTypes.arrayOf(Emoji),
 
         isExpanded: PropTypes.bool,
+
+        /**
+         * check if the current post is being edited at the moment
+         */
+        isPostBeingEdited: PropTypes.bool,
         isMobileView: PropTypes.bool.isRequired,
     };
 
@@ -212,6 +220,10 @@ export default class RhsRootPost extends React.PureComponent {
             className += ' current--user';
         }
 
+        if (this.props.isPostBeingEdited) {
+            className += ' post--editing';
+        }
+
         if (isSystemMessage || isMeMessage) {
             className += ' post--system';
         }
@@ -300,6 +312,7 @@ export default class RhsRootPost extends React.PureComponent {
             isReadOnly,
             post,
             teamId,
+            isPostBeingEdited,
         } = this.props;
 
         const isPostDeleted = post && post.state === Posts.POST_DELETED;
@@ -398,10 +411,7 @@ export default class RhsRootPost extends React.PureComponent {
             );
         }
 
-        let postClass = '';
-        if (PostUtils.isEdited(this.props.post)) {
-            postClass += ' post--edited';
-        }
+        const postClass = classNames('post__body--transition', {'post--edited': PostUtils.isEdited(this.props.post)});
 
         const dotMenu = (
             <DotMenu
@@ -491,6 +501,16 @@ export default class RhsRootPost extends React.PureComponent {
             );
         }
 
+        const message = (
+            <MessageWithAdditionalContent
+                post={post}
+                previewCollapsed={this.props.previewCollapsed}
+                previewEnabled={this.props.previewEnabled}
+                isEmbedVisible={this.props.isEmbedVisible}
+                pluginPostTypes={this.props.pluginPostTypes}
+            />
+        );
+
         return (
             <PostAriaLabelDiv
                 ref={this.postRef}
@@ -537,16 +557,15 @@ export default class RhsRootPost extends React.PureComponent {
                                 {this.renderPostTime(isEphemeral)}
                                 {postInfoIcon}
                             </div>
-                            {dotMenuContainer}
+                            {!isPostBeingEdited && dotMenuContainer}
                         </div>
                         <div className='post__body'>
                             <div className={postClass}>
-                                <MessageWithAdditionalContent
-                                    post={post}
-                                    previewCollapsed={this.props.previewCollapsed}
-                                    previewEnabled={this.props.previewEnabled}
-                                    isEmbedVisible={this.props.isEmbedVisible}
-                                    pluginPostTypes={this.props.pluginPostTypes}
+                                <AutoHeightSwitcher
+                                    showSlot={isPostBeingEdited ? 2 : 1}
+                                    shouldScrollIntoView={isPostBeingEdited}
+                                    slot1={message}
+                                    slot2={<EditPost/>}
                                 />
                             </div>
                             {fileAttachment}

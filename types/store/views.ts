@@ -68,6 +68,7 @@ export type ViewsState = {
         editingPost: {
             postId: string;
             show: boolean;
+            isRHS: boolean;
         };
         menuActions: {
             [postId: string]: {

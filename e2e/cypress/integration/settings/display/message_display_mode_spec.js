@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @account_setting
 
+import * as TIMEOUTS from '../../../fixtures/timeouts';
+
 describe('Settings > Display > Message Display', () => {
     before(() => {
         // # Login as new user and visit off-topic
@@ -59,8 +61,8 @@ function verifyLineBreaksRemainIntact(display) {
         const editMessage = ',edited';
         cy.get('#edit_textbox').type(editMessage);
 
-        // # Save
-        cy.uiSave();
+        // # finish editing
+        cy.get('#edit_textbox').wait(TIMEOUTS.HALF_SEC).type('{enter}');
 
         // * Verify posted message includes newline, edit message and "Edited" indicator
         cy.get(postMessageTextId).should('have.text', `${firstLine}\n${secondLine}${editMessage} Edited`);
