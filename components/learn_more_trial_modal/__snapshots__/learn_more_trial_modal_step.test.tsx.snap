@@ -14,7 +14,7 @@ exports[`components/learn_more_trial_modal/learn_more_trial_modal_step should ma
     className="pre-title"
   >
     <MemoizedFormattedMessage
-      defaultMessage="With Enterprise, you can...."
+      defaultMessage="With Enterprise, you can..."
       id="learn_more_trial_modal.pretitle"
     />
   </div>
@@ -58,7 +58,7 @@ exports[`components/learn_more_trial_modal/learn_more_trial_modal_step should ma
     className="pre-title"
   >
     <MemoizedFormattedMessage
-      defaultMessage="With Enterprise, you can...."
+      defaultMessage="With Enterprise, you can..."
       id="learn_more_trial_modal.pretitle"
     />
   </div>
