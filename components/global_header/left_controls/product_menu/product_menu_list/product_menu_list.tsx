@@ -144,7 +144,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                     dialogProps={{
                         backButtonAction: openGroupsModal,
                     }}
-                    text={formatMessage({id: 'navbar_dropdown.userGroups', defaultMessage: 'User Groups'})}
+                    text={formatMessage({id: 'navbar_dropdown.userGroups', defaultMessage: 'User Groups (Beta)'})}
                     icon={
                         <Icon
                             size={16}
