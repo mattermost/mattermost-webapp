@@ -3227,6 +3227,8 @@
   "globalThreads.heading": "Followed threads",
   "globalThreads.noThreads.subtitle": "Any threads you are mentioned in or have participated in will show here along with any threads you have followed.",
   "globalThreads.noThreads.title": "No followed threads yet",
+  "globalThreads.searchGuidance.subtitle": "If you’re looking for older conversations, try searching with {searchShortcut}",
+  "globalThreads.searchGuidance.title": "That’s the end of the list",
   "globalThreads.sidebarLink": "Threads",
   "globalThreads.subtitle": "Threads you’re participating in will automatically show here",
   "globalThreads.threadList.noUnreadThreads": "No unread threads",

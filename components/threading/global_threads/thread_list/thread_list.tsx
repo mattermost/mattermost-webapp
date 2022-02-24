@@ -72,6 +72,9 @@ const ThreadList = ({
 
     const {total = 0, total_unread_threads: totalUnread} = useSelector(getThreadCountsInCurrentTeam);
 
+    const [isLoading, setLoading] = React.useState<boolean>(false);
+    const [hasLoaded, setHasLoaded] = React.useState<boolean>(false);
+
     const handleKeyDown = useCallback((e: KeyboardEvent) => {
         // Ensure that arrow keys navigation is not triggered if the textbox is focused
         const target = e.target as HTMLElement;
@@ -127,6 +130,7 @@ const ThreadList = ({
     }, [setFilter]);
 
     const handleLoadMoreItems = useCallback(async (startIndex) => {
+        setLoading(true);
         let before = data[startIndex - 1];
 
         if (before === selectedThreadId) {
@@ -134,6 +138,10 @@ const ThreadList = ({
         }
 
         await dispatch(getThreads(currentUserId, currentTeamId, {unread, perPage: Constants.THREADS_PAGE_SIZE, before}));
+
+        setLoading(false);
+        setHasLoaded(true);
+
         return {data: true};
     }, [currentTeamId, data, unread, selectedThreadId]);
 
@@ -215,6 +223,8 @@ const ThreadList = ({
                     ids={data}
                     selectedThreadId={selectedThreadId}
                     total={unread ? totalUnread : total}
+                    isLoading={isLoading}
+                    hasLoaded={hasLoaded}
                 />
                 {showListTutorialTip && !isMobileView && <CRTListTutorialTip autoTour={tutorialTipAutoTour}/>}
                 {unread && !someUnread && isEmpty(unreadIds) ? (
