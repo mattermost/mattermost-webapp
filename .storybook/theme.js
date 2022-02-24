@@ -36,5 +36,5 @@ export default create({
 
     brandTitle: 'Mattermost',
     brandUrl: 'https://mattermost.com',
-    brandImage: 'http://mattermost.com/wp-content/uploads/2022/02/logoHorizontal.png',
+    brandImage: 'https://mattermost.com/wp-content/uploads/2022/02/logoHorizontal.png',
 });
