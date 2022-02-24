@@ -9,7 +9,7 @@ function getFullDialog(triggerId, webhookBaseUrl) {
             callback_id: 'somecallbackid',
             title: 'Title for Full Dialog Test',
             icon_url:
-                'http://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
+                'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
             elements: [
                 {
                     display_name: 'Display Name',
