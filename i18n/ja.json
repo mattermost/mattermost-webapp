@@ -3823,7 +3823,6 @@
   "notify_here.question": "**@here** を利用すると **{totalMembers}人** へ通知を送信することになります。本当にこの操作を行いますか？",
   "notify_here.question_timezone": "**@here** を利用すると **{timezones, number} {timezones, plural, one {timezone} other {timezones}}** の **{totalMembers}人** へ通知を送信することになります。本当にこの操作を行いますか？",
   "numMembers": "{num, number} {num, plural, one {メンバー} other {メンバー}}",
-  "onboarding_wizard.plugins.gitlab.tooltip": "",
   "passwordRequirements": "パスワードの要件:",
   "password_form.change": "パスワードを変更する",
   "password_form.enter": "{siteName}のアカウントの新しいパスワードを入力してください。",
