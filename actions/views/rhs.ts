@@ -31,6 +31,7 @@ import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
 import {RhsState} from 'types/store/rhs';
 import {GlobalState} from 'types/store';
 import {getPostsByIds} from 'mattermost-redux/actions/posts';
+import {unsetEditingPost} from '../post_actions';
 
 function selectPostFromRightHandSideSearchWithPreviousState(post: Post, previousRhsState?: RhsState) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -375,6 +376,7 @@ export function closeRightHandSide() {
                 channelId: '',
                 timestamp: 0,
             },
+            unsetEditingPost(),
         ]));
         return {data: true};
     };

@@ -44,15 +44,12 @@ describe('Messaging', () => {
             // # click edit post
             cy.get(`#edit_post_${postID}`).click();
 
-            // # Edit message to 'This is sample add text'
+            // # Edit message and finish by hitting `enter`
             cy.get('#edit_textbox').
                 should('be.visible').
                 and('be.focused').
                 wait(TIMEOUTS.HALF_SEC).
-                type('{leftarrow}{leftarrow}{leftarrow}{leftarrow}').type('add ');
-
-            // # Click button Edit
-            cy.get('#editButton').click();
+                type('{leftarrow}{leftarrow}{leftarrow}{leftarrow}').type('add ').type('{enter}');
 
             // * Assert post message should contain 'This is sample add text'
             cy.get(`#postMessageText_${postID}`).should('have.text', 'This is sample add text Edited');

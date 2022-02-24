@@ -10,6 +10,8 @@ describe('Reducers.RHS', () => {
         shouldShowPreviewOnCreateComment: false,
         shouldShowPreviewOnCreatePost: false,
         shouldShowPreviewOnEditChannelHeaderModal: false,
+
+        // TODO@Michel: remove this part of state once the inline post editing feature is enabled by default
         shouldShowPreviewOnEditPostModal: false,
     };
 
@@ -67,6 +69,7 @@ describe('Reducers.RHS', () => {
         });
     });
 
+    // TODO@Michel: remove this test once inline post editing is enabled by default
     test('update show preview value on edit post modal', () => {
         const nextState = textboxReducer(
             {},

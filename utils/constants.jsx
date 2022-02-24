@@ -178,8 +178,12 @@ export const ActionTypes = keyMirror({
     CONFIRM_NAVIGATION: null,
 
     TOGGLE_IMPORT_THEME_MODAL: null,
-    SHOW_EDIT_POST_MODAL: null,
+    TOGGLE_DELETE_POST_MODAL: null,
+    TOGGLE_EDITING_POST: null,
+
+    // TODO@Michel: once inline post editing is available without using a feature flag remove these actions
     HIDE_EDIT_POST_MODAL: null,
+    SET_SHOW_PREVIEW_ON_EDIT_POST_MODAL: null,
 
     EMITTED_SHORTCUT_REACT_TO_LAST_POST: null,
 
@@ -223,7 +227,6 @@ export const ActionTypes = keyMirror({
     SET_SHOW_PREVIEW_ON_CREATE_COMMENT: null,
     SET_SHOW_PREVIEW_ON_CREATE_POST: null,
     SET_SHOW_PREVIEW_ON_EDIT_CHANNEL_HEADER_MODAL: null,
-    SET_SHOW_PREVIEW_ON_EDIT_POST_MODAL: null,
 
     TOGGLE_RHS_MENU: null,
     OPEN_RHS_MENU: null,
@@ -1214,6 +1217,7 @@ export const Constants = {
     POST_UPDATED: 'updated',
     SYSTEM_MESSAGE_PREFIX: 'system_',
     SUGGESTION_LIST_MAXHEIGHT: 292,
+    SUGGESTION_LIST_MAXWIDTH: 496,
     SUGGESTION_LIST_SPACE_RHS: 420,
     SUGGESTION_LIST_MODAL_WIDTH: 496,
     MENTION_NAME_PADDING_LEFT: 2.4,

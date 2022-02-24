@@ -163,7 +163,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
 
         // * Verify the accessibility support in the Status Dropdown menu items
         const menuItems = [
-            {id: 'status-menu-custom-status', label: 'Custom Status dialog'},
+            {id: 'status-menu-custom-status', label: 'Set a Custom Status dialog'},
             {id: 'status-menu-online', label: 'online'},
             {id: 'status-menu-away', label: 'away'},
             {id: 'status-menu-dnd_menuitem', label: 'do not disturb. disables all notifications'},

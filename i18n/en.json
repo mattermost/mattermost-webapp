@@ -2992,6 +2992,7 @@
   "edit_post.cancel": "Cancel",
   "edit_post.edit": "Edit {title}",
   "edit_post.editPost": "Edit the post...",
+  "edit_post.helper_text": "**{key}ENTER** to Save, **ESC** to Cancel",
   "edit_post.save": "Save",
   "edit_post.time_limit_button.for_n_seconds": "For {n} seconds",
   "edit_post.time_limit_button.no_limit": "Anytime",
