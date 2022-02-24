@@ -11,7 +11,11 @@ import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {removePost, ExtendedPost} from 'mattermost-redux/actions/posts';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
-import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
+import {
+    get,
+    isCollapsedThreadsEnabled,
+} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {Post} from 'mattermost-redux/types/posts';
@@ -25,6 +29,7 @@ import {shouldShowDotMenu, shouldShowActionsMenu} from 'utils/post_utils';
 import {getSelectedPostCard} from 'selectors/rhs';
 import {isThreadOpen} from 'selectors/views/threads';
 import {getShortcutReactToLastPostEmittedFrom, getOneClickReactionEmojis} from 'selectors/emojis';
+import {getIsPostBeingEdited} from '../../../selectors/posts';
 
 import PostInfo from './post_info';
 
@@ -66,6 +71,8 @@ function makeMapStateToProps() {
             isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, ownProps.post.id, null) != null,
             isMobile: state.views.channel.mobileView,
             isCardOpen: selectedCard && selectedCard.id === ownProps.post.id,
+
+            isPostBeingEdited: getIsPostBeingEdited(state, ownProps.post.id),
             enableEmojiPicker,
             isReadOnly: channelIsArchived,
             shouldShowDotMenu: shouldShowDotMenu(state, ownProps.post, channel),

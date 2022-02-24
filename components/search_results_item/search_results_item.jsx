@@ -27,6 +27,8 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
+import EditPost from 'components/edit_post';
+import AutoHeightSwitcher from 'components/common/auto_height_switcher';
 
 import Constants, {Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
@@ -110,6 +112,11 @@ export default class SearchResultsItem extends React.PureComponent {
          */
         isPinnedPosts: PropTypes.bool,
 
+        /**
+         * is the current post being edited in RHS?
+         */
+        isPostBeingEditedInRHS: PropTypes.bool,
+
         teamDisplayName: PropTypes.string,
         teamName: PropTypes.string,
 
@@ -189,14 +196,20 @@ export default class SearchResultsItem extends React.PureComponent {
     };
 
     getClassName = () => {
+        const {compactDisplay, isPostBeingEditedInRHS} = this.props;
+
         let className = 'post post--thread';
 
-        if (this.props.compactDisplay) {
+        if (compactDisplay) {
             className += ' post--compact';
         }
 
-        if (this.state.dropdownOpened || this.state.fileDropdownOpened) {
+        if ((this.state.dropdownOpened || this.state.fileDropdownOpened) && !isPostBeingEditedInRHS) {
             className += ' post--hovered';
+        }
+
+        if (isPostBeingEditedInRHS) {
+            className += ' post--editing';
         }
 
         return className;
@@ -245,7 +258,7 @@ export default class SearchResultsItem extends React.PureComponent {
     }
 
     render() {
-        const {post, channelIsArchived, teamDisplayName, canReply} = this.props;
+        const {post, channelIsArchived, teamDisplayName, canReply, isPostBeingEditedInRHS} = this.props;
         const channelName = this.getChannelName();
 
         let overrideUsername;
@@ -458,13 +471,18 @@ export default class SearchResultsItem extends React.PureComponent {
                                     {this.renderPostTime()}
                                     {postInfoIcon}
                                 </div>
-                                {rhsControls}
+                                {!isPostBeingEditedInRHS && rhsControls}
                             </div>
                             <div className='search-item-snippet post__body'>
                                 <div className={postClass}>
-                                    {message}
-                                    {fileAttachment}
+                                    <AutoHeightSwitcher
+                                        showSlot={isPostBeingEditedInRHS ? 2 : 1}
+                                        shouldScrollIntoView={isPostBeingEditedInRHS}
+                                        slot1={message}
+                                        slot2={<EditPost/>}
+                                    />
                                 </div>
+                                {fileAttachment}
                             </div>
                             {hasCRTFooter ? (
                                 <ThreadFooter

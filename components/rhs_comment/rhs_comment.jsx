@@ -37,6 +37,8 @@ import PostPreHeader from 'components/post_view/post_pre_header';
 import UserProfile from 'components/user_profile';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import {Emoji} from 'mattermost-redux/types/emojis';
+import EditPost from 'components/edit_post';
+import AutoHeightSwitcher from 'components/common/auto_height_switcher';
 
 export default class RhsComment extends React.PureComponent {
     static propTypes = {
@@ -105,6 +107,11 @@ export default class RhsComment extends React.PureComponent {
         recentEmojis: PropTypes.arrayOf(Emoji),
 
         isExpanded: PropTypes.bool,
+
+        /**
+         * check if the current post is being edited at the moment
+         */
+        isPostBeingEdited: PropTypes.bool,
         isMobileView: PropTypes.bool.isRequired,
     };
 
@@ -246,6 +253,10 @@ export default class RhsComment extends React.PureComponent {
             className += ' post--highlight';
         }
 
+        if (this.props.isPostBeingEdited) {
+            className += ' post--editing';
+        }
+
         if (this.props.currentUserId === post.user_id) {
             className += ' current--user';
         }
@@ -370,6 +381,7 @@ export default class RhsComment extends React.PureComponent {
             isMobileView,
             isReadOnly,
             post,
+            isPostBeingEdited,
         } = this.props;
 
         const isPostDeleted = post && post.state === Posts.POST_DELETED;
@@ -504,16 +516,12 @@ export default class RhsComment extends React.PureComponent {
         }
 
         let failedPostOptions;
-        let postClass = '';
 
         if (post.failed) {
-            postClass += ' post-failed';
             failedPostOptions = <FailedPostOptions post={this.props.post}/>;
         }
 
-        if (PostUtils.isEdited(this.props.post)) {
-            postClass += ' post--edited';
-        }
+        const postClass = PostUtils.isEdited(this.props.post) ? ' post--edited' : '';
 
         let fileAttachment = null;
         if (post.file_ids && post.file_ids.length > 0) {
@@ -673,6 +681,16 @@ export default class RhsComment extends React.PureComponent {
             );
         }
 
+        const message = (
+            <MessageWithAdditionalContent
+                post={post}
+                previewCollapsed={this.props.previewCollapsed}
+                previewEnabled={this.props.previewEnabled}
+                isEmbedVisible={this.props.isEmbedVisible}
+                pluginPostTypes={this.props.pluginPostTypes}
+            />
+        );
+
         return (
             <PostAriaLabelDiv
                 ref={this.postRef}
@@ -713,19 +731,16 @@ export default class RhsComment extends React.PureComponent {
                                 {postInfoIcon}
                                 {visibleMessage}
                             </div>
-                            {options}
+                            {!isPostBeingEdited && options}
                         </div>
-                        <div className='post__body' >
-                            <div className={postClass}>
-                                {failedPostOptions}
-                                <MessageWithAdditionalContent
-                                    post={post}
-                                    previewCollapsed={this.props.previewCollapsed}
-                                    previewEnabled={this.props.previewEnabled}
-                                    isEmbedVisible={this.props.isEmbedVisible}
-                                    pluginPostTypes={this.props.pluginPostTypes}
-                                />
-                            </div>
+                        <div className={`post__body${postClass}`} >
+                            {failedPostOptions}
+                            <AutoHeightSwitcher
+                                showSlot={isPostBeingEdited ? 2 : 1}
+                                shouldScrollIntoView={isPostBeingEdited}
+                                slot1={message}
+                                slot2={<EditPost/>}
+                            />
                             {fileAttachment}
                             <ReactionList
                                 post={post}

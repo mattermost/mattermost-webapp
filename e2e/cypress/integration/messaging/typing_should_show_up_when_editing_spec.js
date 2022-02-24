@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @messaging
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Messaging', () => {
     before(() => {
         // # Login as test user and visit off-topic channel
@@ -28,8 +30,8 @@ describe('Messaging', () => {
         // # Immediately after opening the edit modal, type more text and assert that the text has been inputted
         cy.get('#edit_textbox').type(' and test post 2').should('have.text', 'test post 1 and test post 2');
 
-        // # Click on the save button to edit the post
-        cy.uiSave();
+        // # finish editing
+        cy.get('#edit_textbox').wait(TIMEOUTS.HALF_SEC).type('{enter}');
 
         // # Get the last post and check that none of the text was cut off after being edited
         cy.getLastPostId().then((postId) => {

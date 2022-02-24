@@ -41,13 +41,10 @@ describe('Delete the post on text clear', () => {
             // # click edit post
             cy.get(`#edit_post_${postID}`).click();
 
-            // # Edit message to 'This is sample add text'
-            cy.get('#edit_textbox').should('be.visible').and('be.focused').wait(TIMEOUTS.HALF_SEC).clear();
+            // # clear Message and enter
+            cy.get('#edit_textbox').should('be.visible').and('be.focused').wait(TIMEOUTS.HALF_SEC).clear().type('{enter}');
 
-            // # Click button Edit
-            cy.get('#editButton').click();
-
-            // # Press Enter to confirm
+            // # Press Enter to confirm deleting the post
             cy.focused().click(); // pressing Enter on buttons is not supported in Cypress, so we use click instead
 
             // * Assert post message disappears

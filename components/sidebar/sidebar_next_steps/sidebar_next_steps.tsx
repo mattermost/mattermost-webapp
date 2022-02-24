@@ -38,6 +38,8 @@ type Props = {
     location: {
         pathname: string;
     };
+    useCaseOnboarding: boolean;
+    isFirstAdmin: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         openModal: <P>(modalData: ModalData<P>) => void;
@@ -107,6 +109,9 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
     }
 
     render() {
+        if (this.props.useCaseOnboarding && this.props.isFirstAdmin) {
+            return null;
+        }
         if (!this.props.enableOnboardingFlow) {
             return null;
         }

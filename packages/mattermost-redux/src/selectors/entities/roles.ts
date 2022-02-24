@@ -13,11 +13,11 @@ import {
 import {getTeamMemberships, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {General} from 'mattermost-redux/constants';
+import {General, Permissions} from 'mattermost-redux/constants';
 
 import {Role} from 'mattermost-redux/types/roles';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {GroupMembership} from 'mattermost-redux/types/groups';
+import {GroupMembership, GroupPermissions} from 'mattermost-redux/types/groups';
 
 export {getMySystemPermissions, getMySystemRoles, getRoles};
 
@@ -47,6 +47,47 @@ export const getMyGroupRoles: (state: GlobalState) => Record<string, Set<string>
             }
         }
         return roles;
+    },
+);
+
+/**
+ * Returns a map of permissions, keyed by group id, for all groups that are mentionable and not deleted.
+ */
+export const getGroupListPermissions: (state: GlobalState) => Record<string, GroupPermissions> = createSelector(
+    'getGroupListPermissions',
+    getMyGroupRoles,
+    getRoles,
+    getMySystemPermissions,
+    (state) => state.entities.groups.groups,
+    (myGroupRoles, roles, systemPermissions, allGroups) => {
+        const groups = Object.entries(allGroups).filter((entry) => (entry[1].allow_reference && entry[1].delete_at === 0)).map((entry) => entry[1]);
+
+        const permissions = new Set<string>();
+        groups.forEach((group) => {
+            const roleNames = myGroupRoles[group.id!];
+            if (roleNames) {
+                for (const roleName of roleNames) {
+                    if (roles[roleName]) {
+                        for (const permission of roles[roleName].permissions) {
+                            permissions.add(permission);
+                        }
+                    }
+                }
+            }
+        });
+
+        for (const permission of systemPermissions) {
+            permissions.add(permission);
+        }
+
+        const groupPermissionsMap: Record<string, GroupPermissions> = {};
+        groups.forEach((g) => {
+            groupPermissionsMap[g.id] = {
+                can_delete: permissions.has(Permissions.DELETE_CUSTOM_GROUP),
+                can_manage_members: permissions.has(Permissions.MANAGE_CUSTOM_GROUP_MEMBERS),
+            };
+        });
+        return groupPermissionsMap;
     },
 );
 
