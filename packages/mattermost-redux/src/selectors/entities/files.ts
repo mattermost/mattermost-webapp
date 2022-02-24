@@ -10,7 +10,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
-function getAllFiles(state: GlobalState) {
+export function getAllFiles(state: GlobalState) {
     return state.entities.files.files;
 }
 

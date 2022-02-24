@@ -16,6 +16,8 @@ import {Post} from 'mattermost-redux/types/posts';
 
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 
+import {getMissingFilesByPosts} from 'mattermost-redux/actions/files';
+
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -50,6 +52,8 @@ export function getThreads(userId: string, teamId: string, {before = '', after =
                 type: PostTypes.RECEIVED_POSTS,
                 data: {posts: userThreadList.threads.map(({post}) => ({...post, update_at: 0}))},
             });
+
+            dispatch(getMissingFilesByPosts(uniq(userThreadList.threads.map(({post}) => post))));
         }
 
         dispatch({

@@ -1,0 +1,47 @@
+.file_card {
+    display: flex;
+    flex-direction: row;
+    padding: 0 6px;
+    align-items: center;
+    height: 40px;
+    color: var(--center-channel-color);
+    width: 300px;
+    margin: 0 2px;
+
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+    border-radius: 4px;
+
+    &__name {
+        flex-shrink: 1;
+        min-width: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin-right: 4px;
+    }
+
+    &__size {
+        flex-shrink: 0;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+        margin-left: auto;
+    }
+
+    &__image {
+        min-width: 28px;
+        max-width: 28px;
+        min-height: 28px;
+        max-height: 28px;
+        margin-right: 4px;
+        border-radius: 2px;
+        margin-right: 4px;
+    }
+
+    &__attachment.file-icon {
+        min-width: 24px;
+        max-width: 28px;
+        min-height: 28px;
+        max-height: 28px;
+        background-size: 20px 24px;
+        margin-right: 4px;
+    }
+}
