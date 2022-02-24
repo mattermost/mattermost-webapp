@@ -32,6 +32,12 @@
             line-height: 20px;
             text-overflow: ellipsis;
 
+            .announcement-bar__configuration {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
             &::after {
                 display: block;
                 content: '';
