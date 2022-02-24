@@ -106,9 +106,8 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark"
     />
     <br />
-    <ModalToggleButton
+    <Connect(injectIntl(ModalToggleButtonRedux))
       className="security-links color--link"
-      dialogProps={Object {}}
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -133,10 +132,9 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View Access History"
         id="user.settings.security.viewHistory"
       />
-    </ModalToggleButton>
-    <ModalToggleButton
+    </Connect(injectIntl(ModalToggleButtonRedux))>
+    <Connect(injectIntl(ModalToggleButtonRedux))
       className="security-links color--link mt-2"
-      dialogProps={Object {}}
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -161,7 +159,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View and Log Out of Active Sessions"
         id="user.settings.security.logoutActiveSessions"
       />
-    </ModalToggleButton>
+    </Connect(injectIntl(ModalToggleButtonRedux))>
   </div>
 </div>
 `;
@@ -272,9 +270,8 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark"
     />
     <br />
-    <ModalToggleButton
+    <Connect(injectIntl(ModalToggleButtonRedux))
       className="security-links color--link"
-      dialogProps={Object {}}
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -299,10 +296,9 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View Access History"
         id="user.settings.security.viewHistory"
       />
-    </ModalToggleButton>
-    <ModalToggleButton
+    </Connect(injectIntl(ModalToggleButtonRedux))>
+    <Connect(injectIntl(ModalToggleButtonRedux))
       className="security-links color--link mt-2"
-      dialogProps={Object {}}
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -327,7 +323,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View and Log Out of Active Sessions"
         id="user.settings.security.logoutActiveSessions"
       />
-    </ModalToggleButton>
+    </Connect(injectIntl(ModalToggleButtonRedux))>
   </div>
 </div>
 `;
@@ -438,9 +434,8 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark"
     />
     <br />
-    <ModalToggleButton
+    <Connect(injectIntl(ModalToggleButtonRedux))
       className="security-links color--link"
-      dialogProps={Object {}}
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -465,10 +460,9 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View Access History"
         id="user.settings.security.viewHistory"
       />
-    </ModalToggleButton>
-    <ModalToggleButton
+    </Connect(injectIntl(ModalToggleButtonRedux))>
+    <Connect(injectIntl(ModalToggleButtonRedux))
       className="security-links color--link mt-2"
-      dialogProps={Object {}}
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -493,7 +487,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View and Log Out of Active Sessions"
         id="user.settings.security.logoutActiveSessions"
       />
-    </ModalToggleButton>
+    </Connect(injectIntl(ModalToggleButtonRedux))>
   </div>
 </div>
 `;
@@ -604,9 +598,8 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark"
     />
     <br />
-    <ModalToggleButton
+    <Connect(injectIntl(ModalToggleButtonRedux))
       className="security-links color--link"
-      dialogProps={Object {}}
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -631,10 +624,9 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View Access History"
         id="user.settings.security.viewHistory"
       />
-    </ModalToggleButton>
-    <ModalToggleButton
+    </Connect(injectIntl(ModalToggleButtonRedux))>
+    <Connect(injectIntl(ModalToggleButtonRedux))
       className="security-links color--link mt-2"
-      dialogProps={Object {}}
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -659,7 +651,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View and Log Out of Active Sessions"
         id="user.settings.security.logoutActiveSessions"
       />
-    </ModalToggleButton>
+    </Connect(injectIntl(ModalToggleButtonRedux))>
   </div>
 </div>
 `;
