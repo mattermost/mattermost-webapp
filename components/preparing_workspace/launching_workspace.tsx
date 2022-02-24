@@ -2,8 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React, {useState, useEffect} from 'react';
+import {useDispatch} from 'react-redux';
 import {CSSTransition} from 'react-transition-group';
 import {FormattedMessage} from 'react-intl';
+
+import {GeneralTypes} from 'mattermost-redux/action_types';
 
 import LogoSvg from 'components/common/svg_images_components/logo_dark_blue_svg';
 
@@ -11,7 +14,6 @@ import loadingIcon from 'images/spinner-48x48-blue.apng';
 
 import Title from './title';
 import Description from './description';
-
 import {Animations, mapAnimationReasonToClass, PreparingWorkspacePageProps} from './steps';
 
 import './launching_workspace.scss';
@@ -24,12 +26,14 @@ type Props = PreparingWorkspacePageProps & {
 // Want to make sure background channels has rendered to limit animation jank,
 // including things like tour tips auto-showing
 export const START_TRANSITIONING_OUT = 500;
+const TRANSITION_DURATION = 500;
 
 // needs to be on top. Current known highest is tour tip at 1000
 export const LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX = 1001;
 
 function LaunchingWorkspace(props: Props) {
     const [hasEntered, setHasEntered] = useState(false);
+    const dispatch = useDispatch();
     useEffect(props.onPageView, []);
 
     useEffect(() => {
@@ -39,9 +43,13 @@ function LaunchingWorkspace(props: Props) {
         if (!props.fullscreen) {
             return;
         }
-        (window as any).setHasEntered = setHasEntered;
         setTimeout(() => {
             setHasEntered(true);
+
+            // Needs to happen after animation time plays out
+            setTimeout(() => {
+                dispatch({type: GeneralTypes.SHOW_LAUNCHING_WORKSPACE, open: false});
+            }, TRANSITION_DURATION);
         }, START_TRANSITIONING_OUT);
     }, [hasEntered, props.fullscreen]);
 
@@ -76,7 +84,7 @@ function LaunchingWorkspace(props: Props) {
         content = (
             <CSSTransition
                 in={props.show && !hasEntered}
-                timeout={500}
+                timeout={TRANSITION_DURATION}
                 classNames={'LaunchingWorkspaceFullscreenWrapper'}
                 exit={true}
                 enter={false}
