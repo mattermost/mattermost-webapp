@@ -1,29 +1,28 @@
 .file_card {
     display: flex;
-    flex-direction: row;
-    padding: 0 6px;
-    align-items: center;
-    height: 40px;
-    color: var(--center-channel-color);
     width: 300px;
-    margin: 0 2px;
-
+    height: 40px;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 6px;
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+    margin: 0 2px;
     border-radius: 4px;
+    color: var(--center-channel-color);
 
     &__name {
-        flex-shrink: 1;
-        min-width: 0;
         overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
+        min-width: 0;
+        flex-shrink: 1;
         margin-right: 4px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     &__size {
         flex-shrink: 0;
-        color: rgba(var(--center-channel-color-rgb), 0.56);
         margin-left: auto;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
     }
 
     &__image {
@@ -33,7 +32,6 @@
         max-height: 28px;
         margin-right: 4px;
         border-radius: 2px;
-        margin-right: 4px;
     }
 
     &__attachment.file-icon {
@@ -41,7 +39,7 @@
         max-width: 28px;
         min-height: 28px;
         max-height: 28px;
-        background-size: 20px 24px;
         margin-right: 4px;
+        background-size: 20px 24px;
     }
 }

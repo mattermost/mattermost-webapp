@@ -1,6 +1,6 @@
 .attachment__truncated {
-    white-space: nowrap;
-    min-width: 0;
     overflow: hidden;
+    min-width: 0;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
