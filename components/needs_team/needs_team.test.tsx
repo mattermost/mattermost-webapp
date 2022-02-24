@@ -94,7 +94,7 @@ describe('components/needs_team', () => {
         getAllGroupsAssociatedToChannelsInTeam: jest.fn().mockResolvedValue({data: true}),
         getAllGroupsAssociatedToTeam: jest.fn().mockResolvedValue({data: true}),
         getGroups: jest.fn().mockResolvedValue({data: true}),
-        getGroupsByUserId: jest.fn().mockResolvedValue({data: true}),
+        getGroupsByUserIdPaginated: jest.fn().mockResolvedValue({data: true}),
     };
     const baseProps = {
         license: {},
@@ -110,6 +110,8 @@ describe('components/needs_team', () => {
         selectedThreadId: null,
         collapsedThreads: true,
         shouldShowAppBar: true,
+        adminSetupRequired: false,
+        isUserFirstAdmin: false,
 
         // TODO@Michel: remove once the inline post editing feature is enabled by default
         isInlinePostEditingEnabled: false,

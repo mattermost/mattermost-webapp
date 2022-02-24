@@ -34,6 +34,7 @@ import LicenseSettings from './license_settings';
 import PermissionSchemesSettings from './permission_schemes_settings';
 import PermissionSystemSchemeSettings from './permission_schemes_settings/permission_system_scheme_settings';
 import PermissionTeamSchemeSettings from './permission_schemes_settings/permission_team_scheme_settings';
+import ValidationResult from './validation';
 import SystemRoles from './system_roles';
 import SystemRole from './system_roles/system_role';
 import SystemUsers from './system_users';
@@ -203,6 +204,10 @@ export const it = {
     userHasReadPermissionOnSomeResources: (key) => Object.values(key).some((resource) => it.userHasReadPermissionOnResource(resource)),
     userHasWritePermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.write?.[key],
     isSystemAdmin: (config, state, license, enterpriseReady, consoleAccess, icloud, isSystemAdmin) => isSystemAdmin,
+};
+
+export const validators = {
+    isRequired: (text, textDefault) => (value) => new ValidationResult(Boolean(value), text, textDefault),
 };
 
 const usesLegacyOauth = (config, state, license, enterpriseReady, consoleAccess, cloud) => {
@@ -1911,15 +1916,6 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'SupportSettings.SupportEmail',
-                        label: t('admin.support.emailTitle'),
-                        label_default: 'Support Email:',
-                        help_text: t('admin.support.emailHelp'),
-                        help_text_default: 'Email address displayed on email notifications.',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'SupportSettings.TermsOfServiceLink',
                         label: t('admin.support.termsTitle'),
                         label_default: 'Terms of Use Link:',
@@ -2162,6 +2158,19 @@ const AdminDefinition = {
                         help_text_default: 'When true, users can set a descriptive status message and status emoji visible to all users.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
                     },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableCustomGroups',
+                        label: t('admin.team.customUserGroupsTitle'),
+                        label_default: 'Enable Custom User Groups: ',
+                        help_text: t('admin.team.customUserGroupsDescription'),
+                        help_text_default: 'When true, users with appropriate permissions can create custom user groups and enables at-mentions for those groups.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
+                        isHidden: it.not(it.any(
+                            it.licensedForSku(LicenseSkus.Enterprise),
+                            it.licensedForSku(LicenseSkus.Professional),
+                        )),
+                    },
                 ],
             },
         },
@@ -2225,7 +2234,7 @@ const AdminDefinition = {
                         label: t('admin.environment.notifications.contents.label'),
                         label_default: 'Email Notification Contents:',
                         help_text: t('admin.environment.notifications.contents.help'),
-                        help_text_default: '**Send full message contents** - Sender name and channel are included in email notifications. Typically used for compliance reasons if Mattermost contains confidential information and policy dictates it cannot be stored in email.\n  **Send generic description with only sender name** - Only the name of the person who sent the message, with no information about channel name or message contents are included in email notifications. Typically used for compliance reasons if Mattermost contains confidential information and policy dictates it cannot be stored in email.',
+                        help_text_default: '**Send full message contents** - Sender name and channel are included in email notifications.\n  **Send generic description with only sender name** - Only the name of the person who sent the message, with no information about channel name or message contents are included in email notifications. Typically used for compliance reasons if Mattermost contains confidential information and policy dictates it cannot be stored in email.',
                         help_text_markdown: true,
                         options: [
                             {
@@ -2255,6 +2264,7 @@ const AdminDefinition = {
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTIFICATIONS)),
                             it.stateIsFalse('EmailSettings.SendEmailNotifications'),
                         ),
+                        validate: validators.isRequired(t('admin.environment.notifications.notificationDisplay.required'), '"Notification Display Name" is required'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2270,6 +2280,19 @@ const AdminDefinition = {
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTIFICATIONS)),
                             it.stateIsFalse('EmailSettings.SendEmailNotifications'),
                         ),
+                        validate: validators.isRequired(t('admin.environment.notifications.feedbackEmail.required'), '"Notification From Address" is required'),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'SupportSettings.SupportEmail',
+                        label: t('admin.environment.notifications.supportEmail.label'),
+                        label_default: 'Support Email Address:',
+                        placeholder: t('admin.environment.notifications.supportAddress.placeholder'),
+                        placeholder_default: 'Ex: "support@yourcompany.com", "admin@yourcompany.com"',
+                        help_text: t('admin.environment.notifications.supportEmail.help'),
+                        help_text_default: 'Email address displayed on support emails.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
+                        validate: validators.isRequired(t('admin.environment.notifications.supportEmail.required'), '"Support Email Address" is required'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,

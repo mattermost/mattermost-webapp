@@ -38,6 +38,22 @@
         .no-results__wrapper {
             position: relative;
             top: -28px;
+            max-width: 100%;
+
+            .thread-no-results-title {
+                margin-bottom: 0;
+                font-size: 16px;
+                line-height: 24px;
+            }
+
+            .thread-no-results-subtitle {
+                max-width: 100%;
+                font-size: 12px;
+
+                .thread-no-results-subtitle-shortcut {
+                    margin: 0;
+                }
+            }
         }
     }
 

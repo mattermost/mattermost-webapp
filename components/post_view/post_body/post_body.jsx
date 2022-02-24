@@ -19,7 +19,7 @@ import PostMessageView from 'components/post_view/post_message_view';
 import ReactionList from 'components/post_view/reaction_list';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import EditPost from '../../edit_post';
-import AutoHeight from '../../common/auto_height';
+import AutoHeightSwitcher from '../../common/auto_height_switcher';
 
 const SENDING_ANIMATION_DELAY = 3000;
 
@@ -135,6 +135,8 @@ export default class PostBody extends React.PureComponent {
     render() {
         const {post, parentPost, parentPostUser, isPostBeingEdited, isPostBeingEditedInRHS} = this.props;
 
+        const isBeingEdited = isPostBeingEdited && !isPostBeingEditedInRHS;
+
         let comment;
         let postClass = '';
         const isEphemeral = Utils.isPostEphemeral(post);
@@ -192,7 +194,7 @@ export default class PostBody extends React.PureComponent {
         );
 
         const hasPlugin =
-            (post.type && this.props.pluginPostTypes.hasOwnProperty(post.type)) ||
+            (post.type && this.props.pluginPostTypes.hasOwnProperty(post.ytype)) ||
             (post.props &&
                 post.props.type &&
                 this.props.pluginPostTypes.hasOwnProperty(post.props.type));
@@ -221,23 +223,23 @@ export default class PostBody extends React.PureComponent {
             ephemeralPostClass = 'post--ephemeral';
         }
 
-        const isBeingEdited = isPostBeingEdited && !isPostBeingEditedInRHS;
-
         return (
-            <AutoHeight
-                duration={500}
-                shouldScrollIntoView={isBeingEdited}
-            >
+            <>
                 {comment}
                 <div
                     id={`${post.id}_message`}
                     className={`post__body ${mentionHighlightClass} ${ephemeralPostClass} ${postClass}`}
                 >
-                    {isBeingEdited ? <EditPost/> : messageWithAdditionalContent}
+                    <AutoHeightSwitcher
+                        showSlot={isBeingEdited ? 2 : 1}
+                        shouldScrollIntoView={isBeingEdited}
+                        slot1={messageWithAdditionalContent}
+                        slot2={<EditPost/>}
+                    />
                     {fileAttachmentHolder}
                     <ReactionList post={post}/>
                 </div>
-            </AutoHeight>
+            </>
         );
     }
 }

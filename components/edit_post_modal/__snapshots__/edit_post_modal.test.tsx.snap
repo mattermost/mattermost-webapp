@@ -63,7 +63,7 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
       className="post-create__container"
     >
       <div
-        className="textarea-wrapper"
+        className="textarea-wrapper post--editing__wrapper"
       >
         <Connect(Textbox)
           channelId="5"
@@ -121,9 +121,9 @@ exports[`components/EditPostModal should disable the button on not canDeletePost
         className="post-create-footer"
       >
         <Connect(TextboxLinks)
-          characterLimit={4000}
+          hasExceededCharacterLimit={false}
+          hasText={false}
           isMarkdownPreviewEnabled={false}
-          message=""
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -226,7 +226,7 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
       className="post-create__container"
     >
       <div
-        className="textarea-wrapper"
+        className="textarea-wrapper post--editing__wrapper"
       >
         <Connect(Textbox)
           channelId="5"
@@ -284,9 +284,9 @@ exports[`components/EditPostModal should disable the button on not canEditPost a
         className="post-create-footer"
       >
         <Connect(TextboxLinks)
-          characterLimit={4000}
+          hasExceededCharacterLimit={false}
+          hasText={true}
           isMarkdownPreviewEnabled={false}
-          message="new message"
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -389,7 +389,7 @@ exports[`components/EditPostModal should match snapshot with useChannelMentions 
       className="post-create__container"
     >
       <div
-        className="textarea-wrapper"
+        className="textarea-wrapper post--editing__wrapper"
       >
         <Connect(Textbox)
           channelId="5"
@@ -447,9 +447,9 @@ exports[`components/EditPostModal should match snapshot with useChannelMentions 
         className="post-create-footer"
       >
         <Connect(TextboxLinks)
-          characterLimit={4000}
+          hasExceededCharacterLimit={false}
+          hasText={false}
           isMarkdownPreviewEnabled={false}
-          message=""
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -552,7 +552,7 @@ exports[`components/EditPostModal should match when editing post is undefined 1`
       className="post-create__container"
     >
       <div
-        className="textarea-wrapper"
+        className="textarea-wrapper post--editing__wrapper"
       >
         <Connect(Textbox)
           channelId="5"
@@ -610,9 +610,9 @@ exports[`components/EditPostModal should match when editing post is undefined 1`
         className="post-create-footer"
       >
         <Connect(TextboxLinks)
-          characterLimit={4000}
+          hasExceededCharacterLimit={false}
+          hasText={false}
           isMarkdownPreviewEnabled={false}
-          message=""
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -715,7 +715,7 @@ exports[`components/EditPostModal should match with default config 1`] = `
       className="post-create__container"
     >
       <div
-        className="textarea-wrapper"
+        className="textarea-wrapper post--editing__wrapper"
       >
         <Connect(Textbox)
           channelId="5"
@@ -773,9 +773,9 @@ exports[`components/EditPostModal should match with default config 1`] = `
         className="post-create-footer"
       >
         <Connect(TextboxLinks)
-          characterLimit={4000}
+          hasExceededCharacterLimit={false}
+          hasText={false}
           isMarkdownPreviewEnabled={false}
-          message=""
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -878,7 +878,7 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
       className="post-create__container"
     >
       <div
-        className="textarea-wrapper"
+        className="textarea-wrapper post--editing__wrapper"
       >
         <Connect(Textbox)
           channelId="5"
@@ -910,9 +910,9 @@ exports[`components/EditPostModal should match without emoji picker 1`] = `
         className="post-create-footer"
       >
         <Connect(TextboxLinks)
-          characterLimit={4000}
+          hasExceededCharacterLimit={false}
+          hasText={false}
           isMarkdownPreviewEnabled={false}
-          message=""
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -1015,7 +1015,7 @@ exports[`components/EditPostModal should not disable the button on not canDelete
       className="post-create__container"
     >
       <div
-        className="textarea-wrapper"
+        className="textarea-wrapper post--editing__wrapper"
       >
         <Connect(Textbox)
           channelId="5"
@@ -1073,9 +1073,9 @@ exports[`components/EditPostModal should not disable the button on not canDelete
         className="post-create-footer"
       >
         <Connect(TextboxLinks)
-          characterLimit={4000}
+          hasExceededCharacterLimit={false}
+          hasText={true}
           isMarkdownPreviewEnabled={false}
-          message="new message"
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -1178,7 +1178,7 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
       className="post-create__container"
     >
       <div
-        className="textarea-wrapper"
+        className="textarea-wrapper post--editing__wrapper"
       >
         <Connect(Textbox)
           channelId="5"
@@ -1236,9 +1236,9 @@ exports[`components/EditPostModal should not disable the button on not canEditPo
         className="post-create-footer"
       >
         <Connect(TextboxLinks)
-          characterLimit={4000}
+          hasExceededCharacterLimit={false}
+          hasText={false}
           isMarkdownPreviewEnabled={false}
-          message=""
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -1341,7 +1341,7 @@ exports[`components/EditPostModal should not disable the save button on not canD
       className="post-create__container"
     >
       <div
-        className="textarea-wrapper"
+        className="textarea-wrapper post--editing__wrapper"
       >
         <Connect(Textbox)
           channelId="5"
@@ -1399,9 +1399,9 @@ exports[`components/EditPostModal should not disable the save button on not canD
         className="post-create-footer"
       >
         <Connect(TextboxLinks)
-          characterLimit={4000}
+          hasExceededCharacterLimit={false}
+          hasText={false}
           isMarkdownPreviewEnabled={false}
-          message=""
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -1504,7 +1504,7 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
       className="post-create__container"
     >
       <div
-        className="textarea-wrapper"
+        className="textarea-wrapper post--editing__wrapper"
       >
         <Connect(Textbox)
           channelId="5"
@@ -1562,9 +1562,9 @@ exports[`components/EditPostModal should show emojis on emojis click 1`] = `
         className="post-create-footer"
       >
         <Connect(TextboxLinks)
-          characterLimit={4000}
+          hasExceededCharacterLimit={false}
+          hasText={false}
           isMarkdownPreviewEnabled={false}
-          message=""
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -1667,7 +1667,7 @@ exports[`components/EditPostModal should show errors when it is set in the state
       className="post-create__container"
     >
       <div
-        className="textarea-wrapper"
+        className="textarea-wrapper post--editing__wrapper"
       >
         <Connect(Textbox)
           channelId="5"
@@ -1725,9 +1725,9 @@ exports[`components/EditPostModal should show errors when it is set in the state
         className="post-create-footer"
       >
         <Connect(TextboxLinks)
-          characterLimit={4000}
+          hasExceededCharacterLimit={false}
+          hasText={false}
           isMarkdownPreviewEnabled={false}
-          message=""
           showPreview={false}
           updatePreview={[Function]}
         />

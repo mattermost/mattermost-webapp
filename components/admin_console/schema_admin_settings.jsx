@@ -448,6 +448,17 @@ export default class SchemaAdminSettings extends React.PureComponent {
             value = setting.dynamic_value(value, this.props.config, this.state, this.props.license);
         }
 
+        let footer = null;
+        if (setting.validate) {
+            const err = setting.validate(value).error();
+            footer = err ? (
+                <FormError
+                    type='backstrage'
+                    error={err}
+                />
+            ) : footer;
+        }
+
         return (
             <TextSetting
                 key={this.props.schema.id + '_text_' + setting.key}
@@ -461,6 +472,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleChange}
                 maxLength={setting.max_length}
+                footer={footer}
             />
         );
     }
@@ -1073,6 +1085,32 @@ export default class SchemaAdminSettings extends React.PureComponent {
             );
         }
         return null;
+    }
+
+    canSave = () => {
+        if (!this.props.schema || !this.props.schema.settings) {
+            return true;
+        }
+
+        for (const setting of this.props.schema.settings) {
+            // don't validate elements set by env.
+            if (this.isSetByEnv(setting.key)) {
+                continue;
+            }
+
+            if (setting.validate) {
+                const result = setting.validate(this.state[setting.key]);
+                if (!result.isValid()) {
+                    this.setState({clientWarning: result.error()});
+                    return false;
+                }
+            }
+        }
+        this.setState({
+            clientWarning: '',
+        });
+
+        return true;
     }
 
     render = () => {

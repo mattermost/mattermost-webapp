@@ -64,8 +64,6 @@ describe('Notifications', () => {
         // # Click on the @ button
         cy.uiGetRecentMentionButton().click();
 
-        // * Ensure that the user's name is in the search box after clicking on the @ button
-        cy.uiGetSearchBox().should('have.value', `@${otherUser.username} `);
         cy.get('#search-items-container').should('be.visible').within(() => {
             // * Ensure that the mentions are visible in the RHS
             cy.findByText(`@${otherUser.username}`).should('be.visible');

@@ -131,9 +131,6 @@ export default class Post extends React.PureComponent {
     }
 
     componentDidMount() {
-        document.addEventListener('keydown', this.handleAlt);
-        document.addEventListener('keyup', this.handleAlt);
-
         // Refs can be null when this component is shallowly rendered for testing
         if (this.postRef.current) {
             this.postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
@@ -148,8 +145,9 @@ export default class Post extends React.PureComponent {
     }
 
     componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleAlt);
-        document.removeEventListener('keyup', this.handleAlt);
+        if (this.state.hover) {
+            this.removeKeyboardListeners();
+        }
 
         if (this.postRef.current) {
             this.postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
@@ -300,6 +298,7 @@ export default class Post extends React.PureComponent {
         }
 
         if (this.props.compactDisplay) {
+            sameUserClass = '';
             className += ' post--compact';
         }
 
@@ -322,12 +321,32 @@ export default class Post extends React.PureComponent {
         return className + ' ' + sameUserClass + ' ' + rootUser + ' ' + postType + ' ' + currentUserCss;
     }
 
-    setHover = () => {
-        this.setState({hover: true});
+    setHover = (e) => {
+        this.setState({
+            hover: true,
+            alt: e.altKey,
+        });
+
+        this.addKeyboardListeners();
     }
 
     unsetHover = () => {
-        this.setState({hover: false});
+        this.setState({
+            hover: false,
+            alt: false,
+        });
+
+        this.removeKeyboardListeners();
+    }
+
+    addKeyboardListeners = () => {
+        document.addEventListener('keydown', this.handleAlt);
+        document.addEventListener('keyup', this.handleAlt);
+    }
+
+    removeKeyboardListeners = () => {
+        document.removeEventListener('keydown', this.handleAlt);
+        document.removeEventListener('keyup', this.handleAlt);
     }
 
     handleAlt = (e) => {

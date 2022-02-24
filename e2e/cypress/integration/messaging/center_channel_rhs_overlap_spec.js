@@ -772,7 +772,7 @@ describe('Messaging', () => {
             cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).type('{enter}');
         });
 
-        // # Verify tha the updated post contains 'Edited'
+        // # Verify that the updated post contains 'Edited'
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).within((el) => {
                 cy.wrap(el).find('.post-edited__indicator').should('have.text', 'Edited');

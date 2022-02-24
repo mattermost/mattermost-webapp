@@ -36,7 +36,7 @@ import UserProfile from 'components/user_profile';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import {Emoji} from 'mattermost-redux/types/emojis';
 import EditPost from 'components/edit_post';
-import AutoHeight from 'components/common/auto_height';
+import AutoHeightSwitcher from 'components/common/auto_height_switcher';
 
 export default class RhsComment extends React.PureComponent {
     static propTypes = {
@@ -121,9 +121,6 @@ export default class RhsComment extends React.PureComponent {
     }
 
     componentDidMount() {
-        document.addEventListener('keydown', this.handleAlt);
-        document.addEventListener('keyup', this.handleAlt);
-
         if (this.postRef.current) {
             this.postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
             this.postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
@@ -131,8 +128,9 @@ export default class RhsComment extends React.PureComponent {
     }
 
     componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleAlt);
-        document.removeEventListener('keyup', this.handleAlt);
+        if (this.state.hover) {
+            this.removeKeyboardListeners();
+        }
 
         if (this.postRef.current) {
             this.postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
@@ -292,12 +290,32 @@ export default class RhsComment extends React.PureComponent {
         return this.dotMenuRef.current;
     };
 
-    setHover = () => {
-        this.setState({hover: true});
+    setHover = (e) => {
+        this.setState({
+            hover: true,
+            alt: e.altKey,
+        });
+
+        this.addKeyboardListeners();
     }
 
     unsetHover = () => {
-        this.setState({hover: false});
+        this.setState({
+            hover: false,
+            alt: false,
+        });
+
+        this.removeKeyboardListeners();
+    }
+
+    addKeyboardListeners = () => {
+        document.addEventListener('keydown', this.handleAlt);
+        document.addEventListener('keyup', this.handleAlt);
+    }
+
+    removeKeyboardListeners = () => {
+        document.removeEventListener('keydown', this.handleAlt);
+        document.removeEventListener('keyup', this.handleAlt);
     }
 
     handleA11yActivateEvent = () => {
@@ -605,18 +623,27 @@ export default class RhsComment extends React.PureComponent {
             );
         }
 
+        const message = (
+            <MessageWithAdditionalContent
+                post={post}
+                previewCollapsed={this.props.previewCollapsed}
+                previewEnabled={this.props.previewEnabled}
+                isEmbedVisible={this.props.isEmbedVisible}
+                pluginPostTypes={this.props.pluginPostTypes}
+            />
+        );
+
         return (
             <PostAriaLabelDiv
-                role='listitem'
-                post={post}
                 ref={this.postRef}
+                role='listitem'
                 id={'rhsPost_' + post.id}
                 tabIndex='-1'
+                post={post}
                 className={`a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage)}`}
                 onClick={this.handlePostClick}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
-                onFocus={this.handlePostFocus}
                 data-a11y-sort-order={this.props.a11yIndex}
             >
                 <PostPreHeader
@@ -650,25 +677,17 @@ export default class RhsComment extends React.PureComponent {
                         </div>
                         <div className={`post__body${postClass}`} >
                             {failedPostOptions}
-                            <AutoHeight
-                                duration={500}
+                            <AutoHeightSwitcher
+                                showSlot={isPostBeingEdited ? 2 : 1}
                                 shouldScrollIntoView={isPostBeingEdited}
-                            >
-                                {isPostBeingEdited ? <EditPost/> : (
-                                    <MessageWithAdditionalContent
-                                        post={post}
-                                        previewCollapsed={this.props.previewCollapsed}
-                                        previewEnabled={this.props.previewEnabled}
-                                        isEmbedVisible={this.props.isEmbedVisible}
-                                        pluginPostTypes={this.props.pluginPostTypes}
-                                    />
-                                )}
-                                {fileAttachment}
-                                <ReactionList
-                                    post={post}
-                                    isReadOnly={isReadOnly || channelIsArchived}
-                                />
-                            </AutoHeight>
+                                slot1={message}
+                                slot2={<EditPost/>}
+                            />
+                            {fileAttachment}
+                            <ReactionList
+                                post={post}
+                                isReadOnly={isReadOnly || channelIsArchived}
+                            />
                         </div>
                     </div>
                 </div>

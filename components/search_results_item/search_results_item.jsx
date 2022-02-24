@@ -28,7 +28,7 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 import EditPost from 'components/edit_post';
-import AutoHeight from 'components/common/auto_height';
+import AutoHeightSwitcher from 'components/common/auto_height_switcher';
 
 import Constants, {Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
@@ -474,14 +474,14 @@ export default class SearchResultsItem extends React.PureComponent {
                                 {!isPostBeingEditedInRHS && rhsControls}
                             </div>
                             <div className='search-item-snippet post__body'>
-                                <AutoHeight
-                                    duration={500}
-                                    shouldScrollIntoView={isPostBeingEditedInRHS}
-                                >
-                                    <div className={postClass}>
-                                        {isPostBeingEditedInRHS ? <EditPost/> : message}
-                                    </div>
-                                </AutoHeight>
+                                <div className={postClass}>
+                                    <AutoHeightSwitcher
+                                        showSlot={isPostBeingEditedInRHS ? 2 : 1}
+                                        shouldScrollIntoView={isPostBeingEditedInRHS}
+                                        slot1={message}
+                                        slot2={<EditPost/>}
+                                    />
+                                </div>
                                 {fileAttachment}
                             </div>
                             {hasCRTFooter ? (

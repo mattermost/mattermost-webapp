@@ -14,12 +14,12 @@ exports[`components/global/product_switcher should have an active button state w
         active={true}
         aria-label="Select to open product switch menu."
       />
-      <Connect(ProductMenuTip) />
       <ProductBranding />
     </ProductMenuContainer>
     <Menu
       ariaLabel="switcherOpen"
       className="product-switcher-menu"
+      listId="product-switcher-menu-dropdown"
     >
       <ProductMenuItem
         active={true}
@@ -45,6 +45,7 @@ exports[`components/global/product_switcher should have an active button state w
         text="Playbooks"
       />
       <Connect(ProductMenuList)
+        handleVisitConsoleClick={[Function]}
         isMessaging={true}
         onClick={[Function]}
       />
@@ -54,56 +55,39 @@ exports[`components/global/product_switcher should have an active button state w
 `;
 
 exports[`components/global/product_switcher should match snapshot 1`] = `
-<div>
-  <MenuWrapper
-    animationComponent={[Function]}
-    className=""
-    open={false}
-  >
-    <ProductMenuContainer
-      onClick={[Function]}
-    >
-      <ProductMenuButton
-        active={false}
-        aria-label="Select to open product switch menu."
-      />
-      <Connect(ProductMenuTip) />
-      <ProductBranding />
-    </ProductMenuContainer>
-    <Menu
-      ariaLabel="switcherOpen"
-      className="product-switcher-menu"
-    >
-      <ProductMenuItem
-        active={true}
-        destination="/"
-        icon="product-channels"
-        onClick={[Function]}
-        text="Channels"
-      />
-      <ProductMenuItem
-        active={false}
-        destination=""
-        icon="product-boards"
-        key="Boards"
-        onClick={[Function]}
-        text="Boards"
-      />
-      <ProductMenuItem
-        active={false}
-        destination=""
-        icon="product-playbooks"
-        key="Playbooks"
-        onClick={[Function]}
-        text="Playbooks"
-      />
-      <Connect(ProductMenuList)
-        isMessaging={true}
-        onClick={[Function]}
-      />
-    </Menu>
-  </MenuWrapper>
-</div>
+<ContextProvider
+  value={
+    Object {
+      "store": Object {
+        "clearActions": [Function],
+        "dispatch": [Function],
+        "getActions": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      },
+      "subscription": Subscription {
+        "handleChangeWrapper": [Function],
+        "listeners": Object {
+          "notify": [Function],
+        },
+        "onStateChange": [Function],
+        "parentSub": undefined,
+        "store": Object {
+          "clearActions": [Function],
+          "dispatch": [Function],
+          "getActions": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+        },
+        "unsubscribe": null,
+      },
+    }
+  }
+>
+  <ProductMenu />
+</ContextProvider>
 `;
 
 exports[`components/global/product_switcher should match snapshot with product switcher menu 1`] = `
@@ -111,21 +95,21 @@ exports[`components/global/product_switcher should match snapshot with product s
   <MenuWrapper
     animationComponent={[Function]}
     className=""
-    open={false}
+    open={true}
   >
     <ProductMenuContainer
       onClick={[Function]}
     >
       <ProductMenuButton
-        active={false}
+        active={true}
         aria-label="Select to open product switch menu."
       />
-      <Connect(ProductMenuTip) />
       <ProductBranding />
     </ProductMenuContainer>
     <Menu
       ariaLabel="switcherOpen"
       className="product-switcher-menu"
+      listId="product-switcher-menu-dropdown"
     >
       <ProductMenuItem
         active={true}
@@ -151,6 +135,7 @@ exports[`components/global/product_switcher should match snapshot with product s
         text="Playbooks"
       />
       <Connect(ProductMenuList)
+        handleVisitConsoleClick={[Function]}
         isMessaging={true}
         onClick={[Function]}
       />
@@ -164,21 +149,21 @@ exports[`components/global/product_switcher should render once when there are no
   <MenuWrapper
     animationComponent={[Function]}
     className=""
-    open={false}
+    open={true}
   >
     <ProductMenuContainer
       onClick={[Function]}
     >
       <ProductMenuButton
-        active={false}
+        active={true}
         aria-label="Select to open product switch menu."
       />
-      <Connect(ProductMenuTip) />
       <ProductBranding />
     </ProductMenuContainer>
     <Menu
       ariaLabel="switcherOpen"
       className="product-switcher-menu"
+      listId="product-switcher-menu-dropdown"
     >
       <ProductMenuItem
         active={true}
@@ -204,6 +189,7 @@ exports[`components/global/product_switcher should render once when there are no
         text="Playbooks"
       />
       <Connect(ProductMenuList)
+        handleVisitConsoleClick={[Function]}
         isMessaging={true}
         onClick={[Function]}
       />
@@ -217,21 +203,21 @@ exports[`components/global/product_switcher should render the correct amount of 
   <MenuWrapper
     animationComponent={[Function]}
     className=""
-    open={false}
+    open={true}
   >
     <ProductMenuContainer
       onClick={[Function]}
     >
       <ProductMenuButton
-        active={false}
+        active={true}
         aria-label="Select to open product switch menu."
       />
-      <Connect(ProductMenuTip) />
       <ProductBranding />
     </ProductMenuContainer>
     <Menu
       ariaLabel="switcherOpen"
       className="product-switcher-menu"
+      listId="product-switcher-menu-dropdown"
     >
       <ProductMenuItem
         active={true}
@@ -257,6 +243,7 @@ exports[`components/global/product_switcher should render the correct amount of 
         text="Playbooks"
       />
       <Connect(ProductMenuList)
+        handleVisitConsoleClick={[Function]}
         isMessaging={true}
         onClick={[Function]}
       />

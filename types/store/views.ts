@@ -156,6 +156,10 @@ export type ViewsState = {
         filter: string;
     };
 
+    productMenu: {
+        switcherOpen: boolean;
+    };
+
     channelSidebar: {
         unreadFilterEnabled: boolean;
         draggingState: DraggingState;
@@ -168,9 +172,21 @@ export type ViewsState = {
     nextSteps: {
         show: boolean;
     };
+
     statusDropdown: {
         isOpen: boolean;
     };
+
+    addChannelDropdown: {
+        isOpen: boolean;
+    };
+
+    onboardingTasks: {
+        isShowOnboardingTaskCompletion: boolean;
+        isShowOnboardingCompleteProfileTour: boolean;
+        isShowOnboardingVisitConsoleTour: boolean;
+    };
+
     threads: {
         selectedThreadIdInTeam: RelationOneToOne<Team, UserThread['id'] | null>;
         lastViewedAt: {[id: string]: number};
