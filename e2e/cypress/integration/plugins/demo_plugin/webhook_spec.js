@@ -119,15 +119,13 @@ describe('Demo plugin - Webhook events', () => {
             // # click edit post
             cy.get(`#edit_post_${postID}`).click();
 
-            // # Edit message
+            // # Edit message and finish by hitting `enter`
             cy.get('#edit_textbox').
                 should('be.visible').
                 and('be.focused').
                 wait(TIMEOUTS.HALF_SEC).
-                type(MESSAGES.TINY);
-
-            // # Click button Edit
-            cy.get('#editButton').click();
+                type(MESSAGES.TINY).
+                type('{enter}');
 
             // # Open demo plugin channel
             cy.visit(`/${team1.name}/channels/demo_plugin`);

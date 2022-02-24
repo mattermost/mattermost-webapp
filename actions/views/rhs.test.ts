@@ -432,6 +432,12 @@ describe('rhs view actions', () => {
                     channelId: '',
                     timestamp: 0,
                 },
+                {
+                    type: ActionTypes.TOGGLE_EDITING_POST,
+                    data: {
+                        show: false,
+                    },
+                },
             ]));
 
             expect(store.getActions()).toEqual(compareStore.getActions());

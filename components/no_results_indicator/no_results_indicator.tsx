@@ -12,7 +12,7 @@ import MentionsIcon from 'components/widgets/icons/mentions_icon';
 import PinIcon from 'components/widgets/icons/pin_icon';
 import SearchIcon from 'components/widgets/icons/search_icon';
 
-import {NoResultsVariant} from './types';
+import {NoResultsVariant, NoResultsLayout} from './types';
 
 interface Props {
     expanded?: boolean;
@@ -23,6 +23,9 @@ interface Props {
     titleValues?: Record<string, ReactNode>;
     subtitleValues?: Record<string, ReactNode>;
     style?: CSSProperties;
+    layout?: NoResultsLayout;
+    titleClassName?: string;
+    subtitleClassName?: string;
 }
 
 const iconMap: {[key in NoResultsVariant]: React.ReactNode } = {
@@ -115,25 +118,32 @@ const NoResultsIndicator = ({
             values={subtitleValues}
         />
     ) : null,
+    layout = NoResultsLayout.Vertical,
+    titleClassName,
+    subtitleClassName,
 }: Props) => {
     let content = (
         <div
-            className='no-results__wrapper'
+            className={classNames('no-results__wrapper', {'horizontal-layout': layout === NoResultsLayout.Horizontal})}
             style={style}
         >
             {iconGraphic}
 
-            {title ? (
-                <h3 className={classNames('no-results__title', {'only-title': !subtitle})}>
-                    {title}
-                </h3>
-            ) : null}
+            <div
+                className='no-results__text-container'
+            >
+                {title && (
+                    <h3 className={classNames('no-results__title', {'only-title': !subtitle}, titleClassName)}>
+                        {title}
+                    </h3>
+                )}
 
-            {subtitle ? (
-                <div className='no-results__subtitle'>
-                    {subtitle}
-                </div>
-            ) : null}
+                {subtitle && (
+                    <div className={classNames('no-results__subtitle', subtitleClassName)}>
+                        {subtitle}
+                    </div>
+                )}
+            </div>
 
         </div>
     );
