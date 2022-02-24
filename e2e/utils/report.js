@@ -152,7 +152,7 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment, te
 
         return {
             username: 'Cypress UI Test',
-            icon_url: 'http://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
+            icon_url: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
             attachments: [{
                 color: testResult.color,
                 author_name: 'Webapp End-to-end Testing',
