@@ -90,19 +90,15 @@ export default function CallButton({pluginCallComponents, currentChannel, channe
         >
             <MenuWrapper onToggle={(toggle: boolean) => setActive(toggle)}>
                 <button className={classNames('style--none call-button dropdown', {active})}>
-                    <span>
-                        <PhoneOutlineIcon
-                            color='inherit'
-                            aria-label={formatMessage({id: 'generic_icons.call', defaultMessage: 'Call icon'}).toLowerCase()}
-                        />
-                    </span>
+                    <PhoneOutlineIcon
+                        color='inherit'
+                        aria-label={formatMessage({id: 'generic_icons.call', defaultMessage: 'Call icon'}).toLowerCase()}
+                    />
                     <span className='call-button-label'>{'Call'}</span>
-                    <span>
-                        <ChevronDownIcon
-                            color='inherit'
-                            aria-label={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown icon'}).toLowerCase()}
-                        />
-                    </span>
+                    <ChevronDownIcon
+                        color='inherit'
+                        aria-label={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown icon'}).toLowerCase()}
+                    />
                 </button>
                 <Menu
                     id='callOptions'
