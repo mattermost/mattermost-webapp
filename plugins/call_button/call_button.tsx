@@ -96,14 +96,14 @@ export default function CallButton(props: Props) {
                 >
                     <span>
                         <PhoneOutlineIcon
-                            color=''
+                            color='inherit'
                             aria-label={formatMessage({id: 'generic_icons.call', defaultMessage: 'Call icon'}).toLowerCase()}
                         />
                     </span>
                     <span className='call-button-label'>{'Call'}</span>
                     <span>
                         <ChevronDownIcon
-                            color=''
+                            color='inherit'
                             aria-label={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown icon'}).toLowerCase()}
                         />
                     </span>
