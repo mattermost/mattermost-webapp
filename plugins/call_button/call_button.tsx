@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {CSSProperties, useState, useEffect, useRef} from 'react';
-import {injectIntl, IntlShape} from 'react-intl';
+import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
 import PhoneOutlineIcon from '@mattermost/compass-icons/components/phone-outline';
@@ -21,18 +21,17 @@ import './call_button.scss';
 type Props = {
     currentChannel: Channel;
     channelMember?: ChannelMembership;
-    intl: IntlShape;
     locale: string;
     pluginCallComponents: PluginComponent[];
     sidebarOpen: boolean;
 }
 
-function CallButton(props: Props) {
+export default function CallButton(props: Props) {
     if (props.pluginCallComponents.length === 0) {
         return null;
     }
 
-    const {formatMessage} = props.intl;
+    const {formatMessage} = useIntl();
     const [active, setActive] = useState(false);
     const [clickEnabled, setClickEnabled] = useState(true);
     const prevSidebarOpen = useRef(props.sidebarOpen);
@@ -129,6 +128,3 @@ CallButton.defaultProps = {
     pluginCallComponents: [],
 };
 
-const wrappedComponent = injectIntl(CallButton);
-wrappedComponent.displayName = 'injectIntl(CallButton)';
-export default wrappedComponent;
