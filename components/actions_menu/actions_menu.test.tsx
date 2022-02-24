@@ -33,6 +33,10 @@ describe('components/actions_menu/ActionsMenu', () => {
         showTutorialTip: false,
         userId: 'user_id_1',
         components: {},
+        handleOpenTip: jest.fn(),
+        handleNextTip: jest.fn(),
+        handleDismissTip: jest.fn(),
+        showPulsatingDot: false,
         actions: {
             doAppCall: jest.fn(),
             openModal: jest.fn(),
