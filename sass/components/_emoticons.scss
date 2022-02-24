@@ -141,6 +141,10 @@
                 margin-right: 5px;
                 margin-left: 5px;
                 outline: none;
+
+                &:hover {
+                    background: transparent;
+                }
             }
         }
 
@@ -152,6 +156,10 @@
                 margin-left: 5px;
                 border-radius: 0;
                 opacity: 1;
+
+                &:hover {
+                    background: transparent;
+                }
             }
         }
 
