@@ -36,6 +36,8 @@ describe('components/channel_header/components/UserGuideDropdown', () => {
             openModal: jest.fn(),
         },
         pluginMenuItems: [],
+        isFirstAdmin: false,
+        useCaseOnboarding: false,
     };
 
     test('should match snapshot', () => {

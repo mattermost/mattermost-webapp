@@ -68,6 +68,7 @@ const actionsProp = {
     setEditingPost: jest.fn(),
     openModal: jest.fn(),
     setShowPreview: jest.fn(),
+    savePreferences: jest.fn(),
     executeCommand: async () => {
         return {data: true};
     },
@@ -88,8 +89,7 @@ function createPost({
     currentChannel = currentChannelProp,
     currentTeamId = currentTeamIdProp,
     currentUserId = currentUserIdProp,
-    tutorialStep = Constants.TutorialSteps.POST_POPOVER + 1,
-    showTutorialTip = showTutorialTipProp,
+    showSendTutorialTip = showTutorialTipProp,
     currentChannelMembersCount = currentChannelMembersCountProp,
     fullWidthTextBox = fullWidthTextBoxProp,
     draft = draftProp,
@@ -112,7 +112,7 @@ function createPost({
             currentChannel={currentChannel}
             currentTeamId={currentTeamId}
             currentUserId={currentUserId}
-            showTutorialTip={showTutorialTip}
+            showSendTutorialTip={showSendTutorialTip}
             fullWidthTextBox={fullWidthTextBox}
             currentChannelMembersCount={currentChannelMembersCount}
             draft={draft}
@@ -138,7 +138,6 @@ function createPost({
             useChannelMentions={true}
             useLDAPGroupMentions={useLDAPGroupMentions}
             useCustomGroupMentions={useCustomGroupMentions}
-            tutorialStep={tutorialStep}
             isMarkdownPreviewEnabled={isMarkdownPreviewEnabled}
         />
     );

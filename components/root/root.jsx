@@ -28,7 +28,7 @@ import ModalController from 'components/modal_controller';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
-import TaskList from 'components/global_onboarding_list/onboarding_checklist';
+import OnBoardingTaskList from 'components/onboarding_tasklist';
 import LaunchingWorkspace, {LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX} from 'components/preparing_workspace/launching_workspace';
 import {Animations} from 'components/preparing_workspace/steps';
 
@@ -65,9 +65,7 @@ const LazyPreparingWorkspace = React.lazy(() => import('components/preparing_wor
 import store from 'stores/redux_store.jsx';
 import {getSiteURL} from 'utils/url';
 import {enableDevModeFeatures, isDevMode} from 'utils/utils';
-
 import A11yController from 'utils/a11y_controller';
-
 import TeamSidebar from 'components/team_sidebar';
 
 import {applyLuxonDefaults} from './effects';
@@ -122,9 +120,7 @@ export default class Root extends React.PureComponent {
         }).isRequired,
         plugins: PropTypes.array,
         products: PropTypes.array,
-        dismissChecklist: PropTypes.bool,
-        isUserFirstAdmin: PropTypes.bool,
-        isMobile: PropTypes.bool,
+        showTaskList: PropTypes.bool,
         showSetupTransitioning: PropTypes.bool,
     }
 
@@ -201,7 +197,7 @@ export default class Root extends React.PureComponent {
             if (siteURL !== '') {
                 try {
                     rudderCfg.setCookieDomain = new URL(siteURL).hostname;
-                // eslint-disable-next-line no-empty
+                    // eslint-disable-next-line no-empty
                 } catch (_) {}
             }
             rudderAnalytics.load(rudderKey, rudderUrl, rudderCfg);
@@ -463,10 +459,22 @@ export default class Root extends React.PureComponent {
                         path={'/landing'}
                         component={LinkingLandingPage}
                     />
-                    <LoggedInRoute
+                    <Route
                         path={'/admin_console'}
-                        component={AdminConsole}
-                    />
+                    >
+                        <>
+                            <Switch>
+                                <LoggedInRoute
+                                    path={'/admin_console'}
+                                    component={AdminConsole}
+                                />
+                                <RootRedirect/>
+                            </Switch>
+                            <CompassThemeProvider theme={this.props.theme}>
+                                {this.props.showTaskList && <OnBoardingTaskList/>}
+                            </CompassThemeProvider>
+                        </>
+                    </Route>
                     <LoggedInHFTRoute
                         path={'/select_team'}
                         component={SelectTeam}
@@ -507,7 +515,7 @@ export default class Root extends React.PureComponent {
                         )}
                         <ModalController/>
                         <GlobalHeader/>
-                        {this.props.isUserFirstAdmin && !this.props.isMobile && this.props.dismissChecklist && <TaskList/>}
+                        {this.props.showTaskList && <OnBoardingTaskList/>}
                         <TeamSidebar/>
                         <Switch>
                             {this.props.products?.map((product) => (
