@@ -9,11 +9,15 @@ import {FormattedMessage} from 'react-intl';
 import {SchemaMigration} from 'mattermost-redux/types/admin';
 
 import './migrations_table.scss';
-import {Client4} from 'mattermost-redux/client';
+
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 export type Props = {
     createHelpText: React.ReactElement;
     className?: string;
+    actions: {
+        getAppliedSchemaMigrations: () => Promise<ActionResult>;
+    };
 }
 
 type State = {
@@ -29,9 +33,9 @@ class MigrationsTable extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        Client4.getAppliedSchemaMigrations().then((result) => {
+        this.props.actions.getAppliedSchemaMigrations().then((result) => {
             this.setState({
-                migrations: result,
+                migrations: result.data,
             });
         });
     }

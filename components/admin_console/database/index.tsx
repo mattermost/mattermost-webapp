@@ -3,6 +3,24 @@
 
 import {connect} from 'react-redux';
 
+import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
+
+import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
+
+import {getAppliedSchemaMigrations} from 'mattermost-redux/actions/admin';
+
 import MigrationsTable from './migrations_table';
 
-export default connect()(MigrationsTable);
+type Actions = {
+    getAppliedSchemaMigrations: () => Promise<ActionResult>;
+}
+
+function mapDispatchToProps(dispatch: Dispatch) {
+    return {
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Actions>({
+            getAppliedSchemaMigrations,
+        }, dispatch),
+    };
+}
+
+export default connect(null, mapDispatchToProps)(MigrationsTable);
