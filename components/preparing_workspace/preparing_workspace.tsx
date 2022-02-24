@@ -233,7 +233,9 @@ export default function PreparingWorkspace(props: Props) {
             return;
         }
 
-        let team = currentTeam;
+        // In cloud instances created from portal,
+        // new admin user has a team in myTeams but not in currentTeam.
+        let team = (currentTeam || myTeams?.[0]);
 
         if (form.organization) {
             try {
