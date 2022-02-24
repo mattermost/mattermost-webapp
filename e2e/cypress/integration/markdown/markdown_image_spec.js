@@ -122,7 +122,7 @@ describe('Markdown', () => {
 
     it('channel header is markdown image', () => {
         // # Update channel header
-        cy.updateChannelHeader('![MM Logo](http://mattermost.com/wp-content/uploads/2022/02/logoHorizontal.png)').wait(TIMEOUTS.TWO_SEC);
+        cy.updateChannelHeader('![MM Logo](https://mattermost.com/wp-content/uploads/2022/02/logoHorizontal.png)').wait(TIMEOUTS.TWO_SEC);
 
         // * Verify image in header
         cy.get('#channelHeaderDescription').find('div.markdown__paragraph-inline').as('imageDiv');
