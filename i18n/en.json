@@ -1861,7 +1861,6 @@
   "admin.reporting.workspace_optimization.title": "Workspace Optimization",
   "admin.reporting.workspace_optimization.updates.description": "An update is available.",
   "admin.reporting.workspace_optimization.updates.descriptionOk": "Your workspace is completely up to date!",
-  "admin.reporting.workspace_optimization.updates.server_version.status.description": "Upgrading your Mattermost server to {version} is recommended.",
   "admin.reporting.workspace_optimization.updates.server_version.status.title": "{type} version update available.",
   "admin.reporting.workspace_optimization.updates.server_version.update_type.major": "Major",
   "admin.reporting.workspace_optimization.updates.server_version.update_type.minor": "Minor",
