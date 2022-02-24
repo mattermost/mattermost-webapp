@@ -7,7 +7,8 @@ import {FormattedMessage} from 'react-intl';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import {ModalIdentifiers} from 'utils/constants';
-import ToggleModalButtonRedux from 'components/toggle_modal_button_redux/toggle_modal_button_redux.jsx';
+
+import ToggleModalButton from './toggle_modal_button';
 
 class TestModal extends React.PureComponent {
     render() {
@@ -22,10 +23,10 @@ class TestModal extends React.PureComponent {
     }
 }
 
-describe('components/ToggleModalButtonRedux', () => {
+describe('components/ToggleModalButton', () => {
     test('component should match snapshot', () => {
         const wrapper = mountWithIntl(
-            <ToggleModalButtonRedux
+            <ToggleModalButton
                 ariaLabel={'Delete Channel'}
                 id='channelDelete'
                 role='menuitem'
@@ -37,7 +38,7 @@ describe('components/ToggleModalButtonRedux', () => {
                     id='channel_header.delete'
                     defaultMessage='Delete Channel'
                 />
-            </ToggleModalButtonRedux>,
+            </ToggleModalButton>,
         );
 
         expect(wrapper).toMatchSnapshot();

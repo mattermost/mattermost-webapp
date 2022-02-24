@@ -18,7 +18,7 @@ import ActivityLogModal from 'components/activity_log_modal';
 import LocalizedIcon from 'components/localized_icon';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
-import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
+import ToggleModalButton from 'components/toggle_modal_button';
 
 import MfaSection from './mfa_section';
 import UserAccessTokenSection from './user_access_token_section';
@@ -1018,7 +1018,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                     {signInSection}
                     <div className='divider-dark'/>
                     <br/>
-                    <ToggleModalButtonRedux
+                    <ToggleModalButton
                         className='security-links color--link'
                         modalId='access_history'
                         dialogType={AccessHistoryModal}
@@ -1032,8 +1032,8 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                             id='user.settings.security.viewHistory'
                             defaultMessage='View Access History'
                         />
-                    </ToggleModalButtonRedux>
-                    <ToggleModalButtonRedux
+                    </ToggleModalButton>
+                    <ToggleModalButton
                         className='security-links color--link mt-2'
                         modalId='activity_log'
                         dialogType={ActivityLogModal}
@@ -1047,7 +1047,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                             id='user.settings.security.logoutActiveSessions'
                             defaultMessage='View and Log Out of Active Sessions'
                         />
-                    </ToggleModalButtonRedux>
+                    </ToggleModalButton>
                 </div>
             </div>
         );
