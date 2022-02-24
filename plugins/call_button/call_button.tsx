@@ -97,14 +97,14 @@ export default function CallButton(props: Props) {
                     <span>
                         <PhoneOutlineIcon
                             color=''
-                            aria-label={formatMessage({id: 'generic_icons.call', defaultMessage: 'Call Icon'}).toLowerCase()}
+                            aria-label={formatMessage({id: 'generic_icons.call', defaultMessage: 'Call icon'}).toLowerCase()}
                         />
                     </span>
                     <span className='call-button-label'>{'Call'}</span>
                     <span>
                         <ChevronDownIcon
                             color=''
-                            aria-label={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'}).toLowerCase()}
+                            aria-label={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown icon'}).toLowerCase()}
                         />
                     </span>
                 </button>
