@@ -258,7 +258,7 @@ function generateDiagnosticReport(summary, serverInfo) {
         attachments: [{
             color: '#43A047',
             author_name: 'Cypress UI Test',
-            author_icon: 'http://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
+            author_icon: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
             author_link: 'https://community.mattermost.com/core/channels/ui-test-automation',
             title: `Cypress UI Test Automation #${BUILD_ID}, **${BRANCH}** branch`,
             fields: [{
