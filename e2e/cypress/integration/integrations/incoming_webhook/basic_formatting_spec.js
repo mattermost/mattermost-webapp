@@ -123,6 +123,6 @@ The following should turn into a user mention and clicking it should open profil
         channel: channel.name,
         username: 'new_username',
         text,
-        icon_url: 'http://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
+        icon_url: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
     };
 }
