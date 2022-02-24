@@ -7,6 +7,8 @@ import {render, fireEvent} from '@testing-library/react';
 
 import {withIntl} from 'tests/helpers/intl-test-helper';
 
+import * as useValidateTeam from 'components/common/hooks/useValidateTeam';
+
 import {Animations} from './steps';
 import Organization from './organization';
 
@@ -29,25 +31,35 @@ describe('Organization', () => {
             onPageView: jest.fn(),
         };
     });
-    test('disables continuing without input', () => {
-        const {getByTestId} = render(withIntl(<Organization {...props}/>));
-        expect(getByTestId('continue')).toBeDisabled();
-    });
 
-    test('hides validation errors until user clicks to continue', () => {
-        props.organization = 'O';
-        const {getByTestId, getByText} = render(withIntl(<Organization {...props}/>));
-        expect(getByTestId('continue')).not.toBeDisabled();
-        fireEvent.click(getByTestId('continue'));
-        getByText('between 2 and 15', {exact: false});
-    });
-
-    test('enables continuing with valid input', () => {
+    test('enables continuing with valid input', async () => {
         props.organization = 'My Org';
+
+        jest.spyOn(useValidateTeam, 'default').mockImplementation(() => ({
+            validate: jest.fn(),
+            verifying: false,
+            result: {
+                valid: true,
+                error: '',
+            },
+        }));
         const {getByTestId} = render(withIntl(<Organization {...props}/>));
         expect(getByTestId('continue')).not.toBeDisabled();
         expect(props.next).not.toHaveBeenCalled();
         fireEvent.click(getByTestId('continue'));
         expect(props.next).toHaveBeenCalled();
+    });
+
+    test('disables continuing without input', () => {
+        jest.spyOn(useValidateTeam, 'default').mockImplementation(() => ({
+            validate: jest.fn(),
+            verifying: false,
+            result: {
+                valid: false,
+                error: 'no input',
+            },
+        }));
+        const {getByTestId} = render(withIntl(<Organization {...props}/>));
+        expect(getByTestId('continue')).toBeDisabled();
     });
 });

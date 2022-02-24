@@ -137,7 +137,7 @@ export default function PreparingWorkspace(props: Props) {
     const myTeams = useSelector(getMyTeams);
     const config = useSelector(getConfig);
     const configSiteUrl = config.SiteURL;
-    const isConfigSiteUrlDefault = Boolean(config.SiteURL && config.SiteURL === Constants.DEFAULT_SITE_URL);
+    const isConfigSiteUrlDefault = config.SiteURL === '' || Boolean(config.SiteURL && config.SiteURL === Constants.DEFAULT_SITE_URL);
     const lastIsConfigSiteUrlDefaultRef = useRef(isConfigSiteUrlDefault);
     const showOnMountTimeout = useRef<NodeJS.Timeout>();
 
@@ -276,6 +276,24 @@ export default function PreparingWorkspace(props: Props) {
             }
         }
 
+        if (isConfigSiteUrlDefault && isSelfHosted && form.url && form.url !== configSiteUrl) {
+            try {
+                let withProtocol = form.url;
+                if (form.inferredProtocol) {
+                    withProtocol = form.inferredProtocol + '://' + withProtocol;
+                }
+                await Client4.patchConfig({
+                    ServiceSettings: {
+                        SiteURL: withProtocol,
+                    },
+                });
+
+                // save config here
+            } catch (e) {
+                redirectWithError(WizardSteps.Url, genericSubmitError);
+            }
+        }
+
         if (!form.teamMembers.skipped && !isConfigSiteUrlDefault) {
             try {
                 const inviteResult = await dispatch(sendEmailInvitesToTeamGracefully(team.id, form.teamMembers.invites));
@@ -312,6 +330,7 @@ export default function PreparingWorkspace(props: Props) {
         }
 
         const goToChannels = () => {
+            dispatch({type: GeneralTypes.SHOW_LAUNCHING_WORKSPACE, open: true});
             if (redirectChannel) {
                 dispatch(switchToChannel(redirectChannel));
             } else {

@@ -87,6 +87,7 @@ export type ViewsState = {
                 dialogType: React.ComponentType;
             };
         };
+        showLaunchingWorkspace: boolean;
     };
 
     emoji: {
