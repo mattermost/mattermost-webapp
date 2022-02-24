@@ -3131,7 +3131,7 @@
   "general_tab.emptyDescription": "Kattintson a 'Szerkesztés' gombra a csapat leírás megadásához.",
   "general_tab.getTeamInviteLink": "Csapat meghívó link lekérése",
   "general_tab.no": "Nem",
-  "general_tab.openInviteDesc": "Ha engedélyezett, akkor a csapat kezdő lapján egy linket fog szerepelni, amely lehetővé teszi, hogy bárki csatlakozzon ehhez a csapathoz. Ha \"Igen\"-ről \"Nem\"-re vált, a  meghívó kódja újraképződik, új meghívó-linket hoz létre és érvényteleníti az előző hivatkozást.",
+  "general_tab.openInviteDesc": "Ha engedélyezett, akkor a csapat kezdő lapján egy link fog szerepelni, amely lehetővé teszi, hogy bárki csatlakozzon ehhez a csapathoz. Ha \"Igen\"-ről \"Nem\"-re vált, a  meghívó kódja újraképződik, új meghívó linket hoz létre és érvényteleníti az előző hivatkozást.",
   "general_tab.openInviteTitle": "Lehetővé teszi, hogy bármelyik felhasználó, aki rendelkezik fiókkal ezen a szerveren csatlakozzon ehhez a csapathoz",
   "general_tab.regenerate": "Újragenerálás",
   "general_tab.required": "Ez a mező kötelező",
