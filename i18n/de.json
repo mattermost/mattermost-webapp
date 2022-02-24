@@ -2139,7 +2139,6 @@
   "admin.sql.traceTitle": "SQL-Statement-Logging: ",
   "admin.support.aboutDesc": "Die URL für den \"Über\"-Link auf der Mattermost Anmelde- und Registrierungsseite. Wenn das Feld leer ist, wird der Link für Benutzer versteckt.",
   "admin.support.aboutTitle": "Über-Link:",
-  "admin.support.emailHelp": "E-Mail-Adresse, die bei E-Mail-Benachrichtigungen angezeigt wird.",
   "admin.support.emailTitle": "Support-E-Mail-Adresse:",
   "admin.support.enableAskCommunityDesc": "Wenn wahr, wird ein \"Frag die Community\" Link im Mattermost Interface und dem Hilfemenü angezeigt. Dieser erlaubt es den Benutzern der Mattermost Community beizutreten, um Fragen zu stellen, anderen zu helfen und Fehler zu beheben. Wenn falsch, dann wird der Link nicht angezeigt.",
   "admin.support.enableAskCommunityTitle": "Frag die Community Link aktivieren:",

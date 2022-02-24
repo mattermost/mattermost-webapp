@@ -2134,8 +2134,6 @@
   "admin.sql.traceTitle": "Journalisation des requêtes SQL : ",
   "admin.support.aboutDesc": "L'URL vers la page À propos apparaissant sur les pages de connexion et d'inscription de Mattermost. Si ce champ est laissé vide, le lien est masqué pour les utilisateurs.",
   "admin.support.aboutTitle": "Lien vers la page À propos :",
-  "admin.support.emailHelp": "L'adresse e-mail apparaissant dans les notifications par e-mail.",
-  "admin.support.emailTitle": "Adresse e-mail de support :",
   "admin.support.enableAskCommunityDesc": "Si activé, un lien « Demander à la communauté » apparaît dans l'interface utilisateur Mattermost et dans le menu d'aide, ce qui permet aux utilisateurs de rejoindre le serveur Mattermost Community pour poser des questions et aider d'autres à résoudre des problèmes. Si désactivé, le lien est caché aux utilisateurs.",
   "admin.support.enableAskCommunityTitle": "Activer le lien Demander à la communauté :",
   "admin.support.enableTermsOfServiceHelp": "Si activé, les nouveaux utilisateurs doivent accepter les conditions d'utilisation pour pouvoir accéder aux équipes Mattermost que ce soit sur les applications de bureau, mobile ou Web. Les utilisateurs existants doivent accepter les conditions à la prochaine connexion ou après le rafraîchissement de la page.\n\nPour modifier le lien des conditions d'utilisation affiché sur les pages de création de compte ou de connexion, allez dans [Configuration du site > Personnalisation](../site_config/customization).",

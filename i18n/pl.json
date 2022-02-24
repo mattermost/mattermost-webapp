@@ -2139,8 +2139,6 @@
   "admin.sql.traceTitle": "Rejestrowanie instrukcji SQL: ",
   "admin.support.aboutDesc": "Adres URL linku O mnie na stronie logowania i rejestracji. Jeśli to pole jest puste, link O mnie jest ukrywany przed użytkownikami.",
   "admin.support.aboutTitle": "O Linku:",
-  "admin.support.emailHelp": "Adres email wyświetlany w powiadomieniach email.",
-  "admin.support.emailTitle": "Email do Wsparcia:",
   "admin.support.enableAskCommunityDesc": "Jeśli ma wartość true, link „Zapytaj społeczność” pojawia się w interfejsie użytkownika Mattermost i w menu Pomoc, co pozwala użytkownikom dołączyć do społeczności Mattermost w celu zadawania pytań i pomagania innym w rozwiązywaniu problemów. Jeśli jest false, link jest ukryty przed użytkownikami.",
   "admin.support.enableAskCommunityTitle": "Włącz opcję Ask Community Link:",
   "admin.support.enableTermsOfServiceHelp": "Jeśli włączone, nowi użytkownicy muszą zaakceptować zasady użytkowania przed uzyskaniem dostępu do zespołów Mattermost w aplikacji desktopowej, przeglądarce, lub urządzeniu przenośnym. Istniejący użytkownicy muszą zaakceptować te zasady po zalogowaniu lub po odświeżeniu strony.\n \nAby zaktualizować zasady użytkowania wyświetlane podczas tworzenia konta i stronach logowania, przejdź do [Konfiguracja strony > Dostosowywanie](../site_config/customization).",

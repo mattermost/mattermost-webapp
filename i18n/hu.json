@@ -2145,8 +2145,6 @@
   "admin.sql.traceTitle": "SQL utasítások naplózása: ",
   "admin.support.aboutDesc": "A Névjegy URL-je a Mattermost bejelentkezési és regisztrációs oldalán. Ha ez a mező üres, a Névjegy link el van rejtve a felhasználók elől.",
   "admin.support.aboutTitle": "Névjegy link:",
-  "admin.support.emailHelp": "E-mail cím, amely megjelenik az e-mail értesítésekben.",
-  "admin.support.emailTitle": "Támogatás e-mail:",
   "admin.support.enableAskCommunityDesc": "Ha igaz, akkor a \"Kérdezd a közösséget\" link megjelenik a Mattermost felhasználói felületen és a Súgó menüben, amely lehetővé teszi a felhasználók számára, hogy csatlakozzanak a Mattermost közösséghez, hogy kérdéseket tegyenek fel és segítsenek másoknak a problémák elhárításában. Ha hamis, a hivatkozás el van rejtve a felhasználók elől.",
   "admin.support.enableAskCommunityTitle": "Engedélyezze a közösség megkérdezése linket:",
   "admin.support.enableTermsOfServiceHelp": "Ha igaz, akkor az új felhasználóknak el kell fogadniuk a szolgáltatási feltételeket, mielőtt asztali, internetes vagy mobilon hozzáférnének a Mattermost csapatokhoz. A meglévő felhasználóknak el kell fogadniuk őket a bejelentkezés vagy az oldal frissítése után.\n \nA fiók létrehozási és bejelentkezési oldalakon megjelenő szolgáltatási feltételek frissítéséhez lépjen a [Oldal beállítások> Testreszabás] oldalra (../site_config/customization).",

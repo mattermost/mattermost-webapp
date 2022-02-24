@@ -2138,8 +2138,6 @@
   "admin.sql.traceTitle": "Logboekregistratie van SQL-instructies: ",
   "admin.support.aboutDesc": "De URL voor de Over-link over de Mattermost login -en aanmeldpagina's. Als dit veld leeg is, wordt de Over-link verborgen voor gebruikers.",
   "admin.support.aboutTitle": "Over link:",
-  "admin.support.emailHelp": "E-mail adres dat wordt weergegeven op meldingen via e-mail.",
-  "admin.support.emailTitle": "Support e-mail:",
   "admin.support.enableAskCommunityDesc": "Indien aangevinkt de \"Vraag de gemeenschap\" link verschijnt op de Mattermost user interface en het Helpmenu dit staat gebruikers toe om lid te worden van de Mattermost-gemeenschap en anderen te helpen met problemen. Indien niet aangevinkt, dan wordt de link verborgen voor gebruikers.",
   "admin.support.enableAskCommunityTitle": "Inschakelen van de vraag-de-gemeenschap-link:",
   "admin.support.enableTermsOfServiceHelp": "Als dit waar is, moeten nieuwe gebruikers de gebruikersvoorwaarden aanvaarden voor ze toegang krijgen tot Mattermost teams op de desktop, web of mobiel. Bestaande gebruikers moeten de voorwaarden accepteren ze na inloggen of een pagina vernieuwen.\n \nOm de link naar de gebruikersvoorwaarden te wijzigigen op de pagina's om voor het aanmaken van een account en de inloggen pagina's, ga naar [Site Configuratie>Aanpassingen](../site_config/maatwerk).",

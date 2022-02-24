@@ -2145,8 +2145,6 @@
   "admin.sql.traceTitle": "SQL durumu günlük kaydı: ",
   "admin.support.aboutDesc": "Mattermost kopyanız hakkında kuruluşunuzun amacı ve kitlesi hakkında ayrıntılı bilgi veren Hakkında sayfasının bağlantısı. Varsayılan olarak Mattermost bilgi sayfası görüntülenir.",
   "admin.support.aboutTitle": "Hakkında bağlantısı:",
-  "admin.support.emailHelp": "E-posta bildirimlerinde görüntülenecek e-posta adresi.",
-  "admin.support.emailTitle": "Destek e-posta adresi:",
   "admin.support.enableAskCommunityDesc": "Bu seçenek etkinleştirildiğinde, Mattermost kullanıcı arayüzünde ve yardım menüsünde, kullanıcıların Mattermost topluluğuna katılıp soru sorabileceği ve diğer kullanıcıların sorunlarını çözmesine yardım edebileceği \"Topluluğa sorun\" bağlantısı görüntülenir. Devre dışı bırakıldığında, bu bağlantı kullanıcılara görüntülenmez.",
   "admin.support.enableAskCommunityTitle": "Topluluğa sorun bağlantısı kullanılsın:",
   "admin.support.enableTermsOfServiceHelp": "Bu seçenek etkinleştirildiğinde, masaüstü, web ya da mobil sürümler üzerinden Mattermost takımlarına erişmek isteyen yeni kullanıcıların hizmet koşulları metnini onaylamaları gerekir. Var olan kullanıcılardan oturum açtıklarında ya da bir sayfayı yenilediklerinde hizmet koşullarını onaylamaları istenir.\n \nHesap açma ve oturum açma sayfalarındaki hizmet koşulları bağlantısını güncellemek için [Site yapılandırması > Özelleştirme](../site_config/customization) bölümüne bakabilirsiniz.",

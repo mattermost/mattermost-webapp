@@ -2132,8 +2132,6 @@
   "admin.sql.traceTitle": "Logga SQL-frågor: ",
   "admin.support.aboutDesc": "URL till Om-sidan på Mattermost-login och skapa konto-sidor. Om fältet är tomt så visas inte Om-länken för användaren.",
   "admin.support.aboutTitle": "Om-länk:",
-  "admin.support.emailHelp": "E-postadress som visas på e-postnotifieringar.",
-  "admin.support.emailTitle": "Supportmejl:",
   "admin.support.enableAskCommunityDesc": "När aktiverad kommer en länk till \"Fråga community\" att synas i Mattermost användargränssnitt och Hjälpmenyn. Det gör det enkelt för användare att gå med i communityn och ställa frågor och hjälpa andra att lösa problem. När avaktiverad är länken dold för användare.",
   "admin.support.enableAskCommunityTitle": "Aktivera Fråga community-länk:",
   "admin.support.enableTermsOfServiceHelp": "När aktiverad kommer nya användare behöva acceptera användarvillkoren innan de kan använda Mattermost på desktop, web eller mobil. Befintliga användare behöver acceptera dem efter inloggning eller vid en siduppdatering.\n\nFör att uppdatera länken till användarvillkoren som visas vid kontoskapande eller inloggning, gå till [Sajtkonfiguration > Anpassningar](../site_config/customization).",

@@ -2000,8 +2000,6 @@
   "admin.sql.traceTitle": "Declarație SQL Logare: ",
   "admin.support.aboutDesc": "URL-ul pentru link-ul Despre pe paginile de autentificare și înscriere Mattermost. Dacă acest câmp este gol, legătura Despre este ascunsă de utilizatori.",
   "admin.support.aboutTitle": "Despre link:",
-  "admin.support.emailHelp": "Adresa de e-mail afișată în notificările prin e-mail și în timpul tutorialului pentru utilizatorii finali pentru a pune întrebări de asistență.",
-  "admin.support.emailTitle": "Suport Email 1:",
   "admin.support.enableAskCommunityDesc": "Când este adevărat, pe interfața utilizatorului Mattermost și în Meniul principal apare linkul \"Cereți comunității\", care permite utilizatorilor să se alăture comunității importante pentru a pune întrebări și a ajuta alții să rezolve probleme. Când este fals, legătura este ascunsă de utilizatori.",
   "admin.support.enableAskCommunityTitle": "Activați linkul comunității Cereți:",
   "admin.support.enableTermsOfServiceHelp": "Când este adevărat, noii utilizatori trebuie să accepte termenii și condițiile înainte de a accesa orice echipă Mattermost pe desktop, web sau mobil. Utilizatorii existenți trebuie să le accepte după autentificare sau o reîmprospătare a paginii.\n \nPentru a actualiza link-ul privind condițiile de serviciu afișate în paginile de creare a contului și de autentificare, accesați [Legalitate și asistență] (legal_and_support).",
