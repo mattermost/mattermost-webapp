@@ -3912,17 +3912,10 @@
   "onboarding_wizard.organization.reserved": "Der Organisations-Name darf nicht mit <a>einem reservierten Wort starten</a>.",
   "onboarding_wizard.organization.title": "Was ist der Name Deiner Organisation?",
   "onboarding_wizard.plugins.description": "Wähle die Werkzeuge aus, mit denen Du arbeitest, und wir werden diese zu Deinem Arbeitsbereich hinzufügen. Zusätzliches Einstellungen müssen eventuell später noch durchgeführt werden.",
-<<<<<<< HEAD
-  "onboarding_wizard.plugins.github": "Github",
-  "onboarding_wizard.plugins.github.tooltip": "Repositories abonnieren, auf dem aktuellen Stand mit Reviews und Zuweisungen bleiben",
-  "onboarding_wizard.plugins.gitlab": "Gitlab",
-  "onboarding_wizard.plugins.gitlab.tooltip": "Gitlab tooltip",
-=======
   "onboarding_wizard.plugins.github": "GitHub",
   "onboarding_wizard.plugins.github.tooltip": "Repositories abonnieren, auf dem aktuellen Stand mit Reviews und Zuweisungen bleiben",
   "onboarding_wizard.plugins.gitlab": "GitLab",
   "onboarding_wizard.plugins.gitlab.tooltip": "GitLab tooltip",
->>>>>>> weblate/master
   "onboarding_wizard.plugins.jira": "Jira",
   "onboarding_wizard.plugins.jira.tooltip": "Jira tooltip",
   "onboarding_wizard.plugins.marketplace": "Weitere Werkzeuge können hinzugefügt werden, wenn Dein Arbeitsbereich eingerichtet ist. Um alle verfügbaren Integrationen zu sehen, <a>besuche den Marktplatz.</a>",
