@@ -21,30 +21,29 @@ import './call_button.scss';
 type Props = {
     currentChannel: Channel;
     channelMember?: ChannelMembership;
-    locale: string;
     pluginCallComponents: PluginComponent[];
     sidebarOpen: boolean;
 }
 
-export default function CallButton(props: Props) {
-    if (props.pluginCallComponents.length === 0) {
+export default function CallButton({pluginCallComponents, currentChannel, channelMember, sidebarOpen}: Props) {
+    if (pluginCallComponents.length === 0) {
         return null;
     }
 
-    const {formatMessage} = useIntl();
     const [active, setActive] = useState(false);
     const [clickEnabled, setClickEnabled] = useState(true);
-    const prevSidebarOpen = useRef(props.sidebarOpen);
+    const prevSidebarOpen = useRef(sidebarOpen);
+    const {formatMessage} = useIntl();
 
     useEffect(() => {
-        if (prevSidebarOpen.current && !props.sidebarOpen) {
+        if (prevSidebarOpen.current && !sidebarOpen) {
             setClickEnabled(false);
             setTimeout(() => {
                 setClickEnabled(true);
             }, Constants.CHANNEL_HEADER_BUTTON_DISABLE_TIMEOUT);
         }
-        prevSidebarOpen.current = props.sidebarOpen;
-    }, [props.sidebarOpen]);
+        prevSidebarOpen.current = sidebarOpen;
+    }, [sidebarOpen]);
 
     const style = {
         container: {
@@ -53,9 +52,9 @@ export default function CallButton(props: Props) {
         } as CSSProperties,
     };
 
-    if (props.pluginCallComponents.length === 1) {
-        const item = props.pluginCallComponents[0];
-        const clickHandler = () => item.action?.(props.currentChannel, props.channelMember);
+    if (pluginCallComponents.length === 1) {
+        const item = pluginCallComponents[0];
+        const clickHandler = () => item.action?.(currentChannel, channelMember);
 
         return (
             <div
@@ -69,17 +68,16 @@ export default function CallButton(props: Props) {
         );
     }
 
-    const pluginCallComponents = props.pluginCallComponents.map((item) => {
+    const items = pluginCallComponents.map((item) => {
         return (
             <li
                 className='MenuItem'
                 key={item.id}
                 onClick={(e) => {
                     e.preventDefault();
-                    item.action?.(props.currentChannel, props.channelMember);
+                    item.action?.(currentChannel, channelMember);
                 }}
             >
-
                 {item.dropdownButton}
             </li>
         );
@@ -91,9 +89,7 @@ export default function CallButton(props: Props) {
             className='flex-child'
         >
             <MenuWrapper onToggle={(toggle: boolean) => setActive(toggle)}>
-                <button
-                    className={classNames('style--none call-button', 'dropdown', {active})}
-                >
+                <button className={classNames('style--none call-button dropdown', {active})}>
                     <span>
                         <PhoneOutlineIcon
                             color='inherit'
@@ -117,14 +113,9 @@ export default function CallButton(props: Props) {
                         right: 0,
                     }}
                 >
-                    {pluginCallComponents}
+                    {items}
                 </Menu>
             </MenuWrapper>
         </div>
     );
 }
-
-CallButton.defaultProps = {
-    pluginCallComponents: [],
-};
-
