@@ -10,7 +10,7 @@ import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light-border.css';
 import 'tippy.js/animations/scale-subtle.css';
 import 'tippy.js/animations/perspective-subtle.css';
-import PulsatingDot from 'components/widgets/pulsating_dot';
+import {PulsatingDot} from '@AshishDhama/generic-components';
 
 import TourTipBackdrop, {TourTipOverlayPunchOut} from './tour_tip_backdrop';
 import './tour_tip.scss';

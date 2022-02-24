@@ -6,7 +6,8 @@ import {FormattedMessage} from 'react-intl';
 
 import {Placement} from 'tippy.js';
 
-import TourTip from 'components/widgets/tour_tip/tour_tip';
+import {TourTip} from '@AshishDhama/generic-components';
+
 import {TourTipOverlayPunchOut} from 'components/widgets/tour_tip/tour_tip_backdrop';
 
 import useBoardingTourTipManager from './onboarding_tour_manager';

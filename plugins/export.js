@@ -31,6 +31,7 @@ window.ReactBootstrap = require('react-bootstrap');
 window.ReactRouterDom = require('react-router-dom');
 window.PropTypes = require('prop-types');
 window.Luxon = require('luxon');
+window.GenricComponents = require('@AshishDhama/generic-components');
 
 // Functions exposed on window for plugins to use.
 window.PostUtils = {formatText, messageHtmlToComponent};
