@@ -350,6 +350,7 @@ class TestHelper {
             id: groupId,
             display_name: 'software engineers',
             delete_at: 0,
+            allow_reference: true,
         };
     };
 

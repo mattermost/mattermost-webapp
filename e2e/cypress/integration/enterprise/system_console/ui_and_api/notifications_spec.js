@@ -19,6 +19,11 @@ describe('System Console', () => {
         cy.apiUpdateConfig({
             EmailSettings: {
                 PushNotificationContents: 'full',
+                FeedbackName: 'Mattermost Test Team',
+                FeedbackEmail: 'feedback@mattertest.com',
+            },
+            SupportSettings: {
+                SupportEmail: 'support@mattertest.com',
             },
         });
 
@@ -78,6 +83,54 @@ describe('System Console', () => {
 
             cy.apiGetConfig().then(({config}) => {
                 expect(config.EmailSettings.PushNotificationContents).to.equal(option.value);
+            });
+        });
+    });
+
+    it('MM-T1210+MM-41671 Can change Support Email setting', () => {
+        // # Scroll Support Email section into view and verify that it's visible
+        cy.findByTestId('SupportSettings.SupportEmail').scrollIntoView().should('be.visible');
+
+        // * Verify that setting label is visible and matches text content
+        cy.findByTestId('SupportSettings.SupportEmaillabel').should('be.visible').and('have.text', 'Support Email Address:');
+
+        // * Verify that the help text is visible and matches text content
+        cy.findByTestId('SupportSettings.SupportEmailhelp-text').find('span').should('be.visible').and('have.text', 'Email address displayed on support emails.');
+
+        const newEmail = 'changed_for_test_support@example.com';
+
+        // * Verify that set value is visible and matches text
+        cy.findByTestId('SupportSettings.SupportEmail').find('input').clear().type(newEmail).should('have.value', newEmail);
+
+        // # Save setting
+        cy.get('#saveSetting').click();
+
+        // * Verify that the config is correctly saved in the server
+        cy.apiGetConfig().then(({config}) => {
+            expect(config.SupportSettings.SupportEmail).to.equal(newEmail);
+        });
+    });
+
+    describe('MM-41671 cannot save the notifications page if mandatory fields are missing', () => {
+        const tests = [
+            {name: 'Support Email cannot be empty', field: 'SupportSettings.SupportEmail'},
+            {name: 'Notification Display Name cannot be empty', field: 'EmailSettings.FeedbackName'},
+            {name: 'Notification Email Address cannot be empty', field: 'EmailSettings.FeedbackEmail'},
+        ];
+
+        tests.forEach((test) => {
+            it(test.name, () => {
+                // # Clear the field
+                cy.findByTestId(test.field).find('input').clear();
+
+                // * Ensures the save button is disabled
+                cy.get('#saveSetting').should('be.disabled');
+
+                // # Insert something in the field
+                cy.findByTestId(test.field).find('input').type(test.field);
+
+                // * Ensures the save button is disabled
+                cy.get('#saveSetting').should('be.not.disabled');
             });
         });
     });
