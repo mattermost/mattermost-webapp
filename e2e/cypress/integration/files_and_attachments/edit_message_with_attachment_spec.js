@@ -53,7 +53,7 @@ describe('Edit Message with Attachment', () => {
 
         // # Add some more text and save
         cy.get('#edit_textbox').type(' with some edit');
-        cy.get('#editButton').click();
+        cy.get('#edit_textbox').type('{enter}').wait(TIMEOUTS.HALF_SEC);
 
         cy.getLastPost().within(() => {
             // * New text should show
