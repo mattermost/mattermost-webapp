@@ -7,9 +7,10 @@ import {Client4} from 'mattermost-redux/client';
 import {Action, ActionFunc, batchActions, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {GroupPatch, SyncableType, SyncablePatch, GroupCreateWithUserIds, CustomGroupPatch, GroupSearachParams} from 'mattermost-redux/types/groups';
 
+import Constants from 'utils/constants';
+
 import {logError} from './errors';
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
-import Constants from 'utils/constants';
 
 export function linkGroupSyncable(groupID: string, syncableID: string, syncableType: SyncableType, patch: SyncablePatch): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
