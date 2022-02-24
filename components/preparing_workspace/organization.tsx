@@ -17,10 +17,11 @@ import useValidateTeam from 'components/common/hooks/useValidateTeam';
 import OrganizationStatus from './organization_status';
 
 import {Animations, mapAnimationReasonToClass, Form, PreparingWorkspacePageProps} from './steps';
-import PageLine from './page_line';
 import Title from './title';
 import Description from './description';
 import PageBody from './page_body';
+import ProgressPath from './progress_path';
+import LeftCol from './left_col';
 
 import './organization.scss';
 
@@ -35,8 +36,6 @@ const reportValidationError = debounce((teamName: string, valid: boolean) => {
         trackEvent('first_admin_setup', 'validate_organization_error');
     }
 }, 700, {leading: false});
-
-//	api.BaseRoutes.TeamByName.Handle("/exists", api.APISessionRequired(teamExists)).Methods("GET")
 
 const Organization = (props: Props) => {
     const {formatMessage} = useIntl();
@@ -90,19 +89,15 @@ const Organization = (props: Props) => {
             unmountOnExit={true}
         >
             <div className={className}>
-                <div className='Organization-left-col'/>
+                <LeftCol/>
                 <div className='Organization-right-col'>
                     <div className='Organization-form-wrapper'>
-                        <div className='Organization__progress-path'>
-                            <OrganizationSVG/>
-                            <PageLine
-                                style={{
-                                    marginTop: '5px',
-                                    height: 'calc(50vh)',
-                                }}
-                                noLeft={true}
-                            />
-                        </div>
+                        <ProgressPath
+                            style={{top: '-39px'}}
+                            beforePath={false}
+                        >
+                            <OrganizationSVG width={200}/>
+                        </ProgressPath>
                         {props.previous}
                         <Title>
                             <FormattedMessage

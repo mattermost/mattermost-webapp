@@ -139,7 +139,11 @@ const InviteMembers = (props: Props) => {
             unmountOnExit={true}
         >
             <div className={className}>
-                <SingleColumnLayout>
+                <SingleColumnLayout
+                    style={{
+                        maxWidth: '550px',
+                    }}
+                >
                     {props.previous}
                     <Title>
                         <FormattedMessage
