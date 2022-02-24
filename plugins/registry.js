@@ -174,7 +174,7 @@ export default class PluginRegistry {
         return id;
     }
 
-    // Add a "call button" to the channel header. If there are more than one button registered by any
+    // Add a "call button" to the channel header. If there is more than one button registered by any
     // plugin, a dropdown menu is created to contain all the call plugin buttons.
     // Accepts the following:
     // - button - A React element to use as the main button to be displayed in case of a single registration.
