@@ -22,15 +22,12 @@ describe('components/MenuItemAction', () => {
             >
               <span>
                 <span
-                  className="MenuItem__left-decorator"
-                />
-                <span
                   className="MenuItem__primary-text"
                 >
                   Whatever
                 </span>
                 <span
-                  className="MenuItem__right-decorator MenuItem__text-color-opaque"
+                  className="MenuItem__right-decorator MenuItem__text-color"
                 />
               </span>
             </button>
@@ -52,15 +49,12 @@ describe('components/MenuItemAction', () => {
             >
               <span>
                 <span
-                  className="MenuItem__left-decorator"
-                />
-                <span
                   className="MenuItem__primary-text"
                 >
                   Whatever
                 </span>
                 <span
-                  className="MenuItem__right-decorator MenuItem__text-color-opaque"
+                  className="MenuItem__right-decorator MenuItem__text-color"
                 />
               </span>
               <span

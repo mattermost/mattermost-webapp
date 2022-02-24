@@ -138,6 +138,14 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.buttonRef = React.createRef<HTMLButtonElement>();
     }
 
+    static getDerivedStateFromProps(props: Props) {
+        const state: Partial<State> = {
+            canEdit: props.canEdit && !props.isReadOnly,
+            canDelete: props.canDelete && !props.isReadOnly,
+        };
+        return state;
+    }
+
     disableCanEditPostByTime(): void {
         const {post, isLicensed} = this.props;
         const {canEdit} = this.state;

@@ -4,7 +4,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
 <MenuWrapper
   animationComponent={[Function]}
   className=""
-  onToggle={[Function]}
+  onToggle={[MockFunction]}
 >
   <OverlayTrigger
     className="hidden-xs"
@@ -51,7 +51,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
     <MenuItemAction
       icon={
         <span
-          className="icon-reply-outline MenuItem__compass-icon-opaque"
+          className="icon-reply-outline MenuItem__compass-icon"
         />
       }
       onClick={[Function]}
@@ -77,7 +77,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
     <MenuItemAction
       icon={
         <span
-          className="icon-message-check-outline MenuItem__compass-icon-opaque"
+          className="icon-message-check-outline MenuItem__compass-icon"
         />
       }
       id="follow_post_thread_post_id_1"
@@ -89,7 +89,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
     <MenuItemAction
       icon={
         <span
-          className="icon-mark-as-unread MenuItem__compass-icon-opaque"
+          className="icon-mark-as-unread MenuItem__compass-icon"
         />
       }
       id="unread_post_post_id_1"
@@ -111,7 +111,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
     <MenuItemAction
       icon={
         <span
-          className="icon-pin MenuItem__compass-icon-opaque"
+          className="icon-pin MenuItem__compass-icon"
         />
       }
       id="unpin_post_post_id_1"
@@ -123,7 +123,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
     <MenuItemAction
       icon={
         <span
-          className="icon-pin-outline MenuItem__compass-icon-opaque"
+          className="icon-pin-outline MenuItem__compass-icon"
         />
       }
       id="pin_post_post_id_1"
@@ -140,7 +140,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
     <MenuItemAction
       icon={
         <span
-          className="icon-link-variant MenuItem__compass-icon-opaque"
+          className="icon-link-variant MenuItem__compass-icon"
         />
       }
       id="permalink_post_id_1"
@@ -157,7 +157,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
     <MenuItemAction
       icon={
         <span
-          className="icon-pencil-outline MenuItem__compass-icon-opaque"
+          className="icon-pencil-outline MenuItem__compass-icon"
         />
       }
       id="edit_post_post_id_1"
@@ -175,7 +175,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       id="delete_post_post_id_1"
       isDangerous={true}
       onClick={[Function]}
-      rightDecorator="delete"
+      rightDecorator={
+        <span
+          className="MenuItem__opacity"
+        >
+          delete
+        </span>
+      }
       show={true}
       text="Delete"
     />
@@ -187,7 +193,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
 <MenuWrapper
   animationComponent={[Function]}
   className=""
-  onToggle={[Function]}
+  onToggle={[MockFunction]}
 >
   <OverlayTrigger
     className="hidden-xs"
@@ -234,7 +240,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     <MenuItemAction
       icon={
         <span
-          className="icon-reply-outline MenuItem__compass-icon-opaque"
+          className="icon-reply-outline MenuItem__compass-icon"
         />
       }
       onClick={[Function]}
@@ -260,7 +266,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     <MenuItemAction
       icon={
         <span
-          className="icon-message-check-outline MenuItem__compass-icon-opaque"
+          className="icon-message-check-outline MenuItem__compass-icon"
         />
       }
       id="follow_post_thread_post_id_1"
@@ -272,7 +278,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     <MenuItemAction
       icon={
         <span
-          className="icon-mark-as-unread MenuItem__compass-icon-opaque"
+          className="icon-mark-as-unread MenuItem__compass-icon"
         />
       }
       id="unread_post_post_id_1"
@@ -294,7 +300,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     <MenuItemAction
       icon={
         <span
-          className="icon-pin MenuItem__compass-icon-opaque"
+          className="icon-pin MenuItem__compass-icon"
         />
       }
       id="unpin_post_post_id_1"
@@ -306,7 +312,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     <MenuItemAction
       icon={
         <span
-          className="icon-pin-outline MenuItem__compass-icon-opaque"
+          className="icon-pin-outline MenuItem__compass-icon"
         />
       }
       id="pin_post_post_id_1"
@@ -323,7 +329,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     <MenuItemAction
       icon={
         <span
-          className="icon-link-variant MenuItem__compass-icon-opaque"
+          className="icon-link-variant MenuItem__compass-icon"
         />
       }
       id="permalink_post_id_1"
@@ -340,7 +346,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     <MenuItemAction
       icon={
         <span
-          className="icon-pencil-outline MenuItem__compass-icon-opaque"
+          className="icon-pencil-outline MenuItem__compass-icon"
         />
       }
       id="edit_post_post_id_1"
@@ -358,7 +364,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       id="delete_post_post_id_1"
       isDangerous={true}
       onClick={[Function]}
-      rightDecorator="delete"
+      rightDecorator={
+        <span
+          className="MenuItem__opacity"
+        >
+          delete
+        </span>
+      }
       show={false}
       text="Delete"
     />
