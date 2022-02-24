@@ -254,7 +254,7 @@ function generateDiagnosticReport(summary, serverInfo) {
 
     return {
         username: 'Cypress UI Test',
-        icon_url: 'http://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
+        icon_url: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
         attachments: [{
             color: '#43A047',
             author_name: 'Cypress UI Test',
