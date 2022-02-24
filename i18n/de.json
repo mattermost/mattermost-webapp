@@ -72,7 +72,7 @@
   "add_command.displayName.help": "Gebe einen Titel mit bis zu 64 Zeichen für die Einstellungsseite für den Slash-Befehl an.",
   "add_command.doneHelp": "Dein Slash-Befehl wurde eingerichtet. Der folgende Token wird in der ausgehenden Payload mitgesendet. Bitte verwende ihn, um zu verifizieren, dass er von deinem Mattermost-Team kam (Erfahre mehr in der [Dokumentation](!https://docs.mattermost.com/developer/slash-commands.html)).",
   "add_command.iconUrl": "Antwort-Symbol",
-  "add_command.iconUrl.help": "(Optional) Geben Sie die URL einer .png- oder .jpg-Datei ein, die als Symbol beim Senden von Antworten auf diesen Slash-Befehl verwendet werden soll. Die Datei muss mindestens 128 Pixel mal 128 Pixel groß sein. Wenn Sie nichts eingeben, wird Ihr Profilbild verwendet.",
+  "add_command.iconUrl.help": "(Optional) Gebe die URL einer .png- oder .jpg-Datei ein, die als Symbol beim Senden von Antworten auf diesen Slash-Befehl verwendet werden soll. Die Datei muss mindestens 128 Pixel mal 128 Pixel groß sein. Wenn Sie nichts eingeben, wird Dein Profilbild verwendet.",
   "add_command.iconUrl.placeholder": "https://www.beispiel.de/meinsymbol.png",
   "add_command.method": "Anforderungsmethode",
   "add_command.method.get": "GET",
