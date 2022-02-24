@@ -106,7 +106,7 @@ describe('Channel sidebar - group unreads separately', () => {
         cy.get('.SidebarChannelGroup:contains(CHANNELS)').should('be.visible').get('.SidebarChannel:not(.unread):contains(Off-Topic)').should('be.visible');
     });
 
-    it('Leaving an unread channel when unread category is ON', () => {
+    it('MM-T4655 Leaving an unread channel when unread category is ON', () => {
         // # Click on the unread channel
         cy.get(`.SidebarChannel.unread .SidebarLink:contains(${testChannel.display_name})`).should('be.visible').click();
 
