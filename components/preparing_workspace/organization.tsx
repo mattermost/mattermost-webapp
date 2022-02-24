@@ -140,7 +140,7 @@ const Organization = (props: Props) => {
                                 className='primary-button'
                                 data-testid='continue'
                                 onClick={onNext}
-                                disabled={!teamValidator.result.valid}
+                                disabled={teamValidator.verifying || !teamValidator.result.valid}
                             >
                                 <FormattedMessage
                                     id={'onboarding_wizard.next'}
