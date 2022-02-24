@@ -15,6 +15,7 @@ describe('components/SizeAwareImage', () => {
         },
         onImageLoaded: jest.fn(),
         onImageLoadFail: jest.fn(),
+        getFilePublicLink: jest.fn().mockReturnValue(Promise.resolve({data: {link: 'https://example.com/image.png'}})),
         src: 'https://example.com/image.png',
         className: 'class',
         fileInfo: {
@@ -168,7 +169,7 @@ describe('components/SizeAwareImage', () => {
         expect(wrapper.find('.size-aware-image__download').prop('href')).toBe(fileURL);
     });
 
-    test('clicking the copy button sets state.linkCopiedRecently to true', () => {
+    test('clicking the copy button sets state.linkCopyInProgress to true', () => {
         const fileURL = 'https://example.com/image.png';
         const props = {
             ...baseProps,
@@ -176,9 +177,9 @@ describe('components/SizeAwareImage', () => {
         };
 
         const wrapper = shallow(<SizeAwareImage {...props}/>);
-        expect(wrapper.state('linkCopiedRecently')).toBe(false);
+        expect(wrapper.state('linkCopyInProgress')).toBe(false);
         wrapper.find('.size-aware-image__copy_link').first().simulate('click');
-        expect(wrapper.state('linkCopiedRecently')).toBe(true);
+        expect(wrapper.state('linkCopyInProgress')).toBe(true);
     });
 
     test('does not render copy button if enablePublicLink is false', () => {

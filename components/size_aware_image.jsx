@@ -172,6 +172,7 @@ export default class SizeAwareImage extends React.PureComponent {
         Reflect.deleteProperty(props, 'handleSmallImageContainer');
         Reflect.deleteProperty(props, 'enablePublicLink');
         Reflect.deleteProperty(props, 'onClick');
+        Reflect.deleteProperty(props, 'getFilePublicLink');
 
         let ariaLabelImage = localizeMessage('file_attachment.thumbnail', 'file thumbnail');
         if (fileInfo) {
@@ -357,9 +358,7 @@ export default class SizeAwareImage extends React.PureComponent {
 
     copyLinkToAsset = () => {
         // if linkCopyInProgress is true return
-        if (this.state.linkCopyInProgress === true) {
-            return
-        } else {
+        if (this.state.linkCopyInProgress !== true) {
             // set linkCopyInProgress to true to prevent multiple api calls
             this.setState({linkCopyInProgress: true});
 
