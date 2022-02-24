@@ -3669,7 +3669,6 @@
   "notify_all.title.confirm": "Confirma el envío de notificaciones a todo el canal",
   "notify_all.title.confirm_groups": "Confirmar el envío de notificaciones a grupos",
   "numMembers": "{num, number} {num, plural, one {miembro} other {miembros}}",
-  "onboardingTour.sendMessage.Description": "",
   "onboarding_wizard.plugins.gitlab.tooltip": "",
   "passwordRequirements": "Requisitos de la Contraseña:",
   "password_form.change": "Cambiar mi contraseña",
