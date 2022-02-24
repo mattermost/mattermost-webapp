@@ -135,6 +135,7 @@ export default function PreparingWorkspace(props: Props) {
     const isSelfHosted = useSelector(getLicense).Cloud !== 'true';
     const currentTeam = useSelector(getCurrentTeam);
     const myTeams = useSelector(getMyTeams);
+
     // In cloud instances created from portal,
     // new admin user has a team in myTeams but not in currentTeam.
     const inferredTeam = currentTeam || myTeams?.[0];
