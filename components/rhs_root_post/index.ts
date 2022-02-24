@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {showActionsDropdownPulsatingDot} from 'selectors/actions_menu';
+import {setActionsMenuInitialisationState} from 'mattermost-redux/actions/preferences';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
@@ -78,6 +79,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators({
             markPostAsUnread,
             emitShortcutReactToLastPostFrom,
+            setActionsMenuInitialisationState,
         }, dispatch),
     };
 }

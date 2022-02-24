@@ -99,6 +99,7 @@ export default class RhsRootPost extends React.PureComponent {
         this.state = {
             alt: false,
             showActionsMenu: false,
+            showActionTip: false,
             showDotMenu: false,
             showEmojiPicker: false,
             testStateObj: true,
@@ -230,7 +231,11 @@ export default class RhsRootPost extends React.PureComponent {
             className += ' post--compact';
         }
 
-        if (this.state.showDotMenu || this.state.showActionsMenu || this.state.fileDropdownOpened || this.state.showEmojiPicker) {
+        if (this.state.showDotMenu ||
+            this.state.showActionsMenu ||
+            this.state.showActionTip ||
+            this.state.fileDropdownOpened ||
+            this.state.showEmojiPicker) {
             className += ' post--hovered';
         }
 
@@ -276,17 +281,28 @@ export default class RhsRootPost extends React.PureComponent {
     }
 
     handleActionsMenuOpened = (open) => {
-        const {actions} = this.props;
         if (this.props.showActionsMenuPulsatingDot) {
-            actions.setActionsMenuInitialisationState?.(({[Preferences.ACTIONS_MENU_VIEWED]: true}));
+            this.setState({showActionTip: true});
             return;
         }
-
         this.setState({showActionsMenu: open});
     };
 
     handleDotMenuOpened = (open) => {
         this.setState({showDotMenu: open});
+    };
+
+    handleActionsMenuTipOpened = () => {
+        this.setState({showActionTip: true});
+    };
+
+    handleActionsMenuGotItClick = () => {
+        this.props.actions.setActionsMenuInitialisationState?.(({[Preferences.ACTIONS_MENU_VIEWED]: true}));
+        this.setState({showActionTip: false});
+    };
+
+    handleTipDismissed = () => {
+        this.setState({showActionTip: false});
     };
 
     handleActionsMenuOpened = (open) => {
@@ -429,6 +445,10 @@ export default class RhsRootPost extends React.PureComponent {
                 handleDropdownOpened={this.handleActionsMenuOpened}
                 isMenuOpen={this.state.showActionsMenu}
                 showPulsatingDot={this.props.showActionsMenuPulsatingDot}
+                showTutorialTip={this.state.showActionTip}
+                handleOpenTip={this.handleActionsMenuTipOpened}
+                handleNextTip={this.handleActionsMenuGotItClick}
+                handleDismissTip={this.handleTipDismissed}
             />
         );
 
@@ -460,7 +480,12 @@ export default class RhsRootPost extends React.PureComponent {
 
         let dotMenuContainer;
         if ((!isPostDeleted && this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) &&
-            (this.state.hover || this.state.dropdownOpened || this.state.showEmojiPicker || this.state.a11yActive)) {
+            (this.state.hover ||
+             this.state.showEmojiPicker ||
+             this.state.showActionTip ||
+             this.state.showActionsMenu ||
+             this.state.a11yActive)
+        ) {
             dotMenuContainer = (
                 <div
                     ref={this.dotMenuRef}

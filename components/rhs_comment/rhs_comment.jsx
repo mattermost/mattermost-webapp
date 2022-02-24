@@ -118,6 +118,7 @@ export default class RhsComment extends React.PureComponent {
             showEmojiPicker: false,
             showDotMenu: false,
             showActionsMenu: false,
+            showActionTip: false,
             fileDropdownOpened: false,
             alt: false,
             hover: false,
@@ -257,7 +258,11 @@ export default class RhsComment extends React.PureComponent {
             className += ' post--compact';
         }
 
-        if (this.state.showDotMenu || this.state.showActionsMenu || this.state.fileDropdownOpened || this.state.showEmojiPicker) {
+        if (this.state.showDotMenu ||
+            this.state.showActionsMenu ||
+            this.state.showActionTip ||
+            this.state.fileDropdownOpened ||
+            this.state.showEmojiPicker) {
             className += ' post--hovered';
         }
 
@@ -287,13 +292,24 @@ export default class RhsComment extends React.PureComponent {
     };
 
     handleActionsMenuOpened = (open) => {
-        const {actions} = this.props;
         if (this.props.showActionsMenuPulsatingDot) {
-            actions.setActionsMenuInitialisationState?.(({[Preferences.ACTIONS_MENU_VIEWED]: true}));
+            this.setState({showActionTip: true});
             return;
         }
-
         this.setState({showActionsMenu: open});
+    };
+
+    handleActionsMenuTipOpened = () => {
+        this.setState({showActionTip: true});
+    };
+
+    handleActionsMenuGotItClick = () => {
+        this.props.actions.setActionsMenuInitialisationState?.(({[Preferences.ACTIONS_MENU_VIEWED]: true}));
+        this.setState({showActionTip: false});
+    };
+
+    handleTipDismissed = () => {
+        this.setState({showActionTip: false});
     };
 
     getDotMenuRef = () => {
@@ -560,7 +576,14 @@ export default class RhsComment extends React.PureComponent {
             );
         } else if (isPostDeleted) {
             options = null;
-        } else if (!isSystemMessage && (isMobileView || this.state.hover || this.state.a11yActive || this.state.showDotMenu || this.state.showActionsMenu || this.state.showEmojiPicker)) {
+        } else if (!isSystemMessage &&
+            (isMobileView ||
+            this.state.hover ||
+            this.state.a11yActive ||
+            this.state.showDotMenu ||
+            this.state.showActionsMenu ||
+            this.state.showActionTip ||
+            this.state.showEmojiPicker)) {
             const showActionsMenuIcon = this.props.shouldShowActionsMenu && (isMobile || this.state.hover);
             const actionsMenu = showActionsMenuIcon && (
                 <ActionsMenu
@@ -568,6 +591,10 @@ export default class RhsComment extends React.PureComponent {
                     handleDropdownOpened={this.handleActionsMenuOpened}
                     isMenuOpen={this.state.showActionsMenu}
                     showPulsatingDot={this.props.showActionsMenuPulsatingDot}
+                    showTutorialTip={this.state.showActionTip}
+                    handleOpenTip={this.handleActionsMenuTipOpened}
+                    handleNextTip={this.handleActionsMenuGotItClick}
+                    handleDismissTip={this.handleTipDismissed}
                 />
             );
             const dotMenu = (
