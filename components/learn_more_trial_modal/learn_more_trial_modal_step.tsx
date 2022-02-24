@@ -18,8 +18,6 @@ export type LearnMoreTrialModalStepProps = {
     svgWrapperClassName: string;
     svgElement: React.ReactNode;
     bottomLeftMessage?: string;
-    buttonLabel: string;
-    pageURL?: string;
 }
 
 const LearnMoreTrialModalStep = (
@@ -46,7 +44,7 @@ const LearnMoreTrialModalStep = (
             <div className='pre-title'>
                 <FormattedMessage
                     id='learn_more_trial_modal.pretitle'
-                    defaultMessage='With Enterprise, you can....'
+                    defaultMessage='With Enterprise, you can...'
                 />
             </div>
             <div className='title'>

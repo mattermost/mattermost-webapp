@@ -43,7 +43,7 @@ const LearnMoreTrialModal = (
     useEffect(() => {
         trackEvent(
             TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
-            'learn_more_trial_modal_post_enterprise_view',
+            'learn_more_trial_modal_view',
         );
     }, []);
 
@@ -108,13 +108,13 @@ const LearnMoreTrialModal = (
         }
     }, [steps]);
 
-    const getSlides = useCallback(() => steps.map(({id, ...rest}) => (
+    const getSlides = useMemo(() => steps.map(({id, ...rest}) => (
         <LearnMoreTrialModalStep
             {...rest}
             id={id}
             key={id}
         />
-    )), [steps, handleOnClose]);
+    )), []);
 
     return (
         <GenericModal
@@ -124,7 +124,7 @@ const LearnMoreTrialModal = (
             onExited={handleOnClose}
         >
             <Carousel
-                dataSlides={getSlides()}
+                dataSlides={getSlides}
                 id={'learnMoreTrialModalCarousel'}
                 infiniteSlide={false}
                 onNextSlideClick={handleOnPrevNextSlideClick}

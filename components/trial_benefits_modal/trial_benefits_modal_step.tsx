@@ -14,7 +14,7 @@ export type TrialBenefitsModalStepProps = {
     svgWrapperClassName: string;
     svgElement: React.ReactNode;
     bottomLeftMessage?: string;
-    buttonLabel: string;
+    buttonLabel?: string;
     pageURL?: string;
     onClose?: () => void;
 }
@@ -42,7 +42,7 @@ const TrialBenefitsModalStep = (
             <div className='description'>
                 {description}
             </div>
-            {pageURL && (
+            {(pageURL && buttonLabel) && (
                 <TrialBenefitsModalStepMore
                     id={id}
                     route={pageURL}

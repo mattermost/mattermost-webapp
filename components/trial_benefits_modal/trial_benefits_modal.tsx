@@ -126,7 +126,7 @@ const TrialBenefitsModal = (
             pageURL: '/playbooks/start',
             buttonLabel: formatMessage({id: 'trial_benefits.modal.playbooksButton', defaultMessage: 'Open Playbooks'}),
         },
-    ], [trialEndDate]);
+    ], []);
 
     // declares the content shown just after the trial has started
     const trialJustStartedDeclaration = {
@@ -211,8 +211,14 @@ const TrialBenefitsModal = (
         />
     )), [steps, handleOnClose]);
 
-    const trialJustStartedScreen = (declaration: Omit<TrialBenefitsModalStepProps, 'pageURL' | 'buttonLabel'>) => {
-        const {id, title, description, svgWrapperClassName, svgElement, bottomLeftMessage} = declaration;
+    const trialJustStartedScreen = ({
+        id,
+        title,
+        description,
+        svgWrapperClassName,
+        svgElement,
+        bottomLeftMessage,
+    }: TrialBenefitsModalStepProps) => {
         return (
             <div
                 id={`trialBenefitsModalStarted-${id}`}
