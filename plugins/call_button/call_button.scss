@@ -49,8 +49,8 @@ button {
 
         &.disabled {
             color: rgba(var(--center-channel-color-rgb), 0.32);
-            fill: currentColor;
             cursor: not-allowed;
+            fill: currentColor;
 
             &:hover {
                 background: none;
@@ -67,9 +67,9 @@ button {
             display: flex;
             padding: 6px 20px 6px 16px;
             margin: 0;
+            color: rgb(var(--button-bg-rgb));
             font-size: 14px;
             line-height: 20px;
-            color: rgb(var(--button-bg-rgb));
 
             svg {
                 width: 16px;
@@ -123,7 +123,6 @@ button {
                     }
                 }
 
-
                 .call-button-dropdown-sublabel {
                     color: inherit;
                     font-size: 12px;
@@ -132,4 +131,3 @@ button {
         }
     }
 }
-
