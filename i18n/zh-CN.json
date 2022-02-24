@@ -2093,8 +2093,6 @@
   "admin.sql.traceTitle": "SQL 语句记录：",
   "admin.support.aboutDesc": "在 Mattermost 登入和注册页面上\"关于\"链接地址。如果此栏留空，该链接将被隐藏。",
   "admin.support.aboutTitle": "关于链接：",
-  "admin.support.emailHelp": "显示在邮件通知的电子邮件地址。",
-  "admin.support.emailTitle": "支持邮箱：",
   "admin.support.enableAskCommunityDesc": "当为是时，Mattermost 用户界面以及帮助菜单将显示“询问社区”链接，该链接可让用户加入 Mattermost 的社区发问问题以及帮助他人解决问题。当为否时，链接将隐藏。",
   "admin.support.enableAskCommunityTitle": "启用询问社区链接：",
   "admin.support.enableTermsOfServiceHelp": "当设为是时，新用户必须在桌面、网页或移动设备上访问 Mattermost 前接受服务条款。现有的用户必须在登入或刷新页面后接受。\n\n如想更新帐号创建及登入页面的服务条款链接，请至[站点配置 > 自定义](legal_and_support)。",

@@ -2065,8 +2065,6 @@
   "admin.sql.traceTitle": "Registro de Instrucción SQL: ",
   "admin.support.aboutDesc": "La dirección URL para el enlace de Acerca en las páginas de inicio de sesión y registro de Mattermost. Si este campo está vacío, el enlace de Acerca se oculta a los usuarios.",
   "admin.support.aboutTitle": "Enlace de Acerca:",
-  "admin.support.emailHelp": "Dirección de correo electrónico mostrado en las notificaciones de correo y durante el tutorial para que los usuarios puedan hacer preguntas referente a soporte.",
-  "admin.support.emailTitle": "Correo electrónico de Soporte:",
   "admin.support.enableAskCommunityDesc": "Cuando es verdadero, el enlace \"Preguntar a la comunidad\" aparece en la interfaz de usuario de Mattermost y en el Menú principal, que permite a los usuarios unirse a la Comunidad de Mattermost para hacer preguntas y ayudar a otros a solucionar problemas. Cuando es falso, el enlace está oculto para los usuarios.",
   "admin.support.enableAskCommunityTitle": "Habilitar enlace Preguntar a la comunidad:",
   "admin.support.enableTermsOfServiceHelp": "Cuando es verdadero, los nuevos usuarios deben aceptar los términos de servicio antes de poder ingresar a cualquier equipo de Mattermost, sea con la aplicación de escritorio, web o móvil. Los usuarios existentes deberán aceptarlos luego de iniciar sesión o la próxima vez que se refresque la página.\n \nPara actualizar el enlace de los términos de servicio mostrado en las páginas de creación de cuenta e inicio de sesión, ve a [Configuración del Sitio > Personalización](../site_config/customization).",

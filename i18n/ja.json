@@ -2134,8 +2134,6 @@
   "admin.sql.traceTitle": "SQLステートメントログ: ",
   "admin.support.aboutDesc": "ログインページと利用登録ページに表示されるAboutリンクのURLです。空欄の場合、Aboutリンクはユーザーから見えなくなります。",
   "admin.support.aboutTitle": "このMattermostについてのリンク:",
-  "admin.support.emailHelp": "通知電子メールに表示される電子メールアドレスです。",
-  "admin.support.emailTitle": "サポート電子メールアドレス:",
   "admin.support.enableAskCommunityDesc": "有効な場合、ユーザーが質問したり、別のユーザーのトラブルシューティングに協力するためのMattermostコミュニティに参加できる \"コミュニティに質問する\" リンクがMattermostのユーザーインターフェースやヘルプメニューに表示されます。",
   "admin.support.enableAskCommunityTitle": "コミュニティに質問するリンクを有効にする:",
   "admin.support.enableTermsOfServiceHelp": "有効な場合、新たなユーザーはデスクトップ、ウェブ、モバイルからMattermostチームへアクセスする前に利用規約に同意する必要があります。既存のユーザーはログインもしくはページ更新後に同意を求められます。\n \nアカウント作成やログインページに表示される利用規約へのリンクを更新するには、[サイト設定 > カスタマイズ](../site_config/customization)へ移動してください。",

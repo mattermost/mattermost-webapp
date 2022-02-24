@@ -1673,7 +1673,6 @@
   "admin.sql.traceTitle": "SQL 구문 로깅: ",
   "admin.support.aboutDesc": "Mattermost 로그인 및 등록 페이지의 링크 정보 URL. 이 필드가 비어 있으면 사용자로부터 링크 정보가 숨겨짐.",
   "admin.support.aboutTitle": "링크 정보:",
-  "admin.support.emailTitle": "지원 전자우편:",
   "admin.support.helpDesc": "Mattermost 로그인 및 등록 페이지의 링크 정보 URL. 이 필드가 비어 있으면 사용자로부터 링크 정보가 숨겨짐.",
   "admin.support.helpTitle": "도움말 링크:",
   "admin.support.privacyDesc": "Mattermost 로그인 및 등록 페이지의 링크 정보 URL. 이 필드가 비어 있으면 사용자로부터 링크 정보가 숨겨짐.",
