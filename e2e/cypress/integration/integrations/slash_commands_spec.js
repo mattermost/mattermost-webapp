@@ -215,7 +215,7 @@ describe('Integrations', () => {
         cy.visit(offTopicUrl1);
 
         // # Post message
-        cy.postMessage('http://mattermost.com/wp-content/uploads/2022/02/icon_WS.png');
+        cy.postMessage('https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png');
         cy.getLastPostId().as('postID');
 
         // # Open RHS
