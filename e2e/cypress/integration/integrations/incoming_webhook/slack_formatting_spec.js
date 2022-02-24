@@ -134,7 +134,7 @@ describe('Incoming webhook', () => {
             channel: testChannel.name,
             username: 'new_username',
             text,
-            icon_url: 'http://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
+            icon_url: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
         };
 
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
