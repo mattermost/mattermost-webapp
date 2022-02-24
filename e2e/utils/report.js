@@ -193,7 +193,7 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment, te
         attachments: [{
             color: testResult.color,
             author_name: 'Webapp End-to-end Testing',
-            author_icon: 'http://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
+            author_icon: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
             author_link: 'https://www.mattermost.com/',
             title,
             text: `${quickSummary} | ${(stats.duration / (60 * 1000)).toFixed(2)} mins ${testCycleLink}\n${envValue}`,
