@@ -769,7 +769,6 @@
   "admin.environment.notifications.replyToAddress.help": "L'adresse e-mail utilisée dans le champ Reply-To lorsque Mattermost envoie des notifications par e-mail.",
   "admin.environment.notifications.replyToAddress.label": "Adresse utilisée dans le champ Reply-To des notifications par e-mail :",
   "admin.environment.notifications.replyToAddress.placeholder": "Ex. : « mattermost@votreentreprise.com », « admin@votreentreprise.com »",
-  "admin.environment.notifications.supportEmail.required": "",
   "admin.environment.pushNotificationServer": "Serveur de notifications push",
   "admin.environment.smtp": "SMTP",
   "admin.environment.smtp.connectionSecurity.option.none": "Aucun",
