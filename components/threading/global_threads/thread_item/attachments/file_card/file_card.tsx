@@ -5,7 +5,7 @@ import React, {useMemo, memo} from 'react';
 import cn from 'classnames';
 
 import {FileInfo} from 'mattermost-redux/types/files';
-import {fileSizeToString, getIconClassName, getFileType} from 'utils/utils';
+import {fileSizeToString, getCompassIconClassName, getFileType} from 'utils/utils';
 
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 import {FileTypes} from 'utils/constants';
@@ -63,8 +63,9 @@ function File({
         return (
             <div
                 className={cn(
-                    'file-icon',
-                    getIconClassName(fileType),
+                    'icon',
+                    'icon-20',
+                    getCompassIconClassName(fileType),
                     'file_card__attachment',
                 )}
             />
@@ -79,10 +80,11 @@ function File({
         );
     default:
         return (
-            <div
+            <i
                 className={cn(
-                    'file-icon',
-                    getIconClassName(fileType),
+                    'icon',
+                    'icon-20',
+                    getCompassIconClassName(fileType),
                     'file_card__attachment',
                 )}
             />

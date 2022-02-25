@@ -23,6 +23,7 @@
         flex-shrink: 0;
         margin-left: auto;
         color: rgba(var(--center-channel-color-rgb), 0.56);
+        font-size: 12px;
     }
 
     &__image {
@@ -30,16 +31,13 @@
         max-width: 28px;
         min-height: 28px;
         max-height: 28px;
-        margin-right: 4px;
+        margin-right: 8px;
         border-radius: 2px;
     }
 
-    &__attachment.file-icon {
-        min-width: 24px;
-        max-width: 28px;
-        min-height: 28px;
-        max-height: 28px;
+    &__attachment {
         margin-right: 4px;
-        background-size: 20px 24px;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+        font-family: 'compass-icons';
     }
 }
