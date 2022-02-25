@@ -180,7 +180,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
 
         return {
             index: 0,
-            position: 'end',
+            position: 'start',
         };
     }
 
@@ -290,19 +290,11 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         });
     }
 
-    scrollToItem = (index: number, position: string, offset?: number) => {
-        if (this.listRef.current) {
-            this.listRef.current.scrollToItem(index, position, offset);
-        }
-    }
+    scrollToItem = (index: number, position: string, offset?: number) => this.listRef.current?.scrollToItem(index, position, offset);
 
-    scrollToBottom = () => {
-        this.scrollToItem(0, 'auto', this.postCreateContainerRef.current?.offsetHeight);
-    }
+    scrollToBottom = () => this.scrollToItem(0, 'auto', 0);
 
-    handleToastDismiss = () => {
-        this.setState({lastViewedBottom: Date.now()});
-    }
+    handleToastDismiss = () => this.setState({lastViewedBottom: Date.now()});
 
     handleToastClick = () => {
         const index = getNewMessageIndex(this.props.replyListIds);
