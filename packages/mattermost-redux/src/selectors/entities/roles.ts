@@ -18,7 +18,6 @@ import {General, Permissions} from 'mattermost-redux/constants';
 import {Role} from 'mattermost-redux/types/roles';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GroupMembership, GroupPermissions} from 'mattermost-redux/types/groups';
-import Constants from 'utils/constants';
 
 export {getMySystemPermissions, getMySystemRoles, getRoles};
 
@@ -84,8 +83,8 @@ export const getGroupListPermissions: (state: GlobalState) => Record<string, Gro
         const groupPermissionsMap: Record<string, GroupPermissions> = {};
         groups.forEach((g) => {
             groupPermissionsMap[g.id] = {
-                can_delete: permissions.has(Permissions.DELETE_CUSTOM_GROUP) && g.source.toLowerCase() !== Constants.LDAP_SERVICE,
-                can_manage_members: permissions.has(Permissions.MANAGE_CUSTOM_GROUP_MEMBERS) && g.source.toLowerCase() !== Constants.LDAP_SERVICE,
+                can_delete: permissions.has(Permissions.DELETE_CUSTOM_GROUP) && g.source.toLowerCase() !== 'ldap',
+                can_manage_members: permissions.has(Permissions.MANAGE_CUSTOM_GROUP_MEMBERS) && g.source.toLowerCase() !== 'ldap',
             };
         });
         return groupPermissionsMap;
