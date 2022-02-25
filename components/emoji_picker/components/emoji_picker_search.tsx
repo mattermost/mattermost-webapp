@@ -48,23 +48,32 @@ const EmojiPickerSearch = forwardRef<HTMLInputElement, Props>(({value, customEmo
             // If the cursor is at the end of the textbox and an emoji is currently selected, move it to the next emoji
             if ((event.currentTarget?.selectionStart ?? 0) + 1 > value.length || (cursorCategoryIndex !== -1 || cursorEmojiIndex !== -1)) {
                 event.preventDefault();
+                event.stopPropagation();
+
                 onKeyDown(NavigationDirection.NextEmoji);
             }
             break;
         case 'ArrowLeft':
             if (cursorCategoryIndex > 0 || cursorEmojiIndex > 0) {
                 event.preventDefault();
+                event.stopPropagation();
+
                 onKeyDown(NavigationDirection.PreviousEmoji);
             } else if (cursorCategoryIndex === 0 && cursorEmojiIndex === 0) {
                 resetCursorPosition();
                 event.currentTarget.selectionStart = value.length;
                 event.currentTarget.selectionEnd = value.length;
+
                 event.preventDefault();
+                event.stopPropagation();
+
                 focus();
             }
             break;
         case 'ArrowUp':
             event.preventDefault();
+            event.stopPropagation();
+
             if (event.shiftKey) {
                 // If Shift + Ctrl/Cmd + Up is pressed at any time, select/highlight the string to the left of the cursor.
                 event.currentTarget.selectionStart = 0;
@@ -86,6 +95,8 @@ const EmojiPickerSearch = forwardRef<HTMLInputElement, Props>(({value, customEmo
             break;
         case 'ArrowDown':
             event.preventDefault();
+            event.stopPropagation();
+
             if (event.shiftKey) {
                 // If Shift + Ctrl/Cmd + Down is pressed at any time, select/highlight the string to the right of the cursor.
                 event.currentTarget.selectionEnd = value.length;
@@ -100,6 +111,8 @@ const EmojiPickerSearch = forwardRef<HTMLInputElement, Props>(({value, customEmo
             break;
         case 'Enter': {
             event.preventDefault();
+            event.stopPropagation();
+
             onEnter();
             break;
         }

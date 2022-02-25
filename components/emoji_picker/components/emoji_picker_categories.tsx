@@ -34,28 +34,34 @@ function EmojiPickerCategories({
         switch (event.key) {
         case 'ArrowRight':
             event.preventDefault();
+            event.stopPropagation();
             onKeyDown(NavigationDirection.NextEmoji);
             focusOnSearchInput();
             break;
         case 'ArrowLeft':
             event.preventDefault();
+            event.stopPropagation();
             onKeyDown(NavigationDirection.PreviousEmoji);
             focusOnSearchInput();
             break;
         case 'ArrowUp':
             event.preventDefault();
+            event.stopPropagation();
             onKeyDown(NavigationDirection.PreviousEmojiRow);
             focusOnSearchInput();
             break;
         case 'ArrowDown':
             event.preventDefault();
+            event.stopPropagation();
             onKeyDown(NavigationDirection.NextEmojiRow);
             focusOnSearchInput();
             break;
         }
     };
 
-    const activeCategory = isFiltering ? Object.keys(categories)[0] : active;
+    const categoryNames = Object.keys(categories) as EmojiCategory[];
+
+    const activeCategory = isFiltering ? categoryNames[0] : active;
 
     return (
         <div
@@ -63,8 +69,8 @@ function EmojiPickerCategories({
             className='emoji-picker__categories'
             onKeyDown={handleKeyDown}
         >
-            {Object.keys(categories).map((categoryName) => {
-                const category = categories[categoryName as EmojiCategory];
+            {categoryNames.map((categoryName) => {
+                const category = categories[categoryName];
 
                 return (
                     <EmojiPickerCategory
