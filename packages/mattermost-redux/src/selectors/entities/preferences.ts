@@ -195,14 +195,12 @@ export function isCollapsedThreadsAllowed(state: GlobalState): boolean {
     );
 }
 
-export const isCollapsedThreadsEnabled = createSelector(
-    'isCollapsedThreadsEnabled',
-    isCollapsedThreadsAllowed,
-    getCollapsedThreadsPreference,
-    getConfig,
-    (collapsedThreadAllowed, collapsedThreadPreference, config) => collapsedThreadAllowed &&
-            (collapsedThreadPreference === Preferences.COLLAPSED_REPLY_THREADS_ON || (config.CollapsedThreads as string) === 'always_on'),
-);
+export function isCollapsedThreadsEnabled(state: GlobalState): boolean {
+    const isAllowed = isCollapsedThreadsAllowed(state);
+    const userPreference = getCollapsedThreadsPreference(state);
+
+    return isAllowed && (userPreference === Preferences.COLLAPSED_REPLY_THREADS_ON || getConfig(state).CollapsedThreads as string === 'always_on');
+}
 
 export function isGroupChannelManuallyVisible(state: GlobalState, channelId: string): boolean {
     return getBool(state, Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channelId, false);

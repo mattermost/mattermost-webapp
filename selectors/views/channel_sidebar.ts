@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import memoizeOne from 'memoize-one';
-
 import {createSelector} from 'reselect';
 
 import {
@@ -27,12 +25,9 @@ import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import {DraggingState, GlobalState} from 'types/store';
 
-export const isUnreadFilterEnabled = createSelector(
-    'isUnreadFilterEnabled',
-    (state: GlobalState) => state.views.channelSidebar.unreadFilterEnabled,
-    shouldShowUnreadsCategory,
-    (isUnreadFilterEnabled, showUnreadsCategory) => isUnreadFilterEnabled && !showUnreadsCategory,
-);
+export function isUnreadFilterEnabled(state: GlobalState): boolean {
+    return state.views.channelSidebar.unreadFilterEnabled && !shouldShowUnreadsCategory(state);
+}
 
 export const getCategoriesForCurrentTeam: (state: GlobalState) => ChannelCategory[] = (() => {
     const getCategoriesForTeam = makeGetCategoriesForTeam();
@@ -214,11 +209,11 @@ function maxDefined(a: number, b?: number) {
     return typeof b === 'undefined' ? a : Math.max(a, b);
 }
 
+// WARNING: below functions are used in getDisplayedChannels only. Do not use it elsewhere.
 function concatChannels(channelsA: Channel[], channelsB: Channel[]) {
     return [...channelsA, ...channelsB];
 }
-
-const memoizedConcatChannels = memoizeOne(concatChannels);
+const memoizedConcatChannels = memoizeResult(concatChannels);
 
 // Returns an array of channels in the order that they currently appear in the sidebar. Channels are filtered out if they
 // are hidden such as by a collapsed category or the unread filter.
