@@ -10,7 +10,7 @@ Cypress.Commands.add('uiCreateSidebarCategory', (categoryName = `category-${getR
     // # Click the Create New Category dropdown item
     cy.get('.AddChannelDropdown').should('be.visible').contains('.MenuItem', 'Create New Category').click();
 
-    cy.findByRole('dialog', {name: 'Create New Category'}).should('be.visible').within(() => {
+    cy.findByRole('dialog', {name: 'Rename Category'}).should('be.visible').within(() => {
         // # Fill in the category name and click 'Create'
         cy.findByRole('textbox').should('be.visible').type(categoryName, {force: true}).
             invoke('val').should('equal', categoryName);
@@ -31,7 +31,7 @@ Cypress.Commands.add('uiMoveChannelToCategory', (channelName, categoryName = `ca
         click({force: true});
 
     if (newCategory) {
-        cy.findByRole('dialog', {name: 'Create New Category'}).should('be.visible').within(() => {
+        cy.findByRole('dialog', {name: 'Rename Category'}).should('be.visible').within(() => {
             // # Fill in the category name and click 'Create'
             cy.findByRole('textbox').should('be.visible').type(categoryName, {force: true}).
                 invoke('val').should('equal', categoryName);

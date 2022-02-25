@@ -5,7 +5,7 @@ import React from 'react';
 
 import PageLine from './page_line';
 
-import './single_column_layout.scss';
+import './progress_path.scss';
 
 type Props = {
     children: React.ReactNode | React.ReactNodeArray;
@@ -14,9 +14,9 @@ type Props = {
     style?: React.CSSProperties;
     lineDistance?: number;
     lineLeft?: number;
-};
+}
 
-export default function SingleColumnLayout(props: Props) {
+export default function ProgressPath(props: Props) {
     let showBeforePath = true;
     if (props.beforePath === false) {
         showBeforePath = false;
@@ -27,7 +27,7 @@ export default function SingleColumnLayout(props: Props) {
         showAfterPath = false;
     }
 
-    const lineDistance = props.lineDistance === undefined ? 40 : Math.abs(props.lineDistance);
+    const lineDistance = props.lineDistance === undefined ? 15 : Math.abs(props.lineDistance);
     const lineLeft = props.lineLeft === undefined ? 99 : Math.abs(props.lineLeft);
 
     let children = props.children;
@@ -37,17 +37,16 @@ export default function SingleColumnLayout(props: Props) {
 
     return (
         <div
-            className='SingleColumnLayout'
+            className='ProgressPath'
             style={props.style}
         >
             {showBeforePath && (
                 <PageLine
                     style={{
-                        flexGrow: '1',
-                        flexShrink: '1',
-                        height: '50vh',
-                        marginBottom: `${lineDistance}px`,
+                        height: '40vh',
                         left: `${lineLeft}px`,
+                        position: 'absolute',
+                        transform: `translateY(calc(-100% - ${lineDistance}px))`,
                     }}
                 />
             )}
@@ -55,11 +54,10 @@ export default function SingleColumnLayout(props: Props) {
             {showAfterPath && (
                 <PageLine
                     style={{
-                        flexGrow: '1',
-                        flexShrink: '1',
-                        height: '50vh',
-                        marginTop: `${lineDistance}px`,
+                        height: '56vh',
+                        transform: `translateY(${lineDistance}px)`,
                         left: `${lineLeft}px`,
+                        position: 'absolute',
                     }}
                 />
             )}
