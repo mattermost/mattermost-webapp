@@ -35,24 +35,6 @@ export function isCategoryHeaderRow(row: CategoryOrEmojiRow): row is CategoryHea
     return row.type === CATEGORY_HEADER_ROW;
 }
 
-function seperateRecentFromFilteredEmojis(filteredEmojis: Emoji[], recentEmojisString: string[]) {
-    const recentEmojis: Emoji[] = [];
-    const filtertedEmojisMinusRecent: Emoji[] = [];
-
-    Object.values(filteredEmojis).forEach((emoji) => {
-        const aliases = isSystemEmoji(emoji) ? emoji.short_names : [emoji.name];
-        aliases.forEach((alias) => {
-            if (recentEmojisString.includes(alias.toLowerCase())) {
-                recentEmojis.push(emoji);
-            } else {
-                filtertedEmojisMinusRecent.push(emoji);
-            }
-        });
-    });
-
-    return [filtertedEmojisMinusRecent, recentEmojis];
-}
-
 function getFilteredEmojis(allEmojis: Record<string, Emoji>, filter: string, recentEmojisString: string[]): Emoji[] {
     const filteredEmojisWithRecent = Object.values(allEmojis).filter((emoji) => {
         const aliases = isSystemEmoji(emoji) ? emoji.short_names : [emoji.name];
@@ -66,17 +48,27 @@ function getFilteredEmojis(allEmojis: Record<string, Emoji>, filter: string, rec
         return false;
     });
 
-    const [filtertedEmojisMinusRecent, recentEmojis] = seperateRecentFromFilteredEmojis(filteredEmojisWithRecent, recentEmojisString);
+    // Form a separate array of recent emojis
+    const recentEmojis = filteredEmojisWithRecent.filter((emoji) => {
+        const emojiId = isSystemEmoji(emoji) ? emoji.unified : emoji.id;
+        return recentEmojisString.includes(emojiId.toLowerCase());
+    });
 
     const sortedRecentEmojis = recentEmojis.sort((firstEmoji, secondEmoji) =>
         compareEmojis(firstEmoji, secondEmoji, filter),
     );
 
-    const sortedFilteredEmojis = filtertedEmojisMinusRecent.sort((firstEmoji, secondEmoji) =>
+    // Seprate out recent emojis from the rest of the emoji result
+    const filtertedEmojisMinusRecent = filteredEmojisWithRecent.filter((emoji) => {
+        const emojiId = isSystemEmoji(emoji) ? emoji.unified : emoji.id;
+        return !recentEmojisString.includes(emojiId.toLowerCase());
+    });
+
+    const sortedFiltertedEmojisMinusRecent = filtertedEmojisMinusRecent.sort((firstEmoji, secondEmoji) =>
         compareEmojis(firstEmoji, secondEmoji, filter),
     );
 
-    const filteredEmojis = [...sortedRecentEmojis, ...sortedFilteredEmojis];
+    const filteredEmojis = [...sortedRecentEmojis, ...sortedFiltertedEmojisMinusRecent];
 
     return filteredEmojis;
 }

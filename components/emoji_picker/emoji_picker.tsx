@@ -191,23 +191,22 @@ const EmojiPicker = ({
             return emojiPositions[currentCursorsPositionIndex - EMOJI_PER_ROW];
         }
 
-        // When emoji up the row may be less than emoji_per_row
-        // check if the any other category apart from cursor category exists
-        const lastEmojiUpTheRowWithFewEmojis = emojiPositions.slice(0, currentCursorsPositionIndex).reverse().find((emojiPosition) => {
+        // When emojis in the assumingly top row are less than EMOJI_PER_ROW,
+        // Check if those are of different category
+        const startingEmojisOfDifferentCategory = emojiPositions.slice(0, currentCursorsPositionIndex).reverse().find((emojiPosition) => {
             return emojiPosition.categoryName !== cursorCategory;
         });
 
-        if (lastEmojiUpTheRowWithFewEmojis) {
-            return lastEmojiUpTheRowWithFewEmojis;
+        if (startingEmojisOfDifferentCategory) {
+            return startingEmojisOfDifferentCategory;
         }
 
-        // We are at the first row, so focus on search
+        // We are already at the first row, so focus on search
         focusOnSearchInput();
-
         return undefined;
     }
 
-    function calculateNewCursorForRightLeftArrow(moveTo: NavigationDirection, emojiPositions: EmojiPosition[], currentCursorIndexInEmojis: number, focusOnSearchInput: () => void) {
+    function calculateNewCursorForRightOrLeftArrow(moveTo: NavigationDirection, emojiPositions: EmojiPosition[], currentCursorIndexInEmojis: number, focusOnSearchInput: () => void) {
         if (moveTo === NavigationDirection.NextEmoji && ((currentCursorIndexInEmojis + 1) < emojiPositions.length)) {
             // When next emoji is present, move to next emoji
             return emojiPositions[currentCursorIndexInEmojis + 1];
@@ -244,12 +243,16 @@ const EmojiPicker = ({
             return emojiPositions[currentCursorsPositionIndex + EMOJI_PER_ROW];
         }
 
-        // When emoji down the row is not present, move to next emoji
-        if ((currentCursorsPositionIndex + 1) < emojiPositions.length) {
-            return emojiPositions[currentCursorsPositionIndex + 1];
+        // When emoji down the row is not present.
+        // Check if the remaining emojis are of different category
+        const endingEmojisOfDifferentCategory = emojiPositions.slice(currentCursorsPositionIndex + 1, emojiPositions.length).find((emojiPosition) => {
+            return emojiPosition.categoryName !== cursorCategory;
+        });
+
+        if (endingEmojisOfDifferentCategory) {
+            return endingEmojisOfDifferentCategory;
         }
 
-        // When next emoji is not present too, we are at last row
         return undefined;
     }
 
@@ -268,7 +271,7 @@ const EmojiPicker = ({
             if (currentCursorsPositionIndex === -1) {
                 newCursor = undefined;
             } else if (moveTo === NavigationDirection.NextEmoji || moveTo === NavigationDirection.PreviousEmoji) {
-                newCursor = calculateNewCursorForRightLeftArrow(moveTo, emojiPositions, currentCursorsPositionIndex, focusOnSearchInput);
+                newCursor = calculateNewCursorForRightOrLeftArrow(moveTo, emojiPositions, currentCursorsPositionIndex, focusOnSearchInput);
             } else if (moveTo === NavigationDirection.NextEmojiRow) {
                 newCursor = calculateNewCursorForDownArrow(cursorCategory, emojiPositions, currentCursorsPositionIndex, categories);
             } else if (moveTo === NavigationDirection.PreviousEmojiRow) {

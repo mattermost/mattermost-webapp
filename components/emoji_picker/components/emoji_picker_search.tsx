@@ -47,16 +47,16 @@ const EmojiPickerSearch = forwardRef<HTMLInputElement, Props>(({value, customEmo
         case 'ArrowRight':
             // If the cursor is at the end of the textbox and an emoji is currently selected, move it to the next emoji
             if ((event.currentTarget?.selectionStart ?? 0) + 1 > value.length || (cursorCategoryIndex !== -1 || cursorEmojiIndex !== -1)) {
-                event.preventDefault();
                 event.stopPropagation();
+                event.preventDefault();
 
                 onKeyDown(NavigationDirection.NextEmoji);
             }
             break;
         case 'ArrowLeft':
             if (cursorCategoryIndex > 0 || cursorEmojiIndex > 0) {
-                event.preventDefault();
                 event.stopPropagation();
+                event.preventDefault();
 
                 onKeyDown(NavigationDirection.PreviousEmoji);
             } else if (cursorCategoryIndex === 0 && cursorEmojiIndex === 0) {
@@ -64,15 +64,15 @@ const EmojiPickerSearch = forwardRef<HTMLInputElement, Props>(({value, customEmo
                 event.currentTarget.selectionStart = value.length;
                 event.currentTarget.selectionEnd = value.length;
 
-                event.preventDefault();
                 event.stopPropagation();
+                event.preventDefault();
 
                 focus();
             }
             break;
         case 'ArrowUp':
-            event.preventDefault();
             event.stopPropagation();
+            event.preventDefault();
 
             if (event.shiftKey) {
                 // If Shift + Ctrl/Cmd + Up is pressed at any time, select/highlight the string to the left of the cursor.
@@ -94,8 +94,8 @@ const EmojiPickerSearch = forwardRef<HTMLInputElement, Props>(({value, customEmo
             }
             break;
         case 'ArrowDown':
-            event.preventDefault();
             event.stopPropagation();
+            event.preventDefault();
 
             if (event.shiftKey) {
                 // If Shift + Ctrl/Cmd + Down is pressed at any time, select/highlight the string to the right of the cursor.
@@ -110,8 +110,8 @@ const EmojiPickerSearch = forwardRef<HTMLInputElement, Props>(({value, customEmo
             }
             break;
         case 'Enter': {
-            event.preventDefault();
             event.stopPropagation();
+            event.preventDefault();
 
             onEnter();
             break;

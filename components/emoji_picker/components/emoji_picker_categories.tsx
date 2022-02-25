@@ -33,26 +33,26 @@ function EmojiPickerCategories({
     const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
         switch (event.key) {
         case 'ArrowRight':
-            event.preventDefault();
             event.stopPropagation();
+            event.preventDefault();
             onKeyDown(NavigationDirection.NextEmoji);
             focusOnSearchInput();
             break;
         case 'ArrowLeft':
-            event.preventDefault();
             event.stopPropagation();
+            event.preventDefault();
             onKeyDown(NavigationDirection.PreviousEmoji);
             focusOnSearchInput();
             break;
         case 'ArrowUp':
-            event.preventDefault();
             event.stopPropagation();
+            event.preventDefault();
             onKeyDown(NavigationDirection.PreviousEmojiRow);
             focusOnSearchInput();
             break;
         case 'ArrowDown':
-            event.preventDefault();
             event.stopPropagation();
+            event.preventDefault();
             onKeyDown(NavigationDirection.NextEmojiRow);
             focusOnSearchInput();
             break;
