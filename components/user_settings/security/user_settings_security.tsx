@@ -982,7 +982,6 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                     </button>
                     <h4
                         className='modal-title'
-                        ref='title'
                     >
                         <div className='modal-back'>
                             <LocalizedIcon
