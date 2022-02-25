@@ -45,7 +45,7 @@ describe('Keyboard Shortcuts', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
     });
 
-    it('MM-T1243 CTRL/CMD+K - Create thread, Open global threads and then from find channels switch channel using arrow keys and Enter', () => {
+    it('MM-T4648 CTRL/CMD+K - Create thread, Open global threads and then from find channels switch channel using arrow keys and Enter', () => {
         // # Post first message as other user
         cy.postMessageAs({
             sender: otherUser,
