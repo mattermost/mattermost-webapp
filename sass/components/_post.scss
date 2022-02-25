@@ -664,10 +664,7 @@
     overflow: hidden;
     max-width: 100%;
     padding: 8px 0.5em 0 1.5em; // If this needs to be changed then .post-row__padding needs to be adjusted accordingly
-    transition: height 200ms, background-color 200ms;
     word-wrap: break-word;
-
-    transition: height 200ms, background-color 200ms;
 
     &:not(.post--editing):not(.post--editing):hover {
         background-color: rgba(v(center-channel-color-rgb), 0.04);
