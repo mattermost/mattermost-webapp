@@ -6,7 +6,6 @@ import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
 import PhoneOutlineIcon from '@mattermost/compass-icons/components/phone-outline';
-
 import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
