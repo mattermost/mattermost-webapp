@@ -1,5 +1,6 @@
 @import 'utils/variables';
 @import 'utils/mixins';
+@import './mixins';
 
 .UseCase-body {
     display: flex;
@@ -9,49 +10,16 @@
     position: relative;
 }
 
-.UseCase-left-col {
-    width: 210px;
-    min-width: 210px;
-}
-
 .UseCase-right-col {
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-.UseCase {
-    &__progress-path {
-        position: absolute;
-        top: -10px;
-        left: -210px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-end;
-        text-align: center;
-    }
-}
-
-// 1136 is width at which the cards start hitting screen and wrapping to next line.
-@media screen and (max-width: 1136px) {
-    .UseCase-body .MultiSelectCards {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-right: 16px;
-
-        .MultiSelectCard {
-            width: 100%;
-            max-width: 500px;
-            flex-grow: 1;
-            margin-right: 0;
-            margin-bottom: 16px;
-
-            &:last-child {
-                margin-bottom: 0;
-            }
-        }
+// preempt cards wrapping
+@media screen and (max-width: 1100px) {
+    .UseCase-body {
+        @include stacked-multi-select;
     }
 }
 

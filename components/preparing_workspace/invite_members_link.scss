@@ -2,6 +2,7 @@
     display: flex;
 
     &__input {
+        max-width: 382px;
         height: 48px;
         flex-grow: 1;
         padding: 12px 14px;
@@ -18,7 +19,6 @@
     &__button {
         display: flex;
         width: 180px;
-        max-width: 382px;
         height: 48px;
         flex-grow: 0;
         align-items: center;

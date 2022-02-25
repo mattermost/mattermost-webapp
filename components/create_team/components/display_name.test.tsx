@@ -148,7 +148,7 @@ describe('/components/create_team/components/display_name', () => {
     test('should display charLength error', () => {
         const wrapper = mountWithIntl(<DisplayName {...defaultProps}/>);
         const input = (wrapper.find('.form-control') as unknown as ReactWrapper<any, any, HTMLInputElement>).instance();
-        input.value = 'should_trigger_an_error_because_it_exceeds_MAX_TEAMNAME_LENGTH';
+        input.value = 'a'.repeat(Constants.MAX_TEAMNAME_LENGTH + 1);
         wrapper.find('.form-control').simulate('change');
 
         wrapper.find('button').simulate('click', {
