@@ -1,5 +1,35 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
+import {ServerError} from 'mattermost-redux/types/errors';
+
+export class ClientError extends Error {
+    server_error_id?: string;
+    stack?: string;
+    intl?: {
+        id: string;
+        defaultMessage: string;
+        values?: any;
+    };
+    message: string;
+    status_code?: number;
+    url?: string;
+
+    constructor(baseUrl: string, data: ServerError) {
+        super(data.message + ': ' + cleanUrlForLogging(baseUrl, data.url || ''));
+
+        this.message = data.message;
+        this.url = data.url;
+        this.intl = data.intl;
+        this.server_error_id = data.server_error_id;
+        this.status_code = data.status_code;
+
+        // Ensure message is treated as a property of this class when object spreading. Without this,
+        // copying the object by using `{...error}` would not include the message.
+        Object.defineProperty(this, 'message', {enumerable: true});
+    }
+}
+
 // Given a URL from an API request, return a URL that has any parts removed that are either sensitive or that would
 // prevent properly grouping the messages in Sentry.
 export function cleanUrlForLogging(baseUrl: string, apiUrl: string): string {
