@@ -1916,8 +1916,6 @@
   "admin.sql.traceTitle": "Log de Instrução SQL: ",
   "admin.support.aboutDesc": "A URL para o link de Sobre nas páginas do Mattermost de login e inscrição. Se este campo estiver vazio, o link Sobre será escondido dos usuários.",
   "admin.support.aboutTitle": "Link Sobre:",
-  "admin.support.emailHelp": "Endereço de email mostrado na notificação de email e durante o tutorial para o usuário final pedir suporte.",
-  "admin.support.emailTitle": "Email de suporte:",
   "admin.support.enableAskCommunityDesc": "Quando verdadeiro, o link \"Pergunte à comunidade\" aparece na interface do usuário e no Menu principal do Mattermost, que permite que os usuários ingressem na Comunidade do Mattermost para fazer perguntas e ajudar outras pessoas a solucionar problemas. Quando falso, o link fica oculto para os usuários.",
   "admin.support.enableAskCommunityTitle": "Ativar link Pergunte a Comunidade:",
   "admin.support.enableTermsOfServiceHelp": "Quando verdadeiro, novos usuários devem aceitar os termos de serviço antes de acessar qualquer equipe da Mattermost no desktop, na web ou no celular. Os usuários existentes devem aceitá-los após o login ou uma atualização da página.\n \nPara atualizar o link dos termos de serviço exibidos nas páginas de criação e login da conta, vá para [Configuração do site > Customização](../site_config/customization).",

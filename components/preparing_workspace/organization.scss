@@ -10,11 +10,6 @@
     position: relative;
 }
 
-.Organization-left-col {
-    width: 210px;
-    min-width: 210px;
-}
-
 .Organization-right-col {
     display: flex;
     flex-direction: column;
@@ -40,19 +35,13 @@
 
     &__progress-path {
         position: absolute;
-        top: -25px;
-        left: -210px;
+        top: -35px;
+        left: -200px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: flex-end;
         text-align: center;
-    }
-}
-
-@media screen and (max-width: 700px) {
-    .Organization-left-col {
-        display: none;
     }
 }
 
