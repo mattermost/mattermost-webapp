@@ -110,7 +110,6 @@ import {
 } from 'mattermost-redux/types/data_retention';
 import {CompleteOnboardingRequest} from 'mattermost-redux/types/setup';
 
-import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {UserThreadList, UserThread, UserThreadWithPost} from 'mattermost-redux/types/threads';
 
 import {ClientError} from './error';
@@ -3909,4 +3908,16 @@ export function parseAndMergeNestedHeaders(originalHeaders: any) {
         headers.set(capitalizedKey, realVal);
     });
     return new Map([...headers, ...nestedHeaders]);
+}
+
+function spaceSeparatedStringIncludes(item: string, spaceSeparated?: string): boolean {
+    if (spaceSeparated) {
+        const items = spaceSeparated?.split(' ');
+        return items.includes(item);
+    }
+    return false;
+}
+
+function isSystemAdmin(roles: string): boolean {
+    return spaceSeparatedStringIncludes('system_admin', roles);
 }
