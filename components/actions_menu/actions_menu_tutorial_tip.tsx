@@ -44,6 +44,7 @@ export const ActionsTutorialTip = ({handleOpen, handleDismiss, handleNext, showT
     return (
         <TourTip
             show={showTip}
+            onHidden={handleDismiss}
             screen={screen}
             title={title}
             overlayPunchOut={overlayPunchOut}

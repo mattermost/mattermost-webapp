@@ -210,8 +210,6 @@ export default class PostInfo extends React.PureComponent<Props, State> {
 
     handleActionsMenuOpened = (open: boolean) => {
         if (this.props.showActionsMenuPulsatingDot) {
-            this.setState({showActionTip: true});
-            this.props.handleDropdownOpened(true);
             return;
         }
         this.setState({showActionsMenu: open});
@@ -230,6 +228,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
 
     handleTipDismissed = () => {
         this.setState({showActionTip: false});
+        this.props.handleDropdownOpened(false);
     };
 
     getDotMenu = (): HTMLDivElement => this.dotMenuRef.current as HTMLDivElement;
