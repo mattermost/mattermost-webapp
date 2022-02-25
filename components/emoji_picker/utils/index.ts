@@ -35,47 +35,30 @@ export function isCategoryHeaderRow(row: CategoryOrEmojiRow): row is CategoryHea
     return row.type === CATEGORY_HEADER_ROW;
 }
 
-function sortEmojis(
-    emojis: Emoji[],
-    recentEmojiStrings: string[],
-    filter: string,
-) {
+function seperateRecentFromFilteredEmojis(filteredEmojis: Emoji[], recentEmojisString: string[]) {
     const recentEmojis: Emoji[] = [];
-    const emojisMinusRecent: Emoji[] = [];
+    const filtertedEmojisMinusRecent: Emoji[] = [];
 
-    Object.values(emojis).forEach((emoji) => {
-        let emojiArray = emojisMinusRecent;
-
-        const alias = isSystemEmoji(emoji) ? emoji.short_names : [emoji.name];
-        for (let i = 0; i < alias.length; i++) {
-            if (recentEmojiStrings.includes(alias[i].toLowerCase())) {
-                emojiArray = recentEmojis;
+    Object.values(filteredEmojis).forEach((emoji) => {
+        const aliases = isSystemEmoji(emoji) ? emoji.short_names : [emoji.name];
+        aliases.forEach((alias) => {
+            if (recentEmojisString.includes(alias.toLowerCase())) {
+                recentEmojis.push(emoji);
+            } else {
+                filtertedEmojisMinusRecent.push(emoji);
             }
-        }
-
-        emojiArray.push(emoji);
+        });
     });
 
-    return [
-        ...recentEmojis.sort((firstEmoji, secondEmoji) =>
-            compareEmojis(firstEmoji, secondEmoji, filter),
-        ),
-        ...emojisMinusRecent.sort((firstEmoji, secondEmoji) =>
-            compareEmojis(firstEmoji, secondEmoji, filter),
-        ),
-    ];
+    return [filtertedEmojisMinusRecent, recentEmojis];
 }
 
-function getFilteredEmojis(
-    allEmojis: Record<string, Emoji>,
-    filter: string,
-    recentEmojisString: string[],
-): Emoji[] {
-    const emojis = Object.values(allEmojis).filter((emoji) => {
-        const alias = isSystemEmoji(emoji) ? emoji.short_names : [emoji.name];
+function getFilteredEmojis(allEmojis: Record<string, Emoji>, filter: string, recentEmojisString: string[]): Emoji[] {
+    const filteredEmojisWithRecent = Object.values(allEmojis).filter((emoji) => {
+        const aliases = isSystemEmoji(emoji) ? emoji.short_names : [emoji.name];
 
-        for (let i = 0; i < alias.length; i++) {
-            if (alias[i].toLowerCase().includes(filter)) {
+        for (let i = 0; i < aliases.length; i++) {
+            if (aliases[i].toLowerCase().includes(filter)) {
                 return true;
             }
         }
@@ -83,7 +66,19 @@ function getFilteredEmojis(
         return false;
     });
 
-    return sortEmojis(emojis, recentEmojisString, filter);
+    const [filtertedEmojisMinusRecent, recentEmojis] = seperateRecentFromFilteredEmojis(filteredEmojisWithRecent, recentEmojisString);
+
+    const sortedRecentEmojis = recentEmojis.sort((firstEmoji, secondEmoji) =>
+        compareEmojis(firstEmoji, secondEmoji, filter),
+    );
+
+    const sortedFilteredEmojis = filtertedEmojisMinusRecent.sort((firstEmoji, secondEmoji) =>
+        compareEmojis(firstEmoji, secondEmoji, filter),
+    );
+
+    const filteredEmojis = [...sortedRecentEmojis, ...sortedFilteredEmojis];
+
+    return filteredEmojis;
 }
 
 // Note : This function is not an idea implementation, a more better and efficeint way to do this come when we make changes to emoji json.
