@@ -80,6 +80,8 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
             barStyle.backgroundColor = this.props.color;
             barStyle.color = this.props.textColor;
             linkStyle.color = this.props.textColor;
+        } else if (this.props.type === AnnouncementBarTypes.DEVELOPER) {
+            barClass = 'announcement-bar announcement-bar-critical';
         } else if (this.props.type === AnnouncementBarTypes.CRITICAL) {
             barClass = 'announcement-bar announcement-bar-critical';
         } else if (this.props.type === AnnouncementBarTypes.SUCCESS) {
