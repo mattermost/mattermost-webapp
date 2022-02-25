@@ -559,6 +559,13 @@ export function applyTheme(theme) {
     }
     updateCodeTheme(theme.codeTheme);
 
+    // Use in visual testing only
+    if (theme.hideInVisualTesting) {
+        theme.hideInVisualTesting.split(',').forEach((targetClass) => {
+            changeCss(targetClass.trim(), 'visibility: hidden !important');
+        });
+    }
+
     cssVars({
         variables: {
 

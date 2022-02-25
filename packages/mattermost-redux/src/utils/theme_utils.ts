@@ -152,11 +152,11 @@ export function setThemeDefaults(theme: Partial<Theme>): Theme {
         if (property === 'type' || (property === 'sidebarTeamBarBg' && theme.sidebarHeaderBg)) {
             continue;
         }
-        if (theme[property] == null) {
+        if (theme[property] == null && property !== 'hideInVisualTesting') {
             processedTheme[property] = defaultTheme[property];
         }
 
-        // Backwards compatability with old name
+        // Backwards compatibility with old name
         if (!theme.mentionBg && theme.mentionBj) {
             processedTheme.mentionBg = theme.mentionBj;
         }

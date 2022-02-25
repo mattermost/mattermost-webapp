@@ -127,7 +127,7 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                 >
                     <MenuWrapper
                         onToggle={handleMenuToggle}
-                        className='SidebarHeaderMenuWrapper'
+                        className='SidebarHeaderMenuWrapper hide-team-header'
                     >
                         <SidebarHeading>
                             <span className='title'>{currentTeam.display_name}</span>

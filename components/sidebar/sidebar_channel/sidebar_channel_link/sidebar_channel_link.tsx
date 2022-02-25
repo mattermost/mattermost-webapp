@@ -258,6 +258,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         // NOTE: class added to temporarily support the desktop app's at-mention DOM scraping of the old sidebar
         const className = classNames([
             'SidebarLink',
+            `hide-sidebar-${channel.name}`,
             {
                 menuOpen: this.state.isMenuOpen,
                 muted: isMuted,

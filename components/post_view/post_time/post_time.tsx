@@ -65,7 +65,7 @@ export default class PostTime extends React.PureComponent<Props> {
         const postTime = (
             <Timestamp
                 value={eventTime}
-                className='post__time'
+                className={'post__time hide-post-header-time'}
                 useDate={false}
                 {...timestampProps}
             />
