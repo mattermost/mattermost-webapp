@@ -1,18 +1,26 @@
 {
   "name": "@mattermost/client",
   "version": "6.4.0-0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
+  "description": "A JavaScript client for Mattermost",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mattermost/mattermost-webapp.git",
+    "directory": "packages/client"
+  },
+  "directories": {
+    "lib": "./lib"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "form-data": "4.0.0"
+  },
   "devDependencies": {
     "jest": "27.0.6",
     "nock": "13.2.1"
   },
-  "dependencies": {
-    "form-data": "4.0.0"
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
   }
 }

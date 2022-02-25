@@ -3909,6 +3909,7 @@ export function parseAndMergeNestedHeaders(originalHeaders: any) {
     return new Map([...headers, ...nestedHeaders]);
 }
 
+// TODO figure out how to not redefine these
 function spaceSeparatedStringIncludes(item: string, spaceSeparated?: string): boolean {
     if (spaceSeparated) {
         const items = spaceSeparated?.split(' ');
@@ -3919,4 +3920,8 @@ function spaceSeparatedStringIncludes(item: string, spaceSeparated?: string): bo
 
 function isSystemAdmin(roles: string): boolean {
     return spaceSeparatedStringIncludes('system_admin', roles);
+}
+
+type DeepPartial<T> = {
+    [P in keyof T]?: DeepPartial<T[P]>;
 }
