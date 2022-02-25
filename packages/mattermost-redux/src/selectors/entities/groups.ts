@@ -150,7 +150,7 @@ export const getGroupsNotAssociatedToTeam: (state: GlobalState, teamID: string) 
     getAllGroups,
     (state: GlobalState, teamID: string) => getTeamGroupIDSet(state, teamID),
     (allGroups, teamGroupIDSet) => {
-        return Object.entries(allGroups).filter(([groupID]) => !teamGroupIDSet.has(groupID)).filter((entry) => (entry[1].source === Constants.LDAP_SERVICE)).map((entry) => entry[1]);
+        return Object.entries(allGroups).filter(([groupID, group]) => !teamGroupIDSet.has(groupID) && group.source === Constants.LDAP_SERVICE).map((entry) => entry[1]);
     },
 );
 
