@@ -1645,8 +1645,6 @@
   "admin.sql.traceTitle": "紀錄 SQL 陳述式：",
   "admin.support.aboutDesc": "在 Mattermost 登入與註冊頁面上\"關於\"連結的網址。如果此欄位為空，該連結將會被隱藏。",
   "admin.support.aboutTitle": "關於連結：",
-  "admin.support.emailHelp": "顯示在電子郵件通知跟教學上給使用者詢問支援問題的電子郵件地址。",
-  "admin.support.emailTitle": "技術支援信箱：",
   "admin.support.enableAskCommunityDesc": "啟用時，Mattermost 的使用者介面跟主選單將會出現\"在社群中發問\"的連結，該連結可以讓使用者加入 Mattermost 社群以發問並協助其他人解決問題。停用時，連結將被隱藏。",
   "admin.support.enableAskCommunityTitle": "啟用社群發問連結：",
   "admin.support.enableTermsOfServiceHelp": "啟用時，不論在桌面、網頁或行動裝置上新使用者必須在使用任何 Mattermost 團隊前接受服務條款。現存的使用者必須在登入或是重新讀取頁面後接受。\n \n前往 [站台設定 > 自訂](../site_config/customization) 以更新建立帳號及登入頁面的服務條款連結。",
