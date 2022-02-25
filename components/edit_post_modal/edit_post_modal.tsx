@@ -2,6 +2,8 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
+// TODO@Michel: remove this file once the inline post editing feature is enabled by default
+
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
@@ -107,8 +109,8 @@ export class EditPostModal extends React.PureComponent<Props, State> {
         if (props.editingPost.show && !state.prevShowState) {
             return {
                 editText:
-          props.editingPost.post?.message_source ||
-          props.editingPost.post?.message,
+                    props.editingPost.post?.message_source ||
+                    props.editingPost.post?.message || '',
                 prevShowState: props.editingPost.show,
             };
         }
@@ -506,7 +508,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
             return !this.props.canEditPost;
         }
 
-        if (this.state.editText.trim() !== '') {
+        if (this.state.editText?.trim() !== '') {
             return !this.props.canEditPost;
         }
 
@@ -597,7 +599,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
                 >
                     <div className='post-create__container'>
                         <div
-                            className={classNames('textarea-wrapper', {
+                            className={classNames('textarea-wrapper post--editing__wrapper', {
                                 scroll: this.state.renderScrollbar,
                             })}
                             style={

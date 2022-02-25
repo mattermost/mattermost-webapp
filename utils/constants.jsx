@@ -178,8 +178,12 @@ export const ActionTypes = keyMirror({
     CONFIRM_NAVIGATION: null,
 
     TOGGLE_IMPORT_THEME_MODAL: null,
-    SHOW_EDIT_POST_MODAL: null,
+    TOGGLE_DELETE_POST_MODAL: null,
+    TOGGLE_EDITING_POST: null,
+
+    // TODO@Michel: once inline post editing is available without using a feature flag remove these actions
     HIDE_EDIT_POST_MODAL: null,
+    SET_SHOW_PREVIEW_ON_EDIT_POST_MODAL: null,
 
     EMITTED_SHORTCUT_REACT_TO_LAST_POST: null,
 
@@ -223,7 +227,6 @@ export const ActionTypes = keyMirror({
     SET_SHOW_PREVIEW_ON_CREATE_COMMENT: null,
     SET_SHOW_PREVIEW_ON_CREATE_POST: null,
     SET_SHOW_PREVIEW_ON_EDIT_CHANNEL_HEADER_MODAL: null,
-    SET_SHOW_PREVIEW_ON_EDIT_POST_MODAL: null,
 
     TOGGLE_RHS_MENU: null,
     OPEN_RHS_MENU: null,
@@ -1214,6 +1217,7 @@ export const Constants = {
     POST_UPDATED: 'updated',
     SYSTEM_MESSAGE_PREFIX: 'system_',
     SUGGESTION_LIST_MAXHEIGHT: 292,
+    SUGGESTION_LIST_MAXWIDTH: 496,
     SUGGESTION_LIST_SPACE_RHS: 420,
     SUGGESTION_LIST_MODAL_WIDTH: 496,
     MENTION_NAME_PADDING_LEFT: 2.4,
@@ -1616,7 +1620,7 @@ export const Constants = {
     DEFAULT_MAX_CHANNELS_PER_TEAM: 2000,
     DEFAULT_MAX_NOTIFICATIONS_PER_CHANNEL: 1000,
     MIN_TEAMNAME_LENGTH: 2,
-    MAX_TEAMNAME_LENGTH: 15,
+    MAX_TEAMNAME_LENGTH: 64,
     MAX_TEAMDESCRIPTION_LENGTH: 50,
     MIN_CHANNELNAME_LENGTH: 2,
     MAX_CHANNELNAME_LENGTH: 64,
@@ -1688,6 +1692,8 @@ export const Constants = {
     ACCEPT_STATIC_IMAGE: '.jpeg,.jpg,.png,.bmp',
     ACCEPT_EMOJI_IMAGE: '.jpeg,.jpg,.png,.gif',
     THREADS_PAGE_SIZE: 25,
+    THREADS_LOADING_INDICATOR_ITEM_ID: 'threads_loading_indicator_item_id',
+    THREADS_NO_RESULTS_ITEM_ID: 'threads_no_results_item_id',
     TRIAL_MODAL_AUTO_SHOWN: 'trial_modal_auto_shown',
     DEFAULT_SITE_URL: 'http://localhost:8065',
 };

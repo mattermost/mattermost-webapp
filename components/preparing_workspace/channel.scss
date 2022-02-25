@@ -2,10 +2,6 @@
 @import './mixins';
 
 .Channel-body {
-    display: flex;
-    // page width - channels preview width - progress dots width - people overlap width
-    width: calc(100vw - 600px - 120px - 30px);
-    // for title content sake, artificially constraining to break onto another line.
     max-width: 520px;
 }
 
