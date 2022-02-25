@@ -42,6 +42,8 @@ import CustomStatusText from 'components/custom_status/custom_status_text';
 
 import HeaderIconWrapper from './components/header_icon_wrapper';
 
+import ChannelInfoButton from './channel_info_button';
+
 const headerMarkdownOptions = {singleline: true, mentionHighlight: false, atMentions: true};
 const popoverMarkdownOptions = {singleline: false, mentionHighlight: false, atMentions: true};
 
@@ -773,6 +775,7 @@ class ChannelHeader extends React.PureComponent {
                         channel={channel}
                         channelMember={channelMember}
                     />
+                    <ChannelInfoButton channel={channel}/>
                 </div>
             </div>
         );

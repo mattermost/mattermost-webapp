@@ -45,7 +45,7 @@ function mapStateToProps(state: GlobalState) {
         isSearchingTerm: getIsSearchingTerm(state),
         searchTerms: getSearchTerms(state),
         searchType: getSearchType(state),
-        searchVisible: Boolean(rhsState) && rhsState !== RHSStates.PLUGIN,
+        searchVisible: Boolean(rhsState) && (rhsState !== RHSStates.PLUGIN && rhsState !== RHSStates.CHANNEL_INFO),
         isMentionSearch: rhsState === RHSStates.MENTION,
         isFlaggedPosts: rhsState === RHSStates.FLAG,
         isPinnedPosts: rhsState === RHSStates.PIN,
