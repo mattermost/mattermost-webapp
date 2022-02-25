@@ -18,8 +18,8 @@ import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 
-import {ConsolePages, DocLinks, LicenseLinks} from 'utils/constants';
-import {daysToLicenseExpire, isEnterpriseOrE20License} from '../../../utils/license_utils';
+import {CloudLinks, ConsolePages, DocLinks, LicenseLinks} from 'utils/constants';
+import {daysToLicenseExpire, isEnterpriseOrE20License, getIsStarterLicense} from '../../../utils/license_utils';
 
 type DataModel = {
     [key: string]: {
@@ -64,8 +64,8 @@ export type UpdatesParam = {
 const impactModifiers: Record<ItemStatus, number> = {
     [ItemStatus.NONE]: 1,
     [ItemStatus.OK]: 1,
-    [ItemStatus.INFO]: 0.9,
-    [ItemStatus.WARNING]: 0.5,
+    [ItemStatus.INFO]: 0.5,
+    [ItemStatus.WARNING]: 0.25,
     [ItemStatus.ERROR]: 0,
 };
 
@@ -79,6 +79,7 @@ const useMetricsData = () => {
 
     const isLicensed = license?.IsLicensed === 'true' && daysUntilExpiration >= 0;
     const isEnterpriseLicense = isEnterpriseOrE20License(license);
+    const isStarterLicense = getIsStarterLicense(license);
 
     const trialOrEnterpriseCtaConfig = {
         configUrl: canStartTrial ? ConsolePages.LICENSE : LicenseLinks.CONTACT_SALES,
@@ -88,7 +89,7 @@ const useMetricsData = () => {
     const getUpdatesData = (data: UpdatesParam) => ({
         title: formatMessage({
             id: 'admin.reporting.workspace_optimization.updates.title',
-            defaultMessage: 'Server Updates',
+            defaultMessage: 'Server updates',
         }),
         description: formatMessage({
             id: 'admin.reporting.workspace_optimization.updates.description',
@@ -114,7 +115,7 @@ const useMetricsData = () => {
                     defaultMessage: '{type} version update available.',
                 }, {type: data.serverVersion.type}),
                 description: data.serverVersion.description,
-                configUrl: DocLinks.UPGRADE_SERVER,
+                configUrl: CloudLinks.DOWNLOAD_UPDATE,
                 configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.downloadUpdate', defaultMessage: 'Download update'}),
                 infoUrl: DocLinks.UPGRADE_SERVER,
                 infoText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.learnMore', defaultMessage: 'Learn more'}),
@@ -393,7 +394,7 @@ const useMetricsData = () => {
                     id: 'admin.reporting.workspace_optimization.ease_of_management.ldap.description',
                     defaultMessage: 'You\'ve reached over 100 users! We recommend setting up AD/LDAP user authentication for easier onboarding as well as automated deactivations and role assignments.',
                 }),
-                ...(isLicensed ? {
+                ...(isLicensed && !isStarterLicense ? {
                     configUrl: ConsolePages.AD_LDAP,
                     configText: formatMessage({id: 'admin.reporting.workspace_optimization.cta.configureLDAP', defaultMessage: 'Try AD/LDAP'}),
                 } : trialOrEnterpriseCtaConfig),

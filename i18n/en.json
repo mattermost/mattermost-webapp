@@ -1872,7 +1872,7 @@
   "admin.reporting.workspace_optimization.updates.server_version.update_type.major": "Major",
   "admin.reporting.workspace_optimization.updates.server_version.update_type.minor": "Minor",
   "admin.reporting.workspace_optimization.updates.server_version.update_type.patch": "Patch",
-  "admin.reporting.workspace_optimization.updates.title": "Server Updates",
+  "admin.reporting.workspace_optimization.updates.title": "Server updates",
   "admin.requestButton.loading": " Loading...",
   "admin.requestButton.requestFailure": "Test Failure: {error}",
   "admin.requestButton.requestSuccess": "Test Successful",
