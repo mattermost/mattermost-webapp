@@ -38,6 +38,29 @@
     &__attachment {
         margin-right: 4px;
         color: rgba(var(--center-channel-color-rgb), 0.5);
-        font-family: 'compass-icons';
+
+        &[class*='text'] {
+            color: rgba(var(--center-channel-color-rgb), 0.5);
+        }
+
+        &[class*='excel'] {
+            color: #1CA660;
+        }
+
+        &[class*='pdf'],
+        &[class*='powerpoint'] {
+            color: #ED522A;
+        }
+
+        &[class*='generic'],
+        &[class*='code'],
+        &[class*='image'],
+        &[class*='audio'],
+        &[class*='video'],
+        &[class*='word'],
+        &[class*='patch'],
+        &[class*='svg'] {
+            color: #338AFF;
+        }
     }
 }

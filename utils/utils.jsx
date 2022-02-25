@@ -357,6 +357,8 @@ export function getCompassIconClassName(fileTypeIn, outline = true, large = fals
     }
 
     icon = icon === 'ppt' ? 'powerpoint' : icon;
+    icon = icon === 'spreadsheet' ? 'excel' : icon;
+    icon = icon === 'other' ? 'generic' : icon;
 
     return `icon-file-${icon}${outline ? '-outline' : ''}${large ? '-large' : ''}`;
 }
