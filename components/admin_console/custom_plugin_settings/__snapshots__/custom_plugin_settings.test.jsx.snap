@@ -34,6 +34,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
           </div>
           <AdminTextSetting
             disabled={false}
+            footer={null}
             helpText={
               <SchemaText
                 isTranslated={true}
@@ -345,6 +346,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
           </div>
           <AdminTextSetting
             disabled={false}
+            footer={null}
             helpText={
               <SchemaText
                 isTranslated={true}
