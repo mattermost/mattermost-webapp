@@ -133,6 +133,9 @@ describe('Settings > Sidebar > General > Edit', () => {
                 cy.findByText(`${newTempUserName}`);
                 cy.findByText(`${newTempUserName} test message!`);
             });
+
+            // # Click on the @ button to toggle off
+            cy.uiGetRecentMentionButton().should('be.visible').click();
         });
     });
 
