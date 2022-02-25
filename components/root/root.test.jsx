@@ -57,6 +57,7 @@ describe('components/Root', () => {
                 type: GeneralTypes.FIRST_ADMIN_COMPLETE_SETUP_RECEIVED,
                 data: true,
             })),
+            getProfiles: jest.fn(),
         },
         location: {
             pathname: '/',
