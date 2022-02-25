@@ -40,12 +40,11 @@ const ConsolePages = {
     PUSH_NOTIFICATION_CENTER: '/admin_console/environment/push_notification_server',
 };
 
-const TrialBenefitsModal = (
-    {
-        onClose,
-        onExited,
-        trialJustStarted,
-    }: Props): JSX.Element | null => {
+const TrialBenefitsModal = ({
+    onClose,
+    onExited,
+    trialJustStarted,
+}: Props): JSX.Element | null => {
     const {formatMessage} = useIntl();
 
     const license = useSelector((state: GlobalState) => getLicense(state));
