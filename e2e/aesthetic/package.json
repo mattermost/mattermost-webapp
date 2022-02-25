@@ -4,9 +4,12 @@
     "scripts": {
         "test": "playwright test",
         "lint": "eslint . --ext .js,.ts",
+        "percy": "PERCY_TOKEN=$PERCY_TOKEN percy exec -- npm run test -- --project=chrome",
         "prettier": "prettier --write ."
     },
     "devDependencies": {
+        "@percy/cli": "1.0.0-beta.75",
+        "@percy/playwright": "1.0.1",
         "@playwright/test": "1.19.1",
         "@typescript-eslint/eslint-plugin": "5.12.1",
         "@typescript-eslint/parser": "5.12.1",

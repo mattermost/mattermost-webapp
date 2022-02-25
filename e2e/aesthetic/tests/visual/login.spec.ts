@@ -2,12 +2,14 @@
 // See LICENSE.txt for license information.
 
 import {test, expect} from '@playwright/test';
+import percySnapshot from '@percy/playwright';
 
 import {getAdminClient} from '../../support/server/init';
 import {LandingLoginPage, LoginPage} from '../../support/ui/page';
 import {duration, wait} from '../../support/utils';
+import testConfig from '../../test.config';
 
-test('/login', async ({page, isMobile}) => {
+test('/login', async ({page, isMobile, browserName}) => {
     const {adminClient} = await getAdminClient();
     const adminConfig = await adminClient.getConfig();
 
@@ -26,6 +28,11 @@ test('/login', async ({page, isMobile}) => {
     await wait(duration.one_sec);
     expect(await page.screenshot({fullPage: true})).toMatchSnapshot('login.png');
 
+    // Visual test with percy
+    if (!isMobile && browserName === 'chromium' && testConfig.percyEnabled) {
+        await percySnapshot(page, '/login page');
+    }
+
     // Click sign in button without entering user credential
     await loginPage.signInButton.click();
     await loginPage.userErrorLabel.waitFor();
@@ -33,4 +40,9 @@ test('/login', async ({page, isMobile}) => {
 
     // Should match with error at login page
     expect(await page.screenshot({fullPage: true})).toMatchSnapshot('login_error.png');
+
+    // Visual test with percy
+    if (!isMobile && browserName === 'chromium' && testConfig.percyEnabled) {
+        await percySnapshot(page, '/login page with error');
+    }
 });

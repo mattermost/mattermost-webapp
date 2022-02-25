@@ -145,7 +145,6 @@ import {isSystemAdmin} from '../../../../packages/mattermost-redux/src/utils/use
 import {UserThreadList, UserThread, UserThreadWithPost} from '../../../../packages/mattermost-redux/src/types/threads';
 
 import {TelemetryHandler} from '../../../../packages/mattermost-redux/src/client/telemetry';
-import {FSWatcher} from 'fs';
 
 const HEADER_AUTH = 'Authorization';
 const HEADER_BEARER = 'BEARER';

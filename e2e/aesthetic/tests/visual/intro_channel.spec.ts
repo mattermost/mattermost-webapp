@@ -4,12 +4,14 @@
 import path from 'path';
 
 import {test, expect} from '@playwright/test';
+import percySnapshot from '@percy/playwright';
 
 import {initSetup, getPreferenceWithHideInVisualTesting} from '../../support/server';
 import {ChannelPage, LandingLoginPage, LoginPage, TipsPage} from '../../support/ui/page';
 import {duration, wait} from '../../support/utils';
+import testConfig from '../../test.config';
 
-test('Login as regular user', async ({page, isMobile}) => {
+test('Intro to channel as regular user', async ({page, isMobile, browserName}) => {
     const {userClient, adminConfig, user} = await initSetup();
     const hideValue = '.hide-team-header,.hide-post-header-time';
     const preference = getPreferenceWithHideInVisualTesting(user.id, hideValue);
@@ -45,4 +47,10 @@ test('Login as regular user', async ({page, isMobile}) => {
 
     // Should match with error at login page
     expect(await page.screenshot({fullPage: true})).toMatchSnapshot('intro_channel.png');
+    await wait(duration.ten_sec);
+
+    // Visual test with percy
+    if (!isMobile && browserName === 'chromium' && testConfig.percyEnabled) {
+        await percySnapshot(page, 'Intro to channel page');
+    }
 });

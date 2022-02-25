@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {expect, Locator, Page} from '@playwright/test';
+import {Locator, Page} from '@playwright/test';
 
 import {users, config} from '../../../../../packages/mattermost-redux/src/types';
 

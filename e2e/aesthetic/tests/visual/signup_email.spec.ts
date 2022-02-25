@@ -2,12 +2,14 @@
 // See LICENSE.txt for license information.
 
 import {test, expect} from '@playwright/test';
+import percySnapshot from '@percy/playwright';
 
 import {getAdminClient} from '../../support/server/init';
 import {LandingLoginPage, LoginPage, SignupPage} from '../../support/ui/page';
 import {duration, wait} from '../../support/utils';
+import testConfig from '../../test.config';
 
-test('/signup_email', async ({page, isMobile}) => {
+test('/signup_email', async ({page, isMobile, browserName}) => {
     const {adminClient} = await getAdminClient();
     const adminConfig = await adminClient.getConfig();
 
@@ -30,6 +32,11 @@ test('/signup_email', async ({page, isMobile}) => {
     // Should match login page
     expect(await page.screenshot({fullPage: true})).toMatchSnapshot('signup_email.png');
 
+    // Visual test with percy
+    if (!isMobile && browserName === 'chromium' && testConfig.percyEnabled) {
+        await percySnapshot(page, '/signup_email page');
+    }
+
     // Click sign in button without entering user credential
     const signupPage = new SignupPage(page, adminConfig);
     await signupPage.createAccountButton.click();
@@ -39,4 +46,9 @@ test('/signup_email', async ({page, isMobile}) => {
 
     // Should match with error at login page
     expect(await page.screenshot({fullPage: true})).toMatchSnapshot('signup_email_error.png');
+
+    // Visual test with percy
+    if (!isMobile && browserName === 'chromium' && testConfig.percyEnabled) {
+        await percySnapshot(page, '/signup_email page with error');
+    }
 });

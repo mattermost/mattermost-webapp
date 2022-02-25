@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Channel} from '../../../../packages/mattermost-redux/src/types/channels';
 import {Team} from '../../../../packages/mattermost-redux/src/types/teams';
 import {PreferenceType} from '../../../../packages/mattermost-redux/src/types/preferences';
 import {UserProfile} from '../../../../packages/mattermost-redux/src/types/users';
