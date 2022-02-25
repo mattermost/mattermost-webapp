@@ -501,7 +501,6 @@
 }
 
 .channel-intro {
-    padding: 110px 15px 0;
     margin: 0 auto 10px;
 
     &.channel-intro--centered {
@@ -521,18 +520,20 @@
 
     .channel-intro-profile {
         margin: 0 0 4px;
+        justify-content: center;
 
         .user-popover {
             overflow: hidden;
             max-width: calc(100% - 100px);
             font-family: Metropolis, sans-serif;
-            font-size: 28px;
+            font-size: 45px;
             font-weight: 600;
             text-overflow: ellipsis;
         }
     }
 
     .channel-intro-img {
+        justify-content: center;
         .status-wrapper {
             height: 50px;
             margin: 0 10px 10px 0;
@@ -541,6 +542,11 @@
         img {
             border-radius: 100px;
         }
+    }
+
+    .channel-intro-text {
+        justify-content: center;
+        text-align: center;
     }
 
     .channel-intro__title {

@@ -164,7 +164,7 @@ function createDMIntroMessage(channel: Channel, centeredIntro: string, teammate?
                 id={channelIntroId}
                 className={'channel-intro ' + centeredIntro}
             >
-                <div className='post-profile-img__container channel-intro-img'>
+                <div className='post-profile-img__container channel-intro-img d-flex'>
                     <ProfilePicture
                         src={src}
                         size='xl'
