@@ -4,14 +4,14 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Posts} from 'mattermost-redux/constants';
+import ActionsMenu from 'components/actions_menu';
+import PostInfo from 'components/post_view/post_info/post_info';
+import PostFlagIcon from 'components/post_view/post_flag_icon';
 
+import {Posts} from 'mattermost-redux/constants';
 import {Post, PostType} from 'mattermost-redux/types/posts';
 
-import PostInfo from 'components/post_view/post_info/post_info';
-
 import Constants from 'utils/constants';
-import PostFlagIcon from 'components/post_view/post_flag_icon';
 import {TestHelper} from 'utils/test_helper';
 
 describe('components/post_view/PostInfo', () => {
@@ -52,8 +52,21 @@ describe('components/post_view/PostInfo', () => {
         recentEmojis: [],
     };
 
-    // test('should not show actions menu, plugins disabled', () => {
-    // });
+    test('should show actions menu', () => {
+        const props = {...requiredProps, hover: true, shouldShowActionsMenu: true};
+
+        const wrapper = shallow<PostInfo>(<PostInfo {...props}/>);
+        const actionsMenuComponent = wrapper.find(ActionsMenu);
+        expect(actionsMenuComponent).toHaveLength(1);
+    });
+
+    test('should not show actions menu', () => {
+        const props = {...requiredProps, hover: true, shouldShowActionsMenu: false};
+        const wrapper = shallow<PostInfo>(<PostInfo {...props}/>);
+
+        const actionsMenuComponent = wrapper.find(ActionsMenu);
+        expect(actionsMenuComponent).toHaveLength(0);
+    });
 
     test('should match snapshot', () => {
         const wrapper = shallow<PostInfo>(<PostInfo {...requiredProps}/>);
