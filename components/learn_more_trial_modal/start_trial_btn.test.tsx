@@ -63,6 +63,7 @@ describe('components/learn_more_trial_modal/start_trial_btn', () => {
     const props = {
         onClick: jest.fn(),
         message: 'Start trial',
+        telemetryId: 'test_telemetry_id',
     };
 
     test('should match snapshot', () => {
@@ -97,6 +98,6 @@ describe('components/learn_more_trial_modal/start_trial_btn', () => {
 
         expect(mockOnClick).toHaveBeenCalled();
 
-        expect(trackEvent).toHaveBeenCalledWith(TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL, 'start_trial_from_learn_more_about_trial_modal');
+        expect(trackEvent).toHaveBeenCalledWith(TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL, 'test_telemetry_id');
     });
 });

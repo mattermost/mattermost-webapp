@@ -25,6 +25,7 @@ import './start_trial_btn.scss';
 
 export type StartTrialBtnProps = {
     message: string;
+    telemetryId: string;
     onClick?: () => void;
 }
 
@@ -37,6 +38,7 @@ enum TrialLoadStatus {
 
 const StartTrialBtn = ({
     message,
+    telemetryId,
     onClick,
 }: StartTrialBtnProps) => {
     const {formatMessage} = useIntl();
@@ -74,7 +76,7 @@ const StartTrialBtn = ({
     const btnText = (status: TrialLoadStatus): string => {
         switch (status) {
         case TrialLoadStatus.Started:
-            return formatMessage({id: 'start_trial.modal.loading', defaultMessage: 'Loading...'});
+            return formatMessage({id: 'start_trial.modal.gettingTrial', defaultMessage: 'Getting Trial...'});
         case TrialLoadStatus.Success:
             return formatMessage({id: 'start_trial.modal.loaded', defaultMessage: 'Loaded!'});
         case TrialLoadStatus.Failed:
@@ -89,7 +91,7 @@ const StartTrialBtn = ({
         onClick!();
         trackEvent(
             TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
-            'start_trial_from_learn_more_about_trial_modal',
+            telemetryId,
         );
     };
 

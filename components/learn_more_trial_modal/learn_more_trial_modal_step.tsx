@@ -55,6 +55,7 @@ const LearnMoreTrialModalStep = (
             </div>
             <StartTrialBtn
                 message={startTrialBtnMsg}
+                telemetryId='start_trial_from_learn_more_about_trial_modal'
             />
             <div className='disclaimer'>
                 <span>
