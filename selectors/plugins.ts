@@ -17,6 +17,14 @@ export const getFilesDropdownPluginMenuItems = createSelector(
     },
 );
 
+export const getUserGuideDropdownPluginMenuItems = createSelector(
+    'getUserGuideDropdownPluginMenuItems',
+    (state: GlobalState) => state.plugins.components.UserGuideDropdown,
+    (components) => {
+        return components;
+    },
+);
+
 export const getChannelHeaderPluginComponents = createSelector(
     'getChannelHeaderPluginComponents',
     (state: GlobalState) => appBarEnabled(state),

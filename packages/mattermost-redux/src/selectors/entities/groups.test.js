@@ -5,6 +5,7 @@ import assert from 'assert';
 
 import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
 import * as Selectors from 'mattermost-redux/selectors/entities/groups';
+import TestHelper from 'mattermost-redux/test/test_helper';
 
 describe('Selectors.Groups', () => {
     const teamID = 'c6ubwm63apgftbjs71enbjjpsh';
@@ -72,6 +73,15 @@ describe('Selectors.Groups', () => {
         member_count: 8,
         allow_reference: true,
     };
+    const user1 = TestHelper.fakeUserWithId();
+    const user2 = TestHelper.fakeUserWithId();
+    const user3 = TestHelper.fakeUserWithId();
+
+    const profiles = {};
+    profiles[user1.id] = user1;
+    profiles[user2.id] = user2;
+    profiles[user3.id] = user3;
+
     const testState = deepFreezeAndThrowOnMutation({
         entities: {
             groups: {
@@ -83,11 +93,11 @@ describe('Selectors.Groups', () => {
                     [expectedAssociatedGroupID4]: group4,
                     [expectedAssociatedGroupID2]: group2,
                 },
-                myGroups: {
-                    [expectedAssociatedGroupID1]: group1,
-                    [expectedAssociatedGroupID4]: group4,
-                    [expectedAssociatedGroupID2]: group2,
-                },
+                myGroups: [
+                    group1.id,
+                    group4.id,
+                    group2.id,
+                ],
             },
             teams: {
                 teams: {
@@ -110,6 +120,10 @@ describe('Selectors.Groups', () => {
             },
             preferences: {
                 myPreferences: {},
+            },
+            users: {
+                currentUserId: user1.id,
+                profiles,
             },
         },
     });

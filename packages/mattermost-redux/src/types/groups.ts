@@ -17,13 +17,18 @@ export type GroupPatch = {
     name?: string;
 };
 
+export type CustomGroupPatch = {
+    name: string;
+    display_name: string;
+};
+
 export type Group = {
     id: string;
     name: string;
     display_name: string;
     description: string;
-    type: string;
-    remote_id: string;
+    source: string;
+    remote_id: string | null;
     create_at: number;
     update_at: number;
     delete_at: number;
@@ -80,7 +85,7 @@ export type GroupsState = {
     syncables: Record<string, GroupSyncablesState>;
     stats: RelationOneToOne<Group, GroupStats>;
     groups: Record<string, Group>;
-    myGroups: Record<string, Group>;
+    myGroups: string[];
 };
 
 export type GroupStats = {
@@ -125,3 +130,31 @@ export type UsersWithGroupsAndCount = {
     users: UserWithGroup[];
     total_count: number;
 };
+
+export type GroupCreateWithUserIds = {
+    name: string;
+    allow_reference: boolean;
+    display_name: string;
+    source: string;
+    user_ids: string[];
+    description?: string;
+}
+
+export type GroupSearachParams = {
+    q: string;
+    filter_allow_reference: boolean;
+    page: number;
+    per_page: number;
+    include_member_count: boolean;
+    user_id?: string;
+}
+
+export type GroupMembership = {
+    user_id: string;
+    roles: string;
+}
+
+export type GroupPermissions = {
+    can_delete: boolean;
+    can_manage_members: boolean;
+}

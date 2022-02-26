@@ -218,7 +218,7 @@ describe('Mark as Unread', () => {
         verifyPostNextToNewMessageSeparator('post3');
     });
 
-    it('Should show cursor pointer when holding down alt -- KNOWN ISSUE: MM-41538', () => {
+    it('Should show cursor pointer when holding down alt', () => {
         const componentIds = [
             `#post_${post1.id}`,
             `#post_${post2.id}`,
@@ -232,25 +232,28 @@ describe('Mark as Unread', () => {
         // Show the RHS
         cy.get(`#CENTER_commentIcon_${post3.id}`).click({force: true});
 
-        // Should not show when moused over without holding alt
+        // Pretend that we start hovering over each and then hold alt afterwards
         for (const componentId of componentIds) {
-            cy.get(componentId).should(notShowCursor);
-        }
+            // * Verify that we don't show the pointer on mouseover
+            cy.get(componentId).trigger('mouseover').should(notShowCursor);
 
-        cy.get('body').trigger('keydown', {altKey: true});
+            // * Verify that we show the pointer after pressing alt
+            cy.get(componentId).trigger('keydown', {altKey: true}).should(showCursor);
 
-        // Should show when holding alt
-        for (const componentId of componentIds) {
-            cy.get(componentId).should(showCursor);
-        }
+            // * Verify that we stop showing the pointer after releasing alt
+            cy.get(componentId).trigger('keydown', {altKey: false}).should(notShowCursor);
 
-        cy.get('body').trigger('keyup', {altKey: false});
-
-        // Should not show after having released alt
-        for (const componentId of componentIds) {
-            cy.get(componentId).trigger('mouseover');
-            cy.get(componentId).should(notShowCursor);
+            // # Move the mouse away from the post
             cy.get(componentId).trigger('mouseout');
+        }
+
+        // Pretend that we hold down alt and then hover over each post
+        for (const componentId of componentIds) {
+            // * Verify that we don't show the pointer on mouseover
+            cy.get(componentId).trigger('mouseover', {altKey: true}).should(showCursor);
+
+            // # Move the mouse away from the post
+            cy.get(componentId).trigger('mouseout', {altKey: true}).should(notShowCursor);
         }
     });
 

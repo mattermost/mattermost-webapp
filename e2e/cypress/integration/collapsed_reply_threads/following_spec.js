@@ -10,6 +10,9 @@
 // Stage: @prod
 // Group: @collapsed_reply_threads
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+import {isMac} from '../../utils';
+
 describe('Collapsed Reply Threads', () => {
     let testTeam;
     let testUser;
@@ -88,72 +91,48 @@ describe('Collapsed Reply Threads', () => {
 
     it('MM-T4141_2 should follow a thread after marking it as unread', () => {
         // # Post a root post as other user
-        cy.postMessageAs({
-            sender: otherUser,
-            message: 'Another interesting post,',
-            channelId: testChannel.id,
-        }).then(({id: rootId}) => {
-            // # Post a self reply as other user
-            cy.postMessageAs({
-                sender: otherUser,
-                message: 'Self reply!',
-                channelId: testChannel.id,
-                rootId,
-            }).then(({id: replyId}) => {
-                // # Get root post
-                cy.get(`#post_${rootId}`).within(() => {
-                    // * Thread footer should be visible
-                    cy.get('.ThreadFooter').should('exist').
+        postMessageWithReply(testChannel.id, otherUser, 'Another interesting post,', otherUser, 'Self reply!').then(({rootId, replyId}) => {
+            // # Get root post
+            cy.get(`#post_${rootId}`).within(() => {
+                // * Thread footer should be visible
+                cy.get('.ThreadFooter').should('exist').
 
-                        // * Thread footer button should say 'Follow'
-                        find('.FollowButton').should('have.text', 'Follow');
-                });
-
-                // # Click on root post to open thread
-                cy.get(`#post_${rootId}`).click();
-
-                // * RHS header button should say 'Follow'
-                cy.get('#rhsContainer').find('.FollowButton').should('have.text', 'Follow');
-
-                // # Click on the reply's dot menu and mark as unread
-                cy.uiClickPostDropdownMenu(replyId, 'Mark as Unread', 'RHS_COMMENT');
-
-                // * RHS header button should say 'Following'
-                cy.get('#rhsContainer').find('.FollowButton').should('have.text', 'Following');
-
-                // # Get root post
-                cy.get(`#post_${rootId}`).within(() => {
-                    // * Thread footer should be visible
-                    cy.get('.ThreadFooter').should('exist').
-
-                        // * Thread footer button should say 'Following'
-                        find('.FollowButton').should('have.text', 'Following');
-                });
-
-                // # Visit global threads
-                cy.uiClickSidebarItem('threads');
-
-                // * There should be 2 threads now
-                cy.get('article.ThreadItem').should('have.have.lengthOf', 2);
+                    // * Thread footer button should say 'Follow'
+                    find('.FollowButton').should('have.text', 'Follow');
             });
+
+            // # Click on root post to open thread
+            cy.get(`#post_${rootId}`).click();
+
+            // * RHS header button should say 'Follow'
+            cy.get('#rhsContainer').find('.FollowButton').should('have.text', 'Follow');
+
+            // # Click on the reply's dot menu and mark as unread
+            cy.uiClickPostDropdownMenu(replyId, 'Mark as Unread', 'RHS_COMMENT');
+
+            // * RHS header button should say 'Following'
+            cy.get('#rhsContainer').find('.FollowButton').should('have.text', 'Following');
+
+            // # Get root post
+            cy.get(`#post_${rootId}`).within(() => {
+                // * Thread footer should be visible
+                cy.get('.ThreadFooter').should('exist').
+
+                    // * Thread footer button should say 'Following'
+                    find('.FollowButton').should('have.text', 'Following');
+            });
+
+            // # Visit global threads
+            cy.uiClickSidebarItem('threads');
+
+            // * There should be 2 threads now
+            cy.get('article.ThreadItem').should('have.have.lengthOf', 2);
         });
     });
 
     it('MM-T4141_3 clicking "Following" button in the footer should unfollow the thread', () => {
         // # Post a root post as other user
-        cy.postMessageAs({
-            sender: otherUser,
-            message: 'Another interesting post,',
-            channelId: testChannel.id,
-        }).then(({id: rootId}) => {
-            // # Post a reply as current user
-            cy.postMessageAs({
-                sender: testUser,
-                message: 'Self reply!',
-                channelId: testChannel.id,
-                rootId,
-            });
-        });
+        postMessageWithReply(testChannel.id, otherUser, 'Another interesting post,', testUser, 'Self reply!');
 
         // # Get last root post in channel
         cy.getLastPostId().then((rootId) => {
@@ -188,19 +167,7 @@ describe('Collapsed Reply Threads', () => {
 
     it('MM-T4141_4 clicking "Follow" button in the footer should follow the thread', () => {
         // # Post a root post as other user
-        cy.postMessageAs({
-            sender: otherUser,
-            message: 'Another interesting post,',
-            channelId: testChannel.id,
-        }).then(({id: rootId}) => {
-            // # Post a self reply as other user
-            cy.postMessageAs({
-                sender: otherUser,
-                message: 'Self reply!',
-                channelId: testChannel.id,
-                rootId,
-            });
-        });
+        postMessageWithReply(testChannel.id, otherUser, 'Another interesting post,', otherUser, 'Self reply!');
 
         // # Get last root post in channel
         cy.getLastPostId().then((rootId) => {
@@ -232,4 +199,61 @@ describe('Collapsed Reply Threads', () => {
             cy.uiCloseRHS();
         });
     });
+
+    it('MM-38891 should show search guidance at the end of the list after scroll loading', () => {
+        // # Create more than 25 threads so we can use scroll loading in the Threads list
+        for (let i = 1; i <= 30; i++) {
+            postMessageWithReply(testChannel.id, otherUser, `Another interesting post ${i}`, testUser, `Another reply ${i}!`);
+        }
+
+        cy.uiClickSidebarItem('threads');
+
+        // # Scroll load the threads list to reach the end
+        const maxScrolls = 3;
+        scrollThreadsListToEnd(maxScrolls);
+
+        // # Search guidance item should be shown at the end of the threads list
+        cy.get('.ThreadList .no-results__wrapper').should('be.visible').within(() => {
+            // # Title, subtitle and shortcut keys should be shown
+            cy.findByText('That’s the end of the list').should('be.visible');
+            cy.contains('If you’re looking for older conversations, try searching with ').should('be.visible').within(() => {
+                cy.findByText(isMac() ? '⌘' : 'Ctrl').should('be.visible');
+                cy.findByText('Shift').should('be.visible');
+                cy.findByText('F').should('be.visible');
+            });
+        });
+    });
 });
+
+function postMessageWithReply(channelId, postSender, postMessage, replySender, replyMessage) {
+    return cy.postMessageAs({
+        sender: postSender,
+        message: postMessage || 'Another interesting post.',
+        channelId,
+    }).then(({id: rootId}) => {
+        cy.postMessageAs({
+            sender: replySender || postSender,
+            message: replyMessage || 'Another reply!',
+            channelId,
+            rootId,
+        }).then(({id: replyId}) => (Promise.resolve({rootId, replyId})));
+    });
+}
+
+function scrollThreadsListToEnd(maxScrolls = 1, scrolls = 0) {
+    if (scrolls === maxScrolls) {
+        return;
+    }
+
+    cy.get('.ThreadList .virtualized-thread-list').scrollTo('bottom').then(($el) => {
+        const element = $el.find('.no-results__wrapper');
+
+        if (element.length < 1) {
+            cy.wait(TIMEOUTS.ONE_SEC).then(() => {
+                scrollThreadsListToEnd(maxScrolls, scrolls + 1);
+            });
+        } else {
+            cy.wrap(element).scrollIntoView();
+        }
+    });
+}
