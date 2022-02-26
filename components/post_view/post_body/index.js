@@ -6,6 +6,8 @@ import {connect} from 'react-redux';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
+import {getIsPostBeingEdited, getIsPostBeingEditedInRHS} from '../../../selectors/posts';
+
 import PostBody from './post_body.jsx';
 
 function mapStateToProps(state, ownProps) {
@@ -20,6 +22,8 @@ function mapStateToProps(state, ownProps) {
         parentPost,
         parentPostUser,
         pluginPostTypes: state.plugins.postTypes,
+        isPostBeingEdited: getIsPostBeingEdited(state, ownProps.post.id),
+        isPostBeingEditedInRHS: getIsPostBeingEditedInRHS(state, ownProps.post.id),
     };
 }
 
