@@ -28,7 +28,7 @@ export type CategoryHeaderRow = {
         categoryName: EmojiCategory;
         emojiIndex: -1;
         emojiId: '';
-        item: Category;
+        item: undefined;
     }>;
 }
 
@@ -50,8 +50,10 @@ export type EmojiCursor = {
     emoji: Emoji | undefined;
 };
 
-export type EmojiPosition = Omit<EmojiCursor, 'emoji'> &{
-    categoryName: string;
+export type EmojiPosition = {
+    rowIndex: number;
+    emojiId: CustomEmoji['id'] | SystemEmoji['unified'];
+    categoryName: EmojiCategory;
 }
 
 export enum NavigationDirection {

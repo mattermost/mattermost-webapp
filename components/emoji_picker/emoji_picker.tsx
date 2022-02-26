@@ -101,10 +101,10 @@ const EmojiPicker = ({
     useEffect(() => {
         shouldRunCreateCategoryAndEmojiRows.current = false;
 
-        const [updatedCategoryOrEmojisRows, sortedEmojisByCategory] = createCategoryAndEmojiRows(allEmojis, categories, filter, userSkinTone);
+        const [updatedCategoryOrEmojisRows, updatedEmojiPositions] = createCategoryAndEmojiRows(allEmojis, categories, filter, userSkinTone);
 
         setCategoryOrEmojisRows(updatedCategoryOrEmojisRows);
-        setEmojiPositionsArray(sortedEmojisByCategory);
+        setEmojiPositionsArray(updatedEmojiPositions);
     }, [filter, userSkinTone, shouldRunCreateCategoryAndEmojiRows.current]);
 
     // Hack for getting focus on search input when tab changes to emoji from gifs
@@ -292,13 +292,15 @@ const EmojiPicker = ({
         }
 
         const newCursorEmoji = getEmojiById(newCursor.emojiId);
-        if (newCursorEmoji) {
-            setCursor({
-                rowIndex: newCursor.rowIndex,
-                emojiId: newCursor.emojiId,
-                emoji: newCursorEmoji,
-            });
+        if (!newCursorEmoji) {
+            return;
         }
+
+        setCursor({
+            rowIndex: newCursor.rowIndex,
+            emojiId: newCursor.emojiId,
+            emoji: newCursorEmoji,
+        });
     };
 
     const handleEnterOnEmoji = useCallback(() => {

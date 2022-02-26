@@ -35,7 +35,7 @@ export function isCategoryHeaderRow(row: CategoryOrEmojiRow): row is CategoryHea
     return row.type === CATEGORY_HEADER_ROW;
 }
 
-function getFilteredEmojis(allEmojis: Record<string, Emoji>, filter: string, recentEmojisString: string[]): Emoji[] {
+export function getFilteredEmojis(allEmojis: Record<string, Emoji>, filter: string, recentEmojisString: string[]): Emoji[] {
     const filteredEmojisWithRecent = Object.values(allEmojis).filter((emoji) => {
         const aliases = isSystemEmoji(emoji) ? emoji.short_names : [emoji.name];
 
@@ -209,7 +209,7 @@ export function calculateCategoryRowIndex(categories: Categories, categoryName: 
     return rowIndex;
 }
 
-function splitEmojisToRows(emojis: Emoji[], categoryIndex: number, categoryName: EmojiCategory, rowIndexCounter: number): [EmojiRow[], number] {
+export function splitEmojisToRows(emojis: Emoji[], categoryIndex: number, categoryName: EmojiCategory, rowIndexCounter: number): [EmojiRow[], number] {
     if (emojis.length === 0) {
         return [[], rowIndexCounter - 1];
     }
@@ -254,36 +254,26 @@ function splitEmojisToRows(emojis: Emoji[], categoryIndex: number, categoryName:
     return [emojiRows, emojiRowIndexCounter];
 }
 
-function createEmojiCursors(categoryOrEmojiRows: CategoryOrEmojiRow[]) {
-    let emojisSortedByCategory: EmojiPosition[] = [];
-    let emojiIndexCounter = 0;
+export function createEmojisPositions(categoryOrEmojiRows: CategoryOrEmojiRow[]): EmojiPosition[] {
+    const emojisPositions2DArray: EmojiPosition[][] = [];
+
     categoryOrEmojiRows.forEach((categoryOrEmojiRow) => {
-        if (categoryOrEmojiRow.type === 'emojisRow') {
+        if (!isCategoryHeaderRow(categoryOrEmojiRow)) {
             const rowIndex = categoryOrEmojiRow.index;
-            emojiIndexCounter++;
-            const emojisOfARow = categoryOrEmojiRow.items.map((emojiItem) => ({
+            const emojisOfARow: EmojiPosition[] = categoryOrEmojiRow.items.map((emojiItem) => ({
                 rowIndex,
-                emojiIndex: emojiIndexCounter,
-                categoryName: emojiItem.categoryName,
                 emojiId: emojiItem.emojiId,
+                categoryName: emojiItem.categoryName,
             }));
 
-            emojisSortedByCategory = [...emojisSortedByCategory, ...emojisOfARow];
+            emojisPositions2DArray.push(emojisOfARow);
         }
     });
 
-    return emojisSortedByCategory;
+    const emojisPositions = emojisPositions2DArray.flat();
+    return emojisPositions;
 }
 
-/**
- * Creates rows of category and emoji.
- * @param allEmojis the map of all emojis
- * @param categories all categories with includes emojiIds of each category
- * @param filter search filter
- * @param recentEmojis list of recent emojis used
- * @param userSkinTone skin tone selected for emojis
- * @returns array of category name and emoji rows
- */
 export function createCategoryAndEmojiRows(
     allEmojis: Record<string, Emoji>,
     categories: Categories,
@@ -304,18 +294,19 @@ export function createCategoryAndEmojiRows(
                 categoryName: SEARCH_RESULTS,
                 emojiIndex: -1,
                 emojiId: '',
-                item: categories.searchResults,
+                item: undefined,
             }],
         };
 
-        const filteredEmojis = getFilteredEmojis(allEmojis, filter, categories[RECENT]?.emojiIds ?? []);
+        const recentEmojiIds = categories?.[RECENT]?.emojiIds ?? [];
+        const filteredEmojis = getFilteredEmojis(allEmojis, filter, recentEmojiIds);
         const [searchEmojisRows] = splitEmojisToRows(filteredEmojis, 0, SEARCH_RESULTS, 1);
 
         const searchEmojiRowsWithCategoryHeader: CategoryOrEmojiRow[] = [searchCategoryRow, ...searchEmojisRows];
 
-        const emojisSortedByCategory = createEmojiCursors(searchEmojiRowsWithCategoryHeader);
+        const emojisPositions = createEmojisPositions(searchEmojiRowsWithCategoryHeader);
 
-        return [searchEmojiRowsWithCategoryHeader, emojisSortedByCategory];
+        return [searchEmojiRowsWithCategoryHeader, emojisPositions];
     }
 
     let sortedEmojis: Emoji[] = [];
@@ -341,7 +332,7 @@ export function createCategoryAndEmojiRows(
                 categoryName: categoryName as EmojiCategory,
                 emojiIndex: -1,
                 emojiId: '',
-                item: categories[categoryName as EmojiCategory],
+                item: undefined,
             }],
         };
 
@@ -355,9 +346,9 @@ export function createCategoryAndEmojiRows(
         categoryOrEmojisRows = [...categoryOrEmojisRows, ...emojiRows];
     });
 
-    const emojisSortedByCategory = createEmojiCursors(categoryOrEmojisRows);
+    const emojisPositions = createEmojisPositions(categoryOrEmojisRows);
 
-    return [categoryOrEmojisRows, emojisSortedByCategory];
+    return [categoryOrEmojisRows, emojisPositions];
 }
 
 export function getCursorProperties(cursorRowIndex: EmojiCursor['rowIndex'], cursorEmojiId: EmojiCursor['emojiId'], categoryOrEmojisRows: EmojiRow[]): [string, number, number] {
