@@ -47,7 +47,11 @@ const GmProfilePictures = styled.div`
     margin-bottom: 10px;
 `;
 
-const GmProfilePicture = styled.div`
+interface GmProfilePictureprops {
+    position: number;
+}
+
+const GmProfilePicture = styled.div<GmProfilePictureprops>`
     display: inline-block;
     position: relative;
     left: ${(props) => props.position * -15}px;
@@ -221,7 +225,7 @@ const AboutArea = ({channel, channelURL, dmUser, gmUsers, actions}: Props) => {
                             {dmUser.is_guest && <GuestBadge/>}
                         </DmUserName>
                         <DmUserPosition>
-                            <Markdown message={dmUser.user.is_bot ? dmUser.user.bot_description : dmUser?.user.position} />
+                            <Markdown message={dmUser.user.is_bot ? dmUser.user.bot_description : dmUser?.user.position}/>
                         </DmUserPosition>
                     </DmUserInfo>
                 </DmPurpose>
