@@ -4,9 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {Reaction as ReactionType} from 'mattermost-redux/types/reactions';
 import Reaction from 'components/post_view/reaction/reaction';
 import {TestHelper} from 'utils/test_helper';
-import {Reaction as ReactionType} from 'mattermost-redux/types/reactions';
 
 describe('components/post_view/Reaction', () => {
     const post = TestHelper.getPostMock({
@@ -20,8 +20,6 @@ describe('components/post_view/Reaction', () => {
         removeReaction: jest.fn(),
     };
     const currentUserId = TestHelper.getUserMock({id: 'user_id_1'}).id;
-
-    // const currentUserId = 'user_id_1';
 
     const baseProps = {
         canAddReactions: true,
