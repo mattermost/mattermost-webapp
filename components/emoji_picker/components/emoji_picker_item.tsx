@@ -56,6 +56,7 @@ function EmojiPickerItem({emoji, rowIndex, isSelected, onClick, onMouseOver}: Pr
                 <div data-testid='emojiItem'>
                     <img
                         alt={'custom emoji image'}
+                        data-testid={emoji.name}
                         onMouseOver={throttledMouseOver}
                         src={getEmojiImageUrl(emoji)}
                         className={'emoji-category--custom'}

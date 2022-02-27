@@ -58,7 +58,12 @@ function EmojiPickerPreview({emoji}: Props) {
                 {previewImage}
             </div>
             <div className='emoji-picker__preview-image-label-box'>
-                <span className='emoji-picker__preview-name'>{':' + aliases.join(': :') + ':'}</span>
+                <span
+                    className='emoji-picker__preview-name'
+                    data-testid='emoji_picker_preview'
+                >
+                    {':' + aliases.join(': :') + ':'}
+                </span>
             </div>
         </div>
     );

@@ -183,7 +183,7 @@ describe('Custom emojis', () => {
         cy.uiOpenEmojiPicker();
 
         // # Search emoji name text in emoji searching input
-        cy.findByTestId('emojiInputSearch').should('be.visible').type(customEmojiWithColons);
+        cy.findByTestId('emojiInputSearch').should('be.visible').type(customEmojiWithColons, {delay: TIMEOUTS.QUARTER_SEC});
 
         // * Get list of emojis based on search text
         cy.findAllByTestId('emojiItem').children().should('have.length', 1);
