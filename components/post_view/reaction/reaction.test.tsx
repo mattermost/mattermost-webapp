@@ -5,6 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {Reaction as ReactionType} from 'mattermost-redux/types/reactions';
+
 import Reaction from 'components/post_view/reaction/reaction';
 import {TestHelper} from 'utils/test_helper';
 
