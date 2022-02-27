@@ -75,7 +75,7 @@ describe('Team Scheme Channel Mentions Permissions Test', () => {
         );
     });
 
-    it('MM-24379 - Enable and Disable Create Post for team scheme', () => {
+    it('MM-24379 - Enable and Disable Create Post for team scheme -- KNOWN ISSUE:MM-42020', () => {
         checkChannelPermission(
             'create_post',
             () => createPostPermissionCheck(true),
