@@ -5,6 +5,7 @@ import React from 'react';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import ChannelHeader from 'components/channel_header/channel_header';
+import ChannelInfoButton from 'components/channel_header/channel_info_button';
 import Markdown from 'components/markdown';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import Constants, {RHSStates} from 'utils/constants';
@@ -337,4 +338,13 @@ describe('components/ChannelHeader', () => {
         );
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should contain the channel info button', () => {
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...populatedProps}/>
+        )
+        expect(wrapper.contains(
+            <ChannelInfoButton channel={populatedProps.channel} />
+        )).toEqual(true);
+    })
 });
