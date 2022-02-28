@@ -92,14 +92,8 @@ describe('Edit Message', () => {
                 // # Click the edit button
                 cy.get(`#edit_post_${postId}`).click();
 
-                // # Edit modal should appear
-                cy.get('.edit-modal').should('be.visible');
-
                 // # Edit the post
                 cy.get('#edit_textbox').type('Some text {enter}');
-
-                // * Edit modal should disappear
-                cy.get('.edit-modal').should('not.exist');
 
                 // # Mouseover the post again
                 cy.get(`#post_${postId}`).trigger('mouseover');
@@ -142,10 +136,10 @@ describe('Edit Message', () => {
             // # Edit the last post
             cy.get('#post_textbox').type('{uparrow}');
 
-            // * Edit post modal should appear, and edit the post
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit Post Input should appear, and edit the post
+            cy.get('#edit_textbox').should('be.visible');
             cy.get('#edit_textbox').should('have.text', secondMessage).type(' Another new message{enter}');
-            cy.get('#editPostModal').should('not.exist');
+            cy.get('#edit_textbox').should('not.exist');
 
             // * Check the second post and verify that it contains new edited message.
             cy.get(postText).should('have.text', `${secondMessage} Another new message Edited`);

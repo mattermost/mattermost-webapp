@@ -11,7 +11,7 @@ type Props = {
     children: React.ReactNode | React.ReactNodeArray;
     beforePath?: boolean;
     afterPath?: boolean;
-    style?: Record<string, string>;
+    style?: React.CSSProperties;
     lineDistance?: number;
     lineLeft?: number;
 };
@@ -28,37 +28,41 @@ export default function SingleColumnLayout(props: Props) {
     }
 
     const lineDistance = props.lineDistance === undefined ? 40 : Math.abs(props.lineDistance);
-    const lineLeft = props.lineLeft === undefined ? 68 : Math.abs(props.lineLeft);
+    const lineLeft = props.lineLeft === undefined ? 99 : Math.abs(props.lineLeft);
+
+    let children = props.children;
+    if (React.Children.count(props.children) > 1) {
+        children = <div>{props.children}</div>;
+    }
 
     return (
         <div
             className='SingleColumnLayout'
             style={props.style}
         >
-            <div className='SingleColumnLayout__inner'>
-                {showBeforePath && (
-                    <PageLine
-                        style={{
-                            height: '50vh',
-                            position: 'absolute',
-                            transform: 'translateY(-100%)',
-                            top: `-${lineDistance}px`,
-                            left: `${lineLeft}px`,
-                        }}
-                    />
-                )}
-                {props.children}
-                {showAfterPath && (
-                    <PageLine
-                        style={{
-                            height: '50vh',
-                            position: 'absolute',
-                            top: `calc(100% + ${lineDistance}px)`,
-                            left: `${lineLeft}px`,
-                        }}
-                    />
-                )}
-            </div>
+            {showBeforePath && (
+                <PageLine
+                    style={{
+                        flexGrow: '1',
+                        flexShrink: '1',
+                        height: '50vh',
+                        marginBottom: `${lineDistance}px`,
+                        left: `${lineLeft}px`,
+                    }}
+                />
+            )}
+            {children}
+            {showAfterPath && (
+                <PageLine
+                    style={{
+                        flexGrow: '1',
+                        flexShrink: '1',
+                        height: '50vh',
+                        marginTop: `${lineDistance}px`,
+                        left: `${lineLeft}px`,
+                    }}
+                />
+            )}
         </div>
     );
 }

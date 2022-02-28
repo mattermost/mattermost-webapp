@@ -10,6 +10,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import '../category_modal.scss';
 import GenericModal from 'components/generic_modal';
+import {localizeMessage} from 'utils/utils';
 
 type Props = {
     category: ChannelCategory;
@@ -39,6 +40,7 @@ export default class DeleteCategoryModal extends React.PureComponent<Props, Stat
     render() {
         return (
             <GenericModal
+                ariaLabel={localizeMessage('delete_category_modal.deleteCategory', 'Delete this category?')}
                 onExited={this.props.onExited}
                 modalHeaderText={(
                     <FormattedMessage
