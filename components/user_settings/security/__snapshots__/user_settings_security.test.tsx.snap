@@ -118,6 +118,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         }
       }
       id="viewAccessHistory"
+      modalId="access_history"
     >
       <LocalizedIcon
         className="fa fa-clock-o"
@@ -145,6 +146,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         }
       }
       id="viewAndLogOutOfActiveSessions"
+      modalId="activity_log"
     >
       <LocalizedIcon
         className="fa fa-clock-o"
@@ -282,6 +284,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         }
       }
       id="viewAccessHistory"
+      modalId="access_history"
     >
       <LocalizedIcon
         className="fa fa-clock-o"
@@ -309,6 +312,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         }
       }
       id="viewAndLogOutOfActiveSessions"
+      modalId="activity_log"
     >
       <LocalizedIcon
         className="fa fa-clock-o"
@@ -446,6 +450,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         }
       }
       id="viewAccessHistory"
+      modalId="access_history"
     >
       <LocalizedIcon
         className="fa fa-clock-o"
@@ -473,6 +478,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         }
       }
       id="viewAndLogOutOfActiveSessions"
+      modalId="activity_log"
     >
       <LocalizedIcon
         className="fa fa-clock-o"
@@ -610,6 +616,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         }
       }
       id="viewAccessHistory"
+      modalId="access_history"
     >
       <LocalizedIcon
         className="fa fa-clock-o"
@@ -637,6 +644,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         }
       }
       id="viewAndLogOutOfActiveSessions"
+      modalId="activity_log"
     >
       <LocalizedIcon
         className="fa fa-clock-o"
