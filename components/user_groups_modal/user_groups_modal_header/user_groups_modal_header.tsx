@@ -39,7 +39,7 @@ const UserGroupsModalHeader = (props: Props) => {
             >
                 <FormattedMessage
                     id='user_groups_modal.title'
-                    defaultMessage='User Groups (Beta)'
+                    defaultMessage='User Groups'
                 />
             </Modal.Title>
             {

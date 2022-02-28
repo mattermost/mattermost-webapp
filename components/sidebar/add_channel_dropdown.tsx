@@ -115,7 +115,7 @@ const AddChannelDropdown = ({
                     id={'createUserGroup'}
                     onClick={showCreateUserGroupModal}
                     icon={<i className='icon-account-multiple-plus-outline'/>}
-                    text={intl.formatMessage({id: 'sidebar.createUserGroup', defaultMessage: 'Create New User Group (Beta)'})}
+                    text={intl.formatMessage({id: 'sidebar.createUserGroup', defaultMessage: 'Create New User Group'})}
                 />
             );
         }
