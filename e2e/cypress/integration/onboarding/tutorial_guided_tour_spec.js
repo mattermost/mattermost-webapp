@@ -11,11 +11,6 @@
 
 // Stage: @prod
 // Group: @onboarding @smoke
-const selectors = {
-    tip: '#tipNextButton',
-    tipNext: '#tipNextButton',
-    tipText: '.tip-overlay',
-};
 
 describe('Onboarding', () => {
     let theuser;
