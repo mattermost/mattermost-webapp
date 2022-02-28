@@ -2,8 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-
 import styled from 'styled-components';
+import {useIntl} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {Constants} from 'utils/constants';
@@ -17,14 +17,20 @@ interface MenuItemProps {
 
     icon: JSX.Element;
     text: string;
+    onClick: () => void;
 }
 
-const menuItem = ({icon, text, className}: MenuItemProps) => {
+const menuItem = ({icon, text, className, onClick}: MenuItemProps) => {
     return (
         <div className={className}>
-            <Icon>{icon}</Icon>
-            <div css={{paddingLeft: '8px'}}>
-                {text}
+            <div
+                className='MenuItem--main-action MenuItem--container'
+                onClick={onClick}
+            >
+                <Icon>{icon}</Icon>
+                <div className='MenuItem--main-action__text' >
+                    {text}
+                </div>
             </div>
         </div>
     );
@@ -34,11 +40,23 @@ const MenuItem = styled(menuItem)`
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 8px 16px;
     border-radius: 4px;
     cursor: pointer;
     width: 100%;
     height: 40px;
+
+    .MenuItem--container {
+        padding: 8px 16px;
+        flex: 1;
+        display: flex;
+    }
+
+    .MenuItem--main-action {
+        &__text {
+            padding-left: 8px;
+            flex: 1;
+        }
+    }
 
     &:hover {
        background: rgba(63, 67, 80, 0.08);
@@ -47,24 +65,38 @@ const MenuItem = styled(menuItem)`
 
 interface MenuProps {
     channel: Channel;
+    isArchived: boolean;
+
     className?: string;
+
+    actions: {
+        openNotificationSettings: () => void;
+    };
 }
 
-const Menu = ({channel, className}: MenuProps) => {
+const Menu = ({channel, isArchived, className, actions}: MenuProps) => {
+    const {formatMessage} = useIntl();
+
     const showChannelSettings = [Constants.OPEN_CHANNEL, Constants.PRIVATE_CHANNEL].includes(channel.type);
+
+    const showNotificationPreferences = channel.type !== Constants.DM_CHANNEL && !isArchived;
 
     return (
         <div className={className}>
             {showChannelSettings && (
                 <MenuItem
                     icon={<i className='icon icon-tune'/>}
-                    text='Channel Settings'
+                    text={formatMessage({id: 'channel_info_rhs.top_menu.channel_settings', defaultMessage: 'Channel Settings'})}
+                    onClick={() => {}}
                 />
             )}
-            <MenuItem
-                icon={<i className='icon icon-bell-outline'/>}
-                text='Notification Preferences'
-            />
+            {showNotificationPreferences && (
+                <MenuItem
+                    icon={<i className='icon icon-bell-outline'/>}
+                    text={formatMessage({id: 'channel_info_rhs.top_menu.notification_preferences', defaultMessage: 'Notification Preferences'})}
+                    onClick={actions.openNotificationSettings}
+                />
+            )}
         </div>
     );
 };
@@ -75,9 +107,6 @@ const StyledMenu = styled(Menu)`
     align-items: flex-start;
     padding: 16px 4px;
 
-    font-family: Open Sans;
-    font-style: normal;
-    font-weight: normal;
     font-size: 14px;
     line-height: 20px;
     color: #3F4350;

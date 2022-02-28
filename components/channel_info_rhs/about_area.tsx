@@ -3,6 +3,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
+import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants';
 import {Channel} from 'mattermost-redux/types/channels';
@@ -28,7 +29,7 @@ const Container = styled.div`
 `;
 
 const Usernames = styled.p`
-    font-family: Metropolis;
+    font-family: Metropolis, sans-serif;
     font-size: 18px;
     line-height: 24px;
     color: #3F4350;
@@ -70,7 +71,6 @@ const ChannelPurpose = styled.div`
 
 const ChannelDescription = styled.div`
     margin-bottom: 12px;
-    line-clamp: 3;
 `;
 
 const DmPurpose = styled.div`
@@ -99,25 +99,25 @@ const EmptyPlace = styled.div`
     color: rgba(63, 67, 80, 0.64);
 `;
 
+const EditButton = styled.button`
+    border: 0;
+    padding: 4px;
+    margin: 0px;
+    border-radius: 4px;
+    background: rgba(63, 67, 80, 0.04);
+    color: rgba(63, 67, 80, 0.56);
+    &:hover {
+        background: rgba(63, 67, 80, 0.08);
+        color: rgba(63, 67, 80, 0.72);
+    }
+`;
+
 interface EditableAreaProps {
     editable: boolean;
     content: JSX.Element;
     onEdit: () => void;
     className?: string;
 }
-
-const EditButton = styled.button`
-    border: 0;
-    padding: 4px;
-    margin: 0px;
-    border-radius: 4px;
-    background: rgba(63,67,80,0.04);
-    color: rgba(63, 67, 80, 0.56);
-    &:hover {
-        background: rgba(63,67,80,0.08);
-        color: rgba(63,67,80,0.72);
-    }
-`;
 
 const editableArea = ({editable, content, onEdit, className}: EditableAreaProps) => {
     return (
@@ -179,7 +179,12 @@ const AboutArea = ({channel, channelURL, dmUser, gmUsers, actions}: Props) => {
                 content={channel.purpose ? (
                     <Markdown message={channel.purpose}/>
                 ) : (
-                    <EmptyPlace>Add a channel purpose</EmptyPlace>
+                    <EmptyPlace>
+                        <FormattedMessage
+                            id='channel_info_rhs.about_area.add_channel_purpose'
+                            defaultMessage='Add a channel purpose'
+                        />
+                    </EmptyPlace>
                 )}
                 onEdit={editChannelPurpose}
             />
@@ -251,7 +256,12 @@ const AboutArea = ({channel, channelURL, dmUser, gmUsers, actions}: Props) => {
                         content={channel.header ? (
                             <Markdown message={channel.header}/>
                         ) : (
-                            <EmptyPlace>Add a channel description</EmptyPlace>
+                            <EmptyPlace>
+                                <FormattedMessage
+                                    id='channel_info_rhs.about_area.add_channel_description'
+                                    defaultMessage='Add a channel description'
+                                />
+                            </EmptyPlace>
                         )}
                         editable={true}
                         onEdit={editChannelDescription}

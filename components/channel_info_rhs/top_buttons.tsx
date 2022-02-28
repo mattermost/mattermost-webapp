@@ -3,7 +3,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import {useIntl} from 'react-intl';
+import {useIntl, FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants';
 import useCopyText from 'components/common/hooks/useCopyText';
@@ -13,7 +13,6 @@ const ChannelInfoRhsTopButtons = styled.div`
     color: rgba(63, 67, 80, 0.56);
     margin-top: 24px;
     padding: 0 18px;
-    font-family: Open Sans;
 `;
 
 const ChannelInfoRhsTopButton = styled.button`
@@ -37,7 +36,7 @@ const ChannelInfoRhsTopButton = styled.button`
 
     &.success {
         background: #3DB887;
-        color: #FFFFFF;
+        color: white;
     }
 
     & i {
@@ -77,15 +76,15 @@ export default function TopButtons({channelType, channelURL, isFavorite, isMuted
 
     // Favorite Button State
     const favoriteIcon = isFavorite ? 'icon-star' : 'icon-star-outline';
-    const favoriteText = isFavorite ? formatMessage({id: 'TEMP.favd', defaultMessage: 'Favorited'}) : formatMessage({id: 'TEMP.fav', defaultMessage: 'Favorite'});
+    const favoriteText = isFavorite ? formatMessage({id: 'channel_info_rhs.top_buttons.favorited', defaultMessage: 'Favorited'}) : formatMessage({id: 'channel_info_rhs.top_buttons.favorite', defaultMessage: 'Favorite'});
 
     // Mute Button State
     const mutedIcon = isMuted ? 'icon-bell-off-outline' : 'icon-bell-outline';
-    const mutedText = isMuted ? formatMessage({id: 'TEMP.mutd', defaultMessage: 'Muted'}) : formatMessage({id: 'TEMP.mut', defaultMessage: 'Mute'});
+    const mutedText = isMuted ? formatMessage({id: 'channel_info_rhs.top_buttons.muted', defaultMessage: 'Muted'}) : formatMessage({id: 'channel_info_rhs.top_buttons.mute', defaultMessage: 'Mute'});
 
     // Copy Button State
     const copyIcon = copyLink.copiedRecently ? 'icon-check' : 'icon-link-variant';
-    const copyText = copyLink.copiedRecently ? formatMessage({id: 'TEMP.copd', defaultMessage: 'Copied'}) : formatMessage({id: 'TEMP.cop', defaultMessage: 'Copy Link'});
+    const copyText = copyLink.copiedRecently ? formatMessage({id: 'channel_info_rhs.top_buttons.copied', defaultMessage: 'Copied'}) : formatMessage({id: 'channel_info_rhs.top_buttons.copy', defaultMessage: 'Copy Link'});
 
     const toggleFavorite = () => {
         props.toggleFavorite();
@@ -123,7 +122,12 @@ export default function TopButtons({channelType, channelURL, isFavorite, isMuted
                     <div>
                         <i className='icon icon-account-plus-outline'/>
                     </div>
-                    <span>Add People</span>
+                    <span>
+                        <FormattedMessage
+                            id='channel_info_rhs.top_buttons.add_people'
+                            defaultMessage='Add People'
+                        />
+                    </span>
                 </ChannelInfoRhsTopButton>
             )}
             {canCopyLink && (

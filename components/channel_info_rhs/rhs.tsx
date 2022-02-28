@@ -18,6 +18,8 @@ import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 
+import ChannelNotificationsModal from 'components/channel_notifications_modal';
+
 import Menu from './menu';
 import AboutArea from './about_area';
 import TopButtons from './top_buttons';
@@ -25,7 +27,7 @@ import Header from './header';
 
 const Divider = styled.div`
     width: 88%;
-    border: 1px solid rgba(61, 60, 64, 0.08);
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
     margin: 0 auto;
 `;
 
@@ -37,9 +39,10 @@ export interface DMUser {
 
 export interface ChannelInfoRhsProps {
     channel: Channel;
-    currentUserId: string;
+    currentUser: UserProfile;
     currentTeam: Team;
 
+    isArchived: boolean;
     isFavorite: boolean;
     isMuted: boolean;
     isInvitingPeople: boolean;
@@ -57,7 +60,8 @@ export interface ChannelInfoRhsProps {
     };
 }
 
-const ChannelInfoRhs = ({channel, isFavorite, isMuted, isInvitingPeople, currentTeam, currentUserId, dmUser, gmUsers, actions}: ChannelInfoRhsProps) => {
+const ChannelInfoRhs = ({channel, isArchived, isFavorite, isMuted, isInvitingPeople, currentTeam, currentUser, dmUser, gmUsers, actions}: ChannelInfoRhsProps) => {
+    const currentUserId = currentUser.id;
     const channelURL = getSiteURL() + '/' + currentTeam.name + '/channels/' + channel.name;
 
     const closeRhs = () => actions.closeRightHandSide();
@@ -94,6 +98,12 @@ const ChannelInfoRhs = ({channel, isFavorite, isMuted, isInvitingPeople, current
         modalId: ModalIdentifiers.EDIT_CHANNEL_HEADER,
         dialogType: EditChannelHeaderModal,
         dialogProps: {channel},
+    });
+
+    const openNotificationSettings = () => actions.openModal({
+        modalId: ModalIdentifiers.CHANNEL_NOTIFICATIONS,
+        dialogType: ChannelNotificationsModal,
+        dialogProps: {channel, currentUser},
     });
 
     return (
@@ -136,6 +146,8 @@ const ChannelInfoRhs = ({channel, isFavorite, isMuted, isInvitingPeople, current
 
             <Menu
                 channel={channel}
+                isArchived={isArchived}
+                actions={{openNotificationSettings}}
             />
         </div>
     );

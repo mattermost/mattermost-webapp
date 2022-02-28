@@ -32,7 +32,7 @@ const Header = ({channel, onClose}: Props) => {
         <div className='sidebar--right__header'>
             <span className='sidebar--right__title'>
                 <FormattedMessage
-                    id='channel_info_rhs_header.title'
+                    id='channel_info_rhs.header.title'
                     defaultMessage='Info'
                 />
                 {channelName &&

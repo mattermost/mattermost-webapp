@@ -25,6 +25,7 @@ const ChannelInfoButton: React.FC<Props> = (props: Props) => {
 
     const isRhsOpen: boolean = useSelector(getIsRhsOpen);
     const rhsState: RhsState = useSelector(getRhsState);
+    const rhsOpenOnChannelInfo = isRhsOpen && rhsState === RHSStates.CHANNEL_INFO;
 
     const toggleRHS = () => {
         if (rhsState === RHSStates.CHANNEL_INFO) {
@@ -34,12 +35,18 @@ const ChannelInfoButton: React.FC<Props> = (props: Props) => {
         }
     };
 
+    let buttonClass = 'channel-header__icon';
+    if (rhsOpenOnChannelInfo) {
+        buttonClass += ' channel-header__icon--active-inverted';
+    }
+
     return (
         <HeaderIconWrapper
+            buttonClass={buttonClass}
             buttonId='channel-info-btn'
             onClick={toggleRHS}
             iconComponent={<InfoIcon/>}
-            tooltipKey='test'
+            tooltipKey='channelInfo'
             isRhsOpen={isRhsOpen}
         />
     );

@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 
-import {getCurrentChannel, isCurrentChannelFavorite, isCurrentChannelMuted} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel, isCurrentChannelFavorite, isCurrentChannelMuted, isCurrentChannelArchived} from 'mattermost-redux/selectors/entities/channels';
 import {isModalOpen} from 'selectors/views/modals';
 
 import {closeRightHandSide} from 'actions/views/rhs';
@@ -13,7 +13,7 @@ import {GlobalState} from 'types/store';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
 
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {unfavoriteChannel, favoriteChannel} from 'mattermost-redux/actions/channels';
 import {muteChannel, unmuteChannel} from 'actions/channel_actions';
@@ -26,9 +26,10 @@ import RHS, {ChannelInfoRhsProps} from './rhs';
 
 function mapStateToProps(state: GlobalState) {
     const channel = getCurrentChannel(state);
-    const currentUserId = getCurrentUserId(state);
+    const currentUser = getCurrentUser(state);
     const currentTeam = getCurrentTeam(state);
 
+    const isArchived = isCurrentChannelArchived(state);
     const isFavorite = isCurrentChannelFavorite(state);
     const isMuted = isCurrentChannelMuted(state);
     const isInvitingPeople = isModalOpen(state, ModalIdentifiers.CHANNEL_INVITE);
@@ -37,8 +38,9 @@ function mapStateToProps(state: GlobalState) {
 
     const props = {
         channel,
-        currentUserId,
+        currentUser,
         currentTeam,
+        isArchived,
         isFavorite,
         isMuted,
         isInvitingPeople,
@@ -48,7 +50,7 @@ function mapStateToProps(state: GlobalState) {
     switch (channel.type) {
     case Constants.DM_CHANNEL:
         // eslint-disable-next-line no-case-declarations
-        const user = getUser(state, getUserIdFromChannelId(channel.name, currentUserId));
+        const user = getUser(state, getUserIdFromChannelId(channel.name, currentUser.id));
         props.dmUser = {
             user,
             is_guest: isGuest(user.roles),
