@@ -6,8 +6,8 @@ import {Dispatch, bindActionCreators} from 'redux';
 import {withRouter} from 'react-router-dom';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
-import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId, getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {makeGetCategory, getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUserId, getCurrentUser, isFirstAdmin, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
@@ -33,6 +33,8 @@ function makeMapStateToProps() {
         isAdmin: isCurrentUserSystemAdmin(state),
         teamUrl: getCurrentRelativeTeamUrl(state),
         enableOnboardingFlow: getConfig(state).EnableOnboardingFlow === 'true',
+        isFirstAdmin: isFirstAdmin(state),
+        useCaseOnboarding: getUseCaseOnboarding(state),
     });
 }
 

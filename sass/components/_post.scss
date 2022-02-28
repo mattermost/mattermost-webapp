@@ -5,6 +5,7 @@
         overflow: hidden;
         height: 100%;
         min-height: 46px;
+        max-height: 560px;
         border: none;
         background: transparent;
         border-radius: 4px;
@@ -433,10 +434,6 @@
     }
 
     .scroll {
-        .post-body__actions {
-            right: calc(var(--detected-scrollbar-width) - 4px);
-        }
-
         .custom-textarea {
             overflow: auto;
             -webkit-overflow-scrolling: touch;
@@ -658,6 +655,38 @@
     }
 }
 
+.post-body__helper-text {
+    display: inline-block;
+    margin: 8px 0 4px;
+    color: rgba(var(--center-channel-color-rgb), 0.64);
+    font-family: "Open Sans", sans-serif;
+}
+
+.post-create-footer {
+    position: relative;
+    padding: 6px 0 0;
+    font-size: 13px;
+
+    .help__text {
+        text-align: right;
+
+        a,
+        button {
+            margin-left: 10px;
+        }
+    }
+
+    .post-error {
+        position: absolute;
+        top: 4px;
+        display: inline-block;
+        margin-bottom: 0;
+        font-size: 0.85em;
+        font-weight: normal;
+        opacity: 0.55;
+    }
+}
+
 .post-list__table {
     width: 100%;
     height: 100%;
@@ -686,13 +715,56 @@
     overflow: hidden;
     max-width: 100%;
     padding: 8px 0.5em 0 1.5em; // If this needs to be changed then .post-row__padding needs to be adjusted accordingly
+    transition: height 200ms, background-color 200ms;
     word-wrap: break-word;
 
-    &:hover {
+    &:not(.post--editing):hover {
         background-color: rgba(v(center-channel-color-rgb), 0.04);
 
         .post__header {
             padding: 0 55px 0 0;
+        }
+    }
+
+    .hide-element {
+        display: none;
+    }
+
+    &.post--editing {
+        overflow: visible;
+        background-color: rgba(var(--button-bg-rgb), 0.08);
+
+        .post__body {
+            position: relative;
+            overflow: visible;
+            background: transparent;
+
+            .post--editing__wrapper {
+                position: relative;
+                margin: 8px 0 0;
+
+                &.scroll {
+                    .custom-textarea {
+                        overflow: auto;
+                        -webkit-overflow-scrolling: touch;
+                        -ms-overflow-style: auto;
+                    }
+
+                    .post-body__actions {
+                        right: 10px;
+                    }
+                }
+            }
+
+            .custom-textarea {
+                max-height: calc(50vh - 40px);
+                padding: 13px 0 12px 16px;
+                background-color: var(--center-channel-bg);
+
+                &.custom-textarea--emoji-picker {
+                    padding-right: 50px;
+                }
+            }
         }
     }
 
@@ -731,8 +803,6 @@
 
     &:hover,
     &.a11y--active {
-        @include pie-clearfix;
-
         overflow: visible;
 
         .dropdown,
@@ -768,8 +838,6 @@
 
     &.post--hovered,
     &.a11y--active {
-        @include pie-clearfix;
-
         overflow: visible;
 
         .dropdown,
@@ -860,7 +928,7 @@
                 left: 0;
                 width: 100%;
                 height: 100%;
-                content: '';
+                content: "";
             }
         }
 
@@ -956,7 +1024,7 @@
         .post-preview__header {
             display: flex;
             width: auto;
-            height: 22px;
+            max-height: 22px;
             padding: 0;
             margin-bottom: 0;
         }
@@ -965,11 +1033,6 @@
             padding: 2px 0 0;
             background: transparent !important;
             line-height: 1.5;
-
-            .post--edited {
-                position: relative;
-                top: -1px;
-            }
 
             .img-div {
                 max-width: 150px;
@@ -1079,8 +1142,8 @@
         font-size: 11px;
         font-style: italic;
         -webkit-user-select: none; /* Chrome all / Safari all */
-        -moz-user-select: none;    /* Firefox all */
-        -ms-user-select: none;     /* IE 10+ */
+        -moz-user-select: none; /* Firefox all */
+        -ms-user-select: none; /* IE 10+ */
         user-select: none;
 
         > i {
@@ -1332,7 +1395,7 @@
 
                 text-align: left;
                 text-overflow: ellipsis;
-                -moz-user-select: all;    /* Firefox all */
+                -moz-user-select: all; /* Firefox all */
                 vertical-align: top;
                 white-space: nowrap;
             }
@@ -1410,8 +1473,8 @@
                     height: 28px;
                     border-radius: unset;
                     -webkit-user-select: none; /* Chrome all / Safari all */
-                    -moz-user-select: none;    /* Firefox all */
-                    -ms-user-select: none;     /* IE 10+ */
+                    -moz-user-select: none; /* Firefox all */
+                    -ms-user-select: none; /* IE 10+ */
                     user-select: none;
                 }
             }
@@ -1455,8 +1518,6 @@
     }
 
     .post__body {
-        @include pie-clearfix;
-
         width: 100%;
         padding: 0 0 0.2em;
         word-wrap: break-word;
@@ -1503,7 +1564,7 @@
                 margin-left: -20px;
             }
 
-            li input[type='checkbox']:disabled {
+            li input[type="checkbox"]:disabled {
                 cursor: default;
                 vertical-align: top;
             }
@@ -1519,7 +1580,7 @@
 
             &::before {
                 margin-right: 8px;
-                content: '\2022';
+                content: "\2022";
             }
         }
 
@@ -1583,8 +1644,8 @@
         font-size: 13px;
         text-overflow: ellipsis;
         -webkit-user-select: none; /* Chrome all / Safari all */
-        -moz-user-select: none;    /* Firefox all */
-        -ms-user-select: none;     /* IE 10+ */
+        -moz-user-select: none; /* Firefox all */
+        -ms-user-select: none; /* IE 10+ */
         user-select: none;
         white-space: nowrap;
 
@@ -1619,11 +1680,11 @@
         }
 
         &::before {
-            content: '\f0da';
+            content: "\f0da";
         }
 
-        &[data-expanded='true']::before {
-            content: '\f0d7';
+        &[data-expanded="true"]::before {
+            content: "\f0d7";
         }
     }
 
@@ -1710,7 +1771,7 @@
             position: relative;
             top: 3px;
             width: 18px;
-            fill: var(--link-color);
+            fill: currentColor;
         }
     }
 
@@ -2128,6 +2189,8 @@
 }
 
 .post-list__dynamic {
+    overflow-x: hidden;
+
     .emoji-picker--active & {
         pointer-events: none;
     }

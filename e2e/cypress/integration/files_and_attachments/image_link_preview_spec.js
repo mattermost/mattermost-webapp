@@ -96,7 +96,7 @@ describe('Image Link Preview', () => {
         cy.findAllByLabelText('file thumbnail').should('be.visible').and('have.length', 4);
     });
 
-    it('MM-T332 Image link preview - Bitly links for images and YouTube', () => {
+    it('MM-T332 Image link preview - Bitly links for images and YouTube -- KNOWN ISSUE: MM-40448', () => {
         // # Youtube link and image link
         const links = ['https://bit.ly/2NlYsOr', 'https://bit.ly/2wqEbjw'];
 

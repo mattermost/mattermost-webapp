@@ -23,6 +23,7 @@ export function setShowPreviewOnEditChannelHeaderModal(showPreview) {
     };
 }
 
+// TODO@Michel: remove this function once the inline post editing feature is enabled by default
 export function setShowPreviewOnEditPostModal(showPreview) {
     return {
         type: ActionTypes.SET_SHOW_PREVIEW_ON_EDIT_POST_MODAL,

@@ -65,7 +65,7 @@ export function getThreads(userId: string, teamId: string, {before = '', after =
     };
 }
 
-export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFunc, threadData: UserThread, teamId: string) {
+export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFunc, threadData: UserThread, teamId: string, previousUnreadReplies?: number, previousUnreadMentions?: number) {
     const state = getState();
     const currentUserId = getCurrentUserId(state);
     const currentTeamId = getCurrentTeamId(state);
@@ -92,19 +92,30 @@ export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFu
     });
 
     const oldThreadData = state.entities.threads.threads[threadData.id];
-    handleReadChanged(
-        dispatch,
-        thread.id,
-        teamId || currentTeamId,
-        thread.post.channel_id,
-        {
-            lastViewedAt: thread.last_viewed_at,
-            prevUnreadMentions: oldThreadData?.unread_mentions ?? 0,
-            newUnreadMentions: thread.unread_mentions,
-            prevUnreadReplies: oldThreadData?.unread_replies ?? 0,
-            newUnreadReplies: thread.unread_replies,
-        },
-    );
+
+    // update thread read if and only if we have previous unread values
+    // upon receiving a thread.
+    // we need that guard to ensure that fetching a thread won't skew the counts
+    //
+    // PS: websocket events should always provide the previous unread values
+    if (
+        (previousUnreadMentions != null && previousUnreadReplies != null) ||
+        oldThreadData != null
+    ) {
+        handleReadChanged(
+            dispatch,
+            thread.id,
+            teamId || currentTeamId,
+            thread.post.channel_id,
+            {
+                lastViewedAt: thread.last_viewed_at,
+                prevUnreadMentions: oldThreadData?.unread_mentions ?? previousUnreadMentions,
+                newUnreadMentions: thread.unread_mentions,
+                prevUnreadReplies: oldThreadData?.unread_replies ?? previousUnreadReplies,
+                newUnreadReplies: thread.unread_replies,
+            },
+        );
+    }
 
     return thread;
 }

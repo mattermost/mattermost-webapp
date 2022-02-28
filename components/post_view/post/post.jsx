@@ -87,6 +87,8 @@ export default class Post extends React.PureComponent {
          */
         isLastPost: PropTypes.bool,
 
+        isBeingEdited: PropTypes.bool,
+
         /**
          * Whether or not the channel that contains this post is archived
          */
@@ -129,9 +131,6 @@ export default class Post extends React.PureComponent {
     }
 
     componentDidMount() {
-        document.addEventListener('keydown', this.handleAlt);
-        document.addEventListener('keyup', this.handleAlt);
-
         // Refs can be null when this component is shallowly rendered for testing
         if (this.postRef.current) {
             this.postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
@@ -146,8 +145,9 @@ export default class Post extends React.PureComponent {
     }
 
     componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleAlt);
-        document.removeEventListener('keyup', this.handleAlt);
+        if (this.state.hover) {
+            this.removeKeyboardListeners();
+        }
 
         if (this.postRef.current) {
             this.postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
@@ -181,7 +181,7 @@ export default class Post extends React.PureComponent {
     }
 
     handlePostClick = (e) => {
-        const {post, clickToReply} = this.props;
+        const {post, clickToReply, isBeingEdited} = this.props;
 
         if (!post) {
             return;
@@ -194,7 +194,8 @@ export default class Post extends React.PureComponent {
             !e.altKey &&
             clickToReply &&
             (fromAutoResponder || !isSystemMessage) &&
-            isEligibleForClick(e)
+            isEligibleForClick(e) &&
+            !isBeingEdited
         ) {
             trackEvent('crt', 'clicked_to_reply');
             this.props.actions.selectPost(post);
@@ -297,15 +298,20 @@ export default class Post extends React.PureComponent {
         }
 
         if (this.props.compactDisplay) {
+            sameUserClass = '';
             className += ' post--compact';
         }
 
-        if (this.state.dropdownOpened || this.state.fileDropdownOpened || this.state.a11yActive) {
+        if ((this.state.dropdownOpened || this.state.fileDropdownOpened || this.state.a11yActive) && !this.props.isBeingEdited) {
             className += ' post--hovered';
         }
 
         if (post.is_pinned || this.props.isFlagged) {
             className += ' post--pinned-or-flagged';
+        }
+
+        if (this.props.isBeingEdited) {
+            className += ' post--editing';
         }
 
         if (this.state.alt && !(this.props.channelIsArchived || post.system_post_ids)) {
@@ -315,12 +321,32 @@ export default class Post extends React.PureComponent {
         return className + ' ' + sameUserClass + ' ' + rootUser + ' ' + postType + ' ' + currentUserCss;
     }
 
-    setHover = () => {
-        this.setState({hover: true});
+    setHover = (e) => {
+        this.setState({
+            hover: true,
+            alt: e.altKey,
+        });
+
+        this.addKeyboardListeners();
     }
 
     unsetHover = () => {
-        this.setState({hover: false});
+        this.setState({
+            hover: false,
+            alt: false,
+        });
+
+        this.removeKeyboardListeners();
+    }
+
+    addKeyboardListeners = () => {
+        document.addEventListener('keydown', this.handleAlt);
+        document.addEventListener('keyup', this.handleAlt);
+    }
+
+    removeKeyboardListeners = () => {
+        document.removeEventListener('keydown', this.handleAlt);
+        document.removeEventListener('keyup', this.handleAlt);
     }
 
     handleAlt = (e) => {
@@ -330,10 +356,12 @@ export default class Post extends React.PureComponent {
     }
 
     handleA11yActivateEvent = () => {
-        this.setState({
-            a11yActive: true,
-            ariaHidden: false,
-        });
+        if (!this.props.isBeingEdited) {
+            this.setState({
+                a11yActive: true,
+                ariaHidden: false,
+            });
+        }
     }
 
     handleA11yDeactivateEvent = () => {
@@ -423,7 +451,7 @@ export default class Post extends React.PureComponent {
                                 compactDisplay={this.props.compactDisplay}
                                 isFirstReply={this.props.isFirstReply}
                                 showTimeWithoutHover={!hideProfilePicture}
-                                hover={this.state.hover || this.state.a11yActive || this.state.fileDropdownOpened}
+                                hover={(this.state.hover || this.state.a11yActive || this.state.fileDropdownOpened) && !this.props.isBeingEdited}
                                 isLastPost={this.props.isLastPost}
                             />
                             <PostBody

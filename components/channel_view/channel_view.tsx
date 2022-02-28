@@ -10,7 +10,6 @@ import ChannelHeader from 'components/channel_header';
 import CreatePost from 'components/create_post';
 import FileUploadOverlay from 'components/file_upload_overlay';
 import PostView from 'components/post_view';
-import {clearMarks, mark, measure, trackEvent} from 'actions/telemetry_actions.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import {browserHistory} from 'utils/browser_history';
@@ -32,6 +31,8 @@ type Props = {
     channelIsArchived: boolean;
     viewArchivedChannels: boolean;
     isCloud: boolean;
+    isFirstAdmin: boolean;
+    useCaseOnboarding: boolean;
     actions: {
         goToLastViewedChannel: () => Promise<{data: boolean}>;
         setShowNextStepsView: (x: boolean) => void;
@@ -105,23 +106,6 @@ export default class ChannelView extends React.PureComponent<Props, State> {
 
     componentDidUpdate(prevProps: Props) {
         if (prevProps.channelId !== this.props.channelId || prevProps.channelIsArchived !== this.props.channelIsArchived) {
-            mark('ChannelView#componentDidUpdate');
-
-            const [dur1] = measure('SidebarChannelLink#click', 'ChannelView#componentDidUpdate');
-            const [dur2] = measure('TeamLink#click', 'ChannelView#componentDidUpdate');
-
-            clearMarks([
-                'SidebarChannelLink#click',
-                'ChannelView#componentDidUpdate',
-                'TeamLink#click',
-            ]);
-
-            if (dur1 !== -1) {
-                trackEvent('performance', 'channel_switch', {duration: Math.round(dur1)});
-            }
-            if (dur2 !== -1) {
-                trackEvent('performance', 'team_switch', {duration: Math.round(dur2)});
-            }
             if (this.props.channelIsArchived && !this.props.viewArchivedChannels) {
                 this.props.actions.goToLastViewedChannel();
             }
@@ -130,7 +114,7 @@ export default class ChannelView extends React.PureComponent<Props, State> {
 
     render() {
         const {channelIsArchived, enableOnboardingFlow, showNextSteps, showNextStepsEphemeral, teamUrl} = this.props;
-        if (enableOnboardingFlow && showNextSteps && !showNextStepsEphemeral) {
+        if (enableOnboardingFlow && showNextSteps && !showNextStepsEphemeral && !(this.props.useCaseOnboarding && this.props.isFirstAdmin)) {
             this.props.actions.setShowNextStepsView(true);
             browserHistory.push(`${teamUrl}/tips`);
         }

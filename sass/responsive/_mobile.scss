@@ -1131,7 +1131,7 @@
         }
 
         .post-list__content & {
-            &:hover {
+            &:not(.post--editing):hover {
                 background: transparent;
             }
 

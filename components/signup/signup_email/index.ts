@@ -8,6 +8,8 @@ import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
 import {createUser} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
+
 import {getTeamInviteInfo} from 'mattermost-redux/actions/teams';
 
 import {setGlobalItem} from 'actions/storage';
@@ -27,6 +29,7 @@ function mapStateToProps(state: GlobalState) {
     const privacyPolicyLink = config.PrivacyPolicyLink;
     const customDescriptionText = config.CustomDescriptionText;
     const hasAccounts = config.NoAccounts === 'false';
+    const useCaseOnboarding = getUseCaseOnboarding(state);
 
     return {
         enableSignUpWithEmail,
@@ -36,6 +39,7 @@ function mapStateToProps(state: GlobalState) {
         customDescriptionText,
         passwordConfig: getPasswordConfig(config),
         hasAccounts,
+        useCaseOnboarding,
     };
 }
 

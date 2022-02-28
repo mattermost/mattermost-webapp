@@ -421,14 +421,17 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
     }
 
     renderToast = (width: number) => {
-        const {lastViewedBottom, userScrolledToBottom} = this.state;
-        const isNewMessagesVisible = this.isNewMessagesVisible();
+        const {visibleStopIndex, lastViewedBottom, userScrolledToBottom} = this.state;
+        const canShow =
+            visibleStopIndex !== 0 &&
+            !this.isNewMessagesVisible() &&
+            !userScrolledToBottom;
 
         return (
             <NewRepliesBanner
                 threadId={this.props.selected.id}
                 lastViewedBottom={lastViewedBottom}
-                canShow={!(userScrolledToBottom || isNewMessagesVisible)}
+                canShow={canShow}
                 onDismiss={this.handleToastDismiss}
                 width={width}
                 onClick={this.handleToastClick}
@@ -476,6 +479,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
                                     ref={this.listRef}
                                     style={virtListStyles}
                                     width={width}
+                                    className={'post-list__dynamic--RHS'}
                                 >
                                     {this.renderRow}
                                 </DynamicSizeList>

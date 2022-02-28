@@ -64,6 +64,11 @@ export default class SuggestionBox extends React.PureComponent {
         renderNoResults: PropTypes.bool,
 
         /**
+         * Set to true if we want the suggestions to take in the complete word as the pretext, defaults to false
+         */
+        shouldSearchCompleteText: PropTypes.bool,
+
+        /**
          * Set to allow TAB to select an item in the list, defaults to true
          */
         completeOnTab: PropTypes.bool,
@@ -159,6 +164,7 @@ export default class SuggestionBox extends React.PureComponent {
         containerClass: '',
         renderDividers: false,
         renderNoResults: false,
+        shouldSearchCompleteText: false,
         completeOnTab: true,
         isRHS: false,
         requiredCharacters: 1,
@@ -328,7 +334,7 @@ export default class SuggestionBox extends React.PureComponent {
 
     handleChange = (e) => {
         const textbox = this.getTextbox();
-        const pretext = textbox.value.substring(0, textbox.selectionEnd);
+        const pretext = this.props.shouldSearchCompleteText ? textbox.value.trim() : textbox.value.substring(0, textbox.selectionEnd);
 
         if (!this.composing && this.pretext !== pretext) {
             this.handlePretextChanged(pretext);
@@ -734,6 +740,14 @@ export default class SuggestionBox extends React.PureComponent {
         this.container = container;
     };
 
+    getListPosition = (listPosition) => {
+        if (!this.state.suggestionBoxAlgn) {
+            return listPosition;
+        }
+
+        return listPosition === 'bottom' && this.state.suggestionBoxAlgn.placementShift ? 'top' : listPosition;
+    }
+
     render() {
         const {
             dateComponent,
@@ -765,6 +779,7 @@ export default class SuggestionBox extends React.PureComponent {
         Reflect.deleteProperty(props, 'forceSuggestionsWhenBlur');
         Reflect.deleteProperty(props, 'onSuggestionsReceived');
         Reflect.deleteProperty(props, 'actions');
+        Reflect.deleteProperty(props, 'shouldSearchCompleteText');
 
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;
@@ -798,7 +813,7 @@ export default class SuggestionBox extends React.PureComponent {
                             ariaLiveRef={this.suggestionReadOut}
                             open={this.state.focused || this.props.forceSuggestionsWhenBlur}
                             pretext={this.pretext}
-                            position={listPosition}
+                            position={this.getListPosition(listPosition)}
                             renderDividers={renderDividers}
                             renderNoResults={renderNoResults}
                             onCompleteWord={this.handleCompleteWord}

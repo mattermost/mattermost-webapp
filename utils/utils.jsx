@@ -575,15 +575,14 @@ export function getSuggestionBoxAlgn(textArea, pxToSubstract = 0) {
         };
     }
 
-    const caretCoordinatesInTxtArea = getCaretXYCoordinate(textArea);
-    const caretXCoordinateInTxtArea = caretCoordinatesInTxtArea.x;
-    const caretYCoordinateInTxtArea = caretCoordinatesInTxtArea.y;
-    const viewportWidth = getViewportSize().w;
+    const {x: caretXCoordinateInTxtArea, y: caretYCoordinateInTxtArea} = getCaretXYCoordinate(textArea);
+    const {w: viewportWidth, h: viewportHeight} = getViewportSize();
+    const {offsetWidth: textAreaWidth} = textArea;
 
-    const suggestionBoxWidth = getSuggestionBoxWidth(textArea);
+    const suggestionBoxWidth = Math.min(textAreaWidth, Constants.SUGGESTION_LIST_MAXWIDTH);
 
     // value in pixels for the offsetLeft for the textArea
-    const txtAreaOffsetLft = offsetTopLeft(textArea).left;
+    const {top: txtAreaOffsetTop, left: txtAreaOffsetLft} = offsetTopLeft(textArea);
 
     // how many pixels to the right should be moved the suggestion box
     let pxToTheRight = (caretXCoordinateInTxtArea) - (pxToSubstract);
@@ -605,18 +604,9 @@ export function getSuggestionBoxAlgn(textArea, pxToSubstract = 0) {
 
         // The line height of the textbox is needed so that the SuggestionList can adjust its position to be below the current line in the textbox
         lineHeight: Number(getComputedStyle(textArea)?.lineHeight.replace('px', '')),
+
+        placementShift: txtAreaOffsetTop + caretYCoordinateInTxtArea + Constants.SUGGESTION_LIST_MAXHEIGHT > viewportHeight - Constants.POST_AREA_HEIGHT,
     };
-}
-
-function getSuggestionBoxWidth(textArea) {
-    if (textArea.id === 'edit_textbox') {
-        // when the sugeestion box is in the edit mode it will inhering the class .modal suggestion-list which has width: 100%
-        return textArea.offsetWidth;
-    }
-
-    // 496 - value in pixels used in suggestion-list__content class line 72 file _suggestion-list.scss
-
-    return Constants.SUGGESTION_LIST_MODAL_WIDTH;
 }
 
 export function getPxToSubstract(char = '@') {
@@ -1360,8 +1350,8 @@ export function setCSRFFromCookie() {
 /**
  * Returns true if in dev mode, false otherwise.
  */
-export function isDevMode() {
-    const config = getConfig(store.getState());
+export function isDevMode(state = store.getState()) {
+    const config = getConfig(state);
     return config.EnableDeveloper === 'true';
 }
 
