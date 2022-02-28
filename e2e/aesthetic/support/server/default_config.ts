@@ -23,6 +23,7 @@ type TestAdminConfig = {
     PluginSettings: Partial<PluginSettings>;
 };
 
+// On-prem setting that is different from the default
 const onPremServerConfig = (): Partial<TestAdminConfig> => {
     return {
         PasswordSettings: {
@@ -40,12 +41,13 @@ const onPremServerConfig = (): Partial<TestAdminConfig> => {
             EnableOpenServer: true,
         },
         PluginSettings: {
-            EnableUploads: false,
+            EnableUploads: true,
         },
     };
 };
 
-// Should be based from the generated default config from mattermost-server
+// Should be based only from the generated default config from mattermost-server via "make config-reset"
+// Based on v6.5 server
 const defaultServerConfig: AdminConfig = {
     ServiceSettings: {
         SiteURL: '',

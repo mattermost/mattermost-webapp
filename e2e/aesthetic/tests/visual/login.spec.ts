@@ -4,7 +4,7 @@
 import {test, expect} from '@playwright/test';
 import {Eyes, CheckSettings} from '@applitools/eyes-playwright';
 
-import {getAdminClient} from '../../support/server/init';
+import {getAdminClient} from '../../support/server';
 import {LandingLoginPage, LoginPage} from '../../support/ui/page';
 import {duration, wait} from '../../support/utils';
 import {snapshotWithApplitools, snapshotWithPercy} from '../../support/visual';

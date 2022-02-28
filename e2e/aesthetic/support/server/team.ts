@@ -2,14 +2,16 @@
 // See LICENSE.txt for license information.
 
 import {getRandomId} from '../utils';
-import {TeamType} from '../../../../packages/mattermost-redux/src/types/teams';
+import {Team, TeamType} from '../../../../packages/mattermost-redux/src/types/teams';
 
-export function createRandomTeam(name = 'team', displayName = 'Team', type: TeamType = 'O', unique = true) {
+export function createRandomTeam(name = 'team', displayName = 'Team', type: TeamType = 'O', unique = true): Team {
     const randomSuffix = getRandomId();
 
-    return {
+    const team = {
         name: unique ? `${name}-${randomSuffix}` : name,
         display_name: unique ? `${displayName} ${randomSuffix}` : displayName,
         type,
     };
+
+    return team as Team;
 }

@@ -11,7 +11,7 @@ import {getOnPremServerConfig} from './default_config';
 import {initSetup, getAdminClient} from './init';
 import {getPreferenceWithHideInVisualTesting} from './preference';
 import {createRandomTeam} from './team';
-import {createRandomUser} from './user';
+import {createRandomUser, getDefaultAdminUser} from './user';
 
 type UserRequest = {
     username?: string;
@@ -22,20 +22,26 @@ type UserRequest = {
 const clients = {};
 
 export async function makeClient(
-    userRequest: UserRequest,
+    userRequest?: UserRequest,
     useCache = true
 ): Promise<{
-    client: Client4;
-    user: UserProfile;
+    client?: Client4;
+    user?: UserProfile;
+    err?: string;
 }> {
     try {
+        const client = new Client4();
+        client.setUrl(testConfig.baseURL);
+
+        if (!userRequest) {
+            return {client};
+        }
+
         const cacheKey = userRequest.username + userRequest.password;
         if (useCache && clients[cacheKey] != null) {
             return clients[cacheKey];
         }
 
-        const client = new Client4();
-        client.setUrl(testConfig.baseURL);
         const {data} = await client.login(userRequest.username, userRequest.password);
         const user = {...data, password: userRequest.password};
 
@@ -45,7 +51,7 @@ export async function makeClient(
 
         return {client, user};
     } catch (err) {
-        console.log(err);
+        return {err};
     }
 }
 
@@ -58,4 +64,5 @@ export {
     getPreferenceWithHideInVisualTesting,
     createRandomTeam,
     createRandomUser,
+    getDefaultAdminUser,
 };

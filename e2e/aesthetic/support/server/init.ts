@@ -1,17 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Team} from '../../../../packages/mattermost-redux/src/types/teams';
 import {PreferenceType} from '../../../../packages/mattermost-redux/src/types/preferences';
-import {UserProfile} from '../../../../packages/mattermost-redux/src/types/users';
+
+import testConfig from '../../test.config';
 
 import {makeClient} from '.';
 import {getOnPremServerConfig} from './default_config';
 import {createRandomTeam} from './team';
 import {createRandomUser} from './user';
-
-const adminUsername = process.env.PW_ADMIN_USERNAME || 'sysadmin';
-const adminPassword = process.env.PW_ADMIN_PASSWORD || 'Sys@dmin-sample1';
 
 export async function initSetup(userPrefix = 'user', teamPrefix = {name: 'team', displayName: 'Team'}) {
     try {
@@ -19,9 +16,9 @@ export async function initSetup(userPrefix = 'user', teamPrefix = {name: 'team',
 
         const adminConfig = await adminClient.updateConfig(getOnPremServerConfig());
 
-        const team = await adminClient.createTeam(createRandomTeam(teamPrefix.name, teamPrefix.displayName) as Team);
+        const team = await adminClient.createTeam(createRandomTeam(teamPrefix.name, teamPrefix.displayName));
 
-        const randomUser = createRandomUser(userPrefix) as UserProfile;
+        const randomUser = createRandomUser(userPrefix);
         const user = await adminClient.createUser(randomUser);
         user.password = randomUser.password;
 
@@ -52,12 +49,16 @@ export async function initSetup(userPrefix = 'user', teamPrefix = {name: 'team',
 }
 
 export async function getAdminClient() {
-    const {client: adminClient, user: adminUser} = await makeClient({
-        username: adminUsername,
-        password: adminPassword,
+    const {
+        client: adminClient,
+        user: adminUser,
+        err,
+    } = await makeClient({
+        username: testConfig.adminUsername,
+        password: testConfig.adminPassword,
     });
 
-    return {adminClient, adminUser};
+    return {adminClient, adminUser, err};
 }
 
 function getUrl(teamName, channelName) {

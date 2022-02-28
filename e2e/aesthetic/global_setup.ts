@@ -1,10 +1,92 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {FullConfig} from '@playwright/test';
+import {UserProfile} from '../../packages/mattermost-redux/src/types/users';
 
-async function globalSetup(config: FullConfig) {
-    console.log('global setup');
+import {
+    Client4,
+    createRandomTeam,
+    createRandomUser,
+    getAdminClient,
+    getDefaultAdminUser,
+    makeClient,
+} from './support/server';
+import {defaultTeam} from './support/utils';
+import testConfig from './test.config';
+
+async function globalSetup() {
+    let {adminClient, adminUser} = await getAdminClient();
+    if (!adminClient) {
+        const {client} = await makeClient();
+        const defaultAdmin = getDefaultAdminUser();
+        await client.createUser(defaultAdmin);
+
+        ({client: adminClient, user: adminUser} = await makeClient(defaultAdmin));
+    }
+
+    await sysadminSetup(adminClient, adminUser);
+}
+
+async function sysadminSetup(client: Client4, user: UserProfile) {
+    // Ensure admin's email is verified.
+    if (!user) {
+        await client.verifyUserEmail(client.token);
+    }
+
+    // Create default team if not present.
+    // Otherwise, create other teams and channels other than the default team cna channels (town-square and off-topic).
+    const myTeams = await client.getMyTeams();
+    const myDefaultTeam = myTeams && myTeams.length > 0 && myTeams.find((team) => team.name === defaultTeam.name);
+    if (!myDefaultTeam) {
+        await client.createTeam(createRandomTeam(defaultTeam.name, defaultTeam.displayName));
+    } else if (myDefaultTeam && testConfig.resetBeforeTest) {
+        myTeams.forEach(async (team) => {
+            if (team.name !== defaultTeam.name) {
+                await client.deleteTeam(team.id);
+            }
+        });
+
+        const myChannels = await client.getMyChannels(myDefaultTeam.id);
+        myChannels.forEach(async (channel) => {
+            if (
+                channel.team_id === myDefaultTeam.id &&
+                channel.name !== 'town-square' &&
+                channel.name !== 'off-topic'
+            ) {
+                await client.deleteChannel(channel.id);
+            }
+        });
+    }
+
+    // Test only according to users limit requirement.
+    const clientConfig = await client.getClientConfigOld();
+    let usersLimit = parseInt(clientConfig.ExperimentalCloudUserLimit || '10', 10);
+    if (usersLimit === 0) {
+        usersLimit = 10;
+    }
+    const {total_users_count: totalUsersCount} = await client.getTotalUsersStats();
+    if (testConfig.lessThanCloudUserLimit) {
+        if (totalUsersCount > usersLimit) {
+            // Do not proceed testing if not meeting the requirement.
+            // Especially important for Growth spike cases.
+            throw `Error: Testing cannot proceed. It requires users to be less than the limit. lessThanCloudUserLimit: ${testConfig.lessThanCloudUserLimit}, Total users count: ${totalUsersCount}, Users limit: ${usersLimit}`;
+        }
+    } else {
+        // Increase the number of users if below users limit.
+        if (totalUsersCount < usersLimit) {
+            let baseCount = totalUsersCount;
+            while (baseCount < usersLimit) {
+                const randomUser = createRandomUser();
+                const user = await client.createUser(randomUser);
+
+                console.log(
+                    `${baseCount}) Added ${user.username} to satisfy test that requires users more than users limit.`
+                );
+
+                baseCount++;
+            }
+        }
+    }
 }
 
 export default globalSetup;

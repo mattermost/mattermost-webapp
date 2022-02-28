@@ -31,10 +31,15 @@ export const wait = async (ms) => {
  * @param {Number} length - length on random string to return, e.g. 7 (default)
  * @return {String} random string
  */
-export function getRandomId(length = 7) {
+export function getRandomId(length = 7): string {
     const MAX_SUBSTRING_INDEX = 27;
 
     return uuidv4()
         .replace(/-/g, '')
         .substring(MAX_SUBSTRING_INDEX - length, MAX_SUBSTRING_INDEX);
 }
+
+// Default team is meant for sysadmin's primary team,
+// selected for compatibility with existing local development.
+// It should not be used for testing.
+export const defaultTeam = {name: 'ad-1', displayName: 'eligendi', type: 'O'};
