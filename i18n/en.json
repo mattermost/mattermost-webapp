@@ -1532,6 +1532,8 @@
   "admin.permissions.permission.permanent_delete_user.name": "Permanent delete user",
   "admin.permissions.permission.playbook_private_create.description": "Create new private playbooks.",
   "admin.permissions.permission.playbook_private_create.name": "Create Private Playbook",
+  "admin.permissions.permission.playbook_private_make_public.description": "Convert private playbooks to public.",
+  "admin.permissions.permission.playbook_private_make_public.name": "Convert Playbooks",
   "admin.permissions.permission.playbook_private_manage_members.description": "Add and remove private playbook members.",
   "admin.permissions.permission.playbook_private_manage_members.name": "Manage Playbook Members",
   "admin.permissions.permission.playbook_private_manage_properties.description": "Prescribe checklists, actions, and templates.",

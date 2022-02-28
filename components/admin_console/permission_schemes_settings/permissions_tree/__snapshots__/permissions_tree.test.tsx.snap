@@ -115,6 +115,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "playbook_private_create",
               "playbook_private_manage_properties",
               "playbook_private_manage_members",
+              "playbook_private_make_public",
             ],
           },
           Object {
@@ -313,6 +314,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "playbook_private_create",
               "playbook_private_manage_properties",
               "playbook_private_manage_members",
+              "playbook_private_make_public",
             ],
           },
           Object {
@@ -519,6 +521,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "playbook_private_create",
               "playbook_private_manage_properties",
               "playbook_private_manage_members",
+              "playbook_private_make_public",
             ],
           },
           Object {
@@ -725,6 +728,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "playbook_private_create",
               "playbook_private_manage_properties",
               "playbook_private_manage_members",
+              "playbook_private_make_public",
             ],
           },
           Object {
@@ -931,6 +935,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "playbook_private_create",
               "playbook_private_manage_properties",
               "playbook_private_manage_members",
+              "playbook_private_make_public",
             ],
           },
           Object {
@@ -1137,6 +1142,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "playbook_private_create",
               "playbook_private_manage_properties",
               "playbook_private_manage_members",
+              "playbook_private_make_public",
             ],
           },
           Object {
@@ -1349,6 +1355,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "playbook_private_create",
               "playbook_private_manage_properties",
               "playbook_private_manage_members",
+              "playbook_private_make_public",
             ],
           },
           Object {
