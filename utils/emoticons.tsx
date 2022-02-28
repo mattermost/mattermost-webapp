@@ -26,12 +26,13 @@ export const emoticonPatterns: { [key: string]: RegExp } = {
 export const EMOJI_PATTERN = /(:([a-zA-Z0-9_+-]+):)/g;
 
 export function matchEmoticons(text: string): RegExpMatchArray | null {
-    let emojis = text.match(EMOJI_PATTERN);
+    const markdownCleanedText = text.replace(/`(.*?)`/g, '');
+    let emojis = markdownCleanedText.match(EMOJI_PATTERN);
 
     for (const name of Object.keys(emoticonPatterns)) {
         const pattern = emoticonPatterns[name];
 
-        const matches = text.match(pattern);
+        const matches = markdownCleanedText.match(pattern);
         if (matches) {
             if (emojis) {
                 emojis = emojis.concat(matches);
