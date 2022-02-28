@@ -29,6 +29,7 @@ describe('components/SignupEmail', () => {
             getTeamInviteInfo: jest.fn().mockResolvedValue({data: true}),
         },
         hasAccounts: false,
+        useCaseOnboarding: false,
     };
 
     test('should match snapshot', () => {

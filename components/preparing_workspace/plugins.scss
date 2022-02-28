@@ -1,0 +1,15 @@
+@import 'utils/mixins';
+@import './mixins';
+
+.Plugins__marketplace {
+    margin-top: 24px;
+}
+
+// preempt cards wrapping
+@media screen and (max-width: 900px) {
+    .Plugins-body {
+        @include stacked-multi-select;
+    }
+}
+
+@include simple-in-and-out("Plugins");

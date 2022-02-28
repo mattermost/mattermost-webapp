@@ -10,6 +10,7 @@ export type GeneralState = {
     dataRetentionPolicy: any;
     deviceToken: string;
     firstAdminVisitMarketplaceStatus: boolean;
+    firstAdminCompleteSetup: boolean;
     license: ClientLicense;
     serverVersion: string;
     warnMetricsStatus: Record<string, WarnMetricStatus>;

@@ -44,6 +44,7 @@ function shouldShowPreviewOnEditChannelHeaderModal(state = false, action: Generi
     }
 }
 
+// TODO@Michel: remove this once inline post editing is enabled by default
 function shouldShowPreviewOnEditPostModal(state = false, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.SET_SHOW_PREVIEW_ON_EDIT_POST_MODAL:

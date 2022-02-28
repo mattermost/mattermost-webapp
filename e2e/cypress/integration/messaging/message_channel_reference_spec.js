@@ -41,7 +41,7 @@ describe('Messaging', () => {
         // * autocomplete closes
         cy.get('#suggestionList').should('not.exist');
 
-        // close the edit modal
-        cy.get('#editButton').click();
+        // finish editing
+        cy.get('#edit_textbox').should('be.visible').wait(TIMEOUTS.HALF_SEC).type('{enter}');
     });
 });
