@@ -47,7 +47,7 @@ describe('Emoji sorting', () => {
         cy.uiOpenEmojiPicker();
 
         // # Search sma text in emoji searching input
-        cy.findByTestId('emojiInputSearch').should('be.visible').type('sma', {delay: TIMEOUTS.HALF_SEC});
+        cy.findByPlaceholderText('Search emojis').should('be.visible').type('sma', {delay: TIMEOUTS.HALF_SEC});
 
         // # Get list of recent emojis based on search text
         cy.findAllByTestId('emojiItem').children('img').each(($el) => {
