@@ -86,14 +86,14 @@ const Menu = ({channel, isArchived, className, actions}: MenuProps) => {
             {showChannelSettings && (
                 <MenuItem
                     icon={<i className='icon icon-tune'/>}
-                    text={formatMessage({id: 'channel_info_rhs.top_menu.channel_settings', defaultMessage: 'Channel Settings'})}
+                    text={formatMessage({id: 'channel_info_rhs.menu.channel_settings', defaultMessage: 'Channel Settings'})}
                     onClick={() => {}}
                 />
             )}
             {showNotificationPreferences && (
                 <MenuItem
                     icon={<i className='icon icon-bell-outline'/>}
-                    text={formatMessage({id: 'channel_info_rhs.top_menu.notification_preferences', defaultMessage: 'Notification Preferences'})}
+                    text={formatMessage({id: 'channel_info_rhs.menu.notification_preferences', defaultMessage: 'Notification Preferences'})}
                     onClick={actions.openNotificationSettings}
                 />
             )}
