@@ -21,7 +21,7 @@ import StartTrialModal from 'components/start_trial_modal';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
-import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {get, makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {GlobalState} from 'types/store';
@@ -33,7 +33,8 @@ import {
     switchToChannels,
 } from 'actions/views/onboarding_tasks';
 
-import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {Constants, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {OnboardingPreferences} from 'components/preparing_workspace/preparing_workspace';
 
 import {generateTelemetryTag} from './utils';
 import {OnboardingTaskCategory, OnboardingTaskList, OnboardingTasksName, TaskNameMapToSteps} from './constants';
@@ -100,10 +101,12 @@ export const useTasksList = () => {
     // Show this CTA if the instance is currently not licensed and has never had a trial license loaded before
     const showStartTrialTask = (isCurrentLicensed === 'false' && isPrevLicensed === 'false');
     const list: Record<string, string> = {...OnboardingTasksName};
-    if (!pluginsList.focalboard) {
+    const pluginsPreferenceState = useSelector((state: GlobalState) => get(state, Constants.Preferences.ONBOARDING, OnboardingPreferences.USE_CASE));
+    const pluginsPreference = JSON.parse(pluginsPreferenceState);
+    if ((pluginsPreference && !pluginsPreference.boards) || !pluginsList.focalboard) {
         delete list.BOARDS_TOUR;
     }
-    if (!pluginsList.playbooks) {
+    if ((pluginsPreference && !pluginsPreference.playbooks) || !pluginsList.playbooks) {
         delete list.PLAYBOOKS_TOUR;
     }
     if (!showStartTrialTask) {

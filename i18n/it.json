@@ -1649,8 +1649,6 @@
   "admin.sql.traceTitle": "Log Statement SQL: ",
   "admin.support.aboutDesc": "L'URL del collegamento \"Informazioni\" nelle pagine di accesso a Mattermost. Se vuoto il collegamento viene nascosto agli utenti.",
   "admin.support.aboutTitle": "Informazioni sul collegamento:",
-  "admin.support.emailHelp": "Indirizzi email visualizzati nelle notifiche email e durante il tutorial agli utenti su come richiedere supporto.",
-  "admin.support.emailTitle": "Email di supporto:",
   "admin.support.enableTermsOfServiceHelp": "Se vero, i nuovi utenti dovranno accettare i termini di servizio prima di accedere a qualsiasi squadra Mattermost da desktop, web o mobile. Gli utenti esistenti dovranno accettare i termini dopo un login o all'aggiornamento della pagina.\n \nPer aggiornare il collegamento ai termini di servizio visualizzato nella pagina di creazione account e di login, andare in [Configurazione Sito > Personalizza](../site_config/customization).",
   "admin.support.enableTermsOfServiceTitle": "Abilita l'uso dei termini di servizio personalizzati:",
   "admin.support.helpDesc": "URL per collegamento di Supporto sulla pagina di accesso a Mattermost e nel Menu Principale. Se vuoto il collegamento di Supporto viene nascosto agli utenti.",
