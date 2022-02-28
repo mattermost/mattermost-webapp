@@ -6,7 +6,7 @@ import React from 'react';
 import {autocompleteCustomEmojis} from 'mattermost-redux/actions/emojis';
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 
-import {getEmojiMap, getRecentEmojis} from 'selectors/emojis';
+import {getEmojiMap, getRecentEmojisNames} from 'selectors/emojis';
 
 import store from 'stores/redux_store.jsx';
 
@@ -112,7 +112,7 @@ export default class EmoticonProvider extends Provider {
         const state = store.getState();
         const skintone = state.entities?.preferences?.myPreferences['emoji--emoji_skintone']?.value || 'default';
         const emojiMap = getEmojiMap(state);
-        const recentEmojis = getRecentEmojis(state);
+        const recentEmojis = getRecentEmojisNames(state);
 
         // Check for named emoji
         for (const [name, emoji] of emojiMap) {

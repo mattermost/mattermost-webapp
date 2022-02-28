@@ -82,27 +82,6 @@ class LocalStorageStoreClass {
         this.setItem(getPreviousTeamIdKey(userId), teamId);
     }
 
-    /**
-     * Returns the list of recently used emojis for the user in string format.
-     * @param {string} userId The user ID.
-     * @returns The list of emojis in string format. eg. '['smile','+1', 'pizza']'
-     * @memberof LocalStorageStore
-     * @example
-     * const recentEmojis = LocalStorageStore.getRecentEmojis('userId');
-     * if (recentEmojis) {
-     *  const recentEmojisArray = JSON.parse(recentEmojis);
-     * // do something with the emoji list
-     * }
-     **/
-    getRecentEmojis(userId) {
-        const recentEmojis = this.getItem(getRecentEmojisKey(userId));
-        if (!recentEmojis) {
-            return null;
-        }
-
-        return recentEmojis;
-    }
-
     getTeamIdJoinedOnLoad() {
         return this.getItem(teamIdJoinedOnLoadKey);
     }

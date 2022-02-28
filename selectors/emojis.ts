@@ -27,27 +27,39 @@ export const getShortcutReactToLastPostEmittedFrom = (state: GlobalState) =>
 
 export const getRecentEmojis = createSelector(
     'getRecentEmojis',
-
-    // if getSimplifiedData is true then return array of emoji names instead of RecentEmojiData object
-    (state: GlobalState, getSimplifiedData = true) => {
-        const recentEmojis = get(
+    (state: GlobalState) => {
+        return get(
             state,
             Preferences.RECENT_EMOJIS,
             getCurrentUserId(state),
             '[]',
         );
-        return {
-            recentEmojis,
-            getSimplifiedData,
-        };
     },
-    ({recentEmojis, getSimplifiedData}: { recentEmojis: string; getSimplifiedData: boolean}) => {
+    (recentEmojis: string) => {
         if (!recentEmojis) {
             return [];
         }
         const parsedEmojiData: RecentEmojiData[] = JSON.parse(recentEmojis);
-        const toReturnRecentEmojis = getSimplifiedData ? parsedEmojiData.map((emoji) => emoji.name) : parsedEmojiData;
-        return toReturnRecentEmojis;
+        return parsedEmojiData;
+    },
+);
+
+export const getRecentEmojisNames = createSelector(
+    'getRecentEmojisNames',
+    (state: GlobalState) => {
+        return get(
+            state,
+            Preferences.RECENT_EMOJIS,
+            getCurrentUserId(state),
+            '[]',
+        );
+    },
+    (recentEmojis: string) => {
+        if (!recentEmojis) {
+            return [];
+        }
+        const parsedEmojiData: RecentEmojiData[] = JSON.parse(recentEmojis);
+        return parsedEmojiData.map((emoji) => emoji.name);
     },
 );
 
@@ -68,7 +80,7 @@ export function isCustomEmojiEnabled(state: GlobalState) {
 export const getOneClickReactionEmojis = createSelector(
     'getOneClickReactionEmojis',
     getEmojiMap,
-    getRecentEmojis,
+    getRecentEmojisNames,
     (emojiMap, recentEmojis: RecentEmojiData[] | string[]) => {
         if (recentEmojis.length === 0) {
             return [];

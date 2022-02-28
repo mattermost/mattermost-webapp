@@ -6,7 +6,7 @@ import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis'
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {getEmojiMap, getRecentEmojis, isCustomEmojiEnabled} from 'selectors/emojis';
+import {getEmojiMap, getRecentEmojis, getRecentEmojisNames, isCustomEmojiEnabled} from 'selectors/emojis';
 import {isCustomStatusEnabled, makeGetCustomStatus} from 'selectors/views/custom_status';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 
@@ -22,7 +22,7 @@ export function loadRecentlyUsedCustomEmojis() {
             return {data: true};
         }
 
-        const recentEmojis = getRecentEmojis(state);
+        const recentEmojis = getRecentEmojisNames(state);
         const emojiMap = getEmojiMap(state);
         const missingEmojis = recentEmojis.filter((name) => !emojiMap.has(name));
 

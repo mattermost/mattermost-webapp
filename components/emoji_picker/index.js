@@ -7,7 +7,7 @@ import {bindActionCreators} from 'redux';
 import {getCustomEmojis, searchCustomEmojis} from 'mattermost-redux/actions/emojis';
 
 import {incrementEmojiPickerPage, setUserSkinTone} from 'actions/emoji_actions';
-import {getEmojiMap, getRecentEmojis, getUserSkinTone} from 'selectors/emojis';
+import {getEmojiMap, getRecentEmojisNames, getUserSkinTone} from 'selectors/emojis';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import EmojiPicker from './emoji_picker.jsx';
@@ -18,7 +18,7 @@ function mapStateToProps(state) {
         customEmojisEnabled: state.entities.general.config.EnableCustomEmoji === 'true',
         customEmojiPage: state.views.emoji.emojiPickerCustomPage,
         emojiMap: getEmojiMap(state),
-        recentEmojis: getRecentEmojis(state),
+        recentEmojis: getRecentEmojisNames(state),
         userSkinTone: getUserSkinTone(state),
         currentTeamName: currentTeam ? currentTeam.name : '',
     };
