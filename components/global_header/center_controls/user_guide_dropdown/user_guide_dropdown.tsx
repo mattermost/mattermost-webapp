@@ -68,8 +68,20 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
             intl,
             isMobileView,
             showDueToStepsNotFinished,
+            pluginMenuItems,
         } = this.props;
         const inTipsView = matchPath(this.props.location.pathname, {path: '/:team/tips'}) != null;
+
+        const pluginItems = pluginMenuItems?.map((item) => {
+            return (
+                <Menu.ItemAction
+                    id={item.id + '_pluginmenuitem'}
+                    key={item.id + '_pluginmenuitem'}
+                    onClick={item.action}
+                    text={item.text}
+                />
+            );
+        });
 
         return (
             <Menu.Group>
@@ -88,7 +100,7 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                 />
                 <Menu.ItemAction
                     id='gettingStarted'
-                    show={showDueToStepsNotFinished && !inTipsView}
+                    show={showDueToStepsNotFinished && !inTipsView && !(this.props.useCaseOnboarding && this.props.isFirstAdmin)}
                     onClick={() => this.unhideNextStepsAndNavigateToTipsView()}
                     text={intl.formatMessage({id: 'navbar_dropdown.gettingStarted', defaultMessage: 'Getting Started'})}
                     icon={isMobileView && <i className='icon icon-play'/>}
@@ -103,6 +115,7 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                     onClick={this.openKeyboardShortcutsModal}
                     text={intl.formatMessage({id: 'userGuideHelp.keyboardShortcuts', defaultMessage: 'Keyboard shortcuts'})}
                 />
+                {pluginItems}
             </Menu.Group>
         );
     }

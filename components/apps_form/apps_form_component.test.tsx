@@ -206,7 +206,7 @@ describe('AppsFormComponent', () => {
                         profiles: {},
                     },
                     groups: {
-                        myGroups: {},
+                        myGroups: [],
                     },
                     emojis: {},
                     preferences: {
