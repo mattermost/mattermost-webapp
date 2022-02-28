@@ -93,7 +93,7 @@ describe('Onboarding', () => {
 
         // # Click jump tip
         cy.findByText('Customize your experience');
-        cy.get('.tour-tip__dot').invoke('attr', 'data-screen').find('0').click();
+        cy.findByText('Done').click();
 
         // * Check that 'Town Square' is currently being selected
         cy.get('.active', {timeout: TIMEOUTS.HALF_MIN}).within(() => {
