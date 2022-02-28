@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+// TODO@Michel: remove this file the inline post editing feature is enabled by default
+
 import React from 'react';
 import ReactRouterEnzymeContext from 'react-router-enzyme-context';
 import {ShallowWrapper} from 'enzyme';
@@ -197,7 +199,7 @@ describe('components/EditPostModal', () => {
         await Promise.resolve();
         expect(actions.addMessageIntoHistory).toBeCalledWith('new message');
         expect(actions.editPost).toBeCalledWith({
-            ...defaultPost,
+            id: defaultPost.id,
             message: 'new message',
         });
         expect(actions.hideEditPostModal).toBeCalled();
@@ -287,7 +289,7 @@ describe('components/EditPostModal', () => {
         expect((wrapper.state() as EditPostModalState).editText).toBe('test  :thumbsup: ');
     });
 
-    it('should set the focus to the edit box after entering', () => {
+    it('should set the focus and recalculate the size of the edit box after entering', () => {
         const wrapper = shallowWithIntl(createEditPost({...defaultProps}));
         const instance = wrapper.instance() as EditPostModalClass;
         (instance as any).editbox = {focus: jest.fn()};

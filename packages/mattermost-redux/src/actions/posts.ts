@@ -29,6 +29,7 @@ import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
 import {logError} from './errors';
 import {systemEmojis, getCustomEmojiByName, getCustomEmojisByName} from './emojis';
 import {selectChannel} from './channels';
+import {decrementThreadCounts} from './threads';
 
 // receivedPost should be dispatched after a single post from the server. This typically happens when an existing post
 // is updated.
@@ -382,6 +383,9 @@ export function deletePost(post: ExtendedPost) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const delPost = {...post};
+        if (!post.root_id && isCollapsedThreadsEnabled(state)) {
+            dispatch(decrementThreadCounts(post));
+        }
         if (delPost.type === Posts.POST_TYPES.COMBINED_USER_ACTIVITY && delPost.system_post_ids) {
             delPost.system_post_ids.forEach((systemPostId) => {
                 const systemPost = Selectors.getPost(state, systemPostId);
@@ -901,6 +905,7 @@ export function getPostsAround(channelId: string, postId: string, perPage = Post
 // getThreadsForPosts is intended for an array of posts that have been batched
 // (see the actions/websocket_actions/handleNewPostEvents function in the webapp)
 export function getThreadsForPosts(posts: Post[], fetchThreads = true) {
+    const rootsSet = new Set<string>();
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         if (!Array.isArray(posts) || !posts.length) {
             return {data: true};
@@ -913,11 +918,15 @@ export function getThreadsForPosts(posts: Post[], fetchThreads = true) {
             if (!post.root_id) {
                 return;
             }
-
             const rootPost = Selectors.getPost(state, post.root_id);
+
             if (!rootPost) {
-                promises.push(dispatch(getPostThread(post.root_id, fetchThreads)));
+                rootsSet.add(post.root_id);
             }
+        });
+
+        rootsSet.forEach((rootId) => {
+            promises.push(dispatch(getPostThread(rootId, fetchThreads)));
         });
 
         return Promise.all(promises);
@@ -1062,7 +1071,6 @@ export function removePost(post: ExtendedPost) {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         if (post.type === Posts.POST_TYPES.COMBINED_USER_ACTIVITY && post.system_post_ids) {
             const state = getState();
-
             for (const systemPostId of post.system_post_ids) {
                 const systemPost = Selectors.getPost(state, systemPostId);
 
@@ -1081,6 +1089,7 @@ export function removePost(post: ExtendedPost) {
                 );
             }
         }
+        return {data: true};
     };
 }
 

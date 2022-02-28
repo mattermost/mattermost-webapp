@@ -434,6 +434,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .attachment__body__wrap.btn-close', 'background:' + changeOpacity(theme.centerChannelColor, 0.08));
         changeCss('.app__body .attachment__body__wrap.btn-close', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('@media(min-width: 768px){.app__body .post.a11y--active, .app__body .modal .settings-modal .settings-table .settings-content .section-min:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.08));
+        changeCss('@media(min-width: 768px){.app__body .post.post--editing', 'background:' + changeOpacity(theme.buttonBg, 0.08));
         changeCss('@media(min-width: 768px){.app__body .post.current--user:hover .post__body ', 'background: transparent;');
         changeCss('.app__body .more-modal__row.more-modal__row--selected, .app__body .date-separator.hovered--before:after, .app__body .date-separator.hovered--after:before, .app__body .new-separator.hovered--after:before, .app__body .new-separator.hovered--before:after', 'background:' + changeOpacity(theme.centerChannelColor, 0.07));
         changeCss('@media(min-width: 768px){.app__body .dropdown-menu>li>a:focus, .app__body .dropdown-menu>li>a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.15));
@@ -884,15 +885,14 @@ export function getSuggestionBoxAlgn(textArea, pxToSubstract = 0) {
         };
     }
 
-    const caretCoordinatesInTxtArea = getCaretXYCoordinate(textArea);
-    const caretXCoordinateInTxtArea = caretCoordinatesInTxtArea.x;
-    const caretYCoordinateInTxtArea = caretCoordinatesInTxtArea.y;
-    const viewportWidth = getViewportSize().w;
+    const {x: caretXCoordinateInTxtArea, y: caretYCoordinateInTxtArea} = getCaretXYCoordinate(textArea);
+    const {w: viewportWidth, h: viewportHeight} = getViewportSize();
+    const {offsetWidth: textAreaWidth} = textArea;
 
-    const suggestionBoxWidth = getSuggestionBoxWidth(textArea);
+    const suggestionBoxWidth = Math.min(textAreaWidth, Constants.SUGGESTION_LIST_MAXWIDTH);
 
     // value in pixels for the offsetLeft for the textArea
-    const txtAreaOffsetLft = offsetTopLeft(textArea).left;
+    const {top: txtAreaOffsetTop, left: txtAreaOffsetLft} = offsetTopLeft(textArea);
 
     // how many pixels to the right should be moved the suggestion box
     let pxToTheRight = (caretXCoordinateInTxtArea) - (pxToSubstract);
@@ -914,18 +914,9 @@ export function getSuggestionBoxAlgn(textArea, pxToSubstract = 0) {
 
         // The line height of the textbox is needed so that the SuggestionList can adjust its position to be below the current line in the textbox
         lineHeight: Number(getComputedStyle(textArea)?.lineHeight.replace('px', '')),
+
+        placementShift: txtAreaOffsetTop + caretYCoordinateInTxtArea + Constants.SUGGESTION_LIST_MAXHEIGHT > viewportHeight - Constants.POST_AREA_HEIGHT,
     };
-}
-
-function getSuggestionBoxWidth(textArea) {
-    if (textArea.id === 'edit_textbox') {
-        // when the sugeestion box is in the edit mode it will inhering the class .modal suggestion-list which has width: 100%
-        return textArea.offsetWidth;
-    }
-
-    // 496 - value in pixels used in suggestion-list__content class line 72 file _suggestion-list.scss
-
-    return Constants.SUGGESTION_LIST_MODAL_WIDTH;
 }
 
 export function getPxToSubstract(char = '@') {
@@ -1669,8 +1660,8 @@ export function setCSRFFromCookie() {
 /**
  * Returns true if in dev mode, false otherwise.
  */
-export function isDevMode() {
-    const config = getConfig(store.getState());
+export function isDevMode(state = store.getState()) {
+    const config = getConfig(state);
     return config.EnableDeveloper === 'true';
 }
 
@@ -2005,4 +1996,36 @@ export function makeIsEligibleForClick(selector = '') {
 
         return true;
     };
+}
+
+/*
+ * Returns the minimal number of zeroes needed to render a number,
+ * up to the given number of places.
+ * e.g.
+ * numberToFixedDynamic(3.12345, 4) -> 3.1235
+ * numberToFixedDynamic(3.01000, 4) -> 3.01
+ * numberToFixedDynamic(3.01000, 1) -> 3
+ *
+ * @param {number} num - number to render as string
+ * @param {number} places - maximum number of decimal places to render
+ * @returns {number}
+ */
+export function numberToFixedDynamic(num, places) {
+    const str = num.toFixed(Math.max(places, 0));
+    if (!str.includes('.')) {
+        return str;
+    }
+    let indexToExclude = -1;
+    let i = str.length - 1;
+    while (str[i] === '0') {
+        indexToExclude = i;
+        i -= 1;
+    }
+    if (str[i] === '.') {
+        indexToExclude -= 1;
+    }
+    if (indexToExclude === -1) {
+        return str;
+    }
+    return str.slice(0, indexToExclude);
 }

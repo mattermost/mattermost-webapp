@@ -10,6 +10,9 @@ describe('components/channel_layout/ChannelController', () => {
     const props = {
         fetchingChannels: false,
         shouldShowAppBar: true,
+
+        // TODO@Michel: remove once the inline post editing feature is enabled by default
+        enableEditPostModal: true,
     };
 
     test('Should match snapshot', () => {

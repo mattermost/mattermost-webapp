@@ -78,6 +78,22 @@ export function getAllChannels(state: GlobalState): IDMappedObjects<Channel> {
     return state.entities.channels.channels;
 }
 
+export const getAllDmChannels = createSelector(
+    'getAllDmChannels',
+    getAllChannels,
+    (allChannels) => {
+        let allDmChannels: Record<string, Channel> = {};
+
+        Object.values(allChannels).forEach((channel: Channel) => {
+            if (channel.type === General.DM_CHANNEL) {
+                allDmChannels = {...allDmChannels, [channel.name]: channel};
+            }
+        });
+
+        return allDmChannels;
+    },
+);
+
 export function getAllChannelStats(state: GlobalState): RelationOneToOne<Channel, ChannelStats> {
     return state.entities.channels.stats;
 }
@@ -336,6 +352,20 @@ export const getChannelSetInCurrentTeam: (state: GlobalState) => string[] = crea
     },
 );
 
+export const getChannelSetForAllTeams: (state: GlobalState) => string[] = createSelector(
+    'getChannelSetForAllTeams',
+    getAllChannels,
+    (allChannels): string[] => {
+        const channelSet: string[] = [];
+        Object.values(allChannels).forEach((channel: Channel) => {
+            if (channel.type !== General.GM_CHANNEL && channel.type !== General.DM_CHANNEL) {
+                channelSet.push(channel.id);
+            }
+        });
+        return channelSet;
+    },
+);
+
 function sortAndInjectChannels(channels: IDMappedObjects<Channel>, channelSet: string[], locale: string): Channel[] {
     const currentChannels: Channel[] = [];
 
@@ -363,6 +393,17 @@ export const getChannelsInCurrentTeam: (state: GlobalState) => Channel[] = creat
         }
 
         return sortAndInjectChannels(channels, currentTeamChannelSet, locale);
+    },
+);
+
+export const getChannelsInAllTeams: (state: GlobalState) => Channel[] = createSelector(
+    'getChannelsInAllTeams',
+    getAllChannels,
+    getChannelSetForAllTeams,
+    getCurrentUser,
+    (channels: IDMappedObjects<Channel>, getChannelSetForAllTeams: string[], currentUser: UserProfile): Channel[] => {
+        const locale = currentUser?.locale || General.DEFAULT_LOCALE;
+        return sortAndInjectChannels(channels, getChannelSetForAllTeams, locale);
     },
 );
 
@@ -934,7 +975,6 @@ export const getMyFirstChannelForTeams: (state: GlobalState) => RelationOneToOne
 
 export const getRedirectChannelNameForTeam = (state: GlobalState, teamId: string): string => {
     const defaultChannelForTeam = getDefaultChannelForTeams(state)[teamId];
-    const myFirstChannelForTeam = getMyFirstChannelForTeams(state)[teamId];
     const canIJoinPublicChannelsInTeam = haveITeamPermission(state,
         teamId,
         Permissions.JOIN_PUBLIC_CHANNELS,
@@ -945,6 +985,8 @@ export const getRedirectChannelNameForTeam = (state: GlobalState, teamId: string
     if (iAmMemberOfTheTeamDefaultChannel || canIJoinPublicChannelsInTeam) {
         return General.DEFAULT_CHANNEL;
     }
+
+    const myFirstChannelForTeam = getMyFirstChannelForTeams(state)[teamId];
 
     return (myFirstChannelForTeam && myFirstChannelForTeam.name) || General.DEFAULT_CHANNEL;
 };

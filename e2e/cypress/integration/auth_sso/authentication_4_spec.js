@@ -274,18 +274,7 @@ describe('Authentication', () => {
         cy.uiOpenTeamMenu('Invite People');
 
         // # Click invite members if needed
-        cy.get('.InviteAs').then(($inviteAs) => {
-            const hasABToggleTreatment = $inviteAs.find('#inviteAsToggleControl').length > 0;
-            if (hasABToggleTreatment) {
-                if ($inviteAs.find('#inviteMembersLink').length > 0) {
-                    // Has A/B test toggle treatment and is in guest mode.
-                    cy.findByTestId('inviteMembersLink').click();
-                }
-            } else {
-                // Has A/B test radio treatment, so inviteMembersLink is always visible.
-                cy.findByTestId('inviteMembersLink').click();
-            }
-        });
+        cy.get('.InviteAs').findByTestId('inviteMembersLink').click();
 
         // # Input email, select member
         cy.findByText('Enter a name or email address').type('HosseinTheBestProgrammer@Mattermost.com{downarrow}{downarrow}{enter}');

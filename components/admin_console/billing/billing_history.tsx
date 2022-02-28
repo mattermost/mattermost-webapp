@@ -5,7 +5,7 @@ import React, {useEffect, useState} from 'react';
 import {FormattedDate, FormattedMessage, FormattedNumber} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {getCloudProducts, getCloudSubscription, getInvoices} from 'mattermost-redux/actions/cloud';
+import {getInvoices} from 'mattermost-redux/actions/cloud';
 import {Client4} from 'mattermost-redux/client';
 import {Invoice} from 'mattermost-redux/types/cloud';
 import {GlobalState} from 'mattermost-redux/types/store';
@@ -15,15 +15,13 @@ import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import EmptyBillingHistorySvg from 'components/common/svg_images_components/empty_billing_history.svg';
+import EmptyBillingHistorySvg from 'components/common/svg_images_components/empty_billing_history_svg';
 
 import {CloudLinks} from 'utils/constants';
 
+import InvoiceUserCount from './invoice_user_count';
+
 import './billing_history.scss';
-
-type Props = {
-
-};
 
 const PAGE_LENGTH = 4;
 
@@ -89,16 +87,9 @@ const getPaymentStatus = (status: string) => {
     }
 };
 
-const BillingHistory: React.FC<Props> = () => {
+const BillingHistory = () => {
     const dispatch = useDispatch();
     const invoices = useSelector((state: GlobalState) => state.entities.cloud.invoices);
-    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
-    const product = useSelector((state: GlobalState) => {
-        if (state.entities.cloud.products && subscription) {
-            return state.entities.cloud.products[subscription?.product_id];
-        }
-        return undefined;
-    });
 
     const [billingHistory, setBillingHistory] = useState<Invoice[] | undefined>(undefined);
     const [firstRecord, setFirstRecord] = useState(1);
@@ -116,8 +107,6 @@ const BillingHistory: React.FC<Props> = () => {
         // TODO: When server paging, check if there are more invoices
     };
     useEffect(() => {
-        dispatch(getCloudProducts());
-        dispatch(getCloudSubscription());
         dispatch(getInvoices());
         pageVisited('cloud_admin', 'pageview_billing_history');
     }, []);
@@ -158,38 +147,35 @@ const BillingHistory: React.FC<Props> = () => {
     const billingHistoryTable = billingHistory && (
         <>
             <table className='BillingHistory__table'>
-                <tr className='BillingHistory__table-header'>
-                    <th>
-                        <FormattedMessage
-                            id='admin.billing.history.date'
-                            defaultMessage='Date'
-                        />
-                    </th>
-                    <th>
-                        <FormattedMessage
-                            id='admin.billing.history.description'
-                            defaultMessage='Description'
-                        />
-                    </th>
-                    <th className='BillingHistory__table-headerTotal'>
-                        <FormattedMessage
-                            id='admin.billing.history.total'
-                            defaultMessage='Total'
-                        />
-                    </th>
-                    <th>
-                        <FormattedMessage
-                            id='admin.billing.history.status'
-                            defaultMessage='Status'
-                        />
-                    </th>
-                    <th>{''}</th>
-                </tr>
-                {billingHistory.map((invoice: Invoice) => {
-                    const fullUsers = invoice.line_items.filter((item) => item.type === 'full').reduce((val, item) => val + item.quantity, 0);
-                    const partialUsers = invoice.line_items.filter((item) => item.type === 'partial').reduce((val, item) => val + item.quantity, 0);
-
-                    return (
+                <tbody>
+                    <tr className='BillingHistory__table-header'>
+                        <th>
+                            <FormattedMessage
+                                id='admin.billing.history.date'
+                                defaultMessage='Date'
+                            />
+                        </th>
+                        <th>
+                            <FormattedMessage
+                                id='admin.billing.history.description'
+                                defaultMessage='Description'
+                            />
+                        </th>
+                        <th className='BillingHistory__table-headerTotal'>
+                            <FormattedMessage
+                                id='admin.billing.history.total'
+                                defaultMessage='Total'
+                            />
+                        </th>
+                        <th>
+                            <FormattedMessage
+                                id='admin.billing.history.status'
+                                defaultMessage='Status'
+                            />
+                        </th>
+                        <th>{''}</th>
+                    </tr>
+                    {billingHistory.map((invoice: Invoice) => (
                         <tr
                             className='BillingHistory__table-row'
                             key={invoice.id}
@@ -204,16 +190,9 @@ const BillingHistory: React.FC<Props> = () => {
                                 />
                             </td>
                             <td>
-                                <div>{product?.name}</div>
+                                <div>{invoice.current_product_name}</div>
                                 <div className='BillingHistory__table-bottomDesc'>
-                                    <FormattedMarkdownMessage
-                                        id='admin.billing.history.usersAndRates'
-                                        defaultMessage='{fullUsers} users at full rate, {partialUsers} users with partial charges'
-                                        values={{
-                                            fullUsers,
-                                            partialUsers,
-                                        }}
-                                    />
+                                    <InvoiceUserCount invoice={invoice}/>
                                 </div>
                             </td>
                             <td className='BillingHistory__table-total'>
@@ -229,7 +208,7 @@ const BillingHistory: React.FC<Props> = () => {
                             </td>
                             <td className='BillingHistory__table-invoice'>
                                 <a
-                                    target='_blank'
+                                    target='_self'
                                     rel='noopener noreferrer'
                                     href={Client4.getInvoicePdfUrl(invoice.id)}
                                 >
@@ -237,8 +216,8 @@ const BillingHistory: React.FC<Props> = () => {
                                 </a>
                             </td>
                         </tr>
-                    );
-                })}
+                    ))}
+                </tbody>
             </table>
             {paging}
         </>

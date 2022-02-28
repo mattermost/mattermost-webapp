@@ -102,16 +102,6 @@ exports[`components/create_post Show tutorial 1`] = `
           </a>
         </span>
       </div>
-      <CreatePostTip
-        currentChannel={
-          Object {
-            "id": "owsyt8n43jfxjpzh9np93mx1wa",
-            "type": "O",
-          }
-        }
-        currentUserId="zaktnt8bpbgu8mb6ez9k64r7sa"
-        prefillMessage={[Function]}
-      />
     </div>
     <div
       className="post-create-footer"
@@ -126,8 +116,8 @@ exports[`components/create_post Show tutorial 1`] = `
           postId=""
         />
         <Connect(TextboxLinks)
-          characterLimit={4000}
-          message=""
+          hasExceededCharacterLimit={false}
+          hasText={false}
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -254,8 +244,8 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
           postId=""
         />
         <Connect(TextboxLinks)
-          characterLimit={4000}
-          message=""
+          hasExceededCharacterLimit={false}
+          hasText={false}
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -345,9 +335,9 @@ exports[`components/create_post should match snapshot when cannot post 1`] = `
           postId=""
         />
         <Connect(TextboxLinks)
-          characterLimit={4000}
+          hasExceededCharacterLimit={false}
+          hasText={false}
           isMarkdownPreviewEnabled={false}
-          message=""
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -474,8 +464,8 @@ exports[`components/create_post should match snapshot when file upload disabled 
           postId=""
         />
         <Connect(TextboxLinks)
-          characterLimit={4000}
-          message=""
+          hasExceededCharacterLimit={false}
+          hasText={false}
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -602,8 +592,8 @@ exports[`components/create_post should match snapshot, can post; preview disable
           postId=""
         />
         <Connect(TextboxLinks)
-          characterLimit={4000}
-          message=""
+          hasExceededCharacterLimit={false}
+          hasText={false}
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -730,8 +720,8 @@ exports[`components/create_post should match snapshot, can post; preview enabled
           postId=""
         />
         <Connect(TextboxLinks)
-          characterLimit={4000}
-          message=""
+          hasExceededCharacterLimit={false}
+          hasText={false}
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -821,9 +811,9 @@ exports[`components/create_post should match snapshot, cannot post; preview disa
           postId=""
         />
         <Connect(TextboxLinks)
-          characterLimit={4000}
+          hasExceededCharacterLimit={false}
+          hasText={false}
           isMarkdownPreviewEnabled={false}
-          message=""
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -913,9 +903,9 @@ exports[`components/create_post should match snapshot, cannot post; preview enab
           postId=""
         />
         <Connect(TextboxLinks)
-          characterLimit={4000}
+          hasExceededCharacterLimit={false}
+          hasText={false}
           isMarkdownPreviewEnabled={false}
-          message=""
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -1042,8 +1032,8 @@ exports[`components/create_post should match snapshot, init 1`] = `
           postId=""
         />
         <Connect(TextboxLinks)
-          characterLimit={4000}
-          message=""
+          hasExceededCharacterLimit={false}
+          hasText={false}
           showPreview={false}
           updatePreview={[Function]}
         />

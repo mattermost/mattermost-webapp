@@ -309,3 +309,25 @@ button.custom_status__row {
         transform: scale(2.5);
     }
 }
+
+.status-dropdpwn-menu .status-dropdown-menu__clear-container .input-clear {
+    position: absolute;
+    color: rgba(var(--center-channel-color-rgb), 0.72);
+    opacity: 1;
+}
+
+.status-dropdpwn-account-settings {
+    position: relative;
+}
+
+#accountSettings {
+    position: relative;
+}
+
+.account-settings-complete {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
