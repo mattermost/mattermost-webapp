@@ -7,7 +7,7 @@ exports[`components/post_view/Reaction should apply read-only class if user does
   onEnter={[Function]}
   overlay={
     <Tooltip
-      id="post_id_1-smile-reaction"
+      id="post_id-smile-reaction"
     >
       <Memo(Connect(ReactionTooltip))
         canAddReactions={false}
@@ -17,9 +17,15 @@ exports[`components/post_view/Reaction should apply read-only class if user does
         reactions={
           Array [
             Object {
+              "create_at": 0,
+              "emoji_name": ":smile:",
+              "post_id": "post_id",
               "user_id": "user_id_2",
             },
             Object {
+              "create_at": 0,
+              "emoji_name": ":smile:",
+              "post_id": "post_id",
               "user_id": "user_id_3",
             },
           ]
@@ -39,7 +45,7 @@ exports[`components/post_view/Reaction should apply read-only class if user does
   <button
     aria-label="react with smile"
     className="Reaction Reaction--unreacted Reaction--read-only"
-    id="postReaction-post_id_1-smile"
+    id="postReaction-post_id-smile"
     onClick={[Function]}
   >
     <span
@@ -89,7 +95,7 @@ exports[`components/post_view/Reaction should apply read-only class if user does
   onEnter={[Function]}
   overlay={
     <Tooltip
-      id="post_id_1-smile-reaction"
+      id="post_id-smile-reaction"
     >
       <Memo(Connect(ReactionTooltip))
         canAddReactions={true}
@@ -99,9 +105,15 @@ exports[`components/post_view/Reaction should apply read-only class if user does
         reactions={
           Array [
             Object {
+              "create_at": 0,
+              "emoji_name": ":smile:",
+              "post_id": "post_id",
               "user_id": "user_id_2",
             },
             Object {
+              "create_at": 0,
+              "emoji_name": ":smile:",
+              "post_id": "post_id",
               "user_id": "user_id_3",
             },
           ]
@@ -121,7 +133,7 @@ exports[`components/post_view/Reaction should apply read-only class if user does
   <button
     aria-label="react with smile"
     className="Reaction Reaction--reacted Reaction--read-only"
-    id="postReaction-post_id_1-smile"
+    id="postReaction-post_id-smile"
     onClick={[Function]}
   >
     <span
@@ -171,7 +183,7 @@ exports[`components/post_view/Reaction should match snapshot 1`] = `
   onEnter={[Function]}
   overlay={
     <Tooltip
-      id="post_id_1-smile-reaction"
+      id="post_id-smile-reaction"
     >
       <Memo(Connect(ReactionTooltip))
         canAddReactions={true}
@@ -181,9 +193,15 @@ exports[`components/post_view/Reaction should match snapshot 1`] = `
         reactions={
           Array [
             Object {
+              "create_at": 0,
+              "emoji_name": ":smile:",
+              "post_id": "post_id",
               "user_id": "user_id_2",
             },
             Object {
+              "create_at": 0,
+              "emoji_name": ":smile:",
+              "post_id": "post_id",
               "user_id": "user_id_3",
             },
           ]
@@ -203,7 +221,7 @@ exports[`components/post_view/Reaction should match snapshot 1`] = `
   <button
     aria-label="react with smile"
     className="Reaction Reaction--unreacted "
-    id="postReaction-post_id_1-smile"
+    id="postReaction-post_id-smile"
     onClick={[Function]}
   >
     <span
@@ -253,7 +271,7 @@ exports[`components/post_view/Reaction should match snapshot when a current user
   onEnter={[Function]}
   overlay={
     <Tooltip
-      id="post_id_1-smile-reaction"
+      id="post_id-smile-reaction"
     >
       <Memo(Connect(ReactionTooltip))
         canAddReactions={true}
@@ -263,10 +281,16 @@ exports[`components/post_view/Reaction should match snapshot when a current user
         reactions={
           Array [
             Object {
+              "create_at": 0,
+              "emoji_name": ":cry:",
+              "post_id": "post_id",
               "user_id": "user_id_1",
             },
             Object {
-              "user_id": "user_id_2",
+              "create_at": 0,
+              "emoji_name": ":smile:",
+              "post_id": "post_id",
+              "user_id": "user_id_3",
             },
           ]
         }
@@ -285,7 +309,7 @@ exports[`components/post_view/Reaction should match snapshot when a current user
   <button
     aria-label="remove reaction smile"
     className="Reaction Reaction--reacted "
-    id="postReaction-post_id_1-smile"
+    id="postReaction-post_id-smile"
     onClick={[Function]}
   >
     <span

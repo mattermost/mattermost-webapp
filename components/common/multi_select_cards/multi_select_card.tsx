@@ -37,7 +37,6 @@ const MultiSelectCard = (props: Props) => {
         <button
             {...buttonProps}
         >
-            {props.checked && <i className='MultiSelectCard__checkmark icon icon-check-circle'/>}
             {props.icon}
             <span className='MultiSelectCard__label'>
                 <FormattedMessage
@@ -45,6 +44,7 @@ const MultiSelectCard = (props: Props) => {
                     defaultMessage={props.defaultMessage}
                 />
             </span>
+            {props.checked && <i className='MultiSelectCard__checkmark icon icon-check-circle'/>}
         </button>
     );
 

@@ -10,3 +10,8 @@ export enum NoResultsVariant {
     UserGroups = 'UserGroups',
     UserGroupMembers = 'UserGroupMembers',
 }
+
+export enum NoResultsLayout {
+    Vertical,
+    Horizontal,
+}

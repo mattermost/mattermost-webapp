@@ -2851,6 +2851,13 @@ export default class Client4 {
         );
     };
 
+    patchConfig = (patch: DeepPartial<AdminConfig>) => {
+        return this.doFetch<AdminConfig>(
+            `${this.getBaseRoute()}/config/patch`,
+            {method: 'put', body: JSON.stringify(patch)},
+        );
+    };
+
     reloadConfig = () => {
         return this.doFetch<StatusOK>(
             `${this.getBaseRoute()}/config/reload`,
