@@ -57,19 +57,19 @@ const ViewUserGroupHeaderSubMenu = (props: Props) => {
             },
         });
         onExited();
-    }, [actions.openModal, group.id, backButtonAction]);
+    }, [actions.openModal, group.id, backButtonAction, onExited]);
 
     const leaveGroup = useCallback(async () => {
         await actions.removeUsersFromGroup(group.id, [currentUserId]).then(() => {
             decrementMemberCount();
         });
-    }, [group.id, actions.removeUsersFromGroup, decrementMemberCount]);
+    }, [group.id, actions.removeUsersFromGroup, decrementMemberCount, currentUserId]);
 
     const joinGroup = useCallback(async () => {
         await actions.addUsersToGroup(group.id, [currentUserId]).then(() => {
             incrementMemberCount();
         });
-    }, [group.id, actions.addUsersToGroup, incrementMemberCount]);
+    }, [group.id, actions.addUsersToGroup, incrementMemberCount, currentUserId]);
 
     const archiveGroup = useCallback(async () => {
         await actions.archiveGroup(group.id).then(() => {

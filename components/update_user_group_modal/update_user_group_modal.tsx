@@ -62,7 +62,7 @@ const UpdateUserGroupModal = (props: Props) => {
         setName(value);
         setHasUpdated(true);
         setMention(newMention);
-    }, []);
+    }, [mention]);
 
     const updateMentionState = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -70,6 +70,11 @@ const UpdateUserGroupModal = (props: Props) => {
         setMention(value);
         setMentionUpdatedManually(true);
     }, []);
+
+    const goBack = useCallback(() => {
+        props.backButtonCallback();
+        props.onExited();
+    }, [props.backButtonCallback, props.onExited]);
 
     const patchGroup = useCallback(async () => {
         setSaving(true);
@@ -115,12 +120,7 @@ const UpdateUserGroupModal = (props: Props) => {
         } else {
             goBack();
         }
-    }, []);
-
-    const goBack = useCallback(() => {
-        props.backButtonCallback();
-        props.onExited();
-    }, [props.backButtonCallback, props.onExited]);
+    }, [name, mention, goBack, props.groupId, props.actions.patchGroup]);
 
     return (
         <Modal

@@ -53,6 +53,11 @@ const AddUsersToGroupModal = (props: Props) => {
         setUsersToAdd(users);
     }, []);
 
+    const goBack = useCallback(() => {
+        props.backButtonCallback();
+        props.onExited();
+    }, [props.backButtonCallback, props.onExited]);
+
     const addUsersToGroup = useCallback(async (users?: UserProfile[]) => {
         setSaving(true);
         if (!users || users.length === 0) {
@@ -71,12 +76,7 @@ const AddUsersToGroupModal = (props: Props) => {
         } else {
             goBack();
         }
-    }, []);
-
-    const goBack = useCallback(() => {
-        props.backButtonCallback();
-        props.onExited();
-    }, [props.backButtonCallback, props.onExited]);
+    }, [goBack, props.actions.addUsersToGroup, props.groupId]);
 
     const searchOptions = useMemo(() => {
         return {
