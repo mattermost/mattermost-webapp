@@ -45,6 +45,18 @@ export function clearCommentDraftUploads() {
 
 // Temporarily store draft manually in localStorage since the current version of redux-persist
 // we're on will not save the draft quickly enough on page unload.
+export function updateDraft(id: string, draft: PostDraft | null, isComment: boolean) {
+    const key = `${isComment ? StoragePrefixes.COMMENT_DRAFT : StoragePrefixes.DRAFT}${id}`;
+    if (draft) {
+        localStorage.setItem(key, JSON.stringify(draft));
+    } else {
+        localStorage.removeItem(key);
+    }
+    return setGlobalItem(key, draft);
+}
+
+// Temporarily store draft manually in localStorage since the current version of redux-persist
+// we're on will not save the draft quickly enough on page unload.
 export function updateCommentDraft(rootId: string, draft?: PostDraft | null) {
     const key = `${StoragePrefixes.COMMENT_DRAFT}${rootId}`;
     if (draft) {
