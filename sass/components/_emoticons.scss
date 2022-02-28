@@ -140,18 +140,32 @@
                 border-bottom: 2px solid transparent !important;
                 margin-right: 5px;
                 margin-left: 5px;
+                background: transparent;
                 outline: none;
-            }
-        }
 
-        li.active {
-            a {
-                height: 34px;
-                padding-top: 9px;
-                margin-right: 5px;
-                margin-left: 5px;
-                border-radius: 0;
-                opacity: 1;
+                &:hover,
+                &:active,
+                &:focus {
+                    background: transparent;
+                }
+            }
+
+            &.active {
+                a {
+                    height: 34px;
+                    padding-top: 9px;
+                    margin-right: 5px;
+                    margin-left: 5px;
+                    background: transparent;
+                    border-radius: 0;
+                    opacity: 1;
+
+                    &:hover,
+                    &:active,
+                    &:focus {
+                        background: transparent;
+                    }
+                }
             }
         }
 
@@ -558,9 +572,7 @@ $emoji-half-height: 33px;
 
 .emoji-picker__custom {
     flex-shrink: 0;
-    margin: $emoji-picker-footer-margin {
-        left: 0;
-    }
+    margin: $emoji-picker-footer-margin;
     text-decoration: none;
 
     a,
