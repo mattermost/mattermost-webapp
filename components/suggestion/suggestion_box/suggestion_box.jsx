@@ -397,7 +397,7 @@ export default class SuggestionBox extends React.PureComponent {
 
         let newValue;
         if (keepPretext) {
-            newValue = pretext;
+            newValue = pretext + suffix;
         } else {
             newValue = prefix + term + ' ' + suffix;
         }
