@@ -21,7 +21,7 @@ function profilesToSet(state: RelationOneToMany<Team, UserProfile>, action: Gene
 
 function profileListToSet(state: RelationOneToMany<Team, UserProfile>, action: GenericAction, replace = false) {
     const id = action.id;
-    const users: UserProfile[] = action.data;
+    const users: UserProfile[] = action.data || [];
 
     if (replace) {
         return {
