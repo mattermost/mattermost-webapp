@@ -13,14 +13,23 @@ describe('components/post_view/Reaction', () => {
     const post = TestHelper.getPostMock({
         id: 'post_id',
     });
-    const reactions: ReactionType[] = [{user_id: 'user_id_2', post_id: post.id, emoji_name: ':smile:', create_at: 0}, {user_id: 'user_id_3', post_id: post.id, emoji_name: ':smile:', create_at: 0}];
+    const reactions: ReactionType[] = [{
+        user_id: 'user_id_2',
+        post_id: post.id,
+        emoji_name: ':smile:',
+        create_at: 0,
+    }, {
+        user_id: 'user_id_3',
+        post_id: post.id,
+        emoji_name: ':smile:',
+        create_at: 0}];
     const emojiName = 'smile';
     const actions = {
         addReaction: jest.fn(),
         getMissingProfilesByIds: jest.fn(),
         removeReaction: jest.fn(),
     };
-    const currentUserId = TestHelper.getUserMock({id: 'user_id_1'}).id;
+    const currentUserId = 'user_id_1';
 
     const baseProps = {
         canAddReactions: true,
@@ -41,7 +50,16 @@ describe('components/post_view/Reaction', () => {
     });
 
     test('should match snapshot when a current user reacted to a post', () => {
-        const newReactions = [{user_id: 'user_id_1', post_id: post.id, emoji_name: ':cry:', create_at: 0}, {user_id: 'user_id_3', post_id: post.id, emoji_name: ':smile:', create_at: 0}];
+        const newReactions = [{
+            user_id: 'user_id_1',
+            post_id: post.id,
+            emoji_name: ':cry:',
+            create_at: 0,
+        }, {
+            user_id: 'user_id_3',
+            post_id: post.id,
+            emoji_name: ':smile:',
+            create_at: 0}];
         const props = {
             ...baseProps,
             currentUserReacted: true,
