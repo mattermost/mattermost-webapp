@@ -37,6 +37,7 @@ type Props = {
     channelProfiles: UserProfileRedux[];
     enableUserCreation?: boolean;
     isReadOnly?: boolean;
+    isFavorite: boolean;
     teamIsGroupConstrained?: boolean;
     creatorName: string;
     teammate?: UserProfileRedux;
@@ -45,6 +46,8 @@ type Props = {
     usersLimit: number;
     actions: {
         getTotalUsersStats: () => any;
+        favoriteChannel: (channelId: string) => any;
+        unfavoriteChannel: (channelId: string) => any;
     };
     boardComponent?: PluginComponent;
 }
@@ -55,6 +58,16 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
             this.props.actions.getTotalUsersStats();
         }
     }
+
+    toggleFavorite = (e: any) => {
+        e.stopPropogation();
+        if (this.props.isFavorite) {
+            this.props.actions.unfavoriteChannel(this.props.channel.id);
+        } else {
+            this.props.actions.favoriteChannel(this.props.channel.id);
+        }
+    };
+
     render() {
         const {
             currentUserId,
@@ -64,6 +77,7 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
             locale,
             enableUserCreation,
             isReadOnly,
+            isFavorite,
             channelProfiles,
             teamIsGroupConstrained,
             teammate,
@@ -79,7 +93,7 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
         }
 
         if (channel.type === Constants.DM_CHANNEL) {
-            return createDMIntroMessage(channel, centeredIntro, teammate, teammateName, boardComponent);
+            return createDMIntroMessage(channel, centeredIntro, isFavorite, this.toggleFavorite, teammate, teammateName, boardComponent);
         } else if (channel.type === Constants.GM_CHANNEL) {
             return createGMIntroMessage(channel, centeredIntro, channelProfiles, currentUserId, boardComponent);
         } else if (channel.name === Constants.DEFAULT_CHANNEL) {
@@ -147,11 +161,10 @@ function createGMIntroMessage(channel: Channel, centeredIntro: string, profiles:
     );
 }
 
-function createDMIntroMessage(channel: Channel, centeredIntro: string, teammate?: UserProfileRedux, teammateName?: string, boardComponent?: PluginComponent) {
+function createDMIntroMessage(channel: Channel, centeredIntro: string, isFavorite: boolean, toggleFavorite: (e: any) => void, teammate?: UserProfileRedux, teammateName?: string, boardComponent?: PluginComponent) {
     const channelIntroId = 'channelIntro';
     if (teammate) {
         const src = teammate ? Utils.imageURLForUser(teammate.id, teammate.last_picture_update) : '';
-
         let setHeaderButton = null;
         let boardCreateButton = null;
         if (!teammate?.is_bot) {
@@ -191,6 +204,7 @@ function createDMIntroMessage(channel: Channel, centeredIntro: string, teammate?
                 </p>
                 {boardCreateButton}
                 {setHeaderButton}
+                {createFavoriteButton(isFavorite, toggleFavorite)}
             </div>
         );
     }
@@ -584,6 +598,23 @@ function createBoardsButton(channel: Channel, boardComponent?: PluginComponent) 
             <FormattedMessage
                 id='intro_messages.createBoard'
                 defaultMessage='Create a board'
+            />
+        </button>
+    );
+}
+
+function createFavoriteButton(isFavorite: boolean, toggleFavorite: (e: any) => void) {
+    return (
+        <button
+            id='toggleFavoriteIntroButton'
+            className={'intro-links color--link channelIntroButton style--none'}
+            onClick={toggleFavorite}
+            aria-label={'Favorite'}
+        >
+            <i className={'icon ' + (isFavorite ? 'icon-star' : 'icon-star-outline')}/>
+            <FormattedMessage
+                id='intro_messages.favorite'
+                defaultMessage='Favorite'
             />
         </button>
     );

@@ -501,6 +501,7 @@
 }
 
 .channel-intro {
+    padding: 110px 15px 0;
     margin: 0 auto 10px;
 
     &.channel-intro--centered {
@@ -508,13 +509,17 @@
     }
 
     .intro-links {
-        display: inline-block;
+        display: flex;
+        flex-direction: column;
+        margin: 10px auto;
         padding: 8px 16px;
-        margin-bottom: 10px;
+        align-items: center;
+        background-color: rgba(63, 67, 80, 0.04);
+        color: rgba(63, 67, 80, 0.56) !important;
 
         .fa,
         i {
-            margin-right: 5px;
+            margin: 5px 5px;
         }
     }
 
