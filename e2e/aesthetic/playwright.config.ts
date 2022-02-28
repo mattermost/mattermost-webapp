@@ -3,6 +3,7 @@
 
 import {PlaywrightTestConfig, devices} from '@playwright/test';
 import testConfig from './test.config';
+import {duration} from './support/utils';
 
 const config: PlaywrightTestConfig = {
     globalSetup: require.resolve('./global_setup'),
@@ -10,7 +11,7 @@ const config: PlaywrightTestConfig = {
     outputDir: './test-results',
     retries: 1,
     testDir: 'tests',
-    timeout: 30000,
+    timeout: duration.one_min,
     workers: process.env.CI ? 2 : 1,
     use: {
         baseURL: testConfig.baseURL,

@@ -2,14 +2,24 @@
 // See LICENSE.txt for license information.
 
 import {test, expect} from '@playwright/test';
-import percySnapshot from '@percy/playwright';
+import {Eyes, CheckSettings} from '@applitools/eyes-playwright';
 
 import {getAdminClient} from '../../support/server/init';
 import {LandingLoginPage, LoginPage, SignupPage} from '../../support/ui/page';
 import {duration, wait} from '../../support/utils';
+import {snapshotWithApplitools, snapshotWithPercy} from '../../support/visual';
 import testConfig from '../../test.config';
 
-test('/signup_email', async ({page, isMobile, browserName}) => {
+let eyes: Eyes;
+
+test.afterAll(async () => {
+    await eyes?.close();
+});
+
+test('/signup_email', async ({page, isMobile, browserName}, testInfo) => {
+    let targetWindow: CheckSettings;
+    ({eyes, targetWindow} = await snapshotWithApplitools(page, isMobile, browserName, testInfo.title));
+
     const {adminClient} = await getAdminClient();
     const adminConfig = await adminClient.getConfig();
 
@@ -30,12 +40,15 @@ test('/signup_email', async ({page, isMobile, browserName}) => {
     await wait(duration.one_sec);
 
     // Should match login page
-    expect(await page.screenshot({fullPage: true})).toMatchSnapshot('signup_email.png');
+    if (!testConfig.percyEnabled || !testConfig.applitoolsEnabled) {
+        expect(await page.screenshot({fullPage: true})).toMatchSnapshot('signup_email.png');
+    }
 
     // Visual test with percy
-    if (!isMobile && browserName === 'chromium' && testConfig.percyEnabled) {
-        await percySnapshot(page, '/signup_email page');
-    }
+    await snapshotWithPercy(page, isMobile, browserName, '/signup_email page');
+
+    // Visual test with applitools
+    await eyes?.check('/signup_email page', targetWindow);
 
     // Click sign in button without entering user credential
     const signupPage = new SignupPage(page, adminConfig);
@@ -45,10 +58,13 @@ test('/signup_email', async ({page, isMobile, browserName}) => {
     await page.waitForLoadState('domcontentloaded');
 
     // Should match with error at login page
-    expect(await page.screenshot({fullPage: true})).toMatchSnapshot('signup_email_error.png');
+    if (!testConfig.percyEnabled || !testConfig.applitoolsEnabled) {
+        expect(await page.screenshot({fullPage: true})).toMatchSnapshot('signup_email_error.png');
+    }
 
     // Visual test with percy
-    if (!isMobile && browserName === 'chromium' && testConfig.percyEnabled) {
-        await percySnapshot(page, '/signup_email page with error');
-    }
+    await snapshotWithPercy(page, isMobile, browserName, '/signup_email page with error');
+
+    // Visual test with applitools
+    await eyes?.check('/signup_email page with error', targetWindow);
 });

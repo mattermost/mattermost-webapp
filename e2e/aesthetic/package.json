@@ -4,10 +4,12 @@
     "scripts": {
         "test": "playwright test",
         "lint": "eslint . --ext .js,.ts",
-        "percy": "PERCY_TOKEN=$PERCY_TOKEN percy exec -- npm run test -- --project=chrome",
+        "applitools": "BRANCH=$(git branch | sed -n -e 's/^\\* \\(.*\\)/\\1/p') APPLITOOLS_API_KEY=$APPLITOOLS_API_KEY APPLITOOLS_ENABLE=true npm run test -- --project=chrome",
+        "percy": "PERCY_TOKEN=$PERCY_TOKEN PERCY_ENABLE=true percy exec -- npm run test -- --project=chrome",
         "prettier": "prettier --write ."
     },
     "devDependencies": {
+        "@applitools/eyes-playwright": "1.11.2",
         "@percy/cli": "1.0.0-beta.75",
         "@percy/playwright": "1.0.1",
         "@playwright/test": "1.19.1",

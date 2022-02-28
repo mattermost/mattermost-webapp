@@ -2,14 +2,24 @@
 // See LICENSE.txt for license information.
 
 import {test, expect} from '@playwright/test';
-import percySnapshot from '@percy/playwright';
+import {Eyes, CheckSettings} from '@applitools/eyes-playwright';
 
 import {getAdminClient} from '../../support/server/init';
 import {LandingLoginPage, LoginPage} from '../../support/ui/page';
 import {duration, wait} from '../../support/utils';
+import {snapshotWithApplitools, snapshotWithPercy} from '../../support/visual';
 import testConfig from '../../test.config';
 
-test('/login', async ({page, isMobile, browserName}) => {
+let eyes: Eyes;
+
+test.afterAll(async () => {
+    await eyes?.close();
+});
+
+test('/login', async ({page, isMobile, browserName}, testInfo) => {
+    let targetWindow: CheckSettings;
+    ({eyes, targetWindow} = await snapshotWithApplitools(page, isMobile, browserName, testInfo.title));
+
     const {adminClient} = await getAdminClient();
     const adminConfig = await adminClient.getConfig();
 
@@ -26,12 +36,15 @@ test('/login', async ({page, isMobile, browserName}) => {
     // Should match default login page
     await loginPage.siteNameHeader.waitFor();
     await wait(duration.one_sec);
-    expect(await page.screenshot({fullPage: true})).toMatchSnapshot('login.png');
+    if (!testConfig.percyEnabled || !testConfig.applitoolsEnabled) {
+        expect(await page.screenshot({fullPage: true})).toMatchSnapshot('login.png');
+    }
 
     // Visual test with percy
-    if (!isMobile && browserName === 'chromium' && testConfig.percyEnabled) {
-        await percySnapshot(page, '/login page');
-    }
+    await snapshotWithPercy(page, isMobile, browserName, '/login page');
+
+    // Visual test with applitools
+    await eyes?.check('/login page', targetWindow);
 
     // Click sign in button without entering user credential
     await loginPage.signInButton.click();
@@ -39,10 +52,13 @@ test('/login', async ({page, isMobile, browserName}) => {
     await wait(duration.one_sec);
 
     // Should match with error at login page
-    expect(await page.screenshot({fullPage: true})).toMatchSnapshot('login_error.png');
+    if (!testConfig.percyEnabled || !testConfig.applitoolsEnabled) {
+        expect(await page.screenshot({fullPage: true})).toMatchSnapshot('login_error.png');
+    }
 
     // Visual test with percy
-    if (!isMobile && browserName === 'chromium' && testConfig.percyEnabled) {
-        await percySnapshot(page, '/login page with error');
-    }
+    await snapshotWithPercy(page, isMobile, browserName, '/login page with error');
+
+    // Visual test with applitools
+    await eyes?.check('/login page with error', targetWindow);
 });

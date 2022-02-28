@@ -34,6 +34,7 @@ const onPremServerConfig = (): Partial<TestAdminConfig> => {
         },
         ServiceSettings: {
             SiteURL: testConfig.baseURL,
+            EnableOnboardingFlow: false,
         },
         TeamSettings: {
             EnableOpenServer: true,

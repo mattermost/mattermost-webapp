@@ -25,15 +25,15 @@ export async function initSetup(userPrefix = 'user', teamPrefix = {name: 'team',
         const user = await adminClient.createUser(randomUser);
         user.password = randomUser.password;
 
+        await adminClient.addToTeam(team.id, user.id);
+
+        const {client: userClient} = await makeClient(user);
+
         const preferences: PreferenceType[] = [
             {user_id: user.id, category: 'recommended_next_steps', name: 'hide', value: 'true'},
             {user_id: user.id, category: 'tutorial_step', name: user.id, value: '999'},
         ];
-        await adminClient.savePreferences(user.id, preferences);
-
-        await adminClient.addToTeam(team.id, user.id);
-
-        const {client: userClient} = await makeClient(user);
+        await userClient.savePreferences(user.id, preferences);
 
         return {
             adminClient,
