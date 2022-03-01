@@ -1666,25 +1666,6 @@ export function isDevMode(state = store.getState()) {
 }
 
 /**
- * Enables dev mode features.
- */
-export function enableDevModeFeatures() {
-    /*eslint no-extend-native: ["error", { "exceptions": ["Set", "Map"] }]*/
-    Object.defineProperty(Set.prototype, 'length', {
-        configurable: true, // needed for testing
-        get: () => {
-            throw new Error('Set.length is not supported. Use Set.size instead.');
-        },
-    });
-    Object.defineProperty(Map.prototype, 'length', {
-        configurable: true, // needed for testing
-        get: () => {
-            throw new Error('Map.length is not supported. Use Map.size instead.');
-        },
-    });
-}
-
-/**
  * Get closest parent which match selector
  */
 export function getClosestParent(elem, selector) {
