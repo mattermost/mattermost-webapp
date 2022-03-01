@@ -12,7 +12,6 @@ exports[`components/post_view/PostReaction should match snapshot 1`] = `
 >
   <EmojiPickerOverlay
     enableGifPicker={false}
-    n={true}
     onEmojiClick={[Function]}
     onEmojiClose={[MockFunction]}
     onHide={[MockFunction]}

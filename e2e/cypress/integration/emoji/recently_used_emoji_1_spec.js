@@ -39,39 +39,40 @@ describe('Recent Emoji', () => {
     });
 
     it('MM-T155 Recently used emoji reactions are shown first', () => {
-        const firstEmoji = 5;
-        const secondEmoji = 10;
+        const firstEmoji = 'joy';
+        const secondEmoji = 'grin';
 
         // # Show emoji list
         cy.uiOpenEmojiPicker();
 
-        // # Click first emoji
+        // * Verify emoji picker is opened
         cy.get('#emojiPicker').should('be.visible');
-        cy.get('.emoji-picker__item').eq(firstEmoji).click().wait(TIMEOUTS.HALF_SEC);
+
+        // # Add first emoji
+        cy.clickEmojiInEmojiPicker(firstEmoji);
 
         // # Submit post
         const message = 'hi';
-        cy.get('#post_textbox').should('be.visible').and('have.value', ':sweat_smile: ').type(`${message} {enter}`);
+        cy.get('#post_textbox').should('be.visible').and('have.value', `:${firstEmoji}: `).type(`${message} {enter}`);
         cy.uiWaitUntilMessagePostedIncludes(message);
 
         // # Post reaction to post
         cy.clickPostReactionIcon();
 
         // # Click second emoji
-        cy.get('.emoji-picker__item').eq(secondEmoji).click().wait(TIMEOUTS.HALF_SEC);
+        cy.clickEmojiInEmojiPicker(secondEmoji);
 
         // # Show emoji list
         cy.uiOpenEmojiPicker().wait(TIMEOUTS.HALF_SEC);
 
-        // * Assert first emoji should equal with second recent emoji
-        cy.get('.emoji-picker__item').eq(firstEmoji + 2).find('img').then((first) => {
-            cy.get('.emoji-picker__item').eq(1).find('img').should('have.attr', 'class', first.attr('class'));
+        // * Verify recently used category is present in emoji picker
+        cy.findByText(/Recently Used/i).should('exist').and('be.visible');
 
-            // * Assert second emoji should equal with first recent emoji
-            cy.get('.emoji-picker__item').eq(secondEmoji + 1).find('img').then((second) => {
-                cy.get('.emoji-picker__item').eq(0).find('img').should('have.attr', 'class', second.attr('class'));
-            });
-        });
+        // * Assert first emoji should equal with second recent emoji
+        cy.findAllByTestId('emojiItem').eq(0).find('img').should('have.attr', 'aria-label', 'grin emoji');
+
+        // * Assert second emoji should equal with first recent emoji
+        cy.findAllByTestId('emojiItem').eq(1).find('img').should('have.attr', 'aria-label', 'joy emoji');
     });
 
     it('MM-T4463 Recently used custom emoji, when is deleted should be removed from recent emoji category and quick reactions', () => {

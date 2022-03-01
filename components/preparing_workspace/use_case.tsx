@@ -16,10 +16,11 @@ import LaptopSVG from 'components/common/svg_images_components/laptop_svg';
 
 import {Animations, mapAnimationReasonToClass, Form, PreparingWorkspacePageProps} from './steps';
 
-import PageLine from './page_line';
 import Title from './title';
 import Description from './description';
 import PageBody from './page_body';
+import ProgressPath from './progress_path';
+import LeftCol from './left_col';
 
 import './use_case.scss';
 
@@ -52,24 +53,12 @@ const UseCase = (props: Props) => {
             unmountOnExit={true}
         >
             <div className={className}>
-                <div className='UseCase-left-col'/>
+                <LeftCol/>
                 <div className='UseCase-right-col'>
                     <div className='UseCase-form-wrapper'>
-                        <div className='UseCase__progress-path'>
-                            <PageLine
-                                style={{
-                                    height: '50vh',
-                                    position: 'absolute',
-                                    transform: 'translateY(-100%)',
-                                    top: '-20px',
-                                }}
-                                noLeft={true}
-                            />
+                        <ProgressPath style={{top: '15px'}}>
                             <LaptopSVG/>
-                            <PageLine
-                                noLeft={true}
-                            />
-                        </div>
+                        </ProgressPath>
                         {props.previous}
                         <Title>
                             <FormattedMessage

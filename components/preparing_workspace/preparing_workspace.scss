@@ -13,6 +13,7 @@
         display: inline-flex;
         align-items: center;
         padding-right: 2px;
+        margin-bottom: 25px;
         color: var(--button-bg);
         cursor: pointer;
         font-size: 12px;
@@ -49,12 +50,6 @@
         flex-shrink: 0;
         padding-left: 9px;
     }
-}
-
-.PreparingWorkspaceContainer {
-    display: flex;
-    max-width: 1200px;
-    flex-direction: row;
 
     .tertiary-button {
         @include tertiary-button;
@@ -67,14 +62,19 @@
     }
 
     .child-page {
+        // needed for smooth cross-page transition;
         position: absolute;
-        top: 0;
-        left: 0;
         height: 100vh;
     }
 }
 
 .PreparingWorkspacePageContainer {
+
+    // needed so that channel preview can be positioned relative to this div
     position: relative;
-    width: calc(100vw - 120px);
+    max-width: 1030px;
+    padding: 0 10px;
+
+    // centering
+    margin: 0 auto;
 }
