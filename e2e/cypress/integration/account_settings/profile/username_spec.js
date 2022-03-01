@@ -133,10 +133,13 @@ describe('Settings > Sidebar > General > Edit', () => {
                 cy.findByText(`${newTempUserName}`);
                 cy.findByText(`${newTempUserName} test message!`);
             });
+
+            // # Click on the @ button to toggle off
+            cy.uiGetRecentMentionButton().should('be.visible').click();
         });
     });
 
-    it('MM-T2054 Username cannot start with dot, dash, or underscore', () => {
+    it('MM-T2054 Username cannot start with dot, dash, or underscore -- KNOWN ISSUE: MM-41817', () => {
         // # Edit the username field
         cy.get('#usernameEdit').click();
 
@@ -159,7 +162,7 @@ describe('Settings > Sidebar > General > Edit', () => {
         cy.uiClose();
     });
 
-    it('MM-T2055 Usernames that are reserved', () => {
+    it('MM-T2055 Usernames that are reserved -- KNOWN ISSUE: MM-41817', () => {
         // # Edit the username field
         cy.get('#usernameEdit').click();
 
@@ -183,7 +186,7 @@ describe('Settings > Sidebar > General > Edit', () => {
         cy.uiClose();
     });
 
-    it('MM-T2056 Username changes when viewed by other user', () => {
+    it('MM-T2056 Username changes when viewed by other user -- KNOWN ISSUE: MM-41817', () => {
         cy.apiLogin(testUser);
         cy.visit(offTopicUrl);
 

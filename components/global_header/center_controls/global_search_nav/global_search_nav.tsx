@@ -24,28 +24,24 @@ const GlobalSearchNav = (): JSX.Element => {
     const rhsState = useSelector((state: GlobalState) => getRhsState(state));
 
     useEffect(() => {
+        const handleShortcut = (e: KeyboardEvent) => {
+            if (Utils.cmdOrCtrlPressed(e) && e.shiftKey) {
+                if (Utils.isKeyPressed(e, Constants.KeyCodes.M)) {
+                    e.preventDefault();
+                    if (rhsState === RHSStates.MENTION) {
+                        dispatch(closeRightHandSide());
+                    } else {
+                        dispatch(showMentions());
+                    }
+                }
+            }
+        };
+
         document.addEventListener('keydown', handleShortcut);
         return () => {
             document.removeEventListener('keydown', handleShortcut);
         };
-    }, []);
-
-    const searchMentions = () => {
-        if (rhsState === RHSStates.MENTION) {
-            dispatch(closeRightHandSide());
-        } else {
-            dispatch(showMentions());
-        }
-    };
-
-    const handleShortcut = (e: KeyboardEvent) => {
-        if (Utils.cmdOrCtrlPressed(e) && e.shiftKey) {
-            if (Utils.isKeyPressed(e, Constants.KeyCodes.M)) {
-                e.preventDefault();
-                searchMentions();
-            }
-        }
-    };
+    }, [rhsState, dispatch]);
 
     return (
         <Flex

@@ -10,6 +10,8 @@ import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {UserMentionKey} from 'mattermost-redux/selectors/entities/users';
 import {GlobalState} from 'mattermost-redux/types/store';
 
+import Constants from 'utils/constants';
+
 import {getCurrentUserLocale} from './i18n';
 
 const emptyList: any[] = [];
@@ -148,7 +150,7 @@ export const getGroupsNotAssociatedToTeam: (state: GlobalState, teamID: string) 
     getAllGroups,
     (state: GlobalState, teamID: string) => getTeamGroupIDSet(state, teamID),
     (allGroups, teamGroupIDSet) => {
-        return Object.entries(allGroups).filter(([groupID]) => !teamGroupIDSet.has(groupID)).map((entry) => entry[1]);
+        return Object.entries(allGroups).filter(([groupID, group]) => !teamGroupIDSet.has(groupID) && group.source === Constants.LDAP_SERVICE).map((entry) => entry[1]);
     },
 );
 
@@ -168,7 +170,7 @@ export const getGroupsNotAssociatedToChannel: (state: GlobalState, channelID: st
     (state: GlobalState, channelID: string, teamID: string) => getTeam(state, teamID),
     (state: GlobalState, channelID: string, teamID: string) => getGroupsAssociatedToTeam(state, teamID),
     (allGroups, channelGroupIDSet, team, teamGroups) => {
-        let result = Object.values(allGroups).filter((group) => !channelGroupIDSet.has(group.id));
+        let result = Object.values(allGroups).filter((group) => !channelGroupIDSet.has(group.id) && group.source === Constants.LDAP_SERVICE);
         if (team.group_constrained) {
             const gids = teamGroups.map((group) => group.id);
             result = result.filter((group) => gids?.includes(group.id));

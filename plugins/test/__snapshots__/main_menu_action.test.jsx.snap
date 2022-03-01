@@ -121,29 +121,7 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
         ]
       }
       teamId="someteamid"
-    >
-      <MenuItemToggleModalRedux
-        dialogType={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(InvitationModal)",
-            "type": [Function],
-          }
-        }
-        extraText="Add people to the team"
-        icon={
-          <i
-            className="fa fa-user-plus"
-          />
-        }
-        id="invitePeople"
-        modalId="invitation"
-        show={true}
-        text="Invite People"
-      />
-    </Connect(TeamPermissionGate)>
+    />
   </MenuGroup>
   <MenuGroup>
     <Connect(TeamPermissionGate)
@@ -453,25 +431,7 @@ exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
         ]
       }
       teamId="someteamid"
-    >
-      <MenuItemToggleModalRedux
-        dialogType={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(InvitationModal)",
-            "type": [Function],
-          }
-        }
-        extraText="Add people to the team"
-        icon={false}
-        id="invitePeople"
-        modalId="invitation"
-        show={true}
-        text="Invite People"
-      />
-    </Connect(TeamPermissionGate)>
+    />
     <Connect(TeamPermissionGate)
       permissions={
         Array [

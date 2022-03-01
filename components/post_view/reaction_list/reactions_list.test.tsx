@@ -4,6 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {TestHelper} from 'utils/test_helper';
+
 import ReactionList from './reaction_list';
 
 describe('components/ReactionList', () => {
@@ -16,9 +18,9 @@ describe('components/ReactionList', () => {
 
     const reactions = {[reaction.user_id + '-' + reaction.emoji_name]: reaction};
 
-    const post = {
+    const post = TestHelper.getPostMock({
         id: 'post_id',
-    };
+    });
 
     const teamId = 'teamId';
 
@@ -40,7 +42,7 @@ describe('components/ReactionList', () => {
             reactions: {},
         };
 
-        const wrapper = shallow(
+        const wrapper = shallow<ReactionList>(
             <ReactionList {...props}/>,
         );
 
@@ -48,7 +50,7 @@ describe('components/ReactionList', () => {
     });
 
     test('should render when there are reactions', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<ReactionList>(
             <ReactionList {...baseProps}/>,
         );
 
