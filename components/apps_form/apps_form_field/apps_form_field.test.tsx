@@ -45,6 +45,7 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
             label: (
                 <React.Fragment>
                     {textField.modal_label}
+                    {false}
                 </React.Fragment>
             ),
             maxLength: 100,
