@@ -94,22 +94,16 @@ body {
                 }
             }
 
-            .waves {
-                position: fixed;
+            .background-svg {
+                position: absolute;
                 z-index: -1;
-                bottom: 0;
-                left: 0;
-                width: 110%;
-                margin-top: -10%;
-                transform: rotate(180deg);
-            }
+                top: 0;
 
-            .blue-dots {
-                position: fixed;
-                z-index: -1;
-                right: 1%;
-                margin-top: -27%;
-                transform: rotate(180deg);
+                >div {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                }
             }
         }
     }

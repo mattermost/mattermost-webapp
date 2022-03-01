@@ -15,7 +15,6 @@ import * as MESSAGES from '../../../fixtures/messages';
 
 import {
     checkReactionFromPost,
-    clickSmileEmojiFromEmojiPicker,
     doReactToLastMessageShortcut,
 } from './helpers';
 
@@ -40,8 +39,8 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
     beforeEach(() => {
         // # Login as test user and visit town-square
         cy.apiLogin(testUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('contain', 'Town Square');
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('contain', 'Off-Topic');
 
         // # Post a message without reaction for each test
         cy.postMessage(MESSAGES.TINY);
@@ -58,14 +57,14 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
         doReactToLastMessageShortcut('RHS');
 
         // # Add reaction to a post
-        clickSmileEmojiFromEmojiPicker();
+        cy.clickEmojiInEmojiPicker('smile');
 
         // * Check if emoji is shown as reaction to the last message (same in RHS)
         cy.getLastPostId().then((lastPostId) => {
             checkReactionFromPost(lastPostId);
         });
 
-        cy.closeRHS();
+        cy.uiCloseRHS();
     });
 
     it('MM-T4058_2 Open emoji picker for last comment in RHS when focus is on comment textbox', () => {
@@ -83,14 +82,14 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
         doReactToLastMessageShortcut('RHS');
 
         // # Add reaction to a post
-        clickSmileEmojiFromEmojiPicker();
+        cy.clickEmojiInEmojiPicker('smile');
 
         // * Check if emoji is shown as reaction to the last message (same in RHS)
         cy.getLastPostId().then((lastPostId) => {
             checkReactionFromPost(lastPostId);
         });
 
-        cy.closeRHS();
+        cy.uiCloseRHS();
     });
 
     it('MM-T4058_3 Open emoji picker for last comment in fully expanded RHS when focus is on comment textbox', () => {
@@ -101,13 +100,13 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
         cy.get('#rhsContainer').should('be.visible');
 
         // # Fully expand the RHS
-        cy.findByLabelText('Expand').click();
+        cy.uiExpandRHS();
 
         // # Do keyboard shortcut with focus on RHS
         doReactToLastMessageShortcut('RHS');
 
         // # Add reaction to a post
-        clickSmileEmojiFromEmojiPicker();
+        cy.clickEmojiInEmojiPicker('smile');
 
         // * Check if emoji is shown as reaction to the last message (same in RHS)
         cy.getLastPostId().then((lastPostId) => {

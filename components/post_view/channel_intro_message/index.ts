@@ -6,10 +6,12 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentChannel, getDirectTeammate, isCurrentChannelReadOnly} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel, getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getProfilesInCurrentChannel, getCurrentUserId, getUser, getTotalUsersStats as getTotalUsersStatsSelector} from 'mattermost-redux/selectors/entities/users';
-import {get, getTheme} from 'mattermost-redux/selectors/entities/preferences';
+import {get} from 'mattermost-redux/selectors/entities/preferences';
+
+import {getChannelIntroPluginComponents} from 'selectors/plugins';
 
 import {getTotalUsersStats} from 'mattermost-redux/actions/users';
 
@@ -26,11 +28,12 @@ import ChannelIntroMessage from './channel_intro_message';
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const enableUserCreation = config.EnableUserCreation === 'true';
-    const isReadOnly = isCurrentChannelReadOnly(state);
+    const isReadOnly = false;
     const team = getCurrentTeam(state);
     const channel = getCurrentChannel(state) || {};
     const teammate = getDirectTeammate(state, channel.id);
     const creator = getUser(state, channel.creator_id);
+    const boardComponent = getChannelIntroPluginComponents(state).find((c) => c.pluginId === 'focalboard');
 
     let usersLimit = parseInt(getConfig(state).ExperimentalCloudUserLimit! || '10', 10);
     if (usersLimit === 0) {
@@ -53,7 +56,7 @@ function mapStateToProps(state: GlobalState) {
         teammateName: getDisplayNameByUser(state, teammate),
         stats,
         usersLimit,
-        theme: getTheme(state),
+        boardComponent,
     };
 }
 

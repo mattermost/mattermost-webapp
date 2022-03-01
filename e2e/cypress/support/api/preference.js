@@ -240,3 +240,25 @@ Cypress.Commands.add('apiGetUserPreference', (userId) => {
         return cy.wrap(response.body);
     });
 });
+
+Cypress.Commands.add('apiSaveCRTPreference', (userId, value = 'on') => {
+    const preference = {
+        user_id: userId,
+        category: 'display_settings',
+        name: 'collapsed_reply_threads',
+        value,
+    };
+
+    return cy.apiSaveUserPreference([preference]);
+});
+
+Cypress.Commands.add('apiSaveCloudTrialBannerPreference', (userId, name, value) => {
+    const preference = {
+        user_id: userId,
+        category: 'cloud_trial_banner',
+        name,
+        value,
+    };
+
+    return cy.apiSaveUserPreference([preference], userId);
+});

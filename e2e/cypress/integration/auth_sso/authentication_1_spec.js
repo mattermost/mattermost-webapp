@@ -21,7 +21,7 @@ describe('Authentication', () => {
 
     before(() => {
         // # Do email test if setup properly
-        cy.apiEmailTest();
+        cy.shouldHaveEmailEnabled();
 
         cy.apiInitSetup().then(({user, team}) => {
             testUserAlreadyInTeam = user;
@@ -80,17 +80,10 @@ describe('Authentication', () => {
             },
         }).then(() => {
             cy.apiLogin(testUserAlreadyInTeam);
-
             cy.visit('/');
 
-            // * Verify the side bar is visible
-            cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-
-            // # Click on the side bar
-            cy.get('#sidebarHeaderDropdownButton').click();
-
-            // * Verify Account Settings button is visible and exist and then click on it
-            cy.findByText('Account Settings', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
+            // # Open Profile
+            cy.uiOpenProfileModal();
 
             // # Click "Edit" to the right of "Email"
             cy.get('#emailEdit').should('be.visible').click();
@@ -101,7 +94,7 @@ describe('Authentication', () => {
             cy.get('#currentPassword').should('be.visible').type(testUser.password);
 
             // # Save the settings
-            cy.get('#saveSetting').click().wait(TIMEOUTS.HALF_SEC);
+            cy.uiSave().wait(TIMEOUTS.HALF_SEC);
 
             // * Assert an error exist and is what is expected
             cy.findByText('The email you provided does not belong to an accepted domain. Please contact your administrator or sign up with a different email.').should('be.visible');
@@ -188,10 +181,7 @@ describe('Authentication', () => {
                 EnableOpenServer: true,
             },
             GitLabSettings: {
-                DiscoveryEndpoint: '',
                 Enable: true,
-                TokenEndpoint: '',
-                UserApiEndpoint: '',
             },
         }).then(() => {
             cy.apiLogout();

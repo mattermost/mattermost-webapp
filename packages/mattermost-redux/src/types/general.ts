@@ -3,8 +3,6 @@
 
 import {ClientConfig, ClientLicense, WarnMetricStatus} from './config';
 
-import {Dictionary} from './utilities';
-
 export type GeneralState = {
     appState: boolean;
     credentials: any;
@@ -12,12 +10,21 @@ export type GeneralState = {
     dataRetentionPolicy: any;
     deviceToken: string;
     firstAdminVisitMarketplaceStatus: boolean;
+    firstAdminCompleteSetup: boolean;
     license: ClientLicense;
     serverVersion: string;
-    warnMetricsStatus: Dictionary<WarnMetricStatus>;
+    warnMetricsStatus: Record<string, WarnMetricStatus>;
 };
 
 export type SystemSetting = {
     name: string;
     value: string;
 };
+
+export enum LicenseSkus {
+    E10 = 'E10',
+    E20 = 'E20',
+    Starter = 'starter',
+    Professional = 'professional',
+    Enterprise = 'enterprise',
+}

@@ -9,6 +9,8 @@ import * as TextFormatting from 'utils/text_formatting';
 import {getScheme, isUrlSafe, shouldOpenInNewTab} from 'utils/url';
 import EmojiMap from 'utils/emoji_map';
 
+import {parseImageDimensions} from './helpers';
+
 export default class Renderer extends marked.Renderer {
     private formattingOptions: TextFormatting.TextFormattingOptions;
     private emojiMap: EmojiMap;
@@ -138,29 +140,20 @@ export default class Renderer extends marked.Renderer {
     }
 
     public image(href: string, title: string, text: string) {
-        let src = href;
-        let dimensions: string[] = [];
-        const parts = href.split(' ');
-        if (parts.length > 1) {
-            const lastPart = parts.pop();
-            src = parts.join(' ');
-            if (lastPart && lastPart[0] === '=') {
-                dimensions = lastPart.substr(1).split('x');
-                if (dimensions.length === 2 && dimensions[1] === '') {
-                    dimensions[1] = 'auto';
-                }
-            }
-        }
+        const dimensions = parseImageDimensions(href);
+
+        let src = dimensions.href;
         src = PostUtils.getImageSrc(src, this.formattingOptions.proxyImages);
+
         let out = `<img src="${src}" alt="${text}"`;
         if (title) {
             out += ` title="${title}"`;
         }
-        if (dimensions.length > 0) {
-            out += ` width="${dimensions[0]}"`;
+        if (dimensions.width) {
+            out += ` width="${dimensions.width}"`;
         }
-        if (dimensions.length > 1) {
-            out += ` height="${dimensions[1]}"`;
+        if (dimensions.height) {
+            out += ` height="${dimensions.height}"`;
         }
         out += ' class="markdown-inline-img"';
         out += this.options.xhtml ? '/>' : '>';

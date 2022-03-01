@@ -137,11 +137,8 @@ describe('Quick switcher', () => {
             cy.get('.suggestion--selected').should('exist').and('contain.text', gmBadge + userPrefix);
             cy.get('body').type('{esc}', {force: true});
 
-            // # Open the channel dropdown menu
-            cy.get('#channelHeaderDropdownButton').click();
-
-            // # Click on 'Close group message' menu item
-            cy.get('#channelCloseMessage').click().wait(TIMEOUTS.HALF_SEC);
+            // # Open channel menu and click Close Group Message
+            cy.uiOpenChannelMenu('Close Group Message');
 
             // # Go to the DM channel of third user
             cy.goToDm(thirdUser.username);

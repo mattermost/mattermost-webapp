@@ -193,15 +193,6 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     render_job: () => <p>{'Test'}</p>,
                 },
                 {
-                    type: 'permission',
-                    key: 'settingo',
-                    label: 'label-o',
-                    label_default: 'Setting Fourteen',
-                    help_text: 'help-text-o',
-                    help_text_default: 'This is some help text for the permissions field.',
-                    permissions_mapping_name: 'enableOnlyAdminIntegrations',
-                },
-                {
                     key: 'EscapedSettings.com+example+setting.a',
                     label: 'escaped-label-a',
                     label_default: 'Escaped Setting A',

@@ -54,7 +54,7 @@ context('ldap', () => {
                 cy.doLDAPLogin(testSettings).then(() => {
                     // # Skip or create team
                     cy.skipOrCreateTeam(testSettings, getRandomId()).then(() => {
-                        cy.get('#headerTeamName').should('be.visible').then((teamName) => {
+                        cy.uiGetLHSHeader().then((teamName) => {
                             testSettings.teamName = teamName.text();
                         });
 

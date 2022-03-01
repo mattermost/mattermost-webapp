@@ -21,10 +21,10 @@ describe('Group Message', () => {
     const groupUsersCount = 3;
 
     before(() => {
-        cy.apiInitSetup({}).then(({team, user}) => {
+        cy.apiInitSetup({}).then(({team, user, townSquareUrl}) => {
             testTeam = team;
             testUser = user;
-            townsquareLink = `/${team.name}/channels/town-square`;
+            townsquareLink = townSquareUrl;
         });
     });
 
@@ -95,10 +95,8 @@ describe('Group Message', () => {
         // # Create a group message with two other users
         createGroupMessageWith(users.slice(0, 2));
 
-        // # Clicks on add members link
-        cy.get('#channelHeaderDropdownButton button').click().then(() => {
-            cy.get('#channelAddMembers button').click();
-        });
+        // # Open channel menu and click Add Members
+        cy.uiOpenChannelMenu('Add Members');
 
         // # Filter user by username
         cy.get('#selectItems input').type(users[2].username, {force: true}).wait(TIMEOUTS.HALF_SEC);
@@ -181,16 +179,14 @@ describe('Group Message', () => {
         cy.wait(TIMEOUTS.HALF_SEC);
 
         // # Clicks on Mute Channel through Notification Preferences
-        cy.get('#channelHeaderDropdownButton button').click().then(() => {
-            cy.get('#channelNotificationPreferences button').click().then(() => {
-                // # Set Mute Channel to On
-                cy.get('#markUnreadEdit').click();
-                cy.get('#channelNotificationUnmute').click();
-                cy.get('#saveSetting').click();
+        cy.uiOpenChannelMenu().within(() => {
+            // # Set Mute Channel to On
+            cy.get('#markUnreadEdit').click();
+            cy.get('#channelNotificationUnmute').click();
+            cy.get('#saveSetting').click();
 
-                // * Assert that channel is muted
-                cy.get('#toggleMute').should('be.visible');
-            });
+            // * Assert that channel is muted
+            cy.get('#toggleMute').should('be.visible');
         });
 
         // # Post a message as a different user

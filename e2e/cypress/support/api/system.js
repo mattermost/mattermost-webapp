@@ -107,7 +107,7 @@ export const getDefaultConfig = () => {
 
     const fromCypressEnv = {
         ElasticsearchSettings: {
-            ConnectionUrl: cypressEnv.elasticsearchConnectionUrl,
+            ConnectionURL: cypressEnv.elasticsearchConnectionURL,
         },
         LdapSettings: {
             LdapServer: cypressEnv.ldapServer,
@@ -123,8 +123,8 @@ export const getDefaultConfig = () => {
 
     if (isCloud) {
         fromCypressEnv.CloudSettings = {
-            CWSUrl: cypressEnv.cwsUrl,
-            CWSAPIUrl: cypressEnv.cwsApiUrl,
+            CWSURL: cypressEnv.cwsURL,
+            CWSAPIURL: cypressEnv.cwsAPIURL,
         };
     }
 
@@ -216,11 +216,6 @@ Cypress.Commands.add('apiInvalidateCache', () => {
 });
 
 function isCloudEdition() {
-    const isCloudServer = Cypress.env('serverEdition') === Constants.ServerEdition.CLOUD;
-    if (isCloudServer) {
-        return cy.wrap(true);
-    }
-
     return cy.apiGetClientLicense().then(({isCloudLicensed}) => {
         return cy.wrap(isCloudLicensed);
     });
@@ -233,12 +228,6 @@ Cypress.Commands.add('shouldNotRunOnCloudEdition', () => {
 });
 
 function isTeamEdition() {
-    const isTeamServer = Cypress.env('serverEdition') === Constants.ServerEdition.TEAM;
-
-    if (isTeamServer) {
-        return cy.wrap(true);
-    }
-
     return cy.apiGetClientLicense().then(({isLicensed}) => {
         return cy.wrap(!isLicensed);
     });
@@ -281,6 +270,24 @@ Cypress.Commands.add('shouldRunWithSubpath', () => {
     return cy.apiGetConfig().then(({config}) => {
         const isSubpath = Boolean(config.ServiceSettings.SiteURL.replace(/^https?:\/\//, '').split('/')[1]);
         expect(isSubpath, isSubpath ? '' : 'Should run on server running with subpath only').to.equal(true);
+    });
+});
+
+Cypress.Commands.add('shouldHaveFeatureFlag', (key, expectedValue) => {
+    return cy.apiGetConfig().then(({config}) => {
+        const actualValue = config.FeatureFlags[key];
+        const message = actualValue === expectedValue ?
+            `Matches feature flag - "${key}: ${expectedValue}"` :
+            `Expected feature flag "${key}" to be "${expectedValue}", but was "${actualValue}"`;
+        expect(actualValue, message).to.equal(expectedValue);
+    });
+});
+
+Cypress.Commands.add('shouldHaveEmailEnabled', () => {
+    return cy.apiGetConfig().then(({config}) => {
+        if (!config.ExperimentalSettings.RestrictSystemAdmin) {
+            cy.apiEmailTest();
+        }
     });
 });
 

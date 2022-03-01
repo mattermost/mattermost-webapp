@@ -1,6 +1,3 @@
-@import "compass/utilities";
-@import "compass/css3";
-
 .modal .StatusModal.GenericModal .StatusModal__clear-container.input-clear {
     position: absolute;
     top: 16px;
@@ -84,10 +81,9 @@
         justify-content: center;
         border: none;
         background: transparent;
+        border-radius: 4px;
         color: rgba(var(--center-channel-color-rgb), 0.56);
         fill: rgba(var(--center-channel-color-rgb), 0.56);
-
-        @include border-radius(4px);
 
         &:hover {
             background: rgba(var(--center-channel-color-rgb), 0.08);
@@ -122,40 +118,6 @@
             border-radius: 4px;
             font-size: 14px;
             font-weight: 600;
-        }
-    }
-}
-
-.status-dropdown-menu-global-header {
-    padding: 5px;
-    border-radius: 4px;
-
-    &.active {
-        background: var(--sidebar-text-08);
-    }
-
-    .Menu__content {
-        left: -200px;
-    }
-
-    .username-wrapper {
-        padding: 0 12px;
-    }
-
-    .MenuHeader {
-        height: 50px;
-        padding: 0 16px;
-    }
-
-    .status-wrapper {
-        display: flex;
-        height: auto;
-        align-items: center;
-
-        .status {
-            svg {
-                top: 0;
-            }
         }
     }
 }

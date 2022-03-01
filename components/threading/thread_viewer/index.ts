@@ -20,9 +20,11 @@ import {Channel} from 'mattermost-redux/types/channels';
 
 import {getSocketStatus} from 'selectors/views/websocket';
 import {selectPostCard} from 'actions/views/rhs';
-import {getHighlightedPostId} from 'selectors/rhs';
+import {getHighlightedPostId, getSelectedPostFocussedAt} from 'selectors/rhs';
 import {updateThreadLastOpened} from 'actions/views/threads';
 import {GlobalState} from 'types/store';
+
+import {fetchRHSAppsBindings} from 'mattermost-redux/actions/apps';
 
 import ThreadViewer from './thread_viewer';
 
@@ -40,6 +42,7 @@ function makeMapStateToProps() {
         const selected = getPost(state, rootPostId);
         const socketStatus = getSocketStatus(state);
         const highlightedPostId = getHighlightedPostId(state);
+        const selectedPostFocusedAt = getSelectedPostFocussedAt(state);
 
         let postIds: string[] = [];
         let userThread: UserThread | null = null;
@@ -61,6 +64,7 @@ function makeMapStateToProps() {
             socketConnectionStatus: socketStatus.connected,
             channel,
             highlightedPostId,
+            selectedPostFocusedAt,
         };
     };
 }
@@ -74,6 +78,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             getThread: fetchThread,
             updateThreadRead,
             updateThreadLastOpened,
+            fetchRHSAppsBindings,
         }, dispatch),
     };
 }

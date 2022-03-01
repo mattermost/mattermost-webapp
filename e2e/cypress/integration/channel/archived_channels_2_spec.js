@@ -24,7 +24,6 @@ describe('Leave an archived channel', () => {
             },
         });
 
-        // # Login as test user and visit town-square
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
             testUser = user;
@@ -32,9 +31,9 @@ describe('Leave an archived channel', () => {
     });
 
     beforeEach(() => {
-        // # Login as test user and visit town-square
+        // # Login as test user and visit off-topic
         cy.apiLogin(testUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
     });
 
     it('MM-T1687 App does not crash when another user archives a channel', () => {
@@ -77,7 +76,7 @@ describe('Leave an archived channel', () => {
                 cy.uiArchiveChannel();
 
                 // # Switch away from the archived channel
-                cy.get('#sidebarItem_town-square').click();
+                cy.get('#sidebarItem_off-topic').click();
 
                 // * Verify that the channel is no longer in the sidebar
                 cy.get(`#sidebarItem_${channelName}`).should('not.exist');
@@ -96,7 +95,7 @@ describe('Leave an archived channel', () => {
 
                 // # Leave the channel
                 cy.uiLeaveChannel();
-                cy.url().should('include', `/${testTeam.name}/channels/town-square`);
+                cy.url().should('include', `/${testTeam.name}/channels/off-topic`);
                 cy.postMessage('hello');
 
                 // # Search for the post again

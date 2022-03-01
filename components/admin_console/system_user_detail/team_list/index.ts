@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {
     getTeamsForUser,
@@ -11,13 +11,21 @@ import {
     updateTeamMemberSchemeRoles,
 } from 'mattermost-redux/actions/teams';
 
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
+import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 
 import {getCurrentLocale} from 'selectors/i18n';
 
 import {GlobalState} from 'types/store';
 
 import TeamList from './team_list';
+
+type Actions = {
+    getTeamsData: (userId: string) => Promise<{data: Team[]}>;
+    getTeamMembersForUser: (userId: string) => Promise<{data: TeamMembership[]}>;
+    removeUserFromTeam: (userId: string, teamId: string) => Promise<ActionResult>;
+    updateTeamMemberSchemeRoles: (userId: string, teamId: string, isSchemeUser: boolean, isSchemeAdmin: boolean) => Promise<ActionResult>;
+}
 
 function mapStateToProps(state: GlobalState) {
     return {
@@ -27,7 +35,7 @@ function mapStateToProps(state: GlobalState) {
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             getTeamsData: getTeamsForUser,
             getTeamMembersForUser,
             removeUserFromTeam,

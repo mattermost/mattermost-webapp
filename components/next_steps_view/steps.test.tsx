@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {RecommendedNextSteps} from 'utils/constants';
+
 import {showNextSteps, getSteps, isOnboardingHidden, nextStepsNotFinished} from './steps';
 
-//
 describe('components/next_steps_view/steps', () => {
     test('should show next steps', () => {
         const cloudState = {
@@ -94,6 +95,10 @@ describe('components/next_steps_view/steps', () => {
                             name: 'invite_members',
                             value: 'true',
                         },
+                        'recommended_next_steps--download_apps': {
+                            name: 'download_apps',
+                            value: 'true',
+                        },
                     },
                 },
                 users: {
@@ -125,10 +130,10 @@ describe('components/next_steps_view/steps', () => {
                 },
             },
         };
-        expect(getSteps(state as any)).toHaveLength(4);
+        expect(getSteps(state as any)).toHaveLength(5);
     });
 
-    test('should only show the complete_profile_step to guest users', () => {
+    test('should only show the complete_profile_step and download_apps to guest users', () => {
         const state = {
             entities: {
                 general: {
@@ -144,7 +149,10 @@ describe('components/next_steps_view/steps', () => {
                 },
             },
         };
-        expect(getSteps(state as any)).toHaveLength(1);
+        const steps = getSteps(state as any);
+        expect(steps).toHaveLength(2);
+        expect(steps[0].id).toEqual('complete_profile');
+        expect(steps[1].id).toEqual('download_apps');
     });
 
     test('should only show non-admin steps for non-admin users', () => {
@@ -163,6 +171,42 @@ describe('components/next_steps_view/steps', () => {
                 },
             },
         };
-        expect(getSteps(state as any)).toHaveLength(3);
+        expect(getSteps(state as any)).toHaveLength(4);
+    });
+
+    test('should show the create first channel step if exposed to CreateFirstChannel treatment', () => {
+        const state = {
+            entities: {
+                general: {
+                    config: {
+                        FeatureFlagGuidedChannelCreation: 'true',
+                    },
+                },
+                users: {
+                    currentUserId: 'current_user_id',
+                    profiles: {
+                        current_user_id: {roles: 'system_admin'},
+                    },
+                },
+            },
+        };
+        expect(getSteps(state as any).some((step) => step.id === RecommendedNextSteps.CREATE_FIRST_CHANNEL)).toBe(true);
+    });
+    test('should not show the create first channel step if feature flag missing', () => {
+        const state = {
+            entities: {
+                general: {
+                    config: {
+                    },
+                },
+                users: {
+                    currentUserId: 'current_user_id',
+                    profiles: {
+                        current_user_id: {roles: ''},
+                    },
+                },
+            },
+        };
+        expect(getSteps(state as any).some((step) => step.id === RecommendedNextSteps.CREATE_FIRST_CHANNEL)).toBe(false);
     });
 });

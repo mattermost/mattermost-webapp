@@ -105,23 +105,30 @@ describe('Channel sidebar - group unreads separately', () => {
         // * Verify channel is not in the UNREADS category
         cy.get('.SidebarChannelGroup:contains(CHANNELS)').should('be.visible').get('.SidebarChannel:not(.unread):contains(Off-Topic)').should('be.visible');
     });
+
+    it('MM-T4655 Leaving an unread channel when unread category is ON', () => {
+        // # Click on the unread channel
+        cy.get(`.SidebarChannel.unread .SidebarLink:contains(${testChannel.display_name})`).should('be.visible').click();
+
+        // # Mark the last message as unread
+        cy.getLastPostId().then((postId) => {
+            cy.uiClickPostDropdownMenu(postId, 'Mark as Unread');
+        });
+
+        // * Verify that the channel appears in the UNREADS section
+        cy.get('.SidebarChannelGroup:contains(UNREADS)').should('be.visible').get(`.SidebarChannel.unread:contains(${testChannel.display_name})`).should('be.visible');
+
+        // # Leave the channel
+        cy.uiLeaveChannel();
+
+        // * User should be redirect to Town Square
+        cy.url().should('include', '/channels/town-square');
+    });
 });
 
-function navigateToSidebarSettings() {
-    cy.get('#channel_view').should('be.visible');
-    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-    cy.get('#accountSettings').should('be.visible').click();
-    cy.get('#accountSettingsModal').should('be.visible');
-
-    cy.get('#sidebarButton').should('be.visible');
-    cy.get('#sidebarButton').click();
-
-    cy.get('#sidebarLi.active').should('be.visible');
-    cy.get('#sidebarTitle > .tab-header').should('have.text', 'Sidebar Settings');
-}
-
 function toggleOnOrOffUnreadsCategory(toggleOn = true) {
-    navigateToSidebarSettings();
+    // # Go to Sidebar Settings
+    cy.uiOpenSettingsModal('Sidebar');
 
     cy.get('#showUnreadsCategoryEdit').click();
 
@@ -135,11 +142,12 @@ function toggleOnOrOffUnreadsCategory(toggleOn = true) {
 function enableOrDisableUnreadsCategory(enable = true) {
     toggleOnOrOffUnreadsCategory(enable);
 
-    cy.get('#saveSetting').click();
+    cy.uiSave();
     if (enable) {
         cy.get('#showUnreadsCategoryDesc').should('have.text', 'On');
     } else {
         cy.get('#showUnreadsCategoryDesc').should('have.text', 'Off');
     }
-    cy.get('#accountSettingsHeader > .close').click();
+
+    cy.uiClose();
 }

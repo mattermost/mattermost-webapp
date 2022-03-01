@@ -11,7 +11,7 @@
 // - Each parameter with `@params`
 // - Return value with `@returns`
 // - Example usage with `@example`
-// Custom command should follow naming convention of having `ui` prefix, e.g. `uiOpenAccountSettingsModal`.
+// Custom command should follow naming convention of having `ui` prefix, e.g. `uiOpenProfileModal`.
 // ***************************************************************
 
 declare namespace Cypress {
@@ -23,11 +23,11 @@ declare namespace Cypress {
          * @return the "#accountSettingsModal"
          *
          * @example
-         *   cy.uiOpenAccountSettingsModal().within(() => {
+         *   cy.uiOpenProfileModal().within(() => {
          *       // Do something here
          *   });
          */
-        uiOpenAccountSettingsModal(): Chainable;
+        uiOpenProfileModal(): Chainable;
 
         /**
          * Close the account settings modal given that the modal itself is opened.
@@ -43,5 +43,17 @@ declare namespace Cypress {
          * @param {String} lastname - expected user lastname
          */
         verifyAccountNameSettings(firstname: string, lastname: string): Chainable;
+
+        /**
+         * Navigate to account display settings and change collapsed reply threads setting
+         * @param {String} setting -  ON or OFF
+         */
+        uiChangeCRTDisplaySetting(setting: string): Chainable;
+
+        /**
+         * Navigate to account display settings and change message display setting
+         * @param {String} setting -  COMPACT or STANDARD
+         */
+        uiChangeMessageDisplaySetting(setting: string): Chainable;
     }
 }

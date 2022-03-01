@@ -84,6 +84,12 @@ describe('utils/server_version/isServerVersionGreaterThanOrEqualTo', () => {
         expect(isServerVersionGreaterThanOrEqualTo(a, b)).toEqual(true);
     });
 
+    test('should work correctly for  different numbers of digits', () => {
+        const a = '10.0.1';
+        const b = '4.8.0';
+        expect(isServerVersionGreaterThanOrEqualTo(a, b)).toEqual(true);
+    });
+
     test('should consider an empty version as not greater than or equal', () => {
         const a = '';
         const b = '4.7.1.dev.c51676437bc02ada78f3a0a0a2203c60.true';

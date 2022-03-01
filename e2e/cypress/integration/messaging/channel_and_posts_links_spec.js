@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @messaging
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Message permalink', () => {
     let testTeam;
     let testChannel;
@@ -87,7 +89,7 @@ describe('Message permalink', () => {
         cy.visit(`/${testTeam.name}/channels/off-topic`);
 
         // # Clear then type ~ and prefix of channel name
-        cy.get('#post_textbox').should('be.visible').clear().type('~' + publicChannelName.substring(0, 3));
+        cy.get('#post_textbox').should('be.visible').clear().type('~' + publicChannelName.substring(0, 3)).wait(TIMEOUTS.HALF_SEC);
 
         // * Verify that the item is displayed or not as expected.
         cy.get('#suggestionList').should('be.visible').within(() => {
@@ -109,7 +111,7 @@ describe('Message permalink', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Clear then type ~ and prefix of channel name
-        cy.get('#post_textbox').should('be.visible').clear().type(`~${testChannel.display_name}`);
+        cy.get('#post_textbox').should('be.visible').clear().type(`~${testChannel.display_name}`).wait(TIMEOUTS.HALF_SEC);
 
         // * Verify that the item is displayed or not as expected.
         cy.get('#suggestionList').within(() => {
@@ -117,7 +119,11 @@ describe('Message permalink', () => {
         });
 
         // # Post channel mention
-        cy.get('#post_textbox').type('{enter}{enter}');
+        cy.get('#post_textbox').
+            type('{enter}').
+            should('contain', testChannel.name).
+            type('{enter}');
+        cy.uiWaitUntilMessagePostedIncludes(testChannel.display_name);
 
         cy.apiLogout();
         cy.apiLogin(notInChannelUser);
@@ -205,7 +211,7 @@ describe('Message permalink', () => {
             // # Login as the other user
             cy.apiLogout();
             cy.apiLogin(otherUser);
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
 
             // # Clear then type channel url
             cy.get('#post_textbox').should('be.visible').clear().type(`${Cypress.config('baseUrl')}/${testTeam.name}/channels/${testChannel.name}`).type('{enter}');
@@ -213,7 +219,7 @@ describe('Message permalink', () => {
             // # Login as the temporary user
             cy.apiLogout();
             cy.apiLogin(tempUser);
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
 
             // # Check that the channel permalink has been posted
             cy.getLastPostId().then(() => {

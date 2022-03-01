@@ -9,12 +9,12 @@ import {createSelector} from 'reselect';
 import {getAllChannelStats} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getUserStatuses, makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
-import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
+import {getTeammateNameDisplaySetting, getAddMembersToChannel} from 'mattermost-redux/selectors/entities/preferences';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {loadProfilesAndStatusesInChannel} from 'actions/user_actions.jsx';
 import {openModal} from 'actions/views/modals';
-import {canManageMembers} from 'utils/channel_utils.jsx';
+import {canManageMembers} from 'utils/channel_utils';
 import {sortUsersByStatusAndDisplayName} from 'utils/utils.jsx';
 
 import PopoverListMembers from './popover_list_members.jsx';
@@ -46,6 +46,7 @@ function makeMapStateToProps() {
             teamUrl: getCurrentRelativeTeamUrl(state),
             manageMembers: canManageMembers(state, ownProps.channel),
             sortedUsers: doSortUsersByStatusAndDisplayName(state, ownProps.channel.id),
+            addMembersABTest: getAddMembersToChannel(state),
         };
     };
 }
@@ -59,5 +60,4 @@ function mapDispatchToProps(dispatch) {
         }, dispatch),
     };
 }
-
 export default connect(makeMapStateToProps, mapDispatchToProps)(PopoverListMembers);

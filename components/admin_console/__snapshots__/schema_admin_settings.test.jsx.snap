@@ -66,6 +66,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
         >
           <AdminTextSetting
             disabled={false}
+            footer={null}
             helpText={
               <SchemaText
                 isTranslated={true}
@@ -217,6 +218,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
           />
           <AdminTextSetting
             disabled={false}
+            footer={null}
             helpText={
               <SchemaText
                 isTranslated={true}
@@ -235,6 +237,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
           />
           <AdminTextSetting
             disabled={false}
+            footer={null}
             helpText={
               <SchemaText
                 isTranslated={true}
@@ -291,12 +294,12 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 1,
-                  "text": "English",
+                  "text": "English (US)",
                   "value": "en",
                 },
                 Object {
                   "order": 2,
-                  "text": "English Australian (Beta)",
+                  "text": "English (Australia)",
                   "value": "en-AU",
                 },
                 Object {
@@ -311,12 +314,12 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 5,
-                  "text": "Italiano (Beta)",
+                  "text": "Italiano (Alpha)",
                   "value": "it",
                 },
                 Object {
                   "order": 6,
-                  "text": "Magyar (Beta)",
+                  "text": "Magyar",
                   "value": "hu",
                 },
                 Object {
@@ -326,7 +329,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 8,
-                  "text": "Polski (Beta)",
+                  "text": "Polski",
                   "value": "pl",
                 },
                 Object {
@@ -417,12 +420,12 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 1,
-                  "text": "English",
+                  "text": "English (US)",
                   "value": "en",
                 },
                 Object {
                   "order": 2,
-                  "text": "English Australian (Beta)",
+                  "text": "English (Australia)",
                   "value": "en-AU",
                 },
                 Object {
@@ -437,12 +440,12 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 5,
-                  "text": "Italiano (Beta)",
+                  "text": "Italiano (Alpha)",
                   "value": "it",
                 },
                 Object {
                   "order": 6,
-                  "text": "Magyar (Beta)",
+                  "text": "Magyar",
                   "value": "hu",
                 },
                 Object {
@@ -452,7 +455,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 8,
-                  "text": "Polski (Beta)",
+                  "text": "Polski",
                   "value": "pl",
                 },
                 Object {
@@ -624,7 +627,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             showConfirm={false}
             unRegisterSaveAction={[Function]}
           />
-          <Connect(injectIntl(JobTable))
+          <Connect(JobTable)
             createJobButtonText={
               <Memo(MemoizedFormattedMessage)
                 defaultMessage="Setting Twelve"
@@ -641,34 +644,6 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             getExtraInfoText={[Function]}
             jobType="test"
             key="Config_jobstable_undefined"
-          />
-          <BooleanSetting
-            disabled={false}
-            falseText={
-              <Memo(MemoizedFormattedMessage)
-                defaultMessage="false"
-                id="admin.false"
-              />
-            }
-            helpText={
-              <SchemaText
-                isTranslated={true}
-                text="help-text-o"
-                textDefault="This is some help text for the permissions field."
-              />
-            }
-            id="settingo"
-            key="Config_bool_settingo"
-            label="Setting Fourteen"
-            onChange={[Function]}
-            setByEnv={false}
-            trueText={
-              <Memo(MemoizedFormattedMessage)
-                defaultMessage="true"
-                id="admin.true"
-              />
-            }
-            value={false}
           />
           <BooleanSetting
             disabled={false}
@@ -745,9 +720,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
       target={null}
     >
       <Tooltip
-        bsClass="tooltip"
         id="error-tooltip"
-        placement="right"
       />
     </Overlay>
   </div>

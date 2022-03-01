@@ -33,6 +33,7 @@ export default class TeamDetails extends React.PureComponent {
         groups: PropTypes.arrayOf(PropTypes.object),
         allGroups: PropTypes.object.isRequired,
         isDisabled: PropTypes.bool,
+        isLicensedForLDAPGroups: PropTypes.bool,
         actions: PropTypes.shape({
             setNavigationBlocked: PropTypes.func.isRequired,
             getTeam: PropTypes.func.isRequired,
@@ -414,7 +415,7 @@ export default class TeamDetails extends React.PureComponent {
     };
 
     render = () => {
-        const {team} = this.props;
+        const {team, isLicensedForLDAPGroups} = this.props;
         const {totalGroups, saving, saveNeeded, serverError, groups, allAllowedChecked, allowedDomainsChecked, allowedDomains, syncChecked, showRemoveConfirmation, usersToRemoveCount, isLocalArchived, showArchiveConfirmModal} = this.state;
         const missingGroup = (og) => !groups.find((g) => g.id === og.id);
         const removedGroups = this.props.groups.filter(missingGroup);
@@ -435,19 +436,22 @@ export default class TeamDetails extends React.PureComponent {
                     syncChecked={syncChecked}
                     onToggle={this.setToggles}
                     isDisabled={this.props.isDisabled}
+                    isLicensedForLDAPGroups={isLicensedForLDAPGroups}
                 />
 
-                <TeamGroups
-                    syncChecked={syncChecked}
-                    team={team}
-                    groups={groups}
-                    removedGroups={removedGroups}
-                    totalGroups={totalGroups}
-                    onAddCallback={this.handleGroupChange}
-                    onGroupRemoved={this.handleGroupRemoved}
-                    setNewGroupRole={this.setNewGroupRole}
-                    isDisabled={this.props.isDisabled}
-                />
+                {isLicensedForLDAPGroups &&
+                    <TeamGroups
+                        syncChecked={syncChecked}
+                        team={team}
+                        groups={groups}
+                        removedGroups={removedGroups}
+                        totalGroups={totalGroups}
+                        onAddCallback={this.handleGroupChange}
+                        onGroupRemoved={this.handleGroupRemoved}
+                        setNewGroupRole={this.setNewGroupRole}
+                        isDisabled={this.props.isDisabled}
+                    />
+                }
 
                 {!syncChecked &&
                     <TeamMembers

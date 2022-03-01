@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/global/AtMentionsButton should match snapshot 1`] = `
+<OverlayTrigger
+  defaultOverlayShown={false}
+  delayShow={400}
+  overlay={
+    <Tooltip
+      id="recentMentions"
+    >
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Saved posts"
+        id="channel_header.flagged"
+      />
+    </Tooltip>
+  }
+  placement="bottom"
+  trigger={
+    Array [
+      "hover",
+    ]
+  }
+>
+  <ForwardRef
+    aria-label="Select to toggle a list of saved posts."
+    compact={true}
+    icon="bookmark-outline"
+    inverted={true}
+    onClick={[Function]}
+    size="sm"
+    toggled={false}
+  />
+</OverlayTrigger>
+`;

@@ -23,7 +23,7 @@ exports[`components/AddGroupsToChannelModal should match snapshot 1`] = `
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -59,6 +59,7 @@ exports[`components/AddGroupsToChannelModal should match snapshot 1`] = `
       ariaLabelRenderer={[Function]}
       buttonSubmitLoadingText="Adding..."
       buttonSubmitText="Add"
+      focusOnLoad={true}
       handleAdd={[Function]}
       handleDelete={[Function]}
       handleInput={[Function]}
@@ -88,6 +89,7 @@ exports[`components/AddGroupsToChannelModal should match snapshot 1`] = `
       placeholderText="Search and add groups"
       saveButtonPosition="top"
       saving={false}
+      savingEnabled={true}
       selectedItemRef={
         Object {
           "current": null,

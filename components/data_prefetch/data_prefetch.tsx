@@ -5,7 +5,6 @@ import React from 'react';
 import PQueue from 'p-queue';
 
 import {Channel} from 'mattermost-redux/types/channels';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import {Constants} from 'utils/constants';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
@@ -15,7 +14,7 @@ const queue = new PQueue({concurrency: 2});
 type Props = {
     currentChannelId: string;
     prefetchQueueObj: Record<string, string[]>;
-    prefetchRequestStatus: Dictionary<string>;
+    prefetchRequestStatus: Record<string, string>;
 
     // Whether or not the categories in the sidebar have been loaded for the current team
     sidebarLoaded: boolean;
@@ -23,7 +22,6 @@ type Props = {
     unreadChannels: Channel[];
     actions: {
         prefetchChannelPosts: (channelId: string, delay?: number) => Promise<any>;
-        trackDMGMOpenChannels: () => Promise<void>;
     };
 }
 
@@ -57,7 +55,6 @@ export default class DataPrefetch extends React.PureComponent<Props> {
             queue.add(async () => this.prefetchPosts(currentChannelId));
             await loadProfilesForSidebar();
             this.prefetchData();
-            this.props.actions.trackDMGMOpenChannels();
         } else if (prevProps.prefetchQueueObj !== prefetchQueueObj) {
             clearTimeout(this.prefetchTimeout);
             await queue.clear();

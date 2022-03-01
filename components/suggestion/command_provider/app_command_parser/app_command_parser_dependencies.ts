@@ -55,7 +55,7 @@ export {
 
 export {autocompleteUsersInChannel} from 'actions/views/channel';
 
-export {makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
+export {makeAppBindingsSelector, makeRHSAppBindingSelector, getAppCommandForm, getAppRHSCommandForm} from 'mattermost-redux/selectors/entities/apps';
 
 export {getPost} from 'mattermost-redux/selectors/entities/posts';
 export {getChannel as selectChannel, getCurrentChannel, getChannelByName as selectChannelByName} from 'mattermost-redux/selectors/entities/channels';
@@ -83,11 +83,13 @@ export const getStore = () => Store;
 
 import {Constants} from 'utils/constants';
 export const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
+export const OPEN_COMMAND_IN_MODAL_ITEM_ID = Constants.Integrations.OPEN_COMMAND_IN_MODAL_ITEM_ID;
 export const COMMAND_SUGGESTION_ERROR = Constants.Integrations.COMMAND_SUGGESTION_ERROR;
 export const COMMAND_SUGGESTION_CHANNEL = Constants.Integrations.COMMAND_SUGGESTION_CHANNEL;
 export const COMMAND_SUGGESTION_USER = Constants.Integrations.COMMAND_SUGGESTION_USER;
 
 import type {ParsedCommand} from './app_command_parser';
+export {AppsTypes} from 'mattermost-redux/action_types';
 
 export const getExecuteSuggestion = (parsed: ParsedCommand): AutocompleteSuggestion | null => {
     let key = 'Ctrl';
@@ -101,6 +103,16 @@ export const getExecuteSuggestion = (parsed: ParsedCommand): AutocompleteSuggest
         Hint: '',
         Description: 'Select this option or use ' + key + '+Enter to execute the current command.',
         IconData: EXECUTE_CURRENT_COMMAND_ITEM_ID,
+    };
+};
+
+export const getOpenInModalSuggestion = (parsed: ParsedCommand): AutocompleteSuggestion | null => {
+    return {
+        Complete: parsed.command.substring(1) + OPEN_COMMAND_IN_MODAL_ITEM_ID,
+        Suggestion: 'Open in modal',
+        Hint: '',
+        Description: 'Select this option to open the current command in a modal.',
+        IconData: OPEN_COMMAND_IN_MODAL_ITEM_ID,
     };
 };
 

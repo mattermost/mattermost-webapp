@@ -114,11 +114,8 @@ function setIgnoreMentions(toSet) {
         stringToSet = 'On';
     }
 
-    // # Click on the header to open dropdown
-    cy.get('#channelHeaderDropdownButton').should('exist').click();
-
-    // # Click on the notification preferences
-    cy.get('#channelNotificationPreferences').should('exist').click();
+    // # Open channel menu and click Notification Preferences
+    cy.uiOpenChannelMenu('Notification Preferences');
 
     // # Click on the edit button for ignore channel mentions
     cy.get('#ignoreChannelMentionsEdit').should('exist').click();

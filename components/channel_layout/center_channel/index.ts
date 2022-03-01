@@ -8,14 +8,14 @@ import {getProfiles} from 'mattermost-redux/actions/users';
 import {Action, ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
 import {getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
-import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {isCollapsedThreadsEnabled, getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUserId, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {setShowNextStepsView} from 'actions/views/next_steps';
 import {getIsRhsOpen, getIsRhsMenuOpen} from 'selectors/rhs';
 import {getIsLhsOpen} from 'selectors/lhs';
 import {getLastViewedChannelNameByTeamName} from 'selectors/local_storage';
-
-import {isOnboardingHidden, showNextSteps, showNextStepsTips} from 'components/next_steps_view/steps';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {showNextSteps} from 'components/next_steps_view/steps';
 
 import {GlobalState} from 'types/store';
 
@@ -31,6 +31,9 @@ type Props = {
 };
 
 const mapStateToProps = (state: GlobalState, ownProps: Props) => {
+    const config = getConfig(state);
+    const enableOnboardingFlow = config.EnableOnboardingFlow === 'true';
+    const useCaseOnboarding = getUseCaseOnboarding(state);
     let channelName = getLastViewedChannelNameByTeamName(state, ownProps.match.params.team);
     if (!channelName) {
         const team = getTeamByName(state, ownProps.match.params.team);
@@ -44,10 +47,7 @@ const mapStateToProps = (state: GlobalState, ownProps: Props) => {
         rhsMenuOpen: getIsRhsMenuOpen(state),
         isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
         currentUserId: getCurrentUserId(state),
-        showNextSteps: showNextSteps(state),
-        showNextStepsTips: showNextStepsTips(state),
-        isOnboardingHidden: isOnboardingHidden(state),
-        showNextStepsEphemeral: state.views.nextSteps.show,
+        enableTipsViewRoute: enableOnboardingFlow && showNextSteps(state) && !(useCaseOnboarding && isFirstAdmin(state)),
     };
 };
 

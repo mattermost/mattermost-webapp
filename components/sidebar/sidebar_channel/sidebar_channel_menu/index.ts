@@ -21,6 +21,7 @@ import {openModal} from 'actions/views/modals';
 
 import {getCategoriesForCurrentTeam, getDisplayedChannels} from 'selectors/views/channel_sidebar';
 
+import {ModalData} from 'types/actions';
 import {GlobalState} from 'types/store';
 
 import {getSiteURL} from 'utils/url';
@@ -70,7 +71,7 @@ type Actions = {
     unfavoriteChannel: (channelId: string) => void;
     muteChannel: (userId: string, channelId: string) => void;
     unmuteChannel: (userId: string, channelId: string) => void;
-    openModal: (modalData: any) => void;
+    openModal: <P>(modalData: ModalData<P>) => void;
     addChannelsInSidebar: (categoryId: string, channelId: string) => void;
 };
 

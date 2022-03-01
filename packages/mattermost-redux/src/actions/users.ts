@@ -8,8 +8,6 @@ import {Client4} from 'mattermost-redux/client';
 import {General} from '../constants';
 import {UserTypes, TeamTypes, AdminTypes} from 'mattermost-redux/action_types';
 
-import {getUserIdFromChannelName, isDirectChannel, isDirectChannelVisible, isGroupChannel, isGroupChannelVisible} from 'mattermost-redux/utils/channel_utils';
-
 import {removeUserFromList} from 'mattermost-redux/utils/user_utils';
 
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
@@ -17,8 +15,6 @@ import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 import {getConfig, getServerVersion} from 'mattermost-redux/selectors/entities/general';
 
 import {getCurrentUserId, getUsers} from 'mattermost-redux/selectors/entities/users';
-
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import {isCollapsedThreadsEnabled} from '../selectors/entities/preferences';
 
@@ -29,7 +25,7 @@ import {loadRolesIfNeeded} from './roles';
 
 import {logError} from './errors';
 import {bindClientFunc, forceLogoutIfNecessary, debounce} from './helpers';
-import {getMyPreferences, makeDirectChannelVisibleIfNecessary, makeGroupMessageVisibleIfNecessary} from './preferences';
+import {getMyPreferences} from './preferences';
 
 export function checkMfa(loginId: string): ActionFunc {
     return async (dispatch: DispatchFunc) => {
@@ -353,7 +349,7 @@ export function getMissingProfilesByUsernames(usernames: string[]): ActionFunc {
         const usernameProfiles = Object.values(profiles).reduce((acc, profile: any) => {
             acc[profile.username] = profile;
             return acc;
-        }, {} as Dictionary<UserProfile>);
+        }, {} as Record<string, UserProfile>);
         const missingUsernames: string[] = [];
         usernames.forEach((username) => {
             if (!usernameProfiles[username]) {
@@ -677,6 +673,35 @@ export function getProfilesInGroup(groupId: string, page = 0, perPage: number = 
     };
 }
 
+export function getProfilesNotInGroup(groupId: string, page = 0, perPage: number = General.PROFILE_CHUNK_SIZE): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const {currentUserId} = getState().entities.users;
+        let profiles;
+
+        try {
+            profiles = await Client4.getProfilesNotInGroup(groupId, page, perPage);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        dispatch(batchActions([
+            {
+                type: UserTypes.RECEIVED_PROFILES_LIST_NOT_IN_GROUP,
+                data: profiles,
+                id: groupId,
+            },
+            {
+                type: UserTypes.RECEIVED_PROFILES_LIST,
+                data: removeUserFromList(currentUserId, [...profiles]),
+            },
+        ]));
+
+        return {data: profiles};
+    };
+}
+
 export function getTermsOfService(): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getTermsOfService,
@@ -884,39 +909,6 @@ export function revokeSessionsForAllUsers(): ActionFunc {
     };
 }
 
-export function loadProfilesForDirect(): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState();
-        const config = state.entities.general.config;
-        const {channels, myMembers} = state.entities.channels;
-        const {myPreferences} = state.entities.preferences;
-        const {currentUserId, profiles} = state.entities.users;
-
-        const values = Object.values(channels);
-        for (let i = 0; i < values.length; i++) {
-            const channel: any = values[i];
-            const member = myMembers[channel.id];
-            if (!isDirectChannel(channel) && !isGroupChannel(channel)) {
-                continue;
-            }
-
-            if (member) {
-                if (member.mention_count > 0 && isDirectChannel(channel)) {
-                    const otherUserId = getUserIdFromChannelName(currentUserId, channel.name);
-                    if (!isDirectChannelVisible(profiles[otherUserId] || otherUserId, config, myPreferences, channel)) {
-                        makeDirectChannelVisibleIfNecessary(otherUserId)(dispatch, getState);
-                    }
-                } else if ((member.mention_count > 0 || member.msg_count < channel.total_msg_count) &&
-                           isGroupChannel(channel) && !isGroupChannelVisible(config, myPreferences, channel)) {
-                    makeGroupMessageVisibleIfNecessary(channel.id)(dispatch, getState);
-                }
-            }
-        }
-
-        return {data: true};
-    };
-}
-
 export function getUserAudits(userId: string, page = 0, perPage: number = General.AUDITS_CHUNK_SIZE): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getUserAudits,
@@ -1048,6 +1040,14 @@ export function searchProfiles(term: string, options: any = {}): ActionFunc {
                 type: UserTypes.RECEIVED_PROFILES_LIST_IN_GROUP,
                 data: profiles,
                 id: options.in_group_id,
+            });
+        }
+
+        if (options.not_in_group_id) {
+            actions.push({
+                type: UserTypes.RECEIVED_PROFILES_LIST_NOT_IN_GROUP,
+                data: profiles,
+                id: options.not_in_group_id,
             });
         }
 
@@ -1557,7 +1557,6 @@ export default {
     getStatusesByIds,
     getSessions,
     getTotalUsersStats,
-    loadProfilesForDirect,
     revokeSession,
     revokeAllSessionsForUser,
     revokeSessionsForAllUsers,

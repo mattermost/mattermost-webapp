@@ -5,7 +5,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Tooltip} from 'react-bootstrap';
 
 import {Posts} from 'mattermost-redux/constants/index';
 import {
@@ -16,15 +15,16 @@ import {
 
 import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
-import {isMobile} from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import PostProfilePicture from 'components/post_profile_picture';
 import FailedPostOptions from 'components/post_view/failed_post_options';
 import PostAriaLabelDiv from 'components/post_view/post_aria_label_div';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostTime from 'components/post_view/post_time';
+import PostRecentReactions from 'components/post_view/post_recent_reactions';
 import PostReaction from 'components/post_view/post_reaction';
 import ReactionList from 'components/post_view/reaction_list';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
@@ -34,6 +34,9 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import UserProfile from 'components/user_profile';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import {Emoji} from 'mattermost-redux/types/emojis';
+import EditPost from 'components/edit_post';
+import AutoHeightSwitcher from 'components/common/auto_height_switcher';
 
 export default class RhsComment extends React.PureComponent {
     static propTypes = {
@@ -85,6 +88,17 @@ export default class RhsComment extends React.PureComponent {
          * To Check if the current post is to be highlighted and scrolled into center view of RHS
          */
         shouldHighlight: PropTypes.bool,
+
+        oneClickReactionsEnabled: PropTypes.bool,
+        recentEmojis: PropTypes.arrayOf(Emoji),
+
+        isExpanded: PropTypes.bool,
+
+        /**
+         * check if the current post is being edited at the moment
+         */
+        isPostBeingEdited: PropTypes.bool,
+        isMobileView: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -107,9 +121,6 @@ export default class RhsComment extends React.PureComponent {
     }
 
     componentDidMount() {
-        document.addEventListener('keydown', this.handleAlt);
-        document.addEventListener('keyup', this.handleAlt);
-
         if (this.postRef.current) {
             this.postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
             this.postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
@@ -117,8 +128,9 @@ export default class RhsComment extends React.PureComponent {
     }
 
     componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleAlt);
-        document.removeEventListener('keyup', this.handleAlt);
+        if (this.state.hover) {
+            this.removeKeyboardListeners();
+        }
 
         if (this.postRef.current) {
             this.postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
@@ -143,8 +155,16 @@ export default class RhsComment extends React.PureComponent {
 
     handleShortcutReactToLastPost = (isLastPost) => {
         if (isLastPost) {
-            const {isReadOnly, channelIsArchived, enableEmojiPicker, post,
-                actions: {emitShortcutReactToLastPostFrom}} = this.props;
+            const {
+                channelIsArchived,
+                enableEmojiPicker,
+                isMobileView,
+                isReadOnly,
+                post,
+                actions: {
+                    emitShortcutReactToLastPostFrom,
+                },
+            } = this.props;
 
             // Setting the last message emoji action to empty to clean up the redux state
             emitShortcutReactToLastPostFrom(Locations.NO_WHERE);
@@ -162,7 +182,7 @@ export default class RhsComment extends React.PureComponent {
                 boundingRectOfPostInfo.bottom < (window.innerHeight);
 
             if (isPostHeaderVisibleToUser && !isEphemeralPost && !isSystemMessage && !isReadOnly && !isFailedPost &&
-                !isAutoRespondersPost && !isDeletedPost && !channelIsArchived && !isMobile() && enableEmojiPicker) {
+                !isAutoRespondersPost && !isDeletedPost && !channelIsArchived && !isMobileView && enableEmojiPicker) {
                 this.setState({hover: true}, () => {
                     this.toggleEmojiPicker();
                 });
@@ -217,6 +237,10 @@ export default class RhsComment extends React.PureComponent {
             className += ' post--highlight';
         }
 
+        if (this.props.isPostBeingEdited) {
+            className += ' post--editing';
+        }
+
         if (this.props.currentUserId === post.user_id) {
             className += ' current--user';
         }
@@ -266,12 +290,32 @@ export default class RhsComment extends React.PureComponent {
         return this.dotMenuRef.current;
     };
 
-    setHover = () => {
-        this.setState({hover: true});
+    setHover = (e) => {
+        this.setState({
+            hover: true,
+            alt: e.altKey,
+        });
+
+        this.addKeyboardListeners();
     }
 
     unsetHover = () => {
-        this.setState({hover: false});
+        this.setState({
+            hover: false,
+            alt: false,
+        });
+
+        this.removeKeyboardListeners();
+    }
+
+    addKeyboardListeners = () => {
+        document.addEventListener('keydown', this.handleAlt);
+        document.addEventListener('keyup', this.handleAlt);
+    }
+
+    removeKeyboardListeners = () => {
+        document.removeEventListener('keydown', this.handleAlt);
+        document.removeEventListener('keyup', this.handleAlt);
     }
 
     handleA11yActivateEvent = () => {
@@ -293,7 +337,15 @@ export default class RhsComment extends React.PureComponent {
     }
 
     render() {
-        const {post, isConsecutivePost, isReadOnly, channelIsArchived, collapsedThreadsEnabled} = this.props;
+        const {
+            channelIsArchived,
+            collapsedThreadsEnabled,
+            isConsecutivePost,
+            isMobileView,
+            isReadOnly,
+            post,
+            isPostBeingEdited,
+        } = this.props;
 
         const isPostDeleted = post && post.state === Posts.POST_DELETED;
         const isEphemeral = isPostEphemeral(post);
@@ -306,7 +358,7 @@ export default class RhsComment extends React.PureComponent {
         let visibleMessage;
 
         let userProfile = null;
-        if (this.props.compactDisplay || isMobile()) {
+        if (this.props.compactDisplay || isMobileView) {
             userProfile = (
                 <UserProfile
                     userId={post.user_id}
@@ -427,16 +479,12 @@ export default class RhsComment extends React.PureComponent {
         }
 
         let failedPostOptions;
-        let postClass = '';
 
         if (post.failed) {
-            postClass += ' post-failed';
             failedPostOptions = <FailedPostOptions post={this.props.post}/>;
         }
 
-        if (PostUtils.isEdited(this.props.post)) {
-            postClass += ' post--edited';
-        }
+        const postClass = PostUtils.isEdited(this.props.post) ? ' post--edited' : '';
 
         let fileAttachment = null;
         if (post.file_ids && post.file_ids.length > 0) {
@@ -445,6 +493,21 @@ export default class RhsComment extends React.PureComponent {
                     post={post}
                     compactDisplay={this.props.compactDisplay}
                     handleFileDropdownOpened={this.handleFileDropdownOpened}
+                />
+            );
+        }
+
+        const showRecentlyUsedReactions = (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && !channelIsArchived && this.props.oneClickReactionsEnabled && this.props.enableEmojiPicker);
+        let showRecentReacions;
+        if (showRecentlyUsedReactions) {
+            showRecentReacions = (
+                <PostRecentReactions
+                    channelId={post.channel_id}
+                    postId={post.id}
+                    teamId={this.props.teamId}
+                    emojis={this.props.recentEmojis}
+                    getDotMenuRef={this.getDotMenuRef}
+                    size={this.props.isExpanded ? 3 : 1}
                 />
             );
         }
@@ -465,7 +528,7 @@ export default class RhsComment extends React.PureComponent {
         }
 
         let flagIcon = null;
-        if (!isMobile() && (!isEphemeral && !post.failed && !isSystemMessage)) {
+        if (!isMobileView && (!isEphemeral && !post.failed && !isSystemMessage)) {
             flagIcon = (
                 <PostFlagIcon
                     location={Locations.RHS_COMMENT}
@@ -484,7 +547,7 @@ export default class RhsComment extends React.PureComponent {
             );
         } else if (isPostDeleted) {
             options = null;
-        } else if (!isSystemMessage && (isMobile() || this.state.hover || this.state.a11yActive || this.state.dropdownOpened || this.state.showEmojiPicker)) {
+        } else if (!isSystemMessage && (isMobileView || this.state.hover || this.state.a11yActive || this.state.dropdownOpened || this.state.showEmojiPicker)) {
             const dotMenu = (
                 <DotMenu
                     post={this.props.post}
@@ -501,12 +564,14 @@ export default class RhsComment extends React.PureComponent {
             options = (
                 <div
                     ref={this.dotMenuRef}
+                    data-testid={`post-menu-${this.props.post.id}`}
                     className='col post-menu'
                 >
-                    {!collapsedThreadsEnabled && dotMenu}
+                    {!collapsedThreadsEnabled && !showRecentlyUsedReactions && dotMenu}
+                    {showRecentReacions}
                     {postReaction}
                     {flagIcon}
-                    {collapsedThreadsEnabled && dotMenu}
+                    {(collapsedThreadsEnabled || showRecentlyUsedReactions) && dotMenu}
                 </div>
             );
         }
@@ -558,18 +623,27 @@ export default class RhsComment extends React.PureComponent {
             );
         }
 
+        const message = (
+            <MessageWithAdditionalContent
+                post={post}
+                previewCollapsed={this.props.previewCollapsed}
+                previewEnabled={this.props.previewEnabled}
+                isEmbedVisible={this.props.isEmbedVisible}
+                pluginPostTypes={this.props.pluginPostTypes}
+            />
+        );
+
         return (
             <PostAriaLabelDiv
-                role='listitem'
-                post={post}
                 ref={this.postRef}
+                role='listitem'
                 id={'rhsPost_' + post.id}
                 tabIndex='-1'
+                post={post}
                 className={`a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage)}`}
                 onClick={this.handlePostClick}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
-                onFocus={this.handlePostFocus}
                 data-a11y-sort-order={this.props.a11yIndex}
             >
                 <PostPreHeader
@@ -599,19 +673,16 @@ export default class RhsComment extends React.PureComponent {
                                 {postInfoIcon}
                                 {visibleMessage}
                             </div>
-                            {options}
+                            {!isPostBeingEdited && options}
                         </div>
-                        <div className='post__body' >
-                            <div className={postClass}>
-                                {failedPostOptions}
-                                <MessageWithAdditionalContent
-                                    post={post}
-                                    previewCollapsed={this.props.previewCollapsed}
-                                    previewEnabled={this.props.previewEnabled}
-                                    isEmbedVisible={this.props.isEmbedVisible}
-                                    pluginPostTypes={this.props.pluginPostTypes}
-                                />
-                            </div>
+                        <div className={`post__body${postClass}`} >
+                            {failedPostOptions}
+                            <AutoHeightSwitcher
+                                showSlot={isPostBeingEdited ? 2 : 1}
+                                shouldScrollIntoView={isPostBeingEdited}
+                                slot1={message}
+                                slot2={<EditPost/>}
+                            />
                             {fileAttachment}
                             <ReactionList
                                 post={post}

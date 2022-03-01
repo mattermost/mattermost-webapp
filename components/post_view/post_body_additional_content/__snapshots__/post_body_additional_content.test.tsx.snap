@@ -160,7 +160,7 @@ exports[`PostBodyAdditionalContent with an image preview should render correctly
   <span>
     some children
   </span>
-  <PostImage
+  <Connect(PostImage)
     imageMetadata={Object {}}
     link="https://example.com/image.png"
     post={
@@ -202,7 +202,7 @@ exports[`PostBodyAdditionalContent with an image preview should render the toggl
     key="toggle"
     onClick={[Function]}
   />
-  <PostImage
+  <Connect(PostImage)
     imageMetadata={Object {}}
     link="https://example.com/image.png"
     post={

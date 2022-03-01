@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 Cypress.Commands.add('uiSave', () => {
-    return cy.findByRole('button', {name: 'Save'}).click();
+    return cy.findByRole('button', {name: 'Save'}).scrollIntoView().click();
 });
 
 Cypress.Commands.add('uiCancel', () => {
@@ -10,7 +10,7 @@ Cypress.Commands.add('uiCancel', () => {
 });
 
 Cypress.Commands.add('uiClose', () => {
-    return cy.findByRole('button', {name: 'Close'}).click();
+    return cy.findAllByRole('button', {name: 'Close'}).eq(0).click();
 });
 
 Cypress.Commands.add('uiSaveAndClose', () => {
@@ -19,7 +19,7 @@ Cypress.Commands.add('uiSaveAndClose', () => {
 });
 
 Cypress.Commands.add('uiGetButton', (name) => {
-    return cy.findByRole('button', {name}).should('be.visible');
+    return cy.findByRole('button', {name});
 });
 
 Cypress.Commands.add('uiSaveButton', () => {

@@ -25,7 +25,7 @@ describe('selectors/i18n', () => {
             expect(getCurrentLocale(state)).toEqual('fr');
         });
 
-        test('not logged in', () => {
+        test('logged in', () => {
             const state = {
                 entities: {
                     general: {
@@ -67,6 +67,86 @@ describe('selectors/i18n', () => {
             };
 
             expect(getCurrentLocale(state)).toEqual(General.DEFAULT_LOCALE);
+        });
+
+        describe('locale from query parameter', () => {
+            // Helper function to mock window.location.search with locale query parameter
+            const setWindowLocaleQueryParameter = (locale) => {
+                window.location.search = `?locale=${locale}`;
+            };
+
+            // Helper function to reset window.location.search
+            const resetWindowLocationSearch = () => {
+                window.location.search = '';
+            };
+
+            afterEach(() => {
+                resetWindowLocationSearch();
+            });
+
+            test('returns locale from query parameter if provided and not logged in', () => {
+                const state = {
+                    entities: {
+                        general: {
+                            config: {
+                                DefaultClientLocale: 'fr',
+                            },
+                        },
+                        users: {
+                            currentUserId: '',
+                            profiles: {},
+                        },
+                    },
+                };
+
+                setWindowLocaleQueryParameter('ko');
+
+                expect(getCurrentLocale(state)).toEqual('ko');
+            });
+
+            test('returns DefaultClientLocale if locale from query parameter is not valid', () => {
+                const state = {
+                    entities: {
+                        general: {
+                            config: {
+                                DefaultClientLocale: 'fr',
+                            },
+                        },
+                        users: {
+                            currentUserId: '',
+                            profiles: {},
+                        },
+                    },
+                };
+
+                setWindowLocaleQueryParameter('invalid_locale');
+
+                expect(getCurrentLocale(state)).toEqual('fr');
+            });
+
+            test('returns user locale when logged in and locale is provided in query parameter', () => {
+                const state = {
+                    entities: {
+                        general: {
+                            config: {
+                                DefaultClientLocale: 'fr',
+                            },
+                        },
+                        users: {
+                            currentUserId: 'abcd',
+                            profiles: {
+                                abcd: {
+                                    locale: 'de',
+                                },
+                            },
+                        },
+                    },
+                };
+
+                setWindowLocaleQueryParameter('ko');
+
+                expect(getCurrentLocale(state)).toEqual('de');
+            });
         });
     });
 

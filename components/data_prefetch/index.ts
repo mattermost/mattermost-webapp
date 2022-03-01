@@ -5,9 +5,8 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getCurrentChannelId, getUnreadChannels} from 'mattermost-redux/selectors/entities/channels';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
-import {getMsgCountInChannel, isChannelMuted} from 'mattermost-redux/utils/channel_utils';
+import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
@@ -17,7 +16,6 @@ import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 
 import {prefetchChannelPosts} from 'actions/views/channel';
-import {trackDMGMOpenChannels} from 'actions/user_actions';
 
 import {getCategoriesForCurrentTeam} from 'selectors/views/channel_sidebar';
 
@@ -29,7 +27,6 @@ import DataPrefetch from './data_prefetch';
 
 type Actions = {
     prefetchChannelPosts: (channelId: string, delay?: number) => Promise<{data: PostList}>;
-    trackDMGMOpenChannels: () => Promise<void>;
 };
 
 enum Priority {
@@ -41,10 +38,17 @@ enum Priority {
 // function to return a queue obj with priotiy as key and array of channelIds as values.
 // high priority has channels with mentions
 // medium priority has channels with unreads
-const prefetchQueue = memoizeResult((channels: Channel[], memberships: RelationOneToOne<Channel, ChannelMembership>, collapsedThreads: boolean) => {
-    return channels.reduce((acc: Record<string, string[]>, channel: Channel) => {
+const prefetchQueue = memoizeResult((
+    unreadChannels: Channel[],
+    memberships: RelationOneToOne<Channel, ChannelMembership>,
+    collapsedThreads: boolean,
+) => {
+    return unreadChannels.reduce((acc: Record<string, string[]>, channel: Channel) => {
         const channelId = channel.id;
         const membership = memberships[channelId];
+
+        // TODO We check for muted channels 3 times here: getUnreadChannels checks it, this checks it, and the mark_unread
+        // check below is equivalent to checking if its muted.
         if (membership && !isChannelMuted(membership)) {
             if (collapsedThreads ? membership.mention_count_root : membership.mention_count) {
                 return {
@@ -53,8 +57,7 @@ const prefetchQueue = memoizeResult((channels: Channel[], memberships: RelationO
                 };
             } else if (
                 membership.notify_props &&
-                membership.notify_props.mark_unread !== 'mention' &&
-                Boolean(getMsgCountInChannel(collapsedThreads, channel, membership))
+                membership.notify_props.mark_unread !== 'mention'
             ) {
                 return {
                     ...acc,
@@ -71,11 +74,6 @@ const prefetchQueue = memoizeResult((channels: Channel[], memberships: RelationO
 });
 
 function isSidebarLoaded(state: GlobalState) {
-    if (getConfig(state).EnableLegacySidebar === 'true') {
-        // With the old sidebar, we don't need to wait for anything to load before fetching profiles
-        return true;
-    }
-
     return getCategoriesForCurrentTeam(state).length > 0;
 }
 
@@ -99,7 +97,6 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             prefetchChannelPosts,
-            trackDMGMOpenChannels,
         }, dispatch),
     };
 }

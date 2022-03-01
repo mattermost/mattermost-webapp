@@ -18,7 +18,6 @@ import {
     isCurrentChannelFavorite,
     isCurrentChannelMuted,
     isCurrentChannelArchived,
-    isCurrentChannelReadOnly,
     getRedirectChannelNameForTeam,
 } from 'mattermost-redux/selectors/entities/channels';
 
@@ -63,7 +62,7 @@ const mapStateToProps = (state) => ({
     isDefault: isCurrentChannelDefault(state),
     isFavorite: isCurrentChannelFavorite(state),
     isMuted: isCurrentChannelMuted(state),
-    isReadonly: isCurrentChannelReadOnly(state),
+    isReadonly: false,
     isArchived: isCurrentChannelArchived(state),
     penultimateViewedChannelName: getPenultimateViewedChannelName(state) || getRedirectChannelNameForTeam(state, getCurrentTeamId(state)),
     pluginMenuItems: state.plugins.components.ChannelHeader || [],

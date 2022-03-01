@@ -5,8 +5,6 @@ import React, {ReactNode, CSSProperties} from 'react';
 import {FormattedMessage, MessageDescriptor} from 'react-intl';
 import classNames from 'classnames';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-
 import {t} from 'utils/i18n';
 
 import FlagIcon from 'components/widgets/icons/flag_icon';
@@ -14,7 +12,7 @@ import MentionsIcon from 'components/widgets/icons/mentions_icon';
 import PinIcon from 'components/widgets/icons/pin_icon';
 import SearchIcon from 'components/widgets/icons/search_icon';
 
-import {NoResultsVariant} from './types';
+import {NoResultsVariant, NoResultsLayout} from './types';
 
 interface Props {
     expanded?: boolean;
@@ -22,9 +20,12 @@ interface Props {
     title?: ReactNode;
     subtitle?: ReactNode;
     variant?: NoResultsVariant;
-    titleValues?: Dictionary<ReactNode>;
-    subtitleValues?: Dictionary<ReactNode>;
+    titleValues?: Record<string, ReactNode>;
+    subtitleValues?: Record<string, ReactNode>;
     style?: CSSProperties;
+    layout?: NoResultsLayout;
+    titleClassName?: string;
+    subtitleClassName?: string;
 }
 
 const iconMap: {[key in NoResultsVariant]: React.ReactNode } = {
@@ -34,6 +35,8 @@ const iconMap: {[key in NoResultsVariant]: React.ReactNode } = {
     [NoResultsVariant.PinnedPosts]: <PinIcon className='no-results__icon'/>,
     [NoResultsVariant.ChannelFiles]: <i className='icon icon-file-text-outline no-results__icon'/>,
     [NoResultsVariant.ChannelFilesFiltered]: <i className='icon icon-file-text-outline no-results__icon'/>,
+    [NoResultsVariant.UserGroups]: <i className='icon icon-account-multiple-outline no-results__icon'/>,
+    [NoResultsVariant.UserGroupMembers]: <i className='icon icon-account-outline no-results__icon'/>,
 };
 
 const titleMap: {[key in NoResultsVariant]: MessageDescriptor} = {
@@ -55,6 +58,12 @@ const titleMap: {[key in NoResultsVariant]: MessageDescriptor} = {
     [NoResultsVariant.ChannelFilesFiltered]: {
         id: t('no_results.channel_files_filtered.title'),
     },
+    [NoResultsVariant.UserGroups]: {
+        id: t('no_results.user_groups.title'),
+    },
+    [NoResultsVariant.UserGroupMembers]: {
+        id: t('no_results.user_group_members.title'),
+    },
 };
 
 const subtitleMap: {[key in NoResultsVariant]: MessageDescriptor} = {
@@ -75,6 +84,12 @@ const subtitleMap: {[key in NoResultsVariant]: MessageDescriptor} = {
     },
     [NoResultsVariant.ChannelFilesFiltered]: {
         id: t('no_results.channel_files_filtered.subtitle'),
+    },
+    [NoResultsVariant.UserGroups]: {
+        id: t('no_results.user_groups.subtitle'),
+    },
+    [NoResultsVariant.UserGroupMembers]: {
+        id: t('no_results.user_group_members.subtitle'),
     },
 };
 
@@ -103,25 +118,32 @@ const NoResultsIndicator = ({
             values={subtitleValues}
         />
     ) : null,
+    layout = NoResultsLayout.Vertical,
+    titleClassName,
+    subtitleClassName,
 }: Props) => {
     let content = (
         <div
-            className='no-results__wrapper'
+            className={classNames('no-results__wrapper', {'horizontal-layout': layout === NoResultsLayout.Horizontal})}
             style={style}
         >
             {iconGraphic}
 
-            {title ? (
-                <h3 className={classNames('no-results__title', {'only-title': !subtitle})}>
-                    {title}
-                </h3>
-            ) : null}
+            <div
+                className='no-results__text-container'
+            >
+                {title && (
+                    <h3 className={classNames('no-results__title', {'only-title': !subtitle}, titleClassName)}>
+                        {title}
+                    </h3>
+                )}
 
-            {subtitle ? (
-                <div className='no-results__subtitle'>
-                    {subtitle}
-                </div>
-            ) : null}
+                {subtitle && (
+                    <div className={classNames('no-results__subtitle', subtitleClassName)}>
+                        {subtitle}
+                    </div>
+                )}
+            </div>
 
         </div>
     );

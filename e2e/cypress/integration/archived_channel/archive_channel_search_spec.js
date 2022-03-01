@@ -27,7 +27,7 @@ describe('archive tests while preventing viewing archived channels', () => {
             },
         });
 
-        // # Login as test user and visit town-square
+        // # Login as test user and visit test channel
         cy.apiInitSetup().then(({team, channel, user}) => {
             testTeam = team;
             testChannel = channel;

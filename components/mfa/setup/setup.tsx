@@ -12,7 +12,22 @@ import {t} from 'utils/i18n.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
+type MFAControllerState = {
+    enforceMultifactorAuthentication: boolean;
+};
+
 type Props = {
+
+    /*
+     * Object containing enforceMultifactorAuthentication
+     */
+    state: MFAControllerState;
+
+    /*
+     * Function that updates parent component with state props
+     */
+    updateParent: (state: MFAControllerState) => void;
+
     currentUser: UserProfile;
     siteName?: string;
     enforceMultifactorAuthentication: boolean;
@@ -56,7 +71,7 @@ export default class Setup extends React.PureComponent<Props, State> {
         this.input = React.createRef();
     }
 
-    public componentDidMount() {
+    public componentDidMount(): void {
         const user = this.props.currentUser;
         if (!user || user.mfa_active) {
             this.props.history.push('/');
@@ -78,7 +93,7 @@ export default class Setup extends React.PureComponent<Props, State> {
         });
     }
 
-    submit = (e: React.FormEvent<HTMLFormElement>) => {
+    submit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         const code = this.input?.current?.value.replace(/\s/g, '');
         if (!code || code.length === 0) {
@@ -107,7 +122,7 @@ export default class Setup extends React.PureComponent<Props, State> {
         });
     }
 
-    public render() {
+    public render(): JSX.Element {
         let formClass = 'form-group';
         let errorContent;
         if (this.state.error) {

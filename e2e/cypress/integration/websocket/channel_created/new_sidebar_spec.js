@@ -19,12 +19,12 @@ describe('Handle removed user - new sidebar', () => {
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
-        cy.get('#headerTeamName').should('be.visible').should('contain', teamName);
+        cy.uiGetLHSHeader().findByText(teamName);
 
         // # Create a new channel from another session
         const channelName = `channel-${getRandomId()}`;
-        cy.getCurrentTeamId().then((currentTeamId) => {
-            cy.apiCreateChannel(currentTeamId, channelName, channelName, 'O', '', '', false);
+        cy.apiGetTeamByName(teamName).then(({team}) => {
+            cy.apiCreateChannel(team.id, channelName, channelName, 'O', '', '', false);
         });
 
         // Verify that the new channel is in the sidebar

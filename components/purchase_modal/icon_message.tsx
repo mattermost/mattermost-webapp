@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import './icon_message.scss';
 
 type Props = {
-    icon: string;
+    icon: JSX.Element;
     title?: string;
     subtitle?: string;
     date?: string;
@@ -79,11 +79,7 @@ export default function IconMessage(props: Props) {
             className='IconMessage'
         >
             <div className={classNames('content', className || '')}>
-                <img
-                    className='IconMessage-img'
-                    src={icon}
-                    alt='Payment icon'
-                />
+                {icon}
                 <h3 className='IconMessage-h3'>
                     {title ? <FormattedMessage id={title}/> : null}
                     {formattedTitle || null}

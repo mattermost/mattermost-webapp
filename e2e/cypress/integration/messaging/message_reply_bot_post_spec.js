@@ -84,7 +84,7 @@ describe('Messaging', () => {
                     });
 
                     //# Close RHS
-                    cy.closeRHS();
+                    cy.uiCloseRHS();
 
                     // * Verify that the reply is in the channel view with matching text
                     cy.get(`#post_${replyId}`).within(() => {
@@ -152,7 +152,7 @@ describe('Messaging', () => {
                     });
 
                     //# Close RHS
-                    cy.closeRHS();
+                    cy.uiCloseRHS();
 
                     // * Verify that the reply is in the channel view with matching text
                     cy.get(`#post_${replyId}`).within(() => {

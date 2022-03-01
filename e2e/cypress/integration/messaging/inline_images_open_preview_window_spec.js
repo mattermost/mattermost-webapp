@@ -20,8 +20,8 @@ describe('Messaging', () => {
     });
 
     it('MM-T187 Inline markdown images open preview window', () => {
-        // # Open 'Advanced' section of 'Account Settings' modal
-        cy.uiOpenAccountSettingsModal('Advanced').within(() => {
+        // # Open 'Advanced' section of 'Settings' modal
+        cy.uiOpenSettingsModal('Advanced').within(() => {
             // # Open 'Preview Pre-release Features' setting and check 'Show markdown preview option in message input box'
             cy.findByRole('heading', {name: 'Preview Pre-release Features'}).should('be.visible').click();
             cy.findByRole('checkbox', {name: 'Show markdown preview option in message input box'}).click().should('be.checked');
@@ -31,7 +31,7 @@ describe('Messaging', () => {
         });
 
         // # Post the image link to the channel
-        cy.postMessage('Hello ![test image](https://www.mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png)');
+        cy.postMessage('Hello ![test image](https://mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png)');
 
         // * Confirm the image container is visible
         cy.uiWaitUntilMessagePostedIncludes('Hello');

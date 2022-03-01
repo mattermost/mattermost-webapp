@@ -12,7 +12,6 @@
 
 describe('Archive channel header spec', () => {
     before(() => {
-        cy.apiAdminLogin();
         cy.visit('/admin_console/user_management/permissions/system_scheme');
 
         // # Click reset to defaults and confirm
@@ -27,10 +26,8 @@ describe('Archive channel header spec', () => {
         });
 
         // # Save the settings
-        cy.get('#saveSetting').click();
-        cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
-            return el[0].innerText === 'Save';
-        }));
+        cy.uiSave();
+        cy.uiSaveButton().should('be.visible');
 
         cy.apiUpdateConfig({
             TeamSettings: {
@@ -39,8 +36,8 @@ describe('Archive channel header spec', () => {
         });
 
         // # Login as test user and visit create channel
-        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
-            cy.visit(`/${team.name}/channels/${channel.name}`);
+        cy.apiInitSetup({loginAfter: true}).then(({channelUrl}) => {
+            cy.visit(channelUrl);
         });
     });
 

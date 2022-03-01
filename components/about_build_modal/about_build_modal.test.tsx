@@ -84,7 +84,7 @@ describe('components/AboutBuildModal', () => {
                 config={config}
                 license={license}
                 show={true}
-                onHide={jest.fn()}
+                onExited={jest.fn()}
                 doHide={jest.fn()}
             />,
         );
@@ -122,21 +122,20 @@ describe('components/AboutBuildModal', () => {
         expect(wrapper.find('#buildnumberString').text()).toBe('\u00a0123');
     });
 
-    test('should call onHide callback when the modal is hidden', () => {
-        const onHide = jest.fn();
+    test('should call onExited callback when the modal is hidden', () => {
+        const onExited = jest.fn();
 
         const wrapper = mountWithIntl(
             <AboutBuildModal
                 config={config}
                 license={license}
                 webappBuildHash='0a1b2c3d4f'
-                show={true}
-                onHide={onHide}
+                onExited={onExited}
             />,
         );
 
         wrapper.find(Modal).first().props().onExited?.(document.createElement('div'));
-        expect(onHide).toHaveBeenCalledTimes(1);
+        expect(onExited).toHaveBeenCalledTimes(1);
     });
 
     test('should show default tos and privacy policy links and not the config links', () => {
@@ -144,8 +143,7 @@ describe('components/AboutBuildModal', () => {
             <AboutBuildModal
                 config={config}
                 license={license}
-                show={true}
-                onHide={jest.fn()}
+                onExited={jest.fn()}
             />,
         );
 
@@ -157,12 +155,12 @@ describe('components/AboutBuildModal', () => {
     });
 
     function shallowAboutBuildModal(props = {}) {
-        const onHide = jest.fn();
+        const onExited = jest.fn();
         const show = true;
 
         const allProps = {
             show,
-            onHide,
+            onExited,
             webappBuildHash: '0a1b2c3d4f',
             config,
             license,

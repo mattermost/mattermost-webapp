@@ -1,4 +1,9 @@
-@charset "UTF-8";
+@charset "utf-8";
+
+// global header styles
+.search-bar-container--global {
+    width: 100%;
+}
 
 .search-bar__container {
     .channel-header__links {
@@ -11,7 +16,7 @@
 }
 
 .icon--rotate {
-    @include animation(spin 0.7s infinite linear);
+    animation: spin 0.7s infinite linear;
 }
 
 .search-item-snippet {
@@ -48,7 +53,7 @@
         height: 14px;
 
         body.enable-animations & {
-            @include single-transition(opacity, $transition-quick, ease-out);
+            transition: opacity $transition-quick ease-out;
         }
     }
 }
@@ -81,22 +86,7 @@
     }
 
     body.enable-animations & {
-        @include single-transition(opacity, $transition-quick, ease-out);
-    }
-}
-
-.search-bar-container--global {
-    width: 100%;
-}
-
-.search__form--global {
-    background: var(--sidebar-text-08);
-    border-radius: 4px;
-    color: var(--sidebar-text-72);
-
-    .search__font-icon,
-    .input-clear-x {
-        color: var(--sidebar-text-72);
+        transition: opacity $transition-quick ease-out;
     }
 }
 
@@ -105,6 +95,8 @@
     display: flex;
     align-items: center;
     padding: 0;
+    background: rgba(var(--sidebar-text-rgb), 0.08);
+    border-radius: 4px;
 
     .searchTypeBadge {
         position: relative;
@@ -113,12 +105,12 @@
         align-items: center;
         justify-content: center;
         padding: 2px 2px 2px 7px;
-        background: rgba(v(button-bg-rgb), 0.08);
-        color: v(button-bg);
+        margin: 0 6px;
+        background: rgba(var(--sidebar-text-rgb), 0.08);
+        border-radius: 4px;
+        color: var(--sidebar-text);
         font-size: 10px;
         font-weight: 700;
-
-        @include border-radius(4px);
 
         .icon-close {
             padding: 2px;
@@ -130,13 +122,33 @@
         }
     }
 
-    .search-bar__container & {
-        @include border-radius(4px);
+    .search-bar {
+        width: 100%;
+        height: 28px;
+        padding: 3px 2.8rem 2px 3rem;
+        border: none;
+        background: transparent;
+        box-shadow: none;
+        color: rgba(var(--global-header-text-rgb), 0.64);
+        font-size: 12px;
+        outline: none;
 
+        &::placeholder {
+            color: rgba(var(--global-header-text-rgb), 0.64);
+            opacity: 1;
+        }
+
+        &.a11y--focused {
+            box-shadow: none;
+        }
+    }
+
+    .search-bar__container & {
         width: 180px;
         height: 32px;
         border: 1px solid rgba(var(--center-channel-color-rgb), 0.24);
         margin: 16px 0 0;
+        border-radius: 4px;
 
         .input-clear {
             right: 4px;
@@ -163,54 +175,66 @@
     }
 
     body.enable-animations .search-bar__container & {
-        @include transition-property(border-color, width);
-        @include transition-duration($transition-quick, 0.3s);
-        @include transition-delay(0s);
-        @include transition-timing-function(ease-in-out, ease-out);
+        transition-delay: 0s;
+        transition-duration: $transition-quick, 0.3s;
+        transition-property: border-color, width;
+        transition-timing-function: ease-in-out, ease-out;
     }
 
     .inner-wrap.move--left & {
         width: 272px;
     }
 
-    .search-bar {
-        width: 100%;
-        height: 28px;
-        padding: 0 2.8rem 2px 3rem;
-        border: none;
-        background: transparent;
-        box-shadow: none;
-        font-size: 14px;
-        outline: none;
-
-        &.a11y--focused {
-            box-shadow: none;
-        }
-    }
-
-    .Global__search-bar {
-        color: var(--sidebar-text-72);
-
-        &::placeholder {
-            color: var(--sidebar-text-72);
-        }
-    }
-
     .LoadingSpinner {
-        @include opacity(0.5);
-
         position: absolute;
         top: 4px;
         right: 25px;
         font-size: 1em;
+        opacity: 0.5;
+    }
+
+    // global header style adjustments
+    &:hover {
+        background: rgba(var(--sidebar-text-rgb), 0.16);
+    }
+
+    &.active {
+        background: rgba(var(--sidebar-text-rgb), 0.32);
+    }
+
+    &:focus-within {
+        background: var(--center-channel-bg);
+
+        .search__font-icon,
+        .input-clear-x {
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+        }
+
+        .searchTypeBadge {
+            background: rgba(var(--button-bg-rgb), 0.08);
+            color: var(--button-bg);
+        }
+
+        .search-bar {
+            color: rgb(var(--center-channel-color-rgb));
+        }
+    }
+
+    .search-help-popover {
+        width: 432px;
+        max-width: 432px;
+    }
+
+    .search__font-icon,
+    .input-clear-x {
+        color: rgba(var(--global-header-text-rgb), 0.56);
     }
 }
 
 .search-items-container {
-    @include flex(1 1 auto);
-
     position: relative;
     height: calc(100% - 56px);
+    flex: 1 1 auto;
     padding-top: 16px;
     -webkit-overflow-scrolling: touch;
 
@@ -261,14 +285,39 @@
             padding-right: 70px;
         }
 
-        .search-channel__name {
+        .search-channel__name__container {
+            display: flex;
+            flex-direction: row;
+            align-items: baseline;
             padding: 16px 0 12px;
+        }
+
+        .search-channel__name {
+            overflow: hidden;
+            flex-shrink: 1;
             font-weight: 600;
+            opacity: 0.72;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .search-channel__archived {
+            flex-shrink: 0;
             float: right;
             opacity: 0.5;
+        }
+
+        .search-team__name {
+            overflow: hidden;
+            flex-shrink: 1;
+            padding: 0 8px;
+            border-left: 1px solid rgba(var(--center-channel-color-rgb), 0.5);
+            margin: 0 0 0 8px;
+            font-size: 12px;
+            font-weight: 400;
+            opacity: 0.5;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .post-pre-header__icons-container {
@@ -290,10 +339,9 @@
     }
 
     .search-item__jump {
-        @include border-radius(4px);
-
         position: relative;
         padding: 5px 4px 0;
+        border-radius: 4px;
         color: rgba(var(--center-channel-color-rgb), 0.4);
         font-size: 12px;
         font-weight: 600;
@@ -302,9 +350,8 @@
 }
 
 .search-item-time {
-    @include opacity(0.7);
-
     font-size: 0.9em;
+    opacity: 0.7;
 }
 
 .search-results-none {
@@ -370,8 +417,6 @@
     }
 
     button {
-        @include border-radius(4px);
-
         display: flex;
         align-items: center;
         justify-content: center;
@@ -379,6 +424,7 @@
         border: 1px solid v(button-bg);
         margin: 18px 8px 16px 0;
         background: v(center-channel-bg);
+        border-radius: 4px;
         color: v(button-bg);
         font-size: 12px;
         line-height: 1;

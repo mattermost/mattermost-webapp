@@ -14,7 +14,7 @@ const CARD_ELEMENT_OPTIONS = {
     hidePostalCode: true,
     style: {
         base: {
-            fontFamily: 'Open Sans',
+            fontFamily: "'Open Sans', sans-serif",
             fontSize: '14px',
             opacity: '0.5',
             fontSmoothing: 'antialiased',

@@ -1,42 +1,118 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useCallback, useMemo} from 'react';
+import React, {memo, useCallback, useEffect, useMemo} from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
+import InfiniteLoader from 'react-window-infinite-loader';
 import {FixedSizeList} from 'react-window';
 
-import {$ID} from 'mattermost-redux/types/utilities';
 import {UserThread} from 'mattermost-redux/types/threads';
+
+import {Constants} from 'utils/constants';
 
 import Row from './virtualized_thread_list_row';
 
 type Props = {
-    ids: Array<$ID<UserThread>>;
-    selectedThreadId?: $ID<UserThread>;
+    ids: Array<UserThread['id']>;
+    loadMoreItems: (startIndex: number, stopIndex: number) => Promise<any>;
+    selectedThreadId?: UserThread['id'];
+    total: number;
+    isLoading?: boolean;
+    hasLoaded?: boolean;
+};
+
+const style = {
+    willChange: 'auto',
 };
 
 function VirtualizedThreadList({
     ids,
     selectedThreadId,
+    loadMoreItems,
+    total,
+    isLoading,
+    hasLoaded,
 }: Props) {
+    const infiniteLoaderRef = React.useRef<any>();
+    const startIndexRef = React.useRef<number>(0);
+    const stopIndexRef = React.useRef<number>(0);
+
     const itemKey = useCallback((index) => ids[index], [ids]);
 
-    const data = useMemo(() => ({ids, selectedThreadId}), [ids, selectedThreadId]);
+    useEffect(() => {
+        if (ids.length > 0 && selectedThreadId) {
+            const index = ids.indexOf(selectedThreadId);
+            if (startIndexRef.current >= index || index > stopIndexRef.current) {
+                // eslint-disable-next-line no-underscore-dangle
+                infiniteLoaderRef.current?._listRef.scrollToItem(index);
+            }
+        }
+
+        // ids should not be on the dependency list as
+        // it will auto scroll to selected item upon
+        // infinite loading
+        // when the selectedThreadId changes it will get
+        // the new ids so no issue there
+    }, [selectedThreadId]);
+
+    const data = useMemo(
+        () => (
+            {
+                ids: hasLoaded && ids.length === total ? [...ids, Constants.THREADS_NO_RESULTS_ITEM_ID] : (isLoading && ids.length !== total && [...ids, Constants.THREADS_LOADING_INDICATOR_ITEM_ID]) || ids,
+                selectedThreadId,
+            }
+        ),
+        [ids, selectedThreadId, isLoading, hasLoaded, total],
+    );
+
+    const isItemLoaded = useCallback((index) => {
+        return ids.length === total || index < ids.length;
+    }, [ids, total]);
 
     return (
         <AutoSizer>
             {({height, width}) => (
-                <FixedSizeList
-                    height={height}
-                    itemCount={ids.length}
-                    itemData={data}
-                    itemKey={itemKey}
-                    itemSize={133}
-                    style={{willChange: 'auto'}}
-                    width={width}
+                <InfiniteLoader
+                    ref={infiniteLoaderRef}
+                    itemCount={total}
+                    loadMoreItems={loadMoreItems}
+                    isItemLoaded={isItemLoaded}
+                    minimumBatchSize={Constants.THREADS_PAGE_SIZE}
                 >
-                    {Row}
-                </FixedSizeList>
+                    {({onItemsRendered, ref}) => {
+                        return (
+                            <FixedSizeList
+                                onItemsRendered={({
+                                    overscanStartIndex,
+                                    overscanStopIndex,
+                                    visibleStartIndex,
+                                    visibleStopIndex,
+                                }) => {
+                                    onItemsRendered({
+                                        overscanStartIndex,
+                                        overscanStopIndex,
+                                        visibleStartIndex,
+                                        visibleStopIndex,
+                                    });
+                                    startIndexRef.current = visibleStartIndex;
+                                    stopIndexRef.current = visibleStopIndex;
+                                }}
+                                ref={ref}
+                                height={height}
+                                itemCount={data.ids.length}
+                                itemData={data}
+                                itemKey={itemKey}
+                                itemSize={133}
+                                style={style}
+                                width={width}
+                                className='virtualized-thread-list'
+                            >
+                                {Row}
+                            </FixedSizeList>
+                        );
+                    }
+                    }
+                </InfiniteLoader>
             )}
         </AutoSizer>
     );
@@ -45,7 +121,9 @@ function VirtualizedThreadList({
 function areEqual(prevProps: Props, nextProps: Props) {
     return (
         prevProps.selectedThreadId === nextProps.selectedThreadId &&
-        prevProps.ids.join() === nextProps.ids.join()
+        prevProps.ids.join() === nextProps.ids.join() &&
+        prevProps.isLoading === nextProps.isLoading &&
+        prevProps.hasLoaded === nextProps.hasLoaded
     );
 }
 

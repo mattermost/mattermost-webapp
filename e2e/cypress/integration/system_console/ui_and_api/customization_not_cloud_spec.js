@@ -36,7 +36,7 @@ describe('Customization', () => {
         cy.findByTestId('SupportSettings.ReportAProblemLinkinput').should('have.value', origConfig.SupportSettings.ReportAProblemLink);
 
         // * Verify Report a Problem link help text is visible and matches the text
-        cy.findByTestId('SupportSettings.ReportAProblemLinkhelp-text').find('span').should('be.visible').and('have.text', 'The URL for the Report a Problem link in the Main Menu. If this field is empty, the link is removed from the Main Menu.');
+        cy.findByTestId('SupportSettings.ReportAProblemLinkhelp-text').find('span').should('be.visible').and('have.text', 'The URL for the Report a Problem link in the Help Menu. If this field is empty, the link is removed from the Help Menu.');
 
         // # Enter a problem link
         const reportAProblemLink = 'https://about.mattermost.com/default-report-a-problem/test';
@@ -138,7 +138,7 @@ describe('Customization', () => {
         cy.findByTestId('NativeAppSettings.AppDownloadLinkinput').should('have.value', origConfig.NativeAppSettings.AppDownloadLink);
 
         // * Verify the site name's help text is visible and matches the text
-        cy.findByTestId('NativeAppSettings.AppDownloadLinkhelp-text').find('span').should('be.visible').and('have.text', 'Add a link to a download page for the Mattermost apps. When a link is present, an option to "Download Mattermost Apps" will be added in the Main Menu so users can find the download page. Leave this field blank to hide the option from the Main Menu.');
+        cy.findByTestId('NativeAppSettings.AppDownloadLinkhelp-text').find('span').should('be.visible').and('have.text', 'Add a link to a download page for the Mattermost apps. When a link is present, an option to "Download Mattermost Apps" will be added in the Product Menu so users can find the download page. Leave this field blank to hide the option from the Product Menu.');
 
         // # Enter new App download link
         const newAppDownloadLink = 'https://example.com/app-download-link/';
@@ -156,7 +156,7 @@ describe('Customization', () => {
 
     it('MM-T1209 - Can change Help Link setting', () => {
         // * Verify that setting is visible and matches text content
-        const contents = ['The URL for the Help link on the Mattermost login page, sign-up pages, and Main Menu. If this field is empty, the Help link is hidden from users.'];
+        const contents = ['The URL for the Help link on the Mattermost login page, sign-up pages, and Help Menu. If this field is empty, the Help link is hidden from users.'];
         cy.findByTestId('SupportSettings.HelpLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Help Link:');
 
         // * Verify that help setting is visible and matches text content
@@ -201,9 +201,9 @@ describe('Customization', () => {
         });
     });
 
-    it('MM-T1211 - Can change Terms of Service Link setting', () => {
+    it('MM-T1211 - Can change Terms of Use Link setting', () => {
         // * Verify site name's setting name for is visible and matches the text
-        cy.findByTestId('SupportSettings.TermsOfServiceLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Terms of Service Link:');
+        cy.findByTestId('SupportSettings.TermsOfServiceLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Terms of Use Link:');
 
         // * Verify the site name input box has default value. The default value depends on the setup before running the test.
         cy.findByTestId('SupportSettings.TermsOfServiceLinkinput').should('have.value', origConfig.SupportSettings.TermsOfServiceLink);
@@ -211,10 +211,10 @@ describe('Customization', () => {
         // * Verify the site name's help text is visible and matches the text
         cy.findByTestId('SupportSettings.TermsOfServiceLinkhelp-text').find('span').should('be.visible').and('have.text',
             'Link to the terms under which users may use your online service. By default, this includes the ' +
-            '"Mattermost Conditions of Use (End Users)" explaining the terms under which Mattermost software is ' +
+            '"Mattermost Acceptable Use Policy" explaining the terms under which Mattermost software is ' +
             'provided to end users. If you change the default link to add your own terms for using the service you ' +
             'provide, your new terms must include a link to the default terms so end users are aware of the Mattermost ' +
-            'Conditions of Use (End User) for Mattermost software.');
+            'Acceptable Use Policy for Mattermost software.');
 
         // # Enter a new help link
         const newValue = 'https://test.com';

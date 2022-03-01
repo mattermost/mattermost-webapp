@@ -1,14 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {Stripe} from '@stripe/stripe-js';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
-import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {getClientConfig} from 'mattermost-redux/actions/general';
+import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
+import {Action} from 'mattermost-redux/types/actions';
+
+import {makeAsyncComponent} from 'components/async_load';
 
 import {GlobalState} from 'types/store';
 import {BillingDetails} from 'types/cloud/sku';
@@ -21,7 +24,7 @@ import {ModalIdentifiers} from 'utils/constants';
 import {closeModal} from 'actions/views/modals';
 import {completeStripeAddPaymentMethod, subscribeCloudSubscription} from 'actions/cloud';
 
-import PurchaseModal from './purchase_modal';
+const PurchaseModal = makeAsyncComponent('PurchaseModal', React.lazy(() => import('./purchase_modal')));
 
 function mapStateToProps(state: GlobalState) {
     const subscription = state.entities.cloud.subscription;
@@ -32,6 +35,7 @@ function mapStateToProps(state: GlobalState) {
         isDevMode: getConfig(state).EnableDeveloper === 'true',
         contactSupportLink: getCloudContactUsLink(state, InquiryType.Technical),
         isFreeTrial: subscription?.is_free_trial === 'true',
+        isFreeTier: subscription?.is_paid_tier === 'false',
         contactSalesLink: getCloudContactUsLink(state, InquiryType.Sales),
         productId: subscription?.product_id,
         customer: state.entities.cloud.customer,
@@ -46,9 +50,9 @@ type Actions = {
     getCloudSubscription: () => void;
 }
 
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>(
+        actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>(
             {
                 closeModal: () => closeModal(ModalIdentifiers.CLOUD_PURCHASE),
                 getCloudProducts,

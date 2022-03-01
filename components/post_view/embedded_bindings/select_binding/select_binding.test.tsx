@@ -67,6 +67,7 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
                 },
             }),
             postEphemeralCallResponseForPost: jest.fn(),
+            openAppsModal: jest.fn(),
         },
     };
 
@@ -97,6 +98,7 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
                         },
                     }),
                     postEphemeralCallResponseForPost: jest.fn(),
+                    openAppsModal: jest.fn(),
                 },
                 intl: {} as any,
             };
@@ -154,6 +156,7 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
                     },
                 }),
                 postEphemeralCallResponseForPost: jest.fn(),
+                openAppsModal: jest.fn(),
             },
             intl: {} as any,
         };

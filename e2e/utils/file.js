@@ -3,11 +3,16 @@
 
 /* eslint-disable no-console */
 
+const fs = require('fs');
+
 const chalk = require('chalk');
 const intersection = require('lodash.intersection');
 const without = require('lodash.without');
 const shell = require('shelljs');
-const argv = require('yargs').argv;
+const argv = require('yargs').
+    default('includeFile', '').
+    default('excludeFile', '').
+    argv;
 
 const TEST_DIR = 'cypress';
 
@@ -25,28 +30,43 @@ const grepFiles = (command) => {
         filter((f) => f.includes('spec.js'));
 };
 
-function getTestFiles() {
-    const {invert, excludeGroup, group, stage} = argv;
+const findFiles = (pattern) => {
+    function diveOnFiles(dirPath, filesArr) {
+        const files = fs.readdirSync(dirPath);
+        let arrayOfFiles = filesArr || [];
+
+        files.forEach((file) => {
+            const filePath = `${dirPath}/${file}`;
+            if (fs.statSync(filePath).isDirectory()) {
+                arrayOfFiles = diveOnFiles(filePath, arrayOfFiles);
+            } else {
+                arrayOfFiles.push(filePath);
+            }
+        });
+
+        return arrayOfFiles;
+    }
+
+    return shell.exec(`find cypress/integration -name "${pattern}"`, {silent: true}).stdout.
+        split('\n').
+        filter((matched) => Boolean(matched)).
+        map((fileOrDir) => {
+            if (fs.statSync(`./${fileOrDir}`).isDirectory(fileOrDir)) {
+                return diveOnFiles(`./${fileOrDir}`);
+            }
+            return fileOrDir;
+        }).
+        flat().
+        filter((file) => file.includes('spec.js')).
+        map((file) => file.replace('./', ''));
+};
+
+function getBaseTestFiles() {
+    const {invert, group, stage} = argv;
 
     const allFiles = grepFiles(grepCommand());
-
-    let stageFiles = allFiles;
-    if (stage) {
-        const sc = grepCommand(stage.split(',').join('\\|'));
-        stageFiles = grepFiles(sc);
-    }
-
-    let groupFiles = [...stageFiles];
-    if (group) {
-        const gc = grepCommand(group.split(',').join('\\|'));
-        groupFiles = grepFiles(gc);
-    }
-
-    const excludeGroupFiles = [];
-    if (excludeGroup) {
-        const egc = grepCommand(excludeGroup.split(',').join('\\|'));
-        excludeGroupFiles.push(...grepFiles(egc));
-    }
+    const stageFiles = getFilesByMetadata(stage);
+    const groupFiles = getFilesByMetadata(group);
 
     if (invert) {
         // Return no test file if no stage and withGroup, but inverted
@@ -91,8 +111,7 @@ function getWeightedFiles(metadata, sortFirst = true) {
     let weightedFiles = [];
     if (metadata) {
         metadata.split(',').forEach((word, i, arr) => {
-            const sl = grepCommand(word);
-            const files = grepFiles(sl).map((file) => {
+            const files = getFilesByMetadata(word).map((file) => {
                 return {
                     file,
                     sortWeight: sortFirst ? (i - arr.length) : (i + 1),
@@ -112,56 +131,88 @@ function getWeightedFiles(metadata, sortFirst = true) {
     }, {});
 }
 
+function reorderFiles(files = {}, filesToReorder = {}) {
+    const testFilesObject = Object.assign({}, files);
+
+    const validFiles = intersection(Object.keys(testFilesObject), Object.keys(filesToReorder));
+    Object.entries(filesToReorder).forEach(([k, v]) => {
+        if (validFiles.includes(k)) {
+            testFilesObject[k] = v;
+        }
+    });
+
+    return testFilesObject;
+}
+
+function removeFromFiles(files = {}, filesToRemove = []) {
+    const testFilesObject = Object.assign({}, files);
+
+    const removedFiles = intersection(Object.keys(testFilesObject), filesToRemove);
+    removedFiles.forEach((file) => {
+        if (testFilesObject.hasOwnProperty(file)) {
+            delete testFilesObject[file];
+        }
+    });
+
+    return {testFilesObject, removedFiles};
+}
+
 function getSortedTestFiles(platform, browser, headless) {
-    // Get all test files
-    const testFilesObject = getTestFiles().reduce((acc, file) => {
-        acc[file] = {file, sortWeight: 0};
-        return acc;
-    }, {});
+    // Get test files based on stage, group and/or invert
+    const baseTestFiles = getBaseTestFiles();
+
+    // Add files matched by spec metadata
+    const includeFilesByGroup = getFilesByMetadata(argv.includeGroup);
+    if (includeFilesByGroup.length) {
+        printMessage(includeFilesByGroup, `\nIncluded test files due to --include-group="${argv.includeGroup}"`);
+    }
+
+    // Add files matched by filename
+    const includeFilesByFilename = argv.includeFile.split(',').
+        map((pattern) => findFiles(pattern)).
+        reduce((acc, files) => acc.concat(files), []);
+    if (includeFilesByFilename.length) {
+        printMessage(includeFilesByFilename, `\nIncluded test files due to --include-file="${argv.includeFile}"`);
+    }
+
+    let testFilesObject = baseTestFiles.
+        concat(includeFilesByGroup).
+        concat(includeFilesByFilename).
+        reduce((acc, file) => {
+            acc[file] = {file, sortWeight: 0};
+            return acc;
+        }, {});
+
+    // Remove skipped files due to test environment
+    let removedFiles;
+    const skippedFiles = getSkippedFiles(platform, browser, headless);
+    ({testFilesObject, removedFiles} = removeFromFiles(testFilesObject, skippedFiles));
+    printMessage(removedFiles, `\nSkipped test files due to ${platform}/${browser} (${headless ? 'headless' : 'headed'})`);
+
+    // Remove files matched by spec metadata
+    const excludeFilesByGroup = getFilesByMetadata(argv.excludeGroup);
+    ({testFilesObject, removedFiles} = removeFromFiles(testFilesObject, excludeFilesByGroup));
+    if (excludeFilesByGroup.length) {
+        printMessage(removedFiles, `\nExcluded test files due to --exclude-group="${argv.excludeGroup}"`);
+    }
+
+    // Remove files matched by filename
+    const excludeFilesByFilename = argv.excludeFile.split(',').
+        map((pattern) => findFiles(pattern)).
+        reduce((acc, files) => acc.concat(files), []);
+
+    ({testFilesObject, removedFiles} = removeFromFiles(testFilesObject, excludeFilesByFilename));
+    if (excludeFilesByFilename.length) {
+        printMessage(removedFiles, `\nExcluded test files due to --exclude-file="${argv.excludeFile}"`);
+    }
 
     // Get files to be sorted first
     const firstFilesObject = getWeightedFiles(argv.sortFirst, true);
-    const validFirstFiles = intersection(Object.keys(testFilesObject), Object.keys(firstFilesObject));
-    Object.entries(firstFilesObject).forEach(([k, v]) => {
-        if (validFirstFiles.includes(k)) {
-            testFilesObject[k] = v;
-        }
-    });
+    testFilesObject = reorderFiles(testFilesObject, firstFilesObject);
 
     // Get files to be sorted last
     const lastFilesObject = getWeightedFiles(argv.sortLast, false);
-    const validLastFiles = intersection(Object.keys(testFilesObject), Object.keys(lastFilesObject));
-    Object.entries(lastFilesObject).forEach(([k, v]) => {
-        if (validLastFiles.includes(k)) {
-            testFilesObject[k] = v;
-        }
-    });
-
-    // Remove skipped files
-    const initialSkippedFiles = getSkippedFiles(platform, browser, headless);
-    const skippedFiles = intersection(Object.keys(testFilesObject), initialSkippedFiles);
-    if (skippedFiles.length) {
-        printSkippedFiles(skippedFiles, platform, browser, headless);
-
-        skippedFiles.forEach((file) => {
-            if (testFilesObject.hasOwnProperty(file)) {
-                delete testFilesObject[file];
-            }
-        });
-    }
-
-    // Remove excluded files
-    const initialExcludedFiles = getExcludedFiles(argv.excludeGroup);
-    const excludedFiles = intersection(Object.keys(testFilesObject), initialExcludedFiles);
-    if (excludedFiles.length) {
-        printExcludedFiles(excludedFiles, argv.excludeGroup);
-
-        excludedFiles.forEach((file) => {
-            if (testFilesObject.hasOwnProperty(file)) {
-                delete testFilesObject[file];
-            }
-        });
-    }
+    testFilesObject = reorderFiles(testFilesObject, lastFilesObject);
 
     const sortedFiles = Object.values(testFilesObject).
         sort((a, b) => {
@@ -178,39 +229,29 @@ function getSortedTestFiles(platform, browser, headless) {
     return {sortedFiles, skippedFiles, weightedTestFiles: Object.values(testFilesObject)};
 }
 
-function getExcludedFiles(excludeGroup) {
-    if (!excludeGroup) {
+function getFilesByMetadata(metadata) {
+    if (!metadata) {
         return [];
     }
 
-    const egc = grepCommand(excludeGroup.split(',').join('\\|'));
+    const egc = grepCommand(metadata.split(',').join('\\|'));
     return grepFiles(egc);
 }
 
-function printExcludedFiles(excludedFiles = [], excludeGroup) {
-    console.log(chalk.cyan(`\nExcluded test files due to "${excludeGroup}":`));
+function printMessage(files = [], message) {
+    console.log(chalk.cyan(`\n${message}:`));
 
-    excludedFiles.forEach((file, index) => {
+    files.forEach((file, index) => {
         console.log(chalk.cyan(`- [${index + 1}] ${file}`));
     });
-    console.log('');
 }
 
 function getSkippedFiles(platform, browser, headless) {
-    const platformFiles = grepFiles(grepCommand(`@${platform}`));
-    const browserFiles = grepFiles(grepCommand(`@${browser}`));
-    const headlessFiles = grepFiles(grepCommand(`@${headless ? 'headless' : 'headed'}`));
+    const platformFiles = getFilesByMetadata(`@${platform}`);
+    const browserFiles = getFilesByMetadata(`@${browser}`);
+    const headlessFiles = getFilesByMetadata(`@${headless ? 'headless' : 'headed'}`);
 
     return platformFiles.concat(browserFiles, headlessFiles);
-}
-
-function printSkippedFiles(skippedFiles = [], platform, browser, headless) {
-    console.log(chalk.cyan(`\nSkipped test files due to ${platform}/${browser} (${headless ? 'headless' : 'headed'}):`));
-
-    skippedFiles.forEach((file, index) => {
-        console.log(chalk.cyan(`- [${index + 1}] ${file}`));
-    });
-    console.log('');
 }
 
 module.exports = {

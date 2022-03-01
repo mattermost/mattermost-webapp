@@ -7,18 +7,24 @@
 
 .nav-tabs {
     margin-bottom: 10px;
+    background: var(--center-channel-bg);
 
     > li {
         margin-right: 5px;
+
+        &.active {
+            > a {
+                background: var(--center-channel-bg);
+            }
+        }
 
         > a {
             padding: 7px 15px;
             border-bottom-color: transparent !important;
 
             .small {
-                @include opacity(0.8);
-
                 margin-left: 4px;
+                opacity: 0.8;
             }
         }
     }
@@ -89,8 +95,6 @@
             line-height: 48px;
 
             &.navbar-right__icon {
-                @include border-radius(50px);
-
                 display: flex;
                 width: 32px;
                 height: 32px;
@@ -99,6 +103,7 @@
                 padding: 0;
                 margin: 9px 10px 0 0;
                 background: rgba(var(--sidebar-header-text-color-rgb), 0.2);
+                border-radius: 50px;
                 line-height: 0;
 
                 &:hover,

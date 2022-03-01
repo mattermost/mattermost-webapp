@@ -14,9 +14,9 @@ import {getRandomId} from '../../utils';
 
 describe('Search', () => {
     before(() => {
-        // # Login as test user and visit town-square
+        // # Login as test user and visit Off-Topic
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/off-topic`);
 
             // # Post several messages of similar format to add complexity in searching
             Cypress._.times(5, () => {

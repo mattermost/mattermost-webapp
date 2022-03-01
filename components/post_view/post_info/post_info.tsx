@@ -3,7 +3,6 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Tooltip} from 'react-bootstrap';
 
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
@@ -17,10 +16,13 @@ import Constants, {Locations} from 'utils/constants';
 import CommentIcon from 'components/post_view/comment_icon';
 import DotMenu from 'components/dot_menu';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostReaction from 'components/post_view/post_reaction';
+import PostRecentReactions from 'components/post_view/post_recent_reactions';
 import PostTime from 'components/post_view/post_time';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
+import {Emoji} from 'mattermost-redux/types/emojis';
 
 type Props = {
 
@@ -122,9 +124,14 @@ type Props = {
         emitShortcutReactToLastPostFrom?: (emittedFrom: string) => void;
     };
 
+    isPostBeingEdited: boolean;
+
     shouldShowDotMenu: boolean;
 
     collapsedThreadsEnabled: boolean;
+
+    oneClickReactionsEnabled: boolean;
+    recentEmojis: Emoji[];
 };
 
 type State = {
@@ -146,8 +153,8 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             showDotMenu: false,
         };
 
-        this.postHeaderRef = React.createRef();
-        this.dotMenuRef = React.createRef();
+        this.postHeaderRef = React.createRef<HTMLDivElement>();
+        this.dotMenuRef = React.createRef<HTMLDivElement>();
     }
 
     toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
@@ -163,11 +170,9 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         this.props.handleDropdownOpened(showEmojiPicker || this.state.showDotMenu);
     };
 
-    removePost = () => {
-        this.props.actions.removePost(this.props.post);
-    };
+    removePost = (): void => this.props.actions.removePost(this.props.post);
 
-    createRemovePostButton = () => {
+    createRemovePostButton = (): JSX.Element => {
         return (
             <button
                 className='post__remove theme color--link style--none'
@@ -179,17 +184,15 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         );
     };
 
-    handleDotMenuOpened = (open: boolean) => {
+    handleDotMenuOpened = (open: boolean): void => {
         this.setState({showDotMenu: open});
         this.props.handleDropdownOpened(open || this.state.showEmojiPicker);
     };
 
-    getDotMenu = (): HTMLDivElement => {
-        return this.dotMenuRef.current as HTMLDivElement;
-    };
+    getDotMenu = (): HTMLDivElement => this.dotMenuRef.current as HTMLDivElement;
 
-    buildOptions = (post: Post, isSystemMessage: boolean, fromAutoResponder: boolean) => {
-        if (!this.props.shouldShowDotMenu) {
+    buildOptions = (post: Post, isSystemMessage: boolean, fromAutoResponder: boolean): React.ReactNode => {
+        if (!this.props.shouldShowDotMenu || this.props.isPostBeingEdited) {
             return null;
         }
 
@@ -206,6 +209,20 @@ export default class PostInfo extends React.PureComponent<Props, State> {
                     handleCommentClick={this.props.handleCommentClick}
                     postId={post.id}
                     extraClass={commentIconExtraClass}
+                />
+            );
+        }
+
+        const showRecentlyUsedReactions = !isMobile && !isSystemMessage && hover && !isReadOnly && this.props.oneClickReactionsEnabled && this.props.enableEmojiPicker;
+        let showRecentReacions;
+        if (showRecentlyUsedReactions) {
+            showRecentReacions = (
+                <PostRecentReactions
+                    channelId={post.channel_id}
+                    postId={post.id}
+                    emojis={this.props.recentEmojis}
+                    teamId={this.props.teamId}
+                    getDotMenuRef={this.getDotMenu}
                 />
             );
         }
@@ -259,16 +276,17 @@ export default class PostInfo extends React.PureComponent<Props, State> {
                 data-testid={`post-menu-${post.id}`}
                 className={'col post-menu'}
             >
-                {!collapsedThreadsEnabled && dotMenu}
+                {!collapsedThreadsEnabled && !showRecentlyUsedReactions && dotMenu}
+                {showRecentReacions}
                 {postReaction}
                 {postFlagIcon}
                 {commentIcon}
-                {collapsedThreadsEnabled && dotMenu}
+                {(collapsedThreadsEnabled || showRecentlyUsedReactions) && dotMenu}
             </div>
         );
     };
 
-    handleShortcutReactToLastPost = (isLastPost: boolean) => {
+    handleShortcutReactToLastPost = (isLastPost: boolean): void => {
         if (isLastPost) {
             const {post, isReadOnly, enableEmojiPicker, isMobile, actions} = this.props;
 
@@ -300,7 +318,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         }
     }
 
-    componentDidUpdate(prevProps: Props) {
+    componentDidUpdate(prevProps: Props): void {
         const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;
 
         const shortcutReactToLastPostEmittedFromCenter = prevProps.shortcutReactToLastPostEmittedFrom !== shortcutReactToLastPostEmittedFrom &&
@@ -310,8 +328,8 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         }
     }
 
-    render() {
-        const post = this.props.post;
+    render(): React.ReactNode {
+        const {post} = this.props;
 
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);

@@ -27,13 +27,8 @@ describe('Notifications', () => {
 
             cy.visit(`/${testTeam.name}`);
 
-            // # Open 'Account Settings' modal
-            cy.findByLabelText('main menu').should('be.visible').click();
-            cy.findByText('Account Settings').should('be.visible').click();
-
-            // * Check that the 'Account Settings' modal was opened
-            cy.get('#accountSettingsModal').should('exist').within(() => {
-                cy.get('#notificationsButton').should('be.visible').click();
+            // # Open 'Settings' modal
+            cy.uiOpenSettingsModal().within(() => {
                 cy.get('#keysEdit').should('be.visible').click();
 
                 // * As otherUser, ensure that 'Your non-case sensitive username' is not checked

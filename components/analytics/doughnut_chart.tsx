@@ -1,12 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
+import deepEqual from 'fast-deep-equal';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import Chart, {ChartData} from 'chart.js';
-
-import * as Utils from 'utils/utils.jsx';
 
 type Props = {
     title: React.ReactNode;
@@ -25,7 +23,7 @@ export default class DoughnutChart extends React.PureComponent<Props> {
     }
 
     public componentDidUpdate(prevProps: Props): void {
-        if (!Utils.areObjectsEqual(prevProps.data, this.props.data)) {
+        if (!deepEqual(prevProps.data, this.props.data)) {
             this.initChart(true);
         }
     }

@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
@@ -9,17 +8,18 @@ import {FormattedMessage} from 'react-intl';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import {NoResultsVariant} from 'components/no_results_indicator/types';
+
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import * as UserAgent from 'utils/user_agent';
-import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import SuggestionBox from 'components/suggestion/suggestion_box';
+import SuggestionBoxComponent from 'components/suggestion/suggestion_box/suggestion_box';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider.jsx';
 import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator';
-
-import {NoResultsVariant} from 'components/no_results_indicator/types';
 
 const CHANNEL_MODE = 'channel';
 
@@ -33,9 +33,11 @@ type ProviderSuggestions = {
 export type Props = {
 
     /**
-     * The function called to hide the modal
+     * The function called to immediately hide the modal
      */
-    onHide: () => void;
+    onExited: () => void;
+
+    isMobileView: boolean;
 
     actions: {
         joinChannelById: (channelId: string) => Promise<ActionResult>;
@@ -53,7 +55,7 @@ type State = {
 
 export default class QuickSwitchModal extends React.PureComponent<Props, State> {
     private channelProviders: SwitchChannelProvider[];
-    private switchBox: SuggestionBox|null;
+    private switchBox: SuggestionBoxComponent|null;
 
     constructor(props: Props) {
         super(props);
@@ -83,7 +85,7 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
         }
     };
 
-    private setSwitchBoxRef = (input: SuggestionBox): void => {
+    private setSwitchBoxRef = (input: SuggestionBoxComponent): void => {
         this.switchBox = input;
         this.focusTextbox();
     };
@@ -93,7 +95,7 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
         this.setState({
             text: '',
         });
-        this.props.onHide();
+        this.props.onExited();
     };
 
     private focusPostTextbox = (): void => {
@@ -136,9 +138,11 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
 
     private handleSuggestionsReceived = (suggestions: ProviderSuggestions): void => {
         const loadingPropPresent = suggestions.items.some((item: any) => item.loading);
-        this.setState({shouldShowLoadingSpinner: loadingPropPresent,
+        this.setState({
+            shouldShowLoadingSpinner: loadingPropPresent,
             pretext: suggestions.matchedPretext,
-            hasSuggestions: suggestions.items.length > 0});
+            hasSuggestions: suggestions.items.length > 0,
+        });
     }
 
     public render = (): JSX.Element => {
@@ -148,13 +152,13 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
             <h1>
                 <FormattedMessage
                     id='quick_switch_modal.switchChannels'
-                    defaultMessage='Switch Channels'
+                    defaultMessage='Find Channels'
                 />
             </h1>
         );
 
         let help;
-        if (Utils.isMobile()) {
+        if (this.props.isMobileView) {
             help = (
                 <FormattedMarkdownMessage
                     id='quick_switch_modal.help_mobile'
@@ -173,7 +177,6 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
         return (
             <Modal
                 dialogClassName='a11y__modal channel-switcher'
-                ref='modal'
                 show={true}
                 onHide={this.onHide}
                 enforceFocus={false}
@@ -218,12 +221,13 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
                             onSuggestionsReceived={this.handleSuggestionsReceived}
                             forceSuggestionsWhenBlur={true}
                             renderDividers={true}
+                            shouldSearchCompleteText={true}
                         />
                         {!this.state.shouldShowLoadingSpinner && !this.state.hasSuggestions && this.state.text &&
-                        <NoResultsIndicator
-                            variant={NoResultsVariant.ChannelSearch}
-                            titleValues={{channelName: `"${this.state.pretext}"`}}
-                        />
+                            <NoResultsIndicator
+                                variant={NoResultsVariant.ChannelSearch}
+                                titleValues={{channelName: `"${this.state.pretext}"`}}
+                            />
                         }
                     </div>
                 </Modal.Body>
@@ -231,4 +235,3 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
         );
     }
 }
-/* eslint-enable react/no-string-refs */

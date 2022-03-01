@@ -945,7 +945,10 @@ describe('Actions.Posts', () => {
             entities: {
                 channels: {
                     channels: {
-                        [channelId]: {team_id: teamId, total_msg_count: 10},
+                        [channelId]: {team_id: teamId},
+                    },
+                    messageCounts: {
+                        [channelId]: {total: 10},
                     },
                     myMembers: {
                         [channelId]: {msg_count: 10, mention_count: 0, last_viewed_at: 0},
@@ -978,7 +981,7 @@ describe('Actions.Posts', () => {
         await store.dispatch(Actions.setUnreadPost(userId, postId));
         const state = store.getState();
 
-        assert.equal(state.entities.channels.channels[channelId].total_msg_count, 10);
+        assert.equal(state.entities.channels.messageCounts[channelId].total, 10);
         assert.equal(state.entities.channels.myMembers[channelId].msg_count, 3);
         assert.equal(state.entities.channels.myMembers[channelId].mention_count, 1);
         assert.equal(state.entities.channels.myMembers[channelId].last_viewed_at, 1565605543);

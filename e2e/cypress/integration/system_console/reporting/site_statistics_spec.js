@@ -17,11 +17,10 @@ describe('System Console > Site Statistics', () => {
     before(() => {
         cy.shouldNotRunOnCloudEdition();
 
-        cy.apiInitSetup().then(({team, user}) => {
-            // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({user, offTopicUrl}) => {
+            // # Login as test user and visit off-topic
             testUser = user;
-            cy.apiLogin(testUser);
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
 
             // # Post a message as testUser to make them daily/monthly active
             cy.postMessage('New Daily Message');
@@ -37,7 +36,8 @@ describe('System Console > Site Statistics', () => {
         let monthlyActiveUsersFinal;
 
         // # Go to admin console
-        goToAdminConsole();
+        cy.apiAdminLogin();
+        cy.visit('/admin_console');
 
         // # Go to system analytics
         cy.findByTestId('reporting.system_analytics', {timeout: TIMEOUTS.ONE_MIN}).click();
@@ -76,9 +76,3 @@ describe('System Console > Site Statistics', () => {
         });
     });
 });
-
-// # Goes to the System Scheme page as System Admin
-const goToAdminConsole = () => {
-    cy.apiAdminLogin();
-    cy.visit('/admin_console');
-};

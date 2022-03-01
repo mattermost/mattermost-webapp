@@ -3,11 +3,6 @@
 exports[`components/channel_notifications_modal/ExpandView should match snapshot, DESKTOP on expanded view 1`] = `
 <SettingItemMax
   containerStyle=""
-  extraInfo={
-    <ExtraInfo
-      section="desktop"
-    />
-  }
   infoPosition="bottom"
   inputs={
     Array [
@@ -93,6 +88,13 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
             </label>
           </div>
         </fieldset>
+        <div
+          className="mt-5"
+        >
+          <ExtraInfo
+            section="desktop"
+          />
+        </div>
       </div>,
     ]
   }
@@ -112,11 +114,6 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
 exports[`components/channel_notifications_modal/ExpandView should match snapshot, MARK_UNREAD on expanded view 1`] = `
 <SettingItemMax
   containerStyle=""
-  extraInfo={
-    <ExtraInfo
-      section="markUnread"
-    />
-  }
   infoPosition="bottom"
   inputs={
     Array [
@@ -163,6 +160,13 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
             </label>
           </div>
         </fieldset>
+        <div
+          className="mt-5"
+        >
+          <ExtraInfo
+            section="markUnread"
+          />
+        </div>
       </div>,
     ]
   }
@@ -182,11 +186,6 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
 exports[`components/channel_notifications_modal/ExpandView should match snapshot, PUSH on expanded view 1`] = `
 <SettingItemMax
   containerStyle=""
-  extraInfo={
-    <ExtraInfo
-      section="push"
-    />
-  }
   infoPosition="bottom"
   inputs={
     Array [
@@ -272,6 +271,13 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
             </label>
           </div>
         </fieldset>
+        <div
+          className="mt-5"
+        >
+          <ExtraInfo
+            section="push"
+          />
+        </div>
       </div>,
     ]
   }

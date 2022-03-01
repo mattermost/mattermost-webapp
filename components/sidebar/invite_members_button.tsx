@@ -1,136 +1,81 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import {Tooltip} from 'react-bootstrap';
+import React, {useEffect} from 'react';
+
 import {useIntl, FormattedMessage} from 'react-intl';
 
-import store from 'stores/redux_store.jsx';
+import {useSelector, useDispatch} from 'react-redux';
 
-import {InviteMembersBtnLocations} from 'mattermost-redux/constants/config';
+import {Permissions} from 'mattermost-redux/constants';
 
-import OverlayTrigger from 'components/overlay_trigger';
+import {GlobalState} from 'types/store';
+
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+
+import {getTotalUsersStats} from 'mattermost-redux/actions/users';
+
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import InvitationModal from 'components/invitation_modal';
+import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
-import {trackEvent} from 'actions/telemetry_actions.jsx';
-
-import {ModalIdentifiers} from 'utils/constants';
-
-import {getInviteMembersButtonLocation} from 'mattermost-redux/selectors/entities/preferences';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 
 type Props = {
-    buttonType: string;
-};
+    touchedInviteMembersButton: boolean;
+    className?: string;
+    onClick: () => void;
+}
 
 const InviteMembersButton: React.FC<Props> = (props: Props): JSX.Element | null => {
+    const dispatch = useDispatch<DispatchFunc>();
+
     const intl = useIntl();
+    const currentTeamId = useSelector(getCurrentTeamId);
+    const totalUserCount = useSelector((state: GlobalState) => state.entities.users.stats?.total_users_count);
 
-    const inviteMembersButtonLocation = getInviteMembersButtonLocation(store.getState());
+    useEffect(() => {
+        if (!totalUserCount) {
+            dispatch(getTotalUsersStats());
+        }
+    }, []);
 
-    const tooltip = (
-        <Tooltip
-            id='new-group-tooltip'
-            className='hidden-xs'
-        >
-            <FormattedMessage
-                id={'sidebar_left.inviteUsers'}
-                defaultMessage='Invite Users'
-            />
-        </Tooltip>
-    );
+    let buttonClass = 'SidebarChannelNavigator_inviteMembersLhsButton';
 
-    const addTelemetry = () => {
-        trackEvent('invite_members_button', props.buttonType);
-    };
-
-    const OpenModal = (props: {children: React.ReactNode}) => {
-        return (
-            <ToggleModalButtonRedux
-                accessibilityLabel={intl.formatMessage({id: 'sidebar_left.inviteUsers', defaultMessage: 'Invite Users'})}
-                id='introTextInvite'
-                className='intro-links color--link cursor--pointer'
-                modalId={ModalIdentifiers.INVITATION}
-                dialogType={InvitationModal}
-                onClick={addTelemetry}
-            >
-                {props.children}
-            </ToggleModalButtonRedux>
-        );
-    };
-
-    const userIcon = (
-        <OverlayTrigger
-            delayShow={500}
-            placement='top'
-            overlay={tooltip}
-        >
-            <OpenModal>
-                <div
-                    className='SidebarChannelNavigator_inviteUsers'
-                    aria-label={intl.formatMessage({id: 'sidebar_left.sidebar_channel_navigator.inviteUsers', defaultMessage: 'Invite Users'})}
-                >
-                    <i className='icon-account-plus-outline'/>
-                </div>
-            </OpenModal>
-        </OverlayTrigger>
-    );
-
-    const lhsButton = (
-        <OpenModal>
-            <li
-                className='SidebarChannelNavigator_inviteMembersLhsButton'
-                aria-label={intl.formatMessage({id: 'sidebar_left.sidebar_channel_navigator.inviteUsers', defaultMessage: 'Invite Members'})}
-            >
-                <i className='icon-plus-box'/>
-                <FormattedMessage
-                    id={'sidebar_left.inviteMembers'}
-                    defaultMessage='Invite Members'
-                />
-            </li>
-        </OpenModal>
-    );
-
-    const stickyButton = (
-        <div
-            className='SidebarChannelNavigator_inviteUsersSticky'
-            aria-label={intl.formatMessage({id: 'sidebar_left.sidebar_channel_navigator.inviteUsers', defaultMessage: 'Invite Members'})}
-        >
-            <OpenModal>
-                <i className='icon-account-plus-outline'/>
-                <FormattedMessage
-                    id={'sidebar_left.inviteMembers'}
-                    defaultMessage='Invite Members'
-                />
-            </OpenModal>
-        </div>
-    );
-
-    let inviteButton;
-
-    switch (props.buttonType) {
-    case InviteMembersBtnLocations.USER_ICON:
-        inviteButton = userIcon;
-        break;
-    case InviteMembersBtnLocations.STICKY:
-        inviteButton = stickyButton;
-        break;
-    case InviteMembersBtnLocations.LHS_BUTTON:
-        inviteButton = lhsButton;
-        break;
-    default:
-        inviteButton = null;
-        break;
+    if (!props.touchedInviteMembersButton && Number(totalUserCount) <= Constants.USER_LIMIT) {
+        buttonClass += ' SidebarChannelNavigator_inviteMembersLhsButton--untouched';
     }
 
-    if (inviteMembersButtonLocation !== props.buttonType || inviteMembersButtonLocation === InviteMembersBtnLocations.NONE) {
-        inviteButton = null;
+    if (!currentTeamId || !totalUserCount) {
+        return null;
     }
 
     return (
-        <>
-            {inviteButton}
-        </>
+        <TeamPermissionGate
+            teamId={currentTeamId}
+            permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
+        >
+            <ToggleModalButtonRedux
+                ariaLabel={intl.formatMessage({id: 'sidebar_left.inviteUsers', defaultMessage: 'Invite Users'})}
+                id='introTextInvite'
+                className={`intro-links color--link cursor--pointer${props.className ? ` ${props.className}` : ''}`}
+                modalId={ModalIdentifiers.INVITATION}
+                dialogType={InvitationModal}
+                onClick={props.onClick}
+            >
+                <li
+                    className={buttonClass}
+                    aria-label={intl.formatMessage({id: 'sidebar_left.sidebar_channel_navigator.inviteUsers', defaultMessage: 'Invite Members'})}
+                >
+                    <i className='icon-plus-box'/>
+                    <FormattedMessage
+                        id={'sidebar_left.inviteMembers'}
+                        defaultMessage='Invite Members'
+                    />
+                </li>
+            </ToggleModalButtonRedux>
+        </TeamPermissionGate>
     );
 };
 

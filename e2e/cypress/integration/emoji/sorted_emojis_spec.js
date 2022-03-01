@@ -10,11 +10,13 @@
 // Stage: @prod
 // Group: @emoji
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Emoji sorting', () => {
     before(() => {
         // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -26,13 +28,12 @@ describe('Emoji sorting', () => {
         cy.postMessage(':cat:');
 
         // # Open emoji picker
-        cy.get('#emojiPickerButton').click();
+        cy.uiOpenEmojiPicker();
 
         // # Assert first recently used emoji has the data-test-id value of 'cat' which was the last one we sent
         cy.findAllByTestId('emojiItem').
             findByRole('button', {name: 'cat emoji'}).
-            should('exist').
-            click({force: true});
+            should('exist');
 
         const emojiList = [];
 
@@ -43,10 +44,10 @@ describe('Emoji sorting', () => {
         cy.postMessage(':white_small_square:');
 
         // # Open emoji picker
-        cy.get('#emojiPickerButton').click();
+        cy.uiOpenEmojiPicker();
 
         // # Search sma text in emoji searching input
-        cy.findByTestId('emojiInputSearch').should('be.visible').type('sma');
+        cy.findByPlaceholderText('Search emojis').should('be.visible').type('sma', {delay: TIMEOUTS.HALF_SEC});
 
         // # Get list of recent emojis based on search text
         cy.findAllByTestId('emojiItem').children('img').each(($el) => {

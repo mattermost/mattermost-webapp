@@ -116,7 +116,7 @@ describe('Team members test', () => {
         cy.get('#teamMembers .DataGrid_rows').should('contain', 'No users found');
 
         // # Open the add members modal
-        cy.findByTestId('addTeamMembers').click();
+        cy.get('#addTeamMembers').click();
 
         // # Enter user1 and user2 emails
         cy.get('#addUsersToTeamModal input').clear().type(`${user1.email}{enter}${user2.email}{enter}`);

@@ -34,31 +34,28 @@ describe('Teams Suite', () => {
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // * check the team name
-        cy.get('#headerTeamName').should('contain', testTeam.display_name);
+        // * Check the team name
+        cy.uiGetLHSHeader().findByText(testTeam.display_name);
 
-        // * check the initialUrl
+        // * Check the initial Url
         cy.url().should('include', `/${testTeam.name}/channels/town-square`);
 
-        // # open the drop down menu
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-
-        // # click the leave team
-        cy.get('#sidebarDropdownMenu #leaveTeam').should('be.visible').click();
+        // # Open team menu and click "Manage Members"
+        cy.uiOpenTeamMenu('Leave Team');
 
         // * Check that the "leave team modal" opened up
         cy.get('#leaveTeamModal').should('be.visible');
 
-        // # click on no
+        // # Click on no
         cy.get('#leaveTeamNo').click();
 
         // * Check that the "leave team modal" closed
         cy.get('#leaveTeamModal').should('not.exist');
 
         // * check the team name
-        cy.get('#headerTeamName').should('contain', testTeam.display_name);
+        cy.uiGetLHSHeader().findByText(testTeam.display_name);
 
-        // * check the finalUrl
+        // * check the final Url
         cy.url().should('include', `/${testTeam.name}/channels/town-square`);
     });
 
@@ -76,30 +73,28 @@ describe('Teams Suite', () => {
 
             cy.visit(`/${testTeam.name}/channels/town-square`);
 
-            // # Click hamburger menu > Invite People
-            cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-            cy.get('#invitePeople').should('be.visible').and('contain', 'Invite People').
-                find('.MenuItem__help-text').should('have.text', 'Add or invite people to the team');
-
-            cy.get('#invitePeople').click();
+            // # Open team menu and click "Invite People"
+            cy.uiOpenTeamMenu();
+            cy.uiGetLHSTeamMenu().findByText('Add people to the team');
+            cy.uiGetLHSTeamMenu().findByText('Invite People').click();
 
             // * Check that the Invitation Modal opened up
             cy.findByTestId('invitationModal', {timeout: TIMEOUTS.HALF_SEC}).should('be.visible');
 
-            cy.findByTestId('inputPlaceholder').should('be.visible').within(($el) => {
+            cy.get('.users-emails-input__control').should('be.visible').within(($el) => {
                 // # Type the first letters of a user
                 cy.wrap($el).get('input').type(otherUser.first_name, {force: true});
-
-                // * Verify user is on the list, then select by clicking on it
-                cy.wrap($el).get('.users-emails-input__menu').
-                    children().should('have.length', 1).
-                    eq(0).should('contain', `@${otherUser.username}`).and('contain', `${otherUser.first_name} ${otherUser.last_name}`).
-                    click();
             });
 
+            // * Verify user is on the list, then select by clicking on it
+            cy.get('.users-emails-input__menu').
+                children().should('have.length', 1).
+                eq(0).should('contain', `@${otherUser.username}`).and('contain', `${otherUser.first_name} ${otherUser.last_name}`).
+                click();
+
             // # Click "Invite Members" button, then "Done" button
-            cy.findByText(/Invite Members/).should('be.visible').click();
-            cy.findByText(/Done/).should('be.visible').click();
+            cy.get('#inviteMembersButton').click();
+            cy.findByTestId('confirm-done').click();
 
             // * As sysadmin, verify system message posts in Town Square and Off-Topic
             cy.getLastPost().wait(TIMEOUTS.HALF_SEC).then(($el) => {
@@ -128,7 +123,7 @@ describe('Teams Suite', () => {
 
             // # Visit the new team and verify that it's in the correct team view
             cy.visit(`/${testTeam.name}/channels/town-square`);
-            cy.get('#headerTeamName').should('contain', testTeam.display_name);
+            cy.uiGetLHSHeader().findByText(testTeam.display_name);
 
             const sysadmin = getAdminAccount();
 
@@ -169,7 +164,7 @@ describe('Teams Suite', () => {
         cy.apiGetTeamsForUser().then(({teams}) => {
             teams.forEach((team) => {
                 cy.visit(`/${team.name}/channels/town-square`);
-                cy.get('#headerTeamName').should('be.visible').and('have.text', team.display_name);
+                cy.uiGetLHSHeader().findByText(testTeam.display_name);
                 cy.leaveTeam();
             });
         });
@@ -188,8 +183,8 @@ describe('Teams Suite', () => {
         // # visit /
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Open main menu and click "Team Settings"
-        cy.uiOpenMainMenu('Team Settings');
+        // # Open team menu and click "Team Settings"
+        cy.uiOpenTeamMenu('Team Settings');
 
         // # Open edit settings for invite code
         cy.findByText('Invite Code').should('be.visible').click();
@@ -209,8 +204,8 @@ describe('Teams Suite', () => {
         // # Visit town-square channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Open main menu and click "Team Settings"
-        cy.uiOpenMainMenu('Team Settings');
+        // # Open team menu and click "Team Settings"
+        cy.uiOpenTeamMenu('Team Settings');
 
         // # Click on the team name menu item
         cy.findByText('Team Name').should('be.visible').click();
@@ -224,8 +219,8 @@ describe('Teams Suite', () => {
         // # Close the team settings
         cy.get('body').type('{esc}', {force: true});
 
-        // Team display name shows as "Testing Team" at top of main menu
-        cy.get('#headerTeamName').invoke('text').should('eq', teamName);
+        // Team display name shows as "Testing Team" at top of team menu
+        cy.uiGetLHSHeader().findByText(teamName);
 
         // Team initials show in the team icon in the sidebar
         cy.get(`#${testTeam.name}TeamButton`).scrollIntoView().should('have.attr', 'aria-label', 'test team team');
@@ -240,8 +235,8 @@ describe('Teams Suite', () => {
         // # Visit town-square channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Open main menu and click "Team Settings"
-        cy.uiOpenMainMenu('Team Settings');
+        // # Open team menu and click "Team Settings"
+        cy.uiOpenTeamMenu('Team Settings');
 
         // # Click on the team description menu item
         cy.findByText('Team Description').should('be.visible').click();
@@ -250,22 +245,22 @@ describe('Teams Suite', () => {
         cy.get('#teamDescription').should('be.visible').clear().type(teamDescription);
         cy.get('#teamDescription').should('have.value', teamDescription);
 
-        // Save new team description
-        cy.findByText(/save/i).click();
+        // Save and close
+        cy.uiSaveAndClose();
 
-        // # Close the team settings
-        cy.get('body').type('{esc}', {force: true});
+        // # Open team menu and click "Team Settings"
+        cy.uiOpenTeamMenu('Team Settings');
 
-        // Team tooltip should show description
-        verifyToolTip('#headerTeamName', teamDescription);
+        // * Verify team description is updated
+        cy.get('#descriptionDesc').should('have.text', teamDescription);
     });
 
     it('MM-T2318 Allow anyone to join this team', () => {
         // # Visit town-square channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Open main menu and click "Team Settings"
-        cy.uiOpenMainMenu('Team Settings');
+        // # Open team menu and click "Team Settings"
+        cy.uiOpenTeamMenu('Team Settings');
 
         // # Click on the team description menu item
         cy.findByText('Allow any user with an account on this server to join this team').should('be.visible').click();
@@ -304,8 +299,8 @@ describe('Teams Suite', () => {
         // # Visit town-square channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Open main menu and click "Team Settings"
-        cy.uiOpenMainMenu('Team Settings');
+        // # Open team menu and click "Team Settings"
+        cy.uiOpenTeamMenu('Team Settings');
 
         // # Click on the team description menu item
         cy.findByText('Allow any user with an account on this server to join this team').should('be.visible').click();
@@ -313,18 +308,15 @@ describe('Teams Suite', () => {
         // # Change team description in the input
         cy.get('#teamOpenInviteNo').click();
 
-        // Save new team description
-        cy.findByText(/save/i).click();
-
-        // # Close the team settings
-        cy.get('body').type('{esc}', {force: true});
+        // Save new team description and close team settings
+        cy.uiSaveAndClose();
 
         // # Login as new user
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Open main menu and click "Join Another Team"
-        cy.uiOpenMainMenu('Join Another Team');
+        // # Open team menu and click "Join Another Team"
+        cy.uiOpenTeamMenu('Join Another Team');
 
         // # Verify the original test team isn't on the list
         cy.get('.signup-team-dir').children().should('not.contain', `#${testTeam.name.charAt(0).toUpperCase() + testTeam.name.slice(1)}`);
@@ -338,28 +330,22 @@ describe('Teams Suite', () => {
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Open main menu and click "View Members"
-        cy.uiOpenMainMenu('View Members');
+        // # Open team menu and click "View Members"
+        cy.uiOpenTeamMenu('View Members');
         cy.wait(TIMEOUTS.HALF_SEC);
         cy.get('#searchUsersInput').should('be.visible').type('sysadmin');
         cy.get('.more-modal__list').should('be.visible').children().should('have.length', 1);
     });
 });
 
-function verifyToolTip(targetElement, label) {
-    cy.get(targetElement).should('be.visible').trigger('mouseover');
-    cy.findByText(label).should('be.visible');
-
-    cy.get(targetElement).trigger('mouseout');
-    cy.findByText(label).should('not.exist');
-}
-
 function removeTeamMember(teamName, username) {
     cy.apiAdminLogin();
     cy.visit(`/${teamName}`);
-    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-    cy.get('#manageMembers').click();
+
+    // # Open team menu and click "Manage Members"
+    cy.uiOpenTeamMenu('Manage Members');
+
     cy.get(`#teamMembersDropdown_${username}`).should('be.visible').click();
     cy.get('#removeFromTeam').should('be.visible').click();
-    cy.get('.modal-header .close').click();
+    cy.uiClose();
 }

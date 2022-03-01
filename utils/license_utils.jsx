@@ -2,11 +2,14 @@
 // See LICENSE.txt for license information.
 import moment from 'moment';
 
+import {LicenseSkus} from 'mattermost-redux/types/general';
+
 const LICENSE_EXPIRY_NOTIFICATION = 1000 * 60 * 60 * 24 * 60; // 60 days
 const LICENSE_GRACE_PERIOD = 1000 * 60 * 60 * 24 * 10; // 10 days
 
 export function isLicenseExpiring(license) {
-    if (license.IsLicensed !== 'true') {
+    // Skip license expiration checks for cloud licenses
+    if (license.IsLicensed !== 'true' || isCloudLicense(license)) {
         return false;
     }
 
@@ -19,7 +22,7 @@ export function isLicenseExpiring(license) {
 }
 
 export function daysToLicenseExpire(license) {
-    if (license.IsLicensed !== 'true') {
+    if (license.IsLicensed !== 'true' || isCloudLicense(license)) {
         return undefined;
     }
 
@@ -28,7 +31,7 @@ export function daysToLicenseExpire(license) {
 }
 
 export function isLicenseExpired(license) {
-    if (license.IsLicensed !== 'true') {
+    if (license.IsLicensed !== 'true' || isCloudLicense(license)) {
         return false;
     }
 
@@ -38,7 +41,7 @@ export function isLicenseExpired(license) {
 }
 
 export function isLicensePastGracePeriod(license) {
-    if (license.IsLicensed !== 'true') {
+    if (license.IsLicensed !== 'true' || isCloudLicense(license)) {
         return false;
     }
 
@@ -67,4 +70,12 @@ export function isTrialLicense(license) {
 
 export function isCloudLicense(license) {
     return license?.Cloud === 'true';
+}
+
+export function getIsStarterLicense(license) {
+    return license?.SkuShortName === LicenseSkus.Starter;
+}
+
+export function isEnterpriseOrE20License(license) {
+    return license?.SkuShortName === LicenseSkus.Enterprise || license?.SkuShortName === LicenseSkus.E20;
 }

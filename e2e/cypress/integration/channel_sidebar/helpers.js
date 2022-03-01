@@ -6,7 +6,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 export function clickCategoryMenuItem(categoryDisplayName, menuItemText) {
     cy.contains('.SidebarChannelGroupHeader', categoryDisplayName, {matchCase: false}).should('be.visible').within(() => {
         cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').should('be.visible').click({force: true});
-        cy.findByRole('menu').findByText(menuItemText).should('be.visible').click();
+        cy.findByRole('menu').findByText(menuItemText).should('be.visible').click({force: true});
         cy.wait(TIMEOUTS.HALF_SEC);
     });
 }

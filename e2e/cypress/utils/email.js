@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 export function getEmailUrl() {
-    const smtpUrl = Cypress.env('smtpUrl') || 'http://localhost:10080';
+    const smtpUrl = Cypress.env('smtpUrl') || 'http://localhost:9001';
 
     return `${smtpUrl}/api/v1/mailbox`;
 }
@@ -20,7 +20,7 @@ export function getEmailResetEmailTemplate(userEmail) {
         `Your email address for Mattermost has been changed to ${userEmail}.`,
         'If you did not make this change, please contact the system administrator.',
         '',
-        'To change your notification preferences, log in to your team site and go to Account Settings > Notifications.',
+        'To change your notification preferences, log in to your team site and go to Settings > Notifications.',
     ];
 }
 
@@ -37,7 +37,7 @@ export function getJoinEmailTemplate(sender, userEmail, team, isGuest = false) {
         'Mattermost is a flexible, open source messaging platform that enables secure team collaboration.',
         'Learn more ( mattermost.com )',
         '',
-        '© 2021 Mattermost, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301',
+        '© 2022 Mattermost, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301',
     ];
 }
 
@@ -52,14 +52,14 @@ export function getMentionEmailTemplate(sender, message, postId, siteName, teamN
         '',
         `@${sender}`,
         '<skip-local-time-check>',
-        '',
         channelDisplayName,
+        '',
         message,
         '',
         'Want to change your notifications settings?',
-        `Login to ${siteName} ( ${baseUrl} ) and go to Account Settings > Notifications`,
+        `Login to ${siteName} ( ${baseUrl} ) and go to Settings > Notifications`,
         '',
-        '© 2021 Mattermost, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301',
+        '© 2022 Mattermost, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301',
     ];
 }
 
@@ -74,7 +74,7 @@ export function getPasswordResetEmailTemplate() {
         '',
         'The password reset link expires in 24 hours.',
         '',
-        '© 2021 Mattermost, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301',
+        '© 2022 Mattermost, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301',
     ];
 }
 
@@ -91,7 +91,7 @@ export function getEmailVerifyEmailTemplate(userEmail) {
         'This email address was used to create an account with Mattermost.',
         'If it was not you, you can safely ignore this email.',
         '',
-        '© 2021 Mattermost, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301',
+        '© 2022 Mattermost, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301',
     ];
 }
 
@@ -113,7 +113,7 @@ export function getWelcomeEmailTemplate(userEmail, siteName, teamName) {
         '',
         'Download ( https://mattermost.com/download/#mattermostApps )',
         '',
-        '© 2021 Mattermost, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301',
+        '© 2022 Mattermost, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301',
     ];
 }
 

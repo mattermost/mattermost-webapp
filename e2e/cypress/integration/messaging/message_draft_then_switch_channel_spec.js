@@ -10,16 +10,18 @@
 // Stage: @prod
 // Group: @messaging
 
+import {verifyDraftIcon} from './helpers';
+
 describe('Message Draft and Switch Channels', () => {
     let testTeam;
     let testChannel;
 
     before(() => {
-        // # Create new team and new user and visit Town Square channel
+        // # Create new team and new user and visit off-topic
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             testTeam = team;
             testChannel = channel;
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
         });
     });
 
@@ -37,7 +39,7 @@ describe('Message Draft and Switch Channels', () => {
         cy.findByRole('textbox', `write to ${displayName.toLowerCase()}`).should('be.visible').type(message);
 
         // # Switch to another channel and check if it opened correctly
-        openChannelFromLhs(testTeam.name, 'Town Square', 'town-square');
+        openChannelFromLhs(testTeam.name, 'Off-Topic', 'off-topic');
 
         // * Validate if the draft icon is visible at LHS
         verifyDraftIcon(name, true);
@@ -46,7 +48,7 @@ describe('Message Draft and Switch Channels', () => {
         cy.typeCmdOrCtrl().type('K', {release: true});
 
         // * Verify that the switch model is shown
-        cy.findAllByRole('dialog').first().findByText('Switch Channels').should('be.visible');
+        cy.findAllByRole('dialog').first().findByText('Find Channels').should('be.visible');
 
         // # Type the first few letters of the channel name you typed the message draft in
         cy.findByRole('textbox', {name: 'quick switch input'}).type(displayName.substring(0, 3));
@@ -64,13 +66,6 @@ describe('Message Draft and Switch Channels', () => {
         cy.findByRole('textbox', `write to ${displayName.toLowerCase()}`).should('be.visible').and('have.text', message);
     });
 });
-
-function verifyDraftIcon(name, isVisible) {
-    cy.uiGetLhsSection('CHANNELS').find(`#sidebarItem_${name}`).
-        should('be.visible').
-        findByTestId('draftIcon').
-        should(isVisible ? 'be.visible' : 'not.exist');
-}
 
 function openChannelFromLhs(teamName, channelName, name) {
     // # Go to test channel and check if it opened correctly

@@ -11,6 +11,7 @@
 // Group: @not_cloud @files_and_attachments
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import {stubClipboard} from '../../utils';
 
 import {downloadAttachmentAndVerifyItsProperties} from './helpers';
 
@@ -27,8 +28,8 @@ describe('Upload Files', () => {
         // # Login as sysadmin
         cy.apiAdminLogin();
 
-        // # Create new team and new user and visit Town Square channel
-        cy.apiInitSetup().then(({team, channel}) => {
+        // # Create new team and new user and visit test channel
+        cy.apiInitSetup().then(({team, channel, channelUrl}) => {
             testTeam = team;
             testChannel = channel;
 
@@ -40,7 +41,7 @@ describe('Upload Files', () => {
                 });
             });
 
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visit(channelUrl);
         });
     });
 
@@ -53,46 +54,46 @@ describe('Upload Files', () => {
         }).then(({config}) => {
             expect(config.FileSettings.EnablePublicLink).to.be.true;
 
-            // # Reload to ensure that the new config takes effect
+            // # Reload then stub the clipboard
             cy.reload();
+            stubClipboard().as('clipboard');
 
-            const attachmentFilename = 'jpg-image-file.jpg';
+            const filename = 'jpg-image-file.jpg';
 
             // # Make a post with a file attached
-            cy.get('#fileUploadInput').attachFile(attachmentFilename);
+            cy.get('#fileUploadInput').attachFile(filename);
             cy.postMessage('Post with attachment to be deleted');
 
-            // # Get the last post
-            cy.getLastPostId().then((lastPostId) => {
-                // # Scan inside of the last post message
-                cy.get(`#${lastPostId}_message`).and('be.visible').within(() => {
-                    // * Check if the attached image is in the post and then click to open the preview
-                    cy.findByLabelText(`file thumbnail ${attachmentFilename}`).should('be.visible').click();
-                });
-            });
+            // # Open file preview
+            cy.uiGetFileThumbnail(filename).click();
 
             // * Verify preview modal is opened
-            cy.get('.a11y__modal').should('exist').and('be.visible').
-                within(() => {
-                // * Check if get public link button is present and click it
-                    cy.findByText('Get a public link').should('be.visible').click({force: true});
+            cy.uiGetFilePreviewModal();
+
+            // # Hover over the downlink button and verify that tooltip is shown
+            cy.uiGetDownloadLinkFilePreviewModal().trigger('mouseover');
+            cy.uiGetToolTip('Get a public link');
+
+            // # Copy download link
+            cy.uiGetDownloadLinkFilePreviewModal().click();
+
+            // Ensure that the clipboard is called then save its content
+            cy.get('@clipboard').its('wasCalled').should('eq', true);
+            cy.get('@clipboard').
+                its('contents').
+                as('publicLinkOfAttachment').
+                then((url) => {
+                    cy.request({url}).then((response) => {
+                        // * Verify that the link no longer exists in the system
+                        expect(response.status).to.be.equal(200);
+                    });
                 });
 
             // # Wait a little for link to get generate
             cy.wait(TIMEOUTS.ONE_SEC);
 
-            // * Verify copy public link modal is opened
-            cy.get('.a11y__modal.modal-dialog').should('exist').and('be.visible').
-                within(() => {
-                    // * Verify that copy link button is present
-                    cy.findByText('Copy Link').should('be.visible');
-
-                    // # Get the copy link of the attachment and save for later purpose
-                    cy.get('#linkModalTextArea').invoke('text').as('publicLinkOfAttachment');
-                });
-
             // # Close the image preview modal
-            cy.get('body').type('{esc}');
+            cy.uiCloseFilePreviewModal();
 
             // # Once again get the last post with attachment, this time to delete it
             cy.getLastPostId().then((lastPostId) => {
@@ -100,35 +101,40 @@ describe('Upload Files', () => {
                 cy.clickPostDotMenu(lastPostId);
 
                 // # Scan inside the post menu dropdown
-                cy.get(`#CENTER_dropdown_${lastPostId}`).should('exist').within(() => {
-                    // # Click on the delete post button from the dropdown
-                    cy.findByText('Delete').should('exist').click();
-                });
+                cy.get(`#CENTER_dropdown_${lastPostId}`).
+                    should('exist').
+                    within(() => {
+                        // # Click on the delete post button from the dropdown
+                        cy.findByText('Delete').click();
+                    });
             });
 
             // * Verify caution dialog for delete post is visible
-            cy.get('.a11y__modal.modal-dialog').should('exist').and('be.visible').
+            cy.get('.modal-dialog').
+                should('be.visible').
                 within(() => {
                     // # Confirm click on the delete button for the post
-                    cy.findByText('Delete').should('be.visible').click();
+                    cy.findByText('Delete').click();
                 });
 
             // # Try to fetch the url of the attachment we previously deleted
-            cy.get('@publicLinkOfAttachment').then((publicLinkOfAttachment) => {
-                cy.request({url: publicLinkOfAttachment, failOnStatusCode: false}).then((response) => {
+            cy.get('@publicLinkOfAttachment').then((url) => {
+                cy.request({url, failOnStatusCode: false}).then((response) => {
                     // * Verify that the link no longer exists in the system
                     expect(response.status).to.be.equal(404);
                 });
 
                 // # Open the deleted link in the browser
-                cy.visit(publicLinkOfAttachment, {failOnStatusCode: false});
+                cy.visit(url, {failOnStatusCode: false});
             });
 
             // * Verify that we land on attachment not found page
-            cy.findByText('Error').should('be.visible');
-            cy.findByText('Unable to get the file info.').should('be.visible');
-            cy.findByText('Back to Mattermost').should('be.visible').parent().
-                should('have.attr', 'href', '/').click();
+            cy.findByText('Error');
+            cy.findByText('Unable to get the file info.');
+            cy.findByText('Back to Mattermost').
+                parent().
+                should('have.attr', 'href', '/').
+                click();
         });
     });
 
@@ -140,61 +146,62 @@ describe('Upload Files', () => {
             },
         });
 
+        cy.reload();
+        stubClipboard().as('clipboard');
+
         // # Save Show Preview Preference to true
         cy.apiSaveLinkPreviewsPreference('true');
 
         // # Save Preview Collapsed Preference to false
         cy.apiSaveCollapsePreviewsPreference('false');
 
-        const commonTypeFiles = ['jpg-image-file.jpg', 'gif-image-file.gif', 'png-image-file.png',
-            'tiff-image-file.tif', 'mp3-audio-file.mp3', 'mp4-video-file.mp4', 'mpeg-video-file.mpg'];
+        const commonTypeFiles = [
+            'jpg-image-file.jpg',
+            'gif-image-file.gif',
+            'png-image-file.png',
+            'tiff-image-file.tif',
+            'mp3-audio-file.mp3',
+            'mp4-video-file.mp4',
+            'mpeg-video-file.mpg',
+        ];
 
-        commonTypeFiles.forEach((file) => {
+        commonTypeFiles.forEach((filename) => {
             // # Make a post with a file attached
-            cy.get('#fileUploadInput').attachFile(file);
-            cy.postMessage(`Attached with ${file}`);
+            cy.get('#fileUploadInput').attachFile(filename);
+            cy.wait(TIMEOUTS.ONE_SEC);
+            cy.postMessage(filename);
 
-            // # Get the last post
-            cy.getLastPostId().then((lastPostId) => {
-            // # Scan inside of the last post message
-                cy.get(`#${lastPostId}_message`).and('be.visible').within(() => {
-                // * Check if the attached file is in the post and then click to open preview
-                    cy.findByLabelText(`file thumbnail ${file}`).should('be.visible').click();
-                });
-            });
+            // # Open file preview
+            cy.uiGetFileThumbnail(filename).click();
 
             // * Verify preview modal is opened
-            cy.get('.a11y__modal').should('exist').and('be.visible').
-                within(() => {
-                    // * Check if get public link button is present and click it
-                    cy.findByText('Get a public link').should('be.visible').click({force: true});
-                });
+            cy.uiGetFilePreviewModal();
+
+            // # Hover over the downlink button and verify that tooltip is shown
+            cy.uiGetDownloadLinkFilePreviewModal().trigger('mouseover');
+            cy.uiGetToolTip('Get a public link');
+
+            // # Click to copy download link
+            cy.uiGetDownloadLinkFilePreviewModal().click({force: true});
 
             // # Wait a little for url to be (re)generated
             cy.wait(TIMEOUTS.ONE_SEC);
 
-            // * Verify copy public link modal is opened
-            cy.get('.a11y__modal.modal-dialog').should('exist').and('be.visible').
-                within(() => {
-                    // * Verify that copy link button is present and click it
-                    cy.findByText('Copy Link').should('be.visible').parent().click({force: true});
+            // Ensure that the clipboard is called then save its content
+            cy.get('@clipboard').its('wasCalled').should('eq', true);
+            cy.get('@clipboard').
+                its('contents').
+                as('link').
+                then((publicLinkOfAttachment) => {
+                    // # Close the image preview modal
+                    cy.uiCloseFilePreviewModal();
 
-                    // # Get the copy link of the attachment and save for later purpose
-                    cy.get('#linkModalTextArea').invoke('text').as(`publicLinkOfAttachment-${file}`);
+                    // # Post the link of attachment as a message
+                    cy.uiPostMessageQuickly(publicLinkOfAttachment);
 
-                    cy.get('.modal-footer').should('exist').within(() => {
-                        // # Click close modal
-                        cy.findByText('Close').should('be.visible').click();
-                    });
+                    // * Check the attachment url contains the attachment
+                    downloadAttachmentAndVerifyItsProperties(publicLinkOfAttachment, filename, 'inline');
                 });
-
-            cy.get(`@publicLinkOfAttachment-${file}`).then((publicLinkOfAttachment) => {
-                // # Post the link of attachment as a message
-                cy.uiPostMessageQuickly(publicLinkOfAttachment);
-
-                // * Check the attachment url contains the attachment
-                downloadAttachmentAndVerifyItsProperties(publicLinkOfAttachment, file, 'inline');
-            });
         });
     });
 });

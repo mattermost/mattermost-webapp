@@ -6,10 +6,10 @@ import {useIntl} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
 import tinycolor from 'tinycolor2';
 
-import {$ID} from 'mattermost-redux/types/utilities';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {getUser as selectUser, makeDisplayNameGetter} from 'mattermost-redux/selectors/entities/users';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
+import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 
 import {GlobalState} from 'types/store';
 
@@ -18,12 +18,13 @@ import {imageURLForUser} from 'utils/utils';
 
 import SimpleTooltip, {useSynchronizedImmediate} from 'components/widgets/simple_tooltip';
 import Avatar from 'components/widgets/users/avatar';
+import ProfilePopover from 'components/profile_popover';
+import OverlayTrigger from 'components/overlay_trigger';
 
 import './avatars.scss';
-import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 
 type Props = {
-    userIds: Array<$ID<UserProfile>>;
+    userIds: Array<UserProfile['id']>;
     totalUsers?: number;
     breakAt?: number;
     size?: ComponentProps<typeof Avatar>['size'];
@@ -54,24 +55,44 @@ function UserAvatar({
     overlayProps,
     ...props
 }: {
-    userId: $ID<UserProfile>;
+    userId: UserProfile['id'];
     overlayProps: Partial<ComponentProps<typeof SimpleTooltip>>;
 } & ComponentProps<typeof Avatar>) {
     const user = useSelector((state: GlobalState) => selectUser(state, userId)) as UserProfile | undefined;
     const name = useSelector((state: GlobalState) => displayNameGetter(state, true)(user));
 
+    const profilePictureURL = userId ? imageURLForUser(userId) : '';
+
     return (
-        <SimpleTooltip
-            id={`name-${userId}`}
-            content={name}
-            {...overlayProps}
+        <OverlayTrigger
+            trigger='click'
+            placement='right'
+            rootClose={true}
+            overlay={
+                <ProfilePopover
+                    className='user-profile-popover'
+                    userId={userId}
+                    src={profilePictureURL}
+                />
+            }
         >
-            <Avatar
-                url={imageURLForUser(userId, user?.last_picture_update)}
-                tabIndex={0}
-                {...props}
-            />
-        </SimpleTooltip>
+            <SimpleTooltip
+                id={`name-${userId}`}
+                content={name}
+                {...overlayProps}
+            >
+                <button
+                    className={'status-wrapper style--none'}
+                    tabIndex={-1}
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <Avatar
+                        url={imageURLForUser(userId, user?.last_picture_update)}
+                        {...props}
+                    />
+                </button>
+            </SimpleTooltip>
+        </OverlayTrigger>
     );
 }
 

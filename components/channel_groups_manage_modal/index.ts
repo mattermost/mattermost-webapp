@@ -7,9 +7,11 @@ import {connect} from 'react-redux';
 import {getGroupsAssociatedToChannel, unlinkGroupSyncable, patchGroupSyncable} from 'mattermost-redux/actions/groups';
 import {getMyChannelMember} from 'mattermost-redux/actions/channels';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {Action} from 'mattermost-redux/types/actions';
 
 import {closeModal, openModal} from 'actions/views/modals';
+
+import {ModalData} from 'types/actions';
 
 import ChannelGroupsManageModal from './channel_groups_manage_modal';
 
@@ -32,16 +34,12 @@ type Actions = {
     getMyChannelMember: (channelId: string) => Promise<{
         data: boolean;
     }>;
-    closeModal: (modalIdentifiersManageChannelGroups: any) => Promise<{
-        data: boolean;
-    }>;
-    openModal: (params: {modalId: any; dialogType: any}) => Promise<{
-        data: boolean;
-    }>;
+    closeModal: (modalId: string) => void;
+    openModal: <P>(modalData: ModalData<P>) => void;
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-    actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>(
+    actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>(
         {
             getGroupsAssociatedToChannel,
             closeModal,

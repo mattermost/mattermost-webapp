@@ -26,8 +26,8 @@ export default class MessageExportSettings extends AdminSettings {
         if (this.state.exportFormat === exportFormats.EXPORT_FORMAT_GLOBALRELAY) {
             config.MessageExportSettings.GlobalRelaySettings = {
                 CustomerType: this.state.globalRelayCustomerType,
-                SmtpUsername: this.state.globalRelaySmtpUsername,
-                SmtpPassword: this.state.globalRelaySmtpPassword,
+                SMTPUsername: this.state.globalRelaySMTPUsername,
+                SMTPPassword: this.state.globalRelaySMTPPassword,
                 EmailAddress: this.state.globalRelayEmailAddress,
 
             };
@@ -43,8 +43,8 @@ export default class MessageExportSettings extends AdminSettings {
         };
         if (config.MessageExportSettings.GlobalRelaySettings) {
             state.globalRelayCustomerType = config.MessageExportSettings.GlobalRelaySettings.CustomerType;
-            state.globalRelaySmtpUsername = config.MessageExportSettings.GlobalRelaySettings.SmtpUsername;
-            state.globalRelaySmtpPassword = config.MessageExportSettings.GlobalRelaySettings.SmtpPassword;
+            state.globalRelaySMTPUsername = config.MessageExportSettings.GlobalRelaySettings.SMTPUsername;
+            state.globalRelaySMTPPassword = config.MessageExportSettings.GlobalRelaySettings.SMTPPassword;
             state.globalRelayEmailAddress = config.MessageExportSettings.GlobalRelaySettings.EmailAddress;
         }
         return state;
@@ -141,48 +141,48 @@ export default class MessageExportSettings extends AdminSettings {
                 />
             );
 
-            const globalRelaySmtpUsername = (
+            const globalRelaySMTPUsername = (
                 <TextSetting
-                    id='globalRelaySmtpUsername'
+                    id='globalRelaySMTPUsername'
                     label={
                         <FormattedMessage
-                            id='admin.complianceExport.globalRelaySmtpUsername.title'
+                            id='admin.complianceExport.globalRelaySMTPUsername.title'
                             defaultMessage='SMTP Username:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.complianceExport.globalRelaySmtpUsername.example', 'E.g.: "globalRelayUser"')}
+                    placeholder={Utils.localizeMessage('admin.complianceExport.globalRelaySMTPUsername.example', 'E.g.: "globalRelayUser"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.complianceExport.globalRelaySmtpUsername.description'
+                            id='admin.complianceExport.globalRelaySMTPUsername.description'
                             defaultMessage='The username that is used to authenticate against the GlobalRelay SMTP server.'
                         />
                     }
-                    value={this.state.globalRelaySmtpUsername ? this.state.globalRelaySmtpUsername : ''}
+                    value={this.state.globalRelaySMTPUsername ? this.state.globalRelaySMTPUsername : ''}
                     onChange={this.handleChange}
-                    setByEnv={this.isSetByEnv('DataRetentionSettings.GlobalRelaySettings.SmtpUsername')}
+                    setByEnv={this.isSetByEnv('DataRetentionSettings.GlobalRelaySettings.SMTPUsername')}
                     disabled={this.props.isDisabled || !this.state.enableComplianceExport}
                 />
             );
 
-            const globalRelaySmtpPassword = (
+            const globalRelaySMTPPassword = (
                 <TextSetting
-                    id='globalRelaySmtpPassword'
+                    id='globalRelaySMTPPassword'
                     label={
                         <FormattedMessage
-                            id='admin.complianceExport.globalRelaySmtpPassword.title'
+                            id='admin.complianceExport.globalRelaySMTPPassword.title'
                             defaultMessage='SMTP Password:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.complianceExport.globalRelaySmtpPassword.example', 'E.g.: "globalRelayPassword"')}
+                    placeholder={Utils.localizeMessage('admin.complianceExport.globalRelaySMTPPassword.example', 'E.g.: "globalRelayPassword"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.complianceExport.globalRelaySmtpPassword.description'
+                            id='admin.complianceExport.globalRelaySMTPPassword.description'
                             defaultMessage='The password that is used to authenticate against the GlobalRelay SMTP server.'
                         />
                     }
-                    value={this.state.globalRelaySmtpPassword ? this.state.globalRelaySmtpPassword : ''}
+                    value={this.state.globalRelaySMTPPassword ? this.state.globalRelaySMTPPassword : ''}
                     onChange={this.handleChange}
-                    setByEnv={this.isSetByEnv('DataRetentionSettings.GlobalRelaySettings.SmtpPassword')}
+                    setByEnv={this.isSetByEnv('DataRetentionSettings.GlobalRelaySettings.SMTPPassword')}
                     disabled={this.props.isDisabled || !this.state.enableComplianceExport}
                 />
             );
@@ -213,8 +213,8 @@ export default class MessageExportSettings extends AdminSettings {
             globalRelaySettings = (
                 <SettingsGroup id={'globalRelaySettings'} >
                     {globalRelayCustomerType}
-                    {globalRelaySmtpUsername}
-                    {globalRelaySmtpPassword}
+                    {globalRelaySMTPUsername}
+                    {globalRelaySMTPPassword}
                     {globalRelayEmail}
                 </SettingsGroup>
             );

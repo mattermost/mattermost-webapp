@@ -57,7 +57,7 @@ describe('Archived channels', () => {
                 cy.visit(permalink);
 
                 // * Verify that we've logged in as the test user
-                cy.get('#headerUsername').should('contain', '@' + testUser.username);
+                verifyUsername(testUser.username);
 
                 verifyViewingArchivedChannel(channel);
             });
@@ -76,8 +76,8 @@ describe('Archived channels', () => {
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
             cy.uiArchiveChannel();
 
-            // # Visit Town Square
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            // # Visit off-topic
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
 
             // # Make a post linking to the archived channel
             const linkText = `link ${getRandomId()}`;
@@ -92,11 +92,11 @@ describe('Archived channels', () => {
             // # Log out and back in as the test user
             cy.apiLogin(testUser);
 
-            // # Visit Town Square
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            // # Visit off-topic
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
 
             // * Verify that we've logged in as the test user
-            cy.get('#headerUsername').should('contain', '@' + testUser.username);
+            verifyUsername(testUser.username);
 
             // * Verify that the link exists and then click on it
             cy.contains('a', linkText).should('be.visible').click();
@@ -117,4 +117,12 @@ function verifyViewingArchivedChannel(channel) {
 
     // * Verify that the archived channel banner is visible at the bottom of the channel view
     cy.get('#channelArchivedMessage').should('be.visible');
+}
+
+function verifyUsername(username) {
+    // * Verify that we've logged in as the test user
+    cy.uiOpenUserMenu().findByText(`@${username}`);
+
+    // # Close the user menu
+    cy.uiGetSetStatusButton().click();
 }

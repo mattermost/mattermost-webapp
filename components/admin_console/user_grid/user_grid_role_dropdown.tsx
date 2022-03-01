@@ -3,7 +3,6 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Tooltip} from 'react-bootstrap';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 import {TeamMembership} from 'mattermost-redux/types/teams';
@@ -15,6 +14,7 @@ import * as Utils from 'utils/utils.jsx';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
 
@@ -121,7 +121,7 @@ export default class UserGridRoleDropdown extends React.PureComponent<Props> {
         return Utils.localizeMessage('channel_members_dropdown.menuAriaLabel', 'Change the role of channel member');
     }
 
-    public render = (): JSX.Element | null => {
+    public render = (): React.ReactNode => {
         if (!this.props.membership) {
             return null;
         }

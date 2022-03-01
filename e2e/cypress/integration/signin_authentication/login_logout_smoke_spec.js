@@ -38,11 +38,8 @@ describe('SignIn Authentication', () => {
             // * Check that it login successfully and it redirects into the main channel page
             cy.url().should('include', '/channels/town-square');
 
-            // # Click hamburger main menu button
-            cy.findByLabelText('main menu').should('be.visible').click();
-
-            // # Click on the logout menu
-            cy.findByText('Log Out').scrollIntoView().should('be.visible').click();
+            // # Click logout via user menu
+            cy.uiOpenUserMenu('Log Out');
 
             // * Check that it logout successfully and it redirects into the login page
             cy.url().should('include', '/login');
