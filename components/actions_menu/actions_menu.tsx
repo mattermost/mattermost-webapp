@@ -357,7 +357,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
             );
         }
 
-        if (isSystemMessage || !this.props.isSysAdmin) {
+        if (isSystemMessage) {
             return null;
         }
 
@@ -365,6 +365,11 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         const hasApps = Boolean(appBindings.length);
         const hasPluggables = Boolean(this.props.components[PLUGGABLE_COMPONENT]?.length);
         const hasPluginItems = Boolean(pluginItems?.length);
+
+        const hasPluginMenuItems = hasPluginItems || hasApps || hasPluggables;
+        if (!this.props.isSysAdmin && !hasPluginMenuItems) {
+            return null;
+        }
 
         if (hasPluginItems || hasApps || hasPluggables) {
             const pluggable = (
@@ -381,6 +386,9 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
             ];
         } else {
             menuItems = [this.visitMarketplaceTip()];
+            if (!this.props.isSysAdmin) {
+                return null;
+            }
         }
 
         return (
