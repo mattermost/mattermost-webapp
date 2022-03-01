@@ -128,7 +128,7 @@ function PerformanceDebuggingSectionExpanded(props: Props) {
                     <div className='mt-5'>
                         <FormattedMessage
                             id='user.settings.advance.performance.info1'
-                            defaultMessage='You may enable these settings temporarily to help isolate performance issues while debugging. We don't recommend leaving these settings enabled for an extended period of time as they can negatively impact your user experience.'
+                            defaultMessage="You may enable these settings temporarily to help isolate performance issues while debugging. We don't recommend leaving these settings enabled for an extended period of time as they can negatively impact your user experience."
                         />
                         <br/>
                         <br/>
