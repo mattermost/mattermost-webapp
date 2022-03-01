@@ -17,6 +17,7 @@ import GuestBadge from 'components/widgets/badges/guest_badge';
 import {DMUser} from './rhs';
 
 const Container = styled.div`
+    overflow-wrap: anywhere;
     padding: 24px;
     padding-bottom: 12px;
 
@@ -64,7 +65,7 @@ const GmProfilePicture = styled.div<GmProfilePictureProps>`
 
 const ChannelPurpose = styled.div`
     margin-bottom: 12px;
-    &.ChannelPurpose__is-dm {
+    &.ChannelPurpose--is-dm {
         margin-bottom: 16px;
     }
 `;
@@ -176,7 +177,6 @@ const AboutArea = ({channel, channelURL, dmUser, gmUsers, canEditChannelProperti
     case Constants.PRIVATE_CHANNEL:
         canEditDescription = canEditChannelProperties;
         isOpenOrPrivateChannel = true;
-        channelPurposeClass = 'editable';
         channelPurpose = (
             <EditableArea
                 editable={canEditChannelProperties}
@@ -257,7 +257,7 @@ const AboutArea = ({channel, channelURL, dmUser, gmUsers, canEditChannelProperti
         <Container>
 
             {channelPurpose && (
-                <ChannelPurpose className={channelPurposeClass ? `ChannelPurpose__${channelPurposeClass}` : ''}>
+                <ChannelPurpose className={channelPurposeClass ? `ChannelPurpose--${channelPurposeClass}` : ''}>
                     {channelPurpose}
                 </ChannelPurpose>
             )}
