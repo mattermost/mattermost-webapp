@@ -132,16 +132,16 @@ const editableArea = ({editable, content, onEdit, className}: EditableAreaProps)
 
 const EditableArea = styled(editableArea)`
     display: flex;
-    &>div.EditableArea__content {
+    &>.EditableArea__content {
         flex: 1;
     }
     &:hover {
-        &>div.EditableArea__edit {
+        &>.EditableArea__edit {
             visibility: visible;
         }
     }
 
-    &>div.EditableArea__edit {
+    &>.EditableArea__edit {
         visibility: hidden;
         width: 24px;
     }

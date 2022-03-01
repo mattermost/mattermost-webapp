@@ -97,7 +97,6 @@ const ChannelInfoRhs = ({
 
     const addPeople = () => {
         if (channel.type === Constants.GM_CHANNEL) {
-            // @TODO find how to fix this dialogProps error
             return actions.openModal({
                 modalId: ModalIdentifiers.CREATE_DM_CHANNEL,
                 dialogType: MoreDirectChannels,
