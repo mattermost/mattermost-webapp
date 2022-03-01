@@ -35,7 +35,7 @@ export function getLogErrorAction(error: ErrorObject, displayable = false) {
     };
 }
 
-export function logError(error: ServerError, displayable = false): ActionFunc {
+export function logError(error: ServerError, displayable = false, consoleError = false): ActionFunc {
     return async (dispatch: DispatchFunc) => {
         if (error.server_error_id === 'api.context.session_expired.app_error') {
             return {data: true};
@@ -59,6 +59,10 @@ export function logError(error: ServerError, displayable = false): ActionFunc {
                 // avoid crashing the app if an error sending
                 // the error occurs.
             }
+        }
+
+        if (consoleError) {
+            serializedError.message = 'A JavaScript error has occurred. Please use the JavaScript console to capture and report the error';
         }
 
         EventEmitter.emit(ErrorTypes.LOG_ERROR, error);

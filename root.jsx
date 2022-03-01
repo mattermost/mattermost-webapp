@@ -35,11 +35,12 @@ function preRenderSetup(callwhendone) {
         store.dispatch(
             logError({
                 type: AnnouncementBarTypes.DEVELOPER,
-                message: 'A JavaScript error has occurred. Please use the JavaScript console to capture and report the error (msg: ' + msg + ', row: ' + line + ', col: ' + column + ').',
+                message: 'A JavaScript error in the webapp client has occurred. (msg: ' + msg + ', row: ' + line + ', col: ' + column + ').',
                 stack,
                 url,
             },
             displayable,
+            true,
             ),
         );
     };
