@@ -246,10 +246,15 @@ const useOnBoardingTourTipManager = (): OnBoardingTourTipManager => {
                 handleNext();
             }
         };
-        window.addEventListener('keydown', handleKeyDown);
-        return () =>
-            window.removeEventListener('keydown', handleKeyDown);
-    }, [handleNext]);
+        if (show) {
+            window.addEventListener('keydown', handleKeyDown);
+        }
+        return () => {
+            if (show) {
+                window.removeEventListener('keydown', handleKeyDown);
+            }
+        };
+    }, [handleNext, show]);
 
     return {
         show,
