@@ -63,13 +63,8 @@ export const getRecentEmojisNames = createSelector(
     },
 );
 
-export function getUserSkinTone(state: GlobalState) {
-    return get(
-        state,
-        Preferences.CATEGORY_EMOJI,
-        Preferences.EMOJI_SKINTONE,
-        'default',
-    );
+export function getUserSkinTone(state: GlobalState): string {
+    return get(state, Preferences.CATEGORY_EMOJI, Preferences.EMOJI_SKINTONE, 'default');
 }
 
 export function isCustomEmojiEnabled(state: GlobalState) {

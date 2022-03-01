@@ -15,7 +15,6 @@ import * as MESSAGES from '../../../fixtures/messages';
 
 import {
     checkReactionFromPost,
-    clickSmileEmojiFromEmojiPicker,
     doReactToLastMessageShortcut,
 } from './helpers';
 
@@ -58,7 +57,7 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
         doReactToLastMessageShortcut('RHS');
 
         // # Add reaction to a post
-        clickSmileEmojiFromEmojiPicker();
+        cy.clickEmojiInEmojiPicker('smile');
 
         // * Check if emoji is shown as reaction to the last message (same in RHS)
         cy.getLastPostId().then((lastPostId) => {
@@ -83,7 +82,7 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
         doReactToLastMessageShortcut('RHS');
 
         // # Add reaction to a post
-        clickSmileEmojiFromEmojiPicker();
+        cy.clickEmojiInEmojiPicker('smile');
 
         // * Check if emoji is shown as reaction to the last message (same in RHS)
         cy.getLastPostId().then((lastPostId) => {
@@ -107,7 +106,7 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
         doReactToLastMessageShortcut('RHS');
 
         // # Add reaction to a post
-        clickSmileEmojiFromEmojiPicker();
+        cy.clickEmojiInEmojiPicker('smile');
 
         // * Check if emoji is shown as reaction to the last message (same in RHS)
         cy.getLastPostId().then((lastPostId) => {

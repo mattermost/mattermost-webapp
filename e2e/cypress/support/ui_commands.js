@@ -544,3 +544,22 @@ Cypress.Commands.add('checkRunLDAPSync', () => {
         }
     });
 });
+
+/**
+ * Clicks on a visible emoji in the emoji picker.
+ * For emojis further down the page, search for that emoji in search bar and then use this command to click on it.
+ * @param {String} emojiName - The name of emoji to click. For emojis with multiple names concat with ','
+ * @returns null
+ */
+Cypress.Commands.add('clickEmojiInEmojiPicker', (emojiName) => {
+    cy.get('#emojiPicker').should('exist').and('be.visible').within(() => {
+        // # Mouse over the emoji to get it selected
+        cy.findByTestId(emojiName).trigger('mouseover', {force: true});
+
+        // * Verify that preview shows the emoji selected
+        cy.findByTestId('emoji_picker_preview').should('exist').and('be.visible').contains(emojiName, {matchCase: false});
+
+        // # Click on the emoji
+        cy.findByTestId(emojiName).click({force: true});
+    });
+});
