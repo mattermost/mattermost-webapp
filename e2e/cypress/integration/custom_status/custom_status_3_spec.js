@@ -52,7 +52,7 @@ describe('Custom Status - Setting Your Own Custom Status', () => {
         cy.get('#emojiPicker').should('exist');
 
         // # Select the emoji from the emoji picker overlay
-        cy.get(`#emojiPicker .emoji-picker-items__container .emoji-picker__item img[data-testid="${customStatus.emoji}"]`).click({force: true});
+        cy.clickEmojiInEmojiPicker(customStatus.emoji);
 
         // * Emoji picker should be closed
         cy.get('#emojiPicker').should('not.exist');

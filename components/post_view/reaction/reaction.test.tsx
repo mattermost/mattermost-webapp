@@ -4,11 +4,25 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {Reaction as ReactionType} from 'mattermost-redux/types/reactions';
+
 import Reaction from 'components/post_view/reaction/reaction';
+import {TestHelper} from 'utils/test_helper';
 
 describe('components/post_view/Reaction', () => {
-    const post = {id: 'post_id_1'};
-    const reactions = [{user_id: 'user_id_2'}, {user_id: 'user_id_3'}];
+    const post = TestHelper.getPostMock({
+        id: 'post_id',
+    });
+    const reactions: ReactionType[] = [{
+        user_id: 'user_id_2',
+        post_id: post.id,
+        emoji_name: ':smile:',
+        create_at: 0,
+    }, {
+        user_id: 'user_id_3',
+        post_id: post.id,
+        emoji_name: ':smile:',
+        create_at: 0}];
     const emojiName = 'smile';
     const actions = {
         addReaction: jest.fn(),
@@ -31,30 +45,39 @@ describe('components/post_view/Reaction', () => {
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallow(<Reaction {...baseProps}/>);
+        const wrapper = shallow<Reaction>(<Reaction {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot when a current user reacted to a post', () => {
-        const newReactions = [{user_id: 'user_id_1'}, {user_id: 'user_id_2'}];
+        const newReactions = [{
+            user_id: 'user_id_1',
+            post_id: post.id,
+            emoji_name: ':cry:',
+            create_at: 0,
+        }, {
+            user_id: 'user_id_3',
+            post_id: post.id,
+            emoji_name: ':smile:',
+            create_at: 0}];
         const props = {
             ...baseProps,
             currentUserReacted: true,
             reactions: newReactions,
         };
-        const wrapper = shallow(<Reaction {...props}/>);
+        const wrapper = shallow<Reaction>(<Reaction {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should return null/empty if no emojiImageUrl', () => {
         const props = {...baseProps, emojiImageUrl: ''};
-        const wrapper = shallow(<Reaction {...props}/>);
+        const wrapper = shallow<Reaction>(<Reaction {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should apply read-only class if user does not have permission to add reaction', () => {
         const props = {...baseProps, canAddReactions: false};
-        const wrapper = shallow(<Reaction {...props}/>);
+        const wrapper = shallow<Reaction>(<Reaction {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -66,12 +89,12 @@ describe('components/post_view/Reaction', () => {
             currentUserId: newCurrentUserId,
             currentUserReacted: true,
         };
-        const wrapper = shallow(<Reaction {...props}/>);
+        const wrapper = shallow<Reaction>(<Reaction {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should have called actions.getMissingProfilesByIds when loadMissingProfiles is called', () => {
-        const wrapper = shallow(<Reaction {...baseProps}/>);
+        const wrapper = shallow<Reaction>(<Reaction {...baseProps}/>);
         wrapper.instance().loadMissingProfiles();
 
         expect(actions.getMissingProfilesByIds).toHaveBeenCalledTimes(1);

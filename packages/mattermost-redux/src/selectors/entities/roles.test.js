@@ -95,10 +95,10 @@ describe('Selectors.Roles', () => {
         custom_group_user: {permissions: ['custom_group_user']},
     };
 
-    const group1 = TestHelper.fakeGroup('group1');
-    const group2 = TestHelper.fakeGroup('group2');
-    const group3 = TestHelper.fakeGroup('group3');
-    const group4 = TestHelper.fakeGroup('group4');
+    const group1 = TestHelper.fakeGroup('group1', 'custom');
+    const group2 = TestHelper.fakeGroup('group2', 'custom');
+    const group3 = TestHelper.fakeGroup('group3', 'custom');
+    const group4 = TestHelper.fakeGroup('group4', 'custom');
     const group5 = TestHelper.fakeGroup('group5');
 
     const groups = {};
@@ -263,7 +263,7 @@ describe('Selectors.Roles', () => {
             [group2.id]: {can_delete: true, can_manage_members: true},
             [group3.id]: {can_delete: true, can_manage_members: true},
             [group4.id]: {can_delete: true, can_manage_members: true},
-            [group5.id]: {can_delete: true, can_manage_members: true},
+            [group5.id]: {can_delete: false, can_manage_members: false},
         });
     });
 });

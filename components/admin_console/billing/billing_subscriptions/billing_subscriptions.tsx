@@ -83,7 +83,7 @@ export const contactSalesCard = (
             description = (
                 <FormattedMessage
                     id='admin.billing.subscription.privateCloudCard.cloudStarter.description'
-                    defaultMessage='Optimize your processes with Guest Accounts, Office365 suite integrations, Gitlab SSO and advanced permissions.'
+                    defaultMessage='Optimize your processes with Guest Accounts, Office365 suite integrations, GitLab SSO and advanced permissions.'
                 />
             );
             break;
