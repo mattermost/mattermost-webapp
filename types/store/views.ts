@@ -92,7 +92,7 @@ export type ViewsState = {
     };
 
     emoji: {
-        emojiPickerCustomPage: 0;
+        emojiPickerCustomPage: number;
         shortcutReactToLastPostEmittedFrom: string;
     };
 
