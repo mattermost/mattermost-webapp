@@ -24,7 +24,7 @@ describe('Category muting', () => {
             testTeam = team;
             testUser = user;
 
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/off-topic`);
 
             // # Post any message
             cy.postMessage('hello');

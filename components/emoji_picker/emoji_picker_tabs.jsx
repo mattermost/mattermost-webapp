@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 import {Tab, Tabs} from 'react-bootstrap';
 
-import GifPicker from 'components/gif_picker/gif_picker.jsx';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import GfycatIcon from 'components/widgets/icons/gfycat_icon';
+import {makeAsyncComponent} from 'components/async_load';
+import EmojiPicker from 'components/emoji_picker';
+import EmojiPickerHeader from 'components/emoji_picker/components/emoji_picker_header';
 
-import EmojiPickerHeader from './components/emoji_picker_header';
-
-import EmojiPicker from './';
+const GifPicker = makeAsyncComponent('GifPicker', React.lazy(() => import('components/gif_picker/gif_picker.jsx')));
 
 export default class EmojiPickerTabs extends PureComponent {
     static propTypes = {
@@ -115,12 +115,9 @@ export default class EmojiPickerTabs extends PureComponent {
                         tabClassName={'custom-emoji-tab'}
                     >
                         <EmojiPicker
-                            style={this.props.style}
-                            onEmojiClose={this.props.onEmojiClose}
-                            onEmojiClick={this.props.onEmojiClick}
-                            customEmojis={this.props.customEmojis}
-                            visible={this.state.emojiTabVisible}
                             filter={this.state.filter}
+                            visible={this.state.emojiTabVisible}
+                            onEmojiClick={this.props.onEmojiClick}
                             handleFilterChange={this.handleFilterChange}
                         />
                     </Tab>
@@ -149,11 +146,9 @@ export default class EmojiPickerTabs extends PureComponent {
             >
                 <EmojiPickerHeader handleEmojiPickerClose={this.handleEmojiPickerClose}/>
                 <EmojiPicker
-                    style={this.props.style}
-                    onEmojiClose={this.props.onEmojiClose}
-                    onEmojiClick={this.props.onEmojiClick}
-                    customEmojis={this.props.customEmojis}
                     filter={this.state.filter}
+                    visible={this.state.emojiTabVisible}
+                    onEmojiClick={this.props.onEmojiClick}
                     handleFilterChange={this.handleFilterChange}
                 />
             </div>

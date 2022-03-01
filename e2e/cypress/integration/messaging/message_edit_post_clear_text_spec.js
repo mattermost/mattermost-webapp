@@ -13,22 +13,22 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Delete the post on text clear', () => {
-    let townsquareLink;
+    let offtopiclink;
 
     before(() => {
-        // # Login as test user and visit town-square
+        // # Login as test user and visit off-topic
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            townsquareLink = `/${team.name}/channels/town-square`;
-            cy.visit(townsquareLink);
+            offtopiclink = `/${team.name}/channels/off-topic`;
+            cy.visit(offtopiclink);
         });
     });
 
     it('MM-T2146 Remove all text from a post (no attachment)', () => {
         // # Go to a test channel on the side bar
-        cy.get('#sidebarItem_town-square').click({force: true});
+        cy.get('#sidebarItem_off-topic').click({force: true});
 
         // * Validate if the channel has been opened
-        cy.url().should('include', townsquareLink);
+        cy.url().should('include', offtopiclink);
 
         // # Type 'This is sample text' and submit
         cy.postMessage('This is sample text');
@@ -41,13 +41,10 @@ describe('Delete the post on text clear', () => {
             // # click edit post
             cy.get(`#edit_post_${postID}`).click();
 
-            // # Edit message to 'This is sample add text'
-            cy.get('#edit_textbox').should('be.visible').and('be.focused').wait(TIMEOUTS.HALF_SEC).clear();
+            // # clear Message and enter
+            cy.get('#edit_textbox').should('be.visible').and('be.focused').wait(TIMEOUTS.HALF_SEC).clear().type('{enter}');
 
-            // # Click button Edit
-            cy.get('#editButton').click();
-
-            // # Press Enter to confirm
+            // # Press Enter to confirm deleting the post
             cy.focused().click(); // pressing Enter on buttons is not supported in Cypress, so we use click instead
 
             // * Assert post message disappears

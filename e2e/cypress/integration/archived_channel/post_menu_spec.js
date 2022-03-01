@@ -18,7 +18,7 @@ describe('Archived channels', () => {
             },
         });
 
-        // # Login as test user and visit create channel
+        // # Login as test user and visit created channel
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             cy.visit(`/${team.name}/channels/${channel.name}`);
         });

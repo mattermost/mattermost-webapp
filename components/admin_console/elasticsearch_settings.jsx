@@ -18,7 +18,7 @@ import TextSetting from './text_setting';
 
 export default class ElasticsearchSettings extends AdminSettings {
     getConfigFromState = (config) => {
-        config.ElasticsearchSettings.ConnectionUrl = this.state.connectionUrl;
+        config.ElasticsearchSettings.ConnectionURL = this.state.connectionUrl;
         config.ElasticsearchSettings.SkipTLSVerification = this.state.skipTLSVerification;
         config.ElasticsearchSettings.Username = this.state.username;
         config.ElasticsearchSettings.Password = this.state.password;
@@ -32,7 +32,7 @@ export default class ElasticsearchSettings extends AdminSettings {
 
     getStateFromConfig(config) {
         return {
-            connectionUrl: config.ElasticsearchSettings.ConnectionUrl,
+            connectionUrl: config.ElasticsearchSettings.ConnectionURL,
             skipTLSVerification: config.ElasticsearchSettings.SkipTLSVerification,
             username: config.ElasticsearchSettings.Username,
             password: config.ElasticsearchSettings.Password,
@@ -201,7 +201,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                     value={this.state.connectionUrl}
                     disabled={this.props.isDisabled || !this.state.enableIndexing}
                     onChange={this.handleSettingChanged}
-                    setByEnv={this.isSetByEnv('ElasticsearchSettings.ConnectionUrl')}
+                    setByEnv={this.isSetByEnv('ElasticsearchSettings.ConnectionURL')}
                 />
                 <BooleanSetting
                     id='skipTLSVerification'

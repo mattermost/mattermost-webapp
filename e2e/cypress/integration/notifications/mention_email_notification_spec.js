@@ -25,25 +25,26 @@ describe('Email notification', () => {
 
     before(() => {
         // # Do email test if setup properly
-        cy.apiEmailTest();
+        cy.shouldHaveEmailEnabled();
 
         // # Get config
         cy.apiGetConfig().then((data) => {
             ({config} = data);
         });
 
-        cy.apiInitSetup().then(({team, user}) => {
+        cy.apiCreateUser().then(({user}) => {
+            receiver = user;
+        });
+
+        cy.apiInitSetup().then(({team, user, offTopicUrl}) => {
             sender = user;
             testTeam = team;
 
-            cy.apiCreateUser().then(({user: user2}) => {
-                receiver = user2;
-                cy.apiAddUserToTeam(team.id, user2.id);
-            });
+            cy.apiAddUserToTeam(team.id, receiver.id);
 
-            // # Login and go to town square
+            // # Login and go to off-topic
             cy.apiLogin(sender);
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -74,8 +75,9 @@ describe('Email notification', () => {
                     postId,
                     siteName,
                     testTeam.name,
-                    'Town Square',
+                    'Off-Topic',
                 );
+
                 verifyEmailBody(expectedEmailBody, body);
 
                 const permalink = body[3].split(' ')[3];

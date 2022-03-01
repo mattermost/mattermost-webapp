@@ -80,15 +80,14 @@ exports[`SidebarChannelList should match snapshot 1`] = `
         </Connect(Droppable)>
       </DragDropContext>
     </Scrollbars>
-    <InviteMembersButton
-      buttonType="sticky_button"
-    />
   </div>
 </Fragment>
 `;
 
 exports[`SidebarChannelList should match snapshot 2`] = `
-<div>
+<div
+  id="sidebar-droppable-categories"
+>
   <Connect(SidebarCategory)
     category={
       Object {

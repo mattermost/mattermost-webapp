@@ -4,7 +4,8 @@
 import {connect} from 'react-redux';
 
 import {getUser} from 'mattermost-redux/selectors/entities/users';
-import {GlobalState} from 'mattermost-redux/types/store';
+
+import {GlobalState} from 'types/store';
 
 import {getDisplayNameByUser} from 'utils/utils';
 

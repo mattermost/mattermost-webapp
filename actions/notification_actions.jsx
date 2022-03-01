@@ -18,8 +18,9 @@ import {isThreadOpen} from 'selectors/views/threads';
 import {browserHistory} from 'utils/browser_history';
 import Constants, {NotificationLevels, UserStatuses} from 'utils/constants';
 import {showNotification} from 'utils/notifications';
-import {isDesktopApp, isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agent';
+import {isDesktopApp, isMobileApp} from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 import {stripMarkdown} from 'utils/markdown';
 
 const NOTIFY_TEXT_MAX_LENGTH = 50;
@@ -70,8 +71,7 @@ export function sendDesktopNotification(post, msgProps) {
 
         let notifyLevel = member?.notify_props?.desktop || NotificationLevels.DEFAULT;
 
-        // disregard channel notification settings on CRT 'on' replies
-        if (notifyLevel === NotificationLevels.DEFAULT || isCrtReply) {
+        if (notifyLevel === NotificationLevels.DEFAULT) {
             notifyLevel = user?.notify_props?.desktop || NotificationLevels.ALL;
         }
 
@@ -113,6 +113,10 @@ export function sendDesktopNotification(post, msgProps) {
             } else {
                 title = msgProps.channel_display_name;
             }
+        }
+
+        if (isCrtReply) {
+            title = Utils.localizeAndFormatMessage(t('notification.crt'), 'Reply in {title}', {title});
         }
 
         let notifyText = post.message;
@@ -165,7 +169,7 @@ export function sendDesktopNotification(post, msgProps) {
         }
         notify = notify || !state.views.browser.focused;
 
-        const soundName = user.notify_props !== undefined && user.notify_props.desktop_notification_sound !== undefined ? user.notify_props.desktop_notification_sound : 'None';
+        const soundName = user.notify_props !== undefined && user.notify_props.desktop_notification_sound !== undefined ? user.notify_props.desktop_notification_sound : 'Bing';
 
         if (notify) {
             const updatedState = getState();
@@ -178,7 +182,7 @@ export function sendDesktopNotification(post, msgProps) {
             dispatch(notifyMe(title, body, channel, teamId, !sound, soundName, url));
 
             //Don't add extra sounds on native desktop clients
-            if (sound && !isWindowsApp() && !isMacApp() && !isMobileApp()) {
+            if (sound && !isDesktopApp() && !isMobileApp()) {
                 Utils.ding(soundName);
             }
         }

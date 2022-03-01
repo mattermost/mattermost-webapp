@@ -1,9 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {CollapsedThreads, InviteMembersBtnLocations} from '../constants/config';
-
-import {Dictionary} from './utilities';
+import {CollapsedThreads} from '../constants/config';
 
 import {ThemeKey} from './themes';
 
@@ -27,21 +25,18 @@ export type ClientConfig = {
     BuildHashEnterprise: string;
     BuildNumber: string;
     CollapsedThreads: CollapsedThreads;
-    InviteMembersBtnLocations: InviteMembersBtnLocations;
     CustomBrandText: string;
     CustomDescriptionText: string;
     CustomTermsOfServiceId: string;
     CustomTermsOfServiceReAcceptancePeriod: string;
     CustomUrlSchemes: string;
-    CWSUrl: string;
+    CWSURL: string;
     DataRetentionEnableFileDeletion: string;
     DataRetentionEnableMessageDeletion: string;
     DataRetentionFileRetentionDays: string;
     DataRetentionMessageRetentionDays: string;
     DefaultClientLocale: string;
     DefaultTheme: ThemeKey;
-    DesktopLatestVersion: string;
-    DesktopMinVersion: string;
     DiagnosticId: string;
     DiagnosticsEnabled: string;
     EmailLoginButtonBorderColor: string;
@@ -58,6 +53,7 @@ export type ClientConfig = {
     EnableConfirmNotificationsToChannel: string;
     EnableCustomBrand: string;
     EnableCustomEmoji: string;
+    EnableCustomGroups: string;
     EnableCustomUserStatuses: string;
     EnableTimedDND: string;
     EnableCustomTermsOfService: string;
@@ -72,6 +68,7 @@ export type ClientConfig = {
     EnableGuestAccounts: string;
     EnableIncomingWebhooks: string;
     EnableLatex: string;
+    EnableInlineLatex: string;
     EnableLdap: string;
     EnableLinkPreviews: string;
     EnableMarketplace: string;
@@ -119,11 +116,10 @@ export type ClientConfig = {
     ExperimentalGroupUnreadChannels: string;
     ExperimentalPrimaryTeam: string;
     ExperimentalTimezone: string;
-    ExperimentalTownSquareIsReadOnly: string;
     ExperimentalViewArchivedChannels: string;
     FileLevel: string;
-    GfycatApiKey: string;
-    GfycatApiSecret: string;
+    GfycatAPIKey: string;
+    GfycatAPISecret: string;
     GoogleDeveloperKey: string;
     GuestAccountsEnforceMultifactorAuthentication: string;
     HasImageProxy: string;
@@ -131,6 +127,7 @@ export type ClientConfig = {
     IosAppDownloadLink: string;
     IosLatestVersion: string;
     IosMinVersion: string;
+    InstallationDate: string;
     IsDefaultMarketplace: string;
     LdapFirstNameAttributeSet: string;
     LdapLastNameAttributeSet: string;
@@ -182,10 +179,12 @@ export type ClientConfig = {
     TeammateNameDisplay: string;
     TermsOfServiceLink: string;
     TimeBetweenUserTypingUpdatesMilliseconds: string;
+    UpgradedFromTE: string;
     Version: string;
     WebsocketPort: string;
     WebsocketSecurePort: string;
     WebsocketURL: string;
+    ExperimentalSharedChannels: string;
 };
 
 export type License = {
@@ -269,7 +268,6 @@ export type ServiceSettings = {
     EnableIncomingWebhooks: boolean;
     EnableOutgoingWebhooks: boolean;
     EnableCommands: boolean;
-    EnableOnlyAdminIntegrations: boolean;
     EnablePostUsernameOverride: boolean;
     EnablePostIconOverride: boolean;
     EnableLinkPreviews: boolean;
@@ -301,9 +299,6 @@ export type ServiceSettings = {
     EnableGifPicker: boolean;
     GfycatApiKey: string;
     GfycatApiSecret: string;
-    RestrictCustomEmojiCreation: string;
-    RestrictPostDelete: string;
-    AllowEditPost: string;
     PostEditTimeLimit: number;
     TimeBetweenUserTypingUpdatesMilliseconds: number;
     EnablePostSearch: boolean;
@@ -319,12 +314,8 @@ export type ServiceSettings = {
     ExperimentalEnableDefaultChannelLeaveJoinMessages: boolean;
     ExperimentalGroupUnreadChannels: string;
     ExperimentalDataPrefetch: boolean;
-    ImageProxyType: string;
-    ImageProxyURL: string;
-    ImageProxyOptions: string;
     EnableAPITeamDeletion: boolean;
     ExperimentalEnableHardenedMode: boolean;
-    DisableLegacyMFA: boolean;
     ExperimentalStrictCSRFEnforcement: boolean;
     EnableEmailInvitations: boolean;
     DisableBotsWhenOwnerIsDeactivated: boolean;
@@ -339,7 +330,6 @@ export type ServiceSettings = {
 export type TeamSettings = {
     SiteName: string;
     MaxUsersPerTeam: number;
-    EnableTeamCreation: boolean;
     EnableCustomUserStatuses: boolean;
     EnableUserCreation: boolean;
     EnableOpenServer: boolean;
@@ -349,14 +339,6 @@ export type TeamSettings = {
     CustomBrandText: string;
     CustomDescriptionText: string;
     RestrictDirectMessage: string;
-    RestrictTeamInvite: string;
-    RestrictPublicChannelManagement: string;
-    RestrictPrivateChannelManagement: string;
-    RestrictPublicChannelCreation: string;
-    RestrictPrivateChannelCreation: string;
-    RestrictPublicChannelDeletion: string;
-    RestrictPrivateChannelDeletion: string;
-    RestrictPrivateChannelManageMembers: string;
     UserStatusAwayTimeout: number;
     MaxChannelsPerTeam: number;
     MaxNotificationsPerChannel: number;
@@ -364,7 +346,6 @@ export type TeamSettings = {
     TeammateNameDisplay: string;
     ExperimentalViewArchivedChannels: boolean;
     ExperimentalEnableAutomaticReplies: boolean;
-    ExperimentalTownSquareIsReadOnly: boolean;
     LockTeammateNameDisplay: boolean;
     ExperimentalPrimaryTeam: string;
     ExperimentalDefaultChannels: string[];
@@ -373,8 +354,6 @@ export type TeamSettings = {
 export type ClientRequirements = {
     AndroidLatestVersion: string;
     AndroidMinVersion: string;
-    DesktopLatestVersion: string;
-    DesktopMinVersion: string;
     IosLatestVersion: string;
     IosMinVersion: string;
 };
@@ -542,7 +521,7 @@ export type SSOSettings = {
     Scope: string;
     AuthEndpoint: string;
     TokenEndpoint: string;
-    UserApiEndpoint: string;
+    UserAPIEndpoint: string;
     DiscoveryEndpoint: string;
     ButtonText: string;
     ButtonColor: string;
@@ -555,7 +534,7 @@ export type Office365Settings = {
     Scope: string;
     AuthEndpoint: string;
     TokenEndpoint: string;
-    UserApiEndpoint: string;
+    UserAPIEndpoint: string;
     DiscoveryEndpoint: string;
     DirectoryId: string;
 };
@@ -616,9 +595,9 @@ export type SamlSettings = {
     Verify: boolean;
     Encrypt: boolean;
     SignRequest: boolean;
-    IdpUrl: string;
-    IdpDescriptorUrl: string;
-    IdpMetadataUrl: string;
+    IdpURL: string;
+    IdpDescriptorURL: string;
+    IdpMetadataURL: string;
     AssertionConsumerServiceURL: string;
     SignatureAlgorithm: string;
     CanonicalAlgorithm: string;
@@ -657,7 +636,7 @@ export type ClusterSettings = {
     NetworkInterface: string;
     BindAddress: string;
     AdvertiseAddress: string;
-    UseIpAddress: boolean;
+    UseIPAddress: boolean;
     EnableExperimentalGossipEncryption: boolean;
     ReadOnlyConfig: boolean;
     GossipPort: number;
@@ -688,7 +667,7 @@ export type AnalyticsSettings = {
 };
 
 export type ElasticsearchSettings = {
-    ConnectionUrl: string;
+    ConnectionURL: string;
     Username: string;
     Password: string;
     EnableIndexing: boolean;
@@ -722,8 +701,10 @@ export type BleveSettings = {
 export type DataRetentionSettings = {
     EnableMessageDeletion: boolean;
     EnableFileDeletion: boolean;
+    EnableBoardsDeletion: boolean;
     MessageRetentionDays: number;
     FileRetentionDays: number;
+    BoardsRetentionDays: number;
     DeletionJobStartTime: string;
 };
 
@@ -736,8 +717,8 @@ export type MessageExportSettings = {
     BatchSize: number;
     GlobalRelaySettings: {
         CustomerType: string;
-        SmtpUsername: string;
-        SmtpPassword: string;
+        SMTPUsername: string;
+        SMTPPassword: string;
         EmailAddress: string;
     };
 };
@@ -750,22 +731,22 @@ export type JobSettings = {
 export type PluginSettings = {
     Enable: boolean;
     EnableUploads: boolean;
-    AllowInsecureDownloadUrl: boolean;
+    AllowInsecureDownloadURL: boolean;
     EnableHealthCheck: boolean;
     Directory: string;
     ClientDirectory: string;
-    Plugins: Dictionary<any>;
-    PluginStates: Dictionary<{Enable: boolean}>;
+    Plugins: Record<string, any>;
+    PluginStates: Record<string, {Enable: boolean}>;
     EnableMarketplace: boolean;
     EnableRemoteMarketplace: boolean;
     AutomaticPrepackagedPlugins: boolean;
     RequirePluginSignature: boolean;
-    MarketplaceUrl: string;
+    MarketplaceURL: string;
     SignaturePublicKeyFiles: string[];
 };
 
 export type DisplaySettings = {
-    CustomUrlSchemes: string[];
+    CustomURLSchemes: string[];
     ExperimentalTimezone: boolean;
 };
 

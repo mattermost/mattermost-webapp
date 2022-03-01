@@ -44,6 +44,9 @@ describe('components/post_view/PostInfo', () => {
         shouldShowDotMenu: true,
         isReadOnly: true,
         collapsedThreadsEnabled: false,
+        oneClickReactionsEnabled: false,
+        isPostBeingEdited: false,
+        recentEmojis: [],
     };
 
     test('should match snapshot', () => {
@@ -109,6 +112,16 @@ describe('components/post_view/PostInfo', () => {
             <PostInfo
                 {...requiredProps}
                 enableEmojiPicker={true}
+            />,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, isPostBeingEdited', () => {
+        const wrapper = shallow<PostInfo>(
+            <PostInfo
+                {...requiredProps}
+                isPostBeingEdited={true}
             />,
         );
         expect(wrapper).toMatchSnapshot();

@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import AutosizeTextarea from 'components/autosize_textarea';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
@@ -70,7 +69,7 @@ export default class ManageAutoResponder extends React.PureComponent {
                 key='autoResponderMessage'
             >
                 <div className='pt-2'>
-                    <AutosizeTextarea
+                    <textarea
                         style={{resize: 'none'}}
                         id='autoResponderMessageInput'
                         className='form-control'

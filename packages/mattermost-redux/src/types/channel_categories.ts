@@ -4,7 +4,7 @@
 import {Channel} from './channels';
 import {Team} from './teams';
 import {UserProfile} from './users';
-import {$ID, IDMappedObjects, RelationOneToOne} from './utilities';
+import {IDMappedObjects, RelationOneToOne} from './utilities';
 
 export type ChannelCategoryType = 'favorites' | 'channels' | 'direct_messages' | 'custom';
 
@@ -17,12 +17,12 @@ export enum CategorySorting {
 
 export type ChannelCategory = {
     id: string;
-    user_id: $ID<UserProfile>;
-    team_id: $ID<Team>;
+    user_id: UserProfile['id'];
+    team_id: Team['id'];
     type: ChannelCategoryType;
     display_name: string;
     sorting: CategorySorting;
-    channel_ids: Array<$ID<Channel>>;
+    channel_ids: Array<Channel['id']>;
     muted: boolean;
     collapsed: boolean;
 };
@@ -34,5 +34,5 @@ export type OrderedChannelCategories = {
 
 export type ChannelCategoriesState = {
     byId: IDMappedObjects<ChannelCategory>;
-    orderByTeam: RelationOneToOne<Team, Array<$ID<ChannelCategory>>>;
+    orderByTeam: RelationOneToOne<Team, Array<ChannelCategory['id']>>;
 };

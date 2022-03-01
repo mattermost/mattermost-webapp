@@ -33,6 +33,7 @@ exports[`components/SizeAwareImage should match snapshot when handleSmallImageCo
     <img
       aria-label="file thumbnail"
       className="class"
+      onClick={[Function]}
       onError={[Function]}
       onKeyDown={[Function]}
       onLoad={[Function]}
@@ -90,6 +91,7 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
     <img
       aria-label="file thumbnail"
       className="class"
+      onClick={[Function]}
       onError={[Function]}
       onKeyDown={[Function]}
       onLoad={[Function]}

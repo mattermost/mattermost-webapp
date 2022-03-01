@@ -9,7 +9,7 @@ import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {Client4} from 'mattermost-redux/client';
 
 import {GlobalState} from 'types/store';
-import {isGuest} from 'utils/utils.jsx';
+import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import PostHeader, {Props} from './post_header';
 
@@ -31,7 +31,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         enablePostUsernameOverride,
         isBot,
         overwriteIcon,
-        isGuest: Boolean(user && isGuest(user)),
+        isGuest: Boolean(user && isGuest(user.roles)),
     };
 }
 

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {AnimationEvent} from 'react';
 import {Draggable} from 'react-beautiful-dnd';
 import classNames from 'classnames';
 
@@ -9,7 +9,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {DraggingState} from 'types/store';
-import Constants, {DraggingStates} from 'utils/constants';
+import Constants from 'utils/constants';
 
 import SidebarBaseChannel from './sidebar_base_channel';
 import SidebarDirectChannel from './sidebar_direct_channel';
@@ -40,14 +40,9 @@ type Props = {
     unreadMentions: number;
 
     /**
-     * Number of unread messages in this channel
+     * Whether or not the channel is shown as unread
      */
-    unreadMsgs: number;
-
-    /**
-     * User preference of whether the channel can be marked unread
-     */
-    showUnreadForMsgs: boolean;
+    isUnread: boolean;
 
     /**
      * Gets the ref for a given channel id
@@ -87,7 +82,7 @@ type Props = {
 };
 
 type State = {
-
+    show: boolean;
 };
 
 export default class SidebarChannel extends React.PureComponent<Props, State> {
@@ -95,28 +90,15 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
         isDraggable: true,
     }
 
-    isUnread = () => {
-        return this.props.unreadMentions > 0 || (this.props.unreadMsgs > 0 && this.props.showUnreadForMsgs);
+    constructor(props: Props) {
+        super(props);
+        this.state = {
+            show: true,
+        };
     }
 
     isCollapsed = (props: Props) => {
-        return props.isCategoryDragged || (props.isCategoryCollapsed && !this.isUnread() && !props.isCurrentChannel);
-    }
-
-    componentDidUpdate(prevProps: Props) {
-        if (this.isCollapsed(this.props) !== this.isCollapsed(prevProps) && (this.props.draggingState.state !== DraggingStates.CAPTURE && this.props.draggingState.state !== DraggingStates.BEFORE)) {
-            const channelElement = this.getRef();
-            if (channelElement) {
-                channelElement.classList.add('animating');
-            }
-        }
-    }
-
-    removeAnimation = () => {
-        const channelElement = this.getRef();
-        if (channelElement) {
-            channelElement.classList.remove('animating');
-        }
+        return props.isCategoryDragged || (props.isCategoryCollapsed && !this.props.isUnread && !props.isCurrentChannel);
     }
 
     getRef = () => {
@@ -130,6 +112,18 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
         };
     }
 
+    handleAnimationStart = (event: AnimationEvent) => {
+        if (event && event.animationName === 'toOpaqueAnimation' && !this.isCollapsed(this.props)) {
+            this.setState({show: true});
+        }
+    }
+
+    handleAnimationEnd = (event: AnimationEvent) => {
+        if (event && event.animationName === 'toTransparentAnimation' && this.isCollapsed(this.props)) {
+            this.setState({show: false});
+        }
+    }
+
     render() {
         const {
             channel,
@@ -139,6 +133,7 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
             isDraggable,
             isAutoSortedCategory,
             isChannelSelected,
+            isUnread,
             draggingState,
             multiSelectedChannelIds,
             autoSortedCategoryIds,
@@ -151,20 +146,20 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
             ChannelComponent = SidebarGroupChannel;
         }
 
-        const component = (
+        const component = this.state.show ? (
             <ChannelComponent
                 isCollapsed={this.isCollapsed(this.props)}
                 channel={channel}
                 currentTeamName={currentTeamName}
             />
-        );
+        ) : null;
 
         let wrappedComponent: React.ReactNode;
 
         if (isDraggable) {
             let selectedCount: React.ReactNode;
             if (isChannelSelected && draggingState.state && draggingState.id === channel.id && multiSelectedChannelIds.length > 1) {
-                selectedCount = (
+                selectedCount = this.state.show ? (
                     <div className='SidebarChannel__selectedCount'>
                         <FormattedMarkdownMessage
                             id='sidebar_left.sidebar_channel.selectedCount'
@@ -172,7 +167,7 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
                             values={{count: multiSelectedChannelIds.length}}
                         />
                     </div>
-                );
+                ) : null;
             }
 
             wrappedComponent = (
@@ -187,16 +182,18 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
                                 ref={this.setRef(provided.innerRef)}
                                 className={classNames('SidebarChannel', {
                                     collapsed: this.isCollapsed(this.props),
-                                    unread: this.isUnread(),
+                                    expanded: !this.isCollapsed(this.props),
+                                    unread: isUnread,
                                     active: isCurrentChannel,
                                     dragging: snapshot.isDragging,
                                     selectedDragging: isChannelSelected && draggingState.state && draggingState.id !== channel.id,
                                     fadeOnDrop: snapshot.isDropAnimating && snapshot.draggingOver && autoSortedCategoryIds.has(snapshot.draggingOver),
                                     noFloat: isAutoSortedCategory && !snapshot.isDragging,
                                 })}
-                                onTransitionEnd={this.removeAnimation}
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
+                                onAnimationStart={this.handleAnimationStart}
+                                onAnimationEnd={this.handleAnimationEnd}
                                 role='listitem'
                                 tabIndex={-1}
                             >
@@ -213,9 +210,12 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
                     ref={this.setRef()}
                     className={classNames('SidebarChannel', {
                         collapsed: this.isCollapsed(this.props),
-                        unread: this.isUnread(),
+                        expanded: !this.isCollapsed(this.props),
+                        unread: isUnread,
                         active: isCurrentChannel,
                     })}
+                    onAnimationStart={this.handleAnimationStart}
+                    onAnimationEnd={this.handleAnimationEnd}
                     role='listitem'
                 >
                     {component}

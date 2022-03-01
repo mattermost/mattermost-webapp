@@ -22,8 +22,7 @@ describe('components/sidebar/sidebar_channel/sidebar_base_channel', () => {
             header: '',
             purpose: '',
             last_post_at: 0,
-            total_msg_count: 0,
-            total_msg_count_root: 0,
+            last_root_post_at: 0,
             creator_id: '',
             scheme_id: '',
             group_constrained: false,
@@ -32,6 +31,7 @@ describe('components/sidebar/sidebar_channel/sidebar_base_channel', () => {
         isCollapsed: false,
         actions: {
             leaveChannel: jest.fn(),
+            openModal: jest.fn(),
         },
     };
 
@@ -90,5 +90,27 @@ describe('components/sidebar/sidebar_channel/sidebar_base_channel', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('expect callback to be called when leave public channel ', () => {
+        const callback = jest.fn();
+        const wrapper = shallow<SidebarBaseChannel>(<SidebarBaseChannel {...baseProps}/>);
+        wrapper.instance().handleLeavePublicChannel(callback);
+        expect(callback).toBeCalled();
+    });
+
+    test('expect callback to be called when leave private channel ', () => {
+        const callback = jest.fn();
+        const props = {
+            ...baseProps,
+            channel: {
+                ...baseProps.channel,
+                type: 'P' as ChannelType,
+            },
+        };
+
+        const wrapper = shallow<SidebarBaseChannel>(<SidebarBaseChannel {...props}/>);
+        wrapper.instance().handleLeavePrivateChannel(callback);
+        expect(callback).toBeCalled();
     });
 });

@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
@@ -23,11 +22,11 @@ import SystemRoleUsers, {Props} from './system_role_users';
 
 type OwnProps = {
     roleName: string;
-    usersToAdd: Dictionary<UserProfile>;
-    usersToRemove: Dictionary<UserProfile>;
+    usersToAdd: Record<string, UserProfile>;
+    usersToRemove: Record<string, UserProfile>;
 }
 
-function searchUsersToAdd(users: Dictionary<UserProfile>, term: string): Dictionary<UserProfile> {
+function searchUsersToAdd(users: Record<string, UserProfile>, term: string): Record<string, UserProfile> {
     const profiles = filterProfilesStartingWithTerm(Object.keys(users).map((key) => users[key]), term);
     const filteredProfilesMap = filterProfiles(profileListToMap(profiles), {});
 

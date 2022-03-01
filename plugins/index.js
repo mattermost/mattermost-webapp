@@ -15,6 +15,11 @@ import {unregisterAdminConsolePlugin} from 'actions/admin_actions';
 
 import {removeWebappPlugin} from './actions';
 
+// Including the fullscreen modal css to make it available to the plugins
+// (without lazy loading). This should be removed in the future whenever we
+// have all plugins migrated to common components that can be reused there.
+import 'components/widgets/modals/full_screen_modal.scss';
+
 // Plugins may have been compiled with the regenerator runtime. Ensure this remains available
 // as a global export even though the webapp does not depend on same.
 window.regeneratorRuntime = regeneratorRuntime;
@@ -28,6 +33,11 @@ window.plugins = {};
 // During the beta, plugins manipulated the global window.plugins data structure directly. This
 // remains possible, but is officially deprecated and may be removed in a future release.
 function registerPlugin(id, plugin) {
+    const oldPlugin = window.plugins[id];
+    if (oldPlugin && oldPlugin.uninitialize) {
+        oldPlugin.uninitialize();
+    }
+
     window.plugins[id] = plugin;
 }
 window.registerPlugin = registerPlugin;

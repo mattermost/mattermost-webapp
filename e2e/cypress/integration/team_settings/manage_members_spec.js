@@ -13,7 +13,6 @@
 import {
     promoteToChannelOrTeamAdmin,
 } from '../enterprise/system_console/channel_moderation/helpers.js';
-import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Manage Members', () => {
     let testTeam;
@@ -34,11 +33,8 @@ describe('Manage Members', () => {
         // # Go to Town Square
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Click Main Menu
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-
-        // # Click Manage Members
-        cy.get('#manageMembers').should('be.visible').click();
+        // # Open team menu and click 'Manage Members'
+        cy.uiOpenTeamMenu('Manage Members');
 
         // # Open member dropdown
         cy.get(`#teamMembersDropdown_${testUser.username}`).should('be.visible').click();
@@ -64,11 +60,8 @@ describe('Manage Members', () => {
                 // # Go to Town Square
                 cy.visit(`/${testTeam.name}/channels/town-square`);
 
-                // # Click Main Menu
-                cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-
-                // # Click Manage Members
-                cy.get('#manageMembers').should('be.visible').click();
+                // # Open team menu and click 'Manage Members'
+                cy.uiOpenTeamMenu('Manage Members');
 
                 // # Open member dropdown
                 cy.get(`#teamMembersDropdown_${user.username}`).should('be.visible').click();
@@ -100,11 +93,8 @@ describe('Manage Members', () => {
                         // # Go to Town Square
                         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-                        // # Click Main Menu
-                        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-
-                        // # Click Manage Members
-                        cy.get('#manageMembers').should('be.visible').click();
+                        // # Open team menu and click 'Manage Members'
+                        cy.uiOpenTeamMenu('Manage Members');
 
                         // # Open member dropdown
                         cy.get(`#teamMembersDropdown_${user.username}`).should('be.visible').click();
@@ -122,7 +112,7 @@ describe('Manage Members', () => {
                         cy.visit(`/${otherTeam.name}/channels/town-square`);
 
                         // * Verify they are still a member
-                        cy.get(`#headerTeamName:contains(${otherTeam.display_name})`, {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+                        cy.uiGetLHSHeader().should('contain', otherTeam.display_name);
 
                         // # Go to team that they were removed from
                         cy.visit(`/${testTeam.name}/channels/town-square`);
@@ -148,11 +138,8 @@ describe('Manage Members', () => {
                 // # Go to Town Square
                 cy.visit(`/${testTeam.name}/channels/town-square`);
 
-                // # Click Main Menu
-                cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-
-                // # Click Manage Members
-                cy.get('#manageMembers').should('be.visible').click();
+                // # Open team menu and click 'Manage Members'
+                cy.uiOpenTeamMenu('Manage Members');
 
                 // # Open member dropdown
                 cy.get(`#teamMembersDropdown_${user.username}`).should('be.visible').click();
@@ -181,7 +168,7 @@ describe('Manage Members', () => {
                     cy.visit(inviteLink);
 
                     // * Verify that the user has rejoined the team
-                    cy.get(`#headerTeamName:contains(${testTeam.display_name})`).should('be.visible');
+                    cy.uiGetLHSHeader().should('contain', testTeam.display_name);
                 });
             });
         });

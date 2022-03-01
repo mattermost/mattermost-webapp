@@ -20,8 +20,6 @@ const testCases = [
 ];
 
 describe('Markdown', () => {
-    let townsquareLink;
-
     before(() => {
         cy.shouldNotRunOnCloudEdition();
 
@@ -33,10 +31,10 @@ describe('Markdown', () => {
             },
         });
 
-        // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            townsquareLink = `/${team.name}/channels/town-square`;
-            cy.visit(townsquareLink);
+        // # Login as test user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
+            cy.postMessage('hello');
         });
     });
 

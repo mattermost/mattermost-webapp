@@ -5,14 +5,13 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-import {Tooltip} from 'react-bootstrap';
-
 import {WarnMetricStatus} from 'mattermost-redux/types/config';
 
 import {Constants, AnnouncementBarTypes, ModalIdentifiers} from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import WarnMetricAckModal from 'components/warn_metric_ack_modal';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 
@@ -147,7 +146,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                                 >
                                     {(linkmessage) => (
                                         <ToggleModalButtonRedux
-                                            accessibilityLabel={linkmessage}
+                                            ariaLabel={linkmessage}
                                             className={'color--link--adminack'}
                                             dialogType={WarnMetricAckModal}
                                             onClick={() => trackEvent('admin', 'click_warn_metric_learn_more')}

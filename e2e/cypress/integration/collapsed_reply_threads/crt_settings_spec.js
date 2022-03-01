@@ -6,8 +6,9 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
-//
-//  Group: @collapsed_reply_threads
+
+// Stage: @prod
+// Group: @collapsed_reply_threads
 
 describe('Collapsed Reply Threads', () => {
     let testTeam;
@@ -34,7 +35,7 @@ describe('Collapsed Reply Threads', () => {
         // * Threads menu in sidebar should not be visible
         cy.get('.SidebarGlobalThreads').should('not.exist');
 
-        // # Set CRT to on and dismiss CRT warning modal
+        // # Set CRT to on
         cy.uiChangeCRTDisplaySetting('ON');
 
         // * Threads menu in sidebar should be visible

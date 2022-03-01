@@ -13,8 +13,6 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Edit Message with Attachment', () => {
-    let testTeam;
-
     before(() => {
         // # Enable Link Previews
         cy.apiUpdateConfig({
@@ -23,10 +21,9 @@ describe('Edit Message with Attachment', () => {
             },
         });
 
-        // # Create new team and new user and visit Town Square channel
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            testTeam = team;
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+        // # Create new team and new user and visit off-topic channel
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -56,7 +53,7 @@ describe('Edit Message with Attachment', () => {
 
         // # Add some more text and save
         cy.get('#edit_textbox').type(' with some edit');
-        cy.get('#editButton').click();
+        cy.get('#edit_textbox').type('{enter}').wait(TIMEOUTS.HALF_SEC);
 
         cy.getLastPost().within(() => {
             // * New text should show

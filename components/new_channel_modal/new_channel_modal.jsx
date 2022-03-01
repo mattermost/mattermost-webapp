@@ -23,11 +23,6 @@ export default class NewChannelModal extends React.PureComponent {
         show: PropTypes.bool.isRequired,
 
         /**
-         * Id of the active team
-         */
-        currentTeamId: PropTypes.string.isRequired,
-
-        /**
          * The type of channel to create, 'O' or 'P'
          */
         channelType: PropTypes.string.isRequired,
@@ -441,7 +436,6 @@ export default class NewChannelModal extends React.PureComponent {
                                 type='button'
                                 className='btn btn-link'
                                 onClick={this.props.onModalDismissed}
-                                onBlur={() => document.getElementById('newChannelName').focus()}
                             >
                                 <FormattedMessage
                                     id='channel_modal.cancel'

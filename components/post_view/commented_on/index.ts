@@ -6,9 +6,9 @@ import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
-import {GlobalState} from 'mattermost-redux/types/store';
-
 import {Post} from 'mattermost-redux/types/posts';
+
+import {GlobalState} from 'types/store';
 
 import {getDisplayNameByUser} from 'utils/utils.jsx';
 

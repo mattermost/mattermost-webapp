@@ -28,7 +28,7 @@ describe('Autocomplete with Elasticsearch - Channel', () => {
         // # Enable Elasticsearch
         enableElasticSearch();
 
-        // # Login as test user, create a new channel and go to town-square
+        // # Login as test user
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             teamName = team.name;
             const name = 'hellothere';
@@ -40,8 +40,8 @@ describe('Autocomplete with Elasticsearch - Channel', () => {
     });
 
     beforeEach(() => {
-        // # Visit town-square channel
-        cy.visit(`/${teamName}/channels/town-square`);
+        // # Visit off-topic channel
+        cy.visit(`/${teamName}/channels/off-topic`);
     });
 
     it('MM-T2517_1 Channels with dot returned in autocomplete suggestions', () => {

@@ -17,12 +17,12 @@ import {loginAndVisitChannel} from './helper';
 describe('Integrations', () => {
     let testUser;
     const userGroup = [];
-    let townSquareUrl;
+    let offTopicUrl;
 
     before(() => {
-        cy.apiInitSetup().then(({team, user}) => {
+        cy.apiInitSetup().then(({team, user, offTopicUrl: url}) => {
             testUser = user;
-            townSquareUrl = `/${team.name}/channels/town-square`;
+            offTopicUrl = url;
 
             Cypress._.times(8, () => {
                 cy.apiCreateUser().then(({user: otherUser}) => {
@@ -46,11 +46,11 @@ describe('Integrations', () => {
                 cy.get(`#postMessageText_${postId}`).should('have.text', message);
             });
 
-            // # Go back to town-square channel
-            cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
+            // # Go back to off-topic channel
+            cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
         }
 
-        loginAndVisitChannel(testUser, townSquareUrl);
+        loginAndVisitChannel(testUser, offTopicUrl);
 
         const usernames1 = Cypress._.map(userGroup, 'username').slice(0, 4);
         const usernames1Format = [
@@ -92,7 +92,7 @@ describe('Integrations', () => {
     });
 
     it('MM-T665 /groupmsg with users only and without message', () => {
-        loginAndVisitChannel(testUser, townSquareUrl);
+        loginAndVisitChannel(testUser, offTopicUrl);
 
         // # Use /groupmsg command to open group message - "/groupmsg [usernames]"
         const usernames = Cypress._.map(userGroup, 'username').slice(0, 3);
@@ -106,7 +106,7 @@ describe('Integrations', () => {
     });
 
     it('MM-T666 /groupmsg error if messaging more than 7 users', () => {
-        loginAndVisitChannel(testUser, townSquareUrl);
+        loginAndVisitChannel(testUser, offTopicUrl);
 
         // # Include more than 7 valid users in the command
         const usernames = Cypress._.map(userGroup, 'username');

@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
+import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
@@ -14,6 +15,7 @@ import Avatar from 'components/widgets/users/avatar';
 
 import Suggestion from '../suggestion.jsx';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import StatusIcon from 'components/status_icon';
 
 export default class AtMentionSuggestion extends Suggestion {
     render() {
@@ -105,13 +107,15 @@ export default class AtMentionSuggestion extends Suggestion {
             icon = (
                 <FormattedMessage
                     id='generic_icons.member'
-                    defaultMessage='Group Icon'
+                    defaultMessage='Member Icon'
                 >
                     {(title) => (
-                        <i
-                            className='suggestion-list__icon fa fa-users fa-2x'
-                            title={title}
-                        />
+                        <span className='suggestion-list__icon suggestion-list__icon--large'>
+                            <i
+                                className='icon icon-account-multiple-outline'
+                                title={title}
+                            />
+                        </span>
                     )}
                 </FormattedMessage>
             );
@@ -137,11 +141,16 @@ export default class AtMentionSuggestion extends Suggestion {
             }
 
             icon = (
-                <Avatar
-                    size='sm'
-                    username={item && item.username}
-                    url={Utils.imageURLForUser(item.id, item.last_picture_update)}
-                />
+                <span className='status-wrapper style--none'>
+                    <span className='profile-icon'>
+                        <Avatar
+                            username={item && item.username}
+                            size='sm'
+                            url={Utils.imageURLForUser(item.id, item.last_picture_update)}
+                        />
+                    </span>
+                    <StatusIcon status={item && item.status}/>
+                </span>
             );
 
             customStatus = (
@@ -204,7 +213,7 @@ export default class AtMentionSuggestion extends Suggestion {
                     {youElement}
                     {sharedIcon}
                     <GuestBadge
-                        show={Utils.isGuest(item)}
+                        show={isGuest(item.roles)}
                         className='badge-autocomplete'
                     />
                 </span>

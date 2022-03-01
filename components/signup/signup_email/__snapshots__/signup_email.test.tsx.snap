@@ -171,7 +171,7 @@ exports[`components/SignupEmail should match snapshot 1`] = `
         id="signup_agreement"
       >
         <injectIntl(FormattedMarkdownMessage)
-          defaultMessage="By proceeding to create your account and use {siteName}, you agree to our [Terms of Service]({TermsOfServiceLink}) and [Privacy Policy]({PrivacyPolicyLink}). If you do not agree, you cannot use {siteName}."
+          defaultMessage="By proceeding to create your account and use {siteName}, you agree to our [Terms of Use]({TermsOfServiceLink}) and [Privacy Policy]({PrivacyPolicyLink}). If you do not agree, you cannot use {siteName}."
           id="create_team.agreement"
           values={
             Object {

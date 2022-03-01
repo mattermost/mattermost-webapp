@@ -17,7 +17,9 @@ export const MenuItemExternalLinkImpl: React.FC<Props> = ({url, text, onClick}: 
         href={url}
         onClick={onClick}
     >
-        {text}
+        <span className='MenuItem__primary-text'>
+            {text}
+        </span>
     </a>
 );
 

@@ -36,6 +36,13 @@ const commonProps = {
     classNamePrefix: 'react-select-auto react-select',
     menuPortalTarget: document.body,
     styles: reactStyles,
+    components: {
+        MultiValueLabel: (props: {data: {label: string}}) => (
+            <div className='react-select__padded-component'>
+                {props.data.label}
+            </div>
+        ),
+    },
 };
 
 export default class AppsFormSelectField extends React.PureComponent<Props, State> {

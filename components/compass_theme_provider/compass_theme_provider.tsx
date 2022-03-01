@@ -17,6 +17,7 @@ const CompassThemeProvider = ({theme, children}: Props): JSX.Element | null => {
         ...lightTheme,
         noStyleReset: true,
         noDefaultStyle: true,
+        noFontFaces: true,
     });
 
     useEffect(() => {
@@ -38,6 +39,12 @@ const CompassThemeProvider = ({theme, children}: Props): JSX.Element | null => {
                 ...compassTheme.action,
                 hover: theme.sidebarHeaderTextColor,
                 disabled: theme.sidebarHeaderTextColor,
+            },
+            badges: {
+                ...compassTheme.badges,
+                online: theme.onlineIndicator,
+                away: theme.awayIndicator,
+                dnd: theme.dndIndicator,
             },
             text: {
                 ...compassTheme.text,

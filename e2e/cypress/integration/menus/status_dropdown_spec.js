@@ -10,20 +10,21 @@
 // Stage: @prod
 // Group: @menu @custom_status @status_menu
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
 import theme from '../../fixtures/theme.json';
 
 describe('Status dropdown menu', () => {
     const statusTestCases = [
-        {id: 'status-menu-online', icon: 'online--icon', text: 'Online'},
-        {id: 'status-menu-away', icon: 'away--icon', text: 'Away'},
-        {id: 'status-menu-dnd', icon: 'dnd--icon', text: 'Do Not Disturb'},
-        {id: 'status-menu-offline', text: 'Offline'},
+        {text: 'Online', className: 'icon-check', profileClassName: 'icon-check-circle'},
+        {text: 'Away', className: 'icon-clock'},
+        {text: 'Do Not Disturb', className: 'icon-minus-circle'},
+        {text: 'Offline', className: 'icon-circle-outline'},
     ];
 
     before(() => {
-        // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        // # Login as test user and visit off-topic
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
             cy.postMessage('hello');
         });
     });
@@ -34,22 +35,14 @@ describe('Status dropdown menu', () => {
     });
 
     it('MM-T2927_1 Should show all available statuses with their icons', () => {
-        // # Open status menu
-        cy.uiOpenSetStatusMenu();
-
-        // # Wait for status menu to transition in
-        cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu').should('be.visible');
-
-        statusTestCases.forEach((tc) => {
-            // * Verify status text
-            cy.get(`.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li#${tc.id}`).should(tc.text === 'Do Not Disturb' ? 'contain' : 'have.text', tc.text).should('be.visible');
-
-            // * Verify status icon
-            if (tc.icon) {
-                cy.get(`.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li#${tc.id} span.icon span.${tc.icon}`).should('be.visible');
-            } else {
-                cy.get(`.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li#${tc.id} span.icon span:not([class])`).should('be.visible');
-            }
+        // # Open user menu
+        cy.uiOpenUserMenu().within(() => {
+            // * Verify all available statuses are shown with icon and text
+            statusTestCases.forEach((tc) => {
+                cy.findByText(tc.text).
+                    parent().
+                    find('i').should('have.class', tc.className);
+            });
         });
     });
 
@@ -70,12 +63,11 @@ describe('Status dropdown menu', () => {
     });
 
     it('MM-T2927_4 "Set a Custom Header Status" is clickable', () => {
-        // # Open status menu
-        cy.uiOpenSetStatusMenu();
-
-        // * Verify "Set a Custom Status" header is clickable
-        cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li:nth-child(3)').should('be.visible').
-            and('have.text', 'Set a Custom Status').and('have.css', 'cursor', 'pointer');
+        // # Open user menu
+        cy.uiOpenUserMenu().within(() => {
+            // * Verify "Set a Custom Status" header is clickable
+            cy.findByText('Set a Custom Status').should('have.css', 'cursor', 'pointer');
+        });
     });
 
     it('MM-T2927_5 When custom status is disabled, status menu is displayed when status icon is clicked', () => {
@@ -85,11 +77,18 @@ describe('Status dropdown menu', () => {
         // # Disable custom statuses
         cy.apiUpdateConfig({TeamSettings: {EnableCustomUserStatuses: false}});
 
-        // # Open status menu
-        cy.uiOpenSetStatusMenu();
+        // # Open user menu to verify it still open up and visible
+        cy.uiOpenUserMenu();
+    });
 
-        // * Verify that the status menu dropdown opens and is visible
-        cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu').should('be.visible');
+    it('MM-T4420 Should stay open when dnd sub-menu header is clicked', () => {
+        // # Open Dnd sub menu and click on header
+        cy.uiOpenDndStatusSubMenu().find('#dndSubMenu-header_menuitem').click().then(() => {
+            cy.wait(TIMEOUTS.HALF_SEC);
+
+            // * Verify that dnd submenu is still visible
+            cy.get('body').find('#dndSubMenu-header_menuitem').should('be.visible');
+        });
     });
 });
 
@@ -99,10 +98,16 @@ function stepThroughStatuses(statusTestCases = []) {
 
     // * Verify the user's status icon changes correctly every time
     statusTestCases.forEach((tc) => {
-        // # Open status menu and click option
-        cy.uiOpenSetStatusMenu(tc.text);
+        // # Open user menu and click option
+        if (tc.text === 'Do Not Disturb') {
+            cy.uiOpenDndStatusSubMenu().find('#dndTime-thirty_minutes_menuitem').click();
+        } else {
+            cy.uiOpenUserMenu(tc.text);
+        }
 
         // # Verify correct status icon is shown on user's profile picture
-        cy.get('.MenuWrapper.status-dropdown-menu svg').should('have.attr', 'aria-label', `${tc.text} Icon`);
+        cy.uiGetProfileHeader().
+            find('i').
+            and('have.class', tc.profileClassName || tc.className);
     });
 }

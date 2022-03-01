@@ -6,8 +6,9 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
-//
-//  Group: @collapsed_reply_threads
+
+// Stage: @prod
+// Group: @collapsed_reply_threads
 
 describe('Collapsed Reply Threads', () => {
     let testTeam;
@@ -67,7 +68,7 @@ describe('Collapsed Reply Threads', () => {
             cy.get('#rhsContainer').findByTestId('NotificationSeparator').should('exist');
 
             // # Close RHS
-            cy.closeRHS();
+            cy.uiCloseRHS();
         });
     });
 
@@ -81,7 +82,7 @@ describe('Collapsed Reply Threads', () => {
             cy.get('#rhsContainer').findByTestId('NotificationSeparator').should('not.exist');
 
             // # Close RHS
-            cy.closeRHS();
+            cy.uiCloseRHS();
         });
     });
 });

@@ -5,9 +5,9 @@
     position: relative;
     left: -34px;
     display: inline-flex;
+    width: calc(100% + 15px);
     align-items: center;
-    padding: 5px 10px;
-    padding-top: 0;
+    padding: 0 0 5px 10px;
     margin-top: 1px;
     margin-bottom: 5px;
     color: rgba(var(--center-channel-color-rgb), 0.64);
@@ -40,7 +40,7 @@
     }
 
     .alt-visible {
-        display: none;
+        opacity: 0;
     }
 
     &:hover,
@@ -49,7 +49,7 @@
     .post:hover &,
     .post:focus-within & {
         .alt-visible {
-            display: unset;
+            opacity: 1;
         }
 
         .alt-hidden {
@@ -58,7 +58,15 @@
     }
 
     .Timestamp {
-        padding: 0 1rem;
+        display: inline-grid;
+        padding-left: 1rem;
         font-weight: 400;
+
+        > span {
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     }
 }

@@ -34,6 +34,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
           </div>
           <AdminTextSetting
             disabled={false}
+            footer={null}
             helpText={
               <SchemaText
                 isTranslated={true}
@@ -234,9 +235,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
       target={null}
     >
       <Tooltip
-        bsClass="tooltip"
         id="error-tooltip"
-        placement="right"
       />
     </Overlay>
   </div>
@@ -306,9 +305,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
       target={null}
     >
       <Tooltip
-        bsClass="tooltip"
         id="error-tooltip"
-        placement="right"
       />
     </Overlay>
   </div>
@@ -349,6 +346,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
           </div>
           <AdminTextSetting
             disabled={false}
+            footer={null}
             helpText={
               <SchemaText
                 isTranslated={true}
@@ -549,9 +547,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
       target={null}
     >
       <Tooltip
-        bsClass="tooltip"
         id="error-tooltip"
-        placement="right"
       />
     </Overlay>
   </div>

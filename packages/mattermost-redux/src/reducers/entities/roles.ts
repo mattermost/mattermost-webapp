@@ -5,7 +5,6 @@ import {combineReducers} from 'redux';
 
 import {RoleTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {Role} from 'mattermost-redux/types/roles';
 
 function pending(state: Set<string> = new Set(), action: GenericAction) {
@@ -19,7 +18,7 @@ function pending(state: Set<string> = new Set(), action: GenericAction) {
     }
 }
 
-function roles(state: Dictionary<Role> = {}, action: GenericAction) {
+function roles(state: Record<string, Role> = {}, action: GenericAction) {
     switch (action.type) {
     case RoleTypes.RECEIVED_ROLES: {
         if (action.data) {

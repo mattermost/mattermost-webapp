@@ -92,10 +92,7 @@ describe('Team Permissions', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Open hamburger menu
-        cy.uiOpenMainMenu().wait(TIMEOUTS.HALF_SEC);
-
-        // * Verify dropdown menu opens
-        cy.get('#sidebarDropdownMenu .Menu__content.dropdown-menu').should('be.visible');
+        cy.uiOpenTeamMenu().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify `Invite People` menu item is not present
         cy.get('#invitePeople').should('not.exist');
@@ -133,7 +130,7 @@ describe('Team Permissions', () => {
         cy.get('#channelViewMembers').should('be.visible');
 
         // # Close channel header menu
-        cy.uiCloseChannelMenu().wait(TIMEOUTS.HALF_SEC);
+        cy.get('body').type('{esc}');
 
         // # Open channel members list
         cy.get('#channelMember').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);

@@ -8,7 +8,6 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @outgoing_webhook
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
@@ -16,6 +15,7 @@ describe('Prompting set status', () => {
     let user1;
     let user2;
     let testChannelUrl;
+
     before(() => {
         cy.apiInitSetup().then(({user, team}) => {
             user1 = user;
@@ -26,22 +26,18 @@ describe('Prompting set status', () => {
 
                 cy.apiAddUserToTeam(team.id, user2.id);
             });
+
+            cy.apiLogin(user1);
+            cy.visit(testChannelUrl);
         });
     });
 
     it('MM-T673 Prompting to set status to online', () => {
-        cy.apiLogin(user1);
-        cy.visit(testChannelUrl);
-        cy.get('img.Avatar').click();
-        cy.findByText('Online').click();
-
-        // # Use the status drop-down on your profile pic to go Offline
-        cy.get('img.Avatar').click();
-        cy.findByText('Offline').click();
+        // # Set user status to offline
+        cy.uiOpenUserMenu('Offline');
 
         // * Your status stays offline in your view
-        cy.get('.offline--icon').should('be.visible');
-        cy.get('.online--icon').should('not.exist');
+        cy.uiGetSetStatusButton().find('.icon-circle-outline');
 
         // # Log out
         cy.apiLogout();
@@ -71,15 +67,14 @@ describe('Prompting set status', () => {
         });
 
         // * Your status stays offline in your view
-        cy.get('.offline--icon').should('be.visible');
-        cy.get('.online--icon').should('not.exist');
+        cy.uiGetSetStatusButton().find('.icon-circle-outline');
 
-        // * Your status stays offline in other users' views.
+        // * Your status stays offline in other user's view.
         cy.apiLogin(user2);
         cy.visit(testChannelUrl);
         openDM(user1.username);
 
-        // * Your status stays offline in other users' views.
+        // * Your status stays offline in other user's view.
         cy.get('#channelHeaderInfo').within(() => {
             cy.get('.offline--icon').should('be.visible');
             cy.get('.online--icon').should('not.exist');

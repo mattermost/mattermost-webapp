@@ -34,7 +34,7 @@ export type Props = {
 
     excludeGroups?: Group[];
     includeGroups?: Group[];
-    onHide?: () => void;
+    onExited: () => void;
     skipCommit?: boolean;
     onAddCallback?: (groupIDs: string[]) => void;
 
@@ -112,12 +112,6 @@ export default class AddGroupsToChannelModal extends React.PureComponent<Props, 
     handleHide = () => {
         this.props.actions.setModalSearchTerm('');
         this.setState({show: false});
-    }
-
-    handleExit = () => {
-        if (this.props.onHide) {
-            this.props.onHide();
-        }
     }
 
     handleResponse = (err?: ServerError) => {
@@ -275,7 +269,7 @@ export default class AddGroupsToChannelModal extends React.PureComponent<Props, 
                 dialogClassName={'a11y__modal more-modal more-direct-channels'}
                 show={this.state.show}
                 onHide={this.handleHide}
-                onExited={this.handleExit}
+                onExited={this.props.onExited}
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title>

@@ -44,6 +44,7 @@ const RhsThread = ({
             <ThreadViewer
                 rootPostId={selected.id}
                 useRelativeTimestamp={false}
+                isThreadView={false}
             />
         </div>
     );

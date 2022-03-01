@@ -6,7 +6,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getCurrentChannelId, getUnreadChannels} from 'mattermost-redux/selectors/entities/channels';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
-import {getMsgCountInChannel, isChannelMuted} from 'mattermost-redux/utils/channel_utils';
+import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
@@ -38,10 +38,17 @@ enum Priority {
 // function to return a queue obj with priotiy as key and array of channelIds as values.
 // high priority has channels with mentions
 // medium priority has channels with unreads
-const prefetchQueue = memoizeResult((channels: Channel[], memberships: RelationOneToOne<Channel, ChannelMembership>, collapsedThreads: boolean) => {
-    return channels.reduce((acc: Record<string, string[]>, channel: Channel) => {
+const prefetchQueue = memoizeResult((
+    unreadChannels: Channel[],
+    memberships: RelationOneToOne<Channel, ChannelMembership>,
+    collapsedThreads: boolean,
+) => {
+    return unreadChannels.reduce((acc: Record<string, string[]>, channel: Channel) => {
         const channelId = channel.id;
         const membership = memberships[channelId];
+
+        // TODO We check for muted channels 3 times here: getUnreadChannels checks it, this checks it, and the mark_unread
+        // check below is equivalent to checking if its muted.
         if (membership && !isChannelMuted(membership)) {
             if (collapsedThreads ? membership.mention_count_root : membership.mention_count) {
                 return {
@@ -50,8 +57,7 @@ const prefetchQueue = memoizeResult((channels: Channel[], memberships: RelationO
                 };
             } else if (
                 membership.notify_props &&
-                membership.notify_props.mark_unread !== 'mention' &&
-                Boolean(getMsgCountInChannel(collapsedThreads, channel, membership))
+                membership.notify_props.mark_unread !== 'mention'
             ) {
                 return {
                     ...acc,

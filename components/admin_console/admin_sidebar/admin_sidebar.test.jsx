@@ -33,6 +33,9 @@ describe('components/AdminSidebar', () => {
                 Enable: true,
                 EnableUploads: true,
             },
+            FeatureFlags: {
+                WorkspaceOptimizationDashboard: false,
+            },
         },
         adminDefinition: AdminDefinition,
         buildEnterpriseReady: false,
@@ -103,6 +106,20 @@ describe('components/AdminSidebar', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot with workspace optimization dashboard enabled', () => {
+        const props = {
+            ...defaultProps,
+            config: {
+                ...defaultProps.config,
+                FeatureFlags: {
+                    WorkspaceOptimizationDashboard: true,
+                },
+            },
+        };
+        const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot, no access', () => {
         const props = {
             ...defaultProps,
@@ -122,6 +139,9 @@ describe('components/AdminSidebar', () => {
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
+                },
+                FeatureFlags: {
+                    WorkspaceOptimizationDashboard: false,
                 },
             },
             adminDefinition: AdminDefinition,
@@ -164,6 +184,9 @@ describe('components/AdminSidebar', () => {
                     Enable: true,
                     EnableUploads: true,
                 },
+                FeatureFlags: {
+                    WorkspaceOptimizationDashboard: false,
+                },
             },
             adminDefinition: AdminDefinition,
             buildEnterpriseReady: false,
@@ -202,6 +225,9 @@ describe('components/AdminSidebar', () => {
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
+                },
+                FeatureFlags: {
+                    WorkspaceOptimizationDashboard: false,
                 },
             },
             adminDefinition: AdminDefinition,
@@ -248,6 +274,8 @@ describe('components/AdminSidebar', () => {
                 Elasticsearch: 'true',
                 CustomPermissionsSchemes: 'true',
                 OpenId: 'true',
+                GuestAccounts: 'true',
+                Announcement: 'true',
             },
             config: {
                 ExperimentalSettings: {
@@ -271,6 +299,9 @@ describe('components/AdminSidebar', () => {
                     Id: 'office365ID',
                     Secret: 'office365Secret',
                     Scope: 'scope',
+                },
+                FeatureFlags: {
+                    WorkspaceOptimizationDashboard: false,
                 },
             },
             adminDefinition: AdminDefinition,
@@ -318,6 +349,9 @@ describe('components/AdminSidebar', () => {
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
+                },
+                FeatureFlags: {
+                    WorkspaceOptimizationDashboard: false,
                 },
             },
             adminDefinition: AdminDefinition,
@@ -404,6 +438,9 @@ describe('components/AdminSidebar', () => {
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
+                },
+                FeatureFlags: {
+                    WorkspaceOptimizationDashboard: false,
                 },
             },
             adminDefinition: AdminDefinition,

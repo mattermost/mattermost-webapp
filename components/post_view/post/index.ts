@@ -6,7 +6,11 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, makeIsPostCommentMention, makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
-import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
+import {
+    get,
+    isCollapsedThreadsEnabled,
+} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
@@ -20,6 +24,7 @@ import {GlobalState} from 'types/store';
 import {isArchivedChannel} from 'utils/channel_utils';
 import {Preferences} from 'utils/constants';
 import {areConsecutivePostsBySameUser} from 'utils/post_utils';
+import {getIsPostBeingEdited, getIsPostBeingEditedInRHS} from '../../../selectors/posts';
 
 import PostComponent from './post';
 
@@ -68,6 +73,7 @@ function makeMapStateToProps() {
 
         return {
             post,
+            isBeingEdited: getIsPostBeingEdited(state, post.id) && !getIsPostBeingEditedInRHS(state, post.id),
             currentUserId: getCurrentUserId(state),
             isFirstReply: previousPost ? isFirstReply(post, previousPost) : false,
             consecutivePostByUser,
@@ -79,6 +85,7 @@ function makeMapStateToProps() {
             channelIsArchived: isArchivedChannel(channel),
             isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null,
             isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
+            clickToReply: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CLICK_TO_REPLY, Preferences.CLICK_TO_REPLY_DEFAULT) === 'true',
         };
     };
 }

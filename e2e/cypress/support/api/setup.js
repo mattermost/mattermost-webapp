@@ -18,13 +18,24 @@ Cypress.Commands.add('apiInitSetup', ({
 
                 return cy.apiAddUserToTeam(team.id, user.id).then(() => {
                     return cy.apiAddUserToChannel(channel.id, user.id).then(() => {
+                        const getUrl = (channelName) => `/${team.name}/channels/${channelName}`;
+
+                        const data = {
+                            channel,
+                            team,
+                            user,
+                            channelUrl: getUrl(channel.name),
+                            offTopicUrl: getUrl('off-topic'),
+                            townSquareUrl: getUrl('town-square'),
+                        };
+
                         if (loginAfter) {
                             return cy.apiLogin(user).then(() => {
-                                return cy.wrap({team, channel, user});
+                                return cy.wrap(data);
                             });
                         }
 
-                        return cy.wrap({team, channel, user});
+                        return cy.wrap(data);
                     });
                 });
             });

@@ -3,6 +3,7 @@
 exports[`components/threading/global_threads/thread_item should report total number of replies 1`] = `
 <article
   className="ThreadItem"
+  id=""
   onClick={[Function]}
   tabIndex={0}
 >
@@ -11,6 +12,7 @@ exports[`components/threading/global_threads/thread_item should report total num
       Someone
     </span>
     <Memo(Badge)
+      className=""
       onClick={[Function]}
     >
       Team name
@@ -89,8 +91,9 @@ exports[`components/threading/global_threads/thread_item should report total num
       size="xs"
       userIds={
         Array [
-          "7n4ach3i53bbmj84dfmu5b7c1c",
+          "mt5td9mdriyapmwuh5pc84dmhr",
           "ij61jet1bbdk8fhhxitywdj4ih",
+          "7n4ach3i53bbmj84dfmu5b7c1c",
         ]
       }
     />
@@ -110,6 +113,7 @@ exports[`components/threading/global_threads/thread_item should report total num
 exports[`components/threading/global_threads/thread_item should report unread mentions 1`] = `
 <article
   className="ThreadItem has-unreads"
+  id=""
   onClick={[Function]}
   tabIndex={0}
 >
@@ -127,6 +131,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
       Someone
     </span>
     <Memo(Badge)
+      className=""
       onClick={[Function]}
     >
       Team name
@@ -205,8 +210,9 @@ exports[`components/threading/global_threads/thread_item should report unread me
       size="xs"
       userIds={
         Array [
-          "7n4ach3i53bbmj84dfmu5b7c1c",
+          "mt5td9mdriyapmwuh5pc84dmhr",
           "ij61jet1bbdk8fhhxitywdj4ih",
+          "7n4ach3i53bbmj84dfmu5b7c1c",
         ]
       }
     />
@@ -226,6 +232,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
 exports[`components/threading/global_threads/thread_item should report unread messages 1`] = `
 <article
   className="ThreadItem has-unreads"
+  id=""
   onClick={[Function]}
   tabIndex={0}
 >
@@ -241,6 +248,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
       Someone
     </span>
     <Memo(Badge)
+      className=""
       onClick={[Function]}
     >
       Team name
@@ -319,8 +327,9 @@ exports[`components/threading/global_threads/thread_item should report unread me
       size="xs"
       userIds={
         Array [
-          "7n4ach3i53bbmj84dfmu5b7c1c",
+          "mt5td9mdriyapmwuh5pc84dmhr",
           "ij61jet1bbdk8fhhxitywdj4ih",
+          "7n4ach3i53bbmj84dfmu5b7c1c",
         ]
       }
     />

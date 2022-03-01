@@ -106,9 +106,8 @@ describe('Multi-user group messages', () => {
         cy.postMessage('historical');
         cy.postMessage('messages');
 
-        // # Open add member modal
-        cy.get('#channelHeaderDropdownButton button').click();
-        cy.get('#channelAddMembers button').click();
+        // # Open channel menu and click Add Members
+        cy.uiOpenChannelMenu('Add Members');
 
         // * Verify message says: "This will start a new conversation. If you're adding a lot of people, consider creating a private channel instead."
         cy.get('#moreDmModal').should('be.visible');
@@ -123,7 +122,7 @@ describe('Multi-user group messages', () => {
         // # Type a search term and select an autocomplete option.
         cy.get('#selectItems input').click().type('beatrice');
         cy.get('.loading-screen').should('not.exist');
-        cy.contains('#multiSelectList .clickable', 'beatrice').should('be.visible'); // .click(); runs into dettached dom element
+        cy.contains('#multiSelectList .clickable', 'beatrice').should('be.visible'); // .click(); runs into detached dom element
         cy.get('#selectItems input').type('{enter}');
 
         // # Click Go

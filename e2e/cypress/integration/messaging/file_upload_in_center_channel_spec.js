@@ -10,18 +10,11 @@
 // Stage: @prod
 // Group: @messaging
 
-function waitForImageUpload() {
-    // * Verify that the image exists in the post message footer
-    cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
-        return el.find('.post-image.normal').length > 0;
-    }));
-}
-
 describe('Messaging', () => {
     before(() => {
         // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -44,8 +37,11 @@ describe('Messaging', () => {
                 // * Check if typed message appeared in the post
                 cy.findByText(IMAGE_WITH_POST_TEXT).should('exist');
 
-                // * Check if image name appeared
-                cy.findByText(IMAGE_NAME).should('exist');
+                // * Check that we don't show the image name
+                cy.findByText(IMAGE_NAME).should('not.exist');
+
+                // * Check if image appeared
+                cy.findByLabelText(`file thumbnail ${IMAGE_NAME}`);
 
                 // * Check if collapse/expand button appeared, since its an icon button without text,
                 // finding it by Aria Label, as thats what screen readers will call out
@@ -57,3 +53,10 @@ describe('Messaging', () => {
         });
     });
 });
+
+function waitForImageUpload() {
+    // * Verify that the image exists in the post message footer
+    cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
+        return el.find('.post-image.normal').length > 0;
+    }));
+}

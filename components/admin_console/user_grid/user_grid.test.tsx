@@ -21,18 +21,12 @@ describe('components/admin_console/user_grid/UserGrid', () => {
     }
 
     function createMembership(userId: string, admin: boolean): TeamMembership {
-        return {
-            mention_count: 0,
-            msg_count: 0,
-            mention_count_root: 0,
-            msg_count_root: 0,
+        return TestHelper.getTeamMembershipMock({
             team_id: 'team',
             user_id: userId,
             roles: admin ? 'team_user team_admin' : 'team_user',
-            delete_at: 0,
-            scheme_user: true,
             scheme_admin: admin,
-        };
+        });
     }
 
     const user1 = createUser('userid1', 'user-1', false);

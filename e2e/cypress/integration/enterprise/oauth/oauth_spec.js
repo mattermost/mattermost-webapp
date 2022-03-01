@@ -56,13 +56,12 @@ describe('Integrations page', () => {
         saveConfigForScheme();
     });
 
-    it('MM-T646 OAuth 2.0 trusted', () => {
+    it('MM-T646 OAuth 2.0 trusted -- KNOWN ISSUE: MM-42020', () => {
         cy.apiLogin(user1);
         cy.visit(testChannelUrl1);
 
         // # Navigate to OAuthApps in integrations menu
-        cy.get('#headerInfo').click();
-        cy.get('#integrations').click();
+        cy.uiOpenProductMenu('Integrations');
         cy.get('#oauthApps').click();
 
         // # Click on the Add button
@@ -75,13 +74,12 @@ describe('Integrations page', () => {
         cy.get('div.backstage-form > form > div:first').should('contain', 'Display Name');
     });
 
-    it('MM-T647 Copy icon for OAuth 2.0 Applications', () => {
+    it('MM-T647 Copy icon for OAuth 2.0 Applications -- KNOWN ISSUE: MM-42020', () => {
         cy.apiLogin(user1);
         cy.visit(testChannelUrl1);
 
         // # Navigate to OAuthApps in integrations menu
-        cy.get('#headerInfo').click();
-        cy.get('#integrations').click();
+        cy.uiOpenProductMenu('Integrations');
         cy.get('#oauthApps').click();
 
         // # Click on the Add button
@@ -141,13 +139,12 @@ describe('Integrations page', () => {
         });
     });
 
-    it('MM-T648_1 OAuth 2.0 Application - Setup', () => {
+    it('MM-T648_1 OAuth 2.0 Application - Setup -- KNOWN ISSUE: MM-42020', () => {
         cy.apiLogin(user1);
         cy.visit(testChannelUrl1);
 
         // # Navigate to OAuthApps in integrations menu
-        cy.get('#headerInfo').click();
-        cy.get('#integrations').click();
+        cy.uiOpenProductMenu('Integrations');
         cy.get('#oauthApps').click();
 
         // # Click on the Add button
@@ -194,7 +191,7 @@ describe('Integrations page', () => {
         cy.get('#doneButton').click();
     });
 
-    it('MM-T648_2 OAuth 2.0 Application - Exchange tokens', () => {
+    it('MM-T648_2 OAuth 2.0 Application - Exchange tokens -- KNOWN ISSUE: MM-42020', () => {
         cy.apiLogin(user1);
 
         // # Visit the webhook url to start the OAuth handshake
@@ -207,7 +204,7 @@ describe('Integrations page', () => {
         cy.findByText('OK').should('exist');
     });
 
-    it('MM-T648_3 OAuth 2.0 Application - Post message using OAuth credentials', () => {
+    it('MM-T648_3 OAuth 2.0 Application - Post message using OAuth credentials -- KNOWN ISSUE: MM-42020', () => {
         // # Visit a channel
         cy.visit(testChannelUrl1);
 
@@ -227,30 +224,31 @@ describe('Integrations page', () => {
         });
     });
 
-    it('MM-T649 Edit Oauth 2.0 Application', () => {
+    it('MM-T649 Edit Oauth 2.0 Application -- KNOWN ISSUE: MM-42020', () => {
         cy.apiLogin(user2);
         cy.visit(testChannelUrl1);
 
         // # Navigate to OAuthApps in integrations menu
-        cy.get('#headerInfo').click();
-        cy.get('#integrations').click();
+        cy.uiOpenProductMenu('Integrations');
         cy.get('#oauthApps').click();
 
         // # Other users should not see the apps from other users
-        cy.contains('.item-details', oauthClientID).should('not.exist');
+        cy.get('.item-details').should('not.exist');
 
         // # Login as sysadmin
         cy.apiAdminLogin();
         cy.visit(testChannelUrl1);
 
         // # Navigate to OAuthApps in integrations menu
-        cy.get('#headerInfo').click();
-        cy.get('#integrations').click();
+        cy.uiOpenProductMenu('Integrations');
         cy.get('#oauthApps').click();
 
-        // * Sys admin should see the app
+        // * Sysadmin should see the app
+        cy.get('.item-details').should('be.visible');
         cy.contains('.item-details', oauthClientID).should('exist').within(() => {
-            // * Sys admin should see the Edit button
+            cy.get('.item-details__token').should('contain', oauthClientID);
+
+            // * Sysadmin should see the Edit button
             // # Click on the edit button
             cy.findByText('Edit').should('exist').click();
         });
@@ -259,7 +257,7 @@ describe('Integrations page', () => {
         cy.get('#description').type('Edited');
 
         // # Save
-        cy.get('#saveOauthApp').click();
+        cy.get('#saveOauthApp').click({force: true});
 
         cy.contains('.item-details', oauthClientID).should('exist').within(() => {
             // * Description should be edited
@@ -285,12 +283,12 @@ describe('Integrations page', () => {
         });
     });
 
-    it('MM-T650 Deauthorize OAuth 2.0 Application', () => {
+    it('MM-T650 Deauthorize OAuth 2.0 Application -- KNOWN ISSUE: MM-42020', () => {
         cy.apiLogin(user1);
         cy.visit(testChannelUrl1);
 
         // # Go to OAuth apps settings
-        cy.get('#headerInfo').click();
+        cy.uiGetSetStatusButton().click();
         cy.get('#accountSettings').click();
         cy.get('#securityButton').click();
         cy.get('#appsEdit').click();
@@ -323,7 +321,7 @@ describe('Integrations page', () => {
         });
     });
 
-    it('MM-T651_1 Reconnect OAuth 2.0 Application - Connect application', () => {
+    it('MM-T651_1 Reconnect OAuth 2.0 Application - Connect application -- KNOWN ISSUE: MM-42020', () => {
         cy.apiLogin(user1);
 
         // # Visit the webhook url to start the OAuth handshake
@@ -336,7 +334,7 @@ describe('Integrations page', () => {
         cy.findByText('OK').should('exist');
     });
 
-    it('MM-T651_2 Reconnect OAuth 2.0 Application - Post message using OAuth credentials', () => {
+    it('MM-T651_2 Reconnect OAuth 2.0 Application - Post message using OAuth credentials -- KNOWN ISSUE: MM-42020', () => {
         cy.apiLogin(user1);
 
         // # Visit a channel
@@ -358,13 +356,12 @@ describe('Integrations page', () => {
         });
     });
 
-    it('MM-T652 Regenerate Secret', () => {
+    it('MM-T652 Regenerate Secret -- KNOWN ISSUE: MM-42020', () => {
         cy.apiLogin(user1);
         cy.visit(testChannelUrl1);
 
         // # Navigate to OAuthApps in integrations menu
-        cy.get('#headerInfo').click();
-        cy.get('#integrations').click();
+        cy.uiOpenProductMenu('Integrations');
         cy.get('#oauthApps').click();
 
         cy.contains('.item-details', oauthClientID).within(() => {
@@ -400,7 +397,7 @@ describe('Integrations page', () => {
         });
     });
 
-    it('MM-T653 Unsuccessful reconnect with incorrect secret', () => {
+    it('MM-T653 Unsuccessful reconnect with incorrect secret -- KNOWN ISSUE: MM-42020', () => {
         cy.apiLogin(user2);
 
         // # Visit the webhook url to start the OAuth handshake
@@ -413,7 +410,7 @@ describe('Integrations page', () => {
         cy.contains('Invalid client credentials.').should('exist');
     });
 
-    it('MM-T654 Successful reconnect with updated secret', () => {
+    it('MM-T654 Successful reconnect with updated secret -- KNOWN ISSUE: MM-42020', () => {
         cy.apiAdminLogin(user2);
 
         // # Send new credentials
@@ -434,13 +431,12 @@ describe('Integrations page', () => {
         cy.findByText('OK').should('exist');
     });
 
-    it('MM-T655 Delete OAuth 2.0 Application', () => {
+    it('MM-T655 Delete OAuth 2.0 Application -- KNOWN ISSUE: MM-42020', () => {
         cy.apiLogin(user1);
         cy.visit(testChannelUrl1);
 
         // # Navigate to OAuthApps in integrations menu
-        cy.get('#headerInfo').click();
-        cy.get('#integrations').click();
+        cy.uiOpenProductMenu('Integrations');
         cy.get('#oauthApps').click();
 
         cy.contains('.item-details', oauthClientID).within(() => {

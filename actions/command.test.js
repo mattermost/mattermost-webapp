@@ -12,10 +12,12 @@ import * as Teams from 'mattermost-redux/selectors/entities/teams';
 
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
-import {ActionTypes, Constants} from 'utils/constants';
-import * as UserAgent from 'utils/user_agent';
 import * as GlobalActions from 'actions/global_actions';
+
+import {ActionTypes, Constants, ModalIdentifiers} from 'utils/constants';
+import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
+
 import UserSettingsModal from 'components/user_settings/modal';
 
 import {executeCommand} from './command';
@@ -68,46 +70,53 @@ const initialState = {
             },
         },
         apps: {
-            bindings: [{
-                location: '/command',
-                bindings: [{
-                    location: '/command/appid',
-                    app_id: 'appid',
-                    label: 'appid',
-                    bindings: [
-                        {
-                            location: '/command/appid/custom',
-                            app_id: 'appid',
-                            label: 'custom',
-                            description: 'Run the command.',
-                            call: {
-                                path: 'https://someserver.com/command',
-                            },
-                            form: {
-                                fields: [
+            main: {
+                bindings: [
+                    {
+                        location: '/command',
+                        bindings: [
+                            {
+                                location: '/command/appid',
+                                app_id: 'appid',
+                                label: 'appid',
+                                bindings: [
                                     {
-                                        name: 'key1',
-                                        label: 'key1',
-                                        type: 'text',
-                                        position: 1,
-                                    },
-                                    {
-                                        name: 'key2',
-                                        label: 'key2',
-                                        type: 'static_select',
-                                        options: [
-                                            {
-                                                label: 'Value 2',
-                                                value: 'value2',
-                                            },
-                                        ],
+                                        location: '/command/appid/custom',
+                                        app_id: 'appid',
+                                        label: 'custom',
+                                        description: 'Run the command.',
+                                        call: {
+                                            path: 'https://someserver.com/command',
+                                        },
+                                        form: {
+                                            fields: [
+                                                {
+                                                    name: 'key1',
+                                                    label: 'key1',
+                                                    type: 'text',
+                                                    position: 1,
+                                                },
+                                                {
+                                                    name: 'key2',
+                                                    label: 'key2',
+                                                    type: 'static_select',
+                                                    options: [
+                                                        {
+                                                            label: 'Value 2',
+                                                            value: 'value2',
+                                                        },
+                                                    ],
+                                                },
+                                            ],
+                                        },
                                     },
                                 ],
                             },
-                        },
-                    ],
-                }],
-            }],
+                        ],
+                    },
+                ],
+                forms: {},
+            },
         },
     },
     views: {
@@ -156,12 +165,18 @@ describe('executeCommand', () => {
             });
         });
 
-        test('should call toggleShortcutsModal in case of no mobile', async () => {
+        test('should open shortcut modal in case of no mobile', async () => {
             UserAgent.isMobile.mockReturnValueOnce(false);
 
             const result = await store.dispatch(executeCommand('/shortcuts', []));
 
-            expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
+            const actionDispatch = store.getActions()[0];
+
+            expect(actionDispatch).toMatchObject({
+                type: ActionTypes.MODAL_OPEN,
+                modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL,
+            });
+
             expect(result).toEqual({data: true});
         });
     });
@@ -172,7 +187,7 @@ describe('executeCommand', () => {
             expect(store.getActions()).toEqual([
                 {
                     type: ActionTypes.MODAL_OPEN,
-                    dialogProps: {isContentChannelPreferences: true},
+                    dialogProps: {isContentProductSettings: true},
                     dialogType: UserSettingsModal,
                     modalId: 'user_settings',
                 },
@@ -203,12 +218,17 @@ describe('executeCommand', () => {
         });
 
         test('should show private modal if channel is private', async () => {
-            GlobalActions.showLeavePrivateChannelModal = jest.fn();
             Channels.getCurrentChannel = jest.fn(() => ({type: Constants.PRIVATE_CHANNEL}));
 
             const result = await store.dispatch(executeCommand('/leave', {}));
 
-            expect(GlobalActions.showLeavePrivateChannelModal).toHaveBeenCalledWith({type: Constants.PRIVATE_CHANNEL});
+            const actionDispatch = store.getActions()[0];
+
+            expect(actionDispatch).toMatchObject({
+                type: ActionTypes.MODAL_OPEN,
+                modalId: ModalIdentifiers.LEAVE_PRIVATE_CHANNEL_MODAL,
+                dialogProps: {channel: {type: Constants.PRIVATE_CHANNEL}},
+            });
 
             expect(result).toEqual({data: true});
         });
@@ -261,7 +281,7 @@ describe('executeCommand', () => {
             }));
             Client4.executeAppCall = mocked;
 
-            const result = await store.dispatch(executeCommand('/appid custom value1 --key2 value2', {channel_id: '123', root_id: 'root_id'}));
+            const result = await store.dispatch(executeCommand('/appid custom value1 --key2 value2', {channel_id: '123'}));
             Client4.executeAppCall = f;
 
             expect(mocked).toHaveBeenCalledWith({
@@ -269,7 +289,7 @@ describe('executeCommand', () => {
                     app_id: 'appid',
                     channel_id: '123',
                     location: '/command/appid/custom',
-                    root_id: 'root_id',
+                    root_id: '',
                     team_id: '456',
                 },
                 raw_command: '/appid custom value1 --key2 value2',

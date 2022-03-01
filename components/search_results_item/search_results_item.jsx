@@ -5,8 +5,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-import {Tooltip} from 'react-bootstrap';
-
 import {Posts} from 'mattermost-redux/constants/index';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
@@ -15,6 +13,7 @@ import FileAttachmentListContainer from 'components/file_attachment_list';
 import CommentIcon from 'components/common/comment_icon';
 import DotMenu from 'components/dot_menu';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import PostProfilePicture from 'components/post_profile_picture';
 import UserProfile from 'components/user_profile';
 import DateSeparator from 'components/post_view/date_separator';
@@ -27,6 +26,9 @@ import {browserHistory} from 'utils/browser_history';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
+import ThreadFooter from 'components/threading/channel_threads/thread_footer';
+import EditPost from 'components/edit_post';
+import AutoHeightSwitcher from 'components/common/auto_height_switcher';
 
 import Constants, {Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
@@ -70,11 +72,6 @@ export default class SearchResultsItem extends React.PureComponent {
         isFlagged: PropTypes.bool.isRequired,
 
         /**
-        *  Data used creating URl for jump to post
-        */
-        currentTeamName: PropTypes.string,
-
-        /**
          * Whether post username overrides are to be respected.
          */
         enablePostUsernameOverride: PropTypes.bool.isRequired,
@@ -85,6 +82,8 @@ export default class SearchResultsItem extends React.PureComponent {
         isBot: PropTypes.bool.isRequired,
 
         a11yIndex: PropTypes.number,
+
+        isMobileView: PropTypes.bool.isRequired,
 
         /**
         *  Function used for closing LHS
@@ -112,6 +111,21 @@ export default class SearchResultsItem extends React.PureComponent {
          * Is the search results item from the pinned posts list.
          */
         isPinnedPosts: PropTypes.bool,
+
+        /**
+         * is the current post being edited in RHS?
+         */
+        isPostBeingEditedInRHS: PropTypes.bool,
+
+        teamDisplayName: PropTypes.string,
+        teamName: PropTypes.string,
+
+        /**
+         * Is this a post that we can directly reply to?
+         */
+        canReply: PropTypes.bool,
+
+        isCollapsedThreadsEnabled: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -136,12 +150,12 @@ export default class SearchResultsItem extends React.PureComponent {
 
     handleJumpClick = (e) => {
         e.preventDefault();
-        if (Utils.isMobile()) {
+        if (this.props.isMobileView) {
             this.props.actions.closeRightHandSide();
         }
 
         this.props.actions.setRhsExpanded(false);
-        browserHistory.push(`/${this.props.currentTeamName}/pl/${this.props.post.id}`);
+        browserHistory.push(`/${this.props.teamName}/pl/${this.props.post.id}`);
     };
 
     handleCardClick = (post) => {
@@ -176,29 +190,59 @@ export default class SearchResultsItem extends React.PureComponent {
                 eventTime={post.create_at}
                 postId={post.id}
                 location={Locations.SEARCH}
+                teamName={this.props.teamName}
             />
         );
     };
 
     getClassName = () => {
+        const {compactDisplay, isPostBeingEditedInRHS} = this.props;
+
         let className = 'post post--thread';
 
-        if (this.props.compactDisplay) {
+        if (compactDisplay) {
             className += ' post--compact';
         }
 
-        if (this.state.dropdownOpened || this.state.fileDropdownOpened) {
+        if ((this.state.dropdownOpened || this.state.fileDropdownOpened) && !isPostBeingEditedInRHS) {
             className += ' post--hovered';
+        }
+
+        if (isPostBeingEditedInRHS) {
+            className += ' post--editing';
         }
 
         return className;
     };
 
     getChannelName = () => {
-        const {channelType} = this.props;
+        const {post, channelType, isCollapsedThreadsEnabled} = this.props;
         let {channelName} = this.props;
 
-        if (channelType === Constants.DM_CHANNEL) {
+        const isDirectMessage = channelType === Constants.DM_CHANNEL;
+        const isPartOfThread = isCollapsedThreadsEnabled && (post.reply_count > 0 || post.is_following);
+
+        if (isDirectMessage && isPartOfThread) {
+            channelName = (
+                <FormattedMessage
+                    id='search_item.thread_direct'
+                    defaultMessage='Thread in Direct Message with {username}'
+                    values={{
+                        username: this.props.displayName,
+                    }}
+                />
+            );
+        } else if (isPartOfThread) {
+            channelName = (
+                <FormattedMessage
+                    id='search_item.thread'
+                    defaultMessage='Thread in {channel}'
+                    values={{
+                        channel: channelName,
+                    }}
+                />
+            );
+        } else if (isDirectMessage) {
             channelName = (
                 <FormattedMessage
                     id='search_item.direct'
@@ -214,7 +258,7 @@ export default class SearchResultsItem extends React.PureComponent {
     }
 
     render() {
-        const {post, channelIsArchived} = this.props;
+        const {post, channelIsArchived, teamDisplayName, canReply, isPostBeingEditedInRHS} = this.props;
         const channelName = this.getChannelName();
 
         let overrideUsername;
@@ -253,6 +297,8 @@ export default class SearchResultsItem extends React.PureComponent {
             );
         }
 
+        const hasCRTFooter = this.props.isCollapsedThreadsEnabled && !post.root_id && (post.reply_count > 0 || post.is_following);
+
         let message;
         let flagContent;
         let postInfoIcon;
@@ -267,7 +313,7 @@ export default class SearchResultsItem extends React.PureComponent {
                 </p>
             );
         } else {
-            if (!Utils.isMobile()) {
+            if (!this.props.isMobileView) {
                 flagContent = (
                     <PostFlagIcon
                         location={Locations.SEARCH}
@@ -318,14 +364,16 @@ export default class SearchResultsItem extends React.PureComponent {
                         isReadOnly={channelIsArchived || null}
                     />
                     {flagContent}
-                    <CommentIcon
-                        location={Locations.SEARCH}
-                        handleCommentClick={this.handleFocusRHSClick}
-                        commentCount={this.props.replyCount}
-                        postId={post.id}
-                        searchStyle={'search-item__comment'}
-                        extraClass={this.props.replyCount ? 'icon--visible' : ''}
-                    />
+                    {canReply && !hasCRTFooter &&
+                        <CommentIcon
+                            location={Locations.SEARCH}
+                            handleCommentClick={this.handleFocusRHSClick}
+                            commentCount={this.props.replyCount}
+                            postId={post.id}
+                            searchStyle={'search-item__comment'}
+                            extraClass={this.props.replyCount ? 'icon--visible' : ''}
+                        />
+                    }
                     <a
                         href='#'
                         onClick={this.handleJumpClick}
@@ -375,10 +423,12 @@ export default class SearchResultsItem extends React.PureComponent {
                     data-a11y-sort-order={this.props.a11yIndex}
                 >
                     <div
-                        className='search-channel__name'
+                        className='search-channel__name__container'
                         aria-hidden='true'
                     >
-                        {channelName}
+                        <span className='search-channel__name'>
+                            {channelName}
+                        </span>
                         {channelIsArchived &&
                             <span className='search-channel__archived'>
                                 <ArchiveIcon className='icon icon__archive channel-header-archived-icon svg-text-color'/>
@@ -386,6 +436,11 @@ export default class SearchResultsItem extends React.PureComponent {
                                     id='search_item.channelArchived'
                                     defaultMessage='Archived'
                                 />
+                            </span>
+                        }
+                        {Boolean(teamDisplayName) &&
+                            <span className='search-team__name'>
+                                {teamDisplayName}
                             </span>
                         }
                     </div>
@@ -416,14 +471,25 @@ export default class SearchResultsItem extends React.PureComponent {
                                     {this.renderPostTime()}
                                     {postInfoIcon}
                                 </div>
-                                {rhsControls}
+                                {!isPostBeingEditedInRHS && rhsControls}
                             </div>
                             <div className='search-item-snippet post__body'>
                                 <div className={postClass}>
-                                    {message}
-                                    {fileAttachment}
+                                    <AutoHeightSwitcher
+                                        showSlot={isPostBeingEditedInRHS ? 2 : 1}
+                                        shouldScrollIntoView={isPostBeingEditedInRHS}
+                                        slot1={message}
+                                        slot2={<EditPost/>}
+                                    />
                                 </div>
+                                {fileAttachment}
                             </div>
+                            {hasCRTFooter ? (
+                                <ThreadFooter
+                                    threadId={post.id}
+                                    replyClick={this.handleFocusRHSClick}
+                                />
+                            ) : null}
                         </div>
                     </div>
                 </PostAriaLabelDiv>

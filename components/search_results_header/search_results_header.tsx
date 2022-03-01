@@ -2,11 +2,17 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import LocalizedIcon from 'components/localized_icon';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
+import KeyboardShortcutSequence, {
+    KEYBOARD_SHORTCUTS,
+} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
+
 import Constants from 'utils/constants';
+import {t} from 'utils/i18n';
 
 type Props = {
     isExpanded: boolean;
@@ -32,7 +38,12 @@ export default class SearchResultsHeader extends React.PureComponent<Props> {
             <Tooltip id='expandSidebarTooltip'>
                 <FormattedMessage
                     id='rhs_header.expandSidebarTooltip'
-                    defaultMessage='Expand Sidebar'
+                    defaultMessage='Expand the right sidebar'
+                />
+                <KeyboardShortcutSequence
+                    shortcut={KEYBOARD_SHORTCUTS.navExpandSidebar}
+                    hideDescription={true}
+                    isInsideTooltip={true}
                 />
             </Tooltip>
         );
@@ -41,7 +52,12 @@ export default class SearchResultsHeader extends React.PureComponent<Props> {
             <Tooltip id='shrinkSidebarTooltip'>
                 <FormattedMessage
                     id='rhs_header.collapseSidebarTooltip'
-                    defaultMessage='Collapse Sidebar'
+                    defaultMessage='Collapse the right sidebar'
+                />
+                <KeyboardShortcutSequence
+                    shortcut={KEYBOARD_SHORTCUTS.navExpandSidebar}
+                    hideDescription={true}
+                    isInsideTooltip={true}
                 />
             </Tooltip>
         );
@@ -52,7 +68,7 @@ export default class SearchResultsHeader extends React.PureComponent<Props> {
                 <div className='pull-right'>
                     <OverlayTrigger
                         delayShow={Constants.OVERLAY_TIME_DELAY}
-                        placement='top'
+                        placement='bottom'
                         overlay={this.props.isExpanded ? shrinkSidebarTooltip : expandSidebarTooltip}
                     >
                         <button
@@ -60,28 +76,14 @@ export default class SearchResultsHeader extends React.PureComponent<Props> {
                             className='sidebar--right__expand btn-icon'
                             onClick={this.props.actions.toggleRhsExpanded}
                         >
-                            <FormattedMessage
-                                id='rhs_header.expandSidebarTooltip.icon'
-                                defaultMessage='Expand Sidebar Icon'
-                            >
-                                {(ariaLabel?: string) => (
-                                    <i
-                                        className='icon icon-arrow-expand'
-                                        aria-label={ariaLabel}
-                                    />
-                                )}
-                            </FormattedMessage>
-                            <FormattedMessage
-                                id='rhs_header.collapseSidebarTooltip.icon'
-                                defaultMessage='Collapse Sidebar Icon'
-                            >
-                                {(ariaLabel?: string) => (
-                                    <i
-                                        className='icon icon-arrow-collapse'
-                                        aria-label={ariaLabel}
-                                    />
-                                )}
-                            </FormattedMessage>
+                            <LocalizedIcon
+                                className='icon icon-arrow-expand'
+                                ariaLabel={{id: t('rhs_header.expandSidebarTooltip.icon'), defaultMessage: 'Expand Sidebar Icon'}}
+                            />
+                            <LocalizedIcon
+                                className='icon icon-arrow-collapse'
+                                ariaLabel={{id: t('rhs_header.collapseSidebarTooltip.icon'), defaultMessage: 'Collapse Sidebar Icon'}}
+                            />
                         </button>
                     </OverlayTrigger>
                     <OverlayTrigger
@@ -96,17 +98,10 @@ export default class SearchResultsHeader extends React.PureComponent<Props> {
                             aria-label='Close'
                             onClick={this.props.actions.closeRightHandSide}
                         >
-                            <FormattedMessage
-                                id='rhs_header.closeTooltip.icon'
-                                defaultMessage='Close Sidebar Icon'
-                            >
-                                {(ariaLabel?: string) => (
-                                    <i
-                                        className='icon icon-close'
-                                        aria-label={ariaLabel}
-                                    />
-                                )}
-                            </FormattedMessage>
+                            <LocalizedIcon
+                                className='icon icon-close'
+                                ariaLabel={{id: t('rhs_header.closeTooltip.icon'), defaultMessage: 'Close Sidebar Icon'}}
+                            />
                         </button>
                     </OverlayTrigger>
                 </div>

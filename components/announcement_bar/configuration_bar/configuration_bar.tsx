@@ -7,8 +7,6 @@ import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {ClientConfig, WarnMetricStatus} from 'mattermost-redux/types/config';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-
 import {daysToLicenseExpire, isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod, isTrialLicense} from 'utils/license_utils.jsx';
 import {AnnouncementBarTypes, AnnouncementBarMessages, WarnMetricTypes} from 'utils/constants';
 
@@ -38,7 +36,7 @@ type Props = {
     dismissedNumberOfPostsWarnMetricStatus?: boolean;
     dismissedNumberOfPostsWarnMetricStatusAck?: boolean;
     siteURL: string;
-    warnMetricsStatus?: Dictionary<WarnMetricStatus>;
+    warnMetricsStatus?: Record<string, WarnMetricStatus>;
     actions: {
         dismissNotice: (notice: string) => void;
     };

@@ -27,7 +27,7 @@ describe('Leave an archived channel', () => {
             },
         });
 
-        // # Login as test user and visit town-square
+        // # Login as test user and visit test channel
         cy.apiInitSetup().then(({team, channel, user}) => {
             testTeam = team;
             testChannel = channel;
@@ -47,7 +47,7 @@ describe('Leave an archived channel', () => {
         cy.uiArchiveChannel();
 
         // # Switch to another channel
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
 
         // # Use CTRL / CMD+K shortcut to open channel switcher.
         cy.typeCmdOrCtrl().type('K', {release: true});

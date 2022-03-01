@@ -19,7 +19,7 @@ export enum InquiryIssue{
 
 export function getCloudContactUsLink(state: GlobalState, inquiry: InquiryType, inquiryIssue?: InquiryIssue): string {
     // cloud/contact-us with query params for name, email and inquiry
-    const cwsUrl = getConfig(state).CWSUrl;
+    const cwsUrl = getConfig(state).CWSURL;
     const user = getCurrentUser(state);
     const fullName = `${user.first_name} ${user.last_name}`;
     const inquiryIssueQuery = inquiryIssue ? `&inquiry-issue=${inquiryIssue}` : '';

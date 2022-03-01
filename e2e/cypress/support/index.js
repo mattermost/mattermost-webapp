@@ -30,10 +30,12 @@ import './ldap_commands';
 import './ldap_server_commands';
 import './okta_commands';
 import './saml_commands';
+import './shell';
 import './storybook_commands';
 import './task_commands';
 import './ui';
 import './ui_commands'; // soon to deprecate
+import {DEFAULT_TEAM} from './constants';
 
 import {getDefaultConfig} from './api/system';
 
@@ -169,22 +171,11 @@ function sysadminSetup(user) {
         cy.apiVerifyUserEmailById(user.id);
     }
 
-    // # Reset config and invalidate cache
+    // # Reset config to default
     cy.apiUpdateConfig();
-    cy.apiGetClientLicense().then(({isCloudLicensed}) => {
-        // Invalidating cache on cloud server is not permitted since sysadmin is restricted by default
-        if (!isCloudLicensed) {
-            cy.apiInvalidateCache();
-        }
-    });
 
     // # Reset admin preference, online status and locale
-    cy.apiSaveTeammateNameDisplayPreference('username');
-    cy.apiSaveLinkPreviewsPreference('true');
-    cy.apiSaveCollapsePreviewsPreference('false');
-    cy.apiSaveClockDisplayModeTo24HourPreference(false);
-    cy.apiSaveTutorialStep(user.id, '999');
-    cy.apiSaveOnboardingPreference(user.id, 'hide', 'true');
+    resetUserPreference(user.id);
     cy.apiUpdateUserStatus('online');
     cy.apiPatchMe({
         locale: 'en',
@@ -203,11 +194,6 @@ function sysadminSetup(user) {
 
     // # Check if default team is present; create if not found.
     cy.apiGetTeamsForUser().then(({teams}) => {
-        // Default team is meant for sysadmin's primary team,
-        // selected for compatibility with existing local development.
-        // It is not exported since it should not be used for testing.
-        const DEFAULT_TEAM = {name: 'ad-1', display_name: 'eligendi', type: 'O'};
-
         const defaultTeam = teams && teams.length > 0 && teams.find((team) => team.name === DEFAULT_TEAM.name);
 
         if (!defaultTeam) {
@@ -231,4 +217,14 @@ function sysadminSetup(user) {
             });
         }
     });
+}
+
+function resetUserPreference(userId) {
+    cy.apiSaveTeammateNameDisplayPreference('username');
+    cy.apiSaveLinkPreviewsPreference('true');
+    cy.apiSaveCollapsePreviewsPreference('false');
+    cy.apiSaveClockDisplayModeTo24HourPreference(false);
+    cy.apiSaveTutorialStep(userId, '999');
+    cy.apiSaveOnboardingPreference(userId, 'hide', 'true');
+    cy.apiSaveCloudTrialBannerPreference(userId, 'trial', '14_days_banner');
 }

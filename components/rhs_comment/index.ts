@@ -4,10 +4,13 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {isChannelReadOnlyById} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
+import {
+    get,
+    isCollapsedThreadsEnabled,
+} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
@@ -16,9 +19,10 @@ import {Post} from 'mattermost-redux/types/posts';
 
 import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 
-import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
-import {isEmbedVisible} from 'selectors/posts';
+import {getShortcutReactToLastPostEmittedFrom, getOneClickReactionEmojis} from 'selectors/emojis';
+import {getIsPostBeingEditedInRHS, isEmbedVisible} from 'selectors/posts';
 import {getHighlightedPostId} from 'selectors/rhs';
+import {getIsMobileView} from 'selectors/views/browser';
 
 import {GlobalState} from 'types/store';
 
@@ -58,11 +62,17 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const isBot = Boolean(user && user.is_bot);
     const highlightedPostId = getHighlightedPostId(state);
 
+    let emojis = [];
+    const oneClickReactionsEnabled = get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.ONE_CLICK_REACTIONS_ENABLED, Preferences.ONE_CLICK_REACTIONS_ENABLED_DEFAULT) === 'true';
+    if (oneClickReactionsEnabled) {
+        emojis = getOneClickReactionEmojis(state);
+    }
+
     return {
         enableEmojiPicker,
         enablePostUsernameOverride,
         isEmbedVisible: isEmbedVisible(state, ownProps.post.id),
-        isReadOnly: isChannelReadOnlyById(state, ownProps.post.channel_id),
+        isReadOnly: false,
         teamId,
         pluginPostTypes: state.plugins.postTypes,
         channelIsArchived: isArchivedChannel(channel),
@@ -73,6 +83,12 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         isBot,
         collapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
         shouldHighlight: highlightedPostId === ownProps.post.id,
+        oneClickReactionsEnabled,
+        recentEmojis: emojis,
+        isExpanded: state.views.rhs.isSidebarExpanded,
+
+        isPostBeingEdited: getIsPostBeingEditedInRHS(state, ownProps.post.id),
+        isMobileView: getIsMobileView(state),
     };
 }
 

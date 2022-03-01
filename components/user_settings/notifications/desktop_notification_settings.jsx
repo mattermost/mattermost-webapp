@@ -209,7 +209,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
                         <div className='mt-5'>
                             <FormattedMessage
                                 id='user.settings.notifications.threads'
-                                defaultMessage={'When enabled, any replies to a thread you\'re following will send a desktop notification.'}
+                                defaultMessage={'When enabled, any reply to a thread you\'re following will send a desktop notification.'}
                             />
                         </div>
                     </fieldset>

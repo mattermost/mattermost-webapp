@@ -6,8 +6,9 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
-//
-//  Group: @collapsed_reply_threads
+
+// Stage: @prod
+// Group: @collapsed_reply_threads
 
 describe('Collapsed Reply Threads', () => {
     let testTeam;
@@ -15,6 +16,7 @@ describe('Collapsed Reply Threads', () => {
     let otherUser;
     let testChannel;
     let rootPost;
+    let postForAvatar;
 
     before(() => {
         cy.apiUpdateConfig({
@@ -41,6 +43,11 @@ describe('Collapsed Reply Threads', () => {
                     cy.postMessageAs({sender: otherUser, message: 'Root post', channelId: testChannel.id}).then((post) => {
                         rootPost = post;
                     });
+
+                    // # Post a message as other user for clicking avatar test
+                    cy.postMessageAs({sender: otherUser, message: 'Root post for clicking avatar', channelId: testChannel.id}).then((post) => {
+                        postForAvatar = post;
+                    });
                 });
             });
         });
@@ -52,55 +59,97 @@ describe('Collapsed Reply Threads', () => {
     });
 
     it('MM-T4142 should show number of replies in thread', () => {
+        cy.uiWaitUntilMessagePostedIncludes(rootPost.data.message);
+
         // # Thread footer should not exist
-        cy.get(`#post_${rootPost.id}`).find('.ThreadFooter').should('not.exist');
+        cy.uiGetPostThreadFooter(rootPost.id).should('not.exist');
 
         // # Post a reply post as current user
         cy.postMessageAs({sender: testUser, message: 'reply!', channelId: testChannel.id, rootId: rootPost.id});
 
-        // # Get last root post
-        cy.get(`#post_${rootPost.id}`).
+        // # Get thread footer of last post
+        cy.uiGetPostThreadFooter(rootPost.id).within(() => {
+            // * Reply button in Thread Footer should say '1 reply'
+            cy.get('.ReplyButton').should('have.text', '1 reply');
 
-            // * Get Thread footer
-            get('.ThreadFooter').
-            within(() => {
-                // * Reply button in Thread Footer should say '1 reply'
-                cy.get('.ReplyButton').should('have.text', '1 reply');
-
-                // * 2 avatars/participants should show in Thread Footer
-                cy.get('.Avatar').should('have.lengthOf', 2);
-            });
+            // * 1 avatar/participant should show in Thread Footer
+            cy.get('.Avatar').should('have.lengthOf', 1);
+        });
 
         // # Visit global threads
-        cy.uiVisitSidebarItem('threads');
+        cy.uiClickSidebarItem('threads');
 
         // * The sole thread item should have text in footer saying '1 reply'
         cy.get('article.ThreadItem').find('.activity').should('have.text', '1 reply');
 
         // # Visit the channel
-        cy.uiVisitSidebarItem(testChannel.name);
+        cy.uiClickSidebarItem(testChannel.name);
 
         // # Post another reply as current user
         cy.postMessageAs({sender: testUser, message: 'another reply!', channelId: testChannel.id, rootId: rootPost.id});
 
-        // # Get last root post
-        cy.get(`#post_${rootPost.id}`).
+        // # Get thread footer of last post
+        cy.uiGetPostThreadFooter(rootPost.id).within(() => {
+            // * Reply button in thread footer should say '2 replies'
+            cy.get('.ReplyButton').should('have.text', '2 replies');
 
-            // # Get Thread footer
-            get('.ThreadFooter').
-            within(() => {
-                // * Reply button in thread footer should say '2 replies'
-                cy.get('.ReplyButton').should('have.text', '2 replies');
-
-                // * 2 avatars/participants should show in Thread Footer
-                cy.get('.Avatar').should('have.lengthOf', 2);
-            });
+            // * 1 avatar/participant should show in Thread Footer
+            cy.get('.Avatar').should('have.lengthOf', 1);
+        });
 
         // # Visit global threads
-        cy.uiVisitSidebarItem('threads');
+        cy.uiClickSidebarItem('threads');
 
         // * The sole thread item should have text in footer saying '2 replies'
         cy.get('article.ThreadItem').find('.activity').should('have.text', '2 replies');
+
+        // # Visit the channel
+        cy.uiClickSidebarItem(testChannel.name);
+
+        // # Post another reply as other user
+        cy.postMessageAs({sender: otherUser, message: 'other reply!', channelId: testChannel.id, rootId: rootPost.id});
+
+        // # Get thread footer of last post
+        cy.uiGetPostThreadFooter(rootPost.id).within(() => {
+            // * Reply button in thread footer should say '3 replies'
+            cy.get('.ReplyButton').should('have.text', '3 replies');
+
+            // * 2 avatars/participants should show in Thread Footer
+            cy.get('.Avatar').should('have.lengthOf', 2);
+        });
+
+        // # Visit global threads
+        cy.uiClickSidebarItem('threads');
+
+        // * The sole thread item should have text in footer saying '1 new reply'
+        cy.get('article.ThreadItem').find('.activity').should('have.text', '1 new reply');
+    });
+
+    it('MM-T4646 should open popover when avatar is clicked', () => {
+        cy.uiWaitUntilMessagePostedIncludes(postForAvatar.data.message);
+
+        // # Post a reply post as current user
+        cy.postMessageAs({sender: testUser, message: 'reply!', channelId: testChannel.id, rootId: postForAvatar.id});
+
+        // # Post another reply as other user
+        cy.postMessageAs({sender: otherUser, message: 'another reply!', channelId: testChannel.id, rootId: postForAvatar.id});
+
+        // # Get thread footer of last post and find avatars
+        cy.uiGetPostThreadFooter(postForAvatar.id).find('.Avatars').find('button').first().click();
+
+        // * Profile popover should be visible and close on ESC
+        cy.get('div.user-profile-popover').first().should('be.visible');
+        cy.get('div.user-profile-popover').first().type('{esc}');
+
+        // # Visit global threads
+        cy.uiClickSidebarItem('threads');
+
+        // * Find the first avatar and click it
+        cy.get('article.ThreadItem').find('.activity').find('.Avatars').find('button').first().click();
+
+        // * Profile popover should be visible and close on ESC
+        cy.get('div.user-profile-popover').first().should('be.visible');
+        cy.get('div.user-profile-popover').first().type('{esc}');
     });
 
     it('MM-T4143 Emoji reaction - type +:+1:', () => {
@@ -121,12 +170,10 @@ describe('Collapsed Reply Threads', () => {
             });
 
             // * Reacting to a root post should not create a thread (thread footer should not exist)
-            cy.get(`#post_${postId}`).within(() => {
-                cy.get('.ThreadFooter').should('not.exist');
-            });
+            cy.uiGetPostThreadFooter(postId).should('not.exist');
 
             // # Close RHS
-            cy.closeRHS();
+            cy.uiCloseRHS();
         });
     });
 });

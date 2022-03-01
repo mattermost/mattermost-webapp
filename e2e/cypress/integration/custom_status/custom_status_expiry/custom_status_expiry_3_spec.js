@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @custom_status
 
 describe('MM-T4065 Setting manual status clear time less than 7 days away', () => {
@@ -14,8 +15,8 @@ describe('MM-T4065 Setting manual status clear time less than 7 days away', () =
         cy.apiUpdateConfig({TeamSettings: {EnableCustomUserStatuses: true}});
 
         // # Login as test user and visit channel
-        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
-            cy.visit(`/${team.name}/channels/${channel.name}`);
+        cy.apiInitSetup({loginAfter: true}).then(({channelUrl}) => {
+            cy.visit(channelUrl);
         });
     });
 
@@ -28,7 +29,10 @@ describe('MM-T4065 Setting manual status clear time less than 7 days away', () =
         duration: '30 minutes',
     };
 
-    const dateToBeSelected = Cypress.dayjs().add(3, 'd');
+    const today = Cypress.dayjs();
+    const dateToBeSelected = today.add(3, 'd');
+    const months = dateToBeSelected.get('month') - today.get('month');
+
     it('MM-T4065_1 should open status dropdown', () => {
         // # Click on the sidebar header to open status dropdown
         cy.get('.MenuWrapper .status-wrapper').click();
@@ -99,10 +103,13 @@ describe('MM-T4065 Setting manual status clear time less than 7 days away', () =
         cy.get('.DayPickerInput-Overlay').should('be.visible');
 
         // # Click on the date which is dateToBeSelected
+        for (let i = 0; i < months; i++) {
+            cy.get('.fa-angle-right').click();
+        }
         cy.get('.DayPickerInput-Overlay').find(`.DayPicker-Week div[aria-label="${dateToBeSelected.format('ddd MMM DD YYYY')}"]`).click();
 
         // * Check that the date input should have the correct value
-        cy.get('.DayPickerInput input').should('have.value', dateToBeSelected.format('YYYY-M-DD'));
+        cy.get('.DayPickerInput input').should('have.value', dateToBeSelected.format('YYYY-M-D'));
     });
 
     it('MM-T4065_7 should show selected time in the time input field', () => {
@@ -128,7 +135,9 @@ describe('MM-T4065 Setting manual status clear time less than 7 days away', () =
         cy.get('#custom_status_modal').should('not.exist');
 
         // * Status should be set and the emoji should be visible in the sidebar header
-        cy.get('#headerInfoContent span.emoticon').invoke('attr', 'data-emoticon').should('contain', customStatus.emoji);
+        cy.uiGetProfileHeader().
+            find('.emoticon').
+            should('have.attr', 'data-emoticon', customStatus.emoji);
     });
 
     it('MM-T4065_9 should show the set custom status with expiry when status dropdown is opened', () => {

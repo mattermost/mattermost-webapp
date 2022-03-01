@@ -16,8 +16,6 @@ import {getConfig, getServerVersion} from 'mattermost-redux/selectors/entities/g
 
 import {getCurrentUserId, getUsers} from 'mattermost-redux/selectors/entities/users';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-
 import {isCollapsedThreadsEnabled} from '../selectors/entities/preferences';
 
 import {getAllCustomEmojis} from './emojis';
@@ -351,7 +349,7 @@ export function getMissingProfilesByUsernames(usernames: string[]): ActionFunc {
         const usernameProfiles = Object.values(profiles).reduce((acc, profile: any) => {
             acc[profile.username] = profile;
             return acc;
-        }, {} as Dictionary<UserProfile>);
+        }, {} as Record<string, UserProfile>);
         const missingUsernames: string[] = [];
         usernames.forEach((username) => {
             if (!usernameProfiles[username]) {
@@ -662,6 +660,35 @@ export function getProfilesInGroup(groupId: string, page = 0, perPage: number = 
         dispatch(batchActions([
             {
                 type: UserTypes.RECEIVED_PROFILES_LIST_IN_GROUP,
+                data: profiles,
+                id: groupId,
+            },
+            {
+                type: UserTypes.RECEIVED_PROFILES_LIST,
+                data: removeUserFromList(currentUserId, [...profiles]),
+            },
+        ]));
+
+        return {data: profiles};
+    };
+}
+
+export function getProfilesNotInGroup(groupId: string, page = 0, perPage: number = General.PROFILE_CHUNK_SIZE): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const {currentUserId} = getState().entities.users;
+        let profiles;
+
+        try {
+            profiles = await Client4.getProfilesNotInGroup(groupId, page, perPage);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        dispatch(batchActions([
+            {
+                type: UserTypes.RECEIVED_PROFILES_LIST_NOT_IN_GROUP,
                 data: profiles,
                 id: groupId,
             },
@@ -1013,6 +1040,14 @@ export function searchProfiles(term: string, options: any = {}): ActionFunc {
                 type: UserTypes.RECEIVED_PROFILES_LIST_IN_GROUP,
                 data: profiles,
                 id: options.in_group_id,
+            });
+        }
+
+        if (options.not_in_group_id) {
+            actions.push({
+                type: UserTypes.RECEIVED_PROFILES_LIST_NOT_IN_GROUP,
+                data: profiles,
+                id: options.not_in_group_id,
             });
         }
 

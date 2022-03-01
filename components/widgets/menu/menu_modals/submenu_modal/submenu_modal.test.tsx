@@ -41,7 +41,7 @@ describe('components/submenu_modal', () => {
                 ],
             },
         ],
-        onHide: jest.fn(),
+        onExited: jest.fn(),
     };
 
     test('should match snapshot', () => {
@@ -86,14 +86,12 @@ describe('components/submenu_modal', () => {
         expect(wrapper.state('show')).toEqual(false);
     });
 
-    test('should have called props.onHide when Modal.onExited is called', () => {
-        const onHide = jest.fn();
-        const props = {...baseProps, onHide};
+    test('should have called props.onExited when Modal.onExited is called', () => {
         const wrapper = shallow(
-            <SubMenuModal {...props}/>,
+            <SubMenuModal {...baseProps}/>,
         );
 
         wrapper.find(Modal).props().onExited!(document.createElement('div'));
-        expect(onHide).toHaveBeenCalledTimes(1);
+        expect(baseProps.onExited).toHaveBeenCalledTimes(1);
     });
 });

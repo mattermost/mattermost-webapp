@@ -7,34 +7,33 @@ import {Link} from 'react-router-dom';
 
 type Props = {
     showPreview?: boolean;
-    characterLimit: number;
     previewMessageLink?: string;
-    updatePreview?: (showPreview: boolean) => void;
-    message?: string;
+    hasText?: boolean;
+    hasExceededCharacterLimit?: boolean;
     isMarkdownPreviewEnabled: boolean;
     currentLocale: string;
+    updatePreview?: (showPreview: boolean) => void;
 };
 
-const TextboxLinks: React.FC<Props> = ({
+function TextboxLinks({
     showPreview,
-    characterLimit,
     previewMessageLink,
-    updatePreview,
-    message = '',
+    hasText = false,
+    hasExceededCharacterLimit = false,
     isMarkdownPreviewEnabled,
     currentLocale,
-}: Props) => {
+    updatePreview,
+}: Props) {
     const togglePreview = (e: MouseEvent) => {
         e.preventDefault();
         updatePreview?.(!showPreview);
     };
 
-    const hasText = message && message.length > 0;
     let editHeader;
 
     let helpTextClass = '';
 
-    if (message && message.length > characterLimit) {
+    if (hasExceededCharacterLimit) {
         helpTextClass = 'hidden';
     }
 
@@ -138,6 +137,6 @@ const TextboxLinks: React.FC<Props> = ({
             </Link>
         </div>
     );
-};
+}
 
 export default TextboxLinks;

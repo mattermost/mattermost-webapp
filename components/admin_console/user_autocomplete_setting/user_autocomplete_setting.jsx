@@ -6,7 +6,7 @@ import React from 'react';
 
 import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
 import Setting from 'components/admin_console/setting';
-import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import SuggestionBox from 'components/suggestion/suggestion_box';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
 export default class UserAutocompleteSetting extends React.PureComponent {

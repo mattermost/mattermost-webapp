@@ -42,8 +42,8 @@ describe('channel name tooltips', () => {
     before(() => {
         cy.shouldNotRunOnCloudEdition();
 
-        // # Login as new user and visit town-square
-        cy.apiInitSetup().then(({team, user}) => {
+        // # Login as new user and visit off-topic
+        cy.apiInitSetup().then(({team, user, offTopicUrl}) => {
             testTeam = team;
             loggedUser = user;
 
@@ -53,7 +53,7 @@ describe('channel name tooltips', () => {
             });
 
             cy.apiLogin(loggedUser);
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(offTopicUrl);
         });
     });
 
@@ -116,7 +116,7 @@ describe('channel name tooltips', () => {
             and('contain.text', longUser.username.toLowerCase());
 
         cy.get('@searchBox').type('{enter}', {force: true});
-        cy.get('#saveItems').should('be.visible').click();
+        cy.uiGetButton('Go').click();
 
         // # Hover on the channel name
         cy.get(`#sidebarItem_${Cypress._.sortBy([loggedUser.id, longUser.id]).join('__')}`).scrollIntoView().should('be.visible').trigger('mouseover');

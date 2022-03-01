@@ -217,6 +217,196 @@ describe('PostUtils.containsAtChannel', () => {
     });
 });
 
+describe('PostUtils.specialMentionsInText', () => {
+    test('should return correct mentions', () => {
+        for (const data of [
+            {
+                text: '',
+                result: {all: false, channel: false, here: false},
+            },
+            {
+                text: 'all',
+                result: {all: false, channel: false, here: false},
+            },
+            {
+                text: '@allison',
+                result: {all: false, channel: false, here: false},
+            },
+            {
+                text: '@ALLISON',
+                result: {all: false, channel: false, here: false},
+            },
+            {
+                text: '@all123',
+                result: {all: false, channel: false, here: false},
+            },
+            {
+                text: '123@all',
+                result: {all: false, channel: false, here: false},
+            },
+            {
+                text: 'hey@all',
+                result: {all: false, channel: false, here: false},
+            },
+            {
+                text: 'hey@all.com',
+                result: {all: false, channel: false, here: false},
+            },
+            {
+                text: '@all',
+                result: {all: true, channel: false, here: false},
+            },
+            {
+                text: '@ALL',
+                result: {all: true, channel: false, here: false},
+            },
+            {
+                text: '@all hey',
+                result: {all: true, channel: false, here: false},
+            },
+            {
+                text: 'hey @all',
+                result: {all: true, channel: false, here: false},
+            },
+            {
+                text: 'HEY @ALL',
+                result: {all: true, channel: false, here: false},
+            },
+            {
+                text: 'hey @all!',
+                result: {all: true, channel: false, here: false},
+            },
+            {
+                text: 'hey @all:+1:',
+                result: {all: true, channel: false, here: false},
+            },
+            {
+                text: 'hey @ALL:+1:',
+                result: {all: true, channel: false, here: false},
+            },
+            {
+                text: '`@all`',
+                result: {all: false, channel: false, here: false},
+            },
+            {
+                text: '@someone `@all`',
+                result: {all: false, channel: false, here: false},
+            },
+            {
+                text: '``@all``',
+                result: {all: false, channel: false, here: false},
+            },
+            {
+                text: '```@all```',
+                result: {all: false, channel: false, here: false},
+            },
+            {
+                text: '```\n@all\n```',
+                result: {all: false, channel: false, here: false},
+            },
+            {
+                text: '```````\n@all\n```````',
+                result: {all: false, channel: false, here: false},
+            },
+            {
+                text: '```code\n@all\n```',
+                result: {all: false, channel: false, here: false},
+            },
+            {
+                text: '~~~@all~~~',
+                result: {all: true, channel: false, here: false},
+            },
+            {
+                text: '~~~\n@all\n~~~',
+                result: {all: false, channel: false, here: false},
+            },
+            {
+                text: ' /not_cmd @all',
+                result: {all: true, channel: false, here: false},
+            },
+            {
+                text: '/cmd @all',
+                result: {all: false, channel: false, here: false},
+            },
+            {
+                text: '/cmd @all test',
+                result: {all: false, channel: false, here: false},
+            },
+            {
+                text: '/cmd test @all',
+                result: {all: false, channel: false, here: false},
+            },
+            {
+                text: '@channel',
+                result: {all: false, channel: true, here: false},
+            },
+            {
+                text: '@channel.',
+                result: {all: false, channel: true, here: false},
+            },
+            {
+                text: '@channel/test',
+                result: {all: false, channel: true, here: false},
+            },
+            {
+                text: 'test/@channel',
+                result: {all: false, channel: true, here: false},
+            },
+            {
+                text: '@all/@channel',
+                result: {all: true, channel: true, here: false},
+            },
+            {
+                text: '@cha*nnel*',
+                result: {all: false, channel: false, here: false},
+            },
+            {
+                text: '@cha**nnel**',
+                result: {all: false, channel: false, here: false},
+            },
+            {
+                text: '*@cha*nnel',
+                result: {all: false, channel: false, here: false},
+            },
+            {
+                text: '[@chan](https://google.com)nel',
+                result: {all: false, channel: false, here: false},
+            },
+            {
+                text: '@cha![](https://myimage)nnel',
+                result: {all: false, channel: false, here: false},
+            },
+            {
+                text: '@here![](https://myimage)nnel',
+                result: {all: false, channel: false, here: true},
+            },
+            {
+                text: '@heree',
+                result: {all: false, channel: false, here: false},
+            },
+            {
+                text: '=@here=',
+                result: {all: false, channel: false, here: true},
+            },
+            {
+                text: '@HERE',
+                result: {all: false, channel: false, here: true},
+            },
+            {
+                text: '@all @here',
+                result: {all: true, channel: false, here: true},
+            },
+            {
+                text: 'message @all message @here message @channel',
+                result: {all: true, here: true, channel: true},
+            },
+        ]) {
+            const mentions = PostUtils.specialMentionsInText(data.text);
+            assert.deepEqual(mentions, data.result, data.text);
+        }
+    });
+});
+
 describe('PostUtils.shouldFocusMainTextbox', () => {
     test('basic cases', () => {
         for (const data of [

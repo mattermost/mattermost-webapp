@@ -10,8 +10,8 @@ import BlockableLink from 'components/admin_console/blockable_link';
 import AlertBanner from 'components/alert_banner';
 
 import {CloudLinks, CloudProducts} from 'utils/constants';
-import PrivateCloudSvg from 'components/common/svg_images_components/private_cloud.svg';
-import CloudTrialSvg from 'components/common/svg_images_components/cloud_trial.svg';
+import PrivateCloudSvg from 'components/common/svg_images_components/private_cloud_svg';
+import CloudTrialSvg from 'components/common/svg_images_components/cloud_trial_svg';
 
 export const contactSalesCard = (
     contactSalesLink: any,
@@ -26,15 +26,24 @@ export const contactSalesCard = (
 
     const pricingLink = (
         <a
-            href={CloudLinks.CLOUD_PRICING}
+            href={CloudLinks.PRICING}
             rel='noopener noreferrer'
             target='_blank'
             className='PrivateCloudCard__pricingLink'
             onClick={() => trackEvent('cloud_admin', 'click_pricing_link')}
         >
-            {CloudLinks.CLOUD_PRICING}
+            {CloudLinks.PRICING}
         </a>
     );
+
+    // prior to releasing the cloud-{(s)tarter,(p)rofessional,(e)nterprise} plans,
+    // there is only one product fetched and available on this page, Mattermost Cloud.
+    // Mattermost Cloud pre cloud-{s,p,e} release does not have a sku,
+    // so we test for it with `productLengths === 1`.
+    // Post cloud-{s,p,e} release, Mattermost Cloud has a sku named cloud-legacy,
+    // so we test for it with `subscriptionPlan === CloudProducts.LEGACY`.
+    // We have to, since post cloud-{s,p,e} we fetch all 4 products.
+    const isCloudLegacyPlan = productsLength === 1 || subscriptionPlan === CloudProducts.LEGACY;
 
     if (isFreeTrial) {
         title = (
@@ -49,7 +58,7 @@ export const contactSalesCard = (
                 defaultMessage='We love to work with our customers and their needs. Contact sales for subscription, billing or trial-specific questions.'
             />
         );
-    } else if (productsLength === 1) {
+    } else if (isCloudLegacyPlan) {
         title = (
             <FormattedMessage
                 id='admin.billing.subscription.privateCloudCard.cloudEnterprise.title'
@@ -74,7 +83,7 @@ export const contactSalesCard = (
             description = (
                 <FormattedMessage
                     id='admin.billing.subscription.privateCloudCard.cloudStarter.description'
-                    defaultMessage='Optimize your processes with Guest Accounts, Office365 suite integrations, Gitlab SSO and advanced permissions.'
+                    defaultMessage='Optimize your processes with Guest Accounts, Office365 suite integrations, GitLab SSO and advanced permissions.'
                 />
             );
             break;
@@ -134,7 +143,7 @@ export const contactSalesCard = (
                 <div className='PrivateCloudCard__text-description'>
                     {description}
                 </div>
-                {(isFreeTrial || subscriptionPlan === CloudProducts.ENTERPRISE || productsLength === 1) &&
+                {(isFreeTrial || subscriptionPlan === CloudProducts.ENTERPRISE || isCloudLegacyPlan) &&
                     <a
                         href={isFreeTrial ? trialQuestionsLink : contactSalesLink}
                         rel='noopener noreferrer'
@@ -149,7 +158,7 @@ export const contactSalesCard = (
 
                     </a>
                 }
-                {(!isFreeTrial && productsLength > 1 && subscriptionPlan !== CloudProducts.ENTERPRISE) &&
+                {(!isFreeTrial && productsLength > 1 && subscriptionPlan !== CloudProducts.ENTERPRISE && subscriptionPlan !== CloudProducts.LEGACY) &&
                     <button
                         type='button'
                         onClick={onUpgradeMattermostCloud}
@@ -200,7 +209,7 @@ export const cancelSubscription = (cancelAccountLink: any, isFreeTrial: boolean,
                 <a
                     href={cancelAccountLink}
                     rel='noopener noreferrer'
-                    target='_new'
+                    target='_blank'
                     className='cancelSubscriptionSection__contactUs'
                     onClick={() => trackEvent('cloud_admin', 'click_contact_us')}
                 >
@@ -246,24 +255,13 @@ export const creditCardExpiredBanner = (setShowCreditCardBanner: (value: boolean
                 />
             }
             message={
-                <>
-                    <FormattedMessage
-                        id='admin.billing.subscription.creditCardHasExpired.please'
-                        defaultMessage='Please '
-                    />
-                    <BlockableLink
-                        to='/admin_console/billing/payment_info'
-                    >
-                        <FormattedMessage
-                            id='admin.billing.subscription.creditCardHasExpired.description.updatePaymentInformation'
-                            defaultMessage='update your payment information'
-                        />
-                    </BlockableLink>
-                    <FormattedMessage
-                        id='admin.billing.subscription.creditCardHasExpired.description.avoidAnyDisruption'
-                        defaultMessage=' to avoid any disruption.'
-                    />
-                </>
+                <FormattedMessage
+                    id='admin.billing.subscription.creditCardHasExpired.description'
+                    defaultMessage='Please <link>update your payment information</link> to avoid any disruption.'
+                    values={{
+                        link: (text: string) => <BlockableLink to='/admin_console/billing/payment_info'>{text}</BlockableLink>,
+                    }}
+                />
             }
             onDismiss={() => setShowCreditCardBanner(false)}
         />
@@ -281,24 +279,13 @@ export const paymentFailedBanner = () => {
                 />
             }
             message={
-                <>
-                    <FormattedMessage
-                        id='billing.subscription.info.mostRecentPaymentFailed.description.mostRecentPaymentFailed'
-                        defaultMessage='It looks your most recent payment failed because the credit card on your account has expired. Please '
-                    />
-                    <BlockableLink
-                        to='/admin_console/billing/payment_info'
-                    >
-                        <FormattedMessage
-                            id='billing.subscription.info.mostRecentPaymentFailed.description.updatePaymentInformation'
-                            defaultMessage='update your payment information'
-                        />
-                    </BlockableLink>
-                    <FormattedMessage
-                        id='billing.subscription.info.mostRecentPaymentFailed.description.avoidAnyDisruption'
-                        defaultMessage=' to avoid any disruption.'
-                    />
-                </>
+                <FormattedMessage
+                    id='billing.subscription.info.mostRecentPaymentFailed.description.mostRecentPaymentFailed'
+                    defaultMessage='It looks your most recent payment failed because the credit card on your account has expired. Please  <link>update your payment information</link> to avoid any disruption.'
+                    values={{
+                        link: (text: string) => <BlockableLink to='/admin_console/billing/payment_info'>{text}</BlockableLink>,
+                    }}
+                />
             }
         />
     );

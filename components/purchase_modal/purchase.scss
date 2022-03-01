@@ -14,9 +14,11 @@
         flex-direction: row;
         flex-grow: 1;
         flex-wrap: wrap;
+        align-content: center;
+        justify-content: center;
         padding: 77px 107px;
         color: var(--center-channel-color);
-        font-family: 'Open Sans';
+        font-family: "Open Sans";
         font-size: 16px;
         font-weight: 600;
 
@@ -159,7 +161,7 @@
                         margin-top: 16px;
 
                         label {
-                            color: var(--sys-center-channel-color-rgb);
+                            color: rgba(var(--center-channel-color-rgb), 0.72);
                             font-family: Open Sans;
                             font-size: 12px;
                             font-style: normal;
@@ -219,7 +221,7 @@
                         }
 
                         .selected {
-                            color: var(--sys-center-channel-color);
+                            color: var(--center-channel-color);
                         }
 
                         .radio {
@@ -232,7 +234,7 @@
                             .side-legend {
                                 margin-top: -5px;
                                 margin-left: 5px;
-                                color: rgba(var(--sys-center-channel-color-rgb), 0.64);
+                                color: rgba(var(--center-channel-color-rgb), 0.64);
 
                                 &::before {
                                     content: "(";
@@ -244,6 +246,13 @@
                             }
                         }
                     }
+                }
+
+                .contact-sales-text {
+                    margin-top: 24px;
+                    margin-bottom: 24px;
+                    color: rgba(var(--center-channel-color-rgb), 0.72);
+                    font-size: 14px;
                 }
 
                 .footer-text {
@@ -280,6 +289,7 @@
 
                 .price-decimals {
                     align-self: end;
+                    padding-bottom: 2px;
                     font-size: 16px;
 
                     &::before {
@@ -309,36 +319,6 @@
             }
         }
 
-        .waves {
-            position: absolute;
-            z-index: -1;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-
-            stop {
-                stop-color: var(--button-bg);
-            }
-        }
-
-        .blue-dots {
-            position: absolute;
-            z-index: -1;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-        }
-
-        .lower-blue-dots {
-            position: absolute;
-            z-index: -1;
-            right: 0;
-            bottom: 100px;
-        }
-
         .logo {
             position: absolute;
             right: 0;
@@ -360,6 +340,18 @@
                 color: rgba(var(--center-channel-color-rgb), 0.32);
             }
         }
+    }
+}
+
+.background-svg {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+
+    >div {
+        position: absolute;
+        top: 0;
+        left: 0;
     }
 }
 

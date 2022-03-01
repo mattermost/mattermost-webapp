@@ -7,7 +7,7 @@ import {UserTypes, ChannelTypes} from 'mattermost-redux/action_types';
 import {profileListToMap} from 'mattermost-redux/utils/user_utils';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {UserAccessToken, UserProfile, UserStatus} from 'mattermost-redux/types/users';
-import {RelationOneToMany, IDMappedObjects, RelationOneToOne, Dictionary} from 'mattermost-redux/types/utilities';
+import {RelationOneToMany, IDMappedObjects, RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {Team} from 'mattermost-redux/types/teams';
 import {Channel} from 'mattermost-redux/types/channels';
 import {Group} from 'mattermost-redux/types/groups';
@@ -32,7 +32,6 @@ function profileListToSet(state: RelationOneToMany<Team, UserProfile>, action: G
         action.data.forEach((profile: UserProfile) => {
             nextSet.add(profile.id);
         });
-
         return {
             ...state,
             [id]: nextSet,
@@ -414,6 +413,46 @@ function profilesInGroup(state: RelationOneToMany<Group, UserProfile> = {}, acti
     case UserTypes.RECEIVED_PROFILES_LIST_IN_GROUP: {
         return profileListToSet(state, action);
     }
+    case UserTypes.RECEIVED_PROFILES_FOR_GROUP: {
+        const id = action.id;
+        const nextSet = new Set(state[id]);
+        if (action.data) {
+            action.data.forEach((profile: any) => {
+                nextSet.add(profile.user_id);
+            });
+
+            return {
+                ...state,
+                [id]: nextSet,
+            };
+        }
+        return state;
+    }
+    case UserTypes.RECEIVED_PROFILES_LIST_TO_REMOVE_FROM_GROUP: {
+        const id = action.id;
+        const nextSet = new Set(state[id]);
+        if (action.data) {
+            action.data.forEach((profile: any) => {
+                nextSet.delete(profile.user_id);
+            });
+
+            return {
+                ...state,
+                [id]: nextSet,
+            };
+        }
+        return state;
+    }
+    default:
+        return state;
+    }
+}
+
+function profilesNotInGroup(state: RelationOneToMany<Group, UserProfile> = {}, action: GenericAction) {
+    switch (action.type) {
+    case UserTypes.RECEIVED_PROFILES_LIST_NOT_IN_GROUP: {
+        return profileListToSet(state, action);
+    }
     default:
         return state;
     }
@@ -510,7 +549,7 @@ function isManualStatus(state: RelationOneToOne<UserProfile, boolean> = {}, acti
     }
 }
 
-function myUserAccessTokens(state: Dictionary<UserAccessToken> = {}, action: GenericAction) {
+function myUserAccessTokens(state: Record<string, UserAccessToken> = {}, action: GenericAction) {
     switch (action.type) {
     case UserTypes.RECEIVED_MY_USER_ACCESS_TOKEN: {
         const nextState = {...state};
@@ -623,6 +662,9 @@ export default combineReducers({
 
     // object where every key is a group id and has a Set with the users id that are members of the group
     profilesInGroup,
+
+    // object where every key is a group id and has a Set with the users id that are members of the group
+    profilesNotInGroup,
 
     // object where every key is the user id and has a value with the current status of each user
     statuses,

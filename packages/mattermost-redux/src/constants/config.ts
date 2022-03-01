@@ -6,9 +6,7 @@ export enum CollapsedThreads {
     DEFAULT_OFF = 'default_off',
 }
 
-export enum InviteMembersBtnLocations {
-    NONE = 'none',
-    STICKY = 'sticky_button',
-    LHS_BUTTON = 'lhs_button',
-    USER_ICON = 'user_icon',
+export enum AddMembersToChanneltreatments {
+    TOP = 'top',
+    BOTTOM = 'bottom',
 }

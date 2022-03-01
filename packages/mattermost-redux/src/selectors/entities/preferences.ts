@@ -7,6 +7,7 @@ import {General, Preferences} from 'mattermost-redux/constants';
 
 import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selectors/entities/general';
 
+import {AddMembersToChanneltreatments} from 'mattermost-redux/constants/config';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Theme} from 'mattermost-redux/types/themes';
@@ -168,6 +169,11 @@ export const shouldShowUnreadsCategory: (state: GlobalState) => boolean = create
     },
 );
 
+// TODO@Michel: remove this once inliene post editing is enabled by default
+export function getIsInlinePostEditingEnabled(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'InlinePostEditing') === 'true';
+}
+
 export function getCollapsedThreadsPreference(state: GlobalState): string {
     const configValue = getConfig(state)?.CollapsedThreads;
     let preferenceDefault = Preferences.COLLAPSED_REPLY_THREADS_OFF;
@@ -198,16 +204,22 @@ export function isCollapsedThreadsEnabled(state: GlobalState): boolean {
     return isAllowed && (userPreference === Preferences.COLLAPSED_REPLY_THREADS_ON || getConfig(state).CollapsedThreads as string === 'always_on');
 }
 
-export function isTimedDNDEnabled(state: GlobalState): boolean {
-    return (
-        getFeatureFlagValue(state, 'TimedDND') === 'true'
-    );
-}
-
-export function getInviteMembersButtonLocation(state: GlobalState): string | undefined {
-    return getFeatureFlagValue(state, 'InviteMembersButton');
-}
-
 export function isGroupChannelManuallyVisible(state: GlobalState, channelId: string): boolean {
     return getBool(state, Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channelId, false);
+}
+
+export function getCreateGuidedChannel(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'GuidedChannelCreation') === 'true';
+}
+
+export function getAddMembersToChannel(state: GlobalState): AddMembersToChanneltreatments | undefined {
+    return getFeatureFlagValue(state, 'AddMembersToChannel') as AddMembersToChanneltreatments | undefined;
+}
+
+export function isCustomGroupsEnabled(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'CustomGroups') === 'true' && getConfig(state).EnableCustomGroups === 'true';
+}
+
+export function getUseCaseOnboarding(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'UseCaseOnboarding') === 'true';
 }

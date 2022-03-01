@@ -12,7 +12,7 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-import {postMessagesAndScrollUp} from './helpers';
+import {postListOfMessages, scrollCurrentChannelFromTop} from './helpers';
 
 describe('Scroll', () => {
     let firstPostBeforeScroll;
@@ -31,16 +31,17 @@ describe('Scroll', () => {
     message`;
 
     before(() => {
+        cy.apiCreateUser().then(({user}) => {
+            otherUser = user;
+        });
         cy.apiInitSetup().then(({team, channel}) => {
             testChannelId = channel.id;
             testChannelLink = `/${team.name}/channels/${channel.name}`;
-            cy.apiCreateUser().then(({user: user2}) => {
-                otherUser = user2;
-                cy.apiAddUserToTeam(team.id, otherUser.id).then(() => {
-                    cy.apiAddUserToChannel(testChannelId, otherUser.id);
-                });
+
+            cy.apiAddUserToTeam(team.id, otherUser.id).then(() => {
+                cy.apiAddUserToChannel(testChannelId, otherUser.id);
+                cy.visit(testChannelLink);
             });
-            cy.visit(testChannelLink);
         });
     });
 
@@ -51,7 +52,8 @@ describe('Scroll', () => {
         cy.getLastPostId().then((postId) => {
             const multilineMessageID = postId;
 
-            postMessagesAndScrollUp(otherUser, testChannelId);
+            postListOfMessages({sender: otherUser, channelId: testChannelId});
+            scrollCurrentChannelFromTop('90%');
 
             // # Get the text of the first visible post
             cy.get('.post-message__text:visible').first().then((postMessage) => {

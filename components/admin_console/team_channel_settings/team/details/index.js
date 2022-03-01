@@ -27,12 +27,14 @@ function mapStateToProps(state, props) {
     const groups = getGroupsAssociatedToTeam(state, teamID);
     const allGroups = getAllGroups(state, teamID);
     const totalGroups = groups.length;
+    const isLicensedForLDAPGroups = state.entities.general.license.LDAPGroups === 'true';
     return {
         team,
         groups,
         totalGroups,
         allGroups,
         teamID,
+        isLicensedForLDAPGroups,
     };
 }
 

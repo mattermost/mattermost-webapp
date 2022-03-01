@@ -18,7 +18,7 @@ describe('components/ElasticSearchSettings', () => {
     test('should match snapshot, disabled', () => {
         const config = {
             ElasticsearchSettings: {
-                ConnectionUrl: 'test',
+                ConnectionURL: 'test',
                 SkipTLSVerification: false,
                 Username: 'test',
                 Password: 'test',
@@ -39,7 +39,7 @@ describe('components/ElasticSearchSettings', () => {
     test('should match snapshot, enabled', () => {
         const config = {
             ElasticsearchSettings: {
-                ConnectionUrl: 'test',
+                ConnectionURL: 'test',
                 SkipTLSVerification: false,
                 Username: 'test',
                 Password: 'test',
@@ -60,7 +60,7 @@ describe('components/ElasticSearchSettings', () => {
     test('should maintain save disable until is tested', () => {
         const config = {
             ElasticsearchSettings: {
-                ConnectionUrl: 'test',
+                ConnectionURL: 'test',
                 SkipTLSVerification: false,
                 Username: 'test',
                 Password: 'test',

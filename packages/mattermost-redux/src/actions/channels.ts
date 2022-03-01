@@ -539,6 +539,38 @@ export function fetchMyChannelsAndMembers(teamId: string): ActionFunc {
     };
 }
 
+export function fetchAllMyTeamsChannelsAndChannelMembers(): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        const {currentUserId} = state.entities.users;
+        let channels;
+        let channelsMembers;
+        try {
+            channels = await Client4.getAllTeamsChannels();
+            channelsMembers = await Client4.getAllChannelsMembers(currentUserId);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(batchActions([
+                logError(error),
+            ]));
+            return {error};
+        }
+
+        dispatch(batchActions([
+            {
+                type: ChannelTypes.RECEIVED_ALL_CHANNELS,
+                data: channels,
+            },
+            {
+                type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBERS,
+                data: channelsMembers,
+                currentUserId,
+            },
+        ]));
+        return {data: {channels, channelsMembers}};
+    };
+}
+
 export function getMyChannelMembers(teamId: string): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let channelMembers;
@@ -1264,13 +1296,15 @@ export function markChannelAsReadOnServer(channelId: string, prevChannelId?: str
 
 export function actionsToMarkChannelAsRead(getState: GetStateFunc, channelId: string, prevChannelId?: string) {
     const state = getState();
-    const {channels, myMembers} = state.entities.channels;
+    const {channels, messageCounts, myMembers} = state.entities.channels;
 
     const prevChanManuallyUnread = isManuallyUnread(state, prevChannelId);
 
     // Update channel member objects to set all mentions and posts as viewed
     const channel = channels[channelId];
+    const messageCount = messageCounts[channelId];
     const prevChannel = (!prevChanManuallyUnread && prevChannelId) ? channels[prevChannelId] : null; // May be null since prevChannelId is optional
+    const prevMessageCount = (!prevChanManuallyUnread && prevChannelId) ? messageCounts[prevChannelId] : null;
 
     // Update team member objects to set mentions and posts in channel as viewed
     const channelMember = myMembers[channelId];
@@ -1284,8 +1318,8 @@ export function actionsToMarkChannelAsRead(getState: GetStateFunc, channelId: st
             data: {
                 teamId: channel.team_id,
                 channelId,
-                amount: channel.total_msg_count - channelMember.msg_count,
-                amountRoot: channel.total_msg_count_root - channelMember.msg_count_root,
+                amount: messageCount.total - channelMember.msg_count,
+                amountRoot: messageCount.root - channelMember.msg_count_root,
             },
         });
 
@@ -1307,14 +1341,14 @@ export function actionsToMarkChannelAsRead(getState: GetStateFunc, channelId: st
         });
     }
 
-    if (prevChannel && prevChannelMember) {
+    if (prevChannel && prevChannelMember && prevMessageCount) {
         actions.push({
             type: ChannelTypes.DECREMENT_UNREAD_MSG_COUNT,
             data: {
                 teamId: prevChannel.team_id,
                 channelId: prevChannelId,
-                amount: prevChannel.total_msg_count - prevChannelMember.msg_count,
-                amountRoot: prevChannel.total_msg_count_root - prevChannelMember.msg_count_root,
+                amount: prevMessageCount.total - prevChannelMember.msg_count,
+                amountRoot: prevMessageCount.root - prevChannelMember.msg_count_root,
             },
         });
 

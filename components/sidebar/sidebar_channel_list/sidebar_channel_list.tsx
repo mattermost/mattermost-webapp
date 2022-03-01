@@ -10,22 +10,21 @@ import classNames from 'classnames';
 
 import debounce from 'lodash/debounce';
 
+import * as ChannelUtils from 'utils/channel_utils';
+
 import {General} from 'mattermost-redux/constants';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {Team} from 'mattermost-redux/types/teams';
-import {InviteMembersBtnLocations} from 'mattermost-redux/constants/config';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {DraggingState} from 'types/store';
 import {Constants, DraggingStates, DraggingStateTypes} from 'utils/constants';
 import * as Utils from 'utils/utils';
-import * as ChannelUtils from 'utils/channel_utils.jsx';
 
 import SidebarCategory from '../sidebar_category';
 import UnreadChannelIndicator from '../unread_channel_indicator';
 import UnreadChannels from '../unread_channels';
-import InviteMembersButton from '../invite_members_button';
 
 import GlobalThreadsLink from 'components/threading/global_threads_link';
 
@@ -496,6 +495,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
                             {(provided) => {
                                 return (
                                     <div
+                                        id={'sidebar-droppable-categories'}
                                         ref={provided.innerRef}
                                         {...provided.droppableProps}
                                     >
@@ -570,7 +570,6 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
                     >
                         {channelList}
                     </Scrollbars>
-                    <InviteMembersButton buttonType={InviteMembersBtnLocations.STICKY}/>
                 </div>
             </>
         );

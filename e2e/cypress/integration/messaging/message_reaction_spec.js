@@ -25,9 +25,9 @@ describe('Emoji reactions to posts/messages', () => {
 
                 cy.apiAddUserToTeam(testTeam.id, userTwo.id);
 
-                // # Login as userOne and town-square
+                // # Login as userOne and Off-Topic
                 cy.apiLogin(userOne);
-                cy.visit(`/${testTeam.name}/channels/town-square`);
+                cy.visit(`/${testTeam.name}/channels/off-topic`);
             });
         });
     });
@@ -44,9 +44,7 @@ describe('Emoji reactions to posts/messages', () => {
             cy.clickPostReactionIcon(postId);
 
             // # Choose "slightly_frowning_face" emoji
-            cy.findByTestId('slightly_frowning_face').
-                should('exist').
-                click({force: true});
+            cy.clickEmojiInEmojiPicker('slightly_frowning_face');
 
             // * The number shown on the reaction is incremented by 1
             cy.get(`#postReaction-${postId}-slightly_frowning_face .Reaction__number--display`).
@@ -57,9 +55,9 @@ describe('Emoji reactions to posts/messages', () => {
         // # Logout
         cy.apiLogout();
 
-        // # Login as userTwo and town-square
+        // # Login as userTwo and off-topic
         cy.apiLogin(userTwo);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
 
         cy.getLastPostId().then((postId) => {
             // * userOne's reaction "slightly_frowning_face" is visible and is equal to 1
@@ -117,9 +115,7 @@ describe('Emoji reactions to posts/messages', () => {
             cy.get('#emojiPicker').should('be.visible');
 
             // # Select the "sweat_smile" emoji
-            cy.findByTestId('sweat_smile').
-                should('exist').
-                click({force: true});
+            cy.clickEmojiInEmojiPicker('sweat_smile');
 
             // * The emoji picker is no longer open
             cy.get('#emojiPicker').should('not.exist');

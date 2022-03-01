@@ -212,7 +212,7 @@ describe('rhs view actions', () => {
             expect(store.getActions()).toEqual(compareStore.getActions());
 
             store.dispatch(performSearch(terms, true));
-            compareStore.dispatch(SearchActions.searchPostsWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: true, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}));
+            compareStore.dispatch(SearchActions.searchPostsWithParams('', {include_deleted_channels: false, terms, is_or_search: true, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}));
             compareStore.dispatch(SearchActions.searchFilesWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: true, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
@@ -431,6 +431,12 @@ describe('rhs view actions', () => {
                     postId: '',
                     channelId: '',
                     timestamp: 0,
+                },
+                {
+                    type: ActionTypes.TOGGLE_EDITING_POST,
+                    data: {
+                        show: false,
+                    },
                 },
             ]));
 
