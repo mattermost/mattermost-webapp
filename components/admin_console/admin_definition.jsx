@@ -1829,7 +1829,7 @@ const AdminDefinition = {
                         label: t('admin.service.performanceDebuggingTitle'),
                         label_default: 'Enable Client Performance Debugging: ',
                         help_text: t('admin.service.performanceDebuggingDescription'),
-                        help_text_default: 'When true, users will have access to debugging settings for their account in **Settings > Advanced > Performance Debugging** that will assist in diagnosing performance issues when enabled by the affected users.',
+                        help_text_default: 'When true, users can access debugging settings for their account in **Settings > Advanced > Performance Debugging** to assist in diagnosing performance issues.',
                         help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.DEVELOPER)),
                     },

@@ -128,13 +128,13 @@ function PerformanceDebuggingSectionExpanded(props: Props) {
                     <div className='mt-5'>
                         <FormattedMessage
                             id='user.settings.advance.performance.info1'
-                            defaultMessage='You may enable these settings temporarily to help isolate performance issues while debugging. It is not recommended to leave these settings enabled for an extended period of time as they can negatively impact your user experience.'
+                            defaultMessage='You may enable these settings temporarily to help isolate performance issues while debugging. We don't recommend leaving these settings enabled for an extended period of time as they can negatively impact your user experience.'
                         />
                         <br/>
                         <br/>
                         <FormattedMessage
                             id='user.settings.advance.performance.info2'
-                            defaultMessage='You may need to refresh the page before these settings will take effect.'
+                            defaultMessage='You may need to refresh the page before these settings take effect.'
                         />
                     </div>
                 </fieldset>,
