@@ -152,13 +152,14 @@ interface Props {
     channelURL: string;
     dmUser?: DMUser;
     gmUsers?: UserProfile[];
+    canEditChannelProperties: boolean;
     actions: {
         editChannelPurpose: () => void;
         editChannelDescription: () => void;
     };
 }
 
-const AboutArea = ({channel, channelURL, dmUser, gmUsers, actions}: Props) => {
+const AboutArea = ({channel, channelURL, dmUser, gmUsers, canEditChannelProperties, actions}: Props) => {
     let isOpenOrPrivateChannel = false;
     let isDirectChannel = false;
 
@@ -168,22 +169,33 @@ const AboutArea = ({channel, channelURL, dmUser, gmUsers, actions}: Props) => {
     const editChannelPurpose = () => actions.editChannelPurpose();
     const editChannelDescription = () => actions.editChannelDescription();
 
+    let canEditDescription = true;
+
     switch (channel.type) {
     case Constants.OPEN_CHANNEL:
     case Constants.PRIVATE_CHANNEL:
+        canEditDescription = canEditChannelProperties;
         isOpenOrPrivateChannel = true;
         channelPurposeClass = 'editable';
         channelPurpose = (
             <EditableArea
-                editable={true}
+                editable={canEditChannelProperties}
                 content={channel.purpose ? (
                     <Markdown message={channel.purpose}/>
                 ) : (
                     <EmptyPlace>
-                        <FormattedMessage
-                            id='channel_info_rhs.about_area.add_channel_purpose'
-                            defaultMessage='Add a channel purpose'
-                        />
+                        {canEditChannelProperties ? (
+                            <FormattedMessage
+                                id='channel_info_rhs.about_area.add_channel_purpose'
+                                defaultMessage='Add a channel purpose'
+                            />
+                        ) : (
+                            <FormattedMessage
+                                id='channel_info_rhs.about_area.no_channel_purpose'
+                                defaultMessage='No channel purpose'
+                            />
+
+                        )}
                     </EmptyPlace>
                 )}
                 onEdit={editChannelPurpose}
@@ -257,13 +269,21 @@ const AboutArea = ({channel, channelURL, dmUser, gmUsers, actions}: Props) => {
                             <Markdown message={channel.header}/>
                         ) : (
                             <EmptyPlace>
-                                <FormattedMessage
-                                    id='channel_info_rhs.about_area.add_channel_description'
-                                    defaultMessage='Add a channel description'
-                                />
+                                {canEditDescription ? (
+                                    <FormattedMessage
+                                        id='channel_info_rhs.about_area.add_channel_description'
+                                        defaultMessage='Add a channel description'
+                                    />
+                                ) : (
+                                    <FormattedMessage
+                                        id='channel_info_rhs.about_area.no_channel_description'
+                                        defaultMessage='No channel description'
+                                    />
+
+                                )}
                             </EmptyPlace>
                         )}
-                        editable={true}
+                        editable={canEditDescription}
                         onEdit={editChannelDescription}
                     />
                 </ChannelDescription>

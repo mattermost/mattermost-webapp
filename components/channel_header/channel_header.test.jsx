@@ -341,10 +341,10 @@ describe('components/ChannelHeader', () => {
 
     test('should contain the channel info button', () => {
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...populatedProps}/>
-        )
+            <ChannelHeader {...populatedProps}/>,
+        );
         expect(wrapper.contains(
-            <ChannelInfoButton channel={populatedProps.channel} />
+            <ChannelInfoButton channel={populatedProps.channel}/>,
         )).toEqual(true);
-    })
+    });
 });

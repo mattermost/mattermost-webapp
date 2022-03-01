@@ -22,6 +22,9 @@ import {getUserIdFromChannelId} from 'utils/utils';
 import {getProfilesInCurrentChannel, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
+import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
+import {Permissions} from 'mattermost-redux/constants';
+
 import RHS, {ChannelInfoRhsProps} from './rhs';
 
 function mapStateToProps(state: GlobalState) {
@@ -32,9 +35,13 @@ function mapStateToProps(state: GlobalState) {
     const isArchived = isCurrentChannelArchived(state);
     const isFavorite = isCurrentChannelFavorite(state);
     const isMuted = isCurrentChannelMuted(state);
-    const isInvitingPeople = isModalOpen(state, ModalIdentifiers.CHANNEL_INVITE);
+    const isInvitingPeople = isModalOpen(state, ModalIdentifiers.CHANNEL_INVITE) || isModalOpen(state, ModalIdentifiers.CREATE_DM_CHANNEL);
 
     const gmUsers = getProfilesInCurrentChannel(state);
+
+    const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
+    const canManageMembers = haveIChannelPermission(state, currentTeam.id, channel.id, isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS);
+    const canManageProperties = haveIChannelPermission(state, currentTeam.id, channel.id, isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES);
 
     const props = {
         channel,
@@ -45,6 +52,8 @@ function mapStateToProps(state: GlobalState) {
         isMuted,
         isInvitingPeople,
         gmUsers,
+        canManageMembers,
+        canManageProperties,
     } as ChannelInfoRhsProps;
 
     switch (channel.type) {

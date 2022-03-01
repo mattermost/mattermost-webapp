@@ -7,18 +7,15 @@ import styled from 'styled-components';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Channel} from 'mattermost-redux/types/channels';
-
 import {getSiteURL} from 'utils/url';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import {Team} from 'mattermost-redux/types/teams';
 import {ModalData} from 'types/actions';
-import {ModalIdentifiers} from 'utils/constants';
-
+import Constants, {ModalIdentifiers} from 'utils/constants';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
-
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
-
 import ChannelNotificationsModal from 'components/channel_notifications_modal';
+import MoreDirectChannels from 'components/more_direct_channels';
 
 import Menu from './menu';
 import AboutArea from './about_area';
@@ -47,6 +44,9 @@ export interface ChannelInfoRhsProps {
     isMuted: boolean;
     isInvitingPeople: boolean;
 
+    canManageMembers: boolean;
+    canManageProperties: boolean;
+
     dmUser?: DMUser;
     gmUsers?: UserProfile[];
 
@@ -60,7 +60,20 @@ export interface ChannelInfoRhsProps {
     };
 }
 
-const ChannelInfoRhs = ({channel, isArchived, isFavorite, isMuted, isInvitingPeople, currentTeam, currentUser, dmUser, gmUsers, actions}: ChannelInfoRhsProps) => {
+const ChannelInfoRhs = ({
+    channel,
+    isArchived,
+    isFavorite,
+    isMuted,
+    isInvitingPeople,
+    currentTeam,
+    currentUser,
+    dmUser,
+    gmUsers,
+    canManageMembers,
+    canManageProperties,
+    actions,
+}: ChannelInfoRhsProps) => {
     const currentUserId = currentUser.id;
     const channelURL = getSiteURL() + '/' + currentTeam.name + '/channels/' + channel.name;
 
@@ -82,11 +95,23 @@ const ChannelInfoRhs = ({channel, isArchived, isFavorite, isMuted, isInvitingPeo
         actions.muteChannel(currentUserId, channel.id);
     };
 
-    const addPeople = () => actions.openModal({
-        modalId: ModalIdentifiers.CHANNEL_INVITE,
-        dialogType: ChannelInviteModal,
-        dialogProps: {channel},
-    });
+    const addPeople = () => {
+        if (channel.type === Constants.GM_CHANNEL) {
+            // @TODO find how to fix this dialogProps error
+            return actions.openModal({
+                modalId: ModalIdentifiers.CREATE_DM_CHANNEL,
+                dialogType: MoreDirectChannels,
+                dialogProps: {isExistingChannel: true},
+            });
+        }
+
+        return actions.openModal({
+            modalId: ModalIdentifiers.CHANNEL_INVITE,
+            dialogType: ChannelInviteModal,
+            dialogProps: {channel},
+
+        });
+    };
 
     const editChannelPurpose = () => actions.openModal({
         modalId: ModalIdentifiers.EDIT_CHANNEL_PURPOSE,
@@ -124,6 +149,8 @@ const ChannelInfoRhs = ({channel, isArchived, isFavorite, isMuted, isInvitingPeo
                 isMuted={isMuted}
                 isInvitingPeople={isInvitingPeople}
 
+                canAddPeople={canManageMembers}
+
                 toggleFavorite={toggleFavorite}
                 toggleMute={toggleMute}
                 addPeople={addPeople}
@@ -135,6 +162,8 @@ const ChannelInfoRhs = ({channel, isArchived, isFavorite, isMuted, isInvitingPeo
 
                 dmUser={dmUser}
                 gmUsers={gmUsers}
+
+                canEditChannelProperties={canManageProperties}
 
                 actions={{
                     editChannelDescription,

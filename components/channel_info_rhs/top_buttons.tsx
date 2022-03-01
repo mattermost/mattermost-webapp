@@ -57,6 +57,8 @@ interface Props {
     isMuted: boolean;
     isInvitingPeople: boolean;
 
+    canAddPeople: boolean;
+
     toggleFavorite: () => void;
     toggleMute: () => void;
     addPeople: () => void;
@@ -70,7 +72,7 @@ export default function TopButtons({channelType, channelURL, isFavorite, isMuted
         successCopyTimeout: 2 * 1000,
     });
 
-    const canAddPeople = [Constants.OPEN_CHANNEL, Constants.PRIVATE_CHANNEL, Constants.GM_CHANNEL].includes(channelType);
+    const canAddPeople = ([Constants.OPEN_CHANNEL, Constants.PRIVATE_CHANNEL].includes(channelType) && props.canAddPeople) || channelType === Constants.GM_CHANNEL;
 
     const canCopyLink = [Constants.OPEN_CHANNEL, Constants.PRIVATE_CHANNEL].includes(channelType);
 

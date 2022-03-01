@@ -18,7 +18,7 @@ interface Props {
     channel: Channel;
 }
 
-const ChannelInfoButton: React.FC<Props> = (props: Props) => {
+const ChannelInfoButton = (props: Props) => {
     const {channel} = props;
 
     const dispatch = useDispatch();

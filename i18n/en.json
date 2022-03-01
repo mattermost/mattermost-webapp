@@ -2694,6 +2694,8 @@
   "channel_header.viewMembers": "View Members",
   "channel_info_rhs.about_area.add_channel_description": "Add a channel description",
   "channel_info_rhs.about_area.add_channel_purpose": "Add a channel purpose",
+  "channel_info_rhs.about_area.no_channel_description": "No channel description",
+  "channel_info_rhs.about_area.no_channel_purpose": "No channel purpose",
   "channel_info_rhs.header.title": "Info",
   "channel_info_rhs.menu.channel_settings": "Channel Settings",
   "channel_info_rhs.menu.notification_preferences": "Notification Preferences",
