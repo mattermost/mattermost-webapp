@@ -59,12 +59,14 @@ interface Props {
 
     canAddPeople: boolean;
 
-    toggleFavorite: () => void;
-    toggleMute: () => void;
-    addPeople: () => void;
+    actions: {
+        toggleFavorite: () => void;
+        toggleMute: () => void;
+        addPeople: () => void;
+    };
 }
 
-export default function TopButtons({channelType, channelURL, isFavorite, isMuted, isInvitingPeople, ...props}: Props) {
+export default function TopButtons({channelType, channelURL, isFavorite, isMuted, isInvitingPeople, actions}: Props) {
     const {formatMessage} = useIntl();
 
     const copyLink = useCopyText({
@@ -88,18 +90,10 @@ export default function TopButtons({channelType, channelURL, isFavorite, isMuted
     const copyIcon = copyLink.copiedRecently ? 'icon-check' : 'icon-link-variant';
     const copyText = copyLink.copiedRecently ? formatMessage({id: 'channel_info_rhs.top_buttons.copied', defaultMessage: 'Copied'}) : formatMessage({id: 'channel_info_rhs.top_buttons.copy', defaultMessage: 'Copy Link'});
 
-    const toggleFavorite = () => {
-        props.toggleFavorite();
-    };
-
-    const toggleMute = () => {
-        props.toggleMute();
-    };
-
     return (
         <ChannelInfoRhsTopButtons>
             <ChannelInfoRhsTopButton
-                onClick={toggleFavorite}
+                onClick={actions.toggleFavorite}
                 className={isFavorite ? 'active' : ''}
             >
                 <div>
@@ -108,7 +102,7 @@ export default function TopButtons({channelType, channelURL, isFavorite, isMuted
                 <span>{favoriteText}</span>
             </ChannelInfoRhsTopButton>
             <ChannelInfoRhsTopButton
-                onClick={toggleMute}
+                onClick={actions.toggleMute}
                 className={isMuted ? 'active' : ''}
             >
                 <div>
@@ -118,7 +112,7 @@ export default function TopButtons({channelType, channelURL, isFavorite, isMuted
             </ChannelInfoRhsTopButton>
             {canAddPeople && (
                 <ChannelInfoRhsTopButton
-                    onClick={props.addPeople}
+                    onClick={actions.addPeople}
                     className={isInvitingPeople ? 'active' : ''}
                 >
                     <div>

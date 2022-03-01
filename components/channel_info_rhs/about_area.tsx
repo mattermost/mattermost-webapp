@@ -167,9 +167,6 @@ const AboutArea = ({channel, channelURL, dmUser, gmUsers, canEditChannelProperti
     let channelPurpose: JSX.Element | null = null;
     let channelPurposeClass = '';
 
-    const editChannelPurpose = () => actions.editChannelPurpose();
-    const editChannelDescription = () => actions.editChannelDescription();
-
     let canEditDescription = true;
 
     switch (channel.type) {
@@ -198,7 +195,7 @@ const AboutArea = ({channel, channelURL, dmUser, gmUsers, canEditChannelProperti
                         )}
                     </EmptyPlace>
                 )}
-                onEdit={editChannelPurpose}
+                onEdit={actions.editChannelPurpose}
             />
         );
         break;
@@ -284,7 +281,7 @@ const AboutArea = ({channel, channelURL, dmUser, gmUsers, canEditChannelProperti
                             </EmptyPlace>
                         )}
                         editable={canEditDescription}
-                        onEdit={editChannelDescription}
+                        onEdit={actions.editChannelDescription}
                     />
                 </ChannelDescription>
             )}

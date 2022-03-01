@@ -77,8 +77,6 @@ const ChannelInfoRhs = ({
     const currentUserId = currentUser.id;
     const channelURL = getSiteURL() + '/' + currentTeam.name + '/channels/' + channel.name;
 
-    const closeRhs = () => actions.closeRightHandSide();
-
     const toggleFavorite = () => {
         if (isFavorite) {
             actions.unfavoriteChannel(channel.id);
@@ -137,7 +135,7 @@ const ChannelInfoRhs = ({
         >
             <Header
                 channel={channel}
-                onClose={closeRhs}
+                onClose={actions.closeRightHandSide}
             />
 
             <TopButtons
@@ -150,9 +148,7 @@ const ChannelInfoRhs = ({
 
                 canAddPeople={canManageMembers}
 
-                toggleFavorite={toggleFavorite}
-                toggleMute={toggleMute}
-                addPeople={addPeople}
+                actions={{toggleFavorite, toggleMute, addPeople}}
             />
 
             <AboutArea
