@@ -259,11 +259,12 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     handleEditMenuItemActivated = () => {
+        this.props.handleDropdownOpened?.(false);
         this.props.actions.setEditingPost(
             this.props.post.id,
             this.props.location === Locations.CENTER ? 'post_textbox' : 'reply_textbox',
             this.props.post.root_id ? Utils.localizeMessage('rhs_comment.comment', 'Comment') : Utils.localizeMessage('create_post.post', 'Post'),
-            this.props.location === Locations.RHS_ROOT || this.props.location === Locations.RHS_COMMENT,
+            this.props.location === Locations.RHS_ROOT || this.props.location === Locations.RHS_COMMENT || this.props.location === Locations.SEARCH,
         );
     }
 

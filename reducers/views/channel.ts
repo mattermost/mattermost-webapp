@@ -111,6 +111,11 @@ function mobileView(state = false, action: GenericAction) {
 // lastUnreadChannel tracks if the current channel was unread and if it had mentions when the user switched to it.
 function lastUnreadChannel(state: ({channelId: string; hadMentions: boolean}) | null = null, action: GenericAction) {
     switch (action.type) {
+    case ChannelTypes.LEAVE_CHANNEL:
+        if (action.data.id === state?.channelId) {
+            return null;
+        }
+        return state;
     case ActionTypes.SET_LAST_UNREAD_CHANNEL: {
         const {
             channelId,

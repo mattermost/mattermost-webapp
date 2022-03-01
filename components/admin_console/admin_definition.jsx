@@ -5,8 +5,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
-
 import {LicenseSkus} from 'mattermost-redux/types/general';
+
 import {Constants} from 'utils/constants';
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n';
@@ -34,6 +34,7 @@ import LicenseSettings from './license_settings';
 import PermissionSchemesSettings from './permission_schemes_settings';
 import PermissionSystemSchemeSettings from './permission_schemes_settings/permission_system_scheme_settings';
 import PermissionTeamSchemeSettings from './permission_schemes_settings/permission_team_scheme_settings';
+import ValidationResult from './validation';
 import SystemRoles from './system_roles';
 import SystemRole from './system_roles/system_role';
 import SystemUsers from './system_users';
@@ -65,6 +66,7 @@ import CompanyInfo from './billing/company_info';
 import PaymentInfo from './billing/payment_info';
 import CompanyInfoEdit from './billing/company_info_edit';
 import PaymentInfoEdit from './billing/payment_info_edit';
+import WorkspaceOptimizationDashboard from './workspace-optimization/dashboard';
 import {
     LDAPFeatureDiscovery,
     SAMLFeatureDiscovery,
@@ -203,6 +205,10 @@ export const it = {
     userHasReadPermissionOnSomeResources: (key) => Object.values(key).some((resource) => it.userHasReadPermissionOnResource(resource)),
     userHasWritePermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.write?.[key],
     isSystemAdmin: (config, state, license, enterpriseReady, consoleAccess, icloud, isSystemAdmin) => isSystemAdmin,
+};
+
+export const validators = {
+    isRequired: (text, textDefault) => (value) => new ValidationResult(Boolean(value), text, textDefault),
 };
 
 const usesLegacyOauth = (config, state, license, enterpriseReady, consoleAccess, cloud) => {
@@ -350,6 +356,17 @@ const AdminDefinition = {
         sectionTitle: t('admin.sidebar.reporting'),
         sectionTitleDefault: 'Reporting',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.REPORTING)),
+        workspace_optimization: {
+            url: 'reporting/workspace_optimization',
+            title: t('admin.sidebar.workspaceOptimization'),
+            title_default: 'Workspace Optimization',
+            schema: {
+                id: 'WorkspaceOptimizationDashboard',
+                component: WorkspaceOptimizationDashboard,
+            },
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.REPORTING.SITE_STATISTICS)) && it.configIsFalse('FeatureFlags', 'WorkspaceOptimizationDashboard'),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.REPORTING.SITE_STATISTICS)),
+        },
         system_analytics: {
             url: 'reporting/system_analytics',
             title: t('admin.sidebar.siteStatistics'),
@@ -1911,15 +1928,6 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
-                        key: 'SupportSettings.SupportEmail',
-                        label: t('admin.support.emailTitle'),
-                        label_default: 'Support Email:',
-                        help_text: t('admin.support.emailHelp'),
-                        help_text_default: 'Email address displayed on email notifications.',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'SupportSettings.TermsOfServiceLink',
                         label: t('admin.support.termsTitle'),
                         label_default: 'Terms of Use Link:',
@@ -2162,6 +2170,19 @@ const AdminDefinition = {
                         help_text_default: 'When true, users can set a descriptive status message and status emoji visible to all users.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
                     },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableCustomGroups',
+                        label: t('admin.team.customUserGroupsTitle'),
+                        label_default: 'Enable Custom User Groups: ',
+                        help_text: t('admin.team.customUserGroupsDescription'),
+                        help_text_default: 'When true, users with appropriate permissions can create custom user groups and enables at-mentions for those groups.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
+                        isHidden: it.not(it.any(
+                            it.licensedForSku(LicenseSkus.Enterprise),
+                            it.licensedForSku(LicenseSkus.Professional),
+                        )),
+                    },
                 ],
             },
         },
@@ -2255,6 +2276,7 @@ const AdminDefinition = {
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTIFICATIONS)),
                             it.stateIsFalse('EmailSettings.SendEmailNotifications'),
                         ),
+                        validate: validators.isRequired(t('admin.environment.notifications.notificationDisplay.required'), '"Notification Display Name" is required'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2270,6 +2292,19 @@ const AdminDefinition = {
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTIFICATIONS)),
                             it.stateIsFalse('EmailSettings.SendEmailNotifications'),
                         ),
+                        validate: validators.isRequired(t('admin.environment.notifications.feedbackEmail.required'), '"Notification From Address" is required'),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'SupportSettings.SupportEmail',
+                        label: t('admin.environment.notifications.supportEmail.label'),
+                        label_default: 'Support Email Address:',
+                        placeholder: t('admin.environment.notifications.supportAddress.placeholder'),
+                        placeholder_default: 'Ex: "support@yourcompany.com", "admin@yourcompany.com"',
+                        help_text: t('admin.environment.notifications.supportEmail.help'),
+                        help_text_default: 'Email address displayed on support emails.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
+                        validate: validators.isRequired(t('admin.environment.notifications.supportEmail.required'), '"Support Email Address" is required'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,

@@ -65,10 +65,10 @@ describe('Direct Message', () => {
             cy.get('#post_textbox').should('be.visible');
             cy.get('#post_textbox').clear().type('{uparrow}');
 
-            // * Edit post modal should appear, and edit the post
-            cy.get('#editPostModal').should('be.visible');
+            // * Edit post Input should appear, and edit the post
+            cy.get('#edit_textbox').should('be.visible');
             cy.get('#edit_textbox').should('have.text', originalMessage).type(' World{enter}');
-            cy.get('#editPostModal').should('not.exist');
+            cy.get('#edit_textbox').should('not.exist');
 
             // * Verify that last post does contain "Edited"
             cy.getLastPostId().then((postId) => {
