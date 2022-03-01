@@ -18,6 +18,8 @@ import PostBodyAdditionalContent from 'components/post_view/post_body_additional
 import PostMessageView from 'components/post_view/post_message_view';
 import ReactionList from 'components/post_view/reaction_list';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
+import EditPost from '../../edit_post';
+import AutoHeightSwitcher from '../../common/auto_height_switcher';
 
 const SENDING_ANIMATION_DELAY = 3000;
 
@@ -73,25 +75,38 @@ export default class PostBody extends React.PureComponent {
          * Flag passed down to PostBodyAdditionalContent for determining if post embed is visible
          */
         isEmbedVisible: PropTypes.bool,
-    }
+
+        /**
+         * check if the current post is being edited at the moment
+         */
+        isPostBeingEdited: PropTypes.bool,
+
+        /**
+         * check if the current post is being edited in the RHS
+         */
+        isPostBeingEditedInRHS: PropTypes.bool,
+    };
+
+    static defaultProps = {
+        isReadOnly: false,
+        isPostBeingEdited: false,
+    };
 
     constructor(props) {
         super(props);
 
-        this.sendingAction = new DelayedAction(
-            () => {
-                const post = this.props.post;
-                if (post && post.id === post.pending_post_id) {
-                    this.setState({sending: true});
-                }
-            },
-        );
+        this.sendingAction = new DelayedAction(() => {
+            const post = this.props.post;
+            if (post && post.id === post.pending_post_id) {
+                this.setState({sending: true});
+            }
+        });
 
         this.state = {sending: false};
     }
 
     static getDerivedStateFromProps(props, state) {
-        if (state.sending && props.post && (props.post.id !== props.post.pending_post_id)) {
+        if (state.sending && props.post && props.post.id !== props.post.pending_post_id) {
             return {
                 sending: false,
             };
@@ -118,9 +133,9 @@ export default class PostBody extends React.PureComponent {
     }
 
     render() {
-        const post = this.props.post;
-        const parentPost = this.props.parentPost;
-        const parentPostUser = this.props.parentPostUser;
+        const {post, parentPost, parentPostUser, isPostBeingEdited, isPostBeingEditedInRHS} = this.props;
+
+        const isBeingEdited = isPostBeingEdited && !isPostBeingEditedInRHS;
 
         let comment;
         let postClass = '';
@@ -148,7 +163,11 @@ export default class PostBody extends React.PureComponent {
         }
 
         let fileAttachmentHolder = null;
-        if (((post.file_ids && post.file_ids.length > 0) || (post.filenames && post.filenames.length > 0)) && this.props.post.state !== Posts.POST_DELETED) {
+        if (
+            ((post.file_ids && post.file_ids.length > 0) ||
+                (post.filenames && post.filenames.length > 0)) &&
+            this.props.post.state !== Posts.POST_DELETED
+        ) {
             fileAttachmentHolder = (
                 <FileAttachmentListContainer
                     post={post}
@@ -174,8 +193,11 @@ export default class PostBody extends React.PureComponent {
             </React.Fragment>
         );
 
-        const hasPlugin = (post.type && this.props.pluginPostTypes.hasOwnProperty(post.type)) ||
-            (post.props && post.props.type && this.props.pluginPostTypes.hasOwnProperty(post.props.type));
+        const hasPlugin =
+            (post.type && this.props.pluginPostTypes.hasOwnProperty(post.ytype)) ||
+            (post.props &&
+                post.props.type &&
+                this.props.pluginPostTypes.hasOwnProperty(post.props.type));
 
         let messageWithAdditionalContent;
         if (this.props.post.state === Posts.POST_DELETED || hasPlugin) {
@@ -202,17 +224,22 @@ export default class PostBody extends React.PureComponent {
         }
 
         return (
-            <div>
+            <>
                 {comment}
                 <div
                     id={`${post.id}_message`}
                     className={`post__body ${mentionHighlightClass} ${ephemeralPostClass} ${postClass}`}
                 >
-                    {messageWithAdditionalContent}
+                    <AutoHeightSwitcher
+                        showSlot={isBeingEdited ? 2 : 1}
+                        shouldScrollIntoView={isBeingEdited}
+                        slot1={messageWithAdditionalContent}
+                        slot2={<EditPost/>}
+                    />
                     {fileAttachmentHolder}
                     <ReactionList post={post}/>
                 </div>
-            </div>
+            </>
         );
     }
 }

@@ -7,6 +7,7 @@ import styled, {css} from 'styled-components';
 import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 import {FormattedMessage} from 'react-intl';
 
+import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
@@ -152,6 +153,10 @@ const Skeleton = styled.div`
 `;
 
 const OnBoardingTaskList = (): JSX.Element => {
+    useEffect(() => {
+        dispatch(getPrevTrialLicense());
+    }, []);
+
     const open = useSelector(((state: GlobalState) => getBool(state, OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN)));
     const trigger = useRef<HTMLButtonElement>(null);
     const dispatch = useDispatch();
@@ -191,7 +196,7 @@ const OnBoardingTaskList = (): JSX.Element => {
             user_id: currentUserId,
             category: OnboardingTaskCategory,
             name: OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW,
-            value: 'true',
+            value: 'false',
         }];
         dispatch(savePreferences(currentUserId, preferences));
         trackEvent(OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW);

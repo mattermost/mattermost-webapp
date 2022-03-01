@@ -692,25 +692,25 @@ export function searchProfilesInGroup(state: GlobalState, groupId: Group['id'], 
     return profiles;
 }
 
+export function checkIsFirstAdmin(currentUser: UserProfile, users: IDMappedObjects<UserProfile>): boolean {
+    if (!currentUser) {
+        return false;
+    }
+    if (!currentUser.roles.includes('system_admin')) {
+        return false;
+    }
+    for (const user of Object.values(users)) {
+        if (user.roles.includes('system_admin') && user.create_at < currentUser.create_at) {
+            // If the user in the list is an admin with create_at less than our user, than that user is older than the current one, so it can't be the first admin.
+            return false;
+        }
+    }
+    return true;
+}
+
 export const isFirstAdmin = createSelector(
     'isFirstAdmin',
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => getUsers(state),
-    (currentUser, users) => {
-        if (!currentUser) {
-            return false;
-        }
-        if (!currentUser.roles.includes('system_admin')) {
-            return false;
-        }
-        const userIds = Object.keys(users);
-        for (const userId of userIds) {
-            const user = users[userId];
-            if (user.roles.includes('system_admin') && user.create_at < currentUser.create_at) {
-            // If the user in the list is an admin with create_at less than our user, than that user is older than the current one, so it can't be the first admin.
-                return false;
-            }
-        }
-        return true;
-    },
+    checkIsFirstAdmin,
 );

@@ -119,15 +119,13 @@ describe('Demo plugin - Webhook events', () => {
             // # click edit post
             cy.get(`#edit_post_${postID}`).click();
 
-            // # Edit message
+            // # Edit message and finish by hitting `enter`
             cy.get('#edit_textbox').
                 should('be.visible').
                 and('be.focused').
                 wait(TIMEOUTS.HALF_SEC).
-                type(MESSAGES.TINY);
-
-            // # Click button Edit
-            cy.get('#editButton').click();
+                type(MESSAGES.TINY).
+                type('{enter}');
 
             // # Open demo plugin channel
             cy.visit(`/${team1.name}/channels/demo_plugin`);
@@ -147,11 +145,8 @@ describe('Demo plugin - Webhook events', () => {
             cy.clickPostReactionIcon(postId);
 
             // # Choose "slightly_frowning_face" emoji
-            // delaying 500ms in case of lag
-            // eslint-disable-next-line cypress/no-unnecessary-waiting
-            cy.get('.emoji-picker__items #emoji-1f641').wait(500).click({force: true});
+            cy.clickEmojiInEmojiPicker('slightly_frowning_face');
 
-            // # Open demo plugin channel
             cy.visit(`/${team1.name}/channels/demo_plugin`);
 
             // * Verify event posted in the channel

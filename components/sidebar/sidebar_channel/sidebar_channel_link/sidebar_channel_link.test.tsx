@@ -42,6 +42,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
             multiSelectChannelTo: jest.fn(),
             clearChannelSelection: jest.fn(),
             openLhs: jest.fn(),
+            unsetEditingPost: jest.fn(),
         },
     };
 

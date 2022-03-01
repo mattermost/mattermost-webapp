@@ -7,6 +7,7 @@ import {RouterProps} from 'react-router-dom';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import {GeneralTypes} from 'mattermost-redux/action_types';
+import {General} from 'mattermost-redux/constants';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {createChannel} from 'mattermost-redux/actions/channels';
 import {getFirstAdminSetupComplete as getFirstAdminSetupCompleteAction} from 'mattermost-redux/actions/general';
@@ -20,6 +21,8 @@ import {getCurrentTeam, getMyTeams} from 'mattermost-redux/selectors/entities/te
 import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getFirstAdminSetupComplete, getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {Client4} from 'mattermost-redux/client';
+
+import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks/constants';
 
 import Constants, {Preferences, RecommendedNextSteps} from 'utils/constants';
 import {makeNewEmptyChannel} from 'utils/channel_utils';
@@ -74,11 +77,12 @@ type SubmissionState = typeof SubmissionStates[keyof typeof SubmissionStates];
 
 // We want an apparent total wait of at least two seconds
 // START_TRANSITIONING_OUT is how long the other side of the transitioning screen
-const WAIT_FOR_REDIRECT_TIME = 3000 - START_TRANSITIONING_OUT;
+const WAIT_FOR_REDIRECT_TIME = 2000 - START_TRANSITIONING_OUT;
 
 export type Actions = {
     createTeam: (team: Team) => ActionResult;
     checkIfTeamExists: (teamName: string) => ActionResult;
+    getProfiles: (page: number, perPage: number, options: Record<string, any>) => ActionResult;
 }
 
 type Props = RouterProps & {
@@ -133,9 +137,13 @@ export default function PreparingWorkspace(props: Props) {
     const isSelfHosted = useSelector(getLicense).Cloud !== 'true';
     const currentTeam = useSelector(getCurrentTeam);
     const myTeams = useSelector(getMyTeams);
+
+    // In cloud instances created from portal,
+    // new admin user has a team in myTeams but not in currentTeam.
+    const inferredTeam = currentTeam || myTeams?.[0];
     const config = useSelector(getConfig);
     const configSiteUrl = config.SiteURL;
-    const isConfigSiteUrlDefault = Boolean(config.SiteURL && config.SiteURL === Constants.DEFAULT_SITE_URL);
+    const isConfigSiteUrlDefault = config.SiteURL === '' || Boolean(config.SiteURL && config.SiteURL === Constants.DEFAULT_SITE_URL);
     const lastIsConfigSiteUrlDefaultRef = useRef(isConfigSiteUrlDefault);
     const showOnMountTimeout = useRef<NodeJS.Timeout>();
 
@@ -162,6 +170,7 @@ export default function PreparingWorkspace(props: Props) {
     const [submitError, setSubmitError] = useState<string | null>(null);
     useEffect(() => {
         showOnMountTimeout.current = setTimeout(() => setShowFirstPage(true), 40);
+        props.actions.getProfiles(0, General.PROFILE_CHUNK_SIZE, {roles: General.SYSTEM_ADMIN_ROLE});
         dispatch(getFirstAdminSetupCompleteAction());
         document.body.classList.add('admin-onboarding');
         return () => {
@@ -231,7 +240,7 @@ export default function PreparingWorkspace(props: Props) {
             return;
         }
 
-        let team = currentTeam;
+        let team = inferredTeam;
 
         if (form.organization) {
             try {
@@ -274,6 +283,24 @@ export default function PreparingWorkspace(props: Props) {
             }
         }
 
+        if (isConfigSiteUrlDefault && isSelfHosted && form.url && form.url !== configSiteUrl) {
+            try {
+                let withProtocol = form.url;
+                if (form.inferredProtocol) {
+                    withProtocol = form.inferredProtocol + '://' + withProtocol;
+                }
+                await Client4.patchConfig({
+                    ServiceSettings: {
+                        SiteURL: withProtocol,
+                    },
+                });
+
+                // save config here
+            } catch (e) {
+                redirectWithError(WizardSteps.Url, genericSubmitError);
+            }
+        }
+
         if (!form.teamMembers.skipped && !isConfigSiteUrlDefault) {
             try {
                 const inviteResult = await dispatch(sendEmailInvitesToTeamGracefully(team.id, form.teamMembers.invites));
@@ -310,14 +337,32 @@ export default function PreparingWorkspace(props: Props) {
         }
 
         const goToChannels = () => {
+            dispatch({type: GeneralTypes.SHOW_LAUNCHING_WORKSPACE, open: true});
             if (redirectChannel) {
                 dispatch(switchToChannel(redirectChannel));
             } else {
                 props.history.push(`/${team.name}/channels${Constants.DEFAULT_CHANNEL}`);
             }
         };
+
+        // prepare task list to open in the next view
+        dispatch(savePreferences(user.id, [
+            {
+                user_id: user.id,
+                category: OnboardingTaskCategory,
+                name: OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW,
+                value: 'true',
+            },
+            {
+                user_id: user.id,
+                category: OnboardingTaskCategory,
+                name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
+                value: 'true',
+            },
+        ]));
+
         const sendFormEnd = Date.now();
-        const timeToWait = (sendFormEnd - sendFormStart) - WAIT_FOR_REDIRECT_TIME;
+        const timeToWait = WAIT_FOR_REDIRECT_TIME - (sendFormEnd - sendFormStart);
         if (timeToWait > 0) {
             setTimeout(goToChannels, timeToWait);
         } else {
@@ -609,7 +654,7 @@ export default function PreparingWorkspace(props: Props) {
                             },
                         });
                     }}
-                    teamInviteId={(currentTeam || myTeams?.[0])?.invite_id || ''}
+                    teamInviteId={inferredTeam?.invite_id || ''}
                     configSiteUrl={configSiteUrl}
                     formUrl={form.url}
                     browserSiteUrl={browserSiteUrl}
@@ -621,7 +666,7 @@ export default function PreparingWorkspace(props: Props) {
                     step={currentStep}
                     transitionDirection={getTransitionDirectionMultiStep([WizardSteps.Channel, WizardSteps.InviteMembers])}
                     channelName={form.channel.name || 'Channel name'}
-                    teamName={isSelfHosted ? form.organization || 'Team name' : (currentTeam || myTeams?.[0])?.display_name || 'Team name'}
+                    teamName={isSelfHosted ? form.organization || 'Team name' : inferredTeam?.display_name || 'Team name'}
                 />
                 <LaunchingWorkspace
                     onPageView={onPageViews[WizardSteps.LaunchingWorkspace]}

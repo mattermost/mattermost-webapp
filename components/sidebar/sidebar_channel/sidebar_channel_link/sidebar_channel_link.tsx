@@ -66,6 +66,7 @@ type Props = {
         clearChannelSelection: () => void;
         multiSelectChannelTo: (channelId: string) => void;
         multiSelectChannelAdd: (channelId: string) => void;
+        unsetEditingPost: () => void;
     };
 };
 
@@ -150,6 +151,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
             event.preventDefault();
             this.props.actions.multiSelectChannelTo(this.props.channel.id);
         } else {
+            this.props.actions.unsetEditingPost();
             this.props.actions.clearChannelSelection();
         }
     }
@@ -171,7 +173,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         } = this.props;
 
         let channelsTutorialTip: JSX.Element | null = null;
-        if (firstChannelName === channel.name || (showChannelsTutorialStep && channel.name === Constants.DEFAULT_CHANNEL)) {
+        if (firstChannelName === channel.name || (!firstChannelName && showChannelsTutorialStep && channel.name === Constants.DEFAULT_CHANNEL)) {
             channelsTutorialTip = (<ChannelsAndDirectMessagesTour firstChannelName={firstChannelName}/>);
         }
 
