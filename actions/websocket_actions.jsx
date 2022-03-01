@@ -702,10 +702,6 @@ async function handlePostDeleteEvent(msg) {
     const state = getState();
     const collapsedThreads = isCollapsedThreadsEnabled(state);
 
-    if (!post.root_id && collapsedThreads) {
-        dispatch(decrementThreadCounts(post));
-    }
-
     dispatch(postDeleted(post));
 
     // update thread when a comment is deleted and CRT is on
@@ -716,11 +712,17 @@ async function handlePostDeleteEvent(msg) {
             const teamId = getCurrentTeamId(state);
             dispatch(fetchThread(userId, teamId, post.root_id, true));
         } else {
-            const res = await dispatch(getPostThread(post.id));
+            const res = await dispatch(getPostThread(post.root_id));
             const {order, posts} = res.data;
             const rootPost = posts[order[0]];
             dispatch(receivedPost(rootPost));
         }
+    }
+
+    if (collapsedThreads && (post.root_id || post.reply_count)) {
+        const currentTeamId = getCurrentTeamId(state);
+        const currentUserId = getCurrentUserId(state);
+        dispatch(fetchThreads(currentUserId, currentTeamId, {totalsOnly: true}));
     }
 
     if (post.is_pinned) {
