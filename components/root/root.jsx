@@ -59,8 +59,6 @@ const LazyMfa = React.lazy(() => import('components/mfa/mfa_controller'));
 
 import store from 'stores/redux_store.jsx';
 import {getSiteURL} from 'utils/url';
-import {enableDevModeFeatures, isDevMode} from 'utils/utils';
-
 import A11yController from 'utils/a11y_controller';
 
 import TeamSidebar from 'components/team_sidebar';
@@ -163,10 +161,6 @@ export default class Root extends React.PureComponent {
     }
 
     onConfigLoaded = () => {
-        if (isDevMode()) {
-            enableDevModeFeatures();
-        }
-
         const telemetryId = this.props.telemetryId;
 
         let rudderKey = Constants.TELEMETRY_RUDDER_KEY;
