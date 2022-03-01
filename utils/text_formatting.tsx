@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import XRegExp from 'xregexp';
 import emojiRegex from 'emoji-regex';
 import {Renderer} from 'marked';
 
@@ -343,8 +342,8 @@ const emailRegex = /(^|[^\p{L}\d])((?:[\p{L}\p{Nd}!#$%&'*+-/=?^_`\{|\}~](?:[\p{L
 // Convert emails into tokens
 function autolinkEmails(text: string, tokens: Tokens) {
     function replaceEmailWithToken(
-        fullMatch: XRegExp.MatchSubString,
-        ...args: Array<string | number | XRegExp.NamedGroupsArray>
+        fullMatch: string,
+        ...args: Array<string | number>
     ) {
         const prefix = args[0] as string;
         const email = args[1] as string;
@@ -360,7 +359,7 @@ function autolinkEmails(text: string, tokens: Tokens) {
         return prefix + alias;
     }
 
-    return XRegExp.replace(text, emailRegex, replaceEmailWithToken);
+    return text.replace(emailRegex, replaceEmailWithToken);
 }
 
 export function autolinkAtMentions(text: string, tokens: Tokens): string {
@@ -613,6 +612,8 @@ function highlightCurrentMentions(
     return output;
 }
 
+const hashtagRegex = /(^|\W)(#\p{L}[\p{L}\d_.-]*[\p{L}\d])/gu;
+
 function autolinkHashtags(
     text: string,
     tokens: Tokens,
@@ -665,7 +666,7 @@ function autolinkHashtags(
     }
 
     return output.replace(
-        XRegExp.cache('(^|\\W)(#\\pL[\\pL\\d\\-_.]*[\\pL\\d])', 'g'),
+        hashtagRegex,
         replaceHashtagWithToken,
     );
 }
