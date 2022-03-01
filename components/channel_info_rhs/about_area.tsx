@@ -33,7 +33,7 @@ const Usernames = styled.p`
     font-family: Metropolis, sans-serif;
     font-size: 18px;
     line-height: 24px;
-    color: #3F4350;
+    color: rgb(var(--center-channel-text-rgb));
     font-weight: 600;
     margin: 0;
 `;

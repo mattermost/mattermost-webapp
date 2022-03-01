@@ -100,7 +100,7 @@ const StyledMenu = styled(Menu)`
 
     font-size: 14px;
     line-height: 20px;
-    color: #3F4350;
+    color: rgb(var(--center-channel-text-rgb));
 `;
 
 export default StyledMenu;

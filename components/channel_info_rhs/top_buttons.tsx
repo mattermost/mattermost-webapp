@@ -10,7 +10,7 @@ import useCopyText from 'components/common/hooks/useCopyText';
 
 const ChannelInfoRhsTopButtons = styled.div`
     display: flex;
-    color: rgba(63, 67, 80, 0.56);
+    color: rgba(var(--center-channel-text-rgb), 0.56);
     margin-top: 24px;
     padding: 0 18px;
 `;
@@ -19,24 +19,25 @@ const ChannelInfoRhsTopButton = styled.button`
     border-radius: 4px;
     border: 0;
     padding: 12px 0 10px 0;
-    background: rgba(63, 67, 80, 0.04);
+    background: rgba(var(--center-channel-text-rgb), 0.04);
     flex: 1;
     margin: 0 6px;
     transition: background-color 0.5s ease;
 
     &:hover {
-       background: rgba(63, 67, 80, 0.08);
-       color: rgba(63, 67, 80, 0.72);
+       background: rgba(var(--center-channel-text-rgb), 0.08);
+       color: rgba(var(--center-channel-text-rgb), 0.72);
     }
 
+    &:active,
     &.active {
-        background: rgba(28, 88, 217, 0.08);
-        color: #1C58D9;
+        background: rgba(var(--button-bg-rgb), 0.08);
+        color: var(--button-bg);
     }
 
     &.success {
-        background: #3DB887;
-        color: white;
+        background: var(--denim-status-online);
+        color: var(--button-color);
     }
 
     & i {
