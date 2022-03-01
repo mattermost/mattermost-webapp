@@ -42,10 +42,11 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
 
         const baseTextSettingProps = {
             inputClassName: '',
-            label: (<React.Fragment>
-                {textField.modal_label}
-                {false}
-            </React.Fragment>),
+            label: (
+                <React.Fragment>
+                    {textField.modal_label}
+                </React.Fragment>
+            ),
             maxLength: 100,
             placeholder: 'The hint',
             resizable: false,
@@ -69,10 +70,11 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
             expect(wrapper.matchesElement(
                 <TextSetting
                     {...baseTextSettingProps}
-                    label={(<React.Fragment>
-                        {textField.modal_label}
-                        {<span className='light'>{' (optional)'}</span>}
-                    </React.Fragment>
+                    label={(
+                        <React.Fragment>
+                            {textField.modal_label}
+                            {<span className='light'>{' (optional)'}</span>}
+                        </React.Fragment>
                     )}
                     type='input'
                 />,
