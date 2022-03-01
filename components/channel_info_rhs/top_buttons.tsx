@@ -66,7 +66,15 @@ interface Props {
     };
 }
 
-export default function TopButtons({channelType, channelURL, isFavorite, isMuted, isInvitingPeople, actions}: Props) {
+export default function TopButtons({
+    channelType,
+    channelURL,
+    isFavorite,
+    isMuted,
+    isInvitingPeople,
+    canAddPeople: propsCanAddPeople,
+    actions,
+}: Props) {
     const {formatMessage} = useIntl();
 
     const copyLink = useCopyText({
@@ -74,7 +82,7 @@ export default function TopButtons({channelType, channelURL, isFavorite, isMuted
         successCopyTimeout: 2 * 1000,
     });
 
-    const canAddPeople = ([Constants.OPEN_CHANNEL, Constants.PRIVATE_CHANNEL].includes(channelType) && props.canAddPeople) || channelType === Constants.GM_CHANNEL;
+    const canAddPeople = ([Constants.OPEN_CHANNEL, Constants.PRIVATE_CHANNEL].includes(channelType) && propsCanAddPeople) || channelType === Constants.GM_CHANNEL;
 
     const canCopyLink = [Constants.OPEN_CHANNEL, Constants.PRIVATE_CHANNEL].includes(channelType);
 
