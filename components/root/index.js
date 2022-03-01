@@ -9,6 +9,7 @@ import {shouldShowTermsOfService, getCurrentUserId, isFirstAdmin} from 'mattermo
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getFirstAdminSetupComplete} from 'mattermost-redux/actions/general';
 import {getTheme, getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getProfiles} from 'mattermost-redux/actions/users';
 
 import {loadMeAndConfig} from 'actions/views/root';
 import {emitBrowserWindowResized} from 'actions/views/browser';
@@ -52,6 +53,7 @@ function mapDispatchToProps(dispatch) {
             loadMeAndConfig,
             emitBrowserWindowResized,
             getFirstAdminSetupComplete,
+            getProfiles,
         }, dispatch),
     };
 }

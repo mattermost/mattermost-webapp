@@ -7,6 +7,7 @@ import {RouterProps} from 'react-router-dom';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import {GeneralTypes} from 'mattermost-redux/action_types';
+import {General} from 'mattermost-redux/constants';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {createChannel} from 'mattermost-redux/actions/channels';
 import {getFirstAdminSetupComplete as getFirstAdminSetupCompleteAction} from 'mattermost-redux/actions/general';
@@ -81,6 +82,7 @@ const WAIT_FOR_REDIRECT_TIME = 2000 - START_TRANSITIONING_OUT;
 export type Actions = {
     createTeam: (team: Team) => ActionResult;
     checkIfTeamExists: (teamName: string) => ActionResult;
+    getProfiles: (page: number, perPage: number, options: Record<string, any>) => ActionResult;
 }
 
 type Props = RouterProps & {
@@ -168,6 +170,7 @@ export default function PreparingWorkspace(props: Props) {
     const [submitError, setSubmitError] = useState<string | null>(null);
     useEffect(() => {
         showOnMountTimeout.current = setTimeout(() => setShowFirstPage(true), 40);
+        props.actions.getProfiles(0, General.PROFILE_CHUNK_SIZE, {roles: General.SYSTEM_ADMIN_ROLE});
         dispatch(getFirstAdminSetupCompleteAction());
         document.body.classList.add('admin-onboarding');
         return () => {
