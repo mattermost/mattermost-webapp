@@ -51,6 +51,9 @@ import {
     SyncablePatch,
     UsersWithGroupsAndCount,
     GroupsWithCount,
+    GroupCreateWithUserIds,
+    GroupSearachParams,
+    CustomGroupPatch,
 } from 'mattermost-redux/types/groups';
 import {PostActionResponse} from 'mattermost-redux/types/integration_actions';
 import {
@@ -111,12 +114,15 @@ import {
     PatchDataRetentionCustomPolicy,
     GetDataRetentionCustomPoliciesRequest,
 } from 'mattermost-redux/types/data_retention';
+import {CompleteOnboardingRequest} from 'mattermost-redux/types/setup';
 
 import {buildQueryString, isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 import {cleanUrlForLogging} from 'mattermost-redux/utils/sentry';
 import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 
 import {UserThreadList, UserThread, UserThreadWithPost} from 'mattermost-redux/types/threads';
+
+import Constants from 'utils/constants';
 
 import {TelemetryHandler} from './telemetry';
 
@@ -430,6 +436,10 @@ export default class Client4 {
 
     getUserThreadRoute(userId: string, teamId: string, threadId: string): string {
         return `${this.getUserThreadsRoute(userId, teamId)}/${threadId}`;
+    }
+
+    getSystemRoute(): string {
+        return `${this.getBaseRoute()}/system`;
     }
 
     getCSRFFromCookie() {
@@ -836,6 +846,13 @@ export default class Client4 {
     getProfilesInGroup = (groupId: string, page = 0, perPage = PER_PAGE_DEFAULT) => {
         return this.doFetch<UserProfile[]>(
             `${this.getUsersRoute()}${buildQueryString({in_group: groupId, page, per_page: perPage})}`,
+            {method: 'get'},
+        );
+    };
+
+    getProfilesNotInGroup = (groupId: string, page = 0, perPage = PER_PAGE_DEFAULT) => {
+        return this.doFetch<UserProfile[]>(
+            `${this.getUsersRoute()}${buildQueryString({not_in_group: groupId, page, per_page: perPage})}`,
             {method: 'get'},
         );
     };
@@ -2317,6 +2334,13 @@ export default class Client4 {
         );
     };
 
+    getFirstAdminSetupComplete = async () => {
+        return this.doFetch<SystemSetting>(
+            `${this.getSystemRoute()}/onboarding/complete`,
+            {method: 'get'},
+        );
+    };
+
     getTranslations = (url: string) => {
         return this.doFetch<Record<string, string>>(
             url,
@@ -2826,6 +2850,13 @@ export default class Client4 {
         return this.doFetch<AdminConfig>(
             `${this.getBaseRoute()}/config`,
             {method: 'put', body: JSON.stringify(config)},
+        );
+    };
+
+    patchConfig = (patch: DeepPartial<AdminConfig>) => {
+        return this.doFetch<AdminConfig>(
+            `${this.getBaseRoute()}/config/patch`,
+            {method: 'put', body: JSON.stringify(patch)},
         );
     };
 
@@ -3361,9 +3392,9 @@ export default class Client4 {
         );
     };
 
-    getGroup = (groupID: string) => {
+    getGroup = (groupID: string, includeMemberCount = false) => {
         return this.doFetch<Group>(
-            this.getGroupRoute(groupID),
+            `${this.getGroupRoute(groupID)}${buildQueryString({include_member_count: includeMemberCount})}`,
             {method: 'get'},
         );
     };
@@ -3375,9 +3406,19 @@ export default class Client4 {
         );
     };
 
-    getGroups = (filterAllowReference = false, page = 0, perPage = PER_PAGE_DEFAULT) => {
+    getGroups = (filterAllowReference = false, page = 0, perPage = 10, includeMemberCount = false, hasFilterMember = false) => {
+        const qs: any = {
+            filter_allow_reference: filterAllowReference,
+            page,
+            per_page: perPage,
+            include_member_count: includeMemberCount,
+        };
+
+        if (hasFilterMember) {
+            qs.filter_has_member = hasFilterMember;
+        }
         return this.doFetch<Group[]>(
-            `${this.getGroupsRoute()}${buildQueryString({filter_allow_reference: filterAllowReference, page, per_page: perPage})}`,
+            `${this.getGroupsRoute()}${buildQueryString(qs)}`,
             {method: 'get'},
         );
     };
@@ -3389,15 +3430,15 @@ export default class Client4 {
         );
     };
 
-    getGroupsNotAssociatedToTeam = (teamID: string, q = '', page = 0, perPage = PER_PAGE_DEFAULT) => {
+    getGroupsNotAssociatedToTeam = (teamID: string, q = '', page = 0, perPage = PER_PAGE_DEFAULT, source = Constants.LDAP_SERVICE) => {
         this.trackEvent('api', 'api_groups_get_not_associated_to_team', {team_id: teamID});
         return this.doFetch<Group[]>(
-            `${this.getGroupsRoute()}${buildQueryString({not_associated_to_team: teamID, page, per_page: perPage, q, include_member_count: true})}`,
+            `${this.getGroupsRoute()}${buildQueryString({not_associated_to_team: teamID, page, per_page: perPage, q, include_member_count: true, group_source: source})}`,
             {method: 'get'},
         );
     };
 
-    getGroupsNotAssociatedToChannel = (channelID: string, q = '', page = 0, perPage = PER_PAGE_DEFAULT, filterParentTeamPermitted = false) => {
+    getGroupsNotAssociatedToChannel = (channelID: string, q = '', page = 0, perPage = PER_PAGE_DEFAULT, filterParentTeamPermitted = false, source = Constants.LDAP_SERVICE) => {
         this.trackEvent('api', 'api_groups_get_not_associated_to_channel', {channel_id: channelID});
         const query = {
             not_associated_to_channel: channelID,
@@ -3406,12 +3447,41 @@ export default class Client4 {
             q,
             include_member_count: true,
             filter_parent_team_permitted: filterParentTeamPermitted,
+            group_source: source,
         };
         return this.doFetch<Group[]>(
             `${this.getGroupsRoute()}${buildQueryString(query)}`,
             {method: 'get'},
         );
     };
+
+    createGroupWithUserIds = (group: GroupCreateWithUserIds) => {
+        return this.doFetch<Group>(
+            this.getGroupsRoute(),
+            {method: 'post', body: JSON.stringify(group)},
+        );
+    }
+
+    addUsersToGroup = (groupId: string, userIds: string[]) => {
+        return this.doFetch<UserProfile[]>(
+            `${this.getGroupRoute(groupId)}/members`,
+            {method: 'post', body: JSON.stringify({user_ids: userIds})},
+        );
+    }
+
+    removeUsersFromGroup = (groupId: string, userIds: string[]) => {
+        return this.doFetch<UserProfile[]>(
+            `${this.getGroupRoute(groupId)}/members`,
+            {method: 'delete', body: JSON.stringify({user_ids: userIds})},
+        );
+    }
+
+    searchGroups = (params: GroupSearachParams) => {
+        return this.doFetch<Group[]>(
+            `${this.getGroupsRoute()}${buildQueryString(params)}`,
+            {method: 'get'},
+        );
+    }
 
     // This function belongs to the Apps Framework feature.
     // Apps Framework feature is experimental, and this function is susceptible
@@ -3502,12 +3572,19 @@ export default class Client4 {
         );
     };
 
-    patchGroup = (groupID: string, patch: GroupPatch) => {
+    patchGroup = (groupID: string, patch: GroupPatch | CustomGroupPatch) => {
         return this.doFetch<Group>(
             `${this.getGroupRoute(groupID)}/patch`,
             {method: 'put', body: JSON.stringify(patch)},
         );
     };
+
+    archiveGroup = (groupId: string) => {
+        return this.doFetch<Group>(
+            `${this.getGroupRoute(groupId)}`,
+            {method: 'delete'},
+        );
+    }
 
     // Redirect Location
     getRedirectLocation = (urlParam: string) => {
@@ -3741,6 +3818,13 @@ export default class Client4 {
         return this.doFetch<string[]>(
             `${this.getPermissionsRoute()}/ancillary?subsection_permissions=${subsectionPermissions.join(',')}`,
             {method: 'get'},
+        );
+    }
+
+    completeSetup = (completeOnboardingRequest: CompleteOnboardingRequest) => {
+        return this.doFetch<StatusOK>(
+            `${this.getSystemRoute()}/onboarding/complete`,
+            {method: 'post', body: JSON.stringify(completeOnboardingRequest)},
         );
     }
 

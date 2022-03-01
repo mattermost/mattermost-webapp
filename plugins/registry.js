@@ -767,8 +767,10 @@ export default class PluginRegistry {
     // - switcherText - A string or React element to display in the product switcher
     // - switcherLinkURL - A string specifying the URL the switcher item should point to.
     // - mainComponent - The component to be displayed below the global header when your route is active.
-    // - headerComponent - A component to fill the generic area in the center of
-    //                     the global header when your route is active.
+    // - headerCentreComponent - A component to fill the generic area in the center of
+    //                           the global header when your route is active.
+    // - headerRightComponent - A component to fill the generic area in the right of
+    //                          the global header when your route is active.
     // - showTeamSidebar - A flag to display or hide the team sidebar in products. Defaults to false (hidden).
     // All parameters are required.
     // Returns a unique identifier.
