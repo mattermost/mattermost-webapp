@@ -37,7 +37,9 @@ function mapStateToProps(state: GlobalState) {
     const isMuted = isCurrentChannelMuted(state);
     const isInvitingPeople = isModalOpen(state, ModalIdentifiers.CHANNEL_INVITE) || isModalOpen(state, ModalIdentifiers.CREATE_DM_CHANNEL);
 
-    const gmUsers = getProfilesInCurrentChannel(state);
+    const gmUsers = getProfilesInCurrentChannel(state).filter(user => {
+        return user.id != currentUser.id;
+    });
 
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const canManageMembers = haveIChannelPermission(state, currentTeam.id, channel.id, isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS);
