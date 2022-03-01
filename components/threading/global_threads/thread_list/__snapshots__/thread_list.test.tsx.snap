@@ -70,6 +70,7 @@ exports[`components/threading/global_threads/thread_list should match snapshot 1
     className="threads"
   >
     <Memo(VirtualizedThreadList)
+      hasLoaded={false}
       ids={
         Array [
           "1",
@@ -77,6 +78,7 @@ exports[`components/threading/global_threads/thread_list should match snapshot 1
           "3",
         ]
       }
+      isLoading={false}
       key="threads_list_"
       loadMoreItems={[Function]}
       total={0}

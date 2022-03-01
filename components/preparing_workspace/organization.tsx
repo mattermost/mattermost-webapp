@@ -9,18 +9,19 @@ import debounce from 'lodash/debounce';
 import QuickInput from 'components/quick_input';
 import {trackEvent} from 'actions/telemetry_actions';
 
-import {teamNameToUrl} from 'utils/url';
 import Constants from 'utils/constants';
 
 import OrganizationSVG from 'components/common/svg_images_components/organization-building_svg';
+import useValidateTeam from 'components/common/hooks/useValidateTeam';
 
 import OrganizationStatus from './organization_status';
 
 import {Animations, mapAnimationReasonToClass, Form, PreparingWorkspacePageProps} from './steps';
-import PageLine from './page_line';
 import Title from './title';
 import Description from './description';
 import PageBody from './page_body';
+import ProgressPath from './progress_path';
+import LeftCol from './left_col';
 
 import './organization.scss';
 
@@ -30,16 +31,21 @@ type Props = PreparingWorkspacePageProps & {
     className?: string;
 }
 
-const reportValidationError = debounce(() => {
-    trackEvent('first_admin_setup', 'validate_organization_error');
+const reportValidationError = debounce((teamName: string, valid: boolean) => {
+    if (!valid && teamName) {
+        trackEvent('first_admin_setup', 'validate_organization_error');
+    }
 }, 700, {leading: false});
 
 const Organization = (props: Props) => {
     const {formatMessage} = useIntl();
-    const [triedNext, setTriedNext] = useState(false);
-    const validation = teamNameToUrl(props.organization || '');
+    const [userEdited, setUserEdited] = useState(false);
+    const teamValidator = useValidateTeam();
 
-    useEffect(props.onPageView, []);
+    useEffect(() => {
+        teamValidator.validate(props.organization || '');
+        props.onPageView();
+    }, []);
 
     const onNext = (e?: React.KeyboardEvent | React.MouseEvent) => {
         if (e && (e as React.KeyboardEvent).key) {
@@ -47,20 +53,32 @@ const Organization = (props: Props) => {
                 return;
             }
         }
-        if (!triedNext) {
-            setTriedNext(true);
+
+        if (!userEdited) {
+            setUserEdited(true);
         }
 
-        if (validation.error) {
-            reportValidationError();
+        if (teamValidator.verifying) {
+            return;
+        }
+        if (!teamValidator.result.valid) {
             return;
         }
         props.next?.();
     };
 
+    useEffect(() => {
+        reportValidationError(props.organization || '', teamValidator.result.valid);
+    }, [props.organization, teamValidator.result.valid, teamValidator.result.valid]);
+
     let className = 'Organization-body';
     if (props.className) {
         className += ' ' + props.className;
+    }
+    let inputClass = 'Organization__input';
+
+    if (userEdited && !teamValidator.verifying && teamValidator.result.error) {
+        inputClass += ' Organization__input--error';
     }
     return (
         <CSSTransition
@@ -71,19 +89,15 @@ const Organization = (props: Props) => {
             unmountOnExit={true}
         >
             <div className={className}>
-                <div className='Organization-left-col'/>
+                <LeftCol/>
                 <div className='Organization-right-col'>
                     <div className='Organization-form-wrapper'>
-                        <div className='Organization__progress-path'>
-                            <OrganizationSVG/>
-                            <PageLine
-                                style={{
-                                    marginTop: '5px',
-                                    height: 'calc(50vh)',
-                                }}
-                                noLeft={true}
-                            />
-                        </div>
+                        <ProgressPath
+                            style={{top: '-39px'}}
+                            beforePath={false}
+                        >
+                            <OrganizationSVG width={200}/>
+                        </ProgressPath>
                         {props.previous}
                         <Title>
                             <FormattedMessage
@@ -105,20 +119,28 @@ const Organization = (props: Props) => {
                                         defaultMessage: 'Organization name',
                                     })
                                 }
-                                className='Organization__input'
+                                className={inputClass}
                                 value={props.organization || ''}
-                                onChange={(e) => props.setOrganization(e.target.value)}
+                                onChange={(e) => {
+                                    props.setOrganization(e.target.value);
+                                    teamValidator.validate(e.target.value);
+                                    setUserEdited(true);
+                                }}
                                 onKeyUp={onNext}
                                 autoFocus={true}
                             />
-                            <OrganizationStatus error={triedNext && validation.error}/>
+                            <OrganizationStatus
+                                checking={teamValidator.verifying}
+                                error={teamValidator.result.error}
+                                userEdited={userEdited}
+                            />
                         </PageBody>
                         <div>
                             <button
                                 className='primary-button'
                                 data-testid='continue'
                                 onClick={onNext}
-                                disabled={!props.organization}
+                                disabled={teamValidator.verifying || !teamValidator.result.valid}
                             >
                                 <FormattedMessage
                                     id={'onboarding_wizard.next'}
