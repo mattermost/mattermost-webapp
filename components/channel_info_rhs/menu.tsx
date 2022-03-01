@@ -9,7 +9,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {Constants} from 'utils/constants';
 
 const Icon = styled.div`
-    color: rgba(63, 67, 80, 0.56);
+    color: rgba(var(--center-channel-text-rgb), 0.56);
 `;
 
 interface MenuItemProps {
@@ -59,7 +59,7 @@ const MenuItem = styled(menuItem)`
     }
 
     &:hover {
-       background: rgba(63, 67, 80, 0.08);
+       background: rgba(var(--center-channel-text-rgb), 0.08);
     }
 `;
 
@@ -77,19 +77,10 @@ interface MenuProps {
 const Menu = ({channel, isArchived, className, actions}: MenuProps) => {
     const {formatMessage} = useIntl();
 
-    const showChannelSettings = [Constants.OPEN_CHANNEL, Constants.PRIVATE_CHANNEL].includes(channel.type);
-
     const showNotificationPreferences = channel.type !== Constants.DM_CHANNEL && !isArchived;
 
     return (
         <div className={className}>
-            {showChannelSettings && (
-                <MenuItem
-                    icon={<i className='icon icon-tune'/>}
-                    text={formatMessage({id: 'channel_info_rhs.menu.channel_settings', defaultMessage: 'Channel Settings'})}
-                    onClick={() => {}}
-                />
-            )}
             {showNotificationPreferences && (
                 <MenuItem
                     icon={<i className='icon icon-bell-outline'/>}

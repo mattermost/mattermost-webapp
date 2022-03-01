@@ -48,11 +48,11 @@ const GmProfilePictures = styled.div`
     margin-bottom: 10px;
 `;
 
-interface GmProfilePictureprops {
+interface GmProfilePictureProps {
     position: number;
 }
 
-const GmProfilePicture = styled.div<GmProfilePictureprops>`
+const GmProfilePicture = styled.div<GmProfilePictureProps>`
     display: inline-block;
     position: relative;
     left: ${(props) => props.position * -15}px;
@@ -96,7 +96,7 @@ const EmptyPlace = styled.div`
     padding: 0px;
     background: transparent;
     border: 0px;
-    color: rgba(63, 67, 80, 0.64);
+    color: rgba(var(--center-channel-text-rgb), 0.64);
 `;
 
 const EditButton = styled.button`
@@ -104,11 +104,11 @@ const EditButton = styled.button`
     padding: 4px;
     margin: 0px;
     border-radius: 4px;
-    background: rgba(63, 67, 80, 0.04);
-    color: rgba(63, 67, 80, 0.56);
+    background: rgba(var(--center-channel-text-rgb), 0.04);
+    color: rgba(var(--center-channel-text-rgb), 0.56);
     &:hover {
-        background: rgba(63, 67, 80, 0.08);
-        color: rgba(63, 67, 80, 0.72);
+        background: rgba(var(--center-channel-text-rgb), 0.08);
+        color: rgba(var(--center-channel-text-rgb), 0.72);
     }
 `;
 
@@ -208,7 +208,7 @@ const AboutArea = ({channel, channelURL, dmUser, gmUsers, canEditChannelProperti
                 <GmProfilePictures>
                     {gmUsers!.map((user, idx) => (
                         <GmProfilePicture
-                            key={`GMProfilePicture-${idx}`}
+                            key={user.id}
                             position={idx}
                         >
                             <ProfilePicture
@@ -242,7 +242,7 @@ const AboutArea = ({channel, channelURL, dmUser, gmUsers, canEditChannelProperti
                             {dmUser.is_guest && <GuestBadge/>}
                         </DmUserName>
                         <DmUserPosition>
-                            <Markdown message={dmUser.user.is_bot ? dmUser.user.bot_description : dmUser?.user.position}/>
+                            <Markdown message={dmUser.user.is_bot ? dmUser.user.bot_description : dmUser.user.position}/>
                         </DmUserPosition>
                     </DmUserInfo>
                 </DmPurpose>

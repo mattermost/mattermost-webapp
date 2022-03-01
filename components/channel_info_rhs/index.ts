@@ -58,16 +58,13 @@ function mapStateToProps(state: GlobalState) {
         canManageProperties,
     } as ChannelInfoRhsProps;
 
-    switch (channel.type) {
-    case Constants.DM_CHANNEL:
-        // eslint-disable-next-line no-case-declarations
+    if (channel.type === Constants.DM_CHANNEL) {
         const user = getUser(state, getUserIdFromChannelId(channel.name, currentUser.id));
         props.dmUser = {
             user,
             is_guest: isGuest(user.roles),
             status: getStatusForUserId(state, user.id),
         };
-        break;
     }
 
     return props;
