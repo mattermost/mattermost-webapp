@@ -47,12 +47,14 @@ import {isFileAttachmentsEnabled} from 'utils/file_utils';
 
 import ChannelHeader from './channel_header';
 
+const EMPTY_CHANNEL = {};
+
 function makeMapStateToProps() {
     const doGetProfilesInChannel = makeGetProfilesInChannel();
     const getCustomStatus = makeGetCustomStatus();
 
     return function mapStateToProps(state) {
-        const channel = getCurrentChannel(state) || {};
+        const channel = getCurrentChannel(state) || EMPTY_CHANNEL;
         const user = getCurrentUser(state);
         const teams = getMyTeams(state);
         const hasMoreThanOneTeam = teams.length > 1;
