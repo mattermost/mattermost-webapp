@@ -9,14 +9,16 @@ export interface StarterEditionProps {
     openEELicenseModal: () => void;
     currentPlan: JSX.Element;
     upgradedFromTE: boolean;
-    openUploadModal: () => void;
+    fileInputRef: any;
+    handleChange: () => void;
 }
 
 const StarterLeftPanel: React.FC<StarterEditionProps> = ({
     openEELicenseModal,
     currentPlan,
     upgradedFromTE,
-    openUploadModal,
+    fileInputRef,
+    handleChange,
 }: StarterEditionProps) => {
     return (
         <div className='StarterLeftPanel'>
@@ -73,7 +75,7 @@ const StarterLeftPanel: React.FC<StarterEditionProps> = ({
                 <div className='uploadButtons'>
                     <button
                         className='btn btn-upload light-blue-btn'
-                        onClick={openUploadModal}
+                        onClick={() => fileInputRef.current.click()}
                         id='open-modal'
                     >
                         <FormattedMessage
@@ -81,6 +83,13 @@ const StarterLeftPanel: React.FC<StarterEditionProps> = ({
                             defaultMessage='Upload File'
                         />
                     </button>
+                    <input
+                        ref={fileInputRef}
+                        type='file'
+                        accept='.mattermost-license'
+                        onChange={handleChange}
+                        style={{display: 'none'}}
+                    />
                 </div>
             </div>
         </div>

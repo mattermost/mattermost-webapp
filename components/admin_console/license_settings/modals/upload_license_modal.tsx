@@ -38,12 +38,13 @@ import './upload_license_modal.scss';
 
 type Props = {
     onExited?: () => void;
+    fileObjFromProps: File | null;
 }
 
-const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null => {
+const UploadLicenseModal = (props: Props): JSX.Element | null => {
     const dispatch = useDispatch<DispatchFunc>();
 
-    const [fileObj, setFileObj] = React.useState<File | null>(null);
+    const [fileObj, setFileObj] = React.useState<File | null>(props.fileObjFromProps);
     const [isUploading, setIsUploading] = React.useState(false);
     const [serverError, setServerError] = React.useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
