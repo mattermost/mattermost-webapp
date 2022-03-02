@@ -97,7 +97,7 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
         if (channel.type === Constants.DM_CHANNEL) {
             return createDMIntroMessage(channel, centeredIntro, isFavorite, this.toggleFavorite, teammate, teammateName, boardComponent);
         } else if (channel.type === Constants.GM_CHANNEL) {
-            return createGMIntroMessage(channel, centeredIntro, channelProfiles, currentUserId, boardComponent);
+            return createGMIntroMessage(channel, centeredIntro, channelProfiles, currentUserId, currentUser, boardComponent);
         } else if (channel.name === Constants.DEFAULT_CHANNEL) {
             return createDefaultIntroMessage(channel, centeredIntro, stats, usersLimit, enableUserCreation, isReadOnly, teamIsGroupConstrained, boardComponent);
         } else if (channel.name === Constants.OFFTOPIC_CHANNEL) {
@@ -109,7 +109,7 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
     }
 }
 
-function createGMIntroMessage(channel: Channel, centeredIntro: string, profiles: UserProfileRedux[], currentUserId: string, boardComponent?: PluginComponent) {
+function createGMIntroMessage(channel: Channel, centeredIntro: string, profiles: UserProfileRedux[], currentUserId: string, currentUser: UserProfileRedux, boardComponent?: PluginComponent) {
     const channelIntroId = 'channelIntro';
 
     if (profiles.length > 0) {
@@ -119,21 +119,20 @@ function createGMIntroMessage(channel: Channel, centeredIntro: string, profiles:
                 <ProfilePicture
                     key={'introprofilepicture' + profile.id}
                     src={Utils.imageURLForUser(profile.id, profile.last_picture_update)}
-                    size='xl'
+                    size='xxl'
                     userId={profile.id}
                     username={profile.username}
                 />
             ));
-
         return (
             <div
                 id={channelIntroId}
-                className={'channel-intro ' + centeredIntro}
+                className={'channel-intro d-flex flex-column ' + centeredIntro}
             >
                 <div className='post-profile-img__container channel-intro-img'>
                     {pictures}
                 </div>
-                <div className=''>
+                <div className='channel-intro-display-name'>
                     {channel.display_name}
                 </div>
                 <p className='channel-intro-text'>
@@ -145,8 +144,11 @@ function createGMIntroMessage(channel: Channel, centeredIntro: string, profiles:
                         }}
                     />
                 </p>
-                {createBoardsButton(channel, boardComponent)}
-                {createSetHeaderButton(channel)}
+                <div className='d-flex flex-row'>
+                    {createBoardsButton(channel, boardComponent)}
+                    {createSetHeaderButton(channel)}
+                    {createNotificationButton(channel, currentUser)}
+                </div>
             </div>
         );
     }
@@ -180,18 +182,19 @@ function createDMIntroMessage(channel: Channel, centeredIntro: string, isFavorit
         return (
             <div
                 id={channelIntroId}
-                className={'channel-intro ' + centeredIntro}
+                className={'channel-intro d-flex flex-column ' + centeredIntro}
             >
-                <div className='post-profile-img__container channel-intro-img d-flex'>
+                <div className='post-profile-img__container channel-intro-img'>
                     <ProfilePicture
                         src={src}
                         size='xxl'
                         userId={teammate?.id}
                         username={teammate?.username}
                         hasMention={true}
+                        status={teammate.is_bot ? '' : channel.status}
                     />
                 </div>
-                <div className='channel-intro-profile d-flex'>
+                <div className='channel-intro-profile'>
                     <UserProfile
                         userId={teammate?.id}
                         disablePopover={false}
@@ -201,15 +204,17 @@ function createDMIntroMessage(channel: Channel, centeredIntro: string, isFavorit
                 <p className='channel-intro-text'>
                     <FormattedMarkdownMessage
                         id='intro_messages.DM'
-                        defaultMessage='This is the start of your direct message history with {teammate}.\nDirect messages and files shared here are not shown to people outside this area.'
+                        defaultMessage='This is the start of your conversation with {teammate}.\nMessages and files shared here are not shown to anyone else.'
                         values={{
                             teammate: teammateName,
                         }}
                     />
                 </p>
-                {boardCreateButton}
-                {setHeaderButton}
-                {createFavoriteButton(isFavorite, toggleFavorite)}
+                <div className='d-flex flex-row'>
+                    {boardCreateButton}
+                    {setHeaderButton}
+                    {createFavoriteButton(isFavorite, toggleFavorite)}
+                </div>
             </div>
         );
     }
@@ -567,18 +572,22 @@ function createSetHeaderButton(channel: Channel) {
         return null;
     }
 
+    const headerId = (channel.header) ? 'intro_messages.editHeader' : 'intro_messages.setHeader';
+    const defaultMessage = (channel.header) ? 'Edit header' : 'Set header';
+    const ariaLabel = (channel.header) ? Utils.localizeMessage('intro_messages.editHeader', defaultMessage) : Utils.localizeMessage('intro_messages.setHeader', defaultMessage);
+
     return (
         <ToggleModalButtonRedux
             modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
-            ariaLabel={Utils.localizeMessage('intro_messages.setHeader', 'Set a Header')}
-            className={'intro-links color--link channelIntroButton'}
+            ariaLabel={ariaLabel}
+            className={'intro-links channelIntroButton'}
             dialogType={EditChannelHeaderModal}
-            dialogProps={{channel}}
+            dialogProps={channel}
         >
             <EditIcon/>
             <FormattedMessage
-                id='intro_messages.setHeader'
-                defaultMessage='Set a Header'
+                id={headerId}
+                defaultMessage={defaultMessage}
             />
         </ToggleModalButtonRedux>
     );
@@ -630,12 +639,12 @@ function createNotificationButton(channel: Channel, user: UserProfileRedux) {
     return(
         <ToggleModalButtonRedux
             modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
-            ariaLabel={Utils.localizeMessage('intro_messages.setHeader', 'Notifications')}
+            ariaLabel={Utils.localizeMessage('intro_messages.notifications', 'Notifications')}
             className={'intro-links color--link channelIntroButton'}
             dialogType={ChannelNotificationsModal}
             dialogProps={{channel, currentUser: user}}
         >
-            <EditIcon/>
+            <i className='icon icon-bell-outline'/>
             <FormattedMessage
                 id='intro_messages.notifications'
                 defaultMessage='Notifications'
