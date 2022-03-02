@@ -260,7 +260,7 @@ export default class SizeAwareImage extends React.PureComponent {
                     className='style--none size-aware-image__download'
                     target='_blank'
                     rel='noopener noreferrer'
-                    download={fileInfo.name}
+                    download={ariaLabelImage}
                     aria-label={`${ariaLabelImage}${localizeMessage('download image')}`}
                 >
                     <i className='icon icon-download-outline style--none'/>
