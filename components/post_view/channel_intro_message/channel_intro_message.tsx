@@ -13,6 +13,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
+import ChannelNotificationsModal from 'components/channel_notifications_modal';
 import LocalizedIcon from 'components/localized_icon';
 import ProfilePicture from 'components/profile_picture';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
@@ -42,6 +43,7 @@ type Props = {
     creatorName: string;
     teammate?: UserProfileRedux;
     teammateName?: string;
+    currentUser: UserProfileRedux;
     stats: any;
     usersLimit: number;
     actions: {
@@ -59,8 +61,7 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
         }
     }
 
-    toggleFavorite = (e: any) => {
-        e.stopPropogation();
+    toggleFavorite = () => {
         if (this.props.isFavorite) {
             this.props.actions.unfavoriteChannel(this.props.channel.id);
         } else {
@@ -82,6 +83,7 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
             teamIsGroupConstrained,
             teammate,
             teammateName,
+            currentUser,
             stats,
             usersLimit,
             boardComponent,
@@ -101,7 +103,7 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
         } else if (channel.name === Constants.OFFTOPIC_CHANNEL) {
             return createOffTopicIntroMessage(channel, centeredIntro, stats, usersLimit, boardComponent);
         } else if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
-            return createStandardIntroMessage(channel, centeredIntro, stats, usersLimit, locale, creatorName, boardComponent);
+            return createStandardIntroMessage(channel, centeredIntro, stats, usersLimit, currentUser, locale, creatorName, boardComponent);
         }
         return null;
     }
@@ -130,6 +132,9 @@ function createGMIntroMessage(channel: Channel, centeredIntro: string, profiles:
             >
                 <div className='post-profile-img__container channel-intro-img'>
                     {pictures}
+                </div>
+                <div className=''>
+                    {channel.display_name}
                 </div>
                 <p className='channel-intro-text'>
                     <FormattedMarkdownMessage
@@ -161,7 +166,7 @@ function createGMIntroMessage(channel: Channel, centeredIntro: string, profiles:
     );
 }
 
-function createDMIntroMessage(channel: Channel, centeredIntro: string, isFavorite: boolean, toggleFavorite: (e: any) => void, teammate?: UserProfileRedux, teammateName?: string, boardComponent?: PluginComponent) {
+function createDMIntroMessage(channel: Channel, centeredIntro: string, isFavorite: boolean, toggleFavorite: () => void, teammate?: UserProfileRedux, teammateName?: string, boardComponent?: PluginComponent) {
     const channelIntroId = 'channelIntro';
     if (teammate) {
         const src = teammate ? Utils.imageURLForUser(teammate.id, teammate.last_picture_update) : '';
@@ -180,7 +185,7 @@ function createDMIntroMessage(channel: Channel, centeredIntro: string, isFavorit
                 <div className='post-profile-img__container channel-intro-img d-flex'>
                     <ProfilePicture
                         src={src}
-                        size='xl'
+                        size='xxl'
                         userId={teammate?.id}
                         username={teammate?.username}
                         hasMention={true}
@@ -396,7 +401,7 @@ export function createDefaultIntroMessage(
     );
 }
 
-function createStandardIntroMessage(channel: Channel, centeredIntro: string, stats: any, usersLimit: number, locale: string, creatorName: string, boardComponent?: PluginComponent) {
+function createStandardIntroMessage(channel: Channel, centeredIntro: string, stats: any, usersLimit: number, currentUser: UserProfileRedux, locale: string, creatorName: string, boardComponent?: PluginComponent) {
     const uiName = channel.display_name;
     let memberMessage;
     const channelIsArchived = channel.delete_at !== 0;
@@ -551,6 +556,7 @@ function createStandardIntroMessage(channel: Channel, centeredIntro: string, sta
                 <br/>
             </p>
             {channelInviteButton}
+            {createNotificationButton(channel, currentUser )}
         </div>
     );
 }
@@ -603,7 +609,7 @@ function createBoardsButton(channel: Channel, boardComponent?: PluginComponent) 
     );
 }
 
-function createFavoriteButton(isFavorite: boolean, toggleFavorite: (e: any) => void) {
+function createFavoriteButton(isFavorite: boolean, toggleFavorite: () => void) {
     return (
         <button
             id='toggleFavoriteIntroButton'
@@ -617,5 +623,23 @@ function createFavoriteButton(isFavorite: boolean, toggleFavorite: (e: any) => v
                 defaultMessage='Favorite'
             />
         </button>
+    );
+}
+
+function createNotificationButton(channel: Channel, user: UserProfileRedux) {
+    return(
+        <ToggleModalButtonRedux
+            modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
+            ariaLabel={Utils.localizeMessage('intro_messages.setHeader', 'Notifications')}
+            className={'intro-links color--link channelIntroButton'}
+            dialogType={ChannelNotificationsModal}
+            dialogProps={{channel, currentUser: user}}
+        >
+            <EditIcon/>
+            <FormattedMessage
+                id='intro_messages.notifications'
+                defaultMessage='Notifications'
+            />
+        </ToggleModalButtonRedux>
     );
 }

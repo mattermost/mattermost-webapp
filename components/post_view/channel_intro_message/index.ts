@@ -8,7 +8,7 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentChannel, getDirectTeammate, isCurrentChannelFavorite} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getProfilesInCurrentChannel, getCurrentUserId, getUser, getTotalUsersStats as getTotalUsersStatsSelector} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getProfilesInCurrentChannel, getCurrentUserId, getUser, getTotalUsersStats as getTotalUsersStatsSelector} from 'mattermost-redux/selectors/entities/users';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getChannelIntroPluginComponents} from 'selectors/plugins';
@@ -33,6 +33,7 @@ function mapStateToProps(state: GlobalState) {
     const team = getCurrentTeam(state);
     const channel = getCurrentChannel(state) || {};
     const teammate = getDirectTeammate(state, channel.id);
+    const currentUser = getCurrentUser(state);
     const creator = getUser(state, channel.creator_id);
     const boardComponent = getChannelIntroPluginComponents(state).find((c) => c.pluginId === 'focalboard');
 
@@ -56,6 +57,7 @@ function mapStateToProps(state: GlobalState) {
         creatorName: getDisplayNameByUser(state, creator),
         teammate,
         teammateName: getDisplayNameByUser(state, teammate),
+        currentUser,
         stats,
         usersLimit,
         boardComponent,
