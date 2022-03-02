@@ -835,7 +835,7 @@ export const getUnreadChannelIds: (state: GlobalState, lastUnreadChannel?: Chann
             return calculateUnreadCount(messageCounts[id], members[id], collapsedThreads).showUnread;
         });
 
-        if (lastUnreadChannel && !unreadIds.includes(lastUnreadChannel.id)) {
+        if (lastUnreadChannel && members[lastUnreadChannel.id] && !unreadIds.includes(lastUnreadChannel.id)) {
             unreadIds.push(lastUnreadChannel.id);
         }
 

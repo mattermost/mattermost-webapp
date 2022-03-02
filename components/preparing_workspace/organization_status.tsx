@@ -4,17 +4,21 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {BadUrlReasons, UrlValidationCheck} from 'utils/url';
+import {BadUrlReasons} from 'utils/url';
 import Constants from 'utils/constants';
 
-const OrganizationStatus = (props: {error: UrlValidationCheck['error']}): JSX.Element => {
-    let children = null;
+const OrganizationStatus = (props: {
+    error: typeof BadUrlReasons[keyof typeof BadUrlReasons] | false | string;
+    checking: boolean;
+    userEdited: boolean;
+}): JSX.Element => {
+    let message = null;
     let className = 'Organization__status';
-    if (props.error) {
+    if (props.userEdited && props.error && !props.checking) {
         className += ' Organization__status--error';
         switch (props.error) {
         case BadUrlReasons.Empty:
-            children = (
+            message = (
                 <FormattedMessage
                     id='onboarding_wizard.organization.empty'
                     defaultMessage='You must enter an organization name'
@@ -22,7 +26,7 @@ const OrganizationStatus = (props: {error: UrlValidationCheck['error']}): JSX.El
             );
             break;
         case BadUrlReasons.Length:
-            children = (
+            message = (
                 <FormattedMessage
                     id='onboarding_wizard.organization.length'
                     defaultMessage='Organization name must be between {min} and {max} characters'
@@ -34,7 +38,7 @@ const OrganizationStatus = (props: {error: UrlValidationCheck['error']}): JSX.El
             );
             break;
         case BadUrlReasons.Reserved:
-            children = (
+            message = (
                 <FormattedMessage
 
                     id='onboarding_wizard.organization.reserved'
@@ -53,8 +57,17 @@ const OrganizationStatus = (props: {error: UrlValidationCheck['error']}): JSX.El
                 />
             );
             break;
+        case BadUrlReasons.Taken:
+            message = (
+                <FormattedMessage
+
+                    id='onboarding_wizard.organization.taken'
+                    defaultMessage='This team has already been created. Create a new team.'
+                />
+            );
+            break;
         default:
-            children = (
+            message = (
                 <FormattedMessage
                     id='onboarding_wizard.organization.other'
                     defaultMessage='Invalid organization name: {reason}'
@@ -66,7 +79,10 @@ const OrganizationStatus = (props: {error: UrlValidationCheck['error']}): JSX.El
             break;
         }
     }
-    return <div className={className}>{children}</div>;
+    return (<div className={className}>
+        {props.userEdited && props.error && !props.checking && <i className='icon icon-alert-outline'/>}
+        {message}
+    </div>);
 };
 
 export default OrganizationStatus;

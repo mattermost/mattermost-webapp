@@ -78,7 +78,8 @@ const ThreadList = ({
     const handleKeyDown = useCallback((e: KeyboardEvent) => {
         // Ensure that arrow keys navigation is not triggered if the textbox is focused
         const target = e.target as HTMLElement;
-        if (target?.id === 'reply_textbox') {
+        const tagName = target?.tagName?.toLowerCase();
+        if (tagName === 'input' || tagName === 'textarea' || tagName === 'select') {
             return;
         }
 
