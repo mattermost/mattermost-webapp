@@ -38,7 +38,7 @@ export const getRecentEmojis = createSelector(
     },
 );
 
-export function getUserSkinTone(state: GlobalState) {
+export function getUserSkinTone(state: GlobalState): string {
     return get(state, Preferences.CATEGORY_EMOJI, Preferences.EMOJI_SKINTONE, 'default');
 }
 

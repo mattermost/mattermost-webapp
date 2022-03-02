@@ -149,13 +149,12 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
+              "create_post",
             ],
           },
           Object {
             "id": "integrations",
-            "permissions": Array [
-              "create_post",
-            ],
+            "permissions": Array [],
           },
           Object {
             "id": "manage_shared_channels",
@@ -347,16 +346,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
-            ],
-          },
-          Object {
-            "id": "integrations",
-            "permissions": Array [
               "create_post",
             ],
           },
           Object {
-            "id": "manage_shared_channels",
+            "id": "integrations",
             "permissions": Array [
               "manage_incoming_webhooks",
               "manage_outgoing_webhooks",
@@ -366,6 +360,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "delete_emojis",
               "delete_others_emojis",
             ],
+          },
+          Object {
+            "id": "manage_shared_channels",
+            "permissions": Array [],
           },
           Object {
             "id": "custom_groups",
@@ -553,16 +551,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
-            ],
-          },
-          Object {
-            "id": "integrations",
-            "permissions": Array [
               "create_post",
             ],
           },
           Object {
-            "id": "manage_shared_channels",
+            "id": "integrations",
             "permissions": Array [
               "manage_incoming_webhooks",
               "manage_outgoing_webhooks",
@@ -572,6 +565,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "delete_emojis",
               "delete_others_emojis",
             ],
+          },
+          Object {
+            "id": "manage_shared_channels",
+            "permissions": Array [],
           },
           Object {
             "id": "custom_groups",
@@ -759,16 +756,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
-            ],
-          },
-          Object {
-            "id": "integrations",
-            "permissions": Array [
               "create_post",
             ],
           },
           Object {
-            "id": "manage_shared_channels",
+            "id": "integrations",
             "permissions": Array [
               "manage_incoming_webhooks",
               "manage_outgoing_webhooks",
@@ -778,6 +770,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "delete_emojis",
               "delete_others_emojis",
             ],
+          },
+          Object {
+            "id": "manage_shared_channels",
+            "permissions": Array [],
           },
           Object {
             "id": "custom_groups",
@@ -965,16 +961,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
-            ],
-          },
-          Object {
-            "id": "integrations",
-            "permissions": Array [
               "create_post",
             ],
           },
           Object {
-            "id": "manage_shared_channels",
+            "id": "integrations",
             "permissions": Array [
               "manage_incoming_webhooks",
               "manage_outgoing_webhooks",
@@ -984,6 +975,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "delete_emojis",
               "delete_others_emojis",
             ],
+          },
+          Object {
+            "id": "manage_shared_channels",
+            "permissions": Array [],
           },
           Object {
             "id": "custom_groups",
@@ -1171,16 +1166,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
-            ],
-          },
-          Object {
-            "id": "integrations",
-            "permissions": Array [
               "create_post",
             ],
           },
           Object {
-            "id": "manage_shared_channels",
+            "id": "integrations",
             "permissions": Array [
               "manage_incoming_webhooks",
               "manage_outgoing_webhooks",
@@ -1190,6 +1180,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "delete_emojis",
               "delete_others_emojis",
             ],
+          },
+          Object {
+            "id": "manage_shared_channels",
+            "permissions": Array [],
           },
           Object {
             "id": "custom_groups",
@@ -1383,16 +1377,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
-            ],
-          },
-          Object {
-            "id": "integrations",
-            "permissions": Array [
               "create_post",
             ],
           },
           Object {
-            "id": "manage_shared_channels",
+            "id": "integrations",
             "permissions": Array [
               "manage_incoming_webhooks",
               "manage_outgoing_webhooks",
@@ -1402,6 +1391,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "delete_emojis",
               "delete_others_emojis",
             ],
+          },
+          Object {
+            "id": "manage_shared_channels",
+            "permissions": Array [],
           },
           Object {
             "id": "custom_groups",

@@ -88,10 +88,11 @@ export type ViewsState = {
                 dialogType: React.ComponentType;
             };
         };
+        showLaunchingWorkspace: boolean;
     };
 
     emoji: {
-        emojiPickerCustomPage: 0;
+        emojiPickerCustomPage: number;
         shortcutReactToLastPostEmittedFrom: string;
     };
 

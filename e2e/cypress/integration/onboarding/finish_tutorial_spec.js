@@ -13,82 +13,6 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {generateRandomUser} from '../../support/api/user';
 
-describe('Onboarding ADMIN', () => {
-    let theuser;
-    let theteam;
-    before(() => {
-        cy.apiInitSetup().then(({team}) => {
-            theteam = team;
-            cy.apiAdminLogin({failOnStatusCode: false}).then((response) => {
-                if (response.user) {
-                    theuser = response.user;
-                } else {
-                    // # Create and login a newly created user as sysadmin
-                    cy.apiCreateAdmin().then(({sysadmin}) => {
-                        theuser = sysadmin;
-                        cy.apiAdminLogin();
-                    });
-                }
-            });
-        });
-    });
-
-    beforeEach(() => {
-        const preferences = [{
-            name: theuser.id,
-            user_id: theuser.id,
-            category: 'tutorial_step',
-            value: '0',
-        }];
-
-        cy.apiSaveUserPreference(preferences, theuser.id);
-        cy.visit(`/${theteam.name}/channels/town-square`);
-    });
-
-    it('MM-T402 Finish Tutorial', () => {
-        // # Visit the team url
-        cy.visit(`/${theteam.name}`);
-
-        // # Click next tip
-        cy.get('#tipButton').should('be.visible').click();
-        cy.get('.tip-overlay--chat').should('be.visible');
-        cy.findByText('Send a message');
-        cy.findByText('Next').click();
-
-        // # Click next tip
-        cy.get('#tipButton').should('be.visible').click();
-        cy.get('.tip-overlay--sidebar').should('be.visible');
-        cy.findByText('Organize conversations in channels');
-        cy.findByText('Next').click();
-
-        // # Click next tip
-        cy.get('#tipButton').should('be.visible').click();
-        cy.get('.tip-overlay--add-channels').should('be.visible');
-        cy.findByText('Create and join channels');
-        cy.findByText('Next').click();
-
-        // # Click next tip
-        cy.get('#tipButton').should('be.visible').click();
-        cy.get('.tip-overlay--header--left').should('be.visible');
-        cy.findByText('Invite people');
-        cy.findByText('Next').click();
-
-        // # Reload the page without cache
-        cy.reload(true);
-
-        // # Click next tip
-        cy.get('#tipButton').should('be.visible').click();
-        cy.get('.tip-overlay--settings').should('be.visible');
-        cy.findByText('Customize your experience');
-        cy.findByText('Next').click();
-
-        // # Click next tip
-        cy.get('#tipButton').should('be.visible').click();
-        cy.get('.tip-overlay--start-trial').should('be.visible');
-        cy.findByText('Try our premium features for free');
-    });
-});
-
 describe('Onboarding', () => {
     let testTeam;
 
@@ -138,38 +62,38 @@ describe('Onboarding', () => {
             cy.get('#sidebarItem_town-square').should('exist');
         });
 
+        cy.get('.tour-tip__pulsating-dot-ctr').should('exist').click();
+
         // # Click next tip
-        cy.get('#tipButton').should('be.visible').click();
-        cy.get('.tip-overlay--chat').should('be.visible');
-        cy.findByText('Send a message');
+        cy.findByText('Channels and direct messages');
         cy.findByText('Next').click();
 
         // # Click next tip
-        cy.get('#tipButton').should('be.visible').click();
-        cy.get('.tip-overlay--sidebar').should('be.visible');
-        cy.findByText('Organize conversations in channels');
-        cy.findByText('Next').click();
-
-        // # Click next tip
-        cy.get('#tipButton').should('be.visible').click();
-        cy.get('.tip-overlay--add-channels').should('be.visible');
         cy.findByText('Create and join channels');
         cy.findByText('Next').click();
 
         // # Click next tip
-        cy.get('#tipButton').should('be.visible').click();
-        cy.get('.tip-overlay--header--left').should('be.visible');
-        cy.findByText('Invite people');
+        cy.findByText('Invite people to the team');
+        cy.findByText('Next').click();
+
+        // # Click previous tip
+        cy.findByText('Send messages');
+        cy.findByText('Previous').click();
+
+        // # Click next tip
+        cy.findByText('Invite people to the team');
+        cy.findByText('Next').click();
+
+        // # Click next tip
+        cy.findByText('Send messages');
         cy.findByText('Next').click();
 
         // # Reload the page without cache
         cy.reload(true);
 
-        // # Click next tip
-        cy.get('#tipButton').should('be.visible').click();
-        cy.get('.tip-overlay--settings').should('be.visible');
+        // # Click jump tip
         cy.findByText('Customize your experience');
-        cy.findByText('Finish tour').click();
+        cy.findByText('Done').click();
 
         // * Check that 'Town Square' is currently being selected
         cy.get('.active', {timeout: TIMEOUTS.HALF_MIN}).within(() => {
@@ -177,6 +101,6 @@ describe('Onboarding', () => {
         });
 
         // # Assert that the tutorials do not appear
-        cy.get('#tipButton').should('not.exist');
+        cy.get('.tour-tip__pulsating-dot-ctr').should('not.exist');
     });
 });
