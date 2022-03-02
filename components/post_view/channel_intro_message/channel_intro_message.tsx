@@ -138,7 +138,7 @@ function createGMIntroMessage(channel: Channel, centeredIntro: string, profiles:
                 <p className='channel-intro-text'>
                     <FormattedMarkdownMessage
                         id='intro_messages.GM'
-                        defaultMessage='This is the start of your group message history with {names}.\nMessages and files shared here are not shown to people outside this area.'
+                        defaultMessage='This is the start of your group message history with {names}.\nMessages and files shared here are not shown to anyone else outside the group.'
                         values={{
                             names: channel.display_name,
                         }}
@@ -638,7 +638,7 @@ function createFavoriteButton(isFavorite: boolean, toggleFavorite: () => void) {
 function createNotificationButton(channel: Channel, user: UserProfileRedux) {
     return(
         <ToggleModalButtonRedux
-            modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
+            modalId={ModalIdentifiers.NOTIFICATIONS}
             ariaLabel={Utils.localizeMessage('intro_messages.notifications', 'Notifications')}
             className={'intro-links color--link channelIntroButton'}
             dialogType={ChannelNotificationsModal}
