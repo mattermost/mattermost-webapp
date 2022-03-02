@@ -118,4 +118,18 @@ describe('components/SingleImageView', () => {
         expect(wrapper.find('.image-header').text()).
             toEqual(baseProps.fileInfo.name);
     });
+
+    describe('permalink preview', () => {
+        test('should render with permalink styling if in permalink', () => {
+            const props = {
+                ...baseProps,
+                isInPermalink: true,
+            };
+
+            const wrapper = shallow(<SingleImageView {...props}/>);
+
+            expect(wrapper.find('.image-permalink').exists()).toBe(true);
+            expect(wrapper).toMatchSnapshot();
+        });
+    });
 });
