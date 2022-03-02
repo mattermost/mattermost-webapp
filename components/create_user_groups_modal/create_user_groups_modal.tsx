@@ -21,6 +21,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
+import Constants from 'utils/constants';
 
 export type Props = {
     onExited: () => void;
@@ -120,6 +121,11 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
 
         if (mention.length < 1) {
             this.setState({mentionInputErrorText: Utils.localizeMessage('user_groups_modal.mentionIsEmpty', 'Mention is a required field.'), saving: false});
+            return;
+        }
+
+        if (Constants.SPECIAL_MENTIONS.includes(mention.toLowerCase())) {
+            this.setState({mentionInputErrorText: Utils.localizeMessage('user_groups_modal.mentionReservedWord', 'Mention contains a reserved word.'), saving: false});
             return;
         }
 

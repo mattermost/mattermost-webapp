@@ -19,6 +19,7 @@ import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
 
 import SaveButton from 'components/save_button';
+import Constants from 'utils/constants';
 
 export type Props = {
     onExited: () => void;
@@ -88,6 +89,12 @@ const UpdateUserGroupModal = (props: Props) => {
 
         if (newMention.length < 1) {
             setMentionInputErrorText(Utils.localizeMessage('user_groups_modal.mentionIsEmpty', 'Mention is a required field.'));
+            setSaving(false);
+            return;
+        }
+
+        if (Constants.SPECIAL_MENTIONS.includes(newMention.toLowerCase())) {
+            setMentionInputErrorText(Utils.localizeMessage('user_groups_modal.mentionReservedWord', 'Mention contains a reserved word.'));
             setSaving(false);
             return;
         }

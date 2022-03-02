@@ -172,4 +172,35 @@ describe('component/create_user_groups_modal', () => {
             expect(wrapper.state('nameInputErrorText')).toEqual('');
         });
     });
+
+    test('fail to create with reserved word for mention', () => {
+        const wrapper = shallow<CreateUserGroupsModal>(
+            <CreateUserGroupsModal
+                {...baseProps}
+            />,
+        );
+        wrapper.setState({name: 'Ursa', mention: 'all'});
+        wrapper.instance().createGroup(users);
+        expect(wrapper.instance().props.actions.createGroupWithUserIds).toHaveBeenCalledTimes(0);
+        process.nextTick(() => {
+            expect(wrapper.state('showUnknownError')).toEqual(false);
+            expect(wrapper.state('mentionInputErrorText')).toEqual('Mention contains a reserved word.');
+        });
+
+        wrapper.setState({name: 'Ursa', mention: 'here'});
+        wrapper.instance().createGroup(users);
+        expect(wrapper.instance().props.actions.createGroupWithUserIds).toHaveBeenCalledTimes(0);
+        process.nextTick(() => {
+            expect(wrapper.state('showUnknownError')).toEqual(false);
+            expect(wrapper.state('mentionInputErrorText')).toEqual('Mention contains a reserved word.');
+        });
+
+        wrapper.setState({name: 'Ursa', mention: 'channel'});
+        wrapper.instance().createGroup(users);
+        expect(wrapper.instance().props.actions.createGroupWithUserIds).toHaveBeenCalledTimes(0);
+        process.nextTick(() => {
+            expect(wrapper.state('showUnknownError')).toEqual(false);
+            expect(wrapper.state('mentionInputErrorText')).toEqual('Mention contains a reserved word.');
+        });
+    });
 });
