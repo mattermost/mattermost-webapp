@@ -11,7 +11,6 @@ import {Client4} from 'mattermost-redux/client';
 
 import Root from 'components/root/root';
 import * as GlobalActions from 'actions/global_actions';
-import * as Utils from 'utils/utils';
 import Constants, {StoragePrefixes, WindowSizes} from 'utils/constants';
 import {GeneralTypes} from 'mattermost-redux/action_types';
 
@@ -33,8 +32,6 @@ jest.mock('actions/global_actions', () => ({
 
 jest.mock('utils/utils', () => ({
     localizeMessage: () => {},
-    isDevMode: jest.fn(),
-    enableDevModeFeatures: jest.fn(),
     applyTheme: jest.fn(),
     makeIsEligibleForClick: jest.fn(),
 }));
@@ -128,54 +125,6 @@ describe('components/Root', () => {
         }
 
         const wrapper = shallow(<MockedRoot {...props}/>);
-        wrapper.unmount();
-    });
-
-    test('should load config and enable dev mode features', () => {
-        const props = {
-            ...baseProps,
-            actions: {
-                ...baseProps.actions,
-                loadMeAndConfig: jest.fn(async () => [{}, {}, {}]),
-            },
-        };
-        Utils.isDevMode.mockReturnValue(true);
-
-        const wrapper = shallow(<Root {...props}/>);
-
-        expect(props.actions.loadMeAndConfig).toHaveBeenCalledTimes(1);
-
-        // Must be invoked in onConfigLoaded
-        expect(Utils.isDevMode).not.toHaveBeenCalled();
-        expect(Utils.enableDevModeFeatures).not.toHaveBeenCalled();
-
-        wrapper.instance().onConfigLoaded();
-        expect(Utils.isDevMode).toHaveBeenCalledTimes(1);
-        expect(Utils.enableDevModeFeatures).toHaveBeenCalledTimes(1);
-        wrapper.unmount();
-    });
-
-    test('should load config and not enable dev mode features', () => {
-        const props = {
-            ...baseProps,
-            actions: {
-                ...baseProps.actions,
-                loadMeAndConfig: jest.fn(async () => [{}, {}, {}]),
-            },
-        };
-        Utils.isDevMode.mockReturnValue(false);
-
-        const wrapper = shallow(<Root {...props}/>);
-
-        expect(props.actions.loadMeAndConfig).toHaveBeenCalledTimes(1);
-
-        // Must be invoked in onConfigLoaded
-        expect(Utils.isDevMode).not.toHaveBeenCalled();
-        expect(Utils.enableDevModeFeatures).not.toHaveBeenCalled();
-
-        wrapper.instance().onConfigLoaded();
-        expect(Utils.isDevMode).toHaveBeenCalledTimes(1);
-        expect(Utils.enableDevModeFeatures).not.toHaveBeenCalled();
         wrapper.unmount();
     });
 

@@ -2329,7 +2329,7 @@
   "admin.team.brandTitle": "Enable Custom Branding: ",
   "admin.team.chooseImage": "Select Image",
   "admin.team.customUserGroupsDescription": "When true, users with appropriate permissions can create custom user groups and enables at-mentions for those groups.",
-  "admin.team.customUserGroupsTitle": "Enable Custom User Groups: ",
+  "admin.team.customUserGroupsTitle": "Enable Custom User Groups (Beta): ",
   "admin.team.customUserStatusesDescription": "When true, users can set a descriptive status message and status emoji visible to all users.",
   "admin.team.customUserStatusesTitle": "Enable Custom Statuses: ",
   "admin.team.emailInvitationsDescription": "When true users can invite others to the system using email.",
