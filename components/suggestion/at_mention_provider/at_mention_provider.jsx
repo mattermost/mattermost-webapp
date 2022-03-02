@@ -13,7 +13,7 @@ import Provider from '../provider.jsx';
 import AtMentionSuggestion from './at_mention_suggestion.jsx';
 
 const profilesInChannelOptions = {active: true};
-const regexForAtMention = /(?:^|\W)@([\p{L}\d_. -]*)$/ui;
+const regexForAtMention = /(?:^|\W)@([\p{L}\d\-_. ]*)$/iu;
 
 // The AtMentionProvider provides matches for at mentions, including @here, @channel, @all,
 // users in the channel and users not in the channel. It mixes together results from the local

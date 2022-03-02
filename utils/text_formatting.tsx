@@ -337,7 +337,7 @@ export function sanitizeHtml(text: string): string {
 
 // Copied from our fork of commonmark.js
 // eslint-disable-next-line no-useless-escape
-const emailRegex = /(^|[^\p{L}\d])((?:[\p{L}\p{Nd}!#$%&'*+-/=?^_`\{|\}~](?:[\p{L}\p{Nd}!#$%&'*+-/=?^_`\{|\}~]|.(?!.|@))*|"[\p{L}\p{Nd}!#$%&'*+-/=?^_`\{|\}~\s(),:;<>@[].\]+")@[\p{L}\d.-]+[.]\p{L}{2,4}(?=$|[^\p{L}]))/gu;
+const emailRegex = /(^|[^\p{L}\d])((?:[\p{L}\p{Nd}!#$%&'*+\-\/=?^_`{|}~](?:[\p{L}\p{Nd}!#$%&'*+\-\/=?^_`{|}~]|\.(?!\.|@))*|"[\p{L}\p{Nd}!#$%&'*+\-\/=?^_`{|}~\s(),:;<>@\[\].]+")@[\p{L}\d.\-]+[.]\p{L}{2,5}(?=$|[^\p{L}]))/gu;
 
 // Convert emails into tokens
 function autolinkEmails(text: string, tokens: Tokens) {
@@ -612,7 +612,7 @@ function highlightCurrentMentions(
     return output;
 }
 
-const hashtagRegex = /(^|\W)(#\p{L}[\p{L}\d_.-]*[\p{L}\d])/gu;
+const hashtagRegex = /(^|\W)(#\p{L}[\p{L}\d\-_.]*[\p{L}\d])/gu;
 
 function autolinkHashtags(
     text: string,
