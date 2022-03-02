@@ -2174,7 +2174,7 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.EnableCustomGroups',
                         label: t('admin.team.customUserGroupsTitle'),
-                        label_default: 'Enable Custom User Groups: ',
+                        label_default: 'Enable Custom User Groups (Beta): ',
                         help_text: t('admin.team.customUserGroupsDescription'),
                         help_text_default: 'When true, users with appropriate permissions can create custom user groups and enables at-mentions for those groups.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),

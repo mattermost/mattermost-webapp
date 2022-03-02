@@ -207,6 +207,7 @@ export default class PostBody extends React.PureComponent {
                 <PostBodyAdditionalContent
                     post={this.props.post}
                     isEmbedVisible={this.props.isEmbedVisible}
+                    handleFileDropdownOpened={this.props.handleFileDropdownOpened}
                 >
                     {messageWrapper}
                 </PostBodyAdditionalContent>

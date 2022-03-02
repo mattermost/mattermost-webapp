@@ -205,9 +205,9 @@ export const getCurrentChannel: (state: GlobalState) => Channel = createSelector
     'getCurrentChannel',
     getAllChannels,
     getCurrentChannelId,
-    (state: GlobalState): UsersState => state.entities.users,
+    (state: GlobalState) => state.entities.users,
     getTeammateNameDisplaySetting,
-    (allChannels: IDMappedObjects<Channel>, currentChannelId: string, users: UsersState, teammateNameDisplay: string): Channel => {
+    (allChannels, currentChannelId, users, teammateNameDisplay): Channel => {
         const channel = allChannels[currentChannelId];
 
         if (channel) {
@@ -262,7 +262,6 @@ export const getCurrentChannelStats: (state: GlobalState) => ChannelStats = crea
 
 export function isCurrentChannelFavorite(state: GlobalState): boolean {
     const currentChannelId = getCurrentChannelId(state);
-
     return isFavoriteChannel(state, currentChannelId);
 }
 
@@ -293,13 +292,13 @@ export const isMutedChannel: (state: GlobalState, channelId: string) => boolean 
 export const isCurrentChannelArchived: (state: GlobalState) => boolean = createSelector(
     'isCurrentChannelArchived',
     getCurrentChannel,
-    (channel: Channel): boolean => channel.delete_at !== 0,
+    (channel) => channel.delete_at !== 0,
 );
 
 export const isCurrentChannelDefault: (state: GlobalState) => boolean = createSelector(
     'isCurrentChannelDefault',
     getCurrentChannel,
-    (channel: Channel): boolean => isDefault(channel),
+    (channel) => isDefault(channel),
 );
 
 export function isCurrentChannelReadOnly(state: GlobalState): boolean {
@@ -345,9 +344,8 @@ export function makeGetChannelUnreadCount(): (state: GlobalState, channelId: str
         (state: GlobalState, channelId: string) => getChannelMessageCount(state, channelId),
         (state: GlobalState, channelId: string) => getMyChannelMembership(state, channelId),
         isCollapsedThreadsEnabled,
-        (messageCount: ChannelMessageCount, member: ChannelMembership, crtEnabled: boolean) => {
-            return calculateUnreadCount(messageCount, member, crtEnabled);
-        },
+        (messageCount: ChannelMessageCount, member: ChannelMembership, crtEnabled) =>
+            calculateUnreadCount(messageCount, member, crtEnabled),
     );
 }
 
