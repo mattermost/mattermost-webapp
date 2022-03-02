@@ -16,9 +16,11 @@ describe('Channel Info RHS', () => {
     let testTeam;
     let testChannel;
     let groupChannel;
+    let directChannel;
     let directUser;
     let admin;
     let user;
+    const otherUsers = [];
 
     before(() => {
         cy.apiInitSetup({promoteNewUserAsAdmin: true}).then(({team, user: newAdmin}) => {
@@ -38,13 +40,18 @@ describe('Channel Info RHS', () => {
 
             // Users used for GM/DM
             cy.apiCreateUser().then(({user: newUser}) => {
-                cy.apiAddUserToTeam(team.id, newUser.id);
-
-                cy.apiCreateDirectChannel([newAdmin.id, newUser.id]).then(() => {
-                    directUser = newUser;
+                otherUsers.push(newUser);
+                cy.apiPatchUser(newUser.id, {position: 'Upside down'}).then(({user: patchedUser}) => {
+                    cy.apiCreateDirectChannel([newAdmin.id, newUser.id]).then(({channel}) => {
+                        directChannel = channel;
+                    });
+                    directUser = patchedUser;
                 });
 
+                cy.apiAddUserToTeam(team.id, newUser.id);
+
                 cy.apiCreateUser().then(({user: newUser2}) => {
+                    otherUsers.push(newUser2);
                     cy.apiAddUserToTeam(team.id, newUser.id);
                     cy.apiCreateGroupChannel([newAdmin.id, newUser.id, newUser2.id]).then(({channel}) => {
                         groupChannel = channel;
@@ -124,21 +131,23 @@ describe('Channel Info RHS', () => {
 
             it('should NOT be able to add people without permission', () => {
                 // # Login as simple user
-                cy.apiLogout();
-                cy.apiLogin(user);
+                cy.apiLogout().then(() => {
+                    cy.apiLogin(user);
 
-                // # Go to test channel
-                cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+                    // # Go to test channel
+                    cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
-                // # Click on the channel info button
-                cy.get('#channel-info-btn').click();
+                    // # Click on the channel info button
+                    cy.get('#channel-info-btn').click();
 
-                // * Verify that the modal appears
-                cy.uiGetRHS().findByText('Add People').should('not.exist');
+                    // * Verify that the modal appears
+                    cy.uiGetRHS().findByText('Add People').should('not.exist');
 
-                // # log back in as admin
-                cy.apiLogout();
-                cy.apiLogin(admin);
+                    // # log back in as admin
+                    cy.apiLogout().then(() => {
+                        cy.apiLogin(admin);
+                    });
+                });
             });
 
             it('should be able to copy link', () => {
@@ -262,29 +271,26 @@ describe('Channel Info RHS', () => {
             });
         });
         describe('about area', () => {
-            it('should display purpose', () => {
+            it('should display other users', () => {
                 // # Go to test channel
-                cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+                cy.visit(`/${testTeam.name}/messages/${groupChannel.name}`);
 
                 // # Click on the channel info button
                 cy.get('#channel-info-btn').click();
 
-                cy.apiPatchChannel(testChannel.id, {
-                    ...testChannel,
-                    purpose: 'purpose for the tests',
-                }).then(() => {
-                    cy.uiGetRHS().findByText('purpose for the tests').should('be.visible');
+                otherUsers.forEach((otherUser) => {
+                    cy.uiGetRHS().contains(otherUser.username);
                 });
             });
             it('should display description', () => {
                 // # Go to test channel
-                cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+                cy.visit(`/${testTeam.name}/messages/${groupChannel.name}`);
 
                 // # Click on the channel info button
                 cy.get('#channel-info-btn').click();
 
-                cy.apiPatchChannel(testChannel.id, {
-                    ...testChannel,
+                cy.apiPatchChannel(groupChannel.id, {
+                    ...groupChannel,
                     header: 'description for the tests',
                 }).then(() => {
                     cy.uiGetRHS().findByText('description for the tests').should('be.visible');
@@ -295,7 +301,7 @@ describe('Channel Info RHS', () => {
         describe('bottom menu', () => {
             it('should be able to manage notifications', () => {
                 // # Go to test channel
-                cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+                cy.visit(`/${testTeam.name}/messages/${groupChannel.name}`);
 
                 // # Click on the channel info button
                 cy.get('#channel-info-btn').click();
@@ -357,6 +363,32 @@ describe('Channel Info RHS', () => {
 
                 // # Click on "Copy Link"
                 cy.uiGetRHS().get('Copy Link').should('not.exist');
+            });
+        });
+        describe('about area', () => {
+            it('should display other user name and position', () => {
+                // # Go to test channel
+                cy.visit(`/${testTeam.name}/messages/@${directUser.username}`);
+
+                // # Click on the channel info button
+                cy.get('#channel-info-btn').click();
+
+                cy.uiGetRHS().contains(directUser.username);
+                cy.uiGetRHS().contains(directUser.position);
+            });
+            it('should display description', () => {
+                // # Go to test channel
+                cy.visit(`/${testTeam.name}/messages/@${directUser.username}`);
+
+                // # Click on the channel info button
+                cy.get('#channel-info-btn').click();
+
+                cy.apiPatchChannel(directChannel.id, {
+                    ...directChannel,
+                    header: 'description for the tests',
+                }).then(() => {
+                    cy.uiGetRHS().findByText('description for the tests').should('be.visible');
+                });
             });
         });
     });

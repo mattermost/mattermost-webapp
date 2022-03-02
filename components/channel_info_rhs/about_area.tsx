@@ -3,7 +3,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import Constants from 'utils/constants';
 import {Channel} from 'mattermost-redux/types/channels';
@@ -15,6 +15,7 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 
 import {DMUser} from './rhs';
+import LineLimiter from './linelimiter';
 
 const Container = styled.div`
     overflow-wrap: anywhere;
@@ -38,7 +39,7 @@ const Usernames = styled.p`
     margin: 0;
 `;
 
-const ChannelLink = styled.p`
+const ChannelLink = styled.div`
     margin-bottom: 12px;
     font-size: 11px;
     line-height: 16px;
@@ -161,6 +162,8 @@ interface Props {
 }
 
 const AboutArea = ({channel, channelURL, dmUser, gmUsers, canEditChannelProperties, actions}: Props) => {
+    const {formatMessage} = useIntl();
+
     let isOpenOrPrivateChannel = false;
     let isDirectChannel = false;
 
@@ -178,7 +181,14 @@ const AboutArea = ({channel, channelURL, dmUser, gmUsers, canEditChannelProperti
             <EditableArea
                 editable={canEditChannelProperties}
                 content={channel.purpose ? (
-                    <Markdown message={channel.purpose}/>
+                    <LineLimiter
+                        maxLines={3}
+                        lineHeight={20}
+                        moreText={formatMessage({id: 'channel_info_rhs.about_area.channel_purpose.line_limiter.more', defaultMessage: '... more'})}
+                        lessText={formatMessage({id: 'channel_info_rhs.about_area.channel_purpose.line_limiter.less', defaultMessage: 'less'})}
+                    >
+                        <Markdown message={channel.purpose}/>
+                    </LineLimiter>
                 ) : (
                     <EmptyPlace>
                         {canEditChannelProperties ? (
@@ -263,7 +273,14 @@ const AboutArea = ({channel, channelURL, dmUser, gmUsers, canEditChannelProperti
                 <ChannelDescription>
                     <EditableArea
                         content={channel.header ? (
-                            <Markdown message={channel.header}/>
+                            <LineLimiter
+                                maxLines={3}
+                                lineHeight={20}
+                                moreText={formatMessage({id: 'channel_info_rhs.about_area.channel_description.line_limiter.more', defaultMessage: '... more'})}
+                                lessText={formatMessage({id: 'channel_info_rhs.about_area.channel_description.line_limiter.less', defaultMessage: 'less'})}
+                            >
+                                <Markdown message={channel.header}/>
+                            </LineLimiter>
                         ) : (
                             <EmptyPlace>
                                 {canEditDescription ? (

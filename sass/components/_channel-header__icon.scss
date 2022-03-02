@@ -57,8 +57,8 @@
     &--active-inverted,
     &--active-inverted:hover {
         background: v(button-bg);
-        color: v(button-bg);
-        fill: v(button-bg);
+        color: v(button-color);
+        fill: v(button-color);
     }
 
     .icon__text {
