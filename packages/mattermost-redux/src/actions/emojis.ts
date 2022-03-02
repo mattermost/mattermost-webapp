@@ -9,12 +9,21 @@ import {parseNeededCustomEmojisFromText} from 'mattermost-redux/utils/emoji_util
 
 import {GetStateFunc, DispatchFunc, ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 
-import {SystemEmoji, CustomEmoji} from 'mattermost-redux/types/emojis';
+import {SystemEmoji, CustomEmoji, RecentEmojiData} from 'mattermost-redux/types/emojis';
+
+import {getRecentEmojis} from 'selectors/emojis';
+
+import LocalStorageStore from 'stores/local_storage_store';
 
 import {logError} from './errors';
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
 
 import {getProfilesByIds} from './users';
+import { GlobalState } from 'types/store';
+import { getCurrentUserId } from 'mattermost-redux/selectors/entities/common';
+import Constants from 'utils/constants';
+import { savePreferences } from './preferences';
+
 export let systemEmojis: Map<string, SystemEmoji> = new Map();
 export function setSystemEmojis(emojis: Map<string, SystemEmoji>) {
     systemEmojis = emojis;
@@ -248,5 +257,31 @@ export function autocompleteCustomEmojis(name: string): ActionFunc {
         });
 
         return {data};
+    };
+}
+
+export function migrateRecentEmojis(): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState() as GlobalState;
+        const currentUserId = getCurrentUserId(state);
+        let recentEmojisFromPreference: RecentEmojiData[] = [];
+        try {
+            recentEmojisFromPreference = getRecentEmojis(state);
+        } catch (error) {
+            logError(error);
+            return {error};
+        }
+        if (recentEmojisFromPreference.length === 0) {
+            const recentEmojisFromLocalStorage = LocalStorageStore.getRecentEmojis(currentUserId);
+            if (recentEmojisFromLocalStorage) {
+                const parsedRecentEmojisFromLocalStorage: string[] = JSON.parse(recentEmojisFromLocalStorage);
+                const toSetRecentEmojiData = parsedRecentEmojisFromLocalStorage.map((emojiName) => ({name: emojiName, usageCount: 1}));
+                if (toSetRecentEmojiData.length > 0) {
+                    dispatch(savePreferences(currentUserId, [{category: Constants.Preferences.RECENT_EMOJIS, name: currentUserId, user_id: currentUserId, value: JSON.stringify(toSetRecentEmojiData)}]));
+                }
+                return {data: parsedRecentEmojisFromLocalStorage};
+            }
+        }
+        return {data: recentEmojisFromPreference};
     };
 }

@@ -15,7 +15,7 @@ import {rudderAnalytics, RudderTelemetryHandler} from 'mattermost-redux/client/r
 import {Client4} from 'mattermost-redux/client';
 import {setUrl} from 'mattermost-redux/actions/general';
 import {General} from 'mattermost-redux/constants';
-import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
+import {migrateRecentEmojis, setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser, isCurrentUserSystemAdmin, checkIsFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
@@ -141,6 +141,7 @@ export default class Root extends React.PureComponent {
         Client4.setAuthHeader = false;
 
         setSystemEmojis(EmojiIndicesByAlias);
+        migrateRecentEmojis();
 
         // Force logout of all tabs if one tab is logged out
         window.addEventListener('storage', this.handleLogoutLoginSignal);
