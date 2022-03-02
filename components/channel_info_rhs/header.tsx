@@ -37,7 +37,7 @@ const Header = ({channel, onClose}: Props) => {
                 />
                 {channelName &&
                 <span
-                    className='style--none sidebar--right__title__channel'
+                    className='style--none sidebar--right__title__subtitle'
                 >
                     {channelName}
                 </span>
