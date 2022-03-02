@@ -8,9 +8,21 @@ import {useIntl} from 'react-intl';
 import {Channel} from 'mattermost-redux/types/channels';
 import {Constants} from 'utils/constants';
 
+const MenuItemContainer = styled.div`
+    padding: 8px 16px;
+    flex: 1;
+    display: flex;
+`
+
 const Icon = styled.div`
     color: rgba(var(--center-channel-text-rgb), 0.56);
 `;
+
+const MenuItemText = styled.div`
+    padding-left: 8px;
+    flex: 1;
+`
+
 
 interface MenuItemProps {
     className?: string;
@@ -23,15 +35,12 @@ interface MenuItemProps {
 const menuItem = ({icon, text, className, onClick}: MenuItemProps) => {
     return (
         <div className={className}>
-            <div
-                className='MenuItem--main-action MenuItem--container'
-                onClick={onClick}
-            >
+            <MenuItemContainer onClick={onClick}>
                 <Icon>{icon}</Icon>
-                <div className='MenuItem--main-action__text' >
+                <MenuItemText>
                     {text}
-                </div>
-            </div>
+                </MenuItemText>
+            </MenuItemContainer>
         </div>
     );
 };
@@ -44,19 +53,6 @@ const MenuItem = styled(menuItem)`
     cursor: pointer;
     width: 100%;
     height: 40px;
-
-    .MenuItem--container {
-        padding: 8px 16px;
-        flex: 1;
-        display: flex;
-    }
-
-    .MenuItem--main-action {
-        &__text {
-            padding-left: 8px;
-            flex: 1;
-        }
-    }
 
     &:hover {
        background: rgba(var(--center-channel-text-rgb), 0.08);
