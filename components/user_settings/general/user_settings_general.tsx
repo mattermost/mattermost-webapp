@@ -84,6 +84,10 @@ const holders = defineMessages({
         id: t('user.settings.general.position'),
         defaultMessage: 'Position',
     },
+    usernameConflict: {
+        id: t('user.settings.general.usernameConflict'),
+        defaultMessage: 'This username conflicts with an existing group name.',
+    },
 });
 
 export type Props = {
@@ -317,6 +321,9 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                     if (err.server_error_id &&
                         err.server_error_id === 'api.user.check_user_password.invalid.app_error') {
                         serverError = formatMessage(holders.incorrectPassword);
+                    } else if (err.server_error_id &&
+                        err.server_error_id === 'app.user.group_name_conflict') {
+                        serverError = formatMessage(holders.usernameConflict);
                     } else if (err.message) {
                         serverError = err.message;
                     } else {
