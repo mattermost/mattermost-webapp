@@ -12,7 +12,7 @@ const MenuItemContainer = styled.div`
     padding: 8px 16px;
     flex: 1;
     display: flex;
-`
+`;
 
 const Icon = styled.div`
     color: rgba(var(--center-channel-text-rgb), 0.56);
@@ -21,8 +21,7 @@ const Icon = styled.div`
 const MenuItemText = styled.div`
     padding-left: 8px;
     flex: 1;
-`
-
+`;
 
 interface MenuItemProps {
     className?: string;

@@ -75,6 +75,11 @@ const lineLimiter = ({children, maxLines, lineHeight, moreText, lessText, classN
                     <div
                         className='LineLimiter__toggler LineLimiter__toggler--more'
                     >
+                        {/*
+                            This div is necessary to add the fading effect
+                            before the more text, prevent us from cutting the
+                            text in the middle of a letter
+                        */}
                         <div/>
                         {!open && (
                             <button
