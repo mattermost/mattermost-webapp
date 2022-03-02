@@ -15,14 +15,17 @@ import {getRecentEmojis} from 'selectors/emojis';
 
 import LocalStorageStore from 'stores/local_storage_store';
 
+import {GlobalState} from 'types/store';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
+
+import Constants from 'utils/constants';
+
 import {logError} from './errors';
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
 
 import {getProfilesByIds} from './users';
-import { GlobalState } from 'types/store';
-import { getCurrentUserId } from 'mattermost-redux/selectors/entities/common';
-import Constants from 'utils/constants';
-import { savePreferences } from './preferences';
+
+import {savePreferences} from './preferences';
 
 export let systemEmojis: Map<string, SystemEmoji> = new Map();
 export function setSystemEmojis(emojis: Map<string, SystemEmoji>) {
