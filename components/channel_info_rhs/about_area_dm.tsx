@@ -13,7 +13,7 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 
 import {DMUser} from './rhs';
-import LineLimiter from './linelimiter';
+import LineLimiter from './components/linelimiter';
 import EditableArea from './components/EditableArea';
 
 const Username = styled.p`

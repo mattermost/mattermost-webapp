@@ -8,7 +8,7 @@ import {FormattedMessage, useIntl} from 'react-intl';
 import {Channel} from 'mattermost-redux/types/channels';
 import Markdown from 'components/markdown';
 
-import LineLimiter from './linelimiter';
+import LineLimiter from './components/linelimiter';
 import EditableArea from './components/EditableArea';
 
 const ChannelLink = styled.div`

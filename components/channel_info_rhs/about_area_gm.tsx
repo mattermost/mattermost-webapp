@@ -12,7 +12,7 @@ import ProfilePicture from 'components/profile_picture';
 import {Client4} from 'mattermost-redux/client';
 
 import EditableArea from './components/EditableArea';
-import LineLimiter from './linelimiter';
+import LineLimiter from './components/linelimiter';
 
 const Usernames = styled.p`
     font-family: Metropolis, sans-serif;
