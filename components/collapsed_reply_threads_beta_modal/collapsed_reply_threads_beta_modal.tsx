@@ -26,13 +26,13 @@ function CollapsedReplyThreadsBetaModal(props: Props) {
             onExited={props.onExited}
             modalHeaderText={(
                 <FormattedMessage
-                    id='collapsed_reply_threads_modal.title'
+                    id='collapsed_reply_threads_beta_modal.title'
                     defaultMessage={'You\'re accessing an early beta of Collapsed Reply Threads'}
                 />
             )}
             confirmButtonText={(
                 <FormattedMessage
-                    id={'collapsed_reply_threads_modal.confirm'}
+                    id={'collapsed_reply_threads_beta_modal.confirm'}
                     defaultMessage='Got it'
                 />
             )}
