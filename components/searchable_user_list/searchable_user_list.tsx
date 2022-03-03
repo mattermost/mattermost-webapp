@@ -22,9 +22,6 @@ type Props = {
     usersPerPage: number;
     total: number;
     extraInfo?: {[key: string]: Array<string | JSX.Element>};
-
-    // nextPage: (page: number) => void;
-    // previousPage: (page: number) => void;
     nextPage: () => void;
     previousPage: () => void;
     search: (term: string) => void;
