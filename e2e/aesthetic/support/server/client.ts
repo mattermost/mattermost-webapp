@@ -12,16 +12,15 @@ import fetch from 'isomorphic-unfetch';
 
 import Client4, {
     ClientError,
+    parseAndMergeNestedHeaders,
     HEADER_X_VERSION_ID,
     HEADER_X_CLUSTER_ID,
-    PER_PAGE_DEFAULT,
 } from '../../../../packages/mattermost-redux/src/client/client4';
 import {UserProfile} from '../../../../packages/mattermost-redux/src/types/users';
 import {Options, StatusOK, ClientResponse} from '../../../../packages/mattermost-redux/src/types/client4';
 import {CustomEmoji} from '../../../../packages/mattermost-redux/src/types/emojis';
 import {PluginManifest} from '../../../../packages/mattermost-redux/src/types/plugins';
 import {License} from '../../../../packages/mattermost-redux/src/types/config';
-import {Group} from '../../../../packages/mattermost-redux/src/types/groups';
 
 import {buildQueryString} from '../../../../packages/mattermost-redux/src/utils/helpers_client';
 
@@ -346,57 +345,4 @@ export default class Client extends Client4 {
 
         return this.doFetch<PluginManifest>(this.getPluginsRoute(), request);
     };
-
-    getGroupsNotAssociatedToTeam = (teamID: string, q = '', page = 0, perPage = PER_PAGE_DEFAULT, source = 'ldap') => {
-        this.trackEvent('api', 'api_groups_get_not_associated_to_team', {team_id: teamID});
-        return this.doFetch<Group[]>(
-            `${this.getGroupsRoute()}${buildQueryString({
-                not_associated_to_team: teamID,
-                page,
-                per_page: perPage,
-                q,
-                include_member_count: true,
-                group_source: source,
-            })}`,
-            {method: 'get'}
-        );
-    };
-
-    getGroupsNotAssociatedToChannel = (
-        channelID: string,
-        q = '',
-        page = 0,
-        perPage = PER_PAGE_DEFAULT,
-        filterParentTeamPermitted = false,
-        source = 'ldap'
-    ) => {
-        this.trackEvent('api', 'api_groups_get_not_associated_to_channel', {channel_id: channelID});
-        const query = {
-            not_associated_to_channel: channelID,
-            page,
-            per_page: perPage,
-            q,
-            include_member_count: true,
-            filter_parent_team_permitted: filterParentTeamPermitted,
-            group_source: source,
-        };
-        return this.doFetch<Group[]>(`${this.getGroupsRoute()}${buildQueryString(query)}`, {method: 'get'});
-    };
-}
-
-function parseAndMergeNestedHeaders(originalHeaders: any) {
-    const headers = new Map();
-    let nestedHeaders = new Map();
-    originalHeaders.forEach((val: string, key: string) => {
-        const capitalizedKey = key.replace(/\b[a-z]/g, (l) => l.toUpperCase());
-        let realVal = val;
-        if (val && val.match(/\n\S+:\s\S+/)) {
-            const nestedHeaderStrings = val.split('\n');
-            realVal = nestedHeaderStrings.shift() as string;
-            const moreNestedHeaders = new Map(nestedHeaderStrings.map((h: any) => h.split(/:\s/)));
-            nestedHeaders = new Map([...nestedHeaders, ...moreNestedHeaders]);
-        }
-        headers.set(capitalizedKey, realVal);
-    });
-    return new Map([...headers, ...nestedHeaders]);
 }

@@ -133,7 +133,7 @@ const HEADER_USER_AGENT = 'User-Agent';
 export const HEADER_X_CLUSTER_ID = 'X-Cluster-Id';
 const HEADER_X_CSRF_TOKEN = 'X-CSRF-Token';
 export const HEADER_X_VERSION_ID = 'X-Version-Id';
-export const PER_PAGE_DEFAULT = 60;
+const PER_PAGE_DEFAULT = 60;
 const LOGS_PER_PAGE_DEFAULT = 10000;
 export const DEFAULT_LIMIT_BEFORE = 30;
 export const DEFAULT_LIMIT_AFTER = 30;
@@ -3903,7 +3903,7 @@ export default class Client4 {
     }
 }
 
-function parseAndMergeNestedHeaders(originalHeaders: any) {
+export function parseAndMergeNestedHeaders(originalHeaders: any) {
     const headers = new Map();
     let nestedHeaders = new Map();
     originalHeaders.forEach((val: string, key: string) => {

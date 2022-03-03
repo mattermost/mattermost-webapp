@@ -37,7 +37,7 @@ export type Theme = {
     mentionHighlightBg: string;
     mentionHighlightLink: string;
     codeTheme: string;
-    hideInVisualTesting: string;
+    hideInVisualTesting?: string;
 };
 
 export type ThemeTypeMap = Record<ThemeType | LegacyThemeType, ThemeKey>;
