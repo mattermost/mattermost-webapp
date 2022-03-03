@@ -17,8 +17,6 @@ interface Props {
 }
 
 const Header = ({channel, onClose}: Props) => {
-    const channelName = channel.display_name;
-
     const closeSidebarTooltip = (
         <Tooltip id='closeSidebarTooltip'>
             <FormattedMessage
@@ -35,11 +33,11 @@ const Header = ({channel, onClose}: Props) => {
                     id='channel_info_rhs.header.title'
                     defaultMessage='Info'
                 />
-                {channelName &&
+                {channel.display_name &&
                 <span
                     className='style--none sidebar--right__title__subtitle'
                 >
-                    {channelName}
+                    {channel.display_name}
                 </span>
                 }
             </span>

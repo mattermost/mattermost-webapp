@@ -50,7 +50,7 @@ const ChannelInfoRhsTopButton = styled.button`
     }
 `;
 
-interface Props {
+export interface Props {
     channelType: string;
     channelURL?: string;
 
