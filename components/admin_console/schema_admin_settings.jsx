@@ -1107,14 +1107,10 @@ export default class SchemaAdminSettings extends React.PureComponent {
             if (setting.validate) {
                 const result = setting.validate(this.state[setting.key]);
                 if (!result.isValid()) {
-                    this.setState({clientWarning: result.error()});
                     return false;
                 }
             }
         }
-        this.setState({
-            clientWarning: '',
-        });
 
         return true;
     }
