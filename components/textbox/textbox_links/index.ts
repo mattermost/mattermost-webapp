@@ -12,6 +12,7 @@ import TextboxLinks from './textbox_links';
 function mapStateToProps(state: GlobalState) {
     return ({
         currentLocale: getCurrentLocale(state),
+        customEditors: state.plugins.components.CustomEditor,
     });
 }
 

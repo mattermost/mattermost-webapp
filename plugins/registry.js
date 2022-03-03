@@ -874,4 +874,29 @@ export default class PluginRegistry {
 
         return id;
     }
+
+    // Register a component to be used as a custom text editor for post drafting
+    // Accepts the following:
+    // - route - The route to be displayed at.
+    // - component - A react component to display.
+    // Returns:
+    // - id: a unique identifier
+    registerCustomEditorComponent(text, component) {
+        const id = generateId();
+
+        const data = {
+            id,
+            pluginId: this.id,
+            text,
+            component,
+        };
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'CustomEditor',
+            data,
+        });
+
+        return id;
+    }
 }

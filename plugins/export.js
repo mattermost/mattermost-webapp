@@ -8,6 +8,7 @@ import {browserHistory} from 'utils/browser_history';
 import {openModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
 import {imageURLForUser} from 'utils/utils.jsx';
+import EmojiMap from 'utils/emoji_map';
 
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
@@ -38,6 +39,7 @@ window.openInteractiveDialog = openInteractiveDialog;
 window.WebappUtils = {
     browserHistory,
     modals: {openModal, ModalIdentifiers},
+    EmojiMap,
 };
 
 // Components exposed on window FOR INTERNAL PLUGIN USE ONLY. These components may have breaking changes in the future

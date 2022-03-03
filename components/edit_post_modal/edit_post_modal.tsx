@@ -32,6 +32,7 @@ import {Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
 import {Post} from 'mattermost-redux/types/posts';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {ModalData} from 'types/actions';
+import {PluginComponent} from 'types/store/plugins';
 
 const KeyCodes = Constants.KeyCodes;
 const TOP_OFFSET = 0;
@@ -79,6 +80,7 @@ export type State = {
     renderScrollbar: boolean;
     scrollbarWidth: number;
     prevShowState: boolean;
+    customEditor?: PluginComponent;
 };
 
 export class EditPostModal extends React.PureComponent<Props, State> {
@@ -128,7 +130,13 @@ export class EditPostModal extends React.PureComponent<Props, State> {
 
     setShowPreview = (newPreviewValue: boolean) => {
         this.props.actions.setShowPreview(newPreviewValue);
+        this.setState({customEditor: undefined});
     };
+
+    setCustomEditor = (pluginComponent?: PluginComponent) => {
+        this.props.actions.setShowPreview(false);
+        this.setState({customEditor: pluginComponent});
+    }
 
     getContainer = () => {
         return this.editModalBody.current;
@@ -633,6 +641,8 @@ export class EditPostModal extends React.PureComponent<Props, State> {
                                 characterLimit={this.props.maxPostSize}
                                 preview={this.props.shouldShowPreview}
                                 useChannelMentions={this.props.useChannelMentions}
+                                customEditor={this.state.customEditor}
+                                setCustomEditor={this.setCustomEditor}
                             />
                             <div className='post-body__actions'>{emojiPicker}</div>
                         </div>
@@ -643,6 +653,8 @@ export class EditPostModal extends React.PureComponent<Props, State> {
                                 showPreview={this.props.shouldShowPreview}
                                 updatePreview={this.setShowPreview}
                                 hasText={this.state.editText.length > 0}
+                                customEditor={this.state.customEditor}
+                                setCustomEditor={this.setCustomEditor}
                             />
                             <div className={errorBoxClass}>{postError}</div>
                         </div>
