@@ -24,7 +24,7 @@ import AdminSidebar from './admin_sidebar';
 import Highlight from './highlight';
 import AdminDefinition from './admin_definition';
 
-type Props = {
+export type Props = {
     config: DeepPartial<AdminConfig>;
     adminDefinition: typeof AdminDefinition;
     environmentConfig?: Partial<EnvironmentConfig>;

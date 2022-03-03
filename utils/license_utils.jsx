@@ -72,6 +72,10 @@ export function isCloudLicense(license) {
     return license?.Cloud === 'true';
 }
 
+export function getIsStarterLicense(license) {
+    return license?.SkuShortName === LicenseSkus.Starter;
+}
+
 export function isEnterpriseOrE20License(license) {
     return license?.SkuShortName === LicenseSkus.Enterprise || license?.SkuShortName === LicenseSkus.E20;
 }

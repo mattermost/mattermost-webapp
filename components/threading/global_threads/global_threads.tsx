@@ -35,6 +35,8 @@ import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferen
 import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {showNextSteps} from 'components/next_steps_view/steps';
 
+import {Constants} from 'utils/constants';
+
 import Header from 'components/widgets/header';
 import LoadingScreen from 'components/loading_screen';
 import NoResultsIndicator from 'components/no_results_indicator';
@@ -101,7 +103,7 @@ const GlobalThreads = () => {
             currentTeamId,
             {
                 unread,
-                perPage: 25,
+                perPage: Constants.THREADS_PAGE_SIZE,
             },
         ));
 

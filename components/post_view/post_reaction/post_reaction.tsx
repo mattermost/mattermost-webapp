@@ -86,7 +86,6 @@ export default class PostReaction extends React.PureComponent<Props, State> {
                         onEmojiClick={this.handleAddEmoji}
                         topOffset={TOP_OFFSET}
                         spaceRequiredAbove={spaceRequiredAbove}
-                        n={true}
                         spaceRequiredBelow={spaceRequiredBelow}
                     />
                     <OverlayTrigger

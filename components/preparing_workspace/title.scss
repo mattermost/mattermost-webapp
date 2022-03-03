@@ -2,6 +2,12 @@
     margin-top: 0;
     margin-bottom: 12px;
     color: var(--sidebar-header-bg);
-    font-size: 54px;
+    font-size: 56px;
     letter-spacing: -0.01em;
+}
+
+@media screen and (max-width: 900px) {
+    .PreparingWorkspaceTitle {
+        font-size: 36px;
+    }
 }

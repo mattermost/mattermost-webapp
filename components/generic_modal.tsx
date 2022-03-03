@@ -24,6 +24,7 @@ type Props = {
     autoCloseOnConfirmButton?: boolean;
     enforceFocus?: boolean;
     container?: React.ReactNode | React.ReactNodeArray;
+    ariaLabel?: string;
 };
 
 type State = {
@@ -130,7 +131,8 @@ export default class GenericModal extends React.PureComponent<Props, State> {
                 enforceFocus={this.props.enforceFocus}
                 restoreFocus={true}
                 role='dialog'
-                aria-labelledby='genericModalLabel'
+                aria-label={this.props.ariaLabel}
+                aria-labelledby={this.props.ariaLabel ? undefined : 'genericModalLabel'}
                 id={this.props.id}
                 container={this.props.container}
             >
