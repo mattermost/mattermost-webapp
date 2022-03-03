@@ -221,9 +221,9 @@ describe('Collapsed Reply Threads', () => {
         const maxScrolls = 3;
         scrollThreadsListToEnd(maxScrolls);
 
-        // # Search guidance item should be shown at the end of the threads list
+        // * Search guidance item should be shown at the end of the threads list
         cy.get('.ThreadList .no-results__wrapper').should('be.visible').within(() => {
-            // # Title, subtitle and shortcut keys should be shown
+            // * Title, subtitle and shortcut keys should be shown
             cy.findByText('That’s the end of the list').should('be.visible');
             cy.contains('If you’re looking for older conversations, try searching with ').should('be.visible').within(() => {
                 cy.findByText(isMac() ? '⌘' : 'Ctrl').should('be.visible');
@@ -235,7 +235,7 @@ describe('Collapsed Reply Threads', () => {
         // # Click Unreads button
         cy.findByText('Unreads').click();
 
-        // # Search guidance item should not be shown at the end of the Unreads threads list
+        // * Search guidance item should not be shown at the end of the Unreads threads list
         cy.get('.ThreadList .no-results__wrapper').should('not.exist');
     });
 });
