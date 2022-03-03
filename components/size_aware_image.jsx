@@ -256,7 +256,7 @@ export default class SizeAwareImage extends React.PureComponent {
                 rootClose={true}
             >
                 <a
-                    href={fileURL}
+                    href={this.isInternalImage() ? fileURL : src}
                     className='style--none size-aware-image__download'
                     target='_blank'
                     rel='noopener noreferrer'
@@ -290,10 +290,10 @@ export default class SizeAwareImage extends React.PureComponent {
                     </div>
                     <span
                         className={classNames('image-preview-utility-buttons-container', 'image-preview-utility-buttons-container--small-image', {
-                            'image-preview-utility-buttons-container--small-image-no-copy-button': !enablePublicLink,
+                            'image-preview-utility-buttons-container--small-image-no-copy-button': !enablePublicLink || !this.isInternalImage(),
                         })}
                     >
-                        {enablePublicLink && copyLink}
+                        {(enablePublicLink || !this.isInternalImage()) && copyLink}
                         {download}
                     </span>
                 </div>
@@ -308,10 +308,10 @@ export default class SizeAwareImage extends React.PureComponent {
 
                         // cases for when image isn't a small image but width is < 100px
                         'image-preview-utility-buttons-container--small-image': this.state.imageWidth < MIN_IMAGE_SIZE_FOR_INTERNAL_BUTTONS,
-                        'image-preview-utility-buttons-container--small-image-no-copy-button': !enablePublicLink && this.state.imageWidth < MIN_IMAGE_SIZE_FOR_INTERNAL_BUTTONS,
+                        'image-preview-utility-buttons-container--small-image-no-copy-button': (!enablePublicLink || !this.isInternalImage()) && this.state.imageWidth < MIN_IMAGE_SIZE_FOR_INTERNAL_BUTTONS,
                     })}
                 >
-                    {enablePublicLink && copyLink}
+                    {(enablePublicLink || !this.isInternalImage()) && copyLink}
                     {download}
                 </span>
             </figure>
@@ -356,25 +356,39 @@ export default class SizeAwareImage extends React.PureComponent {
         );
     }
 
+    isInternalImage = () => {
+        return this.props.fileInfo !== undefined;
+    }
+
+    startCopyTimer = () => {
+        // set linkCopiedRecently to true, and reset to false after 1.5 seconds
+        this.setState({linkCopiedRecently: true});
+        if (this.timeout) {
+            clearTimeout(this.timeout);
+        }
+        this.timeout = setTimeout(() => {
+            this.setState({linkCopiedRecently: false, linkCopyInProgress: false});
+        }, 1500);
+    }
+
     copyLinkToAsset = () => {
         // if linkCopyInProgress is true return
         if (this.state.linkCopyInProgress !== true) {
             // set linkCopyInProgress to true to prevent multiple api calls
             this.setState({linkCopyInProgress: true});
 
+            // check if image is external, if not copy this.props.src
+            if (!this.isInternalImage()) {
+                copyToClipboard(this.props.src ?? '');
+                this.startCopyTimer();
+                return;
+            }
+
             // copying public link to clipboard
             this.props.getFilePublicLink().then((data) => {
                 const fileURL = data.data.link;
                 copyToClipboard(fileURL ?? '');
-
-                // set linkCopiedRecently to true, and reset to false after 1.5 seconds
-                this.setState({linkCopiedRecently: true});
-                if (this.timeout) {
-                    clearTimeout(this.timeout);
-                }
-                this.timeout = setTimeout(() => {
-                    this.setState({linkCopiedRecently: false, linkCopyInProgress: false});
-                }, 1500);
+                this.startCopyTimer();
             });
         }
     }
