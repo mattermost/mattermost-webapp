@@ -36,6 +36,7 @@ export default class FileAttachmentList extends React.PureComponent<Props> {
             fileInfos,
             fileCount,
             locale,
+            isInPermalink,
         } = this.props;
 
         if (fileInfos && fileInfos.length === 1) {
@@ -48,6 +49,7 @@ export default class FileAttachmentList extends React.PureComponent<Props> {
                         isEmbedVisible={this.props.isEmbedVisible}
                         postId={this.props.post.id}
                         compactDisplay={compactDisplay}
+                        isInPermalink={isInPermalink}
                     />
                 );
             }

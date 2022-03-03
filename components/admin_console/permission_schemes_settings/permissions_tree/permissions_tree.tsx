@@ -196,11 +196,13 @@ export default class PermissionsTree extends React.PureComponent<Props, State> {
 
     updateGroups = () => {
         const {config, scope, license} = this.props;
-        const sharedChannelsGroup = this.groups[this.groups.length - 1];
-        const integrationsGroup = this.groups[this.groups.length - 2];
-        const postsGroup = this.groups[this.groups.length - 3];
-        const customGroupsGroup = this.groups.find((group) => group.id === 'custom_groups');
+
         const teamsGroup = this.groups[0];
+        const postsGroup = this.groups[6];
+        const integrationsGroup = this.groups[7];
+        const sharedChannelsGroup = this.groups[8];
+        const customGroupsGroup = this.groups[9];
+
         if (config.EnableIncomingWebhooks === 'true' && !integrationsGroup.permissions.includes(Permissions.MANAGE_INCOMING_WEBHOOKS)) {
             integrationsGroup.permissions.push(Permissions.MANAGE_INCOMING_WEBHOOKS);
         }

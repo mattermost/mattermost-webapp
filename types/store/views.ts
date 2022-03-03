@@ -68,6 +68,7 @@ export type ViewsState = {
         editingPost: {
             postId: string;
             show: boolean;
+            isRHS: boolean;
         };
         menuActions: {
             [postId: string]: {
@@ -87,10 +88,11 @@ export type ViewsState = {
                 dialogType: React.ComponentType;
             };
         };
+        showLaunchingWorkspace: boolean;
     };
 
     emoji: {
-        emojiPickerCustomPage: 0;
+        emojiPickerCustomPage: number;
         shortcutReactToLastPostEmittedFrom: string;
     };
 

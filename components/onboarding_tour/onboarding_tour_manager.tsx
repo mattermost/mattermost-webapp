@@ -242,14 +242,14 @@ const useOnBoardingTourTipManager = (): OnBoardingTourTipManager => {
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent): void => {
-            if (isKeyPressed(e, KeyCodes.ENTER)) {
+            if (isKeyPressed(e, KeyCodes.ENTER) && show) {
                 handleNext();
             }
         };
         window.addEventListener('keydown', handleKeyDown);
         return () =>
             window.removeEventListener('keydown', handleKeyDown);
-    }, [handleNext]);
+    }, [handleNext, show]);
 
     return {
         show,

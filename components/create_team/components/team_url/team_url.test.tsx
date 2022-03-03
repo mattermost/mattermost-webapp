@@ -101,7 +101,7 @@ describe('/components/create_team/components/display_name', () => {
         wrapper.find('button').simulate('click', {preventDefault: () => jest.fn()});
         expect(wrapper.state('nameError')).toEqual(chatLengthError);
 
-        (wrapper.find('.form-control').instance() as unknown as HTMLInputElement).value = 'should_trigger_an_error_because_it_exceeds_MAX_TEAMNAME_LENGTH';
+        (wrapper.find('.form-control').instance() as unknown as HTMLInputElement).value = 'a'.repeat(Constants.MAX_TEAMNAME_LENGTH + 1);
         wrapper.find('.form-control').simulate('change');
         wrapper.find('button').simulate('click', {preventDefault: () => jest.fn()});
         expect(wrapper.state('nameError')).toEqual(chatLengthError);
