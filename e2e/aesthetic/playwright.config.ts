@@ -15,7 +15,7 @@ const config: PlaywrightTestConfig = {
     workers: process.env.CI ? 2 : 1,
     use: {
         baseURL: testConfig.baseURL,
-        headless: false,
+        headless: true,
         locale: 'en-US',
         screenshot: 'only-on-failure',
         timezoneId: 'America/Los_Angeles',

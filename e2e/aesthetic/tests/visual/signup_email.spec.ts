@@ -33,11 +33,12 @@ test('/signup_email', async ({page, isMobile, browserName}, testInfo) => {
         await landingLoginPage.viewInBrowserButton.click();
     }
 
-    expect(await loginPage.siteNameHeader).toBeVisible();
+    await loginPage.siteNameHeader.waitFor();
 
     // Create an account
     await loginPage.createAccountLink.click();
     await wait(duration.one_sec);
+    await page.waitForLoadState('domcontentloaded');
 
     // Should match login page
     if (!testConfig.percyEnabled || !testConfig.applitoolsEnabled) {

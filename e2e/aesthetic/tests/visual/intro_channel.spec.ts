@@ -40,16 +40,15 @@ test('Intro to channel as regular user', async ({page, isMobile, browserName}, t
         await landingLoginPage.viewInBrowserButton.click();
     }
 
-    // Should match default login page
-    await expect(await loginPage.siteNameHeader).toBeVisible();
-
     // Login as a new user
+    await loginPage.siteNameHeader.waitFor();
+    await page.waitForLoadState('domcontentloaded');
     await loginPage.login(user);
 
-    // Post a message into a channel
+    // Should have redirected to channel page
     const channelPage = new ChannelPage(page);
+    await page.waitForLoadState('domcontentloaded');
     await expect(channelPage.postTextbox.input).toBeVisible();
-    await wait(duration.one_sec);
 
     // Should match with error at login page
     if (!testConfig.percyEnabled || !testConfig.applitoolsEnabled) {

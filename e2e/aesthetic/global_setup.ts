@@ -9,6 +9,7 @@ import {
     createRandomUser,
     getAdminClient,
     getDefaultAdminUser,
+    getOnPremServerConfig,
     makeClient,
 } from './support/server';
 import {defaultTeam} from './support/utils';
@@ -33,29 +34,31 @@ async function sysadminSetup(client: Client4, user: UserProfile) {
         await client.verifyUserEmail(client.token);
     }
 
+    await client.updateConfig(getOnPremServerConfig());
+
     // Create default team if not present.
     // Otherwise, create other teams and channels other than the default team cna channels (town-square and off-topic).
     const myTeams = await client.getMyTeams();
     const myDefaultTeam = myTeams && myTeams.length > 0 && myTeams.find((team) => team.name === defaultTeam.name);
     if (!myDefaultTeam) {
-        await client.createTeam(createRandomTeam(defaultTeam.name, defaultTeam.displayName));
+        await client.createTeam(createRandomTeam(defaultTeam.name, defaultTeam.displayName, 'O', false));
     } else if (myDefaultTeam && testConfig.resetBeforeTest) {
-        myTeams.forEach(async (team) => {
-            if (team.name !== defaultTeam.name) {
-                await client.deleteTeam(team.id);
-            }
-        });
+        await Promise.all(
+            myTeams.filter((team) => team.name !== defaultTeam.name).map((team) => client.deleteTeam(team.id))
+        );
 
         const myChannels = await client.getMyChannels(myDefaultTeam.id);
-        myChannels.forEach(async (channel) => {
-            if (
-                channel.team_id === myDefaultTeam.id &&
-                channel.name !== 'town-square' &&
-                channel.name !== 'off-topic'
-            ) {
-                await client.deleteChannel(channel.id);
-            }
-        });
+        await Promise.all(
+            myChannels
+                .filter((channel) => {
+                    return (
+                        channel.team_id === myDefaultTeam.id &&
+                        channel.name !== 'town-square' &&
+                        channel.name !== 'off-topic'
+                    );
+                })
+                .map((channel) => client.deleteChannel(channel.id))
+        );
     }
 
     // Test only according to users limit requirement.
@@ -77,16 +80,41 @@ async function sysadminSetup(client: Client4, user: UserProfile) {
             let baseCount = totalUsersCount;
             while (baseCount < usersLimit) {
                 const randomUser = createRandomUser();
-                const user = await client.createUser(randomUser);
-
-                console.log(
-                    `${baseCount}) Added ${user.username} to satisfy test that requires users more than users limit.`
-                );
+                await client.createUser(randomUser);
 
                 baseCount++;
             }
+
+            console.log(
+                `Added ${
+                    usersLimit - totalUsersCount
+                } users to satisfy test that requires total users more than users limit.`
+            );
         }
     }
+
+    // Ensure Boards and Playbooks are installed and active.
+    // Soon Calls to be added.
+    const pluginStatus = await client.getPluginStatuses();
+    const plugins = await client.getPlugins();
+
+    ['playbooks', 'focalboard'].forEach(async (pluginId) => {
+        const isInstalled = pluginStatus.some((plugin) => plugin.plugin_id === pluginId);
+        if (!isInstalled) {
+            console.log(`${pluginId} is not installed.`);
+        }
+
+        const isActive = plugins.active.some((plugin) => plugin.id === pluginId);
+        if (!isActive) {
+            const isInactive = plugins.inactive.some((plugin) => plugin.id === pluginId);
+            if (isInstalled && isInactive) {
+                await client.enablePlugin(pluginId);
+                console.log(`${pluginId} has been activated.`);
+            } else {
+                console.log(`${pluginId} is not active.`);
+            }
+        }
+    });
 }
 
 export default globalSetup;
