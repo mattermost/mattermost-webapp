@@ -106,7 +106,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             const currentTime = (new Date()).getTime();
             if (currentTime > (lastTime + WAKEUP_THRESHOLD)) { // ignore small delays
                 console.log('computer woke up - fetching latest'); //eslint-disable-line no-console
-                reconnect(true);
+                reconnect(false);
             }
             lastTime = currentTime;
         }, WAKEUP_CHECK_INTERVAL);
