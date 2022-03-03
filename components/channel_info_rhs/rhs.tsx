@@ -116,7 +116,7 @@ const ChannelInfoRhs = ({
         dialogProps: {channel},
     });
 
-    const editChannelDescription = () => actions.openModal({
+    const editChannelHeader = () => actions.openModal({
         modalId: ModalIdentifiers.EDIT_CHANNEL_HEADER,
         dialogType: EditChannelHeaderModal,
         dialogProps: {channel},
@@ -161,7 +161,7 @@ const ChannelInfoRhs = ({
                 canEditChannelProperties={canManageProperties}
 
                 actions={{
-                    editChannelDescription,
+                    editChannelHeader,
                     editChannelPurpose,
                 }}
             />

@@ -71,7 +71,7 @@ const ChannelPurpose = styled.div`
     }
 `;
 
-const ChannelDescription = styled.div`
+const ChannelHeader = styled.div`
     margin-bottom: 12px;
 `;
 
@@ -157,7 +157,7 @@ interface Props {
     canEditChannelProperties: boolean;
     actions: {
         editChannelPurpose: () => void;
-        editChannelDescription: () => void;
+        editChannelHeader: () => void;
     };
 }
 
@@ -170,12 +170,12 @@ const AboutArea = ({channel, channelURL, dmUser, gmUsers, canEditChannelProperti
     let channelPurpose: JSX.Element | null = null;
     let channelPurposeClass = '';
 
-    let canEditDescription = true;
+    let canEditHeader = true;
 
     switch (channel.type) {
     case Constants.OPEN_CHANNEL:
     case Constants.PRIVATE_CHANNEL:
-        canEditDescription = canEditChannelProperties;
+        canEditHeader = canEditChannelProperties;
         isOpenOrPrivateChannel = true;
         channelPurpose = (
             <EditableArea
@@ -258,7 +258,7 @@ const AboutArea = ({channel, channelURL, dmUser, gmUsers, canEditChannelProperti
         break;
     }
 
-    const noDescription = isDirectChannel && dmUser?.user.is_bot;
+    const noHeader = isDirectChannel && dmUser?.user.is_bot;
 
     return (
         <Container>
@@ -269,38 +269,38 @@ const AboutArea = ({channel, channelURL, dmUser, gmUsers, canEditChannelProperti
                 </ChannelPurpose>
             )}
 
-            {!noDescription && (
-                <ChannelDescription>
+            {!noHeader && (
+                <ChannelHeader>
                     <EditableArea
                         content={channel.header ? (
                             <LineLimiter
                                 maxLines={3}
                                 lineHeight={20}
-                                moreText={formatMessage({id: 'channel_info_rhs.about_area.channel_description.line_limiter.more', defaultMessage: '... more'})}
-                                lessText={formatMessage({id: 'channel_info_rhs.about_area.channel_description.line_limiter.less', defaultMessage: 'less'})}
+                                moreText={formatMessage({id: 'channel_info_rhs.about_area.channel_header.line_limiter.more', defaultMessage: '... more'})}
+                                lessText={formatMessage({id: 'channel_info_rhs.about_area.channel_header.line_limiter.less', defaultMessage: 'less'})}
                             >
                                 <Markdown message={channel.header}/>
                             </LineLimiter>
                         ) : (
                             <EmptyPlace>
-                                {canEditDescription ? (
+                                {canEditHeader ? (
                                     <FormattedMessage
-                                        id='channel_info_rhs.about_area.add_channel_description'
-                                        defaultMessage='Add a channel description'
+                                        id='channel_info_rhs.about_area.add_channel_header'
+                                        defaultMessage='Add a channel header'
                                     />
                                 ) : (
                                     <FormattedMessage
-                                        id='channel_info_rhs.about_area.no_channel_description'
-                                        defaultMessage='No channel description'
+                                        id='channel_info_rhs.about_area.no_channel_header'
+                                        defaultMessage='No channel header'
                                     />
 
                                 )}
                             </EmptyPlace>
                         )}
-                        editable={canEditDescription}
-                        onEdit={actions.editChannelDescription}
+                        editable={canEditHeader}
+                        onEdit={actions.editChannelHeader}
                     />
-                </ChannelDescription>
+                </ChannelHeader>
             )}
 
             {isOpenOrPrivateChannel && (

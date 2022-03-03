@@ -187,7 +187,7 @@ describe('Channel Info RHS', () => {
                     cy.uiGetRHS().findByText('purpose for the tests').should('be.visible');
                 });
             });
-            it('should display description', () => {
+            it('should display header', () => {
                 // # Go to test channel
                 cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
@@ -196,9 +196,9 @@ describe('Channel Info RHS', () => {
 
                 cy.apiPatchChannel(testChannel.id, {
                     ...testChannel,
-                    header: 'description for the tests',
+                    header: 'header for the tests',
                 }).then(() => {
-                    cy.uiGetRHS().findByText('description for the tests').should('be.visible');
+                    cy.uiGetRHS().findByText('header for the tests').should('be.visible');
                 });
             });
         });
@@ -282,7 +282,7 @@ describe('Channel Info RHS', () => {
                     cy.uiGetRHS().contains(otherUser.username);
                 });
             });
-            it('should display description', () => {
+            it('should display header', () => {
                 // # Go to test channel
                 cy.visit(`/${testTeam.name}/messages/${groupChannel.name}`);
 
@@ -291,9 +291,9 @@ describe('Channel Info RHS', () => {
 
                 cy.apiPatchChannel(groupChannel.id, {
                     ...groupChannel,
-                    header: 'description for the tests',
+                    header: 'header for the tests',
                 }).then(() => {
-                    cy.uiGetRHS().findByText('description for the tests').should('be.visible');
+                    cy.uiGetRHS().findByText('header for the tests').should('be.visible');
                 });
             });
         });
@@ -376,7 +376,7 @@ describe('Channel Info RHS', () => {
                 cy.uiGetRHS().contains(directUser.username);
                 cy.uiGetRHS().contains(directUser.position);
             });
-            it('should display description', () => {
+            it('should display header', () => {
                 // # Go to test channel
                 cy.visit(`/${testTeam.name}/messages/@${directUser.username}`);
 
@@ -385,9 +385,9 @@ describe('Channel Info RHS', () => {
 
                 cy.apiPatchChannel(directChannel.id, {
                     ...directChannel,
-                    header: 'description for the tests',
+                    header: 'header for the tests',
                 }).then(() => {
-                    cy.uiGetRHS().findByText('description for the tests').should('be.visible');
+                    cy.uiGetRHS().findByText('header for the tests').should('be.visible');
                 });
             });
         });
