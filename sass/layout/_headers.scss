@@ -560,15 +560,20 @@
     }
 
     .channel-intro__title {
-        margin-bottom: 15px;
-        font-size: 28px;
-        font-weight: 600;
+        margin-bottom: 8px;
+        font-size: 36px;
+        font-weight: 900;
+    }
+    
+    .channel-intro__desc {
+        color: $dark-gray;
+        i {
+            font-size: 14px;
+        }
     }
 
     .channel-intro__content {
-        padding: 10px 15px;
-        background: $bg--gray;
-        border-radius: 3px;
+        margin: 16px 0 0;
     }
 }
 

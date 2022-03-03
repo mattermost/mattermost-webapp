@@ -25,7 +25,6 @@ import {localizeMessage} from 'utils/utils';
 import './add_members_button.scss';
 
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
-import PublicChannelIntroSvg from 'components/common/svg_images_components/public_channel_intro_svg';
 
 export interface AddMembersButtonProps {
     totalUsers?: number;
@@ -66,7 +65,6 @@ const lessThanMaxFreeUsers = (setHeader: React.ReactNode, createBoard: React.Rea
                     width={128}
                     height={113}
                 />
-                {/* <PublicChannelIntroSvg/> */}
                 <div className='titleAndButton'>
                     <FormattedMessage
                         id='intro_messages.inviteOthersToWorkspace.title'
