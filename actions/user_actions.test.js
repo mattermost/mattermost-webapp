@@ -143,6 +143,19 @@ describe('Actions.User', () => {
                     group_channel_2: ['user_1', 'user_2'],
                 },
             },
+            posts: {
+                posts: {
+                    sample_post_id: {
+                        id: 'sample_post_id',
+                    },
+                },
+                postsInChannel: {
+                    current_channel_id: [
+                        {
+                            id: 'sample_post_id',
+                        },
+                    ]},
+            },
         },
         storage: {
             storage: {},

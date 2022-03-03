@@ -42,10 +42,9 @@ describe('Keyboard Shortcuts', () => {
         cy.findByTestId('post_textbox').
             type('{uparrow}');
 
-        // * Verify that the Edit Post Modal is visible
-        cy.get('#editPostModal').
+        // * Verify that the Edit Post Input is visible
+        cy.get('#edit_textbox').
             should('be.visible').
-            findByRole('textbox', {name: 'edit the post...'}).
             should('have.text', message);
     });
 });

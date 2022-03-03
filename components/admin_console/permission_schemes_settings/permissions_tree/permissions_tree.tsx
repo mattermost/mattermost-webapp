@@ -26,6 +26,7 @@ type Props = {
     selectRow: (id: string) => void;
     readOnly?: boolean;
     license?: Partial<ClientLicense>;
+    customGroupsEnabled: boolean;
 }
 
 type State = {
@@ -176,16 +177,32 @@ export default class PermissionsTree extends React.PureComponent<Props, State> {
                 permissions: [
                 ],
             },
+            {
+                id: 'custom_groups',
+                permissions: [{
+                    id: 'custom_groups',
+                    combined: true,
+                    permissions: [
+                        Permissions.CREATE_CUSTOM_GROUP,
+                        Permissions.MANAGE_CUSTOM_GROUP_MEMBERS,
+                        Permissions.DELETE_CUSTOM_GROUP,
+                        Permissions.EDIT_CUSTOM_GROUP,
+                    ],
+                }],
+            },
         ];
         this.updateGroups();
     }
 
     updateGroups = () => {
         const {config, scope, license} = this.props;
-        const sharedChannelsGroup = this.groups[this.groups.length - 1];
-        const integrationsGroup = this.groups[this.groups.length - 2];
-        const postsGroup = this.groups[this.groups.length - 3];
+
         const teamsGroup = this.groups[0];
+        const postsGroup = this.groups[6];
+        const integrationsGroup = this.groups[7];
+        const sharedChannelsGroup = this.groups[8];
+        const customGroupsGroup = this.groups[9];
+
         if (config.EnableIncomingWebhooks === 'true' && !integrationsGroup.permissions.includes(Permissions.MANAGE_INCOMING_WEBHOOKS)) {
             integrationsGroup.permissions.push(Permissions.MANAGE_INCOMING_WEBHOOKS);
         }
@@ -221,6 +238,9 @@ export default class PermissionsTree extends React.PureComponent<Props, State> {
         if (config.ExperimentalSharedChannels === 'true') {
             sharedChannelsGroup.permissions.push(Permissions.MANAGE_SHARED_CHANNELS);
             sharedChannelsGroup.permissions.push(Permissions.MANAGE_SECURE_CONNECTIONS);
+        }
+        if (!this.props.customGroupsEnabled) {
+            customGroupsGroup?.permissions.pop();
         }
     }
 

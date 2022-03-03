@@ -19,6 +19,8 @@ describe('components/sidebar', () => {
         unreadFilterEnabled: false,
         isMobileView: false,
         isKeyBoardShortcutModalOpen: false,
+        userGroupsEnabled: false,
+        canCreateCustomGroups: true,
         actions: {
             createCategory: jest.fn(),
             fetchMyCategories: jest.fn(),

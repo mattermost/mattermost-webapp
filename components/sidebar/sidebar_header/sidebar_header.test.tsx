@@ -2,17 +2,23 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import * as redux from 'react-redux';
 import {shallow} from 'enzyme';
 import IconButton from '@mattermost/compass-components/components/icon-button';
-
-import {TutorialSteps} from 'utils/constants';
 
 import AddChannelDropdown from '../add_channel_dropdown';
 
 import SidebarHeader, {Props} from './sidebar_header';
 
 let props: Props;
+
+const mockDispatch = jest.fn();
+let mockState: any;
+
+jest.mock('react-redux', () => ({
+    ...jest.requireActual('react-redux') as typeof import('react-redux'),
+    useSelector: (selector: (state: typeof mockState) => unknown) => selector(mockState),
+    useDispatch: () => mockDispatch,
+}));
 
 describe('Components/SidebarHeader', () => {
     beforeEach(() => {
@@ -25,35 +31,46 @@ describe('Components/SidebarHeader', () => {
             canJoinPublicChannel: true,
             handleOpenDirectMessagesModal: jest.fn(),
             unreadFilterEnabled: true,
+            showCreateUserGroupModal: jest.fn(),
+            userGroupsEnabled: false,
+            canCreateCustomGroups: true,
+        };
+
+        mockState = {
+            entities: {
+                general: {
+                    config: {},
+                },
+                preferences: {
+                    myPreferences: {},
+                },
+                teams: {
+                    currentTeamId: 'currentteam',
+                    teams: {
+                        currentteam: {
+                            id: 'currentteam',
+                            description: 'et iste illum reprehenderit aliquid in rem itaque in maxime eius.',
+                        },
+                    },
+                },
+                users: {
+                    currentUserId: 'uid',
+                },
+            },
+            views: {
+                addChannelDropdown: {
+                    isOpen: false,
+                },
+            },
         };
     });
 
-    const mockRedux = () => {
-        const spy = jest.spyOn(redux, 'useSelector');
-
-        // team
-        spy.mockReturnValueOnce({});
-
-        // user
-        spy.mockReturnValueOnce({});
-
-        // tip step
-        spy.mockReturnValueOnce(TutorialSteps.MENU_POPOVER);
-
-        // channels by name
-        spy.mockReturnValueOnce({});
-    };
-
     it('should show AddChannelDropdown', () => {
-        mockRedux();
-
         const wrapper = shallow(<SidebarHeader {...props}/>);
         expect(wrapper.find(AddChannelDropdown).length).toBe(1);
     });
 
     it('should embed teams menu dropdown into heading', () => {
-        mockRedux();
-
         const wrapper = shallow(<SidebarHeader {...props}/>);
         expect(wrapper.find(IconButton).length).toBe(0);
         expect(wrapper.find('i').prop('className')).toBe('icon icon-chevron-down');

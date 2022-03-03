@@ -5,11 +5,13 @@ import React from 'react';
 import {Route} from 'react-router-dom';
 import classNames from 'classnames';
 
+// TODO@Michel: remove this (and the component files) when post inline editing is available by default
+import EditPostModal from 'components/edit_post_modal';
+
 import AnnouncementBarController from 'components/announcement_bar';
 
 import Pluggable from 'plugins/pluggable';
 import SystemNotice from 'components/system_notice';
-import EditPostModal from 'components/edit_post_modal';
 
 import ResetStatusModal from 'components/reset_status_modal';
 import SidebarRight from 'components/sidebar_right';
@@ -25,6 +27,9 @@ import ProductNoticesModal from 'components/product_notices_modal';
 interface Props {
     shouldShowAppBar: boolean;
     fetchingChannels: boolean;
+
+    // TODO@Michel: remove this prop once inline editing is enabled by default
+    enableEditPostModal: boolean;
 }
 
 export default class ChannelController extends React.PureComponent<Props> {
@@ -69,7 +74,8 @@ export default class ChannelController extends React.PureComponent<Props> {
                     {!this.props.fetchingChannels && <Route component={CenterChannel}/>}
                     {this.props.fetchingChannels && <LoadingScreen/>}
                     <Pluggable pluggableName='Root'/>
-                    <EditPostModal/>
+                    {/* TODO@Michel: remove this line once inline editing is enabled by default */}
+                    {this.props.enableEditPostModal && <EditPostModal/>}
                     <ResetStatusModal/>
                 </div>
                 <AppBar/>
