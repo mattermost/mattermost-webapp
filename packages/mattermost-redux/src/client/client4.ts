@@ -116,13 +116,11 @@ import {
 } from 'mattermost-redux/types/data_retention';
 import {CompleteOnboardingRequest} from 'mattermost-redux/types/setup';
 
-import {buildQueryString, isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
+import {buildQueryString, isMinimumServerVersion} from 'mattermost-redux/utils/helpers_client';
 import {cleanUrlForLogging} from 'mattermost-redux/utils/sentry';
 import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 
 import {UserThreadList, UserThread, UserThreadWithPost} from 'mattermost-redux/types/threads';
-
-import Constants from 'utils/constants';
 
 import {TelemetryHandler} from './telemetry';
 
@@ -132,10 +130,10 @@ const HEADER_BEARER = 'BEARER';
 const HEADER_CONTENT_TYPE = 'Content-Type';
 const HEADER_REQUESTED_WITH = 'X-Requested-With';
 const HEADER_USER_AGENT = 'User-Agent';
-const HEADER_X_CLUSTER_ID = 'X-Cluster-Id';
+export const HEADER_X_CLUSTER_ID = 'X-Cluster-Id';
 const HEADER_X_CSRF_TOKEN = 'X-CSRF-Token';
 export const HEADER_X_VERSION_ID = 'X-Version-Id';
-const PER_PAGE_DEFAULT = 60;
+export const PER_PAGE_DEFAULT = 60;
 const LOGS_PER_PAGE_DEFAULT = 10000;
 export const DEFAULT_LIMIT_BEFORE = 30;
 export const DEFAULT_LIMIT_AFTER = 30;
@@ -3430,7 +3428,7 @@ export default class Client4 {
         );
     };
 
-    getGroupsNotAssociatedToTeam = (teamID: string, q = '', page = 0, perPage = PER_PAGE_DEFAULT, source = Constants.LDAP_SERVICE) => {
+    getGroupsNotAssociatedToTeam = (teamID: string, q = '', page = 0, perPage = PER_PAGE_DEFAULT, source = 'ldap') => {
         this.trackEvent('api', 'api_groups_get_not_associated_to_team', {team_id: teamID});
         return this.doFetch<Group[]>(
             `${this.getGroupsRoute()}${buildQueryString({not_associated_to_team: teamID, page, per_page: perPage, q, include_member_count: true, group_source: source})}`,
@@ -3438,7 +3436,7 @@ export default class Client4 {
         );
     };
 
-    getGroupsNotAssociatedToChannel = (channelID: string, q = '', page = 0, perPage = PER_PAGE_DEFAULT, filterParentTeamPermitted = false, source = Constants.LDAP_SERVICE) => {
+    getGroupsNotAssociatedToChannel = (channelID: string, q = '', page = 0, perPage = PER_PAGE_DEFAULT, filterParentTeamPermitted = false, source = 'ldap') => {
         this.trackEvent('api', 'api_groups_get_not_associated_to_channel', {channel_id: channelID});
         const query = {
             not_associated_to_channel: channelID,

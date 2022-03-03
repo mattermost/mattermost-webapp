@@ -6,7 +6,7 @@ import {UserProfile} from '../../../../packages/mattermost-redux/src/types/users
 import testConfig from '../../test.config';
 
 import {createRandomChannel} from './channel';
-import Client4 from './client4';
+import Client from './client';
 import {getOnPremServerConfig} from './default_config';
 import {initSetup, getAdminClient} from './init';
 import {getPreferenceWithHideInVisualTesting} from './preference';
@@ -25,12 +25,12 @@ export async function makeClient(
     userRequest?: UserRequest,
     useCache = true
 ): Promise<{
-    client?: Client4;
+    client?: Client;
     user?: UserProfile;
     err?: string;
 }> {
     try {
-        const client = new Client4();
+        const client = new Client();
         client.setUrl(testConfig.baseURL);
 
         if (!userRequest) {
@@ -57,7 +57,7 @@ export async function makeClient(
 
 export {
     createRandomChannel,
-    Client4,
+    Client,
     getOnPremServerConfig,
     initSetup,
     getAdminClient,

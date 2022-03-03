@@ -3,8 +3,8 @@
 exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match snapshot 1`] = `
 <Link
   aria-label="channel_label"
-  className="SidebarLink"
-  id="sidebarItem_"
+  className="SidebarLink hide-sidebar-channel_name"
+  id="sidebarItem_channel_name"
   onClick={[Function]}
   tabIndex={0}
   to="http://a.fake.link"
@@ -21,7 +21,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "id": "channel_id",
         "last_post_at": 0,
         "last_root_post_at": 0,
-        "name": "",
+        "name": "channel_name",
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
@@ -51,7 +51,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
           "id": "channel_id",
           "last_post_at": 0,
           "last_root_post_at": 0,
-          "name": "",
+          "name": "channel_name",
           "purpose": "",
           "scheme_id": "",
           "team_id": "",
@@ -77,7 +77,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "id": "channel_id",
         "last_post_at": 0,
         "last_root_post_at": 0,
-        "name": "",
+        "name": "channel_name",
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
@@ -97,8 +97,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
 exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match snapshot for desktop 1`] = `
 <Link
   aria-label="channel_label"
-  className="SidebarLink"
-  id="sidebarItem_"
+  className="SidebarLink hide-sidebar-channel_name"
+  id="sidebarItem_channel_name"
   onClick={[Function]}
   tabIndex={0}
   to="http://a.fake.link"
@@ -115,7 +115,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "id": "channel_id",
         "last_post_at": 0,
         "last_root_post_at": 0,
-        "name": "",
+        "name": "channel_name",
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
@@ -145,7 +145,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
           "id": "channel_id",
           "last_post_at": 0,
           "last_root_post_at": 0,
-          "name": "",
+          "name": "channel_name",
           "purpose": "",
           "scheme_id": "",
           "team_id": "",
@@ -171,7 +171,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "id": "channel_id",
         "last_post_at": 0,
         "last_root_post_at": 0,
-        "name": "",
+        "name": "channel_name",
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
@@ -191,8 +191,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
 exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match snapshot when tooltip is enabled 1`] = `
 <Link
   aria-label="channel_label"
-  className="SidebarLink"
-  id="sidebarItem_"
+  className="SidebarLink hide-sidebar-channel_name"
+  id="sidebarItem_channel_name"
   onClick={[Function]}
   tabIndex={0}
   to="http://a.fake.link"
@@ -209,7 +209,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "id": "channel_id",
         "last_post_at": 0,
         "last_root_post_at": 0,
-        "name": "",
+        "name": "channel_name",
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
@@ -261,7 +261,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
           "id": "channel_id",
           "last_post_at": 0,
           "last_root_post_at": 0,
-          "name": "",
+          "name": "channel_name",
           "purpose": "",
           "scheme_id": "",
           "team_id": "",
@@ -287,7 +287,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "id": "channel_id",
         "last_post_at": 0,
         "last_root_post_at": 0,
-        "name": "",
+        "name": "channel_name",
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
@@ -307,8 +307,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
 exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match snapshot with aria label prefix and unread mentions 1`] = `
 <Link
   aria-label="channel_label aria_label_prefix_ 2 mentions"
-  className="SidebarLink unread-title"
-  id="sidebarItem_"
+  className="SidebarLink hide-sidebar-channel_name unread-title"
+  id="sidebarItem_channel_name"
   onClick={[Function]}
   tabIndex={0}
   to="http://a.fake.link"
@@ -325,7 +325,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "id": "channel_id",
         "last_post_at": 0,
         "last_root_post_at": 0,
-        "name": "",
+        "name": "channel_name",
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
@@ -355,7 +355,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
           "id": "channel_id",
           "last_post_at": 0,
           "last_root_post_at": 0,
-          "name": "",
+          "name": "channel_name",
           "purpose": "",
           "scheme_id": "",
           "team_id": "",
@@ -381,7 +381,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "id": "channel_id",
         "last_post_at": 0,
         "last_root_post_at": 0,
-        "name": "",
+        "name": "channel_name",
         "purpose": "",
         "scheme_id": "",
         "team_id": "",

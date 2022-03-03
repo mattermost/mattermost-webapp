@@ -10,7 +10,7 @@ import {UserTypes, TeamTypes, AdminTypes} from 'mattermost-redux/action_types';
 
 import {removeUserFromList} from 'mattermost-redux/utils/user_utils';
 
-import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
+import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers_client';
 
 import {getConfig, getServerVersion} from 'mattermost-redux/selectors/entities/general';
 

@@ -29,7 +29,7 @@ import {Channel, ChannelNotifyProps, ChannelMembership, ChannelModerationPatch, 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import {getChannelsIdForTeam, getChannelByName} from 'mattermost-redux/utils/channel_utils';
-import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
+import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers_client';
 
 import {addChannelToInitialCategory, addChannelToCategory} from './channel_categories';
 import {logError} from './errors';

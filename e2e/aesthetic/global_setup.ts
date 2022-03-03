@@ -4,7 +4,7 @@
 import {UserProfile} from '../../packages/mattermost-redux/src/types/users';
 
 import {
-    Client4,
+    Client,
     createRandomTeam,
     createRandomUser,
     getAdminClient,
@@ -28,7 +28,7 @@ async function globalSetup() {
     await sysadminSetup(adminClient, adminUser);
 }
 
-async function sysadminSetup(client: Client4, user: UserProfile) {
+async function sysadminSetup(client: Client, user: UserProfile) {
     // Ensure admin's email is verified.
     if (!user) {
         await client.verifyUserEmail(client.token);

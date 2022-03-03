@@ -18,7 +18,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
             delete_at: 0,
             team_id: '',
             type: 'O' as ChannelType,
-            name: '',
+            name: 'channel_name',
             header: '',
             purpose: '',
             last_post_at: 0,

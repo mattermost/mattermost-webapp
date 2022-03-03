@@ -8,7 +8,6 @@ import {Eyes, CheckSettings} from '@applitools/eyes-playwright';
 
 import {initSetup, getPreferenceWithHideInVisualTesting} from '../../support/server';
 import {ChannelPage, LandingLoginPage, LoginPage} from '../../support/ui/page';
-import {duration, wait} from '../../support/utils';
 import {snapshotWithApplitools, snapshotWithPercy} from '../../support/visual';
 import testConfig from '../../test.config';
 
@@ -28,7 +27,7 @@ test('Intro to channel as regular user', async ({page, isMobile, browserName}, t
     await userClient.savePreferences(user.id, [preference]);
 
     const fullPath = path.join(path.resolve(__dirname), '../..', 'support/fixtures/mattermost-icon_128x128.png');
-    await userClient.uploadProfileImage(user.id, fullPath);
+    await userClient.uploadProfileImageX(user.id, fullPath);
 
     // Go to login page
     const loginPage = new LoginPage(page, adminConfig);

@@ -1,6 +1,9 @@
 ## Local development
+
 #### 1. Start local server in a separate terminal.
+
 #### 2. Install dependencies and run the test.
+
 ```
 # Install npm packages
 npm i
@@ -21,7 +24,9 @@ npm run test
 ## Updating screenshots is strictly via Playwright's docker container for consistency
 
 #### 1. Run docker container using latest focal version
+
 Change directory to root folder of mattermost-webapp then run docker container
+
 ```
 cd ../..
 docker run -it --rm -v "$(pwd):/mattermost-webapp/" --ipc=host mcr.microsoft.com/playwright:focal /bin/bash
@@ -44,6 +49,7 @@ npm run test
 ```
 
 ## Page/Component Object Model
+
 See https://playwright.dev/docs/test-pom.
 
 Page and component abstractions are located at `./support/ui`. It should be first class before writing a spec file so that any future change in DOM structure will be done in one place only. No static UI text and fixed locator should be written in the spec file.
