@@ -107,7 +107,7 @@ exports[`components/SizeAwareImage should load download and copy link buttons wh
           <a
             aria-label="file thumbnail photo-1533709752211-118fcaf03312download image"
             className="style--none size-aware-image__download"
-            download="photo-1533709752211-118fcaf03312"
+            download="file thumbnail photo-1533709752211-118fcaf03312"
             href="https://example.com/image.png"
             rel="noopener noreferrer"
             target="_blank"
@@ -230,7 +230,7 @@ exports[`components/SizeAwareImage should match snapshot when handleSmallImageCo
           <a
             aria-label="file thumbnail photo-1533709752211-118fcaf03312download image"
             className="style--none size-aware-image__download"
-            download="photo-1533709752211-118fcaf03312"
+            download="file thumbnail photo-1533709752211-118fcaf03312"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -366,7 +366,7 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
           <a
             aria-label="file thumbnail photo-1533709752211-118fcaf03312download image"
             className="style--none size-aware-image__download"
-            download="photo-1533709752211-118fcaf03312"
+            download="file thumbnail photo-1533709752211-118fcaf03312"
             rel="noopener noreferrer"
             target="_blank"
           >
