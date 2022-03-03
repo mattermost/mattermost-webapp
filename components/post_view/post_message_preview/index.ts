@@ -3,12 +3,23 @@
 
 import {connect} from 'react-redux';
 
+import {bindActionCreators, Dispatch} from 'redux';
+
 import {GlobalState} from 'types/store';
 
+import {GenericAction} from 'mattermost-redux/types/actions';
+import {Post, PostPreviewMetadata} from 'mattermost-redux/types/posts';
+
+import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
-import {Post, PostPreviewMetadata} from 'mattermost-redux/types/posts';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
+
+import {isEmbedVisible} from 'selectors/posts';
+
+import {toggleEmbedVisibility} from 'actions/post_actions';
+
+import {Preferences} from 'utils/constants';
 
 import PostMessagePreview from './post_message_preview';
 
@@ -20,12 +31,14 @@ type Props = {
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     const config = getConfig(state);
     let user = null;
-    let previewPost = ownProps.previewPost;
-    if (!previewPost) {
-        previewPost = getPost(state, ownProps.metadata.post_id);
-    }
+    let embedVisible = false;
+    const previewPost = getPost(state, ownProps.metadata.post_id) || ownProps.previewPost;
+
     if (previewPost && previewPost.user_id) {
         user = getUser(state, previewPost.user_id);
+    }
+    if (previewPost && previewPost.id) {
+        embedVisible = isEmbedVisible(state, previewPost.id);
     }
 
     return {
@@ -33,7 +46,15 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         enablePostIconOverride: config.EnablePostIconOverride === 'true',
         previewPost,
         user,
+        isEmbedVisible: embedVisible,
+        compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
     };
 }
 
-export default connect(mapStateToProps)(PostMessagePreview);
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+    return {
+        actions: bindActionCreators({toggleEmbedVisibility}, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostMessagePreview);

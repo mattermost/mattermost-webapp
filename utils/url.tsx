@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {latinise} from 'utils/latinise';
 import {t} from 'utils/i18n';
 import * as TextFormatting from 'utils/text_formatting';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 type WindowObject = {
     location: {

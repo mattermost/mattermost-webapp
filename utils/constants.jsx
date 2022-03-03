@@ -178,8 +178,12 @@ export const ActionTypes = keyMirror({
     CONFIRM_NAVIGATION: null,
 
     TOGGLE_IMPORT_THEME_MODAL: null,
-    SHOW_EDIT_POST_MODAL: null,
+    TOGGLE_DELETE_POST_MODAL: null,
+    TOGGLE_EDITING_POST: null,
+
+    // TODO@Michel: once inline post editing is available without using a feature flag remove these actions
     HIDE_EDIT_POST_MODAL: null,
+    SET_SHOW_PREVIEW_ON_EDIT_POST_MODAL: null,
 
     EMITTED_SHORTCUT_REACT_TO_LAST_POST: null,
 
@@ -223,7 +227,6 @@ export const ActionTypes = keyMirror({
     SET_SHOW_PREVIEW_ON_CREATE_COMMENT: null,
     SET_SHOW_PREVIEW_ON_CREATE_POST: null,
     SET_SHOW_PREVIEW_ON_EDIT_CHANNEL_HEADER_MODAL: null,
-    SET_SHOW_PREVIEW_ON_EDIT_POST_MODAL: null,
 
     TOGGLE_RHS_MENU: null,
     OPEN_RHS_MENU: null,
@@ -562,6 +565,8 @@ export const TELEMETRY_CATEGORIES = {
     CLOUD_ADMIN: 'cloud_admin',
     SELF_HOSTED_START_TRIAL_AUTO_MODAL: 'self_hosted_start_trial_auto_modal',
     SELF_HOSTED_START_TRIAL_MODAL: 'self_hosted_start_trial_modal',
+    SELF_HOSTED_START_TRIAL_TASK_LIST: 'self_hosted_start_trial_task_list',
+    WORKSPACE_OPTIMIZATION_DASHBOARD: 'workspace_optimization_dashboard',
 };
 
 export const PostTypes = {
@@ -841,6 +846,22 @@ export const CloudLinks = {
     PRICING: 'https://mattermost.com/pricing/',
     PRORATED_PAYMENT: 'https://mattermost.com/pl/mattermost-cloud-prorate-documentation',
     DEPLOYMENT_OPTIONS: 'https://mattermost.com/deploy/',
+    DOWNLOAD_UPDATE: 'https://mattermost.com/deploy/',
+};
+
+export const DocLinks = {
+    AD_LDAP: 'https://docs.mattermost.com/configure/configuration-settings.html#ad-ldap',
+    DATA_RETENTION_POLICY: 'https://docs.mattermost.com/comply/data-retention-policy.html',
+    ELASTICSEARCH: 'https://docs.mattermost.com/scale/elasticsearch.html',
+    GUEST_ACCOUNTS: 'https://docs.mattermost.com/onboard/guest-accounts.html',
+    SESSION_LENGTHS: 'https://docs.mattermost.com/configure/configuration-settings.html#session-lengths',
+    SITE_URL: 'https://docs.mattermost.com/configure/configuration-settings.html#site-url',
+    SSL_CERTIFICATE: 'https://docs.mattermost.com/onboard/ssl-client-certificate.html',
+    UPGRADE_SERVER: 'https://docs.mattermost.com/upgrade/upgrading-mattermost-server.html',
+};
+
+export const LicenseLinks = {
+    CONTACT_SALES: 'https://mattermost.com/contact-sales/',
 };
 
 export const BillingSchemes = {
@@ -985,6 +1006,14 @@ export const DefaultRolePermissions = {
         Permissions.EDIT_CUSTOM_GROUP,
         Permissions.DELETE_CUSTOM_GROUP,
         Permissions.MANAGE_CUSTOM_GROUP_MEMBERS,
+        Permissions.PLAYBOOK_PUBLIC_CREATE,
+        Permissions.PLAYBOOK_PRIVATE_CREATE,
+        Permissions.PLAYBOOK_PUBLIC_MANAGE_MEMBERS,
+        Permissions.PLAYBOOK_PRIVATE_MANAGE_MEMBERS,
+        Permissions.PLAYBOOK_PUBLIC_MANAGE_PROPERTIES,
+        Permissions.PLAYBOOK_PRIVATE_MANAGE_PROPERTIES,
+        Permissions.PLAYBOOK_PUBLIC_MAKE_PRIVATE,
+        Permissions.RUN_CREATE,
     ],
     channel_admin: [
         Permissions.MANAGE_CHANNEL_ROLES,
@@ -1213,6 +1242,7 @@ export const Constants = {
     POST_UPDATED: 'updated',
     SYSTEM_MESSAGE_PREFIX: 'system_',
     SUGGESTION_LIST_MAXHEIGHT: 292,
+    SUGGESTION_LIST_MAXWIDTH: 496,
     SUGGESTION_LIST_SPACE_RHS: 420,
     SUGGESTION_LIST_MODAL_WIDTH: 496,
     MENTION_NAME_PADDING_LEFT: 2.4,
@@ -1615,7 +1645,7 @@ export const Constants = {
     DEFAULT_MAX_CHANNELS_PER_TEAM: 2000,
     DEFAULT_MAX_NOTIFICATIONS_PER_CHANNEL: 1000,
     MIN_TEAMNAME_LENGTH: 2,
-    MAX_TEAMNAME_LENGTH: 15,
+    MAX_TEAMNAME_LENGTH: 64,
     MAX_TEAMDESCRIPTION_LENGTH: 50,
     MIN_CHANNELNAME_LENGTH: 2,
     MAX_CHANNELNAME_LENGTH: 64,
@@ -1687,6 +1717,8 @@ export const Constants = {
     ACCEPT_STATIC_IMAGE: '.jpeg,.jpg,.png,.bmp',
     ACCEPT_EMOJI_IMAGE: '.jpeg,.jpg,.png,.gif',
     THREADS_PAGE_SIZE: 25,
+    THREADS_LOADING_INDICATOR_ITEM_ID: 'threads_loading_indicator_item_id',
+    THREADS_NO_RESULTS_ITEM_ID: 'threads_no_results_item_id',
     TRIAL_MODAL_AUTO_SHOWN: 'trial_modal_auto_shown',
     DEFAULT_SITE_URL: 'http://localhost:8065',
 };
@@ -1698,6 +1730,19 @@ export const ValidationErrors = {
     INVALID_FIRST_CHARACTER: 'INVALID_FIRST_CHARACTER',
     RESERVED_NAME: 'RESERVED_NAME',
     INVALID_LAST_CHARACTER: 'INVALID_LAST_CHARACTER',
+};
+
+export const ConsolePages = {
+    AD_LDAP: '/admin_console/authentication/ldap',
+    COMPLIANCE_EXPORT: '/admin_console/compliance/export',
+    CUSTOM_TERMS: '/admin_console/compliance/custom_terms_of_service',
+    DATA_RETENTION: '/admin_console/compliance/data_retention_settings',
+    ELASTICSEARCH: '/admin_console/environment/elasticsearch',
+    GUEST_ACCOUNTS: '/admin_console/authentication/guest_access',
+    LICENSE: '/admin_console/about/license',
+    SAML: '/admin_console/authentication/saml',
+    SESSION_LENGTHS: '/admin_console/environment/session_lengths',
+    WEB_SERVER: '/admin_console/environment/web_server',
 };
 
 export const WindowSizes = {

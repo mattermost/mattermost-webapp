@@ -322,6 +322,12 @@
                 padding: 2px 24px 12px;
 
                 .Input_container {
+                    :focus {
+                        border-color: transparent;
+                        box-shadow: none;
+                        outline-style: none;
+                    }
+
                     .Input_wrapper {
                         margin: 6px 0;
                         line-height: 38px;
