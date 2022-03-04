@@ -55,7 +55,7 @@ type Props = {
     isDisabled?: boolean;
 
     // the type of user list row to render
-    rowComponentType?: unknown;
+    rowComponentType?: React.ComponentType<any>;
 }
 
 const renderView = (props: Record<string, unknown>): JSX.Element => (

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useState} from 'react';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
@@ -38,54 +38,40 @@ type Props = {
     focusOnMount?: boolean;
 }
 
-type State = {
-    term: string;
-    page: number;
-};
+export default function SearchableUserListContainer(props: Props) {
+    const [term, setTerm] = useState('');
+    const [page, setPage] = useState(0);
 
-export default class SearchableUserListContainer extends React.PureComponent<Props, State> {
-    constructor(props: Props) {
-        super(props);
+    const handleTermChange = (term: string) => {
+        setTerm(term);
+    };
 
-        this.state = {
-            term: '',
-            page: 0,
-        };
-    }
+    const nextPage = () => {
+        setPage(page + 1);
+        props.nextPage(page + 1);
+    };
 
-    handleTermChange = (term: string) => {
-        this.setState({term});
-    }
+    const previousPage = () => {
+        setPage(page - 1);
+    };
 
-    nextPage = () => {
-        this.setState({page: this.state.page + 1});
-
-        this.props.nextPage(this.state.page + 1);
-    }
-
-    previousPage = () => {
-        this.setState({page: this.state.page - 1});
-    }
-
-    search = (term: string) => {
-        this.props.search(term);
+    const search = (term: string) => {
+        props.search(term);
 
         if (term !== '') {
-            this.setState({page: 0});
+            setPage(0);
         }
-    }
+    };
 
-    render() {
-        return (
-            <SearchableUserList
-                {...this.props}
-                nextPage={this.nextPage}
-                previousPage={this.previousPage}
-                search={this.search}
-                page={this.state.page}
-                term={this.state.term}
-                onTermChange={this.handleTermChange}
-            />
-        );
-    }
+    return (
+        <SearchableUserList
+            {...props}
+            nextPage={nextPage}
+            previousPage={previousPage}
+            search={search}
+            page={page}
+            term={term}
+            onTermChange={handleTermChange}
+        />
+    );
 }
