@@ -18,7 +18,7 @@ import {isGuest, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import Pluggable from 'plugins/pluggable';
 import AddUserToChannelModal from 'components/add_user_to_channel_modal';
 import LocalizedIcon from 'components/localized_icon';
-import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
+import ToggleModalButton from 'components/toggle_modal_button';
 import Avatar from 'components/widgets/users/avatar';
 import Popover from 'components/widgets/popover';
 import SharedUserIndicator from 'components/shared_user_indicator';
@@ -596,7 +596,7 @@ ProfilePopoverState
                             className='text-nowrap'
                             onClick={this.handleAddToChannel}
                         >
-                            <ToggleModalButtonRedux
+                            <ToggleModalButton
                                 ariaLabel={addToChannelMessage}
                                 modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
                                 role='menuitem'
@@ -612,7 +612,7 @@ ProfilePopoverState
                                     }}
                                 />
                                 {addToChannelMessage}
-                            </ToggleModalButtonRedux>
+                            </ToggleModalButton>
                         </a>
                     </div>,
                 );

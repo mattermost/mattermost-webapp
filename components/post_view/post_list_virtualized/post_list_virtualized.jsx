@@ -289,7 +289,7 @@ export default class PostList extends React.PureComponent {
         if (this.props.isMobileView) {
             dynamicListStyle = {
                 ...dynamicListStyle,
-                opened: opened ? 'unset' : 'transform',
+                willChange: opened ? 'unset' : 'transform',
             };
         }
 
