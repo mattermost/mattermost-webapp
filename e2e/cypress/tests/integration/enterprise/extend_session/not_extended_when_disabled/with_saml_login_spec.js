@@ -19,11 +19,11 @@ import {getKeycloakServerSettings} from '../../../../utils/config';
 import {verifyExtendedSession, verifyNotExtendedSession} from './helpers';
 
 describe('Extended Session Length', () => {
-    const sessionLengthInDays = 1;
+    const sessionLengthInMinutes = 24 * 60;
     const samlConfig = getKeycloakServerSettings();
     const sessionConfig = {
         ServiceSettings: {
-            SessionLengthSSOInDays: sessionLengthInDays,
+            SessionLengthSSOInMinutes: sessionLengthInMinutes,
         },
     };
 
@@ -85,7 +85,7 @@ describe('Extended Session Length', () => {
         cy.postMessage('hello');
 
         // # Verify session is extended
-        verifyExtendedSession(testSamlUser, sessionLengthInDays, offTopicUrl);
+        verifyExtendedSession(testSamlUser, sessionLengthInMinutes, offTopicUrl);
     });
 
     it('MM-T4047_2 SAML/SSO user session should not extend even with user activity when disabled', () => {

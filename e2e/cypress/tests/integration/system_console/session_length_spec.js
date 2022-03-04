@@ -110,17 +110,17 @@ describe('MM-T2574 Session Lengths', () => {
                 expect(setting).to.equal(31);
             });
         });
-        it('Setting "Session Length SSO (days)" should save in UI', () => {
-            cy.get('#sessionLengthSSOInDays').
+        it('Setting "Session Length SSO (minutes)" should save in UI', () => {
+            cy.get('#sessionLengthSSOInMinutes').
                 should('have.value', '30').
                 clear().type('31');
             saveConfig();
-            cy.get('#sessionLengthSSOInDays').should('have.value', '31');
+            cy.get('#sessionLengthSSOInMinutes').should('have.value', '31');
         });
-        it('Setting "Session Length SSO (days)" should be saved in the server configuration', () => {
+        it('Setting "Session Length SSO (minutes)" should be saved in the server configuration', () => {
             cy.apiGetConfig().then(({config}) => {
-                const setting = config.ServiceSettings.SessionLengthSSOInDays;
-                expect(setting).to.equal(31);
+                const setting = config.ServiceSettings.SessionLengthSSOInMinutes;
+                expect(setting).to.equal(44640);
             });
         });
         it('Setting "Session Cache (minutes)" should save in UI', () => {

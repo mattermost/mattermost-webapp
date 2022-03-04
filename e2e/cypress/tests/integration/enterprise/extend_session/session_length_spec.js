@@ -95,9 +95,9 @@ describe('MM-T2574 Session Lengths', () => {
                 false: 'The number of days from the last time a user entered their credentials to the expiry of the user\'s session. After changing this setting, the new session length will take effect after the next time the user enters their credentials.',
                 true: 'Set the number of days from the last activity in Mattermost to the expiry of the user’s session on mobile. After changing this setting, the new session length will take effect after the next time the user enters their credentials.',
             },
-            sessionLengthSSOInDays: {
-                false: 'The number of days from the last time a user entered their credentials to the expiry of the user\'s session. If the authentication method is SAML or GitLab, the user may automatically be logged back in to Mattermost if they are already logged in to SAML or GitLab. After changing this setting, the setting will take effect after the next time the user enters their credentials.',
-                true: 'Set the number of days from the last activity in Mattermost to the expiry of the user’s session for SSO authentication, such as SAML, GitLab and OAuth 2.0. If the authentication method is SAML or GitLab, the user may automatically be logged back in to Mattermost if they are already logged in to SAML or GitLab. After changing this setting, the setting will take effect after the next time the user enters their credentials.',
+            sessionLengthSSOInMinutes: {
+                false: 'The number of minutes from the last time a user entered their credentials to the expiry of the user\'s session. If the authentication method is SAML or GitLab, the user may automatically be logged back in to Mattermost if they are already logged in to SAML or GitLab. After changing this setting, the setting will take effect after the next time the user enters their credentials.',
+                true: 'Set the number of minutes from the last activity in Mattermost to the expiry of the user’s session for SSO authentication, such as SAML, GitLab and OAuth 2.0. If the authentication method is SAML or GitLab, the user may automatically be logged back in to Mattermost if they are already logged in to SAML or GitLab. After changing this setting, the setting will take effect after the next time the user enters their credentials.',
             },
             sessionCacheInMinutes: {
                 false: 'The number of minutes to cache a session in memory.',
