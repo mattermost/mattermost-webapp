@@ -327,6 +327,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
         const localSchema = {...schema};
         localSchema.settings = [
             {
+
                 // won't validate because no key
                 label: 'a banner',
                 type: 'banner',
@@ -353,6 +354,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
         const localSchema = {...schema};
         localSchema.settings = [
             {
+
                 // will validate because it has a key AND a validate method
                 key: 'field1',
                 label: 'with key and validation',
