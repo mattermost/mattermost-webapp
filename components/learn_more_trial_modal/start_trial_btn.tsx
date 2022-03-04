@@ -88,7 +88,9 @@ const StartTrialBtn = ({
     const startTrial = async () => {
         await requestLicense();
         await openTrialBenefitsModal();
-        onClick!();
+        if (onClick) {
+            onClick();
+        }
         trackEvent(
             TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
             telemetryId,
