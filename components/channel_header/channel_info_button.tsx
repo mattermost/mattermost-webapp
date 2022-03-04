@@ -45,7 +45,7 @@ const ChannelInfoButton = (props: Props) => {
             buttonClass={buttonClass}
             buttonId='channel-info-btn'
             onClick={toggleRHS}
-            iconComponent={<InfoIcon/>}
+            iconComponent={<i className='icon icon-information-outline'/>}
             tooltipKey='channelInfo'
             isRhsOpen={isRhsOpen}
         />
