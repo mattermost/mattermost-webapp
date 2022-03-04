@@ -9,9 +9,8 @@ import {Provider} from 'react-redux';
 
 import {renderWithIntl} from 'tests/react_testing_utils';
 import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
 
-import AboutAreaGM from './about_area_gm';
+import AboutAreaChannel from './about_area_channel';
 
 const mockStore = configureStore([thunk]);
 
@@ -71,8 +70,6 @@ const initialState = {
             currentUserId: 'current_user_id',
             profiles: {
                 current_user_id: {roles: 'system_role'},
-                'test-u-id': {username: 'my username'},
-                'test-u-id2': {username: 'my username 2'},
             },
         },
         groups: {
@@ -113,63 +110,40 @@ const initialState = {
     },
 };
 
-describe('channel_info_rhs/about_area_gm', () => {
+describe('channel_info_rhs/about_area_channel', () => {
     const defaultProps = {
         channel: {
             id: 'test-c-id',
             header: 'my channel header',
+            purpose: 'my channel purpose',
         } as Channel,
-        gmUsers: [
-            {
-                id: 'test-u-id',
-                last_picture_update: 1234,
-                username: 'my username',
-            } as UserProfile,
-            {
-                id: 'test-u-id2',
-                last_picture_update: 4321,
-                username: 'my username2',
-            } as UserProfile,
-        ],
+        channelURL: 'https://my-url.mm',
+        canEditChannelProperties: true,
         actions: {
+            editChannelPurpose: jest.fn(),
             editChannelHeader: jest.fn(),
         },
     };
 
-    test('should display users avatar', async () => {
+    test('should display channel purpose', async () => {
         const store = await mockStore(initialState);
 
         renderWithIntl(
             <Provider store={store}>
-                <AboutAreaGM
+                <AboutAreaChannel
                     {...defaultProps}
                 />
             </Provider>,
         );
 
-        expect(screen.getByAltText('my username profile image')).toBeInTheDocument();
-        expect(screen.getByAltText('my username2 profile image')).toBeInTheDocument();
-    });
-
-    test('should display user names', async () => {
-        const store = await mockStore(initialState);
-
-        renderWithIntl(
-            <Provider store={store}>
-                <AboutAreaGM
-                    {...defaultProps}
-                />
-            </Provider>,
-        );
-
-        expect(screen.getByLabelText('my username')).toBeInTheDocument();
+        expect(screen.getByText('my channel purpose')).toBeInTheDocument();
     });
 
     test('should display channel header', async () => {
         const store = await mockStore(initialState);
         renderWithIntl(
             <Provider store={store}>
-                <AboutAreaGM
+                <AboutAreaChannel
                     {...defaultProps}
                 />
             </Provider>,
