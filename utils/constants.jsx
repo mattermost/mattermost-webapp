@@ -795,6 +795,7 @@ export const AdvancedSections = {
     FORMATTING: 'formatting',
     JOIN_LEAVE: 'joinLeave',
     PREVIEW_FEATURES: 'advancedPreviewFeatures',
+    PERFORMANCE_DEBUGGING: 'performanceDebugging',
 };
 
 export const RHSStates = {
