@@ -80,7 +80,7 @@ export default function TopButtons({
 
     const copyLink = useCopyText({
         text: channelURL || '',
-        successCopyTimeout: 2 * 1000,
+        successCopyTimeout: 1000,
     });
 
     const canAddPeople = ([Constants.OPEN_CHANNEL, Constants.PRIVATE_CHANNEL].includes(channelType) && propsCanAddPeople) || channelType === Constants.GM_CHANNEL;
