@@ -73,8 +73,14 @@ const AboutAreaDM = ({channel, dmUser, actions}: Props) => {
                 <div>
                     <ProfilePicture
                         src={Client4.getProfilePictureUrl(dmUser.user.id, dmUser.user.last_picture_update)}
-                        status={(!dmUser.user.is_bot && Boolean(dmUser.status)) ? dmUser.status : undefined}
+                        isBot={dmUser.user.is_bot}
+                        status={dmUser.status ? dmUser.status : undefined}
+                        isRHS={true}
+                        username={dmUser.user.username}
+                        userId={dmUser.user.id}
+                        channelId={channel.id}
                         size='xl'
+                        popoverPlacement='left'
                     />
                 </div>
                 <UserInfo>
