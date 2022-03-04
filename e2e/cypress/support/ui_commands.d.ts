@@ -52,5 +52,17 @@ declare namespace Cypress {
          *  cy.uiPostMessageQuickly('Hello world')
          */
         uiPostMessageQuickly(message: string): void;
+
+        /**
+         * Clicks on a visible emoji in the emoji picker.
+         * For emojis further down the page, search for that emoji in search bar and then use this command to click on it.
+         * @param {string} emojiName - The name of emoji to click. For emojis with multiple names concat with ','. eg. slightly_frowning_face
+         * @returns void
+         *
+         * @example
+         *  cy.uiClickSystemEmoji('slightly_frowning_face');
+         *  cy.uiClickSystemEmoji('star-struck,grinning_face_with_star_eyes');
+         */
+        clickEmojiInEmojiPicker(emojiName: string): void;
     }
 }

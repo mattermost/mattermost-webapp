@@ -100,20 +100,18 @@ export default class EditChannelHeaderModal extends React.PureComponent<Props, S
     }
 
     public handleSave = async (): Promise<void> => {
-        const {header} = this.state;
+        const header = this.state.header?.trim() ?? '';
         if (header === this.props.channel.header) {
             this.hideModal();
-            return;
-        }
-
-        this.setState({saving: true});
-
-        const {channel, actions} = this.props;
-        const {error} = await actions.patchChannel(channel.id!, {header});
-        if (error) {
-            this.setState({serverError: error, saving: false});
         } else {
-            this.hideModal();
+            this.setState({saving: true});
+            const {channel, actions} = this.props;
+            const {error} = await actions.patchChannel(channel.id!, {header});
+            if (error) {
+                this.setState({serverError: error, saving: false});
+            } else {
+                this.hideModal();
+            }
         }
     }
 
@@ -266,10 +264,10 @@ export default class EditChannelHeaderModal extends React.PureComponent<Props, S
                         <div className='post-create-footer'>
                             <TextboxLinks
                                 isMarkdownPreviewEnabled={this.props.markdownPreviewFeatureIsEnabled}
-                                characterLimit={1024}
                                 showPreview={this.props.shouldShowPreview}
                                 updatePreview={this.setShowPreview}
-                                message={this.state.header}
+                                hasText={this.state.header ? this.state.header.length > 0 : false}
+                                hasExceededCharacterLimit={this.state.header ? this.state.header.length > 1024 : false}
                                 previewMessageLink={localizeMessage('edit_channel_header.previewHeader', 'Edit Header')}
                             />
                         </div>

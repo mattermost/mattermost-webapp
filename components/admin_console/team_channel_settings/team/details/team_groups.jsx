@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
-import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
+import ToggleModalButton from 'components/toggle_modal_button';
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 
 import {ModalIdentifiers} from 'utils/constants';
@@ -22,7 +22,7 @@ export const TeamGroups = ({onGroupRemoved, syncChecked, team, onAddCallback, to
         subtitleId={syncChecked ? t('admin.team_settings.team_detail.syncedGroupsDescription') : t('admin.team_settings.team_detail.groupsDescription')}
         subtitleDefault={syncChecked ? 'Add and remove team members based on their group membership.' : 'Group members will be added to the team.'}
         button={
-            <ToggleModalButtonRedux
+            <ToggleModalButton
                 id='addGroupsToTeamToggle'
                 className='btn btn-primary'
                 modalId={ModalIdentifiers.ADD_GROUPS_TO_TEAM}
@@ -40,7 +40,7 @@ export const TeamGroups = ({onGroupRemoved, syncChecked, team, onAddCallback, to
                     id='admin.team_settings.team_details.add_group'
                     defaultMessage='Add Group'
                 />
-            </ToggleModalButtonRedux>
+            </ToggleModalButton>
         }
     >
         <GroupList

@@ -11,7 +11,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 
 import {t} from 'utils/i18n.jsx';
 
-import Chip from './chip';
+import Chip from '../common/chip/chip';
 
 type Props = {
     prefillMessage: (msg: string, shouldFocus: boolean) => void;
@@ -46,7 +46,7 @@ function getChips(channel: Channel, currentUserId: string): ChipData[] {
         messageId: '',
         message: '',
         displayId: t('create_post.prewritten.custom'),
-        display: 'Write a custom message...',
+        display: 'Custom message...',
         leadingIcon: '',
     };
     if (channel.type === 'O' || channel.type === 'P' || channel.type === 'G') {
@@ -131,8 +131,7 @@ class PrewrittenChips extends React.PureComponent<Props> {
                     const messageToPrefill = messageId ? this.props.intl.formatMessage(
                         {id: messageId, defaultMessage: message},
                         {username: this.props.currentChannelTeammateUsername},
-                    ) :
-                        message;
+                    ) : message;
                     let additionalMarkup;
                     if (displayId === 'create_post.prewritten.tip.dm_hey') {
                         additionalMarkup = (<UsernameMention>

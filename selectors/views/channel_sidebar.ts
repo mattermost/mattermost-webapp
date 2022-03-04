@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-nested-callbacks */
-
 import {createSelector} from 'reselect';
 
 import {
@@ -211,28 +209,32 @@ function maxDefined(a: number, b?: number) {
     return typeof b === 'undefined' ? a : Math.max(a, b);
 }
 
+// WARNING: below functions are used in getDisplayedChannels only. Do not use it elsewhere.
+function concatChannels(channelsA: Channel[], channelsB: Channel[]) {
+    return [...channelsA, ...channelsB];
+}
+const memoizedConcatChannels = memoizeResult(concatChannels);
+
 // Returns an array of channels in the order that they currently appear in the sidebar. Channels are filtered out if they
 // are hidden such as by a collapsed category or the unread filter.
-export const getDisplayedChannels = (() => {
-    const memoizedConcat = memoizeResult((unreadChannels: Channel[], channelsInCategoryOrder: Channel[]) => {
-        return [...unreadChannels, ...channelsInCategoryOrder];
-    }) as (a: Channel[], b: Channel[]) => Channel[];
-
-    return (state: GlobalState) => {
-        // If the unread filter is enabled, only unread channels are shown
-        if (isUnreadFilterEnabled(state)) {
-            return getUnreadChannels(state);
+export const getDisplayedChannels = createSelector(
+    'getDisplayedChannels',
+    isUnreadFilterEnabled,
+    getUnreadChannels,
+    shouldShowUnreadsCategory,
+    getChannelsInCategoryOrder,
+    (unreadFilterEnabled, unreadChannels, showUnreadsCategory, channelsInCategoryOrder) => {
+        if (unreadFilterEnabled) {
+            return unreadChannels;
         }
 
-        // Otherwise, if the Unreads category is enabled, unread channels are shown first followed by non-unread channels in category order
-        if (shouldShowUnreadsCategory(state)) {
-            return memoizedConcat(getUnreadChannels(state), getChannelsInCategoryOrder(state));
+        if (showUnreadsCategory) {
+            return memoizedConcatChannels(unreadChannels, channelsInCategoryOrder);
         }
 
-        // Otherwise, channels are shown in category order
-        return getChannelsInCategoryOrder(state);
-    };
-})();
+        return channelsInCategoryOrder;
+    },
+);
 
 // Returns a selector that, given a category, returns the ids of channels visible in that category. The returned channels do not
 // include unread channels when the Unreads category is enabled.

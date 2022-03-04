@@ -151,6 +151,10 @@
     .app__content {
         margin-left: 285px;
     }
+
+    .product-wrapper {
+        width: calc(100% - 65px);
+    }
 }
 
 @media screen and (min-width: 769px) {
@@ -165,11 +169,15 @@
         // adjust height of team sidebar
         height: calc(100% - 40px);
         border-right: solid 1px rgba(var(--center-channel-color-rgb), 0.08);
+
+        body.announcement-bar--fixed & {
+            height: calc(100% - #{$announcement-bar-height} - 40px);
+        }
     }
 }
 
 .product-wrapper {
-    width: calc(100% - 65px);
+    width: 100%;
     height: calc(100% - 40px);
     margin-left: auto;
 

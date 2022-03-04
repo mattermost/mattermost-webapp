@@ -7,10 +7,10 @@
 * 'mattermost-webapp/utils/emoji.jsx'
 * 'mattermost-webapp/sass/components/_emojisprite.scss'
 * 'mattermost-webapp/utils/emoji.json'
-* 'mattermost-server/model/emoji_data.go', (if SERVER_DIR environment variable is declared, otherwise it will be generated in 'mattermost-webapp/emoji_data.go')
+* 'mattermost-server/model/emoji_data.go', (if server-dir argument is passed with path to server, otherwise it will be generated in './emoji_data.go'")
 *
 * For help on how to use this script, run:
-* npm run gen-emoji -- --help
+* npm run make-emojis -- --help
 */
 
 import path from 'path';
@@ -28,19 +28,25 @@ const EMOJI_SIZE_PADDED = EMOJI_SIZE + 2; // 1px per side
 const EMOJI_DEFAULT_SKIN = 'default';
 const endResults = [];
 
-const argv = yargs(process.argv.slice(2)).
-    scriptName('make-emojis').
-    usage('Usage : npm run $0 -- [args]').
-    example('npm run $0 -- --excluded-emoji-file ./excludedEmojis.txt', 'removes mentioned emojis from the app').
-    option('excluded-emoji-file', {
+const argv = yargs(process.argv.slice(2))
+    .scriptName('make-emojis')
+    .usage('Usage : npm run $0 -- [args]')
+    .example('npm run $0 -- --excluded-emoji-file ./excludedEmojis.txt', 'removes mentioned emojis from the app')
+    .example('npm run $0 -- --server-dir ../mattermost-server', 'path to mattermost-server for copying emoji_data.go file')
+    .option('server-dir', {
+        description: 'Path to mattermost-server',
+        type: 'string',
+    })
+    .option('excluded-emoji-file', {
         description: 'Path to a file containing emoji short names to exclude',
         type: 'string',
-    }).
-    help().
-    epilog('Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.').
-    argv;
+    })
+    .help()
+    .epilog('Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.')
+    .argv;
 
 const argsExcludedEmojiFile = argv['excluded-emoji-file'];
+const argsServerDirectory = argv['server-dir']
 
 // eslint-disable-next-line no-console
 const log = console.log;
@@ -203,6 +209,14 @@ function trimPropertiesFromEmoji(emoji) {
         Reflect.deleteProperty(emoji, 'subcategory');
     }
 
+    if (emoji.hasOwnProperty('image')) {
+        Reflect.deleteProperty(emoji, 'image');
+    }
+
+    if (emoji.hasOwnProperty('fileName')) {
+        Reflect.deleteProperty(emoji, 'fileName');
+    }
+
     return emoji;
 }
 
@@ -234,6 +248,7 @@ fullEmoji.forEach((emoji) => {
 
 // add built-in custom emojis
 fullEmoji.push({
+    id: 'mattermost',
     name: 'Mattermost',
     unified: '',
     image: 'mattermost.png',
@@ -370,11 +385,9 @@ var SystemEmojis = map[string]string{${emojiImagesByAlias.join(', ')}}
 const goPromise = writeFile('emoji_data.go', 'emoji_data.go', emojiGo);
 endResults.push(goPromise);
 
-// If SERVER_DIR is defined we can update the file emoji_data.go in the server directory
-// eslint-disable-next-line no-process-env
-if (process.env.SERVER_DIR) {
-    // eslint-disable-next-line no-process-env
-    const destination = path.join(process.env.SERVER_DIR, 'model/emoji_data.go');
+// If server-dir is defined we can update the file emoji_data.go in the server directory
+if (argsServerDirectory) {
+    const destination = path.join(argsServerDirectory, 'model/emoji_data.go');
     goPromise.then(() => {
         // this is an obvious race condition, as goPromise might be the last one, and then executed out of the `all` call below,
         // but it shouldn't be any problem other than a log out of place and a need to do an explicit catch.
@@ -385,7 +398,7 @@ if (process.env.SERVER_DIR) {
         });
     });
 } else {
-    log(warnLogColor, '\n[WARNING] $SERVER_DIR environment variable is not set, `emoji_data.go` will be located in the root of the project, remember to move it to the server\n');
+    log(warnLogColor, '\n[WARNING] server-dir path not defined, `emoji_data.go` will be located in the root of this project, remember to move it to the server\n');
 }
 
 // sprite css file
