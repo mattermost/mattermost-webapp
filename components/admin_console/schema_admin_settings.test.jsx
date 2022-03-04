@@ -331,6 +331,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                 // won't validate because no key
                 label: 'a banner',
                 type: 'banner',
+                validate: mockValidate,
             },
         ];
         const props = {
