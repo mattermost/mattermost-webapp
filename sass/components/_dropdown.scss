@@ -28,24 +28,6 @@
         }
     }
 
-    .call-plugin-icon {
-        width: 20px;
-        height: 20px;
-        margin-right: 8px;
-        color: rgba(var(--center-channel-color-rgb), 0.56);
-        fill: rgba(var(--center-channel-color-rgb), 0.56);
-        font-size: 1.6rem;
-        text-align: center;
-        vertical-align: middle;
-
-        svg,
-        img,
-        .icon {
-            width: 16px;
-            height: 16px;
-        }
-    }
-
     .a11y--focused {
         box-shadow: none !important;
     }

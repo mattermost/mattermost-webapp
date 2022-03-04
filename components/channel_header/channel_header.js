@@ -26,6 +26,7 @@ import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Popover from 'components/widgets/popover';
 import Timestamp from 'components/timestamp';
+import CallButton from 'plugins/call_button';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusText from 'components/custom_status/custom_status_text';
 import ChannelHeaderPlug from 'plugins/channel_header_plug';
@@ -494,6 +495,7 @@ class ChannelHeader extends React.PureComponent {
                     {dmHeaderIconStatus}
                     {dmHeaderTextStatus}
                     {popoverListMembers}
+
                     <HeaderIconWrapper
                         iconComponent={pinnedIcon}
                         ariaLabel={true}
@@ -613,6 +615,7 @@ class ChannelHeader extends React.PureComponent {
                     {dmHeaderIconStatus}
                     {dmHeaderTextStatus}
                     {popoverListMembers}
+
                     <HeaderIconWrapper
                         iconComponent={pinnedIcon}
                         ariaLabel={true}
@@ -798,6 +801,8 @@ class ChannelHeader extends React.PureComponent {
                         channel={channel}
                         channelMember={channelMember}
                     />
+
+                    <CallButton/>
                 </div>
             </div>
         );
