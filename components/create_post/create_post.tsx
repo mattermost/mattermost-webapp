@@ -7,12 +7,10 @@ import React from 'react';
 
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
-import * as GlobalActions from 'actions/global_actions';
 import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants';
 import {
     containsAtChannel,
     specialMentionsInText,
-    shouldFocusMainTextbox,
     isErrorInvalidSlashCommand,
     groupsMentionedInText,
 } from 'utils/post_utils';
@@ -33,7 +31,6 @@ import MessageSubmitError from 'components/message_submit_error';
 import {Channel, ChannelMemberCountsByGroup} from 'mattermost-redux/types/channels';
 import {PostDraft} from 'types/store/rhs';
 import {Post, PostMetadata} from 'mattermost-redux/types/posts';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
 import EmojiMap from 'utils/emoji_map';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {ServerError} from 'mattermost-redux/types/errors';
@@ -43,8 +40,11 @@ import {ModalData} from 'types/actions';
 import {FileInfo} from 'mattermost-redux/types/files';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import {SendMessageTour} from 'components/onboarding_tour';
+
 import Controls from './controls';
-import InputTextbox, { InputTextboxRef } from './input_textbox';
+import InputTextbox, {InputTextboxRef} from './input_textbox';
+
+const CreatePostDraftTimeoutMilliseconds = 500;
 
 // Temporary fix for IE-11, see MM-13423
 function trimRight(str: string) {
@@ -55,8 +55,9 @@ function trimRight(str: string) {
     return str.replace(/\s*$/, '');
 }
 
-const emptyFunction = () => {/* Do nothing */}
+const emptyFunction = () => {/* Do nothing */};
 type Props = {
+
     /**
   *  Data used in notifying user for @all and @channel
   */
@@ -212,6 +213,8 @@ type Props = {
 }
 
 type State = {
+    message: string;
+    caretPosition: number;
     submitting: boolean;
     uploadsProgressPercent: {[clientID: string]: FilePreviewInfo};
     renderScrollbar: boolean;
@@ -251,6 +254,8 @@ class CreatePost extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
+            message: props.draft.message,
+            caretPosition: props.draft.message.length,
             submitting: false,
             uploadsProgressPercent: {},
             renderScrollbar: false,
@@ -280,7 +285,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         }
     }
 
-    componentDidUpdate(prevProps: Props, prevState: State) {
+    componentDidUpdate(prevProps: Props) {
         const {useLDAPGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
         if (prevProps.currentChannel.id !== currentChannel.id) {
             this.focusTextbox();
@@ -362,6 +367,7 @@ class CreatePost extends React.PureComponent<Props, State> {
     }
 
     doSubmit = async (message: string) => {
+        let newMessage = message;
         const channelId = this.props.currentChannel.id;
 
         if (this.props.draft.uploadsInProgress.length > 0 || this.state.submitting) {
@@ -371,14 +377,14 @@ class CreatePost extends React.PureComponent<Props, State> {
         let ignoreSlash = false;
         const serverError = this.state.serverError;
 
-        if (serverError && isErrorInvalidSlashCommand(serverError) && serverError.submittedMessage === message) {
-            message = serverError.submittedMessage;
+        if (serverError && isErrorInvalidSlashCommand(serverError) && serverError.submittedMessage === newMessage) {
+            newMessage = serverError.submittedMessage;
             ignoreSlash = true;
         }
 
         const post = {} as Post;
         post.file_ids = [];
-        post.message = message;
+        post.message = newMessage;
 
         if (post.message.trim().length === 0 && this.props.draft.fileInfos.length === 0) {
             return;
@@ -392,7 +398,7 @@ class CreatePost extends React.PureComponent<Props, State> {
             return;
         }
 
-        this.props.actions.addMessageIntoHistory(message);
+        this.props.actions.addMessageIntoHistory(newMessage);
 
         this.setState({submitting: true, serverError: null});
 
@@ -402,8 +408,7 @@ class CreatePost extends React.PureComponent<Props, State> {
 
         const isReaction = Utils.REACTION_PATTERN.exec(post.message);
         if (post.message.indexOf('/') === 0 && !ignoreSlash) {
-            this.textboxRef.current?.setValue('');
-            this.setState({postError: null});
+            this.setState({message: '', postError: null});
             let args: CommandArgs = {
                 channel_id: channelId,
                 team_id: this.props.currentTeamId,
@@ -412,8 +417,8 @@ class CreatePost extends React.PureComponent<Props, State> {
             const hookResult = await this.props.actions.runSlashCommandWillBePostedHooks(post.message, args);
 
             if (hookResult.error) {
-                this.textboxRef.current?.setValue(post.message);
                 this.setState({
+                    message: post.message,
                     serverError: {
                         ...hookResult.error,
                         submittedMessage: post.message,
@@ -431,8 +436,8 @@ class CreatePost extends React.PureComponent<Props, State> {
                     if (error.sendMessage) {
                         await this.sendMessage(post);
                     } else {
-                        this.textboxRef.current?.setValue(post.message);
                         this.setState({
+                            message: post.message,
                             serverError: {
                                 ...error,
                                 submittedMessage: post.message,
@@ -443,12 +448,12 @@ class CreatePost extends React.PureComponent<Props, State> {
             }
         } else if (isReaction && this.props.emojiMap.has(isReaction[2])) {
             this.sendReaction(isReaction);
-            this.textboxRef.current?.setValue('');
+            this.setState({message: ''});
         } else {
             const {error} = await this.sendMessage(post);
 
             if (!error) {
-                this.textboxRef.current?.setValue('');
+                this.setState({message: ''});
             }
         }
 
@@ -498,7 +503,35 @@ class CreatePost extends React.PureComponent<Props, State> {
 
     handleSubmitEvent = (e: React.FormEvent | React.MouseEvent) => {
         e.preventDefault();
-        this.handleSubmit(this.textboxRef.current?.getValue() || '');
+        this.handleSubmit(this.state.message || '');
+    }
+
+    handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const message = e.target.value;
+        const channelId = this.props.currentChannel.id;
+
+        let serverError = this.state.serverError;
+        if (isErrorInvalidSlashCommand(serverError)) {
+            serverError = null;
+        }
+
+        this.setState({
+            message,
+            serverError,
+        });
+
+        const draft = {
+            ...this.props.draft,
+            message,
+        };
+        if (this.saveDraftFrame) {
+            clearTimeout(this.saveDraftFrame);
+        }
+
+        this.saveDraftFrame = window.setTimeout(() => {
+            this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        }, CreatePostDraftTimeoutMilliseconds);
+        this.draftsForChannel[channelId] = draft;
     }
 
     handleSubmit = async (message: string) => {
@@ -574,7 +607,7 @@ class CreatePost extends React.PureComponent<Props, State> {
             };
 
             this.props.actions.openModal(resetStatusModalData);
-            this.textboxRef.current?.setValue('');
+            this.setState({message: ''});
             return;
         }
 
@@ -587,7 +620,7 @@ class CreatePost extends React.PureComponent<Props, State> {
 
             this.props.actions.openModal(editChannelHeaderModalData);
 
-            this.textboxRef.current?.setValue('');
+            this.setState({message: ''});
             return;
         }
 
@@ -601,7 +634,7 @@ class CreatePost extends React.PureComponent<Props, State> {
 
             this.props.actions.openModal(editChannelPurposeModalData);
 
-            this.textboxRef.current?.setValue('');
+            this.setState({message: ''});
             return;
         }
 
@@ -702,8 +735,8 @@ class CreatePost extends React.PureComponent<Props, State> {
 
         e.preventDefault();
 
-        let message = this.textboxRef.current?.getValue() || '';
-        let caretPosition = this.textboxRef.current?.getCaretPosition() || 0;
+        let message = this.state.message || '';
+        const caretPosition = this.state.caretPosition || 0;
         if (isGitHubCodeBlock(table.className)) {
             const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(caretPosition, message, clipboardData);
             const newCaretPosition = caretPosition + formattedCodeBlock.length;
@@ -854,8 +887,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         if (!textbox) {
             return;
         }
-        textbox.setValue(newMessage);
-        textbox.setCaretPosition(newCaretPosition);
+        this.setState({message: newMessage, caretPosition: newCaretPosition});
     }
 
     prefillMessage = (message: string, shouldFocus?: boolean) => {
@@ -888,6 +920,12 @@ class CreatePost extends React.PureComponent<Props, State> {
             if (this.textboxRef.current) {
                 this.setState({scrollbarWidth: Utils.scrollbarWidth(this.textboxRef.current.getInputBox())});
             }
+        });
+    }
+
+    onUpdatedCaretPosition = (p: number) => {
+        this.setState({
+            caretPosition: p,
         });
     }
 
@@ -964,7 +1002,7 @@ class CreatePost extends React.PureComponent<Props, State> {
             scrollbarClass = ' scroll';
         }
 
-        const message = this.textboxRef.current?.getValue() || '';
+        const message = this.state.message;
 
         return (
             <form
@@ -988,16 +1026,19 @@ class CreatePost extends React.PureComponent<Props, State> {
                         >
                             <InputTextbox
                                 channelId={this.props.currentChannel.id}
-                                draftMessage={this.props.draft.message}
                                 onBlur={this.handleBlur}
                                 onHeightChanged={this.handleHeightChange}
                                 onPostError={this.handlePostError}
                                 rootId={''}
                                 submit={this.handleSubmit}
                                 ref={this.textboxRef}
+                                caretPosition={this.state.caretPosition}
+                                handleChange={this.handleChange}
+                                updateCaretPosition={this.onUpdatedCaretPosition}
+                                value={this.state.message}
                             />
-                            <Controls 
-                                caretPosition={this.textboxRef.current?.getCaretPosition() || 0}
+                            <Controls
+                                caretPosition={this.state.caretPosition || 0}
                                 channelId={this.props.currentChannel.id}
                                 fileInfos={this.props.draft.fileInfos}
                                 fileUploadProps={{

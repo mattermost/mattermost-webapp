@@ -1,18 +1,27 @@
-import EmojiPickerOverlay from "components/emoji_picker/emoji_picker_overlay";
-import classNames from "classnames";
-import EmojiIcon from "components/widgets/icons/emoji_icon";
-import React, { useCallback, useState } from "react";
-import { Emoji } from "mattermost-redux/types/emojis";
-import { splitMessageBasedOnCaretPosition } from "utils/post_utils";
-import { useSelector } from "react-redux";
-import { GlobalState } from "types/store";
-import { getConfig } from "mattermost-redux/selectors/entities/general";
-import { useIntl } from "react-intl";
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+import classNames from 'classnames';
+
+import React, {useCallback, useState} from 'react';
+
+import {useSelector} from 'react-redux';
+
+import {useIntl} from 'react-intl';
+
+import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
+
+import EmojiIcon from 'components/widgets/icons/emoji_icon';
+
+import {Emoji} from 'mattermost-redux/types/emojis';
+import {splitMessageBasedOnCaretPosition} from 'utils/post_utils';
+
+import {GlobalState} from 'types/store';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 type Props = {
     message: string;
     caretPosition: number;
-    setMessageAndCaretPosition: (message:string, caretPosition:number) => void;
+    setMessageAndCaretPosition: (message: string, caretPosition: number) => void;
     getCreateControls: () => HTMLSpanElement | null;
     focusTextbox: () => void;
 };
@@ -23,11 +32,11 @@ const EmojiControl = ({
     setMessageAndCaretPosition,
     getCreateControls,
     focusTextbox,
-}:Props) => {
+}: Props) => {
     const intl = useIntl();
     const enableGifPicker = useSelector<GlobalState, boolean>((state) => getConfig(state).EnableGifPicker === 'true');
     const emojiButtonAriaLabel = intl.formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
-    
+
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
     const toggleEmojiPicker = useCallback(() => {
@@ -67,9 +76,8 @@ const EmojiControl = ({
         if (message === '') {
             setMessageAndCaretPosition(gif, gif.length);
         } else {
-            
             const newMessage = ((/\s+$/).test(message)) ? message + gif : message + ' ' + gif;
-            setMessageAndCaretPosition(newMessage, newMessage.length)
+            setMessageAndCaretPosition(newMessage, newMessage.length);
         }
         handleEmojiClose();
         focusTextbox();
@@ -101,7 +109,7 @@ const EmojiControl = ({
                 />
             </button>
         </div>
-    )
-}
+    );
+};
 
 export default EmojiControl;
