@@ -342,7 +342,7 @@ class TestHelper {
         };
     }
 
-    fakeGroup = (groupId) => {
+    fakeGroup = (groupId, source = 'ldap') => {
         const name = 'software-engineers';
 
         return {
@@ -351,6 +351,7 @@ class TestHelper {
             display_name: 'software engineers',
             delete_at: 0,
             allow_reference: true,
+            source,
         };
     };
 
