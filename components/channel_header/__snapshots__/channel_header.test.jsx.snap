@@ -941,9 +941,7 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -1120,9 +1118,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -1299,9 +1295,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -1478,9 +1472,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -1779,9 +1771,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -1814,9 +1804,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
             delayShow={400}
             overlay={
               <Tooltip
-                bsClass="tooltip"
                 id="channelMutedTooltip"
-                placement="right"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Unmute"
@@ -1992,9 +1980,7 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -2472,6 +2458,26 @@ exports[`components/ChannelHeader should render properly when custom status is s
                 tooltipDirection="bottom"
               />
             </div>
+            <MemoizedFormattedMessage
+              defaultMessage="Offline"
+              id="status_dropdown.set_offline"
+            />
+            <Memo(CustomStatusEmoji)
+              emojiStyle={
+                Object {
+                  "margin": "0 4px 1px",
+                  "verticalAlign": "top",
+                }
+              }
+              showTooltip={true}
+              tooltipDirection="bottom"
+              userID="user_id"
+            />
+            <CustomStatusText
+              className=""
+              text="In a meeting"
+              tooltipDirection="bottom"
+            />
           </span>
           <HeaderIconWrapper
             ariaLabel={true}
@@ -2659,9 +2665,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -3065,9 +3069,7 @@ exports[`components/ChannelHeader should render shared view 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -3248,9 +3250,7 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"

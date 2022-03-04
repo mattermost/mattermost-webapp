@@ -2,6 +2,8 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
+// TODO@Michel: remove this file once the inline post editing feature is enabled by default
+
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
@@ -36,7 +38,8 @@ const TOP_OFFSET = 0;
 const RIGHT_OFFSET = 10;
 
 export type Props = {
-    canEditPost?: boolean;
+    markdownPreviewFeatureIsEnabled: boolean;
+    canEditPost: boolean;
     canDeletePost?: boolean;
     channelId: string;
     codeBlockOnCtrlEnter: boolean;
@@ -106,8 +109,8 @@ export class EditPostModal extends React.PureComponent<Props, State> {
         if (props.editingPost.show && !state.prevShowState) {
             return {
                 editText:
-          props.editingPost.post?.message_source ||
-          props.editingPost.post?.message,
+                    props.editingPost.post?.message_source ||
+                    props.editingPost.post?.message || '',
                 prevShowState: props.editingPost.show,
             };
         }
@@ -272,7 +275,11 @@ export class EditPostModal extends React.PureComponent<Props, State> {
 
         actions.addMessageIntoHistory(updatedPost.message);
 
-        const data = await actions.editPost(updatedPost);
+        // Only message is getting updated, no other patchable attributes.
+        const data = await actions.editPost({
+            id: updatedPost.id,
+            message: updatedPost.message,
+        });
         if (data) {
             window.scrollTo(0, 0);
         }
@@ -448,7 +455,6 @@ export class EditPostModal extends React.PureComponent<Props, State> {
     handleEntered = () => {
         if (this.editbox) {
             this.editbox.focus();
-            this.editbox.recalculateSize();
         }
     };
 
@@ -502,7 +508,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
             return !this.props.canEditPost;
         }
 
-        if (this.state.editText.trim() !== '') {
+        if (this.state.editText?.trim() !== '') {
             return !this.props.canEditPost;
         }
 
@@ -593,7 +599,7 @@ export class EditPostModal extends React.PureComponent<Props, State> {
                 >
                     <div className='post-create__container'>
                         <div
-                            className={classNames('textarea-wrapper', {
+                            className={classNames('textarea-wrapper post--editing__wrapper', {
                                 scroll: this.state.renderScrollbar,
                             })}
                             style={
@@ -632,10 +638,11 @@ export class EditPostModal extends React.PureComponent<Props, State> {
                         </div>
                         <div className='post-create-footer'>
                             <TextboxLinks
-                                characterLimit={this.props.maxPostSize}
+                                isMarkdownPreviewEnabled={this.props.canEditPost && this.props.markdownPreviewFeatureIsEnabled}
+                                hasExceededCharacterLimit={this.state.editText.length > this.props.maxPostSize}
                                 showPreview={this.props.shouldShowPreview}
                                 updatePreview={this.setShowPreview}
-                                message={this.state.editText}
+                                hasText={this.state.editText.length > 0}
                             />
                             <div className={errorBoxClass}>{postError}</div>
                         </div>

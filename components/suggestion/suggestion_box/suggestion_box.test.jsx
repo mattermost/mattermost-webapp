@@ -160,12 +160,13 @@ describe('components/SuggestionBox', () => {
             currentChannelId: 'channelid1',
             currentTeamId: 'teamid1',
             currentUserId: 'userid1',
-            profilesInChannel: [userid1, userid2, userid3],
             autocompleteGroups: [groupid1, groupid2],
             autocompleteUsersInChannel: jest.fn().mockResolvedValue(false),
             searchAssociatedGroupsForReference: jest.fn().mockResolvedValue(false),
         };
         const provider = new AtMentionProvider(baseParams);
+        jest.spyOn(provider, 'getProfilesWithLastViewAtInChannel').mockImplementation(() => [userid1, userid2, userid3]);
+
         const props = {
             ...baseProps,
             providers: [provider],

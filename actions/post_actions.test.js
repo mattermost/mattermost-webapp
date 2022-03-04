@@ -264,6 +264,33 @@ describe('Actions.Posts', () => {
         ]);
     });
 
+    test('unsetEditingPost', async () => {
+        // should allow to edit and should fire an action
+        const testStore = mockStore({...initialState});
+        const {data: dataSet} = await testStore.dispatch(Actions.setEditingPost('latest_post_id', 'test', 'title'));
+        expect(dataSet).toEqual(true);
+
+        // matches the action to set editingPost
+        expect(testStore.getActions()).toEqual(
+            [{data: {isRHS: false, postId: 'latest_post_id', refocusId: 'test', title: 'title', show: true}, type: ActionTypes.TOGGLE_EDITING_POST}],
+        );
+
+        // clear actions
+        testStore.clearActions();
+
+        // dispatch action to unset the editingPost
+        const {data: dataUnset} = testStore.dispatch(Actions.unsetEditingPost());
+        expect(dataUnset).toEqual({show: false});
+
+        // matches the action to unset editingPost
+        expect(testStore.getActions()).toEqual(
+            [{data: {show: false}, type: ActionTypes.TOGGLE_EDITING_POST}],
+        );
+
+        // editingPost value is empty object, as it should
+        expect(testStore.getState().views.posts.editingPost).toEqual({});
+    });
+
     test('setEditingPost', async () => {
         // should allow to edit and should fire an action
         let testStore = mockStore({...initialState});
@@ -271,7 +298,7 @@ describe('Actions.Posts', () => {
         expect(data).toEqual(true);
 
         expect(testStore.getActions()).toEqual(
-            [{data: {isRHS: false, postId: 'latest_post_id', refocusId: 'test', title: 'title'}, type: ActionTypes.SHOW_EDIT_POST_MODAL}],
+            [{data: {isRHS: false, postId: 'latest_post_id', refocusId: 'test', title: 'title', show: true}, type: ActionTypes.TOGGLE_EDITING_POST}],
         );
 
         const general = {
@@ -287,7 +314,7 @@ describe('Actions.Posts', () => {
         const {data: withLicenseData} = await testStore.dispatch(Actions.setEditingPost('latest_post_id', 'test', 'title'));
         expect(withLicenseData).toEqual(true);
         expect(testStore.getActions()).toEqual(
-            [{data: {isRHS: false, postId: 'latest_post_id', refocusId: 'test', title: 'title'}, type: ActionTypes.SHOW_EDIT_POST_MODAL}],
+            [{data: {isRHS: false, postId: 'latest_post_id', refocusId: 'test', title: 'title', show: true}, type: ActionTypes.TOGGLE_EDITING_POST}],
         );
 
         // should not allow edit for pending post
@@ -300,13 +327,6 @@ describe('Actions.Posts', () => {
         const {data: withPendingPostData} = await testStore.dispatch(Actions.setEditingPost('latest_post_id', 'test', 'title'));
         expect(withPendingPostData).toEqual(false);
         expect(testStore.getActions()).toEqual([]);
-    });
-
-    test('hideEditPostModal', async () => {
-        const testStore = await mockStore(initialState);
-
-        await testStore.dispatch(Actions.hideEditPostModal());
-        expect(testStore.getActions()).toEqual([{type: ActionTypes.HIDE_EDIT_POST_MODAL}]);
     });
 
     test('searchForTerm', async () => {

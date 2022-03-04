@@ -129,6 +129,7 @@ exports[`PostBodyAdditionalContent with a permalinklink Render permalink preview
     some children
   </span>
   <Connect(PostMessagePreview)
+    handleFileDropdownOpened={[MockFunction]}
     metadata={
       Object {
         "channel_display_name": "channel1",

@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable no-warning-comments */
+
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
@@ -9,76 +11,78 @@
 
 // Stage: @prod
 // Group: @onboarding @smoke
-const selectors = {
-    tip: '#tipButton',
-    tipNext: '#tipNextButton',
-    tipText: '.tip-overlay',
-};
 
 describe('Onboarding', () => {
+    let theuser;
+    let theteam;
     before(() => {
         // # Create new team and new user and visit Town Square channel
         cy.apiInitSetup().then(({team}) => {
+            theteam = team;
             cy.apiCreateUser({bypassTutorial: false}).then(({user}) => {
                 cy.apiAddUserToTeam(team.id, user.id);
-
+                theuser = user;
                 cy.apiLogin(user);
-                cy.visit(`/${team.name}/channels/town-square`);
             });
         });
     });
 
-    it('MM-T4148 Takes the user through the steps of using the app', () => {
-        // # Click the tip on posting messages
-        cy.get(`#create_post ${selectors.tip}`).click();
+    beforeEach(() => {
+        const preferences = [{
+            name: theuser.id,
+            user_id: theuser.id,
+            category: 'tutorial_step',
+            value: '0',
+        }];
 
-        // * Observe the help on posting messages is visible
-        cy.get(selectors.tipText).
-            should('be.visible').
-            and('contain', 'Send a message');
+        cy.apiSaveUserPreference(preferences, theuser.id);
+        cy.visit(`/${theteam.name}/channels/town-square`);
+    });
 
-        // # Close the posting messages tip
-        cy.get(selectors.tipNext).click();
+    it('MM-T4643 Takes the user through the steps of using the app', () => {
+        // * Check that 'Town Square' is currently being selected
+        cy.get('.active').within(() => {
+            cy.get('#sidebarItem_town-square').should('exist');
+        });
 
-        // # Click the tip on channels
-        cy.get(`#sidebarItem_town-square ${selectors.tip}`).click();
+        cy.get('.tour-tip__pulsating-dot-ctr').should('exist').click();
 
-        // * Observe the help on channels is visible
-        cy.get(selectors.tipText).
-            should('be.visible').
-            and('contain', 'Organize conversations in channels');
+        // # Click next tip
+        cy.findByText('Channels and direct messages');
+        cy.findByText('Next').click();
 
-        // # Close the channels tip
-        cy.get(selectors.tipNext).click();
+        // # Click next tip
+        cy.findByText('Create and join channels');
+        cy.findByText('Next').click();
 
-        // # Click the tip on creating and joining channels
-        cy.uiGetLHSAddChannelButton().
-            parent().
-            find(selectors.tip).
-            click();
+        // # Click next tip
+        cy.findByText('Invite people to the team');
+        cy.findByText('Next').click();
 
-        // * Observe the help on creating and joining channels is visible
-        cy.get(selectors.tipText).
-            should('be.visible').
-            and('contain', 'Create and join channels');
+        // # Click next tip
+        cy.findByText('Send messages');
+        cy.findByText('Next').click();
 
-        // # Close the creating and joining channels tip
-        cy.get(selectors.tipNext).click();
+        // # Click next tip
+        cy.findByText('Customize your experience');
+        cy.findByText('Done').click();
+    });
 
-        // # Close the menu
-        cy.uiGetLHSAddChannelButton().click();
+    it('MM-T4644 Takes the user through the steps of using the app using the ENTER key', () => {
+        // # Close the posting messages tip by pressing ENTER key
+        cy.findByText('Channels and direct messages');
+        cy.get('body').type('{enter}');
 
-        // # Click the tip on admin UI and inviting people
-        cy.uiGetLHS().
-            find(selectors.tip).
-            click();
+        cy.findByText('Create and join channels');
+        cy.get('body').type('{enter}');
 
-        // * Observe the help on admin UI and inviting people is visible
-        cy.get(selectors.tipText).
-            should('be.visible').
-            and('contain', 'Invite people');
+        cy.findByText('Invite people to the team');
+        cy.get('body').type('{enter}');
 
-        // # Close the admin UI and inviting people tip
-        cy.get(selectors.tipNext).click();
+        cy.findByText('Send messages');
+        cy.get('body').type('{enter}');
+
+        cy.findByText('Customize your experience');
+        cy.get('body').type('{enter}');
     });
 });

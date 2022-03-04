@@ -10,15 +10,16 @@ import {isTrialLicense} from 'utils/license_utils';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {openModal} from 'actions/views/modals';
-
-import StartTrialModal from 'components/start_trial_modal';
-import TrialBenefitsModal from 'components/trial_benefits_modal/trial_benefits_modal';
-
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {GlobalState} from 'mattermost-redux/types/store';
 
+import StartTrialModal from 'components/start_trial_modal';
+import {makeAsyncComponent} from 'components/async_load';
+
 import './menu_item.scss';
+
+const TrialBenefitsModal = makeAsyncComponent('TrialBenefitsModal', React.lazy(() => import('components/trial_benefits_modal/trial_benefits_modal')));
 
 type Props = {
     id: string;
@@ -58,12 +59,10 @@ const MenuStartTrial = (props: Props): JSX.Element | null => {
     const license = useSelector(getLicense);
     const isPrevLicensed = prevTrialLicense?.IsLicensed;
     const isCurrentLicensed = license?.IsLicensed;
-
     const isCurrentLicenseTrial = isTrialLicense(license);
 
     // Show this CTA if the instance is currently not licensed and has never had a trial license loaded before
     const show = (isCurrentLicensed === 'false' && isPrevLicensed === 'false') || isCurrentLicenseTrial;
-
     if (!show) {
         return null;
     }
@@ -74,25 +73,23 @@ const MenuStartTrial = (props: Props): JSX.Element | null => {
             role='menuitem'
             id={props.id}
         >
-            {isCurrentLicenseTrial ?
-                <>
-                    <div style={{display: 'inline'}}>
-                        <span>
-                            {formatMessage({id: 'navbar_dropdown.reviewTrialBenefits', defaultMessage: 'Review the features you get with Enterprise. '})}
-                        </span>
-                        <button onClick={openTrialBenefitsModal}>
-                            {formatMessage({id: 'navbar_dropdown.learnMoreTrialBenefits', defaultMessage: 'Learn More'})}
-                        </button>
-                    </div>
-                </> :
-                <>
+            {isCurrentLicenseTrial ? <>
+                <div style={{display: 'inline'}}>
                     <span>
-                        {formatMessage({id: 'navbar_dropdown.tryTrialNow', defaultMessage: 'Try Enterprise for free now!'})}
+                        {formatMessage({id: 'navbar_dropdown.reviewTrialBenefits', defaultMessage: 'Review the features you get with Enterprise. '})}
                     </span>
-                    <button onClick={openStartTrialModal}>
-                        {formatMessage({id: 'navbar_dropdown.startTrial', defaultMessage: 'Start Trial'})}
+                    <button onClick={openTrialBenefitsModal}>
+                        {formatMessage({id: 'navbar_dropdown.learnMoreTrialBenefits', defaultMessage: 'Learn More'})}
                     </button>
-                </>
+                </div>
+            </> : <>
+                <div className='start_trial_content'>
+                    {formatMessage({id: 'navbar_dropdown.tryTrialNow', defaultMessage: 'Try Enterprise for free now!'})}
+                </div>
+                <button onClick={openStartTrialModal}>
+                    {formatMessage({id: 'navbar_dropdown.startTrial', defaultMessage: 'Start Trial'})}
+                </button>
+            </>
             }
         </li>
     );

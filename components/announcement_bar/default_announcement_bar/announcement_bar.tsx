@@ -5,16 +5,15 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-import {Tooltip} from 'react-bootstrap';
-
 import {WarnMetricStatus} from 'mattermost-redux/types/config';
 
 import {Constants, AnnouncementBarTypes, ModalIdentifiers} from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import WarnMetricAckModal from 'components/warn_metric_ack_modal';
-import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
+import ToggleModalButton from 'components/toggle_modal_button';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
@@ -81,6 +80,8 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
             barStyle.backgroundColor = this.props.color;
             barStyle.color = this.props.textColor;
             linkStyle.color = this.props.textColor;
+        } else if (this.props.type === AnnouncementBarTypes.DEVELOPER) {
+            barClass = 'announcement-bar announcement-bar-critical';
         } else if (this.props.type === AnnouncementBarTypes.CRITICAL) {
             barClass = 'announcement-bar announcement-bar-critical';
         } else if (this.props.type === AnnouncementBarTypes.SUCCESS) {
@@ -146,7 +147,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                                     defaultMessage={this.props.modalButtonDefaultText}
                                 >
                                     {(linkmessage) => (
-                                        <ToggleModalButtonRedux
+                                        <ToggleModalButton
                                             ariaLabel={linkmessage}
                                             className={'color--link--adminack'}
                                             dialogType={WarnMetricAckModal}
@@ -158,7 +159,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                                             }}
                                         >
                                             {linkmessage}
-                                        </ToggleModalButtonRedux>
+                                        </ToggleModalButton>
                                     )}
                                 </FormattedMessage>
                                 }

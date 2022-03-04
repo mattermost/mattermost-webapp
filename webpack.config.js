@@ -175,7 +175,7 @@ var config = {
                         loader: 'sass-loader',
                         options: {
                             sassOptions: {
-                                includePaths: ['node_modules/compass-mixins/lib', 'sass'],
+                                includePaths: ['sass'],
                             },
                         },
                     },
@@ -296,6 +296,7 @@ var config = {
                 {from: 'images/c_avatar.png', to: 'images'},
                 {from: 'images/c_download.png', to: 'images'},
                 {from: 'images/c_socket.png', to: 'images'},
+                {from: 'images/admin-onboarding-background.jpg', to: 'images'},
             ],
         }),
 
@@ -413,9 +414,7 @@ if (targetIsDevServer) {
         devtool: 'eval-cheap-module-source-map',
         devServer: {
             hot: true,
-            injectHot: true,
             liveReload: false,
-            overlay: true,
             proxy: [{
                 context: () => true,
                 bypass(req) {
@@ -438,8 +437,9 @@ if (targetIsDevServer) {
                 ws: true,
             }],
             port: 9005,
-            watchContentBase: true,
-            writeToDisk: false,
+            devMiddleware: {
+                writeToDisk: false,
+            },
         },
         performance: false,
         optimization: {

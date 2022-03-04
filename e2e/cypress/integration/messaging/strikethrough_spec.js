@@ -59,8 +59,8 @@ describe('Messaging', () => {
         // * Channel autocomplete should still not exist
         cy.get('#suggestionList').should('not.exist');
 
-        // # Save the changes
-        cy.uiSave();
+        // # finish editing
+        cy.get('#edit_textbox').wait(TIMEOUTS.HALF_SEC).type('{enter}');
 
         cy.getLastPostId().then((postId) => {
             // * Strikethrough message should be the same message we posted

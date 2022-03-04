@@ -5,16 +5,12 @@ import {MutableRefObject, useEffect, useRef} from 'react';
 import {useSelector} from 'react-redux';
 import {useLocation} from 'react-router';
 
+import {getCurrentUser, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {isModalOpen} from 'selectors/views/modals';
 import {GlobalState} from 'types/store';
 import {ProductComponent} from 'types/store/plugins';
-import {getBasePath} from 'utils/url';
-import {Preferences} from 'utils/constants';
-
-import {UserProfile} from 'mattermost-redux/types/users';
-import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getInt} from 'mattermost-redux/selectors/entities/preferences';
-
-import {isModalOpen} from 'selectors/views/modals';
+import {getCurrentProductId} from 'utils/products';
 
 const selectProducts = (state: GlobalState) => state.plugins.components.Product;
 
@@ -48,23 +44,11 @@ export const useCurrentProductId = (products?: ProductComponent[]): string | nul
         return null;
     }
 
-    const location = useLocation();
-    for (let i = 0; i < products.length; i++) {
-        const product = products[i];
-        if (location.pathname.startsWith(getBasePath() + product.baseURL)) {
-            return product.id;
-        }
-    }
-
-    return null;
+    return getCurrentProductId(products, useLocation().pathname);
 };
 
-export const useShowTutorialStep = (stepToShow: number): boolean => {
-    const currentUserId = useSelector<GlobalState, string>(getCurrentUserId);
-    const boundGetInt = (state: GlobalState) => getInt(state, Preferences.TUTORIAL_STEP, currentUserId, 0);
-    const step = useSelector<GlobalState, number>(boundGetInt);
-
-    return step === stepToShow;
+export const useFirstAdminUser = (): boolean => {
+    return useSelector(isFirstAdmin);
 };
 
 export const useIsLoggedIn = (): boolean => {

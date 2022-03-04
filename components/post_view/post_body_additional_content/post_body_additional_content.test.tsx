@@ -41,6 +41,7 @@ describe('PostBodyAdditionalContent', () => {
             metadata: {} as PostMetadata,
         } as Post,
         isEmbedVisible: true,
+        handleFileDropdownOpened: jest.fn(),
         actions: {
             toggleEmbedVisibility: jest.fn(),
         },

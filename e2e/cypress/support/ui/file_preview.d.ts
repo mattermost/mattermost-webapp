@@ -46,6 +46,16 @@ declare namespace Cypress {
         uiGetFilePreviewModal(option: Record<string, boolean>): Chainable;
 
         /**
+         * Get Public Link
+         *
+         * @param {bool} option.exist - Set to false to not verify if the element exists. Otherwise, true (default) to check existence.
+         *
+         * @example
+         *   cy.uiGetPublicLink();
+         */
+        uiGetPublicLink(option: Record<string, boolean>): Chainable;
+
+        /**
          * Open file preview modal
          *
          * @param {string} filename

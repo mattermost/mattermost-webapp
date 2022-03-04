@@ -13,8 +13,22 @@
         color: rgba(var(--center-channel-color-rgb), 0.56);
         grid-area: header;
 
-        .Button + .Button {
-            margin-left: 4px;
+        .tab-button-wrapper {
+            position: relative;
+            display: flex;
+            height: 100%;
+            justify-content: center;
+            padding: 13px 0;
+
+            + .tab-button-wrapper {
+                margin-left: 4px;
+            }
+        }
+
+        .left {
+            display: flex;
+            height: 100%;
+            align-items: center;
         }
     }
 
@@ -24,6 +38,22 @@
         .no-results__wrapper {
             position: relative;
             top: -28px;
+            max-width: 100%;
+
+            .thread-no-results-title {
+                margin-bottom: 0;
+                font-size: 16px;
+                line-height: 24px;
+            }
+
+            .thread-no-results-subtitle {
+                max-width: 100%;
+                font-size: 12px;
+
+                .thread-no-results-subtitle-shortcut {
+                    margin: 0;
+                }
+            }
         }
     }
 

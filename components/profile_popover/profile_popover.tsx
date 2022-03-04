@@ -1,13 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 import StatusIcon from 'components/status_icon';
 import Timestamp from 'components/timestamp';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import UserSettingsModal from 'components/user_settings/modal';
 import {browserHistory} from 'utils/browser_history';
 import * as GlobalActions from 'actions/global_actions';
@@ -18,7 +18,7 @@ import {isGuest, isSystemAdmin, displayLastActiveLabel, getLastActiveTimestampUn
 import Pluggable from 'plugins/pluggable';
 import AddUserToChannelModal from 'components/add_user_to_channel_modal';
 import LocalizedIcon from 'components/localized_icon';
-import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
+import ToggleModalButton from 'components/toggle_modal_button';
 import Avatar from 'components/widgets/users/avatar';
 import Popover from 'components/widgets/popover';
 import SharedUserIndicator from 'components/shared_user_indicator';
@@ -27,7 +27,6 @@ import CustomStatusModal from 'components/custom_status/custom_status_modal';
 import CustomStatusText from 'components/custom_status/custom_status_text';
 import ExpiryTime from 'components/custom_status/expiry_time';
 import {UserCustomStatus, UserProfile, UserTimezone, CustomStatusDuration} from 'mattermost-redux/types/users';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {ServerError} from 'mattermost-redux/types/errors';
 import {ModalData} from 'types/actions';
 
@@ -69,6 +68,7 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
      */
     isRHS?: boolean;
     isBusy?: boolean;
+    isMobileView: boolean;
 
     /**
      * Returns state of modals in redux for determing which need to be closed
@@ -77,7 +77,7 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
         modalState: {
             [modalId: string]: {
                 open: boolean;
-                dialogProps: Dictionary<any>;
+                dialogProps: Record<string, any>;
                 dialogType: React.ComponentType;
             };
         };
@@ -194,7 +194,7 @@ ProfilePopoverState
         this.setState({loadingDMChannel: user.id});
         actions.openDirectChannelToUserId(user.id).then((result: {error: ServerError}) => {
             if (!result.error) {
-                if (Utils.isMobile()) {
+                if (this.props.isMobileView) {
                     GlobalActions.emitCloseRightHandSide();
                 }
                 this.setState({loadingDMChannel: undefined});
@@ -625,7 +625,7 @@ ProfilePopoverState
                             className='text-nowrap'
                             onClick={this.handleAddToChannel}
                         >
-                            <ToggleModalButtonRedux
+                            <ToggleModalButton
                                 ariaLabel={addToChannelMessage}
                                 modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
                                 role='menuitem'
@@ -641,7 +641,7 @@ ProfilePopoverState
                                     }}
                                 />
                                 {addToChannelMessage}
-                            </ToggleModalButtonRedux>
+                            </ToggleModalButton>
                         </a>
                     </div>,
                 );

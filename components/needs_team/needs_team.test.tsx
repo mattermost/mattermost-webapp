@@ -81,6 +81,7 @@ describe('components/needs_team', () => {
 
     const actions = {
         fetchMyChannelsAndMembers: jest.fn().mockResolvedValue({data: true}),
+        fetchAllMyTeamsChannelsAndChannelMembers: jest.fn().mockResolvedValue({data: true}),
         fetchThreadMentionCountsByChannel: jest.fn().mockResolvedValue({data: true}),
         getMyTeamUnreads: jest.fn(),
         viewChannel: jest.fn(),
@@ -93,7 +94,7 @@ describe('components/needs_team', () => {
         getAllGroupsAssociatedToChannelsInTeam: jest.fn().mockResolvedValue({data: true}),
         getAllGroupsAssociatedToTeam: jest.fn().mockResolvedValue({data: true}),
         getGroups: jest.fn().mockResolvedValue({data: true}),
-        getGroupsByUserId: jest.fn().mockResolvedValue({data: true}),
+        getGroupsByUserIdPaginated: jest.fn().mockResolvedValue({data: true}),
     };
     const baseProps = {
         license: {},
@@ -108,6 +109,12 @@ describe('components/needs_team', () => {
         previousTeamId: '',
         selectedThreadId: null,
         collapsedThreads: true,
+        shouldShowAppBar: true,
+        adminSetupRequired: false,
+        isUserFirstAdmin: false,
+
+        // TODO@Michel: remove once the inline post editing feature is enabled by default
+        isInlinePostEditingEnabled: false,
     };
     it('should match snapshots for init with existing team', () => {
         const fetchMyChannelsAndMembers = jest.fn().mockResolvedValue({data: true});

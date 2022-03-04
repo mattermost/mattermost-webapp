@@ -33,6 +33,11 @@ describe('plugins/MainMenuActions', () => {
         moreTeamsToJoin: true,
         teamIsGroupConstrained: true,
         showGettingStarted: true,
+        showDueToStepsNotFinished: false,
+        teamUrl: '/team',
+        location: {
+            pathname: '/team',
+        },
         actions: {
             openModal: jest.fn(),
             showMentions: jest.fn(),
@@ -46,6 +51,8 @@ describe('plugins/MainMenuActions', () => {
         isCloud: false,
         subscription: {},
         userIsAdmin: true,
+        isFirstAdmin: false,
+        useCaseOnboarding: false,
     };
 
     test('should match snapshot in web view', () => {

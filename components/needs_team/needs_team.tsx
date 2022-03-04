@@ -27,7 +27,7 @@ import Pluggable from 'plugins/pluggable';
 import LocalStorageStore from 'stores/local_storage_store';
 import type {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
-const BackstageController = makeAsyncComponent(LazyBackstageController);
+const BackstageController = makeAsyncComponent('BackstageController', LazyBackstageController);
 
 let wakeUpInterval: number;
 let lastTime = Date.now();
@@ -48,6 +48,7 @@ type Props = {
     currentTeamId?: string;
     actions: {
         fetchMyChannelsAndMembers: (teamId: string) => Promise<{ data: { channels: Channel[]; members: ChannelMembership[] } }>;
+        fetchAllMyTeamsChannelsAndChannelMembers: () => Promise<{ data: { channels: Channel[]; members: ChannelMembership[]} }>;
         getMyTeamUnreads: (collapsedThreads: boolean) => Promise<{data: any; error?: any}>;
         viewChannel: (channelId: string, prevChannelId?: string | undefined) => Promise<{data: boolean}>;
         markChannelAsReadOnFocus: (channelId: string) => Promise<{data: any; error?: any}>;
@@ -58,7 +59,7 @@ type Props = {
         loadStatusesForChannelAndSidebar: () => Promise<{data: UserStatus[]}>;
         getAllGroupsAssociatedToChannelsInTeam: (teamId: string, filterAllowReference: boolean) => Promise<{data: Group[]}>;
         getAllGroupsAssociatedToTeam: (teamId: string, filterAllowReference: boolean) => Promise<{data: Group[]}>;
-        getGroupsByUserId: (userID: string) => Promise<{data: Group[]}>;
+        getGroupsByUserIdPaginated: (userId: string, filterAllowReference: boolean, page: number, perPage: number, includeMemberCount: boolean) => Promise<{data: Group[]}>;
         getGroups: (filterAllowReference: boolean, page: number, perPage: number) => Promise<{data: Group[]}>;
     };
     mfaRequired: boolean;
@@ -75,6 +76,10 @@ type Props = {
     collapsedThreads: ReturnType<typeof isCollapsedThreadsEnabled>;
     plugins?: any;
     selectedThreadId: string | null;
+    shouldShowAppBar: boolean;
+
+    // TODO@Michel: remove this line once the inline post editing feature is enabled by default
+    isInlinePostEditingEnabled: boolean;
 }
 
 type State = {
@@ -101,7 +106,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             const currentTime = (new Date()).getTime();
             if (currentTime > (lastTime + WAKEUP_THRESHOLD)) { // ignore small delays
                 console.log('computer woke up - fetching latest'); //eslint-disable-line no-console
-                reconnect(false);
+                reconnect(true);
             }
             lastTime = currentTime;
         }, WAKEUP_CHECK_INTERVAL);
@@ -137,6 +142,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
     public componentDidMount() {
         startPeriodicStatusUpdates();
         startPeriodicSync();
+        this.fetchAllTeams();
 
         // Set up tracking for whether the window is active
         window.isActive = true;
@@ -247,18 +253,22 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             this.props.license.IsLicensed === 'true' &&
             this.props.license.LDAPGroups === 'true') {
             if (this.props.currentUser) {
-                this.props.actions.getGroupsByUserId(this.props.currentUser.id);
+                this.props.actions.getGroupsByUserIdPaginated(this.props.currentUser.id, false, 0, 60, true);
             }
 
             this.props.actions.getAllGroupsAssociatedToChannelsInTeam(team.id, true);
             if (team.group_constrained) {
                 this.props.actions.getAllGroupsAssociatedToTeam(team.id, true);
             } else {
-                this.props.actions.getGroups(true, 0, 0);
+                this.props.actions.getGroups(false, 0, 60);
             }
         }
 
         return team;
+    }
+
+    fetchAllTeams = () => {
+        this.props.actions.fetchAllMyTeamsChannelsAndChannelMembers();
     }
 
     updateCurrentTeam = (props: Props) => {
@@ -321,7 +331,11 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                 <Route
                     render={() => (
                         <ChannelController
+                            shouldShowAppBar={this.props.shouldShowAppBar}
                             fetchingChannels={!this.state.finishedFetchingChannels}
+
+                            // TODO@Michel: remove this prop once the inline post editing feature is enabled by default
+                            enableEditPostModal={!this.props.isInlinePostEditingEnabled}
                         />
                     )}
                 />

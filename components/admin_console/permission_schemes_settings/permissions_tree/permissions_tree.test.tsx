@@ -30,6 +30,7 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
             LDAPGroups: 'true',
             isLicensed: 'true',
         },
+        customGroupsEnabled: true,
     };
 
     test('should match snapshot on default data', () => {
@@ -115,5 +116,20 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
             />,
         );
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should map groups in the correct order', () => {
+        const wrapper = shallow(
+            <PermissionsTree
+                {...defaultProps}
+            />,
+        );
+
+        const groups = wrapper.find(PermissionGroup).first().prop('permissions');
+        expect(groups[0].id).toStrictEqual('teams');
+        expect(groups[6].id).toStrictEqual('posts');
+        expect(groups[7].id).toStrictEqual('integrations');
+        expect(groups[8].id).toStrictEqual('manage_shared_channels');
+        expect(groups[9].id).toStrictEqual('custom_groups');
     });
 });

@@ -41,6 +41,7 @@ describe('components/ChannelHeader', () => {
         isCustomStatusExpired: false,
         lastActivityTimestamp: 1632146562846,
         enableLastActiveTime: true,
+        isFileAttachmentsEnabled: true,
     };
 
     const populatedProps = {

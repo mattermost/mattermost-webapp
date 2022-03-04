@@ -70,19 +70,19 @@ describe('Custom emojis', () => {
         cy.uiSave().wait(TIMEOUTS.THREE_SEC);
 
         // # Go back to home channel
-        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(townsquareLink);
 
         // # Open emoji picker
         cy.uiOpenEmojiPicker();
 
         // # Search for a missing emoji in emoji picker
-        cy.findByTestId('emojiInputSearch').should('be.visible').type(emojiNameForSearch1);
+        cy.findByPlaceholderText('Search emojis').should('be.visible').type(emojiNameForSearch1, {delay: TIMEOUTS.QUARTER_SEC});
 
         // * Get list of emojis based on search text
         cy.get('.no-results__title').should('be.visible').and('have.text', 'No results for "' + emojiNameForSearch1 + '"');
 
         // # Search for an existing emoji
-        cy.findByTestId('emojiInputSearch').should('be.visible').clear().type(emojiNameForSearch2);
+        cy.findByPlaceholderText('Search emojis').should('be.visible').clear().type(emojiNameForSearch2, {delay: TIMEOUTS.QUARTER_SEC});
 
         // * Get list of emojis based on search text
         cy.findAllByTestId('emojiItem').children().should('have.length', 1);
@@ -108,7 +108,7 @@ describe('Custom emojis', () => {
         cy.uiSave().wait(TIMEOUTS.THREE_SEC);
 
         // # Go back to home channel
-        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(townsquareLink);
 
         // # Post a message with the emoji
         cy.postMessage(customEmojiWithColons);
@@ -130,5 +130,51 @@ describe('Custom emojis', () => {
 
         // * The emoji should be displayed in the post
         verifyLastPostedEmoji(customEmojiWithColons, largeEmojiFileResized);
+    });
+
+    it('MM-T4436 Emoji picker should show all custom emojis without overlaps', () => {
+        const {customEmojiWithColons: firstEmojiWithColon} = getCustomEmoji();
+        const {customEmojiWithColons: secondEmojiWithColon} = getCustomEmoji();
+
+        // # Open custom emoji
+        cy.uiOpenCustomEmoji();
+
+        // # Add two custom emojis
+        [firstEmojiWithColon, secondEmojiWithColon].forEach((emojiWithColon) => {
+            // # Click on add new emoji for adding a custom emoji
+            cy.findByText('Add Custom Emoji').should('be.visible').click();
+
+            // # Type emoji name
+            cy.get('#name').type(emojiWithColon);
+
+            // # Select emoji image
+            cy.get('input#select-emoji').attachFile(largeEmojiFile).wait(TIMEOUTS.THREE_SEC);
+
+            // # Click on Save
+            cy.uiSave().wait(TIMEOUTS.THREE_SEC);
+        });
+
+        // # Go back to home channel
+        cy.visit(townsquareLink);
+
+        cy.reload().wait(TIMEOUTS.FIVE_SEC);
+
+        // # Open emoji picker
+        cy.uiOpenEmojiPicker();
+
+        cy.get('#emojiPicker').should('be.visible').within(() => {
+            // # Scroll to start of custom category section
+            cy.findByLabelText('emoji_picker.custom').should('exist').click().wait(TIMEOUTS.FIVE_SEC);
+
+            // * Verify custom category header is visible
+            cy.findByText('Custom').should('exist').and('is.visible');
+
+            // * Verify that first custom emoji exists and is visible to user
+            cy.findAllByAltText('custom emoji image').should('exist').eq(0).and('is.visible');
+
+            // * Verify second custom emoji exists and is visible to user,
+            // if both custom emojis are visible we can conclude that they are not overlapping
+            cy.findAllByAltText('custom emoji image').should('exist').eq(1).and('is.visible');
+        });
     });
 });

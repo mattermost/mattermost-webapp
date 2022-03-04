@@ -1,34 +1,34 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import React from 'react';
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannel, getChannelsInCurrentTeam, getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
 import {haveIChannelPermission, haveICurrentTeamPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getInviteToTeamTreatment} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig, getLicense, getSubscriptionStats} from 'mattermost-redux/selectors/entities/general';
 import {getProfiles, searchProfiles as reduxSearchProfiles} from 'mattermost-redux/actions/users';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {searchChannels as reduxSearchChannels} from 'mattermost-redux/actions/channels';
 import {regenerateTeamInviteId} from 'mattermost-redux/actions/teams';
 import {Permissions} from 'mattermost-redux/constants';
-import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
 
-import {closeModal, CloseModalType} from 'actions/views/modals';
-import {isModalOpen} from 'selectors/views/modals';
-import {ModalIdentifiers, Constants} from 'utils/constants';
+import {CloseModalType} from 'actions/views/modals';
+import {Constants} from 'utils/constants';
 import {isAdmin} from 'mattermost-redux/utils/user_utils';
 import {sendMembersInvites, sendGuestsInvites} from 'actions/invite_actions';
+import {makeAsyncComponent} from 'components/async_load';
 
-import {GlobalState} from 'mattermost-redux/types/store';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
-import {InviteResults} from './result_view';
-import InvitationModal from './invitation_modal';
+import {GlobalState} from 'types/store';
+
+import type {InviteResults} from './result_view';
+const InvitationModal = makeAsyncComponent('InvitationModal', React.lazy(() => import('./invitation_modal')));
 
 const searchProfiles = (term: string, options = {}) => {
     if (!term) {
@@ -69,7 +69,6 @@ export function mapStateToProps(state: GlobalState) {
     const isFreeTierWithNoFreeSeats = isCloud && subscriptionStats?.is_paid_tier === 'false' && subscriptionStats?.remaining_seats <= 0;
 
     const canAddUsers = haveICurrentTeamPermission(state, Permissions.ADD_USER_TO_TEAM);
-    const inviteToTeamTreatment = getInviteToTeamTreatment(state) || InviteToTeamTreatments.NONE;
 
     return {
         invitableChannels,
@@ -78,11 +77,9 @@ export function mapStateToProps(state: GlobalState) {
         canAddUsers,
         isFreeTierWithNoFreeSeats,
         emailInvitationsEnabled,
-        show: isModalOpen(state, ModalIdentifiers.INVITATION),
         isCloud,
         isAdmin: isAdmin(getCurrentUser(state).roles),
         cloudUserLimit: config.ExperimentalCloudUserLimit || '10',
-        inviteToTeamTreatment,
         currentChannel,
         subscriptionStats,
         townSquareDisplayName,
@@ -90,7 +87,6 @@ export function mapStateToProps(state: GlobalState) {
 }
 
 type Actions = {
-    closeModal: () => void;
     sendGuestsInvites: (teamId: string, channels: Channel[], users: UserProfile[], emails: string[], message: string) => Promise<{data: InviteResults}>;
     sendMembersInvites: (teamId: string, users: UserProfile[], emails: string[]) => Promise<{data: InviteResults}>;
     regenerateTeamInviteId: (teamId: string) => void;
@@ -101,7 +97,6 @@ type Actions = {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | CloseModalType>, Actions>({
-            closeModal: () => closeModal(ModalIdentifiers.INVITATION),
             sendGuestsInvites,
             sendMembersInvites,
             regenerateTeamInviteId,

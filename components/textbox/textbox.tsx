@@ -51,7 +51,6 @@ type Props = {
     currentUserId: string;
     currentTeamId: string;
     preview?: boolean;
-    profilesInChannel: Array<{ id: string }>;
     autocompleteGroups: Array<{ id: string }> | null;
     actions: {
         autocompleteUsersInChannel: (prefix: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<string[]>;
@@ -94,7 +93,7 @@ export default class Textbox extends React.PureComponent<Props> {
         this.suggestionProviders.push(
             new AtMentionProvider({
                 currentUserId: this.props.currentUserId,
-                profilesInChannel: this.props.profilesInChannel,
+                channelId: this.props.channelId,
                 autocompleteUsersInChannel: (prefix: string) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
                 useChannelMentions: this.props.useChannelMentions,
                 autocompleteGroups: this.props.autocompleteGroups,
@@ -126,7 +125,6 @@ export default class Textbox extends React.PureComponent<Props> {
     updateSuggestions(prevProps: Props) {
         if (this.props.channelId !== prevProps.channelId ||
             this.props.currentUserId !== prevProps.currentUserId ||
-            this.props.profilesInChannel !== prevProps.profilesInChannel ||
             this.props.autocompleteGroups !== prevProps.autocompleteGroups ||
             this.props.useChannelMentions !== prevProps.useChannelMentions ||
             this.props.currentTeamId !== prevProps.currentTeamId ||
@@ -136,7 +134,7 @@ export default class Textbox extends React.PureComponent<Props> {
                 if (provider instanceof AtMentionProvider) {
                     provider.setProps({
                         currentUserId: this.props.currentUserId,
-                        profilesInChannel: this.props.profilesInChannel,
+                        channelId: this.props.channelId,
                         autocompleteUsersInChannel: (prefix: string) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
                         useChannelMentions: this.props.useChannelMentions,
                         autocompleteGroups: this.props.autocompleteGroups,
@@ -244,24 +242,16 @@ export default class Textbox extends React.PureComponent<Props> {
         this.getInputBox()?.blur();
     };
 
-    recalculateSize = () => {
-        this.message.current?.recalculateSize();
-    }
-
     render() {
         let preview = null;
 
         let textboxClassName = 'form-control custom-textarea';
         let textWrapperClass = 'textarea-wrapper';
-        let wrapperHeight;
         if (this.props.emojiEnabled) {
             textboxClassName += ' custom-textarea--emoji-picker';
         }
         if (this.props.badConnection) {
             textboxClassName += ' bad-connection';
-        }
-        if (this.wrapper.current) {
-            wrapperHeight = this.getInputBox()?.clientHeight;
         }
         if (this.props.preview) {
             textboxClassName += ' custom-textarea--preview';
@@ -319,7 +309,6 @@ export default class Textbox extends React.PureComponent<Props> {
                     disabled={this.props.disabled}
                     contextId={this.props.channelId}
                     listenForMentionKeyClick={this.props.listenForMentionKeyClick}
-                    wrapperHeight={wrapperHeight}
                     openWhenEmpty={this.props.openWhenEmpty}
                 />
                 {preview}

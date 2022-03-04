@@ -88,13 +88,13 @@ describe('Custom emojis', () => {
         cy.get('.backstage-form__footer').findByText('Cancel').click().wait(TIMEOUTS.FIVE_SEC);
 
         // # Go back to home channel
-        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(offTopicUrl);
 
         // # Open emoji picker
         cy.uiOpenEmojiPicker();
 
         // # Search emoji name text in emoji searching input
-        cy.findByTestId('emojiInputSearch').should('be.visible').type(customEmoji);
+        cy.findByPlaceholderText('Search emojis').should('be.visible').type(customEmoji, {delay: TIMEOUTS.QUARTER_SEC});
 
         // * Validate that we cannot find the emoji name in the search result list
         cy.get('.no-results__title').should('be.visible').and('have.text', 'No results for "' + customEmoji + '"');
@@ -120,13 +120,13 @@ describe('Custom emojis', () => {
         saveCustomEmoji(testTeam.name);
 
         // # Go back to home channel
-        cy.findByText('Back to Mattermost').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(offTopicUrl);
 
         // # Open emoji picker
         cy.uiOpenEmojiPicker();
 
         // # Search emoji name text in emoji searching input
-        cy.findByTestId('emojiInputSearch').should('be.visible').type(customEmojiWithColons);
+        cy.findByPlaceholderText('Search emojis').should('be.visible').type(customEmojiWithColons, {delay: TIMEOUTS.QUARTER_SEC});
 
         // * Get list of emojis based on search text
         cy.findAllByTestId('emojiItem').children().should('have.length', 1);
@@ -174,7 +174,7 @@ describe('Custom emojis', () => {
         saveCustomEmoji(testTeam.name);
 
         // # Go back to home channel
-        cy.findByText('Back to Mattermost').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(offTopicUrl);
 
         // # Post a message with the emoji
         cy.postMessage(customEmojiWithColons);
@@ -183,7 +183,7 @@ describe('Custom emojis', () => {
         cy.uiOpenEmojiPicker();
 
         // # Search emoji name text in emoji searching input
-        cy.findByTestId('emojiInputSearch').should('be.visible').type(customEmojiWithColons);
+        cy.findByPlaceholderText('Search emojis').should('be.visible').type(customEmojiWithColons, {delay: TIMEOUTS.QUARTER_SEC});
 
         // * Get list of emojis based on search text
         cy.findAllByTestId('emojiItem').children().should('have.length', 1);

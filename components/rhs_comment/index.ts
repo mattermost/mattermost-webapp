@@ -6,7 +6,11 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
+import {
+    get,
+    isCollapsedThreadsEnabled,
+} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
@@ -16,8 +20,9 @@ import {Post} from 'mattermost-redux/types/posts';
 import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 
 import {getShortcutReactToLastPostEmittedFrom, getOneClickReactionEmojis} from 'selectors/emojis';
-import {isEmbedVisible} from 'selectors/posts';
+import {getIsPostBeingEditedInRHS, isEmbedVisible} from 'selectors/posts';
 import {getHighlightedPostId} from 'selectors/rhs';
+import {getIsMobileView} from 'selectors/views/browser';
 
 import {GlobalState} from 'types/store';
 
@@ -81,6 +86,9 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         oneClickReactionsEnabled,
         recentEmojis: emojis,
         isExpanded: state.views.rhs.isSidebarExpanded,
+
+        isPostBeingEdited: getIsPostBeingEditedInRHS(state, ownProps.post.id),
+        isMobileView: getIsMobileView(state),
     };
 }
 

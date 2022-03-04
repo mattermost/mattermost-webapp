@@ -3,11 +3,9 @@
 
 import React from 'react';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-
 type Modal = {
     open: boolean;
-    dialogProps: Dictionary<any>;
+    dialogProps: Record<string, any>;
     dialogType: React.ComponentType;
 }
 

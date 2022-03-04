@@ -1,13 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Dictionary} from './utilities';
-
 export type CloudState = {
     subscription?: Subscription;
-    products?: Dictionary<Product>;
+    products?: Record<string, Product>;
     customer?: CloudCustomer;
-    invoices?: Dictionary<Invoice>;
+    invoices?: Record<string, Invoice>;
     subscriptionStats?: SubscriptionStats;
 }
 
@@ -102,7 +100,16 @@ export type Invoice = {
     period_end: number;
     subscription_id: string;
     line_items: InvoiceLineItem[];
+    current_product_name: string;
 }
+
+// actual string values come from customer-web-server and should be kept in sync with values seen there
+export const InvoiceLineItemType = {
+    Full: 'full',
+    Partial: 'partial',
+    OnPremise: 'onpremise',
+    Metered: 'metered',
+} as const;
 
 // InvoiceLineItem model represents a invoice lineitem tied to an invoice.
 export type InvoiceLineItem = {
@@ -111,8 +118,8 @@ export type InvoiceLineItem = {
     quantity: number;
     price_per_unit: number;
     description: string;
-    type: string;
-    metadata: Dictionary<string>;
+    type: typeof InvoiceLineItemType[keyof typeof InvoiceLineItemType];
+    metadata: Record<string, string>;
 }
 
 export type SubscriptionStats = {

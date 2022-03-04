@@ -11,6 +11,7 @@ import DataPrefetch from 'components/data_prefetch';
 import MoreChannels from 'components/more_channels';
 import NewChannelFlow from 'components/new_channel_flow';
 import InvitationModal from 'components/invitation_modal';
+import UserSettingsModal from 'components/user_settings/modal';
 
 import Pluggable from 'plugins/pluggable';
 
@@ -19,12 +20,13 @@ import {ModalData} from 'types/actions';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
+import CreateUserGroupsModal from 'components/create_user_groups_modal';
 import KeyboardShortcutsModal from '../keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
 
 import ChannelNavigator from './channel_navigator';
 import SidebarChannelList from './sidebar_channel_list';
 import SidebarHeader from './sidebar_header';
-import LegacySidebarHeader from './legacy_sidebar_header';
+import MobileSidebarHeader from './mobile_sidebar_header';
 import SidebarNextSteps from './sidebar_next_steps';
 
 type Props = {
@@ -43,6 +45,8 @@ type Props = {
     isCloud: boolean;
     unreadFilterEnabled: boolean;
     isMobileView: boolean;
+    userGroupsEnabled: boolean;
+    canCreateCustomGroups: boolean;
 };
 
 type State = {
@@ -92,14 +96,28 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             this.props.actions.clearChannelSelection();
             return;
         }
-        const ctrlOrMetaKeyPressed = event.ctrlKey || event.metaKey;
-        const shortcutModalKeyCombo = ctrlOrMetaKeyPressed && Utils.isKeyPressed(event, Constants.KeyCodes.FORWARD_SLASH);
-        if (shortcutModalKeyCombo) {
-            event.preventDefault();
-            this.props.actions.openModal({
-                modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL,
-                dialogType: KeyboardShortcutsModal,
-            });
+
+        const ctrlOrMetaKeyPressed = Utils.cmdOrCtrlPressed(event, true);
+
+        if (ctrlOrMetaKeyPressed) {
+            if (Utils.isKeyPressed(event, Constants.KeyCodes.FORWARD_SLASH)) {
+                event.preventDefault();
+
+                this.props.actions.openModal({
+                    modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL,
+                    dialogType: KeyboardShortcutsModal,
+                });
+            } else if (Utils.isKeyPressed(event, Constants.KeyCodes.A) && event.shiftKey) {
+                event.preventDefault();
+
+                this.props.actions.openModal({
+                    modalId: ModalIdentifiers.USER_SETTINGS,
+                    dialogType: UserSettingsModal,
+                    dialogProps: {
+                        isContentProductSettings: true,
+                    },
+                });
+            }
         }
     }
 
@@ -147,6 +165,14 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             dialogType: NewChannelFlow,
         });
         trackEvent('ui', 'ui_channels_create_channel_v2');
+    }
+
+    showCreateUserGroupModal = () => {
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.USER_GROUPS_CREATE,
+            dialogType: CreateUserGroupsModal,
+        });
+        trackEvent('ui', 'ui_channels_create_user_group');
     }
 
     handleOpenMoreDirectChannelsModal = (e: Event) => {
@@ -199,16 +225,19 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     dragging: this.state.isDragging,
                 })}
             >
-                {this.props.isMobileView ? <LegacySidebarHeader/> : (
+                {this.props.isMobileView ? <MobileSidebarHeader/> : (
                     <SidebarHeader
                         showNewChannelModal={this.showNewChannelModal}
                         showMoreChannelsModal={this.showMoreChannelsModal}
+                        showCreateUserGroupModal={this.showCreateUserGroupModal}
                         invitePeopleModal={this.invitePeopleModal}
                         showCreateCategoryModal={this.showCreateCategoryModal}
                         canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
                         canJoinPublicChannel={this.props.canJoinPublicChannel}
                         handleOpenDirectMessagesModal={this.handleOpenMoreDirectChannelsModal}
                         unreadFilterEnabled={this.props.unreadFilterEnabled}
+                        userGroupsEnabled={this.props.userGroupsEnabled}
+                        canCreateCustomGroups={this.props.canCreateCustomGroups}
                     />
                 )}
                 <div
@@ -221,12 +250,14 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     <ChannelNavigator
                         showNewChannelModal={this.showNewChannelModal}
                         showMoreChannelsModal={this.showMoreChannelsModal}
+                        showCreateUserGroupModal={this.showCreateUserGroupModal}
                         invitePeopleModal={this.invitePeopleModal}
                         showCreateCategoryModal={this.showCreateCategoryModal}
                         canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
                         canJoinPublicChannel={this.props.canJoinPublicChannel}
                         handleOpenDirectMessagesModal={this.handleOpenMoreDirectChannelsModal}
                         unreadFilterEnabled={this.props.unreadFilterEnabled}
+                        userGroupsEnabled={this.props.userGroupsEnabled}
                     />
                 </div>
                 <div className='sidebar--left__icons'>
