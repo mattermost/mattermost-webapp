@@ -11,7 +11,6 @@ import {GlobalState} from 'types/store';
 
 import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
-import CallButton from 'components/call_button';
 import FileUpload from 'components/file_upload';
 
 import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
@@ -87,7 +86,6 @@ const Controls = ({
             ref={controlsRef}
             className='post-body__actions'
         >
-            {!readOnlyChannel && !shouldShowPreview && !rootId && (<CallButton/>)}
             {!readOnlyChannel && !shouldShowPreview && (
                 <FileUpload
                     fileCount={fileUploadProps.fileCount}
