@@ -8,8 +8,8 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
   isCustomStatusEnabled={true}
   isCustomStatusExpired={false}
   isInCurrentTeam={false}
-  lastActivityTimestamp={1632146562846}
   isMobileView={false}
+  lastActivityTimestamp={1632146562846}
   placement="right"
   popoverSize="sm"
   popoverStyle="info"
@@ -203,8 +203,8 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
   isCustomStatusEnabled={true}
   isCustomStatusExpired={false}
   isInCurrentTeam={true}
-  lastActivityTimestamp={1632146562846}
   isMobileView={false}
+  lastActivityTimestamp={1632146562846}
   placement="right"
   popoverSize="sm"
   popoverStyle="info"
@@ -483,8 +483,8 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
   isCustomStatusEnabled={true}
   isCustomStatusExpired={false}
   isInCurrentTeam={true}
-  lastActivityTimestamp={1632146562846}
   isMobileView={false}
+  lastActivityTimestamp={1632146562846}
   placement="right"
   popoverSize="sm"
   popoverStyle="info"
@@ -811,8 +811,8 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
   isCustomStatusEnabled={true}
   isCustomStatusExpired={false}
   isInCurrentTeam={true}
-  lastActivityTimestamp={1632146562846}
   isMobileView={false}
+  lastActivityTimestamp={1632146562846}
   placement="right"
   popoverSize="sm"
   popoverStyle="info"
@@ -1140,8 +1140,8 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
   isCustomStatusEnabled={true}
   isCustomStatusExpired={true}
   isInCurrentTeam={true}
-  lastActivityTimestamp={1632146562846}
   isMobileView={false}
+  lastActivityTimestamp={1632146562846}
   placement="right"
   popoverSize="sm"
   popoverStyle="info"
@@ -1420,8 +1420,8 @@ exports[`components/ProfilePopover should match snapshot with custom status not 
   isCustomStatusEnabled={true}
   isCustomStatusExpired={false}
   isInCurrentTeam={true}
-  lastActivityTimestamp={1632146562846}
   isMobileView={false}
+  lastActivityTimestamp={1632146562846}
   placement="right"
   popoverSize="sm"
   popoverStyle="info"
@@ -1639,6 +1639,7 @@ exports[`components/ProfilePopover should match snapshot with last active displa
   isCustomStatusEnabled={true}
   isCustomStatusExpired={false}
   isInCurrentTeam={true}
+  isMobileView={false}
   lastActivityTimestamp={1632146562846}
   placement="right"
   popoverSize="sm"
@@ -1781,7 +1782,7 @@ exports[`components/ProfilePopover should match snapshot with last active displa
       href="#"
       onClick={[Function]}
     >
-      <Connect(injectIntl(ModalToggleButtonRedux))
+      <Connect(injectIntl(ToggleModalButton))
         ariaLabel="Add to a Channel"
         dialogProps={
           Object {
@@ -1853,7 +1854,7 @@ exports[`components/ProfilePopover should match snapshot with last active displa
           }
         />
         Add to a Channel
-      </Connect(injectIntl(ModalToggleButtonRedux))>
+      </Connect(injectIntl(ToggleModalButton))>
     </a>
   </div>
   <Connect(Pluggable)
@@ -1918,6 +1919,7 @@ exports[`components/ProfilePopover should match snapshot with last active displa
   isCustomStatusEnabled={true}
   isCustomStatusExpired={false}
   isInCurrentTeam={true}
+  isMobileView={false}
   lastActivityTimestamp={1632146562846}
   placement="right"
   popoverSize="sm"
@@ -2060,7 +2062,7 @@ exports[`components/ProfilePopover should match snapshot with last active displa
       href="#"
       onClick={[Function]}
     >
-      <Connect(injectIntl(ModalToggleButtonRedux))
+      <Connect(injectIntl(ToggleModalButton))
         ariaLabel="Add to a Channel"
         dialogProps={
           Object {
@@ -2132,7 +2134,7 @@ exports[`components/ProfilePopover should match snapshot with last active displa
           }
         />
         Add to a Channel
-      </Connect(injectIntl(ModalToggleButtonRedux))>
+      </Connect(injectIntl(ToggleModalButton))>
     </a>
   </div>
   <Connect(Pluggable)
@@ -2197,6 +2199,7 @@ exports[`components/ProfilePopover should match snapshot with last active displa
   isCustomStatusEnabled={true}
   isCustomStatusExpired={false}
   isInCurrentTeam={true}
+  isMobileView={false}
   lastActivityTimestamp={1632146562846}
   placement="right"
   popoverSize="sm"
@@ -2341,7 +2344,7 @@ exports[`components/ProfilePopover should match snapshot with last active displa
       href="#"
       onClick={[Function]}
     >
-      <Connect(injectIntl(ModalToggleButtonRedux))
+      <Connect(injectIntl(ToggleModalButton))
         ariaLabel="Add to a Channel"
         dialogProps={
           Object {
@@ -2415,7 +2418,7 @@ exports[`components/ProfilePopover should match snapshot with last active displa
           }
         />
         Add to a Channel
-      </Connect(injectIntl(ModalToggleButtonRedux))>
+      </Connect(injectIntl(ToggleModalButton))>
     </a>
   </div>
   <Connect(Pluggable)
@@ -2482,6 +2485,7 @@ exports[`components/ProfilePopover should match snapshot with no last active dis
   isCustomStatusEnabled={true}
   isCustomStatusExpired={false}
   isInCurrentTeam={true}
+  isMobileView={false}
   lastActivityTimestamp={1632146562846}
   placement="right"
   popoverSize="sm"
@@ -2601,7 +2605,7 @@ exports[`components/ProfilePopover should match snapshot with no last active dis
       href="#"
       onClick={[Function]}
     >
-      <Connect(injectIntl(ModalToggleButtonRedux))
+      <Connect(injectIntl(ToggleModalButton))
         ariaLabel="Add to a Channel"
         dialogProps={
           Object {
@@ -2675,7 +2679,7 @@ exports[`components/ProfilePopover should match snapshot with no last active dis
           }
         />
         Add to a Channel
-      </Connect(injectIntl(ModalToggleButtonRedux))>
+      </Connect(injectIntl(ToggleModalButton))>
     </a>
   </div>
   <Connect(Pluggable)
@@ -2742,6 +2746,7 @@ exports[`components/ProfilePopover should match snapshot with no last active dis
   isCustomStatusEnabled={true}
   isCustomStatusExpired={false}
   isInCurrentTeam={true}
+  isMobileView={false}
   lastActivityTimestamp={1632146562846}
   placement="right"
   popoverSize="sm"
@@ -2859,7 +2864,7 @@ exports[`components/ProfilePopover should match snapshot with no last active dis
       href="#"
       onClick={[Function]}
     >
-      <Connect(injectIntl(ModalToggleButtonRedux))
+      <Connect(injectIntl(ToggleModalButton))
         ariaLabel="Add to a Channel"
         dialogProps={
           Object {
@@ -2931,7 +2936,7 @@ exports[`components/ProfilePopover should match snapshot with no last active dis
           }
         />
         Add to a Channel
-      </Connect(injectIntl(ModalToggleButtonRedux))>
+      </Connect(injectIntl(ToggleModalButton))>
     </a>
   </div>
   <Connect(Pluggable)

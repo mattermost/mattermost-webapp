@@ -696,7 +696,7 @@ export function getUserLastActivities(state: GlobalState): RelationOneToOne<User
     return state.entities.users.lastActivity;
 }
 
-export function getLastActivityForUserId(state: GlobalState, userId: $ID<UserProfile>): number {
+export function getLastActivityForUserId(state: GlobalState, userId: UserProfile['id']): number {
     return getUserLastActivities(state)[userId];
 }
 

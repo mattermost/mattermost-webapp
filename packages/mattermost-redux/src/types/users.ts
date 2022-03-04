@@ -78,7 +78,6 @@ export type UsersState = {
     statuses: RelationOneToOne<UserProfile, string>;
     stats: RelationOneToOne<UserProfile, UsersStats>;
     filteredStats?: UsersStats;
-    myUserAccessTokens: Dictionary<UserAccessToken>;
     lastActivity: RelationOneToOne<UserProfile, number>;
     myUserAccessTokens: Record<string, UserAccessToken>;
 };

@@ -2439,8 +2439,7 @@ exports[`components/ChannelHeader should render properly when custom status is s
             <div
               className="custom-emoji__wrapper"
             >
-              <CustomStatusEmoji
-                emojiSize={16}
+              <Memo(CustomStatusEmoji)
                 emojiStyle={
                   Object {
                     "margin": "0 4px 1px",
@@ -2448,7 +2447,6 @@ exports[`components/ChannelHeader should render properly when custom status is s
                   }
                 }
                 showTooltip={true}
-                spanStyle={Object {}}
                 tooltipDirection="bottom"
                 userID="user_id"
               />
@@ -2458,26 +2456,6 @@ exports[`components/ChannelHeader should render properly when custom status is s
                 tooltipDirection="bottom"
               />
             </div>
-            <MemoizedFormattedMessage
-              defaultMessage="Offline"
-              id="status_dropdown.set_offline"
-            />
-            <Memo(CustomStatusEmoji)
-              emojiStyle={
-                Object {
-                  "margin": "0 4px 1px",
-                  "verticalAlign": "top",
-                }
-              }
-              showTooltip={true}
-              tooltipDirection="bottom"
-              userID="user_id"
-            />
-            <CustomStatusText
-              className=""
-              text="In a meeting"
-              tooltipDirection="bottom"
-            />
           </span>
           <HeaderIconWrapper
             ariaLabel={true}

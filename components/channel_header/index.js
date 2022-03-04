@@ -29,7 +29,6 @@ import {
     getLastActivityForUserId,
 } from 'mattermost-redux/selectors/entities/users';
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {goToLastViewedChannel} from 'actions/views/channel';
 import {openModal, closeModal} from 'actions/views/modals';
