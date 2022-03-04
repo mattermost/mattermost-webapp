@@ -28,7 +28,7 @@ import {
     ChannelSearchOpts,
     ServerChannel,
 } from 'mattermost-redux/types/channels';
-import {Options, StatusOK, ClientResponse} from 'mattermost-redux/types/client4';
+import {Options, StatusOK, ClientResponse, LogLevel} from 'mattermost-redux/types/client4';
 import {Compliance} from 'mattermost-redux/types/compliance';
 import {
     ClientConfig,
@@ -2274,7 +2274,7 @@ export default class Client4 {
         );
     }
 
-    logClientError = (message: string, level = 'ERROR') => {
+    logClientError = (message: string, level = LogLevel.Error) => {
         const url = `${this.getBaseRoute()}/logs`;
 
         if (!this.enableLogging) {

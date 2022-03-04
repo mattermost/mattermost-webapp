@@ -459,13 +459,13 @@ export function setUnreadPost(userId: string, postId: string) {
             if (isCombinedUserActivityPost(postId)) {
                 return {};
             }
-            unreadChan = await Client4.markPostAsUnread(userId, postId);
             dispatch({
                 type: ChannelTypes.ADD_MANUALLY_UNREAD,
                 data: {
                     channelId: post.channel_id,
                 },
             });
+            unreadChan = await Client4.markPostAsUnread(userId, postId);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(logError(error));
