@@ -104,3 +104,7 @@ export function getFirstAdminVisitMarketplaceStatus(state: GlobalState): boolean
 export function getFirstAdminSetupComplete(state: GlobalState): boolean {
     return state.entities.general.firstAdminCompleteSetup;
 }
+
+export function isPerformanceDebuggingEnabled(state: GlobalState): boolean {
+    return state.entities.general.config.EnableClientPerformanceDebugging === 'true';
+}
