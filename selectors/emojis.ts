@@ -77,12 +77,12 @@ export const getOneClickReactionEmojis = createSelector(
     'getOneClickReactionEmojis',
     getEmojiMap,
     getRecentEmojisNames,
-    (emojiMap, recentEmojis: RecentEmojiData[] | string[]) => {
+    (emojiMap, recentEmojis: string[]) => {
         if (recentEmojis.length === 0) {
             return [];
         }
 
-        return (recentEmojis as string[]).
+        return (recentEmojis).
             map((recentEmoji) => emojiMap.get(recentEmoji)).
             filter(Boolean).
             slice(-3).
