@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+import React, {RefObject} from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
@@ -9,7 +9,7 @@ export interface StarterEditionProps {
     openEELicenseModal: () => void;
     currentPlan: JSX.Element;
     upgradedFromTE: boolean;
-    fileInputRef: any;
+    fileInputRef: RefObject<HTMLInputElement>;
     handleChange: () => void;
 }
 
@@ -75,7 +75,7 @@ const StarterLeftPanel: React.FC<StarterEditionProps> = ({
                 <div className='uploadButtons'>
                     <button
                         className='btn btn-upload light-blue-btn'
-                        onClick={() => fileInputRef.current.click()}
+                        onClick={() => fileInputRef.current !== null && fileInputRef.current.click()}
                         id='open-modal'
                     >
                         <FormattedMessage
