@@ -6,14 +6,19 @@ import styled from 'styled-components';
 
 const EditButton = styled.button`
     border: 0;
-    padding: 4px;
     margin: 0px;
+    padding: 0px;
     border-radius: 4px;
     background: rgba(var(--center-channel-text-rgb), 0.04);
     color: rgba(var(--center-channel-text-rgb), 0.56);
     &:hover {
         background: rgba(var(--center-channel-text-rgb), 0.08);
         color: rgba(var(--center-channel-text-rgb), 0.72);
+    }
+    width: 24px;
+    height: 24px;
+    i.icon {
+        font-size: 14.4px;
     }
 `;
 

@@ -13,10 +13,19 @@ import {RhsState} from 'types/store/rhs';
 import {closeRightHandSide, showChannelInfo} from 'actions/views/rhs';
 
 import HeaderIconWrapper from './components/header_icon_wrapper';
+import styled from 'styled-components';
 
 interface Props {
     channel: Channel;
 }
+
+const Icon = styled.i`
+    font-size:18px;
+    line-height:18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+`
 
 const ChannelInfoButton = (props: Props) => {
     const {channel} = props;
@@ -45,7 +54,7 @@ const ChannelInfoButton = (props: Props) => {
             buttonClass={buttonClass}
             buttonId='channel-info-btn'
             onClick={toggleRHS}
-            iconComponent={<i className='icon icon-information-outline'/>}
+            iconComponent={<Icon className='icon-information-outline'/>}
             tooltipKey='channelInfo'
             isRhsOpen={isRhsOpen}
         />
