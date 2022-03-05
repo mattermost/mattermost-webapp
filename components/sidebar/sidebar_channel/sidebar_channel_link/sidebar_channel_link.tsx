@@ -9,7 +9,7 @@ import Pluggable from 'plugins/pluggable';
 
 import {Channel} from 'mattermost-redux/types/channels';
 
-import {mark, trackEvent} from 'actions/telemetry_actions';
+import {mark, trackEvent, clearResourceTimings} from 'actions/telemetry_actions';
 
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -133,6 +133,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
     removeTooltipLink = (): void => this.gmItemRef.current?.removeAttribute?.('aria-describedby');
 
     handleChannelClick = (event: React.MouseEvent<HTMLAnchorElement>): void => {
+        clearResourceTimings();
         mark('SidebarChannelLink#click');
         trackEvent('ui', 'ui_channel_selected_v2');
 

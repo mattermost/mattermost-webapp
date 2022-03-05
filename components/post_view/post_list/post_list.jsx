@@ -4,24 +4,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import LoadingScreen from 'components/loading_screen';
+import {
+    clearMarks,
+    mark,
+    measure,
+    trackEvent,
+    trackNumOfRequestEvent,
+} from 'actions/telemetry_actions.jsx';
 import {PostRequestTypes} from 'utils/constants';
-
 import {getOldestPostId, getLatestPostId} from 'utils/post_utils';
-import {clearMarks, mark, measure, trackEvent} from 'actions/telemetry_actions.jsx';
-
+import LoadingScreen from 'components/loading_screen';
 import VirtPostList from 'components/post_view/post_list_virtualized/post_list_virtualized';
 
 const MAX_NUMBER_OF_AUTO_RETRIES = 3;
 export const MAX_EXTRA_PAGES_LOADED = 10;
 
-// Measures the time between channel or team switch started and the post list component rendering posts.
-// Set "fresh" to true when the posts have not been loaded before.
-function markAndMeasureChannelSwitchEnd(fresh = false) {
+/**
+ * Measure the time and number of requests between channel or team switch start and the post list component rendering posts.
+ * @param {Boolean} fresh set to true when the posts have not been loaded before
+ */
+function measureChannelOrTeamSwitchTelemetry(fresh = false) {
     mark('PostList#component');
 
-    const [dur1] = measure('SidebarChannelLink#click', 'PostList#component');
-    const [dur2] = measure('TeamLink#click', 'PostList#component');
+    const [channelSwitchDuration] = measure('SidebarChannelLink#click', 'PostList#component');
+    const [teamSwitchDuration] = measure('TeamLink#click', 'PostList#component');
+
+    const resourceEntries = performance.getEntriesByType('resource');
 
     clearMarks([
         'SidebarChannelLink#click',
@@ -29,11 +37,16 @@ function markAndMeasureChannelSwitchEnd(fresh = false) {
         'PostList#component',
     ]);
 
-    if (dur1 !== -1) {
-        trackEvent('performance', 'channel_switch', {duration: Math.round(dur1), fresh});
+    // If channel was switched by clicking on sidebar channel link
+    if (channelSwitchDuration !== -1) {
+        trackEvent('performance', 'channel_switch', {duration: Math.round(channelSwitchDuration), fresh});
+        trackNumOfRequestEvent('channel_switch', resourceEntries);
     }
-    if (dur2 !== -1) {
-        trackEvent('performance', 'team_switch', {duration: Math.round(dur2), fresh});
+
+    // If team was switched by clicking on team link
+    if (teamSwitchDuration !== -1) {
+        trackEvent('performance', 'team_switch', {duration: Math.round(teamSwitchDuration), fresh});
+        trackNumOfRequestEvent('team_switch', resourceEntries);
     }
 }
 
@@ -169,7 +182,7 @@ export default class PostList extends React.PureComponent {
         if (this.props.channelId) {
             this.postsOnLoad(this.props.channelId);
             if (this.props.postListIds) {
-                markAndMeasureChannelSwitchEnd();
+                measureChannelOrTeamSwitchTelemetry();
             }
         }
     }
@@ -179,7 +192,7 @@ export default class PostList extends React.PureComponent {
             this.postsOnLoad(this.props.channelId);
         }
         if (this.props.postListIds != null && prevProps.postListIds == null) {
-            markAndMeasureChannelSwitchEnd(true);
+            measureChannelOrTeamSwitchTelemetry(true);
         }
     }
 

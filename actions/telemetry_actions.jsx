@@ -8,6 +8,7 @@ import store from 'stores/redux_store.jsx';
 
 import {isDevMode} from 'utils/utils';
 
+const SUPPORTS_PERFORMANCE = isSupported([performance]);
 const SUPPORTS_CLEAR_MARKS = isSupported([performance.clearMarks]);
 const SUPPORTS_MARK = isSupported([performance.mark]);
 const SUPPORTS_MEASURE_METHODS = isSupported([
@@ -16,6 +17,9 @@ const SUPPORTS_MEASURE_METHODS = isSupported([
     performance.getEntriesByName,
     performance.clearMeasures,
 ]);
+const SUPPORTS_RESOURCE_ENTRY_TYPE = isSupported([performance.getEntriesByType('resource')]);
+const SUPPORTS_CLEAR_RESOURCE_TIMINGS = typeof performance.clearResourceTimings === 'function';
+export const SUPPORTS_RESOURCE_TIMINGS = SUPPORTS_PERFORMANCE && SUPPORTS_RESOURCE_ENTRY_TYPE && SUPPORTS_CLEAR_RESOURCE_TIMINGS;
 
 export function isTelemetryEnabled(state) {
     const config = getConfig(state);
@@ -28,9 +32,13 @@ export function shouldTrackPerformance(state = store.getState()) {
 
 export function trackEvent(category, event, props) {
     Client4.trackEvent(category, event, props);
-    if (isDevMode() && category === 'performance' && props) {
-        // eslint-disable-next-line no-console
-        console.log(`${event}: ${props.duration}ms, fresh: ${props.fresh}`);
+    if (isDevMode() && (category === 'performance' || category === 'pageRequests') && props) {
+        const propKeys = Object.keys(props);
+        if (propKeys.length > 0) {
+            const propsAsString = propKeys.map((key) => `${key}: ${props[key]}`).join(', ');
+            // eslint-disable-next-line no-console
+            console.log(`${event} -> ${propsAsString}`);
+        }
     }
 }
 
@@ -106,6 +114,48 @@ export function trackLoadTime() {
         const pageLoadTime = loadEventEnd - navigationStart;
         trackEvent('performance', 'page_load', {duration: pageLoadTime});
     }, tenSeconds);
+}
+
+/**
+ * Clears all performance entries of entry type "resource".
+ */
+export function clearResourceTimings() {
+    if (!shouldTrackPerformance() || !SUPPORTS_RESOURCE_TIMINGS) {
+        return;
+    }
+
+    performance.clearResourceTimings();
+}
+
+/**
+ * Send an telemetry for number of requests to the server for an event.
+ * @param {String} initiatedBy The name of the event that initiated the tracking
+ * @param {PerformanceResourceTiming[]} resourceEntries List of performance resource entries
+ * @returns void
+ */
+export function trackNumOfRequestEvent(initiatedBy, resourceEntries) {
+    if (!shouldTrackPerformance() || !SUPPORTS_RESOURCE_TIMINGS) {
+        return;
+    }
+
+    let totalRequests = 0;
+    let maxResourceSize = 0; // in Bytes
+
+    resourceEntries.forEach((entry) => {
+        if (entry.initiatorType === 'xmlhttprequest' || entry.initiatorType === 'fetch') {
+            totalRequests += 1;
+            maxResourceSize = Math.max(maxResourceSize, entry.encodedBodySize);
+        }
+    });
+
+    clearResourceTimings();
+
+    if (totalRequests > 0) {
+        trackEvent('pageRequests', initiatedBy, {
+            totalRequests,
+            maxResourceSize,
+        });
+    }
 }
 
 function mostRecentDurationByEntryName(entryName) {
