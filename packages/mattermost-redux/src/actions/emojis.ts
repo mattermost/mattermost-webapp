@@ -267,13 +267,7 @@ export function migrateRecentEmojis(): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;
         const currentUserId = getCurrentUserId(state);
-        let recentEmojisFromPreference: RecentEmojiData[] = [];
-        try {
-            recentEmojisFromPreference = getRecentEmojis(state);
-        } catch (error) {
-            logError(error);
-            return {error};
-        }
+        const recentEmojisFromPreference = getRecentEmojis(state);
         if (recentEmojisFromPreference.length === 0) {
             const recentEmojisFromLocalStorage = LocalStorageStore.getRecentEmojis(currentUserId);
             if (recentEmojisFromLocalStorage) {
