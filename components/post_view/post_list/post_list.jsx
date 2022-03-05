@@ -20,7 +20,7 @@ const MAX_NUMBER_OF_AUTO_RETRIES = 3;
 export const MAX_EXTRA_PAGES_LOADED = 10;
 
 /**
- * Measure the time and number of requests between channel or team switch start and the post list component rendering posts.
+ * Measures the time and number of requests between channel or team switch start and the post list component rendering posts.
  * @param {Boolean} fresh set to true when the posts have not been loaded before
  */
 function measureChannelOrTeamSwitchTelemetry(fresh = false) {
@@ -28,8 +28,6 @@ function measureChannelOrTeamSwitchTelemetry(fresh = false) {
 
     const [channelSwitchDuration] = measure('SidebarChannelLink#click', 'PostList#component');
     const [teamSwitchDuration] = measure('TeamLink#click', 'PostList#component');
-
-    const resourceEntries = performance.getEntriesByType('resource');
 
     clearMarks([
         'SidebarChannelLink#click',
@@ -40,13 +38,13 @@ function measureChannelOrTeamSwitchTelemetry(fresh = false) {
     // If channel was switched by clicking on sidebar channel link
     if (channelSwitchDuration !== -1) {
         trackEvent('performance', 'channel_switch', {duration: Math.round(channelSwitchDuration), fresh});
-        trackNumOfRequestEvent('channel_switch', resourceEntries);
+        trackNumOfRequestEvent('channel_switch');
     }
 
     // If team was switched by clicking on team link
     if (teamSwitchDuration !== -1) {
         trackEvent('performance', 'team_switch', {duration: Math.round(teamSwitchDuration), fresh});
-        trackNumOfRequestEvent('team_switch', resourceEntries);
+        trackNumOfRequestEvent('team_switch');
     }
 }
 

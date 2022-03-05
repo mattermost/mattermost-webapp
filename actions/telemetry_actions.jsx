@@ -8,7 +8,6 @@ import store from 'stores/redux_store.jsx';
 
 import {isDevMode} from 'utils/utils';
 
-const SUPPORTS_PERFORMANCE = isSupported([performance]);
 const SUPPORTS_CLEAR_MARKS = isSupported([performance.clearMarks]);
 const SUPPORTS_MARK = isSupported([performance.mark]);
 const SUPPORTS_MEASURE_METHODS = isSupported([
@@ -17,9 +16,9 @@ const SUPPORTS_MEASURE_METHODS = isSupported([
     performance.getEntriesByName,
     performance.clearMeasures,
 ]);
-const SUPPORTS_RESOURCE_ENTRY_TYPE = isSupported([performance.getEntriesByType('resource')]);
+const SUPPORTS_RESOURCE_ENTRY_TYPE = isSupported([performance, performance.getEntriesByType('resource')]);
 const SUPPORTS_CLEAR_RESOURCE_TIMINGS = typeof performance.clearResourceTimings === 'function';
-export const SUPPORTS_RESOURCE_TIMINGS = SUPPORTS_PERFORMANCE && SUPPORTS_RESOURCE_ENTRY_TYPE && SUPPORTS_CLEAR_RESOURCE_TIMINGS;
+const SUPPORTS_RESOURCE_TIMINGS = SUPPORTS_RESOURCE_ENTRY_TYPE && SUPPORTS_CLEAR_RESOURCE_TIMINGS;
 
 export function isTelemetryEnabled(state) {
     const config = getConfig(state);
@@ -100,19 +99,27 @@ export function measure(name1, name2) {
     return [lastDuration, measurementName];
 }
 
-export function trackLoadTime() {
+function trackPageLoadTimeEvent() {
     if (!isSupported([performance.timing.loadEventEnd, performance.timing.navigationStart])) {
         return;
     }
 
+    const {loadEventEnd, navigationStart} = window.performance.timing;
+    const pageLoadTime = loadEventEnd - navigationStart;
+    trackEvent('performance', 'page_load', {duration: pageLoadTime});
+}
+
+/**
+ * Measures the time and number of requests on first page load.
+ */
+export function measurePageLoadTelemetry() {
     // Must be wrapped in setTimeout because loadEventEnd property is 0
     // until onload is complete, also time added because analytics
     // code isn't loaded until a subsequent window event has fired.
     const tenSeconds = 10000;
     setTimeout(() => {
-        const {loadEventEnd, navigationStart} = window.performance.timing;
-        const pageLoadTime = loadEventEnd - navigationStart;
-        trackEvent('performance', 'page_load', {duration: pageLoadTime});
+        trackPageLoadTimeEvent();
+        trackNumOfRequestEvent('page_load');
     }, tenSeconds);
 }
 
@@ -130,10 +137,8 @@ export function clearResourceTimings() {
 /**
  * Send an telemetry for number of requests to the server for an event.
  * @param {String} initiatedBy The name of the event that initiated the tracking
- * @param {PerformanceResourceTiming[]} resourceEntries List of performance resource entries
- * @returns void
  */
-export function trackNumOfRequestEvent(initiatedBy, resourceEntries) {
+export function trackNumOfRequestEvent(initiatedBy) {
     if (!shouldTrackPerformance() || !SUPPORTS_RESOURCE_TIMINGS) {
         return;
     }
@@ -141,7 +146,7 @@ export function trackNumOfRequestEvent(initiatedBy, resourceEntries) {
     let totalRequests = 0;
     let maxResourceSize = 0; // in Bytes
 
-    resourceEntries.forEach((entry) => {
+    performance.getEntriesByType('resource').forEach((entry) => {
         if (entry.initiatorType === 'xmlhttprequest' || entry.initiatorType === 'fetch') {
             totalRequests += 1;
             maxResourceSize = Math.max(maxResourceSize, entry.encodedBodySize);
