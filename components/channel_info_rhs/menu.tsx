@@ -48,7 +48,6 @@ const MenuItem = styled(menuItem)`
     display: flex;
     flex-direction: row;
     align-items: center;
-    border-radius: 4px;
     cursor: pointer;
     width: 100%;
     height: 40px;
@@ -91,7 +90,7 @@ const StyledMenu = styled(Menu)`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 16px 4px;
+    padding: 16px 0;
 
     font-size: 14px;
     line-height: 20px;
