@@ -35,6 +35,18 @@ const UserInfoContainer = styled.div`
     margin-bottom: 12px;
 `;
 
+const UserAvatar = styled.div`
+    .status {
+        bottom: 0;
+        right: 0;
+        height: 18px;
+        width: 18px;
+        & svg {
+            min-height: 14.4px;
+        }
+    }
+`;
+
 const UserInfo = styled.div`
     margin-left: 12px;
     display: flex;
@@ -70,7 +82,7 @@ const AboutAreaDM = ({channel, dmUser, actions}: Props) => {
     return (
         <>
             <UserInfoContainer>
-                <div>
+                <UserAvatar>
                     <ProfilePicture
                         src={Client4.getProfilePictureUrl(dmUser.user.id, dmUser.user.last_picture_update)}
                         isBot={dmUser.user.is_bot}
@@ -82,7 +94,7 @@ const AboutAreaDM = ({channel, dmUser, actions}: Props) => {
                         size='xl'
                         popoverPlacement='left'
                     />
-                </div>
+                </UserAvatar>
                 <UserInfo>
                     <UsernameContainer>
                         <Username>{dmUser.user.username}</Username>
