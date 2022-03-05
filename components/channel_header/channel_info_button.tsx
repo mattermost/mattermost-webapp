@@ -5,7 +5,8 @@ import React from 'react';
 
 import {useDispatch, useSelector} from 'react-redux';
 
-import InfoIcon from 'components/widgets/icons/info_icon';
+import styled from 'styled-components';
+
 import {Channel} from 'mattermost-redux/types/channels';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {RHSStates} from 'utils/constants';
@@ -13,7 +14,6 @@ import {RhsState} from 'types/store/rhs';
 import {closeRightHandSide, showChannelInfo} from 'actions/views/rhs';
 
 import HeaderIconWrapper from './components/header_icon_wrapper';
-import styled from 'styled-components';
 
 interface Props {
     channel: Channel;
@@ -25,7 +25,7 @@ const Icon = styled.i`
     display: inline-flex;
     align-items: center;
     justify-content: center;
-`
+`;
 
 const ChannelInfoButton = (props: Props) => {
     const {channel} = props;

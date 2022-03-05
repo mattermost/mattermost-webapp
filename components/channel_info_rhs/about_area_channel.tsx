@@ -16,6 +16,7 @@ const ChannelLink = styled.div`
     font-size: 11px;
     line-height: 16px;
     letter-spacing: 0.02em;
+    color: rgba(var(--center-channel-color-rgb), .64);
 `;
 
 const ChannelPurpose = styled.div`

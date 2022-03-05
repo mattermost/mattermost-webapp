@@ -535,7 +535,7 @@ class ChannelHeader extends React.PureComponent {
                             >
                                 <FormattedMessage
                                     id='channel_header.addChannelHeader'
-                                    defaultMessage='Add a channel description'
+                                    defaultMessage='Add a channel header'
                                 />
                                 <FormattedMessage
                                     id='channel_header.editLink'
@@ -564,7 +564,7 @@ class ChannelHeader extends React.PureComponent {
                             >
                                 <FormattedMessage
                                     id='channel_header.addChannelHeader'
-                                    defaultMessage='Add a channel description'
+                                    defaultMessage='Add a channel header'
                                 />
                                 <FormattedMessage
                                     id='channel_header.editLink'

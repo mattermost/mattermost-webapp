@@ -2717,7 +2717,7 @@
   "channel_flow.handleTooShort": "Channel URL must be 2 or more lowercase alphanumeric characters",
   "channel_flow.invalidName": "Invalid Channel Name",
   "channel_flow.set_url_title": "Set Channel URL",
-  "channel_header.addChannelHeader": "Add a channel description",
+  "channel_header.addChannelHeader": "Add a channel header",
   "channel_header.channelFiles": "Channel files",
   "channel_header.channelHasGuests": "This channel has guests",
   "channel_header.channelInfo": "Channel Info",

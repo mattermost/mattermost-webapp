@@ -15,14 +15,13 @@ const ChannelInfoRhsTopButtons = styled.div`
     padding: 0 18px;
 `;
 
-const ChannelInfoRhsTopButton = styled.button`
+const Button = styled.button`
     border-radius: 4px;
     border: 0;
     padding: 12px 0 10px 0;
     background: rgba(var(--center-channel-text-rgb), 0.04);
     flex: 1;
     margin: 0 6px;
-    transition: background-color 0.5s ease;
 
     &:hover {
        background: rgba(var(--center-channel-text-rgb), 0.08);
@@ -35,11 +34,6 @@ const ChannelInfoRhsTopButton = styled.button`
         color: var(--button-bg);
     }
 
-    &.success {
-        background: var(--denim-status-online);
-        color: var(--button-color);
-    }
-
     & i {
         font-size: 24px;
     }
@@ -47,6 +41,20 @@ const ChannelInfoRhsTopButton = styled.button`
         line-height: 16px;
         font-size: 10px;
         font-weight: 600;
+    }
+`;
+
+const CopyButton = styled(Button)`
+    &:active,
+    &.active {
+        background: rgba(var(--center-channel-text-rgb), 0.08);
+        color: rgba(var(--center-channel-text-rgb), 0.72);
+    }
+
+    &.success {
+        background: var(--denim-status-online);
+        color: var(--button-color);
+        transition: background-color 0.5s ease;
     }
 `;
 
@@ -101,7 +109,7 @@ export default function TopButtons({
 
     return (
         <ChannelInfoRhsTopButtons>
-            <ChannelInfoRhsTopButton
+            <Button
                 onClick={actions.toggleFavorite}
                 className={isFavorite ? 'active' : ''}
             >
@@ -109,8 +117,8 @@ export default function TopButtons({
                     <i className={'icon ' + favoriteIcon}/>
                 </div>
                 <span>{favoriteText}</span>
-            </ChannelInfoRhsTopButton>
-            <ChannelInfoRhsTopButton
+            </Button>
+            <Button
                 onClick={actions.toggleMute}
                 className={isMuted ? 'active' : ''}
             >
@@ -118,9 +126,9 @@ export default function TopButtons({
                     <i className={'icon ' + mutedIcon}/>
                 </div>
                 <span>{mutedText}</span>
-            </ChannelInfoRhsTopButton>
+            </Button>
             {canAddPeople && (
-                <ChannelInfoRhsTopButton
+                <Button
                     onClick={actions.addPeople}
                     className={isInvitingPeople ? 'active' : ''}
                 >
@@ -133,10 +141,10 @@ export default function TopButtons({
                             defaultMessage='Add People'
                         />
                     </span>
-                </ChannelInfoRhsTopButton>
+                </Button>
             )}
             {canCopyLink && (
-                <ChannelInfoRhsTopButton
+                <CopyButton
                     onClick={copyLink.onClick}
                     className={copyLink.copiedRecently ? 'success' : ''}
                 >
@@ -144,7 +152,7 @@ export default function TopButtons({
                         <i className={'icon ' + copyIcon}/>
                     </div>
                     <span>{copyText}</span>
-                </ChannelInfoRhsTopButton>
+                </CopyButton>
             )}
         </ChannelInfoRhsTopButtons>
     );
