@@ -6,9 +6,9 @@ import {FormattedMessage} from 'react-intl';
 import {Modal} from 'react-bootstrap';
 
 import {AdminConfig} from 'mattermost-redux/types/config';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-
 import {Constants} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
@@ -20,9 +20,14 @@ type Props ={
     show: boolean;
     onClose: () => void;
     actions: {
-        updateConfig: (config: Partial<AdminConfig>) => Promise<{data?: AdminConfig; error?: any}>;
-        getConfig: () => Partial<AdminConfig>;
+        updateConfig: (config: AdminConfig) => ActionFunc & Partial<{error?: ClientErrorPlaceholder}>;
+        getConfig: () => ActionFunc;
     };
+}
+
+type ClientErrorPlaceholder = {
+    message: string;
+    server_error_id: string;
 }
 
 export default function EditPostTimeLimitModal(props: Props) {
