@@ -146,10 +146,8 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
 
     handleChange = () => {
         const element = this.fileInputRef.current;
-        if (element !== null && element.files !== null) {
-            if (element.files.length > 0) {
-                this.setState({fileSelected: true, file: element.files[0]});
-            }
+        if (element?.files?.length) {
+            this.setState({fileSelected: true, file: element.files[0]});
         }
     }
 

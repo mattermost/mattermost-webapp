@@ -4,6 +4,8 @@ import React, {RefObject} from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
+import {FileTypes} from 'utils/constants';
+
 import './starter_edition.scss';
 export interface StarterEditionProps {
     openEELicenseModal: () => void;
@@ -75,7 +77,7 @@ const StarterLeftPanel: React.FC<StarterEditionProps> = ({
                 <div className='uploadButtons'>
                     <button
                         className='btn btn-upload light-blue-btn'
-                        onClick={() => fileInputRef.current !== null && fileInputRef.current.click()}
+                        onClick={() => fileInputRef.current?.click()}
                         id='open-modal'
                     >
                         <FormattedMessage
@@ -86,7 +88,7 @@ const StarterLeftPanel: React.FC<StarterEditionProps> = ({
                     <input
                         ref={fileInputRef}
                         type='file'
-                        accept='.mattermost-license'
+                        accept={FileTypes.LICENSE_EXTENSION}
                         onChange={handleChange}
                         style={{display: 'none'}}
                     />

@@ -25,7 +25,7 @@ import HandsSvg from 'components/common/svg_images_components/hands_svg';
 import FileSvg from 'components/common/svg_images_components/file_svg';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
-import {ModalIdentifiers} from 'utils/constants';
+import {FileTypes, ModalIdentifiers} from 'utils/constants';
 
 import {closeModal} from 'actions/views/modals';
 
@@ -51,8 +51,6 @@ const UploadLicenseModal = (props: Props): JSX.Element | null => {
 
     const currentLicense: ClientLicense = useSelector(getLicense);
     const locale = useSelector(getCurrentLocale);
-
-    const LICENSE_EXTENSION = '.mattermost-license';
 
     const handleChange = () => {
         const element = fileInputRef.current;
@@ -105,10 +103,10 @@ const UploadLicenseModal = (props: Props): JSX.Element | null => {
     };
 
     const displayFileName = (fileName: string) => {
-        const extLen = LICENSE_EXTENSION.length;
-        let fileNameWithoutExt = fileName.split(LICENSE_EXTENSION)[0];
+        const extLen = FileTypes.LICENSE_EXTENSION.length;
+        let fileNameWithoutExt = fileName.split(FileTypes.LICENSE_EXTENSION)[0];
         fileNameWithoutExt = fileNameWithoutExt.length < (40 - extLen) ? fileNameWithoutExt : `${fileNameWithoutExt.substr(0, (37 - extLen))}...`;
-        return `${fileNameWithoutExt}${LICENSE_EXTENSION}`;
+        return `${fileNameWithoutExt}${FileTypes.LICENSE_EXTENSION}`;
     };
 
     let uploadLicenseContent = (
@@ -176,7 +174,7 @@ const UploadLicenseModal = (props: Props): JSX.Element | null => {
                                     <input
                                         ref={fileInputRef}
                                         type='file'
-                                        accept={LICENSE_EXTENSION}
+                                        accept={FileTypes.LICENSE_EXTENSION}
                                         onChange={handleChange}
                                     />
                                     <a
