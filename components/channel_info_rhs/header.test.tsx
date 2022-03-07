@@ -14,6 +14,7 @@ describe('channel_info_rhs/header', () => {
         renderWithIntl(
             <Header
                 channel={{display_name: 'my channel title'} as Channel}
+                isArchived={false}
                 onClose={() => {}}
             />,
         );
@@ -26,6 +27,7 @@ describe('channel_info_rhs/header', () => {
         renderWithIntl(
             <Header
                 channel={{display_name: 'my channel title'} as Channel}
+                isArchived={false}
                 onClose={onClose}
             />,
         );
@@ -33,5 +35,27 @@ describe('channel_info_rhs/header', () => {
         fireEvent.click(screen.getByLabelText('Close'));
 
         expect(onClose).toHaveBeenCalled();
+    });
+    test('should have archived icon when channel is archived', () => {
+        const {container} = renderWithIntl(
+            <Header
+                channel={{display_name: 'my channel title'} as Channel}
+                isArchived={true}
+                onClose={() => {}}
+            />,
+        );
+
+        expect(container.querySelector('i.icon-archive-outline')).toBeInTheDocument();
+    });
+    test('should not have archived icon when channel is archived', () => {
+        const {container} = renderWithIntl(
+            <Header
+                channel={{display_name: 'my channel title'} as Channel}
+                isArchived={false}
+                onClose={() => {}}
+            />,
+        );
+
+        expect(container.querySelector('i.icon-archive-outline')).not.toBeInTheDocument();
     });
 });
