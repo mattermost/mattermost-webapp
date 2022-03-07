@@ -79,12 +79,8 @@ const TOP_OFFSET = 0;
 const RIGHT_OFFSET = 10;
 
 const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null => {
-    if (!editingPost.post) {
-        return null;
-    }
-
     const [editText, setEditText] = useState<string>(
-        editingPost.post?.message_source || editingPost.post?.message || '',
+        editingPost?.post?.message_source || editingPost?.post?.message || '',
     );
     const [caretPosition, setCaretPosition] = useState<number>(editText.length);
     const [postError, setPostError] = useState<React.ReactNode | null>(null);
@@ -152,7 +148,14 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
         return () => {
             document.removeEventListener('paste', handlePaste);
         };
-    }, []);
+    }, []); // TODO This selector needs its dependencies passed correctly (see MM-42324)
+
+    const getEmojiContainerRef = useCallback(() => textboxRef.current, []);
+    const getEmojiTargetRef = useCallback(() => emojiButtonRef.current, []);
+
+    if (!editingPost.post) {
+        return null;
+    }
 
     const isSaveDisabled = () => {
         const {post} = editingPost;
@@ -364,9 +367,6 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
             textboxRef.current?.focus();
         }
     };
-
-    const getEmojiContainerRef = useCallback(() => textboxRef.current, [textboxRef]);
-    const getEmojiTargetRef = useCallback(() => emojiButtonRef.current, [emojiButtonRef]);
 
     let emojiPicker = null;
     const emojiButtonAriaLabel = formatMessage({
