@@ -91,7 +91,7 @@ const AboutAreaDM = ({channel, dmUser, actions}: Props) => {
                         isBot={dmUser.user.is_bot}
                         status={dmUser.status ? dmUser.status : undefined}
                         isRHS={true}
-                        username={dmUser.user.username}
+                        username={dmUser.display_name}
                         userId={dmUser.user.id}
                         channelId={channel.id}
                         size='xl'

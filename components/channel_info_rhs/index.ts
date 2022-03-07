@@ -18,7 +18,7 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {unfavoriteChannel, favoriteChannel} from 'mattermost-redux/actions/channels';
 import {muteChannel, unmuteChannel} from 'actions/channel_actions';
 import {openModal} from 'actions/views/modals';
-import { getDisplayNameByUser, getUserIdFromChannelId} from 'utils/utils';
+import {getDisplayNameByUser, getUserIdFromChannelId} from 'utils/utils';
 import {getProfilesInCurrentChannel, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 

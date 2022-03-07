@@ -127,6 +127,7 @@ describe('channel_info_rhs/about_area_dm', () => {
                 bot_description: 'my bot description',
                 position: 'my position',
             } as UserProfile,
+            display_name: 'my_username',
             is_guest: false,
             status: Constants.UserStatuses.ONLINE,
         },

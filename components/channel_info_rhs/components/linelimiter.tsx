@@ -28,8 +28,7 @@ const lineLimiter = ({children, maxLines, lineHeight, moreText, lessText, classN
         }
 
         const contentHeight = ref.current.scrollHeight;
-        console.log(contentHeight, maxLineHeight, lineHeight)
-        if (contentHeight > (maxLineHeight)) {
+        if (contentHeight > maxLineHeight) {
             setNeedLimiter(true);
 
             if (open) {
