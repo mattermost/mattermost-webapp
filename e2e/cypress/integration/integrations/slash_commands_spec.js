@@ -195,7 +195,7 @@ describe('Integrations', () => {
         cy.getLastPost().should('contain', 'Image links now expand by default').and('contain', 'System');
 
         // # Post message
-        cy.postMessage('http://mattermost.com/wp-content/uploads/2022/02/icon_WS.png');
+        cy.postMessage('https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png');
         cy.getLastPostId().as('postID');
 
         cy.get('@postID').then((postID) => {

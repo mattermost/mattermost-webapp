@@ -17,7 +17,7 @@ import {backToTeam, saveSetting} from './helper';
 describe('SupportSettings', () => {
     const tosLink = 'https://github.com/mattermost/platform/blob/master/README.md';
     const privacyLink = 'https://github.com/mattermost/platform/blob/master/README.md';
-    const aboutLink = 'https://mattermost.com/platform-overview/';
+    const aboutLink = 'https://mattermost.com/default-about/';
     const helpLink = 'https://github.com/mattermost/platform/blob/master/doc/help/README.md';
     const problemLink = 'https://forum.mattermost.com/c/trouble-shoot';
 
