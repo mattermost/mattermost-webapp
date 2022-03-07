@@ -10,7 +10,7 @@ import {getMyTeamUnreads, getTeamByName, selectTeam} from 'mattermost-redux/acti
 import {getGroups, getAllGroupsAssociatedToChannelsInTeam, getAllGroupsAssociatedToTeam, getGroupsByUserIdPaginated} from 'mattermost-redux/actions/groups';
 
 // TODO@Michel: remove the import for `getIsInlinePostEditingEnabled` once the inline post editing feature is enabled by default
-import {isCollapsedThreadsEnabled, getIsInlinePostEditingEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {isCollapsedThreadsEnabled, getIsInlinePostEditingEnabled, isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
@@ -41,6 +41,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const config = getConfig(state);
     const currentUser = getCurrentUser(state);
     const plugins = state.plugins.components.NeedsTeamComponent;
+    const isCustomUserGroupsEnabled = isCustomGroupsEnabled(state);
 
     return {
         license,
@@ -57,6 +58,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 
         // TODO@Michel: remove the prop once the inline post editing feature is enabled by default
         isInlinePostEditingEnabled: getIsInlinePostEditingEnabled(state),
+        isCustomGroupsEnabled: isCustomUserGroupsEnabled,
     };
 }
 
