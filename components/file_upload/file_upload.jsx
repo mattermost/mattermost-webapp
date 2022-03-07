@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 import ReactDOM from 'react-dom';
 import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
+import {PaperclipIcon} from '@mattermost/compass-icons/components';
+
+import classNames from 'classnames';
 
 import dragster from 'utils/dragster';
 import Constants from 'utils/constants';
@@ -29,7 +32,6 @@ import {
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
-import AttachmentIcon from 'components/widgets/icons/attachment_icon';
 import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
@@ -595,19 +597,23 @@ export class FileUpload extends PureComponent {
 
         if (this.props.pluginFileUploadMethods.length === 0) {
             bodyAction = (
-                <div>
+                <>
                     <button
                         type='button'
                         id='fileUploadButton'
                         aria-label={ariaLabel}
-                        className='style--none post-action icon icon--attachment'
+                        className={classNames('style--none post-action', {disabled: uploadsRemaining <= 0})}
                         onClick={this.simulateInputClick}
                         onTouchEnd={this.simulateInputClick}
                     >
-                        <AttachmentIcon className='d-flex'/>
+                        <PaperclipIcon
+                            size={18}
+                            color={'currentColor'}
+                        />
                     </button>
                     <input
                         id='fileUploadInput'
+                        className='hidden'
                         tabIndex='-1'
                         aria-label={formatMessage(holders.uploadFile)}
                         ref={this.fileInput}
@@ -617,7 +623,7 @@ export class FileUpload extends PureComponent {
                         multiple={multiple}
                         accept={accept}
                     />
-                </div>
+                </>
             );
         } else {
             const pluginFileUploadMethods = this.props.pluginFileUploadMethods.map((item) => {
@@ -641,7 +647,7 @@ export class FileUpload extends PureComponent {
                 );
             });
             bodyAction = (
-                <div>
+                <>
                     <input
                         tabIndex='-1'
                         aria-label={formatMessage(holders.uploadFile)}
@@ -691,7 +697,7 @@ export class FileUpload extends PureComponent {
                             {pluginFileUploadMethods}
                         </Menu>
                     </MenuWrapper>
-                </div>
+                </>
             );
         }
 
@@ -714,9 +720,7 @@ export class FileUpload extends PureComponent {
                     </Tooltip>
                 }
             >
-                <div className={uploadsRemaining <= 0 ? ' style--none btn-file__disabled' : 'style--none'}>
-                    {bodyAction}
-                </div>
+                {bodyAction}
             </OverlayTrigger>
         );
     }
