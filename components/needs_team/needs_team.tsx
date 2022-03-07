@@ -260,7 +260,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             if (this.props.license.LDAPGroups === 'true') {
                 this.props.actions.getAllGroupsAssociatedToChannelsInTeam(team.id, true);
             }
-            
+
             if (team.group_constrained && this.props.license.LDAPGroups === 'true') {
                 this.props.actions.getAllGroupsAssociatedToTeam(team.id, true);
             } else {

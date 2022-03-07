@@ -236,7 +236,7 @@ describe('components/needs_team', () => {
         const getGroupsByUserIdPaginated = jest.fn().mockResolvedValue({data: true});
         const newActions = {...baseProps.actions, getGroupsByUserIdPaginated, fetchMyChannelsAndMembers};
         const props = {
-            ...baseProps, 
+            ...baseProps,
             license: {
                 IsLicensed: 'true',
             },
@@ -245,7 +245,7 @@ describe('components/needs_team', () => {
             match: existingTeamMatch,
         };
 
-        const wrapper = shallow<NeedsTeam>(
+        shallow<NeedsTeam>(
             <NeedsTeam {...props}/>,
         );
         expect(getGroupsByUserIdPaginated).toHaveBeenCalledTimes(1);
@@ -263,7 +263,7 @@ describe('components/needs_team', () => {
         const getGroupsByUserIdPaginated = jest.fn().mockResolvedValue({data: true});
         const newActions = {...baseProps.actions, getGroupsByUserIdPaginated, fetchMyChannelsAndMembers};
         const props = {
-            ...baseProps, 
+            ...baseProps,
             license: {
                 IsLicensed: 'true',
             },
@@ -271,7 +271,7 @@ describe('components/needs_team', () => {
             match: existingTeamMatch,
         };
 
-        const wrapper = shallow<NeedsTeam>(
+        shallow<NeedsTeam>(
             <NeedsTeam {...props}/>,
         );
         expect(getGroupsByUserIdPaginated).toHaveBeenCalledTimes(0);
