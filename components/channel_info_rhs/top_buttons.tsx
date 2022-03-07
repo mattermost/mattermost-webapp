@@ -45,16 +45,18 @@ const Button = styled.button`
 `;
 
 const CopyButton = styled(Button)`
+    transition: background-color 0.5s ease;
+
     &:active,
     &.active {
         background: rgba(var(--center-channel-text-rgb), 0.08);
         color: rgba(var(--center-channel-text-rgb), 0.72);
+        transition: none;
     }
 
     &.success {
         background: var(--denim-status-online);
         color: var(--button-color);
-        transition: background-color 0.5s ease;
     }
 `;
 
