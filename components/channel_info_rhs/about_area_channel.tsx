@@ -48,43 +48,43 @@ const AboutAreaChannel = ({channel, channelURL, canEditChannelProperties, action
 
             {(channel.purpose || canEditChannelProperties) && (
                 <ChannelPurpose>
-                <EditableArea
-                    editable={canEditChannelProperties}
-                    content={channel.purpose && (
-                        <LineLimiter
-                            maxLines={3}
-                            lineHeight={20}
-                            moreText={formatMessage({id: 'channel_info_rhs.about_area.channel_purpose.line_limiter.more', defaultMessage: '... more'})}
-                            lessText={formatMessage({id: 'channel_info_rhs.about_area.channel_purpose.line_limiter.less', defaultMessage: 'less'})}
-                        >
-                            <Markdown message={channel.purpose}/>
-                        </LineLimiter>
-                    )}
-                    onEdit={actions.editChannelPurpose}
-                    emptyLabel={formatMessage({id: 'channel_info_rhs.about_area.add_channel_purpose', defaultMessage: 'Add a channel purpose'})}
-                />
-            </ChannelPurpose>
+                    <EditableArea
+                        editable={canEditChannelProperties}
+                        content={channel.purpose && (
+                            <LineLimiter
+                                maxLines={3}
+                                lineHeight={20}
+                                moreText={formatMessage({id: 'channel_info_rhs.about_area.channel_purpose.line_limiter.more', defaultMessage: '... more'})}
+                                lessText={formatMessage({id: 'channel_info_rhs.about_area.channel_purpose.line_limiter.less', defaultMessage: 'less'})}
+                            >
+                                <Markdown message={channel.purpose}/>
+                            </LineLimiter>
+                        )}
+                        onEdit={actions.editChannelPurpose}
+                        emptyLabel={formatMessage({id: 'channel_info_rhs.about_area.add_channel_purpose', defaultMessage: 'Add a channel purpose'})}
+                    />
+                </ChannelPurpose>
             )}
 
             {(channel.header || canEditChannelProperties) && (
-<ChannelHeader>
-                <EditableArea
-                    content={channel.header && (
-                        <LineLimiter
-                            maxLines={3}
-                            lineHeight={20}
-                            moreText={formatMessage({id: 'channel_info_rhs.about_area.channel_header.line_limiter.more', defaultMessage: '... more'})}
-                            lessText={formatMessage({id: 'channel_info_rhs.about_area.channel_header.line_limiter.less', defaultMessage: 'less'})}
-                        >
-                            <Markdown message={channel.header}/>
-                        </LineLimiter>
-                    )}
-                    editable={canEditChannelProperties}
-                    onEdit={actions.editChannelHeader}
-                    emptyLabel={formatMessage({id: 'channel_info_rhs.about_area.add_channel_header', defaultMessage: 'Add a channel header'})}
-                />
-</ChannelHeader>
-)}
+                <ChannelHeader>
+                    <EditableArea
+                        content={channel.header && (
+                            <LineLimiter
+                                maxLines={3}
+                                lineHeight={20}
+                                moreText={formatMessage({id: 'channel_info_rhs.about_area.channel_header.line_limiter.more', defaultMessage: '... more'})}
+                                lessText={formatMessage({id: 'channel_info_rhs.about_area.channel_header.line_limiter.less', defaultMessage: 'less'})}
+                            >
+                                <Markdown message={channel.header}/>
+                            </LineLimiter>
+                        )}
+                        editable={canEditChannelProperties}
+                        onEdit={actions.editChannelHeader}
+                        emptyLabel={formatMessage({id: 'channel_info_rhs.about_area.add_channel_header', defaultMessage: 'Add a channel header'})}
+                    />
+                </ChannelHeader>
+            )}
 
             <ChannelLink>{channelURL}</ChannelLink>
         </>
