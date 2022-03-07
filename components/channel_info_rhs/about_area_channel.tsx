@@ -46,7 +46,8 @@ const AboutAreaChannel = ({channel, channelURL, canEditChannelProperties, action
     return (
         <>
 
-            <ChannelPurpose>
+            {(channel.purpose || canEditChannelProperties) && (
+                <ChannelPurpose>
                 <EditableArea
                     editable={canEditChannelProperties}
                     content={channel.purpose && (
@@ -63,8 +64,10 @@ const AboutAreaChannel = ({channel, channelURL, canEditChannelProperties, action
                     emptyLabel={formatMessage({id: 'channel_info_rhs.about_area.add_channel_purpose', defaultMessage: 'Add a channel purpose'})}
                 />
             </ChannelPurpose>
+            )}
 
-            <ChannelHeader>
+            {(channel.header || canEditChannelProperties) && (
+<ChannelHeader>
                 <EditableArea
                     content={channel.header && (
                         <LineLimiter
@@ -80,7 +83,8 @@ const AboutAreaChannel = ({channel, channelURL, canEditChannelProperties, action
                     onEdit={actions.editChannelHeader}
                     emptyLabel={formatMessage({id: 'channel_info_rhs.about_area.add_channel_header', defaultMessage: 'Add a channel header'})}
                 />
-            </ChannelHeader>
+</ChannelHeader>
+)}
 
             <ChannelLink>{channelURL}</ChannelLink>
         </>
