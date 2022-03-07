@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+// TODO@Michel: remove this file once the inline post editing feature is enabled by default
+
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 

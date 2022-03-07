@@ -9,11 +9,9 @@ import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/ac
 import {GlobalState} from 'types/store';
 
 import {archiveGroup} from 'mattermost-redux/actions/groups';
-import {Group, GroupPermissions} from 'mattermost-redux/types/groups';
 import {ModalData} from 'types/actions';
-import {Permissions} from 'mattermost-redux/constants';
 import {openModal} from 'actions/views/modals';
-import {haveIGroupPermission} from 'mattermost-redux/selectors/entities/roles';
+import {getGroupListPermissions} from 'mattermost-redux/selectors/entities/roles';
 
 import UserGroupsList from './user_groups_list';
 
@@ -22,19 +20,8 @@ type Actions = {
     archiveGroup: (groupId: string) => Promise<ActionResult>;
 };
 
-type Props = {
-    groups: Group[];
-};
-
-function mapStateToProps(state: GlobalState, ownProps: Props) {
-    const groupPermissionsMap: Record<string, GroupPermissions> = {};
-    [...ownProps.groups].forEach((g) => {
-        groupPermissionsMap[g.id] = {
-            can_delete: haveIGroupPermission(state, g.id, Permissions.DELETE_CUSTOM_GROUP),
-            can_manage_members: haveIGroupPermission(state, g.id, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS),
-        };
-    });
-
+function mapStateToProps(state: GlobalState) {
+    const groupPermissionsMap = getGroupListPermissions(state);
     return {
         groupPermissionsMap,
     };

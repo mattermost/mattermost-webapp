@@ -25,12 +25,11 @@ describe('Messaging', () => {
         // # Move the cursor to the middle of the text.
         cy.get('#post_textbox').type('{leftarrow}{leftarrow}{leftarrow}{leftarrow}{leftarrow}{leftarrow}');
 
-        // # Select the grinning emoji from the emoji picker.
+        // # Open emoji picker
         cy.uiOpenEmojiPicker();
-        cy.findAllByTestId('emojiItem').
-            findByRole('button', {name: 'grinning emoji'}).
-            should('exist').
-            click({force: true});
+
+        // # Select the grinning emoji from the emoji picker.
+        cy.clickEmojiInEmojiPicker('grinning');
 
         // * The emoji should be inserted where the cursor is at the time of selection.
         cy.get('#post_textbox').should('have.value', 'Hello :grinning: World!');

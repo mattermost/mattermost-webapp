@@ -409,6 +409,8 @@ t('admin.permissions.permission.playbook_private_manage_properties.name');
 t('admin.permissions.permission.playbook_private_manage_properties.description');
 t('admin.permissions.permission.playbook_private_manage_members.name');
 t('admin.permissions.permission.playbook_private_manage_members.description');
+t('admin.permissions.permission.playbook_private_make_public.name');
+t('admin.permissions.permission.playbook_private_make_public.description');
 t('admin.permissions.group.runs.name');
 t('admin.permissions.group.runs.description');
 t('admin.permissions.permission.run_create.name');

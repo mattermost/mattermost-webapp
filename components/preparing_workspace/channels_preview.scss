@@ -1,11 +1,11 @@
 @import 'utils/mixins';
 
 .ChannelsPreview-body {
-    position: fixed;
+    position: absolute;
     // 50vh for midscreen, 230px to center the main content,
     // because the whole SVG contains some extra padding on bottom to account for shadow.
     top: calc(50vh - 230px);
-    right: -150px;
+    right: -400px;
 }
 
 @include simple-in-and-out-before("ChannelsPreview");
@@ -37,5 +37,13 @@
 
     &-exit-done {
         transform: translateX(100vw);
+    }
+}
+
+// hide preview if it will overlay main interactive elements,
+// in either channels or invite team members step
+@media screen and (max-width: 950px) {
+    .ChannelsPreview-body {
+        display: none;
     }
 }

@@ -50,9 +50,7 @@ describe('Emoji reactions to posts/messages in GM channels', () => {
             cy.clickPostReactionIcon(postId);
 
             // # Choose "slightly_frowning_face" emoji
-            cy.findByTestId('slightly_frowning_face').
-                should('exist').
-                click({force: true});
+            cy.clickEmojiInEmojiPicker('slightly_frowning_face');
 
             // * The number shown on the reaction is incremented by 1
             cy.get(`#postReaction-${postId}-slightly_frowning_face .Reaction__number--display`).
