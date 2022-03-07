@@ -20,7 +20,7 @@ interface Props {
 
 const Icon = styled.i`
     font-size:12px;
-`
+`;
 
 const Header = ({channel, isArchived, onClose}: Props) => {
     const closeSidebarTooltip = (
