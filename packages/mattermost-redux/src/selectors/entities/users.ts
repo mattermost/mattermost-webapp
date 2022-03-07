@@ -77,6 +77,10 @@ export function getUserIdsInGroups(state: GlobalState): RelationOneToMany<Group,
     return state.entities.users.profilesInGroup;
 }
 
+export function getUserIdsNotInGroups(state: GlobalState): RelationOneToMany<Group, UserProfile> {
+    return state.entities.users.profilesNotInGroup;
+}
+
 export function getUserStatuses(state: GlobalState): RelationOneToOne<UserProfile, string> {
     return state.entities.users.statuses;
 }
@@ -668,6 +672,17 @@ export const getProfilesInGroup: (state: GlobalState, groupId: Group['id'], filt
     },
 );
 
+export const getProfilesNotInCurrentGroup: (state: GlobalState, groupId: Group['id'], filters?: Filters) => UserProfile[] = createSelector(
+    'getProfilesNotInGroup',
+    getUsers,
+    getUserIdsNotInGroups,
+    (state: GlobalState, groupId: string) => groupId,
+    (state: GlobalState, groupId: string, filters: Filters) => filters,
+    (profiles, usersNotInGroups, groupId, filters) => {
+        return sortAndInjectProfiles(filterProfiles(profiles, filters), usersNotInGroups[groupId] || new Set());
+    },
+);
+
 export function searchProfilesInGroup(state: GlobalState, groupId: Group['id'], term: string, skipCurrent = false, filters?: Filters): UserProfile[] {
     const profiles = filterProfilesStartingWithTerm(getProfilesInGroup(state, groupId, filters), term);
     if (skipCurrent) {
@@ -676,3 +691,26 @@ export function searchProfilesInGroup(state: GlobalState, groupId: Group['id'], 
 
     return profiles;
 }
+
+export function checkIsFirstAdmin(currentUser: UserProfile, users: IDMappedObjects<UserProfile>): boolean {
+    if (!currentUser) {
+        return false;
+    }
+    if (!currentUser.roles.includes('system_admin')) {
+        return false;
+    }
+    for (const user of Object.values(users)) {
+        if (user.roles.includes('system_admin') && user.create_at < currentUser.create_at) {
+            // If the user in the list is an admin with create_at less than our user, than that user is older than the current one, so it can't be the first admin.
+            return false;
+        }
+    }
+    return true;
+}
+
+export const isFirstAdmin = createSelector(
+    'isFirstAdmin',
+    (state: GlobalState) => getCurrentUser(state),
+    (state: GlobalState) => getUsers(state),
+    checkIsFirstAdmin,
+);

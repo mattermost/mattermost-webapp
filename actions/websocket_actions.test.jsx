@@ -71,6 +71,11 @@ jest.mock('actions/views/channel', () => ({
     syncPostsInChannel: jest.fn(),
 }));
 
+jest.mock('plugins', () => ({
+    ...jest.requireActual('plugins'),
+    loadPluginsIfNecessary: jest.fn(() => Promise.resolve()),
+}));
+
 jest.mock('utils/browser_history');
 
 const mockState = {
@@ -99,7 +104,9 @@ const mockState = {
             },
         },
         general: {
-            config: {},
+            config: {
+                PluginsEnabled: 'true',
+            },
         },
         channels: {
             currentChannelId: 'otherChannel',

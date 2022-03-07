@@ -44,7 +44,7 @@ import {
     decrementThreadCounts,
 } from 'mattermost-redux/actions/threads';
 
-import {setServerVersion} from 'mattermost-redux/actions/general';
+import {setServerVersion, getClientConfig} from 'mattermost-redux/actions/general';
 import {
     getCustomEmojiForReaction,
     getPosts,
@@ -158,7 +158,7 @@ export function initialize() {
     WebSocketClient.setEventCallback(handleEvent);
     WebSocketClient.setFirstConnectCallback(handleFirstConnect);
     WebSocketClient.setReconnectCallback(() => reconnect(false));
-    WebSocketClient.setMissedEventCallback(() => reconnect(false));
+    WebSocketClient.setMissedEventCallback(restart);
     WebSocketClient.setCloseCallback(handleClose);
     WebSocketClient.initialize(connUrl);
 }
@@ -180,6 +180,13 @@ export function registerPluginReconnectHandler(pluginId, handler) {
 
 export function unregisterPluginReconnectHandler(pluginId) {
     Reflect.deleteProperty(pluginReconnectHandlers, pluginId);
+}
+
+function restart() {
+    reconnect(false);
+
+    // We fetch the client config again on the server restart.
+    dispatch(getClientConfig());
 }
 
 export function reconnect(includeWebSocket = true) {
@@ -471,6 +478,14 @@ export function handleEvent(msg) {
 
     case SocketEvents.RECEIVED_GROUP:
         handleGroupUpdatedEvent(msg);
+        break;
+
+    case SocketEvents.GROUP_MEMBER_ADD:
+        dispatch(handleGroupAddedMemberEvent(msg));
+        break;
+
+    case SocketEvents.GROUP_MEMBER_DELETED:
+        dispatch(handleGroupDeletedMemberEvent(msg));
         break;
 
     case SocketEvents.RECEIVED_GROUP_ASSOCIATED_TO_TEAM:
@@ -1299,16 +1314,48 @@ function handleOpenDialogEvent(msg) {
 
 function handleGroupUpdatedEvent(msg) {
     const data = JSON.parse(msg.data.group);
-    dispatch(batchActions([
+    dispatch(
         {
-            type: GroupTypes.RECEIVED_GROUP,
+            type: GroupTypes.PATCHED_GROUP,
             data,
         },
-        {
-            type: GroupTypes.RECEIVED_MY_GROUPS,
-            data: [data],
-        },
-    ]));
+    );
+}
+
+function handleGroupAddedMemberEvent(msg) {
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+        const currentUserId = getCurrentUserId(state);
+        const data = JSON.parse(msg.data.group_member);
+
+        if (currentUserId === data.user_id) {
+            dispatch(
+                {
+                    type: GroupTypes.ADD_MY_GROUP,
+                    data,
+                    id: data.group_id,
+                },
+            );
+        }
+    };
+}
+
+function handleGroupDeletedMemberEvent(msg) {
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+        const currentUserId = getCurrentUserId(state);
+        const data = JSON.parse(msg.data.group_member);
+
+        if (currentUserId === data.user_id) {
+            dispatch(
+                {
+                    type: GroupTypes.REMOVE_MY_GROUP,
+                    data,
+                    id: data.group_id,
+                },
+            );
+        }
+    };
 }
 
 function handleGroupAssociatedToTeamEvent(msg) {

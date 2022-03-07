@@ -1,19 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import XRegExp from 'xregexp';
-
 import {getSuggestionsSplitBy, getSuggestionsSplitByMultiple} from 'mattermost-redux/utils/user_utils';
+import {makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
+import {makeAddLastViewAtToProfiles} from 'mattermost-redux/selectors/entities/utils';
 
+import store from 'stores/redux_store';
 import {Constants} from 'utils/constants';
 
 import Provider from '../provider.jsx';
 
 import AtMentionSuggestion from './at_mention_suggestion.jsx';
 
+const profilesInChannelOptions = {active: true};
+const regexForAtMention = /(?:^|\W)@([\p{L}\d\-_. ]*)$/iu;
+
 // The AtMentionProvider provides matches for at mentions, including @here, @channel, @all,
 // users in the channel and users not in the channel. It mixes together results from the local
-// store with results fetch from the server.
+// store with results fetched from the server.
 export default class AtMentionProvider extends Provider {
     constructor(props) {
         super();
@@ -24,13 +28,15 @@ export default class AtMentionProvider extends Provider {
         this.lastCompletedWord = '';
         this.lastPrefixWithNoResults = '';
         this.triggerCharacter = '@';
+        this.getProfilesInChannel = makeGetProfilesInChannel();
+        this.addLastViewAtToProfiles = makeAddLastViewAtToProfiles();
     }
 
     // setProps gives the provider additional context for matching pretexts. Ideally this would
     // just be something akin to a connected component with access to the store itself.
-    setProps({currentUserId, profilesInChannel, autocompleteUsersInChannel, useChannelMentions, autocompleteGroups, searchAssociatedGroupsForReference, priorityProfiles}) {
+    setProps({currentUserId, channelId, autocompleteUsersInChannel, useChannelMentions, autocompleteGroups, searchAssociatedGroupsForReference, priorityProfiles}) {
         this.currentUserId = currentUserId;
-        this.profilesInChannel = profilesInChannel;
+        this.channelId = channelId;
         this.autocompleteUsersInChannel = autocompleteUsersInChannel;
         this.useChannelMentions = useChannelMentions;
         this.autocompleteGroups = autocompleteGroups;
@@ -115,9 +121,18 @@ export default class AtMentionProvider extends Provider {
         return groupSuggestions.some((suggestion) => suggestion.startsWith(prefixLower));
     }
 
+    getProfilesWithLastViewAtInChannel() {
+        const state = store.getState();
+
+        const profilesInChannel = this.getProfilesInChannel(state, this.channelId, profilesInChannelOptions);
+        const profilesWithLastViewAtInChannel = this.addLastViewAtToProfiles(state, profilesInChannel);
+
+        return profilesWithLastViewAtInChannel;
+    }
+
     // localMembers matches up to 25 local results from the store before the server has responded.
     localMembers() {
-        const localMembers = this.profilesInChannel.
+        const localMembers = this.getProfilesWithLastViewAtInChannel().
             filter((profile) => this.filterProfile(profile)).
             map((profile) => this.createFromProfile(profile, Constants.MENTION_MEMBERS)).
             splice(0, 25);
@@ -299,7 +314,7 @@ export default class AtMentionProvider extends Provider {
     }
 
     handlePretextChanged(pretext, resultCallback) {
-        const captured = XRegExp.cache('(?:^|\\W)@([\\pL\\d\\-_. ]*)$', 'i').exec(pretext.toLowerCase());
+        const captured = regexForAtMention.exec(pretext.toLowerCase());
         if (!captured) {
             return false;
         }
@@ -337,13 +352,10 @@ export default class AtMentionProvider extends Provider {
             if (showLoadingIndicator) {
                 clearTimeout(showLoadingIndicator);
             }
-
             if (this.shouldCancelDispatch(prefix)) {
                 return;
             }
-
             this.data = data;
-
             this.searchAssociatedGroupsForReference(prefix).then((groupsData) => {
                 if (this.data && groupsData && groupsData.data) {
                     this.data.groups = groupsData.data;

@@ -9,7 +9,7 @@ import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles'
 import {Permissions} from 'mattermost-redux/constants';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {canManageMembers} from 'utils/channel_utils.jsx';
+import {canManageMembers} from 'utils/channel_utils';
 
 import ChannelMembersDropdown from './channel_members_dropdown.jsx';
 

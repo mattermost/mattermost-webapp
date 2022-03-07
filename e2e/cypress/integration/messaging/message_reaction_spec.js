@@ -44,9 +44,7 @@ describe('Emoji reactions to posts/messages', () => {
             cy.clickPostReactionIcon(postId);
 
             // # Choose "slightly_frowning_face" emoji
-            cy.findByTestId('slightly_frowning_face').
-                should('exist').
-                click({force: true});
+            cy.clickEmojiInEmojiPicker('slightly_frowning_face');
 
             // * The number shown on the reaction is incremented by 1
             cy.get(`#postReaction-${postId}-slightly_frowning_face .Reaction__number--display`).
@@ -117,9 +115,7 @@ describe('Emoji reactions to posts/messages', () => {
             cy.get('#emojiPicker').should('be.visible');
 
             // # Select the "sweat_smile" emoji
-            cy.findByTestId('sweat_smile').
-                should('exist').
-                click({force: true});
+            cy.clickEmojiInEmojiPicker('sweat_smile');
 
             // * The emoji picker is no longer open
             cy.get('#emojiPicker').should('not.exist');
