@@ -3,7 +3,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import {FormattedMessage, useIntl} from 'react-intl';
+import {useIntl} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import Markdown from 'components/markdown';
@@ -30,13 +30,6 @@ const ChannelHeader = styled.div`
     margin-bottom: 12px;
 `;
 
-const EmptyPlace = styled.div`
-    padding: 0px;
-    background: transparent;
-    border: 0px;
-    color: rgba(var(--center-channel-text-rgb), 0.64);
-`;
-
 interface Props {
     channel: Channel;
     channelURL: string;
@@ -56,7 +49,7 @@ const AboutAreaChannel = ({channel, channelURL, canEditChannelProperties, action
             <ChannelPurpose>
                 <EditableArea
                     editable={canEditChannelProperties}
-                    content={channel.purpose ? (
+                    content={channel.purpose && (
                         <LineLimiter
                             maxLines={3}
                             lineHeight={20}
@@ -65,29 +58,15 @@ const AboutAreaChannel = ({channel, channelURL, canEditChannelProperties, action
                         >
                             <Markdown message={channel.purpose}/>
                         </LineLimiter>
-                    ) : (
-                        <EmptyPlace>
-                            {canEditChannelProperties ? (
-                                <FormattedMessage
-                                    id='channel_info_rhs.about_area.add_channel_purpose'
-                                    defaultMessage='Add a channel purpose'
-                                />
-                            ) : (
-                                <FormattedMessage
-                                    id='channel_info_rhs.about_area.no_channel_purpose'
-                                    defaultMessage='No channel purpose'
-                                />
-
-                            )}
-                        </EmptyPlace>
                     )}
                     onEdit={actions.editChannelPurpose}
+                    emptyLabel={formatMessage({id: 'channel_info_rhs.about_area.add_channel_purpose', defaultMessage: 'Add a channel purpose'})}
                 />
             </ChannelPurpose>
 
             <ChannelHeader>
                 <EditableArea
-                    content={channel.header ? (
+                    content={channel.header && (
                         <LineLimiter
                             maxLines={3}
                             lineHeight={20}
@@ -96,24 +75,10 @@ const AboutAreaChannel = ({channel, channelURL, canEditChannelProperties, action
                         >
                             <Markdown message={channel.header}/>
                         </LineLimiter>
-                    ) : (
-                        <EmptyPlace>
-                            {canEditChannelProperties ? (
-                                <FormattedMessage
-                                    id='channel_info_rhs.about_area.add_channel_header'
-                                    defaultMessage='Add a channel header'
-                                />
-                            ) : (
-                                <FormattedMessage
-                                    id='channel_info_rhs.about_area.no_channel_header'
-                                    defaultMessage='No channel header'
-                                />
-
-                            )}
-                        </EmptyPlace>
                     )}
                     editable={canEditChannelProperties}
                     onEdit={actions.editChannelHeader}
+                    emptyLabel={formatMessage({id: 'channel_info_rhs.about_area.add_channel_header', defaultMessage: 'Add a channel header'})}
                 />
             </ChannelHeader>
 

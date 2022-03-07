@@ -22,19 +22,45 @@ const EditButton = styled.button`
     }
 `;
 
+const EmptyPlace = styled.button`
+    padding: 0px;
+    background: transparent;
+    border: 0px;
+    color: rgba(var(--center-channel-text-rgb), 0.64);
+    i {
+        display: none;
+        font-size: 14px;
+        margin-left: 4px;
+    }
+    &:hover i {
+        display: inline-block;
+    }
+`;
+
 interface EditableAreaProps {
     editable: boolean;
-    content: JSX.Element;
+    content: React.ReactNode;
+    emptyLabel: string;
     onEdit: () => void;
     className?: string;
 }
 
-const editableArea = ({editable, content, onEdit, className}: EditableAreaProps) => {
+const editableArea = ({editable, content, emptyLabel, onEdit, className}: EditableAreaProps) => {
+    const allowEditArea = editable && content;
+
     return (
         <div className={className}>
-            <div className='EditableArea__content'>{content}</div>
+            <div className='EditableArea__content'>
+                {content}
+                {!content && editable && (
+                    <EmptyPlace onClick={onEdit}>
+                        {emptyLabel}
+                        <i className='icon icon-pencil-outline edit-icon'/>
+                    </EmptyPlace>
+                )}
+            </div>
             <div className='EditableArea__edit'>
-                {editable ? (<EditButton onClick={onEdit}><i className='icon icon-pencil-outline'/></EditButton>) : ''}
+                {allowEditArea ? (<EditButton onClick={onEdit}><i className='icon icon-pencil-outline'/></EditButton>) : ''}
             </div>
         </div>
     );

@@ -3,7 +3,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import {FormattedMessage, useIntl} from 'react-intl';
+import {useIntl} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import Markdown from 'components/markdown';
@@ -53,13 +53,6 @@ const ChannelHeader = styled.div`
     margin-bottom: 12px;
 `;
 
-const EmptyPlace = styled.div`
-    padding: 0px;
-    background: transparent;
-    border: 0px;
-    color: rgba(var(--center-channel-text-rgb), 0.64);
-`;
-
 interface Props {
     channel: Channel;
     gmUsers: UserProfile[];
@@ -107,7 +100,7 @@ const AboutAreaGM = ({channel, gmUsers, actions}: Props) => {
 
             <ChannelHeader>
                 <EditableArea
-                    content={channel.header ? (
+                    content={channel.header && (
                         <LineLimiter
                             maxLines={3}
                             lineHeight={20}
@@ -116,16 +109,10 @@ const AboutAreaGM = ({channel, gmUsers, actions}: Props) => {
                         >
                             <Markdown message={channel.header}/>
                         </LineLimiter>
-                    ) : (
-                        <EmptyPlace>
-                            <FormattedMessage
-                                id='channel_info_rhs.about_area.add_channel_header'
-                                defaultMessage='Add a channel header'
-                            />
-                        </EmptyPlace>
                     )}
                     editable={true}
                     onEdit={actions.editChannelHeader}
+                    emptyLabel={formatMessage({id: 'channel_info_rhs.about_area.add_channel_header', defaultMessage: 'Add a channel header'})}
                 />
             </ChannelHeader>
         </>
