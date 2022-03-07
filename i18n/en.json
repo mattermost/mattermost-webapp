@@ -2752,6 +2752,7 @@
   "channel_info_rhs.about_area.channel_header.line_limiter.more": "... more",
   "channel_info_rhs.about_area.channel_purpose.line_limiter.less": "less",
   "channel_info_rhs.about_area.channel_purpose.line_limiter.more": "... more",
+  "channel_info_rhs.edit_link": "Edit",
   "channel_info_rhs.header.title": "Info",
   "channel_info_rhs.menu.notification_preferences": "Notification Preferences",
   "channel_info_rhs.top_buttons.add_people": "Add People",

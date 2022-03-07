@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 
 const EditButton = styled.button`
@@ -46,6 +47,8 @@ interface EditableAreaProps {
 }
 
 const editableArea = ({editable, content, emptyLabel, onEdit, className}: EditableAreaProps) => {
+    const {formatMessage} = useIntl();
+
     const allowEditArea = editable && content;
 
     return (
@@ -53,14 +56,24 @@ const editableArea = ({editable, content, emptyLabel, onEdit, className}: Editab
             <div className='EditableArea__content'>
                 {content}
                 {!content && editable && (
-                    <EmptyPlace onClick={onEdit}>
+                    <EmptyPlace
+                        onClick={onEdit}
+                        aria-label={formatMessage({id: 'channel_info_rhs.edit_link', defaultMessage: 'Edit'})}
+                    >
                         {emptyLabel}
                         <i className='icon icon-pencil-outline edit-icon'/>
                     </EmptyPlace>
                 )}
             </div>
             <div className='EditableArea__edit'>
-                {allowEditArea ? (<EditButton onClick={onEdit}><i className='icon icon-pencil-outline'/></EditButton>) : ''}
+                {allowEditArea ? (
+                    <EditButton
+                        onClick={onEdit}
+                        aria-label={formatMessage({id: 'channel_info_rhs.edit_link', defaultMessage: 'Edit'})}
+                    >
+                        <i className='icon icon-pencil-outline'/>
+                    </EditButton>
+                ) : ''}
             </div>
         </div>
     );
