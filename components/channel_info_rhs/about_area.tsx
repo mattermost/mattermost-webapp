@@ -8,7 +8,7 @@ import Constants from 'utils/constants';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {DMUser} from './rhs';
+import {DMUser} from './channel_info_rhs';
 import AboutAreaDM from './about_area_dm';
 import AboutAreaGM from './about_area_gm';
 import AboutAreaChannel from './about_area_channel';

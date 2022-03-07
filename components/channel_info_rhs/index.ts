@@ -26,7 +26,7 @@ import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles'
 import {Permissions} from 'mattermost-redux/constants';
 import {Channel} from 'mattermost-redux/types/channels';
 
-import RHS, {Props} from './rhs';
+import RHS, {Props} from './channel_info_rhs';
 
 function mapStateToProps(state: GlobalState) {
     const channel = getCurrentChannel(state);

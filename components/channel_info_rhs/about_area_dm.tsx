@@ -12,7 +12,7 @@ import {Client4} from 'mattermost-redux/client';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 
-import {DMUser} from './rhs';
+import {DMUser} from './channel_info_rhs';
 import LineLimiter from './components/linelimiter';
 import EditableArea from './components/editable_area';
 
