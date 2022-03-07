@@ -812,10 +812,10 @@ describe('Messaging', () => {
 
         // # Channel URL is listed
         cy.url().then((loc) => {
-            cy.contains('div.info__value', loc).should('be.visible').then((el) => {
+            cy.contains('div[class^="ChannelLink"]', loc).should('be.visible').then((el) => {
                 const channelUrl = el.text();
 
-                // # Close the modal
+                // # Close the rhs
                 cy.findAllByLabelText('Close').should('be.visible').first().click();
 
                 // # Post message containing channel link

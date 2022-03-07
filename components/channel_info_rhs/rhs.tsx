@@ -136,6 +136,7 @@ const ChannelInfoRhs = ({
         >
             <Header
                 channel={channel}
+                isArchived={isArchived}
                 onClose={actions.closeRightHandSide}
             />
 

@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import styled from 'styled-components';
 
 import Constants from 'utils/constants';
 import {Channel} from 'mattermost-redux/types/channels';
@@ -13,10 +14,15 @@ import {t} from 'utils/i18n';
 
 interface Props {
     channel: Channel;
+    isArchived: boolean;
     onClose: () => void;
 }
 
-const Header = ({channel, onClose}: Props) => {
+const Icon = styled.i`
+    font-size:12px;
+`
+
+const Header = ({channel, isArchived, onClose}: Props) => {
     const closeSidebarTooltip = (
         <Tooltip id='closeSidebarTooltip'>
             <FormattedMessage
@@ -37,6 +43,7 @@ const Header = ({channel, onClose}: Props) => {
                 <span
                     className='style--none sidebar--right__title__subtitle'
                 >
+                    {isArchived && (<Icon className='icon icon-archive-outline'/>)}
                     {channel.display_name}
                 </span>
                 }

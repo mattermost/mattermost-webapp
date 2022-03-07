@@ -48,12 +48,12 @@ describe('Leave an archived channel', () => {
             cy.uiOpenChannelMenu('View Info');
 
             // * Channel title is shown with archived icon
-            cy.get('#channelInfoModalLabel span.icon__archive').should('be.visible');
-            cy.contains('#channelInfoModalLabel strong', `${channel.display_name}`).should('be.visible');
+            cy.get('.sidebar--right__header i.icon-archive-outline').should('be.visible');
+            cy.contains('.sidebar--right__header', `${channel.display_name}`).should('be.visible');
 
             // * Channel URL is listed (non-linked text)
             cy.url().then((loc) => {
-                cy.contains('div.info__value', loc).should('be.visible');
+                cy.contains('div[class^="ChannelLink"]', loc).should('be.visible');
             });
         });
     });
