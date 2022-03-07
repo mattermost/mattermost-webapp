@@ -9,7 +9,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 import Markdown from 'components/markdown';
 
 import LineLimiter from './components/linelimiter';
-import EditableArea from './components/EditableArea';
+import EditableArea from './components/editable_area';
 
 const ChannelLink = styled.div`
     margin-bottom: 12px;

@@ -44,6 +44,9 @@ const EditableArea = styled(editableArea)`
     display: flex;
     &>.EditableArea__content {
         flex: 1;
+        p:last-child {
+            margin-bottom:0;
+        }
     }
     &:hover {
         &>.EditableArea__edit {

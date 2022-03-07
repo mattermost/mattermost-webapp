@@ -30,6 +30,7 @@ const Divider = styled.div`
 
 export interface DMUser {
     user: UserProfile;
+    display_name: string;
     is_guest: boolean;
     status: string;
 }

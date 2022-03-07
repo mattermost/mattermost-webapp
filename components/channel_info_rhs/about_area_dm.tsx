@@ -14,7 +14,7 @@ import GuestBadge from 'components/widgets/badges/guest_badge';
 
 import {DMUser} from './rhs';
 import LineLimiter from './components/linelimiter';
-import EditableArea from './components/EditableArea';
+import EditableArea from './components/editable_area';
 
 const Username = styled.p`
     font-family: Metropolis, sans-serif;
@@ -59,6 +59,9 @@ const UsernameContainer = styled.div`
 
 const UserPosition = styled.div`
     line-height: 20px;
+    p {
+        margin-bottom: 0px;
+    }
 `;
 
 const EmptyPlace = styled.div`
@@ -97,7 +100,7 @@ const AboutAreaDM = ({channel, dmUser, actions}: Props) => {
                 </UserAvatar>
                 <UserInfo>
                     <UsernameContainer>
-                        <Username>{dmUser.user.username}</Username>
+                        <Username>{dmUser.display_name}</Username>
                         {dmUser.user.is_bot && <BotBadge/>}
                         {dmUser.is_guest && <GuestBadge/>}
                     </UsernameContainer>

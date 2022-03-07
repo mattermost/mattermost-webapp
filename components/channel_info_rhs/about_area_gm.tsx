@@ -12,7 +12,7 @@ import ProfilePicture from 'components/profile_picture';
 import {Client4} from 'mattermost-redux/client';
 import UserProfileElement from 'components/user_profile';
 
-import EditableArea from './components/EditableArea';
+import EditableArea from './components/editable_area';
 import LineLimiter from './components/linelimiter';
 
 const Usernames = styled.p`

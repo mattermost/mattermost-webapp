@@ -21,7 +21,6 @@ const lineLimiter = ({children, maxLines, lineHeight, moreText, lessText, classN
     const ref = useRef<HTMLDivElement>(null);
 
     const maxLineHeight = maxLines * lineHeight;
-    const lineHeightMinusOne = lineHeight - 1;
 
     useEffect(() => {
         if (ref === null || ref.current === null) {
@@ -29,13 +28,14 @@ const lineLimiter = ({children, maxLines, lineHeight, moreText, lessText, classN
         }
 
         const contentHeight = ref.current.scrollHeight;
-        if (contentHeight > (maxLineHeight + lineHeightMinusOne)) {
+        console.log(contentHeight, maxLineHeight, lineHeight)
+        if (contentHeight > (maxLineHeight)) {
             setNeedLimiter(true);
 
             if (open) {
                 setMaxHeight(`${contentHeight + lineHeight}px`);
             } else {
-                setMaxHeight(`${maxLines * lineHeight}px`);
+                setMaxHeight(`${maxLineHeight}px`);
             }
         } else {
             setNeedLimiter(false);
@@ -58,8 +58,8 @@ const lineLimiter = ({children, maxLines, lineHeight, moreText, lessText, classN
                 className={displayClass}
                 css={{maxHeight}}
             >
-                <div ref={ref}>
-                    {children}
+                <div>
+                    <div ref={ref}>{children}</div>
                     {needLimiter && open && (
                         <button
                             className='LineLimiter__toggler'
@@ -117,7 +117,6 @@ const LineLimiter = styled(lineLimiter)<LineLimiterProps>`
             transition: opacity 150ms;
         }
     }
-
 
     button {
         border: 0px;

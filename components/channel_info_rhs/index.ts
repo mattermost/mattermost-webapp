@@ -18,7 +18,7 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {unfavoriteChannel, favoriteChannel} from 'mattermost-redux/actions/channels';
 import {muteChannel, unmuteChannel} from 'actions/channel_actions';
 import {openModal} from 'actions/views/modals';
-import {getUserIdFromChannelId} from 'utils/utils';
+import { getDisplayNameByUser, getUserIdFromChannelId} from 'utils/utils';
 import {getProfilesInCurrentChannel, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
@@ -62,6 +62,7 @@ function mapStateToProps(state: GlobalState) {
         const user = getUser(state, getUserIdFromChannelId(channel.name, currentUser.id));
         props.dmUser = {
             user,
+            display_name: getDisplayNameByUser(state, user),
             is_guest: isGuest(user.roles),
             status: getStatusForUserId(state, user.id),
         };
