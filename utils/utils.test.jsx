@@ -731,41 +731,6 @@ describe('Utils.isDevMode', () => {
     });
 });
 
-describe('Utils.enableDevModeFeatures', () => {
-    const cleanUp = () => {
-        delete Map.prototype.length;
-        delete Set.prototype.length;
-    };
-
-    beforeEach(cleanUp);
-    afterEach(cleanUp);
-
-    describe('with DevModeFeatures', () => {
-        beforeEach(cleanUp);
-        afterEach(cleanUp);
-
-        test('invoke Map.Length', () => {
-            Utils.enableDevModeFeatures();
-            expect(() => new Map().length).toThrow(Error);
-        });
-
-        test('invoke Set.Length', () => {
-            Utils.enableDevModeFeatures();
-            expect(() => new Set().length).toThrow(Error);
-        });
-    });
-
-    describe('without DevModeFeatures', () => {
-        test('invoke Map.Length', () => {
-            expect(new Map().length).toEqual(undefined);
-        });
-
-        test('invoke Set.Length', () => {
-            expect(new Set().length).toEqual(undefined);
-        });
-    });
-});
-
 describe('Utils.imageURLForUser', () => {
     test('should return url when user id and last_picture_update is given', () => {
         const imageUrl = Utils.imageURLForUser('foobar-123', 123456);
