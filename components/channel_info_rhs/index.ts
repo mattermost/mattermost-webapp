@@ -24,13 +24,32 @@ import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
+import {Channel} from 'mattermost-redux/types/channels';
 
-import RHS, {ChannelInfoRhsProps} from './rhs';
+import RHS, {Props} from './rhs';
 
 function mapStateToProps(state: GlobalState) {
     const channel = getCurrentChannel(state);
     const currentUser = getCurrentUser(state);
     const currentTeam = getCurrentTeam(state);
+
+    // When we come back from the System console,
+    // there's a few ms when we don't have a current channel yet
+    if (!channel) {
+        return {
+            channel: {} as Channel,
+            currentTeam,
+            currentUser,
+            isArchived: false,
+            isFavorite: false,
+            isMuted: false,
+            isInvitingPeople: false,
+            gmUsers: [],
+            isPrivate: false,
+            canManageMembers: false,
+            canManageProperties: false,
+        };
+    }
 
     const isArchived = isCurrentChannelArchived(state);
     const isFavorite = isCurrentChannelFavorite(state);
@@ -56,7 +75,7 @@ function mapStateToProps(state: GlobalState) {
         gmUsers,
         canManageMembers,
         canManageProperties,
-    } as ChannelInfoRhsProps;
+    } as Props;
 
     if (channel.type === Constants.DM_CHANNEL) {
         const user = getUser(state, getUserIdFromChannelId(channel.name, currentUser.id));

@@ -35,7 +35,7 @@ export interface DMUser {
     status: string;
 }
 
-export interface ChannelInfoRhsProps {
+export interface Props {
     channel: Channel;
     currentUser: UserProfile;
     currentTeam: Team;
@@ -74,7 +74,7 @@ const ChannelInfoRhs = ({
     canManageMembers,
     canManageProperties,
     actions,
-}: ChannelInfoRhsProps) => {
+}: Props) => {
     const currentUserId = currentUser.id;
     const channelURL = getSiteURL() + '/' + currentTeam.name + '/channels/' + channel.name;
 
