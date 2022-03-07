@@ -30,7 +30,6 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import UserProfile from 'components/user_profile';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
-import {Emoji} from 'mattermost-redux/types/emojis';
 import EditPost from 'components/edit_post';
 import AutoHeightSwitcher from 'components/common/auto_height_switcher';
 
@@ -74,7 +73,7 @@ export default class RhsRootPost extends React.PureComponent {
         isBot: PropTypes.bool,
         collapsedThreadsEnabled: PropTypes.bool,
         oneClickReactionsEnabled: PropTypes.bool,
-        recentEmojis: PropTypes.arrayOf(Emoji),
+        recentEmojis: PropTypes.arrayOf(PropTypes.object),
 
         isExpanded: PropTypes.bool,
 

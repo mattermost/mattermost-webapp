@@ -151,10 +151,15 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
 
     handleWindowResize = () => {
         const isMobile = Utils.isMobile();
+
         if (isMobile !== this.state.isMobile) {
             this.setState({
                 isMobile,
             });
+        }
+
+        if (this.state.userScrolledToBottom) {
+            this.scrollToBottom();
         }
     }
 
