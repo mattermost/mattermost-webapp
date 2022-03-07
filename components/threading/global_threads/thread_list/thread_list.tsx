@@ -225,7 +225,7 @@ const ThreadList = ({
                     selectedThreadId={selectedThreadId}
                     total={unread ? totalUnread : total}
                     isLoading={isLoading}
-                    hasLoaded={hasLoaded}
+                    addNoMoreResultsItem={hasLoaded && !unread}
                 />
                 {showListTutorialTip && !isMobileView && <CRTListTutorialTip autoTour={tutorialTipAutoTour}/>}
                 {unread && !someUnread && isEmpty(unreadIds) ? (
