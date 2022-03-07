@@ -82,8 +82,8 @@ const ThreadList = ({
         if (tagName === 'input' || tagName === 'textarea' || tagName === 'select') {
             return;
         }
-
-        if (!Utils.isKeyPressed(e, Constants.KeyCodes.DOWN) && !Utils.isKeyPressed(e, Constants.KeyCodes.UP)) {
+        const comboKeyPressed = e.altKey || e.metaKey || e.shiftKey || e.ctrlKey;
+        if (comboKeyPressed || (!Utils.isKeyPressed(e, Constants.KeyCodes.DOWN) && !Utils.isKeyPressed(e, Constants.KeyCodes.UP))) {
             return;
         }
 
