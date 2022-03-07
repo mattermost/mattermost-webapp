@@ -3,9 +3,13 @@
 
 import React from 'react';
 
-export default () => (
+type Props = {
+    width?: number;
+}
+
+export default (props: Props) => (
     <svg
-        width='210'
+        width={props.width?.toString() || '210'}
         height='200'
         viewBox='0 0 210 200'
         fill='none'

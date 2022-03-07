@@ -30,3 +30,7 @@ export function getFirstChannelNameViews(state: GlobalState) {
 export function getFirstChannelName(state: GlobalState) {
     return getFirstChannelNameViews(state) || getFirstChannelNamePref(state)?.value || '';
 }
+
+export function getShowLaunchingWorkspace(state: GlobalState) {
+    return state.views.modals.showLaunchingWorkspace;
+}

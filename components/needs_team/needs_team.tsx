@@ -77,6 +77,9 @@ type Props = {
     plugins?: any;
     selectedThreadId: string | null;
     shouldShowAppBar: boolean;
+
+    // TODO@Michel: remove this line once the inline post editing feature is enabled by default
+    isInlinePostEditingEnabled: boolean;
 }
 
 type State = {
@@ -103,7 +106,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             const currentTime = (new Date()).getTime();
             if (currentTime > (lastTime + WAKEUP_THRESHOLD)) { // ignore small delays
                 console.log('computer woke up - fetching latest'); //eslint-disable-line no-console
-                reconnect(true);
+                reconnect(false);
             }
             lastTime = currentTime;
         }, WAKEUP_CHECK_INTERVAL);
@@ -330,6 +333,9 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                         <ChannelController
                             shouldShowAppBar={this.props.shouldShowAppBar}
                             fetchingChannels={!this.state.finishedFetchingChannels}
+
+                            // TODO@Michel: remove this prop once the inline post editing feature is enabled by default
+                            enableEditPostModal={!this.props.isInlinePostEditingEnabled}
                         />
                     )}
                 />

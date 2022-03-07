@@ -37,7 +37,7 @@ export function getJoinEmailTemplate(sender, userEmail, team, isGuest = false) {
         'Mattermost is a flexible, open source messaging platform that enables secure team collaboration.',
         'Learn more ( mattermost.com )',
         '',
-        '© 2021 Mattermost, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301',
+        '© 2022 Mattermost, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301',
     ];
 }
 
@@ -59,7 +59,7 @@ export function getMentionEmailTemplate(sender, message, postId, siteName, teamN
         'Want to change your notifications settings?',
         `Login to ${siteName} ( ${baseUrl} ) and go to Settings > Notifications`,
         '',
-        '© 2021 Mattermost, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301',
+        '© 2022 Mattermost, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301',
     ];
 }
 
@@ -74,7 +74,7 @@ export function getPasswordResetEmailTemplate() {
         '',
         'The password reset link expires in 24 hours.',
         '',
-        '© 2021 Mattermost, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301',
+        '© 2022 Mattermost, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301',
     ];
 }
 
@@ -91,7 +91,7 @@ export function getEmailVerifyEmailTemplate(userEmail) {
         'This email address was used to create an account with Mattermost.',
         'If it was not you, you can safely ignore this email.',
         '',
-        '© 2021 Mattermost, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301',
+        '© 2022 Mattermost, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301',
     ];
 }
 
@@ -113,7 +113,7 @@ export function getWelcomeEmailTemplate(userEmail, siteName, teamName) {
         '',
         'Download ( https://mattermost.com/download/#mattermostApps )',
         '',
-        '© 2021 Mattermost, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301',
+        '© 2022 Mattermost, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301',
     ];
 }
 

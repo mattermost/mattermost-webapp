@@ -7,7 +7,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: url('images/admin-onboarding-background.png');
+    background-image: url('images/admin-onboarding-background.jpg');
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
     text-align: center;
 }
 

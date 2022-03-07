@@ -16,6 +16,7 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 import './dnd_custom_time_picker_modal.scss';
 import {toUTCUnix} from 'utils/datetime';
+import {localizeMessage} from 'utils/utils';
 
 type Props = {
     onExited: () => void;
@@ -162,6 +163,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
 
         return (
             <GenericModal
+                ariaLabel={localizeMessage('dnd_custom_time_picker_modal.defaultMsg', 'Disable notifications until')}
                 onExited={this.props.onExited}
                 modalHeaderText={modalHeaderText}
                 confirmButtonText={confirmButtonText}

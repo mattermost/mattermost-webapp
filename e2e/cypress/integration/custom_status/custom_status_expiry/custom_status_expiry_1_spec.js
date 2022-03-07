@@ -106,4 +106,32 @@ describe('MM-T4063 Custom status expiry', () => {
         // * Correct clear time should be displayed in the status dropdown
         cy.get('.status-dropdown-menu .custom_status__expiry', {timeout: 40000}).should('not.exist');
     });
+
+    it('MM-T4063_7 current custom status should display expiry time in custom status modal', () => {
+        // # Open custom status modal
+        cy.get('#statusDropdownMenu li#status-menu-custom-status').click();
+        cy.get('#custom_status_modal').should('exist');
+
+        // * Should show expiry time of status when current status is selected
+        cy.get('#custom_status_modal .statusSuggestion__content').contains('span', customStatus.text).click();
+        cy.get('#custom_status_modal .expiry-value').should('have.text', expiresAt.format(expiryTimeFormat));
+
+        // # Close custom status modal
+        cy.get('#custom_status_modal .modal-header .close').click();
+    });
+
+    it('MM-T4063_8 previous custom status duration should be reset if custom status is expired', () => {
+        // # Forwarding the time by the duration of custom status
+        cy.clock(Date.now());
+        cy.tick(waitingTime * 60 * 1000);
+
+        // # Open custom status modal
+        cy.get('.status-dropdown-menu').click();
+        cy.get('#statusDropdownMenu li#status-menu-custom-status').click();
+        cy.get('#custom_status_modal').should('exist');
+
+        // * Should show duration of previous status when previous status is selected
+        cy.get('#custom_status_modal .statusSuggestion__content').contains('span', customStatus.text).click();
+        cy.get('#custom_status_modal .expiry-value').should('have.text', customStatus.duration);
+    });
 });

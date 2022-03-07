@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import deepEqual from 'fast-deep-equal';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -12,9 +14,10 @@ import classNames from 'classnames';
 import {rudderAnalytics, RudderTelemetryHandler} from 'mattermost-redux/client/rudder';
 import {Client4} from 'mattermost-redux/client';
 import {setUrl} from 'mattermost-redux/actions/general';
+import {General} from 'mattermost-redux/constants';
 import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, isCurrentUserSystemAdmin, checkIsFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions';
@@ -64,7 +67,6 @@ const LazyPreparingWorkspace = React.lazy(() => import('components/preparing_wor
 
 import store from 'stores/redux_store.jsx';
 import {getSiteURL} from 'utils/url';
-import {enableDevModeFeatures, isDevMode} from 'utils/utils';
 import A11yController from 'utils/a11y_controller';
 import TeamSidebar from 'components/team_sidebar';
 
@@ -117,11 +119,12 @@ export default class Root extends React.PureComponent {
             loadMeAndConfig: PropTypes.func.isRequired,
             emitBrowserWindowResized: PropTypes.func.isRequired,
             getFirstAdminSetupComplete: PropTypes.func.isRequired,
+            getProfiles: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
         products: PropTypes.array,
         showTaskList: PropTypes.bool,
-        showSetupTransitioning: PropTypes.bool,
+        showLaunchingWorkspace: PropTypes.bool,
     }
 
     constructor(props) {
@@ -177,10 +180,6 @@ export default class Root extends React.PureComponent {
     }
 
     onConfigLoaded = () => {
-        if (isDevMode()) {
-            enableDevModeFeatures();
-        }
-
         const telemetryId = this.props.telemetryId;
 
         let rudderKey = Constants.TELEMETRY_RUDDER_KEY;
@@ -298,7 +297,25 @@ export default class Root extends React.PureComponent {
         }
 
         const firstAdminSetupComplete = await this.props.actions.getFirstAdminSetupComplete();
-        if (!firstAdminSetupComplete?.data) {
+        if (firstAdminSetupComplete?.data) {
+            GlobalActions.redirectUserToDefaultTeam();
+            return;
+        }
+
+        const profilesResult = await this.props.actions.getProfiles(0, General.PROFILE_CHUNK_SIZE, {roles: General.SYSTEM_ADMIN_ROLE});
+        if (profilesResult.error) {
+            GlobalActions.redirectUserToDefaultTeam();
+            return;
+        }
+        const currentUser = getCurrentUser(store.getState());
+        const adminProfiles = profilesResult.data.reduce(
+            (acc, curr) => {
+                acc[curr.id] = curr;
+                return acc;
+            },
+            {},
+        );
+        if (checkIsFirstAdmin(currentUser, adminProfiles)) {
             this.props.history.push('/preparing-workspace');
             return;
         }
@@ -504,7 +521,7 @@ export default class Root extends React.PureComponent {
                         to={`/${this.props.permalinkRedirectTeamName}/pl/:postid`}
                     />
                     <CompassThemeProvider theme={this.props.theme}>
-                        {(this.props.showSetupTransitioning && !this.props.location.pathname.includes('/preparing-workspace') &&
+                        {(this.props.showLaunchingWorkspace && !this.props.location.pathname.includes('/preparing-workspace') &&
                             <LaunchingWorkspace
                                 fullscreen={true}
                                 zIndex={LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX}

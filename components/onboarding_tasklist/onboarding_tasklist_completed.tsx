@@ -1,12 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+import React, {useEffect} from 'react';
 import {CSSTransition} from 'react-transition-group';
 import styled from 'styled-components';
 
 import {FormattedMessage} from 'react-intl';
 
+import {useSelector, useDispatch} from 'react-redux';
+
 import completedImg from 'images/completed.svg';
+import StartTrialModal from 'components/start_trial_modal';
+
+import {trackEvent} from 'actions/telemetry_actions';
+import {openModal} from 'actions/views/modals';
+import {GlobalState} from 'mattermost-redux/types/store';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
+
+import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 
 const CompletedWrapper = styled.div`
     display: flex;
@@ -66,6 +77,33 @@ interface Props {
 const Completed = (props: Props): JSX.Element => {
     const {dismissAction} = props;
 
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getPrevTrialLicense());
+    }, []);
+
+    const prevTrialLicense = useSelector((state: GlobalState) => state.entities.admin.prevTrialLicense);
+    const license = useSelector(getLicense);
+    const isPrevLicensed = prevTrialLicense?.IsLicensed;
+    const isCurrentLicensed = license?.IsLicensed;
+
+    // Show this CTA if the instance is currently not licensed and has never had a trial license loaded before
+    const showStartTrialBtn = (isCurrentLicensed === 'false' && isPrevLicensed === 'false');
+
+    const openStartTrialModalAndDismiss = () => {
+        trackEvent(
+            TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
+            'open_start_trial_modal',
+        );
+        dispatch(openModal({
+            modalId: ModalIdentifiers.START_TRIAL_MODAL,
+            dialogType: StartTrialModal,
+        }));
+
+        props.dismissAction();
+    };
+
     return (
         <>
             <CSSTransition
@@ -100,12 +138,35 @@ const Completed = (props: Props): JSX.Element => {
                             />
                         </a>
                     </p>
-                    <button onClick={dismissAction}>
-                        <FormattedMessage
-                            id={'collapsed_reply_threads_modal.confirm'}
-                            defaultMessage='Got it'
-                        />
-                    </button>
+
+                    {showStartTrialBtn ? (
+                        <>
+                            <p>
+                                <FormattedMessage
+                                    id='onboardingTask.checklist.higher_security_features'
+                                    defaultMessage='Interested in our higher-security features?'
+                                /> <br/>
+                                <FormattedMessage
+                                    id='onboardingTask.checklist.start_enterprise_now'
+                                    defaultMessage='Start your free Enterprise trial now!'
+                                />
+                            </p>
+                            <button onClick={openStartTrialModalAndDismiss}>
+                                <FormattedMessage
+                                    id='start_trial.modal_btn.start'
+                                    defaultMessage='Start free 30-day trial'
+                                />
+                            </button>
+                        </>
+
+                    ) : (
+                        <button onClick={dismissAction}>
+                            <FormattedMessage
+                                id={'collapsed_reply_threads_modal.confirm'}
+                                defaultMessage='Got it'
+                            />
+                        </button>
+                    )}
                 </CompletedWrapper>
             </CSSTransition>
         </>
