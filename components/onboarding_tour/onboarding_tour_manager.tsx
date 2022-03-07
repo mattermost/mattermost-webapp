@@ -238,6 +238,7 @@ const useOnBoardingTourTipManager = (): OnBoardingTourTipManager => {
         handleEventPropagationAndDefault(e);
         handleHide();
         handleSaveDataAndTrackEvent(SKIPPED, 'skipped', false);
+        handleActions(SKIPPED, currentStep);
     }, [handleSaveDataAndTrackEvent, handleHide]);
 
     useEffect(() => {
