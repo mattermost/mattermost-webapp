@@ -132,6 +132,7 @@ export function trackPluginInitialization(plugins) {
 
     let startTime = Infinity;
     let endTime = 0;
+    let totalDuration = 0;
     let totalSize = 0;
 
     for (const plugin of plugins) {
@@ -145,12 +146,14 @@ export function trackPluginInitialization(plugins) {
 
         startTime = Math.min(resource.startTime, startTime);
         endTime = Math.max(resource.startTime + resource.duration, endTime);
+        totalDuration += resource.duration;
         totalSize += resource.encodedBodySize;
     }
 
     trackEvent('performance', 'plugins_load', {
         count: plugins.length,
         duration: endTime - startTime,
+        totalDuration,
         totalSize,
     });
 }
