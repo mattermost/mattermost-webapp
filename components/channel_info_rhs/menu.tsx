@@ -25,7 +25,6 @@ const MenuItemText = styled.div`
 
 interface MenuItemProps {
     className?: string;
-
     icon: JSX.Element;
     text: string;
     onClick: () => void;

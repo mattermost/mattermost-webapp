@@ -67,7 +67,6 @@ const Header = ({channel, isArchived, onClose}: Props) => {
                     />
                 </button>
             </OverlayTrigger>
-
         </div>
     );
 };

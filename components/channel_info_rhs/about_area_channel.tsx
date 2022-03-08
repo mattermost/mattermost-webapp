@@ -45,7 +45,6 @@ const AboutAreaChannel = ({channel, channelURL, canEditChannelProperties, action
 
     return (
         <>
-
             {(channel.purpose || canEditChannelProperties) && (
                 <ChannelPurpose>
                     <EditableArea

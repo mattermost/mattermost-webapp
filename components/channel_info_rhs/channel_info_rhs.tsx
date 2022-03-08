@@ -107,7 +107,6 @@ const ChannelInfoRhs = ({
             modalId: ModalIdentifiers.CHANNEL_INVITE,
             dialogType: ChannelInviteModal,
             dialogProps: {channel},
-
         });
     };
 

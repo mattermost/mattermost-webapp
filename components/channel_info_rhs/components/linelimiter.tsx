@@ -145,7 +145,6 @@ const LineLimiter = styled(lineLimiter)<LineLimiterProps>`
             }
         }
     }
-
 `;
 
 export default LineLimiter;
