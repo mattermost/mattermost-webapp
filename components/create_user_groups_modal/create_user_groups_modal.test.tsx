@@ -172,4 +172,26 @@ describe('component/create_user_groups_modal', () => {
             expect(wrapper.state('nameInputErrorText')).toEqual('');
         });
     });
+
+    test('should fail to create with duplicate mention error', () => {
+        const createGroupWithUserIds = jest.fn().mockImplementation(() => Promise.resolve({error: {message: 'test error', server_error_id: 'app.group.username_conflict'}}));
+
+        const wrapper = shallow<CreateUserGroupsModal>(
+            <CreateUserGroupsModal
+                {...baseProps}
+                actions={{
+                    ...baseProps.actions,
+                    createGroupWithUserIds,
+                }}
+            />,
+        );
+        wrapper.setState({name: 'Ursa', mention: '@ursa', usersToAdd: users});
+        wrapper.instance().createGroup(users);
+        expect(wrapper.instance().props.actions.createGroupWithUserIds).toHaveBeenCalledTimes(1);
+        process.nextTick(() => {
+            expect(wrapper.state('showUnknownError')).toEqual(false);
+            expect(wrapper.state('mentionInputErrorText')).toEqual('A username already exists with this name. Mention must be unique.');
+            expect(wrapper.state('nameInputErrorText')).toEqual('');
+        });
+    });
 });
