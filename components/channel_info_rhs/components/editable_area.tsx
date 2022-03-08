@@ -25,7 +25,7 @@ const EditButton = styled.button`
 
 const EmptyPlace = styled.button`
     padding: 0px;
-    background: transparent
+    background: transparent;
     border: 0px;
     color: rgba(var(--center-channel-color-rgb), 0.64);
     i {
