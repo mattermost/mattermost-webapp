@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 
 import {openModal} from 'actions/views/modals';
 
-import ModalToggleButtonRedux from './toggle_modal_button_redux.jsx';
+import ToggleModalButton from './toggle_modal_button';
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -16,4 +16,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(ModalToggleButtonRedux);
+export default connect(null, mapDispatchToProps)(ToggleModalButton);

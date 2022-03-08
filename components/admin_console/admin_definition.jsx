@@ -1824,6 +1824,16 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.DEVELOPER)),
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableClientPerformanceDebugging',
+                        label: t('admin.service.performanceDebuggingTitle'),
+                        label_default: 'Enable Client Performance Debugging: ',
+                        help_text: t('admin.service.performanceDebuggingDescription'),
+                        help_text_default: 'When true, users can access debugging settings for their account in **Settings > Advanced > Performance Debugging** to assist in diagnosing performance issues.',
+                        help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.DEVELOPER)),
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'ServiceSettings.AllowedUntrustedInternalConnections',
                         label: t('admin.service.internalConnectionsTitle'),
