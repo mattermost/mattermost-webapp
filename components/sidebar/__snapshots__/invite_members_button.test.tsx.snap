@@ -38,7 +38,7 @@ exports[`components/sidebar/invite_members_button should match snapshot 1`] = `
         }
         teamId="team_id2sss"
       >
-        <Connect(injectIntl(ModalToggleButtonRedux))
+        <Connect(injectIntl(ToggleModalButton))
           ariaLabel="Invite Users"
           className="intro-links color--link cursor--pointer"
           dialogType={
@@ -54,7 +54,7 @@ exports[`components/sidebar/invite_members_button should match snapshot 1`] = `
           modalId="invitation"
           onClick={[MockFunction]}
         >
-          <injectIntl(ModalToggleButtonRedux)
+          <injectIntl(ToggleModalButton)
             actions={
               Object {
                 "openModal": [Function],
@@ -75,7 +75,7 @@ exports[`components/sidebar/invite_members_button should match snapshot 1`] = `
             modalId="invitation"
             onClick={[MockFunction]}
           >
-            <ModalToggleButtonRedux
+            <ToggleModalButton
               actions={
                 Object {
                   "openModal": [Function],
@@ -156,9 +156,9 @@ exports[`components/sidebar/invite_members_button should match snapshot 1`] = `
                   </FormattedMessage>
                 </li>
               </button>
-            </ModalToggleButtonRedux>
-          </injectIntl(ModalToggleButtonRedux)>
-        </Connect(injectIntl(ModalToggleButtonRedux))>
+            </ToggleModalButton>
+          </injectIntl(ToggleModalButton)>
+        </Connect(injectIntl(ToggleModalButton))>
       </TeamPermissionGate>
     </Connect(TeamPermissionGate)>
   </InviteMembersButton>
