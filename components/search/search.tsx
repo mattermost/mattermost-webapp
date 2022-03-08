@@ -79,6 +79,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         isMobileView,
         searchTerms,
         searchType,
+        hideMobileSearchBarInRHS,
     } = props;
 
     const intl = useIntl();
@@ -497,7 +498,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
 
     return (
         <div className='sidebar--right__content'>
-            {props.searchVisible && (
+            {!hideMobileSearchBarInRHS && (
                 <div className='search-bar__container channel-header alt'>
                     <div className='sidebar-right__table'>
                         {renderSearchBar()}
@@ -535,6 +536,7 @@ const defaultProps: Partial<Props> = {
     searchTerms: '',
     channelDisplayName: '',
     isSideBarRight: false,
+    hideMobileSearchBarInRHS: false,
     getFocus: () => {},
 };
 
