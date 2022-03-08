@@ -24,6 +24,7 @@ import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 import {Constants} from 'utils/constants';
 
 export type Props = {
+    currentTeamUrl: string;
     user: UserProfile | null;
     previewPost?: Post;
     metadata: PostPreviewMetadata;
@@ -38,7 +39,7 @@ export type Props = {
 };
 
 const PostMessagePreview = (props: Props) => {
-    const {user, previewPost, metadata, isEmbedVisible, compactDisplay, handleFileDropdownOpened} = props;
+    const {currentTeamUrl, user, previewPost, metadata, isEmbedVisible, compactDisplay, handleFileDropdownOpened} = props;
 
     const toggleEmbedVisibility = () => {
         if (previewPost) {
@@ -129,10 +130,15 @@ const PostMessagePreview = (props: Props) => {
         }
     }
 
+    let teamUrl = `/${metadata.team_name}`;
+    if (metadata.channel_type === 'D' || metadata.channel_type === 'G') {
+        teamUrl = currentTeamUrl;
+    }
+
     return (
         <PostAttachmentContainer
             className='permalink'
-            link={`/${metadata.team_name}/pl/${metadata.post_id}`}
+            link={`${teamUrl}/pl/${metadata.post_id}`}
         >
             <div className='post-preview'>
                 <div className='post-preview__header'>

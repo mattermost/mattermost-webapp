@@ -11,6 +11,7 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {Post, PostPreviewMetadata} from 'mattermost-redux/types/posts';
 
 import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
@@ -30,6 +31,7 @@ type Props = {
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     const config = getConfig(state);
+    const currentTeamUrl = getCurrentRelativeTeamUrl(state);
     let user = null;
     let embedVisible = false;
     const previewPost = getPost(state, ownProps.metadata.post_id) || ownProps.previewPost;
@@ -42,6 +44,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     }
 
     return {
+        currentTeamUrl,
         hasImageProxy: config.HasImageProxy === 'true',
         enablePostIconOverride: config.EnablePostIconOverride === 'true',
         previewPost,
