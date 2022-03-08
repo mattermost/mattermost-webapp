@@ -356,6 +356,7 @@ export const ModalIdentifiers = {
     NO_INTERNET_CONNECTION: 'no_internet_connection',
     JOIN_CHANNEL_PROMPT: 'join_channel_prompt',
     COLLAPSED_REPLY_THREADS_MODAL: 'collapsed_reply_threads_modal',
+    COLLAPSED_REPLY_THREADS_BETA_MODAL: 'collapsed_reply_threads_beta_modal',
     NOTIFY_CONFIRM_MODAL: 'notify_confirm_modal',
     CONFIRM_LICENSE_REMOVAL: 'confirm_license_removal',
     CONFIRM: 'confirm',
@@ -768,6 +769,7 @@ export const FileTypes = {
     PATCH: 'patch',
     SVG: 'svg',
     OTHER: 'other',
+    LICENSE_EXTENSION: '.mattermost-license',
 };
 
 export const NotificationLevels = {
@@ -796,6 +798,7 @@ export const AdvancedSections = {
     FORMATTING: 'formatting',
     JOIN_LEAVE: 'joinLeave',
     PREVIEW_FEATURES: 'advancedPreviewFeatures',
+    PERFORMANCE_DEBUGGING: 'performanceDebugging',
 };
 
 export const RHSStates = {
@@ -1007,6 +1010,14 @@ export const DefaultRolePermissions = {
         Permissions.EDIT_CUSTOM_GROUP,
         Permissions.DELETE_CUSTOM_GROUP,
         Permissions.MANAGE_CUSTOM_GROUP_MEMBERS,
+        Permissions.PLAYBOOK_PUBLIC_CREATE,
+        Permissions.PLAYBOOK_PRIVATE_CREATE,
+        Permissions.PLAYBOOK_PUBLIC_MANAGE_MEMBERS,
+        Permissions.PLAYBOOK_PRIVATE_MANAGE_MEMBERS,
+        Permissions.PLAYBOOK_PUBLIC_MANAGE_PROPERTIES,
+        Permissions.PLAYBOOK_PRIVATE_MANAGE_PROPERTIES,
+        Permissions.PLAYBOOK_PUBLIC_MAKE_PRIVATE,
+        Permissions.RUN_CREATE,
     ],
     channel_admin: [
         Permissions.MANAGE_CHANNEL_ROLES,
@@ -1714,6 +1725,7 @@ export const Constants = {
     THREADS_NO_RESULTS_ITEM_ID: 'threads_no_results_item_id',
     TRIAL_MODAL_AUTO_SHOWN: 'trial_modal_auto_shown',
     DEFAULT_SITE_URL: 'http://localhost:8065',
+    CHANNEL_HEADER_BUTTON_DISABLE_TIMEOUT: 1000,
 };
 
 export const ValidationErrors = {

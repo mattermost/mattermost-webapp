@@ -89,19 +89,19 @@ describe('Custom emojis', () => {
             cy.clickPostReactionIcon(postId);
 
             // # Search emoji name text in emoji searching input
-            cy.findByTestId('emojiInputSearch').should('be.visible').type(builtinEmojiUppercaseWithColons);
+            cy.findByPlaceholderText('Search emojis').should('be.visible').type(builtinEmojiUppercaseWithColons, {delay: TIMEOUTS.ONE_SEC}).wait(TIMEOUTS.ONE_SEC);
 
             // * Get list of emojis based on the search text
             cy.findAllByTestId('emojiItem').children().should('have.length', 1);
 
             // # Select the builtin emoji
-            cy.findAllByTestId('emojiItem').children().click({force: true});
+            cy.clickEmojiInEmojiPicker(builtinEmoji);
 
             // # Search for the custom emoji
             cy.clickPostReactionIcon(postId);
 
             // # Search first three letters of the emoji name text in emoji searching input
-            cy.findByTestId('emojiInputSearch').should('be.visible').type(customEmoji.substring(0, 10));
+            cy.findByPlaceholderText('Search emojis').should('be.visible').type(customEmoji.substring(0, 10), {delay: TIMEOUTS.HALF_SEC});
 
             // * Get list of emojis based on the search text
             cy.findAllByTestId('emojiItem').children().should('have.length', 1);
@@ -154,7 +154,7 @@ describe('Custom emojis', () => {
             cy.clickPostReactionIcon(postId);
 
             // # Search for the emoji name text in emoji searching input
-            cy.get('#emojiPickerSearch').should('be.visible').type(customEmoji);
+            cy.findByPlaceholderText('Search emojis').should('be.visible').type(customEmoji, {delay: TIMEOUTS.HALF_SEC});
 
             // * Get list of emojis based on the search text
             cy.findAllByTestId('emojiItem').children().should('have.length', 1);
@@ -193,7 +193,7 @@ describe('Custom emojis', () => {
         cy.uiOpenCustomEmoji();
 
         // # Search for the custom emoji
-        cy.findByPlaceholderText('Search Custom Emoji').should('be.visible').type(customEmoji).wait(TIMEOUTS.HALF_SEC);
+        cy.findByPlaceholderText('Search Custom Emoji').should('be.visible').type(customEmoji);
 
         cy.get('.emoji-list__table').should('be.visible').within(() => {
             // * Since we are searching exactly for that custom emoji, we should get only one result
@@ -215,7 +215,7 @@ describe('Custom emojis', () => {
         cy.uiOpenEmojiPicker();
 
         // # Search emoji name text in emoji searching input
-        cy.findByTestId('emojiInputSearch').should('be.visible').type(customEmojiWithColons);
+        cy.findByPlaceholderText('Search emojis').should('be.visible').type(customEmojiWithColons, {delay: TIMEOUTS.HALF_SEC});
 
         // * Get list of emojis based on search text
         cy.get('.no-results__title').should('be.visible').and('have.text', 'No results for "' + customEmoji + '"');
@@ -258,7 +258,7 @@ describe('Custom emojis', () => {
 
         cy.get('#emojiPicker').should('be.visible').within(() => {
             // # Search for the same custom emoji
-            cy.findByPlaceholderText('Search emojis').type(customEmojiWithColons).wait(TIMEOUTS.HALF_SEC);
+            cy.findByPlaceholderText('Search emojis').type(customEmojiWithColons, {delay: TIMEOUTS.HALF_SEC}).wait(TIMEOUTS.HALF_SEC);
 
             // * Since we are searching exactly for that custom emoji, we should get only one result
             cy.findAllByTestId('emojiItem').children().should('have.length', 1);
@@ -299,7 +299,7 @@ describe('Custom emojis', () => {
         cy.uiOpenEmojiPicker();
 
         // # Search emoji name text in emoji searching input
-        cy.findByTestId('emojiInputSearch').should('be.visible').type(customEmojiWithColons);
+        cy.findByPlaceholderText('Search emojis').should('be.visible').type(customEmojiWithColons, {delay: TIMEOUTS.HALF_SEC});
 
         // * Get list of emojis based on search text
         cy.get('.no-results__title').should('be.visible').and('have.text', 'No results for "' + customEmoji + '"');

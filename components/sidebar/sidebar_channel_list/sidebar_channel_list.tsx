@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {CSSProperties} from 'react';
 import {FormattedMessage} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 import {DragDropContext, Droppable, DropResult, DragStart, BeforeCapture} from 'react-beautiful-dnd';
@@ -59,6 +59,8 @@ export function renderThumbVertical(props: any) {
             className='scrollbar--vertical'
         />);
 }
+
+const scrollbarStyles: CSSProperties = {position: 'absolute'};
 
 type Props = {
     currentTeam: Team;
@@ -566,7 +568,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
                         renderTrackVertical={renderTrackVertical}
                         renderView={renderView}
                         onScroll={this.onScroll}
-                        style={{position: 'absolute'}}
+                        style={scrollbarStyles}
                     >
                         {channelList}
                     </Scrollbars>

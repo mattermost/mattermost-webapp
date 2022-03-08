@@ -43,7 +43,7 @@ exports[`components/admin_console/billing/plan_details should match snapshot whe
       className="icon-check"
     />
     <span>
-      Google, Gitlab, O365 & MFA Authentication
+      Google, GitLab, O365 & MFA Authentication
     </span>
   </div>
   <div
@@ -174,7 +174,7 @@ exports[`components/admin_console/billing/plan_details should match snapshot whe
       className="icon-check"
     />
     <span>
-      Gitlab, Google, and O365 single sign-on
+      GitLab, Google, and O365 single sign-on
     </span>
   </div>
   <div
