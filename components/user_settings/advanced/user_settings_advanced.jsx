@@ -16,6 +16,7 @@ import ConfirmModal from 'components/confirm_modal';
 import BackIcon from 'components/widgets/icons/fa_back_icon';
 
 import JoinLeaveSection from './join_leave_section';
+import PerformanceDebuggingSection from './performance_debugging_section';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
@@ -526,7 +527,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                         describe={
                             <FormattedMessage
                                 id='user.settings.advance.enabledFeatures'
-                                defaultMessage='{count, number} {count, plural, one {Feature} other {Features}} Enabled'
+                                defaultMessage='{count, number} {count, plural, one {feature} other {features}} enabled'
                                 values={{count: this.state.enabledFeatures}}
                             />
                         }
@@ -670,6 +671,10 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                     {previewFeaturesSectionDivider}
                     {previewFeaturesSection}
                     {formattingSectionDivider}
+                    <PerformanceDebuggingSection
+                        activeSection={this.props.activeSection}
+                        onUpdateSection={this.handleUpdateSection}
+                    />
                     {deactivateAccountSection}
                     <div className='divider-dark'/>
                     {makeConfirmationModal}
