@@ -77,7 +77,7 @@ describe('Image attachment', () => {
         verifyFileThumbnail({
             filename,
             actualImage: {height: 350, width: 21},
-            container: {height: 348, width: 46},
+            container: {height: 352, width: 46},
         });
     });
 
