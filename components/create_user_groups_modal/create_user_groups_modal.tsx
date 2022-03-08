@@ -144,6 +144,8 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
         if (data?.error) {
             if (data.error?.server_error_id === 'app.custom_group.unique_name') {
                 this.setState({mentionInputErrorText: Utils.localizeMessage('user_groups_modal.mentionNotUnique', 'Mention needs to be unique.')});
+            } else if (data.error?.server_error_id === 'app.group.username_conflict') {
+                this.setState({mentionInputErrorText: Utils.localizeMessage('user_groups_modal.mentionUsernameConflict', 'A username already exists with this name. Mention must be unique.')});
             } else {
                 this.setState({showUnknownError: true});
             }

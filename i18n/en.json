@@ -4576,6 +4576,7 @@
   "user_groups_modal.mentionInvalidError": "Invalid character in mention.",
   "user_groups_modal.mentionIsEmpty": "Mention is a required field.",
   "user_groups_modal.mentionNotUnique": "Mention needs to be unique.",
+  "user_groups_modal.mentionUsernameConflict": "A username already exists with this name. Mention must be unique.",
   "user_groups_modal.myGroups": "My Groups",
   "user_groups_modal.name": "Name",
   "user_groups_modal.nameIsEmpty": "Name is a required field.",
