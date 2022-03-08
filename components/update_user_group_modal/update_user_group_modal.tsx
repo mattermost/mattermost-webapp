@@ -108,6 +108,9 @@ const UpdateUserGroupModal = (props: Props) => {
             if (data.error?.server_error_id === 'app.custom_group.unique_name') {
                 setMentionInputErrorText(Utils.localizeMessage('user_groups_modal.mentionNotUnique', 'Mention needs to be unique.'));
                 setSaving(false);
+            } else if (data.error?.server_error_id === 'app.group.username_conflict') {
+                setMentionInputErrorText(Utils.localizeMessage('user_groups_modal.mentionUsernameConflict', 'A username already exists with this name. Mention must be unique.'));
+                setSaving(false);
             } else {
                 setShowUnknownError(true);
                 setSaving(false);

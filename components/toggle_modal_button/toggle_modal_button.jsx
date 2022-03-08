@@ -8,7 +8,7 @@ import {injectIntl} from 'react-intl';
 
 import {intlShape} from 'utils/react_intl';
 
-class ModalToggleButtonRedux extends React.PureComponent {
+class ToggleModalButton extends React.PureComponent {
     static propTypes = {
         ariaLabel: PropTypes.string,
         children: PropTypes.node.isRequired,
@@ -99,4 +99,4 @@ class ModalToggleButtonRedux extends React.PureComponent {
     }
 }
 
-export default injectIntl(ModalToggleButtonRedux);
+export default injectIntl(ToggleModalButton);
