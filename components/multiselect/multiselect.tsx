@@ -557,9 +557,9 @@ const paddedComponent = (WrappedComponent: any) => {
 const styles = {
     container: () => {
         return {
-            display: 'table-cell',
+            display: 'flex',
             verticalAlign: 'top',
-            width: '100%',
+            width: 'calc(100% - 76px)',
         };
     },
 };
