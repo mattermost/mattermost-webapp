@@ -15,7 +15,7 @@ const MenuItemContainer = styled.div`
 `;
 
 const Icon = styled.div`
-    color: rgba(var(--center-channel-text-rgb), 0.56);
+    color: rgba(var(--center-channel-color-rgb), 0.56);
 `;
 
 const MenuItemText = styled.div`
@@ -53,7 +53,7 @@ const MenuItem = styled(menuItem)`
     height: 40px;
 
     &:hover {
-       background: rgba(var(--center-channel-text-rgb), 0.08);
+       background: rgba(var(--center-channel-color-rgb), 0.08);
     }
 `;
 
@@ -94,7 +94,7 @@ const StyledMenu = styled(Menu)`
 
     font-size: 14px;
     line-height: 20px;
-    color: rgb(var(--center-channel-text-rgb));
+    color: rgb(var(--center-channel-color-rgb));
 `;
 
 export default StyledMenu;

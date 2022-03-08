@@ -20,7 +20,7 @@ const Username = styled.p`
     font-family: Metropolis, sans-serif;
     font-size: 18px;
     line-height: 24px;
-    color: rgb(var(--center-channel-text-rgb));
+    color: rgb(var(--center-channel-color-rgb));
     font-weight: 600;
     margin: 0;
 `;

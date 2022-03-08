@@ -10,7 +10,7 @@ import useCopyText from 'components/common/hooks/useCopyText';
 
 const ChannelInfoRhsTopButtons = styled.div`
     display: flex;
-    color: rgba(var(--center-channel-text-rgb), 0.56);
+    color: rgba(var(--center-channel-color-rgb), 0.56);
     margin-top: 24px;
     padding: 0 18px;
 `;
@@ -19,13 +19,13 @@ const Button = styled.button`
     border-radius: 4px;
     border: 0;
     padding: 12px 0 10px 0;
-    background: rgba(var(--center-channel-text-rgb), 0.04);
+    background: rgba(var(--center-channel-color-rgb), 0.04);
     flex: 1;
     margin: 0 6px;
 
     &:hover {
-       background: rgba(var(--center-channel-text-rgb), 0.08);
-       color: rgba(var(--center-channel-text-rgb), 0.72);
+       background: rgba(var(--center-channel-color-rgb), 0.08);
+       color: rgba(var(--center-channel-color-rgb), 0.72);
     }
 
     &:active,
@@ -49,8 +49,8 @@ const CopyButton = styled(Button)`
 
     &:active,
     &.active {
-        background: rgba(var(--center-channel-text-rgb), 0.08);
-        color: rgba(var(--center-channel-text-rgb), 0.72);
+        background: rgba(var(--center-channel-color-rgb), 0.08);
+        color: rgba(var(--center-channel-color-rgb), 0.72);
         transition: none;
     }
 
