@@ -71,7 +71,10 @@ function EmojiPickerItem({emoji, rowIndex, isSelected, onClick, onMouseOver}: Pr
     const emojiUnified = emoji.unified ? emoji.unified.toLowerCase() : emoji.name.toLowerCase();
 
     return (
-        <div className={itemClassName}>
+        <div
+            className={itemClassName}
+            onClick={handleClick}
+        >
             <div data-testid='emojiItem'>
                 <img
                     alt={'emoji image'}
@@ -79,7 +82,6 @@ function EmojiPickerItem({emoji, rowIndex, isSelected, onClick, onMouseOver}: Pr
                     onMouseOver={throttledMouseOver}
                     src={imgTrans}
                     className={`emojisprite emoji-category-${emoji.category} emoji-${emojiUnified}`}
-                    onClick={handleClick}
                     id={`emoji-${emojiUnified}`}
                     aria-label={formatMessage(
                         {
