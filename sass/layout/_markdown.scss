@@ -256,6 +256,7 @@ h6.markdown__heading {
     right: 0;
     display: flex;
     padding: 4px 4px 0;
+    height: 36px;
     border-radius: 0 0 0 2px;
     color: $white;
     user-select: none;
@@ -301,6 +302,7 @@ h6.markdown__heading {
     }
 
     .post-code__language {
+        height: 28px;
         padding: 4px 8px;
         margin-left: 4px;
         background-color: rgba(var(--center-channel-color-rgb), 0.56);
