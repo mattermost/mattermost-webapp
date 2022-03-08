@@ -14,6 +14,7 @@ import {GlobalState} from 'types/store';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
+import {getIsMobileView} from 'selectors/views/browser';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {unfavoriteChannel, favoriteChannel} from 'mattermost-redux/actions/channels';
 import {muteChannel, unmuteChannel} from 'actions/channel_actions';
@@ -55,6 +56,7 @@ function mapStateToProps(state: GlobalState) {
     const isFavorite = isCurrentChannelFavorite(state);
     const isMuted = isCurrentChannelMuted(state);
     const isInvitingPeople = isModalOpen(state, ModalIdentifiers.CHANNEL_INVITE) || isModalOpen(state, ModalIdentifiers.CREATE_DM_CHANNEL);
+    const isMobile = getIsMobileView(state);
 
     const gmUsers = getProfilesInCurrentChannel(state).filter((user) => {
         return user.id !== currentUser.id;
@@ -72,6 +74,7 @@ function mapStateToProps(state: GlobalState) {
         isFavorite,
         isMuted,
         isInvitingPeople,
+        isMobile,
         gmUsers,
         canManageMembers,
         canManageProperties,

@@ -15,6 +15,7 @@ import {t} from 'utils/i18n';
 interface Props {
     channel: Channel;
     isArchived: boolean;
+    isMobile: boolean;
     onClose: () => void;
 }
 
@@ -22,7 +23,12 @@ const Icon = styled.i`
     font-size:12px;
 `;
 
-const Header = ({channel, isArchived, onClose}: Props) => {
+const BackButton = styled.button`
+    border: 0px;
+    background: transparent;
+`;
+
+const Header = ({channel, isArchived, isMobile, onClose}: Props) => {
     const closeSidebarTooltip = (
         <Tooltip id='closeSidebarTooltip'>
             <FormattedMessage
@@ -35,6 +41,19 @@ const Header = ({channel, isArchived, onClose}: Props) => {
     return (
         <div className='sidebar--right__header'>
             <span className='sidebar--right__title'>
+
+                {isMobile && (
+                    <BackButton
+                        className='sidebar--right__back'
+                        onClick={onClose}
+                    >
+                        <i
+                            className='icon icon-arrow-back-ios'
+                            aria-label='Back Icon'
+                        />
+                    </BackButton>
+                )}
+
                 <FormattedMessage
                     id='channel_info_rhs.header.title'
                     defaultMessage='Info'

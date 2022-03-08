@@ -44,6 +44,7 @@ export interface Props {
     isFavorite: boolean;
     isMuted: boolean;
     isInvitingPeople: boolean;
+    isMobile: boolean;
 
     canManageMembers: boolean;
     canManageProperties: boolean;
@@ -67,6 +68,7 @@ const ChannelInfoRhs = ({
     isFavorite,
     isMuted,
     isInvitingPeople,
+    isMobile,
     currentTeam,
     currentUser,
     dmUser,
@@ -136,6 +138,7 @@ const ChannelInfoRhs = ({
             <Header
                 channel={channel}
                 isArchived={isArchived}
+                isMobile={isMobile}
                 onClose={actions.closeRightHandSide}
             />
 

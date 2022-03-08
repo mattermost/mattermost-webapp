@@ -14,6 +14,7 @@ describe('channel_info_rhs/header', () => {
         renderWithIntl(
             <Header
                 channel={{display_name: 'my channel title'} as Channel}
+                isMobile={false}
                 isArchived={false}
                 onClose={() => {}}
             />,
@@ -27,6 +28,7 @@ describe('channel_info_rhs/header', () => {
         renderWithIntl(
             <Header
                 channel={{display_name: 'my channel title'} as Channel}
+                isMobile={false}
                 isArchived={false}
                 onClose={onClose}
             />,
@@ -36,10 +38,27 @@ describe('channel_info_rhs/header', () => {
 
         expect(onClose).toHaveBeenCalled();
     });
+    test('should call onClose when clicking on the back icon', () => {
+        const onClose = jest.fn();
+
+        renderWithIntl(
+            <Header
+                channel={{display_name: 'my channel title'} as Channel}
+                isMobile={true}
+                isArchived={false}
+                onClose={onClose}
+            />,
+        );
+
+        fireEvent.click(screen.getByLabelText('Back Icon'));
+
+        expect(onClose).toHaveBeenCalled();
+    });
     test('should have archived icon when channel is archived', () => {
         const {container} = renderWithIntl(
             <Header
                 channel={{display_name: 'my channel title'} as Channel}
+                isMobile={false}
                 isArchived={true}
                 onClose={() => {}}
             />,
@@ -51,6 +70,7 @@ describe('channel_info_rhs/header', () => {
         const {container} = renderWithIntl(
             <Header
                 channel={{display_name: 'my channel title'} as Channel}
+                isMobile={false}
                 isArchived={false}
                 onClose={() => {}}
             />,

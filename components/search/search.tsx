@@ -497,14 +497,16 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
 
     return (
         <div className='sidebar--right__content'>
-            <div className='search-bar__container channel-header alt'>
-                <div className='sidebar-right__table'>
-                    {renderSearchBar()}
-                    {renderMentionButton()}
-                    {renderFlagBtn()}
-                    <UserGuideDropdown/>
+            {props.searchVisible && (
+                <div className='search-bar__container channel-header alt'>
+                    <div className='sidebar-right__table'>
+                        {renderSearchBar()}
+                        {renderMentionButton()}
+                        {renderFlagBtn()}
+                        <UserGuideDropdown/>
+                    </div>
                 </div>
-            </div>
+            )}
             {props.searchVisible ? (
                 <SearchResults
                     isMentionSearch={props.isMentionSearch}
