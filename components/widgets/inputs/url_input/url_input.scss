@@ -4,15 +4,15 @@
 
     .url-input-container {
         display: flex;
-        align-items: center;
         min-height: 32px;
+        align-items: center;
 
         .url-input-label {
             flex: none;
             margin-right: 4px;
+            color: rgba(var(--center-channel-color-rgb), 0.64);
             font-size: 12px;
             line-height: 17px;
-            color: rgba(var(--center-channel-color-rgb), 0.64);
         }
 
         .url-input-editable-container {
@@ -27,15 +27,15 @@
 
         .url-input-button {
             padding: 0;
+            border: none;
             background: var(--center-channel-bg);
             color: var(--button-bg);
-            border: none;
 
             .url-input-button-label {
-                font-weight: 600;
+                color: #1c58d9;
                 font-size: 12px;
+                font-weight: 600;
                 line-height: 9px;
-                color: #1C58D9;
             }
 
             &.disabled {
@@ -48,19 +48,19 @@
 
     .url-input-error {
         display: flex;
-        color: var(--error-text);
         margin-top: 5px;
+        color: var(--error-text);
         font-size: 12px;
         line-height: 16px;
         text-align: left;
-    
+
         i {
             height: 14px;
             align-self: baseline;
             margin-right: 7px;
             font-size: 14px;
-    
-            &:before {
+
+            &::before {
                 margin: 0;
             }
         }
