@@ -64,6 +64,8 @@ export type PluginComponent = {
     text?: string;
     dropdownText?: string;
     tooltipText?: string;
+    button?: React.ReactElement;
+    dropdownButton?: React.ReactElement;
     icon?: React.ReactElement;
     iconUrl?: string;
     mobileIcon?: React.ReactElement;

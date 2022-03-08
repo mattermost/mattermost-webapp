@@ -31,13 +31,9 @@ export function shouldTrackPerformance(state = store.getState()) {
 
 export function trackEvent(category, event, props) {
     Client4.trackEvent(category, event, props);
-    if (isDevMode() && (category === 'performance' || category === 'pageRequests') && props) {
-        const propKeys = Object.keys(props);
-        if (propKeys.length > 0) {
-            const propsAsString = propKeys.map((key) => `${key}: ${props[key]}`).join(', ');
-            // eslint-disable-next-line no-console
-            console.log(`${event} -> ${propsAsString}`);
-        }
+    if (isDevMode() && category === 'performance' && props) {
+        // eslint-disable-next-line no-console
+        console.log(event + ' - ' + Object.entries(props).map(([key, value]) => `${key}: ${value}`).join(', '));
     }
 }
 
