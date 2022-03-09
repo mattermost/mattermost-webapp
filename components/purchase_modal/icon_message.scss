@@ -3,6 +3,10 @@
         &.success {
             padding-bottom: 2px;
             padding-left: 7px;
+
+            > svg {
+                margin-left: 68px;
+            }
         }
 
         display: flex;

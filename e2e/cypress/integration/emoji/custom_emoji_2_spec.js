@@ -76,13 +76,13 @@ describe('Custom emojis', () => {
         cy.uiOpenEmojiPicker();
 
         // # Search for a missing emoji in emoji picker
-        cy.findByTestId('emojiInputSearch').should('be.visible').type(emojiNameForSearch1);
+        cy.findByPlaceholderText('Search emojis').should('be.visible').type(emojiNameForSearch1, {delay: TIMEOUTS.QUARTER_SEC});
 
         // * Get list of emojis based on search text
         cy.get('.no-results__title').should('be.visible').and('have.text', 'No results for "' + emojiNameForSearch1 + '"');
 
         // # Search for an existing emoji
-        cy.findByTestId('emojiInputSearch').should('be.visible').clear().type(emojiNameForSearch2);
+        cy.findByPlaceholderText('Search emojis').should('be.visible').clear().type(emojiNameForSearch2, {delay: TIMEOUTS.QUARTER_SEC});
 
         // * Get list of emojis based on search text
         cy.findAllByTestId('emojiItem').children().should('have.length', 1);

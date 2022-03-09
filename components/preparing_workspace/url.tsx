@@ -17,12 +17,12 @@ import {trackEvent} from 'actions/telemetry_actions';
 
 import {Animations, mapAnimationReasonToClass, PreparingWorkspacePageProps} from './steps';
 
-import PageLine from './page_line';
-
 import Title from './title';
 import Description from './description';
 import PageBody from './page_body';
+import ProgressPath from './progress_path';
 import UrlStatus from './url_status';
+import LeftCol from './left_col';
 
 import './url.scss';
 
@@ -77,24 +77,16 @@ const Url = (props: Props) => {
             unmountOnExit={true}
         >
             <div className={className}>
-                <div className='Url-left-col'/>
+                <LeftCol/>
                 <div className='Url-right-col'>
                     <div className='Url-form-wrapper'>
-                        <div className='Url__progress-path'>
-                            <PageLine
-                                style={{
-                                    height: '50vh',
-                                    position: 'absolute',
-                                    transform: 'translateY(-100%)',
-                                    top: '-20px',
-                                }}
-                                noLeft={true}
-                            />
+                        <ProgressPath
+                            style={{
+                                top: '15px',
+                            }}
+                        >
                             <LaptopEarthSVG/>
-                            <PageLine
-                                noLeft={true}
-                            />
-                        </div>
+                        </ProgressPath>
                         {props.previous}
                         <Title>
                             <FormattedMessage

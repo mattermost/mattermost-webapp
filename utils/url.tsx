@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {latinise} from 'utils/latinise';
 import {t} from 'utils/i18n';
 import * as TextFormatting from 'utils/text_formatting';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 type WindowObject = {
     location: {
@@ -185,6 +185,11 @@ export function isPermalinkURL(url: string): boolean {
     const regexp = new RegExp(`^(${siteURL})?/[a-z0-9]+([a-z\\-0-9]+|(__)?)[a-z0-9]+/pl/\\w+`, 'gu');
 
     return isInternalURL(url, siteURL) && (regexp.test(url));
+}
+
+export function isStringContainingUrl(text: string): boolean {
+    const regex = new RegExp('(https?://|www.)');
+    return regex.test(text);
 }
 
 export type UrlValidationCheck = {

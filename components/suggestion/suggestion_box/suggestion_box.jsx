@@ -740,6 +740,14 @@ export default class SuggestionBox extends React.PureComponent {
         this.container = container;
     };
 
+    getListPosition = (listPosition) => {
+        if (!this.state.suggestionBoxAlgn) {
+            return listPosition;
+        }
+
+        return listPosition === 'bottom' && this.state.suggestionBoxAlgn.placementShift ? 'top' : listPosition;
+    }
+
     render() {
         const {
             dateComponent,
@@ -805,7 +813,7 @@ export default class SuggestionBox extends React.PureComponent {
                             ariaLiveRef={this.suggestionReadOut}
                             open={this.state.focused || this.props.forceSuggestionsWhenBlur}
                             pretext={this.pretext}
-                            position={listPosition}
+                            position={this.getListPosition(listPosition)}
                             renderDividers={renderDividers}
                             renderNoResults={renderNoResults}
                             onCompleteWord={this.handleCompleteWord}

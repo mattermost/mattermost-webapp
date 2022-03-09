@@ -9,6 +9,7 @@ import {matchPath, useLocation} from 'react-router-dom';
 import {trackEvent as trackEventAction} from 'actions/telemetry_actions';
 import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
 import {setStatusDropdown} from 'actions/views/status_dropdown';
+import {openModal} from 'actions/views/modals';
 import {
     AutoTourStatus,
     FINISHED,
@@ -16,10 +17,12 @@ import {
     TTNameMapToATStatusKey,
     TutorialTourName,
 } from 'components/onboarding_tour';
+import StartTrialModal from 'components/start_trial_modal';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
-import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {get, makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {GlobalState} from 'types/store';
 import {browserHistory} from 'utils/browser_history';
@@ -30,8 +33,11 @@ import {
     switchToChannels,
 } from 'actions/views/onboarding_tasks';
 
-import {OnboardingTaskCategory, OnboardingTaskList, OnboardingTasksName, TaskNameMapToSteps} from './constants';
+import {Constants, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {OnboardingPreferences} from 'components/preparing_workspace/preparing_workspace';
+
 import {generateTelemetryTag} from './utils';
+import {OnboardingTaskCategory, OnboardingTaskList, OnboardingTasksName, TaskNameMapToSteps} from './constants';
 
 const getCategory = makeGetCategory();
 
@@ -77,17 +83,36 @@ const taskLabels = {
             defaultMessage='Visit the System Console to configure your workspace'
         />
     ),
+    [OnboardingTasksName.START_TRIAL]: (
+        <FormattedMessage
+            id='onboardingTask.checklist.task_start_trial'
+            defaultMessage='Learn more about Enterprise-level high-security features'
+        />
+    ),
 };
 
 export const useTasksList = () => {
     const pluginsList = useSelector((state: GlobalState) => state.plugins.plugins);
+    const prevTrialLicense = useSelector((state: GlobalState) => state.entities.admin.prevTrialLicense);
+    const license = useSelector(getLicense);
+    const isPrevLicensed = prevTrialLicense?.IsLicensed;
+    const isCurrentLicensed = license?.IsLicensed;
+
+    // Show this CTA if the instance is currently not licensed and has never had a trial license loaded before
+    const showStartTrialTask = (isCurrentLicensed === 'false' && isPrevLicensed === 'false');
     const list: Record<string, string> = {...OnboardingTasksName};
-    if (!pluginsList.focalboard) {
+    const pluginsPreferenceState = useSelector((state: GlobalState) => get(state, Constants.Preferences.ONBOARDING, OnboardingPreferences.USE_CASE));
+    const pluginsPreference = pluginsPreferenceState && JSON.parse(pluginsPreferenceState);
+    if ((pluginsPreference && !pluginsPreference.boards) || !pluginsList.focalboard) {
         delete list.BOARDS_TOUR;
     }
-    if (!pluginsList.playbooks) {
+    if ((pluginsPreference && !pluginsPreference.playbooks) || !pluginsList.playbooks) {
         delete list.PLAYBOOKS_TOUR;
     }
+    if (!showStartTrialTask) {
+        delete list.START_TRIAL;
+    }
+
     return Object.values(list);
 };
 
@@ -220,6 +245,19 @@ export const useHandleOnBoardingTaskTrigger = () => {
             }];
             dispatch(savePreferences(currentUserId, preferences));
             window.open('https://mattermost.com/download/', '_blank', 'noopener,noreferrer');
+            break;
+        }
+        case OnboardingTasksName.START_TRIAL: {
+            trackEventAction(
+                TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_TASK_LIST,
+                'open_start_trial_modal',
+            );
+            dispatch(openModal({
+                modalId: ModalIdentifiers.START_TRIAL_MODAL,
+                dialogType: StartTrialModal,
+            }));
+
+            handleSaveData(taskName, TaskNameMapToSteps[taskName].FINISHED, true);
             break;
         }
         default:
