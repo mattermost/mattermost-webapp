@@ -258,7 +258,7 @@ export default class PasswordSettings extends AdminSettings {
                         </div>
                     </Setting>
                 </div>
-                {!this.props.config.ExperimentalSettings.RestrictSystemAdmin &&
+                {!this.props.config.ExperimentalSettings?.RestrictSystemAdmin &&
                 (
                     <TextSetting
                         id='maximumLoginAttempts'
