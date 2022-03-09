@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Modal} from 'react-bootstrap';
 
@@ -20,8 +20,7 @@ type Props ={
     show: boolean;
     onClose: () => void;
     actions: {
-        updateConfig: (config: AdminConfig) => ActionFunc & Partial<{error?: ClientErrorPlaceholder}>;
-        getConfig: () => ActionFunc;
+        updateConfig: (config: AdminConfig) => ActionFunc & {error?: ClientErrorPlaceholder};
     };
 }
 
@@ -31,29 +30,25 @@ type ClientErrorPlaceholder = {
 }
 
 export default function EditPostTimeLimitModal(props: Props) {
-    const [saving, setSaving] = React.useState(false);
-    const [errorMessage, setErrorMessage] = React.useState('');
-    const [postEditTimeLimit, setPostEditTimeLimit] = React.useState<number | string>(parseInt(props.config.ServiceSettings!.PostEditTimeLimit.toString(), 10));
+    const {ServiceSettings} = props.config;
 
-    React.useEffect(() => {
-        props.actions.getConfig();
-    }, []);
+    const [saving, setSaving] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [postEditTimeLimit, setPostEditTimeLimit] = useState<number>(ServiceSettings?.PostEditTimeLimit || -1);
+    const [alwaysAllowPostEditing, setAlwaysAllowPostEditing] = useState(postEditTimeLimit > 0);
 
     const save = async () => {
         setSaving(true);
         setErrorMessage('');
 
-        const val = parseInt(postEditTimeLimit.toString(), 10);
-        if (val !== Constants.UNSET_POST_EDIT_TIME_LIMIT) {
-            if (val.toString() === 'NaN' || val <= 0 || val > INT32_MAX) {
-                setErrorMessage(localizeMessage('edit_post.time_limit_modal.invalid_time_limit', 'Invalid time limit'));
-                setSaving(false);
-                return false;
-            }
+        if (postEditTimeLimit.toString() === 'NaN' || postEditTimeLimit < -1 || postEditTimeLimit > INT32_MAX) {
+            setErrorMessage(localizeMessage('edit_post.time_limit_modal.invalid_time_limit', 'Invalid time limit'));
+            setSaving(false);
+            return false;
         }
 
         const newConfig = JSON.parse(JSON.stringify(props.config));
-        newConfig.ServiceSettings.PostEditTimeLimit = val;
+        newConfig.ServiceSettings.PostEditTimeLimit = postEditTimeLimit;
 
         const {error} = await props.actions.updateConfig(newConfig);
         if (error) {
@@ -67,19 +62,12 @@ export default function EditPostTimeLimitModal(props: Props) {
         return true;
     };
 
-    const handleOptionChange = (e: React.FormEvent<HTMLInputElement>) => {
-        const {value} = e.currentTarget;
-        if (value === Constants.ALLOW_EDIT_POST_ALWAYS) {
-            setPostEditTimeLimit(Constants.UNSET_POST_EDIT_TIME_LIMIT);
-        } else {
-            setPostEditTimeLimit('');
-        }
+    const handleOptionChange = ({currentTarget}: React.FormEvent<HTMLInputElement>) => {
+        setAlwaysAllowPostEditing(currentTarget.value === Constants.ALLOW_EDIT_POST_ALWAYS);
+        setPostEditTimeLimit(currentTarget.value === Constants.ALLOW_EDIT_POST_ALWAYS ? -1 : 0);
     };
 
-    const handleSecondsChange = (e: React.FormEvent<HTMLInputElement>) => {
-        const {value} = e.currentTarget;
-        setPostEditTimeLimit(value);
-    };
+    const handleSecondsChange = ({currentTarget}: React.FormEvent<HTMLInputElement>) => setPostEditTimeLimit(parseInt(currentTarget.value, 10));
 
     return (
         <Modal
@@ -89,9 +77,7 @@ export default function EditPostTimeLimitModal(props: Props) {
             aria-labelledby='editPostTimeModalLabel'
             onHide={props.onClose}
         >
-            <Modal.Header
-                closeButton={true}
-            >
+            <Modal.Header closeButton={true}>
                 <Modal.Title
                     componentClass='h1'
                     id='editPostTimeModalLabel'
@@ -114,7 +100,7 @@ export default function EditPostTimeLimitModal(props: Props) {
                             type='radio'
                             name='limit'
                             value={Constants.ALLOW_EDIT_POST_ALWAYS}
-                            checked={postEditTimeLimit === Constants.UNSET_POST_EDIT_TIME_LIMIT}
+                            checked={alwaysAllowPostEditing}
                             onChange={handleOptionChange}
                         />
                         <label htmlFor='anytime'>
@@ -130,7 +116,7 @@ export default function EditPostTimeLimitModal(props: Props) {
                             type='radio'
                             name='limit'
                             value={Constants.ALLOW_EDIT_POST_TIME_LIMIT}
-                            checked={postEditTimeLimit !== Constants.UNSET_POST_EDIT_TIME_LIMIT}
+                            checked={!alwaysAllowPostEditing}
                             onChange={handleOptionChange}
                         />
                         <label htmlFor='timelimit'>
@@ -146,9 +132,9 @@ export default function EditPostTimeLimitModal(props: Props) {
                             step='1'
                             max={INT32_MAX}
                             id='editPostTimeLimit'
-                            readOnly={postEditTimeLimit === Constants.UNSET_POST_EDIT_TIME_LIMIT}
+                            readOnly={alwaysAllowPostEditing}
                             onChange={handleSecondsChange}
-                            value={postEditTimeLimit === Constants.UNSET_POST_EDIT_TIME_LIMIT ? '' : postEditTimeLimit}
+                            value={alwaysAllowPostEditing ? '' : postEditTimeLimit}
                         />
                         <label htmlFor='timelimit'>
                             <FormattedMessage

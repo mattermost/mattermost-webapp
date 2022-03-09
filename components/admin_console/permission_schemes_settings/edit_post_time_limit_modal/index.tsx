@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {getConfig, updateConfig} from 'mattermost-redux/actions/admin';
+import {updateConfig} from 'mattermost-redux/actions/admin';
 import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {AdminConfig} from 'mattermost-redux/types/config';
@@ -15,7 +15,6 @@ import EditPostTimeLimitModal from './edit_post_time_limit_modal';
 
 type Actions = {
     updateConfig: (config: AdminConfig) => ActionFunc;
-    getConfig: () => ActionFunc;
 }
 
 function mapStateToProps(state: GlobalState) {
@@ -26,10 +25,7 @@ function mapStateToProps(state: GlobalState) {
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
-            updateConfig,
-            getConfig,
-        }, dispatch),
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({updateConfig}, dispatch),
     };
 }
 
