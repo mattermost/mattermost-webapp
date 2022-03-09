@@ -28,6 +28,10 @@ const BackButton = styled.button`
     background: transparent;
 `;
 
+const HeaderTitle = styled.span`
+    line-height: 2.4rem;
+`;
+
 const Header = ({channel, isArchived, isMobile, onClose}: Props) => {
     const closeSidebarTooltip = (
         <Tooltip id='closeSidebarTooltip'>
@@ -54,10 +58,13 @@ const Header = ({channel, isArchived, isMobile, onClose}: Props) => {
                     </BackButton>
                 )}
 
-                <FormattedMessage
-                    id='channel_info_rhs.header.title'
-                    defaultMessage='Info'
-                />
+                <HeaderTitle>
+                    <FormattedMessage
+                        id='channel_info_rhs.header.title'
+                        defaultMessage='Info'
+                    />
+                </HeaderTitle>
+
                 {channel.display_name &&
                 <span
                     className='style--none sidebar--right__title__subtitle'
