@@ -67,7 +67,7 @@ export default class EditPostTimeLimitModal extends React.PureComponent {
         if (value === Constants.ALLOW_EDIT_POST_ALWAYS) {
             this.setState({postEditTimeLimit: Constants.UNSET_POST_EDIT_TIME_LIMIT});
         } else {
-            this.setState({postEditTimeLimit: ''});
+            this.setState({postEditTimeLimit: 0});
         }
     }
 
