@@ -71,12 +71,13 @@ exports[`components/SizeAwareImage should load download and copy link buttons wh
           }
         >
           <button
-            aria-label="file thumbnail photo-1533709752211-118fcaf03312copy url"
+            aria-label="Copy link"
             className="style--none size-aware-image__copy_link"
             onClick={[Function]}
           >
-            <i
-              className="icon icon-link-variant style--none"
+            <LinkVariantIcon
+              className="style--none"
+              size={20}
             />
           </button>
         </OverlayTrigger>
@@ -105,15 +106,16 @@ exports[`components/SizeAwareImage should load download and copy link buttons wh
           }
         >
           <a
-            aria-label="file thumbnail photo-1533709752211-118fcaf03312download image"
+            aria-label="Download"
             className="style--none size-aware-image__download"
-            download="file thumbnail photo-1533709752211-118fcaf03312"
+            download={true}
             href="https://example.com/image.png"
             rel="noopener noreferrer"
             target="_blank"
           >
-            <i
-              className="icon icon-download-outline style--none"
+            <DownloadOutlineIcon
+              className="style--none"
+              size={20}
             />
           </a>
         </OverlayTrigger>
@@ -194,12 +196,13 @@ exports[`components/SizeAwareImage should match snapshot when handleSmallImageCo
           }
         >
           <button
-            aria-label="file thumbnail photo-1533709752211-118fcaf03312copy url"
+            aria-label="Copy link"
             className="style--none size-aware-image__copy_link"
             onClick={[Function]}
           >
-            <i
-              className="icon icon-link-variant style--none"
+            <LinkVariantIcon
+              className="style--none"
+              size={20}
             />
           </button>
         </OverlayTrigger>
@@ -228,14 +231,15 @@ exports[`components/SizeAwareImage should match snapshot when handleSmallImageCo
           }
         >
           <a
-            aria-label="file thumbnail photo-1533709752211-118fcaf03312download image"
+            aria-label="Download"
             className="style--none size-aware-image__download"
-            download="file thumbnail photo-1533709752211-118fcaf03312"
+            download={true}
             rel="noopener noreferrer"
             target="_blank"
           >
-            <i
-              className="icon icon-download-outline style--none"
+            <DownloadOutlineIcon
+              className="style--none"
+              size={20}
             />
           </a>
         </OverlayTrigger>
@@ -330,12 +334,13 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
           }
         >
           <button
-            aria-label="file thumbnail photo-1533709752211-118fcaf03312copy url"
+            aria-label="Copy link"
             className="style--none size-aware-image__copy_link"
             onClick={[Function]}
           >
-            <i
-              className="icon icon-link-variant style--none"
+            <LinkVariantIcon
+              className="style--none"
+              size={20}
             />
           </button>
         </OverlayTrigger>
@@ -364,14 +369,15 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
           }
         >
           <a
-            aria-label="file thumbnail photo-1533709752211-118fcaf03312download image"
+            aria-label="Download"
             className="style--none size-aware-image__download"
-            download="file thumbnail photo-1533709752211-118fcaf03312"
+            download={true}
             rel="noopener noreferrer"
             target="_blank"
           >
-            <i
-              className="icon icon-download-outline style--none"
+            <DownloadOutlineIcon
+              className="style--none"
+              size={20}
             />
           </a>
         </OverlayTrigger>

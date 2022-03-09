@@ -27,7 +27,8 @@ describe('components/SizeAwareImage', () => {
     test('should render an svg when first mounted with dimensions and img display set to none', () => {
         const wrapper = mount(<SizeAwareImage {...baseProps}/>);
 
-        const viewBox = wrapper.find('svg').prop('viewBox');
+        // since download and copy icons use svgs now, attachment svg should be searched as a direct child of image-loading__container
+        const viewBox = wrapper.find('.image-loading__container').children().filter('svg').prop('viewBox');
         expect(viewBox).toEqual('0 0 300 200');
         const style = wrapper.find('.file-preview__button').prop('style');
         expect(style).toHaveProperty('display', 'none');
