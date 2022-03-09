@@ -106,9 +106,8 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark"
     />
     <br />
-    <ModalToggleButton
+    <Connect(injectIntl(ToggleModalButton))
       className="security-links color--link"
-      dialogProps={Object {}}
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -119,6 +118,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         }
       }
       id="viewAccessHistory"
+      modalId="access_history"
     >
       <LocalizedIcon
         className="fa fa-clock-o"
@@ -133,10 +133,9 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View Access History"
         id="user.settings.security.viewHistory"
       />
-    </ModalToggleButton>
-    <ModalToggleButton
+    </Connect(injectIntl(ToggleModalButton))>
+    <Connect(injectIntl(ToggleModalButton))
       className="security-links color--link mt-2"
-      dialogProps={Object {}}
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -147,6 +146,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         }
       }
       id="viewAndLogOutOfActiveSessions"
+      modalId="activity_log"
     >
       <LocalizedIcon
         className="fa fa-clock-o"
@@ -161,7 +161,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View and Log Out of Active Sessions"
         id="user.settings.security.logoutActiveSessions"
       />
-    </ModalToggleButton>
+    </Connect(injectIntl(ToggleModalButton))>
   </div>
 </div>
 `;
@@ -272,9 +272,8 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark"
     />
     <br />
-    <ModalToggleButton
+    <Connect(injectIntl(ToggleModalButton))
       className="security-links color--link"
-      dialogProps={Object {}}
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -285,6 +284,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         }
       }
       id="viewAccessHistory"
+      modalId="access_history"
     >
       <LocalizedIcon
         className="fa fa-clock-o"
@@ -299,10 +299,9 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View Access History"
         id="user.settings.security.viewHistory"
       />
-    </ModalToggleButton>
-    <ModalToggleButton
+    </Connect(injectIntl(ToggleModalButton))>
+    <Connect(injectIntl(ToggleModalButton))
       className="security-links color--link mt-2"
-      dialogProps={Object {}}
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -313,6 +312,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         }
       }
       id="viewAndLogOutOfActiveSessions"
+      modalId="activity_log"
     >
       <LocalizedIcon
         className="fa fa-clock-o"
@@ -327,7 +327,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View and Log Out of Active Sessions"
         id="user.settings.security.logoutActiveSessions"
       />
-    </ModalToggleButton>
+    </Connect(injectIntl(ToggleModalButton))>
   </div>
 </div>
 `;
@@ -438,9 +438,8 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark"
     />
     <br />
-    <ModalToggleButton
+    <Connect(injectIntl(ToggleModalButton))
       className="security-links color--link"
-      dialogProps={Object {}}
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -451,6 +450,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         }
       }
       id="viewAccessHistory"
+      modalId="access_history"
     >
       <LocalizedIcon
         className="fa fa-clock-o"
@@ -465,10 +465,9 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View Access History"
         id="user.settings.security.viewHistory"
       />
-    </ModalToggleButton>
-    <ModalToggleButton
+    </Connect(injectIntl(ToggleModalButton))>
+    <Connect(injectIntl(ToggleModalButton))
       className="security-links color--link mt-2"
-      dialogProps={Object {}}
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -479,6 +478,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         }
       }
       id="viewAndLogOutOfActiveSessions"
+      modalId="activity_log"
     >
       <LocalizedIcon
         className="fa fa-clock-o"
@@ -493,7 +493,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View and Log Out of Active Sessions"
         id="user.settings.security.logoutActiveSessions"
       />
-    </ModalToggleButton>
+    </Connect(injectIntl(ToggleModalButton))>
   </div>
 </div>
 `;
@@ -604,9 +604,8 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark"
     />
     <br />
-    <ModalToggleButton
+    <Connect(injectIntl(ToggleModalButton))
       className="security-links color--link"
-      dialogProps={Object {}}
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -617,6 +616,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         }
       }
       id="viewAccessHistory"
+      modalId="access_history"
     >
       <LocalizedIcon
         className="fa fa-clock-o"
@@ -631,10 +631,9 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View Access History"
         id="user.settings.security.viewHistory"
       />
-    </ModalToggleButton>
-    <ModalToggleButton
+    </Connect(injectIntl(ToggleModalButton))>
+    <Connect(injectIntl(ToggleModalButton))
       className="security-links color--link mt-2"
-      dialogProps={Object {}}
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -645,6 +644,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         }
       }
       id="viewAndLogOutOfActiveSessions"
+      modalId="activity_log"
     >
       <LocalizedIcon
         className="fa fa-clock-o"
@@ -659,7 +659,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View and Log Out of Active Sessions"
         id="user.settings.security.logoutActiveSessions"
       />
-    </ModalToggleButton>
+    </Connect(injectIntl(ToggleModalButton))>
   </div>
 </div>
 `;

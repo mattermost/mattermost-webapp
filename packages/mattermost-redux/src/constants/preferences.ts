@@ -51,6 +51,10 @@ const Preferences = {
     ADVANCED_SEND_ON_CTRL_ENTER: 'send_on_ctrl_enter',
     CATEGORY_WHATS_NEW_MODAL: 'whats_new_modal',
     HAS_SEEN_SIDEBAR_WHATS_NEW_MODAL: 'has_seen_sidebar_whats_new_modal',
+
+    CATEGORY_PERFORMANCE_DEBUGGING: 'performance_debugging',
+    NAME_DISABLE_CLIENT_PLUGINS: 'disable_client_plugins',
+
     CATEGORY_THEME: 'theme',
     THEMES: {
         denim: {

@@ -47,6 +47,7 @@ export type ClientConfig = {
     EnableBanner: string;
     EnableBotAccountCreation: string;
     EnableChannelViewedMessages: string;
+    EnableClientPerformanceDebugging: string;
     EnableCluster: string;
     EnableCommands: string;
     EnableCompliance: string;
