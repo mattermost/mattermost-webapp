@@ -1673,27 +1673,28 @@
             padding: 2px;
             border-radius: 4px;
             color: rgba(var(--center-channel-color-rgb), 0.56);
+            text-align: center;
 
             &:hover {
                 background-color: rgba(var(--center-channel-color-rgb), 0.08);
                 text-decoration: none;
             }
 
-            .icon {
-                height: 24px;
-                font-size: 18px;
+            svg {
+                fill: rgba(var(--center-channel-color-rgb), 0.56);
+                padding-top: 2px;
             }
 
             // handle 'copy successful' styles
-            .icon-check {
-                color: var(--online-indicator);
+            .svg-check {
+                fill: var(--online-indicator);
             }
 
             &:active {
                 background: rgba(var(--button-bg-rgb), 0.08);
 
-                .icon {
-                    color: var(--button-bg);
+                svg {
+                    fill: var(--button-bg);
                 }
             }
         }
@@ -1711,12 +1712,10 @@
             position: absolute;
             top: -8px;
             right: -39px;
-            width: 70px;
         }
 
         &--small-image-no-copy-button {
             right: -15px;
-            width: 38px;
         }
 
         &:hover button.size-aware-image__copy_link,

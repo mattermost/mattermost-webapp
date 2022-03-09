@@ -6,7 +6,10 @@ import React from 'react';
 import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
 
+import {DownloadOutlineIcon, LinkVariantIcon, CheckIcon} from '@mattermost/compass-icons/components'
+
 import {localizeMessage, copyToClipboard} from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 import LoadingImagePreview from 'components/loading_image_preview';
 import Tooltip from 'components/tooltip';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -205,10 +208,17 @@ export default class SizeAwareImage extends React.PureComponent {
                 id='copy-link-tooltip'
                 className='hidden-xs'
             >
-                <FormattedMessage
-                    id='single_image_view.copy_link_tooltip'
-                    defaultMessage={this.state.linkCopiedRecently ? 'Copied' : 'Copy link'}
-                />
+                {this.state.linkCopiedRecently ? (
+                    <FormattedMessage
+                        id={t('single_image_view.copied_link_tooltip')}
+                        defaultMessage={'Copied'}
+                    />
+                ) : (
+                    <FormattedMessage
+                        id={t('single_image_view.copy_link_tooltip')}
+                        defaultMessage={'Copy link'}
+                    />
+                )}
             </Tooltip>
         );
         const copyLink = (
@@ -223,13 +233,19 @@ export default class SizeAwareImage extends React.PureComponent {
                     className={classNames('style--none', 'size-aware-image__copy_link', {
                         'size-aware-image__copy_link--recently_copied': this.state.linkCopiedRecently,
                     })}
-                    aria-label={`${ariaLabelImage}${localizeMessage('copy url')}`}
+                    aria-label={localizeMessage('single_image_view.copy_link_tooltip', 'Copy link')}
                     onClick={this.copyLinkToAsset}
                 >
                     {this.state.linkCopiedRecently ? (
-                        <i className='icon icon-check style--none'/>
+                        <CheckIcon
+                            className={'svg-check style--none'}
+                            size={20}
+                        />
                     ) : (
-                        <i className='icon icon-link-variant style--none'/>
+                        <LinkVariantIcon
+                            className={'style--none'}
+                            size={20}
+                        />
                     )}
                 </button>
             </OverlayTrigger>
@@ -260,13 +276,15 @@ export default class SizeAwareImage extends React.PureComponent {
                     className='style--none size-aware-image__download'
                     target='_blank'
                     rel='noopener noreferrer'
-                    download={ariaLabelImage}
-                    aria-label={`${ariaLabelImage}${localizeMessage('download image')}`}
+                    download={true}
+                    aria-label={localizeMessage('single_image_view.download_tooltip', 'Download')}
                 >
-                    <i className='icon icon-download-outline style--none'/>
+                    <DownloadOutlineIcon
+                        className={'style--none'}
+                        size={20}
+                    />
                 </a>
             </OverlayTrigger>
-
         );
 
         if (this.props.handleSmallImageContainer && this.state.isSmallImage) {
