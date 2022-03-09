@@ -24,6 +24,10 @@ const holders = defineMessages({
         id: t('user.settings.general.usernameReserved'),
         defaultMessage: 'This username is reserved, please choose a new one.',
     },
+    usernameGroupNameUniqueness: {
+        id: t('user.settings.general.usernameGroupNameUniqueness'),
+        defaultMessage: 'This username conflicts with an existing group name.',
+    },
     usernameRestrictions: {
         id: t('user.settings.general.usernameRestrictions'),
         defaultMessage: "Username must begin with a letter, and contain between {min} to {max} lowercase characters made up of numbers, letters, and the symbols '.', '-', and '_'.",
@@ -317,6 +321,8 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                     if (err.server_error_id &&
                         err.server_error_id === 'api.user.check_user_password.invalid.app_error') {
                         serverError = formatMessage(holders.incorrectPassword);
+                    } else if (err.server_error_id === 'app.user.group_name_conflict') {
+                        serverError = formatMessage(holders.usernameGroupNameUniqueness);
                     } else if (err.message) {
                         serverError = err.message;
                     } else {

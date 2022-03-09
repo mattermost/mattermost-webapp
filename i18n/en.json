@@ -4751,6 +4751,7 @@
   "user.settings.general.sending": "Sending",
   "user.settings.general.uploadImage": "Click 'Edit' to upload an image.",
   "user.settings.general.username": "Username",
+  "user.settings.general.usernameGroupNameUniqueness": "This username conflicts with an existing group name.",
   "user.settings.general.usernameInfo": "Pick something easy for teammates to recognize and recall.",
   "user.settings.general.usernameReserved": "This username is reserved, please choose a new one.",
   "user.settings.general.usernameRestrictions": "Username must begin with a letter, and contain between {min} to {max} lowercase characters made up of numbers, letters, and the symbols '.', '-', and '_'.",
