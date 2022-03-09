@@ -1655,12 +1655,12 @@
     .image-preview-utility-buttons-container {
         // greater z-index than img
         position: absolute;
-        z-index: 3;
+        z-index: 1;
         top: 8px;
         right: 8px;
         display: none;
         padding: 4px;
-        border: 1px solid rgba(v(center-channel-color-rgb), 0.16);
+        border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
         background-color: var(--center-channel-bg);
         border-radius: 4px;
         box-shadow: $elevation-1;
