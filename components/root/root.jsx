@@ -140,7 +140,7 @@ export default class Root extends React.PureComponent {
         Client4.setAuthHeader = false;
 
         setSystemEmojis(EmojiIndicesByAlias);
-        migrateRecentEmojis();
+        store.dispatch(migrateRecentEmojis());
 
         // Force logout of all tabs if one tab is logged out
         window.addEventListener('storage', this.handleLogoutLoginSignal);
