@@ -41,7 +41,6 @@ import {
     handleThreadArrived,
     handleAllThreadsInChannelMarkedRead,
     updateThreadRead,
-    decrementThreadCounts,
 } from 'mattermost-redux/actions/threads';
 
 import {setServerVersion, getClientConfig} from 'mattermost-redux/actions/general';
