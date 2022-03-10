@@ -179,7 +179,7 @@ export default function PreparingWorkspace(props: Props) {
                 });
             }
             if (currentStep === WizardSteps.Plugins) {
-                let mostRecentStepIndex = stepOrder.indexOf(mostRecentStep);
+                const mostRecentStepIndex = stepOrder.indexOf(mostRecentStep);
                 setStepHistory([mostRecentStep, stepOrder[mostRecentStepIndex - 1]]);
             }
         }
