@@ -15,7 +15,7 @@ import {Constants, ModalIdentifiers} from 'utils/constants';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import LocalizedIcon from 'components/localized_icon';
 import ProfilePicture from 'components/profile_picture';
-import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
+import ToggleModalButton from 'components/toggle_modal_button';
 import UserProfile from 'components/user_profile';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
@@ -319,7 +319,7 @@ export function createDefaultIntroMessage(
                         />
                     }
                     {teamIsGroupConstrained &&
-                    <ToggleModalButtonRedux
+                    <ToggleModalButton
                         className='intro-links color--link'
                         modalId={ModalIdentifiers.ADD_GROUPS_TO_TEAM}
                         dialogType={AddGroupsToTeamModal}
@@ -333,7 +333,7 @@ export function createDefaultIntroMessage(
                             id='intro_messages.addGroupsToTeam'
                             defaultMessage='Add other groups to this team'
                         />
-                    </ToggleModalButtonRedux>
+                    </ToggleModalButton>
                     }
                 </TeamPermissionGate>
             </TeamPermissionGate>
@@ -548,7 +548,7 @@ function createSetHeaderButton(channel: Channel) {
     }
 
     return (
-        <ToggleModalButtonRedux
+        <ToggleModalButton
             modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
             ariaLabel={Utils.localizeMessage('intro_messages.setHeader', 'Set a Header')}
             className={'intro-links color--link channelIntroButton'}
@@ -560,7 +560,7 @@ function createSetHeaderButton(channel: Channel) {
                 id='intro_messages.setHeader'
                 defaultMessage='Set a Header'
             />
-        </ToggleModalButtonRedux>
+        </ToggleModalButton>
     );
 }
 

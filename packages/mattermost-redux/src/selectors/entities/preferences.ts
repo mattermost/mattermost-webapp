@@ -208,10 +208,6 @@ export function isGroupChannelManuallyVisible(state: GlobalState, channelId: str
     return getBool(state, Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channelId, false);
 }
 
-export function getCreateGuidedChannel(state: GlobalState): boolean {
-    return getFeatureFlagValue(state, 'GuidedChannelCreation') === 'true';
-}
-
 export function getAddMembersToChannel(state: GlobalState): AddMembersToChanneltreatments | undefined {
     return getFeatureFlagValue(state, 'AddMembersToChannel') as AddMembersToChanneltreatments | undefined;
 }

@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[` 1`] = `
+<div
+  className="attachment attachment--opengraph"
+>
+  <div
+    className="attachment__content permalink--opengraph"
+  >
+    <div
+      className="clearfix attachment__container attachment__container--opengraph permalink--opengraph"
+    >
+      <div
+        className="attachment__body__wrap attachment__body__wrap--opengraph"
+      >
+        <h1
+          className="attachment__title attachment__title--opengraph"
+        >
+          <a
+            className="attachment__title-link attachment__title-link--opengraph"
+            href="http://mattermost.com"
+            rel="noopener noreferrer"
+            target="_blank"
+            title="Mattermost Private Cloud Messaging"
+          >
+            Mattermost Private Cloud Messaging
+          </a>
+        </h1>
+        <div
+          className="attachment__body attachment__body--opengraph"
+        >
+          <div
+            className="permalink__body--opengraph"
+          >
+            description
+             
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
