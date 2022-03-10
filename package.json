@@ -43,7 +43,7 @@
     "lodash": "4.17.21",
     "luxon": "2.3.0",
     "mark.js": "8.11.1",
-    "marked": "github:mattermost/marked#6ca9a6b3f4bdd35dbf58d06f5e53369791e05915",
+    "marked": "github:mattermost/marked#2ef7f28cc7718e3f551c4ce9ea75fdd7580c2008",
     "memoize-one": "5.2.1",
     "moment-timezone": "0.5.34",
     "p-queue": "6.6.1",
@@ -91,7 +91,6 @@
     "timezones.json": "1.5.3",
     "tinycolor2": "1.4.2",
     "typescript": "4.3.4",
-    "xregexp": "5.1.0",
     "zen-observable": "0.8.15"
   },
   "devDependencies": {

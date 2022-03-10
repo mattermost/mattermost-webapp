@@ -5,7 +5,7 @@ import React from 'react';
 
 import classNames from 'classnames';
 
-import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
+import ToggleModalButton from 'components/toggle_modal_button';
 
 import menuItem from './menu_item';
 
@@ -24,7 +24,7 @@ type Props = {
 
 export const MenuItemToggleModalReduxImpl: React.FC<Props> = ({modalId, dialogType, dialogProps, text, ariaLabel, extraText, children, className, sibling, showUnread}: Props) => (
     <>
-        <ToggleModalButtonRedux
+        <ToggleModalButton
             ariaLabel={ariaLabel}
             modalId={modalId}
             dialogType={dialogType}
@@ -38,7 +38,7 @@ export const MenuItemToggleModalReduxImpl: React.FC<Props> = ({modalId, dialogTy
             {text && <span className='MenuItem__primary-text'>{text}</span>}
             {extraText && <span className='MenuItem__help-text'>{extraText}</span>}
             {children}
-        </ToggleModalButtonRedux>
+        </ToggleModalButton>
         {sibling}
     </>
 );

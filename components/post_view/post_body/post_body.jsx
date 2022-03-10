@@ -194,7 +194,7 @@ export default class PostBody extends React.PureComponent {
         );
 
         const hasPlugin =
-            (post.type && this.props.pluginPostTypes.hasOwnProperty(post.ytype)) ||
+            (post.type && this.props.pluginPostTypes.hasOwnProperty(post.type)) ||
             (post.props &&
                 post.props.type &&
                 this.props.pluginPostTypes.hasOwnProperty(post.props.type));
@@ -207,6 +207,7 @@ export default class PostBody extends React.PureComponent {
                 <PostBodyAdditionalContent
                     post={this.props.post}
                     isEmbedVisible={this.props.isEmbedVisible}
+                    handleFileDropdownOpened={this.props.handleFileDropdownOpened}
                 >
                     {messageWrapper}
                 </PostBodyAdditionalContent>
