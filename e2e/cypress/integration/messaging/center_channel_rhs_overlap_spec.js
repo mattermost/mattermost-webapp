@@ -49,7 +49,7 @@ describe('Messaging', () => {
     });
 
     beforeEach(() => {
-        cy.apiLogin(testUser);
+        cy.apiLogin(testUser).wait(TIMEOUTS.ONE_MIN);
 
         // # Post a new message to ensure there will be a post to click on
         cy.get('#post_textbox').type(firstMessage).type('{enter}').wait(TIMEOUTS.HALF_SEC);
