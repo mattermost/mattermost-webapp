@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {updateConfig} from 'mattermost-redux/actions/admin';
-import * as Selectors from 'mattermost-redux/selectors/entities/admin';
+import {getConfig} from 'mattermost-redux/selectors/entities/admin';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {AdminConfig} from 'mattermost-redux/types/config';
 
@@ -19,7 +19,7 @@ type Actions = {
 
 function mapStateToProps(state: GlobalState) {
     return {
-        config: Selectors.getConfig(state),
+        config: getConfig(state),
     };
 }
 

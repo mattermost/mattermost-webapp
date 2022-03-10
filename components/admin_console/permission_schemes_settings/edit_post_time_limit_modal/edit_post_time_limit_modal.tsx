@@ -34,21 +34,21 @@ export default function EditPostTimeLimitModal(props: Props) {
 
     const [saving, setSaving] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-    const [postEditTimeLimit, setPostEditTimeLimit] = useState<number>(ServiceSettings?.PostEditTimeLimit || -1);
-    const [alwaysAllowPostEditing, setAlwaysAllowPostEditing] = useState(postEditTimeLimit > 0);
+    const [postEditTimeLimit, setPostEditTimeLimit] = useState<number>(ServiceSettings?.PostEditTimeLimit || Constants.UNSET_POST_EDIT_TIME_LIMIT);
+    const [alwaysAllowPostEditing, setAlwaysAllowPostEditing] = useState(postEditTimeLimit < 0);
 
     const save = async () => {
         setSaving(true);
         setErrorMessage('');
 
-        if (postEditTimeLimit.toString() === 'NaN' || postEditTimeLimit < -1 || postEditTimeLimit > INT32_MAX) {
+        if (postEditTimeLimit.toString() === 'NaN' || postEditTimeLimit < 0 || postEditTimeLimit > INT32_MAX) {
             setErrorMessage(localizeMessage('edit_post.time_limit_modal.invalid_time_limit', 'Invalid time limit'));
             setSaving(false);
             return false;
         }
 
         const newConfig = JSON.parse(JSON.stringify(props.config));
-        newConfig.ServiceSettings.PostEditTimeLimit = postEditTimeLimit;
+        newConfig.ServiceSettings.PostEditTimeLimit = alwaysAllowPostEditing ? Constants.UNSET_POST_EDIT_TIME_LIMIT : postEditTimeLimit;
 
         const {error} = await props.actions.updateConfig(newConfig);
         if (error) {
@@ -64,7 +64,6 @@ export default function EditPostTimeLimitModal(props: Props) {
 
     const handleOptionChange = ({currentTarget}: React.FormEvent<HTMLInputElement>) => {
         setAlwaysAllowPostEditing(currentTarget.value === Constants.ALLOW_EDIT_POST_ALWAYS);
-        setPostEditTimeLimit(currentTarget.value === Constants.ALLOW_EDIT_POST_ALWAYS ? -1 : 0);
     };
 
     const handleSecondsChange = ({currentTarget}: React.FormEvent<HTMLInputElement>) => setPostEditTimeLimit(parseInt(currentTarget.value, 10));
