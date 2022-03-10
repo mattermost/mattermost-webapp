@@ -11,6 +11,8 @@ import {getFirstAdminSetupComplete} from 'mattermost-redux/actions/general';
 import {getTheme, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getProfiles} from 'mattermost-redux/actions/users';
 
+import {migrateRecentEmojis} from 'mattermost-redux/actions/emojis';
+
 import {loadMeAndConfig} from 'actions/views/root';
 import {emitBrowserWindowResized} from 'actions/views/browser';
 import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks';
@@ -54,6 +56,7 @@ function mapDispatchToProps(dispatch) {
             emitBrowserWindowResized,
             getFirstAdminSetupComplete,
             getProfiles,
+            migrateRecentEmojis,
         }, dispatch),
     };
 }

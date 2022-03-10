@@ -120,6 +120,7 @@ export default class Root extends React.PureComponent {
             emitBrowserWindowResized: PropTypes.func.isRequired,
             getFirstAdminSetupComplete: PropTypes.func.isRequired,
             getProfiles: PropTypes.func.isRequired,
+            migrateRecentEmojis: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
         products: PropTypes.array,
@@ -140,7 +141,7 @@ export default class Root extends React.PureComponent {
         Client4.setAuthHeader = false;
 
         setSystemEmojis(EmojiIndicesByAlias);
-        store.dispatch(migrateRecentEmojis());
+        this.props.actions.migrateRecentEmojis();
 
         // Force logout of all tabs if one tab is logged out
         window.addEventListener('storage', this.handleLogoutLoginSignal);
