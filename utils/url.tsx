@@ -187,6 +187,11 @@ export function isPermalinkURL(url: string): boolean {
     return isInternalURL(url, siteURL) && (regexp.test(url));
 }
 
+export function isStringContainingUrl(text: string): boolean {
+    const regex = new RegExp('(https?://|www.)');
+    return regex.test(text);
+}
+
 export type UrlValidationCheck = {
     url: string;
     error: typeof BadUrlReasons[keyof typeof BadUrlReasons] | false;

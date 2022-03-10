@@ -203,7 +203,16 @@ describe('Collapsed Reply Threads', () => {
     it('MM-38891 should show search guidance at the end of the list after scroll loading', () => {
         // # Create more than 25 threads so we can use scroll loading in the Threads list
         for (let i = 1; i <= 30; i++) {
-            postMessageWithReply(testChannel.id, otherUser, `Another interesting post ${i}`, testUser, `Another reply ${i}!`);
+            postMessageWithReply(testChannel.id, otherUser, `Another interesting post ${i}`, testUser, `Another reply ${i}!`).then(({rootId}) => {
+                // # Mark last thread as Unread
+                if (i === 30) {
+                    // # Click on root post to open thread
+                    cy.get(`#post_${rootId}`).click();
+
+                    // # Click on the reply's dot menu and mark as unread
+                    cy.uiClickPostDropdownMenu(rootId, 'Mark as Unread', 'RHS_ROOT');
+                }
+            });
         }
 
         cy.uiClickSidebarItem('threads');
@@ -212,9 +221,9 @@ describe('Collapsed Reply Threads', () => {
         const maxScrolls = 3;
         scrollThreadsListToEnd(maxScrolls);
 
-        // # Search guidance item should be shown at the end of the threads list
+        // * Search guidance item should be shown at the end of the threads list
         cy.get('.ThreadList .no-results__wrapper').should('be.visible').within(() => {
-            // # Title, subtitle and shortcut keys should be shown
+            // * Title, subtitle and shortcut keys should be shown
             cy.findByText('That’s the end of the list').should('be.visible');
             cy.contains('If you’re looking for older conversations, try searching with ').should('be.visible').within(() => {
                 cy.findByText(isMac() ? '⌘' : 'Ctrl').should('be.visible');
@@ -222,6 +231,12 @@ describe('Collapsed Reply Threads', () => {
                 cy.findByText('F').should('be.visible');
             });
         });
+
+        // # Click Unreads button
+        cy.findByText('Unreads').click();
+
+        // * Search guidance item should not be shown at the end of the Unreads threads list
+        cy.get('.ThreadList .no-results__wrapper').should('not.exist');
     });
 });
 

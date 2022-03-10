@@ -30,7 +30,7 @@ describe('Image Link Preview', () => {
     });
 
     it('MM-T329 Image link preview', () => {
-        const link = 'https://mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png';
+        const link = 'https://raw.githubusercontent.com/furqanmlk/furqanmlk.github.io/main/images/image-small-height.png';
         const baseUrl = Cypress.config('baseUrl');
         const encodedIconUrl = encodeURIComponent(link);
 
@@ -51,8 +51,8 @@ describe('Image Link Preview', () => {
 
             cy.uiGetContentFilePreviewModal().find('img').should((img) => {
                 // * Verify image is rendered
-                expect(img.height()).to.be.closeTo(165, 2);
-                expect(img.width()).to.be.closeTo(1041, 2);
+                expect(img.height()).to.be.closeTo(25, 2);
+                expect(img.width()).to.be.closeTo(340, 2);
             });
 
             // * Verify "Get Public Link" icon does not exist

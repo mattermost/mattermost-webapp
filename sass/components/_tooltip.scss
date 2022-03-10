@@ -6,6 +6,10 @@
     pointer-events: none;
     word-wrap: break-word;
 
+    &#announcement-bar__tooltip {
+        pointer-events: auto;
+    }
+
     .tooltip-inner {
         max-width: 100%;
         padding: 4px 8px;
