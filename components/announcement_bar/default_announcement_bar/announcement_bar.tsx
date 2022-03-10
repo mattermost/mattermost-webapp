@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {WarnMetricStatus} from 'mattermost-redux/types/config';
 
 import {Constants, AnnouncementBarTypes, ModalIdentifiers} from 'utils/constants';
+import {isStringContainingUrl} from 'utils/url';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -39,7 +40,26 @@ type Props = {
     };
 }
 
-export default class AnnouncementBar extends React.PureComponent<Props> {
+type State = {
+    showTooltip: boolean;
+    isStringContainingUrl: boolean;
+}
+
+const OVERLAY_ANNOUNCEMENT_HIDE_DELAY = 600;
+
+export default class AnnouncementBar extends React.PureComponent<Props, State> {
+    messageRef: React.RefObject<HTMLDivElement>;
+    constructor(props: Props) {
+        super(props);
+
+        this.messageRef = React.createRef();
+
+        this.state = {
+            showTooltip: false,
+            isStringContainingUrl: false,
+        };
+    }
+
     static defaultProps = {
         showCloseButton: false,
         color: '',
@@ -47,6 +67,19 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
         type: AnnouncementBarTypes.CRITICAL,
         showLinkAsButton: false,
         isTallBanner: false,
+    }
+
+    enableToolTipIfNeeded = () => {
+        const elm = this.messageRef.current;
+        if (elm) {
+            const enable = elm.offsetWidth < elm.scrollWidth;
+            this.setState({showTooltip: enable});
+            if (typeof this.props.message == 'string') {
+                this.setState({isStringContainingUrl: isStringContainingUrl(this.props.message)});
+            }
+            return;
+        }
+        this.setState({showTooltip: false});
     }
 
     componentDidMount() {
@@ -114,11 +147,11 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                 <FormattedMarkdownMessage id={this.props.message}/>
             );
         }
-        const announcementTooltip = (
+        const announcementTooltip = this.state.showTooltip ? (
             <Tooltip id='announcement-bar__tooltip'>
                 {this.props.tooltipMsg ? this.props.tooltipMsg : message}
             </Tooltip>
-        );
+        ) : <></>;
 
         const announcementIcon = () => {
             return this.props.showLinkAsButton &&
@@ -134,10 +167,16 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={announcementTooltip}
+                    delayHide={this.state.isStringContainingUrl ? OVERLAY_ANNOUNCEMENT_HIDE_DELAY : 0}
                 >
                     <div className='announcement-bar__text'>
                         {this.props.icon ? this.props.icon : announcementIcon()}
-                        {message}
+                        <span
+                            ref={this.messageRef}
+                            onMouseEnter={this.enableToolTipIfNeeded}
+                        >
+                            {message}
+                        </span>
                         {
                             !this.props.showLinkAsButton &&
                             <span className='announcement-bar__link'>
