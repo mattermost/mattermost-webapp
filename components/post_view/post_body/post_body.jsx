@@ -226,6 +226,7 @@ export default class PostBody extends React.PureComponent {
 
         return (
             <>
+                {(this.props.compactDisplay && isBeingEdited) && <div className={'clearfix'}/>}
                 {comment}
                 <div
                     id={`${post.id}_message`}
