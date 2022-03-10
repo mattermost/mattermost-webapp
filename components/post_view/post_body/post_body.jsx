@@ -226,8 +226,8 @@ export default class PostBody extends React.PureComponent {
 
         return (
             <>
-                {(this.props.compactDisplay && isBeingEdited) && <div className={'clearfix'}/>}
                 {comment}
+                {(this.props.compactDisplay && isBeingEdited) && <div className={'clearfix'}/>}
                 <div
                     id={`${post.id}_message`}
                     className={`post__body ${mentionHighlightClass} ${ephemeralPostClass} ${postClass}`}
