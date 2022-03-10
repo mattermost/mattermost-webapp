@@ -1,10 +1,6 @@
 @import 'utils/mixins';
 
 .InviteMembers-body {
-    display: flex;
-    // page width - channels preview width - progress dots width - people overlap width
-    max-width: calc(100vw - 600px - 120px - 30px);
-
     .UsersEmailsInput {
         max-width: 420px;
     }
@@ -20,7 +16,7 @@
 
 @include simple-in-and-out-before("InviteMembers");
 
-.ChannelsPreview--enter-from-after {
+.InviteMembers--enter-from-after {
     &-enter {
         transform: translateX(-100vw);
     }
@@ -35,7 +31,7 @@
     }
 }
 
-.ChannelsPreview--exit-to-after {
+.InviteMembers--exit-to-after {
     &-exit {
         transform: translateX(0);
     }

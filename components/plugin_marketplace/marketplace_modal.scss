@@ -50,7 +50,19 @@
         > li {
             > a {
                 padding: 10px 16px;
+                background: transparent;
                 transition: all 0.15s ease;
+
+                &:hover,
+                &:active,
+                &:focus {
+                    background: transparent;
+                    color: var(--center-channel-color);
+                }
+            }
+
+            &.active > a {
+                color: var(--center-channel-color);
             }
         }
     }

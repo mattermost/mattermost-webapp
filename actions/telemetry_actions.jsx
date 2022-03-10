@@ -30,7 +30,7 @@ export function trackEvent(category, event, props) {
     Client4.trackEvent(category, event, props);
     if (isDevMode() && category === 'performance' && props) {
         // eslint-disable-next-line no-console
-        console.log(`${event}: ${props.duration}ms, fresh: ${props.fresh}`);
+        console.log(event + ' - ' + Object.entries(props).map(([key, value]) => `${key}: ${value}`).join(', '));
     }
 }
 
@@ -121,4 +121,39 @@ function isSupported(checks) {
         }
     }
     return true;
+}
+
+export function trackPluginInitialization(plugins) {
+    if (!shouldTrackPerformance()) {
+        return;
+    }
+
+    const resourceEntries = performance.getEntriesByType('resource');
+
+    let startTime = Infinity;
+    let endTime = 0;
+    let totalDuration = 0;
+    let totalSize = 0;
+
+    for (const plugin of plugins) {
+        const filename = plugin.webapp.bundle_path.substring(plugin.webapp.bundle_path.lastIndexOf('/'));
+        const resource = resourceEntries.find((r) => r.name.endsWith(filename));
+
+        if (!resource) {
+            // This should never happen, but handle it just in case
+            continue;
+        }
+
+        startTime = Math.min(resource.startTime, startTime);
+        endTime = Math.max(resource.startTime + resource.duration, endTime);
+        totalDuration += resource.duration;
+        totalSize += resource.encodedBodySize;
+    }
+
+    trackEvent('performance', 'plugins_load', {
+        count: plugins.length,
+        duration: endTime - startTime,
+        totalDuration,
+        totalSize,
+    });
 }

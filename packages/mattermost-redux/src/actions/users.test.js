@@ -798,6 +798,44 @@ describe('Actions.Users', () => {
         assert.ok(profiles[user.id]);
     });
 
+    it('autocompleteUsers without out_of_channel', async () => {
+        nock(Client4.getBaseRoute()).
+            post('/users').
+            query(true).
+            reply(200, TestHelper.fakeUserWithId());
+
+        const user = await TestHelper.basicClient4.createUser(
+            TestHelper.fakeUser(),
+            null,
+            null,
+            TestHelper.basicTeam.invite_id,
+        );
+
+        nock(Client4.getBaseRoute()).
+            get('/users/autocomplete').
+            query(true).
+            reply(200, {users: [user]});
+
+        await Actions.autocompleteUsers(
+            '',
+            TestHelper.basicTeam.id,
+            TestHelper.basicChannel.id,
+        )(store.dispatch, store.getState);
+
+        const autocompleteRequest = store.getState().requests.users.autocompleteUsers;
+        const {profiles, profilesNotInChannel, profilesInChannel} = store.getState().entities.users;
+
+        if (autocompleteRequest.status === RequestStatus.FAILURE) {
+            throw new Error(JSON.stringify(autocompleteRequest.error));
+        }
+
+        const notInChannel = profilesNotInChannel[TestHelper.basicChannel.id];
+        const inChannel = profilesInChannel[TestHelper.basicChannel.id];
+        assert.equal(notInChannel, undefined);
+        assert.ok(inChannel.has(user.id));
+        assert.ok(profiles[user.id]);
+    });
+
     it('updateMe', async () => {
         TestHelper.mockLogin();
         await Actions.login(TestHelper.basicUser.email, TestHelper.basicUser.password)(store.dispatch, store.getState);

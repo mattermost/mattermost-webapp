@@ -5,8 +5,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
-
 import {LicenseSkus} from 'mattermost-redux/types/general';
+
 import {Constants} from 'utils/constants';
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n';
@@ -66,6 +66,7 @@ import CompanyInfo from './billing/company_info';
 import PaymentInfo from './billing/payment_info';
 import CompanyInfoEdit from './billing/company_info_edit';
 import PaymentInfoEdit from './billing/payment_info_edit';
+import WorkspaceOptimizationDashboard from './workspace-optimization/dashboard';
 import {
     LDAPFeatureDiscovery,
     SAMLFeatureDiscovery,
@@ -355,6 +356,17 @@ const AdminDefinition = {
         sectionTitle: t('admin.sidebar.reporting'),
         sectionTitleDefault: 'Reporting',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.REPORTING)),
+        workspace_optimization: {
+            url: 'reporting/workspace_optimization',
+            title: t('admin.sidebar.workspaceOptimization'),
+            title_default: 'Workspace Optimization',
+            schema: {
+                id: 'WorkspaceOptimizationDashboard',
+                component: WorkspaceOptimizationDashboard,
+            },
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.REPORTING.SITE_STATISTICS)),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.REPORTING.SITE_STATISTICS)),
+        },
         system_analytics: {
             url: 'reporting/system_analytics',
             title: t('admin.sidebar.siteStatistics'),
@@ -1812,6 +1824,16 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.DEVELOPER)),
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableClientPerformanceDebugging',
+                        label: t('admin.service.performanceDebuggingTitle'),
+                        label_default: 'Enable Client Performance Debugging: ',
+                        help_text: t('admin.service.performanceDebuggingDescription'),
+                        help_text_default: 'When true, users can access debugging settings for their account in **Settings > Advanced > Performance Debugging** to assist in diagnosing performance issues.',
+                        help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.DEVELOPER)),
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'ServiceSettings.AllowedUntrustedInternalConnections',
                         label: t('admin.service.internalConnectionsTitle'),
@@ -2162,7 +2184,7 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.EnableCustomGroups',
                         label: t('admin.team.customUserGroupsTitle'),
-                        label_default: 'Enable Custom User Groups: ',
+                        label_default: 'Enable Custom User Groups (Beta): ',
                         help_text: t('admin.team.customUserGroupsDescription'),
                         help_text_default: 'When true, users with appropriate permissions can create custom user groups and enables at-mentions for those groups.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
@@ -2609,7 +2631,10 @@ const AdminDefinition = {
             url: 'site_config/file_sharing_downloads',
             title: t('admin.sidebar.fileSharingDownloads'),
             title_default: 'File Sharing and Downloads',
-            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.SITE.FILE_SHARING_AND_DOWNLOADS)),
+            isHidden: it.any(
+                it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.SITE.FILE_SHARING_AND_DOWNLOADS)),
+            ),
             schema: {
                 id: 'FileSharingDownloads',
                 name: t('admin.site.fileSharingDownloads'),

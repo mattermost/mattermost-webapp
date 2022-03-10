@@ -10,11 +10,20 @@
 // Stage: @prod
 // Group: @account_setting
 
+import moment from 'moment-timezone';
+
+import * as TIMEOUTS from '../../../fixtures/timeouts';
+
 describe('Profile', () => {
+    let siteName;
     let testUser;
     let offTopic;
 
     before(() => {
+        cy.apiGetConfig().then(({config}) => {
+            siteName = config.TeamSettings.SiteName;
+        });
+
         // # Login as new user and visit off-topic
         cy.apiInitSetup({loginAfter: true}).then(({user, offTopicUrl}) => {
             testUser = user;
@@ -99,6 +108,37 @@ describe('Profile', () => {
         cy.apiLogin(testUser);
         cy.visit(offTopic);
         cy.get('#channelHeaderTitle').should('contain', 'Off-Topic');
+    });
+
+    it('MM-T2086 Password: Timestamp and email', () => {
+        // # Enter valid values in password change fields
+        enterPasswords(testUser.password, 'passwd', 'passwd');
+
+        // # Get current date
+        const now = moment(Date.now());
+
+        // # Save the settings
+        cy.uiSave();
+
+        // # Create expected date and time formats
+        const date = now.format('MMM DD, YYYY');
+        const time = now.format('hh:mm A');
+
+        // # Create expected timestamp
+        const timestamp = `Last updated ${date} at ${time}`;
+
+        // * Verify that password description field contains valid timestamp
+        cy.get('#passwordDesc').should('have.text', timestamp);
+
+        // # Wait for the mail to be sent out.
+        cy.wait(TIMEOUTS.FIVE_SEC);
+
+        cy.getRecentEmail(testUser).then(({subject}) => {
+            // * Verify the subject
+            expect(subject).to.equal(
+                `[${siteName}] Your password has been updated`,
+            );
+        });
     });
 });
 

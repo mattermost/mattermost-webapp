@@ -151,6 +151,10 @@
     .app__content {
         margin-left: 285px;
     }
+
+    .product-wrapper {
+        width: calc(100% - 65px);
+    }
 }
 
 @media screen and (min-width: 769px) {
@@ -173,7 +177,7 @@
 }
 
 .product-wrapper {
-    width: calc(100% - 65px);
+    width: 100%;
     height: calc(100% - 40px);
     margin-left: auto;
 

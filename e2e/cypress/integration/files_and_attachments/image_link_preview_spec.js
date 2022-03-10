@@ -38,7 +38,7 @@ describe('Image Link Preview', () => {
     });
 
     it('MM-T331 Image link preview - Collapse and expand', () => {
-        const link = 'https://mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png';
+        const link = 'https://raw.githubusercontent.com/furqanmlk/furqanmlk.github.io/main/images/small-image.png';
 
         // # Post a link to an externally hosted image
         cy.postMessage(link);
@@ -201,7 +201,7 @@ describe('Image Link Preview', () => {
             {
                 filename: 'image-40x400.jpg',
                 originalSize: {width: 40, height: 400},
-                thumbnailSize: {width: 35, height: 350},
+                thumbnailSize: {width: 40, height: 400},
                 containerSize: {width: 46},
             },
             {
