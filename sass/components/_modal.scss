@@ -254,7 +254,7 @@
         .modal-title {
             overflow: hidden;
             max-width: calc(100% - 80px);
-            flex-grow: 1;
+            flex: 1;
             color: var(--sidebar-header-text-color);
             font-size: 17px;
             line-height: 27px;
