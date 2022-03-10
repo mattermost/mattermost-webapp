@@ -14,8 +14,3 @@ export function showPreviewOnCreatePost(state: GlobalState) {
 export function showPreviewOnEditChannelHeaderModal(state: GlobalState) {
     return state.views.textbox.shouldShowPreviewOnEditChannelHeaderModal;
 }
-
-// TODO@Michel: remove this once inline post editing is enabled by default
-export function showPreviewOnEditPostModal(state: GlobalState) {
-    return state.views.textbox.shouldShowPreviewOnEditPostModal;
-}
