@@ -194,7 +194,7 @@ export default class PostBody extends React.PureComponent {
         );
 
         const hasPlugin =
-            (post.type && this.props.pluginPostTypes.hasOwnProperty(post.ytype)) ||
+            (post.type && this.props.pluginPostTypes.hasOwnProperty(post.type)) ||
             (post.props &&
                 post.props.type &&
                 this.props.pluginPostTypes.hasOwnProperty(post.props.type));

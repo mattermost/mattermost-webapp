@@ -102,7 +102,7 @@ export const useTasksList = () => {
     const showStartTrialTask = (isCurrentLicensed === 'false' && isPrevLicensed === 'false');
     const list: Record<string, string> = {...OnboardingTasksName};
     const pluginsPreferenceState = useSelector((state: GlobalState) => get(state, Constants.Preferences.ONBOARDING, OnboardingPreferences.USE_CASE));
-    const pluginsPreference = JSON.parse(pluginsPreferenceState);
+    const pluginsPreference = pluginsPreferenceState && JSON.parse(pluginsPreferenceState);
     if ((pluginsPreference && !pluginsPreference.boards) || !pluginsList.focalboard) {
         delete list.BOARDS_TOUR;
     }

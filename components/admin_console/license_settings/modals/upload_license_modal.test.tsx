@@ -58,6 +58,7 @@ describe('components/admin_console/license_settings/modals/upload_license_modal'
 
     const props = {
         onExited: mockOnExited,
+        fileObjFromProps: {} as File,
     };
 
     const mockStore = configureStore([thunk]);

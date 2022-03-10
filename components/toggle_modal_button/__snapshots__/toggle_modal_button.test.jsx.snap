@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/ToggleModalButtonRedux component should match snapshot 1`] = `
-<ModalToggleButtonRedux
+exports[`components/ToggleModalButton component should match snapshot 1`] = `
+<ToggleModalButton
   actions={
     Object {
       "openModal": [Function],
@@ -66,5 +66,5 @@ exports[`components/ToggleModalButtonRedux component should match snapshot 1`] =
       </span>
     </FormattedMessage>
   </button>
-</ModalToggleButtonRedux>
+</ToggleModalButton>
 `;
