@@ -11,7 +11,7 @@
 // Group: @not_cloud @system_console
 
 describe('Password settings', () => {
-    it('Should NOT show MaximumLoginAttempts when ExperimentalSettings.RestrictSystemAdmin is true', () => {
+    it('MM-T4679 - Should NOT show MaximumLoginAttempts when ExperimentalSettings.RestrictSystemAdmin is true', () => {
         cy.apiUpdateConfig({
             ExperimentalSettings: {
                 RestrictSystemAdmin: true,
