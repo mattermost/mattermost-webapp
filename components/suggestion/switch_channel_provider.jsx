@@ -274,13 +274,10 @@ let prefix = '';
 
 function sortChannelsByRecencyAndTypeAndDisplayName(wrappedA, wrappedB) {
     if (wrappedA.last_viewed_at && wrappedB.last_viewed_at) {
-        console.log({aaIf: wrappedA.last_viewed_at, bbIf: wrappedB.last_viewed_at});
         return wrappedB.last_viewed_at - wrappedA.last_viewed_at;
     } else if (wrappedA.last_viewed_at) {
-        console.log({aaElseIf: wrappedA.last_viewed_at, bbElseIf: wrappedB.last_viewed_at});
         return -1;
     } else if (wrappedB.last_viewed_at) {
-        console.log({aaElse: wrappedA.last_viewed_at, bbElse: wrappedB.last_viewed_at});
         return 1;
     }
 
@@ -321,60 +318,37 @@ export function quickSwitchSorter(wrappedA, wrappedB) {
     }
 
     if (a.type === Constants.DM_CHANNEL) {
-        aUsernameStartsWith = wrappedA.name.startsWith(prefix);
-        console.log('aUsernameStartsWith', prefix, aUsernameStartsWith, wrappedA.name);
+        aUsernameStartsWith = wrappedA.name.toLowerCase().startsWith(prefix);
     }
 
     if (b.type === Constants.DM_CHANNEL) {
-        bUsernameStartsWith = wrappedB.name.startsWith(prefix);
-        console.log('aUsernameStartsWith', prefix, bUsernameStartsWith, wrappedB.name);
+        bUsernameStartsWith = wrappedB.name.toLowerCase().startsWith(prefix);
     }
 
     const aStartsWith = aDisplayName.startsWith(prefix);
     const bStartsWith = bDisplayName.startsWith(prefix);
-    const aIncludes = aDisplayName.includes(prefix);
-    const bIncludes = bDisplayName.includes(prefix);
 
-    // Open channels user havent interacted should be at the  bottom of the list
+    // Open channels user haven't interacted should be at the  bottom of the list
     if (a.type === Constants.OPEN_CHANNEL && !wrappedA.last_viewed_at && (b.type !== Constants.OPEN_CHANNEL || wrappedB.last_viewed_at)) {
-        console.log('openChannelA', aDisplayName);
         return 1;
     } else if (b.type === Constants.OPEN_CHANNEL && !wrappedB.last_viewed_at) {
-        console.log('openChannelb', bDisplayName);
         return -1;
     }
 
     // Sort channels starting with the search term first
     if (aStartsWith && !bStartsWith) {
-        console.log('aStartsWith', aDisplayName);
         return -1;
     } else if (!aStartsWith && bStartsWith) {
-        console.log('bStartsWith', bDisplayName);
         return 1;
     }
 
-    // Sort channels starting with the search term first
+    //Sort channels starting with the search term first. For Dm's we are checking against username as well.
     if (aUsernameStartsWith && !bUsernameStartsWith) {
-        console.log('aUsernameStartsWith', aUsernameStartsWith);
         return -1;
     } else if (!aUsernameStartsWith && bUsernameStartsWith) {
-        console.log('bUsernameStartsWith', bUsernameStartsWith);
         return 1;
     }
 
-    if (aIncludes && !bIncludes) {
-        console.log('aIncludes', aDisplayName);
-        return -1;
-    } else if (!aIncludes && bIncludes) {
-        console.log('bIncludes', bDisplayName);
-        return 1;
-    }
-    console.table({sortChannelsByRecency: sortChannelsByRecencyAndTypeAndDisplayName(wrappedA, wrappedB),
-        aDisplayName,
-        bDisplayName,
-        a: wrappedA.last_viewed_at,
-        b: wrappedB.last_viewed_at,
-    });
     return sortChannelsByRecencyAndTypeAndDisplayName(wrappedA, wrappedB);
 }
 
