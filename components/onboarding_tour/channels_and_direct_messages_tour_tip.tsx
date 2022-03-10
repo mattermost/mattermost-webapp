@@ -20,14 +20,11 @@ type Props = {
 
 const FirstChannel = ({firstChannelName}: {firstChannelName: string}) => {
     return (
-        <>
-            <FormattedMarkdownMessage
-                id='onboardingTour.ChannelsAndDirectMessagesTour.firstChannel'
-                defaultMessage='Hey look, there’s your **{firstChannelName}** channel! '
-                values={{firstChannelName}}
-            />
-            <br/>
-        </>
+        <FormattedMarkdownMessage
+            id='onboardingTour.ChannelsAndDirectMessagesTour.firstChannel'
+            defaultMessage='Hey look, there’s your **{firstChannelName}** channel! '
+            values={{firstChannelName}}
+        />
     );
 };
 
