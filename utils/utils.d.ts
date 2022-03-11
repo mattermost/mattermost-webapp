@@ -138,7 +138,6 @@ export function compareChannels(a: Channel, b: Channel): number;
 export function setCSRFFromCookie(): void;
 
 export function isDevMode(): boolean;
-export function enableDevModeFeatures(): void;
 
 export function getClosestParent(elem: HTMLElement, selector: string): void;
 

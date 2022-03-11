@@ -16,6 +16,8 @@ import {
     isWindows,
 } from '../../../utils';
 
+import * as TIMEOUTS from '../../../fixtures/timeouts';
+
 import {backToTeam, saveSetting} from './helper';
 
 describe('SupportSettings', () => {
@@ -137,7 +139,7 @@ describe('SupportSettings', () => {
 
             // # Logout then login as new user
             cy.uiLogout();
-            cy.uiLogin(user1);
+            cy.uiLogin(user1).wait(TIMEOUTS.FIVE_SEC);
 
             // * Verify that onboarding page is shown
             cy.findByText(`Welcome to ${siteName}`);

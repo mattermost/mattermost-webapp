@@ -282,7 +282,7 @@ export const featureList = (subscriptionPlan: string | undefined, isPaidTier: bo
         localizeMessage('admin.billing.subscription.planDetails.features.10GBstoragePerUser', '10 GB storage per user'),
         localizeMessage('admin.billing.subscription.planDetails.features.99uptime', '99.0% uptime'),
         localizeMessage('admin.billing.subscription.planDetails.features.selfServiceDocumentation', 'Self-Service documentation and forum support'),
-        localizeMessage('admin.billing.subscription.planDetails.features.mfaAuthentication', 'Google, Gitlab, O365 & MFA Authentication'),
+        localizeMessage('admin.billing.subscription.planDetails.features.mfaAuthentication', 'Google, GitLab, O365 & MFA Authentication'),
         localizeMessage('admin.billing.subscription.planDetails.features.guestAccounts', 'Guest Accounts'),
         localizeMessage('admin.billing.subscription.planDetails.features.unlimitedIntegrations', 'Unlimited Integrations'),
     ];
@@ -298,7 +298,7 @@ export const featureList = (subscriptionPlan: string | undefined, isPaidTier: bo
     const featuresCloudProfessional = [
         localizeMessage('admin.billing.subscription.planDetails.features.advanceTeamPermission', 'Advanced team permissions'),
         localizeMessage('admin.billing.subscription.planDetails.features.mfaEnforcement', 'MFA enforcement'),
-        localizeMessage('admin.billing.subscription.planDetails.features.multiplatformSso', 'Gitlab, Google, and O365 single sign-on'),
+        localizeMessage('admin.billing.subscription.planDetails.features.multiplatformSso', 'GitLab, Google, and O365 single sign-on'),
         localizeMessage('admin.billing.subscription.planDetails.features.guestAccounts', 'Guest Accounts'),
         localizeMessage('admin.billing.subscription.planDetails.features.channelModeration', 'Channel moderation'),
         localizeMessage('admin.billing.subscription.planDetails.features.readOnlyChannels', 'Read-only announcement channels'),

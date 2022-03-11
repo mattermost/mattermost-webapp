@@ -101,7 +101,7 @@ export function getLicenseConfig(): ActionFunc {
     });
 }
 
-export function logClientError(message: string, level: LogLevel = 'ERROR') {
+export function logClientError(message: string, level = LogLevel.Error) {
     return bindClientFunc({
         clientFunc: Client4.logClientError,
         onRequest: GeneralTypes.LOG_CLIENT_ERROR_REQUEST,

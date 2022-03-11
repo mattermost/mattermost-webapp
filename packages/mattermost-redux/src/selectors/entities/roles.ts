@@ -83,8 +83,8 @@ export const getGroupListPermissions: (state: GlobalState) => Record<string, Gro
         const groupPermissionsMap: Record<string, GroupPermissions> = {};
         groups.forEach((g) => {
             groupPermissionsMap[g.id] = {
-                can_delete: permissions.has(Permissions.DELETE_CUSTOM_GROUP),
-                can_manage_members: permissions.has(Permissions.MANAGE_CUSTOM_GROUP_MEMBERS),
+                can_delete: permissions.has(Permissions.DELETE_CUSTOM_GROUP) && g.source.toLowerCase() !== 'ldap',
+                can_manage_members: permissions.has(Permissions.MANAGE_CUSTOM_GROUP_MEMBERS) && g.source.toLowerCase() !== 'ldap',
             };
         });
         return groupPermissionsMap;

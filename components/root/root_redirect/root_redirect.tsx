@@ -11,6 +11,7 @@ export type Props = {
     isElegibleForFirstAdmingOnboarding: boolean;
     currentUserId: string;
     location: Location;
+    isFirstAdmin: boolean;
     actions: {
         getFirstAdminSetupComplete: () => Promise<{data: boolean; error: any}>;
     };
@@ -21,7 +22,8 @@ export default function RootRedirect(props: Props) {
         if (props.currentUserId) {
             if (props.isElegibleForFirstAdmingOnboarding) {
                 props.actions.getFirstAdminSetupComplete().then((firstAdminCompletedSignup) => {
-                    if (firstAdminCompletedSignup.data === false) {
+                    // root.jsx ensures admin profiles are eventually loaded
+                    if (firstAdminCompletedSignup.data === false && props.isFirstAdmin) {
                         browserHistory.push('/preparing-workspace');
                     } else {
                         GlobalActions.redirectUserToDefaultTeam();

@@ -165,10 +165,9 @@ describe('SupportSettings', () => {
 
         // # Open help menu
         cy.uiOpenHelpMenu().within(() => {
-            // * Verify 5 options shown
+            // * Verify 4 options shown
             cy.findByText('Ask the community');
             cy.findByText('Help resources');
-            cy.findByText('Getting Started');
             cy.findByText('Report a problem');
             cy.findByText('Keyboard shortcuts');
 
@@ -193,9 +192,8 @@ describe('SupportSettings', () => {
 
         // # Open help menu
         cy.uiOpenHelpMenu().within(() => {
-            // * Verify 4 options shown
+            // * Verify 3 options shown
             cy.findByText('Help resources');
-            cy.findByText('Getting Started');
             cy.findByText('Report a problem');
             cy.findByText('Keyboard shortcuts');
 

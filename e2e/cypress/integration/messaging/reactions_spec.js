@@ -51,19 +51,13 @@ describe('Messaging', () => {
             cy.clickPostReactionIcon(postId);
 
             // # Add a reaction to the post
-            // cy.get('.emoji-picker__items #emoji-1f631').wait(TIMEOUTS.HALF_SEC).click();
-            cy.findByTestId('smiley').
-                should('exist').
-                click({force: true});
+            cy.clickEmojiInEmojiPicker('smiley');
 
             // # Click the `+` button next to the existing reactions (visible on hover)
             cy.get(`#addReaction-${postId}`).should('exist').click({force: true});
 
             // # Click to select an emoji from the picker
-            // cy.get('.emoji-picker__items #emoji-1f643').wait(TIMEOUTS.HALF_SEC).click();
-            cy.findByTestId('upside_down_face').
-                should('exist').
-                click({force: true});
+            cy.clickEmojiInEmojiPicker('upside_down_face');
 
             // * Emoji reaction is added to the post
             cy.get(`#${postId}_message`).within(() => {
@@ -97,19 +91,13 @@ describe('Messaging', () => {
                 cy.get(`#RHS_ROOT_reaction_${postId}`).should('exist').click({force: true});
 
                 // # Click the emoji picker icon to react to the message, select a reaction
-                // cy.get('.emoji-picker__items #emoji-1f631').wait(TIMEOUTS.HALF_SEC).click();
-                cy.findByTestId('smiley').
-                    should('exist').
-                    click({force: true});
+                cy.clickEmojiInEmojiPicker('smiley');
 
                 // # Hover over the post again and observe the `+` icon next to your reaction
                 cy.get(`#addReaction-${postId}`).should('exist').click({force: true});
 
                 // # Click the `+` icon and select a different reaction
-                // cy.get('.emoji-picker__items #emoji-1f643').wait(TIMEOUTS.HALF_SEC).click();
-                cy.findByTestId('upside_down_face').
-                    should('exist').
-                    click({force: true});
+                cy.clickEmojiInEmojiPicker('upside_down_face');
 
                 // * Two reactions are added to the message in the expanded RHS
                 cy.get(`#rhsPost_${postId}`).within(() => {

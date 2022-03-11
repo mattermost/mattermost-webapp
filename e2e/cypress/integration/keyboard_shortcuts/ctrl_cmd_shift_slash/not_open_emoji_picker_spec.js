@@ -13,7 +13,6 @@
 import * as MESSAGES from '../../../fixtures/messages';
 
 import {
-    clickSmileEmojiFromEmojiPicker,
     doReactToLastMessageShortcut,
     pressEscapeKey,
 } from './helpers';
@@ -60,7 +59,7 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
             doReactToLastMessageShortcut();
 
             // # Add reaction to first post
-            clickSmileEmojiFromEmojiPicker();
+            cy.clickEmojiInEmojiPicker('smile');
 
             // * Verify no reaction is added to last post
             cy.getLastPostId().then((lastPostId) => {

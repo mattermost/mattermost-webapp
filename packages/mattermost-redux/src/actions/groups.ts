@@ -7,6 +7,8 @@ import {Client4} from 'mattermost-redux/client';
 import {Action, ActionFunc, batchActions, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {GroupPatch, SyncableType, SyncablePatch, GroupCreateWithUserIds, CustomGroupPatch, GroupSearachParams} from 'mattermost-redux/types/groups';
 
+import Constants from 'utils/constants';
+
 import {logError} from './errors';
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
 
@@ -168,7 +170,7 @@ export function getGroups(filterAllowReference: false, page = 0, perPage = 10, i
     });
 }
 
-export function getGroupsNotAssociatedToTeam(teamID: string, q = '', page = 0, perPage: number = General.PAGE_SIZE_DEFAULT): ActionFunc {
+export function getGroupsNotAssociatedToTeam(teamID: string, q = '', page = 0, perPage: number = General.PAGE_SIZE_DEFAULT, source = Constants.LDAP_SERVICE): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getGroupsNotAssociatedToTeam,
         onSuccess: [GroupTypes.RECEIVED_GROUPS],
@@ -177,11 +179,12 @@ export function getGroupsNotAssociatedToTeam(teamID: string, q = '', page = 0, p
             q,
             page,
             perPage,
+            source,
         ],
     });
 }
 
-export function getGroupsNotAssociatedToChannel(channelID: string, q = '', page = 0, perPage: number = General.PAGE_SIZE_DEFAULT, filterParentTeamPermitted = false): ActionFunc {
+export function getGroupsNotAssociatedToChannel(channelID: string, q = '', page = 0, perPage: number = General.PAGE_SIZE_DEFAULT, filterParentTeamPermitted = false, source = Constants.LDAP_SERVICE): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getGroupsNotAssociatedToChannel,
         onSuccess: [GroupTypes.RECEIVED_GROUPS],
@@ -191,6 +194,7 @@ export function getGroupsNotAssociatedToChannel(channelID: string, q = '', page 
             page,
             perPage,
             filterParentTeamPermitted,
+            source,
         ],
     });
 }
