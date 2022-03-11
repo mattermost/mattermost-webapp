@@ -7,9 +7,10 @@
             "esnext"
         ],
         "baseUrl": ".",
-        "outDir": "./dist",
+        "outDir": "./lib",
         "module": "commonjs",
         "moduleResolution": "node",
+        "declaration": true,
         "paths": {
             "mattermost-redux/types/*": ["../mattermost-redux/src/types/*"]
         },
@@ -18,10 +19,10 @@
         ]
     },
     "include": [
-        "./**/*",
+        "./src/**/*",
         "../mattermost-redux/src/types/*"
     ],
     "exclude": [
         "!node_modules/@types"
-    ]
+    ],
 }

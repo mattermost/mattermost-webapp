@@ -1,5 +1,5 @@
 {
-  "name": "@mattermost/client",
+  "name": "@hmhealey/client",
   "version": "6.4.0-0",
   "description": "A JavaScript client for Mattermost",
   "license": "ISC",
@@ -11,7 +11,10 @@
   "directories": {
     "lib": "./lib"
   },
-  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "main": "lib/client/src/index.js",
   "dependencies": {
     "form-data": "4.0.0"
   },
@@ -21,6 +24,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "rm -rf ./lib",
+    "prepare": "npm run build"
   }
 }
