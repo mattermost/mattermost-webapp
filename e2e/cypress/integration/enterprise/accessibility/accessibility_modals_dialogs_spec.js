@@ -41,28 +41,6 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
     });
 
-    it('MM-T1454 Accessibility Support in Different Modals and Dialog screen', () => {
-        // * Verify the accessibility support in Profile Dialog
-        verifyUserMenuModal('Profile');
-
-        // * Verify the accessibility support in Team Settings Dialog
-        verifyMainMenuModal('Team Settings');
-
-        // * Verify the accessibility support in Manage Members Dialog
-        verifyMainMenuModal('Manage Members', `${testTeam.display_name} Members`);
-
-        cy.visit(`/${testTeam.name}/channels/off-topic`);
-
-        // * Verify the accessibility support in Channel Edit Header Dialog
-        verifyChannelMenuModal('Edit Channel Header', 'Edit Header for Off-Topic');
-
-        // * Verify the accessibility support in Channel Edit Purpose Dialog
-        verifyChannelMenuModal('Edit Channel Purpose', 'Edit Purpose for Off-Topic');
-
-        // * Verify the accessibility support in Rename Channel Dialog
-        verifyChannelMenuModal('Rename Channel');
-    });
-
     it('MM-T1466 Accessibility Support in Direct Messages Dialog screen', () => {
         // * Verify the aria-label in create direct message button
         cy.uiAddDirectMessage().click();
@@ -106,6 +84,28 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
             // * Check if reader can read no results
             cy.get('.multi-select__wrapper').should('have.attr', 'aria-live', 'polite').and('have.text', `No results found matching s${additionalSearchTerm}`);
         });
+    });
+
+    it('MM-T1454 Accessibility Support in Different Modals and Dialog screen', () => {
+        // * Verify the accessibility support in Profile Dialog
+        verifyUserMenuModal('Profile');
+
+        // * Verify the accessibility support in Team Settings Dialog
+        verifyMainMenuModal('Team Settings');
+
+        // * Verify the accessibility support in Manage Members Dialog
+        verifyMainMenuModal('Manage Members', `${testTeam.display_name} Members`);
+
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
+
+        // * Verify the accessibility support in Channel Edit Header Dialog
+        verifyChannelMenuModal('Edit Channel Header', 'Edit Header for Off-Topic');
+
+        // * Verify the accessibility support in Channel Edit Purpose Dialog
+        verifyChannelMenuModal('Edit Channel Purpose', 'Edit Purpose for Off-Topic');
+
+        // * Verify the accessibility support in Rename Channel Dialog
+        verifyChannelMenuModal('Rename Channel');
     });
 
     it('MM-T1467 Accessibility Support in More Channels Dialog screen', () => {
