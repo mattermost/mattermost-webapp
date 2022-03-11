@@ -101,6 +101,8 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         // * Verify the accessibility support in Channel Edit Header Dialog
         verifyChannelMenuModal('Edit Channel Header', 'Edit Header for Off-Topic');
 
+        cy.wait(TIMEOUTS.TWO_SEC);
+
         // * Verify the accessibility support in Channel Edit Purpose Dialog
         verifyChannelMenuModal('Edit Channel Purpose', 'Edit Purpose for Off-Topic');
 
@@ -227,7 +229,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
 
         // # Open Channel Members Dialog
         cy.get('#channelHeaderDropdownIcon').click();
-        cy.findByText('Manage Members').click();
+        cy.findByText('Manage Members').click().wait(TIMEOUTS.FIVE_SEC);
 
         // * Verify the accessibility support in Manage Members Dialog
         cy.findByRole('dialog', {name: 'Off-Topic Members'}).within(() => {
