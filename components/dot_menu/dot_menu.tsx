@@ -277,25 +277,29 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         </Tooltip>
     )
 
-    refCallback = (menuRef: Menu): void => {
-        if (menuRef) {
-            const buttonRect = this.buttonRef.current?.getBoundingClientRect();
-            let y;
-            if (typeof buttonRect?.y === 'undefined') {
-                y = typeof buttonRect?.top == 'undefined' ? 0 : buttonRect?.top;
-            } else {
-                y = buttonRect?.y;
-            }
-            const windowHeight = window.innerHeight;
+    handleDropdownOpened = (open: boolean) => {
+        this.props.handleDropdownOpened?.(open);
 
-            const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
-            const spaceOnTop = y - Constants.CHANNEL_HEADER_HEIGHT;
-            const spaceOnBottom = (totalSpace - (spaceOnTop + Constants.POST_AREA_HEIGHT));
-
-            this.setState({
-                openUp: (spaceOnTop > spaceOnBottom),
-            });
+        if (!open) {
+            return;
         }
+
+        const buttonRect = this.buttonRef.current?.getBoundingClientRect();
+        let y;
+        if (typeof buttonRect?.y === 'undefined') {
+            y = typeof buttonRect?.top == 'undefined' ? 0 : buttonRect?.top;
+        } else {
+            y = buttonRect?.y;
+        }
+        const windowHeight = window.innerHeight;
+
+        const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
+        const spaceOnTop = y - Constants.CHANNEL_HEADER_HEIGHT;
+        const spaceOnBottom = (totalSpace - (spaceOnTop + Constants.POST_AREA_HEIGHT));
+
+        this.setState({
+            openUp: (spaceOnTop > spaceOnBottom),
+        });
     }
 
     renderDivider = (suffix: string): React.ReactNode => {
@@ -414,7 +418,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
 
         return (
             <MenuWrapper
-                onToggle={this.props.handleDropdownOpened}
+                onToggle={this.handleDropdownOpened}
                 open={this.props.isMenuOpen}
             >
                 <OverlayTrigger
