@@ -316,12 +316,11 @@ export function quickSwitchSorter(wrappedA, wrappedB) {
     if (b.type === Constants.DM_CHANNEL && bDisplayName.startsWith('@')) {
         bDisplayName = bDisplayName.substring(1);
     }
-
-    if (a.type === Constants.DM_CHANNEL) {
+    if (a.type === Constants.DM_CHANNEL && (b.type === Constants.DM_CHANNEL || b.type === Constants.GM_CHANNEL) && ((wrappedA.last_viewed_at && wrappedB.last_viewed_at) || (!wrappedA.last_viewed_at && !wrappedB.last_viewed_at))) {
         aUsernameStartsWith = wrappedA.name.toLowerCase().startsWith(prefix);
     }
 
-    if (b.type === Constants.DM_CHANNEL) {
+    if ((a.type === Constants.GM_CHANNEL || a.type === Constants.DM_CHANNEL) && b.type === Constants.DM_CHANNEL && ((wrappedA.last_viewed_at && wrappedB.last_viewed_at) || (!wrappedA.last_viewed_at && !wrappedB.last_viewed_at))) {
         bUsernameStartsWith = wrappedB.name.toLowerCase().startsWith(prefix);
     }
 
