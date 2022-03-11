@@ -40,6 +40,7 @@ import {
     RelationOneToManyUnique,
     RelationOneToOne,
 } from 'mattermost-redux/types/utilities';
+import {General} from 'mattermost-redux/constants';
 
 export {getCurrentUser, getCurrentUserId, getUsers};
 
@@ -721,4 +722,46 @@ export const isFirstAdmin = createSelector(
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => getUsers(state),
     checkIsFirstAdmin,
+);
+
+export const displayLastActiveLabel: (state: GlobalState, userId: string) => boolean = createSelector(
+    'displayLastActiveLabel',
+    (state: GlobalState, userId: string) => getStatusForUserId(state, userId),
+    (state: GlobalState, userId: string) => getLastActivityForUserId(state, userId),
+    (state: GlobalState, userId: string) => getUser(state, userId),
+    getConfig,
+    (userStatus, timestamp, user, config) => {
+        const currentTime = new Date();
+        const oneMin = 60 * 1000;
+
+        if (
+            (!userStatus || userStatus === General.ONLINE) ||
+            (timestamp && (currentTime.valueOf() - new Date(timestamp).valueOf()) <= oneMin) ||
+            user?.props?.show_last_active === 'false' ||
+            user?.is_bot ||
+            timestamp === 0 ||
+            config.EnableLastActiveTime !== 'true'
+        ) {
+            return false;
+        }
+        return true;
+    },
+);
+
+export const getLastActiveTimestampUnits: (state: GlobalState, userId: string) => string[] = createSelector(
+    'getLastActiveTimestampUnits',
+    (state: GlobalState, userId: string) => getLastActivityForUserId(state, userId),
+    (timestamp) => {
+        const timestampUnits = [
+            'now',
+            'minute',
+            'hour',
+        ];
+        const currentTime = new Date();
+        const twoDaysAgo = 48 * 60 * 60 * 1000;
+        if ((currentTime.valueOf() - new Date(timestamp).valueOf()) < twoDaysAgo) {
+            timestampUnits.push('day');
+        }
+        return timestampUnits;
+    },
 );

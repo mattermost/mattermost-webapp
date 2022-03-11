@@ -9,7 +9,7 @@ import classNames from 'classnames';
 
 import {Permissions} from 'mattermost-redux/constants';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
-import {displayUsername, displayLastActiveLabel, isGuest, getLastActiveTimestampUnits} from 'mattermost-redux/utils/user_utils';
+import {displayUsername, isGuest} from 'mattermost-redux/utils/user_utils';
 
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import Markdown from 'components/markdown';
@@ -85,9 +85,10 @@ class ChannelHeader extends React.PureComponent {
         customStatus: PropTypes.object,
         isCustomStatusEnabled: PropTypes.bool.isRequired,
         isCustomStatusExpired: PropTypes.bool.isRequired,
-        lastActivityTimestamp: PropTypes.number,
-        enableLastActiveTime: PropTypes.bool.isRequired,
         isFileAttachmentsEnabled: PropTypes.bool.isRequired,
+        isLastActiveEnabled: PropTypes.bool.isRequired,
+        timestampUnits: PropTypes.array,
+        lastActivityTimestamp: PropTypes.number,
     };
 
     constructor(props) {
@@ -407,8 +408,7 @@ class ChannelHeader extends React.PureComponent {
                     {this.renderCustomStatus()}
                 </span>
             );
-            if (displayLastActiveLabel(channel.status, this.props.lastActivityTimestamp, this.props.dmUser.props?.show_last_active, this.props.enableLastActiveTime)) {
-                const timestampUnits = getLastActiveTimestampUnits(this.props.lastActivityTimestamp);
+            if (this.props.isLastActiveEnabled && this.props.lastActivityTimestamp && this.props.timestampUnits) {
                 dmHeaderTextStatus = (
                     <span className='header-status__text'>
                         <span className='last-active__text'>
@@ -419,7 +419,7 @@ class ChannelHeader extends React.PureComponent {
                                     timestamp: (
                                         <Timestamp
                                             value={this.props.lastActivityTimestamp}
-                                            units={timestampUnits}
+                                            units={this.props.timestampUnits}
                                             useTime={false}
                                             style={'short'}
                                         />

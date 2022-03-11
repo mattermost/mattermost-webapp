@@ -27,6 +27,8 @@ import {
     getUser,
     makeGetProfilesInChannel,
     getLastActivityForUserId,
+    displayLastActiveLabel,
+    getLastActiveTimestampUnits,
 } from 'mattermost-redux/selectors/entities/users';
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 
@@ -65,6 +67,7 @@ function makeMapStateToProps() {
         let gmMembers;
         let customStatus;
         let lastActivityTimestamp;
+
         if (channel && channel.type === General.DM_CHANNEL) {
             const dmUserId = getUserIdFromChannelName(user.id, channel.name);
             dmUser = getUser(state, dmUserId);
@@ -74,6 +77,13 @@ function makeMapStateToProps() {
             gmMembers = doGetProfilesInChannel(state, channel.id, false);
         }
         const stats = getCurrentChannelStats(state) || {member_count: 0, guest_count: 0, pinnedpost_count: 0};
+
+        let timestampUnits = [];
+        let isLastActiveEnabled = false;
+        if (dmUser) {
+            isLastActiveEnabled = displayLastActiveLabel(state, dmUser.id);
+            timestampUnits = getLastActiveTimestampUnits(state, dmUser.id);
+        }
 
         return {
             teamId: getCurrentTeamId(state),
@@ -98,8 +108,9 @@ function makeMapStateToProps() {
             isCustomStatusEnabled: isCustomStatusEnabled(state),
             isCustomStatusExpired: isCustomStatusExpired(state, customStatus),
             lastActivityTimestamp,
-            enableLastActiveTime: config.EnableLastActiveTime === 'true',
             isFileAttachmentsEnabled: isFileAttachmentsEnabled(config),
+            isLastActiveEnabled,
+            timestampUnits,
         };
     };
 }

@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {getCurrentUserId, getLastActivityForUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
+import {displayLastActiveLabel, getCurrentUserId, getLastActiveTimestampUnits, getLastActivityForUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {
     getCurrentTeam,
     getCurrentRelativeTeamUrl,
@@ -15,7 +15,6 @@ import {
     canManageAnyChannelMembersInCurrentTeam,
     getCurrentChannelId,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {getMembershipForEntities} from 'actions/views/profile_popover';
@@ -55,16 +54,18 @@ function makeMapStateToProps() {
         const isTeamAdmin = Boolean(teamMember && teamMember.scheme_admin);
         const channelMember = getChannelMembersInChannels(state)?.[channelId]?.[userId];
 
-        const config = getConfig(state);
-
         let isChannelAdmin = false;
         if (getRhsState(state) !== 'search' && channelMember != null && channelMember.scheme_admin) {
             isChannelAdmin = true;
         }
 
         const customStatus = getCustomStatus(state, userId);
+        const status = getStatusForUserId(state, userId);
+        const user = getUser(state, userId);
 
         const lastActivityTimestamp = getLastActivityForUserId(state, userId);
+        const timestampUnits = getLastActiveTimestampUnits(state, userId);
+        const enableLastActiveTime = displayLastActiveLabel(state, userId);
         return {
             currentTeamId: team.id,
             currentUserId: getCurrentUserId(state),
@@ -73,9 +74,9 @@ function makeMapStateToProps() {
             isChannelAdmin,
             isInCurrentTeam: Boolean(teamMember) && teamMember?.delete_at === 0,
             canManageAnyChannelMembersInCurrentTeam: canManageAnyChannelMembersInCurrentTeam(state),
-            status: getStatusForUserId(state, userId),
+            status,
             teamUrl: getCurrentRelativeTeamUrl(state),
-            user: getUser(state, userId),
+            user,
             modals: state.views.modals,
             customStatus,
             isCustomStatusEnabled: isCustomStatusEnabled(state),
@@ -83,7 +84,8 @@ function makeMapStateToProps() {
             channelId,
             currentUserTimezone: getCurrentUserTimezone(state),
             lastActivityTimestamp,
-            enableLastActiveTime: config.EnableLastActiveTime === 'true',
+            enableLastActiveTime,
+            timestampUnits,
             isMobileView: getIsMobileView(state),
         };
     };
