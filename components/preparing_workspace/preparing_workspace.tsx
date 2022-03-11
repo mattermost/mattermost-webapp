@@ -180,7 +180,7 @@ export default function PreparingWorkspace(props: Props) {
             }
             if (currentStep === WizardSteps.Plugins) {
                 const mostRecentStepIndex = stepOrder.indexOf(mostRecentStep);
-                setStepHistory([mostRecentStep, stepOrder[mostRecentStepIndex - 1]]);
+                setStepHistory([mostRecentStep, stepOrder[Math.max(mostRecentStepIndex - 1, 0)]]);
             }
         }
     }, [pluginsEnabled, currentStep, mostRecentStep]);
