@@ -326,6 +326,7 @@ export type ServiceSettings = {
     EnableLocalMode: boolean;
     LocalModeSocketLocation: string;
     CollapsedThreads: 'disabled' | 'default_on' | 'default_off';
+    ThreadAutoFollow: boolean;
 };
 
 export type TeamSettings = {
