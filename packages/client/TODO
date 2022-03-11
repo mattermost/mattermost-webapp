@@ -1,0 +1,5 @@
+- Add a readme
+- Try installing this somewhere
+- Take another shot at not compiling files to ./lib/client/src/
+- Look into CI stuff for this package
+    - Like autopublishing when version is tagged
