@@ -226,6 +226,7 @@ exports[`components/ChannelHeader should match snapshot with last active display
         }
       }
     />
+    <Connect(CallButton) />
   </div>
 </div>
 `;
@@ -456,6 +457,7 @@ exports[`components/ChannelHeader should match snapshot with last active display
         }
       }
     />
+    <Connect(CallButton) />
   </div>
 </div>
 `;
@@ -666,6 +668,7 @@ exports[`components/ChannelHeader should match snapshot with no last active disp
         }
       }
     />
+    <Connect(CallButton) />
   </div>
 </div>
 `;
@@ -876,6 +879,7 @@ exports[`components/ChannelHeader should match snapshot with no last active disp
         }
       }
     />
+    <Connect(CallButton) />
   </div>
 </div>
 `;
