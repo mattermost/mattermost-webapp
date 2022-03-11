@@ -34,6 +34,7 @@ import NeedsTeam from 'components/needs_team';
 import OnBoardingTaskList from 'components/onboarding_tasklist';
 import LaunchingWorkspace, {LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX} from 'components/preparing_workspace/launching_workspace';
 import {Animations} from 'components/preparing_workspace/steps';
+import emojiSpriteSheet from 'images/emoji-sheets/apple-sheet.png';
 
 import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
@@ -125,6 +126,7 @@ export default class Root extends React.PureComponent {
         products: PropTypes.array,
         showTaskList: PropTypes.bool,
         showLaunchingWorkspace: PropTypes.bool,
+        emojiPickerEnabled: PropTypes.bool,
     }
 
     constructor(props) {
@@ -280,6 +282,12 @@ export default class Root extends React.PureComponent {
                 prevProps.history.push('/terms_of_service');
             }
         }
+
+        if (prevProps.emojiPickerEnabled !== this.props.emojiPickerEnabled && this.props.emojiPickerEnabled) {
+            if (window.Worker) {
+                this.spawnEmojiSpriteWorker();
+            }
+        }
     }
 
     async redirectToOnboardingOrDefaultTeam() {
@@ -321,6 +329,23 @@ export default class Root extends React.PureComponent {
         }
 
         GlobalActions.redirectUserToDefaultTeam();
+    }
+
+    spawnEmojiSpriteWorker() {
+        if (!emojiSpriteSheet) {
+            return;
+        }
+
+        const emojiSpriteWorker = new Worker(new URL('./emoji_web_worker.js', import.meta.url));
+
+        window.emojiSpriteWorker = emojiSpriteWorker;
+        emojiSpriteWorker.postMessage({
+            url: emojiSpriteSheet,
+        });
+
+        emojiSpriteWorker.onmessage = () => {
+            emojiSpriteWorker.terminate();
+        };
     }
 
     componentDidMount() {
@@ -365,6 +390,10 @@ export default class Root extends React.PureComponent {
             this.mobileMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
         } else {
             window.removeEventListener('resize', this.handleWindowResizeEvent);
+        }
+
+        if (this.emojiSpriteWorker) {
+            this.emojiSpriteWorker.terminate();
         }
     }
 

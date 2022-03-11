@@ -44,6 +44,7 @@ function mapStateToProps(state) {
         products,
         showTaskList,
         showLaunchingWorkspace: getShowLaunchingWorkspace(state),
+        emojiPickerEnabled: config.EnableEmojiPicker === 'true',
     };
 }
 
