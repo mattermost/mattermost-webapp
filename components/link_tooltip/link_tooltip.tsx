@@ -35,6 +35,7 @@ export default class LinkTooltip extends React.PureComponent<Props, State> {
     private hideTimeout: number;
     private showTimeout: number;
     private popper?: Popper;
+    private container: JSX.Element | null = null;
 
     public constructor(props: Props) {
         super(props);
@@ -48,12 +49,33 @@ export default class LinkTooltip extends React.PureComponent<Props, State> {
         };
     }
 
+    createContainer = () => {
+        const {href} = this.props;
+        return (
+            ReactDOM.createPortal(
+                <div
+                    style={tooltipContainerStyles}
+                    ref={this.tooltipContainerRef}
+                    className={classNames('tooltip-container', {visible: this.state.show})}
+                >
+                    <Pluggable
+                        href={href}
+                        show={this.state.show}
+                        pluggableName='LinkTooltip'
+                    />
+                </div>,
+                document.getElementById('root') as HTMLElement,
+            )
+        );
+    }
+
     public showTooltip = (e: React.MouseEvent<HTMLSpanElement>): void => {
         //clear the hideTimeout in the case when the cursor is moved from a tooltipContainer child to the link
         window.clearTimeout(this.hideTimeout);
 
         if (!this.state.show) {
             const target = e.currentTarget;
+            this.container = this.createContainer();
             const tooltipContainer = this.tooltipContainerRef.current;
 
             //clear the old this.showTimeout if there is any before overriding
@@ -93,6 +115,7 @@ export default class LinkTooltip extends React.PureComponent<Props, State> {
 
         this.hideTimeout = window.setTimeout(() => {
             this.setState({show: false});
+            this.container = null;
 
             //prevent executing the showTimeout after the hideTooltip
             clearTimeout(this.showTimeout);
@@ -100,7 +123,7 @@ export default class LinkTooltip extends React.PureComponent<Props, State> {
     };
 
     public render() {
-        const {href, children, attributes} = this.props;
+        const {children, attributes} = this.props;
 
         const dataAttributes = {
             'data-hashtag': attributes['data-hashtag'],
@@ -109,20 +132,7 @@ export default class LinkTooltip extends React.PureComponent<Props, State> {
         };
         return (
             <React.Fragment>
-                {ReactDOM.createPortal(
-                    <div
-                        style={tooltipContainerStyles}
-                        ref={this.tooltipContainerRef}
-                        className={classNames('tooltip-container', {visible: this.state.show})}
-                    >
-                        <Pluggable
-                            href={href}
-                            show={this.state.show}
-                            pluggableName='LinkTooltip'
-                        />
-                    </div>,
-                    document.getElementById('root') as HTMLElement,
-                )}
+                {this.container}
                 <span
                     onMouseOver={this.showTooltip}
                     onMouseLeave={this.hideTooltip}
