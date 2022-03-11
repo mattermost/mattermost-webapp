@@ -2,9 +2,11 @@
 // See LICENSE.txt for license information.
 
 import Client4, {DEFAULT_LIMIT_AFTER, DEFAULT_LIMIT_BEFORE} from './client4';
+import {ClientError} from './error';
 
 export {
     Client4,
+    ClientError,
     DEFAULT_LIMIT_AFTER,
     DEFAULT_LIMIT_BEFORE,
 };

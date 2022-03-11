@@ -3,7 +3,8 @@
 
 import nock from 'nock';
 
-import {ClientError, Client4, HEADER_X_VERSION_ID} from './client4';
+import Client4, {HEADER_X_VERSION_ID} from './client4';
+import {ClientError} from './error';
 import {TelemetryHandler} from './telemetry';
 
 describe('Client4', () => {
@@ -20,6 +21,7 @@ describe('Client4', () => {
     describe('doFetchWithResponse', () => {
         it('serverVersion should be set from response header', async () => {
             const client = new Client4();
+            client.setUrl('https://example.com');
 
             expect(client.serverVersion).toEqual('');
 
@@ -66,15 +68,16 @@ describe('ClientError', () => {
 });
 
 describe('trackEvent', () => {
-    class TestTelemetryHandler extends TelemetryHandler {
+    class TestTelemetryHandler implements TelemetryHandler {
         trackEvent = jest.fn();
-        sendPage = jest.fn();
+        pageVisited = jest.fn();
     }
 
     it('should call the attached TelemetryHandler, if one is attached to Client4', () => {
         const client = new Client4();
+        client.setUrl('https://example.com');
 
-        expect(client.trackEvent('test', 'onClick')).not.toThrowError();
+        expect(() => client.trackEvent('test', 'onClick')).not.toThrowError();
 
         const handler = new TestTelemetryHandler();
 

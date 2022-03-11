@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Client4} from './client4';
+import Client4 from './client4';
 import {cleanUrlForLogging} from './error';
 
 describe('cleanUrlForLogging', () => {
@@ -29,7 +29,7 @@ describe('cleanUrlForLogging', () => {
     }];
 
     for (const test of tests) {
-        test(test.name, () => {
+        it(test.name, () => {
             expect(cleanUrlForLogging(baseUrl, test.input)).toBe(test.expected);
         });
     }
