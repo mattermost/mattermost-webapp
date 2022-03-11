@@ -2,7 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {Client4} from 'mattermost-redux/client';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {Preferences} from 'mattermost-redux/constants';
+import {getConfig, isPerformanceDebuggingEnabled} from 'mattermost-redux/selectors/entities/general';
+import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 
 import store from 'stores/redux_store.jsx';
 
@@ -27,6 +29,14 @@ export function shouldTrackPerformance(state = store.getState()) {
 }
 
 export function trackEvent(category, event, props) {
+    const state = store.getState();
+    if (
+        isPerformanceDebuggingEnabled(state) &&
+        getBool(state, Preferences.CATEGORY_PERFORMANCE_DEBUGGING, Preferences.NAME_DISABLE_TELEMETRY)
+    ) {
+        return;
+    }
+
     Client4.trackEvent(category, event, props);
     if (isDevMode() && category === 'performance' && props) {
         // eslint-disable-next-line no-console
