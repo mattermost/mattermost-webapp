@@ -277,6 +277,7 @@ export default class SizeAwareImage extends React.PureComponent {
                     target='_blank'
                     rel='noopener noreferrer'
                     download={true}
+                    role={this.isInternalImage ? 'button' : false}
                     aria-label={localizeMessage('single_image_view.download_tooltip', 'Download')}
                 >
                     <DownloadOutlineIcon
