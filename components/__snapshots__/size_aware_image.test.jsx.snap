@@ -111,6 +111,7 @@ exports[`components/SizeAwareImage should load download and copy link buttons wh
             download={true}
             href="https://example.com/image.png"
             rel="noopener noreferrer"
+            role="button"
             target="_blank"
           >
             <DownloadOutlineIcon
@@ -235,6 +236,7 @@ exports[`components/SizeAwareImage should match snapshot when handleSmallImageCo
             className="style--none size-aware-image__download"
             download={true}
             rel="noopener noreferrer"
+            role="button"
             target="_blank"
           >
             <DownloadOutlineIcon
@@ -373,6 +375,7 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
             className="style--none size-aware-image__download"
             download={true}
             rel="noopener noreferrer"
+            role="button"
             target="_blank"
           >
             <DownloadOutlineIcon
