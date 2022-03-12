@@ -238,6 +238,18 @@ export default class WebSocketClient {
         this.sendMessage('user_typing', data, callback);
     }
 
+    subscribe(subscriptionID: string) {
+        this.sendMessage('subscribe', {
+            subscription_id: subscriptionID,
+        });
+    }
+
+    unsubscribe(subscriptionID: string) {
+        this.sendMessage('unsubscribe', {
+            subscription_id: subscriptionID,
+        });
+    }
+
     userUpdateActiveStatus(userIsActive: boolean, manual: boolean, callback?: () => void) {
         const data = {
             user_is_active: userIsActive,
