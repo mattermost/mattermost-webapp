@@ -19,6 +19,7 @@ import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser, isCurrentUserSystemAdmin, checkIsFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
+import {channelViewObserver} from '../../store/channel_subscription';
 
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions';
 import * as GlobalActions from 'actions/global_actions';
@@ -177,6 +178,16 @@ export default class Root extends React.PureComponent {
         this.updateWindowSize();
 
         store.subscribe(() => applyLuxonDefaults(store.getState()));
+
+        store.subscribe(() => channelViewObserver(
+            store.getState,
+            (channelID) => {
+                webSocketClient.subscribe(`channels/${channelID}/typing`);
+            },
+            (channelID) => {
+                webSocketClient.unsubscribe(`channels/${channelID}/typing`);
+            },
+        ));
     }
 
     onConfigLoaded = () => {
