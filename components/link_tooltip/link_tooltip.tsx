@@ -98,7 +98,7 @@ export default class LinkTooltip extends React.PureComponent<Props, State> {
     };
 
     public render() {
-        const {children, attributes, href} = this.props;
+        const {href, children, attributes} = this.props;
 
         const dataAttributes = {
             'data-hashtag': attributes['data-hashtag'],
