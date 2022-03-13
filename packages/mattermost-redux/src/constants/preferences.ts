@@ -167,7 +167,7 @@ const Preferences = {
             errorTextColor: '#d24b4e',
             mentionHighlightBg: '#133a91',
             mentionHighlightLink: '#a4f4f4',
-            codeTheme: 'github',
+            codeTheme: 'solarized-dark',
         },
         onyx: {
             type: 'Onyx',

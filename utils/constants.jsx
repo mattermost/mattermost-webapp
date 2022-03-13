@@ -768,6 +768,7 @@ export const FileTypes = {
     PATCH: 'patch',
     SVG: 'svg',
     OTHER: 'other',
+    LICENSE_EXTENSION: '.mattermost-license',
 };
 
 export const NotificationLevels = {

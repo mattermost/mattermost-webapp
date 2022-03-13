@@ -31,7 +31,7 @@ describe('Messaging', () => {
         });
 
         // # Post the image link to the channel
-        cy.postMessage('Hello ![test image](https://mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png)');
+        cy.postMessage('Hello ![test image](https://raw.githubusercontent.com/furqanmlk/furqanmlk.github.io/main/images/image-small-height.png)');
 
         // * Confirm the image container is visible
         cy.uiWaitUntilMessagePostedIncludes('Hello');
