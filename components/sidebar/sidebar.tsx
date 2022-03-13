@@ -40,11 +40,13 @@ type Props = {
         fetchMyCategories: (teamId: string) => {data: boolean};
         createCategory: (teamId: string, categoryName: string) => {data: string};
         openModal: <P>(modalData: ModalData<P>) => void;
+        closeModal: (modalId: string) => void;
         clearChannelSelection: () => void;
     };
     isCloud: boolean;
     unreadFilterEnabled: boolean;
     isMobileView: boolean;
+    isKeyBoardShortcutModalOpen: boolean;
     userGroupsEnabled: boolean;
     canCreateCustomGroups: boolean;
 };
@@ -102,11 +104,14 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         if (ctrlOrMetaKeyPressed) {
             if (Utils.isKeyPressed(event, Constants.KeyCodes.FORWARD_SLASH)) {
                 event.preventDefault();
-
-                this.props.actions.openModal({
-                    modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL,
-                    dialogType: KeyboardShortcutsModal,
-                });
+                if (this.props.isKeyBoardShortcutModalOpen) {
+                    this.props.actions.closeModal(ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL);
+                } else {
+                    this.props.actions.openModal({
+                        modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL,
+                        dialogType: KeyboardShortcutsModal,
+                    });
+                }
             } else if (Utils.isKeyPressed(event, Constants.KeyCodes.A) && event.shiftKey) {
                 event.preventDefault();
 
