@@ -17,8 +17,8 @@ const tooltipContainerStyles: CSSProperties = {
     alignItems: 'center',
     zIndex: 1070,
     position: 'absolute',
-    top: 0,
-    left: 0,
+    top: -1000,
+    left: -1000,
 };
 
 type Props = {
@@ -51,9 +51,11 @@ export default class LinkTooltip extends React.PureComponent<Props, State> {
     public showTooltip = (e: React.MouseEvent<HTMLSpanElement>): void => {
         //clear the hideTimeout in the case when the cursor is moved from a tooltipContainer child to the link
         window.clearTimeout(this.hideTimeout);
+        let tooltipContainer: Element | null;
+        this.setState({show: true}, () => {
+            tooltipContainer = this.tooltipContainerRef.current;
+        });
         const target = e.currentTarget;
-        this.setState({show: true});
-        const tooltipContainer = this.tooltipContainerRef.current;
 
         //clear the old this.showTimeout if there is any before overriding
         window.clearTimeout(this.showTimeout);
