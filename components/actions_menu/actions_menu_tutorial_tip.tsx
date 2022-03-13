@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import TourTip, {useMeasurePunchouts} from 'components/widgets/tour_tip';
 
-const translate = {x: 6, y: -10};
+const translate = {x: 6, y: -16};
 
 type Props = {
     handleNext: (e: React.MouseEvent) => void;
