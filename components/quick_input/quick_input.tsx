@@ -81,7 +81,7 @@ export type Props = {
     autoFocus?: boolean;
     type?: string;
     id?: string;
-    onInput?: () => void;
+    onInput?: (e?: React.FormEvent<HTMLInputElement>) => void;
 }
 
 // A component that can be used to make controlled inputs that function properly in certain
