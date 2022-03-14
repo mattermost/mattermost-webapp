@@ -41,7 +41,7 @@ export default function EditPostTimeLimitModal(props: Props) {
         setSaving(true);
         setErrorMessage('');
 
-        if (postEditTimeLimit.toString() === 'NaN' || postEditTimeLimit < 0 || postEditTimeLimit > INT32_MAX) {
+        if (isNaN(postEditTimeLimit) || postEditTimeLimit < 0 || postEditTimeLimit > INT32_MAX) {
             setErrorMessage(localizeMessage('edit_post.time_limit_modal.invalid_time_limit', 'Invalid time limit'));
             setSaving(false);
             return false;
