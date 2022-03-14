@@ -4948,6 +4948,7 @@
   "user_groups_modal.mentionInvalidError": "Ungültiges Zeichen in Erwähnung.",
   "user_groups_modal.mentionIsEmpty": "Erwähnung ist ein notwendiges Feld.",
   "user_groups_modal.mentionNotUnique": "Erwähnung muss eindeutig sein.",
+  "user_groups_modal.mentionReservedWord": "Erwähnung enthält ein reserviertes Wort.",
   "user_groups_modal.mentionUsernameConflict": "Der Benutzername existiert schon. Erwähnungen müssen eindeutig sein.",
   "user_groups_modal.myGroups": "Meine Gruppen",
   "user_groups_modal.name": "Name",
