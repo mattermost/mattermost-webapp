@@ -133,40 +133,9 @@ export function measurePageLoadTelemetry() {
     }, tenSeconds);
 }
 
-/**
- * Measures the time and number of requests between channel or team switch start and the post list component rendering posts.
- * @param {Boolean} fresh set to true when the posts have not been loaded before
- */
-export function measureChannelOrTeamSwitchTelemetry(fresh = false) {
-    mark('PostList#component');
-
-    const [channelSwitchDuration] = measure('SidebarChannelLink#click', 'PostList#component');
-    const [teamSwitchDuration] = measure('TeamLink#click', 'PostList#component');
-
-    clearMarks([
-        'SidebarChannelLink#click',
-        'TeamLink#click',
-        'PostList#component',
-    ]);
-
-    // If channel was switched by clicking on sidebar channel link
-    if (channelSwitchDuration !== -1) {
-        trackEvent('performance', 'channel_switch', {duration: Math.round(channelSwitchDuration), fresh});
-    }
-
-    // If team was switched by clicking on team link
-    if (teamSwitchDuration !== -1) {
-        trackEvent('performance', 'team_switch', {duration: Math.round(teamSwitchDuration), fresh});
-    }
-}
-
 function mostRecentDurationByEntryName(entryName) {
     const entriesWithName = performance.getEntriesByName(entryName);
-    return entriesWithName.map((item) =>
-        ({
-            duration: item.duration,
-            startTime: item.startTime,
-        }))[entriesWithName.length - 1];
+    return entriesWithName.map((item) => item.duration)[entriesWithName.length - 1];
 }
 
 function isSupported(checks) {
