@@ -364,7 +364,7 @@ const AdminDefinition = {
                 id: 'WorkspaceOptimizationDashboard',
                 component: WorkspaceOptimizationDashboard,
             },
-            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.REPORTING.SITE_STATISTICS)) && it.configIsFalse('FeatureFlags', 'WorkspaceOptimizationDashboard'),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.REPORTING.SITE_STATISTICS)),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.REPORTING.SITE_STATISTICS)),
         },
         system_analytics: {
@@ -1824,6 +1824,16 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.DEVELOPER)),
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableClientPerformanceDebugging',
+                        label: t('admin.service.performanceDebuggingTitle'),
+                        label_default: 'Enable Client Performance Debugging: ',
+                        help_text: t('admin.service.performanceDebuggingDescription'),
+                        help_text_default: 'When true, users can access debugging settings for their account in **Settings > Advanced > Performance Debugging** to assist in diagnosing performance issues.',
+                        help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.DEVELOPER)),
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'ServiceSettings.AllowedUntrustedInternalConnections',
                         label: t('admin.service.internalConnectionsTitle'),
@@ -2621,7 +2631,10 @@ const AdminDefinition = {
             url: 'site_config/file_sharing_downloads',
             title: t('admin.sidebar.fileSharingDownloads'),
             title_default: 'File Sharing and Downloads',
-            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.SITE.FILE_SHARING_AND_DOWNLOADS)),
+            isHidden: it.any(
+                it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.SITE.FILE_SHARING_AND_DOWNLOADS)),
+            ),
             schema: {
                 id: 'FileSharingDownloads',
                 name: t('admin.site.fileSharingDownloads'),
@@ -6041,6 +6054,17 @@ const AdminDefinition = {
                         help_text_markdown: false,
                         isHidden: it.not(it.licensedForFeature('SAML')),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.ThreadAutoFollow',
+                        label: t('admin.experimental.threadAutoFollow.title'),
+                        label_default: 'Automatically Follow Threads',
+                        help_text: t('admin.experimental.threadAutoFollow.desc'),
+                        help_text_default: 'This setting must be enabled to support [Collapsed Reply Threads](https://docs.mattermost.com/messaging/organizing-conversations.html) and may impact your database server performance. If you cannot easily scale up and tune your database, or if you are running the Mattermost application server and database server on the same machine, we recommended disabling `ThreadAutoFollow` until Collapsed Reply Threads is promoted to general availability. Learn more about these [performance considerations here](https://support.mattermost.com/hc/en-us/articles/4413183568276).\n \n \nWhen enabled, threads a user starts, participates in, or is mentioned in are automatically followed. Entries are added to the `ThreadMembership` table to track followed threads for each user and the read or unread state of each followed thread. Enabling this configuration setting doesn’t retroactively follow threads for actions taken prior to the setting being enabled',
+                        help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+                        isHidden: it.licensedForFeature('Cloud'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,

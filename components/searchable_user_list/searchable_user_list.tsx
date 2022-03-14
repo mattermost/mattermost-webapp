@@ -1,10 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
-import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
+import Scrollbars from 'react-custom-scrollbars';
+
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {TeamMembership} from 'mattermost-redux/types/teams';
 
 import QuickInput from 'components/quick_input';
 import UserList from 'components/user_list.jsx';
@@ -14,60 +17,118 @@ import {t} from 'utils/i18n';
 
 const NEXT_BUTTON_TIMEOUT = 500;
 
-class SearchableUserList extends React.PureComponent {
-    static propTypes = {
-        users: PropTypes.arrayOf(PropTypes.object),
-        usersPerPage: PropTypes.number,
-        total: PropTypes.number,
-        extraInfo: PropTypes.object,
-        nextPage: PropTypes.func.isRequired,
-        previousPage: PropTypes.func.isRequired,
-        search: PropTypes.func.isRequired,
-        actions: PropTypes.arrayOf(PropTypes.func),
-        actionProps: PropTypes.object,
-        actionUserProps: PropTypes.object,
-        focusOnMount: PropTypes.bool,
-        renderCount: PropTypes.func,
-        filter: PropTypes.string,
-        renderFilterRow: PropTypes.func,
-        page: PropTypes.number.isRequired,
-        term: PropTypes.string.isRequired,
-        onTermChange: PropTypes.func.isRequired,
-        intl: PropTypes.any,
-        isDisabled: PropTypes.bool,
-
-        // the type of user list row to render
-        rowComponentType: PropTypes.func,
+type Props = {
+    users: UserProfile[] | null;
+    usersPerPage: number;
+    total: number;
+    extraInfo?: {[key: string]: Array<string | JSX.Element>};
+    nextPage: () => void;
+    previousPage: () => void;
+    search: (term: string) => void;
+    actions?: React.ReactNode[];
+    actionProps?: {
+        mfaEnabled: boolean;
+        enableUserAccessTokens: boolean;
+        experimentalEnableAuthenticationTransfer: boolean;
+        doPasswordReset: (user: UserProfile) => void;
+        doEmailReset: (user: UserProfile) => void;
+        doManageTeams: (user: UserProfile) => void;
+        doManageRoles: (user: UserProfile) => void;
+        doManageTokens: (user: UserProfile) => void;
+        isDisabled: boolean | undefined;
     };
+    actionUserProps?: {
+        [userId: string]: {
+            channel?: Channel;
+            teamMember: TeamMembership;
+            channelMember?: ChannelMembership;
+        };
+    };
+    focusOnMount?: boolean;
+    renderCount?: (count: number, total: number, startCount: number, endCount: number, isSearch: boolean) => JSX.Element | null;
+    filter?: string;
+    renderFilterRow?: (handleFilter: ((event: React.FormEvent<HTMLInputElement>) => void) | undefined) => JSX.Element;
+    page: number;
+    term: string;
+    onTermChange: (term: string) => void;
+    intl: IntlShape;
+    isDisabled?: boolean;
 
-    static defaultProps = {
+    // the type of user list row to render
+    rowComponentType?: React.ComponentType<any>;
+}
+
+const renderView = (props: Record<string, unknown>): JSX.Element => (
+    <div
+        {...props}
+        className='scrollbar--view'
+    />
+);
+
+const renderThumbHorizontal = (): JSX.Element => (
+    <div/>
+);
+
+const renderThumbVertical = (props: Record<string, unknown>): JSX.Element => (
+    <div
+        {...props}
+        className='scrollbar--vertical'
+    />
+);
+
+type State = {
+    nextDisabled: boolean;
+};
+
+class SearchableUserList extends React.PureComponent<Props, State> {
+    static defaultProps: Partial<Props> = {
         users: [],
         usersPerPage: 50,
         extraInfo: {},
         actions: [],
-        actionProps: {},
+        actionProps: {
+            mfaEnabled: false,
+            enableUserAccessTokens: false,
+            experimentalEnableAuthenticationTransfer: false,
+            doPasswordReset() {},
+            doEmailReset() {},
+            doManageTeams() {},
+            doManageRoles() {},
+            doManageTokens() {},
+            isDisabled: false,
+        },
         actionUserProps: {},
-        showTeamToggle: false,
         focusOnMount: false,
     };
 
-    constructor(props) {
+    private nextTimeoutId: NodeJS.Timeout;
+    private scrollbarsRef: React.RefObject<Scrollbars>;
+    private filterRef: React.RefObject<HTMLInputElement>;
+
+    constructor(props: Props) {
         super(props);
 
-        this.nextTimeoutId = 0;
+        this.nextTimeoutId = {} as NodeJS.Timeout;
 
         this.state = {
             nextDisabled: false,
         };
+
+        this.scrollbarsRef = React.createRef();
+        this.filterRef = React.createRef();
+    }
+
+    public scrollToTop = (): void => {
+        this.scrollbarsRef.current?.scrollToTop();
     }
 
     componentDidMount() {
         this.focusSearchBar();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         if (this.props.page !== prevProps.page || this.props.term !== prevProps.term) {
-            this.refs.userList.scrollToTop();
+            this.scrollToTop();
         }
     }
 
@@ -75,36 +136,38 @@ class SearchableUserList extends React.PureComponent {
         clearTimeout(this.nextTimeoutId);
     }
 
-    nextPage = (e) => {
+    nextPage = (e: React.MouseEvent) => {
         e.preventDefault();
 
         this.setState({nextDisabled: true});
         this.nextTimeoutId = setTimeout(() => this.setState({nextDisabled: false}), NEXT_BUTTON_TIMEOUT);
 
         this.props.nextPage();
-        this.refs.userList.scrollToTop();
+        this.scrollToTop();
     }
 
-    previousPage = (e) => {
+    previousPage = (e: React.MouseEvent) => {
         e.preventDefault();
 
         this.props.previousPage();
-        this.refs.userList.scrollToTop();
+        this.scrollToTop();
     }
 
     focusSearchBar = () => {
-        if (this.props.focusOnMount) {
-            this.refs.filter.focus();
+        if (this.props.focusOnMount && this.filterRef.current) {
+            this.filterRef.current.focus();
         }
     }
 
-    handleInput = (e) => {
-        this.props.onTermChange(e.target.value);
-        this.props.search(e.target.value);
+    handleInput = (e: React.FormEvent<HTMLInputElement> | undefined) => {
+        if (e) {
+            this.props.onTermChange(e.currentTarget.value);
+            this.props.search(e.currentTarget.value);
+        }
     }
 
-    renderCount = (users) => {
-        if (!users) {
+    renderCount = (users: UserProfile[] | null | undefined) => {
+        if (!users || !this.props.users) {
             return null;
         }
 
@@ -231,7 +294,7 @@ class SearchableUserList extends React.PureComponent {
                     </label>
                     <QuickInput
                         id='searchUsersInput'
-                        ref='filter'
+                        ref={this.filterRef}
                         className='form-control filter-textbox'
                         placeholder={searchUsersPlaceholder}
                         inputComponent={LocalizedInput}
@@ -258,16 +321,25 @@ class SearchableUserList extends React.PureComponent {
                     </div>
                 </div>
                 <div className='more-modal__list'>
-                    <UserList
-                        ref='userList'
-                        users={usersToDisplay}
-                        extraInfo={this.props.extraInfo}
-                        actions={this.props.actions}
-                        actionProps={this.props.actionProps}
-                        actionUserProps={this.props.actionUserProps}
-                        rowComponentType={this.props.rowComponentType}
-                        isDisabled={this.props.isDisabled}
-                    />
+                    <Scrollbars
+                        ref={this.scrollbarsRef}
+                        autoHide={true}
+                        autoHideTimeout={500}
+                        autoHideDuration={500}
+                        renderThumbHorizontal={renderThumbHorizontal}
+                        renderThumbVertical={renderThumbVertical}
+                        renderView={renderView}
+                    >
+                        <UserList
+                            users={usersToDisplay}
+                            extraInfo={this.props.extraInfo}
+                            actions={this.props.actions}
+                            actionProps={this.props.actionProps}
+                            actionUserProps={this.props.actionUserProps}
+                            rowComponentType={this.props.rowComponentType}
+                            isDisabled={this.props.isDisabled}
+                        />
+                    </Scrollbars>
                 </div>
                 <div className='filter-controls'>
                     {previousButton}
@@ -279,4 +351,3 @@ class SearchableUserList extends React.PureComponent {
 }
 
 export default injectIntl(SearchableUserList);
-/* eslint-enable react/no-string-refs */

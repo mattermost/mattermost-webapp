@@ -86,8 +86,8 @@ describe('Markdown', () => {
             cy.get('.markdown-inline-img').
                 should('be.visible').
                 and((inlineImg) => {
-                    expect(inlineImg.height()).to.be.closeTo(151, 2);
-                    expect(inlineImg.width()).to.be.closeTo(951, 2);
+                    expect(inlineImg.height()).to.be.closeTo(25, 2);
+                    expect(inlineImg.width()).to.be.closeTo(340, 2);
                 }).
                 click();
         });
@@ -122,7 +122,7 @@ describe('Markdown', () => {
 
     it('channel header is markdown image', () => {
         // # Update channel header
-        cy.updateChannelHeader('![MM Logo](https://mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png)').wait(TIMEOUTS.TWO_SEC);
+        cy.updateChannelHeader('![MM Logo](https://raw.githubusercontent.com/furqanmlk/furqanmlk.github.io/main/images/small-image.png)').wait(TIMEOUTS.TWO_SEC);
 
         // * Verify image in header
         cy.get('#channelHeaderDescription').find('div.markdown__paragraph-inline').as('imageDiv');
@@ -145,7 +145,7 @@ describe('Markdown', () => {
 
     it('channel header is markdown image that is also a link', () => {
         // # Update channel header
-        cy.updateChannelHeader('[![Build Status](https://mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png)](https://mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png)').wait(TIMEOUTS.TWO_SEC);
+        cy.updateChannelHeader('[![Build Status](https://raw.githubusercontent.com/furqanmlk/furqanmlk.github.io/main/images/small-image.png)](https://raw.githubusercontent.com/furqanmlk/furqanmlk.github.io/main/images/small-image.png)').wait(TIMEOUTS.TWO_SEC);
 
         // * Verify image in header
         cy.get('#channelHeaderDescription').find('div.markdown__paragraph-inline').as('imageDiv');

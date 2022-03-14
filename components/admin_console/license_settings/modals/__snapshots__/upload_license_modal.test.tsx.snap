@@ -33,6 +33,7 @@ exports[`components/admin_console/license_settings/modals/upload_license_modal s
   }
 >
   <UploadLicenseModal
+    fileObjFromProps={Object {}}
     onExited={[MockFunction]}
   />
 </ContextProvider>
@@ -71,6 +72,7 @@ exports[`components/admin_console/license_settings/modals/upload_license_modal s
   }
 >
   <UploadLicenseModal
+    fileObjFromProps={Object {}}
     onExited={[MockFunction]}
   />
 </ContextProvider>
