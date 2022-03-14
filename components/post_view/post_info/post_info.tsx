@@ -134,7 +134,7 @@ type Props = {
         /**
          * Function to set viewed Actions Menu for first time
          */
-        setActionsMenuInitialisationState?: (viewed: Record<string, boolean>) => void;
+        setActionsMenuInitialisationState: (viewed: Record<string, boolean>) => void;
     };
 
     isPostBeingEdited: boolean;
@@ -221,7 +221,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
     };
 
     handleActionsMenuGotItClick = (): void => {
-        this.props.actions.setActionsMenuInitialisationState?.(({[Preferences.ACTIONS_MENU_VIEWED]: true}));
+        this.props.actions.setActionsMenuInitialisationState({[Preferences.ACTIONS_MENU_VIEWED]: true});
         this.props.handleDropdownOpened(false);
         this.setState({showActionTip: false});
     };
@@ -230,6 +230,11 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         this.setState({showActionTip: false});
         this.props.handleDropdownOpened(false);
     };
+
+    handleCommentClick = (e: any) => {
+        trackEvent(TELEMETRY_CATEGORIES.POST_INFO, EventTypes.CLICK + '_' + TELEMETRY_LABELS.REPLY);
+        this.props.handleCommentClick(e);
+    }
 
     getDotMenu = (): HTMLDivElement => this.dotMenuRef.current as HTMLDivElement;
 
@@ -254,10 +259,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         if (showCommentIcon) {
             commentIcon = (
                 <CommentIcon
-                    handleCommentClick={(e) => {
-                        trackEvent(TELEMETRY_CATEGORIES.POST_INFO, EventTypes.CLICK + '_' + TELEMETRY_LABELS.REPLY);
-                        this.props.handleCommentClick(e);
-                    }}
+                    handleCommentClick={this.handleCommentClick}
                     postId={post.id}
                     extraClass={commentIconExtraClass}
                 />

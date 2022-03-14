@@ -274,8 +274,36 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         }
     };
 
+    handleDropdownOpened = (open: boolean) => {
+        this.props.handleDropdownOpened?.(open);
+
+        if (!open) {
+            return;
+        }
+
+        const buttonRect = this.buttonRef.current?.getBoundingClientRect();
+        let y;
+        if (typeof buttonRect?.y === 'undefined') {
+            y = typeof buttonRect?.top == 'undefined' ? 0 : buttonRect?.top;
+        } else {
+            y = buttonRect?.y;
+        }
+        const windowHeight = window.innerHeight;
+
+        const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
+        const spaceOnTop = y - Constants.CHANNEL_HEADER_HEIGHT;
+        const spaceOnBottom = (totalSpace - (spaceOnTop + Constants.POST_AREA_HEIGHT));
+
+        this.setState({
+            openUp: (spaceOnTop > spaceOnBottom),
+        });
+    }
+
     render(): React.ReactNode {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
+        if (isSystemMessage) {
+            return null;
+        }
 
         // const isMobile = this.props.isMobileView TODO;
 
@@ -357,10 +385,6 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
             );
         }
 
-        if (isSystemMessage) {
-            return null;
-        }
-
         let menuItems;
         const hasApps = Boolean(appBindings.length);
         const hasPluggables = Boolean(this.props.components[PLUGGABLE_COMPONENT]?.length);
@@ -394,7 +418,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         return (
             <MenuWrapper
                 open={this.props.isMenuOpen}
-                onToggle={this.props.handleDropdownOpened}
+                onToggle={this.handleDropdownOpened}
             >
                 <OverlayTrigger
                     className='hidden-xs'
