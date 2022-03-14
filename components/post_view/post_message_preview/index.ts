@@ -10,6 +10,7 @@ import {GlobalState} from 'types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {Post, PostPreviewMetadata} from 'mattermost-redux/types/posts';
 
+import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -21,6 +22,8 @@ import {isEmbedVisible} from 'selectors/posts';
 import {toggleEmbedVisibility} from 'actions/post_actions';
 
 import {Preferences} from 'utils/constants';
+
+import {General} from 'mattermost-redux/constants';
 
 import PostMessagePreview from './post_message_preview';
 
@@ -34,6 +37,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     const currentTeamUrl = getCurrentRelativeTeamUrl(state);
     let user = null;
     let embedVisible = false;
+    let channelDisplayName = ownProps.metadata.channel_display_name;
     const previewPost = getPost(state, ownProps.metadata.post_id) || ownProps.previewPost;
 
     if (previewPost && previewPost.user_id) {
@@ -43,8 +47,13 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         embedVisible = isEmbedVisible(state, previewPost.id);
     }
 
+    if (ownProps.metadata.channel_type === General.DM_CHANNEL) {
+        channelDisplayName = makeGetChannel()(state, {id: ownProps.metadata.channel_id}).display_name;
+    }
+
     return {
         currentTeamUrl,
+        channelDisplayName,
         hasImageProxy: config.HasImageProxy === 'true',
         enablePostIconOverride: config.EnablePostIconOverride === 'true',
         previewPost,

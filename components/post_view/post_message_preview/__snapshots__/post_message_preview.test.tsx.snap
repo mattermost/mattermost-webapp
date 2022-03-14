@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PostMessagePreview direct and group messages should render preview for "D" message 1`] = `
+exports[`PostMessagePreview direct and group messages should render preview for D message 1`] = `
 <PostAttachmentContainer
   className="permalink"
   link="team1/pl/post_id"
@@ -87,7 +87,7 @@ exports[`PostMessagePreview direct and group messages should render preview for 
 </PostAttachmentContainer>
 `;
 
-exports[`PostMessagePreview direct and group messages should render preview for "G" message 1`] = `
+exports[`PostMessagePreview direct and group messages should render preview for G message 1`] = `
 <PostAttachmentContainer
   className="permalink"
   link="team1/pl/post_id"

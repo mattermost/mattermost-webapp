@@ -157,4 +157,5 @@ export declare type PostPreviewMetadata = {
     channel_display_name: string;
     team_name: string;
     channel_type: ChannelType;
+    channel_id: string;
 };

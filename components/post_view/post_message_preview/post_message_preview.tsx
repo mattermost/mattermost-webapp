@@ -22,9 +22,11 @@ import PostAttachmentOpenGraph from 'components/post_view/post_attachment_opengr
 
 import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 import {Constants} from 'utils/constants';
+import {General} from 'mattermost-redux/constants';
 
 export type Props = {
     currentTeamUrl: string;
+    channelDisplayName: string;
     user: UserProfile | null;
     previewPost?: Post;
     metadata: PostPreviewMetadata;
@@ -39,7 +41,7 @@ export type Props = {
 };
 
 const PostMessagePreview = (props: Props) => {
-    const {currentTeamUrl, user, previewPost, metadata, isEmbedVisible, compactDisplay, handleFileDropdownOpened} = props;
+    const {currentTeamUrl, channelDisplayName, user, previewPost, metadata, isEmbedVisible, compactDisplay, handleFileDropdownOpened} = props;
 
     const toggleEmbedVisibility = () => {
         if (previewPost) {
@@ -131,7 +133,7 @@ const PostMessagePreview = (props: Props) => {
     }
 
     let teamUrl = `/${metadata.team_name}`;
-    if (metadata.channel_type === 'D' || metadata.channel_type === 'G') {
+    if (metadata.channel_type === General.DM_CHANNEL || metadata.channel_type === General.GM_CHANNEL) {
         teamUrl = currentTeamUrl;
     }
 
@@ -185,7 +187,7 @@ const PostMessagePreview = (props: Props) => {
                             id='post_message_preview.channel'
                             defaultMessage='Only visible to users in ~{channel}'
                             values={{
-                                channel: metadata.channel_display_name,
+                                channel: channelDisplayName,
                             }}
                         />
                     </p>
