@@ -374,7 +374,7 @@ class Timestamp extends PureComponent<Props, State> {
             !relative.updateIntervalInSeconds) {
             return null;
         }
-        console.log('we are in maybe update');
+
         return setTimeout(() => this.setState({now: new Date()}), relative.updateIntervalInSeconds * 1000);
     }
 
