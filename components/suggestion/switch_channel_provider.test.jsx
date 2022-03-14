@@ -564,7 +564,7 @@ describe('components/SwitchChannelProvider', () => {
                             last_viewed_at: 3,
                         },
                         other_user1: {
-                            last_viewed_at: 2,
+                            last_viewed_at: 4,
                         },
                     },
                     channels: {
