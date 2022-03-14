@@ -169,62 +169,59 @@ const UpdateUserGroupModal = (props: Props) => {
                 className='overflow--visible'
             >
                 <div className='user-groups-modal__content'>
-                    <form role='form'>
-                        <div className='group-name-input-wrapper'>
-                            <Input
-                                type='text'
-                                placeholder={Utils.localizeMessage('user_groups_modal.name', 'Name')}
-                                onChange={updateNameState}
-                                value={name}
-                                data-testid='nameInput'
-                                autoFocus={true}
-                                error={nameInputErrorText}
-                            />
-                        </div>
-                        <div className='group-mention-input-wrapper'>
-                            <Input
-                                type='text'
-                                placeholder={Utils.localizeMessage('user_groups_modal.mention', 'Mention')}
-                                onChange={updateMentionState}
-                                value={mention}
-                                data-testid='nameInput'
-                                error={mentionInputErrorText}
-                            />
-                        </div>
-                        <div className='update-buttons-wrapper'>
-                            {
-                                showUnknownError &&
-                                <div className='Input___error group-error'>
-                                    <i className='icon icon-alert-outline'/>
-                                    <FormattedMessage
-                                        id='user_groups_modal.unknownError'
-                                        defaultMessage='An unknown error has occurred.'
-                                    />
-                                </div>
-                            }
-                            <button
-                                onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                                    e.preventDefault();
-                                    goBack();
-                                }}
-                                className='btn update-group-back'
-                            >
-                                {Utils.localizeMessage('multiselect.backButton', 'Back')}
-                            </button>
-                            <SaveButton
-                                id='saveItems'
-                                saving={saving}
-                                disabled={!isSaveEnabled()}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    patchGroup();
-                                }}
-                                defaultMessage={Utils.localizeMessage('multiselect.saveDetailsButton', 'Save Details')}
-                                savingMessage={Utils.localizeMessage('multiselect.savingDetailsButton', 'Saving...')}
-                            />
-                        </div>
-
-                    </form>
+                    <div className='group-name-input-wrapper'>
+                        <Input
+                            type='text'
+                            placeholder={Utils.localizeMessage('user_groups_modal.name', 'Name')}
+                            onChange={updateNameState}
+                            value={name}
+                            data-testid='nameInput'
+                            autoFocus={true}
+                            error={nameInputErrorText}
+                        />
+                    </div>
+                    <div className='group-mention-input-wrapper'>
+                        <Input
+                            type='text'
+                            placeholder={Utils.localizeMessage('user_groups_modal.mention', 'Mention')}
+                            onChange={updateMentionState}
+                            value={mention}
+                            data-testid='nameInput'
+                            error={mentionInputErrorText}
+                        />
+                    </div>
+                    <div className='update-buttons-wrapper'>
+                        {
+                            showUnknownError &&
+                            <div className='Input___error group-error'>
+                                <i className='icon icon-alert-outline'/>
+                                <FormattedMessage
+                                    id='user_groups_modal.unknownError'
+                                    defaultMessage='An unknown error has occurred.'
+                                />
+                            </div>
+                        }
+                        <button
+                            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                                e.preventDefault();
+                                goBack();
+                            }}
+                            className='btn update-group-back'
+                        >
+                            {Utils.localizeMessage('multiselect.backButton', 'Back')}
+                        </button>
+                        <SaveButton
+                            id='saveItems'
+                            saving={saving}
+                            disabled={!isSaveEnabled()}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                patchGroup();
+                            }}
+                            defaultMessage={Utils.localizeMessage('multiselect.saveDetailsButton', 'Save Details')}
+                            savingMessage={Utils.localizeMessage('multiselect.savingDetailsButton', 'Saving...')}
+                        />
+                    </div>
                 </div>
             </Modal.Body>
         </Modal>
