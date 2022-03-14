@@ -280,13 +280,6 @@ export default class Root extends React.PureComponent {
                 prevProps.history.push('/terms_of_service');
             }
         }
-
-        performance.addEventListener('resourcetimingbufferfull', this.handleResourceTimingBufferFull);
-    }
-
-    handleResourceTimingBufferFull = () => {
-        // eslint-disable-next-line no-console
-        console.log('Resource timing buffer full');
     }
 
     async redirectToOnboardingOrDefaultTeam() {
