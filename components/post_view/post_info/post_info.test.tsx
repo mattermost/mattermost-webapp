@@ -158,8 +158,10 @@ describe('components/post_view/PostInfo', () => {
 
     test('removePost, should have called props.actions.removePost(post)', () => {
         const removePost = jest.fn();
+        const setActionsMenuInitialisationState = jest.fn();
         const actions = {
             removePost,
+            setActionsMenuInitialisationState,
         };
         const requiredPropsWithRemovePost = {...requiredProps, actions, enableEmojiPicker: true};
 
