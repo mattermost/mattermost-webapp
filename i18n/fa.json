@@ -32,6 +32,7 @@
   "accessibility.sections.channelHeader": "موقعیت هدر کانال",
   "accessibility.sections.lhsHeader": "موقعیت منوی تیم",
   "accessibility.sections.lhsList": "موقعیت منوی کنار کانال",
+  "accessibility.sections.lhsNavigator": "منطقه هدایتگری کانال",
   "accessibility.sections.rhs": "{regionTitle} موقعیت تکمیل کننده",
   "accessibility.sections.rhsContent": "جزئیات پیام موقعیت تکمیل کننده",
   "accessibility.sections.rhsFooter": "موقعیت ورودی پیام",
