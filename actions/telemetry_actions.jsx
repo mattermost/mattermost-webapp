@@ -16,9 +16,6 @@ const SUPPORTS_MEASURE_METHODS = isSupported([
     performance.getEntriesByName,
     performance.clearMeasures,
 ]);
-const SUPPORTS_RESOURCE_ENTRY_TYPE = isSupported([performance, performance.getEntriesByType('resource')]);
-const SUPPORTS_CLEAR_RESOURCE_TIMINGS = typeof performance.clearResourceTimings === 'function';
-const SUPPORTS_RESOURCE_TIMINGS = SUPPORTS_RESOURCE_ENTRY_TYPE && SUPPORTS_CLEAR_RESOURCE_TIMINGS;
 
 export function isTelemetryEnabled(state) {
     const config = getConfig(state);
@@ -69,99 +66,107 @@ export function mark(name) {
  * @param   {string} name1 the first marker
  * @param   {string} name2 the second marker
  *
- * @returns {[number, string]} Either the measured duration (ms) and the string name
+ * @returns {[number, number, string]} Either the measured duration (ms) and the string name
  * of the measure are returned or -1 and and empty string is returned if
  * in dev. mode or one of the marker can't be found.
  *
  */
 export function measure(name1, name2) {
     if (!shouldTrackPerformance() || !SUPPORTS_MEASURE_METHODS) {
-        return [-1, ''];
+        return [-1, -1, ''];
     }
 
     // Check for existence of entry name to avoid DOMException
     const performanceEntries = performance.getEntries();
     if (![name1, name2].every((name) => performanceEntries.find((item) => item.name === name))) {
-        return [-1, ''];
+        return [-1, -1, ''];
     }
 
     const displayPrefix = '🐐 Mattermost: ';
     const measurementName = `${displayPrefix}${name1} - ${name2}`;
     performance.measure(measurementName, name1, name2);
-    const lastDuration = mostRecentDurationByEntryName(measurementName);
+    const {lastDuration, startTime} = mostRecentDurationByEntryName(measurementName);
 
     // Clean up the measures we created
     performance.clearMeasures(measurementName);
-    return [lastDuration, measurementName];
-}
-
-function trackPageLoadTimeEvent() {
-    if (!isSupported([performance.timing.loadEventEnd, performance.timing.navigationStart])) {
-        return;
-    }
-
-    const {loadEventEnd, navigationStart} = window.performance.timing;
-    const pageLoadTime = loadEventEnd - navigationStart;
-    trackEvent('performance', 'page_load', {duration: pageLoadTime});
+    return [lastDuration, startTime, measurementName];
 }
 
 /**
  * Measures the time and number of requests on first page load.
  */
 export function measurePageLoadTelemetry() {
+    if (!isSupported([
+        performance,
+        performance.timing.loadEventEnd,
+        performance.timing.navigationStart,
+        performance.getEntriesByType('resource'),
+    ])) {
+        return;
+    }
+
     // Must be wrapped in setTimeout because loadEventEnd property is 0
     // until onload is complete, also time added because analytics
     // code isn't loaded until a subsequent window event has fired.
     const tenSeconds = 10000;
     setTimeout(() => {
-        trackPageLoadTimeEvent();
-        trackNumOfRequestEvent('page_load');
+        const {loadEventEnd, navigationStart} = window.performance.timing;
+        const pageLoadTime = loadEventEnd - navigationStart;
+
+        let numOfRequest = 0;
+        let maxAPIResourceSize = 0; // in Bytes
+        let longestAPIResource = '';
+        let longestAPIResourceDuration = 0;
+        performance.getEntriesByType('resource').forEach((resourceTimingEntry) => {
+            if (resourceTimingEntry.initiatorType === 'xmlhttprequest' || resourceTimingEntry.initiatorType === 'fetch') {
+                numOfRequest++;
+                maxAPIResourceSize = Math.max(maxAPIResourceSize, resourceTimingEntry.encodedBodySize);
+
+                if (resourceTimingEntry.responseEnd - resourceTimingEntry.startTime > longestAPIResourceDuration) {
+                    longestAPIResourceDuration = resourceTimingEntry.responseEnd - resourceTimingEntry.startTime;
+                    longestAPIResource = resourceTimingEntry.name?.split('/api/')?.[1] ?? '';
+                }
+            }
+        });
+
+        trackEvent('performance', 'page_load', {duration: pageLoadTime, numOfRequest, maxAPIResourceSize, longestAPIResource, longestAPIResourceDuration});
     }, tenSeconds);
 }
 
 /**
- * Clears all performance entries of entry type "resource".
+ * Measures the time and number of requests between channel or team switch start and the post list component rendering posts.
+ * @param {Boolean} fresh set to true when the posts have not been loaded before
  */
-export function clearResourceTimings() {
-    if (!shouldTrackPerformance() || !SUPPORTS_RESOURCE_TIMINGS) {
-        return;
+export function measureChannelOrTeamSwitchTelemetry(fresh = false) {
+    mark('PostList#component');
+
+    const [channelSwitchDuration] = measure('SidebarChannelLink#click', 'PostList#component');
+    const [teamSwitchDuration] = measure('TeamLink#click', 'PostList#component');
+
+    clearMarks([
+        'SidebarChannelLink#click',
+        'TeamLink#click',
+        'PostList#component',
+    ]);
+
+    // If channel was switched by clicking on sidebar channel link
+    if (channelSwitchDuration !== -1) {
+        trackEvent('performance', 'channel_switch', {duration: Math.round(channelSwitchDuration), fresh});
     }
 
-    performance.clearResourceTimings();
-}
-
-/**
- * Send an telemetry for number of requests to the server for an event.
- * @param {String} initiatedBy The name of the event that initiated the tracking
- */
-export function trackNumOfRequestEvent(initiatedBy) {
-    if (!shouldTrackPerformance() || !SUPPORTS_RESOURCE_TIMINGS) {
-        return;
-    }
-
-    let totalRequests = 0;
-    let maxResourceSize = 0; // in Bytes
-
-    performance.getEntriesByType('resource').forEach((entry) => {
-        if (entry.initiatorType === 'xmlhttprequest' || entry.initiatorType === 'fetch') {
-            totalRequests += 1;
-            maxResourceSize = Math.max(maxResourceSize, entry.encodedBodySize);
-        }
-    });
-
-    clearResourceTimings();
-
-    if (totalRequests > 0) {
-        trackEvent('pageRequests', initiatedBy, {
-            totalRequests,
-            maxResourceSize,
-        });
+    // If team was switched by clicking on team link
+    if (teamSwitchDuration !== -1) {
+        trackEvent('performance', 'team_switch', {duration: Math.round(teamSwitchDuration), fresh});
     }
 }
 
 function mostRecentDurationByEntryName(entryName) {
     const entriesWithName = performance.getEntriesByName(entryName);
-    return entriesWithName.map((item) => item.duration)[entriesWithName.length - 1];
+    return entriesWithName.map((item) =>
+        ({
+            duration: item.duration,
+            startTime: item.startTime,
+        }))[entriesWithName.length - 1];
 }
 
 function isSupported(checks) {

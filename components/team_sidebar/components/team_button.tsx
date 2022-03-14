@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom';
 import {Draggable} from 'react-beautiful-dnd';
 import classNames from 'classnames';
 
-import {mark, trackEvent, clearResourceTimings} from 'actions/telemetry_actions.jsx';
+import {mark, trackEvent} from 'actions/telemetry_actions.jsx';
 import Constants from 'utils/constants';
 import {isDesktopApp} from 'utils/user_agent';
 import {localizeMessage} from 'utils/utils.jsx';
@@ -44,7 +44,6 @@ interface Props {
 class TeamButton extends React.PureComponent<Props> {
     handleSwitch = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
-        clearResourceTimings();
         mark('TeamLink#click');
         trackEvent('ui', 'ui_team_sidebar_switch_team');
         this.props.switchTeam(this.props.url);
