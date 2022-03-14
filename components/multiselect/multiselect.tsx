@@ -559,7 +559,8 @@ const styles = {
         return {
             display: 'flex',
             verticalAlign: 'top',
-            width: 'calc(100% - 76px)',
+            width: '271px',
+            flex: 'auto'
         };
     },
 };
