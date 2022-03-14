@@ -57,4 +57,10 @@ Cypress.Commands.add('uiChangeCRTDisplaySetting', (setting = 'OFF') => {
     };
 
     cy.uiChangeGenericDisplaySetting('#collapsed_reply_threadsTitle', SETTINGS[setting]);
+
+    //* Verify collapsed thread model is visible when setting is ON
+    if (setting === 'ON') {
+        cy.get('.GenericModal__body').should('be.visible');
+        cy.findByText('Got it').should('be.visible').click();
+    }
 });

@@ -2,6 +2,9 @@
 // See LICENSE.txt for license information.
 import {Emoji} from 'mattermost-redux/types/emojis';
 
+import {formatWithRenderer} from './markdown';
+import MentionableRenderer from './markdown/mentionable_renderer';
+
 export const emoticonPatterns: { [key: string]: RegExp } = {
     slightly_smiling_face: /(^|\B)(:-?\))($|\B)/g, // :)
     wink: /(^|\B)(;-?\))($|\B)/g, // ;)
@@ -26,12 +29,13 @@ export const emoticonPatterns: { [key: string]: RegExp } = {
 export const EMOJI_PATTERN = /(:([a-zA-Z0-9_+-]+):)/g;
 
 export function matchEmoticons(text: string): RegExpMatchArray | null {
-    let emojis = text.match(EMOJI_PATTERN);
+    const markdownCleanedText = formatWithRenderer(text, new MentionableRenderer());
+    let emojis = markdownCleanedText.match(EMOJI_PATTERN);
 
     for (const name of Object.keys(emoticonPatterns)) {
         const pattern = emoticonPatterns[name];
 
-        const matches = text.match(pattern);
+        const matches = markdownCleanedText.match(pattern);
         if (matches) {
             if (emojis) {
                 emojis = emojis.concat(matches);
