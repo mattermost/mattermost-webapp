@@ -269,6 +269,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
 
     handleActionsIconClick = (e: React.MouseEvent) => {
         if (this.props.showPulsatingDot || this.props.showTutorialTip) {
+            this.props.handleOpenTip();
             e.preventDefault();
             e.stopPropagation();
         }
