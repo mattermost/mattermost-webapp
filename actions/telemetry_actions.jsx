@@ -66,30 +66,30 @@ export function mark(name) {
  * @param   {string} name1 the first marker
  * @param   {string} name2 the second marker
  *
- * @returns {[number, number, string]} Either the measured duration (ms) and the string name
+ * @returns {[number, string]} Either the measured duration (ms) and the string name
  * of the measure are returned or -1 and and empty string is returned if
  * in dev. mode or one of the marker can't be found.
  *
  */
 export function measure(name1, name2) {
     if (!shouldTrackPerformance() || !SUPPORTS_MEASURE_METHODS) {
-        return [-1, -1, ''];
+        return [-1, ''];
     }
 
     // Check for existence of entry name to avoid DOMException
     const performanceEntries = performance.getEntries();
     if (![name1, name2].every((name) => performanceEntries.find((item) => item.name === name))) {
-        return [-1, -1, ''];
+        return [-1, ''];
     }
 
     const displayPrefix = '🐐 Mattermost: ';
     const measurementName = `${displayPrefix}${name1} - ${name2}`;
     performance.measure(measurementName, name1, name2);
-    const {lastDuration, startTime} = mostRecentDurationByEntryName(measurementName);
+    const lastDuration = mostRecentDurationByEntryName(measurementName);
 
     // Clean up the measures we created
     performance.clearMeasures(measurementName);
-    return [lastDuration, startTime, measurementName];
+    return [lastDuration, measurementName];
 }
 
 /**
