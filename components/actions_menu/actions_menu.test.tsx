@@ -4,13 +4,13 @@
 import React from 'react';
 
 import {PostType} from 'mattermost-redux/types/posts';
+import {PluginComponent} from 'types/store/plugins';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {TestHelper} from 'utils/test_helper';
 
-// import ActionsMenu, {PLUGGABLE_COMPONENT} from './actions_menu';
-import ActionsMenu from './actions_menu';
+import ActionsMenu, {PLUGGABLE_COMPONENT} from './actions_menu';
 
 jest.mock('utils/utils', () => {
     const original = jest.requireActual('utils/utils');
@@ -19,6 +19,14 @@ jest.mock('utils/utils', () => {
         isMobile: jest.fn(() => false),
     };
 });
+
+const dropdownComponents: PluginComponent[] = [
+    {
+        id: 'the_component_id',
+        pluginId: 'playbooks',
+        action: jest.fn(),
+    },
+];
 
 describe('components/actions_menu/ActionsMenu', () => {
     const baseProps = {
@@ -46,48 +54,46 @@ describe('components/actions_menu/ActionsMenu', () => {
         },
     };
 
-    // test('should have divider when plugin menu item exists', () => {
-    //     const wrapper = shallowWithIntl(
-    //         <ActionsMenu {...baseProps}/>,
-    //     );
-    //     expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(false);
-    //
-    //     wrapper.setProps({
-    //         pluginMenuItems: [
-    //             {id: 'test_plugin_menu_item_1', text: 'woof'},
-    //         ],
-    //     });
-    //     expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(true);
-    // });
-
-    test('actions menu should be visible to sysadmin', () => {
+    test('should have divider when plugin menu item exists', () => {
         const wrapper = shallowWithIntl(
             <ActionsMenu {...baseProps}/>,
         );
-        expect(wrapper.find('#CENTER_button_post_id_1').exists()).toBe(true);
+        expect(wrapper.find('#divider_post_post_id_1_marketplace').exists()).toBe(false);
+
+        wrapper.setProps({
+            pluginMenuItems: dropdownComponents,
+        });
+        expect(wrapper.find('#divider_post_post_id_1_marketplace').exists()).toBe(true);
     });
 
-    test('actions menu should not be visible to end user', () => {
+    test('no actions - menu should be visible to sysadmin', () => {
+        const wrapper = shallowWithIntl(
+            <ActionsMenu {...baseProps}/>,
+        );
+        expect(wrapper.find('#marketPlaceButton').exists()).toBe(true);
+    });
+
+    test('no actions - menu should not be visible to end user', () => {
         const wrapper = shallowWithIntl(
             <ActionsMenu {...baseProps}/>,
         );
         wrapper.setProps({
             isSysAdmin: false,
         });
-        expect(wrapper.find('#CENTER_button_post_id_1').exists()).toBe(false);
+        expect(wrapper.find('#marketPlaceButton').exists()).toBe(false);
     });
 
-    // test('should have divider when pluggable menu item exists', () => {
-    //     const wrapper = shallowWithIntl(
-    //         <ActionsMenu {...baseProps}/>,
-    //     );
-    //     expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(false);
-    //
-    //     wrapper.setProps({
-    //         components: {
-    //             [PLUGGABLE_COMPONENT]: [{}],
-    //         },
-    //     });
-    //     expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(true);
-    // });
+    test('should have divider when pluggable menu item exists', () => {
+        const wrapper = shallowWithIntl(
+            <ActionsMenu {...baseProps}/>,
+        );
+        expect(wrapper.find('#divider_post_post_id_1_marketplace').exists()).toBe(false);
+
+        wrapper.setProps({
+            components: {
+                [PLUGGABLE_COMPONENT]: dropdownComponents,
+            },
+        });
+        expect(wrapper.find('#divider_post_post_id_1_marketplace').exists()).toBe(true);
+    });
 });

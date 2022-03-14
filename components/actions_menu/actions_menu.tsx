@@ -275,6 +275,16 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         }
     };
 
+    renderDivider = (suffix: string): React.ReactNode => {
+        return (
+            <li
+                id={`divider_post_${this.props.post.id}_${suffix}`}
+                className='MenuItem__divider'
+                role='menuitem'
+            />
+        );
+    };
+
     handleDropdownOpened = (open: boolean) => {
         this.props.handleDropdownOpened?.(open);
 
@@ -364,25 +374,20 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
 
         const {formatMessage} = this.props.intl;
 
-        const divider = (
-            <li
-                className='MenuItem__divider'
-                role='menuitem'
-            />);
-
         let marketPlace = null;
         if (this.props.isSysAdmin) {
             marketPlace = (
-                <>
-                    {divider}
+                <React.Fragment key={'marketplace'}>
+                    {this.renderDivider('marketplace')}
                     <Menu.ItemAction
                         id={`marketplace_icon_${this.props.post.id}`}
+                        key={`marketplace_${this.props.post.id}`}
                         show={true}
                         text={formatMessage({id: 'post_info.marketplace', defaultMessage: 'App Marketplace'})}
                         icon={Utils.getMenuItemIcon('icon-view-grid-plus-outline')}
                         onClick={this.handleOpenMarketplace}
                     />
-                </>
+                </React.Fragment>
             );
         }
 
@@ -401,6 +406,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                 <Pluggable
                     postId={this.props.post.id}
                     pluggableName={PLUGGABLE_COMPONENT}
+                    key={this.props.post.id + 'pluggable'}
                 />);
 
             menuItems = [
@@ -457,6 +463,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                     openUp={this.state.openUp}
                     ref={this.refCallback}
                     ariaLabel={Utils.localizeMessage('post_info.menuAriaLabel', 'Post extra options')}
+                    key={`${this.props.location}_dropdown_${this.props.post.id}`}
                 >
                     {menuItems}
                 </Menu>
