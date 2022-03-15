@@ -10,27 +10,36 @@ import {ActionTypes} from 'utils/constants';
 import en from 'i18n/en.json';
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
 
-export function loadMeAndConfig() {
+export function loadMe() {
     return async (dispatch) => {
         // if any new promise needs to be added please be mindful of the order as it is used in root.jsx for redirection
         const promises = [
-            dispatch(getClientConfig()),
             dispatch(getLicenseConfig()),
         ];
 
-        // need to await for clientConfig first as it is required for loadMe
         const resolvedPromises = await Promise.all(promises);
         if (document.cookie.indexOf('MMUSERID=') > -1) {
             resolvedPromises.push(await dispatch(UserActions.loadMe()));
         }
 
         // load the cloud subscription stats
-        const isCloud = resolvedPromises[1]?.data?.Cloud === 'true';
+        const isCloud = resolvedPromises[0]?.data?.Cloud === 'true';
         if (isCloud) {
             resolvedPromises.push(await dispatch(getSubscriptionStats()));
         }
 
         return resolvedPromises;
+    };
+}
+
+export function loadClientConfig() {
+    return async (dispatch) => {
+        try {
+            const clientConfig = await dispatch(getClientConfig());
+            return clientConfig;
+        } catch (error) {
+            return {error};
+        }
     };
 }
 

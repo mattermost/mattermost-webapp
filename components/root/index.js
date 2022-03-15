@@ -4,14 +4,15 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
 import {shouldShowTermsOfService, getCurrentUserId, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getFirstAdminSetupComplete} from 'mattermost-redux/actions/general';
 import {getTheme, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getProfiles} from 'mattermost-redux/actions/users';
 
-import {loadMeAndConfig} from 'actions/views/root';
+import {loadMeGQL} from 'client/graphql';
+import {loadMe, loadClientConfig} from 'actions/views/root';
 import {emitBrowserWindowResized} from 'actions/views/browser';
 import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks';
 import LocalStorageStore from 'stores/local_storage_store';
@@ -44,13 +45,16 @@ function mapStateToProps(state) {
         products,
         showTaskList,
         showLaunchingWorkspace: getShowLaunchingWorkspace(state),
+        isGraphQLEnabled: getFeatureFlagValue(state, 'GraphQL') === 'true',
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            loadMeAndConfig,
+            loadMe,
+            loadMeGQL,
+            loadClientConfig,
             emitBrowserWindowResized,
             getFirstAdminSetupComplete,
             getProfiles,

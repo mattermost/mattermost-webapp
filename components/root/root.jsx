@@ -116,15 +116,18 @@ export default class Root extends React.PureComponent {
         showTermsOfService: PropTypes.bool,
         permalinkRedirectTeamName: PropTypes.string,
         actions: PropTypes.shape({
-            loadMeAndConfig: PropTypes.func.isRequired,
+            loadMe: PropTypes.func.isRequired,
             emitBrowserWindowResized: PropTypes.func.isRequired,
             getFirstAdminSetupComplete: PropTypes.func.isRequired,
             getProfiles: PropTypes.func.isRequired,
+            loadClientConfig: PropTypes.func.isRequired,
+            loadMeGQL: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
         products: PropTypes.array,
         showTaskList: PropTypes.bool,
         showLaunchingWorkspace: PropTypes.bool,
+        isGraphQLEnabled: PropTypes.bool,
     }
 
     constructor(props) {
@@ -323,15 +326,35 @@ export default class Root extends React.PureComponent {
         GlobalActions.redirectUserToDefaultTeam();
     }
 
+    loadInitialRequest = async () => {
+        try {
+            const {data} = await this.props.actions.loadClientConfig();
+            const isGraphQLEnabled = data && data.FeatureFlagGraphQL === 'true';
+
+            if (!isGraphQLEnabled) {
+                const responseFromLoadMe = await this.props.actions.loadMe();
+                const successfullyLoadedMe = responseFromLoadMe[1] && responseFromLoadMe[1].data;
+
+                if (this.props.location.pathname === '/' && successfullyLoadedMe) {
+                    this.redirectToOnboardingOrDefaultTeam();
+                }
+
+                this.onConfigLoaded();
+                return;
+            }
+
+            const responseFromLoadMe = await this.props.actions.loadMeGQL();
+            console.log('responseFromLoadMe', responseFromLoadMe);
+        } catch (error) {
+            console.error(error); //eslint-disable-line no-console
+        }
+    }
+
     componentDidMount() {
         this.mounted = true;
-        this.props.actions.loadMeAndConfig().then((response) => {
-            const successfullyLoadedMe = response[2] && response[2].data;
-            if (this.props.location.pathname === '/' && successfullyLoadedMe) {
-                this.redirectToOnboardingOrDefaultTeam();
-            }
-            this.onConfigLoaded();
-        });
+
+        this.loadInitialRequest();
+
         trackLoadTime();
 
         if (this.desktopMediaQuery.addEventListener) {
