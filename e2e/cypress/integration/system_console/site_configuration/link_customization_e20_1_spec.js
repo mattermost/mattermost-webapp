@@ -12,6 +12,8 @@
 
 import {TERMS_OF_SERVICE_LINK} from '../../../utils/constants';
 
+import * as TIMEOUTS from '../../../fixtures/timeouts';
+
 import {backToTeam, saveSetting} from './helper';
 
 describe('SupportSettings', () => {
@@ -80,8 +82,8 @@ describe('SupportSettings', () => {
         });
 
         // # Visit signup page
-        cy.get('#signup').click();
-        cy.url().should('include', '/signup_user_complete');
+        cy.get('#signup').click().wait(TIMEOUTS.ONE_SEC);
+        cy.url().should('include', '/signup_email');
 
         // * Verify that links are correct at signup page
         guides.forEach((guide) => {
