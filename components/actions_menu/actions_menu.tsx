@@ -140,27 +140,6 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         });
     }
 
-    refCallback = (menuRef: Menu): void => {
-        if (menuRef) {
-            const buttonRect = this.buttonRef.current?.getBoundingClientRect();
-            let y;
-            if (typeof buttonRect?.y === 'undefined') {
-                y = typeof buttonRect?.top == 'undefined' ? 0 : buttonRect?.top;
-            } else {
-                y = buttonRect?.y;
-            }
-            const windowHeight = window.innerHeight;
-
-            const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
-            const spaceOnTop = y - Constants.CHANNEL_HEADER_HEIGHT;
-            const spaceOnBottom = (totalSpace - (spaceOnTop + Constants.POST_AREA_HEIGHT));
-
-            this.setState({
-                openUp: (spaceOnTop > spaceOnBottom),
-            });
-        }
-    }
-
     handleOpenMarketplace = (): void => {
         const openMarketplaceData = {
             modalId: ModalIdentifiers.PLUGIN_MARKETPLACE,
@@ -461,7 +440,6 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                     id={`${this.props.location}_dropdown_${this.props.post.id}`}
                     openLeft={true}
                     openUp={this.state.openUp}
-                    ref={this.refCallback}
                     ariaLabel={Utils.localizeMessage('post_info.menuAriaLabel', 'Post extra options')}
                     key={`${this.props.location}_dropdown_${this.props.post.id}`}
                 >
