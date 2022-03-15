@@ -177,6 +177,9 @@ describe('Mark post with mentions as unread', () => {
         // * Verify the new message separator still exists above the unread message
         verifyPostNextToNewMessageSeparator(`@${userB.username} : hello4`);
 
+        // # Navigate to channel A
+        switchToChannel(channelA);
+
         // * Verify that ChannelB no longer has unread mention in LHS
         cy.get(`#sidebarItem_${channelB.name}`).children('#unreadMentions').should('not.exist');
     });

@@ -51,3 +51,8 @@ export type AnalyticsRow = {
     name: string;
     value: number;
 };
+
+export type SchemaMigration = {
+    version: number;
+    name: string;
+};
