@@ -3867,7 +3867,7 @@
   "next_steps_view.team_profile_step.nameWillBeDisplayed": "チーム名はサイドバーに表示されます",
   "next_steps_view.team_profile_step.pictureError": "画像はBMP、JPG、PNGでなくてはなりません。ファイルサイズは最大 {max} までです。",
   "next_steps_view.team_profile_step.saveTeam": "チームを保存する",
-  "next_steps_view.team_profile_step.teamImage": "チームがぞう",
+  "next_steps_view.team_profile_step.teamImage": "チーム画像",
   "next_steps_view.team_profile_step.teamName": "チーム名",
   "next_steps_view.tips.getForDefault": "Mattermostを取得する",
   "next_steps_view.tips.getForMac": "Mac版Mattermostを入手",
