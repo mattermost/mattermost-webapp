@@ -181,10 +181,6 @@ export const ActionTypes = keyMirror({
     TOGGLE_DELETE_POST_MODAL: null,
     TOGGLE_EDITING_POST: null,
 
-    // TODO@Michel: once inline post editing is available without using a feature flag remove these actions
-    HIDE_EDIT_POST_MODAL: null,
-    SET_SHOW_PREVIEW_ON_EDIT_POST_MODAL: null,
-
     EMITTED_SHORTCUT_REACT_TO_LAST_POST: null,
 
     BROWSER_CHANGE_FOCUS: null,

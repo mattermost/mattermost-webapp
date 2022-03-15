@@ -29,7 +29,6 @@ exports[`components/channel_layout/ChannelController Should match snapshot 1`] =
     <Connect(Pluggable)
       pluggableName="Root"
     />
-    <Connect(injectIntl(EditPostModal)) />
     <Connect(ResetStatusModal) />
   </div>
   <AppBar />
