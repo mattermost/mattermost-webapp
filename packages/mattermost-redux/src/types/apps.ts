@@ -96,6 +96,8 @@ export type AppCallRequest = AppCall & {
     context: AppContext;
     values?: AppCallValues;
     raw_command?: string;
+    selected_field?: string;
+    query?: string;
 };
 
 export type AppCallResponseType = string;

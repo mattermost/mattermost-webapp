@@ -266,7 +266,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
 
         let items = componentItems;
         if (this.props.appsEnabled) {
-            items = componentItems.concat(appBindings.filter((binding) => binding.form?.submit).map((binding) => {
+            items = componentItems.concat(appBindings.map((binding) => {
                 return (
                     <li
                         key={'channelHeaderPlug' + binding.app_id + binding.location}
