@@ -232,7 +232,7 @@ export default class SuggestionList extends React.PureComponent {
             items.push(this.renderNoResults());
         }
 
-        let dividerRendered = false;
+        let lastType;
         for (let i = 0; i < this.props.items.length; i++) {
             const item = this.props.items[i];
             const term = this.props.terms[i];
@@ -240,10 +240,10 @@ export default class SuggestionList extends React.PureComponent {
 
             // ReactComponent names need to be upper case when used in JSX
             const Component = this.props.components[i];
-
-            if (!dividerRendered && item.type === 'mention.recent.channels') {
+            const dividerRenderCondition = item.type === Constants.MENTION_UNREAD_CHANNELS || item.type === Constants.MENTION_RECENT_CHANNELS;
+            if (this.props.renderDividers && item.type !== lastType && dividerRenderCondition) {
                 items.push(this.renderDivider(item.type));
-                dividerRendered = true;
+                lastType = item.type;
             }
 
             if (item.loading) {
