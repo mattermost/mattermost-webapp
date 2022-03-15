@@ -1,10 +1,12 @@
-.TrialBenefitsModal {
+.LearnMoreTrialModal {
+    height: 560px;
+
     &.modal-dialog {
-        margin-top: calc(50vh - 240px);
+        margin-top: calc(50vh - 350px) !important;
     }
 
     .modal-content {
-        min-height: 440px;
+        height: 560px;
         padding: 0 !important;
         border-color: rgba(var(--center-channel-color-rgb), 0.16);
         background: var(--center-channel-bg);
@@ -36,8 +38,7 @@
             font-weight: 400;
         }
 
-        height: 48px;
-        min-height: 48px;
+        height: 38px;
         padding: 0;
         border: 0;
         background: var(--center-channel-bg) !important;
@@ -49,8 +50,19 @@
         display: flex;
         overflow: hidden;
         width: 100%;
+        height: calc(100% - 38px);
         flex-direction: column;
         padding: 0;
+
+        .GenericModal__body {
+            height: 100%;
+            padding: 0 24px 24px 24px;
+
+            .container-footer {
+                bottom: 0;
+                height: 36px;
+            }
+        }
 
         .buttons {
             text-align: center;
