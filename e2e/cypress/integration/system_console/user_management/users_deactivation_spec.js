@@ -139,5 +139,4 @@ describe('System Console > User Management > Deactivation', () => {
             });
         });
     });
-
 });
