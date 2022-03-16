@@ -675,7 +675,6 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                 TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
                                 'click_close_purchasing_screen',
                             );
-                            console.log('purchase_model.tsx');
                             this.props.actions.getCloudSubscription();
                             this.props.actions.closeModal();
                         }}
@@ -696,7 +695,6 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                         }
                                         isDevMode={this.props.isDevMode}
                                         onClose={() => {
-                                            console.log('purchase_modal.tsx 2');
                                             this.props.actions.getCloudSubscription();
                                             this.props.actions.closeModal();
                                         }}
