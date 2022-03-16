@@ -32,6 +32,7 @@ type State = {
 
 export default class LinkTooltip extends React.PureComponent<Props, State> {
     private tooltipContainerRef: RefObject<HTMLDivElement>;
+    private tooltipContainer: Element | null = null;
     private hideTimeout: number;
     private showTimeout: number;
     private popper?: Popper;
@@ -48,20 +49,28 @@ export default class LinkTooltip extends React.PureComponent<Props, State> {
         };
     }
 
+    componentDidUpdate() {
+        if (this.state.show) {
+            this.tooltipContainer = this.tooltipContainerRef.current;
+        }
+    }
+
     public showTooltip = (e: React.MouseEvent<HTMLSpanElement>): void => {
         //clear the hideTimeout in the case when the cursor is moved from a tooltipContainer child to the link
         window.clearTimeout(this.hideTimeout);
-        let tooltipContainer: Element | null;
-        this.setState({show: true}, () => {
-            tooltipContainer = this.tooltipContainerRef.current;
-        });
+
+        if (this.state.show) {
+            return;
+        }
+
+        this.setState({show: true});
         const target = e.currentTarget;
 
         //clear the old this.showTimeout if there is any before overriding
         window.clearTimeout(this.showTimeout);
 
         this.showTimeout = window.setTimeout(() => {
-            if (!tooltipContainer) {
+            if (!this.tooltipContainer) {
                 return;
             }
 
@@ -73,10 +82,10 @@ export default class LinkTooltip extends React.PureComponent<Props, State> {
                     }
                 });
             };
-            tooltipContainer.childNodes.forEach(addChildEventListeners);
+            this.tooltipContainer.childNodes.forEach(addChildEventListeners);
 
-            this.popper = new Popper(target, tooltipContainer, {
-                placement: 'bottom',
+            this.popper = new Popper(target, this.tooltipContainer, {
+                placement: 'auto',
                 modifiers: {
                     preventOverflow: {enabled: false},
                     hide: {enabled: false},
@@ -111,7 +120,7 @@ export default class LinkTooltip extends React.PureComponent<Props, State> {
                     <div
                         style={tooltipContainerStyles}
                         ref={this.tooltipContainerRef}
-                        className={classNames('tooltip-container', {visible: this.state.show})}
+                        className={classNames('tooltip-container')}
                     >
                         <Pluggable
                             href={href}
