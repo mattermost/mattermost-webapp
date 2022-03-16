@@ -24,18 +24,18 @@ class EmojiItem extends React.Component {
             emoji,
             order,
         } = this.props;
-        const itemClassName = 'post-menu__item';
+        const itemClassName = 'post-menu__item post-menu__emoticon';
 
         return (
             <div
                 className={itemClassName}
+                onClick={this.handleClick}
             >
                 <button
                     id={`recent_reaction_${order}`}
                     data-testid={itemClassName + '_emoji'}
                     className='emoticon--post-menu'
                     style={{backgroundImage: 'url(' + getEmojiImageUrl(emoji) + ')', backgroundColor: 'transparent'}}
-                    onClick={this.handleClick}
                 />
             </div>
         );
