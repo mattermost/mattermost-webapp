@@ -4,11 +4,12 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import DotMenu from 'components/dot_menu/dot_menu';
+import ActionsMenu from 'components/actions_menu/actions_menu';
 import {TestHelper} from 'utils/test_helper';
 
 jest.mock('utils/utils', () => {
     return {
+        isMobile: jest.fn(() => true),
         localizeMessage: jest.fn(),
     };
 });
@@ -21,45 +22,33 @@ jest.mock('utils/post_utils', () => {
     };
 });
 
-describe('components/dot_menu/DotMenu on mobile view', () => {
+describe('components/actions_menu/ActionsMenu on mobile view', () => {
     test('should match snapshot', () => {
         const baseProps = {
             post: TestHelper.getPostMock({id: 'post_id_1'}),
-            isLicensed: false,
-            postEditTimeLimit: '-1',
-            handleCommentClick: jest.fn(),
-            handleDropdownOpened: jest.fn(),
-            enableEmojiPicker: true,
             components: {},
-            channelIsArchived: false,
-            currentTeamUrl: '',
+            teamId: 'team_id_1',
             actions: {
-                flagPost: jest.fn(),
-                unflagPost: jest.fn(),
-                setEditingPost: jest.fn(),
-                pinPost: jest.fn(),
-                unpinPost: jest.fn(),
                 openModal: jest.fn(),
-                markPostAsUnread: jest.fn(),
+                openAppsModal: jest.fn(),
                 doAppCall: jest.fn(),
                 postEphemeralCallResponseForPost: jest.fn(),
-                setThreadFollow: jest.fn(),
+                fetchBindings: jest.fn(),
             },
-            canEdit: false,
-            canDelete: false,
             appBindings: [],
             pluginMenuItems: [],
-            appsEnabled: false,
-            isMobileView: true,
-            isReadOnly: false,
-            isCollapsedThreadsEnabled: false,
-            teamId: '',
-            threadId: 'post_id_1',
+            handleOpenTip: jest.fn(),
+            handleNextTip: jest.fn(),
+            handleDismissTip: jest.fn(),
+            showPulsatingDot: false,
+            showTutorialTip: false,
             userId: 'user_id_1',
+            appsEnabled: false,
+            isSysAdmin: true,
         };
 
         const wrapper = shallow(
-            <DotMenu {...baseProps}/>,
+            <ActionsMenu {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

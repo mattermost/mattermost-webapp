@@ -4,11 +4,12 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import DotMenu from 'components/dot_menu/dot_menu';
+import ActionsMenu from 'components/actions_menu/actions_menu';
 import {TestHelper} from 'utils/test_helper';
 
 jest.mock('utils/utils', () => {
     return {
+        isMobile: jest.fn(() => false),
         localizeMessage: jest.fn().mockReturnValue(''),
     };
 });
@@ -21,45 +22,33 @@ jest.mock('utils/post_utils', () => {
     };
 });
 
-describe('components/dot_menu/DotMenu returning empty ("")', () => {
+describe('components/actions_menu/ActionsMenu returning empty ("")', () => {
     test('should match snapshot, return empty ("") on Center', () => {
         const baseProps = {
             post: TestHelper.getPostMock({id: 'post_id_1'}),
-            isLicensed: false,
-            postEditTimeLimit: '-1',
-            handleCommentClick: jest.fn(),
-            handleDropdownOpened: jest.fn(),
-            enableEmojiPicker: true,
             components: {},
-            channelIsArchived: false,
-            currentTeamUrl: '',
+            teamId: 'team_id_1',
             actions: {
-                flagPost: jest.fn(),
-                unflagPost: jest.fn(),
-                setEditingPost: jest.fn(),
-                pinPost: jest.fn(),
-                unpinPost: jest.fn(),
                 openModal: jest.fn(),
-                markPostAsUnread: jest.fn(),
+                openAppsModal: jest.fn(),
                 doAppCall: jest.fn(),
                 postEphemeralCallResponseForPost: jest.fn(),
-                setThreadFollow: jest.fn(),
+                fetchBindings: jest.fn(),
             },
-            canEdit: false,
-            canDelete: false,
             appBindings: [],
             pluginMenuItems: [],
+            handleOpenTip: jest.fn(),
+            handleNextTip: jest.fn(),
+            handleDismissTip: jest.fn(),
+            showPulsatingDot: false,
+            showTutorialTip: false,
             appsEnabled: false,
-            isMobileView: false,
-            isReadOnly: false,
-            isCollapsedThreadsEnabled: false,
-            teamId: '',
-            threadId: 'post_id_1',
+            isSysAdmin: true,
             userId: 'user_id_1',
         };
 
         const wrapper = shallow(
-            <DotMenu {...baseProps}/>,
+            <ActionsMenu {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
