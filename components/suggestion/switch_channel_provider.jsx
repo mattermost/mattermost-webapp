@@ -306,8 +306,6 @@ export function quickSwitchSorter(wrappedA, wrappedB) {
 
     let aDisplayName = a.display_name.toLowerCase();
     let bDisplayName = b.display_name.toLowerCase();
-    let aUsernameStartsWith;
-    let bUsernameStartsWith;
 
     if (a.type === Constants.DM_CHANNEL && aDisplayName.startsWith('@')) {
         aDisplayName = aDisplayName.substring(1);
@@ -316,16 +314,9 @@ export function quickSwitchSorter(wrappedA, wrappedB) {
     if (b.type === Constants.DM_CHANNEL && bDisplayName.startsWith('@')) {
         bDisplayName = bDisplayName.substring(1);
     }
-    if (a.type === Constants.DM_CHANNEL && (b.type === Constants.DM_CHANNEL || b.type === Constants.GM_CHANNEL) && ((wrappedA.last_viewed_at && wrappedB.last_viewed_at) || (!wrappedA.last_viewed_at && !wrappedB.last_viewed_at))) {
-        aUsernameStartsWith = wrappedA.name.toLowerCase().startsWith(prefix);
-    }
 
-    if ((a.type === Constants.GM_CHANNEL || a.type === Constants.DM_CHANNEL) && b.type === Constants.DM_CHANNEL && ((wrappedA.last_viewed_at && wrappedB.last_viewed_at) || (!wrappedA.last_viewed_at && !wrappedB.last_viewed_at))) {
-        bUsernameStartsWith = wrappedB.name.toLowerCase().startsWith(prefix);
-    }
-
-    const aStartsWith = aDisplayName.startsWith(prefix);
-    const bStartsWith = bDisplayName.startsWith(prefix);
+    const aStartsWith = aDisplayName.startsWith(prefix) || wrappedA.name.toLowerCase().startsWith(prefix);
+    const bStartsWith = bDisplayName.startsWith(prefix) || wrappedB.name.toLowerCase().startsWith(prefix);
 
     // Open channels user haven't interacted should be at the  bottom of the list
     if (a.type === Constants.OPEN_CHANNEL && !wrappedA.last_viewed_at && (b.type !== Constants.OPEN_CHANNEL || wrappedB.last_viewed_at)) {
@@ -340,14 +331,6 @@ export function quickSwitchSorter(wrappedA, wrappedB) {
     } else if (!aStartsWith && bStartsWith) {
         return 1;
     }
-
-    //Sort channels starting with the search term first. For Dm's we are checking against username as well.
-    if (aUsernameStartsWith && !bUsernameStartsWith) {
-        return -1;
-    } else if (!aUsernameStartsWith && bUsernameStartsWith) {
-        return 1;
-    }
-
     return sortChannelsByRecencyAndTypeAndDisplayName(wrappedA, wrappedB);
 }
 
