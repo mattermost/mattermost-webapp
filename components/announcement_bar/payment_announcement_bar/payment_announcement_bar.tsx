@@ -93,4 +93,4 @@ class PaymentAnnouncementBar extends React.PureComponent<Props> {
     }
 }
 
-export default withGetCloudSubscription(PaymentAnnouncementBar);
+export default PaymentAnnouncementBar;

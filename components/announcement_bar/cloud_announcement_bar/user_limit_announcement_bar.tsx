@@ -174,4 +174,4 @@ class UserLimitAnnouncementBar extends React.PureComponent<Props> {
     }
 }
 
-export default withGetCloudSubscription(UserLimitAnnouncementBar);
+export default UserLimitAnnouncementBar;

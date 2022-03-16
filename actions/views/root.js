@@ -24,12 +24,6 @@ export function loadMeAndConfig() {
             resolvedPromises.push(await dispatch(UserActions.loadMe()));
         }
 
-        // load the cloud subscription stats
-        const isCloud = resolvedPromises[1]?.data?.Cloud === 'true';
-        if (isCloud) {
-            resolvedPromises.push(await dispatch(getSubscriptionStats()));
-        }
-
         return resolvedPromises;
     };
 }

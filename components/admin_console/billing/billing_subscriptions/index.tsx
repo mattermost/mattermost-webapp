@@ -97,6 +97,7 @@ const BillingSubscriptions: React.FC = () => {
     }
 
     useEffect(() => {
+        console.log('billing_subscriptions/index.tsx');
         getCloudSubscription()(dispatch, store.getState());
         const includeLegacyProducts = true;
         getCloudProducts(includeLegacyProducts)(dispatch, store.getState());

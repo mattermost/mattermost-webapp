@@ -25,7 +25,6 @@ function withGetCloudSubscription<P>(WrappedComponent: ComponentType<P>): Compon
     return class extends React.Component<P & UsedHocProps> {
         async componentDidMount() {
             const {subscription, actions: {getSubscriptionStats, getCloudSubscription}, isCloud, userIsAdmin, subscriptionStats} = this.props;
-
             if (isEmpty(subscriptionStats) && isCloud) {
                 if (getSubscriptionStats) {
                     await getSubscriptionStats();

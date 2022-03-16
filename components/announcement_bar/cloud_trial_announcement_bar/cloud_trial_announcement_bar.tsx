@@ -205,4 +205,4 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
     }
 }
 
-export default withGetCloudSubscription(CloudTrialAnnouncementBar);
+export default CloudTrialAnnouncementBar;
