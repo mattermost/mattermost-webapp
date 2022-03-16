@@ -30,7 +30,6 @@ import {
 import {getLocaleDateFromUTC} from 'utils/utils';
 
 import AnnouncementBar from '../default_announcement_bar';
-import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subscription';
 
 type Props = {
     userIsAdmin: boolean;

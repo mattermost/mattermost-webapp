@@ -26,7 +26,6 @@ import {
 import {t} from 'utils/i18n';
 
 import AnnouncementBar from '../default_announcement_bar';
-import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subscription';
 
 type Props = {
     userLimit: number;
