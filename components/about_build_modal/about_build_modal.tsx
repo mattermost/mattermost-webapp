@@ -241,7 +241,7 @@ export default class AboutBuildModal extends React.PureComponent<Props, State> {
                                         id='about.dbversion'
                                         defaultMessage='Database Schema Version:'
                                     />
-                                    <span id='dbversionString'>{'\u00a0' + config.Version}</span>
+                                    <span id='dbversionString'>{'\u00a0' + config.SchemaVersion}</span>
                                 </div>
                                 {buildnumber}
                                 <div>

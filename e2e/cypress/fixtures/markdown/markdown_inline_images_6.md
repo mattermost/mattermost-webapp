@@ -1,3 +1,3 @@
 ### In-line Images
 
-![test image](https://mattermost.com/wp-content/uploads/2022/02/logoHorizontal.png)
+![test image](https://raw.githubusercontent.com/furqanmlk/furqanmlk.github.io/main/images/image-small-height.png)

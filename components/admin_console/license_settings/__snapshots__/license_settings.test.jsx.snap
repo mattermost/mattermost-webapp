@@ -265,8 +265,13 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   Current Plan
                 </div>
               }
+              fileInputRef={
+                Object {
+                  "current": null,
+                }
+              }
+              handleChange={[Function]}
               openEELicenseModal={[Function]}
-              openUploadModal={[Function]}
               upgradedFromTE={false}
             />
           </div>
@@ -1336,8 +1341,13 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   Current Plan
                 </div>
               }
+              fileInputRef={
+                Object {
+                  "current": null,
+                }
+              }
+              handleChange={[Function]}
               openEELicenseModal={[Function]}
-              openUploadModal={[Function]}
               upgradedFromTE={false}
             />
           </div>
@@ -1445,8 +1455,13 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   Current Plan
                 </div>
               }
+              fileInputRef={
+                Object {
+                  "current": null,
+                }
+              }
+              handleChange={[Function]}
               openEELicenseModal={[Function]}
-              openUploadModal={[Function]}
               upgradedFromTE={true}
             />
           </div>
@@ -1761,8 +1776,13 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   Current Plan
                 </div>
               }
+              fileInputRef={
+                Object {
+                  "current": null,
+                }
+              }
+              handleChange={[Function]}
               openEELicenseModal={[Function]}
-              openUploadModal={[Function]}
               upgradedFromTE={false}
             />
           </div>
