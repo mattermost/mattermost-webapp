@@ -22,7 +22,7 @@ import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferen
 
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions';
 import * as GlobalActions from 'actions/global_actions';
-import {trackLoadTime} from 'actions/telemetry_actions.jsx';
+import {measurePageLoadTelemetry} from 'actions/telemetry_actions.jsx';
 
 import {makeAsyncComponent} from 'components/async_load';
 import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
@@ -332,7 +332,8 @@ export default class Root extends React.PureComponent {
             }
             this.onConfigLoaded();
         });
-        trackLoadTime();
+
+        measurePageLoadTelemetry();
 
         if (this.desktopMediaQuery.addEventListener) {
             this.desktopMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);

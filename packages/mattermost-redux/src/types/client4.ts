@@ -1,8 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-// I assume these are the log levels
-export type LogLevel = 'ERROR' | 'WARNING' | 'INFO';
+export enum LogLevel {
+    Error = 'ERROR',
+    Warning = 'WARNING',
+    Info = 'INFO',
+    Debug = 'DEBUG',
+}
 
 export type ClientResponse<T> = {
     response: Response;

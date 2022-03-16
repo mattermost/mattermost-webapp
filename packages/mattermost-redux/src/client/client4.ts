@@ -7,7 +7,7 @@ import {SystemSetting} from 'mattermost-redux/types/general';
 
 import {General} from '../constants';
 
-import {ClusterInfo, AnalyticsRow} from 'mattermost-redux/types/admin';
+import {ClusterInfo, AnalyticsRow, SchemaMigration} from 'mattermost-redux/types/admin';
 import type {AppBinding, AppCallRequest, AppCallResponse, AppCallType} from 'mattermost-redux/types/apps';
 import {Audit} from 'mattermost-redux/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from 'mattermost-redux/types/autocomplete';
@@ -28,7 +28,7 @@ import {
     ChannelSearchOpts,
     ServerChannel,
 } from 'mattermost-redux/types/channels';
-import {Options, StatusOK, ClientResponse} from 'mattermost-redux/types/client4';
+import {Options, StatusOK, ClientResponse, LogLevel} from 'mattermost-redux/types/client4';
 import {Compliance} from 'mattermost-redux/types/compliance';
 import {
     ClientConfig,
@@ -2274,7 +2274,7 @@ export default class Client4 {
         );
     }
 
-    logClientError = (message: string, level = 'ERROR') => {
+    logClientError = (message: string, level = LogLevel.Error) => {
         const url = `${this.getBaseRoute()}/logs`;
 
         if (!this.enableLogging) {
@@ -3825,6 +3825,13 @@ export default class Client4 {
         return this.doFetch<StatusOK>(
             `${this.getSystemRoute()}/onboarding/complete`,
             {method: 'post', body: JSON.stringify(completeOnboardingRequest)},
+        );
+    }
+
+    getAppliedSchemaMigrations = () => {
+        return this.doFetch<SchemaMigration[]>(
+            `${this.getSystemRoute()}/schema/version`,
+            {method: 'get'},
         );
     }
 

@@ -12,7 +12,7 @@ type Props = {
     onNextSlideClick?: (slideIndex: number) => void;
     onPrevSlideClick?: (slideIndex: number) => void;
 }
-const Carousel: React.FC<Props> = ({
+const Carousel = ({
     dataSlides,
     id,
     infiniteSlide,
@@ -77,7 +77,7 @@ const Carousel: React.FC<Props> = ({
             {dataSlides.map((obj: any, index: number) => {
                 return (
                     <div
-                        key={`${index}`}
+                        key={`${index.toString()}`}
                         className={slideIndex === index + 1 ? 'slide active-anim' : 'slide'}
                     >
                         {obj}
@@ -89,7 +89,7 @@ const Carousel: React.FC<Props> = ({
                 <div className='container-dots'>
                     {dataSlides.map((item, index) => (
                         <div
-                            key={index}
+                            key={index.toString()}
                             onClick={() => moveDot(index + 1)}
                             className={slideIndex === index + 1 ? 'dot active' : 'dot'}
                         />

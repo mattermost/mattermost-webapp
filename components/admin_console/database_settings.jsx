@@ -15,6 +15,8 @@ import RequestButton from './request_button/request_button';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting';
 
+import MigrationsTable from './database';
+
 export default class DatabaseSettings extends AdminSettings {
     getConfigFromState = (config) => {
         // driverName and dataSource are read-only from the UI
@@ -323,6 +325,28 @@ export default class DatabaseSettings extends AdminSettings {
                     setByEnv={this.isSetByEnv('SqlSettings.DisableDatabaseSearch')}
                     disabled={this.props.isDisabled}
                 />
+                <div className='form-group'>
+                    <label
+                        className='control-label col-sm-4'
+                    >
+                        <FormattedMessage
+                            id='admin.database.migrations_table.title'
+                            defaultMessage='Schema Migrations:'
+                        />
+                    </label>
+                    <div className='col-sm-8'>
+                        <div className='migrations-table-setting'>
+                            <MigrationsTable
+                                createHelpText={
+                                    <FormattedMessage
+                                        id='admin.database.migrations_table.help_text'
+                                        defaultMessage='All applied migrations.'
+                                    />
+                                }
+                            />
+                        </div>
+                    </div>
+                </div>
             </SettingsGroup>
         );
     }
