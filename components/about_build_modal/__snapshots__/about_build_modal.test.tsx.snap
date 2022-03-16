@@ -303,7 +303,7 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
           id="about.enterpriseEditionLearn"
         />
         <a
-          href="http://mattermost.com/"
+          href="https://mattermost.com/"
           rel="noopener noreferrer"
           target="_blank"
         >
