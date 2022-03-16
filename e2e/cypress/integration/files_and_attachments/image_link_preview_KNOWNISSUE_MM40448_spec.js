@@ -36,7 +36,7 @@ describe('Image Link Preview', () => {
         cy.apiSaveCollapsePreviewsPreference('false');
     });
 
-    it('MM-T332 Image link preview - Bitly links for images and YouTube -- KNOWN ISSUE: MM-40448', () => {
+    it('MM-T332 Image link preview - Bitly links for images and YouTube', () => {
         // # Youtube link and image link
         const links = ['https://bit.ly/2NlYsOr', 'https://bit.ly/2wqEbjw'];
 
