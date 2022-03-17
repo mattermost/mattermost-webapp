@@ -33,9 +33,6 @@ describe('components/AdminSidebar', () => {
                 Enable: true,
                 EnableUploads: true,
             },
-            FeatureFlags: {
-                WorkspaceOptimizationDashboard: false,
-            },
         },
         adminDefinition: AdminDefinition,
         buildEnterpriseReady: false,
@@ -111,9 +108,6 @@ describe('components/AdminSidebar', () => {
             ...defaultProps,
             config: {
                 ...defaultProps.config,
-                FeatureFlags: {
-                    WorkspaceOptimizationDashboard: true,
-                },
             },
         };
         const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
@@ -139,9 +133,6 @@ describe('components/AdminSidebar', () => {
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
-                },
-                FeatureFlags: {
-                    WorkspaceOptimizationDashboard: false,
                 },
             },
             adminDefinition: AdminDefinition,
@@ -184,9 +175,6 @@ describe('components/AdminSidebar', () => {
                     Enable: true,
                     EnableUploads: true,
                 },
-                FeatureFlags: {
-                    WorkspaceOptimizationDashboard: false,
-                },
             },
             adminDefinition: AdminDefinition,
             buildEnterpriseReady: false,
@@ -225,9 +213,6 @@ describe('components/AdminSidebar', () => {
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
-                },
-                FeatureFlags: {
-                    WorkspaceOptimizationDashboard: false,
                 },
             },
             adminDefinition: AdminDefinition,
@@ -300,9 +285,6 @@ describe('components/AdminSidebar', () => {
                     Secret: 'office365Secret',
                     Scope: 'scope',
                 },
-                FeatureFlags: {
-                    WorkspaceOptimizationDashboard: false,
-                },
             },
             adminDefinition: AdminDefinition,
             buildEnterpriseReady: true,
@@ -349,9 +331,6 @@ describe('components/AdminSidebar', () => {
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
-                },
-                FeatureFlags: {
-                    WorkspaceOptimizationDashboard: false,
                 },
             },
             adminDefinition: AdminDefinition,
@@ -438,9 +417,6 @@ describe('components/AdminSidebar', () => {
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
-                },
-                FeatureFlags: {
-                    WorkspaceOptimizationDashboard: false,
                 },
             },
             adminDefinition: AdminDefinition,
