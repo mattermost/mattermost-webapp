@@ -21,7 +21,7 @@ export type Props = {
     onItemClick: (user: UserProfile) => void;
     status: string;
     user: UserProfile;
-    displayName: string;
+    displayName?: string;
 }
 
 PopoverListMembersItem.defaultProps = {

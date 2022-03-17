@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Overlay} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
@@ -14,34 +13,46 @@ import {localizeMessage} from 'utils/utils.jsx';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import {AddMembersToChanneltreatments} from 'mattermost-redux/constants/config';
+import {Channel} from 'mattermost-redux/types/channels';
+import {UserProfile} from 'mattermost-redux/types/users';
+
+import {ModalData} from 'types/actions';
 
 import ChannelMembersModal from 'components/channel_members_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import Popover from 'components/widgets/popover';
-
 import PopoverListMembersItem from 'components/popover_list_members/popover_list_members_item';
+import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 
-export default class PopoverListMembers extends React.PureComponent {
-    static propTypes = {
-        channel: PropTypes.object.isRequired,
-        statuses: PropTypes.object.isRequired,
-        users: PropTypes.array.isRequired,
-        memberCount: PropTypes.number,
-        currentUserId: PropTypes.string.isRequired,
-        teamUrl: PropTypes.string,
-        manageMembers: PropTypes.bool.isRequired,
-        actions: PropTypes.shape({
-            openModal: PropTypes.func.isRequired,
-            loadProfilesAndStatusesInChannel: PropTypes.func.isRequired,
-            openDirectChannelToUserId: PropTypes.func.isRequired,
-        }).isRequired,
-        sortedUsers: PropTypes.array,
-        addMembersABTest: PropTypes.string,
+export type Props = {
+    channel: Channel;
+    statuses: RelationOneToOne<UserProfile, string>;
+    users: UserProfile[];
+    memberCount: number;
+    currentUserId: string;
+    teamUrl?: string;
+    manageMembers: boolean;
+    actions: {
+        openModal: <P>(modalData: ModalData<P>) => void;
+        loadProfilesAndStatusesInChannel: (channelId: string, page: number, perPage: number | undefined, sort: string, options: {active: boolean}) => void;
+        openDirectChannelToUserId: (userId: string) => Promise<{data: Channel}>;
     };
+    sortedUsers: UserProfile[];
+    addMembersABTest?: string;
+}
 
-    constructor(props) {
+export type State = {
+    showPopover: boolean;
+    users: UserProfile[];
+    statuses: RelationOneToOne<UserProfile, string>;
+}
+
+export default class PopoverListMembers extends React.PureComponent<Props, State> {
+    private membersList: React.RefObject<HTMLDivElement>;
+
+    constructor(props: Props) {
         super(props);
         this.membersList = React.createRef();
 
@@ -52,7 +63,7 @@ export default class PopoverListMembers extends React.PureComponent {
         };
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
+    static getDerivedStateFromProps(nextProps: Props, prevState: State) {
         if (nextProps.users !== prevState.users || nextProps.statuses !== prevState.statuses) {
             return {
                 users: nextProps.users,
@@ -62,7 +73,7 @@ export default class PopoverListMembers extends React.PureComponent {
         return null;
     }
 
-    handleShowDirectChannel = (user) => {
+    handleShowDirectChannel = (user: UserProfile) => {
         const {actions} = this.props;
         const teammateId = user.id;
 
@@ -80,7 +91,7 @@ export default class PopoverListMembers extends React.PureComponent {
         this.setState({showPopover: false});
     };
 
-    showMembersModal = (e) => {
+    showMembersModal = (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
         this.closePopover();
@@ -94,7 +105,7 @@ export default class PopoverListMembers extends React.PureComponent {
         this.props.actions.openModal(modalData);
     };
 
-    onAddNewMembersButton = (placement) => {
+    onAddNewMembersButton = (placement: string) => {
         const {channel, actions} = this.props;
         trackEvent('add_members_from_channel_popover', placement);
 
@@ -113,13 +124,13 @@ export default class PopoverListMembers extends React.PureComponent {
     };
 
     getTargetPopover = () => {
-        this.membersList.current.focus();
+        this.membersList.current?.focus();
         return this.refs.member_popover_target;
     };
 
     render() {
         const isDirectChannel = this.props.channel.type === Constants.DM_CHANNEL;
-        const items = this.props.sortedUsers.map((user) => (
+        const items = this.props.sortedUsers.map((user: UserProfile) => (
             <PopoverListMembersItem
                 key={user.id}
                 onItemClick={this.handleShowDirectChannel}
@@ -286,7 +297,7 @@ export default class PopoverListMembers extends React.PureComponent {
                         </div>
                         <div className='more-modal__body'>
                             <div
-                                tabIndex='-1'
+                                tabIndex={-1}
                                 role='presentation'
                                 ref={this.membersList}
                                 className='more-modal__list'
