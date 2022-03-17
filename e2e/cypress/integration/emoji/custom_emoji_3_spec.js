@@ -197,10 +197,10 @@ describe('Custom emojis', () => {
 
         cy.get('.emoji-list__table').should('be.visible').within(() => {
             // * Since we are searching exactly for that custom emoji, we should get only one result
-            cy.findAllByText(customEmojiWithColons).should('have.length', 1);
+            cy.findByText('Delete').should('have.length', 1);
 
             // # Delete the custom emoji
-            cy.findAllByText('Delete').should('have.length', 1).click();
+            cy.findByText('Delete').should('have.length', 1).click({force: true});
         });
 
         // # Confirm deletion

@@ -271,7 +271,7 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
             <span
               id="dbversionString"
             >
-               3.6.0
+               77
             </span>
           </div>
           <div>
@@ -509,7 +509,7 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
             <span
               id="dbversionString"
             >
-               3.6.0
+               77
             </span>
           </div>
           <div>
@@ -736,7 +736,7 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
             <span
               id="dbversionString"
             >
-               3.6.0
+               77
             </span>
           </div>
           <div>
@@ -974,7 +974,7 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
             <span
               id="dbversionString"
             >
-               3.6.0
+               77
             </span>
           </div>
           <div>
