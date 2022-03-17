@@ -23,7 +23,7 @@ jest.mock('rudder-sdk-js', () => ({
 }));
 
 jest.mock('actions/telemetry_actions', () => ({
-    trackLoadTime: () => {}, // eslint-disable-line no-empty-function
+    measurePageLoadTelemetry: jest.fn(),
 }));
 
 jest.mock('actions/global_actions', () => ({

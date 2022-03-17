@@ -165,10 +165,10 @@ export default class GenericModal extends React.PureComponent<Props, State> {
                         {this.props.children}
                     </div>
                 </Modal.Body>
-                <Modal.Footer>
+                {(cancelButton || confirmButton) && <Modal.Footer>
                     {cancelButton}
                     {confirmButton}
-                </Modal.Footer>
+                </Modal.Footer>}
             </Modal>
         );
     }

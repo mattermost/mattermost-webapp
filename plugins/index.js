@@ -17,6 +17,7 @@ import PluginRegistry from 'plugins/registry';
 import {unregisterAllPluginWebSocketEvents, unregisterPluginReconnectHandler} from 'actions/websocket_actions.jsx';
 import {unregisterPluginTranslationsSource} from 'actions/views/root';
 import {unregisterAdminConsolePlugin} from 'actions/admin_actions';
+import {trackPluginInitialization} from 'actions/telemetry_actions';
 
 import {removeWebappPlugin} from './actions';
 
@@ -83,6 +84,8 @@ export async function initializePlugins() {
             console.error(loadErr.message); //eslint-disable-line no-console
         });
     }));
+
+    trackPluginInitialization(data);
 }
 
 // getPlugins queries the server for all enabled plugins
