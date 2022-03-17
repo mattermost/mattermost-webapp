@@ -966,7 +966,7 @@ export function autocompleteUsers(term: string, teamId = '', channelId = '', opt
             actions.push(
                 {
                     type: UserTypes.RECEIVED_PROFILES_LIST_NOT_IN_CHANNEL,
-                    data: data.out_of_channel,
+                    data: data.out_of_channel || [],
                     id: channelId,
                 },
             );

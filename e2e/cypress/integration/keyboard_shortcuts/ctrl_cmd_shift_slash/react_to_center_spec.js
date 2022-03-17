@@ -15,7 +15,6 @@ import * as MESSAGES from '../../../fixtures/messages';
 
 import {
     checkReactionFromPost,
-    clickSmileEmojiFromEmojiPicker,
     doReactToLastMessageShortcut,
 } from './helpers';
 
@@ -89,7 +88,7 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
         doReactToLastMessageShortcut();
 
         // # Add reaction to a post
-        clickSmileEmojiFromEmojiPicker();
+        cy.clickEmojiInEmojiPicker('smile');
 
         // * Check if emoji reaction is shown in the last message in center
         cy.getLastPostId().then((lastPostId) => {
@@ -136,7 +135,7 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
         doReactToLastMessageShortcut('CENTER');
 
         // # Add reaction to a post
-        clickSmileEmojiFromEmojiPicker();
+        cy.clickEmojiInEmojiPicker('smile');
 
         // # This post is in Center, where reaction is to be added
         cy.getLastPostId().then((lastPostId) => {
@@ -162,7 +161,7 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
         doReactToLastMessageShortcut('CENTER');
 
         // # Add reaction to a post
-        clickSmileEmojiFromEmojiPicker();
+        cy.clickEmojiInEmojiPicker('smile');
 
         // * Check if emoji is shown as reaction to last message
         cy.getLastPostId().then((lastPostId) => {
@@ -178,7 +177,7 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
         doReactToLastMessageShortcut();
 
         // # Add reaction to a post
-        clickSmileEmojiFromEmojiPicker();
+        cy.clickEmojiInEmojiPicker('smile');
 
         // * Check if emoji is shown as reaction to last message
         cy.getLastPostId().then((lastPostId) => {
@@ -200,7 +199,7 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
         doReactToLastMessageShortcut('CENTER');
 
         // # Add reaction to a post
-        clickSmileEmojiFromEmojiPicker();
+        cy.clickEmojiInEmojiPicker('smile');
 
         // * Check if emoji is shown as reaction to last message
         cy.getLastPostId().then((lastPostId) => {
@@ -229,7 +228,7 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
         cy.wait(TIMEOUTS.FIVE_SEC);
 
         // * Check if emoji picker is still open and add a reaction
-        clickSmileEmojiFromEmojiPicker();
+        cy.clickEmojiInEmojiPicker('smile');
 
         // * Check if emoji is shown as reaction to the message it initially intended
         cy.get('@postIdForAddingReaction').then((postIdForAddingReaction) => {

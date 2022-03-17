@@ -20,8 +20,6 @@ type Props = {
 }
 
 const ChannelsPreview = (props: Props) => {
-    // TODO: Need to edit The SVG some so that the text appears in the SVG
-
     return (
         <CSSTransition
             in={props.show}

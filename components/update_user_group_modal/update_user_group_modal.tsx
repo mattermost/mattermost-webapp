@@ -19,6 +19,7 @@ import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
 
 import SaveButton from 'components/save_button';
+import Constants from 'utils/constants';
 
 export type Props = {
     onExited: () => void;
@@ -97,6 +98,12 @@ const UpdateUserGroupModal = (props: Props) => {
             return;
         }
 
+        if (Constants.SPECIAL_MENTIONS.includes(newMention.toLowerCase())) {
+            setMentionInputErrorText(Utils.localizeMessage('user_groups_modal.mentionReservedWord', 'Mention contains a reserved word.'));
+            setSaving(false);
+            return;
+        }
+
         const mentionRegEx = new RegExp(/[^A-Za-z0-9]/g);
         if (mentionRegEx.test(newMention)) {
             setMentionInputErrorText(Utils.localizeMessage('user_groups_modal.mentionInvalidError', 'Invalid character in mention.'));
@@ -112,6 +119,9 @@ const UpdateUserGroupModal = (props: Props) => {
         if (data?.error) {
             if (data.error?.server_error_id === 'app.custom_group.unique_name') {
                 setMentionInputErrorText(Utils.localizeMessage('user_groups_modal.mentionNotUnique', 'Mention needs to be unique.'));
+                setSaving(false);
+            } else if (data.error?.server_error_id === 'app.group.username_conflict') {
+                setMentionInputErrorText(Utils.localizeMessage('user_groups_modal.mentionUsernameConflict', 'A username already exists with this name. Mention must be unique.'));
                 setSaving(false);
             } else {
                 setShowUnknownError(true);

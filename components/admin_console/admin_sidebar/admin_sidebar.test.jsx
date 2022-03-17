@@ -103,6 +103,17 @@ describe('components/AdminSidebar', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot with workspace optimization dashboard enabled', () => {
+        const props = {
+            ...defaultProps,
+            config: {
+                ...defaultProps.config,
+            },
+        };
+        const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot, no access', () => {
         const props = {
             ...defaultProps,

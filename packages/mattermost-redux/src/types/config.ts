@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {CollapsedThreads, AutoTourTreatments} from '../constants/config';
+import {CollapsedThreads} from '../constants/config';
 
 import {ThemeKey} from './themes';
 
@@ -15,7 +15,6 @@ export type ClientConfig = {
     AndroidMinVersion: string;
     AppDownloadLink: string;
     AsymmetricSigningPublicKey: string;
-    AutoTour: AutoTourTreatments;
     AvailableLocales: string;
     BannerColor: string;
     BannerText: string;
@@ -48,6 +47,7 @@ export type ClientConfig = {
     EnableBanner: string;
     EnableBotAccountCreation: string;
     EnableChannelViewedMessages: string;
+    EnableClientPerformanceDebugging: string;
     EnableCluster: string;
     EnableCommands: string;
     EnableCompliance: string;
@@ -170,6 +170,7 @@ export type ClientConfig = {
     SamlLoginButtonTextColor: string;
     SamlNicknameAttributeSet: string;
     SamlPositionAttributeSet: string;
+    SchemaVersion: string;
     SendEmailNotifications: string;
     SendPushNotifications: string;
     ShowEmailAddress: string;
@@ -326,6 +327,7 @@ export type ServiceSettings = {
     EnableLocalMode: boolean;
     LocalModeSocketLocation: string;
     CollapsedThreads: 'disabled' | 'default_on' | 'default_off';
+    ThreadAutoFollow: boolean;
 };
 
 export type TeamSettings = {

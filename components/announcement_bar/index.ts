@@ -11,6 +11,8 @@ import {getDisplayableErrors} from 'mattermost-redux/selectors/errors';
 import {dismissError} from 'mattermost-redux/actions/errors';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {GenericAction} from 'mattermost-redux/types/actions';
+import {getCloudSubscription, getCloudCustomer, getSubscriptionStats} from 'mattermost-redux/actions/cloud';
+import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import {dismissNotice} from 'actions/views/notice';
 import {GlobalState} from 'types/store';
@@ -23,6 +25,9 @@ function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const errors = getDisplayableErrors(state);
     const warnMetricsStatus = getWarnMetricsStatus(state);
+    const isCloud = license.Cloud === 'true';
+    const subscription = state.entities.cloud?.subscription;
+    const userIsAdmin = isCurrentUserSystemAdmin(state);
 
     let latestError = null;
     if (errors && errors.length >= 1) {
@@ -35,9 +40,13 @@ function mapStateToProps(state: GlobalState) {
         canViewSystemErrors,
         latestError,
         warnMetricsStatus,
+        isCloud,
+        subscription,
+        userIsAdmin,
     };
 }
 
+//
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     const dismissFirstError = dismissError.bind(null, 0);
     return {
@@ -45,6 +54,9 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             getStandardAnalytics,
             dismissError: dismissFirstError,
             dismissNotice,
+            getCloudSubscription,
+            getCloudCustomer,
+            getSubscriptionStats,
         }, dispatch),
     };
 }

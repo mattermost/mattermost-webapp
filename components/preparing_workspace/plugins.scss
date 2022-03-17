@@ -1,34 +1,14 @@
 @import 'utils/mixins';
-
-.Plugins-body {
-    display: flex;
-    width: 100%;
-    max-width: 1126px;
-}
+@import './mixins';
 
 .Plugins__marketplace {
     margin-top: 24px;
 }
 
-// 1136 is width at which the cards start hitting screen and wrapping to next line.
-@media screen and (max-width: 1260px) {
-    .Plugins-body .MultiSelectCards {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-right: 16px;
-
-        .MultiSelectCard {
-            width: 100%;
-            max-width: 500px;
-            flex-grow: 1;
-            margin-right: 0;
-            margin-bottom: 16px;
-
-            &:last-child {
-                margin-bottom: 0;
-            }
-        }
+// preempt cards wrapping
+@media screen and (max-width: 900px) {
+    .Plugins-body {
+        @include stacked-multi-select;
     }
 }
 

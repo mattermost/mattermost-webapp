@@ -11,7 +11,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 
 import {t} from 'utils/i18n.jsx';
 
-import Chip from './chip';
+import Chip from '../common/chip/chip';
 
 type Props = {
     prefillMessage: (msg: string, shouldFocus: boolean) => void;

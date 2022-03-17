@@ -44,7 +44,7 @@ import {
     decrementThreadCounts,
 } from 'mattermost-redux/actions/threads';
 
-import {setServerVersion} from 'mattermost-redux/actions/general';
+import {setServerVersion, getClientConfig} from 'mattermost-redux/actions/general';
 import {
     getCustomEmojiForReaction,
     getPosts,
@@ -158,7 +158,7 @@ export function initialize() {
     WebSocketClient.setEventCallback(handleEvent);
     WebSocketClient.setFirstConnectCallback(handleFirstConnect);
     WebSocketClient.setReconnectCallback(() => reconnect(false));
-    WebSocketClient.setMissedEventCallback(() => reconnect(false));
+    WebSocketClient.setMissedEventCallback(restart);
     WebSocketClient.setCloseCallback(handleClose);
     WebSocketClient.initialize(connUrl);
 }
@@ -182,6 +182,13 @@ export function unregisterPluginReconnectHandler(pluginId) {
     Reflect.deleteProperty(pluginReconnectHandlers, pluginId);
 }
 
+function restart() {
+    reconnect(false);
+
+    // We fetch the client config again on the server restart.
+    dispatch(getClientConfig());
+}
+
 export function reconnect(includeWebSocket = true) {
     if (includeWebSocket) {
         reconnectWebSocket();
@@ -190,14 +197,6 @@ export function reconnect(includeWebSocket = true) {
     dispatch({
         type: GeneralTypes.WEBSOCKET_SUCCESS,
         timestamp: Date.now(),
-    });
-
-    loadPluginsIfNecessary();
-
-    Object.values(pluginReconnectHandlers).forEach((handler) => {
-        if (handler && typeof handler === 'function') {
-            handler();
-        }
     });
 
     const state = getState();
@@ -226,6 +225,14 @@ export function reconnect(includeWebSocket = true) {
             dispatch(fetchThreads(currentUserId, currentTeamId, {unread: true, perPage: 200}));
         }
     }
+
+    loadPluginsIfNecessary();
+
+    Object.values(pluginReconnectHandlers).forEach((handler) => {
+        if (handler && typeof handler === 'function') {
+            handler();
+        }
+    });
 
     if (state.websocket.lastDisconnectAt) {
         dispatch(checkForModifiedUsers());

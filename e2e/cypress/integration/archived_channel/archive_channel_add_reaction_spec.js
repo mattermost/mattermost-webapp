@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @channel
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Archived channels', () => {
     before(() => {
         cy.apiUpdateConfig({
@@ -38,10 +40,13 @@ describe('Archived channels', () => {
             // # Click the add reaction icon
             cy.clickPostReactionIcon(postId);
 
+            // # Search for the emoji in emoji search bar
+            cy.findByPlaceholderText('Search emojis').should('exist').and('be.visible').
+                clear().
+                type('slightly_frowning_face', {delay: TIMEOUTS.QUARTER_SEC, force: true});
+
             // # Choose "slightly_frowning_face" emoji
-            cy.findByTestId('slightly_frowning_face').
-                should('exist').
-                click({force: true});
+            cy.clickEmojiInEmojiPicker('slightly_frowning_face');
 
             // * Should have added the reaction with count
             cy.get(`#postReaction-${postId}-slightly_frowning_face .Reaction__number--display`).should('have.text', '1');

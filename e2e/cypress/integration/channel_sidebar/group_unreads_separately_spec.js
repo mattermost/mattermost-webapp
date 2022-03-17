@@ -105,6 +105,25 @@ describe('Channel sidebar - group unreads separately', () => {
         // * Verify channel is not in the UNREADS category
         cy.get('.SidebarChannelGroup:contains(CHANNELS)').should('be.visible').get('.SidebarChannel:not(.unread):contains(Off-Topic)').should('be.visible');
     });
+
+    it('MM-T4655 Leaving an unread channel when unread category is ON', () => {
+        // # Click on the unread channel
+        cy.get(`.SidebarChannel.unread .SidebarLink:contains(${testChannel.display_name})`).should('be.visible').click();
+
+        // # Mark the last message as unread
+        cy.getLastPostId().then((postId) => {
+            cy.uiClickPostDropdownMenu(postId, 'Mark as Unread');
+        });
+
+        // * Verify that the channel appears in the UNREADS section
+        cy.get('.SidebarChannelGroup:contains(UNREADS)').should('be.visible').get(`.SidebarChannel.unread:contains(${testChannel.display_name})`).should('be.visible');
+
+        // # Leave the channel
+        cy.uiLeaveChannel();
+
+        // * User should be redirect to Town Square
+        cy.url().should('include', '/channels/town-square');
+    });
 });
 
 function toggleOnOrOffUnreadsCategory(toggleOn = true) {

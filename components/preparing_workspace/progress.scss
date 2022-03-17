@@ -2,6 +2,7 @@
 @import 'utils/mixins';
 
 .PreparingWorkspaceProgress {
+    position: fixed;
     z-index: 1;
     display: flex;
     width: 120px;
@@ -32,6 +33,19 @@
     }
 
     &.OnboardingWizardProgress {
+        &-enter {
+            opacity: 0;
+        }
+
+        &-enter-active {
+            opacity: 1;
+            transition: transform 300ms linear;
+        }
+
+        &-enter-done {
+            opacity: 1;
+        }
+
         &-exit {
             opacity: 1;
         }
@@ -44,5 +58,11 @@
         &-exit-done {
             opacity: 0;
         }
+    }
+}
+
+@media screen and (max-width: 1270px) {
+    .PreparingWorkspaceProgress {
+        display: none;
     }
 }

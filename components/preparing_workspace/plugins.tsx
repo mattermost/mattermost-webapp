@@ -70,7 +70,7 @@ const Plugins = (props: Props) => {
                                     onClick: () => props.setOption('github'),
                                     icon: <GithubSVG/>,
                                     id: t('onboarding_wizard.plugins.github'),
-                                    defaultMessage: 'Github',
+                                    defaultMessage: 'GitHub',
                                     checked: props.options.github,
                                     tooltip: formatMessage({
                                         id: 'onboarding_wizard.plugins.github.tooltip',
@@ -81,11 +81,11 @@ const Plugins = (props: Props) => {
                                     onClick: () => props.setOption('gitlab'),
                                     icon: <GitlabSVG/>,
                                     id: t('onboarding_wizard.plugins.gitlab'),
-                                    defaultMessage: 'Gitlab',
+                                    defaultMessage: 'GitLab',
                                     checked: props.options.gitlab,
                                     tooltip: formatMessage({
                                         id: 'onboarding_wizard.plugins.gitlab.tooltip',
-                                        defaultMessage: 'Gitlab tooltip',
+                                        defaultMessage: 'GitLab tooltip',
                                     }),
                                 },
                                 {

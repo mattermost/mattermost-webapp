@@ -1,82 +1,68 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import {injectIntl, FormattedMessage, IntlShape} from 'react-intl';
+import React, {memo} from 'react';
+import {FormattedMessage} from 'react-intl';
+import classNames from 'classnames';
 
+import {Category, CategoryOrEmojiRow} from 'components/emoji_picker/types';
+import {EmojiCategory} from 'mattermost-redux/types/emojis';
+
+import {Constants} from 'utils/constants';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
-import {Constants} from 'utils/constants';
 
-type Category = {
-    name: string;
-    id: string;
-    className: string;
-    message: string;
-    offset: number;
-};
-
-type Props = {
-    intl: IntlShape;
+interface Props {
     category: Category;
-    icon: React.ReactNode;
-    onCategoryClick: (categoryName: string) => void;
+    categoryRowIndex: CategoryOrEmojiRow['index'];
     selected: boolean;
     enable: boolean;
+    onClick: (categoryRowIndex: CategoryOrEmojiRow['index'], categoryName: EmojiCategory, firstEmojiId: string) => void;
 }
 
-class EmojiPickerCategory extends React.Component<Props> {
-    shouldComponentUpdate(nextProps: Props) {
-        return nextProps.selected !== this.props.selected ||
-            nextProps.enable !== this.props.enable;
-    }
+function EmojiPickerCategory({category, categoryRowIndex, selected, enable, onClick}: Props) {
+    const handleClick = (event: React.MouseEvent) => {
+        event.preventDefault();
 
-    handleClick = (e: React.MouseEvent) => {
-        e.preventDefault();
-        this.props.onCategoryClick(this.props.category.name);
-    }
+        if (enable) {
+            const firstEmojiId = category?.emojiIds?.[0] ?? '';
 
-    render() {
-        let className = 'emoji-picker__category';
-        if (this.props.selected) {
-            className += ' emoji-picker__category--selected';
+            onClick(categoryRowIndex, category.name, firstEmojiId);
         }
+    };
 
-        if (!this.props.enable) {
-            className += ' disable';
-        }
+    const className = classNames('emoji-picker__category', {
+        'emoji-picker__category--selected': selected,
+        disable: !enable,
+    });
 
-        const tooltip = (
-            <Tooltip
-                id='skinTooltip'
-                className='emoji-tooltip'
-            >
-                <span>
-                    <FormattedMessage
-                        id={`emoji_picker.${this.props.category.name}`}
-                        defaultMessage={this.props.category.message}
-                    />
-                </span>
-            </Tooltip>);
-
-        return (
-            <OverlayTrigger
-                trigger={['hover']}
-                delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement='bottom'
-                overlay={tooltip}
-            >
-                <a
-                    className={className}
-                    href='#'
-                    onClick={this.handleClick}
-                    aria-label={this.props.category.id}
+    return (
+        <OverlayTrigger
+            trigger={['hover', 'focus']}
+            delayShow={Constants.OVERLAY_TIME_DELAY}
+            placement='bottom'
+            overlay={
+                <Tooltip
+                    id='skinTooltip'
+                    className='emoji-tooltip'
                 >
-                    {this.props.icon}
-                </a>
-            </OverlayTrigger>
-        );
-    }
+                    <FormattedMessage
+                        id={`emoji_picker.${category.name}`}
+                        defaultMessage={category.message}
+                    />
+                </Tooltip>
+            }
+        >
+            <a
+                className={className}
+                href='#'
+                onClick={handleClick}
+                aria-label={category.id}
+            >
+                <i className={category.className}/>
+            </a>
+        </OverlayTrigger>
+    );
 }
 
-export default injectIntl(EmojiPickerCategory);
+export default memo(EmojiPickerCategory);
