@@ -52,7 +52,6 @@
     "process": "0.11.10",
     "prop-types": "15.7.2",
     "react": "16.13.1",
-    "react-animate-height": "2.0.23",
     "react-beautiful-dnd": "13.1.0",
     "react-bootstrap": "github:mattermost/react-bootstrap#c6957962364e0818a51bbfd13e89919903b422d6",
     "react-color": "2.19.3",
