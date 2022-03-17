@@ -143,6 +143,7 @@ export default function PreparingWorkspace(props: Props) {
     const inferredTeam = currentTeam || myTeams?.[0];
     const config = useSelector(getConfig);
     const configSiteUrl = config.SiteURL;
+    const pluginsEnabled = config.PluginsEnabled === 'true';
     const isConfigSiteUrlDefault = config.SiteURL === '' || Boolean(config.SiteURL && config.SiteURL === Constants.DEFAULT_SITE_URL);
     const lastIsConfigSiteUrlDefaultRef = useRef(isConfigSiteUrlDefault);
     const showOnMountTimeout = useRef<NodeJS.Timeout>();
@@ -151,7 +152,7 @@ export default function PreparingWorkspace(props: Props) {
         isSelfHosted && WizardSteps.Organization,
         isSelfHosted && isConfigSiteUrlDefault && WizardSteps.Url,
         WizardSteps.UseCase,
-        WizardSteps.Plugins,
+        pluginsEnabled && WizardSteps.Plugins,
         WizardSteps.Channel,
         WizardSteps.InviteMembers,
         WizardSteps.LaunchingWorkspace,
@@ -166,6 +167,24 @@ export default function PreparingWorkspace(props: Props) {
         ...emptyForm,
         url: configSiteUrl || browserSiteUrl,
     });
+
+    useEffect(() => {
+        if (!pluginsEnabled) {
+            if (!form.plugins.skipped) {
+                setForm({
+                    ...form,
+                    plugins: {
+                        skipped: false,
+                    },
+                });
+            }
+            if (currentStep === WizardSteps.Plugins) {
+                const mostRecentStepIndex = stepOrder.indexOf(mostRecentStep);
+                setStepHistory([mostRecentStep, stepOrder[Math.max(mostRecentStepIndex - 1, 0)]]);
+            }
+        }
+    }, [pluginsEnabled, currentStep, mostRecentStep]);
+
     const [showFirstPage, setShowFirstPage] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
     useEffect(() => {

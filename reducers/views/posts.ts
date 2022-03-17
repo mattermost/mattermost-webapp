@@ -21,12 +21,6 @@ function editingPost(state = defaultState, action: GenericAction) {
             ...action.data,
         };
 
-    // TODO@Michel: remove this case when inline post editing is enabled by default
-    case ActionTypes.HIDE_EDIT_POST_MODAL:
-        return {
-            show: false,
-        };
-
     case UserTypes.LOGOUT_SUCCESS:
         return defaultState;
     default:

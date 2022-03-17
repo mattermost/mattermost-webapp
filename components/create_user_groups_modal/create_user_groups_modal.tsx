@@ -21,6 +21,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
+import Constants from 'utils/constants';
 
 export type Props = {
     onExited: () => void;
@@ -123,6 +124,11 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
             return;
         }
 
+        if (Constants.SPECIAL_MENTIONS.includes(mention.toLowerCase())) {
+            this.setState({mentionInputErrorText: Utils.localizeMessage('user_groups_modal.mentionReservedWord', 'Mention contains a reserved word.'), saving: false});
+            return;
+        }
+
         const mentionRegEx = new RegExp(/[^A-Za-z0-9]/g);
         if (mentionRegEx.test(mention)) {
             this.setState({mentionInputErrorText: Utils.localizeMessage('user_groups_modal.mentionInvalidError', 'Invalid character in mention.'), saving: false});
@@ -144,6 +150,8 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
         if (data?.error) {
             if (data.error?.server_error_id === 'app.custom_group.unique_name') {
                 this.setState({mentionInputErrorText: Utils.localizeMessage('user_groups_modal.mentionNotUnique', 'Mention needs to be unique.')});
+            } else if (data.error?.server_error_id === 'app.group.username_conflict') {
+                this.setState({mentionInputErrorText: Utils.localizeMessage('user_groups_modal.mentionUsernameConflict', 'A username already exists with this name. Mention must be unique.')});
             } else {
                 this.setState({showUnknownError: true});
             }

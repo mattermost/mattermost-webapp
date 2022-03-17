@@ -46,7 +46,7 @@ describe('Profile > Security > View and Log Out of Active Sessions', () => {
 
     it('MM-T2088 View and Logout of Active Sessions (Se)', () => {
         // # Go to "View and Logout of Active Sessions"
-        cy.findByTestId('viewAndLogOutOfActiveSessions').should('be.visible').click();
+        cy.findByText('View and Log Out of Active Sessions').should('be.visible').click();
 
         // * Verify an appropriate platform is shown
         cy.get('.report__platform').contains(platformRegex);

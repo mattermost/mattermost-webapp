@@ -9,7 +9,7 @@ exports[`components/SignupController should call addUserToTeamFromInvite if id e
 
 exports[`components/SignupController should match snapshot for addUserToTeamFromInvite error 1`] = `
 <div>
-  <Connect(AnnouncementBarController) />
+  <Connect(_class) />
   <BackButton
     url="/"
   />
@@ -84,7 +84,7 @@ exports[`components/SignupController should match snapshot for addUserToTeamFrom
 
 exports[`components/SignupController should match snapshot for all signup options enabled with isLicensed disabled 1`] = `
 <div>
-  <Connect(AnnouncementBarController) />
+  <Connect(_class) />
   <BackButton
     url="/"
   />
@@ -186,7 +186,7 @@ exports[`components/SignupController should match snapshot for all signup option
 
 exports[`components/SignupController should match snapshot for all signup options enabled with isLicensed enabled 1`] = `
 <div>
-  <Connect(AnnouncementBarController) />
+  <Connect(_class) />
   <BackButton
     url="/"
   />

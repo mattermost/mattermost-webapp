@@ -4,15 +4,18 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Posts} from 'mattermost-redux/constants';
+import ActionsMenu from 'components/actions_menu';
+
+import {Posts, Preferences} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
 import {Post} from 'mattermost-redux/types/posts';
 import {ExtendedPost} from 'mattermost-redux/actions/posts';
 
+import {trackEvent} from 'actions/telemetry_actions';
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
-import Constants, {Locations} from 'utils/constants';
+import Constants, {EventTypes, TELEMETRY_CATEGORIES, TELEMETRY_LABELS, Locations} from 'utils/constants';
 import CommentIcon from 'components/post_view/comment_icon';
 import DotMenu from 'components/dot_menu';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -111,6 +114,11 @@ type Props = {
      */
     isLastPost?: boolean;
 
+    /**
+     * true when want to show the Actions Menu with pulsating dot for tutorial
+     */
+    showActionsMenuPulsatingDot: boolean;
+
     actions: {
 
         /**
@@ -122,11 +130,18 @@ type Props = {
          * Function to set or unset emoji picker for last message
          */
         emitShortcutReactToLastPostFrom?: (emittedFrom: string) => void;
+
+        /**
+         * Function to set viewed Actions Menu for first time
+         */
+        setActionsMenuInitialisationState: (viewed: Record<string, boolean>) => void;
     };
 
     isPostBeingEdited: boolean;
 
     shouldShowDotMenu: boolean;
+
+    shouldShowActionsMenu: boolean;
 
     collapsedThreadsEnabled: boolean;
 
@@ -137,7 +152,9 @@ type Props = {
 type State = {
     showEmojiPicker: boolean;
     showDotMenu: boolean;
+    showActionsMenu: boolean;
     showOptionsMenuWithoutHover: boolean;
+    showActionTip: boolean;
 };
 
 export default class PostInfo extends React.PureComponent<Props, State> {
@@ -151,6 +168,8 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             showEmojiPicker: false,
             showOptionsMenuWithoutHover: false,
             showDotMenu: false,
+            showActionsMenu: false,
+            showActionTip: false,
         };
 
         this.postHeaderRef = React.createRef<HTMLDivElement>();
@@ -167,7 +186,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             showEmojiPicker,
             showOptionsMenuWithoutHover: false,
         });
-        this.props.handleDropdownOpened(showEmojiPicker || this.state.showDotMenu);
+        this.props.handleDropdownOpened(showEmojiPicker);
     };
 
     removePost = (): void => this.props.actions.removePost(this.props.post);
@@ -189,6 +208,34 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         this.props.handleDropdownOpened(open || this.state.showEmojiPicker);
     };
 
+    handleActionsMenuOpened = (open: boolean) => {
+        if (this.props.showActionsMenuPulsatingDot) {
+            return;
+        }
+        this.setState({showActionsMenu: open});
+    };
+
+    handleActionsMenuTipOpened = (): void => {
+        this.setState({showActionTip: true});
+        this.props.handleDropdownOpened(true);
+    };
+
+    handleActionsMenuGotItClick = (): void => {
+        this.props.actions.setActionsMenuInitialisationState({[Preferences.ACTIONS_MENU_VIEWED]: true});
+        this.props.handleDropdownOpened(false);
+        this.setState({showActionTip: false});
+    };
+
+    handleTipDismissed = () => {
+        this.setState({showActionTip: false});
+        this.props.handleDropdownOpened(false);
+    };
+
+    handleCommentClick = (e: any) => {
+        trackEvent(TELEMETRY_CATEGORIES.POST_INFO, EventTypes.CLICK + '_' + TELEMETRY_LABELS.REPLY);
+        this.props.handleCommentClick(e);
+    }
+
     getDotMenu = (): HTMLDivElement => this.dotMenuRef.current as HTMLDivElement;
 
     buildOptions = (post: Post, isSystemMessage: boolean, fromAutoResponder: boolean): React.ReactNode => {
@@ -197,7 +244,13 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         }
 
         const {isMobile, isReadOnly, collapsedThreadsEnabled} = this.props;
-        const hover = this.props.hover || this.state.showEmojiPicker || this.state.showDotMenu || this.state.showOptionsMenuWithoutHover;
+
+        const hover = this.props.hover ||
+            this.state.showEmojiPicker ||
+            this.state.showDotMenu ||
+            this.state.showActionsMenu ||
+            this.state.showActionTip ||
+            this.state.showOptionsMenuWithoutHover;
 
         const showCommentIcon = fromAutoResponder ||
         (!isSystemMessage && (isMobile || hover || (!post.root_id && Boolean(this.props.hasReplies)) || this.props.isFirstReply));
@@ -206,7 +259,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         if (showCommentIcon) {
             commentIcon = (
                 <CommentIcon
-                    handleCommentClick={this.props.handleCommentClick}
+                    handleCommentClick={this.handleCommentClick}
                     postId={post.id}
                     extraClass={commentIconExtraClass}
                 />
@@ -259,6 +312,20 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             );
         }
 
+        const showActionsMenuIcon = this.props.shouldShowActionsMenu && (isMobile || hover);
+        const actionsMenu = showActionsMenuIcon && (
+            <ActionsMenu
+                post={post}
+                handleDropdownOpened={this.handleActionsMenuOpened}
+                isMenuOpen={this.state.showActionsMenu}
+                showPulsatingDot={this.props.showActionsMenuPulsatingDot}
+                showTutorialTip={this.state.showActionTip}
+                handleOpenTip={this.handleActionsMenuTipOpened}
+                handleNextTip={this.handleActionsMenuGotItClick}
+                handleDismissTip={this.handleTipDismissed}
+            />
+        );
+
         const showFlagIcon = !isSystemMessage && !isMobile && (hover || this.props.isFlagged);
         let postFlagIcon;
         if (showFlagIcon) {
@@ -280,6 +347,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
                 {showRecentReacions}
                 {postReaction}
                 {postFlagIcon}
+                {actionsMenu}
                 {commentIcon}
                 {(collapsedThreadsEnabled || showRecentlyUsedReactions) && dotMenu}
             </div>

@@ -139,22 +139,20 @@ export default class GenericModal extends React.PureComponent<Props, State> {
                 <Modal.Header
                     closeButton={true}
                 />
-                <form>
-                    <Modal.Body>
-                        {this.props.modalHeaderText && <div className='GenericModal__header'>
-                            <h1 id='genericModalLabel'>
-                                {this.props.modalHeaderText}
-                            </h1>
-                        </div>}
-                        <div className='GenericModal__body'>
-                            {this.props.children}
-                        </div>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        {cancelButton}
-                        {confirmButton}
-                    </Modal.Footer>
-                </form>
+                <Modal.Body>
+                    {this.props.modalHeaderText && <div className='GenericModal__header'>
+                        <h1 id='genericModalLabel'>
+                            {this.props.modalHeaderText}
+                        </h1>
+                    </div>}
+                    <div className='GenericModal__body'>
+                        {this.props.children}
+                    </div>
+                </Modal.Body>
+                {(cancelButton || confirmButton) && <Modal.Footer>
+                    {cancelButton}
+                    {confirmButton}
+                </Modal.Footer>}
             </Modal>
         );
     }
