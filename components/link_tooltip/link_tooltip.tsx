@@ -120,7 +120,7 @@ export default class LinkTooltip extends React.PureComponent<Props, State> {
                     <div
                         style={tooltipContainerStyles}
                         ref={this.tooltipContainerRef}
-                        className={classNames('tooltip-container')}
+                        className='tooltip-container'
                     >
                         <Pluggable
                             href={href}
