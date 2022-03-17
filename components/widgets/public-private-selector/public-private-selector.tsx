@@ -13,10 +13,12 @@ import GlobeCircleSolidIcon from '../icons/globe_circle_solid_icon';
 import LockCircleSolidIcon from '../icons/lock_circle_solid_icon';
 import UpgradeBadge from '../icons/upgrade_badge_icon';
 
+import {ChannelType} from 'mattermost-redux/types/channels';
+
 import './public-private-selector.scss';
 
 type BigButtonSelectorProps = {
-    id: ButtonType;
+    id: ChannelType;
     title: string | React.ReactNode;
     description: string | React.ReactNode;
     iconSVG: (props: React.HTMLAttributes<HTMLSpanElement>) => JSX.Element;
@@ -27,7 +29,7 @@ type BigButtonSelectorProps = {
     selected?: boolean;
     disabled?: boolean;
     locked?: boolean;
-    onClick: (id: ButtonType) => void;
+    onClick: (id: ChannelType) => void;
 };
 
 const BigButtonSelector = ({
@@ -45,7 +47,8 @@ const BigButtonSelector = ({
     onClick,
 }: BigButtonSelectorProps) => {
     const handleOnClick = useCallback(
-        () => {
+        (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+            e.preventDefault();
             onClick(id);
         },
         [id, onClick],
@@ -54,20 +57,20 @@ const BigButtonSelector = ({
     const button = (
         <button
             id={id}
-            className={classNames('BigButton', {selected, disabled, locked})}
+            className={classNames('public-private-selector-button', {selected, disabled, locked})}
             onClick={handleOnClick}
         >
-            <IconSVG className={classNames('GiantIcon', iconClassName)}/>
-            <div className='StackedText'>
-                <div className={classNames('BigText', titleClassName)}>
+            <IconSVG className={classNames('public-private-selector-button-icon', iconClassName)}/>
+            <div className='public-private-selector-button-text'>
+                <div className={classNames('public-private-selector-button-title', titleClassName)}>
                     {title}
-                    {locked && <UpgradeBadge className='upgradeBadge'/>}
+                    {locked && <UpgradeBadge className='public-private-selector-button-icon-upgrade'/>}
                 </div>
-                <div className={classNames('SmallText', descriptionClassName)}>
+                <div className={classNames('public-private-selector-button-description', descriptionClassName)}>
                     {description}
                 </div>
             </div>
-            {selected && <CheckCircleIcon className='CheckIcon'/>}
+            {selected && <CheckCircleIcon className='public-private-selector-button-icon-check'/>}
         </button>
     );
 
@@ -76,7 +79,7 @@ const BigButtonSelector = ({
     }
 
     const tooltipContainer = (
-        <Tooltip id={'BigButtonTooltip'}>
+        <Tooltip id={'public-private-selector-button-tooltip'}>
             {tooltip}
         </Tooltip>
     );
@@ -92,11 +95,6 @@ const BigButtonSelector = ({
     );
 };
 
-export enum ButtonType {
-    PUBLIC = 'O',
-    PRIVATE = 'P',
-}
-
 type ButtonSelectorProps = {
     title?: string | React.ReactNode;
     description?: string | React.ReactNode;
@@ -110,11 +108,11 @@ type ButtonSelectorProps = {
 };
 
 type PublicPrivateSelectorProps = {
-    selected: ButtonType;
+    selected: ChannelType;
     className?: string;
     publicButtonProps?: ButtonSelectorProps;
     privateButtonProps?: ButtonSelectorProps;
-    onChange: (selected: ButtonType) => void;
+    onChange: (selected: ChannelType) => void;
 };
 
 const PublicPrivateSelector = ({
@@ -148,11 +146,11 @@ const PublicPrivateSelector = ({
     const canSelectPrivate = !disabledPrivate && !lockedPrivate;
 
     const handleOnClick = useCallback(
-        (selection: ButtonType) => {
+        (selection: ChannelType) => {
             if (
                 selection === selected ||
-                (selection === ButtonType.PUBLIC && !canSelectPublic) ||
-                (selection === ButtonType.PRIVATE && !canSelectPrivate)
+                (selection === Constants.OPEN_CHANNEL && !canSelectPublic) ||
+                (selection === Constants.PRIVATE_CHANNEL && !canSelectPrivate)
             ) {
                 return;
             }
@@ -163,9 +161,9 @@ const PublicPrivateSelector = ({
     );
 
     return (
-        <div className={classNames('HorizontalContainer', className)}>
+        <div className={classNames('public-private-selector', className)}>
             <BigButtonSelector
-                id={ButtonType.PUBLIC}
+                id={Constants.OPEN_CHANNEL as ChannelType}
                 title={titlePublic || formatMessage({id: 'public_private_selector.public.title', defaultMessage: 'Public'})}
                 description={descriptionPublic || formatMessage({id: 'public_private_selector.public.description', defaultMessage: 'Anyone'})}
                 iconSVG={GlobeCircleSolidIcon}
@@ -173,11 +171,13 @@ const PublicPrivateSelector = ({
                 descriptionClassName={descriptionClassNamePublic}
                 iconClassName={iconClassNamePublic}
                 tooltip={tooltipPublic}
-                selected={selected === ButtonType.PUBLIC}
+                selected={selected === Constants.OPEN_CHANNEL}
+                disabled={disabledPublic}
+                locked={lockedPublic}
                 onClick={handleOnClick}
             />
             <BigButtonSelector
-                id={ButtonType.PRIVATE}
+                id={Constants.PRIVATE_CHANNEL as ChannelType}
                 title={titlePrivate || formatMessage({id: 'public_private_selector.private.title', defaultMessage: 'Private'})}
                 description={descriptionPrivate || formatMessage({id: 'public_private_selector.private.description', defaultMessage: 'Only invited members'})}
                 iconSVG={LockCircleSolidIcon}
@@ -185,7 +185,7 @@ const PublicPrivateSelector = ({
                 descriptionClassName={descriptionClassNamePrivate}
                 iconClassName={iconClassNamePrivate}
                 tooltip={tooltipPrivate}
-                selected={selected === ButtonType.PRIVATE}
+                selected={selected === Constants.PRIVATE_CHANNEL}
                 disabled={disabledPrivate}
                 locked={lockedPrivate}
                 onClick={handleOnClick}

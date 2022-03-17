@@ -13,7 +13,8 @@ import URLInput from './url_input';
 const inputValueChange = action('onChange');
 const inputBlur = action('onBlur');
 
-const validateURL = (url: string) => (url.match(/[^A-Za-z0-9-_]/g) ? 'Special characters cannot be used in the URL' : '');
+const validateChars = (url: string) => (url.match(/[^A-Za-z0-9-_]/g) ? 'Special characters cannot be used in the URL' : '');
+const validateEnd = (url: string) => (url.match(/[a-z0-9-_]$/g) ? 'Must end with a lowercase letter or number' : '');
 
 storiesOf('Widgets/Inputs/URL Input', module).
     add(
@@ -61,8 +62,8 @@ storiesOf('Widgets/Inputs/URL Input', module).
                 return (
                     <StoryBox containerStyle={{width: 600, padding: 32}}>
                         <URLInput
-                            base={'https://community.mattermost.com'}
-                            path={'test/channels'}
+                            base='https://community.mattermost.com'
+                            path='test/channels'
                             pathInfo={pathInfo}
                             shortenLength={52}
                             onChange={handleOnChange}
@@ -95,8 +96,8 @@ storiesOf('Widgets/Inputs/URL Input', module).
                 return (
                     <StoryBox containerStyle={{width: 600, padding: 32}}>
                         <URLInput
-                            base={'https://community.mattermost.com'}
-                            path={'test/channels'}
+                            base='https://community.mattermost.com'
+                            path='test/channels'
                             pathInfo={pathInfo}
                             limit={10}
                             shortenLength={52}
@@ -121,20 +122,21 @@ storiesOf('Widgets/Inputs/URL Input', module).
 
                 const handleOnChange = ({target: {value: newValue}}: React.ChangeEvent<HTMLInputElement>) => {
                     setPathInfo(newValue);
-                    setError(validateURL(newValue));
+                    setError(validateEnd(newValue) || validateChars(newValue));
                     inputValueChange(newValue);
                 };
 
                 const handleOnBlur = ({target: {value}}: React.ChangeEvent<HTMLInputElement>) => {
-                    setError(validateURL(value));
+                    setError(validateEnd(value) || validateChars(value));
+
                     inputBlur(value);
                 };
 
                 return (
                     <StoryBox containerStyle={{width: 600, padding: 32}}>
                         <URLInput
-                            base={'https://community.mattermost.com'}
-                            path={'test/channels'}
+                            base='https://community.mattermost.com'
+                            path='test/channels'
                             pathInfo={pathInfo}
                             shortenLength={52}
                             error={error}

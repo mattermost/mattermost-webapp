@@ -16,11 +16,18 @@
         }
 
         .url-input-editable-container {
+            width: auto;
             margin-right: 6px;
         }
 
+        .url-input-editable-wrapper {
+            padding: 0 12px;
+        }
+
         .url-input-editable-path {
-            height: 26px;
+            height: 26px !important;
+            border: 0 !important;
+            border-radius: 0 !important;
             font-size: 12px;
             line-height: 16px;
         }
@@ -30,6 +37,7 @@
             border: none;
             background: var(--center-channel-bg);
             color: var(--button-bg);
+            box-shadow: none;
 
             .url-input-button-label {
                 color: #1c58d9;
@@ -38,7 +46,15 @@
                 line-height: 9px;
             }
 
+            &:hover,
+            &:active,
+            &:focus {
+                text-decoration-line: underline;
+            }
+
             &.disabled {
+                text-decoration-line: none;
+
                 .url-input-button-label {
                     color: rgba(var(--center-channel-color-rgb), 0.32);
                 }

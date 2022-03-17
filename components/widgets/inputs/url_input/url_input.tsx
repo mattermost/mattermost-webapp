@@ -14,7 +14,7 @@ import {getShortenedURL} from 'utils/url';
 
 import './url_input.scss';
 
-type Props = {
+type URLInputProps = {
     base: string;
     path?: string;
     pathInfo: string;
@@ -22,27 +22,43 @@ type Props = {
     maxLength?: number;
     shortenLength?: number;
     error?: string;
+    className?: string;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onBlur?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-function UrlInput({base, path, pathInfo, limit, maxLength, shortenLength, error, onChange, onBlur}: Props) {
+function UrlInput({
+    base,
+    path,
+    pathInfo,
+    limit,
+    maxLength,
+    shortenLength,
+    error,
+    className,
+    onChange,
+    onBlur,
+}: URLInputProps) {
     const {formatMessage} = useIntl();
 
     const [editing, setEditing] = useState(false);
 
     const fullPath = `${base}/${path ? `${path}/` : ''}`;
-    const fullURL = `${fullPath}${editing ? '' : (pathInfo && `${pathInfo}`) || ''}`;
+    const fullURL = `${fullPath}${editing ? '' : pathInfo}`;
     const isShortenedURL = shortenLength && fullURL.length > shortenLength;
     const hasError = Boolean(error);
 
     const handleOnInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        event.preventDefault();
+
         if (onChange) {
             onChange(event);
         }
     };
 
     const handleOnInputBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
+        event.preventDefault();
+
         setEditing(hasError);
 
         if (onBlur) {
@@ -56,28 +72,37 @@ function UrlInput({base, path, pathInfo, limit, maxLength, shortenLength, error,
         }
     };
 
+    const urlInputLabel = (
+        <span className='url-input-label'>
+            {formatMessage({id: 'url_input.label.url', defaultMessage: 'URL: '})}
+            {isShortenedURL ? getShortenedURL(fullURL, shortenLength) : fullURL}
+        </span>
+    );
+
     return (
-        <div className='url-input-main'>
+        <div className={classNames('url-input-main', className)}>
             <div className='url-input-container'>
-                <OverlayTrigger
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='top'
-                    overlay={isShortenedURL ? (
-                        <Tooltip id='urlTooltip'>
-                            {fullURL}
-                        </Tooltip>
-                    ) : ''}
-                >
-                    <span className='url-input-label'>
-                        {formatMessage({id: 'url_input.label.url', defaultMessage: 'URL: '})}
-                        {isShortenedURL ? getShortenedURL(fullURL, shortenLength) : fullURL}
-                    </span>
-                </OverlayTrigger>
+                {isShortenedURL ? (
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        overlay={(
+                            <Tooltip id='urlTooltip'>
+                                {fullURL}
+                            </Tooltip>
+                        )}
+                    >
+                        {urlInputLabel}
+                    </OverlayTrigger>
+                ) : (
+                    urlInputLabel
+                )}
                 {(editing || hasError) && (
                     <Input
                         name='url-input'
                         type='text'
                         containerClassName='url-input-editable-container'
+                        wrapperClassName='url-input-editable-wrapper'
                         inputClassName='url-input-editable-path'
                         autoFocus={true}
                         autoComplete='off'
@@ -87,6 +112,7 @@ function UrlInput({base, path, pathInfo, limit, maxLength, shortenLength, error,
                         hasError={hasError}
                         onChange={handleOnInputChange}
                         onBlur={handleOnInputBlur}
+                        onFocus={(e) => e.preventDefault()}
                     />
                 )}
                 <button

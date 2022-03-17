@@ -11,7 +11,7 @@ import {getCloudCustomer, updateCloudCustomer, updateCloudCustomerAddress} from 
 import BlockableLink from 'components/admin_console/blockable_link';
 import DropdownInput from 'components/dropdown_input';
 import StateSelector from 'components/payment_form/state_selector';
-import Input from 'components/input';
+import Input from 'components/widgets/inputs/input/input';
 import SaveButton from 'components/save_button';
 import {GlobalState} from 'types/store';
 import {browserHistory} from 'utils/browser_history';

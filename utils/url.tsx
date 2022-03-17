@@ -8,6 +8,7 @@ import {latinise} from 'utils/latinise';
 import {t} from 'utils/i18n';
 import * as TextFormatting from 'utils/text_formatting';
 import Constants from 'utils/constants';
+import {localizeMessage} from 'utils/utils';
 
 type WindowObject = {
     location: {
@@ -104,7 +105,11 @@ export function getScheme(url: string): string | null {
     return match && match[1];
 }
 
-function formattedError(id: string, message: string): React.ReactElement {
+function formattedError(id: string, message: string, formatMessage = true): React.ReactElement | string {
+    if (!formatMessage) {
+        return localizeMessage(id, message);
+    }
+
     return (<span key={id}>
         <FormattedMessage
             id={id}
@@ -114,8 +119,8 @@ function formattedError(id: string, message: string): React.ReactElement {
     </span>);
 }
 
-export function validateChannelUrl(url: string): React.ReactElement[] {
-    const errors: React.ReactElement[] = [];
+export function validateChannelUrl(url: string, formatMessages = true): Array<React.ReactElement | string> {
+    const errors: Array<React.ReactElement | string> = [];
 
     const USER_ID_LENGTH = 26;
     const directMessageRegex = new RegExp(`^.{${USER_ID_LENGTH}}__.{${USER_ID_LENGTH}}$`);
@@ -124,27 +129,35 @@ export function validateChannelUrl(url: string): React.ReactElement[] {
     const cleanedURL = cleanUpUrlable(url);
     const urlMatched = url.match(/[a-z0-9]([-_\w]*)[a-z0-9]/);
     if (cleanedURL !== url || !urlMatched || urlMatched[0] !== url || isDirectMessageFormat) {
-        if (url.length < 2) {
-            errors.push(formattedError(t('change_url.longer'), 'URLs must have at least 2 characters.'));
+        if (url.length < Constants.MIN_CHANNELNAME_LENGTH) {
+            errors.push(formattedError(t('change_url.longer'), 'URLs must have at least 2 characters.', formatMessages));
+        }
+
+        if (url.length > Constants.MAX_CHANNELNAME_LENGTH) {
+            errors.push(formattedError(t('change_url.shorter'), 'URLs must have maximum 64 characters.', formatMessages));
+        }
+
+        if (url.match(/[^a-z0-9-_]/)) {
+            errors.push(formattedError(t('change_url.noSpecialChars'), 'URLs cannot use special characters.', formatMessages));
         }
 
         if (isDirectMessageFormat) {
-            errors.push(formattedError(t('change_url.invalidDirectMessage'), 'User IDs are not allowed in channel URLs.'));
+            errors.push(formattedError(t('change_url.invalidDirectMessage'), 'User IDs are not allowed in channel URLs.', formatMessages));
         }
 
         const startsWithoutLetter = url.charAt(0) === '-' || url.charAt(0) === '_';
         const endsWithoutLetter = url.length > 1 && (url.charAt(url.length - 1) === '-' || url.charAt(url.length - 1) === '_');
         if (startsWithoutLetter && endsWithoutLetter) {
-            errors.push(formattedError(t('change_url.startAndEndWithLetter'), 'URLs must start and end with a lowercase letter or number.'));
+            errors.push(formattedError(t('change_url.startAndEndWithLetter'), 'URLs must start and end with a lowercase letter or number.', formatMessages));
         } else if (startsWithoutLetter) {
-            errors.push(formattedError(t('change_url.startWithLetter'), 'URLs must start with a lowercase letter or number.'));
+            errors.push(formattedError(t('change_url.startWithLetter'), 'URLs must start with a lowercase letter or number.', formatMessages));
         } else if (endsWithoutLetter) {
-            errors.push(formattedError(t('change_url.endWithLetter'), 'URLs must end with a lowercase letter or number.'));
+            errors.push(formattedError(t('change_url.endWithLetter'), 'URLs must end with a lowercase letter or number.', formatMessages));
         }
 
         // In case of error we don't detect
         if (errors.length === 0) {
-            errors.push(formattedError(t('change_url.invalidUrl'), 'Invalid URL'));
+            errors.push(formattedError(t('change_url.invalidUrl'), 'Invalid URL', formatMessages));
         }
     }
 

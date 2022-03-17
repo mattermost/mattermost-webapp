@@ -15,7 +15,7 @@ import NewChannelFlow, {
     SHOW_EDIT_URL_THEN_COMPLETE,
     getChannelTypeFromProps,
     Props,
-} from 'components/new_channel_flow/new_channel_flow';
+} from 'components/new_channel_modal/new_channel_modal';
 
 describe('components/NewChannelFlow', () => {
     const baseProps = {

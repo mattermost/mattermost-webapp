@@ -8,7 +8,10 @@ import {action} from '@storybook/addon-actions';
 
 import StoryBox from 'storybook/story_box';
 
-import PublicPrivateSelector, {ButtonType} from './public-private-selector';
+import {ChannelType} from 'mattermost-redux/types/channels';
+import {Constants} from 'utils/constants';
+
+import PublicPrivateSelector from './public-private-selector';
 
 const selectionChange = action('onChange');
 
@@ -17,7 +20,7 @@ storiesOf('Widgets/PublicPrivateSelector', module).
         'Default',
         () => {
             const WrapperComponent = () => {
-                const [selected, setSelected] = useState(ButtonType.PUBLIC);
+                const [selected, setSelected] = useState(Constants.OPEN_CHANNEL as ChannelType);
 
                 return (
                     <StoryBox containerStyle={{width: 600, padding: 32}}>
@@ -41,7 +44,7 @@ storiesOf('Widgets/PublicPrivateSelector', module).
         'With custom messages',
         () => {
             const WrapperComponent = () => {
-                const [selected, setSelected] = useState(ButtonType.PUBLIC);
+                const [selected, setSelected] = useState(Constants.OPEN_CHANNEL as ChannelType);
 
                 return (
                     <StoryBox containerStyle={{width: 600, padding: 32}}>
@@ -73,7 +76,7 @@ storiesOf('Widgets/PublicPrivateSelector', module).
         'With tooltips',
         () => {
             const WrapperComponent = () => {
-                const [selected, setSelected] = useState(ButtonType.PUBLIC);
+                const [selected, setSelected] = useState(Constants.OPEN_CHANNEL as ChannelType);
 
                 return (
                     <StoryBox containerStyle={{width: 600, padding: 32}}>
@@ -103,7 +106,7 @@ storiesOf('Widgets/PublicPrivateSelector', module).
         'With private disabled',
         () => {
             const WrapperComponent = () => {
-                const [selected, setSelected] = useState(ButtonType.PUBLIC);
+                const [selected, setSelected] = useState(Constants.OPEN_CHANNEL as ChannelType);
 
                 return (
                     <StoryBox containerStyle={{width: 600, padding: 32}}>
@@ -128,10 +131,42 @@ storiesOf('Widgets/PublicPrivateSelector', module).
         },
     ).
     add(
+        'With selection disabled default public',
+        () => {
+            const WrapperComponent = () => {
+                const [selected, setSelected] = useState(Constants.OPEN_CHANNEL as ChannelType);
+
+                return (
+                    <StoryBox containerStyle={{width: 600, padding: 32}}>
+                        <PublicPrivateSelector
+                            selected={selected}
+                            publicButtonProps={{
+                                tooltip: 'Selection has been disabled by the system admin',
+                                disabled: true,
+                            }}
+                            privateButtonProps={{
+                                tooltip: 'Selection has been disabled by the system admin',
+                                disabled: true,
+                            }}
+                            onChange={(selected) => {
+                                selectionChange(selected);
+                                setSelected(selected);
+                            }}
+                        />
+                    </StoryBox>
+                );
+            };
+
+            return (
+                <WrapperComponent/>
+            );
+        },
+    ).
+    add(
         'With private locked',
         () => {
             const WrapperComponent = () => {
-                const [selected, setSelected] = useState(ButtonType.PUBLIC);
+                const [selected, setSelected] = useState(Constants.OPEN_CHANNEL as ChannelType);
 
                 return (
                     <StoryBox containerStyle={{width: 600, padding: 32}}>

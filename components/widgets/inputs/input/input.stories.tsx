@@ -52,7 +52,7 @@ storiesOf('Widgets/Inputs/Input', module).
                     <Input
                         type='text'
                         value={value}
-                        name={'placeholder'}
+                        name='placeholder'
                         placeholder='Channel name'
                         onChange={handleOnChange}
                     />
@@ -79,7 +79,7 @@ storiesOf('Widgets/Inputs/Input', module).
                     <Input
                         type='text'
                         value={value}
-                        name={'label-placeholder'}
+                        name='label-placeholder'
                         label='Channel name'
                         placeholder='Enter a name for your new channel'
                         onChange={handleOnChange}
@@ -107,7 +107,7 @@ storiesOf('Widgets/Inputs/Input', module).
                     <Input
                         type='text'
                         value={value}
-                        name={'info'}
+                        name='info'
                         label='Channel name'
                         placeholder='Enter a name for your new channel'
                         info={'Should have at least 2 characters'}
@@ -145,7 +145,7 @@ storiesOf('Widgets/Inputs/Input', module).
                     <Input
                         type='text'
                         value={value}
-                        name={'error'}
+                        name='error'
                         label='Channel name'
                         placeholder='Enter a name with at least 5 characters'
                         error={error}
@@ -175,7 +175,7 @@ storiesOf('Widgets/Inputs/Input', module).
                     <Input
                         type='text'
                         value={value}
-                        name={'required'}
+                        name='required'
                         label='Channel name'
                         placeholder='Enter a name for your new channel'
                         required={true}
@@ -219,7 +219,7 @@ storiesOf('Widgets/Inputs/Input', module).
         },
     ).
     add(
-        'With max lenght',
+        'With max length',
         () => {
             const WrapperComponent = () => {
                 const [value, setValue] = useState('');

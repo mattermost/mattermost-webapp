@@ -13,7 +13,7 @@ import {CustomGroupPatch, Group} from 'mattermost-redux/types/groups';
 import 'components/user_groups_modal/user_groups_modal.scss';
 import './update_user_group_modal.scss';
 import {ModalData} from 'types/actions';
-import Input from 'components/input';
+import Input from 'components/widgets/inputs/input/input';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
