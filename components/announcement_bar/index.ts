@@ -46,6 +46,7 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 
+//
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     const dismissFirstError = dismissError.bind(null, 0);
     return {
