@@ -1,21 +1,21 @@
 .HorizontalContainer {
     display: flex;
-    flex-direction: horizontal;
     height: 70px;
+    flex-direction: horizontal;
 }
 
 .BigButton {
     display: flex;
+    min-width: 0;
+    flex: 1;
     flex-direction: horizontal;
     align-items: center;
     padding: 12px 22px 12px 12px;
     border: 1px solid rgba(var(--button-bg-rgb), 0.08);
-    background: var(--center-channel-bg);
-    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.08);
-    border-radius: 4px;
-    flex: 1;
-    min-width: 0;
     margin-left: 8px;
+    background: var(--center-channel-bg);
+    border-radius: 4px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);
 
     &:first-child {
         margin-left: 0;
@@ -37,35 +37,35 @@
     }
 
     .StackedText {
-        flex: 1;
         min-width: 0;
-        text-align: left;
+        flex: 1;
         margin-left: 12px;
+        text-align: left;
 
         .BigText {
-            font-size: 14px;
-            line-height: 20px;
-            font-weight: 600;
-            color: #3F4350;
             overflow: hidden;
+            color: #3f4350;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 20px;
             text-overflow: ellipsis;
             white-space: nowrap;
 
             .upgradeBadge {
-                margin-left: 8px;
-                vertical-align: sub;
+                display: inline-flex;
                 width: 16px;
                 height: 16px;
-                display: inline-flex;
+                margin-left: 8px;
                 fill: var(--online-indicator);
+                vertical-align: sub;
             }
         }
-    
+
         .SmallText {
+            overflow: hidden;
+            color: rgba(var(--center-channel-color-rgb), 0.72);
             font-size: 12px;
             line-height: 16px;
-            color: rgba(var(--center-channel-color-rgb), 0.72);
-            overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
