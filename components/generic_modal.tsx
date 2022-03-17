@@ -159,7 +159,7 @@ export default class GenericModal extends React.PureComponent<Props, State> {
                             </div>
                         )
                     ) : (
-                        {headerText}
+                        headerText
                     )}
                     <div className='GenericModal__body'>
                         {this.props.children}

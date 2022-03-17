@@ -137,7 +137,7 @@ export function validateChannelUrl(url: string, formatMessages = true): Array<Re
             errors.push(formattedError(t('change_url.shorter'), 'URLs must have maximum 64 characters.', formatMessages));
         }
 
-        if (url.match(/[^a-z0-9-_]/)) {
+        if (url.match(/[^A-Za-z0-9-_]/)) {
             errors.push(formattedError(t('change_url.noSpecialChars'), 'URLs cannot use special characters.', formatMessages));
         }
 

@@ -101,18 +101,17 @@
 
     &.GenericModal__compassDesign {
         .modal-content {
-            padding: 26px 32px 24px;
-
-            .modal-body {
-                padding: 30px 0 0;
-            }
+            padding: 0;
+            border-radius: 12px;
 
             .modal-header {
+                padding: 26px 32px 15px;
+
                 .close {
-                    top: 18px;
-                    right: 20px;
-                    height: 30px;
+                    top: 24px;
+                    right: 22px;
                     width: 30px;
+                    height: 30px;
                     box-shadow: none;
 
                     &:active {
@@ -121,38 +120,46 @@
                     }
 
                     &:focus {
-                        border: 2px solid var(--sidebar-text-active-border);
                         box-sizing: border-box;
+                        border: 2px solid var(--sidebar-text-active-border);
+                    }
+                }
+
+                .GenericModal__header {
+                    padding: 0;
+                    border-top-left-radius: 12px;
+                    border-top-right-radius: 12px;
+
+                    h1 {
+                        color: var(--center-channel-color);
+                        font-size: 22px;
                     }
                 }
             }
 
-            .GenericModal__header {
-                padding: 0;
+            .modal-body {
+                padding: 15px 32px 0;
 
-                h1 {
-                    color: var(--center-channel-color);
-                    font-size: 22px;
+                .GenericModal__body {
+                    padding: 0;
                 }
             }
 
-            .GenericModal__body {
-                padding: 0;
-            }
-
             .modal-footer {
-                padding: 30px 0 0;
+                padding: 0 32px 26px;
+                border-bottom-left-radius: 12px;
+                border-bottom-right-radius: 12px;
             }
 
             .genericModalError {
                 display: flex;
-                flex: 1;
-                background: rgba(247, 67, 67, 0.08);
-                border: 1px solid rgba(247, 67, 67, 0.16);
                 box-sizing: border-box;
-                border-radius: 4px;
-                margin-bottom: 24px;
+                flex: 1;
                 padding: 14px;
+                border: 1px solid rgba(247, 67, 67, 0.16);
+                margin-bottom: 24px;
+                background: rgba(247, 67, 67, 0.08);
+                border-radius: 4px;
 
                 span {
                     color: var(--center-channel-color);
@@ -167,7 +174,7 @@
                     font-size: 24px;
                     line-height: 24px;
 
-                    &:before {
+                    &::before {
                         margin: 0;
                     }
                 }
@@ -176,17 +183,17 @@
             .GenericModal__button {
                 padding: 13px 20px;
                 border: none;
+                border-radius: 4px;
+                box-shadow: none;
                 font-size: 14px;
                 font-weight: 600;
                 line-height: 14px;
-                border-radius: 4px;
-                box-shadow: none;
 
                 &.cancel {
-                    background: var(--center-channel-bg);
-                    color: var(--button-bg);
                     margin-right: 8px;
+                    background: var(--center-channel-bg);
                     background: rgba(var(--button-bg-rgb), 0.08);
+                    color: var(--button-bg);
 
                     &:hover {
                         background: rgba(var(--button-bg-rgb), 0.12);
@@ -197,9 +204,9 @@
                     }
 
                     &:focus {
-                        border: 2px solid var(--sidebar-text-active-border);
                         box-sizing: border-box;
                         padding: 11px 18px;
+                        border: 2px solid var(--sidebar-text-active-border);
                     }
                 }
 
@@ -216,9 +223,9 @@
                     }
 
                     &:focus {
-                        border: 2px solid var(--sidebar-text-active-border);
                         box-sizing: border-box;
                         padding: 11px 18px;
+                        border: 2px solid var(--sidebar-text-active-border);
                     }
 
                     &.disabled {
@@ -231,10 +238,9 @@
 
         @media screen and (max-width: 640px) {
             margin: 0;
-    
-            .modal-footer {
-                right: 32px;
-                bottom: 26px;
+
+            .modal-header {
+                box-shadow: var(--elevation-2);
             }
         }
     }
