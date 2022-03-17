@@ -30,7 +30,7 @@ import PostPreHeader from 'components/post_view/post_pre_header';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 import EditPost from 'components/edit_post';
 
-import Constants, {Locations} from 'utils/constants';
+import Constants, {AppEvents, Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
 
@@ -480,6 +480,7 @@ export default class SearchResultsItem extends React.PureComponent {
                                         shouldScrollIntoView={isPostBeingEditedInRHS}
                                         slot1={message}
                                         slot2={<EditPost/>}
+                                        onTransitionEnd={() => document.dispatchEvent(new Event(AppEvents.FOCUS_EDIT_TEXTBOX))}
                                     />
                                 </div>
                                 {fileAttachment}

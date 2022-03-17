@@ -13,9 +13,10 @@ type AutoHeightProps = {
     shouldScrollIntoView?: boolean;
     slot1: React.ReactNode | React.ReactNode[];
     slot2: React.ReactNode | React.ReactNode[];
+    onTransitionEnd?: (node?: HTMLElement) => void;
 };
 
-const AutoHeightSwitcher2 = ({showSlot, slot1, slot2, duration = 250, shouldScrollIntoView = false}: AutoHeightProps) => {
+const AutoHeightSwitcher = ({showSlot, slot1, slot2, onTransitionEnd, duration = 250, shouldScrollIntoView = false}: AutoHeightProps) => {
     const wrapperRef = useRef<HTMLDivElement>(null);
     const childRef = useRef<HTMLDivElement>(null);
     const prevSlot = useRef<AutoHeightProps['showSlot']>(showSlot);
@@ -50,7 +51,6 @@ const AutoHeightSwitcher2 = ({showSlot, slot1, slot2, duration = 250, shouldScro
     // necessary to override this on element-level since a rule from _post.scss has a higher specificity
     // and would override the display property
     const fixedStyles: CSSProperties = {
-        display: 'block',
         transitionProperty: 'height',
         transitionDuration: `${duration}ms`,
         transitionTimingFunction: 'ease',
@@ -82,10 +82,11 @@ const AutoHeightSwitcher2 = ({showSlot, slot1, slot2, duration = 250, shouldScro
             onEntering={() => {
                 setHeight(childRef.current!.offsetHeight);
             }}
-            onEntered={() => {
+            onEntered={(node: HTMLElement) => {
                 setHeight('auto');
                 setOverflow('visible');
                 setAnimate(false);
+                onTransitionEnd?.(node);
             }}
         >
             <div
@@ -101,4 +102,4 @@ const AutoHeightSwitcher2 = ({showSlot, slot1, slot2, duration = 250, shouldScro
     );
 };
 
-export default AutoHeightSwitcher2;
+export default AutoHeightSwitcher;

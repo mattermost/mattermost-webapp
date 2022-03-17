@@ -3,4 +3,8 @@
 
 .AutoHeight {
     display: block;
+
+    > div {
+        display: block;
+    }
 }

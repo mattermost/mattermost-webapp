@@ -426,6 +426,10 @@ export const A11yCustomEventTypes = {
     UPDATE: 'a11yupdate',
 };
 
+export const AppEvents = {
+    FOCUS_EDIT_TEXTBOX: 'focus_edit_textbox',
+};
+
 export const SocketEvents = {
     POSTED: 'posted',
     POST_EDITED: 'post_edited',

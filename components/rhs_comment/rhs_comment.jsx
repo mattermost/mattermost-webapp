@@ -13,7 +13,7 @@ import {
     isMeMessage as checkIsMeMessage,
 } from 'mattermost-redux/utils/post_utils';
 
-import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants';
+import Constants, {Locations, A11yCustomEventTypes, AppEvents} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
 import {isMobile} from 'utils/utils.jsx';
 import ActionsMenu from 'components/actions_menu';
@@ -740,6 +740,7 @@ export default class RhsComment extends React.PureComponent {
                                 shouldScrollIntoView={isPostBeingEdited}
                                 slot1={message}
                                 slot2={<EditPost/>}
+                                onTransitionEnd={() => document.dispatchEvent(new Event(AppEvents.FOCUS_EDIT_TEXTBOX))}
                             />
                             {fileAttachment}
                             <ReactionList

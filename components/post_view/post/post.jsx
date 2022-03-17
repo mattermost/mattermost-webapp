@@ -9,7 +9,7 @@ import {isMeMessage as checkIsMeMessage} from 'mattermost-redux/utils/post_utils
 
 import {makeIsEligibleForClick} from 'utils/utils';
 import * as PostUtils from 'utils/post_utils';
-import Constants, {A11yCustomEventTypes} from 'utils/constants';
+import Constants, {A11yCustomEventTypes, AppEvents} from 'utils/constants';
 
 import PostProfilePicture from 'components/post_profile_picture';
 import PostAriaLabelDiv from 'components/post_view/post_aria_label_div';
@@ -497,6 +497,7 @@ export default class Post extends React.PureComponent {
                                 showSlot={showSlot}
                                 slot1={slot1}
                                 slot2={slot2}
+                                onTransitionEnd={() => document.dispatchEvent(new Event(AppEvents.FOCUS_EDIT_TEXTBOX))}
                             />
                             {threadFooter}
                         </div>
