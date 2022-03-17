@@ -216,7 +216,8 @@
       "enzyme-to-json/serializer"
     ],
     "testPathIgnorePatterns": [
-      "/node_modules/"
+      "/node_modules/",
+      "/e2e/"
     ],
     "clearMocks": true,
     "collectCoverageFrom": [
@@ -228,7 +229,8 @@
       "routes/**/*.{js,jsx,ts,tsx}",
       "selectors/**/*.{js,jsx,ts,tsx}",
       "stores/**/*.{js,jsx,ts,tsx}",
-      "utils/**/*.{js,jsx,ts,tsx}"
+      "utils/**/*.{js,jsx,ts,tsx}",
+      "!e2e/**"
     ],
     "coverageReporters": [
       "lcov",
