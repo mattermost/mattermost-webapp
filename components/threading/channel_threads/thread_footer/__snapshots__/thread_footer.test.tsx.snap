@@ -904,7 +904,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
       <injectIntl(Timestamp)
         day="numeric"
         dispatch={[Function]}
-        hour12={true}
+        hourCycle="h12"
         units={
           Array [
             "now",
@@ -921,7 +921,6 @@ exports[`components/threading/channel_threads/thread_footer should report total 
           day="numeric"
           dispatch={[Function]}
           hour="numeric"
-          hour12={true}
           hourCycle="h12"
           intl={
             Object {
@@ -1997,7 +1996,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
       <injectIntl(Timestamp)
         day="numeric"
         dispatch={[Function]}
-        hour12={true}
+        hourCycle="h12"
         units={
           Array [
             "now",
@@ -2014,7 +2013,6 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
           day="numeric"
           dispatch={[Function]}
           hour="numeric"
-          hour12={true}
           hourCycle="h12"
           intl={
             Object {
