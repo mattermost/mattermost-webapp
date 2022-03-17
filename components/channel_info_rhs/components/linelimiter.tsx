@@ -159,7 +159,7 @@ const LineLimiter = styled(lineLimiter)<LineLimiterProps>`
             & div {
                 display: block;
                 width: 30px;
-                background: linear-gradient(to right, transparent, rgba(255,255,255,1));
+                background: linear-gradient(to right, transparent, var(--center-channel-bg));
             }
         }
     }
