@@ -34,7 +34,7 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
             values={
               Object {
                 "documentationLink": <a
-                  href="https://about.mattermost.com/default-elasticsearch-documentation/"
+                  href="https://docs.mattermost.com/scale/elasticsearch.html"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
@@ -73,7 +73,7 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
             values={
               Object {
                 "documentationLink": <a
-                  href="https://about.mattermost.com/default-elasticsearch-server-setup/"
+                  href="https://docs.mattermost.com/scale/elasticsearch.html"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
@@ -447,7 +447,7 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
             values={
               Object {
                 "documentationLink": <a
-                  href="https://about.mattermost.com/default-elasticsearch-documentation/"
+                  href="https://docs.mattermost.com/scale/elasticsearch.html"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
@@ -486,7 +486,7 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
             values={
               Object {
                 "documentationLink": <a
-                  href="https://about.mattermost.com/default-elasticsearch-server-setup/"
+                  href="https://docs.mattermost.com/scale/elasticsearch.html"
                   rel="noopener noreferrer"
                   target="_blank"
                 >

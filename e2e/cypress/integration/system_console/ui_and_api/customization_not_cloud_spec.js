@@ -39,7 +39,7 @@ describe('Customization', () => {
         cy.findByTestId('SupportSettings.ReportAProblemLinkhelp-text').find('span').should('be.visible').and('have.text', 'The URL for the Report a Problem link in the Help Menu. If this field is empty, the link is removed from the Help Menu.');
 
         // # Enter a problem link
-        const reportAProblemLink = 'https://about.mattermost.com/default-report-a-problem/test';
+        const reportAProblemLink = 'https://mattermost.com/default-report-a-problem/';
         cy.findByTestId('SupportSettings.ReportAProblemLinkinput').clear().type(reportAProblemLink);
 
         // # Save setting
@@ -179,7 +179,7 @@ describe('Customization', () => {
     });
 
     it('MM-T1213 Can change About Link setting', () => {
-        const newAboutLink = 'https://about.mattermost.com/new-about-page/';
+        const newAboutLink = 'https://mattermost.com/';
 
         // * Verify that setting is visible and has the correct label text
         cy.findByTestId('SupportSettings.AboutLinklabel').scrollIntoView().should('be.visible').and('have.text', 'About Link:');
