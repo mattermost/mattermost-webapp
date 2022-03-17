@@ -27,15 +27,16 @@ import type {
 } from 'mattermost-redux/types/integrations';
 export type {AutocompleteSuggestion};
 
-export type {
+import type {
     Channel,
 } from 'mattermost-redux/types/channels';
+export type {Channel};
 
-export {
+import {
     GlobalState,
 } from 'types/store';
 
-export type {
+import type {
     DispatchFunc,
 } from 'mattermost-redux/types/actions';
 
@@ -43,7 +44,7 @@ export type {
     UserAutocomplete,
 } from 'mattermost-redux/types/autocomplete';
 
-export type {
+import type {
     UserProfile,
 } from 'mattermost-redux/types/users';
 
@@ -78,8 +79,15 @@ import {
     localizeAndFormatMessage,
 } from 'utils/utils';
 
-import Store from 'stores/redux_store';
-export const getStore = () => Store;
+export type Store = {
+    dispatch: DispatchFunc;
+    getState: () => GlobalState;
+}
+
+import ReduxStore from 'stores/redux_store';
+export const getStore = () => ReduxStore;
+
+export {getChannelSuggestions, getUserSuggestions, inTextMentionSuggestions} from '../mentions';
 
 import {Constants} from 'utils/constants';
 export const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
@@ -115,6 +123,11 @@ export const getOpenInModalSuggestion = (parsed: ParsedCommand): AutocompleteSug
         IconData: OPEN_COMMAND_IN_MODAL_ITEM_ID,
     };
 };
+
+export type ExtendedAutocompleteSuggestion = AutocompleteSuggestion & {
+    type?: string;
+    item?: UserProfile | Channel;
+}
 
 export const displayError = (err: string, channelID: string, rootID?: string) => {
     Store.dispatch(sendEphemeralPost(err, channelID, rootID));

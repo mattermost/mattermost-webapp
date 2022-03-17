@@ -67,7 +67,8 @@ export function handleBindingClick<Res=unknown>(binding: AppBinding, context: Ap
             context,
         );
 
-        return dispatch(doAppSubmit<Res>(callRequest, intl));
+        const res = await dispatch(doAppSubmit<Res>(callRequest, intl));
+        return res;
     };
 }
 
