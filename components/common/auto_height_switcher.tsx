@@ -93,10 +93,7 @@ const AutoHeightSwitcher2 = ({showSlot, slot1, slot2, duration = 250, shouldScro
                 ref={wrapperRef}
                 style={{...fixedStyles, height, overflow}}
             >
-                <div
-                    className='AutoHeight--inner'
-                    ref={childRef}
-                >
+                <div ref={childRef}>
                     {child}
                 </div>
             </div>
