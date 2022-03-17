@@ -4,9 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import Constants from 'utils/constants';
+import PopoverListMembers from 'components/popover_list_members/popover_list_members';
 
-import PopoverListMembers from 'components/popover_list_members/popover_list_members.jsx';
+import {TestHelper} from 'utils/test_helper';
 
 jest.mock('utils/browser_history', () => {
     const original = jest.requireActual('utils/browser_history');
@@ -20,16 +20,15 @@ jest.mock('utils/browser_history', () => {
 
 describe('components/PopoverListMembers', () => {
     // required state to mount using the provider
-    const channel = {
+    const channel = TestHelper.getChannelMock({
         id: 'channel_id',
         name: 'channel-name',
         display_name: 'Channel Name',
-        type: Constants.DM_CHANNEl || 'D',
-    };
-    const users = [
-        {id: 'member_id_1', delete_at: 0},
-        {id: 'member_id_2', delete_at: 0},
-    ];
+        type: 'D',
+    });
+    const user1 = TestHelper.getUserMock({id: 'member_id_1', delete_at: 0});
+    const user2 = TestHelper.getUserMock({id: 'member_id_2', delete_at: 0});
+    const users = [user1, user2];
     const statuses = {
         member_id_1: 'online',
         member_id_2: 'offline',
@@ -49,7 +48,8 @@ describe('components/PopoverListMembers', () => {
         memberCount: 2,
         currentUserId: 'current_user_id',
         actions,
-        sortedUsers: [{id: 'member_id_1'}, {id: 'member_id_2'}],
+        sortedUsers: [user1, user2],
+        teamUrl: '/team',
     };
 
     const bottomProps = {
@@ -65,7 +65,7 @@ describe('components/PopoverListMembers', () => {
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<PopoverListMembers>(
             <PopoverListMembers {...baseProps}/>,
         );
 
@@ -74,14 +74,13 @@ describe('components/PopoverListMembers', () => {
 
     test('should have called openDirectChannelToUserId when handleShowDirectChannel is called', (done) => {
         const browserHistory = require('utils/browser_history').browserHistory; //eslint-disable-line global-require
-        const wrapper = shallow(
+        const wrapper = shallow<PopoverListMembers>(
             <PopoverListMembers {...baseProps}/>,
         );
 
         wrapper.instance().closePopover = jest.fn();
-        wrapper.instance().handleShowDirectChannel({
-            id: 'teammateId',
-        });
+        const teamMate = TestHelper.getUserMock({id: 'teammateId', delete_at: 0});
+        wrapper.instance().handleShowDirectChannel(teamMate);
 
         expect(baseProps.actions.openDirectChannelToUserId).toHaveBeenCalledTimes(1);
         process.nextTick(() => {
@@ -93,7 +92,7 @@ describe('components/PopoverListMembers', () => {
     });
 
     test('should match state when closePopover is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<PopoverListMembers>(
             <PopoverListMembers {...baseProps}/>,
         );
 
@@ -107,7 +106,7 @@ describe('components/PopoverListMembers', () => {
     test('should match snapshot with archived channel', () => {
         const props = {...baseProps, channel: {...channel, delete_at: 1234}};
 
-        const wrapper = shallow(
+        const wrapper = shallow<PopoverListMembers>(
             <PopoverListMembers {...props}/>,
         );
 
@@ -117,7 +116,7 @@ describe('components/PopoverListMembers', () => {
     test('should match snapshot with group-constrained channel', () => {
         const props = {...baseProps, channel: {...channel, group_constrained: true}};
 
-        const wrapper = shallow(
+        const wrapper = shallow<PopoverListMembers>(
             <PopoverListMembers {...props}/>,
         );
 
@@ -125,7 +124,7 @@ describe('components/PopoverListMembers', () => {
     });
 
     test('should place the Add button at the top when the flag for placement is TOP', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<PopoverListMembers>(
             <PopoverListMembers {...topProps}/>,
         );
 
@@ -137,7 +136,7 @@ describe('components/PopoverListMembers', () => {
     test('should SHOW the Add button when there are permissions to manage members', () => {
         const props = {...topProps, manageMembers: true};
 
-        const wrapper = shallow(
+        const wrapper = shallow<PopoverListMembers>(
             <PopoverListMembers {...props}/>,
         );
 
@@ -149,7 +148,7 @@ describe('components/PopoverListMembers', () => {
     test('should HIDE the Add button when there are no permissions to manage members', () => {
         const props = {...topProps, manageMembers: false};
 
-        const wrapper = shallow(
+        const wrapper = shallow<PopoverListMembers>(
             <PopoverListMembers {...props}/>,
         );
 
@@ -161,7 +160,7 @@ describe('components/PopoverListMembers', () => {
     test('should SHOW the Add button when there are permissions to manage members and the placement is BOTTTOM', () => {
         const props = {...bottomProps, manageMembers: true};
 
-        const wrapper = shallow(
+        const wrapper = shallow<PopoverListMembers>(
             <PopoverListMembers {...props}/>,
         );
 
@@ -172,7 +171,7 @@ describe('components/PopoverListMembers', () => {
     test('should HIDE the Add button when there are no permissions to manage members and the placement is BOTTTOM', () => {
         const props = {...bottomProps, manageMembers: false};
 
-        const wrapper = shallow(
+        const wrapper = shallow<PopoverListMembers>(
             <PopoverListMembers {...props}/>,
         );
 
@@ -182,7 +181,7 @@ describe('components/PopoverListMembers', () => {
     });
 
     test('should place the edit button at the top when the flag for placement is BOTTOM', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<PopoverListMembers>(
             <PopoverListMembers {...bottomProps}/>,
         );
 
