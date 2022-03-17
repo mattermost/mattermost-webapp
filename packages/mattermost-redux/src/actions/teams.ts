@@ -636,6 +636,8 @@ export function sendEmailInvitesToTeam(teamId: string, emails: string[]): Action
     });
 }
 
+// here probably copy above function and add the channels invitation.
+
 export function sendEmailGuestInvitesToChannels(teamId: string, channelIds: string[], emails: string[], message: string): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.sendEmailGuestInvitesToChannels,

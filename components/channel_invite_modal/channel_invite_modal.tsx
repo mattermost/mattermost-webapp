@@ -18,8 +18,10 @@ import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
+import InvitationModal from 'components/invitation_modal';
+import ToggleModalButton from 'components/toggle_modal_button';
 
-import Constants from 'utils/constants';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = 20;
@@ -49,6 +51,7 @@ export type Props = {
         getTeamStats: (teamId: string) => void;
         loadStatusesForProfilesList: (users: UserProfile[]) => void;
         searchProfiles: (term: string, options: any) => Promise<ActionResult>;
+        closeModal: (modalId: string) => void;
     };
 }
 
@@ -292,6 +295,48 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
             users = [...users, ...includeUsers];
         }
 
+        const closeMembersInviteModal = () => {
+            this.props.actions.closeModal(ModalIdentifiers.CHANNEL_INVITE);
+        };
+
+        const InviteModalLink = ({
+            children,
+            inviteAsGuest,
+        }: {children: React.ReactNode; inviteAsGuest?: boolean}) => {
+            return (
+                <ToggleModalButton
+                    id='inviteGuest'
+                    className='invite-as-guest btn btn-link'
+                    modalId={ModalIdentifiers.INVITATION}
+                    dialogType={InvitationModal}
+                    dialogProps={{
+                        channelToInvite: this.props.channel,
+                        initialValue: this.state.term,
+                        inviteAsGuest,
+                    }}
+                    onClick={closeMembersInviteModal}
+                >
+                    {children}
+                </ToggleModalButton>
+            );
+        };
+
+        const customNoOptionsMessage = (
+            <div className='custom-no-options-message'>
+                <FormattedMessage
+                    id='channel_invite.no_options_message'
+                    defaultMessage='No matches found - <InvitationModalLink>Invite them to the team</InvitationModalLink>'
+                    values={{
+                        InvitationModalLink: (chunks: string) => (
+                            <InviteModalLink>
+                                {chunks}
+                            </InviteModalLink>
+                        ),
+                    }}
+                />
+            </div>
+        );
+
         const content = (
             <MultiSelect
                 key='addUsersToChannelKey'
@@ -307,6 +352,7 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                 handleDelete={this.handleDelete}
                 handleAdd={this.addValue}
                 handleSubmit={this.handleSubmit}
+                handleCancel={closeMembersInviteModal}
                 maxValues={MAX_SELECTABLE_VALUES}
                 buttonSubmitText={buttonSubmitText}
                 buttonSubmitLoadingText={buttonSubmitLoadingText}
@@ -314,7 +360,20 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                 loading={this.state.loadingUsers}
                 placeholderText={localizeMessage('multiselect.placeholder', 'Search for people')}
                 valueWithImage={true}
+                backButtonText={localizeMessage('multiselect.cancel', 'Cancel')}
+                backButtonClick={closeMembersInviteModal}
+                backButtonClass={'btn-cancel'}
+                customNoOptionsMessage={customNoOptionsMessage}
             />
+        );
+
+        const inviteGuestLink = (
+            <InviteModalLink inviteAsGuest={true}>
+                <FormattedMessage
+                    id='channel_invite.invite_guest'
+                    defaultMessage='Invite as a Guest'
+                />
+            </InviteModalLink>
         );
 
         return (
@@ -341,6 +400,7 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                     {inviteError}
                     <div className='channel-invite__content'>
                         {content}
+                        {inviteGuestLink}
                     </div>
                 </Modal.Body>
             </Modal>

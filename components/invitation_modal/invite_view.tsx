@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage, useIntl} from 'react-intl';
 
@@ -26,13 +26,15 @@ import AddToChannels, {CustomMessageProps, InviteChannels, defaultCustomMessage,
 import InviteAs, {InviteType} from './invite_as';
 import './invite_view.scss';
 
-export const defaultInviteState: InviteState = deepFreeze({
-    inviteType: InviteType.MEMBER,
-    customMessage: defaultCustomMessage,
-    inviteChannels: defaultInviteChannels,
-    usersEmails: [],
-    usersEmailsSearch: '',
-});
+export const defaultInviteState = (initialSearchValue = '', inviteAsGuest = false): InviteState => {
+    return deepFreeze({
+        inviteType: inviteAsGuest ? InviteType.GUEST : InviteType.MEMBER,
+        customMessage: defaultCustomMessage,
+        inviteChannels: defaultInviteChannels,
+        usersEmails: [],
+        usersEmailsSearch: initialSearchValue,
+    });
+};
 
 export type InviteState = {
     customMessage: CustomMessageProps;
@@ -67,14 +69,26 @@ export type Props = InviteState & {
     canInviteGuests: boolean;
     canAddUsers: boolean;
     townSquareDisplayName: string;
+    channelToInvite?: Channel;
 }
 
 export default function InviteView(props: Props) {
+    const [channelsToInvite, setChannelsToInvite] = useState(props.inviteChannels);
+
     useEffect(() => {
         if (!props.currentTeam.invite_id) {
             props.regenerateTeamInviteId(props.currentTeam.id);
         }
     }, [props.currentTeam.id, props.currentTeam.invite_id, props.regenerateTeamInviteId]);
+
+    useEffect(() => {
+        if (props.channelToInvite) {
+            setChannelsToInvite({
+                channels: [...props.inviteChannels.channels, props.channelToInvite],
+                search: props.inviteChannels.search,
+            });
+        }
+    }, [props.channelToInvite]);
 
     const {formatMessage} = useIntl();
 
@@ -255,14 +269,14 @@ export default function InviteView(props: Props) {
                     titleClass='InviteView__sectionTitle'
                 />
                 }
-                {props.inviteType === InviteType.GUEST && (
+                {(props.inviteType === InviteType.GUEST || props.channelToInvite) && (
                     <AddToChannels
                         setCustomMessage={props.setCustomMessage}
                         toggleCustomMessage={props.toggleCustomMessage}
                         customMessage={props.customMessage}
                         onChannelsChange={props.onChannelsChange}
                         onChannelsInputChange={props.onChannelsInputChange}
-                        inviteChannels={props.inviteChannels}
+                        inviteChannels={channelsToInvite}
                         channelsLoader={props.channelsLoader}
                         currentChannel={props.currentChannel}
                         townSquareDisplayName={props.townSquareDisplayName}

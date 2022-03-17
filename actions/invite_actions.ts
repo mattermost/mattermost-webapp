@@ -17,6 +17,7 @@ import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
+// modify this one? by passing channels info and made a different call? or create a new function for it?
 export function sendMembersInvites(teamId: string, users: UserProfile[], emails: string[]): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         if (users.length > 0) {
@@ -122,6 +123,52 @@ export async function sendGuestInviteForUser(dispatch: DispatchFunc, user: UserP
 }
 
 export function sendGuestsInvites(teamId: string, channels: Channel[], users: UserProfile[], emails: string[], message: string): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        const sent = [];
+        const notSent = [];
+        const members = getChannelMembersInChannels(state);
+        const results = await Promise.all(users.map((user) => sendGuestInviteForUser(dispatch, user, teamId, channels, members)));
+
+        for (const result of results) {
+            if (result.sent) {
+                sent.push(result.sent);
+            }
+            if (result.notSent) {
+                notSent.push(result.notSent);
+            }
+        }
+
+        if (emails.length > 0) {
+            let response;
+            try {
+                response = await dispatch(TeamActions.sendEmailGuestInvitesToChannelsGracefully(teamId, channels.map((x) => x.id), emails, message));
+            } catch (e) {
+                response = {data: emails.map((email) => ({email, error: {error: localizeMessage('invite.guests.unable-to-add-the-user-to-the-channels', 'Unable to add the guest to the channels.')}}))};
+            }
+
+            if (response.error) {
+                if (response.error.server_error_id === 'app.email.rate_limit_exceeded.app_error') {
+                    response.error.message = localizeMessage('invite.rate-limit-exceeded', 'Invite emails rate limit exceeded.');
+                }
+                for (const email of emails) {
+                    notSent.push({email, reason: response.error.message});
+                }
+            } else {
+                for (const res of (response.data || [])) {
+                    if (res.error) {
+                        notSent.push({email: res.email, reason: res.error.message});
+                    } else {
+                        sent.push({email: res.email, reason: localizeMessage('invite.guests.added-to-channel', 'An invitation email has been sent.')});
+                    }
+                }
+            }
+        }
+        return {data: {sent, notSent}};
+    };
+}
+
+export function sendMembersInvitesToChannels(teamId: string, channels: Channel[], users: UserProfile[], emails: string[], message: string): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const channelMembersActions: Array<Promise<ActionResult>> = [];
         if (users.length > 0) {

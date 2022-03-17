@@ -50,6 +50,12 @@ export type Props = {
             users: UserProfile[],
             emails: string[]
         ) => Promise<{data: InviteResults}>;
+        sendMembersInvitesToChannels: (
+            channels: Channel[],
+            teamId: string,
+            users: UserProfile[],
+            emails: string[]
+        ) => Promise<{data: InviteResults}>;
     };
     currentTeam: Team;
     currentChannel: Channel;
@@ -64,6 +70,9 @@ export type Props = {
     canInviteGuests: boolean;
     intl: IntlShape;
     onExited: () => void;
+    channelToInvite?: Channel;
+    initialValue?: string;
+    inviteAsGuest?: boolean;
 }
 
 export const View = {
@@ -81,23 +90,22 @@ type State = {
     show: boolean;
 };
 
-const defaultState: State = deepFreeze({
-    view: View.INVITE,
-    termWithoutResults: null,
-    invite: defaultInviteState,
-    result: defaultResultState,
-    show: true,
-});
-
 export class InvitationModal extends React.PureComponent<Props, State> {
+    defaultState: State = deepFreeze({
+        view: View.INVITE,
+        termWithoutResults: null,
+        invite: defaultInviteState(this.props.initialValue || '', this.props.inviteAsGuest),
+        result: defaultResultState,
+        show: true,
+    });
     constructor(props: Props) {
         super(props);
 
         this.state = {
-            ...defaultState,
+            ...this.defaultState,
             invite: {
-                ...defaultState.invite,
-                inviteType: (!props.canAddUsers && props.canInviteGuests) ? InviteType.GUEST : defaultState.invite.inviteType,
+                ...this.defaultState.invite,
+                inviteType: (!props.canAddUsers && props.canInviteGuests) ? InviteType.GUEST : this.defaultState.invite.inviteType,
             },
         };
     }
@@ -162,8 +170,19 @@ export class InvitationModal extends React.PureComponent<Props, State> {
         }
         let invites: InviteResults = {notSent: [], sent: []};
         if (inviteAs === InviteType.MEMBER) {
-            const result = await this.props.actions.sendMembersInvites(this.props.currentTeam.id, users, emails);
-            invites = result.data;
+            if (this.props.channelToInvite) {
+                // this call is to invite as member but to (a) channel(s) directly
+                const result = await this.props.actions.sendMembersInvitesToChannels(
+                    this.state.invite.inviteChannels.channels,
+                    this.props.currentTeam.id,
+                    users,
+                    emails,
+                );
+                invites = result.data;
+            } else {
+                const result = await this.props.actions.sendMembersInvites(this.props.currentTeam.id, users, emails);
+                invites = result.data;
+            }
         } else if (inviteAs === InviteType.GUEST) {
             const result = await this.props.actions.sendGuestsInvites(
                 this.props.currentTeam.id,
@@ -209,7 +228,7 @@ export class InvitationModal extends React.PureComponent<Props, State> {
         this.setState((state: State) => ({
             view: View.INVITE,
             invite: {
-                ...defaultInviteState,
+                ...defaultInviteState(),
                 inviteType: state.invite.inviteType,
                 customMessage: state.invite.customMessage,
                 inviteChannels: state.invite.inviteChannels,
@@ -356,6 +375,7 @@ export class InvitationModal extends React.PureComponent<Props, State> {
                 headerClass='InvitationModal__header'
                 footerClass='InvitationModal__footer'
                 onClose={this.handleHide}
+                channelToInvite={this.props.channelToInvite}
                 {...this.state.invite}
             />
         );

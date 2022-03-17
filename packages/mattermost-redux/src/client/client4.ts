@@ -1415,6 +1415,8 @@ export default class Client4 {
         );
     };
 
+    // Here, create new method to invite to team and channel
+
     sendEmailGuestInvitesToChannelsGracefully = async (teamId: string, channelIds: string[], emails: string[], message: string) => {
         this.trackEvent('api', 'api_teams_invite_guests', {team_id: teamId, channel_ids: channelIds});
 

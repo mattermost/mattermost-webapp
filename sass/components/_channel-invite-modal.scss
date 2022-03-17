@@ -119,6 +119,38 @@
     }
 }
 
+.modal .channel-invite__content {
+    display: flex;
+    flex-direction: column;
+
+    .filtered-user-list {
+        order: 0;
+    }
+
+    .invite-as-guest {
+        order: 1;
+        margin-left: auto;
+        width: fit-content;
+        margin-right: 2.4rem;
+        margin-bottom: 32px;
+        margin-top: -18px;
+    }
+
+    .multi-select__footer {
+        order: 2;
+        .btn-cancel {
+            margin-right: 10px;
+            height: 40px;
+            width: 80px;
+        }
+
+        .save-button {
+            width: 67px;
+            padding: 0;
+        }
+    }
+}
+
 body.app__body {
     .channel-invite,
     .user-groups-modal-create {

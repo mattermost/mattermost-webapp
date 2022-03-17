@@ -15,6 +15,8 @@ import {Value} from 'components/multiselect/multiselect';
 import {addUsersToChannel} from 'actions/channel_actions';
 import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
 
+import {closeModal} from 'actions/views/modals';
+
 import {GlobalState} from 'types/store';
 
 import ChannelInviteModal from './channel_invite_modal';
@@ -57,6 +59,7 @@ type Actions = {
     getTeamStats: (teamId: string) => void;
     loadStatusesForProfilesList: (users: UserProfile[]) => void;
     searchProfiles: (term: string, options: any) => Promise<ActionResult>;
+    closeModal: (modalId: string) => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
@@ -67,6 +70,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             getTeamStats,
             loadStatusesForProfilesList,
             searchProfiles,
+            closeModal,
         }, dispatch),
     };
 }
