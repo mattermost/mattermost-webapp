@@ -31,7 +31,7 @@ describe('Profile > Security > View Access History', () => {
 
     it('MM-T2087 View Access History', () => {
         // # Click "View Access History" link
-        cy.findByTestId('viewAccessHistory').should('be.visible').click();
+        cy.findByText('View Access History').should('be.visible').click();
 
         // * Check that the Access History modal and table are visible
         cy.get('#accessHistoryModalLabel').should('be.visible');

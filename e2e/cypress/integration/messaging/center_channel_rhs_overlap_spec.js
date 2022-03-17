@@ -798,7 +798,7 @@ describe('Messaging', () => {
 
             cy.get('#suggestionList').within(() => {
                 // # Verify that the sysadmin user name is mentioned
-                cy.findByText('@sysadmin').should('be.visible');
+                cy.findByText('@sysadmin').should('be.visible').click();
             });
 
             // # Close the modal

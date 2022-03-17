@@ -82,8 +82,8 @@ const ThreadList = ({
         if (tagName === 'input' || tagName === 'textarea' || tagName === 'select') {
             return;
         }
-
-        if (!Utils.isKeyPressed(e, Constants.KeyCodes.DOWN) && !Utils.isKeyPressed(e, Constants.KeyCodes.UP)) {
+        const comboKeyPressed = e.altKey || e.metaKey || e.shiftKey || e.ctrlKey;
+        if (comboKeyPressed || (!Utils.isKeyPressed(e, Constants.KeyCodes.DOWN) && !Utils.isKeyPressed(e, Constants.KeyCodes.UP))) {
             return;
         }
 
@@ -225,7 +225,7 @@ const ThreadList = ({
                     selectedThreadId={selectedThreadId}
                     total={unread ? totalUnread : total}
                     isLoading={isLoading}
-                    hasLoaded={hasLoaded}
+                    addNoMoreResultsItem={hasLoaded && !unread}
                 />
                 {showListTutorialTip && !isMobileView && <CRTListTutorialTip autoTour={tutorialTipAutoTour}/>}
                 {unread && !someUnread && isEmpty(unreadIds) ? (

@@ -10,7 +10,7 @@ import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {Locations, PostTypes} from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
 
-import DotMenu, {PLUGGABLE_COMPONENT, DotMenuClass} from './dot_menu';
+import DotMenu, {DotMenuClass} from './dot_menu';
 
 describe('components/dot_menu/DotMenu', () => {
     const baseProps = {
@@ -31,17 +31,11 @@ describe('components/dot_menu/DotMenu', () => {
             unpinPost: jest.fn(),
             openModal: jest.fn(),
             markPostAsUnread: jest.fn(),
-            doAppCall: jest.fn(),
             postEphemeralCallResponseForPost: jest.fn(),
             setThreadFollow: jest.fn(),
-            openAppsModal: jest.fn(),
-            fetchBindings: jest.fn(),
         },
         canEdit: false,
         canDelete: false,
-        appBindings: [],
-        pluginMenuItems: [],
-        appsEnabled: false,
         isReadOnly: false,
         teamId: 'team_id_1',
         isFollowingThread: false,
@@ -117,34 +111,6 @@ describe('components/dot_menu/DotMenu', () => {
         );
 
         expect(wrapper.find('#divider_post_post_id_1_edit').exists()).toBe(false);
-    });
-
-    test('should have divider when plugin menu item exists', () => {
-        const wrapper = shallowWithIntl(
-            <DotMenu {...baseProps}/>,
-        );
-        expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(false);
-
-        wrapper.setProps({
-            pluginMenuItems: [
-                {id: 'test_plugin_menu_item_1', text: 'woof'},
-            ],
-        });
-        expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(true);
-    });
-
-    test('should have divider when pluggable menu item exists', () => {
-        const wrapper = shallowWithIntl(
-            <DotMenu {...baseProps}/>,
-        );
-        expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(false);
-
-        wrapper.setProps({
-            components: {
-                [PLUGGABLE_COMPONENT]: [{}],
-            },
-        });
-        expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(true);
     });
 
     test('should show mark as unread when channel is not archived', () => {
