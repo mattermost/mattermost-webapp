@@ -9,7 +9,6 @@ import {createRandomChannel} from './channel';
 import Client from './client';
 import {getOnPremServerConfig} from './default_config';
 import {initSetup, getAdminClient} from './init';
-import {getPreferenceWithHideInVisualTesting} from './preference';
 import {createRandomTeam} from './team';
 import {createRandomUser, getDefaultAdminUser} from './user';
 
@@ -61,7 +60,6 @@ export {
     getOnPremServerConfig,
     initSetup,
     getAdminClient,
-    getPreferenceWithHideInVisualTesting,
     createRandomTeam,
     createRandomUser,
     getDefaultAdminUser,

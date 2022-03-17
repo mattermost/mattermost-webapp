@@ -6,8 +6,9 @@ import path from 'path';
 import {test, expect} from '@playwright/test';
 import {Eyes, CheckSettings} from '@applitools/eyes-playwright';
 
-import {initSetup, getPreferenceWithHideInVisualTesting} from '../../support/server';
+import {initSetup} from '../../support/server';
 import {ChannelPage, LandingLoginPage, LoginPage} from '../../support/ui/page';
+import {hideTeamHeader, hidePostHeaderTime} from '../../support/ui/style';
 import {snapshotWithApplitools, snapshotWithPercy} from '../../support/visual';
 import testConfig from '../../test.config';
 
@@ -22,9 +23,6 @@ test('Intro to channel as regular user', async ({page, isMobile, browserName}, t
     ({eyes, targetWindow} = await snapshotWithApplitools(page, isMobile, browserName, testInfo.title));
 
     const {userClient, adminConfig, user} = await initSetup();
-    const hideValue = '.hide-team-header,.hide-post-header-time';
-    const preference = getPreferenceWithHideInVisualTesting(user.id, hideValue);
-    await userClient.savePreferences(user.id, [preference]);
 
     const fullPath = path.join(path.resolve(__dirname), '../..', 'support/fixtures/mattermost-icon_128x128.png');
     await userClient.uploadProfileImageX(user.id, fullPath);
@@ -48,6 +46,9 @@ test('Intro to channel as regular user', async ({page, isMobile, browserName}, t
     const channelPage = new ChannelPage(page);
     await page.waitForLoadState('domcontentloaded');
     await expect(channelPage.postTextbox.input).toBeVisible();
+
+    // Hide dynamic elements of the page
+    await page.addStyleTag({content: hideTeamHeader + hidePostHeaderTime});
 
     // Should match with error at login page
     if (!testConfig.percyEnabled || !testConfig.applitoolsEnabled) {

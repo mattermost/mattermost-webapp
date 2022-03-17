@@ -101,7 +101,8 @@ async function sysadminSetup(client: Client, user: UserProfile) {
     ['playbooks', 'focalboard'].forEach(async (pluginId) => {
         const isInstalled = pluginStatus.some((plugin) => plugin.plugin_id === pluginId);
         if (!isInstalled) {
-            console.log(`${pluginId} is not installed.`);
+            console.log(`${pluginId} is not installed. Related visual test will fail.`);
+            return;
         }
 
         const isActive = plugins.active.some((plugin) => plugin.id === pluginId);
@@ -111,7 +112,7 @@ async function sysadminSetup(client: Client, user: UserProfile) {
                 await client.enablePlugin(pluginId);
                 console.log(`${pluginId} has been activated.`);
             } else {
-                console.log(`${pluginId} is not active.`);
+                console.log(`${pluginId} is not active. Related visual test will fail.`);
             }
         }
     });
