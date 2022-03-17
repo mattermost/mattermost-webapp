@@ -377,6 +377,7 @@ export default class Post extends React.PureComponent {
         const {
             post,
             hasReplies,
+            compactDisplay,
             isCollapsedThreadsEnabled,
             isBeingEdited,
         } = this.props;
@@ -445,6 +446,21 @@ export default class Post extends React.PureComponent {
 
         const showSlot = isBeingEdited ? 2 : 1;
 
+        const slot1 = (
+            <>
+                {compactDisplay && postHeader}
+                {postBody}
+            </>
+        );
+
+        const slot2 = (
+            <>
+                {compactDisplay && postHeader}
+                {(compactDisplay && isBeingEdited) && <div className={'clearfix'}/>}
+                <EditPost/>
+            </>
+        );
+
         return (
             <PostContext.Provider value={{handlePopupOpened: this.handleDropdownOpened}}>
                 <PostAriaLabelDiv
@@ -475,24 +491,15 @@ export default class Post extends React.PureComponent {
                         <div className='post__img'>
                             {profilePic}
                         </div>
-                        <AutoHeightSwitcher
-                            showSlot={showSlot}
-                            slot1={(
-                                <>
-                                    {postHeader}
-                                    {postBody}
-                                    {threadFooter}
-                                </>
-                            )}
-                            slot2={(
-                                <>
-                                    {postHeader}
-                                    {(this.props.compactDisplay && isBeingEdited) && <div className={'clearfix'}/>}
-                                    <EditPost/>
-                                    {threadFooter}
-                                </>
-                            )}
-                        />
+                        <div>
+                            {!compactDisplay && postHeader}
+                            <AutoHeightSwitcher
+                                showSlot={showSlot}
+                                slot1={slot1}
+                                slot2={slot2}
+                            />
+                            {threadFooter}
+                        </div>
                     </div>
                 </PostAriaLabelDiv>
             </PostContext.Provider>

@@ -73,7 +73,7 @@ const AutoHeightSwitcher2 = ({showSlot, slot1, slot2, duration = 250, shouldScro
     return (
         <Transition
             in={animate}
-            timeout={duration + 50}
+            timeout={duration}
             onEnter={() => {
                 setHeight(wrapperRef.current!.offsetHeight);
                 setOverflow('hidden');
@@ -93,7 +93,10 @@ const AutoHeightSwitcher2 = ({showSlot, slot1, slot2, duration = 250, shouldScro
                 ref={wrapperRef}
                 style={{...fixedStyles, height, overflow}}
             >
-                <div ref={childRef}>
+                <div
+                    className='AutoHeight--inner'
+                    ref={childRef}
+                >
                     {child}
                 </div>
             </div>
