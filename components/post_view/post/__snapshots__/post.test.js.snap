@@ -65,7 +65,8 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
           }
           showTimeWithoutHover={true}
         />
-        <AutoHeightSwitcher2
+        <AutoHeightSwitcher
+          onTransitionEnd={[Function]}
           showSlot={1}
           slot1={
             <React.Fragment>
@@ -161,7 +162,8 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
           }
           showTimeWithoutHover={true}
         />
-        <AutoHeightSwitcher2
+        <AutoHeightSwitcher
+          onTransitionEnd={[Function]}
           showSlot={1}
           slot1={
             <React.Fragment>
@@ -257,7 +259,8 @@ exports[`Post should not remove post--highlight class after timeout so the class
           }
           showTimeWithoutHover={true}
         />
-        <AutoHeightSwitcher2
+        <AutoHeightSwitcher
+          onTransitionEnd={[Function]}
           showSlot={1}
           slot1={
             <React.Fragment>
@@ -353,7 +356,8 @@ exports[`Post should not remove post--highlight class after timeout so the class
           }
           showTimeWithoutHover={true}
         />
-        <AutoHeightSwitcher2
+        <AutoHeightSwitcher
+          onTransitionEnd={[Function]}
           showSlot={1}
           slot1={
             <React.Fragment>
