@@ -19,6 +19,8 @@ import PostContext from 'components/post_view/post_context';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 import {trackEvent} from 'actions/telemetry_actions';
+import EditPost from 'components/edit_post';
+import AutoHeightSwitcher from 'components/common/auto_height_switcher';
 
 // When adding clickable targets within a root post to exclude from post's on click to open thread,
 // please add to/maintain the selector below
@@ -376,7 +378,9 @@ export default class Post extends React.PureComponent {
             post,
             hasReplies,
             isCollapsedThreadsEnabled,
+            isBeingEdited,
         } = this.props;
+
         if (!post.id) {
             return null;
         }
@@ -412,6 +416,35 @@ export default class Post extends React.PureComponent {
             centerClass = 'center';
         }
 
+        const postHeader = (
+            <PostHeader
+                post={post}
+                handleCommentClick={this.handleCommentClick}
+                handleCardClick={this.handleCardClick}
+                handleDropdownOpened={this.handleDropdownOpened}
+                compactDisplay={this.props.compactDisplay}
+                isFirstReply={this.props.isFirstReply}
+                showTimeWithoutHover={!hideProfilePicture}
+                hover={(this.state.hover || this.state.a11yActive || this.state.fileDropdownOpened) && !this.props.isBeingEdited}
+                isLastPost={this.props.isLastPost}
+            />
+        );
+
+        const postBody = (
+            <PostBody
+                post={post}
+                handleCommentClick={this.handleCommentClick}
+                compactDisplay={this.props.compactDisplay}
+                isCommentMention={this.props.isCommentMention}
+                isFirstReply={this.props.isFirstReply}
+                handleFileDropdownOpened={this.handleFileDropdownOpened}
+            />
+        );
+
+        const threadFooter = isCollapsedThreadsEnabled && !post.root_id && (hasReplies || post.is_following) ? <ThreadFooter threadId={post.id}/> : null;
+
+        const showSlot = isBeingEdited ? 2 : 1;
+
         return (
             <PostContext.Provider value={{handlePopupOpened: this.handleDropdownOpened}}>
                 <PostAriaLabelDiv
@@ -442,31 +475,24 @@ export default class Post extends React.PureComponent {
                         <div className='post__img'>
                             {profilePic}
                         </div>
-                        <div>
-                            <PostHeader
-                                post={post}
-                                handleCommentClick={this.handleCommentClick}
-                                handleCardClick={this.handleCardClick}
-                                handleDropdownOpened={this.handleDropdownOpened}
-                                compactDisplay={this.props.compactDisplay}
-                                isFirstReply={this.props.isFirstReply}
-                                showTimeWithoutHover={!hideProfilePicture}
-                                hover={(this.state.hover || this.state.a11yActive || this.state.fileDropdownOpened) && !this.props.isBeingEdited}
-                                isLastPost={this.props.isLastPost}
-                            />
-                            <PostBody
-                                post={post}
-                                handleCommentClick={this.handleCommentClick}
-                                compactDisplay={this.props.compactDisplay}
-                                isCommentMention={this.props.isCommentMention}
-                                isFirstReply={this.props.isFirstReply}
-                                handleFileDropdownOpened={this.handleFileDropdownOpened}
-                            />
-                            {isCollapsedThreadsEnabled && !post.root_id && (hasReplies || post.is_following) ? (
-                                <ThreadFooter threadId={post.id}/>
-                            ) : null}
-
-                        </div>
+                        <AutoHeightSwitcher
+                            showSlot={showSlot}
+                            slot1={(
+                                <>
+                                    {postHeader}
+                                    {postBody}
+                                    {threadFooter}
+                                </>
+                            )}
+                            slot2={(
+                                <>
+                                    {postHeader}
+                                    {(this.props.compactDisplay && isBeingEdited) && <div className={'clearfix'}/>}
+                                    <EditPost/>
+                                    {threadFooter}
+                                </>
+                            )}
+                        />
                     </div>
                 </PostAriaLabelDiv>
             </PostContext.Provider>
