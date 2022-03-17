@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
@@ -42,6 +42,10 @@ function UrlInput({
     const {formatMessage} = useIntl();
 
     const [editing, setEditing] = useState(false);
+
+    useEffect(() => {
+        setEditing(hasError);
+    }, []);
 
     const fullPath = `${base}/${path ? `${path}/` : ''}`;
     const fullURL = `${fullPath}${editing ? '' : pathInfo}`;
@@ -112,7 +116,6 @@ function UrlInput({
                         hasError={hasError}
                         onChange={handleOnInputChange}
                         onBlur={handleOnInputBlur}
-                        onFocus={(e) => e.preventDefault()}
                     />
                 )}
                 <button

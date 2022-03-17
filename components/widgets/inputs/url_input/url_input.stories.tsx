@@ -13,8 +13,7 @@ import URLInput from './url_input';
 const inputValueChange = action('onChange');
 const inputBlur = action('onBlur');
 
-const validateChars = (url: string) => (url.match(/[^A-Za-z0-9-_]/g) ? 'Special characters cannot be used in the URL' : '');
-const validateEnd = (url: string) => (url.match(/[a-z0-9-_]$/g) ? 'Must end with a lowercase letter or number' : '');
+const validateChars = (url: string) => (!url && 'URL is required') || (url.match(/[^A-Za-z0-9-_]/g) && 'Special characters cannot be used in the URL') || '';
 
 storiesOf('Widgets/Inputs/URL Input', module).
     add(
@@ -118,16 +117,16 @@ storiesOf('Widgets/Inputs/URL Input', module).
         () => {
             const WrapperComponent = () => {
                 const [pathInfo, setPathInfo] = useState('');
-                const [error, setError] = useState('');
+                const [error, setError] = useState('URL is required');
 
                 const handleOnChange = ({target: {value: newValue}}: React.ChangeEvent<HTMLInputElement>) => {
                     setPathInfo(newValue);
-                    setError(validateEnd(newValue) || validateChars(newValue));
+                    setError(validateChars(newValue));
                     inputValueChange(newValue);
                 };
 
                 const handleOnBlur = ({target: {value}}: React.ChangeEvent<HTMLInputElement>) => {
-                    setError(validateEnd(value) || validateChars(value));
+                    setError(validateChars(value));
 
                     inputBlur(value);
                 };
