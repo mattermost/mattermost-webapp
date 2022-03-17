@@ -200,7 +200,7 @@ describe('Collapsed Reply Threads', () => {
         });
     });
 
-    it('MM-38891 should show search guidance at the end of the list after scroll loading', () => {
+    it('MM-T4682 should show search guidance at the end of the list after scroll loading', () => {
         // # Create more than 25 threads so we can use scroll loading in the Threads list
         for (let i = 1; i <= 30; i++) {
             postMessageWithReply(testChannel.id, otherUser, `Another interesting post ${i}`, testUser, `Another reply ${i}!`).then(({rootId}) => {
