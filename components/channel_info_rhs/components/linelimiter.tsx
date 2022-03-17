@@ -15,12 +15,13 @@ interface LineLimiterProps {
 }
 
 const lineLimiter = ({children, maxLines, lineHeight, moreText, lessText, className}: LineLimiterProps) => {
+    const maxLineHeight = maxLines * lineHeight;
+
     const [needLimiter, setNeedLimiter] = useState(false);
     const [open, setOpen] = useState(false);
     const [maxHeight, setMaxHeight] = useState('inherit');
+    const [moreBottomPosition, setMoreBottomPosition] = useState(0);
     const ref = useRef<HTMLDivElement>(null);
-
-    const maxLineHeight = maxLines * lineHeight;
 
     useEffect(() => {
         if (ref === null || ref.current === null) {
@@ -36,9 +37,22 @@ const lineLimiter = ({children, maxLines, lineHeight, moreText, lessText, classN
             } else {
                 setMaxHeight(`${maxLineHeight}px`);
             }
+
+            // This section calculate in the position of the "more"
+            // button considering the size of the elements.
+            let totalHeight = 0;
+            for (let i = 0; i < ref.current.children.length; i++) {
+                const child = ref.current.children[i] as HTMLElement;
+                if (child.scrollHeight + ((i + 1) * lineHeight) >= maxLineHeight) {
+                    setMoreBottomPosition(Math.max(0, maxLineHeight - (totalHeight + child.scrollHeight)));
+                    break;
+                }
+                totalHeight += child.scrollHeight;
+            }
         } else {
             setNeedLimiter(false);
             setMaxHeight('inherit');
+            setMoreBottomPosition(0);
         }
     }, [children, open]);
 
@@ -73,6 +87,7 @@ const lineLimiter = ({children, maxLines, lineHeight, moreText, lessText, classN
                 {needLimiter && (
                     <div
                         className='LineLimiter__toggler LineLimiter__toggler--more'
+                        css={{bottom: moreBottomPosition + 'px'}}
                     >
                         {/*
                             This div is necessary to add the fading effect
@@ -100,6 +115,10 @@ const LineLimiter = styled(lineLimiter)<LineLimiterProps>`
     transition: max-height 0.5s ease-in;
     line-height: ${(props) => props.lineHeight}px;
     overflow: hidden;
+
+    p {
+        margin-bottom: ${(props) => props.lineHeight}px;
+    }
 
     & > * {
        overflow: hidden;
@@ -137,7 +156,6 @@ const LineLimiter = styled(lineLimiter)<LineLimiterProps>`
             display: flex;
             position: absolute;
             right: 0;
-            bottom: 0;
             & div {
                 display: block;
                 width: 30px;
