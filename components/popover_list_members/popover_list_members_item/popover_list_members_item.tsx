@@ -37,12 +37,9 @@ export default function PopoverListMembersItem(props: Props) {
         return null;
     }
 
-    let messageIcon;
-    if (props.showMessageIcon) {
-        messageIcon = (
-            <MessageIcon aria-hidden='true'/>
-        );
-    }
+    const messageIcon = props.showMessageIcon ? (
+        <MessageIcon aria-hidden='true'/>
+    ) : null;
 
     let sharedIcon;
     if (props.user.remote_id) {
