@@ -33,11 +33,7 @@ export default function PopoverListMembersItem(props: Props) {
         props.onItemClick(props.user);
     };
 
-    if (!props.user) {
-        return null;
-    }
-
-    if (!props.displayName) {
+    if (!(props.user || props.displayName)) {
         return null;
     }
 
