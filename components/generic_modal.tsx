@@ -151,6 +151,7 @@ export default class GenericModal extends React.PureComponent<Props, State> {
                 <div
                     onKeyDown={this.onEnterKeyDown}
                     tabIndex={0}
+                    style={{width: '100%', height: '100%'}}
                 >
                     <Modal.Header
                         closeButton={true}
