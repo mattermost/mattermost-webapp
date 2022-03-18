@@ -4,7 +4,6 @@
 import React, {RefObject, CSSProperties} from 'react';
 import Popper from 'popper.js';
 import ReactDOM from 'react-dom';
-import classNames from 'classnames';
 
 import {Constants} from 'utils/constants';
 import Pluggable from 'plugins/pluggable';
@@ -33,6 +32,8 @@ type State = {
 export default class LinkTooltip extends React.PureComponent<Props, State> {
     private tooltipContainerRef: RefObject<HTMLDivElement>;
     private tooltipContainer: Element | null = null;
+    private targetRef: RefObject<HTMLSpanElement>;
+    private target: Element | null = null;
     private hideTimeout: number;
     private showTimeout: number;
     private popper?: Popper;
@@ -41,6 +42,7 @@ export default class LinkTooltip extends React.PureComponent<Props, State> {
         super(props);
 
         this.tooltipContainerRef = React.createRef();
+        this.targetRef = React.createRef();
         this.showTimeout = -1;
         this.hideTimeout = -1;
 
@@ -49,49 +51,48 @@ export default class LinkTooltip extends React.PureComponent<Props, State> {
         };
     }
 
-    componentDidUpdate() {
-        if (this.state.show) {
-            this.tooltipContainer = this.tooltipContainerRef.current;
-        }
-    }
-
-    public showTooltip = (e: React.MouseEvent<HTMLSpanElement>): void => {
+    componentDidUpdate(prevProps: Props, prevState: State) {
         //clear the hideTimeout in the case when the cursor is moved from a tooltipContainer child to the link
         window.clearTimeout(this.hideTimeout);
-
-        if (this.state.show) {
-            return;
-        }
-
-        this.setState({show: true});
-        const target = e.currentTarget;
 
         //clear the old this.showTimeout if there is any before overriding
         window.clearTimeout(this.showTimeout);
 
-        this.showTimeout = window.setTimeout(() => {
-            if (!this.tooltipContainer) {
-                return;
-            }
+        if (this.state.show && !prevState.show) {
+            this.tooltipContainer = this.tooltipContainerRef.current;
+            this.target = this.targetRef.current;
 
-            const addChildEventListeners = (node: Node) => {
-                node.addEventListener('mouseover', () => clearTimeout(this.hideTimeout));
-                (node as HTMLElement).addEventListener('mouseleave', (event) => {
-                    if (event.relatedTarget !== null) {
-                        this.hideTooltip();
-                    }
+            this.showTimeout = window.setTimeout(() => {
+                if (!this.tooltipContainer || !this.target) {
+                    return;
+                }
+
+                const addChildEventListeners = (node: Node) => {
+                    node.addEventListener('mouseover', () => clearTimeout(this.hideTimeout));
+                    (node as HTMLElement).addEventListener('mouseleave', (event) => {
+                        if (event.relatedTarget !== null) {
+                            this.hideTooltip();
+                        }
+                    });
+                };
+                this.tooltipContainer.childNodes.forEach(addChildEventListeners);
+
+                this.popper = new Popper(this.target, this.tooltipContainer, {
+                    placement: 'auto',
+                    modifiers: {
+                        preventOverflow: {enabled: false},
+                        hide: {enabled: false},
+                    },
                 });
-            };
-            this.tooltipContainer.childNodes.forEach(addChildEventListeners);
+            }, Constants.OVERLAY_TIME_DELAY);
+        }
+    }
 
-            this.popper = new Popper(target, this.tooltipContainer, {
-                placement: 'auto',
-                modifiers: {
-                    preventOverflow: {enabled: false},
-                    hide: {enabled: false},
-                },
-            });
-        }, Constants.OVERLAY_TIME_DELAY);
+    public showTooltip = (): void => {
+        if (this.state.show) {
+            return;
+        }
+        this.setState({show: true});
     };
 
     public hideTooltip = (): void => {
@@ -131,6 +132,7 @@ export default class LinkTooltip extends React.PureComponent<Props, State> {
                     document.getElementById('root') as HTMLElement,
                 )}
                 <span
+                    ref={this.targetRef}
                     onMouseOver={this.showTooltip}
                     onMouseLeave={this.hideTooltip}
                     {...dataAttributes}
