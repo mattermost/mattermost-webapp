@@ -47,7 +47,6 @@ export default function PopoverListMembersItem(props: Props) {
             withTooltip={true}
         />
     ) : null;
-    const botClass = props.user.is_bot ? ' more-modal__row--bot' : '';
     const status = props.user.is_bot ? undefined : props.status;
 
     return (
