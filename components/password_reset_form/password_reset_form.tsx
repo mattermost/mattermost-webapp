@@ -1,39 +1,40 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {ServerError} from 'mattermost-redux/types/errors';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 import {t} from 'utils/i18n.jsx';
 
-export default class PasswordResetForm extends React.PureComponent {
-    static propTypes = {
-        location: PropTypes.object.isRequired,
-        siteName: PropTypes.string,
-        actions: PropTypes.shape({
-            resetUserPassword: PropTypes.func.isRequired,
-        }).isRequired,
+interface Props {
+    location: {search: string };
+    siteName?: string;
+    actions: {
+        resetUserPassword: (token: string, newPassword: string) => Promise<{data: any; error: ServerError}>;
     };
+}
 
-    constructor(props) {
+interface State {
+    error: React.ReactNode;
+}
+
+export default class PasswordResetForm extends React.PureComponent<Props, State> {
+    public passwordInput: React.RefObject<HTMLInputElement>; //Public because it is used by tests
+    public constructor(props: Props) {
         super(props);
-
-        this.state = {
-            error: null,
-        };
-
-        this.passwordInput = React.createRef();
+        this.passwordInput = React.createRef<HTMLInputElement>();
+        this.state = {error: null};
     }
 
-    handlePasswordReset = async (e) => {
+    handlePasswordReset = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const password = this.passwordInput.current.value;
+        const password = this.passwordInput.current!.value;
         if (!password || password.length < Constants.MIN_PASSWORD_LENGTH) {
             this.setState({
                 error: (
@@ -52,7 +53,11 @@ export default class PasswordResetForm extends React.PureComponent {
         this.setState({error: null});
 
         const token = (new URLSearchParams(this.props.location.search)).get('token');
-        const {data, error} = await this.props.actions.resetUserPassword(token, password);
+        if (typeof token === null) {
+            throw new Error('token must be a string');
+        }
+        const safeToken = token as string;
+        const {data, error} = await this.props.actions.resetUserPassword(safeToken, password);
         if (data) {
             browserHistory.push('/login?extra=' + Constants.PASSWORD_CHANGE);
             this.setState({error: null});
