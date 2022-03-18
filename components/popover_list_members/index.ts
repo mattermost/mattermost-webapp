@@ -45,7 +45,7 @@ type Actions = {
 const makeSortUsersByStatusAndDisplayName = (doGetProfilesInChannel: (state: GlobalState, channelId: Channel['id'], filters?: Filters) => UserProfile[]) => {
     return createSelector(
         'makeSortUsersByStatusAndDisplayName',
-        (state: GlobalState, channelId: string) => doGetProfilesInChannel(state, channelId, {active: true}),
+        (state: GlobalState, channelId: Channel['id']) => doGetProfilesInChannel(state, channelId, {active: true}),
         getUserStatuses,
         getTeammateNameDisplaySetting,
         (users, statuses, teammateNameDisplay) => sortUsersByStatusAndDisplayName(users, statuses, teammateNameDisplay),
