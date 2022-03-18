@@ -29,9 +29,7 @@ PopoverListMembersItem.defaultProps = {
 };
 
 export default function PopoverListMembersItem(props: Props) {
-    const handleClick = () => {
-        props.onItemClick(props.user);
-    };
+    const handleClick = () => props.onItemClick(props.user);
 
     if (!(props.user || props.displayName)) {
         return null;
