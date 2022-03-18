@@ -4070,6 +4070,7 @@
   "post_info.auto_responder": "AUTOMATIC REPLY",
   "post_info.bot": "BOT",
   "post_info.comment_icon.tooltip.reply": "Reply",
+  "post_info.copy": "Copy Text",
   "post_info.del": "Delete",
   "post_info.dot_menu.tooltip.more_actions": "More",
   "post_info.edit": "Edit",

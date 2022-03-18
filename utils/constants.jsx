@@ -572,6 +572,7 @@ export const TELEMETRY_CATEGORIES = {
 
 export const TELEMETRY_LABELS = {
     COPY_LINK: 'copy_link',
+    COPY_TEXT: 'copy_text',
     DELETE: 'delete',
     EDIT: 'edit',
     FOLLOW: 'follow',

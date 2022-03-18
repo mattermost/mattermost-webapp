@@ -169,6 +169,18 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
     <MenuItemAction
       icon={
         <span
+          className="icon-content-copy MenuItem__compass-icon"
+        />
+      }
+      id="copy_post_id_1"
+      onClick={[Function]}
+      rightDecorator="C"
+      show={true}
+      text="Copy Text"
+    />
+    <MenuItemAction
+      icon={
+        <span
           className="icon-trash-can-outline MenuItem__compass-icon-dangerous"
         />
       }
@@ -354,6 +366,18 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       rightDecorator="E"
       show={true}
       text="Edit"
+    />
+    <MenuItemAction
+      icon={
+        <span
+          className="icon-content-copy MenuItem__compass-icon"
+        />
+      }
+      id="copy_post_id_1"
+      onClick={[Function]}
+      rightDecorator="C"
+      show={true}
+      text="Copy Text"
     />
     <MenuItemAction
       icon={
