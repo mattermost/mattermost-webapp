@@ -106,7 +106,7 @@ function selectedChannelId(state = '', action: GenericAction) {
     case ActionTypes.SELECT_POST_CARD:
         return action.channelId;
     case ActionTypes.UPDATE_RHS_STATE:
-        if (action.state === RHSStates.PIN || action.state === RHSStates.CHANNEL_FILES) {
+        if ([RHSStates.PIN, RHSStates.CHANNEL_FILES, RHSStates.CHANNEL_INFO].includes(action.state)) {
             return action.channelId;
         }
         return '';
