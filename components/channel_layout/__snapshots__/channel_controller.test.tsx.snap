@@ -5,7 +5,7 @@ exports[`components/channel_layout/ChannelController Should match snapshot 1`] =
   className="channel-view"
   id="channel_view"
 >
-  <Connect(AnnouncementBarController) />
+  <Connect(_class) />
   <Connect(SystemNotice) />
   <withRouter(Connect(injectIntl(FaviconTitleHandlerClass))) />
   <Connect(ProductNoticesModal) />
