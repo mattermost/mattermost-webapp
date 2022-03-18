@@ -34,8 +34,8 @@ describe('Main menu', () => {
     it('MM-T910 Can open Administrators Guide', () => {
         cy.apiGetClientLicense().then(({isCloudLicensed}) => {
             const guideLink = isCloudLicensed ?
-                'https://docs.mattermost.com/guides/cloud-admin-guide.html' :
-                'https://about.mattermost.com/administrators-guide/';
+                'https://docs.mattermost.com/guides/deployment.html' :
+                'https://docs.mattermost.com/guides/administration.html';
 
             // * Verify administrator's guide link
             verifyLink("Administrator's Guide", guideLink);
@@ -44,7 +44,7 @@ describe('Main menu', () => {
 
     it('MM-T911 Can open Troubleshooting Forum', () => {
         // * Verify troubleshooting forum link
-        verifyLink('Troubleshooting Forum', 'https://about.mattermost.com/troubleshooting-forum/');
+        verifyLink('Troubleshooting Forum', 'https://forum.mattermost.com/t/how-to-use-the-troubleshooting-forum/150');
     });
 
     it('MM-T914 Can log out from system console', () => {

@@ -74,7 +74,7 @@ describe('Incoming webhook', () => {
 
         it('second payload', () => {
             const search = id + '-2';
-            const payload = {channel: 'off-topic', text: search, username: 'new_username', attachments: [{fallback: 'fallback text', image_url: imageUrl}], icon_url: 'http://www.mattermost.org/wp-content/uploads/2016/04/icon_WS.png'};
+            const payload = {channel: 'off-topic', text: search, username: 'new_username', attachments: [{fallback: 'fallback text', image_url: imageUrl}], icon_url: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png'};
 
             cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
             cy.visit(offTopicLink);
@@ -134,7 +134,7 @@ describe('Incoming webhook', () => {
             channel: testChannel.name,
             username: 'new_username',
             text,
-            icon_url: 'http://www.mattermost.org/wp-content/uploads/2016/04/icon_WS.png',
+            icon_url: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
         };
 
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
