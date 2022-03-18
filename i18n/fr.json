@@ -2858,7 +2858,6 @@
   "claim.oauth_to_email.title": "Basculer la connexion de type {type} vers l'utilisation d'une adresse e-mail",
   "cloud_subscribe.contact_support": "Comparer les tarifs",
   "cloud_subscribe.select_plan": "Sélectionner un tarif",
-  "collapsed_reply_threads_beta_modal.title": "",
   "collapsed_reply_threads_modal.confirm": "J'ai compris",
   "collapsed_reply_threads_modal.description": "Les fils de discussion ont été réorganisés pour vous aider à créer une conversation organisée autour de messages spécifiques. Désormais, les canaux seront moins encombrés, car les réponses sont regroupées sous le message d'origine et toutes les conversations que vous suivez sont disponibles dans votre vue **Fils**. Démarrez la visite guidée pour voir ce qu’il y a de nouveau.",
   "collapsed_reply_threads_modal.skip_tour": "Ignorer la visite guidée",
