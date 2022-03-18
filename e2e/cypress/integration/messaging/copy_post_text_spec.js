@@ -23,7 +23,7 @@ describe('Permalink message edit', () => {
         });
     });
 
-    it('Copy Text menu item should copy post message to clipboard', () => {
+    it('MM-T4688 Copy Text menu item should copy post message to clipboard', () => {
         stubClipboard().as('clipboard');
 
         // # Go to test channel
