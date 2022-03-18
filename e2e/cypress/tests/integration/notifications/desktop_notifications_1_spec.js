@@ -96,7 +96,7 @@ describe('Desktop notifications', () => {
     it('MM-T487 Desktop Notifications - For all activity with apostrophe, emoji, and markdown in notification', () => {
         spyNotificationAs('withNotification', 'granted');
 
-        const actualMsg = '*I\'m* [hungry](http://example.com) :taco: ![Mattermost](http://www.mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png)';
+        const actualMsg = '*I\'m* [hungry](http://example.com) :taco: ![Mattermost](https://mattermost.com/wp-content/uploads/2022/02/logoHorizontal.png)';
         const expected = '@' + otherUser.username + ': I\'m hungry :taco: Mattermost';
 
         // # Ensure notifications are set up to fire a desktop notification if are mentioned.

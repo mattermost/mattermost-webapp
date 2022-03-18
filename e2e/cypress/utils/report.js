@@ -152,11 +152,11 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment, te
 
         return {
             username: 'Cypress UI Test',
-            icon_url: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
+            icon_url: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
             attachments: [{
                 color: testResult.color,
                 author_name: 'Webapp End-to-end Testing',
-                author_icon: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
+                author_icon: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
                 author_link: 'https://www.mattermost.com',
                 title,
                 fields: [
@@ -189,11 +189,11 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment, te
 
     return {
         username: 'Cypress UI Test',
-        icon_url: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
+        icon_url: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
         attachments: [{
             color: testResult.color,
             author_name: 'Webapp End-to-end Testing',
-            author_icon: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
+            author_icon: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
             author_link: 'https://www.mattermost.com/',
             title,
             text: `${quickSummary} | ${(stats.duration / (60 * 1000)).toFixed(2)} mins ${testCycleLink}\n${envValue}`,
@@ -254,11 +254,11 @@ function generateDiagnosticReport(summary, serverInfo) {
 
     return {
         username: 'Cypress UI Test',
-        icon_url: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
+        icon_url: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
         attachments: [{
             color: '#43A047',
             author_name: 'Cypress UI Test',
-            author_icon: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
+            author_icon: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
             author_link: 'https://community.mattermost.com/core/channels/ui-test-automation',
             title: `Cypress UI Test Automation #${BUILD_ID}, **${BRANCH}** branch`,
             fields: [{

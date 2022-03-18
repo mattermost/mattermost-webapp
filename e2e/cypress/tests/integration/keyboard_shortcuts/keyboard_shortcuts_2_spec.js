@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @keyboard_shortcuts
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -52,7 +53,7 @@ describe('Keyboard Shortcuts', () => {
                 if (isMac()) {
                     cy.findByText('⌘').should('be.visible');
                 } else {
-                    cy.findByText('CTRL').should('be.visible');
+                    cy.findByText('Ctrl').should('be.visible');
                 }
                 cy.findByText('U').should('be.visible');
             });

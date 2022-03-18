@@ -156,7 +156,7 @@ describe('Slash commands', () => {
         // # Update icon URL
         // # click on last added command's(first child) edit action
         cy.get('.backstage-list').find('.backstage-list__item').first().findByText('Edit').click();
-        const iconURL = 'http://www.mattermost.org/wp-content/uploads/2016/04/icon_WS.png';
+        const iconURL = 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png';
         cy.get('#iconUrl').type(iconURL);
         cy.get('#saveCommand').click();
 

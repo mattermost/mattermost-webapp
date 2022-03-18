@@ -2,11 +2,11 @@
 // See LICENSE.txt for license information.
 
 export const FEEDBACK_EMAIL = 'test@example.com';
-export const ABOUT_LINK = 'https://about.mattermost.com/default-about/';
+export const ABOUT_LINK = 'https://docs.mattermost.com/about/product.html';
 export const ASK_COMMUNITY_LINK = 'https://mattermost.com/pl/default-ask-mattermost-community/';
-export const HELP_LINK = 'https://about.mattermost.com/default-help/';
+export const HELP_LINK = 'https://mattermost.com/default-help/';
 export const PRIVACY_POLICY_LINK = 'https://mattermost.com/privacy-policy/';
-export const REPORT_A_PROBLEM_LINK = 'https://about.mattermost.com/default-report-a-problem/';
+export const REPORT_A_PROBLEM_LINK = 'https://mattermost.com/default-report-a-problem/';
 export const TERMS_OF_SERVICE_LINK = 'https://mattermost.com/terms-of-use/';
 
 export const CLOUD = 'Cloud';
@@ -14,8 +14,8 @@ export const E20 = 'E20';
 export const TEAM = 'Team';
 
 export const FixedPublicLinks = {
-    TermsOfService: 'https://about.mattermost.com/default-terms/',
-    PrivacyPolicy: 'https://about.mattermost.com/default-privacy-policy/',
+    TermsOfService: 'https://mattermost.com/terms-of-use/',
+    PrivacyPolicy: 'https://mattermost.com/privacy-policy/',
 };
 
 export const SupportSettings = {
