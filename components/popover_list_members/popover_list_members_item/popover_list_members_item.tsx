@@ -41,15 +41,12 @@ export default function PopoverListMembersItem(props: Props) {
         <MessageIcon aria-hidden='true'/>
     ) : null;
 
-    let sharedIcon;
-    if (props.user.remote_id) {
-        sharedIcon = (
-            <SharedUserIndicator
-                className='shared-user-icon'
-                withTooltip={true}
-            />
-        );
-    }
+    const sharedIcon = props.user.remote_id ? (
+        <SharedUserIndicator
+            className='shared-user-icon'
+            withTooltip={true}
+        />
+    ) : null;
     const botClass = props.user.is_bot ? ' more-modal__row--bot' : '';
     const status = props.user.is_bot ? undefined : props.status;
 
