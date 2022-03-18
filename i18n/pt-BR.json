@@ -3404,7 +3404,6 @@
   "notify_all.title.confirm": "Confirmar o Envio de Notificações para o Canal Todo",
   "notify_all.title.confirm_groups": "Confirmar envio de notificações para grupos",
   "numMembers": "{count, number} {num, plural, one {membro} other {membros}}",
-  "onboarding_wizard.plugins.gitlab": "",
   "passwordRequirements": "Requerimentos de Senha:",
   "password_form.change": "Alterar minha senha",
   "password_form.enter": "Entre a nova senha para o sua conta {siteName}.",

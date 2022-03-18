@@ -3588,7 +3588,6 @@
   "notify_here.question": "با استفاده از **@here** می‌خواهید اعلان‌هایی را برای حداکثر **{totalMembers} نفر** ارسال کنید. آیا مطمئنید که می خواهید این کار را انجام دهید؟",
   "notify_here.question_timezone": "با استفاده از **@here** می‌خواهید اعلان‌هایی را برای حداکثر **{totalMembers} نفر** در **{timezones, number} {timezones, plural, یک {timezone} دیگر {timezones}}** ارسال کنید. آیا مطمئنید که می خواهید این کار را انجام دهید؟",
   "numMembers": "{تعداد، عدد} {تعداد، جمع، یک {عضو} سایر {اعضا}}",
-  "onboarding_wizard.plugins.gitlab": "",
   "passwordRequirements": "الزامات رمز عبور:",
   "password_form.change": "رمز عبورم را عوض کن",
   "password_form.enter": "یک رمز عبور جدید برای حساب {siteName} خود وارد کنید.",

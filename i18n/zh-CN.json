@@ -3745,7 +3745,6 @@
   "notify_all.title.confirm": "确认发送通知到整个频道",
   "notify_all.title.confirm_groups": "确认发送推送给组",
   "numMembers": "{count, number} 位成员",
-  "onboarding_wizard.plugins.gitlab": "",
   "passwordRequirements": "密码要求：",
   "password_form.change": "修改我的密码",
   "password_form.enter": "输入您的 {siteName} 账户新密码。",

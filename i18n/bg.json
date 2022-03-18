@@ -3750,7 +3750,6 @@
   "notify_all.title.confirm": "Потвърдете изпращането на известия до целия канал",
   "notify_all.title.confirm_groups": "Потвърдете изпращане на известия до групи",
   "numMembers": "{num, number} {num, plural, one {член} other {члена}}",
-  "onboarding_wizard.plugins.gitlab": "",
   "passwordRequirements": "Изисквания за парола:",
   "password_form.change": "Промяна на паролата ми",
   "password_form.enter": "Въведете нова парола за вашия {siteName} профил.",

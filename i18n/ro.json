@@ -3553,7 +3553,6 @@
   "notify_all.title.confirm": "Confirmați trimiterea notificărilor pe întregul canal",
   "notify_all.title.confirm_groups": "Confirmați trimiterea notificărilor către grupuri",
   "numMembers": "{num, number} {num, plural, one {membru} other {membri}}",
-  "onboarding_wizard.plugins.gitlab": "",
   "passwordRequirements": "Cerințe privind parola:",
   "password_form.change": "Modificare parolă",
   "password_form.enter": "Introduceți o nouă parolă pentru contul dvs. {siteName}.",
