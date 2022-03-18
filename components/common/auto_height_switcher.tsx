@@ -8,8 +8,8 @@ import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 import './auto_height_switcher.scss';
 
 export enum AutoHeightSlots {
-    SLOT1,
-    SLOT2,
+    SLOT1 = 1,
+    SLOT2 = 2,
 }
 
 type AutoHeightProps = {
