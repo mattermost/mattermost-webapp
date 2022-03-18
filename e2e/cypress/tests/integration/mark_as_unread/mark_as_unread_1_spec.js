@@ -73,7 +73,7 @@ describe('Mark as Unread', () => {
         });
     });
 
-    it('Should be able to mark channel as unread from post menu -- KNOWN ISSUE: MM-', () => {
+    it('Should be able to mark channel as unread from post menu -- KNOWN ISSUE: MM-42636', () => {
         switchToChannel(channelA);
 
         // # Mark post2 as unread
@@ -95,7 +95,7 @@ describe('Mark as Unread', () => {
         verifyPostNextToNewMessageSeparator('post3');
     });
 
-    it('Should be able to mark channel as unread from RHS post menu -- KNOWN ISSUE: MM-', () => {
+    it('Should be able to mark channel as unread from RHS post menu -- KNOWN ISSUE: MM-42636', () => {
         switchToChannel(channelA);
 
         // Show the RHS
@@ -114,7 +114,7 @@ describe('Mark as Unread', () => {
         verifyPostNextToNewMessageSeparator('post3');
     });
 
-    it('MM-T250 Mark as unread in the RHS -- KNOWN ISSUE: MM-', () => {
+    it('MM-T250 Mark as unread in the RHS -- KNOWN ISSUE: MM-42636', () => {
         switchToChannel(channelA);
 
         // # Open RHS (reply thread)
