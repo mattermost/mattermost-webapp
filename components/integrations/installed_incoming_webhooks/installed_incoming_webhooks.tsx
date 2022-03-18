@@ -135,7 +135,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent<Props
                                 <a
                                     target='_blank'
                                     rel='noopener noreferrer'
-                                    href='http://docs.mattermost.com/developer/webhooks-incoming.html'
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-incoming/'
                                 >
                                     <FormattedMessage
                                         id='installed_incoming_webhooks.help.buildYourOwn'
@@ -147,7 +147,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent<Props
                                 <a
                                     target='_blank'
                                     rel='noopener noreferrer'
-                                    href='https://about.mattermost.com/default-app-directory/'
+                                    href='https://mattermost.com/marketplace'
                                 >
                                     <FormattedMessage
                                         id='installed_incoming_webhooks.help.appDirectory'
