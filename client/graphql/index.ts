@@ -1,35 +1,66 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import {batchActions} from 'redux-batched-actions';
 
 import {Client4} from 'mattermost-redux/client';
+import {PreferenceTypes, UserTypes, TeamTypes} from 'mattermost-redux/action_types';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
-import {meQuery} from './queries/me';
+import {
+    myDataQuery,
+    MyDataResponseType,
+    transformToRecievedMeReducerPayload,
+    transformToRecievedAllPreferencesReducerPayload,
+} from './queries/myData';
 
 export function loadMeGQL() {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const config = getConfig(state);
 
-        // TODO
-        // const deviceId = state.entities.general.deviceToken;
-        // if (deviceId) {
-        //     Client4.attachDevice(deviceId);
-        // }
+        const deviceId = state.entities.general.deviceToken;
+        if (deviceId) {
+            Client4.attachDevice(deviceId);
+        }
 
-        const baseUrl = `${Client4.getUrl()}/api/v5/graphql`;
-
+        let responseData: MyDataResponseType['data'] | null = null;
         try {
-            const response = await Client4.doFetchWithResponse(baseUrl, {
-                method: 'post',
-                body: JSON.stringify({query: meQuery}),
-            });
+            const {data} =
+                await Client4.doFetchWithGraphQL<MyDataResponseType>(
+                    myDataQuery,
+                );
+            responseData = data;
 
-            console.log('data', response.data.data);
+            console.log('data', data);
         } catch (error) {
+            // eslint-disable-next-line no-console
             console.log('error', error);
         }
+
+        if (!responseData) {
+            return;
+        }
+
+        dispatch(
+            batchActions([
+                {
+                    type: UserTypes.RECEIVED_ME,
+                    data: transformToRecievedMeReducerPayload(
+                        responseData.user,
+                    ),
+                },
+                {
+                    type: PreferenceTypes.RECEIVED_ALL_PREFERENCES,
+                    data: transformToRecievedAllPreferencesReducerPayload(
+                        responseData.user,
+                    ),
+                },
+                {
+                    type: TeamTypes.RECEIVED_TEAMS_LIST,
+                },
+            ]),
+        );
 
         // const promises = [
         //     dispatch(getMe()),

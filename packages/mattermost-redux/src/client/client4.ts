@@ -139,7 +139,7 @@ const PER_PAGE_DEFAULT = 60;
 const LOGS_PER_PAGE_DEFAULT = 10000;
 export const DEFAULT_LIMIT_BEFORE = 30;
 export const DEFAULT_LIMIT_AFTER = 30;
-/* eslint-disable no-throw-literal */
+const GRAPHQL_ENDPOINT = '/api/v5/graphql';
 
 export default class Client4 {
     logToConsole = false;
@@ -166,6 +166,10 @@ export default class Client4 {
 
     getUrl() {
         return this.url;
+    }
+
+    getGraphqlUrl() {
+        return `${this.url}${GRAPHQL_ENDPOINT}`;
     }
 
     getAbsoluteUrl(baseUrl: string) {
@@ -3835,6 +3839,14 @@ export default class Client4 {
 
         return data;
     };
+
+    /**
+     *
+     * @param query query of graphQL which is already json stringified
+     */
+    doFetchWithGraphQL = async<ResponseType>(query: string) => {
+        return this.doFetch<ResponseType>(this.getGraphqlUrl(), {method: 'post', body: query});
+    }
 
     doFetchWithResponse = async <T>(url: string, options: Options): Promise<ClientResponse<T>> => {
         const response = await fetch(url, this.getOptions(options));

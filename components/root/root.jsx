@@ -331,7 +331,7 @@ export default class Root extends React.PureComponent {
             const {data} = await this.props.actions.loadClientConfig();
             const isGraphQLEnabled = data && data.FeatureFlagGraphQL === 'true';
 
-            if (!isGraphQLEnabled) {
+            if (isGraphQLEnabled) {
                 const responseFromLoadMe = await this.props.actions.loadMe();
                 const successfullyLoadedMe = responseFromLoadMe[1] && responseFromLoadMe[1].data;
 
