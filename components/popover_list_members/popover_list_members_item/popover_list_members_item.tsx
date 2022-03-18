@@ -52,7 +52,7 @@ export default function PopoverListMembersItem(props: Props) {
             data-testid='popoverListMembersItem'
             tabIndex={0}
             aria-label={props.displayName.toLowerCase()}
-            className={'more-modal__row' + botClass}
+            className={classNames('more-modal__row', {botClass: props.user.is_bot})}
             onClick={handleClick}
         >
             <ProfilePicture
