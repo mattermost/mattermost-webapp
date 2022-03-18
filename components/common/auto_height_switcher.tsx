@@ -7,8 +7,13 @@ import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 
 import './auto_height_switcher.scss';
 
+export enum AutoHeightSlots {
+    SLOT1,
+    SLOT2,
+}
+
 type AutoHeightProps = {
-    showSlot: 1 | 2;
+    showSlot: AutoHeightSlots;
     duration?: number;
     shouldScrollIntoView?: boolean;
     slot1: React.ReactNode | React.ReactNode[];
@@ -23,12 +28,12 @@ const AutoHeightSwitcher = ({showSlot, slot1, slot2, onTransitionEnd, duration =
     const [animate, setAnimate] = useState<boolean>(false);
     const [height, setHeight] = useState<string | number>('auto');
     const [overflow, setOverflow] = useState<string>('visible');
-    const [child, setChild] = useState(showSlot === 1 ? slot1 : slot2);
+    const [child, setChild] = useState(showSlot === AutoHeightSlots.SLOT1 ? slot1 : slot2);
 
     useEffect(() => {
         if (prevSlot.current === showSlot) {
             // slot that is currently in view gets updated
-            setChild(showSlot === 1 ? slot1 : slot2);
+            setChild(showSlot === AutoHeightSlots.SLOT1 ? slot1 : slot2);
         } else {
             // switch slots using height animation
             setAnimate(true);
@@ -77,7 +82,7 @@ const AutoHeightSwitcher = ({showSlot, slot1, slot2, onTransitionEnd, duration =
             onEnter={() => {
                 setHeight(wrapperRef.current!.offsetHeight);
                 setOverflow('hidden');
-                setChild(showSlot === 1 ? slot1 : slot2);
+                setChild(showSlot === AutoHeightSlots.SLOT1 ? slot1 : slot2);
             }}
             onEntering={() => {
                 setHeight(childRef.current!.offsetHeight);

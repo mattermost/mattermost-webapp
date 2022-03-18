@@ -33,7 +33,7 @@ import PostPreHeader from 'components/post_view/post_pre_header';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import {Emoji} from 'mattermost-redux/types/emojis';
 import EditPost from 'components/edit_post';
-import AutoHeightSwitcher from 'components/common/auto_height_switcher';
+import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height_switcher';
 
 export default class RhsRootPost extends React.PureComponent {
     static propTypes = {
@@ -566,6 +566,8 @@ export default class RhsRootPost extends React.PureComponent {
             />
         );
 
+        const showSlot = isPostBeingEdited ? AutoHeightSlots.SLOT2 : AutoHeightSlots.SLOT1;
+
         return (
             <PostAriaLabelDiv
                 ref={this.postRef}
@@ -617,7 +619,7 @@ export default class RhsRootPost extends React.PureComponent {
                         <div className='post__body'>
                             <div className={postClass}>
                                 <AutoHeightSwitcher
-                                    showSlot={isPostBeingEdited ? 2 : 1}
+                                    showSlot={showSlot}
                                     shouldScrollIntoView={isPostBeingEdited}
                                     slot1={message}
                                     slot2={<EditPost/>}

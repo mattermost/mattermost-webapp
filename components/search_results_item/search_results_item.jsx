@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants/index';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
-import AutoHeightSwitcher from 'components/common/auto_height_switcher';
+import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height_switcher';
 import PostMessageContainer from 'components/post_view/post_message_view';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import CommentIcon from 'components/common/comment_icon';
@@ -409,6 +409,7 @@ export default class SearchResultsItem extends React.PureComponent {
         }
 
         const currentPostDay = Utils.getDateForUnixTicks(post.create_at);
+        const showSlot = isPostBeingEditedInRHS ? AutoHeightSlots.SLOT2 : AutoHeightSlots.SLOT1;
 
         return (
             <div
@@ -476,7 +477,7 @@ export default class SearchResultsItem extends React.PureComponent {
                             <div className='search-item-snippet post__body'>
                                 <div className={postClass}>
                                     <AutoHeightSwitcher
-                                        showSlot={isPostBeingEditedInRHS ? 2 : 1}
+                                        showSlot={showSlot}
                                         shouldScrollIntoView={isPostBeingEditedInRHS}
                                         slot1={message}
                                         slot2={<EditPost/>}

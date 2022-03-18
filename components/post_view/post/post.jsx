@@ -20,7 +20,7 @@ import PostPreHeader from 'components/post_view/post_pre_header';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 import {trackEvent} from 'actions/telemetry_actions';
 import EditPost from 'components/edit_post';
-import AutoHeightSwitcher from 'components/common/auto_height_switcher';
+import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height_switcher';
 
 // When adding clickable targets within a root post to exclude from post's on click to open thread,
 // please add to/maintain the selector below
@@ -444,8 +444,6 @@ export default class Post extends React.PureComponent {
 
         const threadFooter = isCollapsedThreadsEnabled && !post.root_id && (hasReplies || post.is_following) ? <ThreadFooter threadId={post.id}/> : null;
 
-        const showSlot = isBeingEdited ? 2 : 1;
-
         const slot1 = (
             <>
                 {compactDisplay && postHeader}
@@ -460,6 +458,8 @@ export default class Post extends React.PureComponent {
                 <EditPost/>
             </>
         );
+
+        const showSlot = isBeingEdited ? AutoHeightSlots.SLOT2 : AutoHeightSlots.SLOT1;
 
         return (
             <PostContext.Provider value={{handlePopupOpened: this.handleDropdownOpened}}>
