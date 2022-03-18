@@ -876,6 +876,7 @@
   "admin.experimental.samlSettingsLoginButtonColor.title": "SAML bejelentkezési gomb színe:",
   "admin.experimental.samlSettingsLoginButtonTextColor.desc": "Arculat igazítás érdekében adja meg a SAML bejelentkezési gomb szövegének színét. Használjon hexa kódot #-jellel a kód előtt. Ez a beállítás csak a mobilalkalmazásokra vonatkozik.",
   "admin.experimental.samlSettingsLoginButtonTextColor.title": "SAML bejelentkezési gomb szöveg színe:",
+  "admin.experimental.threadAutoFollow.desc": "",
   "admin.experimental.threadAutoFollow.title": "Üzenetszálak automatikus követése",
   "admin.experimental.timeBetweenUserTypingUpdatesMilliseconds.desc": "A milliszekundumok száma amelyet várni kell két felhasználó gépel websocket esemény elküldése között.",
   "admin.experimental.timeBetweenUserTypingUpdatesMilliseconds.example": "Pl.: \"5000\"",
