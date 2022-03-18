@@ -1818,7 +1818,6 @@
   "admin.reload.reloadDescription.featureName": "Ponownie odczytaj konfigurację z dysku",
   "admin.reload.reloadDescription.recycleDatabaseConnections": "Środowisko > Baza Danych > Utylizuj połączenia baz danych",
   "admin.reload.reloadFail": "Przeładowanie nieudane: {error}",
-  "admin.reporting.workspace_optimization.ease_of_management.ldap.description": "",
   "admin.requestButton.loading": " Ładowanie...",
   "admin.requestButton.requestFailure": "Niepowodzenie testu: {error}",
   "admin.requestButton.requestSuccess": "Test zakończony sukcesem",

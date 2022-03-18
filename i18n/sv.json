@@ -3881,7 +3881,6 @@
   "notify_here.question": "Genom att använda **@here** kommer du skicka notifieringar till upp till **{totalMembers} personer**. Är du säker på att du vill göra det?",
   "notify_here.question_timezone": "Genom att använda **@here** kommer du skicka notifieringar till upp till **{totalMembers} personer** i **{timezones, number} {timezones, plural, one {tidszon} other {tidszoner}}**. Är du säker på att du vill göra det?",
   "numMembers": "{num, number} {num, plural, one {medlem} other {medlemmar}}",
-  "onboardingTour.sendMessage.Description": "",
   "onboarding_wizard.plugins.gitlab": "",
   "passwordRequirements": "Lösenordskrav:",
   "password_form.change": "Ändra mitt lösenord",

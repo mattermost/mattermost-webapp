@@ -3780,7 +3780,6 @@
   "notify_all.title.confirm": "Подтвердите отправку уведомления всему каналу",
   "notify_all.title.confirm_groups": "Подтвердите отправку уведомлений группам",
   "numMembers": "{num, number} {num, plural, one {участник} few {участника} other {участников}}",
-  "onboardingTour.sendMessage.Description": "",
   "onboarding_wizard.plugins.gitlab": "",
   "passwordRequirements": "Требования к паролю:",
   "password_form.change": "Изменить пароль",
