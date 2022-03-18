@@ -277,6 +277,18 @@ export const isCurrentChannelMuted: (state: GlobalState) => boolean = createSele
     },
 );
 
+export const isMutedChannel: (state: GlobalState, channelId: string) => boolean = createSelector(
+    'isMutedChannel',
+    (state: GlobalState, channelId: string) => getMyChannelMembership(state, channelId),
+    (membership?: ChannelMembership): boolean => {
+        if (!membership) {
+            return false;
+        }
+
+        return isChannelMuted(membership);
+    },
+);
+
 export const isCurrentChannelArchived: (state: GlobalState) => boolean = createSelector(
     'isCurrentChannelArchived',
     getCurrentChannel,

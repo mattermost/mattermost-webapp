@@ -28,6 +28,7 @@ export type StateProps = {
     searchTerms: string;
     searchType: SearchType;
     searchVisible: boolean;
+    hideMobileSearchBarInRHS: boolean;
     isMentionSearch: boolean;
     isFlaggedPosts: boolean;
     isPinnedPosts: boolean;
