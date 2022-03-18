@@ -35,13 +35,29 @@ describe('Permalink message edit', () => {
         cy.postMessage(message);
 
         cy.getLastPostId().then((postId) => {
-            // # Copy message
+            // # Copy message by clicking
             cy.uiClickPostDropdownMenu(postId, 'Copy Text');
 
             // * Ensure that the clipboard contents are correct
             cy.get('@clipboard').its('wasCalled').should('eq', true);
             cy.location().then(() => {
                 cy.get('@clipboard').its('contents').should('eq', message);
+            });
+        });
+
+        // # Post another message
+        const message2 = Date.now().toString();
+        cy.postMessage(message2);
+
+        cy.getLastPostId().then((postId) => {
+            // # Copy by keyboard shortcut
+            cy.clickPostDotMenu(postId, 'CENTER');
+            cy.findAllByTestId(`post-menu-${postId}`).eq(0).type('c');
+
+            // * Ensure that the clipboard contents are correct
+            cy.get('@clipboard').its('wasCalled').should('eq', true);
+            cy.location().then(() => {
+                cy.get('@clipboard').its('contents').should('eq', message2);
             });
         });
     });
