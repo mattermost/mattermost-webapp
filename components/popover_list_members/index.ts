@@ -38,7 +38,7 @@ type Filters = {
 
 type Actions = {
     openModal: <P>(modalData: ModalData<P>) => void;
-    loadProfilesAndStatusesInChannel: (channelId: string, page: number, perPage: number | undefined, sort: string, options: {active: boolean}) => void;
+    loadProfilesAndStatusesInChannel: (channelId: string, page: number, perPage?: number, sort: string, options: {active: boolean}) => void;
     openDirectChannelToUserId: (userId: string) => Promise<{data: Channel}>;
 }
 
