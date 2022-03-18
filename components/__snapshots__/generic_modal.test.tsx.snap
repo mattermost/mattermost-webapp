@@ -33,6 +33,12 @@ exports[`components/GenericModal should match snapshot for base case 1`] = `
 >
   <div
     onKeyDown={[Function]}
+    style={
+      Object {
+        "height": "100%",
+        "width": "100%",
+      }
+    }
     tabIndex={0}
   >
     <ModalHeader
@@ -94,6 +100,12 @@ exports[`components/GenericModal should match snapshot with both buttons 1`] = `
 >
   <div
     onKeyDown={[Function]}
+    style={
+      Object {
+        "height": "100%",
+        "width": "100%",
+      }
+    }
     tabIndex={0}
   >
     <ModalHeader
@@ -180,6 +192,12 @@ exports[`components/GenericModal should match snapshot with disabled confirm but
 >
   <div
     onKeyDown={[Function]}
+    style={
+      Object {
+        "height": "100%",
+        "width": "100%",
+      }
+    }
     tabIndex={0}
   >
     <ModalHeader
