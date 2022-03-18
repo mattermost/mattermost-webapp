@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useState, useRef, memo} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {ServerError} from 'mattermost-redux/types/errors';
@@ -19,114 +19,105 @@ interface Props {
     };
 }
 
-interface State {
-    error: React.ReactNode;
-}
+const PasswordResetForm = ({location, siteName, actions}: Props) => {
+    const [error, setError] = useState<React.ReactNode>(null);
 
-export default class PasswordResetForm extends React.PureComponent<Props, State> {
-    public passwordInput: React.RefObject<HTMLInputElement>; //Public because it is used by tests
-    public constructor(props: Props) {
-        super(props);
-        this.passwordInput = React.createRef<HTMLInputElement>();
-        this.state = {error: null};
-    }
+    const passwordInput = useRef<HTMLInputElement>(null);
 
-    handlePasswordReset = async (e: React.FormEvent) => {
+    const handlePasswordReset = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const password = this.passwordInput.current!.value;
+        const password = passwordInput.current!.value;
         if (!password || password.length < Constants.MIN_PASSWORD_LENGTH) {
-            this.setState({
-                error: (
-                    <FormattedMessage
-                        id='password_form.error'
-                        defaultMessage='Please enter at least {chars} characters.'
-                        values={{
-                            chars: Constants.MIN_PASSWORD_LENGTH,
-                        }}
-                    />
-                ),
-            });
+            setError(
+                <FormattedMessage
+                    id='password_form.error'
+                    defaultMessage='Please enter at least {chars} characters.'
+                    values={{
+                        chars: Constants.MIN_PASSWORD_LENGTH,
+                    }}
+                />,
+            );
             return;
         }
 
-        this.setState({error: null});
+        // setState({error: null});
 
-        const token = (new URLSearchParams(this.props.location.search)).get('token');
+        const token = (new URLSearchParams(location.search)).get('token');
         if (typeof token === null) {
             throw new Error('token must be a string');
         }
         const safeToken = token as string;
-        const {data, error} = await this.props.actions.resetUserPassword(safeToken, password);
+        const {data, error} = await actions.resetUserPassword(safeToken, password);
         if (data) {
             browserHistory.push('/login?extra=' + Constants.PASSWORD_CHANGE);
-            this.setState({error: null});
+            setError(null);
         } else if (error) {
-            this.setState({error: error.message});
+            setError(error.message);
         }
-    }
+    };
 
-    render() {
-        let error = null;
-        if (this.state.error) {
-            error = (
-                <div className='form-group has-error'>
-                    <label className='control-label'>
-                        {this.state.error}
-                    </label>
-                </div>
-            );
-        }
-
-        let formClass = 'form-group';
-        if (error) {
-            formClass += ' has-error';
-        }
-
-        return (
-            <div className='col-sm-12'>
-                <div className='signup-team__container'>
-                    <FormattedMessage
-                        id='password_form.title'
-                        tagName='h1'
-                        defaultMessage='Password Reset'
-                    />
-                    <form onSubmit={this.handlePasswordReset}>
-                        <p>
-                            <FormattedMessage
-                                id='password_form.enter'
-                                defaultMessage='Enter a new password for your {siteName} account.'
-                                values={{
-                                    siteName: this.props.siteName,
-                                }}
-                            />
-                        </p>
-                        <div className={formClass}>
-                            <LocalizedInput
-                                id='resetPasswordInput'
-                                type='password'
-                                className='form-control'
-                                name='password'
-                                ref={this.passwordInput}
-                                placeholder={{id: t('password_form.pwd'), defaultMessage: 'Password'}}
-                                spellCheck='false'
-                                autoFocus={true}
-                            />
-                        </div>
-                        {error}
-                        <button
-                            id='resetPasswordButton'
-                            type='submit'
-                            className='btn btn-primary'
-                        >
-                            <FormattedMessage
-                                id='password_form.change'
-                                defaultMessage='Change my password'
-                            />
-                        </button>
-                    </form>
-                </div>
+    let errorElement = null;
+    if (error) {
+        errorElement = (
+            <div className='form-group has-error'>
+                <label className='control-label'>
+                    {error}
+                </label>
             </div>
         );
     }
-}
+
+    let formClass = 'form-group';
+    if (error) {
+        formClass += ' has-error';
+    }
+
+    return (
+        <div className='col-sm-12'>
+            <div className='signup-team__container'>
+                <FormattedMessage
+                    id='password_form.title'
+                    tagName='h1'
+                    defaultMessage='Password Reset'
+                />
+                <form onSubmit={handlePasswordReset}>
+                    <p>
+                        <FormattedMessage
+                            id='password_form.enter'
+                            defaultMessage='Enter a new password for your {siteName} account.'
+                            values={{
+                                siteName,
+                            }}
+                        />
+                    </p>
+                    <div className={formClass}>
+                        <LocalizedInput
+                            id='resetPasswordInput'
+                            type='password'
+                            className='form-control'
+                            name='password'
+                            ref={passwordInput}
+                            placeholder={{id: t('password_form.pwd'), defaultMessage: 'Password'}}
+                            spellCheck='false'
+                            autoFocus={true}
+                        />
+                    </div>
+                    {errorElement}
+                    <button
+                        id='resetPasswordButton'
+                        type='submit'
+                        className='btn btn-primary'
+                    >
+                        <FormattedMessage
+                            id='password_form.change'
+                            defaultMessage='Change my password'
+                        />
+                    </button>
+                </form>
+            </div>
+        </div>
+    );
+};
+
+export default memo(PasswordResetForm);
