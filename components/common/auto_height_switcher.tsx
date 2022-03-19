@@ -1,37 +1,43 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, CSSProperties} from 'react';
 import {Transition} from 'react-transition-group';
-import AnimateHeight from 'react-animate-height';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 
 import './auto_height_switcher.scss';
 
+export enum AutoHeightSlots {
+    SLOT1 = 1,
+    SLOT2 = 2,
+}
+
 type AutoHeightProps = {
-    showSlot: 1 | 2;
+    showSlot: AutoHeightSlots;
     duration?: number;
     shouldScrollIntoView?: boolean;
     slot1: React.ReactNode | React.ReactNode[];
     slot2: React.ReactNode | React.ReactNode[];
+    onTransitionEnd?: (node?: HTMLElement) => void;
 };
 
-const AutoHeightSwitcher = ({showSlot, slot1, slot2, duration = 250, shouldScrollIntoView = false}: AutoHeightProps) => {
+const AutoHeightSwitcher = ({showSlot, slot1, slot2, onTransitionEnd, duration = 250, shouldScrollIntoView = false}: AutoHeightProps) => {
     const wrapperRef = useRef<HTMLDivElement>(null);
-    const prevShow = useRef<AutoHeightProps['showSlot']>(showSlot);
+    const childRef = useRef<HTMLDivElement>(null);
+    const prevSlot = useRef<AutoHeightProps['showSlot']>(showSlot);
     const [animate, setAnimate] = useState<boolean>(false);
     const [height, setHeight] = useState<string | number>('auto');
     const [overflow, setOverflow] = useState<string>('visible');
-    const [child, setChild] = useState(showSlot === 1 ? slot1 : slot2);
+    const [child, setChild] = useState(showSlot === AutoHeightSlots.SLOT1 ? slot1 : slot2);
 
     useEffect(() => {
-        if (prevShow.current === showSlot) {
+        if (prevSlot.current === showSlot) {
             // slot that is currently in view gets updated
-            setChild(showSlot === 1 ? slot1 : slot2);
+            setChild(showSlot === AutoHeightSlots.SLOT1 ? slot1 : slot2);
         } else {
             // switch slots using height animation
             setAnimate(true);
-            prevShow.current = showSlot;
+            prevSlot.current = showSlot;
         }
     }, [showSlot, slot1, slot2]);
 
@@ -47,32 +53,55 @@ const AutoHeightSwitcher = ({showSlot, slot1, slot2, duration = 250, shouldScrol
         return () => {};
     }, [shouldScrollIntoView]);
 
+    // necessary to override this on element-level since a rule from _post.scss has a higher specificity
+    // and would override the display property
+    const fixedStyles: CSSProperties = {
+        transitionProperty: 'height',
+        transitionDuration: `${duration}ms`,
+        transitionTimingFunction: 'ease',
+    };
+
+    /**
+     * the lifecycle of this transition-component is divided in 3 different stages:
+     *     1. onEnter:
+     *        we calculate the current height from the wrapperRef and set a fixed height
+     *        for it to make the overflowing possible. Last action taken is to replace
+     *        the current children with the new ones.
+     *     2. onEntering:
+     *        when the new children are rendered we can get the new offsetHeight from
+     *        the childRef and set it as the height for the wrapper. A change in height
+     *        will then trigger a transition via CSS.
+     *     3. onEntered:
+     *        when transitions are finished (this is checked within the addEndListener prop)
+     *        we reset our component so that it behaves like before the switch-transition
+     */
     return (
         <Transition
             in={animate}
-            timeout={0}
+            timeout={duration}
             onEnter={() => {
-                setHeight('2000');
+                setHeight(wrapperRef.current!.offsetHeight);
                 setOverflow('hidden');
+                setChild(showSlot === AutoHeightSlots.SLOT1 ? slot1 : slot2);
             }}
-            onEntered={() => {
+            onEntering={() => {
+                setHeight(childRef.current!.offsetHeight);
+            }}
+            onEntered={(node: HTMLElement) => {
                 setHeight('auto');
                 setOverflow('visible');
                 setAnimate(false);
-                setChild(showSlot === 1 ? slot1 : slot2);
+                onTransitionEnd?.(node);
             }}
         >
             <div
-                className={'AutoHeight'}
+                className='AutoHeight'
                 ref={wrapperRef}
-                style={{overflow}}
+                style={{...fixedStyles, height, overflow}}
             >
-                <AnimateHeight
-                    duration={duration}
-                    height={height}
-                >
+                <div ref={childRef}>
                     {child}
-                </AnimateHeight>
+                </div>
             </div>
         </Transition>
     );
