@@ -65,17 +65,30 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
           }
           showTimeWithoutHover={true}
         />
-        <Connect(PostBody)
-          compactDisplay={false}
-          handleCommentClick={[Function]}
-          handleFileDropdownOpened={[Function]}
-          isCommentMention={false}
-          isFirstReply={true}
-          post={
-            Object {
-              "id": "post1",
-              "is_pinned": false,
-            }
+        <AutoHeightSwitcher
+          onTransitionEnd={[Function]}
+          showSlot={1}
+          slot1={
+            <React.Fragment>
+              <Memo(Connect(PostBody))
+                compactDisplay={false}
+                handleCommentClick={[Function]}
+                handleFileDropdownOpened={[Function]}
+                isCommentMention={false}
+                isFirstReply={true}
+                post={
+                  Object {
+                    "id": "post1",
+                    "is_pinned": false,
+                  }
+                }
+              />
+            </React.Fragment>
+          }
+          slot2={
+            <React.Fragment>
+              <Memo(Connect(EditPost)) />
+            </React.Fragment>
           }
         />
       </div>
@@ -149,17 +162,30 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
           }
           showTimeWithoutHover={true}
         />
-        <Connect(PostBody)
-          compactDisplay={false}
-          handleCommentClick={[Function]}
-          handleFileDropdownOpened={[Function]}
-          isCommentMention={false}
-          isFirstReply={true}
-          post={
-            Object {
-              "id": "post1",
-              "is_pinned": false,
-            }
+        <AutoHeightSwitcher
+          onTransitionEnd={[Function]}
+          showSlot={1}
+          slot1={
+            <React.Fragment>
+              <Memo(Connect(PostBody))
+                compactDisplay={false}
+                handleCommentClick={[Function]}
+                handleFileDropdownOpened={[Function]}
+                isCommentMention={false}
+                isFirstReply={true}
+                post={
+                  Object {
+                    "id": "post1",
+                    "is_pinned": false,
+                  }
+                }
+              />
+            </React.Fragment>
+          }
+          slot2={
+            <React.Fragment>
+              <Memo(Connect(EditPost)) />
+            </React.Fragment>
           }
         />
       </div>
@@ -233,17 +259,30 @@ exports[`Post should not remove post--highlight class after timeout so the class
           }
           showTimeWithoutHover={true}
         />
-        <Connect(PostBody)
-          compactDisplay={false}
-          handleCommentClick={[Function]}
-          handleFileDropdownOpened={[Function]}
-          isCommentMention={false}
-          isFirstReply={true}
-          post={
-            Object {
-              "id": "post1",
-              "is_pinned": false,
-            }
+        <AutoHeightSwitcher
+          onTransitionEnd={[Function]}
+          showSlot={1}
+          slot1={
+            <React.Fragment>
+              <Memo(Connect(PostBody))
+                compactDisplay={false}
+                handleCommentClick={[Function]}
+                handleFileDropdownOpened={[Function]}
+                isCommentMention={false}
+                isFirstReply={true}
+                post={
+                  Object {
+                    "id": "post1",
+                    "is_pinned": false,
+                  }
+                }
+              />
+            </React.Fragment>
+          }
+          slot2={
+            <React.Fragment>
+              <Memo(Connect(EditPost)) />
+            </React.Fragment>
           }
         />
       </div>
@@ -317,17 +356,30 @@ exports[`Post should not remove post--highlight class after timeout so the class
           }
           showTimeWithoutHover={true}
         />
-        <Connect(PostBody)
-          compactDisplay={false}
-          handleCommentClick={[Function]}
-          handleFileDropdownOpened={[Function]}
-          isCommentMention={false}
-          isFirstReply={true}
-          post={
-            Object {
-              "id": "post1",
-              "is_pinned": false,
-            }
+        <AutoHeightSwitcher
+          onTransitionEnd={[Function]}
+          showSlot={1}
+          slot1={
+            <React.Fragment>
+              <Memo(Connect(PostBody))
+                compactDisplay={false}
+                handleCommentClick={[Function]}
+                handleFileDropdownOpened={[Function]}
+                isCommentMention={false}
+                isFirstReply={true}
+                post={
+                  Object {
+                    "id": "post1",
+                    "is_pinned": false,
+                  }
+                }
+              />
+            </React.Fragment>
+          }
+          slot2={
+            <React.Fragment>
+              <Memo(Connect(EditPost)) />
+            </React.Fragment>
           }
         />
       </div>
