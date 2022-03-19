@@ -32,15 +32,15 @@ export type Props = {
     users: UserProfile[];
     memberCount: number;
     currentUserId: string;
-    teamUrl?: string;
     manageMembers: boolean;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
-        loadProfilesAndStatusesInChannel: (channelId: string, page: number, perPage: number | undefined, sort: string, options: {active: boolean}) => void;
+        loadProfilesAndStatusesInChannel: (channelId: string, page?: number, perPage?: number, sort?: string, options?: {active: boolean}) => void;
         openDirectChannelToUserId: (userId: string) => Promise<{data: Channel}>;
     };
     sortedUsers: UserProfile[];
     addMembersABTest?: string;
+    teamUrl?: string;
 }
 
 export type State = {
@@ -91,7 +91,7 @@ export default class PopoverListMembers extends React.PureComponent<Props, State
         this.setState({showPopover: false});
     };
 
-    showMembersModal = (e: { preventDefault: () => void }) => {
+    showMembersModal = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
         this.closePopover();

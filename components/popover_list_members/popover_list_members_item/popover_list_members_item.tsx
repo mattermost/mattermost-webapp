@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import classNames from 'classnames';
+
 import {Client4} from 'mattermost-redux/client';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
@@ -46,12 +48,16 @@ export default function PopoverListMembersItem(props: Props) {
         />
     ) : null;
     const status = props.user.is_bot ? undefined : props.status;
+    const emojiStyle = {
+        marginBottom: -3,
+        marginLeft: 4,
+    };
 
     return (
         <div
             data-testid='popoverListMembersItem'
             tabIndex={0}
-            aria-label={props.displayName.toLowerCase()}
+            aria-label={props.displayName ? props.displayName.toLowerCase() : ''}
             className={classNames('more-modal__row', {botClass: props.user.is_bot})}
             onClick={handleClick}
         >
@@ -78,10 +84,7 @@ export default function PopoverListMembersItem(props: Props) {
                     userID={props.user.id}
                     showTooltip={true}
                     emojiSize={15}
-                    emojiStyle={{
-                        marginBottom: -3,
-                        marginLeft: 4,
-                    }}
+                    emojiStyle={emojiStyle}
                 />
                 {sharedIcon}
             </div>
