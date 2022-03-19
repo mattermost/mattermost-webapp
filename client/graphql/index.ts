@@ -4,34 +4,38 @@ import {batchActions} from 'redux-batched-actions';
 
 import {Client4} from 'mattermost-redux/client';
 import {PreferenceTypes, UserTypes, TeamTypes} from 'mattermost-redux/action_types';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
+// import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {
     myDataQuery,
-    MyDataResponseType,
+    MyDataQueryResponseType,
     transformToRecievedMeReducerPayload,
     transformToRecievedAllPreferencesReducerPayload,
+    transoformToRecievedTeamsListReducerPayload,
 } from './queries/myData';
 
 export function loadMeGQL() {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
-        const config = getConfig(state);
+
+        // const config = getConfig(state);
 
         const deviceId = state.entities.general.deviceToken;
         if (deviceId) {
             Client4.attachDevice(deviceId);
         }
 
-        let responseData: MyDataResponseType['data'] | null = null;
+        let responseData: MyDataQueryResponseType['data'] | null = null;
         try {
             const {data} =
-                await Client4.doFetchWithGraphQL<MyDataResponseType>(
+                await Client4.doFetchWithGraphQL<MyDataQueryResponseType>(
                     myDataQuery,
                 );
             responseData = data;
 
+            // eslint-disable-next-line no-console
             console.log('data', data);
         } catch (error) {
             // eslint-disable-next-line no-console
@@ -46,18 +50,15 @@ export function loadMeGQL() {
             batchActions([
                 {
                     type: UserTypes.RECEIVED_ME,
-                    data: transformToRecievedMeReducerPayload(
-                        responseData.user,
-                    ),
+                    data: transformToRecievedMeReducerPayload(responseData.user),
                 },
                 {
                     type: PreferenceTypes.RECEIVED_ALL_PREFERENCES,
-                    data: transformToRecievedAllPreferencesReducerPayload(
-                        responseData.user,
-                    ),
+                    data: transformToRecievedAllPreferencesReducerPayload(responseData.user),
                 },
                 {
                     type: TeamTypes.RECEIVED_TEAMS_LIST,
+                    data: transoformToRecievedTeamsListReducerPayload(responseData.teamMembers),
                 },
             ]),
         );
