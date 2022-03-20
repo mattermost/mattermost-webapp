@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useMemo} from 'react';
 
 import classNames from 'classnames';
 
@@ -32,6 +32,7 @@ PopoverListMembersItem.defaultProps = {
 
 export default function PopoverListMembersItem(props: Props) {
     const handleClick = () => props.onItemClick(props.user);
+    const memoizedProfilePictureUrl = useMemo(() => Client4.getProfilePictureUrl(props.user.id, props.user.last_picture_update), [props.user]);
 
     if (!(props.user || props.displayName)) {
         return null;
@@ -62,7 +63,7 @@ export default function PopoverListMembersItem(props: Props) {
             onClick={handleClick}
         >
             <ProfilePicture
-                src={Client4.getProfilePictureUrl(props.user.id, props.user.last_picture_update)}
+                src={memoizedProfilePictureUrl}
                 status={status}
                 size='md'
             />
