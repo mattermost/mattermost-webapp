@@ -1,8 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Overlay} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
@@ -43,70 +42,53 @@ export type Props = {
     teamUrl?: string;
 }
 
-export type State = {
-    showPopover: boolean;
-    users: UserProfile[];
-    statuses: RelationOneToOne<UserProfile, string>;
-}
+export default function PopoverListMembers(props: Props) {
+    const membersListRef: React.RefObject<HTMLDivElement> = React.createRef();
+    const targetRef: React.RefObject<HTMLButtonElement> = React.createRef();
 
-export default class PopoverListMembers extends React.PureComponent<Props, State> {
-    private membersList: React.RefObject<HTMLDivElement>;
+    const [showPopover, setShowPopover] = useState(false);
+    const [users, setUsers] = useState<UserProfile[]>(props.users);
+    const [statuses, setStatuses] = useState<RelationOneToOne<UserProfile, string>>(props.statuses);
 
-    constructor(props: Props) {
-        super(props);
-        this.membersList = React.createRef();
+    useEffect(() => {
+        setUsers(props.users);
+        setStatuses(props.statuses);
+    }, [props.users, props.statuses]);
 
-        this.state = {
-            showPopover: false,
-            users: props.users,
-            statuses: props.statuses,
-        };
-    }
-
-    static getDerivedStateFromProps(nextProps: Props, prevState: State) {
-        if (nextProps.users !== prevState.users || nextProps.statuses !== prevState.statuses) {
-            return {
-                users: nextProps.users,
-                statuses: nextProps.statuses,
-            };
-        }
-        return null;
-    }
-
-    handleShowDirectChannel = (user: UserProfile) => {
-        const {actions} = this.props;
+    const handleShowDirectChannel = (user: UserProfile) => {
+        const {actions} = props;
         const teammateId = user.id;
 
         if (teammateId) {
             actions.openDirectChannelToUserId(teammateId).then(({data}) => {
                 if (data) {
-                    browserHistory.push(this.props.teamUrl + '/channels/' + data.name);
+                    browserHistory.push(props.teamUrl + '/channels/' + data.name);
                 }
-                this.closePopover();
+                closePopover();
             });
         }
     };
 
-    closePopover = () => {
-        this.setState({showPopover: false});
+    const closePopover = () => {
+        setShowPopover(false);
     };
 
-    showMembersModal = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const showMembersModal = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
-        this.closePopover();
+        closePopover();
 
         const modalData = {
             modalId: ModalIdentifiers.CHANNEL_MEMBERS,
-            dialogProps: this.props,
+            dialogProps: props,
             dialogType: ChannelMembersModal,
         };
 
-        this.props.actions.openModal(modalData);
+        props.actions.openModal(modalData);
     };
 
-    onAddNewMembersButton = (placement: string) => {
-        const {channel, actions} = this.props;
+    const onAddNewMembersButton = (placement: string) => {
+        const {channel, actions} = props;
         trackEvent('add_members_from_channel_popover', placement);
 
         actions.openModal({
@@ -115,201 +97,197 @@ export default class PopoverListMembers extends React.PureComponent<Props, State
             dialogProps: {channel},
         });
 
-        this.closePopover();
-    }
-
-    handleGetProfilesInChannel = () => {
-        this.setState({showPopover: !this.state.showPopover});
-        this.props.actions.loadProfilesAndStatusesInChannel(this.props.channel.id, 0, undefined, 'status', {active: true});
+        closePopover();
     };
 
-    getTargetPopover = () => {
-        this.membersList.current?.focus();
-        return this.refs.member_popover_target;
+    const handleGetProfilesInChannel = () => {
+        setShowPopover(!showPopover);
+        props.actions.loadProfilesAndStatusesInChannel(props.channel.id, 0, undefined, 'status', {active: true});
     };
 
-    render() {
-        const isDirectChannel = this.props.channel.type === Constants.DM_CHANNEL;
-        const items = this.props.sortedUsers.map((user: UserProfile) => (
-            <PopoverListMembersItem
-                key={user.id}
-                onItemClick={this.handleShowDirectChannel}
-                showMessageIcon={this.props.currentUserId !== user.id && !isDirectChannel}
-                status={this.props.statuses[user.id]}
-                user={user}
-            />
-        ));
+    const getTargetPopover = () => {
+        membersListRef.current?.focus();
+        return targetRef.current;
+    };
 
-        const channelIsArchived = this.props.channel.delete_at !== 0;
-        let popoverButton;
-        let handleButtonOnClick = this.showMembersModal;
-        let editButton = null;
-        if (this.props.channel.type !== Constants.GM_CHANNEL && !channelIsArchived) {
-            let membersName = (
-                <FormattedMessage
-                    id='members_popover.manageMembers'
-                    defaultMessage='Manage Members'
-                />
-            );
+    const isDirectChannel = props.channel.type === Constants.DM_CHANNEL;
+    const items = props.sortedUsers.map((user: UserProfile) => (
+        <PopoverListMembersItem
+            key={user.id}
+            onItemClick={handleShowDirectChannel}
+            showMessageIcon={props.currentUserId !== user.id && !isDirectChannel}
+            status={props.statuses[user.id]}
+            user={user}
+        />
+    ));
 
-            const isDefaultChannel = this.props.channel.name === Constants.DEFAULT_CHANNEL;
-
-            if (isDefaultChannel || !this.props.manageMembers) {
-                membersName = (
-                    <FormattedMessage
-                        id='members_popover.viewMembers'
-                        defaultMessage='View Members'
-                    />
-                );
-            }
-
-            if (this.props.addMembersABTest === AddMembersToChanneltreatments.BOTTOM && this.props.manageMembers) {
-                handleButtonOnClick = () => this.onAddNewMembersButton(AddMembersToChanneltreatments.BOTTOM);
-                membersName = (
-                    <FormattedMessage
-                        id='members_popover.addMembers'
-                        defaultMessage='Add Members'
-                    />
-                );
-                editButton = (
-                    <button
-                        className='btn btn-link'
-                        id='editBtn'
-                        onClick={this.showMembersModal}
-                    >
-                        <i className='icon icon-pencil-outline'/>
-                        <FormattedMessage
-                            id='members_popover.editBtn'
-                            defaultMessage='Edit'
-                        />
-                    </button>
-                );
-            } else if (this.props.addMembersABTest === AddMembersToChanneltreatments.TOP && this.props.manageMembers) {
-                editButton = (
-                    <button
-                        className='btn btn-link'
-                        id='addBtn'
-                        onClick={() => this.onAddNewMembersButton(AddMembersToChanneltreatments.TOP)}
-                    >
-                        <i className='icon icon-account-plus-outline'/>
-                        <FormattedMessage
-                            id='members_popover.add'
-                            defaultMessage='Add'
-                        />
-                    </button>
-                );
-            }
-
-            popoverButton = (
-                <div
-                    className='more-modal__button'
-                    key={'popover-member-more'}
-                >
-                    <button
-                        className='btn btn-link'
-                        data-testid='membersModal'
-                        onClick={handleButtonOnClick}
-                    >
-                        {membersName}
-                    </button>
-                </div>
-            );
-        }
-
-        const count = this.props.memberCount;
-        let countText = '-';
-        if (count > 0) {
-            countText = count.toString();
-        }
-
-        const title = (
+    const channelIsArchived = props.channel.delete_at !== 0;
+    let popoverButton;
+    let handleButtonOnClick = showMembersModal;
+    let editButton = null;
+    if (props.channel.type !== Constants.GM_CHANNEL && !channelIsArchived) {
+        let membersName = (
             <FormattedMessage
-                id='members_popover.title'
-                defaultMessage='Channel Members'
+                id='members_popover.manageMembers'
+                defaultMessage='Manage Members'
             />
         );
 
-        const channelMembersTooltip = (
-            <Tooltip id='channelMembersTooltip'>
+        const isDefaultChannel = props.channel.name === Constants.DEFAULT_CHANNEL;
+
+        if (isDefaultChannel || !props.manageMembers) {
+            membersName = (
                 <FormattedMessage
-                    id='channel_header.channelMembers'
-                    defaultMessage='Members'
+                    id='members_popover.viewMembers'
+                    defaultMessage='View Members'
                 />
-            </Tooltip>
-        );
+            );
+        }
 
-        const ariaLabel = `${localizeMessage('channel_header.channelMembers', 'Members')}`.toLowerCase();
+        if (props.addMembersABTest === AddMembersToChanneltreatments.BOTTOM && props.manageMembers) {
+            handleButtonOnClick = () => onAddNewMembersButton(AddMembersToChanneltreatments.BOTTOM);
+            membersName = (
+                <FormattedMessage
+                    id='members_popover.addMembers'
+                    defaultMessage='Add Members'
+                />
+            );
+            editButton = (
+                <button
+                    className='btn btn-link'
+                    id='editBtn'
+                    onClick={showMembersModal}
+                >
+                    <i className='icon icon-pencil-outline'/>
+                    <FormattedMessage
+                        id='members_popover.editBtn'
+                        defaultMessage='Edit'
+                    />
+                </button>
+            );
+        } else if (props.addMembersABTest === AddMembersToChanneltreatments.TOP && props.manageMembers) {
+            editButton = (
+                <button
+                    className='btn btn-link'
+                    id='addBtn'
+                    onClick={() => onAddNewMembersButton(AddMembersToChanneltreatments.TOP)}
+                >
+                    <i className='icon icon-account-plus-outline'/>
+                    <FormattedMessage
+                        id='members_popover.add'
+                        defaultMessage='Add'
+                    />
+                </button>
+            );
+        }
 
-        return (
+        popoverButton = (
             <div
-                id='channelMember'
-                className='channel-members-popver'
+                className='more-modal__button'
+                key={'popover-member-more'}
             >
-                <OverlayTrigger
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='bottom'
-                    disabled={this.state.showPopover}
-                    overlay={channelMembersTooltip}
+                <button
+                    className='btn btn-link'
+                    data-testid='membersModal'
+                    onClick={handleButtonOnClick}
                 >
-                    <button
-                        id='member_popover'
-                        aria-label={ariaLabel}
-                        className={'member-popover__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide ' + (this.state.showPopover ? 'channel-header__icon--active' : '')}
-                        ref='member_popover_target'
-                        onClick={this.handleGetProfilesInChannel}
-                    >
-                        <div className='d-flex align-items-center'>
-                            <i
-                                aria-hidden='true'
-                                className='icon icon-account-outline channel-header__members'
-                            />
-                            <span
-                                id='channelMemberCountText'
-                                className='icon__text'
-                            >
-                                {countText}
-                            </span>
-                        </div>
-                    </button>
-                </OverlayTrigger>
-                <Overlay
-                    rootClose={true}
-                    onHide={this.closePopover}
-                    show={this.state.showPopover}
-                    target={this.getTargetPopover}
-                    placement='bottom'
-                >
-                    <Popover
-                        id='member-list-popover'
-                        className='a11y__popup member-list__popover'
-                    >
-                        <div
-                            className='more-modal__header'
-                        >
-                            {title}
-                            {editButton}
-                            {this.props.channel.group_constrained && <div className='subhead'>
-                                <FormattedMessage
-                                    id='channel_header.groupConstrained'
-                                    defaultMessage='Members managed by linked groups.'
-                                />
-                            </div>}
-                        </div>
-                        <div className='more-modal__body'>
-                            <div
-                                tabIndex={-1}
-                                role='presentation'
-                                ref={this.membersList}
-                                className='more-modal__list'
-                            >
-                                {items}
-                            </div>
-                        </div>
-                        {popoverButton}
-                    </Popover>
-                </Overlay>
+                    {membersName}
+                </button>
             </div>
         );
     }
+    const count = props.memberCount;
+    let countText = '-';
+    if (count > 0) {
+        countText = count.toString();
+    }
+
+    const title = (
+        <FormattedMessage
+            id='members_popover.title'
+            defaultMessage='Channel Members'
+        />
+    );
+
+    const channelMembersTooltip = (
+        <Tooltip id='channelMembersTooltip'>
+            <FormattedMessage
+                id='channel_header.channelMembers'
+                defaultMessage='Members'
+            />
+        </Tooltip>
+    );
+
+    const ariaLabel = `${localizeMessage('channel_header.channelMembers', 'Members')}`.toLowerCase();
+
+    return (
+        <div
+            id='channelMember'
+            className='channel-members-popver'
+        >
+            <OverlayTrigger
+                delayShow={Constants.OVERLAY_TIME_DELAY}
+                placement='bottom'
+                disabled={showPopover}
+                overlay={channelMembersTooltip}
+            >
+                <button
+                    id='member_popover'
+                    aria-label={ariaLabel}
+                    className={'member-popover__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide ' + (showPopover ? 'channel-header__icon--active' : '')}
+                    ref={targetRef}
+                    onClick={handleGetProfilesInChannel}
+                >
+                    <div className='d-flex align-items-center'>
+                        <i
+                            aria-hidden='true'
+                            className='icon icon-account-outline channel-header__members'
+                        />
+                        <span
+                            id='channelMemberCountText'
+                            className='icon__text'
+                        >
+                            {countText}
+                        </span>
+                    </div>
+                </button>
+            </OverlayTrigger>
+            <Overlay
+                rootClose={true}
+                onHide={closePopover}
+                show={showPopover}
+                target={getTargetPopover}
+                placement='bottom'
+            >
+                <Popover
+                    id='member-list-popover'
+                    className='a11y__popup member-list__popover'
+                >
+                    <div
+                        className='more-modal__header'
+                    >
+                        {title}
+                        {editButton}
+                        {props.channel.group_constrained && <div className='subhead'>
+                            <FormattedMessage
+                                id='channel_header.groupConstrained'
+                                defaultMessage='Members managed by linked groups.'
+                            />
+                        </div>}
+                    </div>
+                    <div className='more-modal__body'>
+                        <div
+                            tabIndex={-1}
+                            role='presentation'
+                            ref={membersListRef}
+                            className='more-modal__list'
+                        >
+                            {items}
+                        </div>
+                    </div>
+                    {popoverButton}
+                </Popover>
+            </Overlay>
+        </div>
+    );
 }
-/* eslint-enable react/no-string-refs */

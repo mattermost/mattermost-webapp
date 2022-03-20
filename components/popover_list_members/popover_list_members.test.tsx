@@ -4,6 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {Overlay} from 'react-bootstrap';
+
 import PopoverListMembers from 'components/popover_list_members/popover_list_members';
 
 import {TestHelper} from 'utils/test_helper';
@@ -65,7 +67,7 @@ describe('components/PopoverListMembers', () => {
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallow<PopoverListMembers>(
+        const wrapper = shallow(
             <PopoverListMembers {...baseProps}/>,
         );
 
@@ -74,39 +76,41 @@ describe('components/PopoverListMembers', () => {
 
     test('should have called openDirectChannelToUserId when handleShowDirectChannel is called', (done) => {
         const browserHistory = require('utils/browser_history').browserHistory; //eslint-disable-line global-require
-        const wrapper = shallow<PopoverListMembers>(
+        const wrapper = shallow(
             <PopoverListMembers {...baseProps}/>,
         );
 
-        wrapper.instance().closePopover = jest.fn();
+        wrapper.find('#member_popover').prop('onClick')!({preventDefault: jest.fn()} as unknown as React.MouseEvent);
+        expect(wrapper.find(Overlay).prop('show')).toEqual(true);
+        wrapper.find(Overlay).prop('onHide')!();
+
         const teamMate = TestHelper.getUserMock({id: 'teammateId', delete_at: 0});
-        wrapper.instance().handleShowDirectChannel(teamMate);
+        wrapper.find('.more-modal__list').childAt(0).prop('onItemClick')(teamMate);
 
         expect(baseProps.actions.openDirectChannelToUserId).toHaveBeenCalledTimes(1);
         process.nextTick(() => {
             expect(browserHistory.push).toHaveBeenCalledTimes(1);
             expect(browserHistory.push).toHaveBeenCalledWith(`${baseProps.teamUrl}/channels/channelname`);
-            expect(wrapper.state('showPopover')).toEqual(false);
+            expect(wrapper.find(Overlay).prop('show')).toEqual(false);
             done();
         });
     });
 
     test('should match state when closePopover is called', () => {
-        const wrapper = shallow<PopoverListMembers>(
+        const wrapper = shallow(
             <PopoverListMembers {...baseProps}/>,
         );
 
-        wrapper.instance().componentDidUpdate = jest.fn();
-        wrapper.setState({showPopover: true});
-        wrapper.instance().closePopover();
-
-        expect(wrapper.state('showPopover')).toEqual(false);
+        wrapper.find('#member_popover').prop('onClick')!({preventDefault: jest.fn()} as unknown as React.MouseEvent);
+        expect(wrapper.find(Overlay).prop('show')).toEqual(true);
+        wrapper.find(Overlay).prop('onHide')!();
+        expect(wrapper.find(Overlay).prop('show')).toEqual(false);
     });
 
     test('should match snapshot with archived channel', () => {
         const props = {...baseProps, channel: {...channel, delete_at: 1234}};
 
-        const wrapper = shallow<PopoverListMembers>(
+        const wrapper = shallow(
             <PopoverListMembers {...props}/>,
         );
 
@@ -116,7 +120,7 @@ describe('components/PopoverListMembers', () => {
     test('should match snapshot with group-constrained channel', () => {
         const props = {...baseProps, channel: {...channel, group_constrained: true}};
 
-        const wrapper = shallow<PopoverListMembers>(
+        const wrapper = shallow(
             <PopoverListMembers {...props}/>,
         );
 
@@ -124,7 +128,7 @@ describe('components/PopoverListMembers', () => {
     });
 
     test('should place the Add button at the top when the flag for placement is TOP', () => {
-        const wrapper = shallow<PopoverListMembers>(
+        const wrapper = shallow(
             <PopoverListMembers {...topProps}/>,
         );
 
@@ -136,7 +140,7 @@ describe('components/PopoverListMembers', () => {
     test('should SHOW the Add button when there are permissions to manage members', () => {
         const props = {...topProps, manageMembers: true};
 
-        const wrapper = shallow<PopoverListMembers>(
+        const wrapper = shallow(
             <PopoverListMembers {...props}/>,
         );
 
@@ -148,7 +152,7 @@ describe('components/PopoverListMembers', () => {
     test('should HIDE the Add button when there are no permissions to manage members', () => {
         const props = {...topProps, manageMembers: false};
 
-        const wrapper = shallow<PopoverListMembers>(
+        const wrapper = shallow(
             <PopoverListMembers {...props}/>,
         );
 
@@ -160,7 +164,7 @@ describe('components/PopoverListMembers', () => {
     test('should SHOW the Add button when there are permissions to manage members and the placement is BOTTTOM', () => {
         const props = {...bottomProps, manageMembers: true};
 
-        const wrapper = shallow<PopoverListMembers>(
+        const wrapper = shallow(
             <PopoverListMembers {...props}/>,
         );
 
@@ -171,7 +175,7 @@ describe('components/PopoverListMembers', () => {
     test('should HIDE the Add button when there are no permissions to manage members and the placement is BOTTTOM', () => {
         const props = {...bottomProps, manageMembers: false};
 
-        const wrapper = shallow<PopoverListMembers>(
+        const wrapper = shallow(
             <PopoverListMembers {...props}/>,
         );
 
@@ -181,7 +185,7 @@ describe('components/PopoverListMembers', () => {
     });
 
     test('should place the edit button at the top when the flag for placement is BOTTOM', () => {
-        const wrapper = shallow<PopoverListMembers>(
+        const wrapper = shallow(
             <PopoverListMembers {...bottomProps}/>,
         );
 
