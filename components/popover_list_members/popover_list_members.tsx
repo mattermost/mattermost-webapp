@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Overlay} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
@@ -28,7 +28,6 @@ import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 export type Props = {
     channel: Channel;
     statuses: RelationOneToOne<UserProfile, string>;
-    users: UserProfile[];
     memberCount: number;
     currentUserId: string;
     manageMembers: boolean;
@@ -47,13 +46,6 @@ export default function PopoverListMembers(props: Props) {
     const targetRef: React.RefObject<HTMLButtonElement> = React.createRef();
 
     const [showPopover, setShowPopover] = useState(false);
-    const [users, setUsers] = useState<UserProfile[]>(props.users);
-    const [statuses, setStatuses] = useState<RelationOneToOne<UserProfile, string>>(props.statuses);
-
-    useEffect(() => {
-        setUsers(props.users);
-        setStatuses(props.statuses);
-    }, [props.users, props.statuses]);
 
     const handleShowDirectChannel = (user: UserProfile) => {
         const {actions} = props;

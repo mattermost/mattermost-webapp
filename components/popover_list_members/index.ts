@@ -58,13 +58,11 @@ function makeMapStateToProps() {
 
     return function mapStateToProps(state: GlobalState, ownProps: Props) {
         const stats = getAllChannelStats(state)[ownProps.channel.id] || {};
-        const users = doGetProfilesInChannel(state, ownProps.channel.id, {active: true});
         const statuses = getUserStatuses(state);
 
         return {
             currentUserId: getCurrentUserId(state),
             memberCount: stats.member_count,
-            users,
             statuses,
             teamUrl: getCurrentRelativeTeamUrl(state),
             manageMembers: canManageMembers(state, ownProps.channel),
