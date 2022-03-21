@@ -8,6 +8,10 @@
 # Install npm packages
 npm i
 
+# Install browser binaries as prompted if Playwright is just installed or updated
+# See https://playwright.dev/docs/browsers
+npx playwright install
+
 # Run specific test of all projects -- chrome, firefox, iphone and ipad.
 # See https://playwright.dev/docs/test-cli.
 npm run test -- login
