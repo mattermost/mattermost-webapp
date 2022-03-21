@@ -163,10 +163,15 @@ describe('components/apps_form/AppsFormContainer', () => {
                 },
                 path: '/form_lookup',
                 expand: {},
-                rawCommand: undefined,
+                query: 'My search',
+                raw_command: undefined,
+                selected_field: 'field2',
                 values: {
                     field1: 'value1',
-                    field2: 'My search',
+                    field2: {
+                        label: 'label2',
+                        value: 'value2',
+                    },
                 },
             }, expect.any(Object));
 
