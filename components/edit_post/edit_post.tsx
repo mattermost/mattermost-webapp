@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {ClipboardEventHandler, useCallback, useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 
@@ -105,57 +105,48 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
         return () => document.removeEventListener(AppEvents.FOCUS_EDIT_TEXTBOX, focusTextBox);
     }, []);
 
-    // TODO@all: this could be exported to a custom hook once the TextBox component is ported to a functional component
-    useEffect(() => {
-        const handlePaste = (e: ClipboardEvent) => {
-            if (
-                !e.clipboardData ||
-                !e.clipboardData.items ||
-                !rest.canEditPost ||
-                (e.target as HTMLTextAreaElement).id !== 'edit_textbox'
-            ) {
-                return;
-            }
+    const handlePaste: ClipboardEventHandler<HTMLInputElement> = (e) => {
+        if (
+            !e.clipboardData ||
+            !e.clipboardData.items ||
+            !rest.canEditPost ||
+            (e.target as HTMLTextAreaElement).id !== 'edit_textbox'
+        ) {
+            return;
+        }
 
-            const {clipboardData} = e;
-            const table = getTable(clipboardData);
+        const {clipboardData} = e;
+        const table = getTable(clipboardData);
 
-            if (!table) {
-                return;
-            }
+        if (!table) {
+            return;
+        }
 
-            e.preventDefault();
+        e.preventDefault();
 
-            let message = editText;
-            let newCaretPosition = caretPosition;
+        let message = editText;
+        let newCaretPosition = caretPosition;
 
-            if (table && isGitHubCodeBlock(table.className)) {
-                const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(
-                    caretPosition,
-                    message,
-                    clipboardData,
-                );
-                newCaretPosition = caretPosition + formattedCodeBlock.length;
-                message = formattedMessage;
-            } else if (table) {
-                message = formatMarkdownTableMessage(table, editText.trim(), newCaretPosition);
-                newCaretPosition = message.length - (editText.length - newCaretPosition);
-            }
+        if (table && isGitHubCodeBlock(table.className)) {
+            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(
+                caretPosition,
+                message,
+                clipboardData,
+            );
+            message = formattedMessage;
+            newCaretPosition = caretPosition + formattedCodeBlock.length;
+        } else if (table) {
+            message = formatMarkdownTableMessage(table, editText.trim(), newCaretPosition);
+            newCaretPosition = message.length - (editText.length - newCaretPosition);
+        }
 
-            setEditText(message);
-            setCaretPosition(newCaretPosition);
+        setEditText(message);
+        setCaretPosition(newCaretPosition);
 
-            if (textboxRef.current) {
-                Utils.setCaretPosition(textboxRef.current.getInputBox(), newCaretPosition);
-            }
-        };
-
-        document.addEventListener('paste', handlePaste);
-
-        return () => {
-            document.removeEventListener('paste', handlePaste);
-        };
-    }, []);
+        if (textboxRef.current) {
+            Utils.setCaretPosition(textboxRef.current.getInputBox(), newCaretPosition);
+        }
+    };
 
     const isSaveDisabled = () => {
         const {post} = editingPost;
@@ -424,6 +415,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
                 onKeyUp={handleMouseUpKeyUp}
                 onHeightChange={handleHeightChange}
                 handlePostError={handlePostError}
+                onPaste={handlePaste}
                 value={editText}
                 channelId={rest.channelId}
                 emojiEnabled={rest.config.EnableEmojiPicker === 'true'}
