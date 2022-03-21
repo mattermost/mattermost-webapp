@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @channel_sidebar
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -23,14 +22,14 @@ describe('Channel sidebar', () => {
         });
     });
 
-    it('MM-T3161_1 should create a new category from sidebar menu', () => {
+    it('MM-T3161_1 should create a new category from sidebar menu -- KNOWN ISSUE: MM-42576', () => {
         const categoryName = createCategoryFromSidebarMenu();
 
         // * Check if the category exists
         cy.findByLabelText(categoryName).should('be.visible');
     });
 
-    it('MM-T3161_2 should create a new category from category menu', () => {
+    it('MM-T3161_2 should create a new category from category menu -- KNOWN ISSUE: MM-42576', () => {
         const categoryName = createCategoryFromSidebarMenu();
 
         // # Create new category from category menu
@@ -43,7 +42,7 @@ describe('Channel sidebar', () => {
         cy.findByLabelText(newCategoryName).should('be.visible');
     });
 
-    it('MM-T3161_3 move an existing channel to a new category', () => {
+    it('MM-T3161_3 move an existing channel to a new category -- KNOWN ISSUE: MM-42576', () => {
         const newCategoryName = `category-${getRandomId()}`;
 
         // # Move to a new category
@@ -67,7 +66,7 @@ describe('Channel sidebar', () => {
         cy.findByLabelText(newCategoryName).should('be.visible');
     });
 
-    it('MM-T3163 Rename a category', () => {
+    it('MM-T3163 Rename a category -- KNOWN ISSUE: MM-42576', () => {
         const categoryName = createCategoryFromSidebarMenu();
 
         // # Rename category from category menu
@@ -85,7 +84,7 @@ describe('Channel sidebar', () => {
         cy.findByLabelText(renameCategory).should('be.visible');
     });
 
-    it('MM-T3165 Delete a category', () => {
+    it('MM-T3165 Delete a category -- KNOWN ISSUE: MM-42576', () => {
         const categoryName = createCategoryFromSidebarMenu();
 
         // # Delete category from category menu
