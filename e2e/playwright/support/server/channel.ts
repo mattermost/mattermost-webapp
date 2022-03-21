@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {getRandomId} from '../utils';
-import {ChannelType} from '../../../../packages/mattermost-redux/src/types/channels';
+import {Channel, ChannelType} from '../../../../packages/mattermost-redux/src/types/channels';
 
 export function createRandomChannel(
     teamId,
@@ -12,10 +12,10 @@ export function createRandomChannel(
     purpose = '',
     header = '',
     unique = true
-) {
+): Channel {
     const randomSuffix = getRandomId();
 
-    return {
+    const channel = {
         team_id: teamId,
         name: unique ? `${name}-${randomSuffix}` : name,
         display_name: unique ? `${displayName} ${randomSuffix}` : displayName,
@@ -23,4 +23,6 @@ export function createRandomChannel(
         purpose,
         header,
     };
+
+    return channel as Channel;
 }
