@@ -52,13 +52,13 @@ export default class LinkTooltip extends React.PureComponent<Props, State> {
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {
-        //clear the hideTimeout in the case when the cursor is moved from a tooltipContainer child to the link
-        window.clearTimeout(this.hideTimeout);
-
-        //clear the old this.showTimeout if there is any before overriding
-        window.clearTimeout(this.showTimeout);
-
         if (this.state.show && !prevState.show) {
+            //clear the hideTimeout in the case when the cursor is moved from a tooltipContainer child to the link
+            window.clearTimeout(this.hideTimeout);
+
+            //clear the old this.showTimeout if there is any before overriding
+            window.clearTimeout(this.showTimeout);
+
             this.tooltipContainer = this.tooltipContainerRef.current;
             this.target = this.targetRef.current;
 
