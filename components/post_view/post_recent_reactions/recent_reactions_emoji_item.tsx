@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import classNames from 'classnames';
 
@@ -15,6 +16,7 @@ const EmojiItem = ({emoji, onItemClick, order}: Props) => {
     const handleClick = () => {
         onItemClick(emoji);
     };
+
     const itemClassName = 'post-menu__item';
 
     return (
@@ -26,7 +28,7 @@ const EmojiItem = ({emoji, onItemClick, order}: Props) => {
                 id={`recent_reaction_${order}`}
                 data-testid={itemClassName + '_emoji'}
                 className='emoticon--post-menu'
-                style={{backgroundImage: 'url(' + getEmojiImageUrl(emoji) + ')', backgroundColor: 'transparent'}}
+                style={{backgroundImage: `url(${getEmojiImageUrl(emoji)})`, backgroundColor: 'transparent'}}
             />
         </div>
     );
