@@ -47,6 +47,7 @@ export type {
 import type {
     UserProfile,
 } from 'mattermost-redux/types/users';
+export type {UserProfile};
 
 export {
     AppBindingLocations,
@@ -130,7 +131,7 @@ export type ExtendedAutocompleteSuggestion = AutocompleteSuggestion & {
 }
 
 export const displayError = (err: string, channelID: string, rootID?: string) => {
-    Store.dispatch(sendEphemeralPost(err, channelID, rootID));
+    ReduxStore.dispatch(sendEphemeralPost(err, channelID, rootID));
 };
 
 // Shim of mobile-version intl

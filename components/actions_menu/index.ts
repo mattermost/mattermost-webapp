@@ -50,7 +50,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
 
     const apps = appsEnabled(state);
     const showBindings = apps && !systemMessage && !isCombinedUserActivityPost(post.id);
-    let appBindings: AppBinding[] = emptyBindings;
+    let appBindings: AppBinding[] | null = emptyBindings;
     if (showBindings) {
         appBindings = getPostOptionBinding(state, ownProps.location);
     }

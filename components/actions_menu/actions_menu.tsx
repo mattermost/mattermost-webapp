@@ -33,7 +33,7 @@ import {createCallContext} from 'utils/apps';
 const MENU_BOTTOM_MARGIN = 80;
 
 export const PLUGGABLE_COMPONENT = 'PostDropdownMenuItem';
-type Props = {
+export type Props = {
     appBindings: AppBinding[] | null;
     appsEnabled: boolean;
     handleDropdownOpened?: (open: boolean) => void;
