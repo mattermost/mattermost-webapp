@@ -365,7 +365,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         // copy text
         case Utils.isKeyPressed(e, Constants.KeyCodes.C):
             this.trackShortcutEvent(TELEMETRY_LABELS.COPY_TEXT);
-            this.copyText();
+            this.copyText(e);
             this.props.handleDropdownOpened(false);
             break;
 
