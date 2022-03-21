@@ -214,7 +214,7 @@ export interface Config {
     ExperimentalSharedChannels: string;
 }
 
-type TrueOrFalseInString = 'true' | 'false';
+export type TrueOrFalseInString = 'true' | 'false';
 
 export enum CollapsedThreads {
     DISABLED = 'disabled',

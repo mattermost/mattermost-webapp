@@ -331,20 +331,20 @@ export default class Root extends React.PureComponent {
             const {data} = await this.props.actions.loadClientConfig();
             const isGraphQLEnabled = data && data.FeatureFlagGraphQL === 'true';
 
-            if (!isGraphQLEnabled) {
+            let isMeLoaded = false;
+            if (isGraphQLEnabled) {
+                const responseFromLoadMeGQL = await this.props.actions.loadMeGQL();
+                isMeLoaded = responseFromLoadMeGQL?.data ?? false;
+            } else {
                 const responseFromLoadMe = await this.props.actions.loadMe();
-                const successfullyLoadedMe = responseFromLoadMe[1] && responseFromLoadMe[1].data;
-
-                if (this.props.location.pathname === '/' && successfullyLoadedMe) {
-                    this.redirectToOnboardingOrDefaultTeam();
-                }
-
-                this.onConfigLoaded();
-                return;
+                isMeLoaded = responseFromLoadMe[1] && responseFromLoadMe[1].data;
             }
 
-            const responseFromLoadMe = await this.props.actions.loadMeGQL();
-            console.log('responseFromLoadMe', responseFromLoadMe);
+            if (this.props.location.pathname === '/' && isMeLoaded) {
+                this.redirectToOnboardingOrDefaultTeam();
+            }
+
+            this.onConfigLoaded();
         } catch (error) {
             console.error(error); //eslint-disable-line no-console
         }

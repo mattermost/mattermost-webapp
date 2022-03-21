@@ -3,24 +3,39 @@
 import {batchActions} from 'redux-batched-actions';
 
 import {Client4} from 'mattermost-redux/client';
-import {PreferenceTypes, UserTypes, TeamTypes} from 'mattermost-redux/action_types';
-
-// import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {Client4Error} from 'mattermost-redux/types/client4';
+import {ServerError} from 'mattermost-redux/types/errors';
+import {PreferenceTypes, UserTypes, TeamTypes, GeneralTypes} from 'mattermost-redux/action_types';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {setServerVersion} from 'mattermost-redux/actions/general';
+import {getAllCustomEmojis} from 'mattermost-redux/actions/emojis';
+import {getMyTeamUnreads} from 'mattermost-redux/actions/teams'; // remove
+import {getSubscriptionStats} from 'mattermost-redux/actions/cloud';
+import {logError} from 'mattermost-redux/actions/errors';
+import {forceLogoutIfNecessary} from 'mattermost-redux/actions/helpers';
+import {getServerVersion} from 'mattermost-redux/selectors/entities/general';
+import {getCustomEmojisEnabled} from 'mattermost-redux/selectors/entities/emojis';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
+import {getUser} from 'mattermost-redux/selectors/entities/users';
+import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 
 import {
     myDataQuery,
     MyDataQueryResponseType,
     transformToRecievedMeReducerPayload,
     transformToRecievedAllPreferencesReducerPayload,
-    transoformToRecievedTeamsListReducerPayload,
+    transformToRecievedTeamsListReducerPayload,
+    transformToRecievedMyTeamMembersReducerPayload,
 } from './queries/myData';
 
 export function loadMeGQL() {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState();
+        if (!document.cookie.includes('MMUSERID=')) {
+            return {data: false};
+        }
 
-        // const config = getConfig(state);
+        const state = getState();
 
         const deviceId = state.entities.general.deviceToken;
         if (deviceId) {
@@ -29,25 +44,27 @@ export function loadMeGQL() {
 
         let responseData: MyDataQueryResponseType['data'] | null = null;
         try {
-            const {data} =
-                await Client4.doFetchWithGraphQL<MyDataQueryResponseType>(
-                    myDataQuery,
-                );
+            const {data} = await Client4.doFetchWithGraphQL<MyDataQueryResponseType>(myDataQuery);
             responseData = data;
 
             // eslint-disable-next-line no-console
-            console.log('data', data);
+            console.log('graphql data', data);
         } catch (error) {
-            // eslint-disable-next-line no-console
-            console.log('error', error);
+            forceLogoutIfNecessary(error as Client4Error, dispatch, getState);
+            dispatch(logError(error as ServerError));
+            return {data: false};
         }
 
         if (!responseData) {
-            return;
+            return {data: false};
         }
 
         dispatch(
             batchActions([
+                {
+                    type: GeneralTypes.CLIENT_LICENSE_RECEIVED,
+                    data: responseData.license,
+                },
                 {
                     type: UserTypes.RECEIVED_ME,
                     data: transformToRecievedMeReducerPayload(responseData.user),
@@ -58,40 +75,42 @@ export function loadMeGQL() {
                 },
                 {
                     type: TeamTypes.RECEIVED_TEAMS_LIST,
-                    data: transoformToRecievedTeamsListReducerPayload(responseData.teamMembers),
+                    data: transformToRecievedTeamsListReducerPayload(responseData.teamMembers),
+                },
+                {
+                    type: TeamTypes.RECEIVED_MY_TEAM_MEMBERS,
+                    data: transformToRecievedMyTeamMembersReducerPayload(responseData.teamMembers),
                 },
             ]),
         );
 
-        // const promises = [
-        //     dispatch(getMe()),
-        //     dispatch(getMyPreferences()),
-        //     dispatch(getMyTeams()),
-        //     dispatch(getMyTeamMembers()),
-        // ];
+        const isLicensedForCloud = responseData.license.Cloud === 'true';
+        if (isLicensedForCloud) {
+            // When this is implemented in grapqhl server, we can add the query for that in above instead of here
+            await dispatch(getSubscriptionStats());
+        }
 
-        // // Sometimes the server version is set in one or the other
-        // const serverVersion = Client4.getServerVersion() || getState().entities.general.serverVersion;
-        // dispatch(setServerVersion(serverVersion));
-        // if (!isMinimumServerVersion(serverVersion, 4, 7) && config.EnableCustomEmoji === 'true') {
-        //     dispatch(getAllCustomEmojis());
-        // }
+        // Sometimes the server version is set in one or the other
+        const serverVersion = Client4.getServerVersion() || getServerVersion(state);
+        dispatch(setServerVersion(serverVersion));
 
-        // await Promise.all(promises);
+        if (!isMinimumServerVersion(serverVersion, 4, 7) && getCustomEmojisEnabled(state)) {
+            dispatch(getAllCustomEmojis());
+        }
 
-        // const collapsedReplies = isCollapsedThreadsEnabled(getState());
-        // dispatch(getMyTeamUnreads(collapsedReplies));
+        const collapsedThreadsEnabled = isCollapsedThreadsEnabled(state);
+        dispatch(getMyTeamUnreads(collapsedThreadsEnabled)); // CHANGE THIS
 
-        // const {currentUserId} = getState().entities.users;
-        // const user = getState().entities.users.profiles[currentUserId];
-        // if (currentUserId) {
-        //     Client4.setUserId(currentUserId);
-        // }
+        const currentUserId = getCurrentUserId(state);
+        if (currentUserId) {
+            Client4.setUserId(currentUserId);
+        }
 
-        // if (user) {
-        //     Client4.setUserRoles(user.roles);
-        // }
+        const user = getUser(state, currentUserId);
+        if (user) {
+            Client4.setUserRoles(user.roles);
+        }
 
-        // return {data: true};
+        return {data: true};
     };
 }

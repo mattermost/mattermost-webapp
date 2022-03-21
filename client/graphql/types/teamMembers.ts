@@ -1,8 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import type {User, Role} from './user';
+
 export interface TeamMember {
     team: Team;
+    user: User;
+    roles: Role[];
+    deleteAt: number;
+    schemeGuest: boolean;
+    schemeUser: boolean;
+    schemeAdmin: boolean;
 }
 
 interface Team {

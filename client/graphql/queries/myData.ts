@@ -15,6 +15,7 @@ export type MyDataQueryResponseType = {
 export const myDataQuery = JSON.stringify({
     query: `
 {
+  license
   user(id: "me") {
     id
     createAt
@@ -37,11 +38,6 @@ export const myDataQuery = JSON.stringify({
     locale
     timezone
     isBot
-    #status {
-      #status
-      #manual
-      #dndEndTime
-    #}
     preferences {
       name
       userId
@@ -49,22 +45,32 @@ export const myDataQuery = JSON.stringify({
       value
     }
   }
-  teamMembers (userId: "me") {
+  teamMembers(userId: "me") {
     team {
-      id,
-      displayName,
-      name,
-      updateAt,
-      description,
-      email,
-      type,
-      companyName,
-      allowedDomains,
-      inviteId,
-      lastTeamIconUpdate,
-      groupConstrained,
-      allowOpenInvite,
+      id
+      displayName
+      name
+      updateAt
+      description
+      email
+      type
+      companyName
+      allowedDomains
+      inviteId
+      lastTeamIconUpdate
+      groupConstrained
+      allowOpenInvite
     }
+    user {
+      id
+    }
+    roles {
+      name
+    }
+    deleteAt
+    schemeGuest
+    schemeUser
+    schemeAdmin
   }
 }
 `,
@@ -116,7 +122,7 @@ export function transformToRecievedAllPreferencesReducerPayload(user: Partial<My
     }));
 }
 
-export function transoformToRecievedTeamsListReducerPayload(teamsMembers: Partial<MyDataQueryResponseType['data']['teamMembers']>) {
+export function transformToRecievedTeamsListReducerPayload(teamsMembers: Partial<MyDataQueryResponseType['data']['teamMembers']>) {
     return teamsMembers.map((teamMember) => ({
         id: teamMember?.team?.id ?? '',
         update_at: teamMember?.team?.updateAt ?? 0,
@@ -132,10 +138,30 @@ export function transoformToRecievedTeamsListReducerPayload(teamsMembers: Partia
         group_constrained: teamMember?.team?.groupConstrained ?? false,
         last_team_icon_update: teamMember?.team?.lastTeamIconUpdate ?? 0,
 
-        // below fields arent included in the response but where inside of team rest api types
+        // below fields arent included in the response but where inside of Team rest api types
         create_at: 0,
         delete_at: 0,
         scheme_id: '',
         policy_id: '',
+    }));
+}
+
+export function transformToRecievedMyTeamMembersReducerPayload(teamsMembers: Partial<MyDataQueryResponseType['data']['teamMembers']>) {
+    return teamsMembers.map((teamMember) => ({
+        team_id: teamMember?.team?.id ?? '',
+        user_id: teamMember?.user?.id ?? '',
+        delete_at: teamMember?.deleteAt ?? 0,
+        roles: teamMember?.roles?.map((v) => v.name!).join(',') || '',
+        scheme_admin: teamMember?.schemeAdmin ?? false,
+        scheme_guest: teamMember?.schemeGuest ?? false,
+        scheme_user: teamMember?.schemeUser ?? false,
+
+        // below fields arent included in the response but where inside of TeamMembership api types
+        mention_count: 0,
+        mention_count_root: 0,
+        msg_count: 0,
+        msg_count_root: 0,
+        thread_count: 0,
+        thread_mention_count: 0,
     }));
 }
