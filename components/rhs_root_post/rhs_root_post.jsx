@@ -452,6 +452,7 @@ export default class RhsRootPost extends React.PureComponent {
         const actionsMenu = (
             <ActionsMenu
                 post={this.props.post}
+                location={Locations.RHS_ROOT}
                 handleDropdownOpened={this.handleActionsMenuOpened}
                 isMenuOpen={this.state.showActionsMenu}
                 showPulsatingDot={this.props.showActionsMenuPulsatingDot}

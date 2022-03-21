@@ -417,7 +417,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                         key='more-actions-button'
                         ref={this.buttonRef}
                         id={`${this.props.location}_actions_button_${this.props.post.id}`}
-                        aria-label={Utils.localizeMessage('post_info.dot_menu.tooltip.more_actions', 'Actions').toLowerCase()}
+                        aria-label={Utils.localizeMessage('post_info.actions.tooltip.actions', 'Actions').toLowerCase()}
                         className={classNames('post-menu__item', {
                             'post-menu__item--active': this.props.isMenuOpen,
                         })}
