@@ -243,7 +243,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                     }
                   >
                     <button
-                      className="status-wrapper style--none"
+                      className="style--none"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -450,7 +450,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                     }
                   >
                     <button
-                      className="status-wrapper style--none"
+                      className="style--none"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -657,7 +657,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                     }
                   >
                     <button
-                      className="status-wrapper style--none"
+                      className="style--none"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -1335,7 +1335,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                     }
                   >
                     <button
-                      className="status-wrapper style--none"
+                      className="style--none"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -1542,7 +1542,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                     }
                   >
                     <button
-                      className="status-wrapper style--none"
+                      className="style--none"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -1749,7 +1749,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                     }
                   >
                     <button
-                      className="status-wrapper style--none"
+                      className="style--none"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}

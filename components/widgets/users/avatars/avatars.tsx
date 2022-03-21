@@ -82,7 +82,7 @@ function UserAvatar({
                 {...overlayProps}
             >
                 <button
-                    className={'status-wrapper style--none'}
+                    className={'style--none'}
                     tabIndex={-1}
                     onClick={(e) => e.stopPropagation()}
                 >
