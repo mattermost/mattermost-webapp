@@ -15,7 +15,6 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'types/store';
-import {ModalData} from 'types/actions';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {loadProfilesAndStatusesInChannel} from 'actions/user_actions.jsx';
@@ -35,12 +34,6 @@ type Filters = {
     channel_roles?: string[];
     team_roles?: string[];
 };
-
-type Actions = {
-    openModal: <P>(modalData: ModalData<P>) => void;
-    loadProfilesAndStatusesInChannel: (channelId: string, page?: number, perPage?: number, sort?: string, options?: {active: boolean}) => void;
-    openDirectChannelToUserId: (userId: string) => Promise<{data: Channel}>;
-}
 
 const makeSortUsersByStatusAndDisplayName = (doGetProfilesInChannel: (state: GlobalState, channelId: Channel['id'], filters?: Filters) => UserProfile[]) => {
     return createSelector(
@@ -74,7 +67,7 @@ function makeMapStateToProps() {
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Props['actions']>({
             openModal,
             loadProfilesAndStatusesInChannel,
             openDirectChannelToUserId,

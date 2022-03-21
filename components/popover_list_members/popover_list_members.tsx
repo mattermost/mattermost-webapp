@@ -14,6 +14,7 @@ import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {AddMembersToChanneltreatments} from 'mattermost-redux/constants/config';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
+import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 
 import {ModalData} from 'types/actions';
 
@@ -23,7 +24,6 @@ import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import Popover from 'components/widgets/popover';
 import PopoverListMembersItem from 'components/popover_list_members/popover_list_members_item';
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 
 export type Props = {
     channel: Channel;
