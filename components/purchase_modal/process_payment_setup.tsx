@@ -259,6 +259,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                         />
                     }
                     footer={progressBar}
+                    className={'processing'}
                 />
             );
         case ProcessState.SUCCESS:
@@ -287,6 +288,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                     buttonHandler={this.handleGoBack}
                     linkText={t('admin.billing.subscription.privateCloudCard.contactSupport')}
                     linkURL={this.props.contactSupportLink}
+                    className={'failed'}
                 />
             );
         default:
