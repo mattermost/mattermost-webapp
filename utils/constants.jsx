@@ -426,6 +426,10 @@ export const A11yCustomEventTypes = {
     UPDATE: 'a11yupdate',
 };
 
+export const AppEvents = {
+    FOCUS_EDIT_TEXTBOX: 'focus_edit_textbox',
+};
+
 export const SocketEvents = {
     POSTED: 'posted',
     POST_EDITED: 'post_edited',
@@ -572,6 +576,7 @@ export const TELEMETRY_CATEGORIES = {
 
 export const TELEMETRY_LABELS = {
     COPY_LINK: 'copy_link',
+    COPY_TEXT: 'copy_text',
     DELETE: 'delete',
     EDIT: 'edit',
     FOLLOW: 'follow',
@@ -819,6 +824,7 @@ export const RHSStates = {
     PIN: 'pin',
     PLUGIN: 'plugin',
     CHANNEL_FILES: 'channel-files',
+    CHANNEL_INFO: 'channel-info',
 };
 
 export const UploadStatuses = {
@@ -852,8 +858,8 @@ export const DraggingStateTypes = {
 };
 
 export const AboutLinks = {
-    TERMS_OF_SERVICE: 'https://about.mattermost.com/default-terms/',
-    PRIVACY_POLICY: 'https://about.mattermost.com/default-privacy-policy/',
+    TERMS_OF_SERVICE: 'https://mattermost.com/terms-of-use/',
+    PRIVACY_POLICY: 'https://mattermost.com/privacy-policy/',
 };
 
 export const CloudLinks = {
