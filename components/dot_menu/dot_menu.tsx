@@ -212,7 +212,8 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         Utils.copyToClipboard(`${this.props.teamUrl}/pl/${this.props.post.id}`);
     }
 
-    copyText = () => {
+    copyText = (e: KeyboardEvent) => {
+        this.trackClickEvent(TELEMETRY_LABELS.COPY_TEXT, e);
         Utils.copyToClipboard(this.props.post.message);
     }
 
@@ -562,9 +563,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         text={Utils.localizeMessage('post_info.copy', 'Copy Text')}
                         icon={Utils.getMenuItemIcon('icon-content-copy')}
                         rightDecorator={'C'}
-                        onClick={() => {
-                            this.handleOnClick(TELEMETRY_LABELS.COPY_TEXT, this.copyText);
-                        }}
+                        onClick={this.copyText}
                     />
                     <Menu.ItemAction
                         id={`delete_post_${this.props.post.id}`}
