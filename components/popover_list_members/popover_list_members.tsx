@@ -61,9 +61,7 @@ export default function PopoverListMembers(props: Props) {
         }
     };
 
-    const closePopover = () => {
-        setShowPopover(false);
-    };
+    const closePopover = () => setShowPopover(false);
 
     const showMembersModal = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -114,27 +112,22 @@ export default function PopoverListMembers(props: Props) {
     ));
 
     const channelIsArchived = props.channel.delete_at !== 0;
-    let popoverButton;
+    let popoverButton = null;
     let handleButtonOnClick = showMembersModal;
     let editButton = null;
     if (props.channel.type !== Constants.GM_CHANNEL && !channelIsArchived) {
-        let membersName = (
+        const isDefaultChannel = props.channel.name === Constants.DEFAULT_CHANNEL;
+        let membersName = (isDefaultChannel || !props.manageMembers) ? (
+            <FormattedMessage
+                id='members_popover.viewMembers'
+                defaultMessage='View Members'
+            />
+        ) : (
             <FormattedMessage
                 id='members_popover.manageMembers'
                 defaultMessage='Manage Members'
             />
         );
-
-        const isDefaultChannel = props.channel.name === Constants.DEFAULT_CHANNEL;
-
-        if (isDefaultChannel || !props.manageMembers) {
-            membersName = (
-                <FormattedMessage
-                    id='members_popover.viewMembers'
-                    defaultMessage='View Members'
-                />
-            );
-        }
 
         if (props.addMembersABTest === AddMembersToChanneltreatments.BOTTOM && props.manageMembers) {
             handleButtonOnClick = () => onAddNewMembersButton(AddMembersToChanneltreatments.BOTTOM);
@@ -188,11 +181,7 @@ export default function PopoverListMembers(props: Props) {
             </div>
         );
     }
-    const count = props.memberCount;
-    let countText = '-';
-    if (count > 0) {
-        countText = count.toString();
-    }
+    const countText = props.memberCount > 0 ? props.memberCount.toString() : '-';
 
     const title = (
         <FormattedMessage
