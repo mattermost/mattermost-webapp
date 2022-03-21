@@ -13,10 +13,10 @@ import {t} from 'utils/i18n.jsx';
 
 interface Props {
     location: {search: string };
-    siteName?: string;
     actions: {
         resetUserPassword: (token: string, newPassword: string) => Promise<{data: any; error: ServerError}>;
     };
+    siteName?: string;
 }
 
 const PasswordResetForm = ({location, siteName, actions}: Props) => {
@@ -44,11 +44,11 @@ const PasswordResetForm = ({location, siteName, actions}: Props) => {
         // setState({error: null});
 
         const token = (new URLSearchParams(location.search)).get('token');
-        if (typeof token === null) {
+
+        if (typeof token !== 'string') {
             throw new Error('token must be a string');
         }
-        const safeToken = token as string;
-        const {data, error} = await actions.resetUserPassword(safeToken, password);
+        const {data, error} = await actions.resetUserPassword(token, password);
         if (data) {
             browserHistory.push('/login?extra=' + Constants.PASSWORD_CHANGE);
             setError(null);

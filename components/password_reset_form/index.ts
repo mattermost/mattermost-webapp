@@ -18,8 +18,7 @@ type Actions = {
 }
 
 function mapStateToProps(state: GlobalState) {
-    const {SiteName: siteName} = getConfig(state);
-    return {siteName};
+    return {siteName: getConfig(state).SiteName};
 }
 
 const mapDispatchToProps = (dispatch: Dispatch<GenericAction>) => ({
