@@ -90,6 +90,7 @@ export function stubClipboard() {
         cy.stub(win.navigator.clipboard, 'writeText', (link) => {
             clipboard.wasCalled = true;
             clipboard.contents = link;
+            return Promise.resolve(true);
         });
     });
 

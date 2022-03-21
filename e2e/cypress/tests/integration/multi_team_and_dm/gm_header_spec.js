@@ -47,11 +47,11 @@ describe('Multi-user group header', () => {
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/${groupChannel.name}`);
 
-        // * no channel description is set
-        cy.contains('#channelHeaderDescription button span', 'Add a channel description').should('be.visible');
+        // * no channel header is set
+        cy.contains('#channelHeaderDescription button span', 'Add a channel header').should('be.visible');
 
-        // # click add a channel description
-        cy.findByRoleExtended('button', {name: 'Add a channel description'}).should('be.visible').click();
+        // # click add a channel heander
+        cy.findByRoleExtended('button', {name: 'Add a channel header'}).should('be.visible').click();
 
         // # type a header
         const header = 'this is a header!';
@@ -81,7 +81,7 @@ describe('Multi-user group header', () => {
         cy.visit(`/${testTeam.name}/channels/${groupChannel.name}`);
 
         // * verify header is set
-        cy.contains('#channelHeaderDescription button span', 'Add a channel description').should('not.exist');
+        cy.contains('#channelHeaderDescription button span', 'Add a channel header').should('not.exist');
 
         const header = 'this is a new header!';
         editHeader(header);
@@ -105,7 +105,7 @@ describe('Multi-user group header', () => {
         cy.visit(`/${testTeam.name}/channels/${groupChannel.name}`);
 
         // * verify header is set
-        cy.contains('#channelHeaderDescription button span', 'Add a channel description').should('not.exist');
+        cy.contains('#channelHeaderDescription button span', 'Add a channel header').should('not.exist');
 
         const header = `Header by @${testUser.username}`;
         editHeader(header);
