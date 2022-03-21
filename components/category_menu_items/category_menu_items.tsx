@@ -84,12 +84,14 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
 
     const categoryMenuItems = filteredCategories.map((category: ChannelCategory) => {
         let text = category.display_name;
+        // As translation can be Uppercase and Styling is Capatlised case, converting text lower case to avoid conflict with styling
         if (category.type === CategoryTypes.FAVORITES) {
-            text = intl.formatMessage({id: 'sidebar.types.favorites', defaultMessage: 'Favorites'}).toLowerCase();
+            text = intl.formatMessage({id: 'sidebar.types.favorites', defaultMessage: 'Favorites'}).toLocaleLowerCase();
         }
         if (category.type === CategoryTypes.CHANNELS) {
-            text = intl.formatMessage({id: 'sidebar.types.channels', defaultMessage: 'Channels'}).toLowerCase();
+            text = intl.formatMessage({id: 'sidebar.types.channels', defaultMessage: 'Channels'}).toLocaleLowerCase();
         }
+
         return {
             id: `moveToCategory-${channel.id}-${category.id}`,
             icon: category.type === CategoryTypes.FAVORITES ? (<i className='icon-star-outline'/>) : (<i className='icon-folder-outline'/>),
