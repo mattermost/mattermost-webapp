@@ -64,8 +64,8 @@ export default function PopoverListMembers(props: Props) {
     const closePopover = () => setShowPopover(false);
 
     const showMembersModal = (e: React.MouseEvent<HTMLButtonElement>) => {
+        const {actions} = props;
         e.preventDefault();
-
         closePopover();
 
         const modalData = {
@@ -73,20 +73,19 @@ export default function PopoverListMembers(props: Props) {
             dialogProps: props,
             dialogType: ChannelMembersModal,
         };
-
-        props.actions.openModal(modalData);
+        actions.openModal(modalData);
     };
 
     const onAddNewMembersButton = (placement: string) => {
         const {channel, actions} = props;
         trackEvent('add_members_from_channel_popover', placement);
 
-        actions.openModal({
+        const modalData = {
             modalId: ModalIdentifiers.CHANNEL_INVITE,
             dialogType: ChannelInviteModal,
             dialogProps: {channel},
-        });
-
+        };
+        actions.openModal(modalData);
         closePopover();
     };
 
