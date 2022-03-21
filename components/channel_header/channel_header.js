@@ -25,6 +25,7 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Popover from 'components/widgets/popover';
+import CallButton from 'plugins/call_button';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusText from 'components/custom_status/custom_status_text';
 import ChannelHeaderPlug from 'plugins/channel_header_plug';
@@ -39,6 +40,8 @@ import {intlShape} from 'utils/react_intl';
 import {handleFormattedTextClick, localizeMessage, isEmptyObject, toTitleCase} from 'utils/utils';
 
 import HeaderIconWrapper from './components/header_icon_wrapper';
+
+import ChannelInfoButton from './channel_info_button';
 
 const headerMarkdownOptions = {singleline: true, mentionHighlight: false, atMentions: true};
 const popoverMarkdownOptions = {singleline: false, mentionHighlight: false, atMentions: true};
@@ -467,6 +470,7 @@ class ChannelHeader extends React.PureComponent {
                     {dmHeaderIconStatus}
                     {dmHeaderTextStatus}
                     {popoverListMembers}
+
                     <HeaderIconWrapper
                         iconComponent={pinnedIcon}
                         ariaLabel={true}
@@ -531,7 +535,7 @@ class ChannelHeader extends React.PureComponent {
                             >
                                 <FormattedMessage
                                     id='channel_header.addChannelHeader'
-                                    defaultMessage='Add a channel description'
+                                    defaultMessage='Add a channel header'
                                 />
                                 <FormattedMessage
                                     id='channel_header.editLink'
@@ -560,7 +564,7 @@ class ChannelHeader extends React.PureComponent {
                             >
                                 <FormattedMessage
                                     id='channel_header.addChannelHeader'
-                                    defaultMessage='Add a channel description'
+                                    defaultMessage='Add a channel header'
                                 />
                                 <FormattedMessage
                                     id='channel_header.editLink'
@@ -586,6 +590,7 @@ class ChannelHeader extends React.PureComponent {
                     {dmHeaderIconStatus}
                     {dmHeaderTextStatus}
                     {popoverListMembers}
+
                     <HeaderIconWrapper
                         iconComponent={pinnedIcon}
                         ariaLabel={true}
@@ -771,6 +776,8 @@ class ChannelHeader extends React.PureComponent {
                         channel={channel}
                         channelMember={channelMember}
                     />
+                    <CallButton/>
+                    <ChannelInfoButton channel={channel}/>
                 </div>
             </div>
         );

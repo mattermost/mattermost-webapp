@@ -47,6 +47,7 @@ export type ClientConfig = {
     EnableBanner: string;
     EnableBotAccountCreation: string;
     EnableChannelViewedMessages: string;
+    EnableClientPerformanceDebugging: string;
     EnableCluster: string;
     EnableCommands: string;
     EnableCompliance: string;
@@ -169,6 +170,7 @@ export type ClientConfig = {
     SamlLoginButtonTextColor: string;
     SamlNicknameAttributeSet: string;
     SamlPositionAttributeSet: string;
+    SchemaVersion: string;
     SendEmailNotifications: string;
     SendPushNotifications: string;
     ShowEmailAddress: string;
@@ -325,6 +327,7 @@ export type ServiceSettings = {
     EnableLocalMode: boolean;
     LocalModeSocketLocation: string;
     CollapsedThreads: 'disabled' | 'default_on' | 'default_off';
+    ThreadAutoFollow: boolean;
 };
 
 export type TeamSettings = {

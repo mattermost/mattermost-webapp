@@ -114,8 +114,6 @@ type ChannelHeaderPlugState = {
     dropdownOpen: boolean;
 }
 
-const CHANNEL_HEADER_PLUG_DISABLE_TIMEOUT = 500;
-
 class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, ChannelHeaderPlugState> {
     public static defaultProps: Partial<ChannelHeaderPlugProps> = {
         components: [],
@@ -137,7 +135,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
 
             setTimeout(() => {
                 this.disableButtonsClosingRHS = false;
-            }, CHANNEL_HEADER_PLUG_DISABLE_TIMEOUT);
+            }, Constants.CHANNEL_HEADER_BUTTON_DISABLE_TIMEOUT);
         }
     }
 

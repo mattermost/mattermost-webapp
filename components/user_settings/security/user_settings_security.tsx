@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
@@ -19,7 +18,7 @@ import ActivityLogModal from 'components/activity_log_modal';
 import LocalizedIcon from 'components/localized_icon';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
-import ToggleModalButton from 'components/toggle_modal_button.jsx';
+import ToggleModalButton from 'components/toggle_modal_button';
 
 import MfaSection from './mfa_section';
 import UserAccessTokenSection from './user_access_token_section';
@@ -982,7 +981,6 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                     </button>
                     <h4
                         className='modal-title'
-                        ref='title'
                     >
                         <div className='modal-back'>
                             <LocalizedIcon
@@ -1021,6 +1019,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                     <br/>
                     <ToggleModalButton
                         className='security-links color--link'
+                        modalId='access_history'
                         dialogType={AccessHistoryModal}
                         id='viewAccessHistory'
                     >
@@ -1035,6 +1034,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                     </ToggleModalButton>
                     <ToggleModalButton
                         className='security-links color--link mt-2'
+                        modalId='activity_log'
                         dialogType={ActivityLogModal}
                         id='viewAndLogOutOfActiveSessions'
                     >
@@ -1052,4 +1052,3 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
         );
     }
 }
-/* eslint-enable react/no-string-refs */
