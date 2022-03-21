@@ -6,6 +6,8 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import Constants from 'utils/constants';
+
 import './generic_modal.scss';
 
 type Props = {
@@ -74,7 +76,7 @@ export default class GenericModal extends React.PureComponent<Props, State> {
     }
 
     private onEnterKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
+        if (event.key === Constants.KeyCodes.ENTER[0]) {
             if (this.props.autoCloseOnConfirmButton) {
                 this.onHide();
             }
@@ -151,7 +153,7 @@ export default class GenericModal extends React.PureComponent<Props, State> {
                 <div
                     onKeyDown={this.onEnterKeyDown}
                     tabIndex={0}
-                    style={{width: '100%', height: '100%'}}
+                    className='GenericModal__wrapper-enter-key-press-catcher'
                 >
                     <Modal.Header
                         closeButton={true}

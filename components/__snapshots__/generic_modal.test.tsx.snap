@@ -32,13 +32,8 @@ exports[`components/GenericModal should match snapshot for base case 1`] = `
   show={true}
 >
   <div
+    className="GenericModal__wrapper-enter-key-press-catcher"
     onKeyDown={[Function]}
-    style={
-      Object {
-        "height": "100%",
-        "width": "100%",
-      }
-    }
     tabIndex={0}
   >
     <ModalHeader
@@ -99,13 +94,8 @@ exports[`components/GenericModal should match snapshot with both buttons 1`] = `
   show={true}
 >
   <div
+    className="GenericModal__wrapper-enter-key-press-catcher"
     onKeyDown={[Function]}
-    style={
-      Object {
-        "height": "100%",
-        "width": "100%",
-      }
-    }
     tabIndex={0}
   >
     <ModalHeader
@@ -191,13 +181,8 @@ exports[`components/GenericModal should match snapshot with disabled confirm but
   show={true}
 >
   <div
+    className="GenericModal__wrapper-enter-key-press-catcher"
     onKeyDown={[Function]}
-    style={
-      Object {
-        "height": "100%",
-        "width": "100%",
-      }
-    }
     tabIndex={0}
   >
     <ModalHeader
