@@ -240,19 +240,11 @@ export function setEditingPost(postId = '', refocusId = '', title = '', isRHS = 
 }
 
 export function unsetEditingPost() {
-    // TODO@Michel: remove data once inline post editing is enabled by default
     return {
         type: ActionTypes.TOGGLE_EDITING_POST,
         data: {
             show: false,
         },
-    };
-}
-
-// TODO@Michel: once inline post editing is available without using a feature flag remove this action
-export function hideEditPostModal() {
-    return {
-        type: ActionTypes.HIDE_EDIT_POST_MODAL,
     };
 }
 
