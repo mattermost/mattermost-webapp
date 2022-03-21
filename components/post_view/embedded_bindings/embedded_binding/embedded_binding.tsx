@@ -43,6 +43,7 @@ type Props = {
 
 type State = {
     checkOverflow: number;
+    bindings: AppBinding[];
 }
 
 export default class EmbeddedBinding extends React.PureComponent<Props, State> {
@@ -50,9 +51,16 @@ export default class EmbeddedBinding extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        this.state = {
+        const state: State = {
             checkOverflow: 0,
+            bindings: [],
         };
+
+        if (props.embed.app_id && props.embed.bindings) {
+            state.bindings = this.fillBindings(props.embed);
+        }
+
+        this.state = state;
 
         this.imageProps = {
             onImageLoaded: this.handleHeightReceived,
@@ -60,10 +68,10 @@ export default class EmbeddedBinding extends React.PureComponent<Props, State> {
         };
     }
 
-    fillBindings = (binding: AppBinding) => {
+    fillBindings = (binding: AppBinding): AppBinding[] => {
         const copiedBindings = JSON.parse(JSON.stringify(binding)) as AppBinding;
         cleanBinding(copiedBindings, AppBindingLocations.IN_POST);
-        return copiedBindings.bindings;
+        return copiedBindings.bindings!;
     }
 
     renderBindings = () => {
@@ -75,7 +83,7 @@ export default class EmbeddedBinding extends React.PureComponent<Props, State> {
             return null;
         }
 
-        const bindings = this.fillBindings(this.props.embed);
+        const bindings = this.state.bindings;
         if (!bindings || !bindings.length) {
             return null;
         }
