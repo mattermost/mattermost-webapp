@@ -41,6 +41,8 @@ import {handleFormattedTextClick, localizeMessage, isEmptyObject, toTitleCase} f
 
 import HeaderIconWrapper from './components/header_icon_wrapper';
 
+import ChannelInfoButton from './channel_info_button';
+
 const headerMarkdownOptions = {singleline: true, mentionHighlight: false, atMentions: true};
 const popoverMarkdownOptions = {singleline: false, mentionHighlight: false, atMentions: true};
 
@@ -533,7 +535,7 @@ class ChannelHeader extends React.PureComponent {
                             >
                                 <FormattedMessage
                                     id='channel_header.addChannelHeader'
-                                    defaultMessage='Add a channel description'
+                                    defaultMessage='Add a channel header'
                                 />
                                 <FormattedMessage
                                     id='channel_header.editLink'
@@ -562,7 +564,7 @@ class ChannelHeader extends React.PureComponent {
                             >
                                 <FormattedMessage
                                     id='channel_header.addChannelHeader'
-                                    defaultMessage='Add a channel description'
+                                    defaultMessage='Add a channel header'
                                 />
                                 <FormattedMessage
                                     id='channel_header.editLink'
@@ -774,8 +776,8 @@ class ChannelHeader extends React.PureComponent {
                         channel={channel}
                         channelMember={channelMember}
                     />
-
                     <CallButton/>
+                    <ChannelInfoButton channel={channel}/>
                 </div>
             </div>
         );

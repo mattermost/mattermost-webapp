@@ -8,7 +8,7 @@ import {useIntl} from 'react-intl';
 import {Post} from 'mattermost-redux/types/posts';
 import {Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
 
-import {Constants, ModalIdentifiers} from 'utils/constants';
+import {AppEvents, Constants, ModalIdentifiers} from 'utils/constants';
 import {
     formatGithubCodePaste,
     formatMarkdownTableMessage,
@@ -99,7 +99,10 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
     const {formatMessage} = useIntl();
 
     useEffect(() => {
-        textboxRef?.current?.focus();
+        const focusTextBox = () => textboxRef?.current?.focus();
+
+        document.addEventListener(AppEvents.FOCUS_EDIT_TEXTBOX, focusTextBox);
+        return () => document.removeEventListener(AppEvents.FOCUS_EDIT_TEXTBOX, focusTextBox);
     }, []);
 
     // TODO@all: this could be exported to a custom hook once the TextBox component is ported to a functional component

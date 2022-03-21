@@ -110,6 +110,7 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
           className="post__body--transition post--edited"
         >
           <AutoHeightSwitcher
+            onTransitionEnd={[Function]}
             showSlot={1}
             slot1={
               <MessageWithAdditionalContent
@@ -349,6 +350,7 @@ exports[`components/RhsRootPost should match snapshot hovered 1`] = `
           className="post__body--transition post--edited"
         >
           <AutoHeightSwitcher
+            onTransitionEnd={[Function]}
             showSlot={1}
             slot1={
               <MessageWithAdditionalContent
@@ -516,6 +518,7 @@ exports[`components/RhsRootPost should match snapshot on CRT enabled 1`] = `
           className="post__body--transition post--edited"
         >
           <AutoHeightSwitcher
+            onTransitionEnd={[Function]}
             showSlot={1}
             slot1={
               <MessageWithAdditionalContent
@@ -685,6 +688,7 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
           className="post__body--transition post--edited"
         >
           <AutoHeightSwitcher
+            onTransitionEnd={[Function]}
             showSlot={1}
             slot1={
               <MessageWithAdditionalContent
@@ -858,6 +862,7 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
           className="post__body--transition post--edited"
         >
           <AutoHeightSwitcher
+            onTransitionEnd={[Function]}
             showSlot={1}
             slot1={
               <MessageWithAdditionalContent
@@ -1029,6 +1034,7 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
           className="post__body--transition post--edited"
         >
           <AutoHeightSwitcher
+            onTransitionEnd={[Function]}
             showSlot={1}
             slot1={
               <MessageWithAdditionalContent

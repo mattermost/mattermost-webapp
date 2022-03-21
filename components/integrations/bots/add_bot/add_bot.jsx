@@ -611,7 +611,7 @@ export default class AddBot extends React.PureComponent {
                             <div className='col-md-5 col-sm-8 col-sm-offset-4'>
                                 <FormattedMarkdownMessage
                                     id='admin.manage_roles.additionalRoles'
-                                    defaultMessage='Select additional permissions for the account. [Read more about roles and permissions](!https://about.mattermost.com/default-permissions).'
+                                    defaultMessage='Select additional permissions for the account. [Read more about roles and permissions](!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/).'
                                 />
                             </div>
                         </div>

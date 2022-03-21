@@ -212,6 +212,10 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         Utils.copyToClipboard(`${this.props.teamUrl}/pl/${this.props.post.id}`);
     }
 
+    copyText = () => {
+        Utils.copyToClipboard(this.props.post.message);
+    }
+
     handlePinMenuItemActivated = (e: KeyboardEvent): void => {
         if (this.props.post.is_pinned) {
             this.trackClickEvent(TELEMETRY_LABELS.UNPIN, e);
@@ -354,6 +358,13 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         case Utils.isKeyPressed(e, Constants.KeyCodes.K):
             this.trackShortcutEvent(TELEMETRY_LABELS.COPY_LINK);
             this.copyLink(e);
+            this.props.handleDropdownOpened(false);
+            break;
+
+        // copy text
+        case Utils.isKeyPressed(e, Constants.KeyCodes.C):
+            this.trackShortcutEvent(TELEMETRY_LABELS.COPY_TEXT);
+            this.copyText();
             this.props.handleDropdownOpened(false);
             break;
 
@@ -536,7 +547,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         rightDecorator={'K'}
                         onClick={this.copyLink}
                     />
-                    {!isSystemMessage && (this.state.canEdit || this.state.canDelete) && this.renderDivider('edit')}
+                    {!isSystemMessage && this.renderDivider('edit')}
                     <Menu.ItemAction
                         id={`edit_post_${this.props.post.id}`}
                         show={this.state.canEdit}
@@ -544,6 +555,16 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         icon={Utils.getMenuItemIcon('icon-pencil-outline')}
                         rightDecorator={'E'}
                         onClick={this.handleEditMenuItemActivated}
+                    />
+                    <Menu.ItemAction
+                        id={`copy_${this.props.post.id}`}
+                        show={!isSystemMessage}
+                        text={Utils.localizeMessage('post_info.copy', 'Copy Text')}
+                        icon={Utils.getMenuItemIcon('icon-content-copy')}
+                        rightDecorator={'C'}
+                        onClick={() => {
+                            this.handleOnClick(TELEMETRY_LABELS.COPY_TEXT, this.copyText);
+                        }}
                     />
                     <Menu.ItemAction
                         id={`delete_post_${this.props.post.id}`}
