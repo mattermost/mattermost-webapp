@@ -24,7 +24,7 @@ const DeferredThreadViewerVirt = deferComponentRender(ThreadViewerVirtualized);
 
 type Attrs = Pick<HTMLAttributes<HTMLDivElement>, 'className' | 'id'>;
 
-type Props = Attrs & {
+export type Props = Attrs & {
     isCollapsedThreadsEnabled: boolean;
     appsEnabled: boolean;
     userThread?: UserThread | null;
