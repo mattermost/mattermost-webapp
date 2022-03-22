@@ -70,7 +70,7 @@ function makeMapStateToProps() {
         } else if (channel && channel.type === General.GM_CHANNEL) {
             gmMembers = doGetProfilesInChannel(state, channel.id, false);
         }
-        const stats = getCurrentChannelStats(state) || {member_count: 0, guest_count: 0, pinnedpost_count: 0};
+        const stats = getCurrentChannelStats(state) || {member_count: 0, guest_count: 0, pinnedpost_count: 0, files_count: 0};
 
         return {
             teamId: getCurrentTeamId(state),

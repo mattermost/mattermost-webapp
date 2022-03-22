@@ -9,14 +9,18 @@ import {GlobalState} from 'types/store/index.js';
 import {
     closeRightHandSide,
     toggleRhsExpanded,
+    showChannelInfo,
 } from 'actions/views/rhs';
-import {getIsRhsExpanded} from 'selectors/rhs';
+import {getIsRhsExpanded, getPreviousRhsState} from 'selectors/rhs';
+import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/common';
 
 import SearchResultsHeader from './search_results_header';
 
 function mapStateToProps(state: GlobalState) {
     return {
         isExpanded: getIsRhsExpanded(state),
+        channelId: getCurrentChannelId(state),
+        previousRhsState: getPreviousRhsState(state),
     };
 }
 
@@ -25,6 +29,7 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
         actions: bindActionCreators({
             closeRightHandSide,
             toggleRhsExpanded,
+            showChannelInfo,
         }, dispatch),
     };
 }

@@ -114,6 +114,29 @@ describe('channels', () => {
         });
     });
 
+    describe('INCREMENT_FILE_COUNT', () => {
+        test('should change channel file count stats', () => {
+            const state = deepFreeze(channelsReducer({
+                stats: {
+                    channel1: {
+                        channel_id: 'channel1',
+                        files_count: 1,
+                    },
+                },
+            }, {}));
+            const nextState = channelsReducer(state, {
+                type: ChannelTypes.INCREMENT_FILE_COUNT,
+                data: {
+                    channelId: 'channel1',
+                    amount: 3,
+                },
+            });
+
+            expect(nextState).not.toBe(state);
+            expect(nextState.stats.channel1.files_count).toEqual(4);
+        });
+    });
+
     describe('UPDATE_CHANNEL_HEADER', () => {
         test('should update channel header', () => {
             const state = deepFreeze(channelsReducer({
