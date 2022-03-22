@@ -6,7 +6,7 @@ import nock from 'nock';
 
 import {ClientError, HEADER_X_VERSION_ID} from 'mattermost-redux/client/client4';
 import TestHelper from 'mattermost-redux/test/test_helper';
-import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers_client';
+import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 
 import {rudderAnalytics, RudderTelemetryHandler} from './rudder';
 

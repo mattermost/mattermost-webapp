@@ -9,7 +9,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {ClientConfig, FeatureFlags, ClientLicense} from 'mattermost-redux/types/config';
 import {SubscriptionStats} from 'mattermost-redux/types/cloud';
 
-import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers_client';
+import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 
 export function getConfig(state: GlobalState): Partial<ClientConfig> {
     return state.entities.general.config;
