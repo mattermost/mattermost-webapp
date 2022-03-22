@@ -55,8 +55,6 @@ describe('components/threading/ThreadViewer', () => {
         fetchRHSAppsBindings: jest.fn(),
     };
 
-    const directTeammate: UserProfile = TestHelper.getUserMock();
-
     const baseProps: Props = {
         selected: post,
         channel,
