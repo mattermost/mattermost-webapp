@@ -43,6 +43,7 @@ type Props = {
 
 type State = {
     checkOverflow: number;
+    embed: AppBinding;
     bindings: AppBinding[];
 }
 
@@ -53,6 +54,7 @@ export default class EmbeddedBinding extends React.PureComponent<Props, State> {
 
         const state: State = {
             checkOverflow: 0,
+            embed: props.embed,
             bindings: [],
         };
 
@@ -68,15 +70,18 @@ export default class EmbeddedBinding extends React.PureComponent<Props, State> {
         };
     }
 
-    componentDidUpdate(prevProps: Props) {
-        if (prevProps.embed !== this.props.embed) {
-            this.setState({
-                bindings: this.fillBindings(this.props.embed),
-            });
+    static getDerivedStateFromProps(props: Props, prevState: State) {
+        if (props.embed !== prevState.embed) {
+            return {
+                embed: props.embed,
+                bindings: this.fillBindings(props.embed),
+            };
         }
+
+        return null;
     }
 
-    fillBindings = (binding: AppBinding): AppBinding[] => {
+    static fillBindings = (binding: AppBinding): AppBinding[] => {
         const copiedBindings = JSON.parse(JSON.stringify(binding)) as AppBinding;
         cleanBinding(copiedBindings, AppBindingLocations.IN_POST);
         return copiedBindings.bindings!;
