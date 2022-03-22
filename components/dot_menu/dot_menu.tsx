@@ -9,8 +9,7 @@ import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
 import {UserThread} from 'mattermost-redux/types/threads';
 
-import {trackEvent} from 'actions/telemetry_actions';
-import {Locations, ModalIdentifiers, Constants, EventTypes, TELEMETRY_CATEGORIES, TELEMETRY_LABELS} from 'utils/constants';
+import {Locations, ModalIdentifiers, Constants, TELEMETRY_LABELS} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
@@ -264,11 +263,9 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         const {actions, teamId, threadId, userId, isFollowingThread, isMentionedInRootPost} = this.props;
         let followingThread: boolean;
         if (isFollowingThread) {
-            // this.trackClickEvent(TELEMETRY_LABELS.UNFOLLOW);
             dotUtils.trackDotMenuEvent(e, TELEMETRY_LABELS.UNFOLLOW);
             followingThread = !isFollowingThread;
         } else {
-            // this.trackClickEvent(TELEMETRY_LABELS.FOLLOW);
             dotUtils.trackDotMenuEvent(e, TELEMETRY_LABELS.FOLLOW);
             followingThread = !isMentionedInRootPost;
         }
@@ -305,10 +302,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                 role='menuitem'
             />
         );
-    }
-
-    trackClickEvent = (suffix: string): void => {
-        trackEvent(TELEMETRY_CATEGORIES.POST_INFO_MORE, EventTypes.CLICK + '_' + suffix);
     }
 
     isKeyboardEvent = (e: KeyboardEvent): any => {
