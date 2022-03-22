@@ -23,7 +23,7 @@ import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 import {ModalData} from 'types/actions';
 import {PluginComponent} from 'types/store/plugins';
 
-import * as dotUtils from './utils';
+import {ChangeEvent, trackDotMenuEvent} from './utils';
 
 const MENU_BOTTOM_MARGIN = 80;
 
@@ -206,36 +206,36 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         }
     }
 
-    copyLink = (e: dotUtils.ChangeEvent) => {
-        dotUtils.trackDotMenuEvent(e, TELEMETRY_LABELS.COPY_LINK);
+    copyLink = (e: ChangeEvent) => {
+        trackDotMenuEvent(e, TELEMETRY_LABELS.COPY_LINK);
         Utils.copyToClipboard(`${this.props.teamUrl}/pl/${this.props.post.id}`);
     }
 
-    copyText = (e: dotUtils.ChangeEvent) => {
-        dotUtils.trackDotMenuEvent(e, TELEMETRY_LABELS.COPY_TEXT);
+    copyText = (e: ChangeEvent) => {
+        trackDotMenuEvent(e, TELEMETRY_LABELS.COPY_TEXT);
         Utils.copyToClipboard(this.props.post.message);
     }
 
-    handlePinMenuItemActivated = (e: dotUtils.ChangeEvent): void => {
+    handlePinMenuItemActivated = (e: ChangeEvent): void => {
         if (this.props.post.is_pinned) {
-            dotUtils.trackDotMenuEvent(e, TELEMETRY_LABELS.UNPIN);
+            trackDotMenuEvent(e, TELEMETRY_LABELS.UNPIN);
             this.props.actions.unpinPost(this.props.post.id);
         } else {
-            dotUtils.trackDotMenuEvent(e, TELEMETRY_LABELS.PIN);
+            trackDotMenuEvent(e, TELEMETRY_LABELS.PIN);
             this.props.actions.pinPost(this.props.post.id);
         }
     }
 
-    handleMarkPostAsRead = (e: dotUtils.ChangeEvent): void => {
+    handleMarkPostAsRead = (e: ChangeEvent): void => {
         e.preventDefault();
-        dotUtils.trackDotMenuEvent(e, TELEMETRY_LABELS.UNREAD);
+        trackDotMenuEvent(e, TELEMETRY_LABELS.UNREAD);
         this.props.actions.markPostAsUnread(this.props.post, this.props.location);
     }
 
-    handleDeleteMenuItemActivated = (e: dotUtils.ChangeEvent): void => {
+    handleDeleteMenuItemActivated = (e: ChangeEvent): void => {
         e.preventDefault();
 
-        dotUtils.trackDotMenuEvent(e, TELEMETRY_LABELS.DELETE);
+        trackDotMenuEvent(e, TELEMETRY_LABELS.DELETE);
         const deletePostModalData = {
             modalId: ModalIdentifiers.DELETE_POST,
             dialogType: DeletePostModal,
@@ -248,8 +248,8 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.props.actions.openModal(deletePostModalData);
     }
 
-    handleEditMenuItemActivated = (e: dotUtils.ChangeEvent): void => {
-        dotUtils.trackDotMenuEvent(e, TELEMETRY_LABELS.EDIT);
+    handleEditMenuItemActivated = (e: ChangeEvent): void => {
+        trackDotMenuEvent(e, TELEMETRY_LABELS.EDIT);
         this.props.handleDropdownOpened?.(false);
         this.props.actions.setEditingPost(
             this.props.post.id,
@@ -259,14 +259,14 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         );
     }
 
-    handleSetThreadFollow = (e: dotUtils.ChangeEvent) => {
+    handleSetThreadFollow = (e: ChangeEvent) => {
         const {actions, teamId, threadId, userId, isFollowingThread, isMentionedInRootPost} = this.props;
         let followingThread: boolean;
         if (isFollowingThread) {
-            dotUtils.trackDotMenuEvent(e, TELEMETRY_LABELS.UNFOLLOW);
+            trackDotMenuEvent(e, TELEMETRY_LABELS.UNFOLLOW);
             followingThread = !isFollowingThread;
         } else {
-            dotUtils.trackDotMenuEvent(e, TELEMETRY_LABELS.FOLLOW);
+            trackDotMenuEvent(e, TELEMETRY_LABELS.FOLLOW);
             followingThread = !isMentionedInRootPost;
         }
         actions.setThreadFollow(
@@ -277,8 +277,8 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         );
     }
 
-    handleCommentClick = (e: dotUtils.ChangeEvent) => {
-        dotUtils.trackDotMenuEvent(e, TELEMETRY_LABELS.REPLY);
+    handleCommentClick = (e: ChangeEvent) => {
+        trackDotMenuEvent(e, TELEMETRY_LABELS.REPLY);
         this.props.handleCommentClick(e);
     }
 
