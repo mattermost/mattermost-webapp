@@ -6,14 +6,14 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useIntl} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
-import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
+import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/common';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {AppBinding, AppCallResponse} from 'mattermost-redux/types/apps';
 
-import {doAppCall, openAppsModal, postEphemeralCallResponseForContext} from 'actions/apps';
+import {handleBindingClick, openAppsModal, postEphemeralCallResponseForContext} from 'actions/apps';
 
-import {createCallContext, createCallRequest} from 'utils/apps';
+import {createCallContext} from 'utils/apps';
 import Constants from 'utils/constants';
 import {DoAppCallResult} from 'types/apps';
 
@@ -33,33 +33,17 @@ const AppBarBinding = (props: BindingComponentProps) => {
     const teamId = useSelector(getCurrentTeamId);
 
     const submitAppCall = async () => {
-        const call = binding.form?.call || binding.call;
-
-        if (!call) {
-            return;
-        }
         const context = createCallContext(
             binding.app_id,
             binding.location,
             channelId,
             teamId,
-            '',
-            '',
-        );
-        const callRequest = createCallRequest(
-            call,
-            context,
         );
 
-        if (binding.form) {
-            dispatch(openAppsModal(binding.form, callRequest));
-            return;
-        }
-
-        const result = await dispatch(doAppCall(callRequest, AppCallTypes.SUBMIT, intl)) as DoAppCallResult;
+        const result = await dispatch(handleBindingClick(binding, context, intl)) as DoAppCallResult;
 
         if (result.error) {
-            const errMsg = result.error.error || 'An error occurred';
+            const errMsg = result.error.text || 'An error occurred';
             dispatch(postEphemeralCallResponseForContext(result.error, errMsg, context));
             return;
         }
@@ -68,13 +52,13 @@ const AppBarBinding = (props: BindingComponentProps) => {
 
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
-            if (callResp.markdown) {
-                dispatch(postEphemeralCallResponseForContext(callResp, callResp.markdown, context));
+            if (callResp.text) {
+                dispatch(postEphemeralCallResponseForContext(callResp, callResp.text, context));
             }
             return;
         case AppCallResponseTypes.FORM:
             if (callResp.form) {
-                dispatch(openAppsModal(callResp.form, callRequest));
+                dispatch(openAppsModal(callResp.form, context));
             }
             return;
         case AppCallResponseTypes.NAVIGATE:
