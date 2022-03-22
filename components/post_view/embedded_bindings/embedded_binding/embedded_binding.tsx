@@ -68,6 +68,14 @@ export default class EmbeddedBinding extends React.PureComponent<Props, State> {
         };
     }
 
+    componentDidUpdate(prevProps: Props) {
+        if (prevProps.embed !== this.props.embed) {
+            this.setState({
+                bindings: this.fillBindings(this.props.embed),
+            });
+        }
+    }
+
     fillBindings = (binding: AppBinding): AppBinding[] => {
         const copiedBindings = JSON.parse(JSON.stringify(binding)) as AppBinding;
         cleanBinding(copiedBindings, AppBindingLocations.IN_POST);
