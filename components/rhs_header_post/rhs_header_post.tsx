@@ -105,7 +105,7 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
                 <Tooltip id='backToResultsTooltip'>
                     <FormattedMessage
                         id='rhs_header.backToFlaggedTooltip'
-                        defaultMessage='Back to saved posts'
+                        defaultMessage='Back to Saved Messages'
                     />
                 </Tooltip>
             );

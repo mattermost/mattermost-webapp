@@ -75,7 +75,7 @@ export default class RhsCardHeader extends React.PureComponent<Props> {
                 <Tooltip id='backToResultsTooltip'>
                     <FormattedMessage
                         id='rhs_header.backToFlaggedTooltip'
-                        defaultMessage='Back to saved posts'
+                        defaultMessage='Back to Saved Messages'
                     />
                 </Tooltip>
             );

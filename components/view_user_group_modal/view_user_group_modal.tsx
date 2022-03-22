@@ -247,7 +247,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                                 }
                                 {(users.length === 0 && this.props.searchTerm) &&
                                     <NoResultsIndicator
-                                        variant={NoResultsVariant.ChannelSearch}
+                                        variant={NoResultsVariant.Search}
                                         titleValues={{channelName: `"${this.props.searchTerm}"`}}
                                     />
                                 }

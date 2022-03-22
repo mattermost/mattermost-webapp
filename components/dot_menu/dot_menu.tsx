@@ -515,7 +515,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     />
                     <Menu.ItemAction
                         show={isMobile && !isSystemMessage && !this.props.isFlagged}
-                        text={Utils.localizeMessage('rhs_root.mobile.flag', 'Save')}
+                        text={Utils.localizeMessage('rhs_root.mobile.flag', 'Save Message')}
                         icon={Utils.getMenuItemIcon('icon-bookmark-outline')}
                         rightDecorator={<ShortcutKey shortcutKey='S'/>}
                         onClick={this.handleFlagMenuItemActivated}

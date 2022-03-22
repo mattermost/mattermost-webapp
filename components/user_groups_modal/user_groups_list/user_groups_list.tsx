@@ -71,7 +71,7 @@ const UserGroupsList = React.forwardRef((props: Props, ref?: React.Ref<HTMLDivEl
         >
             {(groups.length === 0 && searchTerm) &&
                 <NoResultsIndicator
-                    variant={NoResultsVariant.ChannelSearch}
+                    variant={NoResultsVariant.Search}
                     titleValues={{channelName: `"${searchTerm}"`}}
                 />
             }
