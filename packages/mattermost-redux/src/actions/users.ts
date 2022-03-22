@@ -234,9 +234,6 @@ export function loadMe(): ActionFunc {
         // Sometimes the server version is set in one or the other
         const serverVersion = Client4.getServerVersion() || getState().entities.general.serverVersion;
         dispatch(setServerVersion(serverVersion));
-        if (!isMinimumServerVersion(serverVersion, 4, 7) && config.EnableCustomEmoji === 'true') {
-            dispatch(getAllCustomEmojis());
-        }
 
         await Promise.all(promises);
 

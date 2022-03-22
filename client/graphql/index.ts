@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {batchActions} from 'redux-batched-actions';
 
 import {Client4} from 'mattermost-redux/client';
@@ -8,17 +9,12 @@ import {ServerError} from 'mattermost-redux/types/errors';
 import {PreferenceTypes, UserTypes, TeamTypes, GeneralTypes} from 'mattermost-redux/action_types';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {setServerVersion} from 'mattermost-redux/actions/general';
-import {getAllCustomEmojis} from 'mattermost-redux/actions/emojis';
-import {getMyTeamUnreads} from 'mattermost-redux/actions/teams'; // remove
 import {getSubscriptionStats} from 'mattermost-redux/actions/cloud';
 import {logError} from 'mattermost-redux/actions/errors';
 import {forceLogoutIfNecessary} from 'mattermost-redux/actions/helpers';
 import {getServerVersion} from 'mattermost-redux/selectors/entities/general';
-import {getCustomEmojisEnabled} from 'mattermost-redux/selectors/entities/emojis';
-import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
-import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 
 import {
     myDataQuery,
@@ -93,13 +89,6 @@ export function loadMeGQL() {
         // Sometimes the server version is set in one or the other
         const serverVersion = Client4.getServerVersion() || getServerVersion(state);
         dispatch(setServerVersion(serverVersion));
-
-        if (!isMinimumServerVersion(serverVersion, 4, 7) && getCustomEmojisEnabled(state)) {
-            dispatch(getAllCustomEmojis());
-        }
-
-        const collapsedThreadsEnabled = isCollapsedThreadsEnabled(state);
-        dispatch(getMyTeamUnreads(collapsedThreadsEnabled)); // CHANGE THIS
 
         const currentUserId = getCurrentUserId(state);
         if (currentUserId) {
