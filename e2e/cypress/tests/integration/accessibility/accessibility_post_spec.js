@@ -183,7 +183,7 @@ describe('Verify Accessibility Support in Post', () => {
                 // eslint-disable-next-line no-negated-condition
                 if (!emojiPickerEnabled) {
                     // * Verify focus is on the actions button
-                    cy.get(`#CENTER_button_${postId}`).should('be.focused').and('have.attr', 'aria-label', 'more actions');
+                    cy.get(`#CENTER_button_${postId}`).should('be.focused').and('have.attr', 'aria-label', 'more');
                     cy.focused().tab();
                 } else {
                     for (let i = 0; i < 3; i++) {
