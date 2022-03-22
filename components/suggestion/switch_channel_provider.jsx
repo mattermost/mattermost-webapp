@@ -17,7 +17,7 @@ import {
     getCurrentChannel,
     getDirectTeammate,
     getChannelsInAllTeams,
-    getUnreadChannels,
+    getUnreadChannels, getAllTeamsUnreadChannels,
 } from 'mattermost-redux/selectors/entities/channels';
 
 import ProfilePicture from '../profile_picture';
@@ -622,7 +622,7 @@ export default class SwitchChannelProvider extends Provider {
         const state = getState();
         const recentChannels = getChannelsInAllTeams(state).concat(getDirectAndGroupChannels(state));
         const wrappedRecentChannels = this.wrapChannels(recentChannels, Constants.MENTION_RECENT_CHANNELS);
-        const unreadChannels = getUnreadChannels(state);
+        const unreadChannels = getAllTeamsUnreadChannels(state);
         const wrappedUnreadChannels = this.wrapChannels(unreadChannels, Constants.MENTION_UNREAD_CHANNELS);
         if (wrappedRecentChannels.length === 0) {
             prefix = '';
@@ -630,7 +630,7 @@ export default class SwitchChannelProvider extends Provider {
             this.fetchChannels(resultsCallback);
         }
         const sortedRecentChannels = wrappedRecentChannels.sort(sortChannelsByRecencyAndTypeAndDisplayName);
-        const sortedChannels = wrappedUnreadChannels.length > 0 ? [...sortedRecentChannels.slice(0, 3), ...wrappedUnreadChannels] : sortedRecentChannels.slice(0, 20);
+        const sortedChannels = wrappedUnreadChannels.length > 0 ? [...wrappedUnreadChannels.slice(0, 5), ...sortedRecentChannels.slice(0, 10)] : sortedRecentChannels.slice(0, 20);
         const channelNames = sortedChannels.map((wrappedChannel) => wrappedChannel.channel.id);
         resultsCallback({
             matchedPretext: '',
