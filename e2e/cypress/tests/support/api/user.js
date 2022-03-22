@@ -231,6 +231,7 @@ Cypress.Commands.add('apiCreateUser', ({
     prefix = 'user',
     bypassTutorial = true,
     hideOnboarding = true,
+    hideActionsMenu = true,
     user = null,
 } = {}) => {
     const newUser = user || generateRandomUser(prefix);
@@ -253,6 +254,10 @@ Cypress.Commands.add('apiCreateUser', ({
 
         if (hideOnboarding) {
             cy.apiSaveOnboardingPreference(createdUser.id, 'hide', 'true');
+        }
+
+        if (hideActionsMenu) {
+            cy.apiSaveActionsMenuPreference(createdUser.id, true);
         }
 
         return cy.wrap({user: {...createdUser, password: newUser.password}});
