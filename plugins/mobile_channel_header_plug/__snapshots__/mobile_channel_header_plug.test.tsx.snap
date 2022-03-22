@@ -4,8 +4,9 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with no binding, 
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "handleBindingClick": [MockFunction],
       "openAppsModal": [MockFunction],
+      "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
   appBindings={Array []}
@@ -57,8 +58,9 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with no bindings 
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "handleBindingClick": [MockFunction],
       "openAppsModal": [MockFunction],
+      "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
   appBindings={Array []}
@@ -110,8 +112,9 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with no extended 
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "handleBindingClick": [MockFunction],
       "openAppsModal": [MockFunction],
+      "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
   appBindings={Array []}
@@ -163,8 +166,9 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with no extended 
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "handleBindingClick": [MockFunction],
       "openAppsModal": [MockFunction],
+      "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
   appBindings={Array []}
@@ -216,16 +220,19 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one binding 
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "handleBindingClick": [MockFunction],
       "openAppsModal": [MockFunction],
+      "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
   appBindings={
     Array [
       Object {
         "app_id": "appid",
-        "call": Object {
-          "path": "/call/path",
+        "form": Object {
+          "submit": Object {
+            "path": "/call/path",
+          },
         },
         "hint": "Hint",
         "icon": "http://test.com/icon.png",
@@ -240,37 +247,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one binding 
   components={Array []}
   intl={
     Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "defaultRichTextElements": undefined,
-      "formatDate": [Function],
-      "formatDateTimeRange": [Function],
-      "formatDateToParts": [Function],
-      "formatDisplayName": [Function],
-      "formatList": [Function],
-      "formatListToParts": [Function],
       "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatNumberToParts": [Function],
-      "formatPlural": [Function],
-      "formatRelativeTime": [Function],
-      "formatTime": [Function],
-      "formatTimeToParts": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getDisplayNames": [Function],
-        "getListFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralRules": [Function],
-        "getRelativeTimeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": "Etc/UTC",
     }
   }
   isDropdown={false}
@@ -302,16 +279,19 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one binding,
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "handleBindingClick": [MockFunction],
       "openAppsModal": [MockFunction],
+      "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
   appBindings={
     Array [
       Object {
         "app_id": "appid",
-        "call": Object {
-          "path": "/call/path",
+        "form": Object {
+          "submit": Object {
+            "path": "/call/path",
+          },
         },
         "hint": "Hint",
         "icon": "http://test.com/icon.png",
@@ -382,8 +362,9 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "handleBindingClick": [MockFunction],
       "openAppsModal": [MockFunction],
+      "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
   appBindings={Array []}
@@ -405,37 +386,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
   }
   intl={
     Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "defaultRichTextElements": undefined,
-      "formatDate": [Function],
-      "formatDateTimeRange": [Function],
-      "formatDateToParts": [Function],
-      "formatDisplayName": [Function],
-      "formatList": [Function],
-      "formatListToParts": [Function],
       "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatNumberToParts": [Function],
-      "formatPlural": [Function],
-      "formatRelativeTime": [Function],
-      "formatTime": [Function],
-      "formatTimeToParts": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getDisplayNames": [Function],
-        "getListFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralRules": [Function],
-        "getRelativeTimeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": "Etc/UTC",
     }
   }
   isDropdown={false}
@@ -464,16 +415,19 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "handleBindingClick": [MockFunction],
       "openAppsModal": [MockFunction],
+      "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
   appBindings={
     Array [
       Object {
         "app_id": "appid",
-        "call": Object {
-          "path": "/call/path",
+        "form": Object {
+          "submit": Object {
+            "path": "/call/path",
+          },
         },
         "hint": "Hint",
         "icon": "http://test.com/icon.png",
@@ -569,8 +523,9 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "handleBindingClick": [MockFunction],
       "openAppsModal": [MockFunction],
+      "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
   appBindings={Array []}
@@ -648,16 +603,19 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "handleBindingClick": [MockFunction],
       "openAppsModal": [MockFunction],
+      "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
   appBindings={
     Array [
       Object {
         "app_id": "appid",
-        "call": Object {
-          "path": "/call/path",
+        "form": Object {
+          "submit": Object {
+            "path": "/call/path",
+          },
         },
         "hint": "Hint",
         "icon": "http://test.com/icon.png",
@@ -726,16 +684,19 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with two bindings
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "handleBindingClick": [MockFunction],
       "openAppsModal": [MockFunction],
+      "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
   appBindings={
     Array [
       Object {
         "app_id": "appid",
-        "call": Object {
-          "path": "/call/path",
+        "form": Object {
+          "submit": Object {
+            "path": "/call/path",
+          },
         },
         "hint": "Hint",
         "icon": "http://test.com/icon.png",
@@ -744,8 +705,10 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with two bindings
       },
       Object {
         "app_id": "app2",
-        "call": Object {
-          "path": "/call/path",
+        "form": Object {
+          "submit": Object {
+            "path": "/call/path",
+          },
         },
         "hint": "Hint",
         "icon": "http://test.com/icon.png",
@@ -802,16 +765,19 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with two bindings
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "handleBindingClick": [MockFunction],
       "openAppsModal": [MockFunction],
+      "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
   appBindings={
     Array [
       Object {
         "app_id": "appid",
-        "call": Object {
-          "path": "/call/path",
+        "form": Object {
+          "submit": Object {
+            "path": "/call/path",
+          },
         },
         "hint": "Hint",
         "icon": "http://test.com/icon.png",
@@ -820,8 +786,10 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with two bindings
       },
       Object {
         "app_id": "app2",
-        "call": Object {
-          "path": "/call/path",
+        "form": Object {
+          "submit": Object {
+            "path": "/call/path",
+          },
         },
         "hint": "Hint",
         "icon": "http://test.com/icon.png",
@@ -836,37 +804,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with two bindings
   components={Array []}
   intl={
     Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "defaultRichTextElements": undefined,
-      "formatDate": [Function],
-      "formatDateTimeRange": [Function],
-      "formatDateToParts": [Function],
-      "formatDisplayName": [Function],
-      "formatList": [Function],
-      "formatListToParts": [Function],
       "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatNumberToParts": [Function],
-      "formatPlural": [Function],
-      "formatRelativeTime": [Function],
-      "formatTime": [Function],
-      "formatTimeToParts": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getDisplayNames": [Function],
-        "getListFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralRules": [Function],
-        "getRelativeTimeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": "Etc/UTC",
     }
   }
   isDropdown={true}
@@ -905,8 +843,9 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with two extended
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "handleBindingClick": [MockFunction],
       "openAppsModal": [MockFunction],
+      "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
   appBindings={Array []}
@@ -979,8 +918,9 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with two extended
 <MobileChannelHeaderPlug
   actions={
     Object {
-      "doAppCall": [MockFunction],
+      "handleBindingClick": [MockFunction],
       "openAppsModal": [MockFunction],
+      "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
   appBindings={Array []}
@@ -1011,37 +951,7 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with two extended
   }
   intl={
     Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "defaultRichTextElements": undefined,
-      "formatDate": [Function],
-      "formatDateTimeRange": [Function],
-      "formatDateToParts": [Function],
-      "formatDisplayName": [Function],
-      "formatList": [Function],
-      "formatListToParts": [Function],
       "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatNumberToParts": [Function],
-      "formatPlural": [Function],
-      "formatRelativeTime": [Function],
-      "formatTime": [Function],
-      "formatTimeToParts": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getDisplayNames": [Function],
-        "getListFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralRules": [Function],
-        "getRelativeTimeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": "Etc/UTC",
     }
   }
   isDropdown={true}
