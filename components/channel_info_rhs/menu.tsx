@@ -100,7 +100,10 @@ const Menu = ({channel, channelStats, isArchived, className, actions}: MenuProps
     const showNotificationPreferences = channel.type !== Constants.DM_CHANNEL && !isArchived;
 
     return (
-        <div className={className} data-testid='channel_info_rhs-menu'>
+        <div
+            className={className}
+            data-testid='channel_info_rhs-menu'
+        >
             {showNotificationPreferences && (
                 <MenuItem
                     icon={<i className='icon icon-bell-outline'/>}

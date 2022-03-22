@@ -119,17 +119,15 @@ describe('channels', () => {
             const state = deepFreeze(channelsReducer({
                 stats: {
                     channel1: {
-                        channel_id: 'channel1',
+                        id: 'channel1',
                         files_count: 1,
                     },
                 },
             }, {}));
             const nextState = channelsReducer(state, {
                 type: ChannelTypes.INCREMENT_FILE_COUNT,
-                data: {
-                    channelId: 'channel1',
-                    amount: 3,
-                },
+                id: 'channel1',
+                amount: 3,
             });
 
             expect(nextState).not.toBe(state);
