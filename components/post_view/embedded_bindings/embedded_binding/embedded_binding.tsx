@@ -59,7 +59,7 @@ export default class EmbeddedBinding extends React.PureComponent<Props, State> {
         };
 
         if (props.embed.app_id && props.embed.bindings) {
-            state.bindings = this.fillBindings(props.embed);
+            state.bindings = EmbeddedBinding.fillBindings(props.embed);
         }
 
         this.state = state;
