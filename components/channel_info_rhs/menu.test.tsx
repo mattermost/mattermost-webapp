@@ -69,18 +69,17 @@ describe('channel_info_rhs/menu', () => {
         const props = {...defaultProps};
         props.actions.showChannelFiles = jest.fn();
 
-        const {container} = renderWithIntl(
+        renderWithIntl(
             <Menu
                 {...props}
             />,
         );
 
-        expect(screen.getByText('Files')).toBeInTheDocument();
-        expect(container.querySelector('span')).toBeInTheDocument();
-        expect(container.querySelector('span')).toHaveTextContent('3');
+        const fileItem = screen.getByText('Files');
+        expect(fileItem).toBeInTheDocument();
+        expect(fileItem.parentElement).toHaveTextContent('3');
 
-        fireEvent.click(screen.getByText('Files'));
-
+        fireEvent.click(fileItem);
         expect(props.actions.showChannelFiles).toHaveBeenCalled();
     });
 });
