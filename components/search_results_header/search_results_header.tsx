@@ -20,6 +20,13 @@ const BackButton = styled.button`
     background: transparent;
 `;
 
+const BackButtonIcon = styled(LocalizedIcon)`
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+`;
+
 type Props = {
     isExpanded: boolean;
     channelId: string;
@@ -82,7 +89,7 @@ export default class SearchResultsHeader extends React.PureComponent<Props> {
                             className='sidebar--right__back'
                             onClick={() => this.props.actions.showChannelInfo(this.props.channelId)}
                         >
-                            <LocalizedIcon
+                            <BackButtonIcon
                                 className='icon-arrow-back-ios'
                                 ariaLabel={{id: t('rhs_header.back.icon'), defaultMessage: 'Back Icon'}}
                             />
