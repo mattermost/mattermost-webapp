@@ -189,14 +189,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.setState({canEdit: false});
     }
 
-    // trackEvent = (e: ChangeEvent, suffix: string) => {
-    //     if (e.type === EventTypes.CLICK) {
-    //         trackEvent(TELEMETRY_CATEGORIES.POST_INFO_MORE, EventTypes.CLICK + '_' + suffix);
-    //     } else {
-    //         trackEvent(TELEMETRY_CATEGORIES.POST_INFO_MORE, EventTypes.SHORTCUT + '_ ' + suffix);
-    //     }
-    // }
-
     handleFlagMenuItemActivated = (): void => {
         if (this.props.isFlagged) {
             this.props.actions.unflagPost(this.props.post.id);
