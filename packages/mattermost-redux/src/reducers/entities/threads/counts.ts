@@ -139,6 +139,15 @@ export function countsIncludingDirectReducer(state: ThreadsState['counts'] = {},
     case ChannelTypes.RECEIVED_CHANNEL_DELETED:
     case ChannelTypes.LEAVE_CHANNEL:
         return handleLeaveChannel(state, action, extra);
+    case ThreadTypes.RECEIVED_UNREAD_THREADS:
+        return {
+            ...state,
+            [action.data.team_id]: {
+                ...state[action.data.team_id],
+                total_unread_threads: action.data.total_unread_threads,
+                total_unread_mentions: action.data.total_unread_mentions,
+            },
+        };
     case ThreadTypes.RECEIVED_THREADS:
         return {
             ...state,
