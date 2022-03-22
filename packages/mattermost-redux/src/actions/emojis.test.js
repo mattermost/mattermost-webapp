@@ -9,7 +9,6 @@ import nock from 'nock';
 import * as Actions from 'mattermost-redux/actions/emojis';
 import {Client4} from 'mattermost-redux/client';
 
-import {GeneralTypes} from 'mattermost-redux/action_types';
 import TestHelper from 'mattermost-redux/test/test_helper';
 import configureStore from 'mattermost-redux/test/test_store';
 

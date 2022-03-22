@@ -12,7 +12,7 @@ import {removeUserFromList} from 'mattermost-redux/utils/user_utils';
 
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 
-import {getConfig, getServerVersion} from 'mattermost-redux/selectors/entities/general';
+import {getServerVersion} from 'mattermost-redux/selectors/entities/general';
 
 import {getCurrentUserId, getUsers} from 'mattermost-redux/selectors/entities/users';
 
@@ -213,7 +213,6 @@ function completeLogin(data: UserProfile): ActionFunc {
 export function loadMe(): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
-        const config = getConfig(state);
 
         const deviceId = state.entities.general.deviceToken;
         if (deviceId) {
