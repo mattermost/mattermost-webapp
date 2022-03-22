@@ -76,17 +76,18 @@ export default function PopoverListMembers(props: Props) {
         actions.openModal(modalData);
     };
 
-    const onAddNewMembersButton = (placement: string) => {
+    const getOnAddNewMembersButton = (placement: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
         const {channel, actions} = props;
         trackEvent('add_members_from_channel_popover', placement);
+        e.preventDefault();
+        closePopover();
 
         const modalData = {
             modalId: ModalIdentifiers.CHANNEL_INVITE,
-            dialogType: ChannelInviteModal,
             dialogProps: {channel},
+            dialogType: ChannelInviteModal,
         };
         actions.openModal(modalData);
-        closePopover();
     };
 
     const handleGetProfilesInChannel = () => {
@@ -112,7 +113,6 @@ export default function PopoverListMembers(props: Props) {
 
     const channelIsArchived = props.channel.delete_at !== 0;
     let popoverButton = null;
-    let handleButtonOnClick = showMembersModal;
     let editButton = null;
     if (props.channel.type !== Constants.GM_CHANNEL && !channelIsArchived) {
         const isDefaultChannel = props.channel.name === Constants.DEFAULT_CHANNEL;
@@ -127,44 +127,45 @@ export default function PopoverListMembers(props: Props) {
                 defaultMessage='Manage Members'
             />
         );
-
-        if (props.addMembersABTest === AddMembersToChanneltreatments.BOTTOM && props.manageMembers) {
-            handleButtonOnClick = () => onAddNewMembersButton(AddMembersToChanneltreatments.BOTTOM);
-            membersName = (
-                <FormattedMessage
-                    id='members_popover.addMembers'
-                    defaultMessage='Add Members'
-                />
-            );
-            editButton = (
-                <button
-                    className='btn btn-link'
-                    id='editBtn'
-                    onClick={showMembersModal}
-                >
-                    <i className='icon icon-pencil-outline'/>
+        if (props.manageMembers) {
+            if (props.addMembersABTest === AddMembersToChanneltreatments.BOTTOM) {
+                membersName = (
                     <FormattedMessage
-                        id='members_popover.editBtn'
-                        defaultMessage='Edit'
+                        id='members_popover.addMembers'
+                        defaultMessage='Add Members'
                     />
-                </button>
-            );
-        } else if (props.addMembersABTest === AddMembersToChanneltreatments.TOP && props.manageMembers) {
-            editButton = (
-                <button
-                    className='btn btn-link'
-                    id='addBtn'
-                    onClick={() => onAddNewMembersButton(AddMembersToChanneltreatments.TOP)}
-                >
-                    <i className='icon icon-account-plus-outline'/>
-                    <FormattedMessage
-                        id='members_popover.add'
-                        defaultMessage='Add'
-                    />
-                </button>
-            );
+                );
+                editButton = (
+                    <button
+                        className='btn btn-link'
+                        id='editBtn'
+                        onClick={showMembersModal}
+                    >
+                        <i className='icon icon-pencil-outline'/>
+                        <FormattedMessage
+                            id='members_popover.editBtn'
+                            defaultMessage='Edit'
+                        />
+                    </button>
+                );
+            } else if (props.addMembersABTest === AddMembersToChanneltreatments.TOP) {
+                editButton = (
+                    <button
+                        className='btn btn-link'
+                        id='addBtn'
+                        onClick={getOnAddNewMembersButton(AddMembersToChanneltreatments.TOP)}
+                    >
+                        <i className='icon icon-account-plus-outline'/>
+                        <FormattedMessage
+                            id='members_popover.add'
+                            defaultMessage='Add'
+                        />
+                    </button>
+                );
+            }
         }
 
+        const handleButtonOnClick = (props.manageMembers && props.addMembersABTest === AddMembersToChanneltreatments.BOTTOM) ? getOnAddNewMembersButton(AddMembersToChanneltreatments.BOTTOM) : showMembersModal;
         popoverButton = (
             <div
                 className='more-modal__button'
