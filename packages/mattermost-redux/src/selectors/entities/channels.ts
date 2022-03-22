@@ -922,6 +922,40 @@ export const getUnreadChannels: (state: GlobalState, lastUnreadChannel?: Channel
     },
 );
 
+// export const mapAndSortChannelIds = (
+//     channels: Channel[],
+//     currentUser: UserProfile,
+//     myMembers: RelationOneToOne<Channel, ChannelMembership>,
+//     lastPosts: RelationOneToOne<Channel, Post>,
+//     sorting: SortingType,
+//     sortMentionsFirst = false,
+// ): string[] => {
+//     const locale = currentUser.locale || General.DEFAULT_LOCALE;
+//
+//     const mutedChannelIds = channels.
+//         filter((channel) => isChannelMuted(myMembers[channel.id])).
+//         map((channel) => channel.id);
+//
+//     let hasMentionedChannelIds: string[] = [];
+//     if (sortMentionsFirst) {
+//         hasMentionedChannelIds = channels.
+//             filter((channel) => {
+//                 const member = myMembers[channel.id];
+//                 return member && member.mention_count > 0 && !isChannelMuted(member);
+//             }).
+//             sort(sortChannelsByRecencyOrAlpha.bind(null, locale, lastPosts, sorting)).
+//             map((channel) => channel.id);
+//     }
+//
+//     const otherChannelIds = channels.
+//         filter((channel) => {
+//             return !mutedChannelIds.includes(channel.id) && !hasMentionedChannelIds.includes(channel.id);
+//         }).
+//         map((channel) => channel.id);
+//
+//     return sortMentionsFirst ? hasMentionedChannelIds.concat(mutedChannelIds, otherChannelIds) : otherChannelIds.concat(mutedChannelIds);
+// };
+
 export const getAllTeamsUnreadChannels: (state: GlobalState, lastUnreadChannel?: Channel | null) => Channel[] = createIdsSelector(
     'getAllTeamsUnreadChannels',
     getCurrentUser,

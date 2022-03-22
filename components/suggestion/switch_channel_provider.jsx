@@ -17,7 +17,7 @@ import {
     getCurrentChannel,
     getDirectTeammate,
     getChannelsInAllTeams,
-    getUnreadChannels, getAllTeamsUnreadChannels,
+    getAllTeamsUnreadChannels,
 } from 'mattermost-redux/selectors/entities/channels';
 
 import ProfilePicture from '../profile_picture';
@@ -223,7 +223,7 @@ class SwitchChannelSuggestion extends Suggestion {
                 {icon}
                 <div className='suggestion-list__ellipsis suggestion-list__flex'>
                     <span className='suggestion-list__main'>
-                        {name}
+                        <span className={item.type === Constants.MENTION_UNREAD_CHANNELS ? 'suggestion-list__unread' : ''}>{name}</span>
                         {(isPartOfOnlyOneTeam || channel.type === Constants.DM_CHANNEL) && (
                             <span className='ml-2 suggestion-list__desc'>{description}</span>
                         )}
@@ -284,6 +284,15 @@ function sortChannelsByRecencyAndTypeAndDisplayName(wrappedA, wrappedB) {
 
     // MM-12677 When this is migrated this needs to be fixed to pull the user's locale
     return sortChannelsByTypeAndDisplayName('en', wrappedA.channel, wrappedB.channel);
+}
+
+function sortChannelsByMentions(wrappedA, wrappedB) {
+    if (wrappedA.unreadMentions && !wrappedB.unreadMentions) {
+        return -1;
+    } else if (!wrappedA.unreadMentions && wrappedB.unreadMentions) {
+        return 1;
+    }
+    return sortChannelsByRecencyAndTypeAndDisplayName(wrappedA, wrappedB);
 }
 
 export function quickSwitchSorter(wrappedA, wrappedB) {
@@ -629,8 +638,11 @@ export default class SwitchChannelProvider extends Provider {
             this.startNewRequest('');
             this.fetchChannels(resultsCallback);
         }
-        const sortedRecentChannels = wrappedRecentChannels.sort(sortChannelsByRecencyAndTypeAndDisplayName);
-        const sortedChannels = wrappedUnreadChannels.length > 0 ? [...wrappedUnreadChannels.slice(0, 5), ...sortedRecentChannels.slice(0, 10)] : sortedRecentChannels.slice(0, 20);
+        const sortedUnreadChannels = wrappedUnreadChannels.sort(sortChannelsByMentions).slice(0, 5);
+        const sortedUnreadChannelIDs = sortedUnreadChannels.map((wrappedChannel) => wrappedChannel.channel.id);
+        const sortedRecentChannels = wrappedRecentChannels.filter((wrappedChannel) => !sortedUnreadChannelIDs.includes(wrappedChannel.channel.id)).
+            sort(sortChannelsByRecencyAndTypeAndDisplayName).slice(0, 20);
+        const sortedChannels = [...sortedUnreadChannels, ...sortedRecentChannels];
         const channelNames = sortedChannels.map((wrappedChannel) => wrappedChannel.channel.id);
         resultsCallback({
             matchedPretext: '',
@@ -660,6 +672,7 @@ export default class SwitchChannelProvider extends Provider {
         const currentChannel = getCurrentChannel(state);
         const myMembers = getMyChannelMemberships(state);
         const myPreferences = getMyPreferences(state);
+        const collapsedThreads = isCollapsedThreadsEnabled(state);
 
         const channelList = [];
         for (let i = 0; i < channels.length; i++) {
@@ -668,8 +681,12 @@ export default class SwitchChannelProvider extends Provider {
                 continue;
             }
             let wrappedChannel = {channel, name: channel.name, deactivated: false};
-            if (myMembers[channel.id]) {
+            const member = myMembers[channel.id];
+            if (member) {
                 wrappedChannel.last_viewed_at = this.getLastViewedAt(myMembers, myPreferences, channel);
+            }
+            if (member && channelType === Constants.MENTION_UNREAD_CHANNELS) {
+                wrappedChannel.unreadMentions = collapsedThreads ? member.mention_count_root : member.mention_count;
             }
             if (channel.type === Constants.GM_CHANNEL) {
                 wrappedChannel.name = channel.display_name;
