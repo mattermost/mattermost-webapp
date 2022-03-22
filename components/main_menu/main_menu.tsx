@@ -482,6 +482,9 @@ export class MainMenu extends React.PureComponent<Props> {
                         />
                     </SystemPermissionGate>
                 </Menu.Group>
+                <Menu.Group>
+                    {pluginItems}
+                </Menu.Group>
             </Menu>
         );
     }

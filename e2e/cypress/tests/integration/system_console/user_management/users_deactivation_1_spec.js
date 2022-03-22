@@ -34,7 +34,7 @@ describe('System Console > User Management > Deactivation', () => {
         cy.visit(`/${team1.name}`);
     });
 
-    it('MM-T951 Reopened DM shows archived icon in LHS No status indicator in channel header Message box replaced with "You are viewing an archived channel with a deactivated user." in center and RHS - KNOWN ISSUE (MM-42529)', () => {
+    it('MM-T951 Reopened DM shows archived icon in LHS No status indicator in channel header Message box replaced with "You are viewing an archived channel with a deactivated user." in center and RHS - KNOWN ISSUE: MM-42529', () => {
         // # Create other user
         cy.apiCreateUser({prefix: 'other'}).then(({user}) => {
             // # Send a DM to the other user
