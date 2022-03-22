@@ -13,52 +13,51 @@
 import {stubClipboard} from '../../utils';
 
 describe('Permalink message edit', () => {
-    let testTeam;
-    let testChannel;
-
     before(() => {
-        cy.apiInitSetup().then(({team, channel}) => {
-            testTeam = team;
-            testChannel = channel;
+        cy.apiInitSetup().then(({channelUrl}) => {
+            // # Go to test channel
+            cy.visit(channelUrl);
         });
     });
 
     it('MM-T4688 Copy Text menu item should copy post message to clipboard', () => {
         stubClipboard().as('clipboard');
 
-        // # Go to test channel
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
-        cy.get('#channelHeaderTitle').should('be.visible').should('contain', testChannel.display_name || testChannel.name);
-
         // # Post a message
         const message = Date.now().toString();
         cy.postMessage(message);
-
-        cy.getLastPostId().then((postId) => {
-            // # Copy message by clicking
-            cy.uiClickPostDropdownMenu(postId, 'Copy Text');
-
-            // * Ensure that the clipboard contents are correct
-            cy.get('@clipboard').its('wasCalled').should('eq', true);
-            cy.location().then(() => {
-                cy.get('@clipboard').its('contents').should('eq', message);
-            });
-        });
+        cy.getLastPostId().as('postId1');
 
         // # Post another message
         const message2 = Date.now().toString();
         cy.postMessage(message2);
+        cy.getLastPostId().as('postId2');
 
-        cy.getLastPostId().then((postId) => {
-            // # Copy by keyboard shortcut
-            cy.clickPostDotMenu(postId, 'CENTER');
-            cy.findAllByTestId(`post-menu-${postId}`).eq(0).type('c');
+        // # Post several messages so that dropdown menu can be seen when rendered at the bottom (Cypress limitation)
+        Cypress._.times(10, (n) => {
+            cy.uiPostMessageQuickly(n);
+        });
+
+        cy.get('@postId1').then((postId) => {
+            // # Copy message by clicking
+            cy.uiClickPostDropdownMenu(postId, 'Copy Text');
 
             // * Ensure that the clipboard contents are correct
-            cy.get('@clipboard').its('wasCalled').should('eq', true);
-            cy.location().then(() => {
-                cy.get('@clipboard').its('contents').should('eq', message2);
-            });
+            verifyClipboard(message);
+        });
+
+        cy.get('@postId2').then((postId) => {
+            // # Copy by keyboard shortcut
+            cy.clickPostDotMenu(postId, 'CENTER');
+            cy.get('body').type('c');
+
+            // * Ensure that the clipboard contents are correct
+            verifyClipboard(message2);
         });
     });
 });
+
+function verifyClipboard(message) {
+    cy.get('@clipboard').its('wasCalled').should('eq', true);
+    cy.get('@clipboard').its('contents').should('eq', message);
+}
