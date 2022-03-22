@@ -33,8 +33,8 @@ export type Props = {
     manageMembers: boolean;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
-        loadProfilesAndStatusesInChannel: (channelId: string, page?: number, perPage?: number, sort?: string, options?: {active: boolean}) => void;
-        openDirectChannelToUserId: (userId: string) => Promise<{data: Channel}>;
+        loadProfilesAndStatusesInChannel: (channelId: string, page?: number, perPage?: number, sort?: string, options?: { active: boolean }) => void;
+        openDirectChannelToUserId: (userId: string) => Promise<{ data: Channel }>;
     };
     sortedUsers: UserProfile[];
     addMembersABTest?: string;
@@ -112,61 +112,70 @@ export default function PopoverListMembers(props: Props) {
     ));
 
     const channelIsArchived = props.channel.delete_at !== 0;
-    let popoverButton = null;
-    let editButton = null;
-    if (props.channel.type !== Constants.GM_CHANNEL && !channelIsArchived) {
-        const isDefaultChannel = props.channel.name === Constants.DEFAULT_CHANNEL;
-        let membersName = (isDefaultChannel || !props.manageMembers) ? (
-            <FormattedMessage
-                id='members_popover.viewMembers'
-                defaultMessage='View Members'
-            />
-        ) : (
-            <FormattedMessage
-                id='members_popover.manageMembers'
-                defaultMessage='Manage Members'
-            />
-        );
-        if (props.manageMembers) {
-            if (props.addMembersABTest === AddMembersToChanneltreatments.BOTTOM) {
-                membersName = (
-                    <FormattedMessage
-                        id='members_popover.addMembers'
-                        defaultMessage='Add Members'
-                    />
-                );
-                editButton = (
-                    <button
-                        className='btn btn-link'
-                        id='editBtn'
-                        onClick={showMembersModal}
-                    >
-                        <i className='icon icon-pencil-outline'/>
-                        <FormattedMessage
-                            id='members_popover.editBtn'
-                            defaultMessage='Edit'
-                        />
-                    </button>
-                );
-            } else if (props.addMembersABTest === AddMembersToChanneltreatments.TOP) {
-                editButton = (
-                    <button
-                        className='btn btn-link'
-                        id='addBtn'
-                        onClick={getOnAddNewMembersButton(AddMembersToChanneltreatments.TOP)}
-                    >
-                        <i className='icon icon-account-plus-outline'/>
-                        <FormattedMessage
-                            id='members_popover.add'
-                            defaultMessage='Add'
-                        />
-                    </button>
-                );
-            }
+    const isDefaultChannel = props.channel.name === Constants.DEFAULT_CHANNEL;
+    const shouldRenderButtons = props.channel.type !== Constants.GM_CHANNEL && !channelIsArchived;
+    const renderHeaderButton = () => {
+        if (!(shouldRenderButtons && props.manageMembers)) {
+            return null;
         }
-
+        return props.addMembersABTest === AddMembersToChanneltreatments.TOP ? (
+            <button
+                className='btn btn-link'
+                id='addBtn'
+                onClick={getOnAddNewMembersButton(AddMembersToChanneltreatments.TOP)}
+            >
+                <i className='icon icon-account-plus-outline'/>
+                <FormattedMessage
+                    id='members_popover.add'
+                    defaultMessage='Add'
+                />
+            </button>
+        ) : (
+            <button
+                className='btn btn-link'
+                id='editBtn'
+                onClick={showMembersModal}
+            >
+                <i className='icon icon-pencil-outline'/>
+                <FormattedMessage
+                    id='members_popover.editBtn'
+                    defaultMessage='Edit'
+                />
+            </button>
+        );
+    };
+    const renderFooterButton = () => {
+        if (!shouldRenderButtons) {
+            return null;
+        }
+        let label = null;
+        switch (true) {
+        case (props.manageMembers && props.addMembersABTest === AddMembersToChanneltreatments.BOTTOM):
+            label = (
+                <FormattedMessage
+                    id='members_popover.addMembers'
+                    defaultMessage='Add Members'
+                />
+            );
+            break;
+        case isDefaultChannel || !props.manageMembers:
+            label = (
+                <FormattedMessage
+                    id='members_popover.viewMembers'
+                    defaultMessage='View Members'
+                />
+            );
+            break;
+        default:
+            label = (
+                <FormattedMessage
+                    id='members_popover.manageMembers'
+                    defaultMessage='Manage Members'
+                />
+            );
+        }
         const handleButtonOnClick = (props.manageMembers && props.addMembersABTest === AddMembersToChanneltreatments.BOTTOM) ? getOnAddNewMembersButton(AddMembersToChanneltreatments.BOTTOM) : showMembersModal;
-        popoverButton = (
+        return (
             <div
                 className='more-modal__button'
                 key={'popover-member-more'}
@@ -176,11 +185,12 @@ export default function PopoverListMembers(props: Props) {
                     data-testid='membersModal'
                     onClick={handleButtonOnClick}
                 >
-                    {membersName}
+                    {label}
                 </button>
             </div>
         );
-    }
+    };
+
     const countText = props.memberCount > 0 ? props.memberCount.toString() : '-';
 
     const title = (
@@ -248,7 +258,7 @@ export default function PopoverListMembers(props: Props) {
                         className='more-modal__header'
                     >
                         {title}
-                        {editButton}
+                        {renderHeaderButton()}
                         {props.channel.group_constrained && <div className='subhead'>
                             <FormattedMessage
                                 id='channel_header.groupConstrained'
@@ -266,7 +276,7 @@ export default function PopoverListMembers(props: Props) {
                             {items}
                         </div>
                     </div>
-                    {popoverButton}
+                    {renderFooterButton()}
                 </Popover>
             </Overlay>
         </div>

@@ -71,6 +71,19 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
           defaultMessage="Channel Members"
           id="members_popover.title"
         />
+        <button
+          className="btn btn-link"
+          id="editBtn"
+          onClick={[Function]}
+        >
+          <i
+            className="icon icon-pencil-outline"
+          />
+          <MemoizedFormattedMessage
+            defaultMessage="Edit"
+            id="members_popover.editBtn"
+          />
+        </button>
       </div>
       <div
         className="more-modal__body"
@@ -464,6 +477,19 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
           defaultMessage="Channel Members"
           id="members_popover.title"
         />
+        <button
+          className="btn btn-link"
+          id="editBtn"
+          onClick={[Function]}
+        >
+          <i
+            className="icon icon-pencil-outline"
+          />
+          <MemoizedFormattedMessage
+            defaultMessage="Edit"
+            id="members_popover.editBtn"
+          />
+        </button>
         <div
           className="subhead"
         >
