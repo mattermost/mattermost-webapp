@@ -2754,7 +2754,6 @@
   "channel_header.unmuteConversation": "Stummschaltung aufheben",
   "channel_header.userHelpGuide": "Hilfe",
   "channel_header.viewMembers": "Zeige Mitglieder",
-  "channel_info.notFound": "Kein Kanal gefunden",
   "channel_invite.addNewMembers": "Füge neue Mitglieder zu {channel} hinzu",
   "channel_loader.posted": "Verschickt",
   "channel_loader.postedImage": " hat ein Bild hochgeladen",
