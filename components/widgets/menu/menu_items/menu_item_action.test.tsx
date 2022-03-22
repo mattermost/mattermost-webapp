@@ -20,16 +20,14 @@ describe('components/MenuItemAction', () => {
               className="style--none"
               onClick={[MockFunction]}
             >
-              <span>
-                <span
-                  className="MenuItem__primary-text"
-                >
-                  Whatever
-                </span>
-                <span
-                  className="MenuItem__right-decorator MenuItem__text-color"
-                />
+              <span
+                className="MenuItem__primary-text"
+              >
+                Whatever
               </span>
+              <span
+                className="MenuItem__right-decorator MenuItem__text-color"
+              />
             </button>
         `);
     });
@@ -47,16 +45,14 @@ describe('components/MenuItemAction', () => {
               className="style--none MenuItem__with-help"
               onClick={[MockFunction]}
             >
-              <span>
-                <span
-                  className="MenuItem__primary-text"
-                >
-                  Whatever
-                </span>
-                <span
-                  className="MenuItem__right-decorator MenuItem__text-color"
-                />
+              <span
+                className="MenuItem__primary-text"
+              >
+                Whatever
               </span>
+              <span
+                className="MenuItem__right-decorator MenuItem__text-color"
+              />
               <span
                 className="MenuItem__help-text"
               >
