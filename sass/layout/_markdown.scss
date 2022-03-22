@@ -76,6 +76,10 @@ h6.markdown__heading {
     .markdown-inline-img__container {
         display: inline-block;
         width: calc(100% - 5px);
+
+        .markdown-image-expand__collapse-button {
+            z-index: 3;
+        }
     }
 
     .markdown-inline-img--loading {
