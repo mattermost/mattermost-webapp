@@ -28,7 +28,7 @@ const RightSide = styled.div`
     color: rgba(var(--center-channel-color-rgb), 0.56);
 `;
 
-const Badge = styled.span`
+const Badge = styled.div`
     font-size: 12px;
     line-height: 18px;
 `;
@@ -43,7 +43,7 @@ interface MenuItemProps {
 }
 
 const menuItem = ({icon, text, className, opensSubpanel, badge, onClick}: MenuItemProps) => {
-    const hasRightSide = badge || opensSubpanel;
+    const hasRightSide = (badge !== undefined) || opensSubpanel;
 
     return (
         <div className={className}>
@@ -55,7 +55,7 @@ const menuItem = ({icon, text, className, opensSubpanel, badge, onClick}: MenuIt
 
                 {hasRightSide && (
                     <RightSide>
-                        {badge && (
+                        {badge !== undefined && (
                             <Badge>{badge}</Badge>
                         )}
                         {opensSubpanel && (
