@@ -27,7 +27,7 @@ function handleAllTeamThreadsRead(state: ThreadsState['counts'], action: Generic
 
 function isEqual(state: ThreadsState['counts'], action: GenericAction) {
     const counts = state[action.data.team_id] ?? {};
-    const newCounts = omit(action.data, ['threads', 'teamId']);
+    const newCounts = omit(action.data, ['threads', 'team_id']);
 
     return shallowEqual(counts, newCounts);
 }
