@@ -494,7 +494,7 @@ describe('Messaging', () => {
             cy.get('#edit_textbox').should('be.visible');
 
             // * Close the input
-            cy.get('#edit_textbox').type('{enter}');
+            cy.get('#edit_textbox').type('{enter}').wait(TIMEOUTS.TWO_SEC);
 
             // # Verify that last post does not contain "Edited"
             cy.get(`#postMessageText_${postId}`).should('contain', message1).and('not.contain', 'Edited');
