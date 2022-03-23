@@ -240,8 +240,9 @@
     }
 
     .modal-header {
+        display: flex;
         min-height: 56px;
-        padding: 14px 15px 11px;
+        padding: 14px 48px 11px 15px;
         border: 1px solid $light-gray;
         background: #333;
         border-radius: 0;
@@ -253,8 +254,8 @@
         .modal-title {
             overflow: hidden;
             max-width: calc(100% - 80px);
+            flex: 1;
             color: var(--sidebar-header-text-color);
-            float: left;
             font-size: 17px;
             line-height: 27px;
             text-overflow: ellipsis;
@@ -315,8 +316,7 @@
         .btn {
             &.btn-primary {
                 position: relative;
-                margin: -4px 33px 0 0;
-                float: right;
+                margin-top: -4px;
 
                 i {
                     margin-right: 5px;

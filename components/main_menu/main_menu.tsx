@@ -10,7 +10,7 @@ import {Permissions} from 'mattermost-redux/constants';
 import * as GlobalActions from 'actions/global_actions';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
-import {useSafeUrl} from 'utils/url';
+import {makeUrlSafe} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
 import InvitationModal from 'components/invitation_modal';
 
@@ -130,6 +130,7 @@ export class MainMenu extends React.PureComponent<Props> {
 
     render() {
         const {
+            appDownloadLink,
             currentUser,
             teamIsGroupConstrained,
             isLicensedForLDAPGroups,
@@ -137,6 +138,8 @@ export class MainMenu extends React.PureComponent<Props> {
             guestAccessEnabled,
             canInviteTeamMember,
         } = this.props;
+
+        const safeAppDownloadLink = makeUrlSafe(appDownloadLink || '');
 
         if (!currentUser) {
             return null;
@@ -366,7 +369,7 @@ export class MainMenu extends React.PureComponent<Props> {
                     <Menu.ItemExternalLink
                         id='nativeAppLink'
                         show={this.props.appDownloadLink && !UserAgent.isMobileApp()}
-                        url={useSafeUrl(this.props.appDownloadLink || '')}
+                        url={safeAppDownloadLink}
                         text={formatMessage({id: 'navbar_dropdown.nativeApps', defaultMessage: 'Download Apps'})}
                         icon={<i className='fa fa-mobile'/>}
                     />
@@ -481,6 +484,9 @@ export class MainMenu extends React.PureComponent<Props> {
                             text={formatMessage({id: 'navbar_dropdown.create', defaultMessage: 'Create a Team'})}
                         />
                     </SystemPermissionGate>
+                </Menu.Group>
+                <Menu.Group>
+                    {pluginItems}
                 </Menu.Group>
             </Menu>
         );
