@@ -16,17 +16,22 @@ describe('components/MenuItemAction', () => {
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-      <button
-        className="style--none"
-        onClick={[MockFunction]}
-      >
-        <span
-          className="MenuItem__primary-text"
-        >
-          Whatever
-        </span>
-      </button>
-    `);
+            <button
+              className="style--none"
+              onClick={[MockFunction]}
+            >
+              <span>
+                <span
+                  className="MenuItem__primary-text"
+                >
+                  Whatever
+                </span>
+                <span
+                  className="MenuItem__right-decorator MenuItem__text-color"
+                />
+              </span>
+            </button>
+        `);
     });
     test('should match snapshot with extra text', () => {
         const wrapper = shallow(
@@ -38,21 +43,26 @@ describe('components/MenuItemAction', () => {
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-      <button
-        className="style--none MenuItem__with-help"
-        onClick={[MockFunction]}
-      >
-        <span
-          className="MenuItem__primary-text"
-        >
-          Whatever
-        </span>
-        <span
-          className="MenuItem__help-text"
-        >
-          Extra Text
-        </span>
-      </button>
-    `);
+            <button
+              className="style--none MenuItem__with-help"
+              onClick={[MockFunction]}
+            >
+              <span>
+                <span
+                  className="MenuItem__primary-text"
+                >
+                  Whatever
+                </span>
+                <span
+                  className="MenuItem__right-decorator MenuItem__text-color"
+                />
+              </span>
+              <span
+                className="MenuItem__help-text"
+              >
+                Extra Text
+              </span>
+            </button>
+        `);
     });
 });

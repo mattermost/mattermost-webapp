@@ -17,7 +17,7 @@ import {
     TTNameMapToATStatusKey,
     TutorialTourName,
 } from 'components/onboarding_tour';
-import StartTrialModal from 'components/start_trial_modal';
+import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_trial_modal';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
@@ -253,8 +253,8 @@ export const useHandleOnBoardingTaskTrigger = () => {
                 'open_start_trial_modal',
             );
             dispatch(openModal({
-                modalId: ModalIdentifiers.START_TRIAL_MODAL,
-                dialogType: StartTrialModal,
+                modalId: ModalIdentifiers.LEARN_MORE_TRIAL_MODAL,
+                dialogType: LearnMoreTrialModal,
             }));
 
             handleSaveData(taskName, TaskNameMapToSteps[taskName].FINISHED, true);
