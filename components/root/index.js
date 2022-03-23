@@ -7,11 +7,10 @@ import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {shouldShowTermsOfService, getCurrentUserId, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getFirstAdminSetupComplete} from 'mattermost-redux/actions/general';
+import {getFirstAdminSetupComplete, getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
 import {getTheme, getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getProfiles} from 'mattermost-redux/actions/users';
+import {getProfiles, loadMe} from 'mattermost-redux/actions/users';
 
-import {loadMeAndConfig} from 'actions/views/root';
 import {emitBrowserWindowResized} from 'actions/views/browser';
 import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks';
 import LocalStorageStore from 'stores/local_storage_store';
@@ -50,7 +49,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            loadMeAndConfig,
+            loadMe,
+            getClientConfig,
+            getLicenseConfig,
             emitBrowserWindowResized,
             getFirstAdminSetupComplete,
             getProfiles,

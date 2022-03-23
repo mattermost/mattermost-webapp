@@ -1,31 +1,28 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {Client4} from 'mattermost-redux/client';
+
 import {Action, ActionFunc, ActionResult, batchActions, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {UserProfile, UserStatus, GetFilteredUsersStatsOpts, UsersStats, UserCustomStatus} from 'mattermost-redux/types/users';
 import {TeamMembership} from 'mattermost-redux/types/teams';
-import {Client4} from 'mattermost-redux/client';
-import {General} from '../constants';
 import {UserTypes, TeamTypes, AdminTypes} from 'mattermost-redux/action_types';
 
-import {removeUserFromList} from 'mattermost-redux/utils/user_utils';
-
-import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
+import {getLicenseConfig, getClientConfig, setServerVersion} from 'mattermost-redux/actions/general';
+import {getAllCustomEmojis} from 'mattermost-redux/actions/emojis';
+import {getMyTeams, getMyTeamMembers, getMyTeamUnreads} from 'mattermost-redux/actions/teams';
+import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
+import {bindClientFunc, forceLogoutIfNecessary, debounce} from 'mattermost-redux/actions/helpers';
+import {logError} from 'mattermost-redux/actions/errors';
+import {getMyPreferences} from 'mattermost-redux/actions/preferences';
 
 import {getConfig, getServerVersion} from 'mattermost-redux/selectors/entities/general';
-
 import {getCurrentUserId, getUsers} from 'mattermost-redux/selectors/entities/users';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
-import {isCollapsedThreadsEnabled} from '../selectors/entities/preferences';
-
-import {getAllCustomEmojis} from './emojis';
-import {getClientConfig, setServerVersion} from './general';
-import {getMyTeams, getMyTeamMembers, getMyTeamUnreads} from './teams';
-import {loadRolesIfNeeded} from './roles';
-
-import {logError} from './errors';
-import {bindClientFunc, forceLogoutIfNecessary, debounce} from './helpers';
-import {getMyPreferences} from './preferences';
+import {removeUserFromList} from 'mattermost-redux/utils/user_utils';
+import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
+import {General} from 'mattermost-redux/constants';
 
 export function checkMfa(loginId: string): ActionFunc {
     return async (dispatch: DispatchFunc) => {
@@ -226,6 +223,7 @@ export function loadMe(): ActionFunc {
 
         const promises = [
             dispatch(getMe()),
+            dispatch(getLicenseConfig()),
             dispatch(getMyPreferences()),
             dispatch(getMyTeams()),
             dispatch(getMyTeamMembers()),

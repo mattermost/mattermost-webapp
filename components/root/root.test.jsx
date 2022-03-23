@@ -1,18 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {shallow} from 'enzyme';
 import React from 'react';
+import {shallow} from 'enzyme';
 import rudderAnalytics from 'rudder-sdk-js';
 
-import matchMedia from 'tests/helpers/match_media.mock.ts';
-
 import {Client4} from 'mattermost-redux/client';
+import {GeneralTypes} from 'mattermost-redux/action_types';
 
 import Root from 'components/root/root';
 import * as GlobalActions from 'actions/global_actions';
 import Constants, {StoragePrefixes, WindowSizes} from 'utils/constants';
-import {GeneralTypes} from 'mattermost-redux/action_types';
+import matchMedia from 'tests/helpers/match_media.mock.ts';
 
 jest.mock('rudder-sdk-js', () => ({
     identify: jest.fn(),
@@ -48,7 +47,13 @@ describe('components/Root', () => {
         showTermsOfService: false,
         theme: {},
         actions: {
-            loadMeAndConfig: async () => [{}, {}, {data: true}], // eslint-disable-line no-empty-function
+            getClientConfig: jest.fn(),
+            getLicenseConfig: jest.fn(),
+            loadMe: jest.fn().mockImplementation(() => {
+                return Promise.resolve({
+                    data: false,
+                });
+            }),
             emitBrowserWindowResized: () => {},
             getFirstAdminSetupComplete: jest.fn(() => ({
                 type: GeneralTypes.FIRST_ADMIN_COMPLETE_SETUP_RECEIVED,
@@ -61,14 +66,23 @@ describe('components/Root', () => {
         },
     };
 
+    const origCookies = document.cookie;
+    const origWasLoggedIn = localStorage.getItem('was_logged_in');
+
+    beforeAll(() => {
+        document.cookie = '';
+        localStorage.setItem('was_logged_in', '');
+    });
+
+    afterAll(() => {
+        document.cookie = origCookies;
+        localStorage.setItem('was_logged_in', origWasLoggedIn);
+    });
+
     test('should load config and license on mount and redirect to sign-up page', () => {
         const props = {
             ...baseProps,
             noAccounts: true,
-            actions: {
-                ...baseProps.actions,
-                loadMeAndConfig: jest.fn(async () => [{}, {}, {}]),
-            },
             history: {
                 push: jest.fn(),
             },
@@ -76,19 +90,22 @@ describe('components/Root', () => {
 
         const wrapper = shallow(<Root {...props}/>);
 
-        expect(props.actions.loadMeAndConfig).toHaveBeenCalledTimes(1);
-
         wrapper.instance().onConfigLoaded();
         expect(props.history.push).toHaveBeenCalledWith('/signup_user_complete');
         wrapper.unmount();
     });
 
     test('should load user, config, and license on mount and redirect to defaultTeam on success', (done) => {
+        document.cookie = 'MMUSERID=userid';
+        localStorage.setItem('was_logged_in', 'true');
+
         const props = {
             ...baseProps,
             actions: {
                 ...baseProps.actions,
-                loadMeAndConfig: jest.fn(baseProps.actions.loadMeAndConfig),
+                loadMe: jest.fn().mockImplementation(() => {
+                    return Promise.resolve({data: true});
+                }),
             },
         };
 
@@ -97,21 +114,29 @@ describe('components/Root', () => {
             onConfigLoaded = jest.fn(() => {
                 expect(this.onConfigLoaded).toHaveBeenCalledTimes(1);
                 expect(GlobalActions.redirectUserToDefaultTeam).toHaveBeenCalledTimes(1);
+                expect(props.actions.loadMe).toHaveBeenCalledTimes(1);
                 done();
             });
         }
 
         const wrapper = shallow(<MockedRoot {...props}/>);
-
-        expect(props.actions.loadMeAndConfig).toHaveBeenCalledTimes(1);
         wrapper.unmount();
     });
 
     test('should load user, config, and license on mount and should not redirect to defaultTeam id pathname is not root', (done) => {
+        document.cookie = 'MMUSERID=userid';
+        localStorage.setItem('was_logged_in', 'true');
+
         const props = {
             ...baseProps,
             location: {
                 pathname: '/admin_console',
+            },
+            actions: {
+                ...baseProps.actions,
+                loadMe: jest.fn().mockImplementation(() => {
+                    return Promise.resolve({data: true});
+                }),
             },
         };
 
@@ -120,6 +145,7 @@ describe('components/Root', () => {
             onConfigLoaded = jest.fn(() => {
                 expect(this.onConfigLoaded).toHaveBeenCalledTimes(1);
                 expect(GlobalActions.redirectUserToDefaultTeam).not.toHaveBeenCalled();
+                expect(props.actions.loadMe).toHaveBeenCalledTimes(1);
                 done();
             });
         }
@@ -132,7 +158,6 @@ describe('components/Root', () => {
         const props = {
             ...baseProps,
             noAccounts: false,
-
             history: {
                 push: jest.fn(),
             },
@@ -144,6 +169,25 @@ describe('components/Root', () => {
         };
         wrapper.setProps(props2);
         expect(props.history.push).toHaveBeenLastCalledWith('/signup_user_complete');
+        wrapper.unmount();
+    });
+
+    test('should reload on focus after getting signal login event from another tab', () => {
+        Object.defineProperty(window.location, 'reload', {
+            configurable: true,
+            writable: true,
+        });
+        window.location.reload = jest.fn();
+        const wrapper = shallow(<Root {...baseProps}/>);
+        const loginSignal = new StorageEvent('storage', {
+            key: StoragePrefixes.LOGIN,
+            newValue: String(Math.random()),
+            storageArea: localStorage,
+        });
+
+        window.dispatchEvent(loginSignal);
+        document.dispatchEvent(new Event('visibilitychange'));
+        expect(window.location.reload).toBeCalledTimes(1);
         wrapper.unmount();
     });
 
@@ -209,25 +253,6 @@ describe('components/Root', () => {
 
             wrapper.unmount();
         });
-    });
-
-    test('should reload on focus after getting signal login event from another tab', () => {
-        Object.defineProperty(window.location, 'reload', {
-            configurable: true,
-            writable: true,
-        });
-        window.location.reload = jest.fn();
-        const wrapper = shallow(<Root {...baseProps}/>);
-        const loginSignal = new StorageEvent('storage', {
-            key: StoragePrefixes.LOGIN,
-            newValue: String(Math.random()),
-            storageArea: localStorage,
-        });
-
-        window.dispatchEvent(loginSignal);
-        document.dispatchEvent(new Event('visibilitychange'));
-        expect(window.location.reload).toBeCalledTimes(1);
-        wrapper.unmount();
     });
 
     describe('window.matchMedia', () => {
