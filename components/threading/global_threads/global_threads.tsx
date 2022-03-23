@@ -108,8 +108,8 @@ const GlobalThreads = () => {
         return selectedThreadId && list.length === 1 && list[0] === selectedThreadId;
     };
 
-    const shouldLoadThreads = (counts && counts.total !== 0) && (isEmpty(threadIds) || isOnlySelectedThreadInList(threadIds));
-    const shouldLoadUnreadThreads = (counts && counts.total_unread_threads !== 0) && (isEmpty(unreadThreadIds) || isOnlySelectedThreadInList(unreadThreadIds));
+    const shouldLoadThreads = isEmpty(threadIds) || isOnlySelectedThreadInList(threadIds);
+    const shouldLoadUnreadThreads = isEmpty(unreadThreadIds) || isOnlySelectedThreadInList(unreadThreadIds);
 
     useEffect(() => {
         const promises = [];
