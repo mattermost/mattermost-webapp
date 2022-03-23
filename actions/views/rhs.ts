@@ -66,7 +66,7 @@ function selectPostCardFromRightHandSideSearchWithPreviousState(post: Post, prev
     };
 }
 
-export function updateRhsState(rhsState: string, channelId?: string) {
+export function updateRhsState(rhsState: string, channelId?: string, previousRhsState?: RhsState) {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const action = {
             type: ActionTypes.UPDATE_RHS_STATE,
@@ -75,6 +75,9 @@ export function updateRhsState(rhsState: string, channelId?: string) {
 
         if ([RHSStates.PIN, RHSStates.CHANNEL_FILES, RHSStates.CHANNEL_INFO].includes(rhsState)) {
             action.channelId = channelId || getCurrentChannelId(getState());
+        }
+        if (previousRhsState) {
+            action.previousRhsState = previousRhsState;
         }
 
         dispatch(action);
