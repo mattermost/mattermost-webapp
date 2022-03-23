@@ -5,8 +5,9 @@ import {AppsTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
 
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {getChannel, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 
+import {getChannel, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
 import {bindClientFunc} from './helpers';
@@ -24,7 +25,7 @@ export function fetchAppBindings(channelID: string): ActionFunc {
         const state = getState();
         const channel = getChannel(state, channelID);
         const userID = getCurrentUserId(state);
-        const teamID = channel?.team_id || '';
+        const teamID = channel?.team_id || getCurrentTeamId(state);
 
         return dispatch(bindClientFunc({
             clientFunc: () => Client4.getAppsBindings(userID, channelID, teamID),
@@ -40,7 +41,7 @@ export function fetchRHSAppsBindings(channelID: string): ActionFunc {
 
         const currentChannelID = getCurrentChannelId(state);
         const channel = getChannel(state, channelID);
-        const teamID = channel?.team_id || '';
+        const teamID = channel?.team_id || getCurrentTeamId(state);
 
         if (channelID === currentChannelID) {
             const bindings = JSON.parse(JSON.stringify(state.entities.apps.main.bindings));
