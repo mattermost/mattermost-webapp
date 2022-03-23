@@ -5,6 +5,7 @@ import {createSelector} from 'reselect';
 
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 
+import {Role} from 'mattermost-redux/types/roles';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {UserProfile} from 'mattermost-redux/types/users';
 
@@ -34,21 +35,29 @@ export const getMySystemPermissions: (state: GlobalState) => Set<string> = creat
     'getMySystemPermissions',
     getMySystemRoles,
     getRoles,
-    (mySystemRoles: Set<string>, roles) => {
-        const permissions = new Set<string>();
-
-        for (const roleName of mySystemRoles) {
-            if (roles[roleName]) {
-                for (const permission of roles[roleName].permissions) {
-                    permissions.add(permission);
-                }
-            }
-        }
-
-        return permissions;
+    (mySystemRoles: Set<string>, allRoles) => {
+        return getPermissionsForRoles(allRoles, mySystemRoles);
     },
 );
 
 export function haveISystemPermission(state: GlobalState, options: PermissionsOptions) {
     return getMySystemPermissions(state).has(options.permission);
+}
+
+export function getPermissionsForRoles(allRoles: Record<string, Role>, roleSet: Set<string>) {
+    const permissions = new Set<string>();
+
+    for (const roleName of roleSet) {
+        const role = allRoles[roleName];
+
+        if (!role) {
+            continue;
+        }
+
+        for (const permission of role.permissions) {
+            permissions.add(permission);
+        }
+    }
+
+    return permissions;
 }
