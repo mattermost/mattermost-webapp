@@ -77,7 +77,7 @@ import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selec
 import {appsConfiguredAsEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
-import {fetchAppBindings, fetchRHSAppsBindings, pingAppsPlugin} from 'mattermost-redux/actions/apps';
+import {fetchAppBindings, fetchRHSAppsBindings} from 'mattermost-redux/actions/apps';
 
 import {getSelectedChannelId, getSelectedPost} from 'selectors/rhs';
 import {isThreadOpen, isThreadManuallyUnread} from 'selectors/views/threads';
