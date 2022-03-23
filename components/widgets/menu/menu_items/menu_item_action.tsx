@@ -42,23 +42,7 @@ export const MenuItemActionImpl = ({
         }
         onClick={onClick}
     >
-        {text && (
-            <React.Fragment>
-                <span>
-                    <span className='MenuItem__primary-text'>{text}</span>
-                    <span
-                        className={classNames([
-                            'MenuItem__right-decorator',
-                            {
-                                'MenuItem__text-color': !isDangerous,
-                            },
-                        ])}
-                    >
-                        {rightDecorator}
-                    </span>
-                </span>
-            </React.Fragment>
-        )}
+        {text && <span className='MenuItem__primary-text'>{text}{rightDecorator}</span>}
         {extraText && <span className='MenuItem__help-text'>{extraText}</span>}
     </button>
 );

@@ -418,6 +418,22 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         });
     }
 
+    shortcutKey = (key: string) => {
+        return (
+            <span
+                className={classNames([
+                    'MenuItem__opacity',
+                    'MenuItem__right-decorator',
+                    {
+                        'MenuItem__text-color': !true,
+                    },
+                ])}
+            >
+                {key}
+            </span>
+        );
+    };
+
     render(): JSX.Element {
         const isMobile = this.props.isMobileView;
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
@@ -430,6 +446,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         return (
             <MenuWrapper
                 open={this.props.isMenuOpen}
+                className={classNames('status-dropdown-menu-global-header')}
                 onToggle={this.handleDropdownOpened}
             >
                 <OverlayTrigger
@@ -462,7 +479,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         show={!isSystemMessage && this.props.location === Locations.CENTER}
                         text={Utils.localizeMessage('post_info.reply', 'Reply')}
                         icon={Utils.getMenuItemIcon('icon-reply-outline')}
-                        rightDecorator={'R'}
+                        rightDecorator={this.shortcutKey('R')}
                         onClick={(e: any) => {
                             this.handleOnClick(TELEMETRY_LABELS.REPLY, () => this.props.handleCommentClick, e);
                         }}
@@ -484,7 +501,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                             const label = this.props.isFollowingThread ? TELEMETRY_LABELS.UNFOLLOW : TELEMETRY_LABELS.FOLLOW;
                             this.handleOnClick(label, this.handleSetThreadFollow);
                         }}
-                        rightDecorator={'F'}
+                        rightDecorator={this.shortcutKey('F')}
                         show={(
                             !isSystemMessage &&
                             this.props.isCollapsedThreadsEnabled &&
@@ -507,7 +524,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         show={!isSystemMessage && !this.props.channelIsArchived && this.props.location !== Locations.SEARCH}
                         text={Utils.localizeMessage('post_info.unread', 'Mark as Unread')}
                         icon={Utils.getMenuItemIcon('icon-mark-as-unread')}
-                        rightDecorator={'U'}
+                        rightDecorator={this.shortcutKey('U')}
                         onClick={() => {
                             this.handleOnClick(TELEMETRY_LABELS.UNREAD, () => this.handleUnreadMenuItemActivated);
                         }}
@@ -527,7 +544,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         show={!isSystemMessage && !this.props.isReadOnly && this.props.post.is_pinned}
                         text={Utils.localizeMessage('post_info.unpin', 'Unpin')}
                         icon={Utils.getMenuItemIcon('icon-pin')}
-                        rightDecorator={'P'}
+                        rightDecorator={this.shortcutKey('P')}
                         onClick={() => {
                             this.handleOnClick(TELEMETRY_LABELS.UNPIN, this.handlePinMenuItemActivated);
                         }}
@@ -537,7 +554,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         show={!isSystemMessage && !this.props.isReadOnly && !this.props.post.is_pinned}
                         text={Utils.localizeMessage('post_info.pin', 'Pin')}
                         icon={Utils.getMenuItemIcon('icon-pin-outline')}
-                        rightDecorator={'P'}
+                        rightDecorator={this.shortcutKey('P')}
                         onClick={() => {
                             this.handleOnClick(TELEMETRY_LABELS.PIN, this.handlePinMenuItemActivated);
                         }}
@@ -548,7 +565,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         show={!isSystemMessage}
                         text={Utils.localizeMessage('post_info.permalink', 'Copy Link')}
                         icon={Utils.getMenuItemIcon('icon-link-variant')}
-                        rightDecorator={'K'}
+                        rightDecorator={this.shortcutKey('K')}
                         onClick={() => {
                             this.handleOnClick(TELEMETRY_LABELS.COPY_LINK, this.copyLink);
                         }}
@@ -559,7 +576,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         show={this.state.canEdit}
                         text={Utils.localizeMessage('post_info.edit', 'Edit')}
                         icon={Utils.getMenuItemIcon('icon-pencil-outline')}
-                        rightDecorator={'E'}
+                        rightDecorator={this.shortcutKey('E')}
                         onClick={() => {
                             this.handleOnClick(TELEMETRY_LABELS.EDIT, this.handleEditMenuItemActivated);
                         }}
@@ -569,7 +586,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         show={!isSystemMessage}
                         text={Utils.localizeMessage('post_info.copy', 'Copy Text')}
                         icon={Utils.getMenuItemIcon('icon-content-copy')}
-                        rightDecorator={'C'}
+                        rightDecorator={this.shortcutKey('C')}
                         onClick={() => {
                             this.handleOnClick(TELEMETRY_LABELS.COPY_TEXT, this.copyText);
                         }}
