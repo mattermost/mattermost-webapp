@@ -317,10 +317,6 @@ export default class RhsRootPost extends React.PureComponent {
         this.setState({showActionTip: false});
     };
 
-    handleActionsMenuOpened = (open) => {
-        this.setState({showActionsMenu: open});
-    };
-
     handleFileDropdownOpened = (open) => {
         this.setState({fileDropdownOpened: open});
     };
