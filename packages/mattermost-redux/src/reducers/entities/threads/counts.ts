@@ -1,6 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {shallowEqual} from 'react-redux';
+import omit from 'lodash/omit';
+
 import {ChannelTypes, TeamTypes, ThreadTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {ThreadsState, UserThread} from 'mattermost-redux/types/threads';
@@ -20,6 +23,13 @@ function handleAllTeamThreadsRead(state: ThreadsState['counts'], action: Generic
             total_unread_threads: 0,
         },
     };
+}
+
+function isEqual(state: ThreadsState['counts'], action: GenericAction) {
+    const counts = state[action.data.team_id] ?? {};
+    const newCounts = omit(action.data, ['threads']);
+
+    return shallowEqual(counts, newCounts);
 }
 
 function handleReadChangedThread(state: ThreadsState['counts'], action: GenericAction): ThreadsState['counts'] {
@@ -139,16 +149,26 @@ export function countsIncludingDirectReducer(state: ThreadsState['counts'] = {},
     case ChannelTypes.RECEIVED_CHANNEL_DELETED:
     case ChannelTypes.LEAVE_CHANNEL:
         return handleLeaveChannel(state, action, extra);
-    case ThreadTypes.RECEIVED_UNREAD_THREADS:
+    case ThreadTypes.RECEIVED_UNREAD_THREADS: {
+        if (isEqual(state, action)) {
+            return state;
+        }
+
+        const counts = state[action.data.team_id] ?? {};
         return {
             ...state,
             [action.data.team_id]: {
-                ...state[action.data.team_id],
+                ...counts,
                 total_unread_threads: action.data.total_unread_threads,
                 total_unread_mentions: action.data.total_unread_mentions,
             },
         };
+    }
     case ThreadTypes.RECEIVED_THREADS:
+        if (isEqual(state, action)) {
+            return state;
+        }
+
         return {
             ...state,
             [action.data.team_id]: {
