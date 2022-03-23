@@ -11,7 +11,7 @@ import Constants from 'utils/constants';
 import Menu from './menu';
 
 describe('channel_info_rhs/menu', () => {
-    let defaultProps = {
+    const defaultProps = {
         channel: {type: Constants.OPEN_CHANNEL} as Channel,
         channelStats: {files_count: 3} as ChannelStats,
         isArchived: false,
@@ -26,7 +26,7 @@ describe('channel_info_rhs/menu', () => {
             openNotificationSettings: jest.fn(),
             showChannelFiles: jest.fn(),
         };
-    })
+    });
 
     test('should display notifications preferences', () => {
         const props = {...defaultProps};
