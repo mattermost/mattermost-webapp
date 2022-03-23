@@ -133,7 +133,7 @@ describe('Selectors.Roles', () => {
         },
     });
 
-    it('should return my roles by scope on getMyRoles/getMySystemRoles/getMyTeamRoles/getMyChannelRoles/getMyGroupRoles', () => {
+    it('should return my roles by scope on getMySystemRoles/getMyTeamRoles/getMyChannelRoles/getMyGroupRoles', () => {
         const teamsRoles = {};
         teamsRoles[team1.id] = new Set(['test_team1_role1', 'test_team1_role2']);
         teamsRoles[team2.id] = new Set(['test_team2_role1', 'test_team2_role2']);
@@ -146,7 +146,6 @@ describe('Selectors.Roles', () => {
             team: teamsRoles,
             channel: channelsRoles,
         };
-        assert.deepEqual(Selectors.getMyRoles(testState), myRoles);
         assert.deepEqual(getMySystemRoles(testState), myRoles.system);
         assert.deepEqual(Selectors.getMyTeamRoles(testState), myRoles.team);
         assert.deepEqual(Selectors.getMyChannelRoles(testState), myRoles.channel);

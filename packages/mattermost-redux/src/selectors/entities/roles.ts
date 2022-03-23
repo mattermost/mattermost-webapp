@@ -111,24 +111,6 @@ export function getMyChannelRoles(state: GlobalState): Record<string, Set<string
     return state.entities.channels.roles;
 }
 
-export const getMyRoles: (state: GlobalState) => {
-    system: Set<string>;
-    team: Record<string, Set<string>>;
-    channel: Record<string, Set<string>>;
-} = createSelector(
-    'getMyRoles',
-    getMySystemRoles,
-    getMyTeamRoles,
-    getMyChannelRoles,
-    (systemRoles, teamRoles, channelRoles) => {
-        return {
-            system: systemRoles,
-            team: teamRoles,
-            channel: channelRoles,
-        };
-    },
-);
-
 export const getRolesById: (state: GlobalState) => Record<string, Role> = createSelector(
     'getRolesById',
     getRoles,
