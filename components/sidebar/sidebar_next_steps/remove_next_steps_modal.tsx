@@ -51,6 +51,7 @@ export default function RemoveNextStepsModal(props: Props) {
                 className='RemoveNextStepsModal'
                 onExited={onCancel}
                 handleConfirm={onConfirm}
+                handleEnterKeyPress={onConfirm}
                 handleCancel={onCancel}
                 container={modalRoot}
                 modalHeaderText={(

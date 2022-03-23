@@ -171,6 +171,7 @@
     "eslint-plugin-mattermost": "github:mattermost/eslint-plugin-mattermost#46ad99355644a719bf32082f472048f526605181",
     "eslint-plugin-no-only-tests": "2.6.0",
     "eslint-plugin-react": "7.24.0",
+    "eslint-plugin-react-hooks": "4.3.0",
     "file-loader": "6.2.0",
     "html-loader": "2.1.2",
     "html-webpack-plugin": "5.5.0",

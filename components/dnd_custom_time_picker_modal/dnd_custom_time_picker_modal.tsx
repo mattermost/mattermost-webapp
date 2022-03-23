@@ -168,6 +168,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                 modalHeaderText={modalHeaderText}
                 confirmButtonText={confirmButtonText}
                 handleConfirm={this.handleConfirm}
+                handleEnterKeyPress={this.handleConfirm}
                 id='dndCustomTimePickerModal'
                 className={'DndModal modal-overflow'}
             >

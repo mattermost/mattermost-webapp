@@ -909,10 +909,17 @@
             background: alpha-color($white, 0.7);
         }
 
-        .status-wrapper {
-            height: 14px;
+        .post__img .status-wrapper {
             cursor: auto;
             pointer-events: none;
+        }
+
+        .ThreadFooter .status-wrapper {
+            height: 24px;
+        }
+
+        .status-wrapper {
+            height: 14px;
 
             .status {
                 position: relative;
