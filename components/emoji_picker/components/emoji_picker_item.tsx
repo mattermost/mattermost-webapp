@@ -1,136 +1,108 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import {injectIntl, IntlShape} from 'react-intl';
-import debounce from 'lodash/debounce';
+import React, {memo, useCallback} from 'react';
+import {useIntl} from 'react-intl';
+import classNames from 'classnames';
+import throttle from 'lodash/throttle';
 
-import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
+import {getEmojiImageUrl, isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
+import {Emoji} from 'mattermost-redux/types/emojis';
 
 import imgTrans from 'images/img_trans.gif';
-import {Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
+import {EmojiCursor} from 'components/emoji_picker/types';
+import {EMOJI_SCROLL_THROTTLE_DELAY} from 'components/emoji_picker/constants';
 
-const SCROLLING_ADDITIONAL_VISUAL_SPACING = 10; // to make give the emoji some visual 'breathing room'
-const EMOJI_LAZY_LOAD_SCROLL_THROTTLE = 150;
-
-type Props = {
+interface Props {
     emoji: Emoji;
-    onItemOver: (categoryIndex: number, emojiIndex: number) => void;
-    onItemClick: (emoji: Emoji) => void;
-    category: string;
+    rowIndex: number;
     isSelected?: boolean;
-    categoryIndex: number;
-    emojiIndex: number;
-    containerRef: HTMLDivElement;
-    containerTop: number;
-    containerBottom: number;
-    intl: IntlShape;
+    onClick: (emoji: Emoji) => void;
+    onMouseOver: (cursor: EmojiCursor) => void;
 }
 
-class EmojiPickerItem extends React.Component<Props> {
-    private emojiItem: HTMLDivElement | undefined;
+function EmojiPickerItem({emoji, rowIndex, isSelected, onClick, onMouseOver}: Props) {
+    const {formatMessage} = useIntl();
 
-    shouldComponentUpdate(nextProps: Props) {
-        return nextProps.isSelected !== this.props.isSelected;
-    }
-
-    emojiItemRef = (emojiItem: HTMLDivElement) => {
-        this.emojiItem = emojiItem;
-    };
-
-    emojiName = () => {
-        const name = 'short_name' in this.props.emoji ? this.props.emoji.short_name : this.props.emoji.name;
-        const {formatMessage} = this.props.intl;
-        return formatMessage({
-            id: 'emoji_picker_item.emoji_aria_label',
-            defaultMessage: '{emojiName} emoji',
-        },
-        {
-            emojiName: name.replace(/_/g, ' '),
-        });
-    }
-
-    componentDidUpdate(prevProps: Props) {
-        if (!prevProps.isSelected && this.props.isSelected) {
-            const topOfTheEmojiItem = this.emojiItem!.offsetTop;
-            const bottomOfTheEmojiItem = topOfTheEmojiItem + this.emojiItem!.offsetHeight;
-            const {containerRef, containerTop, containerBottom} = this.props;
-            if (topOfTheEmojiItem < containerTop) {
-                containerRef.scrollTop = topOfTheEmojiItem - SCROLLING_ADDITIONAL_VISUAL_SPACING;
-            } else if (bottomOfTheEmojiItem > containerBottom) {
-                containerRef.scrollTop = (bottomOfTheEmojiItem - containerRef.offsetHeight) + SCROLLING_ADDITIONAL_VISUAL_SPACING;
+    const handleMouseOver = () => {
+        if (!isSelected) {
+            let emojiId = '';
+            if (isSystemEmoji(emoji)) {
+                emojiId = emoji.unified;
+            } else {
+                emojiId = emoji.id;
             }
-        }
-    }
-
-    handleMouseOver = () => {
-        if (!this.props.isSelected) {
-            this.props.onItemOver(this.props.categoryIndex, this.props.emojiIndex);
+            onMouseOver({rowIndex, emojiId, emoji});
         }
     };
 
-    handleMouseOverThrottle = debounce(this.handleMouseOver, EMOJI_LAZY_LOAD_SCROLL_THROTTLE, {
-        leading: true,
-        trailing: true,
+    const throttledMouseOver = useCallback(
+        throttle(handleMouseOver, EMOJI_SCROLL_THROTTLE_DELAY, {
+            leading: true,
+            trailing: false,
+        }), []);
+
+    const handleClick = () => {
+        onClick(emoji);
+    };
+
+    const itemClassName = classNames('emoji-picker__item', {
+        selected: isSelected,
     });
 
-    handleClick = () => {
-        this.props.onItemClick(this.props.emoji);
-    };
+    let content;
 
-    isSystemEmoji(emoji: Emoji): emoji is SystemEmoji {
-        return emoji.category && emoji.category !== 'custom';
-    }
+    if (isSystemEmoji(emoji)) {
+        const emojiName = emoji.short_name ? emoji.short_name : emoji.name;
+        const emojiUnified = emoji.unified ? emoji.unified.toLowerCase() : emoji.name.toLowerCase();
 
-    render() {
-        const {emoji} = this.props;
-
-        let itemClassName = 'emoji-picker__item';
-        if (this.props.isSelected) {
-            itemClassName += ' selected';
-        }
-
-        let image;
-        if (this.isSystemEmoji(emoji)) {
-            let spriteClassName = 'emojisprite';
-            spriteClassName += ' emoji-category-' + emoji.category;
-            spriteClassName += ' emoji-' + emoji.image;
-            image = (
-                <img
-                    alt={'emoji image'}
-                    data-testid={emoji.short_names}
-                    onMouseOver={this.handleMouseOverThrottle}
-                    src={imgTrans}
-                    className={spriteClassName}
-                    onClick={this.handleClick}
-                    id={'emoji-' + emoji.image}
-                    aria-label={this.emojiName()}
-                    role='button'
-                />
-            );
-        } else {
-            image = (
-                <img
-                    alt={'custom emoji image'}
-                    onMouseOver={this.handleMouseOver}
-                    src={getEmojiImageUrl(emoji)}
-                    className={'emoji-category--custom'}
-                    onClick={this.handleClick}
-                />
-            );
-        }
-
-        return (
-            <div
-                className={itemClassName}
-                ref={this.emojiItemRef}
-            >
-                <div data-testid='emojiItem'>
-                    {image}
-                </div>
-            </div>
+        content = (
+            <img
+                alt={'emoji image'}
+                data-testid={emoji.short_names}
+                src={imgTrans}
+                className={`emojisprite emoji-category-${emoji.category} emoji-${emojiUnified}`}
+                id={`emoji-${emojiUnified}`}
+                aria-label={formatMessage(
+                    {
+                        id: 'emoji_picker_item.emoji_aria_label',
+                        defaultMessage: '{emojiName} emoji',
+                    },
+                    {
+                        emojiName: (emojiName).replace(/_/g, ' '),
+                    },
+                )}
+                role='button'
+            />
+        );
+    } else {
+        content = (
+            <img
+                alt={'custom emoji image'}
+                data-testid={emoji.name}
+                src={getEmojiImageUrl(emoji)}
+                className={'emoji-category--custom'}
+            />
         );
     }
+
+    return (
+        <div
+            className={itemClassName}
+            onClick={handleClick}
+            onMouseOver={throttledMouseOver}
+        >
+            <div data-testid='emojiItem'>
+                {content}
+            </div>
+        </div>
+    );
 }
 
-export default injectIntl(EmojiPickerItem);
+function areEqual(prevProps: Props, nextProps: Props) {
+    return (
+        prevProps.isSelected === nextProps.isSelected
+    );
+}
+
+export default memo(EmojiPickerItem, areEqual);

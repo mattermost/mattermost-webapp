@@ -10,6 +10,7 @@ import {Client4} from 'mattermost-redux/client';
 import {Permissions, Posts} from 'mattermost-redux/constants';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
 import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
@@ -28,6 +29,7 @@ import * as PostListUtils from 'mattermost-redux/utils/post_list';
 import {canEditPost as canEditPostRedux} from 'mattermost-redux/utils/post_utils';
 
 import {getEmojiMap} from 'selectors/emojis';
+import {getIsMobileView} from 'selectors/views/browser';
 
 import {GlobalState} from 'types/store';
 
@@ -115,7 +117,7 @@ export function shouldShowDotMenu(state: GlobalState, post: Post, channel: Chann
         return false;
     }
 
-    if (Utils.isMobile()) {
+    if (getIsMobileView(state)) {
         return true;
     }
 
@@ -132,6 +134,20 @@ export function shouldShowDotMenu(state: GlobalState, post: Post, channel: Chann
     }
 
     return false;
+}
+
+export function shouldShowActionsMenu(state: GlobalState, post: Post): boolean {
+    const config = getConfig(state);
+    const pluginsEnabled = config.PluginsEnabled === 'true';
+    if (!pluginsEnabled) {
+        return false;
+    }
+
+    if (isSystemMessage(post)) {
+        return false;
+    }
+
+    return true;
 }
 
 export function containsAtChannel(text: string, options?: {checkAllMentions: boolean}): boolean {
@@ -400,7 +416,7 @@ export function getLatestPostId(postIds: string[]): string {
 }
 
 export function makeCreateAriaLabelForPost(): (state: GlobalState, post: Post) => (intl: IntlShape) => string {
-    const getReactionsForPost = makeGetReactionsForPost();
+    const getReactionsForPost = makeGetUniqueReactionsToPost();
     const getDisplayName = makeGetDisplayName();
 
     return createSelector(
@@ -596,4 +612,32 @@ export function matchUserMentionTriggersWithMessageMentions(userMentionKeys: Use
         }
     }
     return isMentioned;
+}
+
+/**
+ * This removes custom emoji reactions of a post, which are deleted from the custom emoji store.
+ */
+export function makeGetUniqueReactionsToPost(): (state: GlobalState, postId: Post['id']) => Record<string, Reaction> | undefined | null {
+    const getReactionsForPost = makeGetReactionsForPost();
+
+    return createSelector(
+        'makeGetUniqueReactionsToPost',
+        (state: GlobalState, postId: string) => getReactionsForPost(state, postId),
+        getEmojiMap,
+        (reactions, emojiMap) => {
+            if (!reactions) {
+                return null;
+            }
+
+            const reactionsForPost: Record<string, Reaction> = {};
+
+            Object.entries(reactions).forEach(([userIdEmojiKey, emojiReaction]) => {
+                if (emojiMap.get(emojiReaction.emoji_name)) {
+                    reactionsForPost[userIdEmojiKey] = emojiReaction;
+                }
+            });
+
+            return reactionsForPost;
+        },
+    );
 }

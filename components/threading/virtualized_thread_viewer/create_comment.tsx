@@ -8,7 +8,6 @@ import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Post} from 'mattermost-redux/types/posts';
-import {$ID} from 'mattermost-redux/types/utilities';
 
 import GenericCreateComment from 'components/create_comment';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
@@ -21,7 +20,7 @@ type Props = {
     onHeightChange: (height: number, maxHeight: number) => void;
     teammate?: UserProfile;
     threadId: string;
-    latestPostId: $ID<Post>;
+    latestPostId: Post['id'];
     isThreadView?: boolean;
 };
 

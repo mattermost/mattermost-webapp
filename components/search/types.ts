@@ -14,7 +14,6 @@ export type SearchFilterType = 'all' | 'documents' | 'spreadsheets' | 'presentat
 export type OwnProps = {
     isSideBarRight?: boolean;
     isSideBarRightOpen?: boolean;
-    isFocus: boolean;
     hideSearchBar?: boolean;
     enableFindShortcut?: boolean;
     channelDisplayName?: string;
@@ -29,11 +28,13 @@ export type StateProps = {
     searchTerms: string;
     searchType: SearchType;
     searchVisible: boolean;
+    hideMobileSearchBarInRHS: boolean;
     isMentionSearch: boolean;
     isFlaggedPosts: boolean;
     isPinnedPosts: boolean;
     isChannelFiles: boolean;
     currentChannel?: Channel;
+    isMobileView: boolean;
 }
 
 export type DispatchProps = {

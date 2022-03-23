@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {Draggable, Droppable} from 'react-beautiful-dnd';
 import classNames from 'classnames';
@@ -13,6 +12,7 @@ import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
 import {trackEvent} from 'actions/telemetry_actions';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import {DraggingState} from 'types/store';
 import Constants, {A11yCustomEventTypes, DraggingStateTypes, DraggingStates, Preferences, Touched} from 'utils/constants';
 import {t} from 'utils/i18n';
@@ -53,6 +53,8 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     categoryTitleRef: React.RefObject<HTMLButtonElement>;
     newDropBoxRef: React.RefObject<HTMLDivElement>;
 
+    a11yKeyDownRegistered: boolean;
+
     constructor(props: Props) {
         super(props);
 
@@ -62,6 +64,8 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         this.state = {
             isMenuOpen: false,
         };
+
+        this.a11yKeyDownRegistered = false;
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -71,30 +75,29 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        // Refs can be null when this component is shallowly rendered for testing
-        if (this.categoryTitleRef.current) {
-            this.categoryTitleRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
-            this.categoryTitleRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
-        }
+        this.categoryTitleRef.current?.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+        this.categoryTitleRef.current?.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
     }
 
     componentWillUnmount() {
-        if (this.categoryTitleRef.current) {
-            this.categoryTitleRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
-            this.categoryTitleRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+        this.categoryTitleRef.current?.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+        this.categoryTitleRef.current?.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+
+        if (this.a11yKeyDownRegistered) {
+            this.handleA11yDeactivateEvent();
         }
     }
 
     handleA11yActivateEvent = () => {
-        if (this.categoryTitleRef.current) {
-            this.categoryTitleRef.current.addEventListener('keydown', this.handleA11yKeyDown);
-        }
+        this.categoryTitleRef.current?.addEventListener('keydown', this.handleA11yKeyDown);
+
+        this.a11yKeyDownRegistered = true;
     }
 
     handleA11yDeactivateEvent = () => {
-        if (this.categoryTitleRef.current) {
-            this.categoryTitleRef.current.removeEventListener('keydown', this.handleA11yKeyDown);
-        }
+        this.categoryTitleRef.current?.removeEventListener('keydown', this.handleA11yKeyDown);
+
+        this.a11yKeyDownRegistered = false;
     }
 
     handleA11yKeyDown = (e: KeyboardEvent) => {
@@ -343,7 +346,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
             >
                 {(provided, snapshot) => {
                     let inviteMembersButton = null;
-                    if (category.type === 'direct_messages') {
+                    if (category.type === 'direct_messages' && !category.collapsed) {
                         inviteMembersButton = (
                             <InviteMembersButton
                                 className='followingSibling'

@@ -9,7 +9,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {AnalyticsRow} from 'mattermost-redux/types/admin';
 import {Subscription} from 'mattermost-redux/types/cloud';
 
@@ -31,7 +30,6 @@ import {
 import {getLocaleDateFromUTC} from 'utils/utils';
 
 import AnnouncementBar from '../default_announcement_bar';
-import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subscription';
 
 type Props = {
     userIsAdmin: boolean;
@@ -40,7 +38,7 @@ type Props = {
     preferences: PreferenceType[];
     daysLeftOnTrial: number;
     isCloud: boolean;
-    analytics?: Dictionary<number | AnalyticsRow[]>;
+    analytics?: Record<string, number | AnalyticsRow[]>;
     subscription?: Subscription;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
@@ -206,4 +204,4 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
     }
 }
 
-export default withGetCloudSubscription(CloudTrialAnnouncementBar);
+export default CloudTrialAnnouncementBar;

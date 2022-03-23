@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import classNames from 'classnames';
 
@@ -14,17 +13,18 @@ import {mark, trackEvent} from 'actions/telemetry_actions';
 
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 import Constants from 'utils/constants';
 import {wrapEmojis} from 'utils/emoji_utils';
 import {isDesktopApp} from 'utils/user_agent';
 import {cmdOrCtrlPressed, localizeMessage} from 'utils/utils';
+import {ChannelsAndDirectMessagesTour} from 'components/onboarding_tour';
 
 import ChannelMentionBadge from '../channel_mention_badge';
 import SidebarChannelIcon from '../sidebar_channel_icon';
 import SidebarChannelMenu from '../sidebar_channel_menu';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
-import ChannelTutorialTip from 'components/sidebar/channel_tutorial_tip';
 
 type Props = {
     channel: Channel;
@@ -58,17 +58,15 @@ type Props = {
 
     teammateId?: string;
 
-    showTutorialTip: boolean;
+    firstChannelName?: string;
 
-    townSquareDisplayName: string;
-
-    offTopicDisplayName: string;
+    showChannelsTutorialStep: boolean;
 
     actions: {
         clearChannelSelection: () => void;
         multiSelectChannelTo: (channelId: string) => void;
         multiSelectChannelAdd: (channelId: string) => void;
-        openLhs: () => void;
+        unsetEditingPost: () => void;
     };
 };
 
@@ -135,7 +133,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
     removeTooltipLink = (): void => this.gmItemRef.current?.removeAttribute?.('aria-describedby');
 
     handleChannelClick = (event: React.MouseEvent<HTMLAnchorElement>): void => {
-        mark('SidebarLink#click');
+        mark('SidebarChannelLink#click');
         trackEvent('ui', 'ui_channel_selected_v2');
 
         this.handleSelectChannel(event);
@@ -153,6 +151,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
             event.preventDefault();
             this.props.actions.multiSelectChannelTo(this.props.channel.id);
         } else {
+            this.props.actions.unsetEditingPost();
             this.props.actions.clearChannelSelection();
         }
     }
@@ -161,7 +160,6 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
 
     render(): JSX.Element {
         const {
-            actions,
             channel,
             icon,
             isChannelSelected,
@@ -169,19 +167,17 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
             isUnread,
             label,
             link,
-            showTutorialTip,
             unreadMentions,
+            firstChannelName,
+            showChannelsTutorialStep,
         } = this.props;
 
-        let tutorialTip: JSX.Element | null = null;
-        if (showTutorialTip && channel.name === Constants.DEFAULT_CHANNEL) {
-            tutorialTip = (
-                <ChannelTutorialTip
-                    townSquareDisplayName={this.props.townSquareDisplayName}
-                    offTopicDisplayName={this.props.offTopicDisplayName}
-                    openLhs={actions.openLhs}
-                />
-            );
+        let channelsTutorialTip: JSX.Element | null = null;
+
+        // firstChannelName is based on channel.name,
+        // but we want to display `display_name` to the user, so we check against `.name` for channel equality but pass in the .display_name value
+        if (firstChannelName === channel.name || (!firstChannelName && showChannelsTutorialStep && channel.name === Constants.DEFAULT_CHANNEL)) {
+            channelsTutorialTip = firstChannelName ? (<ChannelsAndDirectMessagesTour firstChannelName={channel.display_name}/>) : <ChannelsAndDirectMessagesTour/>;
         }
 
         let labelElement: JSX.Element = (
@@ -284,7 +280,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                 tabIndex={this.props.isCollapsed ? -1 : 0}
             >
                 {content}
-                {tutorialTip}
+                {channelsTutorialTip}
             </Link>
         );
 

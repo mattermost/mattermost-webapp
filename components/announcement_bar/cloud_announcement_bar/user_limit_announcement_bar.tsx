@@ -7,7 +7,6 @@ import {isEmpty} from 'lodash';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {AnalyticsRow} from 'mattermost-redux/types/admin';
 import {Subscription} from 'mattermost-redux/types/cloud';
 
@@ -27,7 +26,6 @@ import {
 import {t} from 'utils/i18n';
 
 import AnnouncementBar from '../default_announcement_bar';
-import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subscription';
 
 type Props = {
     userLimit: number;
@@ -35,7 +33,7 @@ type Props = {
     currentUser: UserProfile;
     preferences: PreferenceType[];
     isCloud: boolean;
-    analytics?: Dictionary<number | AnalyticsRow[]>;
+    analytics?: Record<string, number | AnalyticsRow[]>;
     subscription?: Subscription;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
@@ -175,4 +173,4 @@ class UserLimitAnnouncementBar extends React.PureComponent<Props> {
     }
 }
 
-export default withGetCloudSubscription(UserLimitAnnouncementBar);
+export default UserLimitAnnouncementBar;

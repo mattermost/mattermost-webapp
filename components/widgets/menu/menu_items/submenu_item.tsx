@@ -7,6 +7,8 @@ import classNames from 'classnames';
 import * as Utils from 'utils/utils.jsx';
 import {showMobileSubMenuModal} from 'actions/global_actions';
 
+import type {Menu} from 'types/store/plugins';
+
 import './menu_item.scss';
 import Constants from 'utils/constants';
 
@@ -37,7 +39,7 @@ export type Props = {
     text: React.ReactNode;
     selectedValueText?: React.ReactNode;
     renderSelected?: boolean;
-    subMenu?: Props[];
+    subMenu?: Menu[];
     subMenuClass?: string;
     icon?: React.ReactNode;
     action?: (id?: string) => void;

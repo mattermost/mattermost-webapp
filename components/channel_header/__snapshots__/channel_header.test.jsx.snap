@@ -61,9 +61,7 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -145,7 +143,7 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
               onClick={[Function]}
             >
               <MemoizedFormattedMessage
-                defaultMessage="Add a channel description"
+                defaultMessage="Add a channel header"
                 id="channel_header.addChannelHeader"
               />
               <MemoizedFormattedMessage
@@ -172,6 +170,17 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
         Object {
           "channel_id": "channel_id",
           "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "delete_at": 0,
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
         }
       }
     />
@@ -240,9 +249,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -324,7 +331,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
               onClick={[Function]}
             >
               <MemoizedFormattedMessage
-                defaultMessage="Add a channel description"
+                defaultMessage="Add a channel header"
                 id="channel_header.addChannelHeader"
               />
               <MemoizedFormattedMessage
@@ -351,6 +358,17 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
         Object {
           "channel_id": "channel_id",
           "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "delete_at": 0,
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
         }
       }
     />
@@ -419,9 +437,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -503,7 +519,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
               onClick={[Function]}
             >
               <MemoizedFormattedMessage
-                defaultMessage="Add a channel description"
+                defaultMessage="Add a channel header"
                 id="channel_header.addChannelHeader"
               />
               <MemoizedFormattedMessage
@@ -530,6 +546,17 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
         Object {
           "channel_id": "channel_id",
           "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "delete_at": 0,
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
         }
       }
     />
@@ -598,9 +625,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -682,7 +707,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
               onClick={[Function]}
             >
               <MemoizedFormattedMessage
-                defaultMessage="Add a channel description"
+                defaultMessage="Add a channel header"
                 id="channel_header.addChannelHeader"
               />
               <MemoizedFormattedMessage
@@ -709,6 +734,17 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
         Object {
           "channel_id": "channel_id",
           "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "delete_at": 0,
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
         }
       }
     />
@@ -834,6 +870,17 @@ exports[`components/ChannelHeader should render archived view 1`] = `
         }
       }
     />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "delete_at": 1234,
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
+        }
+      }
+    />
   </div>
 </div>
 `;
@@ -899,9 +946,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -934,9 +979,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
             delayShow={400}
             overlay={
               <Tooltip
-                bsClass="tooltip"
                 id="channelMutedTooltip"
-                placement="right"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Unmute"
@@ -1017,7 +1060,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
               onClick={[Function]}
             >
               <MemoizedFormattedMessage
-                defaultMessage="Add a channel description"
+                defaultMessage="Add a channel header"
                 id="channel_header.addChannelHeader"
               />
               <MemoizedFormattedMessage
@@ -1044,6 +1087,17 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
         Object {
           "channel_id": "channel_id",
           "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "delete_at": 0,
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
         }
       }
     />
@@ -1112,9 +1166,7 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -1196,7 +1248,7 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
               onClick={[Function]}
             >
               <MemoizedFormattedMessage
-                defaultMessage="Add a channel description"
+                defaultMessage="Add a channel header"
                 id="channel_header.addChannelHeader"
               />
               <MemoizedFormattedMessage
@@ -1223,6 +1275,17 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
         Object {
           "channel_id": "channel_id",
           "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "delete_at": 0,
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
         }
       }
     />
@@ -1436,6 +1499,16 @@ exports[`components/ChannelHeader should render properly when custom status is e
         }
       }
     />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "header": "not the bot description",
+          "status": "offline",
+          "type": "D",
+        }
+      }
+    />
   </div>
 </div>
 `;
@@ -1530,8 +1603,7 @@ exports[`components/ChannelHeader should render properly when custom status is s
               defaultMessage="Offline"
               id="status_dropdown.set_offline"
             />
-            <CustomStatusEmoji
-              emojiSize={16}
+            <Memo(CustomStatusEmoji)
               emojiStyle={
                 Object {
                   "margin": "0 4px 1px",
@@ -1539,7 +1611,6 @@ exports[`components/ChannelHeader should render properly when custom status is s
                 }
               }
               showTooltip={true}
-              spanStyle={Object {}}
               tooltipDirection="bottom"
               userID="user_id"
             />
@@ -1664,6 +1735,16 @@ exports[`components/ChannelHeader should render properly when custom status is s
         }
       }
     />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "header": "not the bot description",
+          "status": "offline",
+          "type": "D",
+        }
+      }
+    />
   </div>
 </div>
 `;
@@ -1735,9 +1816,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -1819,7 +1898,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
               onClick={[Function]}
             >
               <MemoizedFormattedMessage
-                defaultMessage="Add a channel description"
+                defaultMessage="Add a channel header"
                 id="channel_header.addChannelHeader"
               />
               <MemoizedFormattedMessage
@@ -1846,6 +1925,17 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
         Object {
           "channel_id": "channel_id",
           "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "delete_at": 0,
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
         }
       }
     />
@@ -2070,6 +2160,24 @@ exports[`components/ChannelHeader should render properly when populated with cha
         }
       }
     />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "header": "See ~test",
+          "id": "channel_id",
+          "name": "Test",
+          "props": Object {
+            "channel_mentions": Object {
+              "test": Object {
+                "display_name": "Test",
+              },
+            },
+          },
+          "team_id": "team_id",
+        }
+      }
+    />
   </div>
 </div>
 `;
@@ -2141,9 +2249,7 @@ exports[`components/ChannelHeader should render shared view 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -2227,7 +2333,7 @@ exports[`components/ChannelHeader should render shared view 1`] = `
               onClick={[Function]}
             >
               <MemoizedFormattedMessage
-                defaultMessage="Add a channel description"
+                defaultMessage="Add a channel header"
                 id="channel_header.addChannelHeader"
               />
               <MemoizedFormattedMessage
@@ -2256,6 +2362,19 @@ exports[`components/ChannelHeader should render shared view 1`] = `
         Object {
           "channel_id": "channel_id",
           "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "delete_at": 0,
+          "id": "channel_id",
+          "name": "Test",
+          "shared": true,
+          "team_id": "team_id",
+          "type": "O",
         }
       }
     />
@@ -2324,9 +2443,7 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -2416,7 +2533,7 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
               onClick={[Function]}
             >
               <MemoizedFormattedMessage
-                defaultMessage="Add a channel description"
+                defaultMessage="Add a channel header"
                 id="channel_header.addChannelHeader"
               />
               <MemoizedFormattedMessage
@@ -2443,6 +2560,17 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
         Object {
           "channel_id": "channel_id",
           "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "delete_at": 0,
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
         }
       }
     />

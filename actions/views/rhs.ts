@@ -31,6 +31,7 @@ import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
 import {RhsState} from 'types/store/rhs';
 import {GlobalState} from 'types/store';
 import {getPostsByIds} from 'mattermost-redux/actions/posts';
+import {unsetEditingPost} from '../post_actions';
 
 function selectPostFromRightHandSideSearchWithPreviousState(post: Post, previousRhsState?: RhsState) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -72,7 +73,7 @@ export function updateRhsState(rhsState: string, channelId?: string) {
             state: rhsState,
         } as GenericAction;
 
-        if (rhsState === RHSStates.PIN || rhsState === RHSStates.CHANNEL_FILES) {
+        if ([RHSStates.PIN, RHSStates.CHANNEL_FILES, RHSStates.CHANNEL_INFO].includes(rhsState)) {
             action.channelId = channelId || getCurrentChannelId(getState());
         }
 
@@ -362,6 +363,16 @@ export function showMentions() {
     };
 }
 
+export function showChannelInfo(channelId: string) {
+    return (dispatch: DispatchFunc) => {
+        dispatch({
+            type: ActionTypes.UPDATE_RHS_STATE,
+            channelId,
+            state: RHSStates.CHANNEL_INFO,
+        });
+    };
+}
+
 export function closeRightHandSide() {
     return (dispatch: DispatchFunc) => {
         dispatch(batchActions([
@@ -375,6 +386,7 @@ export function closeRightHandSide() {
                 channelId: '',
                 timestamp: 0,
             },
+            unsetEditingPost(),
         ]));
         return {data: true};
     };

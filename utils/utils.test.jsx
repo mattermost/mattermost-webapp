@@ -731,41 +731,6 @@ describe('Utils.isDevMode', () => {
     });
 });
 
-describe('Utils.enableDevModeFeatures', () => {
-    const cleanUp = () => {
-        delete Map.prototype.length;
-        delete Set.prototype.length;
-    };
-
-    beforeEach(cleanUp);
-    afterEach(cleanUp);
-
-    describe('with DevModeFeatures', () => {
-        beforeEach(cleanUp);
-        afterEach(cleanUp);
-
-        test('invoke Map.Length', () => {
-            Utils.enableDevModeFeatures();
-            expect(() => new Map().length).toThrow(Error);
-        });
-
-        test('invoke Set.Length', () => {
-            Utils.enableDevModeFeatures();
-            expect(() => new Set().length).toThrow(Error);
-        });
-    });
-
-    describe('without DevModeFeatures', () => {
-        test('invoke Map.Length', () => {
-            expect(new Map().length).toEqual(undefined);
-        });
-
-        test('invoke Set.Length', () => {
-            expect(new Set().length).toEqual(undefined);
-        });
-    });
-});
-
 describe('Utils.imageURLForUser', () => {
     test('should return url when user id and last_picture_update is given', () => {
         const imageUrl = Utils.imageURLForUser('foobar-123', 123456);
@@ -1172,5 +1137,64 @@ describe('Utils.getSuggestionBoxAlgn', () => {
         createRange(largeSizeText);
         const suggestionBoxAlgn = Utils.getSuggestionBoxAlgn(textArea, Utils.getPxToSubstract());
         expect(fixedToTheRight).toEqual(suggestionBoxAlgn.pixelsToMoveX);
+    });
+});
+
+describe('Utils.numberToFixedDynamic', () => {
+    const tests = [
+        {
+            label: 'Removes period when no decimals needed',
+            num: 123.001,
+            places: 2,
+            expected: '123',
+        },
+        {
+            label: 'Extra places are ignored',
+            num: 123.45,
+            places: 3,
+            expected: '123.45',
+        },
+        {
+            label: 'rounds positives',
+            num: 123.45,
+            places: 1,
+            expected: '123.5',
+        },
+        {
+            label: 'rounds negatives',
+            num: -123.45,
+            places: 1,
+            expected: '-123.5',
+        },
+        {
+            label: 'negative places interpreted as 0 places',
+            num: 123,
+            places: -1,
+            expected: '123',
+        },
+        {
+            label: 'handles integers',
+            num: 123,
+            places: 4,
+            expected: '123',
+        },
+        {
+            label: 'handles integers with 0 places',
+            num: 123,
+            places: 4,
+            expected: '123',
+        },
+        {
+            label: 'correctly excludes decimal when rounding exlcudes number',
+            num: 0.004,
+            places: 2,
+            expected: '0',
+        },
+    ];
+    tests.forEach((testCase) => {
+        test(testCase.label, () => {
+            const actual = Utils.numberToFixedDynamic(testCase.num, testCase.places);
+            expect(actual).toBe(testCase.expected);
+        });
     });
 });

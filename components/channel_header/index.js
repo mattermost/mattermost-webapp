@@ -19,6 +19,7 @@ import {
     isCurrentChannelMuted,
     getCurrentChannelStats,
 } from 'mattermost-redux/selectors/entities/channels';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentRelativeTeamUrl, getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {
@@ -42,18 +43,22 @@ import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {isModalOpen} from 'selectors/views/modals';
 import {getAnnouncementBarCount} from 'selectors/views/announcement_bar';
 import {ModalIdentifiers} from 'utils/constants';
+import {isFileAttachmentsEnabled} from 'utils/file_utils';
 
 import ChannelHeader from './channel_header';
+
+const EMPTY_CHANNEL = {};
 
 function makeMapStateToProps() {
     const doGetProfilesInChannel = makeGetProfilesInChannel();
     const getCustomStatus = makeGetCustomStatus();
 
     return function mapStateToProps(state) {
-        const channel = getCurrentChannel(state) || {};
+        const channel = getCurrentChannel(state) || EMPTY_CHANNEL;
         const user = getCurrentUser(state);
         const teams = getMyTeams(state);
         const hasMoreThanOneTeam = teams.length > 1;
+        const config = getConfig(state);
 
         let dmUser;
         let gmMembers;
@@ -89,6 +94,7 @@ function makeMapStateToProps() {
             customStatus,
             isCustomStatusEnabled: isCustomStatusEnabled(state),
             isCustomStatusExpired: isCustomStatusExpired(state, customStatus),
+            isFileAttachmentsEnabled: isFileAttachmentsEnabled(config),
         };
     };
 }

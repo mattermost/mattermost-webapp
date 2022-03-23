@@ -32,7 +32,8 @@ describe('components/next_steps_view/steps/invite_members_step', () => {
             getSubscriptionStats: jest.fn(),
         },
         isLastStep: false,
-        finishButtonText: {
+        isMobileView: false,
+        completeStepButtonText: {
             id: 'tID',
             defaultMessage: 'defaultMessage',
         },

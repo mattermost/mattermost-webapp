@@ -3,7 +3,6 @@
 
 import {showNextSteps, getSteps, isOnboardingHidden, nextStepsNotFinished} from './steps';
 
-//
 describe('components/next_steps_view/steps', () => {
     test('should show next steps', () => {
         const cloudState = {

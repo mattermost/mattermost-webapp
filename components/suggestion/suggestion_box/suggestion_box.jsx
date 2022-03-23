@@ -64,6 +64,11 @@ export default class SuggestionBox extends React.PureComponent {
         renderNoResults: PropTypes.bool,
 
         /**
+         * Set to true if we want the suggestions to take in the complete word as the pretext, defaults to false
+         */
+        shouldSearchCompleteText: PropTypes.bool,
+
+        /**
          * Set to allow TAB to select an item in the list, defaults to true
          */
         completeOnTab: PropTypes.bool,
@@ -140,11 +145,6 @@ export default class SuggestionBox extends React.PureComponent {
         listenForMentionKeyClick: PropTypes.bool,
 
         /**
-         * Passes the wrapper reference for height calculation
-         */
-        wrapperHeight: PropTypes.number,
-
-        /**
          * Allows parent to access received suggestions
          */
         onSuggestionsReceived: PropTypes.func,
@@ -164,6 +164,7 @@ export default class SuggestionBox extends React.PureComponent {
         containerClass: '',
         renderDividers: false,
         renderNoResults: false,
+        shouldSearchCompleteText: false,
         completeOnTab: true,
         isRHS: false,
         requiredCharacters: 1,
@@ -259,23 +260,7 @@ export default class SuggestionBox extends React.PureComponent {
             return null;
         }
 
-        const input = this.inputRef.current.getInput();
-
-        if (input.getDOMNode) {
-            return input.getDOMNode();
-        }
-
-        return input;
-    }
-
-    recalculateSize = () => {
-        // Pretty hacky way to force an AutosizeTextarea to recalculate its height if that's what
-        // we're rendering as the input
-        const input = this.inputRef.current.getInput();
-
-        if (input.recalculateSize) {
-            input.recalculateSize();
-        }
+        return this.inputRef.current;
     }
 
     handleEmitClearSuggestions = (delay = 0) => {
@@ -349,7 +334,7 @@ export default class SuggestionBox extends React.PureComponent {
 
     handleChange = (e) => {
         const textbox = this.getTextbox();
-        const pretext = textbox.value.substring(0, textbox.selectionEnd);
+        const pretext = this.props.shouldSearchCompleteText ? textbox.value.trim() : textbox.value.substring(0, textbox.selectionEnd);
 
         if (!this.composing && this.pretext !== pretext) {
             this.handlePretextChanged(pretext);
@@ -727,7 +712,7 @@ export default class SuggestionBox extends React.PureComponent {
     }
 
     focus = () => {
-        const input = this.inputRef.current.input;
+        const input = this.inputRef.current;
         if (input.value === '""' || input.value.endsWith('""')) {
             input.selectionStart = input.value.length - 1;
             input.selectionEnd = input.value.length - 1;
@@ -754,6 +739,14 @@ export default class SuggestionBox extends React.PureComponent {
         // Save ref
         this.container = container;
     };
+
+    getListPosition = (listPosition) => {
+        if (!this.state.suggestionBoxAlgn) {
+            return listPosition;
+        }
+
+        return listPosition === 'bottom' && this.state.suggestionBoxAlgn.placementShift ? 'top' : listPosition;
+    }
 
     render() {
         const {
@@ -783,10 +776,10 @@ export default class SuggestionBox extends React.PureComponent {
         Reflect.deleteProperty(props, 'renderDividers');
         Reflect.deleteProperty(props, 'contextId');
         Reflect.deleteProperty(props, 'listenForMentionKeyClick');
-        Reflect.deleteProperty(props, 'wrapperHeight');
         Reflect.deleteProperty(props, 'forceSuggestionsWhenBlur');
         Reflect.deleteProperty(props, 'onSuggestionsReceived');
         Reflect.deleteProperty(props, 'actions');
+        Reflect.deleteProperty(props, 'shouldSearchCompleteText');
 
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;
@@ -817,11 +810,10 @@ export default class SuggestionBox extends React.PureComponent {
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' &&
                     <div style={{width: this.state.width}}>
                         <SuggestionListComponent
-                            target={this.inputRef}
                             ariaLiveRef={this.suggestionReadOut}
                             open={this.state.focused || this.props.forceSuggestionsWhenBlur}
                             pretext={this.pretext}
-                            position={listPosition}
+                            position={this.getListPosition(listPosition)}
                             renderDividers={renderDividers}
                             renderNoResults={renderNoResults}
                             onCompleteWord={this.handleCompleteWord}
@@ -834,7 +826,6 @@ export default class SuggestionBox extends React.PureComponent {
                             suggestionBoxAlgn={this.state.suggestionBoxAlgn}
                             selection={this.state.selection}
                             components={this.state.components}
-                            wrapperHeight={this.props.wrapperHeight}
                             inputRef={this.inputRef}
                             onLoseVisibility={this.blur}
                         />

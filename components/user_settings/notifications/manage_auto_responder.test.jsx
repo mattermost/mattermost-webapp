@@ -53,7 +53,7 @@ describe('components/user_settings/notifications/ManageAutoResponder', () => {
         expect(wrapper.find('#autoResponderActive').exists()).toBe(true);
         expect(wrapper.find('#autoResponderMessageInput').exists()).toBe(true);
 
-        wrapper.find('#autoResponderMessageInput').at(1).simulate('change');
+        wrapper.find('#autoResponderMessageInput').simulate('change');
         expect(setParentState).toBeCalled();
         expect(setParentState).toBeCalledWith('autoResponderMessage', 'Hello World!');
 

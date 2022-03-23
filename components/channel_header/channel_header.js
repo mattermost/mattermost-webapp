@@ -3,7 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Tooltip, Overlay} from 'react-bootstrap';
+import {Overlay} from 'react-bootstrap';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import classNames from 'classnames';
 
@@ -14,6 +14,7 @@ import {displayUsername, isGuest} from 'mattermost-redux/utils/user_utils';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import Markdown from 'components/markdown';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import PopoverListMembers from 'components/popover_list_members';
 import StatusIcon from 'components/status_icon';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
@@ -24,6 +25,10 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Popover from 'components/widgets/popover';
+import CallButton from 'plugins/call_button';
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import CustomStatusText from 'components/custom_status/custom_status_text';
+import ChannelHeaderPlug from 'plugins/channel_header_plug';
 
 import {
     Constants,
@@ -32,14 +37,11 @@ import {
     RHSStates,
 } from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
-import * as Utils from 'utils/utils';
-
-import ChannelHeaderPlug from 'plugins/channel_header_plug';
-
-import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
-import CustomStatusText from 'components/custom_status/custom_status_text';
+import {handleFormattedTextClick, localizeMessage, isEmptyObject, toTitleCase} from 'utils/utils';
 
 import HeaderIconWrapper from './components/header_icon_wrapper';
+
+import ChannelInfoButton from './channel_info_button';
 
 const headerMarkdownOptions = {singleline: true, mentionHighlight: false, atMentions: true};
 const popoverMarkdownOptions = {singleline: false, mentionHighlight: false, atMentions: true};
@@ -84,6 +86,7 @@ class ChannelHeader extends React.PureComponent {
         customStatus: PropTypes.object,
         isCustomStatusEnabled: PropTypes.bool.isRequired,
         isCustomStatusExpired: PropTypes.bool.isRequired,
+        isFileAttachmentsEnabled: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -217,7 +220,7 @@ class ChannelHeader extends React.PureComponent {
         this.setState({popoverOverlayWidth: headerDescriptionRect.width + ellipsisWidthAdjustment});
     }
 
-    handleFormattedTextClick = (e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
+    handleFormattedTextClick = (e) => handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
     renderCustomStatus = () => {
         const {customStatus, isCustomStatusEnabled, isCustomStatusExpired} = this.props;
@@ -260,7 +263,7 @@ class ChannelHeader extends React.PureComponent {
             teammateNameDisplaySetting,
         } = this.props;
         const {formatMessage} = this.props.intl;
-        const ariaLabelChannelHeader = Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region');
+        const ariaLabelChannelHeader = localizeMessage('accessibility.sections.channelHeader', 'channel header region');
 
         let hasGuestsText = '';
         if (hasGuests) {
@@ -275,9 +278,9 @@ class ChannelHeader extends React.PureComponent {
         }
 
         const channelIsArchived = channel.delete_at !== 0;
-        if (Utils.isEmptyObject(channel) ||
-            Utils.isEmptyObject(channelMember) ||
-            Utils.isEmptyObject(currentUser) ||
+        if (isEmptyObject(channel) ||
+            isEmptyObject(channelMember) ||
+            isEmptyObject(currentUser) ||
             (!dmUser && channel.type === Constants.DM_CHANNEL)
         ) {
             // Use an empty div to make sure the header's height stays constant
@@ -398,7 +401,7 @@ class ChannelHeader extends React.PureComponent {
                 <span className='header-status__text'>
                     <FormattedMessage
                         id={`status_dropdown.set_${channel.status}`}
-                        defaultMessage={Utils.toTitleCase(channel.status)}
+                        defaultMessage={toTitleCase(channel.status)}
                     />
                     {this.renderCustomStatus()}
                 </span>
@@ -467,6 +470,7 @@ class ChannelHeader extends React.PureComponent {
                     {dmHeaderIconStatus}
                     {dmHeaderTextStatus}
                     {popoverListMembers}
+
                     <HeaderIconWrapper
                         iconComponent={pinnedIcon}
                         ariaLabel={true}
@@ -475,14 +479,16 @@ class ChannelHeader extends React.PureComponent {
                         onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
                     />
-                    <HeaderIconWrapper
-                        iconComponent={channelFilesIcon}
-                        ariaLabel={true}
-                        buttonClass={channelFilesIconClass}
-                        buttonId={'channelHeaderFilesButton'}
-                        onClick={this.showChannelFiles}
-                        tooltipKey={'channelFiles'}
-                    />
+                    {this.props.isFileAttachmentsEnabled &&
+                        <HeaderIconWrapper
+                            iconComponent={channelFilesIcon}
+                            ariaLabel={true}
+                            buttonClass={channelFilesIconClass}
+                            buttonId={'channelHeaderFilesButton'}
+                            onClick={this.showChannelFiles}
+                            tooltipKey={'channelFiles'}
+                        />
+                    }
                     {hasGuestsText}
                     <div
                         className='header-popover-text-measurer'
@@ -529,7 +535,7 @@ class ChannelHeader extends React.PureComponent {
                             >
                                 <FormattedMessage
                                     id='channel_header.addChannelHeader'
-                                    defaultMessage='Add a channel description'
+                                    defaultMessage='Add a channel header'
                                 />
                                 <FormattedMessage
                                     id='channel_header.editLink'
@@ -558,7 +564,7 @@ class ChannelHeader extends React.PureComponent {
                             >
                                 <FormattedMessage
                                     id='channel_header.addChannelHeader'
-                                    defaultMessage='Add a channel description'
+                                    defaultMessage='Add a channel header'
                                 />
                                 <FormattedMessage
                                     id='channel_header.editLink'
@@ -584,6 +590,7 @@ class ChannelHeader extends React.PureComponent {
                     {dmHeaderIconStatus}
                     {dmHeaderTextStatus}
                     {popoverListMembers}
+
                     <HeaderIconWrapper
                         iconComponent={pinnedIcon}
                         ariaLabel={true}
@@ -592,14 +599,16 @@ class ChannelHeader extends React.PureComponent {
                         onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
                     />
-                    <HeaderIconWrapper
-                        iconComponent={channelFilesIcon}
-                        ariaLabel={true}
-                        buttonClass={channelFilesIconClass}
-                        buttonId={'channelHeaderFilesButton'}
-                        onClick={this.showChannelFiles}
-                        tooltipKey={'channelFiles'}
-                    />
+                    {this.props.isFileAttachmentsEnabled &&
+                        <HeaderIconWrapper
+                            iconComponent={channelFilesIcon}
+                            ariaLabel={true}
+                            buttonClass={channelFilesIconClass}
+                            buttonId={'channelHeaderFilesButton'}
+                            onClick={this.showChannelFiles}
+                            tooltipKey={'channelFiles'}
+                        />
+                    }
                     {hasGuestsText}
                     {editMessage}
                 </div>
@@ -767,6 +776,8 @@ class ChannelHeader extends React.PureComponent {
                         channel={channel}
                         channelMember={channelMember}
                     />
+                    <CallButton/>
+                    <ChannelInfoButton channel={channel}/>
                 </div>
             </div>
         );

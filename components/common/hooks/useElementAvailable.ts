@@ -4,6 +4,7 @@ import {useEffect, useRef, useState, useMemo} from 'react';
 
 export default function useElementAvailable(
     elementIds: string[],
+    intervalMS = 250,
 ): boolean {
     const checkAvailableInterval = useRef<NodeJS.Timeout | null>(null);
     const [available, setAvailable] = useState(false);
@@ -25,7 +26,7 @@ export default function useElementAvailable(
                     checkAvailableInterval.current = null;
                 }
             }
-        }, 500);
+        }, intervalMS);
     }, []);
 
     return useMemo(() => available, [available]);

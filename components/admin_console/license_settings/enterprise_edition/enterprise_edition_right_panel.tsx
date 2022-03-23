@@ -4,8 +4,8 @@ import * as React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {ClientLicense} from 'mattermost-redux/types/config';
-import {LicenseSkus} from 'mattermost-redux/types/general';
 
+import {isEnterpriseOrE20License} from 'utils/license_utils';
 import WomanUpArrowsAndCloudsSvg from 'components/common/svg_images_components/woman_up_arrows_and_clouds_svg';
 import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
 import WomanWithCardSvg from 'components/common/svg_images_components/woman_with_card_svg';
@@ -29,7 +29,7 @@ const EnterpriseEditionRightPanel: React.FC<EnterpriseEditionProps> = ({
         'And more...',
     ];
 
-    const skuShortName = license.SkuShortName;
+    const isEnterpriseOrE20 = isEnterpriseOrE20License(license);
 
     const contactSalesBtn = (
         <div className='purchase-card'>
@@ -40,8 +40,18 @@ const EnterpriseEditionRightPanel: React.FC<EnterpriseEditionProps> = ({
         </div>
     );
 
+    const isGovSku = license.IsGovSku === 'true';
+
     const title = () => {
         if (isTrialLicense) {
+            if (isGovSku) {
+                return (
+                    <FormattedMessage
+                        id='admin.license.purchaseEnterpriseGovPlanTitle'
+                        defaultMessage='Purchase the Enterprise Gov Plan'
+                    />
+                );
+            }
             return (
                 <FormattedMessage
                     id='admin.license.purchaseEnterprisePlanTitle'
@@ -49,7 +59,7 @@ const EnterpriseEditionRightPanel: React.FC<EnterpriseEditionProps> = ({
                 />
             );
         }
-        if (skuShortName === LicenseSkus.Enterprise) {
+        if (isEnterpriseOrE20) {
             return (
                 <FormattedMessage
                     id='admin.license.enterprisePlanTitle'
@@ -57,10 +67,18 @@ const EnterpriseEditionRightPanel: React.FC<EnterpriseEditionProps> = ({
                 />
             );
         }
+        if (isGovSku) {
+            return (
+                <FormattedMessage
+                    id='admin.license.upgradeToEnterpriseGov'
+                    defaultMessage='Upgrade to the Enterprise Gov Plan'
+                />
+            );
+        }
         return (
             <FormattedMessage
                 id='admin.license.upgradeToEnterprise'
-                defaultMessage='Upgrade to the Enterprise plan'
+                defaultMessage='Upgrade to the Enterprise Plan'
             />
         );
     };
@@ -74,7 +92,7 @@ const EnterpriseEditionRightPanel: React.FC<EnterpriseEditionProps> = ({
                 />
             );
         }
-        if (skuShortName === LicenseSkus.Enterprise) {
+        if (isEnterpriseOrE20) {
             return (
                 <TwoPeopleChattingSvg
                     width={200}
@@ -99,7 +117,7 @@ const EnterpriseEditionRightPanel: React.FC<EnterpriseEditionProps> = ({
                 />
             );
         }
-        if (skuShortName === LicenseSkus.Enterprise) {
+        if (isEnterpriseOrE20) {
             return (
                 <FormattedMessage
                     id='admin.license.enterprisePlanSubtitle'

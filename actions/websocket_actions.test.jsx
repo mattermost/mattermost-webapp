@@ -12,9 +12,6 @@ import {
     getStatusesByIds,
     getUser,
 } from 'mattermost-redux/actions/users';
-import {
-    getChannelStats,
-} from 'mattermost-redux/actions/channels';
 import {General, WebsocketEvents} from 'mattermost-redux/constants';
 
 import {handleNewPost} from 'actions/post_actions';
@@ -39,7 +36,6 @@ import {
     handlePostUnreadEvent,
     handleUserRemovedEvent,
     handleUserTypingEvent,
-    handleUserUpdatedEvent,
     handleLeaveTeamEvent,
     reconnect,
     handleAppsPluginEnabled,
@@ -77,6 +73,11 @@ jest.mock('actions/views/channel', () => ({
     syncPostsInChannel: jest.fn(),
 }));
 
+jest.mock('plugins', () => ({
+    ...jest.requireActual('plugins'),
+    loadPluginsIfNecessary: jest.fn(() => Promise.resolve()),
+}));
+
 jest.mock('utils/browser_history');
 
 const mockState = {
@@ -105,7 +106,9 @@ const mockState = {
             },
         },
         general: {
-            config: {},
+            config: {
+                PluginsEnabled: 'true',
+            },
         },
         channels: {
             currentChannelId: 'otherChannel',
@@ -218,57 +221,6 @@ describe('handlePostUnreadEvent', () => {
 
         handlePostUnreadEvent(msg);
         expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-    });
-});
-
-describe('handleUserUpdatedEvent', () => {
-    test('should not get channel stats if user is not guest', async () => {
-        const msg = {
-            data: {
-                user: {
-                    id: 'userid',
-                    roles: 'system_user',
-                },
-            },
-        };
-
-        await handleUserUpdatedEvent(msg);
-        expect(getChannelStats).not.toHaveBeenCalled();
-    });
-
-    test('should not get channel stats if user is not in current channel', async () => {
-        const msg = {
-            data: {
-                user: {
-                    id: 'userid',
-                    roles: 'system_user',
-                },
-            },
-        };
-
-        await handleUserUpdatedEvent(msg);
-        expect(getChannelStats).not.toHaveBeenCalled();
-    });
-
-    test('should get channel stats if user is guest and in current channel', async () => {
-        const msg = {
-            data: {
-                user: {
-                    id: 'guestid',
-                    roles: 'system_guest',
-                },
-            },
-        };
-
-        mockState.entities.channels.membersInChannel.otherChannel = {
-            guestid: {
-                id: 'guestid',
-            },
-        };
-
-        await handleUserUpdatedEvent(msg);
-        mockState.entities.channels.membersInChannel.otherChannel = {};
-        expect(getChannelStats).toHaveBeenCalled();
     });
 });
 

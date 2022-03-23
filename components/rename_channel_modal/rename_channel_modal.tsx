@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {ChangeEvent, MouseEvent} from 'react';
-import {Modal, Tooltip} from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
 import {defineMessages, FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
@@ -11,6 +11,7 @@ import {ServerError} from 'mattermost-redux/types/errors';
 
 import LocalizedInput from 'components/localized_input/localized_input';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 import {t} from 'utils/i18n';

@@ -21,7 +21,6 @@ exports[`components/AutosizeTextarea should match snapshot, init 1`] = `
     aria-label=""
     dir="auto"
     height={0}
-    onChange={[Function]}
     role="textbox"
     rows={1}
   />

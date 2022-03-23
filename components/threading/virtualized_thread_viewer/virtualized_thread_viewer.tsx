@@ -5,7 +5,6 @@ import React, {PureComponent, RefObject} from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList, OnScrollArgs, OnItemsRenderedArgs} from 'dynamic-virtualized-list';
 
-import {$ID} from 'mattermost-redux/types/utilities';
 import {Channel} from 'mattermost-redux/types/channels';
 import {Post} from 'mattermost-redux/types/posts';
 import {UserProfile} from 'mattermost-redux/types/users';
@@ -29,7 +28,7 @@ type Props = {
     channel: Channel;
     currentUserId: string;
     directTeammate: UserProfile | undefined;
-    highlightedPostId?: $ID<Post>;
+    highlightedPostId?: Post['id'];
     selectedPostFocusedAt?: number;
     lastPost: Post;
     onCardClick: (post: Post) => void;
@@ -422,14 +421,17 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
     }
 
     renderToast = (width: number) => {
-        const {lastViewedBottom, userScrolledToBottom} = this.state;
-        const isNewMessagesVisible = this.isNewMessagesVisible();
+        const {visibleStopIndex, lastViewedBottom, userScrolledToBottom} = this.state;
+        const canShow =
+            visibleStopIndex !== 0 &&
+            !this.isNewMessagesVisible() &&
+            !userScrolledToBottom;
 
         return (
             <NewRepliesBanner
                 threadId={this.props.selected.id}
                 lastViewedBottom={lastViewedBottom}
-                canShow={!(userScrolledToBottom || isNewMessagesVisible)}
+                canShow={canShow}
                 onDismiss={this.handleToastDismiss}
                 width={width}
                 onClick={this.handleToastClick}
@@ -444,7 +446,6 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
             <>
                 {isMobile && topRhsPostId && !this.props.useRelativeTimestamp && (
                     <FloatingTimestamp
-                        isMobile={true}
                         isRhsPost={true}
                         isScrolling={this.state.isScrolling}
                         postId={topRhsPostId}
@@ -478,6 +479,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
                                     ref={this.listRef}
                                     style={virtListStyles}
                                     width={width}
+                                    className={'post-list__dynamic--RHS'}
                                 >
                                     {this.renderRow}
                                 </DynamicSizeList>

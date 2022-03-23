@@ -5,16 +5,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-import {Tooltip} from 'react-bootstrap';
-
 import {Posts} from 'mattermost-redux/constants/index';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
+import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height_switcher';
 import PostMessageContainer from 'components/post_view/post_message_view';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import CommentIcon from 'components/common/comment_icon';
 import DotMenu from 'components/dot_menu';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import PostProfilePicture from 'components/post_profile_picture';
 import UserProfile from 'components/user_profile';
 import DateSeparator from 'components/post_view/date_separator';
@@ -27,8 +27,10 @@ import {browserHistory} from 'utils/browser_history';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
+import ThreadFooter from 'components/threading/channel_threads/thread_footer';
+import EditPost from 'components/edit_post';
 
-import Constants, {Locations} from 'utils/constants';
+import Constants, {AppEvents, Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils.jsx';
 
@@ -81,6 +83,8 @@ export default class SearchResultsItem extends React.PureComponent {
 
         a11yIndex: PropTypes.number,
 
+        isMobileView: PropTypes.bool.isRequired,
+
         /**
         *  Function used for closing LHS
         */
@@ -108,6 +112,11 @@ export default class SearchResultsItem extends React.PureComponent {
          */
         isPinnedPosts: PropTypes.bool,
 
+        /**
+         * is the current post being edited in RHS?
+         */
+        isPostBeingEditedInRHS: PropTypes.bool,
+
         teamDisplayName: PropTypes.string,
         teamName: PropTypes.string,
 
@@ -115,6 +124,8 @@ export default class SearchResultsItem extends React.PureComponent {
          * Is this a post that we can directly reply to?
          */
         canReply: PropTypes.bool,
+
+        isCollapsedThreadsEnabled: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -139,7 +150,7 @@ export default class SearchResultsItem extends React.PureComponent {
 
     handleJumpClick = (e) => {
         e.preventDefault();
-        if (Utils.isMobile()) {
+        if (this.props.isMobileView) {
             this.props.actions.closeRightHandSide();
         }
 
@@ -185,24 +196,53 @@ export default class SearchResultsItem extends React.PureComponent {
     };
 
     getClassName = () => {
+        const {compactDisplay, isPostBeingEditedInRHS} = this.props;
+
         let className = 'post post--thread';
 
-        if (this.props.compactDisplay) {
+        if (compactDisplay) {
             className += ' post--compact';
         }
 
-        if (this.state.dropdownOpened || this.state.fileDropdownOpened) {
+        if ((this.state.dropdownOpened || this.state.fileDropdownOpened) && !isPostBeingEditedInRHS) {
             className += ' post--hovered';
+        }
+
+        if (isPostBeingEditedInRHS) {
+            className += ' post--editing';
         }
 
         return className;
     };
 
     getChannelName = () => {
-        const {channelType} = this.props;
+        const {post, channelType, isCollapsedThreadsEnabled} = this.props;
         let {channelName} = this.props;
 
-        if (channelType === Constants.DM_CHANNEL) {
+        const isDirectMessage = channelType === Constants.DM_CHANNEL;
+        const isPartOfThread = isCollapsedThreadsEnabled && (post.reply_count > 0 || post.is_following);
+
+        if (isDirectMessage && isPartOfThread) {
+            channelName = (
+                <FormattedMessage
+                    id='search_item.thread_direct'
+                    defaultMessage='Thread in Direct Message with {username}'
+                    values={{
+                        username: this.props.displayName,
+                    }}
+                />
+            );
+        } else if (isPartOfThread) {
+            channelName = (
+                <FormattedMessage
+                    id='search_item.thread'
+                    defaultMessage='Thread in {channel}'
+                    values={{
+                        channel: channelName,
+                    }}
+                />
+            );
+        } else if (isDirectMessage) {
             channelName = (
                 <FormattedMessage
                     id='search_item.direct'
@@ -218,7 +258,7 @@ export default class SearchResultsItem extends React.PureComponent {
     }
 
     render() {
-        const {post, channelIsArchived, teamDisplayName, canReply} = this.props;
+        const {post, channelIsArchived, teamDisplayName, canReply, isPostBeingEditedInRHS} = this.props;
         const channelName = this.getChannelName();
 
         let overrideUsername;
@@ -257,6 +297,8 @@ export default class SearchResultsItem extends React.PureComponent {
             );
         }
 
+        const hasCRTFooter = this.props.isCollapsedThreadsEnabled && !post.root_id && (post.reply_count > 0 || post.is_following);
+
         let message;
         let flagContent;
         let postInfoIcon;
@@ -271,7 +313,7 @@ export default class SearchResultsItem extends React.PureComponent {
                 </p>
             );
         } else {
-            if (!Utils.isMobile()) {
+            if (!this.props.isMobileView) {
                 flagContent = (
                     <PostFlagIcon
                         location={Locations.SEARCH}
@@ -322,7 +364,7 @@ export default class SearchResultsItem extends React.PureComponent {
                         isReadOnly={channelIsArchived || null}
                     />
                     {flagContent}
-                    {canReply &&
+                    {canReply && !hasCRTFooter &&
                         <CommentIcon
                             location={Locations.SEARCH}
                             handleCommentClick={this.handleFocusRHSClick}
@@ -367,6 +409,7 @@ export default class SearchResultsItem extends React.PureComponent {
         }
 
         const currentPostDay = Utils.getDateForUnixTicks(post.create_at);
+        const showSlot = isPostBeingEditedInRHS ? AutoHeightSlots.SLOT2 : AutoHeightSlots.SLOT1;
 
         return (
             <div
@@ -429,14 +472,26 @@ export default class SearchResultsItem extends React.PureComponent {
                                     {this.renderPostTime()}
                                     {postInfoIcon}
                                 </div>
-                                {rhsControls}
+                                {!isPostBeingEditedInRHS && rhsControls}
                             </div>
                             <div className='search-item-snippet post__body'>
                                 <div className={postClass}>
-                                    {message}
-                                    {fileAttachment}
+                                    <AutoHeightSwitcher
+                                        showSlot={showSlot}
+                                        shouldScrollIntoView={isPostBeingEditedInRHS}
+                                        slot1={message}
+                                        slot2={<EditPost/>}
+                                        onTransitionEnd={() => document.dispatchEvent(new Event(AppEvents.FOCUS_EDIT_TEXTBOX))}
+                                    />
                                 </div>
+                                {fileAttachment}
                             </div>
+                            {hasCRTFooter ? (
+                                <ThreadFooter
+                                    threadId={post.id}
+                                    replyClick={this.handleFocusRHSClick}
+                                />
+                            ) : null}
                         </div>
                     </div>
                 </PostAriaLabelDiv>

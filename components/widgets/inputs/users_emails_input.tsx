@@ -53,6 +53,8 @@ type Props = {
     loadingMessageDefault?: string;
     emailInvitationsEnabled: boolean;
     extraErrorText?: React.ReactNode;
+    autoFocus?: boolean;
+    suppressNoOptionsMessage?: boolean;
 }
 
 export type EmailInvite = {
@@ -233,7 +235,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
     );
 
     components = {
-        NoOptionsMessage: this.NoOptionsMessage,
+        NoOptionsMessage: this.props.suppressNoOptionsMessage ? () => null : this.NoOptionsMessage,
         MultiValueRemove: this.MultiValueRemove,
         IndicatorsContainer: () => null,
     };
@@ -339,6 +341,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
                     tabSelectsValue={true}
                     value={values}
                     aria-label={this.props.ariaLabel}
+                    autoFocus={this.props.autoFocus}
                 />
                 {this.props.showError && (
                     <div className='InputErrorBox'>

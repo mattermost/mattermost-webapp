@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
 import {UserAccessToken, UserProfile} from 'mattermost-redux/types/users';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
@@ -32,7 +31,7 @@ export type Props = {
     /**
      * The personal access tokens for a user, object with token ids as keys
      */
-    userAccessTokens?: Dictionary<UserAccessToken>;
+    userAccessTokens?: Record<string, UserAccessToken>;
 
     /**
      * Function called when modal is dismissed
@@ -157,7 +156,7 @@ export default class ManageTokensModal extends React.PureComponent<Props, State>
                 <div className='pt-3'>
                     <FormattedMarkdownMessage
                         id='admin.manage_tokens.userAccessTokensDescription'
-                        defaultMessage='Personal access tokens function similarly to session tokens and can be used by integrations to [interact with this Mattermost server](!https://about.mattermost.com/default-api-authentication). Tokens are disabled if the user is deactivated. Learn more about [personal access tokens](!https://about.mattermost.com/default-user-access-tokens).'
+                        defaultMessage='Personal access tokens function similarly to session tokens and can be used by integrations to [interact with this Mattermost server](!https://api.mattermost.com/#tag/authentication). Tokens are disabled if the user is deactivated. Learn more about [personal access tokens](!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/).'
                     />
                 </div>
                 <div className='manage-teams__teams'>

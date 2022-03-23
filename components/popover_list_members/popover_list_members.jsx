@@ -4,7 +4,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Overlay, Tooltip} from 'react-bootstrap';
+import {Overlay} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
@@ -18,6 +18,7 @@ import {AddMembersToChanneltreatments} from 'mattermost-redux/constants/config';
 import ChannelMembersModal from 'components/channel_members_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import Popover from 'components/widgets/popover';
 
 import PopoverListMembersItem from 'components/popover_list_members/popover_list_members_item';
@@ -151,7 +152,7 @@ export default class PopoverListMembers extends React.PureComponent {
                 );
             }
 
-            if (this.props.addMembersABTest === AddMembersToChanneltreatments.BOTTOM) {
+            if (this.props.addMembersABTest === AddMembersToChanneltreatments.BOTTOM && this.props.manageMembers) {
                 handleButtonOnClick = () => this.onAddNewMembersButton(AddMembersToChanneltreatments.BOTTOM);
                 membersName = (
                     <FormattedMessage
@@ -172,7 +173,7 @@ export default class PopoverListMembers extends React.PureComponent {
                         />
                     </button>
                 );
-            } else if (this.props.addMembersABTest === AddMembersToChanneltreatments.TOP) {
+            } else if (this.props.addMembersABTest === AddMembersToChanneltreatments.TOP && this.props.manageMembers) {
                 editButton = (
                     <button
                         className='btn btn-link'

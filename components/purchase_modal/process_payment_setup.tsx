@@ -13,9 +13,9 @@ import {TELEMETRY_CATEGORIES} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {getNextBillingDate} from 'utils/utils';
 
-import CreditCardSvg from 'components/common/svg_images_components/credit_card.svg';
-import PaymentSuccessStandardSvg from 'components/common/svg_images_components/payment_sucess_standard.svg';
-import PaymentFailedSvg from 'components/common/svg_images_components/payment_failed.svg';
+import CreditCardSvg from 'components/common/svg_images_components/credit_card_svg';
+import PaymentSuccessStandardSvg from 'components/common/svg_images_components/payment_success_standard_svg';
+import PaymentFailedSvg from 'components/common/svg_images_components/payment_failed_svg';
 
 import {Product} from 'mattermost-redux/types/cloud';
 
@@ -259,6 +259,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                         />
                     }
                     footer={progressBar}
+                    className={'processing'}
                 />
             );
         case ProcessState.SUCCESS:
@@ -287,6 +288,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                     buttonHandler={this.handleGoBack}
                     linkText={t('admin.billing.subscription.privateCloudCard.contactSupport')}
                     linkURL={this.props.contactSupportLink}
+                    className={'failed'}
                 />
             );
         default:

@@ -19,6 +19,8 @@ describe('components/channel_view', () => {
         showNextSteps: false,
         isOnboardingHidden: true,
         showNextStepsEphemeral: false,
+        enableOnboardingFlow: true,
+        teamUrl: '/team',
         channelIsArchived: false,
         viewArchivedChannels: false,
         isCloud: false,
@@ -27,6 +29,8 @@ describe('components/channel_view', () => {
             setShowNextStepsView: jest.fn(),
             getProfiles: jest.fn(),
         },
+        isFirstAdmin: false,
+        useCaseOnboarding: false,
     };
 
     it('Should match snapshot with base props', () => {

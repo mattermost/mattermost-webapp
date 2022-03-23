@@ -12,6 +12,7 @@ import ChannelsInput from 'components/widgets/inputs/channels_input';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import './add_to_channels.scss';
+import Constants from 'utils/constants';
 
 export type CustomMessageProps = {
     message: string;
@@ -41,7 +42,7 @@ export type Props = {
     onChannelsChange: (channels: Channel[]) => void;
     onChannelsInputChange: (search: string) => void;
     channelsLoader: (value: string, callback?: (channels: Channel[]) => void) => Promise<Channel[]>;
-    currentChannel: Channel;
+    currentChannel?: Channel;
     titleClass?: string;
     townSquareDisplayName: string;
 }
@@ -59,13 +60,14 @@ export default function AddToChannels(props: Props) {
 
     const {formatMessage} = useIntl();
 
-    let placeholderChannelName = props.currentChannel.display_name;
+    let placeholderChannelName = props.townSquareDisplayName;
 
-    // If the user is in a direct or group message, then we want to say
-    // 'e.g. Town Square' rather than e.g {username},
-    // as inviting to direct or group message channels on a team is not currently supported.
-    if (props.currentChannel.type !== 'O' && props.currentChannel.type !== 'P') {
-        placeholderChannelName = props.townSquareDisplayName;
+    // If the user is in a public or private channel,
+    // use this channel name as a placeholder.
+    // Inviting to direct or group message channels
+    // on a team is not currently supported.
+    if (props.currentChannel && [Constants.OPEN_CHANNEL, Constants.PRIVATE_CHANNEL].includes(props.currentChannel.type)) {
+        placeholderChannelName = props.currentChannel.display_name;
     }
 
     return (<div className='AddToChannels'>
