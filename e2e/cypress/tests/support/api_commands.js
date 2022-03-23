@@ -85,6 +85,22 @@ Cypress.Commands.add('apiCreatePost', (channelId, message, rootId, props, token 
 });
 
 /**
+* Deletes a post directly via API
+* @param {String} postId - Post ID
+*/
+Cypress.Commands.add('apiDeletePost', (postId) => {
+    return cy.externalRequest({
+        user: getAdminAccount(),
+        method: 'delete',
+        path: `posts/${postId}`,
+    }).then((response) => {
+        // * Validate that request was denied
+        expect(response.status).to.equal(200);
+        return cy.wrap({status: response.status});
+    });
+});
+
+/**
  * Creates a post directly via API
  * This API assume that the user is logged in as admin
  * @param {String} userDd - user for whom to create the token
