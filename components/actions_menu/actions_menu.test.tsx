@@ -10,7 +10,7 @@ import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {TestHelper} from 'utils/test_helper';
 
-import ActionsMenu, {PLUGGABLE_COMPONENT} from './actions_menu';
+import ActionsMenu, {PLUGGABLE_COMPONENT, Props} from './actions_menu';
 
 jest.mock('utils/utils', () => {
     const original = jest.requireActual('utils/utils');
@@ -29,7 +29,7 @@ const dropdownComponents: PluginComponent[] = [
 ];
 
 describe('components/actions_menu/ActionsMenu', () => {
-    const baseProps = {
+    const baseProps: Omit<Props, 'intl'> = {
         appBindings: [],
         appsEnabled: false,
         teamId: 'team_id_1',
@@ -45,10 +45,11 @@ describe('components/actions_menu/ActionsMenu', () => {
         handleNextTip: jest.fn(),
         handleDismissTip: jest.fn(),
         showPulsatingDot: false,
+        location: 'center',
         actions: {
-            doAppCall: jest.fn(),
             openModal: jest.fn(),
             openAppsModal: jest.fn(),
+            handleBindingClick: jest.fn(),
             postEphemeralCallResponseForPost: jest.fn(),
             fetchBindings: jest.fn(),
         },

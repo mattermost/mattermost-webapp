@@ -3,13 +3,13 @@
 
 import React from 'react';
 
+import {shallow} from 'enzyme';
+
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import EmojiMap from 'utils/emoji_map';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
-
-import AppsFormContainer from './apps_form_container';
+import {RawAppsFormContainer} from './apps_form_container';
 
 describe('components/apps_form/AppsFormContainer', () => {
     const emojiMap = new EmojiMap(new Map());
@@ -20,6 +20,12 @@ describe('components/apps_form/AppsFormContainer', () => {
         team_id: 'team',
         post_id: 'post',
     };
+
+    const intl = {
+        formatMessage: (message: {id: string; defaultMessage: string}) => {
+            return message.defaultMessage;
+        },
+    } as any;
 
     const baseProps = {
         emojiMap,
@@ -33,27 +39,34 @@ describe('components/apps_form/AppsFormContainer', () => {
                     value: 'initial_value_1',
                 },
                 {
-                    type: 'static_select',
+                    type: 'dynamic_select',
                     name: 'field2',
                     value: 'initial_value_2',
                     refresh: true,
+                    lookup: {
+                        path: '/form_lookup',
+                    },
                 },
             ],
+            submit: {
+                path: '/form_url',
+            },
         },
-        call: {
-            context,
-            path: '/form_url',
-        },
+        context,
         actions: {
-            doAppCall: jest.fn().mockResolvedValue({}),
+            doAppSubmit: jest.fn().mockResolvedValue({}),
+            doAppFetchForm: jest.fn(),
+            doAppLookup: jest.fn(),
+            postEphemeralCallResponseForContext: jest.fn(),
         },
         onExited: jest.fn(),
+        intl,
     };
 
     test('should match snapshot', () => {
         const props = baseProps;
 
-        const wrapper = shallowWithIntl(<AppsFormContainer {...props}/>);
+        const wrapper = shallow(<RawAppsFormContainer {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -69,11 +82,11 @@ describe('components/apps_form/AppsFormContainer', () => {
                 ...baseProps,
                 actions: {
                     ...baseProps.actions,
-                    doAppCall: jest.fn().mockResolvedValue(response),
+                    doAppSubmit: jest.fn().mockResolvedValue(response),
                 },
             };
 
-            const wrapper = shallowWithIntl(<AppsFormContainer {...props}/>);
+            const wrapper = shallow<RawAppsFormContainer>(<RawAppsFormContainer {...props}/>);
             const result = await wrapper.instance().submitForm({
                 values: {
                     field1: 'value1',
@@ -81,7 +94,7 @@ describe('components/apps_form/AppsFormContainer', () => {
                 },
             });
 
-            expect(props.actions.doAppCall).toHaveBeenCalledWith({
+            expect(props.actions.doAppSubmit).toHaveBeenCalledWith({
                 context: {
                     app_id: 'app',
                     channel_id: 'channel',
@@ -97,7 +110,7 @@ describe('components/apps_form/AppsFormContainer', () => {
                         value: 'value2',
                     },
                 },
-            }, 'submit', expect.any(Object));
+            }, expect.any(Object));
 
             expect(result).toEqual({
                 data: {
@@ -125,13 +138,13 @@ describe('components/apps_form/AppsFormContainer', () => {
                 ...baseProps,
                 actions: {
                     ...baseProps.actions,
-                    doAppCall: jest.fn().mockResolvedValue(response),
+                    doAppLookup: jest.fn().mockResolvedValue(response),
                 },
             };
 
             const form = props.form;
 
-            const wrapper = shallowWithIntl(<AppsFormContainer {...props}/>);
+            const wrapper = shallow<RawAppsFormContainer>(<RawAppsFormContainer {...props}/>);
             const result = await wrapper.instance().performLookupCall(
                 form.fields[1],
                 {
@@ -141,16 +154,17 @@ describe('components/apps_form/AppsFormContainer', () => {
                 'My search',
             );
 
-            expect(props.actions.doAppCall).toHaveBeenCalledWith({
+            expect(props.actions.doAppLookup).toHaveBeenCalledWith({
                 context: {
                     app_id: 'app',
                     channel_id: 'channel',
                     post_id: 'post',
                     team_id: 'team',
                 },
-                path: '/form_url',
+                path: '/form_lookup',
                 expand: {},
                 query: 'My search',
+                raw_command: undefined,
                 selected_field: 'field2',
                 values: {
                     field1: 'value1',
@@ -159,7 +173,7 @@ describe('components/apps_form/AppsFormContainer', () => {
                         value: 'value2',
                     },
                 },
-            }, 'lookup', expect.any(Object));
+            }, expect.any(Object));
 
             expect(result).toEqual(response);
         });

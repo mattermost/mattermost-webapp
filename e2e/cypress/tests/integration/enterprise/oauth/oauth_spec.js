@@ -56,7 +56,7 @@ describe('Integrations page', () => {
         saveConfigForScheme();
     });
 
-    it('MM-T646 OAuth 2.0 trusted -- KNOWN ISSUE: MM-42020', () => {
+    it('MM-T646 OAuth 2.0 trusted', () => {
         cy.apiLogin(user1);
         cy.visit(testChannelUrl1);
 
@@ -74,7 +74,7 @@ describe('Integrations page', () => {
         cy.get('div.backstage-form > form > div:first').should('contain', 'Display Name');
     });
 
-    it('MM-T647 Copy icon for OAuth 2.0 Applications -- KNOWN ISSUE: MM-42020', () => {
+    it('MM-T647 Copy icon for OAuth 2.0 Applications', () => {
         cy.apiLogin(user1);
         cy.visit(testChannelUrl1);
 
@@ -139,7 +139,7 @@ describe('Integrations page', () => {
         });
     });
 
-    it('MM-T648_1 OAuth 2.0 Application - Setup -- KNOWN ISSUE: MM-42020', () => {
+    it('MM-T648_1 OAuth 2.0 Application - Setup', () => {
         cy.apiLogin(user1);
         cy.visit(testChannelUrl1);
 
@@ -191,7 +191,7 @@ describe('Integrations page', () => {
         cy.get('#doneButton').click();
     });
 
-    it('MM-T648_2 OAuth 2.0 Application - Exchange tokens -- KNOWN ISSUE: MM-42020', () => {
+    it('MM-T648_2 OAuth 2.0 Application - Exchange tokens', () => {
         cy.apiLogin(user1);
 
         // # Visit the webhook url to start the OAuth handshake
@@ -204,7 +204,7 @@ describe('Integrations page', () => {
         cy.findByText('OK').should('exist');
     });
 
-    it('MM-T648_3 OAuth 2.0 Application - Post message using OAuth credentials -- KNOWN ISSUE: MM-42020', () => {
+    it('MM-T648_3 OAuth 2.0 Application - Post message using OAuth credentials', () => {
         // # Visit a channel
         cy.visit(testChannelUrl1);
 
@@ -224,7 +224,7 @@ describe('Integrations page', () => {
         });
     });
 
-    it('MM-T649 Edit Oauth 2.0 Application -- KNOWN ISSUE: MM-42020', () => {
+    it('MM-T649 Edit Oauth 2.0 Application', () => {
         cy.apiLogin(user2);
         cy.visit(testChannelUrl1);
 
@@ -283,7 +283,7 @@ describe('Integrations page', () => {
         });
     });
 
-    it('MM-T650 Deauthorize OAuth 2.0 Application -- KNOWN ISSUE: MM-42020', () => {
+    it('MM-T650 Deauthorize OAuth 2.0 Application', () => {
         cy.apiLogin(user1);
         cy.visit(testChannelUrl1);
 
@@ -321,7 +321,7 @@ describe('Integrations page', () => {
         });
     });
 
-    it('MM-T651_1 Reconnect OAuth 2.0 Application - Connect application -- KNOWN ISSUE: MM-42020', () => {
+    it('MM-T651_1 Reconnect OAuth 2.0 Application - Connect application', () => {
         cy.apiLogin(user1);
 
         // # Visit the webhook url to start the OAuth handshake
@@ -334,7 +334,7 @@ describe('Integrations page', () => {
         cy.findByText('OK').should('exist');
     });
 
-    it('MM-T651_2 Reconnect OAuth 2.0 Application - Post message using OAuth credentials -- KNOWN ISSUE: MM-42020', () => {
+    it('MM-T651_2 Reconnect OAuth 2.0 Application - Post message using OAuth credentials', () => {
         cy.apiLogin(user1);
 
         // # Visit a channel
@@ -356,7 +356,7 @@ describe('Integrations page', () => {
         });
     });
 
-    it('MM-T652 Regenerate Secret -- KNOWN ISSUE: MM-42020', () => {
+    it('MM-T652 Regenerate Secret', () => {
         cy.apiLogin(user1);
         cy.visit(testChannelUrl1);
 
@@ -397,7 +397,7 @@ describe('Integrations page', () => {
         });
     });
 
-    it('MM-T653 Unsuccessful reconnect with incorrect secret -- KNOWN ISSUE: MM-42020', () => {
+    it('MM-T653 Unsuccessful reconnect with incorrect secret', () => {
         cy.apiLogin(user2);
 
         // # Visit the webhook url to start the OAuth handshake
@@ -410,7 +410,7 @@ describe('Integrations page', () => {
         cy.contains('Invalid client credentials.').should('exist');
     });
 
-    it('MM-T654 Successful reconnect with updated secret -- KNOWN ISSUE: MM-42020', () => {
+    it('MM-T654 Successful reconnect with updated secret', () => {
         cy.apiAdminLogin(user2);
 
         // # Send new credentials
@@ -431,7 +431,7 @@ describe('Integrations page', () => {
         cy.findByText('OK').should('exist');
     });
 
-    it('MM-T655 Delete OAuth 2.0 Application -- KNOWN ISSUE: MM-42020', () => {
+    it('MM-T655 Delete OAuth 2.0 Application', () => {
         cy.apiLogin(user1);
         cy.visit(testChannelUrl1);
 

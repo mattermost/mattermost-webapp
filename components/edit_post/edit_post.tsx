@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {ClipboardEventHandler, useCallback, useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 
@@ -113,53 +113,44 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
         }
     }, [selectionRange]);
 
-    // TODO@all: this could be exported to a custom hook once the TextBox component is ported to a functional component
-    useEffect(() => {
-        const handlePaste = (e: ClipboardEvent) => {
-            if (
-                !e.clipboardData ||
-                !e.clipboardData.items ||
-                !rest.canEditPost ||
-                (e.target as HTMLTextAreaElement).id !== 'edit_textbox'
-            ) {
-                return;
-            }
+    const handlePaste = (e: ClipboardEvent) => {
+        if (
+            !e.clipboardData ||
+            !e.clipboardData.items ||
+            !rest.canEditPost ||
+            (e.target as HTMLTextAreaElement).id !== 'edit_textbox'
+        ) {
+            return;
+        }
 
-            const {clipboardData} = e;
-            const table = getTable(clipboardData);
+        const {clipboardData} = e;
+        const table = getTable(clipboardData);
 
-            if (!table) {
-                return;
-            }
+        if (!table) {
+            return;
+        }
 
-            e.preventDefault();
+        e.preventDefault();
 
-            let message = editText;
-            let newCaretPosition = selectionRange.start;
+        let message = editText;
+        let newCaretPosition = selectionRange.start;
 
-            if (table && isGitHubCodeBlock(table.className)) {
-                const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(
-                    selectionRange.start,
-                    message,
-                    clipboardData,
-                );
-                newCaretPosition = selectionRange.start + formattedCodeBlock.length;
-                message = formattedMessage;
-            } else if (table) {
-                message = formatMarkdownTableMessage(table, editText.trim(), newCaretPosition);
-                newCaretPosition = message.length - (editText.length - newCaretPosition);
-            }
+        if (table && isGitHubCodeBlock(table.className)) {
+            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(
+                selectionRange.start,
+                message,
+                clipboardData,
+            );
+            message = formattedMessage;
+            newCaretPosition = selectionRange.start + formattedCodeBlock.length;
+        } else if (table) {
+            message = formatMarkdownTableMessage(table, editText.trim(), newCaretPosition);
+            newCaretPosition = message.length - (editText.length - newCaretPosition);
+        }
 
-            setEditText(message);
-            setCaretPosition(newCaretPosition);
-        };
-
-        document.addEventListener('paste', handlePaste);
-
-        return () => {
-            document.removeEventListener('paste', handlePaste);
-        };
-    }, []);
+        setEditText(message);
+        setCaretPosition(newCaretPosition);
+    };
 
     // just a helper so it's not always needed to update with setting both properties to the same value
     const setCaretPosition = (position: number) => setSelectionRange({start: position, end: position});
@@ -417,6 +408,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
                 onSelect={handleSelect}
                 onHeightChange={handleHeightChange}
                 handlePostError={handlePostError}
+                onPaste={handlePaste}
                 value={editText}
                 channelId={rest.channelId}
                 emojiEnabled={rest.config.EnableEmojiPicker === 'true'}
