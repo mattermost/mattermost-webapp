@@ -113,24 +113,26 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
         }
     }, [selectionRange]);
 
-    const handlePaste = (e: ClipboardEvent) => {
+    // just a helper so it's not always needed to update with setting both properties to the same value
+    const setCaretPosition = (position: number) => setSelectionRange({start: position, end: position});
+
+    const handlePaste: ClipboardEventHandler<HTMLTextAreaElement> = ({clipboardData, target, preventDefault}) => {
         if (
-            !e.clipboardData ||
-            !e.clipboardData.items ||
+            !clipboardData ||
+            !clipboardData.items ||
             !rest.canEditPost ||
-            (e.target as HTMLTextAreaElement).id !== 'edit_textbox'
+            (target as HTMLTextAreaElement).id !== 'edit_textbox'
         ) {
             return;
         }
 
-        const {clipboardData} = e;
         const table = getTable(clipboardData);
 
         if (!table) {
             return;
         }
 
-        e.preventDefault();
+        preventDefault();
 
         let message = editText;
         let newCaretPosition = selectionRange.start;
@@ -151,9 +153,6 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
         setEditText(message);
         setCaretPosition(newCaretPosition);
     };
-
-    // just a helper so it's not always needed to update with setting both properties to the same value
-    const setCaretPosition = (position: number) => setSelectionRange({start: position, end: position});
 
     const isSaveDisabled = () => {
         const {post} = editingPost;
