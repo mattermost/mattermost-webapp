@@ -3841,10 +3841,9 @@ export default class Client4 {
     };
 
     /**
-     *
      * @param query string query of graphQL, pass the json stringified version of the query
      * eg.  const query = JSON.stringify({query: `{license, config}`});
-     *      client4.doFetchWithResponse(query);
+     *      client4.doFetchWithGraphQL(query);
      */
     doFetchWithGraphQL = async <DataResponse>(query: string) => {
         return this.doFetch<DataResponse>(this.getGraphQLUrl(), {method: 'post', body: query});
