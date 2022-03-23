@@ -188,7 +188,7 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
                 }
               >
                 <button
-                  className="status-wrapper style--none"
+                  className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -395,7 +395,7 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
                 }
               >
                 <button
-                  className="status-wrapper style--none"
+                  className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -602,7 +602,7 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
                 }
               >
                 <button
-                  className="status-wrapper style--none"
+                  className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -950,7 +950,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
                 }
               >
                 <button
-                  className="status-wrapper style--none"
+                  className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -1157,7 +1157,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
                 }
               >
                 <button
-                  className="status-wrapper style--none"
+                  className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -1364,7 +1364,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
                 }
               >
                 <button
-                  className="status-wrapper style--none"
+                  className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -1710,7 +1710,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
                 }
               >
                 <button
-                  className="status-wrapper style--none"
+                  className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -1917,7 +1917,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
                 }
               >
                 <button
-                  className="status-wrapper style--none"
+                  className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -2124,7 +2124,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
                 }
               >
                 <button
-                  className="status-wrapper style--none"
+                  className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}

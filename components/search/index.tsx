@@ -37,20 +37,23 @@ import type {StateProps, DispatchProps, OwnProps} from './types';
 function mapStateToProps(state: GlobalState) {
     const rhsState = getRhsState(state);
     const currentChannel = getCurrentChannel(state);
+    const isMobileView = getIsMobileView(state);
+    const isRhsOpen = getIsRhsOpen(state);
 
     return {
         currentChannel,
         isRhsExpanded: getIsRhsExpanded(state),
-        isRhsOpen: getIsRhsOpen(state),
+        isRhsOpen,
         isSearchingTerm: getIsSearchingTerm(state),
         searchTerms: getSearchTerms(state),
         searchType: getSearchType(state),
-        searchVisible: Boolean(rhsState) && rhsState !== RHSStates.PLUGIN,
+        searchVisible: Boolean(rhsState) && (rhsState !== RHSStates.PLUGIN && rhsState !== RHSStates.CHANNEL_INFO),
+        hideMobileSearchBarInRHS: isMobileView && isRhsOpen && rhsState === RHSStates.CHANNEL_INFO,
         isMentionSearch: rhsState === RHSStates.MENTION,
         isFlaggedPosts: rhsState === RHSStates.FLAG,
         isPinnedPosts: rhsState === RHSStates.PIN,
         isChannelFiles: rhsState === RHSStates.CHANNEL_FILES,
-        isMobileView: getIsMobileView(state),
+        isMobileView,
     };
 }
 
