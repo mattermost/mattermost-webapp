@@ -27,6 +27,7 @@ describe('channel_info_rhs/menu', () => {
             showChannelFiles: jest.fn(),
         };
     })
+
     test('should display notifications preferences', () => {
         const props = {...defaultProps};
         props.actions.openNotificationSettings = jest.fn();
@@ -72,6 +73,7 @@ describe('channel_info_rhs/menu', () => {
 
         expect(screen.queryByText('Notification Preferences')).not.toBeInTheDocument();
     });
+
     test('should display the number of files', () => {
         const props = {...defaultProps};
         props.actions.showChannelFiles = jest.fn();
