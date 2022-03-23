@@ -354,12 +354,12 @@ describe('bindings', () => {
             {
                 app_id: '1',
                 location: '/post_menu',
+                label: 'post_menu',
                 bindings: [
                     {
                         app_id: '1',
                         location: 'locA',
                         label: 'a',
-                        call: {},
                     },
                 ],
             },
