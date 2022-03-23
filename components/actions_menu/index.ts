@@ -18,13 +18,13 @@ import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {ModalData} from 'types/actions';
 import {getIsMobileView} from 'selectors/views/browser';
-import {AppBinding, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
+import {AppBinding} from 'mattermost-redux/types/apps';
 import {Post} from 'mattermost-redux/types/posts';
-import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
+import {HandleBindingClick, OpenAppsModal, PostEphemeralCallResponseForPost} from 'types/apps';
 import {GlobalState} from 'types/store';
 
 import {openModal} from 'actions/views/modals';
-import {doAppCall, makeFetchBindings, postEphemeralCallResponseForPost} from 'actions/apps';
+import {makeFetchBindings, postEphemeralCallResponseForPost, handleBindingClick, openAppsModal} from 'actions/apps';
 
 import ActionsMenu from './actions_menu';
 
@@ -66,24 +66,24 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         teamId: getCurrentTeamId(state),
         userId,
         isMobileView: getIsMobileView(state),
-        ...ownProps,
     };
 }
 
 type Actions = {
-    doAppCall: DoAppCall;
+    handleBindingClick: HandleBindingClick;
     fetchBindings: (userId: string, channelId: string, teamId: string) => Promise<{data: AppBinding[]}>;
     openModal: <P>(modalData: ModalData<P>) => void;
-    openAppsModal: (form: AppForm, call: AppCallRequest) => void;
+    openAppsModal: OpenAppsModal;
     postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
-            doAppCall,
+            handleBindingClick,
             fetchBindings,
             openModal,
+            openAppsModal,
             postEphemeralCallResponseForPost,
         }, dispatch),
     };
