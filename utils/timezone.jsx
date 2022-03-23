@@ -3,14 +3,6 @@
 
 import moment from 'moment-timezone';
 
-import {getSupportedTimezones as getTimezones} from 'mattermost-redux/selectors/entities/general';
-
-import store from 'stores/redux_store.jsx';
-
-export function getSupportedTimezones(state = store.getState()) {
-    return getTimezones(state);
-}
-
 export function getBrowserTimezone() {
     return moment.tz.guess();
 }

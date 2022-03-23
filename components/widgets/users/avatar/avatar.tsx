@@ -6,10 +6,12 @@ import classNames from 'classnames';
 
 import './avatar.scss';
 
+export type TAvatarSizeToken = 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+
 type Props = {
     url?: string;
     username?: string;
-    size?: 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+    size?: TAvatarSizeToken;
     text?: string;
 };
 
@@ -38,6 +40,7 @@ const Avatar = ({
         <img
             {...attrs}
             className={classes}
+            tabIndex={0}
             alt={`${username || 'user'} profile image`}
             src={url}
         />

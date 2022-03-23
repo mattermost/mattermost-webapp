@@ -945,7 +945,10 @@ describe('Actions.Posts', () => {
             entities: {
                 channels: {
                     channels: {
-                        [channelId]: {team_id: teamId, total_msg_count: 10},
+                        [channelId]: {team_id: teamId},
+                    },
+                    messageCounts: {
+                        [channelId]: {total: 10},
                     },
                     myMembers: {
                         [channelId]: {msg_count: 10, mention_count: 0, last_viewed_at: 0},
@@ -978,7 +981,7 @@ describe('Actions.Posts', () => {
         await store.dispatch(Actions.setUnreadPost(userId, postId));
         const state = store.getState();
 
-        assert.equal(state.entities.channels.channels[channelId].total_msg_count, 10);
+        assert.equal(state.entities.channels.messageCounts[channelId].total, 10);
         assert.equal(state.entities.channels.myMembers[channelId].msg_count, 3);
         assert.equal(state.entities.channels.myMembers[channelId].mention_count, 1);
         assert.equal(state.entities.channels.myMembers[channelId].last_viewed_at, 1565605543);
@@ -1201,12 +1204,12 @@ describe('Actions.Posts', () => {
     it('getOpenGraphMetadata', async () => {
         const {dispatch, getState} = store;
 
-        const url = 'https://about.mattermost.com';
+        const url = 'https://mattermost.com';
         const docs = 'https://docs.mattermost.com/';
 
         nock(Client4.getBaseRoute()).
             post('/opengraph').
-            reply(200, {type: 'article', url: 'https://about.mattermost.com/', title: 'Mattermost private cloud messaging', description: 'Open source,  private cloud\nSlack-alternative, \nWorkplace messaging for web, PCs and phones.'});
+            reply(200, {type: 'article', url: 'https://mattermost.com/', title: 'Mattermost private cloud messaging', description: 'Open source,  private cloud\nSlack-alternative, \nWorkplace messaging for web, PCs and phones.'});
         await dispatch(Actions.getOpenGraphMetadata(url));
 
         nock(Client4.getBaseRoute()).

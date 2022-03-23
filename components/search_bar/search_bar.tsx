@@ -9,7 +9,8 @@ import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import SearchSuggestionList from 'components/suggestion/search_suggestion_list.jsx';
 import SuggestionDate from 'components/suggestion/suggestion_date.jsx';
-import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import SuggestionBox from 'components/suggestion/suggestion_box';
+import SuggestionBoxComponent from 'components/suggestion/suggestion_box/suggestion_box';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import Provider from 'components/suggestion/provider';
 
@@ -33,7 +34,6 @@ type Props = {
     isFocused: boolean;
     suggestionProviders: Provider[];
     isSearchingTerm: boolean;
-    isFocus: boolean;
     isSideBarRight?: boolean;
     searchType: string;
     clearSearchType?: () => void;
@@ -50,7 +50,7 @@ const defaultProps: Partial<Props> = {
 const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element => {
     const {isFocused, keepFocused, searchTerms, suggestionProviders} = props;
 
-    const searchRef = useRef<SuggestionBox>();
+    const searchRef = useRef<SuggestionBoxComponent>();
     const intl = useIntl();
 
     useEffect((): void => {
@@ -97,7 +97,7 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
         }
     };
 
-    const getSearch = (node: SuggestionBox): void => {
+    const getSearch = (node: SuggestionBoxComponent): void => {
         searchRef.current = node;
         if (props.getFocus) {
             props.getFocus(props.handleFocus);
@@ -148,7 +148,7 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
                     ref={getSearch}
                     id={props.isSideBarRight ? 'sbrSearchBox' : 'searchBox'}
                     tabIndex='0'
-                    className='search-bar form-control a11y__region'
+                    className={'search-bar form-control a11y__region'}
                     containerClass='w-full'
                     data-a11y-sort-order='9'
                     aria-describedby={props.isSideBarRight ? 'sbr-searchbar-help-popup' : 'searchbar-help-popup'}
@@ -163,7 +163,6 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
                     dateComponent={SuggestionDate}
                     providers={suggestionProviders}
                     type='search'
-                    autoFocus={props.isFocus && searchTerms === ''}
                     delayInputUpdate={true}
                     renderDividers={true}
                     clearable={true}

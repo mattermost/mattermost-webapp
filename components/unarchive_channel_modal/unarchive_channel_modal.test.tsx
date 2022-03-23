@@ -17,14 +17,12 @@ describe('components/unarchive_channel_modal', () => {
         creator_id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
         delete_at: 0,
         display_name: 'testing',
-        extra_update_at: 1508265709628,
         header: 'test',
         id: 'owsyt8n43jfxjpzh9np93mx1wa',
         last_post_at: 1508265709635,
         name: 'testing',
         purpose: 'test',
         team_id: 'eatxocwc3bg9ffo9xyybnj4omr',
-        total_msg_count: 0,
         type: 'O',
         update_at: 1508265709607,
     });
@@ -39,7 +37,7 @@ describe('components/unarchive_channel_modal', () => {
         actions: {
             unarchiveChannel: jest.fn(),
         },
-        onHide: jest.fn(),
+        onExited: jest.fn(),
         penultimateViewedChannelName: 'my-prev-channel',
     };
 
@@ -76,13 +74,11 @@ describe('components/unarchive_channel_modal', () => {
     });
 
     test('should have called props.onHide when Modal.onExited is called', () => {
-        const onHide = jest.fn();
-        const props = {...baseProps, onHide};
         const wrapper = shallow(
-            <UnarchiveChannelModal {...props}/>,
+            <UnarchiveChannelModal {...baseProps}/>,
         );
 
         wrapper.find(Modal).props().onExited!(document.createElement('div'));
-        expect(onHide).toHaveBeenCalledTimes(1);
+        expect(baseProps.onExited).toHaveBeenCalledTimes(1);
     });
 });

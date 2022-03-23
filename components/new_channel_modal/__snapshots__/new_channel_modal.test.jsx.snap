@@ -256,7 +256,6 @@ exports[`components/NewChannelModal should match snapshot, display only private 
         <button
           className="btn btn-link"
           id="cancelNewChannel"
-          onBlur={[Function]}
           onClick={[MockFunction]}
           type="button"
         >
@@ -538,7 +537,6 @@ exports[`components/NewChannelModal should match snapshot, display only public c
         <button
           className="btn btn-link"
           id="cancelNewChannel"
-          onBlur={[Function]}
           onClick={[MockFunction]}
           type="button"
         >
@@ -860,7 +858,6 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
         <button
           className="btn btn-link"
           id="cancelNewChannel"
-          onBlur={[Function]}
           onClick={[MockFunction]}
           type="button"
         >
@@ -1182,7 +1179,6 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
         <button
           className="btn btn-link"
           id="cancelNewChannel"
-          onBlur={[Function]}
           onClick={[MockFunction]}
           type="button"
         >
@@ -1513,7 +1509,6 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
         <button
           className="btn btn-link"
           id="cancelNewChannel"
-          onBlur={[Function]}
           onClick={[MockFunction]}
           type="button"
         >
@@ -1849,7 +1844,6 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
         <button
           className="btn btn-link"
           id="cancelNewChannel"
-          onBlur={[Function]}
           onClick={[MockFunction]}
           type="button"
         >
@@ -2171,7 +2165,6 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
         <button
           className="btn btn-link"
           id="cancelNewChannel"
-          onBlur={[Function]}
           onClick={[MockFunction]}
           type="button"
         >

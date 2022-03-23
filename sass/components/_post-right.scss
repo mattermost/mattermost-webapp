@@ -1,9 +1,9 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 .post-right__container,
 .ThreadViewer {
-    @include display-flex;
-    @include flex-direction(column);
+    display: flex;
+    flex-direction: column;
 
     .post-right-root-message {
         padding: 1em 1em 0;
@@ -13,13 +13,6 @@
         position: relative;
 
         .post {
-            &.same--root {
-                &.same--user {
-                    padding-top: 0;
-                    padding-bottom: 0;
-                }
-            }
-
             &:hover {
                 & + .Separator {
                     .separator__hr {
@@ -36,14 +29,6 @@
                         }
                     }
                 }
-            }
-        }
-
-        .Separator {
-            padding-top: 15px;
-
-            & + .post {
-                padding-top: 20px;
             }
         }
     }
@@ -142,6 +127,10 @@
                 max-height: 200px;
             }
         }
+
+        .post-preview .post__img {
+            width: 24px;
+        }
     }
 
     hr {
@@ -166,8 +155,6 @@
         }
 
         .msg-typing {
-            @include opacity(0.7);
-
             display: block;
             min-width: 1px;
             max-width: 230px;
@@ -177,13 +164,13 @@
             float: left;
             font-size: 13px;
             line-height: 20px;
+            opacity: 0.7;
         }
 
         .post-right-comments-upload-in-progress {
-            @include opacity(0.7);
-
             padding: 6px 0;
             margin-right: 10px;
+            opacity: 0.7;
         }
 
         .emoji-picker {
@@ -202,24 +189,23 @@
 
         .post-create-footer {
             .post-error {
-                @include opacity(0.55);
-
                 position: relative;
                 top: 0;
                 display: inline-block;
                 margin-bottom: 0;
                 font-size: 0.85em;
                 font-weight: normal;
+                opacity: 0.55;
             }
         }
     }
 }
 
 .post-right__container {
-    height: 100%;
+    flex: 1;
 
     .ThreadViewer {
-        height: 100%;
+        flex: 1;
     }
 }
 
@@ -274,10 +260,9 @@
 
 .post-right__scroll {
     position: relative;
+    flex: 1 1 auto;
     padding-top: 28px;
     -webkit-overflow-scrolling: touch;
-
-    @include flex(1 1 auto);
 
     .file-preview__container {
         margin-top: 5px;

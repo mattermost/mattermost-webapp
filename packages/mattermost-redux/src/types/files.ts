@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Dictionary, $ID} from './utilities';
-
 export type FileInfo = {
     id: string;
     user_id: string;
@@ -20,10 +18,10 @@ export type FileInfo = {
     post_id?: string;
 };
 export type FilesState = {
-    files: Dictionary<FileInfo>;
-    filesFromSearch: Dictionary<FileSearchResultItem>;
-    fileIdsByPostId: Dictionary<string[]>;
-    filePublicLink?: string;
+    files: Record<string, FileInfo>;
+    filesFromSearch: Record<string, FileSearchResultItem>;
+    fileIdsByPostId: Record<string, string[]>;
+    filePublicLink?: {link: string};
 };
 
 export type FileUploadResponse = {
@@ -36,7 +34,7 @@ export type FileSearchResultItem = FileInfo & {
 }
 
 export type FileSearchResults = {
-    order: Array<$ID<FileSearchResultItem>>;
+    order: Array<FileSearchResultItem['id']>;
     file_infos: Map<string, FileSearchResultItem>;
     next_file_info_id: string;
     prev_file_info_id: string;

@@ -13,13 +13,10 @@ import {MarkUnread} from '../constants/channels';
 
 import {getAllCategoriesByIds, getCategory} from 'mattermost-redux/selectors/entities/channel_categories';
 import {isFavoriteChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 
 import TestHelper, {DEFAULT_SERVER} from 'mattermost-redux/test/test_helper';
 
 import {CategorySorting} from 'mattermost-redux/types/channel_categories';
-
-import {isFavoriteChannelOld} from 'mattermost-redux/utils/channel_utils';
 
 import * as Actions from './channel_categories';
 
@@ -855,7 +852,6 @@ describe('moveChannelToCategory', () => {
         let state = store.getState();
         expect(state.entities.channelCategories.byId.category1.channel_ids).toEqual(['channel2']);
         expect(state.entities.channelCategories.byId.favoritesCategory.channel_ids).toEqual(['channel1']);
-        expect(isFavoriteChannelOld(getMyPreferences(state), 'channel1')).toBe(false);
 
         await moveRequest;
 
@@ -863,7 +859,6 @@ describe('moveChannelToCategory', () => {
         state = store.getState();
         expect(state.entities.channelCategories.byId.category1.channel_ids).toEqual(['channel2']);
         expect(state.entities.channelCategories.byId.favoritesCategory.channel_ids).toEqual(['channel1']);
-        expect(isFavoriteChannelOld(getMyPreferences(state), 'channel1')).toBe(true);
     });
 
     test('should optimistically update the modified categories', async () => {
@@ -1309,7 +1304,6 @@ describe('moveChannelsToCategory', () => {
         let state = store.getState();
         expect(state.entities.channelCategories.byId.category1.channel_ids).toEqual(['channel2']);
         expect(state.entities.channelCategories.byId.favoritesCategory.channel_ids).toEqual(['channel1']);
-        expect(isFavoriteChannelOld(getMyPreferences(state), 'channel1')).toBe(false);
 
         await moveRequest;
 
@@ -1317,7 +1311,6 @@ describe('moveChannelsToCategory', () => {
         state = store.getState();
         expect(state.entities.channelCategories.byId.category1.channel_ids).toEqual(['channel2']);
         expect(state.entities.channelCategories.byId.favoritesCategory.channel_ids).toEqual(['channel1']);
-        expect(isFavoriteChannelOld(getMyPreferences(state), 'channel1')).toBe(true);
     });
 
     test('should optimistically update the modified categories - failure case', async () => {

@@ -7,12 +7,14 @@ import truncate from 'lodash/truncate';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {PostAction, PostActionOption} from 'mattermost-redux/types/integration_actions';
-import {MessageAttachment as MessageAttachmentType, MessageAttachmentField} from 'mattermost-redux/types/message_attachments';
-import {Dictionary} from 'mattermost-redux/types/utilities';
+import {
+    MessageAttachment as MessageAttachmentType,
+    MessageAttachmentField,
+} from 'mattermost-redux/types/message_attachments';
 import {PostImage} from 'mattermost-redux/types/posts';
 
 import {isUrlSafe} from 'utils/url';
-import {Constants} from 'utils/constants';
+import {Constants, ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import LinkOnlyRenderer from 'utils/markdown/link_only_renderer';
 import {TextFormattingOptions} from 'utils/text_formatting';
@@ -26,6 +28,8 @@ import ActionButton from '../action_button';
 import ActionMenu from '../action_menu';
 
 import {trackEvent} from 'actions/telemetry_actions';
+import FilePreviewModal from '../../../file_preview_modal';
+import {ModalData} from 'types/actions';
 
 type Props = {
 
@@ -47,10 +51,11 @@ type Props = {
     /**
      * images object for dimensions
      */
-    imagesMetadata?: Dictionary<PostImage>;
+    imagesMetadata?: Record<string, PostImage>;
 
     actions: {
         doPostActionWithCookie: (postId: string, actionId: string, actionCookie: string, selectedOption?: string) => Promise<ActionResult>;
+        openModal: <P>(modalData: ModalData<P>) => void;
     };
 
     currentRelativeTeamUrl: string;
@@ -77,6 +82,7 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
 
         this.imageProps = {
             onImageLoaded: this.handleHeightReceived,
+            onImageHeightChanged: this.checkPostOverflow,
         };
     }
 
@@ -108,14 +114,18 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
         }
 
         if (height > 0) {
-            // Increment checkOverflow to indicate change in height
-            // and recompute textContainer height at ShowMore component
-            // and see whether overflow text of show more/less is necessary or not.
-            this.setState((prevState) => {
-                return {checkOverflow: prevState.checkOverflow + 1};
-            });
+            this.checkPostOverflow();
         }
     };
+
+    checkPostOverflow = () => {
+        // Increment checkOverflow to indicate change in height
+        // and recompute textContainer height at ShowMore component
+        // and see whether overflow text of show more/less is necessary or not.
+        this.setState((prevState) => {
+            return {checkOverflow: prevState.checkOverflow + 1};
+        });
+    }
 
     renderPostActions = () => {
         const actions = this.props.attachment.actions;
@@ -254,6 +264,7 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
                     <Markdown
                         message={field.title}
                         options={markdown}
+                        postId={this.props.postId}
                     />
                 </th>,
             );
@@ -263,7 +274,10 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
                     className='attachment-field'
                     key={'attachment__field-' + i + '__' + nrTables}
                 >
-                    <Markdown message={String(field.value)}/>
+                    <Markdown
+                        message={String(field.value)}
+                        postId={this.props.postId}
+                    />
                 </td>,
             );
             rowPos += 1;
@@ -297,6 +311,30 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
 
     handleFormattedTextClick = (e: React.MouseEvent) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
+    getFileExtensionFromUrl = (url: string) => {
+        const index = url.lastIndexOf('.');
+        return index > 0 ? url.substring(index + 1) : null;
+    };
+
+    showModal = (e: {preventDefault: () => void}, link: string) => {
+        e.preventDefault();
+
+        const extension = this.getFileExtensionFromUrl(link);
+
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.FILE_PREVIEW_MODAL,
+            dialogType: FilePreviewModal,
+            dialogProps: {
+                postId: this.props.postId,
+                fileInfos: [{
+                    has_preview_image: false,
+                    link,
+                    extension,
+                }],
+            },
+        });
+    }
+
     render() {
         const {attachment, options} = this.props;
         let preTextClass = '';
@@ -306,7 +344,10 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
             preTextClass = 'attachment--pretext';
             preText = (
                 <div className='attachment__thumb-pretext'>
-                    <Markdown message={attachment.pretext}/>
+                    <Markdown
+                        message={attachment.pretext}
+                        postId={this.props.postId}
+                    />
                 </div>
             );
         }
@@ -381,6 +422,7 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
                                 renderer: new LinkOnlyRenderer(),
                                 autolinkedUrlSchemes: [],
                             }}
+                            postId={this.props.postId}
                         />
                     </h1>
                 );
@@ -399,6 +441,7 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
                     <Markdown
                         message={attachment.text || ''}
                         options={options}
+                        postId={this.props.postId}
                         imageProps={this.imageProps}
                     />
                 </ShowMore>
@@ -421,6 +464,7 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
                                 onImageLoaded={this.handleHeightReceivedForImageUrl}
                                 src={imageUrl}
                                 dimensions={imageMetadata}
+                                onClick={this.showModal}
                             />
                         )}
                     </ExternalImage>

@@ -5,16 +5,19 @@ import React, {ComponentProps} from 'react';
 
 import {shallow} from 'enzyme';
 
-import {markAllThreadsInTeamRead} from 'mattermost-redux/actions/threads';
+import {getThreads, markAllThreadsInTeamRead} from 'mattermost-redux/actions/threads';
+import {TestHelper} from 'utils/test_helper';
+
 jest.mock('mattermost-redux/actions/threads');
 
-import {GlobalState} from 'types/store';
-
 import Header from 'components/widgets/header';
+
+import {Constants, WindowSizes} from 'utils/constants';
 
 import Button from '../../common/button';
 
 import ThreadList, {ThreadFilter} from './thread_list';
+import VirtualizedThreadList from './virtualized_thread_list';
 
 const mockRouting = {
     currentUserId: 'uid',
@@ -29,21 +32,13 @@ jest.mock('../../hooks', () => {
 });
 
 const mockDispatch = jest.fn();
-let mockState: GlobalState;
+let mockState: any;
 
 jest.mock('react-redux', () => ({
     ...jest.requireActual('react-redux') as typeof import('react-redux'),
     useSelector: (selector: (state: typeof mockState) => unknown) => selector(mockState),
     useDispatch: () => mockDispatch,
 }));
-
-jest.mock('react-intl', () => {
-    const reactIntl = jest.requireActual('react-intl');
-    return {
-        ...reactIntl,
-        useIntl: () => reactIntl.createIntl({locale: 'en', defaultLocale: 'en', timeZone: 'Etc/UTC', textComponent: 'span'}),
-    };
-});
 
 describe('components/threading/global_threads/thread_list', () => {
     let props: ComponentProps<typeof ThreadList>;
@@ -56,8 +51,39 @@ describe('components/threading/global_threads/thread_list', () => {
             unreadIds: ['2'],
             setFilter: jest.fn(),
         };
+        const user = TestHelper.getUserMock();
+        const profiles = {
+            [user.id]: user,
+        };
 
-        mockState = {} as GlobalState;
+        mockState = {
+            entities: {
+                users: {
+                    currentUserId: user.id,
+                    profiles,
+                },
+                preferences: {
+                    myPreferences: {},
+                },
+                threads: {
+                    countsIncludingDirect: {
+                        tid: {
+                            total: 0,
+                            total_unread_threads: 0,
+                            total_unread_mentions: 0,
+                        },
+                    },
+                },
+                teams: {
+                    currentTeamId: 'tid',
+                },
+            },
+            views: {
+                browser: {
+                    windowSize: WindowSizes.DESKTOP_VIEW,
+                },
+            },
+        };
     });
 
     test('should match snapshot', () => {
@@ -93,5 +119,21 @@ describe('components/threading/global_threads/thread_list', () => {
         wrapper.find(Header).shallow().find({content: 'Mark all as read'}).find(Button).simulate('click');
         expect(markAllThreadsInTeamRead).toHaveBeenCalledWith('uid', 'tid');
     });
-});
 
+    test('should support getThreads', async () => {
+        const setState = jest.fn();
+        const useStateSpy = jest.spyOn(React, 'useState');
+        useStateSpy.mockImplementation((init = false) => [init, setState]);
+
+        const wrapper = shallow(
+            <ThreadList {...props}/>,
+        );
+
+        const handleLoadMoreItems = wrapper.find(VirtualizedThreadList).prop('loadMoreItems');
+        const loadMoreItems = await handleLoadMoreItems(2, 3);
+
+        expect(loadMoreItems).toEqual({data: true});
+        expect(getThreads).toHaveBeenCalledWith('uid', 'tid', {unread: false, perPage: Constants.THREADS_PAGE_SIZE, before: '2'});
+        expect(setState.mock.calls).toEqual([[true], [false], [true]]);
+    });
+});

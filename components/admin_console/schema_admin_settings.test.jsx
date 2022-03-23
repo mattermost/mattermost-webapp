@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import SchemaText from 'components/admin_console/schema_text';
 
 import SchemaAdminSettings from './schema_admin_settings';
+import ValidationResult from './validation';
 
 describe('components/admin_console/SchemaAdminSettings', () => {
     let schema = null;
@@ -193,15 +194,6 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     render_job: () => <p>{'Test'}</p>,
                 },
                 {
-                    type: 'permission',
-                    key: 'settingo',
-                    label: 'label-o',
-                    label_default: 'Setting Fourteen',
-                    help_text: 'help-text-o',
-                    help_text_default: 'This is some help text for the permissions field.',
-                    permissions_mapping_name: 'enableOnlyAdminIntegrations',
-                },
-                {
                     key: 'EscapedSettings.com+example+setting.a',
                     label: 'escaped-label-a',
                     label_default: 'Escaped Setting A',
@@ -325,5 +317,62 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                 defaultMessage='Plugin Not Found'
             />,
         )).toEqual(true);
+    });
+
+    test('should not try to validate when a setting does not contain a key', () => {
+        const mockValidate = jest.fn(() => {
+            return new ValidationResult(true, '', '');
+        });
+
+        const localSchema = {...schema};
+        localSchema.settings = [
+            {
+
+                // won't validate because no key
+                label: 'a banner',
+                type: 'banner',
+                validate: mockValidate,
+            },
+        ];
+        const props = {
+            config,
+            environmentConfig,
+            schema: localSchema,
+            updateConfig: jest.fn(),
+        };
+
+        const wrapper = shallow(<SchemaAdminSettings {...props}/>);
+
+        expect(wrapper.instance().canSave()).toBe(true);
+        expect(mockValidate).not.toHaveBeenCalled();
+    });
+
+    test('should validate when a setting contains a key and a validation method', () => {
+        const mockValidate = jest.fn(() => {
+            return new ValidationResult(true, '', '');
+        });
+
+        const localSchema = {...schema};
+        localSchema.settings = [
+            {
+
+                // will validate because it has a key AND a validate method
+                key: 'field1',
+                label: 'with key and validation',
+                type: 'text',
+                validate: mockValidate,
+            },
+        ];
+        const props = {
+            config,
+            environmentConfig,
+            schema: localSchema,
+            updateConfig: jest.fn(),
+        };
+
+        const wrapper = shallow(<SchemaAdminSettings {...props}/>);
+
+        expect(wrapper.instance().canSave()).toBe(true);
+        expect(mockValidate).toHaveBeenCalled();
     });
 });

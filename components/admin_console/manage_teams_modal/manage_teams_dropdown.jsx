@@ -8,6 +8,7 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
 import * as Utils from 'utils/utils.jsx';
+import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
 export default class ManageTeamsDropdown extends React.PureComponent {
     static propTypes = {
@@ -43,9 +44,9 @@ export default class ManageTeamsDropdown extends React.PureComponent {
     }
 
     render() {
-        const isTeamAdmin = Utils.isAdmin(this.props.teamMember.roles) || this.props.teamMember.scheme_admin;
-        const isSysAdmin = Utils.isSystemAdmin(this.props.user.roles);
-        const isGuest = Utils.isGuest(this.props.user);
+        const isTeamAdmin = UserUtils.isAdmin(this.props.teamMember.roles) || this.props.teamMember.scheme_admin;
+        const isSysAdmin = UserUtils.isSystemAdmin(this.props.user.roles);
+        const isGuest = UserUtils.isGuest(this.props.user.roles);
 
         const {team} = this.props;
         let title;

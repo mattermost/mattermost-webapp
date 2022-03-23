@@ -3,13 +3,17 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Tooltip} from 'react-bootstrap';
 
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 import {localizeMessage} from 'utils/utils.jsx';
 import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
+import KeyboardShortcutSequence, {
+    KEYBOARD_SHORTCUTS,
+    KeyboardShortcutDescriptor,
+} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 
 type Props = {
     ariaLabel?: boolean;
@@ -27,6 +31,7 @@ type TooltipInfo = {
     id: string;
     messageID: string;
     message: string;
+    keyboardShortcut?: KeyboardShortcutDescriptor;
 }
 
 const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
@@ -59,6 +64,7 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
             id: 'recentMentionsTooltip',
             messageID: t('channel_header.recentMentions'),
             message: 'Recent mentions',
+            keyboardShortcut: KEYBOARD_SHORTCUTS.navMentions,
         },
         search: {
             class: '',
@@ -72,6 +78,13 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
             messageID: t('channel_header.channelFiles'),
             message: 'Channel files',
         },
+        channelInfo: {
+            class: 'channel-info',
+            id: 'channelInfoTooltip',
+            messageID: t('channel_header.channelInfo'),
+            message: 'Channel Info',
+        },
+
     };
 
     function getTooltip(key: string) {
@@ -88,6 +101,13 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
                     id={toolTips[key].messageID}
                     defaultMessage={toolTips[key].message}
                 />
+                {toolTips[key].keyboardShortcut &&
+                    <KeyboardShortcutSequence
+                        shortcut={toolTips[key].keyboardShortcut!}
+                        hideDescription={true}
+                        isInsideTooltip={true}
+                    />
+                }
             </Tooltip>
         );
     }

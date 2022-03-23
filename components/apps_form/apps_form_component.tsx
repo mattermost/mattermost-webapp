@@ -20,6 +20,7 @@ import ModalSuggestionList from 'components/suggestion/modal_suggestion_list';
 
 import {localizeMessage} from 'utils/utils.jsx';
 
+import {filterEmptyOptions} from 'utils/apps';
 import Markdown from 'components/markdown';
 
 import AppsFormField from './apps_form_field';
@@ -28,7 +29,7 @@ import AppsFormHeader from './apps_form_header';
 export type AppsFormProps = {
     form: AppForm;
     isEmbedded?: boolean;
-    onHide: () => void;
+    onExited: () => void;
     actions: {
         submit: (submission: {
             values: AppFormValues;
@@ -45,7 +46,7 @@ export type State = {
     values: AppFormValues;
     formError: string | null;
     fieldErrors: {[name: string]: React.ReactNode};
-    submitting: boolean;
+    submitting: string | null;
     form: AppForm;
 }
 
@@ -80,7 +81,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
             values,
             formError: null,
             fieldErrors: {},
-            submitting: false,
+            submitting: null,
             form,
         };
     }
@@ -168,15 +169,18 @@ export class AppsForm extends React.PureComponent<Props, State> {
             values,
         };
 
-        this.setState({submitting: true});
+        let submitting = 'submit';
+        if (submitName && value) {
+            submitting = value;
+        }
 
+        this.setState({submitting, formError: null});
         const res = await this.props.actions.submit(submission);
-
-        this.setState({submitting: false});
+        this.setState({submitting: null});
 
         if (res.error) {
             const errorResponse = res.error;
-            const errorMessage = errorResponse.error;
+            const errorMessage = errorResponse.text;
             const hasErrors = this.updateErrors(elements, errorResponse.data?.errors, errorMessage);
             if (hasErrors) {
                 this.setState({submitting: false});
@@ -209,15 +213,12 @@ export class AppsForm extends React.PureComponent<Props, State> {
 
         if (!hasErrors && !updatedForm) {
             this.handleHide(true);
-            return;
         }
-
-        this.setState({submitting: false});
     };
 
     performLookup = async (name: string, userInput: string): Promise<AppSelectOption[]> => {
         const intl = this.props.intl;
-        const field = this.props.form.fields.find((f) => f.name === name);
+        const field = this.props.form.fields?.find((f) => f.name === name);
         if (!field) {
             return [];
         }
@@ -225,7 +226,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
         const res = await this.props.actions.performLookupCall(field, this.state.values, userInput);
         if (res.error) {
             const errorResponse = res.error;
-            const errMsg = errorResponse.error || intl.formatMessage({
+            const errMsg = errorResponse.text || intl.formatMessage({
                 id: 'apps.error.unknown',
                 defaultMessage: 'Unknown error.',
             });
@@ -240,8 +241,11 @@ export class AppsForm extends React.PureComponent<Props, State> {
 
         const callResp = res.data!;
         switch (callResp.type) {
-        case AppCallResponseTypes.OK:
-            return callResp.data?.items || [];
+        case AppCallResponseTypes.OK: {
+            let items = callResp.data?.items || [];
+            items = items?.filter(filterEmptyOptions);
+            return items;
+        }
         case AppCallResponseTypes.FORM:
         case AppCallResponseTypes.NAVIGATE: {
             const errMsg = intl.formatMessage({
@@ -300,7 +304,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
     };
 
     onChange = (name: string, value: AppFormValue) => {
-        const field = this.props.form.fields.find((f) => f.name === name);
+        const field = this.props.form.fields?.find((f) => f.name === name);
         if (!field) {
             return;
         }
@@ -311,7 +315,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
             this.props.actions.refreshOnSelect(field, values).then((res) => {
                 if (res.error) {
                     const errorResponse = res.error;
-                    const errorMsg = errorResponse.error;
+                    const errorMsg = errorResponse.text;
                     const errors = errorResponse.data?.errors;
                     const elements = fieldsAsElements(this.props.form.fields);
                     this.updateErrors(elements, errors, errorMsg);
@@ -354,7 +358,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
                 dialogClassName='a11y__modal about-modal'
                 show={this.state.show}
                 onHide={this.onHide}
-                onExited={this.props.onHide}
+                onExited={this.props.onExited}
                 backdrop='static'
                 role='dialog'
                 aria-labelledby='appsModalLabel'
@@ -493,7 +497,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
                 type='submit'
                 autoFocus={!fields || fields.length === 0}
                 className='btn btn-primary save-button'
-                spinning={this.state.submitting}
+                spinning={Boolean(this.state.submitting)}
                 spinningText={localizeMessage(
                     'interactive_dialog.submitting',
                     'Submitting...',
@@ -512,10 +516,8 @@ export class AppsForm extends React.PureComponent<Props, State> {
                         key={o.value}
                         type='submit'
                         className='btn btn-primary save-button'
-                        spinningText={localizeMessage(
-                            'interactive_dialog.submitting',
-                            'Submitting...',
-                        )}
+                        spinning={this.state.submitting === o.value}
+                        spinningText={o.label}
                         onClick={(e: React.MouseEvent) => this.handleSubmit(e, field.name, o.value)}
                     >
                         {o.label}
@@ -529,23 +531,27 @@ export class AppsForm extends React.PureComponent<Props, State> {
 
         return (
             <React.Fragment>
+                <div>
+                    <button
+                        id='appsModalCancel'
+                        type='button'
+                        className='btn btn-link cancel-button'
+                        onClick={this.onHide}
+                    >
+                        <FormattedMessage
+                            id='interactive_dialog.cancel'
+                            defaultMessage='Cancel'
+                        />
+                    </button>
+                    {submitButtons}
+                </div>
                 {this.state.formError && (
-                    <div className='error-text'>
-                        <Markdown message={this.state.formError}/>
+                    <div>
+                        <div className='error-text'>
+                            <Markdown message={this.state.formError}/>
+                        </div>
                     </div>
                 )}
-                <button
-                    id='appsModalCancel'
-                    type='button'
-                    className='btn btn-link cancel-button'
-                    onClick={this.onHide}
-                >
-                    <FormattedMessage
-                        id='interactive_dialog.cancel'
-                        defaultMessage='Cancel'
-                    />
-                </button>
-                {submitButtons}
             </React.Fragment>
         );
     }

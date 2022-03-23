@@ -5,24 +5,35 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
   <div
     className="modal-header"
   >
-    <MemoizedFormattedMessage
-      defaultMessage="Close"
-      id="user.settings.security.close"
+    <button
+      aria-label="Close"
+      className="close"
+      data-dismiss="modal"
+      onClick={[MockFunction]}
+      type="button"
     >
-      <Component />
-    </MemoizedFormattedMessage>
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
     <h4
       className="modal-title"
     >
       <div
         className="modal-back"
       >
-        <MemoizedFormattedMessage
-          defaultMessage="Collapse Icon"
-          id="generic_icons.collapse"
-        >
-          <Component />
-        </MemoizedFormattedMessage>
+        <LocalizedIcon
+          className="fa fa-angle-left"
+          onClick={[MockFunction]}
+          title={
+            Object {
+              "defaultMessage": "Collapse Icon",
+              "id": "generic_icons.collapse",
+            }
+          }
+        />
       </div>
       <MemoizedFormattedMessage
         defaultMessage="Security Settings"
@@ -44,7 +55,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-dark first"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       section="password"
       title={
         <Memo(MemoizedFormattedMessage)
@@ -80,7 +91,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-light"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       describe={
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Email and Password"
@@ -95,9 +106,8 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark"
     />
     <br />
-    <ModalToggleButton
+    <Connect(injectIntl(ToggleModalButton))
       className="security-links color--link"
-      dialogProps={Object {}}
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -108,21 +118,24 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         }
       }
       id="viewAccessHistory"
+      modalId="access_history"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Access History Icon"
-        id="user.settings.security.viewHistory.icon"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        className="fa fa-clock-o"
+        title={
+          Object {
+            "defaultMessage": "Access History Icon",
+            "id": "user.settings.security.viewHistory.icon",
+          }
+        }
+      />
       <MemoizedFormattedMessage
         defaultMessage="View Access History"
         id="user.settings.security.viewHistory"
       />
-    </ModalToggleButton>
-    <ModalToggleButton
+    </Connect(injectIntl(ToggleModalButton))>
+    <Connect(injectIntl(ToggleModalButton))
       className="security-links color--link mt-2"
-      dialogProps={Object {}}
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -133,18 +146,22 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         }
       }
       id="viewAndLogOutOfActiveSessions"
+      modalId="activity_log"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Active Sessions Icon"
-        id="user.settings.security.logoutActiveSessions.icon"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        className="fa fa-clock-o"
+        title={
+          Object {
+            "defaultMessage": "Active Sessions Icon",
+            "id": "user.settings.security.logoutActiveSessions.icon",
+          }
+        }
+      />
       <MemoizedFormattedMessage
         defaultMessage="View and Log Out of Active Sessions"
         id="user.settings.security.logoutActiveSessions"
       />
-    </ModalToggleButton>
+    </Connect(injectIntl(ToggleModalButton))>
   </div>
 </div>
 `;
@@ -154,24 +171,35 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
   <div
     className="modal-header"
   >
-    <MemoizedFormattedMessage
-      defaultMessage="Close"
-      id="user.settings.security.close"
+    <button
+      aria-label="Close"
+      className="close"
+      data-dismiss="modal"
+      onClick={[MockFunction]}
+      type="button"
     >
-      <Component />
-    </MemoizedFormattedMessage>
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
     <h4
       className="modal-title"
     >
       <div
         className="modal-back"
       >
-        <MemoizedFormattedMessage
-          defaultMessage="Collapse Icon"
-          id="generic_icons.collapse"
-        >
-          <Component />
-        </MemoizedFormattedMessage>
+        <LocalizedIcon
+          className="fa fa-angle-left"
+          onClick={[MockFunction]}
+          title={
+            Object {
+              "defaultMessage": "Collapse Icon",
+              "id": "generic_icons.collapse",
+            }
+          }
+        />
       </div>
       <MemoizedFormattedMessage
         defaultMessage="Security Settings"
@@ -193,7 +221,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-dark first"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       section="password"
       title={
         <Memo(MemoizedFormattedMessage)
@@ -229,7 +257,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-light"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       describe={
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Email and Password"
@@ -244,9 +272,8 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark"
     />
     <br />
-    <ModalToggleButton
+    <Connect(injectIntl(ToggleModalButton))
       className="security-links color--link"
-      dialogProps={Object {}}
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -257,21 +284,24 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         }
       }
       id="viewAccessHistory"
+      modalId="access_history"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Access History Icon"
-        id="user.settings.security.viewHistory.icon"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        className="fa fa-clock-o"
+        title={
+          Object {
+            "defaultMessage": "Access History Icon",
+            "id": "user.settings.security.viewHistory.icon",
+          }
+        }
+      />
       <MemoizedFormattedMessage
         defaultMessage="View Access History"
         id="user.settings.security.viewHistory"
       />
-    </ModalToggleButton>
-    <ModalToggleButton
+    </Connect(injectIntl(ToggleModalButton))>
+    <Connect(injectIntl(ToggleModalButton))
       className="security-links color--link mt-2"
-      dialogProps={Object {}}
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -282,18 +312,22 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         }
       }
       id="viewAndLogOutOfActiveSessions"
+      modalId="activity_log"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Active Sessions Icon"
-        id="user.settings.security.logoutActiveSessions.icon"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        className="fa fa-clock-o"
+        title={
+          Object {
+            "defaultMessage": "Active Sessions Icon",
+            "id": "user.settings.security.logoutActiveSessions.icon",
+          }
+        }
+      />
       <MemoizedFormattedMessage
         defaultMessage="View and Log Out of Active Sessions"
         id="user.settings.security.logoutActiveSessions"
       />
-    </ModalToggleButton>
+    </Connect(injectIntl(ToggleModalButton))>
   </div>
 </div>
 `;
@@ -303,24 +337,35 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
   <div
     className="modal-header"
   >
-    <MemoizedFormattedMessage
-      defaultMessage="Close"
-      id="user.settings.security.close"
+    <button
+      aria-label="Close"
+      className="close"
+      data-dismiss="modal"
+      onClick={[MockFunction]}
+      type="button"
     >
-      <Component />
-    </MemoizedFormattedMessage>
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
     <h4
       className="modal-title"
     >
       <div
         className="modal-back"
       >
-        <MemoizedFormattedMessage
-          defaultMessage="Collapse Icon"
-          id="generic_icons.collapse"
-        >
-          <Component />
-        </MemoizedFormattedMessage>
+        <LocalizedIcon
+          className="fa fa-angle-left"
+          onClick={[MockFunction]}
+          title={
+            Object {
+              "defaultMessage": "Collapse Icon",
+              "id": "generic_icons.collapse",
+            }
+          }
+        />
       </div>
       <MemoizedFormattedMessage
         defaultMessage="Security Settings"
@@ -342,7 +387,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-dark first"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       section="password"
       title={
         <Memo(MemoizedFormattedMessage)
@@ -378,7 +423,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-light"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       describe={
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Email and Password"
@@ -393,9 +438,8 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark"
     />
     <br />
-    <ModalToggleButton
+    <Connect(injectIntl(ToggleModalButton))
       className="security-links color--link"
-      dialogProps={Object {}}
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -406,21 +450,24 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         }
       }
       id="viewAccessHistory"
+      modalId="access_history"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Access History Icon"
-        id="user.settings.security.viewHistory.icon"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        className="fa fa-clock-o"
+        title={
+          Object {
+            "defaultMessage": "Access History Icon",
+            "id": "user.settings.security.viewHistory.icon",
+          }
+        }
+      />
       <MemoizedFormattedMessage
         defaultMessage="View Access History"
         id="user.settings.security.viewHistory"
       />
-    </ModalToggleButton>
-    <ModalToggleButton
+    </Connect(injectIntl(ToggleModalButton))>
+    <Connect(injectIntl(ToggleModalButton))
       className="security-links color--link mt-2"
-      dialogProps={Object {}}
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -431,18 +478,22 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         }
       }
       id="viewAndLogOutOfActiveSessions"
+      modalId="activity_log"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Active Sessions Icon"
-        id="user.settings.security.logoutActiveSessions.icon"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        className="fa fa-clock-o"
+        title={
+          Object {
+            "defaultMessage": "Active Sessions Icon",
+            "id": "user.settings.security.logoutActiveSessions.icon",
+          }
+        }
+      />
       <MemoizedFormattedMessage
         defaultMessage="View and Log Out of Active Sessions"
         id="user.settings.security.logoutActiveSessions"
       />
-    </ModalToggleButton>
+    </Connect(injectIntl(ToggleModalButton))>
   </div>
 </div>
 `;
@@ -452,24 +503,35 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
   <div
     className="modal-header"
   >
-    <MemoizedFormattedMessage
-      defaultMessage="Close"
-      id="user.settings.security.close"
+    <button
+      aria-label="Close"
+      className="close"
+      data-dismiss="modal"
+      onClick={[MockFunction]}
+      type="button"
     >
-      <Component />
-    </MemoizedFormattedMessage>
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
     <h4
       className="modal-title"
     >
       <div
         className="modal-back"
       >
-        <MemoizedFormattedMessage
-          defaultMessage="Collapse Icon"
-          id="generic_icons.collapse"
-        >
-          <Component />
-        </MemoizedFormattedMessage>
+        <LocalizedIcon
+          className="fa fa-angle-left"
+          onClick={[MockFunction]}
+          title={
+            Object {
+              "defaultMessage": "Collapse Icon",
+              "id": "generic_icons.collapse",
+            }
+          }
+        />
       </div>
       <MemoizedFormattedMessage
         defaultMessage="Security Settings"
@@ -491,7 +553,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-dark first"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       section="password"
       title={
         <Memo(MemoizedFormattedMessage)
@@ -527,7 +589,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-light"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       describe={
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Email and Password"
@@ -542,9 +604,8 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark"
     />
     <br />
-    <ModalToggleButton
+    <Connect(injectIntl(ToggleModalButton))
       className="security-links color--link"
-      dialogProps={Object {}}
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -555,21 +616,24 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         }
       }
       id="viewAccessHistory"
+      modalId="access_history"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Access History Icon"
-        id="user.settings.security.viewHistory.icon"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        className="fa fa-clock-o"
+        title={
+          Object {
+            "defaultMessage": "Access History Icon",
+            "id": "user.settings.security.viewHistory.icon",
+          }
+        }
+      />
       <MemoizedFormattedMessage
         defaultMessage="View Access History"
         id="user.settings.security.viewHistory"
       />
-    </ModalToggleButton>
-    <ModalToggleButton
+    </Connect(injectIntl(ToggleModalButton))>
+    <Connect(injectIntl(ToggleModalButton))
       className="security-links color--link mt-2"
-      dialogProps={Object {}}
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -580,18 +644,22 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         }
       }
       id="viewAndLogOutOfActiveSessions"
+      modalId="activity_log"
     >
-      <MemoizedFormattedMessage
-        defaultMessage="Active Sessions Icon"
-        id="user.settings.security.logoutActiveSessions.icon"
-      >
-        <Component />
-      </MemoizedFormattedMessage>
+      <LocalizedIcon
+        className="fa fa-clock-o"
+        title={
+          Object {
+            "defaultMessage": "Active Sessions Icon",
+            "id": "user.settings.security.logoutActiveSessions.icon",
+          }
+        }
+      />
       <MemoizedFormattedMessage
         defaultMessage="View and Log Out of Active Sessions"
         id="user.settings.security.logoutActiveSessions"
       />
-    </ModalToggleButton>
+    </Connect(injectIntl(ToggleModalButton))>
   </div>
 </div>
 `;

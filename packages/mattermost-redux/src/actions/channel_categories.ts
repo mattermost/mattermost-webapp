@@ -5,7 +5,6 @@ import {ChannelCategoryTypes, ChannelTypes} from 'mattermost-redux/action_types'
 
 import {Client4} from 'mattermost-redux/client';
 
-import {unfavoriteChannel, favoriteChannel} from 'mattermost-redux/actions/channels';
 import {logError} from 'mattermost-redux/actions/errors';
 import {forceLogoutIfNecessary} from 'mattermost-redux/actions/helpers';
 
@@ -29,7 +28,6 @@ import {
 } from 'mattermost-redux/types/actions';
 import {CategorySorting, OrderedChannelCategories, ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {Channel} from 'mattermost-redux/types/channels';
-import {$ID} from 'mattermost-redux/types/utilities';
 
 import {insertMultipleWithoutDuplicates, insertWithoutDuplicates, removeItem} from 'mattermost-redux/utils/array_utils';
 
@@ -291,13 +289,6 @@ export function moveChannelToCategory(categoryId: string, channelId: string, new
             return {error};
         }
 
-        // Update the favorite preferences locally on the client in case we have any logic relying on that
-        if (targetCategory.type === CategoryTypes.FAVORITES) {
-            await dispatch(favoriteChannel(channelId, false));
-        } else if (sourceCategory && sourceCategory.type === CategoryTypes.FAVORITES) {
-            await dispatch(unfavoriteChannel(channelId, false));
-        }
-
         return result;
     };
 }
@@ -377,15 +368,6 @@ export function moveChannelsToCategory(categoryId: string, channelIds: string[],
             return {error};
         }
 
-        // Update the favorite preferences locally on the client in case we have any logic relying on that
-        await Promise.all(channelIds.map(async (channelId) => {
-            const sourceCategory = unmodifiedCategories[sourceCategories[channelId]];
-            if (targetCategory.type === CategoryTypes.FAVORITES) {
-                await dispatch(favoriteChannel(channelId, false));
-            } else if (sourceCategory && sourceCategory.type === CategoryTypes.FAVORITES) {
-                await dispatch(unfavoriteChannel(channelId, false));
-            }
-        }));
         return result;
     };
 }
@@ -439,7 +421,7 @@ export function receivedCategoryOrder(teamId: string, order: string[]) {
     };
 }
 
-export function createCategory(teamId: string, displayName: string, channelIds: Array<$ID<Channel>> = []): ActionFunc {
+export function createCategory(teamId: string, displayName: string, channelIds: Array<Channel['id']> = []): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const currentUserId = getCurrentUserId(getState());
 

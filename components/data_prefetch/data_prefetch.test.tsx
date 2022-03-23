@@ -28,7 +28,7 @@ describe('/components/data_prefetch', () => {
         currentChannelId: '',
         actions: {
             prefetchChannelPosts: jest.fn(() => Promise.resolve({})),
-            trackDMGMOpenChannels: jest.fn(() => Promise.resolve()),
+            trackPreloadedChannels: jest.fn(),
         },
         prefetchQueueObj: {
             1: [],
@@ -46,12 +46,11 @@ describe('/components/data_prefetch', () => {
             name: '',
             header: '',
             purpose: '',
-            total_msg_count: 10,
-            extra_update_at: 0,
             creator_id: '',
             scheme_id: '',
             group_constrained: false,
             last_post_at: 1234,
+            last_root_post_at: 1234,
         }), TestHelper.getChannelMock({
             id: 'unreadChannel',
             display_name: 'unreadChannel',
@@ -63,12 +62,11 @@ describe('/components/data_prefetch', () => {
             name: '',
             header: '',
             purpose: '',
-            total_msg_count: 10,
-            extra_update_at: 0,
             creator_id: '',
             scheme_id: '',
             group_constrained: false,
             last_post_at: 1235,
+            last_root_post_at: 1235,
         })],
     };
 
@@ -96,27 +94,6 @@ describe('/components/data_prefetch', () => {
         mockQueue.shift()!();
         expect(instance.prefetchPosts).toHaveBeenCalledTimes(1);
         expect(instance.prefetchPosts).toHaveBeenCalledWith('currentChannelId');
-    });
-
-    test('should track opened DMs/GMs on first channel load', async () => {
-        const props = defaultProps;
-        const wrapper = shallow<DataPrefetch>(
-            <DataPrefetch {...props}/>,
-        );
-
-        expect(props.actions.trackDMGMOpenChannels).not.toHaveBeenCalled();
-
-        // Change channels
-        wrapper.setProps({currentChannelId: 'currentChannelId'});
-        await Promise.resolve(true);
-
-        expect(props.actions.trackDMGMOpenChannels).toHaveBeenCalledTimes(1);
-
-        // Change channels again
-        wrapper.setProps({currentChannelId: 'anotherChannelId'});
-        await Promise.resolve(true);
-
-        expect(props.actions.trackDMGMOpenChannels).toHaveBeenCalledTimes(1);
     });
 
     test('should fetch profiles for sidebar on first channel load', async () => {
@@ -294,13 +271,11 @@ describe('/components/data_prefetch', () => {
                 name: '',
                 header: '',
                 purpose: '',
-                total_msg_count: 10,
-                total_msg_count_root: 0,
-                extra_update_at: 0,
                 creator_id: '',
                 scheme_id: '',
                 group_constrained: false,
                 last_post_at: 12345,
+                last_root_post_at: 12345,
             }],
         };
         const wrapper = shallow(
@@ -343,13 +318,11 @@ describe('/components/data_prefetch', () => {
                 name: '',
                 header: '',
                 purpose: '',
-                total_msg_count: 10,
-                total_msg_count_root: 0,
-                extra_update_at: 0,
                 creator_id: '',
                 scheme_id: '',
                 group_constrained: false,
                 last_post_at: 12345,
+                last_root_post_at: 12345,
             }],
         };
         const wrapper = shallow<DataPrefetch>(

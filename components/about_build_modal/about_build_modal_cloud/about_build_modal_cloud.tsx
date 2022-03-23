@@ -12,7 +12,7 @@ import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 import './about_build_modal_cloud.scss';
 
 type Props = {
-    onHide: () => void;
+    onExited: () => void;
     config: any;
     license: any;
     show: boolean;
@@ -23,10 +23,6 @@ type Props = {
 declare const COMMIT_HASH: string;
 
 export default function AboutBuildModalCloud(props: Props) {
-    const handleExit = () => {
-        props.onHide();
-    };
-
     const config = props.config;
     const license = props.license;
 
@@ -64,7 +60,7 @@ export default function AboutBuildModalCloud(props: Props) {
             dialogClassName={classNames('a11y__modal', 'about-modal', 'cloud')}
             show={props.show}
             onHide={props.doHide}
-            onExited={handleExit}
+            onExited={props.onExited}
             role='dialog'
             aria-labelledby='aboutModalLabel'
         >
@@ -103,7 +99,7 @@ export default function AboutBuildModalCloud(props: Props) {
                         <div className='about-footer'>
                             <FormattedMarkdownMessage
                                 id='about.notice'
-                                defaultMessage='Mattermost is made possible by the open source software used in our [server](!https://about.mattermost.com/platform-notice-txt/), [desktop](!https://about.mattermost.com/desktop-notice-txt/) and [mobile](!https://about.mattermost.com/mobile-notice-txt/) apps.'
+                                defaultMessage='Mattermost is made possible by the open source software used in our [server](!https://github.com/mattermost/mattermost-server/blob/master/NOTICE.txt), [desktop](!https://github.com/mattermost/desktop/blob/master/NOTICE.txt) and [mobile](!https://github.com/mattermost/mattermost-mobile/blob/master/NOTICE.txt) apps.'
                             />
                             <div className='copy-right'>
                                 <FormattedMessage

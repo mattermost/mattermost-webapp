@@ -169,6 +169,7 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
       }
       page={0}
       perPage={5}
+      query=""
     />
     <div
       className="multi-select__help"
@@ -350,6 +351,7 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
       }
       page={1}
       perPage={5}
+      query=""
     />
     <div
       className="multi-select__help"

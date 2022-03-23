@@ -17,6 +17,8 @@ import {
     ChannelSearchOpts,
 } from 'mattermost-redux/types/channels';
 
+import {CompleteOnboardingRequest} from 'mattermost-redux/types/setup';
+
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
 import {logError} from './errors';
 
@@ -61,18 +63,6 @@ export function updateConfig(config: Record<string, any>): ActionFunc {
         onRequest: AdminTypes.UPDATE_CONFIG_REQUEST,
         onSuccess: [AdminTypes.RECEIVED_CONFIG, AdminTypes.UPDATE_CONFIG_SUCCESS],
         onFailure: AdminTypes.UPDATE_CONFIG_FAILURE,
-        params: [
-            config,
-        ],
-    });
-}
-
-export function patchConfig(config: Record<string, any>): ActionFunc {
-    return bindClientFunc({
-        clientFunc: Client4.patchConfig,
-        onRequest: AdminTypes.PATCH_CONFIG_REQUEST,
-        onSuccess: [AdminTypes.RECEIVED_CONFIG, AdminTypes.PATCH_CONFIG_SUCCESS],
-        onFailure: AdminTypes.PATCH_CONFIG_FAILURE,
         params: [
             config,
         ],
@@ -601,6 +591,8 @@ export function removePlugin(pluginId: string): ActionFunc {
         dispatch(batchActions([
             {type: AdminTypes.REMOVE_PLUGIN_SUCCESS, data: null},
             {type: AdminTypes.REMOVED_PLUGIN, data: pluginId},
+            {type: AdminTypes.DISABLE_PLUGIN_SUCCESS, data: null},
+            {type: AdminTypes.DISABLED_PLUGIN, data: pluginId},
         ]));
 
         return {data: true};
@@ -963,4 +955,17 @@ export function removeDataRetentionCustomPolicyChannels(id: string, channels: st
 
         return {data};
     };
+}
+
+export function completeSetup(completeSetup: CompleteOnboardingRequest): ActionFunc {
+    return bindClientFunc({
+        clientFunc: Client4.completeSetup,
+        params: [completeSetup],
+    });
+}
+
+export function getAppliedSchemaMigrations(): ActionFunc {
+    return bindClientFunc({
+        clientFunc: Client4.getAppliedSchemaMigrations,
+    });
 }

@@ -12,14 +12,14 @@ import {Post} from 'mattermost-redux/types/posts';
 import {AppBinding} from 'mattermost-redux/types/apps';
 import {Channel} from 'mattermost-redux/types/channels';
 
-import {AppBindingLocations, AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
+import {AppBindingLocations, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
-import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
+import {HandleBindingClick, OpenAppsModal, PostEphemeralCallResponseForPost} from 'types/apps';
 
 import MenuActionProvider from 'components/suggestion/menu_action_provider';
 import AutocompleteSelector from 'components/autocomplete_selector';
 import PostContext from 'components/post_view/post_context';
-import {createCallContext, createCallRequest} from 'utils/apps';
+import {createCallContext} from 'utils/apps';
 
 type Option = {
     text: string;
@@ -31,9 +31,10 @@ type Props = {
     post: Post;
     binding: AppBinding;
     actions: {
-        doAppCall: DoAppCall;
+        handleBindingClick: HandleBindingClick;
         getChannel: (channelId: string) => Promise<ActionResult>;
         postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
+        openAppsModal: OpenAppsModal;
     };
 };
 
@@ -41,18 +42,43 @@ type State = {
     selected?: Option;
 };
 
-export class SelectBinding extends React.PureComponent<Props, State> {
+class SelectBinding extends React.PureComponent<Props, State> {
     private providers: MenuActionProvider[];
-
+    private nOptions = 0;
     constructor(props: Props) {
         super(props);
 
         const binding = props.binding;
         this.providers = [];
         if (binding.bindings) {
-            const options = binding.bindings.map((b) => {
-                return {text: b.label, value: b.location};
+            const options: Array<{text: string; value: string}> = [];
+            const usedLabels: {[label: string]: boolean} = {};
+            const usedValues: {[label: string]: boolean} = {};
+            binding.bindings.forEach((b) => {
+                const label = b.label || b.location;
+                if (!label) {
+                    return;
+                }
+
+                if (!b.location) {
+                    return;
+                }
+
+                if (usedLabels[label]) {
+                    return;
+                }
+
+                if (usedValues[b.location]) {
+                    return;
+                }
+
+                usedLabels[label] = true;
+                usedValues[b.location] = true;
+
+                options.push({text: label, value: b.location});
             });
+
+            this.nOptions = options.length;
             this.providers = [new MenuActionProvider(options)];
         }
 
@@ -68,10 +94,6 @@ export class SelectBinding extends React.PureComponent<Props, State> {
         const binding = this.props.binding.bindings?.find((b) => b.location === selected.value);
         if (!binding) {
             console.debug('Trying to select element not present in binding.'); //eslint-disable-line no-console
-            return;
-        }
-
-        if (!binding.call) {
             return;
         }
 
@@ -92,17 +114,12 @@ export class SelectBinding extends React.PureComponent<Props, State> {
             post.id,
             post.root_id,
         );
-        const call = createCallRequest(
-            binding.call,
-            context,
-            {post: AppExpandLevels.EXPAND_ALL},
-        );
 
-        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, intl);
+        const res = await this.props.actions.handleBindingClick(binding, context, intl);
 
         if (res.error) {
             const errorResponse = res.error;
-            const errorMessage = errorResponse.error || intl.formatMessage({
+            const errorMessage = errorResponse.text || intl.formatMessage({
                 id: 'apps.error.unknown',
                 defaultMessage: 'Unknown error occurred.',
             });
@@ -113,12 +130,16 @@ export class SelectBinding extends React.PureComponent<Props, State> {
         const callResp = res.data!;
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
-            if (callResp.markdown) {
-                this.props.actions.postEphemeralCallResponseForPost(callResp, callResp.markdown, post);
+            if (callResp.text) {
+                this.props.actions.postEphemeralCallResponseForPost(callResp, callResp.text, post);
             }
             break;
         case AppCallResponseTypes.NAVIGATE:
+            break;
         case AppCallResponseTypes.FORM:
+            if (callResp.form) {
+                this.props.actions.openAppsModal(callResp.form, context);
+            }
             break;
         default: {
             const errorMessage = this.props.intl.formatMessage({
@@ -133,7 +154,15 @@ export class SelectBinding extends React.PureComponent<Props, State> {
     }
 
     render() {
+        if (!this.nOptions) {
+            return null;
+        }
+
         const {binding} = this.props;
+        const label = binding.label || binding.location;
+        if (!label) {
+            return null;
+        }
 
         return (
             <PostContext.Consumer>
@@ -141,7 +170,7 @@ export class SelectBinding extends React.PureComponent<Props, State> {
                     <AutocompleteSelector
                         providers={this.providers}
                         onSelected={this.handleSelected}
-                        placeholder={binding.label}
+                        placeholder={label}
                         inputClassName='post-attachment-dropdown'
                         value={this.state.selected?.text}
                         toggleFocus={handlePopupOpened}
@@ -151,5 +180,7 @@ export class SelectBinding extends React.PureComponent<Props, State> {
         );
     }
 }
+
+export {SelectBinding as RawSelectBinding};
 
 export default injectIntl(SelectBinding);

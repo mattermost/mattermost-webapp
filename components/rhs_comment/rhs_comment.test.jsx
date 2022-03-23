@@ -19,12 +19,7 @@ jest.mock('utils/post_utils', () => ({
     fromAutoResponder: jest.fn().mockReturnValue(false),
 }));
 
-import {isMobile} from 'utils/utils';
 import UserProfile from '../user_profile';
-
-jest.mock('utils/utils', () => ({
-    isMobile: jest.fn(),
-}));
 
 describe('components/RhsComment', () => {
     const post = {
@@ -52,7 +47,7 @@ describe('components/RhsComment', () => {
         reactions: {},
         isFlagged: true,
         isBusy: false,
-        isFocused: false,
+        shouldHighlight: false,
         removePost: jest.fn(),
         previewCollapsed: '',
         previewEnabled: false,
@@ -72,6 +67,8 @@ describe('components/RhsComment', () => {
         isBot: false,
         collapsedThreadsEnabled: false,
         isInViewport: jest.fn(),
+        isPostBeingEdited: false,
+        isMobileView: false,
     };
 
     test('should match snapshot', () => {
@@ -93,9 +90,12 @@ describe('components/RhsComment', () => {
     });
 
     test('should match snapshot mobile', () => {
-        isMobile.mockImplementation(() => true);
+        const props = {
+            ...baseProps,
+            isMobileView: true,
+        };
         const wrapper = shallow(
-            <RhsComment {...baseProps}/>,
+            <RhsComment {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -132,7 +132,18 @@ describe('components/RhsComment', () => {
         const wrapper = shallow(
             <RhsComment
                 {...baseProps}
-                isFocused={true}
+                shouldHighlight={true}
+            />,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when being edited', () => {
+        const wrapper = shallow(
+            <RhsComment
+                {...baseProps}
+                isPostBeingEdited={true}
             />,
         );
 
@@ -202,11 +213,13 @@ describe('components/RhsComment', () => {
     });
 
     test('should pass props correctly to PostFlagIcon', () => {
-        isMobile.mockImplementationOnce(() => false);
-
         const wrapper = shallow(
             <RhsComment {...baseProps}/>,
         );
+
+        wrapper.setState({
+            hover: true,
+        });
 
         const flagIcon = wrapper.find(PostFlagIcon);
         expect(flagIcon).toHaveLength(1);
@@ -249,32 +262,5 @@ describe('components/RhsComment', () => {
         expect(visibleMessage.prop('children')).toBeTruthy();
         expect(visibleMessage.prop('children').props).toBeTruthy();
         expect(visibleMessage.prop('children').props.id).toEqual('post_info.message.visible');
-    });
-
-    test('should call scrollIntoHighlight when isFocused changes to true', () => {
-        const scrollIntoHighlight = jest.fn();
-        isSystemMessage.mockImplementationOnce(() => true);
-
-        const wrapper = shallow(
-            <RhsComment {...baseProps}/>,
-        );
-
-        const instance = wrapper.instance();
-
-        instance.scrollIntoHighlight = scrollIntoHighlight;
-
-        expect(scrollIntoHighlight).not.toHaveBeenCalled();
-
-        wrapper.setProps({
-            isFocused: true,
-        });
-
-        expect(scrollIntoHighlight).toHaveBeenCalled();
-
-        wrapper.setProps({
-            isFocused: false,
-        });
-
-        expect(scrollIntoHighlight).toHaveBeenCalledTimes(1);
     });
 });

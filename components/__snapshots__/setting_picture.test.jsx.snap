@@ -702,9 +702,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
             delayShow={400}
             overlay={
               <Tooltip
-                bsClass="tooltip"
                 id="removeIcon"
-                placement="right"
               >
                 <div
                   aria-hidden={true}
@@ -866,9 +864,7 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
             delayShow={400}
             overlay={
               <Tooltip
-                bsClass="tooltip"
                 id="removeIcon"
-                placement="right"
               >
                 <div
                   aria-hidden={true}

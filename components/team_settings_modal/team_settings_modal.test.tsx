@@ -7,28 +7,29 @@ import React from 'react';
 import TeamSettingsModal from 'components/team_settings_modal/team_settings_modal';
 
 describe('components/team_settings_modal', () => {
+    const baseProps = {
+        isCloud: false,
+        onExited: jest.fn(),
+    };
+
     test('should match snapshot', () => {
         const wrapper = shallow(
             <TeamSettingsModal
-                isCloud={false}
-                onHide={jest.fn()}
+                {...baseProps}
             />,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should call onHide callback when the modal is hidden', () => {
-        const onHide = jest.fn();
-
+    test('should call onExited callback when the modal is hidden', () => {
         const wrapper = shallow(
             <TeamSettingsModal
-                isCloud={false}
-                onHide={onHide}
+                {...baseProps}
             />,
         );
 
         (wrapper.instance() as TeamSettingsModal).handleHidden();
-        expect(onHide).toHaveBeenCalledTimes(1);
+        expect(baseProps.onExited).toHaveBeenCalledTimes(1);
     });
 });
 

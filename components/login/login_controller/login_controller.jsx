@@ -63,6 +63,7 @@ class LoginController extends React.PureComponent {
         openidButtonColor: PropTypes.string,
         siteName: PropTypes.string,
         initializing: PropTypes.bool,
+        useCaseOnboarding: PropTypes.bool,
         actions: PropTypes.shape({
             login: PropTypes.func.isRequired,
             addUserToTeamFromInvite: PropTypes.func.isRequired,
@@ -340,6 +341,12 @@ class LoginController extends React.PureComponent {
             browserHistory.push(`/${team.name}`);
         } else if (experimentalPrimaryTeam) {
             browserHistory.push(`/${experimentalPrimaryTeam}`);
+        } else if (this.props.useCaseOnboarding) {
+            // need info about whether admin or not,
+            // and whether admin has already completed
+            // first tiem onboarding. Instead of fetching and orchestrating that here,
+            // let the default root component handle it.
+            browserHistory.push('/');
         } else {
             GlobalActions.redirectUserToDefaultTeam();
         }
@@ -482,7 +489,7 @@ class LoginController extends React.PureComponent {
                     <WarningIcon/>
                     <FormattedMarkdownMessage
                         id='login.terms_rejected'
-                        defaultMessage='You must agree to the terms of service before accessing {siteName}. Please contact your System Administrator for more details.'
+                        defaultMessage='You must agree to the terms of use before accessing {siteName}. Please contact your System Administrator for more details.'
                         values={{
                             siteName: this.props.siteName,
                         }}

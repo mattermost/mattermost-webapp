@@ -5,20 +5,19 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {Action} from 'mattermost-redux/types/actions';
 
 import {ModalIdentifiers} from 'utils/constants';
 import {isModalOpen} from 'selectors/views/modals';
 import {openModal} from 'actions/views/modals';
 
+import {ModalData} from 'types/actions';
 import {GlobalState} from 'types/store';
 
 import TeamMembersModal from './team_members_modal';
 
 type Actions = {
-    openModal: (modalData: {modalId: string; dialogType: React.Component }) => Promise<{
-        data: boolean;
-    }>;
+    openModal: <P>(modalData: ModalData<P>) => void;
 }
 
 function mapStateToProps(state: GlobalState) {
@@ -31,7 +30,7 @@ function mapStateToProps(state: GlobalState) {
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
             openModal,
         }, dispatch),
     };

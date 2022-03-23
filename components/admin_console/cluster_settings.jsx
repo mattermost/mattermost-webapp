@@ -22,7 +22,7 @@ export default class ClusterSettings extends AdminSettings {
         config.ClusterSettings.Enable = this.state.Enable;
         config.ClusterSettings.ClusterName = this.state.ClusterName;
         config.ClusterSettings.OverrideHostname = this.state.OverrideHostname;
-        config.ClusterSettings.UseIpAddress = this.state.UseIpAddress;
+        config.ClusterSettings.UseIPAddress = this.state.UseIPAddress;
         config.ClusterSettings.EnableExperimentalGossipEncryption = this.state.EnableExperimentalGossipEncryption;
         config.ClusterSettings.EnableGossipCompression = this.state.EnableGossipCompression;
         config.ClusterSettings.GossipPort = this.parseIntNonZero(this.state.GossipPort, 8074);
@@ -37,7 +37,7 @@ export default class ClusterSettings extends AdminSettings {
             Enable: settings.Enable,
             ClusterName: settings.ClusterName,
             OverrideHostname: settings.OverrideHostname,
-            UseIpAddress: settings.UseIpAddress,
+            UseIPAddress: settings.UseIPAddress,
             EnableExperimentalGossipEncryption: settings.EnableExperimentalGossipEncryption,
             EnableGossipCompression: settings.EnableGossipCompression,
             GossipPort: settings.GossipPort,
@@ -182,22 +182,22 @@ export default class ClusterSettings extends AdminSettings {
                     disabled={this.props.isDisabled}
                 />
                 <BooleanSetting
-                    id='UseIpAddress'
+                    id='UseIPAddress'
                     label={
                         <FormattedMessage
-                            id='admin.cluster.UseIpAddress'
+                            id='admin.cluster.UseIPAddress'
                             defaultMessage='Use IP Address:'
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.cluster.UseIpAddressDesc'
+                            id='admin.cluster.UseIPAddressDesc'
                             defaultMessage='When true, the cluster will attempt to communicate via IP Address vs using the hostname.'
                         />
                     }
-                    value={this.state.UseIpAddress}
+                    value={this.state.UseIPAddress}
                     onChange={this.overrideHandleChange}
-                    setByEnv={this.isSetByEnv('ClusterSettings.UseIpAddress')}
+                    setByEnv={this.isSetByEnv('ClusterSettings.UseIPAddress')}
                     disabled={this.props.isDisabled}
                 />
                 <BooleanSetting

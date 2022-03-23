@@ -5,7 +5,8 @@ import React, {PureComponent} from 'react';
 
 import {UserProfile as UserProfileType} from 'mattermost-redux/types/users';
 
-import {imageURLForUser, isMobile, isGuest} from 'utils/utils.jsx';
+import {imageURLForUser, isMobile} from 'utils/utils.jsx';
+import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import OverlayTrigger, {BaseOverlayTrigger} from 'components/overlay_trigger';
 import ProfilePopover from 'components/profile_popover';
@@ -139,7 +140,7 @@ export default class UserProfile extends PureComponent<UserProfileProps> {
                     className='badge-popoverlist'
                 />
                 <GuestBadge
-                    show={Boolean(user && isGuest(user))}
+                    show={Boolean(user && isGuest(user.roles))}
                     className='badge-popoverlist'
                 />
             </React.Fragment>

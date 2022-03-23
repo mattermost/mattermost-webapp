@@ -5,39 +5,42 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
-import {appsEnabled, makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
-import {AppBindingLocations} from 'mattermost-redux/constants/apps';
-import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+import {appBarEnabled, appsEnabled, getChannelHeaderAppBindings} from 'mattermost-redux/selectors/entities/apps';
+import {GenericAction} from 'mattermost-redux/types/actions';
 
-import {DoAppCall, PostEphemeralCallResponseForChannel} from 'types/apps';
+import {HandleBindingClick, OpenAppsModal, PostEphemeralCallResponseForChannel} from 'types/apps';
 
-import {doAppCall, postEphemeralCallResponseForChannel} from 'actions/apps';
+import {handleBindingClick, openAppsModal, postEphemeralCallResponseForChannel} from 'actions/apps';
 import {GlobalState} from 'types/store';
 
-import ChannelHeaderPlug from './channel_header_plug';
+import {getChannelHeaderPluginComponents} from 'selectors/plugins';
 
-const getChannelHeaderBindings = makeAppBindingsSelector(AppBindingLocations.CHANNEL_HEADER_ICON);
+import ChannelHeaderPlug from './channel_header_plug';
 
 function mapStateToProps(state: GlobalState) {
     const apps = appsEnabled(state);
     return {
-        components: state.plugins.components.ChannelHeaderButton,
-        appBindings: getChannelHeaderBindings(state),
+        components: getChannelHeaderPluginComponents(state),
+        appBindings: getChannelHeaderAppBindings(state),
         appsEnabled: apps,
+        appBarEnabled: appBarEnabled(state),
         theme: getTheme(state),
+        sidebarOpen: state.views.rhs.isSidebarOpen,
     };
 }
 
 type Actions = {
-    doAppCall: DoAppCall;
+    handleBindingClick: HandleBindingClick;
     postEphemeralCallResponseForChannel: PostEphemeralCallResponseForChannel;
+    openAppsModal: OpenAppsModal;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
-            doAppCall,
+        actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
+            handleBindingClick,
             postEphemeralCallResponseForChannel,
+            openAppsModal,
         }, dispatch),
     };
 }

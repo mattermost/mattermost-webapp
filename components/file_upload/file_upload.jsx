@@ -30,6 +30,9 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
 import AttachmentIcon from 'components/widgets/icons/attachment_icon';
+import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
+import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 const holders = defineMessages({
     limited: {
@@ -177,6 +180,8 @@ export class FileUpload extends PureComponent {
             this.registerDragEvents('.row.main', '.center-file-overlay');
         } else if (this.props.postType === 'comment') {
             this.registerDragEvents('.post-right__container', '.right-file-overlay');
+        } else if (this.props.postType === 'thread') {
+            this.registerDragEvents('.ThreadPane', '.right-file-overlay');
         }
 
         document.addEventListener('paste', this.pasteUpload);
@@ -695,9 +700,24 @@ export class FileUpload extends PureComponent {
         }
 
         return (
-            <div className={uploadsRemaining <= 0 ? ' style--none btn-file__disabled' : 'style--none'}>
-                {bodyAction}
-            </div>
+            <OverlayTrigger
+                delayShow={Constants.OVERLAY_TIME_DELAY}
+                placement='top'
+                trigger='hover'
+                overlay={
+                    <Tooltip id='upload-tooltip'>
+                        <KeyboardShortcutSequence
+                            shortcut={KEYBOARD_SHORTCUTS.filesUpload}
+                            hoistDescription={true}
+                            isInsideTooltip={true}
+                        />
+                    </Tooltip>
+                }
+            >
+                <div className={uploadsRemaining <= 0 ? ' style--none btn-file__disabled' : 'style--none'}>
+                    {bodyAction}
+                </div>
+            </OverlayTrigger>
         );
     }
 }

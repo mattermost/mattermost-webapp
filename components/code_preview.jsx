@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -57,18 +56,17 @@ export default class CodePreview extends React.PureComponent {
         }
     }
 
-    getCode = () => {
+    getCode = async () => {
         if (!this.state.lang || this.props.fileInfo.size > Constants.CODE_PREVIEW_MAX_FILE_SIZE) {
             return;
         }
-        $.ajax({ // eslint-disable-line jquery/no-ajax
-            async: true,
-            url: this.props.fileUrl,
-            type: 'GET',
-            dataType: 'text',
-            error: this.handleReceivedError,
-            success: this.handleReceivedCode,
-        });
+        try {
+            const data = await fetch(this.props.fileUrl);
+            const text = await data.text();
+            this.handleReceivedCode(text);
+        } catch (e) {
+            this.handleReceivedError();
+        }
     }
 
     handleReceivedCode = (data) => {
@@ -114,7 +112,7 @@ export default class CodePreview extends React.PureComponent {
         const highlighted = SyntaxHighlighting.highlight(this.state.lang, this.state.code);
 
         return (
-            <div className='post-code'>
+            <div className='post-code code-preview'>
                 <span className='post-code__language'>
                     {`${this.props.fileInfo.name} - ${language}`}
                 </span>

@@ -13,9 +13,9 @@ const state: GlobalState = {
             deviceToken: '',
             license: {},
             serverVersion: '',
-            timezones: [],
             warnMetricsStatus: {},
             firstAdminVisitMarketplaceStatus: false,
+            firstAdminCompleteSetup: false,
         },
         users: {
             currentUserId: '',
@@ -29,6 +29,7 @@ const state: GlobalState = {
             profilesInChannel: {},
             profilesNotInChannel: {},
             profilesInGroup: {},
+            profilesNotInGroup: {},
             statuses: {},
             stats: {},
             myUserAccessTokens: {},
@@ -55,6 +56,7 @@ const state: GlobalState = {
             manuallyUnread: {},
             channelModerations: {},
             channelMemberCountsByGroup: {},
+            messageCounts: {},
         },
         posts: {
             expandedURLs: {},
@@ -77,8 +79,10 @@ const state: GlobalState = {
         },
         threads: {
             threadsInTeam: {},
+            unreadThreadsInTeam: {},
             threads: {},
             counts: {},
+            countsIncludingDirect: {},
         },
         preferences: {
             myPreferences: {},
@@ -162,7 +166,7 @@ const state: GlobalState = {
         groups: {
             groups: {},
             syncables: {},
-            myGroups: {},
+            myGroups: [],
             stats: {},
         },
         channelCategories: {
@@ -170,7 +174,14 @@ const state: GlobalState = {
             orderByTeam: {},
         },
         apps: {
-            bindings: [],
+            main: {
+                bindings: [],
+                forms: {},
+            },
+            rhs: {
+                bindings: [],
+                forms: {},
+            },
         },
         cloud: {},
     },

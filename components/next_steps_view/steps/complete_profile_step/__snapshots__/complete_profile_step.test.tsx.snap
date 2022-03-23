@@ -53,8 +53,8 @@ exports[`components/next_steps_view/steps/complete_profile_step should match sna
       onClick={[Function]}
     >
       <MemoizedFormattedMessage
-        defaultMessage="Save profile"
-        id="next_steps_view.complete_profile_step.saveProfile"
+        defaultMessage="defaultMessage"
+        id="tID"
       />
     </button>
   </div>

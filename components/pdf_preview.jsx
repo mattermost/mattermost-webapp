@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import PDFJS from 'pdfjs-dist';
 import debounce from 'lodash/debounce';
 
 import {getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
@@ -26,6 +25,7 @@ export default class PDFPreview extends React.PureComponent {
         */
         fileUrl: PropTypes.string.isRequired,
         scale: PropTypes.number.isRequired,
+        handleBgClose: PropTypes.func.isRequired,
     }
 
     constructor(props) {
@@ -146,7 +146,10 @@ export default class PDFPreview extends React.PureComponent {
     }
 
     getPdfDocument = () => {
-        PDFJS.getDocument(this.props.fileUrl).then(this.onDocumentLoad).catch(this.onDocumentLoadError);
+        import('pdfjs-dist').then((PDFJS) => {
+            PDFJS.disableWorker = true;
+            PDFJS.getDocument(this.props.fileUrl).then(this.onDocumentLoad).catch(this.onDocumentLoadError);
+        });
     }
 
     onDocumentLoad = (pdf) => {
@@ -232,6 +235,7 @@ export default class PDFPreview extends React.PureComponent {
             <div
                 ref={this.container}
                 className='post-code'
+                onClick={this.props.handleBgClose}
             >
                 {pdfCanvases}
             </div>

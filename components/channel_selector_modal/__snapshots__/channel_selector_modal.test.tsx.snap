@@ -53,6 +53,7 @@ exports[`components/ChannelSelectorModal exclude already selected 1`] = `
     <MultiSelect
       ariaLabelRenderer={[Function]}
       buttonSubmitText="Add"
+      focusOnLoad={true}
       handleAdd={[Function]}
       handleDelete={[Function]}
       handleInput={[Function]}
@@ -74,12 +75,12 @@ exports[`components/ChannelSelectorModal exclude already selected 1`] = `
             "creator_id": "id",
             "delete_at": 0,
             "display_name": "name",
-            "extra_update_at": 0,
             "group_constrained": false,
             "header": "header",
             "id": "channel-3",
             "label": "name",
             "last_post_at": 0,
+            "last_root_post_at": 0,
             "name": "DN",
             "purpose": "purpose",
             "scheme_id": "id",
@@ -87,8 +88,6 @@ exports[`components/ChannelSelectorModal exclude already selected 1`] = `
             "team_id": "teamid1",
             "team_name": "teamName",
             "team_update_at": 0,
-            "total_msg_count": 0,
-            "total_msg_count_root": 0,
             "type": "O",
             "update_at": 0,
             "value": "channel-3",
@@ -99,6 +98,7 @@ exports[`components/ChannelSelectorModal exclude already selected 1`] = `
       placeholderText="Search and add channels"
       saveButtonPosition="top"
       saving={false}
+      savingEnabled={true}
       selectedItemRef={
         Object {
           "current": null,
@@ -165,6 +165,7 @@ exports[`components/ChannelSelectorModal should match snapshot 1`] = `
     <MultiSelect
       ariaLabelRenderer={[Function]}
       buttonSubmitText="Add"
+      focusOnLoad={true}
       handleAdd={[Function]}
       handleDelete={[Function]}
       handleInput={[Function]}
@@ -186,12 +187,12 @@ exports[`components/ChannelSelectorModal should match snapshot 1`] = `
             "creator_id": "id",
             "delete_at": 0,
             "display_name": "name",
-            "extra_update_at": 0,
             "group_constrained": false,
             "header": "header",
             "id": "channel-2",
             "label": "name",
             "last_post_at": 0,
+            "last_root_post_at": 0,
             "name": "DN",
             "purpose": "purpose",
             "scheme_id": "id",
@@ -199,8 +200,6 @@ exports[`components/ChannelSelectorModal should match snapshot 1`] = `
             "team_id": "teamid2",
             "team_name": "teamName",
             "team_update_at": 0,
-            "total_msg_count": 0,
-            "total_msg_count_root": 0,
             "type": "O",
             "update_at": 0,
             "value": "channel-2",
@@ -210,12 +209,12 @@ exports[`components/ChannelSelectorModal should match snapshot 1`] = `
             "creator_id": "id",
             "delete_at": 0,
             "display_name": "name",
-            "extra_update_at": 0,
             "group_constrained": false,
             "header": "header",
             "id": "channel-3",
             "label": "name",
             "last_post_at": 0,
+            "last_root_post_at": 0,
             "name": "DN",
             "purpose": "purpose",
             "scheme_id": "id",
@@ -223,8 +222,6 @@ exports[`components/ChannelSelectorModal should match snapshot 1`] = `
             "team_id": "teamid1",
             "team_name": "teamName",
             "team_update_at": 0,
-            "total_msg_count": 0,
-            "total_msg_count_root": 0,
             "type": "O",
             "update_at": 0,
             "value": "channel-3",
@@ -235,6 +232,7 @@ exports[`components/ChannelSelectorModal should match snapshot 1`] = `
       placeholderText="Search and add channels"
       saveButtonPosition="top"
       saving={false}
+      savingEnabled={true}
       selectedItemRef={
         Object {
           "current": null,

@@ -1,61 +1,161 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useCallback, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import styled from 'styled-components';
 
-import * as Utils from 'utils/utils.jsx';
-import StatusDropdown from 'components/status_dropdown';
+import Flex from '@mattermost/compass-components/utilities/layout/Flex';
+import Heading from '@mattermost/compass-components/components/heading';
 
-import SidebarHeaderDropdown from './dropdown';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {GlobalState} from 'types/store';
+import Constants from 'utils/constants';
 
-type Props = {
-    globalHeaderEnabled: boolean;
+import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import MainMenu from 'components/main_menu';
+import AddChannelDropdown from 'components/sidebar/add_channel_dropdown';
+import {isAddChannelDropdownOpen} from 'selectors/views/add_channel_dropdown';
+import {OnboardingTourSteps, useShowOnboardingTutorialStep} from 'components/onboarding_tour';
+import {setAddChannelDropdown} from '../../../actions/views/add_channel_dropdown';
+
+type SidebarHeaderContainerProps = {
+    id?: string;
 }
 
-type State = {
-    isMobile: boolean;
+type SidebarHeaderProps = {
 }
 
-export default class SidebarHeader extends React.PureComponent<Props, State> {
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            isMobile: Utils.isMobile(),
-        };
+const SidebarHeaderContainer = styled(Flex).attrs(() => ({
+    element: 'header',
+    row: true,
+    justify: 'space-between',
+    alignment: 'center',
+}))<SidebarHeaderContainerProps>`
+    height: 52px;
+    padding: 0 16px;
+
+    .dropdown-menu {
+        position: absolute;
+        transform: translate(0, 0);
+        margin-left: 0;
+        min-width: 210px;
+        max-width: 232px;
     }
 
-    componentDidMount() {
-        window.addEventListener('resize', this.handleResize);
+    #SidebarContainer & .AddChannelDropdown_dropdownButton {
+        border-radius: 16px;
+        font-size: 18px;
+    }
+`;
+
+const HEADING_WIDTH = 200;
+const CHEVRON_WIDTH = 26;
+const ADD_CHANNEL_DROPDOWN_WIDTH = 28;
+const TITLE_WIDTH = (HEADING_WIDTH - CHEVRON_WIDTH - ADD_CHANNEL_DROPDOWN_WIDTH).toString();
+
+const SidebarHeading = styled(Heading).attrs(() => ({
+    element: 'h1',
+    margin: 'none',
+    size: 200,
+}))<SidebarHeaderProps>`
+    color: var(--sidebar-header-text-color);
+    cursor: pointer;
+    display: flex;
+
+    .title {
+        max-width: ${TITLE_WIDTH}px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block;
     }
 
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.handleResize);
+    .icon-chevron-down {
+        margin-left: -3px;
+        margin-right: -1px;
     }
 
-    handleResize = () => {
-        const isMobile = Utils.isMobile();
-        this.setState({isMobile});
+    #SidebarContainer & {
+        font-family: Metropolis, sans-serif;
     }
+`;
 
-    render() {
-        const ariaLabel = Utils.localizeMessage('accessibility.sections.lhsHeader', 'team menu region');
+export type Props = {
+    showNewChannelModal: () => void;
+    showMoreChannelsModal: () => void;
+    showCreateUserGroupModal: () => void;
+    invitePeopleModal: () => void;
+    showCreateCategoryModal: () => void;
+    canCreateChannel: boolean;
+    canJoinPublicChannel: boolean;
+    handleOpenDirectMessagesModal: (e: Event) => void;
+    unreadFilterEnabled: boolean;
+    userGroupsEnabled: boolean;
+    canCreateCustomGroups: boolean;
+}
 
-        return (
-            <div
-                id='lhsHeader'
-                aria-label={ariaLabel}
-                tabIndex={-1}
-                role='application'
-                className='SidebarHeader team__header theme a11y__region'
-                data-a11y-sort-order='5'
+const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
+    const dispatch = useDispatch();
+    const currentTeam = useSelector((state: GlobalState) => getCurrentTeam(state));
+    const showCreateTutorialTip = useShowOnboardingTutorialStep(OnboardingTourSteps.CREATE_AND_JOIN_CHANNELS);
+    const showInviteTutorialTip = useShowOnboardingTutorialStep(OnboardingTourSteps.INVITE_PEOPLE);
+    const isAddChannelOpen = useSelector(isAddChannelDropdownOpen);
+    const openAddChannelOpen = useCallback((open: boolean) => {
+        dispatch(setAddChannelDropdown(open));
+    }, []);
+
+    const [menuToggled, setMenuToggled] = useState(false);
+
+    const handleMenuToggle = () => {
+        setMenuToggled(!menuToggled);
+    };
+
+    return (
+        <>
+            <SidebarHeaderContainer
+                id={'sidebar-header-container'}
             >
-                <div
-                    className='d-flex'
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='bottom'
+                    overlay={currentTeam.description?.length ? (
+                        <Tooltip id='team-name__tooltip'>{currentTeam.description}</Tooltip>
+                    ) : <></>}
                 >
-                    {!this.state.isMobile && !this.props.globalHeaderEnabled && <StatusDropdown/>}
-                    <SidebarHeaderDropdown/>
-                </div>
-            </div>
-        );
-    }
-}
+                    <MenuWrapper
+                        onToggle={handleMenuToggle}
+                        className='SidebarHeaderMenuWrapper'
+                    >
+                        <SidebarHeading>
+                            <span className='title'>{currentTeam.display_name}</span>
+                            <i className='icon icon-chevron-down'/>
+                        </SidebarHeading>
+                        <MainMenu id='sidebarDropdownMenu'/>
+                    </MenuWrapper>
+                </OverlayTrigger>
+                <AddChannelDropdown
+                    showNewChannelModal={props.showNewChannelModal}
+                    showMoreChannelsModal={props.showMoreChannelsModal}
+                    invitePeopleModal={props.invitePeopleModal}
+                    showCreateCategoryModal={props.showCreateCategoryModal}
+                    canCreateChannel={props.canCreateChannel}
+                    canJoinPublicChannel={props.canJoinPublicChannel}
+                    handleOpenDirectMessagesModal={props.handleOpenDirectMessagesModal}
+                    unreadFilterEnabled={props.unreadFilterEnabled}
+                    showCreateTutorialTip={showCreateTutorialTip}
+                    showInviteTutorialTip={showInviteTutorialTip}
+                    isAddChannelOpen={isAddChannelOpen}
+                    openAddChannelOpen={openAddChannelOpen}
+                    canCreateCustomGroups={props.canCreateCustomGroups}
+                    showCreateUserGroupModal={props.showCreateUserGroupModal}
+                    userGroupsEnabled={props.userGroupsEnabled}
+                />
+            </SidebarHeaderContainer>
+        </>
+    );
+};
+
+export default SidebarHeader;

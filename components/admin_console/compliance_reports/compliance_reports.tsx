@@ -7,7 +7,6 @@ import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 import {Compliance} from 'mattermost-redux/types/compliance';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import LoadingScreen from 'components/loading_screen';
 import ReloadIcon from 'components/widgets/icons/fa_reload_icon';
@@ -30,7 +29,7 @@ type Props = {
         * Array of reports to render
         */
     reports: Compliance[];
-    users: Dictionary<UserProfile>;
+    users: Record<string, UserProfile>;
 
     /*
         * Error message to display
@@ -457,7 +456,7 @@ export default class ComplianceReports extends React.PureComponent<Props, State>
     }
 }
 
-const style: Dictionary<React.CSSProperties> = {
+const style: Record<string, React.CSSProperties> = {
     content: {margin: 10},
     greenStatus: {color: 'green'},
     redStatus: {color: 'red'},

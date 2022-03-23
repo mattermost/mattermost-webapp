@@ -17,12 +17,11 @@ import {
     IntegrationTypes,
     PreferenceTypes,
 } from 'mattermost-redux/action_types';
-import {WebsocketEvents, General, Permissions} from 'mattermost-redux/constants';
+import {WebsocketEvents, General, Permissions, Preferences} from 'mattermost-redux/constants';
 import {addChannelToInitialCategory, fetchMyCategories, receivedCategoryOrder} from 'mattermost-redux/actions/channel_categories';
 import {
     getChannelAndMyMember,
     getMyChannelMember,
-    getChannelMember,
     getChannelStats,
     viewChannel,
     markChannelAsRead,
@@ -31,22 +30,25 @@ import {
 import {getCloudSubscription, getSubscriptionStats} from 'mattermost-redux/actions/cloud';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 
-import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getThread, getThreads} from 'mattermost-redux/selectors/entities/threads';
 import {
     getThread as fetchThread,
+    getThreads as fetchThreads,
     handleAllMarkedRead,
     handleReadChanged,
     handleFollowChanged,
     handleThreadArrived,
     handleAllThreadsInChannelMarkedRead,
     updateThreadRead,
+    decrementThreadCounts,
 } from 'mattermost-redux/actions/threads';
 
-import {setServerVersion} from 'mattermost-redux/actions/general';
+import {setServerVersion, getClientConfig} from 'mattermost-redux/actions/general';
 import {
     getCustomEmojiForReaction,
     getPosts,
+    getPostThread,
     getProfilesAndStatusesForPosts,
     getThreadsForPosts,
     postDeleted,
@@ -58,7 +60,6 @@ import {clearErrors, logError} from 'mattermost-redux/actions/errors';
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {
     checkForModifiedUsers,
-    getMe,
     getMissingProfilesByIds,
     getStatusesByIds,
     getUser as loadUser,
@@ -67,16 +68,23 @@ import {removeNotVisibleUsers} from 'mattermost-redux/actions/websocket';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser, getIsManualStatusForUserId, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getChannelsInTeam, getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam, getMembersInCurrentChannel, getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
+import {getConfig, getLicense, isPerformanceDebuggingEnabled} from 'mattermost-redux/selectors/entities/general';
+import {
+    getChannel,
+    getChannelMembersInChannels,
+    getChannelsInTeam,
+    getCurrentChannel,
+    getCurrentChannelId,
+    getRedirectChannelNameForTeam,
+} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
-import {fetchAppBindings} from 'mattermost-redux/actions/apps';
+import {fetchAppBindings, fetchRHSAppsBindings} from 'mattermost-redux/actions/apps';
 
-import {getSelectedChannelId} from 'selectors/rhs';
+import {getSelectedChannelId, getSelectedPost} from 'selectors/rhs';
 import {isThreadOpen, isThreadManuallyUnread} from 'selectors/views/threads';
 
 import {openModal} from 'actions/views/modals';
@@ -97,7 +105,7 @@ import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
 import {ActionTypes, Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIdentifiers, WarnMetricTypes} from 'utils/constants';
 import {getSiteURL} from 'utils/url';
-import {isGuest} from 'utils/utils';
+import {isGuest} from 'mattermost-redux/utils/user_utils';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
 import InteractiveDialog from 'components/interactive_dialog';
 
@@ -150,7 +158,7 @@ export function initialize() {
     WebSocketClient.setEventCallback(handleEvent);
     WebSocketClient.setFirstConnectCallback(handleFirstConnect);
     WebSocketClient.setReconnectCallback(() => reconnect(false));
-    WebSocketClient.setMissedEventCallback(() => reconnect(false));
+    WebSocketClient.setMissedEventCallback(restart);
     WebSocketClient.setCloseCallback(handleClose);
     WebSocketClient.initialize(connUrl);
 }
@@ -174,6 +182,13 @@ export function unregisterPluginReconnectHandler(pluginId) {
     Reflect.deleteProperty(pluginReconnectHandlers, pluginId);
 }
 
+function restart() {
+    reconnect(false);
+
+    // We fetch the client config again on the server restart.
+    dispatch(getClientConfig());
+}
+
 export function reconnect(includeWebSocket = true) {
     if (includeWebSocket) {
         reconnectWebSocket();
@@ -184,17 +199,10 @@ export function reconnect(includeWebSocket = true) {
         timestamp: Date.now(),
     });
 
-    loadPluginsIfNecessary();
-
-    Object.values(pluginReconnectHandlers).forEach((handler) => {
-        if (handler && typeof handler === 'function') {
-            handler();
-        }
-    });
-
     const state = getState();
     const currentTeamId = state.entities.teams.currentTeamId;
     if (currentTeamId) {
+        const currentUserId = getCurrentUserId(state);
         const currentChannelId = getCurrentChannelId(state);
         const mostRecentId = getMostRecentPostIdInChannel(state, currentChannelId);
         const mostRecentPost = getPost(state, mostRecentId);
@@ -210,8 +218,21 @@ export function reconnect(includeWebSocket = true) {
             dispatch(getPosts(currentChannelId));
         }
         StatusActions.loadStatusesForChannelAndSidebar();
-        dispatch(TeamActions.getMyTeamUnreads());
+
+        const crtEnabled = isCollapsedThreadsEnabled(state);
+        dispatch(TeamActions.getMyTeamUnreads(crtEnabled, true));
+        if (crtEnabled) {
+            dispatch(fetchThreads(currentUserId, currentTeamId, {unread: true, perPage: 200}));
+        }
     }
+
+    loadPluginsIfNecessary();
+
+    Object.values(pluginReconnectHandlers).forEach((handler) => {
+        if (handler && typeof handler === 'function') {
+            handler();
+        }
+    });
 
     if (state.websocket.lastDisconnectAt) {
         dispatch(checkForModifiedUsers());
@@ -459,6 +480,14 @@ export function handleEvent(msg) {
         handleGroupUpdatedEvent(msg);
         break;
 
+    case SocketEvents.GROUP_MEMBER_ADD:
+        dispatch(handleGroupAddedMemberEvent(msg));
+        break;
+
+    case SocketEvents.GROUP_MEMBER_DELETED:
+        dispatch(handleGroupDeletedMemberEvent(msg));
+        break;
+
     case SocketEvents.RECEIVED_GROUP_ASSOCIATED_TO_TEAM:
         handleGroupAssociatedToTeamEvent(msg);
         break;
@@ -653,7 +682,8 @@ export function handleNewPostEvents(queue) {
 export function handlePostEditEvent(msg) {
     // Store post
     const post = JSON.parse(msg.data.post);
-    dispatch(receivedPost(post));
+    const crtEnabled = isCollapsedThreadsEnabled(getState());
+    dispatch(receivedPost(post, crtEnabled));
 
     getProfilesAndStatusesForPosts([post], dispatch, getState);
     const currentChannelId = getCurrentChannelId(getState());
@@ -667,9 +697,32 @@ export function handlePostEditEvent(msg) {
     }
 }
 
-function handlePostDeleteEvent(msg) {
+async function handlePostDeleteEvent(msg) {
     const post = JSON.parse(msg.data.post);
+    const state = getState();
+    const collapsedThreads = isCollapsedThreadsEnabled(state);
+
+    if (!post.root_id && collapsedThreads) {
+        dispatch(decrementThreadCounts(post));
+    }
+
     dispatch(postDeleted(post));
+
+    // update thread when a comment is deleted and CRT is on
+    if (post.root_id && collapsedThreads) {
+        const thread = getThread(state, post.root_id);
+        if (thread) {
+            const userId = getCurrentUserId(state);
+            const teamId = getCurrentTeamId(state);
+            dispatch(fetchThread(userId, teamId, post.root_id, true));
+        } else {
+            const res = await dispatch(getPostThread(post.id));
+            const {order, posts} = res.data;
+            const rootPost = posts[order[0]];
+            dispatch(receivedPost(rootPost));
+        }
+    }
+
     if (post.is_pinned) {
         dispatch(getChannelStats(post.channel_id));
     }
@@ -694,7 +747,8 @@ export function handlePostUnreadEvent(msg) {
 async function handleTeamAddedEvent(msg) {
     await dispatch(TeamActions.getTeam(msg.data.team_id));
     await dispatch(TeamActions.getMyTeamMembers());
-    await dispatch(TeamActions.getMyTeamUnreads());
+    const state = getState();
+    await dispatch(TeamActions.getMyTeamUnreads(isCollapsedThreadsEnabled(state)));
 }
 
 export function handleLeaveTeamEvent(msg) {
@@ -733,14 +787,14 @@ export function handleLeaveTeamEvent(msg) {
                 redirectUserToDefaultTeam();
             }
         }
-        if (isGuest(currentUser)) {
+        if (isGuest(currentUser.roles)) {
             dispatch(removeNotVisibleUsers());
         }
     } else {
         const team = getTeam(state, msg.data.team_id);
         const members = getChannelMembersInChannels(state);
         const isMember = Object.values(members).some((member) => member[msg.data.user_id]);
-        if (team && isGuest(currentUser) && !isMember) {
+        if (team && isGuest(currentUser.roles) && !isMember) {
             dispatch(batchActions([
                 {
                     type: UserTypes.PROFILE_NO_LONGER_VISIBLE,
@@ -885,7 +939,7 @@ function fetchChannelAndAddToSidebar(channelId) {
     };
 }
 
-export async function handleUserRemovedEvent(msg) {
+export function handleUserRemovedEvent(msg) {
     const state = getState();
     const currentChannel = getCurrentChannel(state) || {};
     const currentUser = getCurrentUser(state);
@@ -902,14 +956,7 @@ export async function handleUserRemovedEvent(msg) {
         }
 
         if (msg.data.channel_id === currentChannel.id) {
-            if (msg.data.remover_id === msg.broadcast.user_id) {
-                browserHistory.push(getCurrentRelativeTeamUrl(state));
-
-                await dispatch({
-                    type: ChannelTypes.LEAVE_CHANNEL,
-                    data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id},
-                });
-            } else {
+            if (msg.data.remover_id !== msg.broadcast.user_id) {
                 const user = getUser(state, msg.data.remover_id);
                 if (!user) {
                     dispatch(loadUser(msg.data.remover_id));
@@ -923,17 +970,25 @@ export async function handleUserRemovedEvent(msg) {
                         removerId: msg.data.remover_id,
                     },
                 }));
-
-                await dispatch({
-                    type: ChannelTypes.LEAVE_CHANNEL,
-                    data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id},
-                });
-
-                redirectUserToDefaultTeam();
             }
         }
 
-        if (isGuest(currentUser)) {
+        const channel = getChannel(state, msg.data.channel_id);
+
+        dispatch({
+            type: ChannelTypes.LEAVE_CHANNEL,
+            data: {
+                id: msg.data.channel_id,
+                user_id: msg.broadcast.user_id,
+                team_id: channel?.team_id,
+            },
+        });
+
+        if (msg.data.channel_id === currentChannel.id) {
+            redirectUserToDefaultTeam();
+        }
+
+        if (isGuest(currentUser.roles)) {
             dispatch(removeNotVisibleUsers());
         }
     } else if (msg.broadcast.channel_id === currentChannel.id) {
@@ -951,7 +1006,7 @@ export async function handleUserRemovedEvent(msg) {
         const channel = getChannel(state, msg.broadcast.channel_id);
         const members = getChannelMembersInChannels(state);
         const isMember = Object.values(members).some((member) => member[msg.data.user_id]);
-        if (channel && isGuest(currentUser) && !isMember) {
+        if (channel && isGuest(currentUser.roles) && !isMember) {
             const actions = [
                 {
                     type: UserTypes.PROFILE_NO_LONGER_VISIBLE,
@@ -984,6 +1039,10 @@ export async function handleUserRemovedEvent(msg) {
 }
 
 export async function handleUserUpdatedEvent(msg) {
+    // This websocket event is sent to all non-guest users on the server, so be careful requesting data from the server
+    // in response to it. That can overwhelm the server if every connected user makes such a request at the same time.
+    // See https://mattermost.atlassian.net/browse/MM-40050 for more information.
+
     const state = getState();
     const currentUser = getCurrentUser(state);
     const user = msg.data.user;
@@ -992,38 +1051,14 @@ export async function handleUserUpdatedEvent(msg) {
         dispatch(loadCustomEmojisIfNeeded([customStatus?.emoji]));
     }
 
-    const config = getConfig(state);
-    const license = getLicense(state);
-
-    const userIsGuest = isGuest(user);
-    const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
-    const isLDAPEnabled = license?.IsLicensed === 'true' && license?.LDAPGroups === 'true';
-
-    if (userIsGuest || (isTimezoneEnabled && isLDAPEnabled)) {
-        let members = getMembersInCurrentChannel(state);
-        const currentChannelId = getCurrentChannelId(state);
-        let memberExists = members && members[user.id];
-        if (!memberExists) {
-            await dispatch(getChannelMember(currentChannelId, user.id));
-            members = getMembersInCurrentChannel(getState());
-            memberExists = members && members[user.id];
-        }
-
-        if (memberExists) {
-            if (isLDAPEnabled && isTimezoneEnabled) {
-                dispatch(getChannelMemberCountsByGroup(currentChannelId, true));
-            }
-            if (isGuest(user)) {
-                dispatch(getChannelStats(currentChannelId));
-            }
-        }
-    }
-
     if (currentUser.id === user.id) {
         if (user.update_at > currentUser.update_at) {
-            // Need to request me to make sure we don't override with sanitized fields from the
-            // websocket event
-            getMe()(dispatch, getState);
+            // update user to unsanitized user data recieved from websocket message
+            dispatch({
+                type: UserTypes.RECEIVED_ME,
+                data: user,
+            });
+            dispatch(loadRolesIfNeeded(user.roles.split(' ')));
         }
     } else {
         dispatch({
@@ -1139,6 +1174,13 @@ export function handleUserTypingEvent(msg) {
         const config = getConfig(state);
         const currentUserId = getCurrentUserId(state);
         const userId = msg.data.user_id;
+
+        if (
+            isPerformanceDebuggingEnabled(state) &&
+            getBool(state, Preferences.CATEGORY_PERFORMANCE_DEBUGGING, Preferences.NAME_DISABLE_TYPING_MESSAGES)
+        ) {
+            return;
+        }
 
         const data = {
             id: msg.broadcast.channel_id + msg.data.parent_id,
@@ -1279,16 +1321,48 @@ function handleOpenDialogEvent(msg) {
 
 function handleGroupUpdatedEvent(msg) {
     const data = JSON.parse(msg.data.group);
-    dispatch(batchActions([
+    dispatch(
         {
-            type: GroupTypes.RECEIVED_GROUP,
+            type: GroupTypes.PATCHED_GROUP,
             data,
         },
-        {
-            type: GroupTypes.RECEIVED_MY_GROUPS,
-            data: [data],
-        },
-    ]));
+    );
+}
+
+function handleGroupAddedMemberEvent(msg) {
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+        const currentUserId = getCurrentUserId(state);
+        const data = JSON.parse(msg.data.group_member);
+
+        if (currentUserId === data.user_id) {
+            dispatch(
+                {
+                    type: GroupTypes.ADD_MY_GROUP,
+                    data,
+                    id: data.group_id,
+                },
+            );
+        }
+    };
+}
+
+function handleGroupDeletedMemberEvent(msg) {
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+        const currentUserId = getCurrentUserId(state);
+        const data = JSON.parse(msg.data.group_member);
+
+        if (currentUserId === data.user_id) {
+            dispatch(
+                {
+                    type: GroupTypes.REMOVE_MY_GROUP,
+                    data,
+                    id: data.group_id,
+                },
+            );
+        }
+    };
 }
 
 function handleGroupAssociatedToTeamEvent(msg) {
@@ -1412,9 +1486,33 @@ function handleCloudPaymentStatusUpdated() {
 function handleRefreshAppsBindings() {
     return (doDispatch, doGetState) => {
         const state = doGetState();
-        if (appsEnabled(state)) {
-            doDispatch(fetchAppBindings(getCurrentUserId(state), getCurrentChannelId(state)));
+        if (!appsEnabled(state)) {
+            return {data: true};
         }
+
+        doDispatch(fetchAppBindings(getCurrentChannelId(state)));
+
+        const siteURL = state.entities.general.config.SiteURL;
+        const currentURL = window.location.href;
+        let threadIdentifier;
+        if (currentURL.startsWith(siteURL)) {
+            const parts = currentURL.substr(siteURL.length + (siteURL.endsWith('/') ? 0 : 1)).split('/');
+            if (parts.length === 3 && parts[1] === 'threads') {
+                threadIdentifier = parts[2];
+            }
+        }
+        const rhsPost = getSelectedPost(state);
+        let selectedThread;
+        if (threadIdentifier) {
+            selectedThread = getThread(state, threadIdentifier);
+        }
+        const rootID = threadIdentifier || rhsPost?.id;
+        const channelID = selectedThread?.post?.channel_id || rhsPost?.channel_id;
+        if (!rootID) {
+            return {data: true};
+        }
+
+        doDispatch(fetchRHSAppsBindings(channelID));
         return {data: true};
     };
 }
@@ -1429,26 +1527,25 @@ function handleThreadReadChanged(msg) {
         if (msg.data.thread_id) {
             const state = doGetState();
             const thread = getThreads(state)?.[msg.data.thread_id];
-            if (thread) {
-                // skip marking the thread as read (when the user is viewing the thread)
-                if (!isThreadOpen(state, thread.id)) {
-                    doDispatch(updateThreadLastOpened(thread.id, msg.data.timestamp));
-                }
 
-                handleReadChanged(
-                    doDispatch,
-                    msg.data.thread_id,
-                    msg.broadcast.team_id,
-                    msg.data.channel_id,
-                    {
-                        lastViewedAt: msg.data.timestamp,
-                        prevUnreadMentions: thread.unread_mentions,
-                        newUnreadMentions: msg.data.unread_mentions,
-                        prevUnreadReplies: thread.unread_replies,
-                        newUnreadReplies: msg.data.unread_replies,
-                    },
-                );
+            // skip marking the thread as read (when the user is viewing the thread)
+            if (thread && !isThreadOpen(state, thread.id)) {
+                doDispatch(updateThreadLastOpened(thread.id, msg.data.timestamp));
             }
+
+            handleReadChanged(
+                doDispatch,
+                msg.data.thread_id,
+                msg.broadcast.team_id,
+                msg.data.channel_id,
+                {
+                    lastViewedAt: msg.data.timestamp,
+                    prevUnreadMentions: thread?.unread_mentions ?? msg.data.previous_unread_mentions,
+                    newUnreadMentions: msg.data.unread_mentions,
+                    prevUnreadReplies: thread?.unread_replies ?? msg.data.previous_unread_replies,
+                    newUnreadReplies: msg.data.unread_replies,
+                },
+            );
         } else if (msg.broadcast.channel_id) {
             handleAllThreadsInChannelMarkedRead(doDispatch, doGetState, msg.broadcast.channel_id, msg.data.timestamp);
         } else {
@@ -1472,6 +1569,13 @@ function handleThreadUpdated(msg) {
         const currentTeamId = getCurrentTeamId(state);
 
         let lastViewedAt;
+
+        // if current user has replied to the thread
+        // make sure to set following as true
+        if (currentUserId === threadData.post.user_id) {
+            threadData.is_following = true;
+        }
+
         if (isThreadOpen(state, threadData.id) && !isThreadManuallyUnread(state, threadData.id)) {
             lastViewedAt = Date.now();
 
@@ -1494,7 +1598,7 @@ function handleThreadUpdated(msg) {
             dispatch(updateThreadRead(currentUserId, currentTeamId, threadData.id, lastViewedAt));
         }
 
-        handleThreadArrived(doDispatch, doGetState, threadData, msg.broadcast.team_id);
+        handleThreadArrived(doDispatch, doGetState, threadData, msg.broadcast.team_id, msg.data.previous_unread_replies, msg.data.previous_unread_mentions);
     };
 }
 

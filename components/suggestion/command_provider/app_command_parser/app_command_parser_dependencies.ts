@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 export type {
+    AppCall,
     AppCallRequest,
     AppCallValues,
     AppBinding,
@@ -26,15 +27,16 @@ import type {
 } from 'mattermost-redux/types/integrations';
 export type {AutocompleteSuggestion};
 
-export type {
+import type {
     Channel,
 } from 'mattermost-redux/types/channels';
+export type {Channel};
 
-export {
+import {
     GlobalState,
 } from 'types/store';
 
-export type {
+import type {
     DispatchFunc,
 } from 'mattermost-redux/types/actions';
 
@@ -42,20 +44,20 @@ export type {
     UserAutocomplete,
 } from 'mattermost-redux/types/autocomplete';
 
-export type {
+import type {
     UserProfile,
 } from 'mattermost-redux/types/users';
+export type {UserProfile};
 
 export {
     AppBindingLocations,
-    AppCallTypes,
     AppFieldTypes,
     AppCallResponseTypes,
 } from 'mattermost-redux/constants/apps';
 
 export {autocompleteUsersInChannel} from 'actions/views/channel';
 
-export {makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
+export {makeAppBindingsSelector, makeRHSAppBindingSelector, getAppCommandForm, getAppRHSCommandForm} from 'mattermost-redux/selectors/entities/apps';
 
 export {getPost} from 'mattermost-redux/selectors/entities/posts';
 export {getChannel as selectChannel, getCurrentChannel, getChannelByName as selectChannelByName} from 'mattermost-redux/selectors/entities/channels';
@@ -65,26 +67,38 @@ export {getUserByUsername as selectUserByUsername, getUser as selectUser} from '
 export {getUserByUsername, getUser} from 'mattermost-redux/actions/users';
 export {getChannelByNameAndTeamName, getChannel, autocompleteChannels} from 'mattermost-redux/actions/channels';
 
-export {doAppCall} from 'actions/apps';
+export {doAppFetchForm, doAppLookup} from 'actions/apps';
 import {sendEphemeralPost} from 'actions/global_actions';
 
-export {createCallRequest} from 'utils/apps';
+export {
+    createCallRequest,
+    filterEmptyOptions,
+} from 'utils/apps';
 
 import {
     isMac,
     localizeAndFormatMessage,
 } from 'utils/utils';
 
-import Store from 'stores/redux_store';
-export const getStore = () => Store;
+export type Store = {
+    dispatch: DispatchFunc;
+    getState: () => GlobalState;
+}
+
+import ReduxStore from 'stores/redux_store';
+export const getStore = () => ReduxStore;
+
+export {getChannelSuggestions, getUserSuggestions, inTextMentionSuggestions} from '../mentions';
 
 import {Constants} from 'utils/constants';
 export const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
+export const OPEN_COMMAND_IN_MODAL_ITEM_ID = Constants.Integrations.OPEN_COMMAND_IN_MODAL_ITEM_ID;
 export const COMMAND_SUGGESTION_ERROR = Constants.Integrations.COMMAND_SUGGESTION_ERROR;
 export const COMMAND_SUGGESTION_CHANNEL = Constants.Integrations.COMMAND_SUGGESTION_CHANNEL;
 export const COMMAND_SUGGESTION_USER = Constants.Integrations.COMMAND_SUGGESTION_USER;
 
 import type {ParsedCommand} from './app_command_parser';
+export {AppsTypes} from 'mattermost-redux/action_types';
 
 export const getExecuteSuggestion = (parsed: ParsedCommand): AutocompleteSuggestion | null => {
     let key = 'Ctrl';
@@ -101,8 +115,23 @@ export const getExecuteSuggestion = (parsed: ParsedCommand): AutocompleteSuggest
     };
 };
 
+export const getOpenInModalSuggestion = (parsed: ParsedCommand): AutocompleteSuggestion | null => {
+    return {
+        Complete: parsed.command.substring(1) + OPEN_COMMAND_IN_MODAL_ITEM_ID,
+        Suggestion: 'Open in modal',
+        Hint: '',
+        Description: 'Select this option to open the current command in a modal.',
+        IconData: OPEN_COMMAND_IN_MODAL_ITEM_ID,
+    };
+};
+
+export type ExtendedAutocompleteSuggestion = AutocompleteSuggestion & {
+    type?: string;
+    item?: UserProfile | Channel;
+}
+
 export const displayError = (err: string, channelID: string, rootID?: string) => {
-    Store.dispatch(sendEphemeralPost(err, channelID, rootID));
+    ReduxStore.dispatch(sendEphemeralPost(err, channelID, rootID));
 };
 
 // Shim of mobile-version intl

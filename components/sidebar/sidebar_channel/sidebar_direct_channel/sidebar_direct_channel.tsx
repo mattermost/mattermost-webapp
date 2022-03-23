@@ -25,7 +25,6 @@ type Props = {
     currentUserId: string;
     redirectChannel: string;
     active: boolean;
-    botIconUrl: string | null;
     isCollapsed: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<{data: boolean}>;
@@ -33,19 +32,7 @@ type Props = {
     };
 };
 
-type State = {
-    svgErrorUrl: string | null;
-};
-
-class SidebarDirectChannel extends React.PureComponent<Props, State> {
-    constructor(props: Props) {
-        super(props);
-
-        this.state = {
-            svgErrorUrl: null,
-        };
-    }
-
+class SidebarDirectChannel extends React.PureComponent<Props> {
     handleLeaveChannel = (callback: () => void) => {
         const id = this.props.channel.teammate_id;
         const category = Constants.Preferences.CATEGORY_DIRECT_CHANNEL_SHOW;
@@ -59,18 +46,6 @@ class SidebarDirectChannel extends React.PureComponent<Props, State> {
         if (this.props.active) {
             browserHistory.push(`/${this.props.currentTeamName}/channels/${this.props.redirectChannel}`);
         }
-    }
-
-    onSvgLoadError = () => {
-        this.setState({
-            svgErrorUrl: this.props.botIconUrl,
-        });
-    }
-
-    onSvgLoad = () => {
-        this.setState({
-            svgErrorUrl: null,
-        });
     }
 
     getIcon = () => {

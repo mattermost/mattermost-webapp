@@ -9,7 +9,6 @@ const Preferences = {
     CATEGORY_DIRECT_CHANNEL_SHOW: 'direct_channel_show',
     CATEGORY_GROUP_CHANNEL_SHOW: 'group_channel_show',
     CATEGORY_FLAGGED_POST: 'flagged_post',
-    CATEGORY_FAVORITE_CHANNEL: 'favorite_channel',
     CATEGORY_AUTO_RESET_MANUAL_STATUS: 'auto_reset_manual_status',
     CATEGORY_NOTIFICATIONS: 'notifications',
     COLLAPSED_REPLY_THREADS: 'collapsed_reply_threads',
@@ -37,6 +36,10 @@ const Preferences = {
     MENTION_KEYS: 'mention_keys',
     USE_MILITARY_TIME: 'use_military_time',
 
+    CATEGORY_ACTIONS_MENU: 'actions_menu',
+    NAME_ACTIONS_MENU_TUTORIAL_STATE: 'actions_menu_tutorial_state',
+    ACTIONS_MENU_VIEWED: 'actions_menu_modal_viewed',
+
     CATEGORY_CUSTOM_STATUS: 'custom_status',
     NAME_CUSTOM_STATUS_TUTORIAL_STATE: 'custom_status_tutorial_state',
     NAME_RECENT_CUSTOM_STATUSES: 'recent_custom_statuses',
@@ -44,8 +47,6 @@ const Preferences = {
 
     CATEGORY_SIDEBAR_SETTINGS: 'sidebar_settings',
     CHANNEL_SIDEBAR_ORGANIZATION: 'channel_sidebar_organization',
-    CHANNEL_SIDEBAR_AUTOCLOSE_DMS: 'close_unused_direct_messages',
-    AUTOCLOSE_DMS_ENABLED: 'after_seven_days',
     LIMIT_VISIBLE_DMS_GMS: 'limit_visible_dms_gms',
     SHOW_UNREAD_SECTION: 'show_unread_section',
     CATEGORY_ADVANCED_SETTINGS: 'advanced_settings',
@@ -54,6 +55,12 @@ const Preferences = {
     ADVANCED_SEND_ON_CTRL_ENTER: 'send_on_ctrl_enter',
     CATEGORY_WHATS_NEW_MODAL: 'whats_new_modal',
     HAS_SEEN_SIDEBAR_WHATS_NEW_MODAL: 'has_seen_sidebar_whats_new_modal',
+
+    CATEGORY_PERFORMANCE_DEBUGGING: 'performance_debugging',
+    NAME_DISABLE_CLIENT_PLUGINS: 'disable_client_plugins',
+    NAME_DISABLE_TELEMETRY: 'disable_telemetry',
+    NAME_DISABLE_TYPING_MESSAGES: 'disable_typing_messages',
+
     CATEGORY_THEME: 'theme',
     THEMES: {
         denim: {
@@ -64,9 +71,9 @@ const Preferences = {
             sidebarTextHoverBg: '#28427b',
             sidebarTextActiveBorder: '#5d89ea',
             sidebarTextActiveColor: '#ffffff',
-            sidebarHeaderBg: '#14213e',
+            sidebarHeaderBg: '#192a4d',
             sidebarHeaderTextColor: '#ffffff',
-            sidebarTeamBarBg: '#192a4d',
+            sidebarTeamBarBg: '#14213e',
             onlineIndicator: '#3db887',
             awayIndicator: '#ffbc1f',
             dndIndicator: '#d24b4e',
@@ -166,7 +173,7 @@ const Preferences = {
             errorTextColor: '#d24b4e',
             mentionHighlightBg: '#133a91',
             mentionHighlightLink: '#a4f4f4',
-            codeTheme: 'github',
+            codeTheme: 'solarized-dark',
         },
         onyx: {
             type: 'Onyx',

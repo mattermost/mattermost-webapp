@@ -41,6 +41,7 @@ describe('components/AboutBuildModal', () => {
         config = {
             BuildEnterpriseReady: 'true',
             Version: '3.6.0',
+            SchemaVersion: '77',
             BuildNumber: '3.6.2',
             SQLDriverName: 'Postgres',
             BuildHash: 'abcdef1234567890',
@@ -58,7 +59,7 @@ describe('components/AboutBuildModal', () => {
     test('should match snapshot for enterprise edition', () => {
         const wrapper = shallowAboutBuildModal({config, license});
         expect(wrapper.find('#versionString').text()).toBe('\u00a03.6.2');
-        expect(wrapper.find('#dbversionString').text()).toBe('\u00a03.6.0');
+        expect(wrapper.find('#dbversionString').text()).toBe('\u00a077');
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -71,7 +72,7 @@ describe('components/AboutBuildModal', () => {
 
         const wrapper = shallowAboutBuildModal({config: teamConfig, license: {}});
         expect(wrapper.find('#versionString').text()).toBe('\u00a03.6.2');
-        expect(wrapper.find('#dbversionString').text()).toBe('\u00a03.6.0');
+        expect(wrapper.find('#dbversionString').text()).toBe('\u00a077');
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -84,7 +85,7 @@ describe('components/AboutBuildModal', () => {
                 config={config}
                 license={license}
                 show={true}
-                onHide={jest.fn()}
+                onExited={jest.fn()}
                 doHide={jest.fn()}
             />,
         );
@@ -97,13 +98,14 @@ describe('components/AboutBuildModal', () => {
             BuildEnterpriseReady: 'false',
             BuildHashEnterprise: '',
             Version: '3.6.0',
+            SchemaVersion: '77',
             BuildNumber: 'dev',
         };
 
         const wrapper = shallowAboutBuildModal({config: sameBuildConfig, license: {}});
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('#versionString').text()).toBe('\u00a0dev');
-        expect(wrapper.find('#dbversionString').text()).toBe('\u00a03.6.0');
+        expect(wrapper.find('#dbversionString').text()).toBe('\u00a077');
     });
 
     test('should show ci if a ci build', () => {
@@ -112,31 +114,31 @@ describe('components/AboutBuildModal', () => {
             BuildEnterpriseReady: 'false',
             BuildHashEnterprise: '',
             Version: '3.6.0',
+            SchemaVersion: '77',
             BuildNumber: '123',
         };
 
         const wrapper = shallowAboutBuildModal({config: differentBuildConfig, license: {}});
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('#versionString').text()).toBe('\u00a0ci');
-        expect(wrapper.find('#dbversionString').text()).toBe('\u00a03.6.0');
+        expect(wrapper.find('#dbversionString').text()).toBe('\u00a077');
         expect(wrapper.find('#buildnumberString').text()).toBe('\u00a0123');
     });
 
-    test('should call onHide callback when the modal is hidden', () => {
-        const onHide = jest.fn();
+    test('should call onExited callback when the modal is hidden', () => {
+        const onExited = jest.fn();
 
         const wrapper = mountWithIntl(
             <AboutBuildModal
                 config={config}
                 license={license}
                 webappBuildHash='0a1b2c3d4f'
-                show={true}
-                onHide={onHide}
+                onExited={onExited}
             />,
         );
 
         wrapper.find(Modal).first().props().onExited?.(document.createElement('div'));
-        expect(onHide).toHaveBeenCalledTimes(1);
+        expect(onExited).toHaveBeenCalledTimes(1);
     });
 
     test('should show default tos and privacy policy links and not the config links', () => {
@@ -144,8 +146,7 @@ describe('components/AboutBuildModal', () => {
             <AboutBuildModal
                 config={config}
                 license={license}
-                show={true}
-                onHide={jest.fn()}
+                onExited={jest.fn()}
             />,
         );
 
@@ -157,12 +158,12 @@ describe('components/AboutBuildModal', () => {
     });
 
     function shallowAboutBuildModal(props = {}) {
-        const onHide = jest.fn();
+        const onExited = jest.fn();
         const show = true;
 
         const allProps = {
             show,
-            onHide,
+            onExited,
             webappBuildHash: '0a1b2c3d4f',
             config,
             license,

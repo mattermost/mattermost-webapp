@@ -7,8 +7,9 @@ import {FormattedMessage} from 'react-intl';
 import * as PropTypes from 'prop-types';
 
 import FormError from 'components/form_error';
+import ToggleModalButton from 'components/toggle_modal_button';
 
-import ToggleModalButton from 'components/toggle_modal_button.jsx';
+import {ModalIdentifiers} from 'utils/constants';
 
 import UsersToBeRemovedModal from './users_to_be_removed_modal';
 
@@ -90,6 +91,7 @@ export class UsersWillBeRemovedError extends React.PureComponent {
                         {error}
                         <ToggleModalButton
                             className='btn btn-link'
+                            modalId={ModalIdentifiers.USERS_TO_BE_REMOVED}
                             dialogType={UsersToBeRemovedModal}
                             dialogProps={{total, users, scope, scopeId}}
                         >

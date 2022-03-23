@@ -121,20 +121,6 @@ describe('Actions.General', () => {
         assert.deepEqual(dataRetentionPolicy, responseData);
     });
 
-    it('getTimezones', async () => {
-        nock(Client4.getBaseRoute()).
-            get('/system/timezones').
-            query(true).
-            reply(200, ['America/New_York', 'America/Los_Angeles']);
-
-        await Actions.getSupportedTimezones()(store.dispatch, store.getState);
-
-        await TestHelper.wait(100);
-        const {timezones} = store.getState().entities.general;
-        assert.equal(timezones.length > 0, true);
-        assert.equal(timezones.length === 0, false);
-    });
-
     it('getWarnMetricsStatus', async () => {
         const responseData = {
             metric1: true,

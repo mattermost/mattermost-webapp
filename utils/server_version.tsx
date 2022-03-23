@@ -46,11 +46,13 @@ export function isServerVersionGreaterThanOrEqualTo(currentVersion: string, comp
     const compareVersionNumber = (compareVersion || '').split('.').filter((x) => (/^[0-9]+$/).exec(x) !== null);
 
     for (let i = 0; i < Math.max(currentVersionNumber.length, compareVersionNumber.length); i++) {
-        if ((currentVersionNumber[i] || 0) > (compareVersionNumber[i] || 0)) {
+        const currentVersion = parseInt(currentVersionNumber[i], 10) || 0;
+        const compareVersion = parseInt(compareVersionNumber[i], 10) || 0;
+        if (currentVersion > compareVersion) {
             return true;
         }
 
-        if ((currentVersionNumber[i] || 0) < (compareVersionNumber[i] || 0)) {
+        if (currentVersion < compareVersion) {
             return false;
         }
     }

@@ -115,7 +115,7 @@ export default class PluginRegistry {
     // - icon - React element to use as the button's icon
     // - action - a function called when the button is clicked, passed the channel and channel member as arguments
     // - dropdown_text - string or React element shown for the dropdown button description
-    // - tooltip_text - string shown for tooltip appear on hover
+    // - tooltip_text - string or React element shown for tooltip appear on hover
     registerChannelHeaderButtonAction(icon, action, dropdownText, tooltipText) {
         const id = generateId();
 
@@ -125,7 +125,7 @@ export default class PluginRegistry {
             icon: resolveReactElement(icon),
             action,
             dropdownText: resolveReactElement(dropdownText),
-            tooltipText,
+            tooltipText: resolveReactElement(tooltipText),
         };
 
         store.dispatch({
@@ -143,16 +143,12 @@ export default class PluginRegistry {
         return id;
     }
 
-    // Add a "call button"" next to the attach file button. If there are more than one button registered by any
-    // plugin, a dropdown menu is created to contain all the call plugin buttons.
+    // Add a button to the channel intro message.
     // Accepts the following:
     // - icon - React element to use as the button's icon
     // - action - a function called when the button is clicked, passed the channel and channel member as arguments
-    // - dropdown_text - string or React element shown for the dropdown button description
-    // - tooltip_text - string shown for tooltip appear on hover
-    // Returns an unique identifier
-    // Minimum required version: 5.28
-    registerCallButtonAction(icon, action, dropdownText, tooltipText) {
+    // - tooltip_text - string or React element shown for tooltip appear on hover
+    registerChannelIntroButtonAction(icon, action, tooltipText) {
         const id = generateId();
 
         const data = {
@@ -160,8 +156,41 @@ export default class PluginRegistry {
             pluginId: this.id,
             icon: resolveReactElement(icon),
             action,
-            dropdownText: resolveReactElement(dropdownText),
-            tooltipText,
+            tooltipText: resolveReactElement(tooltipText),
+        };
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'ChannelIntroButton',
+            data,
+        });
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'MobileChannelIntroButton',
+            data,
+        });
+
+        return id;
+    }
+
+    // Add a "call button" to the channel header. If there is more than one button registered by any
+    // plugin, a dropdown menu is created to contain all the call plugin buttons.
+    // Accepts the following:
+    // - button - A React element to use as the main button to be displayed in case of a single registration.
+    // - dropdownButton -A React element to use as the dropdown button to be displayed in case of multiple registrations.
+    // - action - A function called when the button is clicked, passed the channel and channel member as arguments.
+    // Returns an unique identifier
+    // Minimum required version: 6.5
+    registerCallButtonAction(button, dropdownButton, action) {
+        const id = generateId();
+
+        const data = {
+            id,
+            pluginId: this.id,
+            button: resolveReactElement(button),
+            dropdownButton: resolveReactElement(dropdownButton),
+            action,
         };
 
         store.dispatch({
@@ -310,6 +339,28 @@ export default class PluginRegistry {
                 id,
                 pluginId: this.id,
                 match,
+                text: resolveReactElement(text),
+                action,
+            },
+        });
+
+        return id;
+    }
+
+    // Register a user guide dropdown list item by providing some text and an action function.
+    // Accepts the following:
+    // - text - A string or React element to display in the menu
+    // - action - A function that receives the fileInfo and is called when the menu items is clicked.
+    // Returns a unique identifier.
+    registerUserGuideDropdownMenuAction(text, action) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'UserGuideDropdown',
+            data: {
+                id,
+                pluginId: this.id,
                 text: resolveReactElement(text),
                 action,
             },
@@ -714,11 +765,14 @@ export default class PluginRegistry {
     // - switcherText - A string or React element to display in the product switcher
     // - switcherLinkURL - A string specifying the URL the switcher item should point to.
     // - mainComponent - The component to be displayed below the global header when your route is active.
-    // - headerComponent - A component to fill the generic area in the center of
-    //                     the global header when your route is active.
+    // - headerCentreComponent - A component to fill the generic area in the center of
+    //                           the global header when your route is active.
+    // - headerRightComponent - A component to fill the generic area in the right of
+    //                          the global header when your route is active.
+    // - showTeamSidebar - A flag to display or hide the team sidebar in products. Defaults to false (hidden).
     // All parameters are required.
     // Returns a unique identifier.
-    registerProduct(baseURL, switcherIcon, switcherText, switcherLinkURL, mainComponent, headerComponent) {
+    registerProduct(baseURL, switcherIcon, switcherText, switcherLinkURL, mainComponent, headerCentreComponent = () => null, headerRightComponent = () => null, showTeamSidebar = false) {
         const id = generateId();
 
         store.dispatch({
@@ -732,8 +786,88 @@ export default class PluginRegistry {
                 baseURL: '/' + standardizeRoute(baseURL),
                 switcherLinkURL: '/' + standardizeRoute(switcherLinkURL),
                 mainComponent,
-                headerComponent,
+                headerCentreComponent,
+                headerRightComponent,
+                showTeamSidebar,
             },
+        });
+
+        return id;
+    }
+
+    // Register a hook that will be called when a message is edited by the user before it
+    // is sent to the server. Accepts a function that receives the post as an argument.
+    //
+    // To reject a post, return an object containing an error such as
+    //     {error: {message: 'Rejected'}}
+    // To modify or allow the post without modification, return an object containing the post
+    // such as
+    //     {post: {...}}
+    //
+    // If the hook function is asynchronous, the message will not be sent to the server
+    // until the hook returns.
+    registerMessageWillBeUpdatedHook(hook) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'MessageWillBeUpdated',
+            data: {
+                id,
+                pluginId: this.id,
+                hook,
+            },
+        });
+
+        return id;
+    }
+
+    // INTERNAL: Subject to change without notice.
+    // Register a component to render in the LHS next to a channel's link label.
+    // All parameters are required.
+    // Returns a unique identifier.
+    registerSidebarChannelLinkLabelComponent(component) {
+        return dispatchPluginComponentAction('SidebarChannelLinkLabel', this.id, component);
+    }
+
+    // INTERNAL: Subject to change without notice.
+    // Register a component to render in channel's center view, in place of a channel toast.
+    // All parameters are required.
+    // Returns a unique identifier.
+    registerChannelToastComponent(component) {
+        return dispatchPluginComponentAction('ChannelToast', this.id, component);
+    }
+
+    // INTERNAL: Subject to change without notice.
+    // Register a global component at the root of the app that survives across product switches.
+    // All parameters are required.
+    // Returns a unique identifier.
+    registerGlobalComponent(component) {
+        return dispatchPluginComponentAction('Global', this.id, component);
+    }
+
+    // INTERNAL: Subject to change without notice.
+    // Add a component to the App Bar.
+    // Accepts the following:
+    // - iconUrl - A resolvable URL to use as the button's icon
+    // - action - A function called when the button is clicked, passed the channel and channel member as arguments
+    // - tooltip_text - A string or React element shown for tooltip appear on hover
+    // Returns a unique identifier.
+    registerAppBarComponent(iconUrl, action, tooltipText) {
+        const id = generateId();
+
+        const data = {
+            id,
+            pluginId: this.id,
+            iconUrl,
+            action,
+            tooltipText: resolveReactElement(tooltipText),
+        };
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'AppBar',
+            data,
         });
 
         return id;

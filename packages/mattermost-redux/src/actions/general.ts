@@ -101,7 +101,7 @@ export function getLicenseConfig(): ActionFunc {
     });
 }
 
-export function logClientError(message: string, level: LogLevel = 'ERROR') {
+export function logClientError(message: string, level = LogLevel.Error) {
     return bindClientFunc({
         clientFunc: Client4.logClientError,
         onRequest: GeneralTypes.LOG_CLIENT_ERROR_REQUEST,
@@ -146,15 +146,6 @@ export function setStoreFromLocalData(data: { token: string; url: string }): Act
 
         return loadMe()(dispatch, getState);
     };
-}
-
-export function getSupportedTimezones() {
-    return bindClientFunc({
-        clientFunc: Client4.getTimezones,
-        onRequest: GeneralTypes.SUPPORTED_TIMEZONES_REQUEST,
-        onSuccess: [GeneralTypes.SUPPORTED_TIMEZONES_RECEIVED, GeneralTypes.SUPPORTED_TIMEZONES_SUCCESS],
-        onFailure: GeneralTypes.SUPPORTED_TIMEZONES_FAILURE,
-    });
 }
 
 export function setUrl(url: string) {
@@ -229,11 +220,27 @@ export function getFirstAdminVisitMarketplaceStatus(): ActionFunc {
     };
 }
 
+// accompanying "set" happens as part of Client4.completeSetup
+export function getFirstAdminSetupComplete(): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data;
+        try {
+            data = await Client4.getFirstAdminSetupComplete();
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            return {error};
+        }
+
+        data = JSON.parse(data.value);
+        dispatch({type: GeneralTypes.FIRST_ADMIN_COMPLETE_SETUP_RECEIVED, data});
+        return {data};
+    };
+}
+
 export default {
     getPing,
     getClientConfig,
     getDataRetentionPolicy,
-    getSupportedTimezones,
     getLicenseConfig,
     logClientError,
     setAppState,

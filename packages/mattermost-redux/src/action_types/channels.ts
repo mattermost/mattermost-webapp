@@ -87,7 +87,6 @@ export default keyMirror({
 
     ADD_MANUALLY_UNREAD: null,
     REMOVE_MANUALLY_UNREAD: null,
-    RECEIVED_MY_CHANNELS_WITH_MEMBERS: null,
 
     INCREMENT_PINNED_POST_COUNT: null,
     DECREMENT_PINNED_POST_COUNT: null,

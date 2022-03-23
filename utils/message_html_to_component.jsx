@@ -6,9 +6,12 @@ import {Parser, ProcessNodeDefinitions} from 'html-to-react';
 
 import AtMention from 'components/at_mention';
 import LatexBlock from 'components/latex_block';
+import LatexInline from 'components/latex_inline';
 import LinkTooltip from 'components/link_tooltip/link_tooltip';
 import MarkdownImage from 'components/markdown_image';
 import PostEmoji from 'components/post_emoji';
+import PostEditedIndicator from 'components/post_view/post_edited_indicator';
+import CodeBlock from 'components/code_block/code_block';
 
 /*
  * Converts HTML to React components using html-to-react.
@@ -49,6 +52,22 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                 return React.createElement('input', {...node.attribs});
             },
         },
+        {
+            replaceChildren: false,
+            shouldProcessNode: (node) => node.type === 'tag' && node.name === 'span' && node.attribs['data-edited-post-id'] && node.attribs['data-edited-post-id'] === options.postId,
+            processNode: () => {
+                return options.postId && options.editedAt > 0 ? (
+                    <>
+                        {' '}
+                        <PostEditedIndicator
+                            key={options.postId}
+                            postId={options.postId}
+                            editedAt={options.editedAt}
+                        />
+                    </>
+                ) : null;
+            },
+        },
     ];
 
     if (options.hasPluginTooltips) {
@@ -68,6 +87,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
             },
         });
     }
+
     if (!('mentions' in options) || options.mentions) {
         const mentionHighlight = 'mentionHighlight' in options ? options.mentionHighlight : true;
         const disableGroupHighlight = 'disableGroupHighlight' in options ? options.disableGroupHighlight === true : false;
@@ -147,6 +167,33 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
             processNode: (node) => {
                 return (
                     <LatexBlock content={node.attribs['data-latex']}/>
+                );
+            },
+        });
+    }
+
+    if (!('inlinelatex' in options) || options.inlinelatex) {
+        processingInstructions.push({
+            shouldProcessNode: (node) => node.attribs && node.attribs['data-inline-latex'],
+            processNode: (node) => {
+                return (
+                    <LatexInline content={node.attribs['data-inline-latex']}/>
+                );
+            },
+        });
+    }
+
+    if (!('markdown' in options) || options.markdown) {
+        processingInstructions.push({
+            shouldProcessNode: (node) => node.attribs && node.attribs['data-codeblock-code'],
+            processNode: (node) => {
+                return (
+                    <CodeBlock
+                        id={options.postId}
+                        code={node.attribs['data-codeblock-code']}
+                        language={node.attribs['data-codeblock-language']}
+                        searchedContent={node.attribs['data-codeblock-searchedcontent']}
+                    />
                 );
             },
         });

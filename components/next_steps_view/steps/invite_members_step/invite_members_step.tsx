@@ -36,7 +36,7 @@ type Props = StepComponentProps & {
         sendEmailInvitesToTeamGracefully: (teamId: string, emails: string[]) => Promise<{ data: TeamInviteWithError[]; error: ServerError }>;
         regenerateTeamInviteId: (teamId: string) => void;
     };
-    subscriptionStats: SubscriptionStats;
+    subscriptionStats?: SubscriptionStats | null;
     intl: IntlShape;
     isCloud: boolean;
 };
@@ -197,10 +197,15 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
         }
     }
 
-    sendEmailInvites = async () => {
+    sendEmailInvites = async (): Promise<boolean> => {
+        // if no emails in the input, do nothing
+        if (this.state.emails.length === 0) {
+            return true;
+        }
+
         if (this.state.emails.some((email) => email.error)) {
             this.setState({emailError: Utils.localizeMessage('next_steps_view.invite_members_step.invalidEmail', 'One or more email addresses are invalid'), emailsSent: undefined});
-            return;
+            return false;
         }
 
         trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_send_invitations', {num_invitations: this.state.emails.length});
@@ -211,7 +216,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
         if (error || !data.length || data.some((result) => result.error)) {
             trackEvent(getAnalyticsCategory(this.props.isAdmin), 'error_sending_invitations');
             this.setState({emailError: Utils.localizeMessage('next_steps_view.invite_members_step.errorSendingEmails', 'There was a problem sending your invitations. Please try again.'), emailsSent: undefined});
-            return;
+            return false;
         }
 
         trackEvent(getAnalyticsCategory(this.props.isAdmin), 'invitations_sent', {num_invitations_sent: data.length});
@@ -219,14 +224,19 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
         this.setState({emailError: undefined, emailsSent: data.length}, () => {
             setTimeout(() => this.setState({emailsSent: undefined}), 4000);
         });
+
+        return true;
     }
 
     onSkip = () => {
         this.props.onSkip(this.props.id);
     }
 
-    onFinish = () => {
-        this.props.onFinish(this.props.id);
+    onFinish = async () => {
+        const sent = await this.sendEmailInvites();
+        if (sent) {
+            this.props.onFinish(this.props.id);
+        }
     }
 
     copyLink = () => {
@@ -267,6 +277,39 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
 
     render(): JSX.Element {
         const linkBtn = this.props.isAdmin ? <UpgradeLink telemetryInfo='click_upgrade_invite_members_step'/> : <NotifyLink/>;
+        let subtitle = (
+            <FormattedMessage
+                id='next_steps_view.invite_members_step.youCanInvite'
+                defaultMessage='You can invite team members using a space or comma between addresses'
+            />
+        );
+
+        if (this.props?.subscriptionStats?.is_paid_tier === 'false') {
+            subtitle = (
+                <FormattedMessage
+                    id='next_steps_view.invite_members_step.youCanInviteUpTo'
+                    defaultMessage='You can invite up to {members} team members using a space or comma between addresses'
+                    values={{
+                        members: this.props?.subscriptionStats?.remaining_seats,
+                    }}
+                />
+            );
+        }
+
+        let finishMessage = (
+            <FormattedMessage
+                id={this.props.completeStepButtonText.id}
+                defaultMessage={this.props.completeStepButtonText.defaultMessage}
+            />);
+
+        if (this.props.isLastStep) {
+            finishMessage = (
+                <FormattedMessage
+                    id='next_steps_view.invite_members_step.finish'
+                    defaultMessage='Finish'
+                />);
+        }
+
         return (
             <div className='NextStepsView__stepWrapper'>
                 <div className='InviteMembersStep'>
@@ -278,13 +321,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                                     defaultMessage='Send invitations via email'
                                 />
                             </h4>
-                            <FormattedMessage
-                                id='next_steps_view.invite_members_step.youCanInviteUpTo'
-                                defaultMessage='You can invite up to {members} team members using a space or comma between addresses'
-                                values={{
-                                    members: this.props?.subscriptionStats?.remaining_seats,
-                                }}
-                            />
+                            {subtitle}
                             <MultiInput
                                 onBlur={this.onBlur}
                                 onInputChange={this.onInputChange}
@@ -357,7 +394,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                                 type='text'
                                 readOnly={true}
                                 value={this.getInviteURL()}
-                                aria-label={Utils.localizeMessage({id: 'next_steps_view.invite_members_step.shareLinkInput', defaultMessage: 'team invite link'})}
+                                aria-label={Utils.localizeMessage('next_steps_view.invite_members_step.shareLinkInput', 'team invite link')}
                                 data-testid='InviteMembersStep__shareLinkInput'
                             />
                             <button
@@ -393,10 +430,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                         className={'NextStepsView__button NextStepsView__finishButton primary'}
                         onClick={this.onFinish}
                     >
-                        <FormattedMessage
-                            id='next_steps_view.invite_members_step.next'
-                            defaultMessage='Next'
-                        />
+                        {finishMessage}
                     </button>
                 </div>
             </div>

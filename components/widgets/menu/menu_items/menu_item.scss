@@ -1,9 +1,9 @@
-@import 'compass/css3';
 @import '../../../../sass/utils/module';
 
 .Menu {
     .MenuItem {
         display: flex;
+        width: 100%;
         align-items: center;
         font-size: 14px;
 
@@ -13,10 +13,30 @@
             }
         }
 
+        .destructive {
+            color: var(--error-text);
+        }
+
         .MenuItem__icon {
             width: 20px;
-            margin-right: 8px;
+            margin-top: 4px;
+            margin-right: 12px;
+            font-size: 18px;
             text-align: center;
+        }
+
+        .MenuItem__compass-icon {
+            margin: 4px -6px;
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+            fill: rgba(var(--center-channel-color-rgb), 0.56);
+        }
+
+        .MenuItem__compass-icon-dangerous {
+            margin: 4px -6px;
+        }
+
+        .MenuItem__opacity {
+            opacity: 0.56;
         }
 
         span.icon {
@@ -25,27 +45,43 @@
             height: 16px; // less 3px top padding is 16px;
             align-self: center;
             padding-right: 12px;
+            margin-top: -1px;
             line-height: 16px;
         }
 
         span.MenuItem__primary-text {
             display: inline-flex;
-            padding: 5px 0;
+            padding: 5px 4px;
             line-height: 22px;
             white-space: normal;
         }
 
-        span.MenuItem__help-text {
-            @include opacity(0.7);
+        span.MenuItem__right-decorator {
+            display: inline-flex;
+            padding: 5px 0;
+            float: right;
+            line-height: 22px;
+            white-space: normal;
+        }
 
+        span.MenuItem__text-color {
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+        }
+
+        span.MenuItem__help-text {
             display: block;
             padding-bottom: 8px;
             font-size: 12px;
             line-height: 16px;
+            opacity: 0.7;
             white-space: normal;
 
             @media (max-width: 768px) {
-                margin: 0 0 4px 38px;
+                padding-left: 28px !important;
+
+                .mobile-main-menu & {
+                    padding-left: 36px !important;
+                }
             }
         }
 
@@ -76,7 +112,6 @@
 
                 .icon {
                     @media (max-width: 768px) {
-                        position: relative;
                         top: 10px;
                     }
                 }
@@ -90,7 +125,7 @@
                 height: 20px;
                 align-items: center;
                 justify-content: center;
-                margin-right: 8px;
+                margin-right: 12px;
             }
 
             &.MenuItem__dangerous {
@@ -119,16 +154,9 @@
                 color: inherit;
             }
         }
-
-        > div {
-            &:hover,
-            &:focus {
-                background-color: rgba(var(--center-channel-color-rgb), 0.08) !important;
-            }
-        }
     }
 
-    .MenuTopNotification {
+    .MenuCloudTrial {
         padding: 8px;
         margin: 8px;
         margin-top: 0;
@@ -136,16 +164,46 @@
         border-radius: 4px;
 
         .upgradeLink {
-            color: --button-bg;
+            color: var(--button-bg);
             font-style: normal;
             font-weight: 600;
 
             &:hover {
-                color: --button-bg;
+                color: var(--button-bg);
                 font-style: normal;
                 font-weight: 600;
                 text-decoration: none;
             }
+        }
+    }
+
+    .MenuStartTrial {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 8px;
+        padding-left: 16px;
+        margin: 8px;
+        margin-top: 0;
+        background-color: rgba(var(--button-bg-rgb), 0.04);
+        border-radius: 4px;
+
+        button {
+            padding: 3px 0;
+            border: none;
+            background-color: transparent;
+            color: var(--link-color);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background-color: transparent;
+        }
+
+        .start_trial_content {
+            position: relative;
+            width: 100%;
         }
     }
 }
@@ -155,6 +213,7 @@
     top: unset;
     left: unset;
     padding-left: 0;
+    cursor: auto;
 }
 
 .SubMenu__icon-left {

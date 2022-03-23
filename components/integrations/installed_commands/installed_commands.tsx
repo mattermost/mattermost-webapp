@@ -116,7 +116,7 @@ export default class InstalledCommands extends React.PureComponent<Props> {
                                 <a
                                     target='_blank'
                                     rel='noopener noreferrer'
-                                    href='http://docs.mattermost.com/developer/slash-commands.html'
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/'
                                 >
                                     <FormattedMessage
                                         id='installed_commands.help.buildYourOwn'
@@ -128,7 +128,7 @@ export default class InstalledCommands extends React.PureComponent<Props> {
                                 <a
                                     target='_blank'
                                     rel='noopener noreferrer'
-                                    href='https://about.mattermost.com/default-app-directory/'
+                                    href='https://mattermost.com/marketplace'
                                 >
                                     <FormattedMessage
                                         id='installed_commands.help.appDirectory'

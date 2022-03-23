@@ -2,9 +2,10 @@
 
 exports[`components/sidebar/sidebar_channel should match snapshot 1`] = `
 <li
-  className="SidebarChannel"
+  className="SidebarChannel expanded"
   draggable="false"
-  onTransitionEnd={[Function]}
+  onAnimationEnd={[Function]}
+  onAnimationStart={[Function]}
   role="listitem"
   tabIndex={-1}
 >
@@ -15,17 +16,15 @@ exports[`components/sidebar/sidebar_channel should match snapshot 1`] = `
         "creator_id": "",
         "delete_at": 0,
         "display_name": "channel_display_name",
-        "extra_update_at": 0,
         "group_constrained": false,
         "header": "",
         "id": "channel_id",
         "last_post_at": 0,
+        "last_root_post_at": 0,
         "name": "",
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
-        "total_msg_count_root": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -38,9 +37,10 @@ exports[`components/sidebar/sidebar_channel should match snapshot 1`] = `
 
 exports[`components/sidebar/sidebar_channel should match snapshot when DM channel 1`] = `
 <li
-  className="SidebarChannel"
+  className="SidebarChannel expanded"
   draggable="false"
-  onTransitionEnd={[Function]}
+  onAnimationEnd={[Function]}
+  onAnimationStart={[Function]}
   role="listitem"
   tabIndex={-1}
 >
@@ -51,17 +51,15 @@ exports[`components/sidebar/sidebar_channel should match snapshot when DM channe
         "creator_id": "",
         "delete_at": 0,
         "display_name": "channel_display_name",
-        "extra_update_at": 0,
         "group_constrained": false,
         "header": "",
         "id": "channel_id",
         "last_post_at": 0,
+        "last_root_post_at": 0,
         "name": "",
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
-        "total_msg_count_root": 0,
         "type": "D",
         "update_at": 0,
       }
@@ -74,9 +72,10 @@ exports[`components/sidebar/sidebar_channel should match snapshot when DM channe
 
 exports[`components/sidebar/sidebar_channel should match snapshot when GM channel 1`] = `
 <li
-  className="SidebarChannel"
+  className="SidebarChannel expanded"
   draggable="false"
-  onTransitionEnd={[Function]}
+  onAnimationEnd={[Function]}
+  onAnimationStart={[Function]}
   role="listitem"
   tabIndex={-1}
 >
@@ -87,17 +86,15 @@ exports[`components/sidebar/sidebar_channel should match snapshot when GM channe
         "creator_id": "",
         "delete_at": 0,
         "display_name": "channel_display_name",
-        "extra_update_at": 0,
         "group_constrained": false,
         "header": "",
         "id": "channel_id",
         "last_post_at": 0,
+        "last_root_post_at": 0,
         "name": "",
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
-        "total_msg_count_root": 0,
         "type": "G",
         "update_at": 0,
       }
@@ -110,9 +107,10 @@ exports[`components/sidebar/sidebar_channel should match snapshot when GM channe
 
 exports[`components/sidebar/sidebar_channel should match snapshot when active 1`] = `
 <li
-  className="SidebarChannel active"
+  className="SidebarChannel expanded active"
   draggable="false"
-  onTransitionEnd={[Function]}
+  onAnimationEnd={[Function]}
+  onAnimationStart={[Function]}
   role="listitem"
   tabIndex={-1}
 >
@@ -123,17 +121,15 @@ exports[`components/sidebar/sidebar_channel should match snapshot when active 1`
         "creator_id": "",
         "delete_at": 0,
         "display_name": "channel_display_name",
-        "extra_update_at": 0,
         "group_constrained": false,
         "header": "",
         "id": "channel_id",
         "last_post_at": 0,
+        "last_root_post_at": 0,
         "name": "",
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
-        "total_msg_count_root": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -148,7 +144,8 @@ exports[`components/sidebar/sidebar_channel should match snapshot when collapsed
 <li
   className="SidebarChannel collapsed"
   draggable="false"
-  onTransitionEnd={[Function]}
+  onAnimationEnd={[Function]}
+  onAnimationStart={[Function]}
   role="listitem"
   tabIndex={-1}
 >
@@ -159,17 +156,15 @@ exports[`components/sidebar/sidebar_channel should match snapshot when collapsed
         "creator_id": "",
         "delete_at": 0,
         "display_name": "channel_display_name",
-        "extra_update_at": 0,
         "group_constrained": false,
         "header": "",
         "id": "channel_id",
         "last_post_at": 0,
+        "last_root_post_at": 0,
         "name": "",
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
-        "total_msg_count_root": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -182,9 +177,10 @@ exports[`components/sidebar/sidebar_channel should match snapshot when collapsed
 
 exports[`components/sidebar/sidebar_channel should match snapshot when unread 1`] = `
 <li
-  className="SidebarChannel unread"
+  className="SidebarChannel expanded unread"
   draggable="false"
-  onTransitionEnd={[Function]}
+  onAnimationEnd={[Function]}
+  onAnimationStart={[Function]}
   role="listitem"
   tabIndex={-1}
 >
@@ -195,17 +191,15 @@ exports[`components/sidebar/sidebar_channel should match snapshot when unread 1`
         "creator_id": "",
         "delete_at": 0,
         "display_name": "channel_display_name",
-        "extra_update_at": 0,
         "group_constrained": false,
         "header": "",
         "id": "channel_id",
         "last_post_at": 0,
+        "last_root_post_at": 0,
         "name": "",
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
-        "total_msg_count_root": 0,
         "type": "O",
         "update_at": 0,
       }

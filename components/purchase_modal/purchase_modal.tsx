@@ -7,21 +7,19 @@ import {Stripe, StripeCardElementChangeEvent} from '@stripe/stripe-js';
 import {loadStripe} from '@stripe/stripe-js/pure'; // https://github.com/stripe/stripe-js#importing-loadstripe-without-side-effects
 import {Elements} from '@stripe/react-stripe-js';
 
-import {Tooltip} from 'react-bootstrap';
-
 import {isEmpty} from 'lodash';
 
 import {CloudCustomer, Product} from 'mattermost-redux/types/cloud';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-
-import upgradeImage from 'images/cloud/upgrade.svg';
-import wavesBackground from 'images/cloud/waves.svg';
-import blueDots from 'images/cloud/blue.svg';
-import LowerBlueDots from 'images/cloud/blue-lower.svg';
-import cloudLogo from 'images/cloud/mattermost-cloud.svg';
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
-import {Constants, TELEMETRY_CATEGORIES, CloudLinks, CloudProducts, BillingSchemes} from 'utils/constants';
+import {
+    Constants,
+    TELEMETRY_CATEGORIES,
+    CloudLinks,
+    CloudProducts,
+    BillingSchemes,
+} from 'utils/constants';
+import {areBillingDetailsValid, BillingDetails} from '../../types/cloud/sku';
 
 import PaymentDetails from 'components/admin_console/billing/payment_details';
 import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe';
@@ -30,9 +28,11 @@ import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RadioButtonGroup from 'components/common/radio_group';
 import Badge from 'components/widgets/badges/badge';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
-
-import {areBillingDetailsValid, BillingDetails} from 'types/cloud/sku';
+import UpgradeSvg from 'components/common/svg_images_components/upgrade_svg';
+import BackgroundSvg from 'components/common/svg_images_components/background_svg';
+import MattermostCloudSvg from 'components/common/svg_images_components/mattermost_cloud_svg';
 
 import {getNextBillingDate} from 'utils/utils';
 
@@ -40,8 +40,9 @@ import PaymentForm from '../payment_form/payment_form';
 
 import ProcessPaymentSetup from './process_payment_setup';
 
-import './purchase.scss';
 import 'components/payment_form/payment_form.scss';
+
+import './purchase.scss';
 
 let stripePromise: Promise<Stripe | null>;
 
@@ -57,10 +58,11 @@ type Props = {
     customer: CloudCustomer | undefined;
     show: boolean;
     isDevMode: boolean;
-    products: Dictionary<Product> | undefined;
+    products: Record<string, Product> | undefined;
     contactSupportLink: string;
     contactSalesLink: string;
     isFreeTrial: boolean;
+    isFreeTier: boolean;
     productId: string | undefined;
     actions: {
         closeModal: () => void;
@@ -80,16 +82,17 @@ type State = {
     editPaymentInfo: boolean;
     currentProduct: Product | null | undefined;
     selectedProduct: Product | null | undefined;
+    isUpgradeFromTrial: boolean;
 }
 
 /**
  *
- * @param products  Dictionary<Product> | undefined - the list of current cloud products
+ * @param products  Record<string, Product> | undefined - the list of current cloud products
  * @param productId String - a valid product id used to find a particular product in the dictionary
  * @param productSku String - the sku value of the product of type either cloud-starter | cloud-professional | cloud-enterprise
  * @returns Product
  */
-function findProductInDictionary(products: Dictionary<Product> | undefined, productId?: string | null, productSku?: string): Product | null {
+function findProductInDictionary(products: Record<string, Product> | undefined, productId?: string | null, productSku?: string): Product | null {
     if (!products) {
         return null;
     }
@@ -115,8 +118,9 @@ function findProductInDictionary(products: Dictionary<Product> | undefined, prod
     return currentProduct;
 }
 
-function getSelectedProduct(products: Dictionary<Product> | undefined, productId?: string | null) {
+function getSelectedProduct(products: Record<string, Product> | undefined, productId?: string | null) {
     const currentProduct = findProductInDictionary(products, productId);
+
     let nextSku = CloudProducts.PROFESSIONAL;
     if (currentProduct?.sku === CloudProducts.PROFESSIONAL) {
         nextSku = CloudProducts.ENTERPRISE;
@@ -136,6 +140,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             editPaymentInfo: isEmpty(props.customer?.payment_method && props.customer?.billing_address),
             currentProduct: findProductInDictionary(props.products, props.productId),
             selectedProduct: getSelectedProduct(props.products, props.productId),
+            isUpgradeFromTrial: props.isFreeTrial,
         };
     }
 
@@ -156,7 +161,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
     onPaymentInput = (billing: BillingDetails) => {
         this.setState({
             paymentInfoIsValid:
-            areBillingDetailsValid(billing) && this.state.cardInputComplete,
+                areBillingDetailsValid(billing) && this.state.cardInputComplete,
         });
         this.setState({billingDetails: billing});
     }
@@ -164,7 +169,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
     handleCardInputChange = (event: StripeCardElementChangeEvent) => {
         this.setState({
             paymentInfoIsValid:
-            areBillingDetailsValid(this.state.billingDetails) && event.complete,
+                areBillingDetailsValid(this.state.billingDetails) && event.complete,
         });
         this.setState({cardInputComplete: event.complete});
     }
@@ -173,10 +178,14 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         this.setState({processing: true, paymentInfoIsValid: false});
     }
 
+    setIsUpgradeFromTrialToFalse = () => {
+        this.setState({isUpgradeFromTrial: false});
+    }
+
     comparePlan = (
         <a
             className='ml-1'
-            href={CloudLinks.COMPARE_PLANS}
+            href={CloudLinks.PRICING}
             target='_blank'
             rel='noreferrer'
             onMouseDown={(e) => {
@@ -201,7 +210,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         this.setState({selectedProduct: selectedPlan});
     }
 
-    listPlans = (): JSX.Element => {
+    listPlans = (): JSX.Element | null => {
         const products = this.props.products!;
         const currentProduct = this.state.currentProduct!;
 
@@ -214,6 +223,11 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         let flatFeeProducts: ProductOptions = [];
         let userBasedProducts: ProductOptions = [];
         Object.keys(products).forEach((key: string) => {
+            // Filter out legacy products that are no longer available to subscribe
+            if (products[key].product_family === CloudProducts.LEGACY) {
+                return;
+            }
+
             const tempEl: RadioGroupOption = {
                 key: products[key].name,
                 value: products[key].id,
@@ -226,16 +240,16 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             }
         });
 
-        // if not on trial, only show current plan and those higher than it in terms of price
-        if (!this.props.isFreeTrial) {
+        // if not on trial or not on free tier, only show current plan and those higher than it in terms of price
+        if (!this.props.isFreeTrial && !this.props.isFreeTier) {
             if (currentProduct.billing_scheme === BillingSchemes.PER_SEAT) {
                 flatFeeProducts = [];
                 userBasedProducts = userBasedProducts.filter((option: RadioGroupOption) => {
-                    return option.price >= currentProduct.price_per_seat;
+                    return option.price > currentProduct.price_per_seat;
                 });
             } else {
                 flatFeeProducts = flatFeeProducts.filter((option: RadioGroupOption) => {
-                    return option.price >= currentProduct.price_per_seat;
+                    return option.price > currentProduct.price_per_seat;
                 });
             }
         }
@@ -249,15 +263,28 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             />
         );
 
+        if (options.length <= 1) {
+            return null;
+        }
+
         return (
-            <div className='plans-list'>
-                <RadioButtonGroup
-                    id='list-plans-radio-buttons'
-                    values={options!}
-                    value={this.state.selectedProduct?.id as string}
-                    sideLegend={{matchVal: currentProduct.id as string, text: sideLegendTitle}}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.onPlanSelected(e)}
-                />
+            <div className='select-plan'>
+                <div className='title'>
+                    <FormattedMessage
+                        id='cloud_subscribe.select_plan'
+                        defaultMessage='Select a plan'
+                    />
+                    {this.comparePlan}
+                </div>
+                <div className='plans-list'>
+                    <RadioButtonGroup
+                        id='list-plans-radio-buttons'
+                        values={options!}
+                        value={this.state.selectedProduct?.id as string}
+                        sideLegend={{matchVal: currentProduct.id as string, text: sideLegendTitle}}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.onPlanSelected(e)}
+                    />
+                </div>
             </div>
         );
     }
@@ -293,7 +320,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     );
                 }}
                 href={this.props.contactSalesLink}
-                target='_new'
+                target='_blank'
                 rel='noopener noreferrer'
             >
                 {text}
@@ -312,7 +339,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     );
                 }}
                 href={CloudLinks.PRORATED_PAYMENT}
-                target='_new'
+                target='_blank'
                 rel='noopener noreferrer'
             >
                 <FormattedMessage
@@ -334,18 +361,20 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
 
     paymentFooterText = () => {
         const normalPaymentText = (
-            <FormattedMessage
-                defaultMessage={'Payment begins: {beginDate}'}
-                id={'admin.billing.subscription.paymentBegins'}
-                values={{
-                    beginDate: getNextBillingDate(),
-                }}
-            />
+            <div className='normal-payment-text'>
+                <FormattedMessage
+                    defaultMessage={'Payment begins: {beginDate}'}
+                    id={'admin.billing.subscription.paymentBegins'}
+                    values={{
+                        beginDate: getNextBillingDate(),
+                    }}
+                />
+            </div>
         );
 
         let payment = normalPaymentText;
         if (!this.props.isFreeTrial && this.state.currentProduct?.billing_scheme === BillingSchemes.FLAT_FEE &&
-                this.state.selectedProduct?.billing_scheme === BillingSchemes.PER_SEAT) {
+            this.state.selectedProduct?.billing_scheme === BillingSchemes.PER_SEAT) {
             const announcementTooltip = (
                 <Tooltip
                     id='proratedPayment__tooltip'
@@ -456,21 +485,65 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             validBillingDetails = areBillingDetailsValid(initialBillingDetails);
         }
 
+        let priceSection =
+           (<>
+               <div className='price-text'>
+                   {`$${this.state.selectedProduct?.price_per_seat.toFixed(0) || 0}`}
+                   {this.displayDecimals()}
+                   <span className='monthly-text'>
+                       {this.state.selectedProduct?.billing_scheme === BillingSchemes.FLAT_FEE ? (
+                           <FormattedMessage
+                               defaultMessage={' /month'}
+                               id={'admin.billing.subscription.perMonth'}
+                           />
+                       ) : (
+                           <FormattedMessage
+                               defaultMessage={' /user/month'}
+                               id={'admin.billing.subscription.perUserPerMonth'}
+                           />)
+                       }
+                   </span>
+               </div>
+               <div className='footer-text'>
+                   {this.paymentFooterText()}
+               </div>
+           </>);
+
+        if (this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE) {
+            priceSection = (<div className='contact-sales-text'>
+                <FormattedMessage
+                    defaultMessage={'Please '}
+                    id={'admin.billing.subscription.price.please'}
+                />
+                {this.contactSalesLink(
+                    <FormattedMessage
+                        defaultMessage={'contact sales'}
+                        id={
+                            'admin.billing.subscription.price.contactSales'
+                        }
+                    />,
+                )}
+                <FormattedMessage
+                    defaultMessage={' for a quote'}
+                    id={'admin.billing.subscription.price.quote'}
+                />
+            </div>);
+        }
+
         return (
             <div className={this.state.processing ? 'processing' : ''}>
                 <div className='LHS'>
-                    <div className='title'>
+                    <h2 className='title'>
                         {title}
-                    </div>
-                    <img
-                        className='image'
-                        alt='upgrade'
-                        src={upgradeImage}
+                    </h2>
+                    <UpgradeSvg
+                        width={267}
+                        height={227}
                     />
                     <div className='footer-text'>
                         <FormattedMessage
-                            defaultMessage={'Questions?'}
-                            id={'admin.billing.subscription.questions'}
+                            defaultMessage={'Looking to self-host?'}
+                            id={'admin.billing.subscription.lookingToSelfHost'}
                         />
                     </div>
                     <a
@@ -478,64 +551,53 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                         onClick={() =>
                             trackEvent(
                                 TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
-                                'click_contact_support',
+                                'click_looking_to_self_host',
                             )
                         }
-                        href={this.props.contactSupportLink}
+                        href={CloudLinks.DEPLOYMENT_OPTIONS}
                         rel='noopener noreferrer'
-                        target='_new'
+                        target='_blank'
                     >
                         <FormattedMessage
-                            defaultMessage={'Contact Support'}
+                            defaultMessage={'Review your deployment options'}
                             id={
-                                'admin.billing.subscription.privateCloudCard.contactSupport'
+                                'admin.billing.subscription.privateCloudCard.deploymentOptions'
                             }
                         />
                     </a>
                 </div>
                 <div className='central-panel'>
-                    {(this.state.editPaymentInfo || !validBillingDetails) ?
-                        <PaymentForm
-                            className='normal-text'
-                            onInputChange={this.onPaymentInput}
-                            onCardInputChange={this.handleCardInputChange}
-                            initialBillingDetails={initialBillingDetails}
-                        /> :
-                        <div className='PaymentDetails'>
-                            <div className='title'>
-                                <FormattedMessage
-                                    defaultMessage='Your saved payment details'
-                                    id='admin.billing.purchaseModal.savedPaymentDetailsTitle'
-                                />
-                            </div>
-                            <PaymentDetails>
-                                <button
-                                    onClick={this.editPaymentInfoHandler}
-                                    className='editPaymentButton'
-                                >
-                                    <FormattedMessage
-                                        defaultMessage='Edit'
-                                        id='admin.billing.purchaseModal.editPaymentInfoButton'
-                                    />
-                                </button>
-                            </PaymentDetails>
+                    {(this.state.editPaymentInfo || !validBillingDetails) ? (<PaymentForm
+                        className='normal-text'
+                        onInputChange={this.onPaymentInput}
+                        onCardInputChange={this.handleCardInputChange}
+                        initialBillingDetails={initialBillingDetails}
+                    // eslint-disable-next-line react/jsx-closing-bracket-location
+                    />
+                    ) : (<div className='PaymentDetails'>
+                        <div className='title'>
+                            <FormattedMessage
+                                defaultMessage='Your saved payment details'
+                                id='admin.billing.purchaseModal.savedPaymentDetailsTitle'
+                            />
                         </div>
+                        <PaymentDetails>
+                            <button
+                                onClick={this.editPaymentInfoHandler}
+                                className='editPaymentButton'
+                            >
+                                <FormattedMessage
+                                    defaultMessage='Edit'
+                                    id='admin.billing.purchaseModal.editPaymentInfoButton'
+                                />
+                            </button>
+                        </PaymentDetails>
+                    </div>)
                     }
                 </div>
                 <div className='RHS'>
                     <div className='price-container'>
-                        {(this.props.products && Object.keys(this.props.products).length > 1) &&
-                            <div className='select-plan'>
-                                <div className='title'>
-                                    <FormattedMessage
-                                        id='cloud_subscribe.select_plan'
-                                        defaultMessage='Select a plan'
-                                    />
-                                    {this.comparePlan}
-                                </div>
-                                {this.listPlans()}
-                            </div>
-                        }
+                        {this.listPlans()}
                         <div className='bold-text'>
                             {this.state.selectedProduct?.name || ''}
                         </div>
@@ -547,47 +609,9 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                 />
                             </Badge>
                         }
-                        <div className='price-text'>
-                            {`$${this.state.selectedProduct?.price_per_seat.toFixed(0) || 0}`}
-                            {this.displayDecimals()}
-                            <span className='monthly-text'>
-                                {this.state.selectedProduct?.billing_scheme === BillingSchemes.FLAT_FEE ?
-                                    <FormattedMessage
-                                        defaultMessage={' /month'}
-                                        id={'admin.billing.subscription.perMonth'}
-                                    /> :
-                                    <FormattedMessage
-                                        defaultMessage={' /user/month'}
-                                        id={'admin.billing.subscription.perUserPerMonth'}
-                                    />
-                                }
-                            </span>
-                        </div>
-                        {this.state.selectedProduct?.billing_scheme === BillingSchemes.FLAT_FEE &&
-                            <div className='payment-note'>
-                                <FormattedMessage
-                                    defaultMessage={'If your Mattermost Cloud trial started on or before September 15, please '}
-                                    id={'admin.billing.subscription.paymentNoteStart'}
-                                />
-                                {this.contactSalesLink(
-                                    <FormattedMessage
-                                        defaultMessage={'contact our Sales team'}
-                                        id={
-                                            'admin.billing.subscription.privateCloudCard.contactOurSalesTeam'
-                                        }
-                                    />,
-                                )}
-                                <FormattedMessage
-                                    defaultMessage={' for assistance'}
-                                    id={'admin.billing.subscription.paymentNoteEnd'}
-                                />
-                            </div>
-                        }
-                        <div className='footer-text'>
-                            {this.paymentFooterText()}
-                        </div>
+                        {priceSection}
                         <button
-                            disabled={!this.state.paymentInfoIsValid}
+                            disabled={!this.state.paymentInfoIsValid || this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE}
                             onClick={this.handleSubmitClick}
                         >
                             {buttonTitle}
@@ -599,7 +623,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                             {'\u00A0'}
                             <a
                                 href={CloudLinks.BILLING_DOCS}
-                                target='_new'
+                                target='_blank'
                                 rel='noopener noreferrer'
                             >
                                 <FormattedMessage
@@ -624,7 +648,10 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                         />,
                     )}
                     <div className='logo'>
-                        <img src={cloudLogo}/>
+                        <MattermostCloudSvg
+                            width={250}
+                            height={28}
+                        />
                     </div>
                 </div>
             </div>
@@ -679,23 +706,14 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                         currentProduct={this.state.currentProduct}
                                         isProratedPayment={(!this.props.isFreeTrial && this.state.currentProduct?.billing_scheme === BillingSchemes.FLAT_FEE) &&
                                         this.state.selectedProduct?.billing_scheme === BillingSchemes.PER_SEAT}
+                                        setIsUpgradeFromTrialToFalse={this.setIsUpgradeFromTrialToFalse}
+                                        isUpgradeFromTrial={this.state.isUpgradeFromTrial}
                                     />
                                 </div>
                             ) : null}
                             {this.purchaseScreen()}
-                            <div>
-                                <img
-                                    className='waves'
-                                    src={wavesBackground}
-                                />
-                                <img
-                                    className='blue-dots'
-                                    src={blueDots}
-                                />
-                                <img
-                                    className='lower-blue-dots'
-                                    src={LowerBlueDots}
-                                />
+                            <div className='background-svg'>
+                                <BackgroundSvg/>
                             </div>
                         </div>
                     </FullScreenModal>

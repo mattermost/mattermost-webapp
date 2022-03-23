@@ -46,7 +46,7 @@ describe('Markdown.Imgs', () => {
     it('Image with width', (done) => {
         assert.equal(
             Markdown.format('![Mattermost](../../images/icon-76x76.png =50 "Mattermost Icon")').trim(),
-            '<p><img src="../../images/icon-76x76.png" alt="Mattermost" title="Mattermost Icon" width="50" class="markdown-inline-img"></p>',
+            '<p><img src="../../images/icon-76x76.png" alt="Mattermost" title="Mattermost Icon" width="50" height="auto" class="markdown-inline-img"></p>',
         );
 
         done();

@@ -463,11 +463,11 @@ export default class PluginManagement extends AdminSettings<Props, State> {
         if (config && config.PluginSettings) {
             config.PluginSettings.Enable = this.state.enable;
             config.PluginSettings.EnableUploads = this.state.enableUploads;
-            config.PluginSettings.AllowInsecureDownloadUrl = this.state.allowInsecureDownloadUrl;
+            config.PluginSettings.AllowInsecureDownloadURL = this.state.allowInsecureDownloadUrl;
             config.PluginSettings.EnableMarketplace = this.state.enableMarketplace;
             config.PluginSettings.EnableRemoteMarketplace = this.state.enableRemoteMarketplace;
             config.PluginSettings.AutomaticPrepackagedPlugins = this.state.automaticPrepackagedPlugins;
-            config.PluginSettings.MarketplaceUrl = this.state.marketplaceUrl;
+            config.PluginSettings.MarketplaceURL = this.state.marketplaceUrl;
             config.PluginSettings.RequirePluginSignature = this.state.requirePluginSignature;
         }
 
@@ -478,11 +478,11 @@ export default class PluginManagement extends AdminSettings<Props, State> {
         const state = {
             enable: config?.PluginSettings?.Enable,
             enableUploads: config?.PluginSettings?.EnableUploads,
-            allowInsecureDownloadUrl: config?.PluginSettings?.AllowInsecureDownloadUrl,
+            allowInsecureDownloadUrl: config?.PluginSettings?.AllowInsecureDownloadURL,
             enableMarketplace: config?.PluginSettings?.EnableMarketplace,
             enableRemoteMarketplace: config?.PluginSettings?.EnableRemoteMarketplace,
             automaticPrepackagedPlugins: config?.PluginSettings?.AutomaticPrepackagedPlugins,
-            marketplaceUrl: config?.PluginSettings?.MarketplaceUrl,
+            marketplaceUrl: config?.PluginSettings?.MarketplaceURL,
             requirePluginSignature: config?.PluginSettings?.RequirePluginSignature,
         };
 
@@ -632,7 +632,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
         });
     }
 
-    getMarketplaceUrlHelpText = (url: string) => {
+    getMarketplaceURLHelpText = (url: string) => {
         return (
             <div>
                 {
@@ -840,7 +840,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                     helpText={
                         <FormattedMarkdownMessage
                             id='admin.plugins.settings.enableDesc'
-                            defaultMessage='When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more.'
+                            defaultMessage='When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more.'
                         />
                     }
                     value={this.state.enable}
@@ -976,21 +976,21 @@ export default class PluginManagement extends AdminSettings<Props, State> {
             uploadHelpText = (
                 <FormattedMarkdownMessage
                     id='admin.plugin.uploadDesc'
-                    defaultMessage='Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more.'
+                    defaultMessage='Upload a plugin for your Mattermost server. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more.'
                 />
             );
         } else if (enable && !enableUploads) {
             uploadHelpText = (
                 <FormattedMarkdownMessage
                     id='admin.plugin.uploadDisabledDesc'
-                    defaultMessage='Enable plugin uploads in config.json. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more.'
+                    defaultMessage='Enable plugin uploads in config.json. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more.'
                 />
             );
         } else {
             uploadHelpText = (
                 <FormattedMarkdownMessage
                     id='admin.plugin.uploadAndPluginDisabledDesc'
-                    defaultMessage='To enable plugins, set **Enable Plugins** to true. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more.'
+                    defaultMessage='To enable plugins, set **Enable Plugins** to true. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more.'
                 />
             );
         }
@@ -1150,11 +1150,11 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                             defaultMessage='Marketplace URL:'
                                         />
                                     }
-                                    helpText={this.getMarketplaceUrlHelpText(this.state.marketplaceUrl)}
+                                    helpText={this.getMarketplaceURLHelpText(this.state.marketplaceUrl)}
                                     value={this.state.marketplaceUrl}
                                     disabled={this.props.isDisabled || !this.state.enable || !this.state.enableMarketplace || !this.state.enableRemoteMarketplace}
                                     onChange={this.handleChange}
-                                    setByEnv={this.isSetByEnv('PluginSettings.MarketplaceUrl')}
+                                    setByEnv={this.isSetByEnv('PluginSettings.MarketplaceURL')}
                                 />
                             </>
                         )}

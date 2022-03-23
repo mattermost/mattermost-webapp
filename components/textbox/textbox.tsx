@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ChangeEvent, ElementType, FocusEvent, KeyboardEvent, MouseEvent} from 'react';
+import React, {ChangeEvent, ClipboardEventHandler, ElementType, FocusEvent, KeyboardEvent, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
@@ -16,7 +16,8 @@ import ChannelMentionProvider from 'components/suggestion/channel_mention_provid
 import AppCommandProvider from 'components/suggestion/command_provider/app_provider';
 import CommandProvider from 'components/suggestion/command_provider/command_provider';
 import EmoticonProvider from 'components/suggestion/emoticon_provider.jsx';
-import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import SuggestionBox from 'components/suggestion/suggestion_box';
+import SuggestionBoxComponent from 'components/suggestion/suggestion_box/suggestion_box';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
 import * as Utils from 'utils/utils.jsx';
@@ -34,11 +35,12 @@ type Props = {
     createMessage: string;
     onKeyDown?: (e: KeyboardEvent) => void;
     onSelect?: (e: React.SyntheticEvent) => void;
-    onMouseUp?: (e: MouseEvent) => void;
-    onKeyUp?: (e: KeyboardEvent) => void;
+    onMouseUp?: (e: React.MouseEvent) => void;
+    onKeyUp?: (e: React.KeyboardEvent) => void;
     onBlur?: (e: FocusEvent) => void;
     supportsCommands: boolean;
     handlePostError?: (message: JSX.Element | null) => void;
+    onPaste?: ClipboardEventHandler;
     suggestionList?: React.ComponentProps<typeof SuggestionBox>['listComponent'];
     suggestionListPosition?: React.ComponentProps<typeof SuggestionList>['position'];
     emojiEnabled?: boolean;
@@ -50,7 +52,6 @@ type Props = {
     currentUserId: string;
     currentTeamId: string;
     preview?: boolean;
-    profilesInChannel: Array<{ id: string }>;
     autocompleteGroups: Array<{ id: string }> | null;
     actions: {
         autocompleteUsersInChannel: (prefix: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<string[]>;
@@ -66,7 +67,7 @@ type Props = {
 export default class Textbox extends React.PureComponent<Props> {
     private suggestionProviders: Provider[];
     private wrapper: React.RefObject<HTMLDivElement>;
-    private message: React.RefObject<SuggestionBox>;
+    private message: React.RefObject<SuggestionBoxComponent>;
     private preview: React.RefObject<HTMLDivElement>;
 
     static defaultProps = {
@@ -93,7 +94,7 @@ export default class Textbox extends React.PureComponent<Props> {
         this.suggestionProviders.push(
             new AtMentionProvider({
                 currentUserId: this.props.currentUserId,
-                profilesInChannel: this.props.profilesInChannel,
+                channelId: this.props.channelId,
                 autocompleteUsersInChannel: (prefix: string) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
                 useChannelMentions: this.props.useChannelMentions,
                 autocompleteGroups: this.props.autocompleteGroups,
@@ -125,15 +126,16 @@ export default class Textbox extends React.PureComponent<Props> {
     updateSuggestions(prevProps: Props) {
         if (this.props.channelId !== prevProps.channelId ||
             this.props.currentUserId !== prevProps.currentUserId ||
-            this.props.profilesInChannel !== prevProps.profilesInChannel ||
-            this.props.autocompleteGroups !== prevProps.autocompleteGroups) {
+            this.props.autocompleteGroups !== prevProps.autocompleteGroups ||
+            this.props.useChannelMentions !== prevProps.useChannelMentions ||
+            this.props.currentTeamId !== prevProps.currentTeamId ||
+            this.props.priorityProfiles !== prevProps.priorityProfiles) {
             // Update channel id for AtMentionProvider.
-            const providers = this.suggestionProviders;
-            for (let i = 0; i < providers.length; i++) {
-                if (providers[i] instanceof AtMentionProvider) {
-                    (providers[i] as AtMentionProvider).setProps({
+            for (const provider of this.suggestionProviders) {
+                if (provider instanceof AtMentionProvider) {
+                    provider.setProps({
                         currentUserId: this.props.currentUserId,
-                        profilesInChannel: this.props.profilesInChannel,
+                        channelId: this.props.channelId,
                         autocompleteUsersInChannel: (prefix: string) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
                         useChannelMentions: this.props.useChannelMentions,
                         autocompleteGroups: this.props.autocompleteGroups,
@@ -141,8 +143,23 @@ export default class Textbox extends React.PureComponent<Props> {
                         priorityProfiles: this.props.priorityProfiles,
                     });
                 }
-                if (providers[i] instanceof CommandProvider) {
-                    (providers[i] as CommandProvider).setProps({
+            }
+        }
+
+        if (this.props.channelId !== prevProps.channelId ||
+            this.props.currentTeamId !== prevProps.currentTeamId ||
+            this.props.rootId !== prevProps.rootId) {
+            // Update channel id for CommandProvider and AppCommandProvider.
+            for (const provider of this.suggestionProviders) {
+                if (provider instanceof CommandProvider) {
+                    provider.setProps({
+                        teamId: this.props.currentTeamId,
+                        channelId: this.props.channelId,
+                        rootId: this.props.rootId,
+                    });
+                }
+                if (provider instanceof AppCommandProvider) {
+                    provider.setProps({
                         teamId: this.props.currentTeamId,
                         channelId: this.props.channelId,
                         rootId: this.props.rootId,
@@ -150,10 +167,12 @@ export default class Textbox extends React.PureComponent<Props> {
                 }
             }
         }
+
         if (prevProps.value !== this.props.value) {
             this.checkMessageLength(this.props.value);
         }
     }
+
     componentDidUpdate(prevProps: Props) {
         if (!prevProps.preview && this.props.preview) {
             this.preview.current?.focus();
@@ -224,24 +243,16 @@ export default class Textbox extends React.PureComponent<Props> {
         this.getInputBox()?.blur();
     };
 
-    recalculateSize = () => {
-        this.message.current?.recalculateSize();
-    }
-
     render() {
         let preview = null;
 
         let textboxClassName = 'form-control custom-textarea';
         let textWrapperClass = 'textarea-wrapper';
-        let wrapperHeight;
         if (this.props.emojiEnabled) {
             textboxClassName += ' custom-textarea--emoji-picker';
         }
         if (this.props.badConnection) {
             textboxClassName += ' bad-connection';
-        }
-        if (this.wrapper.current) {
-            wrapperHeight = this.getInputBox()?.clientHeight;
         }
         if (this.props.preview) {
             textboxClassName += ' custom-textarea--preview';
@@ -287,6 +298,7 @@ export default class Textbox extends React.PureComponent<Props> {
                     onComposition={this.props.onComposition}
                     onBlur={this.handleBlur}
                     onHeightChange={this.handleHeightChange}
+                    onPaste={this.props.onPaste}
                     style={{visibility: this.props.preview ? 'hidden' : 'visible'}}
                     inputComponent={this.props.inputComponent}
                     listComponent={this.props.suggestionList}
@@ -299,7 +311,6 @@ export default class Textbox extends React.PureComponent<Props> {
                     disabled={this.props.disabled}
                     contextId={this.props.channelId}
                     listenForMentionKeyClick={this.props.listenForMentionKeyClick}
-                    wrapperHeight={wrapperHeight}
                     openWhenEmpty={this.props.openWhenEmpty}
                 />
                 {preview}

@@ -16,17 +16,15 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "creator_id": "",
         "delete_at": 0,
         "display_name": "channel_display_name",
-        "extra_update_at": 0,
         "group_constrained": false,
         "header": "",
         "id": "channel_id",
         "last_post_at": 0,
+        "last_root_post_at": 0,
         "name": "",
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
-        "total_msg_count_root": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -41,6 +39,28 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     >
       channel_label
     </span>
+    <Connect(Pluggable)
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "",
+          "delete_at": 0,
+          "display_name": "channel_display_name",
+          "group_constrained": false,
+          "header": "",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "",
+          "purpose": "",
+          "scheme_id": "",
+          "team_id": "",
+          "type": "O",
+          "update_at": 0,
+        }
+      }
+      pluggableName="SidebarChannelLinkLabel"
+    />
   </div>
   <ChannelMentionBadge
     unreadMentions={0}
@@ -52,17 +72,15 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "creator_id": "",
         "delete_at": 0,
         "display_name": "channel_display_name",
-        "extra_update_at": 0,
         "group_constrained": false,
         "header": "",
         "id": "channel_id",
         "last_post_at": 0,
+        "last_root_post_at": 0,
         "name": "",
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
-        "total_msg_count_root": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -92,17 +110,15 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "creator_id": "",
         "delete_at": 0,
         "display_name": "channel_display_name",
-        "extra_update_at": 0,
         "group_constrained": false,
         "header": "",
         "id": "channel_id",
         "last_post_at": 0,
+        "last_root_post_at": 0,
         "name": "",
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
-        "total_msg_count_root": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -117,6 +133,28 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     >
       channel_label
     </span>
+    <Connect(Pluggable)
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "",
+          "delete_at": 0,
+          "display_name": "channel_display_name",
+          "group_constrained": false,
+          "header": "",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "",
+          "purpose": "",
+          "scheme_id": "",
+          "team_id": "",
+          "type": "O",
+          "update_at": 0,
+        }
+      }
+      pluggableName="SidebarChannelLinkLabel"
+    />
   </div>
   <ChannelMentionBadge
     unreadMentions={0}
@@ -128,17 +166,15 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "creator_id": "",
         "delete_at": 0,
         "display_name": "channel_display_name",
-        "extra_update_at": 0,
         "group_constrained": false,
         "header": "",
         "id": "channel_id",
         "last_post_at": 0,
+        "last_root_post_at": 0,
         "name": "",
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
-        "total_msg_count_root": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -168,17 +204,15 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "creator_id": "",
         "delete_at": 0,
         "display_name": "channel_display_name",
-        "extra_update_at": 0,
         "group_constrained": false,
         "header": "",
         "id": "channel_id",
         "last_post_at": 0,
+        "last_root_post_at": 0,
         "name": "",
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
-        "total_msg_count_root": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -194,9 +228,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
       onEntering={[Function]}
       overlay={
         <Tooltip
-          bsClass="tooltip"
           id="channel-displayname__tooltip"
-          placement="right"
         >
           channel_label
         </Tooltip>
@@ -217,6 +249,28 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         </span>
       </div>
     </OverlayTrigger>
+    <Connect(Pluggable)
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "",
+          "delete_at": 0,
+          "display_name": "channel_display_name",
+          "group_constrained": false,
+          "header": "",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "",
+          "purpose": "",
+          "scheme_id": "",
+          "team_id": "",
+          "type": "O",
+          "update_at": 0,
+        }
+      }
+      pluggableName="SidebarChannelLinkLabel"
+    />
   </div>
   <ChannelMentionBadge
     unreadMentions={0}
@@ -228,17 +282,15 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "creator_id": "",
         "delete_at": 0,
         "display_name": "channel_display_name",
-        "extra_update_at": 0,
         "group_constrained": false,
         "header": "",
         "id": "channel_id",
         "last_post_at": 0,
+        "last_root_post_at": 0,
         "name": "",
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
-        "total_msg_count_root": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -268,17 +320,15 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "creator_id": "",
         "delete_at": 0,
         "display_name": "channel_display_name",
-        "extra_update_at": 0,
         "group_constrained": false,
         "header": "",
         "id": "channel_id",
         "last_post_at": 0,
+        "last_root_post_at": 0,
         "name": "",
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
-        "total_msg_count_root": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -293,6 +343,28 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     >
       channel_label
     </span>
+    <Connect(Pluggable)
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "",
+          "delete_at": 0,
+          "display_name": "channel_display_name",
+          "group_constrained": false,
+          "header": "",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "",
+          "purpose": "",
+          "scheme_id": "",
+          "team_id": "",
+          "type": "O",
+          "update_at": 0,
+        }
+      }
+      pluggableName="SidebarChannelLinkLabel"
+    />
   </div>
   <ChannelMentionBadge
     unreadMentions={2}
@@ -304,17 +376,15 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "creator_id": "",
         "delete_at": 0,
         "display_name": "channel_display_name",
-        "extra_update_at": 0,
         "group_constrained": false,
         "header": "",
         "id": "channel_id",
         "last_post_at": 0,
+        "last_root_post_at": 0,
         "name": "",
         "purpose": "",
         "scheme_id": "",
         "team_id": "",
-        "total_msg_count": 0,
-        "total_msg_count_root": 0,
         "type": "O",
         "update_at": 0,
       }

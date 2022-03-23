@@ -171,31 +171,33 @@ exports[`AppsFormComponent should set match snapshot 1`] = `
       bsClass="modal-footer"
       componentClass="div"
     >
-      <button
-        className="btn btn-link cancel-button"
-        id="appsModalCancel"
-        onClick={[Function]}
-        type="button"
-      >
-        <MemoizedFormattedMessage
-          defaultMessage="Cancel"
-          id="interactive_dialog.cancel"
-        />
-      </button>
-      <SpinnerButton
-        autoFocus={false}
-        className="btn btn-primary save-button"
-        id="appsModalSubmit"
-        key="submit"
-        spinning={false}
-        spinningText="Submitting..."
-        type="submit"
-      >
-        <MemoizedFormattedMessage
-          defaultMessage="Submit"
-          id="interactive_dialog.submit"
-        />
-      </SpinnerButton>
+      <div>
+        <button
+          className="btn btn-link cancel-button"
+          id="appsModalCancel"
+          onClick={[Function]}
+          type="button"
+        >
+          <MemoizedFormattedMessage
+            defaultMessage="Cancel"
+            id="interactive_dialog.cancel"
+          />
+        </button>
+        <SpinnerButton
+          autoFocus={false}
+          className="btn btn-primary save-button"
+          id="appsModalSubmit"
+          key="submit"
+          spinning={false}
+          spinningText="Submitting..."
+          type="submit"
+        >
+          <MemoizedFormattedMessage
+            defaultMessage="Submit"
+            id="interactive_dialog.submit"
+          />
+        </SpinnerButton>
+      </div>
     </ModalFooter>
   </form>
 </Modal>

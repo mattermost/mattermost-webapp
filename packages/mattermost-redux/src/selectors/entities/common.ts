@@ -7,7 +7,7 @@ import {ChannelMembership, Channel} from 'mattermost-redux/types/channels';
 import {TeamMembership} from 'mattermost-redux/types/teams';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {RelationOneToOne, IDMappedObjects, UserIDMappedObjects} from 'mattermost-redux/types/utilities';
+import {RelationOneToOne, IDMappedObjects} from 'mattermost-redux/types/utilities';
 
 // Channels
 
@@ -28,7 +28,7 @@ export const getMyCurrentChannelMembership: (a: GlobalState) => ChannelMembershi
     },
 );
 
-export function getMembersInChannel(state: GlobalState, channelId: string): UserIDMappedObjects<ChannelMembership> {
+export function getMembersInChannel(state: GlobalState, channelId: string): Record<string, ChannelMembership> {
     return state.entities.channels?.membersInChannel?.[channelId] || {};
 }
 

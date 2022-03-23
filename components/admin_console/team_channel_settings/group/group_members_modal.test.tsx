@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {TestHelper} from '../../../../utils/test_helper';
+import {TestHelper} from 'utils/test_helper';
 
 import GroupMembersModal from './group_members_modal';
 
@@ -15,8 +15,9 @@ describe('admin_console/team_channel_settings/group/GroupList', () => {
         const wrapper = shallow(
             <GroupMembersModal
                 group={group}
-                onHide={jest.fn()}
-            />);
+                onExited={jest.fn()}
+            />,
+        );
         wrapper.setState({show: true});
         expect(wrapper).toMatchSnapshot();
     });

@@ -16,14 +16,12 @@ describe('components/channel_members_dropdown', () => {
         creator_id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
         delete_at: 0,
         display_name: 'testing',
-        extra_update_at: 1508265709628,
         header: 'test',
         id: 'owsyt8n43jfxjpzh9np93mx1wa',
         last_post_at: 1508265709635,
         name: 'testing',
         purpose: 'test',
         team_id: 'eatxocwc3bg9ffo9xyybnj4omr',
-        total_msg_count: 0,
         type: 'O',
         update_at: 1508265709607,
     };
@@ -36,7 +34,6 @@ describe('components/channel_members_dropdown', () => {
             scheme_admin: 'system_admin',
         },
         currentUserId: 'current-user-id',
-        isLicensed: true,
         canChangeMemberRoles: false,
         canRemoveMember: true,
         index: 0,
@@ -182,6 +179,16 @@ describe('components/channel_members_dropdown', () => {
         baseProps.channel.group_constrained = true;
         const wrapper = shallow(
             <ChannelMembersDropdown {...baseProps}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with role change possible', () => {
+        const wrapper = shallow(
+            <ChannelMembersDropdown
+                {...baseProps}
+                canChangeMemberRoles={true}
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

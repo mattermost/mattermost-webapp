@@ -3,7 +3,7 @@
 
 import {UserProfile} from './users';
 
-import {Dictionary, RelationOneToOne} from './utilities';
+import {RelationOneToOne} from './utilities';
 
 export type SyncableType = 'team' | 'channel';
 
@@ -14,7 +14,12 @@ export type SyncablePatch = {
 
 export type GroupPatch = {
     allow_reference: boolean;
+    name?: string;
+};
+
+export type CustomGroupPatch = {
     name: string;
+    display_name: string;
 };
 
 export type Group = {
@@ -22,8 +27,8 @@ export type Group = {
     name: string;
     display_name: string;
     description: string;
-    type: string;
-    remote_id: string;
+    source: string;
+    remote_id: string | null;
     create_at: number;
     update_at: number;
     delete_at: number;
@@ -36,28 +41,28 @@ export type Group = {
 export type GroupTeam = {
     team_id: string;
     team_display_name: string;
-    team_type: string;
-    group_id: string;
-    auto_add: boolean;
-    scheme_admin: boolean;
-    create_at: number;
-    delete_at: number;
-    update_at: number;
+    team_type?: string;
+    group_id?: string;
+    auto_add?: boolean;
+    scheme_admin?: boolean;
+    create_at?: number;
+    delete_at?: number;
+    update_at?: number;
 };
 
 export type GroupChannel = {
     channel_id: string;
     channel_display_name: string;
-    channel_type: string;
+    channel_type?: string;
     team_id: string;
     team_display_name: string;
-    team_type: string;
-    group_id: string;
-    auto_add: boolean;
-    scheme_admin: boolean;
-    create_at: number;
-    delete_at: number;
-    update_at: number;
+    team_type?: string;
+    group_id?: string;
+    auto_add?: boolean;
+    scheme_admin?: boolean;
+    create_at?: number;
+    delete_at?: number;
+    update_at?: number;
 };
 
 export type GroupSyncable = {
@@ -77,10 +82,10 @@ export type GroupSyncablesState = {
 };
 
 export type GroupsState = {
-    syncables: Dictionary<GroupSyncablesState>;
+    syncables: Record<string, GroupSyncablesState>;
     stats: RelationOneToOne<Group, GroupStats>;
-    groups: Dictionary<Group>;
-    myGroups: Dictionary<Group>;
+    groups: Record<string, Group>;
+    myGroups: string[];
 };
 
 export type GroupStats = {
@@ -125,3 +130,31 @@ export type UsersWithGroupsAndCount = {
     users: UserWithGroup[];
     total_count: number;
 };
+
+export type GroupCreateWithUserIds = {
+    name: string;
+    allow_reference: boolean;
+    display_name: string;
+    source: string;
+    user_ids: string[];
+    description?: string;
+}
+
+export type GroupSearachParams = {
+    q: string;
+    filter_allow_reference: boolean;
+    page: number;
+    per_page: number;
+    include_member_count: boolean;
+    user_id?: string;
+}
+
+export type GroupMembership = {
+    user_id: string;
+    roles: string;
+}
+
+export type GroupPermissions = {
+    can_delete: boolean;
+    can_manage_members: boolean;
+}

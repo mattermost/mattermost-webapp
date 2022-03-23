@@ -76,14 +76,39 @@ export function getMyTeams(): ActionFunc {
     });
 }
 
-export function getMyTeamUnreads(collapsedThreads: boolean): ActionFunc {
-    return bindClientFunc({
-        clientFunc: Client4.getMyTeamUnreads,
-        onSuccess: TeamTypes.RECEIVED_MY_TEAM_UNREADS,
-        params: [
-            collapsedThreads,
-        ],
-    });
+// The argument skipCurrentTeam is a (not ideal) workaround for CRT mention counts. Unread mentions are stored in the reducer per
+// team but we do not track unread mentions for DMs/GMs independently. This results in a bit of funky logic and edge case bugs
+// that need workarounds like this. In the future we should fix the root cause with better APIs and redux state.
+export function getMyTeamUnreads(collapsedThreads: boolean, skipCurrentTeam = false): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let unreads;
+        try {
+            unreads = await Client4.getMyTeamUnreads(collapsedThreads);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        if (skipCurrentTeam) {
+            const currentTeamId = getCurrentTeamId(getState());
+            if (currentTeamId) {
+                const index = unreads.findIndex((member) => member.team_id === currentTeamId);
+                if (index >= 0) {
+                    unreads.splice(index, 1);
+                }
+            }
+        }
+
+        dispatch(
+            {
+                type: TeamTypes.RECEIVED_MY_TEAM_UNREADS,
+                data: unreads,
+            },
+        );
+
+        return {data: unreads};
+    };
 }
 
 export function getTeam(teamId: string): ActionFunc {

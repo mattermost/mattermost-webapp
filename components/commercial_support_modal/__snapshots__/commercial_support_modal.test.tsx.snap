@@ -23,7 +23,7 @@ exports[`components/CommercialSupportModal should match snapshot 1`] = `
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}

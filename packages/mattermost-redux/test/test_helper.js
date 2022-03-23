@@ -9,6 +9,8 @@ import Client4 from 'mattermost-redux/client/client4';
 import {DEFAULT_LOCALE} from 'mattermost-redux/constants/general';
 import {generateId} from 'mattermost-redux/utils/helpers';
 
+import {UserStatuses} from 'utils/constants';
+
 export const DEFAULT_SERVER = 'http://localhost:8065';
 const PASSWORD = 'password1';
 
@@ -73,6 +75,17 @@ class TestHelper {
         return {
             ...this.fakeUser(),
             id,
+            create_at: 1507840900004,
+            update_at: 1507840900004,
+            delete_at: 0,
+        };
+    };
+
+    fakeUserWithStatus = (status = UserStatuses.ONLINE, id = this.generateId()) => {
+        return {
+            ...this.fakeUser(),
+            id,
+            status,
             create_at: 1507840900004,
             update_at: 1507840900004,
             delete_at: 0,
@@ -229,7 +242,6 @@ class TestHelper {
             display_name: `Unit Test ${name}`,
             type: 'O',
             delete_at: 0,
-            total_msg_count: 0,
             scheme_id: this.generateId(),
         };
     };
@@ -330,7 +342,7 @@ class TestHelper {
         };
     }
 
-    fakeGroup = (groupId) => {
+    fakeGroup = (groupId, source = 'ldap') => {
         const name = 'software-engineers';
 
         return {
@@ -338,6 +350,8 @@ class TestHelper {
             id: groupId,
             display_name: 'software engineers',
             delete_at: 0,
+            allow_reference: true,
+            source,
         };
     };
 
