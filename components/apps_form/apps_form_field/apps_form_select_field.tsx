@@ -78,7 +78,7 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
             classNamePrefix: 'react-select-auto react-select',
             menuPortalTarget: document.body,
             styles: reactStyles,
-            menuPlacement: 'bottom',
+            menuPlacement: 'auto',
             components: {
                 MultiValueLabel: (props) => (
                     <div className='react-select__padded-component'>

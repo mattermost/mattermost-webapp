@@ -195,6 +195,7 @@ export default class AppsFormField extends React.PureComponent<Props> {
                     placeholder={placeholder}
                     value={selectedValue}
                     listComponent={listComponent}
+                    listPosition={'bottom'}
                 />
             );
         }
