@@ -35,25 +35,37 @@ export interface AddMembersButtonProps {
 }
 
 const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLimit, channel, setHeader, createBoard}: AddMembersButtonProps) => {
+    const currentTeamId = useSelector(getCurrentTeamId);
+
     if (!totalUsers) {
         return (<LoadingSpinner/>);
     }
 
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const inviteUsers = totalUsers < usersLimit;
-    const currentTeamId = useSelector(getCurrentTeamId);
 
     return (
         <TeamPermissionGate
             teamId={currentTeamId}
             permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
         >
-            {inviteUsers && !isPrivate ? lessThanMaxFreeUsers(setHeader, createBoard) : moreThanMaxFreeUsers(channel, setHeader, createBoard)}
+            {inviteUsers && !isPrivate ? (
+                <LessThanMaxFreeUsers
+                    createBoard={createBoard}
+                    setHeader={setHeader}
+                />
+            ) : (
+                <MoreThanMaxFreeUsers
+                    channel={channel}
+                    createBoard={createBoard}
+                    setHeader={setHeader}
+                />
+            )}
         </TeamPermissionGate>
     );
 };
 
-const lessThanMaxFreeUsers = (setHeader: React.ReactNode, createBoard: React.ReactNode) => {
+const LessThanMaxFreeUsers = ({setHeader, createBoard}: {setHeader: React.ReactNode; createBoard: React.ReactNode}) => {
     const {formatMessage} = useIntl();
 
     return (
@@ -92,7 +104,9 @@ const lessThanMaxFreeUsers = (setHeader: React.ReactNode, createBoard: React.Rea
     );
 };
 
-const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode, createBoard: React.ReactNode) => {
+const MoreThanMaxFreeUsers = ({channel, setHeader, createBoard}: {channel: Channel; setHeader: React.ReactNode; createBoard: React.ReactNode}) => {
+    const {formatMessage} = useIntl();
+
     const modalId = channel.group_constrained ? ModalIdentifiers.ADD_GROUPS_TO_CHANNEL : ModalIdentifiers.CHANNEL_INVITE;
     const modal = channel.group_constrained ? AddGroupsToChannelModal : ChannelInviteModal;
     const channelIsArchived = channel.delete_at !== 0;
@@ -100,8 +114,6 @@ const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode, crea
         return null;
     }
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
-
-    const {formatMessage} = useIntl();
 
     return (
         <div className='MoreThanMaxFreeUsersWrapper'>
