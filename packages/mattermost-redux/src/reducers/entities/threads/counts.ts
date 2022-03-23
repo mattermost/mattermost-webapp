@@ -1,9 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {shallowEqual} from 'react-redux';
-import omit from 'lodash/omit';
-
 import {ChannelTypes, TeamTypes, ThreadTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {ThreadsState, UserThread} from 'mattermost-redux/types/threads';
@@ -25,11 +22,30 @@ function handleAllTeamThreadsRead(state: ThreadsState['counts'], action: Generic
     };
 }
 
-function isEqual(state: ThreadsState['counts'], action: GenericAction) {
+function isEqual(state: ThreadsState['counts'], action: GenericAction, unreads: boolean) {
     const counts = state[action.data.team_id] ?? {};
-    const newCounts = omit(action.data, ['threads', 'team_id']);
 
-    return shallowEqual(counts, newCounts);
+    const {
+        total,
+        total_unread_threads: totalUnreadThreads,
+        total_unread_mentions: totalUnreadMentions,
+    } = action.data;
+
+    if (
+        totalUnreadMentions !== counts.total_unread_mentions ||
+        totalUnreadThreads !== counts.total_unread_threads
+    ) {
+        return false;
+    }
+
+    // in unread threads we exclude saving the total number,
+    // since it doesn't reflect the actual total of threads
+    // but only the total of unread threads
+    if (!unreads && total !== counts.total) {
+        return false;
+    }
+
+    return true;
 }
 
 function handleReadChangedThread(state: ThreadsState['counts'], action: GenericAction): ThreadsState['counts'] {
@@ -150,7 +166,7 @@ export function countsIncludingDirectReducer(state: ThreadsState['counts'] = {},
     case ChannelTypes.LEAVE_CHANNEL:
         return handleLeaveChannel(state, action, extra);
     case ThreadTypes.RECEIVED_UNREAD_THREADS: {
-        if (isEqual(state, action)) {
+        if (isEqual(state, action, true)) {
             return state;
         }
 
@@ -165,7 +181,7 @@ export function countsIncludingDirectReducer(state: ThreadsState['counts'] = {},
         };
     }
     case ThreadTypes.RECEIVED_THREADS:
-        if (isEqual(state, action)) {
+        if (isEqual(state, action, false)) {
             return state;
         }
 
