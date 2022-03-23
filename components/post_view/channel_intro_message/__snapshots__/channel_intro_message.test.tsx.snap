@@ -513,6 +513,7 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
       hasMention={true}
       isEmoji={false}
       isRHS={false}
+      popoverPlacement="right"
       size="xl"
       src="/api/v4/users/user1/image?_=0"
       userId="user1"
@@ -604,6 +605,7 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
       hasMention={true}
       isEmoji={false}
       isRHS={false}
+      popoverPlacement="right"
       size="xl"
       src="/api/v4/users/user1/image?_=0"
       userId="user1"
@@ -718,6 +720,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
       isEmoji={false}
       isRHS={false}
       key="introprofilepictureuser1"
+      popoverPlacement="right"
       size="xl"
       src="/api/v4/users/user1/image?_=0"
       userId="user1"
@@ -728,6 +731,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
       isEmoji={false}
       isRHS={false}
       key="introprofilepictureguest1"
+      popoverPlacement="right"
       size="xl"
       src="/api/v4/users/guest1/image?_=0"
       userId="guest1"
@@ -811,6 +815,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
       isEmoji={false}
       isRHS={false}
       key="introprofilepictureuser1"
+      popoverPlacement="right"
       size="xl"
       src="/api/v4/users/user1/image?_=0"
       userId="user1"
@@ -821,6 +826,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
       isEmoji={false}
       isRHS={false}
       key="introprofilepictureguest1"
+      popoverPlacement="right"
       size="xl"
       src="/api/v4/users/guest1/image?_=0"
       userId="guest1"

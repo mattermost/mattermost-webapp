@@ -2,7 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {Client4} from 'mattermost-redux/client';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {Preferences} from 'mattermost-redux/constants';
+import {getConfig, isPerformanceDebuggingEnabled} from 'mattermost-redux/selectors/entities/general';
+import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 
 import store from 'stores/redux_store.jsx';
 
@@ -27,6 +29,14 @@ export function shouldTrackPerformance(state = store.getState()) {
 }
 
 export function trackEvent(category, event, props) {
+    const state = store.getState();
+    if (
+        isPerformanceDebuggingEnabled(state) &&
+        getBool(state, Preferences.CATEGORY_PERFORMANCE_DEBUGGING, Preferences.NAME_DISABLE_TELEMETRY)
+    ) {
+        return;
+    }
+
     Client4.trackEvent(category, event, props);
     if (isDevMode() && category === 'performance' && props) {
         // eslint-disable-next-line no-console
@@ -92,8 +102,16 @@ export function measure(name1, name2) {
     return [lastDuration, measurementName];
 }
 
-export function trackLoadTime() {
-    if (!isSupported([performance.timing.loadEventEnd, performance.timing.navigationStart])) {
+/**
+ * Measures the time and number of requests on first page load.
+ */
+export function measurePageLoadTelemetry() {
+    if (!isSupported([
+        performance,
+        performance.timing.loadEventEnd,
+        performance.timing.navigationStart,
+        performance.getEntriesByType('resource'),
+    ])) {
         return;
     }
 
@@ -104,7 +122,24 @@ export function trackLoadTime() {
     setTimeout(() => {
         const {loadEventEnd, navigationStart} = window.performance.timing;
         const pageLoadTime = loadEventEnd - navigationStart;
-        trackEvent('performance', 'page_load', {duration: pageLoadTime});
+
+        let numOfRequest = 0;
+        let maxAPIResourceSize = 0; // in Bytes
+        let longestAPIResource = '';
+        let longestAPIResourceDuration = 0;
+        performance.getEntriesByType('resource').forEach((resourceTimingEntry) => {
+            if (resourceTimingEntry.initiatorType === 'xmlhttprequest' || resourceTimingEntry.initiatorType === 'fetch') {
+                numOfRequest++;
+                maxAPIResourceSize = Math.max(maxAPIResourceSize, resourceTimingEntry.encodedBodySize);
+
+                if (resourceTimingEntry.responseEnd - resourceTimingEntry.startTime > longestAPIResourceDuration) {
+                    longestAPIResourceDuration = resourceTimingEntry.responseEnd - resourceTimingEntry.startTime;
+                    longestAPIResource = resourceTimingEntry.name?.split('/api/')?.[1] ?? '';
+                }
+            }
+        });
+
+        trackEvent('performance', 'page_load', {duration: pageLoadTime, numOfRequest, maxAPIResourceSize, longestAPIResource, longestAPIResourceDuration});
     }, tenSeconds);
 }
 
