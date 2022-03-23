@@ -329,11 +329,11 @@ export default class Root extends React.PureComponent {
             this.props.actions.getLicenseConfig(),
         ]);
 
-        if (!document.cookie.includes('MMUSERID=')) {
-            return;
+        let isMeLoaded = false;
+        if (document.cookie.includes('MMUSERID=')) {
+            const dataFromLoadMe = await this.props.actions.loadMe({isLoggedIn: false});
+            isMeLoaded = dataFromLoadMe?.data ?? false;
         }
-
-        const {data: isMeLoaded} = await this.props.actions.loadMe();
 
         if (isMeLoaded && this.props.location.pathname === '/') {
             this.redirectToOnboardingOrDefaultTeam();
