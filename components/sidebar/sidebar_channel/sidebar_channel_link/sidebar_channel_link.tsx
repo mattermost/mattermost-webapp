@@ -173,8 +173,11 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         } = this.props;
 
         let channelsTutorialTip: JSX.Element | null = null;
+
+        // firstChannelName is based on channel.name,
+        // but we want to display `display_name` to the user, so we check against `.name` for channel equality but pass in the .display_name value
         if (firstChannelName === channel.name || (!firstChannelName && showChannelsTutorialStep && channel.name === Constants.DEFAULT_CHANNEL)) {
-            channelsTutorialTip = (<ChannelsAndDirectMessagesTour firstChannelName={firstChannelName}/>);
+            channelsTutorialTip = firstChannelName ? (<ChannelsAndDirectMessagesTour firstChannelName={channel.display_name}/>) : <ChannelsAndDirectMessagesTour/>;
         }
 
         let labelElement: JSX.Element = (

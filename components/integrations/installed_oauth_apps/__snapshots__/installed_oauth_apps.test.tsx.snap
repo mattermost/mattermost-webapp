@@ -30,7 +30,7 @@ exports[`components/integrations/InstalledOAuthApps should match snapshot 1`] = 
       values={
         Object {
           "appDirectory": <a
-            href="https://about.mattermost.com/default-app-directory/"
+            href="https://mattermost.com/marketplace/"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -40,7 +40,7 @@ exports[`components/integrations/InstalledOAuthApps should match snapshot 1`] = 
             />
           </a>,
           "oauthApplications": <a
-            href="https://docs.mattermost.com/developer/oauth-2-0-applications.html"
+            href="https://developers.mattermost.com/integrate/admin-guide/admin-oauth2/"
             rel="noopener noreferrer"
             target="_blank"
           >

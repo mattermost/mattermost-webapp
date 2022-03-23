@@ -53,7 +53,7 @@ const RightControls = ({productId = null}: Props): JSX.Element => {
                     pluggableId={productId}
                 />
             )}
-            <StatusDropdown globalHeader={true}/>
+            <StatusDropdown/>
         </RightControlsContainer>
     );
 };

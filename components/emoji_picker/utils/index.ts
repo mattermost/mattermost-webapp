@@ -356,9 +356,17 @@ export function getCursorProperties(cursorRowIndex: EmojiCursor['rowIndex'], cur
         return ['', -1, -1];
     }
 
-    const cursorCategory = categoryOrEmojisRows[cursorRowIndex].items[0].categoryName;
-    const cursorCategoryIndex = categoryOrEmojisRows[cursorRowIndex].items[0].categoryIndex;
-    const cursorEmojiIndex = categoryOrEmojisRows[cursorRowIndex].items.find((emojiItem) => {
+    const emojisRowOfCursor = categoryOrEmojisRows?.[cursorRowIndex]?.items ?? [];
+
+    // The row should atleast contain one emoji
+    if (emojisRowOfCursor.length < 1) {
+        return ['', -1, -1];
+    }
+
+    const cursorCategory = emojisRowOfCursor[0]?.categoryName ?? '';
+    const cursorCategoryIndex = emojisRowOfCursor[0]?.categoryIndex ?? -1;
+
+    const cursorEmojiIndex = emojisRowOfCursor.find((emojiItem) => {
         return emojiItem.emojiId === cursorEmojiId;
     })?.emojiIndex ?? -1;
 

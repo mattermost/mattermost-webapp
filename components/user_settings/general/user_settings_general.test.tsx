@@ -159,4 +159,12 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         );
         expect(wrapper.find('.profile-img').exists()).toBeFalsy();
     });
+
+    test('it should display an error about a username conflicting with a group name', async () => {
+        const updateMe = () => Promise.resolve({data: false, error: {server_error_id: 'app.user.group_name_conflict', message: ''}});
+        const props = {...requiredProps, actions: {...requiredProps.actions, updateMe}};
+        const wrapper = shallowWithIntl(<UserSettingsGeneral {...props}/>);
+        await (wrapper.instance() as UserSettingsGeneralTab).submitUser(requiredProps.user, false);
+        expect(wrapper.state('serverError')).toBe('This username conflicts with an existing group name.');
+    });
 });

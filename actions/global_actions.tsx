@@ -10,9 +10,10 @@ import {
     selectChannel,
 } from 'mattermost-redux/actions/channels';
 import {logout, loadMe} from 'mattermost-redux/actions/users';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {Preferences} from 'mattermost-redux/constants';
+import {getConfig, isPerformanceDebuggingEnabled} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId, getMyTeams, getTeam, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
-import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannelStats, getCurrentChannelId, getMyChannelMember, getRedirectChannelNameForTeam, getChannelsNameMapInTeam, getAllDirectChannels, getChannelMessageCount} from 'mattermost-redux/selectors/entities/channels';
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
@@ -201,6 +202,14 @@ export function emitLocalUserTypingEvent(channelId: string, parentPostId: string
     const userTyping = async (actionDispatch: DispatchFunc, actionGetState: GetStateFunc) => {
         const state = actionGetState();
         const config = getConfig(state);
+
+        if (
+            isPerformanceDebuggingEnabled(state) &&
+            getBool(state, Preferences.CATEGORY_PERFORMANCE_DEBUGGING, Preferences.NAME_DISABLE_TYPING_MESSAGES)
+        ) {
+            return {data: false};
+        }
+
         const t = Date.now();
         const stats = getCurrentChannelStats(state);
         const membersInChannel = stats ? stats.member_count : 0;

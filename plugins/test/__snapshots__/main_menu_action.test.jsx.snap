@@ -575,5 +575,15 @@ exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
       />
     </Connect(SystemPermissionGate)>
   </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={false}
+      id="someplugin_pluginmenuitem"
+      key="someplugin_pluginmenuitem"
+      onClick={[Function]}
+      show={true}
+      text="some plugin text"
+    />
+  </MenuGroup>
 </Menu>
 `;

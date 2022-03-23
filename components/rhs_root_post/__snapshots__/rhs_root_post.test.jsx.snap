@@ -110,6 +110,7 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
           className="post__body--transition post--edited"
         >
           <AutoHeightSwitcher
+            onTransitionEnd={[Function]}
             showSlot={1}
             slot1={
               <MessageWithAdditionalContent
@@ -314,6 +315,32 @@ exports[`components/RhsRootPost should match snapshot hovered 1`] = `
             location="RHS_ROOT"
             postId="id"
           />
+          <Connect(injectIntl(ActionMenuClass))
+            handleDismissTip={[Function]}
+            handleDropdownOpened={[Function]}
+            handleNextTip={[Function]}
+            handleOpenTip={[Function]}
+            isMenuOpen={false}
+            post={
+              Object {
+                "channel_id": "channel_id",
+                "create_at": 1502715365009,
+                "delete_at": 0,
+                "edit_at": 1502715372443,
+                "id": "id",
+                "is_pinned": false,
+                "message": "post message",
+                "original_id": "",
+                "pending_post_id": "",
+                "props": Object {},
+                "root_id": "",
+                "type": "",
+                "update_at": 1502715372443,
+                "user_id": "user_id",
+              }
+            }
+            showTutorialTip={false}
+          />
         </div>
       </div>
       <div
@@ -323,6 +350,7 @@ exports[`components/RhsRootPost should match snapshot hovered 1`] = `
           className="post__body--transition post--edited"
         >
           <AutoHeightSwitcher
+            onTransitionEnd={[Function]}
             showSlot={1}
             slot1={
               <MessageWithAdditionalContent
@@ -490,6 +518,7 @@ exports[`components/RhsRootPost should match snapshot on CRT enabled 1`] = `
           className="post__body--transition post--edited"
         >
           <AutoHeightSwitcher
+            onTransitionEnd={[Function]}
             showSlot={1}
             slot1={
               <MessageWithAdditionalContent
@@ -659,6 +688,7 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
           className="post__body--transition post--edited"
         >
           <AutoHeightSwitcher
+            onTransitionEnd={[Function]}
             showSlot={1}
             slot1={
               <MessageWithAdditionalContent
@@ -832,6 +862,7 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
           className="post__body--transition post--edited"
         >
           <AutoHeightSwitcher
+            onTransitionEnd={[Function]}
             showSlot={1}
             slot1={
               <MessageWithAdditionalContent
@@ -1003,6 +1034,7 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
           className="post__body--transition post--edited"
         >
           <AutoHeightSwitcher
+            onTransitionEnd={[Function]}
             showSlot={1}
             slot1={
               <MessageWithAdditionalContent
