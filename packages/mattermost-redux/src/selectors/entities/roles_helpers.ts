@@ -49,11 +49,6 @@ export const getMySystemPermissions: (state: GlobalState) => Set<string> = creat
     },
 );
 
-export const haveISystemPermission: (state: GlobalState, options: PermissionsOptions) => boolean = createSelector(
-    'haveISystemPermission',
-    getMySystemPermissions,
-    (state: GlobalState, options: PermissionsOptions) => options.permission,
-    (permissions, permission) => {
-        return permissions.has(permission);
-    },
-);
+export function haveISystemPermission(state: GlobalState, options: PermissionsOptions) {
+    return getMySystemPermissions(state).has(options.permission);
+}
