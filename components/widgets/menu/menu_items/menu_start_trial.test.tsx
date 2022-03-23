@@ -213,6 +213,7 @@ describe('components/widgets/menu/menu_items/menu_start_trial', () => {
         useDispatchMock.mockReturnValue(dummyDispatch);
         const wrapper = mountWithIntl(<reactRedux.Provider store={store}><MenuStartTrial id='startTrial'/></reactRedux.Provider>);
         expect(wrapper.find('button').exists()).toEqual(true);
-        expect(wrapper.find('button').text()).toEqual('Start Trial');
+        expect(wrapper.find('div.start_trial_content').text()).toEqual('Try Enterprise for free now!');
+        expect(wrapper.find('button').text()).toEqual('Learn More');
     });
 });

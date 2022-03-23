@@ -62,9 +62,13 @@ export type Props = {
     showDueToStepsNotFinished: boolean;
     intl: IntlShape;
     teamUrl: string;
+    isFirstAdmin: boolean;
+    useCaseOnboarding: boolean;
     location: {
         pathname: string;
     };
+    guestAccessEnabled: boolean;
+    canInviteTeamMember: boolean;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
         showMentions: () => void;
@@ -130,6 +134,8 @@ export class MainMenu extends React.PureComponent<Props> {
             teamIsGroupConstrained,
             isLicensedForLDAPGroups,
             teamId = '',
+            guestAccessEnabled,
+            canInviteTeamMember,
         } = this.props;
 
         if (!currentUser) {
@@ -156,22 +162,25 @@ export class MainMenu extends React.PureComponent<Props> {
 
         const {formatMessage} = this.props.intl;
 
-        const invitePeopleModal = (
-            <Menu.ItemToggleModalRedux
-                id='invitePeople'
-                modalId={ModalIdentifiers.INVITATION}
-                dialogType={InvitationModal}
-                text={formatMessage({
-                    id: 'navbar_dropdown.invitePeople',
-                    defaultMessage: 'Invite People',
-                })}
-                extraText={formatMessage({
-                    id: 'navbar_dropdown.invitePeopleExtraText',
-                    defaultMessage: 'Add people to the team',
-                })}
-                icon={this.props.mobile && <i className='fa fa-user-plus'/>}
-            />
-        );
+        let invitePeopleModal = null;
+        if (guestAccessEnabled || canInviteTeamMember) {
+            invitePeopleModal = (
+                <Menu.ItemToggleModalRedux
+                    id='invitePeople'
+                    modalId={ModalIdentifiers.INVITATION}
+                    dialogType={InvitationModal}
+                    text={formatMessage({
+                        id: 'navbar_dropdown.invitePeople',
+                        defaultMessage: 'Invite People',
+                    })}
+                    extraText={formatMessage({
+                        id: 'navbar_dropdown.invitePeopleExtraText',
+                        defaultMessage: 'Add people to the team',
+                    })}
+                    icon={this.props.mobile && <i className='fa fa-user-plus'/>}
+                />
+            );
+        }
 
         return this.props.mobile ? (
             <Menu
@@ -342,7 +351,7 @@ export class MainMenu extends React.PureComponent<Props> {
                     />
                     <Menu.ItemAction
                         id='gettingStarted'
-                        show={this.props.showDueToStepsNotFinished && !inTipsView}
+                        show={!(this.props.useCaseOnboarding && this.props.isFirstAdmin) && this.props.showDueToStepsNotFinished && !inTipsView}
                         onClick={() => this.unhideNextStepsAndNavigateToTipsView()}
                         text={formatMessage({id: 'navbar_dropdown.gettingStarted', defaultMessage: 'Getting Started'})}
                         icon={<i className='icon icon-play'/>}
@@ -472,6 +481,9 @@ export class MainMenu extends React.PureComponent<Props> {
                             text={formatMessage({id: 'navbar_dropdown.create', defaultMessage: 'Create a Team'})}
                         />
                     </SystemPermissionGate>
+                </Menu.Group>
+                <Menu.Group>
+                    {pluginItems}
                 </Menu.Group>
             </Menu>
         );

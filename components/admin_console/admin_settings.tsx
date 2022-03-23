@@ -198,19 +198,6 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
         return n;
     };
 
-    protected parseFloatNonZero = (str: string, defaultValue?: number, minimumValue = 0) => {
-        const n = parseFloat(str);
-
-        if (isNaN(n) || n < minimumValue) {
-            if (defaultValue) {
-                return defaultValue;
-            }
-            return 1;
-        }
-
-        return n;
-    };
-
     private getConfigValue(config: AdminConfig | EnvironmentConfig, path: string) {
         const pathParts = path.split('.');
 

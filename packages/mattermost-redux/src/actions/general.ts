@@ -101,7 +101,7 @@ export function getLicenseConfig(): ActionFunc {
     });
 }
 
-export function logClientError(message: string, level: LogLevel = 'ERROR') {
+export function logClientError(message: string, level = LogLevel.Error) {
     return bindClientFunc({
         clientFunc: Client4.logClientError,
         onRequest: GeneralTypes.LOG_CLIENT_ERROR_REQUEST,
@@ -216,6 +216,23 @@ export function getFirstAdminVisitMarketplaceStatus(): ActionFunc {
 
         data = JSON.parse(data.value);
         dispatch({type: GeneralTypes.FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED, data});
+        return {data};
+    };
+}
+
+// accompanying "set" happens as part of Client4.completeSetup
+export function getFirstAdminSetupComplete(): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data;
+        try {
+            data = await Client4.getFirstAdminSetupComplete();
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            return {error};
+        }
+
+        data = JSON.parse(data.value);
+        dispatch({type: GeneralTypes.FIRST_ADMIN_COMPLETE_SETUP_RECEIVED, data});
         return {data};
     };
 }

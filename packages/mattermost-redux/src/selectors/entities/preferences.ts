@@ -7,10 +7,7 @@ import {General, Preferences} from 'mattermost-redux/constants';
 
 import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selectors/entities/general';
 
-import {
-    AutoTourTreatments,
-    AddMembersToChanneltreatments,
-} from 'mattermost-redux/constants/config';
+import {AddMembersToChanneltreatments} from 'mattermost-redux/constants/config';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Theme} from 'mattermost-redux/types/themes';
@@ -206,14 +203,14 @@ export function isGroupChannelManuallyVisible(state: GlobalState, channelId: str
     return getBool(state, Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channelId, false);
 }
 
-export function getAutoTourTreatment(state: GlobalState): AutoTourTreatments | undefined {
-    return getFeatureFlagValue(state, 'AutoTour') as AutoTourTreatments | undefined;
-}
-
-export function getCreateGuidedChannel(state: GlobalState): boolean {
-    return getFeatureFlagValue(state, 'GuidedChannelCreation') === 'true';
-}
-
 export function getAddMembersToChannel(state: GlobalState): AddMembersToChanneltreatments | undefined {
     return getFeatureFlagValue(state, 'AddMembersToChannel') as AddMembersToChanneltreatments | undefined;
+}
+
+export function isCustomGroupsEnabled(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'CustomGroups') === 'true' && getConfig(state).EnableCustomGroups === 'true';
+}
+
+export function getUseCaseOnboarding(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'UseCaseOnboarding') === 'true';
 }

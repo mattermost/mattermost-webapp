@@ -64,7 +64,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -73,7 +73,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -170,7 +170,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -179,7 +179,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -265,8 +265,13 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   Current Plan
                 </div>
               }
+              fileInputRef={
+                Object {
+                  "current": null,
+                }
+              }
+              handleChange={[Function]}
               openEELicenseModal={[Function]}
-              openUploadModal={[Function]}
               upgradedFromTE={false}
             />
           </div>
@@ -275,7 +280,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -284,7 +289,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -413,7 +418,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -422,7 +427,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -565,7 +570,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -574,7 +579,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -704,7 +709,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -713,7 +718,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -843,7 +848,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -852,7 +857,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -982,7 +987,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -991,7 +996,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1121,7 +1126,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1130,7 +1135,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1336,8 +1341,13 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   Current Plan
                 </div>
               }
+              fileInputRef={
+                Object {
+                  "current": null,
+                }
+              }
+              handleChange={[Function]}
               openEELicenseModal={[Function]}
-              openUploadModal={[Function]}
               upgradedFromTE={false}
             />
           </div>
@@ -1346,7 +1356,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1355,7 +1365,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1445,8 +1455,13 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   Current Plan
                 </div>
               }
+              fileInputRef={
+                Object {
+                  "current": null,
+                }
+              }
+              handleChange={[Function]}
               openEELicenseModal={[Function]}
-              openUploadModal={[Function]}
               upgradedFromTE={true}
             />
           </div>
@@ -1455,7 +1470,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1464,7 +1479,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1565,7 +1580,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1574,7 +1589,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1668,7 +1683,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1677,7 +1692,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1761,8 +1776,13 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   Current Plan
                 </div>
               }
+              fileInputRef={
+                Object {
+                  "current": null,
+                }
+              }
+              handleChange={[Function]}
               openEELicenseModal={[Function]}
-              openUploadModal={[Function]}
               upgradedFromTE={false}
             />
           </div>
@@ -1771,7 +1791,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1780,7 +1800,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1892,7 +1912,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1901,7 +1921,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -2032,7 +2052,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -2041,7 +2061,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"

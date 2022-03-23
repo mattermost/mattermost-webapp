@@ -51,6 +51,8 @@ describe('plugins/MainMenuActions', () => {
         isCloud: false,
         subscription: {},
         userIsAdmin: true,
+        isFirstAdmin: false,
+        useCaseOnboarding: false,
     };
 
     test('should match snapshot in web view', () => {
@@ -63,7 +65,7 @@ describe('plugins/MainMenuActions', () => {
         wrapper = wrapper.find('MainMenu').shallow();
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.findWhere((node) => node.key() === 'someplugin_pluginmenuitem')).toHaveLength(0);
+        expect(wrapper.findWhere((node) => node.key() === 'someplugin_pluginmenuitem')).toHaveLength(1);
     });
 
     test('should match snapshot in mobile view with some plugin and ability to click plugin', () => {

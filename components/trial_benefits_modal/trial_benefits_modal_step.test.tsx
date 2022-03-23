@@ -14,6 +14,7 @@ describe('components/trial_benefits_modal/trial_benefits_modal_step', () => {
         description: 'Step description',
         svgWrapperClassName: 'stepClassname',
         svgElement: <svg/>,
+        buttonLabel: 'button',
     };
 
     test('should match snapshot', () => {

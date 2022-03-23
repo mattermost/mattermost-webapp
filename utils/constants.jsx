@@ -71,7 +71,6 @@ export const Preferences = {
     CATEGORY_DISPLAY_SETTINGS: 'display_settings',
     CATEGORY_SIDEBAR_SETTINGS: 'sidebar_settings',
     CATEGORY_ADVANCED_SETTINGS: 'advanced_settings',
-    DISMISS_ONBOARDING_CHECKLIST: 'dismiss_onboarding_checklist',
     TUTORIAL_STEP: 'tutorial_step',
     TUTORIAL_STEP_AUTO_TOUR_STATUS: 'tutorial_step_auto_tour_status',
     CRT_TUTORIAL_TRIGGERED: 'crt_tutorial_triggered',
@@ -129,6 +128,8 @@ export const Preferences = {
 
     // A/B test preference value
     AB_TEST_PREFERENCE_VALUE: 'ab_test_preference_value',
+
+    ONBOARDING: 'onboarding',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -177,8 +178,8 @@ export const ActionTypes = keyMirror({
     CONFIRM_NAVIGATION: null,
 
     TOGGLE_IMPORT_THEME_MODAL: null,
-    SHOW_EDIT_POST_MODAL: null,
-    HIDE_EDIT_POST_MODAL: null,
+    TOGGLE_DELETE_POST_MODAL: null,
+    TOGGLE_EDITING_POST: null,
 
     EMITTED_SHORTCUT_REACT_TO_LAST_POST: null,
 
@@ -209,6 +210,12 @@ export const ActionTypes = keyMirror({
     SET_RECENT_SKIN: null,
 
     STATUS_DROPDOWN_TOGGLE: null,
+    ADD_CHANNEL_DROPDOWN_TOGGLE: null,
+
+    SHOW_ONBOARDING_TASK_COMPLETION: null,
+    SHOW_ONBOARDING_COMPLETE_PROFILE_TOUR: null,
+    SHOW_ONBOARDING_VISIT_CONSOLE_TOUR: null,
+
     TOGGLE_LHS: null,
     OPEN_LHS: null,
     CLOSE_LHS: null,
@@ -216,7 +223,6 @@ export const ActionTypes = keyMirror({
     SET_SHOW_PREVIEW_ON_CREATE_COMMENT: null,
     SET_SHOW_PREVIEW_ON_CREATE_POST: null,
     SET_SHOW_PREVIEW_ON_EDIT_CHANNEL_HEADER_MODAL: null,
-    SET_SHOW_PREVIEW_ON_EDIT_POST_MODAL: null,
 
     TOGGLE_RHS_MENU: null,
     OPEN_RHS_MENU: null,
@@ -333,6 +339,7 @@ export const ModalIdentifiers = {
     UPGRADE_CLOUD_ACCOUNT: 'upgrade_cloud_account',
     START_TRIAL_MODAL: 'start_trial_modal',
     TRIAL_BENEFITS_MODAL: 'trial_benefits_modal',
+    LEARN_MORE_TRIAL_MODAL: 'learn_more_trial_modal',
     ENTERPRISE_EDITION_LICENSE: 'enterprise_edition_license',
     CONFIRM_NOTIFY_ADMIN: 'confirm_notify_admin',
     REMOVE_NEXT_STEPS_MODAL: 'remove_next_steps_modal',
@@ -345,9 +352,15 @@ export const ModalIdentifiers = {
     NO_INTERNET_CONNECTION: 'no_internet_connection',
     JOIN_CHANNEL_PROMPT: 'join_channel_prompt',
     COLLAPSED_REPLY_THREADS_MODAL: 'collapsed_reply_threads_modal',
+    COLLAPSED_REPLY_THREADS_BETA_MODAL: 'collapsed_reply_threads_beta_modal',
     NOTIFY_CONFIRM_MODAL: 'notify_confirm_modal',
     CONFIRM_LICENSE_REMOVAL: 'confirm_license_removal',
     CONFIRM: 'confirm',
+    USER_GROUPS: 'user_groups',
+    USER_GROUPS_CREATE: 'user_groups_create',
+    VIEW_USER_GROUP: 'view_user_group',
+    ADD_USERS_TO_GROUP: 'add_users_to_group',
+    EDIT_GROUP_MODAL: 'edit_group_modal',
     POST_DELETED_MODAL: 'post_deleted_modal',
     FILE_PREVIEW_MODAL: 'file_preview_modal',
     IMPORT_THEME_MODAL: 'import_theme_modal',
@@ -356,6 +369,7 @@ export const ModalIdentifiers = {
     KEYBOARD_SHORTCUTS_MODAL: 'keyboar_shortcuts_modal',
     USERS_TO_BE_REMOVED: 'users_to_be_removed',
     UPLOAD_LICENSE: 'upload_license',
+
 };
 
 export const UserStatuses = {
@@ -373,6 +387,7 @@ export const EventTypes = Object.assign(
         CLICK: 'click',
         FOCUS: 'focus',
         BLUR: 'blur',
+        SHORTCUT: 'shortcut',
         MOUSE_DOWN: 'mousedown',
         MOUSE_UP: 'mouseup',
     },
@@ -409,6 +424,10 @@ export const A11yCustomEventTypes = {
     ACTIVATE: 'a11yactivate',
     DEACTIVATE: 'a11ydeactivate',
     UPDATE: 'a11yupdate',
+};
+
+export const AppEvents = {
+    FOCUS_EDIT_TEXTBOX: 'focus_edit_textbox',
 };
 
 export const SocketEvents = {
@@ -459,6 +478,8 @@ export const SocketEvents = {
     PLUGIN_STATUSES_CHANGED: 'plugin_statuses_changed',
     OPEN_DIALOG: 'open_dialog',
     RECEIVED_GROUP: 'received_group',
+    GROUP_MEMBER_ADD: 'group_member_add',
+    GROUP_MEMBER_DELETED: 'group_member_deleted',
     RECEIVED_GROUP_ASSOCIATED_TO_TEAM: 'received_group_associated_to_team',
     RECEIVED_GROUP_NOT_ASSOCIATED_TO_TEAM: 'received_group_not_associated_to_team',
     RECEIVED_GROUP_ASSOCIATED_TO_CHANNEL: 'received_group_associated_to_channel',
@@ -545,8 +566,25 @@ export const CloudBanners = {
 export const TELEMETRY_CATEGORIES = {
     CLOUD_PURCHASING: 'cloud_purchasing',
     CLOUD_ADMIN: 'cloud_admin',
+    POST_INFO_MORE: 'post_info_more_menu',
+    POST_INFO: 'post_info',
     SELF_HOSTED_START_TRIAL_AUTO_MODAL: 'self_hosted_start_trial_auto_modal',
     SELF_HOSTED_START_TRIAL_MODAL: 'self_hosted_start_trial_modal',
+    SELF_HOSTED_START_TRIAL_TASK_LIST: 'self_hosted_start_trial_task_list',
+    WORKSPACE_OPTIMIZATION_DASHBOARD: 'workspace_optimization_dashboard',
+};
+
+export const TELEMETRY_LABELS = {
+    COPY_LINK: 'copy_link',
+    COPY_TEXT: 'copy_text',
+    DELETE: 'delete',
+    EDIT: 'edit',
+    FOLLOW: 'follow',
+    UNFOLLOW: 'unfollow',
+    PIN: 'pin',
+    UNPIN: 'unpin',
+    REPLY: 'reply',
+    UNREAD: 'unread',
 };
 
 export const PostTypes = {
@@ -747,6 +785,7 @@ export const FileTypes = {
     PATCH: 'patch',
     SVG: 'svg',
     OTHER: 'other',
+    LICENSE_EXTENSION: '.mattermost-license',
 };
 
 export const NotificationLevels = {
@@ -775,6 +814,7 @@ export const AdvancedSections = {
     FORMATTING: 'formatting',
     JOIN_LEAVE: 'joinLeave',
     PREVIEW_FEATURES: 'advancedPreviewFeatures',
+    PERFORMANCE_DEBUGGING: 'performanceDebugging',
 };
 
 export const RHSStates = {
@@ -784,6 +824,7 @@ export const RHSStates = {
     PIN: 'pin',
     PLUGIN: 'plugin',
     CHANNEL_FILES: 'channel-files',
+    CHANNEL_INFO: 'channel-info',
 };
 
 export const UploadStatuses = {
@@ -817,8 +858,8 @@ export const DraggingStateTypes = {
 };
 
 export const AboutLinks = {
-    TERMS_OF_SERVICE: 'https://about.mattermost.com/default-terms/',
-    PRIVACY_POLICY: 'https://about.mattermost.com/default-privacy-policy/',
+    TERMS_OF_SERVICE: 'https://mattermost.com/terms-of-use/',
+    PRIVACY_POLICY: 'https://mattermost.com/privacy-policy/',
 };
 
 export const CloudLinks = {
@@ -826,6 +867,22 @@ export const CloudLinks = {
     PRICING: 'https://mattermost.com/pricing/',
     PRORATED_PAYMENT: 'https://mattermost.com/pl/mattermost-cloud-prorate-documentation',
     DEPLOYMENT_OPTIONS: 'https://mattermost.com/deploy/',
+    DOWNLOAD_UPDATE: 'https://mattermost.com/deploy/',
+};
+
+export const DocLinks = {
+    AD_LDAP: 'https://docs.mattermost.com/configure/configuration-settings.html#ad-ldap',
+    DATA_RETENTION_POLICY: 'https://docs.mattermost.com/comply/data-retention-policy.html',
+    ELASTICSEARCH: 'https://docs.mattermost.com/scale/elasticsearch.html',
+    GUEST_ACCOUNTS: 'https://docs.mattermost.com/onboard/guest-accounts.html',
+    SESSION_LENGTHS: 'https://docs.mattermost.com/configure/configuration-settings.html#session-lengths',
+    SITE_URL: 'https://docs.mattermost.com/configure/configuration-settings.html#site-url',
+    SSL_CERTIFICATE: 'https://docs.mattermost.com/onboard/ssl-client-certificate.html',
+    UPGRADE_SERVER: 'https://docs.mattermost.com/upgrade/upgrading-mattermost-server.html',
+};
+
+export const LicenseLinks = {
+    CONTACT_SALES: 'https://mattermost.com/contact-sales/',
 };
 
 export const BillingSchemes = {
@@ -923,6 +980,10 @@ export const PermissionsScope = {
     [Permissions.RUN_MANAGE_MEMBERS]: 'run_scope',
     [Permissions.RUN_MANAGE_PROPERTIES]: 'run_scope',
     [Permissions.RUN_VIEW]: 'run_scope',
+    [Permissions.CREATE_CUSTOM_GROUP]: 'system_scope',
+    [Permissions.EDIT_CUSTOM_GROUP]: 'system_scope',
+    [Permissions.DELETE_CUSTOM_GROUP]: 'system_scope',
+    [Permissions.MANAGE_CUSTOM_GROUP_MEMBERS]: 'system_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -962,6 +1023,18 @@ export const DefaultRolePermissions = {
         Permissions.JOIN_PUBLIC_TEAMS,
         Permissions.USE_CHANNEL_MENTIONS,
         Permissions.USE_GROUP_MENTIONS,
+        Permissions.CREATE_CUSTOM_GROUP,
+        Permissions.EDIT_CUSTOM_GROUP,
+        Permissions.DELETE_CUSTOM_GROUP,
+        Permissions.MANAGE_CUSTOM_GROUP_MEMBERS,
+        Permissions.PLAYBOOK_PUBLIC_CREATE,
+        Permissions.PLAYBOOK_PRIVATE_CREATE,
+        Permissions.PLAYBOOK_PUBLIC_MANAGE_MEMBERS,
+        Permissions.PLAYBOOK_PRIVATE_MANAGE_MEMBERS,
+        Permissions.PLAYBOOK_PUBLIC_MANAGE_PROPERTIES,
+        Permissions.PLAYBOOK_PRIVATE_MANAGE_PROPERTIES,
+        Permissions.PLAYBOOK_PUBLIC_MAKE_PRIVATE,
+        Permissions.RUN_CREATE,
     ],
     channel_admin: [
         Permissions.MANAGE_CHANNEL_ROLES,
@@ -1190,6 +1263,7 @@ export const Constants = {
     POST_UPDATED: 'updated',
     SYSTEM_MESSAGE_PREFIX: 'system_',
     SUGGESTION_LIST_MAXHEIGHT: 292,
+    SUGGESTION_LIST_MAXWIDTH: 496,
     SUGGESTION_LIST_SPACE_RHS: 420,
     SUGGESTION_LIST_MODAL_WIDTH: 496,
     MENTION_NAME_PADDING_LEFT: 2.4,
@@ -1592,7 +1666,7 @@ export const Constants = {
     DEFAULT_MAX_CHANNELS_PER_TEAM: 2000,
     DEFAULT_MAX_NOTIFICATIONS_PER_CHANNEL: 1000,
     MIN_TEAMNAME_LENGTH: 2,
-    MAX_TEAMNAME_LENGTH: 15,
+    MAX_TEAMNAME_LENGTH: 64,
     MAX_TEAMDESCRIPTION_LENGTH: 50,
     MIN_CHANNELNAME_LENGTH: 2,
     MAX_CHANNELNAME_LENGTH: 64,
@@ -1664,7 +1738,11 @@ export const Constants = {
     ACCEPT_STATIC_IMAGE: '.jpeg,.jpg,.png,.bmp',
     ACCEPT_EMOJI_IMAGE: '.jpeg,.jpg,.png,.gif',
     THREADS_PAGE_SIZE: 25,
+    THREADS_LOADING_INDICATOR_ITEM_ID: 'threads_loading_indicator_item_id',
+    THREADS_NO_RESULTS_ITEM_ID: 'threads_no_results_item_id',
     TRIAL_MODAL_AUTO_SHOWN: 'trial_modal_auto_shown',
+    DEFAULT_SITE_URL: 'http://localhost:8065',
+    CHANNEL_HEADER_BUTTON_DISABLE_TIMEOUT: 1000,
 };
 
 export const ValidationErrors = {
@@ -1674,6 +1752,19 @@ export const ValidationErrors = {
     INVALID_FIRST_CHARACTER: 'INVALID_FIRST_CHARACTER',
     RESERVED_NAME: 'RESERVED_NAME',
     INVALID_LAST_CHARACTER: 'INVALID_LAST_CHARACTER',
+};
+
+export const ConsolePages = {
+    AD_LDAP: '/admin_console/authentication/ldap',
+    COMPLIANCE_EXPORT: '/admin_console/compliance/export',
+    CUSTOM_TERMS: '/admin_console/compliance/custom_terms_of_service',
+    DATA_RETENTION: '/admin_console/compliance/data_retention_settings',
+    ELASTICSEARCH: '/admin_console/environment/elasticsearch',
+    GUEST_ACCOUNTS: '/admin_console/authentication/guest_access',
+    LICENSE: '/admin_console/about/license',
+    SAML: '/admin_console/authentication/saml',
+    SESSION_LENGTHS: '/admin_console/environment/session_lengths',
+    WEB_SERVER: '/admin_console/environment/web_server',
 };
 
 export const WindowSizes = {

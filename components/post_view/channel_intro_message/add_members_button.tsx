@@ -12,7 +12,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {Permissions} from 'mattermost-redux/constants';
 
-import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
+import ToggleModalButton from 'components/toggle_modal_button';
 import InvitationModal from 'components/invitation_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
@@ -70,7 +70,7 @@ const lessThanMaxFreeUsers = (setHeader: React.ReactNode, createBoard: React.Rea
                         id='intro_messages.inviteOthersToWorkspace.title'
                         defaultMessage='Let’s add some people to the workspace!'
                     />
-                    <ToggleModalButtonRedux
+                    <ToggleModalButton
                         ariaLabel={localizeMessage('intro_messages.inviteOthers', 'Invite others to the workspace')}
                         id='introTextInvite'
                         className='intro-links color--link cursor--pointer'
@@ -85,7 +85,7 @@ const lessThanMaxFreeUsers = (setHeader: React.ReactNode, createBoard: React.Rea
                             id='intro_messages.inviteOthersToWorkspace.button'
                             defaultMessage='Invite others to the workspace'
                         />
-                    </ToggleModalButtonRedux>
+                    </ToggleModalButton>
                 </div>
             </div>
         </>
@@ -111,7 +111,7 @@ const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode, crea
                     teamId={channel.team_id}
                     permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
                 >
-                    <ToggleModalButtonRedux
+                    <ToggleModalButton
                         className='intro-links color--link'
                         modalId={modalId}
                         dialogType={modal}
@@ -136,7 +136,7 @@ const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode, crea
                                 id='intro_messages.inviteMembersToChannel.button'
                                 defaultMessage='Add members to this channel'
                             />}
-                    </ToggleModalButtonRedux>
+                    </ToggleModalButton>
                 </ChannelPermissionGate>
             </div>
             {createBoard}
