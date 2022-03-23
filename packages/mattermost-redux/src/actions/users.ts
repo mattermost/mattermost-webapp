@@ -9,14 +9,13 @@ import {UserTypes, AdminTypes} from 'mattermost-redux/action_types';
 import {ServerError} from 'mattermost-redux/types/errors';
 
 import {setServerVersion} from 'mattermost-redux/actions/general';
-import {getAllCustomEmojis} from 'mattermost-redux/actions/emojis';
 import {getMyTeams, getMyTeamMembers, getMyTeamUnreads} from 'mattermost-redux/actions/teams';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 import {bindClientFunc, forceLogoutIfNecessary, debounce} from 'mattermost-redux/actions/helpers';
 import {logError} from 'mattermost-redux/actions/errors';
 import {getMyPreferences} from 'mattermost-redux/actions/preferences';
 
-import {getConfig, getServerVersion} from 'mattermost-redux/selectors/entities/general';
+import {getServerVersion} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId, getUsers} from 'mattermost-redux/selectors/entities/users';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -122,7 +121,6 @@ export function loginById(id: string, password: string, mfaToken = ''): ActionFu
 export function loadMe(isLogginIn = false): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
-        const config = getConfig(state);
 
         const deviceId = state.entities.general.deviceToken;
         if (deviceId) {
@@ -132,9 +130,6 @@ export function loadMe(isLogginIn = false): ActionFunc {
         // Sometimes the server version is set in one or the other
         const serverVersion = Client4.getServerVersion() || getState().entities.general.serverVersion;
         dispatch(setServerVersion(serverVersion));
-        if (!isMinimumServerVersion(serverVersion, 4, 7) && config.EnableCustomEmoji === 'true') {
-            dispatch(getAllCustomEmojis());
-        }
 
         const isCollapsedThreads = isCollapsedThreadsEnabled(getState());
 

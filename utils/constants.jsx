@@ -655,6 +655,7 @@ export const UserSearchOptions = {
 
 // UserListOptions are the possible option keys for get users page request
 export const UserListOptions = {
+    ACTIVE: 'active',
     INACTIVE: 'inactive',
     IN_TEAM: 'in_team',
     NOT_IN_TEAM: 'not_in_team',
@@ -669,6 +670,7 @@ export const UserListOptions = {
 // UserFilters are the values for UI get/search user filters
 export const UserFilters = {
     INACTIVE: 'inactive',
+    ACTIVE: 'active',
     SYSTEM_ADMIN: 'system_admin',
     SYSTEM_GUEST: 'system_guest',
 };
