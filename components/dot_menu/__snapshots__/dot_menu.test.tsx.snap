@@ -3,7 +3,7 @@
 exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
 <MenuWrapper
   animationComponent={[Function]}
-  className=""
+  className="status-dropdown-menu-global-header"
   onToggle={[Function]}
 >
   <OverlayTrigger
@@ -55,7 +55,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
         />
       }
       onClick={[Function]}
-      rightDecorator="R"
+      rightDecorator={
+        <span
+          className="MenuItem__opacity MenuItem__right-decorator"
+        >
+          R
+        </span>
+      }
       show={true}
       text="Reply"
     />
@@ -82,7 +88,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       }
       id="follow_post_thread_post_id_1"
       onClick={[Function]}
-      rightDecorator="F"
+      rightDecorator={
+        <span
+          className="MenuItem__opacity MenuItem__right-decorator"
+        >
+          F
+        </span>
+      }
       show={false}
       text="Follow message"
     />
@@ -94,7 +106,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       }
       id="unread_post_post_id_1"
       onClick={[Function]}
-      rightDecorator="U"
+      rightDecorator={
+        <span
+          className="MenuItem__opacity MenuItem__right-decorator"
+        >
+          U
+        </span>
+      }
       show={true}
       text="Mark as Unread"
     />
@@ -116,7 +134,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       }
       id="unpin_post_post_id_1"
       onClick={[Function]}
-      rightDecorator="P"
+      rightDecorator={
+        <span
+          className="MenuItem__opacity MenuItem__right-decorator"
+        >
+          P
+        </span>
+      }
       show={false}
       text="Unpin"
     />
@@ -128,7 +152,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       }
       id="pin_post_post_id_1"
       onClick={[Function]}
-      rightDecorator="P"
+      rightDecorator={
+        <span
+          className="MenuItem__opacity MenuItem__right-decorator"
+        >
+          P
+        </span>
+      }
       show={true}
       text="Pin"
     />
@@ -145,7 +175,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       }
       id="permalink_post_id_1"
       onClick={[Function]}
-      rightDecorator="K"
+      rightDecorator={
+        <span
+          className="MenuItem__opacity MenuItem__right-decorator"
+        >
+          K
+        </span>
+      }
       show={true}
       text="Copy Link"
     />
@@ -162,7 +198,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       }
       id="edit_post_post_id_1"
       onClick={[Function]}
-      rightDecorator="E"
+      rightDecorator={
+        <span
+          className="MenuItem__opacity MenuItem__right-decorator"
+        >
+          E
+        </span>
+      }
       show={true}
       text="Edit"
     />
@@ -174,7 +216,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       }
       id="copy_post_id_1"
       onClick={[Function]}
-      rightDecorator="C"
+      rightDecorator={
+        <span
+          className="MenuItem__opacity MenuItem__right-decorator"
+        >
+          C
+        </span>
+      }
       show={true}
       text="Copy Text"
     />
@@ -204,7 +252,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
 exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
 <MenuWrapper
   animationComponent={[Function]}
-  className=""
+  className="status-dropdown-menu-global-header"
   onToggle={[Function]}
 >
   <OverlayTrigger
@@ -256,7 +304,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
         />
       }
       onClick={[Function]}
-      rightDecorator="R"
+      rightDecorator={
+        <span
+          className="MenuItem__opacity MenuItem__right-decorator"
+        >
+          R
+        </span>
+      }
       show={true}
       text="Reply"
     />
@@ -283,7 +337,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       }
       id="follow_post_thread_post_id_1"
       onClick={[Function]}
-      rightDecorator="F"
+      rightDecorator={
+        <span
+          className="MenuItem__opacity MenuItem__right-decorator"
+        >
+          F
+        </span>
+      }
       show={false}
       text="Follow message"
     />
@@ -295,7 +355,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       }
       id="unread_post_post_id_1"
       onClick={[Function]}
-      rightDecorator="U"
+      rightDecorator={
+        <span
+          className="MenuItem__opacity MenuItem__right-decorator"
+        >
+          U
+        </span>
+      }
       show={true}
       text="Mark as Unread"
     />
@@ -317,7 +383,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       }
       id="unpin_post_post_id_1"
       onClick={[Function]}
-      rightDecorator="P"
+      rightDecorator={
+        <span
+          className="MenuItem__opacity MenuItem__right-decorator"
+        >
+          P
+        </span>
+      }
       show={false}
       text="Unpin"
     />
@@ -329,7 +401,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       }
       id="pin_post_post_id_1"
       onClick={[Function]}
-      rightDecorator="P"
+      rightDecorator={
+        <span
+          className="MenuItem__opacity MenuItem__right-decorator"
+        >
+          P
+        </span>
+      }
       show={true}
       text="Pin"
     />
@@ -346,7 +424,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       }
       id="permalink_post_id_1"
       onClick={[Function]}
-      rightDecorator="K"
+      rightDecorator={
+        <span
+          className="MenuItem__opacity MenuItem__right-decorator"
+        >
+          K
+        </span>
+      }
       show={true}
       text="Copy Link"
     />
@@ -363,7 +447,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       }
       id="edit_post_post_id_1"
       onClick={[Function]}
-      rightDecorator="E"
+      rightDecorator={
+        <span
+          className="MenuItem__opacity MenuItem__right-decorator"
+        >
+          E
+        </span>
+      }
       show={true}
       text="Edit"
     />
@@ -375,7 +465,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       }
       id="copy_post_id_1"
       onClick={[Function]}
-      rightDecorator="C"
+      rightDecorator={
+        <span
+          className="MenuItem__opacity MenuItem__right-decorator"
+        >
+          C
+        </span>
+      }
       show={true}
       text="Copy Text"
     />
