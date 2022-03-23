@@ -51,10 +51,6 @@ const TrialBenefitsModal = ({
     const license = useSelector((state: GlobalState) => getLicense(state));
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.TRIAL_BENEFITS_MODAL));
 
-    if (!show) {
-        return null;
-    }
-
     useEffect(() => {
         if (!trialJustStarted) {
             trackEvent(
