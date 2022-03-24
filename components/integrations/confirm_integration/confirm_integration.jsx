@@ -72,7 +72,7 @@ export default class ConfirmIntegration extends React.PureComponent {
                 <p>
                     <FormattedMarkdownMessage
                         id='add_command.doneHelp'
-                        defaultMessage='Your slash command is set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (details at [Slash Commands](!https://docs.mattermost.com/developer/slash-commands.html)).'
+                        defaultMessage='Your slash command is set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (details at [Slash Commands](!https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/)).'
                     />
                 </p>
             );
@@ -103,7 +103,7 @@ export default class ConfirmIntegration extends React.PureComponent {
                 <p>
                     <FormattedMarkdownMessage
                         id='add_incoming_webhook.doneHelp'
-                        defaultMessage='Your incoming webhook is set up. Please send data to the following URL (details at [Incoming Webhooks](!https://docs.mattermost.com/developer/webhooks-incoming.html)).'
+                        defaultMessage='Your incoming webhook is set up. Please send data to the following URL (details at [Incoming Webhooks](!https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-incoming/)).'
                     />
                 </p>
             );
@@ -134,7 +134,7 @@ export default class ConfirmIntegration extends React.PureComponent {
                 <p>
                     <FormattedMarkdownMessage
                         id='add_outgoing_webhook.doneHelp'
-                        defaultMessage='Your outgoing webhook is set up. The following token will be sent in the outgoing payload. Please use it to verify that the request came from your Mattermost team (details at [Outgoing Webhooks](!https://docs.mattermost.com/developer/webhooks-outgoing.html)).'
+                        defaultMessage='Your outgoing webhook is set up. The following token will be sent in the outgoing payload. Please use it to verify that the request came from your Mattermost team (details at [Outgoing Webhooks](!https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-outgoing/)).'
                     />
                 </p>
             );
@@ -168,7 +168,7 @@ export default class ConfirmIntegration extends React.PureComponent {
                 <p key='add_oauth_app.doneHelp'>
                     <FormattedMarkdownMessage
                         id='add_oauth_app.doneHelp'
-                        defaultMessage='Your OAuth 2.0 application is set up. Please use the following Client ID and Client Secret when requesting authorization for your application (details at [oAuth 2 Applications](!https://docs.mattermost.com/developer/oauth-2-0-applications.html)).'
+                        defaultMessage='Your OAuth 2.0 application is set up. Please use the following Client ID and Client Secret when requesting authorization for your application (details at [oAuth 2 Applications](!https://developers.mattermost.com/integrate/admin-guide/admin-oauth2/)).'
                     />
                 </p>,
             );

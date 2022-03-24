@@ -6,6 +6,8 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import Constants from 'utils/constants';
+
 import './generic_modal.scss';
 
 type Props = {
@@ -15,6 +17,7 @@ type Props = {
     show?: boolean;
     handleCancel?: () => void;
     handleConfirm?: () => void;
+    handleEnterKeyPress?: () => void;
     confirmButtonText?: React.ReactNode;
     confirmButtonClassName?: string;
     cancelButtonText?: React.ReactNode;
@@ -72,6 +75,17 @@ export default class GenericModal extends React.PureComponent<Props, State> {
         }
         if (this.props.handleConfirm) {
             this.props.handleConfirm();
+        }
+    }
+
+    private onEnterKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === Constants.KeyCodes.ENTER[0]) {
+            if (this.props.autoCloseOnConfirmButton) {
+                this.onHide();
+            }
+            if (this.props.handleEnterKeyPress) {
+                this.props.handleEnterKeyPress();
+            }
         }
     }
 
@@ -147,28 +161,34 @@ export default class GenericModal extends React.PureComponent<Props, State> {
                 id={this.props.id}
                 container={this.props.container}
             >
-                <Modal.Header closeButton={true}>
-                    {this.props.useCompassDesign && headerText}
-                </Modal.Header>
-                <Modal.Body>
-                    {this.props.useCompassDesign ? (
-                        this.props.errorText && (
-                            <div className='genericModalError'>
-                                <i className='icon icon-alert-outline'/>
-                                <span>{this.props.errorText}</span>
-                            </div>
-                        )
-                    ) : (
-                        headerText
-                    )}
-                    <div className='GenericModal__body'>
-                        {this.props.children}
-                    </div>
-                </Modal.Body>
-                {(cancelButton || confirmButton) && <Modal.Footer>
-                    {cancelButton}
-                    {confirmButton}
-                </Modal.Footer>}
+                <div
+                    onKeyDown={this.onEnterKeyDown}
+                    tabIndex={0}
+                    className='GenericModal__wrapper-enter-key-press-catcher'
+                >
+                    <Modal.Header closeButton={true}>
+                        {this.props.useCompassDesign && headerText}
+                    </Modal.Header>
+                    <Modal.Body>
+                        {this.props.useCompassDesign ? (
+                            this.props.errorText && (
+                                <div className='genericModalError'>
+                                    <i className='icon icon-alert-outline'/>
+                                    <span>{this.props.errorText}</span>
+                                </div>
+                            )
+                        ) : (
+                            headerText
+                        )}
+                        <div className='GenericModal__body'>
+                            {this.props.children}
+                        </div>
+                    </Modal.Body>
+                    {(cancelButton || confirmButton) && <Modal.Footer>
+                        {cancelButton}
+                        {confirmButton}
+                    </Modal.Footer>}
+                </div>
             </Modal>
         );
     }

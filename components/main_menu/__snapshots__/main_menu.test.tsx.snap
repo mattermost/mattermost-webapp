@@ -181,6 +181,7 @@ exports[`components/Menu should match snapshot with guest access disabled and no
       />
     </Connect(SystemPermissionGate)>
   </MenuGroup>
+  <MenuGroup />
 </Menu>
 `;
 
@@ -384,6 +385,7 @@ exports[`components/Menu should match snapshot with id 1`] = `
       />
     </Connect(SystemPermissionGate)>
   </MenuGroup>
+  <MenuGroup />
 </Menu>
 `;
 
@@ -586,6 +588,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       />
     </Connect(SystemPermissionGate)>
   </MenuGroup>
+  <MenuGroup />
 </Menu>
 `;
 
@@ -1196,6 +1199,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       />
     </Connect(SystemPermissionGate)>
   </MenuGroup>
+  <MenuGroup />
 </Menu>
 `;
 
@@ -1807,6 +1811,22 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
         to="/create_team"
       />
     </Connect(SystemPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={false}
+      id="plugin-id-1_pluginmenuitem"
+      key="plugin-id-1_pluginmenuitem"
+      onClick={[Function]}
+      show={true}
+    />
+    <MenuItemAction
+      icon={false}
+      id="plugind-id-2_pluginmenuitem"
+      key="plugind-id-2_pluginmenuitem"
+      onClick={[Function]}
+      show={true}
+    />
   </MenuGroup>
 </Menu>
 `;

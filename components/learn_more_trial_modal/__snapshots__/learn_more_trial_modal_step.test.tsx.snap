@@ -37,7 +37,7 @@ exports[`components/learn_more_trial_modal/learn_more_trial_modal_step should ma
   >
     <span>
       <injectIntl(FormattedMarkdownMessage)
-        defaultMessage="By clicking “Start trial”, I agree to the [Mattermost Software Evaluation Agreement,](!https://mattermost.com/software-evaluation-agreement) [privacy policy,](!https://about.mattermost.com/default-privacy-policy/) and receiving product emails."
+        defaultMessage="By clicking “Start trial”, I agree to the [Mattermost Software Evaluation Agreement,](!https://mattermost.com/software-evaluation-agreement) [privacy policy,](!https://mattermost.com/privacy-policy/) and receiving product emails."
         id="start_trial.modal.disclaimer"
       />
     </span>
@@ -82,7 +82,7 @@ exports[`components/learn_more_trial_modal/learn_more_trial_modal_step should ma
   >
     <span>
       <injectIntl(FormattedMarkdownMessage)
-        defaultMessage="By clicking “Start trial”, I agree to the [Mattermost Software Evaluation Agreement,](!https://mattermost.com/software-evaluation-agreement) [privacy policy,](!https://about.mattermost.com/default-privacy-policy/) and receiving product emails."
+        defaultMessage="By clicking “Start trial”, I agree to the [Mattermost Software Evaluation Agreement,](!https://mattermost.com/software-evaluation-agreement) [privacy policy,](!https://mattermost.com/privacy-policy/) and receiving product emails."
         id="start_trial.modal.disclaimer"
       />
     </span>

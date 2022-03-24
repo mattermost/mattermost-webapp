@@ -245,6 +245,11 @@
             }
         }
     }
+
+    &__wrapper-enter-key-press-catcher {
+        width: 100%;
+        height: 100%;
+    }
 }
 
 .GenericModal__header {

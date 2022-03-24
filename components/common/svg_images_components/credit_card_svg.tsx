@@ -15,7 +15,7 @@ const CreditCardSvg = (props: SvgProps) => (
         viewBox='0 0 234 152'
         fill='none'
     >
-        <g clipPath='url(#clip0)'>
+        <g clipPath='url(#clip_credit_card)'>
             <path
                 d='M138.978 49.6651C142.737 53.4214 143.517 59.1062 140.683 62.3984L74.9691 138.745C70.9805 143.382 63.9993 143.531 59.4457 138.956L3.34698 82.8884C-1.20661 78.3377 -1.08212 71.3609 3.55287 67.3749L79.9536 1.70829C83.2431 -1.12452 88.9315 -0.349295 92.6902 3.41183L138.978 49.6651Z'
                 fill='#AFB3C0'
@@ -178,7 +178,7 @@ const CreditCardSvg = (props: SvgProps) => (
             />
         </g>
         <defs>
-            <clipPath id='clip0'>
+            <clipPath id='clip_credit_card'>
                 <rect
                     width='234'
                     height='151.412'
