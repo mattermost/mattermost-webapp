@@ -17,7 +17,7 @@ import {
     getCurrentChannel,
     getDirectTeammate,
     getChannelsInAllTeams,
-    getAllTeamsUnreadChannels,
+    getSortedAllTeamsUnreadChannels,
 } from 'mattermost-redux/selectors/entities/channels';
 
 import ProfilePicture from '../profile_picture';
@@ -284,15 +284,6 @@ function sortChannelsByRecencyAndTypeAndDisplayName(wrappedA, wrappedB) {
 
     // MM-12677 When this is migrated this needs to be fixed to pull the user's locale
     return sortChannelsByTypeAndDisplayName('en', wrappedA.channel, wrappedB.channel);
-}
-
-function sortChannelsByMentions(wrappedA, wrappedB) {
-    if (wrappedA.unreadMentions && !wrappedB.unreadMentions) {
-        return -1;
-    } else if (!wrappedA.unreadMentions && wrappedB.unreadMentions) {
-        return 1;
-    }
-    return sortChannelsByRecencyAndTypeAndDisplayName(wrappedA, wrappedB);
 }
 
 export function quickSwitchSorter(wrappedA, wrappedB) {
@@ -631,14 +622,14 @@ export default class SwitchChannelProvider extends Provider {
         const state = getState();
         const recentChannels = getChannelsInAllTeams(state).concat(getDirectAndGroupChannels(state));
         const wrappedRecentChannels = this.wrapChannels(recentChannels, Constants.MENTION_RECENT_CHANNELS);
-        const unreadChannels = getAllTeamsUnreadChannels(state);
-        const wrappedUnreadChannels = this.wrapChannels(unreadChannels, Constants.MENTION_UNREAD_CHANNELS);
+        const lastUnreadChannel = state.views.channel.lastUnreadChannel;
+        const unreadChannels = getSortedAllTeamsUnreadChannels(state, lastUnreadChannel).slice(0, 5);
+        const sortedUnreadChannels = this.wrapChannels(unreadChannels, Constants.MENTION_UNREAD_CHANNELS);
         if (wrappedRecentChannels.length === 0) {
             prefix = '';
             this.startNewRequest('');
             this.fetchChannels(resultsCallback);
         }
-        const sortedUnreadChannels = wrappedUnreadChannels.sort(sortChannelsByMentions).slice(0, 5);
         const sortedUnreadChannelIDs = sortedUnreadChannels.map((wrappedChannel) => wrappedChannel.channel.id);
         const sortedRecentChannels = wrappedRecentChannels.filter((wrappedChannel) => !sortedUnreadChannelIDs.includes(wrappedChannel.channel.id)).
             sort(sortChannelsByRecencyAndTypeAndDisplayName).slice(0, 20);
