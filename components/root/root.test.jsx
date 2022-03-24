@@ -190,15 +190,6 @@ describe('components/Root', () => {
     });
 
     describe('onConfigLoaded', () => {
-        // Replace loadMeAndConfig with an action that never resolves so we can control exactly when onConfigLoaded is called
-        const props = {
-            ...baseProps,
-            actions: {
-                ...baseProps.actions,
-                loadMeAndConfig: () => new Promise(() => {}),
-            },
-        };
-
         afterEach(() => {
             Client4.telemetryHandler = undefined;
 
@@ -207,7 +198,7 @@ describe('components/Root', () => {
         });
 
         test('should not set a TelemetryHandler when onConfigLoaded is called if Rudder is not configured', () => {
-            const wrapper = shallow(<Root {...props}/>);
+            const wrapper = shallow(<Root {...baseProps}/>);
 
             wrapper.instance().onConfigLoaded();
 
@@ -222,7 +213,7 @@ describe('components/Root', () => {
             Constants.TELEMETRY_RUDDER_KEY = 'testKey';
             Constants.TELEMETRY_RUDDER_DATAPLANE_URL = 'url';
 
-            const wrapper = shallow(<Root {...props}/>);
+            const wrapper = shallow(<Root {...baseProps}/>);
 
             wrapper.instance().onConfigLoaded();
 
@@ -241,7 +232,7 @@ describe('components/Root', () => {
             Constants.TELEMETRY_RUDDER_KEY = 'testKey';
             Constants.TELEMETRY_RUDDER_DATAPLANE_URL = 'url';
 
-            const wrapper = shallow(<Root {...props}/>);
+            const wrapper = shallow(<Root {...baseProps}/>);
 
             wrapper.instance().onConfigLoaded();
 

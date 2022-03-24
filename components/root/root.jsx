@@ -324,22 +324,26 @@ export default class Root extends React.PureComponent {
     }
 
     initiateMeRequests = async () => {
-        await Promise.all([
-            this.props.actions.getClientConfig(),
-            this.props.actions.getLicenseConfig(),
-        ]);
+        try {
+            await Promise.all([
+                this.props.actions.getClientConfig(),
+                this.props.actions.getLicenseConfig(),
+            ]);
 
-        let isMeLoaded = false;
-        if (document.cookie.includes('MMUSERID=')) {
-            const dataFromLoadMe = await this.props.actions.loadMe({isLoggedIn: false});
-            isMeLoaded = dataFromLoadMe?.data ?? false;
+            let isMeLoaded = false;
+            if (document.cookie.includes('MMUSERID=')) {
+                const dataFromLoadMe = await this.props.actions.loadMe();
+                isMeLoaded = dataFromLoadMe?.data ?? false;
+            }
+
+            if (isMeLoaded && this.props.location.pathname === '/') {
+                this.redirectToOnboardingOrDefaultTeam();
+            }
+
+            this.onConfigLoaded();
+        } catch (error) {
+            // do nothing
         }
-
-        if (isMeLoaded && this.props.location.pathname === '/') {
-            this.redirectToOnboardingOrDefaultTeam();
-        }
-
-        this.onConfigLoaded();
     }
 
     componentDidMount() {

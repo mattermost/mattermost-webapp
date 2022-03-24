@@ -118,7 +118,7 @@ export function loginById(id: string, password: string, mfaToken = ''): ActionFu
     };
 }
 
-export function loadMe(isLogginIn = false): ActionFunc {
+export function loadMe(isLoggedIn = false): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
 
@@ -143,7 +143,7 @@ export function loadMe(isLogginIn = false): ActionFunc {
 
             await dispatch(getMyTeamUnreads(isCollapsedThreads));
         } catch (error) {
-            if (isLogginIn) {
+            if (isLoggedIn) {
                 dispatch({type: UserTypes.LOGIN_FAILURE, error});
             }
 
@@ -162,7 +162,7 @@ export function loadMe(isLogginIn = false): ActionFunc {
             Client4.setUserRoles(user.roles);
         }
 
-        if (isLogginIn) {
+        if (isLoggedIn) {
             dispatch({type: UserTypes.LOGIN_SUCCESS, data: null});
         }
 
