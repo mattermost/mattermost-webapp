@@ -57,6 +57,15 @@ describe('Client4', () => {
             assert.equal(isMinimumServerVersion(client.serverVersion, 5, 1, 0), true);
         });
     });
+
+    describe('fetchWithGraphQL', () => {
+        test('Should have correct graphql url', async () => {
+            const client = TestHelper.createClient4();
+            client.setUrl('http://community.mattermost.com');
+
+            assert.equal(client.getGraphQLUrl(), 'http://community.mattermost.com/api/v5/graphql');
+        });
+    });
 });
 
 describe('ClientError', () => {

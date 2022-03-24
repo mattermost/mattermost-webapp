@@ -1,12 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
+import FormData from 'form-data';
 
 import {SystemSetting} from 'mattermost-redux/types/general';
-
-import {General} from '../constants';
-
 import {ClusterInfo, AnalyticsRow, SchemaMigration} from 'mattermost-redux/types/admin';
 import type {AppBinding, AppCallRequest, AppCallResponse} from 'mattermost-redux/types/apps';
 import {Audit} from 'mattermost-redux/types/audits';
@@ -40,9 +37,7 @@ import {
 } from 'mattermost-redux/types/config';
 import {CustomEmoji} from 'mattermost-redux/types/emojis';
 import {ServerError} from 'mattermost-redux/types/errors';
-
 import {FileInfo, FileUploadResponse, FileSearchResults} from 'mattermost-redux/types/files';
-
 import {
     Group,
     GroupPatch,
@@ -115,18 +110,17 @@ import {
     GetDataRetentionCustomPoliciesRequest,
 } from 'mattermost-redux/types/data_retention';
 import {CompleteOnboardingRequest} from 'mattermost-redux/types/setup';
-
 import {buildQueryString, isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 import {cleanUrlForLogging} from 'mattermost-redux/utils/sentry';
 import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
-
 import {UserThreadList, UserThread, UserThreadWithPost} from 'mattermost-redux/types/threads';
 
 import Constants from 'utils/constants';
 
+import {General} from '../constants';
+
 import {TelemetryHandler} from './telemetry';
 
-const FormData = require('form-data');
 const HEADER_AUTH = 'Authorization';
 const HEADER_BEARER = 'BEARER';
 const HEADER_CONTENT_TYPE = 'Content-Type';
@@ -139,7 +133,7 @@ const PER_PAGE_DEFAULT = 60;
 const LOGS_PER_PAGE_DEFAULT = 10000;
 export const DEFAULT_LIMIT_BEFORE = 30;
 export const DEFAULT_LIMIT_AFTER = 30;
-/* eslint-disable no-throw-literal */
+const GRAPHQL_ENDPOINT = '/api/v5/graphql';
 
 export default class Client4 {
     logToConsole = false;
@@ -161,7 +155,6 @@ export default class Client4 {
         unknownError: 'We received an unexpected status code from the server.',
     };
     userRoles?: string;
-
     telemetryHandler?: TelemetryHandler;
 
     getUrl() {
@@ -173,6 +166,10 @@ export default class Client4 {
             return baseUrl;
         }
         return this.getUrl() + baseUrl;
+    }
+
+    getGraphQLUrl() {
+        return `${this.url}${GRAPHQL_ENDPOINT}`;
     }
 
     setUrl(url: string) {
@@ -3835,15 +3832,24 @@ export default class Client4 {
         );
     }
 
+    /**
+     * @param query string query of graphQL, pass the json stringified version of the query
+     * eg.  const query = JSON.stringify({query: `{license, config}`});
+     *      client4.fetchWithGraphQL(query);
+     */
+    fetchWithGraphQL = async <DataResponse>(query: string) => {
+        return this.doFetch<DataResponse>(this.getGraphQLUrl(), {method: 'post', body: query});
+    }
+
     // Client Helpers
 
-    doFetch = async <T>(url: string, options: Options): Promise<T> => {
-        const {data} = await this.doFetchWithResponse<T>(url, options);
+    doFetch = async <ClientDataResponse>(url: string, options: Options): Promise<ClientDataResponse> => {
+        const {data} = await this.doFetchWithResponse<ClientDataResponse>(url, options);
 
         return data;
     };
 
-    doFetchWithResponse = async <T>(url: string, options: Options): Promise<ClientResponse<T>> => {
+    doFetchWithResponse = async <ClientDataResponse>(url: string, options: Options): Promise<ClientResponse<ClientDataResponse>> => {
         const response = await fetch(url, this.getOptions(options));
         const headers = parseAndMergeNestedHeaders(response.headers);
 
