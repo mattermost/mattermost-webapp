@@ -103,8 +103,9 @@ describe('Collapsed Reply Threads', () => {
     it('MM-T4446 delete single reply on thread (current behavior is incorrect, see comments)', () => {
         /**
          * When you delete a reply you are still following the thread, so the thread is not being removed
-         * from the global threads view. The test will be build keeping that in mind, but should be adjusted
-         * once the feature is built in.
+         * from the global threads view. The test description was written differently asit was assuming the
+         * thread to not be followed after that. The test will be build keeping that in mind, but should
+         * probably be adjusted later on.
          */
         cy.uiWaitUntilMessagePostedIncludes(rootPost.data.message);
 
@@ -136,7 +137,7 @@ describe('Collapsed Reply Threads', () => {
             // # Login as testUser
             cy.apiLogin(testUser);
 
-            // # Reload to re-render UI as new user
+            // # Reload to re-render UI
             cy.reload();
 
             // * There should be a single thread item with no reply
