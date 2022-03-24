@@ -483,7 +483,7 @@ describe('Messaging', () => {
 
     it('MM-T2139 Canceling out of editing a message makes no changes - Center', () => {
         // # Post message
-        cy.get('#post_textbox').type(message1).type('{enter}').wait(TIMEOUTS.HALF_SEC);
+        cy.get('#post_textbox').type(message1).type('{enter}').wait(TIMEOUTS.TWO_SEC);
 
         // # Edit post containing channel link
         cy.getLastPostId().then((postId) => {
@@ -494,7 +494,7 @@ describe('Messaging', () => {
             cy.get('#edit_textbox').should('be.visible');
 
             // * Close the input
-            cy.get('#edit_textbox').type('{enter}').wait(TIMEOUTS.TWO_SEC);
+            cy.get('#edit_textbox').type('{enter}').wait(TIMEOUTS.FIVE_SEC);
 
             // # Verify that last post does not contain "Edited"
             cy.get(`#postMessageText_${postId}`).should('contain', message1).and('not.contain', 'Edited');
