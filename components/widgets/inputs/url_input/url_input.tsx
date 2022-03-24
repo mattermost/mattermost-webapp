@@ -44,8 +44,10 @@ function UrlInput({
     const [editing, setEditing] = useState(false);
 
     useEffect(() => {
-        setEditing(hasError);
-    }, []);
+        if (error) {
+            setEditing(true);
+        }
+    }, [error]);
 
     const fullPath = `${base}/${path ? `${path}/` : ''}`;
     const fullURL = `${fullPath}${editing ? '' : pathInfo}`;

@@ -108,10 +108,10 @@
                 padding: 26px 32px 15px;
 
                 .close {
-                    top: 24px;
-                    right: 22px;
-                    width: 30px;
-                    height: 30px;
+                    top: 20px;
+                    right: 18px;
+                    width: 40px;
+                    height: 40px;
                     box-shadow: none;
 
                     &:active {
@@ -146,7 +146,7 @@
             }
 
             .modal-footer {
-                padding: 0 32px 26px;
+                padding: 24px 32px;
                 border-bottom-left-radius: 12px;
                 border-bottom-right-radius: 12px;
             }
@@ -156,9 +156,9 @@
                 box-sizing: border-box;
                 flex: 1;
                 padding: 14px;
-                border: 1px solid rgba(247, 67, 67, 0.16);
+                border: 1px solid rgba(var(--dnd-indicator-rgb), 0.16);
                 margin-bottom: 24px;
-                background: rgba(247, 67, 67, 0.08);
+                background: rgba(var(--dnd-indicator-rgb), 0.08);
                 border-radius: 4px;
 
                 span {
@@ -231,6 +231,7 @@
                     &.disabled {
                         background: rgba(var(--center-channel-color-rgb), 0.08);
                         color: rgba(var(--center-channel-color-rgb), 0.32);
+                        cursor: not-allowed;
                     }
                 }
             }

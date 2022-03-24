@@ -61,8 +61,9 @@ const enum ServerErrorId {
     CHANNEL_CREATE_EXISTS = 'store.sql_channel.save_channel.exists.app_error',
 }
 
-const NewChannelFlow = () => {
-    const {formatMessage} = useIntl();
+const NewChannelModal = () => {
+    const intl = useIntl();
+    const {formatMessage} = intl;
 
     const {id: currentTeamId, name: currentTeamName} = useSelector((state: GlobalState) => getCurrentTeam(state));
     const canCreatePublicChannel = currentTeamId ? useSelector((state: GlobalState) => haveICurrentChannelPermission(state, Permissions.CREATE_PUBLIC_CHANNEL)) : false;
@@ -164,7 +165,7 @@ const NewChannelFlow = () => {
         const {target: {value: url}} = e;
 
         const cleanURL = url.toLowerCase().replace(/\s/g, '-');
-        const urlErrors = validateChannelUrl(cleanURL, false) as string[];
+        const urlErrors = validateChannelUrl(cleanURL, intl) as string[];
 
         setURLError(urlErrors.length ? urlErrors[urlErrors.length - 1] : '');
         setURL(cleanURL);
@@ -219,12 +220,12 @@ const NewChannelFlow = () => {
                     onChange={handleOnDisplayNameChange}
                 />
                 <URLInput
-                    className='new-channel-modal-url'
+                    className='new-channel-modal__url'
                     base={getSiteURL()}
-                    path={currentTeamName}
+                    path={`${currentTeamName}/channels`}
                     pathInfo={url}
                     limit={Constants.MAX_CHANNELNAME_LENGTH}
-                    shortenLength={52}
+                    shortenLength={Constants.DEFAULT_URL_SHORTEN_LENGTH}
                     error={urlError}
                     onChange={handleOnURLChange}
                 />
@@ -265,4 +266,4 @@ const NewChannelFlow = () => {
     );
 };
 
-export default NewChannelFlow;
+export default NewChannelModal;

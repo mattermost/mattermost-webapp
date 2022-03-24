@@ -62,7 +62,7 @@ storiesOf('Widgets/Inputs/URL Input', module).
                     <StoryBox containerStyle={{width: 600, padding: 32}}>
                         <URLInput
                             base='https://community.mattermost.com'
-                            path='test/channels'
+                            path='mattermost-pr-10030/channels'
                             pathInfo={pathInfo}
                             shortenLength={52}
                             onChange={handleOnChange}

@@ -5,10 +5,6 @@
         border-radius: 0 !important;
     }
 
-    .new-channel-modal-url {
-        margin-top: 4px;
-    }
-
     .new-channel-modal-type-selector {
         margin-top: 24px;
     }
@@ -46,4 +42,8 @@
             text-align: left;
         }
     }
+}
+
+.new-channel-modal__url {
+    margin-top: 4px;
 }

@@ -23,7 +23,6 @@ import CardInput, {CardInputType} from './card_input';
 import CardImage from './card_image';
 
 import './payment_form.scss';
-import 'components/widgets/inputs/input/input.scss';
 
 type Props = {
     className: string;

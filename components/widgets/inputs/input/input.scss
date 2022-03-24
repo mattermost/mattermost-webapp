@@ -86,7 +86,7 @@
         padding: 0 1px;
         border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
         border-radius: 4px;
-        color: rgba(34, 64, 109, 0.4);
+        color: rgba(var(--secondary-blue-rgb), 0.4);
 
         &:hover {
             border-color: rgba(var(--center-channel-color-rgb), 0.48);
