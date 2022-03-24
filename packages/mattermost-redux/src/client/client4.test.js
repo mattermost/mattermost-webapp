@@ -58,7 +58,7 @@ describe('Client4', () => {
         });
     });
 
-    describe('doFetchWithGraphQL', () => {
+    describe('fetchWithGraphQL', () => {
         test('Should have correct graphql url', async () => {
             const client = TestHelper.createClient4();
             client.setUrl('http://community.mattermost.com');

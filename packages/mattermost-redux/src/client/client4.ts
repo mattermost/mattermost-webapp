@@ -3832,6 +3832,15 @@ export default class Client4 {
         );
     }
 
+    /**
+     * @param query string query of graphQL, pass the json stringified version of the query
+     * eg.  const query = JSON.stringify({query: `{license, config}`});
+     *      client4.fetchWithGraphQL(query);
+     */
+    fetchWithGraphQL = async <DataResponse>(query: string) => {
+        return this.doFetch<DataResponse>(this.getGraphQLUrl(), {method: 'post', body: query});
+    }
+
     // Client Helpers
 
     doFetch = async <ClientDataResponse>(url: string, options: Options): Promise<ClientDataResponse> => {
@@ -3839,15 +3848,6 @@ export default class Client4 {
 
         return data;
     };
-
-    /**
-     * @param query string query of graphQL, pass the json stringified version of the query
-     * eg.  const query = JSON.stringify({query: `{license, config}`});
-     *      client4.doFetchWithGraphQL(query);
-     */
-    doFetchWithGraphQL = async <DataResponse>(query: string) => {
-        return this.doFetch<DataResponse>(this.getGraphQLUrl(), {method: 'post', body: query});
-    }
 
     doFetchWithResponse = async <ClientDataResponse>(url: string, options: Options): Promise<ClientResponse<ClientDataResponse>> => {
         const response = await fetch(url, this.getOptions(options));
