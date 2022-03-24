@@ -95,7 +95,7 @@ Cypress.Commands.add('apiDeletePost', (postId, user = getAdminAccount()) => {
         method: 'delete',
         path: `posts/${postId}`,
     }).then((response) => {
-        // * Validate that request was denied
+        // * Validate that request was successful
         expect(response.status).to.equal(200);
         return cy.wrap({status: response.status});
     });
