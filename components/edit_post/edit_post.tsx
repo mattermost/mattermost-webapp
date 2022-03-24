@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ClipboardEventHandler, useCallback, useEffect, useRef, useState} from 'react';
+import React, {ClipboardEventHandler, memo, useCallback, useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 
@@ -101,7 +101,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
         return () => document.removeEventListener(AppEvents.FOCUS_EDIT_TEXTBOX, focusTextBox);
     }, []);
 
-    const handlePaste: ClipboardEventHandler<HTMLInputElement> = (e) => {
+    const handlePaste: ClipboardEventHandler<HTMLInputElement> = useCallback((e) => {
         if (
             !e.clipboardData ||
             !e.clipboardData.items ||
@@ -142,7 +142,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
         if (textboxRef.current) {
             Utils.setCaretPosition(textboxRef.current.getInputBox(), newCaretPosition);
         }
-    };
+    }, [textboxRef, rest.canEditPost, caretPosition, editText]);
 
     const isSaveDisabled = () => {
         const {post} = editingPost;
@@ -391,8 +391,6 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
         );
     }
 
-    const ctrlSendKey = isMac() ? '⌘+' : 'CTRL+';
-
     return (
         <div
             className={classNames('post--editing__wrapper', {
@@ -426,15 +424,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
             <div className='post-body__actions'>
                 {emojiPicker}
             </div>
-            <div className='post-body__helper-text'>
-                <FormattedMarkdownMessage
-                    id='edit_post.helper_text'
-                    defaultMessage='**{key}ENTER** to Save, **ESC** to Cancel'
-                    values={{
-                        key: rest.ctrlSend ? ctrlSendKey : '',
-                    }}
-                />
-            </div>
+            <EditPostHelperText ctrlSend={rest.ctrlSend}/>
             {postError && (
                 <div className={classNames('edit-post-footer', {'has-error': postError})}>
                     <label className={classNames('post-error', errorClass)}>{postError}</label>
@@ -443,5 +433,25 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
         </div>
     );
 };
+
+type EditPostHelperTextProps = {
+    ctrlSend: boolean;
+}
+
+const EditPostHelperText = memo(({ctrlSend}: EditPostHelperTextProps) => {
+    const ctrlSendKey = isMac() ? '⌘+' : 'CTRL+';
+
+    return (
+        <div className='post-body__helper-text'>
+            <FormattedMarkdownMessage
+                id='edit_post.helper_text'
+                defaultMessage='**{key}ENTER** to Save, **ESC** to Cancel'
+                values={{
+                    key: ctrlSend ? ctrlSendKey : '',
+                }}
+            />
+        </div>
+    );
+});
 
 export default EditPost;
