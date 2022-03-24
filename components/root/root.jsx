@@ -20,7 +20,7 @@ import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferen
 
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions';
 import * as GlobalActions from 'actions/global_actions';
-import {measurePageLoadTelemetry} from 'actions/telemetry_actions.jsx';
+import {measurePageLoadTelemetry, trackSelectorMetrics} from 'actions/telemetry_actions.jsx';
 
 import {makeAsyncComponent} from 'components/async_load';
 import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
@@ -362,6 +362,7 @@ export default class Root extends React.PureComponent {
         }
 
         measurePageLoadTelemetry();
+        trackSelectorMetrics();
     }
 
     componentWillUnmount() {
