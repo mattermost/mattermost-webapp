@@ -12,7 +12,6 @@ import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 
 import ErrorTitle from './error_title';
 import ErrorMessage from './error_message';
-import WorkspaceUserLimitReached from './workspace_user_limit_reached';
 
 type Location = {
     search: string;
@@ -147,10 +146,6 @@ export default class ErrorPage extends React.PureComponent<Props> {
                 </div>
             </div>
         );
-
-        if (type === ErrorPageTypes.MAX_FREE_USERS_REACHED) {
-            errorPage = <WorkspaceUserLimitReached/>;
-        }
 
         return (
             <>

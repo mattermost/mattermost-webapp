@@ -112,11 +112,6 @@ describe('components/SignupController', () => {
                 ...baseProps.location,
                 search: '?id=ppni7a9t87fn3j4d56rwocdctc',
             },
-            subscriptionStats: {
-                ...baseProps.subscriptionStats,
-                is_paid_tier: 'false',
-                remaining_seats: 0,
-            },
             actions: {
                 ...baseProps.actions,
                 addUserToTeamFromInvite,

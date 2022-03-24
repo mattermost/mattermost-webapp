@@ -3721,13 +3721,6 @@ export default class Client4 {
         );
     }
 
-    getSubscriptionStats = () => {
-        return this.doFetch<SubscriptionStats>(
-            `${this.getCloudRoute()}/subscription/stats`,
-            {method: 'get'},
-        );
-    }
-
     getRenewalLink = () => {
         return this.doFetch<{renewal_link: string}>(
             `${this.getBaseRoute()}/license/renewal`,
@@ -3797,20 +3790,6 @@ export default class Client4 {
         return this.doFetch<StatusOK>(
             `${this.getNoticesRoute()}/view`,
             {method: 'put', body: JSON.stringify(noticeIds)},
-        );
-    }
-
-    sendAdminUpgradeRequestEmail = () => {
-        return this.doFetch<StatusOK>(
-            `${this.getCloudRoute()}/subscription/limitreached/invite`,
-            {method: 'post'},
-        );
-    }
-
-    sendAdminUpgradeRequestEmailOnJoin = () => {
-        return this.doFetch<StatusOK>(
-            `${this.getCloudRoute()}/subscription/limitreached/join`,
-            {method: 'post'},
         );
     }
 

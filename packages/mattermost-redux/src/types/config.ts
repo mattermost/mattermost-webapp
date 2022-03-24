@@ -107,7 +107,6 @@ export type ClientConfig = {
     ExperimentalClientSideCertCheck: string;
     ExperimentalClientSideCertEnable: string;
     ExperimentalCloudBilling: string;
-    ExperimentalCloudUserLimit: string;
     ExperimentalDataPrefetch: string;
     ExperimentalEnableAuthenticationTransfer: string;
     ExperimentalEnableAutomaticReplies: string;

@@ -37,28 +37,6 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
         expect(wrapper.find('UpgradeLink').exists()).toEqual(true);
     });
 
-    test('should NOT render when NOT on cloud license and NOT during free trial period', () => {
-        const state = {
-            entities: {
-                general: {
-                    license: {
-                        IsLicensed: 'false',
-                    },
-                },
-                cloud: {
-                    customer: null,
-                    subscription: null,
-                    products: null,
-                    invoices: null,
-                    subscriptionStats: null,
-                },
-            },
-        };
-        const store = mockStore(state);
-        const wrapper = mountWithIntl(<Provider store={store}><MenuCloudTrial id='menuCloudTrial'/></Provider>);
-        expect(wrapper.find('UpgradeLink').exists()).toEqual(false);
-    });
-
     test('should NOT render when NO license is available', () => {
         const state = {
             entities: {
@@ -68,7 +46,6 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                     subscription: null,
                     products: null,
                     invoices: null,
-                    subscriptionStats: null,
                 },
             },
         };

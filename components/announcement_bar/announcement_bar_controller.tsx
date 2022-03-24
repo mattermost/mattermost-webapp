@@ -31,7 +31,6 @@ type Props = {
         dismissError: (index: number) => void;
         getCloudSubscription: () => void;
         getCloudCustomer: () => void;
-        getSubscriptionStats: () => void;
     };
 };
 

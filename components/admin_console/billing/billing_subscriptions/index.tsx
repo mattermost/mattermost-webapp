@@ -7,7 +7,7 @@ import {useDispatch, useStore, useSelector} from 'react-redux';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {getCloudSubscription, getCloudProducts, getCloudCustomer} from 'mattermost-redux/actions/cloud';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
@@ -45,12 +45,10 @@ import {
 
 import './billing_subscriptions.scss';
 
-const WARNING_THRESHOLD = 3;
 
 const BillingSubscriptions: React.FC = () => {
     const dispatch = useDispatch<DispatchFunc>();
     const store = useStore();
-    const userLimit = useSelector((state: GlobalState) => parseInt(getConfig(state).ExperimentalCloudUserLimit!, 10));
     const analytics = useSelector((state: GlobalState) => state.entities.admin.analytics);
     const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
     const isCloud = useSelector((state: GlobalState) => getLicense(state).Cloud === 'true');
@@ -120,12 +118,8 @@ const BillingSubscriptions: React.FC = () => {
     }, []);
 
     const shouldShowInfoBanner = (): boolean => {
-        if (!analytics || !isCloud || !userLimit || !preferences || !subscription || subscription.is_paid_tier === 'true' || preferences.some((pref: PreferenceType) => pref.name === CloudBanners.HIDE && pref.value === 'true')) {
+        if (!analytics || !isCloud || !preferences || !subscription || subscription.is_paid_tier === 'true' || preferences.some((pref: PreferenceType) => pref.name === CloudBanners.HIDE && pref.value === 'true')) {
             return false;
-        }
-
-        if ((userLimit - Number(analytics.TOTAL_USERS)) <= WARNING_THRESHOLD && (userLimit - Number(analytics.TOTAL_USERS) > 0)) {
-            return true;
         }
 
         return false;

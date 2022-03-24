@@ -28,7 +28,6 @@ import {t} from 'utils/i18n';
 import AnnouncementBar from '../default_announcement_bar';
 
 type Props = {
-    userLimit: number;
     userIsAdmin: boolean;
     currentUser: UserProfile;
     preferences: PreferenceType[];
@@ -82,7 +81,7 @@ class UserLimitAnnouncementBar extends React.PureComponent<Props> {
     }
 
     shouldShowBanner = () => {
-        const {userLimit, analytics, userIsAdmin, isCloud, subscription} = this.props;
+        const {userIsAdmin, isCloud, subscription} = this.props;
 
         // Prevents banner flashes if the subscription hasn't been loaded yet
         if (subscription === null) {
@@ -101,22 +100,11 @@ class UserLimitAnnouncementBar extends React.PureComponent<Props> {
             return false;
         }
 
-        if (!userLimit || userLimit > analytics!.TOTAL_USERS || !userLimit) {
-            return false;
-        }
-
         return true;
     }
 
     isDismissable = () => {
-        const {userLimit, analytics} = this.props;
-        let dismissable = true;
-
-        // If the user limit is less than the current number of users, the banner is not dismissable
-        if (userLimit < analytics!.TOTAL_USERS) {
-            dismissable = false;
-        }
-        return dismissable;
+        return true;
     }
 
     showModal = () => {
@@ -138,20 +126,14 @@ class UserLimitAnnouncementBar extends React.PureComponent<Props> {
     }
 
     render() {
-        const {userLimit, analytics, preferences} = this.props;
+        const {analytics} = this.props;
 
-        if (isEmpty(this.props.analytics)) {
+        if (isEmpty(analytics)) {
             // If the analytics aren't yet loaded, return null to avoid a flash of the banner
             return null;
         }
 
         if (!this.shouldShowBanner()) {
-            return null;
-        }
-
-        // If AT user limit, and banner hidden, don't render anything
-        if (userLimit === analytics!.TOTAL_USERS &&
-            preferences.some((pref) => pref.name === CloudBanners.HIDE && pref.value === 'true')) {
             return null;
         }
 

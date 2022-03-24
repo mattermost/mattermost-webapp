@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
@@ -24,7 +24,6 @@ import UserLimitAnnouncementBar from './user_limit_announcement_bar';
 function mapStateToProps(state: GlobalState) {
     const getCategory = makeGetCategory();
     return {
-        userLimit: parseInt(getConfig(state).ExperimentalCloudUserLimit!, 10),
         analytics: state.entities.admin.analytics,
         userIsAdmin: isCurrentUserSystemAdmin(state),
         currentUser: getCurrentUser(state),
