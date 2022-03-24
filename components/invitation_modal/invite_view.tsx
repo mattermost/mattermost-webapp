@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage, useIntl} from 'react-intl';
 
@@ -73,22 +73,11 @@ export type Props = InviteState & {
 }
 
 export default function InviteView(props: Props) {
-    const [channelsToInvite, setChannelsToInvite] = useState(props.inviteChannels);
-
     useEffect(() => {
         if (!props.currentTeam.invite_id) {
             props.regenerateTeamInviteId(props.currentTeam.id);
         }
     }, [props.currentTeam.id, props.currentTeam.invite_id, props.regenerateTeamInviteId]);
-
-    useEffect(() => {
-        if (props.channelToInvite) {
-            setChannelsToInvite({
-                channels: [...props.inviteChannels.channels, props.channelToInvite],
-                search: props.inviteChannels.search,
-            });
-        }
-    }, [props.channelToInvite]);
 
     const {formatMessage} = useIntl();
 
@@ -269,18 +258,20 @@ export default function InviteView(props: Props) {
                     titleClass='InviteView__sectionTitle'
                 />
                 }
-                {(props.inviteType === InviteType.GUEST || props.channelToInvite) && (
+                {(props.inviteType === InviteType.GUEST || (props.inviteType === InviteType.MEMBER && props.channelToInvite)) && (
                     <AddToChannels
                         setCustomMessage={props.setCustomMessage}
                         toggleCustomMessage={props.toggleCustomMessage}
                         customMessage={props.customMessage}
                         onChannelsChange={props.onChannelsChange}
                         onChannelsInputChange={props.onChannelsInputChange}
-                        inviteChannels={channelsToInvite}
+                        inviteChannels={props.inviteChannels}
                         channelsLoader={props.channelsLoader}
                         currentChannel={props.currentChannel}
                         townSquareDisplayName={props.townSquareDisplayName}
                         titleClass='InviteView__sectionTitle'
+                        channelToInvite={props.channelToInvite}
+                        inviteType={props.inviteType}
                     />
                 )}
             </Modal.Body>

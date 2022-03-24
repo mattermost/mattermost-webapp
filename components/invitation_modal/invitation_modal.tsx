@@ -51,10 +51,11 @@ export type Props = {
             emails: string[]
         ) => Promise<{data: InviteResults}>;
         sendMembersInvitesToChannels: (
-            channels: Channel[],
             teamId: string,
+            channels: Channel[],
             users: UserProfile[],
-            emails: string[]
+            emails: string[],
+            message: string,
         ) => Promise<{data: InviteResults}>;
     };
     currentTeam: Team;
@@ -101,11 +102,17 @@ export class InvitationModal extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
+        const defaultStateChannels = this.defaultState.invite.inviteChannels.channels;
+
         this.state = {
             ...this.defaultState,
             invite: {
                 ...this.defaultState.invite,
                 inviteType: (!props.canAddUsers && props.canInviteGuests) ? InviteType.GUEST : this.defaultState.invite.inviteType,
+                inviteChannels: {
+                    ...this.defaultState.invite.inviteChannels,
+                    channels: props.channelToInvite ? [...defaultStateChannels, props.channelToInvite] : defaultStateChannels,
+                },
             },
         };
     }
@@ -173,10 +180,11 @@ export class InvitationModal extends React.PureComponent<Props, State> {
             if (this.props.channelToInvite) {
                 // this call is to invite as member but to (a) channel(s) directly
                 const result = await this.props.actions.sendMembersInvitesToChannels(
-                    this.state.invite.inviteChannels.channels,
                     this.props.currentTeam.id,
+                    this.state.invite.inviteChannels.channels,
                     users,
                     emails,
+                    this.state.invite.customMessage.open ? this.state.invite.customMessage.message : '',
                 );
                 invites = result.data;
             } else {

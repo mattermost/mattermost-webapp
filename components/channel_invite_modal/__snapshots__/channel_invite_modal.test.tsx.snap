@@ -63,17 +63,36 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
     >
       <MultiSelect
         ariaLabelRenderer={[Function]}
+        backButtonClass="btn-cancel tertiary-button"
+        backButtonClick={[Function]}
+        backButtonText="Cancel"
         buttonSubmitLoadingText="Adding..."
         buttonSubmitText="Add"
+        customNoOptionsMessage={
+          <div
+            className="custom-no-options-message"
+          >
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="No matches found - <InvitationModalLink>Invite them to the team</InvitationModalLink>"
+              id="channel_invite.no_options_message"
+              values={
+                Object {
+                  "InvitationModalLink": [Function],
+                }
+              }
+            />
+          </div>
+        }
         focusOnLoad={true}
         handleAdd={[Function]}
+        handleCancel={[Function]}
         handleDelete={[Function]}
         handleInput={[Function]}
         handlePageChange={[Function]}
         handleSubmit={[Function]}
         key="addUsersToChannelKey"
         loading={true}
-        maxValues={20}
+        numRemainingText={false}
         optionRenderer={[Function]}
         options={
           Array [
@@ -104,6 +123,14 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
         valueWithImage={true}
         values={Array []}
       />
+      <InviteModalLink
+        inviteAsGuest={true}
+      >
+        <MemoizedFormattedMessage
+          defaultMessage="Invite as a Guest"
+          id="channel_invite.invite_guest"
+        />
+      </InviteModalLink>
     </div>
   </ModalBody>
 </Modal>
@@ -226,17 +253,36 @@ exports[`components/channel_invite_modal should match snapshot with exclude and 
     >
       <MultiSelect
         ariaLabelRenderer={[Function]}
+        backButtonClass="btn-cancel tertiary-button"
+        backButtonClick={[Function]}
+        backButtonText="Cancel"
         buttonSubmitLoadingText="Adding..."
         buttonSubmitText="Add"
+        customNoOptionsMessage={
+          <div
+            className="custom-no-options-message"
+          >
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="No matches found - <InvitationModalLink>Invite them to the team</InvitationModalLink>"
+              id="channel_invite.no_options_message"
+              values={
+                Object {
+                  "InvitationModalLink": [Function],
+                }
+              }
+            />
+          </div>
+        }
         focusOnLoad={true}
         handleAdd={[Function]}
+        handleCancel={[Function]}
         handleDelete={[Function]}
         handleInput={[Function]}
         handlePageChange={[Function]}
         handleSubmit={[Function]}
         key="addUsersToChannelKey"
         loading={true}
-        maxValues={20}
+        numRemainingText={false}
         optionRenderer={[Function]}
         options={
           Array [
@@ -267,6 +313,14 @@ exports[`components/channel_invite_modal should match snapshot with exclude and 
         valueWithImage={true}
         values={Array []}
       />
+      <InviteModalLink
+        inviteAsGuest={true}
+      >
+        <MemoizedFormattedMessage
+          defaultMessage="Invite as a Guest"
+          id="channel_invite.invite_guest"
+        />
+      </InviteModalLink>
     </div>
   </ModalBody>
 </Modal>

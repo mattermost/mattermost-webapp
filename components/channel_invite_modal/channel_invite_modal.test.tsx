@@ -66,6 +66,7 @@ describe('components/channel_invite_modal', () => {
             getUserStatuses: jest.fn().mockImplementation(() => Promise.resolve()),
             loadStatusesForProfilesList: jest.fn(),
             searchProfiles: jest.fn(),
+            closeModal: jest.fn(),
         },
         onExited: jest.fn(),
     };

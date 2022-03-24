@@ -1411,11 +1411,23 @@ export default class Client4 {
 
         return this.doFetch<TeamInviteWithError>(
             `${this.getTeamRoute(teamId)}/invite/email?graceful=true`,
-            {method: 'post', body: JSON.stringify(emails)},
+            {method: 'post', body: JSON.stringify({emails})},
         );
     };
 
-    // Here, create new method to invite to team and channel
+    sendEmailInvitesToTeamAndChannelsGracefully = (
+        teamId: string,
+        channelIds: string[],
+        emails: string[],
+        message: string,
+    ) => {
+        this.trackEvent('api', 'api_teams_invite_members_to_channels', {team_id: teamId, channel_ids: channelIds});
+
+        return this.doFetch<TeamInviteWithError>(
+            `${this.getTeamRoute(teamId)}/invite/email?graceful=true`,
+            {method: 'post', body: JSON.stringify({emails, channels: channelIds, message})},
+        );
+    };
 
     sendEmailGuestInvitesToChannelsGracefully = async (teamId: string, channelIds: string[], emails: string[], message: string) => {
         this.trackEvent('api', 'api_teams_invite_guests', {team_id: teamId, channel_ids: channelIds});

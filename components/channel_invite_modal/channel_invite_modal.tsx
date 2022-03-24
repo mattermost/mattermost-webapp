@@ -24,7 +24,6 @@ import ToggleModalButton from 'components/toggle_modal_button';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 
 const USERS_PER_PAGE = 50;
-const MAX_SELECTABLE_VALUES = 20;
 
 type UserProfileValue = Value & UserProfile;
 
@@ -306,7 +305,7 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
             return (
                 <ToggleModalButton
                     id='inviteGuest'
-                    className='invite-as-guest btn btn-link'
+                    className={`${inviteAsGuest ? 'invite-as-guest' : ''} btn btn-link`}
                     modalId={ModalIdentifiers.INVITATION}
                     dialogType={InvitationModal}
                     dialogProps={{
@@ -353,16 +352,16 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                 handleAdd={this.addValue}
                 handleSubmit={this.handleSubmit}
                 handleCancel={closeMembersInviteModal}
-                maxValues={MAX_SELECTABLE_VALUES}
                 buttonSubmitText={buttonSubmitText}
                 buttonSubmitLoadingText={buttonSubmitLoadingText}
                 saving={this.state.saving}
                 loading={this.state.loadingUsers}
+                numRemainingText={false}
                 placeholderText={localizeMessage('multiselect.placeholder', 'Search for people')}
                 valueWithImage={true}
                 backButtonText={localizeMessage('multiselect.cancel', 'Cancel')}
                 backButtonClick={closeMembersInviteModal}
-                backButtonClass={'btn-cancel'}
+                backButtonClass={'btn-cancel tertiary-button'}
                 customNoOptionsMessage={customNoOptionsMessage}
             />
         );
