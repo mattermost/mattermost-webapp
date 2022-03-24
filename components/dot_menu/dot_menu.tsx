@@ -188,10 +188,12 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.setState({canEdit: false});
     }
 
-    handleFlagMenuItemActivated = (): void => {
+    handleFlagMenuItemActivated = (e: ChangeEvent): void => {
         if (this.props.isFlagged) {
+            trackDotMenuEvent(e, TELEMETRY_LABELS.UNSAVE);
             this.props.actions.unflagPost(this.props.post.id);
         } else {
+            trackDotMenuEvent(e, TELEMETRY_LABELS.SAVE);
             this.props.actions.flagPost(this.props.post.id);
         }
     }
@@ -361,6 +363,12 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             this.props.handleDropdownOpened(false);
             break;
 
+        // save / unsave
+        case Utils.isKeyPressed(e, Constants.KeyCodes.S):
+            this.handleFlagMenuItemActivated(e);
+            this.props.handleDropdownOpened(false);
+            break;
+
         // mark as unread
         case Utils.isKeyPressed(e, Constants.KeyCodes.U):
             this.handleMarkPostAsUnread(e);
@@ -454,6 +462,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         <Menu.ItemAction
                             show={isMobile && !isSystemMessage && !this.props.isReadOnly && this.props.enableEmojiPicker}
                             text={Utils.localizeMessage('rhs_root.mobile.add_reaction', 'Add Reaction')}
+                            icon={Utils.getMenuItemIcon('icon-emoticon-plus-outline')}
                             onClick={this.handleAddReactionMenuItemActivated}
                         />
                     </ChannelPermissionGate>
@@ -489,11 +498,15 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     <Menu.ItemAction
                         show={isMobile && !isSystemMessage && this.props.isFlagged}
                         text={Utils.localizeMessage('rhs_root.mobile.unflag', 'Remove from Saved')}
+                        icon={Utils.getMenuItemIcon('icon-bookmark')}
+                        rightDecorator={'S'}
                         onClick={this.handleFlagMenuItemActivated}
                     />
                     <Menu.ItemAction
                         show={isMobile && !isSystemMessage && !this.props.isFlagged}
                         text={Utils.localizeMessage('rhs_root.mobile.flag', 'Save')}
+                        icon={Utils.getMenuItemIcon('icon-bookmark-outline')}
+                        rightDecorator={'S'}
                         onClick={this.handleFlagMenuItemActivated}
                     />
                     <Menu.ItemAction
