@@ -10,6 +10,9 @@ import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {Locations} from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
 
+import * as dotUtils from './utils';
+jest.mock('./utils');
+
 import DotMenu, {DotMenuClass} from './dot_menu';
 
 describe('components/dot_menu/DotMenu', () => {
@@ -157,6 +160,7 @@ describe('components/dot_menu/DotMenu', () => {
             [true, {isFollowingThread: false}],
         ])('should call setThreadFollow with following as %s', (following, caseProps) => {
             const spySetThreadFollow = jest.fn();
+            const spy = jest.spyOn(dotUtils, 'trackDotMenuEvent');
 
             const props = {
                 ...baseProps,
@@ -174,6 +178,7 @@ describe('components/dot_menu/DotMenu', () => {
 
             wrapper.find(`#follow_post_thread_${baseProps.post.id}`).simulate('click');
 
+            expect(spy).toHaveBeenCalled();
             expect(spySetThreadFollow).toHaveBeenCalledWith(
                 'user_id_1',
                 'team_id_1',
