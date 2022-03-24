@@ -43,6 +43,8 @@ type Props = {
 
 type State = {
     checkOverflow: number;
+    embed: AppBinding;
+    bindings: AppBinding[];
 }
 
 export default class EmbeddedBinding extends React.PureComponent<Props, State> {
@@ -50,9 +52,17 @@ export default class EmbeddedBinding extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        this.state = {
+        const state: State = {
             checkOverflow: 0,
+            embed: props.embed,
+            bindings: [],
         };
+
+        if (props.embed.app_id && props.embed.bindings) {
+            state.bindings = EmbeddedBinding.fillBindings(props.embed);
+        }
+
+        this.state = state;
 
         this.imageProps = {
             onImageLoaded: this.handleHeightReceived,
@@ -60,10 +70,21 @@ export default class EmbeddedBinding extends React.PureComponent<Props, State> {
         };
     }
 
-    fillBindings = (binding: AppBinding) => {
+    static getDerivedStateFromProps(props: Props, prevState: State) {
+        if (props.embed !== prevState.embed) {
+            return {
+                embed: props.embed,
+                bindings: EmbeddedBinding.fillBindings(props.embed),
+            };
+        }
+
+        return null;
+    }
+
+    static fillBindings = (binding: AppBinding): AppBinding[] => {
         const copiedBindings = JSON.parse(JSON.stringify(binding)) as AppBinding;
         cleanBinding(copiedBindings, AppBindingLocations.IN_POST);
-        return copiedBindings.bindings;
+        return copiedBindings.bindings!;
     }
 
     renderBindings = () => {
@@ -75,7 +96,7 @@ export default class EmbeddedBinding extends React.PureComponent<Props, State> {
             return null;
         }
 
-        const bindings = this.fillBindings(this.props.embed);
+        const bindings = this.state.bindings;
         if (!bindings || !bindings.length) {
             return null;
         }
@@ -83,10 +104,6 @@ export default class EmbeddedBinding extends React.PureComponent<Props, State> {
         const content = [] as JSX.Element[];
 
         bindings.forEach((binding: AppBinding) => {
-            if (!binding.call || !binding.location) {
-                return;
-            }
-
             if (binding.bindings && binding.bindings.length > 0) {
                 content.push(
                     <SelectBinding
@@ -95,15 +112,16 @@ export default class EmbeddedBinding extends React.PureComponent<Props, State> {
                         binding={binding}
                     />,
                 );
-            } else {
-                content.push(
-                    <ButtonBinding
-                        key={binding.location}
-                        post={this.props.post}
-                        binding={binding}
-                    />,
-                );
+                return;
             }
+
+            content.push(
+                <ButtonBinding
+                    key={binding.location}
+                    post={this.props.post}
+                    binding={binding}
+                />,
+            );
         });
 
         return (

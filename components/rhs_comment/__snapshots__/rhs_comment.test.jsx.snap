@@ -111,6 +111,7 @@ exports[`components/RhsComment should match snapshot 1`] = `
         className="post__body post--edited"
       >
         <AutoHeightSwitcher
+          onTransitionEnd={[Function]}
           shouldScrollIntoView={false}
           showSlot={1}
           slot1={
@@ -325,6 +326,7 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
         className="post__body post--edited"
       >
         <AutoHeightSwitcher
+          onTransitionEnd={[Function]}
           shouldScrollIntoView={false}
           showSlot={1}
           slot1={
@@ -506,6 +508,7 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
         className="post__body post--edited"
       >
         <AutoHeightSwitcher
+          onTransitionEnd={[Function]}
           shouldScrollIntoView={false}
           showSlot={1}
           slot1={
@@ -717,6 +720,7 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
         className="post__body post--edited"
       >
         <AutoHeightSwitcher
+          onTransitionEnd={[Function]}
           shouldScrollIntoView={false}
           showSlot={1}
           slot1={
@@ -885,6 +889,7 @@ exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
         className="post__body post--edited"
       >
         <AutoHeightSwitcher
+          onTransitionEnd={[Function]}
           shouldScrollIntoView={false}
           showSlot={1}
           slot1={
@@ -1053,6 +1058,7 @@ exports[`components/RhsComment should match snapshot when being edited 1`] = `
         className="post__body post--edited"
       >
         <AutoHeightSwitcher
+          onTransitionEnd={[Function]}
           shouldScrollIntoView={true}
           showSlot={2}
           slot1={
@@ -1221,6 +1227,7 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
         className="post__body post--edited"
       >
         <AutoHeightSwitcher
+          onTransitionEnd={[Function]}
           shouldScrollIntoView={false}
           showSlot={1}
           slot1={

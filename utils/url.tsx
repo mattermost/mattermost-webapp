@@ -90,7 +90,7 @@ export function isUrlSafe(url: string): boolean {
         !unescaped.startsWith('data:');
 }
 
-export function useSafeUrl(url: string, defaultUrl = ''): string {
+export function makeUrlSafe(url: string, defaultUrl = ''): string {
     if (isUrlSafe(url)) {
         return url;
     }

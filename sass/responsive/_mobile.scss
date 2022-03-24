@@ -375,7 +375,6 @@
 
                 .modal-title {
                     max-width: 90%;
-                    float: none;
                 }
 
                 .btn {
@@ -383,9 +382,15 @@
                         display: block;
                         width: 100%;
                         margin: 10px 0 6px;
-                        float: none;
                     }
                 }
+            }
+        }
+
+        .more-modal {
+            .modal-header {
+                flex-direction: column;
+                padding-right: 15px;
             }
         }
 
@@ -1981,10 +1986,6 @@
                 .modal-content {
                     display: flex;
                     flex-direction: column;
-                }
-
-                .modal-header {
-                    flex: 0 0 56px;
                 }
 
                 .modal-body {
