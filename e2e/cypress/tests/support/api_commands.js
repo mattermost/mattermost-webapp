@@ -87,10 +87,11 @@ Cypress.Commands.add('apiCreatePost', (channelId, message, rootId, props, token 
 /**
 * Deletes a post directly via API
 * @param {String} postId - Post ID
+* @param {Object} [user] - the user trying to invoke the API
 */
-Cypress.Commands.add('apiDeletePost', (postId) => {
+Cypress.Commands.add('apiDeletePost', (postId, user = getAdminAccount()) => {
     return cy.externalRequest({
-        user: getAdminAccount(),
+        user,
         method: 'delete',
         path: `posts/${postId}`,
     }).then((response) => {
