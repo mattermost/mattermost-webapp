@@ -13,7 +13,7 @@ import ChannelHeaderMobile from 'components/channel_header_mobile';
 import ChannelIdentifierRouter from 'components/channel_layout/channel_identifier_router';
 import PlaybookRunner from 'components/channel_layout/playbook_runner';
 import NextStepsView from 'components/next_steps_view';
-import ActivityAndInsights from 'components/activity_and_insights/activity_and_insights'
+import ActivityAndInsights from 'components/activity_and_insights/activity_and_insights';
 import {makeAsyncComponent} from 'components/async_load';
 
 const LazyGlobalThreads = makeAsyncComponent(

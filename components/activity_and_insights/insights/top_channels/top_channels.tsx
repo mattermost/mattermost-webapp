@@ -1,3 +1,5 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 import React, {memo} from 'react';
 
 import {useIntl} from 'react-intl';
@@ -20,11 +22,10 @@ const TopChannels = () => {
                         defaultMessage: 'Top Channels',
                     })}
                 </CardHeader>
-                <CardBody>
-                </CardBody>
+                <CardBody/>
             </Card>
         </>
     );
-}
+};
 
 export default memo(TopChannels);
