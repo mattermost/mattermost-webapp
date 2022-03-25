@@ -157,7 +157,7 @@ const PublicPrivateSelector = ({
 
             onChange(selection);
         },
-        [selected, onChange],
+        [selected, canSelectPublic, canSelectPrivate, onChange],
     );
 
     return (
