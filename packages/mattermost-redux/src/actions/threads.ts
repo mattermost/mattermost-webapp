@@ -31,12 +31,12 @@ import {forceLogoutIfNecessary} from './helpers';
 
 type ExtendedPost = Post & { system_post_ids?: string[] };
 
-function fetchThreads(userId: string, teamId: string, {before = '', after = '', perPage = ThreadConstants.THREADS_CHUNK_SIZE, unread = false, totalsOnly = false, threadsOnly = false} = {}) {
+export function fetchThreads(userId: string, teamId: string, {before = '', after = '', perPage = ThreadConstants.THREADS_CHUNK_SIZE, unread = false, totalsOnly = false, threadsOnly = false, extended = false} = {}) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let data: undefined | UserThreadList;
 
         try {
-            data = await Client4.getUserThreads(userId, teamId, {before, after, perPage, extended: false, unread, totalsOnly, threadsOnly});
+            data = await Client4.getUserThreads(userId, teamId, {before, after, perPage, extended, unread, totalsOnly, threadsOnly});
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(logError(error));
@@ -47,9 +47,9 @@ function fetchThreads(userId: string, teamId: string, {before = '', after = '', 
     };
 }
 
-export function getThreads(userId: string, teamId: string, {before = '', after = '', perPage = ThreadConstants.THREADS_CHUNK_SIZE, unread = false} = {}) {
+export function getThreads(userId: string, teamId: string, {before = '', after = '', perPage = ThreadConstants.THREADS_CHUNK_SIZE, unread = false, extended = true} = {}) {
     return async (dispatch: DispatchFunc) => {
-        const response = await dispatch(fetchThreads(userId, teamId, {before, after, perPage, unread, totalsOnly: false, threadsOnly: true}));
+        const response = await dispatch(fetchThreads(userId, teamId, {before, after, perPage, unread, totalsOnly: false, threadsOnly: true, extended}));
 
         if (response.error) {
             return response;

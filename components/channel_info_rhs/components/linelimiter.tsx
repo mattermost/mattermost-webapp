@@ -14,7 +14,7 @@ interface LineLimiterProps {
     className?: string;
 }
 
-const lineLimiter = ({children, maxLines, lineHeight, moreText, lessText, className}: LineLimiterProps) => {
+const LineLimiterBase = ({children, maxLines, lineHeight, moreText, lessText, className}: LineLimiterProps) => {
     const maxLineHeight = maxLines * lineHeight;
 
     const [needLimiter, setNeedLimiter] = useState(false);
@@ -111,7 +111,7 @@ const lineLimiter = ({children, maxLines, lineHeight, moreText, lessText, classN
     );
 };
 
-const LineLimiter = styled(lineLimiter)<LineLimiterProps>`
+const LineLimiter = styled(LineLimiterBase)<LineLimiterProps>`
     transition: max-height 0.5s ease-in;
     line-height: ${(props) => props.lineHeight}px;
     overflow: hidden;
