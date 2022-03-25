@@ -52,7 +52,7 @@ describe('Collapsed Reply Threads', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
     });
 
-    it('MM-T4445 thread is removed when root post is deleted (current behavior is incorrect, see comments below)', () => {
+    it('MM-T4445 CRT - Delete root post', () => {
         /**
          * When you delete a post the current behavior in displaying it and the thread replies is incorrect.
          * Deleting a root post leads to a post showing `(message deleted)`, but still rendering the replies
