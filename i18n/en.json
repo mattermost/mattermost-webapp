@@ -2800,6 +2800,7 @@
   "channel_modal.name.shorter": "Channel names must have maximum 64 characters.",
   "channel_modal.purpose.info": "This will be displayed when browsing for channels.",
   "channel_modal.purpose.placeholder": "Enter a purpose for this channel (optional)",
+  "channel_modal.purposeTooLong": "The purpose exceeds the maximum of 250 characters",
   "channel_modal.type.private.description": "Only invited members",
   "channel_modal.type.private.title": "Private Channel",
   "channel_modal.type.public.description": "Anyone can join",
