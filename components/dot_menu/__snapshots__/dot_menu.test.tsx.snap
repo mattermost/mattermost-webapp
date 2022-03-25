@@ -3,7 +3,7 @@
 exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
 <MenuWrapper
   animationComponent={[Function]}
-  className="status-dropdown-menu-global-header"
+  className=""
   onToggle={[Function]}
 >
   <OverlayTrigger
@@ -44,6 +44,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
   </OverlayTrigger>
   <Menu
     ariaLabel="Post extra options"
+    className="status-dropdown-menu-global-header"
     id="CENTER_dropdown_post_id_1"
     openLeft={true}
     openUp={false}
@@ -252,7 +253,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
 exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
 <MenuWrapper
   animationComponent={[Function]}
-  className="status-dropdown-menu-global-header"
+  className=""
   onToggle={[Function]}
 >
   <OverlayTrigger
@@ -293,6 +294,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
   </OverlayTrigger>
   <Menu
     ariaLabel="Post extra options"
+    className="status-dropdown-menu-global-header"
     id="CENTER_dropdown_post_id_1"
     openLeft={true}
     openUp={false}
