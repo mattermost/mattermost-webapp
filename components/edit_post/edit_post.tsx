@@ -79,12 +79,8 @@ const TOP_OFFSET = 0;
 const RIGHT_OFFSET = 10;
 
 const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null => {
-    if (!editingPost.post) {
-        return null;
-    }
-
     const [editText, setEditText] = useState<string>(
-        editingPost.post?.message_source || editingPost.post?.message || '',
+        editingPost?.post?.message_source || editingPost?.post?.message || '',
     );
     const [selectionRange, setSelectionRange] = useState<State['selectionRange']>({start: editText.length, end: editText.length});
     const [postError, setPostError] = useState<React.ReactNode | null>(null);
