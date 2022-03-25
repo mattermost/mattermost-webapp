@@ -1,0 +1,36 @@
+.Insights___header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 12px;
+    border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+    background-color: var(--center-channel-bg);
+    grid-area: header;
+
+
+    .MenuWrapper--open {
+        h2 {
+            background-color: rgba(var(--button-bg-rgb), 0.08);
+        }
+    }
+    h2 {
+        &:hover {
+            cursor: pointer;
+            background-color: rgba(var(--button-bg-rgb), 0.04);
+        }
+
+        line-height: 24px;
+        color: rgba(var(--center-channel-color-rgb), 1);
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0;
+        padding: 2px 6px;
+    }
+    
+
+    .MenuItem {
+        i {
+            color: rgba(var(--center-channel-color-rgb), .56);
+        }
+    }
+}
