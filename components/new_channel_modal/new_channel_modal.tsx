@@ -5,6 +5,8 @@ import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useIntl} from 'react-intl';
 
+import classNames from 'classnames';
+
 import GenericModal from 'components/generic_modal';
 import Input from 'components/widgets/inputs/input/input';
 import PublicPrivateSelector from 'components/widgets/public-private-selector/public-private-selector';
@@ -59,6 +61,7 @@ const enum ServerErrorId {
     CHANNEL_URL_SIZE = 'model.channel.is_valid.2_or_more.app_error',
     CHANNEL_UPDATE_EXISTS = 'store.sql_channel.update.exists.app_error',
     CHANNEL_CREATE_EXISTS = 'store.sql_channel.save_channel.exists.app_error',
+    CHANNEL_PURPOSE_SIZE = 'model.channel.is_valid.purpose.app_error',
 }
 
 const NewChannelModal = () => {
@@ -78,6 +81,7 @@ const NewChannelModal = () => {
     const [urlModified, setURLModified] = useState(false);
     const [displayNameError, setDisplayNameError] = useState('');
     const [urlError, setURLError] = useState<string>('');
+    const [purposeError, setPurposeError] = useState('');
     const [serverError, setServerError] = useState('');
 
     const handleOnModalConfirm = async () => {
@@ -140,6 +144,15 @@ const NewChannelModal = () => {
             );
             break;
 
+        case ServerErrorId.CHANNEL_PURPOSE_SIZE:
+            setPurposeError(
+                formatMessage({
+                    id: 'channel_modal.purposeTooLong',
+                    defaultMessage: 'The purpose exceeds the maximum of 250 characters',
+                }),
+            );
+            break;
+
         default:
             setServerError(message);
             break;
@@ -190,10 +203,11 @@ const NewChannelModal = () => {
         const {target: {value: purpose}} = e;
 
         setPurpose(purpose);
+        setPurposeError('');
         setServerError('');
     };
 
-    const canCreate = displayName && !displayNameError && url && !urlError && type && !serverError;
+    const canCreate = displayName && !displayNameError && url && !urlError && type && !purposeError && !serverError;
 
     return (
         <GenericModal
@@ -233,7 +247,7 @@ const NewChannelModal = () => {
                     path={`${currentTeamName}/channels`}
                     pathInfo={url}
                     limit={Constants.MAX_CHANNELNAME_LENGTH}
-                    shortenLength={Constants.DEFAULT_URL_SHORTEN_LENGTH}
+                    shortenLength={Constants.DEFAULT_CHANNELURL_SHORTEN_LENGTH}
                     error={urlError}
                     onChange={handleOnURLChange}
                 />
@@ -255,19 +269,26 @@ const NewChannelModal = () => {
                 <div className='new-channel-modal-purpose-container'>
                     <textarea
                         id='new-channel-modal-purpose'
-                        className='new-channel-modal-purpose-textarea'
+                        className={classNames('new-channel-modal-purpose-textarea', {'with-error': purposeError})}
                         placeholder={formatMessage({id: 'channel_modal.purpose.placeholder', defaultMessage: 'Enter a purpose for this channel (optional)'})}
                         rows={4}
-                        maxLength={250}
+                        maxLength={Constants.MAX_CHANNELPURPOSE_LENGTH}
                         autoComplete='off'
                         value={purpose}
                         onChange={handleOnPurposeChange}
                     />
-                    <div className='new-channel-modal-purpose-info'>
-                        <span>
-                            {formatMessage({id: 'channel_modal.purpose.info', defaultMessage: 'This will be displayed when browsing for channels.'})}
-                        </span>
-                    </div>
+                    {purposeError ? (
+                        <div className='new-channel-modal-purpose-error'>
+                            <i className='icon icon-alert-outline'/>
+                            <span>{purposeError}</span>
+                        </div>
+                    ) : (
+                        <div className='new-channel-modal-purpose-info'>
+                            <span>
+                                {formatMessage({id: 'channel_modal.purpose.info', defaultMessage: 'This will be displayed when browsing for channels.'})}
+                            </span>
+                        </div>
+                    )}
                 </div>
             </div>
         </GenericModal>
