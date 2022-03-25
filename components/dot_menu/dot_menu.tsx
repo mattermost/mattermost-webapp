@@ -427,7 +427,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         return (
             <MenuWrapper
                 open={this.props.isMenuOpen}
-                className={classNames('status-dropdown-menu-global-header')}
                 onToggle={this.handleDropdownOpened}
             >
                 <OverlayTrigger
@@ -451,6 +450,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     </button>
                 </OverlayTrigger>
                 <Menu
+                    className={classNames('status-dropdown-menu-global-header')}
                     id={`${this.props.location}_dropdown_${this.props.post.id}`}
                     openLeft={true}
                     openUp={this.state.openUp}
