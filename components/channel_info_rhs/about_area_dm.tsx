@@ -110,7 +110,7 @@ const AboutAreaDM = ({channel, dmUser, actions}: Props) => {
                             <LineLimiter
                                 maxLines={3}
                                 lineHeight={20}
-                                moreText={formatMessage({id: 'channel_info_rhs.about_area.channel_header.line_limiter.more', defaultMessage: '... more'})}
+                                moreText={formatMessage({id: 'channel_info_rhs.about_area.channel_header.line_limiter.more', defaultMessage: 'more'})}
                                 lessText={formatMessage({id: 'channel_info_rhs.about_area.channel_header.line_limiter.less', defaultMessage: 'less'})}
                             >
                                 <Markdown message={channel.header}/>

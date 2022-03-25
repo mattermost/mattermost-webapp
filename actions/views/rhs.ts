@@ -86,6 +86,18 @@ export function updateRhsState(rhsState: string, channelId?: string, previousRhs
     };
 }
 
+export function goBack() {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const prevState = getPreviousRhsState(getState() as GlobalState);
+        dispatch({
+            type: ActionTypes.RHS_GO_BACK,
+            state: prevState,
+        });
+
+        return {data: true};
+    };
+}
+
 export function selectPostFromRightHandSideSearch(post: Post) {
     return selectPostFromRightHandSideSearchWithPreviousState(post);
 }
@@ -252,14 +264,19 @@ export function showFlaggedPosts() {
 
 export function showPinnedPosts(channelId?: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState();
+        const state = getState() as GlobalState;
         const currentChannelId = getCurrentChannelId(state);
         const teamId = getCurrentTeamId(state);
 
+        let previousRhsState = getRhsState(state);
+        if (previousRhsState === RHSStates.PIN) {
+            previousRhsState = getPreviousRhsState(state);
+        }
         dispatch({
             type: ActionTypes.UPDATE_RHS_STATE,
             channelId: channelId || currentChannelId,
             state: RHSStates.PIN,
+            previousRhsState,
         });
 
         const results = await dispatch(getPinnedPosts(channelId || currentChannelId));
