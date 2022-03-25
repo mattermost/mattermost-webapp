@@ -30,6 +30,7 @@ exports[`components/new_channel_modal should match snapshot 1`] = `
       label="Channel name"
       limit={64}
       name="new-channel-modal-name"
+      onBlur={[Function]}
       onChange={[Function]}
       placeholder="Enter a name for your new channel"
       required={true}

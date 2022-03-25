@@ -74,6 +74,7 @@ const NewChannelModal = () => {
     const [displayName, setDisplayName] = useState('');
     const [url, setURL] = useState('');
     const [purpose, setPurpose] = useState('');
+    const [displayNameModified, setDisplayNameModified] = useState(false);
     const [urlModified, setURLModified] = useState(false);
     const [displayNameError, setDisplayNameError] = useState('');
     const [urlError, setURLError] = useState<string>('');
@@ -160,6 +161,12 @@ const NewChannelModal = () => {
         }
     };
 
+    const handleOnDisplayNameBlur = () => {
+        if (!displayNameModified) {
+            setDisplayNameModified(true);
+        }
+    };
+
     const handleOnURLChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         const {target: {value: url}} = e;
@@ -216,8 +223,9 @@ const NewChannelModal = () => {
                     placeholder={formatMessage({id: 'channel_modal.name.placeholder', defaultMessage: 'Enter a name for your new channel'})}
                     limit={Constants.MAX_CHANNELNAME_LENGTH}
                     value={displayName}
-                    error={displayNameError}
+                    error={displayNameModified ? displayNameError : ''}
                     onChange={handleOnDisplayNameChange}
+                    onBlur={handleOnDisplayNameBlur}
                 />
                 <URLInput
                     className='new-channel-modal__url'
