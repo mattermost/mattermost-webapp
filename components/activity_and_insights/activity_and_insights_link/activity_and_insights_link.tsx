@@ -2,21 +2,25 @@
 // See LICENSE.txt for license information.
 
 import React, {useCallback} from 'react';
-import {Link, useRouteMatch} from 'react-router-dom';
+import {Link, useRouteMatch, useLocation, matchPath} from 'react-router-dom';
 import {useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
+import classNames from 'classnames';
+import Icon from '@mattermost/compass-components/foundations/icon';
 
 import {isInsightsEnabled} from 'mattermost-redux/selectors/entities/preferences';
-
 import {t} from 'utils/i18n';
-
 import {trackEvent} from 'actions/telemetry_actions';
+
+import './activity_and_insights_link.scss';
 
 const ActivityAndInsightsLink = () => {
     const {formatMessage} = useIntl();
     const insightsEnabled = useSelector(isInsightsEnabled);
 
     const {url} = useRouteMatch();
+    const {pathname} = useLocation();
+    const inInsights = matchPath(pathname, {path: '/:team/activity-and-insights'}) != null;
 
     const openInsights = useCallback((e) => {
         e.stopPropagation();
@@ -28,21 +32,29 @@ const ActivityAndInsightsLink = () => {
     }
 
     return (
-        <ul className='SidebarGlobalThreads NavGroupContent nav nav-pills__container'>
+        <ul className='SidebarInsights NavGroupContent nav nav-pills__container'>
             <li
-                id={'sidebar-threads-button'}
-                className={'SidebarChannel'}
+                id={'sidebar-insights-button'}
+                className={classNames('SidebarChannel', {
+                    active: inInsights,
+                })}
                 tabIndex={-1}
             >
                 <Link
                     onClick={openInsights}
                     to={`${url}/activity-and-insights`}
-                    id='sidebarItem_threads'
+                    id='sidebarItem_insights'
                     draggable='false'
                     className={'SidebarLink sidebar-item'}
                     role='listitem'
                     tabIndex={0}
                 >
+                    <span className='icon'>
+                        <Icon
+                            size={12}
+                            glyph={'chart-line'}
+                        />
+                    </span>
                     <div className='SidebarChannelLinkLabel_wrapper'>
                         <span className='SidebarChannelLinkLabel sidebar-item__name'>
                             {formatMessage({id: t('activityAndInsights.sidebarLink'), defaultMessage: 'Insights'})}

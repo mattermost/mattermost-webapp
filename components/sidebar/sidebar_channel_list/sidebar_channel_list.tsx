@@ -533,7 +533,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
 
             // NOTE: id attribute added to temporarily support the desktop app's at-mention DOM scraping of the old sidebar
             <>
-                <ActivityAndInsightsLink />
+                <ActivityAndInsightsLink/>
                 <GlobalThreadsLink/>
                 <div
                     id='sidebar-left'
