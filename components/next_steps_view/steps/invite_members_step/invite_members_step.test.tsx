@@ -61,7 +61,7 @@ describe('components/next_steps_view/steps/invite_members_step', () => {
         wrapper.setState({emails: []});
     });
 
-    test('should not allow more than 10 emails', () => {
+    test('should allow more than 10 emails', () => {
         const wrapper: ShallowWrapper<any, any, any> = shallowWithIntl(
             <InviteMembersStep {...baseProps}/>,
         );
@@ -70,7 +70,6 @@ describe('components/next_steps_view/steps/invite_members_step', () => {
 
         wrapper.instance().onInputChange(emails.join(' '), {} as any);
         expect(wrapper.state('emails').map((email: any) => email.value)).toStrictEqual(emails);
-        expect(wrapper.state('emailError')).not.toBe(undefined);
         wrapper.setState({emails: [], emailError: undefined});
 
         wrapper.instance().onInputChange(emails.slice(0, 10).join(' '), {} as any);
