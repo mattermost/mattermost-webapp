@@ -129,7 +129,6 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
             this.setState({emailError: undefined});
         }
 
-
         this.setState({emails: value});
     }
 
@@ -224,7 +223,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
     }
 
     render(): JSX.Element {
-        let subtitle = (
+        const subtitle = (
             <FormattedMessage
                 id='next_steps_view.invite_members_step.youCanInvite'
                 defaultMessage='You can invite team members using a space or comma between addresses'

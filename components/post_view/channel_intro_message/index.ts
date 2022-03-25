@@ -35,7 +35,7 @@ function mapStateToProps(state: GlobalState) {
     const creator = getUser(state, channel.creator_id);
     const boardComponent = getChannelIntroPluginComponents(state).find((c) => c.pluginId === 'focalboard');
 
-    const usersLimit = 0
+    const usersLimit = 0;
 
     const stats = getTotalUsersStatsSelector(state) || {total_users_count: 0};
 

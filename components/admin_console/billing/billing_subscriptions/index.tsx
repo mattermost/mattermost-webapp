@@ -45,7 +45,6 @@ import {
 
 import './billing_subscriptions.scss';
 
-
 const BillingSubscriptions: React.FC = () => {
     const dispatch = useDispatch<DispatchFunc>();
     const store = useStore();

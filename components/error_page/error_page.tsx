@@ -124,7 +124,7 @@ export default class ErrorPage extends React.PureComponent<Props> {
             );
         }
 
-        let errorPage = (
+        const errorPage = (
             <div className='container-fluid'>
                 <div className='error__container'>
                     <div className='error__icon'>

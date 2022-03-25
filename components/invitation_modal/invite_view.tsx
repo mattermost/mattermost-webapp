@@ -115,7 +115,7 @@ export default function InviteView(props: Props) {
         errorMessageId: '',
         errorMessageDefault: '',
         errorMessageValues: {
-            text: ''
+            text: '',
         },
         extraErrorText: '',
     };

@@ -2,10 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper, ReactWrapper} from 'enzyme';
+import {shallow, ShallowWrapper} from 'enzyme';
 
 import {TestHelper} from 'utils/test_helper';
-import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import InviteMembersStep from './invite_members_step';
 
