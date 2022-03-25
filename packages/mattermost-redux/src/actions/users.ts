@@ -12,13 +12,12 @@ import {removeUserFromList} from 'mattermost-redux/utils/user_utils';
 
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 
-import {getConfig, getServerVersion} from 'mattermost-redux/selectors/entities/general';
+import {getServerVersion} from 'mattermost-redux/selectors/entities/general';
 
 import {getCurrentUserId, getUsers} from 'mattermost-redux/selectors/entities/users';
 
 import {isCollapsedThreadsEnabled} from '../selectors/entities/preferences';
 
-import {getAllCustomEmojis} from './emojis';
 import {getClientConfig, setServerVersion} from './general';
 import {getMyTeams, getMyTeamMembers, getMyTeamUnreads} from './teams';
 import {loadRolesIfNeeded} from './roles';
@@ -174,9 +173,6 @@ function completeLogin(data: UserProfile): ActionFunc {
 
         const serverVersion = Client4.getServerVersion();
         dispatch(setServerVersion(serverVersion));
-        if (!isMinimumServerVersion(serverVersion, 4, 7) && getConfig(getState()).EnableCustomEmoji === 'true') {
-            dispatch(getAllCustomEmojis());
-        }
 
         try {
             await Promise.all(promises);
@@ -217,7 +213,6 @@ function completeLogin(data: UserProfile): ActionFunc {
 export function loadMe(): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
-        const config = getConfig(state);
 
         const deviceId = state.entities.general.deviceToken;
         if (deviceId) {
@@ -234,9 +229,6 @@ export function loadMe(): ActionFunc {
         // Sometimes the server version is set in one or the other
         const serverVersion = Client4.getServerVersion() || getState().entities.general.serverVersion;
         dispatch(setServerVersion(serverVersion));
-        if (!isMinimumServerVersion(serverVersion, 4, 7) && config.EnableCustomEmoji === 'true') {
-            dispatch(getAllCustomEmojis());
-        }
 
         await Promise.all(promises);
 

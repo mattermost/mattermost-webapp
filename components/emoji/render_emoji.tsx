@@ -16,11 +16,12 @@ interface ComponentProps {
 }
 
 const RenderEmoji = ({emojiName, emojiStyle, size, onClick}: ComponentProps) => {
+    const emojiMap = useSelector((state: GlobalState) => getEmojiMap(state));
+
     if (!emojiName) {
         return null;
     }
 
-    const emojiMap = useSelector((state: GlobalState) => getEmojiMap(state));
     const emojiFromMap = emojiMap.get(emojiName);
     if (!emojiFromMap) {
         return null;
