@@ -43,6 +43,7 @@ import {
     ChannelSearchOpts,
     ChannelStats,
 } from 'mattermost-redux/types/channels';
+import {Post} from 'mattermost-redux/types/posts';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Team} from 'mattermost-redux/types/teams';
 import {UserProfile, UsersState} from 'mattermost-redux/types/users';
@@ -927,7 +928,7 @@ function maxDefined(a: number, b?: number) {
 
 type LastUnreadChannel = (Channel & {hadMentions: boolean});
 
-export const getUnsortedAllTeamsUnreadChannels: (state: GlobalState) => Channel[] = createSelector(
+export const getUnsortedAllTeamsUnreadChannels: (state: GlobalState, lastUnreadChannel?: LastUnreadChannel | null) => Channel[] = createSelector(
     'getAllTeamsUnreadChannels',
     getCurrentUser,
     getUsers,
@@ -954,71 +955,75 @@ export const getUnsortedAllTeamsUnreadChannels: (state: GlobalState) => Channel[
     },
 );
 
-const sortChannels: (state: GlobalState, lastUnreadChannel: LastUnreadChannel | null) => Channel[] = createSelector(
-    'sortChannels',
+export const sortUnreadChannels = (
+    channels: Channel[],
+    myMembers: RelationOneToOne<Channel, ChannelMembership>,
+    lastPosts: RelationOneToOne<Channel, Post>,
+    crtEnabled: boolean,
+    lastUnreadChannel?: LastUnreadChannel | null,
+) => {
+    function isMuted(channel: Channel) {
+        return isChannelMuted(myMembers[channel.id]);
+    }
+
+    function hasMentions(channel: Channel) {
+        if (lastUnreadChannel && channel.id === lastUnreadChannel.id && lastUnreadChannel.hadMentions) {
+            return true;
+        }
+
+        const member = myMembers[channel.id];
+        return member?.mention_count !== 0;
+    }
+
+    // Sort channels with mentions first and then sort by recency
+    return [...channels].sort((a, b) => {
+        // Sort muted channels last
+        if (isMuted(a) && !isMuted(b)) {
+            return 1;
+        } else if (!isMuted(a) && isMuted(b)) {
+            return -1;
+        }
+
+        // Sort non-muted mentions first
+        if (hasMentions(a) && !hasMentions(b)) {
+            return -1;
+        } else if (!hasMentions(a) && hasMentions(b)) {
+            return 1;
+        }
+
+        let lastPostAt = {
+            a: a.last_post_at,
+            b: b.last_post_at,
+        };
+
+        if (crtEnabled) {
+            lastPostAt = {
+                a: a.last_root_post_at,
+                b: b.last_root_post_at,
+            };
+        }
+
+        // If available, get the last post time from the loaded posts for the channel, but fall back to the
+        // channel's last_post_at if that's not available. The last post time from the loaded posts is more
+        // accurate because channel.last_post_at is not updated on the client as new messages come in.
+        const aLastPostAt = maxDefined(lastPostAt.a, lastPosts[a.id]?.create_at);
+        const bLastPostAt = maxDefined(lastPostAt.b, lastPosts[b.id]?.create_at);
+
+        return bLastPostAt - aLastPostAt;
+    });
+};
+
+export const getSortedAllTeamsUnreadChannels: (state: GlobalState, lastUnreadChannel?: LastUnreadChannel | null) => Channel[] = createSelector(
+    'getSortedAllTeamsUnreadChannels',
     getUnsortedAllTeamsUnreadChannels,
     getMyChannelMemberships,
     getLastPostPerChannel,
     (state: GlobalState, lastUnreadChannel: LastUnreadChannel | undefined | null = null): LastUnreadChannel | undefined | null => lastUnreadChannel,
     isCollapsedThreadsEnabled,
     (channels, myMembers, lastPosts, lastUnreadChannel, crtEnabled) => {
-        function isMuted(channel: Channel) {
-            return isChannelMuted(myMembers[channel.id]);
-        }
-
-        function hasMentions(channel: Channel) {
-            if (lastUnreadChannel && channel.id === lastUnreadChannel.id && lastUnreadChannel.hadMentions) {
-                return true;
-            }
-
-            const member = myMembers[channel.id];
-            return member?.mention_count !== 0;
-        }
-
-        // Sort channels with mentions first and then sort by recency
-        return [...channels].sort((a, b) => {
-            // Sort muted channels last
-            if (isMuted(a) && !isMuted(b)) {
-                return 1;
-            } else if (!isMuted(a) && isMuted(b)) {
-                return -1;
-            }
-
-            // Sort non-muted mentions first
-            if (hasMentions(a) && !hasMentions(b)) {
-                return -1;
-            } else if (!hasMentions(a) && hasMentions(b)) {
-                return 1;
-            }
-
-            let lastPostAt = {
-                a: a.last_post_at,
-                b: b.last_post_at,
-            };
-
-            if (crtEnabled) {
-                lastPostAt = {
-                    a: a.last_root_post_at,
-                    b: b.last_root_post_at,
-                };
-            }
-
-            // If available, get the last post time from the loaded posts for the channel, but fall back to the
-            // channel's last_post_at if that's not available. The last post time from the loaded posts is more
-            // accurate because channel.last_post_at is not updated on the client as new messages come in.
-            const aLastPostAt = maxDefined(lastPostAt.a, lastPosts[a.id]?.create_at);
-            const bLastPostAt = maxDefined(lastPostAt.b, lastPosts[b.id]?.create_at);
-
-            return bLastPostAt - aLastPostAt;
-        });
+        return sortUnreadChannels(channels, myMembers, lastPosts, crtEnabled, lastUnreadChannel);
     },
 );
-
-export const getSortedAllTeamsUnreadChannels = (() => {
-    return (state: GlobalState, lastUnreadChannel: LastUnreadChannel) => {
-        return sortChannels(state, lastUnreadChannel);
-    };
-})();
 
 // getDirectAndGroupChannels returns all direct and group channels, even if they have been manually
 // or automatically closed.
