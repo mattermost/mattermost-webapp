@@ -53,15 +53,24 @@ const ChannelHeader = styled.div`
     margin-bottom: 12px;
 `;
 
+const ChannelId = styled.div`
+    margin-bottom: 12px;
+    font-size: 11px;
+    line-height: 16px;
+    letter-spacing: 0.02em;
+    color: rgba(var(--center-channel-color-rgb), .64);
+`;
+
 interface Props {
     channel: Channel;
     gmUsers: UserProfile[];
+    devMode?: boolean;
     actions: {
         editChannelHeader: () => void;
     };
 }
 
-const AboutAreaGM = ({channel, gmUsers, actions}: Props) => {
+const AboutAreaGM = ({channel, gmUsers, devMode, actions}: Props) => {
     const {formatMessage} = useIntl();
 
     return (
@@ -92,7 +101,7 @@ const AboutAreaGM = ({channel, gmUsers, actions}: Props) => {
                                 isRHS={true}
                                 channelId={channel.id}
                             />
-                            {(i + 1 !== length) && (<span>{','} </span>)}
+                            {(i + 1 !== length) && (<span>{', '}</span>)}
                         </React.Fragment>
                     ))}
                 </Usernames>
@@ -115,6 +124,12 @@ const AboutAreaGM = ({channel, gmUsers, actions}: Props) => {
                     emptyLabel={formatMessage({id: 'channel_info_rhs.about_area.add_channel_header', defaultMessage: 'Add a channel header'})}
                 />
             </ChannelHeader>
+
+            {devMode && (
+                <ChannelId>
+                    {formatMessage({id: 'channel_info_rhs.about_area_id', defaultMessage: 'ID:'})} {channel.id}
+                </ChannelId>
+            )}
         </>
     );
 };

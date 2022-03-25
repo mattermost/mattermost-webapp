@@ -39,19 +39,21 @@ interface Props {
     dmUser?: DMUser;
     gmUsers?: UserProfile[];
     canEditChannelProperties: boolean;
+    devMode?: boolean;
     actions: {
         editChannelPurpose: () => void;
         editChannelHeader: () => void;
     };
 }
 
-const AboutArea = ({channel, channelURL, dmUser, gmUsers, canEditChannelProperties, actions}: Props) => {
+const AboutArea = ({channel, channelURL, dmUser, gmUsers, canEditChannelProperties, devMode, actions}: Props) => {
     return (
         <Container>
             {channel.type === Constants.DM_CHANNEL && dmUser && (
                 <AboutAreaDM
                     channel={channel}
                     dmUser={dmUser}
+                    devMode={devMode}
                     actions={{editChannelHeader: actions.editChannelHeader}}
                 />
             )}
@@ -59,6 +61,7 @@ const AboutArea = ({channel, channelURL, dmUser, gmUsers, canEditChannelProperti
                 <AboutAreaGM
                     channel={channel}
                     gmUsers={gmUsers!}
+                    devMode={devMode}
                     actions={{editChannelHeader: actions.editChannelHeader}}
                 />
             )}
@@ -67,6 +70,7 @@ const AboutArea = ({channel, channelURL, dmUser, gmUsers, canEditChannelProperti
                     channel={channel}
                     channelURL={channelURL}
                     canEditChannelProperties={canEditChannelProperties}
+                    devMode={devMode}
                     actions={actions}
                 />
             )}

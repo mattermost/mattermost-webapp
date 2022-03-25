@@ -19,7 +19,7 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {unfavoriteChannel, favoriteChannel} from 'mattermost-redux/actions/channels';
 import {muteChannel, unmuteChannel} from 'actions/channel_actions';
 import {openModal} from 'actions/views/modals';
-import {getDisplayNameByUser, getUserIdFromChannelId} from 'utils/utils';
+import {getDisplayNameByUser, getUserIdFromChannelId, isDevMode} from 'utils/utils';
 import {getProfilesInCurrentChannel, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
@@ -68,6 +68,8 @@ function mapStateToProps(state: GlobalState) {
     const canManageMembers = haveIChannelPermission(state, currentTeam.id, channel.id, isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS);
     const canManageProperties = haveIChannelPermission(state, currentTeam.id, channel.id, isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES);
 
+    const devMode = isDevMode();
+
     const props = {
         channel,
         currentUser,
@@ -81,6 +83,7 @@ function mapStateToProps(state: GlobalState) {
         canManageMembers,
         canManageProperties,
         channelStats,
+        devMode,
     } as Props;
 
     if (channel.type === Constants.DM_CHANNEL) {

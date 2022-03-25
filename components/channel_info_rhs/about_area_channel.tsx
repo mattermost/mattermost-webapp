@@ -19,6 +19,14 @@ const ChannelLink = styled.div`
     color: rgba(var(--center-channel-color-rgb), .64);
 `;
 
+const ChannelId = styled.div`
+    margin-bottom: 12px;
+    font-size: 11px;
+    line-height: 16px;
+    letter-spacing: 0.02em;
+    color: rgba(var(--center-channel-color-rgb), .64);
+`;
+
 const ChannelPurpose = styled.div`
     margin-bottom: 12px;
     &.ChannelPurpose--is-dm {
@@ -34,13 +42,14 @@ interface Props {
     channel: Channel;
     channelURL: string;
     canEditChannelProperties: boolean;
+    devMode?: boolean;
     actions: {
         editChannelPurpose: () => void;
         editChannelHeader: () => void;
     };
 }
 
-const AboutAreaChannel = ({channel, channelURL, canEditChannelProperties, actions}: Props) => {
+const AboutAreaChannel = ({channel, channelURL, canEditChannelProperties, devMode, actions}: Props) => {
     const {formatMessage} = useIntl();
 
     return (
@@ -86,6 +95,12 @@ const AboutAreaChannel = ({channel, channelURL, canEditChannelProperties, action
             )}
 
             <ChannelLink>{channelURL}</ChannelLink>
+
+            {devMode && (
+                <ChannelId>
+                    {formatMessage({id: 'channel_info_rhs.about_area_id', defaultMessage: 'ID:'})} {channel.id}
+                </ChannelId>
+            )}
         </>
     );
 };

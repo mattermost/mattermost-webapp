@@ -64,15 +64,24 @@ const UserPosition = styled.div`
     }
 `;
 
+const ChannelId = styled.div`
+    margin-bottom: 12px;
+    font-size: 11px;
+    line-height: 16px;
+    letter-spacing: 0.02em;
+    color: rgba(var(--center-channel-color-rgb), .64);
+`;
+
 interface Props {
     channel: Channel;
     dmUser: DMUser;
+    devMode?: boolean;
     actions: {
         editChannelHeader: () => void;
     };
 }
 
-const AboutAreaDM = ({channel, dmUser, actions}: Props) => {
+const AboutAreaDM = ({channel, dmUser, devMode, actions}: Props) => {
     const {formatMessage} = useIntl();
 
     return (
@@ -121,6 +130,12 @@ const AboutAreaDM = ({channel, dmUser, actions}: Props) => {
                         emptyLabel={formatMessage({id: 'channel_info_rhs.about_area.add_channel_header', defaultMessage: 'Add a channel header'})}
                     />
                 </ChannelHeader>
+            )}
+
+            {devMode && (
+                <ChannelId>
+                    {formatMessage({id: 'channel_info_rhs.about_area_id', defaultMessage: 'ID:'})} {channel.id}
+                </ChannelId>
             )}
         </>
     );
