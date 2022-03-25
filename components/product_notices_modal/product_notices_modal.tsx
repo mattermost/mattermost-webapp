@@ -260,6 +260,7 @@ export default class ProductNoticesModal extends React.PureComponent<Props, Stat
             <GenericModal
                 onExited={this.onModalDismiss}
                 handleConfirm={this.handleNextButton}
+                handleEnterKeyPress={this.handleNextButton}
                 handleCancel={handlePreviousButton}
                 modalHeaderText={(
                     <span>

@@ -262,3 +262,14 @@ Cypress.Commands.add('apiSaveCloudTrialBannerPreference', (userId, name, value) 
 
     return cy.apiSaveUserPreference([preference], userId);
 });
+
+Cypress.Commands.add('apiSaveActionsMenuPreference', (userId, value = true) => {
+    const preference = {
+        user_id: userId,
+        category: 'actions_menu',
+        name: 'actions_menu_tutorial_state',
+        value: JSON.stringify({actions_menu_modal_viewed: value}),
+    };
+
+    return cy.apiSaveUserPreference([preference], userId);
+});
