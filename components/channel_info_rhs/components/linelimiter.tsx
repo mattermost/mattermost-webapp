@@ -12,9 +12,10 @@ interface LineLimiterProps {
     moreText: string;
     lessText: string;
     className?: string;
+    errorMargin?: number;
 }
 
-const LineLimiterBase = ({children, maxLines, lineHeight, moreText, lessText, className}: LineLimiterProps) => {
+const LineLimiterBase = ({children, maxLines, lineHeight, moreText, lessText, errorMargin = 0.1, className}: LineLimiterProps) => {
     const maxLineHeight = maxLines * lineHeight;
 
     const [needLimiter, setNeedLimiter] = useState(false);
@@ -28,7 +29,7 @@ const LineLimiterBase = ({children, maxLines, lineHeight, moreText, lessText, cl
         }
 
         const contentHeight = ref.current.scrollHeight;
-        if (contentHeight > maxLineHeight) {
+        if (contentHeight > (maxLineHeight + maxLineHeight * errorMargin)) {
             setNeedLimiter(true);
 
             if (open) {
