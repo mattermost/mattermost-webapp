@@ -78,7 +78,7 @@ const {KeyCodes} = Constants;
 const TOP_OFFSET = 0;
 const RIGHT_OFFSET = 10;
 
-const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null => {
+const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): JSX.Element | null => {
     const [editText, setEditText] = useState<string>(
         editingPost?.post?.message_source || editingPost?.post?.message || '',
     );
@@ -112,11 +112,11 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
     // just a helper so it's not always needed to update with setting both properties to the same value
     const setCaretPosition = (position: number) => setSelectionRange({start: position, end: position});
 
-    const handlePaste: ClipboardEventHandler<HTMLTextAreaElement> = ({clipboardData, target, preventDefault}) => {
+    const handlePaste: ClipboardEventHandler<HTMLTextAreaElement> = useCallback(({clipboardData, target, preventDefault}) => {
         if (
             !clipboardData ||
             !clipboardData.items ||
-            !rest.canEditPost ||
+            !canEditPost ||
             (target as HTMLTextAreaElement).id !== 'edit_textbox'
         ) {
             return;
@@ -148,18 +148,18 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
 
         setEditText(message);
         setCaretPosition(newCaretPosition);
-    }, [textboxRef, rest.canEditPost, caretPosition, editText]);
+    }, [canEditPost, selectionRange, editText]);
 
     const isSaveDisabled = () => {
         const {post} = editingPost;
         const hasAttachments = post && post.file_ids && post.file_ids.length > 0;
 
         if (hasAttachments) {
-            return !rest.canEditPost;
+            return !canEditPost;
         }
 
         if (editText.trim() !== '') {
-            return !rest.canEditPost;
+            return !canEditPost;
         }
 
         return !rest.canDeletePost;
@@ -358,7 +358,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
         defaultMessage: 'Emoji Picker',
     }).toLowerCase();
 
-    if (rest.config.EnableEmojiPicker === 'true') {
+    if (config.EnableEmojiPicker === 'true') {
         emojiPicker = (
             <>
                 <EmojiPickerOverlay
@@ -368,7 +368,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
                     onHide={hideEmojiPicker}
                     onEmojiClick={handleEmojiClick}
                     onGifClick={handleGifClick}
-                    enableGifPicker={rest.config.EnableGifPicker === 'true'}
+                    enableGifPicker={config.EnableGifPicker === 'true'}
                     topOffset={TOP_OFFSET}
                     rightOffset={RIGHT_OFFSET}
                 />
@@ -404,7 +404,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
                 onPaste={handlePaste}
                 value={editText}
                 channelId={rest.channelId}
-                emojiEnabled={rest.config.EnableEmojiPicker === 'true'}
+                emojiEnabled={config.EnableEmojiPicker === 'true'}
                 createMessage={formatMessage({id: 'edit_post.editPost', defaultMessage: 'Edit the post...'})}
                 supportsCommands={false}
                 suggestionListPosition='bottom'
