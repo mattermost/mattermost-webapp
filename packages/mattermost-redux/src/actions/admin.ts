@@ -963,3 +963,9 @@ export function completeSetup(completeSetup: CompleteOnboardingRequest): ActionF
         params: [completeSetup],
     });
 }
+
+export function getAppliedSchemaMigrations(): ActionFunc {
+    return bindClientFunc({
+        clientFunc: Client4.getAppliedSchemaMigrations,
+    });
+}

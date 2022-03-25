@@ -11,6 +11,7 @@ import LinkTooltip from 'components/link_tooltip/link_tooltip';
 import MarkdownImage from 'components/markdown_image';
 import PostEmoji from 'components/post_emoji';
 import PostEditedIndicator from 'components/post_view/post_edited_indicator';
+import CodeBlock from 'components/code_block/code_block';
 
 /*
  * Converts HTML to React components using html-to-react.
@@ -177,6 +178,22 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
             processNode: (node) => {
                 return (
                     <LatexInline content={node.attribs['data-inline-latex']}/>
+                );
+            },
+        });
+    }
+
+    if (!('markdown' in options) || options.markdown) {
+        processingInstructions.push({
+            shouldProcessNode: (node) => node.attribs && node.attribs['data-codeblock-code'],
+            processNode: (node) => {
+                return (
+                    <CodeBlock
+                        id={options.postId}
+                        code={node.attribs['data-codeblock-code']}
+                        language={node.attribs['data-codeblock-language']}
+                        searchedContent={node.attribs['data-codeblock-searchedcontent']}
+                    />
                 );
             },
         });

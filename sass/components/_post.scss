@@ -683,37 +683,37 @@
         overflow: visible;
         background-color: rgba(var(--button-bg-rgb), 0.08);
 
+        .post--editing__wrapper {
+            position: relative;
+            margin: 8px 0 0;
+
+            &.scroll {
+                .custom-textarea {
+                    overflow: auto;
+                    -webkit-overflow-scrolling: touch;
+                    -ms-overflow-style: auto;
+                }
+
+                .post-body__actions {
+                    right: 10px;
+                }
+            }
+        }
+
+        .custom-textarea {
+            max-height: calc(50vh - 40px);
+            padding: 13px 0 12px 16px;
+            background-color: var(--center-channel-bg);
+
+            &.custom-textarea--emoji-picker {
+                padding-right: 50px;
+            }
+        }
+
         .post__body {
             position: relative;
             overflow: visible;
             background: transparent;
-
-            .post--editing__wrapper {
-                position: relative;
-                margin: 8px 0 0;
-
-                &.scroll {
-                    .custom-textarea {
-                        overflow: auto;
-                        -webkit-overflow-scrolling: touch;
-                        -ms-overflow-style: auto;
-                    }
-
-                    .post-body__actions {
-                        right: 10px;
-                    }
-                }
-            }
-
-            .custom-textarea {
-                max-height: calc(50vh - 40px);
-                padding: 13px 0 12px 16px;
-                background-color: var(--center-channel-bg);
-
-                &.custom-textarea--emoji-picker {
-                    padding-right: 50px;
-                }
-            }
         }
     }
 
@@ -909,10 +909,17 @@
             background: alpha-color($white, 0.7);
         }
 
-        .status-wrapper {
-            height: 14px;
+        .post__img .status-wrapper {
             cursor: auto;
             pointer-events: none;
+        }
+
+        .ThreadFooter .status-wrapper {
+            height: 24px;
+        }
+
+        .status-wrapper {
+            height: 14px;
 
             .status {
                 position: relative;

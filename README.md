@@ -5,9 +5,9 @@
 
 <img width="1006" alt="mattermost-hero" src="https://user-images.githubusercontent.com/7205829/136107976-7a894c9e-290a-490d-8501-e5fdbfc3785a.png">
 
-This repo hosts the webapp client code. If you'd like to report an issue with Mattermost, please create an issue on [mattermost-server](https://github.com/mattermost/mattermost-server), which hosts the server code. You can also look at the [Get Help With Mattermost](https://docs.mattermost.com/guides/get-help.html) guide to find the resources available to our community.  
+This repo hosts the webapp client code. If you'd like to report an issue with Mattermost, please create an issue on [mattermost-server](https://github.com/mattermost/mattermost-server), which hosts the server code. You can also look at the [Get Help With Mattermost](https://docs.mattermost.com/guides/get-help.html) guide to find the resources available to our community.
 
-- [Product documentation](http://docs.mattermost.com/)
+- [Product documentation](https://docs.mattermost.com/)
 - [Developer documentation](https://developers.mattermost.com/)
 - [Download compiled version](https://mattermost.com/download)
 
