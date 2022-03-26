@@ -54,6 +54,7 @@ class AdminSidebar extends React.PureComponent {
         navigationBlocked: PropTypes.bool.isRequired,
         consoleAccess: PropTypes.object,
         intl: intlShape.isRequired,
+        showTaskList: PropTypes.bool,
         actions: PropTypes.shape({
 
             /*
@@ -297,6 +298,7 @@ class AdminSidebar extends React.PureComponent {
     }
 
     render() {
+        const {showTaskList} = this.props;
         return (
             <div className='admin-sidebar'>
                 <AdminSidebarHeader/>
@@ -328,7 +330,7 @@ class AdminSidebar extends React.PureComponent {
                 >
                     <div className='nav-pills__container'>
                         <Highlight filter={this.state.filter}>
-                            <ul className='nav nav-pills nav-stacked'>
+                            <ul className={`nav nav-pills nav-stacked ${showTaskList ? 'task-list-shown' : ''}`}>
                                 {this.renderRootMenu(this.props.adminDefinition)}
                             </ul>
                         </Highlight>
