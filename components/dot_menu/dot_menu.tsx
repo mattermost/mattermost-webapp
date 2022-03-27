@@ -26,10 +26,10 @@ import {PluginComponent} from 'types/store/plugins';
 import {ChangeEvent, trackDotMenuEvent} from './utils';
 
 type ShortcutKeyProps = {
-    shortcut: string;
+    shortcutKey: string;
 };
 
-const ShortcutKey = ({shortcut}: ShortcutKeyProps) => (shortcut ? (
+const ShortcutKey = ({shortcutKey: shortcut}: ShortcutKeyProps) => (shortcut ? (
     <span className={'MenuItem__opacity MenuItem__right-decorator'}>
         {shortcut}
     </span>
@@ -470,7 +470,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         show={!isSystemMessage && this.props.location === Locations.CENTER}
                         text={Utils.localizeMessage('post_info.reply', 'Reply')}
                         icon={Utils.getMenuItemIcon('icon-reply-outline')}
-                        rightDecorator={<ShortcutKey shortcut='R'/>}
+                        rightDecorator={<ShortcutKey shortcutKey='R'/>}
                         onClick={this.handleCommentClick}
                     />
                     <ChannelPermissionGate
@@ -486,7 +486,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     </ChannelPermissionGate>
                     <Menu.ItemAction
                         id={`follow_post_thread_${this.props.post.id}`}
-                        rightDecorator={<ShortcutKey shortcut='F'/>}
+                        rightDecorator={<ShortcutKey shortcutKey='F'/>}
                         onClick={this.handleSetThreadFollow}
                         show={(
                             !isSystemMessage &&
@@ -510,7 +510,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         show={!isSystemMessage && !this.props.channelIsArchived && this.props.location !== Locations.SEARCH}
                         text={Utils.localizeMessage('post_info.unread', 'Mark as Unread')}
                         icon={Utils.getMenuItemIcon('icon-mark-as-unread')}
-                        rightDecorator={<ShortcutKey shortcut='U'/>}
+                        rightDecorator={<ShortcutKey shortcutKey='U'/>}
                         onClick={this.handleMarkPostAsUnread}
                     />
                     <Menu.ItemAction
@@ -528,7 +528,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         show={!isSystemMessage && !this.props.isReadOnly && this.props.post.is_pinned}
                         text={Utils.localizeMessage('post_info.unpin', 'Unpin')}
                         icon={Utils.getMenuItemIcon('icon-pin')}
-                        rightDecorator={<ShortcutKey shortcut='P'/>}
+                        rightDecorator={<ShortcutKey shortcutKey='P'/>}
                         onClick={this.handlePinMenuItemActivated}
                     />
                     <Menu.ItemAction
@@ -536,7 +536,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         show={!isSystemMessage && !this.props.isReadOnly && !this.props.post.is_pinned}
                         text={Utils.localizeMessage('post_info.pin', 'Pin')}
                         icon={Utils.getMenuItemIcon('icon-pin-outline')}
-                        rightDecorator={<ShortcutKey shortcut='P'/>}
+                        rightDecorator={<ShortcutKey shortcutKey='P'/>}
                         onClick={this.handlePinMenuItemActivated}
                     />
                     {!isSystemMessage && (this.state.canEdit || this.state.canDelete) && this.renderDivider('edit')}
@@ -545,7 +545,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         show={!isSystemMessage}
                         text={Utils.localizeMessage('post_info.permalink', 'Copy Link')}
                         icon={Utils.getMenuItemIcon('icon-link-variant')}
-                        rightDecorator={<ShortcutKey shortcut='K'/>}
+                        rightDecorator={<ShortcutKey shortcutKey='K'/>}
                         onClick={this.copyLink}
                     />
                     {!isSystemMessage && this.renderDivider('edit')}
@@ -554,7 +554,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         show={this.state.canEdit}
                         text={Utils.localizeMessage('post_info.edit', 'Edit')}
                         icon={Utils.getMenuItemIcon('icon-pencil-outline')}
-                        rightDecorator={<ShortcutKey shortcut='E'/>}
+                        rightDecorator={<ShortcutKey shortcutKey='E'/>}
                         onClick={this.handleEditMenuItemActivated}
                     />
                     <Menu.ItemAction
@@ -562,7 +562,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         show={!isSystemMessage}
                         text={Utils.localizeMessage('post_info.copy', 'Copy Text')}
                         icon={Utils.getMenuItemIcon('icon-content-copy')}
-                        rightDecorator={<ShortcutKey shortcut='C'/>}
+                        rightDecorator={<ShortcutKey shortcutKey='C'/>}
                         onClick={this.copyText}
                     />
                     <Menu.ItemAction
