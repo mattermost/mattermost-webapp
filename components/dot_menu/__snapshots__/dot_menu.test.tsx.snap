@@ -57,11 +57,9 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       }
       onClick={[Function]}
       rightDecorator={
-        <span
-          className="MenuItem__opacity MenuItem__right-decorator"
-        >
-          R
-        </span>
+        <ShortcutKey
+          shortcutKey="R"
+        />
       }
       show={true}
       text="Reply"
@@ -90,11 +88,9 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       id="follow_post_thread_post_id_1"
       onClick={[Function]}
       rightDecorator={
-        <span
-          className="MenuItem__opacity MenuItem__right-decorator"
-        >
-          F
-        </span>
+        <ShortcutKey
+          shortcutKey="F"
+        />
       }
       show={false}
       text="Follow message"
@@ -108,11 +104,9 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       id="unread_post_post_id_1"
       onClick={[Function]}
       rightDecorator={
-        <span
-          className="MenuItem__opacity MenuItem__right-decorator"
-        >
-          U
-        </span>
+        <ShortcutKey
+          shortcutKey="U"
+        />
       }
       show={true}
       text="Mark as Unread"
@@ -136,11 +130,9 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       id="unpin_post_post_id_1"
       onClick={[Function]}
       rightDecorator={
-        <span
-          className="MenuItem__opacity MenuItem__right-decorator"
-        >
-          P
-        </span>
+        <ShortcutKey
+          shortcutKey="P"
+        />
       }
       show={false}
       text="Unpin"
@@ -154,11 +146,9 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       id="pin_post_post_id_1"
       onClick={[Function]}
       rightDecorator={
-        <span
-          className="MenuItem__opacity MenuItem__right-decorator"
-        >
-          P
-        </span>
+        <ShortcutKey
+          shortcutKey="P"
+        />
       }
       show={true}
       text="Pin"
@@ -177,11 +167,9 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       id="permalink_post_id_1"
       onClick={[Function]}
       rightDecorator={
-        <span
-          className="MenuItem__opacity MenuItem__right-decorator"
-        >
-          K
-        </span>
+        <ShortcutKey
+          shortcutKey="K"
+        />
       }
       show={true}
       text="Copy Link"
@@ -200,11 +188,9 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       id="edit_post_post_id_1"
       onClick={[Function]}
       rightDecorator={
-        <span
-          className="MenuItem__opacity MenuItem__right-decorator"
-        >
-          E
-        </span>
+        <ShortcutKey
+          shortcutKey="E"
+        />
       }
       show={true}
       text="Edit"
@@ -218,11 +204,9 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       id="copy_post_id_1"
       onClick={[Function]}
       rightDecorator={
-        <span
-          className="MenuItem__opacity MenuItem__right-decorator"
-        >
-          C
-        </span>
+        <ShortcutKey
+          shortcutKey="C"
+        />
       }
       show={true}
       text="Copy Text"
@@ -307,11 +291,9 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       }
       onClick={[Function]}
       rightDecorator={
-        <span
-          className="MenuItem__opacity MenuItem__right-decorator"
-        >
-          R
-        </span>
+        <ShortcutKey
+          shortcutKey="R"
+        />
       }
       show={true}
       text="Reply"
@@ -340,11 +322,9 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       id="follow_post_thread_post_id_1"
       onClick={[Function]}
       rightDecorator={
-        <span
-          className="MenuItem__opacity MenuItem__right-decorator"
-        >
-          F
-        </span>
+        <ShortcutKey
+          shortcutKey="F"
+        />
       }
       show={false}
       text="Follow message"
@@ -358,11 +338,9 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       id="unread_post_post_id_1"
       onClick={[Function]}
       rightDecorator={
-        <span
-          className="MenuItem__opacity MenuItem__right-decorator"
-        >
-          U
-        </span>
+        <ShortcutKey
+          shortcutKey="U"
+        />
       }
       show={true}
       text="Mark as Unread"
@@ -386,11 +364,9 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       id="unpin_post_post_id_1"
       onClick={[Function]}
       rightDecorator={
-        <span
-          className="MenuItem__opacity MenuItem__right-decorator"
-        >
-          P
-        </span>
+        <ShortcutKey
+          shortcutKey="P"
+        />
       }
       show={false}
       text="Unpin"
@@ -404,11 +380,9 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       id="pin_post_post_id_1"
       onClick={[Function]}
       rightDecorator={
-        <span
-          className="MenuItem__opacity MenuItem__right-decorator"
-        >
-          P
-        </span>
+        <ShortcutKey
+          shortcutKey="P"
+        />
       }
       show={true}
       text="Pin"
@@ -427,11 +401,9 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       id="permalink_post_id_1"
       onClick={[Function]}
       rightDecorator={
-        <span
-          className="MenuItem__opacity MenuItem__right-decorator"
-        >
-          K
-        </span>
+        <ShortcutKey
+          shortcutKey="K"
+        />
       }
       show={true}
       text="Copy Link"
@@ -450,11 +422,9 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       id="edit_post_post_id_1"
       onClick={[Function]}
       rightDecorator={
-        <span
-          className="MenuItem__opacity MenuItem__right-decorator"
-        >
-          E
-        </span>
+        <ShortcutKey
+          shortcutKey="E"
+        />
       }
       show={true}
       text="Edit"
@@ -468,11 +438,9 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       id="copy_post_id_1"
       onClick={[Function]}
       rightDecorator={
-        <span
-          className="MenuItem__opacity MenuItem__right-decorator"
-        >
-          C
-        </span>
+        <ShortcutKey
+          shortcutKey="C"
+        />
       }
       show={true}
       text="Copy Text"
