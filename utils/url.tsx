@@ -122,10 +122,10 @@ export function validateChannelUrl(url: string): React.ReactElement[] {
     const isDirectMessageFormat = directMessageRegex.test(url);
 
     const cleanedURL = cleanUpUrlable(url);
-    const urlMatched = url.match(/[a-z0-9]([-_\w]*)[a-z0-9]/);
+    const urlMatched = url.match(/[a-z0-9]([-_\w]*)/);
     if (cleanedURL !== url || !urlMatched || urlMatched[0] !== url || isDirectMessageFormat) {
-        if (url.length < 2) {
-            errors.push(formattedError(t('change_url.longer'), 'URLs must have at least 2 characters.'));
+        if (url.length < Constants.MIN_CHANNELNAME_LENGTH) {
+            errors.push(formattedError(t('change_url.longer'), 'URLs must have at least 1 characters.'));
         }
 
         if (isDirectMessageFormat) {

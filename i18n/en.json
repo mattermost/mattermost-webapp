@@ -2713,7 +2713,7 @@
   "change_url.helpText": "You can use lowercase letters, numbers, dashes, and underscores.",
   "change_url.invalidDirectMessage": "User IDs are not allowed in channel URLs.",
   "change_url.invalidUrl": "Invalid URL",
-  "change_url.longer": "URLs must have at least 2 characters.",
+  "change_url.longer": "URLs must have at least 1 characters.",
   "change_url.startAndEndWithLetter": "URLs must start and end with a lowercase letter or number.",
   "change_url.startWithLetter": "URLs must start with a lowercase letter or number.",
   "change_url.urlLabel": "Channel URL",
