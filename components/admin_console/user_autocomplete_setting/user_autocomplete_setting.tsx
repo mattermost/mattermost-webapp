@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useCallback, useRef} from 'react';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
@@ -24,37 +24,37 @@ type Props = {
     };
 }
 
-const UserAutocompleteSetting = (props: Props) => {
-    const userSuggestionProviders = [new GenericUserProvider(props.actions.autocompleteUsers)];
+const UserAutocompleteSetting = ({id, label, placeholder, helpText, value, onChange, disabled, actions}: Props) => {
+    const userSuggestionProvidersRef = useRef([new GenericUserProvider(actions.autocompleteUsers)]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        props.onChange(props.id, e.target.value);
-    };
+    const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        onChange(id, e.target.value);
+    }, [onChange, id]);
 
-    const handleUserSelected = (user: UserProfile) => {
-        props.onChange(props.id, user.username);
-    };
+    const handleUserSelected = useCallback((user: UserProfile) => {
+        onChange(id, user.username);
+    }, [id, onChange]);
 
     return (
         <Setting
-            label={props.label}
-            helpText={props.helpText}
-            inputId={props.id}
+            label={label}
+            helpText={helpText}
+            inputId={id}
         >
             <div
                 className='admin-setting-user__dropdown'
             >
                 <SuggestionBox
-                    id={'admin_user_setting_' + props.id}
+                    id={'admin_user_setting_' + id}
                     className='form-control'
-                    placeholder={props.placeholder}
-                    value={props.value}
+                    placeholder={placeholder}
+                    value={value}
                     onChange={handleChange}
                     onItemSelected={handleUserSelected}
                     listComponent={SuggestionList}
                     listPosition='bottom'
-                    providers={userSuggestionProviders}
-                    disabled={props.disabled}
+                    providers={userSuggestionProvidersRef.current}
+                    disabled={disabled}
                     requiredCharacters={0}
                     openOnFocus={true}
                 />
