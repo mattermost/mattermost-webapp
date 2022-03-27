@@ -2794,7 +2794,7 @@
   "channel_modal.cancel": "Cancel",
   "channel_modal.createNew": "Create Channel",
   "channel_modal.descriptionHelp": "Describe how this channel should be used.",
-  "channel_modal.displayNameError": "Display name must have at least 2 characters.",
+  "channel_modal.displayNameError": "Display name must have at least 1 characters.",
   "channel_modal.edit": "Edit",
   "channel_modal.header": "Header",
   "channel_modal.headerEx": "E.g.: \"[Link Title](http://example.com)\"",

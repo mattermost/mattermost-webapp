@@ -164,7 +164,7 @@ export default class NewChannelModal extends React.PureComponent {
                 <p className='input__help error'>
                     <FormattedMessage
                         id='channel_modal.displayNameError'
-                        defaultMessage='Display name must have at least 2 characters.'
+                        defaultMessage='Display name must have at least 1 characters.'
                     />
                     {this.state.displayNameError}
                 </p>
