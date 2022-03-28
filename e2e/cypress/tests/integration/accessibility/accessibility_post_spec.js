@@ -19,7 +19,6 @@ describe('Verify Accessibility Support in Post', () => {
     let testTeam;
     let testChannel;
     let emojiPickerEnabled;
-    let pluginsEnabled;
 
     before(() => {
         cy.apiInitSetup().then(({team, channel, user}) => {
@@ -37,7 +36,6 @@ describe('Verify Accessibility Support in Post', () => {
 
             cy.apiGetConfig().then(({config}) => {
                 emojiPickerEnabled = config.ServiceSettings.EnableEmojiPicker;
-                pluginsEnabled = config.PluginSettings.Enable;
             });
         });
     });
