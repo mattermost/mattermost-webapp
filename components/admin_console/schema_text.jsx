@@ -38,10 +38,13 @@ export default class SchemaText extends React.PureComponent {
 
         if (isMarkdown) {
             return (
+
+                // Give all markdown links target="_blank"
                 <FormattedMarkdownMessage
                     id={text}
                     defaultMessage={textDefault}
                     values={textValues}
+                    blankLinks={true}
                 />
             );
         }
@@ -60,7 +63,7 @@ export default class SchemaText extends React.PureComponent {
             const html = marked(this.props.text, {
                 breaks: true,
                 sanitize: true,
-                renderer: new CustomRenderer(),
+                renderer: new CustomRenderer(false, true),
             });
 
             return <span dangerouslySetInnerHTML={{__html: html}}/>;

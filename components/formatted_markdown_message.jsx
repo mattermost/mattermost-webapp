@@ -11,9 +11,10 @@ import {intlShape} from 'utils/react_intl';
 const TARGET_BLANK_URL_PREFIX = '!';
 
 export class CustomRenderer extends marked.Renderer {
-    constructor(disableLinks = false) {
+    constructor(disableLinks = false, blankLinks = false) {
         super();
         this.disableLinks = disableLinks;
+        this.blankLinks = blankLinks;
     }
 
     link(href, title, text) {
@@ -22,6 +23,9 @@ export class CustomRenderer extends marked.Renderer {
         }
         if (href[0] === TARGET_BLANK_URL_PREFIX) {
             return `<a href="${href.substring(1, href.length)}" rel="noopener noreferrer" target="_blank">${text}</a>`;
+        }
+        if (this.blankLinks) {
+            return `<a href="${href}" target="_blank">${text}</a>`;
         }
         return `<a href="${href}">${text}</a>`;
     }
@@ -48,6 +52,7 @@ export class CustomRenderer extends marked.Renderer {
 class FormattedMarkdownMessage extends React.PureComponent {
     static defaultProps = {
         disableLinks: false,
+        blankLinks: false,
     };
 
     static get propTypes() {
@@ -57,6 +62,7 @@ class FormattedMarkdownMessage extends React.PureComponent {
             defaultMessage: PropTypes.string.isRequired,
             values: PropTypes.object,
             disableLinks: PropTypes.bool,
+            blankLinks: PropTypes.bool,
         };
     }
 
@@ -67,6 +73,7 @@ class FormattedMarkdownMessage extends React.PureComponent {
             defaultMessage,
             values,
             disableLinks,
+            blankLinks,
         } = this.props;
 
         const origMsg = intl.formatMessage({id, defaultMessage}, values);
@@ -74,7 +81,7 @@ class FormattedMarkdownMessage extends React.PureComponent {
         const markedUpMessage = marked(origMsg, {
             breaks: true,
             sanitize: true,
-            renderer: new CustomRenderer(disableLinks),
+            renderer: new CustomRenderer(disableLinks, blankLinks),
         });
 
         return (<span dangerouslySetInnerHTML={{__html: markedUpMessage}}/>);
