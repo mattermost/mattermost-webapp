@@ -217,66 +217,63 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
                     className='overflow--visible'
                 >
                     <div className='user-groups-modal__content'>
-                        <form role='form'>
-                            <div className='group-name-input-wrapper'>
-                                <Input
-                                    type='text'
-                                    placeholder={Utils.localizeMessage('user_groups_modal.name', 'Name')}
-                                    onChange={this.updateNameState}
-                                    value={this.state.name}
-                                    data-testid='nameInput'
-                                    maxLength={64}
-                                    autoFocus={true}
-                                    error={this.state.nameInputErrorText}
-                                />
-                            </div>
-                            <div className='group-mention-input-wrapper'>
-                                <Input
-                                    type='text'
-                                    placeholder={Utils.localizeMessage('user_groups_modal.mention', 'Mention')}
-                                    onChange={this.updateMentionState}
-                                    value={this.state.mention}
-                                    maxLength={64}
-                                    data-testid='mentionInput'
-                                    error={this.state.mentionInputErrorText}
-                                />
-                            </div>
-                            <h2>
+                        <div className='group-name-input-wrapper'>
+                            <Input
+                                type='text'
+                                placeholder={Utils.localizeMessage('user_groups_modal.name', 'Name')}
+                                onChange={this.updateNameState}
+                                value={this.state.name}
+                                data-testid='nameInput'
+                                maxLength={64}
+                                autoFocus={true}
+                                error={this.state.nameInputErrorText}
+                            />
+                        </div>
+                        <div className='group-mention-input-wrapper'>
+                            <Input
+                                type='text'
+                                placeholder={Utils.localizeMessage('user_groups_modal.mention', 'Mention')}
+                                onChange={this.updateMentionState}
+                                value={this.state.mention}
+                                maxLength={64}
+                                data-testid='mentionInput'
+                                error={this.state.mentionInputErrorText}
+                            />
+                        </div>
+                        <h2>
+                            <FormattedMessage
+                                id='user_groups_modal.addPeople'
+                                defaultMessage='Add People'
+                            />
+                        </h2>
+                        <div className='group-add-user'>
+                            <AddUserToGroupMultiSelect
+                                multilSelectKey={'addUsersToGroupKey'}
+                                onSubmitCallback={this.createGroup}
+                                focusOnLoad={false}
+                                savingEnabled={this.isSaveEnabled()}
+                                addUserCallback={this.addUserCallback}
+                                deleteUserCallback={this.deleteUserCallback}
+                                backButtonText={localizeMessage('multiselect.cancelButton', 'Cancel')}
+                                backButtonClick={
+                                    typeof this.props.backButtonCallback === 'function' ?
+                                        this.goBack :
+                                        this.doHide
+                                }
+                                backButtonClass={'multiselect-back'}
+                                saving={this.state.saving}
+                            />
+                        </div>
+                        {
+                            this.state.showUnknownError &&
+                            <div className='Input___error group-error'>
+                                <i className='icon icon-alert-outline'/>
                                 <FormattedMessage
-                                    id='user_groups_modal.addPeople'
-                                    defaultMessage='Add People'
-                                />
-                            </h2>
-                            <div className='group-add-user'>
-                                <AddUserToGroupMultiSelect
-                                    multilSelectKey={'addUsersToGroupKey'}
-                                    onSubmitCallback={this.createGroup}
-                                    focusOnLoad={false}
-                                    savingEnabled={this.isSaveEnabled()}
-                                    addUserCallback={this.addUserCallback}
-                                    deleteUserCallback={this.deleteUserCallback}
-                                    backButtonText={localizeMessage('multiselect.cancelButton', 'Cancel')}
-                                    backButtonClick={
-                                        typeof this.props.backButtonCallback === 'function' ?
-                                            this.goBack :
-                                            this.doHide
-                                    }
-                                    backButtonClass={'multiselect-back'}
-                                    saving={this.state.saving}
+                                    id='user_groups_modal.unknownError'
+                                    defaultMessage='An unknown error has occurred.'
                                 />
                             </div>
-                            {
-                                this.state.showUnknownError &&
-                                <div className='Input___error group-error'>
-                                    <i className='icon icon-alert-outline'/>
-                                    <FormattedMessage
-                                        id='user_groups_modal.unknownError'
-                                        defaultMessage='An unknown error has occurred.'
-                                    />
-                                </div>
-                            }
-                        </form>
-
+                        }
                     </div>
                 </Modal.Body>
             </Modal>

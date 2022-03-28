@@ -3,7 +3,7 @@
 
 import assert from 'assert';
 
-import {buildQueryString, isMinimumServerVersion, isEmail} from 'mattermost-redux/utils/helpers';
+import {isMinimumServerVersion, isEmail} from 'mattermost-redux/utils/helpers';
 
 describe('Helpers', () => {
     it('isMinimumServerVersion', () => {
@@ -27,12 +27,6 @@ describe('Helpers', () => {
         assert.ok(!isMinimumServerVersion('5.1.1', 5, 1, 2));
         assert.ok(isMinimumServerVersion('4.6.2.sakjdgaksfg', 4, 6, 2));
         assert.ok(!isMinimumServerVersion());
-    });
-
-    it('buildQueryString', () => {
-        assert.equal(buildQueryString({}), '');
-        assert.equal(buildQueryString({a: 1}), '?a=1');
-        assert.equal(buildQueryString({a: 1, b: 'str'}), '?a=1&b=str');
     });
 });
 
