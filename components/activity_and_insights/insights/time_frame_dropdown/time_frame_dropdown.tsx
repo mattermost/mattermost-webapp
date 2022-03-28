@@ -36,7 +36,7 @@ const TimeFrameDropdown = (props: Props) => {
         if (selectedOption && 'value' in selectedOption) {
             props.setTimeFrame(selectedOption);
         }
-    }
+    };
 
     return (
         <ReactSelect

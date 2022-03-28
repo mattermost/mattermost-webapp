@@ -35,7 +35,7 @@ const InsightsHeader = (props: Props) => {
                 />
             </div>
             <div className='right'>
-                <TimeFrameDropdown 
+                <TimeFrameDropdown
                     timeFrame={props.timeFrame}
                     setTimeFrame={props.setTimeFrame}
                 />

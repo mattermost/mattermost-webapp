@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {memo, useState, useCallback, useMemo} from 'react';
+import React, {memo, useState, useCallback} from 'react';
+
+import {localizeMessage} from 'utils/utils';
 
 import InsightsHeader from './insights_header/insights_header';
-import {localizeMessage} from 'utils/utils';
 
 import './../activity_and_insights.scss';
 
@@ -24,7 +25,7 @@ const Insights = () => {
 
     const setTimeFrameValue = useCallback((value) => {
         setTimeFrame(value);
-    }, [])
+    }, []);
 
     return (
         <>
