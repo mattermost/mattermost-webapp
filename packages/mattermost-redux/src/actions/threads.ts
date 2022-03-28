@@ -31,12 +31,12 @@ import {forceLogoutIfNecessary} from './helpers';
 
 type ExtendedPost = Post & { system_post_ids?: string[] };
 
-export function getThreads(userId: string, teamId: string, {before = '', after = '', perPage = ThreadConstants.THREADS_CHUNK_SIZE, unread = false, totalsOnly = false} = {}) {
+export function getThreads(userId: string, teamId: string, {before = '', after = '', perPage = ThreadConstants.THREADS_CHUNK_SIZE, unread = false, totalsOnly = false, extended = false} = {}) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let userThreadList: undefined | UserThreadList;
 
         try {
-            userThreadList = await Client4.getUserThreads(userId, teamId, {before, after, perPage, extended: false, unread, totalsOnly});
+            userThreadList = await Client4.getUserThreads(userId, teamId, {before, after, perPage, extended, unread, totalsOnly});
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(logError(error));
