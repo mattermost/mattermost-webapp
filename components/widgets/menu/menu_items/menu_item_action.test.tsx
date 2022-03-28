@@ -48,9 +48,9 @@ describe('components/MenuItemAction', () => {
                 Whatever
               </span>
               <span
-                className="MenuItem__primary-text"
+                className="MenuItem__help-text"
               >
-                Whatever
+                Extra Text
               </span>
             </button>
         `);
