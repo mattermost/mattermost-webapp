@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {act} from 'react-dom/test-utils';
 import {shallow} from 'enzyme';
 
 import GenericModal from 'components/generic_modal';
@@ -13,8 +14,11 @@ import Constants from 'utils/constants';
 import {cleanUpUrlable} from 'utils/url';
 import {GlobalState} from 'types/store';
 import Permissions from 'mattermost-redux/constants/permissions';
-
 import {ChannelType} from 'mattermost-redux/types/channels';
+import {createChannel} from 'mattermost-redux/actions/channels';
+jest.mock('mattermost-redux/actions/channels');
+
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import NewChannelModal from './new_channel_modal';
 
@@ -377,5 +381,59 @@ describe('components/new_channel_modal', () => {
         genericModal = wrapper.find(GenericModal);
         expect(genericModal.props().errorText).toEqual('Something went wrong. Please try again.');
         expect(genericModal.props().isConfirmDisabled).toEqual(true);
+    });
+
+    test('should request team creation on submit', async () => {
+        const name = 'Channel name';
+        const mockChangeEvent = {
+            preventDefault: jest.fn(),
+            target: {
+                value: name,
+            },
+        } as unknown as React.ChangeEvent<HTMLInputElement>;
+
+        const wrapper = mountWithIntl(
+            <NewChannelModal/>,
+        );
+
+        const genericModal = wrapper.find('GenericModal');
+        const displayName = genericModal.find('.new-channel-modal-name-input');
+        const confirmButton = genericModal.find('button[type=\'submit\']');
+
+        // Confirm button should be disabled
+        expect((confirmButton.instance() as unknown as HTMLButtonElement).disabled).toEqual(true);
+
+        // Enter data
+        displayName.simulate('change', mockChangeEvent);
+
+        // Display name should be updated
+        expect((displayName.instance() as unknown as HTMLInputElement).value).toEqual(name);
+
+        // Confirm button should be enabled
+        expect((confirmButton.instance() as unknown as HTMLButtonElement).disabled).toEqual(false);
+
+        // Submit
+        await act(async () => {
+            confirmButton.simulate('click');
+        });
+
+        // Request should be sent
+        expect(createChannel).toHaveBeenCalledWith({
+            create_at: 0,
+            creator_id: '',
+            delete_at: 0,
+            display_name: name,
+            group_constrained: false,
+            header: '',
+            id: '',
+            last_post_at: 0,
+            last_root_post_at: 0,
+            name: 'channel-name',
+            purpose: '',
+            scheme_id: '',
+            team_id: 'current_team_id',
+            type: 'O',
+            update_at: 0,
+        }, '');
     });
 });
