@@ -22,7 +22,9 @@ const TopChannels = () => {
                         defaultMessage: 'Top Channels',
                     })}
                 </CardHeader>
-                <CardBody/>
+                <CardBody>
+                    <></>
+                </CardBody>
             </Card>
         </>
     );
