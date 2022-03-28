@@ -107,11 +107,13 @@ function verifyCreatePublicChannel(teamName, testUsers) {
         // # Click on create new channel at LHS
         cy.uiBrowseOrCreateChannel('Create New Channel').click();
 
-        // * Verify if creating a public channel is shown or not
-        cy.findByRole('dialog', {name: 'New Channel'}).find('.radio').
-            should('have.length', isSysadmin ? 2 : 1).
-            and('contain', 'Private').
-            and(canCreate ? 'contain' : 'not.contain', 'Public');
+        cy.findByRole('dialog', {name: 'Create a new channel'}).within(() => {
+            // * Verify if creating a public channel is disabled or not
+            find('#O.public-private-selector-button').should(canCreate ? 'not.have.class' : 'have.class', 'disabled');
+
+            // * Verify if creating a private channel is disabled or not
+            find('#P.public-private-selector-button').should(isSysadmin ? 'not.have.class' : 'have.class', 'disabled');
+        });
     }
 }
 

@@ -29,12 +29,6 @@ describe('Channel sidebar', () => {
         // * Verify that we've switched to the new team
         cy.uiGetLHSHeader().findByText(teamName);
 
-        // # Click the New Channel Dropdown button
-        cy.get('.AddChannelDropdown_dropdownButton').should('be.visible').click();
-
-        // # Click the Create New Channel dropdown item
-        cy.get('.AddChannelDropdown .MenuItem:contains(Create New Channel) button').should('be.visible').click();
-
         // # Create new channel
         const channelName = 'Test Channel';
         cy.uiCreateChannel({name: channelName}).then(() => {

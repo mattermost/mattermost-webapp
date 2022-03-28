@@ -69,10 +69,10 @@ function verifyExistingChannelError(newChannelName, makePrivate = false) {
     cy.findByText('Create channel').click();
 
     // * User gets a message saying "A channel with that name already exists"
-    cy.get('#url-input-error').contains('A channel with that name already exists');
+    cy.get('.url-input-error').contains('A channel with that URL already exists');
 
     // * 'Create Channel' button should be disabled
-    cy.findByText('Create channel').should('be.disabled');
+    cy.findByText('Create channel').should('have.class', 'disabled');
 }
 
 /**

@@ -59,7 +59,7 @@ describe('Channel routing', () => {
         cy.uiBrowseOrCreateChannel('Create New Channel').click();
 
         // * Verify that the new channel modal is visible
-        cy.get('.new-channel-modal').should('be.visible').within(() => {
+        cy.get('#new-channel-modal').should('be.visible').within(() => {
             // # Add the new channel name with invalid name and press Create Channel
             cy.get('#input_new-channel-modal-name').type('uzsfmtmniifsjgesce4u7yznyh__uzsfmtmniifsjgesce5u7yznyh', {force: true}).wait(TIMEOUTS.HALF_SEC);
             cy.findByText('Create channel').should('be.visible').click();
@@ -68,10 +68,10 @@ describe('Channel routing', () => {
             cy.get('.genericModalError').should('be.visible').within(() => {
                 cy.get('span').should('have.text', 'Invalid channel name. User ids are not permitted in channel name for non-direct message channels.');
             });
-        });
 
-        // # close the create channel modal
-        cy.findByText('Cancel').click();
+            // # close the create channel modal
+            cy.findByText('Cancel').click();
+        });
     });
 
     it('MM-T883 Channel URL validation for spaces between characters', () => {
