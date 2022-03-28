@@ -11,14 +11,6 @@ import Markdown from 'components/markdown';
 import LineLimiter from './components/linelimiter';
 import EditableArea from './components/editable_area';
 
-const ChannelLink = styled.div`
-    margin-bottom: 12px;
-    font-size: 11px;
-    line-height: 16px;
-    letter-spacing: 0.02em;
-    color: rgba(var(--center-channel-color-rgb), .64);
-`;
-
 const ChannelId = styled.div`
     margin-bottom: 12px;
     font-size: 11px;
@@ -40,16 +32,14 @@ const ChannelHeader = styled.div`
 
 interface Props {
     channel: Channel;
-    channelURL: string;
     canEditChannelProperties: boolean;
-    devMode?: boolean;
     actions: {
         editChannelPurpose: () => void;
         editChannelHeader: () => void;
     };
 }
 
-const AboutAreaChannel = ({channel, channelURL, canEditChannelProperties, devMode, actions}: Props) => {
+const AboutAreaChannel = ({channel, canEditChannelProperties, actions}: Props) => {
     const {formatMessage} = useIntl();
 
     return (
@@ -94,13 +84,9 @@ const AboutAreaChannel = ({channel, channelURL, canEditChannelProperties, devMod
                 </ChannelHeader>
             )}
 
-            <ChannelLink>{channelURL}</ChannelLink>
-
-            {devMode && (
-                <ChannelId>
-                    {formatMessage({id: 'channel_info_rhs.about_area_id', defaultMessage: 'ID:'})} {channel.id}
-                </ChannelId>
-            )}
+            <ChannelId>
+                {formatMessage({id: 'channel_info_rhs.about_area_id', defaultMessage: 'ID:'})} {channel.id}
+            </ChannelId>
         </>
     );
 };

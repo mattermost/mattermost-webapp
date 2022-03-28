@@ -53,8 +53,6 @@ export interface Props {
     dmUser?: DMUser;
     gmUsers?: UserProfile[];
 
-    devMode?: boolean;
-
     actions: {
         closeRightHandSide: () => void;
         unfavoriteChannel: (channelId: string) => void;
@@ -81,7 +79,6 @@ const ChannelInfoRhs = ({
     gmUsers,
     canManageMembers,
     canManageProperties,
-    devMode,
     actions,
 }: Props) => {
     const currentUserId = currentUser.id;
@@ -164,14 +161,11 @@ const ChannelInfoRhs = ({
 
             <AboutArea
                 channel={channel}
-                channelURL={channelURL}
 
                 dmUser={dmUser}
                 gmUsers={gmUsers}
 
                 canEditChannelProperties={canManageProperties}
-
-                devMode={devMode}
 
                 actions={{
                     editChannelHeader,

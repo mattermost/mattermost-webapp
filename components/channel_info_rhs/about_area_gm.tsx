@@ -64,13 +64,12 @@ const ChannelId = styled.div`
 interface Props {
     channel: Channel;
     gmUsers: UserProfile[];
-    devMode?: boolean;
     actions: {
         editChannelHeader: () => void;
     };
 }
 
-const AboutAreaGM = ({channel, gmUsers, devMode, actions}: Props) => {
+const AboutAreaGM = ({channel, gmUsers, actions}: Props) => {
     const {formatMessage} = useIntl();
 
     return (
@@ -125,11 +124,9 @@ const AboutAreaGM = ({channel, gmUsers, devMode, actions}: Props) => {
                 />
             </ChannelHeader>
 
-            {devMode && (
-                <ChannelId>
-                    {formatMessage({id: 'channel_info_rhs.about_area_id', defaultMessage: 'ID:'})} {channel.id}
-                </ChannelId>
-            )}
+            <ChannelId>
+                {formatMessage({id: 'channel_info_rhs.about_area_id', defaultMessage: 'ID:'})} {channel.id}
+            </ChannelId>
         </>
     );
 };
