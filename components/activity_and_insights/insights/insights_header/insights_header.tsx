@@ -1,15 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {memo, useState, useCallback} from 'react';
+import React, {memo, useCallback} from 'react';
 
 import {useIntl} from 'react-intl';
 import classNames from 'classnames';
+
+import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
 import * as Utils from 'utils/utils.jsx';
-import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 
 import './insights_header.scss';
 
@@ -21,7 +22,7 @@ type Props = {
 
 const InsightsHeader = (props: Props) => {
     const {formatMessage} = useIntl();
-    
+
     const title = useCallback(() => {
         if (props.filterType === 'team') {
             return (

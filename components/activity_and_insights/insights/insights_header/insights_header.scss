@@ -7,30 +7,30 @@
     background-color: var(--center-channel-bg);
     grid-area: header;
 
-
     .MenuWrapper--open {
         h2 {
             background-color: rgba(var(--button-bg-rgb), 0.08);
         }
     }
+
     h2 {
         &:hover {
-            cursor: pointer;
             background-color: rgba(var(--button-bg-rgb), 0.04);
+            cursor: pointer;
         }
 
-        line-height: 24px;
+        padding: 2px 6px;
+        margin: 0;
         color: rgba(var(--center-channel-color-rgb), 1);
         font-size: 16px;
         font-weight: 600;
-        margin: 0;
-        padding: 2px 6px;
+        line-height: 24px;
     }
-    
+
 
     .MenuItem {
         i {
-            color: rgba(var(--center-channel-color-rgb), .56);
+            color: rgba(var(--center-channel-color-rgb), 0.56);
         }
     }
 }

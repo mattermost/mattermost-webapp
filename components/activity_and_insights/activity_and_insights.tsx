@@ -2,13 +2,11 @@
 // See LICENSE.txt for license information.
 import React, {memo} from 'react';
 
-import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
 import './activity_and_insights.scss';
 
 import Insights from './insights/insights';
-
 
 const ActivityAndInsights = () => {
     /**
