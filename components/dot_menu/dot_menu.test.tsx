@@ -7,8 +7,11 @@ import {PostType} from 'mattermost-redux/types/posts';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
-import {Locations, PostTypes} from 'utils/constants';
+import {Locations} from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
+
+import * as dotUtils from './utils';
+jest.mock('./utils');
 
 import DotMenu, {DotMenuClass} from './dot_menu';
 
@@ -75,42 +78,6 @@ describe('components/dot_menu/DotMenu', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should have divider when able to edit or delete post', () => {
-        const props = {
-            ...baseProps,
-            canEdit: true,
-            canDelete: true,
-        };
-        const wrapper = shallowWithIntl(
-            <DotMenu {...props}/>,
-        );
-
-        expect(wrapper.state('canEdit')).toBe(true);
-        expect(wrapper.state('canDelete')).toBe(true);
-        expect(wrapper.find('#divider_post_post_id_1_edit').exists()).toBe(true);
-
-        wrapper.setProps({isReadOnly: true});
-
-        expect(wrapper.state('canEdit')).toBe(false);
-        expect(wrapper.state('canDelete')).toBe(false);
-        expect(wrapper.find('#divider_post_post_id_1_edit').exists()).toBe(false);
-    });
-
-    test('should not have divider when able to edit or delete a system message', () => {
-        const props = {
-            ...baseProps,
-            post: TestHelper.getPostMock({
-                ...baseProps.post,
-                type: PostTypes.JOIN_CHANNEL as PostType,
-            }),
-        };
-        const wrapper = shallowWithIntl(
-            <DotMenu {...props}/>,
-        );
-
-        expect(wrapper.find('#divider_post_post_id_1_edit').exists()).toBe(false);
     });
 
     test('should show mark as unread when channel is not archived', () => {
@@ -193,6 +160,7 @@ describe('components/dot_menu/DotMenu', () => {
             [true, {isFollowingThread: false}],
         ])('should call setThreadFollow with following as %s', (following, caseProps) => {
             const spySetThreadFollow = jest.fn();
+            const spy = jest.spyOn(dotUtils, 'trackDotMenuEvent');
 
             const props = {
                 ...baseProps,
@@ -210,6 +178,7 @@ describe('components/dot_menu/DotMenu', () => {
 
             wrapper.find(`#follow_post_thread_${baseProps.post.id}`).simulate('click');
 
+            expect(spy).toHaveBeenCalled();
             expect(spySetThreadFollow).toHaveBeenCalledWith(
                 'user_id_1',
                 'team_id_1',

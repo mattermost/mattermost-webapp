@@ -13,7 +13,7 @@ import {
     isMeMessage as checkIsMeMessage,
 } from 'mattermost-redux/utils/post_utils';
 
-import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants';
+import Constants, {Locations, A11yCustomEventTypes, AppEvents} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
 import {isMobile} from 'utils/utils.jsx';
 import ActionsMenu from 'components/actions_menu';
@@ -38,7 +38,7 @@ import UserProfile from 'components/user_profile';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import {Emoji} from 'mattermost-redux/types/emojis';
 import EditPost from 'components/edit_post';
-import AutoHeightSwitcher from 'components/common/auto_height_switcher';
+import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height_switcher';
 
 export default class RhsComment extends React.PureComponent {
     static propTypes = {
@@ -691,6 +691,8 @@ export default class RhsComment extends React.PureComponent {
             />
         );
 
+        const showSlot = isPostBeingEdited ? AutoHeightSlots.SLOT2 : AutoHeightSlots.SLOT1;
+
         return (
             <PostAriaLabelDiv
                 ref={this.postRef}
@@ -736,10 +738,11 @@ export default class RhsComment extends React.PureComponent {
                         <div className={`post__body${postClass}`} >
                             {failedPostOptions}
                             <AutoHeightSwitcher
-                                showSlot={isPostBeingEdited ? 2 : 1}
+                                showSlot={showSlot}
                                 shouldScrollIntoView={isPostBeingEdited}
                                 slot1={message}
                                 slot2={<EditPost/>}
+                                onTransitionEnd={() => document.dispatchEvent(new Event(AppEvents.FOCUS_EDIT_TEXTBOX))}
                             />
                             {fileAttachment}
                             <ReactionList

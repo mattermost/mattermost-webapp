@@ -543,6 +543,95 @@ describe('components/SwitchChannelProvider', () => {
         }));
     });
 
+    it('should start with DM (user name with dot) before GM"s if both DM & GM have last_viewed_at irrespective of value of last_viewed_at', async () => {
+        const modifiedState = {
+            ...defaultState,
+            entities: {
+                ...defaultState.entities,
+                channels: {
+                    ...defaultState.entities.channels,
+                    myMembers: {
+                        current_channel_id: {
+                            channel_id: 'current_channel_id',
+                            user_id: 'current_user_id',
+                            roles: 'channel_role',
+                            mention_count: 1,
+                            msg_count: 9,
+                        },
+                        other_gm_channel: {
+                            channel_id: 'other_gm_channel',
+                            msg_count: 1,
+                            last_viewed_at: 3,
+                        },
+                        other_user1: {
+                            last_viewed_at: 4,
+                        },
+                    },
+                    channels: {
+                        channel_other_user: {
+                            id: 'channel_other_user',
+                            type: 'O',
+                            name: 'other_user',
+                            display_name: 'other_user',
+                            delete_at: 0,
+                            team_id: 'currentTeamId',
+                        },
+                        other_gm_channel: {
+                            id: 'other_gm_channel',
+                            msg_count: 1,
+                            last_viewed_at: 3,
+                            type: 'G',
+                            name: 'other_gm_channel',
+                            delete_at: 0,
+                            display_name: 'other.user1, other.user2',
+                        },
+                        other_user1: {
+                            id: 'other_user1',
+                            type: 'D',
+                            name: 'current_user_id__other_user1',
+                            display_name: 'other user1',
+                        },
+                    },
+                },
+                users: {
+                    profiles: {
+                        current_user_id: {roles: 'system_role'},
+                        other_user1: {
+                            id: 'other_user1',
+                            display_name: 'other user1',
+                            username: 'other.user1',
+                        },
+                    },
+                    currentUserId: 'current_user_id',
+                    profilesInChannel: {
+                        current_user_id: ['user_1'],
+                    },
+                },
+            },
+        };
+
+        getState.mockClear();
+
+        const switchProvider = new SwitchChannelProvider();
+        const mockStore = configureStore();
+        const store = mockStore(modifiedState);
+
+        getState.mockImplementation(store.getState);
+        const searchText = 'other.';
+        const resultsCallback = jest.fn();
+
+        switchProvider.startNewRequest();
+        await switchProvider.fetchUsersAndChannels(searchText, resultsCallback);
+        const expectedOrder = [
+            'other_user1',
+            'other_gm_channel',
+        ];
+
+        expect(resultsCallback).toBeCalledWith(expect.objectContaining({
+            terms: expectedOrder,
+        }));
+    });
+
     it('GM should not be first result as it is hidden in LHS', async () => {
         const modifiedState = {
             ...defaultState,

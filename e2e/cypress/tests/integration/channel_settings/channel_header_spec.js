@@ -77,7 +77,7 @@ function hoverOnChannelDescriptionAndVerifyBehavior() {
     // # Scan within channel header description area
     cy.get('#channelHeaderDescription').should('be.visible').within(() => {
         // * Verify that empty header text is visible and click it
-        cy.findByText('Add a channel description').should('be.visible').click();
+        cy.findByText('Add a channel header').should('be.visible').click();
     });
 
     // # Scan inside the channel header modal

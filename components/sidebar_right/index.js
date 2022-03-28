@@ -37,6 +37,7 @@ function mapStateToProps(state) {
         previousRhsState: getPreviousRhsState(state),
         isPinnedPosts: rhsState === RHSStates.PIN,
         isChannelFiles: rhsState === RHSStates.CHANNEL_FILES,
+        isChannelInfo: rhsState === RHSStates.CHANNEL_INFO,
         isPluginView: rhsState === RHSStates.PLUGIN,
         rhsChannel: getSelectedChannel(state),
         selectedPostId,

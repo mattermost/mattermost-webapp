@@ -3,10 +3,14 @@
 
 import React from 'react';
 
-import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug/mobile_channel_header_plug';
+import {mount} from 'enzyme';
+
+import MobileChannelHeaderPlug, {RawMobileChannelHeaderPlug} from 'plugins/mobile_channel_header_plug/mobile_channel_header_plug';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
-import {createCallContext, createCallRequest} from 'utils/apps';
-import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
+import {createCallContext} from 'utils/apps';
+import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
+import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {Theme} from 'mattermost-redux/types/themes';
 
 describe('plugins/MobileChannelHeaderPlug', () => {
     const testPlug = {
@@ -23,23 +27,35 @@ describe('plugins/MobileChannelHeaderPlug', () => {
         icon: 'http://test.com/icon.png',
         label: 'Label',
         hint: 'Hint',
-        call: {
-            path: '/call/path',
+        form: {
+            submit: {
+                path: '/call/path',
+            },
         },
     };
+
+    const testChannel = {} as Channel;
+    const testChannelMember = {} as ChannelMembership;
+    const testTheme = {} as Theme;
+    const intl = {
+        formatMessage: (message: {id: string; defaultMessage: string}) => {
+            return message.defaultMessage;
+        },
+    } as any;
 
     test('should match snapshot with no extended component', () => {
         const wrapper = mountWithIntl(
             <MobileChannelHeaderPlug
                 components={[]}
-                channel={{}}
-                channelMember={{}}
-                theme={{}}
+                channel={testChannel}
+                channelMember={testChannelMember}
+                theme={testTheme}
                 isDropdown={false}
                 appsEnabled={false}
                 appBindings={[]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    handleBindingClick: jest.fn(),
+                    postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
             />,
@@ -51,19 +67,21 @@ describe('plugins/MobileChannelHeaderPlug', () => {
     });
 
     test('should match snapshot with one extended component', () => {
-        const wrapper = mountWithIntl(
-            <MobileChannelHeaderPlug
+        const wrapper = mount<RawMobileChannelHeaderPlug>(
+            <RawMobileChannelHeaderPlug
                 components={[testPlug]}
-                channel={{}}
-                channelMember={{}}
-                theme={{}}
+                channel={testChannel}
+                channelMember={testChannelMember}
+                theme={testTheme}
                 isDropdown={false}
                 appsEnabled={false}
                 appBindings={[]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    handleBindingClick: jest.fn(),
+                    postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
+                intl={intl}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -82,14 +100,15 @@ describe('plugins/MobileChannelHeaderPlug', () => {
         const wrapper = mountWithIntl(
             <MobileChannelHeaderPlug
                 components={[testPlug, {...testPlug, id: 'someid2'}]}
-                channel={{}}
-                channelMember={{}}
-                theme={{}}
+                channel={testChannel}
+                channelMember={testChannelMember}
+                theme={testTheme}
                 isDropdown={false}
                 appsEnabled={false}
                 appBindings={[]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    handleBindingClick: jest.fn(),
+                    postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
             />,
@@ -104,14 +123,15 @@ describe('plugins/MobileChannelHeaderPlug', () => {
         const wrapper = mountWithIntl(
             <MobileChannelHeaderPlug
                 components={[]}
-                channel={{}}
-                channelMember={{}}
-                theme={{}}
+                channel={testChannel}
+                channelMember={testChannelMember}
+                theme={testTheme}
                 isDropdown={false}
                 appsEnabled={true}
                 appBindings={[]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    handleBindingClick: jest.fn(),
+                    postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
             />,
@@ -123,19 +143,21 @@ describe('plugins/MobileChannelHeaderPlug', () => {
     });
 
     test('should match snapshot with one binding', () => {
-        const wrapper = mountWithIntl(
-            <MobileChannelHeaderPlug
+        const wrapper = mount<RawMobileChannelHeaderPlug>(
+            <RawMobileChannelHeaderPlug
                 components={[]}
-                channel={{}}
-                channelMember={{}}
-                theme={{}}
+                channel={testChannel}
+                channelMember={testChannelMember}
+                theme={testTheme}
                 isDropdown={false}
                 appsEnabled={true}
                 appBindings={[testBinding]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    handleBindingClick: jest.fn(),
+                    postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
+                intl={intl}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -154,14 +176,15 @@ describe('plugins/MobileChannelHeaderPlug', () => {
         const wrapper = mountWithIntl(
             <MobileChannelHeaderPlug
                 components={[]}
-                channel={{}}
-                channelMember={{}}
-                theme={{}}
+                channel={testChannel}
+                channelMember={testChannelMember}
+                theme={testTheme}
                 isDropdown={false}
                 appsEnabled={false}
                 appBindings={[testBinding, {...testBinding, app_id: 'app2'}]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    handleBindingClick: jest.fn(),
+                    postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
             />,
@@ -176,14 +199,15 @@ describe('plugins/MobileChannelHeaderPlug', () => {
         const wrapper = mountWithIntl(
             <MobileChannelHeaderPlug
                 components={[testPlug]}
-                channel={{}}
-                channelMember={{}}
-                theme={{}}
+                channel={testChannel}
+                channelMember={testChannelMember}
+                theme={testTheme}
                 isDropdown={false}
                 appsEnabled={true}
                 appBindings={[testBinding]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    handleBindingClick: jest.fn(),
+                    postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
             />,
@@ -198,14 +222,15 @@ describe('plugins/MobileChannelHeaderPlug', () => {
         const wrapper = mountWithIntl(
             <MobileChannelHeaderPlug
                 components={[]}
-                channel={{}}
-                channelMember={{}}
-                theme={{}}
+                channel={testChannel}
+                channelMember={testChannelMember}
+                theme={testTheme}
                 isDropdown={true}
                 appsEnabled={false}
                 appBindings={[]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    handleBindingClick: jest.fn(),
+                    postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
             />,
@@ -220,14 +245,15 @@ describe('plugins/MobileChannelHeaderPlug', () => {
         const wrapper = mountWithIntl(
             <MobileChannelHeaderPlug
                 components={[testPlug]}
-                channel={{}}
-                channelMember={{}}
-                theme={{}}
+                channel={testChannel}
+                channelMember={testChannelMember}
+                theme={testTheme}
                 isDropdown={true}
                 appsEnabled={false}
                 appBindings={[]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    handleBindingClick: jest.fn(),
+                    postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
             />,
@@ -240,19 +266,21 @@ describe('plugins/MobileChannelHeaderPlug', () => {
     });
 
     test('should match snapshot with two extended components, in dropdown', () => {
-        const wrapper = mountWithIntl(
-            <MobileChannelHeaderPlug
+        const wrapper = mount<RawMobileChannelHeaderPlug>(
+            <RawMobileChannelHeaderPlug
                 components={[testPlug, {...testPlug, id: 'someid2'}]}
-                channel={{}}
-                channelMember={{}}
-                theme={{}}
+                channel={testChannel}
+                channelMember={testChannelMember}
+                theme={testTheme}
                 isDropdown={true}
                 appsEnabled={false}
                 appBindings={[]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    handleBindingClick: jest.fn(),
+                    postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
+                intl={intl}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -273,14 +301,15 @@ describe('plugins/MobileChannelHeaderPlug', () => {
         const wrapper = mountWithIntl(
             <MobileChannelHeaderPlug
                 components={[]}
-                channel={{}}
-                channelMember={{}}
-                theme={{}}
+                channel={testChannel}
+                channelMember={testChannelMember}
+                theme={testTheme}
                 isDropdown={true}
                 appsEnabled={true}
                 appBindings={[]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    handleBindingClick: jest.fn(),
+                    postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
             />,
@@ -295,14 +324,15 @@ describe('plugins/MobileChannelHeaderPlug', () => {
         const wrapper = mountWithIntl(
             <MobileChannelHeaderPlug
                 components={[]}
-                channel={{}}
-                channelMember={{}}
-                theme={{}}
+                channel={testChannel}
+                channelMember={testChannelMember}
+                theme={testTheme}
                 isDropdown={true}
                 appsEnabled={true}
                 appBindings={[testBinding]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    handleBindingClick: jest.fn(),
+                    postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
             />,
@@ -315,19 +345,21 @@ describe('plugins/MobileChannelHeaderPlug', () => {
     });
 
     test('should match snapshot with two bindings, in dropdown', () => {
-        const wrapper = mountWithIntl(
-            <MobileChannelHeaderPlug
+        const wrapper = mount<RawMobileChannelHeaderPlug>(
+            <RawMobileChannelHeaderPlug
                 components={[]}
-                channel={{}}
-                channelMember={{}}
-                theme={{}}
+                channel={testChannel}
+                channelMember={testChannelMember}
+                theme={testTheme}
                 isDropdown={true}
                 appsEnabled={true}
                 appBindings={[testBinding, {...testBinding, app_id: 'app2'}]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    handleBindingClick: jest.fn(),
+                    postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
+                intl={intl}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -348,14 +380,15 @@ describe('plugins/MobileChannelHeaderPlug', () => {
         const wrapper = mountWithIntl(
             <MobileChannelHeaderPlug
                 components={[testPlug]}
-                channel={{}}
-                channelMember={{}}
-                theme={{}}
+                channel={testChannel}
+                channelMember={testChannelMember}
+                theme={testTheme}
                 isDropdown={true}
                 appsEnabled={true}
                 appBindings={[testBinding]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    handleBindingClick: jest.fn(),
+                    postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
             />,
@@ -368,8 +401,8 @@ describe('plugins/MobileChannelHeaderPlug', () => {
     });
 
     test('should call plugin.action on fireAction', () => {
-        const channel = {id: 'channel_id'};
-        const channelMember = {id: 'channel_member_id'};
+        const channel = {id: 'channel_id'} as Channel;
+        const channelMember = {} as ChannelMembership;
         const newTestPlug = {
             id: 'someid',
             pluginId: 'pluginid',
@@ -378,19 +411,21 @@ describe('plugins/MobileChannelHeaderPlug', () => {
             dropdownText: 'some dropdown text',
         };
 
-        const wrapper = mountWithIntl(
-            <MobileChannelHeaderPlug
+        const wrapper = mount<RawMobileChannelHeaderPlug>(
+            <RawMobileChannelHeaderPlug
                 components={[newTestPlug]}
                 channel={channel}
                 channelMember={channelMember}
-                theme={{}}
+                theme={testTheme}
                 isDropdown={true}
                 appsEnabled={false}
                 appBindings={[]}
                 actions={{
-                    doAppCall: jest.fn(),
+                    handleBindingClick: jest.fn(),
+                    postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
+                intl={intl}
             />,
         );
 
@@ -399,25 +434,27 @@ describe('plugins/MobileChannelHeaderPlug', () => {
         expect(newTestPlug.action).toBeCalledWith(channel, channelMember);
     });
 
-    test('should call doAppCall on fireAppAction', () => {
-        const channel = {id: 'channel_id'};
-        const channelMember = {id: 'channel_member_id'};
+    test('should call handleBindingClick on fireAppAction', () => {
+        const channel = {id: 'channel_id'} as Channel;
+        const channelMember = {} as ChannelMembership;
 
-        const doAppCall = jest.fn().mockResolvedValue({data: {type: AppCallResponseTypes.OK}});
+        const handleBindingClick = jest.fn().mockResolvedValue({data: {type: AppCallResponseTypes.OK}});
 
-        const wrapper = mountWithIntl(
-            <MobileChannelHeaderPlug
+        const wrapper = mount<RawMobileChannelHeaderPlug>(
+            <RawMobileChannelHeaderPlug
                 components={[]}
                 channel={channel}
                 channelMember={channelMember}
-                theme={{}}
+                theme={testTheme}
                 isDropdown={true}
                 appsEnabled={true}
                 appBindings={[testBinding]}
                 actions={{
-                    doAppCall,
+                    handleBindingClick,
+                    postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
+                intl={intl}
             />,
         );
 
@@ -427,10 +464,9 @@ describe('plugins/MobileChannelHeaderPlug', () => {
             channel.id,
             channel.team_id,
         );
-        const call = createCallRequest(testBinding.call, context);
 
         wrapper.instance().fireAppAction(testBinding);
-        expect(doAppCall).toHaveBeenCalledTimes(1);
-        expect(doAppCall).toBeCalledWith(call, AppCallTypes.SUBMIT, expect.anything());
+        expect(handleBindingClick).toHaveBeenCalledTimes(1);
+        expect(handleBindingClick).toBeCalledWith(testBinding, context, expect.anything());
     });
 });
