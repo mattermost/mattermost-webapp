@@ -48,7 +48,7 @@ describe('Slash commands', () => {
         });
     });
 
-    it('MM-T696 Can\'t delete other user\'s slash command -- KNOWN ISSUE: MM-42020', () => {
+    it('MM-T696 Can\'t delete other user\'s slash command', () => {
         cy.apiAdminLogin(user1);
 
         // # Open slash command page
@@ -79,7 +79,7 @@ describe('Slash commands', () => {
         deleteCommand(team1, trigger);
     });
 
-    it('MM-T697 Delete slash command -- KNOWN ISSUE: MM-42020', () => {
+    it('MM-T697 Delete slash command', () => {
         // # Open slash command page
         cy.visit(`/${team1.name}/integrations/commands/installed`);
 
@@ -99,7 +99,7 @@ describe('Slash commands', () => {
         cy.findByText(`Command with a trigger of '/${trigger}' not found.`).should('exist').and('be.visible');
     });
 
-    it('MM-T700 Slash command - Override username -- KNOWN ISSUE: MM-42020', () => {
+    it('MM-T700 Slash command - Override username', () => {
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnablePostUsernameOverride: true,
@@ -137,7 +137,7 @@ describe('Slash commands', () => {
         deleteCommand(team1, trigger);
     });
 
-    it('MM-T701 Slash command - Override profile picture -- KNOWN ISSUE: MM-42020', () => {
+    it('MM-T701 Slash command - Override profile picture', () => {
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnablePostIconOverride: true,
@@ -178,7 +178,7 @@ describe('Slash commands', () => {
         deleteCommand(team1, trigger);
     });
 
-    it('MM-T703 Show custom slash command in autocomplete -- KNOWN ISSUE: MM-42020', () => {
+    it('MM-T703 Show custom slash command in autocomplete', () => {
         // # Open slash command page
         cy.visit(`/${team1.name}/integrations/commands/installed`);
 

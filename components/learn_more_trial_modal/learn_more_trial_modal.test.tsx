@@ -78,23 +78,6 @@ describe('components/learn_more_trial_modal/learn_more_trial_modal', () => {
         expect(wrapper.find('LearnMoreTrialModal').find('Carousel')).toHaveLength(1);
     });
 
-    test('should hide the learn more about trial modal', () => {
-        const learnMoreTrialModalHidden = {
-            modals: {
-                modalState: {},
-            },
-        };
-        const localStore = {...state, views: learnMoreTrialModalHidden};
-        const mockStore = configureStore([thunk]);
-        const store = mockStore(localStore);
-        const wrapper = mountWithIntl(
-            <Provider store={store}>
-                <LearnMoreTrialModal {...props}/>
-            </Provider>,
-        );
-        expect(wrapper.find('LearnMoreTrialModal').find('Carousel')).toHaveLength(0);
-    });
-
     test('should call on close', () => {
         const mockOnClose = jest.fn();
 

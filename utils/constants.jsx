@@ -426,6 +426,10 @@ export const A11yCustomEventTypes = {
     UPDATE: 'a11yupdate',
 };
 
+export const AppEvents = {
+    FOCUS_EDIT_TEXTBOX: 'focus_edit_textbox',
+};
+
 export const SocketEvents = {
     POSTED: 'posted',
     POST_EDITED: 'post_edited',
@@ -572,6 +576,7 @@ export const TELEMETRY_CATEGORIES = {
 
 export const TELEMETRY_LABELS = {
     COPY_LINK: 'copy_link',
+    COPY_TEXT: 'copy_text',
     DELETE: 'delete',
     EDIT: 'edit',
     FOLLOW: 'follow',
@@ -650,6 +655,7 @@ export const UserSearchOptions = {
 
 // UserListOptions are the possible option keys for get users page request
 export const UserListOptions = {
+    ACTIVE: 'active',
     INACTIVE: 'inactive',
     IN_TEAM: 'in_team',
     NOT_IN_TEAM: 'not_in_team',
@@ -664,6 +670,7 @@ export const UserListOptions = {
 // UserFilters are the values for UI get/search user filters
 export const UserFilters = {
     INACTIVE: 'inactive',
+    ACTIVE: 'active',
     SYSTEM_ADMIN: 'system_admin',
     SYSTEM_GUEST: 'system_guest',
 };
@@ -819,6 +826,7 @@ export const RHSStates = {
     PIN: 'pin',
     PLUGIN: 'plugin',
     CHANNEL_FILES: 'channel-files',
+    CHANNEL_INFO: 'channel-info',
 };
 
 export const UploadStatuses = {

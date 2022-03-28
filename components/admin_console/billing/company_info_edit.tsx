@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {getName} from 'country-list';
@@ -28,10 +28,6 @@ const CompanyInfoEdit: React.FC<Props> = () => {
     const dispatch = useDispatch();
     const companyInfo = useSelector((state: GlobalState) => state.entities.cloud.customer);
 
-    if (!companyInfo) {
-        return null;
-    }
-
     const [companyName, setCompanyName] = useState(companyInfo?.name);
     const [numEmployees, setNumEmployees] = useState<number | undefined>(companyInfo?.num_employees || undefined);
 
@@ -46,13 +42,13 @@ const CompanyInfoEdit: React.FC<Props> = () => {
     const [isValid, setIsValid] = useState<boolean | undefined>(undefined);
     const [isSaving, setIsSaving] = useState(false);
 
-    const setValidation = () => {
+    const setValidation = useCallback(() => {
         if (sameAsBillingAddress) {
             setIsValid(Boolean(companyName));
         } else {
             setIsValid(Boolean(companyName && address && city && postalCode && country && state));
         }
-    };
+    }, [sameAsBillingAddress, companyName, address, city, postalCode, country, state]);
 
     const updateState = (setStateFunc: (value: any) => void) => {
         return (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,11 +67,15 @@ const CompanyInfoEdit: React.FC<Props> = () => {
 
     useEffect(() => {
         dispatch(getCloudCustomer());
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         setValidation();
-    }, [sameAsBillingAddress, companyName, address, city, postalCode, country, state]);
+    }, [setValidation]);
+
+    if (!companyInfo) {
+        return null;
+    }
 
     const handleSubmit = async () => {
         setIsSaving(true);

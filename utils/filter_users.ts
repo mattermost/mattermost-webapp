@@ -24,6 +24,8 @@ export function getUserOptionsFromFilter(filter: string | undefined): FilterOpti
         options[UserListOptions.ROLE] = UserFilters.SYSTEM_GUEST;
     } else if (filter === UserFilters.INACTIVE) {
         options[UserListOptions.INACTIVE] = true;
+    } else if (filter === UserFilters.ACTIVE) {
+        options[UserListOptions.ACTIVE] = true;
     }
     return options;
 }

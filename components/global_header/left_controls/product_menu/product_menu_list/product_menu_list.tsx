@@ -14,7 +14,7 @@ import TeamPermissionGate from 'components/permissions_gates/team_permission_gat
 import MarketplaceModal from 'components/plugin_marketplace';
 import Menu from 'components/widgets/menu/menu';
 import {ModalIdentifiers} from 'utils/constants';
-import {useSafeUrl} from 'utils/url';
+import {makeUrlSafe} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
 import {VisitSystemConsoleTour} from 'components/onboarding_tasks';
 import UserGroupsModal from 'components/user_groups_modal';
@@ -173,7 +173,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                 <Menu.ItemExternalLink
                     id='nativeAppLink'
                     show={appDownloadLink && !UserAgent.isMobileApp()}
-                    url={useSafeUrl(appDownloadLink)}
+                    url={makeUrlSafe(appDownloadLink)}
                     text={formatMessage({id: 'navbar_dropdown.nativeApps', defaultMessage: 'Download Apps'})}
                     icon={
                         <Icon

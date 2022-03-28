@@ -1,14 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
+import FormData from 'form-data';
 
 import {SystemSetting} from 'mattermost-redux/types/general';
-
-import {General} from '../constants';
-
 import {ClusterInfo, AnalyticsRow, SchemaMigration} from 'mattermost-redux/types/admin';
-import type {AppBinding, AppCallRequest, AppCallResponse, AppCallType} from 'mattermost-redux/types/apps';
+import type {AppBinding, AppCallRequest, AppCallResponse} from 'mattermost-redux/types/apps';
 import {Audit} from 'mattermost-redux/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from 'mattermost-redux/types/autocomplete';
 import {Bot, BotPatch} from 'mattermost-redux/types/bots';
@@ -40,9 +37,7 @@ import {
 } from 'mattermost-redux/types/config';
 import {CustomEmoji} from 'mattermost-redux/types/emojis';
 import {ServerError} from 'mattermost-redux/types/errors';
-
 import {FileInfo, FileUploadResponse, FileSearchResults} from 'mattermost-redux/types/files';
-
 import {
     Group,
     GroupPatch,
@@ -116,30 +111,28 @@ import {
 } from 'mattermost-redux/types/data_retention';
 import {CompleteOnboardingRequest} from 'mattermost-redux/types/setup';
 
-import {buildQueryString, isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
+import {buildQueryString} from 'mattermost-redux/utils/helpers_client';
 import {cleanUrlForLogging} from 'mattermost-redux/utils/sentry';
 import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
-
 import {UserThreadList, UserThread, UserThreadWithPost} from 'mattermost-redux/types/threads';
 
-import Constants from 'utils/constants';
+import {General} from '../constants';
 
 import {TelemetryHandler} from './telemetry';
 
-const FormData = require('form-data');
 const HEADER_AUTH = 'Authorization';
 const HEADER_BEARER = 'BEARER';
 const HEADER_CONTENT_TYPE = 'Content-Type';
 const HEADER_REQUESTED_WITH = 'X-Requested-With';
 const HEADER_USER_AGENT = 'User-Agent';
-const HEADER_X_CLUSTER_ID = 'X-Cluster-Id';
+export const HEADER_X_CLUSTER_ID = 'X-Cluster-Id';
 const HEADER_X_CSRF_TOKEN = 'X-CSRF-Token';
 export const HEADER_X_VERSION_ID = 'X-Version-Id';
 const PER_PAGE_DEFAULT = 60;
 const LOGS_PER_PAGE_DEFAULT = 10000;
 export const DEFAULT_LIMIT_BEFORE = 30;
 export const DEFAULT_LIMIT_AFTER = 30;
-/* eslint-disable no-throw-literal */
+const GRAPHQL_ENDPOINT = '/api/v5/graphql';
 
 export default class Client4 {
     logToConsole = false;
@@ -161,7 +154,6 @@ export default class Client4 {
         unknownError: 'We received an unexpected status code from the server.',
     };
     userRoles?: string;
-
     telemetryHandler?: TelemetryHandler;
 
     getUrl() {
@@ -173,6 +165,10 @@ export default class Client4 {
             return baseUrl;
         }
         return this.getUrl() + baseUrl;
+    }
+
+    getGraphQLUrl() {
+        return `${this.url}${GRAPHQL_ENDPOINT}`;
     }
 
     setUrl(url: string) {
@@ -811,13 +807,8 @@ export default class Client4 {
     };
 
     getProfilesInChannel = (channelId: string, page = 0, perPage = PER_PAGE_DEFAULT, sort = '', options: {active?: boolean} = {}) => {
-        const serverVersion = this.getServerVersion();
-        let queryStringObj;
-        if (isMinimumServerVersion(serverVersion, 4, 7)) {
-            queryStringObj = {in_channel: channelId, page, per_page: perPage, sort};
-        } else {
-            queryStringObj = {in_channel: channelId, page, per_page: perPage};
-        }
+        const queryStringObj = {in_channel: channelId, page, per_page: perPage, sort};
+
         return this.doFetch<UserProfile[]>(
             `${this.getUsersRoute()}${buildQueryString({...queryStringObj, ...options})}`,
             {method: 'get'},
@@ -3430,7 +3421,7 @@ export default class Client4 {
         );
     };
 
-    getGroupsNotAssociatedToTeam = (teamID: string, q = '', page = 0, perPage = PER_PAGE_DEFAULT, source = Constants.LDAP_SERVICE) => {
+    getGroupsNotAssociatedToTeam = (teamID: string, q = '', page = 0, perPage = PER_PAGE_DEFAULT, source = 'ldap') => {
         this.trackEvent('api', 'api_groups_get_not_associated_to_team', {team_id: teamID});
         return this.doFetch<Group[]>(
             `${this.getGroupsRoute()}${buildQueryString({not_associated_to_team: teamID, page, per_page: perPage, q, include_member_count: true, group_source: source})}`,
@@ -3438,7 +3429,7 @@ export default class Client4 {
         );
     };
 
-    getGroupsNotAssociatedToChannel = (channelID: string, q = '', page = 0, perPage = PER_PAGE_DEFAULT, filterParentTeamPermitted = false, source = Constants.LDAP_SERVICE) => {
+    getGroupsNotAssociatedToChannel = (channelID: string, q = '', page = 0, perPage = PER_PAGE_DEFAULT, filterParentTeamPermitted = false, source = 'ldap') => {
         this.trackEvent('api', 'api_groups_get_not_associated_to_channel', {channel_id: channelID});
         const query = {
             not_associated_to_channel: channelID,
@@ -3486,12 +3477,12 @@ export default class Client4 {
     // This function belongs to the Apps Framework feature.
     // Apps Framework feature is experimental, and this function is susceptible
     // to breaking changes without pushing the major version of this package.
-    executeAppCall = async (call: AppCallRequest, type: AppCallType) => {
+    executeAppCall = async (call: AppCallRequest, trackAsSubmit: boolean) => {
         const callCopy: AppCallRequest = {
             ...call,
-            path: `${call.path}/${type}`,
             context: {
                 ...call.context,
+                track_as_submit: trackAsSubmit,
                 user_agent: 'webapp',
             },
         };
@@ -3835,15 +3826,24 @@ export default class Client4 {
         );
     }
 
+    /**
+     * @param query string query of graphQL, pass the json stringified version of the query
+     * eg.  const query = JSON.stringify({query: `{license, config}`});
+     *      client4.fetchWithGraphQL(query);
+     */
+    fetchWithGraphQL = async <DataResponse>(query: string) => {
+        return this.doFetch<DataResponse>(this.getGraphQLUrl(), {method: 'post', body: query});
+    }
+
     // Client Helpers
 
-    doFetch = async <T>(url: string, options: Options): Promise<T> => {
-        const {data} = await this.doFetchWithResponse<T>(url, options);
+    doFetch = async <ClientDataResponse>(url: string, options: Options): Promise<ClientDataResponse> => {
+        const {data} = await this.doFetchWithResponse<ClientDataResponse>(url, options);
 
         return data;
     };
 
-    doFetchWithResponse = async <T>(url: string, options: Options): Promise<ClientResponse<T>> => {
+    doFetchWithResponse = async <ClientDataResponse>(url: string, options: Options): Promise<ClientResponse<ClientDataResponse>> => {
         const response = await fetch(url, this.getOptions(options));
         const headers = parseAndMergeNestedHeaders(response.headers);
 
@@ -3912,7 +3912,7 @@ export default class Client4 {
     }
 }
 
-function parseAndMergeNestedHeaders(originalHeaders: any) {
+export function parseAndMergeNestedHeaders(originalHeaders: any) {
     const headers = new Map();
     let nestedHeaders = new Map();
     originalHeaders.forEach((val: string, key: string) => {

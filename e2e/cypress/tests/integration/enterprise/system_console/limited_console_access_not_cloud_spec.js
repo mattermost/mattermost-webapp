@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @enterprise @system_console @not_cloud
 
 import {forEachConsoleSection, makeUserASystemRole} from './helpers';
@@ -27,7 +26,7 @@ describe('Limited console access', () => {
         });
     });
 
-    it('MM-T3386 - Verify the Admin Role - System Manager', () => {
+    it('MM-T3386 - Verify the Admin Role - System Manager -- KNOWN ISSUE: MM-42573', () => {
         const role = 'system_manager';
 
         // # Make the user a System  Manager
@@ -37,7 +36,7 @@ describe('Limited console access', () => {
         forEachConsoleSection(testUsers, role);
     });
 
-    it('MM-T3388 - Verify the Admin Role - System Read Only Admin', () => {
+    it('MM-T3388 - Verify the Admin Role - System Read Only Admin -- KNOWN ISSUE: MM-42573', () => {
         const role = 'system_read_only_admin';
 
         // # Make the user a System Ready Only Manager
