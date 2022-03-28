@@ -29,11 +29,11 @@ type ShortcutKeyProps = {
     shortcutKey: string;
 };
 
-const ShortcutKey = ({shortcutKey: shortcut}: ShortcutKeyProps) => (shortcut ? (
+const ShortcutKey = ({shortcutKey: shortcut}: ShortcutKeyProps) => (
     <span className={'MenuItem__opacity MenuItem__right-decorator'}>
         {shortcut}
     </span>
-) : null);
+);
 
 const MENU_BOTTOM_MARGIN = 80;
 
@@ -408,22 +408,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             openUp: (spaceOnTop > spaceOnBottom),
         });
     }
-
-    shortcutKey = (key: string) => {
-        return (
-            <span
-                className={classNames([
-                    'MenuItem__opacity',
-                    'MenuItem__right-decorator',
-                    {
-                        'MenuItem__text-color': !true,
-                    },
-                ])}
-            >
-                {key}
-            </span>
-        );
-    };
 
     render(): JSX.Element {
         const isMobile = this.props.isMobileView;
