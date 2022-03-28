@@ -71,55 +71,51 @@ exports[`component/update_user_group_modal should match snapshot 1`] = `
     <div
       className="user-groups-modal__content"
     >
-      <form
-        role="form"
+      <div
+        className="group-name-input-wrapper"
       >
-        <div
-          className="group-name-input-wrapper"
+        <Input
+          autoFocus={true}
+          data-testid="nameInput"
+          error=""
+          onChange={[Function]}
+          placeholder="Name"
+          type="text"
+          value="Group Name"
+        />
+      </div>
+      <div
+        className="group-mention-input-wrapper"
+      >
+        <Input
+          data-testid="nameInput"
+          error=""
+          onChange={[Function]}
+          placeholder="Mention"
+          type="text"
+          value="@group"
+        />
+      </div>
+      <div
+        className="update-buttons-wrapper"
+      >
+        <button
+          className="btn update-group-back"
+          onClick={[Function]}
         >
-          <Input
-            autoFocus={true}
-            data-testid="nameInput"
-            error=""
-            onChange={[Function]}
-            placeholder="Name"
-            type="text"
-            value="Group Name"
-          />
-        </div>
-        <div
-          className="group-mention-input-wrapper"
-        >
-          <Input
-            data-testid="nameInput"
-            error=""
-            onChange={[Function]}
-            placeholder="Mention"
-            type="text"
-            value="@group"
-          />
-        </div>
-        <div
-          className="update-buttons-wrapper"
-        >
-          <button
-            className="btn update-group-back"
-            onClick={[Function]}
-          >
-            Back
-          </button>
-          <SaveButton
-            btnClass="btn-primary"
-            defaultMessage="Save Details"
-            disabled={true}
-            extraClasses=""
-            id="saveItems"
-            onClick={[Function]}
-            saving={false}
-            savingMessage="Saving..."
-          />
-        </div>
-      </form>
+          Back
+        </button>
+        <SaveButton
+          btnClass="btn-primary"
+          defaultMessage="Save Details"
+          disabled={true}
+          extraClasses=""
+          id="saveItems"
+          onClick={[Function]}
+          saving={false}
+          savingMessage="Saving..."
+        />
+      </div>
     </div>
   </ModalBody>
 </Modal>
