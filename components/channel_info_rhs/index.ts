@@ -4,10 +4,10 @@
 import {connect} from 'react-redux';
 import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 
-import {getCurrentChannel, isCurrentChannelFavorite, isCurrentChannelMuted, isCurrentChannelArchived} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel, isCurrentChannelFavorite, isCurrentChannelMuted, isCurrentChannelArchived, getCurrentChannelStats} from 'mattermost-redux/selectors/entities/channels';
 import {isModalOpen} from 'selectors/views/modals';
 
-import {closeRightHandSide} from 'actions/views/rhs';
+import {closeRightHandSide, showChannelFiles} from 'actions/views/rhs';
 
 import {GlobalState} from 'types/store';
 
@@ -33,6 +33,8 @@ function mapStateToProps(state: GlobalState) {
     const channel = getCurrentChannel(state);
     const currentUser = getCurrentUser(state);
     const currentTeam = getCurrentTeam(state);
+
+    const channelStats = getCurrentChannelStats(state);
 
     // When we come back from the System console,
     // there's a few ms when we don't have a current channel yet
@@ -78,6 +80,7 @@ function mapStateToProps(state: GlobalState) {
         gmUsers,
         canManageMembers,
         canManageProperties,
+        channelStats,
     } as Props;
 
     if (channel.type === Constants.DM_CHANNEL) {
@@ -102,6 +105,7 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
             unmuteChannel,
             muteChannel,
             openModal,
+            showChannelFiles,
         }, dispatch),
     };
 }
