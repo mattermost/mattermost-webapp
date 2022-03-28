@@ -4,9 +4,11 @@ import {connect} from 'react-redux';
 
 import {getDisplayNameByUser} from 'utils/utils.jsx';
 
-import PopoverListMembersItem from './popover_list_members_item.jsx';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state, ownProps) {
+import PopoverListMembersItem, {Props} from './popover_list_members_item';
+
+function mapStateToProps(state: GlobalState, ownProps: Props) {
     return {
         displayName: getDisplayNameByUser(state, ownProps.user),
     };
