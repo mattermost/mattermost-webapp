@@ -202,6 +202,10 @@ export function createPost(post: Post, files: any[] = []) {
                 type: FileTypes.RECEIVED_FILES_FOR_POST,
                 postId: pendingPostId,
                 data: files,
+            }, {
+                type: ChannelTypes.INCREMENT_FILE_COUNT,
+                amount: files.length,
+                id: newPost.channel_id,
             });
         }
 
@@ -312,6 +316,11 @@ export function createPostImmediately(post: Post, files: any[] = []) {
                 type: FileTypes.RECEIVED_FILES_FOR_POST,
                 postId: pendingPostId,
                 data: files,
+            });
+            dispatch({
+                type: ChannelTypes.INCREMENT_FILE_COUNT,
+                amount: files.length,
+                id: newPost.channel_id,
             });
         }
 
@@ -459,13 +468,13 @@ export function setUnreadPost(userId: string, postId: string) {
             if (isCombinedUserActivityPost(postId)) {
                 return {};
             }
-            unreadChan = await Client4.markPostAsUnread(userId, postId);
             dispatch({
                 type: ChannelTypes.ADD_MANUALLY_UNREAD,
                 data: {
                     channelId: post.channel_id,
                 },
             });
+            unreadChan = await Client4.markPostAsUnread(userId, postId);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(logError(error));

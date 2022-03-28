@@ -16,7 +16,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
         id="dotmenu-icon-tooltip"
       >
         <Memo(MemoizedFormattedMessage)
-          defaultMessage="More actions"
+          defaultMessage="More"
           id="post_info.dot_menu.tooltip.more_actions"
         />
       </Tooltip>
@@ -32,7 +32,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
   >
     <button
       aria-expanded="false"
-      aria-label="more actions"
+      aria-label="actions"
       className="post-menu__item"
       id="CENTER_button_post_id_1"
       type="button"
@@ -44,12 +44,23 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
   </OverlayTrigger>
   <Menu
     ariaLabel="Post extra options"
+    className="status-dropdown-menu-global-header"
     id="CENTER_dropdown_post_id_1"
     openLeft={true}
     openUp={false}
   >
     <MenuItemAction
-      onClick={[MockFunction]}
+      icon={
+        <span
+          className="icon-reply-outline MenuItem__compass-icon"
+        />
+      }
+      onClick={[Function]}
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="R"
+        />
+      }
       show={true}
       text="Reply"
     />
@@ -69,23 +80,36 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       />
     </Connect(ChannelPermissionGate)>
     <MenuItemAction
-      extraText="You will be notified about replies"
+      icon={
+        <span
+          className="icon-message-check-outline MenuItem__compass-icon"
+        />
+      }
       id="follow_post_thread_post_id_1"
       onClick={[Function]}
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="F"
+        />
+      }
       show={false}
       text="Follow message"
     />
     <MenuItemAction
+      icon={
+        <span
+          className="icon-mark-as-unread MenuItem__compass-icon"
+        />
+      }
       id="unread_post_post_id_1"
       onClick={[Function]}
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="U"
+        />
+      }
       show={true}
       text="Mark as Unread"
-    />
-    <MenuItemAction
-      id="permalink_post_id_1"
-      onClick={[Function]}
-      show={true}
-      text="Copy Link"
     />
     <MenuItemAction
       onClick={[Function]}
@@ -98,14 +122,34 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       text="Save"
     />
     <MenuItemAction
+      icon={
+        <span
+          className="icon-pin MenuItem__compass-icon"
+        />
+      }
       id="unpin_post_post_id_1"
       onClick={[Function]}
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="P"
+        />
+      }
       show={false}
       text="Unpin"
     />
     <MenuItemAction
+      icon={
+        <span
+          className="icon-pin-outline MenuItem__compass-icon"
+        />
+      }
       id="pin_post_post_id_1"
       onClick={[Function]}
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="P"
+        />
+      }
       show={true}
       text="Pin"
     />
@@ -115,21 +159,76 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       role="menuitem"
     />
     <MenuItemAction
+      icon={
+        <span
+          className="icon-link-variant MenuItem__compass-icon"
+        />
+      }
+      id="permalink_post_id_1"
+      onClick={[Function]}
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="K"
+        />
+      }
+      show={true}
+      text="Copy Link"
+    />
+    <li
+      className="MenuItem__divider"
+      id="divider_post_post_id_1_edit"
+      role="menuitem"
+    />
+    <MenuItemAction
+      icon={
+        <span
+          className="icon-pencil-outline MenuItem__compass-icon"
+        />
+      }
       id="edit_post_post_id_1"
       onClick={[Function]}
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="E"
+        />
+      }
       show={true}
       text="Edit"
     />
     <MenuItemAction
+      icon={
+        <span
+          className="icon-content-copy MenuItem__compass-icon"
+        />
+      }
+      id="copy_post_id_1"
+      onClick={[Function]}
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="C"
+        />
+      }
+      show={true}
+      text="Copy Text"
+    />
+    <MenuItemAction
+      icon={
+        <span
+          className="icon-trash-can-outline MenuItem__compass-icon-dangerous"
+        />
+      }
       id="delete_post_post_id_1"
       isDangerous={true}
       onClick={[Function]}
+      rightDecorator={
+        <span
+          className="MenuItem__opacity"
+        >
+          delete
+        </span>
+      }
       show={true}
       text="Delete"
-    />
-    <Connect(Pluggable)
-      pluggableName="PostDropdownMenuItem"
-      postId="post_id_1"
     />
   </Menu>
 </MenuWrapper>
@@ -151,7 +250,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
         id="dotmenu-icon-tooltip"
       >
         <Memo(MemoizedFormattedMessage)
-          defaultMessage="More actions"
+          defaultMessage="More"
           id="post_info.dot_menu.tooltip.more_actions"
         />
       </Tooltip>
@@ -167,7 +266,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
   >
     <button
       aria-expanded="false"
-      aria-label="more actions"
+      aria-label="actions"
       className="post-menu__item"
       id="CENTER_button_post_id_1"
       type="button"
@@ -179,12 +278,23 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
   </OverlayTrigger>
   <Menu
     ariaLabel="Post extra options"
+    className="status-dropdown-menu-global-header"
     id="CENTER_dropdown_post_id_1"
     openLeft={true}
     openUp={false}
   >
     <MenuItemAction
-      onClick={[MockFunction]}
+      icon={
+        <span
+          className="icon-reply-outline MenuItem__compass-icon"
+        />
+      }
+      onClick={[Function]}
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="R"
+        />
+      }
       show={true}
       text="Reply"
     />
@@ -204,23 +314,36 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       />
     </Connect(ChannelPermissionGate)>
     <MenuItemAction
-      extraText="You will be notified about replies"
+      icon={
+        <span
+          className="icon-message-check-outline MenuItem__compass-icon"
+        />
+      }
       id="follow_post_thread_post_id_1"
       onClick={[Function]}
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="F"
+        />
+      }
       show={false}
       text="Follow message"
     />
     <MenuItemAction
+      icon={
+        <span
+          className="icon-mark-as-unread MenuItem__compass-icon"
+        />
+      }
       id="unread_post_post_id_1"
       onClick={[Function]}
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="U"
+        />
+      }
       show={true}
       text="Mark as Unread"
-    />
-    <MenuItemAction
-      id="permalink_post_id_1"
-      onClick={[Function]}
-      show={true}
-      text="Copy Link"
     />
     <MenuItemAction
       onClick={[Function]}
@@ -233,14 +356,34 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       text="Save"
     />
     <MenuItemAction
+      icon={
+        <span
+          className="icon-pin MenuItem__compass-icon"
+        />
+      }
       id="unpin_post_post_id_1"
       onClick={[Function]}
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="P"
+        />
+      }
       show={false}
       text="Unpin"
     />
     <MenuItemAction
+      icon={
+        <span
+          className="icon-pin-outline MenuItem__compass-icon"
+        />
+      }
       id="pin_post_post_id_1"
       onClick={[Function]}
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="P"
+        />
+      }
       show={true}
       text="Pin"
     />
@@ -250,21 +393,76 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       role="menuitem"
     />
     <MenuItemAction
+      icon={
+        <span
+          className="icon-link-variant MenuItem__compass-icon"
+        />
+      }
+      id="permalink_post_id_1"
+      onClick={[Function]}
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="K"
+        />
+      }
+      show={true}
+      text="Copy Link"
+    />
+    <li
+      className="MenuItem__divider"
+      id="divider_post_post_id_1_edit"
+      role="menuitem"
+    />
+    <MenuItemAction
+      icon={
+        <span
+          className="icon-pencil-outline MenuItem__compass-icon"
+        />
+      }
       id="edit_post_post_id_1"
       onClick={[Function]}
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="E"
+        />
+      }
       show={true}
       text="Edit"
     />
     <MenuItemAction
+      icon={
+        <span
+          className="icon-content-copy MenuItem__compass-icon"
+        />
+      }
+      id="copy_post_id_1"
+      onClick={[Function]}
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="C"
+        />
+      }
+      show={true}
+      text="Copy Text"
+    />
+    <MenuItemAction
+      icon={
+        <span
+          className="icon-trash-can-outline MenuItem__compass-icon-dangerous"
+        />
+      }
       id="delete_post_post_id_1"
       isDangerous={true}
       onClick={[Function]}
+      rightDecorator={
+        <span
+          className="MenuItem__opacity"
+        >
+          delete
+        </span>
+      }
       show={false}
       text="Delete"
-    />
-    <Connect(Pluggable)
-      pluggableName="PostDropdownMenuItem"
-      postId="post_id_1"
     />
   </Menu>
 </MenuWrapper>

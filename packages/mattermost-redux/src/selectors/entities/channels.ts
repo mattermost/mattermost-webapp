@@ -205,9 +205,9 @@ export const getCurrentChannel: (state: GlobalState) => Channel = createSelector
     'getCurrentChannel',
     getAllChannels,
     getCurrentChannelId,
-    (state: GlobalState): UsersState => state.entities.users,
+    (state: GlobalState) => state.entities.users,
     getTeammateNameDisplaySetting,
-    (allChannels: IDMappedObjects<Channel>, currentChannelId: string, users: UsersState, teammateNameDisplay: string): Channel => {
+    (allChannels, currentChannelId, users, teammateNameDisplay): Channel => {
         const channel = allChannels[currentChannelId];
 
         if (channel) {
@@ -262,7 +262,6 @@ export const getCurrentChannelStats: (state: GlobalState) => ChannelStats = crea
 
 export function isCurrentChannelFavorite(state: GlobalState): boolean {
     const currentChannelId = getCurrentChannelId(state);
-
     return isFavoriteChannel(state, currentChannelId);
 }
 
@@ -278,16 +277,28 @@ export const isCurrentChannelMuted: (state: GlobalState) => boolean = createSele
     },
 );
 
+export const isMutedChannel: (state: GlobalState, channelId: string) => boolean = createSelector(
+    'isMutedChannel',
+    (state: GlobalState, channelId: string) => getMyChannelMembership(state, channelId),
+    (membership?: ChannelMembership): boolean => {
+        if (!membership) {
+            return false;
+        }
+
+        return isChannelMuted(membership);
+    },
+);
+
 export const isCurrentChannelArchived: (state: GlobalState) => boolean = createSelector(
     'isCurrentChannelArchived',
     getCurrentChannel,
-    (channel: Channel): boolean => channel.delete_at !== 0,
+    (channel) => channel.delete_at !== 0,
 );
 
 export const isCurrentChannelDefault: (state: GlobalState) => boolean = createSelector(
     'isCurrentChannelDefault',
     getCurrentChannel,
-    (channel: Channel): boolean => isDefault(channel),
+    (channel) => isDefault(channel),
 );
 
 export function isCurrentChannelReadOnly(state: GlobalState): boolean {
@@ -333,9 +344,8 @@ export function makeGetChannelUnreadCount(): (state: GlobalState, channelId: str
         (state: GlobalState, channelId: string) => getChannelMessageCount(state, channelId),
         (state: GlobalState, channelId: string) => getMyChannelMembership(state, channelId),
         isCollapsedThreadsEnabled,
-        (messageCount: ChannelMessageCount, member: ChannelMembership, crtEnabled: boolean) => {
-            return calculateUnreadCount(messageCount, member, crtEnabled);
-        },
+        (messageCount: ChannelMessageCount, member: ChannelMembership, crtEnabled) =>
+            calculateUnreadCount(messageCount, member, crtEnabled),
     );
 }
 
@@ -759,37 +769,35 @@ export const canManageChannelMembers: (state: GlobalState) => boolean = createSe
 );
 
 // Determine if the user has permissions to manage members in at least one channel of the current team
-export const canManageAnyChannelMembersInCurrentTeam: (state: GlobalState) => boolean = createSelector(
-    'canManageAnyChannelMembersInCurrentTeam',
-    getMyChannelMemberships,
-    getCurrentTeamId,
-    (state: GlobalState): GlobalState => state,
-    (members: RelationOneToOne<Channel, ChannelMembership>, currentTeamId: string, state: GlobalState): boolean => {
-        for (const channelId of Object.keys(members)) {
-            const channel = getChannel(state, channelId);
+export function canManageAnyChannelMembersInCurrentTeam(state: GlobalState): boolean {
+    const myChannelMemberships = getMyChannelMemberships(state);
+    const myChannelsIds = Object.keys(myChannelMemberships);
+    const currentTeamId = getCurrentTeamId(state);
 
-            if (!channel || channel.team_id !== currentTeamId) {
-                continue;
-            }
+    for (const channelId of myChannelsIds) {
+        const channel = getChannel(state, channelId);
 
-            if (channel.type === General.OPEN_CHANNEL && haveIChannelPermission(state,
-                currentTeamId,
-                channelId,
-                Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
-            )) {
-                return true;
-            } else if (channel.type === General.PRIVATE_CHANNEL && haveIChannelPermission(state,
-                currentTeamId,
-                channelId,
-                Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
-            )) {
-                return true;
-            }
+        if (!channel || channel.team_id !== currentTeamId) {
+            continue;
         }
 
-        return false;
-    },
-);
+        if (channel.type === General.OPEN_CHANNEL && haveIChannelPermission(state,
+            currentTeamId,
+            channelId,
+            Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
+        )) {
+            return true;
+        } else if (channel.type === General.PRIVATE_CHANNEL && haveIChannelPermission(state,
+            currentTeamId,
+            channelId,
+            Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
+        )) {
+            return true;
+        }
+    }
+
+    return false;
+}
 
 export const getAllDirectChannelIds: (state: GlobalState) => string[] = createIdsSelector(
     'getAllDirectChannelIds',

@@ -22,7 +22,7 @@ import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferen
 
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions';
 import * as GlobalActions from 'actions/global_actions';
-import {trackLoadTime} from 'actions/telemetry_actions.jsx';
+import {measurePageLoadTelemetry, trackSelectorMetrics} from 'actions/telemetry_actions.jsx';
 
 import {makeAsyncComponent} from 'components/async_load';
 import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
@@ -67,7 +67,6 @@ const LazyPreparingWorkspace = React.lazy(() => import('components/preparing_wor
 
 import store from 'stores/redux_store.jsx';
 import {getSiteURL} from 'utils/url';
-import {enableDevModeFeatures, isDevMode} from 'utils/utils';
 import A11yController from 'utils/a11y_controller';
 import TeamSidebar from 'components/team_sidebar';
 
@@ -181,10 +180,6 @@ export default class Root extends React.PureComponent {
     }
 
     onConfigLoaded = () => {
-        if (isDevMode()) {
-            enableDevModeFeatures();
-        }
-
         const telemetryId = this.props.telemetryId;
 
         let rudderKey = Constants.TELEMETRY_RUDDER_KEY;
@@ -337,7 +332,9 @@ export default class Root extends React.PureComponent {
             }
             this.onConfigLoaded();
         });
-        trackLoadTime();
+
+        measurePageLoadTelemetry();
+        trackSelectorMetrics();
 
         if (this.desktopMediaQuery.addEventListener) {
             this.desktopMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
