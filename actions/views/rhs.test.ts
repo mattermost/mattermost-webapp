@@ -40,6 +40,7 @@ import {ActionTypes, RHSStates, Constants} from 'utils/constants';
 import {getBrowserUtcOffset} from 'utils/timezone.jsx';
 import {GlobalState} from 'types/store';
 import {ViewsState} from 'types/store/views';
+import {RhsState} from 'types/store/rhs';
 
 const mockStore = configureStore<GlobalState, DispatchFunc>([thunk]);
 
@@ -125,13 +126,25 @@ describe('rhs view actions', () => {
     });
 
     describe('updateRhsState', () => {
-        test(`it dispatches ${ActionTypes.UPDATE_RHS_STATE} correctly`, () => {
+        test(`it dispatches ${ActionTypes.UPDATE_RHS_STATE} correctly with defaults`, () => {
             store.dispatch(updateRhsState(RHSStates.PIN));
 
             const action = {
                 type: ActionTypes.UPDATE_RHS_STATE,
                 state: RHSStates.PIN,
                 channelId: currentChannelId,
+            };
+
+            expect(store.getActions()).toEqual([action]);
+        });
+
+        test(`it dispatches ${ActionTypes.UPDATE_RHS_STATE} correctly`, () => {
+            store.dispatch(updateRhsState(RHSStates.PIN, 'channelId', RHSStates.CHANNEL_INFO as RhsState));
+            const action = {
+                type: ActionTypes.UPDATE_RHS_STATE,
+                state: RHSStates.PIN,
+                channelId: 'channelId',
+                previousRhsState: RHSStates.CHANNEL_INFO,
             };
 
             expect(store.getActions()).toEqual([action]);
