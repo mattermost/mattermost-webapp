@@ -5,6 +5,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import Permissions from 'mattermost-redux/constants/permissions';
+import {ClientLicense} from 'mattermost-redux/types/config';
+import {LicenseSkus} from 'mattermost-redux/types/general';
 
 import {Role} from 'mattermost-redux/types/roles';
 
@@ -17,32 +19,8 @@ interface Props {
     selectRow: any;
     readOnly: boolean;
     onToggle: (a: string, b: string[]) => void;
+    license: ClientLicense;
 }
-
-export const playbooksGroups: any[] = [
-    {
-        id: 'playbook_public',
-        permissions: [
-            Permissions.PLAYBOOK_PUBLIC_MANAGE_PROPERTIES,
-            Permissions.PLAYBOOK_PUBLIC_MANAGE_MEMBERS,
-            Permissions.PLAYBOOK_PUBLIC_MAKE_PRIVATE,
-        ],
-    },
-    {
-        id: 'playbook_private',
-        permissions: [
-            Permissions.PLAYBOOK_PRIVATE_MANAGE_PROPERTIES,
-            Permissions.PLAYBOOK_PRIVATE_MANAGE_MEMBERS,
-            Permissions.PLAYBOOK_PRIVATE_MAKE_PUBLIC,
-        ],
-    },
-    {
-        id: 'runs',
-        permissions: [
-            Permissions.RUN_CREATE,
-        ],
-    },
-];
 
 const PermissionsTreePlaybooks = (props: Props) => {
     const toggleGroup = (ids: string[]) => {
@@ -51,6 +29,37 @@ const PermissionsTreePlaybooks = (props: Props) => {
         }
         props.onToggle(props.role?.name || '', ids);
     };
+
+    const groups = [
+        {
+            id: 'playbook_public',
+            permissions: [
+                Permissions.PLAYBOOK_PUBLIC_MANAGE_PROPERTIES,
+                Permissions.PLAYBOOK_PUBLIC_MANAGE_MEMBERS,
+            ],
+        },
+        {
+            id: 'runs',
+            permissions: [
+                Permissions.RUN_CREATE,
+            ],
+        },
+    ];
+
+    if (props.license?.SkuShortName === LicenseSkus.Enterprise) {
+        const playbookPublicIndex = groups.findIndex((group) => group.id === 'playbook_public');
+        if (playbookPublicIndex >= 0) {
+            groups[playbookPublicIndex].permissions.push(Permissions.PLAYBOOK_PUBLIC_MAKE_PRIVATE);
+            groups.splice(playbookPublicIndex + 1, 0, {
+                id: 'playbook_private',
+                permissions: [
+                    Permissions.PLAYBOOK_PRIVATE_MANAGE_PROPERTIES,
+                    Permissions.PLAYBOOK_PRIVATE_MANAGE_MEMBERS,
+                    Permissions.PLAYBOOK_PRIVATE_MAKE_PUBLIC,
+                ],
+            });
+        }
+    }
 
     return (
         <div className='permissions-tree'>
@@ -76,7 +85,7 @@ const PermissionsTreePlaybooks = (props: Props) => {
                     uniqId={props.role?.name}
                     selectRow={props.selectRow}
                     readOnly={props.readOnly}
-                    permissions={playbooksGroups}
+                    permissions={groups}
                     role={props.role}
                     scope={props.scope}
                     combined={false}

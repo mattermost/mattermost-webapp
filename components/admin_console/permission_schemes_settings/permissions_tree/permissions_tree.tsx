@@ -14,6 +14,8 @@ import PermissionGroup from '../permission_group.jsx';
 import EditPostTimeLimitButton from '../edit_post_time_limit_button';
 import EditPostTimeLimitModal from '../edit_post_time_limit_modal';
 
+import {LicenseSkus} from 'mattermost-redux/types/general';
+
 import {AdditionalValues, Group} from './types';
 
 type Props = {
@@ -122,16 +124,6 @@ export default class PermissionsTree extends React.PureComponent<Props, State> {
                     Permissions.PLAYBOOK_PUBLIC_CREATE,
                     Permissions.PLAYBOOK_PUBLIC_MANAGE_PROPERTIES,
                     Permissions.PLAYBOOK_PUBLIC_MANAGE_MEMBERS,
-                    Permissions.PLAYBOOK_PUBLIC_MAKE_PRIVATE,
-                ],
-            },
-            {
-                id: 'playbook_private',
-                permissions: [
-                    Permissions.PLAYBOOK_PRIVATE_CREATE,
-                    Permissions.PLAYBOOK_PRIVATE_MANAGE_PROPERTIES,
-                    Permissions.PLAYBOOK_PRIVATE_MANAGE_MEMBERS,
-                    Permissions.PLAYBOOK_PRIVATE_MAKE_PUBLIC,
                 ],
             },
             {
@@ -199,10 +191,10 @@ export default class PermissionsTree extends React.PureComponent<Props, State> {
         const {config, scope, license} = this.props;
 
         const teamsGroup = this.groups[0];
-        const postsGroup = this.groups[6];
-        const integrationsGroup = this.groups[7];
-        const sharedChannelsGroup = this.groups[8];
-        const customGroupsGroup = this.groups[9];
+        const postsGroup = this.groups[5];
+        const integrationsGroup = this.groups[6];
+        const sharedChannelsGroup = this.groups[7];
+        const customGroupsGroup = this.groups[8];
 
         if (config.EnableIncomingWebhooks === 'true' && !integrationsGroup.permissions.includes(Permissions.MANAGE_INCOMING_WEBHOOKS)) {
             integrationsGroup.permissions.push(Permissions.MANAGE_INCOMING_WEBHOOKS);
@@ -242,6 +234,19 @@ export default class PermissionsTree extends React.PureComponent<Props, State> {
         }
         if (!this.props.customGroupsEnabled) {
             customGroupsGroup?.permissions.pop();
+        }
+
+        if (license?.SkuShortName === LicenseSkus.Enterprise) {
+            this.groups[3].permissions.push(Permissions.PLAYBOOK_PUBLIC_MAKE_PRIVATE);
+            this.groups.splice(4, 0, {
+                id: 'playbook_private',
+                permissions: [
+                    Permissions.PLAYBOOK_PRIVATE_CREATE,
+                    Permissions.PLAYBOOK_PRIVATE_MANAGE_PROPERTIES,
+                    Permissions.PLAYBOOK_PRIVATE_MANAGE_MEMBERS,
+                    Permissions.PLAYBOOK_PRIVATE_MAKE_PUBLIC,
+                ],
+            });
         }
     }
 
