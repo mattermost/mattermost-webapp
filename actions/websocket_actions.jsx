@@ -222,7 +222,7 @@ export function reconnect(includeWebSocket = true) {
         const crtEnabled = isCollapsedThreadsEnabled(state);
         dispatch(TeamActions.getMyTeamUnreads(crtEnabled, true));
         if (crtEnabled) {
-            dispatch(fetchThreads(currentUserId, currentTeamId, {unread: true, perPage: 200}));
+            dispatch(fetchThreads(currentUserId, currentTeamId, {extended: true, unread: true, perPage: 200}));
         }
     }
 

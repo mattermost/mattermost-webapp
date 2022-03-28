@@ -130,7 +130,11 @@ function previousRhsState(state: RhsState = null, action: GenericAction) {
             return action.previousRhsState;
         }
         return null;
-
+    case ActionTypes.UPDATE_RHS_STATE:
+        if (action.previousRhsState) {
+            return action.previousRhsState;
+        }
+        return null;
     case UserTypes.LOGOUT_SUCCESS:
         return null;
     default:
