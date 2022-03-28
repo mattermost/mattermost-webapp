@@ -50,7 +50,6 @@ export type Props = {
     handleDismissTip: () => void;
     showPulsatingDot: boolean;
     showTutorialTip: boolean;
-    isMobileView: boolean;
 
     /**
      * Components for overriding provided by plugins
@@ -279,11 +278,12 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
     }
 
     render(): React.ReactNode {
-        const isMobile = this.props.isMobileView;
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         if (isSystemMessage) {
             return null;
         }
+
+        // const isMobile = this.props.isMobileView TODO;
 
         const pluginItems = this.props.pluginMenuItems?.
             filter((item) => {
@@ -414,7 +414,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
                         onClick={this.handleActionsIconClick}
                     >
                         <i className={'icon icon-apps'}/>
-                        {(this.props.showPulsatingDot && !isMobile) &&
+                        {this.props.showPulsatingDot &&
                             <ActionsTutorialTip
                                 showTip={this.props.showTutorialTip}
                                 handleNext={this.props.handleNextTip}
