@@ -8,6 +8,8 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 import isEqual from 'lodash/isEqual';
 
+import classNames from 'classnames';
+
 import * as Utils from 'utils/utils.jsx';
 import {generateIndex} from 'utils/admin_console_index.jsx';
 import {browserHistory} from 'utils/browser_history';
@@ -330,7 +332,7 @@ class AdminSidebar extends React.PureComponent {
                 >
                     <div className='nav-pills__container'>
                         <Highlight filter={this.state.filter}>
-                            <ul className={`nav nav-pills nav-stacked ${showTaskList ? 'task-list-shown' : ''}`}>
+                            <ul className={classNames('nav nav-pills nav-stacked', {'task-list-shown': showTaskList})}>
                                 {this.renderRootMenu(this.props.adminDefinition)}
                             </ul>
                         </Highlight>
