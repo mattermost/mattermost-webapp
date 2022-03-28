@@ -140,13 +140,13 @@ export default class NewChannelFlow extends React.PureComponent<Props, State> {
     }
 
     onCreateChannelError = (err: ServerError) => {
-        if (err.server_error_id === 'model.channel.is_valid.2_or_more.app_error') {
+        if (err.server_error_id === 'model.channel.is_valid.1_or_more.app_error') {
             this.setState({
                 flowState: SHOW_EDIT_URL_THEN_COMPLETE,
                 serverError: (
                     <FormattedMessage
                         id='channel_flow.handleTooShort'
-                        defaultMessage='Channel URL must be 2 or more lowercase alphanumeric characters'
+                        defaultMessage='Channel URL must be 1 or more lowercase alphanumeric character'
                     />
                 ),
             });
