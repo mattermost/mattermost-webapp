@@ -7,15 +7,9 @@
     background-color: var(--center-channel-bg);
     grid-area: header;
 
-    .MenuWrapper--open {
-        h2 {
-            background-color: rgba(var(--button-bg-rgb), 0.08);
-        }
-    }
-
     h2 {
         &:hover {
-            background-color: rgba(var(--button-bg-rgb), 0.04);
+            background-color: rgba(var(--center-channel-color-rgb), 0.08);
             cursor: pointer;
         }
 
@@ -26,7 +20,11 @@
         font-weight: 600;
         line-height: 24px;
     }
-
+    .MenuWrapper--open {
+        h2 {
+            background-color: rgba(var(--button-bg-rgb), 0.08);
+        }
+    }
 
     .MenuItem {
         i {
