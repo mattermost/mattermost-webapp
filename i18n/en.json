@@ -2532,7 +2532,7 @@
   "apps.error.command.unknown_option": "Unknown option for field `{fieldName}`: `{option}`.",
   "apps.error.command.unknown_user": "Unknown user for field `{fieldName}`: `{option}`.",
   "apps.error.form.no_form": "`form` is not defined.",
-  "apps.error.form.no_lookup": "`looukp` is not defined.",
+  "apps.error.form.no_lookup": "`lookup` is not defined.",
   "apps.error.form.no_source": "`source` is not defined.",
   "apps.error.form.no_submit": "`submit` is not defined.",
   "apps.error.form.refresh": "There has been an error updating the modal. Contact the app developer. Details: {details}",
