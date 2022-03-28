@@ -56,22 +56,23 @@ function verifyExistingChannelError(newChannelName, makePrivate = false) {
     cy.uiBrowseOrCreateChannel('Create New Channel').click();
 
     if (makePrivate) {
-        cy.get('#private').check({force: true}).as('channelType');
+        cy.get('#P.public-private-selector-button').click();
     } else {
-        cy.get('#public').should('be.checked').as('channelType');
+        cy.get('#O.public-private-selector-button').click();
     }
 
-    cy.get('@channelType').should('be.checked');
-
     // Type `newChannelName` in the input field for new channel
-    cy.get('#newChannelName').should('be.visible').click().type(newChannelName);
+    cy.get('#input_new-channel-modal-name').should('be.visible').click().type(newChannelName);
     cy.wait(TIMEOUTS.HALF_SEC);
 
-    // Click 'Create New Channel' button
-    cy.get('#submitNewChannel').click();
+    // Click 'Create Channel' button
+    cy.findByText('Create channel').click();
 
-    // * User gets a message saying "A channel with that name already exists on the same team"
-    cy.get('#createChannelError').contains('A channel with that name already exists on the same team');
+    // * User gets a message saying "A channel with that name already exists"
+    cy.get('#url-input-error').contains('A channel with that name already exists');
+
+    // * 'Create Channel' button should be disabled
+    cy.findByText('Create channel').should('be.disabled');
 }
 
 /**
@@ -89,13 +90,13 @@ function verifyChannel(channel) {
     verifyExistingChannelError(channel.name);
 
     // # Click on Cancel button to move out of New Channel Modal
-    cy.get('#cancelNewChannel').contains('Cancel').click();
+    cy.findByText('Cancel').click();
 
     // * Verify new private channel cannot be created with existing public channel name
     verifyExistingChannelError(channel.name, true);
 
     // # Click on Cancel button to move out of New Channel Modal
-    cy.get('#cancelNewChannel').contains('Cancel').click();
+    cy.findByText('Cancel').click();
 
     // * Verify the number of channels is still the same as before
     cy.get('@origChannelLength').then((origChannelLength) => {
