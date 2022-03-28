@@ -687,7 +687,7 @@ export type ElasticsearchSettings = {
     PostsAggregatorJobStartTime: string;
     IndexPrefix: string;
     LiveIndexingBatchSize: number;
-    BulkIndexingTimeWindowSeconds: number;
+    BatchSize: number;
     RequestTimeoutSeconds: number;
     SkipTLSVerification: boolean;
     Trace: string;
@@ -698,7 +698,7 @@ export type BleveSettings = {
     EnableIndexing: boolean;
     EnableSearching: boolean;
     EnableAutocomplete: boolean;
-    BulkIndexingTimeWindowSeconds: number;
+    BatchSize: number;
 };
 
 export type DataRetentionSettings = {
