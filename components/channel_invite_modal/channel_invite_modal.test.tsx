@@ -221,4 +221,12 @@ describe('components/channel_invite_modal', () => {
         wrapper.instance().search(' something ');
         expect(wrapper.state('term')).toEqual('something');
     });
+
+    test('should send the invite as guest param through the link', () => {
+        const wrapper = shallow<ChannelInviteModal>(
+            <ChannelInviteModal {...baseProps}/>,
+        );
+
+        expect(wrapper.find('InviteModalLink').prop('inviteAsGuest')).toBeTruthy();
+    });
 });
