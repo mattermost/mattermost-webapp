@@ -27,6 +27,7 @@ exports[`components/FormattedMarkdownMessage should allow to disable links 1`] =
     }
   >
     <FormattedMarkdownMessage
+      blankLinks={false}
       defaultMessage="*Hi* {petName}!"
       disableLinks={true}
       id="test.vals"
@@ -109,6 +110,7 @@ exports[`components/FormattedMarkdownMessage should backup to default 1`] = `
     id="xxx"
   >
     <FormattedMarkdownMessage
+      blankLinks={false}
       defaultMessage="testing default message"
       disableLinks={false}
       id="xxx"
@@ -192,6 +194,7 @@ exports[`components/FormattedMarkdownMessage should escape non-BR 1`] = `
     }
   >
     <FormattedMarkdownMessage
+      blankLinks={false}
       defaultMessage=""
       disableLinks={false}
       id="test.bar"
@@ -275,6 +278,7 @@ exports[`components/FormattedMarkdownMessage should render message 1`] = `
     id="test.foo"
   >
     <FormattedMarkdownMessage
+      blankLinks={false}
       defaultMessage="**bold** *italic* [link](https://mattermost.com/) <br/> [link target blank](!https://mattermost.com/)"
       disableLinks={false}
       id="test.foo"
@@ -357,6 +361,7 @@ exports[`components/FormattedMarkdownMessage values should work 1`] = `
     }
   >
     <FormattedMarkdownMessage
+      blankLinks={false}
       defaultMessage="*Hi* {petName}!"
       disableLinks={false}
       id="test.vals"

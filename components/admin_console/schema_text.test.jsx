@@ -64,7 +64,7 @@ describe('SchemaText', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should open most links in the current window like FormattedMarkdownMessage', () => {
+    test('should open all markdown links in the new window', () => {
         const props = {
             ...baseProps,
             isMarkdown: true,
@@ -74,7 +74,7 @@ describe('SchemaText', () => {
         const wrapper = shallow(<SchemaText {...props}/>);
 
         expect(wrapper.find('span').prop('dangerouslySetInnerHTML')).toEqual({
-            __html: 'This is <a href="https://example.com">a link</a>',
+            __html: 'This is <a href="https://example.com" target="_blank">a link</a>',
         });
     });
 
