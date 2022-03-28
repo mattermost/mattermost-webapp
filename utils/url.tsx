@@ -90,7 +90,7 @@ export function isUrlSafe(url: string): boolean {
         !unescaped.startsWith('data:');
 }
 
-export function useSafeUrl(url: string, defaultUrl = ''): string {
+export function makeUrlSafe(url: string, defaultUrl = ''): string {
     if (isUrlSafe(url)) {
         return url;
     }
@@ -185,6 +185,11 @@ export function isPermalinkURL(url: string): boolean {
     const regexp = new RegExp(`^(${siteURL})?/[a-z0-9]+([a-z\\-0-9]+|(__)?)[a-z0-9]+/pl/\\w+`, 'gu');
 
     return isInternalURL(url, siteURL) && (regexp.test(url));
+}
+
+export function isStringContainingUrl(text: string): boolean {
+    const regex = new RegExp('(https?://|www.)');
+    return regex.test(text);
 }
 
 export type UrlValidationCheck = {

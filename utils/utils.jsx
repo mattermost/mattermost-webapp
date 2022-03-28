@@ -358,6 +358,13 @@ export function getIconClassName(fileTypeIn) {
     return 'generic';
 }
 
+export function getMenuItemIcon(name, dangerous) {
+    const colorClass = dangerous ? 'MenuItem__compass-icon-dangerous' : 'MenuItem__compass-icon';
+    return (
+        <span className={`${name} ${colorClass}`}/>
+    );
+}
+
 export function toTitleCase(str) {
     function doTitleCase(txt) {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
@@ -950,6 +957,10 @@ export function setSelectionRange(input, selectionStart, selectionEnd) {
 }
 
 export function setCaretPosition(input, pos) {
+    if (!input) {
+        return;
+    }
+
     setSelectionRange(input, pos, pos);
 }
 

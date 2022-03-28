@@ -181,10 +181,6 @@ export const ActionTypes = keyMirror({
     TOGGLE_DELETE_POST_MODAL: null,
     TOGGLE_EDITING_POST: null,
 
-    // TODO@Michel: once inline post editing is available without using a feature flag remove these actions
-    HIDE_EDIT_POST_MODAL: null,
-    SET_SHOW_PREVIEW_ON_EDIT_POST_MODAL: null,
-
     EMITTED_SHORTCUT_REACT_TO_LAST_POST: null,
 
     BROWSER_CHANGE_FOCUS: null,
@@ -343,6 +339,7 @@ export const ModalIdentifiers = {
     UPGRADE_CLOUD_ACCOUNT: 'upgrade_cloud_account',
     START_TRIAL_MODAL: 'start_trial_modal',
     TRIAL_BENEFITS_MODAL: 'trial_benefits_modal',
+    LEARN_MORE_TRIAL_MODAL: 'learn_more_trial_modal',
     ENTERPRISE_EDITION_LICENSE: 'enterprise_edition_license',
     CONFIRM_NOTIFY_ADMIN: 'confirm_notify_admin',
     REMOVE_NEXT_STEPS_MODAL: 'remove_next_steps_modal',
@@ -390,6 +387,7 @@ export const EventTypes = Object.assign(
         CLICK: 'click',
         FOCUS: 'focus',
         BLUR: 'blur',
+        SHORTCUT: 'shortcut',
         MOUSE_DOWN: 'mousedown',
         MOUSE_UP: 'mouseup',
     },
@@ -426,6 +424,10 @@ export const A11yCustomEventTypes = {
     ACTIVATE: 'a11yactivate',
     DEACTIVATE: 'a11ydeactivate',
     UPDATE: 'a11yupdate',
+};
+
+export const AppEvents = {
+    FOCUS_EDIT_TEXTBOX: 'focus_edit_textbox',
 };
 
 export const SocketEvents = {
@@ -564,10 +566,25 @@ export const CloudBanners = {
 export const TELEMETRY_CATEGORIES = {
     CLOUD_PURCHASING: 'cloud_purchasing',
     CLOUD_ADMIN: 'cloud_admin',
+    POST_INFO_MORE: 'post_info_more_menu',
+    POST_INFO: 'post_info',
     SELF_HOSTED_START_TRIAL_AUTO_MODAL: 'self_hosted_start_trial_auto_modal',
     SELF_HOSTED_START_TRIAL_MODAL: 'self_hosted_start_trial_modal',
     SELF_HOSTED_START_TRIAL_TASK_LIST: 'self_hosted_start_trial_task_list',
     WORKSPACE_OPTIMIZATION_DASHBOARD: 'workspace_optimization_dashboard',
+};
+
+export const TELEMETRY_LABELS = {
+    COPY_LINK: 'copy_link',
+    COPY_TEXT: 'copy_text',
+    DELETE: 'delete',
+    EDIT: 'edit',
+    FOLLOW: 'follow',
+    UNFOLLOW: 'unfollow',
+    PIN: 'pin',
+    UNPIN: 'unpin',
+    REPLY: 'reply',
+    UNREAD: 'unread',
 };
 
 export const PostTypes = {
@@ -638,6 +655,7 @@ export const UserSearchOptions = {
 
 // UserListOptions are the possible option keys for get users page request
 export const UserListOptions = {
+    ACTIVE: 'active',
     INACTIVE: 'inactive',
     IN_TEAM: 'in_team',
     NOT_IN_TEAM: 'not_in_team',
@@ -652,6 +670,7 @@ export const UserListOptions = {
 // UserFilters are the values for UI get/search user filters
 export const UserFilters = {
     INACTIVE: 'inactive',
+    ACTIVE: 'active',
     SYSTEM_ADMIN: 'system_admin',
     SYSTEM_GUEST: 'system_guest',
 };
@@ -768,6 +787,7 @@ export const FileTypes = {
     PATCH: 'patch',
     SVG: 'svg',
     OTHER: 'other',
+    LICENSE_EXTENSION: '.mattermost-license',
 };
 
 export const NotificationLevels = {
@@ -806,6 +826,7 @@ export const RHSStates = {
     PIN: 'pin',
     PLUGIN: 'plugin',
     CHANNEL_FILES: 'channel-files',
+    CHANNEL_INFO: 'channel-info',
 };
 
 export const UploadStatuses = {
@@ -839,8 +860,8 @@ export const DraggingStateTypes = {
 };
 
 export const AboutLinks = {
-    TERMS_OF_SERVICE: 'https://about.mattermost.com/default-terms/',
-    PRIVACY_POLICY: 'https://about.mattermost.com/default-privacy-policy/',
+    TERMS_OF_SERVICE: 'https://mattermost.com/terms-of-use/',
+    PRIVACY_POLICY: 'https://mattermost.com/privacy-policy/',
 };
 
 export const CloudLinks = {

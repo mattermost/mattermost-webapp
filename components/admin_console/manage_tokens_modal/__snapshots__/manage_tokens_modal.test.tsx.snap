@@ -75,7 +75,7 @@ exports[`components/admin_console/manage_tokens_modal/manage_tokens_modal.tsx sh
         className="pt-3"
       >
         <injectIntl(FormattedMarkdownMessage)
-          defaultMessage="Personal access tokens function similarly to session tokens and can be used by integrations to [interact with this Mattermost server](!https://about.mattermost.com/default-api-authentication). Tokens are disabled if the user is deactivated. Learn more about [personal access tokens](!https://about.mattermost.com/default-user-access-tokens)."
+          defaultMessage="Personal access tokens function similarly to session tokens and can be used by integrations to [interact with this Mattermost server](!https://api.mattermost.com/#tag/authentication). Tokens are disabled if the user is deactivated. Learn more about [personal access tokens](!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/)."
           id="admin.manage_tokens.userAccessTokensDescription"
         />
       </div>

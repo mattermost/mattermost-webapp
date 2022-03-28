@@ -7,7 +7,7 @@
   "private": true,
   "dependencies": {
     "@mattermost/compass-components": "^0.2.12",
-    "@mattermost/compass-icons": "0.1.21",
+    "@mattermost/compass-icons": "0.1.22",
     "@stripe/react-stripe-js": "1.6.0",
     "@stripe/stripe-js": "1.20.3",
     "@tippyjs/react": "4.2.6",
@@ -52,7 +52,6 @@
     "process": "0.11.10",
     "prop-types": "15.7.2",
     "react": "16.13.1",
-    "react-animate-height": "2.0.23",
     "react-beautiful-dnd": "13.1.0",
     "react-bootstrap": "github:mattermost/react-bootstrap#c6957962364e0818a51bbfd13e89919903b422d6",
     "react-color": "2.19.3",
@@ -172,6 +171,7 @@
     "eslint-plugin-mattermost": "github:mattermost/eslint-plugin-mattermost#46ad99355644a719bf32082f472048f526605181",
     "eslint-plugin-no-only-tests": "2.6.0",
     "eslint-plugin-react": "7.24.0",
+    "eslint-plugin-react-hooks": "4.3.0",
     "file-loader": "6.2.0",
     "html-loader": "2.1.2",
     "html-webpack-plugin": "5.5.0",
@@ -216,7 +216,8 @@
       "enzyme-to-json/serializer"
     ],
     "testPathIgnorePatterns": [
-      "/node_modules/"
+      "/node_modules/",
+      "/e2e/"
     ],
     "clearMocks": true,
     "collectCoverageFrom": [
@@ -228,7 +229,8 @@
       "routes/**/*.{js,jsx,ts,tsx}",
       "selectors/**/*.{js,jsx,ts,tsx}",
       "stores/**/*.{js,jsx,ts,tsx}",
-      "utils/**/*.{js,jsx,ts,tsx}"
+      "utils/**/*.{js,jsx,ts,tsx}",
+      "!e2e/**"
     ],
     "coverageReporters": [
       "lcov",

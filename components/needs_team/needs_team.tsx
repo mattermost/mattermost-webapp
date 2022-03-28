@@ -77,9 +77,6 @@ type Props = {
     plugins?: any;
     selectedThreadId: string | null;
     shouldShowAppBar: boolean;
-
-    // TODO@Michel: remove this line once the inline post editing feature is enabled by default
-    isInlinePostEditingEnabled: boolean;
     isCustomGroupsEnabled: boolean;
 }
 
@@ -337,9 +334,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                         <ChannelController
                             shouldShowAppBar={this.props.shouldShowAppBar}
                             fetchingChannels={!this.state.finishedFetchingChannels}
-
-                            // TODO@Michel: remove this prop once the inline post editing feature is enabled by default
-                            enableEditPostModal={!this.props.isInlinePostEditingEnabled}
                         />
                     )}
                 />
