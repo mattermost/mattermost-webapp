@@ -203,12 +203,6 @@ describe('Verify Accessibility Support in Post', () => {
                 cy.get(`#CENTER_flagIcon_${postId}`).should('be.focused').and('have.attr', 'aria-label', 'save');
                 cy.focused().tab();
 
-                if (pluginsEnabled) {
-                    // * Verify focus is on the actions button
-                    cy.get(`#CENTER_actions_button_${postId}`).should('be.focused').and('have.attr', 'aria-label', 'actions');
-                    cy.focused().tab();
-                }
-
                 // * Verify focus is on the comment button
                 cy.get(`#CENTER_commentIcon_${postId}`).should('be.focused').and('have.attr', 'aria-label', 'reply');
                 cy.focused().tab();
@@ -256,12 +250,6 @@ describe('Verify Accessibility Support in Post', () => {
                 if (emojiPickerEnabled) {
                     // * Verify focus is on the actions button
                     cy.get(`#RHS_COMMENT_button_${postId}`).should('be.focused').and('have.attr', 'aria-label', 'more');
-                    cy.focused().tab({shift: true});
-                }
-
-                if (pluginsEnabled) {
-                // * Verify focus is on the actions button
-                    cy.get(`#RHS_COMMENT_actions_button_${postId}`).should('be.focused').and('have.attr', 'aria-label', 'actions');
                     cy.focused().tab({shift: true});
                 }
 
