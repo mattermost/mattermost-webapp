@@ -3,6 +3,7 @@
 
 import React, {useState, useRef, memo} from 'react';
 import {FormattedMessage} from 'react-intl';
+import classNames from 'classnames';
 
 import {ServerError} from 'mattermost-redux/types/errors';
 import {browserHistory} from 'utils/browser_history';
@@ -41,8 +42,6 @@ const PasswordResetForm = ({location, siteName, actions}: Props) => {
             return;
         }
 
-        // setState({error: null});
-
         const token = (new URLSearchParams(location.search)).get('token');
 
         if (typeof token !== 'string') {
@@ -57,21 +56,13 @@ const PasswordResetForm = ({location, siteName, actions}: Props) => {
         }
     };
 
-    let errorElement = null;
-    if (error) {
-        errorElement = (
-            <div className='form-group has-error'>
-                <label className='control-label'>
-                    {error}
-                </label>
-            </div>
-        );
-    }
-
-    let formClass = 'form-group';
-    if (error) {
-        formClass += ' has-error';
-    }
+    const errorElement = error ? (
+        <div className='form-group has-error'>
+            <label className='control-label'>
+                {error}
+            </label>
+        </div>
+    ) : null;
 
     return (
         <div className='col-sm-12'>
@@ -91,7 +82,7 @@ const PasswordResetForm = ({location, siteName, actions}: Props) => {
                             }}
                         />
                     </p>
-                    <div className={formClass}>
+                    <div className={classNames('form-group', {'has-error': error})}>
                         <LocalizedInput
                             id='resetPasswordInput'
                             type='password'
