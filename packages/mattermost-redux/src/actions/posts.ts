@@ -202,6 +202,10 @@ export function createPost(post: Post, files: any[] = []) {
                 type: FileTypes.RECEIVED_FILES_FOR_POST,
                 postId: pendingPostId,
                 data: files,
+            }, {
+                type: ChannelTypes.INCREMENT_FILE_COUNT,
+                amount: files.length,
+                id: newPost.channel_id,
             });
         }
 
@@ -312,6 +316,11 @@ export function createPostImmediately(post: Post, files: any[] = []) {
                 type: FileTypes.RECEIVED_FILES_FOR_POST,
                 postId: pendingPostId,
                 data: files,
+            });
+            dispatch({
+                type: ChannelTypes.INCREMENT_FILE_COUNT,
+                amount: files.length,
+                id: newPost.channel_id,
             });
         }
 

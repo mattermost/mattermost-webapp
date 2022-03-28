@@ -24,7 +24,7 @@ import {Action, ActionResult, DispatchFunc, GenericAction, GetStateFunc} from 'm
 import {Post} from 'mattermost-redux/types/posts';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
-import {getSearchTerms, getRhsState, getPluggableId, getFilesSearchExtFilter} from 'selectors/rhs';
+import {getSearchTerms, getRhsState, getPluggableId, getFilesSearchExtFilter, getPreviousRhsState} from 'selectors/rhs';
 import {ActionTypes, RHSStates, Constants} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
@@ -66,7 +66,7 @@ function selectPostCardFromRightHandSideSearchWithPreviousState(post: Post, prev
     };
 }
 
-export function updateRhsState(rhsState: string, channelId?: string) {
+export function updateRhsState(rhsState: string, channelId?: string, previousRhsState?: RhsState) {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const action = {
             type: ActionTypes.UPDATE_RHS_STATE,
@@ -75,6 +75,9 @@ export function updateRhsState(rhsState: string, channelId?: string) {
 
         if ([RHSStates.PIN, RHSStates.CHANNEL_FILES, RHSStates.CHANNEL_INFO].includes(rhsState)) {
             action.channelId = channelId || getCurrentChannelId(getState());
+        }
+        if (previousRhsState) {
+            action.previousRhsState = previousRhsState;
         }
 
         dispatch(action);
@@ -287,13 +290,18 @@ export function showPinnedPosts(channelId?: string) {
 
 export function showChannelFiles(channelId: string) {
     return async (dispatch: (action: Action, getState?: GetStateFunc | null) => Promise<ActionResult|[ActionResult, ActionResult]>, getState: GetStateFunc) => {
-        const state = getState();
+        const state = getState() as GlobalState;
         const teamId = getCurrentTeamId(state);
 
+        let previousRhsState = getRhsState(state);
+        if (previousRhsState === RHSStates.CHANNEL_FILES) {
+            previousRhsState = getPreviousRhsState(state);
+        }
         dispatch({
             type: ActionTypes.UPDATE_RHS_STATE,
             channelId,
             state: RHSStates.CHANNEL_FILES,
+            previousRhsState,
         });
 
         const results = await dispatch(performSearch('channel:' + channelId));
