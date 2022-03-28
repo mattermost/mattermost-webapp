@@ -11,18 +11,18 @@ import FormData from 'form-data';
 import fetch from 'isomorphic-unfetch';
 
 import Client4, {
-    ClientError,
     parseAndMergeNestedHeaders,
     HEADER_X_VERSION_ID,
     HEADER_X_CLUSTER_ID,
-} from '../../../../packages/mattermost-redux/src/client/client4';
+} from '../../../../packages/client/src/client4';
+import {ClientError} from '../../../../packages/client/src/error';
 import {UserProfile} from '../../../../packages/mattermost-redux/src/types/users';
 import {Options, StatusOK, ClientResponse} from '../../../../packages/mattermost-redux/src/types/client4';
 import {CustomEmoji} from '../../../../packages/mattermost-redux/src/types/emojis';
 import {PluginManifest} from '../../../../packages/mattermost-redux/src/types/plugins';
 import {License} from '../../../../packages/mattermost-redux/src/types/config';
 
-import {buildQueryString} from '../../../../packages/mattermost-redux/src/utils/helpers_client';
+import {buildQueryString} from '../../../../packages/client/src/helpers';
 
 type ItemsFromCookie = {
     token?: string;
