@@ -47,6 +47,7 @@ export type BindingsInfo = {
 export type AppsState = {
     main: BindingsInfo;
     rhs: BindingsInfo;
+    pluginEnabled: boolean;
 };
 
 export type AppBinding = {
