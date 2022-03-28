@@ -79,7 +79,7 @@ describe('components/ChangeURLModal', () => {
         const wrapper = mountWithIntl(
             <ChangeURLModal {...baseProps}/>,
         );
-        const value = 'a';
+        const value = '';
         const refURLInput = wrapper.find('input[type="text"]').getDOMNode() as HTMLInputElement;
         refURLInput.value = value;
 
