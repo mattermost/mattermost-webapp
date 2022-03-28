@@ -390,7 +390,6 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
 
         let multiSelectList;
 
-        // TODO: review calmly the below block, for sure can be optimized
         if (this.props.saveButtonPosition === 'bottom') {
             if (this.state.input) {
                 multiSelectList = (
