@@ -11,10 +11,10 @@ import {Tooltip} from 'react-bootstrap';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import {Post} from 'mattermost-redux/types/posts';
-import {AppBinding, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
-import {AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
+import {AppBinding} from 'mattermost-redux/types/apps';
+import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
-import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
+import {HandleBindingClick, PostEphemeralCallResponseForPost, OpenAppsModal} from 'types/apps';
 import {Locations, Constants, ModalIdentifiers} from 'utils/constants';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {ActionsTutorialTip} from 'components/actions_menu/actions_menu_tutorial_tip';
@@ -28,12 +28,12 @@ import Pluggable from 'plugins/pluggable';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import {PluginComponent} from 'types/store/plugins';
-import {createCallContext, createCallRequest} from 'utils/apps';
+import {createCallContext} from 'utils/apps';
 
 const MENU_BOTTOM_MARGIN = 80;
 
 export const PLUGGABLE_COMPONENT = 'PostDropdownMenuItem';
-type Props = {
+export type Props = {
     appBindings: AppBinding[] | null;
     appsEnabled: boolean;
     handleDropdownOpened?: (open: boolean) => void;
@@ -61,11 +61,6 @@ type Props = {
     actions: {
 
         /**
-         * Function to perform an app call
-         */
-        doAppCall: DoAppCall;
-
-        /**
          * Function to open a modal
          */
         openModal: <P>(modalData: ModalData<P>) => void;
@@ -75,7 +70,15 @@ type Props = {
          */
         postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
 
-        openAppsModal: (form: AppForm, call: AppCallRequest) => void;
+        /**
+         * Function to handle clicking of any post-menu bindings
+         */
+        handleBindingClick: HandleBindingClick;
+
+        /**
+         * Function to open the Apps modal with a form
+         */
+        openAppsModal: OpenAppsModal;
 
         /**
          * Function to get the post menu bindings for this post.
@@ -121,7 +124,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
     )
 
     componentDidUpdate(prevProps: Props) {
-        if (!this.state.appBindings && this.props.isMenuOpen && !prevProps.isMenuOpen) {
+        if (this.props.isMenuOpen && !prevProps.isMenuOpen) {
             this.fetchBindings();
         }
     }
@@ -135,9 +138,11 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
     }
 
     fetchBindings = () => {
-        this.props.actions.fetchBindings(this.props.userId, this.props.post.channel_id, this.props.teamId).then(({data}) => {
-            this.setState({appBindings: data});
-        });
+        if (this.props.appsEnabled && !this.state.appBindings) {
+            this.props.actions.fetchBindings(this.props.userId, this.props.post.channel_id, this.props.teamId).then(({data}) => {
+                this.setState({appBindings: data});
+            });
+        }
     }
 
     handleOpenMarketplace = (): void => {
@@ -151,11 +156,6 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
     onClickAppBinding = async (binding: AppBinding) => {
         const {post, intl} = this.props;
 
-        const call = binding.form?.call || binding.call;
-
-        if (!call) {
-            return;
-        }
         const context = createCallContext(
             binding.app_id,
             binding.location,
@@ -164,24 +164,12 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
             this.props.post.id,
             this.props.post.root_id,
         );
-        const callRequest = createCallRequest(
-            call,
-            context,
-            {
-                post: AppExpandLevels.ALL,
-            },
-        );
 
-        if (binding.form) {
-            this.props.actions.openAppsModal(binding.form, callRequest);
-            return;
-        }
-
-        const res = await this.props.actions.doAppCall(callRequest, AppCallTypes.SUBMIT, intl);
+        const res = await this.props.actions.handleBindingClick(binding, context, intl);
 
         if (res.error) {
             const errorResponse = res.error;
-            const errorMessage = errorResponse.error || intl.formatMessage({
+            const errorMessage = errorResponse.text || intl.formatMessage({
                 id: 'apps.error.unknown',
                 defaultMessage: 'Unknown error occurred.',
             });
@@ -192,15 +180,15 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         const callResp = res.data!;
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
-            if (callResp.markdown) {
-                this.props.actions.postEphemeralCallResponseForPost(callResp, callResp.markdown, post);
+            if (callResp.text) {
+                this.props.actions.postEphemeralCallResponseForPost(callResp, callResp.text, post);
             }
             break;
         case AppCallResponseTypes.NAVIGATE:
             break;
         case AppCallResponseTypes.FORM:
             if (callResp.form) {
-                this.props.actions.openAppsModal(callResp.form, callRequest);
+                this.props.actions.openAppsModal(callResp.form, context);
             }
             break;
         default: {

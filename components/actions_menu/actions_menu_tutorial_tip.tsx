@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import TourTip, {useMeasurePunchouts} from 'components/widgets/tour_tip';
+import TourTip from 'components/widgets/tour_tip';
 
 const translate = {x: 6, y: -16};
 
@@ -29,17 +29,12 @@ export const ActionsTutorialTip = ({handleOpen, handleDismiss, handleNext, showT
             defaultMessage='Message actions that are provided\nthrough apps, integrations or plugins\nhave moved to this menu item.'
         />
     );
-
-    const overlayPunchOut = useMeasurePunchouts([], []);
-
-    const nextBtn = (): JSX.Element => {
-        return (
-            <FormattedMessage
-                id={'tutorial_tip.got_it'}
-                defaultMessage={'Got it'}
-            />
-        );
-    };
+    const nextBtn = (
+        <FormattedMessage
+            id={'tutorial_tip.got_it'}
+            defaultMessage={'Got it'}
+        />
+    );
 
     return (
         <TourTip
@@ -47,7 +42,7 @@ export const ActionsTutorialTip = ({handleOpen, handleDismiss, handleNext, showT
             onHidden={handleDismiss}
             screen={screen}
             title={title}
-            overlayPunchOut={overlayPunchOut}
+            overlayPunchOut={null}
             placement='top'
             pulsatingDotPlacement='left'
             pulsatingDotTranslate={translate}
@@ -58,7 +53,7 @@ export const ActionsTutorialTip = ({handleOpen, handleDismiss, handleNext, showT
             handleDismiss={handleDismiss}
             handleNext={handleNext}
             handleOpen={handleOpen}
-            nextBtn={nextBtn()}
+            nextBtn={nextBtn}
         />
     );
 };

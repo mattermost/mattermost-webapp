@@ -90,7 +90,6 @@ export type EmojisRequestsStatuses = {
     createCustomEmoji: RequestStatusType;
     getCustomEmojis: RequestStatusType;
     deleteCustomEmoji: RequestStatusType;
-    getAllCustomEmojis: RequestStatusType;
     getCustomEmoji: RequestStatusType;
 };
 

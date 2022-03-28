@@ -47,6 +47,11 @@ describe('components/MenuItemAction', () => {
               >
                 Whatever
               </span>
+              <span
+                className="MenuItem__primary-text"
+              >
+                Whatever
+              </span>
             </button>
         `);
     });

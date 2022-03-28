@@ -4,9 +4,11 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import Constants from 'utils/constants';
+import {Overlay} from 'react-bootstrap';
 
-import PopoverListMembers from 'components/popover_list_members/popover_list_members.jsx';
+import PopoverListMembers from 'components/popover_list_members/popover_list_members';
+
+import {TestHelper} from 'utils/test_helper';
 
 jest.mock('utils/browser_history', () => {
     const original = jest.requireActual('utils/browser_history');
@@ -20,16 +22,15 @@ jest.mock('utils/browser_history', () => {
 
 describe('components/PopoverListMembers', () => {
     // required state to mount using the provider
-    const channel = {
+    const channel = TestHelper.getChannelMock({
         id: 'channel_id',
         name: 'channel-name',
         display_name: 'Channel Name',
-        type: Constants.DM_CHANNEl || 'D',
-    };
-    const users = [
-        {id: 'member_id_1', delete_at: 0},
-        {id: 'member_id_2', delete_at: 0},
-    ];
+        type: 'D',
+    });
+    const user1 = TestHelper.getUserMock({id: 'member_id_1', delete_at: 0});
+    const user2 = TestHelper.getUserMock({id: 'member_id_2', delete_at: 0});
+    const users = [user1, user2];
     const statuses = {
         member_id_1: 'online',
         member_id_2: 'offline',
@@ -49,7 +50,8 @@ describe('components/PopoverListMembers', () => {
         memberCount: 2,
         currentUserId: 'current_user_id',
         actions,
-        sortedUsers: [{id: 'member_id_1'}, {id: 'member_id_2'}],
+        sortedUsers: [user1, user2],
+        teamUrl: '/team',
     };
 
     const bottomProps = {
@@ -78,16 +80,18 @@ describe('components/PopoverListMembers', () => {
             <PopoverListMembers {...baseProps}/>,
         );
 
-        wrapper.instance().closePopover = jest.fn();
-        wrapper.instance().handleShowDirectChannel({
-            id: 'teammateId',
-        });
+        wrapper.find('#member_popover').prop('onClick')!({preventDefault: jest.fn()} as unknown as React.MouseEvent);
+        expect(wrapper.find(Overlay).prop('show')).toEqual(true);
+        wrapper.find(Overlay).prop('onHide')!();
+
+        const teamMate = TestHelper.getUserMock({id: 'teammateId', delete_at: 0});
+        wrapper.find('.more-modal__list').childAt(0).prop('onItemClick')(teamMate);
 
         expect(baseProps.actions.openDirectChannelToUserId).toHaveBeenCalledTimes(1);
         process.nextTick(() => {
             expect(browserHistory.push).toHaveBeenCalledTimes(1);
             expect(browserHistory.push).toHaveBeenCalledWith(`${baseProps.teamUrl}/channels/channelname`);
-            expect(wrapper.state('showPopover')).toEqual(false);
+            expect(wrapper.find(Overlay).prop('show')).toEqual(false);
             done();
         });
     });
@@ -97,11 +101,10 @@ describe('components/PopoverListMembers', () => {
             <PopoverListMembers {...baseProps}/>,
         );
 
-        wrapper.instance().componentDidUpdate = jest.fn();
-        wrapper.setState({showPopover: true});
-        wrapper.instance().closePopover();
-
-        expect(wrapper.state('showPopover')).toEqual(false);
+        wrapper.find('#member_popover').prop('onClick')!({preventDefault: jest.fn()} as unknown as React.MouseEvent);
+        expect(wrapper.find(Overlay).prop('show')).toEqual(true);
+        wrapper.find(Overlay).prop('onHide')!();
+        expect(wrapper.find(Overlay).prop('show')).toEqual(false);
     });
 
     test('should match snapshot with archived channel', () => {
