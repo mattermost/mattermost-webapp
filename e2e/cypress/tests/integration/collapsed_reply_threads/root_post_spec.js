@@ -16,6 +16,12 @@ describe('Collapsed Reply Threads', () => {
     let otherUser;
     let testChannel;
     let rootPost;
+    let replyPost;
+
+    const messages = {
+        ROOT: 'ROOT POST',
+        REPLY: 'REPLY',
+    };
 
     before(() => {
         cy.apiUpdateConfig({
@@ -37,11 +43,6 @@ describe('Collapsed Reply Threads', () => {
 
                 cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
                     cy.apiAddUserToChannel(testChannel.id, otherUser.id);
-
-                    // # Post a message as other user
-                    cy.postMessageAs({sender: otherUser, message: 'Root post: Delete test', channelId: testChannel.id}).then((post) => {
-                        rootPost = post;
-                    });
                 });
             });
         });
@@ -50,9 +51,20 @@ describe('Collapsed Reply Threads', () => {
     beforeEach(() => {
         // # Visit the channel
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+        cy.get('body').then((body) => {
+            if (body.find('.modal-header').length) {
+                cy.get('.modal-header button.close').first().click();
+            }
+        });
+
+        // # Post a message as other user
+        cy.postMessageAs({sender: otherUser, message: messages.ROOT, channelId: testChannel.id}).then((post) => {
+            rootPost = post;
+        });
     });
 
-    it('MM-T4445 CRT - Delete root post', () => {
+    it('MM-T4445 CRT - Delete root post (current behavior is incorrect, see comments below)', () => {
         /**
          * When you delete a post the current behavior in displaying it and the thread replies is incorrect.
          * Deleting a root post leads to a post showing `(message deleted)`, but still rendering the replies
@@ -64,7 +76,7 @@ describe('Collapsed Reply Threads', () => {
         cy.uiGetPostThreadFooter(rootPost.id).should('not.exist');
 
         // # Post a reply post as current user
-        cy.postMessageAs({sender: testUser, message: 'reply!', channelId: testChannel.id, rootId: rootPost.id});
+        cy.postMessageAs({sender: testUser, message: messages.REPLY, channelId: testChannel.id, rootId: rootPost.id});
 
         // # Visit global threads
         cy.uiClickSidebarItem('threads');
@@ -75,6 +87,9 @@ describe('Collapsed Reply Threads', () => {
         // # Delete thread root post
         cy.apiDeletePost(rootPost.id);
 
+        /**
+         * TODO: this should not be there once the root post is deleted, so remove it once the feature is adjusted
+         */
         // * There should be a single thread item showing '(message deleted)'
         cy.get('article.ThreadItem').should('have.lengthOf', 1).should('contain.text', '(message deleted)');
 
@@ -83,5 +98,50 @@ describe('Collapsed Reply Threads', () => {
 
         // * There should be no thread item anymore
         cy.get('article.ThreadItem').should('have.lengthOf', 0);
+    });
+
+    it('MM-T4446 delete single reply on thread (current behavior is incorrect, see comments)', () => {
+        /**
+         * When you delete a reply you are still following the thread, so the thread is not being removed
+         * from the global threads view. The test description was written differently asit was assuming the
+         * thread to not be followed after that. The test will be build keeping that in mind, but should
+         * probably be adjusted later on.
+         */
+        cy.uiWaitUntilMessagePostedIncludes(rootPost.data.message);
+
+        // # Thread footer should not exist
+        cy.uiGetPostThreadFooter(rootPost.id).should('not.exist');
+
+        // # Post a reply post as current user
+        cy.postMessageAs({sender: testUser, message: messages.REPLY, channelId: testChannel.id, rootId: rootPost.id}).then((post) => {
+            replyPost = post;
+
+            // # Visit global threads
+            cy.uiClickSidebarItem('threads');
+
+            // * There should be a single thread item
+            cy.get('article.ThreadItem').should('have.lengthOf', 1).first().click();
+
+            // * the reply should be in RHS
+            cy.get(`#rhsPostMessageText_${replyPost.id}`).should('be.visible').should('contain.text', messages.REPLY);
+
+            // # Delete thread reply post
+            cy.apiDeletePost(replyPost.id);
+
+            // * There should be a single thread item
+            cy.get('article.ThreadItem').should('have.lengthOf', 1);
+
+            // * The reply should be in RHS showing '(message deleted)'
+            cy.get(`#rhsPost_${replyPost.id}`).should('be.visible').should('contain.text', '(message deleted)');
+
+            // # Login as testUser
+            cy.apiLogin(testUser);
+
+            // # Reload to re-render UI
+            cy.reload();
+
+            // * There should be a single thread item with no reply
+            cy.get('article.ThreadItem').should('have.lengthOf', 1).first().find(`#rhsPost_${replyPost.id}`).should('have.lengthOf', 0);
+        });
     });
 });
