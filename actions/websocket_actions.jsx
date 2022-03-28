@@ -80,7 +80,7 @@ import {
 } from 'mattermost-redux/selectors/entities/channels';
 import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
-import {appsConfiguredAsEnabled} from 'mattermost-redux/selectors/entities/apps';
+import {appsFeatureFlagEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
 import {fetchAppBindings, fetchRHSAppsBindings} from 'mattermost-redux/actions/apps';
@@ -208,7 +208,7 @@ export function reconnect(includeWebSocket = true) {
         const mostRecentId = getMostRecentPostIdInChannel(state, currentChannelId);
         const mostRecentPost = getPost(state, mostRecentId);
 
-        if (appsConfiguredAsEnabled(state)) {
+        if (appsFeatureFlagEnabled(state)) {
             dispatch(handleRefreshAppsBindings());
         }
 

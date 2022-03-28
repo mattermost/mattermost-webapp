@@ -18,7 +18,7 @@ import {Locations} from 'utils/constants';
 
 export const appsPluginIsEnabled = (state: GlobalState) => state.entities.apps.pluginEnabled;
 
-export const appsConfiguredAsEnabled = createSelector(
+export const appsFeatureFlagEnabled = createSelector(
     'appsConfiguredAsEnabled',
     (state: GlobalState) => getConfig(state),
     (config: Partial<ClientConfig>) => {
@@ -28,7 +28,7 @@ export const appsConfiguredAsEnabled = createSelector(
 
 export const appsEnabled = createSelector(
     'appsEnabled',
-    appsConfiguredAsEnabled,
+    appsFeatureFlagEnabled,
     appsPluginIsEnabled,
     (featureFlagEnabled: boolean, pluginEnabled: boolean) => {
         return featureFlagEnabled && pluginEnabled;
