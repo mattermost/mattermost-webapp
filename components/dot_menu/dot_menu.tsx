@@ -408,21 +408,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             openUp: (spaceOnTop > spaceOnBottom),
         });
     }
-    shortcutKey = (key: string) => {
-        return (
-            <span
-                className={classNames([
-                    'MenuItem__opacity',
-                    'MenuItem__right-decorator',
-                    {
-                        'MenuItem__text-color': !true,
-                    },
-                ])}
-            >
-                {key}
-            </span>
-        );
-    };
 
     render(): JSX.Element {
         const isMobile = this.props.isMobileView;
@@ -436,7 +421,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         return (
             <MenuWrapper
                 open={this.props.isMenuOpen}
-
                 onToggle={this.handleDropdownOpened}
             >
                 <OverlayTrigger
@@ -486,8 +470,8 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     </ChannelPermissionGate>
                     <Menu.ItemAction
                         id={`follow_post_thread_${this.props.post.id}`}
-                        onClick={this.handleSetThreadFollow}
                         rightDecorator={<ShortcutKey shortcutKey='F'/>}
+                        onClick={this.handleSetThreadFollow}
                         show={(
                             !isSystemMessage &&
                             this.props.isCollapsedThreadsEnabled &&
