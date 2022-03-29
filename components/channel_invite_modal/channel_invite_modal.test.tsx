@@ -223,10 +223,34 @@ describe('components/channel_invite_modal', () => {
     });
 
     test('should send the invite as guest param through the link', () => {
+        const props = {
+            ...baseProps,
+            canInviteGuests: true,
+            emailInvitationsEnabled: true,
+        };
         const wrapper = shallow<ChannelInviteModal>(
-            <ChannelInviteModal {...baseProps}/>,
+            <ChannelInviteModal {...props}/>,
         );
 
-        expect(wrapper.find('InviteModalLink').prop('inviteAsGuest')).toBeTruthy();
+        const invitationLink = wrapper.find('InviteModalLink');
+
+        expect(invitationLink).toHaveLength(1);
+
+        expect(invitationLink.prop('inviteAsGuest')).toBeTruthy();
+    });
+
+    test('should hide the invite as guest param when can not invite guests', () => {
+        const props = {
+            ...baseProps,
+            canInviteGuests: false,
+            emailInvitationsEnabled: false,
+        };
+        const wrapper = shallow<ChannelInviteModal>(
+            <ChannelInviteModal {...props}/>,
+        );
+
+        const invitationLink = wrapper.find('InviteModalLink');
+
+        expect(invitationLink).toHaveLength(0);
     });
 });

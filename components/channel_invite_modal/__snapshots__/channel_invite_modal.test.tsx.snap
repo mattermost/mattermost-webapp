@@ -68,21 +68,7 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
         backButtonText="Cancel"
         buttonSubmitLoadingText="Adding..."
         buttonSubmitText="Add"
-        customNoOptionsMessage={
-          <div
-            className="custom-no-options-message"
-          >
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="No matches found - <InvitationModalLink>Invite them to the team</InvitationModalLink>"
-              id="channel_invite.no_options_message"
-              values={
-                Object {
-                  "InvitationModalLink": [Function],
-                }
-              }
-            />
-          </div>
-        }
+        customNoOptionsMessage={null}
         focusOnLoad={true}
         handleAdd={[Function]}
         handleCancel={[Function]}
@@ -123,14 +109,6 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
         valueWithImage={true}
         values={Array []}
       />
-      <InviteModalLink
-        inviteAsGuest={true}
-      >
-        <MemoizedFormattedMessage
-          defaultMessage="Invite as a Guest"
-          id="channel_invite.invite_guest"
-        />
-      </InviteModalLink>
     </div>
   </ModalBody>
 </Modal>
@@ -258,21 +236,7 @@ exports[`components/channel_invite_modal should match snapshot with exclude and 
         backButtonText="Cancel"
         buttonSubmitLoadingText="Adding..."
         buttonSubmitText="Add"
-        customNoOptionsMessage={
-          <div
-            className="custom-no-options-message"
-          >
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="No matches found - <InvitationModalLink>Invite them to the team</InvitationModalLink>"
-              id="channel_invite.no_options_message"
-              values={
-                Object {
-                  "InvitationModalLink": [Function],
-                }
-              }
-            />
-          </div>
-        }
+        customNoOptionsMessage={null}
         focusOnLoad={true}
         handleAdd={[Function]}
         handleCancel={[Function]}
@@ -313,14 +277,6 @@ exports[`components/channel_invite_modal should match snapshot with exclude and 
         valueWithImage={true}
         values={Array []}
       />
-      <InviteModalLink
-        inviteAsGuest={true}
-      >
-        <MemoizedFormattedMessage
-          defaultMessage="Invite as a Guest"
-          id="channel_invite.invite_guest"
-        />
-      </InviteModalLink>
     </div>
   </ModalBody>
 </Modal>
