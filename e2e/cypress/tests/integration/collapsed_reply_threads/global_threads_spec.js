@@ -77,6 +77,46 @@ describe('Collapsed Reply Threads', () => {
         });
     });
 
+    it('MM-T4379: Display: Click to open threads)', () => {
+        cy.uiWaitUntilMessagePostedIncludes(rootPost.data.message);
+
+        // # Get the root post
+        cy.getLastPost().click();
+
+        // * Verify the post is opened in RHS
+        cy.get(`#rhsPost_${rootPost.id}`).should('be.visible');
+
+        // # close RHS
+        cy.uiCloseRHS();
+
+        // # open settings modal and disable opening the thread in RHS when being clicked
+        cy.uiOpenSettingsModal('Display');
+
+        // # open section "click to open threads"
+        cy.get('#click_to_replyTitle').click();
+
+        // # click radio button with option B ('off')
+        cy.get('#click_to_replyFormatB').click();
+
+        // # save settings
+        cy.get('#saveSetting').click();
+
+        // # close settings modal
+        cy.uiClose();
+
+        // # (re-) Visit the channel
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+        // # Get the root post
+        cy.getLastPost().click();
+
+        // * Verify the post is opened in RHS
+        cy.get(`rhsPost_${rootPost.id}`).should('not.exist');
+
+        // # Cleanup for next test
+        cy.apiDeletePost(rootPost.id);
+    });
+
     it('MM-T4445: CRT - Delete root post (current behavior is incorrect, see comments)', () => {
         /**
          * When you delete a post the current behavior in displaying it and the thread replies is incorrect.
