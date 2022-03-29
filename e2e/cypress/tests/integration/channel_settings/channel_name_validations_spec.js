@@ -31,9 +31,6 @@ describe('Channel routing', () => {
     });
 
     it('MM-T884_1 Renaming channel name validates against two user IDs being used in URL', () => {
-        // # click on create public channel
-        cy.uiBrowseOrCreateChannel('Create New Channel').click();
-
         // # Create new test channel
         cy.uiCreateChannel({name: 'Test__Channel'});
 
