@@ -959,8 +959,8 @@ export const sortUnreadChannels = (
     channels: Channel[],
     myMembers: RelationOneToOne<Channel, ChannelMembership>,
     lastPosts: RelationOneToOne<Channel, Post>,
+    lastUnreadChannel: LastUnreadChannel | null,
     crtEnabled: boolean,
-    lastUnreadChannel?: LastUnreadChannel | null,
 ) => {
     function isMuted(channel: Channel) {
         return isChannelMuted(myMembers[channel.id]);
@@ -1018,10 +1018,9 @@ export const getSortedAllTeamsUnreadChannels: (state: GlobalState, lastUnreadCha
     getUnsortedAllTeamsUnreadChannels,
     getMyChannelMemberships,
     getLastPostPerChannel,
-    (state: GlobalState, lastUnreadChannel: LastUnreadChannel | undefined | null = null): LastUnreadChannel | undefined | null => lastUnreadChannel,
     isCollapsedThreadsEnabled,
-    (channels, myMembers, lastPosts, lastUnreadChannel, crtEnabled) => {
-        return sortUnreadChannels(channels, myMembers, lastPosts, crtEnabled, lastUnreadChannel);
+    (channels, myMembers, lastPosts, crtEnabled) => {
+        return sortUnreadChannels(channels, myMembers, lastPosts, null, crtEnabled);
     },
 );
 

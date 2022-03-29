@@ -147,7 +147,7 @@ export const getUnreadChannels = (() => {
         (state: GlobalState) => state.views.channel.lastUnreadChannel,
         isCollapsedThreadsEnabled,
         (channels, myMembers, lastPosts, lastUnreadChannel, crtEnabled) => {
-            return sortUnreadChannels(channels, myMembers, lastPosts, crtEnabled, lastUnreadChannel);
+            return sortUnreadChannels(channels, myMembers, lastPosts, lastUnreadChannel, crtEnabled);
         },
     );
 
