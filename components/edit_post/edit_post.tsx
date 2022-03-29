@@ -5,8 +5,8 @@ import React, {ClipboardEventHandler, memo, useCallback, useEffect, useRef, useS
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 
+import {ModalData} from 'types/actions';
 import {ClientConfig} from 'mattermost-redux/types/config';
-
 import {Post} from 'mattermost-redux/types/posts';
 import {Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
 
@@ -22,11 +22,10 @@ import {isMac} from 'utils/utils';
 import * as Utils from 'utils/utils';
 
 import DeletePostModal from 'components/delete_post_modal';
+import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Textbox, {TextboxClass} from 'components/textbox';
-import EmojiIcon from 'components/widgets/icons/emoji_icon';
-import {ModalData} from 'types/actions';
 
 type DialogProps = {
     post?: Post;
