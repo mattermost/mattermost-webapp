@@ -116,7 +116,7 @@ export const getThreadOrderInCurrentTeam: (state: GlobalState, selectedThreadIdI
     },
 );
 
-export const getNewestThreadInTeam: ( state: GlobalState, teamID: string,) => (UserThread | null) = createSelector(
+export const getNewestThreadInTeam: (state: GlobalState, teamID: string,) => (UserThread | null) = createSelector(
     'getNewestThreadInTeam',
     getThreadsInTeam,
     getThreads,
@@ -124,16 +124,16 @@ export const getNewestThreadInTeam: ( state: GlobalState, teamID: string,) => (U
     (
         threadsInTeam,
         threads,
-        teamID: string
+        teamID: string,
     ) => {
         const threadsInGivenTeam = threadsInTeam?.[teamID] ?? [];
         if (!threadsInGivenTeam) {
-            return null
+            return null;
         }
         const ids = [...threadsInGivenTeam.filter((id) => threads[id].is_following)];
         return threads[sortByLastReply(ids, threads)[0]];
     },
-)
+);
 
 export const getUnreadThreadOrderInCurrentTeam: (
     state: GlobalState,

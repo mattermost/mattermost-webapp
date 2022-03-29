@@ -131,7 +131,7 @@ export function getAllUnreadThreads(userId: string, teamId: string) {
     };
 }
 
-export function getCountsAndThreadsSince(userId: string, teamId:string, since?: number) {
+export function getCountsAndThreadsSince(userId: string, teamId: string, since?: number) {
     return async (dispatch: DispatchFunc) => {
         const response = await dispatch(fetchThreads(userId, teamId, {since, totalsOnly: false, threadsOnly: false, extended: true}));
 

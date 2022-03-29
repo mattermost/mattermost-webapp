@@ -222,8 +222,8 @@ export function reconnect(includeWebSocket = true) {
         const crtEnabled = isCollapsedThreadsEnabled(state);
         dispatch(TeamActions.getMyTeamUnreads(crtEnabled, true));
         if (crtEnabled) {
-            const newestThread = getNewestThreadInTeam(state, currentTeamId)
-            dispatch(getCountsAndThreadsSince(currentUserId, currentTeamId, newestThread?newestThread.last_reply_at:0));
+            const newestThread = getNewestThreadInTeam(state, currentTeamId);
+            dispatch(getCountsAndThreadsSince(currentUserId, currentTeamId, newestThread ? newestThread.last_reply_at : 0));
         }
     }
 
