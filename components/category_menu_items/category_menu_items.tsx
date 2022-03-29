@@ -87,10 +87,10 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
 
         // As translation can be Uppercase and Styling is Capatlised case, converting text lower case to avoid conflict with styling
         if (category.type === CategoryTypes.FAVORITES) {
-            text = intl.formatMessage({id: 'sidebar.types.favorites', defaultMessage: 'Favorites'}).toLowerCase();
+            text = intl.formatMessage({id: 'sidebar.types.favorites', defaultMessage: 'Favorites'});
         }
         if (category.type === CategoryTypes.CHANNELS) {
-            text = intl.formatMessage({id: 'sidebar.types.channels', defaultMessage: 'Channels'}).toLowerCase();
+            text = intl.formatMessage({id: 'sidebar.types.channels', defaultMessage: 'Channels'});
         }
 
         return {
