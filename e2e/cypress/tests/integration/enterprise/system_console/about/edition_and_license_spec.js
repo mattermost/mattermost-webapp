@@ -109,10 +109,10 @@ function verifyCreatePublicChannel(teamName, testUsers) {
 
         cy.findByRole('dialog', {name: 'Create a new channel'}).within(() => {
             // * Verify if creating a public channel is disabled or not
-            cy.get('#O.public-private-selector-button').should(canCreate ? 'not.have.class' : 'have.class', 'disabled');
+            cy.get('#O.public-private-selector-button').should(isSysadmin || canCreate ? 'not.have.class' : 'have.class', 'disabled');
 
-            // * Verify if creating a private channel is disabled or not
-            cy.get('#P.public-private-selector-button').should(isSysadmin ? 'not.have.class' : 'have.class', 'disabled');
+            // * Verify if creating a private channel is not disabled
+            cy.get('#P.public-private-selector-button').should('not.have.class', 'disabled');
         });
     }
 }
