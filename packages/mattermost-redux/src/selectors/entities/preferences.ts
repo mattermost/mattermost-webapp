@@ -215,6 +215,6 @@ export function getUseCaseOnboarding(state: GlobalState): boolean {
     return getFeatureFlagValue(state, 'UseCaseOnboarding') === 'true';
 }
 
-export function isInsightsEnabled(state: GlobalState): boolean {
+export function insightsAreEnabled(state: GlobalState): boolean {
     return getFeatureFlagValue(state, 'InsightsEnabled') === 'true';
 }

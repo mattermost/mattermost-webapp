@@ -1,6 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {memo, useState, useCallback} from 'react';
+import React, {memo, useEffect, useState, useCallback} from 'react';
+import {useDispatch} from 'react-redux';
+
+import {selectChannel} from 'mattermost-redux/actions/channels';
 
 import {localizeMessage} from 'utils/utils';
 
@@ -9,6 +12,7 @@ import InsightsHeader from './insights_header/insights_header';
 import './../activity_and_insights.scss';
 
 const Insights = () => {
+    const dispatch = useDispatch();
     const [filterType, setFilterType] = useState('my');
     const [timeFrame, setTimeFrame] = useState({
         value: '1_day',
@@ -25,6 +29,9 @@ const Insights = () => {
 
     const setTimeFrameValue = useCallback((value) => {
         setTimeFrame(value);
+
+    useEffect(() => {
+        dispatch(selectChannel(''));
     }, []);
 
     return (

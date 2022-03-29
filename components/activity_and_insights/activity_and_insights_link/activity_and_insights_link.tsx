@@ -8,7 +8,7 @@ import {useSelector} from 'react-redux';
 import classNames from 'classnames';
 import Icon from '@mattermost/compass-components/foundations/icon';
 
-import {isInsightsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {insightsAreEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {t} from 'utils/i18n';
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -16,7 +16,7 @@ import './activity_and_insights_link.scss';
 
 const ActivityAndInsightsLink = () => {
     const {formatMessage} = useIntl();
-    const insightsEnabled = useSelector(isInsightsEnabled);
+    const insightsEnabled = useSelector(insightsAreEnabled);
 
     const {url} = useRouteMatch();
     const {pathname} = useLocation();
