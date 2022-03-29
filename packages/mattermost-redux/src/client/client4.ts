@@ -1421,7 +1421,7 @@ export default class Client4 {
         emails: string[],
         message: string,
     ) => {
-        this.trackEvent('api', 'api_teams_invite_members_to_channels', {team_id: teamId, channel_ids: channelIds});
+        this.trackEvent('api', 'api_teams_invite_members_to_channels', {team_id: teamId, channel_len: channelIds.length});
 
         return this.doFetch<TeamInviteWithError>(
             `${this.getTeamRoute(teamId)}/invite/email?graceful=true`,
