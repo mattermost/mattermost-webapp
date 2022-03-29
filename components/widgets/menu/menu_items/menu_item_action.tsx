@@ -30,35 +30,13 @@ export const MenuItemActionImpl = ({
         data-testid={id}
         id={id}
         aria-label={ariaLabel}
-        className={
-            classNames([
-                'style--none',
-                {
-                    'MenuItem__with-help': extraText,
-                    [`${buttonClass}`]: buttonClass,
-                    MenuItem__dangerous: isDangerous,
-                },
-            ])
-        }
+        className={classNames('style--none', buttonClass, {
+            'MenuItem__with-help': extraText,
+            MenuItem__dangerous: isDangerous,
+        })}
         onClick={onClick}
     >
-        {text && (
-            <React.Fragment>
-                <span>
-                    <span className='MenuItem__primary-text'>{text}</span>
-                    <span
-                        className={classNames([
-                            'MenuItem__right-decorator',
-                            {
-                                'MenuItem__text-color': !isDangerous,
-                            },
-                        ])}
-                    >
-                        {rightDecorator}
-                    </span>
-                </span>
-            </React.Fragment>
-        )}
+        {text && <span className='MenuItem__primary-text'>{text}{rightDecorator}</span>}
         {extraText && <span className='MenuItem__help-text'>{extraText}</span>}
     </button>
 );

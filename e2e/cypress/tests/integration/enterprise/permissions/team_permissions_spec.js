@@ -150,8 +150,8 @@ describe('Team Permissions', () => {
         // # Click on create new channel at LHS
         cy.uiBrowseOrCreateChannel('Create New Channel').click();
 
-        // * Verify that the create private channel is not present
-        cy.findByRole('dialog', {name: 'New Channel'}).find('.radio').should('have.length', 1).and('contain', 'Public').and('not.contain', 'Private');
+        // * Verify that the create private channel is disabled
+        cy.findByRole('dialog', {name: 'Create a new channel'}).find('#public-private-selector-button-P').should('have.class', 'disabled');
     });
 
     it('MM-T2900 As a Channel Admin, the test user is now able to add or remove other users from public channel', () => {

@@ -167,6 +167,8 @@ export const ActionTypes = keyMirror({
     UPDATE_RHS_SEARCH_TYPE: null,
     UPDATE_RHS_SEARCH_RESULTS_TERMS: null,
 
+    RHS_GO_BACK: null,
+
     SET_RHS_EXPANDED: null,
     TOGGLE_RHS_EXPANDED: null,
 
@@ -344,7 +346,7 @@ export const ModalIdentifiers = {
     CONFIRM_NOTIFY_ADMIN: 'confirm_notify_admin',
     REMOVE_NEXT_STEPS_MODAL: 'remove_next_steps_modal',
     MORE_CHANNELS: 'more_channels',
-    NEW_CHANNEL_FLOW: 'new_channel_flow',
+    NEW_CHANNEL_MODAL: 'new_channel_modal',
     CLOUD_PURCHASE: 'cloud_purchase',
     DND_CUSTOM_TIME_PICKER: 'dnd_custom_time_picker',
     CUSTOM_STATUS: 'custom_status',
@@ -493,6 +495,8 @@ export const SocketEvents = {
     USER_ACTIVATION_STATUS_CHANGED: 'user_activation_status_change',
     CLOUD_PAYMENT_STATUS_UPDATED: 'cloud_payment_status_updated',
     APPS_FRAMEWORK_REFRESH_BINDINGS: 'custom_com.mattermost.apps_refresh_bindings',
+    APPS_FRAMEWORK_PLUGIN_ENABLED: 'custom_com.mattermost.apps_plugin_enabled',
+    APPS_FRAMEWORK_PLUGIN_DISABLED: 'custom_com.mattermost.apps_plugin_disabled',
     FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED: 'first_admin_visit_marketplace_status_received',
     THREAD_UPDATED: 'thread_updated',
     THREAD_FOLLOW_CHANGED: 'thread_follow_changed',
@@ -575,6 +579,8 @@ export const TELEMETRY_CATEGORIES = {
 };
 
 export const TELEMETRY_LABELS = {
+    UNSAVE: 'unsave',
+    SAVE: 'save',
     COPY_LINK: 'copy_link',
     COPY_TEXT: 'copy_text',
     DELETE: 'delete',
@@ -1672,6 +1678,8 @@ export const Constants = {
     MAX_TEAMDESCRIPTION_LENGTH: 50,
     MIN_CHANNELNAME_LENGTH: 2,
     MAX_CHANNELNAME_LENGTH: 64,
+    DEFAULT_CHANNELURL_SHORTEN_LENGTH: 52,
+    MAX_CHANNELPURPOSE_LENGTH: 250,
     MAX_FIRSTNAME_LENGTH: 64,
     MAX_LASTNAME_LENGTH: 64,
     MAX_EMAIL_LENGTH: 128,
