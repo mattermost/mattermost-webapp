@@ -11,7 +11,6 @@ import VersionBar from './version_bar';
 import TextDismissableBar from './text_dismissable_bar';
 import AnnouncementBar from './default_announcement_bar';
 
-import CloudAnnouncementBar from './cloud_announcement_bar';
 import PaymentAnnouncementBar from './payment_announcement_bar';
 import CloudTrialAnnouncementBar from './cloud_trial_announcement_bar';
 import AutoStartTrialModal from './show_start_trial_modal/show_start_trial_modal';
@@ -59,13 +58,10 @@ class AnnouncementBarController extends React.PureComponent<Props> {
                 />
             );
         }
-        let cloudAnnouncementBar = null;
+
         let paymentAnnouncementBar = null;
         let cloudTrialAnnouncementBar = null;
         if (this.props.license?.Cloud === 'true') {
-            cloudAnnouncementBar = (
-                <CloudAnnouncementBar/>
-            );
             paymentAnnouncementBar = (
                 <PaymentAnnouncementBar/>
             );
@@ -78,7 +74,6 @@ class AnnouncementBarController extends React.PureComponent<Props> {
             <>
                 {adminConfiguredAnnouncementBar}
                 {errorBar}
-                {cloudAnnouncementBar}
                 {paymentAnnouncementBar}
                 {cloudTrialAnnouncementBar}
                 <AutoStartTrialModal/>
