@@ -74,6 +74,11 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       teamId="team_id_1"
     >
       <MenuItemAction
+        icon={
+          <span
+            className="icon-emoticon-plus-outline MenuItem__compass-icon"
+          />
+        }
         onClick={[Function]}
         show={false}
         text="Add Reaction"
@@ -112,12 +117,32 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       text="Mark as Unread"
     />
     <MenuItemAction
+      icon={
+        <span
+          className="icon-bookmark MenuItem__compass-icon"
+        />
+      }
       onClick={[Function]}
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="S"
+        />
+      }
       show={false}
       text="Remove from Saved"
     />
     <MenuItemAction
+      icon={
+        <span
+          className="icon-bookmark-outline MenuItem__compass-icon"
+        />
+      }
       onClick={[Function]}
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="S"
+        />
+      }
       show={false}
       text="Save"
     />
@@ -308,6 +333,11 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       teamId="team_id_1"
     >
       <MenuItemAction
+        icon={
+          <span
+            className="icon-emoticon-plus-outline MenuItem__compass-icon"
+          />
+        }
         onClick={[Function]}
         show={false}
         text="Add Reaction"
@@ -346,12 +376,32 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       text="Mark as Unread"
     />
     <MenuItemAction
+      icon={
+        <span
+          className="icon-bookmark MenuItem__compass-icon"
+        />
+      }
       onClick={[Function]}
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="S"
+        />
+      }
       show={false}
       text="Remove from Saved"
     />
     <MenuItemAction
+      icon={
+        <span
+          className="icon-bookmark-outline MenuItem__compass-icon"
+        />
+      }
       onClick={[Function]}
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="S"
+        />
+      }
       show={false}
       text="Save"
     />

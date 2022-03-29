@@ -579,6 +579,8 @@ export const TELEMETRY_CATEGORIES = {
 };
 
 export const TELEMETRY_LABELS = {
+    UNSAVE: 'unsave',
+    SAVE: 'save',
     COPY_LINK: 'copy_link',
     COPY_TEXT: 'copy_text',
     DELETE: 'delete',
