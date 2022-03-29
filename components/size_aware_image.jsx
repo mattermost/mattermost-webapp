@@ -167,7 +167,6 @@ export default class SizeAwareImage extends React.PureComponent {
             enablePublicLink,
             ...props
         } = this.props;
-
         Reflect.deleteProperty(props, 'showLoader');
         Reflect.deleteProperty(props, 'onImageLoaded');
         Reflect.deleteProperty(props, 'onImageLoadFail');
@@ -293,7 +292,8 @@ export default class SizeAwareImage extends React.PureComponent {
             if (this.state.imageWidth < MIN_IMAGE_SIZE) {
                 className += ' small-image__container--min-width';
             }
-
+            // 24 is the offset on a 48px wide image, for every pixel added to the width of the image, it's added to the left offset to buttons
+            let wideImageButtonsOffset = 24 + this.state.imageWidth - MIN_IMAGE_SIZE;
             return (
                 <div
                     className='small-image-utility-buttons-wrapper'
@@ -309,30 +309,44 @@ export default class SizeAwareImage extends React.PureComponent {
                     </div>
                     <span
                         className={classNames('image-preview-utility-buttons-container', 'image-preview-utility-buttons-container--small-image', {
-                            'image-preview-utility-buttons-container--small-image-no-copy-button': !enablePublicLink || !this.isInternalImage,
+                            'image-preview-utility-buttons-container--small-image-no-copy-button': !enablePublicLink,
                         })}
+                        // since there is a max-width constraint on images, a max-left clause follows.
+                        style={this.state.imageWidth > MIN_IMAGE_SIZE ? (
+                            // cases with no copy link buttons has different offsets than with copy buttons
+                            !enablePublicLink ? {left : `min(${wideImageButtonsOffset + 8}px, calc(100% - 24px)`}
+                            :  {left : `min(${wideImageButtonsOffset}px, calc(100% - 32px)`}
+                         ) : {}}
                     >
-                        {(enablePublicLink || !this.isInternalImage) && copyLink}
+                        {(enablePublicLink) && copyLink}
                         {download}
                     </span>
                 </div>
             );
         }
 
+        let utilityButtonsWrapper = null;
+        // handling external small images
+        if (this.state.isSmallImage && !this.isInternalImage) {
+            utilityButtonsWrapper = <></>;
+        } else {
+            // handling all large internal / large external images
+            utilityButtonsWrapper = <span
+                className={classNames('image-preview-utility-buttons-container', {
+
+                    // cases for when image isn't a small image but width is < 100px
+                    'image-preview-utility-buttons-container--small-image': this.state.imageWidth < MIN_IMAGE_SIZE_FOR_INTERNAL_BUTTONS,
+                    'image-preview-utility-buttons-container--small-image-no-copy-button': (!enablePublicLink || !this.isInternalImage) && this.state.imageWidth < MIN_IMAGE_SIZE_FOR_INTERNAL_BUTTONS,
+                })}
+            >
+                {(enablePublicLink || !this.isInternalImage) && copyLink}
+                {download}
+            </span>;
+        }
         return (
             <figure className={classNames('image-loaded-container')}>
                 {image}
-                <span
-                    className={classNames('image-preview-utility-buttons-container', {
-
-                        // cases for when image isn't a small image but width is < 100px
-                        'image-preview-utility-buttons-container--small-image': this.state.imageWidth < MIN_IMAGE_SIZE_FOR_INTERNAL_BUTTONS,
-                        'image-preview-utility-buttons-container--small-image-no-copy-button': (!enablePublicLink || !this.isInternalImage) && this.state.imageWidth < MIN_IMAGE_SIZE_FOR_INTERNAL_BUTTONS,
-                    })}
-                >
-                    {(enablePublicLink || !this.isInternalImage) && copyLink}
-                    {download}
-                </span>
+                {utilityButtonsWrapper}
             </figure>
         );
     }

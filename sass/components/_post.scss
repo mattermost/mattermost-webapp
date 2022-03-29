@@ -1710,12 +1710,14 @@
 
         &--small-image {
             position: absolute;
+            left: 24px;
             top: -8px;
-            right: -39px;
+            width: 68px;
         }
 
         &--small-image-no-copy-button {
-            right: -15px;
+            left: 32px;
+            width: 38px;
         }
 
         &:hover button.size-aware-image__copy_link,
@@ -1734,8 +1736,6 @@
     }
 
     .small-image-utility-buttons-wrapper {
-        position: relative;
-        display: inline-block;
 
         &:hover .image-preview-utility-buttons-container {
             display: inline-block;
