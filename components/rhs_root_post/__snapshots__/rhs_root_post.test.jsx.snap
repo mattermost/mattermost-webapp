@@ -321,6 +321,7 @@ exports[`components/RhsRootPost should match snapshot hovered 1`] = `
             handleNextTip={[Function]}
             handleOpenTip={[Function]}
             isMenuOpen={false}
+            location="RHS_ROOT"
             post={
               Object {
                 "channel_id": "channel_id",

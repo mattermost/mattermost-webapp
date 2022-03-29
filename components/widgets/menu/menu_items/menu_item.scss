@@ -19,9 +19,7 @@
 
         .MenuItem__icon {
             width: 20px;
-            margin-top: 4px;
-            margin-right: 12px;
-            font-size: 18px;
+            margin-right: 8px;
             text-align: center;
         }
 
@@ -45,21 +43,12 @@
             height: 16px; // less 3px top padding is 16px;
             align-self: center;
             padding-right: 12px;
-            margin-top: -1px;
             line-height: 16px;
         }
 
         span.MenuItem__primary-text {
             display: inline-flex;
-            padding: 5px 4px;
-            line-height: 22px;
-            white-space: normal;
-        }
-
-        span.MenuItem__right-decorator {
-            display: inline-flex;
             padding: 5px 0;
-            float: right;
             line-height: 22px;
             white-space: normal;
         }
@@ -125,7 +114,7 @@
                 height: 20px;
                 align-items: center;
                 justify-content: center;
-                margin-right: 12px;
+                margin-right: 8px;
             }
 
             &.MenuItem__dangerous {
