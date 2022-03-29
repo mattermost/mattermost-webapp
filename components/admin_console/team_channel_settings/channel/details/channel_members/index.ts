@@ -77,6 +77,7 @@ function makeMapStateToProps() {
                 channel_id: channelId,
                 pinnedpost_count: 0,
                 guest_count: 0,
+                files_count: 0,
             };
             totalCount = stats.member_count;
         } else {
