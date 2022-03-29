@@ -188,6 +188,8 @@ export function sendMembersInvitesToChannels(
 ): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         if (users.length > 0) {
+            // used to preload in the global store the teammembers info, used later to validate
+            // if one of the invites is already part of the team by getTeamMembers > getMembersInTeam.
             await dispatch(TeamActions.getTeamMembersByIds(teamId, users.map((u) => u.id)));
         }
         const state = getState();

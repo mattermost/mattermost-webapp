@@ -21,7 +21,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import ResultView, {ResultState, defaultResultState, InviteResults} from './result_view';
-import InviteView, {InviteState, defaultInviteState} from './invite_view';
+import InviteView, {InviteState, initializeInviteState} from './invite_view';
 import NoPermissionsView from './no_permissions_view';
 import {InviteType} from './invite_as';
 
@@ -95,7 +95,7 @@ export class InvitationModal extends React.PureComponent<Props, State> {
     defaultState: State = deepFreeze({
         view: View.INVITE,
         termWithoutResults: null,
-        invite: defaultInviteState(this.props.initialValue || '', this.props.inviteAsGuest),
+        invite: initializeInviteState(this.props.initialValue || '', this.props.inviteAsGuest),
         result: defaultResultState,
         show: true,
     });
@@ -236,7 +236,7 @@ export class InvitationModal extends React.PureComponent<Props, State> {
         this.setState((state: State) => ({
             view: View.INVITE,
             invite: {
-                ...defaultInviteState(),
+                ...initializeInviteState(),
                 inviteType: state.invite.inviteType,
                 customMessage: state.invite.customMessage,
                 inviteChannels: state.invite.inviteChannels,

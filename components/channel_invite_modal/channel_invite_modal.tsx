@@ -358,7 +358,6 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                 buttonSubmitLoadingText={buttonSubmitLoadingText}
                 saving={this.state.saving}
                 loading={this.state.loadingUsers}
-                numRemainingText={false}
                 placeholderText={localizeMessage('multiselect.placeholder', 'Search for people')}
                 valueWithImage={true}
                 backButtonText={localizeMessage('multiselect.cancel', 'Cancel')}

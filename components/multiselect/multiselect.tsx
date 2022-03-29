@@ -296,7 +296,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
         let numRemainingText;
         if (this.props.numRemainingText) {
             numRemainingText = this.props.numRemainingText;
-        } else if (this.props.maxValues != null) {
+        } else if (this.props.maxValues != null && this.props.maxValues !== undefined) {
             numRemainingText = (
                 <FormattedMessage
                     id='multiselect.numRemaining'

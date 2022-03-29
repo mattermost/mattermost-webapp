@@ -26,7 +26,7 @@ import AddToChannels, {CustomMessageProps, InviteChannels, defaultCustomMessage,
 import InviteAs, {InviteType} from './invite_as';
 import './invite_view.scss';
 
-export const defaultInviteState = (initialSearchValue = '', inviteAsGuest = false): InviteState => {
+export const initializeInviteState = (initialSearchValue = '', inviteAsGuest = false): InviteState => {
     return deepFreeze({
         inviteType: inviteAsGuest ? InviteType.GUEST : InviteType.MEMBER,
         customMessage: defaultCustomMessage,

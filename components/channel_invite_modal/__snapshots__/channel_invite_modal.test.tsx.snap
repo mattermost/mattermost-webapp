@@ -78,7 +78,6 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
         handleSubmit={[Function]}
         key="addUsersToChannelKey"
         loading={true}
-        numRemainingText={false}
         optionRenderer={[Function]}
         options={
           Array [
@@ -246,7 +245,6 @@ exports[`components/channel_invite_modal should match snapshot with exclude and 
         handleSubmit={[Function]}
         key="addUsersToChannelKey"
         loading={true}
-        numRemainingText={false}
         optionRenderer={[Function]}
         options={
           Array [
