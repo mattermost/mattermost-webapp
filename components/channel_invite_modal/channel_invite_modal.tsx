@@ -44,6 +44,8 @@ export type Props = {
     excludeUsers?: Record<string, UserProfileValue>;
     includeUsers?: Record<string, UserProfileValue>;
 
+    canInviteGuests?: boolean;
+    emailInvitationsEnabled?: boolean;
     actions: {
         addUsersToChannel: (channelId: string, userIds: string[]) => Promise<ActionResult>;
         getProfilesNotInChannel: (teamId: string, channelId: string, groupConstrained: boolean, page: number, perPage?: number) => Promise<ActionResult>;
@@ -362,7 +364,7 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                 backButtonText={localizeMessage('multiselect.cancel', 'Cancel')}
                 backButtonClick={closeMembersInviteModal}
                 backButtonClass={'btn-cancel tertiary-button'}
-                customNoOptionsMessage={customNoOptionsMessage}
+                customNoOptionsMessage={this.props.emailInvitationsEnabled ? customNoOptionsMessage : null}
             />
         );
 
@@ -399,7 +401,7 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                     {inviteError}
                     <div className='channel-invite__content'>
                         {content}
-                        {inviteGuestLink}
+                        {(this.props.emailInvitationsEnabled && this.props.canInviteGuests) && inviteGuestLink}
                     </div>
                 </Modal.Body>
             </Modal>

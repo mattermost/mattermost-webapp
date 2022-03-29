@@ -135,14 +135,14 @@
         order: 1;
         padding-top: 8px;
         margin-right: 2.4rem;
-        margin-bottom: 32px;
+        margin-bottom: 22px;
         margin-left: auto;
         font-weight: 600;
     }
 
     .multi-select__footer {
         order: 2;
-
+        margin-top: 10px;
         .btn-cancel {
             @include tertiary-button;
 
