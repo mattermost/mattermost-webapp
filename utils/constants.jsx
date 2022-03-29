@@ -1304,6 +1304,7 @@ export const Constants = {
     ARCHIVED_CHANNEL: 'archive',
     INVITE_TEAM: 'I',
     OPEN_TEAM: 'O',
+    THREADS: 'threads',
     MAX_POST_LEN: 4000,
     EMOJI_SIZE: 16,
     DEFAULT_EMOJI_PICKER_LEFT_OFFSET: 87,

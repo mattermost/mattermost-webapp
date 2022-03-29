@@ -19,9 +19,7 @@ import {
     getChannelsInAllTeams,
     getSortedAllTeamsUnreadChannels,
 } from 'mattermost-redux/selectors/entities/channels';
-
 import ProfilePicture from '../profile_picture';
-
 import {getMyPreferences, isGroupChannelManuallyVisible, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {
@@ -38,20 +36,18 @@ import {
     getUserByUsername,
 } from 'mattermost-redux/selectors/entities/users';
 import {fetchAllMyTeamsChannelsAndChannelMembers, searchAllChannels} from 'mattermost-redux/actions/channels';
+import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
 import {logError} from 'mattermost-redux/actions/errors';
 import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
-
 import SharedChannelIndicator from 'components/shared_channel_indicator';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
-
 import {getPostDraft} from 'selectors/rhs';
 import store from 'stores/redux_store.jsx';
 import {Constants, StoragePrefixes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
-
 import {Preferences} from 'mattermost-redux/constants';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
@@ -60,6 +56,13 @@ import Suggestion from './suggestion.jsx';
 
 const getState = store.getState;
 const searchProfilesMatchingWithTerm = makeSearchProfilesMatchingWithTerm();
+const ThreadsChannel = {
+    id: 'threads',
+    name: 'threads',
+    display_name: 'Threads',
+    type: Constants.THREADS,
+    delete_at: 0,
+};
 
 class SwitchChannelSuggestion extends Suggestion {
     static get propTypes() {
@@ -82,8 +85,13 @@ class SwitchChannelSuggestion extends Suggestion {
         const teammate = this.props.dmChannelTeammate;
         let badge = null;
 
-        if (member && member.notify_props) {
-            const unreadMentions = collapsedThreads ? member.mention_count_root : member.mention_count;
+        if ((member && member.notify_props) || item.unread_mentions) {
+            let unreadMentions;
+            if (item.unread_mentions) {
+                unreadMentions = item.unread_mentions;
+            } else {
+                unreadMentions = collapsedThreads ? member.mention_count_root : member.mention_count;
+            }
             if (unreadMentions > 0) {
                 badge = (
                     <div className={classNames('suggestion-list_unread-mentions', (isPartOfOnlyOneTeam ? 'position-end' : ''))}>
@@ -125,6 +133,12 @@ class SwitchChannelSuggestion extends Suggestion {
             icon = (
                 <span className='suggestion-list__icon suggestion-list__icon--large'>
                     <i className='icon icon-lock-outline'/>
+                </span>
+            );
+        } else if (channel.type === Constants.THREADS) {
+            icon = (
+                <span className='suggestion-list__icon suggestion-list__icon--large'>
+                    <i className='icon icon-message-text-outline'/>
                 </span>
             );
         } else if (channel.type === Constants.GM_CHANNEL) {
@@ -444,7 +458,7 @@ export default class SwitchChannelProvider extends Provider {
         const currentUserId = getCurrentUserId(state);
         const localChannelData = getChannelsInAllTeams(state).concat(getDirectAndGroupChannels(state)) || [];
         const localUserData = Object.assign([], searchProfilesMatchingWithTerm(state, channelPrefix, false)) || [];
-        const localFormattedData = this.formatList(channelPrefix, localChannelData, localUserData);
+        const localFormattedData = this.formatList(channelPrefix, [ThreadsChannel, ...localChannelData], localUserData);
 
         const remoteChannelData = channelsFromServer.concat(getGroupChannels(state)) || [];
         const remoteUserData = Object.assign([], usersFromServer.users) || [];
@@ -522,7 +536,6 @@ export default class SwitchChannelProvider extends Provider {
             if (completedChannels[channel.id]) {
                 continue;
             }
-
             if (channelFilter(channel)) {
                 const newChannel = Object.assign({}, channel);
                 const channelIsArchived = channel.delete_at !== 0;
@@ -530,7 +543,7 @@ export default class SwitchChannelProvider extends Provider {
                 let wrappedChannel = {channel: newChannel, name: newChannel.name, deactivated: false};
                 if (members[channel.id]) {
                     wrappedChannel.last_viewed_at = members[channel.id].last_viewed_at;
-                } else if (skipNotMember) {
+                } else if (skipNotMember && newChannel.type !== Constants.THREADS) {
                     continue;
                 }
 
@@ -544,6 +557,8 @@ export default class SwitchChannelProvider extends Provider {
                     wrappedChannel.type = Constants.MENTION_PRIVATE_CHANNELS;
                 } else if (channelIsArchived && !members[channel.id]) {
                     continue;
+                } else if (newChannel.type === Constants.THREADS) {
+                    wrappedChannel = this.getThreadsItem();
                 } else if (newChannel.type === Constants.GM_CHANNEL) {
                     newChannel.name = newChannel.display_name;
                     wrappedChannel.name = newChannel.name;
@@ -624,7 +639,7 @@ export default class SwitchChannelProvider extends Provider {
         const wrappedRecentChannels = this.wrapChannels(recentChannels, Constants.MENTION_RECENT_CHANNELS);
         const lastUnreadChannel = state.views.channel.lastUnreadChannel;
         const unreadChannels = getSortedAllTeamsUnreadChannels(state, lastUnreadChannel).slice(0, 5);
-        const sortedUnreadChannels = this.wrapChannels(unreadChannels, Constants.MENTION_UNREAD_CHANNELS);
+        let sortedUnreadChannels = this.wrapChannels(unreadChannels, Constants.MENTION_UNREAD_CHANNELS);
         if (wrappedRecentChannels.length === 0) {
             prefix = '';
             this.startNewRequest('');
@@ -633,6 +648,8 @@ export default class SwitchChannelProvider extends Provider {
         const sortedUnreadChannelIDs = sortedUnreadChannels.map((wrappedChannel) => wrappedChannel.channel.id);
         const sortedRecentChannels = wrappedRecentChannels.filter((wrappedChannel) => !sortedUnreadChannelIDs.includes(wrappedChannel.channel.id)).
             sort(sortChannelsByRecencyAndTypeAndDisplayName).slice(0, 20);
+        const threadsItem = this.getThreadsItem(Constants.MENTION_UNREAD_CHANNELS);
+        sortedUnreadChannels = [threadsItem, ...sortedUnreadChannels].slice(0, 5);
         const sortedChannels = [...sortedUnreadChannels, ...sortedRecentChannels];
         const channelNames = sortedChannels.map((wrappedChannel) => wrappedChannel.channel.id);
         resultsCallback({
@@ -642,11 +659,30 @@ export default class SwitchChannelProvider extends Provider {
             component: ConnectedSwitchChannelSuggestion,
         });
     }
+
+    getThreadsItem(itemType) {
+        const state = getState();
+        const counts = getThreadCountsInCurrentTeam(state);
+        const someUnreadThreads = counts?.total_unread_threads;
+        let threadsItem = {
+            channel: ThreadsChannel,
+            name: ThreadsChannel.name,
+            unread_mentions: counts.total_unread_mentions,
+            deactivated: false,
+            last_viewed_at: Date.now(),
+        };
+        if (itemType) {
+            threadsItem = {...threadsItem, type: itemType};
+        }
+        return someUnreadThreads ? threadsItem : null;
+    }
+
     getTimestampFromPrefs(myPreferences, category, name) {
         const pref = myPreferences[getPreferenceKey(category, name)];
         const prefValue = pref ? pref.value : '0';
         return parseInt(prefValue, 10);
     }
+
     getLastViewedAt(myMembers, myPreferences, channel) {
         // The server only ever sets the last_viewed_at to the time of the last post in channel,
         // So thought of using preferences but it seems that also not keeping track.
