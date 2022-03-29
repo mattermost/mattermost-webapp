@@ -40,7 +40,7 @@ type Props = {
     isCollapsedThreadsEnabled: boolean;
     currentUserId: string;
     enableTipsViewRoute: boolean;
-    isInsightsEnabled: boolean;
+    insightsAreEnabled: boolean;
     actions: {
         getProfiles: (page?: number, perPage?: number, options?: Record<string, string | boolean>) => ActionFunc;
     };
@@ -76,7 +76,7 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const {lastChannelPath, isCollapsedThreadsEnabled, enableTipsViewRoute, isInsightsEnabled} = this.props;
+        const {lastChannelPath, isCollapsedThreadsEnabled, enableTipsViewRoute, insightsAreEnabled} = this.props;
         const url = this.props.match.url;
         return (
             <div
@@ -125,7 +125,7 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
                                 component={LazyGlobalThreads}
                             />
                         ) : null}
-                        {isInsightsEnabled ? (
+                        {insightsAreEnabled ? (
                             <Route
                                 path='/:team/activity-and-insights'
                                 component={ActivityAndInsights}
