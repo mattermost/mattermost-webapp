@@ -298,5 +298,7 @@
     "check-types": "tsc",
     "make-emojis": "node --experimental-json-modules build/emoji/emoji_gen.mjs"
   },
-  "workspaces": []
+  "workspaces": [
+    "packages/types"
+  ]
 }

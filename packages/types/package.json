@@ -1,0 +1,31 @@
+{
+  "name": "@mattermost/types",
+  "version": "6.6.0-0",
+  "description": "Shared type definitions used by the Mattermost web app",
+  "keywords": [
+    "mattermost"
+  ],
+  "homepage": "https://github.com/mattermost/mattermost-webapp/tree/master/packages/types#readme",
+  "license": "MIT",
+  "module": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "respository": {
+    "type": "git",
+    "url": "github:mattermost/mattermost-webapp",
+    "directory": "packages/types"
+  },
+  "peerDependencies": {
+    "typescript": "^4.3"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  },
+  "scripts": {
+    "build": "tsc"
+  }
+}
