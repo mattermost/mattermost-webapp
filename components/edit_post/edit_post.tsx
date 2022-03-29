@@ -5,6 +5,8 @@ import React, {ClipboardEventHandler, memo, useCallback, useEffect, useRef, useS
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 
+import {ClientConfig} from 'mattermost-redux/types/config';
+
 import {Post} from 'mattermost-redux/types/posts';
 import {Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
 
@@ -46,10 +48,7 @@ export type Props = {
     channelId: string;
     codeBlockOnCtrlEnter: boolean;
     ctrlSend: boolean;
-    config: {
-        EnableEmojiPicker?: string;
-        EnableGifPicker?: string;
-    };
+    config: Partial<ClientConfig>;
     maxPostSize: number;
     useChannelMentions: boolean;
     editingPost: {
@@ -93,6 +92,8 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
     const wrapperRef = useRef<HTMLDivElement>(null);
 
     const {formatMessage} = useIntl();
+
+    const editTimeLimit = config.PostEditTimeLimit ? parseInt(config.PostEditTimeLimit, 10) : -1;
 
     useEffect(() => {
         const focusTextBox = () => textboxRef?.current?.focus();
@@ -150,9 +151,35 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
         setCaretPosition(newCaretPosition);
     }, [canEditPost, selectionRange, editText]);
 
+    // check if the PostEditTimelimit is reached or even exists
+    const isTimeCopped = () => {
+        // if no PostEditTimelimit is set allow editing
+        if (editTimeLimit === -1) {
+            return false;
+        }
+
+        const {post} = editingPost;
+        const createdAt = post?.create_at || 0;
+
+        return (Date.now() - createdAt) >= editTimeLimit * 1000;
+    };
+
     const isSaveDisabled = () => {
         const {post} = editingPost;
         const hasAttachments = post && post.file_ids && post.file_ids.length > 0;
+
+        if (isTimeCopped()) {
+            setPostError((
+                <FormattedMarkdownMessage
+                    id='edit_post.time_limit.error_text'
+                    defaultMessage='You can only edit your posts for {n} seconds after posting'
+                    values={{
+                        n: editTimeLimit,
+                    }}
+                />
+            ));
+            return true;
+        }
 
         if (hasAttachments) {
             return !canEditPost;
@@ -416,12 +443,11 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
             <div className='post-body__actions'>
                 {emojiPicker}
             </div>
-            <EditPostHelperText ctrlSend={rest.ctrlSend}/>
-            {postError && (
+            {postError ? (
                 <div className={classNames('edit-post-footer', {'has-error': postError})}>
                     <label className={classNames('post-error', errorClass)}>{postError}</label>
                 </div>
-            )}
+            ) : <EditPostHelperText ctrlSend={rest.ctrlSend}/>}
         </div>
     );
 };
