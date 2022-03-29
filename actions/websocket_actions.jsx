@@ -31,10 +31,10 @@ import {getCloudSubscription, getSubscriptionStats} from 'mattermost-redux/actio
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 
 import {getBool, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {getThread, getThreads} from 'mattermost-redux/selectors/entities/threads';
+import {getNewestThreadInTeam, getThread, getThreads} from 'mattermost-redux/selectors/entities/threads';
 import {
     getThread as fetchThread,
-    getAllUnreadThreads as fetchAllUnreadThreads,
+    getCountsAndThreadsSince,
     handleAllMarkedRead,
     handleReadChanged,
     handleFollowChanged,
@@ -222,7 +222,8 @@ export function reconnect(includeWebSocket = true) {
         const crtEnabled = isCollapsedThreadsEnabled(state);
         dispatch(TeamActions.getMyTeamUnreads(crtEnabled, true));
         if (crtEnabled) {
-            dispatch(fetchAllUnreadThreads(currentUserId, currentTeamId));
+            const newestThread = getNewestThreadInTeam(state, currentTeamId)
+            dispatch(getCountsAndThreadsSince(currentUserId, currentTeamId, newestThread?newestThread.last_reply_at:0));
         }
     }
 
