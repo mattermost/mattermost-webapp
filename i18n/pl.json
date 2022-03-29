@@ -2465,6 +2465,8 @@
   "apps.error.command.unknown_option": "Nieznana opcja dla pola `{fieldName}`: `{option}`.",
   "apps.error.command.unknown_user": "Nieznany użytkownik dla pola `{fieldName}`: `{option}`.",
   "apps.error.form.no_form": "`form` jest niezdefiniowany.",
+  "apps.error.form.no_lookup": "`szukaj` nie jest zdefiniowane.",
+  "apps.error.form.no_source": "`źródło` nie jest zdefiniowane.",
   "apps.error.form.refresh": "Wystąpił błąd podczas aktualizacji modalu. Skontaktuj się z twórcą aplikacji. Szczegóły: {details}",
   "apps.error.form.refresh_no_refresh": "Odświeżenie w polu nieodświeżalnym.",
   "apps.error.form.submit.pretext": "Wystąpił błąd podczas wysyłania. Skontaktuj się z deweloperem. Szczegóły: {details}",
