@@ -123,7 +123,11 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
         />
       }
       onClick={[Function]}
-      rightDecorator="S"
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="S"
+        />
+      }
       show={false}
       text="Remove from Saved"
     />
@@ -134,7 +138,11 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
         />
       }
       onClick={[Function]}
-      rightDecorator="S"
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="S"
+        />
+      }
       show={false}
       text="Save"
     />
@@ -374,7 +382,11 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
         />
       }
       onClick={[Function]}
-      rightDecorator="S"
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="S"
+        />
+      }
       show={false}
       text="Remove from Saved"
     />
@@ -385,7 +397,11 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
         />
       }
       onClick={[Function]}
-      rightDecorator="S"
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="S"
+        />
+      }
       show={false}
       text="Save"
     />

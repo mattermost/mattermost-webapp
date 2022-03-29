@@ -510,14 +510,14 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         show={isMobile && !isSystemMessage && this.props.isFlagged}
                         text={Utils.localizeMessage('rhs_root.mobile.unflag', 'Remove from Saved')}
                         icon={Utils.getMenuItemIcon('icon-bookmark')}
-                        rightDecorator={'S'}
+                        rightDecorator={<ShortcutKey shortcutKey='S'/>}
                         onClick={this.handleFlagMenuItemActivated}
                     />
                     <Menu.ItemAction
                         show={isMobile && !isSystemMessage && !this.props.isFlagged}
                         text={Utils.localizeMessage('rhs_root.mobile.flag', 'Save')}
                         icon={Utils.getMenuItemIcon('icon-bookmark-outline')}
-                        rightDecorator={'S'}
+                        rightDecorator={<ShortcutKey shortcutKey='S'/>}
                         onClick={this.handleFlagMenuItemActivated}
                     />
                     <Menu.ItemAction
@@ -568,8 +568,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         text={Utils.localizeMessage('post_info.del', 'Delete')}
                         icon={Utils.getMenuItemIcon('icon-trash-can-outline', true)}
                         rightDecorator={deleteShortcutText}
-
-                        //  rightDecorator={'delete'}
                         onClick={this.handleDeleteMenuItemActivated}
                         isDangerous={true}
                     />
