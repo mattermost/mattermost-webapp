@@ -72,7 +72,7 @@ describe('Collapsed Reply Threads', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Post a message as other user
-        cy.postMessageAs({sender: user2, message: messages.ROOT, channelId: testChannel.id}).then((post) => {
+        cy.postMessageAs({sender: user1, message: messages.ROOT, channelId: testChannel.id}).then((post) => {
             rootPost = post;
         });
     });
@@ -89,7 +89,7 @@ describe('Collapsed Reply Threads', () => {
         cy.uiGetPostThreadFooter(rootPost.id).should('not.exist');
 
         // # Post a reply post as current user
-        cy.postMessageAs({sender: user1, message: messages.REPLY1, channelId: testChannel.id, rootId: rootPost.id});
+        cy.postMessageAs({sender: user2, message: messages.REPLY1, channelId: testChannel.id, rootId: rootPost.id});
 
         // # Visit global threads
         cy.uiClickSidebarItem('threads');
@@ -168,10 +168,10 @@ describe('Collapsed Reply Threads', () => {
         cy.uiGetPostThreadFooter(rootPost.id).should('not.exist');
 
         // # Post a reply post as current user
-        cy.postMessageAs({sender: user1, message: messages.REPLY1, channelId: testChannel.id, rootId: rootPost.id}).then((post) => {
+        cy.postMessageAs({sender: user2, message: messages.REPLY1, channelId: testChannel.id, rootId: rootPost.id}).then((post) => {
             replyPost1 = post;
         }).then(() => {
-            cy.postMessageAs({sender: user3, message: messages.REPLY2, channelId: testChannel.id, rootId: rootPost.id});
+            return cy.postMessageAs({sender: user3, message: messages.REPLY2, channelId: testChannel.id, rootId: rootPost.id});
         }).then((post) => {
             replyPost2 = post;
 
@@ -189,11 +189,11 @@ describe('Collapsed Reply Threads', () => {
 
             // * There should be a single thread item
             cy.get('article.ThreadItem').should('have.lengthOf', 1).first().click().within(() => {
-                // * Reply button in ThreadItem should say '2 replies'
+                // * Activity section in ThreadItem should say '2 replies'
                 cy.get('.activity').should('have.text', '2 replies');
 
-                // * 2 avatars/participants should show in ThreadItem
-                cy.get('.Avatar').should('have.lengthOf', 2);
+                // * 3 avatars/participants should show in ThreadItem
+                cy.get('.Avatar').should('have.lengthOf', 3);
             });
 
             // * The reply should be in RHS showing '(message deleted)'
@@ -207,15 +207,12 @@ describe('Collapsed Reply Threads', () => {
 
             // * There should be a single thread item
             cy.get('article.ThreadItem').should('have.lengthOf', 1).first().click().within(() => {
-                // * Reply button in ThreadItem should say '1 reply'
+                // * Activity section in ThreadItem should say '1 reply'
                 cy.get('.activity').should('have.text', '1 reply');
 
-                // * 1 avatar/participant should show in ThreadItem
+                // * 2 avatars/participants should show in ThreadItem
                 cy.get('.Avatar').should('have.lengthOf', 2);
             });
-
-            // * The reply should be in RHS showing '(message deleted)'
-            cy.get(`#rhsPost_${replyPost2.id}`).should('be.visible').should('contain.text', '(message deleted)');
 
             // # Visit the channel
             cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
@@ -226,8 +223,68 @@ describe('Collapsed Reply Threads', () => {
                 cy.get('.ReplyButton').should('have.text', '1 reply');
 
                 // * 1 avatar/participant should show in Thread Footer
-                cy.get('.Avatar').should('have.lengthOf', 2);
+                cy.get('.Avatar').should('have.lengthOf', 1);
             });
+
+            // # Cleanup for next test
+            cy.apiDeletePost(rootPost.id);
+        });
+    });
+
+    it('MM-T4448: CRT - L16 - Use “Mark all as read” button', () => {
+        cy.uiWaitUntilMessagePostedIncludes(rootPost.data.message);
+
+        // # Thread footer should not exist
+        cy.uiGetPostThreadFooter(rootPost.id).should('not.exist');
+
+        // # Post a reply post as current user
+        cy.postMessageAs({sender: user2, message: messages.REPLY1, channelId: testChannel.id, rootId: rootPost.id}).then((post) => {
+            replyPost1 = post;
+
+            // # Get thread footer of last post
+            cy.uiGetPostThreadFooter(rootPost.id).within(() => {
+                // * Reply button in Thread Footer should say '1 reply'
+                cy.get('.ReplyButton').should('have.text', '1 reply');
+
+                // * 1 avatar/participant should show in Thread Footer
+                cy.get('.Avatar').should('have.lengthOf', 1);
+            });
+
+            // # Visit global threads
+            cy.uiClickSidebarItem('threads');
+
+            // * The unreads tab button has a blue dot (unread indicator)
+            cy.get('#threads-list-unread-button .dot').should('have.lengthOf', 1);
+
+            // * There should be a single thread item
+            cy.get('article.ThreadItem').should('have.lengthOf', 1).within(() => {
+                // * The unread indicator (blue dot) should be present
+                cy.get('.dot-unreads').should('have.lengthOf', 1);
+
+                // * Activity section in ThreadItem should say '1 new reply'
+                cy.get('.activity').should('have.text', '1 new reply');
+            });
+
+            // # Get the "mark all as read" button (the selector is pretty ambiguous here, but should work for now)
+            cy.get('#threads-list__mark-all-as-read').click();
+
+            // * The unreads tab button does NOT have a blue dot (unread indicator)
+            cy.get('#threads-list-unread-button .dot').should('not.exist');
+
+            // * There should be a single thread item
+            cy.get('article.ThreadItem').should('have.lengthOf', 1).within(() => {
+                // * The unread indicator (blue dot) should NOT be present
+                cy.get('.dot-unreads').should('have.lengthOf', 0);
+
+                // * Activity section in ThreadItem should say '1 reply'
+                cy.get('.activity').should('have.text', '1 reply');
+            });
+
+            // * Assert that the RHS shows the correct view
+            cy.get('.no-results__holder').should('contain.text', 'Looks like you’re all caught up');
+
+            // # Cleanup for next test
+            cy.apiDeletePost(rootPost.id);
         });
     });
 });

@@ -24,7 +24,8 @@ const Avatar = ({
     text,
     ...attrs
 }: Props & Attrs) => {
-    const classes = classNames(`Avatar Avatar-${size}`, attrs.className);
+    const test = null;
+    const classes = classNames(`Avatar Avatar-${size}`, attrs.className, test);
 
     if (text) {
         return (
