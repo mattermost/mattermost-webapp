@@ -37,6 +37,7 @@ interface RhsHeaderPostProps {
     showSearchResults: () => void;
     showFlaggedPosts: () => void;
     showPinnedPosts: () => void;
+    goBack: () => void;
     closeRightHandSide: (e?: React.MouseEvent) => void;
     toggleRhsExpanded: (e: React.MouseEvent) => void;
     setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
@@ -48,16 +49,10 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
 
         switch (this.props.previousRhsState) {
         case RHSStates.SEARCH:
-            this.props.showSearchResults();
-            break;
         case RHSStates.MENTION:
-            this.props.showMentions();
-            break;
         case RHSStates.FLAG:
-            this.props.showFlaggedPosts();
-            break;
         case RHSStates.PIN:
-            this.props.showPinnedPosts();
+            this.props.goBack();
             break;
         default:
             break;
