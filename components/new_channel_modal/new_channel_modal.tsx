@@ -80,7 +80,7 @@ const NewChannelModal = () => {
     const [displayNameModified, setDisplayNameModified] = useState(false);
     const [urlModified, setURLModified] = useState(false);
     const [displayNameError, setDisplayNameError] = useState('');
-    const [urlError, setURLError] = useState<string>('');
+    const [urlError, setURLError] = useState('');
     const [purposeError, setPurposeError] = useState('');
     const [serverError, setServerError] = useState('');
 

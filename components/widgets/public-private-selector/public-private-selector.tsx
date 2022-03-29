@@ -56,7 +56,7 @@ const BigButtonSelector = ({
 
     const button = (
         <button
-            id={id}
+            id={`public-private-selector-button-${id}`}
             className={classNames('public-private-selector-button', {selected, disabled, locked})}
             onClick={handleOnClick}
         >

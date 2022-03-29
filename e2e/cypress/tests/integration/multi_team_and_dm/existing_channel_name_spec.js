@@ -56,9 +56,9 @@ function verifyExistingChannelError(newChannelName, makePrivate = false) {
     cy.uiBrowseOrCreateChannel('Create New Channel').click();
 
     if (makePrivate) {
-        cy.get('#P.public-private-selector-button').click();
+        cy.get('#public-private-selector-button-P').click();
     } else {
-        cy.get('#O.public-private-selector-button').click();
+        cy.get('#public-private-selector-button-O').click();
     }
 
     // Type `newChannelName` in the input field for new channel

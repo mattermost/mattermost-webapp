@@ -14,9 +14,9 @@ Cypress.Commands.add('uiCreateChannel', ({
 
     cy.get('#new-channel-modal').should('be.visible');
     if (isPrivate) {
-        cy.get('#P.public-private-selector-button').click().wait(TIMEOUTS.HALF_SEC);
+        cy.get('#public-private-selector-button-P').click().wait(TIMEOUTS.HALF_SEC);
     } else {
-        cy.get('#O.public-private-selector-button').click().wait(TIMEOUTS.HALF_SEC);
+        cy.get('#public-private-selector-button-O').click().wait(TIMEOUTS.HALF_SEC);
     }
     const channelName = name || `${prefix}${getRandomId()}`;
     cy.get('#input_new-channel-modal-name').should('be.visible').clear().type(channelName);
