@@ -13,7 +13,7 @@ import LocalizedInput from 'components/localized_input/localized_input';
 import {t} from 'utils/i18n.jsx';
 
 interface Props {
-    location: {search: string;};
+    location: {search: string};
     actions: {
         resetUserPassword: (token: string, newPassword: string) => Promise<{data: any; error: ServerError}>;
     };
