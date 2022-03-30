@@ -254,7 +254,7 @@ export class RenameChannelModal extends React.PureComponent<Props, State> {
         }
 
         const fullUrl = this.props.currentTeamUrl + '/channels';
-        const shortUrl = getShortenedURL(fullUrl, 35);
+        const shortUrl = `${getShortenedURL(fullUrl, 35)}/`;
         const urlTooltip = (
             <Tooltip id='urlTooltip'>{fullUrl}</Tooltip>
         );

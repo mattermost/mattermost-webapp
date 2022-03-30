@@ -957,6 +957,10 @@ export function setSelectionRange(input, selectionStart, selectionEnd) {
 }
 
 export function setCaretPosition(input, pos) {
+    if (!input) {
+        return;
+    }
+
     setSelectionRange(input, pos, pos);
 }
 

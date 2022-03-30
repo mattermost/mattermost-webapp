@@ -82,7 +82,8 @@ describe('Verify Accessibility Support in different Buttons', () => {
         // * Verify accessibility support in Pinned Posts button
         cy.uiGetChannelPinButton().
             should('be.focused').
-            and('have.attr', 'aria-label', 'Pinned posts').tab().tab().tab();
+            and('have.attr', 'aria-label', 'Pinned posts').
+            tab().tab().tab().tab();
 
         cy.apiGetTotalUsers().then((totalUsers) => {
             const buttonText = totalUsers < usersLimit ?

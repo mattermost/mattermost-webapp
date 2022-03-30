@@ -11,7 +11,7 @@ import Markdown from 'components/markdown';
 import LineLimiter from './components/linelimiter';
 import EditableArea from './components/editable_area';
 
-const ChannelLink = styled.div`
+const ChannelId = styled.div`
     margin-bottom: 12px;
     font-size: 11px;
     line-height: 16px;
@@ -32,7 +32,6 @@ const ChannelHeader = styled.div`
 
 interface Props {
     channel: Channel;
-    channelURL: string;
     canEditChannelProperties: boolean;
     actions: {
         editChannelPurpose: () => void;
@@ -40,7 +39,7 @@ interface Props {
     };
 }
 
-const AboutAreaChannel = ({channel, channelURL, canEditChannelProperties, actions}: Props) => {
+const AboutAreaChannel = ({channel, canEditChannelProperties, actions}: Props) => {
     const {formatMessage} = useIntl();
 
     return (
@@ -51,9 +50,9 @@ const AboutAreaChannel = ({channel, channelURL, canEditChannelProperties, action
                         editable={canEditChannelProperties}
                         content={channel.purpose && (
                             <LineLimiter
-                                maxLines={3}
+                                maxLines={4}
                                 lineHeight={20}
-                                moreText={formatMessage({id: 'channel_info_rhs.about_area.channel_purpose.line_limiter.more', defaultMessage: '... more'})}
+                                moreText={formatMessage({id: 'channel_info_rhs.about_area.channel_purpose.line_limiter.more', defaultMessage: 'more'})}
                                 lessText={formatMessage({id: 'channel_info_rhs.about_area.channel_purpose.line_limiter.less', defaultMessage: 'less'})}
                             >
                                 <Markdown message={channel.purpose}/>
@@ -70,9 +69,9 @@ const AboutAreaChannel = ({channel, channelURL, canEditChannelProperties, action
                     <EditableArea
                         content={channel.header && (
                             <LineLimiter
-                                maxLines={3}
+                                maxLines={4}
                                 lineHeight={20}
-                                moreText={formatMessage({id: 'channel_info_rhs.about_area.channel_header.line_limiter.more', defaultMessage: '... more'})}
+                                moreText={formatMessage({id: 'channel_info_rhs.about_area.channel_header.line_limiter.more', defaultMessage: 'more'})}
                                 lessText={formatMessage({id: 'channel_info_rhs.about_area.channel_header.line_limiter.less', defaultMessage: 'less'})}
                             >
                                 <Markdown message={channel.header}/>
@@ -85,7 +84,9 @@ const AboutAreaChannel = ({channel, channelURL, canEditChannelProperties, action
                 </ChannelHeader>
             )}
 
-            <ChannelLink>{channelURL}</ChannelLink>
+            <ChannelId>
+                {formatMessage({id: 'channel_info_rhs.about_area_id', defaultMessage: 'ID:'})} {channel.id}
+            </ChannelId>
         </>
     );
 };

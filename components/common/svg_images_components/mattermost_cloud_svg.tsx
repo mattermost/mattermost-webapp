@@ -6,17 +6,17 @@ import React from 'react';
 type SvgProps = {
     width: number;
     height: number;
-}
+};
 
-const MattermostCloudSvg = (props: SvgProps) => (
+const MattermostCloudSvg = ({width, height}: SvgProps) => (
     <svg
-        width={props.width ? props.width.toString() : '250'}
-        height={props.height ? props.height.toString() : '28'}
+        width={width ? width.toString() : '250'}
+        height={height ? height.toString() : '28'}
         viewBox='0 0 250 28'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'
     >
-        <g clipPath='url(#clip0)'>
+        <g clipPath='url(#clip0_3_12968)'>
             <path
                 fillRule='evenodd'
                 clipRule='evenodd'
@@ -64,7 +64,7 @@ const MattermostCloudSvg = (props: SvgProps) => (
             strokeOpacity='0.32'
         />
         <defs>
-            <clipPath id='clip0'>
+            <clipPath id='clip0_3_12968'>
                 <rect
                     width='169'
                     height='27.8571'
@@ -74,7 +74,6 @@ const MattermostCloudSvg = (props: SvgProps) => (
             </clipPath>
         </defs>
     </svg>
-
 );
 
 export default MattermostCloudSvg;

@@ -61,11 +61,16 @@ function ThreadFooter({
     } = thread;
     const participantIds = useMemo(() => (participants || []).map(({id}) => id).reverse(), [participants]);
 
-    const handleReply = replyClick || useCallback((e) => {
+    const handleReply = useCallback((e) => {
+        if (replyClick) {
+            replyClick(e);
+            return;
+        }
+
         trackEvent('crt', 'replied_using_footer');
         e.stopPropagation();
         dispatch(selectPost({id: threadId, channel_id: channelId} as Post));
-    }, [threadId, channelId]);
+    }, [dispatch, replyClick, threadId, channelId]);
 
     const handleFollowing = useCallback((e) => {
         e.stopPropagation();
