@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {CollapsedThreads} from '../constants/config';
-
 import {ThemeKey} from './themes';
 
 export type ClientConfig = {
@@ -823,3 +821,9 @@ export type WarnMetricStatus = {
     acked: boolean;
     store_status: string;
 };
+
+export enum CollapsedThreads {
+    DISABLED = 'disabled',
+    DEFAULT_ON = 'default_on',
+    DEFAULT_OFF = 'default_off',
+}
