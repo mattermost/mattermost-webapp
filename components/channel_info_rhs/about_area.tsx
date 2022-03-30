@@ -35,7 +35,6 @@ const Container = styled.div`
 
 interface Props {
     channel: Channel;
-    channelURL: string;
     dmUser?: DMUser;
     gmUsers?: UserProfile[];
     canEditChannelProperties: boolean;
@@ -45,7 +44,7 @@ interface Props {
     };
 }
 
-const AboutArea = ({channel, channelURL, dmUser, gmUsers, canEditChannelProperties, actions}: Props) => {
+const AboutArea = ({channel, dmUser, gmUsers, canEditChannelProperties, actions}: Props) => {
     return (
         <Container>
             {channel.type === Constants.DM_CHANNEL && dmUser && (
@@ -65,7 +64,6 @@ const AboutArea = ({channel, channelURL, dmUser, gmUsers, canEditChannelProperti
             {[Constants.OPEN_CHANNEL, Constants.PRIVATE_CHANNEL].includes(channel.type) && (
                 <AboutAreaChannel
                     channel={channel}
-                    channelURL={channelURL}
                     canEditChannelProperties={canEditChannelProperties}
                     actions={actions}
                 />

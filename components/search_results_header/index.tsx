@@ -9,7 +9,7 @@ import {GlobalState} from 'types/store/index.js';
 import {
     closeRightHandSide,
     toggleRhsExpanded,
-    showChannelInfo,
+    goBack,
 } from 'actions/views/rhs';
 import {getIsRhsExpanded, getPreviousRhsState} from 'selectors/rhs';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/common';
@@ -29,7 +29,7 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
         actions: bindActionCreators({
             closeRightHandSide,
             toggleRhsExpanded,
-            showChannelInfo,
+            goBack,
         }, dispatch),
     };
 }
