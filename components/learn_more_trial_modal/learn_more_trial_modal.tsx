@@ -105,7 +105,7 @@ const LearnMoreTrialModal = (
 
     const getSlides = useMemo(
         () =>
-            steps.map(({ id, ...rest }) => (
+            steps.map(({id, ...rest}) => (
                 <LearnMoreTrialModalStep
                     {...rest}
                     id={id}
@@ -113,7 +113,7 @@ const LearnMoreTrialModal = (
                     handleEmbargoError={handleEmbargoError}
                 />
             )),
-        []
+        [],
     );
 
     return (
