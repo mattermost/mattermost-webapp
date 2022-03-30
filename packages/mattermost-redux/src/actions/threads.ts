@@ -8,7 +8,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import ThreadConstants from 'mattermost-redux/constants/threads';
 
-import {DispatchFunc, GetStateFunc, batchActions, ActionResult} from 'mattermost-redux/types/actions';
+import {DispatchFunc, GetStateFunc, batchActions} from 'mattermost-redux/types/actions';
 
 import type {UserThread, UserThreadList} from 'mattermost-redux/types/threads';
 
@@ -20,7 +20,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
-import {getThreadsInChannel, getThread as getThreadSelector, getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
+import {getThreadsInChannel, getThread as getThreadSelector} from 'mattermost-redux/selectors/entities/threads';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
