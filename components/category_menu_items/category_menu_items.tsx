@@ -84,8 +84,7 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
 
     const categoryMenuItems = filteredCategories.map((category: ChannelCategory) => {
         let text = category.display_name;
-
-        // As translation can be Uppercase and Styling is Capatlised case, converting text lower case to avoid conflict with styling
+        
         if (category.type === CategoryTypes.FAVORITES) {
             text = intl.formatMessage({id: 'sidebar.types.favorites', defaultMessage: 'Favorites'});
         }
