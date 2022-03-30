@@ -129,7 +129,7 @@ const NewChannelModal = () => {
             setURLError(
                 formatMessage({
                     id: 'channel_modal.handleTooShort',
-                    defaultMessage: 'Channel URL must be 2 or more lowercase alphanumeric characters',
+                    defaultMessage: 'Channel URL must be 1 or more lowercase alphanumeric characters',
                 }),
             );
             break;
