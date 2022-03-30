@@ -44,7 +44,6 @@ export default class SchemaText extends React.PureComponent {
                     id={text}
                     defaultMessage={textDefault}
                     values={textValues}
-                    blankLinks={true}
                 />
             );
         }
@@ -63,7 +62,7 @@ export default class SchemaText extends React.PureComponent {
             const html = marked(this.props.text, {
                 breaks: true,
                 sanitize: true,
-                renderer: new CustomRenderer(false, true),
+                renderer: new CustomRenderer(),
             });
 
             return <span dangerouslySetInnerHTML={{__html: html}}/>;
