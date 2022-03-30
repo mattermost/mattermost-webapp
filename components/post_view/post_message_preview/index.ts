@@ -32,34 +32,38 @@ type Props = {
     previewPost?: Post;
 }
 
-function mapStateToProps(state: GlobalState, ownProps: Props) {
-    const config = getConfig(state);
-    const currentTeamUrl = getCurrentRelativeTeamUrl(state);
-    let user = null;
-    let embedVisible = false;
-    let channelDisplayName = ownProps.metadata.channel_display_name;
-    const previewPost = getPost(state, ownProps.metadata.post_id) || ownProps.previewPost;
+function makeMapStateToProps() {
+    const getChannel = makeGetChannel();
 
-    if (previewPost && previewPost.user_id) {
-        user = getUser(state, previewPost.user_id);
-    }
-    if (previewPost && previewPost.id) {
-        embedVisible = isEmbedVisible(state, previewPost.id);
-    }
+    return (state: GlobalState, ownProps: Props) => {
+        const config = getConfig(state);
+        const currentTeamUrl = getCurrentRelativeTeamUrl(state);
+        let user = null;
+        let embedVisible = false;
+        let channelDisplayName = ownProps.metadata.channel_display_name;
+        const previewPost = getPost(state, ownProps.metadata.post_id) || ownProps.previewPost;
 
-    if (ownProps.metadata.channel_type === General.DM_CHANNEL) {
-        channelDisplayName = makeGetChannel()(state, {id: ownProps.metadata.channel_id}).display_name;
-    }
+        if (previewPost && previewPost.user_id) {
+            user = getUser(state, previewPost.user_id);
+        }
+        if (previewPost && previewPost.id) {
+            embedVisible = isEmbedVisible(state, previewPost.id);
+        }
 
-    return {
-        currentTeamUrl,
-        channelDisplayName,
-        hasImageProxy: config.HasImageProxy === 'true',
-        enablePostIconOverride: config.EnablePostIconOverride === 'true',
-        previewPost,
-        user,
-        isEmbedVisible: embedVisible,
-        compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
+        if (ownProps.metadata.channel_type === General.DM_CHANNEL) {
+            channelDisplayName = getChannel(state, {id: ownProps.metadata.channel_id}).display_name;
+        }
+
+        return {
+            currentTeamUrl,
+            channelDisplayName,
+            hasImageProxy: config.HasImageProxy === 'true',
+            enablePostIconOverride: config.EnablePostIconOverride === 'true',
+            previewPost,
+            user,
+            isEmbedVisible: embedVisible,
+            compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
+        };
     };
 }
 
@@ -69,4 +73,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostMessagePreview);
+export default connect(makeMapStateToProps, mapDispatchToProps)(PostMessagePreview);
