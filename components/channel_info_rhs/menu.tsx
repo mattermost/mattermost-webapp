@@ -91,6 +91,7 @@ interface MenuProps {
     actions: {
         openNotificationSettings: () => void;
         showChannelFiles: (channelId: string) => void;
+        showPinnedPosts: (channelId: string | undefined) => void;
     };
 }
 
@@ -111,6 +112,13 @@ const Menu = ({channel, channelStats, isArchived, className, actions}: MenuProps
                     onClick={actions.openNotificationSettings}
                 />
             )}
+            <MenuItem
+                icon={<i className='icon icon-pin-outline'/>}
+                text={formatMessage({id: 'channel_info_rhs.menu.pinned', defaultMessage: 'Pinned Messages'})}
+                opensSubpanel={true}
+                badge={channelStats?.pinnedpost_count}
+                onClick={() => actions.showPinnedPosts(channel.id)}
+            />
             <MenuItem
                 icon={<i className='icon icon-file-text-outline'/>}
                 text={formatMessage({id: 'channel_info_rhs.menu.files', defaultMessage: 'Files'})}

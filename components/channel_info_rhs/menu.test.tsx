@@ -13,11 +13,12 @@ import Menu from './menu';
 describe('channel_info_rhs/menu', () => {
     const defaultProps = {
         channel: {type: Constants.OPEN_CHANNEL} as Channel,
-        channelStats: {files_count: 3} as ChannelStats,
+        channelStats: {files_count: 3, pinnedpost_count: 12} as ChannelStats,
         isArchived: false,
         actions: {
             openNotificationSettings: jest.fn(),
             showChannelFiles: jest.fn(),
+            showPinnedPosts: jest.fn(),
         },
     };
 
@@ -25,6 +26,7 @@ describe('channel_info_rhs/menu', () => {
         defaultProps.actions = {
             openNotificationSettings: jest.fn(),
             showChannelFiles: jest.fn(),
+            showPinnedPosts: jest.fn(),
         };
     });
 
@@ -90,5 +92,23 @@ describe('channel_info_rhs/menu', () => {
 
         fireEvent.click(fileItem);
         expect(props.actions.showChannelFiles).toHaveBeenCalled();
+    });
+
+    test('should display the pinned messages', () => {
+        const props = {...defaultProps};
+        props.actions.showPinnedPosts = jest.fn();
+
+        renderWithIntl(
+            <Menu
+                {...props}
+            />,
+        );
+
+        const fileItem = screen.getByText('Pinned Messages');
+        expect(fileItem).toBeInTheDocument();
+        expect(fileItem.parentElement).toHaveTextContent('12');
+
+        fireEvent.click(fileItem);
+        expect(props.actions.showPinnedPosts).toHaveBeenCalled();
     });
 });

@@ -21,7 +21,7 @@ describe('search_results_header', () => {
                 actions={{
                     closeRightHandSide: jest.fn(),
                     toggleRhsExpanded: jest.fn(),
-                    showChannelInfo: jest.fn(),
+                    goBack: jest.fn(),
                 }}
             >
                 {'Title'}
@@ -39,7 +39,7 @@ describe('search_results_header', () => {
                 actions={{
                     closeRightHandSide: jest.fn(),
                     toggleRhsExpanded: jest.fn(),
-                    showChannelInfo: jest.fn(),
+                    goBack: jest.fn(),
                 }}
             >
                 {'Title'}
@@ -57,7 +57,7 @@ describe('search_results_header', () => {
                 actions={{
                     closeRightHandSide: jest.fn(),
                     toggleRhsExpanded: jest.fn(),
-                    showChannelInfo: jest.fn(),
+                    goBack: jest.fn(),
                 }}
             >
                 {'Title'}

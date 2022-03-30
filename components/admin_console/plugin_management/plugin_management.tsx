@@ -165,7 +165,7 @@ type PluginItemProps = {
     handleRemove: (e: any) => any;
     showInstances: boolean;
     hasSettings: boolean;
-    appsEnabled: boolean;
+    appsFeatureFlagEnabled: boolean;
     isDisabled?: boolean;
 };
 
@@ -177,7 +177,7 @@ const PluginItem = ({
     handleRemove,
     showInstances,
     hasSettings,
-    appsEnabled,
+    appsFeatureFlagEnabled,
     isDisabled,
 }: PluginItemProps) => {
     let activateButton: React.ReactNode;
@@ -363,7 +363,7 @@ const PluginItem = ({
         );
     }
 
-    if (pluginStatus.id === appsPluginID && !appsEnabled) {
+    if (pluginStatus.id === appsPluginID && !appsFeatureFlagEnabled) {
         activateButton = (<>{'Plugin disabled by feature flag'}</>);
         removeButton = null;
     }
@@ -399,7 +399,7 @@ type Props = BaseProps & {
     config: DeepPartial<AdminConfig>;
     pluginStatuses: Record<string, PluginStatus>;
     plugins: any;
-    appsEnabled: boolean;
+    appsFeatureFlagEnabled: boolean;
     actions: {
         uploadPlugin: (fileData: File, force: boolean) => any;
         removePlugin: (pluginId: string) => any;
@@ -932,7 +932,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                         handleRemove={this.showRemovePluginModal}
                         showInstances={showInstances}
                         hasSettings={hasSettings}
-                        appsEnabled={this.props.appsEnabled}
+                        appsFeatureFlagEnabled={this.props.appsFeatureFlagEnabled}
                         isDisabled={this.props.isDisabled}
                     />
                 );
