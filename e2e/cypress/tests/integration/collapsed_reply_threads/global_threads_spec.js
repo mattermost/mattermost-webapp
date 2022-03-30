@@ -40,9 +40,6 @@ describe('Collapsed Reply Threads', () => {
             user1 = user;
             testChannel = channel;
 
-            // # Visit the channel
-            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
-
             cy.apiSaveCRTPreference(user1.id, 'on');
             cy.apiCreateUser({prefix: 'user2'}).then(({user: newUser}) => {
                 user2 = newUser;
