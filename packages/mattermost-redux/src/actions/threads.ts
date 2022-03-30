@@ -113,24 +113,6 @@ export function getThreadCounts(userId: string, teamId: string) {
     };
 }
 
-export function getAllUnreadThreads(userId: string, teamId: string) {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let response: ActionResult = {error: true};
-
-        // get thread counts
-        await dispatch(getThreadCounts(userId, teamId));
-
-        const state = getState();
-        const counts = getThreadCountsInCurrentTeam(state);
-
-        if (counts.total_unread_threads > 0) {
-            response = await dispatch(getThreads(userId, teamId, {unread: true, perPage: counts.total_unread_threads}));
-        }
-
-        return response;
-    };
-}
-
 export function getCountsAndThreadsSince(userId: string, teamId: string, since?: number) {
     return async (dispatch: DispatchFunc) => {
         const response = await dispatch(fetchThreads(userId, teamId, {since, totalsOnly: false, threadsOnly: false, extended: true}));
