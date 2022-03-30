@@ -301,15 +301,12 @@ export default class SizeAwareImage extends React.PureComponent {
              *  - if a small image with larger width
              *  - if copy link button is enabled
              */
-            let leftStyle = {};
-            if (this.state.imageWidth > MIN_IMAGE_SIZE) {
-                // since there is a max-width constraint on images, a max-left clause follows.
-                if (enablePublicLink) {
-                    leftStyle = {left: `min(${wideImageButtonsOffset}px, calc(100% - 32px)`};
-                } else {
-                    leftStyle = {left: `min(${wideImageButtonsOffset + 8}px, calc(100% - 24px)`};
-                }
-            }
+            const modifier = enablePublicLink ? 0 : 8;
+
+            // since there is a max-width constraint on images, a max-left clause follows.
+            const leftStyle = this.state.imageWidth > MIN_IMAGE_SIZE ? {
+                left: `min(${wideImageButtonsOffset + modifier}px, calc(100% - ${32 - modifier}px)`,
+            } : {};
             return (
                 <div
                     className='small-image-utility-buttons-wrapper'
@@ -336,14 +333,9 @@ export default class SizeAwareImage extends React.PureComponent {
             );
         }
 
-        let utilityButtonsWrapper = null;
-
-        // handling external small images
-        if (this.state.isSmallImage && !this.isInternalImage) {
-            utilityButtonsWrapper = <></>;
-        } else {
-            // handling all large internal / large external images
-            utilityButtonsWrapper = (
+        // handling external small images (OR) handling all large internal / large external images
+        const utilityButtonsWrapper = this.state.isSmallImage && !this.isInternalImage ? null :
+            (
                 <span
                     className={classNames('image-preview-utility-buttons-container', {
 
@@ -356,7 +348,6 @@ export default class SizeAwareImage extends React.PureComponent {
                     {download}
                 </span>
             );
-        }
         return (
             <figure className={classNames('image-loaded-container')}>
                 {image}
