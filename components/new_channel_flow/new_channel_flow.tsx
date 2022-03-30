@@ -146,7 +146,7 @@ export default class NewChannelFlow extends React.PureComponent<Props, State> {
                 serverError: (
                     <FormattedMessage
                         id='channel_flow.handleTooShort'
-                        defaultMessage='Channel URL must be 1 or more lowercase alphanumeric character'
+                        defaultMessage='Channel URL must be 1 or more lowercase alphanumeric characters'
                     />
                 ),
             });
