@@ -8,8 +8,15 @@ import {selectChannel} from 'mattermost-redux/actions/channels';
 import {localizeMessage} from 'utils/utils';
 
 import InsightsHeader from './insights_header/insights_header';
+import TopChannels from './top_channels/top_channels';
 
 import './../activity_and_insights.scss';
+
+export enum CardSizes {
+    large = 'lg',
+    small = 'sm',
+}
+export type CardSize = CardSizes;
 
 const Insights = () => {
     const dispatch = useDispatch();
@@ -29,6 +36,7 @@ const Insights = () => {
 
     const setTimeFrameValue = useCallback((value) => {
         setTimeFrame(value);
+    }, []);
 
     useEffect(() => {
         dispatch(selectChannel(''));
@@ -43,6 +51,20 @@ const Insights = () => {
                 timeFrame={timeFrame}
                 setTimeFrame={setTimeFrameValue}
             />
+            <div className='insights-body'>
+                <TopChannels 
+                    size={CardSizes.large}
+                />
+                <TopChannels 
+                    size={CardSizes.small}
+                />
+                <TopChannels
+                    size={CardSizes.small}
+                />
+                <TopChannels
+                    size={CardSizes.small}
+                />
+            </div>
         </>
     );
 };

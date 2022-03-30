@@ -1,0 +1,64 @@
+.Card.insights-card {
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: none;
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+    margin: 8px;
+
+    &.large {
+        width: auto;
+    }
+
+    &.small {
+        width: calc((100%/3) - 16px);
+        float: left;
+    }
+
+    .Card__header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+
+        .title-and-subtitle {
+            display: flex;
+            flex-direction: column;
+
+            .text-top {
+                display: block;
+    
+                h2 {
+                    font-size: 16px;
+                    font-weight: 600;
+                    line-height: 24px;
+                    margin: 0;
+                }
+            }
+    
+            .text-bottom {
+                display: block;
+                font-size: 12px;
+                line-height: 16px;
+                font-weight: 400;
+                color: rgba(var(--center-channel-color-rgb), 0.72);
+            }
+        }
+        
+        span.icon {
+            margin-left: auto;
+        }
+
+        .Card__hr {
+            display: none;
+        }
+    }
+    .Card__body {
+        &.expanding {
+            transition: none;
+        }
+        
+        &.expanded {
+            margin: 0;
+            overflow: visible;
+        }
+    }
+}
