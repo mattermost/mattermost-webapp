@@ -8,6 +8,7 @@ import {AnalyticsRow} from 'mattermost-redux/types/admin';
 import {ClientLicense} from 'mattermost-redux/types/config';
 
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {ActionResult} from 'mattermost-redux/types/actions';
 import * as Utils from 'utils/utils.jsx';
 
 import {trackEvent} from 'actions/telemetry_actions';
@@ -37,7 +38,7 @@ type Props = {
 
     stats?: Record<string, number | AnalyticsRow[]>;
     actions: {
-        requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<{error?: string; data?: null}>;
+        requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<ActionResult>;
         getLicenseConfig: () => void;
         getPrevTrialLicense: () => void;
         openModal: <P>(modalData: ModalData<P>) => void;
@@ -48,6 +49,7 @@ type Props = {
 type State = {
     gettingTrial: boolean;
     gettingTrialError: string | null;
+    gettingTrialResponseCode: number | null;
 }
 
 export default class FeatureDiscovery extends React.PureComponent<Props, State> {
@@ -57,6 +59,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         this.state = {
             gettingTrial: false,
             gettingTrialError: null,
+            gettingTrialResponseCode: null,
         };
     }
 
@@ -75,9 +78,10 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
             users = this.props.stats.TOTAL_USERS;
         }
         const requestedUsers = Math.max(users, 30);
-        const {error} = await this.props.actions.requestTrialLicense(requestedUsers, true, true, this.props.featureName);
+        const {error, data} = await this.props.actions.requestTrialLicense(requestedUsers, true, true, this.props.featureName);
         if (error) {
-            this.setState({gettingTrialError: error});
+            console.log('CAUGHT ERROR');
+            this.setState({gettingTrialError: error, gettingTrialResponseCode: data.status});
         }
         this.setState({gettingTrial: false});
         this.props.actions.getLicenseConfig();
@@ -161,7 +165,23 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         } = this.props;
 
         let gettingTrialError: React.ReactNode = '';
-        if (this.state.gettingTrialError) {
+        if (this.state.gettingTrialError && this.state.gettingTrialResponseCode === 451) {
+            gettingTrialError = (
+                <p className='trial-error'>
+                    <FormattedMessage
+                        id='admin.license.trial-request.embargoed'
+                        defaultMessage='We were unable to process the request due to limitations for embargoed countries. [Learn more in our documentation](https://mattermost.com/pl/limitations-for-embargoed-countries), or reach out to legal@mattermost.com for questions around export limitations.'
+                        values={{
+                            link: (text: string) => (
+                                <a href='https://mattermost.com/pl/limitations-for-embargoed-countries'>
+                                    {text}
+                                </a>
+                            ),
+                        }}
+                    />
+                </p>
+            );
+        } else {
             gettingTrialError = (
                 <p className='trial-error'>
                     <FormattedMarkdownMessage
