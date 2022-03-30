@@ -58,7 +58,7 @@ export function validateDisplayName(displayName: string) {
 }
 
 const enum ServerErrorId {
-    CHANNEL_URL_SIZE = 'model.channel.is_valid.2_or_more.app_error',
+    CHANNEL_URL_SIZE = 'model.channel.is_valid.1_or_more.app_error',
     CHANNEL_UPDATE_EXISTS = 'store.sql_channel.update.exists.app_error',
     CHANNEL_CREATE_EXISTS = 'store.sql_channel.save_channel.exists.app_error',
     CHANNEL_PURPOSE_SIZE = 'model.channel.is_valid.purpose.app_error',
