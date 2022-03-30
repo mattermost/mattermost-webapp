@@ -2720,7 +2720,7 @@
   "channel_flow.alreadyExist": "A channel with that URL already exists",
   "channel_flow.changeUrlTitle": "Change Channel URL",
   "channel_flow.create": "Create Channel",
-  "channel_flow.handleTooShort": "Channel URL must be 1 or more lowercase alphanumeric character",
+  "channel_flow.handleTooShort": "Channel URL must be 1 or more lowercase alphanumeric characters",
   "channel_flow.invalidName": "Invalid Channel Name",
   "channel_flow.set_url_title": "Set Channel URL",
   "channel_header.addChannelHeader": "Add a channel header",
