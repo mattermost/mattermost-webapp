@@ -426,6 +426,8 @@ export default class SwitchChannelProvider extends Provider {
     async fetchUsersAndChannels(channelPrefix, resultsCallback) {
         const state = getState();
         const teamId = getCurrentTeamId(state);
+        const collapsedThreads = isCollapsedThreadsEnabled(state);
+
         if (!teamId) {
             return;
         }
@@ -456,10 +458,12 @@ export default class SwitchChannelProvider extends Provider {
         }
 
         const currentUserId = getCurrentUserId(state);
-        const localChannelData = getChannelsInAllTeams(state).concat(getDirectAndGroupChannels(state)) || [];
+        let localChannelData = getChannelsInAllTeams(state).concat(getDirectAndGroupChannels(state)) || [];
         const localUserData = Object.assign([], searchProfilesMatchingWithTerm(state, channelPrefix, false)) || [];
-        const localFormattedData = this.formatList(channelPrefix, [ThreadsChannel, ...localChannelData], localUserData);
-
+        if (collapsedThreads) {
+            localChannelData = [ThreadsChannel, ...localChannelData];
+        }
+        const localFormattedData = this.formatList(channelPrefix, localChannelData, localUserData);
         const remoteChannelData = channelsFromServer.concat(getGroupChannels(state)) || [];
         const remoteUserData = Object.assign([], usersFromServer.users) || [];
         const remoteFormattedData = this.formatList(channelPrefix, remoteChannelData, remoteUserData, false);
@@ -558,7 +562,12 @@ export default class SwitchChannelProvider extends Provider {
                 } else if (channelIsArchived && !members[channel.id]) {
                     continue;
                 } else if (newChannel.type === Constants.THREADS) {
-                    wrappedChannel = this.getThreadsItem();
+                    const threadItem = this.getThreadsItem('total');
+                    if (threadItem) {
+                        wrappedChannel = threadItem;
+                    } else {
+                        continue;
+                    }
                 } else if (newChannel.type === Constants.GM_CHANNEL) {
                     newChannel.name = newChannel.display_name;
                     wrappedChannel.name = newChannel.name;
@@ -584,7 +593,6 @@ export default class SwitchChannelProvider extends Provider {
                         continue;
                     }
                 }
-
                 completedChannels[channel.id] = true;
                 channels.push(wrappedChannel);
             }
@@ -648,8 +656,10 @@ export default class SwitchChannelProvider extends Provider {
         const sortedUnreadChannelIDs = sortedUnreadChannels.map((wrappedChannel) => wrappedChannel.channel.id);
         const sortedRecentChannels = wrappedRecentChannels.filter((wrappedChannel) => !sortedUnreadChannelIDs.includes(wrappedChannel.channel.id)).
             sort(sortChannelsByRecencyAndTypeAndDisplayName).slice(0, 20);
-        const threadsItem = this.getThreadsItem(Constants.MENTION_UNREAD_CHANNELS);
-        sortedUnreadChannels = [threadsItem, ...sortedUnreadChannels].slice(0, 5);
+        const threadsItem = this.getThreadsItem('unread', Constants.MENTION_UNREAD_CHANNELS);
+        if (threadsItem) {
+            sortedUnreadChannels = [threadsItem, ...sortedUnreadChannels].slice(0, 5);
+        }
         const sortedChannels = [...sortedUnreadChannels, ...sortedRecentChannels];
         const channelNames = sortedChannels.map((wrappedChannel) => wrappedChannel.channel.id);
         resultsCallback({
@@ -660,21 +670,26 @@ export default class SwitchChannelProvider extends Provider {
         });
     }
 
-    getThreadsItem(itemType) {
+    getThreadsItem(countType = 'total', itemType) {
         const state = getState();
         const counts = getThreadCountsInCurrentTeam(state);
-        const someUnreadThreads = counts?.total_unread_threads;
+        const collapsedThreads = isCollapsedThreadsEnabled(state);
+
+        // adding last viewed at equal to Date.now() to push it to the top of the list
         let threadsItem = {
             channel: ThreadsChannel,
             name: ThreadsChannel.name,
-            unread_mentions: counts.total_unread_mentions,
+            unread_mentions: counts?.total_unread_mentions || 0,
             deactivated: false,
             last_viewed_at: Date.now(),
         };
         if (itemType) {
             threadsItem = {...threadsItem, type: itemType};
         }
-        return someUnreadThreads ? threadsItem : null;
+        if (collapsedThreads && ((countType === 'unread' && counts?.total_unread_threads) || (countType === 'total'))) {
+            return threadsItem;
+        }
+        return null;
     }
 
     getTimestampFromPrefs(myPreferences, category, name) {
@@ -683,12 +698,12 @@ export default class SwitchChannelProvider extends Provider {
         return parseInt(prefValue, 10);
     }
 
-    getLastViewedAt(myMembers, myPreferences, channel) {
+    getLastViewedAt(member, myPreferences, channel) {
         // The server only ever sets the last_viewed_at to the time of the last post in channel,
         // So thought of using preferences but it seems that also not keeping track.
         // TODO Update and remove comment once solution is finalized
         return Math.max(
-            myMembers[channel.id]?.last_viewed_at,
+            member.last_viewed_at,
             this.getTimestampFromPrefs(myPreferences, Preferences.CATEGORY_CHANNEL_APPROXIMATE_VIEW_TIME, channel.id),
             this.getTimestampFromPrefs(myPreferences, Preferences.CATEGORY_CHANNEL_OPEN_TIME, channel.id),
         );
@@ -710,7 +725,7 @@ export default class SwitchChannelProvider extends Provider {
             let wrappedChannel = {channel, name: channel.name, deactivated: false};
             const member = myMembers[channel.id];
             if (member) {
-                wrappedChannel.last_viewed_at = this.getLastViewedAt(myMembers, myPreferences, channel);
+                wrappedChannel.last_viewed_at = this.getLastViewedAt(member, myPreferences, channel);
             }
             if (member && channelType === Constants.MENTION_UNREAD_CHANNELS) {
                 wrappedChannel.unreadMentions = collapsedThreads ? member.mention_count_root : member.mention_count;
