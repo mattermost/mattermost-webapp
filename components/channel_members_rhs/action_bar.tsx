@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {FormattedMessage} from 'react-intl';
-
 import styled from 'styled-components';
+
+import Constants from 'utils/constants';
 
 const Title = styled.div`
     flex:1;
@@ -51,6 +52,7 @@ const Button = styled.button`
 
 interface Props {
     className?: string;
+    channelType: string;
     membersCount: number;
     canManageMembers: boolean;
     editing: boolean;
@@ -61,7 +63,7 @@ interface Props {
     };
 }
 
-const ActionBar = ({className, membersCount, canManageMembers, editing, actions}: Props) => {
+const ActionBar = ({className, channelType, membersCount, canManageMembers, editing, actions}: Props) => {
     return (
         <div className={className}>
             <Title>
@@ -94,15 +96,17 @@ const ActionBar = ({className, membersCount, canManageMembers, editing, actions}
                         </Button>
                     ) : (
                         <>
-                            <Button
-                                className='manage-members'
-                                onClick={actions.startEditing}
-                            >
-                                <FormattedMessage
-                                    id='channel_members_rhs.action_bar.manage_button'
-                                    defaultMessage='Manage'
-                                />
-                            </Button>
+                            {channelType !== Constants.GM_CHANNEL && (
+                                <Button
+                                    className='manage-members'
+                                    onClick={actions.startEditing}
+                                >
+                                    <FormattedMessage
+                                        id='channel_members_rhs.action_bar.manage_button'
+                                        defaultMessage='Manage'
+                                    />
+                                </Button>
+                            )}
                             <Button
                                 onClick={actions.inviteMembers}
                                 className='add-members'
@@ -128,5 +132,6 @@ const ActionBar = ({className, membersCount, canManageMembers, editing, actions}
 export default styled(ActionBar)`
     display: flex;
     flex-direction: row;
+    align-items: center;
     padding: 16px 20px;
 `;

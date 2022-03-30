@@ -6,6 +6,8 @@ import styled from 'styled-components';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
+import {Channel} from 'mattermost-redux/types/channels';
+
 import Member from './member';
 import {ChannelMember} from './channel_members_rhs';
 
@@ -15,6 +17,7 @@ const Title = styled.div`
     line-height: 28px;
     letter-spacing: 0.02em;
     text-transform: uppercase;
+    padding: 0px 18px;
     color: rgba(var(--center-channel-color-rgb), 0.56);
 `;
 
@@ -23,25 +26,29 @@ const Members = styled.div`
 
 export interface Props {
     className?: string;
+    channel: Channel;
     members: ChannelMember[];
     editing: boolean;
-    title?: JSX.Element;
+    title?: JSX.Element | null;
 
     actions: {
         openDirectMessage: (user: UserProfile) => void;
     };
 }
 
-const MemberList = ({className, members, editing, title, actions}: Props) => {
+const MemberList = ({className, channel, members, editing, title, actions}: Props) => {
     return (
         <div className={className} >
             {members.length > 0 && (
                 <>
                     {Boolean(title) && (<Title>{title}</Title>)}
                     <Members>
-                        {members.map((member) => (
+                        {members.map((member, index, {length: totalUsers}) => (
                             <Member
                                 key={member.user.id}
+                                channel={channel}
+                                index={index}
+                                totalUsers={totalUsers}
                                 member={member}
                                 editing={editing}
                                 actions={{openDirectMessage: actions.openDirectMessage}}

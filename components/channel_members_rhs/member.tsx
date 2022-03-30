@@ -4,9 +4,13 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
 
+import classNames from 'classnames';
+
 import {UserProfile} from 'mattermost-redux/types/users';
 import ProfilePicture from 'components/profile_picture';
 import {Client4} from 'mattermost-redux/client';
+import ChannelMembersDropdown from 'components/channel_members_dropdown';
+import {Channel} from 'mattermost-redux/types/channels';
 
 import {ChannelMember} from './channel_members_rhs';
 
@@ -45,18 +49,26 @@ const SendMessage = styled.button`
 `;
 
 const RoleChoser = styled.div`
+    opacity: 0;
+    transition: opacity 250ms ease;
+    &.editing {
+        opacity: 1;
+    }
 `;
 
 interface Props {
     className?: string;
+    channel: Channel;
     member: ChannelMember;
+    index: number;
+    totalUsers: number;
     editing: boolean;
     actions: {
         openDirectMessage: (user: UserProfile) => void;
     };
 }
 
-const Member = ({className, member, editing, actions}: Props) => {
+const Member = ({className, channel, member, index, totalUsers, editing, actions}: Props) => {
     return (
         <div className={className}>
             <Avatar>
@@ -72,9 +84,16 @@ const Member = ({className, member, editing, actions}: Props) => {
             </Avatar>
             <DisplayName>{member.displayName}</DisplayName>
             <Username>{'@'}{member.user.username}</Username>
-            {editing ? (
-                <RoleChoser/>
-            ) : (
+            <RoleChoser className={classNames({editing})}>
+                <ChannelMembersDropdown
+                    channel={channel}
+                    user={member.user}
+                    channelMember={member.membership}
+                    index={index}
+                    totalUsers={totalUsers}
+                />
+            </RoleChoser>
+            {!editing && (
                 <SendMessage onClick={() => actions.openDirectMessage(member.user)}>
                     <i className='icon icon-send'/>
                 </SendMessage>

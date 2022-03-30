@@ -690,6 +690,7 @@ export const SearchTypes = keyMirror({
     SET_TEAM_LIST_SEARCH: null,
     SET_CHANNEL_LIST_SEARCH: null,
     SET_CHANNEL_LIST_FILTERS: null,
+    SET_CHANNEL_MEMBERS_RHS_SEARCH: null,
 });
 
 export const StorageTypes = keyMirror({

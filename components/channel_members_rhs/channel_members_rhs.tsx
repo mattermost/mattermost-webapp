@@ -1,9 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
-
 import styled from 'styled-components';
 
 import {UserProfile} from 'mattermost-redux/types/users';
@@ -17,6 +16,7 @@ import {browserHistory} from 'utils/browser_history';
 import ActionBar from './action_bar';
 import Header from './header';
 import MemberList from './member_list';
+import SearchBar from './search';
 
 export interface ChannelMember {
     user: UserProfile;
@@ -27,10 +27,14 @@ export interface ChannelMember {
 
 const MembersContainer = styled.div`
     flex: 1;
+    padding: 0 4px 16px;
+    overflow-y: auto;
 `;
 
 export interface Props {
     channel: Channel;
+    membersCount: number;
+    searchTerms: string;
     canGoBack: boolean;
     teamUrl: string;
     channelMembers: ChannelMember[];
@@ -42,13 +46,34 @@ export interface Props {
         openDirectChannelToUserId: (userId: string) => Promise<{ data: Channel }>;
         closeRightHandSide: () => void;
         goBack: () => void;
+        setChannelMembersRhsSearchTerm: (terms: string) => void;
+        loadProfilesAndReloadChannelMembers: (channelId: string) => void;
     };
 }
 
-export default function ChannelMembersRHS({channel, canGoBack, teamUrl, channelAdmins, channelMembers, canManageMembers, actions}: Props) {
+export default function ChannelMembersRHS({channel, searchTerms, membersCount, canGoBack, teamUrl, channelAdmins, channelMembers, canManageMembers, actions}: Props) {
     const [editing, setEditing] = useState(false);
 
-    const membersCount = channelAdmins.length + channelMembers.length;
+    const searching = searchTerms !== '';
+
+    // show search if there's more than 20 or if the user have an active search.
+    const showSearch = searching || membersCount >= 20;
+
+    useEffect(() => {
+        return () => {
+            actions.setChannelMembersRhsSearchTerm('');
+        };
+    }, []);
+
+    useEffect(() => {
+        actions.setChannelMembersRhsSearchTerm('');
+        setEditing(false);
+        actions.loadProfilesAndReloadChannelMembers(channel.id);
+    }, [channel.id]);
+
+    const doSearch = async (terms: string) => {
+        actions.setChannelMembersRhsSearchTerm(terms);
+    };
 
     const inviteMembers = () => {
         if (channel.type === Constants.GM_CHANNEL) {
@@ -90,6 +115,7 @@ export default function ChannelMembersRHS({channel, canGoBack, teamUrl, channelA
             />
 
             <ActionBar
+                channelType={channel.type}
                 membersCount={membersCount}
                 canManageMembers={canManageMembers}
                 editing={editing}
@@ -99,6 +125,13 @@ export default function ChannelMembersRHS({channel, canGoBack, teamUrl, channelA
                     inviteMembers,
                 }}
             />
+
+            {showSearch && (
+                <SearchBar
+                    terms={searchTerms}
+                    onInput={doSearch}
+                />
+            )}
 
             <MembersContainer>
                 {channelAdmins.length > 0 && (
@@ -111,6 +144,7 @@ export default function ChannelMembersRHS({channel, canGoBack, teamUrl, channelA
                             />
                         }
                         editing={editing}
+                        channel={channel}
                         actions={{openDirectMessage}}
                     />
                 )}
@@ -118,13 +152,14 @@ export default function ChannelMembersRHS({channel, canGoBack, teamUrl, channelA
                 {channelMembers.length > 0 && (
                     <MemberList
                         members={channelMembers}
-                        title={
+                        title={searching ? null : (
                             <FormattedMessage
                                 id='channel_members_rhs.list.channel_members_title'
                                 defaultMessage='MEMBERS'
                             />
-                        }
+                        )}
                         editing={editing}
+                        channel={channel}
                         actions={{openDirectMessage}}
                     />
                 )}

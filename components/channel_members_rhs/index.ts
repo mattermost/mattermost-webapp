@@ -4,13 +4,17 @@
 import {connect} from 'react-redux';
 import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 
-import {getCurrentChannel, getMembersInCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {
+    getCurrentChannel,
+    getCurrentChannelStats,
+    getMembersInCurrentChannel,
+} from 'mattermost-redux/selectors/entities/channels';
 import {GlobalState} from 'types/store';
 import {Constants} from 'utils/constants';
 import {getCurrentRelativeTeamUrl, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {
     getProfilesInCurrentChannel,
-    getUserStatuses,
+    getUserStatuses, searchProfilesInCurrentChannel,
 } from 'mattermost-redux/selectors/entities/users';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
@@ -23,16 +27,31 @@ import {closeRightHandSide, goBack} from 'actions/views/rhs';
 
 import {getPreviousRhsState} from '../../selectors/rhs';
 
+import {UserProfile} from 'mattermost-redux/types/users';
+
+import {setChannelMembersRhsSearchTerm} from '../../actions/views/search';
+
+import {loadProfilesAndReloadChannelMembers} from '../../actions/user_actions';
+
 import RHS, {Props, ChannelMember} from './channel_members_rhs';
 
 function mapStateToProps(state: GlobalState) {
     const channel = getCurrentChannel(state);
     const currentTeam = getCurrentTeam(state);
+    const {member_count: membersCount} = getCurrentChannelStats(state) || {member_count: 0};
 
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const canManageMembers = haveIChannelPermission(state, currentTeam.id, channel.id, isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS);
 
-    const profilesInCurrentChannel = getProfilesInCurrentChannel(state);
+    const searchTerms = state.views.search.channelMembersRhsSearch || '';
+    let profilesInCurrentChannel: UserProfile[];
+
+    if (searchTerms === '') {
+        profilesInCurrentChannel = getProfilesInCurrentChannel(state);
+    } else {
+        profilesInCurrentChannel = searchProfilesInCurrentChannel(state, searchTerms, false);
+    }
+
     const userStatuses = getUserStatuses(state);
     const teammateNameDisplaySetting = getTeammateNameDisplaySetting(state);
     const membersInCurrentChannel = getMembersInCurrentChannel(state);
@@ -48,10 +67,12 @@ function mapStateToProps(state: GlobalState) {
         } as ChannelMember;
 
         if (member.membership) {
-            if (isInRole(member.membership.roles, Constants.PERMISSIONS_CHANNEL_ADMIN)) {
+            // group by role unless we are doing a search
+            if (isInRole(member.membership.roles, Constants.PERMISSIONS_CHANNEL_ADMIN) && searchTerms === '') {
                 channelAdmins.push(member);
                 return;
             }
+
             channelMembers.push(member);
         }
     });
@@ -61,6 +82,8 @@ function mapStateToProps(state: GlobalState) {
 
     return {
         channel,
+        membersCount,
+        searchTerms,
         teamUrl,
         canGoBack,
         canManageMembers,
@@ -76,6 +99,8 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
             openDirectChannelToUserId,
             closeRightHandSide,
             goBack,
+            setChannelMembersRhsSearchTerm,
+            loadProfilesAndReloadChannelMembers,
         }, dispatch),
     };
 }
