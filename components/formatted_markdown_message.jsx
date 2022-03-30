@@ -5,8 +5,8 @@ import React from 'react';
 import {injectIntl} from 'react-intl';
 import PropTypes from 'prop-types';
 import marked from 'marked';
-import {shouldOpenInNewTab, getSiteURL} from 'utils/url';
 
+import {shouldOpenInNewTab, getSiteURL} from 'utils/url';
 
 import {intlShape} from 'utils/react_intl';
 
@@ -28,7 +28,6 @@ export class CustomRenderer extends marked.Renderer {
         if (href[0] === TARGET_BLANK_URL_PREFIX) {
             return `<a href="${href.substring(1, href.length)}" rel="noopener noreferrer" target="_blank">${text}</a>`;
         }
-        console.log(openInNewTab)
         if (openInNewTab) {
             return `<a href="${href}" target="_blank">${text}</a>`;
         }
