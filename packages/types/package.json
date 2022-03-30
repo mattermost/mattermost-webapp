@@ -7,8 +7,6 @@
   ],
   "homepage": "https://github.com/mattermost/mattermost-webapp/tree/master/packages/types#readme",
   "license": "MIT",
-  "module": "lib/index.js",
-  "types": "lib/index.d.ts",
   "files": [
     "lib"
   ],
