@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @collapsed_reply_threads
 
-import TIMEOUTS from '../../fixtures/timeouts';
-
 describe('Collapsed Reply Threads', () => {
     let testTeam;
     let testChannel;
@@ -45,9 +43,6 @@ describe('Collapsed Reply Threads', () => {
             // # Visit the channel
             cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
-            // # close the trial modal
-            cy.get('#startTrialModal', {timeout: TIMEOUTS.HALF_MIN}).find('.modal-header button.close').first().click();
-
             cy.apiSaveCRTPreference(user1.id, 'on');
             cy.apiCreateUser({prefix: 'user2'}).then(({user: newUser}) => {
                 user2 = newUser;
@@ -77,7 +72,7 @@ describe('Collapsed Reply Threads', () => {
         });
     });
 
-    it('MM-T4379: Display: Click to open threads)', () => {
+    it('MM-T4379 Display: Click to open threads)', () => {
         cy.uiWaitUntilMessagePostedIncludes(rootPost.data.message);
 
         // # Get the root post
@@ -86,25 +81,25 @@ describe('Collapsed Reply Threads', () => {
         // * Verify the post is opened in RHS
         cy.get(`#rhsPost_${rootPost.id}`).should('be.visible');
 
-        // # close RHS
+        // # Close RHS
         cy.uiCloseRHS();
 
-        // # open settings modal and disable opening the thread in RHS when being clicked
+        // # Open settings modal and disable opening the thread in RHS when being clicked
         cy.uiOpenSettingsModal('Display');
 
-        // # open section "click to open threads"
+        // # Open section "click to open threads"
         cy.get('#click_to_replyTitle').click();
 
-        // # click radio button with option B ('off')
+        // # Click radio button with option B ('off')
         cy.get('#click_to_replyFormatB').click();
 
-        // # save settings
+        // # Save settings
         cy.get('#saveSetting').click();
 
         // # close settings modal
         cy.uiClose();
 
-        // # (re-) Visit the channel
+        // # (Re-) Visit the channel
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Get the root post
@@ -117,7 +112,7 @@ describe('Collapsed Reply Threads', () => {
         cy.apiDeletePost(rootPost.id);
     });
 
-    it('MM-T4445: CRT - Delete root post (current behavior is incorrect, see comments)', () => {
+    it('MM-T4445 CRT - Delete root post', () => {
         /**
          * When you delete a post the current behavior in displaying it and the thread replies is incorrect.
          * Deleting a root post leads to a post showing `(message deleted)`, but still rendering the replies
@@ -146,17 +141,18 @@ describe('Collapsed Reply Threads', () => {
         // * There should be a single thread item showing '(message deleted)'
         cy.get('article.ThreadItem').should('have.lengthOf', 1).should('contain.text', '(message deleted)');
 
-        // # refresh the page
+        // # Refresh the page
         cy.reload();
 
         // * There should be no thread item anymore
         cy.get('article.ThreadItem').should('have.lengthOf', 0);
     });
 
-    it('MM-T4446: CRT - Delete single reply post on a thread (current behavior is incorrect, see comments)', () => {
+    it('MM-T4446 CRT - Delete single reply post on a thread', () => {
         /**
          * When you delete a reply you are still following the thread, so the thread is not being removed
-         * from the global threads view. The test description was written differently asit was assuming the
+         * from the global threads view. The test description was written differently as it was assuming the
+         * thread to not be followed after that. The test will be build keeping that in mind, but should
          * thread to not be followed after that. The test will be build keeping that in mind, but should
          * probably be adjusted later on.
          */
@@ -175,7 +171,7 @@ describe('Collapsed Reply Threads', () => {
             // * There should be a single thread item
             cy.get('article.ThreadItem').should('have.lengthOf', 1).first().click();
 
-            // * the reply should be in RHS
+            // * Reply should be in RHS
             cy.get(`#rhsPostMessageText_${replyPost1.id}`).should('be.visible').should('contain.text', messages.REPLY1);
 
             // # Delete thread reply post
@@ -201,7 +197,7 @@ describe('Collapsed Reply Threads', () => {
         });
     });
 
-    it('MM-T4447: CRT - Delete single reply post on a multi-reply thread', () => {
+    it('MM-T4447 CRT - Delete single reply post on a multi-reply thread', () => {
         cy.uiWaitUntilMessagePostedIncludes(rootPost.data.message);
 
         // # Thread footer should not exist
@@ -271,7 +267,7 @@ describe('Collapsed Reply Threads', () => {
         });
     });
 
-    it('MM-T4448: CRT - L16 - Use “Mark all as read” button', () => {
+    it('MM-T4448 CRT - L16 - Use “Mark all as read” button', () => {
         cy.uiWaitUntilMessagePostedIncludes(rootPost.data.message);
 
         // # Thread footer should not exist
