@@ -15,7 +15,7 @@ import './user_groups_modal.scss';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import {debounce} from 'mattermost-redux/actions/helpers';
-import Input from 'components/input';
+import Input from 'components/widgets/inputs/input/input';
 import NoResultsIndicator from 'components/no_results_indicator';
 import {NoResultsVariant} from 'components/no_results_indicator/types';
 

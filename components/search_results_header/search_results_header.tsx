@@ -35,7 +35,7 @@ type Props = {
     actions: {
         closeRightHandSide: () => void;
         toggleRhsExpanded: () => void;
-        showChannelInfo: (channelId: string) => void;
+        goBack: () => void;
     };
 };
 
@@ -87,7 +87,7 @@ export default class SearchResultsHeader extends React.PureComponent<Props> {
                     {showBack && (
                         <BackButton
                             className='sidebar--right__back'
-                            onClick={() => this.props.actions.showChannelInfo(this.props.channelId)}
+                            onClick={() => this.props.actions.goBack()}
                         >
                             <BackButtonIcon
                                 className='icon-arrow-back-ios'

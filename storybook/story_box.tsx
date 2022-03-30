@@ -5,6 +5,8 @@ import React, {PropsWithChildren, CSSProperties} from 'react';
 
 import './story_box.scss';
 
+import '@mattermost/compass-icons/css/compass-icons.css';
+
 type Props = {
     label?: string;
     containerStyle?: CSSProperties;
