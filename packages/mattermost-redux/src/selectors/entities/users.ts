@@ -556,6 +556,11 @@ export function makeGetProfilesForReactions(): (state: GlobalState, reactions: R
     );
 }
 
+/**
+ * Returns a selector that returns all profiles in a given channel with the given filters applied.
+ *
+ * Note that filters, if provided, must be either a constant or memoized to prevent constant recomputation of the selector.
+ */
 export function makeGetProfilesInChannel(): (state: GlobalState, channelId: Channel['id'], filters?: Filters) => UserProfile[] {
     return createSelector(
         'makeGetProfilesInChannel',
@@ -576,20 +581,20 @@ export function makeGetProfilesInChannel(): (state: GlobalState, channelId: Chan
     );
 }
 
+/**
+ * Returns a selector that returns all profiles not in a given channel.
+ */
 export function makeGetProfilesNotInChannel(): (state: GlobalState, channelId: Channel['id'], filters?: Filters) => UserProfile[] {
     return createSelector(
         'makeGetProfilesNotInChannel',
         getUsers,
         getUserIdsNotInChannels,
         (state: GlobalState, channelId: string) => channelId,
-        (state, channelId, filters) => filters,
-        (users, userIds, channelId, filters = {}) => {
+        (users, userIds, channelId) => {
             const userIdsInChannel = userIds[channelId];
 
             if (!userIdsInChannel) {
                 return [];
-            } else if (filters) {
-                return sortAndInjectProfiles(filterProfiles(users, filters), userIdsInChannel);
             }
 
             return sortAndInjectProfiles(users, userIdsInChannel);

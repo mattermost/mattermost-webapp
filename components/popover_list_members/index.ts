@@ -35,7 +35,9 @@ type Filters = {
     team_roles?: string[];
 };
 
-const makeSortUsersByStatusAndDisplayName = (doGetProfilesInChannel: (state: GlobalState, channelId: Channel['id'], filters?: Filters) => UserProfile[]) => {
+const makeSortUsersByStatusAndDisplayName = () => {
+    const doGetProfilesInChannel = makeGetProfilesInChannel();
+
     return createSelector(
         'makeSortUsersByStatusAndDisplayName',
         (state: GlobalState, channelId: Channel['id']) => doGetProfilesInChannel(state, channelId),
@@ -46,8 +48,7 @@ const makeSortUsersByStatusAndDisplayName = (doGetProfilesInChannel: (state: Glo
 };
 
 function makeMapStateToProps() {
-    const doGetProfilesInChannel = makeGetProfilesInChannel();
-    const doSortUsersByStatusAndDisplayName = makeSortUsersByStatusAndDisplayName(doGetProfilesInChannel);
+    const doSortUsersByStatusAndDisplayName = makeSortUsersByStatusAndDisplayName();
 
     return function mapStateToProps(state: GlobalState, ownProps: Props) {
         const stats = getAllChannelStats(state)[ownProps.channel.id] || {};
