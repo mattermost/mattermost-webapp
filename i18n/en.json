@@ -57,6 +57,7 @@
   "activity_log.sessionId": "Session ID: {id}",
   "activity_log.sessionsDescription": "Sessions are created when you log in through a new browser on a device. Sessions let you use Mattermost without having to log in again for a time period specified by the System Admin. To end the session sooner, use the 'Log Out' button.",
   "activityAndInsights.sidebarLink": "Insights",
+  "activityAndInsights.title": "Activity and Insights - {displayName} {siteName}",
   "add_channels_to_scheme.title": "Add Channels to **Channel Selection** List",
   "add_command.autocomplete": "Autocomplete",
   "add_command.autocomplete.help": "(Optional) Show your slash command on the autocomplete list when someone types / in the input box.",
