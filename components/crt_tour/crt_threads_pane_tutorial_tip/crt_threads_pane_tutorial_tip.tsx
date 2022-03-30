@@ -7,6 +7,9 @@ import {Constants, Preferences} from 'utils/constants';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import TutorialTip from 'components/tutorial/tutorial_tip_legacy';
 import {useMeasurePunchoutsDeprecated} from 'components/tutorial/tutorial_tip_legacy/hooks';
+import TourTip, { useMeasurePunchouts } from 'components/widgets/tour_tip';
+
+const translate = {x: 2, y: 25};
 
 const CRTThreadsPaneTutorialTip = () => {
     const title = (
@@ -25,18 +28,37 @@ const CRTThreadsPaneTutorialTip = () => {
         </p>
     );
 
+    const nextBtn = (): JSX.Element => {
+        return (
+            <FormattedMessage
+                id={'tutorial_tip.got_it'}
+                defaultMessage={'Got it'}
+            />
+        );
+    };
+
+    const onDismiss = (e: React.MouseEvent) => {
+        e.preventDefault();
+    };
+
+    const overlayPunchOut = useMeasurePunchouts(['rhsContainer'], []);
+
     return (
-        <TutorialTip
-            title={title}
-            singleTip={true}
-            placement='left'
-            showOptOut={false}
-            step={Constants.CrtThreadPaneSteps.THREADS_PANE_POPOVER}
-            tutorialCategory={Preferences.CRT_THREAD_PANE_STEP}
+        <TourTip
+            show={true}
             screen={screen}
-            overlayClass='tip-overlay--threads-pane'
-            punchOut={useMeasurePunchoutsDeprecated(['rhsContainer'], [])}
-            autoTour={true}
+            title={title}
+            overlayPunchOut={overlayPunchOut}
+            placement='left'
+            pulsatingDotPlacement='top-start'
+            pulsatingDotTranslate={translate}
+            step={1}
+            singleTip={true}
+            showOptOut={false}
+            handleDismiss={onDismiss}
+            handleNext={onDismiss}
+            interactivePunchOut={true}
+            nextBtn={nextBtn()}
         />
     );
 };

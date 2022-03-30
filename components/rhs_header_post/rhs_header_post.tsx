@@ -240,7 +240,7 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
                         </button>
                     </OverlayTrigger>
                 </div>
-                {this.props.showThreadsTutorialTip && <CRTThreadsPaneTutorialTip/>}
+                {true && <CRTThreadsPaneTutorialTip/>}
             </div>
         );
     }
