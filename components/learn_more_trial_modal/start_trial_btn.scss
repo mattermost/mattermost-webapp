@@ -1,8 +1,10 @@
 .StartTrialBtn {
+
     &.embargoed {
         margin-top: 5px;
         color: var(--error-text);
     }
+
     &.start-trial-btn {
         display: block;
         width: fit-content;
