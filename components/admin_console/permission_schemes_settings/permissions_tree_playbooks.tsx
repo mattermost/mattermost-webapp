@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 import {ClientLicense} from 'mattermost-redux/types/config';
-import {LicenseSkus} from 'mattermost-redux/types/general';
+import {isEnterpriseLicense, isNonEnterpriseLicense} from 'mattermost-redux/types/general';
 
 import {Role} from 'mattermost-redux/types/roles';
 
@@ -29,10 +29,7 @@ const groups = [
             Permissions.PLAYBOOK_PUBLIC_MANAGE_PROPERTIES,
             Permissions.PLAYBOOK_PUBLIC_MANAGE_MEMBERS,
         ],
-        isVisible: (license?: ClientLicense) => {
-            // This version of the group is for non-enterprise customers.
-            return !(license !== undefined && license.SkuShortName === LicenseSkus.Enterprise);
-        },
+        isVisible: isNonEnterpriseLicense,
     },
     {
         id: 'playbook_public',
@@ -41,10 +38,7 @@ const groups = [
             Permissions.PLAYBOOK_PUBLIC_MANAGE_MEMBERS,
             Permissions.PLAYBOOK_PUBLIC_MAKE_PRIVATE,
         ],
-        isVisible: (license?: ClientLicense) => {
-            // This version of the group is for enterprise customers.
-            return license !== undefined && license.SkuShortName === LicenseSkus.Enterprise;
-        },
+        isVisible: isEnterpriseLicense,
     },
     {
         id: 'playbook_private',
@@ -53,10 +47,7 @@ const groups = [
             Permissions.PLAYBOOK_PRIVATE_MANAGE_MEMBERS,
             Permissions.PLAYBOOK_PRIVATE_MAKE_PUBLIC,
         ],
-        isVisible: (license?: ClientLicense) => {
-            // This group is only for enterprise customers.
-            return license !== undefined && license.SkuShortName === LicenseSkus.Enterprise;
-        },
+        isVisible: isEnterpriseLicense,
     },
     {
         id: 'runs',

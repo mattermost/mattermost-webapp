@@ -14,7 +14,7 @@ import PermissionGroup from '../permission_group.jsx';
 import EditPostTimeLimitButton from '../edit_post_time_limit_button';
 import EditPostTimeLimitModal from '../edit_post_time_limit_modal';
 
-import {LicenseSkus} from 'mattermost-redux/types/general';
+import {isEnterpriseLicense, isNonEnterpriseLicense} from 'mattermost-redux/types/general';
 
 import {AdditionalValues, Group} from './types';
 
@@ -125,10 +125,7 @@ export default class PermissionsTree extends React.PureComponent<Props, State> {
                     Permissions.PLAYBOOK_PUBLIC_MANAGE_PROPERTIES,
                     Permissions.PLAYBOOK_PUBLIC_MANAGE_MEMBERS,
                 ],
-                isVisible: (license?: ClientLicense) => {
-                    // This version of the group is for non-enterprise customers.
-                    return !(license !== undefined && license.SkuShortName === LicenseSkus.Enterprise);
-                },
+                isVisible: isNonEnterpriseLicense,
             },
             {
                 id: 'playbook_public',
@@ -138,10 +135,7 @@ export default class PermissionsTree extends React.PureComponent<Props, State> {
                     Permissions.PLAYBOOK_PUBLIC_MANAGE_MEMBERS,
                     Permissions.PLAYBOOK_PUBLIC_MAKE_PRIVATE,
                 ],
-                isVisible: (license?: ClientLicense) => {
-                    // This version of the group is for enterprise customers.
-                    return license !== undefined && license.SkuShortName === LicenseSkus.Enterprise;
-                },
+                isVisible: isEnterpriseLicense,
             },
             {
                 id: 'playbook_private',
@@ -151,10 +145,7 @@ export default class PermissionsTree extends React.PureComponent<Props, State> {
                     Permissions.PLAYBOOK_PRIVATE_MANAGE_MEMBERS,
                     Permissions.PLAYBOOK_PRIVATE_MAKE_PUBLIC,
                 ],
-                isVisible: (license?: ClientLicense) => {
-                    // This group is only for enterprise customers.
-                    return license !== undefined && license.SkuShortName === LicenseSkus.Enterprise;
-                },
+                isVisible: isEnterpriseLicense,
             },
             {
                 id: 'runs',

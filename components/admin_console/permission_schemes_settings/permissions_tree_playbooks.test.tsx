@@ -8,6 +8,7 @@ import {shallow} from 'enzyme';
 import {LicenseSkus} from 'mattermost-redux/types/general';
 
 import PermissionsTreePlaybooks from 'components/admin_console/permission_schemes_settings/permissions_tree_playbooks';
+import PermissionGroup from 'components/admin_console/permission_schemes_settings/permission_group.jsx';
 
 describe('components/admin_console/permission_schemes_settings/permissions_tree_playbooks', () => {
     const defaultProps: ComponentProps<typeof PermissionsTreePlaybooks> = {
@@ -21,49 +22,48 @@ describe('components/admin_console/permission_schemes_settings/permissions_tree_
         },
     };
 
-    test('should match snapshots without license', () => {
-        const wrapper = shallow(
-            <PermissionsTreePlaybooks {...defaultProps}/>,
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
+    describe('should show playbook permissions', () => {
+        describe('for non-enterprise license', () => {
+            ['', LicenseSkus.E10, LicenseSkus.Starter, LicenseSkus.Professional].forEach((licenseSku) => test(licenseSku, () => {
+                const props = {
+                    ...defaultProps,
+                    license: {
+                        isLicensed: licenseSku === '' ? 'false' : 'true',
+                        SkuShortName: licenseSku,
+                    },
+                };
 
-    test('should match snapshots with starter license', () => {
-        const props = {
-            ...defaultProps,
-            license: {
-                SkuShortName: LicenseSkus.Starter,
-            },
-        };
-        const wrapper = shallow(
-            <PermissionsTreePlaybooks {...props}/>,
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
+                const wrapper = shallow(
+                    <PermissionsTreePlaybooks {...props}/>,
+                );
 
-    test('should match snapshots with professional license', () => {
-        const props = {
-            ...defaultProps,
-            license: {
-                SkuShortName: LicenseSkus.Professional,
-            },
-        };
-        const wrapper = shallow(
-            <PermissionsTreePlaybooks {...props}/>,
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
+                const groups = wrapper.find(PermissionGroup).first().prop('permissions');
+                expect(groups).toHaveLength(2);
+                expect(groups[0].id).toStrictEqual('playbook_public');
+                expect(groups[1].id).toStrictEqual('runs');
+            }));
+        });
 
-    test('should match snapshots with enterprise license', () => {
-        const props = {
-            ...defaultProps,
-            license: {
-                SkuShortName: LicenseSkus.Enterprise,
-            },
-        };
-        const wrapper = shallow(
-            <PermissionsTreePlaybooks {...props}/>,
-        );
-        expect(wrapper).toMatchSnapshot();
+        describe('for enterprise license', () => {
+            [LicenseSkus.E20, LicenseSkus.Enterprise].forEach((licenseSku) => test(licenseSku, () => {
+                const props = {
+                    ...defaultProps,
+                    license: {
+                        isLicensed: 'true',
+                        SkuShortName: licenseSku,
+                    },
+                };
+
+                const wrapper = shallow(
+                    <PermissionsTreePlaybooks {...props}/>,
+                );
+
+                const groups = wrapper.find(PermissionGroup).first().prop('permissions');
+                expect(groups).toHaveLength(3);
+                expect(groups[0].id).toStrictEqual('playbook_public');
+                expect(groups[1].id).toStrictEqual('playbook_private');
+                expect(groups[2].id).toStrictEqual('runs');
+            }));
+        });
     });
 });

@@ -137,65 +137,49 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
     });
 
     describe('should show playbook permissions', () => {
-        it('for starter license', () => {
-            const props = {
-                ...defaultProps,
-                license: {
-                    isLicensed: 'true',
-                    SkuShortName: LicenseSkus.Starter,
-                },
-            };
+        describe('for non-enterprise license', () => {
+            ['', LicenseSkus.E10, LicenseSkus.Starter, LicenseSkus.Professional].forEach((licenseSku) => test(licenseSku, () => {
+                const props = {
+                    ...defaultProps,
+                    license: {
+                        isLicensed: licenseSku === '' ? 'false' : 'true',
+                        SkuShortName: licenseSku,
+                    },
+                };
 
-            const wrapper = shallow(
-                <PermissionsTree
-                    {...props}
-                />,
-            );
+                const wrapper = shallow(
+                    <PermissionsTree
+                        {...props}
+                    />,
+                );
 
-            const groups = wrapper.find(PermissionGroup).first().prop('permissions');
-            expect(groups[3].id).toStrictEqual('playbook_public');
-            expect(groups[4].id).toStrictEqual('runs');
+                const groups = wrapper.find(PermissionGroup).first().prop('permissions');
+                expect(groups[3].id).toStrictEqual('playbook_public');
+                expect(groups[4].id).toStrictEqual('runs');
+            }));
         });
 
-        it('for professional license', () => {
-            const props = {
-                ...defaultProps,
-                license: {
-                    isLicensed: 'true',
-                    SkuShortName: LicenseSkus.Professional,
-                },
-            };
+        describe('for enterprise license', () => {
+            [LicenseSkus.E20, LicenseSkus.Enterprise].forEach((licenseSku) => test(licenseSku, () => {
+                const props = {
+                    ...defaultProps,
+                    license: {
+                        isLicensed: 'true',
+                        SkuShortName: licenseSku,
+                    },
+                };
 
-            const wrapper = shallow(
-                <PermissionsTree
-                    {...props}
-                />,
-            );
+                const wrapper = shallow(
+                    <PermissionsTree
+                        {...props}
+                    />,
+                );
 
-            const groups = wrapper.find(PermissionGroup).first().prop('permissions');
-            expect(groups[3].id).toStrictEqual('playbook_public');
-            expect(groups[4].id).toStrictEqual('runs');
-        });
-
-        it('for enterprise license', () => {
-            const props = {
-                ...defaultProps,
-                license: {
-                    isLicensed: 'true',
-                    SkuShortName: LicenseSkus.Enterprise,
-                },
-            };
-
-            const wrapper = shallow(
-                <PermissionsTree
-                    {...props}
-                />,
-            );
-
-            const groups = wrapper.find(PermissionGroup).first().prop('permissions');
-            expect(groups[3].id).toStrictEqual('playbook_public');
-            expect(groups[4].id).toStrictEqual('playbook_private');
-            expect(groups[5].id).toStrictEqual('runs');
+                const groups = wrapper.find(PermissionGroup).first().prop('permissions');
+                expect(groups[3].id).toStrictEqual('playbook_public');
+                expect(groups[4].id).toStrictEqual('playbook_private');
+                expect(groups[5].id).toStrictEqual('runs');
+            }));
         });
     });
 });
