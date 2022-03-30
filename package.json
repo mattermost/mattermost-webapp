@@ -231,6 +231,7 @@
       "text-summary"
     ],
     "moduleNameMapper": {
+      "^@mattermost/(types)/(.*)$": "<rootDir>/packages/$1/src/$2",
       "^mattermost-redux/test/(.*)$": "<rootDir>/packages/mattermost-redux/test/$1",
       "^mattermost-redux/(.*)$": "<rootDir>/packages/mattermost-redux/src/$1",
       "^reselect$": "<rootDir>/packages/reselect/src",
