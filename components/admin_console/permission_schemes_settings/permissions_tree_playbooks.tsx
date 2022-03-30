@@ -22,6 +22,50 @@ interface Props {
     license: ClientLicense;
 }
 
+const groups = [
+    {
+        id: 'playbook_public',
+        permissions: [
+            Permissions.PLAYBOOK_PUBLIC_MANAGE_PROPERTIES,
+            Permissions.PLAYBOOK_PUBLIC_MANAGE_MEMBERS,
+        ],
+        isVisible: (license?: ClientLicense) => {
+            // This version of the group is for non-enterprise customers.
+            return !(license !== undefined && license.SkuShortName === LicenseSkus.Enterprise);
+        },
+    },
+    {
+        id: 'playbook_public',
+        permissions: [
+            Permissions.PLAYBOOK_PUBLIC_MANAGE_PROPERTIES,
+            Permissions.PLAYBOOK_PUBLIC_MANAGE_MEMBERS,
+            Permissions.PLAYBOOK_PUBLIC_MAKE_PRIVATE,
+        ],
+        isVisible: (license?: ClientLicense) => {
+            // This version of the group is for enterprise customers.
+            return license !== undefined && license.SkuShortName === LicenseSkus.Enterprise;
+        },
+    },
+    {
+        id: 'playbook_private',
+        permissions: [
+            Permissions.PLAYBOOK_PRIVATE_MANAGE_PROPERTIES,
+            Permissions.PLAYBOOK_PRIVATE_MANAGE_MEMBERS,
+            Permissions.PLAYBOOK_PRIVATE_MAKE_PUBLIC,
+        ],
+        isVisible: (license?: ClientLicense) => {
+            // This group is only for enterprise customers.
+            return license !== undefined && license.SkuShortName === LicenseSkus.Enterprise;
+        },
+    },
+    {
+        id: 'runs',
+        permissions: [
+            Permissions.RUN_CREATE,
+        ],
+    },
+];
+
 const PermissionsTreePlaybooks = (props: Props) => {
     const toggleGroup = (ids: string[]) => {
         if (props.readOnly) {
@@ -30,36 +74,13 @@ const PermissionsTreePlaybooks = (props: Props) => {
         props.onToggle(props.role?.name || '', ids);
     };
 
-    const groups = [
-        {
-            id: 'playbook_public',
-            permissions: [
-                Permissions.PLAYBOOK_PUBLIC_MANAGE_PROPERTIES,
-                Permissions.PLAYBOOK_PUBLIC_MANAGE_MEMBERS,
-            ],
-        },
-        {
-            id: 'runs',
-            permissions: [
-                Permissions.RUN_CREATE,
-            ],
-        },
-    ];
-
-    if (props.license?.SkuShortName === LicenseSkus.Enterprise) {
-        const playbookPublicIndex = groups.findIndex((group) => group.id === 'playbook_public');
-        if (playbookPublicIndex >= 0) {
-            groups[playbookPublicIndex].permissions.push(Permissions.PLAYBOOK_PUBLIC_MAKE_PRIVATE);
-            groups.splice(playbookPublicIndex + 1, 0, {
-                id: 'playbook_private',
-                permissions: [
-                    Permissions.PLAYBOOK_PRIVATE_MANAGE_PROPERTIES,
-                    Permissions.PLAYBOOK_PRIVATE_MANAGE_MEMBERS,
-                    Permissions.PLAYBOOK_PRIVATE_MAKE_PUBLIC,
-                ],
-            });
+    const filteredGroups = groups.filter((group) => {
+        if (group.isVisible) {
+            return group.isVisible(props.license);
         }
-    }
+
+        return true;
+    });
 
     return (
         <div className='permissions-tree'>
@@ -85,7 +106,7 @@ const PermissionsTreePlaybooks = (props: Props) => {
                     uniqId={props.role?.name}
                     selectRow={props.selectRow}
                     readOnly={props.readOnly}
-                    permissions={groups}
+                    permissions={filteredGroups}
                     role={props.role}
                     scope={props.scope}
                     combined={false}
