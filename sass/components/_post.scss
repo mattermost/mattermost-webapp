@@ -1710,8 +1710,8 @@
 
         &--small-image {
             position: absolute;
-            left: 24px;
             top: -8px;
+            left: 24px;
             width: 68px;
         }
 
@@ -1736,7 +1736,6 @@
     }
 
     .small-image-utility-buttons-wrapper {
-
         &:hover .image-preview-utility-buttons-container {
             display: inline-block;
         }
