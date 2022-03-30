@@ -833,6 +833,7 @@ export const RHSStates = {
     PLUGIN: 'plugin',
     CHANNEL_FILES: 'channel-files',
     CHANNEL_INFO: 'channel-info',
+    CHANNEL_MEMBERS: 'channel-members',
 };
 
 export const UploadStatuses = {
