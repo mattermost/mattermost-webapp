@@ -2,16 +2,19 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {Constants, Preferences} from 'utils/constants';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import TutorialTip from 'components/tutorial/tutorial_tip_legacy';
-import {useMeasurePunchoutsDeprecated} from 'components/tutorial/tutorial_tip_legacy/hooks';
-import TourTip, { useMeasurePunchouts } from 'components/widgets/tour_tip';
+import TourTip, {useMeasurePunchouts} from 'components/widgets/tour_tip';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
 
 const translate = {x: 2, y: 25};
 
 const CRTThreadsPaneTutorialTip = () => {
+    const dispatch = useDispatch();
+    const currentUserId = useSelector(getCurrentUserId);
     const title = (
         <FormattedMessage
             id='tutorial_threads.threads_pane.title'
@@ -39,6 +42,15 @@ const CRTThreadsPaneTutorialTip = () => {
 
     const onDismiss = (e: React.MouseEvent) => {
         e.preventDefault();
+        const preferences = [
+            {
+                user_id: currentUserId,
+                category: Preferences.CRT_THREAD_PANE_STEP,
+                name: currentUserId,
+                value: Constants.CrtThreadPaneSteps.FINISHED.toString(),
+            },
+        ];
+        dispatch(savePreferences(currentUserId, preferences));
     };
 
     const overlayPunchOut = useMeasurePunchouts(['rhsContainer'], []);
