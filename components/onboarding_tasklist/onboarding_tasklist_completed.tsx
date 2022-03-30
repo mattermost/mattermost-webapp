@@ -114,13 +114,14 @@ const Completed = (props: Props): JSX.Element => {
         dispatch(getPrevTrialLicense());
     }, []);
 
-    const prevTrialLicense = useSelector((state: GlobalState) => state.entities.admin.prevTrialLicense);
-    const license = useSelector(getLicense);
-    const isPrevLicensed = prevTrialLicense?.IsLicensed;
-    const isCurrentLicensed = license?.IsLicensed;
+    // const prevTrialLicense = useSelector((state: GlobalState) => state.entities.admin.prevTrialLicense);
+    // const license = useSelector(getLicense);
+
+    // const isPrevLicensed = prevTrialLicense?.IsLicensed;
+    // const isCurrentLicensed = license?.IsLicensed;
 
     // Show this CTA if the instance is currently not licensed and has never had a trial license loaded before
-    const showStartTrialBtn = (isCurrentLicensed === 'false' && isPrevLicensed === 'false');
+    const showStartTrialBtn = true;
 
     const {formatMessage} = useIntl();
 

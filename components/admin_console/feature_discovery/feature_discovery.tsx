@@ -75,8 +75,12 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
             users = this.props.stats.TOTAL_USERS;
         }
         const requestedUsers = Math.max(users, 30);
-        const {error} = await this.props.actions.requestTrialLicense(requestedUsers, true, true, this.props.featureName);
+        const {error, data} = await this.props.actions.requestTrialLicense(requestedUsers, true, true, this.props.featureName);
+        console.log(error, data);
         if (error) {
+            console.log(error);
+            cosnole.log(data);
+
             this.setState({gettingTrialError: error});
         }
         this.setState({gettingTrial: false});
@@ -162,6 +166,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
 
         let gettingTrialError: React.ReactNode = '';
         if (this.state.gettingTrialError) {
+            console.log(this.state.gettingTrialError);
             gettingTrialError = (
                 <p className='trial-error'>
                     <FormattedMarkdownMessage

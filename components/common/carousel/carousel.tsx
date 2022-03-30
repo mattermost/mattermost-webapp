@@ -11,6 +11,7 @@ type Props = {
     infiniteSlide: boolean;
     onNextSlideClick?: (slideIndex: number) => void;
     onPrevSlideClick?: (slideIndex: number) => void;
+    disableNextButton?: boolean;
 }
 const Carousel = ({
     dataSlides,
@@ -18,6 +19,7 @@ const Carousel = ({
     infiniteSlide,
     onNextSlideClick,
     onPrevSlideClick,
+    disableNextButton,
 }: Props): JSX.Element | null => {
     const [slideIndex, setSlideIndex] = useState(1);
     const [prevButtonDisabled, setPrevButtonDisabled] = useState(!infiniteSlide);
@@ -104,7 +106,7 @@ const Carousel = ({
                     <CarouselButton
                         moveSlide={nextSlide}
                         direction={'next'}
-                        disabled={nextButtonDisabled}
+                        disabled={nextButtonDisabled || disableNextButton}
                     />
                 </div>
             </div>

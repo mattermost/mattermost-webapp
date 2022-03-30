@@ -27,19 +27,22 @@ export type StartTrialBtnProps = {
     message: string;
     telemetryId: string;
     onClick?: () => void;
-}
+    handleEmbargoError?: () => void;
+};
 
 enum TrialLoadStatus {
     NotStarted = 'NOT_STARTED',
     Started = 'STARTED',
     Success = 'SUCCESS',
-    Failed = 'FAILED'
+    Failed = 'FAILED',
+    Embargoed = 'EMBARGOED',
 }
 
 const StartTrialBtn = ({
     message,
     telemetryId,
     onClick,
+    handleEmbargoError,
 }: StartTrialBtnProps) => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch<DispatchFunc>();
@@ -54,18 +57,29 @@ const StartTrialBtn = ({
             users = stats.TOTAL_USERS;
         }
         const requestedUsers = Math.max(users, 30);
-        const {error} = await dispatch(requestTrialLicense(requestedUsers, true, true, 'license'));
+        const {error, data} = await dispatch(requestTrialLicense(requestedUsers, true, true, 'license'));
         if (error) {
+            if (data.status === 451) {
+                setLoadStatus(TrialLoadStatus.Embargoed);
+                if (typeof handleEmbargoError === 'function') {
+                    handleEmbargoError();
+                }
+                return;
+            }
             setLoadStatus(TrialLoadStatus.Failed);
             return;
         }
 
-        setLoadStatus(TrialLoadStatus.Success);
         await dispatch(getLicenseConfig());
         await dispatch(closeModal(ModalIdentifiers.LEARN_MORE_TRIAL_MODAL));
+        setLoadStatus(TrialLoadStatus.Success);
     };
 
     const openTrialBenefitsModal = async () => {
+        // Only open the benefits modal if the trial request succeeded
+        if (status !== TrialLoadStatus.Success) {
+            return;
+        }
         await dispatch(openModal({
             modalId: ModalIdentifiers.TRIAL_BENEFITS_MODAL,
             dialogType: TrialBenefitsModal,
@@ -81,6 +95,8 @@ const StartTrialBtn = ({
             return formatMessage({id: 'start_trial.modal.loaded', defaultMessage: 'Loaded!'});
         case TrialLoadStatus.Failed:
             return formatMessage({id: 'start_trial.modal.failed', defaultMessage: 'Failed'});
+        case TrialLoadStatus.Embargoed:
+            return formatMessage({id: 'admin.license.trial-request.embargoed'});
         default:
             return message;
         }
@@ -88,7 +104,7 @@ const StartTrialBtn = ({
     const startTrial = async () => {
         await requestLicense();
         await openTrialBenefitsModal();
-        if (onClick) {
+        if (onClick && status === TrialLoadStatus.Success) {
             onClick();
         }
         trackEvent(
@@ -97,6 +113,22 @@ const StartTrialBtn = ({
         );
     };
 
+    if (status === TrialLoadStatus.Embargoed) {
+        return (
+            <div className='StartTrialBtn embargoed'>
+                {formatMessage(
+                    {id: 'admin.license.trial-request.embargoed'},
+                    {
+                        link: (text: string) => (
+                            <a href='https://mattermost.com/pl/limitations-for-embargoed-countries'>
+                                {text}
+                            </a>
+                        ),
+                    },
+                )}
+            </div>
+        );
+    }
     return (
         <a
             className='StartTrialBtn start-trial-btn'
