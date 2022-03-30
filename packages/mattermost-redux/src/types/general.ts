@@ -28,3 +28,15 @@ export enum LicenseSkus {
     Professional = 'professional',
     Enterprise = 'enterprise',
 }
+
+export const isEnterpriseLicense = (license?: ClientLicense) => {
+    switch (license?.SkuShortName) {
+    case LicenseSkus.Enterprise:
+    case LicenseSkus.E20:
+        return true;
+    }
+
+    return false;
+};
+
+export const isNonEnterpriseLicense = (license?: ClientLicense) => !isEnterpriseLicense(license);
