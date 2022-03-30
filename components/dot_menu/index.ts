@@ -124,7 +124,6 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         isCollapsedThreadsEnabled: collapsedThreads,
         threadReplyCount,
         isMobileView: getIsMobileView(state),
-        ...ownProps,
     };
 }
 
