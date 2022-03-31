@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {AnalyticsRow} from 'mattermost-redux/types/admin';
 import {ClientLicense} from 'mattermost-redux/types/config';
+import {EmbargoedEntityTrialError} from 'components/admin_console/license_settings/trial_banner/trial_banner';
 
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {ActionResult} from 'mattermost-redux/types/actions';
@@ -167,20 +168,10 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         if (this.state.gettingTrialError && this.state.gettingTrialResponseCode === 451) {
             gettingTrialError = (
                 <p className='trial-error'>
-                    <FormattedMessage
-                        id='admin.license.trial-request.embargoed'
-                        defaultMessage='We were unable to process the request due to limitations for embargoed countries. [Learn more in our documentation](https://mattermost.com/pl/limitations-for-embargoed-countries), or reach out to legal@mattermost.com for questions around export limitations.'
-                        values={{
-                            link: (text: string) => (
-                                <a href='https://mattermost.com/pl/limitations-for-embargoed-countries'>
-                                    {text}
-                                </a>
-                            ),
-                        }}
-                    />
+                    <EmbargoedEntityTrialError/>
                 </p>
             );
-        } else {
+        } else if (this.state.gettingTrialError) {
             gettingTrialError = (
                 <p className='trial-error'>
                     <FormattedMarkdownMessage

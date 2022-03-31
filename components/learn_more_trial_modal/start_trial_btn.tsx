@@ -7,6 +7,8 @@ import {useIntl} from 'react-intl';
 
 import {useDispatch, useSelector} from 'react-redux';
 
+import {EmbargoedEntityTrialError} from 'components/admin_console/license_settings/trial_banner/trial_banner';
+
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {getLicenseConfig} from 'mattermost-redux/actions/general';
 
@@ -59,7 +61,7 @@ const StartTrialBtn = ({
         const requestedUsers = Math.max(users, 30);
         const {error, data} = await dispatch(requestTrialLicense(requestedUsers, true, true, 'license'));
         if (error) {
-            if (data.status === 451) {
+            if (typeof data.status !== 'undefined' && data.status === 451) {
                 setLoadStatus(TrialLoadStatus.Embargoed);
                 if (typeof handleEmbargoError === 'function') {
                     handleEmbargoError();
@@ -116,16 +118,7 @@ const StartTrialBtn = ({
     if (status === TrialLoadStatus.Embargoed) {
         return (
             <div className='StartTrialBtn embargoed'>
-                {formatMessage(
-                    {id: 'admin.license.trial-request.embargoed'},
-                    {
-                        link: (text: string) => (
-                            <a href='https://mattermost.com/pl/limitations-for-embargoed-countries'>
-                                {text}
-                            </a>
-                        ),
-                    },
-                )}
+                <EmbargoedEntityTrialError/>
             </div>
         );
     }

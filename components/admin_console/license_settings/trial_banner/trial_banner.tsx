@@ -41,6 +41,22 @@ interface TrialBannerProps {
     restarting: boolean;
 }
 
+export const EmbargoedEntityTrialError: React.FC = () => {
+    return (
+        <FormattedMessage
+            id='admin.license.trial-request.embargoed'
+            defaultMessage='We were unable to process the request due to limitations for embargoed countries. <link>Learn more in our documentation</link>, or reach out to legal@mattermost.com for questions around export limitations.'
+            values={{
+                link: (text: string) => (
+                    <a href='https://mattermost.com/pl/limitations-for-embargoed-countries'>
+                        {text}
+                    </a>
+                ),
+            }}
+        />
+    );
+};
+
 const TrialBanner: React.FC<TrialBannerProps> = ({
     isDisabled,
     gettingTrialError,
@@ -131,15 +147,9 @@ const TrialBanner: React.FC<TrialBannerProps> = ({
         if (gettingTrialError) {
             gettingTrialErrorMsg =
                 gettingTrialResponseCode === 451 ? (
-                    <p className='trial-error'>
-                        <FormattedMessage
-                            id='admin.license.trial-request.embargoed'
-                            defaultMessage='We were unable to process the request due to limitations for embargoed countries. [Learn more in our documentation](https://mattermost.com/pl/limitations-for-embargoed-countries), or reach out to legal@mattermost.com for questions around export limitations.'
-                            values={{
-                                link: (text: string) => <a href='https://mattermost.com/pl/limitations-for-embargoed-countries'>{text}</a>,
-                            }}
-                        />
-                    </p>
+                    <div className='trial-error'>
+                        <EmbargoedEntityTrialError/>
+                    </div>
                 ) : (
                     <p className='trial-error'>
                         <FormattedMarkdownMessage
