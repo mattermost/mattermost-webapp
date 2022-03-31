@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import FormData from 'form-data';
 
 import {SystemSetting} from 'mattermost-redux/types/general';
@@ -113,8 +115,6 @@ import {CompleteOnboardingRequest} from 'mattermost-redux/types/setup';
 
 import {UserThreadList, UserThread, UserThreadWithPost} from 'mattermost-redux/types/threads';
 
-import {General} from '../constants';
-
 import {cleanUrlForLogging} from './errors';
 import {buildQueryString} from './helpers';
 import {TelemetryHandler} from './telemetry';
@@ -127,10 +127,13 @@ const HEADER_USER_AGENT = 'User-Agent';
 export const HEADER_X_CLUSTER_ID = 'X-Cluster-Id';
 const HEADER_X_CSRF_TOKEN = 'X-CSRF-Token';
 export const HEADER_X_VERSION_ID = 'X-Version-Id';
+
+const AUTOCOMPLETE_LIMIT_DEFAULT = 25;
 const PER_PAGE_DEFAULT = 60;
 const LOGS_PER_PAGE_DEFAULT = 10000;
 export const DEFAULT_LIMIT_BEFORE = 30;
 export const DEFAULT_LIMIT_AFTER = 30;
+
 const GRAPHQL_ENDPOINT = '/api/v5/graphql';
 
 export default class Client4 {
@@ -890,7 +893,7 @@ export default class Client4 {
     };
 
     autocompleteUsers = (name: string, teamId: string, channelId: string, options = {
-        limit: General.AUTOCOMPLETE_LIMIT_DEFAULT,
+        limit: AUTOCOMPLETE_LIMIT_DEFAULT,
     }) => {
         return this.doFetch<UserAutocomplete>(`${this.getUsersRoute()}/autocomplete${buildQueryString({
             in_team: teamId,
@@ -3907,15 +3910,13 @@ export default class Client4 {
 
     trackEvent(category: string, event: string, props?: any) {
         if (this.telemetryHandler) {
-            const userRoles = this.userRoles && isSystemAdmin(this.userRoles) ? 'system_admin, system_user' : 'system_user';
-            this.telemetryHandler.trackEvent(this.userId, userRoles, category, event, props);
+            this.telemetryHandler.trackEvent(this.userId, this.userRoles, category, event, props);
         }
     }
 
     pageVisited(category: string, name: string) {
         if (this.telemetryHandler) {
-            const userRoles = this.userRoles && isSystemAdmin(this.userRoles) ? 'system_admin, system_user' : 'system_user';
-            this.telemetryHandler.pageVisited(this.userId, userRoles, category, name);
+            this.telemetryHandler.pageVisited(this.userId, this.userRoles, category, name);
         }
     }
 }
