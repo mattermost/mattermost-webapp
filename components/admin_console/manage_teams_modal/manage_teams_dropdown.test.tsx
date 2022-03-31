@@ -4,26 +4,25 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ManageTeamsDropdown from 'components/admin_console/manage_teams_modal/manage_teams_dropdown.jsx';
+import ManageTeamsDropdown from 'components/admin_console/manage_teams_modal/manage_teams_dropdown';
+import {TestHelper} from 'utils/test_helper';
 
 describe('ManageTeamsDropdown', () => {
     const baseProps = {
-        team: {
-            id: 'teamid',
-        },
-        user: {
+        team: TestHelper.getTeamMock(),
+        user: TestHelper.getUserMock({
             id: 'currentUserId',
-            last_picture_update: '1234',
+            last_picture_update: 1234,
             email: 'currentUser@test.com',
             roles: 'system_user',
             username: 'currentUsername',
-        },
-        teamMember: {
+        }),
+        teamMember: TestHelper.getTeamMembershipMock({
             team_id: 'teamid',
             scheme_user: true,
             scheme_guest: false,
             scheme_admin: false,
-        },
+        }),
         onError: jest.fn(),
         onMemberChange: jest.fn(),
         updateTeamMemberSchemeRoles: jest.fn(),

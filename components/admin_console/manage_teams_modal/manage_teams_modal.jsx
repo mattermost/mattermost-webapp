@@ -14,7 +14,7 @@ import {isAdmin} from 'mattermost-redux/utils/user_utils';
 import LoadingScreen from 'components/loading_screen';
 import Avatar from 'components/widgets/users/avatar';
 
-import ManageTeamsDropdown from './manage_teams_dropdown.jsx';
+import ManageTeamsDropdown from './manage_teams_dropdown';
 import RemoveFromTeamButton from './remove_from_team_button';
 
 export default class ManageTeamsModal extends React.PureComponent {
