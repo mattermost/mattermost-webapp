@@ -5,9 +5,12 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
+import {throttle} from 'lodash';
+
 import {searchIfNeededInitial, searchGfycat} from 'mattermost-redux/actions/gifs';
 
 import SearchGrid from 'components/gif_picker/components/SearchGrid';
+import {CUSTOM_EMOJI_GIF_SEARCH_THROTTLE_TIME_MS} from '../../../emoji_picker/emoji_picker';
 
 function mapStateToProps(state) {
     return {
@@ -37,9 +40,13 @@ export class Search extends PureComponent {
     componentDidUpdate(prevProps) {
         const {searchText} = this.props;
         if (prevProps.searchText !== searchText) {
-            this.props.searchIfNeededInitial(searchText.split('-').join(' '));
+            this.throttledSearchGif(searchText);
         }
     }
+
+    throttledSearchGif = throttle((searchText) => this.props.searchIfNeededInitial(searchText.split('-').join(' ')),
+        CUSTOM_EMOJI_GIF_SEARCH_THROTTLE_TIME_MS,
+    );
 
     loadMore = () => {
         const {searchText} = this.props;

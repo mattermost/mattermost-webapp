@@ -25,6 +25,8 @@ import EmojiPickerCurrentResults from 'components/emoji_picker/components/emoji_
 
 import type {PropsFromRedux} from './index';
 
+export const CUSTOM_EMOJI_GIF_SEARCH_THROTTLE_TIME_MS = 1000;
+
 interface Props extends PropsFromRedux {
     filter: string;
     visible: boolean;
@@ -114,7 +116,7 @@ const EmojiPicker = ({
         if (customEmojisEnabled && newFilter && newFilter.trim().length) {
             searchCustomEmojis(newFilter);
         }
-    }, 1000));
+    }, CUSTOM_EMOJI_GIF_SEARCH_THROTTLE_TIME_MS));
 
     // Hack for getting focus on search input when tab changes to emoji from gifs
     useEffect(() => {
