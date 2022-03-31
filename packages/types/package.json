@@ -10,6 +10,9 @@
   "files": [
     "lib"
   ],
+  "exports": {
+    "*": "./lib/*.js"
+  },
   "respository": {
     "type": "git",
     "url": "github:mattermost/mattermost-webapp",
