@@ -310,16 +310,18 @@ export default class SizeAwareImage extends React.PureComponent {
             const leftStyle = this.state.imageWidth > MIN_IMAGE_SIZE ? {
                 left: `min(${wideImageButtonsOffset + (modifierCopyButton - modifierLargerWidth)}px, calc(100% - ${31 - (modifierCopyButton - modifierLargerWidth)}px)`,
             } : {};
+
+            const wideSmallImageStyle = this.state.imageWidth > MIN_IMAGE_SIZE ? {
+                width: this.state.imageWidth + 2, // 2px to account for the border
+            } : {};
             return (
                 <div
                     className='small-image-utility-buttons-wrapper'
                 >
                     <div
                         onClick={this.handleImageClick}
-                        className={className}
-                        style={this.state.imageWidth > MIN_IMAGE_SIZE ? {
-                            width: this.state.imageWidth + 2, // 2px to account for the border
-                        } : {}}
+                        className={classNames(className)}
+                        style={wideSmallImageStyle}
                     >
                         {image}
                     </div>
@@ -329,7 +331,7 @@ export default class SizeAwareImage extends React.PureComponent {
                         })}
                         style={leftStyle}
                     >
-                        {(enablePublicLink) && copyLink}
+                        {enablePublicLink && copyLink}
                         {download}
                     </span>
                 </div>
@@ -397,7 +399,7 @@ export default class SizeAwareImage extends React.PureComponent {
         );
     }
 
-    isInternalImage = this.props.fileInfo !== undefined;
+    isInternalImage = (this.props.fileInfo !== undefined) && (this.props.fileInfo !== null);
 
     startCopyTimer = () => {
         // set linkCopiedRecently to true, and reset to false after 1.5 seconds
