@@ -17,7 +17,7 @@ import {
     getCurrentChannel,
     getDirectTeammate,
     getChannelsInAllTeams,
-    getSortedAllTeamsUnreadChannels,
+    getSortedAllTeamsUnreadChannels, getAllTeamsUnreadChannelIds,
 } from 'mattermost-redux/selectors/entities/channels';
 import ProfilePicture from '../profile_picture';
 import {getMyPreferences, isGroupChannelManuallyVisible, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
@@ -237,7 +237,7 @@ class SwitchChannelSuggestion extends Suggestion {
                 {icon}
                 <div className='suggestion-list__ellipsis suggestion-list__flex'>
                     <span className='suggestion-list__main'>
-                        <span className={item.type === Constants.MENTION_UNREAD_CHANNELS ? 'suggestion-list__unread' : ''}>{name}</span>
+                        <span className={item.unread ? 'suggestion-list__unread' : ''}>{name}</span>
                         {(isPartOfOnlyOneTeam || channel.type === Constants.DM_CHANNEL) && (
                             <span className='ml-2 suggestion-list__desc'>{description}</span>
                         )}
@@ -409,7 +409,7 @@ export default class SwitchChannelProvider extends Provider {
             // Dispatch suggestions for local data
             const channels = getChannelsInAllTeams(getState()).concat(getDirectAndGroupChannels(getState()));
             const users = Object.assign([], searchProfilesMatchingWithTerm(getState(), channelPrefix, false));
-            const formattedData = this.formatList(channelPrefix, channels, users, true, true);
+            const formattedData = this.formatList(channelPrefix, [ThreadsChannel, ...channels], users, true, true);
             if (formattedData) {
                 resultsCallback(formattedData);
             }
@@ -426,7 +426,6 @@ export default class SwitchChannelProvider extends Provider {
     async fetchUsersAndChannels(channelPrefix, resultsCallback) {
         const state = getState();
         const teamId = getCurrentTeamId(state);
-        const collapsedThreads = isCollapsedThreadsEnabled(state);
 
         if (!teamId) {
             return;
@@ -458,12 +457,9 @@ export default class SwitchChannelProvider extends Provider {
         }
 
         const currentUserId = getCurrentUserId(state);
-        let localChannelData = getChannelsInAllTeams(state).concat(getDirectAndGroupChannels(state)) || [];
+        const localChannelData = getChannelsInAllTeams(state).concat(getDirectAndGroupChannels(state)) || [];
         const localUserData = Object.assign([], searchProfilesMatchingWithTerm(state, channelPrefix, false)) || [];
-        if (collapsedThreads) {
-            localChannelData = [ThreadsChannel, ...localChannelData];
-        }
-        const localFormattedData = this.formatList(channelPrefix, localChannelData, localUserData);
+        const localFormattedData = this.formatList(channelPrefix, [ThreadsChannel, ...localChannelData], localUserData);
         const remoteChannelData = channelsFromServer.concat(getGroupChannels(state)) || [];
         const remoteUserData = Object.assign([], usersFromServer.users) || [];
         const remoteFormattedData = this.formatList(channelPrefix, remoteChannelData, remoteUserData, false);
@@ -533,6 +529,7 @@ export default class SwitchChannelProvider extends Provider {
         const state = getState();
         const config = getConfig(state);
         const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
+        const allUnreadChannelIds = getAllTeamsUnreadChannelIds(state);
 
         for (const id of Object.keys(allChannels)) {
             const channel = allChannels[id];
@@ -549,6 +546,11 @@ export default class SwitchChannelProvider extends Provider {
                     wrappedChannel.last_viewed_at = members[channel.id].last_viewed_at;
                 } else if (skipNotMember && newChannel.type !== Constants.THREADS) {
                     continue;
+                }
+
+                const unread = allUnreadChannelIds.includes(newChannel.id);
+                if (unread) {
+                    wrappedChannel.unread = true;
                 }
 
                 if (!viewArchivedChannels && channelIsArchived) {
@@ -715,6 +717,7 @@ export default class SwitchChannelProvider extends Provider {
         const myMembers = getMyChannelMemberships(state);
         const myPreferences = getMyPreferences(state);
         const collapsedThreads = isCollapsedThreadsEnabled(state);
+        const allUnreadChannelIds = getAllTeamsUnreadChannelIds(state);
 
         const channelList = [];
         for (let i = 0; i < channels.length; i++) {
@@ -743,6 +746,10 @@ export default class SwitchChannelProvider extends Provider {
                     channel,
                 );
                 wrappedChannel = {...wrappedChannel, ...userWrappedChannel};
+            }
+            const unread = allUnreadChannelIds.includes(channel.id);
+            if (unread) {
+                wrappedChannel.unread = true;
             }
             wrappedChannel.type = channelType;
             channelList.push(wrappedChannel);
