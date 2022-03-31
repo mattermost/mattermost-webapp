@@ -5,14 +5,14 @@
 
 import FormData from 'form-data';
 
-import {SystemSetting} from 'mattermost-redux/types/general';
-import {ClusterInfo, AnalyticsRow, SchemaMigration} from 'mattermost-redux/types/admin';
-import type {AppBinding, AppCallRequest, AppCallResponse} from 'mattermost-redux/types/apps';
-import {Audit} from 'mattermost-redux/types/audits';
-import {UserAutocomplete, AutocompleteSuggestion} from 'mattermost-redux/types/autocomplete';
-import {Bot, BotPatch} from 'mattermost-redux/types/bots';
+import {SystemSetting} from '@mattermost/types/general';
+import {ClusterInfo, AnalyticsRow, SchemaMigration} from '@mattermost/types/admin';
+import type {AppBinding, AppCallRequest, AppCallResponse} from '@mattermost/types/apps';
+import {Audit} from '@mattermost/types/audits';
+import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
+import {Bot, BotPatch} from '@mattermost/types/bots';
 import {Product, Subscription, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits} from '@mattermost/types/cloud';
-import {ChannelCategory, OrderedChannelCategories} from 'mattermost-redux/types/channel_categories';
+import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
     Channel,
     ChannelMemberCountsByGroup,
@@ -26,9 +26,9 @@ import {
     ChannelWithTeamData,
     ChannelSearchOpts,
     ServerChannel,
-} from 'mattermost-redux/types/channels';
-import {Options, StatusOK, ClientResponse, LogLevel} from 'mattermost-redux/types/client4';
-import {Compliance} from 'mattermost-redux/types/compliance';
+} from '@mattermost/types/channels';
+import {Options, StatusOK, ClientResponse, LogLevel} from '@mattermost/types/client4';
+import {Compliance} from '@mattermost/types/compliance';
 import {
     ClientConfig,
     ClientLicense,
@@ -36,10 +36,10 @@ import {
     License,
     AdminConfig,
     EnvironmentConfig,
-} from 'mattermost-redux/types/config';
-import {CustomEmoji} from 'mattermost-redux/types/emojis';
-import {ServerError} from 'mattermost-redux/types/errors';
-import {FileInfo, FileUploadResponse, FileSearchResults} from 'mattermost-redux/types/files';
+} from '@mattermost/types/config';
+import {CustomEmoji} from '@mattermost/types/emojis';
+import {ServerError} from '@mattermost/types/errors';
+import {FileInfo, FileUploadResponse, FileSearchResults} from '@mattermost/types/files';
 import {
     Group,
     GroupPatch,
@@ -51,8 +51,8 @@ import {
     GroupCreateWithUserIds,
     GroupSearachParams,
     CustomGroupPatch,
-} from 'mattermost-redux/types/groups';
-import {PostActionResponse} from 'mattermost-redux/types/integration_actions';
+} from '@mattermost/types/groups';
+import {PostActionResponse} from '@mattermost/types/integration_actions';
 import {
     Command,
     CommandArgs,
@@ -62,26 +62,26 @@ import {
     OAuthApp,
     OutgoingWebhook,
     SubmitDialogResponse,
-} from 'mattermost-redux/types/integrations';
-import {Job} from 'mattermost-redux/types/jobs';
-import {MfaSecret} from 'mattermost-redux/types/mfa';
+} from '@mattermost/types/integrations';
+import {Job} from '@mattermost/types/jobs';
+import {MfaSecret} from '@mattermost/types/mfa';
 import {
     ClientPluginManifest,
     PluginManifest,
     PluginsResponse,
     PluginStatus,
-} from 'mattermost-redux/types/plugins';
+} from '@mattermost/types/plugins';
 import type {
     MarketplaceApp,
     MarketplacePlugin,
-} from 'mattermost-redux/types/marketplace';
-import {Post, PostList, PostSearchResults, OpenGraphMetadata} from 'mattermost-redux/types/posts';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
-import {Reaction} from 'mattermost-redux/types/reactions';
-import {Role} from 'mattermost-redux/types/roles';
-import {SamlCertificateStatus, SamlMetadataResponse} from 'mattermost-redux/types/saml';
-import {Scheme} from 'mattermost-redux/types/schemes';
-import {Session} from 'mattermost-redux/types/sessions';
+} from '@mattermost/types/marketplace';
+import {Post, PostList, PostSearchResults, OpenGraphMetadata} from '@mattermost/types/posts';
+import {PreferenceType} from '@mattermost/types/preferences';
+import {Reaction} from '@mattermost/types/reactions';
+import {Role} from '@mattermost/types/roles';
+import {SamlCertificateStatus, SamlMetadataResponse} from '@mattermost/types/saml';
+import {Scheme} from '@mattermost/types/schemes';
+import {Session} from '@mattermost/types/sessions';
 import {
     GetTeamMembersOpts,
     Team,
@@ -92,8 +92,8 @@ import {
     TeamsWithCount,
     TeamUnread,
     TeamSearchOpts,
-} from 'mattermost-redux/types/teams';
-import {TermsOfService} from 'mattermost-redux/types/terms_of_service';
+} from '@mattermost/types/teams';
+import {TermsOfService} from '@mattermost/types/terms_of_service';
 import {
     AuthChangeResponse,
     UserAccessToken,
@@ -102,18 +102,18 @@ import {
     UserStatus,
     GetFilteredUsersStatsOpts,
     UserCustomStatus,
-} from 'mattermost-redux/types/users';
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
-import {ProductNotices} from 'mattermost-redux/types/product_notices';
+} from '@mattermost/types/users';
+import {RelationOneToOne} from '@mattermost/types/utilities';
+import {ProductNotices} from '@mattermost/types/product_notices';
 import {
     DataRetentionCustomPolicies,
     CreateDataRetentionCustomPolicy,
     PatchDataRetentionCustomPolicy,
     GetDataRetentionCustomPoliciesRequest,
-} from 'mattermost-redux/types/data_retention';
-import {CompleteOnboardingRequest} from 'mattermost-redux/types/setup';
+} from '@mattermost/types/data_retention';
+import {CompleteOnboardingRequest} from '@mattermost/types/setup';
 
-import {UserThreadList, UserThread, UserThreadWithPost} from 'mattermost-redux/types/threads';
+import {UserThreadList, UserThread, UserThreadWithPost} from '@mattermost/types/threads';
 
 import {cleanUrlForLogging} from './errors';
 import {buildQueryString} from './helpers';
