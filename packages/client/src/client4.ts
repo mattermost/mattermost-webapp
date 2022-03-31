@@ -111,13 +111,13 @@ import {
 } from 'mattermost-redux/types/data_retention';
 import {CompleteOnboardingRequest} from 'mattermost-redux/types/setup';
 
-import {buildQueryString} from 'mattermost-redux/utils/helpers_client';
 import {cleanUrlForLogging} from 'mattermost-redux/utils/sentry';
 import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {UserThreadList, UserThread, UserThreadWithPost} from 'mattermost-redux/types/threads';
 
 import {General} from '../constants';
 
+import {buildQueryString} from './helpers';
 import {TelemetryHandler} from './telemetry';
 
 const HEADER_AUTH = 'Authorization';
