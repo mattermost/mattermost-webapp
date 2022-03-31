@@ -111,7 +111,6 @@ import {
 } from 'mattermost-redux/types/data_retention';
 import {CompleteOnboardingRequest} from 'mattermost-redux/types/setup';
 
-import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {UserThreadList, UserThread, UserThreadWithPost} from 'mattermost-redux/types/threads';
 
 import {General} from '../constants';
@@ -153,7 +152,7 @@ export default class Client4 {
         connectionError: 'There appears to be a problem with your internet connection.',
         unknownError: 'We received an unexpected status code from the server.',
     };
-    userRoles?: string;
+    userRoles = '';
     telemetryHandler?: TelemetryHandler;
 
     getUrl() {
