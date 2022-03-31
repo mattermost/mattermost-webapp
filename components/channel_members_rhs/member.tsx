@@ -6,6 +6,8 @@ import styled, {css} from 'styled-components';
 
 import classNames from 'classnames';
 
+import {FormattedMessage} from 'react-intl';
+
 import {UserProfile} from 'mattermost-redux/types/users';
 import ProfilePicture from 'components/profile_picture';
 import {Client4} from 'mattermost-redux/client';
@@ -91,6 +93,24 @@ const Member = ({className, channel, member, index, totalUsers, editing, actions
                     channelMember={member.membership}
                     index={index}
                     totalUsers={totalUsers}
+                    channelAdminLabel={
+                        <FormattedMessage
+                            id='channel_members_rhs.member.select_role_channel_admin'
+                            defaultMessage='Admin'
+                        />
+                    }
+                    channelMemberLabel={
+                        <FormattedMessage
+                            id='channel_members_rhs.member.select_role_channel_member'
+                            defaultMessage='Member'
+                        />
+                    }
+                    guestLabel={
+                        <FormattedMessage
+                            id='channel_members_rhs.member.select_role_guest'
+                            defaultMessage='Guest'
+                        />
+                    }
                 />
             </RoleChoser>
             {!editing && (
@@ -108,6 +128,7 @@ export default styled(Member)`
     align-items: center;
     padding: 8px 16px;
     border-radius: 4px;
+
     &:hover {
         background: rgba(var(--center-channel-text-rgb), 0.08);
         color: rgba(var(--center-channel-text-rgb), 0.56);
@@ -118,5 +139,10 @@ export default styled(Member)`
             }
             `;
     }}
+    }
+
+    .MenuWrapper {
+        font-weight: 600;
+        font-size: 11px;
     }
 `;

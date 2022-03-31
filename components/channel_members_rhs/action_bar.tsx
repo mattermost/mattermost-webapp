@@ -134,4 +134,5 @@ export default styled(ActionBar)`
     flex-direction: row;
     align-items: center;
     padding: 16px 20px;
+
 `;
