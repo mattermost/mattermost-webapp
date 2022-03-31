@@ -57,14 +57,14 @@ Cypress.Commands.add('apiEmailTest', () => {
 // *****************************************************************************
 
 /**
-* Creates a post directly via API
-* This API assume that the user is logged in and has cookie to access
-* @param {String} channelId - Where to post
-* @param {String} message - What to post
-* @param {String} rootId - Parent post ID. Set to "" to avoid nesting
-* @param {Object} props - Post props
-* @param {String} token - Optional token to use for auth. If not provided - posts as current user
-*/
+ * Creates a post directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} channelId - Where to post
+ * @param {String} message - What to post
+ * @param {String} rootId - Parent post ID. Set to "" to avoid nesting
+ * @param {Object} props - Post props
+ * @param {String} token - Optional token to use for auth. If not provided - posts as current user
+ */
 Cypress.Commands.add('apiCreatePost', (channelId, message, rootId, props, token = '', failOnStatusCode = true) => {
     const headers = {'X-Requested-With': 'XMLHttpRequest'};
     if (token !== '') {
@@ -81,6 +81,23 @@ Cypress.Commands.add('apiCreatePost', (channelId, message, rootId, props, token 
             message,
             props,
         },
+    });
+});
+
+/**
+ * Deletes a post directly via API
+ * @param {String} postId - Post ID
+ * @param {Object} [user] - the user trying to invoke the API
+ */
+Cypress.Commands.add('apiDeletePost', (postId, user = getAdminAccount()) => {
+    return cy.externalRequest({
+        user,
+        method: 'delete',
+        path: `posts/${postId}`,
+    }).then((response) => {
+        // * Validate that request was successful
+        expect(response.status).to.equal(200);
+        return cy.wrap({status: response.status});
     });
 });
 
