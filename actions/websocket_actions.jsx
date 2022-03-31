@@ -28,7 +28,7 @@ import {
     markChannelAsRead,
     getChannelMemberCountsByGroup,
 } from 'mattermost-redux/actions/channels';
-import {getCloudSubscription, getSubscriptionStats} from 'mattermost-redux/actions/cloud';
+import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 
 import {getBool, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
@@ -1484,7 +1484,6 @@ export function handleUserActivationStatusChange() {
             if (isCurrentUserSystemAdmin(state)) {
                 doDispatch(getStandardAnalytics());
             }
-            doDispatch(getSubscriptionStats());
         }
     };
 }

@@ -9,7 +9,7 @@ import type {AppBinding, AppCallRequest, AppCallResponse} from 'mattermost-redux
 import {Audit} from 'mattermost-redux/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from 'mattermost-redux/types/autocomplete';
 import {Bot, BotPatch} from 'mattermost-redux/types/bots';
-import {Product, Subscription, CloudCustomer, Address, CloudCustomerPatch, Invoice, SubscriptionStats} from 'mattermost-redux/types/cloud';
+import {Product, Subscription, CloudCustomer, Address, CloudCustomerPatch, Invoice} from 'mattermost-redux/types/cloud';
 import {ChannelCategory, OrderedChannelCategories} from 'mattermost-redux/types/channel_categories';
 import {
     Channel,
@@ -3712,13 +3712,6 @@ export default class Client4 {
         );
     }
 
-    getSubscriptionStats = () => {
-        return this.doFetch<SubscriptionStats>(
-            `${this.getCloudRoute()}/subscription/stats`,
-            {method: 'get'},
-        );
-    }
-
     getRenewalLink = () => {
         return this.doFetch<{renewal_link: string}>(
             `${this.getBaseRoute()}/license/renewal`,
@@ -3788,20 +3781,6 @@ export default class Client4 {
         return this.doFetch<StatusOK>(
             `${this.getNoticesRoute()}/view`,
             {method: 'put', body: JSON.stringify(noticeIds)},
-        );
-    }
-
-    sendAdminUpgradeRequestEmail = () => {
-        return this.doFetch<StatusOK>(
-            `${this.getCloudRoute()}/subscription/limitreached/invite`,
-            {method: 'post'},
-        );
-    }
-
-    sendAdminUpgradeRequestEmailOnJoin = () => {
-        return this.doFetch<StatusOK>(
-            `${this.getCloudRoute()}/subscription/limitreached/join`,
-            {method: 'post'},
         );
     }
 
