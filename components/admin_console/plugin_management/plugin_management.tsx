@@ -1152,7 +1152,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                     }
                                     helpText={this.getMarketplaceURLHelpText(this.state.marketplaceUrl)}
                                     value={this.state.marketplaceUrl}
-                                    disabled={this.props.isDisabled || !this.state.enable || !this.state.enableMarketplace || !this.state.enableRemoteMarketplace}
+                                    disabled={this.props.isDisabled || !this.state.enable || !this.state.enableUploads || !this.state.enableMarketplace || !this.state.enableRemoteMarketplace}
                                     onChange={this.handleChange}
                                     setByEnv={this.isSetByEnv('PluginSettings.MarketplaceURL')}
                                 />

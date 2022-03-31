@@ -2960,7 +2960,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             value={true}
           />
           <AdminTextSetting
-            disabled={false}
+            disabled={true}
             helpText={
               <div>
                 <injectIntl(FormattedMarkdownMessage)
