@@ -84,7 +84,7 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
 
     const categoryMenuItems = filteredCategories.map((category: ChannelCategory) => {
         let text = category.display_name;
-        
+
         if (category.type === CategoryTypes.FAVORITES) {
             text = intl.formatMessage({id: 'sidebar.types.favorites', defaultMessage: 'Favorites'});
         }
