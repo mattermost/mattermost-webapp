@@ -301,11 +301,14 @@ export default class SizeAwareImage extends React.PureComponent {
              *  - if a small image with larger width
              *  - if copy link button is enabled
              */
-            const modifier = enablePublicLink ? 0 : 8;
+            const modifierCopyButton = enablePublicLink ? 0 : 8;
+
+            // decrease modifier if imageWidth > 100
+            const modifierLargerWidth = this.state.imageWidth > MIN_IMAGE_SIZE_FOR_INTERNAL_BUTTONS ? 40 : 0;
 
             // since there is a max-width constraint on images, a max-left clause follows.
             const leftStyle = this.state.imageWidth > MIN_IMAGE_SIZE ? {
-                left: `min(${wideImageButtonsOffset + modifier}px, calc(100% - ${32 - modifier}px)`,
+                left: `min(${wideImageButtonsOffset + (modifierCopyButton - modifierLargerWidth)}px, calc(100% - ${31 - (modifierCopyButton - modifierLargerWidth)}px)`,
             } : {};
             return (
                 <div
