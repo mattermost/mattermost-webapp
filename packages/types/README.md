@@ -2,7 +2,6 @@
 
 This package contains shared type definitions used by [the Mattermost web app](https://github.com/mattermost/mattermost-webapp) and related projects.
 
-
 **It is currently a work in progress and contains internal types that will be removed in a followup release.**
 
 ## Usage
@@ -24,7 +23,7 @@ In the `tsconfig.json`, you can use `compilerOptions.paths` to add that alias. T
     "compilerOptions": {
         "baseUrl": ".",
         "paths": {
-            "@mattermost/types/*": ["node_modules/@mattermost/types/*"]
+            "@mattermost/types/*": ["node_modules/@mattermost/types/lib/*"]
         }
     }
 }
@@ -37,7 +36,7 @@ In your Jest config, you can use the `moduleNameMapper` field to adsd that alias
 ```json
 {
     "moduleNameMapper": {
-        "^@hmhealey/types/(.*)$": "<rootDir>/node_modules/@hmhealey/types/lib/$1"
+        "^@mattermost/types/(.*)$": "<rootDir>/node_modules/@mattermost/types/lib/$1"
     }
 }
 ```
