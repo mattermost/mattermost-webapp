@@ -81,7 +81,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         const requestedUsers = Math.max(users, 30);
         const {error, data} = await this.props.actions.requestTrialLicense(requestedUsers, true, true, this.props.featureName);
         if (error) {
-            if (typeof data.status === 'undefined') {
+            if (typeof data?.status === 'undefined') {
                 this.setState({gettingTrialError: error});
             } else {
                 this.setState({gettingTrialError: error, gettingTrialResponseCode: data.status});
