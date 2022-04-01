@@ -6,7 +6,7 @@ import React, {memo} from 'react';
 import styled from 'styled-components';
 
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel, ChannelStats} from 'mattermost-redux/types/channels';
 import {getSiteURL} from 'utils/url';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import {Team} from 'mattermost-redux/types/teams';
@@ -37,6 +37,7 @@ export interface DMUser {
 
 export interface Props {
     channel: Channel;
+    channelStats: ChannelStats;
     currentUser: UserProfile;
     currentTeam: Team;
 
@@ -59,11 +60,14 @@ export interface Props {
         unmuteChannel: (userId: string, channelId: string) => void;
         muteChannel: (userId: string, channelId: string) => void;
         openModal: <P>(modalData: ModalData<P>) => void;
+        showChannelFiles: (channelId: string) => void;
+        showPinnedPosts: (channelId: string | undefined) => void;
     };
 }
 
 const ChannelInfoRhs = ({
     channel,
+    channelStats,
     isArchived,
     isFavorite,
     isMuted,
@@ -157,7 +161,6 @@ const ChannelInfoRhs = ({
 
             <AboutArea
                 channel={channel}
-                channelURL={channelURL}
 
                 dmUser={dmUser}
                 gmUsers={gmUsers}
@@ -174,8 +177,13 @@ const ChannelInfoRhs = ({
 
             <Menu
                 channel={channel}
+                channelStats={channelStats}
                 isArchived={isArchived}
-                actions={{openNotificationSettings}}
+                actions={{
+                    openNotificationSettings,
+                    showChannelFiles: actions.showChannelFiles,
+                    showPinnedPosts: actions.showPinnedPosts,
+                }}
             />
         </div>
     );

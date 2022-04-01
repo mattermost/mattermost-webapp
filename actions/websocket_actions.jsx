@@ -16,6 +16,7 @@ import {
     AdminTypes,
     IntegrationTypes,
     PreferenceTypes,
+    AppsTypes,
 } from 'mattermost-redux/action_types';
 import {WebsocketEvents, General, Permissions, Preferences} from 'mattermost-redux/constants';
 import {addChannelToInitialCategory, fetchMyCategories, receivedCategoryOrder} from 'mattermost-redux/actions/channel_categories';
@@ -27,7 +28,7 @@ import {
     markChannelAsRead,
     getChannelMemberCountsByGroup,
 } from 'mattermost-redux/actions/channels';
-import {getCloudSubscription, getSubscriptionStats} from 'mattermost-redux/actions/cloud';
+import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 
 import {getBool, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
@@ -79,7 +80,7 @@ import {
 } from 'mattermost-redux/selectors/entities/channels';
 import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
-import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
+import {appsFeatureFlagEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
 import {fetchAppBindings, fetchRHSAppsBindings} from 'mattermost-redux/actions/apps';
@@ -207,8 +208,11 @@ export function reconnect(includeWebSocket = true) {
         const mostRecentId = getMostRecentPostIdInChannel(state, currentChannelId);
         const mostRecentPost = getPost(state, mostRecentId);
 
+        if (appsFeatureFlagEnabled(state)) {
+            dispatch(handleRefreshAppsBindings());
+        }
+
         dispatch(loadChannelsForCurrentUser());
-        dispatch(handleRefreshAppsBindings());
 
         if (mostRecentPost) {
             dispatch(syncPostsInChannel(currentChannelId, mostRecentPost.create_at));
@@ -544,11 +548,15 @@ export function handleEvent(msg) {
     case SocketEvents.THREAD_UPDATED:
         dispatch(handleThreadUpdated(msg));
         break;
-
-    case SocketEvents.APPS_FRAMEWORK_REFRESH_BINDINGS: {
-        dispatch(handleRefreshAppsBindings(msg));
+    case SocketEvents.APPS_FRAMEWORK_REFRESH_BINDINGS:
+        dispatch(handleRefreshAppsBindings());
         break;
-    }
+    case SocketEvents.APPS_FRAMEWORK_PLUGIN_ENABLED:
+        dispatch(handleAppsPluginEnabled());
+        break;
+    case SocketEvents.APPS_FRAMEWORK_PLUGIN_DISABLED:
+        dispatch(handleAppsPluginDisabled());
+        break;
     default:
     }
 
@@ -1265,6 +1273,8 @@ function handleChannelViewedEvent(msg) {
 
 export function handlePluginEnabled(msg) {
     const manifest = msg.data.manifest;
+    dispatch({type: ActionTypes.RECEIVED_WEBAPP_PLUGIN, data: manifest});
+
     loadPlugin(manifest).catch((error) => {
         console.error(error.message); //eslint-disable-line no-console
     });
@@ -1474,7 +1484,6 @@ export function handleUserActivationStatusChange() {
             if (isCurrentUserSystemAdmin(state)) {
                 doDispatch(getStandardAnalytics());
             }
-            doDispatch(getSubscriptionStats());
         }
     };
 }
@@ -1486,9 +1495,6 @@ function handleCloudPaymentStatusUpdated() {
 function handleRefreshAppsBindings() {
     return (doDispatch, doGetState) => {
         const state = doGetState();
-        if (!appsEnabled(state)) {
-            return {data: true};
-        }
 
         doDispatch(fetchAppBindings(getCurrentChannelId(state)));
 
@@ -1514,6 +1520,18 @@ function handleRefreshAppsBindings() {
 
         doDispatch(fetchRHSAppsBindings(channelID));
         return {data: true};
+    };
+}
+
+export function handleAppsPluginEnabled() {
+    return {
+        type: AppsTypes.APPS_PLUGIN_ENABLED,
+    };
+}
+
+export function handleAppsPluginDisabled() {
+    return {
+        type: AppsTypes.APPS_PLUGIN_DISABLED,
     };
 }
 
