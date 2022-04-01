@@ -72,7 +72,10 @@ interface Props {
 
 const Member = ({className, channel, member, index, totalUsers, editing, actions}: Props) => {
     return (
-        <div className={className}>
+        <div
+            className={className}
+            data-testid={`memberline-${member.user.id}`}
+        >
             <Avatar>
                 <ProfilePicture
                     isRHS={true}
