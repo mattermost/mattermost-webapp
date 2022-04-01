@@ -45,9 +45,7 @@ describe('components/Root', () => {
         showTermsOfService: false,
         theme: {},
         actions: {
-            getClientConfig: jest.fn(),
-            getLicenseConfig: jest.fn(),
-            loadMe: jest.fn().mockImplementation(() => {
+            loadConfigAndMe: jest.fn().mockImplementation(() => {
                 return Promise.resolve({
                     data: false,
                 });
@@ -63,19 +61,6 @@ describe('components/Root', () => {
             pathname: '/',
         },
     };
-
-    const origCookies = document.cookie;
-    const origWasLoggedIn = localStorage.getItem('was_logged_in');
-
-    beforeAll(() => {
-        document.cookie = '';
-        localStorage.setItem('was_logged_in', '');
-    });
-
-    afterAll(() => {
-        document.cookie = origCookies;
-        localStorage.setItem('was_logged_in', origWasLoggedIn);
-    });
 
     test('should load config and license on mount and redirect to sign-up page', () => {
         const props = {
@@ -101,7 +86,7 @@ describe('components/Root', () => {
             ...baseProps,
             actions: {
                 ...baseProps.actions,
-                loadMe: jest.fn().mockImplementation(() => {
+                loadConfigAndMe: jest.fn().mockImplementation(() => {
                     return Promise.resolve({data: true});
                 }),
             },
@@ -112,7 +97,7 @@ describe('components/Root', () => {
             onConfigLoaded = jest.fn(() => {
                 expect(this.onConfigLoaded).toHaveBeenCalledTimes(1);
                 expect(GlobalActions.redirectUserToDefaultTeam).toHaveBeenCalledTimes(1);
-                expect(props.actions.loadMe).toHaveBeenCalledTimes(1);
+                expect(props.actions.loadConfigAndMe).toHaveBeenCalledTimes(1);
                 done();
             });
         }
@@ -132,7 +117,7 @@ describe('components/Root', () => {
             },
             actions: {
                 ...baseProps.actions,
-                loadMe: jest.fn().mockImplementation(() => {
+                loadConfigAndMe: jest.fn().mockImplementation(() => {
                     return Promise.resolve({data: true});
                 }),
             },
@@ -143,7 +128,7 @@ describe('components/Root', () => {
             onConfigLoaded = jest.fn(() => {
                 expect(this.onConfigLoaded).toHaveBeenCalledTimes(1);
                 expect(GlobalActions.redirectUserToDefaultTeam).not.toHaveBeenCalled();
-                expect(props.actions.loadMe).toHaveBeenCalledTimes(1);
+                expect(props.actions.loadConfigAndMe).toHaveBeenCalledTimes(1);
                 done();
             });
         }
