@@ -36,6 +36,10 @@ const Preferences = {
     MENTION_KEYS: 'mention_keys',
     USE_MILITARY_TIME: 'use_military_time',
 
+    CATEGORY_ACTIONS_MENU: 'actions_menu',
+    NAME_ACTIONS_MENU_TUTORIAL_STATE: 'actions_menu_tutorial_state',
+    ACTIONS_MENU_VIEWED: 'actions_menu_modal_viewed',
+
     CATEGORY_CUSTOM_STATUS: 'custom_status',
     NAME_CUSTOM_STATUS_TUTORIAL_STATE: 'custom_status_tutorial_state',
     NAME_RECENT_CUSTOM_STATUSES: 'recent_custom_statuses',
@@ -54,6 +58,8 @@ const Preferences = {
 
     CATEGORY_PERFORMANCE_DEBUGGING: 'performance_debugging',
     NAME_DISABLE_CLIENT_PLUGINS: 'disable_client_plugins',
+    NAME_DISABLE_TELEMETRY: 'disable_telemetry',
+    NAME_DISABLE_TYPING_MESSAGES: 'disable_typing_messages',
 
     CATEGORY_THEME: 'theme',
     THEMES: {

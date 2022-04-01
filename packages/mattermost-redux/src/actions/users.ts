@@ -1,7 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Action, ActionFunc, ActionResult, batchActions, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {AnyAction} from 'redux';
+import {batchActions} from 'redux-batched-actions';
+
+import {ActionFunc, ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {UserProfile, UserStatus, GetFilteredUsersStatsOpts, UsersStats, UserCustomStatus} from 'mattermost-redux/types/users';
 import {TeamMembership} from 'mattermost-redux/types/teams';
 import {Client4} from 'mattermost-redux/client';
@@ -12,13 +15,12 @@ import {removeUserFromList} from 'mattermost-redux/utils/user_utils';
 
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 
-import {getConfig, getServerVersion} from 'mattermost-redux/selectors/entities/general';
+import {getServerVersion} from 'mattermost-redux/selectors/entities/general';
 
 import {getCurrentUserId, getUsers} from 'mattermost-redux/selectors/entities/users';
 
 import {isCollapsedThreadsEnabled} from '../selectors/entities/preferences';
 
-import {getAllCustomEmojis} from './emojis';
 import {getClientConfig, setServerVersion} from './general';
 import {getMyTeams, getMyTeamMembers, getMyTeamUnreads} from './teams';
 import {loadRolesIfNeeded} from './roles';
@@ -35,10 +37,8 @@ export function checkMfa(loginId: string): ActionFunc {
             dispatch({type: UserTypes.CHECK_MFA_SUCCESS, data: null});
             return {data: data.mfa_required};
         } catch (error) {
-            dispatch(batchActions([
-                {type: UserTypes.CHECK_MFA_FAILURE, error},
-                logError(error),
-            ]));
+            dispatch({type: UserTypes.CHECK_MFA_FAILURE, error});
+            dispatch(logError(error));
             return {error};
         }
     };
@@ -86,13 +86,11 @@ export function login(loginId: string, password: string, mfaToken = '', ldapOnly
         try {
             data = await Client4.login(loginId, password, mfaToken, deviceId, ldapOnly);
         } catch (error) {
-            dispatch(batchActions([
-                {
-                    type: UserTypes.LOGIN_FAILURE,
-                    error,
-                },
-                logError(error),
-            ]));
+            dispatch({
+                type: UserTypes.LOGIN_FAILURE,
+                error,
+            });
+            dispatch(logError(error));
             return {error};
         }
 
@@ -110,13 +108,11 @@ export function loginById(id: string, password: string, mfaToken = ''): ActionFu
         try {
             data = await Client4.loginById(id, password, mfaToken, deviceId);
         } catch (error) {
-            dispatch(batchActions([
-                {
-                    type: UserTypes.LOGIN_FAILURE,
-                    error,
-                },
-                logError(error),
-            ]));
+            dispatch({
+                type: UserTypes.LOGIN_FAILURE,
+                error,
+            });
+            dispatch(logError(error));
             return {error};
         }
 
@@ -159,10 +155,8 @@ function completeLogin(data: UserProfile): ActionFunc {
                 }
             }
         } catch (error) {
-            dispatch(batchActions([
-                {type: UserTypes.LOGIN_FAILURE, error},
-                logError(error),
-            ]));
+            dispatch({type: UserTypes.LOGIN_FAILURE, error});
+            dispatch(logError(error));
             return {error};
         }
 
@@ -174,17 +168,12 @@ function completeLogin(data: UserProfile): ActionFunc {
 
         const serverVersion = Client4.getServerVersion();
         dispatch(setServerVersion(serverVersion));
-        if (!isMinimumServerVersion(serverVersion, 4, 7) && getConfig(getState()).EnableCustomEmoji === 'true') {
-            dispatch(getAllCustomEmojis());
-        }
 
         try {
             await Promise.all(promises);
         } catch (error) {
-            dispatch(batchActions([
-                {type: UserTypes.LOGIN_FAILURE, error},
-                logError(error),
-            ]));
+            dispatch({type: UserTypes.LOGIN_FAILURE, error});
+            dispatch(logError(error));
             return {error};
         }
 
@@ -217,7 +206,6 @@ function completeLogin(data: UserProfile): ActionFunc {
 export function loadMe(): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
-        const config = getConfig(state);
 
         const deviceId = state.entities.general.deviceToken;
         if (deviceId) {
@@ -234,9 +222,6 @@ export function loadMe(): ActionFunc {
         // Sometimes the server version is set in one or the other
         const serverVersion = Client4.getServerVersion() || getState().entities.general.serverVersion;
         dispatch(setServerVersion(serverVersion));
-        if (!isMinimumServerVersion(serverVersion, 4, 7) && config.EnableCustomEmoji === 'true') {
-            dispatch(getAllCustomEmojis());
-        }
 
         await Promise.all(promises);
 
@@ -537,7 +522,7 @@ export function getProfilesInGroupChannels(channelsIds: string[]): ActionFunc {
             return {error};
         }
 
-        const actions: Action[] = [];
+        const actions: AnyAction[] = [];
         for (const channelId in channelProfiles) {
             if (channelProfiles.hasOwnProperty(channelId)) {
                 const profiles = channelProfiles[channelId];
@@ -936,10 +921,8 @@ export function autocompleteUsers(term: string, teamId = '', channelId = '', opt
             data = await Client4.autocompleteUsers(term, teamId, channelId, options);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {type: UserTypes.AUTOCOMPLETE_USERS_FAILURE, error},
-                logError(error),
-            ]));
+            dispatch({type: UserTypes.AUTOCOMPLETE_USERS_FAILURE, error});
+            dispatch(logError(error));
             return {error};
         }
 
@@ -948,7 +931,7 @@ export function autocompleteUsers(term: string, teamId = '', channelId = '', opt
             users = [...users, ...data.out_of_channel];
         }
         removeUserFromList(currentUserId, users);
-        const actions: Action[] = [{
+        const actions: AnyAction[] = [{
             type: UserTypes.RECEIVED_PROFILES_LIST,
             data: users,
         }, {
@@ -1001,7 +984,7 @@ export function searchProfiles(term: string, options: any = {}): ActionFunc {
             return {error};
         }
 
-        const actions: Action[] = [{type: UserTypes.RECEIVED_PROFILES_LIST, data: removeUserFromList(currentUserId, [...profiles])}];
+        const actions: AnyAction[] = [{type: UserTypes.RECEIVED_PROFILES_LIST, data: removeUserFromList(currentUserId, [...profiles])}];
 
         if (options.in_channel_id) {
             actions.push({
@@ -1104,10 +1087,8 @@ export function updateMe(user: UserProfile): ActionFunc {
         try {
             data = await Client4.patchMe(user);
         } catch (error) {
-            dispatch(batchActions([
-                {type: UserTypes.UPDATE_ME_FAILURE, error},
-                logError(error),
-            ]));
+            dispatch({type: UserTypes.UPDATE_ME_FAILURE, error});
+            dispatch(logError(error));
             return {error};
         }
 
@@ -1341,7 +1322,7 @@ export function createUserAccessToken(userId: string, description: string): Acti
             return {error};
         }
 
-        const actions: Action[] = [{
+        const actions: AnyAction[] = [{
             type: AdminTypes.RECEIVED_USER_ACCESS_TOKEN,
             data: {...data,
                 token: '',
@@ -1375,7 +1356,7 @@ export function getUserAccessToken(tokenId: string): ActionFunc {
             return {error};
         }
 
-        const actions: Action[] = [{
+        const actions: AnyAction[] = [{
             type: AdminTypes.RECEIVED_USER_ACCESS_TOKEN,
             data,
         }];
@@ -1408,14 +1389,10 @@ export function getUserAccessTokens(page = 0, perPage: number = General.PROFILE_
             return {error};
         }
 
-        const actions = [
-            {
-                type: AdminTypes.RECEIVED_USER_ACCESS_TOKENS,
-                data,
-            },
-        ];
-
-        dispatch(batchActions(actions));
+        dispatch({
+            type: AdminTypes.RECEIVED_USER_ACCESS_TOKENS,
+            data,
+        });
 
         return {data};
     };
@@ -1432,7 +1409,7 @@ export function getUserAccessTokensForUser(userId: string, page = 0, perPage: nu
             return {error};
         }
 
-        const actions: Action[] = [{
+        const actions: AnyAction[] = [{
             type: AdminTypes.RECEIVED_USER_ACCESS_TOKENS_FOR_USER,
             data,
             userId,

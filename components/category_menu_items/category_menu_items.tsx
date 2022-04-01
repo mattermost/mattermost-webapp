@@ -35,13 +35,12 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
     const multiSelectedChannelIds = useSelector((state: GlobalState) => state.views.channelSidebar.multiSelectedChannelIds);
     const currentTeam = useSelector((state: GlobalState) => getCurrentTeam(state));
 
-    let categories: ChannelCategory[] | undefined;
-    let currentCategory: ChannelCategory | undefined;
-
-    if (currentTeam) {
-        categories = useSelector((state: GlobalState) => getCategoriesForCurrentTeam(state));
-        currentCategory = useSelector((state: GlobalState) => getCategoryInTeamWithChannel(state, currentTeam.id, channel.id));
-    }
+    const categories = useSelector((state: GlobalState) => {
+        return currentTeam ? getCategoriesForCurrentTeam(state) : undefined;
+    });
+    const currentCategory = useSelector((state: GlobalState) => {
+        return currentTeam ? getCategoryInTeamWithChannel(state, currentTeam?.id || '', channel.id) : undefined;
+    });
 
     if (!categories) {
         return null;

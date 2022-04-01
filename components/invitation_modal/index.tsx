@@ -8,7 +8,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannel, getChannelsInCurrentTeam, getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
 import {haveIChannelPermission, haveICurrentTeamPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getConfig, getLicense, getSubscriptionStats} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getProfiles, searchProfiles as reduxSearchProfiles} from 'mattermost-redux/actions/users';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {searchChannels as reduxSearchChannels} from 'mattermost-redux/actions/channels';
@@ -50,7 +50,6 @@ export function mapStateToProps(state: GlobalState) {
 
     const currentTeam = getCurrentTeam(state);
     const currentChannel = getCurrentChannel(state);
-    const subscriptionStats = getSubscriptionStats(state);
     const invitableChannels = channels.filter((channel) => {
         if (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL) {
             return false;
@@ -66,7 +65,6 @@ export function mapStateToProps(state: GlobalState) {
     const isGroupConstrained = Boolean(currentTeam.group_constrained);
     const canInviteGuests = !isGroupConstrained && isLicensed && guestAccountsEnabled && haveICurrentTeamPermission(state, Permissions.INVITE_GUEST);
     const isCloud = license.Cloud === 'true';
-    const isFreeTierWithNoFreeSeats = isCloud && subscriptionStats?.is_paid_tier === 'false' && subscriptionStats?.remaining_seats <= 0;
 
     const canAddUsers = haveICurrentTeamPermission(state, Permissions.ADD_USER_TO_TEAM);
 
@@ -75,13 +73,10 @@ export function mapStateToProps(state: GlobalState) {
         currentTeam,
         canInviteGuests,
         canAddUsers,
-        isFreeTierWithNoFreeSeats,
         emailInvitationsEnabled,
         isCloud,
         isAdmin: isAdmin(getCurrentUser(state).roles),
-        cloudUserLimit: config.ExperimentalCloudUserLimit || '10',
         currentChannel,
-        subscriptionStats,
         townSquareDisplayName,
     };
 }

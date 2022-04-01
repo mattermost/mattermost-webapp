@@ -1,8 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {getSortedTrackedSelectors} from 'reselect';
+
 import {Client4} from 'mattermost-redux/client';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {Preferences} from 'mattermost-redux/constants';
+import {getConfig, isPerformanceDebuggingEnabled} from 'mattermost-redux/selectors/entities/general';
+import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 
 import store from 'stores/redux_store.jsx';
 
@@ -27,6 +31,14 @@ export function shouldTrackPerformance(state = store.getState()) {
 }
 
 export function trackEvent(category, event, props) {
+    const state = store.getState();
+    if (
+        isPerformanceDebuggingEnabled(state) &&
+        getBool(state, Preferences.CATEGORY_PERFORMANCE_DEBUGGING, Preferences.NAME_DISABLE_TELEMETRY)
+    ) {
+        return;
+    }
+
     Client4.trackEvent(category, event, props);
     if (isDevMode() && category === 'performance' && props) {
         // eslint-disable-next-line no-console
@@ -181,4 +193,27 @@ export function trackPluginInitialization(plugins) {
         totalDuration,
         totalSize,
     });
+}
+
+export function trackSelectorMetrics() {
+    if (!shouldTrackPerformance()) {
+        return;
+    }
+
+    setTimeout(() => {
+        const selectors = getSortedTrackedSelectors();
+
+        trackEvent('performance', 'least_effective_selectors', {
+            after: 'one_minute',
+            first: selectors[0]?.name || '',
+            first_effectiveness: selectors[0]?.effectiveness,
+            first_recomputations: selectors[0]?.recomputations,
+            second: selectors[1]?.name || '',
+            second_effectiveness: selectors[1]?.effectiveness,
+            second_recomputations: selectors[1]?.recomputations,
+            third: selectors[2]?.name || '',
+            third_effectiveness: selectors[2]?.effectiveness,
+            third_recomputations: selectors[2]?.recomputations,
+        });
+    }, 60000);
 }
