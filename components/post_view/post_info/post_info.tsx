@@ -213,6 +213,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             return;
         }
         this.setState({showActionsMenu: open});
+        this.props.handleDropdownOpened(open);
     };
 
     handleActionsMenuTipOpened = (): void => {
