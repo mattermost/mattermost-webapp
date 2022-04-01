@@ -117,7 +117,7 @@ export default class Root extends React.PureComponent {
             emitBrowserWindowResized: PropTypes.func.isRequired,
             getFirstAdminSetupComplete: PropTypes.func.isRequired,
             getProfiles: PropTypes.func.isRequired,
-            loadConfigAndMeIfLoggedIn: PropTypes.func.isRequired,
+            loadConfigAndMe: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
         products: PropTypes.array,
@@ -322,7 +322,7 @@ export default class Root extends React.PureComponent {
     }
 
     initiateMeRequests = async () => {
-        const {data: isMeLoaded} = await this.props.actions.loadConfigAndMeIfLoggedIn();
+        const {data: isMeLoaded} = await this.props.actions.loadConfigAndMe();
 
         if (isMeLoaded && this.props.location.pathname === '/') {
             this.redirectToOnboardingOrDefaultTeam();

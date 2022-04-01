@@ -11,7 +11,7 @@ import en from 'i18n/en.json';
 
 const pluginTranslationSources = {};
 
-export function loadConfigAndMeIfLoggedIn() {
+export function loadConfigAndMe() {
     return async (dispatch) => {
         // TODO: we will check for graphql here in future
         // eslint-disable-next-line no-unused-vars
