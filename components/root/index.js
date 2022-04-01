@@ -13,7 +13,7 @@ import {getProfiles} from 'mattermost-redux/actions/users';
 
 import {getShowLaunchingWorkspace} from 'selectors/onboarding';
 import {emitBrowserWindowResized} from 'actions/views/browser';
-import {loadConfigAndMe} from 'actions/views/root'
+import {loadConfigAndMe} from 'actions/views/root';
 
 import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks';
 
