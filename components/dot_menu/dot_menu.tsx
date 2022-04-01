@@ -326,11 +326,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             return;
         }
 
-        if (this.keysHeldDown.includes(e.key)) {
-            return;
-        }
-        this.keysHeldDown.push(e.key);
-
         switch (true) {
         case Utils.isKeyPressed(e, Constants.KeyCodes.R):
             this.handleCommentClick(e);
