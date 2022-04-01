@@ -155,6 +155,7 @@ exports[`components/SearchResultsItem should hide reply button when said so 1`] 
             className=" post--edited"
           >
             <AutoHeightSwitcher
+              onTransitionEnd={[Function]}
               showSlot={1}
               slot1={
                 <Memo(Connect(PostBodyAdditionalContent))
@@ -394,6 +395,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
             className=" post--edited"
           >
             <AutoHeightSwitcher
+              onTransitionEnd={[Function]}
               showSlot={1}
               slot1={
                 <Memo(Connect(PostBodyAdditionalContent))
@@ -636,6 +638,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
             className=" post--edited"
           >
             <AutoHeightSwitcher
+              onTransitionEnd={[Function]}
               showSlot={1}
               slot1={
                 <Memo(Connect(PostBodyAdditionalContent))
@@ -867,6 +870,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
             className=" post--edited"
           >
             <AutoHeightSwitcher
+              onTransitionEnd={[Function]}
               showSlot={1}
               slot1={
                 <Memo(Connect(PostBodyAdditionalContent))
@@ -1063,6 +1067,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
             className=" post--edited"
           >
             <AutoHeightSwitcher
+              onTransitionEnd={[Function]}
               showSlot={1}
               slot1={
                 <p>
@@ -1240,6 +1245,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
             className=" post--edited"
           >
             <AutoHeightSwitcher
+              onTransitionEnd={[Function]}
               showSlot={1}
               slot1={
                 <p>
@@ -1455,6 +1461,7 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
             className=" post--edited"
           >
             <AutoHeightSwitcher
+              onTransitionEnd={[Function]}
               showSlot={1}
               slot1={
                 <Memo(Connect(PostBodyAdditionalContent))
@@ -1691,6 +1698,7 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
             className=" post--edited"
           >
             <AutoHeightSwitcher
+              onTransitionEnd={[Function]}
               showSlot={1}
               slot1={
                 <Memo(Connect(PostBodyAdditionalContent))
@@ -1935,6 +1943,7 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
             className=" post--edited"
           >
             <AutoHeightSwitcher
+              onTransitionEnd={[Function]}
               showSlot={1}
               slot1={
                 <Memo(Connect(PostBodyAdditionalContent))
@@ -2171,6 +2180,7 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
             className=" post--edited"
           >
             <AutoHeightSwitcher
+              onTransitionEnd={[Function]}
               showSlot={1}
               slot1={
                 <Memo(Connect(PostBodyAdditionalContent))
@@ -2419,6 +2429,7 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
             className=" post--edited"
           >
             <AutoHeightSwitcher
+              onTransitionEnd={[Function]}
               showSlot={1}
               slot1={
                 <Memo(Connect(PostBodyAdditionalContent))
@@ -2655,6 +2666,7 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
             className=" post--edited"
           >
             <AutoHeightSwitcher
+              onTransitionEnd={[Function]}
               showSlot={1}
               slot1={
                 <Memo(Connect(PostBodyAdditionalContent))
@@ -2897,6 +2909,7 @@ exports[`components/SearchResultsItem should show team name when provided 1`] = 
             className=" post--edited"
           >
             <AutoHeightSwitcher
+              onTransitionEnd={[Function]}
               showSlot={1}
               slot1={
                 <Memo(Connect(PostBodyAdditionalContent))

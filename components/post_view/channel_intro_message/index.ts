@@ -35,10 +35,7 @@ function mapStateToProps(state: GlobalState) {
     const creator = getUser(state, channel.creator_id);
     const boardComponent = getChannelIntroPluginComponents(state).find((c) => c.pluginId === 'focalboard');
 
-    let usersLimit = parseInt(getConfig(state).ExperimentalCloudUserLimit! || '10', 10);
-    if (usersLimit === 0) {
-        usersLimit = 10;
-    }
+    const usersLimit = 10;
 
     const stats = getTotalUsersStatsSelector(state) || {total_users_count: 0};
 

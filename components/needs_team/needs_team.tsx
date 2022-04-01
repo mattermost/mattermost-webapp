@@ -77,6 +77,7 @@ type Props = {
     plugins?: any;
     selectedThreadId: string | null;
     shouldShowAppBar: boolean;
+    isCustomGroupsEnabled: boolean;
 }
 
 type State = {
@@ -248,13 +249,16 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
 
         if (this.props.license &&
             this.props.license.IsLicensed === 'true' &&
-            this.props.license.LDAPGroups === 'true') {
+            (this.props.license.LDAPGroups === 'true' || this.props.isCustomGroupsEnabled)) {
             if (this.props.currentUser) {
                 this.props.actions.getGroupsByUserIdPaginated(this.props.currentUser.id, false, 0, 60, true);
             }
 
-            this.props.actions.getAllGroupsAssociatedToChannelsInTeam(team.id, true);
-            if (team.group_constrained) {
+            if (this.props.license.LDAPGroups === 'true') {
+                this.props.actions.getAllGroupsAssociatedToChannelsInTeam(team.id, true);
+            }
+
+            if (team.group_constrained && this.props.license.LDAPGroups === 'true') {
                 this.props.actions.getAllGroupsAssociatedToTeam(team.id, true);
             } else {
                 this.props.actions.getGroups(false, 0, 60);

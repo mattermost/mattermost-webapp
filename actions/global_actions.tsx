@@ -10,9 +10,10 @@ import {
     selectChannel,
 } from 'mattermost-redux/actions/channels';
 import {logout, loadMe} from 'mattermost-redux/actions/users';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {Preferences} from 'mattermost-redux/constants';
+import {getConfig, isPerformanceDebuggingEnabled} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId, getMyTeams, getTeam, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
-import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannelStats, getCurrentChannelId, getMyChannelMember, getRedirectChannelNameForTeam, getChannelsNameMapInTeam, getAllDirectChannels, getChannelMessageCount} from 'mattermost-redux/selectors/entities/channels';
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
@@ -33,7 +34,7 @@ import {clearUserCookie} from 'actions/views/cookie';
 import {close as closeLhs} from 'actions/views/lhs';
 import * as WebsocketActions from 'actions/websocket_actions.jsx';
 import {getCurrentLocale} from 'selectors/i18n';
-import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
+import {getIsRhsOpen, getPreviousRhsState, getRhsState} from 'selectors/rhs';
 import BrowserStore from 'stores/browser_store';
 import store from 'stores/redux_store.jsx';
 import LocalStorageStore from 'stores/local_storage_store';
@@ -61,6 +62,7 @@ export function emitChannelClickEvent(channel: Channel) {
         const isChannelFilesShowing = getRhsState(state) === RHSStates.CHANNEL_FILES;
         const member = getMyChannelMember(state, chan.id);
         const currentChannelId = getCurrentChannelId(state);
+        const previousRhsState = getPreviousRhsState(state);
         dispatch(getChannelStats(chan.id));
 
         const penultimate = LocalStorageStore.getPreviousChannelName(userId, teamId);
@@ -72,11 +74,11 @@ export function emitChannelClickEvent(channel: Channel) {
         // When switching to a different channel if the pinned posts is showing
         // Update the RHS state to reflect the pinned post of the selected channel
         if (isRHSOpened && isPinnedPostsShowing) {
-            dispatch(updateRhsState(RHSStates.PIN, chan.id));
+            dispatch(updateRhsState(RHSStates.PIN, chan.id, previousRhsState));
         }
 
         if (isRHSOpened && isChannelFilesShowing) {
-            dispatch(updateRhsState(RHSStates.CHANNEL_FILES, chan.id));
+            dispatch(updateRhsState(RHSStates.CHANNEL_FILES, chan.id, previousRhsState));
         }
 
         if (currentChannelId) {
@@ -201,6 +203,14 @@ export function emitLocalUserTypingEvent(channelId: string, parentPostId: string
     const userTyping = async (actionDispatch: DispatchFunc, actionGetState: GetStateFunc) => {
         const state = actionGetState();
         const config = getConfig(state);
+
+        if (
+            isPerformanceDebuggingEnabled(state) &&
+            getBool(state, Preferences.CATEGORY_PERFORMANCE_DEBUGGING, Preferences.NAME_DISABLE_TYPING_MESSAGES)
+        ) {
+            return {data: false};
+        }
+
         const t = Date.now();
         const stats = getCurrentChannelStats(state);
         const membersInChannel = stats ? stats.member_count : 0;

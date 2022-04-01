@@ -165,7 +165,7 @@ type PluginItemProps = {
     handleRemove: (e: any) => any;
     showInstances: boolean;
     hasSettings: boolean;
-    appsEnabled: boolean;
+    appsFeatureFlagEnabled: boolean;
     isDisabled?: boolean;
 };
 
@@ -177,7 +177,7 @@ const PluginItem = ({
     handleRemove,
     showInstances,
     hasSettings,
-    appsEnabled,
+    appsFeatureFlagEnabled,
     isDisabled,
 }: PluginItemProps) => {
     let activateButton: React.ReactNode;
@@ -363,7 +363,7 @@ const PluginItem = ({
         );
     }
 
-    if (pluginStatus.id === appsPluginID && !appsEnabled) {
+    if (pluginStatus.id === appsPluginID && !appsFeatureFlagEnabled) {
         activateButton = (<>{'Plugin disabled by feature flag'}</>);
         removeButton = null;
     }
@@ -399,7 +399,7 @@ type Props = BaseProps & {
     config: DeepPartial<AdminConfig>;
     pluginStatuses: Record<string, PluginStatus>;
     plugins: any;
-    appsEnabled: boolean;
+    appsFeatureFlagEnabled: boolean;
     actions: {
         uploadPlugin: (fileData: File, force: boolean) => any;
         removePlugin: (pluginId: string) => any;
@@ -840,7 +840,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                     helpText={
                         <FormattedMarkdownMessage
                             id='admin.plugins.settings.enableDesc'
-                            defaultMessage='When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more.'
+                            defaultMessage='When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more.'
                         />
                     }
                     value={this.state.enable}
@@ -932,7 +932,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                         handleRemove={this.showRemovePluginModal}
                         showInstances={showInstances}
                         hasSettings={hasSettings}
-                        appsEnabled={this.props.appsEnabled}
+                        appsFeatureFlagEnabled={this.props.appsFeatureFlagEnabled}
                         isDisabled={this.props.isDisabled}
                     />
                 );
@@ -976,21 +976,21 @@ export default class PluginManagement extends AdminSettings<Props, State> {
             uploadHelpText = (
                 <FormattedMarkdownMessage
                     id='admin.plugin.uploadDesc'
-                    defaultMessage='Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more.'
+                    defaultMessage='Upload a plugin for your Mattermost server. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more.'
                 />
             );
         } else if (enable && !enableUploads) {
             uploadHelpText = (
                 <FormattedMarkdownMessage
                     id='admin.plugin.uploadDisabledDesc'
-                    defaultMessage='Enable plugin uploads in config.json. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more.'
+                    defaultMessage='Enable plugin uploads in config.json. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more.'
                 />
             );
         } else {
             uploadHelpText = (
                 <FormattedMarkdownMessage
                     id='admin.plugin.uploadAndPluginDisabledDesc'
-                    defaultMessage='To enable plugins, set **Enable Plugins** to true. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more.'
+                    defaultMessage='To enable plugins, set **Enable Plugins** to true. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more.'
                 />
             );
         }

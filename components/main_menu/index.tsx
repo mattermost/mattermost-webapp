@@ -19,7 +19,6 @@ import {getCurrentUser, isFirstAdmin} from 'mattermost-redux/selectors/entities/
 import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 import {haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 
-import {getSubscriptionStats} from 'mattermost-redux/actions/cloud';
 import {Permissions} from 'mattermost-redux/constants';
 
 import {RHSStates} from 'utils/constants';
@@ -101,7 +100,6 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             closeRightHandSide,
             closeRhsMenu,
             unhideNextSteps,
-            getSubscriptionStats,
         }, dispatch),
     };
 }
