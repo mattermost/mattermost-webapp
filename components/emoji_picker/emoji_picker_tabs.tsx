@@ -28,7 +28,7 @@ interface Props {
     leftOffset?: number;
     placement?: PlacementType;
     customEmojis?: any;
-    onEmojiClose: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    onEmojiClose: () => void;
     onEmojiClick: (emoji: Emoji) => void;
     onGifClick?: (gif: string) => void;
     enableGifPicker: boolean;

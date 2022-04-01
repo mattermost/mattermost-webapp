@@ -12,7 +12,7 @@ import {Constants} from 'utils/constants';
 
 import EmojiPickerTabs from './emoji_picker_tabs';
 
-enum PositionTypes {
+export enum PositionTypes {
     LEFT ='left',
     RIGHT = 'right',
 }
@@ -24,7 +24,7 @@ interface Props {
     onEmojiClick: (emoji: Emoji) => void;
     onGifClick?: (gif: string) => void;
 
-    // onEmojiClose?: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    onEmojiClose?: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     onHide: () => void;
     topOffset: number;
     rightOffset?: number;
@@ -45,7 +45,7 @@ const CENTER_SPACE_REQUIRED_BELOW = 497;
 // const RHS_SPACE_REQUIRED_ABOVE = 420;
 // const RHS_SPACE_REQUIRED_BELOW = 420;
 
-const EmojiPickerOverlay = ({show, container, target, onEmojiClick, onGifClick, onHide, topOffset, rightOffset,
+const EmojiPickerOverlay = ({show, container, target, onEmojiClick, onEmojiClose, onGifClick, onHide, topOffset, rightOffset,
     leftOffset,
     spaceRequiredAbove = CENTER_SPACE_REQUIRED_ABOVE, spaceRequiredBelow = CENTER_SPACE_REQUIRED_BELOW, enableGifPicker = false, defaultHorizontalPosition}: Props) => {
     // Reasonable defaults calculated from from the center channel
@@ -101,7 +101,7 @@ const EmojiPickerOverlay = ({show, container, target, onEmojiClick, onGifClick, 
         >
             <EmojiPickerTabs
                 enableGifPicker={enableGifPicker}
-                onEmojiClose={onHide}
+                onEmojiClose={onEmojiClose}
                 onEmojiClick={onEmojiClick}
                 onGifClick={onGifClick}
                 rightOffset={calculatedRightOffset}

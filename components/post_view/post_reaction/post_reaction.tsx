@@ -42,6 +42,11 @@ type State = {
     showEmojiPicker: boolean;
 }
 
+// An emoji picker in the RHS isn't constrained by the RHS, so it just needs space to fit
+// the emoji picker itself
+const RHS_SPACE_REQUIRED_ABOVE = 420;
+const RHS_SPACE_REQUIRED_BELOW = 420;
+
 export default class PostReaction extends React.PureComponent<Props, State> {
     public static defaultProps: Partial<Props> = {
         location: Locations.CENTER as 'CENTER',
@@ -67,8 +72,8 @@ export default class PostReaction extends React.PureComponent<Props, State> {
         let spaceRequiredAbove;
         let spaceRequiredBelow;
         if (location === Locations.RHS_ROOT || location === Locations.RHS_COMMENT) {
-            spaceRequiredAbove = EmojiPickerOverlay.RHS_SPACE_REQUIRED_ABOVE;
-            spaceRequiredBelow = EmojiPickerOverlay.RHS_SPACE_REQUIRED_BELOW;
+            spaceRequiredAbove = RHS_SPACE_REQUIRED_ABOVE;
+            spaceRequiredBelow = RHS_SPACE_REQUIRED_BELOW;
         }
 
         return (
@@ -82,7 +87,8 @@ export default class PostReaction extends React.PureComponent<Props, State> {
                         show={showEmojiPicker}
                         target={this.props.getDotMenuRef}
                         onHide={this.props.toggleEmojiPicker}
-                        onEmojiClose={this.props.toggleEmojiPicker}
+
+                        // onEmojiClose={this.props.toggleEmojiPicker}
                         onEmojiClick={this.handleAddEmoji}
                         topOffset={TOP_OFFSET}
                         spaceRequiredAbove={spaceRequiredAbove}
