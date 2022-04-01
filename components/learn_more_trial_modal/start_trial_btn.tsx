@@ -61,7 +61,7 @@ const StartTrialBtn = ({
         const requestedUsers = Math.max(users, 30);
         const {error, data} = await dispatch(requestTrialLicense(requestedUsers, true, true, 'license'));
         if (error) {
-            if (typeof data.status !== 'undefined' && data.status === 451) {
+            if (typeof data?.status !== 'undefined' && data.status === 451) {
                 setLoadStatus(TrialLoadStatus.Embargoed);
                 if (typeof handleEmbargoError === 'function') {
                     handleEmbargoError();
