@@ -85,22 +85,34 @@ describe('Channel members RHS', () => {
             openChannelMembersRhs(testTeam, channel);
 
             // * Ensure the search bar is not there
-            cy.findByPlaceholderText('Search members').should('not.exist');
+            cy.uiGetRHS().findByPlaceholderText('Search members').should('not.exist');
 
-            const userAddedToChannelPromises = [];
-            const users = [];
+            // # Close RHS
+            cy.uiCloseRHS();
+
             for (let i = 0; i < 20; i++) {
+                // eslint-disable-next-line no-loop-func
                 cy.apiCreateUser().then(({user: newUser}) => {
-                    users.push(newUser);
                     cy.apiAddUserToTeam(testTeam.id, newUser.id).then(() => {
-                        userAddedToChannelPromises.push(cy.apiAddUserToChannel(channel.id, newUser.id));
+                        cy.apiAddUserToChannel(channel.id, newUser.id);
                     });
                 });
             }
 
-            Promise.all(userAddedToChannelPromises).then(() => {
-                // * Ensure the search bar is there
-                cy.findByPlaceholderText('Search members').should('be.visible');
+            cy.apiGetUsers({in_channel: channel.id}).then(({users}) => {
+                // # Open the Channel Members RHS
+                openChannelMembersRhs(testTeam, channel);
+
+                // # Search for first user
+                cy.uiGetRHS().findByPlaceholderText('Search members').should('be.visible').type(users[0].username);
+
+                // * we should see them, but nobody else
+                cy.uiGetRHS().findByText(`@${users[0].username}`).should('be.visible');
+                cy.uiGetRHS().findByText(`@${users[1].username}`).should('not.exist');
+
+                // # erase the field
+                cy.uiGetRHS().get('[aria-label="cancel members search"]').should('be.visible').click();
+                cy.uiGetRHS().findByText(`@${users[1].username}`).should('exist');
             });
         });
     });
@@ -134,13 +146,36 @@ describe('Channel members RHS', () => {
             // the user line is going to be removed and re-added in another category,
             // cypress struggle to realize this so we have to wait a few ms
             // eslint-disable-next-line cypress/no-unnecessary-waiting
-            cy.wait(100);
+            cy.wait(500);
 
             // * Can see the user with his new admin role, and change it back
             cy.uiGetRHS().findByTestId(`memberline-${user.id}`).should('be.visible').within(() => {
                 cy.findByText('Admin').should('be.visible').click();
                 cy.findByText('Make Channel Member').should('be.visible').click();
             });
+        });
+    });
+
+    describe('as an non-admin', () => {
+        before(() => {
+            cy.apiLogout();
+            cy.apiLogin(user);
+        });
+
+        it('should not be able to invite new members', () => {
+            // # Open the Channel Members RHS
+            openChannelMembersRhs(testTeam, testChannel);
+
+            // # Click on the Add button
+            cy.uiGetRHS().findByText('Add').should('not.exist');
+        });
+
+        it('should not be able to manage members', () => {
+            // # Open the Channel Members RHS
+            openChannelMembersRhs(testTeam, testChannel);
+
+            // # Click on the Manage button
+            cy.uiGetRHS().findByText('Manage').should('not.exist');
         });
     });
 });

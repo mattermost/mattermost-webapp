@@ -30,6 +30,10 @@ const SearchBar = ({className, terms, onInput}: Props) => {
                     <button
                         className='style--none'
                         onClick={() => onInput('')}
+                        aria-label={formatMessage({
+                            id: 'channel_members_rhs.search_bar.aria.cancel_search_button',
+                            defaultMessage: 'cancel members search',
+                        })}
                     >
                         <i className={'icon icon-close-circle'}/>
                     </button>
