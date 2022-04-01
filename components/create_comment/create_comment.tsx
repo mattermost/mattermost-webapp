@@ -10,6 +10,8 @@ import {EmoticonOutlineIcon, SendIcon} from '@mattermost/compass-icons/component
 
 import {ModalData} from 'types/actions.js';
 
+import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
+
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions';
@@ -28,7 +30,6 @@ import {
 import {getTable, formatMarkdownTableMessage, isGitHubCodeBlock, formatGithubCodePaste} from 'utils/paste';
 
 import NotifyConfirmModal from 'components/notify_confirm_modal';
-import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';

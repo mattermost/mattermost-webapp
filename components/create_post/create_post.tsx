@@ -8,6 +8,8 @@ import classNames from 'classnames';
 import {injectIntl, IntlShape} from 'react-intl';
 import {SendIcon, EmoticonOutlineIcon} from '@mattermost/compass-icons/components';
 
+import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
+
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
@@ -30,7 +32,6 @@ import * as Utils from 'utils/utils';
 import NotifyConfirmModal from 'components/notify_confirm_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
-import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';

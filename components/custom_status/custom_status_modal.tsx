@@ -6,6 +6,8 @@ import classNames from 'classnames';
 import {FormattedMessage, useIntl} from 'react-intl';
 import moment, {Moment} from 'moment-timezone';
 
+import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
+
 import {setCustomStatus, unsetCustomStatus, removeRecentCustomStatus} from 'mattermost-redux/actions/users';
 import {setCustomStatusInitialisationState} from 'mattermost-redux/actions/preferences';
 import {Preferences} from 'mattermost-redux/constants';
@@ -15,7 +17,6 @@ import {Emoji} from 'mattermost-redux/types/emojis';
 import {loadCustomEmojisIfNeeded} from 'actions/emoji_actions';
 import GenericModal from 'components/generic_modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
-import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import RenderEmoji from 'components/emoji/render_emoji';
 import QuickInput, {MaxLengthInput} from 'components/quick_input';
 import {makeGetCustomStatus, getRecentCustomStatuses, showStatusDropdownPulsatingDot, isCustomStatusExpired} from 'selectors/views/custom_status';
