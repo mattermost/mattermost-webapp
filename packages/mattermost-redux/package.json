@@ -1,0 +1,7 @@
+{
+  "name": "mattermost-redux",
+  "scripts": {
+    "build": "echo 'Not a real package'",
+    "debug": "echo 'Not a real package'"
+  }
+}

@@ -40,5 +40,6 @@
   "references": [
     {"path": "./packages/client"},
     {"path": "./packages/types"},
+    {"path": "./packages/mattermost-components"},
   ]
 }

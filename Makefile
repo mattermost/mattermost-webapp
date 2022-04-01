@@ -37,11 +37,13 @@ test: node_modules ## Runs tests
 i18n-extract: ## Extract strings for translation from the source code
 	npm run mmjstool -- i18n extract-webapp
 
-node_modules: package.json package-lock.json
+node_modules: package.json package-lock.json packages/mattermost-components/package.json
 	@echo Getting dependencies using npm
 
 	node skip_integrity_check.js
 
+	npm install --workspaces
+	npm run build --workspace=packages/mattermost-components
 	npm install
 	touch $@
 
@@ -58,6 +60,7 @@ package-ci: ## used in the CI to build the package and bypass the npm install
 	@echo Building mattermost Webapp
 
 	rm -rf dist
+	npm run build --workspace=packages/mattermost-components
 	npm run build
 
 	@echo Packaging webapp
@@ -73,6 +76,7 @@ build: node_modules ## Builds the app
 
 	rm -rf dist
 
+	npm run build --workspace=packages/mattermost-components
 	npm run build
 
 run: node_modules ## Runs app
