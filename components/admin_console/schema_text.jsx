@@ -38,8 +38,6 @@ export default class SchemaText extends React.PureComponent {
 
         if (isMarkdown) {
             return (
-
-                // Give all markdown links target="_blank"
                 <FormattedMarkdownMessage
                     id={text}
                     defaultMessage={textDefault}

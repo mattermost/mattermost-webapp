@@ -29,7 +29,7 @@ export class CustomRenderer extends marked.Renderer {
             return `<a href="${href.substring(1, href.length)}" rel="noopener noreferrer" target="_blank">${text}</a>`;
         }
         if (openInNewTab) {
-            return `<a href="${href}" target="_blank">${text}</a>`;
+            return `<a href="${href}" rel="noopener noreferrer" target="_blank">${text}</a>`;
         }
         return `<a href="${href}">${text}</a>`;
     }
