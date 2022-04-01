@@ -117,9 +117,7 @@ export default class Root extends React.PureComponent {
             emitBrowserWindowResized: PropTypes.func.isRequired,
             getFirstAdminSetupComplete: PropTypes.func.isRequired,
             getProfiles: PropTypes.func.isRequired,
-            getClientConfig: PropTypes.func.isRequired,
-            getLicenseConfig: PropTypes.func.isRequired,
-            loadMe: PropTypes.func.isRequired,
+            loadConfigAndMeIfLoggedIn: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
         products: PropTypes.array,
@@ -324,26 +322,13 @@ export default class Root extends React.PureComponent {
     }
 
     initiateMeRequests = async () => {
-        try {
-            await Promise.all([
-                this.props.actions.getClientConfig(),
-                this.props.actions.getLicenseConfig(),
-            ]);
+        const {data: isMeLoaded} = await this.props.actions.loadConfigAndMeIfLoggedIn();
 
-            let isMeLoaded = false;
-            if (document.cookie.includes('MMUSERID=')) {
-                const dataFromLoadMe = await this.props.actions.loadMe();
-                isMeLoaded = dataFromLoadMe?.data ?? false;
-            }
-
-            if (isMeLoaded && this.props.location.pathname === '/') {
-                this.redirectToOnboardingOrDefaultTeam();
-            }
-
-            this.onConfigLoaded();
-        } catch (error) {
-            // do nothing
+        if (isMeLoaded && this.props.location.pathname === '/') {
+            this.redirectToOnboardingOrDefaultTeam();
         }
+
+        this.onConfigLoaded();
     }
 
     componentDidMount() {

@@ -7,15 +7,18 @@ import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {shouldShowTermsOfService, getCurrentUserId, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getFirstAdminSetupComplete, getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
 import {getTheme, getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getProfiles, loadMe} from 'mattermost-redux/actions/users';
+import {getFirstAdminSetupComplete} from 'mattermost-redux/actions/general';
+import {getProfiles} from 'mattermost-redux/actions/users';
 
+import {getShowLaunchingWorkspace} from 'selectors/onboarding';
 import {emitBrowserWindowResized} from 'actions/views/browser';
+import {loadConfigAndMeIfLoggedIn} from 'actions/views/root'
+
 import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks';
+
 import LocalStorageStore from 'stores/local_storage_store';
 import {isMobile} from 'utils/utils.jsx';
-import {getShowLaunchingWorkspace} from 'selectors/onboarding';
 
 import Root from './root.jsx';
 
@@ -49,9 +52,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            loadMe,
-            getClientConfig,
-            getLicenseConfig,
+            loadConfigAndMeIfLoggedIn,
             emitBrowserWindowResized,
             getFirstAdminSetupComplete,
             getProfiles,
