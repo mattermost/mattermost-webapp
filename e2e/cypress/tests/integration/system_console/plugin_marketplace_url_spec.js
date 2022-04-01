@@ -7,16 +7,14 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+//  - Requires mmctl at fixtures folder
+//  -> copy ./mmctl/mmctl to ./mattermost-webapp/e2e/cypress/tests/fixtures/mmctl
+
 // Group: @plugin @system_console
 
 describe('System Console > Plugin Management ', () => {
     before(() => {
         cy.shouldNotRunOnCloudEdition();
-
-        // // # Login as Admin
-        // cy.apiInitSetup().then(({team}) => {
-        // });
-        // cy.apiAdminLogin();
     });
 
     it('MM-xxx Plugin Marketplace URL should be disabled if EnableUploads are disabled', () => {
@@ -24,10 +22,11 @@ describe('System Console > Plugin Management ', () => {
         let newSettings = {
             PluginSettings: {
                 Enable: true,
-                EnableUploads: false,
             },
         };
         cy.apiUpdateConfig(newSettings);
+
+        cy.exec('tests/fixtures/mmctl --local config set PluginSettings.EnableUploads false');
 
         // # Login as System Admin
         cy.apiAdminLogin();
@@ -41,15 +40,15 @@ describe('System Console > Plugin Management ', () => {
         newSettings = {
             PluginSettings: {
                 Enable: true,
-                EnableUploads: true,
             },
         };
         cy.apiUpdateConfig(newSettings);
+
+        cy.exec('tests/fixtures/mmctl --local config set PluginSettings.EnableUploads true');
 
         cy.reload();
 
         // * Verify marketplace URL is enabled.
         cy.findByTestId('marketplaceUrlinput').should('be.enabled');
     });
-
 });
