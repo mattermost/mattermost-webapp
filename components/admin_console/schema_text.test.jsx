@@ -74,7 +74,7 @@ describe('SchemaText', () => {
         const wrapper = shallow(<SchemaText {...props}/>);
 
         expect(wrapper.find('span').prop('dangerouslySetInnerHTML')).toEqual({
-            __html: 'This is <a href="https://example.com" target="_blank">a link</a>',
+            __html: 'This is <a href="https://example.com" rel="noopener noreferrer" target="_blank">a link</a>',
         });
     });
 
