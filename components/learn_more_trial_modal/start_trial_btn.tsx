@@ -52,7 +52,7 @@ const StartTrialBtn = ({
 
     const [status, setLoadStatus] = useState(TrialLoadStatus.NotStarted);
 
-    const requestLicense = async () => {
+    const requestLicense = async (): Promise<TrialLoadStatus> => {
         setLoadStatus(TrialLoadStatus.Started);
         let users = 0;
         if (stats && (typeof stats.TOTAL_USERS === 'number')) {
@@ -66,18 +66,19 @@ const StartTrialBtn = ({
                 if (typeof handleEmbargoError === 'function') {
                     handleEmbargoError();
                 }
-                return;
+                return TrialLoadStatus.Embargoed;
             }
             setLoadStatus(TrialLoadStatus.Failed);
-            return;
+            return TrialLoadStatus.Failed;
         }
 
         await dispatch(getLicenseConfig());
         await dispatch(closeModal(ModalIdentifiers.LEARN_MORE_TRIAL_MODAL));
         setLoadStatus(TrialLoadStatus.Success);
+        return TrialLoadStatus.Success;
     };
 
-    const openTrialBenefitsModal = async () => {
+    const openTrialBenefitsModal = async (status: TrialLoadStatus) => {
         // Only open the benefits modal if the trial request succeeded
         if (status !== TrialLoadStatus.Success) {
             return;
@@ -104,9 +105,13 @@ const StartTrialBtn = ({
         }
     };
     const startTrial = async () => {
-        await requestLicense();
-        await openTrialBenefitsModal();
-        if (onClick && status === TrialLoadStatus.Success) {
+        // reading status from here instead of normal flow because
+        // by the time the function needs the updated value from requestLicense,
+        // it will be too late to wait for the render cycle to happen again
+        // to close over the updated value
+        const updatedStatus = await requestLicense();
+        await openTrialBenefitsModal(updatedStatus);
+        if (onClick && updatedStatus === TrialLoadStatus.Success) {
             onClick();
         }
         trackEvent(
