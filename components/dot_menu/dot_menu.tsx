@@ -431,7 +431,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             <MenuWrapper
                 open={this.props.isMenuOpen}
                 onToggle={this.handleDropdownOpened}
-                className={'dotmenu-dropdown-menu'}
+                className={'dropdown-menu__dotmenu'}
             >
                 <OverlayTrigger
                     className='hidden-xs'
