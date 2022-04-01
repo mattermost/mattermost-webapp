@@ -279,6 +279,12 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         titleId="admin.permissions.systemScheme.playbookAdmin"
       >
         <PermissionsTreePlaybooks
+          license={
+            Object {
+              "CustomPermissionsSchemes": "false",
+              "IsLicensed": "true",
+            }
+          }
           onToggle={[Function]}
           parentRole={
             Object {
@@ -578,6 +584,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         titleId="admin.permissions.systemScheme.playbookAdmin"
       >
         <PermissionsTreePlaybooks
+          license={
+            Object {
+              "CustomPermissionsSchemes": "true",
+              "GuestAccountsPermissions": "true",
+              "IsLicensed": "true",
+            }
+          }
           onToggle={[Function]}
           parentRole={
             Object {
@@ -877,6 +890,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         titleId="admin.permissions.systemScheme.playbookAdmin"
       >
         <PermissionsTreePlaybooks
+          license={
+            Object {
+              "CustomPermissionsSchemes": "false",
+              "GuestAccountsPermissions": "false",
+              "IsLicensed": "true",
+            }
+          }
           onToggle={[Function]}
           parentRole={
             Object {
@@ -1176,6 +1196,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_system_
         titleId="admin.permissions.systemScheme.playbookAdmin"
       >
         <PermissionsTreePlaybooks
+          license={
+            Object {
+              "CustomPermissionsSchemes": "false",
+              "GuestAccountsPermissions": "true",
+              "IsLicensed": "true",
+            }
+          }
           onToggle={[Function]}
           parentRole={
             Object {
