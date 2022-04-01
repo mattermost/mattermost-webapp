@@ -9,7 +9,7 @@ import {ActionFunc, ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-r
 import {UserProfile, UserStatus, GetFilteredUsersStatsOpts, UsersStats, UserCustomStatus} from 'mattermost-redux/types/users';
 import {UserTypes, AdminTypes} from 'mattermost-redux/action_types';
 
-import {setServerVersion} from 'mattermost-redux/actions/general';
+import {setServerVersion, getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
 import {getMyTeams, getMyTeamMembers, getMyTeamUnreads} from 'mattermost-redux/actions/teams';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 import {bindClientFunc, forceLogoutIfNecessary, debounce} from 'mattermost-redux/actions/helpers';
@@ -76,10 +76,15 @@ export function login(loginId: string, password: string, mfaToken = '', ldapOnly
         dispatch({type: UserTypes.LOGIN_REQUEST, data: null});
 
         const deviceId = getState().entities.general.deviceToken;
-        let data;
 
         try {
-            data = await Client4.login(loginId, password, mfaToken, deviceId, ldapOnly);
+            await Client4.login(loginId, password, mfaToken, deviceId, ldapOnly);
+
+            const dataFromLoadMe = await dispatch(loadMe());
+
+            if (dataFromLoadMe && dataFromLoadMe.data) {
+                dispatch({type: UserTypes.LOGIN_SUCCESS});
+            }
         } catch (error) {
             dispatch({
                 type: UserTypes.LOGIN_FAILURE,
@@ -89,7 +94,7 @@ export function login(loginId: string, password: string, mfaToken = '', ldapOnly
             return {error};
         }
 
-        return completeLogin(data)(dispatch, getState);
+        return {data: true};
     };
 }
 
@@ -98,10 +103,14 @@ export function loginById(id: string, password: string, mfaToken = ''): ActionFu
         dispatch({type: UserTypes.LOGIN_REQUEST, data: null});
 
         const deviceId = getState().entities.general.deviceToken;
-        let data;
 
         try {
-            data = await Client4.loginById(id, password, mfaToken, deviceId);
+            await Client4.loginById(id, password, mfaToken, deviceId);
+            const dataFromLoadMe = await dispatch(loadMe());
+
+            if (dataFromLoadMe && dataFromLoadMe.data) {
+                dispatch({type: UserTypes.LOGIN_SUCCESS});
+            }
         } catch (error) {
             dispatch({
                 type: UserTypes.LOGIN_FAILURE,
@@ -109,89 +118,6 @@ export function loginById(id: string, password: string, mfaToken = ''): ActionFu
             });
             dispatch(logError(error));
             return {error};
-        }
-
-        return completeLogin(data)(dispatch, getState);
-    };
-}
-
-function completeLogin(data: UserProfile): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState();
-        const collapsedThreads = isCollapsedThreadsEnabled(state);
-        dispatch({
-            type: UserTypes.RECEIVED_ME,
-            data,
-        });
-
-        Client4.setUserId(data.id);
-        Client4.setUserRoles(data.roles);
-        let teamMembers;
-
-        try {
-            const membersRequest: Promise<TeamMembership[]> = Client4.getMyTeamMembers();
-            const unreadsRequest = Client4.getMyTeamUnreads(collapsedThreads);
-
-            teamMembers = await membersRequest;
-            const teamUnreads = await unreadsRequest;
-
-            if (teamUnreads) {
-                for (const u of teamUnreads) {
-                    const index = teamMembers.findIndex((m) => m.team_id === u.team_id);
-                    const member = teamMembers[index];
-                    member.mention_count = u.mention_count;
-                    member.msg_count = u.msg_count;
-                    member.mention_count_root = u.mention_count_root;
-                    member.msg_count_root = u.msg_count_root;
-                    if (collapsedThreads) {
-                        member.thread_count = u.thread_count;
-                        member.thread_mention_count = u.thread_mention_count;
-                    }
-                }
-            }
-        } catch (error) {
-            dispatch({type: UserTypes.LOGIN_FAILURE, error});
-            dispatch(logError(error));
-            return {error};
-        }
-
-        const promises = [
-            dispatch(getMyPreferences()),
-            dispatch(getMyTeams()),
-            dispatch(getClientConfig()),
-        ];
-
-        const serverVersion = Client4.getServerVersion();
-        dispatch(setServerVersion(serverVersion));
-
-        try {
-            await Promise.all(promises);
-        } catch (error) {
-            dispatch({type: UserTypes.LOGIN_FAILURE, error});
-            dispatch(logError(error));
-            return {error};
-        }
-
-        dispatch(batchActions([
-            {
-                type: TeamTypes.RECEIVED_MY_TEAM_MEMBERS,
-                data: teamMembers,
-            },
-            {
-                type: UserTypes.LOGIN_SUCCESS,
-            },
-        ]));
-        const roles = new Set<string>();
-        for (const role of data.roles.split(' ')) {
-            roles.add(role);
-        }
-        for (const teamMember of teamMembers) {
-            for (const role of teamMember.roles.split(' ')) {
-                roles.add(role);
-            }
-        }
-        if (roles.size > 0) {
-            dispatch(loadRolesIfNeeded(roles));
         }
 
         return {data: true};
@@ -207,31 +133,41 @@ export function loadMe(): ActionFunc {
             Client4.attachDevice(deviceId);
         }
 
-        const promises = [
-            dispatch(getMe()),
-            dispatch(getMyPreferences()),
-            dispatch(getMyTeams()),
-            dispatch(getMyTeamMembers()),
-        ];
-
         // Sometimes the server version is set in one or the other
         const serverVersion = Client4.getServerVersion() || getState().entities.general.serverVersion;
         dispatch(setServerVersion(serverVersion));
 
-        await Promise.all(promises);
+        const isCollapsedThreads = isCollapsedThreadsEnabled(getState());
 
-        const collapsedReplies = isCollapsedThreadsEnabled(getState());
-        dispatch(getMyTeamUnreads(collapsedReplies));
+        try {
+            await Promise.all([
+                dispatch(getClientConfig()),
+                dispatch(getLicenseConfig()),
+                dispatch(getMe()),
+                dispatch(getMyPreferences()),
+                dispatch(getMyTeams()),
+                dispatch(getMyTeamMembers()),
+            ]);
+
+            await dispatch(getMyTeamUnreads(isCollapsedThreads));
+        } catch (error) {
+            dispatch(logError(error));
+            return {error};
+        }
 
         const {currentUserId} = getState().entities.users;
-        const user = getState().entities.users.profiles[currentUserId];
         if (currentUserId) {
             Client4.setUserId(currentUserId);
         }
 
+        const user = getState().entities.users.profiles[currentUserId];
         if (user) {
             Client4.setUserRoles(user.roles);
         }
+
+        // if (isLogginIn) {
+        //     dispatch({type: UserTypes.LOGIN_SUCCESS, data: null});
+        // }
 
         return {data: true};
     };
