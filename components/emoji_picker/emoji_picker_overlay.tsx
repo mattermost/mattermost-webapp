@@ -5,6 +5,8 @@ import React from 'react';
 import {Overlay} from 'react-bootstrap';
 import memoize from 'memoize-one';
 
+import {Emoji} from 'mattermost-redux/types/emojis';
+
 import {popOverOverlayPosition} from 'utils/position_utils';
 import {Constants} from 'utils/constants';
 
@@ -17,18 +19,20 @@ enum PositionTypes {
 
 interface Props {
     show: boolean;
-    container: () => void;
+    container?: () => void;
     target: () => void;
-    onEmojiClick: () => void;
-    onGifClick: () => void;
+    onEmojiClick: (emoji: Emoji) => void;
+    onGifClick?: (gif: string) => void;
+
+    // onEmojiClose?: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     onHide: () => void;
     topOffset: number;
-    rightOffset: number;
-    leftOffset: number;
-    spaceRequiredAbove: number;
-    spaceRequiredBelow: number;
-    enableGifPicker: boolean;
-    defaultHorizontalPosition: PositionTypes;
+    rightOffset?: number;
+    leftOffset?: number;
+    spaceRequiredAbove?: number;
+    spaceRequiredBelow?: number;
+    enableGifPicker?: boolean;
+    defaultHorizontalPosition?: PositionTypes;
 }
 
 // An emoji picker in the center channel is contained within the post list, so it needs space

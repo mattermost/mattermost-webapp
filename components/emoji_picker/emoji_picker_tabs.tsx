@@ -4,6 +4,8 @@
 import React, {useState} from 'react';
 import {Tab, Tabs} from 'react-bootstrap';
 
+import {Emoji} from 'mattermost-redux/types/emojis';
+
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import GfycatIcon from 'components/widgets/icons/gfycat_icon';
 import {makeAsyncComponent} from 'components/async_load';
@@ -23,12 +25,12 @@ interface Props {
     style?: any;
     rightOffset: number;
     topOffset: number;
-    leftOffset: number;
+    leftOffset?: number;
     placement?: PlacementType;
     customEmojis?: any;
-    onEmojiClose: () => void;
-    onEmojiClick: () => void;
-    onGifClick: () => void;
+    onEmojiClose: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    onEmojiClick: (emoji: Emoji) => void;
+    onGifClick?: (gif: string) => void;
     enableGifPicker: boolean;
 }
 
