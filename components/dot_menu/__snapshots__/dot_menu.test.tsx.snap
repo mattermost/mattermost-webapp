@@ -3,7 +3,7 @@
 exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
 <MenuWrapper
   animationComponent={[Function]}
-  className="dotmenu-dropdown-menu"
+  className="dropdown-menu__dotmenu"
   onToggle={[Function]}
 >
   <OverlayTrigger
@@ -263,7 +263,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
 exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
 <MenuWrapper
   animationComponent={[Function]}
-  className="dotmenu-dropdown-menu"
+  className="dropdown-menu__dotmenu"
   onToggle={[Function]}
 >
   <OverlayTrigger
