@@ -165,10 +165,6 @@ export function loadMe(): ActionFunc {
             Client4.setUserRoles(user.roles);
         }
 
-        // if (isLogginIn) {
-        //     dispatch({type: UserTypes.LOGIN_SUCCESS, data: null});
-        // }
-
         return {data: true};
     };
 }
