@@ -101,10 +101,10 @@ export default class AppCommandProvider extends Provider {
     }
 
     public async openAppsModalFromCommand(pretext: string) {
-        const {form, call} = await this.appCommandParser.composeFormFromCommand(pretext);
-        if (!form || !call) {
+        const {form, context} = await this.appCommandParser.composeFormFromCommand(pretext);
+        if (!form || !context) {
             return;
         }
-        this.store.dispatch(openAppsModal(form, call) as any);
+        this.store.dispatch(openAppsModal(form, context) as any);
     }
 }

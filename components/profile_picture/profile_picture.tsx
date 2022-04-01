@@ -35,6 +35,7 @@ type Props = {
     isBot?: boolean;
     fromWebhook?: boolean;
     fromAutoResponder?: boolean;
+    popoverPlacement?: string;
 }
 
 export default class ProfilePicture extends React.PureComponent<Props> {
@@ -44,6 +45,7 @@ export default class ProfilePicture extends React.PureComponent<Props> {
         isEmoji: false,
         hasMention: false,
         wrapperClass: '',
+        popoverPlacement: 'right',
     };
 
     overlay = React.createRef<MMOverlayTrigger>();
@@ -70,7 +72,7 @@ export default class ProfilePicture extends React.PureComponent<Props> {
                 <OverlayTrigger
                     ref={this.overlay}
                     trigger='click'
-                    placement='right'
+                    placement={this.props.popoverPlacement}
                     rootClose={true}
                     overlay={
                         <ProfilePopover

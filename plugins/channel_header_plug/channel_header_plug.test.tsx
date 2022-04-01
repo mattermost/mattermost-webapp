@@ -29,7 +29,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                 theme={{} as Theme}
                 sidebarOpen={false}
                 actions={{
-                    doAppCall: jest.fn(),
+                    handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
@@ -49,7 +49,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                 theme={{} as Theme}
                 sidebarOpen={false}
                 actions={{
-                    doAppCall: jest.fn(),
+                    handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
@@ -85,7 +85,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                 theme={{} as Theme}
                 sidebarOpen={false}
                 actions={{
-                    doAppCall: jest.fn(),
+                    handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {CollapsedThreads, AutoTourTreatments} from '../constants/config';
+import {CollapsedThreads} from '../constants/config';
 
 import {ThemeKey} from './themes';
 
@@ -15,7 +15,6 @@ export type ClientConfig = {
     AndroidMinVersion: string;
     AppDownloadLink: string;
     AsymmetricSigningPublicKey: string;
-    AutoTour: AutoTourTreatments;
     AvailableLocales: string;
     BannerColor: string;
     BannerText: string;
@@ -48,12 +47,14 @@ export type ClientConfig = {
     EnableBanner: string;
     EnableBotAccountCreation: string;
     EnableChannelViewedMessages: string;
+    EnableClientPerformanceDebugging: string;
     EnableCluster: string;
     EnableCommands: string;
     EnableCompliance: string;
     EnableConfirmNotificationsToChannel: string;
     EnableCustomBrand: string;
     EnableCustomEmoji: string;
+    EnableCustomGroups: string;
     EnableCustomUserStatuses: string;
     EnableTimedDND: string;
     EnableCustomTermsOfService: string;
@@ -106,7 +107,6 @@ export type ClientConfig = {
     ExperimentalClientSideCertCheck: string;
     ExperimentalClientSideCertEnable: string;
     ExperimentalCloudBilling: string;
-    ExperimentalCloudUserLimit: string;
     ExperimentalDataPrefetch: string;
     ExperimentalEnableAuthenticationTransfer: string;
     ExperimentalEnableAutomaticReplies: string;
@@ -169,6 +169,7 @@ export type ClientConfig = {
     SamlLoginButtonTextColor: string;
     SamlNicknameAttributeSet: string;
     SamlPositionAttributeSet: string;
+    SchemaVersion: string;
     SendEmailNotifications: string;
     SendPushNotifications: string;
     ShowEmailAddress: string;
@@ -325,6 +326,7 @@ export type ServiceSettings = {
     EnableLocalMode: boolean;
     LocalModeSocketLocation: string;
     CollapsedThreads: 'disabled' | 'default_on' | 'default_off';
+    ThreadAutoFollow: boolean;
 };
 
 export type TeamSettings = {
@@ -684,7 +686,7 @@ export type ElasticsearchSettings = {
     PostsAggregatorJobStartTime: string;
     IndexPrefix: string;
     LiveIndexingBatchSize: number;
-    BulkIndexingTimeWindowSeconds: number;
+    BatchSize: number;
     RequestTimeoutSeconds: number;
     SkipTLSVerification: boolean;
     Trace: string;
@@ -695,7 +697,7 @@ export type BleveSettings = {
     EnableIndexing: boolean;
     EnableSearching: boolean;
     EnableAutocomplete: boolean;
-    BulkIndexingTimeWindowSeconds: number;
+    BatchSize: number;
 };
 
 export type DataRetentionSettings = {

@@ -16,6 +16,7 @@ export type ChannelStats = {
     member_count: number;
     guest_count: number;
     pinnedpost_count: number;
+    files_count: number;
 };
 
 export type ChannelNotifyProps = {

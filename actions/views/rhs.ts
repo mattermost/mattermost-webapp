@@ -24,13 +24,14 @@ import {Action, ActionResult, DispatchFunc, GenericAction, GetStateFunc} from 'm
 import {Post} from 'mattermost-redux/types/posts';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
-import {getSearchTerms, getRhsState, getPluggableId, getFilesSearchExtFilter} from 'selectors/rhs';
+import {getSearchTerms, getRhsState, getPluggableId, getFilesSearchExtFilter, getPreviousRhsState} from 'selectors/rhs';
 import {ActionTypes, RHSStates, Constants} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
 import {RhsState} from 'types/store/rhs';
 import {GlobalState} from 'types/store';
 import {getPostsByIds} from 'mattermost-redux/actions/posts';
+import {unsetEditingPost} from '../post_actions';
 
 function selectPostFromRightHandSideSearchWithPreviousState(post: Post, previousRhsState?: RhsState) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -65,18 +66,33 @@ function selectPostCardFromRightHandSideSearchWithPreviousState(post: Post, prev
     };
 }
 
-export function updateRhsState(rhsState: string, channelId?: string) {
+export function updateRhsState(rhsState: string, channelId?: string, previousRhsState?: RhsState) {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const action = {
             type: ActionTypes.UPDATE_RHS_STATE,
             state: rhsState,
         } as GenericAction;
 
-        if (rhsState === RHSStates.PIN || rhsState === RHSStates.CHANNEL_FILES) {
+        if ([RHSStates.PIN, RHSStates.CHANNEL_FILES, RHSStates.CHANNEL_INFO].includes(rhsState)) {
             action.channelId = channelId || getCurrentChannelId(getState());
+        }
+        if (previousRhsState) {
+            action.previousRhsState = previousRhsState;
         }
 
         dispatch(action);
+
+        return {data: true};
+    };
+}
+
+export function goBack() {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const prevState = getPreviousRhsState(getState() as GlobalState);
+        dispatch({
+            type: ActionTypes.RHS_GO_BACK,
+            state: prevState,
+        });
 
         return {data: true};
     };
@@ -248,14 +264,19 @@ export function showFlaggedPosts() {
 
 export function showPinnedPosts(channelId?: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState();
+        const state = getState() as GlobalState;
         const currentChannelId = getCurrentChannelId(state);
         const teamId = getCurrentTeamId(state);
 
+        let previousRhsState = getRhsState(state);
+        if (previousRhsState === RHSStates.PIN) {
+            previousRhsState = getPreviousRhsState(state);
+        }
         dispatch({
             type: ActionTypes.UPDATE_RHS_STATE,
             channelId: channelId || currentChannelId,
             state: RHSStates.PIN,
+            previousRhsState,
         });
 
         const results = await dispatch(getPinnedPosts(channelId || currentChannelId));
@@ -286,13 +307,18 @@ export function showPinnedPosts(channelId?: string) {
 
 export function showChannelFiles(channelId: string) {
     return async (dispatch: (action: Action, getState?: GetStateFunc | null) => Promise<ActionResult|[ActionResult, ActionResult]>, getState: GetStateFunc) => {
-        const state = getState();
+        const state = getState() as GlobalState;
         const teamId = getCurrentTeamId(state);
 
+        let previousRhsState = getRhsState(state);
+        if (previousRhsState === RHSStates.CHANNEL_FILES) {
+            previousRhsState = getPreviousRhsState(state);
+        }
         dispatch({
             type: ActionTypes.UPDATE_RHS_STATE,
             channelId,
             state: RHSStates.CHANNEL_FILES,
+            previousRhsState,
         });
 
         const results = await dispatch(performSearch('channel:' + channelId));
@@ -362,6 +388,16 @@ export function showMentions() {
     };
 }
 
+export function showChannelInfo(channelId: string) {
+    return (dispatch: DispatchFunc) => {
+        dispatch({
+            type: ActionTypes.UPDATE_RHS_STATE,
+            channelId,
+            state: RHSStates.CHANNEL_INFO,
+        });
+    };
+}
+
 export function closeRightHandSide() {
     return (dispatch: DispatchFunc) => {
         dispatch(batchActions([
@@ -375,6 +411,7 @@ export function closeRightHandSide() {
                 channelId: '',
                 timestamp: 0,
             },
+            unsetEditingPost(),
         ]));
         return {data: true};
     };

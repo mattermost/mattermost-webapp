@@ -1,28 +1,25 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
-import {useSelector} from 'react-redux';
+import React, {useCallback, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
 import Flex from '@mattermost/compass-components/utilities/layout/Flex';
 import Heading from '@mattermost/compass-components/components/heading';
 
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {getInt} from 'mattermost-redux/selectors/entities/preferences';
-import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
-
 import {GlobalState} from 'types/store';
-import Constants, {Preferences, TutorialSteps} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import Constants from 'utils/constants';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import MainMenu from 'components/main_menu';
-import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
 import AddChannelDropdown from 'components/sidebar/add_channel_dropdown';
+import {isAddChannelDropdownOpen} from 'selectors/views/add_channel_dropdown';
+import {OnboardingTourSteps, useShowOnboardingTutorialStep} from 'components/onboarding_tour';
+import {setAddChannelDropdown} from '../../../actions/views/add_channel_dropdown';
 
 type SidebarHeaderContainerProps = {
     id?: string;
@@ -45,7 +42,7 @@ const SidebarHeaderContainer = styled(Flex).attrs(() => ({
         transform: translate(0, 0);
         margin-left: 0;
         min-width: 210px;
-        max-width: 210px;
+        max-width: 232px;
     }
 
     #SidebarContainer & .AddChannelDropdown_dropdownButton {
@@ -89,25 +86,26 @@ const SidebarHeading = styled(Heading).attrs(() => ({
 export type Props = {
     showNewChannelModal: () => void;
     showMoreChannelsModal: () => void;
+    showCreateUserGroupModal: () => void;
     invitePeopleModal: () => void;
     showCreateCategoryModal: () => void;
     canCreateChannel: boolean;
     canJoinPublicChannel: boolean;
     handleOpenDirectMessagesModal: (e: Event) => void;
     unreadFilterEnabled: boolean;
+    userGroupsEnabled: boolean;
+    canCreateCustomGroups: boolean;
 }
 
 const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
+    const dispatch = useDispatch();
     const currentTeam = useSelector((state: GlobalState) => getCurrentTeam(state));
-    const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
-    const tipStep = useSelector((state: GlobalState) => getInt(state, Preferences.TUTORIAL_STEP, currentUser.id));
-    const isMobile = Utils.isMobile();
-
-    const showMenuTip = tipStep === TutorialSteps.MENU_POPOVER && !isMobile;
-    const showAddChannelTip = tipStep === TutorialSteps.ADD_CHANNEL_POPOVER && !isMobile;
-    const channelsByName = useSelector((state: GlobalState) => getChannelsNameMapInCurrentTeam(state));
-    const townSquareDisplayName = channelsByName[Constants.DEFAULT_CHANNEL]?.display_name || '';
-    const offTopicDisplayName = channelsByName[Constants.OFFTOPIC_CHANNEL]?.display_name || '';
+    const showCreateTutorialTip = useShowOnboardingTutorialStep(OnboardingTourSteps.CREATE_AND_JOIN_CHANNELS);
+    const showInviteTutorialTip = useShowOnboardingTutorialStep(OnboardingTourSteps.INVITE_PEOPLE);
+    const isAddChannelOpen = useSelector(isAddChannelDropdownOpen);
+    const openAddChannelOpen = useCallback((open: boolean) => {
+        dispatch(setAddChannelDropdown(open));
+    }, []);
 
     const [menuToggled, setMenuToggled] = useState(false);
 
@@ -129,18 +127,11 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                 >
                     <MenuWrapper
                         onToggle={handleMenuToggle}
-                        className='SidebarHeaderMenuWrapper'
+                        className='SidebarHeaderMenuWrapper test-team-header'
                     >
                         <SidebarHeading>
                             <span className='title'>{currentTeam.display_name}</span>
                             <i className='icon icon-chevron-down'/>
-                            {showMenuTip && (
-                                <MenuTutorialTip
-                                    stopPropagation={true}
-                                    onBottom={false}
-                                    inHeading={true}
-                                />
-                            )}
                         </SidebarHeading>
                         <MainMenu id='sidebarDropdownMenu'/>
                     </MenuWrapper>
@@ -154,9 +145,13 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                     canJoinPublicChannel={props.canJoinPublicChannel}
                     handleOpenDirectMessagesModal={props.handleOpenDirectMessagesModal}
                     unreadFilterEnabled={props.unreadFilterEnabled}
-                    townSquareDisplayName={townSquareDisplayName}
-                    offTopicDisplayName={offTopicDisplayName}
-                    showTutorialTip={showAddChannelTip}
+                    showCreateTutorialTip={showCreateTutorialTip}
+                    showInviteTutorialTip={showInviteTutorialTip}
+                    isAddChannelOpen={isAddChannelOpen}
+                    openAddChannelOpen={openAddChannelOpen}
+                    canCreateCustomGroups={props.canCreateCustomGroups}
+                    showCreateUserGroupModal={props.showCreateUserGroupModal}
+                    userGroupsEnabled={props.userGroupsEnabled}
                 />
             </SidebarHeaderContainer>
         </>

@@ -100,7 +100,10 @@ export function getRhsState(state: GlobalState): RhsState {
 }
 
 export function getPreviousRhsState(state: GlobalState): RhsState {
-    return state.views.rhs.previousRhsState;
+    if (state.views.rhs.previousRhsStates === null || state.views.rhs.previousRhsStates.length === 0) {
+        return null;
+    }
+    return state.views.rhs.previousRhsStates[state.views.rhs.previousRhsStates.length - 1];
 }
 
 export function getSearchTerms(state: GlobalState): string {

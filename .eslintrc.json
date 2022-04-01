@@ -2,7 +2,8 @@
   "root": true,
   "extends": [
     "plugin:mattermost/react",
-    "plugin:cypress/recommended"
+    "plugin:cypress/recommended",
+    "plugin:react-hooks/recommended"
   ],
   "plugins": [
     "babel",

@@ -64,7 +64,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -73,7 +73,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -98,19 +98,6 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
               upgradeError={null}
               upgradingPercentage={100}
             />
-          </div>
-          <div
-            className="compare-plans-text"
-          >
-            Curious about upgrading? 
-            <a
-              href="https://mattermost.com/pricing/"
-              id="privacyLink"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Compare Plans
-            </a>
           </div>
         </div>
       </div>
@@ -183,7 +170,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -192,7 +179,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -217,19 +204,6 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
               upgradeError={null}
               upgradingPercentage={42}
             />
-          </div>
-          <div
-            className="compare-plans-text"
-          >
-            Curious about upgrading? 
-            <a
-              href="https://mattermost.com/pricing/"
-              id="privacyLink"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Compare Plans
-            </a>
           </div>
         </div>
       </div>
@@ -291,8 +265,13 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   Current Plan
                 </div>
               }
+              fileInputRef={
+                Object {
+                  "current": null,
+                }
+              }
+              handleChange={[Function]}
               openEELicenseModal={[Function]}
-              openUploadModal={[Function]}
               upgradedFromTE={false}
             />
           </div>
@@ -301,7 +280,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -310,7 +289,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -439,7 +418,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -448,7 +427,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -591,7 +570,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -600,7 +579,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -631,18 +610,144 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               }
             />
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/admin_console/license_settings/LicenseSettings should match snapshot enterprise build with Enterprise license 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <FormattedAdminHeader
+    defaultMessage="Edition and License"
+    id="admin.license.title"
+    values={Object {}}
+  />
+  <div
+    className="admin-console__wrapper"
+  >
+    <div
+      className="admin-console__content"
+    >
+      <div
+        className="admin-console__banner_section"
+      >
+        <RenewLicenseCard
+          isDisabled={false}
+          isLicenseExpired={false}
+          license={
+            Object {
+              "Company": "Mattermost Inc.",
+              "ExpiresAt": "1620335443650",
+              "IsLicensed": "true",
+              "IssuedAt": "1517714643650",
+              "Name": "LicenseName",
+              "SkuShortName": "enterprise",
+              "StartsAt": "1517714643650",
+              "Users": "100",
+            }
+          }
+          totalUsers={10}
+        />
+      </div>
+      <div
+        className="top-wrapper"
+      >
+        <div
+          className="left-panel"
+        >
           <div
-            className="compare-plans-text"
+            className="panel-card"
           >
-            Curious about upgrading? 
+            <Memo(EnterpriseEditionLeftPanel)
+              expiresAt={
+                <FormattedDate
+                  value={2021-05-06T21:10:43.650Z}
+                />
+              }
+              handleRemove={[Function]}
+              isDisabled={false}
+              isTrialLicense={false}
+              issued={
+                <React.Fragment>
+                  <FormattedDate
+                    value={2018-02-04T03:24:03.650Z}
+                  />
+                   
+                  <FormattedTime
+                    value={2018-02-04T03:24:03.650Z}
+                  />
+                </React.Fragment>
+              }
+              license={
+                Object {
+                  "Company": "Mattermost Inc.",
+                  "ExpiresAt": "1620335443650",
+                  "IsLicensed": "true",
+                  "IssuedAt": "1517714643650",
+                  "Name": "LicenseName",
+                  "SkuShortName": "enterprise",
+                  "StartsAt": "1517714643650",
+                  "Users": "100",
+                }
+              }
+              openEELicenseModal={[Function]}
+              removing={false}
+              startsAt={
+                <FormattedDate
+                  value={2018-02-04T03:24:03.650Z}
+                />
+              }
+              upgradedFromTE={false}
+            />
+          </div>
+          <div
+            className="terms-and-policy"
+          >
+            See also 
             <a
-              href="https://mattermost.com/pricing/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
             >
-              Compare Plans
+              Enterprise Edition Terms of Use
             </a>
+             and 
+            <a
+              href="https://mattermost.com/privacy-policy/"
+              id="privacyLink"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Privacy Policy
+            </a>
+          </div>
+        </div>
+        <div
+          className="right-panel"
+        >
+          <div
+            className="panel-card"
+          >
+            <Memo(EnterpriseEditionRightPanel)
+              isTrialLicense={false}
+              license={
+                Object {
+                  "Company": "Mattermost Inc.",
+                  "ExpiresAt": "1620335443650",
+                  "IsLicensed": "true",
+                  "IssuedAt": "1517714643650",
+                  "Name": "LicenseName",
+                  "SkuShortName": "enterprise",
+                  "StartsAt": "1517714643650",
+                  "Users": "100",
+                }
+              }
+            />
           </div>
         </div>
       </div>
@@ -743,7 +848,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -752,7 +857,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -782,19 +887,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                 }
               }
             />
-          </div>
-          <div
-            className="compare-plans-text"
-          >
-            Curious about upgrading? 
-            <a
-              href="https://mattermost.com/pricing/"
-              id="privacyLink"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Compare Plans
-            </a>
           </div>
         </div>
       </div>
@@ -895,7 +987,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -904,7 +996,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -934,19 +1026,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                 }
               }
             />
-          </div>
-          <div
-            className="compare-plans-text"
-          >
-            Curious about upgrading? 
-            <a
-              href="https://mattermost.com/pricing/"
-              id="privacyLink"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Compare Plans
-            </a>
           </div>
         </div>
       </div>
@@ -1047,7 +1126,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1056,7 +1135,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1086,19 +1165,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                 }
               }
             />
-          </div>
-          <div
-            className="compare-plans-text"
-          >
-            Curious about upgrading? 
-            <a
-              href="https://mattermost.com/pricing/"
-              id="privacyLink"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Compare Plans
-            </a>
           </div>
         </div>
       </div>
@@ -1275,8 +1341,13 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   Current Plan
                 </div>
               }
+              fileInputRef={
+                Object {
+                  "current": null,
+                }
+              }
+              handleChange={[Function]}
               openEELicenseModal={[Function]}
-              openUploadModal={[Function]}
               upgradedFromTE={false}
             />
           </div>
@@ -1285,7 +1356,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1294,7 +1365,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1384,8 +1455,13 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   Current Plan
                 </div>
               }
+              fileInputRef={
+                Object {
+                  "current": null,
+                }
+              }
+              handleChange={[Function]}
               openEELicenseModal={[Function]}
-              openUploadModal={[Function]}
               upgradedFromTE={true}
             />
           </div>
@@ -1394,7 +1470,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1403,7 +1479,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1504,7 +1580,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1513,7 +1589,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1538,19 +1614,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               upgradeError={null}
               upgradingPercentage={0}
             />
-          </div>
-          <div
-            className="compare-plans-text"
-          >
-            Curious about upgrading? 
-            <a
-              href="https://mattermost.com/pricing/"
-              id="privacyLink"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Compare Plans
-            </a>
           </div>
         </div>
       </div>
@@ -1620,7 +1683,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1629,7 +1692,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1713,8 +1776,13 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   Current Plan
                 </div>
               }
+              fileInputRef={
+                Object {
+                  "current": null,
+                }
+              }
+              handleChange={[Function]}
               openEELicenseModal={[Function]}
-              openUploadModal={[Function]}
               upgradedFromTE={false}
             />
           </div>
@@ -1723,7 +1791,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1732,7 +1800,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1844,7 +1912,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1853,7 +1921,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -1884,19 +1952,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                 }
               }
             />
-          </div>
-          <div
-            className="compare-plans-text"
-          >
-            Curious about upgrading? 
-            <a
-              href="https://mattermost.com/pricing/"
-              id="privacyLink"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Compare Plans
-            </a>
           </div>
         </div>
       </div>
@@ -1997,7 +2052,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             See also 
             <a
-              href="https://about.mattermost.com/default-terms/"
+              href="https://mattermost.com/terms-of-use/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -2006,7 +2061,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             </a>
              and 
             <a
-              href="https://about.mattermost.com/default-privacy-policy/"
+              href="https://mattermost.com/privacy-policy/"
               id="privacyLink"
               rel="noopener noreferrer"
               target="_blank"
@@ -2036,19 +2091,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                 }
               }
             />
-          </div>
-          <div
-            className="compare-plans-text"
-          >
-            Curious about upgrading? 
-            <a
-              href="https://mattermost.com/pricing/"
-              id="privacyLink"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Compare Plans
-            </a>
           </div>
         </div>
       </div>

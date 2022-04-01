@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
 import {Post} from 'mattermost-redux/types/posts';
 import {UserThread} from 'mattermost-redux/types/threads';
 
@@ -14,7 +13,7 @@ import {fakeDate} from 'tests/helpers/date';
 
 import {FakePost} from 'types/store/rhs';
 
-import ThreadViewer from './thread_viewer';
+import ThreadViewer, {Props} from './thread_viewer';
 
 describe('components/threading/ThreadViewer', () => {
     const post: Post = TestHelper.getPostMock({
@@ -55,20 +54,16 @@ describe('components/threading/ThreadViewer', () => {
         fetchRHSAppsBindings: jest.fn(),
     };
 
-    const directTeammate: UserProfile = TestHelper.getUserMock();
-
-    const baseProps = {
+    const baseProps: Props = {
         selected: post,
         channel,
         currentUserId: 'user_id',
         currentTeamId: 'team_id',
-        previewCollapsed: 'false',
-        previewEnabled: true,
         socketConnectionStatus: true,
         actions,
-        directTeammate,
         isCollapsedThreadsEnabled: false,
         postIds: [post.id],
+        appsEnabled: true,
     };
 
     test('should match snapshot', async () => {
@@ -205,5 +200,30 @@ describe('components/threading/ThreadViewer', () => {
             Date.now = dateNowOrig;
             done();
         });
+    });
+
+    test('should call fetchRHSAppsBindings on mount if appsEnabled', () => {
+        const {actions} = baseProps;
+
+        shallow(
+            <ThreadViewer
+                {...baseProps}
+            />,
+        );
+
+        expect(actions.fetchRHSAppsBindings).toHaveBeenCalledWith('channel_id', 'id');
+    });
+
+    test('should not call fetchRHSAppsBindings on mount if not appsEnabled', () => {
+        const {actions} = baseProps;
+
+        shallow(
+            <ThreadViewer
+                {...baseProps}
+                appsEnabled={false}
+            />,
+        );
+
+        expect(actions.fetchRHSAppsBindings).not.toHaveBeenCalledWith('channel_id', 'id');
     });
 });

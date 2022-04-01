@@ -9,7 +9,6 @@ import {injectIntl, IntlShape} from 'react-intl';
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {SubscriptionStats} from 'mattermost-redux/types/cloud';
 
 import {Team} from 'mattermost-redux/types/teams';
 
@@ -58,8 +57,6 @@ export type Props = {
     emailInvitationsEnabled: boolean;
     isAdmin: boolean;
     isCloud: boolean;
-    subscriptionStats?: SubscriptionStats | null;
-    cloudUserLimit: string;
     canAddUsers: boolean;
     canInviteGuests: boolean;
     intl: IntlShape;
@@ -351,8 +348,6 @@ export class InvitationModal extends React.PureComponent<Props, State> {
                 isCloud={this.props.isCloud}
                 canAddUsers={this.props.canAddUsers}
                 canInviteGuests={this.props.canInviteGuests}
-                subscriptionStats={this.props.subscriptionStats}
-                cloudUserLimit={this.props.cloudUserLimit}
                 headerClass='InvitationModal__header'
                 footerClass='InvitationModal__footer'
                 onClose={this.handleHide}

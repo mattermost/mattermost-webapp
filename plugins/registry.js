@@ -174,25 +174,23 @@ export default class PluginRegistry {
         return id;
     }
 
-    // Add a "call button"" next to the attach file button. If there are more than one button registered by any
+    // Add a "call button" to the channel header. If there is more than one button registered by any
     // plugin, a dropdown menu is created to contain all the call plugin buttons.
     // Accepts the following:
-    // - icon - React element to use as the button's icon
-    // - action - a function called when the button is clicked, passed the channel and channel member as arguments
-    // - dropdown_text - string or React element shown for the dropdown button description
-    // - tooltip_text - string shown for tooltip appear on hover
+    // - button - A React element to use as the main button to be displayed in case of a single registration.
+    // - dropdownButton -A React element to use as the dropdown button to be displayed in case of multiple registrations.
+    // - action - A function called when the button is clicked, passed the channel and channel member as arguments.
     // Returns an unique identifier
-    // Minimum required version: 5.28
-    registerCallButtonAction(icon, action, dropdownText, tooltipText) {
+    // Minimum required version: 6.5
+    registerCallButtonAction(button, dropdownButton, action) {
         const id = generateId();
 
         const data = {
             id,
             pluginId: this.id,
-            icon: resolveReactElement(icon),
+            button: resolveReactElement(button),
+            dropdownButton: resolveReactElement(dropdownButton),
             action,
-            dropdownText: resolveReactElement(dropdownText),
-            tooltipText,
         };
 
         store.dispatch({
@@ -341,6 +339,28 @@ export default class PluginRegistry {
                 id,
                 pluginId: this.id,
                 match,
+                text: resolveReactElement(text),
+                action,
+            },
+        });
+
+        return id;
+    }
+
+    // Register a user guide dropdown list item by providing some text and an action function.
+    // Accepts the following:
+    // - text - A string or React element to display in the menu
+    // - action - A function that receives the fileInfo and is called when the menu items is clicked.
+    // Returns a unique identifier.
+    registerUserGuideDropdownMenuAction(text, action) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'UserGuideDropdown',
+            data: {
+                id,
+                pluginId: this.id,
                 text: resolveReactElement(text),
                 action,
             },
@@ -745,8 +765,10 @@ export default class PluginRegistry {
     // - switcherText - A string or React element to display in the product switcher
     // - switcherLinkURL - A string specifying the URL the switcher item should point to.
     // - mainComponent - The component to be displayed below the global header when your route is active.
-    // - headerComponent - A component to fill the generic area in the center of
-    //                     the global header when your route is active.
+    // - headerCentreComponent - A component to fill the generic area in the center of
+    //                           the global header when your route is active.
+    // - headerRightComponent - A component to fill the generic area in the right of
+    //                          the global header when your route is active.
     // - showTeamSidebar - A flag to display or hide the team sidebar in products. Defaults to false (hidden).
     // All parameters are required.
     // Returns a unique identifier.

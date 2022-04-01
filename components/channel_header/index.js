@@ -47,12 +47,15 @@ import {isFileAttachmentsEnabled} from 'utils/file_utils';
 
 import ChannelHeader from './channel_header';
 
+const EMPTY_CHANNEL = {};
+const EMPTY_CHANNEL_STATS = {member_count: 0, guest_count: 0, pinnedpost_count: 0, files_count: 0};
+
 function makeMapStateToProps() {
     const doGetProfilesInChannel = makeGetProfilesInChannel();
     const getCustomStatus = makeGetCustomStatus();
 
     return function mapStateToProps(state) {
-        const channel = getCurrentChannel(state) || {};
+        const channel = getCurrentChannel(state) || EMPTY_CHANNEL;
         const user = getCurrentUser(state);
         const teams = getMyTeams(state);
         const hasMoreThanOneTeam = teams.length > 1;
@@ -68,7 +71,7 @@ function makeMapStateToProps() {
         } else if (channel && channel.type === General.GM_CHANNEL) {
             gmMembers = doGetProfilesInChannel(state, channel.id, false);
         }
-        const stats = getCurrentChannelStats(state) || {member_count: 0, guest_count: 0, pinnedpost_count: 0};
+        const stats = getCurrentChannelStats(state) || EMPTY_CHANNEL_STATS;
 
         return {
             teamId: getCurrentTeamId(state),

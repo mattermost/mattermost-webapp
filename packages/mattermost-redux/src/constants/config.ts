@@ -6,11 +6,6 @@ export enum CollapsedThreads {
     DEFAULT_OFF = 'default_off',
 }
 
-export enum AutoTourTreatments {
-    NONE = 'none',
-    AUTO = 'auto',
-}
-
 export enum AddMembersToChanneltreatments {
     TOP = 'top',
     BOTTOM = 'bottom',
