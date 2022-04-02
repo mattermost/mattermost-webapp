@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {GlobalState} from 'types/store';
 
@@ -23,13 +23,8 @@ export const GUEST_INCLUDED_PERMISSIONS = [
 ];
 
 function mapStateToProps(state: GlobalState) {
-    const config = getConfig(state);
     const license = getLicense(state);
-
-    return {
-        config,
-        license,
-    };
+    return {license};
 }
 
 export default connect(mapStateToProps)(GuestPermissionsTree);
