@@ -12,7 +12,6 @@ import PermissionGroup from 'components/admin_console/permission_schemes_setting
 describe('components/admin_console/permission_schemes_settings/permission_tree', () => {
     const defaultProps = {
         scope: 'channel_scope',
-        best: true,
         role: TestHelper.getRoleMock(
             {
                 name: 'test',
