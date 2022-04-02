@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {FormattedMessage} from 'react-intl';
+
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
@@ -17,7 +19,7 @@ type Props = {
     team: Team;
     user: UserProfile;
     teamMember: TeamMembership;
-    onError: (error: {message: string}) => void;
+    onError: (error: JSX.Element) => void;
     onMemberChange: (teamId: string) => void;
     updateTeamMemberSchemeRoles: (teamId: string, userId: string, isSchemeUser: boolean, isSchemeAdmin: boolean,) => Promise<ActionResult>;
     handleRemoveUserFromTeam: (teamId: string) => void;
@@ -27,7 +29,11 @@ const ManageTeamsDropdown = (props: Props) => {
     const makeTeamAdmin = async () => {
         const {error} = await props.updateTeamMemberSchemeRoles(props.teamMember.team_id, props.user.id, true, true);
         if (error) {
-            props.onError(error.message);
+            props.onError(
+                <FormattedMessage
+                    id='admin.manage_teams.makeAdminError'
+                    defaultMessage='Unable to remove user an admin.'
+                />);
         } else {
             props.onMemberChange(props.teamMember.team_id);
         }
@@ -36,7 +42,12 @@ const ManageTeamsDropdown = (props: Props) => {
     const makeMember = async () => {
         const {error} = await props.updateTeamMemberSchemeRoles(props.teamMember.team_id, props.user.id, true, false);
         if (error) {
-            props.onError(error.message);
+            props.onError(
+                <FormattedMessage
+                    id='admin.manage_teams.makeMemberError'
+                    defaultMessage='Unable to make user a member.'
+                />,
+            );
         } else {
             props.onMemberChange(props.teamMember.team_id);
         }
