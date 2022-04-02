@@ -1,122 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/admin_console/permission_schemes_settings/permission_tree should hide disabbled integration options 1`] = `
-<div
-  className="permissions-tree guest"
->
-  <div
-    className="permissions-tree--header"
-  >
-    <div
-      className="permission-name"
-    >
-      <MemoizedFormattedMessage
-        defaultMessage="Permission"
-        id="admin.permissions.permissionsTree.permission"
-      />
-    </div>
-    <div
-      className="permission-description"
-    >
-      <MemoizedFormattedMessage
-        defaultMessage="Description"
-        id="admin.permissions.permissionsTree.description"
-      />
-    </div>
-  </div>
-  <div
-    className="permissions-tree--body"
-  >
-    <PermissionGroup
-      additionalValues={
-        Object {
-          "guest_edit_post": Object {
-            "editTimeLimitButton": <Memo(Connect(EditPostTimeLimitButton))
-              isDisabled={false}
-              onClick={[Function]}
-            />,
-          },
-        }
-      }
-      combined={false}
-      id="all"
-      key="all"
-      onChange={[Function]}
-      parentRole={null}
-      permissions={
-        Array [
-          Object {
-            "combined": true,
-            "id": "guest_create_private_channel",
-            "permissions": Array [
-              "create_private_channel",
-            ],
-          },
-          Object {
-            "combined": true,
-            "id": "guest_edit_post",
-            "permissions": Array [
-              "edit_post",
-            ],
-          },
-          Object {
-            "combined": true,
-            "id": "guest_delete_post",
-            "permissions": Array [
-              "delete_post",
-            ],
-          },
-          Object {
-            "combined": true,
-            "id": "guest_reactions",
-            "permissions": Array [
-              "add_reaction",
-              "remove_reaction",
-            ],
-          },
-          Object {
-            "combined": true,
-            "id": "guest_use_channel_mentions",
-            "permissions": Array [
-              "use_channel_mentions",
-            ],
-          },
-          Object {
-            "combined": true,
-            "id": "guest_use_group_mentions",
-            "permissions": Array [
-              "use_group_mentions",
-            ],
-          },
-          Object {
-            "combined": true,
-            "id": "guest_create_post",
-            "permissions": Array [
-              "create_post",
-            ],
-          },
-        ]
-      }
-      readOnly={false}
-      role={
-        Object {
-          "name": "test",
-          "permissions": Array [],
-        }
-      }
-      root={true}
-      scope="channel_scope"
-      selectRow={[MockFunction]}
-      uniqId="test"
-    />
-  </div>
-  <Connect(EditPostTimeLimitModal)
-    onClose={[Function]}
-    show={false}
-  />
-</div>
-`;
-
 exports[`components/admin_console/permission_schemes_settings/permission_tree should match snapshot on default data 1`] = `
 <div
   className="permissions-tree guest"
@@ -159,7 +42,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       id="all"
       key="all"
       onChange={[Function]}
-      parentRole={null}
       permissions={
         Array [
           Object {
@@ -217,8 +99,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       readOnly={false}
       role={
         Object {
+          "built_in": false,
+          "create_at": 0,
+          "delete_at": 0,
+          "description": "role_description",
+          "display_name": "role_display_name",
+          "id": "role_id",
           "name": "test",
           "permissions": Array [],
+          "scheme_managed": false,
+          "update_at": 0,
         }
       }
       root={true}
@@ -276,7 +166,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       id="all"
       key="all"
       onChange={[Function]}
-      parentRole={null}
       permissions={
         Array [
           Object {
@@ -327,8 +216,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       readOnly={false}
       role={
         Object {
+          "built_in": false,
+          "create_at": 0,
+          "delete_at": 0,
+          "description": "role_description",
+          "display_name": "role_display_name",
+          "id": "role_id",
           "name": "test",
           "permissions": Array [],
+          "scheme_managed": false,
+          "update_at": 0,
         }
       }
       root={true}
@@ -386,7 +283,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       id="all"
       key="all"
       onChange={[Function]}
-      parentRole={null}
       permissions={
         Array [
           Object {
@@ -444,8 +340,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       readOnly={true}
       role={
         Object {
+          "built_in": false,
+          "create_at": 0,
+          "delete_at": 0,
+          "description": "role_description",
+          "display_name": "role_display_name",
+          "id": "role_id",
           "name": "test",
           "permissions": Array [],
+          "scheme_managed": false,
+          "update_at": 0,
         }
       }
       root={true}
@@ -503,7 +407,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       id="all"
       key="all"
       onChange={[Function]}
-      parentRole={null}
       permissions={
         Array [
           Object {
@@ -561,8 +464,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       readOnly={false}
       role={
         Object {
+          "built_in": false,
+          "create_at": 0,
+          "delete_at": 0,
+          "description": "role_description",
+          "display_name": "role_display_name",
+          "id": "role_id",
           "name": "test",
           "permissions": Array [],
+          "scheme_managed": false,
+          "update_at": 0,
         }
       }
       root={true}
@@ -620,7 +531,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       id="all"
       key="all"
       onChange={[Function]}
-      parentRole={null}
       permissions={
         Array [
           Object {
@@ -678,8 +588,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       readOnly={false}
       role={
         Object {
+          "built_in": false,
+          "create_at": 0,
+          "delete_at": 0,
+          "description": "role_description",
+          "display_name": "role_display_name",
+          "id": "role_id",
           "name": "test",
           "permissions": Array [],
+          "scheme_managed": false,
+          "update_at": 0,
         }
       }
       root={true}
@@ -739,7 +657,18 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       onChange={[Function]}
       parentRole={
         Object {
-          "permissions": "invite_user",
+          "built_in": false,
+          "create_at": 0,
+          "delete_at": 0,
+          "description": "role_description",
+          "display_name": "role_display_name",
+          "id": "role_id",
+          "name": "role_name",
+          "permissions": Array [
+            "invite_user",
+          ],
+          "scheme_managed": false,
+          "update_at": 0,
         }
       }
       permissions={
@@ -799,8 +728,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       readOnly={false}
       role={
         Object {
+          "built_in": false,
+          "create_at": 0,
+          "delete_at": 0,
+          "description": "role_description",
+          "display_name": "role_display_name",
+          "id": "role_id",
           "name": "test",
           "permissions": Array [],
+          "scheme_managed": false,
+          "update_at": 0,
         }
       }
       root={true}
