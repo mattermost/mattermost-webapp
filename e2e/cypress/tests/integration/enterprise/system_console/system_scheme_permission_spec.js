@@ -45,7 +45,7 @@ describe('System Scheme Channel Mentions Permissions Test', () => {
         );
     });
 
-    it('MM-24379 - Enable and Disable Create Post -- KNOWN ISSUE: MM-42020', () => {
+    it('MM-24379 - Enable and Disable Create Post', () => {
         checkChannelPermission(
             'create_post',
             () => createPostPermissionCheck(true),

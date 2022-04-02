@@ -79,7 +79,9 @@ export default function IconMessage(props: Props) {
             className='IconMessage'
         >
             <div className={classNames('content', className || '')}>
-                {icon}
+                <div className='IconMessage__svg-wrapper'>
+                    {icon}
+                </div>
                 <h3 className='IconMessage-h3'>
                     {title ? <FormattedMessage id={title}/> : null}
                     {formattedTitle || null}

@@ -2,15 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React, {useCallback, useEffect, useMemo} from 'react';
-import {useSelector} from 'react-redux';
 import {useIntl} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
-import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
-
-import {isModalOpen} from 'selectors/views/modals';
-import {GlobalState} from 'types/store';
+import {TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import Carousel from 'components/common/carousel/carousel';
 import GenericModal from 'components/generic_modal';
@@ -33,12 +29,6 @@ const LearnMoreTrialModal = (
         onExited,
     }: Props): JSX.Element | null => {
     const {formatMessage} = useIntl();
-
-    const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.LEARN_MORE_TRIAL_MODAL));
-
-    if (!show) {
-        return null;
-    }
 
     useEffect(() => {
         trackEvent(
@@ -119,7 +109,6 @@ const LearnMoreTrialModal = (
     return (
         <GenericModal
             className='LearnMoreTrialModal'
-            show={show}
             id='learnMoreTrialModal'
             onExited={handleOnClose}
         >

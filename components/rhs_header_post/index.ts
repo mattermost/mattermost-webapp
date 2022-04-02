@@ -24,6 +24,7 @@ import {
     showChannelFiles,
     closeRightHandSide,
     toggleRhsExpanded,
+    goBack,
 } from 'actions/views/rhs';
 import {getIsRhsExpanded} from 'selectors/rhs';
 import {CrtThreadPaneSteps, Preferences} from 'utils/constants';
@@ -80,6 +81,7 @@ const actions = {
     closeRightHandSide,
     toggleRhsExpanded,
     setThreadFollow,
+    goBack,
 };
 
 export default connect(mapStateToProps, actions)(RhsHeaderPost);

@@ -183,9 +183,7 @@ describe('Integrations', () => {
 
         // # As UserA create a new public channel
         loginAndVisitChannel(testUser, offTopicUrl);
-        cy.uiBrowseOrCreateChannel('Create New Channel').click();
-        cy.get('#newChannelName').type(`${userA.username}-channel`);
-        cy.get('#submitNewChannel').click();
+        cy.uiCreateChannel({name: `${userA.username}-channel`});
         cy.get('#postListContent').should('be.visible');
 
         cy.apiLogout();

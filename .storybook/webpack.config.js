@@ -39,7 +39,6 @@ module.exports = async ({config, mode}) => {
     config.resolve.alias.actions = path.join(path.resolve(__dirname), '..', 'actions')
     config.resolve.alias.client = path.join(path.resolve(__dirname), '..', 'client')
     config.resolve.alias.components = path.join(path.resolve(__dirname), '..', 'components')
-    config.resolve.alias.dispatcher = path.join(path.resolve(__dirname), '..', 'dispatcher')
     config.resolve.alias.i18n = path.join(path.resolve(__dirname), '..', 'i18n')
     config.resolve.alias.images = path.join(path.resolve(__dirname), '..', 'images')
     config.resolve.alias.plugins = path.join(path.resolve(__dirname), '..', 'plugins')

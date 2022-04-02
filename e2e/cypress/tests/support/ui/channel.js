@@ -8,26 +8,23 @@ Cypress.Commands.add('uiCreateChannel', ({
     prefix = 'channel-',
     isPrivate = false,
     purpose = '',
-    header = '',
+    name = '',
 }) => {
     cy.uiBrowseOrCreateChannel('Create New Channel').click();
 
-    cy.get('#newChannelModalLabel').should('be.visible');
+    cy.get('#new-channel-modal').should('be.visible');
     if (isPrivate) {
-        cy.get('#private').click().wait(TIMEOUTS.HALF_SEC);
+        cy.get('#public-private-selector-button-P').click().wait(TIMEOUTS.HALF_SEC);
     } else {
-        cy.get('#public').click().wait(TIMEOUTS.HALF_SEC);
+        cy.get('#public-private-selector-button-O').click().wait(TIMEOUTS.HALF_SEC);
     }
-    const channelName = `${prefix}${getRandomId()}`;
-    cy.get('#newChannelName').should('be.visible').clear().type(channelName);
+    const channelName = name || `${prefix}${getRandomId()}`;
+    cy.get('#input_new-channel-modal-name').should('be.visible').clear().type(channelName);
     if (purpose) {
-        cy.get('#newChannelPurpose').clear().type(purpose);
+        cy.get('#new-channel-modal-purpose').clear().type(purpose);
     }
-    if (header) {
-        cy.get('#newChannelHeader').clear().type(header);
-    }
-    cy.get('#submitNewChannel').click();
-    cy.get('#newChannelModalLabel').should('not.exist');
+    cy.findByText('Create channel').click();
+    cy.get('#new-channel-modal').should('not.exist');
     cy.get('#channelIntro').should('be.visible');
     return cy.wrap({name: channelName});
 });

@@ -216,6 +216,58 @@ describe('Channel Info RHS', () => {
                 // * Ensures the modal is there
                 cy.get('.settings-modal').should('be.visible');
             });
+            it('should be able to view files and come back', () => {
+                // # Go to test channel
+                cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+                // # Click on the channel info button
+                cy.get('#channel-info-btn').click();
+
+                // # Click on "Files"
+                cy.uiGetRHS().findByTestId('channel_info_rhs-menu').findByText('Files').should('be.visible').click();
+
+                // * Ensure we see the files RHS
+                cy.uiGetRHS().findByText('No files yet').should('be.visible');
+
+                // # Click the Back Icon
+                cy.uiGetRHS().get('[aria-label="Back Icon"]').click();
+
+                // * Make sure we are back in the channel info rhs
+                cy.get('#rhsContainer').then((rhsContainer) => {
+                    cy.wrap(rhsContainer).findByText('Info').should('be.visible');
+                    cy.wrap(rhsContainer).findByText(testChannel.display_name).should('be.visible');
+                });
+            });
+            it('should be able to view pinned message and come back', () => {
+                // # Go to test channel
+                cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+                // # Go to test channel
+                cy.uiPostMessageQuickly('Hello channel info rhs spec').then(() => {
+                    cy.getNthPostId(-1).then((postId) => {
+                        cy.clickPostDotMenu(postId);
+                        cy.get(`#pin_post_${postId}`).click();
+                    });
+                });
+
+                // # Click on the channel info button
+                cy.get('#channel-info-btn').click();
+
+                // # Click on "Pinned Messages"
+                cy.uiGetRHS().findByTestId('channel_info_rhs-menu').findByText('Pinned Messages').should('be.visible').click();
+
+                // * Ensure we see the Pinned Post RHS
+                cy.uiGetRHS().findByText('Hello channel info rhs spec').should('be.visible');
+
+                // # Click the Back Icon
+                cy.uiGetRHS().get('[aria-label="Back Icon"]').click();
+
+                // * Make sure we are back in the channel info rhs
+                cy.get('#rhsContainer').then((rhsContainer) => {
+                    cy.wrap(rhsContainer).findByText('Info').should('be.visible');
+                    cy.wrap(rhsContainer).findByText(testChannel.display_name).should('be.visible');
+                });
+            });
         });
     });
 

@@ -22,9 +22,7 @@ jest.mock('rudder-sdk-js', () => ({
     track: jest.fn(),
 }));
 
-jest.mock('actions/telemetry_actions', () => ({
-    measurePageLoadTelemetry: jest.fn(),
-}));
+jest.mock('actions/telemetry_actions');
 
 jest.mock('actions/global_actions', () => ({
     redirectUserToDefaultTeam: jest.fn(),
