@@ -10,7 +10,8 @@ import {throttle} from 'lodash';
 import {searchIfNeededInitial, searchGfycat} from 'mattermost-redux/actions/gifs';
 
 import SearchGrid from 'components/gif_picker/components/SearchGrid';
-import {CUSTOM_EMOJI_GIF_SEARCH_THROTTLE_TIME_MS} from '../../../emoji_picker/emoji_picker';
+
+const GIF_SEARCH_THROTTLE_TIME_MS = 1000;
 
 function mapStateToProps(state) {
     return {
@@ -45,7 +46,7 @@ export class Search extends PureComponent {
     }
 
     throttledSearchGif = throttle((searchText) => this.props.searchIfNeededInitial(searchText.split('-').join(' ')),
-        CUSTOM_EMOJI_GIF_SEARCH_THROTTLE_TIME_MS,
+        GIF_SEARCH_THROTTLE_TIME_MS,
     );
 
     loadMore = () => {

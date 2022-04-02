@@ -25,7 +25,7 @@ import EmojiPickerCurrentResults from 'components/emoji_picker/components/emoji_
 
 import type {PropsFromRedux} from './index';
 
-export const CUSTOM_EMOJI_GIF_SEARCH_THROTTLE_TIME_MS = 1000;
+const CUSTOM_EMOJI_SEARCH_THROTTLE_TIME_MS = 1000;
 
 interface Props extends PropsFromRedux {
     filter: string;
@@ -78,6 +78,12 @@ const EmojiPicker = ({
 
     const shouldRunCreateCategoryAndEmojiRows = useRef<boolean>();
 
+    const throttledSearchCustomEmoji = useRef(throttle((newFilter, customEmojisEnabled) => {
+        if (customEmojisEnabled && newFilter && newFilter.trim().length) {
+            searchCustomEmojis(newFilter);
+        }
+    }, CUSTOM_EMOJI_SEARCH_THROTTLE_TIME_MS));
+
     useEffect(() => {
         // Delay taking focus because this briefly renders offscreen when using an Overlay
         // so focusing it immediately on mount can cause weird scrolling
@@ -111,12 +117,6 @@ const EmojiPicker = ({
         setEmojiPositionsArray(updatedEmojiPositions);
         throttledSearchCustomEmoji.current(filter, customEmojisEnabled);
     }, [filter, userSkinTone, shouldRunCreateCategoryAndEmojiRows.current]);
-
-    const throttledSearchCustomEmoji = useRef(throttle((newFilter, customEmojisEnabled) => {
-        if (customEmojisEnabled && newFilter && newFilter.trim().length) {
-            searchCustomEmojis(newFilter);
-        }
-    }, CUSTOM_EMOJI_GIF_SEARCH_THROTTLE_TIME_MS));
 
     // Hack for getting focus on search input when tab changes to emoji from gifs
     useEffect(() => {
