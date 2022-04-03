@@ -144,7 +144,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
         />
       }
       show={false}
-      text="Save"
+      text="Save Message"
     />
     <MenuItemAction
       icon={
@@ -403,7 +403,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
         />
       }
       show={false}
-      text="Save"
+      text="Save Message"
     />
     <MenuItemAction
       icon={

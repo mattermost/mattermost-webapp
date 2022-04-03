@@ -23,7 +23,6 @@ import SearchResultsItem from 'components/search_results_item';
 import SearchHint from 'components/search_hint/search_hint';
 import LoadingSpinner from 'components/widgets/loading/loading_wrapper';
 import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator';
-import FlagIcon from 'components/widgets/icons/flag_icon';
 import FileSearchResultItem from 'components/file_search_results';
 
 import {NoResultsVariant} from 'components/no_results_indicator/types';
