@@ -50,7 +50,6 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                     subscription: null,
                     products: null,
                     invoices: null,
-                    subscriptionStats: null,
                 },
             },
         };
@@ -68,7 +67,6 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                     subscription: null,
                     products: null,
                     invoices: null,
-                    subscriptionStats: null,
                 },
             },
         };

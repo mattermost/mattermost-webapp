@@ -29,24 +29,14 @@ describe('Channel sidebar', () => {
         // * Verify that we've switched to the new team
         cy.uiGetLHSHeader().findByText(teamName);
 
-        // # Click the New Channel Dropdown button
-        cy.get('.AddChannelDropdown_dropdownButton').should('be.visible').click();
-
-        // # Click the Create New Channel dropdown item
-        cy.get('.AddChannelDropdown .MenuItem:contains(Create New Channel) button').should('be.visible').click();
-
-        // * Verify that the new channel modal is visible
-        cy.get('.new-channel__modal').should('be.visible');
-
-        // # Add the new channel name and press Create Channel
-        cy.get('.new-channel__modal #newChannelName').should('be.visible').type('Test Channel');
-        cy.get('.new-channel__modal #submitNewChannel').should('be.visible').click();
-
-        // Verify that new channel is in the sidebar and is active
-        cy.get('.new-channel__modal').should('not.exist');
-        cy.url().should('include', `/${teamName}/channels/test-channel`);
-        cy.get('#channelHeaderTitle').should('contain', 'Test Channel');
-        cy.get('.SidebarChannel.active:contains(Test Channel)').should('be.visible');
+        // # Create new channel
+        const channelName = 'Test Channel';
+        cy.uiCreateChannel({name: channelName}).then(() => {
+            // * Verify that new channel is in the sidebar and is active
+            cy.url().should('include', `/${teamName}/channels/test-channel`);
+            cy.get('#channelHeaderTitle').should('contain', channelName);
+            cy.get(`.SidebarChannel.active:contains(${channelName})`).should('be.visible');
+        });
     });
 
     it('should join a new public channel when using the new channel dropdown', () => {

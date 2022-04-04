@@ -61,6 +61,7 @@ export interface Props {
         muteChannel: (userId: string, channelId: string) => void;
         openModal: <P>(modalData: ModalData<P>) => void;
         showChannelFiles: (channelId: string) => void;
+        showPinnedPosts: (channelId: string | undefined) => void;
     };
 }
 
@@ -160,7 +161,6 @@ const ChannelInfoRhs = ({
 
             <AboutArea
                 channel={channel}
-                channelURL={channelURL}
 
                 dmUser={dmUser}
                 gmUsers={gmUsers}
@@ -182,6 +182,7 @@ const ChannelInfoRhs = ({
                 actions={{
                     openNotificationSettings,
                     showChannelFiles: actions.showChannelFiles,
+                    showPinnedPosts: actions.showPinnedPosts,
                 }}
             />
         </div>
