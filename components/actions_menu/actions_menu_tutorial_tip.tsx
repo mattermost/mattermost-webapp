@@ -16,30 +16,29 @@ type Props = {
     showTip: boolean;
 }
 
-export const ActionsTutorialTip = ({handleOpen, handleDismiss, handleNext, showTip}: Props) => {
-    const title = (
-        <FormattedMessage
-            id='post_info.actions.tutorialTip.title'
-            defaultMessage='Actions for messages'
-        />
-    );
-    const screen = (
-        <FormattedMarkdownMessage
-            id='post_info.actions.tutorialTip'
-            defaultMessage='Message actions that are provided\nthrough apps, integrations or plugins\nhave moved to this menu item.'
-        />
-    );
-    const nextBtn = (
-        <FormattedMessage
-            id={'tutorial_tip.got_it'}
-            defaultMessage={'Got it'}
-        />
-    );
+const title = (
+    <FormattedMessage
+        id='post_info.actions.tutorialTip.title'
+        defaultMessage='Actions for messages'
+    />
+);
+const screen = (
+    <FormattedMarkdownMessage
+        id='post_info.actions.tutorialTip'
+        defaultMessage='Message actions that are provided\nthrough apps, integrations or plugins\nhave moved to this menu item.'
+    />
+);
+const nextBtn = (
+    <FormattedMessage
+        id={'tutorial_tip.got_it'}
+        defaultMessage={'Got it'}
+    />
+);
 
+export const ActionsTutorialTip = ({handleOpen, handleDismiss, handleNext, showTip}: Props) => {
     const onDismiss = (e: React.MouseEvent) => {
         e.stopPropagation();
         e.preventDefault();
-        setShow(false);
         handleDismiss();
     };
 
