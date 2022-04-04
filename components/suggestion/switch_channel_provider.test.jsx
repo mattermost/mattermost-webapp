@@ -72,6 +72,12 @@ describe('components/SwitchChannelProvider', () => {
                         name: 'current_user_id__other_user',
                     },
                 },
+                messageCounts: {
+                    direct_other_user: {
+                        root: 2,
+                        total: 2,
+                    },
+                },
             },
             preferences: {
                 myPreferences: {

@@ -688,9 +688,13 @@ export default class SwitchChannelProvider extends Provider {
         if (itemType) {
             threadsItem = {...threadsItem, type: itemType};
         }
+        if (countType === 'unread') {
+            threadsItem.unread = true;
+        }
         if (collapsedThreads && ((countType === 'unread' && counts?.total_unread_threads) || (countType === 'total'))) {
             return threadsItem;
         }
+
         return null;
     }
 
