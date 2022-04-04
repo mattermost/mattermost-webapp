@@ -33,7 +33,6 @@ const defaultProps: Props = deepFreeze({
     emailInvitationsEnabled: true,
     isAdmin: false,
     isCloud: false,
-    cloudUserLimit: '',
     canAddUsers: true,
     canInviteGuests: true,
     intl: {} as IntlShape,

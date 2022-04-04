@@ -117,6 +117,7 @@ const initialState = {
                 ],
                 forms: {},
             },
+            pluginEnabled: true,
         },
     },
     views: {

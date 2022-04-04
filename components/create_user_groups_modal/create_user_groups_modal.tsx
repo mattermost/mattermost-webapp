@@ -15,7 +15,7 @@ import {GroupCreateWithUserIds} from 'mattermost-redux/types/groups';
 import 'components/user_groups_modal/user_groups_modal.scss';
 import './create_user_groups_modal.scss';
 import {ModalData} from 'types/actions';
-import Input from 'components/input';
+import Input from 'components/widgets/inputs/input/input';
 import AddUserToGroupMultiSelect from 'components/add_user_to_group_multiselect';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import LocalizedIcon from 'components/localized_icon';

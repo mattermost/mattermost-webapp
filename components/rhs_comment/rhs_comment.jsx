@@ -596,6 +596,7 @@ export default class RhsComment extends React.PureComponent {
             const actionsMenu = showActionsMenuIcon && (
                 <ActionsMenu
                     post={post}
+                    location={Locations.RHS_COMMENT}
                     handleDropdownOpened={this.handleActionsMenuOpened}
                     isMenuOpen={this.state.showActionsMenu}
                     showPulsatingDot={this.props.showActionsMenuPulsatingDot}

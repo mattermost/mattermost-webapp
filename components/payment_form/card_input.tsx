@@ -8,7 +8,7 @@ import {ElementsConsumer, CardElement} from '@stripe/react-stripe-js';
 import {FormattedMessage} from 'react-intl';
 
 import './card_input.css';
-import 'components/input.css';
+import 'components/widgets/inputs/input/input.scss';
 
 const CARD_ELEMENT_OPTIONS = {
     hidePostalCode: true,

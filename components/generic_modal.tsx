@@ -21,6 +21,7 @@ type Props = {
     confirmButtonText?: React.ReactNode;
     confirmButtonClassName?: string;
     cancelButtonText?: React.ReactNode;
+    cancelButtonClassName?: string;
     isConfirmDisabled?: boolean;
     id: string;
     autoCloseOnCancelButton?: boolean;
@@ -28,6 +29,8 @@ type Props = {
     enforceFocus?: boolean;
     container?: React.ReactNode | React.ReactNodeArray;
     ariaLabel?: string;
+    errorText?: string;
+    useCompassDesign?: boolean;
 };
 
 type State = {
@@ -128,7 +131,7 @@ export default class GenericModal extends React.PureComponent<Props, State> {
             cancelButton = (
                 <button
                     type='button'
-                    className='GenericModal__button cancel'
+                    className={classNames('GenericModal__button cancel', this.props.cancelButtonClassName)}
                     onClick={this.handleCancel}
                 >
                     {cancelButtonText}
@@ -136,9 +139,17 @@ export default class GenericModal extends React.PureComponent<Props, State> {
             );
         }
 
+        const headerText = this.props.modalHeaderText && (
+            <div className='GenericModal__header'>
+                <h1 id='genericModalLabel'>
+                    {this.props.modalHeaderText}
+                </h1>
+            </div>
+        );
+
         return (
             <Modal
-                dialogClassName={classNames('a11y__modal GenericModal', this.props.className)}
+                dialogClassName={classNames('a11y__modal GenericModal', {GenericModal__compassDesign: this.props.useCompassDesign}, this.props.className)}
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onExited}
@@ -155,15 +166,20 @@ export default class GenericModal extends React.PureComponent<Props, State> {
                     tabIndex={0}
                     className='GenericModal__wrapper-enter-key-press-catcher'
                 >
-                    <Modal.Header
-                        closeButton={true}
-                    />
+                    <Modal.Header closeButton={true}>
+                        {this.props.useCompassDesign && headerText}
+                    </Modal.Header>
                     <Modal.Body>
-                        {this.props.modalHeaderText && <div className='GenericModal__header'>
-                            <h1 id='genericModalLabel'>
-                                {this.props.modalHeaderText}
-                            </h1>
-                        </div>}
+                        {this.props.useCompassDesign ? (
+                            this.props.errorText && (
+                                <div className='genericModalError'>
+                                    <i className='icon icon-alert-outline'/>
+                                    <span>{this.props.errorText}</span>
+                                </div>
+                            )
+                        ) : (
+                            headerText
+                        )}
                         <div className='GenericModal__body'>
                             {this.props.children}
                         </div>
@@ -173,7 +189,6 @@ export default class GenericModal extends React.PureComponent<Props, State> {
                         {confirmButton}
                     </Modal.Footer>}
                 </div>
-
             </Modal>
         );
     }
