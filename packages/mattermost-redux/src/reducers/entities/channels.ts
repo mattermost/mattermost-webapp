@@ -615,6 +615,23 @@ function stats(state: RelationOneToOne<Channel, ChannelStats> = {}, action: Gene
 
         return state;
     }
+    case ChannelTypes.INCREMENT_FILE_COUNT: {
+        const nextState = {...state};
+        const id = action.id;
+        const nextStat = nextState[id];
+        if (nextStat) {
+            const count = nextStat.files_count + action.amount;
+            return {
+                ...nextState,
+                [id]: {
+                    ...nextStat,
+                    files_count: count,
+                },
+            };
+        }
+
+        return state;
+    }
     case UserTypes.LOGOUT_SUCCESS:
         return {};
     default:

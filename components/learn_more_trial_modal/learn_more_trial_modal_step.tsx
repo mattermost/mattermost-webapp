@@ -18,6 +18,7 @@ export type LearnMoreTrialModalStepProps = {
     svgWrapperClassName: string;
     svgElement: React.ReactNode;
     bottomLeftMessage?: string;
+    handleEmbargoError?: () => void;
 }
 
 const LearnMoreTrialModalStep = (
@@ -28,6 +29,7 @@ const LearnMoreTrialModalStep = (
         svgWrapperClassName,
         svgElement,
         bottomLeftMessage,
+        handleEmbargoError,
     }: LearnMoreTrialModalStepProps) => {
     const {formatMessage} = useIntl();
 
@@ -55,6 +57,7 @@ const LearnMoreTrialModalStep = (
             </div>
             <StartTrialBtn
                 message={startTrialBtnMsg}
+                handleEmbargoError={handleEmbargoError}
                 telemetryId='start_trial_from_learn_more_about_trial_modal'
             />
             <div className='disclaimer'>

@@ -783,6 +783,7 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent<Pr
                                 onToggle={this.togglePermission}
                                 selectRow={this.selectRow}
                                 readOnly={this.props.isDisabled}
+                                license={this.props.license}
                             />
                         </AdminPanelTogglable>
 

@@ -6,7 +6,6 @@ export type CloudState = {
     products?: Record<string, Product>;
     customer?: CloudCustomer;
     invoices?: Record<string, Invoice>;
-    subscriptionStats?: SubscriptionStats;
 }
 
 export type Subscription = {
@@ -120,9 +119,4 @@ export type InvoiceLineItem = {
     description: string;
     type: typeof InvoiceLineItemType[keyof typeof InvoiceLineItemType];
     metadata: Record<string, string>;
-}
-
-export type SubscriptionStats = {
-    remaining_seats: number;
-    is_paid_tier: string;
 }
