@@ -17,9 +17,9 @@ describe('System Console > Plugin Management ', () => {
         cy.shouldNotRunOnCloudEdition();
     });
 
-    it('MM-xxx Plugin Marketplace URL should be disabled if EnableUploads are disabled', () => {
+    it('MM-T4742 Plugin Marketplace URL should be disabled if EnableUploads are disabled', () => {
         // # Set plugin settings
-        let newSettings = {
+        const newSettings = {
             PluginSettings: {
                 Enable: true,
             },
@@ -28,21 +28,10 @@ describe('System Console > Plugin Management ', () => {
 
         cy.exec('tests/fixtures/mmctl --local config set PluginSettings.EnableUploads false');
 
-        // # Login as System Admin
-        cy.apiAdminLogin();
-
         cy.visit('/admin_console/plugins/plugin_management');
 
         // * Verify marketplace URL is disabled.
         cy.findByTestId('marketplaceUrlinput').should('be.disabled');
-
-        // # Set plugin settings
-        newSettings = {
-            PluginSettings: {
-                Enable: true,
-            },
-        };
-        cy.apiUpdateConfig(newSettings);
 
         cy.exec('tests/fixtures/mmctl --local config set PluginSettings.EnableUploads true');
 
