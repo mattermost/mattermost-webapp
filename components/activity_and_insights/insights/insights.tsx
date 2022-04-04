@@ -52,10 +52,10 @@ const Insights = () => {
                 setTimeFrame={setTimeFrameValue}
             />
             <div className='insights-body'>
-                <TopChannels 
+                <TopChannels
                     size={CardSizes.large}
                 />
-                <TopChannels 
+                <TopChannels
                     size={CardSizes.small}
                 />
                 <TopChannels

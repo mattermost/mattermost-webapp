@@ -1,8 +1,8 @@
 .Card.insights-card {
-    border-radius: 8px;
-    box-shadow: none;
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
     margin: 8px;
+    border-radius: 8px;
+    box-shadow: none;
 
     &.large {
         width: auto;
@@ -28,24 +28,24 @@
 
             .text-top {
                 display: block;
-    
+
                 h2 {
+                    margin: 0;
                     font-size: 16px;
                     font-weight: 600;
                     line-height: 24px;
-                    margin: 0;
                 }
             }
-    
+
             .text-bottom {
                 display: block;
-                font-size: 12px;
-                line-height: 16px;
-                font-weight: 400;
                 color: rgba(var(--center-channel-color-rgb), 0.72);
+                font-size: 12px;
+                font-weight: 400;
+                line-height: 16px;
             }
         }
-        
+
         span.icon {
             margin-left: auto;
         }
@@ -54,16 +54,17 @@
             display: none;
         }
     }
+
     .Card__body {
-        padding: 0px 24px 24px;
+        padding: 0 24px 24px;
 
         &.expanding {
             transition: none;
         }
-        
+
         &.expanded {
-            margin: 0;
             overflow: visible;
+            margin: 0;
         }
     }
 }

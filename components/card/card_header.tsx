@@ -12,7 +12,7 @@ type Props = {
 
 const CardHeader: React.FC<Props> = (props: Props) => {
     return (
-        <div 
+        <div
             className={classNames('Card__header', {expanded: props.expanded})}
             onClick={props.onClick}
         >
