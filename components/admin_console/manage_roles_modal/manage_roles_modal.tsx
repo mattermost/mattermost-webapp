@@ -167,9 +167,12 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
             additionalRoles = (
                 <div>
                     <p>
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='admin.manage_roles.additionalRoles'
-                            defaultMessage='Select additional permissions for the account. [Read more about roles and permissions](!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/).'
+                            defaultMessage='Select additional permissions for the account. <link>>Read more about roles and permissions</link>.'
+                            values={{
+                                link: (msg: React.ReactNode) => (<a href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/' referrer='noreferrer' target='_blank'>{msg}</a>),
+                    }}
                         />
                     </p>
                     <div className='checkbox'>
@@ -240,9 +243,13 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
                                     disabled={this.state.isSystemAdmin}
                                     onChange={this.handleUserAccessTokenChange}
                                 />
-                                <FormattedMarkdownMessage
+                                <FormattedMessage
                                     id='admin.manage_roles.allowUserAccessTokens'
-                                    defaultMessage='Allow this account to generate [personal access tokens](!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/).'
+                                    defaultMessage='Allow this account to generate <link>personal access tokens</link>.'
+                                    values={{
+                                        link: (msg: React.ReactNode) => (<a href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token' referrer='noreferrer' target='_blank'>{msg}</a>),
+                                    }}
+                            
                                 />
                                 <span className='d-block pt-2 pb-2 light'>
                                     <FormattedMessage

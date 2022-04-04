@@ -369,9 +369,12 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent<
                         <div className={'banner info'}>
                             <div className='banner__content'>
                                 <span>
-                                    <FormattedMarkdownMessage
+                                    <FormattedMessage
                                         id='admin.permissions.systemScheme.introBanner'
-                                        defaultMessage='Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a [Team Override Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html) is applied in specific teams.'
+                                        defaultMessage='Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a <link>Team Override Scheme</link>is applied in specific teams.'
+                                        values={{
+                                            link: (msg: React.ReactNode) => (<a href='https://docs.mattermost.com/onboard/advanced-permissions.html' referrer='noreferrer' target='_blank'>{msg}</a>),
+                                        }}
                                     />
                                 </span>
                             </div>

@@ -1176,13 +1176,28 @@ const AdminDefinition = {
                         label_default: 'Enable Server-Side Encryption for Amazon S3:',
                         help_text: t('admin.image.amazonS3SSEDescription'),
                         help_text_markdown: true,
-                        help_text_default: 'When true, encrypt files in Amazon S3 using server-side encryption with Amazon S3-managed keys. See [documentation](!https://docs.mattermost.com/configure/configuration-settings.html#session-lengths) to learn more.',
+                        help_text_default: 'When true, encrypt files in Amazon S3 using server-side encryption with Amazon S3-managed keys. See {documentation} to learn more.',
+                        help_text_values: {
+                            documentation: (
+                                <b>
+                                    <FormattedMessage
+                                        id='admin.image.amazons3.sessionlengths'
+                                        defaultMessage='<link>documentation</link>'
+                                        values={{
+                                            link: (msg: React.ReactNode) => (<a href='https://docs.mattermost.com/configure/configuration-settings.html#session-lengths' referrer='noreferrer' target='_blank'>{msg}</a>),
+                                        }}
+                                    />
+                                </b>
+                            ),
+                        },
+                      
                         isHidden: it.not(it.licensedForFeature('Compliance')),
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
                             it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                         ),
                     },
+                    
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'FileSettings.AmazonS3Trace',
@@ -2722,8 +2737,20 @@ const AdminDefinition = {
                         label: t('admin.notices.enableAdminNoticesTitle'),
                         label_default: 'Enable Admin Notices: ',
                         help_text: t('admin.notices.enableAdminNoticesDescription'),
-                        help_text_default: 'When enabled, System Admins will receive notices about available server upgrades and relevant system administration features. [Learn more about notices](!https://docs.mattermost.com/manage/in-product-notices.html) in our documentation.',
+                        help_text_default: 'When enabled, System Admins will receive notices about available server upgrades and relevant system administration features. {notices} in our documentation.',
                         help_text_markdown: true,
+                        help_text_values: {
+                            notices: (
+                                <a href='https://docs.mattermost.com/manage/in-product-notices.html'>
+                                    <b>
+                                        <FormattedMessage
+                                            id='admin.reload.notices.learnmore'
+                                            defaultMessage='Learn more about notices'
+                                        />
+                                    </b>
+                                </a>
+                            ),
+                        },
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTICES)),
                     },
                     {
@@ -2732,8 +2759,20 @@ const AdminDefinition = {
                         label: t('admin.notices.enableEndUserNoticesTitle'),
                         label_default: 'Enable End User Notices: ',
                         help_text: t('admin.notices.enableEndUserNoticesDescription'),
-                        help_text_default: 'When enabled, all users will receive notices about available client upgrades and relevant end user features to improve user experience. [Learn more about notices](!https://docs.mattermost.com/manage/in-product-notices.html) in our documentation.',
+                        help_text_default: 'When enabled, all users will receive notices about available client upgrades and relevant end user features to improve user experience. {notices} in our documentation.',
                         help_text_markdown: true,
+                        help_text_values: {
+                            notices: (
+                                <a href='https://docs.mattermost.com/manage/in-product-notices.html'>
+                                    <b>
+                                        <FormattedMessage
+                                            id='admin.reload.notices.users.learnmore'
+                                            defaultMessage='Learn more about notices'
+                                        />
+                                    </b>
+                                </a>
+                            ),
+                        },
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTICES)),
                     },
                 ],
@@ -5214,8 +5253,20 @@ const AdminDefinition = {
                         label: t('admin.oauth.providerTitle'),
                         label_default: 'Enable OAuth 2.0 Service Provider: ',
                         help_text: t('admin.oauth.providerDescription'),
-                        help_text_default: 'When true, Mattermost can act as an OAuth 2.0 service provider allowing Mattermost to authorize API requests from external applications. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-oauth2/) to learn more.',
+                        help_text_default: 'When true, Mattermost can act as an OAuth 2.0 service provider allowing Mattermost to authorize API requests from external applications. See {documentation} to learn more.',
                         help_text_markdown: true,
+                        help_text_values: {
+                            documentation: (
+                                <a href='https://developers.mattermost.com/integrate/admin-guide/admin-oauth2/'>
+                                    <b>
+                                        <FormattedMessage
+                                            id='ServiceSettings.EnableOAuthServiceProvider.Documentation'
+                                            defaultMessage='Documentation'
+                                        />
+                                    </b>
+                                </a>
+                            ),
+                        },
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
@@ -5244,7 +5295,21 @@ const AdminDefinition = {
                         label: t('admin.service.userAccessTokensTitle'),
                         label_default: 'Enable User Access Tokens: ',
                         help_text: t('admin.service.userAccessTokensDescription'),
-                        help_text_default: 'When true, users can create [user access tokens](!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/) for integrations in **Account Menu > Account Settings > Security**. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the **User Management > Users** page.',
+                        help_text_default: 'When true, users can create {tokens} for integrations in **Account Menu > Account Settings > Security**. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the **User Management > Users** page.',
+                        help_text_values: {
+                            tokens: (
+                                <b>
+                                    <FormattedMessage
+                                        id='admin.servicesettings.enableuseraccesstokens'
+                                        defaultMessage='<link>user access tokens</link>'
+                                        values={{
+                                            link: (msg: React.ReactNode) => (<a href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/' referrer='noreferrer' target='_blank'>{msg}</a>),
+                                        }}
+                                    />
+                                </b>
+                            ),
+                        },
+                      
                         help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
@@ -6017,7 +6082,20 @@ const AdminDefinition = {
                         label: t('admin.experimental.experimentalUseNewSAMLLibrary.title'),
                         label_default: 'Use Improved SAML Library (Beta):',
                         help_text: t('admin.experimental.experimentalUseNewSAMLLibrary.desc'),
-                        help_text_default: 'Enable an updated SAML Library, which does not require the XML Security Library (xmlsec1) to be installed. Warning: Not all providers have been tested. If you experience issues, please contact support: [https://mattermost.com/support/](!https://mattermost.com/support/). Changing this setting requires a server restart before taking effect.',
+                        help_text_default: 'Enable an updated SAML Library, which does not require the XML Security Library (xmlsec1) to be installed. Warning: Not all providers have been tested. If you experience issues, please contact {support}. Changing this setting requires a server restart before taking effect.',
+                        help_text_values: {
+                            support: (
+                                <b>
+                                    <FormattedMessage
+                                        id='admin.experimental.newsamllibrary.linkSupport'
+                                        defaultMessage='<linkSupport>Support</linkSupport>'
+                                        values={{
+                                            linkSupport: (msg: React.ReactNode) => (<a href='https://mattermost.com/support' referrer='noreferrer' target='_blank'>{msg}</a>),
+                                        }}
+                                    />
+                                </b>
+                            ),
+                        },
                         help_text_markdown: true,
                         isHidden: true || it.not(it.licensedForFeature('SAML')),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
@@ -6072,7 +6150,31 @@ const AdminDefinition = {
                         label: t('admin.experimental.collapsedThreads.title'),
                         label_default: 'Collapsed Reply Threads',
                         help_text: t('admin.experimental.collapsedThreads.desc'),
-                        help_text_default: 'When enabled (default off), users must enable collapsed reply threads in Settings. When disabled, users cannot access Collapsed Reply Threads. Please review our [documentation for known issues](!https://docs.mattermost.com/messaging/organizing-conversations.html) and help provide feedback in our [community channel](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).',
+                        help_text_default: 'When enabled (default off), users must enable collapsed reply threads in Settings. When disabled, users cannot access Collapsed Reply Threads. Please review our {documentationKnownIssues} and help provide feedback in our {communityChannel}.',
+                        help_text_values: {
+                            documentationKnownIssues: (
+                                <b>
+                                    <FormattedMessage
+                                        id='admin.experimental.collapsedThreads.documentationKnownIssues'
+                                        defaultMessage='<link>documentation for known issues</link>'
+                                        values={{
+                                            link: (msg: React.ReactNode) => (<a href='https://docs.mattermost.com/messaging/organizing-conversations.html' referrer='noreferrer' target='_blank'>{msg}</a>),
+                                        }}
+                                    />
+                                </b>
+                            ),
+                            communityChannel: (
+                                <b>
+                                    <FormattedMessage
+                                        id='admin.experimental.collapsedThreads.documentationCommunityChannel'
+                                        defaultMessage='<linkChannel>Environment > Database > Recycle Database Connections</linkChannel>'
+                                        values={{
+                                            linkChannel: (msg: React.ReactNode) => (<a href='https://community-daily.mattermost.com/core/channels/folded-reply-threads' referrer='noreferrer' target='_blank'>{msg}</a>),
+                                        }}
+                                    />
+                                </b>
+                            ),
+                        },
                         help_text_markdown: true,
                         options: [
                             {
@@ -6085,7 +6187,7 @@ const AdminDefinition = {
                                 display_name: t('admin.experimental.collapsedThreads.default_off'),
                                 display_name_default: 'Enabled (Default Off)',
                             },
-
+                    
                             /* {
                                 value: 'always_on',
                                 display_name: t('admin.experimental.collapsedThreads.alwaysOn'),
