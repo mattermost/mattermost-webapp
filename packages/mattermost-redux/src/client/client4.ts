@@ -1966,10 +1966,11 @@ export default class Client4 {
             unread = false,
             since = 0,
             totalsOnly = false,
+            threadsOnly = false,
         },
     ) => {
         return this.doFetch<UserThreadList>(
-            `${this.getUserThreadsRoute(userId, teamId)}${buildQueryString({before, after, per_page: perPage, extended, deleted, unread, since, totalsOnly})}`,
+            `${this.getUserThreadsRoute(userId, teamId)}${buildQueryString({before, after, per_page: perPage, extended, deleted, unread, since, totalsOnly, threadsOnly})}`,
             {method: 'get'},
         );
     };
