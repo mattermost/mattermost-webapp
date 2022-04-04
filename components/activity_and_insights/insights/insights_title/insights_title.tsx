@@ -54,33 +54,25 @@ const InsightsTitle = (props: Props) => {
                     id='insightsDropdownMy'
                     buttonClass='insights-filter-btn'
                     onClick={props.setFilterTypeMy}
-                    text={
-                        <>
-                            <span className='icon'>
-                                <Icon
-                                    size={16}
-                                    glyph={'account-outline'}
-                                />
-                            </span>
-                            {Utils.localizeMessage('insights.filter.myInsights', 'My insights')}
-                        </>
+                    icon={
+                        <Icon
+                            size={16}
+                            glyph={'account-outline'}
+                        />
                     }
+                    text={Utils.localizeMessage('insights.filter.myInsights', 'My insights')}
                 />
                 <Menu.ItemAction
                     id='insightsDropdownTeam'
                     buttonClass='insights-filter-btn'
                     onClick={props.setFilterTypeTeam}
-                    text={
-                        <>
-                            <span className='icon'>
-                                <Icon
-                                    size={16}
-                                    glyph={'account-multiple-outline'}
-                                />
-                            </span>
-                            {Utils.localizeMessage('insights.filter.teamInsights', 'Team insights')}
-                        </>
+                    icon={
+                        <Icon
+                            size={16}
+                            glyph={'account-multiple-outline'}
+                        />
                     }
+                    text={Utils.localizeMessage('insights.filter.teamInsights', 'Team insights')}
                 />
             </Menu>
         </MenuWrapper>
