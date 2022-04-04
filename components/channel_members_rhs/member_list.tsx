@@ -17,7 +17,7 @@ const Title = styled.div`
     line-height: 28px;
     letter-spacing: 0.02em;
     text-transform: uppercase;
-    padding: 0px 18px;
+    padding: 0px 12px;
     color: rgba(var(--center-channel-color-rgb), 0.56);
 `;
 
