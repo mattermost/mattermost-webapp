@@ -98,6 +98,7 @@ const Member = ({className, channel, member, index, totalUsers, editing, actions
                     popoverPlacement='left'
                     size='sm'
                     status={member.status}
+                    isBot={member.user.is_bot}
                     userId={member.user.id}
                     username={member.displayName}
                     src={Client4.getProfilePictureUrl(member.user.id, member.user.last_picture_update)}
@@ -105,7 +106,10 @@ const Member = ({className, channel, member, index, totalUsers, editing, actions
             </Avatar>
             <DisplayName>{member.displayName}</DisplayName>
             <Username>{'@'}{member.user.username}</Username>
-            <RoleChoser className={classNames({editing})}>
+            <RoleChoser
+                className={classNames({editing})}
+                data-testid='rolechoser'
+            >
                 <ChannelMembersDropdown
                     channel={channel}
                     user={member.user}
