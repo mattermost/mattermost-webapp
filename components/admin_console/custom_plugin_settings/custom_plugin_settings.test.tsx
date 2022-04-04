@@ -4,12 +4,15 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import CustomPluginSettings from 'components/admin_console/custom_plugin_settings/custom_plugin_settings.jsx';
+import CustomPluginSettings from 'components/admin_console/custom_plugin_settings/custom_plugin_settings';
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
 
+import {PluginSettings} from 'mattermost-redux/types/config';
+import {PluginRedux} from 'mattermost-redux/types/plugins';
+
 describe('components/admin_console/CustomPluginSettings', () => {
-    let plugin = null;
-    let config = null;
+    let plugin: PluginRedux | null = null;
+    let config: {PluginSettings: Partial<PluginSettings>} | null = null;
 
     afterEach(() => {
         plugin = null;
@@ -21,6 +24,8 @@ describe('components/admin_console/CustomPluginSettings', () => {
             id: 'testplugin',
             name: 'testplugin',
             description: '',
+            version: '',
+            active: true,
             webapp: {
                 bundle_path: '/static/testplugin_bundle.js',
             },
@@ -42,6 +47,7 @@ describe('components/admin_console/CustomPluginSettings', () => {
                         type: 'bool',
                         default: true,
                         help_text: 'This is some help text for the bool field.',
+                        placeholder: 'e.g. some setting',
                     },
                     {
                         key: 'settingc',
@@ -54,6 +60,7 @@ describe('components/admin_console/CustomPluginSettings', () => {
                             {display_name: 'Option 3', value: 'option3'},
                         ],
                         help_text: 'This is some help text for the dropdown field.',
+                        placeholder: 'e.g. some setting',
                     },
                     {
                         key: 'settingd',
@@ -66,11 +73,13 @@ describe('components/admin_console/CustomPluginSettings', () => {
                             {display_name: 'Option 3', value: 'option3'},
                         ],
                         help_text: 'This is some help text for the radio field.',
+                        placeholder: 'e.g. some setting',
                     },
                     {
                         key: 'settinge',
                         display_name: 'Setting Five',
                         type: 'generated',
+                        default: 'option3',
                         help_text: 'This is some help text for the generated field.',
                         regenerate_help_text: 'This is help text for the regenerate button.',
                         placeholder: 'e.g. 47KyfOxtk5+ovi1MDHFyzMDHIA6esMWb',
@@ -79,6 +88,7 @@ describe('components/admin_console/CustomPluginSettings', () => {
                         key: 'settingf',
                         display_name: 'Setting Six',
                         type: 'username',
+                        default: 'option4',
                         help_text: 'This is some help text for the user autocomplete field.',
                         placeholder: 'Type a username here',
                     },
@@ -104,7 +114,7 @@ describe('components/admin_console/CustomPluginSettings', () => {
 
     test('should match snapshot with settings and plugin', () => {
         const settings = plugin && plugin.settings_schema && plugin.settings_schema.settings && plugin.settings_schema.settings.map((setting) => {
-            const escapedPluginId = SchemaAdminSettings.escapePathPart(plugin.id);
+            const escapedPluginId = SchemaAdminSettings.escapePathPart(plugin!.id);
             return {
                 ...setting,
                 key: 'PluginSettings.Plugins.' + escapedPluginId + '.' + setting.key.toLowerCase(),
@@ -114,7 +124,7 @@ describe('components/admin_console/CustomPluginSettings', () => {
         const wrapper = shallow(
             <CustomPluginSettings
                 config={config}
-                schema={{...plugin.settings_schema, id: plugin.id, name: plugin.name, translate: false, settings}}
+                schema={{...plugin!.settings_schema, id: plugin!.id, name: plugin!.name, translate: false, settings}}
                 updateConfig={jest.fn()}
             />,
         );
@@ -147,7 +157,7 @@ describe('components/admin_console/CustomPluginSettings', () => {
                         Plugins: {},
                     },
                 }}
-                schema={{...plugin.settings_schema, id: plugin.id, name: plugin.name, translate: false, settings}}
+                schema={{...plugin!.settings_schema, id: plugin!.id, name: plugin!.name, translate: false, settings}}
                 updateConfig={jest.fn()}
             />,
         );
