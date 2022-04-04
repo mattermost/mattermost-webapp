@@ -36,10 +36,16 @@ export const ActionsTutorialTip = ({handleOpen, handleDismiss, handleNext, showT
         />
     );
 
+    const onDismiss = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        e.preventDefault();
+        setShow(false);
+        handleDismiss();
+    };
+
     return (
         <TourTip
             show={showTip}
-            onHidden={handleDismiss}
             screen={screen}
             title={title}
             overlayPunchOut={null}
@@ -50,7 +56,7 @@ export const ActionsTutorialTip = ({handleOpen, handleDismiss, handleNext, showT
             singleTip={true}
             showOptOut={true}
             interactivePunchOut={true}
-            handleDismiss={handleDismiss}
+            handleDismiss={onDismiss}
             handleNext={handleNext}
             handleOpen={handleOpen}
             nextBtn={nextBtn}
