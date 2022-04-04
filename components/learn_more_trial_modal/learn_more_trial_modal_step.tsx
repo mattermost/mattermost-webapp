@@ -61,7 +61,7 @@ const LearnMoreTrialModalStep = (
                 <span>
                     <FormattedMessage
                         id='start_trial.modal.disclaimer'
-                        defaultMessage='By clicking “Start trial”, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivact>privacy policy</linkPrivay> and receiving product emails.'
+                        defaultMessage='By clicking “Start trial”, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
                         values={{
                             linkEvaluation: (msg: React.ReactNode) => (<a href='https://mattermost.com/software-evaluation-agreement' referrer='noreferrer' target='_blank'>{msg}</a>),
                             linkPrivacy: (msg: React.ReactNode) => (<a href='https://mattermost.com/privacy-policy/' referrer='noreferrer' target='_blank'>{msg}</a>),
