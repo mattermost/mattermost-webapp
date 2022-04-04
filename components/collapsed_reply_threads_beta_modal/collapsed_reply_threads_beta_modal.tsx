@@ -43,9 +43,12 @@ function CollapsedReplyThreadsBetaModal(props: Props) {
                     variant='app'
                     mode='info'
                     title={(
-                        <FormattedMarkdownMessage
+                        <Formattedessage
                             id='collapsed_reply_threads_beta_modal.banner.title'
-                            defaultMessage='Please  [review the list of known issues](!https://docs.mattermost.com/messaging/organizing-conversations.html#known-issues) as we work on stabilizing the feature.'
+                            defaultMessage='Please  <link>review the list of known issues</link>as we work on stabilizing the feature.'
+                            values={{
+                                link: (msg: React.ReactNode) => (<a href='https://docs.mattermost.com/messaging/organizing-conversations.html' referrer='noreferrer' target='_blank'>{msg}</a>),
+                    }}
                         />
                     )}
                     message={(

@@ -609,9 +609,14 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent<Pr
                         <div className={'banner info'}>
                             <div className='banner__content'>
                                 <span>
-                                    <FormattedMarkdownMessage
+                                    <FormattedMessage
                                         id='admin.permissions.teamScheme.introBanner'
-                                        defaultMessage='[Team Override Schemes](!https://docs.mattermost.com/onboard/advanced-permissions.html) set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the [System Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html).'
+                                        defaultMessage='<linkTeamOVerride>Team Override Schemes</linkTeamOverride> set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <linkSystemScheme>System Scheme</linkSystemScheme>.'
+                                        values={{
+                                            linkTeamOverride: (msg: React.ReactNode) => (<a href='https://docs.mattermost.com/onboard/advanced-permissions.html' referrer='noreferrer' target='_blank'>{msg}</a>),
+                                            linkSystemScheme: (msg: React.ReactNode) => (<a href='https://docs.mattermost.com/onboard/advanced-permissions.htm' referrer='noreferrer' target='_blank'>{msg}</a>),
+
+                                        }}
                                     />
                                 </span>
                             </div>

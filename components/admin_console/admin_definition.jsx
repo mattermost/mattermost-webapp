@@ -3764,8 +3764,20 @@ const AdminDefinition = {
                         label: t('admin.saml.enableSyncWithLdapTitle'),
                         label_default: 'Enable Synchronizing SAML Accounts With AD/LDAP:',
                         help_text: t('admin.saml.enableSyncWithLdapDescription'),
-                        help_text_default: 'When true, Mattermost periodically synchronizes SAML user attributes, including user deactivation and removal, from AD/LDAP. Enable and configure synchronization settings at **Authentication > AD/LDAP**. When false, user attributes are updated from SAML during user login. See [documentation](!https://docs.mattermost.com/onboard/ad-ldap.html) to learn more.',
+                        help_text_default: 'When true, Mattermost periodically synchronizes SAML user attributes, including user deactivation and removal, from AD/LDAP. Enable and configure synchronization settings at **Authentication > AD/LDAP**. When false, user attributes are updated from SAML during user login. See {documentation} to learn more.',
                         help_text_markdown: true,
+                        help_text_values: {
+                            documentation: (
+                                <a href='https://docs.mattermost.com/onboard/ad-ldap.html'>
+                                    <b>
+                                        <FormattedMessage
+                                            id='SamlSettings.EnableSyncWithLdapDocumentation'
+                                            defaultMessage='documentation'
+                                        />
+                                    </b>
+                                </a>
+                            ),
+                        },
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
@@ -5223,8 +5235,20 @@ const AdminDefinition = {
                         label: t('admin.service.webhooksTitle'),
                         label_default: 'Enable Incoming Webhooks: ',
                         help_text: t('admin.service.webhooksDescription'),
-                        help_text_default: 'When true, incoming webhooks will be allowed. To help combat phishing attacks, all posts from webhooks will be labelled by a BOT tag. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-incoming/) to learn more.',
+                        help_text_default: 'When true, incoming webhooks will be allowed. To help combat phishing attacks, all posts from webhooks will be labelled by a BOT tag. See {documentation} to learn more.',
                         help_text_markdown: true,
+                        help_text_values: {
+                            documentation: (
+                                <a href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-incoming/'>
+                                    <b>
+                                        <FormattedMessage
+                                            id='ServiceSettings.EnableIncomingWebhooks.Documentation'
+                                            defaultMessage='documentation'
+                                        />
+                                    </b>
+                                </a>
+                            ),
+                        },
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
@@ -5233,8 +5257,20 @@ const AdminDefinition = {
                         label: t('admin.service.outWebhooksTitle'),
                         label_default: 'Enable Outgoing Webhooks: ',
                         help_text: t('admin.service.outWebhooksDesc'),
-                        help_text_default: 'When true, outgoing webhooks will be allowed. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-outgoing/) to learn more.',
+                        help_text_default: 'When true, outgoing webhooks will be allowed. See {documentation} to learn more.',
                         help_text_markdown: true,
+                        help_text_values: {
+                            documentation: (
+                                <a href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-outgoing/'>
+                                    <b>
+                                        <FormattedMessage
+                                            id='ServiceSettings.EnableOutgoingWebhooksDocumentation'
+                                            defaultMessage='documentation'
+                                        />
+                                    </b>
+                                </a>
+                            ),
+                        },
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
@@ -5243,8 +5279,20 @@ const AdminDefinition = {
                         label: t('admin.service.cmdsTitle'),
                         label_default: 'Enable Custom Slash Commands: ',
                         help_text: t('admin.service.cmdsDesc'),
-                        help_text_default: 'When true, custom slash commands will be allowed. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/) to learn more.',
+                        help_text_default: 'When true, custom slash commands will be allowed. See {documentation} to learn more.',
                         help_text_markdown: true,
+                        help_text_values: {
+                            documentation: (
+                                <a href='https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/'>
+                                    <b>
+                                        <FormattedMessage
+                                            id='admin.reload.reloadDescription.recycleDatabaseConnections'
+                                            defaultMessage='Environment > Database > Recycle Database Connections'
+                                        />
+                                    </b>
+                                </a>
+                            ),
+                        },
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
@@ -5275,7 +5323,19 @@ const AdminDefinition = {
                         label: t('admin.service.overrideTitle'),
                         label_default: 'Enable integrations to override usernames:',
                         help_text: t('admin.service.overrideDescription'),
-                        help_text_default: 'When true, webhooks, slash commands and other integrations, such as [Zapier](!https://developers.mattermost.com/integrate/admin-guide/admin-zapier-integration/), will be allowed to change the username they are posting as. Note: Combined with allowing integrations to override profile picture icons, users may be able to perform phishing attacks by attempting to impersonate other users.',
+                        help_text_default: 'When true, webhooks, slash commands and other integrations, such as {Zapier}, will be allowed to change the username they are posting as. Note: Combined with allowing integrations to override profile picture icons, users may be able to perform phishing attacks by attempting to impersonate other users.',
+                        help_text_values: {
+                            documentation: (
+                                <a href='https://developers.mattermost.com/integrate/admin-guide/admin-zapier-integration/'>
+                                    <b>
+                                        <FormattedMessage
+                                            id='admin.reload.reloadDescription.recycleDatabaseConnections'
+                                            defaultMessage='Zapier'
+                                        />
+                                    </b>
+                                </a>
+                            ),
+                        },
                         help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
@@ -5285,8 +5345,20 @@ const AdminDefinition = {
                         label: t('admin.service.iconTitle'),
                         label_default: 'Enable integrations to override profile picture icons:',
                         help_text: t('admin.service.iconDescription'),
-                        help_text_default: 'When true, webhooks, slash commands and other integrations, such as [Zapier](!https://developers.mattermost.com/integrate/admin-guide/admin-zapier-integration/), will be allowed to change the profile picture they post with. Note: Combined with allowing integrations to override usernames, users may be able to perform phishing attacks by attempting to impersonate other users.',
+                        help_text_default: 'When true, webhooks, slash commands and other integrations, such as {Zapier}, will be allowed to change the profile picture they post with. Note: Combined with allowing integrations to override usernames, users may be able to perform phishing attacks by attempting to impersonate other users.',
                         help_text_markdown: true,
+                        help_text_values: {
+                            Zapier: (
+                                <a href='https://developers.mattermost.com/integrate/admin-guide/admin-zapier-integration/'>
+                                    <b>
+                                        <FormattedMessage
+                                            id='ServiceSettings.EnablePostIconOverride.Zapier'
+                                            defaultMessage='Zapier'
+                                        />
+                                    </b>
+                                </a>
+                            ),
+                        },
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {

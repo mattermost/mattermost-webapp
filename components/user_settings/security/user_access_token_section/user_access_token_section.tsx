@@ -436,16 +436,20 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
         if (isMobile()) {
             extraInfo = (
                 <span>
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='user.settings.tokens.description_mobile'
-                        defaultMessage='[Personal access tokens](!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/) function similarly to session tokens and can be used by integrations to [authenticate against the REST API](!https://api.mattermost.com/#tag/authentication). Create new tokens on your desktop.'
+                        defaultMessage='<linktokens>Personal access tokens</linktokens> function similarly to session tokens and can be used by integrations to <linkAPI>authenticate against the REST API</linkAPI>. Create new tokens on your desktop.'
+                        values={{
+                            linktokens: (msg: React.ReactNode) => (<a href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/' referrer='noreferrer' target='_blank'>{msg}</a>),
+                            linkAPI: (msg: React.ReactNode) => (<a href='https://api.mattermost.com/#tag/authentication' referrer='noreferrer' target='_blank'>{msg}</a>),
+                        }}
                     />
                 </span>
             );
         } else {
             extraInfo = (
                 <span>
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='user.settings.tokens.description'
                         defaultMessage='[Personal access tokens](!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/) function similarly to session tokens and can be used by integrations to [authenticate against the REST API](!https://api.mattermost.com/#tag/authentication).'
                     />
