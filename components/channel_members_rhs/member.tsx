@@ -15,8 +15,9 @@ import {Channel} from 'mattermost-redux/types/channels';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 
-import {ChannelMember} from './channel_members_rhs';
 import Constants from 'utils/constants';
+
+import {ChannelMember} from './channel_members_rhs';
 
 const Avatar = styled.div`
 `;
@@ -56,8 +57,20 @@ const SendMessage = styled.button`
 const RoleChoser = styled.div`
     opacity: 0;
     transition: opacity 250ms ease;
+
     &.editing {
         opacity: 1;
+
+        .MenuWrapper {
+            padding: 6px 10px;
+            border-radius: 4px;
+            &.MenuWrapper--open {
+                background: rgba(var(--button-bg-rgb), 0.16);
+            }
+            &:not(.MenuWrapper--open):hover {
+                background: rgba(var(--center-channel-text-rgb), 0.08);
+            }
+        }
     }
 `;
 
