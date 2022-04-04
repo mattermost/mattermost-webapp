@@ -51,6 +51,10 @@ const Button = styled.button`
     }
 `;
 
+const ButtonIcon = styled.i`
+    font-size: 14.4px;
+`;
+
 export interface Props {
     className?: string;
     channelType: string;
@@ -127,7 +131,7 @@ const ActionBar = ({className, channelType, membersCount, canManageMembers, edit
                                 onClick={actions.inviteMembers}
                                 className='add-members'
                             >
-                                <i
+                                <ButtonIcon
                                     className='icon-account-plus-outline'
                                     title='Add Icon'
                                 />
