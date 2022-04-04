@@ -1,5 +1,4 @@
 .Card.insights-card {
-    padding: 24px;
     border-radius: 8px;
     box-shadow: none;
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
@@ -17,7 +16,11 @@
     .Card__header {
         display: flex;
         align-items: center;
-        margin-bottom: 12px;
+        padding: 24px 24px 12px;
+
+        &:hover {
+            cursor: pointer;
+        }
 
         .title-and-subtitle {
             display: flex;
@@ -52,6 +55,8 @@
         }
     }
     .Card__body {
+        padding: 0px 24px 24px;
+
         &.expanding {
             transition: none;
         }

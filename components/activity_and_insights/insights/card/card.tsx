@@ -1,14 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React, {memo} from 'react';
-import classnames from 'classnames';
-import {useIntl} from 'react-intl';
+import classNames from 'classnames';
 
 import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 
 import Card from 'components/card/card';
 import CardHeader from 'components/card/card_header';
-import CardBody from 'components/card/card_body';
 import {CardSize, CardSizes} from '../insights';
 
 import './card.scss';
@@ -22,12 +20,9 @@ type Props = {
 }
 
 const InsightsCard = (props: Props) => {
-    const {formatMessage} = useIntl();
-
     return (
-        <Card 
-            expanded={true}
-            className={classnames('insights-card', props.class, {
+        <Card
+            className={classNames('insights-card expanded', props.class, {
                 large: props.size === CardSizes.large,
                 small: props.size === CardSizes.small,
             })}
@@ -36,17 +31,11 @@ const InsightsCard = (props: Props) => {
                 <div className='title-and-subtitle'>
                     <div className='text-top'>
                         <h2>
-                            {formatMessage({
-                                id: 'insights.topChannels.title',
-                                defaultMessage: 'Top Channels',
-                            })}
+                            {props.title}
                         </h2>
                     </div>
                     <div className='text-bottom'>
-                        {formatMessage({
-                            id: 'insights.topChannels.subTitle',
-                            defaultMessage: 'Most active channels for the team',
-                        })}
+                        {props.subTitle}
                     </div>
                 </div>
                 <span className='icon'>
