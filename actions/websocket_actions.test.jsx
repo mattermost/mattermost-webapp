@@ -25,6 +25,8 @@ import configureStore from 'tests/test_store';
 import {browserHistory} from 'utils/browser_history';
 import Constants, {SocketEvents, UserStatuses, ActionTypes} from 'utils/constants';
 
+import mergeObjects from 'packages/mattermost-redux/test/merge_objects';
+
 import {
     handleChannelUpdatedEvent,
     handleEvent,
@@ -80,7 +82,7 @@ jest.mock('plugins', () => ({
 
 jest.mock('utils/browser_history');
 
-const mockState = {
+let mockState = {
     entities: {
         users: {
             currentUserId: 'currentUserId',
@@ -293,9 +295,38 @@ describe('handleUserRemovedEvent', () => {
             },
         };
 
-        mockState.entities.roles.roles = {system_guest: {permissions: []}};
+        mockState = mergeObjects(
+            mockState,
+            {
+                entities: {
+                    roles: {
+                        roles: {
+                            system_guest: {
+                                permissions: [],
+                            },
+                        },
+                    },
+                },
+            },
+        );
+
         handleUserRemovedEvent(msg);
-        mockState.entities.roles.roles = {system_guest: {permissions: ['view_members']}};
+
+        mockState = mergeObjects(
+            mockState,
+            {
+                entities: {
+                    roles: {
+                        roles: {
+                            system_guest: {
+                                permissions: ['view_members'],
+                            },
+                        },
+                    },
+                },
+            },
+        );
+
         expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
     });
 

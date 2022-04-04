@@ -29,8 +29,6 @@ import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 import Menu from 'components/widgets/menu/menu';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
 
-import withGetCloudSubscription from '../common/hocs/cloud/with_get_cloud_subscription';
-import {SubscriptionStats} from 'mattermost-redux/types/cloud';
 import {ModalData} from 'types/actions';
 import {PluginComponent} from 'types/store/plugins';
 import {UserProfile} from 'mattermost-redux/types/users';
@@ -76,7 +74,6 @@ export type Props = {
         closeRightHandSide: () => void;
         closeRhsMenu: () => void;
         unhideNextSteps: () => void;
-        getSubscriptionStats: () => SubscriptionStats;
     };
 
 };
@@ -493,4 +490,4 @@ export class MainMenu extends React.PureComponent<Props> {
     }
 }
 
-export default injectIntl(withGetCloudSubscription((MainMenu)));
+export default injectIntl(MainMenu);
