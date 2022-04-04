@@ -2793,7 +2793,7 @@
   "channel_members_modal.addNew": " Add Members",
   "channel_members_modal.members": " Members",
   "channel_members_rhs.action_bar.add_button": "Add",
-  "channel_members_rhs.action_bar.cancel_button": "Cancel",
+  "channel_members_rhs.action_bar.done_button": "Done",
   "channel_members_rhs.action_bar.manage_button": "Manage",
   "channel_members_rhs.action_bar.managing_title": "Managing Members",
   "channel_members_rhs.action_bar.members_count_title": "{members_count} members",

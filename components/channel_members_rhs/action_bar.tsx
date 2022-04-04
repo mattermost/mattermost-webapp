@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {FormattedMessage} from 'react-intl';
 import styled from 'styled-components';
 
 import Constants from 'utils/constants';
+import {isKeyPressed} from 'utils/utils';
 
 const Title = styled.div`
     flex:1;
@@ -30,7 +31,7 @@ const Button = styled.button`
     font-size: 12px;
     font-weight: 600;
     line-height: 16px;
-    &.add-members {
+    &.add-members, &.manage-members-done {
         background-color: var(--button-bg);
         color: var(--button-color);
         &:hover, &:active, &:focus {
@@ -50,7 +51,7 @@ const Button = styled.button`
     }
 `;
 
-interface Props {
+export interface Props {
     className?: string;
     channelType: string;
     membersCount: number;
@@ -64,6 +65,21 @@ interface Props {
 }
 
 const ActionBar = ({className, channelType, membersCount, canManageMembers, editing, actions}: Props) => {
+    const showManageButton = channelType !== Constants.GM_CHANNEL && membersCount > 1;
+
+    const handleShortcut = useCallback((e) => {
+        if (isKeyPressed(e, Constants.KeyCodes.ESCAPE) && editing) {
+            actions.stopEditing();
+        }
+    }, [editing, actions]);
+
+    useEffect(() => {
+        document.addEventListener('keydown', handleShortcut);
+        return () => {
+            document.removeEventListener('keydown', handleShortcut);
+        };
+    }, [handleShortcut]);
+
     return (
         <div className={className}>
             <Title>
@@ -87,16 +103,16 @@ const ActionBar = ({className, channelType, membersCount, canManageMembers, edit
                     {editing ? (
                         <Button
                             onClick={actions.stopEditing}
-                            className='manage-members'
+                            className='manage-members-done'
                         >
                             <FormattedMessage
-                                id='channel_members_rhs.action_bar.cancel_button'
-                                defaultMessage='Cancel'
+                                id='channel_members_rhs.action_bar.done_button'
+                                defaultMessage='Done'
                             />
                         </Button>
                     ) : (
                         <>
-                            {channelType !== Constants.GM_CHANNEL && (
+                            {showManageButton && (
                                 <Button
                                     className='manage-members'
                                     onClick={actions.startEditing}
@@ -134,5 +150,4 @@ export default styled(ActionBar)`
     flex-direction: row;
     align-items: center;
     padding: 16px 20px;
-
 `;
