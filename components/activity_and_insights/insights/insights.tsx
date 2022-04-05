@@ -5,6 +5,7 @@ import {useDispatch} from 'react-redux';
 
 import {selectChannel} from 'mattermost-redux/actions/channels';
 
+import {InsightsTimeFrames} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
 import InsightsHeader from './insights_header/insights_header';
@@ -16,7 +17,7 @@ const Insights = () => {
 
     const [filterType, setFilterType] = useState('my');
     const [timeFrame, setTimeFrame] = useState({
-        value: '1_day',
+        value: InsightsTimeFrames.INSIGHTS_7_DAYS,
         label: localizeMessage('insights.timeFrame.today', 'Today'),
     });
 
