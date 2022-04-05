@@ -22,10 +22,6 @@ const SearchBar = ({className, terms, onInput}: Props) => {
                 value={terms}
                 onInput={(ev) => onInput(ev.currentTarget.value)}
                 inputPrefix={<i className={'icon icon-magnify'}/>}
-                label={formatMessage({
-                    id: 'channel_members_rhs.search_bar.search_members_label',
-                    defaultMessage: 'Search members',
-                })}
                 inputSuffix={terms.length > 0 ? (
                     <button
                         className='style--none'
@@ -46,4 +42,8 @@ const SearchBar = ({className, terms, onInput}: Props) => {
 export default styled(SearchBar)`
     display: flex;
     padding: 0px 20px 12px;
+
+    .Input_container .Input_wrapper {
+        padding: 0 8px;
+    }
 `;
