@@ -233,7 +233,6 @@ Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIME
 // DM
 // ***********************************************************
 
-
 /**
  * Go to a DM channel with a given user
  * @param {User} user - the user that should get the message
@@ -265,7 +264,6 @@ Cypress.Commands.add('uiGotoDirectMessageWithUser', (user) => {
     // In the channel header, it seems there is a space after the username, justifying the use of contains.text instead of have.text
     cy.get('#channelHeaderTitle').should('be.visible').and('contain.text', user.username);
 });
-
 
 /**
  * Sends a DM to a given user

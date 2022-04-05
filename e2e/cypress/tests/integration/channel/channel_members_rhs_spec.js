@@ -82,44 +82,39 @@ describe('Channel members RHS', () => {
     it('should go back to previous RHS when switching from a channel to a DM', () => {
         cy.apiCreateUser({}).then(({user: newUser}) => {
             cy.apiAddUserToTeam(testTeam.id, newUser.id).then(() => {
-                cy.apiCreateDirectChannel([user.id, newUser.id]).then(({channel: dmChannel}) => {
-                    // # Open the Channel Members RHS
-                    openChannelMembersRhs(testTeam, testChannel);
+                // # Open the Channel Members RHS
+                openChannelMembersRhs(testTeam, testChannel);
 
-                    // * Ensure we are in the members subpanel
-                    cy.uiGetRHS().get('.sidebar--right__title').findByText('Members').should('be.visible');
+                // * Ensure we are in the members subpanel
+                cy.uiGetRHS().get('.sidebar--right__title').findByText('Members').should('be.visible');
 
-                    // # Visit the DM page
-                    cy.uiGotoDirectMessageWithUser(newUser);
+                // # Visit the DM page
+                cy.uiGotoDirectMessageWithUser(newUser);
 
-                    // * We should be in Channel Info RHS now
-                    cy.uiGetRHS().get('.sidebar--right__title').findByText('Info').should('be.visible');
-                });
+                // * We should be in Channel Info RHS now
+                cy.uiGetRHS().get('.sidebar--right__title').findByText('Info').should('be.visible');
             });
         });
-    })
+    });
 
     it('should close the RHS when switching from a channel to a DM', () => {
         cy.apiCreateUser({}).then(({user: newUser}) => {
             cy.apiAddUserToTeam(testTeam.id, newUser.id).then(() => {
-                cy.apiCreateDirectChannel([user.id, newUser.id]).then(({channel: dmChannel}) => {
-                    // # Open the Channel Members RHS directly from the channel header button
-                    cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
-                    cy.get('#member_rhs').click();
+                // # Open the Channel Members RHS directly from the channel header button
+                cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+                cy.get('#member_rhs').click();
 
-                    // * Ensure we are in the members subpanel
-                    cy.uiGetRHS().get('.sidebar--right__title').findByText('Members').should('be.visible');
+                // * Ensure we are in the members subpanel
+                cy.uiGetRHS().get('.sidebar--right__title').findByText('Members').should('be.visible');
 
-                    // # Visit the DM page
-                    cy.uiGotoDirectMessageWithUser(newUser);
+                // # Visit the DM page
+                cy.uiGotoDirectMessageWithUser(newUser);
 
-                    // * The RHS must not exist
-                    cy.uiGetRHS({visible: false});
-                });
+                // * The RHS must not exist
+                cy.uiGetRHS({visible: false});
             });
         });
-    })
-
+    });
 
     it('should display search when number of members is 20 or above', () => {
         cy.apiCreateChannel(testTeam.id, 'search-test-channel', 'Search Test Channel', 'O').then(({channel}) => {
