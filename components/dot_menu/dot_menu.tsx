@@ -129,7 +129,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         isReadOnly: false,
         location: Locations.CENTER,
     }
-    private keysHeldDown: string[] = [];
     private editDisableAction: DelayedAction;
     private buttonRef: React.RefObject<HTMLButtonElement>;
 
@@ -384,7 +383,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
 
     onShortcutKeyUp = (e: KeyboardEvent): void => {
         e.preventDefault();
-        this.keysHeldDown = this.keysHeldDown.filter((key) => key !== e.key);
     }
 
     handleDropdownOpened = (open: boolean) => {
