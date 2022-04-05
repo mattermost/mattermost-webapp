@@ -438,9 +438,9 @@ class ChannelHeader extends React.PureComponent {
             />
         );
 
-        let popoverListMembers = null;
+        let memberListButton = null;
         if (!isDirect) {
-            popoverListMembers = (
+            memberListButton = (
                 <OverlayTrigger
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
@@ -506,7 +506,7 @@ class ChannelHeader extends React.PureComponent {
                 >
                     {dmHeaderIconStatus}
                     {dmHeaderTextStatus}
-                    {popoverListMembers}
+                    {memberListButton}
 
                     <HeaderIconWrapper
                         iconComponent={pinnedIcon}
@@ -626,7 +626,7 @@ class ChannelHeader extends React.PureComponent {
                 >
                     {dmHeaderIconStatus}
                     {dmHeaderTextStatus}
-                    {popoverListMembers}
+                    {memberListButton}
 
                     <HeaderIconWrapper
                         iconComponent={pinnedIcon}
