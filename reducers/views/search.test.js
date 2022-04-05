@@ -86,13 +86,13 @@ describe('Reducers.Search', () => {
             },
             {
                 type: SearchTypes.SET_CHANNEL_MEMBERS_RHS_SEARCH,
-                data: ' untrimmed data ',
+                data: 'data',
             },
         );
 
         expect(nextState).toEqual({
             ...initialState,
-            channelMembersRhsSearch: 'untrimmed data',
+            channelMembersRhsSearch: 'data',
         });
     });
 });
