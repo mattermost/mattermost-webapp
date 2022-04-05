@@ -1,8 +1,35 @@
 
 .ActivityAndInsights {
-    background-color: rgba(var(--center-channel-color), 0.04);
+    background-color: rgba(var(--center-channel-color-rgb), 0.04);
 
     .insights-body {
         padding: 24px;
+        
+        .top-channel-container {
+            display: flex;
+
+            .top-channel-line-chart {
+                flex: .67;
+                margin-right: 16px;
+            }
+    
+            .top-channel-list {
+                flex: .33;
+                margin-left: 16px;
+
+                .top-channel-row {
+                    display: flex;
+                    align-items: center;
+                    margin: 12px 0px;
+
+                    .skeleton-loader {
+                        &.title {
+                            margin-left: 8px;
+                        }
+                    }
+                }
+            }
+        }
+        
     }
 }

@@ -55,15 +55,6 @@ const Insights = () => {
                 <TopChannels
                     size={CardSizes.large}
                 />
-                <TopChannels
-                    size={CardSizes.small}
-                />
-                <TopChannels
-                    size={CardSizes.small}
-                />
-                <TopChannels
-                    size={CardSizes.small}
-                />
             </div>
         </>
     );
