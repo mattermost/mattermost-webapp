@@ -5,6 +5,7 @@ import {useDispatch} from 'react-redux';
 
 import {selectChannel} from 'mattermost-redux/actions/channels';
 
+import {InsightsTimeFrames} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
 import InsightsHeader from './insights_header/insights_header';
@@ -14,6 +15,7 @@ import './../activity_and_insights.scss';
 
 export enum CardSizes {
     large = 'lg',
+    medium = 'md',
     small = 'sm',
 }
 export type CardSize = CardSizes;
@@ -22,7 +24,7 @@ const Insights = () => {
     const dispatch = useDispatch();
     const [filterType, setFilterType] = useState('my');
     const [timeFrame, setTimeFrame] = useState({
-        value: '1_day',
+        value: InsightsTimeFrames.INSIGHTS_7_DAYS,
         label: localizeMessage('insights.timeFrame.today', 'Today'),
     });
 

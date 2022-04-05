@@ -4,6 +4,7 @@ import React, {memo} from 'react';
 
 import ReactSelect, {ValueType} from 'react-select';
 
+import {InsightsTimeFrames} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 
 type SelectOption = {
@@ -47,15 +48,15 @@ const TimeFrameDropdown = (props: Props) => {
             styles={reactStyles}
             options={[
                 {
-                    value: '1_day',
+                    value: InsightsTimeFrames.INSIGHTS_1_DAY,
                     label: localizeMessage('insights.timeFrame.today', 'Today'),
                 },
                 {
-                    value: '7_day',
+                    value: InsightsTimeFrames.INSIGHTS_7_DAYS,
                     label: localizeMessage('insights.timeFrame.mediumRange', 'Last 7 days'),
                 },
                 {
-                    value: '28_day',
+                    value: InsightsTimeFrames.INSIGHTS_28_DAYS,
                     label: localizeMessage('insights.timeFrame.longRange', 'Last 28 days'),
                 },
             ]}

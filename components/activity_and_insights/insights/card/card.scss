@@ -8,6 +8,11 @@
         width: auto;
     }
 
+    &.medium {
+        width: calc((100%/2) - 16px);
+        float: left;
+    }
+
     &.small {
         width: calc((100%/3) - 16px);
         float: left;
