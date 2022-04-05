@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {useState} from 'react';
+import classNames from 'classnames';
 import {Tab, Tabs} from 'react-bootstrap';
 
 import {Emoji} from 'mattermost-redux/types/emojis';
@@ -14,47 +15,47 @@ import EmojiPickerHeader from 'components/emoji_picker/components/emoji_picker_h
 
 const GifPicker = makeAsyncComponent('GifPicker', React.lazy(() => import('components/gif_picker/gif_picker.jsx')));
 
-enum PlacementType {
-    TOP ='top',
-    BOTTOM='bottom',
-    LEFT ='left',
-    RIGHT ='right',
+enum OverlayPositions {
+    TOP = 'top',
+    BOTTOM= 'bottom',
+    LEFT = 'left',
+    RIGHT = 'right',
 }
 
-interface Props {
+type Props = {
     style?: any;
     rightOffset: number;
     topOffset: number;
     leftOffset?: number;
-    placement?: PlacementType;
+    placement?: OverlayPositions;
     customEmojis?: any;
-    onEmojiClose: () => void;
+    onEmojiClose: React.MouseEventHandler<HTMLButtonElement>;
     onEmojiClick: (emoji: Emoji) => void;
     onGifClick?: (gif: string) => void;
     enableGifPicker: boolean;
 }
 
-const EmojiPickerTabs = ({rightOffset = 0,
+const EmojiPickerTabs = ({
+    rightOffset = 0,
     topOffset = 0,
-    leftOffset = 0, onEmojiClick, onEmojiClose, onGifClick, placement, style, enableGifPicker}: Props) => {
+    leftOffset = 0,
+    onEmojiClick,
+    onEmojiClose,
+    onGifClick,
+    placement,
+    style,
+    enableGifPicker,
+}: Props) => {
     const [filter, setFilter] = useState('');
     const [emojiTabVisible, setEmojiTabVisible] = useState(true);
 
-    const handleEnterEmojiTab = () => {
-        setEmojiTabVisible(true);
-    };
+    const handleEnterEmojiTab = () => setEmojiTabVisible(true);
 
-    const handleExitEmojiTab = () => {
-        setEmojiTabVisible(false);
-    };
+    const handleExitEmojiTab = () => setEmojiTabVisible(false);
 
-    const handleEmojiPickerClose = () => {
-        onEmojiClose();
-    };
+    const handleEmojiPickerClose = () => onEmojiClose();
 
-    const handleFilterChange = (filter: any) => {
-        setFilter(filter);
-    };
+    const handleFilterChange = (filter: any) => setFilter(filter);
 
     let pickerStyle;
     if (style && !(style.left === 0 && style.top === 0)) {
@@ -69,25 +70,30 @@ const EmojiPickerTabs = ({rightOffset = 0,
             pickerStyle = {...style};
         }
 
-        pickerStyle.top = pickerStyle.top ? pickerStyle.top + topOffset : topOffset;
+        pickerStyle.top = topOffset + (pickerStyle.top || 0);
 
         if (pickerStyle.left) {
             pickerStyle.left += leftOffset;
         }
     }
 
-    let pickerClass = 'emoji-picker';
-    if (placement === 'bottom') {
-        pickerClass += ' bottom';
-    }
-
-    if (enableGifPicker && typeof onGifClick != 'undefined') {
+    if (enableGifPicker && onGifClick) {
+        const title = (
+            <div className={'custom-emoji-tab__icon__text'}>
+                <EmojiIcon
+                    className='custom-emoji-tab__icon'
+                />
+                <div>
+                    {'Emojis'}
+                </div>
+            </div>
+        );
         return (
             <Tabs
                 defaultActiveKey={1}
                 id='emoji-picker-tabs'
                 style={pickerStyle}
-                className={pickerClass}
+                className={classNames('emoji-picker', {bottom: placement === 'bottom'})}
                 justified={true}
             >
                 <EmojiPickerHeader handleEmojiPickerClose={handleEmojiPickerClose}/>
@@ -95,16 +101,7 @@ const EmojiPickerTabs = ({rightOffset = 0,
                     eventKey={1}
                     onEnter={handleEnterEmojiTab}
                     onExit={handleExitEmojiTab}
-                    title={
-                        <div className={'custom-emoji-tab__icon__text'}>
-                            <EmojiIcon
-                                className='custom-emoji-tab__icon'
-                            />
-                            <div>
-                                {'Emojis'}
-                            </div>
-                        </div>
-                    }
+                    title={title}
                     tabClassName={'custom-emoji-tab'}
                 >
                     <EmojiPicker
@@ -135,7 +132,7 @@ const EmojiPickerTabs = ({rightOffset = 0,
         <div
             id='emojiPicker'
             style={pickerStyle}
-            className={`a11y__popup ${pickerClass} emoji-picker--single`}
+            className={classNames('a11y__popup emoji-picker emoji-picker--single', {bottom: placement === 'bottom'})}
         >
             <EmojiPickerHeader handleEmojiPickerClose={handleEmojiPickerClose}/>
             <EmojiPicker

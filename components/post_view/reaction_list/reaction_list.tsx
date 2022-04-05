@@ -13,7 +13,7 @@ import {isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
 
 import Constants from 'utils/constants';
 import Reaction from 'components/post_view/reaction';
-import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
+import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
 import AddReactionIcon from 'components/widgets/icons/add_reaction_icon';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';

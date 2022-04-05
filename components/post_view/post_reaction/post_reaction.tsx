@@ -18,7 +18,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
-import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
+import EmojiPickerOverlay, {SpaceRequirement} from 'components/emoji_picker/emoji_picker_overlay';
 
 const TOP_OFFSET = -7;
 
@@ -41,11 +41,6 @@ type State = {
     location: LocationTypes;
     showEmojiPicker: boolean;
 }
-
-// An emoji picker in the RHS isn't constrained by the RHS, so it just needs space to fit
-// the emoji picker itself
-const RHS_SPACE_REQUIRED_ABOVE = 420;
-const RHS_SPACE_REQUIRED_BELOW = 420;
 
 export default class PostReaction extends React.PureComponent<Props, State> {
     public static defaultProps: Partial<Props> = {
@@ -72,8 +67,8 @@ export default class PostReaction extends React.PureComponent<Props, State> {
         let spaceRequiredAbove;
         let spaceRequiredBelow;
         if (location === Locations.RHS_ROOT || location === Locations.RHS_COMMENT) {
-            spaceRequiredAbove = RHS_SPACE_REQUIRED_ABOVE;
-            spaceRequiredBelow = RHS_SPACE_REQUIRED_BELOW;
+            spaceRequiredAbove = SpaceRequirement.RHS.ABOVE;
+            spaceRequiredBelow = SpaceRequirement.RHS.BELOW;
         }
 
         return (
@@ -87,8 +82,6 @@ export default class PostReaction extends React.PureComponent<Props, State> {
                         show={showEmojiPicker}
                         target={this.props.getDotMenuRef}
                         onHide={this.props.toggleEmojiPicker}
-
-                        // onEmojiClose={this.props.toggleEmojiPicker}
                         onEmojiClick={this.handleAddEmoji}
                         topOffset={TOP_OFFSET}
                         spaceRequiredAbove={spaceRequiredAbove}

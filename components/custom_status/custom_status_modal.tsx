@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import {FormattedMessage, useIntl} from 'react-intl';
 import moment, {Moment} from 'moment-timezone';
 
-import EmojiPickerOverlay, {PositionTypes} from 'components/emoji_picker/emoji_picker_overlay';
+import EmojiPickerOverlay, {OverlayPositions} from 'components/emoji_picker/emoji_picker_overlay';
 
 import {setCustomStatus, unsetCustomStatus, removeRecentCustomStatus} from 'mattermost-redux/actions/users';
 import {setCustomStatusInitialisationState} from 'mattermost-redux/actions/preferences';
@@ -348,7 +348,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                                 rightOffset={calculateRightOffSet()}
                                 leftOffset={3}
                                 topOffset={3}
-                                defaultHorizontalPosition={PositionTypes.RIGHT}
+                                defaultHorizontalPosition={OverlayPositions.RIGHT}
                             />
                         )}
                         <button
