@@ -103,7 +103,7 @@ import {
     GetFilteredUsersStatsOpts,
     UserCustomStatus,
 } from '@mattermost/types/users';
-import {RelationOneToOne} from '@mattermost/types/utilities';
+import {DeepPartial, RelationOneToOne} from '@mattermost/types/utilities';
 import {ProductNotices} from '@mattermost/types/product_notices';
 import {
     DataRetentionCustomPolicies,
