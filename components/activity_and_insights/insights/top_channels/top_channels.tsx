@@ -29,6 +29,7 @@ const TopChannels = (props: Props) => {
             })}
             size={props.size}
         >
+            <></>
         </InsightsCard>
     );
 };
