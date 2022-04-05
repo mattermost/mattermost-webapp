@@ -4,6 +4,8 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
+import {createSelector} from 'reselect';
+
 import {ServerError} from 'mattermost-redux/types/errors';
 import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
 
@@ -56,6 +58,14 @@ function searchUsersToAdd(users: Record<string, UserProfile>, term: string): Rec
     return filteredProfilesMap;
 }
 
+const getUserGridFilters = createSelector(
+    'getUserGridFilters',
+    (state: GlobalState) => state.views.search.userGridSearch.filters,
+    (filters = {}) => {
+        return {...filters, active: true};
+    },
+);
+
 function makeMapStateToProps() {
     const doGetProfilesInChannel = makeGetProfilesInChannel();
     const doSearchProfilesInChannel = makeSearchProfilesInChannel();
@@ -68,10 +78,10 @@ function makeMapStateToProps() {
         const channelMembers = getChannelMembersInChannels(state)[channelId] || {};
         const channel = getChannel(state, channelId) || {channel_id: channelId};
         const searchTerm = state.views.search.userGridSearch?.term || '';
-        const filters = state.views.search.userGridSearch?.filters || {};
+        const filters = getUserGridFilters(state);
 
         let totalCount: number;
-        if (Object.keys(filters).length === 0) {
+        if (Object.keys(filters).length === 1) {
             const stats: ChannelStats = getAllChannelStats(state)[channelId] || {
                 member_count: 0,
                 channel_id: channelId,
@@ -89,10 +99,10 @@ function makeMapStateToProps() {
 
         let users = [];
         if (searchTerm) {
-            users = doSearchProfilesInChannel(state, channelId, searchTerm, false, {...filters, active: true});
+            users = doSearchProfilesInChannel(state, channelId, searchTerm, false, filters);
             usersToAdd = searchUsersToAdd(usersToAdd, searchTerm);
         } else {
-            users = doGetProfilesInChannel(state, channelId, {...filters, active: true});
+            users = doGetProfilesInChannel(state, channelId, filters);
         }
 
         return {

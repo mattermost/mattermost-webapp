@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback, useEffect, useMemo} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions';
@@ -29,6 +29,7 @@ const LearnMoreTrialModal = (
         onExited,
     }: Props): JSX.Element | null => {
     const {formatMessage} = useIntl();
+    const [embargoed, setEmbargoed] = useState(false);
 
     useEffect(() => {
         trackEvent(
@@ -87,6 +88,10 @@ const LearnMoreTrialModal = (
         onExited();
     }, [onClose, onExited]);
 
+    const handleEmbargoError = useCallback(() => {
+        setEmbargoed(true);
+    }, []);
+
     const handleOnPrevNextSlideClick = useCallback((slideIndex: number) => {
         const slideId = steps[slideIndex - 1]?.id;
 
@@ -98,13 +103,18 @@ const LearnMoreTrialModal = (
         }
     }, [steps]);
 
-    const getSlides = useMemo(() => steps.map(({id, ...rest}) => (
-        <LearnMoreTrialModalStep
-            {...rest}
-            id={id}
-            key={id}
-        />
-    )), []);
+    const getSlides = useMemo(
+        () =>
+            steps.map(({id, ...rest}) => (
+                <LearnMoreTrialModalStep
+                    {...rest}
+                    id={id}
+                    key={id}
+                    handleEmbargoError={handleEmbargoError}
+                />
+            )),
+        [],
+    );
 
     return (
         <GenericModal
@@ -118,6 +128,7 @@ const LearnMoreTrialModal = (
                 infiniteSlide={false}
                 onNextSlideClick={handleOnPrevNextSlideClick}
                 onPrevSlideClick={handleOnPrevNextSlideClick}
+                disableNextButton={embargoed}
             />
         </GenericModal>
     );

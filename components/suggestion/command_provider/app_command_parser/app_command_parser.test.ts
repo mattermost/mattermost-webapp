@@ -53,6 +53,7 @@ describe('AppCommandParser', () => {
                         bindings,
                         forms: {},
                     },
+                    pluginEnabled: true,
                 },
             },
         } as any;

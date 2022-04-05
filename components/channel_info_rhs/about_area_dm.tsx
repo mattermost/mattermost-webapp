@@ -64,6 +64,14 @@ const UserPosition = styled.div`
     }
 `;
 
+const ChannelId = styled.div`
+    margin-bottom: 12px;
+    font-size: 11px;
+    line-height: 16px;
+    letter-spacing: 0.02em;
+    color: rgba(var(--center-channel-color-rgb), .64);
+`;
+
 interface Props {
     channel: Channel;
     dmUser: DMUser;
@@ -108,9 +116,9 @@ const AboutAreaDM = ({channel, dmUser, actions}: Props) => {
                     <EditableArea
                         content={channel.header && (
                             <LineLimiter
-                                maxLines={3}
+                                maxLines={4}
                                 lineHeight={20}
-                                moreText={formatMessage({id: 'channel_info_rhs.about_area.channel_header.line_limiter.more', defaultMessage: '... more'})}
+                                moreText={formatMessage({id: 'channel_info_rhs.about_area.channel_header.line_limiter.more', defaultMessage: 'more'})}
                                 lessText={formatMessage({id: 'channel_info_rhs.about_area.channel_header.line_limiter.less', defaultMessage: 'less'})}
                             >
                                 <Markdown message={channel.header}/>
@@ -122,6 +130,10 @@ const AboutAreaDM = ({channel, dmUser, actions}: Props) => {
                     />
                 </ChannelHeader>
             )}
+
+            <ChannelId>
+                {formatMessage({id: 'channel_info_rhs.about_area_id', defaultMessage: 'ID:'})} {channel.id}
+            </ChannelId>
         </>
     );
 };

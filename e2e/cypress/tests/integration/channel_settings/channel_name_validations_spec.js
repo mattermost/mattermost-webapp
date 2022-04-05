@@ -31,14 +31,8 @@ describe('Channel routing', () => {
     });
 
     it('MM-T884_1 Renaming channel name validates against two user IDs being used in URL', () => {
-        // # click on create public channel
-        cy.uiBrowseOrCreateChannel('Create New Channel').click();
-
-        // * Verify that the new channel modal is visible
-        cy.get('.new-channel__modal').should('be.visible').within(() => {
-            cy.get('#newChannelName').type('Test__Channel', {force: true}).wait(TIMEOUTS.HALF_SEC);
-            cy.get('#submitNewChannel').click();
-        });
+        // # Create new test channel
+        cy.uiCreateChannel({name: 'Test__Channel'});
 
         // # Click on channel menu and press rename channel
         cy.get('#channelHeaderDropdownIcon').click();
@@ -62,19 +56,19 @@ describe('Channel routing', () => {
         cy.uiBrowseOrCreateChannel('Create New Channel').click();
 
         // * Verify that the new channel modal is visible
-        cy.get('.new-channel__modal').should('be.visible').within(() => {
+        cy.get('#new-channel-modal').should('be.visible').within(() => {
             // # Add the new channel name with invalid name and press Create Channel
-            cy.get('#newChannelName').type('uzsfmtmniifsjgesce4u7yznyh__uzsfmtmniifsjgesce5u7yznyh', {force: true}).wait(TIMEOUTS.HALF_SEC);
-            cy.get('#submitNewChannel').should('be.visible').click();
+            cy.get('#input_new-channel-modal-name').type('uzsfmtmniifsjgesce4u7yznyh__uzsfmtmniifsjgesce5u7yznyh', {force: true}).wait(TIMEOUTS.HALF_SEC);
+            cy.findByText('Create channel').should('be.visible').click();
 
-            // # Assert the error occured with the appropriate message
-            cy.get('.has-error').scrollIntoView().should('be.visible').within(() => {
-                cy.get('#createChannelError').should('have.text', 'Invalid channel name. User ids are not permitted in channel name for non-direct message channels.');
+            // * Assert the error occured with the appropriate message
+            cy.get('.genericModalError').should('be.visible').within(() => {
+                cy.get('span').should('have.text', 'Invalid channel name. User ids are not permitted in channel name for non-direct message channels.');
             });
-        });
 
-        // # close the create channel modal
-        cy.findByText('Cancel').click();
+            // # close the create channel modal
+            cy.findByText('Cancel').click();
+        });
     });
 
     it('MM-T883 Channel URL validation for spaces between characters', () => {

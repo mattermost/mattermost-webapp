@@ -1,6 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {AnyAction} from 'redux';
+import {batchActions} from 'redux-batched-actions';
+
 import {Client4, DEFAULT_LIMIT_AFTER, DEFAULT_LIMIT_BEFORE} from 'mattermost-redux/client';
 import {General, Preferences, Posts} from '../constants';
 import {PostTypes, ChannelTypes, FileTypes, IntegrationTypes} from 'mattermost-redux/action_types';
@@ -12,7 +15,7 @@ import {getCurrentUserId, getUsersByUsername} from 'mattermost-redux/selectors/e
 
 import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 
-import {Action, ActionResult, batchActions, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {ChannelUnread} from 'mattermost-redux/types/channels';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Post, PostList} from 'mattermost-redux/types/posts';
@@ -142,10 +145,8 @@ export function getPost(postId: string) {
             getProfilesAndStatusesForPosts([post], dispatch, getState);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {type: PostTypes.GET_POSTS_FAILURE, error},
-                logError(error),
-            ]));
+            dispatch({type: PostTypes.GET_POSTS_FAILURE, error});
+            dispatch(logError(error));
             return {error};
         }
 
@@ -167,7 +168,7 @@ export function createPost(post: Post, files: any[] = []) {
 
         const timestamp = Date.now();
         const pendingPostId = post.pending_post_id || `${currentUserId}:${timestamp}`;
-        let actions: Action[] = [];
+        let actions: AnyAction[] = [];
 
         if (Selectors.isPostIdSending(state, pendingPostId)) {
             return {data: true};
@@ -336,18 +337,16 @@ export function createPostImmediately(post: Post, files: any[] = []) {
             newPost.reply_count = created.reply_count;
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {type: PostTypes.CREATE_POST_FAILURE, data: newPost, error},
-                removePost({
-                    ...newPost,
-                    id: pendingPostId,
-                }) as any,
-                logError(error),
-            ]));
+            dispatch({type: PostTypes.CREATE_POST_FAILURE, data: newPost, error});
+            dispatch(removePost({
+                ...newPost,
+                id: pendingPostId,
+            }));
+            dispatch(logError(error));
             return {error};
         }
 
-        const actions: Action[] = [
+        const actions: AnyAction[] = [
             receivedPost(newPost, crtEnabled),
             {
                 type: PostTypes.CREATE_POST_SUCCESS,
@@ -506,14 +505,12 @@ export function pinPost(postId: string) {
             posts = await Client4.pinPost(postId);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {type: PostTypes.EDIT_POST_FAILURE, error},
-                logError(error),
-            ]));
+            dispatch({type: PostTypes.EDIT_POST_FAILURE, error});
+            dispatch(logError(error));
             return {error};
         }
 
-        const actions: Action[] = [
+        const actions: AnyAction[] = [
             {
                 type: PostTypes.EDIT_POST_SUCCESS,
             },
@@ -550,14 +547,12 @@ export function unpinPost(postId: string) {
             posts = await Client4.unpinPost(postId);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {type: PostTypes.EDIT_POST_FAILURE, error},
-                logError(error),
-            ]));
+            dispatch({type: PostTypes.EDIT_POST_FAILURE, error});
+            dispatch(logError(error));
             return {error};
         }
 
-        const actions: Action[] = [
+        const actions: AnyAction[] = [
             {
                 type: PostTypes.EDIT_POST_SUCCESS,
             },
@@ -727,10 +722,8 @@ export function getPostThread(rootId: string, fetchThreads = true) {
             getProfilesAndStatusesForPosts(posts.posts, dispatch, getState);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {type: PostTypes.GET_POST_THREAD_FAILURE, error},
-                logError(error),
-            ]));
+            dispatch({type: PostTypes.GET_POST_THREAD_FAILURE, error});
+            dispatch(logError(error));
             return {error};
         }
 

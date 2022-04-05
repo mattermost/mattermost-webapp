@@ -182,6 +182,7 @@ const state: GlobalState = {
                 bindings: [],
                 forms: {},
             },
+            pluginEnabled: true,
         },
         cloud: {},
     },

@@ -31,7 +31,7 @@ export type RhsViewState = {
     selectedPostCardId: Post['id'];
     selectedChannelId: Channel['id'];
     highlightedPostId: Post['id'];
-    previousRhsState: RhsState;
+    previousRhsStates: RhsState[];
     filesSearchExtFilter: string[];
     rhsState: RhsState;
     searchTerms: string;

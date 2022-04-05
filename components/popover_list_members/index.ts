@@ -10,7 +10,6 @@ import {getAllChannelStats} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getUserStatuses, makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
 import {getTeammateNameDisplaySetting, getAddMembersToChannel} from 'mattermost-redux/selectors/entities/preferences';
-import {UserProfile} from 'mattermost-redux/types/users';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
@@ -25,17 +24,9 @@ import {sortUsersByStatusAndDisplayName} from 'utils/utils.jsx';
 
 import PopoverListMembers, {Props} from './popover_list_members';
 
-type Filters = {
-    role?: string;
-    inactive?: boolean;
-    active?: boolean;
-    roles?: string[];
-    exclude_roles?: string[];
-    channel_roles?: string[];
-    team_roles?: string[];
-};
+const makeSortUsersByStatusAndDisplayName = () => {
+    const doGetProfilesInChannel = makeGetProfilesInChannel();
 
-const makeSortUsersByStatusAndDisplayName = (doGetProfilesInChannel: (state: GlobalState, channelId: Channel['id'], filters?: Filters) => UserProfile[]) => {
     return createSelector(
         'makeSortUsersByStatusAndDisplayName',
         (state: GlobalState, channelId: Channel['id']) => doGetProfilesInChannel(state, channelId),
@@ -46,8 +37,7 @@ const makeSortUsersByStatusAndDisplayName = (doGetProfilesInChannel: (state: Glo
 };
 
 function makeMapStateToProps() {
-    const doGetProfilesInChannel = makeGetProfilesInChannel();
-    const doSortUsersByStatusAndDisplayName = makeSortUsersByStatusAndDisplayName(doGetProfilesInChannel);
+    const doSortUsersByStatusAndDisplayName = makeSortUsersByStatusAndDisplayName();
 
     return function mapStateToProps(state: GlobalState, ownProps: Props) {
         const stats = getAllChannelStats(state)[ownProps.channel.id] || {};

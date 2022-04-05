@@ -317,10 +317,6 @@ export default class RhsRootPost extends React.PureComponent {
         this.setState({showActionTip: false});
     };
 
-    handleActionsMenuOpened = (open) => {
-        this.setState({showActionsMenu: open});
-    };
-
     handleFileDropdownOpened = (open) => {
         this.setState({fileDropdownOpened: open});
     };
@@ -452,6 +448,7 @@ export default class RhsRootPost extends React.PureComponent {
         const actionsMenu = (
             <ActionsMenu
                 post={this.props.post}
+                location={Locations.RHS_ROOT}
                 handleDropdownOpened={this.handleActionsMenuOpened}
                 isMenuOpen={this.state.showActionsMenu}
                 showPulsatingDot={this.props.showActionsMenuPulsatingDot}
@@ -489,13 +486,7 @@ export default class RhsRootPost extends React.PureComponent {
         }
 
         let dotMenuContainer;
-        if ((!isPostDeleted && this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) &&
-            (this.state.hover ||
-             this.state.showEmojiPicker ||
-             this.state.showActionTip ||
-             this.state.showActionsMenu ||
-             this.state.a11yActive)
-        ) {
+        if (!isPostDeleted && this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
             dotMenuContainer = (
                 <div
                     ref={this.dotMenuRef}

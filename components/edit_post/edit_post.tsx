@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ClipboardEventHandler, useCallback, useEffect, useRef, useState} from 'react';
+import React, {ClipboardEventHandler, memo, useCallback, useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 
@@ -78,7 +78,7 @@ const {KeyCodes} = Constants;
 const TOP_OFFSET = 0;
 const RIGHT_OFFSET = 10;
 
-const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null => {
+const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): JSX.Element | null => {
     const [editText, setEditText] = useState<string>(
         editingPost?.post?.message_source || editingPost?.post?.message || '',
     );
@@ -112,11 +112,11 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
     // just a helper so it's not always needed to update with setting both properties to the same value
     const setCaretPosition = (position: number) => setSelectionRange({start: position, end: position});
 
-    const handlePaste: ClipboardEventHandler<HTMLTextAreaElement> = ({clipboardData, target, preventDefault}) => {
+    const handlePaste: ClipboardEventHandler<HTMLTextAreaElement> = useCallback(({clipboardData, target, preventDefault}) => {
         if (
             !clipboardData ||
             !clipboardData.items ||
-            !rest.canEditPost ||
+            !canEditPost ||
             (target as HTMLTextAreaElement).id !== 'edit_textbox'
         ) {
             return;
@@ -148,18 +148,18 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
 
         setEditText(message);
         setCaretPosition(newCaretPosition);
-    };
+    }, [canEditPost, selectionRange, editText]);
 
     const isSaveDisabled = () => {
         const {post} = editingPost;
         const hasAttachments = post && post.file_ids && post.file_ids.length > 0;
 
         if (hasAttachments) {
-            return !rest.canEditPost;
+            return !canEditPost;
         }
 
         if (editText.trim() !== '') {
-            return !rest.canEditPost;
+            return !canEditPost;
         }
 
         return !rest.canDeletePost;
@@ -358,7 +358,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
         defaultMessage: 'Emoji Picker',
     }).toLowerCase();
 
-    if (rest.config.EnableEmojiPicker === 'true') {
+    if (config.EnableEmojiPicker === 'true') {
         emojiPicker = (
             <>
                 <EmojiPickerOverlay
@@ -368,7 +368,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
                     onHide={hideEmojiPicker}
                     onEmojiClick={handleEmojiClick}
                     onGifClick={handleGifClick}
-                    enableGifPicker={rest.config.EnableGifPicker === 'true'}
+                    enableGifPicker={config.EnableGifPicker === 'true'}
                     topOffset={TOP_OFFSET}
                     rightOffset={RIGHT_OFFSET}
                 />
@@ -384,8 +384,6 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
             </>
         );
     }
-
-    const ctrlSendKey = isMac() ? '⌘+' : 'CTRL+';
 
     return (
         <div
@@ -406,7 +404,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
                 onPaste={handlePaste}
                 value={editText}
                 channelId={rest.channelId}
-                emojiEnabled={rest.config.EnableEmojiPicker === 'true'}
+                emojiEnabled={config.EnableEmojiPicker === 'true'}
                 createMessage={formatMessage({id: 'edit_post.editPost', defaultMessage: 'Edit the post...'})}
                 supportsCommands={false}
                 suggestionListPosition='bottom'
@@ -418,15 +416,7 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
             <div className='post-body__actions'>
                 {emojiPicker}
             </div>
-            <div className='post-body__helper-text'>
-                <FormattedMarkdownMessage
-                    id='edit_post.helper_text'
-                    defaultMessage='**{key}ENTER** to Save, **ESC** to Cancel'
-                    values={{
-                        key: rest.ctrlSend ? ctrlSendKey : '',
-                    }}
-                />
-            </div>
+            <EditPostHelperText ctrlSend={rest.ctrlSend}/>
             {postError && (
                 <div className={classNames('edit-post-footer', {'has-error': postError})}>
                     <label className={classNames('post-error', errorClass)}>{postError}</label>
@@ -435,5 +425,25 @@ const EditPost = ({editingPost, actions, ...rest}: Props): JSX.Element | null =>
         </div>
     );
 };
+
+type EditPostHelperTextProps = {
+    ctrlSend: boolean;
+}
+
+const EditPostHelperText = memo(({ctrlSend}: EditPostHelperTextProps) => {
+    const ctrlSendKey = isMac() ? '⌘+' : 'CTRL+';
+
+    return (
+        <div className='post-body__helper-text'>
+            <FormattedMarkdownMessage
+                id='edit_post.helper_text'
+                defaultMessage='**{key}ENTER** to Save, **ESC** to Cancel'
+                values={{
+                    key: ctrlSend ? ctrlSendKey : '',
+                }}
+            />
+        </div>
+    );
+});
 
 export default EditPost;
