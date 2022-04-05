@@ -24,6 +24,7 @@ const InsightsCard = (props: Props) => {
         <Card
             className={classNames('insights-card expanded', props.class, {
                 large: props.size === CardSizes.large,
+                medium:  props.size === CardSizes.medium,
                 small: props.size === CardSizes.small,
             })}
         >

@@ -29,7 +29,6 @@ const TopChannels = (props: Props) => {
             })}
             size={props.size}
         >
-            {'testing 123'}
         </InsightsCard>
     );
 };

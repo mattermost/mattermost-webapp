@@ -15,6 +15,7 @@ import './../activity_and_insights.scss';
 
 export enum CardSizes {
     large = 'lg',
+    medium = 'md',
     small = 'sm',
 }
 export type CardSize = CardSizes;
@@ -64,6 +65,12 @@ const Insights = () => {
                 />
                 <TopChannels
                     size={CardSizes.small}
+                />
+                <TopChannels
+                    size={CardSizes.medium}
+                />
+                <TopChannels
+                    size={CardSizes.medium}
                 />
             </div>
         </>
