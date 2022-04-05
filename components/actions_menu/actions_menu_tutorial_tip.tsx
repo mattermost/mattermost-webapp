@@ -36,7 +36,7 @@ const nextBtn = (
 );
 
 export const ActionsTutorialTip = ({handleOpen, handleDismiss, handleNext, showTip}: Props) => {
-    const onDismiss = useCallback(() => (e: React.MouseEvent) => {
+    const onDismiss = useCallback((e: React.MouseEvent) => {
         e.stopPropagation();
         e.preventDefault();
         handleDismiss();
