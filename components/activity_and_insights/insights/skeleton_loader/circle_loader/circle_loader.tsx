@@ -10,14 +10,13 @@ type Props = {
 
 const CircleLoader = (props: Props) => {
     return (
-        <div 
+        <div
             className='skeleton-loader circle'
             style={{
                 width: `${props.size}px`,
-                height: `${props.size}px`
+                height: `${props.size}px`,
             }}
-        >
-        </div>
+        />
     );
 };
 

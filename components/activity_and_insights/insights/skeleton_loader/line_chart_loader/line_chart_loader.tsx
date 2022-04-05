@@ -6,8 +6,7 @@ import '../skeleton_loader.scss';
 
 const LineChartLoader = () => {
     return (
-        <div className='skeleton-loader line-chart'>
-        </div>
+        <div className='skeleton-loader line-chart'/>
     );
 };
 

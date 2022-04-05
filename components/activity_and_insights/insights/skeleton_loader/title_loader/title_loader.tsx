@@ -6,8 +6,7 @@ import '../skeleton_loader.scss';
 
 const TitleLoader = () => {
     return (
-        <div className='skeleton-loader title'>
-        </div>
+        <div className='skeleton-loader title'/>
     );
 };
 

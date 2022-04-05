@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {memo, useState} from 'react';
+import React, {memo, useCallback, useState} from 'react';
 
 import {useIntl} from 'react-intl';
 
@@ -18,13 +18,13 @@ type Props = {
 
 const TopChannels = (props: Props) => {
     const {formatMessage} = useIntl();
-    const [loading, setLoading] = useState(true);
+    const [loading] = useState(true);
 
-    const skeletonTitle = () => {
-        let titles = [];
+    const skeletonTitle = useCallback(() => {
+        const titles = [];
         for (let i = 0; i < 5; i++) {
             titles.push(
-                <div 
+                <div
                     className='top-channel-row'
                     key={i}
                 >
@@ -32,11 +32,11 @@ const TopChannels = (props: Props) => {
                         size={16}
                     />
                     <TitleLoader/>
-                </div>
+                </div>,
             );
         }
         return titles;
-    }
+    }, []);
 
     return (
         <InsightsCard
@@ -55,7 +55,7 @@ const TopChannels = (props: Props) => {
                 <div className='top-channel-line-chart'>
                     {
                         loading &&
-                        <LineChartLoader />
+                        <LineChartLoader/>
                     }
                 </div>
                 <div className='top-channel-list'>
