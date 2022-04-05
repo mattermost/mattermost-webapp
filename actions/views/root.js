@@ -3,7 +3,7 @@
 
 import {Client4} from 'mattermost-redux/client';
 import {getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
-import {loadMe} from 'mattermost-redux/actions/users';
+import {loadMe, loadMeGQL} from 'mattermost-redux/actions/users';
 
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
 import {ActionTypes} from 'utils/constants';
@@ -13,17 +13,22 @@ const pluginTranslationSources = {};
 
 export function loadConfigAndMe() {
     return async (dispatch) => {
-        // TODO: we will check for graphql here in future
-        // eslint-disable-next-line no-unused-vars
         const [{data: clientConfig}] = await Promise.all([
             dispatch(getClientConfig()),
             dispatch(getLicenseConfig()),
         ]);
 
+        const isGraphQLEnabled = clientConfig && clientConfig.FeatureFlagGraphQL === 'true';
+
         let isMeLoaded = false;
         if (document.cookie.includes('MMUSERID=')) {
-            const dataFromLoadMe = await dispatch(loadMe());
-            isMeLoaded = dataFromLoadMe?.data ?? false;
+            if (isGraphQLEnabled) {
+                const dataFromLoadMeGQL = await dispatch(loadMeGQL());
+                isMeLoaded = dataFromLoadMeGQL?.data ?? false;
+            } else {
+                const dataFromLoadMe = await dispatch(loadMe());
+                isMeLoaded = dataFromLoadMe?.data ?? false;
+            }
         }
 
         return {data: isMeLoaded};

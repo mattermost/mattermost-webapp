@@ -5,6 +5,7 @@ import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
 
 import {Client4} from 'mattermost-redux/client';
+import {myDataQuery} from 'mattermost-redux/client/queries';
 
 import {ActionFunc, ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {UserProfile, UserStatus, GetFilteredUsersStatsOpts, UsersStats, UserCustomStatus} from 'mattermost-redux/types/users';
@@ -164,6 +165,33 @@ export function loadMe(): ActionFunc {
         const user = getState().entities.users.profiles[currentUserId];
         if (user) {
             Client4.setUserRoles(user.roles);
+        }
+
+        return {data: true};
+    };
+}
+
+export function loadMeGQL(): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+
+        const deviceId = state.entities.general.deviceToken;
+        if (deviceId) {
+            Client4.attachDevice(deviceId);
+        }
+
+        // Sometimes the server version is set in one or the other
+        const serverVersion = Client4.getServerVersion() || getState().entities.general.serverVersion;
+        dispatch(setServerVersion(serverVersion));
+
+        try {
+            const {data} = await Client4.fetchWithGraphQL(myDataQuery);
+
+            console.log('loadMeGQL', data);
+        } catch(err) {
+            // console.log('loadMeGQL eee', err);
+            // dispatch(logError(error));
+            // return {error};
         }
 
         return {data: true};
