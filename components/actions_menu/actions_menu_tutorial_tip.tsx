@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useCallback} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
@@ -36,11 +36,11 @@ const nextBtn = (
 );
 
 export const ActionsTutorialTip = ({handleOpen, handleDismiss, handleNext, showTip}: Props) => {
-    const onDismiss = (e: React.MouseEvent) => {
+    const onDismiss = useCallback(() => (e: React.MouseEvent) => {
         e.stopPropagation();
         e.preventDefault();
         handleDismiss();
-    };
+    }, [handleDismiss]);
 
     return (
         <TourTip
