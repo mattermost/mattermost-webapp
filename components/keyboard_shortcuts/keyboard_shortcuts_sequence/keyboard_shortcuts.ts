@@ -5,9 +5,13 @@ import {MessageDescriptor} from 'react-intl';
 
 import {t} from 'utils/i18n';
 
-export type KeyboardShortcutDescriptor = MessageDescriptor | {default: MessageDescriptor; mac?: MessageDescriptor};
+export type KeyboardShortcutDescriptor =
+	| MessageDescriptor
+	| {default: MessageDescriptor; mac?: MessageDescriptor};
 
-export function isMessageDescriptor(descriptor: KeyboardShortcutDescriptor): descriptor is MessageDescriptor {
+export function isMessageDescriptor(
+    descriptor: KeyboardShortcutDescriptor,
+): descriptor is MessageDescriptor {
     return Boolean((descriptor as MessageDescriptor).id);
 }
 
@@ -240,6 +244,66 @@ export const KEYBOARD_SHORTCUTS = {
         mac: {
             id: t('shortcuts.msgs.markdown.bold.mac'),
             defaultMessage: 'Bold:\t⌘|B',
+        },
+    },
+    msgMarkdownCode: {
+        default: {
+            id: 'not supported yet', // Shortcut not yet supported
+            defaultMessage: 'default',
+        },
+        mac: {
+            id: 'not supported yet', // Shortcut not yet supported
+            defaultMessage: 'default',
+        },
+    },
+    msgMarkdownStrike: {
+        default: {
+            id: 'not supported yet', // Shortcut not yet supported
+            defaultMessage: 'default',
+        },
+        mac: {
+            id: 'not supported yet', // Shortcut not yet supported
+            defaultMessage: 'default',
+        },
+    },
+    msgMarkdownHeading: {
+        default: {
+            id: 'not supported yet', // Shortcut not yet supported
+            defaultMessage: 'default',
+        },
+        mac: {
+            id: 'not supported yet', // Shortcut not yet supported
+            defaultMessage: 'default',
+        },
+    },
+    msgMarkdownQuote: {
+        default: {
+            id: 'not supported yet', // Shortcut not yet supported
+            defaultMessage: 'default',
+        },
+        mac: {
+            id: 'not supported yet', // Shortcut not yet supported
+            defaultMessage: 'default',
+        },
+    },
+    msgMarkdownOl: {
+        default: {
+            id: 'not supported yet', // Shortcut not yet supported
+            defaultMessage: 'default',
+        },
+        mac: {
+            id: 'not supported yet', // Shortcut not yet supported
+            defaultMessage: 'default',
+        },
+    },
+    msgMarkdownUl: {
+        default: {
+            id: 'not supported yet', // Shortcut not yet supported
+            defaultMessage: 'default',
+        },
+        mac: {
+            id: 'not supported yet', // Shortcut not yet supported
+            defaultMessage: 'default',
         },
     },
     msgMarkdownItalic: {

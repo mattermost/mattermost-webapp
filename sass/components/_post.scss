@@ -9,16 +9,11 @@
         border: none;
         background: transparent;
         border-radius: 4px;
-        box-shadow: inset 0 0 0 1px rgba(v(center-channel-color-rgb), 0.24);
         line-height: 20px;
         resize: none;
         transition: none;
         white-space: pre-wrap;
         word-wrap: break-word;
-
-        &:focus {
-            box-shadow: inset 0 0 0 2px rgba(v(center-channel-color-rgb), 0.32);
-        }
 
         &.bad-connection {
             background: #ffffac !important;
@@ -402,7 +397,7 @@
         }
 
         &.custom-textarea--emoji-picker {
-            padding-right: 90px;
+            padding-right: 125px;
         }
 
         &.textbox-preview-area {
@@ -439,6 +434,12 @@
     .post-create-body {
         position: relative;
         padding: 0 0 2px;
+        box-shadow: inset 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.24);
+
+        &:focus-within {
+            box-shadow: inset 0 0 0 2px rgba(var(--center-channel-color-rgb), 0.32);
+            border-radius: 4px;
+        }
 
         .post-body__cell {
             position: relative;
@@ -507,13 +508,31 @@
 }
 
 .post-body__actions {
-    position: absolute;
-    top: 0;
-    right: 0;
-    display: flex;
-    padding: 8px;
-    margin: 0;
-    gap: 4px;
+    &.--bottom {
+        position: absolute;
+        bottom: 0;
+        right: 4px;
+        display: flex;
+    }
+
+    &.--top {
+        position: absolute;
+        top: 2px;
+        right: 4px;
+        display: flex;
+        opacity: 0;
+        visibility: hidden;
+        transition:visibility 0.3s linear,opacity 0.3s linear;
+
+        &.formattingBarOpen  {
+            opacity: 1;
+            visibility:visible;
+        }
+    }
+
+    > div {
+        margin: 0 4px 0 0;
+    }
 
     .post-action {
         display: flex;

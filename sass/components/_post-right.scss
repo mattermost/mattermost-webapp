@@ -162,6 +162,8 @@
 
         .custom-textarea {
             min-height: 100px;
+            max-height: calc(50vh - 80px);
+            // padding-bottom: 50px;
         }
 
         .msg-typing {

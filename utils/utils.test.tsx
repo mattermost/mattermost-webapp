@@ -8,7 +8,7 @@ import store from 'stores/redux_store.jsx';
 import Constants, {ValidationErrors} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import * as lineBreakHelpers from 'tests/helpers/line_break_helpers.js';
-import {makeBoldHotkeyEvent, makeItalicHotkeyEvent, makeSelectionEvent} from 'tests/helpers/markdown_hotkey_helpers.js';
+import {makeSelectionEvent} from 'tests/helpers/markdown_hotkey_helpers.js';
 import * as ua from 'tests/helpers/user_agent_mocks';
 import {UserProfile} from '@mattermost/types/users';
 
@@ -659,130 +659,6 @@ describe('Utils.insertLineBreakFromKeyEvent', () => {
     });
     test('insertLineBreakFromKeyEvent returns with line break replacing (with selection range)', () => {
         expect(Utils.insertLineBreakFromKeyEvent(lineBreakHelpers.getReplaceEvent() as React.KeyboardEvent<HTMLInputElement>)).toBe(lineBreakHelpers.OUTPUT_REPLACE);
-    });
-});
-
-describe('Utils.applyHotkeyMarkdown', () => {
-    test('applyHotkeyMarkdown returns correct markdown for bold hotkey', () => {
-        // "Fafda" is selected with ctrl + B hotkey
-        const e = makeBoldHotkeyEvent('Jalebi Fafda & Sambharo', 7, 12);
-
-        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
-            toEqual({
-                message: 'Jalebi **Fafda** & Sambharo',
-                selectionStart: 9,
-                selectionEnd: 14,
-            });
-    });
-
-    test('applyHotkeyMarkdown returns correct markdown for undo bold', () => {
-        // "Fafda" is selected with ctrl + B hotkey
-        const e = makeBoldHotkeyEvent('Jalebi **Fafda** & Sambharo', 9, 14);
-
-        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
-            toEqual({
-                message: 'Jalebi Fafda & Sambharo',
-                selectionStart: 7,
-                selectionEnd: 12,
-            });
-    });
-
-    test('applyHotkeyMarkdown returns correct markdown for italic hotkey', () => {
-        // "Fafda" is selected with ctrl + I hotkey
-        const e = makeItalicHotkeyEvent('Jalebi Fafda & Sambharo', 7, 12);
-
-        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
-            toEqual({
-                message: 'Jalebi *Fafda* & Sambharo',
-                selectionStart: 8,
-                selectionEnd: 13,
-            });
-    });
-
-    test('applyHotkeyMarkdown returns correct markdown for undo italic', () => {
-        // "Fafda" is selected with ctrl + I hotkey
-        const e = makeItalicHotkeyEvent('Jalebi *Fafda* & Sambharo', 8, 13);
-
-        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
-            toEqual({
-                message: 'Jalebi Fafda & Sambharo',
-                selectionStart: 7,
-                selectionEnd: 12,
-            });
-    });
-
-    test('applyHotkeyMarkdown returns correct markdown for bold hotkey and empty', () => {
-        // Nothing is selected with ctrl + B hotkey and caret is just before "Fafda"
-        const e = makeBoldHotkeyEvent('Jalebi Fafda & Sambharo', 7, 7);
-
-        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
-            toEqual({
-                message: 'Jalebi ****Fafda & Sambharo',
-                selectionStart: 9,
-                selectionEnd: 9,
-            });
-    });
-
-    test('applyHotkeyMarkdown returns correct markdown for italic hotkey and empty', () => {
-        // Nothing is selected with ctrl + I hotkey and caret is just before "Fafda"
-        const e = makeItalicHotkeyEvent('Jalebi Fafda & Sambharo', 7, 7);
-
-        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
-            toEqual({
-                message: 'Jalebi **Fafda & Sambharo',
-                selectionStart: 8,
-                selectionEnd: 8,
-            });
-    });
-
-    test('applyHotkeyMarkdown returns correct markdown for italic with bold', () => {
-        // "Fafda" is selected with ctrl + I hotkey
-        const e = makeItalicHotkeyEvent('Jalebi **Fafda** & Sambharo', 9, 14);
-
-        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
-            toEqual({
-                message: 'Jalebi ***Fafda*** & Sambharo',
-                selectionStart: 10,
-                selectionEnd: 15,
-            });
-    });
-
-    test('applyHotkeyMarkdown returns correct markdown for bold with italic', () => {
-        // "Fafda" is selected with ctrl + B hotkey
-        const e = makeBoldHotkeyEvent('Jalebi *Fafda* & Sambharo', 8, 13);
-
-        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
-            toEqual({
-                message: 'Jalebi ***Fafda*** & Sambharo',
-                selectionStart: 10,
-                selectionEnd: 15,
-            });
-    });
-
-    test('applyHotkeyMarkdown returns correct markdown for bold with italic+bold', () => {
-        // "Fafda" is selected with ctrl + B hotkey
-        const e = makeBoldHotkeyEvent('Jalebi ***Fafda*** & Sambharo', 10, 15);
-
-        // Should undo bold
-        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
-            toEqual({
-                message: 'Jalebi *Fafda* & Sambharo',
-                selectionStart: 8,
-                selectionEnd: 13,
-            });
-    });
-
-    test('applyHotkeyMarkdown returns correct markdown for italic with italic+bold', () => {
-        // "Fafda" is selected with ctrl + I hotkey
-        const e = makeItalicHotkeyEvent('Jalebi ***Fafda*** & Sambharo', 10, 15);
-
-        // Should undo italic
-        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
-            toEqual({
-                message: 'Jalebi **Fafda** & Sambharo',
-                selectionStart: 9,
-                selectionEnd: 14,
-            });
     });
 });
 

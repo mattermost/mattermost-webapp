@@ -41,13 +41,15 @@ import {setShowPreviewOnCreateComment} from 'actions/views/textbox';
 import {openModal} from 'actions/views/modals';
 import {isFeatureEnabled} from 'utils/utils';
 
+import {getEmojiMap} from 'selectors/emojis';
+
 import CreateComment from './create_comment';
 
 type OwnProps = {
     rootId: string;
     channelId: string;
     latestPostId: string;
-}
+};
 
 function makeMapStateToProps() {
     const getMessageInHistoryItem = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.COMMENT as 'comment');
@@ -100,6 +102,7 @@ function makeMapStateToProps() {
             useLDAPGroupMentions,
             channelMemberCountsByGroup,
             useCustomGroupMentions,
+            emojiMap: getEmojiMap(state),
             markdownPreviewFeatureIsEnabled: isFeatureEnabled(Constants.PRE_RELEASE_FEATURES.MARKDOWN_PREVIEW, state),
         };
     };
@@ -124,13 +127,22 @@ type Actions = {
     setShowPreview: (showPreview: boolean) => void;
     getChannelMemberCountsByGroup: (channelID: string) => void;
     openModal: <P>(modalData: ModalData<P>) => void;
-}
+};
 
 function makeMapDispatchToProps() {
     let onUpdateCommentDraft: (draft?: PostDraft) => void;
-    let onSubmit: (draft: PostDraft, options: {ignoreSlash: boolean}) => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
-    let onMoveHistoryIndexBack: () => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
-    let onMoveHistoryIndexForward: () => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
+    let onSubmit: (
+        draft: PostDraft,
+        options: {ignoreSlash: boolean},
+    ) => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
+    let onMoveHistoryIndexBack: () => (
+        dispatch: DispatchFunc,
+        getState: () => GlobalState,
+    ) => Promise<ActionResult | ActionResult[]> | ActionResult;
+    let onMoveHistoryIndexForward: () => (
+        dispatch: DispatchFunc,
+        getState: () => GlobalState,
+    ) => Promise<ActionResult | ActionResult[]> | ActionResult;
     let onEditLatestPost: () => ActionFunc;
 
     function onResetHistoryIndex() {
@@ -160,22 +172,25 @@ function makeMapDispatchToProps() {
         channelId = ownProps.channelId;
         latestPostId = ownProps.latestPostId;
 
-        return bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
-            clearCommentDraftUploads,
-            onUpdateCommentDraft,
-            updateCommentDraftWithRootId: updateCommentDraft,
-            onSubmit,
-            onResetHistoryIndex,
-            onMoveHistoryIndexBack,
-            onMoveHistoryIndexForward,
-            onEditLatestPost,
-            resetCreatePostRequest,
-            getChannelTimezones,
-            emitShortcutReactToLastPostFrom,
-            setShowPreview: setShowPreviewOnCreateComment,
-            getChannelMemberCountsByGroup,
-            openModal,
-        }, dispatch);
+        return bindActionCreators<ActionCreatorsMapObject<any>, Actions>(
+            {
+                clearCommentDraftUploads,
+                onUpdateCommentDraft,
+                updateCommentDraftWithRootId: updateCommentDraft,
+                onSubmit,
+                onResetHistoryIndex,
+                onMoveHistoryIndexBack,
+                onMoveHistoryIndexForward,
+                onEditLatestPost,
+                resetCreatePostRequest,
+                getChannelTimezones,
+                emitShortcutReactToLastPostFrom,
+                setShowPreview: setShowPreviewOnCreateComment,
+                getChannelMemberCountsByGroup,
+                openModal,
+            },
+            dispatch,
+        );
     };
 }
 
