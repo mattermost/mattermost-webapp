@@ -3,9 +3,9 @@
 
 import React from 'react';
 import styled from 'styled-components';
+import {CSSTransition} from 'react-transition-group';
 
 import {UserProfile} from 'mattermost-redux/types/users';
-
 import {Channel} from 'mattermost-redux/types/channels';
 
 import Member from './member';
@@ -22,6 +22,40 @@ const Title = styled.div`
 `;
 
 const Members = styled.div`
+    &.editing-transition-enter {
+        .member-role-choser {
+            opacity: 0;
+            display: block;
+        }
+    }
+
+    &.editing-transition-enter-active {
+        .member-role-choser {
+            opacity: 1;
+            transition: opacity 250ms;
+        }
+    }
+
+    &.editing-transition-enter-done {
+        .member-role-choser {
+            opacity: 1;
+        }
+    }
+
+    &.editing-transition-exit {
+        .member-role-choser {
+            opacity: 1;
+            display: block;
+        }
+    }
+
+    &.editing-transition-exit-active {
+        .member-role-choser {
+            opacity: 0;
+            transition: opacity 250ms;
+            display: block;
+        }
+    }
 `;
 
 export interface Props {
@@ -42,19 +76,26 @@ const MemberList = ({className, channel, members, editing, title, actions}: Prop
             {members.length > 0 && (
                 <>
                     {Boolean(title) && (<Title>{title}</Title>)}
-                    <Members>
-                        {members.map((member, index, {length: totalUsers}) => (
-                            <Member
-                                key={member.user.id}
-                                channel={channel}
-                                index={index}
-                                totalUsers={totalUsers}
-                                member={member}
-                                editing={editing}
-                                actions={{openDirectMessage: actions.openDirectMessage}}
-                            />
-                        ))}
-                    </Members>
+
+                    <CSSTransition
+                        in={editing}
+                        timeout={250}
+                        classNames='editing-transition'
+                    >
+                        <Members>
+                            {members.map((member, index, {length: totalUsers}) => (
+                                <Member
+                                    key={member.user.id}
+                                    channel={channel}
+                                    index={index}
+                                    totalUsers={totalUsers}
+                                    member={member}
+                                    editing={editing}
+                                    actions={{openDirectMessage: actions.openDirectMessage}}
+                                />
+                            ))}
+                        </Members>
+                    </CSSTransition>
                 </>
             )}
         </div>

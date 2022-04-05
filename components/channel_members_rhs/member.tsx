@@ -20,17 +20,25 @@ import Constants from 'utils/constants';
 import {ChannelMember} from './channel_members_rhs';
 
 const Avatar = styled.div`
+    flex-basis: fit-content;
+    flex-shrink: 0;
 `;
 
-const DisplayName = styled.div`
+const UserInfo = styled.div`
+    flex: 1;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+`;
+
+const DisplayName = styled.span`
     margin-left: 8px;
     font-size: 14px;
     line-height: 20px;
     color: var(--center-channel-text);
 `;
 
-const Username = styled.div`
-    flex: 1;
+const Username = styled.span`
     margin-left: 8px;
     font-size: 12px;
     line-height: 18px;
@@ -55,21 +63,23 @@ const SendMessage = styled.button`
 `;
 
 const RoleChoser = styled.div`
+    display: none;
     opacity: 0;
-    transition: opacity 250ms ease;
+    flex-basis: fit-content;
+    flex-shrink: 0;
 
     &.editing {
-        opacity: 1;
+        display: block;
+    }
 
-        .MenuWrapper {
-            padding: 6px 10px;
-            border-radius: 4px;
-            &.MenuWrapper--open {
-                background: rgba(var(--button-bg-rgb), 0.16);
-            }
-            &:not(.MenuWrapper--open):hover {
-                background: rgba(var(--center-channel-text-rgb), 0.08);
-            }
+    .MenuWrapper {
+        padding: 6px 10px;
+        border-radius: 4px;
+        &.MenuWrapper--open {
+            background: rgba(var(--button-bg-rgb), 0.16);
+        }
+        &:not(.MenuWrapper--open):hover {
+            background: rgba(var(--center-channel-text-rgb), 0.08);
         }
     }
 `;
@@ -104,10 +114,12 @@ const Member = ({className, channel, member, index, totalUsers, editing, actions
                     src={Client4.getProfilePictureUrl(member.user.id, member.user.last_picture_update)}
                 />
             </Avatar>
-            <DisplayName>{member.displayName}</DisplayName>
-            <Username>{'@'}{member.user.username}</Username>
+            <UserInfo>
+                <DisplayName>{member.displayName}</DisplayName>
+                <Username>{'@'}{member.user.username}</Username>
+            </UserInfo>
             <RoleChoser
-                className={classNames({editing})}
+                className={classNames({editing}, 'member-role-choser')}
                 data-testid='rolechoser'
             >
                 <ChannelMembersDropdown
