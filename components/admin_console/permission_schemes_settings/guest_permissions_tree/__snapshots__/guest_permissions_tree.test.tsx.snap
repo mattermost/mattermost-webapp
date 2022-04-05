@@ -67,6 +67,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           Object {
             "combined": true,
+            "id": "guest_create_post",
+            "permissions": Array [
+              "create_post",
+            ],
+          },
+          Object {
+            "combined": true,
             "id": "guest_reactions",
             "permissions": Array [
               "add_reaction",
@@ -85,13 +92,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             "id": "guest_use_group_mentions",
             "permissions": Array [
               "use_group_mentions",
-            ],
-          },
-          Object {
-            "combined": true,
-            "id": "guest_create_post",
-            "permissions": Array [
-              "create_post",
             ],
           },
         ]
@@ -191,6 +191,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           Object {
             "combined": true,
+            "id": "guest_create_post",
+            "permissions": Array [
+              "create_post",
+            ],
+          },
+          Object {
+            "combined": true,
             "id": "guest_reactions",
             "permissions": Array [
               "add_reaction",
@@ -202,13 +209,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             "id": "guest_use_channel_mentions",
             "permissions": Array [
               "use_channel_mentions",
-            ],
-          },
-          Object {
-            "combined": true,
-            "id": "guest_create_post",
-            "permissions": Array [
-              "create_post",
             ],
           },
         ]
@@ -308,6 +308,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           Object {
             "combined": true,
+            "id": "guest_create_post",
+            "permissions": Array [
+              "create_post",
+            ],
+          },
+          Object {
+            "combined": true,
             "id": "guest_reactions",
             "permissions": Array [
               "add_reaction",
@@ -326,13 +333,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             "id": "guest_use_group_mentions",
             "permissions": Array [
               "use_group_mentions",
-            ],
-          },
-          Object {
-            "combined": true,
-            "id": "guest_create_post",
-            "permissions": Array [
-              "create_post",
             ],
           },
         ]
@@ -432,6 +432,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           Object {
             "combined": true,
+            "id": "guest_create_post",
+            "permissions": Array [
+              "create_post",
+            ],
+          },
+          Object {
+            "combined": true,
             "id": "guest_reactions",
             "permissions": Array [
               "add_reaction",
@@ -450,13 +457,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             "id": "guest_use_group_mentions",
             "permissions": Array [
               "use_group_mentions",
-            ],
-          },
-          Object {
-            "combined": true,
-            "id": "guest_create_post",
-            "permissions": Array [
-              "create_post",
             ],
           },
         ]
@@ -556,6 +556,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           Object {
             "combined": true,
+            "id": "guest_create_post",
+            "permissions": Array [
+              "create_post",
+            ],
+          },
+          Object {
+            "combined": true,
             "id": "guest_reactions",
             "permissions": Array [
               "add_reaction",
@@ -574,13 +581,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             "id": "guest_use_group_mentions",
             "permissions": Array [
               "use_group_mentions",
-            ],
-          },
-          Object {
-            "combined": true,
-            "id": "guest_create_post",
-            "permissions": Array [
-              "create_post",
             ],
           },
         ]
@@ -696,6 +696,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           Object {
             "combined": true,
+            "id": "guest_create_post",
+            "permissions": Array [
+              "create_post",
+            ],
+          },
+          Object {
+            "combined": true,
             "id": "guest_reactions",
             "permissions": Array [
               "add_reaction",
@@ -714,13 +721,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             "id": "guest_use_group_mentions",
             "permissions": Array [
               "use_group_mentions",
-            ],
-          },
-          Object {
-            "combined": true,
-            "id": "guest_create_post",
-            "permissions": Array [
-              "create_post",
             ],
           },
         ]
