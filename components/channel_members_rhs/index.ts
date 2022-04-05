@@ -49,7 +49,7 @@ function mapStateToProps(state: GlobalState) {
     if (searchTerms === '') {
         profilesInCurrentChannel = getProfilesInCurrentChannel(state);
     } else {
-        profilesInCurrentChannel = searchProfilesInCurrentChannel(state, searchTerms, false);
+        profilesInCurrentChannel = searchProfilesInCurrentChannel(state, searchTerms.trim(), false);
     }
 
     const userStatuses = getUserStatuses(state);

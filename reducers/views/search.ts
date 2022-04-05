@@ -26,7 +26,7 @@ function modalSearch(state = '', action: GenericAction) {
 function channelMembersRhsSearch(state = '', action: GenericAction) {
     switch (action.type) {
     case SearchTypes.SET_CHANNEL_MEMBERS_RHS_SEARCH: {
-        return action.data.trim();
+        return action.data;
     }
 
     case UserTypes.LOGOUT_SUCCESS:
