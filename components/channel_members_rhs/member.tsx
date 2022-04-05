@@ -62,7 +62,7 @@ const SendMessage = styled.button`
     };
 `;
 
-const RoleChoser = styled.div`
+const RoleChooser = styled.div`
     display: none;
     opacity: 0;
     flex-basis: fit-content;
@@ -118,9 +118,9 @@ const Member = ({className, channel, member, index, totalUsers, editing, actions
                 <DisplayName>{member.displayName}</DisplayName>
                 <Username>{'@'}{member.user.username}</Username>
             </UserInfo>
-            <RoleChoser
-                className={classNames({editing}, 'member-role-choser')}
-                data-testid='rolechoser'
+            <RoleChooser
+                className={classNames({editing}, 'member-role-chooser')}
+                data-testid='rolechooser'
             >
                 <ChannelMembersDropdown
                     channel={channel}
@@ -147,7 +147,7 @@ const Member = ({className, channel, member, index, totalUsers, editing, actions
                         />
                     }
                 />
-            </RoleChoser>
+            </RoleChooser>
             {!editing && (
                 <SendMessage onClick={() => actions.openDirectMessage(member.user)}>
                     <OverlayTrigger

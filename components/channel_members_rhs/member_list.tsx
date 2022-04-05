@@ -23,34 +23,34 @@ const Title = styled.div`
 
 const Members = styled.div`
     &.editing-transition-enter {
-        .member-role-choser {
+        .member-role-chooser {
             opacity: 0;
             display: block;
         }
     }
 
     &.editing-transition-enter-active {
-        .member-role-choser {
+        .member-role-chooser {
             opacity: 1;
             transition: opacity 250ms;
         }
     }
 
     &.editing-transition-enter-done {
-        .member-role-choser {
+        .member-role-chooser {
             opacity: 1;
         }
     }
 
     &.editing-transition-exit {
-        .member-role-choser {
+        .member-role-chooser {
             opacity: 1;
             display: block;
         }
     }
 
     &.editing-transition-exit-active {
-        .member-role-choser {
+        .member-role-chooser {
             opacity: 0;
             transition: opacity 250ms;
             display: block;
