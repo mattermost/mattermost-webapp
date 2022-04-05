@@ -66,10 +66,19 @@ export default function ChannelMembersRHS({channel, searchTerms, membersCount, c
     }, []);
 
     useEffect(() => {
+        if (channel.type === Constants.DM_CHANNEL) {
+            let rhsAction = actions.closeRightHandSide;
+            if (canGoBack) {
+                rhsAction = actions.goBack;
+            }
+            rhsAction();
+            return;
+        }
+
         actions.setChannelMembersRhsSearchTerm('');
         setEditing(false);
         actions.loadProfilesAndReloadChannelMembers(channel.id);
-    }, [channel.id]);
+    }, [channel.id, channel.type]);
 
     const doSearch = async (terms: string) => {
         actions.setChannelMembersRhsSearchTerm(terms);
