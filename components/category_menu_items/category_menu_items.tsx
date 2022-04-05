@@ -85,10 +85,10 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
         let text = category.display_name;
 
         if (category.type === CategoryTypes.FAVORITES) {
-            text = intl.formatMessage({id: 'sidebar.types.favorites', defaultMessage: 'Favorites'});
+            text = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.favorites', defaultMessage: 'Favorites'});
         }
         if (category.type === CategoryTypes.CHANNELS) {
-            text = intl.formatMessage({id: 'sidebar.types.channels', defaultMessage: 'Channels'});
+            text = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.channels', defaultMessage: 'Channels'});
         }
 
         return {
