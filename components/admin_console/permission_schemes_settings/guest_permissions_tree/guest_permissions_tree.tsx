@@ -24,7 +24,39 @@ type Props = {
 }
 
 const GuestPermissionsTree = ({license, onToggle, readOnly, scope, selectRow, parentRole, selected, role = {permissions: []}}: Props) => {
+    const setDefaultPermission = () => {
+        const defaultPermissions = [
+            Permissions.CREATE_PRIVATE_CHANNEL,
+            Permissions.EDIT_POST,
+            Permissions.DELETE_POST,
+            Permissions.CREATE_POST,
+            {
+                id: 'guest_reactions',
+                combined: true,
+                permissions: [
+                    Permissions.ADD_REACTION,
+                    Permissions.REMOVE_REACTION,
+                ],
+            },
+            Permissions.USE_CHANNEL_MENTIONS,
+        ];
+        if (license && license.IsLicensed === 'true' && license.LDAPGroups === 'true') {
+            defaultPermissions.push(Permissions.USE_GROUP_MENTIONS);
+        }
+        return defaultPermissions.map((permission) => {
+            if (typeof (permission) === 'string') {
+                return {
+                    id: `guest_${permission}`,
+                    combined: true,
+                    permissions: [permission],
+                };
+            }
+            return permission;
+        });
+    };
+
     const [editTimeLimitModalIsVisible, setEditTimeLimitModalIsVisible] = React.useState(false);
+    const permissions = React.useRef<Array<string | Record<string, any>>>(setDefaultPermission());
 
     const openPostTimeLimitModal = useCallback(() => {
         setEditTimeLimitModalIsVisible(true);
@@ -52,38 +84,6 @@ const GuestPermissionsTree = ({license, onToggle, readOnly, scope, selectRow, pa
         };
     }, [openPostTimeLimitModal, readOnly]);
 
-    let permissions = useMemo(() => {
-        return [
-            Permissions.CREATE_PRIVATE_CHANNEL,
-            Permissions.EDIT_POST,
-            Permissions.DELETE_POST,
-            Permissions.CREATE_POST,
-            {
-                id: 'guest_reactions',
-                combined: true,
-                permissions: [
-                    Permissions.ADD_REACTION,
-                    Permissions.REMOVE_REACTION,
-                ],
-            },
-            Permissions.USE_CHANNEL_MENTIONS,
-        ];
-    }, []);
-
-    if (license && license.IsLicensed === 'true' && license.LDAPGroups === 'true') {
-        permissions.push(Permissions.USE_GROUP_MENTIONS);
-    }
-    permissions = permissions.map((permission) => {
-        if (typeof (permission) === 'string') {
-            return {
-                id: `guest_${permission}`,
-                combined: true,
-                permissions: [permission],
-            };
-        }
-        return permission;
-    });
-
     return (
         <div className='permissions-tree guest'>
             <div className='permissions-tree--header'>
@@ -108,7 +108,7 @@ const GuestPermissionsTree = ({license, onToggle, readOnly, scope, selectRow, pa
                     selected={selected}
                     selectRow={selectRow}
                     readOnly={readOnly}
-                    permissions={permissions}
+                    permissions={permissions.current}
                     additionalValues={ADDITIONAL_VALUES}
                     role={role}
                     parentRole={parentRole}
