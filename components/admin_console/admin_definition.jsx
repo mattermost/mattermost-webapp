@@ -1184,20 +1184,21 @@ const AdminDefinition = {
                                         id='admin.image.amazons3.sessionlengths'
                                         defaultMessage='<link>documentation</link>'
                                         values={{
-                                            link: (msg: React.ReactNode) => (<a href='https://docs.mattermost.com/configure/configuration-settings.html#session-lengths' referrer='noreferrer' target='_blank'>{msg}</a>),
+                                            link: (msg: React.ReactNode) => (<a href='https://docs.mattermost.com/configure/configuration-settings.html#session-lengths' 
+                                                    referrer='noreferrer' 
+                                                    target='_blank'>{msg}
+                                            </a>),
                                         }}
                                     />
                                 </b>
                             ),
                         },
-                      
                         isHidden: it.not(it.licensedForFeature('Compliance')),
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
                             it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                         ),
                     },
-                    
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'FileSettings.AmazonS3Trace',
@@ -5375,13 +5376,14 @@ const AdminDefinition = {
                                         id='admin.servicesettings.enableuseraccesstokens'
                                         defaultMessage='<link>user access tokens</link>'
                                         values={{
-                                            link: (msg: React.ReactNode) => (<a href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/' referrer='noreferrer' target='_blank'>{msg}</a>),
+                                            link: (msg: React.ReactNode) => (<a href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/' 
+                                            referrer='noreferrer' 
+                                            target='_blank'>{msg}</a>),
                                         }}
                                     />
                                 </b>
                             ),
                         },
-                      
                         help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
@@ -6162,7 +6164,9 @@ const AdminDefinition = {
                                         id='admin.experimental.newsamllibrary.linkSupport'
                                         defaultMessage='<linkSupport>Support</linkSupport>'
                                         values={{
-                                            linkSupport: (msg: React.ReactNode) => (<a href='https://mattermost.com/support' referrer='noreferrer' target='_blank'>{msg}</a>),
+                                            linkSupport: (msg: React.ReactNode) => (<a href='https://mattermost.com/support' 
+                                            referrer='noreferrer' 
+                                            target='_blank'>{msg}</a>),
                                         }}
                                     />
                                 </b>
@@ -6230,7 +6234,9 @@ const AdminDefinition = {
                                         id='admin.experimental.collapsedThreads.documentationKnownIssues'
                                         defaultMessage='<link>documentation for known issues</link>'
                                         values={{
-                                            link: (msg: React.ReactNode) => (<a href='https://docs.mattermost.com/messaging/organizing-conversations.html' referrer='noreferrer' target='_blank'>{msg}</a>),
+                                            link: (msg: React.ReactNode) => (<a href='https://docs.mattermost.com/messaging/organizing-conversations.html' 
+                                            referrer='noreferrer' 
+                                            target='_blank'>{msg}</a>),
                                         }}
                                     />
                                 </b>
@@ -6241,7 +6247,9 @@ const AdminDefinition = {
                                         id='admin.experimental.collapsedThreads.documentationCommunityChannel'
                                         defaultMessage='<linkChannel>Environment > Database > Recycle Database Connections</linkChannel>'
                                         values={{
-                                            linkChannel: (msg: React.ReactNode) => (<a href='https://community-daily.mattermost.com/core/channels/folded-reply-threads' referrer='noreferrer' target='_blank'>{msg}</a>),
+                                            linkChannel: (msg: React.ReactNode) => (<a href='https://community-daily.mattermost.com/core/channels/folded-reply-threads' 
+                                            referrer='noreferrer' 
+                                            target='_blank'>{msg}</a>),
                                         }}
                                     />
                                 </b>
@@ -6259,7 +6267,6 @@ const AdminDefinition = {
                                 display_name: t('admin.experimental.collapsedThreads.default_off'),
                                 display_name_default: 'Enabled (Default Off)',
                             },
-                    
                             /* {
                                 value: 'always_on',
                                 display_name: t('admin.experimental.collapsedThreads.alwaysOn'),
