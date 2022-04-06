@@ -27,7 +27,6 @@ describe('Onboarding - User', () => {
 
             cy.apiLogin(user);
         });
-
     });
 
     beforeEach(() => {
