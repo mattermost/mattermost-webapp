@@ -10,7 +10,7 @@ import {InsightsScopes, InsightsCardTitles} from 'utils/constants';
 
 export interface WidgetHocProps {
     size: CardSize;
-    widgetType: 'TOP_CHANNELS';
+    widgetType: 'TOP_CHANNELS' | 'TOP_REACTIONS';
     filterType: string;
     class: string;
 }
