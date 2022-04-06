@@ -30,13 +30,12 @@ describe('Onboarding - User', () => {
     });
 
     beforeEach(() => {
-        // # Login as sysadmin and set all steps to false
         const preference = {
             user_id: user.id,
             category: 'recommended_next_steps',
             value: 'false',
         };
-        const adminSteps = [
+        const tipsSteps = [
             'complete_profile',
             'notification_setup',
             'team_setup',
@@ -46,7 +45,7 @@ describe('Onboarding - User', () => {
             'skip',
         ];
 
-        cy.apiSaveUserPreference(adminSteps.map((step) => ({...preference, name: step})));
+        cy.apiSaveUserPreference(tipsSteps.map((step) => ({...preference, name: step})));
         cy.visit(townSquarePage);
     });
 
