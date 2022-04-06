@@ -229,8 +229,9 @@ export default class PostInfo extends React.PureComponent<Props, State> {
     };
 
     handleTipDismissed = () => {
-        this.setState({showActionTip: false});
+        this.props.actions.setActionsMenuInitialisationState({[Preferences.ACTIONS_MENU_VIEWED]: false});
         this.props.handleDropdownOpened(false);
+        this.setState({showActionTip: false});
     };
 
     handleCommentClick = (e: any) => {
