@@ -649,7 +649,7 @@ export default class SwitchChannelProvider extends Provider {
         const wrappedRecentChannels = this.wrapChannels(recentChannels, Constants.MENTION_RECENT_CHANNELS);
         const lastUnreadChannel = state.views.channel.lastUnreadChannel;
         const unreadChannels = getSortedAllTeamsUnreadChannels(state, lastUnreadChannel).slice(0, 5);
-        let sortedUnreadChannels = this.wrapChannels(unreadChannels, Constants.MENTION_UNREAD_CHANNELS);
+        let sortedUnreadChannels = this.wrapChannels(unreadChannels, Constants.MENTION_UNREAD);
         if (wrappedRecentChannels.length === 0) {
             prefix = '';
             this.startNewRequest('');
@@ -658,7 +658,7 @@ export default class SwitchChannelProvider extends Provider {
         const sortedUnreadChannelIDs = sortedUnreadChannels.map((wrappedChannel) => wrappedChannel.channel.id);
         const sortedRecentChannels = wrappedRecentChannels.filter((wrappedChannel) => !sortedUnreadChannelIDs.includes(wrappedChannel.channel.id)).
             sort(sortChannelsByRecencyAndTypeAndDisplayName).slice(0, 20);
-        const threadsItem = this.getThreadsItem('unread', Constants.MENTION_UNREAD_CHANNELS);
+        const threadsItem = this.getThreadsItem('unread', Constants.MENTION_UNREAD);
         if (threadsItem) {
             sortedUnreadChannels = [threadsItem, ...sortedUnreadChannels].slice(0, 5);
         }
@@ -734,7 +734,7 @@ export default class SwitchChannelProvider extends Provider {
             if (member) {
                 wrappedChannel.last_viewed_at = this.getLastViewedAt(member, myPreferences, channel);
             }
-            if (member && channelType === Constants.MENTION_UNREAD_CHANNELS) {
+            if (member && channelType === Constants.MENTION_UNREAD) {
                 wrappedChannel.unreadMentions = collapsedThreads ? member.mention_count_root : member.mention_count;
             }
             if (channel.type === Constants.GM_CHANNEL) {

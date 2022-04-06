@@ -240,7 +240,7 @@ export default class SuggestionList extends React.PureComponent {
 
             // ReactComponent names need to be upper case when used in JSX
             const Component = this.props.components[i];
-            const dividerRenderCondition = item.type === Constants.MENTION_UNREAD_CHANNELS || item.type === Constants.MENTION_RECENT_CHANNELS;
+            const dividerRenderCondition = item.type === Constants.MENTION_UNREAD || item.type === Constants.MENTION_RECENT_CHANNELS;
             if (this.props.renderDividers && item.type !== lastType && dividerRenderCondition) {
                 items.push(this.renderDivider(item.type));
                 lastType = item.type;
