@@ -23,7 +23,7 @@ type Props = {
     target: () => void;
     onEmojiClick: (emoji: Emoji) => void;
     onGifClick?: (gif: string) => void;
-    onEmojiClose?: React.MouseEventHandler<HTMLButtonElement>;
+    onEmojiClose?: (e?: React.MouseEvent<HTMLElement, MouseEvent>) => void;
     onHide: () => void;
     topOffset: number;
     rightOffset?: number;

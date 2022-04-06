@@ -29,7 +29,7 @@ type Props = {
     leftOffset?: number;
     placement?: OverlayPositions;
     customEmojis?: any;
-    onEmojiClose: React.MouseEventHandler<HTMLButtonElement>;
+    onEmojiClose: (e?: React.MouseEvent<HTMLElement, MouseEvent>) => void;
     onEmojiClick: (emoji: Emoji) => void;
     onGifClick?: (gif: string) => void;
     enableGifPicker: boolean;
