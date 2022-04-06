@@ -2929,7 +2929,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             value={true}
           />
           <BooleanSetting
-            disabled={false}
+            disabled={true}
             falseText={
               <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
@@ -2960,12 +2960,12 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             value={true}
           />
           <AdminTextSetting
-            disabled={false}
+            disabled={true}
             helpText={
               <div>
                 <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="URL of the marketplace server."
-                  id="admin.plugins.settings.marketplaceUrlDesc"
+                  defaultMessage="Enable plugin uploads in config.json. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
+                  id="admin.plugin.uploadDisabledDesc"
                 />
               </div>
             }
