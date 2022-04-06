@@ -29,5 +29,23 @@
                 }
             }
         }
+        .top-reaction-container {
+            display: flex;
+            align-items: center;
+            margin: 0 18px;
+
+            .bar-chart-entry {
+                display: flex;
+                flex: .2;
+                align-items: center;
+                flex-direction: column;
+
+                .skeleton-loader {
+                    &.bar-chart {
+                        margin-bottom: 6px;
+                    }
+                }
+            }
+        }
     }
 }
