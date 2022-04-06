@@ -5,7 +5,7 @@ import {useDispatch} from 'react-redux';
 
 import {selectChannel} from 'mattermost-redux/actions/channels';
 
-import {InsightsTimeFrames} from 'utils/constants';
+import {InsightsTimeFrames, InsightsScopes} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
 import InsightsHeader from './insights_header/insights_header';
@@ -22,18 +22,18 @@ export type CardSize = CardSizes;
 
 const Insights = () => {
     const dispatch = useDispatch();
-    const [filterType, setFilterType] = useState('my');
+    const [filterType, setFilterType] = useState(InsightsScopes.MY);
     const [timeFrame, setTimeFrame] = useState({
         value: InsightsTimeFrames.INSIGHTS_7_DAYS,
-        label: localizeMessage('insights.timeFrame.today', 'Today'),
+        label: localizeMessage('insights.timeFrame.mediumRange', 'Today'),
     });
 
     const setFilterTypeTeam = useCallback(() => {
-        setFilterType('team');
+        setFilterType(InsightsScopes.TEAM);
     }, []);
 
     const setFilterTypeMy = useCallback(() => {
-        setFilterType('my');
+        setFilterType(InsightsScopes.MY);
     }, []);
 
     const setTimeFrameValue = useCallback((value) => {
@@ -56,6 +56,9 @@ const Insights = () => {
             <div className='insights-body'>
                 <TopChannels
                     size={CardSizes.large}
+                    filterType={filterType}
+                    widgetType={'TOP_CHANNELS'}
+                    class={'top-channels-card'}
                 />
             </div>
         </>

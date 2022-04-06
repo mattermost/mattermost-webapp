@@ -1871,4 +1871,30 @@ export const InsightsTimeFrames = {
     INSIGHTS_28_DAYS: '28_day',
 };
 
+export const InsightsScopes = {
+    MY: 'MY',
+    TEAM: 'TEAM',
+};
+
+export const InsightsCardTitles = {
+    TOP_CHANNELS: {
+        teamTitle: {
+            id: t('insights.topChannels.title'),
+            defaultMessage: 'Top channels',
+        },
+        myTitle: {
+            id: t('insights.topChannels.myTitle'),
+            defaultMessage: 'My top channels',
+        },
+        teamSubTitle: {
+            id: t('insights.topChannels.subTitle'),
+            defaultMessage: 'Most active channels for the team',
+        },
+        mySubTitle: {
+            id: t('insights.topChannels.mySubTitle'),
+            defaultMessage: 'Most active channels that I\'m a member of',
+        },
+    },
+};
+
 export default Constants;
