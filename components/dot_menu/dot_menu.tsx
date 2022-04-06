@@ -24,6 +24,7 @@ import {ModalData} from 'types/actions';
 import {PluginComponent} from 'types/store/plugins';
 
 import {ChangeEvent, trackDotMenuEvent} from './utils';
+import './dot_menu.scss';
 
 type ShortcutKeyProps = {
     shortcutKey: string;
@@ -430,6 +431,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             <MenuWrapper
                 open={this.props.isMenuOpen}
                 onToggle={this.handleDropdownOpened}
+                className={'dropdown-menu__dotmenu'}
             >
                 <OverlayTrigger
                     className='hidden-xs'
@@ -452,13 +454,14 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     </button>
                 </OverlayTrigger>
                 <Menu
-                    className={'status-dropdown-menu-global-header'}
+                    className={'Menu__content dropdown-menu'}
                     id={`${this.props.location}_dropdown_${this.props.post.id}`}
                     openLeft={true}
                     openUp={this.state.openUp}
                     ariaLabel={Utils.localizeMessage('post_info.menuAriaLabel', 'Post extra options')}
                 >
                     <Menu.ItemAction
+                        className={'MenuItem'}
                         show={!isSystemMessage && this.props.location === Locations.CENTER}
                         text={Utils.localizeMessage('post_info.reply', 'Reply')}
                         icon={Utils.getMenuItemIcon('icon-reply-outline')}
