@@ -42,6 +42,12 @@ export const ActionsTutorialTip = ({handleOpen, handleDismiss, handleNext, showT
         handleDismiss();
     }, [handleDismiss]);
 
+    const onNext = useCallback((e: React.MouseEvent) => {
+        e.stopPropagation();
+        e.preventDefault();
+        handleNext(e);
+    }, [handleNext]);
+
     return (
         <TourTip
             show={showTip}
@@ -56,7 +62,7 @@ export const ActionsTutorialTip = ({handleOpen, handleDismiss, handleNext, showT
             showOptOut={false}
             interactivePunchOut={true}
             handleDismiss={onDismiss}
-            handleNext={handleNext}
+            handleNext={onNext}
             handleOpen={handleOpen}
             nextBtn={nextBtn}
         />
