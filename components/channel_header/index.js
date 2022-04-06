@@ -69,7 +69,7 @@ function makeMapStateToProps() {
             dmUser = getUser(state, dmUserId);
             customStatus = dmUser && getCustomStatus(state, dmUser.id);
         } else if (channel && channel.type === General.GM_CHANNEL) {
-            gmMembers = doGetProfilesInChannel(state, channel.id, false);
+            gmMembers = doGetProfilesInChannel(state, channel.id);
         }
         const stats = getCurrentChannelStats(state) || EMPTY_CHANNEL_STATS;
 

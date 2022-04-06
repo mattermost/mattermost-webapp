@@ -17,10 +17,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import useCopyText from 'components/common/hooks/useCopyText';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input';
-import UpgradeLink from 'components/widgets/links/upgrade_link';
-import NotifyLink from 'components/widgets/links/notify_link';
 import {t} from 'utils/i18n.jsx';
-import {SubscriptionStats} from 'mattermost-redux/types/cloud';
 
 import AddToChannels, {CustomMessageProps, InviteChannels, defaultCustomMessage, defaultInviteChannels} from './add_to_channels';
 import InviteAs, {InviteType} from './invite_as';
@@ -58,8 +55,6 @@ export type Props = InviteState & {
     usersLoader: (value: string, callback: (users: UserProfile[]) => void) => Promise<UserProfile[]> | undefined;
     onChangeUsersEmails: (usersEmails: Array<UserProfile | string>) => void;
     isCloud: boolean;
-    subscriptionStats?: SubscriptionStats | null;
-    cloudUserLimit: string;
     emailInvitationsEnabled: boolean;
     onUsersInputChange: (usersEmailsSearch: string) => void;
     headerClass: string;
@@ -115,39 +110,14 @@ export default function InviteView(props: Props) {
         </button>
     );
 
-    // remainingUsers is calculated against the limit, the current users, and how many are being invited in the current flow
-    const remainingUsers = (
-        (props.subscriptionStats?.remaining_seats || 0) - props.usersEmails.length
-    );
-
-    const shouldShowPickerError = (() => {
-        if (props.subscriptionStats?.is_paid_tier === 'true') {
-            return false;
-        }
-
-        if (props.cloudUserLimit === '0' || !props.isCloud) {
-            return false;
-        }
-
-        if (remainingUsers === 0 && props.usersEmailsSearch !== '') {
-            return true;
-        } else if (remainingUsers < 0) {
-            return true;
-        }
-        return false;
-    })();
-
-    const errorMessageValues: Record<string, string> = {
-        num: remainingUsers < 0 ? '0' : remainingUsers.toString(),
-    };
     const errorProperties = {
-        showError: shouldShowPickerError,
-        errorMessageId: t(
-            'invitation_modal.invite_members.hit_cloud_user_limit',
-        ),
-        errorMessageDefault: 'You can only invite **{num} more {num, plural, one {member} other {members}}** to the team on the free tier.',
-        errorMessageValues,
-        extraErrorText: (props.isAdmin ? <UpgradeLink telemetryInfo='click_upgrade_users_emails_input'/> : <NotifyLink/>),
+        showError: false,
+        errorMessageId: '',
+        errorMessageDefault: '',
+        errorMessageValues: {
+            text: '',
+        },
+        extraErrorText: '',
     };
 
     if (props.usersEmails.length > Constants.MAX_ADD_MEMBERS_BATCH) {
