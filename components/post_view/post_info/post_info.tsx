@@ -212,6 +212,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         if (this.props.showActionsMenuPulsatingDot) {
             return;
         }
+        this.props.handleDropdownOpened(open);
         this.setState({showActionsMenu: open});
     };
 
