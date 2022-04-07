@@ -4,6 +4,8 @@ import React, {memo} from 'react';
 
 import ReactSelect, {ValueType} from 'react-select';
 
+import Icon from '@mattermost/compass-components/foundations/icon/Icon';
+
 import {InsightsTimeFrames} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 
@@ -22,6 +24,8 @@ const TimeFrameDropdown = (props: Props) => {
             ...provided,
             width: '140px',
             cursor: 'pointer',
+            fontSize: '12px',
+            lineHeight: '16px',
         }),
         indicatorSeparator: (provided: React.CSSProperties) => ({
             ...provided,
@@ -37,6 +41,17 @@ const TimeFrameDropdown = (props: Props) => {
         if (selectedOption && 'value' in selectedOption) {
             props.setTimeFrame(selectedOption);
         }
+    };
+
+    const CustomDropwdown = () => {
+        return (
+            <span className='icon'>
+                <Icon
+                    size={12}
+                    glyph={'chevron-down'}
+                />
+            </span>
+        );
     };
 
     return (
@@ -64,6 +79,9 @@ const TimeFrameDropdown = (props: Props) => {
             onChange={onTimeFrameChange}
             value={props.timeFrame}
             aria-labelledby='changeInsightsTemporal'
+            components={{
+                DropdownIndicator: CustomDropwdown,
+            }}
         />
     );
 };

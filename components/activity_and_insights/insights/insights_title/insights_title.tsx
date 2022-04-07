@@ -38,7 +38,7 @@ const InsightsTitle = (props: Props) => {
 
     return (
         <MenuWrapper id='insightsFilterDropdown'>
-            <h2>
+            <button className='insights-title'>
                 {title()}
                 <span className='icon'>
                     <Icon
@@ -46,7 +46,7 @@ const InsightsTitle = (props: Props) => {
                         glyph={'chevron-down'}
                     />
                 </span>
-            </h2>
+            </button>
             <Menu
                 ariaLabel={Utils.localizeMessage('insights.filter.ariaLabel', 'Insights Filter Menu')}
             >
