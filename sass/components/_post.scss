@@ -437,8 +437,8 @@
         box-shadow: inset 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.24);
 
         &:focus-within {
-            box-shadow: inset 0 0 0 2px rgba(var(--center-channel-color-rgb), 0.32);
             border-radius: 4px;
+            box-shadow: inset 0 0 0 2px rgba(var(--center-channel-color-rgb), 0.32);
         }
 
         .post-body__cell {
@@ -510,8 +510,8 @@
 .post-body__actions {
     &.--bottom {
         position: absolute;
-        bottom: 0;
         right: 4px;
+        bottom: 0;
         display: flex;
     }
 
@@ -521,12 +521,12 @@
         right: 4px;
         display: flex;
         opacity: 0;
+        transition: visibility 0.3s linear, opacity 0.3s linear;
         visibility: hidden;
-        transition:visibility 0.3s linear,opacity 0.3s linear;
 
-        &.formattingBarOpen  {
+        &.formattingBarOpen {
             opacity: 1;
-            visibility:visible;
+            visibility: visible;
         }
     }
 

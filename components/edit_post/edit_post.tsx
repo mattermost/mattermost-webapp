@@ -17,6 +17,7 @@ import {
 } from 'utils/paste';
 import {postMessageOnKeyPress, splitMessageBasedOnCaretPosition} from 'utils/post_utils';
 import {isMac} from 'utils/utils';
+import {applyMarkdown, ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 import * as Utils from 'utils/utils';
 
 import DeletePostModal from 'components/delete_post_modal';
@@ -165,8 +166,8 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
         return !rest.canDeletePost;
     };
 
-    const applyHotkeyMarkdown = (e: React.KeyboardEvent) => {
-        const res = Utils.applyHotkeyMarkdown(e);
+    const applyHotkeyMarkdown = (params: ApplyMarkdownOptions) => {
+        const res = applyMarkdown(params);
 
         setEditText(res.message);
         setSelectionRange({start: res.selectionStart, end: res.selectionEnd});
@@ -264,8 +265,6 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
             (ctrlSend || codeBlockOnCtrlEnter) &&
             Utils.isKeyPressed(e, KeyCodes.ENTER) &&
             ctrlOrMetaKeyPressed;
-        const markdownHotkey =
-            Utils.isKeyPressed(e, KeyCodes.B) || Utils.isKeyPressed(e, KeyCodes.I);
         const markdownLinkKey = Utils.isKeyPressed(e, KeyCodes.K);
 
         // listen for line break key combo and insert new line character
@@ -276,8 +275,27 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
             handleEdit();
         } else if (Utils.isKeyPressed(e, KeyCodes.ESCAPE) && !showEmojiPicker) {
             handleRefocusAndExit(editingPost.refocusId || null);
-        } else if ((ctrlKeyCombo && markdownHotkey) || (ctrlAltCombo && markdownLinkKey)) {
-            applyHotkeyMarkdown(e);
+        } else if (ctrlAltCombo && markdownLinkKey) {
+            applyHotkeyMarkdown({
+                markdownMode: 'link',
+                selectionStart: (e.target as any).selectionStart,
+                selectionEnd: (e.target as any).selectionEnd,
+                value: (e.target as any).value,
+            });
+        } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.B)) {
+            applyHotkeyMarkdown({
+                markdownMode: 'bold',
+                selectionStart: (e.target as any).selectionStart,
+                selectionEnd: (e.target as any).selectionEnd,
+                value: (e.target as any).value,
+            });
+        } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.I)) {
+            applyHotkeyMarkdown({
+                markdownMode: 'italic',
+                selectionStart: (e.target as any).selectionStart,
+                selectionEnd: (e.target as any).selectionEnd,
+                value: (e.target as any).value,
+            });
         }
     };
 

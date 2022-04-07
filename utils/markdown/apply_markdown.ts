@@ -80,6 +80,20 @@ export function applyMarkdown(params: ApplyMarkdownOptions): {
     throw Error('Unsupported markdown mode: ' + markdownMode);
 }
 
+const getMultilineSuffix = (suffix: string): string => {
+    if (suffix.startsWith('\n')) {
+        return '';
+    }
+    return suffix.indexOf('\n') === -1 ? suffix : suffix.substring(0, suffix.indexOf('\n'));
+};
+
+const getNewSuffix = (suffix: string): string => {
+    if (suffix.startsWith('\n')) {
+        return suffix;
+    }
+    return suffix.indexOf('\n') === -1 ? '' : suffix.substring(suffix.indexOf('\n'));
+};
+
 const applyOlMarkdown = ({selectionEnd, selectionStart, value}: Omit<ApplyMarkdownOptions, 'markdownMode'>) => {
     const prefix = value.substring(0, selectionStart);
     const selection = value.substring(selectionStart, selectionEnd);
@@ -87,20 +101,12 @@ const applyOlMarkdown = ({selectionEnd, selectionStart, value}: Omit<ApplyMarkdo
 
     const newPrefix = prefix.includes('\n') ? prefix.substring(0, prefix.lastIndexOf('\n')) : '';
 
-    const multilineSuffix = suffix.startsWith('\n') ?
-        '' :
-        suffix.indexOf('\n') === -1 ?
-            suffix :
-            suffix.substring(0, suffix.indexOf('\n'));
-    const newSuffix = suffix.startsWith('\n') ?
-        suffix :
-        suffix.indexOf('\n') === -1 ?
-            '' :
-            suffix.substring(suffix.indexOf('\n'));
+    const multilineSuffix = getMultilineSuffix(suffix);
+    const newSuffix = getNewSuffix(suffix);
 
     const delimiterLength = 3;
     const getDelimiter = (num?: number) => {
-        getDelimiter.counter = num !== undefined ? num : getDelimiter.counter;
+        getDelimiter.counter = num || getDelimiter.counter;
         return `${getDelimiter.counter++}. `;
     };
     getDelimiter.counter = 0;
@@ -162,7 +168,7 @@ const applyOlMarkdown = ({selectionEnd, selectionStart, value}: Omit<ApplyMarkdo
         multilineSelection = selectionArr.join('');
         newValue = newPrefix + multilineSelection + newSuffix;
 
-        count += (multilineSelection.match(new RegExp('\n', 'g')) || []).length;
+        count += (multilineSelection.match(new RegExp('\\n', 'g')) || []).length;
 
         newStart = selectionStart + delimiterLength;
         newEnd = selectionEnd + (delimiterLength * count);
@@ -190,16 +196,8 @@ export const applyMarkdownToSelectedLines = ({
     const newPrefix = prefix.includes('\n') ? prefix.substring(0, prefix.lastIndexOf('\n')) : '';
     const multilinePrefix = prefix.includes('\n') ? prefix.substring(prefix.lastIndexOf('\n')) : prefix;
 
-    const multilineSuffix = suffix.startsWith('\n') ?
-        '' :
-        suffix.indexOf('\n') === -1 ?
-            suffix :
-            suffix.substring(0, suffix.indexOf('\n'));
-    const newSuffix = suffix.startsWith('\n') ?
-        suffix :
-        suffix.indexOf('\n') === -1 ?
-            '' :
-            suffix.substring(suffix.indexOf('\n'));
+    const multilineSuffix = getMultilineSuffix(suffix);
+    const newSuffix = getNewSuffix(suffix);
     let multilineSelection: string = multilinePrefix + selection + multilineSuffix;
 
     const isFirstLineSelected = !multilineSelection.startsWith('\n');
@@ -251,7 +249,7 @@ export const applyMarkdownToSelectedLines = ({
             count++;
         }
 
-        count += (multilineSelection.match(new RegExp('\n', 'g')) || []).length;
+        count += (multilineSelection.match(new RegExp('\\n', 'g')) || []).length;
 
         newStart = selectionStart + delimiter.length;
         newEnd = selectionEnd + (delimiter.length * count);
