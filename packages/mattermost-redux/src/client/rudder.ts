@@ -6,9 +6,9 @@
 import * as rudderAnalytics from 'rudder-sdk-js';
 export {rudderAnalytics};
 
-import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
+import {TelemetryHandler} from '@mattermost/client';
 
-import {TelemetryHandler} from './telemetry';
+import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 
 export class RudderTelemetryHandler implements TelemetryHandler {
     trackEvent(userId: string, userRoles: string, category: string, event: string, props?: any) {

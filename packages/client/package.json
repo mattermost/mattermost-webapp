@@ -1,25 +1,30 @@
 {
-  "name": "@mattermost/types",
+  "name": "@mattermost/client",
   "version": "6.6.0-4",
-  "description": "Shared type definitions used by the Mattermost web app",
+  "description": "JavaScript/TypeScript client for Mattermost",
   "keywords": [
     "mattermost"
   ],
-  "homepage": "https://github.com/mattermost/mattermost-webapp/tree/master/packages/types#readme",
+  "homepage": "https://github.com/mattermost/mattermost-webapp/tree/master/packages/client#readme",
   "license": "MIT",
   "files": [
     "lib"
   ],
-  "exports": {
-    "./*": "./lib/*.js"
-  },
-  "types": "./lib/*.d.ts",
+  "main": "./lib/index.js",
   "respository": {
     "type": "git",
     "url": "github:mattermost/mattermost-webapp",
-    "directory": "packages/types"
+    "directory": "packages/client"
+  },
+  "dependencies": {
+    "form-data": "^4.0.0"
+  },
+  "devDependencies": {
+    "jest": "*",
+    "nock": "*"
   },
   "peerDependencies": {
+    "@mattermost/types": "*",
     "typescript": "^4.3"
   },
   "peerDependenciesMeta": {
