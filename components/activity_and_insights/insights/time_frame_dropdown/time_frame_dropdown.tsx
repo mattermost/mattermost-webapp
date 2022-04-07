@@ -31,6 +31,10 @@ const TimeFrameDropdown = (props: Props) => {
             ...provided,
             cursor: 'pointer',
         }),
+        menuPortal: (provided: React.CSSProperties) => ({
+            ...provided,
+            zIndex: 100000,
+        }),
     };
 
     const onTimeFrameChange = (selectedOption: ValueType<SelectOption>) => {
