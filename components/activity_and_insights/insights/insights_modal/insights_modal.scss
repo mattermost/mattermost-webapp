@@ -1,3 +1,37 @@
+.insights-modal {
+    .modal-content {
+        .modal-header {
+            align-items: flex-start;
+            padding: 22px 32px 26px;
+    
+            .title-section {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+
+                .subtitle {
+                    font-family: 'Open Sans';
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: 12px;
+                    line-height: 16px;
+                    margin-top: 6px;
+                    margin-bottom: 0px;
+                    color: rgba(var(--center-channel-color-rgb), 0.72);
+                }
+            }
+    
+            .react-select {
+                margin-right: 40px;
+            }
+
+            .close {
+                top: 18px;
+            }
+        }
+    }
+}
+
 @media (min-width: 768px) {
     .insights-modal {
         width: 800px;

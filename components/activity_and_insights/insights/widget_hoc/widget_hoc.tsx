@@ -46,6 +46,7 @@ function widgetHoc<T>(WrappedComponent: ComponentType<T>) {
                 dialogProps: {
                     widgetType: props.widgetType,
                     title: title(),
+                    subtitle: subTitle(),
                 },
             }));
         };

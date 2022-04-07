@@ -15,6 +15,7 @@ type Props = {
     onExited: () => void;
     widgetType: 'TOP_CHANNELS' | 'TOP_REACTIONS';
     title: string;
+    subtitle: string;
 }
 
 const InsightsModal = (props: Props) => {
@@ -42,12 +43,17 @@ const InsightsModal = (props: Props) => {
             id='insightsModal'
         >
             <Modal.Header closeButton={true}>
-                <Modal.Title
-                    componentClass='h1'
-                    id='insightsModalTitle'
-                >
-                    {props.title}
-                </Modal.Title>
+                <div className='title-section'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='insightsModalTitle'
+                    >
+                        {props.title}
+                    </Modal.Title>
+                    <div className='subtitle'>
+                        {props.subtitle}
+                    </div>
+                </div>
                 <TimeFrameDropdown
                     timeFrame={timeFrame}
                     setTimeFrame={setTimeFrameValue}

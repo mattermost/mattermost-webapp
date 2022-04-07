@@ -9,6 +9,8 @@ import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 import {InsightsTimeFrames} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 
+import './time_frame_dropdown.scss';
+
 type SelectOption = {
     value: string;
     label: string;
@@ -61,7 +63,7 @@ const TimeFrameDropdown = (props: Props) => {
     return (
         <ReactSelect
             className='react-select react-select-top'
-            classNamePrefix='react-select'
+            classNamePrefix='react-select-insights-temporal'
             id='insightsTemporal'
             menuPortalTarget={document.body}
             styles={reactStyles}
