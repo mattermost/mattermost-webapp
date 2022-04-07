@@ -12,31 +12,31 @@ const TopReactions = () => {
     return (
         <div className='top-reaction-container'>
             <div className='bar-chart-entry'>
-                <BarChartLoader />
+                <BarChartLoader/>
                 <CircleLoader
                     size={20}
                 />
             </div>
             <div className='bar-chart-entry'>
-                <BarChartLoader />
+                <BarChartLoader/>
                 <CircleLoader
                     size={20}
                 />
             </div>
             <div className='bar-chart-entry'>
-                <BarChartLoader />
+                <BarChartLoader/>
                 <CircleLoader
                     size={20}
                 />
             </div>
             <div className='bar-chart-entry'>
-                <BarChartLoader />
+                <BarChartLoader/>
                 <CircleLoader
                     size={20}
                 />
             </div>
             <div className='bar-chart-entry'>
-                <BarChartLoader />
+                <BarChartLoader/>
                 <CircleLoader
                     size={20}
                 />

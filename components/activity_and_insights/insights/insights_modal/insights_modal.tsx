@@ -4,7 +4,7 @@ import React, {memo, useState, useCallback} from 'react';
 
 import {Modal} from 'react-bootstrap';
 
-import { InsightsTimeFrames } from 'utils/constants';
+import {InsightsTimeFrames} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 import TimeFrameDropdown from '../time_frame_dropdown/time_frame_dropdown';
 
@@ -55,9 +55,7 @@ const InsightsModal = (props: Props) => {
             </Modal.Header>
             <Modal.Body
                 className='overflow--visible'
-            >
-                
-            </Modal.Body>
+            />
         </Modal>
     );
 };

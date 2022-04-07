@@ -44,11 +44,11 @@ function widgetHoc<T>(WrappedComponent: ComponentType<T>) {
                 modalId: ModalIdentifiers.INSIGHTS,
                 dialogType: InsightsModal,
                 dialogProps: {
-                    widgetType: props.widgetType, 
+                    widgetType: props.widgetType,
                     title: title(),
                 },
             }));
-        }
+        };
 
         return (
             <InsightsCard

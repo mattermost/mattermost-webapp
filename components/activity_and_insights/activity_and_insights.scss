@@ -29,6 +29,7 @@
                 }
             }
         }
+
         .top-reaction-container {
             display: flex;
             align-items: center;
@@ -36,9 +37,9 @@
 
             .bar-chart-entry {
                 display: flex;
-                flex: .2;
-                align-items: center;
+                flex: 0.2;
                 flex-direction: column;
+                align-items: center;
 
                 .skeleton-loader {
                     &.bar-chart {
