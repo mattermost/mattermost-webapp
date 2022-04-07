@@ -5,7 +5,6 @@ import React, {useRef, useState, useEffect, useCallback, memo, useMemo} from 're
 import {FormattedMessage} from 'react-intl';
 import type {FixedSizeList} from 'react-window';
 import type InfiniteLoader from 'react-window-infinite-loader';
-
 import {throttle} from 'lodash';
 
 import {Emoji, EmojiCategory} from 'mattermost-redux/types/emojis';
@@ -23,9 +22,7 @@ import EmojiPickerCategories from 'components/emoji_picker/components/emoji_pick
 import EmojiPickerCustomEmojiButton from 'components/emoji_picker/components/emoji_picker_custom_emoji_button';
 import EmojiPickerCurrentResults from 'components/emoji_picker/components/emoji_picker_current_results';
 
-import type {PropsFromRedux} from './index';
-
-const CUSTOM_EMOJI_SEARCH_THROTTLE_TIME_MS = 1000;
+import {CUSTOM_EMOJI_SEARCH_THROTTLE_TIME_MS, PropsFromRedux} from './index';
 
 interface Props extends PropsFromRedux {
     filter: string;
@@ -116,7 +113,7 @@ const EmojiPicker = ({
         setCategoryOrEmojisRows(updatedCategoryOrEmojisRows);
         setEmojiPositionsArray(updatedEmojiPositions);
         throttledSearchCustomEmoji.current(filter, customEmojisEnabled);
-    }, [filter, userSkinTone, shouldRunCreateCategoryAndEmojiRows.current]);
+    }, [filter, userSkinTone, shouldRunCreateCategoryAndEmojiRows.current, customEmojisEnabled]);
 
     // Hack for getting focus on search input when tab changes to emoji from gifs
     useEffect(() => {
