@@ -25,6 +25,7 @@ import store from 'stores/redux_store.jsx';
 interface TrialBannerProps {
     isDisabled: boolean;
     gettingTrialError: string | null;
+    gettingTrialResponseCode: number | null;
     requestLicense: (e?: React.MouseEvent<HTMLButtonElement>, reload?: boolean) => Promise<void>;
     gettingTrial: boolean;
     enterpriseReady: boolean;
@@ -40,9 +41,26 @@ interface TrialBannerProps {
     restarting: boolean;
 }
 
+export const EmbargoedEntityTrialError: React.FC = () => {
+    return (
+        <FormattedMessage
+            id='admin.license.trial-request.embargoed'
+            defaultMessage='We were unable to process the request due to limitations for embargoed countries. <link>Learn more in our documentation</link>, or reach out to legal@mattermost.com for questions around export limitations.'
+            values={{
+                link: (text: string) => (
+                    <a href='https://mattermost.com/pl/limitations-for-embargoed-countries'>
+                        {text}
+                    </a>
+                ),
+            }}
+        />
+    );
+};
+
 const TrialBanner: React.FC<TrialBannerProps> = ({
     isDisabled,
     gettingTrialError,
+    gettingTrialResponseCode,
     requestLicense,
     gettingTrial,
     enterpriseReady,
@@ -126,14 +144,21 @@ const TrialBanner: React.FC<TrialBannerProps> = ({
         </a>
     );
     if (enterpriseReady && !restartedAfterUpgradePrefs) {
-        gettingTrialErrorMsg = gettingTrialError ? (
-            <p className='trial-error'>
-                <FormattedMarkdownMessage
-                    id='admin.license.trial-request.error'
-                    defaultMessage='Trial license could not be retrieved. Visit [https://mattermost.com/trial/](https://mattermost.com/trial/) to request a license.'
-                />
-            </p>
-        ) : null;
+        if (gettingTrialError) {
+            gettingTrialErrorMsg =
+                gettingTrialResponseCode === 451 ? (
+                    <div className='trial-error'>
+                        <EmbargoedEntityTrialError/>
+                    </div>
+                ) : (
+                    <p className='trial-error'>
+                        <FormattedMarkdownMessage
+                            id='admin.license.trial-request.error'
+                            defaultMessage='Trial license could not be retrieved. Visit [https://mattermost.com/trial/](https://mattermost.com/trial/) to request a license.'
+                        />
+                    </p>
+                );
+        }
         trialButton = (
             <button
                 type='button'

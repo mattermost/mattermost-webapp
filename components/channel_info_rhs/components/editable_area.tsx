@@ -49,7 +49,7 @@ interface EditableAreaProps {
     className?: string;
 }
 
-const editableArea = ({editable, content, emptyLabel, onEdit, className}: EditableAreaProps) => {
+const EditableAreaBase = ({editable, content, emptyLabel, onEdit, className}: EditableAreaProps) => {
     const {formatMessage} = useIntl();
 
     const allowEditArea = editable && content;
@@ -82,7 +82,7 @@ const editableArea = ({editable, content, emptyLabel, onEdit, className}: Editab
     );
 };
 
-const EditableArea = styled(editableArea)`
+const EditableArea = styled(EditableAreaBase)`
     display: flex;
     &>.EditableArea__content {
         flex: 1;

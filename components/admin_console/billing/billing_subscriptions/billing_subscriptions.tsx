@@ -223,27 +223,6 @@ export const cancelSubscription = (cancelAccountLink: any, isFreeTrial: boolean,
     );
 };
 
-export const infoBanner = (handleHide: () => void) => {
-    return (
-        <AlertBanner
-            mode='info'
-            title={
-                <FormattedMessage
-                    id='billing.subscription.info.headsup'
-                    defaultMessage='Just a heads up'
-                />
-            }
-            message={
-                <FormattedMessage
-                    id='billing.subscription.info.headsup.description'
-                    defaultMessage='You’re nearing the user limit with the free tier of Mattermost Cloud. We’ll let you know if you hit that limit.'
-                />
-            }
-            onDismiss={() => handleHide()}
-        />
-    );
-};
-
 export const creditCardExpiredBanner = (setShowCreditCardBanner: (value: boolean) => void) => {
     return (
         <AlertBanner

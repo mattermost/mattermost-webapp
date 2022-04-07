@@ -7,6 +7,8 @@ import {useIntl} from 'react-intl';
 
 import {useDispatch, useSelector} from 'react-redux';
 
+import {EmbargoedEntityTrialError} from 'components/admin_console/license_settings/trial_banner/trial_banner';
+
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {getLicenseConfig} from 'mattermost-redux/actions/general';
 
@@ -27,19 +29,22 @@ export type StartTrialBtnProps = {
     message: string;
     telemetryId: string;
     onClick?: () => void;
-}
+    handleEmbargoError?: () => void;
+};
 
 enum TrialLoadStatus {
     NotStarted = 'NOT_STARTED',
     Started = 'STARTED',
     Success = 'SUCCESS',
-    Failed = 'FAILED'
+    Failed = 'FAILED',
+    Embargoed = 'EMBARGOED',
 }
 
 const StartTrialBtn = ({
     message,
     telemetryId,
     onClick,
+    handleEmbargoError,
 }: StartTrialBtnProps) => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch<DispatchFunc>();
@@ -47,25 +52,37 @@ const StartTrialBtn = ({
 
     const [status, setLoadStatus] = useState(TrialLoadStatus.NotStarted);
 
-    const requestLicense = async () => {
+    const requestLicense = async (): Promise<TrialLoadStatus> => {
         setLoadStatus(TrialLoadStatus.Started);
         let users = 0;
         if (stats && (typeof stats.TOTAL_USERS === 'number')) {
             users = stats.TOTAL_USERS;
         }
         const requestedUsers = Math.max(users, 30);
-        const {error} = await dispatch(requestTrialLicense(requestedUsers, true, true, 'license'));
+        const {error, data} = await dispatch(requestTrialLicense(requestedUsers, true, true, 'license'));
         if (error) {
+            if (typeof data?.status !== 'undefined' && data.status === 451) {
+                setLoadStatus(TrialLoadStatus.Embargoed);
+                if (typeof handleEmbargoError === 'function') {
+                    handleEmbargoError();
+                }
+                return TrialLoadStatus.Embargoed;
+            }
             setLoadStatus(TrialLoadStatus.Failed);
-            return;
+            return TrialLoadStatus.Failed;
         }
 
-        setLoadStatus(TrialLoadStatus.Success);
         await dispatch(getLicenseConfig());
         await dispatch(closeModal(ModalIdentifiers.LEARN_MORE_TRIAL_MODAL));
+        setLoadStatus(TrialLoadStatus.Success);
+        return TrialLoadStatus.Success;
     };
 
-    const openTrialBenefitsModal = async () => {
+    const openTrialBenefitsModal = async (status: TrialLoadStatus) => {
+        // Only open the benefits modal if the trial request succeeded
+        if (status !== TrialLoadStatus.Success) {
+            return;
+        }
         await dispatch(openModal({
             modalId: ModalIdentifiers.TRIAL_BENEFITS_MODAL,
             dialogType: TrialBenefitsModal,
@@ -81,14 +98,20 @@ const StartTrialBtn = ({
             return formatMessage({id: 'start_trial.modal.loaded', defaultMessage: 'Loaded!'});
         case TrialLoadStatus.Failed:
             return formatMessage({id: 'start_trial.modal.failed', defaultMessage: 'Failed'});
+        case TrialLoadStatus.Embargoed:
+            return formatMessage({id: 'admin.license.trial-request.embargoed'});
         default:
             return message;
         }
     };
     const startTrial = async () => {
-        await requestLicense();
-        await openTrialBenefitsModal();
-        if (onClick) {
+        // reading status from here instead of normal flow because
+        // by the time the function needs the updated value from requestLicense,
+        // it will be too late to wait for the render cycle to happen again
+        // to close over the updated value
+        const updatedStatus = await requestLicense();
+        await openTrialBenefitsModal(updatedStatus);
+        if (onClick && updatedStatus === TrialLoadStatus.Success) {
             onClick();
         }
         trackEvent(
@@ -97,6 +120,13 @@ const StartTrialBtn = ({
         );
     };
 
+    if (status === TrialLoadStatus.Embargoed) {
+        return (
+            <div className='StartTrialBtn embargoed'>
+                <EmbargoedEntityTrialError/>
+            </div>
+        );
+    }
     return (
         <a
             className='StartTrialBtn start-trial-btn'

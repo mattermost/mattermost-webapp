@@ -18,6 +18,7 @@ export type LearnMoreTrialModalStepProps = {
     svgWrapperClassName: string;
     svgElement: React.ReactNode;
     bottomLeftMessage?: string;
+    handleEmbargoError?: () => void;
 }
 
 const LearnMoreTrialModalStep = (
@@ -28,6 +29,7 @@ const LearnMoreTrialModalStep = (
         svgWrapperClassName,
         svgElement,
         bottomLeftMessage,
+        handleEmbargoError,
     }: LearnMoreTrialModalStepProps) => {
     const {formatMessage} = useIntl();
 
@@ -55,13 +57,14 @@ const LearnMoreTrialModalStep = (
             </div>
             <StartTrialBtn
                 message={startTrialBtnMsg}
+                handleEmbargoError={handleEmbargoError}
                 telemetryId='start_trial_from_learn_more_about_trial_modal'
             />
             <div className='disclaimer'>
                 <span>
                     <FormattedMarkdownMessage
                         id='start_trial.modal.disclaimer'
-                        defaultMessage='By clicking “Start trial”, I agree to the [Mattermost Software Evaluation Agreement,](!https://mattermost.com/software-evaluation-agreement) [privacy policy,](!https://about.mattermost.com/default-privacy-policy/) and receiving product emails.'
+                        defaultMessage='By clicking “Start trial”, I agree to the [Mattermost Software Evaluation Agreement,](!https://mattermost.com/software-evaluation-agreement) [privacy policy,](!https://mattermost.com/privacy-policy/) and receiving product emails.'
                     />
                 </span>
             </div>
