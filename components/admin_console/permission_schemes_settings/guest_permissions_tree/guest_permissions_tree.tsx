@@ -24,7 +24,7 @@ type Props = {
 }
 
 const GuestPermissionsTree = ({license, onToggle, readOnly, scope, selectRow, parentRole, selected, role = {permissions: []}}: Props) => {
-    const setDefaultPermission = () => {
+    const setPermissions = () => {
         const defaultPermissions = [
             Permissions.CREATE_PRIVATE_CHANNEL,
             Permissions.EDIT_POST,
@@ -56,7 +56,7 @@ const GuestPermissionsTree = ({license, onToggle, readOnly, scope, selectRow, pa
     };
 
     const [editTimeLimitModalIsVisible, setEditTimeLimitModalIsVisible] = React.useState(false);
-    const permissions = React.useRef<Array<string | Record<string, any>>>(setDefaultPermission());
+    const permissions = useMemo<Array<string | Record<string, any>>>(setPermissions, [license]);
 
     const openPostTimeLimitModal = useCallback(() => {
         setEditTimeLimitModalIsVisible(true);
@@ -108,7 +108,7 @@ const GuestPermissionsTree = ({license, onToggle, readOnly, scope, selectRow, pa
                     selected={selected}
                     selectRow={selectRow}
                     readOnly={readOnly}
-                    permissions={permissions.current}
+                    permissions={permissions}
                     additionalValues={ADDITIONAL_VALUES}
                     role={role}
                     parentRole={parentRole}
