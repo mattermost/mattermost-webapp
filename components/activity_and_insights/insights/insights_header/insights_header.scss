@@ -8,17 +8,17 @@
     grid-area: header;
 
     button.insights-title {
-        border: none;
-        background-color: transparent;
+        display: flex;
+        align-items: center;
         padding: 2px 6px 2px 8px;
+        border: none;
         margin: 0;
+        background-color: transparent;
+        border-radius: 4px;
         color: rgba(var(--center-channel-color-rgb), 1);
         font-size: 16px;
         font-weight: 600;
         line-height: 24px;
-        border-radius: 4px;
-        display: flex;
-        align-items: center;
 
         &:hover {
             background-color: rgba(var(--center-channel-color-rgb), 0.08);
@@ -40,8 +40,8 @@
 
     .react-select {
         .react-select__control {
-            min-height: 32px;
             height: 32px;
+            min-height: 32px;
         }
 
         .react-select__value-container {
