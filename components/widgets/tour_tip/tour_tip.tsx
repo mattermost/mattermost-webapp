@@ -38,7 +38,6 @@ type Props = {
     offset?: [number, number];
     width?: string | number;
     zIndex?: number;
-    onHidden?: () => void;
 
     // if you don't want punchOut just assign null, keep null as hook may return null first than actual value
     overlayPunchOut: TourTipOverlayPunchOut | null;
@@ -63,7 +62,6 @@ const TourTip = ({
     singleTip,
     step,
     show,
-    onHidden,
     interactivePunchOut,
     tourSteps,
     handleOpen,
@@ -208,7 +206,6 @@ const TourTip = ({
             {show && (
                 <Tippy
                     showOnCreate={show}
-                    onHidden={onHidden}
                     content={content}
                     animation='scale-subtle'
                     trigger='click'
