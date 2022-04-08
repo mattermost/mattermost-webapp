@@ -26,6 +26,7 @@ _Note: Heroku preview does not include email or persistent storage._
 - [Developer Machine Setup](https://developers.mattermost.com/contribute/server/developer-setup) - Follow this guide if you want to write code for Mattermost
 
 Other Install Guides:
+- [Docker](https://docs.mattermost.com/install/install-docker.html)
 - [Ubuntu 20.04 LTS](https://docs.mattermost.com/install/installing-ubuntu-2004-LTS.html)
 - [Kubernetes](https://docs.mattermost.com/install/install-kubernetes.html)
 - [Helm](https://docs.mattermost.com/install/install-kubernetes.html#installing-the-operators-via-helm)
