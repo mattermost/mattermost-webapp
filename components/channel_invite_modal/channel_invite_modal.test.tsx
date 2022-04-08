@@ -66,6 +66,7 @@ describe('components/channel_invite_modal', () => {
             getUserStatuses: jest.fn().mockImplementation(() => Promise.resolve()),
             loadStatusesForProfilesList: jest.fn(),
             searchProfiles: jest.fn(),
+            closeModal: jest.fn(),
         },
         onExited: jest.fn(),
     };
@@ -219,5 +220,37 @@ describe('components/channel_invite_modal', () => {
 
         wrapper.instance().search(' something ');
         expect(wrapper.state('term')).toEqual('something');
+    });
+
+    test('should send the invite as guest param through the link', () => {
+        const props = {
+            ...baseProps,
+            canInviteGuests: true,
+            emailInvitationsEnabled: true,
+        };
+        const wrapper = shallow<ChannelInviteModal>(
+            <ChannelInviteModal {...props}/>,
+        );
+
+        const invitationLink = wrapper.find('InviteModalLink');
+
+        expect(invitationLink).toHaveLength(1);
+
+        expect(invitationLink.prop('inviteAsGuest')).toBeTruthy();
+    });
+
+    test('should hide the invite as guest param when can not invite guests', () => {
+        const props = {
+            ...baseProps,
+            canInviteGuests: false,
+            emailInvitationsEnabled: false,
+        };
+        const wrapper = shallow<ChannelInviteModal>(
+            <ChannelInviteModal {...props}/>,
+        );
+
+        const invitationLink = wrapper.find('InviteModalLink');
+
+        expect(invitationLink).toHaveLength(0);
     });
 });
