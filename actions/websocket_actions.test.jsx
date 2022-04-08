@@ -840,29 +840,18 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
             const mockComponent = 'mockRootComponent';
             registery.registerRootComponent(mockComponent);
 
-            let dispatchArg = store.dispatch.mock.calls[0][0];
-            expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_WEBAPP_PLUGIN);
-            expect(dispatchArg.data).toBe(manifest);
-
-            dispatchArg = store.dispatch.mock.calls[1][0];
+            const dispatchArg = store.dispatch.mock.calls[0][0];
             expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
             expect(dispatchArg.name).toBe('Root');
             expect(dispatchArg.data.component).toBe(mockComponent);
             expect(dispatchArg.data.pluginId).toBe(manifest.id);
 
-            expect(store.dispatch).toHaveBeenCalledTimes(2);
-
             // Assert handlePluginEnabled is idempotent
             mockScript.onload = undefined;
             handlePluginEnabled({data: {manifest}});
-
             expect(mockScript.onload).toBeUndefined();
 
-            dispatchArg = store.dispatch.mock.calls[2][0];
-            expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_WEBAPP_PLUGIN);
-            expect(dispatchArg.data).toBe(manifest);
-
-            expect(store.dispatch).toHaveBeenCalledTimes(3);
+            expect(store.dispatch).toHaveBeenCalledTimes(1);
             expect(console.error).toHaveBeenCalledTimes(0);
         });
 
@@ -903,15 +892,11 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
             const mockComponent = 'mockRootComponent';
             registry.registerRootComponent(mockComponent);
 
-            let dispatchArg = store.dispatch.mock.calls[0][0];
-            expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_WEBAPP_PLUGIN);
-            expect(dispatchArg.data).toBe(manifest);
-
-            dispatchArg = store.dispatch.mock.calls[1][0];
-            expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
-            expect(dispatchArg.name).toBe('Root');
-            expect(dispatchArg.data.component).toBe(mockComponent);
-            expect(dispatchArg.data.pluginId).toBe(manifest.id);
+            const dispatchReceivedArg = store.dispatch.mock.calls[0][0];
+            expect(dispatchReceivedArg.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
+            expect(dispatchReceivedArg.name).toBe('Root');
+            expect(dispatchReceivedArg.data.component).toBe(mockComponent);
+            expect(dispatchReceivedArg.data.pluginId).toBe(manifest.id);
 
             // Upgrade plugin
             mockScript.onload = undefined;
@@ -930,27 +915,19 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
             const mockComponent2 = 'mockRootComponent2';
             registry2.registerRootComponent(mockComponent2);
 
-            dispatchArg = store.dispatch.mock.calls[2][0];
-            expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_WEBAPP_PLUGIN);
-            expect(dispatchArg.data).toBe(manifestv2);
-
-            expect(store.dispatch).toHaveBeenCalledTimes(6);
-            const dispatchRemovedArg = store.dispatch.mock.calls[3][0];
+            expect(store.dispatch).toHaveBeenCalledTimes(3);
+            const dispatchRemovedArg = store.dispatch.mock.calls[1][0];
             expect(typeof dispatchRemovedArg).toBe('function');
             dispatchRemovedArg(store.dispatch);
 
-            dispatchArg = store.dispatch.mock.calls[4][0];
-            expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_WEBAPP_PLUGIN);
-            expect(dispatchArg.data).toBe(manifestv2);
-
-            const dispatchReceivedArg2 = store.dispatch.mock.calls[5][0];
+            const dispatchReceivedArg2 = store.dispatch.mock.calls[2][0];
             expect(dispatchReceivedArg2.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
             expect(dispatchReceivedArg2.name).toBe('Root');
             expect(dispatchReceivedArg2.data.component).toBe(mockComponent2);
             expect(dispatchReceivedArg2.data.pluginId).toBe(manifest.id);
 
-            expect(store.dispatch).toHaveBeenCalledTimes(8);
-            const dispatchReceivedArg4 = store.dispatch.mock.calls[7][0];
+            expect(store.dispatch).toHaveBeenCalledTimes(5);
+            const dispatchReceivedArg4 = store.dispatch.mock.calls[4][0];
             expect(dispatchReceivedArg4.type).toBe(ActionTypes.REMOVED_WEBAPP_PLUGIN);
             expect(dispatchReceivedArg4.data).toBe(manifestv2);
 
@@ -1016,18 +993,13 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
             // Assert handlePluginDisabled is idempotent
             handlePluginDisabled({data: {manifest}});
 
-            expect(store.dispatch).toHaveBeenCalledTimes(3);
-
-            const dispatchArg = store.dispatch.mock.calls[0][0];
-            expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_WEBAPP_PLUGIN);
-            expect(dispatchArg.data).toBe(manifest);
-
-            const dispatchRemovedArg = store.dispatch.mock.calls[1][0];
+            expect(store.dispatch).toHaveBeenCalledTimes(2);
+            const dispatchRemovedArg = store.dispatch.mock.calls[0][0];
             expect(typeof dispatchRemovedArg).toBe('function');
             dispatchRemovedArg(store.dispatch);
 
-            expect(store.dispatch).toHaveBeenCalledTimes(5);
-            const dispatchReceivedArg3 = store.dispatch.mock.calls[4][0];
+            expect(store.dispatch).toHaveBeenCalledTimes(4);
+            const dispatchReceivedArg3 = store.dispatch.mock.calls[3][0];
             expect(dispatchReceivedArg3.type).toBe(ActionTypes.REMOVED_WEBAPP_PLUGIN);
             expect(dispatchReceivedArg3.data).toBe(manifest);
 

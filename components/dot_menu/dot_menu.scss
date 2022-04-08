@@ -1,0 +1,14 @@
+.dropdown-menu__dotmenu {
+    .Menu__content {
+        width: 264px;
+    }
+
+    .MenuItem > button {
+        .MenuItem__primary-text,
+        .grid {
+            display: grid;
+            align-items: center;
+            grid-template-columns: auto 1fr auto auto auto;
+        }
+    }
+}
