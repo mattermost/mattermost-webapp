@@ -49,23 +49,14 @@ describe('Incoming webhook', () => {
 
     it('MM-T639 🚀 incoming Webhook creates DM', () => {
         // # Verify that the channel was created correctly with an unread message, and open it
-        cy.get(`a[href='/${generatedTeam.name}/messages/@${generatedUser.username}']`).
-            scrollIntoView().
-            should('be.visible').
+        cy.uiGetLHS().
+            contains(`${generatedUser.username}`).
             should('have.class', 'unread-title').
             click();
-
-        // # Verify that the post matches our expectation
-        cy.getLastPost().
-            should('be.visible').
-            get('.col__name > button.user-popover').
-            contains(incomingWebhookConfiguration.display_name);
-        cy.getLastPost().
-            should('be.visible').
-            get('.col__name .BotBadge > span').
-            contains('BOT');
-        cy.getLastPost().
-            get('.post-message__text').
-            contains(incomingWebhookText);
+        cy.getLastPost().within(($post) => {
+            cy.wrap($post).contains(incomingWebhookConfiguration.display_name).should('be.visible');
+            cy.wrap($post).contains('BOT').should('be.visible');
+            cy.wrap($post).contains(incomingWebhookText).should('be.visible');
+        });
     });
 });
