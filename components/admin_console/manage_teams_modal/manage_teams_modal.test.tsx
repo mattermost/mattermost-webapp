@@ -6,11 +6,15 @@ import {mount, shallow} from 'enzyme';
 
 import {IntlProvider} from 'react-intl';
 
+import {act} from 'react-dom/test-utils';
+
 import {General} from 'mattermost-redux/constants';
 
 import ManageTeamsModal from 'components/admin_console/manage_teams_modal/manage_teams_modal';
 
 import {TestHelper} from 'utils/test_helper';
+
+import ManageTeamsDropdown from './manage_teams_dropdown';
 
 describe('ManageTeamsModal', () => {
     const baseProps = {
@@ -37,26 +41,31 @@ describe('ManageTeamsModal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should call api calls when user changes', () => {
-        const newUser = TestHelper.getUserMock({
-            id: 'newUserId',
-            last_picture_update: 1234,
-            email: 'newUser@test.com',
-            username: 'newUsername',
+    test('should call api calls when user changes', async () => {
+        const intlProviderProps = {
+            defaultLocale: 'en',
+            locale: 'en',
+            messages: {testId: 'Actual value'},
+        };
+
+        const wrapper = mount(
+            <IntlProvider {...intlProviderProps}>
+                <ManageTeamsModal {...baseProps}/>
+            </IntlProvider>,
+        );
+
+        await act(async () => {
+            await new Promise((resolve) => setTimeout(resolve));
+            wrapper.update();
         });
 
-        const wrapper = shallow(<ManageTeamsModal {...baseProps}/>);
-        console.log(wrapper.debug());
-        wrapper.setProps({user: newUser});
-        console.log(wrapper.debug());
-
         expect(baseProps.actions.getTeamMembersForUser).toHaveBeenCalledTimes(1);
-        expect(baseProps.actions.getTeamMembersForUser).toHaveBeenCalledWith(newUser.id);
+        expect(baseProps.actions.getTeamMembersForUser).toHaveBeenCalledWith(baseProps.user.id);
         expect(baseProps.actions.getTeamsForUser).toHaveBeenCalledTimes(1);
-        expect(baseProps.actions.getTeamsForUser).toHaveBeenCalledWith(newUser.id);
+        expect(baseProps.actions.getTeamsForUser).toHaveBeenCalledWith(baseProps.user.id);
     });
 
-    test('should save data in state from api calls', (done) => {
+    test('should save data in state from api calls', async (done) => {
         const mockTeamData = TestHelper.getTeamMock({
             id: '123test',
             name: 'testTeam',
@@ -81,21 +90,20 @@ describe('ManageTeamsModal', () => {
             messages: {'test.value': 'Actual value'},
         };
 
-        // const wrapper = mount(
-        //     <IntlProvider {...intlProviderProps}>
-        //         <ManageTeamsModal {...props}/>
-        //     </IntlProvider>,
-        // );
+        const wrapper = mount(
+            <IntlProvider {...intlProviderProps}>
+                <ManageTeamsModal {...props}/>
+            </IntlProvider>,
+        );
 
-        const wrapper = shallow(<ManageTeamsModal {...props}/>);
-        wrapper.find('#userId').simulate('change', {target: {value: 'newUserId'}});
-
-        console.log(wrapper.debug());
+        await act(async () => {
+            await new Promise((resolve) => setTimeout(resolve));
+            wrapper.update();
+        });
 
         process.nextTick(() => {
-            console.log(wrapper.instance());
-            expect(wrapper.state('teams')).toEqual([mockTeamData]);
-            expect(wrapper.state('teamMembers')).toEqual([{team_id: '123test'}]);
+            expect(wrapper.find('.manage-teams__team-name').text()).toEqual(mockTeamData.display_name);
+            expect(wrapper.find(ManageTeamsDropdown).props().teamMember).toEqual({team_id: '123test'});
             expect(wrapper).toMatchSnapshot();
             done();
         });

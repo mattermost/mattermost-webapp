@@ -39,17 +39,10 @@ const ManageTeamsModal = ({locale, onModalDismissed, show, user, actions}: Props
     const [teamMembers, setTeamMembers] = React.useState<TeamMembership[] | null>(null);
 
     useEffect(() => {
-        console.log('ManageTeamsModal.useEffect', user);
         if (user) {
             loadTeamsAndTeamMembers(user);
         }
     }, [user]);
-
-    useEffect(() => {
-        if (user) {
-            loadTeamsAndTeamMembers(user);
-        }
-    }, []);
 
     const loadTeamsAndTeamMembers = async (user: UserProfile) => {
         await getTeamMembers(user.id);
@@ -60,7 +53,6 @@ const ManageTeamsModal = ({locale, onModalDismissed, show, user, actions}: Props
     const handleError = (error: JSX.Element) => setError(error);
 
     const getTeamMembers = async (userId: string) => {
-        console.log('getTeamMembers userId', userId);
         const {data} = await actions.getTeamMembersForUser(userId);
         if (data) {
             setTeamMembers(data);
@@ -88,7 +80,6 @@ const ManageTeamsModal = ({locale, onModalDismissed, show, user, actions}: Props
     const handleMemberChange = () => getTeamMembers(user ? user.id : '');
 
     const renderContents = () => {
-        console.log('renderContents', teams, user);
         if (!user) {
             return <LoadingScreen/>;
         }
