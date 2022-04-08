@@ -1425,7 +1425,7 @@ export default class Client4 {
 
         return this.doFetch<TeamInviteWithError>(
             `${this.getTeamRoute(teamId)}/invite/email?graceful=true`,
-            {method: 'post', body: JSON.stringify({emails, channels: channelIds, message})},
+            {method: 'post', body: JSON.stringify({emails, channelIds, message})},
         );
     };
 
