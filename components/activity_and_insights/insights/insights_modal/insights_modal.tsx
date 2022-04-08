@@ -7,6 +7,7 @@ import {Modal} from 'react-bootstrap';
 import {InsightsTimeFrames} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 import TimeFrameDropdown from '../time_frame_dropdown/time_frame_dropdown';
+import InsightsTable from '../insights_table/insights_table';
 
 import './../../activity_and_insights.scss';
 import './insights_modal.scss';
@@ -61,7 +62,11 @@ const InsightsModal = (props: Props) => {
             </Modal.Header>
             <Modal.Body
                 className='overflow--visible'
-            />
+            >
+                <InsightsTable 
+                    widgetType={props.widgetType}
+                />
+            </Modal.Body>
         </Modal>
     );
 };
