@@ -18,8 +18,6 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import EmojiPicker from './emoji_picker';
 
-export const CUSTOM_EMOJI_SEARCH_THROTTLE_TIME_MS = 1000;
-
 function mapStateToProps(state: GlobalState) {
     return {
         customEmojisEnabled: getCustomEmojisEnabled(state),

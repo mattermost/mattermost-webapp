@@ -12,7 +12,15 @@ import {isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
 
 import {NoResultsVariant} from 'components/no_results_indicator/types';
 import {CategoryOrEmojiRow, Categories, EmojiCursor, NavigationDirection, EmojiPosition, EmojiRow} from 'components/emoji_picker/types';
-import {CATEGORIES, RECENT_EMOJI_CATEGORY, RECENT, SMILEY_EMOTION, SEARCH_RESULTS, EMOJI_PER_ROW} from 'components/emoji_picker/constants';
+import {
+    CATEGORIES,
+    RECENT_EMOJI_CATEGORY,
+    RECENT,
+    SMILEY_EMOTION,
+    SEARCH_RESULTS,
+    EMOJI_PER_ROW,
+    CUSTOM_EMOJI_SEARCH_THROTTLE_TIME_MS,
+} from 'components/emoji_picker/constants';
 import {createCategoryAndEmojiRows, getCursorProperties, getUpdatedCategoriesAndAllEmojis} from 'components/emoji_picker/utils';
 import NoResultsIndicator from 'components/no_results_indicator';
 import EmojiPickerPreview from 'components/emoji_picker/components/emoji_picker_preview';
@@ -22,7 +30,7 @@ import EmojiPickerCategories from 'components/emoji_picker/components/emoji_pick
 import EmojiPickerCustomEmojiButton from 'components/emoji_picker/components/emoji_picker_custom_emoji_button';
 import EmojiPickerCurrentResults from 'components/emoji_picker/components/emoji_picker_current_results';
 
-import {CUSTOM_EMOJI_SEARCH_THROTTLE_TIME_MS, PropsFromRedux} from './index';
+import type {PropsFromRedux} from './index';
 
 interface Props extends PropsFromRedux {
     filter: string;
