@@ -12,15 +12,15 @@ interface LineLimiterProps {
     moreText: string;
     lessText: string;
     className?: string;
+    errorMargin?: number;
 }
 
-const LineLimiterBase = ({children, maxLines, lineHeight, moreText, lessText, className}: LineLimiterProps) => {
+const LineLimiterBase = ({children, maxLines, lineHeight, moreText, lessText, errorMargin = 0.1, className}: LineLimiterProps) => {
     const maxLineHeight = maxLines * lineHeight;
 
     const [needLimiter, setNeedLimiter] = useState(false);
     const [open, setOpen] = useState(false);
     const [maxHeight, setMaxHeight] = useState('inherit');
-    const [moreBottomPosition, setMoreBottomPosition] = useState(0);
     const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -29,37 +29,20 @@ const LineLimiterBase = ({children, maxLines, lineHeight, moreText, lessText, cl
         }
 
         const contentHeight = ref.current.scrollHeight;
-        if (contentHeight > maxLineHeight) {
+        const margin = maxLineHeight * errorMargin;
+        if (contentHeight > (maxLineHeight + margin)) {
             setNeedLimiter(true);
 
             if (open) {
-                setMaxHeight(`${contentHeight + lineHeight}px`);
+                setMaxHeight(`${contentHeight}px`);
             } else {
                 setMaxHeight(`${maxLineHeight}px`);
-            }
-
-            // This section calculate in the position of the "more"
-            // button considering the size of the elements.
-            let totalHeight = 0;
-            for (let i = 0; i < ref.current.children.length; i++) {
-                const child = ref.current.children[i] as HTMLElement;
-                if (child.scrollHeight + ((i + 1) * lineHeight) >= maxLineHeight) {
-                    setMoreBottomPosition(Math.max(0, maxLineHeight - (totalHeight + child.scrollHeight)));
-                    break;
-                }
-                totalHeight += child.scrollHeight;
             }
         } else {
             setNeedLimiter(false);
             setMaxHeight('inherit');
-            setMoreBottomPosition(0);
         }
     }, [children, open]);
-
-    let displayClass = className;
-    if (needLimiter && !open) {
-        displayClass += ' LineLimiter--close';
-    }
 
     return (
         <CSSTransition
@@ -67,52 +50,38 @@ const LineLimiterBase = ({children, maxLines, lineHeight, moreText, lessText, cl
             timeout={500}
             classNames='LineLimiter--Transition-'
         >
-            <div
-                className={displayClass}
-                css={{maxHeight}}
-            >
-                <div>
-                    <div ref={ref}>{children}</div>
-                    {needLimiter && open && (
-                        <button
-                            className='LineLimiter__toggler'
-                            onClick={() => {
-                                setOpen(false);
-                            }}
-                        >
-                            {lessText}
-                        </button>
-                    )}
+            <>
+                <div
+                    className={className}
+                    css={{maxHeight}}
+                >
+                    <div>
+                        <div ref={ref}>{children}</div>
+                    </div>
                 </div>
                 {needLimiter && (
-                    <div
-                        className='LineLimiter__toggler LineLimiter__toggler--more'
-                        css={{bottom: moreBottomPosition + 'px'}}
+                    <ToggleButton
+                        className='LineLimiter__toggler'
+                        onClick={() => setOpen(!open)}
                     >
-                        {/*
-                            This div is necessary to add the fading effect
-                            before the more text, prevent us from cutting the
-                            text in the middle of a letter
-                        */}
-                        <div/>
-                        {!open && (
-                            <button
-                                onClick={() => {
-                                    setOpen(true);
-                                }}
-                            >
-                                {moreText}
-                            </button>
-                        )}
-                    </div>
+                        {open ? lessText : moreText}
+                    </ToggleButton>
                 )}
-            </div>
+            </>
         </CSSTransition>
     );
 };
 
+const ToggleButton = styled.button`
+    border: 0px;
+    background-color: var(--center-channel-bg);
+    color: var(--button-bg);
+    padding: 0;
+    margin: 0;
+`;
+
 const LineLimiter = styled(LineLimiterBase)<LineLimiterProps>`
-    transition: max-height 0.5s ease-in;
+    transition: max-height 0.5s ease;
     line-height: ${(props) => props.lineHeight}px;
     overflow: hidden;
 
@@ -120,48 +89,22 @@ const LineLimiter = styled(LineLimiterBase)<LineLimiterProps>`
         margin-bottom: ${(props) => props.lineHeight}px;
     }
 
+    span[data-emoticon] {
+        max-height: ${(props) => props.lineHeight}px;
+        .emoticon {
+            max-height: ${(props) => props.lineHeight}px;
+            min-height: ${(props) => props.lineHeight}px;
+         }
+    }
+
+    .markdown-inline-img__container img.markdown-inline-img {
+        max-height: ${(props) => props.lineHeight}px !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
     & > * {
        overflow: hidden;
-    }
-
-    &.LineLimiter--Transition--enter-active, &.LineLimiter--Transition--exit-active {
-        .LineLimiter__toggler {
-            opacity: 0;
-        }
-    }
-    &.LineLimiter--Transition--enter-done, &.LineLimiter--Transition--exit-done {
-        .LineLimiter__toggler {
-            opacity: 1;
-            transition: opacity 150ms;
-        }
-    }
-
-    button {
-        border: 0px;
-        background-color: var(--center-channel-bg);
-        color: var(--button-bg);
-        padding: 0;
-        margin: 0;
-    }
-
-    .LineLimiter__toggler--more > div {
-        display: none;
-    }
-
-    &.LineLimiter--close {
-        position: relative;
-        transition: max-height 0.5s ease-out;
-
-        .LineLimiter__toggler--more {
-            display: flex;
-            position: absolute;
-            right: 0;
-            & div {
-                display: block;
-                width: 30px;
-                background: linear-gradient(to right, transparent, var(--center-channel-bg));
-            }
-        }
     }
 `;
 

@@ -1658,6 +1658,96 @@
         opacity: 0.6;
     }
 
+    // styles for utility buttons i.e download, and copy source link in image preview
+    .image-preview-utility-buttons-container {
+        // greater z-index than img
+        position: absolute;
+        z-index: 3;
+        top: 8px;
+        right: 8px;
+        display: none;
+        padding: 4px;
+        border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+        background-color: var(--center-channel-bg);
+        border-radius: 4px;
+        box-shadow: $elevation-1;
+
+        button.size-aware-image__copy_link,
+        a.size-aware-image__download {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            padding: 2px;
+            border-radius: 4px;
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+            text-align: center;
+
+            &:hover {
+                background-color: rgba(var(--center-channel-color-rgb), 0.08);
+                text-decoration: none;
+            }
+
+            svg {
+                padding-top: 2px;
+                fill: rgba(var(--center-channel-color-rgb), 0.56);
+            }
+
+            // handle 'copy successful' styles
+            .svg-check {
+                fill: var(--online-indicator);
+            }
+
+            &:active {
+                background: rgba(var(--button-bg-rgb), 0.08);
+
+                svg {
+                    fill: var(--button-bg);
+                }
+            }
+        }
+
+        // handle 'copy successful' styles
+        button.size-aware-image__copy_link--recently_copied {
+            background: rgba(var(--online-indicator-rgb), 0.16);
+
+            &:hover {
+                background: rgba(var(--online-indicator-rgb), 0.16);
+            }
+        }
+
+        &--small-image {
+            position: absolute;
+            top: -8px;
+            left: 24px;
+            width: 68px;
+        }
+
+        &--small-image-no-copy-button {
+            left: 32px;
+            width: 38px;
+        }
+
+        &:hover button.size-aware-image__copy_link,
+        &:hover a.size-aware-image__download {
+            color: rgba(var(--center-channel-color-rgb), 0.72);
+        }
+    }
+    // styles for image container of large images.
+    .image-loaded-container {
+        position: relative;
+        display: inline-block;
+
+        &:hover .image-preview-utility-buttons-container {
+            display: inline-block;
+        }
+    }
+
+    .small-image-utility-buttons-wrapper {
+        &:hover .image-preview-utility-buttons-container {
+            display: inline-block;
+        }
+    }
+
     .post__time,
     .post-preview__time {
         margin-right: 4px;

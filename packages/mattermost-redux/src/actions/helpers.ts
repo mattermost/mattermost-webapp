@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {Client4} from 'mattermost-redux/client';
 import {UserTypes} from 'mattermost-redux/action_types';
 
 import {Client4Error} from 'mattermost-redux/types/client4';
-import {batchActions, Action, ActionFunc, GenericAction, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc, GenericAction, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {logError} from './errors';
 type ActionType = string;
@@ -84,11 +85,10 @@ export function bindClientFunc({
             data = await clientFunc(...params);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            const actions: Action[] = [logError(error)];
             if (onFailure) {
-                actions.push(requestFailure(onFailure, error));
+                dispatch(requestFailure(onFailure, error));
             }
-            dispatch(batchActions(actions));
+            dispatch(logError(error));
             return {error};
         }
 

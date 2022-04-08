@@ -44,7 +44,11 @@ export function logError(error: ServerError, displayable = false, consoleError =
         const serializedError = serializeError(error);
 
         let sendToServer = true;
-        if (error.stack?.includes('TypeError: Failed to fetch')) {
+
+        const err = error as any;
+        const message = err.stack?.stack || err.stack || '';
+
+        if (message.includes('TypeError: Failed to fetch')) {
             sendToServer = false;
         }
         if (error.server_error_id) {
