@@ -57,7 +57,6 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         // * Verify Invite Guest link
         cy.findByTestId('inviteGuestLink').should('be.visible').click();
         cy.findByText('Add to channels').should('be.visible');
-        cy.findByText('Create a custom message to make your invite more personal.').should('be.visible');
 
         // * Verify the header has changed in the modal
         cy.findByTestId('invitationModal').within(() => {
@@ -105,7 +104,6 @@ describe('Guest Account - Guest User Invitation Flow', () => {
             cy.get('a').should('not.exist');
             cy.get('.AddToChannels__customMessageTitle').findByText('Custom message');
             cy.get('textarea').should('be.visible');
-            cy.get('.help-text').should('have.text', 'Create a custom message to make your invite more personal.');
         });
     });
 

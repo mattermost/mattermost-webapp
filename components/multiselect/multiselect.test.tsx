@@ -85,4 +85,42 @@ describe('components/multiselect/multiselect', () => {
         wrapper.find('.filter-control__next').simulate('click');
         expect(wrapper.find(MultiSelectList).state('selected')).toEqual(0);
     });
+
+    test('MultiSelectList should match snapshot when custom no option message is defined', () => {
+        const customNoOptionsMessage = (
+            <div className='custom-no-options-message'>
+                <span>{'No matches found'}</span>
+            </div>
+        );
+
+        const wrapper = shallow(
+            <MultiSelect
+                {...baseProps}
+                customNoOptionsMessage={customNoOptionsMessage}
+            />,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('Back button should be customizable', () => {
+        const handleBackButtonClick = jest.fn();
+        const wrapper = mountWithIntl(
+            <MultiSelect
+                {...baseProps}
+                backButtonClick={handleBackButtonClick}
+                backButtonText='Cancel'
+                backButtonClass='tertiary-button'
+                saveButtonPosition='bottom'
+            />,
+        );
+
+        const backButton = wrapper.find('div.multi-select__footer button.tertiary-button');
+
+        backButton.simulate('click');
+
+        expect(backButton).toHaveLength(1);
+
+        expect(handleBackButtonClick).toHaveBeenCalled();
+    });
 });
