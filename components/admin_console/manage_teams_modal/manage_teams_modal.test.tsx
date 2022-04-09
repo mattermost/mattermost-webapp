@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {mount, shallow} from 'enzyme';
+import {mount, ReactWrapper, shallow} from 'enzyme';
 
 import {IntlProvider} from 'react-intl';
 
@@ -41,22 +41,19 @@ describe('ManageTeamsModal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should call api calls when user changes', async () => {
+    test('should call api calls on mount', async () => {
         const intlProviderProps = {
             defaultLocale: 'en',
             locale: 'en',
             messages: {testId: 'Actual value'},
         };
 
-        const wrapper = mount(
-            <IntlProvider {...intlProviderProps}>
-                <ManageTeamsModal {...baseProps}/>
-            </IntlProvider>,
-        );
-
         await act(async () => {
-            await new Promise((resolve) => setTimeout(resolve));
-            wrapper.update();
+            mount(
+                <IntlProvider {...intlProviderProps}>
+                    <ManageTeamsModal {...baseProps}/>
+                </IntlProvider>,
+            );
         });
 
         expect(baseProps.actions.getTeamMembersForUser).toHaveBeenCalledTimes(1);
@@ -65,7 +62,7 @@ describe('ManageTeamsModal', () => {
         expect(baseProps.actions.getTeamsForUser).toHaveBeenCalledWith(baseProps.user.id);
     });
 
-    test('should save data in state from api calls', async (done) => {
+    test('should save data in state from api calls', async () => {
         const mockTeamData = TestHelper.getTeamMock({
             id: '123test',
             name: 'testTeam',
@@ -90,22 +87,18 @@ describe('ManageTeamsModal', () => {
             messages: {'test.value': 'Actual value'},
         };
 
-        const wrapper = mount(
-            <IntlProvider {...intlProviderProps}>
-                <ManageTeamsModal {...props}/>
-            </IntlProvider>,
-        );
-
+        let wrapper: ReactWrapper<any>;
         await act(async () => {
-            await new Promise((resolve) => setTimeout(resolve));
-            wrapper.update();
+            wrapper = mount(
+                <IntlProvider {...intlProviderProps}>
+                    <ManageTeamsModal {...props}/>
+                </IntlProvider>,
+            );
         });
+        wrapper!.update();
 
-        process.nextTick(() => {
-            expect(wrapper.find('.manage-teams__team-name').text()).toEqual(mockTeamData.display_name);
-            expect(wrapper.find(ManageTeamsDropdown).props().teamMember).toEqual({team_id: '123test'});
-            expect(wrapper).toMatchSnapshot();
-            done();
-        });
+        expect(wrapper!.find('.manage-teams__team-name').text()).toEqual(mockTeamData.display_name);
+        expect(wrapper!.find(ManageTeamsDropdown).props().teamMember).toEqual({team_id: '123test'});
+        expect(wrapper!).toMatchSnapshot();
     });
 });
