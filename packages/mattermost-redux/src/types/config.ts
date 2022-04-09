@@ -235,10 +235,7 @@ export type LicenseFeatures = {
     future_features?: boolean;
 };
 
-export type ClientLicense = Record<string, string> & {
-    IsLicensed: string;
-    Cloud: string;
-};
+export type ClientLicense = Record<string, string>;
 
 export type DataRetentionPolicy = {
     message_deletion_enabled: boolean;

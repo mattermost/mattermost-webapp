@@ -207,7 +207,7 @@ export function loadMeGQL(): ActionFunc {
         try {
             const {data} = await Client4.fetchWithGraphQL<MyDataQueryResponseType>(myDataQuery);
             responseData = data;
-        } catch (err) {
+        } catch (error) {
             dispatch(logError(error));
             return {error};
         }
