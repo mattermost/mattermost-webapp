@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getPlugins} from 'mattermost-redux/actions/admin';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
@@ -17,9 +17,12 @@ import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getNavigationBlocked} from 'selectors/views/admin';
 import {getAdminDefinition, getConsoleAccess} from 'selectors/admin_console';
 
-import AdminSidebar from './admin_sidebar.jsx';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state) {
+import AdminSidebar, {Props} from './admin_sidebar';
+import {Action, ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+
+function mapStateToProps(state: GlobalState) {
     const license = getLicense(state);
     const config = getConfig(state);
     const buildEnterpriseReady = config.BuildEnterpriseReady === 'true';
@@ -45,9 +48,9 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Props['actions']>({
             getPlugins,
         }, dispatch),
     };
