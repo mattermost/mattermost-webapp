@@ -1,18 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useRef, useState, useEffect, useCallback, memo, useMemo} from 'react';
-import {FormattedMessage} from 'react-intl';
-import type {FixedSizeList} from 'react-window';
+import React, { useRef, useState, useEffect, useCallback, memo, useMemo } from 'react';
+import { FormattedMessage } from 'react-intl';
+import type { FixedSizeList } from 'react-window';
 import type InfiniteLoader from 'react-window-infinite-loader';
 
-import {Emoji, EmojiCategory} from 'mattermost-redux/types/emojis';
-import {isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
+import { Emoji, EmojiCategory } from 'mattermost-redux/types/emojis';
+import { isSystemEmoji } from 'mattermost-redux/utils/emoji_utils';
 
-import {NoResultsVariant} from 'components/no_results_indicator/types';
-import {CategoryOrEmojiRow, Categories, EmojiCursor, NavigationDirection, EmojiPosition, EmojiRow} from 'components/emoji_picker/types';
-import {CATEGORIES, RECENT_EMOJI_CATEGORY, RECENT, SMILEY_EMOTION, SEARCH_RESULTS, EMOJI_PER_ROW} from 'components/emoji_picker/constants';
-import {createCategoryAndEmojiRows, getCursorProperties, getUpdatedCategoriesAndAllEmojis} from 'components/emoji_picker/utils';
+import { NoResultsVariant } from 'components/no_results_indicator/types';
+import { CategoryOrEmojiRow, Categories, EmojiCursor, NavigationDirection, EmojiPosition, EmojiRow } from 'components/emoji_picker/types';
+import { CATEGORIES, RECENT_EMOJI_CATEGORY, RECENT, SMILEY_EMOTION, SEARCH_RESULTS, EMOJI_PER_ROW } from 'components/emoji_picker/constants';
+import { createCategoryAndEmojiRows, getCursorProperties, getUpdatedCategoriesAndAllEmojis } from 'components/emoji_picker/utils';
 import NoResultsIndicator from 'components/no_results_indicator';
 import EmojiPickerPreview from 'components/emoji_picker/components/emoji_picker_preview';
 import EmojiPickerSearch from 'components/emoji_picker/components/emoji_picker_search';
@@ -21,7 +21,7 @@ import EmojiPickerCategories from 'components/emoji_picker/components/emoji_pick
 import EmojiPickerCustomEmojiButton from 'components/emoji_picker/components/emoji_picker_custom_emoji_button';
 import EmojiPickerCurrentResults from 'components/emoji_picker/components/emoji_picker_current_results';
 
-import type {PropsFromRedux} from './index';
+import type { PropsFromRedux } from './index';
 
 interface Props extends PropsFromRedux {
     filter: string;
@@ -58,7 +58,7 @@ const EmojiPicker = ({
     });
 
     // On the first load, categories doesnt contain emojiIds until later when getUpdatedCategoriesAndAllEmojis is called
-    const getInitialCategories = () => (recentEmojis.length ? {...RECENT_EMOJI_CATEGORY, ...CATEGORIES} : CATEGORIES);
+    const getInitialCategories = () => (recentEmojis.length ? { ...RECENT_EMOJI_CATEGORY, ...CATEGORIES } : CATEGORIES);
     const [categories, setCategories] = useState<Categories>(getInitialCategories);
 
     const [allEmojis, setAllEmojis] = useState<Record<string, Emoji>>({});
@@ -70,7 +70,7 @@ const EmojiPicker = ({
 
     const searchInputRef = useRef<HTMLInputElement>(null);
 
-    const infiniteLoaderRef = React.useRef<InfiniteLoader & {_listRef: FixedSizeList<CategoryOrEmojiRow[]>}>(null);
+    const infiniteLoaderRef = React.useRef<InfiniteLoader & { _listRef: FixedSizeList<CategoryOrEmojiRow[]> }>(null);
 
     const shouldRunCreateCategoryAndEmojiRows = useRef<boolean>();
 
@@ -318,7 +318,7 @@ const EmojiPicker = ({
     };
 
     const cursorEmojiName = useMemo(() => {
-        const {emoji} = cursor;
+        const { emoji } = cursor;
 
         if (!emoji) {
             return '';
@@ -377,7 +377,7 @@ const EmojiPicker = ({
             {areSearchResultsEmpty ? (
                 <NoResultsIndicator
                     variant={NoResultsVariant.Search}
-                    titleValues={{channelName: `"${filter}"`}}
+                    titleValues={{ channelName: `“${filter}”` }}
                 />
             ) : (
                 <EmojiPickerCurrentResults
@@ -397,9 +397,11 @@ const EmojiPicker = ({
                 />
             )}
             <div className='emoji-picker__footer'>
-                <EmojiPickerPreview
-                    emoji={cursor.emoji}
-                />
+                {areSearchResultsEmpty ? (<div></div>) :
+                    (<EmojiPickerPreview
+                        emoji={cursor.emoji}
+                    />)
+                }
                 <EmojiPickerCustomEmojiButton
                     currentTeamName={currentTeamName}
                     customEmojisEnabled={customEmojisEnabled}

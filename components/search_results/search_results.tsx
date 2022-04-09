@@ -214,7 +214,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         titleDescriptor.id = t('search_header.search');
         titleDescriptor.defaultMessage = 'Search';
     } else {
-        noResultsProps.titleValues = {channelName: `"${searchTerms}"`};
+        noResultsProps.titleValues = {channelName: `“${searchTerms}”`};
 
         titleDescriptor.id = t('search_header.results');
         titleDescriptor.defaultMessage = 'Search Results';

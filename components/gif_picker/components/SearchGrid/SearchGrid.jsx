@@ -207,7 +207,7 @@ export class SearchGrid extends PureComponent {
         const emptySearch = !isFetching && isEmpty ? (
             <NoResultsIndicator
                 variant={NoResultsVariant.Search}
-                titleValues={{channelName: `"${keyword}"`}}
+                titleValues={{channelName: `“${keyword}”`}}
             />
         ) : null;
 
