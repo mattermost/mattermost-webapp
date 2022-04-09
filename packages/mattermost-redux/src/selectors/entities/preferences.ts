@@ -218,3 +218,7 @@ export function getUseCaseOnboarding(state: GlobalState): boolean {
 export function insightsAreEnabled(state: GlobalState): boolean {
     return getFeatureFlagValue(state, 'InsightsEnabled') === 'true';
 }
+
+export function isGraphqlEnabled(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'GraphQL') === 'true';
+}
