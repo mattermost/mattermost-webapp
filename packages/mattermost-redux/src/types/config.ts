@@ -118,6 +118,7 @@ export type ClientConfig = {
     ExperimentalTimezone: string;
     ExperimentalViewArchivedChannels: string;
     FileLevel: string;
+    FeatureFlagGraphQL: string;
     GfycatAPIKey: string;
     GfycatAPISecret: string;
     GoogleDeveloperKey: string;
@@ -234,7 +235,10 @@ export type LicenseFeatures = {
     future_features?: boolean;
 };
 
-export type ClientLicense = Record<string, string>;
+export type ClientLicense = Record<string, string> & {
+    IsLicensed: string;
+    Cloud: string;
+};
 
 export type DataRetentionPolicy = {
     message_deletion_enabled: boolean;

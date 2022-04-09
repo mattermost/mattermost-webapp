@@ -5,7 +5,6 @@ import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
 
 import {Client4} from 'mattermost-redux/client';
-import {myDataQuery} from 'mattermost-redux/client/queries';
 
 import {ActionFunc, ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {UserProfile, UserStatus, GetFilteredUsersStatsOpts, UsersStats, UserCustomStatus} from 'mattermost-redux/types/users';
@@ -17,6 +16,7 @@ import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 import {bindClientFunc, forceLogoutIfNecessary, debounce} from 'mattermost-redux/actions/helpers';
 import {logError} from 'mattermost-redux/actions/errors';
 import {getMyPreferences} from 'mattermost-redux/actions/preferences';
+import {myDataQuery, MyDataQueryResponseType} from 'mattermost-redux/actions/users_queries';
 
 import {getServerVersion} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId, getUsers} from 'mattermost-redux/selectors/entities/users';
@@ -185,10 +185,10 @@ export function loadMeGQL(): ActionFunc {
         dispatch(setServerVersion(serverVersion));
 
         try {
-            const {data} = await Client4.fetchWithGraphQL(myDataQuery);
+            const {data} = await Client4.fetchWithGraphQL<MyDataQueryResponseType>(myDataQuery);
 
             console.log('loadMeGQL', data);
-        } catch(err) {
+        } catch (err) {
             // console.log('loadMeGQL eee', err);
             // dispatch(logError(error));
             // return {error};

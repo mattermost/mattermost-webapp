@@ -1,6 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {UserProfile} from 'mattermost-redux/types/users';
+import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
+import {Role} from 'mattermost-redux/types/roles';
+import {Team} from 'mattermost-redux/types/teams';
+
 const myDataQueryString = `
 {
     config
@@ -61,6 +66,24 @@ const myDataQueryString = `
       scheme_user: schemeUser
       scheme_admin: schemeAdmin
     }
-}`;
+}
+`;
 
 export const myDataQuery = JSON.stringify({query: myDataQueryString});
+
+export type MyDataQueryResponseType = {
+    data: {
+        user: UserProfile;
+        config: ClientConfig;
+        license: ClientLicense;
+        teamMembers: {
+            team: Team;
+            user: UserProfile;
+            roles: Role[];
+            delete_at: number;
+            scheme_guest: boolean;
+            scheme_user: boolean;
+            scheme_admin: boolean;
+        };
+    };
+};
