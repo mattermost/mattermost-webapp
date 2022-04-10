@@ -7,12 +7,12 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {getPlugins} from 'mattermost-redux/actions/admin';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
+import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {isMobile} from 'utils/utils.jsx';
 
 import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks';
-
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getNavigationBlocked} from 'selectors/views/admin';
 import {getAdminDefinition, getConsoleAccess} from 'selectors/admin_console';
@@ -20,7 +20,6 @@ import {getAdminDefinition, getConsoleAccess} from 'selectors/admin_console';
 import {GlobalState} from 'types/store';
 
 import AdminSidebar, {Props} from './admin_sidebar';
-import {Action, ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
 function mapStateToProps(state: GlobalState) {
     const license = getLicense(state);
@@ -48,7 +47,7 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Props['actions']>({
             getPlugins,

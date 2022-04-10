@@ -21,10 +21,12 @@ import AdminSidebarSection from 'components/admin_console/admin_sidebar_section.
 import Highlight from 'components/admin_console/highlight';
 import SearchIcon from 'components/widgets/icons/search_icon';
 import QuickInput from 'components/quick_input';
+
 import {AdminConfig, ClientLicense} from 'mattermost-redux/types/config';
-import {PluginManifest, PluginRedux} from 'mattermost-redux/types/plugins';
+import {PluginRedux, PluginsResponse} from 'mattermost-redux/types/plugins';
 import {CloudState} from 'mattermost-redux/types/cloud';
 import {ConsoleAccess} from 'mattermost-redux/types/admin';
+
 import AdminDefinition from '../admin_definition';
 
 const renderScrollView = (props: Props) => (
@@ -48,36 +50,35 @@ const renderScrollThumbVertical = (props: Props) => (
     />
 );
 
-// todo put optionals to end of the list
 export type Props = {
-    license: ClientLicense;
-    config: Partial<AdminConfig>;
-    plugins: Record<string, PluginRedux>;
     adminDefinition: typeof AdminDefinition;
-    cloud: CloudState;
     buildEnterpriseReady: boolean;
-    siteName?: string;
-    onFilterChange: (term: string) => void;
-    navigationBlocked: boolean;
+    config: Partial<AdminConfig>;
     consoleAccess: ConsoleAccess;
+    cloud: CloudState;
     intl: IntlShape;
+    license: ClientLicense;
+    navigationBlocked: boolean;
+    onFilterChange: (term: string) => void;
     showTaskList: boolean;
+    plugins?: Record<string, PluginRedux>;
+    siteName?: string;
     actions: {
 
         /*
         * Function to get installed plugins
         */
-        getPlugins: () => Promise<{data: PluginManifest[]}>;
+        getPlugins: () => Promise<{data: PluginsResponse}>;
     };
 }
 
 type State = {
-    sections: any;
+    sections: string[] | null;
     filter: string;
 }
 
 class AdminSidebar extends React.PureComponent<Props, State> {
-    searchRef: React.RefObject<any>;
+    searchRef: React.RefObject<HTMLInputElement>;
     idx: any;
 
     static defaultProps = {
@@ -244,7 +245,7 @@ class AdminSidebar extends React.PureComponent<Props, State> {
 
                 // Special case for plugins entries
                 let moreSidebarItems: JSX.Element[] = [];
-                if (section.id === 'plugins') {
+                if ((section as typeof AdminDefinition['plugins']).id === 'plugins') {
                     moreSidebarItems = this.renderPluginsMenu();
                 }
 
@@ -285,7 +286,7 @@ class AdminSidebar extends React.PureComponent<Props, State> {
 
     renderPluginsMenu = () => {
         if (this.props.config.PluginSettings!.Enable) {
-            return Object.values(this.props.plugins).sort((a, b) => {
+            return Object.values(this.props.plugins!).sort((a, b) => {
                 const nameCompare = a.name.localeCompare(b.name);
                 if (nameCompare !== 0) {
                     return nameCompare;
