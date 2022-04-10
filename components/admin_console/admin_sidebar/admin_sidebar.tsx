@@ -53,7 +53,7 @@ const renderScrollThumbVertical = (props: Props) => (
 export type Props = {
     adminDefinition: typeof AdminDefinition;
     buildEnterpriseReady: boolean;
-    config: Partial<AdminConfig>;
+    config: DeepPartial<AdminConfig>;
     consoleAccess: ConsoleAccess;
     cloud: CloudState;
     intl: IntlShape;
