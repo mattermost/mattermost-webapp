@@ -22,6 +22,7 @@ const defaultProps: Props = deepFreeze({
         searchProfiles: jest.fn(),
         sendGuestsInvites: jest.fn(),
         sendMembersInvites: jest.fn(),
+        sendMembersInvitesToChannels: jest.fn(),
     },
     currentTeam: {
         display_name: '',
@@ -33,7 +34,6 @@ const defaultProps: Props = deepFreeze({
     emailInvitationsEnabled: true,
     isAdmin: false,
     isCloud: false,
-    cloudUserLimit: '',
     canAddUsers: true,
     canInviteGuests: true,
     intl: {} as IntlShape,

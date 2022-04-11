@@ -110,7 +110,7 @@ const CodeBlock: React.FC<Props> = ({id, code, language, searchedContent}: Props
             {contextMenu}
             <ContextMenuTrigger
                 id={`copy-code-block-context-menu-${id}`}
-                holdToDisplay={1000}
+                holdToDisplay={-1}
             >
                 <div className='hljs'>
                     {lineNumbers}

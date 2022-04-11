@@ -111,18 +111,21 @@ const GlobalThreads = () => {
     }, [currentUserId, currentTeamId]);
 
     const isOnlySelectedThreadInList = (list: string[]) => {
-        return selectedThreadId && list.length === 1 && list.includes(selectedThreadId);
+        return selectedThreadId && list.length === 1 && list[0] === selectedThreadId;
     };
+
+    const shouldLoadThreads = isEmpty(threadIds) || isOnlySelectedThreadInList(threadIds);
+    const shouldLoadUnreadThreads = isEmpty(unreadThreadIds) || isOnlySelectedThreadInList(unreadThreadIds);
 
     useEffect(() => {
         const promises = [];
 
         // this is needed to jump start threads fetching
-        if (isEmpty(threadIds) || isOnlySelectedThreadInList(threadIds)) {
+        if (shouldLoadThreads) {
             promises.push(fetchThreads(false));
         }
 
-        if (filter === ThreadFilter.unread && (isEmpty(unreadThreadIds) || isOnlySelectedThreadInList(unreadThreadIds))) {
+        if (filter === ThreadFilter.unread && shouldLoadUnreadThreads) {
             promises.push(fetchThreads(true));
         }
 

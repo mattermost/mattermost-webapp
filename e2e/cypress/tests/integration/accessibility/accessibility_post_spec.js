@@ -206,7 +206,7 @@ describe('Verify Accessibility Support in Post', () => {
                 cy.focused().tab();
 
                 if (emojiPickerEnabled) {
-                    // * Verify focus is on the actions button
+                    // * Verify focus is on the more button
                     cy.get(`#CENTER_button_${postId}`).should('be.focused').and('have.attr', 'aria-label', 'more');
                     cy.focused().tab();
                 }
