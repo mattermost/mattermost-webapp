@@ -16,6 +16,23 @@ interface Props {
 
 const SearchBar = ({className, terms, onInput}: Props) => {
     const {formatMessage} = useIntl();
+
+    let inputSuffix;
+    if (terms.length > 0) {
+        inputSuffix = (
+            <button
+                className='style--none'
+                onClick={() => onInput('')}
+                aria-label={formatMessage({
+                    id: 'channel_members_rhs.search_bar.aria.cancel_search_button',
+                    defaultMessage: 'cancel members search',
+                })}
+            >
+                <i className={'icon icon-close-circle'}/>
+            </button>
+        );
+    }
+
     return (
         <div className={className}>
             <Input
@@ -23,18 +40,7 @@ const SearchBar = ({className, terms, onInput}: Props) => {
                 value={terms}
                 onInput={(e) => onInput(e.currentTarget.value)}
                 inputPrefix={<i className={'icon icon-magnify'}/>}
-                inputSuffix={terms.length > 0 ? (
-                    <button
-                        className='style--none'
-                        onClick={() => onInput('')}
-                        aria-label={formatMessage({
-                            id: 'channel_members_rhs.search_bar.aria.cancel_search_button',
-                            defaultMessage: 'cancel members search',
-                        })}
-                    >
-                        <i className={'icon icon-close-circle'}/>
-                    </button>
-                ) : <></>}
+                inputSuffix={inputSuffix}
             />
         </div>
     );
