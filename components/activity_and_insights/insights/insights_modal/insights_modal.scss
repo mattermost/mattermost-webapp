@@ -31,6 +31,74 @@
         }
         .modal-body {
             padding: 4px 32px 28px;
+
+            .InsightsTable {
+                padding: 0;
+                background: #fff;
+            
+                .DataGrid_header {
+                    padding: 12px 0;
+                    background-color: rgba(var(--center-channel-color-rgb), 0.04);
+                    border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+                    border-radius: 4px 4px 0px 0px;
+                    color: var(--center-channel-color);
+                    font-family: 'Open Sans';
+                    font-style: normal;
+                    font-weight: 600;
+                    font-size: 14px;
+                    line-height: 20px;
+            
+                    &:last-child {
+                        border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+                    }
+            
+                    .DataGrid_cell {
+                        padding: 0 16px;
+                    }
+                }
+            
+                .DataGrid_rows {
+                    .DataGrid_row {
+                        display: flex;
+                        flex-direction: row;
+                        border-left: none;
+                        background-color: transparent !important;
+                        padding: 0;
+                        border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+                
+                        &:hover {
+                            border-left: none;
+                            background-color: rgba(var(--button-bg-rgb), 0.08);
+                            color: var(--center-channel-color);
+                        }
+                
+                        .DataGrid_cell {
+                            padding: 0px 16px;
+                            margin: 0;
+                            white-space: normal;
+                
+                            &.rankCell {
+                                flex: 0.2 0;
+                            }
+                
+                            .emoticon {
+                                margin: 12px 12px 12px 0px;
+                            }
+                
+                            span.cell-text {
+                                font-family: 'Open Sans';
+                                font-style: normal;
+                                font-weight: 400;
+                                font-size: 14px;
+                                line-height: 20px;
+                                padding: 14px 0px;
+                                display: inline-block;
+                            }
+                        }
+                    }
+                }
+                
+            }
         }
     }
 }

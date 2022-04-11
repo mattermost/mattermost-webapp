@@ -7,15 +7,9 @@ import {FormattedMessage} from 'react-intl';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
 import RenderEmoji from 'components/emoji/render_emoji';
 
-import './../../activity_and_insights.scss';
-import './insights_table.scss';
+import './../../../activity_and_insights.scss';
 
-type Props = {
-    widgetType: 'TOP_CHANNELS' | 'TOP_REACTIONS';
-}
-
-const InsightsTable = (props: Props) => {
-
+const TopReactionsTable = () => {
     const getColumns = (): Column[] => {
         const columns: Column[] = [
             {
@@ -107,7 +101,7 @@ const InsightsTable = (props: Props) => {
                 cells: {
                     rank: (
                         <span className='cell-text'>
-                            {'40'}
+                            {'3'}
                         </span>
                     ),
                     reaction: (
@@ -140,11 +134,11 @@ const InsightsTable = (props: Props) => {
             nextPage={() => {}}
             previousPage={() => {}}
             startCount={1}
-            endCount={4}
+            endCount={10}
             total={0}
-            className={'insightsTable'}
+            className={'InsightsTable'}
         />
     );
 };
 
-export default memo(InsightsTable);
+export default memo(TopReactionsTable);

@@ -6,7 +6,7 @@ import {useIntl} from 'react-intl';
 
 import {openModal} from 'actions/views/modals';
 
-import {CardSize} from '../insights';
+import {CardSize, InsightsWidgetTypes} from '../insights';
 import InsightsCard from '../card/card';
 import InsightsModal from '../insights_modal/insights_modal';
 
@@ -15,7 +15,7 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 export interface WidgetHocProps {
     size: CardSize;
-    widgetType: 'TOP_CHANNELS' | 'TOP_REACTIONS';
+    widgetType: InsightsWidgetTypes;
     filterType: string;
     class: string;
 }

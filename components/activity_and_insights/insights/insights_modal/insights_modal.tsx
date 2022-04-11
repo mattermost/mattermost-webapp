@@ -7,14 +7,15 @@ import {Modal} from 'react-bootstrap';
 import {InsightsTimeFrames} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 import TimeFrameDropdown from '../time_frame_dropdown/time_frame_dropdown';
-import InsightsTable from '../insights_table/insights_table';
+import {InsightsWidgetTypes} from '../insights';
+import TopReactionsTable from '../top_reactions/top_reactions_table/top_reactions_table';
 
 import './../../activity_and_insights.scss';
 import './insights_modal.scss';
 
 type Props = {
     onExited: () => void;
-    widgetType: 'TOP_CHANNELS' | 'TOP_REACTIONS';
+    widgetType: InsightsWidgetTypes;
     title: string;
     subtitle: string;
 }
@@ -33,6 +34,19 @@ const InsightsModal = (props: Props) => {
     const doHide = useCallback(() => {
         setShow(false);
     }, []);
+
+    const modalContent = useCallback(() => {
+        switch (props.widgetType) {
+            case InsightsWidgetTypes.TOP_CHANNELS:
+                return null;
+            case InsightsWidgetTypes.TOP_REACTIONS:
+                return (
+                    <TopReactionsTable/>
+                );
+            default:
+                return null;
+        }
+    }, [props.widgetType])
 
     return (
         <Modal
@@ -63,9 +77,7 @@ const InsightsModal = (props: Props) => {
             <Modal.Body
                 className='overflow--visible'
             >
-                <InsightsTable 
-                    widgetType={props.widgetType}
-                />
+                {modalContent()}
             </Modal.Body>
         </Modal>
     );
