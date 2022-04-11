@@ -10,8 +10,13 @@ import {Locations} from 'utils/constants';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
+import {Reaction as ReactionType} from 'mattermost-redux/types/reactions';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users'
+import store from 'stores/redux_store.jsx';
 
 import EmojiItem from './recent_reactions_emoji_item';
+import {Post} from 'mattermost-redux/types/posts';
+import { makeGetUniqueReactionsToPost } from 'utils/post_utils';
 
 type LocationTypes = 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT';
 
@@ -27,6 +32,7 @@ type Props = {
     defaultEmojis: Emoji[];
     actions: {
         addReaction: (postId: string, emojiName: string) => (dispatch: Dispatch) => void;
+        removeReaction: (postId: string, emojiName: string) => (dispatch: Dispatch) => void;
     };
 }
 
@@ -40,9 +46,26 @@ export default class PostRecentReactions extends React.PureComponent<Props, Stat
         size: 3,
     };
 
-    handleAddEmoji = (emoji: Emoji): void => {
+    handleEmoji = (emoji: Emoji): void => {
         const emojiName = 'short_name' in emoji ? emoji.short_name : emoji.name;
-        this.props.actions.addReaction(this.props.postId, emojiName);
+        const state = store.getState()
+        const getReactionsForPost = makeGetUniqueReactionsToPost();
+
+        let reactions = getReactionsForPost(state, this.props.postId)
+        let currentUserReacted = false
+        for (let key in reactions) {
+            let value  = reactions[key];
+            if (value.user_id === getCurrentUserId(state) && value.emoji_name === emojiName) {
+                currentUserReacted = true
+                break
+            }
+        }
+
+        if (currentUserReacted) {
+            this.props.actions.removeReaction(this.props.postId, emojiName)
+        } else {
+            this.props.actions.addReaction(this.props.postId, emojiName);
+        }
     };
 
     complementEmojis = (emojis: Emoji[]): (Emoji[]) => {
@@ -108,7 +131,7 @@ export default class PostRecentReactions extends React.PureComponent<Props, Stat
                             <EmojiItem
                                 // eslint-disable-next-line react/no-array-index-key
                                 emoji={emoji}
-                                onItemClick={this.handleAddEmoji}
+                                onItemClick={this.handleEmoji}
                                 order={n}
                             />
                         </React.Fragment>
@@ -119,4 +142,3 @@ export default class PostRecentReactions extends React.PureComponent<Props, Stat
         );
     }
 }
-

@@ -9,11 +9,13 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {addReaction} from 'actions/post_actions.jsx';
 
 import PostReaction from './post_reaction';
+import {removeReaction} from 'mattermost-redux/actions/posts';
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             addReaction,
+            removeReaction
         }, dispatch),
     };
 }

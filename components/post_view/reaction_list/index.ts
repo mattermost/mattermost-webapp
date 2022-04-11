@@ -14,6 +14,7 @@ import {Reaction} from 'mattermost-redux/types/reactions';
 import {GlobalState} from 'types/store';
 
 import {addReaction} from 'actions/post_actions.jsx';
+import {removeReaction} from 'mattermost-redux/actions/posts';
 
 import {makeGetUniqueReactionsToPost} from 'utils/post_utils';
 
@@ -47,6 +48,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             addReaction,
+            removeReaction
         }, dispatch),
     };
 }
