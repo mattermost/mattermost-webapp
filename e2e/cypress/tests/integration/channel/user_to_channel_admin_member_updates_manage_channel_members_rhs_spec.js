@@ -54,6 +54,18 @@ describe('Change Roles', () => {
                 cy.apiAddUserToTeam(team.id, otherUser.id);
             });
 
+            // # Change permission so that regular users can't change channels or add members
+            cy.apiGetRolesByNames(['channel_user']).then(({roles}) => {
+                const role = roles[0];
+                const permissions = role.permissions.filter((permission) => {
+                    return !(['manage_public_channel_members', 'manage_private_channel_members', 'manage_public_channel_properties', 'manage_private_channel_properties'].includes(permission));
+                });
+
+                if (permissions.length !== role.permissions) {
+                    cy.apiPatchRole(role.id, {permissions});
+                }
+            });
+
             cy.apiLogin(testUser);
             cy.visit(`/${team.name}/channels/${channel.name}`);
 
@@ -69,20 +81,12 @@ describe('Change Roles', () => {
     it('MM-T4174 User role to channel admin/member updates channel member modal immediately without refresh', () => {
         // # Go to member modal
         cy.uiGetChannelMemberButton().click();
-        cy.findByText('Manage Members').click();
-
-        // * Check to see if no drop down menu exists
-        cy.findAllByTestId('userListItemActions').then((el) => {
-            cy.wrap(el[0]).should('not.be.visible');
-        });
+        cy.uiGetRHS().findByText('Manage').should('not.exist');
 
         // Promote user to a channel admin
         promoteToChannelAdmin(testUser, testChannelId, admin);
 
         // * Check to see if a dropdown exists now
-        cy.get('.filtered-user-list').should('be.visible').within(() => {
-            cy.findByText('Channel Admin').should('exist');
-            cy.findByText('Channel Member').should('exist');
-        });
+        cy.uiGetRHS().findByText('Manage').should('be.visible');
     });
 });
