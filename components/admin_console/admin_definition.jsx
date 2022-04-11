@@ -1179,10 +1179,11 @@ const AdminDefinition = {
                         help_text_default: 'When true, encrypt files in Amazon S3 using server-side encryption with Amazon S3-managed keys. See <link>documentation</link> to learn more.',
                         help_text_values: {
                             link: (msg) => (
-                                <a 
-                                    href='https://docs.mattermost.com/configure/configuration-settings.html#session-lengths' 
-                                    referrer='noreferrer' 
+                                <a
+                                    href='https://docs.mattermost.com/configure/configuration-settings.html#session-lengths'
+                                    referrer='noreferrer'
                                     target='_blank'
+                                    rel='noreferrer'
                                 >
                                     {msg}
                                 </a>
