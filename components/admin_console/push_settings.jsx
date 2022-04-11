@@ -147,7 +147,7 @@ export default class PushSettings extends AdminSettings {
                         ),
                         linkAndroid: (msg) => (
                             <a
-                                href='https: //mattermost.com/mattermost-android-app/'
+                                href='https://mattermost.com/mattermost-android-app/'
                                 referrer='noreferrer'
                                 target='_blank'
                                 rel='noreferrer'
@@ -186,7 +186,7 @@ export default class PushSettings extends AdminSettings {
                         ),
                         linkAndroid: (msg) => (
                             <a
-                                href='https: //mattermost.com/mattermost-android-app/'
+                                href='https://mattermost.com/mattermost-android-app/'
                                 referrer='noreferrer'
                                 target='_blank'
                                 rel='noreferrer'
