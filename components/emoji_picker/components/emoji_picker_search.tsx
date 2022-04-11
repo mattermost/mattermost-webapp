@@ -16,16 +16,14 @@ interface Props {
     value: string;
     cursorCategoryIndex: number;
     cursorEmojiIndex: number;
-    customEmojisEnabled: boolean;
     focus: () => void;
     onEnter: () => void;
     onChange: (value: string) => void;
     onKeyDown: (moveTo: NavigationDirection) => void;
     resetCursorPosition: () => void;
-    searchCustomEmojis: (value: string) => void;
 }
 
-const EmojiPickerSearch = forwardRef<HTMLInputElement, Props>(({value, customEmojisEnabled, cursorCategoryIndex, cursorEmojiIndex, onChange, resetCursorPosition, onKeyDown, focus, onEnter, searchCustomEmojis}: Props, ref) => {
+const EmojiPickerSearch = forwardRef<HTMLInputElement, Props>(({value, cursorCategoryIndex, cursorEmojiIndex, onChange, resetCursorPosition, onKeyDown, focus, onEnter}: Props, ref) => {
     const {formatMessage} = useIntl();
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -34,10 +32,6 @@ const EmojiPickerSearch = forwardRef<HTMLInputElement, Props>(({value, customEmo
         // remove trailing and leading colons
         const value = event.target.value.toLowerCase().replace(/^:|:$/g, '');
         onChange(value);
-
-        if (customEmojisEnabled && value && value.trim().length) {
-            searchCustomEmojis(value);
-        }
 
         resetCursorPosition();
     };
