@@ -508,6 +508,12 @@
 }
 
 .post-body__actions {
+    &.--edit{
+        position: absolute;
+        right: 4px;
+        top: 0;
+        display: flex;
+    }
     &.--bottom {
         position: absolute;
         right: 4px;

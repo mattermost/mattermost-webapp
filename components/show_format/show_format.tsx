@@ -43,7 +43,7 @@ export const ShowFormat = (props: ShowFormatProps): JSX.Element => {
                         id='fileUploadButton'
                         className='style--none post-action icon icon--attachment'
                     >
-                        <i className='fa fa-eye'/>
+                        <i className='icon icon-eye-outline'/>
                     </button>
                     <input
                         id='fileUploadInput'

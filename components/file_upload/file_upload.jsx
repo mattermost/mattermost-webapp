@@ -672,7 +672,7 @@ export class FileUpload extends PureComponent {
                                 id='fileUploadButton'
                                 className='icon icon--attachment'
                             >
-                                <AttachmentIcon className='d-flex'/>
+                                <i className='icon icon-paperclip'/>
                             </div>
                         </button>
                         <Menu

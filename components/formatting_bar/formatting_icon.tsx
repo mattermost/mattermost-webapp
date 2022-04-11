@@ -50,15 +50,15 @@ interface FormattingIconProps {
 const MAP_MARKDOWN_TYPE_TO_ICON: {
     [key in FormattingIconProps['type']]: string;
 } = {
-    bold: 'fa fa-bold',
-    italic: 'fa fa-italic',
-    link: 'fa fa-link',
-    strike: 'fa fa-strikethrough',
-    code: 'fa fa-code',
-    heading: 'heading',
-    quote: 'fa fa-quote-left',
-    ul: 'fa fa-list-ul',
-    ol: 'fa fa-list-ol',
+    bold: 'icon icon-format-bold',
+    italic: 'icon icon-format-italic',
+    link: 'icon icon-link-variant',
+    strike: 'icon icon-format-strikethrough-variant',
+    code: 'icon icon-code-tags',
+    heading: 'icon icon-format-header',
+    quote: 'icon icon-format-quote-open',
+    ul: 'icon icon-format-list-bulleted',
+    ol: 'icon icon-format-list-numbered',
 };
 
 const MAP_MARKDOWN_TYPE_TO_KEYBOARD_SHORTCUTS: {

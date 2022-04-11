@@ -432,7 +432,11 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
                 characterLimit={rest.maxPostSize}
                 useChannelMentions={rest.useChannelMentions}
             />
-            <div className='post-body__actions'>
+            <div
+                className={classNames('post-body__actions', {
+                    '--edit': true,
+                })}
+            >
                 {emojiPicker}
             </div>
             <EditPostHelperText ctrlSend={rest.ctrlSend}/>

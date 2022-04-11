@@ -17,7 +17,7 @@ export const ToggleFormattingBar = (props: ToggleFormattingBarProps): JSX.Elemen
                 onClick={onClick}
                 className='style--none post-action icon icon--attachment'
             >
-                {'Aa'}
+                <i className='icon icon-format-letter-case'/>
             </button>
         </div>
     );

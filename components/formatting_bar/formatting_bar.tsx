@@ -257,7 +257,7 @@ const Question = () => {
             }}
         >
             <Icon>
-                <i className='fa fa-question'/>
+                <i className='icon icon-help-circle-outline'/>
             </Icon>
         </div>
     );
