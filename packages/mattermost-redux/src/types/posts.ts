@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {ChannelType} from './channels';
 import {CustomEmoji} from './emojis';
 import {FileInfo} from './files';
 import {Reaction} from './reactions';
@@ -155,4 +156,6 @@ export declare type PostPreviewMetadata = {
     post?: Post;
     channel_display_name: string;
     team_name: string;
+    channel_type: ChannelType;
+    channel_id: string;
 };
