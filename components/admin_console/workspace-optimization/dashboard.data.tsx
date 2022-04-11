@@ -25,10 +25,10 @@ type DataModel = {
     [key: string]: {
         title: string;
         description: string;
-        hide: boolean;
         descriptionOk: string;
         items: ItemModel[];
         icon: React.ReactNode;
+        hide?: boolean;
     };
 }
 
@@ -98,7 +98,6 @@ const useMetricsData = () => {
             id: 'admin.reporting.workspace_optimization.updates.description',
             defaultMessage: 'An update is available.',
         }),
-        hide: false,
         descriptionOk: formatMessage({
             id: 'admin.reporting.workspace_optimization.updates.descriptionOk',
             defaultMessage: 'Your workspace is completely up to date!',
@@ -322,7 +321,6 @@ const useMetricsData = () => {
             id: 'admin.reporting.workspace_optimization.data_privacy.description',
             defaultMessage: 'Get better insight and control over your data.',
         }),
-        hide: false,
         descriptionOk: formatMessage({
             id: 'admin.reporting.workspace_optimization.data_privacy.descriptionOk',
             defaultMessage: 'You\'ve enabled data retention and compliance features!',
@@ -379,7 +377,6 @@ const useMetricsData = () => {
             id: 'admin.reporting.workspace_optimization.ease_of_management.description',
             defaultMessage: 'Make it easier to manage your Mattermost workspace.',
         }),
-        hide: false,
         descriptionOk: formatMessage({
             id: 'admin.reporting.workspace_optimization.ease_of_management.descriptionOk',
             defaultMessage: 'Your user authentication setup is appropriate based on your current usage!',
