@@ -67,7 +67,6 @@ const LearnMoreTrialModalStep = (
                             linkEvaluation: (msg: React.ReactNode) => (
                                 <a
                                     href='https://mattermost.com/software-evaluation-agreement'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -77,7 +76,6 @@ const LearnMoreTrialModalStep = (
                             linkPrivacy: (msg: React.ReactNode) => (
                                 <a
                                     href='https://mattermost.com/privacy-policy/'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >

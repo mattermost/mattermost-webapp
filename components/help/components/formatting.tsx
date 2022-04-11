@@ -240,7 +240,6 @@ export default function HelpFormatting(): JSX.Element {
                     link: (msg: React.ReactNode) => (
                         <a
                             href='https://mattermost.com/'
-                            referrer='noreferrer'
                             target='_blank'
                             rel='noreferrer'
                         >

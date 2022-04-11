@@ -159,7 +159,6 @@ export default class ManageTokensModal extends React.PureComponent<Props, State>
                             linkAuthentication: (msg: React.ReactNode) => (
                                 <a
                                     href='https://api.mattermost.com/#tag/authentication'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -169,7 +168,6 @@ export default class ManageTokensModal extends React.PureComponent<Props, State>
                             linkPersonalAccessTokens: (msg: React.ReactNode) => (
                                 <a
                                     href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >

@@ -173,7 +173,6 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
                                 link: (msg: React.ReactNode) => (
                                     <a
                                         href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/'
-                                        referrer='noreferrer'
                                         target='_blank'
                                         rel='noreferrer'
                                     >
@@ -258,7 +257,6 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
                                         link: (msg: React.ReactNode) => (
                                             <a
                                                 href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token'
-                                                referrer='noreferrer'
                                                 target='_blank'
                                                 rel='noreferrer'
                                             >

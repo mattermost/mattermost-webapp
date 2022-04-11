@@ -443,7 +443,6 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
                             linktokens: (msg: React.ReactNode) => (
                                 <a
                                     href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -453,7 +452,6 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
                             linkAPI: (msg: React.ReactNode) => (
                                 <a
                                     href='https://api.mattermost.com/#tag/authentication'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >

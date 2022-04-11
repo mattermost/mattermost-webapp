@@ -614,7 +614,6 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent<Pr
                                             linkTeamOverride: (msg: React.ReactNode) => (
                                                 <a
                                                     href='https://docs.mattermost.com/onboard/advanced-permissions.html'
-                                                    referrer='noreferrer'
                                                     target='_blank'
                                                     rel='noreferrer'
                                                 >
@@ -624,7 +623,6 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent<Pr
                                             linkSystemScheme: (msg: React.ReactNode) => (
                                                 <a
                                                     href='https://docs.mattermost.com/onboard/advanced-permissions.htm'
-                                                    referrer='noreferrer'
                                                     target='_blank'
                                                     rel='noreferrer'
                                                 >

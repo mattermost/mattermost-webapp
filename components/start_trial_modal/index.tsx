@@ -144,7 +144,6 @@ function StartTrialModal(props: Props): JSX.Element | null {
                                 linkEvaluation: (msg: React.ReactNode) => (
                                     <a
                                         href='https://mattermost.com/software-evaluation-agreement'
-                                        referrer='noreferrer'
                                         target='_blank'
                                         rel='noreferrer'
                                     >
@@ -154,7 +153,6 @@ function StartTrialModal(props: Props): JSX.Element | null {
                                 linkPrivacy: (msg: React.ReactNode) => (
                                     <a
                                         href='https://mattermost.com/privacy-policy/'
-                                        referrer='noreferrer'
                                         target='_blank'
                                         rel='noreferrer'
                                     >

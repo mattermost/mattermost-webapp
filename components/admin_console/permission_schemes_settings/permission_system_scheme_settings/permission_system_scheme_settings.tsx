@@ -375,7 +375,6 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent<
                                             link: (msg: React.ReactNode) => (
                                                 <a
                                                     href='https://docs.mattermost.com/onboard/advanced-permissions.html'
-                                                    referrer='noreferrer'
                                                     target='_blank'
                                                     rel='noreferrer'
                                                 >

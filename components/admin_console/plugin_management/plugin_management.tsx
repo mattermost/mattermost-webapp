@@ -845,7 +845,6 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                 link: (msg: React.ReactNode) => (
                                     <a
                                         href='https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/'
-                                        referrer='noreferrer'
                                         target='_blank'
                                         rel='noreferrer'
                                     >
@@ -993,7 +992,6 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                         link: (msg: React.ReactNode) => (
                             <a
                                 href='https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/'
-                                referrer='noreferrer'
                                 target='_blank'
                                 rel='noreferrer'
                             >
@@ -1012,7 +1010,6 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                         link: (msg: React.ReactNode) => (
                             <a
                                 href='https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/'
-                                referrer='noreferrer'
                                 target='_blank'
                                 rel='noreferrer'
                             >
@@ -1031,7 +1028,6 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                         link: (msg: React.ReactNode) => (
                             <a
                                 href='https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/'
-                                referrer='noreferrer'
                                 target='_blank'
                                 rel='noreferrer'
                             >
