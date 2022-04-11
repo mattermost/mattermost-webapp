@@ -59,6 +59,16 @@ export default function ChannelMembersRHS({channel, searchTerms, membersCount, c
     // show search if there's more than 20 or if the user have an active search.
     const showSearch = searching || membersCount >= 20;
 
+    let normalMemberTitle;
+    if (channelMembers.length > 0 && !searching) {
+        normalMemberTitle = (
+            <FormattedMessage
+                id='channel_members_rhs.list.channel_members_title'
+                defaultMessage='MEMBERS'
+            />
+        );
+    }
+
     useEffect(() => {
         return () => {
             actions.setChannelMembersRhsSearchTerm('');
@@ -161,12 +171,7 @@ export default function ChannelMembersRHS({channel, searchTerms, membersCount, c
                 {channelMembers.length > 0 && (
                     <MemberList
                         members={channelMembers}
-                        title={searching ? null : (
-                            <FormattedMessage
-                                id='channel_members_rhs.list.channel_members_title'
-                                defaultMessage='MEMBERS'
-                            />
-                        )}
+                        title={normalMemberTitle}
                         editing={editing}
                         channel={channel}
                         actions={{openDirectMessage}}

@@ -141,7 +141,7 @@ describe('Channel members RHS', () => {
                 openChannelMembersRhs(testTeam, channel);
 
                 // # Search for first user
-                cy.uiGetRHS().findByPlaceholderText('Search members').should('be.visible').type(users[0].username);
+                cy.uiGetRHS().findByTestId('channel-member-rhs-search').should('be.visible').type(users[0].username);
 
                 // * we should see them, but nobody else
                 cy.uiGetRHS().findByText(`@${users[0].username}`).should('be.visible');

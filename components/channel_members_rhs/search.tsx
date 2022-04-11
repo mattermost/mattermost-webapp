@@ -19,6 +19,7 @@ const SearchBar = ({className, terms, onInput}: Props) => {
     return (
         <div className={className}>
             <Input
+                data-testid='channel-member-rhs-search'
                 value={terms}
                 onInput={(ev) => onInput(ev.currentTarget.value)}
                 inputPrefix={<i className={'icon icon-magnify'}/>}

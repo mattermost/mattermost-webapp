@@ -63,7 +63,7 @@ export interface Props {
     channel: Channel;
     members: ChannelMember[];
     editing: boolean;
-    title?: JSX.Element | null;
+    title?: JSX.Element;
 
     actions: {
         openDirectMessage: (user: UserProfile) => void;
