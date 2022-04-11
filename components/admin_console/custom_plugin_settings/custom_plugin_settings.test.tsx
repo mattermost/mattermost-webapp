@@ -11,13 +11,8 @@ import {PluginSettings} from 'mattermost-redux/types/config';
 import {PluginRedux} from 'mattermost-redux/types/plugins';
 
 describe('components/admin_console/CustomPluginSettings', () => {
-    let plugin: PluginRedux | null = null;
-    let config: {PluginSettings: Partial<PluginSettings>} | null = null;
-
-    afterEach(() => {
-        plugin = null;
-        config = null;
-    });
+    let plugin: PluginRedux = {} as PluginRedux;
+    let config: {PluginSettings: Partial<PluginSettings>} = {PluginSettings: {}};
 
     beforeEach(() => {
         plugin = {
@@ -114,7 +109,7 @@ describe('components/admin_console/CustomPluginSettings', () => {
 
     test('should match snapshot with settings and plugin', () => {
         const settings = plugin && plugin.settings_schema && plugin.settings_schema.settings && plugin.settings_schema.settings.map((setting) => {
-            const escapedPluginId = SchemaAdminSettings.escapePathPart(plugin!.id);
+            const escapedPluginId = SchemaAdminSettings.escapePathPart(plugin.id);
             return {
                 ...setting,
                 key: 'PluginSettings.Plugins.' + escapedPluginId + '.' + setting.key.toLowerCase(),
@@ -124,7 +119,7 @@ describe('components/admin_console/CustomPluginSettings', () => {
         const wrapper = shallow(
             <CustomPluginSettings
                 config={config}
-                schema={{...plugin!.settings_schema, id: plugin!.id, name: plugin!.name, translate: false, settings}}
+                schema={{...plugin.settings_schema, id: plugin.id, name: plugin.name, translate: false, settings}}
                 updateConfig={jest.fn()}
             />,
         );
@@ -157,7 +152,7 @@ describe('components/admin_console/CustomPluginSettings', () => {
                         Plugins: {},
                     },
                 }}
-                schema={{...plugin!.settings_schema, id: plugin!.id, name: plugin!.name, translate: false, settings}}
+                schema={{...plugin.settings_schema, id: plugin.id, name: plugin.name, translate: false, settings}}
                 updateConfig={jest.fn()}
             />,
         );

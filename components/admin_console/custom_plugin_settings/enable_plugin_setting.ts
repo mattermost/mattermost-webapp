@@ -4,7 +4,17 @@ import {Constants} from '../../../utils/constants';
 import {t} from '../../../utils/i18n';
 import SchemaAdminSettings from '../schema_admin_settings';
 
-export default function getEnablePluginSetting(plugin: {id: string}): Record<string, any> {
+export type EnabledPluginSetting = {
+    type: string;
+    key: string;
+    label: string;
+    label_default: string;
+    help_text: string;
+    help_text_default: string;
+    isDisabled?: () => boolean;
+}
+
+export default function getEnablePluginSetting(plugin: { id: string }): EnabledPluginSetting {
     const escapedPluginId = SchemaAdminSettings.escapePathPart(plugin.id);
     const pluginEnabledConfigKey = 'PluginSettings.PluginStates.' + escapedPluginId + '.Enable';
 

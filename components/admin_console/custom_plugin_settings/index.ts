@@ -8,7 +8,7 @@ import {createSelector} from 'reselect';
 import {getRoles} from 'mattermost-redux/selectors/entities/roles';
 import {appsFeatureFlagEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {PluginRedux, PluginSetting} from 'mattermost-redux/types/plugins';
+import {PluginRedux} from 'mattermost-redux/types/plugins';
 
 import {Constants} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
@@ -38,7 +38,7 @@ function makeGetPluginSchema() {
             const escapedPluginId = SchemaAdminSettings.escapePathPart(plugin.id);
             const pluginEnabledConfigKey = 'PluginSettings.PluginStates.' + escapedPluginId + '.Enable';
 
-            let settings: Array<Partial<PluginSetting> & Partial<SchemaAdminSettings>> = [];
+            let settings: Array<Partial<SchemaAdminSettings>> = [];
             if (plugin.settings_schema && plugin.settings_schema.settings) {
                 settings = plugin.settings_schema.settings.map((setting) => {
                     const key = setting.key.toLowerCase();
