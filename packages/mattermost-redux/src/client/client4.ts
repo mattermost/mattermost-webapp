@@ -1415,6 +1415,20 @@ export default class Client4 {
         );
     };
 
+    sendEmailInvitesToTeamAndChannelsGracefully = (
+        teamId: string,
+        channelIds: string[],
+        emails: string[],
+        message: string,
+    ) => {
+        this.trackEvent('api', 'api_teams_invite_members_to_channels', {team_id: teamId, channel_len: channelIds.length});
+
+        return this.doFetch<TeamInviteWithError>(
+            `${this.getTeamRoute(teamId)}/invite/email?graceful=true`,
+            {method: 'post', body: JSON.stringify({emails, channelIds, message})},
+        );
+    };
+
     sendEmailGuestInvitesToChannelsGracefully = async (teamId: string, channelIds: string[], emails: string[], message: string) => {
         this.trackEvent('api', 'api_teams_invite_guests', {team_id: teamId, channel_ids: channelIds});
 
