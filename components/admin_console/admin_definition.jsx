@@ -5343,7 +5343,7 @@ const AdminDefinition = {
                                         id='admin.servicesettings.enableuseraccesstokens'
                                         defaultMessage='<link>user access tokens</link>'
                                         values={{
-                                            link: (msg: React.ReactNode) => (
+                                            link: (msg) => (
                                                 <a
                                                     href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/'
                                                     referrer='noreferrer'
@@ -6138,7 +6138,7 @@ const AdminDefinition = {
                                         id='admin.experimental.newsamllibrary.linkSupport'
                                         defaultMessage='<linkSupport>Support</linkSupport>'
                                         values={{
-                                            linkSupport: (msg: React.ReactNode) => (
+                                            linkSupport: (msg) => (
                                                 <a
                                                     href='https://mattermost.com/support'
                                                     referrer='noreferrer'

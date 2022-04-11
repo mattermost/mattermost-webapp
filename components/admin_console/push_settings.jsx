@@ -135,7 +135,7 @@ export default class PushSettings extends AdminSettings {
                     id='admin.email.mhpnsHelp'
                     defaultMessage='Download <linkIOS>Mattermost iOS app</linkIOS> from iTunes. Download <linkAndroid>Mattermost Android app</linkAndroid> from Google Play. Learn more about the <linkHPNS>Mattermost Hosted Push Notification Service</linkHPNS>.'
                     values={{
-                        linkIOS: (msg: React.ReactNode) => (
+                        linkIOS: (msg) => (
                             <a
                                 href='https://mattermost.com/mattermost-ios-app/'
                                 referrer='noreferrer'
@@ -145,7 +145,7 @@ export default class PushSettings extends AdminSettings {
                                 {msg}
                             </a>
                         ),
-                        linkAndroid: (msg: React.ReactNode) => (
+                        linkAndroid: (msg) => (
                             <a
                                 href='https: //mattermost.com/mattermost-android-app/'
                                 referrer='noreferrer'
@@ -155,7 +155,7 @@ export default class PushSettings extends AdminSettings {
                                 {msg}
                             </a>
                         ),
-                        linkHPNS: (msg: React.ReactNode) => (
+                        linkHPNS: (msg) => (
                             <a
                                 href='https://docs.mattermost.com/deploy/mobile-hpns.html]'
                                 referrer='noreferrer'
@@ -174,7 +174,7 @@ export default class PushSettings extends AdminSettings {
                     id='admin.email.mtpnsHelp'
                     defaultMessage='Download <linkIOS>Mattermost iOS app</linkIOS> from iTunes. Download <linkAndroid>Mattermost Android app</linkAndroid> from Google Play. Learn more about the <linkHPNS>Mattermost Hosted Push Notification Service</linkHPNS>.'
                     values={{
-                        linkIOS: (msg: React.ReactNode) => (
+                        linkIOS: (msg) => (
                             <a
                                 href='https://mattermost.com/mattermost-ios-app/'
                                 referrer='noreferrer'
@@ -184,7 +184,7 @@ export default class PushSettings extends AdminSettings {
                                 {msg}
                             </a>
                         ),
-                        linkAndroid: (msg: React.ReactNode) => (
+                        linkAndroid: (msg) => (
                             <a
                                 href='https: //mattermost.com/mattermost-android-app/'
                                 referrer='noreferrer'
@@ -194,7 +194,7 @@ export default class PushSettings extends AdminSettings {
                                 {msg}
                             </a>
                         ),
-                        linkHPNS: (msg: React.ReactNode) => (
+                        linkHPNS: (msg) => (
                             <a
                                 href='https://docs.mattermost.com/deploy/mobile-hpns.html]'
                                 referrer='noreferrer'
@@ -213,7 +213,7 @@ export default class PushSettings extends AdminSettings {
                     id='admin.email.easHelp'
                     defaultMessage='Learn more about compiling and deploying your own mobile apps from an <link>Enterprise App Store</link>.'
                     values={{
-                        link: (msg: React.ReactNode) => (
+                        link: (msg) => (
                             <a
                                 href='https://docs.mattermost.com/'
                                 referrer='noreferrer'
@@ -245,7 +245,7 @@ export default class PushSettings extends AdminSettings {
                             id='admin.email.agreeHPNS'
                             defaultMessage=' I understand and accept the Mattermost Hosted Push Notification Service <linkTerms>Terms of Service]</linkTerms> and <linkPrivacy>Privacy Policy</linkPrivacy>.'
                             values={{
-                                linkTerms: (msg: React.ReactNode) => (
+                                linkTerms: (msg) => (
                                     <a
                                         href='https://mattermost.com/hpns-terms/'
                                         referrer='noreferrer'
@@ -255,7 +255,7 @@ export default class PushSettings extends AdminSettings {
                                         {msg}
                                     </a>
                                 ),
-                                linkPricacy: (msg: React.ReactNode) => (
+                                linkPricacy: (msg) => (
                                     <a
                                         href='https://mattermost.com/data-processing-addendum/'
                                         referrer='noreferrer'

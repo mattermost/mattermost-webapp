@@ -74,7 +74,7 @@ export default class ConfirmIntegration extends React.PureComponent {
                         id='add_command.doneHelp'
                         defaultMessage='Your slash command is set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (details at <link>Slash Commands</link>).'
                         values={{
-                            link: (msg: React.ReactNode) => (
+                            link: (msg) => (
                                 <a
                                     href='https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/'
                                     referrer='noreferrer'
@@ -117,7 +117,7 @@ export default class ConfirmIntegration extends React.PureComponent {
                         id='add_incoming_webhook.doneHelp'
                         defaultMessage='Your incoming webhook is set up. Please send data to the following URL (details at <link>Incoming Webhooks</link>).'
                         values={{
-                            link: (msg: React.ReactNode) => (
+                            link: (msg) => (
                                 <a
                                     href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-incoming/'
                                     referrer='noreferrer'
@@ -160,7 +160,7 @@ export default class ConfirmIntegration extends React.PureComponent {
                         id='add_outgoing_webhook.doneHelp'
                         defaultMessage='Your outgoing webhook is set up. The following token will be sent in the outgoing payload. Please use it to verify that the request came from your Mattermost team (details at <link>Outgoing Webhooks</link>).'
                         values={{
-                            link: (msg: React.ReactNode) => (
+                            link: (msg) => (
                                 <a
                                     href='https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/'
                                     referrer='noreferrer'
