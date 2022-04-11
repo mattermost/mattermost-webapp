@@ -21,7 +21,7 @@ const SearchBar = ({className, terms, onInput}: Props) => {
             <Input
                 data-testid='channel-member-rhs-search'
                 value={terms}
-                onInput={(ev) => onInput(ev.currentTarget.value)}
+                onInput={(e) => onInput(e.currentTarget.value)}
                 inputPrefix={<i className={'icon icon-magnify'}/>}
                 inputSuffix={terms.length > 0 ? (
                     <button
