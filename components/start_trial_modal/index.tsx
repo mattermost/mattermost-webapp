@@ -14,7 +14,6 @@ import {getLicenseConfig} from 'mattermost-redux/actions/general';
 import {requestTrialLicense} from 'actions/admin_actions';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {makeAsyncComponent} from 'components/async_load';
 
 import StartTrialModalSvg from './start_trial_modal_svg';
@@ -142,9 +141,26 @@ function StartTrialModal(props: Props): JSX.Element | null {
                             id='start_trial.modal.disclaimer'
                             defaultMessage='By clicking “Start 30-day trial”, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
                             values={{
-                                linkEvaluation: (msg: React.ReactNode) => (<a href='https://mattermost.com/software-evaluation-agreement' referrer='noreferrer' target='_blank'>{msg}</a>),
-                                linkPrivacy: (msg: React.ReactNode) => (<a href='https://mattermost.com/privacy-policy/' referrer='noreferrer' target='_blank'>{msg}</a>),
-
+                                linkEvaluation: (msg: React.ReactNode) => (
+                                    <a
+                                        href='https://mattermost.com/software-evaluation-agreement'
+                                        referrer='noreferrer'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                                linkPrivacy: (msg: React.ReactNode) => (
+                                    <a
+                                        href='https://mattermost.com/privacy-policy/'
+                                        referrer='noreferrer'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
                             }}
                         />
                     </span>

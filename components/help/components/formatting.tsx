@@ -237,8 +237,17 @@ export default function HelpFormatting(): JSX.Element {
                 id='help.formatting.linkEx'
                 defaultMessage={'<link>Check out Mattermost!</link>'}
                 values={{
-                    link: (msg: React.ReactNode) => (<a href='https://mattermost.com/' referrer='noreferrer' target='_blank'>{msg}</a>),
-        }}
+                    link: (msg: React.ReactNode) => (
+                        <a
+                            href='https://mattermost.com/'
+                            referrer='noreferrer'
+                            target='_blank'
+                            rel='noreferrer'
+                        >
+                            {msg}
+                        </a>
+                    ),
+                }}
             >
                 {(example) => (
                     <div>

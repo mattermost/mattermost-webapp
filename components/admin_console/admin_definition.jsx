@@ -1175,26 +1175,17 @@ const AdminDefinition = {
                         label: t('admin.image.amazonS3SSETitle'),
                         label_default: 'Enable Server-Side Encryption for Amazon S3:',
                         help_text: t('admin.image.amazonS3SSEDescription'),
-                        help_text_markdown: true,
-                        help_text_default: 'When true, encrypt files in Amazon S3 using server-side encryption with Amazon S3-managed keys. See {documentation} to learn more.',
+                        help_text_default: 'When true, encrypt files in Amazon S3 using server-side encryption with Amazon S3-managed keys. See <link>documentation</link> to learn more.',
                         help_text_values: {
-                            documentation: (
-                                <b>
-                                    <FormattedMessage
-                                        id='admin.image.amazons3.sessionlengths'
-                                        defaultMessage='<link>documentation</link>'
-                                        values={{
-                                            link: (msg: React.ReactNode) => (
-                                            <a 
-                                                href='https://docs.mattermost.com/configure/configuration-settings.html#session-lengths' 
-                                                referrer='noreferrer' 
-                                                target='_blank'
-                                            >
-                                                {msg}
-                                            </a>),
-                                        }}
-                                    />
-                                </b>
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/configure/configuration-settings.html#session-lengths'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
                             ),
                         },
                         isHidden: it.not(it.licensedForFeature('Compliance')),
@@ -2742,17 +2733,16 @@ const AdminDefinition = {
                         label: t('admin.notices.enableAdminNoticesTitle'),
                         label_default: 'Enable Admin Notices: ',
                         help_text: t('admin.notices.enableAdminNoticesDescription'),
-                        help_text_default: 'When enabled, System Admins will receive notices about available server upgrades and relevant system administration features. {notices} in our documentation.',
-                        help_text_markdown: true,
+                        help_text_default: 'When enabled, System Admins will receive notices about available server upgrades and relevant system administration features. <link>notices</link> in our documentation.',
                         help_text_values: {
-                            notices: (
-                                <a href='https://docs.mattermost.com/manage/in-product-notices.html'>
-                                    <b>
-                                        <FormattedMessage
-                                            id='admin.reload.notices.learnmore'
-                                            defaultMessage='Learn more about notices'
-                                        />
-                                    </b>
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/manage/in-product-notices.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
                                 </a>
                             ),
                         },
@@ -2764,17 +2754,17 @@ const AdminDefinition = {
                         label: t('admin.notices.enableEndUserNoticesTitle'),
                         label_default: 'Enable End User Notices: ',
                         help_text: t('admin.notices.enableEndUserNoticesDescription'),
-                        help_text_default: 'When enabled, all users will receive notices about available client upgrades and relevant end user features to improve user experience. {notices} in our documentation.',
+                        help_text_default: 'When enabled, all users will receive notices about available client upgrades and relevant end user features to improve user experience. <linkLearn more about notices</link> in our documentation.',
                         help_text_markdown: true,
                         help_text_values: {
-                            notices: (
-                                <a href='https://docs.mattermost.com/manage/in-product-notices.html'>
-                                    <b>
-                                        <FormattedMessage
-                                            id='admin.reload.notices.users.learnmore'
-                                            defaultMessage='Learn more about notices'
-                                        />
-                                    </b>
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/manage/in-product-notices.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
                                 </a>
                             ),
                         },
@@ -3769,17 +3759,17 @@ const AdminDefinition = {
                         label: t('admin.saml.enableSyncWithLdapTitle'),
                         label_default: 'Enable Synchronizing SAML Accounts With AD/LDAP:',
                         help_text: t('admin.saml.enableSyncWithLdapDescription'),
-                        help_text_default: 'When true, Mattermost periodically synchronizes SAML user attributes, including user deactivation and removal, from AD/LDAP. Enable and configure synchronization settings at **Authentication > AD/LDAP**. When false, user attributes are updated from SAML during user login. See {documentation} to learn more.',
+                        help_text_default: 'When true, Mattermost periodically synchronizes SAML user attributes, including user deactivation and removal, from AD/LDAP. Enable and configure synchronization settings at **Authentication > AD/LDAP**. When false, user attributes are updated from SAML during user login. See <link>documentation</link> to learn more.',
                         help_text_markdown: true,
                         help_text_values: {
-                            documentation: (
-                                <a href='https://docs.mattermost.com/onboard/ad-ldap.html'>
-                                    <b>
-                                        <FormattedMessage
-                                            id='SamlSettings.EnableSyncWithLdapDocumentation'
-                                            defaultMessage='documentation'
-                                        />
-                                    </b>
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/onboard/ad-ldap.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
                                 </a>
                             ),
                         },
@@ -5240,17 +5230,16 @@ const AdminDefinition = {
                         label: t('admin.service.webhooksTitle'),
                         label_default: 'Enable Incoming Webhooks: ',
                         help_text: t('admin.service.webhooksDescription'),
-                        help_text_default: 'When true, incoming webhooks will be allowed. To help combat phishing attacks, all posts from webhooks will be labelled by a BOT tag. See {documentation} to learn more.',
-                        help_text_markdown: true,
+                        help_text_default: 'When true, incoming webhooks will be allowed. To help combat phishing attacks, all posts from webhooks will be labelled by a BOT tag. See <link>>documentation</link> to learn more.',
                         help_text_values: {
-                            documentation: (
-                                <a href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-incoming/'>
-                                    <b>
-                                        <FormattedMessage
-                                            id='ServiceSettings.EnableIncomingWebhooks.Documentation'
-                                            defaultMessage='documentation'
-                                        />
-                                    </b>
+                            link: (msg) => (
+                                <a
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-incoming/'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
                                 </a>
                             ),
                         },
@@ -5262,17 +5251,17 @@ const AdminDefinition = {
                         label: t('admin.service.outWebhooksTitle'),
                         label_default: 'Enable Outgoing Webhooks: ',
                         help_text: t('admin.service.outWebhooksDesc'),
-                        help_text_default: 'When true, outgoing webhooks will be allowed. See {documentation} to learn more.',
+                        help_text_default: 'When true, outgoing webhooks will be allowed. See <link>documentation</link> to learn more.',
                         help_text_markdown: true,
                         help_text_values: {
-                            documentation: (
-                                <a href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-outgoing/'>
-                                    <b>
-                                        <FormattedMessage
-                                            id='ServiceSettings.EnableOutgoingWebhooksDocumentation'
-                                            defaultMessage='documentation'
-                                        />
-                                    </b>
+                            link: (msg) => (
+                                <a
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-outgoing/'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
                                 </a>
                             ),
                         },
@@ -5284,17 +5273,16 @@ const AdminDefinition = {
                         label: t('admin.service.cmdsTitle'),
                         label_default: 'Enable Custom Slash Commands: ',
                         help_text: t('admin.service.cmdsDesc'),
-                        help_text_default: 'When true, custom slash commands will be allowed. See {documentation} to learn more.',
-                        help_text_markdown: true,
+                        help_text_default: 'When true, custom slash commands will be allowed. See <link>documentation</link> to learn more.',
                         help_text_values: {
-                            documentation: (
-                                <a href='https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/'>
-                                    <b>
-                                        <FormattedMessage
-                                            id='admin.reload.reloadDescription.recycleDatabaseConnections'
-                                            defaultMessage='Environment > Database > Recycle Database Connections'
-                                        />
-                                    </b>
+                            link: (msg) => (
+                                <a
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
                                 </a>
                             ),
                         },
@@ -5306,17 +5294,17 @@ const AdminDefinition = {
                         label: t('admin.oauth.providerTitle'),
                         label_default: 'Enable OAuth 2.0 Service Provider: ',
                         help_text: t('admin.oauth.providerDescription'),
-                        help_text_default: 'When true, Mattermost can act as an OAuth 2.0 service provider allowing Mattermost to authorize API requests from external applications. See {documentation} to learn more.',
+                        help_text_default: 'When true, Mattermost can act as an OAuth 2.0 service provider allowing Mattermost to authorize API requests from external applications. See <link>documentation</link> to learn more.',
                         help_text_markdown: true,
                         help_text_values: {
-                            documentation: (
-                                <a href='https://developers.mattermost.com/integrate/admin-guide/admin-oauth2/'>
-                                    <b>
-                                        <FormattedMessage
-                                            id='ServiceSettings.EnableOAuthServiceProvider.Documentation'
-                                            defaultMessage='Documentation'
-                                        />
-                                    </b>
+                            link: (msg) => (
+                                <a
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-oauth2/'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
                                 </a>
                             ),
                         },
@@ -5328,20 +5316,7 @@ const AdminDefinition = {
                         label: t('admin.service.overrideTitle'),
                         label_default: 'Enable integrations to override usernames:',
                         help_text: t('admin.service.overrideDescription'),
-                        help_text_default: 'When true, webhooks, slash commands and other integrations, such as {Zapier}, will be allowed to change the username they are posting as. Note: Combined with allowing integrations to override profile picture icons, users may be able to perform phishing attacks by attempting to impersonate other users.',
-                        help_text_values: {
-                            documentation: (
-                                <a href='https://developers.mattermost.com/integrate/admin-guide/admin-zapier-integration/'>
-                                    <b>
-                                        <FormattedMessage
-                                            id='admin.reload.reloadDescription.recycleDatabaseConnections'
-                                            defaultMessage='Zapier'
-                                        />
-                                    </b>
-                                </a>
-                            ),
-                        },
-                        help_text_markdown: true,
+                        help_text_default: 'When true, webhooks, slash commands and other integrations will be allowed to change the username they are posting as. Note: Combined with allowing integrations to override profile picture icons, users may be able to perform phishing attacks by attempting to impersonate other users.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
@@ -5350,20 +5325,7 @@ const AdminDefinition = {
                         label: t('admin.service.iconTitle'),
                         label_default: 'Enable integrations to override profile picture icons:',
                         help_text: t('admin.service.iconDescription'),
-                        help_text_default: 'When true, webhooks, slash commands and other integrations, such as {Zapier}, will be allowed to change the profile picture they post with. Note: Combined with allowing integrations to override usernames, users may be able to perform phishing attacks by attempting to impersonate other users.',
-                        help_text_markdown: true,
-                        help_text_values: {
-                            Zapier: (
-                                <a href='https://developers.mattermost.com/integrate/admin-guide/admin-zapier-integration/'>
-                                    <b>
-                                        <FormattedMessage
-                                            id='ServiceSettings.EnablePostIconOverride.Zapier'
-                                            defaultMessage='Zapier'
-                                        />
-                                    </b>
-                                </a>
-                            ),
-                        },
+                        help_text_default: 'When true, webhooks, slash commands and other integrations will be allowed to change the profile picture they post with. Note: Combined with allowing integrations to override usernames, users may be able to perform phishing attacks by attempting to impersonate other users.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
@@ -5381,10 +5343,11 @@ const AdminDefinition = {
                                         defaultMessage='<link>user access tokens</link>'
                                         values={{
                                             link: (msg: React.ReactNode) => (
-                                                <a 
-                                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/' 
-                                                    referrer='noreferrer' 
+                                                <a
+                                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/'
+                                                    referrer='noreferrer'
                                                     target='_blank'
+                                                    rel='noreferrer'
                                                 >
                                                     {msg}
                                                 </a>
@@ -6175,10 +6138,11 @@ const AdminDefinition = {
                                         defaultMessage='<linkSupport>Support</linkSupport>'
                                         values={{
                                             linkSupport: (msg: React.ReactNode) => (
-                                                <a 
-                                                    href='https://mattermost.com/support' 
-                                                   referrer='noreferrer' 
+                                                <a
+                                                    href='https://mattermost.com/support'
+                                                    referrer='noreferrer'
                                                     target='_blank'
+                                                    rel='noreferrer'
                                                 >
                                                     {msg}
                                                 </a>
@@ -6242,48 +6206,29 @@ const AdminDefinition = {
                         label: t('admin.experimental.collapsedThreads.title'),
                         label_default: 'Collapsed Reply Threads',
                         help_text: t('admin.experimental.collapsedThreads.desc'),
-                        help_text_default: 'When enabled (default off), users must enable collapsed reply threads in Settings. When disabled, users cannot access Collapsed Reply Threads. Please review our {documentationKnownIssues} and help provide feedback in our {communityChannel}.',
+                        help_text_default: 'When enabled (default off), users must enable collapsed reply threads in Settings. When disabled, users cannot access Collapsed Reply Threads. Please review our <linkKnownIssues>documentation for known issues</linkKnownIssues> and help provide feedback in our <linkCommunityChannel>Community Channel</linkCommunityChannel>.',
                         help_text_values: {
-                            documentationKnownIssues: (
-                                <b>
-                                    <FormattedMessage
-                                        id='admin.experimental.collapsedThreads.documentationKnownIssues'
-                                        defaultMessage='<link>documentation for known issues</link>'
-                                        values={{
-                                            link: (msg: React.ReactNode) => (
-                                                <a 
-                                                href='https://docs.mattermost.com/messaging/organizing-conversations.html' 
-                                                referrer='noreferrer' 
-                                                target='_blank'
-                                                >
-                                                    {msg}
-                                                </a>
-                                            ),
-                                        }}
-                                    />
-                                </b>
+                            linkKnownIssues: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/messaging/organizing-conversations.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
                             ),
-                            communityChannel: (
-                                <b>
-                                    <FormattedMessage
-                                        id='admin.experimental.collapsedThreads.documentationCommunityChannel'
-                                        defaultMessage='<linkChannel>Environment > Database > Recycle Database Connections</linkChannel>'
-                                        values={{
-                                            linkChannel: (msg: React.ReactNode) => (
-                                                <a 
-                                                    href='https://community-daily.mattermost.com/core/channels/folded-reply-threads' 
-                                                    referrer='noreferrer' 
-                                                    target='_blank'
-                                                >
-                                                    {msg}
-                                                </a>
-                                            ),
-                                        }}
-                                    />
-                                </b>
+                            link: (msg) => (
+                                <a
+                                    href='https://community-daily.mattermost.com/core/channels/folded-reply-threads'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
                             ),
                         },
-                        help_text_markdown: true,
                         options: [
                             {
                                 value: 'disabled',
@@ -6295,6 +6240,7 @@ const AdminDefinition = {
                                 display_name: t('admin.experimental.collapsedThreads.default_off'),
                                 display_name_default: 'Enabled (Default Off)',
                             },
+
                             /* {
                                 value: 'always_on',
                                 display_name: t('admin.experimental.collapsedThreads.alwaysOn'),

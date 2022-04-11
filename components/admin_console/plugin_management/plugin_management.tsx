@@ -842,7 +842,16 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                             id='admin.plugins.settings.enableDesc'
                             defaultMessage='When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See <link>documentation</link> to learn more.'
                             values={{
-                                link: (msg: React.ReactNode) => (<a href='https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/' referrer='noreferrer' target='_blank'>{msg}</a>),
+                                link: (msg: React.ReactNode) => (
+                                    <a
+                                        href='https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/'
+                                        referrer='noreferrer'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
                             }}
                         />
                     }
@@ -981,9 +990,17 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                     id='admin.plugin.uploadDesc'
                     defaultMessage='Upload a plugin for your Mattermost server. See <link>documentation</link> to learn more.'
                     values={{
-                        link: (msg: React.ReactNode) => (<a href='https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/' referrer='noreferrer' target='_blank'>{msg}</a>),
-            }}
-            
+                        link: (msg: React.ReactNode) => (
+                            <a
+                                href='https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/'
+                                referrer='noreferrer'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                    }}
                 />
             );
         } else if (enable && !enableUploads) {
@@ -992,7 +1009,16 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                     id='admin.plugin.uploadDisabledDesc'
                     defaultMessage='Enable plugin uploads in config.json. See <link>documentation</link> to learn more.'
                     values={{
-                        link: (msg: React.ReactNode) => (<a href='https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/' referrer='noreferrer' target='_blank'>{msg}</a>),
+                        link: (msg: React.ReactNode) => (
+                            <a
+                                href='https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/'
+                                referrer='noreferrer'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
                     }}
                 />
             );
@@ -1002,9 +1028,17 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                     id='admin.plugin.uploadAndPluginDisabledDesc'
                     defaultMessage='To enable plugins, set **Enable Plugins** to true. See <link>documentation</link> to learn more.'
                     values={{
-                        link: (msg: React.ReactNode) => (<a href='https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/' referrer='noreferrer' target='_blank'>{msg}</a>),
-            }}
-                
+                        link: (msg: React.ReactNode) => (
+                            <a
+                                href='https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/'
+                                referrer='noreferrer'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                    }}
                 />
             );
         }

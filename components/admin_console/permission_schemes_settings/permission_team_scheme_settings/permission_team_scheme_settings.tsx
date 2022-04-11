@@ -18,8 +18,6 @@ import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import AdminPanelTogglable from 'components/widgets/admin_console/admin_panel_togglable';
 import AdminPanelWithButton from 'components/widgets/admin_console/admin_panel_with_button';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-
 import PermissionsTree, {EXCLUDED_PERMISSIONS} from '../permissions_tree';
 import GuestPermissionsTree, {GUEST_INCLUDED_PERMISSIONS} from '../guest_permissions_tree';
 
@@ -613,9 +611,26 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent<Pr
                                         id='admin.permissions.teamScheme.introBanner'
                                         defaultMessage='<linkTeamOVerride>Team Override Schemes</linkTeamOverride> set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <linkSystemScheme>System Scheme</linkSystemScheme>.'
                                         values={{
-                                            linkTeamOverride: (msg: React.ReactNode) => (<a href='https://docs.mattermost.com/onboard/advanced-permissions.html' referrer='noreferrer' target='_blank'>{msg}</a>),
-                                            linkSystemScheme: (msg: React.ReactNode) => (<a href='https://docs.mattermost.com/onboard/advanced-permissions.htm' referrer='noreferrer' target='_blank'>{msg}</a>),
-
+                                            linkTeamOverride: (msg: React.ReactNode) => (
+                                                <a
+                                                    href='https://docs.mattermost.com/onboard/advanced-permissions.html'
+                                                    referrer='noreferrer'
+                                                    target='_blank'
+                                                    rel='noreferrer'
+                                                >
+                                                    {msg}
+                                                </a>
+                                            ),
+                                            linkSystemScheme: (msg: React.ReactNode) => (
+                                                <a
+                                                    href='https://docs.mattermost.com/onboard/advanced-permissions.htm'
+                                                    referrer='noreferrer'
+                                                    target='_blank'
+                                                    rel='noreferrer'
+                                                >
+                                                    {msg}
+                                                </a>
+                                            ),
                                         }}
                                     />
                                 </span>

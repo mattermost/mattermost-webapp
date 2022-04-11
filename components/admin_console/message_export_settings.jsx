@@ -243,7 +243,16 @@ export default class MessageExportSettings extends AdminSettings {
                             id='admin.service.complianceExportDesc'
                             defaultMessage='When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See <link>the documentation</link> to learn more.'
                             values={{
-                                link: (msg: React.ReactNode) => (<a href='https://docs.mattermost.com/comply/compliance-export.html' referrer='noreferrer' target='_blank'>{msg}</a>),
+                                link: (msg: React.ReactNode) => (
+                                    <a
+                                        href='https://docs.mattermost.com/comply/compliance-export.html'
+                                        referrer='noreferrer'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
                             }}
                         />
                     }
