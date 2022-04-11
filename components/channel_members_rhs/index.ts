@@ -24,14 +24,10 @@ import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {openDirectChannelToUserId} from 'actions/channel_actions';
 import {openModal} from 'actions/views/modals';
 import {closeRightHandSide, goBack} from 'actions/views/rhs';
-
-import {getPreviousRhsState} from '../../selectors/rhs';
-
+import {getPreviousRhsState} from 'selectors/rhs';
 import {UserProfile} from 'mattermost-redux/types/users';
-
-import {setChannelMembersRhsSearchTerm} from '../../actions/views/search';
-
-import {loadProfilesAndReloadChannelMembers} from '../../actions/user_actions';
+import {setChannelMembersRhsSearchTerm} from 'actions/views/search';
+import {loadProfilesAndReloadChannelMembers} from 'actions/user_actions';
 
 import RHS, {Props, ChannelMember} from './channel_members_rhs';
 
