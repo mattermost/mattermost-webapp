@@ -12,32 +12,30 @@
 import {stubClipboard} from '../../utils';
 import {spyNotificationAs} from '../../support/notification';
 
-describe('Onboarding - Sysadmin', () => {
+describe('Onboarding - User', () => {
     let townSquarePage;
-    let sysadmin;
+    let user;
 
     before(() => {
         cy.apiUpdateConfig({
             ServiceSettings: {EnableOnboardingFlow: true},
         });
 
-        cy.apiInitSetup().then(({townSquareUrl}) => {
+        cy.apiInitSetup().then(({user: newUser, townSquareUrl}) => {
             townSquarePage = townSquareUrl;
-        });
+            user = newUser;
 
-        cy.apiAdminLogin().then((res) => {
-            sysadmin = res.user;
+            cy.apiLogin(user);
         });
     });
 
     beforeEach(() => {
-        // # Login as sysadmin and set all steps to false
         const preference = {
-            user_id: sysadmin.id,
+            user_id: user.id,
             category: 'recommended_next_steps',
             value: 'false',
         };
-        const adminSteps = [
+        const tipsSteps = [
             'complete_profile',
             'notification_setup',
             'team_setup',
@@ -47,11 +45,11 @@ describe('Onboarding - Sysadmin', () => {
             'skip',
         ];
 
-        cy.apiSaveUserPreference(adminSteps.map((step) => ({...preference, name: step})));
+        cy.apiSaveUserPreference(tipsSteps.map((step) => ({...preference, name: step})));
         cy.visit(townSquarePage);
     });
 
-    it('MM-T3326 Sysadmin - Happy Path', () => {
+    it('User - Happy Path', () => {
         // * Make sure tips view has loaded
         cy.url().should('include', 'tips');
 
@@ -71,22 +69,7 @@ describe('Onboarding - Sysadmin', () => {
         cy.findByTestId('CompleteProfileStep__saveProfileButton').should('be.visible').and('not.be.disabled').click();
 
         // * Step counter should increment
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '1 / 5 steps complete');
-
-        // * Check to make sure card is expanded
-        cy.get('.Card__body.expanded .TeamProfileStep').should('be.visible');
-
-        // # Enter team name
-        cy.get('#input_teamName').should('be.visible').clear().type('Wyld Stallyns');
-
-        // # Select profile picture
-        cy.findByTestId('PictureSelector__input-TeamProfileStep__teamIcon').attachFile('mattermost-icon.png');
-
-        // # Click Save team button
-        cy.findByTestId('TeamProfileStep__saveTeamButton').should('be.visible').and('not.be.disabled').click();
-
-        // * Step counter should increment
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '2 / 5 steps complete');
+        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '1 / 4 steps complete');
 
         // * Check to make sure card is expanded
         cy.findByText('We recommend enabling desktop notifications so you don’t miss any important communications.').should('be.visible');
@@ -94,7 +77,7 @@ describe('Onboarding - Sysadmin', () => {
         cy.findByRole('button', {name: 'Set up notifications'}).should('be.visible').click();
 
         // * Step counter should increment
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '3 / 5 steps complete');
+        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '2 / 4 steps complete');
 
         // * Check to make sure card is expanded
         cy.get('.Card__body.expanded .InviteMembersStep').should('be.visible');
@@ -112,7 +95,7 @@ describe('Onboarding - Sysadmin', () => {
         cy.get('.NextStepsView__transitionView.transitioning').should('be.visible');
     });
 
-    it('MM-T3327 Sysadmin - Switch to Next Step', () => {
+    it('User - Switch to Next Step', () => {
         // * Make sure tips view has loaded
         cy.url().should('include', 'tips');
 
@@ -124,13 +107,13 @@ describe('Onboarding - Sysadmin', () => {
 
         // * Check to make sure next card is expanded and current card is collapsed
         cy.get('.Card__body:not(.expanded) .CompleteProfileStep').should('exist').should('not.be.visible');
-        cy.get('.Card__body.expanded .TeamProfileStep').should('exist').should('be.visible');
+        cy.findByText('We recommend enabling desktop notifications so you don’t miss any important communications.').should('be.visible');
 
         // * Step counter should not increment
-        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '0 / 5 steps complete');
+        cy.get('.SidebarNextSteps .SidebarNextSteps__middle').should('contain', '0 / 4 steps complete');
     });
 
-    it('MM-T3328 Sysadmin - Skip Getting Started', () => {
+    it('User - Skip Getting Started', () => {
         // * Make sure tips view has loaded
         cy.url().should('include', 'tips');
 
@@ -144,7 +127,7 @@ describe('Onboarding - Sysadmin', () => {
         cy.get('.NextStepsView__transitionView.transitioning').should('be.visible');
     });
 
-    it('MM-T3329 Sysadmin - Remove Recommended Next Steps', () => {
+    it('User - Remove Recommended Next Steps', () => {
         // * Make sure tips view has loaded
         cy.url().should('include', 'tips');
 
@@ -172,7 +155,7 @@ describe('Onboarding - Sysadmin', () => {
         cy.get('.app__content.NextStepsView').should('be.visible');
     });
 
-    it('MM-T3333 Sysadmin - Copy Invite Link', () => {
+    it('User - Copy Invite Link', () => {
         cy.apiCreateTeam('team').then(({team}) => {
             cy.visit(`/${team.name}/tips`);
 
