@@ -12,10 +12,18 @@ export function registerPluginStatsHandler(pluginId, handler) {
 //     Reflect.deleteProperty(pluginStatsHandlers, pluginId);
 // }
 
-export function getPluginStats() {
+// getPluginStats collects all plugin-related stats for system console in the
+// form Record<string, PluginAnalyticsRow>
+//
+// It will call all handlers in parallel
+// Note that keys are supposed to be unique, but it's not checked so one plugin could
+// override a stat from anoother
+export async function getPluginStats() {
     let stats = {};
-    Object.values(pluginStatsHandlers).forEach((handler) => {
-        stats = {...stats, ...handler()};
+    const allHandlers = Object.values(pluginStatsHandlers).map((handler) => handler());
+    const res = await Promise.all(allHandlers);
+    res.forEach((pluginRes) => {
+        stats = {...stats, ...pluginRes};
     });
     return stats;
 }

@@ -40,7 +40,7 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
         this.pluginStats = {};
     }
 
-    public componentDidMount() {
+    public async componentDidMount() {
         AdminActions.getStandardAnalytics();
         AdminActions.getPostsPerDayAnalytics();
         AdminActions.getBotPostsPerDayAnalytics();
@@ -49,7 +49,7 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
         if (this.props.isLicensed) {
             AdminActions.getAdvancedAnalytics();
         }
-        this.pluginStats = getPluginStats() as Record<string, PluginAnalyticsRow>;
+        this.pluginStats = await getPluginStats() as Record<string, PluginAnalyticsRow>;
     }
 
     private getStatValue(stat: number | AnalyticsRow[]): number | undefined {
