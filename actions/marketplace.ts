@@ -31,7 +31,7 @@ export function fetchListing(localOnly = false): ActionFunc {
 
         try {
             plugins = await Client4.getMarketplacePlugins(filter, localOnly);
-        } catch (error) {
+        } catch (error: any) {
             // If the marketplace server is unreachable, try to get the local plugins only.
             if (error.server_error_id === 'app.plugin.marketplace_client.failed_to_fetch' && !localOnly) {
                 await dispatch(fetchListing(true));
@@ -80,7 +80,7 @@ export function filterListing(filter: string): ActionFunc {
 // installPlugin installs the latest version of the given plugin from the marketplace.
 //
 // On success, it also requests the current state of the plugins to reflect the newly installed plugin.
-export function installPlugin(id: string, version: string) {
+export function installPlugin(id: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc): Promise<void> => {
         dispatch({
             type: ActionTypes.INSTALLING_MARKETPLACE_ITEM,
@@ -100,8 +100,8 @@ export function installPlugin(id: string, version: string) {
         }
 
         try {
-            await Client4.installMarketplacePlugin(id, version);
-        } catch (error) {
+            await Client4.installMarketplacePlugin(id);
+        } catch (error: any) {
             dispatch({
                 type: ActionTypes.INSTALLING_MARKETPLACE_ITEM_FAILED,
                 id,

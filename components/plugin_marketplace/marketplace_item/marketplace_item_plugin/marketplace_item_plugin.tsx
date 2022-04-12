@@ -228,7 +228,7 @@ export type MarketplaceItemPluginProps = {
     trackEvent: (category: string, event: string, props?: unknown) => void;
 
     actions: {
-        installPlugin: (category: string, event: string) => void;
+        installPlugin: (id: string) => void;
         closeMarketplaceModal: () => void;
     };
 };
@@ -268,7 +268,7 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
 
     onInstall = (): void => {
         this.trackEvent('ui_marketplace_download');
-        this.props.actions.installPlugin(this.props.id, this.props.version);
+        this.props.actions.installPlugin(this.props.id);
     }
 
     onConfigure = (): void => {
@@ -281,7 +281,7 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
         this.trackEvent('ui_marketplace_download_update');
 
         this.hideUpdateConfirmationModal();
-        this.props.actions.installPlugin(this.props.id, this.props.version);
+        this.props.actions.installPlugin(this.props.id);
     }
 
     getItemButton(): JSX.Element {
