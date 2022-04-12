@@ -43,6 +43,7 @@ export default class SidebarRight extends React.PureComponent {
             openAtPrevious: PropTypes.func.isRequired,
             updateSearchTerms: PropTypes.func.isRequired,
             showChannelFiles: PropTypes.func.isRequired,
+            showChannelInfo: PropTypes.func.isRequired,
         }),
     };
 
@@ -92,6 +93,9 @@ export default class SidebarRight extends React.PureComponent {
                 } else {
                     this.props.actions.openAtPrevious(this.previous);
                 }
+            } else if (e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.I)) {
+                e.preventDefault();
+                this.props.actions.showChannelInfo(this.props.channel.id);
             }
         }
     }
