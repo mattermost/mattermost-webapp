@@ -23,17 +23,25 @@
         justify-content: center;
         white-space: nowrap;
 
-        > p {
-            overflow: hidden;
-            margin: 0;
-            text-overflow: ellipsis;
-        }
-
         > span {
+            overflow: hidden;
+            padding: 0 8px;
             font-size: 14px;
             font-style: normal;
             font-weight: 600;
             line-height: 20px;
+            text-overflow: ellipsis;
+
+            .announcement-bar__configuration {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            &::after {
+                display: block;
+                content: '';
+            }
         }
 
         .annnouncementBar__purchaseNow,

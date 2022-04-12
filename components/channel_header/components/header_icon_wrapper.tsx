@@ -78,6 +78,18 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
             messageID: t('channel_header.channelFiles'),
             message: 'Channel files',
         },
+        openChannelInfo: {
+            class: 'channel-info',
+            id: 'channelInfoTooltip',
+            messageID: t('channel_header.openChannelInfo'),
+            message: 'View Info',
+        },
+        closeChannelInfo: {
+            class: 'channel-info',
+            id: 'channelInfoTooltip',
+            messageID: t('channel_header.closeChannelInfo'),
+            message: 'Close info',
+        },
     };
 
     function getTooltip(key: string) {

@@ -209,6 +209,14 @@ function trimPropertiesFromEmoji(emoji) {
         Reflect.deleteProperty(emoji, 'subcategory');
     }
 
+    if (emoji.hasOwnProperty('image')) {
+        Reflect.deleteProperty(emoji, 'image');
+    }
+
+    if (emoji.hasOwnProperty('fileName')) {
+        Reflect.deleteProperty(emoji, 'fileName');
+    }
+
     return emoji;
 }
 
@@ -240,6 +248,7 @@ fullEmoji.forEach((emoji) => {
 
 // add built-in custom emojis
 fullEmoji.push({
+    id: 'mattermost',
     name: 'Mattermost',
     unified: '',
     image: 'mattermost.png',

@@ -83,7 +83,7 @@ export const contactSalesCard = (
             description = (
                 <FormattedMessage
                     id='admin.billing.subscription.privateCloudCard.cloudStarter.description'
-                    defaultMessage='Optimize your processes with Guest Accounts, Office365 suite integrations, Gitlab SSO and advanced permissions.'
+                    defaultMessage='Optimize your processes with Guest Accounts, Office365 suite integrations, GitLab SSO and advanced permissions.'
                 />
             );
             break;
@@ -220,27 +220,6 @@ export const cancelSubscription = (cancelAccountLink: any, isFreeTrial: boolean,
                 </a>
             </div>
         </div>
-    );
-};
-
-export const infoBanner = (handleHide: () => void) => {
-    return (
-        <AlertBanner
-            mode='info'
-            title={
-                <FormattedMessage
-                    id='billing.subscription.info.headsup'
-                    defaultMessage='Just a heads up'
-                />
-            }
-            message={
-                <FormattedMessage
-                    id='billing.subscription.info.headsup.description'
-                    defaultMessage='You’re nearing the user limit with the free tier of Mattermost Cloud. We’ll let you know if you hit that limit.'
-                />
-            }
-            onDismiss={() => handleHide()}
-        />
     );
 };
 

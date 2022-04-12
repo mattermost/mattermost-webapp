@@ -8,7 +8,7 @@ import {getProfiles} from 'mattermost-redux/actions/users';
 import {Action, ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
 import {getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
-import {isCollapsedThreadsEnabled, getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
+import {isCollapsedThreadsEnabled, getUseCaseOnboarding, insightsAreEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {setShowNextStepsView} from 'actions/views/next_steps';
 import {getIsRhsOpen, getIsRhsMenuOpen} from 'selectors/rhs';
@@ -48,6 +48,7 @@ const mapStateToProps = (state: GlobalState, ownProps: Props) => {
         isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
         currentUserId: getCurrentUserId(state),
         enableTipsViewRoute: enableOnboardingFlow && showNextSteps(state) && !(useCaseOnboarding && isFirstAdmin(state)),
+        insightsAreEnabled: insightsAreEnabled(state),
     };
 };
 

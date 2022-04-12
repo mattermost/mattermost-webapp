@@ -197,6 +197,12 @@ const OnBoardingTaskList = (): JSX.Element => {
             category: OnboardingTaskCategory,
             name: OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW,
             value: 'false',
+        },
+        {
+            user_id: currentUserId,
+            category: OnboardingTaskCategory,
+            name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
+            value: 'false',
         }];
         dispatch(savePreferences(currentUserId, preferences));
         trackEvent(OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW);

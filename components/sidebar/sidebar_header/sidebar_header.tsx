@@ -42,7 +42,7 @@ const SidebarHeaderContainer = styled(Flex).attrs(() => ({
         transform: translate(0, 0);
         margin-left: 0;
         min-width: 210px;
-        max-width: 210px;
+        max-width: 232px;
     }
 
     #SidebarContainer & .AddChannelDropdown_dropdownButton {
@@ -127,7 +127,7 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                 >
                     <MenuWrapper
                         onToggle={handleMenuToggle}
-                        className='SidebarHeaderMenuWrapper'
+                        className='SidebarHeaderMenuWrapper test-team-header'
                     >
                         <SidebarHeading>
                             <span className='title'>{currentTeam.display_name}</span>

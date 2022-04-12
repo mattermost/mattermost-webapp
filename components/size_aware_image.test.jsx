@@ -15,14 +15,20 @@ describe('components/SizeAwareImage', () => {
         },
         onImageLoaded: jest.fn(),
         onImageLoadFail: jest.fn(),
+        getFilePublicLink: jest.fn().mockReturnValue(Promise.resolve({data: {link: 'https://example.com/image.png'}})),
         src: 'https://example.com/image.png',
         className: 'class',
+        fileInfo: {
+            name: 'photo-1533709752211-118fcaf03312',
+        },
+        enablePublicLink: true,
     };
 
     test('should render an svg when first mounted with dimensions and img display set to none', () => {
         const wrapper = mount(<SizeAwareImage {...baseProps}/>);
 
-        const viewBox = wrapper.find('svg').prop('viewBox');
+        // since download and copy icons use svgs now, attachment svg should be searched as a direct child of image-loading__container
+        const viewBox = wrapper.find('.image-loading__container').children().filter('svg').prop('viewBox');
         expect(viewBox).toEqual('0 0 300 200');
         const style = wrapper.find('.file-preview__button').prop('style');
         expect(style).toHaveProperty('display', 'none');
@@ -142,5 +148,48 @@ describe('components/SizeAwareImage', () => {
         wrapper.instance().setState({isSmallImage: true, imageWidth: 24});
 
         expect(wrapper.find('img').prop('className')).toBe(`${props.className} small-image--inside-container`);
+    });
+
+    test('should load download and copy link buttons when an image is mounted', () => {
+        const fileURL = 'https://example.com/image.png';
+        const props = {
+            ...baseProps,
+            fileURL,
+        };
+        const wrapper = shallow(<SizeAwareImage {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should load download hyperlink with href set to fileURL', () => {
+        const fileURL = 'https://example.com/image.png';
+        const props = {
+            ...baseProps,
+            fileURL,
+        };
+        const wrapper = shallow(<SizeAwareImage {...props}/>);
+        expect(wrapper.find('.size-aware-image__download').prop('href')).toBe(fileURL);
+    });
+
+    test('clicking the copy button sets state.linkCopyInProgress to true', () => {
+        const fileURL = 'https://example.com/image.png';
+        const props = {
+            ...baseProps,
+            fileURL,
+        };
+
+        const wrapper = shallow(<SizeAwareImage {...props}/>);
+        expect(wrapper.state('linkCopyInProgress')).toBe(false);
+        wrapper.find('.size-aware-image__copy_link').first().simulate('click');
+        expect(wrapper.state('linkCopyInProgress')).toBe(true);
+    });
+
+    test('does not render copy button if enablePublicLink is false', () => {
+        const props = {
+            ...baseProps,
+            enablePublicLink: false,
+        };
+
+        const wrapper = shallow(<SizeAwareImage {...props}/>);
+        expect(wrapper.find('button.size-aware-image__copy_link').exists()).toEqual(false);
     });
 });

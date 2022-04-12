@@ -133,5 +133,25 @@ describe('Emoticons', () => {
             expect(Emoticons.matchEmoticons('I am feeling pretty :D -- you are: ok?')).
                 toEqual([':D']);
         });
+
+        test('shouldn\'t render emoticons in code blocks', () => {
+            expect(Emoticons.matchEmoticons('`:goat:`')).
+                toEqual(null);
+        });
+
+        test('shouldn\'t render emoticons in multiline code blocks', () => {
+            expect(Emoticons.matchEmoticons('`:goat:` \n `:smile:`')).
+                toEqual(null);
+        });
+
+        test('shouldn\'t render emoticons in links', () => {
+            expect(Emoticons.matchEmoticons('[link](www.google.com/:goat:)')).
+                toEqual(null);
+        });
+
+        test('shouldn\'t render emoticons in multiline links', () => {
+            expect(Emoticons.matchEmoticons('[link](www.google.com/:goat:) \n [link](www.google.com/:smile:)')).
+                toEqual(null);
+        });
     });
 });

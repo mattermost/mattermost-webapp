@@ -151,7 +151,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                             values={{
                                 documentationLink: (
                                     <a
-                                        href='https://about.mattermost.com/default-elasticsearch-documentation/'
+                                        href='https://docs.mattermost.com/scale/elasticsearch.html'
                                         rel='noopener noreferrer'
                                         target='_blank'
                                     >
@@ -185,7 +185,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                             values={{
                                 documentationLink: (
                                     <a
-                                        href='https://about.mattermost.com/default-elasticsearch-server-setup/'
+                                        href='https://docs.mattermost.com/scale/elasticsearch.html'
                                         rel='noopener noreferrer'
                                         target='_blank'
                                     >
