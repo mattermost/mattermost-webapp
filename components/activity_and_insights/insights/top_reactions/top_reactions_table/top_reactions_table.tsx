@@ -15,7 +15,7 @@ const TopReactionsTable = () => {
             {
                 name: (
                     <FormattedMessage
-                        id='insights.topRections.rank'
+                        id='insights.topReactions.rank'
                         defaultMessage='Rank'
                     />
                 ),
@@ -26,7 +26,7 @@ const TopReactionsTable = () => {
             {
                 name: (
                     <FormattedMessage
-                        id='insights.topRections.reaction'
+                        id='insights.topReactions.reaction'
                         defaultMessage='Reaction'
                     />
                 ),
@@ -35,7 +35,7 @@ const TopReactionsTable = () => {
             {
                 name: (
                     <FormattedMessage
-                        id='insights.topRections.timesUsed'
+                        id='insights.topReactions.timesUsed'
                         defaultMessage='Times used'
                     />
                 ),

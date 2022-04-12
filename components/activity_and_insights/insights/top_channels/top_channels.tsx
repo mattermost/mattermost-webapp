@@ -9,7 +9,8 @@ import widgetHoc from '../widget_hoc/widget_hoc';
 
 import './../../activity_and_insights.scss';
 
-const TopChannels = () => {
+// eslint-disable-next-line no-empty-pattern
+const TopChannels = ({}) => {
     const [loading] = useState(true);
 
     const skeletonTitle = useCallback(() => {

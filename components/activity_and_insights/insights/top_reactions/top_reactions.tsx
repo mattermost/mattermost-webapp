@@ -8,7 +8,8 @@ import widgetHoc from '../widget_hoc/widget_hoc';
 
 import './../../activity_and_insights.scss';
 
-const TopReactions = () => {
+// eslint-disable-next-line no-empty-pattern
+const TopReactions = ({}) => {
     return (
         <div className='top-reaction-container'>
             <div className='bar-chart-entry'>
