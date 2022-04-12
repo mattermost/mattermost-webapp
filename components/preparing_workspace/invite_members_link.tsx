@@ -6,7 +6,6 @@ import {FormattedMessage, useIntl} from 'react-intl';
 
 import useCopyText from 'components/common/hooks/useCopyText';
 import {trackEvent} from 'actions/telemetry_actions';
-import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 
 import './invite_members_link.scss';
 
@@ -16,7 +15,7 @@ type Props = {
 
 const InviteMembersLink = (props: Props) => {
     const copyText = useCopyText({
-        trackCallback: () => trackEvent(getAnalyticsCategory(true), 'admin_setup_click_copy_invite_link'),
+        trackCallback: () => trackEvent('TODO: determine key', 'admin_setup_click_copy_invite_link'),
         text: props.inviteURL,
     });
     const intl = useIntl();

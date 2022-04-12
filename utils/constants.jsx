@@ -110,7 +110,6 @@ export const Preferences = {
     NAME_NAME_FORMAT: 'name_format',
     CATEGORY_SYSTEM_NOTICE: 'system_notice',
     TEAMS_ORDER: 'teams_order',
-    RECOMMENDED_NEXT_STEPS: 'recommended_next_steps',
     CLOUD_UPGRADE_BANNER: 'cloud_upgrade_banner',
     CLOUD_TRIAL_BANNER: 'cloud_trial_banner',
     START_TRIAL_MODAL: 'start_trial_modal',
@@ -272,7 +271,6 @@ export const ActionTypes = keyMirror({
 
     PREFETCH_POSTS_FOR_CHANNEL: null,
 
-    SET_SHOW_NEXT_STEPS_VIEW: null,
     SET_FILES_FILTER_BY_EXT: null,
 
     SUPPRESS_RHS: null,
@@ -542,18 +540,6 @@ export const CrtThreadPaneSteps = {
 export const TopLevelProducts = {
     BOARDS: 'Boards',
     PLAYBOOKS: 'Playbooks',
-};
-
-export const RecommendedNextSteps = {
-    COMPLETE_PROFILE: 'complete_profile',
-    TEAM_SETUP: 'team_setup',
-    INVITE_MEMBERS: 'invite_members',
-    PREFERENCES_SETUP: 'preferences_setup',
-    NOTIFICATION_SETUP: 'notification_setup',
-    DOWNLOAD_APPS: 'download_apps',
-    CREATE_FIRST_CHANNEL: 'create_first_channel',
-    HIDE: 'hide',
-    SKIP: 'skip',
 };
 
 export const Threads = {

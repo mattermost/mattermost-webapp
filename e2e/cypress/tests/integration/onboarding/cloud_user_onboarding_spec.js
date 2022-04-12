@@ -30,22 +30,6 @@ describe('Onboarding - User', () => {
     });
 
     beforeEach(() => {
-        const preference = {
-            user_id: user.id,
-            category: 'recommended_next_steps',
-            value: 'false',
-        };
-        const tipsSteps = [
-            'complete_profile',
-            'notification_setup',
-            'team_setup',
-            'invite_members',
-            'download_apps',
-            'hide',
-            'skip',
-        ];
-
-        cy.apiSaveUserPreference(tipsSteps.map((step) => ({...preference, name: step})));
         cy.visit(townSquarePage);
     });
 

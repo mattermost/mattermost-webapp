@@ -29,10 +29,8 @@ describe('components/channel_header/components/UserGuideDropdown', () => {
         location: {
             pathname: '/team/channel/channelId',
         },
-        showDueToStepsNotFinished: false,
         teamUrl: '/team',
         actions: {
-            unhideNextSteps: jest.fn(),
             openModal: jest.fn(),
         },
         pluginMenuItems: [],

@@ -24,7 +24,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks/constants';
 
-import Constants, {Preferences, RecommendedNextSteps} from 'utils/constants';
+import Constants, {Preferences} from 'utils/constants';
 import {makeNewEmptyChannel} from 'utils/channel_utils';
 import {teamNameToUrl, getSiteURL} from 'utils/url';
 import {makeNewTeam} from 'utils/team_utils';
@@ -292,7 +292,7 @@ export default function PreparingWorkspace(props: Props) {
             }
             if (redirectChannel) {
                 const category = Preferences.AB_TEST_PREFERENCE_VALUE;
-                const name = RecommendedNextSteps.CREATE_FIRST_CHANNEL;
+                const name = 'TODO: delete all of this';
                 const firstChannelNamePref = {category, name, user_id: user.id, value: redirectChannel.name};
                 const defaultStepPref = {user_id: user.id, category: Preferences.TUTORIAL_STEP, name: user.id, value: '-1'};
 

@@ -14,7 +14,6 @@ import {getSiteURL} from 'utils/url';
 import {Constants} from 'utils/constants';
 
 import {trackEvent} from 'actions/telemetry_actions';
-import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import useCopyText from 'components/common/hooks/useCopyText';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input';
 import {t} from 'utils/i18n.jsx';
@@ -81,7 +80,7 @@ export default function InviteView(props: Props) {
     }, [props.currentTeam.invite_id]);
 
     const copyText = useCopyText({
-        trackCallback: () => trackEvent(getAnalyticsCategory(props.isAdmin), 'click_copy_invite_link'),
+        trackCallback: () => trackEvent('TODO: define key', 'click_copy_invite_link'),
         text: inviteURL,
     });
 

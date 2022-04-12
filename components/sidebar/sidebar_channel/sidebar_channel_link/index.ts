@@ -23,7 +23,6 @@ import {
     OnboardingTasksName,
 } from 'components/onboarding_tasks';
 import {FINISHED, OnboardingTourSteps, TutorialTourName} from 'components/onboarding_tour';
-import {isOnboardingHidden, showNextSteps} from 'components/next_steps_view/steps';
 
 import SidebarChannelLink from './sidebar_channel_link';
 
@@ -44,12 +43,10 @@ function makeMapStateToProps() {
         const tutorialStep = getInt(state, TutorialTourName.ONBOARDING_TUTORIAL_STEP, currentUserId, 0);
         const triggerStep = getInt(state, OnboardingTaskCategory, OnboardingTasksName.CHANNELS_TOUR, FINISHED);
         const channelTourTriggered = triggerStep === GenericTaskSteps.STARTED;
-        const nextStep = showNextSteps(state);
-        const onboardingHidden = isOnboardingHidden(state);
         const isOnboardingFlowEnabled = config.EnableOnboardingFlow;
         const isUserFirstAdmin = isFirstAdmin(state);
         const showChannelsTour = enableTutorial && tutorialStep === OnboardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES;
-        const showChannelsTutorialStep = showChannelsTour && ((channelTourTriggered && isUserFirstAdmin) || (isOnboardingFlowEnabled === 'true' && !(nextStep || onboardingHidden) && !isUserFirstAdmin) || (isOnboardingFlowEnabled !== 'true' && !isUserFirstAdmin));
+        const showChannelsTutorialStep = showChannelsTour && ((channelTourTriggered && isUserFirstAdmin) || (isOnboardingFlowEnabled === 'true' && !isUserFirstAdmin) || (isOnboardingFlowEnabled !== 'true' && !isUserFirstAdmin));
 
         return {
             unreadMentions: unreadCount.mentions,

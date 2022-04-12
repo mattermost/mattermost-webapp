@@ -31,6 +31,7 @@ describe('plugins/MainMenuActions', () => {
         canCreateOrDeleteCustomEmoji: true,
         canManageIntegrations: true,
         moreTeamsToJoin: true,
+        guestAccessEnabled: true,
         teamIsGroupConstrained: true,
         showGettingStarted: true,
         showDueToStepsNotFinished: false,

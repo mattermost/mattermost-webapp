@@ -12,7 +12,6 @@
 describe('Onboarding - Sysadmin invite members by email', () => {
     let teamId;
     let townSquarePage;
-    let sysadmin;
 
     before(() => {
         cy.apiUpdateConfig({
@@ -23,30 +22,9 @@ describe('Onboarding - Sysadmin invite members by email', () => {
             teamId = team.id;
             townSquarePage = `/${team.name}/channels/town-square`;
         });
-
-        cy.apiAdminLogin().then((res) => {
-            sysadmin = res.user;
-        });
     });
 
     beforeEach(() => {
-        // # Login as sysadmin and set all steps to false
-        const preference = {
-            user_id: sysadmin.id,
-            category: 'recommended_next_steps',
-            value: 'false',
-        };
-        const adminSteps = [
-            'complete_profile',
-            'notification_setup',
-            'team_setup',
-            'invite_members',
-            'download_apps',
-            'hide',
-            'skip',
-        ];
-
-        cy.apiSaveUserPreference(adminSteps.map((step) => ({...preference, name: step})));
         cy.visit(townSquarePage);
     });
 

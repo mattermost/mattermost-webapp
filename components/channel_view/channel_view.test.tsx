@@ -26,7 +26,6 @@ describe('components/channel_view', () => {
         isCloud: false,
         actions: {
             goToLastViewedChannel: jest.fn(),
-            setShowNextStepsView: jest.fn(),
             getProfiles: jest.fn(),
         },
         isFirstAdmin: false,

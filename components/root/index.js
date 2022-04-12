@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {shouldShowTermsOfService, getCurrentUserId, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
+import {shouldShowTermsOfService, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getTheme, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getFirstAdminSetupComplete} from 'mattermost-redux/actions/general';
@@ -31,9 +31,10 @@ function mapStateToProps(state) {
     const teamId = LocalStorageStore.getPreviousTeamId(getCurrentUserId(state));
     const permalinkRedirectTeam = getTeam(state, teamId);
     const taskListStatus = getBool(state, OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW);
-    const isUserFirstAdmin = isFirstAdmin(state);
     const isMobileView = isMobile();
-    const showTaskList = isUserFirstAdmin && taskListStatus && !isMobileView;
+    const showTaskList = true || (taskListStatus && !isMobileView);
+
+    // send a value to verify is admin so the two new values of the list are shown
 
     return {
         theme: getTheme(state),

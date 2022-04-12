@@ -171,10 +171,6 @@ export type ViewsState = {
         firstChannelName: string;
     };
 
-    nextSteps: {
-        show: boolean;
-    };
-
     statusDropdown: {
         isOpen: boolean;
     };
