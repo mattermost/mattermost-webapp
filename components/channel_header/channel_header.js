@@ -15,7 +15,6 @@ import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import Markdown from 'components/markdown';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
-import PopoverListMembers from 'components/popover_list_members';
 import StatusIcon from 'components/status_icon';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import SharedChannelIndicator from 'components/shared_channel_indicator';
@@ -51,6 +50,7 @@ class ChannelHeader extends React.PureComponent {
         teamId: PropTypes.string.isRequired,
         currentUser: PropTypes.object.isRequired,
         channel: PropTypes.object,
+        memberCount: PropTypes.number,
         channelMember: PropTypes.object,
         dmUser: PropTypes.object,
         gmMembers: PropTypes.array,
@@ -79,6 +79,7 @@ class ChannelHeader extends React.PureComponent {
             goToLastViewedChannel: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
             closeModal: PropTypes.func.isRequired,
+            showChannelMembers: PropTypes.func.isRequired,
         }).isRequired,
         teammateNameDisplaySetting: PropTypes.string.isRequired,
         currentRelativeTeamUrl: PropTypes.string.isRequired,
@@ -213,6 +214,14 @@ class ChannelHeader extends React.PureComponent {
 
         this.setState({topOffset});
     }
+
+    toggleChannelMembersRHS = () => {
+        if (this.props.rhsState === RHSStates.CHANNEL_MEMBERS) {
+            this.props.actions.closeRightHandSide();
+        } else {
+            this.props.actions.showChannelMembers(this.props.channel.id);
+        }
+    };
 
     setPopoverOverlayWidth = () => {
         const headerDescriptionRect = this.headerDescriptionRef.current.getBoundingClientRect();
@@ -379,15 +388,6 @@ class ChannelHeader extends React.PureComponent {
             }
         }
 
-        let popoverListMembers;
-        if (!isDirect) {
-            popoverListMembers = (
-                <PopoverListMembers
-                    channel={channel}
-                />
-            );
-        }
-
         let dmHeaderIconStatus;
         let dmHeaderTextStatus;
         if (isDirect && !dmUser.delete_at && !dmUser.is_bot) {
@@ -438,6 +438,43 @@ class ChannelHeader extends React.PureComponent {
             />
         );
 
+        let memberListButton = null;
+        if (!isDirect) {
+            memberListButton = (
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='bottom'
+                    overlay={
+                        <Tooltip id='channelMembersTooltip'>
+                            <FormattedMessage
+                                id='channel_header.channelMembers'
+                                defaultMessage='Members'
+                            />
+                        </Tooltip>
+                    }
+                >
+                    <button
+                        id='member_rhs'
+                        className={'member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide ' + (this.props.rhsState === RHSStates.CHANNEL_MEMBERS ? 'channel-header__icon--active' : '')}
+                        onClick={this.toggleChannelMembersRHS}
+                    >
+                        <div className='d-flex align-items-center'>
+                            <i
+                                aria-hidden='true'
+                                className='icon icon-account-outline channel-header__members'
+                            />
+                            <span
+                                id='channelMemberCountText'
+                                className='icon__text'
+                            >
+                                {this.props.memberCount > 0 ? this.props.memberCount.toString() : '-'}
+                            </span>
+                        </div>
+                    </button>
+                </OverlayTrigger>
+            );
+        }
+
         let headerTextContainer;
         const headerText = (isDirect && dmUser.is_bot) ? dmUser.bot_description : channel.header;
         if (headerText) {
@@ -469,7 +506,7 @@ class ChannelHeader extends React.PureComponent {
                 >
                     {dmHeaderIconStatus}
                     {dmHeaderTextStatus}
-                    {popoverListMembers}
+                    {memberListButton}
 
                     <HeaderIconWrapper
                         iconComponent={pinnedIcon}
@@ -589,7 +626,7 @@ class ChannelHeader extends React.PureComponent {
                 >
                     {dmHeaderIconStatus}
                     {dmHeaderTextStatus}
-                    {popoverListMembers}
+                    {memberListButton}
 
                     <HeaderIconWrapper
                         iconComponent={pinnedIcon}

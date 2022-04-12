@@ -214,3 +214,7 @@ export function isCustomGroupsEnabled(state: GlobalState): boolean {
 export function getUseCaseOnboarding(state: GlobalState): boolean {
     return getFeatureFlagValue(state, 'UseCaseOnboarding') === 'true';
 }
+
+export function insightsAreEnabled(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'InsightsEnabled') === 'true';
+}

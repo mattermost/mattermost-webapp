@@ -690,6 +690,7 @@ export const SearchTypes = keyMirror({
     SET_TEAM_LIST_SEARCH: null,
     SET_CHANNEL_LIST_SEARCH: null,
     SET_CHANNEL_LIST_FILTERS: null,
+    SET_CHANNEL_MEMBERS_RHS_SEARCH: null,
 });
 
 export const StorageTypes = keyMirror({
@@ -729,7 +730,6 @@ export const ErrorPageTypes = {
     PERMALINK_NOT_FOUND: 'permalink_not_found',
     TEAM_NOT_FOUND: 'team_not_found',
     CHANNEL_NOT_FOUND: 'channel_not_found',
-    MAX_FREE_USERS_REACHED: 'max_free_users_reached',
 };
 
 export const JobTypes = {
@@ -833,6 +833,7 @@ export const RHSStates = {
     PLUGIN: 'plugin',
     CHANNEL_FILES: 'channel-files',
     CHANNEL_INFO: 'channel-info',
+    CHANNEL_MEMBERS: 'channel-members',
 };
 
 export const UploadStatuses = {
@@ -1864,6 +1865,12 @@ export const durationValues = {
         id: t('custom_status.expiry_dropdown.date_and_time'),
         defaultMessage: 'Custom Date and Time',
     },
+};
+
+export const InsightsTimeFrames = {
+    INSIGHTS_1_DAY: '1_day',
+    INSIGHTS_7_DAYS: '7_day',
+    INSIGHTS_28_DAYS: '28_day',
 };
 
 export default Constants;

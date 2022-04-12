@@ -24,6 +24,7 @@ interface Props extends PropsFromRedux {
     postId: string;
     fileInfo: FileInfo;
     isRhsOpen: boolean;
+    enablePublicLink: boolean;
     compactDisplay?: boolean;
     isEmbedVisible?: boolean;
     isInPermalink?: boolean;
@@ -96,6 +97,10 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
 
     toggleEmbedVisibility = () => {
         this.props.actions.toggleEmbedVisibility(this.props.postId);
+    }
+
+    getFilePublicLink = () => {
+        return this.props.actions.getFilePublicLink(this.props.fileInfo.id);
     }
 
     render() {
@@ -227,9 +232,12 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
                                     src={previewURL}
                                     dimensions={this.state.dimensions}
                                     fileInfo={this.props.fileInfo}
+                                    fileURL={fileURL}
                                     onImageLoaded={this.imageLoaded}
                                     showLoader={this.props.isEmbedVisible}
                                     handleSmallImageContainer={true}
+                                    enablePublicLink={this.props.enablePublicLink}
+                                    getFilePublicLink={this.getFilePublicLink}
                                 />
                             </div>
                         </div>
