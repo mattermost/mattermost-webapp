@@ -90,5 +90,24 @@ describe('Keyboard Shortcuts', () => {
             // * Verify message was deleted
             cy.findByText('message to delete').should('not.exist');
         });
+
+        cy.getLastPostId().then((postId) => {
+            // * verify Save not shown in webview
+            cy.findByText('Save').should('not.exist');
+
+            cy.viewport('iphone-6');
+
+            // # Save Post
+            cy.uiPostDropdownMenuShortcut(postId, 'Save', 'S');
+
+            // * Verify post is Saved
+            cy.get(`#post_${postId}`).find('.post-pre-header').should('be.visible').and('have.text', 'Saved');
+
+            // # Unsave Post
+            cy.uiPostDropdownMenuShortcut(postId, 'Remove from Saved', 'S');
+
+            // * Verify post is unsaved
+            cy.get(`#post_${postId}`).and('not.have.text', 'Saved');
+        });
     });
 });
