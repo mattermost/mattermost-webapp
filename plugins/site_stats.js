@@ -14,23 +14,7 @@ export function registerPluginStatsHandler(pluginId, handler) {
 
 export function getPluginStats() {
     let stats = {};
-
-    // fake it til make it
-    // let stats = {
-    //     playbook_count: {
-    //         name: 'Playbook count',
-    //         id: 'playbook_count',
-    //         icon: 'icon',
-    //         value: 545,
-    //     },
-    //     playbook_run_count: {
-    //         name: 'Playbook runs count',
-    //         id: 'playbook_runs_count',
-    //         icon: 'icon',
-    //         value: 5425,
-    //     },
-    // };
-    Object.entries(pluginStatsHandlers).forEach((key, handler) => {
+    Object.values(pluginStatsHandlers).forEach((handler) => {
         stats = {...stats, ...handler()};
     });
     return stats;
