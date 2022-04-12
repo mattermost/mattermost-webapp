@@ -14,6 +14,11 @@ import {
     unregisterPluginReconnectHandler,
 } from 'actions/websocket_actions.jsx';
 
+import {
+    registerPluginStatsHandler,
+    unregisterPluginStatsHandler,
+} from 'plugins/site_stats.js';
+
 import {showRHSPlugin, hideRHSPlugin, toggleRHSPlugin} from 'actions/views/rhs';
 
 import {
@@ -871,5 +876,20 @@ export default class PluginRegistry {
         });
 
         return id;
+    }
+
+    // INTERNAL: Subject to change without notice.
+    // Register a handler to retrieve stats that will be displayed on the system console
+    // Accepts the following:
+    // - handler - Func to be called to retrieve the stats from plugin api
+    // Returns a map with the stats.
+    registerSiteStatisticsHandler(handler) {
+        registerPluginStatsHandler(this.id, handler);
+    }
+
+    // INTERNAL: Subject to change without notice.
+    // Unregister the site statistics handler for the current plugin
+    unregisterSiteStatisticsHandler() {
+        unregisterPluginStatsHandler(this.id);
     }
 }

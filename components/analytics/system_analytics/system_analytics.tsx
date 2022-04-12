@@ -4,10 +4,11 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {AnalyticsRow} from 'mattermost-redux/types/admin';
+import {AnalyticsRow, PluginAnalyticsRow} from 'mattermost-redux/types/admin';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
 import Constants from 'utils/constants';
+import {getPluginStats} from 'plugins/site_stats';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
@@ -33,7 +34,13 @@ type Props = {
 }
 
 export default class SystemAnalytics extends React.PureComponent<Props> {
-    public componentDidMount() {
+    private pluginStats: Record<string, PluginAnalyticsRow>;
+    public constructor(props: Props) {
+        super(props);
+        this.pluginStats = {};
+    }
+
+    public async componentDidMount() {
         AdminActions.getStandardAnalytics();
         AdminActions.getPostsPerDayAnalytics();
         AdminActions.getBotPostsPerDayAnalytics();
@@ -42,6 +49,7 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
         if (this.props.isLicensed) {
             AdminActions.getAdvancedAnalytics();
         }
+        this.pluginStats = await getPluginStats() as Record<string, PluginAnalyticsRow>;
     }
 
     private getStatValue(stat: number | AnalyticsRow[]): number | undefined {
@@ -367,6 +375,23 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
             />
         );
 
+        // Extract plugin stats that should be displayed and pass them to widget
+        const pluginSiteStats = (
+            <div>
+                {Object.entries(this.pluginStats).map(([key, stat]) =>
+                    (
+                        <StatisticCount
+                            id={key}
+                            key={'pluginstat.' + key}
+                            title={stat.name}
+                            icon={stat.icon}
+                            count={stat.value}
+                        />
+                    ),
+                )}
+            </div>
+        );
+
         let firstRow;
         let secondRow;
         if (isLicensed && skippedIntensiveQueries) {
@@ -436,6 +461,7 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
                             {secondRow}
                             {thirdRow}
                             {advancedStats}
+                            {pluginSiteStats}
                         </div>
                         {advancedGraphs}
                         {postTotalGraph}
