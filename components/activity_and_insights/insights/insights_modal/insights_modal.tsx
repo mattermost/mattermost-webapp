@@ -37,16 +37,16 @@ const InsightsModal = (props: Props) => {
 
     const modalContent = useCallback(() => {
         switch (props.widgetType) {
-            case InsightsWidgetTypes.TOP_CHANNELS:
-                return null;
-            case InsightsWidgetTypes.TOP_REACTIONS:
-                return (
-                    <TopReactionsTable/>
-                );
-            default:
-                return null;
+        case InsightsWidgetTypes.TOP_CHANNELS:
+            return null;
+        case InsightsWidgetTypes.TOP_REACTIONS:
+            return (
+                <TopReactionsTable/>
+            );
+        default:
+            return null;
         }
-    }, [props.widgetType])
+    }, [props.widgetType]);
 
     return (
         <Modal

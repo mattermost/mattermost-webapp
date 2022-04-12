@@ -21,7 +21,7 @@ const TopReactionsTable = () => {
                 ),
                 field: 'rank',
                 className: 'rankCell',
-                width: .2,
+                width: 0.2,
             },
             {
                 name: (
@@ -43,7 +43,7 @@ const TopReactionsTable = () => {
             },
         ];
         return columns;
-    }
+    };
 
     const getRows = (): Row[] => {
         return [
@@ -70,7 +70,7 @@ const TopReactionsTable = () => {
                             {'45'}
                         </span>
                     ),
-                }
+                },
             },
             {
                 cells: {
@@ -95,7 +95,7 @@ const TopReactionsTable = () => {
                             {'45'}
                         </span>
                     ),
-                }
+                },
             },
             {
                 cells: {
@@ -120,10 +120,10 @@ const TopReactionsTable = () => {
                             {'36'}
                         </span>
                     ),
-                }
+                },
             },
         ];
-    }
+    };
 
     return (
         <DataGrid
