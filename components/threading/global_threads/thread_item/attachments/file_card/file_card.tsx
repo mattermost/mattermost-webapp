@@ -17,9 +17,7 @@ type Props = {
     enableSVGs: boolean;
 }
 
-type FileProps = {
-    [Property in keyof FileInfo]: FileInfo[Property];
-} & {
+type FileProps = FileInfo & {
     enableSVGs: boolean;
 }
 

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo} from 'react';
+import React from 'react';
 
 import {Post} from 'mattermost-redux/types/posts';
 
@@ -24,11 +24,4 @@ function Attachment({post}: Props) {
     return null;
 }
 
-function arePropsEqual(prevProps: Props, nextProps: Props) {
-    return (
-        prevProps.post.file_ids?.[0] === nextProps.post.file_ids?.[0] &&
-        prevProps.post.props.attachments?.[0] === nextProps.post.props.attachments?.[0]
-    );
-}
-
-export default memo(Attachment, arePropsEqual);
+export default Attachment;

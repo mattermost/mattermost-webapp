@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getAllFiles} from 'mattermost-redux/selectors/entities/files';
+import {getFile} from 'mattermost-redux/selectors/entities/files';
 
 import {FileInfo} from 'mattermost-redux/types/files';
 
@@ -17,7 +17,7 @@ type OwnProps = {
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-    const file = getAllFiles(state)[ownProps.id];
+    const file = getFile(state, ownProps.id);
     const config = getConfig(state);
 
     return {
