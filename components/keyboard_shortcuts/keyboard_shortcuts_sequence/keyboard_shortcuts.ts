@@ -175,11 +175,11 @@ export const KEYBOARD_SHORTCUTS = {
     navOpenChannelInfo: {
         default: {
             id: t('shortcuts.nav.open_channel_info'),
-            defaultMessage: 'Expand the right sidebar:\tCtrl|Shift|I',
+            defaultMessage: 'View channel info:\tCtrl|Shift|I',
         },
         mac: {
             id: t('shortcuts.nav.open_channel_info.mac'),
-            defaultMessage: 'Expand the right sidebar:\t⌘|Shift|I',
+            defaultMessage: 'View channel info:\t⌘|Shift|I',
         },
     },
     msgEdit: {
