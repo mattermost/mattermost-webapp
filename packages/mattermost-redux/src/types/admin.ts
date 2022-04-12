@@ -52,6 +52,13 @@ export type AnalyticsRow = {
     value: number;
 };
 
+export type PluginAnalyticsRow = {
+    id: string;
+    name: string;
+    icon: string;
+    value: number;
+};
+
 export type SchemaMigration = {
     version: number;
     name: string;
