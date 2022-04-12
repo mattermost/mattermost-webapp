@@ -53,10 +53,6 @@ export interface Props {
 }
 
 export default function ChannelMembersRHS({channel, searchTerms, membersCount, canGoBack, teamUrl, channelAdmins, channelMembers, canManageMembers, actions}: Props) {
-    if (!channel) {
-        return null;
-    }
-
     const [editing, setEditing] = useState(false);
 
     const searching = searchTerms !== '';

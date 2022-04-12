@@ -39,12 +39,21 @@ function isChannelAdmin(channelMember: ChannelMembership) {
 
 function mapStateToProps(state: GlobalState) {
     const channel = getCurrentChannel(state);
-    if (!channel) {
-        return {};
-    }
-
     const currentTeam = getCurrentTeam(state);
     const {member_count: membersCount} = getCurrentChannelStats(state) || {member_count: 0};
+
+    if (!channel) {
+        return {
+            channel: {} as Channel,
+            channelMembers: [],
+            channelAdmins: [],
+            searchTerms: '',
+            membersCount,
+            canManageMembers: false,
+            canGoBack: false,
+            teamUrl: '',
+        } as unknown as Props;
+    }
 
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const canManageMembers = haveIChannelPermission(state, currentTeam.id, channel.id, isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS);
