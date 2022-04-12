@@ -14,17 +14,12 @@ import {removeReaction} from 'mattermost-redux/actions/posts';
 import {Emoji} from 'mattermost-redux/types/emojis';
 
 import PostReaction from './post_recent_reactions';
-import { Post } from 'mattermost-redux/types/posts';
-
-type Props = {
-    post: Post;
-};
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             addReaction,
-            removeReaction
+            removeReaction,
         }, dispatch),
     };
 }
@@ -34,11 +29,9 @@ function mapStateToProps(state: GlobalState) {
     const emojiMap = getEmojiMap(state);
     const defaultEmojis = [emojiMap.get('thumbsup'), emojiMap.get('grinning'), emojiMap.get('white_check_mark')] as Emoji[];
 
-    return function mapStateToProps(state: GlobalState, ownProps: Props) {
-        return {
-            defaultEmojis,
-            locale,
-        };
+    return {
+        defaultEmojis,
+        locale,
     };
 }
 

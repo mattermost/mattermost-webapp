@@ -48,7 +48,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             addReaction,
-            removeReaction
+            removeReaction,
         }, dispatch),
     };
 }

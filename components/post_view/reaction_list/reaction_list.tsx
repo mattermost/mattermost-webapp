@@ -21,7 +21,7 @@ import ChannelPermissionGate from 'components/permissions_gates/channel_permissi
 import {localizeMessage} from 'utils/utils.jsx';
 
 import store from 'stores/redux_store.jsx';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users'
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 const DEFAULT_EMOJI_PICKER_RIGHT_OFFSET = 15;
 const EMOJI_PICKER_WIDTH_OFFSET = 260;
@@ -81,20 +81,22 @@ export default class ReactionList extends React.PureComponent<Props, State> {
     handleEmojiClick = (emoji: Emoji): void => {
         this.setState({showEmojiPicker: false});
         const emojiName = isSystemEmoji(emoji) ? emoji.short_names[0] : emoji.name;
-        const state = store.getState()
+        const state = store.getState();
 
-        let {reactions} = this.props
-        let currentUserReacted = false
-        for (let key in reactions) {
-            let value  = reactions[key];
-            if (value.user_id === getCurrentUserId(state) && value.emoji_name === emojiName) {
-                currentUserReacted = true
-                break
+        const {reactions} = this.props;
+        let currentUserReacted = false;
+        for (const key in reactions) {
+            if ({}.hasOwnProperty.call(reactions, key)) {
+                const value = reactions[key];
+                if (value.user_id === getCurrentUserId(state) && value.emoji_name === emojiName) {
+                    currentUserReacted = true;
+                    break;
+                }
             }
         }
 
         if (currentUserReacted) {
-            this.props.actions.removeReaction(this.props.post.id, emojiName)
+            this.props.actions.removeReaction(this.props.post.id, emojiName);
         } else {
             this.props.actions.addReaction(this.props.post.id, emojiName);
         }

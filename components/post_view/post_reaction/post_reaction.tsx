@@ -13,18 +13,17 @@ import {Emoji} from 'mattermost-redux/types/emojis';
 
 import {Locations} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
+import {makeGetUniqueReactionsToPost} from 'utils/post_utils';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
-import store from 'stores/redux_store.jsx';
-import {Post} from 'mattermost-redux/types/posts';
-import {Reaction as ReactionType} from 'mattermost-redux/types/reactions';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users'
-import { makeGetUniqueReactionsToPost } from 'utils/post_utils';
 
+import store from 'stores/redux_store.jsx';
+
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 const TOP_OFFSET = -7;
 
@@ -58,22 +57,24 @@ export default class PostReaction extends React.PureComponent<Props, State> {
     handleEmoji = (emoji: Emoji): void => {
         this.setState({showEmojiPicker: false});
         const emojiName = 'short_name' in emoji ? emoji.short_name : emoji.name;
-        const state = store.getState()
+        const state = store.getState();
         const getReactionsForPost = makeGetUniqueReactionsToPost();
 
-        let reactions = getReactionsForPost(state, this.props.postId)
-        console.log(reactions)
-        let currentUserReacted = false
-        for (let key in reactions) {
-            let value  = reactions[key];
-            if (value.user_id === getCurrentUserId(state) && value.emoji_name === emojiName) {
-                currentUserReacted = true
-                break
+        const reactions = getReactionsForPost(state, this.props.postId);
+        let currentUserReacted = false;
+
+        for (const key in reactions) {
+            if ({}.hasOwnProperty.call(reactions, key)) {
+                const value = reactions[key];
+                if (value.user_id === getCurrentUserId(state) && value.emoji_name === emojiName) {
+                    currentUserReacted = true;
+                    break;
+                }
             }
         }
 
         if (currentUserReacted) {
-            this.props.actions.removeReaction(this.props.postId, emojiName)
+            this.props.actions.removeReaction(this.props.postId, emojiName);
         } else {
             this.props.actions.addReaction(this.props.postId, emojiName);
         }
