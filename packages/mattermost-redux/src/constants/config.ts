@@ -5,8 +5,3 @@ export enum CollapsedThreads {
     DEFAULT_ON = 'default_on',
     DEFAULT_OFF = 'default_off',
 }
-
-export enum AddMembersToChanneltreatments {
-    TOP = 'top',
-    BOTTOM = 'bottom',
-}
