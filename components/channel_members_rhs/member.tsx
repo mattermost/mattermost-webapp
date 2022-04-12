@@ -35,14 +35,14 @@ const DisplayName = styled.span`
     margin-left: 8px;
     font-size: 14px;
     line-height: 20px;
-    color: var(--center-channel-text);
+    color: var(--center-channel-color);
 `;
 
 const Username = styled.span`
     margin-left: 8px;
     font-size: 12px;
     line-height: 18px;
-    color: rgba(var(--center-channel-text-rgb), 0.56);
+    color: rgba(var(--center-channel-color-rgb), 0.56);
 `;
 
 const SendMessage = styled.button`
@@ -54,11 +54,11 @@ const SendMessage = styled.button`
     height: 24px;
     border-radius: 4px;
     &:hover {
-        background-color: rgba(var(--center-channel-text-rgb), 0.12);
+        background-color: rgba(var(--center-channel-color-rgb), 0.12);
     }
     .icon {
         font-size: 14.4px;
-        color: rgba(var(--center-channel-text-rgb), 0.56);
+        color: rgba(var(--center-channel-color-rgb), 0.56);
     };
 `;
 
