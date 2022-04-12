@@ -9,6 +9,27 @@ import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences'
 import {getCloudLimits} from 'mattermost-redux/selectors/entities/cloud';
 import {getCloudLimits as getCloudLimitsAction} from 'actions/cloud';
 
+import LimitCard from './limit_card';
+
+const GB = 1 * 8 * 1024 * 1024 * 1024;
+
+// TODO: Replace this with actual usages stored in redux,
+// that ideally are updated with a websocket event in near real time.
+const fakeUsage = {
+    files: {
+        totalStorage: Number(GB),
+    },
+    messages: {
+        history: 11000,
+    },
+    boards: {
+        cards: 300,
+    },
+    integrations: {
+        enabled: 9,
+    },
+};
+
 const Limits = (): JSX.Element | null => {
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
     const cloudLimits = useSelector(getCloudLimits);
@@ -27,8 +48,8 @@ const Limits = (): JSX.Element | null => {
     }
 
     return (
-        <div>
-            <div>
+        <div className='ProductLimitsPanel'>
+            <div className='ProductLimitsPanel__title'>
                 <FormattedMessage
                     id='workspace_limits.upgrade'
                     defaultMessage='Upgrade to avoid {planName} data limits'
@@ -37,78 +58,95 @@ const Limits = (): JSX.Element | null => {
                     }}
                 />
             </div>
-            {cloudLimits.files && (
-                <div>
-                    <FormattedMessage
-                        id='workspace_limits.file_storage'
-                        defaultMessage='File Storage'
-                    />
-                    <FormattedMessage
-                        id='workspace_limits.file_storage.usage'
-                        defaultMessage='{actual} of {limit} ({percent}%)'
-                        values={{
-                            actual: '1GB',
-                            limit: `${Math.floor(cloudLimits.files.total_storage / (1 * 8 * 1024 * 1024 * 1024))}GB`,
-                            percent: Math.floor((1 / (cloudLimits.files.total_storage / (1 * 8 * 1024 * 1024 * 1024))) * 100),
-                        }}
-                    />
-                </div>
+            <div className='ProductLimitsPanel__limits'>
+                {cloudLimits.files && (
+                    <LimitCard
+                        name={<FormattedMessage
+                            id='workspace_limits.file_storage'
+                            defaultMessage='File Storage'
+                        />
+                        }
+                        status={<FormattedMessage
+                            id='workspace_limits.file_storage.usage'
+                            defaultMessage='{actual} of {limit} ({percent}%)'
+                            values={{
+                                actual: `${Math.floor(fakeUsage.files.totalStorage / GB)}GB`,
+                                limit: `${Math.floor(cloudLimits.files.total_storage / GB)}GB`,
+                                percent: Math.floor((fakeUsage.files.totalStorage / cloudLimits.files.total_storage) * 100),
 
-            )}
-            {cloudLimits.messages && (
-                <div>
-                    <FormattedMessage
-                        id='workspace_limits.message_history'
-                        defaultMessage='File Storage'
+                            }}
+                        />
+                        }
+                        percent={Math.floor((1 / (cloudLimits.files.total_storage / GB)) * 100)}
+                        icon='icon-folder-outline'
                     />
-                    <FormattedMessage
-                        id='workspace_limits.message_history.usage'
-                        defaultMessage='{actual} of {limit} ({percent}%)'
-                        values={{
-                            actual: `${Math.floor(2000 / 1000)}K`,
-                            limit: `${Math.floor(cloudLimits.messages.history / 1000)}K`,
-                            percent: Math.floor((2000 / cloudLimits.messages.history) * 100),
-                        }}
+                )}
+                {cloudLimits.messages && (
+                    <LimitCard
+                        name={
+                            <FormattedMessage
+                                id='workspace_limits.message_history'
+                                defaultMessage='Message History'
+                            />
+                        }
+                        status={
+                            <FormattedMessage
+                                id='workspace_limits.message_history.usage'
+                                defaultMessage='{actual} of {limit} ({percent}%)'
+                                values={{
+                                    actual: `${Math.floor(fakeUsage.messages.history / 1000)}K`,
+                                    limit: `${Math.floor(cloudLimits.messages.history / 1000)}K`,
+                                    percent: Math.floor((fakeUsage.messages.history / cloudLimits.messages.history) * 100),
+                                }}
+                            />
+                        }
+                        percent={Math.floor((fakeUsage.messages.history / cloudLimits.messages.history) * 100)}
+                        icon='icon-message-text-outline'
                     />
-                </div>
+                )}
+                {cloudLimits.boards && (
+                    <LimitCard
+                        name={<FormattedMessage
+                            id='workspace_limits.boards_cards'
+                            defaultMessage='Board Cards per Server'
+                        />}
+                        status={<FormattedMessage
+                            id='workspace_limits.boards_cards.usage'
+                            defaultMessage='{actual} of {limit} cards ({percent}%)'
+                            values={{
+                                actual: fakeUsage.boards.cards,
+                                limit: cloudLimits.boards.cards,
+                                percent: Math.floor((fakeUsage.boards.cards / cloudLimits.boards.cards) * 100),
+                            }}
+                        />}
+                        percent={Math.floor((fakeUsage.boards.cards / cloudLimits.boards.cards) * 100)}
+                        icon='icon-product-boards'
+                    />
 
-            )}
-            {cloudLimits.boards && (
-                <div>
-                    <FormattedMessage
-                        id='workspace_limits.boards_cards'
-                        defaultMessage='Board Cards per Server'
+                )}
+                {cloudLimits.integrations && (
+                    <LimitCard
+                        name={
+                            <FormattedMessage
+                                id='workspace_limits.integrations_enabled'
+                                defaultMessage='Enabled Integrations'
+                            />
+                        }
+                        status={<FormattedMessage
+                            id='workspace_limits.integrations_enabled.usage'
+                            defaultMessage='{actual} of {limit} integrations ({percent}%)'
+                            values={{
+                                actual: fakeUsage.integrations.enabled,
+                                limit: cloudLimits.integrations.enabled,
+                                percent: Math.floor((fakeUsage.integrations.enabled / cloudLimits.integrations.enabled) * 100),
+                            }}
+                        />}
+                        percent={Math.floor((fakeUsage.integrations.enabled / cloudLimits.integrations.enabled) * 100)}
+                        icon='icon-product-boards'
                     />
-                    <FormattedMessage
-                        id='workspace_limits.boards_cards.usage'
-                        defaultMessage='{actual} of {limit} cards ({percent}%)'
-                        values={{
-                            actual: 200,
-                            limit: cloudLimits.boards.cards,
-                            percent: Math.floor((200 / cloudLimits.boards.cards) * 100),
-                        }}
-                    />
-                </div>
 
-            )}
-            {cloudLimits.integrations && (
-                <div>
-                    <FormattedMessage
-                        id='workspace_limits.integrations_enabled'
-                        defaultMessage='Enabled Integrations'
-                    />
-                    <FormattedMessage
-                        id='workspace_limits.integrations_enabled.usage'
-                        defaultMessage='{actual} of {limit} integrations ({percent}%)'
-                        values={{
-                            actual: 4,
-                            limit: cloudLimits.integrations.enabled,
-                            percent: Math.floor((4 / cloudLimits.integrations.enabled) * 100),
-                        }}
-                    />
-                </div>
-
-            )}
+                )}
+            </div>
         </div>
     );
 };
