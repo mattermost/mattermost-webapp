@@ -92,6 +92,7 @@ interface MenuProps {
         openNotificationSettings: () => void;
         showChannelFiles: (channelId: string) => void;
         showPinnedPosts: (channelId: string | undefined) => void;
+        showChannelMembers: (channelId: string) => void;
     };
 }
 
@@ -99,6 +100,7 @@ const Menu = ({channel, channelStats, isArchived, className, actions}: MenuProps
     const {formatMessage} = useIntl();
 
     const showNotificationPreferences = channel.type !== Constants.DM_CHANNEL && !isArchived;
+    const showMembers = channel.type !== Constants.DM_CHANNEL;
 
     return (
         <div
@@ -110,6 +112,15 @@ const Menu = ({channel, channelStats, isArchived, className, actions}: MenuProps
                     icon={<i className='icon icon-bell-outline'/>}
                     text={formatMessage({id: 'channel_info_rhs.menu.notification_preferences', defaultMessage: 'Notification Preferences'})}
                     onClick={actions.openNotificationSettings}
+                />
+            )}
+            {showMembers && (
+                <MenuItem
+                    icon={<i className='icon icon-account-outline'/>}
+                    text={formatMessage({id: 'channel_info_rhs.menu.members', defaultMessage: 'Members'})}
+                    opensSubpanel={true}
+                    badge={channelStats.member_count}
+                    onClick={() => actions.showChannelMembers(channel.id)}
                 />
             )}
             <MenuItem
