@@ -3,6 +3,7 @@
 import {Constants} from '../../../utils/constants';
 import {t} from '../../../utils/i18n';
 import SchemaAdminSettings from '../schema_admin_settings';
+import {PluginRedux} from 'mattermost-redux/types/plugins';
 
 export type EnabledPluginSetting = {
     type: string;
@@ -14,7 +15,7 @@ export type EnabledPluginSetting = {
     isDisabled?: () => boolean;
 }
 
-export default function getEnablePluginSetting(plugin: { id: string }): EnabledPluginSetting {
+export default function getEnablePluginSetting(plugin: PluginRedux): EnabledPluginSetting {
     const escapedPluginId = SchemaAdminSettings.escapePathPart(plugin.id);
     const pluginEnabledConfigKey = 'PluginSettings.PluginStates.' + escapedPluginId + '.Enable';
 
