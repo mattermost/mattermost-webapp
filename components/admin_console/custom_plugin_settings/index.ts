@@ -19,6 +19,8 @@ import {it} from '../admin_definition';
 
 import {appsPluginID} from 'utils/apps';
 
+import {AdminConsolePluginComponent} from 'types/store/plugins';
+
 import CustomPluginSettings from './custom_plugin_settings';
 import getEnablePluginSetting from './enable_plugin_setting';
 
@@ -27,10 +29,10 @@ type OwnProps = { match: { params: { plugin_id: string } } }
 function makeGetPluginSchema() {
     return createSelector(
         'makeGetPluginSchema',
-        (state: GlobalState, pluginId: string) => state.entities.admin.plugins![pluginId],
+        (state: GlobalState, pluginId: string) => state.entities.admin.plugins?.[pluginId],
         (state: GlobalState, pluginId: string) => getAdminConsoleCustomComponents(state, pluginId),
         (state) => appsFeatureFlagEnabled(state),
-        (plugin: PluginRedux & {translate?: boolean}, customComponents, appsFeatureFlagIsEnabled) => {
+        (plugin: PluginRedux & {translate?: boolean} | undefined, customComponents: Record<string, AdminConsolePluginComponent>, appsFeatureFlagIsEnabled) => {
             if (!plugin) {
                 return null;
             }
