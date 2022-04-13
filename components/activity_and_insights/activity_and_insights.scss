@@ -40,10 +40,52 @@
                 flex: 0.2;
                 flex-direction: column;
                 align-items: center;
+                margin-top: auto;
+
+                .reaction-count {
+                    font-family: 'Open Sans';
+                    font-style: normal;
+                    font-weight: 600;
+                    font-size: 11px;
+                    line-height: 16px;
+                    margin-bottom: 6px;
+                }
 
                 .skeleton-loader {
                     &.bar-chart {
                         margin-bottom: 6px;
+                    }
+                }
+
+                .bar-chart-data {
+                    margin-bottom: 6px;
+                    border-radius: 6px;
+                    width: 8px;
+                }
+
+                &:nth-of-type(1) {
+                    .bar-chart-data {
+                        background-color: var(--button-bg);
+                    }
+                }
+                &:nth-of-type(2) {
+                    .bar-chart-data {
+                        background-color: var(--online-indicator);
+                    }
+                }
+                &:nth-of-type(3) {
+                    .bar-chart-data {
+                        background-color: var(--dnd-indicator);
+                    }
+                }
+                &:nth-of-type(4) {
+                    .bar-chart-data {
+                        background-color: var(--new-message-separator);
+                    }
+                }
+                &:nth-of-type(5) {
+                    .bar-chart-data {
+                        background-color: var(--away-indicator);
                     }
                 }
             }
