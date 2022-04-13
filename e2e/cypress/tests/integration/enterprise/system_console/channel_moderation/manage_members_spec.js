@@ -28,7 +28,6 @@ import {
     visitChannelConfigPage,
 } from './helpers';
 
-
 function addButtonExists() {
     cy.uiGetRHS().contains('button', 'Add').should('be.visible');
 }
