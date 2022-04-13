@@ -138,8 +138,6 @@ export function loadMe(): ActionFunc {
         const serverVersion = Client4.getServerVersion() || getState().entities.general.serverVersion;
         dispatch(setServerVersion(serverVersion));
 
-        const isCollapsedThreads = isCollapsedThreadsEnabled(getState());
-
         try {
             await Promise.all([
                 dispatch(getClientConfig()),
@@ -150,6 +148,7 @@ export function loadMe(): ActionFunc {
                 dispatch(getMyTeamMembers()),
             ]);
 
+            const isCollapsedThreads = isCollapsedThreadsEnabled(getState());
             await dispatch(getMyTeamUnreads(isCollapsedThreads));
         } catch (error) {
             dispatch(logError(error));
