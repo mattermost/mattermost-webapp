@@ -133,11 +133,11 @@ describe('Team Permissions', () => {
         cy.get('body').type('{esc}');
 
         // # Open channel members list
-        cy.get('#channelMember').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
-        cy.get('#member-list-popover').should('be.visible');
+        cy.get('.member-rhs__trigger').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
 
-        // * Verify the button contains `View Members` text
-        cy.findByTestId('membersModal').should('be.visible').and('contain.text', 'View Members');
+        // * Verify it does not countains Add or Manage buttons
+        cy.uiGetRHS().contains('button', 'Manage').should('not.exist');
+        cy.uiGetRHS().contains('button', 'Add').should('not.exist');
     });
 
     it('MM-T2878 Member cannot create a private channel', () => {
