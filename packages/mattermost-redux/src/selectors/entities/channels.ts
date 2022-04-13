@@ -868,29 +868,21 @@ export const getUnreadChannelIds: (state: GlobalState, lastUnreadChannel?: Chann
     },
 );
 
-export const getAllTeamsUnreadChannelIds: (state: GlobalState, lastUnreadChannel?: Channel | null) => string[] = createIdsSelector(
+export const getAllTeamsUnreadChannelIds: (state: GlobalState) => string[] = createIdsSelector(
     'getAllTeamsUnreadChannelIds',
     isCollapsedThreadsEnabled,
     getMyChannelMemberships,
     getChannelMessageCounts,
     getChannelIdsForAllTeams,
-    (state: GlobalState, lastUnreadChannel: Channel | undefined | null = null): Channel | undefined | null => lastUnreadChannel,
     (
         collapsedThreads,
         members: RelationOneToOne<Channel, ChannelMembership>,
         messageCounts: RelationOneToOne<Channel, ChannelMessageCount>,
         allTeamsChannelIds: string[],
-        lastUnreadChannel?: Channel | null,
     ): string[] => {
-        const unreadIds = allTeamsChannelIds.filter((id) => {
+        return allTeamsChannelIds.filter((id) => {
             return calculateUnreadCount(messageCounts[id], members[id], collapsedThreads).showUnread;
         });
-
-        if (lastUnreadChannel && members[lastUnreadChannel.id] && !unreadIds.includes(lastUnreadChannel.id)) {
-            unreadIds.push(lastUnreadChannel.id);
-        }
-
-        return unreadIds;
     },
 );
 
@@ -928,7 +920,7 @@ function maxDefined(a: number, b?: number) {
 
 type LastUnreadChannel = (Channel & {hadMentions: boolean});
 
-export const getUnsortedAllTeamsUnreadChannels: (state: GlobalState, lastUnreadChannel?: LastUnreadChannel | null) => Channel[] = createSelector(
+export const getUnsortedAllTeamsUnreadChannels: (state: GlobalState) => Channel[] = createSelector(
     'getAllTeamsUnreadChannels',
     getCurrentUser,
     getUsers,
@@ -1013,7 +1005,7 @@ export const sortUnreadChannels = (
     });
 };
 
-export const getSortedAllTeamsUnreadChannels: (state: GlobalState, lastUnreadChannel?: LastUnreadChannel | null) => Channel[] = createSelector(
+export const getSortedAllTeamsUnreadChannels: (state: GlobalState) => Channel[] = createSelector(
     'getSortedAllTeamsUnreadChannels',
     getUnsortedAllTeamsUnreadChannels,
     getMyChannelMemberships,

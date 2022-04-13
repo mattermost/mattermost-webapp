@@ -647,8 +647,7 @@ export default class SwitchChannelProvider extends Provider {
         const state = getState();
         const recentChannels = getChannelsInAllTeams(state).concat(getDirectAndGroupChannels(state));
         const wrappedRecentChannels = this.wrapChannels(recentChannels, Constants.MENTION_RECENT_CHANNELS);
-        const lastUnreadChannel = state.views.channel.lastUnreadChannel;
-        const unreadChannels = getSortedAllTeamsUnreadChannels(state, lastUnreadChannel).slice(0, 5);
+        const unreadChannels = getSortedAllTeamsUnreadChannels(state).slice(0, 5);
         let sortedUnreadChannels = this.wrapChannels(unreadChannels, Constants.MENTION_UNREAD);
         if (wrappedRecentChannels.length === 0) {
             prefix = '';
