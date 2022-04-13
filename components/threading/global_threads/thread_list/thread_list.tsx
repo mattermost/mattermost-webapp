@@ -206,6 +206,7 @@ const ThreadList = ({
                             })}
                         >
                             <Button
+                                id={'threads-list__mark-all-as-read'}
                                 className={'Button___large Button___icon'}
                                 onClick={handleAllMarkedRead}
                             >

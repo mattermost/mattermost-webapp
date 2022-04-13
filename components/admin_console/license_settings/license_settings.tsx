@@ -65,6 +65,7 @@ type State = {
     file: File | null;
     serverError: string | null;
     gettingTrialError: string | null;
+    gettingTrialResponseCode: number | null;
     gettingTrial: boolean;
     removing: boolean;
     upgradingPercentage: number;
@@ -84,6 +85,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
             fileSelected: false,
             file: null,
             serverError: null,
+            gettingTrialResponseCode: null,
             gettingTrialError: null,
             gettingTrial: false,
             removing: false,
@@ -208,9 +210,9 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         }
         this.setState({gettingTrial: true, gettingTrialError: null});
         const requestedUsers = Math.max(this.props.stats.TOTAL_USERS, 30) || 30;
-        const {error} = await this.props.actions.requestTrialLicense(requestedUsers, true, true, 'license');
+        const {error, data} = await this.props.actions.requestTrialLicense(requestedUsers, true, true, 'license');
         if (error) {
-            this.setState({gettingTrialError: error});
+            this.setState({gettingTrialError: error, gettingTrialResponseCode: data.status});
         }
         this.setState({gettingTrial: false});
         await this.props.actions.getLicenseConfig();
@@ -369,6 +371,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                                 this.props.prevTrialLicense?.IsLicensed !== 'true' &&
                                 <TrialBanner
                                     isDisabled={isDisabled}
+                                    gettingTrialResponseCode={this.state.gettingTrialResponseCode}
                                     gettingTrialError={this.state.gettingTrialError}
                                     requestLicense={this.requestLicense}
                                     gettingTrial={this.state.gettingTrial}

@@ -51,7 +51,7 @@ export interface Props {
     canManageProperties: boolean;
 
     dmUser?: DMUser;
-    gmUsers?: UserProfile[];
+    channelMembers: UserProfile[];
 
     actions: {
         closeRightHandSide: () => void;
@@ -61,6 +61,8 @@ export interface Props {
         muteChannel: (userId: string, channelId: string) => void;
         openModal: <P>(modalData: ModalData<P>) => void;
         showChannelFiles: (channelId: string) => void;
+        showPinnedPosts: (channelId: string | undefined) => void;
+        showChannelMembers: (channelId: string) => void;
     };
 }
 
@@ -75,7 +77,7 @@ const ChannelInfoRhs = ({
     currentTeam,
     currentUser,
     dmUser,
-    gmUsers,
+    channelMembers,
     canManageMembers,
     canManageProperties,
     actions,
@@ -133,6 +135,10 @@ const ChannelInfoRhs = ({
         dialogProps: {channel, currentUser},
     });
 
+    const gmUsers = channelMembers.filter((user) => {
+        return user.id !== currentUser.id;
+    });
+
     return (
         <div
             id='rhsContainer'
@@ -160,7 +166,6 @@ const ChannelInfoRhs = ({
 
             <AboutArea
                 channel={channel}
-                channelURL={channelURL}
 
                 dmUser={dmUser}
                 gmUsers={gmUsers}
@@ -182,6 +187,8 @@ const ChannelInfoRhs = ({
                 actions={{
                     openNotificationSettings,
                     showChannelFiles: actions.showChannelFiles,
+                    showPinnedPosts: actions.showPinnedPosts,
+                    showChannelMembers: actions.showChannelMembers,
                 }}
             />
         </div>

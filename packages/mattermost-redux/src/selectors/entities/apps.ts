@@ -15,12 +15,23 @@ import {Locations} from 'utils/constants';
 // This file's contents belong to the Apps Framework feature.
 // Apps Framework feature is experimental, and the contents of this file are
 // susceptible to breaking changes without pushing the major version of this package.
+
+export const appsPluginIsEnabled = (state: GlobalState) => state.entities.apps.pluginEnabled;
+
+export const appsFeatureFlagEnabled = createSelector(
+    'appsConfiguredAsEnabled',
+    (state: GlobalState) => getConfig(state),
+    (config: Partial<ClientConfig>) => {
+        return config?.['FeatureFlagAppsEnabled' as keyof Partial<ClientConfig>] === 'true';
+    },
+);
+
 export const appsEnabled = createSelector(
     'appsEnabled',
-    (state: GlobalState) => getConfig(state),
-    (config?: Partial<ClientConfig>) => {
-        const enabled = config?.['FeatureFlagAppsEnabled' as keyof Partial<ClientConfig>];
-        return enabled === 'true';
+    appsFeatureFlagEnabled,
+    appsPluginIsEnabled,
+    (featureFlagEnabled: boolean, pluginEnabled: boolean) => {
+        return featureFlagEnabled && pluginEnabled;
     },
 );
 

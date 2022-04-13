@@ -641,6 +641,10 @@
         ul {
             padding-bottom: 20px;
             margin-top: 1px;
+
+            &.nav-stacked.task-list-shown {
+                padding-bottom: 72px;
+            }
         }
     }
 

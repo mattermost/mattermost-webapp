@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 
 import {getRoles} from 'mattermost-redux/selectors/entities/roles';
-import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
+import {appsFeatureFlagEnabled} from 'mattermost-redux/selectors/entities/apps';
 
 import {Constants} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
@@ -25,8 +25,8 @@ function makeGetPluginSchema() {
         'makeGetPluginSchema',
         (state, pluginId) => state.entities.admin.plugins[pluginId],
         (state, pluginId) => getAdminConsoleCustomComponents(state, pluginId),
-        (state) => appsEnabled(state),
-        (plugin, customComponents, areAppsEnabled) => {
+        (state) => appsFeatureFlagEnabled(state),
+        (plugin, customComponents, appsFeatureFlagIsEnabled) => {
             if (!plugin) {
                 return null;
             }
@@ -70,7 +70,7 @@ function makeGetPluginSchema() {
                 });
             }
 
-            if (plugin.id !== appsPluginID || areAppsEnabled) {
+            if (plugin.id !== appsPluginID || appsFeatureFlagIsEnabled) {
                 const pluginEnableSetting = getEnablePluginSetting(plugin);
                 pluginEnableSetting.isDisabled = it.any(pluginEnableSetting.isDisabled, it.not(it.userHasWritePermissionOnResource('plugins')));
                 settings.unshift(pluginEnableSetting);

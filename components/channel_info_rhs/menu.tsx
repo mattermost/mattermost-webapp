@@ -91,6 +91,8 @@ interface MenuProps {
     actions: {
         openNotificationSettings: () => void;
         showChannelFiles: (channelId: string) => void;
+        showPinnedPosts: (channelId: string | undefined) => void;
+        showChannelMembers: (channelId: string) => void;
     };
 }
 
@@ -98,6 +100,7 @@ const Menu = ({channel, channelStats, isArchived, className, actions}: MenuProps
     const {formatMessage} = useIntl();
 
     const showNotificationPreferences = channel.type !== Constants.DM_CHANNEL && !isArchived;
+    const showMembers = channel.type !== Constants.DM_CHANNEL;
 
     return (
         <div
@@ -111,6 +114,22 @@ const Menu = ({channel, channelStats, isArchived, className, actions}: MenuProps
                     onClick={actions.openNotificationSettings}
                 />
             )}
+            {showMembers && (
+                <MenuItem
+                    icon={<i className='icon icon-account-outline'/>}
+                    text={formatMessage({id: 'channel_info_rhs.menu.members', defaultMessage: 'Members'})}
+                    opensSubpanel={true}
+                    badge={channelStats.member_count}
+                    onClick={() => actions.showChannelMembers(channel.id)}
+                />
+            )}
+            <MenuItem
+                icon={<i className='icon icon-pin-outline'/>}
+                text={formatMessage({id: 'channel_info_rhs.menu.pinned', defaultMessage: 'Pinned Messages'})}
+                opensSubpanel={true}
+                badge={channelStats?.pinnedpost_count}
+                onClick={() => actions.showPinnedPosts(channel.id)}
+            />
             <MenuItem
                 icon={<i className='icon icon-file-text-outline'/>}
                 text={formatMessage({id: 'channel_info_rhs.menu.files', defaultMessage: 'Files'})}

@@ -24,6 +24,7 @@ import {ModalData} from 'types/actions';
 import {PluginComponent} from 'types/store/plugins';
 
 import {ChangeEvent, trackDotMenuEvent} from './utils';
+import './dot_menu.scss';
 
 type ShortcutKeyProps = {
     shortcutKey: string;
@@ -129,7 +130,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         isReadOnly: false,
         location: Locations.CENTER,
     }
-    private keysHeldDown: string[] = [];
     private editDisableAction: DelayedAction;
     private buttonRef: React.RefObject<HTMLButtonElement>;
 
@@ -179,18 +179,15 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     componentDidUpdate(prevProps: Props): void {
         if (!prevProps.isMenuOpen && this.props.isMenuOpen) {
             window.addEventListener('keydown', this.onShortcutKeyDown);
-            window.addEventListener('keyup', this.onShortcutKeyUp);
         }
 
         if (prevProps.isMenuOpen && !this.props.isMenuOpen) {
             window.removeEventListener('keydown', this.onShortcutKeyDown);
-            window.removeEventListener('keyup', this.onShortcutKeyUp);
         }
     }
 
     componentWillUnmount(): void {
         window.removeEventListener('keydown', this.onShortcutKeyDown);
-        window.removeEventListener('keyup', this.onShortcutKeyUp);
         this.editDisableAction.cancel();
     }
 
@@ -198,10 +195,12 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.setState({canEdit: false});
     }
 
-    handleFlagMenuItemActivated = (): void => {
+    handleFlagMenuItemActivated = (e: ChangeEvent): void => {
         if (this.props.isFlagged) {
+            trackDotMenuEvent(e, TELEMETRY_LABELS.UNSAVE);
             this.props.actions.unflagPost(this.props.post.id);
         } else {
+            trackDotMenuEvent(e, TELEMETRY_LABELS.SAVE);
             this.props.actions.flagPost(this.props.post.id);
         }
     }
@@ -324,11 +323,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             return;
         }
 
-        if (this.keysHeldDown.includes(e.key)) {
-            return;
-        }
-        this.keysHeldDown.push(e.key);
-
         switch (true) {
         case Utils.isKeyPressed(e, Constants.KeyCodes.R):
             this.handleCommentClick(e);
@@ -371,17 +365,18 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             this.props.handleDropdownOpened(false);
             break;
 
+        // save / unsave
+        case Utils.isKeyPressed(e, Constants.KeyCodes.S):
+            this.handleFlagMenuItemActivated(e);
+            this.props.handleDropdownOpened(false);
+            break;
+
         // mark as unread
         case Utils.isKeyPressed(e, Constants.KeyCodes.U):
             this.handleMarkPostAsUnread(e);
             this.props.handleDropdownOpened(false);
             break;
         }
-    }
-
-    onShortcutKeyUp = (e: KeyboardEvent): void => {
-        e.preventDefault();
-        this.keysHeldDown = this.keysHeldDown.filter((key) => key !== e.key);
     }
 
     handleDropdownOpened = (open: boolean) => {
@@ -422,6 +417,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             <MenuWrapper
                 open={this.props.isMenuOpen}
                 onToggle={this.handleDropdownOpened}
+                className={'dropdown-menu__dotmenu'}
             >
                 <OverlayTrigger
                     className='hidden-xs'
@@ -444,13 +440,14 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     </button>
                 </OverlayTrigger>
                 <Menu
-                    className={'status-dropdown-menu-global-header'}
+                    className={'Menu__content dropdown-menu'}
                     id={`${this.props.location}_dropdown_${this.props.post.id}`}
                     openLeft={true}
                     openUp={this.state.openUp}
                     ariaLabel={Utils.localizeMessage('post_info.menuAriaLabel', 'Post extra options')}
                 >
                     <Menu.ItemAction
+                        className={'MenuItem'}
                         show={!isSystemMessage && this.props.location === Locations.CENTER}
                         text={Utils.localizeMessage('post_info.reply', 'Reply')}
                         icon={Utils.getMenuItemIcon('icon-reply-outline')}
@@ -465,6 +462,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         <Menu.ItemAction
                             show={isMobile && !isSystemMessage && !this.props.isReadOnly && this.props.enableEmojiPicker}
                             text={Utils.localizeMessage('rhs_root.mobile.add_reaction', 'Add Reaction')}
+                            icon={Utils.getMenuItemIcon('icon-emoticon-plus-outline')}
                             onClick={this.handleAddReactionMenuItemActivated}
                         />
                     </ChannelPermissionGate>
@@ -500,11 +498,15 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     <Menu.ItemAction
                         show={isMobile && !isSystemMessage && this.props.isFlagged}
                         text={Utils.localizeMessage('rhs_root.mobile.unflag', 'Remove from Saved')}
+                        icon={Utils.getMenuItemIcon('icon-bookmark')}
+                        rightDecorator={<ShortcutKey shortcutKey='S'/>}
                         onClick={this.handleFlagMenuItemActivated}
                     />
                     <Menu.ItemAction
                         show={isMobile && !isSystemMessage && !this.props.isFlagged}
                         text={Utils.localizeMessage('rhs_root.mobile.flag', 'Save')}
+                        icon={Utils.getMenuItemIcon('icon-bookmark-outline')}
+                        rightDecorator={<ShortcutKey shortcutKey='S'/>}
                         onClick={this.handleFlagMenuItemActivated}
                     />
                     <Menu.ItemAction
@@ -555,8 +557,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         text={Utils.localizeMessage('post_info.del', 'Delete')}
                         icon={Utils.getMenuItemIcon('icon-trash-can-outline', true)}
                         rightDecorator={deleteShortcutText}
-
-                        //  rightDecorator={'delete'}
                         onClick={this.handleDeleteMenuItemActivated}
                         isDangerous={true}
                     />

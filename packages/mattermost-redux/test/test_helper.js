@@ -371,6 +371,10 @@ class TestHelper {
             reply(200, this.basicUser, {'X-Version-Id': 'Server Version'});
 
         nock(this.basicClient4.getBaseRoute()).
+            get('/users/me').
+            reply(200, this.basicUser);
+
+        nock(this.basicClient4.getBaseRoute()).
             get('/users/me/teams/members').
             reply(200, [this.basicTeamMember]);
 
