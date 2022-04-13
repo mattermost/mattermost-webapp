@@ -4,10 +4,10 @@ import React, {memo, useState, useCallback} from 'react';
 
 import {Modal} from 'react-bootstrap';
 
-import {InsightsTimeFrames} from 'utils/constants';
+import {TimeFrames, InsightsWidgetTypes} from 'mattermost-redux/types/insights';
+
 import {localizeMessage} from 'utils/utils';
 import TimeFrameDropdown from '../time_frame_dropdown/time_frame_dropdown';
-import {InsightsWidgetTypes} from '../insights';
 import TopReactionsTable from '../top_reactions/top_reactions_table/top_reactions_table';
 
 import './../../activity_and_insights.scss';
@@ -23,7 +23,7 @@ type Props = {
 const InsightsModal = (props: Props) => {
     const [show, setShow] = useState(true);
     const [timeFrame, setTimeFrame] = useState({
-        value: InsightsTimeFrames.INSIGHTS_7_DAYS,
+        value: TimeFrames.INSIGHTS_7_DAYS,
         label: localizeMessage('insights.timeFrame.mediumRange', 'Last 7 days'),
     });
 

@@ -19,6 +19,8 @@ import {GetStateFunc, DispatchFunc, ActionFunc, ActionResult} from 'mattermost-r
 
 import {Team, TeamMembership, TeamMemberWithError, GetTeamMembersOpts, TeamsWithCount, TeamSearchOpts} from 'mattermost-redux/types/teams';
 
+import {TimeFrame} from 'mattermost-redux/types/insights';
+
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {isCollapsedThreadsEnabled} from '../selectors/entities/preferences';
@@ -827,4 +829,25 @@ export function updateNoticesAsViewed(noticeIds: string[]): ActionFunc {
             noticeIds,
         ],
     });
+}
+
+export function getTopReactionsForTeam(teamId: string, page: number, perPage: number, timeFrame: TimeFrame): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data;
+        try {
+            data = await Client4.getTopReactionsForTeam(teamId, page, perPage, timeFrame);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        dispatch({
+            type: TeamTypes.RECEIVED_TEAM_TOP_REACTIONS,
+            data: {data, timeFrame},
+            id: teamId,
+        });
+
+        return {data};
+    };
 }

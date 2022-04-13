@@ -19,6 +19,8 @@ import {sortTeamsWithLocale, filterTeamsStartingWithTerm} from 'mattermost-redux
 import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
 
 import {isCollapsedThreadsEnabled} from './preferences';
+import {TopReaction} from 'mattermost-redux/types/reactions';
+import {TimeFrame, TimeFrames} from 'mattermost-redux/types/insights';
 
 export function getCurrentTeamId(state: GlobalState) {
     return state.entities.teams.currentTeamId;
@@ -350,3 +352,37 @@ export function makeGetBadgeCountForTeamId(): (state: GlobalState, id: string) =
 export function searchTeamsInPolicy(teams: Team[], term: string): Team[] {
     return filterTeamsStartingWithTerm(teams, term);
 }
+
+function sortTeamReactions(reactions: TopReaction[] = []): TopReaction[] {
+    return reactions.sort((a, b) => {
+        return b.count - a.count;
+    });
+}
+
+export function getTeamReactions(state: GlobalState) {
+    return state.entities.teams.reactions;
+}
+
+export const getReactionTimeFramesForCurrentTeam: (state: GlobalState) => Record<TimeFrame, Record<string, TopReaction>> = createSelector(
+    'getReactionsForCurrentTeam',
+    getCurrentTeamId,
+    getTeamReactions,
+    (currentTeamId, reactions) => {
+        return reactions[currentTeamId];
+    },
+);
+
+export const getTopReactionsForCurrentTeam: (state: GlobalState, timeFrame: TimeFrame) => TopReaction[] = createSelector(
+    'getTopReactionsForCurrentTeam',
+    getReactionTimeFramesForCurrentTeam,
+    (state: GlobalState, timeFrame: TimeFrames) => timeFrame,
+    (reactions, timeFrame) => {
+        if (reactions && reactions[timeFrame]) {
+            const reactionArr = Object.values(reactions[timeFrame]);
+            sortTeamReactions(reactionArr);
+
+            return reactionArr.slice(0,5);
+        }
+        return [];
+    },
+);

@@ -57,4 +57,5 @@ export default keyMirror({
     RECEIVED_TEAM_MEMBERS_MINUS_GROUP_MEMBERS: null,
 
     RECEIVED_TOTAL_TEAM_COUNT: null,
+    RECEIVED_TEAM_TOP_REACTIONS: null,
 });

@@ -75,7 +75,7 @@ import type {
 } from 'mattermost-redux/types/marketplace';
 import {Post, PostList, PostSearchResults, OpenGraphMetadata} from 'mattermost-redux/types/posts';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
-import {Reaction} from 'mattermost-redux/types/reactions';
+import {Reaction, TopReactionResponse} from 'mattermost-redux/types/reactions';
 import {Role} from 'mattermost-redux/types/roles';
 import {SamlCertificateStatus, SamlMetadataResponse} from 'mattermost-redux/types/saml';
 import {Scheme} from 'mattermost-redux/types/schemes';
@@ -2103,6 +2103,13 @@ export default class Client4 {
             {method: 'get'},
         );
     };
+
+    getTopReactionsForTeam = (teamId: string, page: number, perPage: number, timeRange: string) => {
+        return this.doFetch<TopReactionResponse>(
+            `${this.getTeamRoute(teamId)}/top/reactions${buildQueryString({page, per_page: perPage, time_range: timeRange})}`,
+            {method: 'get'},
+        );
+    }
 
     searchPostsWithParams = (teamId: string, params: any) => {
         this.trackEvent('api', 'api_posts_search', {team_id: teamId});

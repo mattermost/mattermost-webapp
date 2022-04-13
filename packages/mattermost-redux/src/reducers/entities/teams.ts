@@ -8,6 +8,8 @@ import {Team, TeamMembership, TeamUnread} from 'mattermost-redux/types/teams';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {RelationOneToOne, IDMappedObjects} from 'mattermost-redux/types/utilities';
 import {GenericAction} from 'mattermost-redux/types/actions';
+import {TopReaction} from 'mattermost-redux/types/reactions';
+import {TimeFrame} from 'mattermost-redux/types/insights';
 
 function currentTeamId(state = '', action: GenericAction) {
     switch (action.type) {
@@ -491,6 +493,37 @@ function totalCount(state = 0, action: GenericAction) {
     }
 }
 
+function reactions(state: Record<string, Record<TimeFrame, Record<string,TopReaction>>> = {}, action: GenericAction) {
+    switch (action.type) {
+    case TeamTypes.RECEIVED_TEAM_TOP_REACTIONS: {
+        const reactions = {...(state[action.id] || {})};
+        const results = action.data.data.items;
+        const timeFrame = action.data.timeFrame as TimeFrame;
+
+        if (!reactions || !reactions[timeFrame]) {
+            reactions[timeFrame] = {};
+        }
+
+        const r = {...reactions[timeFrame] || {}}
+
+        for (let i = 0; i < results.length; i++) {
+            const emojiObj = results[i];
+            r[emojiObj.emoji_name] = emojiObj;
+        }
+
+        return {
+            ...state,
+            [action.id]: {
+                ...(state[action.id] || {}),
+                [timeFrame]: r,
+            },
+        };
+    }
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
 
     // the current selected team
@@ -511,4 +544,6 @@ export default combineReducers({
     groupsAssociatedToTeam,
 
     totalCount,
+
+    reactions,
 });

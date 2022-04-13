@@ -5,9 +5,10 @@ import classNames from 'classnames';
 
 import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 
+import {CardSize, CardSizes} from 'mattermost-redux/types/insights';
+
 import Card from 'components/card/card';
 import CardHeader from 'components/card/card_header';
-import {CardSize, CardSizes} from '../insights';
 
 import './card.scss';
 

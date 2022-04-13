@@ -28,6 +28,7 @@ import * as bots from './bots';
 import * as plugins from './plugins';
 import * as config from './config';
 import * as threads from './threads';
+import * as insights from './insights';
 
 export {
     admin,
@@ -57,4 +58,5 @@ export {
     requests,
     reactions,
     users,
+    insights,
 };

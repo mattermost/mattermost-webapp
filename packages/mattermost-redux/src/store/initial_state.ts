@@ -42,6 +42,7 @@ const state: GlobalState = {
             stats: {},
             groupsAssociatedToTeam: {},
             totalCount: 0,
+            reactions: {},
         },
         channels: {
             currentChannelId: '',
