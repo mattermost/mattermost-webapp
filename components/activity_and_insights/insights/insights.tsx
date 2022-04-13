@@ -26,7 +26,7 @@ const Insights = () => {
     const [filterType, setFilterType] = useState(InsightsScopes.MY);
     const [timeFrame, setTimeFrame] = useState({
         value: InsightsTimeFrames.INSIGHTS_7_DAYS,
-        label: localizeMessage('insights.timeFrame.mediumRange', 'Last 7 days'),
+        label: localizeMessage('insights.timeFrame.today', 'Today'),
     });
 
     const setFilterTypeTeam = useCallback(() => {

@@ -690,6 +690,7 @@ export const SearchTypes = keyMirror({
     SET_TEAM_LIST_SEARCH: null,
     SET_CHANNEL_LIST_SEARCH: null,
     SET_CHANNEL_LIST_FILTERS: null,
+    SET_CHANNEL_MEMBERS_RHS_SEARCH: null,
 });
 
 export const StorageTypes = keyMirror({
@@ -832,6 +833,7 @@ export const RHSStates = {
     PLUGIN: 'plugin',
     CHANNEL_FILES: 'channel-files',
     CHANNEL_INFO: 'channel-info',
+    CHANNEL_MEMBERS: 'channel-members',
 };
 
 export const UploadStatuses = {
