@@ -16,6 +16,7 @@ import {
 
 import {
     registerPluginStatsHandler,
+    unregisterPluginStatsHandler,
 } from 'plugins/site_stats.js';
 
 import {showRHSPlugin, hideRHSPlugin, toggleRHSPlugin} from 'actions/views/rhs';
@@ -882,7 +883,13 @@ export default class PluginRegistry {
     // Accepts the following:
     // - handler - Func to be called to retrieve the stats from plugin api
     // Returns a map with the stats.
-    registerSiteStatistics(handler) {
+    registerSiteStatisticsHandler(handler) {
         registerPluginStatsHandler(this.id, handler);
+    }
+
+    // INTERNAL: Subject to change without notice.
+    // Unregister the site statistics handler for the current plugin
+    unregisterSiteStatisticsHandler() {
+        unregisterPluginStatsHandler(this.id);
     }
 }

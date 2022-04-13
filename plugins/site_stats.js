@@ -3,14 +3,15 @@
 
 const pluginStatsHandlers = {};
 
+// registerPluginStatsHandler store a site statistics fetcher for a plugin
 export function registerPluginStatsHandler(pluginId, handler) {
     pluginStatsHandlers[pluginId] = handler;
 }
 
-// TODO check how to deal with plugin removal
-// export function unregisterPluginStatsHandler(pluginId) {
-//     Reflect.deleteProperty(pluginStatsHandlers, pluginId);
-// }
+// unregisterPluginStatsHandler remove possible handlers that a plugin may have registered
+export function unregisterPluginStatsHandler(pluginId) {
+    Reflect.deleteProperty(pluginStatsHandlers, pluginId);
+}
 
 // getPluginStats collects all plugin-related stats for system console in the
 // form Record<string, PluginAnalyticsRow>
