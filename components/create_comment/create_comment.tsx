@@ -1200,6 +1200,7 @@ class CreateComment extends React.PureComponent<Props, State> {
                     onClick={() => {
                         this.setState({showFormat: !this.state.showFormat});
                     }}
+                    active={this.state.showFormat}
                 />
             );
             toggleFormattingBar = (
@@ -1210,6 +1211,7 @@ class CreateComment extends React.PureComponent<Props, State> {
                                 !this.state.isFormattingBarVisible,
                         });
                     }}
+                    active={this.state.isFormattingBarVisible}
                 />
             );
         }

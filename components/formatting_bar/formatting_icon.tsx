@@ -62,17 +62,18 @@ const MAP_MARKDOWN_TYPE_TO_ICON: {
 };
 
 const MAP_MARKDOWN_TYPE_TO_KEYBOARD_SHORTCUTS: {
-    [key in FormattingIconProps['type']]: KeyboardShortcutDescriptor;
+    [key in FormattingIconProps['type']]?: KeyboardShortcutDescriptor;
 } = {
     bold: KEYBOARD_SHORTCUTS.msgMarkdownBold,
     italic: KEYBOARD_SHORTCUTS.msgMarkdownItalic,
-    link: KEYBOARD_SHORTCUTS.msgMarkdownLink,
-    strike: KEYBOARD_SHORTCUTS.msgMarkdownStrike,
-    code: KEYBOARD_SHORTCUTS.msgMarkdownCode,
-    heading: KEYBOARD_SHORTCUTS.msgMarkdownHeading,
-    quote: KEYBOARD_SHORTCUTS.msgMarkdownQuote,
-    ul: KEYBOARD_SHORTCUTS.msgMarkdownUl,
-    ol: KEYBOARD_SHORTCUTS.msgMarkdownOl,
+
+    // link: KEYBOARD_SHORTCUTS.msgMarkdownLink,
+    // strike: KEYBOARD_SHORTCUTS.msgMarkdownStrike,
+    // code: KEYBOARD_SHORTCUTS.msgMarkdownCode,
+    // heading: KEYBOARD_SHORTCUTS.msgMarkdownHeading,
+    // quote: KEYBOARD_SHORTCUTS.msgMarkdownQuote,
+    // ul: KEYBOARD_SHORTCUTS.msgMarkdownUl,
+    // ol: KEYBOARD_SHORTCUTS.msgMarkdownOl,
 };
 
 export const FormattingIcon = (props: FormattingIconProps): JSX.Element => {
@@ -89,23 +90,28 @@ export const FormattingIcon = (props: FormattingIconProps): JSX.Element => {
             </Icon>
         </div>
     );
+    const tooltip = MAP_MARKDOWN_TYPE_TO_KEYBOARD_SHORTCUTS[type];
     return (
-        <OverlayTrigger
-            onClick={onClick}
-            delayShow={Constants.OVERLAY_TIME_DELAY}
-            placement='top'
-            trigger='hover'
-            overlay={
-                <Tooltip id='upload-tooltip'>
-                    <KeyboardShortcutSequence
-                        shortcut={MAP_MARKDOWN_TYPE_TO_KEYBOARD_SHORTCUTS[type]}
-                        hoistDescription={true}
-                        isInsideTooltip={true}
-                    />
-                </Tooltip>
+        <>
+            {tooltip ? (
+                <OverlayTrigger
+                    onClick={onClick}
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='top'
+                    trigger='hover'
+                    overlay={<Tooltip id='upload-tooltip'>
+                        <KeyboardShortcutSequence
+                            shortcut={tooltip}
+                            hoistDescription={true}
+                            isInsideTooltip={true}
+                        />
+                    </Tooltip>}
+                >
+                    <div className={'style--none'}>
+                        {bodyAction}
+                    </div>
+                </OverlayTrigger>) : (<div className={'style--none'}>{bodyAction}</div>)
             }
-        >
-            <div className={'style--none'}>{bodyAction}</div>
-        </OverlayTrigger>
+        </>
     );
 };
