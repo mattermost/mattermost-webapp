@@ -34,7 +34,11 @@ const Channel = (props: Props) => {
     const [triedNext, setTriedNext] = useState(false);
     const validation = channelNameToUrl(props.name);
     const intl = useIntl();
-    useEffect(props.onPageView, []);
+    useEffect(() => {
+        if (props.show) {
+            props.onPageView();
+        }
+    }, [props.show]);
 
     let className = 'Channel-body';
     if (props.className) {
