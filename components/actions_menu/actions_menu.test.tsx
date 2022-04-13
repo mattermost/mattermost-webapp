@@ -55,7 +55,7 @@ describe('components/actions_menu/ActionsMenu', () => {
         },
     };
 
-    test('should have divider when plugin menu item exists', () => {
+    test('sysadmin - should have divider when plugin menu item exists', () => {
         const wrapper = shallowWithIntl(
             <ActionsMenu {...baseProps}/>,
         );
@@ -67,24 +67,47 @@ describe('components/actions_menu/ActionsMenu', () => {
         expect(wrapper.find('#divider_post_post_id_1_marketplace').exists()).toBe(true);
     });
 
-    test('no actions - menu should be visible to sysadmin', () => {
+    test('has actions - sysadmin - should show actions and app marketplace', () => {
         const wrapper = shallowWithIntl(
             <ActionsMenu {...baseProps}/>,
         );
-        expect(wrapper.find('#marketPlaceButton').exists()).toBe(true);
+        wrapper.setProps({
+            pluginMenuItems: dropdownComponents,
+        });
+        expect(wrapper).toMatchSnapshot();
     });
 
-    test('no actions - menu should not be visible to end user', () => {
+    test('has actions - end user - should not show actions and app marketplace', () => {
+        const wrapper = shallowWithIntl(
+            <ActionsMenu {...baseProps}/>,
+        );
+        wrapper.setProps({
+            pluginMenuItems: dropdownComponents,
+            isSysAdmin: false,
+        });
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('no actions - sysadmin - menu should show visit marketplace', () => {
+        const wrapper = shallowWithIntl(
+            <ActionsMenu {...baseProps}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('no actions - end user - menu should not be visible to end user', () => {
         const wrapper = shallowWithIntl(
             <ActionsMenu {...baseProps}/>,
         );
         wrapper.setProps({
             isSysAdmin: false,
         });
-        expect(wrapper.find('#marketPlaceButton').exists()).toBe(false);
+
+        // menu should be empty
+        expect(wrapper.debug()).toMatchSnapshot();
     });
 
-    test('should have divider when pluggable menu item exists', () => {
+    test('sysadmin - should have divider when pluggable menu item exists', () => {
         const wrapper = shallowWithIntl(
             <ActionsMenu {...baseProps}/>,
         );
@@ -96,5 +119,22 @@ describe('components/actions_menu/ActionsMenu', () => {
             },
         });
         expect(wrapper.find('#divider_post_post_id_1_marketplace').exists()).toBe(true);
+    });
+
+    test('end user - should not have divider when pluggable menu item exists', () => {
+        const wrapper = shallowWithIntl(
+            <ActionsMenu {...baseProps}/>,
+        );
+        wrapper.setProps({
+            isSysAdmin: false,
+        });
+        expect(wrapper.find('#divider_post_post_id_1_marketplace').exists()).toBe(false);
+
+        wrapper.setProps({
+            components: {
+                [PLUGGABLE_COMPONENT]: dropdownComponents,
+            },
+        });
+        expect(wrapper.find('#divider_post_post_id_1_marketplace').exists()).toBe(false);
     });
 });
