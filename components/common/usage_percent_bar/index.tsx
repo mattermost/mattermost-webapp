@@ -62,7 +62,6 @@ function getColor(percent: number, thresholds: Thresholds): string {
     return '';
 }
 
-// TODO: check if is exceeded, and if show, calculate foreground's background color as a gradient
 function isExceeded(percent: number, thresholds: Thresholds): boolean {
     return percent >= thresholds.exceeded;
 }
