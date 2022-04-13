@@ -46,27 +46,18 @@ const promoteToSysAdmin = (user, sysadmin) => {
 };
 
 function verifyMemberDropdownAction(hasActionItem) {
-    // # Click member count to open member list popover
-    cy.get('#member_popover').click();
+    // # Click member count to open member rhs
+    cy.get('#member_rhs').click();
 
-    cy.get('#member-list-popover').should('be.visible').within(() => {
-        // * Verify that the modal is open by checking its title
-        cy.findByText('Channel Members').should('exist');
-
-        // # Click "View Members"
-        cy.findByText('View Members').click();
+    cy.uiGetRHS().should('be.visible').within(() => {
+        // # Click "Manage"
+        cy.findByText('Manage').click();
     });
 
-    cy.get('#channelMembersModal').should('be.visible').within(() => {
-        // * Verify that the title is correct
-        cy.findByText('Town Square').should('be.visible');
-        cy.findByText('Members').should('be.visible');
-
-        // * Check to see any user has dropdown menu
-        if (hasActionItem) {
-            cy.findAllByText('Channel Member').should('exist');
-        } else {
-            cy.findByText('Channel Member').should('not.exist');
-        }
-    });
+    // * Check to see any user has dropdown menu
+    if (hasActionItem) {
+        cy.uiGetRHS().findAllByText('Member').should('exist');
+    } else {
+        cy.uiGetRHS().findByText('Member').should('not.exist');
+    }
 }
