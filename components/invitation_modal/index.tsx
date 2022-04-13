@@ -18,7 +18,11 @@ import {Permissions} from 'mattermost-redux/constants';
 import {CloseModalType} from 'actions/views/modals';
 import {Constants} from 'utils/constants';
 import {isAdmin} from 'mattermost-redux/utils/user_utils';
-import {sendMembersInvites, sendGuestsInvites} from 'actions/invite_actions';
+import {
+    sendMembersInvites,
+    sendGuestsInvites,
+    sendMembersInvitesToChannels,
+} from 'actions/invite_actions';
 import {makeAsyncComponent} from 'components/async_load';
 
 import {Channel} from 'mattermost-redux/types/channels';
@@ -84,6 +88,7 @@ export function mapStateToProps(state: GlobalState) {
 type Actions = {
     sendGuestsInvites: (teamId: string, channels: Channel[], users: UserProfile[], emails: string[], message: string) => Promise<{data: InviteResults}>;
     sendMembersInvites: (teamId: string, users: UserProfile[], emails: string[]) => Promise<{data: InviteResults}>;
+    sendMembersInvitesToChannels: (channels: Channel[], teamId: string, users: UserProfile[], emails: string[], message: string) => Promise<{data: InviteResults}>;
     regenerateTeamInviteId: (teamId: string) => void;
     searchProfiles: (term: string, options?: Record<string, string>) => Promise<{data: UserProfile[]}>;
     searchChannels: (teamId: string, term: string) => ActionFunc;
@@ -94,6 +99,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | CloseModalType>, Actions>({
             sendGuestsInvites,
             sendMembersInvites,
+            sendMembersInvitesToChannels,
             regenerateTeamInviteId,
             searchProfiles,
             searchChannels,
