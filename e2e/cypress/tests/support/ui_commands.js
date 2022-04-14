@@ -234,11 +234,10 @@ Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIME
 // ***********************************************************
 
 /**
- * Sends a DM to a given user
+ * Go to a DM channel with a given user
  * @param {User} user - the user that should get the message
- * @param {String} message - the message to send
  */
-Cypress.Commands.add('sendDirectMessageToUser', (user, message) => {
+Cypress.Commands.add('uiGotoDirectMessageWithUser', (user) => {
     // # Open a new direct message with firstDMUser
     cy.uiAddDirectMessage().click().wait(TIMEOUTS.ONE_SEC);
     cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
@@ -264,6 +263,15 @@ Cypress.Commands.add('sendDirectMessageToUser', (user, message) => {
     // * Expect the channel title to be the user's username
     // In the channel header, it seems there is a space after the username, justifying the use of contains.text instead of have.text
     cy.get('#channelHeaderTitle').should('be.visible').and('contain.text', user.username);
+});
+
+/**
+ * Sends a DM to a given user
+ * @param {User} user - the user that should get the message
+ * @param {String} message - the message to send
+ */
+Cypress.Commands.add('sendDirectMessageToUser', (user, message) => {
+    cy.uiGotoDirectMessageWithUser(user);
 
     // # Type message and send it to the user
     cy.get('#post_textbox').

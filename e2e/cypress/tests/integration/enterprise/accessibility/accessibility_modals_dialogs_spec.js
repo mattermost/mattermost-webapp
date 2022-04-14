@@ -82,7 +82,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
                 wait(TIMEOUTS.HALF_SEC);
 
             // * Check if reader can read no results
-            cy.get('.multi-select__wrapper').should('have.attr', 'aria-live', 'polite').and('have.text', `No results found matching s${additionalSearchTerm}`);
+            cy.get('.multi-select__wrapper').should('have.attr', 'aria-live', 'polite').and('have.text', 'No matches found - Invite them to the team');
         });
     });
 
@@ -195,7 +195,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
             // * Check if reader can read no results
             cy.get('.no-channel-message').
                 should('be.visible').
-                and('contain', 'No results found matching');
+                and('contain', 'No matches found - Invite them to the team');
         });
     });
 
