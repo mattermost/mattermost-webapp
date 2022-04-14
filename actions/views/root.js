@@ -3,7 +3,7 @@
 
 import {Client4} from 'mattermost-redux/client';
 import {getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
-import {loadMe, loadMeGQL} from 'mattermost-redux/actions/users';
+import {loadMe, loadMeREST} from 'mattermost-redux/actions/users';
 
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
 import {ActionTypes} from 'utils/constants';
@@ -23,11 +23,11 @@ export function loadConfigAndMe() {
         let isMeLoaded = false;
         if (document.cookie.includes('MMUSERID=')) {
             if (isGraphQLEnabled) {
-                const dataFromLoadMeGQL = await dispatch(loadMeGQL());
-                isMeLoaded = dataFromLoadMeGQL?.data ?? false;
-            } else {
                 const dataFromLoadMe = await dispatch(loadMe());
                 isMeLoaded = dataFromLoadMe?.data ?? false;
+            } else {
+                const dataFromLoadMeREST = await dispatch(loadMeREST());
+                isMeLoaded = dataFromLoadMeREST?.data ?? false;
             }
         }
 

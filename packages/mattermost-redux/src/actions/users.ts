@@ -20,7 +20,7 @@ import {convertRolesArrayToString, myDataQuery, MyDataQueryResponseType, transfo
 
 import {getServerVersion} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId, getUsers} from 'mattermost-redux/selectors/entities/users';
-import {isCollapsedThreadsEnabled, isGraphqlEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {isCollapsedThreadsEnabled, isGraphQLEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {removeUserFromList} from 'mattermost-redux/utils/user_utils';
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
@@ -84,12 +84,12 @@ export function login(loginId: string, password: string, mfaToken = '', ldapOnly
             await Client4.login(loginId, password, mfaToken, deviceId, ldapOnly);
 
             let isSuccessfullyLoggedIn = false;
-            if (isGraphqlEnabled(state)) {
-                const dataFromLoadMeGQL = await dispatch(loadMeGQL());
-                isSuccessfullyLoggedIn = dataFromLoadMeGQL && dataFromLoadMeGQL.data;
+            if (isGraphQLEnabled(state)) {
+                const dataFromLoad = await dispatch(loadMe());
+                isSuccessfullyLoggedIn = dataFromLoad && dataFromLoad.data;
             } else {
-                const dataFromLoadMe = await dispatch(loadMe());
-                isSuccessfullyLoggedIn = dataFromLoadMe && dataFromLoadMe.data;
+                const dataFromLoadMeREST = await dispatch(loadMeREST());
+                isSuccessfullyLoggedIn = dataFromLoadMeREST && dataFromLoadMeREST.data;
             }
 
             if (isSuccessfullyLoggedIn) {
@@ -119,12 +119,12 @@ export function loginById(id: string, password: string, mfaToken = ''): ActionFu
             await Client4.loginById(id, password, mfaToken, deviceId);
 
             let isSuccessfullyLoggedIn = false;
-            if (isGraphqlEnabled(state)) {
-                const dataFromLoadMeGQL = await dispatch(loadMeGQL());
-                isSuccessfullyLoggedIn = dataFromLoadMeGQL && dataFromLoadMeGQL.data;
-            } else {
+            if (isGraphQLEnabled(state)) {
                 const dataFromLoadMe = await dispatch(loadMe());
                 isSuccessfullyLoggedIn = dataFromLoadMe && dataFromLoadMe.data;
+            } else {
+                const dataFromLoadMeREST = await dispatch(loadMeREST());
+                isSuccessfullyLoggedIn = dataFromLoadMeREST && dataFromLoadMeREST.data;
             }
 
             if (isSuccessfullyLoggedIn) {
@@ -143,7 +143,7 @@ export function loginById(id: string, password: string, mfaToken = ''): ActionFu
     };
 }
 
-export function loadMe(): ActionFunc {
+export function loadMeREST(): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
 
@@ -153,7 +153,7 @@ export function loadMe(): ActionFunc {
         }
 
         // Sometimes the server version is set in one or the other
-        const serverVersion = Client4.getServerVersion() || getState().entities.general.serverVersion;
+        const serverVersion = getState().entities.general.serverVersion || Client4.getServerVersion();
         dispatch(setServerVersion(serverVersion));
 
         const isCollapsedThreads = isCollapsedThreadsEnabled(getState());
@@ -188,7 +188,7 @@ export function loadMe(): ActionFunc {
     };
 }
 
-export function loadMeGQL(): ActionFunc {
+export function loadMe(): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
 
@@ -198,7 +198,7 @@ export function loadMeGQL(): ActionFunc {
         }
 
         // Sometimes the server version is set in one or the other
-        const serverVersion = Client4.getServerVersion() || getState().entities.general.serverVersion;
+        const serverVersion = getState().entities.general.serverVersion || Client4.getServerVersion();
         dispatch(setServerVersion(serverVersion));
 
         const isCollapsedThreads = isCollapsedThreadsEnabled(getState());

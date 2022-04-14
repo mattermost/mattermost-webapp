@@ -15,7 +15,6 @@ import {GetStateFunc, DispatchFunc, ActionFunc} from 'mattermost-redux/types/act
 
 import {logError} from './errors';
 import {loadRolesIfNeeded} from './roles';
-import {loadMe} from './users';
 import {bindClientFunc, forceLogoutIfNecessary, FormattedError} from './helpers';
 
 export function getPing(): ActionFunc {
@@ -138,15 +137,6 @@ export function setServerVersion(serverVersion: string): ActionFunc {
     };
 }
 
-export function setStoreFromLocalData(data: { token: string; url: string }): ActionFunc {
-    return async (dispatch: DispatchFunc, getState) => {
-        Client4.setToken(data.token);
-        Client4.setUrl(data.url);
-
-        return loadMe()(dispatch, getState);
-    };
-}
-
 export function setUrl(url: string) {
     Client4.setUrl(url);
     return true;
@@ -245,7 +235,6 @@ export default {
     setAppState,
     setDeviceToken,
     setServerVersion,
-    setStoreFromLocalData,
     setUrl,
     getRedirectLocation,
     getWarnMetricsStatus,
