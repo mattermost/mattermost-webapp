@@ -25,7 +25,6 @@ describe('components/channel_header/components/UserGuideDropdown', () => {
         isMobileView: false,
         reportAProblemLink: 'reportAProblemLink',
         enableAskCommunityLink: 'true',
-        showGettingStarted: false,
         location: {
             pathname: '/team/channel/channelId',
         },

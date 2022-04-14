@@ -33,8 +33,6 @@ describe('plugins/MainMenuActions', () => {
         moreTeamsToJoin: true,
         guestAccessEnabled: true,
         teamIsGroupConstrained: true,
-        showGettingStarted: true,
-        showDueToStepsNotFinished: false,
         teamUrl: '/team',
         location: {
             pathname: '/team',
@@ -45,7 +43,6 @@ describe('plugins/MainMenuActions', () => {
             showFlaggedPosts: jest.fn(),
             closeRightHandSide: jest.fn(),
             closeRhsMenu: jest.fn(),
-            unhideNextSteps: jest.fn(),
         },
         isCloud: false,
         subscription: {},
