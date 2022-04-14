@@ -1,15 +1,15 @@
 @keyframes skeleton-fade {
-    0% {background-color:rgba(var(--center-channel-color-rgb), 0.08);}
-    50% {background-color:rgba(var(--center-channel-color-rgb), 0.16);}
-    100% {background-color:rgba(var(--center-channel-color-rgb), 0.08);}
-  }
+    0% { background-color: rgba(var(--center-channel-color-rgb), 0.08); }
+    50% { background-color: rgba(var(--center-channel-color-rgb), 0.16); }
+    100% { background-color: rgba(var(--center-channel-color-rgb), 0.08); }
+}
 
 .skeleton-loader {
-    background-color: rgba(var(--center-channel-color-rgb), 0.08);
     animation-duration: 1500ms;
-    animation-name: skeleton-fade;
     animation-iteration-count: infinite;
+    animation-name: skeleton-fade;
     animation-timing-function: ease-in-out;
+    background-color: rgba(var(--center-channel-color-rgb), 0.08);
 
     &.circle {
         display: block;
@@ -19,8 +19,8 @@
     &.title {
         width: 100%;
         height: 12px;
-        border-radius: 8px;
         flex: 1;
+        border-radius: 8px;
     }
 
     &.line-chart {
