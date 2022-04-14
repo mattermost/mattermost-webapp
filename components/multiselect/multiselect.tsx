@@ -558,8 +558,7 @@ const styles = {
     container: () => {
         return {
             display: 'flex',
-            verticalAlign: 'top',
-            width: '271px',
+            overflow: 'hidden',
             flex: 'auto'
         };
     },
