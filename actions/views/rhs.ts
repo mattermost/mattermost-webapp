@@ -32,6 +32,7 @@ import {RhsState} from 'types/store/rhs';
 import {GlobalState} from 'types/store';
 import {getPostsByIds} from 'mattermost-redux/actions/posts';
 import {unsetEditingPost} from '../post_actions';
+import {loadProfilesAndReloadChannelMembers} from '../user_actions';
 
 function selectPostFromRightHandSideSearchWithPreviousState(post: Post, previousRhsState?: RhsState) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -73,7 +74,12 @@ export function updateRhsState(rhsState: string, channelId?: string, previousRhs
             state: rhsState,
         } as GenericAction;
 
-        if ([RHSStates.PIN, RHSStates.CHANNEL_FILES, RHSStates.CHANNEL_INFO].includes(rhsState)) {
+        if ([
+            RHSStates.PIN,
+            RHSStates.CHANNEL_FILES,
+            RHSStates.CHANNEL_INFO,
+            RHSStates.CHANNEL_MEMBERS,
+        ].includes(rhsState)) {
             action.channelId = channelId || getCurrentChannelId(getState());
         }
         if (previousRhsState) {
@@ -192,13 +198,32 @@ export function showSearchResults(isMentionSearch = false) {
 }
 
 export function showRHSPlugin(pluggableId: string) {
-    const action = {
+    return {
         type: ActionTypes.UPDATE_RHS_STATE,
         state: RHSStates.PLUGIN,
         pluggableId,
     };
+}
 
-    return action;
+export function showChannelMembers(channelId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState() as GlobalState;
+
+        dispatch(loadProfilesAndReloadChannelMembers(channelId));
+
+        let previousRhsState = getRhsState(state);
+        if (previousRhsState === RHSStates.CHANNEL_MEMBERS) {
+            previousRhsState = getPreviousRhsState(state);
+        }
+        dispatch({
+            type: ActionTypes.UPDATE_RHS_STATE,
+            channelId,
+            state: RHSStates.CHANNEL_MEMBERS,
+            previousRhsState,
+        });
+
+        return {data: true};
+    };
 }
 
 export function hideRHSPlugin(pluggableId: string) {
