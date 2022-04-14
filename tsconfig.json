@@ -21,6 +21,7 @@
     "jsx": "react",
     "baseUrl": ".",
     "paths": {
+        "@mattermost/types/*": ["packages/types/src/*"],
         "mattermost-redux/*": ["packages/mattermost-redux/src/*"],
         "reselect": ["packages/reselect/src"],
     }

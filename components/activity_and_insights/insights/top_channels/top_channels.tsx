@@ -4,29 +4,33 @@ import React, {memo} from 'react';
 
 import {useIntl} from 'react-intl';
 
-import Card from 'components/card/card';
-import CardHeader from 'components/card/card_header';
-import CardBody from 'components/card/card_body';
+import InsightsCard from '../card/card';
+import {CardSize} from '../insights';
 
 import './../../activity_and_insights.scss';
 
-const TopChannels = () => {
+type Props = {
+    size: CardSize;
+};
+
+const TopChannels = (props: Props) => {
     const {formatMessage} = useIntl();
 
     return (
-        <>
-            <Card expanded={true}>
-                <CardHeader>
-                    {formatMessage({
-                        id: 'insights.topChannels',
-                        defaultMessage: 'Top Channels',
-                    })}
-                </CardHeader>
-                <CardBody>
-                    <></>
-                </CardBody>
-            </Card>
-        </>
+        <InsightsCard
+            class={'top-channels-card'}
+            title={formatMessage({
+                id: 'insights.topChannels.title',
+                defaultMessage: 'Top Channels',
+            })}
+            subTitle={formatMessage({
+                id: 'insights.topChannels.subTitle',
+                defaultMessage: 'Most active channels for the team',
+            })}
+            size={props.size}
+        >
+            <></>
+        </InsightsCard>
     );
 };
 
