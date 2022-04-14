@@ -5,8 +5,6 @@ import React from 'react';
 import {Overlay} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {DispatchFunc} from 'mattermost-redux/types/actions';
-
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import Constants from 'utils/constants';
