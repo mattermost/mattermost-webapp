@@ -94,7 +94,6 @@ export default class GroupsList extends React.PureComponent<Props, State> {
         this.props.actions.getLdapGroups(this.state.page, LDAP_GROUPS_PAGE_SIZE).then(() => {
             this.setState({loading: false});
         });
-        console.log('GroupsList.componentDidMount');
     }
 
     public async previousPage(e: any): Promise<void> {
