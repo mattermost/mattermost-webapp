@@ -12,7 +12,7 @@ import {getThread} from 'mattermost-redux/selectors/entities/threads';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 
-import {removePost, getPostThread} from 'mattermost-redux/actions/posts';
+import {removePost, getNewestPostThread} from 'mattermost-redux/actions/posts';
 import {getThread as fetchThread, updateThreadRead} from 'mattermost-redux/actions/threads';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
@@ -75,7 +75,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             removePost,
-            getPostThread,
+            getNewestPostThread,
             selectPostCard,
             getThread: fetchThread,
             updateThreadRead,

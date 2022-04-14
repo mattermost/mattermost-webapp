@@ -1,14 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import {buildQueryString} from 'mattermost-redux/utils/helpers_client';
 
 describe('Helpers', () => {
-    it('buildQueryString', () => {
-        assert.equal(buildQueryString({}), '');
-        assert.equal(buildQueryString({a: 1}), '?a=1');
-        assert.equal(buildQueryString({a: 1, b: 'str'}), '?a=1&b=str');
+    test.each([
+        [{}, ''],
+        [{a: 1}, '?a=1'],
+        [{a: 1, b: 'str'}, '?a=1&b=str'],
+        [{a: 1, b: 'str', c: undefined}, '?a=1&b=str'],
+        [{a: 1, b: 'str', c: 0}, '?a=1&b=str&c=0'],
+        [{a: 1, b: 'str', c: ''}, '?a=1&b=str&c='],
+        [{a: 1, b: undefined, c: 'str'}, '?a=1&c=str'],
+    ])('buildQueryString with %o should return %s', (params, expected) => {
+        expect(buildQueryString(params)).toEqual(expected);
     });
 });

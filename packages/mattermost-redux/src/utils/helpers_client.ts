@@ -10,11 +10,15 @@ export function buildQueryString(parameters: Record<string, any>): string {
     let query = '?';
     for (let i = 0; i < keys.length; i++) {
         const key = keys[i];
-        query += key + '=' + encodeURIComponent(parameters[key]);
+        if (parameters[key] === undefined) {
+            continue;
+        }
 
-        if (i < keys.length - 1) {
+        if (i > 0) {
             query += '&';
         }
+
+        query += key + '=' + encodeURIComponent(parameters[key]);
     }
 
     return query;
