@@ -40,7 +40,7 @@ export default class PostRecentReactions extends React.PureComponent<Props, Stat
         size: 3,
     };
 
-    handleAddEmoji = (emoji: Emoji): void => {
+    handleEmoji = (emoji: Emoji): void => {
         const emojiName = 'short_name' in emoji ? emoji.short_name : emoji.name;
         this.props.actions.toggleReaction(this.props.postId, emojiName);
     };
@@ -108,7 +108,7 @@ export default class PostRecentReactions extends React.PureComponent<Props, Stat
                             <EmojiItem
                                 // eslint-disable-next-line react/no-array-index-key
                                 emoji={emoji}
-                                onItemClick={this.handleAddEmoji}
+                                onItemClick={this.handleEmoji}
                                 order={n}
                             />
                         </React.Fragment>
