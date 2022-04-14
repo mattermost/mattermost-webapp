@@ -334,7 +334,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 9,
-                  "text": "Português (Brasil)",
+                  "text": "Português (Brasil) (Beta)",
                   "value": "pt-BR",
                 },
                 Object {
@@ -465,7 +465,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 9,
-                  "text": "Português (Brasil)",
+                  "text": "Português (Brasil) (Beta)",
                   "value": "pt-BR",
                 },
                 Object {

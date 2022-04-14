@@ -43,7 +43,12 @@ const UseCase = (props: Props) => {
         className += ' ' + props.className;
     }
 
-    useEffect(props.onPageView, []);
+    useEffect(() => {
+        if (props.show) {
+            props.onPageView();
+        }
+    }, [props.show]);
+
     return (
         <CSSTransition
             in={props.show}
