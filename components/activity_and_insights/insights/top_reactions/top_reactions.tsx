@@ -69,7 +69,7 @@ const TopReactions = (props: WidgetHocProps) => {
                 </>
             }
             {
-                topTeamReactions &&
+                (topTeamReactions && !loading) &&
                 topTeamReactions.map((reaction) => {
                     const highestCount = topTeamReactions[0].count;
                     const maxHeight = 156;

@@ -4,7 +4,7 @@ import React, {memo, useState, useCallback} from 'react';
 
 import {Modal} from 'react-bootstrap';
 
-import {TimeFrames, InsightsWidgetTypes} from 'mattermost-redux/types/insights';
+import {TimeFrames, InsightsWidgetTypes} from '@mattermost/types/insights';
 
 import {localizeMessage} from 'utils/utils';
 import TimeFrameDropdown from '../time_frame_dropdown/time_frame_dropdown';

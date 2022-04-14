@@ -4,7 +4,7 @@ import React, {memo, useEffect, useState, useCallback} from 'react';
 import {useDispatch} from 'react-redux';
 
 import {selectChannel} from 'mattermost-redux/actions/channels';
-import {CardSizes, InsightsWidgetTypes, TimeFrames} from 'mattermost-redux/types/insights';
+import {CardSizes, InsightsWidgetTypes, TimeFrames} from '@mattermost/types/insights';
 
 import {InsightsScopes} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';

@@ -6,7 +6,7 @@ import ReactSelect, {ValueType} from 'react-select';
 
 import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 
-import {TimeFrames} from 'mattermost-redux/types/insights';
+import {TimeFrames} from '@mattermost/types/insights';
 
 import {localizeMessage} from 'utils/utils.jsx';
 

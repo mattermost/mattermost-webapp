@@ -5,7 +5,7 @@ import {useDispatch} from 'react-redux';
 import {useIntl} from 'react-intl';
 
 import {openModal} from 'actions/views/modals';
-import {CardSize, InsightsWidgetTypes, TimeFrame} from 'mattermost-redux/types/insights';
+import {CardSize, InsightsWidgetTypes, TimeFrame} from '@mattermost/types/insights';
 
 import InsightsCard from '../card/card';
 import InsightsModal from '../insights_modal/insights_modal';
