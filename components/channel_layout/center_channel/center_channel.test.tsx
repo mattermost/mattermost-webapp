@@ -20,13 +20,10 @@ describe('components/channel_layout/CenterChannel', () => {
             url: '/url',
         },
         currentUserId: 'testUserId',
-        showNextSteps: false,
         isOnboardingHidden: true,
-        showNextStepsEphemeral: false,
         enableTipsViewRoute: false,
         insightsAreEnabled: true,
         actions: {
-            setShowNextStepsView: jest.fn,
             getProfiles: jest.fn,
         },
     };

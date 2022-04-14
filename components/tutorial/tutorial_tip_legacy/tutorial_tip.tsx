@@ -72,7 +72,6 @@ type Props = {
     actions: {
         closeRhsMenu: () => void;
         savePreferences: (currentUserId: string, preferences: Preference[]) => void;
-        setFirstChannelName: (channelName: string) => (dispatch: DispatchFunc) => void;
         setProductMenuSwitcherOpen: (open: boolean) => void;
     };
     autoTour: boolean;

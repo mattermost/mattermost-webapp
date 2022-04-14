@@ -22,7 +22,6 @@ describe('components/tutorial/tutorial_tip_legacy/tutorial_tip_legacy', () => {
         actions: {
             closeRhsMenu: jest.fn(),
             savePreferences: jest.fn(),
-            setFirstChannelName: jest.fn(),
             setProductMenuSwitcherOpen: jest.fn(),
         },
         screen: <></>,
@@ -37,10 +36,9 @@ describe('components/tutorial/tutorial_tip_legacy/tutorial_tip_legacy', () => {
     test('should have called both closeRhsMenu and savePreferences', () => {
         const savePreferences = jest.fn();
         const closeRhsMenu = jest.fn();
-        const setFirstChannelName = jest.fn();
         const setProductMenuSwitcherOpen = jest.fn();
 
-        const props = {...requiredProps, actions: {closeRhsMenu, savePreferences, setFirstChannelName, setProductMenuSwitcherOpen}};
+        const props = {...requiredProps, actions: {closeRhsMenu, savePreferences, setProductMenuSwitcherOpen}};
         const wrapper = shallow<TutorialTip>(
             <TutorialTip {...props}/>,
         );
@@ -84,13 +82,12 @@ describe('components/tutorial/tutorial_tip_legacy/tutorial_tip_legacy', () => {
     test('should have called both closeRhsMenu and savePreferences when skipTutorial', () => {
         const savePreferences = jest.fn();
         const closeRhsMenu = jest.fn();
-        const setFirstChannelName = jest.fn();
         const setProductMenuSwitcherOpen = jest.fn();
         const mockEvent = {
             preventDefault: jest.fn(),
         } as unknown as React.MouseEvent<HTMLAnchorElement>;
 
-        const props = {...requiredProps, actions: {closeRhsMenu, savePreferences, setFirstChannelName, setProductMenuSwitcherOpen}};
+        const props = {...requiredProps, actions: {closeRhsMenu, savePreferences, setProductMenuSwitcherOpen}};
         const wrapper = shallow<TutorialTip>(
             <TutorialTip {...props}/>,
         );

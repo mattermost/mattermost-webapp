@@ -11,7 +11,6 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {isAdmin} from 'mattermost-redux/utils/user_utils';
 
 import {closeMenu as closeRhsMenu} from 'actions/views/rhs';
-import {setFirstChannelName} from 'actions/views/channel_sidebar';
 
 import {getFirstChannelName} from 'selectors/onboarding';
 
@@ -43,7 +42,6 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators({
             closeRhsMenu,
             savePreferences,
-            setFirstChannelName,
             setProductMenuSwitcherOpen,
         }, dispatch),
     };

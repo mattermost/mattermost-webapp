@@ -24,13 +24,12 @@ import {Client4} from 'mattermost-redux/client';
 
 import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks/constants';
 
-import Constants, {Preferences} from 'utils/constants';
+import Constants from 'utils/constants';
 import {makeNewEmptyChannel} from 'utils/channel_utils';
 import {teamNameToUrl, getSiteURL} from 'utils/url';
 import {makeNewTeam} from 'utils/team_utils';
 
 import {switchToChannel} from 'actions/views/channel';
-import {setFirstChannelName} from 'actions/views/channel_sidebar';
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 
 import LogoSvg from 'components/common/svg_images_components/logo_dark_blue_svg';
@@ -289,16 +288,6 @@ export default function PreparingWorkspace(props: Props) {
             } catch (e) {
                 redirectWithError(WizardSteps.Channel, genericSubmitError);
                 return;
-            }
-            if (redirectChannel) {
-                const category = Preferences.AB_TEST_PREFERENCE_VALUE;
-                const name = 'TODO: delete all of this';
-                const firstChannelNamePref = {category, name, user_id: user.id, value: redirectChannel.name};
-                const defaultStepPref = {user_id: user.id, category: Preferences.TUTORIAL_STEP, name: user.id, value: '-1'};
-
-                // store the firstChannelName value to redux and in preferences, also set the defaultStep to firstChannelName (-1)
-                dispatch(setFirstChannelName(redirectChannel.name));
-                dispatch(savePreferences(user.id, [firstChannelNamePref, defaultStepPref]));
             }
         }
 

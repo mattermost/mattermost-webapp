@@ -16,6 +16,8 @@ import {Constants} from 'utils/constants';
 import {trackEvent} from 'actions/telemetry_actions';
 import useCopyText from 'components/common/hooks/useCopyText';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input';
+import {getAnalyticsCategory} from 'components/onboarding_tasks';
+
 import {t} from 'utils/i18n.jsx';
 
 import AddToChannels, {CustomMessageProps, InviteChannels, defaultCustomMessage, defaultInviteChannels} from './add_to_channels';
@@ -80,7 +82,7 @@ export default function InviteView(props: Props) {
     }, [props.currentTeam.invite_id]);
 
     const copyText = useCopyText({
-        trackCallback: () => trackEvent('TODO: define key', 'click_copy_invite_link'),
+        trackCallback: () => trackEvent(getAnalyticsCategory(props.isAdmin), 'click_copy_invite_link'),
         text: inviteURL,
     });
 
