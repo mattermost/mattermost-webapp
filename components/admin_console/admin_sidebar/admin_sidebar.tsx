@@ -10,9 +10,10 @@ import isEqual from 'lodash/isEqual';
 import classNames from 'classnames';
 
 import {IntlShape} from 'react-intl/lib';
+import {Index} from 'flexsearch/dist/flexsearch.es5';
 
 import * as Utils from 'utils/utils.jsx';
-import {generateIndex} from 'utils/admin_console_index.jsx';
+import {generateIndex} from 'utils/admin_console_index';
 import {browserHistory} from 'utils/browser_history';
 
 import AdminSidebarCategory from 'components/admin_console/admin_sidebar_category.jsx';
@@ -79,7 +80,7 @@ type State = {
 
 class AdminSidebar extends React.PureComponent<Props, State> {
     searchRef: React.RefObject<HTMLInputElement>;
-    idx: any;
+    idx: Index | null;
 
     static defaultProps = {
         plugins: {},
@@ -96,13 +97,11 @@ class AdminSidebar extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        if (this.props.config.PluginSettings!.Enable) {
+        if (this.props.config.PluginSettings?.Enable) {
             this.props.actions.getPlugins();
         }
 
-        if (this.searchRef.current) {
-            this.searchRef.current.focus();
-        }
+        this.searchRef.current?.focus();
 
         this.updateTitle();
     }
@@ -111,7 +110,7 @@ class AdminSidebar extends React.PureComponent<Props, State> {
         if (this.idx !== null &&
             (!isEqual(this.props.plugins, prevProps.plugins) ||
                 !isEqual(this.props.adminDefinition, prevProps.adminDefinition))) {
-            this.idx = generateIndex(this.props.adminDefinition, this.props.plugins, this.props.intl);
+            this.idx = generateIndex(this.props.adminDefinition, this.props.intl, this.props.plugins);
         }
     }
 
@@ -124,7 +123,7 @@ class AdminSidebar extends React.PureComponent<Props, State> {
         }
 
         if (this.idx === null) {
-            this.idx = generateIndex(this.props.adminDefinition, this.props.plugins, this.props.intl);
+            this.idx = generateIndex(this.props.adminDefinition, this.props.intl, this.props.plugins);
         }
         let query = '';
         for (const term of filter.split(' ')) {
@@ -281,12 +280,13 @@ class AdminSidebar extends React.PureComponent<Props, State> {
     }
 
     isPluginPresentInSections = (plugin: PluginRedux) => {
-        return this.state.sections && this.state.sections.indexOf(`plugin_${plugin.id}`) !== -1;
+        return this.state.sections?.indexOf(`plugin_${plugin.id}`) !== -1;
     }
 
     renderPluginsMenu = () => {
-        if (this.props.config.PluginSettings!.Enable) {
-            return Object.values(this.props.plugins!).sort((a, b) => {
+        const {config, plugins} = this.props;
+        if (config.PluginSettings?.Enable && plugins) {
+            return Object.values(plugins).sort((a, b) => {
                 const nameCompare = a.name.localeCompare(b.name);
                 if (nameCompare !== 0) {
                     return nameCompare;

@@ -1,12 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import FlexSearch from 'flexsearch/dist/flexsearch.es5';
+import FlexSearch, {Index} from 'flexsearch/dist/flexsearch.es5';
+
+import {IntlShape} from 'react-intl/lib';
+
+import {PluginRedux} from 'mattermost-redux/types/plugins';
+
+import AdminDefinition from '../components/admin_console/admin_definition';
 
 import {getPluginEntries} from './admin_console_plugin_index';
 
-function extractTextsFromSection(section, intl) {
-    const texts = [];
+function extractTextsFromSection(section: Record<string, any>, intl: IntlShape) {
+    const texts: Array<string | string[]> = [];
     if (section.title) {
         texts.push(intl.formatMessage({id: section.title, defaultMessage: section.title_default}));
     }
@@ -27,7 +33,7 @@ function extractTextsFromSection(section, intl) {
         if (section.schema.settings) {
             texts.push(extractTextFromSettings(section.schema.settings, intl));
         } else if (section.schema.sections) {
-            section.schema.sections.forEach((schemaSection) => {
+            section.schema.sections.forEach((schemaSection: any) => {
                 texts.push(...extractTextFromSettings(schemaSection.settings, intl));
             });
         }
@@ -36,7 +42,7 @@ function extractTextsFromSection(section, intl) {
     return texts;
 }
 
-function extractTextFromSettings(settings, intl) {
+function extractTextFromSettings(settings: Array<Record<string, any>>, intl: IntlShape) {
     const texts = [];
 
     for (const setting of Object.values(settings)) {
@@ -57,8 +63,8 @@ function extractTextFromSettings(settings, intl) {
     return texts;
 }
 
-export function adminDefinitionsToUrlsAndTexts(adminDefinition, intl) {
-    const entries = {};
+export function adminDefinitionsToUrlsAndTexts(adminDefinition: typeof AdminDefinition, intl: IntlShape) {
+    const entries: Record<string, Array<string | string[]>> = {};
     const sections = [
         adminDefinition.about,
         adminDefinition.reporting,
@@ -81,17 +87,17 @@ export function adminDefinitionsToUrlsAndTexts(adminDefinition, intl) {
     return entries;
 }
 
-export function generateIndex(AdminDefinition, plugins, intl) {
-    const idx = new FlexSearch();
+export function generateIndex(adminDefinition: typeof AdminDefinition, intl: IntlShape, plugins?: Record<string, PluginRedux>) {
+    const idx: Index = new FlexSearch();
 
-    addToIndex(adminDefinitionsToUrlsAndTexts(AdminDefinition, intl), idx);
+    addToIndex(adminDefinitionsToUrlsAndTexts(adminDefinition, intl), idx);
 
     addToIndex(getPluginEntries(plugins), idx);
 
     return idx;
 }
 
-function addToIndex(entries, idx) {
+function addToIndex(entries: Record<string, Array<string | string[]>>, idx: Index) {
     for (const key of Object.keys(entries)) {
         let text = '';
         for (const str of entries[key]) {
@@ -100,4 +106,3 @@ function addToIndex(entries, idx) {
         idx.add(key, text);
     }
 }
-

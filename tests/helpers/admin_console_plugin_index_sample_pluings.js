@@ -28,6 +28,7 @@ export const samplePlugin2 = {
     description: 'Automatically generate random numbers',
     version: '1.1.0',
     settings_schema: {
+        header: 'random plugin header',
         footer: 'random plugin footer',
         settings: [
             {
@@ -57,6 +58,8 @@ export const samplePlugin3 = {
     description: 'click [here](http://localhost:8080)',
     version: '1.1.0',
     settings_schema: {
+        header: 'random plugin header',
+        footer: 'random plugin footer',
         settings: [
             {
                 label: 'Markdown plugin label',
@@ -68,6 +71,19 @@ export const samplePlugin3 = {
                 default: false,
             },
         ],
+    },
+    active: true,
+};
+
+export const samplePlugin4 = {
+    id: 'plugin-without-settings',
+    name: 'without-settings',
+    description: 'click [here](http://localhost:8080)',
+    version: '1.1.0',
+    settings_schema: {
+        header: 'random plugin header',
+        footer: 'random plugin footer',
+        settings: [],
     },
     active: true,
 };
