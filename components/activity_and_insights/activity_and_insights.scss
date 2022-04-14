@@ -19,8 +19,39 @@
                 .top-channel-row {
                     display: flex;
                     align-items: center;
-                    margin: 12px 0;
+                    padding: 12px 0;
 
+                    &:nth-of-type(2) {
+                        .skeleton-loader {
+                            &.title {
+                                flex: 0.85;
+                            }
+                        }
+                    }
+
+                    &:nth-of-type(3) {
+                        .skeleton-loader {
+                            &.title {
+                                flex: 0.9;
+                            }
+                        }
+                    }
+
+                    &:nth-of-type(4) {
+                        .skeleton-loader {
+                            &.title {
+                                flex: 0.5;
+                            }
+                        }
+                    }
+
+                    &:nth-of-type(5) {
+                        .skeleton-loader {
+                            &.title {
+                                flex: 0.7;
+                            }
+                        }
+                    }
                     .skeleton-loader {
                         &.title {
                             margin-left: 8px;
@@ -40,6 +71,39 @@
                 flex: 0.2;
                 flex-direction: column;
                 align-items: center;
+                margin-top: auto;
+
+                &:nth-of-type(1) {
+                    .skeleton-loader {
+                        &.bar-chart {
+                            height: 140px;
+                        }
+                    }
+                }
+
+                &:nth-of-type(3) {
+                    .skeleton-loader {
+                        &.bar-chart {
+                            height: 140px;
+                        }
+                    }
+                }
+
+                &:nth-of-type(4) {
+                    .skeleton-loader {
+                        &.bar-chart {
+                            height: 120px;
+                        }
+                    }
+                }
+
+                &:nth-of-type(5) {
+                    .skeleton-loader {
+                        &.bar-chart {
+                            height: 140px;
+                        }
+                    }
+                }
 
                 .skeleton-loader {
                     &.bar-chart {
