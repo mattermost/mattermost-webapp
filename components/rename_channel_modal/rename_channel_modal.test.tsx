@@ -61,7 +61,7 @@ describe('components/RenameChannelModal', () => {
 
     describe('should validate channel url (name)', () => {
         const testCases: Array<[{name: string; value: string}, boolean]> = [
-            [{name: 'must be two or more characters', value: 'a'}, false],
+            [{name: 'must be one or more characters', value: ''}, false],
             [{name: 'must start with a letter or number', value: '_channel'}, false],
             [{name: 'must end with a letter or number', value: 'channel_'}, false],
             [{name: 'can contain two underscores in a row', value: 'channel__two'}, true],
