@@ -32,7 +32,7 @@ function makeGetPluginSchema() {
         (state: GlobalState, pluginId: string) => state.entities.admin.plugins?.[pluginId],
         (state: GlobalState, pluginId: string) => getAdminConsoleCustomComponents(state, pluginId),
         (state) => appsFeatureFlagEnabled(state),
-        (plugin: PluginRedux & {translate?: boolean} | undefined, customComponents: Record<string, AdminConsolePluginComponent>, appsFeatureFlagIsEnabled) => {
+        (plugin: PluginRedux | undefined, customComponents: Record<string, AdminConsolePluginComponent>, appsFeatureFlagIsEnabled) => {
             if (!plugin) {
                 return null;
             }
