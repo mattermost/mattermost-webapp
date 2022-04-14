@@ -1,4 +1,5 @@
 dist
+lib
 .npminstall
 .yarninstall
 node_modules

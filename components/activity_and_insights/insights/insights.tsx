@@ -9,16 +9,23 @@ import {InsightsTimeFrames} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
 import InsightsHeader from './insights_header/insights_header';
+import TopChannels from './top_channels/top_channels';
 
 import './../activity_and_insights.scss';
 
+export enum CardSizes {
+    large = 'lg',
+    medium = 'md',
+    small = 'sm',
+}
+export type CardSize = CardSizes;
+
 const Insights = () => {
     const dispatch = useDispatch();
-
     const [filterType, setFilterType] = useState('my');
     const [timeFrame, setTimeFrame] = useState({
         value: InsightsTimeFrames.INSIGHTS_7_DAYS,
-        label: localizeMessage('insights.timeFrame.mediumRange', 'Last 7 days'),
+        label: localizeMessage('insights.timeFrame.today', 'Today'),
     });
 
     const setFilterTypeTeam = useCallback(() => {
@@ -46,6 +53,26 @@ const Insights = () => {
                 timeFrame={timeFrame}
                 setTimeFrame={setTimeFrameValue}
             />
+            <div className='insights-body'>
+                <TopChannels
+                    size={CardSizes.large}
+                />
+                <TopChannels
+                    size={CardSizes.small}
+                />
+                <TopChannels
+                    size={CardSizes.small}
+                />
+                <TopChannels
+                    size={CardSizes.small}
+                />
+                <TopChannels
+                    size={CardSizes.medium}
+                />
+                <TopChannels
+                    size={CardSizes.medium}
+                />
+            </div>
         </>
     );
 };
