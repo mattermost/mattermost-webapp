@@ -18,7 +18,7 @@ describe('components/post_view/PostReaction', () => {
         showEmojiPicker: false,
         toggleEmojiPicker: jest.fn(),
         actions: {
-            addReaction: jest.fn(),
+            toggleReaction: jest.fn(),
         },
     };
 
@@ -31,9 +31,9 @@ describe('components/post_view/PostReaction', () => {
         const wrapper = shallow(<PostReaction {...baseProps}/>);
         const instance = wrapper.instance() as PostReaction;
 
-        instance.handleAddEmoji({name: 'smile'} as Emoji);
-        expect(baseProps.actions.addReaction).toHaveBeenCalledTimes(1);
-        expect(baseProps.actions.addReaction).toHaveBeenCalledWith('post_id_1', 'smile');
+        instance.handleEmoji({name: 'smile'} as Emoji);
+        expect(baseProps.actions.toggleReaction).toHaveBeenCalledTimes(1);
+        expect(baseProps.actions.toggleReaction).toHaveBeenCalledWith('post_id_1', 'smile');
         expect(baseProps.toggleEmojiPicker).toHaveBeenCalledTimes(1);
     });
 });

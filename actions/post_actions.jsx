@@ -27,6 +27,7 @@ import {
 } from 'utils/constants';
 import {matchEmoticons} from 'utils/emoticons';
 import * as UserAgent from 'utils/user_agent';
+import {makeGetUniqueReactionsToPost} from 'utils/post_utils';
 
 import {completePostReceive} from './new_post';
 
@@ -135,6 +136,31 @@ export function addReaction(postId, emojiName) {
         dispatch(PostActions.addReaction(postId, emojiName));
         dispatch(addRecentEmoji(emojiName));
         return {data: true};
+    };
+}
+
+export function toggleReaction(postId, emojiName) {
+    return async (dispatch, getState) => {
+        const currentUserId = getState().entities.users.currentUserId;
+
+        const getReactionsForPost = makeGetUniqueReactionsToPost();
+        const reactions = getReactionsForPost(getState(), postId);
+
+        let currentUserReacted = false;
+        for (const key in reactions) {
+            if ({}.hasOwnProperty.call(reactions, key)) {
+                const value = reactions[key];
+                if (value.user_id === currentUserId && value.emoji_name === emojiName) {
+                    currentUserReacted = true;
+                    break;
+                }
+            }
+        }
+
+        if (currentUserReacted) {
+            return dispatch(PostActions.removeReaction(postId, emojiName));
+        }
+        return dispatch(addReaction(postId, emojiName));
     };
 }
 

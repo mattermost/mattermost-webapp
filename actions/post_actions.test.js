@@ -11,10 +11,13 @@ import {Posts} from 'mattermost-redux/constants';
 import * as Actions from 'actions/post_actions';
 import {Constants, ActionTypes, RHSStates} from 'utils/constants';
 
+import {makeGetUniqueReactionsToPost} from 'utils/post_utils';
+
 const mockStore = configureStore([thunk]);
 
 jest.mock('mattermost-redux/actions/posts', () => ({
     addReaction: (...args) => ({type: 'MOCK_ADD_REACTION', args}),
+    removeReaction: (...args) => ({type: 'MOCK_REMOVE_REACTION', args}),
     createPost: (...args) => ({type: 'MOCK_CREATE_POST', args}),
     createPostImmediately: (...args) => ({type: 'MOCK_CREATE_POST_IMMEDIATELY', args}),
     flagPost: (...args) => ({type: 'MOCK_FLAG_POST', args}),
@@ -22,6 +25,10 @@ jest.mock('mattermost-redux/actions/posts', () => ({
     pinPost: (...args) => ({type: 'MOCK_PIN_POST', args}),
     unpinPost: (...args) => ({type: 'MOCK_UNPIN_POST', args}),
     receivedNewPost: (...args) => ({type: 'MOCK_RECEIVED_NEW_POST', args}),
+}));
+
+jest.mock('utils/post_utils', () => ({
+    makeGetUniqueReactionsToPost: jest.fn().mockReturnValue(jest.fn()),
 }));
 
 jest.mock('actions/emoji_actions', () => ({
@@ -446,6 +453,39 @@ describe('Actions.Posts', () => {
         expect(testStore.getActions()).toEqual([
             {args: ['post_id_1', 'emoji_name_1'], type: 'MOCK_ADD_REACTION'},
             {args: ['emoji_name_1'], type: 'MOCK_ADD_RECENT_EMOJI'},
+        ]);
+    });
+
+    test('toggleReaction_addReaction', async () => {
+        const testStore = await mockStore(initialState);
+
+        await testStore.dispatch(Actions.toggleReaction('post_id_1', 'emoji_name_1'));
+        expect(testStore.getActions()).toEqual([
+            {args: ['post_id_1', 'emoji_name_1'], type: 'MOCK_ADD_REACTION'},
+            {args: ['emoji_name_1'], type: 'MOCK_ADD_RECENT_EMOJI'},
+        ]);
+    });
+
+    test('toggleReaction_removeReaction', async () => {
+        const testStore = await mockStore(initialState);
+
+        makeGetUniqueReactionsToPost.mockReturnValueOnce(
+            () => (
+                {
+                    'current_user_id-smiley': {
+                        create_at: 0,
+                        delete_at: 0,
+                        emoji_name: 'smiley',
+                        remote_id: '',
+                        update_at: 0,
+                        user_id: 'current_user_id',
+                    },
+                }
+            ),
+        );
+        await testStore.dispatch(Actions.toggleReaction('post_id_1', 'smiley'));
+        expect(testStore.getActions()).toEqual([
+            {args: ['post_id_1', 'smiley'], type: 'MOCK_REMOVE_REACTION'},
         ]);
     });
 

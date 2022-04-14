@@ -6,14 +6,14 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import {addReaction} from 'actions/post_actions.jsx';
+import {toggleReaction} from 'actions/post_actions.jsx';
 
 import PostReaction from './post_reaction';
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
-            addReaction,
+            toggleReaction,
         }, dispatch),
     };
 }

@@ -9,7 +9,7 @@ import {getCurrentLocale} from 'selectors/i18n';
 import {GlobalState} from 'types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import {addReaction} from 'actions/post_actions.jsx';
+import {toggleReaction} from 'actions/post_actions.jsx';
 import {Emoji} from 'mattermost-redux/types/emojis';
 
 import PostReaction from './post_recent_reactions';
@@ -17,7 +17,7 @@ import PostReaction from './post_recent_reactions';
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
-            addReaction,
+            toggleReaction,
         }, dispatch),
     };
 }

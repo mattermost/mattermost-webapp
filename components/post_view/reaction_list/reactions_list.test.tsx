@@ -25,7 +25,7 @@ describe('components/ReactionList', () => {
     const teamId = 'teamId';
 
     const actions = {
-        addReaction: jest.fn(),
+        toggleReaction: jest.fn(),
     };
 
     const baseProps = {

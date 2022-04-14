@@ -26,7 +26,7 @@ type Props = {
     size: number;
     defaultEmojis: Emoji[];
     actions: {
-        addReaction: (postId: string, emojiName: string) => (dispatch: Dispatch) => void;
+        toggleReaction: (postId: string, emojiName: string) => (dispatch: Dispatch) => void;
     };
 }
 
@@ -42,7 +42,7 @@ export default class PostRecentReactions extends React.PureComponent<Props, Stat
 
     handleAddEmoji = (emoji: Emoji): void => {
         const emojiName = 'short_name' in emoji ? emoji.short_name : emoji.name;
-        this.props.actions.addReaction(this.props.postId, emojiName);
+        this.props.actions.toggleReaction(this.props.postId, emojiName);
     };
 
     complementEmojis = (emojis: Emoji[]): (Emoji[]) => {
