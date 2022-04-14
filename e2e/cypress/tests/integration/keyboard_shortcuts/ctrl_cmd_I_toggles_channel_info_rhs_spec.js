@@ -19,7 +19,7 @@ describe('Keyboard Shortcuts', () => {
         });
     });
 
-    it('CTRL/CMD+SHIFT+I - Open Channel Info RHS', () => {
+    it('CTRL/CMD+SHIFT+I - Toggle Channel Info RHS', () => {
         // # Visit a test channel
         cy.visit(url);
 
@@ -31,5 +31,11 @@ describe('Keyboard Shortcuts', () => {
 
         // * Ensure RHS is now present
         cy.contains('#rhsContainer', 'Info').should('be.visible');
+
+        // # Press CTRL/CMD+SHIFT+I
+        cy.get('body').cmdOrCtrlShortcut('{shift}I');
+
+        // * Ensure RHS is now closed
+        cy.contains('#rhsContainer', 'Info').should('not.exist');
     });
 });

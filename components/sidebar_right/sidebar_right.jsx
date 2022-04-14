@@ -95,7 +95,11 @@ export default class SidebarRight extends React.PureComponent {
                 }
             } else if (e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.I)) {
                 e.preventDefault();
-                this.props.actions.showChannelInfo(this.props.channel.id);
+                if (this.props.isOpen && this.props.isChannelInfo) {
+                    this.props.actions.closeRightHandSide();
+                } else {
+                    this.props.actions.showChannelInfo(this.props.channel.id);
+                }
             }
         }
     }
