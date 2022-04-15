@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {stripMarkdown} from 'utils/markdown';
+
 import './attachment_card.scss';
 
 type Props = {
@@ -26,7 +28,7 @@ function AttachmentCard({
                 {`${authorName}: ${title}`}
             </div>
             <div className='attachment__truncated'>
-                {text || pretext || fallback}
+                {stripMarkdown(text || pretext || fallback)}
             </div>
         </div>
     );
