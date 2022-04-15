@@ -82,7 +82,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
                 wait(TIMEOUTS.HALF_SEC);
 
             // * Check if reader can read no results
-            cy.get('.multi-select__wrapper').should('have.attr', 'aria-live', 'polite').and('have.text', `No results found matching ${additionalSearchTerm}`);            
+            cy.get('.multi-select__wrapper').should('have.attr', 'aria-live', 'polite').and('have.text', `No results found matching ${additionalSearchTerm}`);
         });
     });
 
