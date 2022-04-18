@@ -19,7 +19,7 @@ describe('Keyboard Shortcuts', () => {
         });
     });
 
-    it('CTRL/CMD+SHIFT+I - Toggle Channel Info RHS', () => {
+    it('MM-T4775 CTRL/CMD+SHIFT+I - Toggle Channel Info RHS', () => {
         // # Visit a test channel
         cy.visit(url);
 
