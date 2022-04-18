@@ -3441,7 +3441,6 @@
   "marketplace_modal.tabs.installed_listing": "Instalado",
   "marketplace_modal.title": "Marketplace",
   "members_popover.button.message": "mensaje",
-  "members_popover.title": "Miembros del Canal",
   "message_submit_error.invalidCommand": "Comando con el disparador '{command}' no fue encontrado. ",
   "message_submit_error.sendAsMessageLink": "Clic aquí para enviar como un mensaje.",
   "mfa.confirm.complete": "**¡Configuración completa!**",

@@ -3324,7 +3324,6 @@
   "marketplace_modal.tabs.installed_listing": "Instalat",
   "marketplace_modal.title": "Marketplace",
   "members_popover.button.message": "mesaj",
-  "members_popover.title": "Membrii canalului",
   "message_submit_error.invalidCommand": "Comanda cu declanșator de '{command}' nu a fost găsită. ",
   "message_submit_error.sendAsMessageLink": "Faceți clic aici pentru a trimite ca mesaj.",
   "mfa.confirm.complete": "**Configurarea completă!**",

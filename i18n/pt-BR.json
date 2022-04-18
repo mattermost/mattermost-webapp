@@ -3182,7 +3182,6 @@
   "marketplace_modal.search": "Pesquisa Plugins",
   "marketplace_modal.title": "Plugin Marketplace",
   "members_popover.button.message": "mensagem",
-  "members_popover.title": "Membros do Canal",
   "message_submit_error.invalidCommand": "Comando com um gatilho de '{command}' não encontrado. ",
   "message_submit_error.sendAsMessageLink": "Clique aqui para enviar como uma mensagem.",
   "mfa.confirm.complete": "**Configuração completada!**",
