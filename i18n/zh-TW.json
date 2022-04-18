@@ -2871,7 +2871,6 @@
   "marketplace_modal.search": "搜尋模組",
   "marketplace_modal.title": "模組市集",
   "members_popover.button.message": "訊息",
-  "members_popover.title": "頻道成員",
   "message_submit_error.invalidCommand": "找不到以 ''{command}'' 作為觸發的命令。",
   "message_submit_error.sendAsMessageLink": "點擊此處以發送訊息。",
   "mfa.confirm.complete": "**完成設定！**",
