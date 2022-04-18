@@ -3558,7 +3558,6 @@
   "invitation_modal.confirm.not-sent-header": "Приглашения не отправлены",
   "invitation_modal.confirm.sent-header": "Приглашения отправлены успешно",
   "invitation_modal.guests.add_channels.title": "Поиск и добавление каналов",
-  "invitation_modal.guests.custom-message.description": "Создайте собственное сообщение, чтобы сделать ваше приглашение более личным.",
   "invitation_modal.guests.custom-message.link": "Установить собственное сообщение",
   "invitation_modal.guests.custom-message.title": "Собственное сообщение",
   "invitation_modal.guests.users_emails_input.valid_email": "Пригласить **{email}** в качестве гостя",

@@ -3503,7 +3503,6 @@
   "invitation_modal.confirm.not-sent-header": "Zaproszenia nie wysłane",
   "invitation_modal.confirm.sent-header": "Pomyślne zaproszenia",
   "invitation_modal.guests.add_channels.title": "Szukaj i dodaj kanały",
-  "invitation_modal.guests.custom-message.description": "Stwórz własną wiadomość, aby Twoje zaproszenie było bardziej osobiste.",
   "invitation_modal.guests.custom-message.link": "Ustaw wiadomość niestandardową",
   "invitation_modal.guests.custom-message.title": "Niestandardowa wiadomość",
   "invitation_modal.guests.users_emails_input.valid_email": "Zaproś **{email}** jako gościa",

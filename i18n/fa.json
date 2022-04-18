@@ -3214,7 +3214,6 @@
   "invitation_modal.confirm.not-sent-header": "دعوت نامه ها ارسال نشد",
   "invitation_modal.confirm.sent-header": "دعوت های موفق",
   "invitation_modal.guests.add_channels.title": "جستجو و افزودن کانال",
-  "invitation_modal.guests.custom-message.description": "یک پیام سفارشی ایجاد کنید تا دعوت خود را شخصی تر کنید.",
   "invitation_modal.guests.custom-message.link": "یک پیام سفارشی تنظیم کنید",
   "invitation_modal.guests.custom-message.title": "پیام سفارشی",
   "invitation_modal.guests.users_emails_input.valid_email": "**{email}** را به عنوان مهمان دعوت کنید",

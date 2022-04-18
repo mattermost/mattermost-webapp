@@ -3381,7 +3381,6 @@
   "invitation_modal.confirm.not-sent-header": "未发送邀请",
   "invitation_modal.confirm.sent-header": "成功的邀请",
   "invitation_modal.guests.add_channels.title": "搜索并添加频道",
-  "invitation_modal.guests.custom-message.description": "给您的邀请创建个自定义消息。",
   "invitation_modal.guests.custom-message.link": "设置自定义消息",
   "invitation_modal.guests.custom-message.title": "自定义消息",
   "invitation_modal.guests.users_emails_input.valid_email": "邀请 **{email}** 为游客",

@@ -3566,7 +3566,6 @@
   "invitation_modal.confirm.not-sent-header": "Einladungen nicht verschickt",
   "invitation_modal.confirm.sent-header": "Erfolgreiche Einladungen",
   "invitation_modal.guests.add_channels.title": "Kanäle suchen und hinzufügen",
-  "invitation_modal.guests.custom-message.description": "Erstelle eine benutzerdefinierte Nachricht, um deine Einladung persönlicher zu gestalten.",
   "invitation_modal.guests.custom-message.link": "Eine benutzerdefinierte Nachricht festlegen",
   "invitation_modal.guests.custom-message.title": "Benutzerdefinierte Nachricht",
   "invitation_modal.guests.users_emails_input.valid_email": "**{email}** als Gast einladen",

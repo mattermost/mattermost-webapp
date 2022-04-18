@@ -2631,7 +2631,6 @@
   "invitation_modal.confirm.done": "확인",
   "invitation_modal.confirm.sent-header": "초대 성공",
   "invitation_modal.guests.add_channels.title": "채널을 찾아보고 추가하기",
-  "invitation_modal.guests.custom-message.description": "사용자 정의 메시지를 작성해서 원하는 대로 초대를 해보세요.",
   "invitation_modal.guests.users_emails_input.valid_email": "**{email}** 을(를) 게스트로 초대",
   "invitation_modal.invite.more": "더 많은 사람들을 초대",
   "invitation_modal.members.search-and-add.placeholder-email-disabled": "멤버 추가",

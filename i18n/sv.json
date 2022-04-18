@@ -3498,7 +3498,6 @@
   "invitation_modal.confirm.not-sent-header": "Inbjudan är inte skickad",
   "invitation_modal.confirm.sent-header": "Lyckade inbjudningar",
   "invitation_modal.guests.add_channels.title": "Sök och lägg till kanaler",
-  "invitation_modal.guests.custom-message.description": "Skapa ett eget meddelande för att göra din inbjudan mer personlig.",
   "invitation_modal.guests.custom-message.link": "Skriv ett anpassat meddelande",
   "invitation_modal.guests.custom-message.title": "Anpassat meddelande",
   "invitation_modal.guests.users_emails_input.valid_email": "Bjud in **{email}** som gäst",
