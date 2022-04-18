@@ -14,7 +14,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 
 import {InsightsScopes} from 'utils/constants';
 
-import RenderEmoji from 'components/emoji/render_emoji';
+import TopReactionsBarChart from './top_reactions_bar_chart/top_reactions_bar_chart';
 import BarChartLoader from '../skeleton_loader/bar_chart_loader/bar_chart_loader';
 import CircleLoader from '../skeleton_loader/circle_loader/circle_loader';
 import widgetHoc, {WidgetHocProps} from '../widget_hoc/widget_hoc';
@@ -57,7 +57,10 @@ const TopReactions = (props: WidgetHocProps) => {
         const entries = [];
         for (let i = 0; i < 5; i++) {
             entries.push(
-                <div className='bar-chart-entry'>
+                <div 
+                    className='bar-chart-entry'
+                    key={i}
+                >
                     <BarChartLoader/>
                     <CircleLoader
                         size={20}
@@ -76,36 +79,9 @@ const TopReactions = (props: WidgetHocProps) => {
             }
             {
                 (topReactions && !loading) &&
-                topReactions.map((reaction) => {
-                    const highestCount = topReactions[0].count;
-                    const maxHeight = 156;
-
-                    let barHeight = reaction.count/highestCount * maxHeight;
-
-                    if (highestCount === reaction.count) {
-                        barHeight = maxHeight;
-                    }
-
-                    return (
-                        <div 
-                            className='bar-chart-entry'
-                            key={reaction.emoji_name}
-                        >
-                            <span className='reaction-count'>{reaction.count}</span>
-                            <div 
-                                className='bar-chart-data'
-                                style={{
-                                    height: `${barHeight}px`,
-                                }}
-                            />
-                            <RenderEmoji
-                                emojiName={reaction.emoji_name}
-                                size={20}
-                            />
-                        </div>
-                    );
-                })
-                
+                <TopReactionsBarChart
+                    reactions={topReactions}
+                />
             }
             {
                 (topReactions.length === 0 && !loading) &&
