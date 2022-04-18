@@ -420,6 +420,7 @@ export function showChannelInfo(channelId: string) {
             channelId,
             state: RHSStates.CHANNEL_INFO,
         });
+        return {data: true};
     };
 }
 
