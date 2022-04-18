@@ -3208,7 +3208,6 @@
   "invitation_modal.confirm.not-sent-header": "Invitații nu sunt trimise",
   "invitation_modal.confirm.sent-header": "Invitații de succes",
   "invitation_modal.guests.add_channels.title": "Căutați și adăugați canale",
-  "invitation_modal.guests.custom-message.description": "Creați un mesaj personalizat pentru a face invitația dvs. mai personală.",
   "invitation_modal.guests.custom-message.link": "Setați un mesaj personalizat",
   "invitation_modal.guests.custom-message.title": "Mesaj personalizat",
   "invitation_modal.guests.users_emails_input.valid_email": "Invita **{email}** ca un oaspete",

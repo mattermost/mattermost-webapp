@@ -3561,7 +3561,6 @@
   "invitation_modal.confirm.not-sent-header": "Invitations Not Sent",
   "invitation_modal.confirm.sent-header": "Successful Invites",
   "invitation_modal.guests.add_channels.title": "Search and Add Channels",
-  "invitation_modal.guests.custom-message.description": "Create a custom message to make your invite more personal.",
   "invitation_modal.guests.custom-message.link": "Set a custom message",
   "invitation_modal.guests.custom-message.title": "Custom message",
   "invitation_modal.guests.users_emails_input.valid_email": "Invite **{email}** as a guest",

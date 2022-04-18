@@ -3517,7 +3517,6 @@
   "invitation_modal.confirm.not-sent-header": "Aucune invitation n'a été envoyée",
   "invitation_modal.confirm.sent-header": "Invitations envoyées avec succès",
   "invitation_modal.guests.add_channels.title": "Rechercher et ajouter des canaux",
-  "invitation_modal.guests.custom-message.description": "Crée un message personnalisé pour rendre votre invitation plus personnelle.",
   "invitation_modal.guests.custom-message.link": "Définir un message personnalisé",
   "invitation_modal.guests.custom-message.title": "Message personnalisé",
   "invitation_modal.guests.users_emails_input.valid_email": "Inviter **{email}** en tant qu'utilisateur invité",

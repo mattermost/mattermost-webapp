@@ -3561,7 +3561,6 @@
   "invitation_modal.confirm.not-sent-header": "招待メールが送信されませんでした",
   "invitation_modal.confirm.sent-header": "成功した招待",
   "invitation_modal.guests.add_channels.title": "チャンネルを検索し追加する",
-  "invitation_modal.guests.custom-message.description": "招待メールのカスタムメッセージを作成する。",
   "invitation_modal.guests.custom-message.link": "カスタムメッセージを設定する",
   "invitation_modal.guests.custom-message.title": "カスタムメッセージ",
   "invitation_modal.guests.users_emails_input.valid_email": "ゲストとして **{email}** を招待する",
