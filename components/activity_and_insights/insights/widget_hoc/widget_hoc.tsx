@@ -48,6 +48,8 @@ function widgetHoc<T>(WrappedComponent: ComponentType<T>) {
                     widgetType: props.widgetType,
                     title: title(),
                     subtitle: subTitle(),
+                    filterType: props.filterType,
+                    timeFrame: props.timeFrame,
                 },
             }));
         };

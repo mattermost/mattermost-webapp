@@ -4,7 +4,7 @@ import React, {memo, useState, useCallback} from 'react';
 
 import {Modal} from 'react-bootstrap';
 
-import {TimeFrames, InsightsWidgetTypes} from '@mattermost/types/insights';
+import {TimeFrames, InsightsWidgetTypes, TimeFrame} from '@mattermost/types/insights';
 
 import {localizeMessage} from 'utils/utils';
 import TimeFrameDropdown from '../time_frame_dropdown/time_frame_dropdown';
@@ -18,6 +18,8 @@ type Props = {
     widgetType: InsightsWidgetTypes;
     title: string;
     subtitle: string;
+    filterType: string;
+    timeFrame: TimeFrame;
 }
 
 const InsightsModal = (props: Props) => {
@@ -41,7 +43,10 @@ const InsightsModal = (props: Props) => {
             return null;
         case InsightsWidgetTypes.TOP_REACTIONS:
             return (
-                <TopReactionsTable/>
+                <TopReactionsTable
+                    filterType={props.filterType}
+                    timeFrame={props.timeFrame}
+                />
             );
         default:
             return null;

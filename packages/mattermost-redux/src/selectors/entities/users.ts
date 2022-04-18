@@ -731,16 +731,17 @@ export function getMyTopReactions(state: GlobalState) {
     return state.entities.users.myTopReactions;
 }
 
-export const getMyTopReactionsByTime: (state: GlobalState, timeFrame: TimeFrame) => TopReaction[] = createSelector(
+export const getMyTopReactionsByTime: (state: GlobalState, timeFrame: TimeFrame, maxResults?: number) => TopReaction[] = createSelector(
     'getTopReactionsForCurrentTeam',
     getMyTopReactions,
     (state: GlobalState, timeFrame: TimeFrames) => timeFrame,
-    (reactions, timeFrame) => {
+    (state: GlobalState, timeFrame: TimeFrames, maxResults = 5) => maxResults,
+    (reactions, timeFrame, maxResults) => {
         if (reactions && reactions[timeFrame]) {
             const reactionArr = Object.values(reactions[timeFrame]);
             sortTopReactions(reactionArr);
 
-            return reactionArr.slice(0,5);
+            return reactionArr.slice(0,maxResults);
         }
         return [];
     },

@@ -47,7 +47,7 @@ const TopReactionsBarChart = (props: Props) => {
 
     return (
         <>
-            {barChartEntries}
+            {barChartEntries()}
         </>
     );
 };

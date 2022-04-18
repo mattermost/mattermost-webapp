@@ -372,16 +372,17 @@ export const getReactionTimeFramesForCurrentTeam: (state: GlobalState) => Record
     },
 );
 
-export const getTopReactionsForCurrentTeam: (state: GlobalState, timeFrame: TimeFrame) => TopReaction[] = createSelector(
+export const getTopReactionsForCurrentTeam: (state: GlobalState, timeFrame: TimeFrame, maxResults?: number) => TopReaction[] = createSelector(
     'getTopReactionsForCurrentTeam',
     getReactionTimeFramesForCurrentTeam,
     (state: GlobalState, timeFrame: TimeFrames) => timeFrame,
-    (reactions, timeFrame) => {
+    (state: GlobalState, timeFrame: TimeFrames, maxResults = 5) => maxResults,
+    (reactions, timeFrame, maxResults) => {
         if (reactions && reactions[timeFrame]) {
             const reactionArr = Object.values(reactions[timeFrame]);
             sortTeamReactions(reactionArr);
 
-            return reactionArr.slice(0,5);
+            return reactionArr.slice(0,maxResults);
         }
         return [];
     },
