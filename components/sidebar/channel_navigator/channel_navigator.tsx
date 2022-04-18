@@ -12,6 +12,7 @@ import {ModalData} from 'types/actions';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
+import CommandPaletteModal from '../../command_palette/command_palette_modal/command_palette_modal';
 
 import ChannelFilter from '../channel_filter';
 
@@ -93,7 +94,7 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
         } else {
             openModal({
                 modalId: ModalIdentifiers.QUICK_SWITCH,
-                dialogType: QuickSwitchModal,
+                dialogType: CommandPaletteModal,
             });
         }
     }
