@@ -632,11 +632,11 @@ export default class PluginManagement extends AdminSettings<Props, State> {
         });
     }
 
-    getMarketplaceURLHelpText = (url: string) => {
+    getMarketplaceURLHelpText = (url: string, enableUploads: boolean) => {
         return (
             <div>
                 {
-                    url === '' &&
+                    url === '' && enableUploads &&
                     <div className='alert-warning'>
                         <i className='fa fa-warning'/>
                         <FormattedMarkdownMessage
@@ -646,10 +646,17 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                     </div>
                 }
                 {
-                    url !== '' &&
+                    url !== '' && enableUploads &&
                     <FormattedMarkdownMessage
                         id='admin.plugins.settings.marketplaceUrlDesc'
                         defaultMessage='URL of the marketplace server.'
+                    />
+                }
+                {
+                    !enableUploads &&
+                    <FormattedMarkdownMessage
+                        id='admin.plugin.uploadDisabledDesc'
+                        defaultMessage='Enable plugin uploads in config.json. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more.'
                     />
                 }
             </div>
@@ -1137,7 +1144,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                         />
                                     }
                                     value={this.state.enableRemoteMarketplace}
-                                    disabled={this.props.isDisabled || !this.state.enable || !this.state.enableMarketplace}
+                                    disabled={this.props.isDisabled || !this.state.enable || !this.state.enableUploads || !this.state.enableMarketplace}
                                     onChange={this.handleChange}
                                     setByEnv={this.isSetByEnv('PluginSettings.EnableRemoteMarketplace')}
                                 />
@@ -1150,9 +1157,9 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                             defaultMessage='Marketplace URL:'
                                         />
                                     }
-                                    helpText={this.getMarketplaceURLHelpText(this.state.marketplaceUrl)}
+                                    helpText={this.getMarketplaceURLHelpText(this.state.marketplaceUrl, this.state.enableUploads)}
                                     value={this.state.marketplaceUrl}
-                                    disabled={this.props.isDisabled || !this.state.enable || !this.state.enableMarketplace || !this.state.enableRemoteMarketplace}
+                                    disabled={this.props.isDisabled || !this.state.enable || !this.state.enableUploads || !this.state.enableMarketplace || !this.state.enableRemoteMarketplace}
                                     onChange={this.handleChange}
                                     setByEnv={this.isSetByEnv('PluginSettings.MarketplaceURL')}
                                 />
