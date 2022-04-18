@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {memo, useMemo} from 'react';
+import React, {memo, useCallback} from 'react';
 
 import {TopReaction} from '@mattermost/types/reactions';
 
@@ -11,7 +11,7 @@ type Props = {
 }
 
 const TopReactionsBarChart = (props: Props) => {
-    const barChartEntries = useMemo(() => {
+    const barChartEntries = useCallback(() => {
         const reactions =props.reactions.map((reaction) => {
             const highestCount = props.reactions[0].count;
             const maxHeight = 156;
