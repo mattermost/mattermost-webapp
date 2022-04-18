@@ -352,10 +352,9 @@ context('ldap', () => {
             cy.apiLogin(testUser);
             cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
-            // # Go to manage members modal and ensure that we can add members to it
-            cy.get('#channelMember').click();
-            cy.findByTestId('membersModal').click();
-            cy.get('#showInviteModal').should('exist').click();
+            // # Go to manage members rhs and ensure that we can add members to it
+            cy.get('.member-rhs__trigger').click();
+            cy.uiGetRHS().contains('button', 'Add').should('exist').click();
 
             // * Assess that label is visible and it says we can add new members
             cy.get('#addUsersToChannelModal').should('be.visible').findByText(`Add people to ${testChannel.display_name}`);
@@ -376,11 +375,10 @@ context('ldap', () => {
             cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
             // # Go to manage member modal
-            cy.get('#channelMember').click();
-            cy.findByTestId('membersModal').click();
+            cy.get('.member-rhs__trigger').click();
 
             // * Assert that the label doesn't exist anymore mentioning we can invite members
-            cy.get('#showInviteModal').should('not.exist');
+            cy.uiGetRHS().contains('button', 'Add').should('not.exist');
         });
 
         it('MM-T2640 - Channel appears in channel switcher before conversion but not after (for non-members of the channel)', () => {
