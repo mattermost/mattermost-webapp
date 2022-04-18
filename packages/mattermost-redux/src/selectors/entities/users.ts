@@ -29,7 +29,7 @@ import {
 } from 'mattermost-redux/utils/user_utils';
 
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
-import {Reaction} from 'mattermost-redux/types/reactions';
+import {Reaction, TopReaction} from 'mattermost-redux/types/reactions';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 import {Group} from 'mattermost-redux/types/groups';
@@ -40,6 +40,7 @@ import {
     RelationOneToManyUnique,
     RelationOneToOne,
 } from 'mattermost-redux/types/utilities';
+import {TimeFrame, TimeFrames} from '@mattermost/types/insights';
 
 export {getCurrentUser, getCurrentUserId, getUsers};
 
@@ -718,4 +719,29 @@ export const isFirstAdmin = createSelector(
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => getUsers(state),
     checkIsFirstAdmin,
+);
+
+function sortTopReactions(reactions: TopReaction[] = []): TopReaction[] {
+    return reactions.sort((a, b) => {
+        return b.count - a.count;
+    });
+}
+
+export function getMyTopReactions(state: GlobalState) {
+    return state.entities.users.myTopReactions;
+}
+
+export const getMyTopReactionsByTime: (state: GlobalState, timeFrame: TimeFrame) => TopReaction[] = createSelector(
+    'getTopReactionsForCurrentTeam',
+    getMyTopReactions,
+    (state: GlobalState, timeFrame: TimeFrames) => timeFrame,
+    (reactions, timeFrame) => {
+        if (reactions && reactions[timeFrame]) {
+            const reactionArr = Object.values(reactions[timeFrame]);
+            sortTopReactions(reactionArr);
+
+            return reactionArr.slice(0,5);
+        }
+        return [];
+    },
 );

@@ -493,11 +493,11 @@ function totalCount(state = 0, action: GenericAction) {
     }
 }
 
-function reactions(state: Record<string, Record<TimeFrame, Record<string,TopReaction>>> = {}, action: GenericAction) {
+function topReactions(state: Record<string, Record<TimeFrame, Record<string,TopReaction>>> = {}, action: GenericAction) {
     switch (action.type) {
     case TeamTypes.RECEIVED_TEAM_TOP_REACTIONS: {
         const reactions = {...(state[action.id] || {})};
-        const results = action.data.data.items;
+        const results = action.data.data.items || [];
         const timeFrame = action.data.timeFrame as TimeFrame;
 
         if (!reactions || !reactions[timeFrame]) {
@@ -545,5 +545,6 @@ export default combineReducers({
 
     totalCount,
 
-    reactions,
+    // Object where every key is the team id, another nested object where the key is TimeFrame and that TimeFrame key has an object of reactions where the key is the emoji_name
+    topReactions,
 });

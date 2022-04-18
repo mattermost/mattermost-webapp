@@ -360,7 +360,7 @@ function sortTeamReactions(reactions: TopReaction[] = []): TopReaction[] {
 }
 
 export function getTeamReactions(state: GlobalState) {
-    return state.entities.teams.reactions;
+    return state.entities.teams.topReactions;
 }
 
 export const getReactionTimeFramesForCurrentTeam: (state: GlobalState) => Record<TimeFrame, Record<string, TopReaction>> = createSelector(

@@ -11,6 +11,8 @@ import {RelationOneToMany, IDMappedObjects, RelationOneToOne} from 'mattermost-r
 import {Team} from 'mattermost-redux/types/teams';
 import {Channel} from 'mattermost-redux/types/channels';
 import {Group} from 'mattermost-redux/types/groups';
+import {TimeFrame} from '@mattermost/types/insights';
+import {TopReaction} from '@mattermost/types/reactions';
 
 function profilesToSet(state: RelationOneToMany<Team, UserProfile>, action: GenericAction) {
     const id = action.id;
@@ -604,6 +606,31 @@ function filteredStats(state = {}, action: GenericAction) {
     }
 }
 
+function myTopReactions(state: Record<TimeFrame, Record<string,TopReaction>> = {today: {}, "7_day": {}, "28_day": {}}, action: GenericAction) {
+    switch (action.type) {
+    case UserTypes.RECEIVED_MY_TOP_REACTIONS: {
+        const timeFrame = action.data.timeFrame as TimeFrame;
+        const reactions = {...(state[timeFrame])};
+        const results = action.data.data.items || [];
+
+        for (let i = 0; i < results.length; i++) {
+            const emojiObj = results[i];
+            reactions[emojiObj.emoji_name] = emojiObj;
+        }
+
+        return {
+            ...state,
+            [timeFrame]: {
+                ...(state[timeFrame] || {}),
+                ...reactions,
+            },
+        };
+    }
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
 
     // the current selected user
@@ -653,4 +680,6 @@ export default combineReducers({
 
     // Total user stats after filters have been applied
     filteredStats,
+
+    myTopReactions,
 });

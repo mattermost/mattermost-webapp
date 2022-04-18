@@ -4,7 +4,9 @@
 import {Audit} from './audits';
 import {Channel} from './channels';
 import {Group} from './groups';
+import {TimeFrame} from './insights';
 import {PostType} from './posts';
+import {TopReaction} from './reactions';
 import {Session} from './sessions';
 import {Team} from './teams';
 import {IDMappedObjects, RelationOneToMany, RelationOneToManyUnique, RelationOneToOne} from './utilities';
@@ -79,6 +81,7 @@ export type UsersState = {
     stats: RelationOneToOne<UserProfile, UsersStats>;
     filteredStats?: UsersStats;
     myUserAccessTokens: Record<string, UserAccessToken>;
+    myTopReactions: Record<TimeFrame, Record<string, TopReaction>>;
 };
 
 export type UserTimezone = {

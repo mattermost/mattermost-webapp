@@ -2111,6 +2111,13 @@ export default class Client4 {
         );
     }
 
+    getMyTopReactions = (page: number, perPage: number, timeRange: string) => {
+        return this.doFetch<TopReactionResponse>(
+            `${this.getUsersRoute()}/me/top/reactions${buildQueryString({page, per_page: perPage, time_range: timeRange})}`,
+            {method: 'get'},
+        );
+    }
+
     searchPostsWithParams = (teamId: string, params: any) => {
         this.trackEvent('api', 'api_posts_search', {team_id: teamId});
 

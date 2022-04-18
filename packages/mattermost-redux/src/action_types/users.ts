@@ -72,4 +72,5 @@ export default keyMirror({
     RECEIVED_FILTERED_USER_STATS: null,
     PROFILE_NO_LONGER_VISIBLE: null,
     LOGIN: null,
+    RECEIVED_MY_TOP_REACTIONS: null,
 });

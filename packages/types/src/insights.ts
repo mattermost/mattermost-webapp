@@ -13,7 +13,7 @@ export enum CardSizes {
 export type CardSize = CardSizes;
 
 export enum TimeFrames {
-    INSIGHTS_1_DAY = '1_day',
+    INSIGHTS_1_DAY = 'today',
     INSIGHTS_7_DAYS = '7_day',
     INSIGHTS_28_DAYS = '28_day',
 }

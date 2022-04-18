@@ -51,7 +51,7 @@ export type TeamsState = {
     stats: RelationOneToOne<Team, TeamStats>;
     groupsAssociatedToTeam: any;
     totalCount: number;
-    reactions: Record<string, Record<TimeFrame, Record<string, TopReaction>>>;
+    topReactions: Record<string, Record<TimeFrame, Record<string, TopReaction>>>;
 };
 
 export type TeamUnread = {
