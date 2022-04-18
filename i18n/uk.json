@@ -2186,7 +2186,6 @@
   "marketplace_modal.list.update_available": "Доступне оновлення",
   "marketplace_modal.list.update_confirmation.confirm_button": "Оновити",
   "members_popover.button.message": "Повідомлення",
-  "members_popover.title": "Учасник каналу",
   "message_submit_error.invalidCommand": "Команда з тригером '{command}' не знайдена.",
   "message_submit_error.sendAsMessageLink": "Натисніть тут, щоб надіслати як повідомлення.",
   "mfa.confirm.complete": "**Налаштування завершено!**",

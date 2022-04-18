@@ -3520,7 +3520,6 @@
   "marketplace_modal.tabs.installed_listing": "Инсталиран",
   "marketplace_modal.title": "Пазар",
   "members_popover.button.message": "съобщение",
-  "members_popover.title": "Членове на канала",
   "message_submit_error.invalidCommand": "Команда за задействане на '{command}' не е намерена. ",
   "message_submit_error.sendAsMessageLink": "Кликнете тук, за да изпратите като съобщение.",
   "mfa.confirm.complete": "**Настройка завършена!**",

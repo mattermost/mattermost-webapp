@@ -2871,7 +2871,6 @@
   "marketplace_modal.search": "Cerca Plugin",
   "marketplace_modal.title": "Plugin Marketplace",
   "members_popover.button.message": "Messaggio",
-  "members_popover.title": "Membri del canale",
   "message_submit_error.invalidCommand": "Nessun comando trovato con l'innesco \"{command}\"'. ",
   "message_submit_error.sendAsMessageLink": "Clicca qui per inviare come messaggio.",
   "mfa.confirm.complete": "**Configurazione completata!**",
