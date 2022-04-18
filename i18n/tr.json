@@ -3561,7 +3561,6 @@
   "invitation_modal.confirm.not-sent-header": "Çağrılar gönderilmedi",
   "invitation_modal.confirm.sent-header": "Başarılı çağrılar",
   "invitation_modal.guests.add_channels.title": "Kanal arama ve ekleme",
-  "invitation_modal.guests.custom-message.description": "Çağrı metnini kişiye özel yapmak için özel bir ileti oluşturun.",
   "invitation_modal.guests.custom-message.link": "Özel bir ileti ayarla",
   "invitation_modal.guests.custom-message.title": "Özel ileti",
   "invitation_modal.guests.users_emails_input.valid_email": "**{email}** adresini konuk olarak çağır",

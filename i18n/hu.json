@@ -3526,7 +3526,6 @@
   "invitation_modal.confirm.not-sent-header": "A meghívók nem lettek elküldve",
   "invitation_modal.confirm.sent-header": "Sikeres meghívások",
   "invitation_modal.guests.add_channels.title": "Csatornák keresése és hozzáadása",
-  "invitation_modal.guests.custom-message.description": "Hozzon létre egy egyéni üzenetet a meghívó még inkább személyesebbé tételéhez.",
   "invitation_modal.guests.custom-message.link": "Állítson be egyéni üzenetet",
   "invitation_modal.guests.custom-message.title": "Egyéni üzenet",
   "invitation_modal.guests.users_emails_input.valid_email": "**{email}** meghívása vendégként",

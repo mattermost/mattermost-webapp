@@ -3070,7 +3070,6 @@
   "invitation_modal.confirm.not-sent-header": "Convites Não Enviados",
   "invitation_modal.confirm.sent-header": "Convites bem-sucedidos",
   "invitation_modal.guests.add_channels.title": "Pesquisar e Adicionar Canais",
-  "invitation_modal.guests.custom-message.description": "Criar uma mensagem personalizada para tornar seu convite mais pessoal.",
   "invitation_modal.guests.custom-message.link": "Definir uma mensagem personalizada",
   "invitation_modal.guests.custom-message.title": "Mensagem personalizada",
   "invitation_modal.guests.users_emails_input.valid_email": "Chamar **{email}** como um convidado",

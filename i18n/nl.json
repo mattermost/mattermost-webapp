@@ -3561,7 +3561,6 @@
   "invitation_modal.confirm.not-sent-header": "Uitnodigingen Niet Verzonden",
   "invitation_modal.confirm.sent-header": "Succesvolle Uitnodigingen",
   "invitation_modal.guests.add_channels.title": "Zoek en Voeg Kanalen toe",
-  "invitation_modal.guests.custom-message.description": "Maak een aangepast bericht om uw uitnodiging meer persoonlijk te maken.",
   "invitation_modal.guests.custom-message.link": "Een aangepast bericht instellen",
   "invitation_modal.guests.custom-message.title": "Aangepast bericht",
   "invitation_modal.guests.users_emails_input.valid_email": "Nodig **{email}** uit als gast",

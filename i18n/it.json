@@ -2767,7 +2767,6 @@
   "invitation_modal.confirm.not-sent-header": "Inviti Non Inviati",
   "invitation_modal.confirm.sent-header": "Inviti inviati",
   "invitation_modal.guests.add_channels.title": "Cerca e aggiungi canali",
-  "invitation_modal.guests.custom-message.description": "Crea un messaggio personalizzato per rendere l'invito più personale.",
   "invitation_modal.guests.custom-message.link": "Imposta un messaggio personalizzato",
   "invitation_modal.guests.custom-message.title": "Messaggio personalizzato",
   "invitation_modal.guests.users_emails_input.valid_email": "Invita **{email}** come ospite",

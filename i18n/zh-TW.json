@@ -2765,7 +2765,6 @@
   "invitation_modal.confirm.not-sent-header": "沒有寄出邀請",
   "invitation_modal.confirm.sent-header": "邀請成功",
   "invitation_modal.guests.add_channels.title": "搜尋與新增頻道",
-  "invitation_modal.guests.custom-message.description": "建立自訂訊息讓邀請更為個人化。",
   "invitation_modal.guests.custom-message.link": "設定自訂訊息",
   "invitation_modal.guests.custom-message.title": "自訂訊息",
   "invitation_modal.guests.users_emails_input.valid_email": "邀請 **{email}** 為訪客",

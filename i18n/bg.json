@@ -3404,7 +3404,6 @@
   "invitation_modal.confirm.not-sent-header": "Поканите не са изпратени",
   "invitation_modal.confirm.sent-header": "Успешни покани",
   "invitation_modal.guests.add_channels.title": "Търсене и добавяне на канали",
-  "invitation_modal.guests.custom-message.description": "Създайте персонализирано съобщение, за да направите поканата си по-лична.",
   "invitation_modal.guests.custom-message.link": "Задайте персонализирано съобщение",
   "invitation_modal.guests.custom-message.title": "Персонализирано съобщение",
   "invitation_modal.guests.users_emails_input.valid_email": "Поканете **{email}** като гост",
