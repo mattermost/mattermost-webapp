@@ -1,6 +1,6 @@
 {
   "name": "@mattermost/types",
-  "version": "6.6.0-4",
+  "version": "6.7.0-0",
   "description": "Shared type definitions used by the Mattermost web app",
   "keywords": [
     "mattermost"
