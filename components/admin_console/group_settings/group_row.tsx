@@ -3,9 +3,7 @@
 
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
-import {FormattedMessage} from 'react-intl';
-
-import {localizeMessage} from 'utils/utils.jsx';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
@@ -27,6 +25,7 @@ type Props = {
 
 const GroupRow = (props: Props) => {
     const [loading, setLoading] = useState(false);
+    const {formatMessage} = useIntl();
 
     const onRowClick = () => {
         if (props.readOnly) {
@@ -92,9 +91,9 @@ const GroupRow = (props: Props) => {
             return (
                 <a href='#'>
                     <LoadingSpinner
-                        text={localizeMessage(
-                            props.mattermost_group_id ? 'admin.group_settings.group_row.unlinking' : 'admin.group_settings.group_row.linking',
-                            props.mattermost_group_id ? 'Unlinking' : 'Linking')}
+                        text={props.mattermost_group_id ?
+                            formatMessage({id: 'admin.group_settings.group_row.unlinking', defaultMessage: 'Unlinking'}) :
+                            formatMessage({id: 'admin.group_settings.group_row.linking', defaultMessage: 'Linking'})}
                     />
                 </a>
             );
