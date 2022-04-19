@@ -41,7 +41,7 @@ type State = {
 
 export default class SystemAnalytics extends React.PureComponent<Props, State> {
     state = {
-        pluginSiteStats: {},
+        pluginSiteStats: {} as Record<string, PluginAnalyticsRow>,
     };
 
     public async componentDidMount() {
