@@ -2949,6 +2949,7 @@
   "combined_system_message.removed_from_team.one_you": "You were **removed from the team**.",
   "combined_system_message.removed_from_team.two": "{firstUser} and {secondUser} were **removed from the team**.",
   "combined_system_message.you": "You",
+  "CommandPalette.modal": "Command Palette Modal",
   "commercial_support.description": "If you're experiencing issues, [submit a support ticket.](!{supportLink})\n \n**Download Support Packet**\n \nWe recommend that you download additional environment details about your Mattermost environment to help with troubleshooting. Once downloaded, attach the packet to your support ticket to share with our Customer Support team.",
   "commercial_support.download_support_packet": "Download Support Packet",
   "commercial_support.title": "Commercial Support",

@@ -1,35 +1,41 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+
+import React, {useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 
-type Props = {
+import {CommandPaletteEntities} from 'components/command_palette/types';
+
+interface Props {
+    selectedEntities: CommandPaletteEntities[];
     onExited: () => void;
 }
 
-const CommandPaletteModal = ({onExited}: Props) => {
+const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
+    const [modalVisibility, setModalVisibility] = useState(true);
     const {formatMessage} = useIntl();
     const CommandPaletteModalLabel = formatMessage({id: 'CommandPalette.modal', defaultMessage: 'Command Palette Modal'}).toLowerCase();
 
     const onHide = (): void => {
-        onExited();
+        setModalVisibility(false);
     };
 
     return (
         <Modal
             dialogClassName='a11y__modal command-palette'
-            show={true}
-            onHide={onHide}
-            enforceFocus={false}
-            restoreFocus={false}
             role='dialog'
             aria-labelledby={CommandPaletteModalLabel}
-            animation={false}
+            show={modalVisibility}
+            enforceFocus={true}
+            restoreFocus={false}
+            onHide={onHide}
+            onExited={onExited}
         >
             <Modal.Body>
                 <div>
                     {'hello'}
+                    {selectedEntities.join(', ')}
                 </div>
             </Modal.Body>
         </Modal>

@@ -28,6 +28,7 @@ describe('Components/ChannelNavigator', () => {
             isQuickSwitcherOpen: false,
             userGroupsEnabled: false,
             canCreateCustomGroups: true,
+            isCommandPaletteEnabled: false,
             actions: {
                 openModal: jest.fn(),
                 closeModal: jest.fn(),

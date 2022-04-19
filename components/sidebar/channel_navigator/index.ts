@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {Action} from 'mattermost-redux/types/actions';
-import {shouldShowUnreadsCategory, isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {shouldShowUnreadsCategory, isCustomGroupsEnabled, isCommandPaletteEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import Permissions from 'mattermost-redux/constants/permissions';
 
@@ -42,6 +42,7 @@ function mapStateToProps(state: GlobalState) {
         showUnreadsCategory: shouldShowUnreadsCategory(state),
         isQuickSwitcherOpen: isModalOpen(state, ModalIdentifiers.QUICK_SWITCH),
         canCreateCustomGroups,
+        isCommandPaletteEnabled: isCommandPaletteEnabled(state),
     };
 }
 
