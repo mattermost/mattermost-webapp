@@ -1,18 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
-import QuickSwitchModal from 'components/quick_switch_modal';
-
 import {ModalData} from 'types/actions';
+
+import QuickSwitchModal from 'components/quick_switch_modal';
+import CommandPaletteModal from 'components/command_palette/command_palette_modal/command_palette_modal';
+import {CommandPaletteEntities} from 'components/command_palette/types';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
-import CommandPaletteModal from '../../command_palette/command_palette_modal/command_palette_modal';
 
 import ChannelFilter from '../channel_filter';
 
@@ -32,6 +33,7 @@ export type Props = {
     isQuickSwitcherOpen: boolean;
     userGroupsEnabled: boolean;
     canCreateCustomGroups: boolean;
+    isCommandPaletteEnabled: boolean;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
         closeModal: (modalId: string) => void;
@@ -43,23 +45,38 @@ export type Props = {
 export default class ChannelNavigator extends React.PureComponent<Props> {
     componentDidMount() {
         document.addEventListener('keydown', this.handleShortcut);
-        document.addEventListener('keydown', this.handleQuickSwitchKeyPress);
+
+        if (!this.props.isCommandPaletteEnabled) {
+            document.addEventListener('keydown', this.handleQuickSwitchKeyPress);
+        }
     }
 
     componentWillUnmount() {
         document.removeEventListener('keydown', this.handleShortcut);
-        document.removeEventListener('keydown', this.handleQuickSwitchKeyPress);
+
+        if (!this.props.isCommandPaletteEnabled) {
+            document.removeEventListener('keydown', this.handleQuickSwitchKeyPress);
+        }
     }
 
-    openQuickSwitcher = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    handleFindChannelClick = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
-        trackEvent('ui', 'ui_sidebar_open_channel_switcher_v2');
-
-        this.props.actions.openModal({
-            modalId: ModalIdentifiers.QUICK_SWITCH,
-            dialogType: QuickSwitchModal,
-        });
+        if (this.props.isCommandPaletteEnabled) {
+            this.props.actions.openModal({
+                modalId: ModalIdentifiers.COMMAND_PALETTE,
+                dialogType: CommandPaletteModal,
+                dialogProps: {
+                    selectedEntities: [CommandPaletteEntities.Channel],
+                },
+            });
+        } else {
+            this.props.actions.openModal({
+                modalId: ModalIdentifiers.QUICK_SWITCH,
+                dialogType: QuickSwitchModal,
+            });
+            trackEvent('ui', 'ui_sidebar_open_channel_switcher_v2');
+        }
     }
 
     handleShortcut = (e: KeyboardEvent) => {
@@ -94,7 +111,7 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
         } else {
             openModal({
                 modalId: ModalIdentifiers.QUICK_SWITCH,
-                dialogType: CommandPaletteModal,
+                dialogType: QuickSwitchModal,
             });
         }
     }
@@ -115,7 +132,7 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
                 {!this.props.showUnreadsCategory && <ChannelFilter/>}
                 <button
                     className={'SidebarChannelNavigator_jumpToButton'}
-                    onClick={this.openQuickSwitcher}
+                    onClick={this.handleFindChannelClick}
                     aria-label={Utils.localizeMessage('sidebar_left.channel_navigator.channelSwitcherLabel', 'Channel Switcher')}
                 >
                     <i className='icon icon-magnify'/>

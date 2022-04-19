@@ -36,7 +36,7 @@ import OnBoardingTaskList from 'components/onboarding_tasklist';
 import LaunchingWorkspace, {LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX} from 'components/preparing_workspace/launching_workspace';
 import {Animations} from 'components/preparing_workspace/steps';
 import OpenPricingModalPost from 'components/custom_open_pricing_modal_post_renderer';
-
+import CommandPalette from 'components/command_palette';
 import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
 import Pluggable from 'plugins/pluggable';
@@ -573,6 +573,7 @@ export default class Root extends React.PureComponent<Props, State> {
                         <GlobalHeader/>
                         <CloudEffects/>
                         <OnBoardingTaskList/>
+                        <CommandPalette/>
                         <TeamSidebar/>
                         <Switch>
                             {this.props.products?.map((product) => (

@@ -413,6 +413,7 @@ export const ModalIdentifiers = {
     CLOUD_INVOICE_PREVIEW: 'cloud_invoice_preview',
     BILLING_HISTORY: 'billing_history',
     SUM_OF_MEMBERS_MODAL: 'sum_of_members_modal',
+    COMMAND_PALETTE: 'command_palette_modal',
 };
 
 export const UserStatuses = {
