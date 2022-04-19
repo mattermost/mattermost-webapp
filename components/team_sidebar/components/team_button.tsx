@@ -38,6 +38,7 @@ interface Props {
     isDraggable?: boolean;
     teamIndex?: number;
     teamId?: string;
+    isInProduct?: boolean;
 }
 
 // eslint-disable-next-line react/require-optimization
@@ -154,7 +155,7 @@ class TeamButton extends React.PureComponent<Props> {
                 }
             >
                 <div className={'team-btn ' + btnClass}>
-                    {badge}
+                    {!this.props.isInProduct && badge}
                     {content}
                 </div>
             </OverlayTrigger>
