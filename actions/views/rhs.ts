@@ -33,6 +33,7 @@ import {GlobalState} from 'types/store';
 import {getPostsByIds} from 'mattermost-redux/actions/posts';
 import {unsetEditingPost} from '../post_actions';
 import {loadProfilesAndReloadChannelMembers} from '../user_actions';
+import {loadMyChannelMemberAndRole} from 'mattermost-redux/actions/channels';
 
 function selectPostFromRightHandSideSearchWithPreviousState(post: Post, previousRhsState?: RhsState) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -209,6 +210,7 @@ export function showChannelMembers(channelId: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;
 
+        dispatch(loadMyChannelMemberAndRole(channelId));
         dispatch(loadProfilesAndReloadChannelMembers(channelId));
 
         let previousRhsState = getRhsState(state);
