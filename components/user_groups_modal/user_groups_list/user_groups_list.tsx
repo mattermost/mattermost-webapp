@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+import React, {useCallback} from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
@@ -44,11 +44,11 @@ const UserGroupsList = React.forwardRef((props: Props, ref?: React.Ref<HTMLDivEl
         actions,
     } = props;
 
-    const archiveGroup = async (groupId: string) => {
+    const archiveGroup = useCallback(async (groupId: string) => {
         await actions.archiveGroup(groupId);
-    };
+    }, [actions.archiveGroup]);
 
-    const goToViewGroupModal = (group: Group) => {
+    const goToViewGroupModal = useCallback((group: Group) => {
         actions.openModal({
             modalId: ModalIdentifiers.VIEW_USER_GROUP,
             dialogType: ViewUserGroupModal,
@@ -61,7 +61,7 @@ const UserGroupsList = React.forwardRef((props: Props, ref?: React.Ref<HTMLDivEl
             },
         });
         onExited();
-    };
+    }, [actions.openModal, onExited, backButtonAction]);
 
     return (
         <div
@@ -150,4 +150,4 @@ const UserGroupsList = React.forwardRef((props: Props, ref?: React.Ref<HTMLDivEl
     );
 });
 
-export default UserGroupsList;
+export default React.memo(UserGroupsList);

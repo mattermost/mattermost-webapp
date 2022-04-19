@@ -212,7 +212,9 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         if (this.props.showActionsMenuPulsatingDot) {
             return;
         }
+        this.props.handleDropdownOpened(open);
         this.setState({showActionsMenu: open});
+        this.props.handleDropdownOpened(open);
     };
 
     handleActionsMenuTipOpened = (): void => {
@@ -227,8 +229,9 @@ export default class PostInfo extends React.PureComponent<Props, State> {
     };
 
     handleTipDismissed = () => {
-        this.setState({showActionTip: false});
+        this.props.actions.setActionsMenuInitialisationState({[Preferences.ACTIONS_MENU_VIEWED]: false});
         this.props.handleDropdownOpened(false);
+        this.setState({showActionTip: false});
     };
 
     handleCommentClick = (e: any) => {

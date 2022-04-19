@@ -144,7 +144,8 @@ describe('Channel Settings', () => {
 
         // * Verify users list does not exist
         cy.get('#multiSelectList').should('not.exist');
-        cy.findByText('No results found matching');
+        cy.contains('.custom-no-options-message', 'No matches found').should('be.visible');
+        cy.contains('.custom-no-options-message', 'Invite them to the team').should('be.visible');
 
         cy.get('body').type('{esc}');
     });

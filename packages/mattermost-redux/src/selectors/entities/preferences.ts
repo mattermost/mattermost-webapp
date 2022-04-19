@@ -7,7 +7,6 @@ import {General, Preferences} from 'mattermost-redux/constants';
 
 import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selectors/entities/general';
 
-import {AddMembersToChanneltreatments} from 'mattermost-redux/constants/config';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Theme} from 'mattermost-redux/types/themes';
@@ -201,10 +200,6 @@ export function isCollapsedThreadsEnabled(state: GlobalState): boolean {
 
 export function isGroupChannelManuallyVisible(state: GlobalState, channelId: string): boolean {
     return getBool(state, Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channelId, false);
-}
-
-export function getAddMembersToChannel(state: GlobalState): AddMembersToChanneltreatments | undefined {
-    return getFeatureFlagValue(state, 'AddMembersToChannel') as AddMembersToChanneltreatments | undefined;
 }
 
 export function isCustomGroupsEnabled(state: GlobalState): boolean {

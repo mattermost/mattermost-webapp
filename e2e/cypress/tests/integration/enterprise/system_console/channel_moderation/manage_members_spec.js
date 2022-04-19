@@ -23,10 +23,18 @@ import {
     goToSystemScheme,
     saveConfigForChannel,
     saveConfigForScheme,
-    viewManageChannelMembersModal,
+    viewManageChannelMembersRHS,
     visitChannel,
     visitChannelConfigPage,
 } from './helpers';
+
+function addButtonExists() {
+    cy.uiGetRHS().contains('button', 'Add').should('be.visible');
+}
+
+function addButtonDoesNotExists() {
+    cy.uiGetRHS().contains('button', 'Add').should('not.exist');
+}
 
 describe('MM-23102 - Channel Moderation - Manage Members', () => {
     let regularUser;
@@ -65,11 +73,11 @@ describe('MM-23102 - Channel Moderation - Manage Members', () => {
 
         visitChannel(guestUser, testChannel, testTeam);
 
-        // # View members modal
-        viewManageChannelMembersModal('View');
+        // # View members rhs
+        viewManageChannelMembersRHS();
 
         // * Add Members button does not exist
-        cy.get('#showInviteModal').should('not.exist');
+        addButtonDoesNotExists();
     });
 
     it('MM-T1548 Manage Members option for Members', () => {
@@ -79,10 +87,11 @@ describe('MM-23102 - Channel Moderation - Manage Members', () => {
         saveConfigForChannel();
 
         visitChannel(regularUser, testChannel, testTeam);
-        viewManageChannelMembersModal('View');
+        viewManageChannelMembersRHS();
 
         // * Add Members button does not exist
-        cy.get('#showInviteModal').should('not.exist');
+        addButtonDoesNotExists();
+        cy.uiGetRHS().contains('button', 'Add').should('not.exist');
 
         // # Visit test channel page and turn off the Manage members for Members and then save
         visitChannelConfigPage(testChannel);
@@ -90,10 +99,10 @@ describe('MM-23102 - Channel Moderation - Manage Members', () => {
         saveConfigForChannel();
 
         visitChannel(regularUser, testChannel, testTeam);
-        viewManageChannelMembersModal('Manage');
+        viewManageChannelMembersRHS();
 
         // * Add Members button does exist
-        cy.get('#showInviteModal').should('exist');
+        addButtonExists();
     });
 
     it('MM-T1549 Manage Members option removed for Members in System Scheme', () => {
@@ -114,10 +123,10 @@ describe('MM-23102 - Channel Moderation - Manage Members', () => {
         cy.findByTestId(checkboxesTitleToIdMap.MANAGE_MEMBERS_GUESTS).should('not.exist');
 
         visitChannel(regularUser, testChannel, testTeam);
-        viewManageChannelMembersModal('View');
+        viewManageChannelMembersRHS();
 
         // * Add Members button does not exist
-        cy.get('#showInviteModal').should('not.exist');
+        addButtonDoesNotExists();
 
         // Edit the System Scheme and enable the Manage Members option for Members & Save.
         goToSystemScheme();
@@ -133,10 +142,10 @@ describe('MM-23102 - Channel Moderation - Manage Members', () => {
             should('not.exist');
 
         visitChannel(regularUser, testChannel, testTeam);
-        viewManageChannelMembersModal('Manage');
+        viewManageChannelMembersRHS();
 
         // * Add Members button does not exist
-        cy.get('#showInviteModal').should('exist');
+        addButtonExists();
     });
 
     it('MM-T1550 Manage Members option removed for Members in Team Override Scheme', () => {
@@ -160,10 +169,10 @@ describe('MM-23102 - Channel Moderation - Manage Members', () => {
         cy.findByTestId(checkboxesTitleToIdMap.MANAGE_MEMBERS_GUESTS).should('not.exist');
 
         visitChannel(regularUser, testChannel, testTeam);
-        viewManageChannelMembersModal('View');
+        viewManageChannelMembersRHS();
 
         // * Add Members button does not exist in manage channel members modal
-        cy.get('#showInviteModal').should('not.exist');
+        addButtonDoesNotExists();
 
         // # Enable manage channel members
         deleteOrEditTeamScheme(teamOverrideSchemeName, 'edit');
@@ -178,9 +187,9 @@ describe('MM-23102 - Channel Moderation - Manage Members', () => {
         cy.findByTestId(checkboxesTitleToIdMap.MANAGE_MEMBERS_GUESTS).should('not.exist');
 
         visitChannel(regularUser, testChannel, testTeam);
-        viewManageChannelMembersModal('Manage');
+        viewManageChannelMembersRHS();
 
         // * Add Members button does exist in manage channel members modal
-        cy.get('#showInviteModal').should('exist');
+        addButtonExists();
     });
 });
