@@ -62,22 +62,23 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
     // fetchPluginStats does a call for each one of the registered handlers,
     // wait and set the data in the state
     private async fetchPluginStats() {
-        if (!this.props.pluginStatHandlers) {
+        if (!this.props.pluginStatHandlers.length) {
             return;
         }
-        const pluginSiteStats: IndexedPluginAnalyticsRow = {};
-        const allHandlers = Object.values(this.props.pluginStatHandlers).map((handler) => handler());
-        const pluginKeys = Object.keys(this.props.pluginStatHandlers);
-        const res = await Promise.all(allHandlers);
 
-        // rewrite keys to avoid potential metric name override across plugins
-        res.forEach((pluginRes, idx) => {
-            Object.entries(pluginRes).forEach(([name, value]) => {
+        const allHandlers = Object.values(this.props.pluginStatHandlers).map((handler) => handler());
+        const allStats = await Promise.all(allHandlers);
+
+        const allStatsIndexed: IndexedPluginAnalyticsRow = {};
+        const pluginKeys = Object.keys(this.props.pluginStatHandlers);
+        allStats.forEach((pluginStats, idx) => {
+            Object.entries(pluginStats).forEach(([name, value]) => {
                 const key = `${pluginKeys[idx]}.${name}`;
-                pluginSiteStats[key] = value;
+                allStatsIndexed[key] = value;
             });
         });
-        this.setState({pluginSiteStats});
+
+        this.setState({pluginSiteStats: allStatsIndexed});
     }
 
     private getStatValue(stat: number | AnalyticsRow[]): number | undefined {
