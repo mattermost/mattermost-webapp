@@ -40,12 +40,9 @@ type State = {
 }
 
 export default class SystemAnalytics extends React.PureComponent<Props, State> {
-    public constructor(props: Props) {
-        super(props);
-        this.state = {
-            pluginSiteStats: {},
-        };
-    }
+    state = {
+        pluginSiteStats: {},
+    };
 
     public async componentDidMount() {
         AdminActions.getStandardAnalytics();
@@ -62,7 +59,8 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
     // fetchPluginStats does a call for each one of the registered handlers,
     // wait and set the data in the state
     private async fetchPluginStats() {
-        if (!this.props.pluginStatHandlers.length) {
+        const pluginKeys = Object.keys(this.props.pluginStatHandlers);
+        if (!pluginKeys.length) {
             return;
         }
 
@@ -70,7 +68,6 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
         const allStats = await Promise.all(allHandlers);
 
         const allStatsIndexed: IndexedPluginAnalyticsRow = {};
-        const pluginKeys = Object.keys(this.props.pluginStatHandlers);
         allStats.forEach((pluginStats, idx) => {
             Object.entries(pluginStats).forEach(([name, value]) => {
                 const key = `${pluginKeys[idx]}.${name}`;
