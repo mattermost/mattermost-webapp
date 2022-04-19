@@ -239,9 +239,21 @@ export default class MessageExportSettings extends AdminSettings {
                         />
                     }
                     helpText={
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='admin.service.complianceExportDesc'
-                            defaultMessage='When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See [the documentation](!https://docs.mattermost.com/comply/compliance-export.html) to learn more.'
+                            defaultMessage='When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See <link>the documentation</link> to learn more.'
+                            values={{
+                                link: (msg) => (
+                                    <a
+                                        href='https://docs.mattermost.com/comply/compliance-export.html'
+                                        referrer='noreferrer'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                            }}
                         />
                     }
                     value={this.state.enableComplianceExport}

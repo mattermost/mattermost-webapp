@@ -14,7 +14,6 @@ import {getLicenseConfig} from 'mattermost-redux/actions/general';
 import {requestTrialLicense} from 'actions/admin_actions';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {makeAsyncComponent} from 'components/async_load';
 
 import StartTrialModalSvg from './start_trial_modal_svg';
@@ -138,9 +137,29 @@ function StartTrialModal(props: Props): JSX.Element | null {
                 </div>
                 <div className='disclaimer'>
                     <span>
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='start_trial.modal.disclaimer'
-                            defaultMessage='By clicking “Start 30-day trial”, I agree to the [Mattermost Software Evaluation Agreement,](!https://mattermost.com/software-evaluation-agreement) [privacy policy,](!https://mattermost.com/privacy-policy/) and receiving product emails.'
+                            defaultMessage='By clicking “Start 30-day trial”, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
+                            values={{
+                                linkEvaluation: (msg: React.ReactNode) => (
+                                    <a
+                                        href='https://mattermost.com/software-evaluation-agreement'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                                linkPrivacy: (msg: React.ReactNode) => (
+                                    <a
+                                        href='https://mattermost.com/privacy-policy/'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                            }}
                         />
                     </span>
                 </div>
