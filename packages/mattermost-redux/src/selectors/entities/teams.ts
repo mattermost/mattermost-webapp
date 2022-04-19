@@ -18,9 +18,10 @@ import {isTeamAdmin} from 'mattermost-redux/utils/user_utils';
 import {sortTeamsWithLocale, filterTeamsStartingWithTerm} from 'mattermost-redux/utils/team_utils';
 import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
 
-import {isCollapsedThreadsEnabled} from './preferences';
 import {TopReaction} from 'mattermost-redux/types/reactions';
 import {TimeFrame, TimeFrames} from 'mattermost-redux/types/insights';
+
+import {isCollapsedThreadsEnabled} from './preferences';
 
 export function getCurrentTeamId(state: GlobalState) {
     return state.entities.teams.currentTeamId;
@@ -382,7 +383,7 @@ export const getTopReactionsForCurrentTeam: (state: GlobalState, timeFrame: Time
             const reactionArr = Object.values(reactions[timeFrame]);
             sortTeamReactions(reactionArr);
 
-            return reactionArr.slice(0,maxResults);
+            return reactionArr.slice(0, maxResults);
         }
         return [];
     },

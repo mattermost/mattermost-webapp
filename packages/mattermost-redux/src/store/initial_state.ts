@@ -35,8 +35,8 @@ const state: GlobalState = {
             myUserAccessTokens: {},
             myTopReactions: {
                 today: {},
-                "7_day": {},
-                "28_day": {},
+                '7_day': {},
+                '28_day': {},
             },
         },
         teams: {

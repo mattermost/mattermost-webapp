@@ -4,19 +4,22 @@ import React, {memo, useCallback, useEffect, useState} from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
+import {useDispatch, useSelector} from 'react-redux';
+
 import {TimeFrame} from '@mattermost/types/insights';
 
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
 import RenderEmoji from 'components/emoji/render_emoji';
 
+import {InsightsScopes} from 'utils/constants';
+import {GlobalState} from '@mattermost/types/store';
+import {getCurrentTeamId, getTopReactionsForCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getMyTopReactionsByTime} from 'mattermost-redux/selectors/entities/users';
+import {getTopReactionsForTeam} from 'mattermost-redux/actions/teams';
+import {getMyTopReactions} from 'mattermost-redux/actions/users';
+
 import './../../../activity_and_insights.scss';
-import { useDispatch, useSelector } from 'react-redux';
-import { InsightsScopes } from 'utils/constants';
-import { GlobalState } from '@mattermost/types/store';
-import { getCurrentTeamId, getTopReactionsForCurrentTeam } from 'mattermost-redux/selectors/entities/teams';
-import { getMyTopReactionsByTime } from 'mattermost-redux/selectors/entities/users';
-import { getTopReactionsForTeam } from 'mattermost-redux/actions/teams';
-import { getMyTopReactions } from 'mattermost-redux/actions/users';
+import {TopReaction} from '@mattermost/types/reactions';
 
 type Props = {
     filterType: string;
@@ -27,8 +30,19 @@ const TopReactionsTable = (props: Props) => {
     const dispatch = useDispatch();
 
     const [loading, setLoading] = useState(true);
+    const [topReactions, setTopReactions] = useState([] as TopReaction[]);
 
-    const topReactions = props.filterType === InsightsScopes.TEAM ? useSelector((state: GlobalState) => getTopReactionsForCurrentTeam(state, props.timeFrame, 10)) : useSelector((state: GlobalState) => getMyTopReactionsByTime(state, props.timeFrame, 10));
+    const teamTopReactions = useSelector((state: GlobalState) => getTopReactionsForCurrentTeam(state, props.timeFrame, 10));
+    const myTopReactions = useSelector((state: GlobalState) => getMyTopReactionsByTime(state, props.timeFrame, 10));
+
+    useEffect(() => {
+        if (props.filterType === InsightsScopes.TEAM) {
+            setTopReactions(teamTopReactions);
+        } else {
+            setTopReactions(myTopReactions);
+        }
+    }, [props.filterType, props.timeFrame, teamTopReactions, myTopReactions]);
+
     const currentTeamId = useSelector(getCurrentTeamId);
 
     const getTopTeamReactions = useCallback(async () => {
@@ -37,7 +51,7 @@ const TopReactionsTable = (props: Props) => {
             await dispatch(getTopReactionsForTeam(currentTeamId, 0, 10, props.timeFrame));
             setLoading(false);
         }
-    }, [props.timeFrame, currentTeamId, props.filterType])
+    }, [props.timeFrame, currentTeamId, props.filterType]);
 
     useEffect(() => {
         getTopTeamReactions();
@@ -49,12 +63,11 @@ const TopReactionsTable = (props: Props) => {
             await dispatch(getMyTopReactions(0, 10, props.timeFrame));
             setLoading(false);
         }
-    }, [props.timeFrame, props.filterType])
+    }, [props.timeFrame, props.filterType]);
 
     useEffect(() => {
         getMyTeamReactions();
     }, [getMyTeamReactions]);
-
 
     const getColumns = (): Column[] => {
         const columns: Column[] = [
@@ -92,15 +105,13 @@ const TopReactionsTable = (props: Props) => {
     };
 
     const getRows = (): Row[] => {
-
         return topReactions.map((reaction, i) => {
-
             return (
                 {
                     cells: {
                         rank: (
                             <span className='cell-text'>
-                                {i+1}
+                                {i + 1}
                             </span>
                         ),
                         reaction: (
@@ -123,6 +134,7 @@ const TopReactionsTable = (props: Props) => {
                 }
             );
         });
+
         // return [
         //     {
         //         cells: {

@@ -741,7 +741,7 @@ export const getMyTopReactionsByTime: (state: GlobalState, timeFrame: TimeFrame,
             const reactionArr = Object.values(reactions[timeFrame]);
             sortTopReactions(reactionArr);
 
-            return reactionArr.slice(0,maxResults);
+            return reactionArr.slice(0, maxResults);
         }
         return [];
     },

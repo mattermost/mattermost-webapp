@@ -40,7 +40,7 @@ const TimeFrameDropdown = (props: Props) => {
         }),
         menuPortal: (provided: React.CSSProperties) => ({
             ...provided,
-            zIndex: 100000,
+            zIndex: 1100,
         }),
     };
 

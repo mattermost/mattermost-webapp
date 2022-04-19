@@ -493,7 +493,7 @@ function totalCount(state = 0, action: GenericAction) {
     }
 }
 
-function topReactions(state: Record<string, Record<TimeFrame, Record<string,TopReaction>>> = {}, action: GenericAction) {
+function topReactions(state: Record<string, Record<TimeFrame, Record<string, TopReaction>>> = {}, action: GenericAction) {
     switch (action.type) {
     case TeamTypes.RECEIVED_TEAM_TOP_REACTIONS: {
         const reactions = {...(state[action.id] || {})};
@@ -504,7 +504,7 @@ function topReactions(state: Record<string, Record<TimeFrame, Record<string,TopR
             reactions[timeFrame] = {};
         }
 
-        const r = {...reactions[timeFrame] || {}}
+        const r = {...reactions[timeFrame] || {}};
 
         for (let i = 0; i < results.length; i++) {
             const emojiObj = results[i];

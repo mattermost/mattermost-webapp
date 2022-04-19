@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {TimeFrame} from "./insights";
+import {TimeFrame} from './insights';
 
 export type Reaction = {
     user_id: string;

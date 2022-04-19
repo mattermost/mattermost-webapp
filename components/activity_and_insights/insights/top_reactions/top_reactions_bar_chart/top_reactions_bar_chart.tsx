@@ -12,23 +12,23 @@ type Props = {
 
 const TopReactionsBarChart = (props: Props) => {
     const barChartEntries = useCallback(() => {
-        const reactions =props.reactions.map((reaction) => {
+        const reactions = props.reactions.map((reaction) => {
             const highestCount = props.reactions[0].count;
             const maxHeight = 156;
 
-            let barHeight = reaction.count/highestCount * maxHeight;
+            let barHeight = (reaction.count / highestCount) * maxHeight;
 
             if (highestCount === reaction.count) {
                 barHeight = maxHeight;
             }
 
             return (
-                <div 
+                <div
                     className='bar-chart-entry'
                     key={reaction.emoji_name}
                 >
                     <span className='reaction-count'>{reaction.count}</span>
-                    <div 
+                    <div
                         className='bar-chart-data'
                         style={{
                             height: `${barHeight}px`,

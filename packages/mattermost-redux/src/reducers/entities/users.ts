@@ -606,7 +606,7 @@ function filteredStats(state = {}, action: GenericAction) {
     }
 }
 
-function myTopReactions(state: Record<TimeFrame, Record<string,TopReaction>> = {today: {}, "7_day": {}, "28_day": {}}, action: GenericAction) {
+function myTopReactions(state: Record<TimeFrame, Record<string, TopReaction>> = {today: {}, '7_day': {}, '28_day': {}}, action: GenericAction) {
     switch (action.type) {
     case UserTypes.RECEIVED_MY_TOP_REACTIONS: {
         const timeFrame = action.data.timeFrame as TimeFrame;
