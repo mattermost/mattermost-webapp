@@ -13,6 +13,7 @@ import FileUploadOverlay from 'components/file_upload_overlay';
 import RhsThread from 'components/rhs_thread';
 import RhsCard from 'components/rhs_card';
 import ChannelInfoRhs from 'components/channel_info_rhs';
+import ChannelMembersRhs from 'components/channel_members_rhs';
 import Search from 'components/search/index.tsx';
 
 import RhsPlugin from 'plugins/rhs_plugin';
@@ -28,6 +29,7 @@ export default class SidebarRight extends React.PureComponent {
         isPinnedPosts: PropTypes.bool,
         isChannelFiles: PropTypes.bool,
         isChannelInfo: PropTypes.bool,
+        isChannelMembers: PropTypes.bool,
         isPluginView: PropTypes.bool,
         previousRhsState: PropTypes.string,
         rhsChannel: PropTypes.object,
@@ -63,6 +65,7 @@ export default class SidebarRight extends React.PureComponent {
             isPinnedPosts: this.props.isPinnedPosts,
             isChannelFiles: this.props.isChannelFiles,
             isChannelInfo: this.props.isChannelInfo,
+            isChannelMembers: this.props.isChannelMembers,
             selectedPostId: this.props.selectedPostId,
             selectedPostCardId: this.props.selectedPostCardId,
             previousRhsState: this.props.previousRhsState,
@@ -185,6 +188,7 @@ export default class SidebarRight extends React.PureComponent {
             isPluginView,
             isOpen,
             isChannelInfo,
+            isChannelMembers,
             isExpanded,
         } = this.props;
 
@@ -213,6 +217,11 @@ export default class SidebarRight extends React.PureComponent {
         case isChannelInfo:
             content = (
                 <ChannelInfoRhs channel={rhsChannel}/>
+            );
+            break;
+        case isChannelMembers:
+            content = (
+                <ChannelMembersRhs/>
             );
             break;
         }

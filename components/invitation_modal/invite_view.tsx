@@ -23,13 +23,15 @@ import AddToChannels, {CustomMessageProps, InviteChannels, defaultCustomMessage,
 import InviteAs, {InviteType} from './invite_as';
 import './invite_view.scss';
 
-export const defaultInviteState: InviteState = deepFreeze({
-    inviteType: InviteType.MEMBER,
-    customMessage: defaultCustomMessage,
-    inviteChannels: defaultInviteChannels,
-    usersEmails: [],
-    usersEmailsSearch: '',
-});
+export const initializeInviteState = (initialSearchValue = '', inviteAsGuest = false): InviteState => {
+    return deepFreeze({
+        inviteType: inviteAsGuest ? InviteType.GUEST : InviteType.MEMBER,
+        customMessage: defaultCustomMessage,
+        inviteChannels: defaultInviteChannels,
+        usersEmails: [],
+        usersEmailsSearch: initialSearchValue,
+    });
+};
 
 export type InviteState = {
     customMessage: CustomMessageProps;
@@ -62,6 +64,7 @@ export type Props = InviteState & {
     canInviteGuests: boolean;
     canAddUsers: boolean;
     townSquareDisplayName: string;
+    channelToInvite?: Channel;
 }
 
 export default function InviteView(props: Props) {
@@ -225,7 +228,7 @@ export default function InviteView(props: Props) {
                     titleClass='InviteView__sectionTitle'
                 />
                 }
-                {props.inviteType === InviteType.GUEST && (
+                {(props.inviteType === InviteType.GUEST || (props.inviteType === InviteType.MEMBER && props.channelToInvite)) && (
                     <AddToChannels
                         setCustomMessage={props.setCustomMessage}
                         toggleCustomMessage={props.toggleCustomMessage}
@@ -237,6 +240,8 @@ export default function InviteView(props: Props) {
                         currentChannel={props.currentChannel}
                         townSquareDisplayName={props.townSquareDisplayName}
                         titleClass='InviteView__sectionTitle'
+                        channelToInvite={props.channelToInvite}
+                        inviteType={props.inviteType}
                     />
                 )}
             </Modal.Body>

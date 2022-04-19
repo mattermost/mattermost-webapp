@@ -14,6 +14,8 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     hasError?: boolean;
     addon?: React.ReactElement;
     textPrefix?: string;
+    inputPrefix?: JSX.Element;
+    inputSuffix?: JSX.Element;
     label?: string;
     containerClassName?: string;
     wrapperClassName?: string;
@@ -33,6 +35,8 @@ function Input({
     required,
     addon,
     textPrefix,
+    inputPrefix,
+    inputSuffix,
     containerClassName,
     wrapperClassName,
     inputClassName,
@@ -98,6 +102,7 @@ function Input({
                     {showLegend ? label || placeholder : null}
                 </legend>
                 <div className={classNames('Input_wrapper', wrapperClassName)}>
+                    {inputPrefix}
                     {textPrefix && <span>{textPrefix}</span>}
                     <input
                         id={`input_${name || ''}`}
@@ -116,6 +121,7 @@ function Input({
                             {'-'}{limitExceeded}
                         </span>
                     )}
+                    {inputSuffix}
                 </div>
                 {addon}
             </fieldset>
