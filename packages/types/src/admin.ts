@@ -52,6 +52,10 @@ export type AnalyticsRow = {
     value: number;
 };
 
+export type IndexedPluginAnalyticsRow = {
+    [key: string]: PluginAnalyticsRow;
+}
+
 export type PluginAnalyticsRow = {
     id: string;
     name: string;

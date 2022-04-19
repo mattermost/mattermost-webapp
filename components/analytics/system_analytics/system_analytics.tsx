@@ -4,15 +4,16 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {AnalyticsRow, PluginAnalyticsRow} from 'mattermost-redux/types/admin';
+import {AnalyticsRow, PluginAnalyticsRow, IndexedPluginAnalyticsRow} from '@mattermost/types/admin';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
 import Constants from 'utils/constants';
-import {getPluginStats} from 'plugins/site_stats';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
+
+import {GlobalState} from 'types/store';
 
 import DoughnutChart from '../doughnut_chart';
 import LineChart from '../line_chart';
@@ -31,13 +32,19 @@ const StatTypes = Constants.StatTypes;
 type Props = {
     isLicensed: boolean;
     stats?: Record<string, number | AnalyticsRow[]>;
+    pluginStatHandlers: GlobalState['plugins']['siteStatsHandlers'];
 }
 
-export default class SystemAnalytics extends React.PureComponent<Props> {
-    private pluginStats: Record<string, PluginAnalyticsRow>;
+type State = {
+    pluginSiteStats: Record<string, PluginAnalyticsRow>;
+}
+
+export default class SystemAnalytics extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
         super(props);
-        this.pluginStats = {};
+        this.state = {
+            pluginSiteStats: {},
+        };
     }
 
     public async componentDidMount() {
@@ -49,7 +56,28 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
         if (this.props.isLicensed) {
             AdminActions.getAdvancedAnalytics();
         }
-        this.pluginStats = await getPluginStats() as Record<string, PluginAnalyticsRow>;
+        this.fetchPluginStats();
+    }
+
+    // fetchPluginStats does a call for each one of the registered handlers,
+    // wait and set the data in the state
+    private async fetchPluginStats() {
+        if (!this.props.pluginStatHandlers) {
+            return;
+        }
+        const pluginSiteStats: IndexedPluginAnalyticsRow = {};
+        const allHandlers = Object.values(this.props.pluginStatHandlers).map((handler) => handler());
+        const pluginKeys = Object.keys(this.props.pluginStatHandlers);
+        const res = await Promise.all(allHandlers);
+
+        // rewrite keys to avoid potential metric name override across plugins
+        res.forEach((pluginRes, idx) => {
+            Object.entries(pluginRes).forEach(([name, value]) => {
+                const key = `${pluginKeys[idx]}.${name}`;
+                pluginSiteStats[key] = value;
+            });
+        });
+        this.setState({pluginSiteStats});
     }
 
     private getStatValue(stat: number | AnalyticsRow[]): number | undefined {
@@ -378,7 +406,7 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
         // Extract plugin stats that should be displayed and pass them to widget
         const pluginSiteStats = (
             <div>
-                {Object.entries(this.pluginStats).map(([key, stat]) =>
+                {Object.entries(this.state.pluginSiteStats).map(([key, stat]) =>
                     (
                         <StatisticCount
                             id={key}
