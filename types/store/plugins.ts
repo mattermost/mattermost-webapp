@@ -39,7 +39,9 @@ export type PluginsState = {
         [pluginId: string]: any;
     };
     adminConsoleCustomComponents: {
-        [pluginId: string]: AdminConsolePluginComponent;
+        [pluginId: string]: {
+            [settingName: string]: AdminConsolePluginComponent;
+        };
     };
 };
 
