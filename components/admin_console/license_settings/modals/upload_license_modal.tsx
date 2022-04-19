@@ -222,7 +222,7 @@ const UploadLicenseModal = (props: Props): JSX.Element | null => {
             </div>
         </>
     );
-    // if (currentLicense.IsLicensed === 'true' && !props.addingNewLicenseFile) {
+
     if (uploadSuccessful) {
         const startsAt = (
             <FormattedDate
