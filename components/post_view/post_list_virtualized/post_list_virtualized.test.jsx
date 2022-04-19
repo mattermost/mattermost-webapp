@@ -19,6 +19,7 @@ describe('PostList', () => {
         loadNewerPosts: jest.fn(),
         canLoadMorePosts: jest.fn(),
         changeUnreadChunkTimeStamp: jest.fn(),
+        markChannelAsRead: jest.fn(),
         updateNewMessagesAtInChannel: jest.fn(),
     };
 

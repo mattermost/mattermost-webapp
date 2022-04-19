@@ -38,6 +38,7 @@ function NewRepliesBanner({
     const handleShortcut = useCallback((e) => {
         if (isKeyPressed(e, Constants.KeyCodes.ESCAPE)) {
             if (hasNewReplies) {
+                e.stopPropagation();
                 onDismiss();
             }
         }

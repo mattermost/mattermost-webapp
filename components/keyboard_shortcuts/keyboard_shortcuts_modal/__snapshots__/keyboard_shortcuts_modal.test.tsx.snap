@@ -278,6 +278,20 @@ exports[`components/KeyboardShortcutsModal should match snapshot modal 1`] = `
                   }
                 }
               />
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "Mark current channel as read:	Esc",
+                      "id": "shortcuts.nav.mark_read",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "Mark current channel as read:	Esc",
+                      "id": "shortcuts.nav.mark_read.mac",
+                    },
+                  }
+                }
+              />
             </div>
           </div>
         </div>

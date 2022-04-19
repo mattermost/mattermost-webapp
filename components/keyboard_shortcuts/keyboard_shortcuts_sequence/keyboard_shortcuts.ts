@@ -172,6 +172,16 @@ export const KEYBOARD_SHORTCUTS = {
             defaultMessage: 'Expand the right sidebar:\t⌘|Shift|.',
         },
     },
+    navMarkRead: {
+        default: {
+            id: t('shortcuts.nav.mark_read'),
+            defaultMessage: 'Mark current channel as read:\tEsc',
+        },
+        mac: {
+            id: t('shortcuts.nav.mark_read.mac'),
+            defaultMessage: 'Mark current channel as read:\tEsc',
+        },
+    },
     msgEdit: {
         id: t('shortcuts.msgs.edit'),
         defaultMessage: 'Edit last message in channel:\tUp',
