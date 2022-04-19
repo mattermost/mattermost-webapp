@@ -21,43 +21,43 @@ describe('Collapsed Reply Threads', () => {
 
     const files = [
         {
-            testCase: '',
+            testCase: 'MM-T4777_2',
             filename: 'word-file.doc',
             extensions: 'DOC',
             icon: 'icon-file-word-outline',
         },
         {
-            testCase: '',
+            testCase: 'MM-T4777_3',
             filename: 'wordx-file.docx',
             extensions: 'DOCX',
             icon: 'icon-file-word-outline',
         },
         {
-            testCase: '',
+            testCase: 'MM-T4777_4',
             filename: 'powerpoint-file.ppt',
             extensions: 'PPT',
             icon: 'icon-file-powerpoint-outline',
         },
         {
-            testCase: '',
+            testCase: 'MM-T4777_5',
             filename: 'powerpointx-file.pptx',
             extensions: 'PPTX',
             icon: 'icon-file-powerpoint-outline',
         },
         {
-            testCase: '',
+            testCase: 'MM-T4777_6',
             filename: 'mp3-audio-file.mp3',
             extensions: 'MP3',
             icon: 'icon-file-audio-outline',
         },
         {
-            testCase: '',
+            testCase: 'MM-T4777_7',
             filename: 'mp4-video-file.mp4',
             extensions: 'MP4',
             icon: 'icon-file-video-outline',
         },
         {
-            testCase: '',
+            testCase: 'MM-T4777_8',
             filename: 'theme.json',
             extensions: 'JSON',
             icon: 'icon-file-code-outline',
@@ -92,7 +92,7 @@ describe('Collapsed Reply Threads', () => {
         interceptFileUpload();
     });
 
-    it('should display poll text without Markdown in the threads list', () => {
+    it('MM-T4776 should display poll text without Markdown in the threads list', () => {
         cy.shouldNotRunOnCloudEdition();
         cy.shouldHavePluginUploadEnabled();
 
@@ -134,7 +134,7 @@ describe('Collapsed Reply Threads', () => {
             // * Text in ThreadItem should say 'username: Do you like https://mattermost.com?'
             cy.get('.attachment__truncated').first().should('have.text', user1.nickname + ': Do you like https://mattermost.com?');
 
-            // * Text in ThreadItem should say 'Total votes: 1'
+            // * Text in ThreadItem should say 'This poll has ended. The results are:'
             cy.get('.attachment__truncated').last().should('have.text', 'This poll has ended. The results are:');
 
             // # Cleanup
@@ -142,7 +142,7 @@ describe('Collapsed Reply Threads', () => {
         });
     });
 
-    it('should show image thumbnail in thread list item', () => {
+    it('MM-T4777_1 should show image thumbnail in thread list item', () => {
         const image = 'jpg-image-file.jpg';
 
         cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(image);
@@ -157,7 +157,7 @@ describe('Collapsed Reply Threads', () => {
             // # Visit Global Threads
             cy.uiClickSidebarItem('threads');
 
-            // * Text should be the filname
+            // * Text should be the filename
             cy.get('.file_card__name').should('have.text', image);
 
             // * Image should be shown
