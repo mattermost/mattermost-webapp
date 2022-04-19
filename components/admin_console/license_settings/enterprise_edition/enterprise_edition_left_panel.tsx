@@ -6,12 +6,16 @@ import {FormattedMessage, FormattedNumber} from 'react-intl';
 
 import {ClientLicense} from 'mattermost-redux/types/config';
 import {LicenseSkus} from 'mattermost-redux/types/general';
+import {ModalData} from 'types/actions';
 
 import {getRemainingDaysFromFutureTimestamp, toTitleCase} from 'utils/utils';
+import {ModalIdentifiers} from 'utils/constants';
 
 import Badge from 'components/widgets/badges/badge';
+import UploadLicenseModal from '../modals/upload_license_modal';
 
 import './enterprise_edition.scss';
+
 export interface EnterpriseEditionProps {
     openEELicenseModal: () => void;
     upgradedFromTE: boolean;
@@ -23,6 +27,8 @@ export interface EnterpriseEditionProps {
     handleRemove: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>;
     isDisabled: boolean;
     removing: boolean;
+    openModal: <P>(modalData: ModalData<P>) => void;
+
 }
 
 export const getSkuDisplayName = (skuShortName: string, isGovSku: boolean): string => {
@@ -61,6 +67,7 @@ const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
     handleRemove,
     isDisabled,
     removing,
+    openModal,
 }: EnterpriseEditionProps) => {
     const skuName = getSkuDisplayName(license.SkuShortName, license.IsGovSku === 'true');
     const expirationDays = getRemainingDaysFromFutureTimestamp(parseInt(license.ExpiresAt, 10));
@@ -102,6 +109,7 @@ const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
                         isDisabled,
                         removing,
                         skuName,
+                        openModal,
                     )
                 }
             </div>
@@ -138,6 +146,7 @@ const renderLicenseContent = (
     isDisabled: boolean,
     removing: boolean,
     skuName: string,
+    openModal: <P>(modalData: ModalData<P>) => void,
 ) => {
     // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
 
@@ -175,8 +184,31 @@ const renderLicenseContent = (
                 );
             })}
             <hr/>
+            {renderAddNewLicenseButton(openModal)}
             {renderRemoveButton(handleRemove, isDisabled, removing)}
         </div>
+    );
+};
+
+const renderAddNewLicenseButton = (
+    openModal: <P>(modalData: ModalData<P>) => void,
+) => {
+    const openUploadLicenseModal = () => {
+        openModal({
+            modalId: ModalIdentifiers.UPLOAD_LICENSE,
+            dialogType: UploadLicenseModal,
+        });
+    };
+    return (
+        <button
+            className='addnewlicensebtn'
+            onClick={() => openUploadLicenseModal()}
+        >
+            <FormattedMessage
+                id='admin.license.keyAddNew'
+                defaultMessage='Add a new license'
+            />
+        </button>
     );
 };
 

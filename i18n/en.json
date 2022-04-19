@@ -1242,6 +1242,7 @@
   "admin.license.enterprisePlanTitle": "Need to increase your headcount?",
   "admin.license.key": "License Key: ",
   "admin.license.keyRemove": "Remove License and Downgrade Server",
+  "admin.license.keyAddNew": "Add a new license",
   "admin.license.modal.done": "Done",
   "admin.license.modal.upload": "Upload",
   "admin.license.modal.uploading": "Uploading",
