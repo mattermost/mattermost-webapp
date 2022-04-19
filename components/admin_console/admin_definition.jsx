@@ -2734,7 +2734,7 @@ const AdminDefinition = {
                         label: t('admin.notices.enableAdminNoticesTitle'),
                         label_default: 'Enable Admin Notices: ',
                         help_text: t('admin.notices.enableAdminNoticesDescription'),
-                        help_text_default: 'When enabled, System Admins will receive notices about available server upgrades and relevant system administration features. <link>notices</link> in our documentation.',
+                        help_text_default: 'When enabled, System Admins will receive notices about available server upgrades and relevant system administration features. <link>Notices</link> in our documentation.',
                         help_text_values: {
                             link: (msg) => (
                                 <a
@@ -5231,7 +5231,7 @@ const AdminDefinition = {
                         label: t('admin.service.webhooksTitle'),
                         label_default: 'Enable Incoming Webhooks: ',
                         help_text: t('admin.service.webhooksDescription'),
-                        help_text_default: 'When true, incoming webhooks will be allowed. To help combat phishing attacks, all posts from webhooks will be labelled by a BOT tag. See <link>>documentation</link> to learn more.',
+                        help_text_default: 'When true, incoming webhooks will be allowed. To help combat phishing attacks, all posts from webhooks will be labelled by a BOT tag. See <link>documentation</link> to learn more.',
                         help_text_values: {
                             link: (msg) => (
                                 <a
@@ -5335,27 +5335,17 @@ const AdminDefinition = {
                         label: t('admin.service.userAccessTokensTitle'),
                         label_default: 'Enable User Access Tokens: ',
                         help_text: t('admin.service.userAccessTokensDescription'),
-                        help_text_default: 'When true, users can create {tokens} for integrations in **Account Menu > Account Settings > Security**. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the **User Management > Users** page.',
+                        help_text_default: 'When true, users can create <link>user access tokens</link> for integrations in **Account Menu > Account Settings > Security**. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the **User Management > Users** page.',
                         help_text_values: {
-                            tokens: (
-                                <b>
-                                    <FormattedMessage
-                                        id='admin.servicesettings.enableuseraccesstokens'
-                                        defaultMessage='<link>user access tokens</link>'
-                                        values={{
-                                            link: (msg) => (
-                                                <a
-                                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/'
-                                                    referrer='noreferrer'
-                                                    target='_blank'
-                                                    rel='noreferrer'
-                                                >
-                                                    {msg}
-                                                </a>
-                                            ),
-                                        }}
-                                    />
-                                </b>
+                            link: (msg) => (
+                                <a
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-incoming/'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
                             ),
                         },
                         help_text_markdown: true,
@@ -6130,30 +6120,19 @@ const AdminDefinition = {
                         label: t('admin.experimental.experimentalUseNewSAMLLibrary.title'),
                         label_default: 'Use Improved SAML Library (Beta):',
                         help_text: t('admin.experimental.experimentalUseNewSAMLLibrary.desc'),
-                        help_text_default: 'Enable an updated SAML Library, which does not require the XML Security Library (xmlsec1) to be installed. Warning: Not all providers have been tested. If you experience issues, please contact {support}. Changing this setting requires a server restart before taking effect.',
+                        help_text_default: 'Enable an updated SAML Library, which does not require the XML Security Library (xmlsec1) to be installed. Warning: Not all providers have been tested. If you experience issues, please contact <linkSupport>support</linkSupport>. Changing this setting requires a server restart before taking effect.',
                         help_text_values: {
-                            support: (
-                                <b>
-                                    <FormattedMessage
-                                        id='admin.experimental.newsamllibrary.linkSupport'
-                                        defaultMessage='<linkSupport>Support</linkSupport>'
-                                        values={{
-                                            linkSupport: (msg) => (
-                                                <a
-                                                    href='https://mattermost.com/support'
-                                                    referrer='noreferrer'
-                                                    target='_blank'
-                                                    rel='noreferrer'
-                                                >
-                                                    {msg}
-                                                </a>
-                                            ),
-                                        }}
-                                    />
-                                </b>
+                            linkSupport: (msg) => (
+                                <a
+                                    href='https://mattermost.com/support'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
                             ),
                         },
-                        help_text_markdown: true,
                         isHidden: true || it.not(it.licensedForFeature('SAML')),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
@@ -6219,7 +6198,7 @@ const AdminDefinition = {
                                     {msg}
                                 </a>
                             ),
-                            link: (msg) => (
+                            linkCommunityChannel: (msg) => (
                                 <a
                                     href='https://community-daily.mattermost.com/core/channels/folded-reply-threads'
                                     referrer='noreferrer'

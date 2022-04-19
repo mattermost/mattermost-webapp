@@ -467,7 +467,27 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
                 <span>
                     <FormattedMessage
                         id='user.settings.tokens.description'
-                        defaultMessage='[Personal access tokens](!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/) function similarly to session tokens and can be used by integrations to [authenticate against the REST API](!https://api.mattermost.com/#tag/authentication).'
+                        defaultMessage='<linkTokens>Personal access tokens</linkTokens> function similarly to session tokens and can be used by integrations to <linkAPI>authenticate against the REST API</linkAPI>.'
+                        values={{
+                            linkTokens: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                            linkApi: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://api.mattermost.com/#tag/authentication'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        }}
                     />
                 </span>
             );

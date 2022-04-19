@@ -985,7 +985,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
 
         if (enableUploads && enable) {
             uploadHelpText = (
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='admin.plugin.uploadDesc'
                     defaultMessage='Upload a plugin for your Mattermost server. See <link>documentation</link> to learn more.'
                     values={{
