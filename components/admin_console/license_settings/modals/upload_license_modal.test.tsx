@@ -3,7 +3,6 @@
 
 import React from 'react';
 
-// import {Provider} from 'react-redux';
 import * as reactRedux from 'react-redux';
 import configureStore from 'redux-mock-store';
 import {act} from 'react-dom/test-utils';
@@ -145,7 +144,7 @@ describe('components/admin_console/license_settings/modals/upload_license_modal'
         expect(fileTextSize.text()).toEqual('5KB');
     });
 
-    test('should show success image when open and there is a license (successful license upload)', async() => {
+    test('should show success image when open and there is a license (successful license upload)', async () => {
         const licensedState = {
             general: {
                 license: {...license},

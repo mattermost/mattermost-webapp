@@ -201,7 +201,7 @@ const renderAddNewLicenseButton = (
     };
     return (
         <button
-            className='addnewlicensebtn'
+            className='add-new-licence-btn'
             onClick={() => openUploadLicenseModal()}
         >
             <FormattedMessage
