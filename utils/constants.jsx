@@ -1874,4 +1874,48 @@ export const InsightsTimeFrames = {
     INSIGHTS_28_DAYS: '28_day',
 };
 
+export const InsightsScopes = {
+    MY: 'MY',
+    TEAM: 'TEAM',
+};
+
+export const InsightsCardTitles = {
+    TOP_CHANNELS: {
+        teamTitle: {
+            id: t('insights.topChannels.title'),
+            defaultMessage: 'Top channels',
+        },
+        myTitle: {
+            id: t('insights.topChannels.myTitle'),
+            defaultMessage: 'My top channels',
+        },
+        teamSubTitle: {
+            id: t('insights.topChannels.subTitle'),
+            defaultMessage: 'Most active channels for the team',
+        },
+        mySubTitle: {
+            id: t('insights.topChannels.mySubTitle'),
+            defaultMessage: 'Most active channels that I\'m a member of',
+        },
+    },
+    TOP_REACTIONS: {
+        teamTitle: {
+            id: t('insights.topReactions.title'),
+            defaultMessage: 'Top reactions',
+        },
+        myTitle: {
+            id: t('insights.topReactions.myTitle'),
+            defaultMessage: 'My top reactions',
+        },
+        teamSubTitle: {
+            id: t('insights.topReactions.subTitle'),
+            defaultMessage: 'The team\'s most-used reactions',
+        },
+        mySubTitle: {
+            id: t('insights.topReactions.mySubTitle'),
+            defaultMessage: 'Reactions I\'ve used the most',
+        },
+    },
+};
+
 export default Constants;
