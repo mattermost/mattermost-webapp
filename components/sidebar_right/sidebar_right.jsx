@@ -74,7 +74,7 @@ export default class SidebarRight extends React.PureComponent {
     }
 
     handleShortcut = (e) => {
-        if (Utils.cmdOrCtrlPressed(e)) {
+        if (Utils.cmdOrCtrlPressed(e, true)) {
             if (e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.PERIOD)) {
                 e.preventDefault();
                 if (this.props.isOpen) {
@@ -93,7 +93,7 @@ export default class SidebarRight extends React.PureComponent {
                 } else {
                     this.props.actions.openAtPrevious(this.previous);
                 }
-            } else if (e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.I)) {
+            } else if (e.altKey && Utils.isKeyPressed(e, Constants.KeyCodes.I)) {
                 e.preventDefault();
                 if (this.props.isOpen && this.props.isChannelInfo) {
                     this.props.actions.closeRightHandSide();

@@ -19,21 +19,24 @@ describe('Keyboard Shortcuts', () => {
         });
     });
 
-    it('MM-T4775 CTRL/CMD+SHIFT+I - Toggle Channel Info RHS', () => {
+    it('MM-T4775 CTRL/CMD+ALT+I - Toggle Channel Info RHS', () => {
         // # Visit a test channel
         cy.visit(url);
+
+        // # Wait for the page to load
+        cy.get('.channel-intro').should('be.visible');
 
         // ensure the RHS is not visible
         cy.contains('#rhsContainer', 'Info').should('not.exist');
 
-        // # Press CTRL/CMD+SHIFT+I
-        cy.get('body').cmdOrCtrlShortcut('{shift}I');
+        // # Press CTRL/CMD+ALT+I
+        cy.get('body').cmdOrCtrlShortcut('{alt}I');
 
         // * Ensure RHS is now present
         cy.contains('#rhsContainer', 'Info').should('be.visible');
 
-        // # Press CTRL/CMD+SHIFT+I
-        cy.get('body').cmdOrCtrlShortcut('{shift}I');
+        // # Press CTRL/CMD+ALT+I
+        cy.get('body').cmdOrCtrlShortcut('{alt}I');
 
         // * Ensure RHS is now closed
         cy.contains('#rhsContainer', 'Info').should('not.exist');
