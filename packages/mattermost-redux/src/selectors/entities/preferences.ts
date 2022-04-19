@@ -213,3 +213,7 @@ export function getUseCaseOnboarding(state: GlobalState): boolean {
 export function insightsAreEnabled(state: GlobalState): boolean {
     return getFeatureFlagValue(state, 'InsightsEnabled') === 'true';
 }
+
+export function isCommandPaletteEnabled(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'CommandPalette') === 'true';
+}

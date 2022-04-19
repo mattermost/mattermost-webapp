@@ -32,6 +32,7 @@ import NeedsTeam from 'components/needs_team';
 import OnBoardingTaskList from 'components/onboarding_tasklist';
 import LaunchingWorkspace, {LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX} from 'components/preparing_workspace/launching_workspace';
 import {Animations} from 'components/preparing_workspace/steps';
+import CommandPalette from 'components/command_palette';
 
 import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
@@ -537,6 +538,7 @@ export default class Root extends React.PureComponent {
                         )}
                         <ModalController/>
                         <GlobalHeader/>
+                        <CommandPalette/>
                         {this.props.showTaskList && <OnBoardingTaskList/>}
                         <TeamSidebar/>
                         <Switch>

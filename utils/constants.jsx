@@ -371,7 +371,7 @@ export const ModalIdentifiers = {
     KEYBOARD_SHORTCUTS_MODAL: 'keyboar_shortcuts_modal',
     USERS_TO_BE_REMOVED: 'users_to_be_removed',
     UPLOAD_LICENSE: 'upload_license',
-    COMMAND_PALETTE_MODAL: 'command_palette_modal',
+    COMMAND_PALETTE: 'command_palette_modal',
 };
 
 export const UserStatuses = {
