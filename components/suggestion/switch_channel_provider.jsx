@@ -17,7 +17,8 @@ import {
     getCurrentChannel,
     getDirectTeammate,
     getChannelsInAllTeams,
-    getSortedAllTeamsUnreadChannels, getAllTeamsUnreadChannelIds,
+    getSortedAllTeamsUnreadChannels,
+    getAllTeamsUnreadChannelIds,
 } from 'mattermost-redux/selectors/entities/channels';
 import ProfilePicture from '../profile_picture';
 import {getMyPreferences, isGroupChannelManuallyVisible, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
@@ -530,6 +531,8 @@ export default class SwitchChannelProvider extends Provider {
         const config = getConfig(state);
         const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
         const allUnreadChannelIds = getAllTeamsUnreadChannelIds(state);
+        const allUnreadChannelIdsSet = new Set(allUnreadChannelIds);
+        const currentUserId = getCurrentUserId(state);
 
         for (const id of Object.keys(allChannels)) {
             const channel = allChannels[id];
@@ -546,11 +549,6 @@ export default class SwitchChannelProvider extends Provider {
                     wrappedChannel.last_viewed_at = members[channel.id].last_viewed_at;
                 } else if (skipNotMember && newChannel.type !== Constants.THREADS) {
                     continue;
-                }
-
-                const unread = allUnreadChannelIds.includes(newChannel.id);
-                if (unread) {
-                    wrappedChannel.unread = true;
                 }
 
                 if (!viewArchivedChannels && channelIsArchived) {
@@ -595,6 +593,11 @@ export default class SwitchChannelProvider extends Provider {
                         continue;
                     }
                 }
+
+                const unread = allUnreadChannelIdsSet.has(newChannel.id);
+                if (unread) {
+                    wrappedChannel.unread = true;
+                }
                 completedChannels[channel.id] = true;
                 channels.push(wrappedChannel);
             }
@@ -607,17 +610,20 @@ export default class SwitchChannelProvider extends Provider {
                 continue;
             }
 
-            const wrappedChannel = this.userWrappedChannel(user);
-
-            const currentUserId = getCurrentUserId(getState());
-
             const channelName = Utils.getDirectChannelName(currentUserId, user.id);
-            const channel = getChannelByName(getState(), channelName);
+            const channel = getChannelByName(state, channelName);
+
+            const wrappedChannel = this.userWrappedChannel(user, channel);
 
             if (channel && members[channel.id]) {
                 wrappedChannel.last_viewed_at = members[channel.id].last_viewed_at;
             } else if (skipNotMember) {
                 continue;
+            }
+
+            const unread = allUnreadChannelIdsSet.has(channel.id);
+            if (unread) {
+                wrappedChannel.unread = true;
             }
 
             completedChannels[user.id] = true;
@@ -721,6 +727,7 @@ export default class SwitchChannelProvider extends Provider {
         const myPreferences = getMyPreferences(state);
         const collapsedThreads = isCollapsedThreadsEnabled(state);
         const allUnreadChannelIds = getAllTeamsUnreadChannelIds(state);
+        const allUnreadChannelIdsSet = new Set(allUnreadChannelIds);
 
         const channelList = [];
         for (let i = 0; i < channels.length; i++) {
@@ -750,7 +757,7 @@ export default class SwitchChannelProvider extends Provider {
                 );
                 wrappedChannel = {...wrappedChannel, ...userWrappedChannel};
             }
-            const unread = allUnreadChannelIds.includes(channel.id);
+            const unread = allUnreadChannelIdsSet.has(channel.id);
             if (unread) {
                 wrappedChannel.unread = true;
             }
