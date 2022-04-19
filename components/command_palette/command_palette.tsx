@@ -26,7 +26,7 @@ function CommandPalette({isCommandPaletteOpen, actions: {closeModal, openModal}}
             toggleCommandPalette([CommandPaletteEntities.Channel, CommandPaletteEntities.Boards, CommandPaletteEntities.Playbooks]);
         } else if (cmdOrCtrlPressed(e) && !e.shiftKey && isKeyPressed(e, Constants.KeyCodes.F) && !e.altKey) {
             e.preventDefault();
-            toggleCommandPalette([CommandPaletteEntities.Files]);
+            toggleCommandPalette([CommandPaletteEntities.Messages]);
         }
     }
 
