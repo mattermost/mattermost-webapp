@@ -9,6 +9,8 @@ import * as redux from 'react-redux';
 
 import {renderWithIntl} from 'tests/react_testing_utils';
 
+import * as cloudActions from 'actions/cloud';
+
 import Limits, {GB} from './limits';
 
 const limits = {
@@ -61,5 +63,39 @@ describe('Limits', () => {
         renderWithIntl(<Limits/>);
         screen.getByText('File Storage');
         screen.getByText(/of 10GB/);
+    });
+
+    test('requests limits when cloud free feature is enabled', () => {
+        const mockGetLimits = jest.fn();
+        jest.spyOn(cloudActions, 'getCloudLimits').mockImplementation(mockGetLimits);
+        jest.spyOn(redux, 'useDispatch').mockImplementation(jest.fn(() => jest.fn()));
+        const spy = jest.spyOn(redux, 'useSelector');
+
+        // initial render
+        spy.mockImplementationOnce(() => true);
+        spy.mockImplementationOnce(() => limits);
+
+        // after effect
+        spy.mockImplementationOnce(() => true);
+        spy.mockImplementationOnce(() => limits);
+        renderWithIntl(<Limits/>);
+        expect(mockGetLimits).toHaveBeenCalled();
+    });
+
+    test('does not request limits when cloud free feature is disabled', () => {
+        const mockGetLimits = jest.fn();
+        jest.spyOn(cloudActions, 'getCloudLimits').mockImplementation(mockGetLimits);
+        jest.spyOn(redux, 'useDispatch').mockImplementation(jest.fn(() => jest.fn()));
+        const spy = jest.spyOn(redux, 'useSelector');
+
+        // initial render
+        spy.mockImplementationOnce(() => false);
+        spy.mockImplementationOnce(() => limits);
+
+        // after effect
+        spy.mockImplementationOnce(() => false);
+        spy.mockImplementationOnce(() => limits);
+        renderWithIntl(<Limits/>);
+        expect(mockGetLimits).not.toHaveBeenCalled();
     });
 });
