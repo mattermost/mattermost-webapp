@@ -112,6 +112,10 @@
             background: var(--center-channel-bg);
             border-radius: 0 4px 4px 0;
 
+            &.permalink--opengraph {
+                margin: 5px 0 0 20px;
+            }
+
             &.attachment__content--permalink {
                 border-left-width: 1px;
                 border-left-style: solid;
@@ -151,10 +155,6 @@
                 padding-bottom: 13px;
                 margin: 0;
                 table-layout: fixed;
-
-                div {
-                    margin: 0;
-                }
             }
 
             &.attachment__container--permalink {
@@ -232,6 +232,15 @@
                 padding-right: 0;
                 float: none;
                 word-wrap: break-word;
+            }
+
+            .permalink__body--opengraph {
+                overflow: hidden;
+                width: 100%;
+                height: 1.5em;
+                line-height: 1.5em;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
         }
 

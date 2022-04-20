@@ -9,7 +9,7 @@ import EditCategoryModal from 'components/edit_category_modal';
 import MoreDirectChannels from 'components/more_direct_channels';
 import DataPrefetch from 'components/data_prefetch';
 import MoreChannels from 'components/more_channels';
-import NewChannelFlow from 'components/new_channel_flow';
+import NewChannelModal from 'components/new_channel_modal/new_channel_modal';
 import InvitationModal from 'components/invitation_modal';
 import UserSettingsModal from 'components/user_settings/modal';
 
@@ -40,11 +40,13 @@ type Props = {
         fetchMyCategories: (teamId: string) => {data: boolean};
         createCategory: (teamId: string, categoryName: string) => {data: string};
         openModal: <P>(modalData: ModalData<P>) => void;
+        closeModal: (modalId: string) => void;
         clearChannelSelection: () => void;
     };
     isCloud: boolean;
     unreadFilterEnabled: boolean;
     isMobileView: boolean;
+    isKeyBoardShortcutModalOpen: boolean;
     userGroupsEnabled: boolean;
     canCreateCustomGroups: boolean;
 };
@@ -102,11 +104,14 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         if (ctrlOrMetaKeyPressed) {
             if (Utils.isKeyPressed(event, Constants.KeyCodes.FORWARD_SLASH)) {
                 event.preventDefault();
-
-                this.props.actions.openModal({
-                    modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL,
-                    dialogType: KeyboardShortcutsModal,
-                });
+                if (this.props.isKeyBoardShortcutModalOpen) {
+                    this.props.actions.closeModal(ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL);
+                } else {
+                    this.props.actions.openModal({
+                        modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL,
+                        dialogType: KeyboardShortcutsModal,
+                    });
+                }
             } else if (Utils.isKeyPressed(event, Constants.KeyCodes.A) && event.shiftKey) {
                 event.preventDefault();
 
@@ -161,8 +166,8 @@ export default class Sidebar extends React.PureComponent<Props, State> {
 
     showNewChannelModal = () => {
         this.props.actions.openModal({
-            modalId: ModalIdentifiers.NEW_CHANNEL_FLOW,
-            dialogType: NewChannelFlow,
+            modalId: ModalIdentifiers.NEW_CHANNEL_MODAL,
+            dialogType: NewChannelModal,
         });
         trackEvent('ui', 'ui_channels_create_channel_v2');
     }

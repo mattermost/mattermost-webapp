@@ -476,7 +476,7 @@ export const getLastPostPerChannel: (state: GlobalState) => RelationOneToOne<Cha
         const ret: Record<string, Post> = {};
 
         for (const [channelId, postsForChannel] of Object.entries(postsInChannel)) {
-            const recentBlock = (postsForChannel).find((block) => block.recent);
+            const recentBlock = postsForChannel.find((block) => block.recent);
             if (!recentBlock) {
                 continue;
             }

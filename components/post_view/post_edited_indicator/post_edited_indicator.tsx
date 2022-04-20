@@ -13,11 +13,12 @@ import Tooltip from '../../tooltip';
 import {Props} from './index';
 
 const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0}: Props): JSX.Element | null => {
+    const {formatMessage, formatDate, formatTime} = useIntl();
+
     if (!postId || editedAt === 0) {
         return null;
     }
 
-    const {formatMessage, formatDate, formatTime} = useIntl();
     const editedDate = timeZone ? getDateForTimezone(new Date(editedAt), timeZone) : new Date(editedAt);
 
     let date;

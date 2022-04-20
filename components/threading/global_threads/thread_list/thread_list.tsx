@@ -78,11 +78,12 @@ const ThreadList = ({
     const handleKeyDown = useCallback((e: KeyboardEvent) => {
         // Ensure that arrow keys navigation is not triggered if the textbox is focused
         const target = e.target as HTMLElement;
-        if (target?.id === 'reply_textbox') {
+        const tagName = target?.tagName?.toLowerCase();
+        if (tagName === 'input' || tagName === 'textarea' || tagName === 'select') {
             return;
         }
-
-        if (!Utils.isKeyPressed(e, Constants.KeyCodes.DOWN) && !Utils.isKeyPressed(e, Constants.KeyCodes.UP)) {
+        const comboKeyPressed = e.altKey || e.metaKey || e.shiftKey || e.ctrlKey;
+        if (comboKeyPressed || (!Utils.isKeyPressed(e, Constants.KeyCodes.DOWN) && !Utils.isKeyPressed(e, Constants.KeyCodes.UP))) {
             return;
         }
 
@@ -205,6 +206,7 @@ const ThreadList = ({
                             })}
                         >
                             <Button
+                                id={'threads-list__mark-all-as-read'}
                                 className={'Button___large Button___icon'}
                                 onClick={handleAllMarkedRead}
                             >
@@ -224,7 +226,7 @@ const ThreadList = ({
                     selectedThreadId={selectedThreadId}
                     total={unread ? totalUnread : total}
                     isLoading={isLoading}
-                    hasLoaded={hasLoaded}
+                    addNoMoreResultsItem={hasLoaded && !unread}
                 />
                 {showListTutorialTip && !isMobileView && <CRTListTutorialTip autoTour={tutorialTipAutoTour}/>}
                 {unread && !someUnread && isEmpty(unreadIds) ? (

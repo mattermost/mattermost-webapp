@@ -7,6 +7,7 @@ import {RouterProps} from 'react-router-dom';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import {GeneralTypes} from 'mattermost-redux/action_types';
+import {General} from 'mattermost-redux/constants';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {createChannel} from 'mattermost-redux/actions/channels';
 import {getFirstAdminSetupComplete as getFirstAdminSetupCompleteAction} from 'mattermost-redux/actions/general';
@@ -81,6 +82,7 @@ const WAIT_FOR_REDIRECT_TIME = 2000 - START_TRANSITIONING_OUT;
 export type Actions = {
     createTeam: (team: Team) => ActionResult;
     checkIfTeamExists: (teamName: string) => ActionResult;
+    getProfiles: (page: number, perPage: number, options: Record<string, any>) => ActionResult;
 }
 
 type Props = RouterProps & {
@@ -141,6 +143,7 @@ export default function PreparingWorkspace(props: Props) {
     const inferredTeam = currentTeam || myTeams?.[0];
     const config = useSelector(getConfig);
     const configSiteUrl = config.SiteURL;
+    const pluginsEnabled = config.PluginsEnabled === 'true';
     const isConfigSiteUrlDefault = config.SiteURL === '' || Boolean(config.SiteURL && config.SiteURL === Constants.DEFAULT_SITE_URL);
     const lastIsConfigSiteUrlDefaultRef = useRef(isConfigSiteUrlDefault);
     const showOnMountTimeout = useRef<NodeJS.Timeout>();
@@ -149,7 +152,7 @@ export default function PreparingWorkspace(props: Props) {
         isSelfHosted && WizardSteps.Organization,
         isSelfHosted && isConfigSiteUrlDefault && WizardSteps.Url,
         WizardSteps.UseCase,
-        WizardSteps.Plugins,
+        pluginsEnabled && WizardSteps.Plugins,
         WizardSteps.Channel,
         WizardSteps.InviteMembers,
         WizardSteps.LaunchingWorkspace,
@@ -164,10 +167,29 @@ export default function PreparingWorkspace(props: Props) {
         ...emptyForm,
         url: configSiteUrl || browserSiteUrl,
     });
+
+    useEffect(() => {
+        if (!pluginsEnabled) {
+            if (!form.plugins.skipped) {
+                setForm({
+                    ...form,
+                    plugins: {
+                        skipped: false,
+                    },
+                });
+            }
+            if (currentStep === WizardSteps.Plugins) {
+                const mostRecentStepIndex = stepOrder.indexOf(mostRecentStep);
+                setStepHistory([mostRecentStep, stepOrder[Math.max(mostRecentStepIndex - 1, 0)]]);
+            }
+        }
+    }, [pluginsEnabled, currentStep, mostRecentStep]);
+
     const [showFirstPage, setShowFirstPage] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
     useEffect(() => {
         showOnMountTimeout.current = setTimeout(() => setShowFirstPage(true), 40);
+        props.actions.getProfiles(0, General.PROFILE_CHUNK_SIZE, {roles: General.SYSTEM_ADMIN_ROLE});
         dispatch(getFirstAdminSetupCompleteAction());
         document.body.classList.add('admin-onboarding');
         return () => {

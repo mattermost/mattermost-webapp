@@ -358,6 +358,13 @@ export function getIconClassName(fileTypeIn) {
     return 'generic';
 }
 
+export function getMenuItemIcon(name, dangerous) {
+    const colorClass = dangerous ? 'MenuItem__compass-icon-dangerous' : 'MenuItem__compass-icon';
+    return (
+        <span className={`${name} ${colorClass}`}/>
+    );
+}
+
 export function toTitleCase(str) {
     function doTitleCase(txt) {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
@@ -952,6 +959,10 @@ export function setSelectionRange(input, selectionStart, selectionEnd) {
 }
 
 export function setCaretPosition(input, pos) {
+    if (!input) {
+        return;
+    }
+
     setSelectionRange(input, pos, pos);
 }
 
@@ -1665,25 +1676,6 @@ export function setCSRFFromCookie() {
 export function isDevMode(state = store.getState()) {
     const config = getConfig(state);
     return config.EnableDeveloper === 'true';
-}
-
-/**
- * Enables dev mode features.
- */
-export function enableDevModeFeatures() {
-    /*eslint no-extend-native: ["error", { "exceptions": ["Set", "Map"] }]*/
-    Object.defineProperty(Set.prototype, 'length', {
-        configurable: true, // needed for testing
-        get: () => {
-            throw new Error('Set.length is not supported. Use Set.size instead.');
-        },
-    });
-    Object.defineProperty(Map.prototype, 'length', {
-        configurable: true, // needed for testing
-        get: () => {
-            throw new Error('Map.length is not supported. Use Map.size instead.');
-        },
-    });
 }
 
 /**

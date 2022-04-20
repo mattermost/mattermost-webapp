@@ -92,7 +92,7 @@ export type ViewsState = {
     };
 
     emoji: {
-        emojiPickerCustomPage: 0;
+        emojiPickerCustomPage: number;
         shortcutReactToLastPostEmittedFrom: string;
     };
 
@@ -104,6 +104,7 @@ export type ViewsState = {
 
     search: {
         modalSearch: string;
+        channelMembersRhsSearch: string;
         modalFilters: ModalFilters;
         systemUsersSearch: {
             term: string;

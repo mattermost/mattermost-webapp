@@ -6,6 +6,14 @@ MM_UTILITIES_DIR = ../mattermost-utilities
 EMOJI_TOOLS_DIR = ./build/emoji
 export NODE_OPTIONS=--max-old-space-size=4096
 
+-include config.override.mk
+include config.mk
+
+RUN_IN_BACKGROUND ?=
+ifeq ($(RUN_CLIENT_IN_BACKGROUND),true)
+	RUN_IN_BACKGROUND := &
+endif
+
 build-storybook: node_modules ## Build the storybook
 	@echo Building storybook
 
@@ -78,7 +86,7 @@ build: node_modules ## Builds the app
 run: node_modules ## Runs app
 	@echo Running mattermost Webapp for development
 
-	npm run run &
+	npm run run $(RUN_IN_BACKGROUND)
 
 dev: node_modules ## Runs webpack-dev-server
 	npm run dev-server
@@ -86,7 +94,7 @@ dev: node_modules ## Runs webpack-dev-server
 run-fullmap: node_modules ## Legacy alias to run
 	@echo Running mattermost Webapp for development
 
-	npm run run &
+	npm run run $(RUN_IN_BACKGROUND)
 
 stop: ## Stops webpack
 	@echo Stopping changes watching

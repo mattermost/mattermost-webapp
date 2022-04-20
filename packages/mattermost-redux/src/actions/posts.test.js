@@ -1204,12 +1204,12 @@ describe('Actions.Posts', () => {
     it('getOpenGraphMetadata', async () => {
         const {dispatch, getState} = store;
 
-        const url = 'https://about.mattermost.com';
+        const url = 'https://mattermost.com';
         const docs = 'https://docs.mattermost.com/';
 
         nock(Client4.getBaseRoute()).
             post('/opengraph').
-            reply(200, {type: 'article', url: 'https://about.mattermost.com/', title: 'Mattermost private cloud messaging', description: 'Open source,  private cloud\nSlack-alternative, \nWorkplace messaging for web, PCs and phones.'});
+            reply(200, {type: 'article', url: 'https://mattermost.com/', title: 'Mattermost private cloud messaging', description: 'Open source,  private cloud\nSlack-alternative, \nWorkplace messaging for web, PCs and phones.'});
         await dispatch(Actions.getOpenGraphMetadata(url));
 
         nock(Client4.getBaseRoute()).

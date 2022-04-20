@@ -25,6 +25,8 @@ import configureStore from 'tests/test_store';
 import {browserHistory} from 'utils/browser_history';
 import Constants, {SocketEvents, UserStatuses, ActionTypes} from 'utils/constants';
 
+import mergeObjects from 'packages/mattermost-redux/test/merge_objects';
+
 import {
     handleChannelUpdatedEvent,
     handleEvent,
@@ -38,6 +40,8 @@ import {
     handleUserTypingEvent,
     handleLeaveTeamEvent,
     reconnect,
+    handleAppsPluginEnabled,
+    handleAppsPluginDisabled,
 } from './websocket_actions';
 
 jest.mock('mattermost-redux/actions/posts', () => ({
@@ -71,9 +75,14 @@ jest.mock('actions/views/channel', () => ({
     syncPostsInChannel: jest.fn(),
 }));
 
+jest.mock('plugins', () => ({
+    ...jest.requireActual('plugins'),
+    loadPluginsIfNecessary: jest.fn(() => Promise.resolve()),
+}));
+
 jest.mock('utils/browser_history');
 
-const mockState = {
+let mockState = {
     entities: {
         users: {
             currentUserId: 'currentUserId',
@@ -99,7 +108,9 @@ const mockState = {
             },
         },
         general: {
-            config: {},
+            config: {
+                PluginsEnabled: 'true',
+            },
         },
         channels: {
             currentChannelId: 'otherChannel',
@@ -284,9 +295,38 @@ describe('handleUserRemovedEvent', () => {
             },
         };
 
-        mockState.entities.roles.roles = {system_guest: {permissions: []}};
+        mockState = mergeObjects(
+            mockState,
+            {
+                entities: {
+                    roles: {
+                        roles: {
+                            system_guest: {
+                                permissions: [],
+                            },
+                        },
+                    },
+                },
+            },
+        );
+
         handleUserRemovedEvent(msg);
-        mockState.entities.roles.roles = {system_guest: {permissions: ['view_members']}};
+
+        mockState = mergeObjects(
+            mockState,
+            {
+                entities: {
+                    roles: {
+                        roles: {
+                            system_guest: {
+                                permissions: ['view_members'],
+                            },
+                        },
+                    },
+                },
+            },
+        );
+
         expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
     });
 
@@ -965,6 +1005,20 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
 
             expect(console.error).toHaveBeenCalledTimes(0);
         });
+    });
+});
+
+describe('handleAppsPluginEnabled', () => {
+    test('plugin enabled action is dispatched', async () => {
+        const enableAction = handleAppsPluginEnabled();
+        expect(enableAction).toEqual({type: 'APPS_PLUGIN_ENABLED'});
+    });
+});
+
+describe('handleAppsPluginDisabled', () => {
+    test('plugin disabled action is dispatched', async () => {
+        const disableAction = handleAppsPluginDisabled();
+        expect(disableAction).toEqual({type: 'APPS_PLUGIN_DISABLED'});
     });
 });
 

@@ -20,13 +20,11 @@ type OwnProps = {
     groupId: string;
 }
 
-function makeMapStateToProps() {
-    return (state: GlobalState, props: OwnProps) => {
-        const group = getGroup(state, props.groupId);
+function makeMapStateToProps(state: GlobalState, props: OwnProps) {
+    const group = getGroup(state, props.groupId);
 
-        return {
-            group,
-        };
+    return {
+        group,
     };
 }
 

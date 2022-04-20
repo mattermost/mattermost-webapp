@@ -1105,7 +1105,6 @@ $sidebarOpacityAnimationDuration: 0.15s;
         &.expanded {
             animation-direction: normal;
             animation-duration: $sidebarOpacityAnimationDuration;
-            animation-fill-mode: forwards;
             animation-iteration-count: 1;
             animation-name: toOpaqueAnimation;
             animation-play-state: running;
@@ -1115,7 +1114,6 @@ $sidebarOpacityAnimationDuration: 0.15s;
             height: 0 !important;
             animation-direction: normal;
             animation-duration: $sidebarOpacityAnimationDuration;
-            animation-fill-mode: forwards;
             animation-iteration-count: 1;
             animation-name: toTransparentAnimation;
             animation-play-state: running;

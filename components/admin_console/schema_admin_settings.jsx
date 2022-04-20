@@ -1093,6 +1093,12 @@ export default class SchemaAdminSettings extends React.PureComponent {
         }
 
         for (const setting of this.props.schema.settings) {
+            // Some settings are actually not settings (banner)
+            // and don't have a key, skip those ones
+            if (!('key' in setting)) {
+                continue;
+            }
+
             // don't validate elements set by env.
             if (this.isSetByEnv(setting.key)) {
                 continue;
@@ -1101,14 +1107,10 @@ export default class SchemaAdminSettings extends React.PureComponent {
             if (setting.validate) {
                 const result = setting.validate(this.state[setting.key]);
                 if (!result.isValid()) {
-                    this.setState({clientWarning: result.error()});
                     return false;
                 }
             }
         }
-        this.setState({
-            clientWarning: '',
-        });
 
         return true;
     }

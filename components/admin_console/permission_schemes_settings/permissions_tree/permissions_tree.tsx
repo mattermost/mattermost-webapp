@@ -14,6 +14,8 @@ import PermissionGroup from '../permission_group.jsx';
 import EditPostTimeLimitButton from '../edit_post_time_limit_button';
 import EditPostTimeLimitModal from '../edit_post_time_limit_modal';
 
+import {isEnterpriseLicense, isNonEnterpriseLicense} from 'mattermost-redux/types/general';
+
 import {AdditionalValues, Group} from './types';
 
 type Props = {
@@ -25,7 +27,7 @@ type Props = {
     selected?: string | null;
     selectRow: (id: string) => void;
     readOnly?: boolean;
-    license?: Partial<ClientLicense>;
+    license?: ClientLicense;
     customGroupsEnabled: boolean;
 }
 
@@ -122,8 +124,18 @@ export default class PermissionsTree extends React.PureComponent<Props, State> {
                     Permissions.PLAYBOOK_PUBLIC_CREATE,
                     Permissions.PLAYBOOK_PUBLIC_MANAGE_PROPERTIES,
                     Permissions.PLAYBOOK_PUBLIC_MANAGE_MEMBERS,
+                ],
+                isVisible: isNonEnterpriseLicense,
+            },
+            {
+                id: 'playbook_public',
+                permissions: [
+                    Permissions.PLAYBOOK_PUBLIC_CREATE,
+                    Permissions.PLAYBOOK_PUBLIC_MANAGE_PROPERTIES,
+                    Permissions.PLAYBOOK_PUBLIC_MANAGE_MEMBERS,
                     Permissions.PLAYBOOK_PUBLIC_MAKE_PRIVATE,
                 ],
+                isVisible: isEnterpriseLicense,
             },
             {
                 id: 'playbook_private',
@@ -131,7 +143,9 @@ export default class PermissionsTree extends React.PureComponent<Props, State> {
                     Permissions.PLAYBOOK_PRIVATE_CREATE,
                     Permissions.PLAYBOOK_PRIVATE_MANAGE_PROPERTIES,
                     Permissions.PLAYBOOK_PRIVATE_MANAGE_MEMBERS,
+                    Permissions.PLAYBOOK_PRIVATE_MAKE_PUBLIC,
                 ],
+                isVisible: isEnterpriseLicense,
             },
             {
                 id: 'runs',
@@ -196,11 +210,13 @@ export default class PermissionsTree extends React.PureComponent<Props, State> {
 
     updateGroups = () => {
         const {config, scope, license} = this.props;
-        const sharedChannelsGroup = this.groups[this.groups.length - 1];
-        const integrationsGroup = this.groups[this.groups.length - 2];
-        const postsGroup = this.groups[this.groups.length - 3];
-        const customGroupsGroup = this.groups.find((group) => group.id === 'custom_groups');
+
         const teamsGroup = this.groups[0];
+        const postsGroup = this.groups[7];
+        const integrationsGroup = this.groups[8];
+        const sharedChannelsGroup = this.groups[9];
+        const customGroupsGroup = this.groups[10];
+
         if (config.EnableIncomingWebhooks === 'true' && !integrationsGroup.permissions.includes(Permissions.MANAGE_INCOMING_WEBHOOKS)) {
             integrationsGroup.permissions.push(Permissions.MANAGE_INCOMING_WEBHOOKS);
         }
@@ -240,6 +256,14 @@ export default class PermissionsTree extends React.PureComponent<Props, State> {
         if (!this.props.customGroupsEnabled) {
             customGroupsGroup?.permissions.pop();
         }
+
+        this.groups = this.groups.filter((group) => {
+            if (group.isVisible) {
+                return group.isVisible(this.props.license);
+            }
+
+            return true;
+        });
     }
 
     openPostTimeLimitModal = () => {

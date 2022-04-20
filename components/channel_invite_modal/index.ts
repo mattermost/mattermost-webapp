@@ -9,11 +9,17 @@ import {getProfilesNotInChannel, searchProfiles} from 'mattermost-redux/actions/
 import {getProfilesNotInCurrentChannel, getProfilesNotInCurrentTeam, getProfilesNotInTeam, getUserStatuses, makeGetProfilesNotInChannel} from 'mattermost-redux/selectors/entities/users';
 import {Action, ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {haveICurrentTeamPermission} from 'mattermost-redux/selectors/entities/roles';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {Permissions} from 'mattermost-redux/constants';
 
 import {Value} from 'components/multiselect/multiselect';
 
 import {addUsersToChannel} from 'actions/channel_actions';
 import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
+
+import {closeModal} from 'actions/views/modals';
 
 import {GlobalState} from 'types/store';
 
@@ -28,7 +34,6 @@ type OwnProps = {
 
 function makeMapStateToProps() {
     const doGetProfilesNotInChannel = makeGetProfilesNotInChannel();
-
     return (state: GlobalState, props: OwnProps) => {
         let profilesNotInCurrentChannel: UserProfileValue[];
         let profilesNotInCurrentTeam: UserProfileValue[];
@@ -41,12 +46,24 @@ function makeMapStateToProps() {
             profilesNotInCurrentTeam = getProfilesNotInCurrentTeam(state) as UserProfileValue[];
         }
 
+        const config = getConfig(state);
+        const license = getLicense(state);
+        const currentTeam = getCurrentTeam(state);
+
+        const guestAccountsEnabled = config.EnableGuestAccounts === 'true';
+        const emailInvitationsEnabled = config.EnableEmailInvitations === 'true';
+        const isLicensed = license && license.IsLicensed === 'true';
+        const isGroupConstrained = Boolean(currentTeam.group_constrained);
+        const canInviteGuests = !isGroupConstrained && isLicensed && guestAccountsEnabled && haveICurrentTeamPermission(state, Permissions.INVITE_GUEST);
+
         const userStatuses = getUserStatuses(state);
 
         return {
             profilesNotInCurrentChannel,
             profilesNotInCurrentTeam,
             userStatuses,
+            canInviteGuests,
+            emailInvitationsEnabled,
         };
     };
 }
@@ -57,6 +74,7 @@ type Actions = {
     getTeamStats: (teamId: string) => void;
     loadStatusesForProfilesList: (users: UserProfile[]) => void;
     searchProfiles: (term: string, options: any) => Promise<ActionResult>;
+    closeModal: (modalId: string) => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
@@ -67,6 +85,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             getTeamStats,
             loadStatusesForProfilesList,
             searchProfiles,
+            closeModal,
         }, dispatch),
     };
 }

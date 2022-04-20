@@ -156,7 +156,7 @@ export default class ManageTokensModal extends React.PureComponent<Props, State>
                 <div className='pt-3'>
                     <FormattedMarkdownMessage
                         id='admin.manage_tokens.userAccessTokensDescription'
-                        defaultMessage='Personal access tokens function similarly to session tokens and can be used by integrations to [interact with this Mattermost server](!https://about.mattermost.com/default-api-authentication). Tokens are disabled if the user is deactivated. Learn more about [personal access tokens](!https://about.mattermost.com/default-user-access-tokens).'
+                        defaultMessage='Personal access tokens function similarly to session tokens and can be used by integrations to [interact with this Mattermost server](!https://api.mattermost.com/#tag/authentication). Tokens are disabled if the user is deactivated. Learn more about [personal access tokens](!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/).'
                     />
                 </div>
                 <div className='manage-teams__teams'>

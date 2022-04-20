@@ -77,9 +77,7 @@ type Props = {
     plugins?: any;
     selectedThreadId: string | null;
     shouldShowAppBar: boolean;
-
-    // TODO@Michel: remove this line once the inline post editing feature is enabled by default
-    isInlinePostEditingEnabled: boolean;
+    isCustomGroupsEnabled: boolean;
 }
 
 type State = {
@@ -106,7 +104,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             const currentTime = (new Date()).getTime();
             if (currentTime > (lastTime + WAKEUP_THRESHOLD)) { // ignore small delays
                 console.log('computer woke up - fetching latest'); //eslint-disable-line no-console
-                reconnect(true);
+                reconnect(false);
             }
             lastTime = currentTime;
         }, WAKEUP_CHECK_INTERVAL);
@@ -251,13 +249,16 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
 
         if (this.props.license &&
             this.props.license.IsLicensed === 'true' &&
-            this.props.license.LDAPGroups === 'true') {
+            (this.props.license.LDAPGroups === 'true' || this.props.isCustomGroupsEnabled)) {
             if (this.props.currentUser) {
                 this.props.actions.getGroupsByUserIdPaginated(this.props.currentUser.id, false, 0, 60, true);
             }
 
-            this.props.actions.getAllGroupsAssociatedToChannelsInTeam(team.id, true);
-            if (team.group_constrained) {
+            if (this.props.license.LDAPGroups === 'true') {
+                this.props.actions.getAllGroupsAssociatedToChannelsInTeam(team.id, true);
+            }
+
+            if (team.group_constrained && this.props.license.LDAPGroups === 'true') {
                 this.props.actions.getAllGroupsAssociatedToTeam(team.id, true);
             } else {
                 this.props.actions.getGroups(false, 0, 60);
@@ -333,9 +334,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                         <ChannelController
                             shouldShowAppBar={this.props.shouldShowAppBar}
                             fetchingChannels={!this.state.finishedFetchingChannels}
-
-                            // TODO@Michel: remove this prop once the inline post editing feature is enabled by default
-                            enableEditPostModal={!this.props.isInlinePostEditingEnabled}
                         />
                     )}
                 />
