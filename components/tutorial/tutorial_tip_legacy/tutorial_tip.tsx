@@ -5,9 +5,11 @@ import React from 'react';
 import {Overlay} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
-import Constants from 'utils/constants';
+import Constants, {RecommendedNextSteps} from 'utils/constants';
 import PulsatingDot from 'components/widgets/pulsating_dot';
 
 import * as Utils from 'utils/utils';
@@ -70,6 +72,7 @@ type Props = {
     actions: {
         closeRhsMenu: () => void;
         savePreferences: (currentUserId: string, preferences: Preference[]) => void;
+        setFirstChannelName: (channelName: string) => (dispatch: DispatchFunc) => void;
         setProductMenuSwitcherOpen: (open: boolean) => void;
     };
     autoTour: boolean;
@@ -179,7 +182,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
 
     handleSavePreferences = (autoTour: boolean, nextStep: boolean | number): void => {
         const {isAdmin, currentUserId, tutorialCategory, actions, singleTip, onNextNavigateTo, onPrevNavigateTo} = this.props;
-        const {closeRhsMenu, savePreferences} = actions;
+        const {closeRhsMenu, savePreferences, setFirstChannelName} = actions;
 
         let stepValue = this.props.currentStep;
         if (nextStep === true) {
@@ -232,6 +235,19 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         this.hide();
 
         savePreferences(currentUserId, preferences);
+
+        // remove the value for the a/b test first_channel_creation so the a/b auto tour can execute correctly
+        if (!tutorialCategory && this.props.currentStep === OnBoardingTutorialStep.ADD_FIRST_CHANNEL) {
+            const abPreferences = [{
+                user_id: currentUserId,
+                category: Preferences.AB_TEST_PREFERENCE_VALUE,
+                name: RecommendedNextSteps.CREATE_FIRST_CHANNEL,
+                value: '',
+            }];
+
+            savePreferences(currentUserId, abPreferences);
+            setFirstChannelName('');
+        }
 
         // if the next tip is start trial tip, open the product switcher to show tip
         if (((this.props.currentStep + 1) === OnBoardingTutorialStep.START_TRIAL) && this.props.isAdmin) {
