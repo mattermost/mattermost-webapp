@@ -37,7 +37,7 @@ const BarBackground = styled.div<BarBackgroundProps>`
     background: ${(props) => (
         isExceeded(props.percent, props.thresholds) ?
             'var(--dnd-indicator)' :
-            `rgba(var(--center-channel-text-rgb), 0.11)`
+            'rgba(var(--center-channel-text-rgb), 0.11)'
     )};
     border-radius: 8px;
     position: relative;
@@ -68,7 +68,7 @@ function isExceeded(percent: number, thresholds: Thresholds): boolean {
 
 const BarForeground = styled.div<BarForegroundProps>`
     height: 100%;
-    width: ${(props) => isExceeded(props.percent, props.thresholds) ? 91 : props.percent}%;
+    width: ${(props) => (isExceeded(props.percent, props.thresholds) ? 91 : props.percent)}%;
     border-radius: 8px;
     background-color: ${(props) => getColor(props.percent, props.thresholds)};
     transition: background-color 0.4s ease, width 0.4s ease;

@@ -148,6 +148,7 @@
 
 .ProductLimitsPanel {
     @include cloud-card;
+
     &__title {
         @include cloud-card-title;
     }
@@ -164,6 +165,7 @@
 
 .PrivateCloudCard {
     @include cloud-card;
+
     display: flex;
 
     .UpgradeMattermostCloud__upgradeButton {

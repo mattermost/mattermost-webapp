@@ -61,22 +61,24 @@ const Limits = (): JSX.Element | null => {
             <div className='ProductLimitsPanel__limits'>
                 {cloudLimits.files && (
                     <LimitCard
-                        name={<FormattedMessage
-                            id='workspace_limits.file_storage'
-                            defaultMessage='File Storage'
-                        />
-                        }
-                        status={<FormattedMessage
-                            id='workspace_limits.file_storage.usage'
-                            defaultMessage='{actual} of {limit} ({percent}%)'
-                            values={{
-                                actual: `${Math.floor(fakeUsage.files.totalStorage / GB)}GB`,
-                                limit: `${Math.floor(cloudLimits.files.total_storage / GB)}GB`,
-                                percent: Math.floor((fakeUsage.files.totalStorage / cloudLimits.files.total_storage) * 100),
+                        name={(
+                            <FormattedMessage
+                                id='workspace_limits.file_storage'
+                                defaultMessage='File Storage'
+                            />
+                        )}
+                        status={(
+                            <FormattedMessage
+                                id='workspace_limits.file_storage.usage'
+                                defaultMessage='{actual} of {limit} ({percent}%)'
+                                values={{
+                                    actual: `${Math.floor(fakeUsage.files.totalStorage / GB)}GB`,
+                                    limit: `${Math.floor(cloudLimits.files.total_storage / GB)}GB`,
+                                    percent: Math.floor((fakeUsage.files.totalStorage / cloudLimits.files.total_storage) * 100),
 
-                            }}
-                        />
-                        }
+                                }}
+                            />
+                        )}
                         percent={Math.floor((1 / (cloudLimits.files.total_storage / GB)) * 100)}
                         icon='icon-folder-outline'
                     />
@@ -106,19 +108,23 @@ const Limits = (): JSX.Element | null => {
                 )}
                 {cloudLimits.boards && (
                     <LimitCard
-                        name={<FormattedMessage
-                            id='workspace_limits.boards_cards'
-                            defaultMessage='Board Cards per Server'
-                        />}
-                        status={<FormattedMessage
-                            id='workspace_limits.boards_cards.usage'
-                            defaultMessage='{actual} of {limit} cards ({percent}%)'
-                            values={{
-                                actual: fakeUsage.boards.cards,
-                                limit: cloudLimits.boards.cards,
-                                percent: Math.floor((fakeUsage.boards.cards / cloudLimits.boards.cards) * 100),
-                            }}
-                        />}
+                        name={(
+                            <FormattedMessage
+                                id='workspace_limits.boards_cards'
+                                defaultMessage='Board Cards per Server'
+                            />
+                        )}
+                        status={(
+                            <FormattedMessage
+                                id='workspace_limits.boards_cards.usage'
+                                defaultMessage='{actual} of {limit} cards ({percent}%)'
+                                values={{
+                                    actual: fakeUsage.boards.cards,
+                                    limit: cloudLimits.boards.cards,
+                                    percent: Math.floor((fakeUsage.boards.cards / cloudLimits.boards.cards) * 100),
+                                }}
+                            />
+                        )}
                         percent={Math.floor((fakeUsage.boards.cards / cloudLimits.boards.cards) * 100)}
                         icon='icon-product-boards'
                     />
@@ -132,15 +138,17 @@ const Limits = (): JSX.Element | null => {
                                 defaultMessage='Enabled Integrations'
                             />
                         }
-                        status={<FormattedMessage
-                            id='workspace_limits.integrations_enabled.usage'
-                            defaultMessage='{actual} of {limit} integrations ({percent}%)'
-                            values={{
-                                actual: fakeUsage.integrations.enabled,
-                                limit: cloudLimits.integrations.enabled,
-                                percent: Math.floor((fakeUsage.integrations.enabled / cloudLimits.integrations.enabled) * 100),
-                            }}
-                        />}
+                        status={(
+                            <FormattedMessage
+                                id='workspace_limits.integrations_enabled.usage'
+                                defaultMessage='{actual} of {limit} integrations ({percent}%)'
+                                values={{
+                                    actual: fakeUsage.integrations.enabled,
+                                    limit: cloudLimits.integrations.enabled,
+                                    percent: Math.floor((fakeUsage.integrations.enabled / cloudLimits.integrations.enabled) * 100),
+                                }}
+                            />
+                        )}
                         percent={Math.floor((fakeUsage.integrations.enabled / cloudLimits.integrations.enabled) * 100)}
                         icon='icon-product-boards'
                     />
