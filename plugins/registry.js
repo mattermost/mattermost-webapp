@@ -888,4 +888,38 @@ export default class PluginRegistry {
             data,
         });
     }
+
+    // Register a hook to perform search in mattermost plugins/products.
+    registerSearchInProductHook(hook) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'SearchInProduct',
+            data: {
+                id,
+                pluginId: this.id,
+                hook,
+            },
+        });
+
+        return id;
+    }
+
+    // Register a hook to retrieve recent in product/plugin searches.
+    registerRecentInProductSearches(hook) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'RecentInProductSearches',
+            data: {
+                id,
+                pluginId: this.id,
+                hook,
+            },
+        });
+
+        return id;
+    }
 }
