@@ -2013,6 +2013,14 @@ export default class Client4 {
         );
     };
 
+    markThreadAsUnreadForUser = (userId: string, teamId: string, threadId: string, postId: string) => {
+        const url = `${this.getUserThreadRoute(userId, teamId, threadId)}/set_unread/${postId}`;
+        return this.doFetch<UserThread>(
+            url,
+            {method: 'post'},
+        );
+    };
+
     updateThreadFollowForUser = (userId: string, teamId: string, threadId: string, state: boolean) => {
         const url = this.getUserThreadRoute(userId, teamId, threadId) + '/following';
         return this.doFetch<StatusOK>(
