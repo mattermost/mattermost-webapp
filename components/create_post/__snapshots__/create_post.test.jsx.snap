@@ -57,28 +57,16 @@ exports[`components/create_post Show tutorial 1`] = `
             onUploadStart={[Function]}
             postType="post"
           />
-          <EmojiPickerOverlay
-            enableGifPicker={true}
-            onEmojiClick={[Function]}
-            onEmojiClose={[Function]}
-            onGifClick={[Function]}
-            onHide={[Function]}
-            show={false}
-            spaceRequiredAbove={476}
-            spaceRequiredBelow={497}
-            target={[Function]}
-            topOffset={-7}
-          />
-          <button
-            aria-label="emoji picker"
-            className="emoji-picker__container post-action"
-            id="emojiPickerButton"
-            onClick={[Function]}
-            type="button"
-          >
-            <EmoticonOutlineIcon
-              color="currentColor"
-              size={18}
+          <div>
+            <EmojiPickerOverlay
+              enableGifPicker={true}
+              onEmojiClick={[Function]}
+              onEmojiClose={[Function]}
+              onGifClick={[Function]}
+              onHide={[Function]}
+              show={false}
+              target={null}
+              topOffset={-7}
             />
           </button>
           <button
@@ -179,28 +167,16 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
             onUploadStart={[Function]}
             postType="post"
           />
-          <EmojiPickerOverlay
-            enableGifPicker={true}
-            onEmojiClick={[Function]}
-            onEmojiClose={[Function]}
-            onGifClick={[Function]}
-            onHide={[Function]}
-            show={false}
-            spaceRequiredAbove={476}
-            spaceRequiredBelow={497}
-            target={[Function]}
-            topOffset={-7}
-          />
-          <button
-            aria-label="emoji picker"
-            className="emoji-picker__container post-action"
-            id="emojiPickerButton"
-            onClick={[Function]}
-            type="button"
-          >
-            <EmoticonOutlineIcon
-              color="currentColor"
-              size={18}
+          <div>
+            <EmojiPickerOverlay
+              enableGifPicker={true}
+              onEmojiClick={[Function]}
+              onEmojiClose={[Function]}
+              onGifClick={[Function]}
+              onHide={[Function]}
+              show={false}
+              target={null}
+              topOffset={-7}
             />
           </button>
           <button
@@ -389,28 +365,16 @@ exports[`components/create_post should match snapshot when file upload disabled 
             onUploadStart={[Function]}
             postType="post"
           />
-          <EmojiPickerOverlay
-            enableGifPicker={true}
-            onEmojiClick={[Function]}
-            onEmojiClose={[Function]}
-            onGifClick={[Function]}
-            onHide={[Function]}
-            show={false}
-            spaceRequiredAbove={476}
-            spaceRequiredBelow={497}
-            target={[Function]}
-            topOffset={-7}
-          />
-          <button
-            aria-label="emoji picker"
-            className="emoji-picker__container post-action"
-            id="emojiPickerButton"
-            onClick={[Function]}
-            type="button"
-          >
-            <EmoticonOutlineIcon
-              color="currentColor"
-              size={18}
+          <div>
+            <EmojiPickerOverlay
+              enableGifPicker={true}
+              onEmojiClick={[Function]}
+              onEmojiClose={[Function]}
+              onGifClick={[Function]}
+              onHide={[Function]}
+              show={false}
+              target={null}
+              topOffset={-7}
             />
           </button>
           <button
@@ -511,28 +475,16 @@ exports[`components/create_post should match snapshot, can post; preview disable
             onUploadStart={[Function]}
             postType="post"
           />
-          <EmojiPickerOverlay
-            enableGifPicker={true}
-            onEmojiClick={[Function]}
-            onEmojiClose={[Function]}
-            onGifClick={[Function]}
-            onHide={[Function]}
-            show={false}
-            spaceRequiredAbove={476}
-            spaceRequiredBelow={497}
-            target={[Function]}
-            topOffset={-7}
-          />
-          <button
-            aria-label="emoji picker"
-            className="emoji-picker__container post-action"
-            id="emojiPickerButton"
-            onClick={[Function]}
-            type="button"
-          >
-            <EmoticonOutlineIcon
-              color="currentColor"
-              size={18}
+          <div>
+            <EmojiPickerOverlay
+              enableGifPicker={true}
+              onEmojiClick={[Function]}
+              onEmojiClose={[Function]}
+              onGifClick={[Function]}
+              onHide={[Function]}
+              show={false}
+              target={null}
+              topOffset={-7}
             />
           </button>
           <button
@@ -633,28 +585,16 @@ exports[`components/create_post should match snapshot, can post; preview enabled
             onUploadStart={[Function]}
             postType="post"
           />
-          <EmojiPickerOverlay
-            enableGifPicker={true}
-            onEmojiClick={[Function]}
-            onEmojiClose={[Function]}
-            onGifClick={[Function]}
-            onHide={[Function]}
-            show={false}
-            spaceRequiredAbove={476}
-            spaceRequiredBelow={497}
-            target={[Function]}
-            topOffset={-7}
-          />
-          <button
-            aria-label="emoji picker"
-            className="emoji-picker__container post-action"
-            id="emojiPickerButton"
-            onClick={[Function]}
-            type="button"
-          >
-            <EmoticonOutlineIcon
-              color="currentColor"
-              size={18}
+          <div>
+            <EmojiPickerOverlay
+              enableGifPicker={true}
+              onEmojiClick={[Function]}
+              onEmojiClose={[Function]}
+              onGifClick={[Function]}
+              onHide={[Function]}
+              show={false}
+              target={null}
+              topOffset={-7}
             />
           </button>
           <button
@@ -931,28 +871,16 @@ exports[`components/create_post should match snapshot, init 1`] = `
             onUploadStart={[Function]}
             postType="post"
           />
-          <EmojiPickerOverlay
-            enableGifPicker={true}
-            onEmojiClick={[Function]}
-            onEmojiClose={[Function]}
-            onGifClick={[Function]}
-            onHide={[Function]}
-            show={false}
-            spaceRequiredAbove={476}
-            spaceRequiredBelow={497}
-            target={[Function]}
-            topOffset={-7}
-          />
-          <button
-            aria-label="emoji picker"
-            className="emoji-picker__container post-action"
-            id="emojiPickerButton"
-            onClick={[Function]}
-            type="button"
-          >
-            <EmoticonOutlineIcon
-              color="currentColor"
-              size={18}
+          <div>
+            <EmojiPickerOverlay
+              enableGifPicker={true}
+              onEmojiClick={[Function]}
+              onEmojiClose={[Function]}
+              onGifClick={[Function]}
+              onHide={[Function]}
+              show={false}
+              target={null}
+              topOffset={-7}
             />
           </button>
           <button
