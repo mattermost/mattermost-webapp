@@ -440,11 +440,6 @@ class ChannelHeader extends React.PureComponent {
 
         let memberListButton = null;
         if (!isDirect) {
-            const formattedMessage = {
-                id: 'channel_header.channelMembers',
-                defaultMessage: 'Members',
-            };
-
             memberListButton = (
                 <OverlayTrigger
                     delayShow={Constants.OVERLAY_TIME_DELAY}
@@ -452,7 +447,8 @@ class ChannelHeader extends React.PureComponent {
                     overlay={
                         <Tooltip id='channelMembersTooltip'>
                             <FormattedMessage
-                                {...formattedMessage}
+                                id='channel_header.channelMembers'
+                                defaultMessage='Members'
                             />
                         </Tooltip>
                     }
@@ -461,7 +457,7 @@ class ChannelHeader extends React.PureComponent {
                         id='member_rhs'
                         className={'member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide ' + (this.props.rhsState === RHSStates.CHANNEL_MEMBERS ? 'channel-header__icon--active' : '')}
                         onClick={this.toggleChannelMembersRHS}
-                        aria-label={formatMessage(formattedMessage)}
+                        aria-label={localizeMessage('channel_header.channelMembers', 'Members')}
                     >
                         <div className='d-flex align-items-center'>
                             <i
