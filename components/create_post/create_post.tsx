@@ -1346,11 +1346,6 @@ class CreatePost extends React.PureComponent<Props, State> {
             centerClass = 'center';
         }
 
-        let sendButtonClass = 'btn btn-primary send-button theme';
-        if (!this.shouldEnableSendButton()) {
-            sendButtonClass += ' disabled';
-        }
-
         const fileUpload = !readOnlyChannel && !this.props.shouldShowPreview ? (
             <FileUpload
                 ref={this.fileUploadRef}
@@ -1410,6 +1405,8 @@ class CreatePost extends React.PureComponent<Props, State> {
             );
         }
 
+        const sendButtonEnabled = this.shouldEnableSendButton();
+
         return (
             <form
                 id='create_post'
@@ -1460,27 +1457,28 @@ class CreatePost extends React.PureComponent<Props, State> {
                             >
                                 {fileUpload}
                                 {emojiPicker}
-                                {Utils.isMobile() && (
-                                    <button
-                                        tabIndex={0}
-                                        disabled={!this.shouldEnableSendButton()}
+                                <button
+                                    tabIndex={0}
+                                    aria-label={formatMessage({
+                                        id: 'create_post.send_message',
+                                        defaultMessage: 'Send a message',
+                                    })}
+                                    disabled={!sendButtonEnabled}
+                                    className={classNames('btn btn-primary send-button theme', {
+                                        disabled: !sendButtonEnabled,
+                                        hidden: !Utils.isMobile(),
+                                    })}
+                                    onClick={this.handleSubmit}
+                                >
+                                    <SendIcon
+                                        size={18}
+                                        color='currentColor'
                                         aria-label={formatMessage({
-                                            id: 'create_post.send_message',
-                                            defaultMessage: 'Send a message',
+                                            id: t('create_post.icon'),
+                                            defaultMessage: 'Create a post',
                                         })}
-                                        className={sendButtonClass}
-                                        onClick={this.handleSubmit}
-                                    >
-                                        <SendIcon
-                                            size={18}
-                                            color='currentColor'
-                                            aria-label={formatMessage({
-                                                id: t('create_post.icon'),
-                                                defaultMessage: 'Create a post',
-                                            })}
-                                        />
-                                    </button>
-                                )}
+                                    />
+                                </button>
                             </span>
                         </div>
                         {SendTutorialTip}
