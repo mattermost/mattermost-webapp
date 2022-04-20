@@ -5,17 +5,17 @@ import React from 'react';
 import {NavLink, Route} from 'react-router-dom';
 
 type Props = {
-    children: JSX.Element | JSX.Element[]; // TODO
-    definitionKey: string;
     icon: string;
-    parentLink: string;
-    sectionClass: string;
     title: JSX.Element;
     action?: JSX.Element;
+    children?: JSX.Element | JSX.Element[]; // TODO invalid prop supplied to children
+    definitionKey?: string;
     name?: string;
+    parentLink?: string;
+    sectionClass?: string;
 }
 
-const AdminSidebarCategory = ({children, definitionKey, icon, parentLink = '', sectionClass, title, name, action}: Props) => {
+const AdminSidebarCategory = ({icon, title, action, children, definitionKey, name, parentLink = '', sectionClass}: Props) => {
     let link = parentLink;
     let titleDiv = (
         <div className='category-title category-title--active'>

@@ -18,7 +18,7 @@ import {browserHistory} from 'utils/browser_history';
 
 import AdminSidebarCategory from 'components/admin_console/admin_sidebar/admin_sidebar_category';
 import AdminSidebarHeader from 'components/admin_console/admin_sidebar_header';
-import AdminSidebarSection from 'components/admin_console/admin_sidebar_section.jsx';
+import AdminSidebarSection from 'components/admin_console/admin_sidebar/admin_sidebar_section';
 import Highlight from 'components/admin_console/highlight';
 import SearchIcon from 'components/widgets/icons/search_icon';
 import QuickInput from 'components/quick_input';
@@ -224,6 +224,7 @@ class AdminSidebar extends React.PureComponent<Props, State> {
                     const subDefinitionKey = `${key}.${subKey}`;
                     let tag = '';
                     if (item.tag?.shouldDisplay(license)) {
+                        console.log('item.tag', item.tag);
                         tag = item.tag.value;
                     }
                     sidebarItems.push((
