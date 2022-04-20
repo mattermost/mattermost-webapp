@@ -481,6 +481,39 @@ export default class PluginRegistry {
         return id;
     }
 
+    // Register a hook to perform search in mattermost plugins/products.
+    registerSearchInProductHook(hook) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'SearchInProduct',
+            data: {
+                id,
+                pluginId: this.id,
+                hook,
+            },
+        });
+
+        return id;
+    }
+
+    registerRecentInProductSearches(hook) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'RecentInProductSearches',
+            data: {
+                id,
+                pluginId: this.id,
+                hook,
+            },
+        });
+
+        return id;
+    }
+
     // Unregister a component, action or hook using the unique identifier returned after registration.
     // Accepts a string id.
     // Returns undefined in all cases.
