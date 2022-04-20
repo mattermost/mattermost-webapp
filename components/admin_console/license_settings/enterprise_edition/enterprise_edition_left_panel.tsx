@@ -1,18 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+import React, {RefObject} from 'react';
 
 import {FormattedMessage, FormattedNumber} from 'react-intl';
 
 import {ClientLicense} from 'mattermost-redux/types/config';
 import {LicenseSkus} from 'mattermost-redux/types/general';
-import {ModalData} from 'types/actions';
 
 import {getRemainingDaysFromFutureTimestamp, toTitleCase} from 'utils/utils';
-import {ModalIdentifiers} from 'utils/constants';
+import {FileTypes} from 'utils/constants';
 
 import Badge from 'components/widgets/badges/badge';
-import UploadLicenseModal from '../modals/upload_license_modal';
 
 import './enterprise_edition.scss';
 
@@ -27,8 +25,8 @@ export interface EnterpriseEditionProps {
     handleRemove: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>;
     isDisabled: boolean;
     removing: boolean;
-    openModal: <P>(modalData: ModalData<P>) => void;
-
+    fileInputRef: RefObject<HTMLInputElement>;
+    handleChange: () => void;
 }
 
 export const getSkuDisplayName = (skuShortName: string, isGovSku: boolean): string => {
@@ -67,7 +65,8 @@ const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
     handleRemove,
     isDisabled,
     removing,
-    openModal,
+    fileInputRef,
+    handleChange,
 }: EnterpriseEditionProps) => {
     const skuName = getSkuDisplayName(license.SkuShortName, license.IsGovSku === 'true');
     const expirationDays = getRemainingDaysFromFutureTimestamp(parseInt(license.ExpiresAt, 10));
@@ -109,7 +108,8 @@ const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
                         isDisabled,
                         removing,
                         skuName,
-                        openModal,
+                        fileInputRef,
+                        handleChange,
                     )
                 }
             </div>
@@ -146,7 +146,8 @@ const renderLicenseContent = (
     isDisabled: boolean,
     removing: boolean,
     skuName: string,
-    openModal: <P>(modalData: ModalData<P>) => void,
+    fileInputRef: RefObject<HTMLInputElement>,
+    handleChange: () => void,
 ) => {
     // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
 
@@ -184,31 +185,35 @@ const renderLicenseContent = (
                 );
             })}
             <hr/>
-            {renderAddNewLicenseButton(openModal)}
+            {renderAddNewLicenseButton(fileInputRef, handleChange)}
             {renderRemoveButton(handleRemove, isDisabled, removing)}
         </div>
     );
 };
 
 const renderAddNewLicenseButton = (
-    openModal: <P>(modalData: ModalData<P>) => void,
+    fileInputRef: RefObject<HTMLInputElement>,
+    handleChange: () => void,
 ) => {
-    const openUploadLicenseModal = () => {
-        openModal({
-            modalId: ModalIdentifiers.UPLOAD_LICENSE,
-            dialogType: UploadLicenseModal,
-        });
-    };
     return (
-        <button
-            className='add-new-licence-btn'
-            onClick={() => openUploadLicenseModal()}
-        >
-            <FormattedMessage
-                id='admin.license.keyAddNew'
-                defaultMessage='Add a new license'
+        <>
+            <button
+                className='add-new-licence-btn'
+                onClick={() => fileInputRef.current?.click()}
+            >
+                <FormattedMessage
+                    id='admin.license.keyAddNew'
+                    defaultMessage='Add a new license'
+                />
+            </button>
+            <input
+                ref={fileInputRef}
+                type='file'
+                accept={FileTypes.LICENSE_EXTENSION}
+                onChange={handleChange}
+                style={{display: 'none'}}
             />
-        </button>
+        </>
     );
 };
 

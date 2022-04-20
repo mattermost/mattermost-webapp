@@ -330,7 +330,8 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                     handleRemove={this.confirmLicenseRemoval}
                     isDisabled={isDisabled}
                     removing={this.state.removing}
-                    openModal={this.props.actions.openModal}
+                    fileInputRef={this.fileInputRef}
+                    handleChange={this.handleChange}
                 />
             );
 
