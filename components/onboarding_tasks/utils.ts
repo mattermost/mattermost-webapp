@@ -6,5 +6,5 @@ export const generateTelemetryTag = (category: string, name: string, suffix: str
 };
 
 export function getAnalyticsCategory(isAdmin: boolean) {
-    return isAdmin ? 'cloud_first_user_onboarding' : 'cloud_end_user_onboarding';
+    return isAdmin ? 'admin_onboarding' : 'end_user_onboarding';
 }

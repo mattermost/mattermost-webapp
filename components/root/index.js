@@ -32,9 +32,7 @@ function mapStateToProps(state) {
     const permalinkRedirectTeam = getTeam(state, teamId);
     const taskListStatus = getBool(state, OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW);
     const isMobileView = isMobile();
-    const showTaskList = true || (taskListStatus && !isMobileView);
-
-    // send a value to verify is admin so the two new values of the list are shown
+    const showTaskList = taskListStatus && !isMobileView;
 
     return {
         theme: getTheme(state),

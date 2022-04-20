@@ -4,7 +4,6 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentUserId, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {Channel} from 'mattermost-redux/types/channels';
@@ -44,10 +43,8 @@ function makeMapStateToProps() {
         const triggerStep = getInt(state, OnboardingTaskCategory, OnboardingTasksName.CHANNELS_TOUR, FINISHED);
         const channelTourTriggered = triggerStep === GenericTaskSteps.STARTED;
         const isOnboardingFlowEnabled = config.EnableOnboardingFlow;
-        const isUserFirstAdmin = isFirstAdmin(state);
         const showChannelsTour = enableTutorial && tutorialStep === OnboardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES;
-        const showChannelsTutorialStep = showChannelsTour && ((channelTourTriggered && isUserFirstAdmin) || (isOnboardingFlowEnabled === 'true' && !isUserFirstAdmin) || (isOnboardingFlowEnabled !== 'true' && !isUserFirstAdmin));
-
+        const showChannelsTutorialStep = showChannelsTour && channelTourTriggered && isOnboardingFlowEnabled === 'true';
         return {
             unreadMentions: unreadCount.mentions,
             unreadMsgs: unreadCount.messages,
