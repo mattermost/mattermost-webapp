@@ -217,7 +217,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         }),
         dataPrivacy: getDataPrivacyData({retention: {status: dataRetentionStatus}}),
         easyManagement: getEaseOfManagementData({
-            ldap: {status: totalUsers < 10 ? ItemStatus.OK : ldapStatus},
+            ldap: {status: totalUsers < 100 ? ItemStatus.OK : ldapStatus},
 
             // guestAccounts: {status: guestAccountStatus},
         }),
