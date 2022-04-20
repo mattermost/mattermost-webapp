@@ -124,21 +124,19 @@ export type InvoiceLineItem = {
 
 export type Limits = {
     integrations?: {
-        enabled: number;
+        enabled?: number;
     };
     messages?: {
-        history: number;
+        history?: number;
     };
     files?: {
-        total_storage: number;
+        total_storage?: number;
     };
     teams?: {
-        active: number;
+        active?: number;
     };
     boards?: {
-        cards: number;
-    };
-    calls?: {
-        direct_or_group_message: number;
+        cards?: number;
+        views?: number;
     };
 }

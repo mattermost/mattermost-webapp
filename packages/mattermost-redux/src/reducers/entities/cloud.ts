@@ -65,7 +65,7 @@ function invoices(state: Record<string, Invoice> | null = null, action: GenericA
 }
 
 const emptyLimits = Object.freeze({});
-function limits(state: Limits = emptyLimits, action: GenericAction) {
+export function limits(state: Limits = emptyLimits, action: GenericAction) {
     switch (action.type) {
     case CloudTypes.RECEIVED_CLOUD_LIMITS: {
         return action.data;

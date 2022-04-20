@@ -1,0 +1,65 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+import React from 'react';
+
+import {screen} from '@testing-library/react';
+
+import * as redux from 'react-redux';
+
+import {renderWithIntl} from 'tests/react_testing_utils';
+
+import Limits, {GB} from './limits';
+
+const limits = {
+    integrations: {
+        enabled: 10,
+    },
+    messages: {
+        history: 10000,
+    },
+    files: {
+        total_storage: 10 * GB,
+    },
+    teams: {
+        active: 1,
+    },
+    boards: {
+        cards: 500,
+        views: 5,
+    },
+};
+
+describe('Limits', () => {
+    test('message limit rendered in K', () => {
+        jest.spyOn(redux, 'useDispatch').mockImplementation(jest.fn(() => jest.fn()));
+        const spy = jest.spyOn(redux, 'useSelector');
+
+        // initial render
+        spy.mockImplementationOnce(() => true);
+        spy.mockImplementationOnce(() => limits);
+
+        // after effect
+        spy.mockImplementationOnce(() => true);
+        spy.mockImplementationOnce(() => limits);
+        renderWithIntl(<Limits/>);
+        screen.getByText('Message History');
+        screen.getByText(/of 10K/);
+    });
+
+    test('storage limit rendered in GB', () => {
+        jest.spyOn(redux, 'useDispatch').mockImplementation(jest.fn(() => jest.fn()));
+        const spy = jest.spyOn(redux, 'useSelector');
+
+        // initial render
+        spy.mockImplementationOnce(() => true);
+        spy.mockImplementationOnce(() => limits);
+
+        // after effect
+        spy.mockImplementationOnce(() => true);
+        spy.mockImplementationOnce(() => limits);
+        renderWithIntl(<Limits/>);
+        screen.getByText('File Storage');
+        screen.getByText(/of 10GB/);
+    });
+});

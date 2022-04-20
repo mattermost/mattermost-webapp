@@ -11,7 +11,7 @@ import {getCloudLimits as getCloudLimitsAction} from 'actions/cloud';
 
 import LimitCard from './limit_card';
 
-const GB = 1 * 8 * 1024 * 1024 * 1024;
+export const GB = 1 * 8 * 1024 * 1024 * 1024;
 
 // TODO: Replace this with actual usages stored in redux,
 // that ideally are updated with a websocket event in near real time.
@@ -59,7 +59,7 @@ const Limits = (): JSX.Element | null => {
                 />
             </div>
             <div className='ProductLimitsPanel__limits'>
-                {cloudLimits.files && (
+                {cloudLimits?.files?.total_storage && (
                     <LimitCard
                         name={(
                             <FormattedMessage
@@ -83,7 +83,7 @@ const Limits = (): JSX.Element | null => {
                         icon='icon-folder-outline'
                     />
                 )}
-                {cloudLimits.messages && (
+                {cloudLimits?.messages?.history && (
                     <LimitCard
                         name={
                             <FormattedMessage
@@ -106,7 +106,7 @@ const Limits = (): JSX.Element | null => {
                         icon='icon-message-text-outline'
                     />
                 )}
-                {cloudLimits.boards && (
+                {cloudLimits?.boards?.cards && (
                     <LimitCard
                         name={(
                             <FormattedMessage
@@ -130,7 +130,7 @@ const Limits = (): JSX.Element | null => {
                     />
 
                 )}
-                {cloudLimits.integrations && (
+                {cloudLimits?.integrations?.enabled && (
                     <LimitCard
                         name={
                             <FormattedMessage
