@@ -1206,6 +1206,8 @@ class CreateComment extends React.PureComponent<Props, State> {
             scrollbarClass = ' scroll';
         }
 
+        const isMobile = Utils.isMobile();
+
         return (
             <form onSubmit={this.handleSubmit}>
                 <div
@@ -1254,25 +1256,27 @@ class CreateComment extends React.PureComponent<Props, State> {
                             >
                                 {fileUpload}
                                 {emojiPicker}
-                                <button
-                                    tabIndex={0}
-                                    disabled={!enableAddButton}
-                                    aria-label={formatMessage({
-                                        id: 'create_post.send_message',
-                                        defaultMessage: 'Send a message',
-                                    })}
-                                    className={'btn btn-primary send-button theme'}
-                                    onClick={this.handleSubmit}
-                                >
-                                    <SendIcon
-                                        size={18}
-                                        color='currentColor'
+                                {isMobile && (
+                                    <button
+                                        tabIndex={0}
+                                        disabled={!enableAddButton}
                                         aria-label={formatMessage({
-                                            id: t('create_post.icon'),
-                                            defaultMessage: 'Create a post',
+                                            id: 'create_post.send_message',
+                                            defaultMessage: 'Send a message',
                                         })}
-                                    />
-                                </button>
+                                        className={'btn btn-primary send-button theme'}
+                                        onClick={this.handleSubmit}
+                                    >
+                                        <SendIcon
+                                            size={18}
+                                            color='currentColor'
+                                            aria-label={formatMessage({
+                                                id: t('create_post.icon'),
+                                                defaultMessage: 'Create a post',
+                                            })}
+                                        />
+                                    </button>
+                                )}
                             </span>
                         </div>
                     </div>
