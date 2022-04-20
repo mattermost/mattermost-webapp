@@ -1069,10 +1069,6 @@ class CreatePost extends React.PureComponent<Props, State> {
         return null;
     }
 
-    getCreatePostControls = () => {
-        return this.createPostControlsRef.current;
-    }
-
     fillMessageFromHistory() {
         const lastMessage = this.props.messageInHistoryItem;
         if (lastMessage) {
@@ -1369,7 +1365,7 @@ class CreatePost extends React.PureComponent<Props, State> {
                 <>
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
-                        target={this.getCreatePostControls}
+                        target={this.createPostControlsRef.current}
                         onHide={this.hideEmojiPicker}
                         onEmojiClose={this.handleEmojiClose}
                         onEmojiClick={this.handleEmojiClick}

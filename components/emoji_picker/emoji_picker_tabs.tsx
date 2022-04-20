@@ -17,45 +17,40 @@ const GifPicker = makeAsyncComponent('GifPicker', React.lazy(() => import('compo
 
 enum OverlayPositions {
     TOP = 'top',
-    BOTTOM= 'bottom',
+    BOTTOM = 'bottom',
     LEFT = 'left',
     RIGHT = 'right',
 }
 
 type Props = {
-    style?: any;
+    style?: React.CSSProperties;
     rightOffset: number;
     topOffset: number;
     leftOffset?: number;
     placement?: OverlayPositions;
-    customEmojis?: any;
-    onEmojiClose: (e?: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+    onEmojiClose: (e?: React.MouseEvent<Element, MouseEvent>) => void;
     onEmojiClick: (emoji: Emoji) => void;
     onGifClick?: (gif: string) => void;
     enableGifPicker: boolean;
 }
 
 const EmojiPickerTabs = ({
-    rightOffset = 0,
-    topOffset = 0,
-    leftOffset = 0,
     onEmojiClick,
     onEmojiClose,
     onGifClick,
     placement,
     style,
     enableGifPicker,
+    rightOffset = 0,
+    topOffset = 0,
+    leftOffset = 0,
 }: Props) => {
-    const [filter, setFilter] = useState('');
-    const [emojiTabVisible, setEmojiTabVisible] = useState(true);
+    const [filter, setFilter] = useState<string>('');
+    const [emojiTabVisible, setEmojiTabVisible] = useState<boolean>(true);
 
     const handleEnterEmojiTab = () => setEmojiTabVisible(true);
-
     const handleExitEmojiTab = () => setEmojiTabVisible(false);
-
-    const handleEmojiPickerClose = () => onEmojiClose();
-
-    const handleFilterChange = (filter: any) => setFilter(filter);
+    const handleFilterChange = (filter: string) => setFilter(filter);
 
     let pickerStyle;
     if (style && !(style.left === 0 && style.top === 0)) {
@@ -70,24 +65,19 @@ const EmojiPickerTabs = ({
             pickerStyle = {...style};
         }
 
-        pickerStyle.top = topOffset + (pickerStyle.top || 0);
-
-        if (pickerStyle.left) {
-            pickerStyle.left += leftOffset;
-        }
+        // converting the top and left values to Number before calculation reduces potential errors
+        pickerStyle.top = topOffset + (Number(pickerStyle.top) || 0);
+        pickerStyle.left = leftOffset + (Number(pickerStyle.left) || 0);
     }
 
     if (enableGifPicker && onGifClick) {
         const title = (
             <div className={'custom-emoji-tab__icon__text'}>
-                <EmojiIcon
-                    className='custom-emoji-tab__icon'
-                />
-                <div>
-                    {'Emojis'}
-                </div>
+                <EmojiIcon className='custom-emoji-tab__icon'/>
+                <div>{'Emojis'}</div>
             </div>
         );
+
         return (
             <Tabs
                 defaultActiveKey={1}
@@ -96,7 +86,7 @@ const EmojiPickerTabs = ({
                 className={classNames('emoji-picker', {bottom: placement === 'bottom'})}
                 justified={true}
             >
-                <EmojiPickerHeader handleEmojiPickerClose={handleEmojiPickerClose}/>
+                <EmojiPickerHeader handleEmojiPickerClose={onEmojiClose}/>
                 <Tab
                     eventKey={1}
                     onEnter={handleEnterEmojiTab}
@@ -114,7 +104,6 @@ const EmojiPickerTabs = ({
                 <Tab
                     eventKey={2}
                     title={<GfycatIcon/>}
-                    mountOnEnter={true}
                     unmountOnExit={true}
                     tabClassName={'custom-emoji-tab'}
                 >
@@ -134,7 +123,7 @@ const EmojiPickerTabs = ({
             style={pickerStyle}
             className={classNames('a11y__popup emoji-picker emoji-picker--single', {bottom: placement === 'bottom'})}
         >
-            <EmojiPickerHeader handleEmojiPickerClose={handleEmojiPickerClose}/>
+            <EmojiPickerHeader handleEmojiPickerClose={onEmojiClose}/>
             <EmojiPicker
                 filter={filter}
                 visible={emojiTabVisible}

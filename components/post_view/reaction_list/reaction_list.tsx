@@ -30,7 +30,7 @@ type Props = {
      */
     post: Post;
 
-    /*
+    /**
      * The id of the team which belongs the post
      */
     teamId: string;
@@ -41,7 +41,7 @@ type Props = {
     reactions: { [x: string]: ReactionType } | undefined | null;
 
     /**
-     * Whether or not the user can add reactions to this post.
+     * Wether or not the user can add reactions to this post.
      */
     canAddReactions: boolean;
 
@@ -67,10 +67,6 @@ export default class ReactionList extends React.PureComponent<Props, State> {
         this.state = {
             showEmojiPicker: false,
         };
-    }
-
-    getTarget = (): HTMLButtonElement | null => {
-        return this.addReactionButtonRef.current;
     }
 
     handleEmojiClick = (emoji: Emoji): void => {
@@ -119,7 +115,7 @@ export default class ReactionList extends React.PureComponent<Props, State> {
             );
         });
 
-        const addReactionButton = this.getTarget();
+        const addReactionButton = this.addReactionButtonRef.current;
         let rightOffset = DEFAULT_EMOJI_PICKER_RIGHT_OFFSET;
         if (addReactionButton) {
             rightOffset = window.innerWidth - addReactionButton.getBoundingClientRect().right - EMOJI_PICKER_WIDTH_OFFSET;
@@ -144,7 +140,7 @@ export default class ReactionList extends React.PureComponent<Props, State> {
                 <span className='emoji-picker__container'>
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
-                        target={this.getTarget}
+                        target={this.addReactionButtonRef.current}
                         onHide={this.hideEmojiPicker}
                         onEmojiClose={this.hideEmojiPicker}
                         onEmojiClick={this.handleEmojiClick}

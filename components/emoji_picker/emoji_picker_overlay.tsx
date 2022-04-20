@@ -1,7 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import {noop} from 'lodash';
+import React, {useMemo} from 'react';
 import {Overlay} from 'react-bootstrap';
 import memoize from 'memoize-one';
 
@@ -19,13 +20,13 @@ export enum OverlayPositions {
 
 type Props = {
     show: boolean;
-    container?: () => void;
-    target: () => void;
+    target: Element | null;
     onEmojiClick: (emoji: Emoji) => void;
-    onGifClick?: (gif: string) => void;
-    onEmojiClose?: (e?: React.MouseEvent<HTMLElement, MouseEvent>) => void;
     onHide: () => void;
     topOffset: number;
+    onEmojiClose?: (e?: React.MouseEvent<Element, MouseEvent>) => void;
+    onGifClick?: (gif: string) => void;
+    container?: () => void;
     rightOffset?: number;
     leftOffset?: number;
     spaceRequiredAbove?: number;
@@ -58,24 +59,17 @@ const EmojiPickerOverlay = ({
     container,
     target,
     onEmojiClick,
-    onEmojiClose,
     onGifClick,
     onHide,
     topOffset,
     rightOffset,
     leftOffset,
+    onEmojiClose = noop,
     spaceRequiredAbove = SpaceRequirement.CENTER.ABOVE,
     spaceRequiredBelow = SpaceRequirement.CENTER.BELOW,
     enableGifPicker = false,
     defaultHorizontalPosition = OverlayPositions.RIGHT,
 }: Props) => {
-    // Reasonable defaults calculated from from the center channel
-    // static defaultProps = {
-    //     spaceRequiredAbove: EmojiPickerOverlay.CENTER_SPACE_REQUIRED_ABOVE,
-    //     spaceRequiredBelow: EmojiPickerOverlay.CENTER_SPACE_REQUIRED_BELOW,
-    //     enableGifPicker: false,
-    // };
-
     const emojiPickerPosition = memoize((emojiTrigger) => {
         let calculatedRightOffset = Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET;
 
@@ -90,26 +84,32 @@ const EmojiPickerOverlay = ({
         return calculatedRightOffset;
     });
 
-    const getPlacement = memoize((target, spaceRequiredAbove, spaceRequiredBelow, defaultHorizontalPosition) => {
+    // this is just to prevent eslint errors from happening since passing in a function is valid and passing in a refobject is not
+    const getTarget = () => target || null;
+
+    const memoizedPlacement = useMemo(() => {
+        if (!show) {
+            return 'top';
+        }
+
         if (target) {
-            const targetBounds = target.getBoundingClientRect();
+            const targetBounds = target.getBoundingClientRect?.();
             return popOverOverlayPosition(targetBounds, window.innerHeight, spaceRequiredAbove, spaceRequiredBelow, defaultHorizontalPosition);
         }
 
         return 'top';
-    });
+    }, [target, spaceRequiredAbove, spaceRequiredBelow, defaultHorizontalPosition, show]);
 
-    const calculatedRightOffset = rightOffset ?? emojiPickerPosition(target());
-    const placement = getPlacement(target(), spaceRequiredAbove, spaceRequiredBelow, defaultHorizontalPosition);
+    const calculatedRightOffset = rightOffset ?? emojiPickerPosition(target);
 
     return (
         <Overlay
             show={show}
-            placement={placement}
+            placement={memoizedPlacement}
             rootClose={true}
             container={container}
             onHide={onHide}
-            target={target}
+            target={getTarget}
             animation={false}
         >
             <EmojiPickerTabs

@@ -80,7 +80,7 @@ export default class PostReaction extends React.PureComponent<Props, State> {
                 <React.Fragment>
                     <EmojiPickerOverlay
                         show={showEmojiPicker}
-                        target={this.props.getDotMenuRef}
+                        target={this.props.getDotMenuRef()}
                         onHide={this.props.toggleEmojiPicker}
                         onEmojiClick={this.handleAddEmoji}
                         topOffset={TOP_OFFSET}

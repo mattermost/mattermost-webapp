@@ -351,7 +351,6 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
     };
 
     const getEmojiContainerRef = useCallback(() => textboxRef.current, [textboxRef]);
-    const getEmojiTargetRef = useCallback(() => emojiButtonRef.current, [emojiButtonRef]);
 
     let emojiPicker = null;
     const emojiButtonAriaLabel = formatMessage({
@@ -365,7 +364,7 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
                 <EmojiPickerOverlay
                     show={showEmojiPicker}
                     container={getEmojiContainerRef}
-                    target={getEmojiTargetRef}
+                    target={emojiButtonRef.current}
                     onHide={hideEmojiPicker}
                     onEmojiClick={handleEmojiClick}
                     onGifClick={handleGifClick}

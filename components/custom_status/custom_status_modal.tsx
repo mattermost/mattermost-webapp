@@ -181,8 +181,6 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
 
     const handleClearStatus = isCurrentCustomStatusSet ? () => dispatch(unsetCustomStatus()) : undefined;
 
-    const getCustomStatusControlRef = () => customStatusControlRef.current;
-
     const handleEmojiClose = () => setShowEmojiPicker(false);
 
     const handleEmojiClick = (selectedEmoji: Emoji) => {
@@ -191,7 +189,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         setEmoji(emojiName);
     };
 
-    const toggleEmojiPicker = () => setShowEmojiPicker((prevShow) => !prevShow);
+    const toggleEmojiPicker = () => setShowEmojiPicker(!showEmojiPicker);
 
     const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => setText(event.target.value);
 
@@ -218,9 +216,8 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
 
     const calculateRightOffSet = () => {
         let rightOffset = Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET;
-        const target = getCustomStatusControlRef();
-        if (target) {
-            rightOffset = window.innerWidth - target.getBoundingClientRect().left - EMOJI_PICKER_WIDTH_OFFSET;
+        if (customStatusControlRef.current) {
+            rightOffset = window.innerWidth - customStatusControlRef.current.getBoundingClientRect().left - EMOJI_PICKER_WIDTH_OFFSET;
             if (rightOffset < 0) {
                 rightOffset = Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET;
             }
@@ -340,7 +337,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                     >
                         {showEmojiPicker && (
                             <EmojiPickerOverlay
-                                target={getCustomStatusControlRef}
+                                target={customStatusControlRef.current}
                                 show={showEmojiPicker}
                                 onHide={handleEmojiClose}
                                 onEmojiClose={handleEmojiClose}
