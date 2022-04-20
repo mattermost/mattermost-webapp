@@ -440,7 +440,6 @@ class ChannelHeader extends React.PureComponent {
 
         let memberListButton = null;
         if (!isDirect) {
-            
             const formattedMessage = {
                 id: 'channel_header.channelMembers',
                 defaultMessage: 'Members',
