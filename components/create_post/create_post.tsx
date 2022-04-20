@@ -34,8 +34,6 @@ import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx
 import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
-import CallButton from 'components/call_button';
-import LocalizedIcon from 'components/localized_icon';
 import MsgTyping from 'components/msg_typing';
 import ResetStatusModal from 'components/reset_status_modal';
 import Textbox from 'components/textbox';
@@ -1352,8 +1350,6 @@ class CreatePost extends React.PureComponent<Props, State> {
         if (!this.shouldEnableSendButton()) {
             sendButtonClass += ' disabled';
         }
-
-        const callButton = !readOnlyChannel && !this.props.shouldShowPreview ? <CallButton/> : null;
 
         const fileUpload = !readOnlyChannel && !this.props.shouldShowPreview ? (
             <FileUpload
