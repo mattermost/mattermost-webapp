@@ -498,6 +498,7 @@ export default class PluginRegistry {
         return id;
     }
 
+    // Register a hook to retrieve recent in product/plugin searches.
     registerRecentInProductSearches(hook) {
         const id = generateId();
 

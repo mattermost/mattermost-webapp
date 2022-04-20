@@ -89,3 +89,61 @@ export function runMessageWillBeUpdatedHooks(newPost, oldPost) {
         return {data: post};
     };
 }
+
+export function runSearchInProductHook(searchTerm) {
+    return async (dispath, getState) => {
+        const state = getState();
+
+        const hooks = state.plugins.components.SearchInProduct;
+        if (!hooks || hooks.length === 0) {
+            return {data: []};
+        }
+
+        let searchResults = [];
+
+        for (const hook of hooks) {
+            const result = await hook.hook(searchTerm); // eslint-disable-line no-await-in-loop
+
+            if (result) {
+                if (result.error) {
+                    return {
+                        error: result.error,
+                    };
+                }
+
+                searchResults = [...searchResults, ...result.data];
+            }
+        }
+
+        return {data: searchResults};
+    };
+}
+
+export function runRecentInProductSearches() {
+    return async (dispatch, getState) => {
+        const state = getState();
+
+        const hooks = state.plugins.components.RecentInProductSearches;
+        if (!hooks || hooks.length === 0) {
+            return {data: []};
+        }
+
+        let recentSearches = [];
+
+        for (const hook of hooks) {
+            const result = await hook.hook(); // eslint-disable-line no-await-in-loop
+
+            if (result) {
+                if (result.error) {
+                    return {
+                        error: result.error,
+                    };
+                }
+
+                recentSearches = [...recentSearches, ...result.data];
+            }
+        }
+
+        return {data: recentSearches};
+    };
+}
