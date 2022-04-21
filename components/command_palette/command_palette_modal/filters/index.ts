@@ -1,11 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-interface Props {
-    searchModifier: string;
-    modifierTerm: string;
-}
+import Filters from './filters';
 
-function Tag() {
-    return null;
-}
+export default Filters;

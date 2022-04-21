@@ -1,0 +1,21 @@
+.command-palette-filters-base {
+    padding-bottom: 12px;
+
+    .command-palette-filters-heading {
+        padding: 6px 0;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+        font-size: 12px;
+    }
+
+    .command-palette-filters {
+        display: flex;
+        align-items: center;
+
+        .command-palette-filters-divider {
+            width: 1px;
+            height: 26px;
+            margin: 0 8px 0 4px;
+            background-color: rgba(var(--center-channel-color-rgb), 0.08);
+        }
+    }
+}
