@@ -20,16 +20,18 @@ type Props = {
     subtitle: string;
     filterType: string;
     timeFrame: TimeFrame;
+    timeFrameLabel: string;
 }
 
 const InsightsModal = (props: Props) => {
     const [show, setShow] = useState(true);
     const [timeFrame, setTimeFrame] = useState({
-        value: TimeFrames.INSIGHTS_7_DAYS,
-        label: localizeMessage('insights.timeFrame.mediumRange', 'Last 7 days'),
+        value: props.timeFrame,
+        label: props.timeFrameLabel,
     });
 
     const setTimeFrameValue = useCallback((value) => {
+        console.log('test value')
         setTimeFrame(value);
     }, []);
 
@@ -45,13 +47,13 @@ const InsightsModal = (props: Props) => {
             return (
                 <TopReactionsTable
                     filterType={props.filterType}
-                    timeFrame={props.timeFrame}
+                    timeFrame={timeFrame.value}
                 />
             );
         default:
             return null;
         }
-    }, [props.widgetType]);
+    }, [props.widgetType, timeFrame]);
 
     return (
         <Modal

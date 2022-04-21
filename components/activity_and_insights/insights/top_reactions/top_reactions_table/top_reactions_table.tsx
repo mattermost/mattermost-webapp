@@ -41,7 +41,7 @@ const TopReactionsTable = (props: Props) => {
         } else {
             setTopReactions(myTopReactions);
         }
-    }, [props.filterType, props.timeFrame, teamTopReactions, myTopReactions]);
+    }, [props.filterType, props.timeFrame]);
 
     const currentTeamId = useSelector(getCurrentTeamId);
 

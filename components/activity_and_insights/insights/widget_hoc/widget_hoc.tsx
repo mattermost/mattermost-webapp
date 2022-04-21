@@ -19,6 +19,7 @@ export interface WidgetHocProps {
     filterType: string;
     class: string;
     timeFrame: TimeFrame;
+    timeFrameLabel: string;
 }
 
 function widgetHoc<T>(WrappedComponent: ComponentType<T>) {
@@ -50,6 +51,7 @@ function widgetHoc<T>(WrappedComponent: ComponentType<T>) {
                     subtitle: subTitle(),
                     filterType: props.filterType,
                     timeFrame: props.timeFrame,
+                    timeFrameLabel: props.timeFrameLabel,
                 },
             }));
         };

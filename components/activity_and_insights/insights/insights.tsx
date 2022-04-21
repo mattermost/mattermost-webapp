@@ -55,6 +55,7 @@ const Insights = () => {
                     widgetType={InsightsWidgetTypes.TOP_CHANNELS}
                     class={'top-channels-card'}
                     timeFrame={timeFrame.value}
+                    timeFrameLabel={timeFrame.label}
                 />
                 <TopReactions
                     size={CardSizes.small}
@@ -62,6 +63,7 @@ const Insights = () => {
                     widgetType={InsightsWidgetTypes.TOP_REACTIONS}
                     class={'top-reactions-card'}
                     timeFrame={timeFrame.value}
+                    timeFrameLabel={timeFrame.label}
                 />
             </div>
         </>
