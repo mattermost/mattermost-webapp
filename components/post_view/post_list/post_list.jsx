@@ -41,14 +41,14 @@ export default class PostList extends React.PureComponent {
     static propTypes = {
 
         /**
-         *  Array of formatted post ids in the channel
-         *  This will be different from postListIds because of grouping and filtering of posts
-         *  This array should be used for making Before and After API calls
+         * Array of formatted post ids in the channel
+         * This will be different from postListIds because of grouping and filtering of posts
+         * This array should be used for making Before and After API calls
          */
         formattedPostIds: PropTypes.array,
 
         /**
-         *  Array of post ids in the channel, ordered from newest to oldest
+         * Array of post ids in the channel, ordered from newest to oldest
          */
         postListIds: PropTypes.array,
 
@@ -57,32 +57,32 @@ export default class PostList extends React.PureComponent {
          */
         channelId: PropTypes.string,
 
-        /*
+        /**
          * To get posts for perma view
          */
         focusedPostId: PropTypes.string,
 
-        /*
+        /**
          * Used for determining if we are not at the recent most chunk in channel
          */
         atLatestPost: PropTypes.bool,
 
-        /*
+        /**
          * Used for determining if we are at the channels oldest post
          */
         atOldestPost: PropTypes.bool,
 
-        /*
+        /**
          * Used for loading posts using unread API
          */
         isFirstLoad: PropTypes.bool,
 
-        /*
+        /**
          * Used for syncing posts and is also passed down to virt list for newMessages indicator
          */
         latestPostTimeStamp: PropTypes.number,
 
-        /*
+        /**
          * Used for handling the read logic when unmounting the component
          */
         channelManuallyUnread: PropTypes.bool.isRequired,
@@ -92,12 +92,12 @@ export default class PostList extends React.PureComponent {
          */
         latestPostId: PropTypes.string,
 
-        /*
+        /**
          * Used for passing down to virt list so it can change the chunk of posts selected
          */
         changeUnreadChunkTimeStamp: PropTypes.func.isRequired,
 
-        /*
+        /**
          * Used for skipping the call on load
          */
         isPrefetchingInProcess: PropTypes.bool.isRequired,
@@ -106,32 +106,32 @@ export default class PostList extends React.PureComponent {
 
         actions: PropTypes.shape({
 
-            /*
+            /**
              * Used for getting permalink view posts
              */
             loadPostsAround: PropTypes.func.isRequired,
 
-            /*
+            /**
              * Used for geting unreads posts
              */
             loadUnreads: PropTypes.func.isRequired,
 
-            /*
+            /**
              * Used for getting posts using BEFORE_ID and AFTER_ID
              */
             loadPosts: PropTypes.func.isRequired,
 
-            /*
+            /**
              * Used to set mobile view on resize
              */
             checkAndSetMobileView: PropTypes.func.isRequired,
 
-            /*
+            /**
              * Used to loading posts since a timestamp to sync the posts
              */
             syncPostsInChannel: PropTypes.func.isRequired,
 
-            /*
+            /**
              * Used to loading posts if it not first visit, permalink or there exists any postListIds
              * This happens when previous channel visit has a chunk which is not the latest set of posts
              */
