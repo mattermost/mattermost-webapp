@@ -5,9 +5,9 @@
   },
   "version": "5.36.0-0",
   "private": true,
-  "engines" : { 
-    "npm" : ">=7.0.0",
-    "node" : ">=16.4.0"
+  "engines": {
+    "npm": ">=7.0.0",
+    "node": ">=16.4.0"
   },
   "dependencies": {
     "@mattermost/compass-components": "^0.2.12",

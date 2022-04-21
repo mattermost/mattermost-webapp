@@ -264,6 +264,20 @@ export function markAllThreadsInTeamRead(userId: string, teamId: string) {
     };
 }
 
+export function markThreadAsUnread(userId: string, teamId: string, threadId: string, postId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        try {
+            await Client4.markThreadAsUnreadForUser(userId, teamId, threadId, postId);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        return {};
+    };
+}
+
 export function updateThreadRead(userId: string, teamId: string, threadId: string, timestamp: number) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         try {

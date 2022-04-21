@@ -112,7 +112,6 @@ const TopReactions = (props: WidgetHocProps) => {
                     </div>
                 </div>
             }
-
         </div>
     );
 };

@@ -77,12 +77,12 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
 
             // # Search for an invalid text
             const additionalSearchTerm = 'somethingwhichdoesnotexist';
-            cy.findByRole('textbox', {name: 'Search for people'}).
+            cy.findByRole('textbox', {name: 'Search for people'}).clear().
                 type(additionalSearchTerm, {force: true}).
                 wait(TIMEOUTS.HALF_SEC);
 
             // * Check if reader can read no results
-            cy.get('.multi-select__wrapper').should('have.attr', 'aria-live', 'polite').and('have.text', 'No matches found - Invite them to the team');
+            cy.get('.multi-select__wrapper').should('have.attr', 'aria-live', 'polite').and('have.text', `No results found matching ${additionalSearchTerm}`);
         });
     });
 
@@ -193,7 +193,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
                 wait(TIMEOUTS.HALF_SEC);
 
             // * Check if reader can read no results
-            cy.get('.no-channel-message').
+            cy.get('.custom-no-options-message').
                 should('be.visible').
                 and('contain', 'No matches found - Invite them to the team');
         });

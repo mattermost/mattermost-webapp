@@ -200,6 +200,7 @@ export const ActionTypes = keyMirror({
     RECEIVED_ADMIN_CONSOLE_REDUCER: null,
     REMOVED_ADMIN_CONSOLE_REDUCER: null,
     RECEIVED_ADMIN_CONSOLE_CUSTOM_COMPONENT: null,
+    RECEIVED_PLUGIN_STATS_HANDLER: null,
 
     MODAL_OPEN: null,
     MODAL_CLOSE: null,
@@ -1677,7 +1678,7 @@ export const Constants = {
     MIN_TEAMNAME_LENGTH: 2,
     MAX_TEAMNAME_LENGTH: 64,
     MAX_TEAMDESCRIPTION_LENGTH: 50,
-    MIN_CHANNELNAME_LENGTH: 2,
+    MIN_CHANNELNAME_LENGTH: 1,
     MAX_CHANNELNAME_LENGTH: 64,
     DEFAULT_CHANNELURL_SHORTEN_LENGTH: 52,
     MAX_CHANNELPURPOSE_LENGTH: 250,
@@ -1864,6 +1865,50 @@ export const durationValues = {
     [CUSTOM_DATE_TIME]: {
         id: t('custom_status.expiry_dropdown.date_and_time'),
         defaultMessage: 'Custom Date and Time',
+    },
+};
+
+export const InsightsScopes = {
+    MY: 'MY',
+    TEAM: 'TEAM',
+};
+
+export const InsightsCardTitles = {
+    TOP_CHANNELS: {
+        teamTitle: {
+            id: t('insights.topChannels.title'),
+            defaultMessage: 'Top channels',
+        },
+        myTitle: {
+            id: t('insights.topChannels.myTitle'),
+            defaultMessage: 'My top channels',
+        },
+        teamSubTitle: {
+            id: t('insights.topChannels.subTitle'),
+            defaultMessage: 'Most active channels for the team',
+        },
+        mySubTitle: {
+            id: t('insights.topChannels.mySubTitle'),
+            defaultMessage: 'Most active channels that I\'m a member of',
+        },
+    },
+    TOP_REACTIONS: {
+        teamTitle: {
+            id: t('insights.topReactions.title'),
+            defaultMessage: 'Top reactions',
+        },
+        myTitle: {
+            id: t('insights.topReactions.myTitle'),
+            defaultMessage: 'My top reactions',
+        },
+        teamSubTitle: {
+            id: t('insights.topReactions.subTitle'),
+            defaultMessage: 'The team\'s most-used reactions',
+        },
+        mySubTitle: {
+            id: t('insights.topReactions.mySubTitle'),
+            defaultMessage: 'Reactions I\'ve used the most',
+        },
     },
 };
 
