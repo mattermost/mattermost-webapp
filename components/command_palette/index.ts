@@ -4,6 +4,8 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
+import {isCommandPaletteEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'types/store';
@@ -17,6 +19,7 @@ import CommandPalette from './command_palette';
 function mapStateToProps(state: GlobalState) {
     return {
         isCommandPaletteOpen: isModalOpen(state, ModalIdentifiers.COMMAND_PALETTE),
+        isCommandPaletteEnabled: isCommandPaletteEnabled(state),
     };
 }
 
