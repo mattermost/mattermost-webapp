@@ -13,13 +13,14 @@ import CommandPaletteModal from 'components/command_palette/command_palette_moda
 
 interface Props {
     isCommandPaletteOpen: boolean;
+    isCommandPaletteEnabled: boolean;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
         closeModal: (modalId: string) => void;
     };
 }
 
-function CommandPalette({isCommandPaletteOpen, actions: {closeModal, openModal}}: Props) {
+function CommandPalette({isCommandPaletteOpen, isCommandPaletteEnabled, actions: {closeModal, openModal}}: Props) {
     function handleCommandPaletteShortcut(e: KeyboardEvent) {
         if (cmdOrCtrlPressed(e) && !e.shiftKey && isKeyPressed(e, Constants.KeyCodes.K) && !e.altKey) {
             e.preventDefault();
@@ -45,10 +46,14 @@ function CommandPalette({isCommandPaletteOpen, actions: {closeModal, openModal}}
     }
 
     useEffect(() => {
-        document.addEventListener('keydown', handleCommandPaletteShortcut);
+        if (isCommandPaletteEnabled) {
+            document.addEventListener('keydown', handleCommandPaletteShortcut);
+        }
 
         return (() => {
-            document.removeEventListener('keydown', handleCommandPaletteShortcut);
+            if (isCommandPaletteEnabled) {
+                document.removeEventListener('keydown', handleCommandPaletteShortcut);
+            }
         });
     }, []);
 

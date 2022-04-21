@@ -1,7 +1,25 @@
-.command-palette {
-    width: 100%;
-    max-width: 679px !important;
+.cmd-pl-modal {
+    width: 67.2rem;
     box-shadow: var(--elevation-6);
+
+    &__body {
+        display: flex;
+        width: 67.2rem;
+        flex-direction: column;
+        padding: 0;
+    }
+
+    &__footer {
+        display: flex;
+        height: 40px;
+        align-items: center;
+        padding: 0 24px;
+        background: rgba(var(--center-channel-color-rgb), 0.04);
+        color: rgba(var(--center-channel-color-rgb), 0.64);
+        font-size: 1.2rem;
+        font-weight: 400;
+        line-height: 1.6rem;
+    }
 
     .icon-magnify {
         color: rgba(var(--center-channel-color-rgb), 0.64);

@@ -10,3 +10,21 @@ export enum CommandPaletteEntities {
     Runs = 'runs',
     GoTo = 'goTo',
 }
+
+export enum ChannelType {
+    DM_CHANNEL= 'D',
+    GM_CHANNEL= 'G',
+    OPEN_CHANNEL= 'O',
+    PRIVATE_CHANNEL= 'P',
+}
+
+export enum BoardsType {
+    OPEN_CHANNEL= 'O',
+    PRIVATE_CHANNEL= 'P',
+}
+
+export enum PlaybooksType {
+    OPEN_CHANNEL= 'O',
+    PRIVATE_CHANNEL= 'P',
+}
+

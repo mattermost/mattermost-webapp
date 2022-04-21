@@ -4,16 +4,19 @@
 import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
+import {useSelector} from 'react-redux';
 
+import {getTeams} from 'mattermost-redux/selectors/entities/teams';
 import {CommandPaletteEntities} from 'components/command_palette/types';
 import Constants from 'utils/constants';
 import {isKeyPressed} from 'utils/utils';
+import {getChannelsInAllTeams} from 'mattermost-redux/selectors/entities/channels';
+import {CommandPaletteList} from '../command_palette_list/command_palette_list';
+import {channelToCommandPaletteItemTransformer} from '../utils';
 
 import Filters from './filters';
 import Footer from './footer';
 import Input from './input';
-import Results from './results';
-
 import './command_palette_modal.scss';
 
 interface Props {
@@ -69,13 +72,16 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
         setSearchTerm(e.target.value);
     }, []);
 
+    const recentChannels = useSelector(getChannelsInAllTeams);
+    const teams = useSelector(getTeams);
+    const transformedItems = channelToCommandPaletteItemTransformer(recentChannels, teams);
     const onHide = (): void => {
         setModalVisibility(false);
     };
 
     return (
         <Modal
-            dialogClassName='a11y__modal command-palette'
+            dialogClassName='a11y__modal cmd-pl-modal'
             role='dialog'
             aria-labelledby={CommandPaletteModalLabel}
             show={modalVisibility}
@@ -83,6 +89,7 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
             restoreFocus={false}
             onHide={onHide}
             onExited={onExited}
+            width={'672px'}
         >
             <Modal.Header>
                 <Input
@@ -96,13 +103,13 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
                     toggleCommandVisibility={toggleCommandVisibility}
                 />
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body className={'cmd-pl-modal__body'}>
                 <Filters
                     entities={entities}
                     isCommandVisible={isCommandVisible}
                     toggleFilter={toggleFilter}
                 />
-                <Results/>
+                <CommandPaletteList itemList={transformedItems}/>
             </Modal.Body>
             <Modal.Footer>
                 <Footer/>
