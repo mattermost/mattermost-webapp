@@ -102,6 +102,7 @@ export function runSearchInProductHook(searchTerm) {
         let searchResults = [];
 
         for (const hook of hooks) {
+            // TODO: change it to run parallelly
             const result = await hook.hook(searchTerm); // eslint-disable-line no-await-in-loop
 
             if (result) {
@@ -119,11 +120,11 @@ export function runSearchInProductHook(searchTerm) {
     };
 }
 
-export function runRecentInProductSearches() {
+export function runRecentlyViewedProductItems() {
     return async (dispatch, getState) => {
         const state = getState();
 
-        const hooks = state.plugins.components.RecentInProductSearches;
+        const hooks = state.plugins.components.RecentlyViewedProductItems;
         if (!hooks || hooks.length === 0) {
             return {data: []};
         }

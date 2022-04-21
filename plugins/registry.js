@@ -906,13 +906,13 @@ export default class PluginRegistry {
         return id;
     }
 
-    // Register a hook to retrieve recent in product/plugin searches.
-    registerRecentInProductSearches(hook) {
+    // Register a hook to retrieve recently viewed in product/plugin.
+    registerRecentlyViewedProductItems(hook) {
         const id = generateId();
 
         store.dispatch({
             type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
-            name: 'RecentInProductSearches',
+            name: 'RecentlyViewedProductItems',
             data: {
                 id,
                 pluginId: this.id,

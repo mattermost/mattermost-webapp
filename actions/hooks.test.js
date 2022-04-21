@@ -9,7 +9,7 @@ import {
     runMessageWillBeUpdatedHooks,
     runSlashCommandWillBePostedHooks,
     runSearchInProductHook,
-    runRecentInProductSearches,
+    runRecentlyViewedProductItems,
 } from './hooks';
 
 const mockStore = configureStore([thunk]);
@@ -541,7 +541,7 @@ describe('runSearchInProductHook', () => {
     });
 });
 
-describe('runRecentInProductSearches', () => {
+describe('runRecentlyViewedProductItems', () => {
     test('should do nothing when no hooks are registered', async () => {
         const store = mockStore({
             plugins: {
@@ -549,7 +549,7 @@ describe('runRecentInProductSearches', () => {
             },
         });
 
-        const result = await store.dispatch(runRecentInProductSearches());
+        const result = await store.dispatch(runRecentlyViewedProductItems());
 
         expect(result).toEqual({data: []});
     });
@@ -561,7 +561,7 @@ describe('runRecentInProductSearches', () => {
         const store = mockStore({
             plugins: {
                 components: {
-                    RecentInProductSearches: [
+                    RecentlyViewedProductItems: [
                         {hook: hook1},
                         {hook: hook2},
                     ],
@@ -569,7 +569,7 @@ describe('runRecentInProductSearches', () => {
             },
         });
 
-        const result = await store.dispatch(runRecentInProductSearches());
+        const result = await store.dispatch(runRecentlyViewedProductItems());
         expect(result).toEqual({data: [
             {name: 'hook1Product1'},
             {name: 'hook2Product1'},
