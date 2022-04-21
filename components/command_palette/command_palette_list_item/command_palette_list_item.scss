@@ -1,0 +1,69 @@
+.cmd-pl-list-item {
+    display: flex;
+    width: 100%;
+    height: 4rem;
+    align-items: center;
+    padding: 0 16px;
+    border-radius: 4px;
+    font-size: 1.4rem;
+    list-style: none;
+
+    &:hover {
+        background: rgba(63, 67, 80, 0.08);
+    }
+
+    &--selected {
+        background: rgba(63, 67, 80, 0.08);
+    }
+
+    &__title {
+        margin-left: 8px;
+        color: var(--center-channel-color);
+    }
+
+    &__desc {
+        margin-left: 8px;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+    }
+
+    &__mention-badge {
+        display: flex;
+        width: 2rem;
+        height: 1.6rem;
+        align-items: center;
+        justify-content: center;
+        margin-left: 8px;
+        background: rgba(var(--center-channel-color-rgb), 0.56);
+        border-radius: 8px;
+        color: var(--center-channel-bg);
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+    &__customStatus {
+        display: flex;
+        margin-left: 8px;
+    }
+
+    &__bot-badge {
+        margin-left: 4px;
+    }
+
+    &__guest-badge {
+        margin-left: 4px;
+    }
+
+    &__team-name {
+        display: flex;
+        flex: 1 1 auto;
+        justify-content: flex-end;
+        margin-left: 8px;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+    }
+
+    &__icon {
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+        font-size: 1.8rem;
+        font-weight: 400;
+    }
+}
