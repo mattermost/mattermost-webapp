@@ -119,5 +119,18 @@ declare namespace Cypress {
          *   cy.apiSaveActionsMenuPreference('user-id', true);
          */
         apiSaveActionsMenuPreference(userId: string, value: boolean): Chainable<Response>;
+
+        /**
+         * Save show trial modal.
+         * See https://api.mattermost.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
+         * @param {string} userId - User ID
+         * @param {string} name - trial_modal_auto_shown
+         * @param {string} value - values are 'true' or 'false'
+         * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
+         *
+         * @example
+         *   cy.apiSaveShowStartTrialModal('user-id', 'true');
+         */
+        apiSaveShowStartTrialModal(userId: string, value: string): Chainable<Response>;
     }
 }
