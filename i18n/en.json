@@ -1241,6 +1241,7 @@
   "admin.license.enterprisePlanSubtitle": "We’re here to work with you and your needs. Contact us today to get more seats on your plan.",
   "admin.license.enterprisePlanTitle": "Need to increase your headcount?",
   "admin.license.key": "License Key: ",
+  "admin.license.keyAddNew": "Add a new license",
   "admin.license.keyRemove": "Remove License and Downgrade Server",
   "admin.license.modal.done": "Done",
   "admin.license.modal.upload": "Upload",
