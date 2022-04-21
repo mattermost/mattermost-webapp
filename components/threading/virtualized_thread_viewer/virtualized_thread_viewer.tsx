@@ -464,22 +464,22 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
                         {({width, height}) => (
                             <>
                                 <DynamicSizeList
-                                    canLoadMorePosts={this.canLoadMorePosts}
-                                    height={height}
-                                    initRangeToRender={this.initRangeToRender}
-                                    initScrollToIndex={this.initScrollToIndex}
-                                    innerListStyle={this.getInnerStyles()}
-                                    innerRef={this.innerRef}
-                                    itemData={this.props.replyListIds}
-                                    scrollToFailed={this.handleScrollToFailed}
-                                    onItemsRendered={this.onItemsRendered}
-                                    onScroll={this.handleScroll}
-                                    overscanCountBackward={OVERSCAN_COUNT_BACKWARD}
-                                    overscanCountForward={OVERSCAN_COUNT_FORWARD}
                                     ref={this.listRef}
-                                    style={virtListStyles}
+                                    innerRef={this.innerRef}
+                                    height={height}
                                     width={width}
                                     className={'post-list__dynamic--RHS'}
+                                    style={virtListStyles}
+                                    innerListStyle={this.getInnerStyles()}
+                                    itemData={this.props.replyListIds}
+                                    overscanCountBackward={OVERSCAN_COUNT_BACKWARD}
+                                    overscanCountForward={OVERSCAN_COUNT_FORWARD}
+                                    canLoadMorePosts={this.canLoadMorePosts}
+                                    initRangeToRender={this.initRangeToRender}
+                                    initScrollToIndex={this.initScrollToIndex}
+                                    scrollToFailed={this.handleScrollToFailed}
+                                    onScroll={this.handleScroll}
+                                    onItemsRendered={this.onItemsRendered}
                                 >
                                     {this.renderRow}
                                 </DynamicSizeList>
