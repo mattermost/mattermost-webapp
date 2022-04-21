@@ -1,0 +1,40 @@
+.command-palette-input-base {
+    display: flex;
+    overflow: hidden;
+    flex: 1;
+    align-items: center;
+
+    .command-palette-input {
+        display: flex;
+        flex: 1;
+        flex-wrap: wrap;
+        align-items: center;
+
+        > input {
+            display: flex;
+            min-width: 160px;
+            flex: 1;
+            border: none;
+            color: var(--center-channel-color);
+            font-size: 20px;
+
+            &::placeholder {
+                color: rgba(var(--center-channel-color-rgb), 0.48);
+            }
+        }
+
+        .command-palette-input-shortcut {
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+            font-size: 12px;
+
+            a {
+                color: rgba(var(--center-channel-color-rgb), 0.56);
+                font-weight: 600;
+            }
+        }
+    }
+
+    .command-palette-input::-webkit-scrollbar {
+        display: none; /* for Chrome, Safari, and Opera */
+    }
+}
