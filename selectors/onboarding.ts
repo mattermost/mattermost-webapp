@@ -6,7 +6,7 @@ import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 
 import {GlobalState} from 'types/store';
 
-import {Preferences, RecommendedNextSteps} from 'utils/constants';
+import Constants, {Preferences} from 'utils/constants';
 
 export const getABTestPreferences = (() => {
     const getCategory = makeGetCategory();
@@ -18,7 +18,7 @@ const getFirstChannelNamePref = createSelector(
     'getFirstChannelNamePref',
     getABTestPreferences,
     (preferences) => {
-        return preferences.find((pref) => pref.name === RecommendedNextSteps.CREATE_FIRST_CHANNEL);
+        return preferences.find((pref) => pref.name === Constants.CREATE_FIRST_CHANNEL);
     },
 );
 
