@@ -36,6 +36,7 @@ describe('components/SuggestionBox', () => {
         value: 'value',
         containerClass: 'test',
         openOnFocus: true,
+        maxVisible: 10,
         providers: [],
         actions: {
             openModalFromCommand: jest.fn(),
