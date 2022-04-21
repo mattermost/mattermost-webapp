@@ -1,3 +1,33 @@
 .command-palette {
-    box-shadow: $elevation-6;
+    width: 100%;
+    max-width: 679px !important;
+    box-shadow: var(--elevation-6);
+
+    .icon-magnify {
+        color: rgba(var(--center-channel-color-rgb), 0.64);
+    }
+
+    .modal-content {
+        border-width: 0;
+    }
+
+    .modal-header {
+        padding-right: 14px;
+        border-width: 0;
+        border-color: rgba(var(--center-channel-color-rgb), 0.08) !important;
+        border-bottom-width: 1px;
+        background-color: transparent !important;
+    }
+
+    .modal-body {
+        padding-top: 8px;
+    }
+
+    .modal-footer {
+        padding: 12px 24px;
+        border-top-color: rgba(var(--center-channel-color-rgb), 0.08) !important;
+        border-bottom-width: 1px;
+        background-color: rgba(var(--center-channel-color-rgb), 0.04);
+        text-align: left;
+    }
 }
