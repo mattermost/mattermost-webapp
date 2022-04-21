@@ -235,6 +235,7 @@ var config = {
             path.resolve(__dirname),
         ],
         alias: {
+            '@mattermost/types': 'packages/types/src',
             'mattermost-redux/test': 'packages/mattermost-redux/test',
             'mattermost-redux': 'packages/mattermost-redux/src',
             reselect: 'packages/reselect/src',
@@ -297,6 +298,9 @@ var config = {
                 {from: 'images/c_download.png', to: 'images'},
                 {from: 'images/c_socket.png', to: 'images'},
                 {from: 'images/admin-onboarding-background.jpg', to: 'images'},
+                {from: 'images/payment-method-illustration.png', to: 'images'},
+                {from: 'images/trial-ending-soon.png', to: 'images'},
+                {from: 'images/cloud-laptop.png', to: 'images'},
             ],
         }),
 

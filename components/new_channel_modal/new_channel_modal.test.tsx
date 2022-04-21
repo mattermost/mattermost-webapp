@@ -279,7 +279,7 @@ describe('components/new_channel_modal', () => {
         const mockChangeInvalidEvent = {
             preventDefault: jest.fn(),
             target: {
-                value: 'c',
+                value: '',
             },
         } as unknown as React.ChangeEvent<HTMLInputElement>;
 
@@ -318,7 +318,7 @@ describe('components/new_channel_modal', () => {
         const mockChangeURLInvalidEvent = {
             preventDefault: jest.fn(),
             target: {
-                value: 'c',
+                value: 'c-',
             },
         } as unknown as React.ChangeEvent<HTMLInputElement>;
 
