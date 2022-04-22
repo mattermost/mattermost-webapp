@@ -19,7 +19,6 @@ import {
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
-import {isInRole} from 'utils/utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {openDirectChannelToUserId} from 'actions/channel_actions';
 import {openModal} from 'actions/views/modals';
@@ -28,13 +27,33 @@ import {getPreviousRhsState} from 'selectors/rhs';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {setChannelMembersRhsSearchTerm} from 'actions/views/search';
 import {loadProfilesAndReloadChannelMembers} from 'actions/user_actions';
+import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import * as UserUtils from 'mattermost-redux/utils/user_utils';
+import {loadMyChannelMemberAndRole} from 'mattermost-redux/actions/channels';
 
 import RHS, {Props, ChannelMember} from './channel_members_rhs';
+
+function isChannelAdmin(channelMember: ChannelMembership) {
+    return UserUtils.isChannelAdmin(channelMember.roles) || channelMember.scheme_admin;
+}
 
 function mapStateToProps(state: GlobalState) {
     const channel = getCurrentChannel(state);
     const currentTeam = getCurrentTeam(state);
     const {member_count: membersCount} = getCurrentChannelStats(state) || {member_count: 0};
+
+    if (!channel) {
+        return {
+            channel: {} as Channel,
+            channelMembers: [],
+            channelAdmins: [],
+            searchTerms: '',
+            membersCount,
+            canManageMembers: false,
+            canGoBack: false,
+            teamUrl: '',
+        } as unknown as Props;
+    }
 
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const canManageMembers = haveIChannelPermission(state, currentTeam.id, channel.id, isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS);
@@ -64,7 +83,7 @@ function mapStateToProps(state: GlobalState) {
 
         if (member.membership) {
             // group by role unless we are doing a search
-            if (isInRole(member.membership.roles, Constants.PERMISSIONS_CHANNEL_ADMIN) && searchTerms === '') {
+            if (isChannelAdmin(member.membership) && searchTerms === '') {
                 channelAdmins.push(member);
                 return;
             }
@@ -97,6 +116,7 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
             goBack,
             setChannelMembersRhsSearchTerm,
             loadProfilesAndReloadChannelMembers,
+            loadMyChannelMemberAndRole,
         }, dispatch),
     };
 }
