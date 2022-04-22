@@ -1,4 +1,8 @@
 .insights-modal {
+    &.modal-dialog {
+        margin-top: calc(50vh - 240px);
+    }
+
     .modal-content {
         .modal-header {
             align-items: flex-start;
@@ -35,7 +39,7 @@
 
             .InsightsTable {
                 padding: 0;
-                background: #fff;
+                background: var(--center-channel-bg);
 
                 .DataGrid_header {
                     padding: 12px 0;
@@ -65,7 +69,8 @@
                         padding: 0;
                         border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
                         border-left: none;
-                        background-color: transparent !important;
+                        background-color: var(--center-channel-bg) !important;
+                        color: var(--center-channel-color);
 
                         &:hover {
                             border-left: none;
