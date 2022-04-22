@@ -54,8 +54,9 @@ export class TeamIcon extends React.PureComponent<Props> {
                     <div
                         data-testid='teamIconImage'
                         className={`TeamIcon__image TeamIcon__${size}`}
-                        aria-label={'Team Icon'}
+                        aria-label={`${content} Team Image`}
                         style={{backgroundImage: `url('${teamIconUrl}')`}}
+                        role={'img'}
                     />
                 );
             } else {
@@ -63,7 +64,8 @@ export class TeamIcon extends React.PureComponent<Props> {
                     <div
                         data-testid='teamIconInitial'
                         className={`TeamIcon__initials TeamIcon__initials__${size}`}
-                        aria-label={'Team Initials'}
+                        aria-label={`${content} Team Initials`}
+                        role={'img'}
                     >
                         {content ? content.replace(/\s/g, '').substring(0, 2) : '??'}
                     </div>

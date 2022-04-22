@@ -271,7 +271,13 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
                             defaultMessage='Other teams you can join'
                         />
                     }
-                    content={<i className='icon icon-plus'/>}
+                    content={
+                        <i
+                            className='icon icon-plus'
+                            role={'img'}
+                            aria-label={'Plus Icon'}
+                        />
+                    }
                     switchTeam={this.props.actions.switchTeam}
                 />,
             );
@@ -290,7 +296,13 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
                                 defaultMessage='Create a Team'
                             />
                         }
-                        content={<i className='icon icon-plus'/>}
+                        content={
+                            <i
+                                className='icon icon-plus'
+                                role={'img'}
+                                aria-label={'Plus Icon'}
+                            />
+                        }
                         switchTeam={this.props.actions.switchTeam}
                     />
                 </SystemPermissionGate>,
