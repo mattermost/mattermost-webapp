@@ -32,6 +32,7 @@ import NeedsTeam from 'components/needs_team';
 import OnBoardingTaskList from 'components/onboarding_tasklist';
 import LaunchingWorkspace, {LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX} from 'components/preparing_workspace/launching_workspace';
 import {Animations} from 'components/preparing_workspace/steps';
+import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks';
 
 import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
@@ -118,11 +119,13 @@ export default class Root extends React.PureComponent {
             getFirstAdminSetupComplete: PropTypes.func.isRequired,
             getProfiles: PropTypes.func.isRequired,
             loadConfigAndMe: PropTypes.func.isRequired,
+            savePreferences: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
         products: PropTypes.array,
         showTaskList: PropTypes.bool,
         showLaunchingWorkspace: PropTypes.bool,
+        preferences: PropTypes.object,
     }
 
     constructor(props) {
@@ -280,6 +283,39 @@ export default class Root extends React.PureComponent {
         }
     }
 
+    initOnboardingTaskListForAllUsers = async () => {
+        const currentUser = getCurrentUser(store.getState());
+        const {preferences} = this.props;
+
+        const hasUserStartedOnboarding = preferences.some((pref) =>
+            pref.name === OnboardingTaskList.ONBOARDING_TASK_LIST_INIT && pref.value === 'true');
+
+        if (!hasUserStartedOnboarding) {
+        // check if the onboarding has been initialized, if not save to preferences the show/open-task-list to true
+        // and save the init onboarding, so next time it doesn't get into this condition
+            await this.props.actions.savePreferences(currentUser.id, [
+                {
+                    category: OnboardingTaskCategory,
+                    user_id: currentUser.id,
+                    name: OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW,
+                    value: 'true',
+                },
+                {
+                    user_id: currentUser.id,
+                    category: OnboardingTaskCategory,
+                    name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
+                    value: 'true',
+                },
+                {
+                    category: OnboardingTaskCategory,
+                    user_id: currentUser.id,
+                    name: OnboardingTaskList.ONBOARDING_TASK_LIST_INIT,
+                    value: 'true',
+                },
+            ]);
+        }
+    };
+
     async redirectToOnboardingOrDefaultTeam() {
         const storeState = store.getState();
         const isUserAdmin = isCurrentUserSystemAdmin(storeState);
@@ -329,6 +365,7 @@ export default class Root extends React.PureComponent {
         }
 
         this.onConfigLoaded();
+        this.initOnboardingTaskListForAllUsers();
     }
 
     componentDidMount() {

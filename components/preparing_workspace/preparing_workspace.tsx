@@ -364,22 +364,6 @@ export default function PreparingWorkspace(props: Props) {
             }
         };
 
-        // prepare task list to open in the next view
-        dispatch(savePreferences(user.id, [
-            {
-                user_id: user.id,
-                category: OnboardingTaskCategory,
-                name: OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW,
-                value: 'true',
-            },
-            {
-                user_id: user.id,
-                category: OnboardingTaskCategory,
-                name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
-                value: 'true',
-            },
-        ]));
-
         const sendFormEnd = Date.now();
         const timeToWait = WAIT_FOR_REDIRECT_TIME - (sendFormEnd - sendFormStart);
         if (timeToWait > 0) {

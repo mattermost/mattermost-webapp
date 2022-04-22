@@ -7,9 +7,10 @@ import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {shouldShowTermsOfService, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getTheme, getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getTheme, getBool, makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getFirstAdminSetupComplete} from 'mattermost-redux/actions/general';
 import {getProfiles} from 'mattermost-redux/actions/users';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
 
 import {getShowLaunchingWorkspace} from 'selectors/onboarding';
 import {emitBrowserWindowResized} from 'actions/views/browser';
@@ -23,6 +24,7 @@ import {isMobile} from 'utils/utils.jsx';
 import Root from './root.jsx';
 
 function mapStateToProps(state) {
+    const getCategory = makeGetCategory();
     const config = getConfig(state);
     const showTermsOfService = shouldShowTermsOfService(state);
     const plugins = state.plugins.components.CustomRouteComponent;
@@ -45,6 +47,7 @@ function mapStateToProps(state) {
         products,
         showTaskList,
         showLaunchingWorkspace: getShowLaunchingWorkspace(state),
+        preferences: getCategory(state, OnboardingTaskCategory),
     };
 }
 
@@ -55,6 +58,7 @@ function mapDispatchToProps(dispatch) {
             emitBrowserWindowResized,
             getFirstAdminSetupComplete,
             getProfiles,
+            savePreferences,
         }, dispatch),
     };
 }
