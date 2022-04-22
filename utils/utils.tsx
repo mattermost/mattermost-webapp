@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 /* eslint-disable max-lines */
 
-import React from 'react';
+import React, {LinkHTMLAttributes} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import cssVars from 'css-vars-ponyfill';
@@ -60,7 +60,15 @@ import {getIsMobileView} from 'selectors/views/browser';
 import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
 import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
 
+import {Team} from '@mattermost/types/teams';
+import {Post} from '@mattermost/types/posts';
+import {UserProfile} from '@mattermost/types/users';
+import {Channel} from '@mattermost/types/channels';
+import {Theme} from 'mattermost-redux/types/themes';
+import {ClientConfig} from 'mattermost-redux/types/config';
+
 import {joinPrivateChannelPrompt} from './channel_utils';
+import {GlobalState} from '@mattermost/types/store';
 
 const CLICKABLE_ELEMENTS = [
     'a',
@@ -79,7 +87,7 @@ export function isLinux() {
     return navigator.platform.toUpperCase().indexOf('LINUX') >= 0;
 }
 
-export function createSafeId(prop) {
+export function createSafeId(prop: {props: {defaultMessage: string}} | null): string | undefined {
     if (prop === null) {
         return undefined;
     }
@@ -95,14 +103,14 @@ export function createSafeId(prop) {
     return str.replace(new RegExp(' ', 'g'), '_');
 }
 
-export function cmdOrCtrlPressed(e, allowAlt = false) {
+export function cmdOrCtrlPressed(e: React.KeyboardEvent, allowAlt = false) {
     if (allowAlt) {
         return (isMac() && e.metaKey) || (!isMac() && e.ctrlKey);
     }
     return (isMac() && e.metaKey) || (!isMac() && e.ctrlKey && !e.altKey);
 }
 
-export function isKeyPressed(event, key) {
+export function isKeyPressed(event: React.KeyboardEvent, key: [string, number]) {
     // There are two types of keyboards
     // 1. English with different layouts(Ex: Dvorak)
     // 2. Different language keyboards(Ex: Russian)
@@ -123,26 +131,18 @@ export function isKeyPressed(event, key) {
     return event.keyCode === key[1];
 }
 
-/**
- * check keydown event for line break combo. Should catch alt/option + enter not all browsers except Safari
- * @param  {object}  e - keydown event
- * @return {boolean}
- */
-export function isUnhandledLineBreakKeyCombo(e) {
+// check keydown event for line break combo. Should catch alt/option + enter not all browsers except Safari
+export function isUnhandledLineBreakKeyCombo(e: React.KeyboardEvent): boolean {
     return Boolean(
-        isKeyPressed(e, Constants.KeyCodes.ENTER) &&
+        isKeyPressed(e, Constants.KeyCodes.ENTER as [string, number]) &&
         !e.shiftKey && // shift + enter is already handled everywhere, so don't handle again
         (e.altKey && !UserAgent.isSafari() && !cmdOrCtrlPressed(e)), // alt/option + enter is already handled in Safari, so don't handle again
     );
 }
 
-/**
- * insert a new line character at keyboard cursor (or overwrites selection)
- * @param  {object}  e - keydown event
- * @return {string} message modified with new line inserted for app consumption
- * WARNING: HAS DOM SIDE EFFECTS
- */
-export function insertLineBreakFromKeyEvent(e) {
+// insert a new line character at keyboard cursor (or overwrites selection)
+// WARNING: HAS DOM SIDE EFFECTS
+export function insertLineBreakFromKeyEvent(e: React.KeyboardEvent | any): string {
     const el = e.target;
     const {selectionEnd, selectionStart, value} = el;
 
@@ -157,7 +157,7 @@ export function insertLineBreakFromKeyEvent(e) {
     return newValue;
 }
 
-export function isInRole(roles, inRole) {
+export function isInRole(roles: string, inRole: string): boolean {
     if (roles) {
         var parts = roles.split(' ');
         for (var i = 0; i < parts.length; i++) {
@@ -170,7 +170,7 @@ export function isInRole(roles, inRole) {
     return false;
 }
 
-export function getTeamRelativeUrl(team) {
+export function getTeamRelativeUrl(team: Team) {
     if (!team) {
         return '';
     }
@@ -178,7 +178,7 @@ export function getTeamRelativeUrl(team) {
     return '/' + team.name;
 }
 
-export function getPermalinkURL(state, teamId, postId) {
+export function getPermalinkURL(state: GlobalState, teamId: Team['id'], postId: Post['id']): string {
     let team = getTeam(state, teamId);
     if (!team) {
         team = getCurrentTeam(state);
@@ -186,7 +186,7 @@ export function getPermalinkURL(state, teamId, postId) {
     return `${getTeamRelativeUrl(team)}/pl/${postId}`;
 }
 
-export function getChannelURL(state, channel, teamId) {
+export function getChannelURL(state: GlobalState, channel: Channel, teamId: string): string {
     let notificationURL;
     if (channel && (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL)) {
         notificationURL = getCurrentRelativeTeamUrl(state) + '/channels/' + channel.name;
@@ -215,7 +215,7 @@ export const notificationSounds = new Map([
 ]);
 
 var canDing = true;
-export function ding(name) {
+export function ding(name: string) {
     if (hasSoundOptions() && canDing) {
         tryNotificationSound(name);
         canDing = false;
@@ -225,7 +225,7 @@ export function ding(name) {
     }
 }
 
-export function tryNotificationSound(name) {
+export function tryNotificationSound(name: string) {
     const audio = new Audio(notificationSounds.get(name) ?? notificationSounds.get('Bing'));
     audio.play();
 }
@@ -234,16 +234,16 @@ export function hasSoundOptions() {
     return (!UserAgent.isEdge());
 }
 
-export function getDateForUnixTicks(ticks) {
+export function getDateForUnixTicks(ticks: number): Date {
     return new Date(ticks);
 }
 
 // returns Unix timestamp in milliseconds
-export function getTimestamp() {
+export function getTimestamp(): number {
     return Date.now();
 }
 
-export function getRemainingDaysFromFutureTimestamp(timestamp) {
+export function getRemainingDaysFromFutureTimestamp(timestamp: number): number {
     const MS_PER_DAY = 24 * 60 * 60 * 1000;
     const futureDate = new Date(timestamp);
     const utcFuture = Date.UTC(futureDate.getFullYear(), futureDate.getMonth(), futureDate.getDate());
@@ -253,7 +253,7 @@ export function getRemainingDaysFromFutureTimestamp(timestamp) {
     return Math.floor((utcFuture - utcToday) / MS_PER_DAY);
 }
 
-export function getLocaleDateFromUTC(timestamp, format = 'YYYY/MM/DD HH:mm:ss', userTimezone = '') {
+export function getLocaleDateFromUTC(timestamp: number, format: string = 'YYYY/MM/DD HH:mm:ss', userTimezone: string = '') {
     if (!timestamp) {
         return moment.now();
     }
@@ -261,7 +261,7 @@ export function getLocaleDateFromUTC(timestamp, format = 'YYYY/MM/DD HH:mm:ss', 
     return moment.unix(timestamp).format(format) + timezone;
 }
 
-export function replaceHtmlEntities(text) {
+export function replaceHtmlEntities(text: string) {
     var tagsToReplace = {
         '&amp;': '&',
         '&lt;': '<',
@@ -269,23 +269,24 @@ export function replaceHtmlEntities(text) {
     };
     var newtext = text;
     for (var tag in tagsToReplace) {
+        // @ts-expect-error
         if (Reflect.apply({}.hasOwnProperty, this, [tagsToReplace, tag])) {
             var regex = new RegExp(tag, 'g');
-            newtext = newtext.replace(regex, tagsToReplace[tag]);
+            newtext = newtext.replace(regex, (tagsToReplace as any)[tag]);
         }
     }
     return newtext;
 }
 
-export function isGIFImage(extin) {
+export function isGIFImage(extin: string): boolean {
     return extin.toLowerCase() === Constants.IMAGE_TYPE_GIF;
 }
 
-const removeQuerystringOrHash = (extin) => {
+const removeQuerystringOrHash = (extin: string): string => {
     return extin.split(/[?#]/)[0];
 };
 
-export const getFileType = (extin) => {
+export const getFileType = (extin: string): typeof FileTypes[keyof typeof FileTypes] => {
     const ext = removeQuerystringOrHash(extin.toLowerCase());
 
     if (Constants.TEXT_TYPES.indexOf(ext) > -1) {
@@ -335,8 +336,14 @@ export const getFileType = (extin) => {
     return FileTypes.OTHER;
 };
 
-export function getFileIconPath(fileInfo) {
-    const fileType = getFileType(fileInfo.extension);
+interface FileInfo {
+    name: string;
+    extension: string;
+    size: number;
+}
+
+export function getFileIconPath(fileInfo: FileInfo) {
+    const fileType = getFileType(fileInfo.extension) as keyof typeof Constants.ICON_FROM_TYPE;
 
     var icon;
     if (fileType in Constants.ICON_FROM_TYPE) {
@@ -348,8 +355,8 @@ export function getFileIconPath(fileInfo) {
     return icon;
 }
 
-export function getCompassIconClassName(fileTypeIn, outline = true, large = false) {
-    const fileType = fileTypeIn.toLowerCase();
+export function getCompassIconClassName(fileTypeIn: string, outline = true, large = false) {
+    const fileType = fileTypeIn.toLowerCase() as keyof typeof Constants.ICON_FROM_TYPE;
     let icon = 'generic';
 
     if (fileType in Constants.ICON_NAME_FROM_TYPE) {
@@ -363,8 +370,8 @@ export function getCompassIconClassName(fileTypeIn, outline = true, large = fals
     return `icon-file-${icon}${outline ? '-outline' : ''}${large ? '-large' : ''}`;
 }
 
-export function getIconClassName(fileTypeIn) {
-    var fileType = fileTypeIn.toLowerCase();
+export function getIconClassName(fileTypeIn: string) {
+    var fileType = fileTypeIn.toLowerCase()as keyof typeof Constants.ICON_FROM_TYPE;
 
     if (fileType in Constants.ICON_NAME_FROM_TYPE) {
         return Constants.ICON_NAME_FROM_TYPE[fileType];
@@ -373,31 +380,31 @@ export function getIconClassName(fileTypeIn) {
     return 'generic';
 }
 
-export function getMenuItemIcon(name, dangerous) {
+export function getMenuItemIcon(name: string, dangerous?: boolean) {
     const colorClass = dangerous ? 'MenuItem__compass-icon-dangerous' : 'MenuItem__compass-icon';
     return (
         <span className={`${name} ${colorClass}`}/>
     );
 }
 
-export function toTitleCase(str) {
-    function doTitleCase(txt) {
+export function toTitleCase(str: string): string {
+    function doTitleCase(txt: string) {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     }
     return str.replace(/\w\S*/g, doTitleCase);
 }
 
-function dropAlpha(value) {
+function dropAlpha(value: string): string {
     return value.substr(value.indexOf('(') + 1).split(',', 3).join(',');
 }
 
 // given '#fffff', returns '255, 255, 255' (no trailing comma)
-function toRgbValues(hexStr) {
+function toRgbValues(hexStr: string): string {
     const rgbaStr = `${parseInt(hexStr.substr(1, 2), 16)}, ${parseInt(hexStr.substr(3, 2), 16)}, ${parseInt(hexStr.substr(5, 2), 16)}`;
     return rgbaStr;
 }
 
-export function applyTheme(theme) {
+export function applyTheme(theme: Theme) {
     if (theme.centerChannelColor) {
         changeCss('.app__body .bg-text-200', 'background:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .user-popover__role', 'background:' + changeOpacity(theme.centerChannelColor, 0.3));
@@ -706,8 +713,8 @@ export function resetTheme() {
     applyTheme(Preferences.THEMES.denim);
 }
 
-function changeCss(className, classValue) {
-    let styleEl = document.querySelector('style[data-class="' + className + '"]');
+function changeCss(className: string, classValue: string) {
+    let styleEl: HTMLStyleElement = document.querySelector('style[data-class="' + className + '"]')!;
     if (!styleEl) {
         styleEl = document.createElement('style');
         styleEl.setAttribute('data-class', className);
@@ -717,15 +724,15 @@ function changeCss(className, classValue) {
     }
 
     // Grab style sheet
-    const styleSheet = styleEl.sheet;
-    const rules = styleSheet.cssRules || styleSheet.rules;
+    const styleSheet = styleEl.sheet!;
+    const rules: CSSRuleList = styleSheet.cssRules || styleSheet.rules;
     const style = classValue.substr(0, classValue.indexOf(':'));
     const value = classValue.substr(classValue.indexOf(':') + 1).replace(/!important[;]/g, '');
     const priority = (classValue.match(/!important/) ? 'important' : null);
 
     for (let i = 0; i < rules.length; i++) {
-        if (rules[i].selectorText === className) {
-            rules[i].style.setProperty(style, value, priority);
+        if ((rules[i] as any).selectorText === className) {
+            (rules[i] as any).style.setProperty(style, value, priority);
             return;
         }
     }
@@ -741,20 +748,20 @@ function changeCss(className, classValue) {
     }
 }
 
-function updateCodeTheme(userTheme) {
+function updateCodeTheme(userTheme: string) {
     let cssPath = '';
     Constants.THEME_ELEMENTS.forEach((element) => {
         if (element.id === 'codeTheme') {
-            element.themes.forEach((theme) => {
+            (element.themes as any).forEach((theme: Theme) => {
                 if (userTheme === theme.id) {
-                    cssPath = theme.cssURL;
+                    cssPath = theme.cssURL!;
                 }
             });
         }
     });
 
-    const link = document.querySelector('link.code_theme');
-    if (link && cssPath !== link.attributes.href) {
+    const link: HTMLLinkElement = document.querySelector('link.code_theme')!;
+    if (link && cssPath !== (link.attributes as LinkHTMLAttributes<HTMLLinkElement>).href) {
         changeCss('code.hljs', 'visibility: hidden');
 
         const xmlHTTP = new XMLHttpRequest();
@@ -776,24 +783,24 @@ function updateCodeTheme(userTheme) {
     }
 }
 
-export function placeCaretAtEnd(el) {
+export function placeCaretAtEnd(el: HTMLInputElement | HTMLTextAreaElement) {
     el.focus();
     el.selectionStart = el.value.length;
     el.selectionEnd = el.value.length;
 }
 
-export function getCaretPosition(el) {
+export function getCaretPosition(el: HTMLInputElement | HTMLTextAreaElement) {
     if (el.selectionStart) {
         return el.selectionStart;
-    } else if (document.selection) {
+    } else if ((document as any).selection) {
         el.focus();
 
-        var r = document.selection.createRange();
+        var r = (document as any).selection.createRange();
         if (r == null) {
             return 0;
         }
 
-        var re = el.createTextRange();
+        var re = (el as any).createTextRange();
         var rc = re.duplicate();
         re.moveToBookmark(r.getBookmark());
         rc.setEndPoint('EndToStart', re);
@@ -803,19 +810,19 @@ export function getCaretPosition(el) {
     return 0;
 }
 
-function createHtmlElement(el) {
+function createHtmlElement(el: keyof HTMLElementTagNameMap) {
     return document.createElement(el);
 }
 
-function getElementComputedStyle(el) {
+function getElementComputedStyle(el: Element) {
     return getComputedStyle(el);
 }
 
-function addElementToDocument(el) {
+function addElementToDocument(el: Node) {
     document.body.appendChild(el);
 }
 
-export function copyTextAreaToDiv(textArea) {
+export function copyTextAreaToDiv(textArea: HTMLTextAreaElement) {
     if (!textArea) {
         return null;
     }
@@ -836,7 +843,7 @@ export function copyTextAreaToDiv(textArea) {
         'paddingLeft',
         'paddingTop',
     ].forEach((key) => {
-        copy.style[key] = style[key];
+        copy.style[key as any] = style[key as any];
     });
     copy.style.overflow = 'auto';
     copy.style.width = textArea.offsetWidth + 'px';
@@ -848,7 +855,7 @@ export function copyTextAreaToDiv(textArea) {
     return copy;
 }
 
-function convertEmToPixels(el, remNum) {
+function convertEmToPixels(el: Element, remNum: number | any): number {
     if (isNaN(remNum)) {
         return 0;
     }
@@ -856,7 +863,7 @@ function convertEmToPixels(el, remNum) {
     return remNum * parseFloat(styles.fontSize);
 }
 
-export function getCaretXYCoordinate(textArea) {
+export function getCaretXYCoordinate(textArea: HTMLTextAreaElement) {
     if (!textArea) {
         return {x: 0, y: 0};
     }
@@ -864,13 +871,13 @@ export function getCaretXYCoordinate(textArea) {
     const end = textArea.selectionEnd;
     const copy = copyTextAreaToDiv(textArea);
     const range = document.createRange();
-    range.setStart(copy.firstChild, start);
-    range.setEnd(copy.firstChild, end);
+    range.setStart(copy!.firstChild!, start);
+    range.setEnd(copy!.firstChild!, end);
     const selection = document.getSelection();
-    selection.removeAllRanges();
-    selection.addRange(range);
+    selection!.removeAllRanges();
+    selection!.addRange(range);
     const rect = range.getClientRects();
-    document.body.removeChild(copy);
+    document.body.removeChild(copy!);
     textArea.selectionStart = start;
     textArea.selectionEnd = end;
     textArea.focus();
@@ -880,7 +887,7 @@ export function getCaretXYCoordinate(textArea) {
     };
 }
 
-export function getViewportSize(win) {
+export function getViewportSize(win?: Window) {
     const w = win || window;
     if (w.innerWidth != null) {
         return {w: w.innerWidth, h: w.innerHeight};
@@ -889,7 +896,7 @@ export function getViewportSize(win) {
     return {w: clientWidth, h: clientHeight};
 }
 
-export function offsetTopLeft(el) {
+export function offsetTopLeft(el: HTMLElement) {
     if (!(el instanceof HTMLElement)) {
         return {top: 0, left: 0};
     }
@@ -899,7 +906,7 @@ export function offsetTopLeft(el) {
     return {top: rect.top + scrollTop, left: rect.left + scrollLeft};
 }
 
-export function getSuggestionBoxAlgn(textArea, pxToSubstract = 0) {
+export function getSuggestionBoxAlgn(textArea: HTMLTextAreaElement, pxToSubstract = 0) {
     if (!textArea || !(textArea instanceof HTMLElement)) {
         return {
             pixelsToMoveX: 0,
@@ -958,12 +965,12 @@ export function getPxToSubstract(char = '@') {
     return 0;
 }
 
-export function setSelectionRange(input, selectionStart, selectionEnd) {
+export function setSelectionRange(input: HTMLInputElement, selectionStart: number, selectionEnd: number) {
     if (input.setSelectionRange) {
         input.focus();
         input.setSelectionRange(selectionStart, selectionEnd);
-    } else if (input.createTextRange) {
-        var range = input.createTextRange();
+    } else if ((input as any).createTextRange) {
+        var range = (input as any).createTextRange();
         range.collapse(true);
         range.moveEnd('character', selectionEnd);
         range.moveStart('character', selectionStart);
@@ -971,7 +978,7 @@ export function setSelectionRange(input, selectionStart, selectionEnd) {
     }
 }
 
-export function setCaretPosition(input, pos) {
+export function setCaretPosition(input: HTMLInputElement, pos: number) {
     if (!input) {
         return;
     }
@@ -979,11 +986,11 @@ export function setCaretPosition(input, pos) {
     setSelectionRange(input, pos, pos);
 }
 
-export function scrollbarWidth(el) {
+export function scrollbarWidth(el: HTMLElement) {
     return el.offsetWidth - el.clientWidth;
 }
 
-export function isValidUsername(name) {
+export function isValidUsername(name: string | null) {
     let error;
     if (!name) {
         error = {
@@ -1015,7 +1022,7 @@ export function isValidUsername(name) {
     return error;
 }
 
-export function isValidBotUsername(name) {
+export function isValidBotUsername(name: string) {
     let error = isValidUsername(name);
     if (error) {
         return error;
@@ -1034,7 +1041,11 @@ export function isMobile() {
     return getIsMobileView(store.getState());
 }
 
-export function loadImage(url, onLoad, onProgress) {
+export function loadImage(
+    url: string,
+    onLoad: ((this: XMLHttpRequest, ev: ProgressEvent) => any) | null,
+    onProgress: ((this: XMLHttpRequest, ev: ProgressEvent) => any) | null,
+) {
     const request = new XMLHttpRequest();
 
     request.open('GET', url, true);
@@ -1046,19 +1057,19 @@ export function loadImage(url, onLoad, onProgress) {
             if (e.lengthComputable) {
                 total = e.total;
             } else {
-                total = parseInt(e.target.getResponseHeader('X-Uncompressed-Content-Length'), 10);
+                total = parseInt((e.target as any).getResponseHeader('X-Uncompressed-Content-Length'), 10);
             }
 
             const completedPercentage = Math.round((e.loaded / total) * 100);
 
-            onProgress(completedPercentage);
+            (onProgress as any)(completedPercentage);
         }
     };
 
     request.send();
 }
 
-function changeColor(colourIn, amt) {
+function changeColor(colourIn: string, amt: number): string {
     var hex = colourIn;
     var lum = amt;
 
@@ -1082,7 +1093,7 @@ function changeColor(colourIn, amt) {
     return rgb;
 }
 
-export function getFullName(user) {
+export function getFullName(user: UserProfile) {
     if (user.first_name && user.last_name) {
         return user.first_name + ' ' + user.last_name;
     } else if (user.first_name) {
@@ -1094,7 +1105,7 @@ export function getFullName(user) {
     return '';
 }
 
-export function getDisplayName(user) {
+export function getDisplayName(user: UserProfile) {
     if (user.nickname && user.nickname.trim().length > 0) {
         return user.nickname;
     }
@@ -1107,7 +1118,7 @@ export function getDisplayName(user) {
     return user.username;
 }
 
-export function getLongDisplayName(user) {
+export function getLongDisplayName(user: UserProfile) {
     let displayName = '@' + user.username;
     var fullName = getFullName(user);
     if (fullName) {
@@ -1124,7 +1135,7 @@ export function getLongDisplayName(user) {
     return displayName;
 }
 
-export function getLongDisplayNameParts(user) {
+export function getLongDisplayNameParts(user: UserProfile) {
     return {
         displayName: '@' + user.username,
         fullName: getFullName(user),
@@ -1136,7 +1147,7 @@ export function getLongDisplayNameParts(user) {
 /**
  * Gets the display name of the specified user, respecting the TeammateNameDisplay configuration setting
  */
-export function getDisplayNameByUser(state, user) {
+export function getDisplayNameByUser(state: GlobalState, user: UserProfile) {
     const teammateNameDisplay = getTeammateNameDisplaySetting(state);
     if (user) {
         return displayUsername(user, teammateNameDisplay);
@@ -1145,7 +1156,7 @@ export function getDisplayNameByUser(state, user) {
     return '';
 }
 
-const UserStatusesWeight = {
+export const UserStatusesWeight = {
     online: 0,
     away: 1,
     dnd: 2,
@@ -1157,8 +1168,8 @@ const UserStatusesWeight = {
 /**
  * Sort users by status then by display name, respecting the TeammateNameDisplay configuration setting
  */
-export function sortUsersByStatusAndDisplayName(users, statusesByUserId, teammateNameDisplay) {
-    function compareUsers(a, b) {
+export function sortUsersByStatusAndDisplayName(users: UserProfile[], statusesByUserId: Record<UserProfile['id'], keyof typeof UserStatusesWeight>, teammateNameDisplay: string) {
+    function compareUsers(a: UserProfile, b: UserProfile) {
         const aStatus = a.is_bot ? 'bot' : statusesByUserId[a.id] || UserStatuses.OFFLINE;
         const bStatus = b.is_bot ? 'bot' : statusesByUserId[b.id] || UserStatuses.OFFLINE;
 
@@ -1178,12 +1189,12 @@ export function sortUsersByStatusAndDisplayName(users, statusesByUserId, teammat
 /**
  * Gets the entire name, including username, full name, and nickname, of the specified user
  */
-export function displayEntireNameForUser(user) {
+export function displayEntireNameForUser(user: UserProfile): string | JSX.Element {
     if (!user) {
         return '';
     }
 
-    let displayName = '';
+    let displayName: string | JSX.Element = '';
     const fullName = getFullName(user);
 
     if (fullName) {
@@ -1211,7 +1222,7 @@ export function displayEntireNameForUser(user) {
 /**
  * Gets the full name and nickname of the specified user
  */
-export function displayFullAndNicknameForUser(user) {
+export function displayFullAndNicknameForUser(user: UserProfile) {
     if (!user) {
         return '';
     }
@@ -1236,21 +1247,21 @@ export function displayFullAndNicknameForUser(user) {
     return displayName;
 }
 
-export function imageURLForUser(userId, lastPictureUpdate = 0) {
+export function imageURLForUser(userId: UserProfile['id'], lastPictureUpdate = 0) {
     return Client4.getUsersRoute() + '/' + userId + '/image?_=' + lastPictureUpdate;
 }
 
-export function defaultImageURLForUser(userId) {
+export function defaultImageURLForUser(userId: UserProfile['id']) {
     return Client4.getUsersRoute() + '/' + userId + '/image/default';
 }
 
 // in contrast to Client4.getTeamIconUrl, for ui logic this function returns null if last_team_icon_update is unset
-export function imageURLForTeam(team) {
+export function imageURLForTeam(team: Team & {last_team_icon_update?: number}) {
     return team.last_team_icon_update ? Client4.getTeamIconUrl(team.id, team.last_team_icon_update) : null;
 }
 
 // Converts a file size in bytes into a human-readable string of the form '123MB'.
-export function fileSizeToString(bytes) {
+export function fileSizeToString(bytes: number) {
     // it's unlikely that we'll have files bigger than this
     if (bytes > 1024 ** 4) {
         // check if file is smaller than 10 to display fractions
@@ -1295,7 +1306,7 @@ export function generateId() {
     return id;
 }
 
-export function getDirectChannelName(id, otherId) {
+export function getDirectChannelName(id: string, otherId: string): string {
     let handle;
 
     if (otherId > id) {
@@ -1308,12 +1319,12 @@ export function getDirectChannelName(id, otherId) {
 }
 
 // Used to get the id of the other user from a DM channel
-export function getUserIdFromChannelName(channel) {
+export function getUserIdFromChannelName(channel: Channel) {
     return getUserIdFromChannelId(channel.name);
 }
 
 // Used to get the id of the other user from a DM channel id (id1_id2)
-export function getUserIdFromChannelId(channelId, currentUserId = getCurrentUserId(store.getState())) {
+export function getUserIdFromChannelId(channelId: Channel['id'], currentUserId = getCurrentUserId(store.getState())) {
     var ids = channelId.split('__');
     var otherUserId = '';
     if (ids[0] === currentUserId) {
@@ -1326,11 +1337,11 @@ export function getUserIdFromChannelId(channelId, currentUserId = getCurrentUser
 }
 
 // Should be refactored, seems to make most sense to wrap TextboxLinks in a connect(). To discuss
-export function isFeatureEnabled(feature, state) {
+export function isFeatureEnabled(feature: {label: string}, state: GlobalState) {
     return getBool(state, Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, Constants.FeatureTogglePrefix + feature.label);
 }
 
-export function fillArray(value, length) {
+export function fillArray<T>(value: T, length: number) {
     const arr = [];
 
     for (let i = 0; i < length; i++) {
@@ -1342,7 +1353,7 @@ export function fillArray(value, length) {
 
 // Checks if a data transfer contains files not text, folders, etc..
 // Slightly modified from http://stackoverflow.com/questions/6848043/how-do-i-detect-a-file-is-being-dragged-rather-than-a-draggable-element-on-my-pa
-export function isFileTransfer(files) {
+export function isFileTransfer(files: any) {
     if (UserAgent.isInternetExplorer() || UserAgent.isEdge()) {
         return files.types != null && files.types.includes('Files');
     }
@@ -1350,7 +1361,7 @@ export function isFileTransfer(files) {
     return files.types != null && (files.types.indexOf ? files.types.indexOf('Files') !== -1 : files.types.contains('application/x-moz-file'));
 }
 
-export function isUriDrop(dataTransfer) {
+export function isUriDrop(dataTransfer: any) {
     if (UserAgent.isInternetExplorer() || UserAgent.isEdge() || UserAgent.isSafari()) {
         for (let i = 0; i < dataTransfer.items.length; i++) {
             if (dataTransfer.items[i].type === 'text/uri-list') {
@@ -1361,7 +1372,7 @@ export function isUriDrop(dataTransfer) {
     return false; // we don't care about others, they handle as we want it
 }
 
-export function clearFileInput(elm) {
+export function clearFileInput(elm: HTMLInputElement) {
     // clear file input for all modern browsers
     try {
         elm.value = '';
@@ -1374,19 +1385,19 @@ export function clearFileInput(elm) {
     }
 }
 
-export function isPostEphemeral(post) {
+export function isPostEphemeral(post: Post) {
     return post.type === Constants.PostTypes.EPHEMERAL || post.state === Posts.POST_DELETED;
 }
 
-export function getRootId(post) {
+export function getRootId(post: Post) {
     return post.root_id === '' ? post.id : post.root_id;
 }
 
-export function getRootPost(postList) {
+export function getRootPost(postList: Post[]) {
     return postList.find((post) => post.root_id === '');
 }
 
-export function localizeMessage(id, defaultMessage) {
+export function localizeMessage(id: string, defaultMessage?: string) {
     const state = store.getState();
 
     const locale = getCurrentLocale(state);
@@ -1399,7 +1410,7 @@ export function localizeMessage(id, defaultMessage) {
     return translations[id];
 }
 
-export function localizeAndFormatMessage(id, defaultMessage, template) {
+export function localizeAndFormatMessage(id: string, defaultMessage: string, template: Record<string, string>) {
     const base = localizeMessage(id, defaultMessage);
 
     if (!template) {
@@ -1412,15 +1423,15 @@ export function localizeAndFormatMessage(id, defaultMessage, template) {
     });
 }
 
-export function mod(a, b) {
+export function mod(a: number, b:number): number {
     return ((a % b) + b) % b;
 }
 
 export const REACTION_PATTERN = /^(\+|-):([^:\s]+):\s*$/;
 
-export function getPasswordConfig(config) {
+export function getPasswordConfig(config: Partial<ClientConfig>) {
     return {
-        minimumLength: parseInt(config.PasswordMinimumLength, 10),
+        minimumLength: parseInt(config.PasswordMinimumLength!, 10),
         requireLowercase: config.PasswordRequireLowercase === 'true',
         requireUppercase: config.PasswordRequireUppercase === 'true',
         requireNumber: config.PasswordRequireNumber === 'true',
@@ -1428,7 +1439,7 @@ export function getPasswordConfig(config) {
     };
 }
 
-export function isValidPassword(password, passwordConfig) {
+export function isValidPassword(password: string, passwordConfig: ReturnType<typeof getPasswordConfig>) {
     let errorId = t('user.settings.security.passwordError');
     let valid = true;
     const minimumLength = passwordConfig.minimumLength || Constants.MIN_PASSWORD_LENGTH;
@@ -1462,9 +1473,9 @@ export function isValidPassword(password, passwordConfig) {
     }
 
     if (passwordConfig.requireSymbol) {
-        if (!password.match(/[ !"\\#$%&'()*+,-./:;<=>?@[\]^_`|~]/)) {
-            valid = false;
-        }
+        //if (!password.match(/[ !"\\#$%&'()*+,-./:;<=>?@[\]^_`|~]/)) {
+        //    valid = false;
+        //}
 
         errorId += 'Symbol';
     }
@@ -1474,7 +1485,7 @@ export function isValidPassword(password, passwordConfig) {
         error = (
             <FormattedMessage
                 id={errorId}
-                default='Your password must contain between {min} and {max} characters.'
+                defaultMessage='Your password must contain between {min} and {max} characters.'
                 values={{
                     min: minimumLength,
                     max: Constants.MAX_PASSWORD_LENGTH,
@@ -1486,7 +1497,7 @@ export function isValidPassword(password, passwordConfig) {
     return {valid, error};
 }
 
-function isChannelOrPermalink(link) {
+function isChannelOrPermalink(link: string) {
     let match = (/\/([^/]+)\/channels\/(\S+)/).exec(link);
     if (match) {
         return {
@@ -1506,10 +1517,10 @@ function isChannelOrPermalink(link) {
     return match;
 }
 
-export async function handleFormattedTextClick(e, currentRelativeTeamUrl = '') {
-    const hashtagAttribute = e.target.getAttributeNode('data-hashtag');
-    const linkAttribute = e.target.getAttributeNode('data-link');
-    const channelMentionAttribute = e.target.getAttributeNode('data-channel-mention');
+export async function handleFormattedTextClick(e: React.MouseEvent, currentRelativeTeamUrl = '') {
+    const hashtagAttribute = (e.target as any).getAttributeNode('data-hashtag');
+    const linkAttribute = (e.target as any).getAttributeNode('data-link');
+    const channelMentionAttribute = (e.target as any).getAttributeNode('data-channel-mention');
 
     if (hashtagAttribute) {
         e.preventDefault();
@@ -1539,16 +1550,16 @@ export async function handleFormattedTextClick(e, currentRelativeTeamUrl = '') {
                         // Handle channel url - Get channel data from channel name
                         if (match.type === 'channel') {
                             const {channelName} = match;
-                            channel = getChannelsNameMapInTeam(state, team.id)[channelName];
+                            channel = getChannelsNameMapInTeam(state, team.id)[channelName as string];
                             if (!channel) {
-                                const {data: channelData} = await store.dispatch(getChannelByNameAndTeamName(teamName, channelName, true));
+                                const {data: channelData} = await store.dispatch(getChannelByNameAndTeamName(teamName, channelName!, true));
                                 channel = channelData;
                             }
                         } else { // Handle permalink - Get channel data from post
                             const {postId} = match;
-                            let post = getPost(state, postId);
+                            let post = getPost(state, postId!);
                             if (!post) {
-                                const {data: postData} = await store.dispatch(getPostAction(match.postId));
+                                const {data: postData} = await store.dispatch(getPostAction(match.postId!));
                                 post = postData;
                             }
                             if (post) {
@@ -1596,7 +1607,7 @@ export async function handleFormattedTextClick(e, currentRelativeTeamUrl = '') {
     }
 }
 
-export function isEmptyObject(object) {
+export function isEmptyObject(object: any) {
     if (!object) {
         return true;
     }
@@ -1608,20 +1619,20 @@ export function isEmptyObject(object) {
     return false;
 }
 
-export function removePrefixFromLocalStorage(prefix) {
+export function removePrefixFromLocalStorage(prefix: string) {
     const keys = [];
     for (let i = 0; i < localStorage.length; i++) {
-        if (localStorage.key(i).startsWith(prefix)) {
+        if (localStorage.key(i)!.startsWith(prefix)) {
             keys.push(localStorage.key(i));
         }
     }
 
     for (let i = 0; i < keys.length; i++) {
-        localStorage.removeItem(keys[i]);
+        localStorage.removeItem(keys[i]!);
     }
 }
 
-export function copyToClipboard(data) {
+export function copyToClipboard(data: string) {
     // Attempt to use the newer clipboard API when possible
     const clipboard = navigator.clipboard;
     if (clipboard) {
@@ -1633,11 +1644,11 @@ export function copyToClipboard(data) {
     // see https://stackoverflow.com/a/30810322/591374 for details
     const textArea = document.createElement('textarea');
     textArea.style.position = 'fixed';
-    textArea.style.top = 0;
-    textArea.style.left = 0;
+    textArea.style.top = '0';
+    textArea.style.left = '0';
     textArea.style.width = '2em';
     textArea.style.height = '2em';
-    textArea.style.padding = 0;
+    textArea.style.padding = '0';
     textArea.style.border = 'none';
     textArea.style.outline = 'none';
     textArea.style.boxShadow = 'none';
@@ -1649,15 +1660,15 @@ export function copyToClipboard(data) {
     document.body.removeChild(textArea);
 }
 
-export function moveCursorToEnd(e) {
-    const val = e.target.value;
+export function moveCursorToEnd(e: React.MouseEvent) {
+    const val = (e.target as any).value;
     if (val.length) {
-        e.target.value = '';
-        e.target.value = val;
+        (e.target as any).value = '';
+        (e.target as any).value = val;
     }
 }
 
-export function compareChannels(a, b) {
+export function compareChannels(a: Channel, b: Channel) {
     const aDisplayName = a.display_name.toUpperCase();
     const bDisplayName = b.display_name.toUpperCase();
     const result = aDisplayName.localeCompare(bDisplayName);
@@ -1694,18 +1705,20 @@ export function isDevMode(state = store.getState()) {
 /**
  * Get closest parent which match selector
  */
-export function getClosestParent(elem, selector) {
+export function getClosestParent(elem: HTMLElement, selector: string) {
     // Element.matches() polyfill
     if (!Element.prototype.matches) {
         Element.prototype.matches =
-            Element.prototype.matchesSelector ||
-            Element.prototype.mozMatchesSelector ||
-            Element.prototype.msMatchesSelector ||
-            Element.prototype.oMatchesSelector ||
-            Element.prototype.webkitMatchesSelector ||
+            (Element.prototype as any).matchesSelector ||
+            (Element.prototype as any).mozMatchesSelector ||
+            (Element.prototype as any).msMatchesSelector ||
+            (Element.prototype as any).oMatchesSelector ||
+            (Element.prototype as any).webkitMatchesSelector ||
             ((s) => {
+                // @ts-expect-error
                 const matches = (this.document || this.ownerDocument).querySelectorAll(s);
                 let i = matches.length - 1;
+                // @ts-expect-error
                 while (i >= 0 && matches.item(i) !== this) {
                     i--;
                 }
@@ -1715,6 +1728,7 @@ export function getClosestParent(elem, selector) {
 
     // Get the closest matching element
     let currentElem = elem;
+    // @ts-expect-error
     for (; currentElem && currentElem !== document; currentElem = currentElem.parentNode) {
         if (currentElem.matches(selector)) {
             return currentElem;
@@ -1730,7 +1744,7 @@ const ITALIC_MD = '*';
  * Applies bold/italic/link markdown on textbox associated with event and returns
  * modified text alongwith modified selection positions.
  */
-export function applyHotkeyMarkdown(e) {
+export function applyHotkeyMarkdown(e: React.KeyboardEvent) {
     e.preventDefault();
 
     if (e.keyCode === Constants.KeyCodes.B[1] || e.keyCode === Constants.KeyCodes.I[1]) {
@@ -1742,14 +1756,14 @@ export function applyHotkeyMarkdown(e) {
     throw Error('Unsupported key code: ' + e.keyCode);
 }
 
-function applyBoldItalicMarkdown(e) {
-    const el = e.target;
+function applyBoldItalicMarkdown(e: React.KeyboardEvent) {
+    const el = e.target as HTMLInputElement;
     const {selectionEnd, selectionStart, value} = el;
 
     // <prefix> <selection> <suffix>
-    const prefix = value.substring(0, selectionStart);
-    const selection = value.substring(selectionStart, selectionEnd);
-    const suffix = value.substring(selectionEnd);
+    const prefix = value.substring(0, selectionStart!);
+    const selection = value.substring(selectionStart!, selectionEnd!);
+    const suffix = value.substring(selectionEnd!);
 
     // Is it italic hot key on existing bold markdown? i.e. italic on **haha**
     let isItalicFollowedByBold = false;
@@ -1774,13 +1788,13 @@ function applyBoldItalicMarkdown(e) {
     if (hasItalicAndBold || (hasCurrentMarkdown && !isItalicFollowedByBold)) {
         // message already has the markdown; remove it
         newValue = prefix.substring(0, prefix.length - delimiter.length) + selection + suffix.substring(delimiter.length);
-        newStart = selectionStart - delimiter.length;
-        newEnd = selectionEnd - delimiter.length;
+        newStart = selectionStart! - delimiter.length;
+        newEnd = selectionEnd! - delimiter.length;
     } else {
         // Add italic or bold markdown
         newValue = prefix + delimiter + selection + delimiter + suffix;
-        newStart = selectionStart + delimiter.length;
-        newEnd = selectionEnd + delimiter.length;
+        newStart = selectionStart! + delimiter.length;
+        newEnd = selectionEnd! + delimiter.length;
     }
 
     return {
@@ -1790,14 +1804,14 @@ function applyBoldItalicMarkdown(e) {
     };
 }
 
-function applyLinkMarkdown(e) {
-    const el = e.target;
+function applyLinkMarkdown(e: React.KeyboardEvent) {
+    const el = e.target as HTMLInputElement;
     const {selectionEnd, selectionStart, value} = el;
 
     // <prefix> <selection> <suffix>
-    const prefix = value.substring(0, selectionStart);
-    const selection = value.substring(selectionStart, selectionEnd);
-    const suffix = value.substring(selectionEnd);
+    const prefix = value.substring(0, selectionStart!);
+    const selection = value.substring(selectionStart!, selectionEnd!);
+    const suffix = value.substring(selectionEnd!);
 
     const delimiterStart = '[';
     const delimiterEnd = '](url)';
@@ -1814,17 +1828,17 @@ function applyLinkMarkdown(e) {
     if (hasMarkdown) {
         // message already has the markdown; remove it
         newValue = prefix.substring(0, prefix.length - delimiterStart.length) + selection + suffix.substring(delimiterEnd.length);
-        newStart = selectionStart - delimiterStart.length;
-        newEnd = selectionEnd - delimiterStart.length;
+        newStart = selectionStart! - delimiterStart.length;
+        newEnd = selectionEnd! - delimiterStart.length;
     } else if (value.length === 0) {
         // no input; Add [|](url)
         newValue = delimiterStart + delimiterEnd;
         newStart = delimiterStart.length;
         newEnd = delimiterStart.length;
-    } else if (selectionStart < selectionEnd) {
+    } else if (selectionStart! < selectionEnd!) {
         // there is something selected; put markdown around it and preserve selection
         newValue = prefix + delimiterStart + selection + delimiterEnd + suffix;
-        newStart = selectionEnd + urlShift;
+        newStart = selectionEnd! + urlShift;
         newEnd = newStart + urlShift;
     } else {
         // nothing is selected
@@ -1832,36 +1846,36 @@ function applyLinkMarkdown(e) {
         const spaceAfter = suffix.charAt(0) === ' ';
         const cursorBeforeWord = ((selectionStart !== 0 && spaceBefore && !spaceAfter) ||
                                   (selectionStart === 0 && !spaceAfter));
-        const cursorAfterWord = ((selectionEnd !== value.length && spaceAfter && !spaceBefore) ||
-                                 (selectionEnd === value.length && !spaceBefore));
+        const cursorAfterWord = ((selectionEnd! !== value.length && spaceAfter && !spaceBefore) ||
+                                 (selectionEnd! === value.length && !spaceBefore));
 
         if (cursorBeforeWord) {
             // cursor before a word
-            const word = value.substring(selectionStart, findWordEnd(value, selectionStart));
+            const word = value.substring(selectionStart!, findWordEnd(value, selectionStart!));
 
             newValue = prefix + delimiterStart + word + delimiterEnd + suffix.substring(word.length);
-            newStart = selectionStart + word.length + urlShift;
+            newStart = selectionStart! + word.length + urlShift;
             newEnd = newStart + urlShift;
         } else if (cursorAfterWord) {
             // cursor after a word
-            const cursorAtEndOfLine = (selectionStart === selectionEnd && selectionEnd === value.length);
+            const cursorAtEndOfLine = (selectionStart === selectionEnd! && selectionEnd! === value.length);
             if (cursorAtEndOfLine) {
                 // cursor at end of line
                 newValue = value + ' ' + delimiterStart + delimiterEnd;
-                newStart = selectionEnd + 1 + delimiterStart.length;
+                newStart = selectionEnd! + 1 + delimiterStart.length;
                 newEnd = newStart;
             } else {
                 // cursor not at end of line
-                const word = value.substring(findWordStart(value, selectionStart), selectionStart);
+                const word = value.substring(findWordStart(value, selectionStart!), selectionStart!);
 
                 newValue = prefix.substring(0, prefix.length - word.length) + delimiterStart + word + delimiterEnd + suffix;
-                newStart = selectionStart + urlShift;
+                newStart = selectionStart! + urlShift;
                 newEnd = newStart + urlShift;
             }
         } else {
             // cursor is in between a word
-            const wordStart = findWordStart(value, selectionStart);
-            const wordEnd = findWordEnd(value, selectionStart);
+            const wordStart = findWordStart(value, selectionStart!);
+            const wordEnd = findWordEnd(value, selectionStart!);
             const word = value.substring(wordStart, wordEnd);
 
             newValue = prefix.substring(0, wordStart) + delimiterStart + word + delimiterEnd + value.substring(wordEnd);
@@ -1877,12 +1891,12 @@ function applyLinkMarkdown(e) {
     };
 }
 
-function findWordEnd(text, start) {
+function findWordEnd(text: string, start: number) {
     const wordEnd = text.indexOf(' ', start);
     return wordEnd === -1 ? text.length : wordEnd;
 }
 
-function findWordStart(text, start) {
+function findWordStart(text: string, start: number) {
     const wordStart = text.lastIndexOf(' ', start - 1) + 1;
     return wordStart === -1 ? 0 : wordStart;
 }
@@ -1890,8 +1904,8 @@ function findWordStart(text, start) {
 /**
  * Adjust selection to correct text when there is Italic markdown (_) around selected text.
  */
-export function adjustSelection(inputBox, e) {
-    const el = e.target;
+export function adjustSelection(inputBox: HTMLInputElement, e: React.KeyboardEvent) {
+    const el = e.target as HTMLInputElement;
     const {selectionEnd, selectionStart, value} = el;
 
     if (selectionStart === selectionEnd) {
@@ -1901,14 +1915,14 @@ export function adjustSelection(inputBox, e) {
 
     e.preventDefault();
 
-    const firstUnderscore = value.charAt(selectionStart) === '_';
-    const lastUnderscore = value.charAt(selectionEnd - 1) === '_';
+    const firstUnderscore = value.charAt(selectionStart!) === '_';
+    const lastUnderscore = value.charAt(selectionEnd! - 1) === '_';
 
-    const spaceBefore = value.charAt(selectionStart - 1) === ' ';
-    const spaceAfter = value.charAt(selectionEnd) === ' ';
+    const spaceBefore = value.charAt(selectionStart! - 1) === ' ';
+    const spaceAfter = value.charAt(selectionEnd!) === ' ';
 
     if (firstUnderscore && lastUnderscore && (spaceBefore || spaceAfter)) {
-        setSelectionRange(inputBox, selectionStart + 1, selectionEnd - 1);
+        setSelectionRange(inputBox, selectionStart! + 1, selectionEnd! - 1);
     }
 }
 
@@ -1917,7 +1931,7 @@ export function getNextBillingDate() {
     return nextBillingDate.format('MMM D, YYYY');
 }
 
-export function stringToNumber(s) {
+export function stringToNumber(s: string) {
     if (!s) {
         return 0;
     }
@@ -1944,7 +1958,7 @@ export function renderPurchaseLicense() {
     );
 }
 
-export function deleteKeysFromObject(value, keys) {
+export function deleteKeysFromObject(value: Record<string, any>, keys: string[]) {
     for (const key of keys) {
         delete value[key];
     }
@@ -1953,7 +1967,7 @@ export function deleteKeysFromObject(value, keys) {
 
 function isSelection() {
     const selection = window.getSelection();
-    return selection.type === 'Range';
+    return selection!.type === 'Range';
 }
 
 /*
@@ -1966,9 +1980,9 @@ function isSelection() {
  * @returns {function}
  */
 export function makeIsEligibleForClick(selector = '') {
-    return (event) => {
+    return (event: React.MouseEvent) => {
         const currentTarget = event.currentTarget;
-        let node = event.target;
+        let node: HTMLElement = event.target as HTMLElement;
 
         if (isSelection()) {
             return false;
@@ -1998,26 +2012,20 @@ export function makeIsEligibleForClick(selector = '') {
                 return false;
             }
 
-            node = node.parentNode;
+            node = node.parentNode! as HTMLElement;
         }
 
         return true;
     };
 }
 
-/*
- * Returns the minimal number of zeroes needed to render a number,
- * up to the given number of places.
- * e.g.
- * numberToFixedDynamic(3.12345, 4) -> 3.1235
- * numberToFixedDynamic(3.01000, 4) -> 3.01
- * numberToFixedDynamic(3.01000, 1) -> 3
- *
- * @param {number} num - number to render as string
- * @param {number} places - maximum number of decimal places to render
- * @returns {number}
- */
-export function numberToFixedDynamic(num, places) {
+// Returns the minimal number of zeroes needed to render a number,
+// up to the given number of places.
+// e.g.
+// numberToFixedDynamic(3.12345, 4) -> 3.1235
+// numberToFixedDynamic(3.01000, 4) -> 3.01
+// numberToFixedDynamic(3.01000, 1) -> 3
+export function numberToFixedDynamic(num: number, places: number): string {
     const str = num.toFixed(Math.max(places, 0));
     if (!str.includes('.')) {
         return str;
