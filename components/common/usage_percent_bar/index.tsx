@@ -51,17 +51,17 @@ type BarForegroundProps = {
 
 function getColor(percent: number, thresholds: Thresholds): string {
     switch (true) {
-        case percent < thresholds.ok:
-            return '';
-        case percent < thresholds.warn:
-            return 'var(--online-indicator)'
-        case percent < thresholds.danger || percent > thresholds.exceeded:
-            // exceeded case also has a red background, applied elsewhere
-            return 'var(--away-indicator)';
-        case percent < thresholds.exceeded:
-            return 'var(--dnd-indicator)';
-        default:
-            return '';
+    case percent < thresholds.ok:
+        return '';
+    case percent < thresholds.warn:
+        return 'var(--online-indicator)';
+    case percent < thresholds.danger || percent > thresholds.exceeded:
+        // exceeded case also has a red background, applied elsewhere
+        return 'var(--away-indicator)';
+    case percent < thresholds.exceeded:
+        return 'var(--dnd-indicator)';
+    default:
+        return '';
     }
 }
 
