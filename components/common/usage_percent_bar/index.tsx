@@ -50,16 +50,19 @@ type BarForegroundProps = {
 }
 
 function getColor(percent: number, thresholds: Thresholds): string {
-    if (percent >= thresholds.ok && percent < thresholds.warn) {
-        return 'var(--online-indicator)';
-    } else if (percent >= thresholds.warn && percent < thresholds.danger) {
-        return 'var(--away-indicator)';
-    } else if (percent >= thresholds.danger && percent < thresholds.exceeded) {
-        return 'var(--dnd-indicator)';
-    } else if (percent >= thresholds.exceeded) {
-        return 'var(--away-indicator)';
+    switch (true) {
+        case percent < thresholds.ok:
+            return '';
+        case percent < thresholds.warn:
+            return 'var(--online-indicator)'
+        case percent < thresholds.danger || percent > thresholds.exceeded:
+            // exceeded case also has a red background, applied elsewhere
+            return 'var(--away-indicator)';
+        case percent < thresholds.exceeded:
+            return 'var(--dnd-indicator)';
+        default:
+            return '';
     }
-    return '';
 }
 
 function isExceeded(percent: number, thresholds: Thresholds): boolean {
