@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants';
-import {isKeyPressed} from 'utils/utils.jsx';
+import {isKeyPressed} from 'utils/utils';
 
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
 

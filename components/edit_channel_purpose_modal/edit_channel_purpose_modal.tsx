@@ -9,7 +9,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 type Actions = {
     patchChannel: (channelId: string, patch: Partial<Channel>) => Promise<ActionResult>;

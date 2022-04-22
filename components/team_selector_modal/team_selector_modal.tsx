@@ -10,7 +10,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 import {Team} from 'mattermost-redux/types/teams';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import ConfirmModal from 'components/confirm_modal';

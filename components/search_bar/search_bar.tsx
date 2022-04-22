@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import SearchSuggestionList from 'components/suggestion/search_suggestion_list.jsx';
 import SuggestionDate from 'components/suggestion/suggestion_date.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box';

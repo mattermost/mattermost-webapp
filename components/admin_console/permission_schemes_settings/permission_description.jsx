@@ -9,7 +9,7 @@ import {Overlay} from 'react-bootstrap';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Tooltip from 'components/tooltip';
-import {generateId} from 'utils/utils.jsx';
+import {generateId} from 'utils/utils';
 import {intlShape} from 'utils/react_intl';
 import Constants from 'utils/constants';
 

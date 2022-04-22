@@ -29,7 +29,7 @@ import {getDisplayedChannels} from 'selectors/views/channel_sidebar';
 
 import store from 'stores/redux_store.jsx';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {Constants, Preferences, UserStatuses} from 'utils/constants';
 
 export const queue = new PQueue({concurrency: 4});

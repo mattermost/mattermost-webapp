@@ -6,7 +6,7 @@ import React from 'react';
 
 import {Client4} from 'mattermost-redux/client';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import ProfilePicture from 'components/profile_picture';
 import UserProfile from 'components/user_profile';
 

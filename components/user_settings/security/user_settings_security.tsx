@@ -11,7 +11,7 @@ import {OAuthApp} from 'mattermost-redux/types/integrations';
 
 import Constants from 'utils/constants';
 import {t} from 'utils/i18n';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import icon50 from 'images/icon50x50.png';
 import AccessHistoryModal from 'components/access_history_modal';
 import ActivityLogModal from 'components/activity_log_modal';

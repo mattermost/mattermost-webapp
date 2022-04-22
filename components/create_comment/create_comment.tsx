@@ -15,7 +15,7 @@ import * as GlobalActions from 'actions/global_actions';
 
 import Constants, {Locations, ModalIdentifiers} from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {
     specialMentionsInText,
     postMessageOnKeyPress,

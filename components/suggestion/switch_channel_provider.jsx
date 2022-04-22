@@ -48,7 +48,7 @@ import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import {getPostDraft} from 'selectors/rhs';
 import store from 'stores/redux_store.jsx';
 import {Constants, StoragePrefixes} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import {Preferences} from 'mattermost-redux/constants';

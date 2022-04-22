@@ -16,7 +16,7 @@ import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 import {t} from 'utils/i18n';
 import {getShortenedURL, validateChannelUrl} from 'utils/url';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 const holders = defineMessages({
     maxLength: {

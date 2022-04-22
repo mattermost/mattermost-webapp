@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {AdminConfig} from 'mattermost-redux/types/config';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import Card from 'components/card/card';
 import BlockableLink from 'components/admin_console/blockable_link';
 import {browserHistory} from 'utils/browser_history';

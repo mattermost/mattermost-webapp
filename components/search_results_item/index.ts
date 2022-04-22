@@ -32,7 +32,7 @@ import {getIsMobileView} from 'selectors/views/browser';
 
 import {GlobalState} from 'types/store';
 
-import {getDisplayNameByUser} from 'utils/utils.jsx';
+import {getDisplayNameByUser} from 'utils/utils';
 
 import {General} from 'mattermost-redux/constants';
 

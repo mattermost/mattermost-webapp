@@ -15,7 +15,7 @@ import BackstageHeader from 'components/backstage/components/backstage_header.js
 import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
 import {browserHistory} from 'utils/browser_history';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 import {Constants} from 'utils/constants.jsx';
 
 import EmojiMap from 'utils/emoji_map';

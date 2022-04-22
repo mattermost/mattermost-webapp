@@ -10,8 +10,8 @@ import {PasswordConfig} from 'utils/utils';
 
 import UserSettingsSecurity from './user_settings_security';
 
-jest.mock('utils/utils.jsx', () => {
-    const original = jest.requireActual('utils/utils.jsx');
+jest.mock('utils/utils', () => {
+    const original = jest.requireActual('utils/utils');
     return {...original, isValidPassword: () => ({valid: true})};
 });
 

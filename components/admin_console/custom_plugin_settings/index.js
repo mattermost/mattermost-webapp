@@ -9,7 +9,7 @@ import {getRoles} from 'mattermost-redux/selectors/entities/roles';
 import {appsFeatureFlagEnabled} from 'mattermost-redux/selectors/entities/apps';
 
 import {Constants} from 'utils/constants';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 
 import {getAdminConsoleCustomComponents} from 'selectors/admin_console';
 import SchemaAdminSettings from '../schema_admin_settings';

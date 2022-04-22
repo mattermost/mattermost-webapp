@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 type Props = {
     fileInfo: {
