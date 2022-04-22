@@ -155,15 +155,15 @@
                                 align-items: center;
 
                                 span.cell-text {
-                                    flex: .1 0;
+                                    flex: 0.1 0;
                                     text-align: right;
                                 }
 
                                 span.horizontal-bar {
                                     height: 8px;
-                                    border-radius: 6px;
                                     margin-left: 16px;
                                     background: var(--button-bg);
+                                    border-radius: 6px;
                                 }
                             }
                         }
