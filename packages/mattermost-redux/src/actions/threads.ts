@@ -17,6 +17,8 @@ import {Post} from 'mattermost-redux/types/posts';
 
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 
+import {getMissingFilesByPosts} from 'mattermost-redux/actions/files';
+
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -69,6 +71,8 @@ export function getThreads(userId: string, teamId: string, {before = '', after =
                 type: PostTypes.RECEIVED_POSTS,
                 data: {posts: userThreadList.threads.map(({post}) => ({...post, update_at: 0}))},
             });
+
+            dispatch(getMissingFilesByPosts(uniq(userThreadList.threads.map(({post}) => post))));
         }
 
         dispatch({
@@ -259,6 +263,20 @@ export function markAllThreadsInTeamRead(userId: string, teamId: string) {
         }
 
         handleAllMarkedRead(dispatch, teamId);
+
+        return {};
+    };
+}
+
+export function markThreadAsUnread(userId: string, teamId: string, threadId: string, postId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        try {
+            await Client4.markThreadAsUnreadForUser(userId, teamId, threadId, postId);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
 
         return {};
     };
