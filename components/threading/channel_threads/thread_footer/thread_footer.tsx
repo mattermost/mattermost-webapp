@@ -101,7 +101,7 @@ function ThreadFooter({
                 </SimpleTooltip>
             )}
 
-            {participantIds && participantIds.length > 0 ? (
+            {participantIds ? (
                 <Avatars
                     userIds={participantIds}
                     size='sm'
