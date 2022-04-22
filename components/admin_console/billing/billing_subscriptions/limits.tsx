@@ -9,6 +9,7 @@ import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences'
 import {getCloudLimits} from 'mattermost-redux/selectors/entities/cloud';
 import {getCloudLimits as getCloudLimitsAction} from 'actions/cloud';
 import {FileSizes} from 'utils/file_utils';
+import {asGBString} from 'utils/limits';
 
 import LimitCard from './limit_card';
 
@@ -46,7 +47,6 @@ const Limits = (): JSX.Element | null => {
     if (!isCloudFreeEnabled || !(cloudLimits?.messages?.history)) {
         return null;
     }
-    const asGBString = (num: number) => `${intl.formatNumber(num, {maximumFractionDigits: 0})}GB`;
 
     return (
         <div className='ProductLimitsPanel'>
@@ -73,8 +73,8 @@ const Limits = (): JSX.Element | null => {
                                 id='workspace_limits.file_storage.usage'
                                 defaultMessage='{actual} of {limit} ({percent}%)'
                                 values={{
-                                    actual: asGBString(fakeUsage.files.totalStorage / FileSizes.Gigabyte),
-                                    limit: asGBString(cloudLimits.files.total_storage / FileSizes.Gigabyte),
+                                    actual: asGBString(fakeUsage.files.totalStorage, intl.formatNumber),
+                                    limit: asGBString(cloudLimits.files.total_storage, intl.formatNumber),
                                     percent: Math.floor((fakeUsage.files.totalStorage / cloudLimits.files.total_storage) * 100),
 
                                 }}
