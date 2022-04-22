@@ -123,7 +123,7 @@ const TopReactionsTable = (props: Props) => {
                                 <span className='cell-text'>
                                     {reaction.count}
                                 </span>
-                                <span 
+                                <span
                                     className='horizontal-bar'
                                     style={{
                                         flex: `${barSize} 0`,

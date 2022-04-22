@@ -4,9 +4,8 @@ import React, {memo, useState, useCallback} from 'react';
 
 import {Modal} from 'react-bootstrap';
 
-import {TimeFrames, InsightsWidgetTypes, TimeFrame} from '@mattermost/types/insights';
+import {InsightsWidgetTypes, TimeFrame} from '@mattermost/types/insights';
 
-import {localizeMessage} from 'utils/utils';
 import TimeFrameDropdown from '../time_frame_dropdown/time_frame_dropdown';
 import TopReactionsTable from '../top_reactions/top_reactions_table/top_reactions_table';
 
