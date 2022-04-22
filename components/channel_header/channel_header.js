@@ -439,7 +439,7 @@ class ChannelHeader extends React.PureComponent {
         );
 
         let membersIconClass = 'member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide';
-        if(rhsState === RHSStates.CHANNEL_MEMBERS) {
+        if (rhsState === RHSStates.CHANNEL_MEMBERS) {
             membersIconClass += ' channel-header__icon--active';
         }
         const membersIcon = this.props.memberCount ? (
@@ -458,14 +458,14 @@ class ChannelHeader extends React.PureComponent {
         ) : (
             <>
                 <i
-                aria-hidden='true'
-                className='icon icon-account-outline channel-header__members'
-            />
+                    aria-hidden='true'
+                    className='icon icon-account-outline channel-header__members'
+                />
                 <span
                     id='channelMemberCountText'
                     className='icon__text'
                 >
-                    -
+                    {'-'}
                 </span>
             </>
         );
@@ -474,13 +474,13 @@ class ChannelHeader extends React.PureComponent {
         if (!isDirect) {
             memberListButton = (
                 <HeaderIconWrapper
-                        iconComponent={membersIcon}
-                        ariaLabel={true}
-                        buttonClass={membersIconClass}
-                        buttonId={'member_rhs'}
-                        onClick={this.toggleChannelMembersRHS}
-                        tooltipKey={'channelMembers'}
-                    />
+                    iconComponent={membersIcon}
+                    ariaLabel={true}
+                    buttonClass={membersIconClass}
+                    buttonId={'member_rhs'}
+                    onClick={this.toggleChannelMembersRHS}
+                    tooltipKey={'channelMembers'}
+                />
             );
         }
 
