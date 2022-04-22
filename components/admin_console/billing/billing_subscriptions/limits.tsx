@@ -2,22 +2,21 @@
 // See LICENSE.txt for license information.
 
 import React, {useState, useEffect} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {useIntl, FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCloudLimits} from 'mattermost-redux/selectors/entities/cloud';
 import {getCloudLimits as getCloudLimitsAction} from 'actions/cloud';
+import {FileSizes} from 'utils/file_utils';
 
 import LimitCard from './limit_card';
-
-export const GB = 1 * 8 * 1024 * 1024 * 1024;
 
 // TODO: Replace this with actual usages stored in redux,
 // that ideally are updated with a websocket event in near real time.
 const fakeUsage = {
     files: {
-        totalStorage: Number(GB),
+        totalStorage: Number(FileSizes.Gigabyte) * 2,
     },
     messages: {
         history: 11000,
@@ -34,6 +33,7 @@ const Limits = (): JSX.Element | null => {
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
     const cloudLimits = useSelector(getCloudLimits);
     const dispatch = useDispatch();
+    const intl = useIntl();
     const [requestedLimits, setRequestedLimits] = useState(false);
 
     useEffect(() => {
@@ -46,6 +46,7 @@ const Limits = (): JSX.Element | null => {
     if (!isCloudFreeEnabled || !(cloudLimits?.messages?.history)) {
         return null;
     }
+    const asGBString = (num: number) => `${intl.formatNumber(num, {maximumFractionDigits: 0})}GB`;
 
     return (
         <div className='ProductLimitsPanel'>
@@ -72,14 +73,14 @@ const Limits = (): JSX.Element | null => {
                                 id='workspace_limits.file_storage.usage'
                                 defaultMessage='{actual} of {limit} ({percent}%)'
                                 values={{
-                                    actual: `${Math.floor(fakeUsage.files.totalStorage / GB)}GB`,
-                                    limit: `${Math.floor(cloudLimits.files.total_storage / GB)}GB`,
+                                    actual: asGBString(fakeUsage.files.totalStorage / FileSizes.Gigabyte),
+                                    limit: asGBString(cloudLimits.files.total_storage / FileSizes.Gigabyte),
                                     percent: Math.floor((fakeUsage.files.totalStorage / cloudLimits.files.total_storage) * 100),
 
                                 }}
                             />
                         )}
-                        percent={Math.floor((1 / (cloudLimits.files.total_storage / GB)) * 100)}
+                        percent={Math.floor((fakeUsage.files.totalStorage / cloudLimits.files.total_storage) * 100)}
                         icon='icon-folder-outline'
                     />
                 )}

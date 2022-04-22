@@ -11,7 +11,9 @@ import {renderWithIntl} from 'tests/react_testing_utils';
 
 import * as cloudActions from 'actions/cloud';
 
-import Limits, {GB} from './limits';
+import {FileSizes} from 'utils/file_utils';
+
+import Limits from './limits';
 
 const limits = {
     integrations: {
@@ -21,7 +23,7 @@ const limits = {
         history: 10000,
     },
     files: {
-        total_storage: 10 * GB,
+        total_storage: 10 * FileSizes.Gigabyte,
     },
     teams: {
         active: 1,
