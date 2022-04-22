@@ -60,9 +60,9 @@ const AdminSidebarSection = ({name, title, action, children = [], definitionKey,
     const sidebarItemSafeId = Utils.createSafeId(name);
     let sidebarItem = (
         <BlockableLink
-            id={sidebarItemSafeId} // TODO dont exist on BlockableLink
+            id={sidebarItemSafeId}
             className={`${className}-title`}
-            activeClassName={`${className}-title ${className}-title--active`} // TODO dont exist on BlockableLink
+            activeClassName={`${className}-title ${className}-title--active`}
             to={link}
             onClick={() => trackEvent('admin', sidebarItemSafeId)}
         >
