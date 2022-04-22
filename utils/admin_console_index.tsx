@@ -88,7 +88,7 @@ export function adminDefinitionsToUrlsAndTexts(adminDefinition: typeof AdminDefi
 }
 
 export function generateIndex(adminDefinition: typeof AdminDefinition, intl: IntlShape, plugins?: Record<string, PluginRedux>) {
-    const idx: Index = new FlexSearch();
+    const idx: Index = new FlexSearch(); // TODO
 
     addToIndex(adminDefinitionsToUrlsAndTexts(adminDefinition, intl), idx);
 

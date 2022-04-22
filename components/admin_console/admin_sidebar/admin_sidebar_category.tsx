@@ -8,7 +8,7 @@ type Props = {
     icon: string;
     title: JSX.Element;
     action?: JSX.Element;
-    children?: JSX.Element | JSX.Element[]; // TODO invalid prop supplied to children
+    children?: JSX.Element[];
     definitionKey?: string;
     name?: string;
     parentLink?: string;

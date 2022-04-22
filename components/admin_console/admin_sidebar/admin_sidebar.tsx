@@ -224,7 +224,6 @@ class AdminSidebar extends React.PureComponent<Props, State> {
                     const subDefinitionKey = `${key}.${subKey}`;
                     let tag = '';
                     if (item.tag?.shouldDisplay(license)) {
-                        console.log('item.tag', item.tag);
                         tag = item.tag.value;
                     }
                     sidebarItems.push((
@@ -244,17 +243,17 @@ class AdminSidebar extends React.PureComponent<Props, State> {
                 });
 
                 // Special case for plugins entries
-                let moreSidebarItems: JSX.Element[] = [];
                 if ((section as typeof AdminDefinition['plugins']).id === 'plugins') {
-                    moreSidebarItems = this.renderPluginsMenu();
+                    const sidebarPluginItems = this.renderPluginsMenu();
+                    sidebarItems.push(...sidebarPluginItems);
                 }
 
                 // If no visible items, don't display this section
-                if (sidebarItems.length === 0 && moreSidebarItems.length === 0) {
+                if (sidebarItems.length === 0) {
                     return null;
                 }
 
-                if (sidebarItems.length || moreSidebarItems.length) {
+                if (sidebarItems.length) {
                     sidebarSections.push((
                         <AdminSidebarCategory
                             key={key}
@@ -270,7 +269,6 @@ class AdminSidebar extends React.PureComponent<Props, State> {
                             }
                         >
                             {sidebarItems}
-                            {moreSidebarItems}
                         </AdminSidebarCategory>
                     ));
                 }
