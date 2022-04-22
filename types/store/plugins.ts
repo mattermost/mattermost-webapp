@@ -6,9 +6,12 @@ import React from 'react';
 import {TIconGlyph} from '@mattermost/compass-components/foundations/icon';
 
 import {ClientPluginManifest} from 'mattermost-redux/types/plugins';
+import {PluginAnalyticsRow} from 'mattermost-redux/types/admin';
 import {FileInfo} from 'mattermost-redux/types/files';
 import {Post, PostEmbed} from 'mattermost-redux/types/posts';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
+
+export type PluginSiteStatsHandler = () => Promise<Record<string, PluginAnalyticsRow>>;
 
 export type PluginsState = {
     plugins: IDMappedObjects<ClientPluginManifest>;
@@ -42,6 +45,9 @@ export type PluginsState = {
         [pluginId: string]: {
             [settingName: string]: AdminConsolePluginComponent;
         };
+    };
+    siteStatsHandlers: {
+        [pluginId: string]: PluginSiteStatsHandler;
     };
 };
 
