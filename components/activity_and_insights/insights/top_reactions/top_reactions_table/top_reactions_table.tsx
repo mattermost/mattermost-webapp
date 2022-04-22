@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {memo, useCallback, useEffect, useState} from 'react';
+import React, {memo, useCallback, useEffect, useMemo, useState} from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-import {useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import {TimeFrame} from '@mattermost/types/insights';
 
@@ -19,7 +19,6 @@ import {getTopReactionsForTeam} from 'mattermost-redux/actions/teams';
 import {getMyTopReactions} from 'mattermost-redux/actions/users';
 
 import './../../../activity_and_insights.scss';
-import {TopReaction} from '@mattermost/types/reactions';
 
 type Props = {
     filterType: string;
@@ -30,18 +29,9 @@ const TopReactionsTable = (props: Props) => {
     const dispatch = useDispatch();
 
     const [loading, setLoading] = useState(true);
-    const [topReactions, setTopReactions] = useState([] as TopReaction[]);
 
-    const teamTopReactions = useSelector((state: GlobalState) => getTopReactionsForCurrentTeam(state, props.timeFrame, 10));
-    const myTopReactions = useSelector((state: GlobalState) => getMyTopReactionsByTime(state, props.timeFrame, 10));
-
-    useEffect(() => {
-        if (props.filterType === InsightsScopes.TEAM) {
-            setTopReactions(teamTopReactions);
-        } else {
-            setTopReactions(myTopReactions);
-        }
-    }, [props.filterType, props.timeFrame]);
+    const teamTopReactions = useSelector((state: GlobalState) => getTopReactionsForCurrentTeam(state, props.timeFrame, 10), shallowEqual);
+    const myTopReactions = useSelector((state: GlobalState) => getMyTopReactionsByTime(state, props.timeFrame, 10), shallowEqual);
 
     const currentTeamId = useSelector(getCurrentTeamId);
 
@@ -69,7 +59,7 @@ const TopReactionsTable = (props: Props) => {
         getMyTeamReactions();
     }, [getMyTeamReactions]);
 
-    const getColumns = (): Column[] => {
+    const getColumns = useMemo((): Column[] => {
         const columns: Column[] = [
             {
                 name: (
@@ -102,10 +92,13 @@ const TopReactionsTable = (props: Props) => {
             },
         ];
         return columns;
-    };
+    }, []);
 
-    const getRows = (): Row[] => {
+    const getRows = useMemo((): Row[] => {
+        const topReactions = props.filterType === InsightsScopes.TEAM ? teamTopReactions : myTopReactions;
+
         return topReactions.map((reaction, i) => {
+            const barSize = (reaction.count / topReactions[0].count);
             return (
                 {
                     cells: {
@@ -126,116 +119,37 @@ const TopReactionsTable = (props: Props) => {
                             </>
                         ),
                         times_used: (
-                            <span className='cell-text'>
-                                {reaction.count}
-                            </span>
+                            <div className='times-used-container'>
+                                <span className='cell-text'>
+                                    {reaction.count}
+                                </span>
+                                <span 
+                                    className='horizontal-bar'
+                                    style={{
+                                        flex: `${barSize} 0`,
+                                    }}
+                                />
+                            </div>
                         ),
                     },
                 }
             );
         });
-
-        // return [
-        //     {
-        //         cells: {
-        //             rank: (
-        //                 <span className='cell-text'>
-        //                     {'1'}
-        //                 </span>
-        //             ),
-        //             reaction: (
-        //                 <>
-        //                     <RenderEmoji
-        //                         emojiName={'grinning'}
-        //                         size={24}
-        //                     />
-        //                     <span className='cell-text'>
-        //                         {'grinning'}
-        //                     </span>
-        //                 </>
-        //             ),
-        //             times_used: (
-        //                 <span className='cell-text'>
-        //                     {'45'}
-        //                 </span>
-        //             ),
-        //         },
-        //     },
-        //     {
-        //         cells: {
-        //             rank: (
-        //                 <span className='cell-text'>
-        //                     {'2'}
-        //                 </span>
-        //             ),
-        //             reaction: (
-        //                 <>
-        //                     <RenderEmoji
-        //                         emojiName={'tada'}
-        //                         size={24}
-        //                     />
-        //                     <span className='cell-text'>
-        //                         {'tada'}
-        //                     </span>
-        //                 </>
-        //             ),
-        //             times_used: (
-        //                 <span className='cell-text'>
-        //                     {'45'}
-        //                 </span>
-        //             ),
-        //         },
-        //     },
-        //     {
-        //         cells: {
-        //             rank: (
-        //                 <span className='cell-text'>
-        //                     {'3'}
-        //                 </span>
-        //             ),
-        //             reaction: (
-        //                 <>
-        //                     <RenderEmoji
-        //                         emojiName={'rocket'}
-        //                         size={24}
-        //                     />
-        //                     <span className='cell-text'>
-        //                         {'rocket'}
-        //                     </span>
-        //                 </>
-        //             ),
-        //             times_used: (
-        //                 <span className='cell-text'>
-        //                     {'36'}
-        //                 </span>
-        //             ),
-        //         },
-        //     },
-        // ];
-    };
+    }, [teamTopReactions, myTopReactions]);
 
     return (
-        <>
-            {
-                loading &&
-                <></>
-            }
-            {
-                !loading &&
-                <DataGrid
-                    columns={getColumns()}
-                    rows={getRows()}
-                    loading={false}
-                    page={0}
-                    nextPage={() => {}}
-                    previousPage={() => {}}
-                    startCount={1}
-                    endCount={10}
-                    total={0}
-                    className={'InsightsTable'}
-                />
-            }
-        </>
+        <DataGrid
+            columns={getColumns}
+            rows={getRows}
+            loading={loading}
+            page={0}
+            nextPage={() => {}}
+            previousPage={() => {}}
+            startCount={1}
+            endCount={10}
+            total={0}
+            className={'InsightsTable'}
+        />
     );
 };
 

@@ -41,7 +41,7 @@ function widgetHoc<T>(WrappedComponent: ComponentType<T>) {
             return formatMessage(InsightsCardTitles[props.widgetType].teamSubTitle);
         }, [props.filterType, props.widgetType]);
 
-        const openInsightsModal = () => {
+        const openInsightsModal = useCallback(() => {
             dispatch(openModal({
                 modalId: ModalIdentifiers.INSIGHTS,
                 dialogType: InsightsModal,
@@ -54,7 +54,7 @@ function widgetHoc<T>(WrappedComponent: ComponentType<T>) {
                     timeFrameLabel: props.timeFrameLabel,
                 },
             }));
-        };
+        }, [props.widgetType, title, subTitle, props.filterType, props.timeFrame, props.timeFrameLabel]);
 
         return (
             <InsightsCard

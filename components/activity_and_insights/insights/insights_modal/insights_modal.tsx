@@ -31,7 +31,6 @@ const InsightsModal = (props: Props) => {
     });
 
     const setTimeFrameValue = useCallback((value) => {
-        console.log('test value')
         setTimeFrame(value);
     }, []);
 
