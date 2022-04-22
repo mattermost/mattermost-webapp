@@ -378,6 +378,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   value={2021-05-06T21:10:43.650Z}
                 />
               }
+              fileInputRef={
+                Object {
+                  "current": null,
+                }
+              }
+              handleChange={[Function]}
               handleRemove={[Function]}
               isDisabled={false}
               isTrialLicense={false}
@@ -530,6 +536,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   value={2021-05-06T21:10:43.650Z}
                 />
               }
+              fileInputRef={
+                Object {
+                  "current": null,
+                }
+              }
+              handleChange={[Function]}
               handleRemove={[Function]}
               isDisabled={false}
               isTrialLicense={false}
@@ -669,6 +681,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   value={2021-05-06T21:10:43.650Z}
                 />
               }
+              fileInputRef={
+                Object {
+                  "current": null,
+                }
+              }
+              handleChange={[Function]}
               handleRemove={[Function]}
               isDisabled={false}
               isTrialLicense={false}
@@ -808,6 +826,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   value={2021-05-06T21:10:43.650Z}
                 />
               }
+              fileInputRef={
+                Object {
+                  "current": null,
+                }
+              }
+              handleChange={[Function]}
               handleRemove={[Function]}
               isDisabled={false}
               isTrialLicense={false}
@@ -947,6 +971,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   value={2021-05-06T21:10:43.650Z}
                 />
               }
+              fileInputRef={
+                Object {
+                  "current": null,
+                }
+              }
+              handleChange={[Function]}
               handleRemove={[Function]}
               isDisabled={true}
               isTrialLicense={false}
@@ -1086,6 +1116,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   value={2021-05-06T21:10:43.650Z}
                 />
               }
+              fileInputRef={
+                Object {
+                  "current": null,
+                }
+              }
+              handleChange={[Function]}
               handleRemove={[Function]}
               isDisabled={false}
               isTrialLicense={false}
@@ -1218,6 +1254,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   value={2021-05-06T21:10:43.650Z}
                 />
               }
+              fileInputRef={
+                Object {
+                  "current": null,
+                }
+              }
+              handleChange={[Function]}
               handleRemove={[Function]}
               isDisabled={false}
               isTrialLicense={true}
@@ -1874,6 +1916,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   value={2021-05-14T12:00:00.000Z}
                 />
               }
+              fileInputRef={
+                Object {
+                  "current": null,
+                }
+              }
+              handleChange={[Function]}
               handleRemove={[Function]}
               isDisabled={false}
               isTrialLicense={false}
@@ -2015,6 +2063,12 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   value={2021-05-14T12:00:00.000Z}
                 />
               }
+              fileInputRef={
+                Object {
+                  "current": null,
+                }
+              }
+              handleChange={[Function]}
               handleRemove={[Function]}
               isDisabled={false}
               isTrialLicense={false}
