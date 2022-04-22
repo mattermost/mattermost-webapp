@@ -1,7 +1,117 @@
 .ActivityAndInsights {
-    background-color: rgba(var(--center-channel-color), 0.04);
+    background-color: rgba(var(--center-channel-color-rgb), 0.04);
 
     .insights-body {
         padding: 24px;
+
+        .top-channel-container {
+            display: flex;
+
+            .top-channel-line-chart {
+                flex: 0.67;
+                margin-right: 16px;
+            }
+
+            .top-channel-list {
+                flex: 0.33;
+                margin-left: 16px;
+
+                .top-channel-row {
+                    display: flex;
+                    align-items: center;
+                    padding: 12px 0;
+
+                    &:nth-of-type(2) {
+                        .skeleton-loader {
+                            &.title {
+                                flex: 0.85;
+                            }
+                        }
+                    }
+
+                    &:nth-of-type(3) {
+                        .skeleton-loader {
+                            &.title {
+                                flex: 0.9;
+                            }
+                        }
+                    }
+
+                    &:nth-of-type(4) {
+                        .skeleton-loader {
+                            &.title {
+                                flex: 0.5;
+                            }
+                        }
+                    }
+
+                    &:nth-of-type(5) {
+                        .skeleton-loader {
+                            &.title {
+                                flex: 0.7;
+                            }
+                        }
+                    }
+
+                    .skeleton-loader {
+                        &.title {
+                            margin-left: 8px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .top-reaction-container {
+            display: flex;
+            align-items: center;
+            margin: 0 18px;
+
+            .bar-chart-entry {
+                display: flex;
+                flex: 0.2;
+                flex-direction: column;
+                align-items: center;
+                margin-top: auto;
+
+                &:nth-of-type(1) {
+                    .skeleton-loader {
+                        &.bar-chart {
+                            height: 140px;
+                        }
+                    }
+                }
+
+                &:nth-of-type(3) {
+                    .skeleton-loader {
+                        &.bar-chart {
+                            height: 140px;
+                        }
+                    }
+                }
+
+                &:nth-of-type(4) {
+                    .skeleton-loader {
+                        &.bar-chart {
+                            height: 120px;
+                        }
+                    }
+                }
+
+                &:nth-of-type(5) {
+                    .skeleton-loader {
+                        &.bar-chart {
+                            height: 140px;
+                        }
+                    }
+                }
+
+                .skeleton-loader {
+                    &.bar-chart {
+                        margin-bottom: 6px;
+                    }
+                }
+            }
+        }
     }
 }

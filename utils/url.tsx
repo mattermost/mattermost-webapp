@@ -126,7 +126,7 @@ export function validateChannelUrl(url: string, intl?: IntlShape): Array<React.R
     const isDirectMessageFormat = directMessageRegex.test(url);
 
     const cleanedURL = cleanUpUrlable(url);
-    const urlMatched = url.match(/[a-z0-9]([-_\w]*)[a-z0-9]/);
+    const urlMatched = url.match(/^[a-z0-9]([a-z0-9\-_]*[a-z0-9])?$/);
     const urlLonger = url.length < Constants.MIN_CHANNELNAME_LENGTH;
     const urlShorter = url.length > Constants.MAX_CHANNELNAME_LENGTH;
 

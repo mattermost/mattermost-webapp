@@ -89,21 +89,6 @@ describe('Guest Account - Guest User Experience', () => {
             cy.wrap($el).find('.has-guest-header').should('be.visible').and('have.text', 'This channel has guests');
         });
 
-        // * Verify list of Users and Guest Badge in Channel Members List
-        cy.get('#member_popover').click();
-        cy.get('#member-list-popover').should('be.visible').within(($el) => {
-            cy.wrap($el).findAllByTestId('popoverListMembersItem').should('have.length', 2).each(($elChild) => {
-                cy.wrap($elChild).invoke('attr', 'aria-label').then((username) => {
-                    if (username === guestUser.username) {
-                        cy.wrap($elChild).find('.Badge').should('be.visible').and('have.text', 'GUEST');
-                    }
-                });
-            });
-        });
-
-        // # Close the Channel Members Popover
-        cy.get('#member_popover').click();
-
         // * Verify list of Users in Direct Messages Dialog
         cy.uiAddDirectMessage().click().wait(TIMEOUTS.FIVE_SEC);
         cy.get('#multiSelectList').should('be.visible').within(($el) => {
@@ -170,21 +155,6 @@ describe('Guest Account - Guest User Experience', () => {
         cy.get('#channelHeaderDescription').within(($el) => {
             cy.wrap($el).find('.has-guest-header').should('not.exist');
         });
-
-        // * Verify Guest Badge is removed in Channel Members List
-        cy.get('#member_popover').click();
-        cy.get('#member-list-popover').should('be.visible').within(($el) => {
-            cy.wrap($el).findAllByTestId('popoverListMembersItem').should('have.length', 2).each(($elChild) => {
-                cy.wrap($elChild).invoke('attr', 'aria-label').then((username) => {
-                    if (username === guestUser.username) {
-                        cy.wrap($elChild).find('.Badge').should('not.exist');
-                    }
-                });
-            });
-        });
-
-        // # Close the Channel Members Popover
-        cy.get('#member_popover').click();
 
         // * Verify Guest Badge is removed when user posts a message
         cy.get('#sidebarItem_off-topic').click({force: true});
