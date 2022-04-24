@@ -56,7 +56,6 @@ type Props = {
 
 type State = {
     emojiNames: string[];
-    reactionsByName: Map<string, ReactionType[]>;
     showEmojiPicker: boolean;
 };
 
@@ -68,30 +67,20 @@ export default class ReactionList extends React.PureComponent<Props, State> {
 
         this.state = {
             emojiNames: [],
-            reactionsByName: new Map(),
             showEmojiPicker: false,
         };
     }
 
-    static getDerivedStateFromProps(props: Props, state: State): Partial<State> {
-        const reactionsByName = new Map();
-        let emojiNames = [...state.emojiNames];
+    static getDerivedStateFromProps(props: Props, state: State): Partial<State> | null {
+        let emojiNames = state.emojiNames;
 
-        for (const reaction of Object.values(props.reactions ?? {})) {
-            const emojiName = reaction.emoji_name;
-
-            if (reactionsByName.has(emojiName)) {
-                reactionsByName.get(emojiName).push(reaction);
-            } else {
-                if (!emojiNames.includes(emojiName)) {
-                    emojiNames.push(emojiName);
-                }
-                reactionsByName.set(emojiName, [reaction]);
+        for (const {emoji_name: emojiName} of Object.values(props.reactions ?? {})) {
+            if (!emojiNames.includes(emojiName)) {
+                emojiNames = [...emojiNames, emojiName];
             }
         }
-        emojiNames = emojiNames.filter((name) => reactionsByName.has(name));
 
-        return {reactionsByName, emojiNames};
+        return (emojiNames === state.emojiNames) ? null : {emojiNames};
     }
 
     getTarget = (): HTMLButtonElement | null => {
@@ -113,21 +102,36 @@ export default class ReactionList extends React.PureComponent<Props, State> {
     }
 
     render(): React.ReactNode {
-        const {reactionsByName, emojiNames} = this.state;
+        const reactionsByName = new Map();
+
+        if (this.props.reactions) {
+            for (const reaction of Object.values(this.props.reactions)) {
+                const emojiName = reaction.emoji_name;
+
+                if (reactionsByName.has(emojiName)) {
+                    reactionsByName.get(emojiName).push(reaction);
+                } else {
+                    reactionsByName.set(emojiName, [reaction]);
+                }
+            }
+        }
 
         if (reactionsByName.size === 0) {
             return null;
         }
 
-        const reactions = emojiNames.map((emojiName) => {
-            return (
-                <Reaction
-                    key={emojiName}
-                    post={this.props.post}
-                    emojiName={emojiName}
-                    reactions={reactionsByName.get(emojiName) || []}
-                />
-            );
+        const reactions = this.state.emojiNames.map((emojiName) => {
+            if (reactionsByName.has(emojiName)) {
+                return (
+                    <Reaction
+                        key={emojiName}
+                        post={this.props.post}
+                        emojiName={emojiName}
+                        reactions={reactionsByName.get(emojiName) || []}
+                    />
+                );
+            }
+            return null;
         });
 
         const addReactionButton = this.getTarget();
