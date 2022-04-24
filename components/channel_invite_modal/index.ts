@@ -11,7 +11,7 @@ import {Action, ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {haveICurrentTeamPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeam, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {Permissions} from 'mattermost-redux/constants';
 
 import {Value} from 'components/multiselect/multiselect';
@@ -48,7 +48,8 @@ function makeMapStateToProps() {
 
         const config = getConfig(state);
         const license = getLicense(state);
-        const currentTeam = getCurrentTeam(state);
+
+        const currentTeam = props.teamId ? getTeam(state, props.teamId) : getCurrentTeam(state);
 
         const guestAccountsEnabled = config.EnableGuestAccounts === 'true';
         const emailInvitationsEnabled = config.EnableEmailInvitations === 'true';
