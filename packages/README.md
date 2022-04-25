@@ -139,6 +139,13 @@ For full releases accompanying new versions of Mattermost:
 
 1. Tag that commit for each package being released. The tag name should be of the form `@mattermost/package-name@x.y.z`.
 
+1. Push that commit and the corresponding tags up to GitHub
+
+   ```sh
+   git push
+   git push origin @mattermost/package-name@x.y.z
+   ```
+
 1. Build the desired packages.
 
     ```sh
