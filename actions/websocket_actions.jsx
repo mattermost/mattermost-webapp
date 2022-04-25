@@ -18,6 +18,7 @@ import {
     PreferenceTypes,
     AppsTypes,
 } from 'mattermost-redux/action_types';
+import {Limits} from '@mattermost/types/cloud';
 import {WebsocketEvents, General, Permissions, Preferences} from 'mattermost-redux/constants';
 import {addChannelToInitialCategory, fetchMyCategories, receivedCategoryOrder} from 'mattermost-redux/actions/channel_categories';
 import {
@@ -536,6 +537,9 @@ export function handleEvent(msg) {
         break;
     case SocketEvents.CLOUD_PAYMENT_STATUS_UPDATED:
         dispatch(handleCloudPaymentStatusUpdated(msg));
+        break;
+    case SocketEvents.CLOUD_PRODUCT_LIMITS_CHANGED:
+        dispatch(handleCloudProductLimitsChanged(msg));
         break;
     case SocketEvents.FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED:
         handleFirstAdminVisitMarketplaceStatusReceivedEvent(msg);
@@ -1490,6 +1494,14 @@ export function handleUserActivationStatusChange() {
 
 function handleCloudPaymentStatusUpdated() {
     return (doDispatch) => doDispatch(getCloudSubscription());
+}
+
+function handleCloudProductLimitsChanged(msg) {
+    console.log("LIMITS CHANGED", msg.data);
+    return (doDispatch) => doDispatch({
+        type: CloudTypes.RECEIVED_CLOUD_LIMITS,
+        data: msg.data,
+    });
 }
 
 function handleRefreshAppsBindings() {
