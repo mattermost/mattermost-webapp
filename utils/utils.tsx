@@ -136,7 +136,7 @@ export function isKeyPressed(event: React.KeyboardEvent | KeyboardEvent, key: [s
 // check keydown event for line break combo. Should catch alt/option + enter not all browsers except Safari
 export function isUnhandledLineBreakKeyCombo(e: React.KeyboardEvent | KeyboardEvent): boolean {
     return Boolean(
-        isKeyPressed(e, Constants.KeyCodes.ENTER as [string, number]) &&
+        isKeyPressed(e, Constants.KeyCodes.ENTER) &&
         !e.shiftKey && // shift + enter is already handled everywhere, so don't handle again
         (e.altKey && !UserAgent.isSafari() && !cmdOrCtrlPressed(e)), // alt/option + enter is already handled in Safari, so don't handle again
     );
