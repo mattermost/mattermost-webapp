@@ -4,7 +4,7 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-export default function ChannelFilesIcon(props: React.HTMLAttributes<HTMLSpanElement>) {
+export function ChannelFilesSVG(props: React.HTMLAttributes<HTMLSpanElement>) {
     const {formatMessage} = useIntl();
     return (
         <span {...props}>

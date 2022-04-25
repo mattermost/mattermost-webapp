@@ -6,17 +6,17 @@ import {FormattedMessage, MessageDescriptor} from 'react-intl';
 import classNames from 'classnames';
 
 import {t} from 'utils/i18n';
-import MentionsIcon from 'components/widgets/icons/mentions_icon';
-import PinIcon from 'components/widgets/icons/pin_icon';
-import SearchIcon from 'components/widgets/icons/search_icon';
-import UserGroupsIcon from 'components/widgets/icons/user_groups_icon';
-import UserGroupMembersIcon from 'components/widgets/icons/user_group_members_icon';
-import ChannelFilesIcon from 'components/widgets/icons/channel_files_icon';
-import ChannelSearchIcon from 'components/widgets/icons/channel_search_icon';
-import SavedMessagesIcon from 'components/widgets/icons/saved_messages_icon';
+import {ChannelFilesSVG,
+    ChannelSearchSVG,
+    MentionsSVG,
+    PinSVG,
+    SavedMessagesSVG,
+    SearchSVG,
+    UserGroupMembersSVG,
+    UserGroupsSVG,
+} from 'components/common/svg_images_components';
 
 import {NoResultsVariant, NoResultsLayout} from './types';
-
 import './no_results_indicator.scss';
 
 interface Props {
@@ -34,15 +34,15 @@ interface Props {
 }
 
 const iconMap: {[key in NoResultsVariant]: React.ReactNode } = {
-    [NoResultsVariant.Search]: <SearchIcon className='no-results__icon'/>,
-    [NoResultsVariant.ChannelSearch]: <ChannelSearchIcon className='no-results__icon'/>,
-    [NoResultsVariant.Mentions]: <MentionsIcon className='no-results__icon'/>,
-    [NoResultsVariant.FlaggedPosts]: <SavedMessagesIcon className='no-results__icon'/>,
-    [NoResultsVariant.PinnedPosts]: <PinIcon className='no-results__icon'/>,
-    [NoResultsVariant.ChannelFiles]: <ChannelFilesIcon className='no-results__icon'/>,
-    [NoResultsVariant.ChannelFilesFiltered]: <ChannelFilesIcon className='no-results__icon'/>,
-    [NoResultsVariant.UserGroups]: <UserGroupsIcon className='no-results__icon'/>,
-    [NoResultsVariant.UserGroupMembers]: <UserGroupMembersIcon className='no-results__icon'/>,
+    [NoResultsVariant.Search]: <SearchSVG className='no-results__icon'/>,
+    [NoResultsVariant.ChannelSearch]: <ChannelSearchSVG className='no-results__icon'/>,
+    [NoResultsVariant.Mentions]: <MentionsSVG className='no-results__icon'/>,
+    [NoResultsVariant.FlaggedPosts]: <SavedMessagesSVG className='no-results__icon'/>,
+    [NoResultsVariant.PinnedPosts]: <PinSVG className='no-results__icon'/>,
+    [NoResultsVariant.ChannelFiles]: <ChannelFilesSVG className='no-results__icon'/>,
+    [NoResultsVariant.ChannelFilesFiltered]: <ChannelFilesSVG className='no-results__icon'/>,
+    [NoResultsVariant.UserGroups]: <UserGroupsSVG className='no-results__icon'/>,
+    [NoResultsVariant.UserGroupMembers]: <UserGroupMembersSVG className='no-results__icon'/>,
 };
 
 const titleMap: {[key in NoResultsVariant]: MessageDescriptor} = {
