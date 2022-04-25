@@ -1083,14 +1083,14 @@ class CreatePost extends React.PureComponent<Props, State> {
     }
 
     handleMouseUpKeyUp = (e: React.MouseEvent | React.KeyboardEvent) => {
-        const caretPosition = Utils.getCaretPosition(e.target as HTMLElement);
+        const caretPosition = Utils.getCaretPosition(e.target as HTMLTextAreaElement);
         this.setState({
             caretPosition,
         });
     }
 
     handleSelect = (e: React.SyntheticEvent) => {
-        Utils.adjustSelection(this.textboxRef.current?.getInputBox(), e);
+        Utils.adjustSelection(this.textboxRef.current?.getInputBox(), e as React.KeyboardEvent);
     }
 
     handleKeyDown = (e: React.KeyboardEvent) => {

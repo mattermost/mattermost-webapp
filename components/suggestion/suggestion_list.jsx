@@ -7,8 +7,9 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 import {cloneDeep} from 'lodash';
 
+import {Constants} from 'utils/constants';
+
 import {isEmptyObject} from 'utils/utils';
-import {Constants} from 'utils/constants.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 

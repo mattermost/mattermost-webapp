@@ -57,7 +57,7 @@ type Props = {
     enableSaml: boolean;
     enableSignUpWithOffice365: boolean;
     experimentalEnableAuthenticationTransfer: boolean;
-    passwordConfig: Utils.PasswordConfig;
+    passwordConfig: ReturnType<typeof Utils.getPasswordConfig>;
     militaryTime: boolean;
     actions: Actions;
 };

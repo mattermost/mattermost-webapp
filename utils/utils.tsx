@@ -9,6 +9,8 @@ import cssVars from 'css-vars-ponyfill';
 
 import moment from 'moment';
 
+import Constants, {FileTypes, UserStatuses, ValidationErrors} from 'utils/constants';
+
 import {
     getChannel as getChannelAction,
     getChannelByNameAndTeamName,
@@ -43,7 +45,6 @@ import {
 import {addUserToTeam} from 'actions/team_actions';
 import {searchForTerm} from 'actions/post_actions';
 import {browserHistory} from 'utils/browser_history';
-import Constants, {FileTypes, UserStatuses, ValidationErrors} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent';
 import bing from 'sounds/bing.mp3';
 import crackle from 'sounds/crackle.mp3';
@@ -67,8 +68,9 @@ import {Channel} from '@mattermost/types/channels';
 import {Theme} from 'mattermost-redux/types/themes';
 import {ClientConfig} from 'mattermost-redux/types/config';
 
-import {joinPrivateChannelPrompt} from './channel_utils';
 import {GlobalState} from '@mattermost/types/store';
+
+import {joinPrivateChannelPrompt} from './channel_utils';
 
 const CLICKABLE_ELEMENTS = [
     'a',
@@ -87,14 +89,14 @@ export function isLinux() {
     return navigator.platform.toUpperCase().indexOf('LINUX') >= 0;
 }
 
-export function createSafeId(prop: {props: {defaultMessage: string}} | null): string | undefined {
+export function createSafeId(prop: {props: {defaultMessage: string}} | string | null): string | undefined {
     if (prop === null) {
         return undefined;
     }
 
-    var str = '';
+    let str = '';
 
-    if (prop.props && prop.props.defaultMessage) {
+    if (typeof prop !== 'string' && prop.props && prop.props.defaultMessage) {
         str = prop.props.defaultMessage;
     } else {
         str = prop.toString();
@@ -103,14 +105,14 @@ export function createSafeId(prop: {props: {defaultMessage: string}} | null): st
     return str.replace(new RegExp(' ', 'g'), '_');
 }
 
-export function cmdOrCtrlPressed(e: React.KeyboardEvent, allowAlt = false) {
+export function cmdOrCtrlPressed(e: React.KeyboardEvent | KeyboardEvent, allowAlt = false) {
     if (allowAlt) {
         return (isMac() && e.metaKey) || (!isMac() && e.ctrlKey);
     }
     return (isMac() && e.metaKey) || (!isMac() && e.ctrlKey && !e.altKey);
 }
 
-export function isKeyPressed(event: React.KeyboardEvent, key: [string, number]) {
+export function isKeyPressed(event: React.KeyboardEvent | KeyboardEvent, key: [string, number]) {
     // There are two types of keyboards
     // 1. English with different layouts(Ex: Dvorak)
     // 2. Different language keyboards(Ex: Russian)
@@ -132,7 +134,7 @@ export function isKeyPressed(event: React.KeyboardEvent, key: [string, number]) 
 }
 
 // check keydown event for line break combo. Should catch alt/option + enter not all browsers except Safari
-export function isUnhandledLineBreakKeyCombo(e: React.KeyboardEvent): boolean {
+export function isUnhandledLineBreakKeyCombo(e: React.KeyboardEvent | KeyboardEvent): boolean {
     return Boolean(
         isKeyPressed(e, Constants.KeyCodes.ENTER as [string, number]) &&
         !e.shiftKey && // shift + enter is already handled everywhere, so don't handle again
@@ -159,8 +161,8 @@ export function insertLineBreakFromKeyEvent(e: React.KeyboardEvent | any): strin
 
 export function isInRole(roles: string, inRole: string): boolean {
     if (roles) {
-        var parts = roles.split(' ');
-        for (var i = 0; i < parts.length; i++) {
+        const parts = roles.split(' ');
+        for (let i = 0; i < parts.length; i++) {
             if (parts[i] === inRole) {
                 return true;
             }
@@ -214,7 +216,7 @@ export const notificationSounds = new Map([
     ['Upstairs', upstairs],
 ]);
 
-var canDing = true;
+let canDing = true;
 export function ding(name: string) {
     if (hasSoundOptions() && canDing) {
         tryNotificationSound(name);
@@ -243,9 +245,9 @@ export function getTimestamp(): number {
     return Date.now();
 }
 
-export function getRemainingDaysFromFutureTimestamp(timestamp: number): number {
+export function getRemainingDaysFromFutureTimestamp(timestamp?: number): number {
     const MS_PER_DAY = 24 * 60 * 60 * 1000;
-    const futureDate = new Date(timestamp);
+    const futureDate = new Date(timestamp as number);
     const utcFuture = Date.UTC(futureDate.getFullYear(), futureDate.getMonth(), futureDate.getDate());
     const today = new Date();
     const utcToday = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
@@ -253,7 +255,7 @@ export function getRemainingDaysFromFutureTimestamp(timestamp: number): number {
     return Math.floor((utcFuture - utcToday) / MS_PER_DAY);
 }
 
-export function getLocaleDateFromUTC(timestamp: number, format: string = 'YYYY/MM/DD HH:mm:ss', userTimezone: string = '') {
+export function getLocaleDateFromUTC(timestamp: number, format = 'YYYY/MM/DD HH:mm:ss', userTimezone = '') {
     if (!timestamp) {
         return moment.now();
     }
@@ -262,16 +264,16 @@ export function getLocaleDateFromUTC(timestamp: number, format: string = 'YYYY/M
 }
 
 export function replaceHtmlEntities(text: string) {
-    var tagsToReplace = {
+    const tagsToReplace = {
         '&amp;': '&',
         '&lt;': '<',
         '&gt;': '>',
     };
-    var newtext = text;
-    for (var tag in tagsToReplace) {
-        // @ts-expect-error
+    let newtext = text;
+    for (const tag in tagsToReplace) {
+        // @ts-expect-error // TODO: resolve this typing and see if using function this is necessary
         if (Reflect.apply({}.hasOwnProperty, this, [tagsToReplace, tag])) {
-            var regex = new RegExp(tag, 'g');
+            const regex = new RegExp(tag, 'g');
             newtext = newtext.replace(regex, (tagsToReplace as any)[tag]);
         }
     }
@@ -345,7 +347,7 @@ interface FileInfo {
 export function getFileIconPath(fileInfo: FileInfo) {
     const fileType = getFileType(fileInfo.extension) as keyof typeof Constants.ICON_FROM_TYPE;
 
-    var icon;
+    let icon;
     if (fileType in Constants.ICON_FROM_TYPE) {
         icon = Constants.ICON_FROM_TYPE[fileType];
     } else {
@@ -371,7 +373,7 @@ export function getCompassIconClassName(fileTypeIn: string, outline = true, larg
 }
 
 export function getIconClassName(fileTypeIn: string) {
-    var fileType = fileTypeIn.toLowerCase()as keyof typeof Constants.ICON_FROM_TYPE;
+    const fileType = fileTypeIn.toLowerCase()as keyof typeof Constants.ICON_FROM_TYPE;
 
     if (fileType in Constants.ICON_NAME_FROM_TYPE) {
         return Constants.ICON_NAME_FROM_TYPE[fileType];
@@ -795,13 +797,13 @@ export function getCaretPosition(el: HTMLInputElement | HTMLTextAreaElement) {
     } else if ((document as any).selection) {
         el.focus();
 
-        var r = (document as any).selection.createRange();
+        const r = (document as any).selection.createRange();
         if (r == null) {
             return 0;
         }
 
-        var re = (el as any).createTextRange();
-        var rc = re.duplicate();
+        const re = (el as any).createTextRange();
+        const rc = re.duplicate();
         re.moveToBookmark(r.getBookmark());
         rc.setEndPoint('EndToStart', re);
 
@@ -970,7 +972,7 @@ export function setSelectionRange(input: HTMLInputElement, selectionStart: numbe
         input.focus();
         input.setSelectionRange(selectionStart, selectionEnd);
     } else if ((input as any).createTextRange) {
-        var range = (input as any).createTextRange();
+        const range = (input as any).createTextRange();
         range.collapse(true);
         range.moveEnd('character', selectionEnd);
         range.moveStart('character', selectionStart);
@@ -1044,7 +1046,7 @@ export function isMobile() {
 export function loadImage(
     url: string,
     onLoad: ((this: XMLHttpRequest, ev: ProgressEvent) => any) | null,
-    onProgress: ((this: XMLHttpRequest, ev: ProgressEvent) => any) | null,
+    onProgress?: ((this: XMLHttpRequest, ev: ProgressEvent) => any) | null,
 ) {
     const request = new XMLHttpRequest();
 
@@ -1070,8 +1072,8 @@ export function loadImage(
 }
 
 function changeColor(colourIn: string, amt: number): string {
-    var hex = colourIn;
-    var lum = amt;
+    let hex = colourIn;
+    let lum = amt;
 
     // validate hex string
     hex = String(hex).replace(/[^0-9a-f]/gi, '');
@@ -1081,9 +1083,9 @@ function changeColor(colourIn: string, amt: number): string {
     lum = lum || 0;
 
     // convert to decimal and change luminosity
-    var rgb = '#';
-    var c;
-    var i;
+    let rgb = '#';
+    let c;
+    let i;
     for (i = 0; i < 3; i++) {
         c = parseInt(hex.substr(i * 2, 2), 16);
         c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
@@ -1109,7 +1111,7 @@ export function getDisplayName(user: UserProfile) {
     if (user.nickname && user.nickname.trim().length > 0) {
         return user.nickname;
     }
-    var fullName = getFullName(user);
+    const fullName = getFullName(user);
 
     if (fullName) {
         return fullName;
@@ -1120,7 +1122,7 @@ export function getDisplayName(user: UserProfile) {
 
 export function getLongDisplayName(user: UserProfile) {
     let displayName = '@' + user.username;
-    var fullName = getFullName(user);
+    const fullName = getFullName(user);
     if (fullName) {
         displayName = displayName + ' - ' + fullName;
     }
@@ -1147,7 +1149,7 @@ export function getLongDisplayNameParts(user: UserProfile) {
 /**
  * Gets the display name of the specified user, respecting the TeammateNameDisplay configuration setting
  */
-export function getDisplayNameByUser(state: GlobalState, user: UserProfile) {
+export function getDisplayNameByUser(state: GlobalState, user?: UserProfile) {
     const teammateNameDisplay = getTeammateNameDisplaySetting(state);
     if (user) {
         return displayUsername(user, teammateNameDisplay);
@@ -1288,12 +1290,12 @@ export function fileSizeToString(bytes: number) {
 // Generates a RFC-4122 version 4 compliant globally unique identifier.
 export function generateId() {
     // implementation taken from http://stackoverflow.com/a/2117523
-    var id = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx';
+    let id = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx';
 
     id = id.replace(/[xy]/g, (c) => {
-        var r = Math.floor(Math.random() * 16);
+        const r = Math.floor(Math.random() * 16);
 
-        var v;
+        let v;
         if (c === 'x') {
             v = r;
         } else {
@@ -1325,8 +1327,8 @@ export function getUserIdFromChannelName(channel: Channel) {
 
 // Used to get the id of the other user from a DM channel id (id1_id2)
 export function getUserIdFromChannelId(channelId: Channel['id'], currentUserId = getCurrentUserId(store.getState())) {
-    var ids = channelId.split('__');
-    var otherUserId = '';
+    const ids = channelId.split('__');
+    let otherUserId = '';
     if (ids[0] === currentUserId) {
         otherUserId = ids[1];
     } else {
@@ -1410,7 +1412,7 @@ export function localizeMessage(id: string, defaultMessage?: string) {
     return translations[id];
 }
 
-export function localizeAndFormatMessage(id: string, defaultMessage: string, template: Record<string, string>) {
+export function localizeAndFormatMessage(id: string, defaultMessage: string, template: { [name: string]: any } | undefined) {
     const base = localizeMessage(id, defaultMessage);
 
     if (!template) {
@@ -1423,7 +1425,7 @@ export function localizeAndFormatMessage(id: string, defaultMessage: string, tem
     });
 }
 
-export function mod(a: number, b:number): number {
+export function mod(a: number, b: number): number {
     return ((a % b) + b) % b;
 }
 
@@ -1473,9 +1475,9 @@ export function isValidPassword(password: string, passwordConfig: ReturnType<typ
     }
 
     if (passwordConfig.requireSymbol) {
-        //if (!password.match(/[ !"\\#$%&'()*+,-./:;<=>?@[\]^_`|~]/)) {
-        //    valid = false;
-        //}
+        if (!password.match(/[ !"\\#$%&'()*+,-./:;<=>?@[\]^_`|~]/)) {
+            valid = false;
+        }
 
         errorId += 'Symbol';
     }
@@ -1660,7 +1662,7 @@ export function copyToClipboard(data: string) {
     document.body.removeChild(textArea);
 }
 
-export function moveCursorToEnd(e: React.MouseEvent) {
+export function moveCursorToEnd(e: React.MouseEvent | React.FocusEvent) {
     const val = (e.target as any).value;
     if (val.length) {
         (e.target as any).value = '';
@@ -1715,10 +1717,11 @@ export function getClosestParent(elem: HTMLElement, selector: string) {
             (Element.prototype as any).oMatchesSelector ||
             (Element.prototype as any).webkitMatchesSelector ||
             ((s) => {
-                // @ts-expect-error
+                // @ts-expect-error // TODO: resolve this typing and see if using function this is necessary
                 const matches = (this.document || this.ownerDocument).querySelectorAll(s);
                 let i = matches.length - 1;
-                // @ts-expect-error
+
+                // @ts-expect-error // TODO: resolve this typing and see if using function this is necessary
                 while (i >= 0 && matches.item(i) !== this) {
                     i--;
                 }
@@ -1728,7 +1731,8 @@ export function getClosestParent(elem: HTMLElement, selector: string) {
 
     // Get the closest matching element
     let currentElem = elem;
-    // @ts-expect-error
+
+    // @ts-expect-error // TODO: resolve this typing and see if using function this is necessary
     for (; currentElem && currentElem !== document; currentElem = currentElem.parentNode) {
         if (currentElem.matches(selector)) {
             return currentElem;
@@ -1931,7 +1935,7 @@ export function getNextBillingDate() {
     return nextBillingDate.format('MMM D, YYYY');
 }
 
-export function stringToNumber(s: string) {
+export function stringToNumber(s: string | undefined) {
     if (!s) {
         return 0;
     }

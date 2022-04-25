@@ -5,10 +5,11 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import Constants from 'utils/constants';
+
 import {Team} from 'mattermost-redux/types/teams';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
-import Constants from 'utils/constants.jsx';
 import {cleanUpUrlable} from 'utils/url';
 import logoImage from 'images/logo.png';
 import NextIcon from 'components/widgets/icons/fa_next_icon';

@@ -47,7 +47,7 @@ export type Props = {
     termsOfServiceLink?: string;
     privacyPolicyLink?: string;
     customDescriptionText?: string;
-    passwordConfig: Utils.PasswordConfig;
+    passwordConfig: ReturnType<typeof Utils.getPasswordConfig>;
     hasAccounts: boolean;
     actions: Actions;
     useCaseOnboarding: boolean;

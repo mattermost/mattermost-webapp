@@ -45,7 +45,7 @@ export default class Confirm extends React.PureComponent<Props> {
     }
 
     onKeyPress = (e: KeyboardEvent | React.FormEvent<HTMLFormElement>): void => {
-        if (isKeyPressed(e, KeyCodes.ENTER)) {
+        if (isKeyPressed(e as KeyboardEvent, KeyCodes.ENTER)) {
             this.submit(e);
         }
     }

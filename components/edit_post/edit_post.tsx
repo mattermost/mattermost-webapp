@@ -282,7 +282,7 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
 
     const handleSelect = (e: React.SyntheticEvent) => {
         if (textboxRef.current) {
-            Utils.adjustSelection(textboxRef.current.getInputBox(), e);
+            Utils.adjustSelection(textboxRef.current.getInputBox(), e as React.KeyboardEvent);
         }
     };
 

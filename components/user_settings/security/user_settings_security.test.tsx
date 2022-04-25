@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {PasswordConfig} from 'utils/utils';
+import * as Utils from 'utils/utils';
 
 import UserSettingsSecurity from './user_settings_security';
 
@@ -43,7 +43,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         enableSaml: true,
         enableSignUpWithOffice365: false,
         experimentalEnableAuthenticationTransfer: true,
-        passwordConfig: {} as PasswordConfig,
+        passwordConfig: {} as ReturnType<typeof Utils.getPasswordConfig>,
         militaryTime: false,
     };
 

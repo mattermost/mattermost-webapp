@@ -1027,8 +1027,6 @@ export const DefaultRolePermissions = {
         Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
         Permissions.DELETE_POST,
         Permissions.EDIT_POST,
-        Permissions.MANAGE_CREATE_EMOJIS,
-        Permissions.MANAGE_DELETE_EMOJIS,
         Permissions.LIST_PUBLIC_TEAMS,
         Permissions.JOIN_PUBLIC_TEAMS,
         Permissions.USE_CHANNEL_MENTIONS,
@@ -1477,7 +1475,7 @@ export const Constants = {
     //  KeyboardEvent.code is used as primary check to support multiple keyborad layouts
     //  support of KeyboardEvent.code is just in chrome and firefox so using key and keyCode for better browser support
 
-    KeyCodes: {
+    KeyCodes: ({
         BACKSPACE: ['Backspace', 8],
         TAB: ['Tab', 9],
         ENTER: ['Enter', 13],
@@ -1574,7 +1572,7 @@ export const Constants = {
         BACK_SLASH: ['\\', 220],
         CLOSE_BRACKET: [']', 221],
         COMPOSING: ['Composing', 229],
-    },
+    } as Record<string, [string, number]>),
     CODE_PREVIEW_MAX_FILE_SIZE: 500000, // 500 KB
     HighlightedLanguages: {
         actionscript: {name: 'ActionScript', extensions: ['as'], aliases: ['as', 'as3']},

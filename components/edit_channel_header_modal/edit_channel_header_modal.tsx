@@ -84,7 +84,7 @@ export default class EditChannelHeaderModal extends React.PureComponent<Props, S
     }
 
     private handleModalKeyDown = (e: React.KeyboardEvent<Modal>): void => {
-        if (isKeyPressed(e, KeyCodes.ESCAPE)) {
+        if (isKeyPressed(e as unknown as React.KeyboardEvent, KeyCodes.ESCAPE)) {
             this.hideModal();
         }
     }

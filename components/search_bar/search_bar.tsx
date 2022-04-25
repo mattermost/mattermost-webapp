@@ -70,27 +70,27 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
     }, [searchTerms]);
 
     const handleKeyDown = (e: ChangeEvent<HTMLInputElement>): void => {
-        if (Utils.isKeyPressed(e, KeyCodes.ESCAPE)) {
+        if (Utils.isKeyPressed(e as any, KeyCodes.ESCAPE)) {
             searchRef.current?.blur();
             e.stopPropagation();
             e.preventDefault();
         }
 
-        if (Utils.isKeyPressed(e, KeyCodes.DOWN)) {
+        if (Utils.isKeyPressed(e as any, KeyCodes.DOWN)) {
             e.preventDefault();
             props.updateHighlightedSearchHint(1, true);
         }
 
-        if (Utils.isKeyPressed(e, KeyCodes.UP)) {
+        if (Utils.isKeyPressed(e as any, KeyCodes.UP)) {
             e.preventDefault();
             props.updateHighlightedSearchHint(-1, true);
         }
 
-        if (Utils.isKeyPressed(e, KeyCodes.ENTER)) {
+        if (Utils.isKeyPressed(e as any, KeyCodes.ENTER)) {
             props.handleEnterKey(e);
         }
 
-        if (Utils.isKeyPressed(e, KeyCodes.BACKSPACE) && !searchTerms) {
+        if (Utils.isKeyPressed(e as any, KeyCodes.BACKSPACE) && !searchTerms) {
             if (props.clearSearchType) {
                 props.clearSearchType();
             }

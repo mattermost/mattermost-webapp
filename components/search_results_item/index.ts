@@ -4,6 +4,8 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
+import {RHSStates} from 'utils/constants';
+
 import {getChannel, getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
@@ -36,7 +38,6 @@ import {getDisplayNameByUser} from 'utils/utils';
 
 import {General} from 'mattermost-redux/constants';
 
-import {RHSStates} from 'utils/constants.jsx';
 import {getIsPostBeingEditedInRHS} from '../../selectors/posts';
 
 import SearchResultsItem from './search_results_item.jsx';

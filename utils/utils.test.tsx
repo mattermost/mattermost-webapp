@@ -432,7 +432,7 @@ describe('Utils.isKeyPressed', () => {
                 valid: true,
             },
         ]) {
-            expect(Utils.isKeyPressed(data.event as unknown as React.KeyboardEvent, data.key as [string, number])).toEqual(data.valid);
+            expect(Utils.isKeyPressed(data.event, data.key as [string, number])).toEqual(data.valid);
         }
     });
 
@@ -449,7 +449,7 @@ describe('Utils.isKeyPressed', () => {
                 valid: true,
             },
         ]) {
-            expect(Utils.isKeyPressed(data.event as unknown as React.KeyboardEvent, data.key as [string, number])).toEqual(data.valid);
+            expect(Utils.isKeyPressed(data.event, data.key as [string, number])).toEqual(data.valid);
         }
     });
 
@@ -476,7 +476,7 @@ describe('Utils.isKeyPressed', () => {
                 valid: false,
             },
         ]) {
-            expect(Utils.isKeyPressed(data.event as unknown as React.KeyboardEvent, data.key as [string, number])).toEqual(data.valid);
+            expect(Utils.isKeyPressed(data.event, data.key as [string, number])).toEqual(data.valid);
         }
     });
 
@@ -503,7 +503,7 @@ describe('Utils.isKeyPressed', () => {
                 valid: false,
             },
         ]) {
-            expect(Utils.isKeyPressed(data.event as unknown as React.KeyboardEvent, data.key as [string, number])).toEqual(data.valid);
+            expect(Utils.isKeyPressed(data.event, data.key as [string, number])).toEqual(data.valid);
         }
     });
 
@@ -530,7 +530,7 @@ describe('Utils.isKeyPressed', () => {
                 valid: false,
             },
         ]) {
-            expect(Utils.isKeyPressed(data.event as unknown as React.KeyboardEvent, data.key as [string, number])).toEqual(data.valid);
+            expect(Utils.isKeyPressed(data.event as KeyboardEvent, data.key as [string, number])).toEqual(data.valid);
         }
     });
 
@@ -547,7 +547,7 @@ describe('Utils.isKeyPressed', () => {
                 valid: true,
             },
         ]) {
-            expect(Utils.isKeyPressed(data.event as unknown as React.KeyboardEvent, data.key as [string, number])).toEqual(data.valid);
+            expect(Utils.isKeyPressed(data.event as KeyboardEvent, data.key as [string, number])).toEqual(data.valid);
         }
     });
 
@@ -555,7 +555,7 @@ describe('Utils.isKeyPressed', () => {
         //key will be k for keyboards like dvorak but code will be keyV as `v` is pressed
         const event = {key: 'k', code: 'KeyV'};
         const key: [string, number] = ['k', 2221];
-        expect(Utils.isKeyPressed(event as unknown as React.KeyboardEvent, key)).toEqual(true);
+        expect(Utils.isKeyPressed(event as KeyboardEvent, key)).toEqual(true);
     });
 });
 
@@ -747,25 +747,25 @@ describe('Utils.imageURLForUser', () => {
 describe('Utils.isUnhandledLineBreakKeyCombo', () => {
     test('isUnhandledLineBreakKeyCombo returns true for alt + enter for Chrome UA', () => {
         ua.mockChrome();
-        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getAltKeyEvent() as unknown as React.KeyboardEvent)).toBe(true);
+        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getAltKeyEvent() as KeyboardEvent)).toBe(true);
     });
 
     test('isUnhandledLineBreakKeyCombo returns false for alt + enter for Safari UA', () => {
         ua.mockSafari();
-        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getAltKeyEvent() as unknown as React.KeyboardEvent)).toBe(false);
+        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getAltKeyEvent() as KeyboardEvent)).toBe(false);
     });
 
     test('isUnhandledLineBreakKeyCombo returns false for shift + enter', () => {
-        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getShiftKeyEvent() as unknown as React.KeyboardEvent)).toBe(false);
+        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getShiftKeyEvent() as unknown as KeyboardEvent)).toBe(false);
     });
 
     test('isUnhandledLineBreakKeyCombo returns false for ctrl/command + enter', () => {
-        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getCtrlKeyEvent() as unknown as React.KeyboardEvent)).toBe(false);
-        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getMetaKeyEvent() as unknown as React.KeyboardEvent)).toBe(false);
+        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getCtrlKeyEvent() as unknown as KeyboardEvent)).toBe(false);
+        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getMetaKeyEvent() as unknown as KeyboardEvent)).toBe(false);
     });
 
     test('isUnhandledLineBreakKeyCombo returns false for just enter', () => {
-        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.BASE_EVENT as unknown as React.KeyboardEvent)).toBe(false);
+        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.BASE_EVENT as unknown as KeyboardEvent)).toBe(false);
     });
 
     test('isUnhandledLineBreakKeyCombo returns false for f (random key)', () => {
@@ -774,7 +774,7 @@ describe('Utils.isUnhandledLineBreakKeyCombo', () => {
             key: Constants.KeyCodes.F[0],
             keyCode: Constants.KeyCodes.F[1],
         };
-        expect(Utils.isUnhandledLineBreakKeyCombo(e as unknown as React.KeyboardEvent)).toBe(false);
+        expect(Utils.isUnhandledLineBreakKeyCombo(e as unknown as KeyboardEvent)).toBe(false);
     });
 
     // restore initial user agent
@@ -795,7 +795,7 @@ describe('Utils.applyHotkeyMarkdown', () => {
         // "Fafda" is selected with ctrl + B hotkey
         const e = makeBoldHotkeyEvent('Jalebi Fafda & Sambharo', 7, 12);
 
-        expect(Utils.applyHotkeyMarkdown(e as unknown as React.KeyboardEvent)).
+        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
             toEqual({
                 message: 'Jalebi **Fafda** & Sambharo',
                 selectionStart: 9,
@@ -807,7 +807,7 @@ describe('Utils.applyHotkeyMarkdown', () => {
         // "Fafda" is selected with ctrl + B hotkey
         const e = makeBoldHotkeyEvent('Jalebi **Fafda** & Sambharo', 9, 14);
 
-        expect(Utils.applyHotkeyMarkdown(e as unknown as React.KeyboardEvent)).
+        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
             toEqual({
                 message: 'Jalebi Fafda & Sambharo',
                 selectionStart: 7,
@@ -819,7 +819,7 @@ describe('Utils.applyHotkeyMarkdown', () => {
         // "Fafda" is selected with ctrl + I hotkey
         const e = makeItalicHotkeyEvent('Jalebi Fafda & Sambharo', 7, 12);
 
-        expect(Utils.applyHotkeyMarkdown(e as unknown as React.KeyboardEvent)).
+        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
             toEqual({
                 message: 'Jalebi *Fafda* & Sambharo',
                 selectionStart: 8,
@@ -831,7 +831,7 @@ describe('Utils.applyHotkeyMarkdown', () => {
         // "Fafda" is selected with ctrl + I hotkey
         const e = makeItalicHotkeyEvent('Jalebi *Fafda* & Sambharo', 8, 13);
 
-        expect(Utils.applyHotkeyMarkdown(e as unknown as React.KeyboardEvent)).
+        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
             toEqual({
                 message: 'Jalebi Fafda & Sambharo',
                 selectionStart: 7,
@@ -843,7 +843,7 @@ describe('Utils.applyHotkeyMarkdown', () => {
         // Nothing is selected with ctrl + B hotkey and caret is just before "Fafda"
         const e = makeBoldHotkeyEvent('Jalebi Fafda & Sambharo', 7, 7);
 
-        expect(Utils.applyHotkeyMarkdown(e as unknown as React.KeyboardEvent)).
+        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
             toEqual({
                 message: 'Jalebi ****Fafda & Sambharo',
                 selectionStart: 9,
@@ -855,7 +855,7 @@ describe('Utils.applyHotkeyMarkdown', () => {
         // Nothing is selected with ctrl + I hotkey and caret is just before "Fafda"
         const e = makeItalicHotkeyEvent('Jalebi Fafda & Sambharo', 7, 7);
 
-        expect(Utils.applyHotkeyMarkdown(e as unknown as React.KeyboardEvent)).
+        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
             toEqual({
                 message: 'Jalebi **Fafda & Sambharo',
                 selectionStart: 8,
@@ -867,7 +867,7 @@ describe('Utils.applyHotkeyMarkdown', () => {
         // "Fafda" is selected with ctrl + I hotkey
         const e = makeItalicHotkeyEvent('Jalebi **Fafda** & Sambharo', 9, 14);
 
-        expect(Utils.applyHotkeyMarkdown(e as unknown as React.KeyboardEvent)).
+        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
             toEqual({
                 message: 'Jalebi ***Fafda*** & Sambharo',
                 selectionStart: 10,
@@ -879,7 +879,7 @@ describe('Utils.applyHotkeyMarkdown', () => {
         // "Fafda" is selected with ctrl + B hotkey
         const e = makeBoldHotkeyEvent('Jalebi *Fafda* & Sambharo', 8, 13);
 
-        expect(Utils.applyHotkeyMarkdown(e as unknown as React.KeyboardEvent)).
+        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
             toEqual({
                 message: 'Jalebi ***Fafda*** & Sambharo',
                 selectionStart: 10,
@@ -892,7 +892,7 @@ describe('Utils.applyHotkeyMarkdown', () => {
         const e = makeBoldHotkeyEvent('Jalebi ***Fafda*** & Sambharo', 10, 15);
 
         // Should undo bold
-        expect(Utils.applyHotkeyMarkdown(e as unknown as React.KeyboardEvent)).
+        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
             toEqual({
                 message: 'Jalebi *Fafda* & Sambharo',
                 selectionStart: 8,
@@ -905,7 +905,7 @@ describe('Utils.applyHotkeyMarkdown', () => {
         const e = makeItalicHotkeyEvent('Jalebi ***Fafda*** & Sambharo', 10, 15);
 
         // Should undo italic
-        expect(Utils.applyHotkeyMarkdown(e as unknown as React.KeyboardEvent)).
+        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
             toEqual({
                 message: 'Jalebi **Fafda** & Sambharo',
                 selectionStart: 9,

@@ -3,9 +3,10 @@
 
 import React from 'react';
 
+import Constants from 'utils/constants';
+
 import ChannelView from 'components/channel_view/index';
 import {browserHistory} from 'utils/browser_history';
-import Constants from 'utils/constants.jsx';
 
 export interface Match {
     params: {

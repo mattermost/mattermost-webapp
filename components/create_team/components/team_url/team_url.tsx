@@ -6,12 +6,13 @@ import React from 'react';
 import {Button} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import Constants from 'utils/constants';
+
 import {Team} from 'mattermost-redux/types/teams';
 import {Client4Error} from 'mattermost-redux/types/client4';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
-import Constants from 'utils/constants.jsx';
 import * as URL from 'utils/url';
 import logoImage from 'images/logo.png';
 
