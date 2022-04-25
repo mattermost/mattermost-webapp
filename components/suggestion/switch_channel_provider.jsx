@@ -598,13 +598,12 @@ export default class SwitchChannelProvider extends Provider {
             channels.push(wrappedChannel);
         }
 
-        const limitedChannelsList = channels.slice(0, 3);
-        const channelNames = limitedChannelsList.
+        const channelNames = channels.
             sort(quickSwitchSorter).
             map((wrappedChannel) => wrappedChannel.channel.userId || wrappedChannel.channel.id);
 
-        if (localData && !limitedChannelsList.length) {
-            limitedChannelsList.push({
+        if (localData && !channels.length) {
+            channels.push({
                 type: Constants.MENTION_MORE_CHANNELS,
                 loading: true,
             });
@@ -613,7 +612,7 @@ export default class SwitchChannelProvider extends Provider {
         return {
             matchedPretext: channelPrefix,
             terms: channelNames,
-            items: limitedChannelsList,
+            items: channels,
             component: ConnectedSwitchChannelSuggestion,
         };
     }
