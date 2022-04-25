@@ -3,8 +3,6 @@
 
 import {connect} from 'react-redux';
 
-import {Preferences} from 'utils/constants';
-
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getSearchMatches, getSearchResults} from 'mattermost-redux/selectors/entities/posts';
@@ -23,6 +21,7 @@ import {
     getIsSearchGettingMore,
 } from 'selectors/rhs';
 import {GlobalState} from 'types/store';
+import {Preferences} from 'utils/constants';
 
 import SearchResults from './search_results';
 import {StateProps, OwnProps} from './types';

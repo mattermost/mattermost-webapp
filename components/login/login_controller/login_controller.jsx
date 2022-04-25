@@ -6,14 +6,13 @@ import React from 'react';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import Constants from 'utils/constants';
-
 import {Client4} from 'mattermost-redux/client';
 
 import * as GlobalActions from 'actions/global_actions';
 import LocalStorageStore from 'stores/local_storage_store';
 
 import {browserHistory} from 'utils/browser_history';
+import Constants from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils';
 import {showNotification} from 'utils/notifications';

@@ -5,8 +5,6 @@ import React, {ChangeEvent, FormEvent, SyntheticEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {Constants} from 'utils/constants';
-
 import {UserProfile} from 'mattermost-redux/types/users';
 import {CustomEmoji} from 'mattermost-redux/types/emojis';
 import {Team} from 'mattermost-redux/types/teams';
@@ -18,6 +16,7 @@ import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
 import {browserHistory} from 'utils/browser_history';
 import {localizeMessage} from 'utils/utils';
+import {Constants} from 'utils/constants';
 
 import EmojiMap from 'utils/emoji_map';
 

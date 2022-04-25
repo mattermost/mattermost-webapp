@@ -3,8 +3,6 @@
 
 import regeneratorRuntime from 'regenerator-runtime';
 
-import {ActionTypes} from 'utils/constants';
-
 import {Client4} from 'mattermost-redux/client';
 
 import {Preferences} from 'mattermost-redux/constants';
@@ -13,6 +11,7 @@ import {getConfig, isPerformanceDebuggingEnabled} from 'mattermost-redux/selecto
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 
 import store from 'stores/redux_store.jsx';
+import {ActionTypes} from 'utils/constants';
 import {getSiteURL} from 'utils/url';
 import PluginRegistry from 'plugins/registry';
 import {unregisterAllPluginWebSocketEvents, unregisterPluginReconnectHandler} from 'actions/websocket_actions.jsx';

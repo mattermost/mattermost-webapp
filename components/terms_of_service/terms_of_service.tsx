@@ -5,8 +5,6 @@ import React from 'react';
 import {Button, ButtonGroup} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {Constants} from 'utils/constants';
-
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {TermsOfService as ReduxTermsOfService} from 'mattermost-redux/types/terms_of_service';
 
@@ -20,6 +18,7 @@ import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 import {browserHistory} from 'utils/browser_history';
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import {formatText} from 'utils/text_formatting';
+import {Constants} from 'utils/constants';
 import EmojiMap from 'utils/emoji_map';
 
 export interface UpdateMyTermsOfServiceStatusResponse {

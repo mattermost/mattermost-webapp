@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Constants from 'utils/constants';
-
 import * as SyntaxHighlighting from 'utils/syntax_highlighting';
 
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';

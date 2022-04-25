@@ -6,8 +6,6 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {withRouter} from 'react-router-dom';
 
-import {Preferences} from 'utils/constants';
-
 import {getTeams} from 'mattermost-redux/actions/teams';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -26,6 +24,7 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getIsLhsOpen} from 'selectors/lhs';
 import {switchTeam, updateTeamsOrderForUser} from 'actions/team_actions.jsx';
+import {Preferences} from 'utils/constants';
 import {GlobalState} from 'types/store';
 
 import {getThreadCounts} from 'mattermost-redux/selectors/entities/threads';

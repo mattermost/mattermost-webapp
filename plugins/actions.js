@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import {ActionTypes} from 'utils/constants';
-
 import {hideRHSPlugin as hideRHSPluginAction} from 'actions/views/rhs';
 import {getPluggableId} from 'selectors/rhs';
 
