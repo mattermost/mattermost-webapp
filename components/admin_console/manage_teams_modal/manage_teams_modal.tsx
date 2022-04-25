@@ -39,12 +39,17 @@ const ManageTeamsModal = ({locale, onModalDismissed, show, user, actions}: Props
     const [teamMembers, setTeamMembers] = React.useState<TeamMembership[] | null>(null);
 
     useEffect(() => {
-        setTeams(null);
-        setTeamMembers(null);
         if (user) {
             loadTeamsAndTeamMembers(user);
         }
     }, [user]);
+
+    useEffect(() => {
+        if (user?.id) {
+            setTeams(null);
+            setTeamMembers(null);
+        }
+    }, [user?.id]);
 
     const loadTeamsAndTeamMembers = async (user: UserProfile) => {
         await getTeamMembers(user.id);
