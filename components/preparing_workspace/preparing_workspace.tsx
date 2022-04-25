@@ -22,8 +22,6 @@ import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getFirstAdminSetupComplete, getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {Client4} from 'mattermost-redux/client';
 
-import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks/constants';
-
 import Constants, {Preferences} from 'utils/constants';
 import {makeNewEmptyChannel} from 'utils/channel_utils';
 import {teamNameToUrl, getSiteURL} from 'utils/url';
