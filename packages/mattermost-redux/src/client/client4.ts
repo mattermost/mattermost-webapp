@@ -9,7 +9,7 @@ import type {AppBinding, AppCallRequest, AppCallResponse} from 'mattermost-redux
 import {Audit} from 'mattermost-redux/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from 'mattermost-redux/types/autocomplete';
 import {Bot, BotPatch} from 'mattermost-redux/types/bots';
-import {Product, Subscription, CloudCustomer, Address, CloudCustomerPatch, Invoice} from 'mattermost-redux/types/cloud';
+import {Product, Subscription, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits} from '@mattermost/types/cloud';
 import {ChannelCategory, OrderedChannelCategories} from 'mattermost-redux/types/channel_categories';
 import {
     Channel,
@@ -3751,6 +3751,13 @@ export default class Client4 {
 
     getInvoicePdfUrl = (invoiceId: string) => {
         return `${this.getCloudRoute()}/subscription/invoices/${invoiceId}/pdf`;
+    }
+
+    getCloudLimits = () => {
+        return this.doFetch<Limits>(
+            `${this.getCloudRoute()}/limits`,
+            {method: 'get'},
+        );
     }
 
     teamMembersMinusGroupMembers = (teamID: string, groupIDs: string[], page: number, perPage: number) => {

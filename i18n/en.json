@@ -5061,5 +5061,14 @@
   "widgets.users_emails_input.loading": "Loading",
   "widgets.users_emails_input.no_user_found_matching": "No one found matching **{text}**. Enter their email to invite them.",
   "widgets.users_emails_input.valid_email": "Add **{email}**",
+  "workspace_limits.boards_cards": "Board Cards per Server",
+  "workspace_limits.boards_cards.usage": "{actual} of {limit} cards ({percent}%)",
+  "workspace_limits.file_storage": "File Storage",
+  "workspace_limits.file_storage.usage": "{actual} of {limit} ({percent}%)",
+  "workspace_limits.integrations_enabled": "Enabled Integrations",
+  "workspace_limits.integrations_enabled.usage": "{actual} of {limit} integrations ({percent}%)",
+  "workspace_limits.message_history": "Message History",
+  "workspace_limits.message_history.usage": "{actual} of {limit} messages ({percent}%)",
+  "workspace_limits.upgrade": "Upgrade to avoid {planName} data limits",
   "yourcomputer": "Your computer"
 }
