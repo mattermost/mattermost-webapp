@@ -396,7 +396,7 @@ export default class SwitchChannelProvider extends Provider {
             const users = Object.assign([], searchProfilesMatchingWithTerm(getState(), channelPrefix, false));
             const formattedData = this.formatList(channelPrefix, channels, users, true, true);
             if (formattedData) {
-                resultsCallback(formattedData);
+                resultsCallback(this.limitChannelsAmount(formattedData));
             }
 
             // Fetch data from the server and dispatch
@@ -456,13 +456,13 @@ export default class SwitchChannelProvider extends Provider {
         const combinedTerms = [...localFormattedData.terms, ...remoteFormattedData.terms.filter((term) => !localFormattedData.terms.includes(term))];
         const combinedItems = [...localFormattedData.items, ...remoteFormattedData.items.filter((item) => !localFormattedData.terms.includes(item.channel.userId || item.channel.id))];
 
-        resultsCallback({
+        resultsCallback(this.limitChannelsAmount({
             ...localFormattedData,
             ...{
                 items: combinedItems,
                 terms: combinedTerms,
             },
-        });
+        }));
     }
 
     userWrappedChannel(user, channel) {
@@ -598,12 +598,13 @@ export default class SwitchChannelProvider extends Provider {
             channels.push(wrappedChannel);
         }
 
-        const channelNames = channels.
+        const limitedChannelsList = channels.slice(0, 3);
+        const channelNames = limitedChannelsList.
             sort(quickSwitchSorter).
             map((wrappedChannel) => wrappedChannel.channel.userId || wrappedChannel.channel.id);
 
-        if (localData && !channels.length) {
-            channels.push({
+        if (localData && !limitedChannelsList.length) {
+            limitedChannelsList.push({
                 type: Constants.MENTION_MORE_CHANNELS,
                 loading: true,
             });
@@ -612,7 +613,7 @@ export default class SwitchChannelProvider extends Provider {
         return {
             matchedPretext: channelPrefix,
             terms: channelNames,
-            items: channels,
+            items: limitedChannelsList,
             component: ConnectedSwitchChannelSuggestion,
         };
     }
@@ -628,12 +629,12 @@ export default class SwitchChannelProvider extends Provider {
         }
         const sortedChannels = channels.sort(sortChannelsByRecencyAndTypeAndDisplayName).slice(0, 20);
         const channelNames = sortedChannels.map((wrappedChannel) => wrappedChannel.channel.id);
-        resultsCallback({
+        resultsCallback(this.limitChannelsAmount({
             matchedPretext: '',
             terms: channelNames,
             items: sortedChannels,
             component: ConnectedSwitchChannelSuggestion,
-        });
+        }));
     }
     getTimestampFromPrefs(myPreferences, category, name) {
         const pref = myPreferences[getPreferenceKey(category, name)];
@@ -709,11 +710,19 @@ export default class SwitchChannelProvider extends Provider {
         const sortedChannels = this.wrapChannels(channels, Constants.MENTION_PUBLIC_CHANNELS).slice(0, 20);
         const channelNames = sortedChannels.map((wrappedChannel) => wrappedChannel.channel.id);
 
-        resultsCallback({
+        resultsCallback(this.limitChannelsAmount({
             matchedPretext: '',
             terms: channelNames,
             items: sortedChannels,
             component: ConnectedSwitchChannelSuggestion,
-        });
+        }));
+    }
+
+    limitChannelsAmount(result, limit = 10) {
+        return {
+            ...result,
+            terms: result.terms.slice(0, limit),
+            items: result.items.slice(0, limit),
+        };
     }
 }
