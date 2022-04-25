@@ -91,7 +91,7 @@ exports[`codeBlock should render html code block with proper indentation 1`] = `
     collect={[Function]}
     disable={false}
     disableIfShiftIsPressed={false}
-    holdToDisplay={1000}
+    holdToDisplay={-1}
     id="copy-code-block-context-menu-randompostid"
     mouseButton={2}
     posX={0}
@@ -219,7 +219,7 @@ const myFunction = () => {
     collect={[Function]}
     disable={false}
     disableIfShiftIsPressed={false}
-    holdToDisplay={1000}
+    holdToDisplay={-1}
     id="copy-code-block-context-menu-randompostid"
     mouseButton={2}
     posX={0}
@@ -341,7 +341,7 @@ it shouldn't highlight, it's just garbage
     collect={[Function]}
     disable={false}
     disableIfShiftIsPressed={false}
-    holdToDisplay={1000}
+    holdToDisplay={-1}
     id="copy-code-block-context-menu-randompostid"
     mouseButton={2}
     posX={0}

@@ -32,10 +32,10 @@ import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 
 import {getBool, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {getThread, getThreads} from 'mattermost-redux/selectors/entities/threads';
+import {getNewestThreadInTeam, getThread, getThreads} from 'mattermost-redux/selectors/entities/threads';
 import {
     getThread as fetchThread,
-    getThreads as fetchThreads,
+    getCountsAndThreadsSince,
     handleAllMarkedRead,
     handleReadChanged,
     handleFollowChanged,
@@ -226,7 +226,8 @@ export function reconnect(includeWebSocket = true) {
         const crtEnabled = isCollapsedThreadsEnabled(state);
         dispatch(TeamActions.getMyTeamUnreads(crtEnabled, true));
         if (crtEnabled) {
-            dispatch(fetchThreads(currentUserId, currentTeamId, {extended: true, unread: true, perPage: 200}));
+            const newestThread = getNewestThreadInTeam(state, currentTeamId);
+            dispatch(getCountsAndThreadsSince(currentUserId, currentTeamId, newestThread ? newestThread.last_reply_at : 0));
         }
     }
 
@@ -1273,7 +1274,6 @@ function handleChannelViewedEvent(msg) {
 
 export function handlePluginEnabled(msg) {
     const manifest = msg.data.manifest;
-    dispatch({type: ActionTypes.RECEIVED_WEBAPP_PLUGIN, data: manifest});
 
     loadPlugin(manifest).catch((error) => {
         console.error(error.message); //eslint-disable-line no-console
