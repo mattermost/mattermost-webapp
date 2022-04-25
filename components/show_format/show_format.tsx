@@ -8,7 +8,6 @@ import {FormattedMessage} from 'react-intl';
 import Constants from 'utils/constants';
 import {isMobileApp} from 'utils/user_agent';
 
-import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 

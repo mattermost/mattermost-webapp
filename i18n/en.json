@@ -2449,6 +2449,8 @@
   "admin.webserverModeTitle": "Webserver Mode:",
   "admin.webserverModeUncompressed": "Uncompressed",
   "admin.webserverModeUncompressedDescription": "The Mattermost server will serve static files uncompressed.",
+  "advance_text_editor.preview": "Preview",
+  "advance_text_editor.show_formatting_bar": "Show Formatting Tools",
   "analytics.chart.loading": "Loading...",
   "analytics.chart.meaningful": "Not enough data for a meaningful representation.",
   "analytics.system.activeUsers": "Active Users With Posts",
