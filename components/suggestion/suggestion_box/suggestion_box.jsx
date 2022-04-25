@@ -163,7 +163,7 @@ export default class SuggestionBox extends React.PureComponent {
     static defaultProps = {
         listPosition: 'top',
         containerClass: '',
-        renderDividers: '',
+        renderDividers: [],
         renderNoResults: false,
         shouldSearchCompleteText: false,
         completeOnTab: true,
