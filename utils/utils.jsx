@@ -348,6 +348,21 @@ export function getFileIconPath(fileInfo) {
     return icon;
 }
 
+export function getCompassIconClassName(fileTypeIn, outline = true, large = false) {
+    const fileType = fileTypeIn.toLowerCase();
+    let icon = 'generic';
+
+    if (fileType in Constants.ICON_NAME_FROM_TYPE) {
+        icon = Constants.ICON_NAME_FROM_TYPE[fileType];
+    }
+
+    icon = icon === 'ppt' ? 'powerpoint' : icon;
+    icon = icon === 'spreadsheet' ? 'excel' : icon;
+    icon = icon === 'other' ? 'generic' : icon;
+
+    return `icon-file-${icon}${outline ? '-outline' : ''}${large ? '-large' : ''}`;
+}
+
 export function getIconClassName(fileTypeIn) {
     var fileType = fileTypeIn.toLowerCase();
 

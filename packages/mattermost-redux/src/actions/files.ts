@@ -9,6 +9,7 @@ import {FileTypes} from 'mattermost-redux/action_types';
 import {DispatchFunc, GetStateFunc, ActionFunc} from 'mattermost-redux/types/actions';
 
 import {FileUploadResponse, FileSearchResultItem} from 'mattermost-redux/types/files';
+import {Post} from 'mattermost-redux/types/posts';
 
 import {logError} from './errors';
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
@@ -17,6 +18,29 @@ export function receivedFiles(files: Map<string, FileSearchResultItem>) {
     return {
         type: FileTypes.RECEIVED_FILES_FOR_SEARCH,
         data: files,
+    };
+}
+
+export function getMissingFilesByPosts(posts: Post[]) {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const {files} = getState().entities.files;
+        const postIds = posts.reduce((curr: Array<Post['id']>, post: Post) => {
+            const {file_ids: fileIds} = post;
+            if (!fileIds || fileIds.every((id) => files[id])) {
+                return curr;
+            }
+            curr.push(post.id);
+
+            return curr;
+        }, []);
+
+        const promises: Array<Promise<any>> = [];
+
+        for (const id of postIds) {
+            dispatch(getFilesForPost(id));
+        }
+
+        return {data: promises};
     };
 }
 
