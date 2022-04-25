@@ -438,40 +438,40 @@ class ChannelHeader extends React.PureComponent {
             />
         );
 
-        let membersIconClass = 'member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide';
-        if (rhsState === RHSStates.CHANNEL_MEMBERS) {
-            membersIconClass += ' channel-header__icon--active';
-        }
-        const membersIcon = this.props.memberCount ? (
-            <>
-                <i
-                    aria-hidden='true'
-                    className='icon icon-account-outline channel-header__members'
-                />
-                <span
-                    id='channelMemberCountText'
-                    className='icon__text'
-                >
-                    {this.props.memberCount}
-                </span>
-            </>
-        ) : (
-            <>
-                <i
-                    aria-hidden='true'
-                    className='icon icon-account-outline channel-header__members'
-                />
-                <span
-                    id='channelMemberCountText'
-                    className='icon__text'
-                >
-                    {'-'}
-                </span>
-            </>
-        );
-
         let memberListButton = null;
         if (!isDirect) {
+            let membersIconClass = 'member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide';
+            if (rhsState === RHSStates.CHANNEL_MEMBERS) {
+                membersIconClass += ' channel-header__icon--active';
+            }
+            const membersIcon = this.props.memberCount ? (
+                <>
+                    <i
+                        aria-hidden='true'
+                        className='icon icon-account-outline channel-header__members'
+                    />
+                    <span
+                        id='channelMemberCountText'
+                        className='icon__text'
+                    >
+                        {this.props.memberCount}
+                    </span>
+                </>
+            ) : (
+                <>
+                    <i
+                        aria-hidden='true'
+                        className='icon icon-account-outline channel-header__members'
+                    />
+                    <span
+                        id='channelMemberCountText'
+                        className='icon__text'
+                    >
+                        {'-'}
+                    </span>
+                </>
+            );
+
             memberListButton = (
                 <HeaderIconWrapper
                     iconComponent={membersIcon}
