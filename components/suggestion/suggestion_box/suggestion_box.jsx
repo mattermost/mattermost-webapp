@@ -157,11 +157,6 @@ export default class SuggestionBox extends React.PureComponent {
         actions: PropTypes.shape({
             addMessageIntoHistory: PropTypes.func.isRequired,
         }).isRequired,
-
-        /**
-         * Visible items limit in the suggestion list, defaults to unlimited
-         */
-        maxVisible: PropTypes.number,
     }
 
     static defaultProps = {
@@ -178,7 +173,6 @@ export default class SuggestionBox extends React.PureComponent {
         replaceAllInputOnSelect: false,
         listenForMentionKeyClick: false,
         forceSuggestionsWhenBlur: false,
-        maxVisible: undefined,
     }
 
     constructor(props) {
@@ -786,13 +780,11 @@ export default class SuggestionBox extends React.PureComponent {
         Reflect.deleteProperty(props, 'onSuggestionsReceived');
         Reflect.deleteProperty(props, 'actions');
         Reflect.deleteProperty(props, 'shouldSearchCompleteText');
-        Reflect.deleteProperty(props, 'maxVisible');
 
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;
         const SuggestionDateComponent = dateComponent;
 
-        const slicedSuggestionItems = this.state.items.slice(0, this.props.maxVisible);
         return (
             <div
                 ref={this.setContainerRef}
@@ -829,7 +821,7 @@ export default class SuggestionBox extends React.PureComponent {
                             onItemHover={this.setSelection}
                             cleared={this.state.cleared}
                             matchedPretext={this.state.matchedPretext}
-                            items={slicedSuggestionItems}
+                            items={this.state.items}
                             terms={this.state.terms}
                             suggestionBoxAlgn={this.state.suggestionBoxAlgn}
                             selection={this.state.selection}
