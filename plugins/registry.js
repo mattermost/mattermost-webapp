@@ -105,6 +105,9 @@ export default class PluginRegistry {
 
     // Register a component to show as a tooltip when a user hovers on a link in a post.
     // Accepts a React component. Returns a unique identifier.
+    // The component will be passed the following props:
+    // - href - The URL for this link
+    // - show - A boolean used to signal that the user is currently hovering over this link. Use this value to initialize your component when this boolean is true for the first time, using `componentDidUpdate` or `useEffect`.
     registerLinkTooltipComponent(component) {
         return dispatchPluginComponentAction('LinkTooltip', this.id, component);
     }
@@ -871,5 +874,21 @@ export default class PluginRegistry {
         });
 
         return id;
+    }
+
+    // INTERNAL: Subject to change without notice.
+    // Register a handler to retrieve stats that will be displayed on the system console
+    // Accepts the following:
+    // - handler - Func to be called to retrieve the stats from plugin api. It must be type PluginSiteStatsHandler.
+    // Returns undefined
+    registerSiteStatisticsHandler(handler) {
+        const data = {
+            pluginId: this.id,
+            handler,
+        };
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_STATS_HANDLER,
+            data,
+        });
     }
 }

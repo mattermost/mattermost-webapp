@@ -5,8 +5,17 @@ import exif2css from 'exif2css';
 
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
+import {ClientConfig} from '@mattermost/types/config';
 
-export function canUploadFiles(config) {
+export const FileSizes = {
+    Bit: 1,
+    Byte: 1 * 8,
+    Kilobyte: 1 * 8 * 1024,
+    Megabyte: 1 * 8 * 1024 * 1024,
+    Gigabyte: 1 * 8 * 1024 * 1024 * 1024,
+};
+
+export function canUploadFiles(config: Partial<ClientConfig>): boolean {
     const enableFileAttachments = config.EnableFileAttachments === 'true';
     const enableMobileFileUpload = config.EnableMobileFileUpload === 'true';
 
@@ -21,11 +30,11 @@ export function canUploadFiles(config) {
     return true;
 }
 
-export function isFileAttachmentsEnabled(config) {
+export function isFileAttachmentsEnabled(config: Partial<ClientConfig>): boolean {
     return config.EnableFileAttachments === 'true';
 }
 
-export function canDownloadFiles(config) {
+export function canDownloadFiles(config: Partial<ClientConfig>): boolean {
     if (UserAgent.isMobileApp()) {
         return config.EnableMobileFileDownload === 'true';
     }
@@ -33,7 +42,7 @@ export function canDownloadFiles(config) {
     return true;
 }
 
-export function trimFilename(filename) {
+export function trimFilename(filename: string) {
     let trimmedFilename = filename;
     if (filename.length > Constants.MAX_FILENAME_LENGTH) {
         trimmedFilename = filename.substring(0, Math.min(Constants.MAX_FILENAME_LENGTH, filename.length)) + '...';
@@ -42,7 +51,7 @@ export function trimFilename(filename) {
     return trimmedFilename;
 }
 
-export function getFileTypeFromMime(mimetype) {
+export function getFileTypeFromMime(mimetype: string) {
     const mimeTypeSplitBySlash = mimetype.split('/');
     const mimeTypePrefix = mimeTypeSplitBySlash[0];
     const mimeTypeSuffix = mimeTypeSplitBySlash[1];
@@ -71,18 +80,18 @@ export function getFileTypeFromMime(mimetype) {
 }
 
 // based on https://stackoverflow.com/questions/7584794/accessing-jpeg-exif-rotation-data-in-javascript-on-the-client-side/32490603#32490603
-export function getExifOrientation(data) {
-    var view = new DataView(data);
+export function getExifOrientation(data: ArrayBufferLike) {
+    const view = new DataView(data);
 
     if (view.getUint16(0, false) !== 0xFFD8) {
         return -2;
     }
 
-    var length = view.byteLength;
-    var offset = 2;
+    const length = view.byteLength;
+    let offset = 2;
 
     while (offset < length) {
-        var marker = view.getUint16(offset, false);
+        const marker = view.getUint16(offset, false);
         offset += 2;
 
         if (marker === 0xFFE1) {
@@ -90,12 +99,12 @@ export function getExifOrientation(data) {
                 return -1;
             }
 
-            var little = view.getUint16(offset += 6, false) === 0x4949;
+            const little = view.getUint16(offset += 6, false) === 0x4949;
             offset += view.getUint32(offset + 4, little);
-            var tags = view.getUint16(offset, little);
+            const tags = view.getUint16(offset, little);
             offset += 2;
 
-            for (var i = 0; i < tags; i++) {
+            for (let i = 0; i < tags; i++) {
                 if (view.getUint16(offset + (i * 12), little) === 0x0112) {
                     return view.getUint16(offset + (i * 12) + 8, little);
                 }
@@ -109,7 +118,7 @@ export function getExifOrientation(data) {
     return -1;
 }
 
-export function getOrientationStyles(orientation) {
+export function getOrientationStyles(orientation: number) {
     const {
         transform,
         'transform-origin': transformOrigin,
