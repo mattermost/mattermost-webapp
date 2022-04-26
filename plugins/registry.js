@@ -890,11 +890,11 @@ export default class PluginRegistry {
     }
 
     // Register a hook to perform search in mattermost plugins/products.
-    registerSearchInProductHook(handler) {
+    registerSearchInProductHandler(handler) {
         const id = generateId();
 
         store.dispatch({
-            type: ActionTypes.RECIEVED_PLUGIN_SEARCH_HOOK,
+            type: ActionTypes.RECIEVED_PRODUCT_SEARCH_HANDLER,
             data: {
                 id,
                 pluginId: this.id,
@@ -906,11 +906,11 @@ export default class PluginRegistry {
     }
 
     // Register a hook to retrieve recently viewed in product/plugin.
-    registerRecentlyViewedProductItems(handler) {
+    registerRecentlyViewedInProductHandler(handler) {
         const id = generateId();
 
         store.dispatch({
-            type: ActionTypes.RECIEVED_RECENTLY_VIEWED_PLUGIN_ENTITIES,
+            type: ActionTypes.RECIEVED_IN_PRODUCT_RECENTLY_VIEWED_HANDLER,
             data: {
                 id,
                 pluginId: this.id,

@@ -13,7 +13,7 @@ import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 
 export type PluginSiteStatsHandler = () => Promise<Record<string, PluginAnalyticsRow>>;
 
-export type SearchablePluginHandler = (term: string) => Promise<any[]>; // TODO: make this more specific
+export type SearchHandlers = (term: string) => Promise<any[]>; // TODO: make this more specific
 
 export type RecentlyViewedHandler = () => Promise<any[]>; // TODO: make this more specific
 
@@ -51,8 +51,8 @@ export type PluginsState = {
     siteStatsHandlers: {
         [pluginId: string]: PluginSiteStatsHandler;
     };
-    searchableHandlers: {
-        [pluginId: string]: SearchablePluginHandler;
+    searchHandlers: {
+        [pluginId: string]: SearchHandlers;
     };
     recentlyViewedHandlers: {
         [pluginId: string]: RecentlyViewedHandler;

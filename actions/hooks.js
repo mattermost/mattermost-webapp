@@ -90,38 +90,34 @@ export function runMessageWillBeUpdatedHooks(newPost, oldPost) {
     };
 }
 
-export function runSearchInProductHook(searchTerm) {
-    return async (dispath, getState) => {
+export function runSearchInProductHandler(searchTerm) {
+    return async (_dispath, getState) => {
         const state = getState();
 
-        const hooks = state.plugins.components.SearchInProduct;
-        if (!hooks || hooks.length === 0) {
+        const handlers = Object.values(state.plugins.searchHandlers);
+        if (!handlers || handlers.length === 0) {
             return {data: []};
         }
 
-        let searchResults = [];
+        const searchResultsPromises = handlers.map((handler) => {
+            return handler(searchTerm);
+        });
 
-        for (const hook of hooks) {
-            // TODO: change it to run parallelly
-            const result = await hook.hook(searchTerm); // eslint-disable-line no-await-in-loop
+        const searchResults = await Promise.all(searchResultsPromises);
 
-            if (result) {
-                if (result.error) {
-                    return {
-                        error: result.error,
-                    };
-                }
-
-                searchResults = [...searchResults, ...result.data];
+        let data = [];
+        searchResults.forEach((result) => {
+            if (!result.error) {
+                data = [...data, ...result.data];
             }
-        }
+        });
 
-        return {data: searchResults};
+        return {data};
     };
 }
 
-export function runRecentlyViewedProductItems() {
-    return async (dispatch, getState) => {
+export function runRecentlyViewedInProductHandler() {
+    return async (_dispatch, getState) => {
         const state = getState();
 
         const hooks = state.plugins.components.RecentlyViewedProductItems;

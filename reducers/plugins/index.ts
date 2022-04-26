@@ -384,9 +384,9 @@ function siteStatsHandlers(state: PluginsState['siteStatsHandlers'] = {}, action
     }
 }
 
-function searchableHandlers(state: PluginsState['searchableHandlers'] = {}, action: GenericAction) {
+function searchHandlers(state: PluginsState['searchHandlers'] = {}, action: GenericAction) {
     switch (action.type) {
-    case ActionTypes.RECIEVED_PLUGIN_SEARCH_HOOK:
+    case ActionTypes.RECIEVED_PRODUCT_SEARCH_HANDLER:
         if (action.data) {
             const nextState = {...state};
             nextState[action.data.pluginId] = action.data.handler;
@@ -412,7 +412,7 @@ function searchableHandlers(state: PluginsState['searchableHandlers'] = {}, acti
 
 function recentlyViewedHandlers(state: PluginsState['recentlyViewedHandlers'] = {}, action: GenericAction) {
     switch (action.type) {
-    case ActionTypes.RECIEVED_RECENTLY_VIEWED_PLUGIN_ENTITIES:
+    case ActionTypes.RECIEVED_IN_PRODUCT_RECENTLY_VIEWED_HANDLER:
         if (action.data) {
             const nextState = {...state};
             nextState[action.data.entityId] = action.data;
@@ -466,7 +466,7 @@ export default combineReducers({
     siteStatsHandlers,
 
     // object where every key is a plugin id and the value is the in plugin search handler
-    searchableHandlers,
+    searchHandlers,
 
     // object where every key is a plugin id and the value is recently viewed plugin entities handler
     recentlyViewedHandlers,
