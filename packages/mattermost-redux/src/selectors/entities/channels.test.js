@@ -594,7 +594,6 @@ describe('Selectors.Channels.getChannelByTeamIdAndChannelName', () => {
     it('return null on empty team id', () => {
         assert.deepEqual(Selectors.getChannelByTeamIdAndChannelName(testState, '', channel1.name), null);
     });
-
 });
 
 describe('Selectors.Channels.getChannelsNameMapInCurrentTeam', () => {
