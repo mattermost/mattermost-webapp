@@ -200,6 +200,7 @@ export const ActionTypes = keyMirror({
     RECEIVED_ADMIN_CONSOLE_REDUCER: null,
     REMOVED_ADMIN_CONSOLE_REDUCER: null,
     RECEIVED_ADMIN_CONSOLE_CUSTOM_COMPONENT: null,
+    RECEIVED_PLUGIN_STATS_HANDLER: null,
 
     MODAL_OPEN: null,
     MODAL_CLOSE: null,
@@ -371,7 +372,7 @@ export const ModalIdentifiers = {
     KEYBOARD_SHORTCUTS_MODAL: 'keyboar_shortcuts_modal',
     USERS_TO_BE_REMOVED: 'users_to_be_removed',
     UPLOAD_LICENSE: 'upload_license',
-
+    INSIGHTS: 'insights',
 };
 
 export const UserStatuses = {
@@ -690,6 +691,7 @@ export const SearchTypes = keyMirror({
     SET_TEAM_LIST_SEARCH: null,
     SET_CHANNEL_LIST_SEARCH: null,
     SET_CHANNEL_LIST_FILTERS: null,
+    SET_CHANNEL_MEMBERS_RHS_SEARCH: null,
 });
 
 export const StorageTypes = keyMirror({
@@ -832,6 +834,7 @@ export const RHSStates = {
     PLUGIN: 'plugin',
     CHANNEL_FILES: 'channel-files',
     CHANNEL_INFO: 'channel-info',
+    CHANNEL_MEMBERS: 'channel-members',
 };
 
 export const UploadStatuses = {
@@ -1675,7 +1678,7 @@ export const Constants = {
     MIN_TEAMNAME_LENGTH: 2,
     MAX_TEAMNAME_LENGTH: 64,
     MAX_TEAMDESCRIPTION_LENGTH: 50,
-    MIN_CHANNELNAME_LENGTH: 2,
+    MIN_CHANNELNAME_LENGTH: 1,
     MAX_CHANNELNAME_LENGTH: 64,
     DEFAULT_CHANNELURL_SHORTEN_LENGTH: 52,
     MAX_CHANNELPURPOSE_LENGTH: 250,
@@ -1862,6 +1865,56 @@ export const durationValues = {
     [CUSTOM_DATE_TIME]: {
         id: t('custom_status.expiry_dropdown.date_and_time'),
         defaultMessage: 'Custom Date and Time',
+    },
+};
+
+export const InsightsTimeFrames = {
+    INSIGHTS_1_DAY: '1_day',
+    INSIGHTS_7_DAYS: '7_day',
+    INSIGHTS_28_DAYS: '28_day',
+};
+
+export const InsightsScopes = {
+    MY: 'MY',
+    TEAM: 'TEAM',
+};
+
+export const InsightsCardTitles = {
+    TOP_CHANNELS: {
+        teamTitle: {
+            id: t('insights.topChannels.title'),
+            defaultMessage: 'Top channels',
+        },
+        myTitle: {
+            id: t('insights.topChannels.myTitle'),
+            defaultMessage: 'My top channels',
+        },
+        teamSubTitle: {
+            id: t('insights.topChannels.subTitle'),
+            defaultMessage: 'Most active channels for the team',
+        },
+        mySubTitle: {
+            id: t('insights.topChannels.mySubTitle'),
+            defaultMessage: 'Most active channels that I\'m a member of',
+        },
+    },
+    TOP_REACTIONS: {
+        teamTitle: {
+            id: t('insights.topReactions.title'),
+            defaultMessage: 'Top reactions',
+        },
+        myTitle: {
+            id: t('insights.topReactions.myTitle'),
+            defaultMessage: 'My top reactions',
+        },
+        teamSubTitle: {
+            id: t('insights.topReactions.subTitle'),
+            defaultMessage: 'The team\'s most-used reactions',
+        },
+        mySubTitle: {
+            id: t('insights.topReactions.mySubTitle'),
+            defaultMessage: 'Reactions I\'ve used the most',
+        },
     },
 };
 

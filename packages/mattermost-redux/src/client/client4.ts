@@ -9,7 +9,7 @@ import type {AppBinding, AppCallRequest, AppCallResponse} from 'mattermost-redux
 import {Audit} from 'mattermost-redux/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from 'mattermost-redux/types/autocomplete';
 import {Bot, BotPatch} from 'mattermost-redux/types/bots';
-import {Product, Subscription, CloudCustomer, Address, CloudCustomerPatch, Invoice} from 'mattermost-redux/types/cloud';
+import {Product, Subscription, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits} from '@mattermost/types/cloud';
 import {ChannelCategory, OrderedChannelCategories} from 'mattermost-redux/types/channel_categories';
 import {
     Channel,
@@ -1415,6 +1415,20 @@ export default class Client4 {
         );
     };
 
+    sendEmailInvitesToTeamAndChannelsGracefully = (
+        teamId: string,
+        channelIds: string[],
+        emails: string[],
+        message: string,
+    ) => {
+        this.trackEvent('api', 'api_teams_invite_members_to_channels', {team_id: teamId, channel_len: channelIds.length});
+
+        return this.doFetch<TeamInviteWithError>(
+            `${this.getTeamRoute(teamId)}/invite/email?graceful=true`,
+            {method: 'post', body: JSON.stringify({emails, channelIds, message})},
+        );
+    };
+
     sendEmailGuestInvitesToChannelsGracefully = async (teamId: string, channelIds: string[], emails: string[], message: string) => {
         this.trackEvent('api', 'api_teams_invite_guests', {team_id: teamId, channel_ids: channelIds});
 
@@ -1966,10 +1980,11 @@ export default class Client4 {
             unread = false,
             since = 0,
             totalsOnly = false,
+            threadsOnly = false,
         },
     ) => {
         return this.doFetch<UserThreadList>(
-            `${this.getUserThreadsRoute(userId, teamId)}${buildQueryString({before, after, per_page: perPage, extended, deleted, unread, since, totalsOnly})}`,
+            `${this.getUserThreadsRoute(userId, teamId)}${buildQueryString({before, after, per_page: perPage, extended, deleted, unread, since, totalsOnly, threadsOnly})}`,
             {method: 'get'},
         );
     };
@@ -1995,6 +2010,14 @@ export default class Client4 {
         return this.doFetch<UserThread>(
             url,
             {method: 'put'},
+        );
+    };
+
+    markThreadAsUnreadForUser = (userId: string, teamId: string, threadId: string, postId: string) => {
+        const url = `${this.getUserThreadRoute(userId, teamId, threadId)}/set_unread/${postId}`;
+        return this.doFetch<UserThread>(
+            url,
+            {method: 'post'},
         );
     };
 
@@ -3728,6 +3751,13 @@ export default class Client4 {
 
     getInvoicePdfUrl = (invoiceId: string) => {
         return `${this.getCloudRoute()}/subscription/invoices/${invoiceId}/pdf`;
+    }
+
+    getCloudLimits = () => {
+        return this.doFetch<Limits>(
+            `${this.getCloudRoute()}/limits`,
+            {method: 'get'},
+        );
     }
 
     teamMembersMinusGroupMembers = (teamID: string, groupIDs: string[], page: number, perPage: number) => {

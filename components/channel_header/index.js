@@ -37,6 +37,7 @@ import {
     showChannelFiles,
     showMentions,
     closeRightHandSide,
+    showChannelMembers,
 } from 'actions/views/rhs';
 import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from 'selectors/views/custom_status';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
@@ -69,7 +70,7 @@ function makeMapStateToProps() {
             dmUser = getUser(state, dmUserId);
             customStatus = dmUser && getCustomStatus(state, dmUser.id);
         } else if (channel && channel.type === General.GM_CHANNEL) {
-            gmMembers = doGetProfilesInChannel(state, channel.id, false);
+            gmMembers = doGetProfilesInChannel(state, channel.id);
         }
         const stats = getCurrentChannelStats(state) || EMPTY_CHANNEL_STATS;
 
@@ -77,6 +78,7 @@ function makeMapStateToProps() {
             teamId: getCurrentTeamId(state),
             channel,
             channelMember: getMyCurrentChannelMembership(state),
+            memberCount: stats.member_count,
             currentUser: user,
             dmUser,
             gmMembers,
@@ -114,6 +116,7 @@ const mapDispatchToProps = (dispatch) => ({
         goToLastViewedChannel,
         openModal,
         closeModal,
+        showChannelMembers,
     }, dispatch),
 });
 

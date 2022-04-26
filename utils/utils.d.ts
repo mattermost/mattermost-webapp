@@ -43,6 +43,7 @@ export function replaceHtmlEntities(text: string): string;
 export function isGIFImage(extin: string): boolean;
 export function getFileType(extin: string): string;
 export function getFileIconPath(fileInfo: FileInfo): string;
+export function getCompassIconClassName(fileTypeIn: string, outline?: boolean, large?: boolean): string;
 export function getIconClassName(fileTypeIn: string): string;
 export function getMenuItemIcon(name: string, dangerous?: boolean): React.ReactNode;
 

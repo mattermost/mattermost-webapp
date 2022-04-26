@@ -5,7 +5,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeam, getCurrentTeamId, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannel, getChannelsInCurrentTeam, getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
 import {haveIChannelPermission, haveICurrentTeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
@@ -18,7 +18,11 @@ import {Permissions} from 'mattermost-redux/constants';
 import {CloseModalType} from 'actions/views/modals';
 import {Constants} from 'utils/constants';
 import {isAdmin} from 'mattermost-redux/utils/user_utils';
-import {sendMembersInvites, sendGuestsInvites} from 'actions/invite_actions';
+import {
+    sendMembersInvites,
+    sendGuestsInvites,
+    sendMembersInvitesToChannels,
+} from 'actions/invite_actions';
 import {makeAsyncComponent} from 'components/async_load';
 
 import {Channel} from 'mattermost-redux/types/channels';
@@ -41,14 +45,19 @@ const searchChannels = (teamId: string, term: string) => {
     return reduxSearchChannels(teamId, term);
 };
 
-export function mapStateToProps(state: GlobalState) {
+type OwnProps = {
+    channelToInvite?: Channel;
+}
+
+export function mapStateToProps(state: GlobalState, props: OwnProps) {
     const config = getConfig(state);
     const license = getLicense(state);
     const channels = getChannelsInCurrentTeam(state);
     const channelsByName = getChannelsNameMapInCurrentTeam(state);
     const townSquareDisplayName = channelsByName[Constants.DEFAULT_CHANNEL]?.display_name || Constants.DEFAULT_CHANNEL_UI_NAME;
 
-    const currentTeam = getCurrentTeam(state);
+    const currentTeamId = getCurrentTeamId(state);
+    const currentTeam = currentTeamId === '' && props.channelToInvite ? getTeam(state, props.channelToInvite.team_id) : getCurrentTeam(state);
     const currentChannel = getCurrentChannel(state);
     const invitableChannels = channels.filter((channel) => {
         if (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL) {
@@ -84,6 +93,7 @@ export function mapStateToProps(state: GlobalState) {
 type Actions = {
     sendGuestsInvites: (teamId: string, channels: Channel[], users: UserProfile[], emails: string[], message: string) => Promise<{data: InviteResults}>;
     sendMembersInvites: (teamId: string, users: UserProfile[], emails: string[]) => Promise<{data: InviteResults}>;
+    sendMembersInvitesToChannels: (channels: Channel[], teamId: string, users: UserProfile[], emails: string[], message: string) => Promise<{data: InviteResults}>;
     regenerateTeamInviteId: (teamId: string) => void;
     searchProfiles: (term: string, options?: Record<string, string>) => Promise<{data: UserProfile[]}>;
     searchChannels: (teamId: string, term: string) => ActionFunc;
@@ -94,6 +104,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | CloseModalType>, Actions>({
             sendGuestsInvites,
             sendMembersInvites,
+            sendMembersInvitesToChannels,
             regenerateTeamInviteId,
             searchProfiles,
             searchChannels,
