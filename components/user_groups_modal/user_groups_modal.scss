@@ -12,42 +12,10 @@
         border-radius: 8px;
 
         .modal-header {
-            display: flex;
-            min-height: 0;
-            align-items: center;
-            padding: 24px 24px;
-            border: none;
-            background: transparent;
-            color: inherit;
-
             h1#createGroupsModalTitleWithBack,
             h1#updateGroupsModalTitle,
             h1#addUsersToGroupsModalLabel {
                 margin-left: 44px;
-            }
-
-            button.modal-header-back-button {
-                position: absolute;
-                left: 18px;
-                width: 4rem;
-                height: 4rem;
-                color: rgba(var(--center-channel-color-rgb), 0.56);
-                float: left;
-
-                &:hover {
-                    color: rgba(var(--center-channel-color-rgb), 0.72);
-                }
-
-                &:active {
-                    background-color: rgba(var(--button-bg-rgb), 0.08);
-                    color: var(--button-bg);
-                }
-
-                i {
-                    display: inline;
-                    font-size: 24px;
-                    line-height: 24px;
-                }
             }
 
             button.user-groups-create {
@@ -71,35 +39,6 @@
                     box-shadow: inset 0 0 0 2px var(--sidebar-text-active-border);
                     outline: none;
                 }
-            }
-
-            .close {
-                right: 18px;
-                width: 4rem;
-                height: 4rem;
-                margin-top: 0;
-                color: rgba(var(--center-channel-color-rgb), 0.56);
-                font-size: 32px;
-                font-weight: normal;
-                line-height: 30px;
-
-                &:hover {
-                    background: rgba(var(--center-channel-color-rgb), 0.08);
-                    border-radius: 4px;
-                    color: rgba(var(--center-channel-color-rgb), 0.72);
-                    fill: rgba(var(--center-channel-color-rgb), 0.72);
-                }
-
-                &:active {
-                    background-color: rgba(var(--button-bg-rgb), 0.08);
-                    color: var(--button-bg);
-                }
-            }
-
-            .modal-title {
-                color: inherit;
-                font-size: 22px;
-                line-height: 28px;
             }
         }
     }
