@@ -42,10 +42,12 @@ describe('Limits', () => {
         // initial render
         spy.mockImplementationOnce(() => true);
         spy.mockImplementationOnce(() => limits);
+        spy.mockImplementationOnce(() => true);
 
         // after effect
         spy.mockImplementationOnce(() => true);
         spy.mockImplementationOnce(() => limits);
+        spy.mockImplementationOnce(() => true);
         renderWithIntl(<Limits/>);
         screen.getByText('Message History');
         screen.getByText(/of 10K/);
@@ -58,10 +60,12 @@ describe('Limits', () => {
         // initial render
         spy.mockImplementationOnce(() => true);
         spy.mockImplementationOnce(() => limits);
+        spy.mockImplementationOnce(() => true);
 
         // after effect
         spy.mockImplementationOnce(() => true);
         spy.mockImplementationOnce(() => limits);
+        spy.mockImplementationOnce(() => true);
         renderWithIntl(<Limits/>);
         screen.getByText('File Storage');
         screen.getByText(/of 10GB/);
@@ -76,10 +80,12 @@ describe('Limits', () => {
         // initial render
         spy.mockImplementationOnce(() => true);
         spy.mockImplementationOnce(() => limits);
+        spy.mockImplementationOnce(() => true);
 
         // after effect
         spy.mockImplementationOnce(() => true);
         spy.mockImplementationOnce(() => limits);
+        spy.mockImplementationOnce(() => true);
         renderWithIntl(<Limits/>);
         expect(mockGetLimits).toHaveBeenCalled();
     });
@@ -93,10 +99,12 @@ describe('Limits', () => {
         // initial render
         spy.mockImplementationOnce(() => false);
         spy.mockImplementationOnce(() => limits);
+        spy.mockImplementationOnce(() => false);
 
         // after effect
         spy.mockImplementationOnce(() => false);
         spy.mockImplementationOnce(() => limits);
+        spy.mockImplementationOnce(() => false);
         renderWithIntl(<Limits/>);
         expect(mockGetLimits).not.toHaveBeenCalled();
     });
