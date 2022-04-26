@@ -154,8 +154,8 @@ describe('Message', () => {
         // # Click on Preview
         cy.get('#previewLink').click();
 
-        // # Click on Reply
-        cy.uiReply();
+        // # Reply with enter
+        cy.type('{enter}');
 
         // * Focus to remain in the RHS text box
         cy.get('#reply_textbox').should('be.focused');

@@ -52,22 +52,6 @@ declare namespace Cypress {
         isExpanded(): Chainable;
 
         /**
-         * Get "Reply" button
-         *
-         * @example
-         *   cy.uiGetReply();
-         */
-        uiGetReply(): Chainable;
-
-        /**
-         * Reply by clicking "Reply" button
-         *
-         * @example
-         *   cy.uiReply();
-         */
-        uiReply(): Chainable;
-
-        /**
          * Get RHS container
          *
          *  @param {bool} option.visible - Set to false to check whether Search container at RHS is not visible. Otherwise, true (default) to check visibility.
