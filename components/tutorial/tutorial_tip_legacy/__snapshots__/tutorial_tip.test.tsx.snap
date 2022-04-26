@@ -32,6 +32,7 @@ exports[`components/tutorial/tutorial_tip_legacy/tutorial_tip_legacy should matc
   >
     <div
       className="tip-overlay "
+      data-testid="current_tutorial_tip"
     >
       <div
         className="arrow"
@@ -46,6 +47,7 @@ exports[`components/tutorial/tutorial_tip_legacy/tutorial_tip_legacy should matc
         </h4>
         <button
           className="tutorial-tip__header__close"
+          data-testid="close_tutorial_tip"
           onClick={[Function]}
         >
           <i
