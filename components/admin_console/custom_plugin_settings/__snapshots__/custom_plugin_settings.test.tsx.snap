@@ -161,7 +161,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
               />
             }
             setByEnv={false}
-            value=""
+            value="option3"
           />
           <Connect(UserAutocompleteSetting)
             disabled={false}
@@ -176,7 +176,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             label="Setting Six"
             onChange={[Function]}
             placeholder="Type a username here"
-            value=""
+            value="option4"
           />
           <div
             className="banner"
