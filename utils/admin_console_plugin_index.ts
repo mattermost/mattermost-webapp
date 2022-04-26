@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {stripMarkdown} from 'utils/markdown';
-import getEnablePluginSetting from 'components/admin_console/custom_plugin_settings/enable_plugin_setting';
+import getEnablePluginSetting, {EnabledPluginSetting} from 'components/admin_console/custom_plugin_settings/enable_plugin_setting';
 import {PluginRedux, PluginSetting} from 'mattermost-redux/types/plugins';
 
 function extractTextsFromPlugin(plugin: PluginRedux) {
@@ -33,9 +33,9 @@ function extractTextsFromPlugin(plugin: PluginRedux) {
     return texts;
 }
 
-function extractTextFromSetting(setting: PluginSetting) {
+// todo fix setting type
+function extractTextFromSetting(setting: EnabledPluginSetting | PluginSetting) {
     const texts = [];
-    // todo label exist and coming from getEnablePluginSetting, so after getEnablePluginSetting is migrated use same type PluginSetting OR EnabledPluginSetting
     if (setting.label) {
         texts.push(setting.label);
     }
