@@ -43,11 +43,11 @@ const InsightsCard = (props: Props) => {
                         {props.subTitle}
                     </div>
                 </div>
-                <button className='icon'>
-                    <Icon
-                        size={16}
-                        glyph={'chevron-right'}
-                    />
+                <button 
+                    className='icon'
+                    onClick={props.onClick}
+                >
+                    <i className='icon icon-chevron-right'/>
                 </button>
             </CardHeader>
             <div
