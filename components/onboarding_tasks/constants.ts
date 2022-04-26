@@ -18,7 +18,6 @@ export const OnboardingTasksName = {
 };
 
 export const OnboardingTaskList = {
-    ONBOARDING_TASK_LIST_INIT: 'onboarding_task_list_init',
     ONBOARDING_TASK_LIST_OPEN: 'onboarding_task_list_open',
     ONBOARDING_TASK_LIST_SHOW: 'onboarding_task_list_show',
     ONBOARDING_VIDEO_MODAL: 'onboarding_video_modal',

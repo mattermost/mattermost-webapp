@@ -125,7 +125,8 @@ export default class Root extends React.PureComponent {
         products: PropTypes.array,
         showTaskList: PropTypes.bool,
         showLaunchingWorkspace: PropTypes.bool,
-        preferences: PropTypes.object,
+        firstTimeOnboarding: PropTypes.bool,
+        userId: PropTypes.string,
     }
 
     constructor(props) {
@@ -281,40 +282,12 @@ export default class Root extends React.PureComponent {
                 prevProps.history.push('/terms_of_service');
             }
         }
-    }
-
-    initOnboardingTaskListForAllUsers = async () => {
-        const currentUser = getCurrentUser(store.getState());
-        const {preferences} = this.props;
-
-        const hasUserStartedOnboarding = preferences.some((pref) =>
-            pref.name === OnboardingTaskList.ONBOARDING_TASK_LIST_INIT && pref.value === 'true');
-
-        if (!hasUserStartedOnboarding) {
-        // check if the onboarding has been initialized, if not save to preferences the show/open-task-list to true
-        // and save the init onboarding, so next time it doesn't get into this condition
-            await this.props.actions.savePreferences(currentUser.id, [
-                {
-                    category: OnboardingTaskCategory,
-                    user_id: currentUser.id,
-                    name: OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW,
-                    value: 'true',
-                },
-                {
-                    user_id: currentUser.id,
-                    category: OnboardingTaskCategory,
-                    name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
-                    value: 'true',
-                },
-                {
-                    category: OnboardingTaskCategory,
-                    user_id: currentUser.id,
-                    name: OnboardingTaskList.ONBOARDING_TASK_LIST_INIT,
-                    value: 'true',
-                },
-            ]);
+        if (prevProps.userId !== this.props.userId) {
+            if (this.props.firstTimeOnboarding) {
+                this.initOnboardingPrefs();
+            }
         }
-    };
+    }
 
     async redirectToOnboardingOrDefaultTeam() {
         const storeState = store.getState();
@@ -365,7 +338,6 @@ export default class Root extends React.PureComponent {
         }
 
         this.onConfigLoaded();
-        this.initOnboardingTaskListForAllUsers();
     }
 
     componentDidMount() {
@@ -408,6 +380,24 @@ export default class Root extends React.PureComponent {
         } else {
             window.removeEventListener('resize', this.handleWindowResizeEvent);
         }
+    }
+
+    initOnboardingPrefs = async () => {
+        // save to preferences the show/open-task-list to true
+        await this.props.actions.savePreferences(this.props.userId, [
+            {
+                category: OnboardingTaskCategory,
+                user_id: this.props.userId,
+                name: OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW,
+                value: 'true',
+            },
+            {
+                user_id: this.props.userId,
+                category: OnboardingTaskCategory,
+                name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
+                value: 'true',
+            },
+        ]);
     }
 
     handleLogoutLoginSignal = (e) => {
