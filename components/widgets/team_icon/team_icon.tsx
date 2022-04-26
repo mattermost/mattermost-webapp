@@ -3,6 +3,7 @@
 
 import React from 'react';
 import classNames from 'classnames';
+import {injectIntl, IntlShape} from 'react-intl';
 
 import {Team} from 'mattermost-redux/types/teams';
 
@@ -30,6 +31,9 @@ type Props = {
 
     /** Whether to add additional classnames */
     className?: string;
+
+    /** react-intl helper object */
+    intl: IntlShape;
 };
 
 /**
@@ -38,12 +42,13 @@ type Props = {
  */
 export class TeamIcon extends React.PureComponent<Props> {
     public static defaultProps = {
-        size: 'sm',
-    };
+        size: 'sm' as const,
+    }
 
     public render() {
         const {content, url, size, withHover, className} = this.props;
         const hoverCss = withHover ? '' : 'no-hover';
+        const {formatMessage} = this.props.intl;
 
         // FIXME Nowhere does imageURLForTeam seem to check for display_name.
         const teamIconUrl = url || imageURLForTeam({display_name: content} as Team);
@@ -54,7 +59,14 @@ export class TeamIcon extends React.PureComponent<Props> {
                     <div
                         data-testid='teamIconImage'
                         className={`TeamIcon__image TeamIcon__${size}`}
-                        aria-label={`${content} Team Image`}
+                        aria-label={
+                            formatMessage({
+                                id: 'sidebar.team_menu.button.teamImage',
+                                defaultMessage: '{teamName} Team Image',
+                            }, {
+                                teamName: content,
+                            })
+                        }
                         style={{backgroundImage: `url('${teamIconUrl}')`}}
                         role={'img'}
                     />
@@ -64,7 +76,14 @@ export class TeamIcon extends React.PureComponent<Props> {
                     <div
                         data-testid='teamIconInitial'
                         className={`TeamIcon__initials TeamIcon__initials__${size}`}
-                        aria-label={`${content} Team Initials`}
+                        aria-label={
+                            formatMessage({
+                                id: 'sidebar.team_menu.button.teamInitials',
+                                defaultMessage: '{teamName} Team Initials',
+                            }, {
+                                teamName: content,
+                            })
+                        }
                         role={'img'}
                     >
                         {content ? content.replace(/\s/g, '').substring(0, 2) : '??'}
@@ -84,4 +103,4 @@ export class TeamIcon extends React.PureComponent<Props> {
     }
 }
 
-export default TeamIcon;
+export default injectIntl(TeamIcon);
