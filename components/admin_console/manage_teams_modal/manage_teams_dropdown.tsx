@@ -5,15 +5,15 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-import MenuWrapper from 'components/widgets/menu/menu_wrapper';
-import Menu from 'components/widgets/menu/menu';
-
-import * as Utils from 'utils/utils.jsx';
-
-import * as UserUtils from 'mattermost-redux/utils/user_utils';
+import {isAdmin, isSystemAdmin, isGuest} from 'mattermost-redux/utils/user_utils';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 import {ActionResult} from 'mattermost-redux/types/actions';
+
+import {localizeMessage} from 'utils/utils.jsx';
+
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import Menu from 'components/widgets/menu/menu';
 
 type Props = {
     team: Team;
@@ -55,20 +55,20 @@ const ManageTeamsDropdown = (props: Props) => {
 
     const removeFromTeam = () => props.handleRemoveUserFromTeam(props.teamMember.team_id);
 
-    const isTeamAdmin = UserUtils.isAdmin(props.teamMember.roles) || props.teamMember.scheme_admin;
-    const isSysAdmin = UserUtils.isSystemAdmin(props.user.roles);
-    const isGuest = UserUtils.isGuest(props.user.roles);
+    const isTeamAdmin = isAdmin(props.teamMember.roles) || props.teamMember.scheme_admin;
+    const isSysAdmin = isSystemAdmin(props.user.roles);
+    const isGuestUser = isGuest(props.user.roles);
 
     const {team} = props;
     let title;
     if (isSysAdmin) {
-        title = Utils.localizeMessage('admin.user_item.sysAdmin', 'System Admin');
+        title = localizeMessage('admin.user_item.sysAdmin', 'System Admin');
     } else if (isTeamAdmin) {
-        title = Utils.localizeMessage('admin.user_item.teamAdmin', 'Team Admin');
-    } else if (isGuest) {
-        title = Utils.localizeMessage('admin.user_item.guest', 'Guest');
+        title = localizeMessage('admin.user_item.teamAdmin', 'Team Admin');
+    } else if (isGuestUser) {
+        title = localizeMessage('admin.user_item.guest', 'Guest');
     } else {
-        title = Utils.localizeMessage('admin.user_item.teamMember', 'Team Member');
+        title = localizeMessage('admin.user_item.teamMember', 'Team Member');
     }
 
     return (
@@ -79,22 +79,22 @@ const ManageTeamsDropdown = (props: Props) => {
             </a>
             <Menu
                 openLeft={true}
-                ariaLabel={Utils.localizeMessage('team_members_dropdown.menuAriaLabel', 'Change the role of a team member')}
+                ariaLabel={localizeMessage('team_members_dropdown.menuAriaLabel', 'Change the role of a team member')}
             >
                 <Menu.ItemAction
-                    show={!isTeamAdmin && !isGuest}
+                    show={!isTeamAdmin && !isGuestUser}
                     onClick={makeTeamAdmin}
-                    text={Utils.localizeMessage('admin.user_item.makeTeamAdmin', 'Make Team Admin')}
+                    text={localizeMessage('admin.user_item.makeTeamAdmin', 'Make Team Admin')}
                 />
                 <Menu.ItemAction
                     show={isTeamAdmin}
                     onClick={makeMember}
-                    text={Utils.localizeMessage('admin.user_item.makeMember', 'Make Team Member')}
+                    text={localizeMessage('admin.user_item.makeMember', 'Make Team Member')}
                 />
                 <Menu.ItemAction
                     show={!team.group_constrained}
                     onClick={removeFromTeam}
-                    text={Utils.localizeMessage('team_members_dropdown.leave_team', 'Remove from Team')}
+                    text={localizeMessage('team_members_dropdown.leave_team', 'Remove from Team')}
                 />
             </Menu>
         </MenuWrapper>
