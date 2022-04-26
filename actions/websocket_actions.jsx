@@ -17,8 +17,8 @@ import {
     IntegrationTypes,
     PreferenceTypes,
     AppsTypes,
+    CloudTypes,
 } from 'mattermost-redux/action_types';
-import {Limits} from '@mattermost/types/cloud';
 import {WebsocketEvents, General, Permissions, Preferences} from 'mattermost-redux/constants';
 import {addChannelToInitialCategory, fetchMyCategories, receivedCategoryOrder} from 'mattermost-redux/actions/channel_categories';
 import {
@@ -1496,12 +1496,13 @@ function handleCloudPaymentStatusUpdated() {
     return (doDispatch) => doDispatch(getCloudSubscription());
 }
 
-function handleCloudProductLimitsChanged(msg) {
-    console.log("LIMITS CHANGED", msg.data);
-    return (doDispatch) => doDispatch({
-        type: CloudTypes.RECEIVED_CLOUD_LIMITS,
-        data: msg.data,
-    });
+export function handleCloudProductLimitsChanged(msg) {
+    return (doDispatch) => {
+        return doDispatch({
+            type: CloudTypes.RECEIVED_CLOUD_LIMITS,
+            data: msg.data.limits,
+        });
+    };
 }
 
 function handleRefreshAppsBindings() {

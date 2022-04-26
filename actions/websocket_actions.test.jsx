@@ -6,7 +6,7 @@ import {
     getThreadsForPosts,
     receivedNewPost,
 } from 'mattermost-redux/actions/posts';
-import {ChannelTypes, UserTypes} from 'mattermost-redux/action_types';
+import {ChannelTypes, UserTypes, CloudTypes} from 'mattermost-redux/action_types';
 import {
     getMissingProfilesByIds,
     getStatusesByIds,
@@ -42,6 +42,7 @@ import {
     reconnect,
     handleAppsPluginEnabled,
     handleAppsPluginDisabled,
+    handleCloudProductLimitsChanged,
 } from './websocket_actions';
 
 jest.mock('mattermost-redux/actions/posts', () => ({
@@ -763,6 +764,44 @@ describe('handleChannelUpdatedEvent', () => {
         testStore.dispatch(handleChannelUpdatedEvent(msg));
 
         expect(browserHistory.replace).not.toHaveBeenCalled();
+    });
+});
+
+describe('handleCloudProductLimitsChanged', () => {
+    test('entirely replaces cloud limits in store', () => {
+        const initialState = {
+            entities: {
+                cloud: {
+                    limits: {
+                        messages: {
+                            history: 10000,
+                        },
+                        integrations: {
+                            enabled: 10,
+                        },
+                    },
+                },
+            },
+        };
+        const newLimits = {
+            messages: {
+                history: 10001,
+            },
+        };
+        const msg = {
+            event: SocketEvents.CLOUD_PRODUCT_LIMITS_CHANGED,
+            data: {
+                limits: newLimits,
+            },
+        };
+
+        const testStore = configureStore(initialState);
+        testStore.dispatch(handleCloudProductLimitsChanged(msg));
+
+        expect(testStore.getActions()).toContainEqual({
+            type: CloudTypes.RECEIVED_CLOUD_LIMITS,
+            data: newLimits,
+        });
     });
 });
 
