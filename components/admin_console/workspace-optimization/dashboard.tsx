@@ -11,6 +11,7 @@ import styled from 'styled-components';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 import {getServerVersion} from 'mattermost-redux/selectors/entities/general';
+import {Client4} from 'mattermost-redux/client';
 import Accordion, {AccordionItemType} from 'components/common/accordion/accordion';
 
 import {elasticsearchTest, ldapTest, testSiteURL} from '../../../actions/admin_actions';
@@ -98,14 +99,14 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
             return Promise.resolve();
         }
 
-        const result = await fetch('/api/v4/data_retention/policies?page=0&per_page=0').then((result) => result.json());
+        const result = await fetch(`${Client4.getBaseRoute()}/data_retention/policies?page=0&per_page=0`).then((result) => result.json());
 
         setDataRetentionStatus(result.total_count > 0 ? ItemStatus.OK : ItemStatus.INFO);
         return Promise.resolve();
     };
 
     const fetchVersion = async () => {
-        const result = await fetch('/api/v4/latest_version').then((result) => result.json());
+        const result = await fetch(`${Client4.getBaseRoute()}/latest_version`).then((result) => result.json());
 
         if (result.tag_name) {
             const sanitizedVersion = result.tag_name.startsWith('v') ? result.tag_name.slice(1) : result.tag_name;
@@ -173,7 +174,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     // @see discussion here: https://github.com/mattermost/mattermost-webapp/pull/9822#discussion_r806879385
     // const fetchGuestAccounts = async () => {
     //     if (TeamSettings?.EnableOpenServer && GuestAccountsSettings?.Enable) {
-    //         let usersArray = await fetch('/api/v4/users/invalid_emails').then((result) => result.json());
+    //         let usersArray = await fetch(`${Client4.getBaseRoute()}/users/invalid_emails`).then((result) => result.json());
     //
     //         // this setting is just a string with a list of domains, or an empty string
     //         if (GuestAccountsSettings?.RestrictCreationToDomains) {
