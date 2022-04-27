@@ -64,7 +64,7 @@ const TimeFrameDropdown = (props: Props) => {
     return (
         <ReactSelect
             className='react-select react-select-top'
-            classNamePrefix='react-select-insights-temporal'
+            classNamePrefix='react-select'
             id='insightsTemporal'
             menuPortalTarget={document.body}
             styles={reactStyles}
