@@ -3396,7 +3396,7 @@
   "help.formatting.intro": "Kod imlerini kullanmak iletileri kolayca biçimlendirmenizi sağlar. İletinizi normal bir şekilde yazın ve özel olarak biçimlendirmek için şu yazım seçeneklerini kullanın.",
   "help.formatting.lines.description": "`*`, `_` ya da `-` kullanarak bir satır oluşturabilirsiniz.",
   "help.formatting.lines.title": "Satırlar",
-  "help.formatting.linkEx": "<link>Mattermost hakkında bilgi alın!</link>(https://mattermost.com/)",
+  "help.formatting.linkEx": "[Mattermost hakkında bilgi alın!](https://mattermost.com/)",
   "help.formatting.links.description": "İstediğiniz metni köşeli parantez ve ilgili bağlantıyı normal parantez içine alarak etiketlenmiş bağlantılar oluşturabilirsiniz.",
   "help.formatting.links.title": "Bağlantılar",
   "help.formatting.listExample": "* birinci liste ögesi\n* ikinci liste ögesi\n    * ikinci öge alt ögesi",
