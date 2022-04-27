@@ -2590,7 +2590,7 @@
   "help.formatting.intro": "L'uso dei mark semplifica la formattazione dei messaggi. Scrivere un messaggio normalmente e usare queste regole per formattarlo in maniera speciale.",
   "help.formatting.lines.description": "Creare una linea usando tre `*`, `_`, o `-`.",
   "help.formatting.lines.title": "Linee",
-  "help.formatting.linkEx": "<link>Scopri Mattermost!</link>(https://mattermost.com/)",
+  "help.formatting.linkEx": "[Scopri Mattermost!](https://mattermost.com/)",
   "help.formatting.links.description": "Creare dei collegamenti etichettati inserendo il testo tra parentesi quadre e il relativo collegamento tra parentesi tonde.",
   "help.formatting.links.title": "Collegamenti",
   "help.formatting.listExample": "* primo elemento\n* secondo elemento\n    * primo sottoelemento",
