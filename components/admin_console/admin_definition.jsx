@@ -2756,7 +2756,6 @@ const AdminDefinition = {
                         label_default: 'Enable End User Notices: ',
                         help_text: t('admin.notices.enableEndUserNoticesDescription'),
                         help_text_default: 'When enabled, all users will receive notices about available client upgrades and relevant end user features to improve user experience. <link>Learn more about notices</link> in our documentation.',
-                        help_text_markdown: true,
                         help_text_values: {
                             link: (msg) => (
                                 <a
