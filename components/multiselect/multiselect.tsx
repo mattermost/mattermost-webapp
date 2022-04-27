@@ -559,7 +559,7 @@ const styles = {
         return {
             display: 'flex',
             overflow: 'hidden',
-            flex: 'auto'
+            flex: 'auto',
         };
     },
 };
