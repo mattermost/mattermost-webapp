@@ -717,7 +717,7 @@ export default class SwitchChannelProvider extends Provider {
         }));
     }
 
-    limitChannelsAmount(result, limit = 10) {
+    limitChannelsAmount(result, limit = 50) {
         return {
             ...result,
             terms: result.terms.slice(0, limit),
