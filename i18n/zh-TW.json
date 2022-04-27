@@ -2587,7 +2587,7 @@
   "help.formatting.intro": "Markdown 讓設定訊息格式變得非常輕鬆。您只須如同平時一樣的輸入訊息，然後用以下的規則賦予其特定格式。",
   "help.formatting.lines.description": "用 3 個 `*`、`_` 或 `-` 來建立一條線。",
   "help.formatting.lines.title": "線",
-  "help.formatting.linkEx": "<link>看看 Mattermost!</link>(https://mattermost.com/)",
+  "help.formatting.linkEx": "[看看 Mattermost!](https://mattermost.com/)",
   "help.formatting.links.description": "將想顯示的文字放入方括號跟對應的連結放入括號以建立連結。",
   "help.formatting.links.title": "連結",
   "help.formatting.listExample": "* 列表項目一\n* 列表項目二\n    * 項目二子項目",

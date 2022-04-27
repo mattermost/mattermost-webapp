@@ -44,11 +44,11 @@ function CollapsedReplyThreadsBetaModal(props: Props) {
                     title={(
                         <FormattedMessage
                             id='collapsed_reply_threads_beta_modal.banner.title'
-                            defaultMessage='Please  <link>review the list of known issues</link>as we work on stabilizing the feature.'
+                            defaultMessage='Please <link>review the list of known issues</link> as we work on stabilizing the feature.'
                             values={{
                                 link: (msg: React.ReactNode) => (
                                     <a
-                                        href='https://docs.mattermost.com/messaging/organizing-conversations.html'
+                                        href='https://docs.mattermost.com/messaging/organizing-conversations.html#known-issues'
                                         target='_blank'
                                         rel='noreferrer'
                                     >

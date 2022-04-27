@@ -1175,7 +1175,6 @@ const AdminDefinition = {
                         label: t('admin.image.amazonS3SSETitle'),
                         label_default: 'Enable Server-Side Encryption for Amazon S3:',
                         help_text: t('admin.image.amazonS3SSEDescription'),
-                        help_text_markdown: true,
                         help_text_default: 'When true, encrypt files in Amazon S3 using server-side encryption with Amazon S3-managed keys. See <link>documentation</link> to learn more.',
                         help_text_values: {
                             link: (msg) => (
@@ -2756,7 +2755,6 @@ const AdminDefinition = {
                         label_default: 'Enable End User Notices: ',
                         help_text: t('admin.notices.enableEndUserNoticesDescription'),
                         help_text_default: 'When enabled, all users will receive notices about available client upgrades and relevant end user features to improve user experience. <link>Learn more about notices</link> in our documentation.',
-                        help_text_markdown: true,
                         help_text_values: {
                             link: (msg) => (
                                 <a
@@ -3761,7 +3759,6 @@ const AdminDefinition = {
                         label_default: 'Enable Synchronizing SAML Accounts With AD/LDAP:',
                         help_text: t('admin.saml.enableSyncWithLdapDescription'),
                         help_text_default: 'When true, Mattermost periodically synchronizes SAML user attributes, including user deactivation and removal, from AD/LDAP. Enable and configure synchronization settings at **Authentication > AD/LDAP**. When false, user attributes are updated from SAML during user login. See <link>documentation</link> to learn more.',
-                        help_text_markdown: true,
                         help_text_values: {
                             link: (msg) => (
                                 <a
@@ -5253,7 +5250,6 @@ const AdminDefinition = {
                         label_default: 'Enable Outgoing Webhooks: ',
                         help_text: t('admin.service.outWebhooksDesc'),
                         help_text_default: 'When true, outgoing webhooks will be allowed. See <link>documentation</link> to learn more.',
-                        help_text_markdown: true,
                         help_text_values: {
                             link: (msg) => (
                                 <a
@@ -5296,7 +5292,6 @@ const AdminDefinition = {
                         label_default: 'Enable OAuth 2.0 Service Provider: ',
                         help_text: t('admin.oauth.providerDescription'),
                         help_text_default: 'When true, Mattermost can act as an OAuth 2.0 service provider allowing Mattermost to authorize API requests from external applications. See <link>documentation</link> to learn more.',
-                        help_text_markdown: true,
                         help_text_values: {
                             link: (msg) => (
                                 <a
@@ -5339,7 +5334,7 @@ const AdminDefinition = {
                         help_text_values: {
                             link: (msg) => (
                                 <a
-                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-incoming/'
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/'
                                     referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
