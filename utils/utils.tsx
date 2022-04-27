@@ -61,6 +61,7 @@ import {getIsMobileView} from 'selectors/views/browser';
 import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
 import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
 
+import {FileInfo} from '@mattermost/types/files';
 import {Team} from '@mattermost/types/teams';
 import {Post} from '@mattermost/types/posts';
 import {UserProfile} from '@mattermost/types/users';
@@ -337,12 +338,6 @@ export const getFileType = (extin: string): typeof FileTypes[keyof typeof FileTy
 
     return FileTypes.OTHER;
 };
-
-interface FileInfo {
-    name: string;
-    extension: string;
-    size: number;
-}
 
 export function getFileIconPath(fileInfo: FileInfo) {
     const fileType = getFileType(fileInfo.extension) as keyof typeof Constants.ICON_FROM_TYPE;
@@ -1046,7 +1041,7 @@ export function isMobile() {
 export function loadImage(
     url: string,
     onLoad: ((this: XMLHttpRequest, ev: ProgressEvent) => any) | null,
-    onProgress?: ((this: XMLHttpRequest, ev: ProgressEvent) => any) | null,
+    onProgress?: (completedPercentage: number) => any | null,
 ) {
     const request = new XMLHttpRequest();
 
@@ -1191,12 +1186,12 @@ export function sortUsersByStatusAndDisplayName(users: UserProfile[], statusesBy
 /**
  * Gets the entire name, including username, full name, and nickname, of the specified user
  */
-export function displayEntireNameForUser(user: UserProfile): string | JSX.Element {
+export function displayEntireNameForUser(user: UserProfile): React.ReactNode {
     if (!user) {
         return '';
     }
 
-    let displayName: string | JSX.Element = '';
+    let displayName: React.ReactNode = '';
     const fullName = getFullName(user);
 
     if (fullName) {
