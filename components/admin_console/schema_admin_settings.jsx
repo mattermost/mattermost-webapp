@@ -383,6 +383,10 @@ export default class SchemaAdminSettings extends React.PureComponent {
 
     buildButtonSetting = (setting) => {
         const handleRequestAction = (success, error) => {
+            if (this.state.saveNeeded !== false) {
+                error({message: Utils.localizeMessage('admin_settings.save_unsaved_changes', 'Please save unsaved changes first')});
+                return;
+            }
             const successCallback = (data) => {
                 const metadata = new Map(Object.entries(data));
                 const settings = (this.props.schema && this.props.schema.settings) || [];
