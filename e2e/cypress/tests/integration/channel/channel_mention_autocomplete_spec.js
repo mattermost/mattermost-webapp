@@ -19,8 +19,8 @@ describe('Channel', () => {
     let testUser;
     let offTopicUrl;
 
-    const myChannelsDividerText = 'MY CHANNELS';
-    const otherChannelsDividerText = 'OTHER CHANNELS';
+    const myChannelsDividerText = 'My Channels';
+    const otherChannelsDividerText = 'Other Channels';
 
     before(() => {
         // # Login as new user and visit off-topic
@@ -48,13 +48,13 @@ describe('Channel', () => {
         // * Should match each channel item
         cy.get('#suggestionList').should('be.visible').children().within((el) => {
             // * Should render "MY CHANNELS" suggestion list divider
-            cy.wrap(el).eq(0).should('contain', myChannelsDividerText);
+            cy.wrap(el).eq(0).contains(myChannelsDividerText, {matchCase: false});
             cy.wrap(el).eq(1).should('contain', ownChannel.display_name);
             cy.wrap(el).eq(2).should('contain', 'Off-Topic');
             cy.wrap(el).eq(3).should('contain', 'Town Square');
 
             // * Should render "OTHER CHANNELS" suggestion list divider
-            cy.wrap(el).eq(4).should('contain', otherChannelsDividerText);
+            cy.wrap(el).eq(4).contains(otherChannelsDividerText, {matchCase: false});
             cy.wrap(el).eq(5).should('contain', otherChannel.display_name);
         });
     });
@@ -74,7 +74,7 @@ describe('Channel', () => {
         // * Should match each channel
         cy.get('#suggestionList').should('be.visible').children().within((el) => {
             // * Should render "MY CHANNELS" suggestion list divider
-            cy.wrap(el).eq(0).should('contain', myChannelsDividerText);
+            cy.wrap(el).eq(0).contains(myChannelsDividerText, {matchCase: false});
             cy.wrap(el).eq(1).should('contain', ownChannel.display_name);
             cy.wrap(el).eq(2).should('contain', otherChannel.display_name);
             cy.wrap(el).eq(3).should('contain', 'Off-Topic');
@@ -100,13 +100,13 @@ describe('Channel', () => {
             // * Should match each channel item
             cy.get('#suggestionList').should('be.visible').children().within((el) => {
                 // * Should render "MY CHANNELS" suggestion list divider
-                cy.wrap(el).eq(0).should('contain', myChannelsDividerText);
+                cy.wrap(el).eq(0).contains(myChannelsDividerText, {matchCase: false});
                 cy.wrap(el).eq(1).should('contain', ownChannel.display_name);
                 cy.wrap(el).eq(2).should('contain', 'Off-Topic');
                 cy.wrap(el).eq(3).should('contain', 'Town Square');
 
                 // * Should render "OTHER CHANNELS" suggestion list divider
-                cy.wrap(el).eq(4).should('contain', otherChannelsDividerText);
+                cy.wrap(el).eq(4).contains(otherChannelsDividerText, {matchCase: false});
                 cy.wrap(el).eq(5).should('contain', otherChannel.display_name);
             });
         });
