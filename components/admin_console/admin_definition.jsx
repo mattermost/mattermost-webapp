@@ -1175,7 +1175,6 @@ const AdminDefinition = {
                         label: t('admin.image.amazonS3SSETitle'),
                         label_default: 'Enable Server-Side Encryption for Amazon S3:',
                         help_text: t('admin.image.amazonS3SSEDescription'),
-                        help_text_markdown: true,
                         help_text_default: 'When true, encrypt files in Amazon S3 using server-side encryption with Amazon S3-managed keys. See <link>documentation</link> to learn more.',
                         help_text_values: {
                             link: (msg) => (
