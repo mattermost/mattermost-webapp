@@ -1039,7 +1039,7 @@
   "admin.image.amazonS3RegionDescription": "AWS регион, който сте избрали при създаването на вашят S3 bucket. Ако не е зададен регион, Mattermost се опитва да вземе съответния регион от AWS или го задава на \"us-east-1\", ако няма намерен такъв.",
   "admin.image.amazonS3RegionExample": "Например: \"us-east-1\"",
   "admin.image.amazonS3RegionTitle": "Регион на Amazon S3:",
-  "admin.image.amazonS3SSEDescription": "Когато е true, файловете се кодират в Amazon S3, използвайки криптиране от страна на сървъра с ключове, управлявани от Amazon S3. Вижте <link>документация</link> , за да научите повече.",
+  "admin.image.amazonS3SSEDescription": "Когато е true, файловете се кодират в Amazon S3, използвайки криптиране от страна на сървъра с ключове, управлявани от Amazon S3. Вижте <link>документация</link>, за да научите повече.",
   "admin.image.amazonS3SSETitle": "Разреши криптиране от страна на сървъра за Amazon S3:",
   "admin.image.amazonS3SSLDescription": "Когато е false, позволява несигурни връзки с Amazon S3. По подразбиране е само защитена връзки.",
   "admin.image.amazonS3SSLTitle": "Разреши защитени Amazon S3 връзки:",
