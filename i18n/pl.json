@@ -3351,7 +3351,7 @@
   "help.formatting.intro": "Markdown ułatwia formatowanie wiadomości. Wpisz wiadomość tak, jak zwykle, użyj opcji składni aby sformatować wiadomość według podanych zasad.",
   "help.formatting.lines.description": "Utwórz linię, używając trzech `*`, `_` lub` -`.",
   "help.formatting.lines.title": "Linie",
-  "help.formatting.linkEx": "<link>Wypróbuj Mattermost!</link>(https://mattermost.com/)",
+  "help.formatting.linkEx": "[Wypróbuj Mattermost!](https://mattermost.com/)",
   "help.formatting.links.description": "Twórz oznaczone linki, umieszczając żądany tekst w nawiasach kwadratowych i powiązanym odnośniku w normalnych nawiasach.",
   "help.formatting.links.title": "Linki",
   "help.formatting.listExample": "* pierwsza pozycja \n* druga pozycja \n    * podpunkt",
