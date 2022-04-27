@@ -11,6 +11,7 @@ type Plugin = {
     icon_path?: string;
     version: string;
     min_server_version?: string;
+    translate?: boolean;
     server?: PluginManifestServer;
     backend?: PluginManifestServer;
     webapp?: PluginManifestWebapp;
