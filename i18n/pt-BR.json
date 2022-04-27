@@ -2887,7 +2887,7 @@
   "help.formatting.intro": "Markdown torna fácil formatar mensagens. Digite uma mensagem como faria normalmente, e use essas regras para deixa-lá com formatação especial.",
   "help.formatting.lines.description": "Crie uma linha usando três `*`, `_`, ou `-`.",
   "help.formatting.lines.title": "Linhas",
-  "help.formatting.linkEx": "<link>Confira Mattermost!</link>(https://mattermost.com/)",
+  "help.formatting.linkEx": "[Confira Mattermost!](https://mattermost.com/)",
   "help.formatting.links.description": "Crie texto para links colocando o texto desejado entre colchetes e o link associado entre parênteses.",
   "help.formatting.links.title": "Links",
   "help.formatting.listExample": "* lista item um\n* lista item dois\n    * item dois sub-item",
