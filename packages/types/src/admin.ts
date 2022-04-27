@@ -52,6 +52,17 @@ export type AnalyticsRow = {
     value: number;
 };
 
+export type IndexedPluginAnalyticsRow = {
+    [key: string]: PluginAnalyticsRow;
+}
+
+export type PluginAnalyticsRow = {
+    id: string;
+    name: React.ReactNode;
+    icon: string;
+    value: number;
+};
+
 export type SchemaMigration = {
     version: number;
     name: string;
