@@ -3396,7 +3396,7 @@
   "help.formatting.intro": "Markdown macht es einfach, Nachrichten zu formatieren. Gebe eine Nachricht wie gewohnt ein und verwende dann die folgenden Syntaxoptionen, um deine Nachricht auf eine bestimmte Weise zu formatieren.",
   "help.formatting.lines.description": "Erstelle eine Linie durch drei `*`, `_`oder `-`.",
   "help.formatting.lines.title": "Linien",
-  "help.formatting.linkEx": "<link>Sieh dir mal Mattermost an!</link>",
+  "help.formatting.linkEx": "[Sieh dir mal Mattermost an!](https://mattermost.com/)",
   "help.formatting.links.description": "Erstelle benannte Links, indem du den gewünschten Text in eckigen Klammern vor dem dazugehörenden Link in regulären Klammern stellst.",
   "help.formatting.links.title": "Links",
   "help.formatting.listExample": "* Eintrag eins\n* Eintrag zwei\n    * Eintrag zwei Unterpunkt",
