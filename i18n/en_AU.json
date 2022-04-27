@@ -4429,7 +4429,7 @@
   "single_image_view.copy_link_tooltip": "Copy link",
   "single_image_view.download_tooltip": "Download",
   "someting.string": "defaultString",
-  "start_trial.modal.disclaimer": "By clicking 'Start 30-day trial', I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement,</linkEvaluation> <linkPrivacy>privacy policy,</linkPrivacy> and receiving product emails.",
+  "start_trial.modal.disclaimer": "By clicking 'Start 30-day trial', I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.",
   "start_trial.modal.failed": "Failed",
   "start_trial.modal.gettingTrial": "Getting Trial...",
   "start_trial.modal.loaded": "Loaded!",
