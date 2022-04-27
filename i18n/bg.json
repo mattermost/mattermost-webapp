@@ -3220,7 +3220,7 @@
   "help.formatting.intro": "Markdown улеснява форматирането на съобщения. Въведете съобщение както обикновено и използвайте тези правила, за да го визуализирате със специално форматиране.",
   "help.formatting.lines.description": "Създайте линия, като използвате три \"*\", \"_\" или \"-\".",
   "help.formatting.lines.title": "Редове",
-  "help.formatting.linkEx": "<link>Вижте Mattermost!</link>",
+  "help.formatting.linkEx": "[Вижте Mattermost!](https://mattermost.com/)",
   "help.formatting.links.description": "Създайте етикетирани връзки, като поставите желания текст в квадратни скоби и свързаната връзка в нормални скоби.",
   "help.formatting.links.title": "Връзки",
   "help.formatting.listExample": "* Елемент от списък едно\n* Елемент от списък две\n    * подточка на елемент две",
