@@ -11,6 +11,7 @@ import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 import {isSwitcherOpen} from 'selectors/views/product_menu';
+
 import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
 import {
     OnboardingTaskCategory,
@@ -57,7 +58,6 @@ const ProductMenu = (): JSX.Element => {
     const dispatch = useDispatch();
     const switcherOpen = useSelector(isSwitcherOpen);
     const menuRef = useRef<HTMLDivElement>(null);
-
     const currentProductID = useCurrentProductId(products);
 
     const handleClick = () => dispatch(setProductMenuSwitcherOpen(!switcherOpen));

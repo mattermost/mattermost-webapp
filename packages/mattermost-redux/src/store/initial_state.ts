@@ -190,7 +190,9 @@ const state: GlobalState = {
             },
             pluginEnabled: true,
         },
-        cloud: {},
+        cloud: {
+            limits: {},
+        },
     },
     errors: [],
     requests: {
