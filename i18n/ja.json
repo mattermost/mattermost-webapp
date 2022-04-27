@@ -3396,7 +3396,7 @@
   "help.formatting.intro": "Markdownを使うとメッセージの書式を簡単に設定することができます。通常通りメッセージを入力し、以下の構文オプションを使用してメッセージをフォーマットします。",
   "help.formatting.lines.description": "`*`か`_`か`-`を３つ使用することでラインを引くことができます。",
   "help.formatting.lines.title": "ライン",
-  "help.formatting.linkEx": "<link>Mattermostをチェックしてください!</link>(https://mattermost.com/)",
+  "help.formatting.linkEx": "[Mattermostをチェックしてください!](https://mattermost.com/)",
   "help.formatting.links.description": "角括弧で囲んだテキストと括弧で囲んだ関連するリンクを書くことでラベル付けされたリンクを作成できます。",
   "help.formatting.links.title": "リンク",
   "help.formatting.listExample": "* リスト項目1\n* リスト項目2\n    * 項目2の下位",
