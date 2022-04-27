@@ -3376,7 +3376,7 @@
   "help.formatting.intro": "A Markdown megkönnyíti az üzenetek formázását. Írjon be egy üzenetet a szokásos módon, és az alábbi formázási szintaktikákat használva alakítsa üzenetét a kívánt formára.",
   "help.formatting.lines.description": "Hozzon létre egy sor három `*`, `_`, vagy `-` használatával.",
   "help.formatting.lines.title": "Sorok",
-  "help.formatting.linkEx": "<link>Nézze meg a Mattermost-ot!</link>(https://mattermost.com/)",
+  "help.formatting.linkEx": "[Nézze meg a Mattermost-ot!](https://mattermost.com/)",
   "help.formatting.links.description": "Hozzon létre címkézett linkeket úgy, hogy a kívánt szöveget szögletes zárójelbe, a társított linket pedig normál zárójelbe teszi.",
   "help.formatting.links.title": "Linkek",
   "help.formatting.listExample": "* első tétel\n* második tétel\n     * második tétel alpont",
