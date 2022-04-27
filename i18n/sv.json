@@ -3313,7 +3313,7 @@
   "help.formatting.intro": "Markdown gör det enkelt att formatera meddelanden. Skriv ditt meddelande som vanligt och använd följande syntax för att formatera meddelandet.",
   "help.formatting.lines.description": "Skapa en linje genom att använda tre `*`, `_`, eller `-`.",
   "help.formatting.lines.title": "Rader",
-  "help.formatting.linkEx": "<link>Kolla in Mattermost!</link>(https://mattermost.com/)",
+  "help.formatting.linkEx": "[Kolla in Mattermost!](https://mattermost.com/)",
   "help.formatting.links.description": "Skapa länkar med titel genom att ange text i hakparenteser och länken mellan vanliga parenteser.",
   "help.formatting.links.title": "Länkar",
   "help.formatting.listExample": "* listpunkt ett\n* listpunkt två\n    * underpunkt till punkt två",
