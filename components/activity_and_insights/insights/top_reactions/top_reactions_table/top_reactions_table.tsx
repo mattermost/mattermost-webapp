@@ -13,10 +13,9 @@ import RenderEmoji from 'components/emoji/render_emoji';
 
 import {InsightsScopes} from 'utils/constants';
 import {GlobalState} from '@mattermost/types/store';
-import {getCurrentTeamId, getTopReactionsForCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getMyTopReactionsByTime} from 'mattermost-redux/selectors/entities/users';
-import {getTopReactionsForTeam} from 'mattermost-redux/actions/teams';
-import {getMyTopReactions} from 'mattermost-redux/actions/users';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getMyTopReactionsByTime, getTopReactionsForCurrentTeam} from 'mattermost-redux/selectors/entities/insights';
+import {getTopReactionsForTeam, getMyTopReactions} from 'mattermost-redux/actions/insights';
 
 import './../../../activity_and_insights.scss';
 

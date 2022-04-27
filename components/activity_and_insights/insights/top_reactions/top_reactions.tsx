@@ -6,12 +6,11 @@ import {FormattedMessage} from 'react-intl';
 
 import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 
-import {getTopReactionsForTeam} from 'mattermost-redux/actions/teams';
-import {getMyTopReactions} from 'mattermost-redux/actions/users';
-import {getCurrentTeamId, getTopReactionsForCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getMyTopReactionsByTime} from 'mattermost-redux/selectors/entities/users';
+import {getTopReactionsForTeam, getMyTopReactions} from 'mattermost-redux/actions/insights';
+import {getTopReactionsForCurrentTeam, getMyTopReactionsByTime} from 'mattermost-redux/selectors/entities/insights';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {TopReaction} from '@mattermost/types/reactions';
+import {TopReaction} from '@mattermost/types/insights';
 
 import {InsightsScopes} from 'utils/constants';
 

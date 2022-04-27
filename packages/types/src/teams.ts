@@ -2,8 +2,6 @@
 // See LICENSE.txt for license information.
 
 import {ServerError} from './errors';
-import {TimeFrame} from './insights';
-import {TopReaction} from './reactions';
 import {UserProfile} from './users';
 import {RelationOneToOne} from './utilities';
 
@@ -51,7 +49,6 @@ export type TeamsState = {
     stats: RelationOneToOne<Team, TeamStats>;
     groupsAssociatedToTeam: any;
     totalCount: number;
-    topReactions: Record<string, Record<TimeFrame, Record<string, TopReaction>>>;
 };
 
 export type TeamUnread = {
