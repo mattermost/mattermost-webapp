@@ -3761,7 +3761,6 @@ const AdminDefinition = {
                         label_default: 'Enable Synchronizing SAML Accounts With AD/LDAP:',
                         help_text: t('admin.saml.enableSyncWithLdapDescription'),
                         help_text_default: 'When true, Mattermost periodically synchronizes SAML user attributes, including user deactivation and removal, from AD/LDAP. Enable and configure synchronization settings at **Authentication > AD/LDAP**. When false, user attributes are updated from SAML during user login. See <link>documentation</link> to learn more.',
-                        help_text_markdown: true,
                         help_text_values: {
                             link: (msg) => (
                                 <a
