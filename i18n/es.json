@@ -3176,7 +3176,7 @@
   "help.formatting.intro": "Markdown hace que sea fácil para darle formato a los mensajes. Escribe un mensaje como lo harías normalmente, y el uso de estas reglas para hacerla con formato especial.",
   "help.formatting.lines.description": "Crea una línea mediante el uso de tres `*`, `_`, o `-`.",
   "help.formatting.lines.title": "Lineas",
-  "help.formatting.linkEx": "<link>Revisa Mattermost!</link>(https://mattermost.com/)",
+  "help.formatting.linkEx": "[Revisa Mattermost!](https://mattermost.com/)",
   "help.formatting.links.description": "Crea enlaces etiquetados al poner el texto deseado entre corchetes y el enlace asociado entre paréntesis.",
   "help.formatting.links.title": "Enlaces",
   "help.formatting.listExample": "* primer elemento de la lista\n* segundo elemento de la lista\n    * elemento de dos sub-puntos",
