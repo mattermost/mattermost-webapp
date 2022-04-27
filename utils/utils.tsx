@@ -9,7 +9,7 @@ import cssVars from 'css-vars-ponyfill';
 
 import moment from 'moment';
 
-import Constants, {FileTypes, UserStatuses, ValidationErrors} from 'utils/constants';
+import Constants, {FileTypes, ValidationErrors} from 'utils/constants';
 
 import {
     getChannel as getChannelAction,
@@ -90,11 +90,7 @@ export function isLinux() {
     return navigator.platform.toUpperCase().indexOf('LINUX') >= 0;
 }
 
-export function createSafeId(prop: {props: {defaultMessage: string}} | string | null): string | undefined {
-    if (prop === null) {
-        return undefined;
-    }
-
+export function createSafeId(prop: {props: {defaultMessage: string}} | string): string | undefined {
     let str = '';
 
     if (typeof prop !== 'string' && prop.props && prop.props.defaultMessage) {
@@ -134,7 +130,9 @@ export function isKeyPressed(event: React.KeyboardEvent | KeyboardEvent, key: [s
     return event.keyCode === key[1];
 }
 
-// check keydown event for line break combo. Should catch alt/option + enter not all browsers except Safari
+/**
+ * check keydown event for line break combo. Should catch alt/option + enter not all browsers except Safari
+ */
 export function isUnhandledLineBreakKeyCombo(e: React.KeyboardEvent | KeyboardEvent): boolean {
     return Boolean(
         isKeyPressed(e, Constants.KeyCodes.ENTER) &&
@@ -143,18 +141,20 @@ export function isUnhandledLineBreakKeyCombo(e: React.KeyboardEvent | KeyboardEv
     );
 }
 
-// insert a new line character at keyboard cursor (or overwrites selection)
-// WARNING: HAS DOM SIDE EFFECTS
-export function insertLineBreakFromKeyEvent(e: React.KeyboardEvent | any): string {
-    const el = e.target;
+/**
+ * insert a new line character at keyboard cursor (or overwrites selection)
+ * WARNING: HAS DOM SIDE EFFECTS
+ */
+export function insertLineBreakFromKeyEvent(e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>): string {
+    const el = e.target as HTMLInputElement | HTMLTextAreaElement;
     const {selectionEnd, selectionStart, value} = el;
 
     // replace text selection (or insert if no selection) with new line character
-    const newValue = `${value.substr(0, selectionStart)}\n${value.substr(selectionEnd, value.length)}`;
+    const newValue = `${value.substr(0, selectionStart!)}\n${value.substr(selectionEnd!, value.length)}`;
 
     // update value on DOM element immediately and restore key cursor to correct position
     el.value = newValue;
-    setSelectionRange(el, selectionStart + 1, selectionStart + 1);
+    setSelectionRange(el, selectionStart! + 1, selectionStart! + 1);
 
     // return the updated string so that component state can be updated
     return newValue;
@@ -271,13 +271,10 @@ export function replaceHtmlEntities(text: string) {
         '&gt;': '>',
     };
     let newtext = text;
-    for (const tag in tagsToReplace) {
-        // @ts-expect-error // TODO: resolve this typing and see if using function this is necessary
-        if (Reflect.apply({}.hasOwnProperty, this, [tagsToReplace, tag])) {
-            const regex = new RegExp(tag, 'g');
-            newtext = newtext.replace(regex, (tagsToReplace as any)[tag]);
-        }
-    }
+    Object.entries(tagsToReplace).forEach(([tag, replacement]) => {
+        const regex = new RegExp(tag, 'g');
+        newtext = newtext.replace(regex, replacement);
+    });
     return newtext;
 }
 
@@ -786,27 +783,6 @@ export function placeCaretAtEnd(el: HTMLInputElement | HTMLTextAreaElement) {
     el.selectionEnd = el.value.length;
 }
 
-export function getCaretPosition(el: HTMLInputElement | HTMLTextAreaElement) {
-    if (el.selectionStart) {
-        return el.selectionStart;
-    } else if ((document as any).selection) {
-        el.focus();
-
-        const r = (document as any).selection.createRange();
-        if (r == null) {
-            return 0;
-        }
-
-        const re = (el as any).createTextRange();
-        const rc = re.duplicate();
-        re.moveToBookmark(r.getBookmark());
-        rc.setEndPoint('EndToStart', re);
-
-        return rc.text.length;
-    }
-    return 0;
-}
-
 function createHtmlElement(el: keyof HTMLElementTagNameMap) {
     return document.createElement(el);
 }
@@ -962,17 +938,9 @@ export function getPxToSubstract(char = '@') {
     return 0;
 }
 
-export function setSelectionRange(input: HTMLInputElement, selectionStart: number, selectionEnd: number) {
-    if (input.setSelectionRange) {
-        input.focus();
-        input.setSelectionRange(selectionStart, selectionEnd);
-    } else if ((input as any).createTextRange) {
-        const range = (input as any).createTextRange();
-        range.collapse(true);
-        range.moveEnd('character', selectionEnd);
-        range.moveStart('character', selectionStart);
-        range.select();
-    }
+export function setSelectionRange(input: HTMLInputElement | HTMLTextAreaElement, selectionStart: number, selectionEnd: number) {
+    input.focus();
+    input.setSelectionRange(selectionStart, selectionEnd);
 }
 
 export function setCaretPosition(input: HTMLInputElement, pos: number) {
@@ -987,7 +955,7 @@ export function scrollbarWidth(el: HTMLElement) {
     return el.offsetWidth - el.clientWidth;
 }
 
-export function isValidUsername(name: string | null) {
+export function isValidUsername(name: string) {
     let error;
     if (!name) {
         error = {
@@ -1151,36 +1119,6 @@ export function getDisplayNameByUser(state: GlobalState, user?: UserProfile) {
     }
 
     return '';
-}
-
-export const UserStatusesWeight = {
-    online: 0,
-    away: 1,
-    dnd: 2,
-    offline: 3,
-    ooo: 3,
-    bot: 4,
-};
-
-/**
- * Sort users by status then by display name, respecting the TeammateNameDisplay configuration setting
- */
-export function sortUsersByStatusAndDisplayName(users: UserProfile[], statusesByUserId: Record<UserProfile['id'], keyof typeof UserStatusesWeight>, teammateNameDisplay: string) {
-    function compareUsers(a: UserProfile, b: UserProfile) {
-        const aStatus = a.is_bot ? 'bot' : statusesByUserId[a.id] || UserStatuses.OFFLINE;
-        const bStatus = b.is_bot ? 'bot' : statusesByUserId[b.id] || UserStatuses.OFFLINE;
-
-        if (UserStatusesWeight[aStatus] !== UserStatusesWeight[bStatus]) {
-            return UserStatusesWeight[aStatus] - UserStatusesWeight[bStatus];
-        }
-
-        const aName = displayUsername(a, teammateNameDisplay);
-        const bName = displayUsername(b, teammateNameDisplay);
-
-        return aName.localeCompare(bName);
-    }
-
-    return users.sort(compareUsers);
 }
 
 /**
@@ -1350,15 +1288,15 @@ export function fillArray<T>(value: T, length: number) {
 
 // Checks if a data transfer contains files not text, folders, etc..
 // Slightly modified from http://stackoverflow.com/questions/6848043/how-do-i-detect-a-file-is-being-dragged-rather-than-a-draggable-element-on-my-pa
-export function isFileTransfer(files: any) {
+export function isFileTransfer(files: DataTransfer) {
     if (UserAgent.isInternetExplorer() || UserAgent.isEdge()) {
         return files.types != null && files.types.includes('Files');
     }
 
-    return files.types != null && (files.types.indexOf ? files.types.indexOf('Files') !== -1 : files.types.contains('application/x-moz-file'));
+    return files.types != null && (files.types.indexOf ? files.types.indexOf('Files') !== -1 : files.types.includes('application/x-moz-file'));
 }
 
-export function isUriDrop(dataTransfer: any) {
+export function isUriDrop(dataTransfer: DataTransfer) {
     if (UserAgent.isInternetExplorer() || UserAgent.isEdge() || UserAgent.isSafari()) {
         for (let i = 0; i < dataTransfer.items.length; i++) {
             if (dataTransfer.items[i].type === 'text/uri-list') {

@@ -1083,9 +1083,8 @@ class CreatePost extends React.PureComponent<Props, State> {
     }
 
     handleMouseUpKeyUp = (e: React.MouseEvent | React.KeyboardEvent) => {
-        const caretPosition = Utils.getCaretPosition(e.target as HTMLTextAreaElement);
         this.setState({
-            caretPosition,
+            caretPosition: (e.target as HTMLTextAreaElement).selectionStart || 0,
         });
     }
 
@@ -1107,7 +1106,7 @@ class CreatePost extends React.PureComponent<Props, State> {
 
         // listen for line break key combo and insert new line character
         if (Utils.isUnhandledLineBreakKeyCombo(e)) {
-            this.setState({message: Utils.insertLineBreakFromKeyEvent(e)});
+            this.setState({message: Utils.insertLineBreakFromKeyEvent(e as React.KeyboardEvent<HTMLTextAreaElement>)});
         } else if (ctrlEnterKeyCombo) {
             this.postMsgKeyPress(e);
         } else if (upKeyOnly && messageIsEmpty) {

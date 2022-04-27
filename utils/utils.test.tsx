@@ -93,131 +93,6 @@ describe('Utils.getDisplayNameByUser', () => {
     });
 });
 
-describe('Utils.sortUsersByStatusAndDisplayName', () => {
-    afterEach(() => {
-        store.dispatch({
-            type: GeneralTypes.CLIENT_CONFIG_RESET,
-            data: {},
-        });
-    });
-
-    const userA = {id: 'a', username: 'a_user', nickname: 'ja_nickname', first_name: 'a_first_name', last_name: 'ja_last_name'};
-    const userB = {id: 'b', username: 'b_user', nickname: 'ib_nickname', first_name: 'a_first_name', last_name: 'ib_last_name'};
-    const userC = {id: 'c', username: 'c_user', nickname: 'hc_nickname', first_name: 'a_first_name', last_name: 'hc_last_name'};
-    const userD = {id: 'd', username: 'd_user', nickname: 'gd_nickname', first_name: 'a_first_name', last_name: 'gd_last_name'};
-    const userE = {id: 'e', username: 'e_user', nickname: 'fe_nickname', first_name: 'b_first_name', last_name: 'fe_last_name'};
-    const userF = {id: 'f', username: 'f_user', nickname: 'ef_nickname', first_name: 'b_first_name', last_name: 'ef_last_name'};
-    const userG = {id: 'g', username: 'g_user', nickname: 'dg_nickname', first_name: 'b_first_name', last_name: 'dg_last_name'};
-    const userH = {id: 'h', username: 'h_user', nickname: 'ch_nickname', first_name: 'c_first_name', last_name: 'ch_last_name'};
-    const userI = {id: 'i', username: 'i_user', nickname: 'bi_nickname', first_name: 'c_first_name', last_name: 'bi_last_name'};
-    const userJ = {id: 'j', username: 'j_user', nickname: 'aj_nickname', first_name: 'c_first_name', last_name: 'aj_last_name'};
-    const userK = {id: 'k', username: 'k_bot', nickname: 'ak_nickname', first_name: 'a_first_name', last_name: 'aABot_last_name', is_bot: true};
-    const userL = {id: 'l', username: 'l_bot', nickname: 'al_nickname', first_name: 'b_first_name', last_name: 'aBBot_last_name', is_bot: true};
-    const userM = {id: 'm', username: 'm_bot', nickname: 'am_nickname', first_name: 'c_first_name', last_name: 'aCBot_last_name', is_bot: true};
-    const statusesByUserId: Record<UserProfile['id'], keyof typeof Utils.UserStatusesWeight> = {
-        a: 'dnd',
-        b: 'away',
-        c: 'offline',
-        d: 'online',
-        e: 'online',
-        f: 'online',
-        g: 'dnd',
-        h: 'away',
-        i: 'offline',
-        j: 'online',
-        k: 'offline',
-        l: 'offline',
-        m: 'offline',
-    };
-
-    test('Users sort by status and displayname, TeammateNameDisplay set to username', () => {
-        store.dispatch({
-            type: GeneralTypes.CLIENT_CONFIG_RECEIVED,
-            data: {
-                TeammateNameDisplay: 'username',
-            },
-        });
-
-        for (const data of [
-            {
-                users: [userM, userK, userL, userF, userA, userB, userC, userD, userE],
-                result: [userD, userE, userF, userB, userA, userC, userK, userL, userM],
-            },
-            {
-                users: [userM, userL, userK, userJ, userI, userH, userG, userF, userE],
-                result: [userE, userF, userJ, userH, userG, userI, userK, userL, userM],
-            },
-            {
-                users: [userL, userM, userK, userJ, userF, userE, userD],
-                result: [userD, userE, userF, userJ, userK, userL, userM],
-            },
-        ]) {
-            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users as UserProfile[], statusesByUserId, 'username');
-            for (let i = 0; i < sortedUsers.length; i++) {
-                expect(sortedUsers[i]).toEqual(data.result[i]);
-            }
-        }
-    });
-
-    test('Users sort by status and displayname, TeammateNameDisplay set to nickname_full_name', () => {
-        store.dispatch({
-            type: GeneralTypes.CLIENT_CONFIG_RECEIVED,
-            data: {
-                TeammateNameDisplay: 'nickname_full_name',
-            },
-        });
-
-        for (const data of [
-            {
-                users: [userM, userK, userL, userF, userA, userB, userC, userD, userE],
-                result: [userF, userE, userD, userB, userA, userC, userK, userL, userM],
-            },
-            {
-                users: [userM, userL, userK, userJ, userI, userH, userG, userF, userE],
-                result: [userJ, userF, userE, userH, userG, userI, userK, userL, userM],
-            },
-            {
-                users: [userL, userM, userK, userJ, userF, userE, userD],
-                result: [userJ, userF, userE, userD, userK, userL, userM],
-            },
-        ]) {
-            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users as UserProfile[], statusesByUserId, 'nickname_full_name');
-            for (let i = 0; i < sortedUsers.length; i++) {
-                expect(sortedUsers[i]).toEqual(data.result[i]);
-            }
-        }
-    });
-
-    test('Users sort by status and displayname, TeammateNameDisplay set to full_name', () => {
-        store.dispatch({
-            type: GeneralTypes.CLIENT_CONFIG_RECEIVED,
-            data: {
-                TeammateNameDisplay: 'full_name',
-            },
-        });
-
-        for (const data of [
-            {
-                users: [userM, userK, userL, userF, userA, userB, userC, userD, userE],
-                result: [userD, userF, userE, userB, userA, userC, userK, userL, userM],
-            },
-            {
-                users: [userM, userL, userK, userJ, userI, userH, userG, userF, userE],
-                result: [userF, userE, userJ, userH, userG, userI, userK, userL, userM],
-            },
-            {
-                users: [userL, userM, userK, userJ, userF, userE, userD],
-                result: [userD, userF, userE, userJ, userK, userL, userM],
-            },
-        ]) {
-            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users as UserProfile[], statusesByUserId, 'full_name');
-            for (let i = 0; i < sortedUsers.length; i++) {
-                expect(sortedUsers[i]).toEqual(data.result[i]);
-            }
-        }
-    });
-});
-
 describe('Utils.isValidPassword', () => {
     test('Minimum length enforced', () => {
         for (const data of [
@@ -375,9 +250,6 @@ describe('Utils.isValidUsername', () => {
         {
             testUserName: 'sonic.the.hedgehog',
             expectedError: undefined,
-        }, {
-            testUserName: null,
-            expectedError: ValidationErrors.USERNAME_REQUIRED,
         }, {
             testUserName: 'sanic.the.speedy.errored.hedgehog@10_10-10',
             expectedError: ValidationErrors.INVALID_LENGTH,
@@ -783,10 +655,10 @@ describe('Utils.isUnhandledLineBreakKeyCombo', () => {
 
 describe('Utils.insertLineBreakFromKeyEvent', () => {
     test('insertLineBreakFromKeyEvent returns with line break appending (no selection range)', () => {
-        expect(Utils.insertLineBreakFromKeyEvent(lineBreakHelpers.getAppendEvent())).toBe(lineBreakHelpers.OUTPUT_APPEND);
+        expect(Utils.insertLineBreakFromKeyEvent(lineBreakHelpers.getAppendEvent() as React.KeyboardEvent<HTMLInputElement>)).toBe(lineBreakHelpers.OUTPUT_APPEND);
     });
     test('insertLineBreakFromKeyEvent returns with line break replacing (with selection range)', () => {
-        expect(Utils.insertLineBreakFromKeyEvent(lineBreakHelpers.getReplaceEvent())).toBe(lineBreakHelpers.OUTPUT_REPLACE);
+        expect(Utils.insertLineBreakFromKeyEvent(lineBreakHelpers.getReplaceEvent() as React.KeyboardEvent<HTMLInputElement>)).toBe(lineBreakHelpers.OUTPUT_REPLACE);
     });
 });
 

@@ -802,9 +802,8 @@ class CreateComment extends React.PureComponent<Props, State> {
     }
 
     handleMouseUpKeyUp = (e: React.MouseEvent | React.KeyboardEvent) => {
-        const caretPosition = Utils.getCaretPosition(e.target as HTMLTextAreaElement);
         this.setState({
-            caretPosition,
+            caretPosition: (e.target as HTMLTextAreaElement).selectionStart || 0,
         });
     }
 
@@ -821,7 +820,7 @@ class CreateComment extends React.PureComponent<Props, State> {
             this.setState({
                 draft: {
                     ...this.state.draft!,
-                    message: Utils.insertLineBreakFromKeyEvent(e),
+                    message: Utils.insertLineBreakFromKeyEvent(e as React.KeyboardEvent<HTMLTextAreaElement>),
                 },
             });
             return;
