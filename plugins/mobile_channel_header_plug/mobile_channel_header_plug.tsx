@@ -74,7 +74,7 @@ class MobileChannelHeaderPlug extends React.PureComponent<Props> {
                     <img
                         src={binding.icon}
                         width='16'
-                            height='16'
+                        height='16'
                     />
                 </span>
             </button>
