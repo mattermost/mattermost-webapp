@@ -3396,7 +3396,7 @@
   "help.formatting.intro": "Markdown позволяет легко форматировать сообщения. Наберите своё сообщения, как вы всегда это делаете, а потом примените правила, чтобы его отформатировать.",
   "help.formatting.lines.description": "Вы можете создать линию при помощи трёх символов `*`, `_`, или `-`.",
   "help.formatting.lines.title": "Строки",
-  "help.formatting.linkEx": "<link>Сходи на Mattermost!</link>(https://mattermost.com/)",
+  "help.formatting.linkEx": "[Сходи на Mattermost!](https://mattermost.com/)",
   "help.formatting.links.description": "Для создания именованных ссылок, введите отображаемый текст в квадратных скобках и связанную с ним ссылку в круглых скобках.",
   "help.formatting.links.title": "Ссылки",
   "help.formatting.listExample": "* элемент 1\n* элемент 2\n    * элемент 2.1",
