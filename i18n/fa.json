@@ -3030,7 +3030,7 @@
   "help.formatting.intro": "Markdown قالب بندی پیام ها را آسان می کند. یک پیام را همانطور که معمولاً انجام می دهید تایپ کنید، سپس از گزینه های نحو زیر برای قالب بندی پیام خود به روشی خاص استفاده کنید.",
   "help.formatting.lines.description": "با استفاده از سه «*»، «_» یا «-» یک خط ایجاد کنید.",
   "help.formatting.lines.title": "خطوط",
-  "help.formatting.linkEx": "<link>Mattermost را بررسی کنید!</link>(https://mattermost.com/)",
+  "help.formatting.linkEx": "[Mattermost را بررسی کنید!](https://mattermost.com/)",
   "help.formatting.links.description": "با قرار دادن متن مورد نظر در پرانتز مربع و پیوند مرتبط در براکت های معمولی، پیوندهای برچسب دار ایجاد کنید.",
   "help.formatting.links.title": "پیوندها",
   "help.formatting.listExample": "* لیست مورد یک\n* فهرست مورد دوم\n    * مورد دوم فرعی",
