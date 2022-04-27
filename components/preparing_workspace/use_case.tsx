@@ -43,7 +43,12 @@ const UseCase = (props: Props) => {
         className += ' ' + props.className;
     }
 
-    useEffect(props.onPageView, []);
+    useEffect(() => {
+        if (props.show) {
+            props.onPageView();
+        }
+    }, [props.show]);
+
     return (
         <CSSTransition
             in={props.show}
@@ -56,7 +61,7 @@ const UseCase = (props: Props) => {
                 <LeftCol/>
                 <div className='UseCase-right-col'>
                     <div className='UseCase-form-wrapper'>
-                        <ProgressPath style={{top: '15px'}}>
+                        <ProgressPath style={{top: props.previous ? '15px' : '-28px'}}>
                             <LaptopSVG/>
                         </ProgressPath>
                         {props.previous}

@@ -23,6 +23,20 @@
             text-align: center;
         }
 
+        .MenuItem__compass-icon {
+            margin: 4px -6px;
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+            fill: rgba(var(--center-channel-color-rgb), 0.56);
+        }
+
+        .MenuItem__compass-icon-dangerous {
+            margin: 4px -6px;
+        }
+
+        .MenuItem__opacity {
+            opacity: 0.56;
+        }
+
         span.icon {
             display: inline-block;
             width: 28px; // less 12px padding is 16px
@@ -37,6 +51,10 @@
             padding: 5px 0;
             line-height: 22px;
             white-space: normal;
+        }
+
+        span.MenuItem__text-color {
+            color: rgba(var(--center-channel-color-rgb), 0.56);
         }
 
         span.MenuItem__help-text {

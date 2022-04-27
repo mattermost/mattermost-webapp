@@ -10,7 +10,7 @@ import {Permissions} from 'mattermost-redux/constants';
 import * as GlobalActions from 'actions/global_actions';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
-import {useSafeUrl} from 'utils/url';
+import {makeUrlSafe} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
 import InvitationModal from 'components/invitation_modal';
 
@@ -29,8 +29,6 @@ import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 import Menu from 'components/widgets/menu/menu';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
 
-import withGetCloudSubscription from '../common/hocs/cloud/with_get_cloud_subscription';
-import {SubscriptionStats} from 'mattermost-redux/types/cloud';
 import {ModalData} from 'types/actions';
 import {PluginComponent} from 'types/store/plugins';
 import {UserProfile} from 'mattermost-redux/types/users';
@@ -76,7 +74,6 @@ export type Props = {
         closeRightHandSide: () => void;
         closeRhsMenu: () => void;
         unhideNextSteps: () => void;
-        getSubscriptionStats: () => SubscriptionStats;
     };
 
 };
@@ -130,6 +127,7 @@ export class MainMenu extends React.PureComponent<Props> {
 
     render() {
         const {
+            appDownloadLink,
             currentUser,
             teamIsGroupConstrained,
             isLicensedForLDAPGroups,
@@ -137,6 +135,8 @@ export class MainMenu extends React.PureComponent<Props> {
             guestAccessEnabled,
             canInviteTeamMember,
         } = this.props;
+
+        const safeAppDownloadLink = makeUrlSafe(appDownloadLink || '');
 
         if (!currentUser) {
             return null;
@@ -366,7 +366,7 @@ export class MainMenu extends React.PureComponent<Props> {
                     <Menu.ItemExternalLink
                         id='nativeAppLink'
                         show={this.props.appDownloadLink && !UserAgent.isMobileApp()}
-                        url={useSafeUrl(this.props.appDownloadLink || '')}
+                        url={safeAppDownloadLink}
                         text={formatMessage({id: 'navbar_dropdown.nativeApps', defaultMessage: 'Download Apps'})}
                         icon={<i className='fa fa-mobile'/>}
                     />
@@ -482,9 +482,12 @@ export class MainMenu extends React.PureComponent<Props> {
                         />
                     </SystemPermissionGate>
                 </Menu.Group>
+                <Menu.Group>
+                    {pluginItems}
+                </Menu.Group>
             </Menu>
         );
     }
 }
 
-export default injectIntl(withGetCloudSubscription((MainMenu)));
+export default injectIntl(MainMenu);

@@ -16,7 +16,7 @@ import SizeAwareImage from 'components/size_aware_image';
 import ExternalImage from 'components/external_image';
 import {PostTypes} from 'utils/constants';
 import {isSystemMessage} from 'utils/post_utils';
-import {useSafeUrl} from 'utils/url';
+import {makeUrlSafe} from 'utils/url';
 
 import {getNearestPoint} from './get_nearest_point';
 
@@ -226,7 +226,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent<Props> 
                             <h1 className={'attachment__title attachment__title--opengraph' + (data.title ? '' : ' is-url')}>
                                 <a
                                     className='attachment__title-link attachment__title-link--opengraph'
-                                    href={useSafeUrl(data.url || this.props.link)}
+                                    href={makeUrlSafe(data.url || this.props.link)}
                                     target='_blank'
                                     rel='noopener noreferrer'
                                     title={data.title || data.url || this.props.link}

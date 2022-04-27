@@ -35,13 +35,12 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
     const multiSelectedChannelIds = useSelector((state: GlobalState) => state.views.channelSidebar.multiSelectedChannelIds);
     const currentTeam = useSelector((state: GlobalState) => getCurrentTeam(state));
 
-    let categories: ChannelCategory[] | undefined;
-    let currentCategory: ChannelCategory | undefined;
-
-    if (currentTeam) {
-        categories = useSelector((state: GlobalState) => getCategoriesForCurrentTeam(state));
-        currentCategory = useSelector((state: GlobalState) => getCategoryInTeamWithChannel(state, currentTeam.id, channel.id));
-    }
+    const categories = useSelector((state: GlobalState) => {
+        return currentTeam ? getCategoriesForCurrentTeam(state) : undefined;
+    });
+    const currentCategory = useSelector((state: GlobalState) => {
+        return currentTeam ? getCategoryInTeamWithChannel(state, currentTeam?.id || '', channel.id) : undefined;
+    });
 
     if (!categories) {
         return null;
@@ -83,11 +82,20 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
     }
 
     const categoryMenuItems = filteredCategories.map((category: ChannelCategory) => {
+        let text = category.display_name;
+
+        if (category.type === CategoryTypes.FAVORITES) {
+            text = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.favorites', defaultMessage: 'Favorites'});
+        }
+        if (category.type === CategoryTypes.CHANNELS) {
+            text = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.channels', defaultMessage: 'Channels'});
+        }
+
         return {
             id: `moveToCategory-${channel.id}-${category.id}`,
             icon: category.type === CategoryTypes.FAVORITES ? (<i className='icon-star-outline'/>) : (<i className='icon-folder-outline'/>),
             direction: 'right' as any,
-            text: category.display_name,
+            text,
             action: () => moveToCategory(category.id),
         } as any;
     });

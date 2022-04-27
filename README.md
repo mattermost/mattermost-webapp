@@ -5,9 +5,9 @@
 
 <img width="1006" alt="mattermost-hero" src="https://user-images.githubusercontent.com/7205829/136107976-7a894c9e-290a-490d-8501-e5fdbfc3785a.png">
 
-This repo hosts the webapp client code. If you'd like to report an issue with Mattermost, please create an issue on [mattermost-server](https://github.com/mattermost/mattermost-server), which hosts the server code. You can also look at the [Get Help With Mattermost](https://docs.mattermost.com/guides/get-help.html) guide to find the resources available to our community.  
+This repo hosts the webapp client code. If you'd like to report an issue with Mattermost, please create an issue on [mattermost-server](https://github.com/mattermost/mattermost-server), which hosts the server code. You can also look at the [Get Help With Mattermost](https://docs.mattermost.com/guides/get-help.html) guide to find the resources available to our community.
 
-- [Product documentation](http://docs.mattermost.com/)
+- [Product documentation](https://docs.mattermost.com/)
 - [Developer documentation](https://developers.mattermost.com/)
 - [Download compiled version](https://mattermost.com/download)
 
@@ -22,11 +22,13 @@ _Note: Heroku preview does not include email or persistent storage._
 
 ## Install Mattermost
 
-- [Quick Install Guide](https://docs.mattermost.com/getting-started/light-install.html) - Deploy in minutes via Mattermost Omnibus on Ubuntu
-- [Run Mattermost via Docker](https://docs.mattermost.com/install/setting-up-local-machine-using-docker.html) - Launch a Mattermost server instantly to test functionality and build integrations
+- [Deploy Guide](https://docs.mattermost.com/guides/deployment.html) - Deploy Mattermost in minutes via Docker, Ubuntu, or tar.
 - [Developer Machine Setup](https://developers.mattermost.com/contribute/server/developer-setup) - Follow this guide if you want to write code for Mattermost
 
 Other Install Guides:
+- [Deploy Mattermost on Docker](https://docs.mattermost.com/install/install-docker.html)
+- [Mattermost Omnibus](https://docs.mattermost.com/install/installing-mattermost-omnibus.html)
+- [Install Mattermost from Tar](https://docs.mattermost.com/install/install-tar.html)
 - [Ubuntu 20.04 LTS](https://docs.mattermost.com/install/installing-ubuntu-2004-LTS.html)
 - [Kubernetes](https://docs.mattermost.com/install/install-kubernetes.html)
 - [Helm](https://docs.mattermost.com/install/install-kubernetes.html#installing-the-operators-via-helm)
