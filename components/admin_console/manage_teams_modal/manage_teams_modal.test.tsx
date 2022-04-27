@@ -99,6 +99,5 @@ describe('ManageTeamsModal', () => {
 
         expect(wrapper!.find('.manage-teams__team-name').text()).toEqual(mockTeamData.display_name);
         expect(wrapper!.find(ManageTeamsDropdown).props().teamMember).toEqual({team_id: '123test'});
-        expect(wrapper!).toMatchSnapshot();
     });
 });
