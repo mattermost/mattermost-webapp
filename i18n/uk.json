@@ -1967,7 +1967,7 @@
   "help.formatting.inline.title": "Код запрошення",
   "help.formatting.intro": "Markdown дозволяє легко форматувати повідомлення. Наберіть свої повідомлення, як ви це завжди робите, а потім застосовуйте правила, щоб його відформатувати.",
   "help.formatting.lines.description": "## Лінії\n\nВи можете створити лінію за допомогою трьох символів `*`, `_`, або` -`.",
-  "help.formatting.linkEx": "<link>Зайди до Mattermost!</link> (https://mattermost.com/)",
+  "help.formatting.linkEx": "[Зайди до Mattermost!](https://mattermost.com/)",
   "help.formatting.links.description": "## Посилання\n\nДля створення іменованих посилань, введіть відображений текст в квадратних дужках і пов'язану з ним посилання в круглих дужках.",
   "help.formatting.links.title": "Links",
   "help.formatting.listExample": "* Елемент 1\n* Елемент 2\n* Елемент 2.1",
