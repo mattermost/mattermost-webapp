@@ -609,7 +609,7 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent<Pr
                                 <span>
                                     <FormattedMessage
                                         id='admin.permissions.teamScheme.introBanner'
-                                        defaultMessage='<linkTeamOVerride>Team Override Schemes</linkTeamOverride> set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <linkSystemScheme>System Scheme</linkSystemScheme>.'
+                                        defaultMessage='<linkTeamOverride>Team Override Schemes</linkTeamOverride> set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <linkSystemScheme>System Scheme</linkSystemScheme>.'
                                         values={{
                                             linkTeamOverride: (msg: React.ReactNode) => (
                                                 <a
