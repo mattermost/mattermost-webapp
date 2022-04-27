@@ -3367,7 +3367,7 @@
   "help.formatting.intro": "Le formatage de texte Markdown rend plus simple la mise en forme des messages. Écrivez votre message normalement, puis utilisez la syntaxe suivante pour formatter votre message comme vous le souhaitez.",
   "help.formatting.lines.description": "Créez une ligne à l'aide de `*`, `_`, ou `-`.",
   "help.formatting.lines.title": "Lignes",
-  "help.formatting.linkEx": "<link>Découvrez Mattermost!</link>(https://mattermost.com/)",
+  "help.formatting.linkEx": "[Découvrez Mattermost!](https://mattermost.com/)",
   "help.formatting.links.description": "Créez des liens étiquetés en plaçant le texte désiré entre crochets et le lien associé entre parenthèses.",
   "help.formatting.links.title": "Liens",
   "help.formatting.listExample": "* élément un\n* élément deux\n    * sous-point élément deux",
