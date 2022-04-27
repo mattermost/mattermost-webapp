@@ -63,7 +63,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         >
           <span>
             <MemoizedFormattedMessage
-              defaultMessage="<linkTeamOVerride>Team Override Schemes</linkTeamOverride> set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <linkSystemScheme>System Scheme</linkSystemScheme>."
+              defaultMessage="<linkTeamOverride>Team Override Schemes</linkTeamOverride> set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <linkSystemScheme>System Scheme</linkSystemScheme>."
               id="admin.permissions.teamScheme.introBanner"
               values={
                 Object {
@@ -394,7 +394,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         >
           <span>
             <MemoizedFormattedMessage
-              defaultMessage="<linkTeamOVerride>Team Override Schemes</linkTeamOverride> set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <linkSystemScheme>System Scheme</linkSystemScheme>."
+              defaultMessage="<linkTeamOverride>Team Override Schemes</linkTeamOverride> set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <linkSystemScheme>System Scheme</linkSystemScheme>."
               id="admin.permissions.teamScheme.introBanner"
               values={
                 Object {
@@ -749,7 +749,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         >
           <span>
             <MemoizedFormattedMessage
-              defaultMessage="<linkTeamOVerride>Team Override Schemes</linkTeamOverride> set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <linkSystemScheme>System Scheme</linkSystemScheme>."
+              defaultMessage="<linkTeamOverride>Team Override Schemes</linkTeamOverride> set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <linkSystemScheme>System Scheme</linkSystemScheme>."
               id="admin.permissions.teamScheme.introBanner"
               values={
                 Object {
@@ -1177,7 +1177,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         >
           <span>
             <MemoizedFormattedMessage
-              defaultMessage="<linkTeamOVerride>Team Override Schemes</linkTeamOverride> set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <linkSystemScheme>System Scheme</linkSystemScheme>."
+              defaultMessage="<linkTeamOverride>Team Override Schemes</linkTeamOverride> set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <linkSystemScheme>System Scheme</linkSystemScheme>."
               id="admin.permissions.teamScheme.introBanner"
               values={
                 Object {
