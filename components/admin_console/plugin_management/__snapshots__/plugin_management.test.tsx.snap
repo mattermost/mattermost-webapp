@@ -36,7 +36,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                 id="admin.plugins.settings.enableDesc"
               />
             }
@@ -169,7 +169,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
                 className="help-text"
               >
                 <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                   id="admin.plugin.uploadDesc"
                 />
               </p>
@@ -322,9 +322,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -368,7 +366,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                 id="admin.plugins.settings.enableDesc"
               />
             }
@@ -501,7 +499,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
                 className="help-text"
               >
                 <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                   id="admin.plugin.uploadDesc"
                 />
               </p>
@@ -654,9 +652,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -753,9 +749,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -799,7 +793,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                 id="admin.plugins.settings.enableDesc"
               />
             }
@@ -932,7 +926,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
                 className="help-text"
               >
                 <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                   id="admin.plugin.uploadDesc"
                 />
               </p>
@@ -1085,9 +1079,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -1131,7 +1123,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                 id="admin.plugins.settings.enableDesc"
               />
             }
@@ -1266,7 +1258,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
                 className="help-text"
               >
                 <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                   id="admin.plugin.uploadDesc"
                 />
               </p>
@@ -1419,9 +1411,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -1465,7 +1455,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                 id="admin.plugins.settings.enableDesc"
               />
             }
@@ -1598,7 +1588,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
                 className="help-text"
               >
                 <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                   id="admin.plugin.uploadDesc"
                 />
               </p>
@@ -1755,9 +1745,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -1801,7 +1789,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                 id="admin.plugins.settings.enableDesc"
               />
             }
@@ -1934,7 +1922,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
                 className="help-text"
               >
                 <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                   id="admin.plugin.uploadDesc"
                 />
               </p>
@@ -2087,9 +2075,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -2133,7 +2119,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                 id="admin.plugins.settings.enableDesc"
               />
             }
@@ -2268,7 +2254,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
                 className="help-text"
               >
                 <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="To enable plugins, set **Enable Plugins** to true. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                  defaultMessage="To enable plugins, set **Enable Plugins** to true. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                   id="admin.plugin.uploadAndPluginDisabledDesc"
                 />
               </p>
@@ -2396,9 +2382,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -2442,7 +2426,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                 id="admin.plugins.settings.enableDesc"
               />
             }
@@ -2575,7 +2559,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
                 className="help-text"
               >
                 <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                   id="admin.plugin.uploadDesc"
                 />
               </p>
@@ -2728,9 +2712,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -2774,7 +2756,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                 id="admin.plugins.settings.enableDesc"
               />
             }
@@ -2909,7 +2891,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
                 className="help-text"
               >
                 <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Enable plugin uploads in config.json. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                  defaultMessage="Enable plugin uploads in config.json. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                   id="admin.plugin.uploadDisabledDesc"
                 />
               </p>
@@ -2947,7 +2929,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             value={true}
           />
           <BooleanSetting
-            disabled={false}
+            disabled={true}
             falseText={
               <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
@@ -2978,12 +2960,12 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             value={true}
           />
           <AdminTextSetting
-            disabled={false}
+            disabled={true}
             helpText={
               <div>
                 <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="URL of the marketplace server."
-                  id="admin.plugins.settings.marketplaceUrlDesc"
+                  defaultMessage="Enable plugin uploads in config.json. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
+                  id="admin.plugin.uploadDisabledDesc"
                 />
               </div>
             }
@@ -3062,9 +3044,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -3108,7 +3088,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                 id="admin.plugins.settings.enableDesc"
               />
             }
@@ -3241,7 +3221,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 className="help-text"
               >
                 <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                   id="admin.plugin.uploadDesc"
                 />
               </p>
@@ -3358,7 +3338,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 className="alert alert-transparent"
               >
                 <PluginItem
-                  appsEnabled={false}
+                  appsFeatureFlagEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
@@ -3385,7 +3365,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   showInstances={true}
                 />
                 <PluginItem
-                  appsEnabled={false}
+                  appsFeatureFlagEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
@@ -3457,9 +3437,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -3503,7 +3481,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                 id="admin.plugins.settings.enableDesc"
               />
             }
@@ -3636,7 +3614,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 className="help-text"
               >
                 <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                   id="admin.plugin.uploadDesc"
                 />
               </p>
@@ -3753,7 +3731,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 className="alert alert-transparent"
               >
                 <PluginItem
-                  appsEnabled={false}
+                  appsFeatureFlagEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
@@ -3820,9 +3798,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -3866,7 +3842,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                 id="admin.plugins.settings.enableDesc"
               />
             }
@@ -3999,7 +3975,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 className="help-text"
               >
                 <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                   id="admin.plugin.uploadDesc"
                 />
               </p>
@@ -4116,7 +4092,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 className="alert alert-transparent"
               >
                 <PluginItem
-                  appsEnabled={false}
+                  appsFeatureFlagEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
@@ -4183,9 +4159,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -4229,7 +4203,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                 id="admin.plugins.settings.enableDesc"
               />
             }
@@ -4362,7 +4336,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 className="help-text"
               >
                 <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                   id="admin.plugin.uploadDesc"
                 />
               </p>
@@ -4479,7 +4453,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 className="alert alert-transparent"
               >
                 <PluginItem
-                  appsEnabled={false}
+                  appsFeatureFlagEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
@@ -4546,9 +4520,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -4592,7 +4564,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                 id="admin.plugins.settings.enableDesc"
               />
             }
@@ -4725,7 +4697,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 className="help-text"
               >
                 <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more."
                   id="admin.plugin.uploadDesc"
                 />
               </p>
@@ -4842,7 +4814,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 className="alert alert-transparent"
               >
                 <PluginItem
-                  appsEnabled={false}
+                  appsFeatureFlagEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
@@ -4869,7 +4841,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   showInstances={true}
                 />
                 <PluginItem
-                  appsEnabled={false}
+                  appsFeatureFlagEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
@@ -4941,9 +4913,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>

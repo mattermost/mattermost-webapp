@@ -147,7 +147,7 @@ export class TestHelper {
         return Object.assign({}, defaultCategory, override);
     }
 
-    public static getChannelMembershipMock(override: Partial<ChannelMembership>, overrideNotifyProps: Partial<ChannelNotifyProps>): ChannelMembership {
+    public static getChannelMembershipMock(override: Partial<ChannelMembership>, overrideNotifyProps?: Partial<ChannelNotifyProps>): ChannelMembership {
         const defaultNotifyProps = {
             desktop: 'default',
             email: 'default',
@@ -234,7 +234,7 @@ export class TestHelper {
             name: 'group_name',
             display_name: 'group_display_name',
             description: '',
-            type: '',
+            source: '',
             remote_id: '',
             create_at: 1,
             update_at: 1,
@@ -294,7 +294,7 @@ export class TestHelper {
         return Object.assign({}, defaultPost, override);
     }
 
-    public static getFileInfoMock(override: Partial<FileInfo>): FileInfo {
+    public static getFileInfoMock(override: Partial<FileInfo> = {}): FileInfo {
         const defaultFileInfo: FileInfo = {
             id: 'file_info_id',
             user_id: 'user_id',
@@ -365,6 +365,7 @@ export class TestHelper {
             mainComponent: () => null,
             headerCentreComponent: () => null,
             headerRightComponent: () => null,
+            showTeamSidebar: false,
         };
     }
 }

@@ -29,7 +29,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
         }
         helpText={
           <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See [the documentation](!https://about.mattermost.com/default-compliance-export-documentation) to learn more."
+            defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See [the documentation](!https://docs.mattermost.com/comply/compliance-export.html) to learn more."
             id="admin.service.complianceExportDesc"
           />
         }
@@ -111,7 +111,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
           ]
         }
       />
-      <Connect(injectIntl(JobTable))
+      <Connect(JobTable)
         createJobButtonText={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Run Compliance Export Job Now"
@@ -164,9 +164,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -203,7 +201,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
         }
         helpText={
           <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See [the documentation](!https://about.mattermost.com/default-compliance-export-documentation) to learn more."
+            defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See [the documentation](!https://docs.mattermost.com/comply/compliance-export.html) to learn more."
             id="admin.service.complianceExportDesc"
           />
         }
@@ -382,7 +380,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
           value="globalRelay@mattermost.com"
         />
       </SettingsGroup>
-      <Connect(injectIntl(JobTable))
+      <Connect(JobTable)
         createJobButtonText={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Run Compliance Export Job Now"
@@ -435,9 +433,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -474,7 +470,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
         }
         helpText={
           <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See [the documentation](!https://about.mattermost.com/default-compliance-export-documentation) to learn more."
+            defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See [the documentation](!https://docs.mattermost.com/comply/compliance-export.html) to learn more."
             id="admin.service.complianceExportDesc"
           />
         }
@@ -556,7 +552,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
           ]
         }
       />
-      <Connect(injectIntl(JobTable))
+      <Connect(JobTable)
         createJobButtonText={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Run Compliance Export Job Now"
@@ -609,9 +605,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -648,7 +642,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
         }
         helpText={
           <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See [the documentation](!https://about.mattermost.com/default-compliance-export-documentation) to learn more."
+            defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See [the documentation](!https://docs.mattermost.com/comply/compliance-export.html) to learn more."
             id="admin.service.complianceExportDesc"
           />
         }
@@ -827,7 +821,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
           value="globalRelay@mattermost.com"
         />
       </SettingsGroup>
-      <Connect(injectIntl(JobTable))
+      <Connect(JobTable)
         createJobButtonText={
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Run Compliance Export Job Now"
@@ -880,9 +874,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>

@@ -19,10 +19,7 @@ import {
     MountRendererProps,
 } from 'enzyme';
 
-import {doAddLocaleData} from 'i18n/i18n';
 import defaultMessages from 'i18n/en.json';
-
-doAddLocaleData();
 
 export const defaultIntl = createIntl({
     locale: 'en',
@@ -80,6 +77,11 @@ export function shallowWithIntl<T extends IntlInjectedElement>(element: T, optio
         // Override options
         shallowOptions,
     );
+}
+
+// for non-mounted use cases like react-testing-library
+export function withIntl(element: ReactElement) {
+    return <IntlProvider {...defaultIntl}>{element}</IntlProvider>;
 }
 
 interface MountWithIntlOptions extends MountRendererProps {

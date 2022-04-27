@@ -10,9 +10,7 @@ exports[`components/file_preview_modal/file_preview_modal_main_nav/FilePreviewMo
     key="previewArrowLeft"
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="close-icon-tooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Close"
@@ -58,9 +56,7 @@ exports[`components/file_preview_modal/file_preview_modal_main_nav/FilePreviewMo
     key="publicLink"
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="close-icon-tooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Next"

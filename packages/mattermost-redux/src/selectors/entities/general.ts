@@ -33,10 +33,6 @@ export function warnMetricsStatus(state: GlobalState): any {
     return state.entities.general.warnMetricsStatus;
 }
 
-export function getSubscriptionStats(state: GlobalState): any {
-    return state.entities.cloud.subscriptionStats;
-}
-
 export function isCompatibleWithJoinViewTeamPermissions(state: GlobalState): boolean {
     const version = state.entities.general.serverVersion;
     return isMinimumServerVersion(version, 5, 10, 0) ||
@@ -98,4 +94,12 @@ export const getServerVersion = (state: GlobalState): string => {
 
 export function getFirstAdminVisitMarketplaceStatus(state: GlobalState): boolean {
     return state.entities.general.firstAdminVisitMarketplaceStatus;
+}
+
+export function getFirstAdminSetupComplete(state: GlobalState): boolean {
+    return state.entities.general.firstAdminCompleteSetup;
+}
+
+export function isPerformanceDebuggingEnabled(state: GlobalState): boolean {
+    return state.entities.general.config.EnableClientPerformanceDebugging === 'true';
 }

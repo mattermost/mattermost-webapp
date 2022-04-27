@@ -72,6 +72,11 @@ export const Preferences = {
     CATEGORY_SIDEBAR_SETTINGS: 'sidebar_settings',
     CATEGORY_ADVANCED_SETTINGS: 'advanced_settings',
     TUTORIAL_STEP: 'tutorial_step',
+    TUTORIAL_STEP_AUTO_TOUR_STATUS: 'tutorial_step_auto_tour_status',
+    CRT_TUTORIAL_TRIGGERED: 'crt_tutorial_triggered',
+    CRT_TUTORIAL_AUTO_TOUR_STATUS: 'crt_tutorial_auto_tour_status',
+    CRT_TUTORIAL_STEP: 'crt_tutorial_step',
+    CRT_THREAD_PANE_STEP: 'crt_thread_pane_step',
     CHANNEL_DISPLAY_MODE: 'channel_display_mode',
     CHANNEL_DISPLAY_MODE_CENTERED: 'centered',
     CHANNEL_DISPLAY_MODE_FULL_SCREEN: 'full',
@@ -120,6 +125,11 @@ export const Preferences = {
 
     // Category for actions/interactions that will happen just once
     UNIQUE: 'unique',
+
+    // A/B test preference value
+    AB_TEST_PREFERENCE_VALUE: 'ab_test_preference_value',
+
+    ONBOARDING: 'onboarding',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -130,6 +140,8 @@ export const Touched = {
 // Category for actions/interactions that will happen just once
 export const Unique = {
     HAS_CLOUD_PURCHASE: 'has_cloud_purchase',
+    REQUEST_TRIAL_AFTER_SERVER_UPGRADE: 'request_trial_after_upgrade',
+    CLICKED_UPGRADE_AND_TRIAL_BTN: 'clicked_upgradeandtrial_btn',
 };
 
 export const TrialPeriodDays = {
@@ -141,6 +153,7 @@ export const TrialPeriodDays = {
 };
 
 export const ActionTypes = keyMirror({
+    SET_PRODUCT_SWITCHER_OPEN: null,
     RECEIVED_FOCUSED_POST: null,
     SELECT_POST: null,
     HIGHLIGHT_REPLY: null,
@@ -154,6 +167,8 @@ export const ActionTypes = keyMirror({
     UPDATE_RHS_SEARCH_TYPE: null,
     UPDATE_RHS_SEARCH_RESULTS_TERMS: null,
 
+    RHS_GO_BACK: null,
+
     SET_RHS_EXPANDED: null,
     TOGGLE_RHS_EXPANDED: null,
 
@@ -164,17 +179,9 @@ export const ActionTypes = keyMirror({
     CANCEL_NAVIGATION: null,
     CONFIRM_NAVIGATION: null,
 
-    TOGGLE_SHORTCUTS_MODAL: null,
     TOGGLE_IMPORT_THEME_MODAL: null,
     TOGGLE_DELETE_POST_MODAL: null,
-    TOGGLE_GET_TEAM_INVITE_LINK_MODAL: null,
-    TOGGLE_GET_PUBLIC_LINK_MODAL: null,
-    TOGGLE_QUICK_SWITCH_MODAL: null,
-    TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL: null,
-    TOGGLE_CHANNEL_NAME_UPDATE_MODAL: null,
-    TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL: null,
-    SHOW_EDIT_POST_MODAL: null,
-    HIDE_EDIT_POST_MODAL: null,
+    TOGGLE_EDITING_POST: null,
 
     EMITTED_SHORTCUT_REACT_TO_LAST_POST: null,
 
@@ -193,6 +200,7 @@ export const ActionTypes = keyMirror({
     RECEIVED_ADMIN_CONSOLE_REDUCER: null,
     REMOVED_ADMIN_CONSOLE_REDUCER: null,
     RECEIVED_ADMIN_CONSOLE_CUSTOM_COMPONENT: null,
+    RECEIVED_PLUGIN_STATS_HANDLER: null,
 
     MODAL_OPEN: null,
     MODAL_CLOSE: null,
@@ -205,6 +213,12 @@ export const ActionTypes = keyMirror({
     SET_RECENT_SKIN: null,
 
     STATUS_DROPDOWN_TOGGLE: null,
+    ADD_CHANNEL_DROPDOWN_TOGGLE: null,
+
+    SHOW_ONBOARDING_TASK_COMPLETION: null,
+    SHOW_ONBOARDING_COMPLETE_PROFILE_TOUR: null,
+    SHOW_ONBOARDING_VISIT_CONSOLE_TOUR: null,
+
     TOGGLE_LHS: null,
     OPEN_LHS: null,
     CLOSE_LHS: null,
@@ -212,13 +226,10 @@ export const ActionTypes = keyMirror({
     SET_SHOW_PREVIEW_ON_CREATE_COMMENT: null,
     SET_SHOW_PREVIEW_ON_CREATE_POST: null,
     SET_SHOW_PREVIEW_ON_EDIT_CHANNEL_HEADER_MODAL: null,
-    SET_SHOW_PREVIEW_ON_EDIT_POST_MODAL: null,
 
     TOGGLE_RHS_MENU: null,
     OPEN_RHS_MENU: null,
     CLOSE_RHS_MENU: null,
-
-    STORE_REHYDRATION_FAILED: null,
 
     DISMISS_NOTICE: null,
     SHOW_NOTICE: null,
@@ -247,6 +258,7 @@ export const ActionTypes = keyMirror({
 
     SET_UNREAD_FILTER_ENABLED: null,
     UPDATE_TOAST_STATUS: null,
+    UPDATE_THREAD_TOAST_STATUS: null,
 
     SIDEBAR_DRAGGING_SET_STATE: null,
     SIDEBAR_DRAGGING_STOP: null,
@@ -266,6 +278,8 @@ export const ActionTypes = keyMirror({
 
     SUPPRESS_RHS: null,
     UNSUPPRESS_RHS: null,
+
+    FIRST_CHANNEL_NAME: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -296,6 +310,7 @@ export const ModalIdentifiers = {
     CHANNEL_MEMBERS: 'channel_members',
     TEAM_MEMBERS: 'team_members',
     ADD_USER_TO_CHANNEL: 'add_user_to_channel',
+    ADD_USER_TO_ROLE: 'add_user_to_role',
     ADD_USER_TO_TEAM: 'add_user_to_team',
     CREATE_DM_CHANNEL: 'create_dm_channel',
     EDIT_CHANNEL_HEADER: 'edit_channel_header',
@@ -327,10 +342,12 @@ export const ModalIdentifiers = {
     UPGRADE_CLOUD_ACCOUNT: 'upgrade_cloud_account',
     START_TRIAL_MODAL: 'start_trial_modal',
     TRIAL_BENEFITS_MODAL: 'trial_benefits_modal',
+    LEARN_MORE_TRIAL_MODAL: 'learn_more_trial_modal',
+    ENTERPRISE_EDITION_LICENSE: 'enterprise_edition_license',
     CONFIRM_NOTIFY_ADMIN: 'confirm_notify_admin',
     REMOVE_NEXT_STEPS_MODAL: 'remove_next_steps_modal',
     MORE_CHANNELS: 'more_channels',
-    NEW_CHANNEL_FLOW: 'new_channel_flow',
+    NEW_CHANNEL_MODAL: 'new_channel_modal',
     CLOUD_PURCHASE: 'cloud_purchase',
     DND_CUSTOM_TIME_PICKER: 'dnd_custom_time_picker',
     CUSTOM_STATUS: 'custom_status',
@@ -338,8 +355,24 @@ export const ModalIdentifiers = {
     NO_INTERNET_CONNECTION: 'no_internet_connection',
     JOIN_CHANNEL_PROMPT: 'join_channel_prompt',
     COLLAPSED_REPLY_THREADS_MODAL: 'collapsed_reply_threads_modal',
+    COLLAPSED_REPLY_THREADS_BETA_MODAL: 'collapsed_reply_threads_beta_modal',
     NOTIFY_CONFIRM_MODAL: 'notify_confirm_modal',
+    CONFIRM_LICENSE_REMOVAL: 'confirm_license_removal',
     CONFIRM: 'confirm',
+    USER_GROUPS: 'user_groups',
+    USER_GROUPS_CREATE: 'user_groups_create',
+    VIEW_USER_GROUP: 'view_user_group',
+    ADD_USERS_TO_GROUP: 'add_users_to_group',
+    EDIT_GROUP_MODAL: 'edit_group_modal',
+    POST_DELETED_MODAL: 'post_deleted_modal',
+    FILE_PREVIEW_MODAL: 'file_preview_modal',
+    IMPORT_THEME_MODAL: 'import_theme_modal',
+    LEAVE_PRIVATE_CHANNEL_MODAL: 'leave_private_channel_modal',
+    GET_PUBLIC_LINK_MODAL: 'get_public_link_modal',
+    KEYBOARD_SHORTCUTS_MODAL: 'keyboar_shortcuts_modal',
+    USERS_TO_BE_REMOVED: 'users_to_be_removed',
+    UPLOAD_LICENSE: 'upload_license',
+    INSIGHTS: 'insights',
 };
 
 export const UserStatuses = {
@@ -357,6 +390,7 @@ export const EventTypes = Object.assign(
         CLICK: 'click',
         FOCUS: 'focus',
         BLUR: 'blur',
+        SHORTCUT: 'shortcut',
         MOUSE_DOWN: 'mousedown',
         MOUSE_UP: 'mouseup',
     },
@@ -393,6 +427,10 @@ export const A11yCustomEventTypes = {
     ACTIVATE: 'a11yactivate',
     DEACTIVATE: 'a11ydeactivate',
     UPDATE: 'a11yupdate',
+};
+
+export const AppEvents = {
+    FOCUS_EDIT_TEXTBOX: 'focus_edit_textbox',
 };
 
 export const SocketEvents = {
@@ -443,6 +481,8 @@ export const SocketEvents = {
     PLUGIN_STATUSES_CHANGED: 'plugin_statuses_changed',
     OPEN_DIALOG: 'open_dialog',
     RECEIVED_GROUP: 'received_group',
+    GROUP_MEMBER_ADD: 'group_member_add',
+    GROUP_MEMBER_DELETED: 'group_member_deleted',
     RECEIVED_GROUP_ASSOCIATED_TO_TEAM: 'received_group_associated_to_team',
     RECEIVED_GROUP_NOT_ASSOCIATED_TO_TEAM: 'received_group_not_associated_to_team',
     RECEIVED_GROUP_ASSOCIATED_TO_CHANNEL: 'received_group_associated_to_channel',
@@ -456,6 +496,8 @@ export const SocketEvents = {
     USER_ACTIVATION_STATUS_CHANGED: 'user_activation_status_change',
     CLOUD_PAYMENT_STATUS_UPDATED: 'cloud_payment_status_updated',
     APPS_FRAMEWORK_REFRESH_BINDINGS: 'custom_com.mattermost.apps_refresh_bindings',
+    APPS_FRAMEWORK_PLUGIN_ENABLED: 'custom_com.mattermost.apps_plugin_enabled',
+    APPS_FRAMEWORK_PLUGIN_DISABLED: 'custom_com.mattermost.apps_plugin_disabled',
     FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED: 'first_admin_visit_marketplace_status_received',
     THREAD_UPDATED: 'thread_updated',
     THREAD_FOLLOW_CHANGED: 'thread_follow_changed',
@@ -463,12 +505,38 @@ export const SocketEvents = {
 };
 
 export const TutorialSteps = {
+    ADD_FIRST_CHANNEL: -1,
     POST_POPOVER: 0,
     CHANNEL_POPOVER: 1,
     ADD_CHANNEL_POPOVER: 2,
     MENU_POPOVER: 3,
     PRODUCT_SWITCHER: 4,
     SETTINGS: 5,
+    START_TRIAL: 6,
+    FINISHED: 999,
+};
+
+// note: add steps in same order as the keys in TutorialSteps above
+export const AdminTutorialSteps = ['START_TRIAL'];
+
+export const CrtTutorialSteps = {
+    WELCOME_POPOVER: 0,
+    LIST_POPOVER: 1,
+    UNREAD_POPOVER: 2,
+    FINISHED: 999,
+};
+export const CrtTutorialTriggerSteps = {
+    START: 0,
+    STARTED: 1,
+    FINISHED: 999,
+};
+export const AutoTourStatus = {
+    ENABLED: 0,
+    DISABLED: 1,
+};
+
+export const CrtThreadPaneSteps = {
+    THREADS_PANE_POPOVER: 0,
     FINISHED: 999,
 };
 
@@ -484,6 +552,7 @@ export const RecommendedNextSteps = {
     PREFERENCES_SETUP: 'preferences_setup',
     NOTIFICATION_SETUP: 'notification_setup',
     DOWNLOAD_APPS: 'download_apps',
+    CREATE_FIRST_CHANNEL: 'create_first_channel',
     HIDE: 'hide',
     SKIP: 'skip',
 };
@@ -502,8 +571,27 @@ export const CloudBanners = {
 export const TELEMETRY_CATEGORIES = {
     CLOUD_PURCHASING: 'cloud_purchasing',
     CLOUD_ADMIN: 'cloud_admin',
+    POST_INFO_MORE: 'post_info_more_menu',
+    POST_INFO: 'post_info',
     SELF_HOSTED_START_TRIAL_AUTO_MODAL: 'self_hosted_start_trial_auto_modal',
     SELF_HOSTED_START_TRIAL_MODAL: 'self_hosted_start_trial_modal',
+    SELF_HOSTED_START_TRIAL_TASK_LIST: 'self_hosted_start_trial_task_list',
+    WORKSPACE_OPTIMIZATION_DASHBOARD: 'workspace_optimization_dashboard',
+};
+
+export const TELEMETRY_LABELS = {
+    UNSAVE: 'unsave',
+    SAVE: 'save',
+    COPY_LINK: 'copy_link',
+    COPY_TEXT: 'copy_text',
+    DELETE: 'delete',
+    EDIT: 'edit',
+    FOLLOW: 'follow',
+    UNFOLLOW: 'unfollow',
+    PIN: 'pin',
+    UNPIN: 'unpin',
+    REPLY: 'reply',
+    UNREAD: 'unread',
 };
 
 export const PostTypes = {
@@ -574,6 +662,7 @@ export const UserSearchOptions = {
 
 // UserListOptions are the possible option keys for get users page request
 export const UserListOptions = {
+    ACTIVE: 'active',
     INACTIVE: 'inactive',
     IN_TEAM: 'in_team',
     NOT_IN_TEAM: 'not_in_team',
@@ -588,6 +677,7 @@ export const UserListOptions = {
 // UserFilters are the values for UI get/search user filters
 export const UserFilters = {
     INACTIVE: 'inactive',
+    ACTIVE: 'active',
     SYSTEM_ADMIN: 'system_admin',
     SYSTEM_GUEST: 'system_guest',
 };
@@ -601,6 +691,7 @@ export const SearchTypes = keyMirror({
     SET_TEAM_LIST_SEARCH: null,
     SET_CHANNEL_LIST_SEARCH: null,
     SET_CHANNEL_LIST_FILTERS: null,
+    SET_CHANNEL_MEMBERS_RHS_SEARCH: null,
 });
 
 export const StorageTypes = keyMirror({
@@ -608,7 +699,6 @@ export const StorageTypes = keyMirror({
     REMOVE_ITEM: null,
     SET_GLOBAL_ITEM: null,
     REMOVE_GLOBAL_ITEM: null,
-    CLEAR: null,
     ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX: null,
     STORAGE_REHYDRATE: null,
 });
@@ -641,7 +731,6 @@ export const ErrorPageTypes = {
     PERMALINK_NOT_FOUND: 'permalink_not_found',
     TEAM_NOT_FOUND: 'team_not_found',
     CHANNEL_NOT_FOUND: 'channel_not_found',
-    MAX_FREE_USERS_REACHED: 'max_free_users_reached',
 };
 
 export const JobTypes = {
@@ -705,6 +794,7 @@ export const FileTypes = {
     PATCH: 'patch',
     SVG: 'svg',
     OTHER: 'other',
+    LICENSE_EXTENSION: '.mattermost-license',
 };
 
 export const NotificationLevels = {
@@ -733,6 +823,7 @@ export const AdvancedSections = {
     FORMATTING: 'formatting',
     JOIN_LEAVE: 'joinLeave',
     PREVIEW_FEATURES: 'advancedPreviewFeatures',
+    PERFORMANCE_DEBUGGING: 'performanceDebugging',
 };
 
 export const RHSStates = {
@@ -742,6 +833,8 @@ export const RHSStates = {
     PIN: 'pin',
     PLUGIN: 'plugin',
     CHANNEL_FILES: 'channel-files',
+    CHANNEL_INFO: 'channel-info',
+    CHANNEL_MEMBERS: 'channel-members',
 };
 
 export const UploadStatuses = {
@@ -775,8 +868,8 @@ export const DraggingStateTypes = {
 };
 
 export const AboutLinks = {
-    TERMS_OF_SERVICE: 'https://about.mattermost.com/default-terms/',
-    PRIVACY_POLICY: 'https://about.mattermost.com/default-privacy-policy/',
+    TERMS_OF_SERVICE: 'https://mattermost.com/terms-of-use/',
+    PRIVACY_POLICY: 'https://mattermost.com/privacy-policy/',
 };
 
 export const CloudLinks = {
@@ -784,6 +877,22 @@ export const CloudLinks = {
     PRICING: 'https://mattermost.com/pricing/',
     PRORATED_PAYMENT: 'https://mattermost.com/pl/mattermost-cloud-prorate-documentation',
     DEPLOYMENT_OPTIONS: 'https://mattermost.com/deploy/',
+    DOWNLOAD_UPDATE: 'https://mattermost.com/deploy/',
+};
+
+export const DocLinks = {
+    AD_LDAP: 'https://docs.mattermost.com/configure/configuration-settings.html#ad-ldap',
+    DATA_RETENTION_POLICY: 'https://docs.mattermost.com/comply/data-retention-policy.html',
+    ELASTICSEARCH: 'https://docs.mattermost.com/scale/elasticsearch.html',
+    GUEST_ACCOUNTS: 'https://docs.mattermost.com/onboard/guest-accounts.html',
+    SESSION_LENGTHS: 'https://docs.mattermost.com/configure/configuration-settings.html#session-lengths',
+    SITE_URL: 'https://docs.mattermost.com/configure/configuration-settings.html#site-url',
+    SSL_CERTIFICATE: 'https://docs.mattermost.com/onboard/ssl-client-certificate.html',
+    UPGRADE_SERVER: 'https://docs.mattermost.com/upgrade/upgrading-mattermost-server.html',
+};
+
+export const LicenseLinks = {
+    CONTACT_SALES: 'https://mattermost.com/contact-sales/',
 };
 
 export const BillingSchemes = {
@@ -867,6 +976,24 @@ export const PermissionsScope = {
     [Permissions.CONVERT_PRIVATE_CHANNEL_TO_PUBLIC]: 'channel_scope',
     [Permissions.MANAGE_SHARED_CHANNELS]: 'system_scope',
     [Permissions.MANAGE_SECURE_CONNECTIONS]: 'system_scope',
+    [Permissions.PLAYBOOK_PUBLIC_CREATE]: 'team_scope',
+    [Permissions.PLAYBOOK_PUBLIC_MANAGE_PROPERTIES]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PUBLIC_MANAGE_MEMBERS]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PUBLIC_VIEW]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PUBLIC_MAKE_PRIVATE]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PRIVATE_CREATE]: 'team_scope',
+    [Permissions.PLAYBOOK_PRIVATE_MANAGE_PROPERTIES]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PRIVATE_MANAGE_MEMBERS]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PRIVATE_VIEW]: 'playbook_scope',
+    [Permissions.PLAYBOOK_PRIVATE_MAKE_PUBLIC]: 'playbook_scope',
+    [Permissions.RUN_CREATE]: 'playbook_scope',
+    [Permissions.RUN_MANAGE_MEMBERS]: 'run_scope',
+    [Permissions.RUN_MANAGE_PROPERTIES]: 'run_scope',
+    [Permissions.RUN_VIEW]: 'run_scope',
+    [Permissions.CREATE_CUSTOM_GROUP]: 'system_scope',
+    [Permissions.EDIT_CUSTOM_GROUP]: 'system_scope',
+    [Permissions.DELETE_CUSTOM_GROUP]: 'system_scope',
+    [Permissions.MANAGE_CUSTOM_GROUP_MEMBERS]: 'system_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -906,6 +1033,18 @@ export const DefaultRolePermissions = {
         Permissions.JOIN_PUBLIC_TEAMS,
         Permissions.USE_CHANNEL_MENTIONS,
         Permissions.USE_GROUP_MENTIONS,
+        Permissions.CREATE_CUSTOM_GROUP,
+        Permissions.EDIT_CUSTOM_GROUP,
+        Permissions.DELETE_CUSTOM_GROUP,
+        Permissions.MANAGE_CUSTOM_GROUP_MEMBERS,
+        Permissions.PLAYBOOK_PUBLIC_CREATE,
+        Permissions.PLAYBOOK_PRIVATE_CREATE,
+        Permissions.PLAYBOOK_PUBLIC_MANAGE_MEMBERS,
+        Permissions.PLAYBOOK_PRIVATE_MANAGE_MEMBERS,
+        Permissions.PLAYBOOK_PUBLIC_MANAGE_PROPERTIES,
+        Permissions.PLAYBOOK_PRIVATE_MANAGE_PROPERTIES,
+        Permissions.PLAYBOOK_PUBLIC_MAKE_PRIVATE,
+        Permissions.RUN_CREATE,
     ],
     channel_admin: [
         Permissions.MANAGE_CHANNEL_ROLES,
@@ -998,6 +1137,11 @@ export const Constants = {
     UserStatuses,
     UserSearchOptions,
     TutorialSteps,
+    AdminTutorialSteps,
+    CrtTutorialSteps,
+    CrtTutorialTriggerSteps,
+    AutoTourStatus,
+    CrtThreadPaneSteps,
     PostTypes,
     ErrorPageTypes,
     AnnouncementBarTypes,
@@ -1129,6 +1273,7 @@ export const Constants = {
     POST_UPDATED: 'updated',
     SYSTEM_MESSAGE_PREFIX: 'system_',
     SUGGESTION_LIST_MAXHEIGHT: 292,
+    SUGGESTION_LIST_MAXWIDTH: 496,
     SUGGESTION_LIST_SPACE_RHS: 420,
     SUGGESTION_LIST_MODAL_WIDTH: 496,
     MENTION_NAME_PADDING_LEFT: 2.4,
@@ -1531,10 +1676,12 @@ export const Constants = {
     DEFAULT_MAX_CHANNELS_PER_TEAM: 2000,
     DEFAULT_MAX_NOTIFICATIONS_PER_CHANNEL: 1000,
     MIN_TEAMNAME_LENGTH: 2,
-    MAX_TEAMNAME_LENGTH: 15,
+    MAX_TEAMNAME_LENGTH: 64,
     MAX_TEAMDESCRIPTION_LENGTH: 50,
-    MIN_CHANNELNAME_LENGTH: 2,
+    MIN_CHANNELNAME_LENGTH: 1,
     MAX_CHANNELNAME_LENGTH: 64,
+    DEFAULT_CHANNELURL_SHORTEN_LENGTH: 52,
+    MAX_CHANNELPURPOSE_LENGTH: 250,
     MAX_FIRSTNAME_LENGTH: 64,
     MAX_LASTNAME_LENGTH: 64,
     MAX_EMAIL_LENGTH: 128,
@@ -1603,7 +1750,11 @@ export const Constants = {
     ACCEPT_STATIC_IMAGE: '.jpeg,.jpg,.png,.bmp',
     ACCEPT_EMOJI_IMAGE: '.jpeg,.jpg,.png,.gif',
     THREADS_PAGE_SIZE: 25,
+    THREADS_LOADING_INDICATOR_ITEM_ID: 'threads_loading_indicator_item_id',
+    THREADS_NO_RESULTS_ITEM_ID: 'threads_no_results_item_id',
     TRIAL_MODAL_AUTO_SHOWN: 'trial_modal_auto_shown',
+    DEFAULT_SITE_URL: 'http://localhost:8065',
+    CHANNEL_HEADER_BUTTON_DISABLE_TIMEOUT: 1000,
 };
 
 export const ValidationErrors = {
@@ -1613,6 +1764,19 @@ export const ValidationErrors = {
     INVALID_FIRST_CHARACTER: 'INVALID_FIRST_CHARACTER',
     RESERVED_NAME: 'RESERVED_NAME',
     INVALID_LAST_CHARACTER: 'INVALID_LAST_CHARACTER',
+};
+
+export const ConsolePages = {
+    AD_LDAP: '/admin_console/authentication/ldap',
+    COMPLIANCE_EXPORT: '/admin_console/compliance/export',
+    CUSTOM_TERMS: '/admin_console/compliance/custom_terms_of_service',
+    DATA_RETENTION: '/admin_console/compliance/data_retention_settings',
+    ELASTICSEARCH: '/admin_console/environment/elasticsearch',
+    GUEST_ACCOUNTS: '/admin_console/authentication/guest_access',
+    LICENSE: '/admin_console/about/license',
+    SAML: '/admin_console/authentication/saml',
+    SESSION_LENGTHS: '/admin_console/environment/session_lengths',
+    WEB_SERVER: '/admin_console/environment/web_server',
 };
 
 export const WindowSizes = {
@@ -1701,6 +1865,56 @@ export const durationValues = {
     [CUSTOM_DATE_TIME]: {
         id: t('custom_status.expiry_dropdown.date_and_time'),
         defaultMessage: 'Custom Date and Time',
+    },
+};
+
+export const InsightsTimeFrames = {
+    INSIGHTS_1_DAY: '1_day',
+    INSIGHTS_7_DAYS: '7_day',
+    INSIGHTS_28_DAYS: '28_day',
+};
+
+export const InsightsScopes = {
+    MY: 'MY',
+    TEAM: 'TEAM',
+};
+
+export const InsightsCardTitles = {
+    TOP_CHANNELS: {
+        teamTitle: {
+            id: t('insights.topChannels.title'),
+            defaultMessage: 'Top channels',
+        },
+        myTitle: {
+            id: t('insights.topChannels.myTitle'),
+            defaultMessage: 'My top channels',
+        },
+        teamSubTitle: {
+            id: t('insights.topChannels.subTitle'),
+            defaultMessage: 'Most active channels for the team',
+        },
+        mySubTitle: {
+            id: t('insights.topChannels.mySubTitle'),
+            defaultMessage: 'Most active channels that I\'m a member of',
+        },
+    },
+    TOP_REACTIONS: {
+        teamTitle: {
+            id: t('insights.topReactions.title'),
+            defaultMessage: 'Top reactions',
+        },
+        myTitle: {
+            id: t('insights.topReactions.myTitle'),
+            defaultMessage: 'My top reactions',
+        },
+        teamSubTitle: {
+            id: t('insights.topReactions.subTitle'),
+            defaultMessage: 'The team\'s most-used reactions',
+        },
+        mySubTitle: {
+            id: t('insights.topReactions.mySubTitle'),
+            defaultMessage: 'Reactions I\'ve used the most',
+        },
     },
 };
 

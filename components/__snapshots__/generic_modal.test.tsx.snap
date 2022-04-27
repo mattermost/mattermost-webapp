@@ -24,19 +24,23 @@ exports[`components/GenericModal should match snapshot for base case 1`] = `
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
   show={true}
 >
-  <ModalHeader
-    bsClass="modal-header"
-    closeButton={true}
-    closeLabel="Close"
-  />
-  <form>
+  <div
+    className="GenericModal__wrapper-enter-key-press-catcher"
+    onKeyDown={[Function]}
+    tabIndex={0}
+  >
+    <ModalHeader
+      bsClass="modal-header"
+      closeButton={true}
+      closeLabel="Close"
+    />
     <ModalBody
       bsClass="modal-body"
       componentClass="div"
@@ -54,11 +58,7 @@ exports[`components/GenericModal should match snapshot for base case 1`] = `
         className="GenericModal__body"
       />
     </ModalBody>
-    <ModalFooter
-      bsClass="modal-footer"
-      componentClass="div"
-    />
-  </form>
+  </div>
 </Modal>
 `;
 
@@ -86,19 +86,23 @@ exports[`components/GenericModal should match snapshot with both buttons 1`] = `
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
   show={true}
 >
-  <ModalHeader
-    bsClass="modal-header"
-    closeButton={true}
-    closeLabel="Close"
-  />
-  <form>
+  <div
+    className="GenericModal__wrapper-enter-key-press-catcher"
+    onKeyDown={[Function]}
+    tabIndex={0}
+  >
+    <ModalHeader
+      bsClass="modal-header"
+      closeButton={true}
+      closeLabel="Close"
+    />
     <ModalBody
       bsClass="modal-body"
       componentClass="div"
@@ -141,7 +145,7 @@ exports[`components/GenericModal should match snapshot with both buttons 1`] = `
         />
       </button>
     </ModalFooter>
-  </form>
+  </div>
 </Modal>
 `;
 
@@ -169,19 +173,23 @@ exports[`components/GenericModal should match snapshot with disabled confirm but
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
   show={true}
 >
-  <ModalHeader
-    bsClass="modal-header"
-    closeButton={true}
-    closeLabel="Close"
-  />
-  <form>
+  <div
+    className="GenericModal__wrapper-enter-key-press-catcher"
+    onKeyDown={[Function]}
+    tabIndex={0}
+  >
+    <ModalHeader
+      bsClass="modal-header"
+      closeButton={true}
+      closeLabel="Close"
+    />
     <ModalBody
       bsClass="modal-body"
       componentClass="div"
@@ -215,6 +223,6 @@ exports[`components/GenericModal should match snapshot with disabled confirm but
         />
       </button>
     </ModalFooter>
-  </form>
+  </div>
 </Modal>
 `;

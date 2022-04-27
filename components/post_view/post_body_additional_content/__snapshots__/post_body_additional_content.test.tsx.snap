@@ -129,9 +129,12 @@ exports[`PostBodyAdditionalContent with a permalinklink Render permalink preview
     some children
   </span>
   <Connect(PostMessagePreview)
+    handleFileDropdownOpened={[MockFunction]}
     metadata={
       Object {
         "channel_display_name": "channel1",
+        "channel_id": "channel_id",
+        "channel_type": "O",
         "post_id": "post_id123",
         "team_name": "core",
       }
@@ -160,7 +163,7 @@ exports[`PostBodyAdditionalContent with an image preview should render correctly
   <span>
     some children
   </span>
-  <PostImage
+  <Connect(PostImage)
     imageMetadata={Object {}}
     link="https://example.com/image.png"
     post={
@@ -202,7 +205,7 @@ exports[`PostBodyAdditionalContent with an image preview should render the toggl
     key="toggle"
     onClick={[Function]}
   />
-  <PostImage
+  <Connect(PostImage)
     imageMetadata={Object {}}
     link="https://example.com/image.png"
     post={

@@ -10,8 +10,14 @@ import {mountWithIntl, shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import ImportThemeModal from './import_theme_modal';
 
 describe('components/user_settings/ImportThemeModal', () => {
+    const props = {
+        intl: {} as any,
+        onExited: jest.fn(),
+        callback: jest.fn(),
+    };
+
     it('should match snapshot', () => {
-        const wrapper = shallowWithIntl(<ImportThemeModal/>);
+        const wrapper = shallowWithIntl(<ImportThemeModal {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -32,18 +38,16 @@ describe('components/user_settings/ImportThemeModal', () => {
         });
 
         const themeString = '#1d2229,#0b161e,#537aa6,#ffffff,#313843,#ffffff,#94e864,#78af8f,#0b161e,#ffffff';
-        const wrapper = mountWithIntl(<ImportThemeModal/>);
+        const wrapper = mountWithIntl(<ImportThemeModal {...props}/>);
         const instance = wrapper.instance();
 
-        const callback = jest.fn();
-
-        instance.setState({show: true, callback});
+        instance.setState({show: true});
         wrapper.update();
 
         wrapper.find('input').simulate('change', {target: {value: themeString}});
 
         wrapper.find('#submitButton').simulate('click');
 
-        expect(callback).toHaveBeenCalledWith(theme);
+        expect(props.callback).toHaveBeenCalledWith(theme);
     });
 });

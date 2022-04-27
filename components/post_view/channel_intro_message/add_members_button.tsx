@@ -6,17 +6,17 @@ import {useSelector} from 'react-redux';
 
 import {FormattedMessage, useIntl} from 'react-intl';
 
+import EmptyStateThemeableSvg from 'components/common/svg_images_components/empty_state_themeable_svg';
+
 import {Channel} from 'mattermost-redux/types/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {Permissions} from 'mattermost-redux/constants';
 
-import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
-import ToggleModalButton from 'components/toggle_modal_button.jsx';
+import ToggleModalButton from 'components/toggle_modal_button';
 import InvitationModal from 'components/invitation_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
-import EmptyStateThemeableSvg from 'components/common/svg_images_components/empty_state_themeable.svg';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
@@ -30,33 +30,47 @@ export interface AddMembersButtonProps {
     totalUsers?: number;
     usersLimit: number;
     channel: Channel;
-    setHeader: React.ReactNode;
+    setHeader?: React.ReactNode;
+    createBoard?: React.ReactNode;
 }
 
-const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLimit, channel, setHeader}: AddMembersButtonProps) => {
+const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLimit, channel, setHeader, createBoard}: AddMembersButtonProps) => {
+    const currentTeamId = useSelector(getCurrentTeamId);
+
     if (!totalUsers) {
         return (<LoadingSpinner/>);
     }
 
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const inviteUsers = totalUsers < usersLimit;
-    const currentTeamId = useSelector(getCurrentTeamId);
 
     return (
         <TeamPermissionGate
             teamId={currentTeamId}
             permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
         >
-            {inviteUsers && !isPrivate ? lessThanMaxFreeUsers(setHeader) : moreThanMaxFreeUsers(channel, setHeader)}
+            {inviteUsers && !isPrivate ? (
+                <LessThanMaxFreeUsers
+                    createBoard={createBoard}
+                    setHeader={setHeader}
+                />
+            ) : (
+                <MoreThanMaxFreeUsers
+                    channel={channel}
+                    createBoard={createBoard}
+                    setHeader={setHeader}
+                />
+            )}
         </TeamPermissionGate>
     );
 };
 
-const lessThanMaxFreeUsers = (setHeader: React.ReactNode) => {
+const LessThanMaxFreeUsers = ({setHeader, createBoard}: {setHeader: React.ReactNode; createBoard: React.ReactNode}) => {
     const {formatMessage} = useIntl();
 
     return (
         <>
+            {createBoard}
             {setHeader}
             <div className='LessThanMaxFreeUsers'>
                 <EmptyStateThemeableSvg
@@ -68,7 +82,7 @@ const lessThanMaxFreeUsers = (setHeader: React.ReactNode) => {
                         id='intro_messages.inviteOthersToWorkspace.title'
                         defaultMessage='Let’s add some people to the workspace!'
                     />
-                    <ToggleModalButtonRedux
+                    <ToggleModalButton
                         ariaLabel={localizeMessage('intro_messages.inviteOthers', 'Invite others to the workspace')}
                         id='introTextInvite'
                         className='intro-links color--link cursor--pointer'
@@ -83,22 +97,23 @@ const lessThanMaxFreeUsers = (setHeader: React.ReactNode) => {
                             id='intro_messages.inviteOthersToWorkspace.button'
                             defaultMessage='Invite others to the workspace'
                         />
-                    </ToggleModalButtonRedux>
+                    </ToggleModalButton>
                 </div>
             </div>
         </>
     );
 };
 
-const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode) => {
+const MoreThanMaxFreeUsers = ({channel, setHeader, createBoard}: {channel: Channel; setHeader: React.ReactNode; createBoard: React.ReactNode}) => {
+    const {formatMessage} = useIntl();
+
+    const modalId = channel.group_constrained ? ModalIdentifiers.ADD_GROUPS_TO_CHANNEL : ModalIdentifiers.CHANNEL_INVITE;
     const modal = channel.group_constrained ? AddGroupsToChannelModal : ChannelInviteModal;
     const channelIsArchived = channel.delete_at !== 0;
     if (channelIsArchived) {
         return null;
     }
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
-
-    const {formatMessage} = useIntl();
 
     return (
         <div className='MoreThanMaxFreeUsersWrapper'>
@@ -110,6 +125,7 @@ const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode) => {
                 >
                     <ToggleModalButton
                         className='intro-links color--link'
+                        modalId={modalId}
                         dialogType={modal}
                         dialogProps={{channel}}
                     >
@@ -135,6 +151,7 @@ const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode) => {
                     </ToggleModalButton>
                 </ChannelPermissionGate>
             </div>
+            {createBoard}
             {setHeader}
         </div>
     );

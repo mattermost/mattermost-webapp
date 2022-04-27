@@ -1,9 +1,8 @@
 @charset "utf-8";
 
 .dropdown-menu {
-    @include border-radius(4px);
-
     background: var(--center-channel-bg);
+    border-radius: 4px;
 
     &.colorpicker {
         z-index: 2500;
@@ -26,24 +25,6 @@
             &:hover {
                 color: inherit;
             }
-        }
-    }
-
-    .call-plugin-icon {
-        width: 20px;
-        height: 20px;
-        margin-right: 8px;
-        color: rgba(var(--center-channel-color-rgb), 0.56);
-        fill: rgba(var(--center-channel-color-rgb), 0.56);
-        font-size: 1.6rem;
-        text-align: center;
-        vertical-align: middle;
-
-        svg,
-        img,
-        .icon {
-            width: 16px;
-            height: 16px;
         }
     }
 

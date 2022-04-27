@@ -43,7 +43,7 @@ h6.markdown__heading {
 .markdown__paragraph-inline {
     display: inline;
 
-    + .markdown__paragraph-inline {
+    +.markdown__paragraph-inline {
         margin-left: 4px;
     }
 }
@@ -53,9 +53,8 @@ h6.markdown__heading {
     .markdown-inline-img {
         max-height: 500px;
         margin: 5px 2px;
+        border-radius: 4px;
         -moz-force-broken-image-icon: 1;
-
-        @include border-radius(4px);
     }
 
     div.markdown-inline-img {
@@ -77,6 +76,15 @@ h6.markdown__heading {
     .markdown-inline-img__container {
         display: inline-block;
         width: calc(100% - 5px);
+
+        .markdown-image-expand__collapse-button {
+            z-index: 3;
+        }
+
+        .image-preview-utility-buttons-container {
+            top: 14px;
+            right: 12px;
+        }
     }
 
     .markdown-inline-img--loading {
@@ -87,10 +95,9 @@ h6.markdown__heading {
         border: 1px solid transparent;
 
         &:hover {
-            @include single-transition(all, 0.1s, linear);
-            @include box-shadow(0 2px 5px 0 rgba($black, 0.1), 0 2px 5px 0 rgba($black, 0.1));
-
             z-index: 2;
+            box-shadow: 0 2px 5px 0 rgba($black, 0.1), 0 2px 5px 0 rgba($black, 0.1);
+            transition: all 0.1s linear;
         }
     }
 
@@ -101,14 +108,12 @@ h6.markdown__heading {
     .markdown-inline-img--scaled-down {
         max-height: 18px;
         margin: 2px;
-
-        @include border-radius(2px);
+        border-radius: 2px;
 
         &:hover {
-            @include single-transition(all, 0.1s, linear);
-            @include box-shadow(0 2px 2px 0 rgba($black, 0.1), 0 2px 2px 0 rgba($black, 0.1));
-
             z-index: 2;
+            box-shadow: 0 2px 2px 0 rgba($black, 0.1), 0 2px 2px 0 rgba($black, 0.1);
+            transition: all 0.1s linear;
         }
     }
 
@@ -133,9 +138,8 @@ h6.markdown__heading {
     .markdown-inline-img {
         max-height: 18px;
         margin: 2px;
+        border-radius: 2px;
         -moz-force-broken-image-icon: 1;
-
-        @include border-radius(2px);
     }
 
     .markdown-inline-img--loading {
@@ -147,10 +151,9 @@ h6.markdown__heading {
         border: 1px solid transparent;
 
         &:hover {
-            @include single-transition(all, 0.1s, linear);
-            @include box-shadow(0 2px 2px 0 rgba($black, 0.1), 0 2px 2px 0 rgba($black, 0.1));
-
             z-index: 2;
+            box-shadow: 0 2px 2px 0 rgba($black, 0.1), 0 2px 2px 0 rgba($black, 0.1);
+            transition: all 0.1s linear;
         }
     }
 
@@ -181,10 +184,23 @@ h6.markdown__heading {
         background-color: inherit;
         font-size: 13px;
         text-align: left;
+        white-space: pre;
+    }
+
+    &:hover .post-code__clipboard {
+        opacity: 1;
     }
 
     &:hover .post-code__language {
-        @include opacity(1);
+        opacity: 1;
+    }
+
+    &:hover .post-code__overlay {
+        top: 6px;
+        right: 1px;
+        padding: 4px 4px 0;
+        background: var(--center-channel-bg);
+        border-radius: 4px;
     }
 
     &.post-code--wrap {
@@ -194,21 +210,20 @@ h6.markdown__heading {
     }
 
     .post-code__line-numbers {
-        @include user-select(none);
-
         min-width: 36px;
-        padding-right: 4px;
+        padding: 0 4px 4px;
         border-right: 1px solid #ccc;
         margin-right: 12px;
         color: #ccc;
         font-family: Menlo, Monaco, Consolas, "Courier New", monospace; // Match the fonts that code elements use
+        user-select: none;
     }
 
     .hljs {
         position: relative;
         display: flex;
         flex-direction: row;
-        padding: 6.5px;
+        padding: 8.5px;
         border: 1px solid rgba(v(center-channel-color-rgb), 0.2);
         margin: 5px 0;
         border-radius: 0.25em;
@@ -220,38 +235,107 @@ h6.markdown__heading {
     }
 }
 
-.post-code__language {
-    @include opacity(0);
-    @include transition(opacity, 0.6s);
-    @include unselectable;
+.post-code__context-menu {
+    &.react-contextmenu {
+        background-color: $white;
+    }
 
+    .react-contextmenu-item {
+        .span {
+            display: inline-block;
+            padding: 3px 0;
+        }
+
+        &.react-contextmenu-item--divider {
+            border-top: 1px solid rgba(63, 67, 80, 0.16);
+            margin: 5px 15px;
+        }
+
+        &.react-contextmenu-item--divider:hover {
+            background: unset;
+            color: unset;
+        }
+    }
+}
+
+.post-code__overlay {
     position: absolute;
     z-index: 5;
     top: 5px;
     right: 0;
-    padding: 4px 10px 5px;
-    background: #21586d;
+    display: flex;
+    height: 36px;
+    padding: 4px 4px 0;
     border-radius: 0 0 0 2px;
     color: $white;
+    user-select: none;
+
+    >span {
+        position: relative;
+        padding: 4px;
+        opacity: 0;
+    }
+
+    .post-code__clipboard {
+        width: 28px;
+        height: 28px;
+        margin-right: 0;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgba(var(--center-channel-color-rgb), 0.08);
+            color: rgba(var(--center-channel-color-rgb), 0.72);
+        }
+
+        &:active {
+            background: rgba(28, 88, 217, 0.08);
+
+            i {
+                color: #1c58d9;
+            }
+        }
+
+        >i {
+            margin-top: 1px;
+            margin-left: -2px;
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+            font-size: 18px;
+        }
+
+        .icon-check {
+            @include fade-in;
+
+            color: #3db887;
+        }
+    }
+
+    .post-code__language {
+        height: 28px;
+        padding: 4px 8px;
+        margin-left: 4px;
+        background-color: rgba(var(--center-channel-color-rgb), 0.56);
+        border-radius: 4px;
+        color: var(--center-channel-bg);
+        user-select: none;
+    }
 }
 
 .post-code__search-highlighting {
     position: absolute;
     color: transparent;
     pointer-events: none;
-
-    @include user-select(none);
+    user-select: none;
 }
 
 .post__body {
     hr {
-        @include opacity(0.2);
-
         height: 4px;
         padding: 0;
         border: 0 none;
         margin: 15px 0 16px;
         background-color: #e7e7e7;
+        opacity: 0.2;
     }
 
     .codespan__pre-wrap {
@@ -291,7 +375,7 @@ ol.markdown__list {
     padding: 0;
     counter-reset: list;
 
-    > li {
+    >li {
         display: table-row;
         counter-increment: list;
 
@@ -312,8 +396,6 @@ blockquote {
     font-size: inherit;
 
     &::before {
-        @include opacity(0.6);
-
         position: absolute;
         top: 5px;
         left: 8px;
@@ -323,6 +405,7 @@ blockquote {
         font-size: 20px;
         font-style: normal;
         font-weight: normal;
+        opacity: 0.6;
         text-decoration: inherit;
     }
 }
@@ -335,7 +418,6 @@ pre {
 
 code {
     background-color: rgba(var(--center-channel-color-rgb), 0.1);
-
     // Reset styles from Bootstrap
     color: inherit;
 }

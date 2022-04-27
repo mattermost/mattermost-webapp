@@ -503,14 +503,9 @@ describe('Selectors.Users', () => {
     it('makeGetProfilesNotInChannel', () => {
         const getProfilesNotInChannel = Selectors.makeGetProfilesNotInChannel();
 
-        assert.deepEqual(getProfilesNotInChannel(testState, channel1.id, {active: true}), [user3].sort(sortByUsername));
         assert.deepEqual(getProfilesNotInChannel(testState, channel1.id), [user2, user3].sort(sortByUsername));
 
-        assert.deepEqual(getProfilesNotInChannel(testState, channel2.id, {active: true}), [user4, user5].sort(sortByUsername));
         assert.deepEqual(getProfilesNotInChannel(testState, channel2.id), [user4, user5].sort(sortByUsername));
-
-        assert.deepEqual(getProfilesNotInChannel(testState, channel1.id, {role: 'system_guest'}), []);
-        assert.deepEqual(getProfilesNotInChannel(testState, channel2.id, {role: 'system_user'}), [user4, user5].sort(sortByUsername));
 
         assert.deepEqual(getProfilesNotInChannel(testState, 'nonexistentid'), []);
         assert.deepEqual(getProfilesNotInChannel(testState, 'nonexistentid'), []);

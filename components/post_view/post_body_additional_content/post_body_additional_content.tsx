@@ -25,6 +25,7 @@ export type Props = {
     isEmbedVisible?: boolean;
     options?: Partial<TextFormattingOptions>;
     appsEnabled: boolean;
+    handleFileDropdownOpened: (open: boolean) => void;
     actions: {
         toggleEmbedVisibility: (id: string) => void;
     };
@@ -118,6 +119,8 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
                 return (
                     <PostMessagePreview
                         metadata={embed.data}
+                        previewPost={embed.data.post}
+                        handleFileDropdownOpened={this.props.handleFileDropdownOpened}
                     />
                 );
             }

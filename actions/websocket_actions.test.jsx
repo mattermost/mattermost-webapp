@@ -12,9 +12,6 @@ import {
     getStatusesByIds,
     getUser,
 } from 'mattermost-redux/actions/users';
-import {
-    getChannelStats,
-} from 'mattermost-redux/actions/channels';
 import {General, WebsocketEvents} from 'mattermost-redux/constants';
 
 import {handleNewPost} from 'actions/post_actions';
@@ -28,6 +25,8 @@ import configureStore from 'tests/test_store';
 import {browserHistory} from 'utils/browser_history';
 import Constants, {SocketEvents, UserStatuses, ActionTypes} from 'utils/constants';
 
+import mergeObjects from 'packages/mattermost-redux/test/merge_objects';
+
 import {
     handleChannelUpdatedEvent,
     handleEvent,
@@ -39,9 +38,10 @@ import {
     handlePostUnreadEvent,
     handleUserRemovedEvent,
     handleUserTypingEvent,
-    handleUserUpdatedEvent,
     handleLeaveTeamEvent,
     reconnect,
+    handleAppsPluginEnabled,
+    handleAppsPluginDisabled,
 } from './websocket_actions';
 
 jest.mock('mattermost-redux/actions/posts', () => ({
@@ -75,9 +75,14 @@ jest.mock('actions/views/channel', () => ({
     syncPostsInChannel: jest.fn(),
 }));
 
+jest.mock('plugins', () => ({
+    ...jest.requireActual('plugins'),
+    loadPluginsIfNecessary: jest.fn(() => Promise.resolve()),
+}));
+
 jest.mock('utils/browser_history');
 
-const mockState = {
+let mockState = {
     entities: {
         users: {
             currentUserId: 'currentUserId',
@@ -103,7 +108,9 @@ const mockState = {
             },
         },
         general: {
-            config: {},
+            config: {
+                PluginsEnabled: 'true',
+            },
         },
         channels: {
             currentChannelId: 'otherChannel',
@@ -219,57 +226,6 @@ describe('handlePostUnreadEvent', () => {
     });
 });
 
-describe('handleUserUpdatedEvent', () => {
-    test('should not get channel stats if user is not guest', async () => {
-        const msg = {
-            data: {
-                user: {
-                    id: 'userid',
-                    roles: 'system_user',
-                },
-            },
-        };
-
-        await handleUserUpdatedEvent(msg);
-        expect(getChannelStats).not.toHaveBeenCalled();
-    });
-
-    test('should not get channel stats if user is not in current channel', async () => {
-        const msg = {
-            data: {
-                user: {
-                    id: 'userid',
-                    roles: 'system_user',
-                },
-            },
-        };
-
-        await handleUserUpdatedEvent(msg);
-        expect(getChannelStats).not.toHaveBeenCalled();
-    });
-
-    test('should get channel stats if user is guest and in current channel', async () => {
-        const msg = {
-            data: {
-                user: {
-                    id: 'guestid',
-                    roles: 'system_guest',
-                },
-            },
-        };
-
-        mockState.entities.channels.membersInChannel.otherChannel = {
-            guestid: {
-                id: 'guestid',
-            },
-        };
-
-        await handleUserUpdatedEvent(msg);
-        mockState.entities.channels.membersInChannel.otherChannel = {};
-        expect(getChannelStats).toHaveBeenCalled();
-    });
-});
-
 describe('handleUserRemovedEvent', () => {
     const currentChannelId = mockState.entities.channels.currentChannelId;
     const currentUserId = mockState.entities.users.currentUserId;
@@ -339,9 +295,38 @@ describe('handleUserRemovedEvent', () => {
             },
         };
 
-        mockState.entities.roles.roles = {system_guest: {permissions: []}};
+        mockState = mergeObjects(
+            mockState,
+            {
+                entities: {
+                    roles: {
+                        roles: {
+                            system_guest: {
+                                permissions: [],
+                            },
+                        },
+                    },
+                },
+            },
+        );
+
         handleUserRemovedEvent(msg);
-        mockState.entities.roles.roles = {system_guest: {permissions: ['view_members']}};
+
+        mockState = mergeObjects(
+            mockState,
+            {
+                entities: {
+                    roles: {
+                        roles: {
+                            system_guest: {
+                                permissions: ['view_members'],
+                            },
+                        },
+                    },
+                },
+            },
+        );
+
         expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
     });
 
@@ -1020,6 +1005,20 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
 
             expect(console.error).toHaveBeenCalledTimes(0);
         });
+    });
+});
+
+describe('handleAppsPluginEnabled', () => {
+    test('plugin enabled action is dispatched', async () => {
+        const enableAction = handleAppsPluginEnabled();
+        expect(enableAction).toEqual({type: 'APPS_PLUGIN_ENABLED'});
+    });
+});
+
+describe('handleAppsPluginDisabled', () => {
+    test('plugin disabled action is dispatched', async () => {
+        const disableAction = handleAppsPluginDisabled();
+        expect(disableAction).toEqual({type: 'APPS_PLUGIN_DISABLED'});
     });
 });
 

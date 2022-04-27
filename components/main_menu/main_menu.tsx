@@ -3,13 +3,14 @@
 
 import React from 'react';
 import {injectIntl, IntlShape} from 'react-intl';
+import {matchPath} from 'react-router-dom';
 
 import {Permissions} from 'mattermost-redux/constants';
 
 import * as GlobalActions from 'actions/global_actions';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
-import {useSafeUrl} from 'utils/url';
+import {makeUrlSafe} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
 import InvitationModal from 'components/invitation_modal';
 
@@ -28,11 +29,11 @@ import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 import Menu from 'components/widgets/menu/menu';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
 
-import withGetCloudSubscription from '../common/hocs/cloud/with_get_cloud_subscription';
-import {SubscriptionStats} from 'mattermost-redux/types/cloud';
 import {ModalData} from 'types/actions';
 import {PluginComponent} from 'types/store/plugins';
 import {UserProfile} from 'mattermost-redux/types/users';
+
+import {browserHistory} from 'utils/browser_history';
 
 export type Props = {
     mobile: boolean;
@@ -56,8 +57,16 @@ export type Props = {
     isMentionSearch?: boolean;
     teamIsGroupConstrained: boolean;
     isLicensedForLDAPGroups?: boolean;
-    showGettingStarted: boolean;
+    showDueToStepsNotFinished: boolean;
     intl: IntlShape;
+    teamUrl: string;
+    isFirstAdmin: boolean;
+    useCaseOnboarding: boolean;
+    location: {
+        pathname: string;
+    };
+    guestAccessEnabled: boolean;
+    canInviteTeamMember: boolean;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
         showMentions: () => void;
@@ -65,7 +74,6 @@ export type Props = {
         closeRightHandSide: () => void;
         closeRhsMenu: () => void;
         unhideNextSteps: () => void;
-        getSubscriptionStats: () => SubscriptionStats;
     };
 
 };
@@ -75,11 +83,6 @@ export class MainMenu extends React.PureComponent<Props> {
         mobile: false,
         pluginMenuItems: [],
     };
-
-    toggleShortcutsModal = (e: Event): void => {
-        e.preventDefault();
-        GlobalActions.toggleShortcutsModal();
-    }
 
     async componentDidMount(): Promise<void> {
         document.addEventListener('keydown', this.handleKeyDown);
@@ -117,13 +120,23 @@ export class MainMenu extends React.PureComponent<Props> {
         }
     }
 
+    unhideNextStepsAndNavigateToTipsView = () => {
+        this.props.actions.unhideNextSteps();
+        browserHistory.push(`${this.props.teamUrl}/tips`);
+    }
+
     render() {
         const {
+            appDownloadLink,
             currentUser,
             teamIsGroupConstrained,
             isLicensedForLDAPGroups,
             teamId = '',
+            guestAccessEnabled,
+            canInviteTeamMember,
         } = this.props;
+
+        const safeAppDownloadLink = makeUrlSafe(appDownloadLink || '');
 
         if (!currentUser) {
             return null;
@@ -145,25 +158,29 @@ export class MainMenu extends React.PureComponent<Props> {
 
         const someIntegrationEnabled = this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots;
         const showIntegrations = !this.props.mobile && someIntegrationEnabled && this.props.canManageIntegrations;
+        const inTipsView = matchPath(this.props.location.pathname, {path: '/:team/tips'}) != null;
 
         const {formatMessage} = this.props.intl;
 
-        const invitePeopleModal = (
-            <Menu.ItemToggleModalRedux
-                id='invitePeople'
-                modalId={ModalIdentifiers.INVITATION}
-                dialogType={InvitationModal}
-                text={formatMessage({
-                    id: 'navbar_dropdown.invitePeople',
-                    defaultMessage: 'Invite People',
-                })}
-                extraText={formatMessage({
-                    id: 'navbar_dropdown.invitePeopleExtraText',
-                    defaultMessage: 'Add people to the team',
-                })}
-                icon={this.props.mobile && <i className='fa fa-user-plus'/>}
-            />
-        );
+        let invitePeopleModal = null;
+        if (guestAccessEnabled || canInviteTeamMember) {
+            invitePeopleModal = (
+                <Menu.ItemToggleModalRedux
+                    id='invitePeople'
+                    modalId={ModalIdentifiers.INVITATION}
+                    dialogType={InvitationModal}
+                    text={formatMessage({
+                        id: 'navbar_dropdown.invitePeople',
+                        defaultMessage: 'Invite People',
+                    })}
+                    extraText={formatMessage({
+                        id: 'navbar_dropdown.invitePeopleExtraText',
+                        defaultMessage: 'Add people to the team',
+                    })}
+                    icon={this.props.mobile && <i className='fa fa-user-plus'/>}
+                />
+            );
+        }
 
         return this.props.mobile ? (
             <Menu
@@ -208,7 +225,7 @@ export class MainMenu extends React.PureComponent<Props> {
                         modalId={ModalIdentifiers.USER_SETTINGS}
                         dialogType={UserSettingsModal}
                         dialogProps={{isContentProductSettings: true}}
-                        text={formatMessage({id: 'navbar_dropdown.accountSettings', defaultMessage: 'Account Settings'})}
+                        text={formatMessage({id: 'navbar_dropdown.accountSettings', defaultMessage: 'Profile'})}
                         icon={<i className='fa fa-cog'/>}
                     />
                 </Menu.Group>
@@ -334,8 +351,8 @@ export class MainMenu extends React.PureComponent<Props> {
                     />
                     <Menu.ItemAction
                         id='gettingStarted'
-                        show={this.props.showGettingStarted}
-                        onClick={() => this.props.actions.unhideNextSteps()}
+                        show={!(this.props.useCaseOnboarding && this.props.isFirstAdmin) && this.props.showDueToStepsNotFinished && !inTipsView}
+                        onClick={() => this.unhideNextStepsAndNavigateToTipsView()}
                         text={formatMessage({id: 'navbar_dropdown.gettingStarted', defaultMessage: 'Getting Started'})}
                         icon={<i className='icon icon-play'/>}
                     />
@@ -349,7 +366,7 @@ export class MainMenu extends React.PureComponent<Props> {
                     <Menu.ItemExternalLink
                         id='nativeAppLink'
                         show={this.props.appDownloadLink && !UserAgent.isMobileApp()}
-                        url={useSafeUrl(this.props.appDownloadLink || '')}
+                        url={safeAppDownloadLink}
                         text={formatMessage({id: 'navbar_dropdown.nativeApps', defaultMessage: 'Download Apps'})}
                         icon={<i className='fa fa-mobile'/>}
                     />
@@ -465,9 +482,12 @@ export class MainMenu extends React.PureComponent<Props> {
                         />
                     </SystemPermissionGate>
                 </Menu.Group>
+                <Menu.Group>
+                    {pluginItems}
+                </Menu.Group>
             </Menu>
         );
     }
 }
 
-export default injectIntl(withGetCloudSubscription((MainMenu)));
+export default injectIntl(MainMenu);

@@ -19,12 +19,7 @@ jest.mock('utils/post_utils', () => ({
     fromAutoResponder: jest.fn().mockReturnValue(false),
 }));
 
-import {isMobile} from 'utils/utils';
 import UserProfile from '../user_profile';
-
-jest.mock('utils/utils', () => ({
-    isMobile: jest.fn(),
-}));
 
 describe('components/RhsComment', () => {
     const post = {
@@ -72,6 +67,8 @@ describe('components/RhsComment', () => {
         isBot: false,
         collapsedThreadsEnabled: false,
         isInViewport: jest.fn(),
+        isPostBeingEdited: false,
+        isMobileView: false,
     };
 
     test('should match snapshot', () => {
@@ -93,9 +90,12 @@ describe('components/RhsComment', () => {
     });
 
     test('should match snapshot mobile', () => {
-        isMobile.mockImplementation(() => true);
+        const props = {
+            ...baseProps,
+            isMobileView: true,
+        };
         const wrapper = shallow(
-            <RhsComment {...baseProps}/>,
+            <RhsComment {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -133,6 +133,17 @@ describe('components/RhsComment', () => {
             <RhsComment
                 {...baseProps}
                 shouldHighlight={true}
+            />,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when being edited', () => {
+        const wrapper = shallow(
+            <RhsComment
+                {...baseProps}
+                isPostBeingEdited={true}
             />,
         );
 
@@ -202,11 +213,13 @@ describe('components/RhsComment', () => {
     });
 
     test('should pass props correctly to PostFlagIcon', () => {
-        isMobile.mockImplementationOnce(() => false);
-
         const wrapper = shallow(
             <RhsComment {...baseProps}/>,
         );
+
+        wrapper.setState({
+            hover: true,
+        });
 
         const flagIcon = wrapper.find(PostFlagIcon);
         expect(flagIcon).toHaveLength(1);

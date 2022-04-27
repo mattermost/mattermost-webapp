@@ -35,15 +35,14 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
         isMuted: false,
         isCollapsed: false,
         isChannelSelected: false,
-        showTutorialTip: false,
-        townSquareDisplayName: 'Town Square',
-        offTopicDisplayName: 'Off-Topic',
+        showChannelsTutorialStep: false,
         actions: {
             multiSelectChannel: jest.fn(),
             multiSelectChannelAdd: jest.fn(),
             multiSelectChannelTo: jest.fn(),
             clearChannelSelection: jest.fn(),
             openLhs: jest.fn(),
+            unsetEditingPost: jest.fn(),
         },
     };
 

@@ -4,14 +4,15 @@
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Tooltip} from 'react-bootstrap';
+
+import * as FileUtils from 'utils/file_utils';
 
 import {Constants} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
-import * as FileUtils from 'utils/file_utils.jsx';
 
 import FormError from 'components/form_error';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
 export default class SettingPicture extends Component {

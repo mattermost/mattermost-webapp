@@ -67,7 +67,7 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
           className="col col-auto"
         >
           <Connect(TextboxLinks)
-            characterLimit={4000}
+            isMarkdownPreviewEnabled={false}
             showPreview={false}
             updatePreview={[Function]}
           />
@@ -82,15 +82,11 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
           id="addCommentButton"
           onClick={[Function]}
           type="button"
-          value="Add Comment"
+          value="Reply"
         />
       </div>
     </div>
   </div>
-  <PostDeletedModal
-    onHide={[Function]}
-    show={false}
-  />
 </form>
 `;
 
@@ -116,7 +112,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           badConnection={false}
           channelId="g6139tbospd18cmxroesdk3kkc"
           characterLimit={4000}
-          createMessage="Add a comment..."
+          createMessage="Reply to this thread..."
           disabled={false}
           emojiEnabled={true}
           handlePostError={[Function]}
@@ -198,7 +194,6 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           className="col col-auto"
         >
           <Connect(TextboxLinks)
-            characterLimit={4000}
             showPreview={false}
             updatePreview={[Function]}
           />
@@ -213,15 +208,11 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           id="addCommentButton"
           onClick={[Function]}
           type="button"
-          value="Add Comment"
+          value="Reply"
         />
       </div>
     </div>
   </div>
-  <PostDeletedModal
-    onHide={[Function]}
-    show={false}
-  />
 </form>
 `;
 
@@ -247,7 +238,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           badConnection={false}
           channelId="g6139tbospd18cmxroesdk3kkc"
           characterLimit={4000}
-          createMessage="Add a comment..."
+          createMessage="Reply to this thread..."
           disabled={false}
           emojiEnabled={false}
           handlePostError={[Function]}
@@ -305,7 +296,6 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           className="col col-auto"
         >
           <Connect(TextboxLinks)
-            characterLimit={4000}
             showPreview={false}
             updatePreview={[Function]}
           />
@@ -320,7 +310,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           id="addCommentButton"
           onClick={[Function]}
           type="button"
-          value="Add Comment"
+          value="Reply"
         />
         <Connect(FilePreview)
           fileInfos={
@@ -337,10 +327,6 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
       </div>
     </div>
   </div>
-  <PostDeletedModal
-    onHide={[Function]}
-    show={false}
-  />
 </form>
 `;
 
@@ -366,7 +352,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           badConnection={false}
           channelId="g6139tbospd18cmxroesdk3kkc"
           characterLimit={4000}
-          createMessage="Add a comment..."
+          createMessage="Reply to this thread..."
           disabled={false}
           emojiEnabled={true}
           handlePostError={[Function]}
@@ -448,7 +434,6 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           className="col col-auto"
         >
           <Connect(TextboxLinks)
-            characterLimit={4000}
             showPreview={false}
             updatePreview={[Function]}
           />
@@ -463,15 +448,11 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           id="addCommentButton"
           onClick={[Function]}
           type="button"
-          value="Add Comment"
+          value="Reply"
         />
       </div>
     </div>
   </div>
-  <PostDeletedModal
-    onHide={[Function]}
-    show={false}
-  />
 </form>
 `;
 
@@ -497,7 +478,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           badConnection={false}
           channelId="g6139tbospd18cmxroesdk3kkc"
           characterLimit={4000}
-          createMessage="Add a comment..."
+          createMessage="Reply to this thread..."
           disabled={false}
           emojiEnabled={true}
           handlePostError={[Function]}
@@ -579,7 +560,6 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           className="col col-auto"
         >
           <Connect(TextboxLinks)
-            characterLimit={4000}
             showPreview={false}
             updatePreview={[Function]}
           />
@@ -602,7 +582,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           id="addCommentButton"
           onClick={[Function]}
           type="button"
-          value="Add Comment"
+          value="Reply"
         />
         <Connect(FilePreview)
           fileInfos={
@@ -623,9 +603,5 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
       </div>
     </div>
   </div>
-  <PostDeletedModal
-    onHide={[Function]}
-    show={false}
-  />
 </form>
 `;

@@ -12,6 +12,8 @@ import * as Utils from 'utils/utils.jsx';
 import FileUploadOverlay from 'components/file_upload_overlay';
 import RhsThread from 'components/rhs_thread';
 import RhsCard from 'components/rhs_card';
+import ChannelInfoRhs from 'components/channel_info_rhs';
+import ChannelMembersRhs from 'components/channel_members_rhs';
 import Search from 'components/search/index.tsx';
 
 import RhsPlugin from 'plugins/rhs_plugin';
@@ -20,16 +22,14 @@ export default class SidebarRight extends React.PureComponent {
     static propTypes = {
         isExpanded: PropTypes.bool.isRequired,
         isOpen: PropTypes.bool.isRequired,
-        isSuppressed: PropTypes.bool,
         channel: PropTypes.object,
         postRightVisible: PropTypes.bool,
-        postRightSameAsSelectedThread: PropTypes.bool,
         postCardVisible: PropTypes.bool,
         searchVisible: PropTypes.bool,
-        isMentionSearch: PropTypes.bool,
-        isFlaggedPosts: PropTypes.bool,
         isPinnedPosts: PropTypes.bool,
         isChannelFiles: PropTypes.bool,
+        isChannelInfo: PropTypes.bool,
+        isChannelMembers: PropTypes.bool,
         isPluginView: PropTypes.bool,
         previousRhsState: PropTypes.string,
         rhsChannel: PropTypes.object,
@@ -43,6 +43,7 @@ export default class SidebarRight extends React.PureComponent {
             openAtPrevious: PropTypes.func.isRequired,
             updateSearchTerms: PropTypes.func.isRequired,
             showChannelFiles: PropTypes.func.isRequired,
+            showChannelInfo: PropTypes.func.isRequired,
         }),
     };
 
@@ -62,10 +63,10 @@ export default class SidebarRight extends React.PureComponent {
 
         this.previous = {
             searchVisible: this.props.searchVisible,
-            isMentionSearch: this.props.isMentionSearch,
             isPinnedPosts: this.props.isPinnedPosts,
             isChannelFiles: this.props.isChannelFiles,
-            isFlaggedPosts: this.props.isFlaggedPosts,
+            isChannelInfo: this.props.isChannelInfo,
+            isChannelMembers: this.props.isChannelMembers,
             selectedPostId: this.props.selectedPostId,
             selectedPostCardId: this.props.selectedPostCardId,
             previousRhsState: this.props.previousRhsState,
@@ -73,12 +74,32 @@ export default class SidebarRight extends React.PureComponent {
     }
 
     handleShortcut = (e) => {
-        if (Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.PERIOD)) {
-            e.preventDefault();
-            if (this.props.isOpen) {
-                this.props.actions.closeRightHandSide();
-            } else {
-                this.props.actions.openAtPrevious(this.previous);
+        if (Utils.cmdOrCtrlPressed(e, true)) {
+            if (e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.PERIOD)) {
+                e.preventDefault();
+                if (this.props.isOpen) {
+                    if (this.props.isExpanded) {
+                        this.props.actions.setRhsExpanded(false);
+                    } else {
+                        this.props.actions.setRhsExpanded(true);
+                    }
+                } else {
+                    this.props.actions.openAtPrevious(this.previous);
+                }
+            } else if (Utils.isKeyPressed(e, Constants.KeyCodes.PERIOD)) {
+                e.preventDefault();
+                if (this.props.isOpen) {
+                    this.props.actions.closeRightHandSide();
+                } else {
+                    this.props.actions.openAtPrevious(this.previous);
+                }
+            } else if (e.altKey && Utils.isKeyPressed(e, Constants.KeyCodes.I)) {
+                e.preventDefault();
+                if (this.props.isOpen && this.props.isChannelInfo) {
+                    this.props.actions.closeRightHandSide();
+                } else {
+                    this.props.actions.showChannelInfo(this.props.channel.id);
+                }
             }
         }
     }
@@ -168,17 +189,15 @@ export default class SidebarRight extends React.PureComponent {
     render() {
         const {
             rhsChannel,
-            isFlaggedPosts,
-            isPinnedPosts,
-            isChannelFiles,
             postRightVisible,
             postCardVisible,
             previousRhsState,
             searchVisible,
             isPluginView,
             isOpen,
+            isChannelInfo,
+            isChannelMembers,
             isExpanded,
-            isSuppressed,
         } = this.props;
 
         let content = null;
@@ -203,6 +222,16 @@ export default class SidebarRight extends React.PureComponent {
         case isPluginView:
             content = <RhsPlugin/>;
             break;
+        case isChannelInfo:
+            content = (
+                <ChannelInfoRhs channel={rhsChannel}/>
+            );
+            break;
+        case isChannelMembers:
+            content = (
+                <ChannelMembersRhs/>
+            );
+            break;
         }
 
         return (
@@ -222,7 +251,6 @@ export default class SidebarRight extends React.PureComponent {
                 />
                 <div className='sidebar-right-container'>
                     <Search
-                        isFocus={searchVisible && !isFlaggedPosts && !isPinnedPosts && !isChannelFiles && !isSuppressed}
                         isSideBarRight={true}
                         isSideBarRightOpen={this.state.isOpened}
                         getFocus={this.getSearchBarFocus}

@@ -9,9 +9,8 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {GlobalState} from 'types/store';
-import {Action} from 'mattermost-redux/types/actions';
-
 import {openModal} from 'actions/views/modals';
+import {Action} from 'mattermost-redux/types/actions';
 
 import UserSettingsModal, {Props} from './user_settings_modal';
 

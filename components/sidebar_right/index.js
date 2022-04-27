@@ -6,11 +6,10 @@ import {bindActionCreators} from 'redux';
 
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
-import {setRhsExpanded, showPinnedPosts, showChannelFiles, openRHSSearch, closeRightHandSide, openAtPrevious, updateSearchTerms} from 'actions/views/rhs';
+import {setRhsExpanded, showChannelInfo, showPinnedPosts, showChannelFiles, openRHSSearch, closeRightHandSide, openAtPrevious, updateSearchTerms} from 'actions/views/rhs';
 import {
     getIsRhsExpanded,
     getIsRhsOpen,
-    getIsRhsSuppressed,
     getRhsState,
     getSelectedChannel,
     getSelectedPostId,
@@ -31,16 +30,15 @@ function mapStateToProps(state) {
     return {
         isExpanded: getIsRhsExpanded(state),
         isOpen: getIsRhsOpen(state),
-        isSuppressed: getIsRhsSuppressed(state),
         channel,
         postRightVisible: Boolean(selectedPostId),
         postCardVisible: Boolean(selectedPostCardId),
         searchVisible: Boolean(rhsState) && rhsState !== RHSStates.PLUGIN,
         previousRhsState: getPreviousRhsState(state),
-        isMentionSearch: rhsState === RHSStates.MENTION,
-        isFlaggedPosts: rhsState === RHSStates.FLAG,
         isPinnedPosts: rhsState === RHSStates.PIN,
         isChannelFiles: rhsState === RHSStates.CHANNEL_FILES,
+        isChannelInfo: rhsState === RHSStates.CHANNEL_INFO,
+        isChannelMembers: rhsState === RHSStates.CHANNEL_MEMBERS,
         isPluginView: rhsState === RHSStates.PLUGIN,
         rhsChannel: getSelectedChannel(state),
         selectedPostId,
@@ -58,6 +56,7 @@ function mapDispatchToProps(dispatch) {
             openAtPrevious,
             updateSearchTerms,
             showChannelFiles,
+            showChannelInfo,
         }, dispatch),
     };
 }

@@ -85,11 +85,11 @@ export const KEYBOARD_SHORTCUTS = {
     teamNavSwitcher: {
         default: {
             id: t('shortcuts.team_nav.switcher'),
-            defaultMessage: 'Switch to a specific team:\tCtrl|Alt|[1-9]',
+            defaultMessage: 'Navigate to a specific team:\tCtrl|Alt|[1-9]',
         },
         mac: {
             id: t('shortcuts.team_nav.switcher.mac'),
-            defaultMessage: 'Switch to a specific team:\t⌘|⌥|[1-9]',
+            defaultMessage: 'Navigate to a specific team:\t⌘|⌥|[1-9]',
         },
     },
     teamNavigation: {
@@ -105,11 +105,11 @@ export const KEYBOARD_SHORTCUTS = {
     navSwitcher: {
         default: {
             id: t('shortcuts.nav.switcher'),
-            defaultMessage: 'Quick channel switcher:\tCtrl|K',
+            defaultMessage: 'Quick channel navigation:\tCtrl|K',
         },
         mac: {
             id: t('shortcuts.nav.switcher.mac'),
-            defaultMessage: 'Quick channel switcher:\t⌘|K',
+            defaultMessage: 'Quick channel navigation:\t⌘|K',
         },
     },
     navDMMenu: {
@@ -125,11 +125,11 @@ export const KEYBOARD_SHORTCUTS = {
     navSettings: {
         default: {
             id: t('shortcuts.nav.settings'),
-            defaultMessage: 'Account settings:\tCtrl|Shift|A',
+            defaultMessage: 'Settings:\tCtrl|Shift|A',
         },
         mac: {
             id: t('shortcuts.nav.settings.mac'),
-            defaultMessage: 'Account settings:\t⌘|Shift|A',
+            defaultMessage: 'Settings:\t⌘|Shift|A',
         },
     },
     navMentions: {
@@ -160,6 +160,26 @@ export const KEYBOARD_SHORTCUTS = {
         mac: {
             id: t('shortcuts.nav.open_close_sidebar.mac'),
             defaultMessage: 'Open or close the right sidebar\t⌘|.',
+        },
+    },
+    navExpandSidebar: {
+        default: {
+            id: t('shortcuts.nav.expand_sidebar'),
+            defaultMessage: 'Expand the right sidebar:\tCtrl|Shift|.',
+        },
+        mac: {
+            id: t('shortcuts.nav.expand_sidebar.mac'),
+            defaultMessage: 'Expand the right sidebar:\t⌘|Shift|.',
+        },
+    },
+    navOpenChannelInfo: {
+        default: {
+            id: t('shortcuts.nav.open_channel_info'),
+            defaultMessage: 'View channel info:\tCtrl|Alt|I',
+        },
+        mac: {
+            id: t('shortcuts.nav.open_channel_info.mac'),
+            defaultMessage: 'View channel info:\t⌘|Alt|I',
         },
     },
     msgEdit: {

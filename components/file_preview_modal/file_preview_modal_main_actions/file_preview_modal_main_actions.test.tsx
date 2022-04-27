@@ -1,16 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {shallow} from 'enzyme';
+import {mount, shallow} from 'enzyme';
 import React, {ComponentProps} from 'react';
 
-import {Tooltip} from 'react-bootstrap';
-
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 import {GlobalState} from '../../../types/store';
 
 import {TestHelper} from '../../../utils/test_helper';
 import * as Utils from 'utils/utils';
+import * as fileActions from 'mattermost-redux/actions/files';
 
 import FilePreviewModalMainActions from './file_preview_modal_main_actions';
 
@@ -29,6 +29,7 @@ describe('components/file_preview_modal/file_preview_modal_main_actions/FilePrev
             fileInfo: TestHelper.getFileInfoMock({}),
             enablePublicLink: false,
             canDownloadFiles: true,
+            showPublicLink: true,
             fileURL: 'http://example.com/img.png',
             filename: 'img.png',
             handleModalClose: jest.fn(),
@@ -74,6 +75,17 @@ describe('components/file_preview_modal/file_preview_modal_main_actions/FilePrev
         expect(overlayWrapper.prop('children')).toMatchSnapshot();
     });
 
+    test('should match snapshot for external image with public links enabled', () => {
+        const props = {
+            ...defaultProps,
+            enablePublicLink: true,
+            showPublicLink: false,
+        };
+
+        const wrapper = shallow(<FilePreviewModalMainActions {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should call public link callback', () => {
         const spy = jest.spyOn(Utils, 'copyToClipboard');
         const props = {
@@ -85,6 +97,22 @@ describe('components/file_preview_modal/file_preview_modal_main_actions/FilePrev
         const overlayWrapper = wrapper.find(OverlayTrigger).first().children('a');
         expect(spy).toHaveBeenCalledTimes(0);
         overlayWrapper.simulate('click');
+        expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    test('should not get public api when public links is disabled', async () => {
+        const spy = jest.spyOn(fileActions, 'getFilePublicLink');
+        mount(<FilePreviewModalMainActions {...defaultProps}/>);
+        expect(spy).toHaveBeenCalledTimes(0);
+    });
+
+    test('should get public api when public links is enabled', async () => {
+        const spy = jest.spyOn(fileActions, 'getFilePublicLink');
+        const props = {
+            ...defaultProps,
+            enablePublicLink: true,
+        };
+        mount(<FilePreviewModalMainActions {...props}/>);
         expect(spy).toHaveBeenCalledTimes(1);
     });
 });

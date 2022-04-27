@@ -43,7 +43,9 @@ export function replaceHtmlEntities(text: string): string;
 export function isGIFImage(extin: string): boolean;
 export function getFileType(extin: string): string;
 export function getFileIconPath(fileInfo: FileInfo): string;
+export function getCompassIconClassName(fileTypeIn: string, outline?: boolean, large?: boolean): string;
 export function getIconClassName(fileTypeIn: string): string;
+export function getMenuItemIcon(name: string, dangerous?: boolean): React.ReactNode;
 
 export function toTitleCase(str: string): string;
 
@@ -97,9 +99,6 @@ export function getDirectChannelName(id: string, otherId: string): string;
 export function getUserIdFromChannelName(channel: Channel): string;
 export function getUserIdFromChannelId(channelId: string, currentUserId?: string): string;
 
-export function windowWidth(): number;
-export function windowHeight(): number;
-
 export function isFeatureEnabled(feature: {label: string}, state: GlobalState): boolean;
 
 export function fillArray<T>(value: T, length: number): T[];
@@ -140,7 +139,6 @@ export function compareChannels(a: Channel, b: Channel): number;
 export function setCSRFFromCookie(): void;
 
 export function isDevMode(): boolean;
-export function enableDevModeFeatures(): void;
 
 export function getClosestParent(elem: HTMLElement, selector: string): void;
 
@@ -156,3 +154,4 @@ export function renderPurchaseLicense(): React.ReactNode;
 export function deleteKeysFromObject(value: any, keys: string[]): any;
 
 export function makeIsEligibleForClick(selector = ''): (event: MouseEvent) => boolean;
+export function numberToFixedDynamic(num: number, places: number): number

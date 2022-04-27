@@ -22,8 +22,6 @@ import Textbox from 'components/textbox';
 jest.mock('actions/global_actions', () => ({
     emitLocalUserTypingEvent: jest.fn(),
     emitUserPostedEvent: jest.fn(),
-    showChannelNameUpdateModal: jest.fn(),
-    toggleShortcutsModal: jest.fn(),
 }));
 
 jest.mock('actions/post_actions.jsx', () => ({
@@ -70,6 +68,7 @@ const actionsProp = {
     setEditingPost: jest.fn(),
     openModal: jest.fn(),
     setShowPreview: jest.fn(),
+    savePreferences: jest.fn(),
     executeCommand: async () => {
         return {data: true};
     },
@@ -90,8 +89,7 @@ function createPost({
     currentChannel = currentChannelProp,
     currentTeamId = currentTeamIdProp,
     currentUserId = currentUserIdProp,
-    tutorialStep = Constants.TutorialSteps.POST_POPOVER + 1,
-    showTutorialTip = showTutorialTipProp,
+    showSendTutorialTip = showTutorialTipProp,
     currentChannelMembersCount = currentChannelMembersCountProp,
     fullWidthTextBox = fullWidthTextBoxProp,
     draft = draftProp,
@@ -104,14 +102,17 @@ function createPost({
     canUploadFiles = true,
     emojiMap = new EmojiMap(new Map()),
     isTimezoneEnabled = false,
-    useGroupMentions = true,
+    useLDAPGroupMentions = true,
+    useCustomGroupMentions = true,
+    canPost = true,
+    isMarkdownPreviewEnabled = false,
 } = {}) {
     return (
         <CreatePost
             currentChannel={currentChannel}
             currentTeamId={currentTeamId}
             currentUserId={currentUserId}
-            showTutorialTip={showTutorialTip}
+            showSendTutorialTip={showSendTutorialTip}
             fullWidthTextBox={fullWidthTextBox}
             currentChannelMembersCount={currentChannelMembersCount}
             draft={draft}
@@ -133,10 +134,11 @@ function createPost({
             badConnection={false}
             shouldShowPreview={false}
             isTimezoneEnabled={isTimezoneEnabled}
-            canPost={true}
+            canPost={canPost}
             useChannelMentions={true}
-            useGroupMentions={useGroupMentions}
-            tutorialStep={tutorialStep}
+            useLDAPGroupMentions={useLDAPGroupMentions}
+            useCustomGroupMentions={useCustomGroupMentions}
+            isMarkdownPreviewEnabled={isMarkdownPreviewEnabled}
         />
     );
 }
@@ -178,7 +180,7 @@ describe('components/create_post', () => {
         expect(clearDraftUploads).toHaveBeenCalled();
     });
 
-    it('Check for state change on channelId change with useGroupMentions = true', () => {
+    it('Check for state change on channelId change with useLDAPGroupMentions = true', () => {
         const wrapper = shallowWithIntl(createPost({}));
         const draft = {
             ...draftProp,
@@ -199,7 +201,7 @@ describe('components/create_post', () => {
         expect(wrapper.state('message')).toBe('test');
     });
 
-    it('Check for getChannelMemberCountsByGroup called on mount and when channel changed with useGroupMentions = true', () => {
+    it('Check for getChannelMemberCountsByGroup called on mount and when channel changed with useLDAPGroupMentions = true', () => {
         const getChannelMemberCountsByGroup = jest.fn();
         const actions = {
             ...actionsProp,
@@ -216,14 +218,14 @@ describe('components/create_post', () => {
         expect(getChannelMemberCountsByGroup).toHaveBeenCalled();
     });
 
-    it('Check for getChannelMemberCountsByGroup not called on mount and when channel changed with useGroupMentions = false', () => {
+    it('Check for getChannelMemberCountsByGroup not called on mount and when channel changed with useLDAPGroupMentions = false', () => {
         const getChannelMemberCountsByGroup = jest.fn();
-        const useGroupMentions = false;
+        const useLDAPGroupMentions = false;
         const actions = {
             ...actionsProp,
             getChannelMemberCountsByGroup,
         };
-        const wrapper = shallowWithIntl(createPost({actions, useGroupMentions}));
+        const wrapper = shallowWithIntl(createPost({actions, useLDAPGroupMentions}));
         expect(getChannelMemberCountsByGroup).not.toHaveBeenCalled();
         wrapper.setProps({
             currentChannel: {
@@ -654,18 +656,6 @@ describe('components/create_post', () => {
         expect(openModal.mock.calls[0][0].dialogProps.channel).toEqual(currentChannelProp);
     });
 
-    it('onSubmit test for "/rename" message', () => {
-        const wrapper = shallowWithIntl(createPost());
-
-        wrapper.setState({
-            message: '/rename',
-        });
-
-        const form = wrapper.find('#create_post');
-        form.simulate('Submit', {preventDefault: jest.fn()});
-        expect(GlobalActions.showChannelNameUpdateModal).toHaveBeenCalledWith(currentChannelProp);
-    });
-
     it('onSubmit test for "/unknown" message ', async () => {
         jest.mock('actions/channel_actions.jsx', () => ({
             executeCommand: jest.fn((message, _args, resolve) => resolve()),
@@ -887,19 +877,6 @@ describe('components/create_post', () => {
         expect(instance.handleFileUploadChange).toHaveBeenCalledTimes(1);
     });
 
-    it('Should call Shortcut modal on FORWARD_SLASH+cntrl/meta', () => {
-        const wrapper = shallowWithIntl(createPost());
-        const instance = wrapper.instance();
-        instance.documentKeyHandler({ctrlKey: true, key: Constants.KeyCodes.BACK_SLASH[0], keyCode: Constants.KeyCodes.BACK_SLASH[1], preventDefault: jest.fn()});
-        expect(GlobalActions.toggleShortcutsModal).not.toHaveBeenCalled();
-        instance.documentKeyHandler({ctrlKey: true, key: 'ù', keyCode: Constants.KeyCodes.FORWARD_SLASH[1], preventDefault: jest.fn()});
-        expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
-        instance.documentKeyHandler({ctrlKey: true, key: '/', keyCode: Constants.KeyCodes.SEVEN[1], preventDefault: jest.fn()});
-        expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
-        instance.documentKeyHandler({ctrlKey: true, key: Constants.KeyCodes.FORWARD_SLASH[0], keyCode: Constants.KeyCodes.FORWARD_SLASH[1], preventDefault: jest.fn()});
-        expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
-    });
-
     it('Should just return as ctrlSend is enabled and its ctrl+enter', () => {
         const wrapper = shallowWithIntl(createPost({
             ctrlSend: true,
@@ -992,16 +969,6 @@ describe('components/create_post', () => {
             showTutorialTip: true,
         }));
         expect(wrapper).toMatchSnapshot();
-    });
-
-    it('Toggle showPostDeletedModal state', () => {
-        const wrapper = shallowWithIntl(createPost());
-        const instance = wrapper.instance();
-        instance.showPostDeletedModal();
-        expect(wrapper.state('showPostDeletedModal')).toBe(true);
-
-        instance.hidePostDeletedModal();
-        expect(wrapper.state('showPostDeletedModal')).toBe(false);
     });
 
     it('Should have called actions.onSubmitPost on sendMessage', async () => {
@@ -1335,5 +1302,29 @@ describe('components/create_post', () => {
         const e = makeSelectionEvent(value, 7, 14);
         textbox.props().onSelect(e);
         expect(setSelectionRangeFn).toHaveBeenCalledWith(8, 13);
+    });
+
+    it('should match snapshot, can post; preview enabled', () => {
+        const wrapper = shallowWithIntl(createPost({canPost: true, isMarkdownPreviewEnabled: true}));
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should match snapshot, can post; preview disabled', () => {
+        const wrapper = shallowWithIntl(createPost({canPost: true, isMarkdownPreviewEnabled: false}));
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should match snapshot, cannot post; preview enabled', () => {
+        const wrapper = shallowWithIntl(createPost({canPost: false, isMarkdownPreviewEnabled: true}));
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should match snapshot, cannot post; preview disabled', () => {
+        const wrapper = shallowWithIntl(createPost({canPost: false, isMarkdownPreviewEnabled: false}));
+
+        expect(wrapper).toMatchSnapshot();
     });
 });

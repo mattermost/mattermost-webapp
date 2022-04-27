@@ -12,7 +12,7 @@ import {IntegrationTypes} from 'mattermost-redux/action_types';
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import type {CommandArgs} from 'mattermost-redux/types/integrations';
 
-import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
+import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import {DoAppCallResult} from 'types/apps';
 
@@ -29,12 +29,14 @@ import {browserHistory} from 'utils/browser_history';
 import UserSettingsModal from 'components/user_settings/modal';
 import {AppCommandParser} from 'components/suggestion/command_provider/app_command_parser/app_command_parser';
 import {intlShim} from 'components/suggestion/command_provider/app_command_parser/app_command_parser_dependencies';
+import LeavePrivateChannelModal from 'components/leave_private_channel_modal';
+import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
 
 import {GlobalState} from 'types/store';
 
 import {t} from 'utils/i18n';
 
-import {doAppCall, postEphemeralCallResponseForCommandArgs} from './apps';
+import {doAppSubmit, openAppsModal, postEphemeralCallResponseForCommandArgs} from './apps';
 
 export function executeCommand(message: string, args: CommandArgs): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -63,7 +65,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
                 return {error};
             }
 
-            GlobalActions.toggleShortcutsModal();
+            dispatch(openModal({modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL, dialogType: KeyboardShortcutsModal}));
             return {data: true};
         case '/leave': {
             // /leave command not supported in reply threads.
@@ -73,7 +75,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
             }
             const channel = getCurrentChannel(state) || {};
             if (channel.type === Constants.PRIVATE_CHANNEL) {
-                GlobalActions.showLeavePrivateChannelModal(channel);
+                dispatch(openModal({modalId: ModalIdentifiers.LEAVE_PRIVATE_CHANNEL_MODAL, dialogType: LeavePrivateChannelModal, dialogProps: {channel}}));
                 return {data: true};
             }
             if (
@@ -121,16 +123,16 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
             const parser = new AppCommandParser({dispatch, getState: getGlobalState} as any, intlShim, args.channel_id, args.team_id, args.root_id);
             if (parser.isAppCommand(msg)) {
                 try {
-                    const {call, errorMessage} = await parser.composeCallFromCommand(msg);
-                    if (!call) {
+                    const {creq, errorMessage} = await parser.composeCommandSubmitCall(msg);
+                    if (!creq) {
                         return createErrorMessage(errorMessage!);
                     }
 
-                    const res = await dispatch(doAppCall(call, AppCallTypes.SUBMIT, intlShim)) as DoAppCallResult;
+                    const res = await dispatch(doAppSubmit(creq, intlShim)) as DoAppCallResult;
 
                     if (res.error) {
                         const errorResponse = res.error;
-                        return createErrorMessage(errorResponse.error || intlShim.formatMessage({
+                        return createErrorMessage(errorResponse.text || intlShim.formatMessage({
                             id: 'apps.error.unknown',
                             defaultMessage: 'Unknown error.',
                         }));
@@ -139,11 +141,15 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
                     const callResp = res.data!;
                     switch (callResp.type) {
                     case AppCallResponseTypes.OK:
-                        if (callResp.markdown) {
-                            dispatch(postEphemeralCallResponseForCommandArgs(callResp, callResp.markdown, args));
+                        if (callResp.text) {
+                            dispatch(postEphemeralCallResponseForCommandArgs(callResp, callResp.text, args));
                         }
                         return {data: true};
                     case AppCallResponseTypes.FORM:
+                        if (callResp.form) {
+                            dispatch(openAppsModal(callResp.form, creq.context));
+                        }
+                        return {data: true};
                     case AppCallResponseTypes.NAVIGATE:
                         return {data: true};
                     default:
@@ -153,7 +159,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
                             {type: callResp.type},
                         ));
                     }
-                } catch (err) {
+                } catch (err: any) {
                     return createErrorMessage(err.message || localizeMessage('apps.error.unknown', 'Unknown error.'));
                 }
             }

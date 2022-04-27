@@ -14,7 +14,7 @@ describe('components/AddGroupsToTeamModal', () => {
         currentTeamId: '123',
         searchTerm: '',
         groups: [],
-        onHide: () => { },
+        onExited: jest.fn(),
         actions: {
             getGroupsNotAssociatedToTeam: jest.fn().mockResolvedValue({data: true}),
             setModalSearchTerm: jest.fn().mockResolvedValue({data: true}),
@@ -30,15 +30,13 @@ describe('components/AddGroupsToTeamModal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should have called onHide when handleExit is called', () => {
-        const onHide = jest.fn();
-        const props = {...baseProps, onHide};
+    test('should have called onExited when handleExit is called', () => {
         const wrapper = shallow<AddGroupsToTeamModal>(
-            <AddGroupsToTeamModal {...props}/>,
+            <AddGroupsToTeamModal {...baseProps}/>,
         );
 
         wrapper.instance().handleExit();
-        expect(onHide).toHaveBeenCalledTimes(1);
+        expect(baseProps.onExited).toHaveBeenCalledTimes(1);
     });
 
     test('should match state when handleResponse is called', () => {

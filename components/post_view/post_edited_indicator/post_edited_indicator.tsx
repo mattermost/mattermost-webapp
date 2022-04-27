@@ -2,22 +2,23 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import Icon from '@mattermost/compass-components/foundations/icon';
 
 import {getDateForTimezone} from 'mattermost-redux/utils/timezone_utils';
 import {isSameDay, isWithinLastWeek, isYesterday} from 'utils/datetime';
 import OverlayTrigger from '../../overlay_trigger';
+import Tooltip from '../../tooltip';
 
 import {Props} from './index';
 
 const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0}: Props): JSX.Element | null => {
+    const {formatMessage, formatDate, formatTime} = useIntl();
+
     if (!postId || editedAt === 0) {
         return null;
     }
 
-    const {formatMessage, formatDate, formatTime} = useIntl();
     const editedDate = timeZone ? getDateForTimezone(new Date(editedAt), timeZone) : new Date(editedAt);
 
     let date;

@@ -66,6 +66,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
         >
           <AdminTextSetting
             disabled={false}
+            footer={null}
             helpText={
               <SchemaText
                 isTranslated={true}
@@ -217,6 +218,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
           />
           <AdminTextSetting
             disabled={false}
+            footer={null}
             helpText={
               <SchemaText
                 isTranslated={true}
@@ -235,6 +237,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
           />
           <AdminTextSetting
             disabled={false}
+            footer={null}
             helpText={
               <SchemaText
                 isTranslated={true}
@@ -326,12 +329,12 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 8,
-                  "text": "Polski (Alpha)",
+                  "text": "Polski",
                   "value": "pl",
                 },
                 Object {
                   "order": 9,
-                  "text": "Português (Brasil)",
+                  "text": "Português (Brasil) (Beta)",
                   "value": "pt-BR",
                 },
                 Object {
@@ -366,21 +369,26 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 16,
+                  "text": "فارسی (Beta)",
+                  "value": "fa",
+                },
+                Object {
+                  "order": 17,
                   "text": "한국어 (Alpha)",
                   "value": "ko",
                 },
                 Object {
-                  "order": 17,
+                  "order": 18,
                   "text": "中文 (简体)",
                   "value": "zh-CN",
                 },
                 Object {
-                  "order": 18,
+                  "order": 19,
                   "text": "中文 (繁體)",
                   "value": "zh-TW",
                 },
                 Object {
-                  "order": 19,
+                  "order": 20,
                   "text": "日本語",
                   "value": "ja",
                 },
@@ -452,12 +460,12 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 8,
-                  "text": "Polski (Alpha)",
+                  "text": "Polski",
                   "value": "pl",
                 },
                 Object {
                   "order": 9,
-                  "text": "Português (Brasil)",
+                  "text": "Português (Brasil) (Beta)",
                   "value": "pt-BR",
                 },
                 Object {
@@ -492,21 +500,26 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 16,
+                  "text": "فارسی (Beta)",
+                  "value": "fa",
+                },
+                Object {
+                  "order": 17,
                   "text": "한국어 (Alpha)",
                   "value": "ko",
                 },
                 Object {
-                  "order": 17,
+                  "order": 18,
                   "text": "中文 (简体)",
                   "value": "zh-CN",
                 },
                 Object {
-                  "order": 18,
+                  "order": 19,
                   "text": "中文 (繁體)",
                   "value": "zh-TW",
                 },
                 Object {
-                  "order": 19,
+                  "order": 20,
                   "text": "日本語",
                   "value": "ja",
                 },
@@ -624,7 +637,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             showConfirm={false}
             unRegisterSaveAction={[Function]}
           />
-          <Connect(injectIntl(JobTable))
+          <Connect(JobTable)
             createJobButtonText={
               <Memo(MemoizedFormattedMessage)
                 defaultMessage="Setting Twelve"
@@ -717,9 +730,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
       target={null}
     >
       <Tooltip
-        bsClass="tooltip"
         id="error-tooltip"
-        placement="right"
       />
     </Overlay>
   </div>

@@ -11,7 +11,6 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {ExtendedPost} from 'mattermost-redux/actions/posts';
 import {Post} from 'mattermost-redux/types/posts';
 import {UserThread} from 'mattermost-redux/types/threads';
-import {$ID} from 'mattermost-redux/types/utilities';
 
 import deferComponentRender from 'components/deferComponentRender';
 import FileUploadOverlay from 'components/file_upload_overlay';
@@ -25,8 +24,9 @@ const DeferredThreadViewerVirt = deferComponentRender(ThreadViewerVirtualized);
 
 type Attrs = Pick<HTMLAttributes<HTMLDivElement>, 'className' | 'id'>;
 
-type Props = Attrs & {
+export type Props = Attrs & {
     isCollapsedThreadsEnabled: boolean;
+    appsEnabled: boolean;
     userThread?: UserThread | null;
     channel: Channel | null;
     selected: Post | FakePost;
@@ -45,7 +45,7 @@ type Props = Attrs & {
     };
     useRelativeTimestamp?: boolean;
     postIds: string[];
-    highlightedPostId?: $ID<Post>;
+    highlightedPostId?: Post['id'];
     selectedPostFocusedAt?: number;
     isThreadView?: boolean;
 };
@@ -70,7 +70,9 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
 
         this.onInit();
 
-        this.props.actions.fetchRHSAppsBindings(this.props.channel?.id || '', this.props.selected.id);
+        if (this.props.appsEnabled) {
+            this.props.actions.fetchRHSAppsBindings(this.props.channel?.id || '', this.props.selected.id);
+        }
     }
 
     public componentDidUpdate(prevProps: Props) {
@@ -93,8 +95,9 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
             this.markThreadRead();
         }
 
-        if (this.props.channel?.id !== prevProps.channel?.id ||
-            this.props.selected.id !== prevProps.selected.id) {
+        if (this.props.appsEnabled && (
+            this.props.channel?.id !== prevProps.channel?.id || this.props.selected.id !== prevProps.selected.id
+        )) {
             this.props.actions.fetchRHSAppsBindings(this.props.channel?.id || '', this.props.selected.id);
         }
     }

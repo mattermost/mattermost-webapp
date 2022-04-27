@@ -64,8 +64,8 @@ describe('handleFollowChanged', () => {
         ['id1_1', false, ['id1_2']],
         ['id1_3', false, ['id1_1', 'id1_2']],
         ['id1_1', true, ['id1_1', 'id1_2']],
-        ['id1_3', true, ['id1_1', 'id1_2']],
-        ['id1_0', true, ['id1_1', 'id1_2', 'id1_0']],
+        ['id1_3', true, ['id1_1', 'id1_2', 'id1_3']],
+        ['id1_0', true, ['id1_1', 'id1_2']],
     ])('should return correct state for thread id %s and following state of %s', (id, following, expected) => {
         const action = makeAction(id, following);
         expect(handleFollowChanged(state, action, extra)).toEqual({

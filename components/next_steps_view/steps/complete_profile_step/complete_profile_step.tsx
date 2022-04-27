@@ -10,7 +10,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
-import Input from 'components/input';
+import Input from 'components/widgets/inputs/input/input';
 import PictureSelector from 'components/picture_selector';
 import {AcceptedProfileImageTypes} from 'utils/constants';
 import * as Utils from 'utils/utils';
@@ -132,8 +132,8 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
 
         let finishMessage = (
             <FormattedMessage
-                id={this.props.finishButtonText.id}
-                defaultMessage={this.props.finishButtonText.defaultMessage}
+                id={this.props.completeStepButtonText.id}
+                defaultMessage={this.props.completeStepButtonText.defaultMessage}
             />);
 
         if (this.props.isLastStep) {

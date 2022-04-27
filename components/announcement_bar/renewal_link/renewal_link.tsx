@@ -11,6 +11,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 import {ModalData} from 'types/actions';
 
 import {
+    LicenseLinks,
     ModalIdentifiers,
 } from 'utils/constants';
 
@@ -23,10 +24,12 @@ export interface RenewalLinkProps {
         openModal: <P>(modalData: ModalData<P>) => void;
     };
     isDisabled?: boolean;
+    customBtnText?: JSX.Element;
 }
 
 const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
     const [renewalLink, setRenewalLink] = useState('');
+    const [manualInterventionRequired, setManualInterventionRequired] = useState(false);
     useEffect(() => {
         Client4.getRenewalLink().then(({renewal_link: renewalLinkParam}) => {
             try {
@@ -36,6 +39,8 @@ const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
             } catch (error) {
                 console.error('No link returned', error); // eslint-disable-line no-console
             }
+        }).catch(() => {
+            setManualInterventionRequired(true);
         });
     }, []);
 
@@ -48,6 +53,8 @@ const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
                     trackEvent('renew_license', props.telemetryInfo.success);
                 }
                 window.open(renewalLink, '_blank');
+            } else if (manualInterventionRequired) {
+                window.open(LicenseLinks.CONTACT_SALES, '_blank');
             } else {
                 showConnectionErrorModal();
             }
@@ -66,6 +73,22 @@ const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
         });
     };
 
+    let btnText = props.customBtnText ? props.customBtnText : (
+        <FormattedMessage
+            id='announcement_bar.warn.renew_license_now'
+            defaultMessage='Renew license now'
+        />
+    );
+
+    if (manualInterventionRequired) {
+        btnText = (
+            <FormattedMessage
+                id='announcement_bar.warn.renew_license_contact_sales'
+                defaultMessage='Contact sales'
+            />
+        );
+    }
+
     return (
         <>
             <button
@@ -73,10 +96,7 @@ const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
                 disabled={props.isDisabled}
                 onClick={(e) => handleLinkClick(e)}
             >
-                <FormattedMessage
-                    id='announcement_bar.warn.renew_license_now'
-                    defaultMessage='Renew license now'
-                />
+                {btnText}
             </button>
         </>
     );

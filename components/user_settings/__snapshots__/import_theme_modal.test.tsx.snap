@@ -24,11 +24,12 @@ exports[`components/user_settings/ImportThemeModal should match snapshot 1`] = `
         "remove": [Function],
       }
     }
+    onExited={[MockFunction]}
     onHide={[Function]}
     renderBackdrop={[Function]}
     restoreFocus={true}
     role="dialog"
-    show={false}
+    show={true}
   >
     <ModalHeader
       bsClass="modal-header"

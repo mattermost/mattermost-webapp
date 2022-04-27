@@ -6,6 +6,8 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {ThreadsState, UserThread} from 'mattermost-redux/types/threads';
 import {Team, TeamUnread} from 'mattermost-redux/types/teams';
 
+import Constants from 'utils/constants';
+
 import {ExtraData} from './types';
 
 function handleAllTeamThreadsRead(state: ThreadsState['counts'], action: GenericAction): ThreadsState['counts'] {
@@ -18,6 +20,32 @@ function handleAllTeamThreadsRead(state: ThreadsState['counts'], action: Generic
             total_unread_threads: 0,
         },
     };
+}
+
+function isEqual(state: ThreadsState['counts'], action: GenericAction, unreads: boolean) {
+    const counts = state[action.data.team_id] ?? {};
+
+    const {
+        total,
+        total_unread_threads: totalUnreadThreads,
+        total_unread_mentions: totalUnreadMentions,
+    } = action.data;
+
+    if (
+        totalUnreadMentions !== counts.total_unread_mentions ||
+        totalUnreadThreads !== counts.total_unread_threads
+    ) {
+        return false;
+    }
+
+    // in unread threads we exclude saving the total number,
+    // since it doesn't reflect the actual total of threads
+    // but only the total of unread threads
+    if (!unreads && total !== counts.total) {
+        return false;
+    }
+
+    return true;
 }
 
 function handleReadChangedThread(state: ThreadsState['counts'], action: GenericAction): ThreadsState['counts'] {
@@ -71,6 +99,10 @@ function handleLeaveChannel(state: ThreadsState['counts'] = {}, action: GenericA
 
     const teamId = action.data.team_id;
 
+    if (!teamId || !state[teamId]) {
+        return state;
+    }
+
     const {unreadMentions, unreadThreads} = extra.threadsToDelete.reduce((curr, item: UserThread) => {
         curr.unreadMentions += item.unread_mentions;
         curr.unreadThreads = item.unread_replies > 0 ? curr.unreadThreads + 1 : curr.unreadThreads;
@@ -85,6 +117,23 @@ function handleLeaveChannel(state: ThreadsState['counts'] = {}, action: GenericA
             total: Math.max(total - extra.threadsToDelete.length, 0),
             total_unread_mentions: Math.max(totalUnreadMentions - unreadMentions, 0),
             total_unread_threads: Math.max(totalUnreadThreads - unreadThreads, 0),
+        },
+    };
+}
+
+function handleDecrementThreadCounts(state: ThreadsState['counts'], action: GenericAction) {
+    const {teamId, replies, mentions} = action;
+    const counts = state[teamId];
+    if (!counts) {
+        return state;
+    }
+
+    return {
+        ...state,
+        [teamId]: {
+            total: Math.max(counts.total - 1, 0),
+            total_unread_mentions: Math.max(counts.total_unread_mentions - mentions, 0),
+            total_unread_threads: Math.max(counts.total_unread_threads - replies, 0),
         },
     };
 }
@@ -113,9 +162,14 @@ export function countsIncludingDirectReducer(state: ThreadsState['counts'] = {},
     }
     case TeamTypes.LEAVE_TEAM:
         return handleLeaveTeam(state, action);
+    case ChannelTypes.RECEIVED_CHANNEL_DELETED:
     case ChannelTypes.LEAVE_CHANNEL:
         return handleLeaveChannel(state, action, extra);
-    case ThreadTypes.RECEIVED_THREADS:
+    case ThreadTypes.RECEIVED_THREAD_COUNTS:
+        if (isEqual(state, action, false)) {
+            return state;
+        }
+
         return {
             ...state,
             [action.data.team_id]: {
@@ -124,6 +178,8 @@ export function countsIncludingDirectReducer(state: ThreadsState['counts'] = {},
                 total_unread_mentions: action.data.total_unread_mentions,
             },
         };
+    case ThreadTypes.DECREMENT_THREAD_COUNTS:
+        return handleDecrementThreadCounts(state, action);
     case UserTypes.LOGOUT_SUCCESS:
         return {};
     }
@@ -140,6 +196,7 @@ export function countsReducer(state: ThreadsState['counts'] = {}, action: Generi
         return handleLeaveTeam(state, action);
     case UserTypes.LOGOUT_SUCCESS:
         return {};
+    case ChannelTypes.RECEIVED_CHANNEL_DELETED:
     case ChannelTypes.LEAVE_CHANNEL:
         return handleLeaveChannel(state, action, extra);
     case TeamTypes.RECEIVED_MY_TEAM_UNREADS: {
@@ -156,6 +213,13 @@ export function countsReducer(state: ThreadsState['counts'] = {}, action: Generi
                 return result;
             }, {}),
         };
+    }
+    case ThreadTypes.DECREMENT_THREAD_COUNTS: {
+        const {channelType} = action;
+        if (channelType === Constants.DM_CHANNEL || channelType === Constants.GM_CHANNEL) {
+            return state;
+        }
+        return handleDecrementThreadCounts(state, action);
     }
     }
     return state;
