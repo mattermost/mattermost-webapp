@@ -5334,7 +5334,7 @@ const AdminDefinition = {
                         help_text_values: {
                             link: (msg) => (
                                 <a
-                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-incoming/'
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/'
                                     referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
