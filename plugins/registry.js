@@ -105,6 +105,9 @@ export default class PluginRegistry {
 
     // Register a component to show as a tooltip when a user hovers on a link in a post.
     // Accepts a React component. Returns a unique identifier.
+    // The component will be passed the following props:
+    // - href - The URL for this link
+    // - show - A boolean used to signal that the user is currently hovering over this link. Use this value to initialize your component when this boolean is true for the first time, using `componentDidUpdate` or `useEffect`.
     registerLinkTooltipComponent(component) {
         return dispatchPluginComponentAction('LinkTooltip', this.id, component);
     }
