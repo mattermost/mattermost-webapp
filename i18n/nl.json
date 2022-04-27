@@ -3396,7 +3396,7 @@
   "help.formatting.intro": "Markdown maakt het gemakkelijk om berichten op te maken. Typ een bericht zoals je normaal zou doen, gebruik dan de volgende syntax opties om je bericht op een specifieke manier op te maken.",
   "help.formatting.lines.description": "Maak een lijn door gebruik te maken van drie `*`, `_`, of `-`.",
   "help.formatting.lines.title": "Lijnen",
-  "help.formatting.linkEx": "<link>Leer meer over Mattermost!</link>(https://mattermost.com/)",
+  "help.formatting.linkEx": "[Leer meer over Mattermost!](https://mattermost.com/)",
   "help.formatting.links.description": "Maak gelabelde links door de tekst tussen rechte haken te zetten, en de link tussen normale haken.",
   "help.formatting.links.title": "Links",
   "help.formatting.listExample": "* lijst onderdeel eene\n* lijst onderdeel twee\n    * onderdeel twee sub-punt",
