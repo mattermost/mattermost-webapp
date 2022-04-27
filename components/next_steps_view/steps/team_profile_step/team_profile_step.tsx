@@ -9,7 +9,7 @@ import {Team} from 'mattermost-redux/types/teams';
 
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import Input from 'components/input';
+import Input from 'components/widgets/inputs/input/input';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import PictureSelector from 'components/picture_selector';
 import {AcceptedProfileImageTypes} from 'utils/constants';

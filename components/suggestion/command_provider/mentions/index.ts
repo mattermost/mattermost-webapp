@@ -1,20 +1,22 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {
-    autocompleteChannels,
-    AutocompleteSuggestion,
-    autocompleteUsersInChannel,
-    Channel,
-    COMMAND_SUGGESTION_CHANNEL,
-    COMMAND_SUGGESTION_USER,
-    DispatchFunc,
-    GlobalState,
-    UserAutocomplete,
-    UserProfile,
-} from '../app_command_parser/app_command_parser_dependencies';
+import type {UserAutocomplete} from 'mattermost-redux/types/autocomplete';
+import type {AutocompleteSuggestion} from 'mattermost-redux/types/integrations';
+import type {Channel} from 'mattermost-redux/types/channels';
+import type {UserProfile} from 'mattermost-redux/types/users';
+import type {DispatchFunc} from 'mattermost-redux/types/actions';
+import type {GlobalState} from 'types/store';
 
-interface Store {
+import {autocompleteUsersInChannel} from 'actions/views/channel';
+import {autocompleteChannels} from 'mattermost-redux/actions/channels';
+
+import {Constants} from 'utils/constants';
+
+export const COMMAND_SUGGESTION_CHANNEL = Constants.Integrations.COMMAND_SUGGESTION_CHANNEL;
+export const COMMAND_SUGGESTION_USER = Constants.Integrations.COMMAND_SUGGESTION_USER;
+
+export type Store = {
     dispatch: DispatchFunc;
     getState: () => GlobalState;
 }

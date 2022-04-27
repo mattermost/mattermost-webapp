@@ -5,8 +5,11 @@ import {shallow} from 'enzyme';
 
 import React from 'react';
 
+import {ChannelType} from 'mattermost-redux/types/channels';
 import {Post, PostEmbed} from 'mattermost-redux/types/posts';
 import {UserProfile} from 'mattermost-redux/types/users';
+
+import {General} from 'mattermost-redux/constants';
 
 import PostMessagePreview, {Props} from './post_message_preview';
 
@@ -27,6 +30,8 @@ describe('PostMessagePreview', () => {
             channel_display_name: 'channel name',
             team_name: 'team1',
             post_id: 'post_id',
+            channel_type: 'O',
+            channel_id: 'channel_id',
         },
         previewPost,
         user,
@@ -34,6 +39,8 @@ describe('PostMessagePreview', () => {
         enablePostIconOverride: false,
         isEmbedVisible: true,
         compactDisplay: false,
+        currentTeamUrl: 'team1',
+        channelDisplayName: 'channel name',
         handleFileDropdownOpened: jest.fn(),
         actions: {
             toggleEmbedVisibility: jest.fn(),
@@ -151,6 +158,32 @@ describe('PostMessagePreview', () => {
             };
 
             const wrapper = shallow(<PostMessagePreview {...props}/>);
+
+            expect(wrapper).toMatchSnapshot();
+        });
+    });
+
+    describe('direct and group messages', () => {
+        const channelTypes = [General.DM_CHANNEL, General.GM_CHANNEL] as ChannelType[];
+
+        test.each(channelTypes)('should render preview for %s message', (type) => {
+            const metadata = {
+                ...baseProps.metadata,
+                team_name: '',
+                channel_type: type,
+                channel_id: 'channel_id',
+            };
+
+            const props = {
+                ...baseProps,
+                metadata,
+            };
+
+            const wrapper = shallow(
+                <PostMessagePreview
+                    {...props}
+                />,
+            );
 
             expect(wrapper).toMatchSnapshot();
         });

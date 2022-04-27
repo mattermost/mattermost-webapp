@@ -348,6 +348,21 @@ export function getFileIconPath(fileInfo) {
     return icon;
 }
 
+export function getCompassIconClassName(fileTypeIn, outline = true, large = false) {
+    const fileType = fileTypeIn.toLowerCase();
+    let icon = 'generic';
+
+    if (fileType in Constants.ICON_NAME_FROM_TYPE) {
+        icon = Constants.ICON_NAME_FROM_TYPE[fileType];
+    }
+
+    icon = icon === 'ppt' ? 'powerpoint' : icon;
+    icon = icon === 'spreadsheet' ? 'excel' : icon;
+    icon = icon === 'other' ? 'generic' : icon;
+
+    return `icon-file-${icon}${outline ? '-outline' : ''}${large ? '-large' : ''}`;
+}
+
 export function getIconClassName(fileTypeIn) {
     var fileType = fileTypeIn.toLowerCase();
 
@@ -356,6 +371,13 @@ export function getIconClassName(fileTypeIn) {
     }
 
     return 'generic';
+}
+
+export function getMenuItemIcon(name, dangerous) {
+    const colorClass = dangerous ? 'MenuItem__compass-icon-dangerous' : 'MenuItem__compass-icon';
+    return (
+        <span className={`${name} ${colorClass}`}/>
+    );
 }
 
 export function toTitleCase(str) {
@@ -950,6 +972,10 @@ export function setSelectionRange(input, selectionStart, selectionEnd) {
 }
 
 export function setCaretPosition(input, pos) {
+    if (!input) {
+        return;
+    }
+
     setSelectionRange(input, pos, pos);
 }
 

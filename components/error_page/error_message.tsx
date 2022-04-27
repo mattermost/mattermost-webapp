@@ -152,7 +152,7 @@ const ErrorMessage: React.FC<Props> = ({type, message, service, isGuest}: Props)
                             values={{
                                 link: (
                                     <ErrorLink
-                                        url={'https://forum.mattermost.org/c/trouble-shoot'}
+                                        url={'https://forum.mattermost.com/c/trouble-shoot'}
                                         messageId={t('error.oauth_missing_code.forum.link')}
                                         defaultMessage={'Troubleshooting forum'}
                                     />

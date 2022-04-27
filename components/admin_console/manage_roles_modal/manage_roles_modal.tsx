@@ -169,7 +169,7 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
                     <p>
                         <FormattedMarkdownMessage
                             id='admin.manage_roles.additionalRoles'
-                            defaultMessage='Select additional permissions for the account. [Read more about roles and permissions](!https://about.mattermost.com/default-permissions).'
+                            defaultMessage='Select additional permissions for the account. [Read more about roles and permissions](!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/).'
                         />
                     </p>
                     <div className='checkbox'>
@@ -242,7 +242,7 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
                                 />
                                 <FormattedMarkdownMessage
                                     id='admin.manage_roles.allowUserAccessTokens'
-                                    defaultMessage='Allow this account to generate [personal access tokens](!https://about.mattermost.com/default-user-access-tokens).'
+                                    defaultMessage='Allow this account to generate [personal access tokens](!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/).'
                                 />
                                 <span className='d-block pt-2 pb-2 light'>
                                     <FormattedMessage
