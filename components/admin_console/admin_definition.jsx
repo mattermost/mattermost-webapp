@@ -5292,7 +5292,6 @@ const AdminDefinition = {
                         label_default: 'Enable OAuth 2.0 Service Provider: ',
                         help_text: t('admin.oauth.providerDescription'),
                         help_text_default: 'When true, Mattermost can act as an OAuth 2.0 service provider allowing Mattermost to authorize API requests from external applications. See <link>documentation</link> to learn more.',
-                        help_text_markdown: true,
                         help_text_values: {
                             link: (msg) => (
                                 <a
