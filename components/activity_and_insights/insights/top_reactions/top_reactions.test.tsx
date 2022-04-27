@@ -6,9 +6,9 @@ import configureStore from 'redux-mock-store';
 
 import {act, screen} from '@testing-library/react';
 
-import {TimeFrames} from '@mattermost/types/insights';
+import {CardSizes, InsightsWidgetTypes, TimeFrames} from '@mattermost/types/insights';
 
-import TopReactionsTable from './top_reactions_table';
+import TopReactions from './top_reactions';
 import thunk from 'redux-thunk';
 import { renderWithIntl } from 'tests/react_testing_utils';
 import { mountWithIntl } from 'tests/helpers/intl-test-helper';
@@ -27,10 +27,14 @@ const actImmediate = (wrapper: ReactWrapper) =>
             }),
     );
 
-describe('components/activity_and_insights/insights/top_reactions/top_reactions_table', () => {
+describe('components/activity_and_insights/insights/top_reactions', () => {
     const props = {
         filterType: 'TEAM',
         timeFrame: TimeFrames.INSIGHTS_7_DAYS,
+        size: CardSizes.small,
+        widgetType: InsightsWidgetTypes.TOP_REACTIONS,
+        class: 'top-reactions-card',
+        timeFrameLabel: 'Last 7 days',
     };
 
     const initialState = {
@@ -85,48 +89,55 @@ describe('components/activity_and_insights/insights/top_reactions/top_reactions_
                     '28_day': {},
                 },
             },
+            general: {
+                config: {},
+            },
+            emojis: {
+                customEmoji: {},
+            },
         },
     };
 
-    test('should be 2 rows for team reactions', async () => {
-        const store = await mockStore(initialState);
+    test('check if empty', async () => {
+        const store = await mockStore({
+            entities: {
+                teams: {
+                    currentTeamId: 'team_id1',
+                    topReactions: {
+                        team_id1: {},
+                    },
+                },
+                users:{
+                    myTopReactions: {
+                        today: {},
+                        '7_day': {},
+                        '28_day': {},
+                    },
+                },
+            },
+        });
         let wrapper = mountWithIntl(
             <Provider store={store}>
-                <TopReactionsTable
+                <TopReactions
                     {...props}
                 />
             </Provider>
         );
         await actImmediate(wrapper);
-        expect(wrapper.find('.DataGrid_row').length).toEqual(2);
+        expect(wrapper.find('.empty-state').length).toEqual(1);
     });
 
-    test('should be 4 rows for my reactions', async () => {
+    test('check if bar chart renders', async () => {
         const store = await mockStore(initialState);
         let wrapper = mountWithIntl(
             <Provider store={store}>
-                <TopReactionsTable
+                <TopReactions
                     {...props}
-                    filterType={'MY'}
                 />
             </Provider>
         );
         await actImmediate(wrapper);
-        expect(wrapper.find('.DataGrid_row').length).toEqual(4);
+        expect(wrapper.find('.bar-chart-entry').length).toEqual(2);
     });
 
-    test('should be 0 rows for my reactions today', async () => {
-        const store = await mockStore(initialState);
-        let wrapper = mountWithIntl(
-            <Provider store={store}>
-                <TopReactionsTable
-                    {...props}
-                    filterType={'MY'}
-                    timeFrame={TimeFrames.INSIGHTS_1_DAY}
-                />
-            </Provider>
-        );
-        await actImmediate(wrapper);
-        expect(wrapper.find('.DataGrid_row').length).toEqual(0);
-    });
 });

@@ -100,9 +100,7 @@ const TopReactions = (props: WidgetHocProps) => {
                 (topReactions.length === 0 && !loading) &&
                 <div className='empty-state'>
                     <div className='empty-state-emoticon'>
-                        <Icon
-                            glyph={'emoticon-outline'}
-                        />
+                        <i className='icon icon-emoticon-outline'/>
                     </div>
                     <div className='empty-state-text'>
                         <FormattedMessage
