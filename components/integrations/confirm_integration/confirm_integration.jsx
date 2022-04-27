@@ -162,7 +162,7 @@ export default class ConfirmIntegration extends React.PureComponent {
                         values={{
                             link: (msg) => (
                                 <a
-                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/'
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-outgoing/'
                                     referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
