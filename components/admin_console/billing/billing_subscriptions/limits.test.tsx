@@ -34,20 +34,24 @@ const limits = {
     },
 };
 
+function mockUseSelector(spy: jest.SpyInstance, hasLimits: boolean) {
+    // initial render
+    spy.mockImplementationOnce(() => hasLimits);
+    spy.mockImplementationOnce(() => (hasLimits ? limits : {}));
+    spy.mockImplementationOnce(() => hasLimits);
+
+    // after effect
+    spy.mockImplementationOnce(() => hasLimits);
+    spy.mockImplementationOnce(() => (hasLimits ? limits : {}));
+    spy.mockImplementationOnce(() => hasLimits);
+}
+
 describe('Limits', () => {
     test('message limit rendered in K', () => {
         jest.spyOn(redux, 'useDispatch').mockImplementation(jest.fn(() => jest.fn()));
         const spy = jest.spyOn(redux, 'useSelector');
+        mockUseSelector(spy, true);
 
-        // initial render
-        spy.mockImplementationOnce(() => true);
-        spy.mockImplementationOnce(() => limits);
-        spy.mockImplementationOnce(() => true);
-
-        // after effect
-        spy.mockImplementationOnce(() => true);
-        spy.mockImplementationOnce(() => limits);
-        spy.mockImplementationOnce(() => true);
         renderWithIntl(<Limits/>);
         screen.getByText('Message History');
         screen.getByText(/of 10K/);
@@ -56,16 +60,8 @@ describe('Limits', () => {
     test('storage limit rendered in GB', () => {
         jest.spyOn(redux, 'useDispatch').mockImplementation(jest.fn(() => jest.fn()));
         const spy = jest.spyOn(redux, 'useSelector');
+        mockUseSelector(spy, true);
 
-        // initial render
-        spy.mockImplementationOnce(() => true);
-        spy.mockImplementationOnce(() => limits);
-        spy.mockImplementationOnce(() => true);
-
-        // after effect
-        spy.mockImplementationOnce(() => true);
-        spy.mockImplementationOnce(() => limits);
-        spy.mockImplementationOnce(() => true);
         renderWithIntl(<Limits/>);
         screen.getByText('File Storage');
         screen.getByText(/of 10GB/);
@@ -76,16 +72,8 @@ describe('Limits', () => {
         jest.spyOn(cloudActions, 'getCloudLimits').mockImplementation(mockGetLimits);
         jest.spyOn(redux, 'useDispatch').mockImplementation(jest.fn(() => jest.fn()));
         const spy = jest.spyOn(redux, 'useSelector');
+        mockUseSelector(spy, true);
 
-        // initial render
-        spy.mockImplementationOnce(() => true);
-        spy.mockImplementationOnce(() => limits);
-        spy.mockImplementationOnce(() => true);
-
-        // after effect
-        spy.mockImplementationOnce(() => true);
-        spy.mockImplementationOnce(() => limits);
-        spy.mockImplementationOnce(() => true);
         renderWithIntl(<Limits/>);
         expect(mockGetLimits).toHaveBeenCalled();
     });
@@ -95,16 +83,8 @@ describe('Limits', () => {
         jest.spyOn(cloudActions, 'getCloudLimits').mockImplementation(mockGetLimits);
         jest.spyOn(redux, 'useDispatch').mockImplementation(jest.fn(() => jest.fn()));
         const spy = jest.spyOn(redux, 'useSelector');
+        mockUseSelector(spy, false);
 
-        // initial render
-        spy.mockImplementationOnce(() => false);
-        spy.mockImplementationOnce(() => limits);
-        spy.mockImplementationOnce(() => false);
-
-        // after effect
-        spy.mockImplementationOnce(() => false);
-        spy.mockImplementationOnce(() => limits);
-        spy.mockImplementationOnce(() => false);
         renderWithIntl(<Limits/>);
         expect(mockGetLimits).not.toHaveBeenCalled();
     });
