@@ -48,7 +48,7 @@ function CollapsedReplyThreadsBetaModal(props: Props) {
                             values={{
                                 link: (msg: React.ReactNode) => (
                                     <a
-                                        href='https://docs.mattermost.com/messaging/organizing-conversations.html'
+                                        href='https://docs.mattermost.com/messaging/organizing-conversations.html#known-issues'
                                         target='_blank'
                                         rel='noreferrer'
                                     >
