@@ -3197,7 +3197,7 @@
   "help.formatting.intro": "Markdown能轻松改变消息格式。您如常输入消息，然后用以下规则给予指定的格式。",
   "help.formatting.lines.description": "用三个 `*`, `_` 或 `-` 创建一条分界线。",
   "help.formatting.lines.title": "行",
-  "help.formatting.linkEx": "<link>来看下Mattermost!</link>(https://mattermost.com/)",
+  "help.formatting.linkEx": "[来看下Mattermost!](https://mattermost.com/)",
   "help.formatting.links.description": "将想显示的文字放进方括号和对应的链接到括号。",
   "help.formatting.links.title": "链接",
   "help.formatting.listExample": "* 列表项一\n* 列表项二\n    * 列表项二子项",
