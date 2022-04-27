@@ -3,8 +3,6 @@
 import React, {memo} from 'react';
 import classNames from 'classnames';
 
-import Icon from '@mattermost/compass-components/foundations/icon/Icon';
-
 import {CardSize, CardSizes} from 'mattermost-redux/types/insights';
 
 import Card from 'components/card/card';
@@ -43,7 +41,7 @@ const InsightsCard = (props: Props) => {
                         {props.subTitle}
                     </div>
                 </div>
-                <button 
+                <button
                     className='icon'
                     onClick={props.onClick}
                 >

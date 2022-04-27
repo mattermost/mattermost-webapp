@@ -32,14 +32,11 @@ describe('components/activity_and_insights/insights/insights_title', () => {
             <InsightsCard
                 {...props}
                 class='top-channels-card'
-                children={(
-                    <>
-                        {'test data'}
-                    </>
-                )}
                 title='Top channels'
                 subTitle='Top channels subtitle'
-            />,
+            >
+                {'test data'}
+            </InsightsCard>,
         );
         expect(wrapper).toMatchSnapshot();
     });

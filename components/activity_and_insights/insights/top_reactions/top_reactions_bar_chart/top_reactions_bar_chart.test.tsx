@@ -4,8 +4,6 @@ import React from 'react';
 
 import {shallow} from 'enzyme';
 
-import {InsightsWidgetTypes, TimeFrames} from '@mattermost/types/insights';
-
 import TopReactionsBarChart from './top_reactions_bar_chart';
 
 describe('components/activity_and_insights/insights/top_reactions/top_reactions_bar_chart', () => {

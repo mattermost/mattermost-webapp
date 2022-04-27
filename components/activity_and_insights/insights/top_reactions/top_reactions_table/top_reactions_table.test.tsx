@@ -4,15 +4,17 @@ import React from 'react';
 import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
 
-import {act, screen} from '@testing-library/react';
+import {act} from '@testing-library/react';
+
+import thunk from 'redux-thunk';
+
+import {ReactWrapper} from 'enzyme';
 
 import {TimeFrames} from '@mattermost/types/insights';
 
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+
 import TopReactionsTable from './top_reactions_table';
-import thunk from 'redux-thunk';
-import { renderWithIntl } from 'tests/react_testing_utils';
-import { mountWithIntl } from 'tests/helpers/intl-test-helper';
-import { ReactWrapper } from 'enzyme';
 
 const mockStore = configureStore([thunk]);
 
@@ -80,7 +82,7 @@ describe('components/activity_and_insights/insights/top_reactions/top_reactions_
                         laughing: {
                             emoji_name: 'laughing',
                             count: 80,
-                        }
+                        },
                     },
                     '28_day': {},
                 },
@@ -90,12 +92,12 @@ describe('components/activity_and_insights/insights/top_reactions/top_reactions_
 
     test('should be 2 rows for team reactions', async () => {
         const store = await mockStore(initialState);
-        let wrapper = mountWithIntl(
+        const wrapper = mountWithIntl(
             <Provider store={store}>
                 <TopReactionsTable
                     {...props}
                 />
-            </Provider>
+            </Provider>,
         );
         await actImmediate(wrapper);
         expect(wrapper.find('.DataGrid_row').length).toEqual(2);
@@ -103,13 +105,13 @@ describe('components/activity_and_insights/insights/top_reactions/top_reactions_
 
     test('should be 4 rows for my reactions', async () => {
         const store = await mockStore(initialState);
-        let wrapper = mountWithIntl(
+        const wrapper = mountWithIntl(
             <Provider store={store}>
                 <TopReactionsTable
                     {...props}
                     filterType={'MY'}
                 />
-            </Provider>
+            </Provider>,
         );
         await actImmediate(wrapper);
         expect(wrapper.find('.DataGrid_row').length).toEqual(4);
@@ -117,14 +119,14 @@ describe('components/activity_and_insights/insights/top_reactions/top_reactions_
 
     test('should be 0 rows for my reactions today', async () => {
         const store = await mockStore(initialState);
-        let wrapper = mountWithIntl(
+        const wrapper = mountWithIntl(
             <Provider store={store}>
                 <TopReactionsTable
                     {...props}
                     filterType={'MY'}
                     timeFrame={TimeFrames.INSIGHTS_1_DAY}
                 />
-            </Provider>
+            </Provider>,
         );
         await actImmediate(wrapper);
         expect(wrapper.find('.DataGrid_row').length).toEqual(0);

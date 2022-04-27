@@ -4,15 +4,17 @@ import React from 'react';
 import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
 
-import {act, screen} from '@testing-library/react';
+import {act} from '@testing-library/react';
+
+import thunk from 'redux-thunk';
+
+import {ReactWrapper} from 'enzyme';
 
 import {CardSizes, InsightsWidgetTypes, TimeFrames} from '@mattermost/types/insights';
 
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+
 import TopReactions from './top_reactions';
-import thunk from 'redux-thunk';
-import { renderWithIntl } from 'tests/react_testing_utils';
-import { mountWithIntl } from 'tests/helpers/intl-test-helper';
-import { ReactWrapper } from 'enzyme';
 
 const mockStore = configureStore([thunk]);
 
@@ -84,7 +86,7 @@ describe('components/activity_and_insights/insights/top_reactions', () => {
                         laughing: {
                             emoji_name: 'laughing',
                             count: 80,
-                        }
+                        },
                     },
                     '28_day': {},
                 },
@@ -107,7 +109,7 @@ describe('components/activity_and_insights/insights/top_reactions', () => {
                         team_id1: {},
                     },
                 },
-                users:{
+                users: {
                     myTopReactions: {
                         today: {},
                         '7_day': {},
@@ -116,12 +118,12 @@ describe('components/activity_and_insights/insights/top_reactions', () => {
                 },
             },
         });
-        let wrapper = mountWithIntl(
+        const wrapper = mountWithIntl(
             <Provider store={store}>
                 <TopReactions
                     {...props}
                 />
-            </Provider>
+            </Provider>,
         );
         await actImmediate(wrapper);
         expect(wrapper.find('.empty-state').length).toEqual(1);
@@ -129,15 +131,14 @@ describe('components/activity_and_insights/insights/top_reactions', () => {
 
     test('check if bar chart renders', async () => {
         const store = await mockStore(initialState);
-        let wrapper = mountWithIntl(
+        const wrapper = mountWithIntl(
             <Provider store={store}>
                 <TopReactions
                     {...props}
                 />
-            </Provider>
+            </Provider>,
         );
         await actImmediate(wrapper);
         expect(wrapper.find('.bar-chart-entry').length).toEqual(2);
     });
-
 });

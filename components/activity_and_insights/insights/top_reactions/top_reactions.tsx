@@ -4,8 +4,6 @@ import React, {memo, useEffect, useState, useCallback} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
 
-import Icon from '@mattermost/compass-components/foundations/icon/Icon';
-
 import {getTopReactionsForTeam} from 'mattermost-redux/actions/teams';
 import {getMyTopReactions} from 'mattermost-redux/actions/users';
 import {getCurrentTeamId, getTopReactionsForCurrentTeam} from 'mattermost-redux/selectors/entities/teams';

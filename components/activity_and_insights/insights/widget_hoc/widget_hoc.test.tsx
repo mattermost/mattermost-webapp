@@ -4,13 +4,14 @@ import React, {ComponentType} from 'react';
 
 import {screen} from '@testing-library/react';
 
+import configureStore from 'redux-mock-store';
+import {Provider} from 'react-redux';
+
+import {InsightsScopes} from 'utils/constants';
 import {CardSizes, InsightsWidgetTypes, TimeFrames} from '@mattermost/types/insights';
+import {renderWithIntl} from 'tests/react_testing_utils';
 
 import widgetHoc from './widget_hoc';
-import { InsightsScopes } from 'utils/constants';
-import configureStore from 'redux-mock-store';
-import { Provider } from 'react-redux';
-import { renderWithIntl } from 'tests/react_testing_utils';
 
 describe('components/activity_and_insights/insights/widget_hoc', () => {
     let TestComponent: ComponentType;
@@ -38,7 +39,7 @@ describe('components/activity_and_insights/insights/widget_hoc', () => {
                 <EnhancedComponent
                     {...props}
                 />
-            </Provider>
+            </Provider>,
         );
 
         expect(screen.getByText('My top reactions')).toBeInTheDocument();
@@ -54,11 +55,10 @@ describe('components/activity_and_insights/insights/widget_hoc', () => {
                     {...props}
                     filterType={InsightsScopes.TEAM}
                 />
-            </Provider>
+            </Provider>,
         );
 
         expect(screen.getByText('Top reactions')).toBeInTheDocument();
         expect(screen.getByText('The team\'s most-used reactions')).toBeInTheDocument();
     });
-
 });
