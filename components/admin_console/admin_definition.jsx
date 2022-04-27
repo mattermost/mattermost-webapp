@@ -5250,7 +5250,6 @@ const AdminDefinition = {
                         label_default: 'Enable Outgoing Webhooks: ',
                         help_text: t('admin.service.outWebhooksDesc'),
                         help_text_default: 'When true, outgoing webhooks will be allowed. See <link>documentation</link> to learn more.',
-                        help_text_markdown: true,
                         help_text_values: {
                             link: (msg) => (
                                 <a
