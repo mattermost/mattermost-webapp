@@ -3024,7 +3024,7 @@
   "help.formatting.intro": "Markdown facilitează formatarea mesajelor. Tastați un mesaj așa cum ați proceda în mod normal și utilizați aceste reguli pentru al face cu formatare specială.",
   "help.formatting.lines.description": "Creează o linie utilizând trei `*`, `_` sau `-`.",
   "help.formatting.lines.title": "Linii",
-  "help.formatting.linkEx": "<link>Check out Mattermost!</link> (Https://about.mattermost.com/)",
+  "help.formatting.linkEx": "[Check out Mattermost!](https://about.mattermost.com/)",
   "help.formatting.links.description": "Creați link-uri etichetate prin introducerea textului dorit în paranteze pătrate și link-ul asociat în paranteze normale.",
   "help.formatting.links.title": "Links",
   "help.formatting.listExample": "* listă elementul unu\n* lista elementul doi\n    * punctul două sub-punct",
