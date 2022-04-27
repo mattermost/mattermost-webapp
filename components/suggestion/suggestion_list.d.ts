@@ -13,7 +13,7 @@ interface Props {
     ariaLiveRef?: React.Ref<HTMLDivElement>;
     open: boolean;
     position?: 'top' | 'bottom';
-    renderDividers?: boolean;
+    renderDividers?: string[];
     renderNoResults?: boolean;
     onCompleteWord: (term: string, matchedPretext, e?: MouseEvent<HTMLDivElement>) => boolean;
     preventClose?: () => void;

@@ -252,6 +252,7 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
                     isDraggable={true}
                     teamId={team.id}
                     teamIndex={index}
+                    isInProduct={Boolean(currentProduct)}
                 />
             );
         });

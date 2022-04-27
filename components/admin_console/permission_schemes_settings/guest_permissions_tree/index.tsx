@@ -3,11 +3,13 @@
 
 import {connect} from 'react-redux';
 
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
+
+import {GlobalState} from 'types/store';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import GuestPermissionsTree from './guest_permissions_tree.jsx';
+import GuestPermissionsTree from './guest_permissions_tree';
 
 export const GUEST_INCLUDED_PERMISSIONS = [
     Permissions.CREATE_PRIVATE_CHANNEL,
@@ -20,14 +22,9 @@ export const GUEST_INCLUDED_PERMISSIONS = [
     Permissions.CREATE_POST,
 ];
 
-function mapStateToProps(state) {
-    const config = getConfig(state);
+function mapStateToProps(state: GlobalState) {
     const license = getLicense(state);
-
-    return {
-        config,
-        license,
-    };
+    return {license};
 }
 
 export default connect(mapStateToProps)(GuestPermissionsTree);
