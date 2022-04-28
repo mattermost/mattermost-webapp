@@ -22,6 +22,7 @@ const defaultProps: Props = deepFreeze({
         searchProfiles: jest.fn(),
         sendGuestsInvites: jest.fn(),
         sendMembersInvites: jest.fn(),
+        sendMembersInvitesToChannels: jest.fn(),
     },
     currentTeam: {
         display_name: '',

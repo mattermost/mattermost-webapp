@@ -47,6 +47,7 @@ const UploadLicenseModal = (props: Props): JSX.Element | null => {
     const [fileObj, setFileObj] = React.useState<File | null>(props.fileObjFromProps);
     const [isUploading, setIsUploading] = React.useState(false);
     const [serverError, setServerError] = React.useState<string | null>(null);
+    const [uploadSuccessful, setUploadSuccessful] = React.useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const currentLicense: ClientLicense = useSelector(getLicense);
@@ -81,6 +82,7 @@ const UploadLicenseModal = (props: Props): JSX.Element | null => {
         setFileObj(null);
         setServerError(null);
         setIsUploading(false);
+        setUploadSuccessful(true);
     };
 
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.UPLOAD_LICENSE));
@@ -220,7 +222,8 @@ const UploadLicenseModal = (props: Props): JSX.Element | null => {
             </div>
         </>
     );
-    if (currentLicense.IsLicensed === 'true') {
+
+    if (uploadSuccessful) {
         const startsAt = (
             <FormattedDate
                 value={new Date(parseInt(currentLicense.StartsAt, 10))}

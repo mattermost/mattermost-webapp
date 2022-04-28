@@ -31,7 +31,7 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
   role="dialog"
   show={true}
 >
-  <Connect(UserGroupsModalHeader)
+  <Connect(Component)
     backButtonAction={[MockFunction]}
     onExited={[MockFunction]}
   />
@@ -186,7 +186,7 @@ exports[`component/user_groups_modal should match snapshot with groups, myGroups
   role="dialog"
   show={true}
 >
-  <Connect(UserGroupsModalHeader)
+  <Connect(Component)
     backButtonAction={[MockFunction]}
     onExited={[MockFunction]}
   />
@@ -311,7 +311,7 @@ exports[`component/user_groups_modal should match snapshot without groups 1`] = 
   role="dialog"
   show={true}
 >
-  <Connect(UserGroupsModalHeader)
+  <Connect(Component)
     backButtonAction={[MockFunction]}
     onExited={[MockFunction]}
   />

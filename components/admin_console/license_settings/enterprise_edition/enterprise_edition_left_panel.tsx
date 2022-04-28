@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+import React, {RefObject} from 'react';
 
 import {FormattedMessage, FormattedNumber} from 'react-intl';
 
@@ -8,10 +8,12 @@ import {ClientLicense} from 'mattermost-redux/types/config';
 import {LicenseSkus} from 'mattermost-redux/types/general';
 
 import {getRemainingDaysFromFutureTimestamp, toTitleCase} from 'utils/utils';
+import {FileTypes} from 'utils/constants';
 
 import Badge from 'components/widgets/badges/badge';
 
 import './enterprise_edition.scss';
+
 export interface EnterpriseEditionProps {
     openEELicenseModal: () => void;
     upgradedFromTE: boolean;
@@ -23,6 +25,8 @@ export interface EnterpriseEditionProps {
     handleRemove: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>;
     isDisabled: boolean;
     removing: boolean;
+    fileInputRef: RefObject<HTMLInputElement>;
+    handleChange: () => void;
 }
 
 export const getSkuDisplayName = (skuShortName: string, isGovSku: boolean): string => {
@@ -61,6 +65,8 @@ const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
     handleRemove,
     isDisabled,
     removing,
+    fileInputRef,
+    handleChange,
 }: EnterpriseEditionProps) => {
     const skuName = getSkuDisplayName(license.SkuShortName, license.IsGovSku === 'true');
     const expirationDays = getRemainingDaysFromFutureTimestamp(parseInt(license.ExpiresAt, 10));
@@ -102,6 +108,8 @@ const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
                         isDisabled,
                         removing,
                         skuName,
+                        fileInputRef,
+                        handleChange,
                     )
                 }
             </div>
@@ -138,6 +146,8 @@ const renderLicenseContent = (
     isDisabled: boolean,
     removing: boolean,
     skuName: string,
+    fileInputRef: RefObject<HTMLInputElement>,
+    handleChange: () => void,
 ) => {
     // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
 
@@ -175,8 +185,35 @@ const renderLicenseContent = (
                 );
             })}
             <hr/>
+            {renderAddNewLicenseButton(fileInputRef, handleChange)}
             {renderRemoveButton(handleRemove, isDisabled, removing)}
         </div>
+    );
+};
+
+const renderAddNewLicenseButton = (
+    fileInputRef: RefObject<HTMLInputElement>,
+    handleChange: () => void,
+) => {
+    return (
+        <>
+            <button
+                className='add-new-licence-btn'
+                onClick={() => fileInputRef.current?.click()}
+            >
+                <FormattedMessage
+                    id='admin.license.keyAddNew'
+                    defaultMessage='Add a new license'
+                />
+            </button>
+            <input
+                ref={fileInputRef}
+                type='file'
+                accept={FileTypes.LICENSE_EXTENSION}
+                onChange={handleChange}
+                style={{display: 'none'}}
+            />
+        </>
     );
 };
 

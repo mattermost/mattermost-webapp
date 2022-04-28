@@ -34,7 +34,7 @@ import {
     updateSearchType,
     suppressRHS,
     unsuppressRHS,
-    goBack,
+    goBack, showChannelMembers,
 } from 'actions/views/rhs';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {ActionTypes, RHSStates, Constants} from 'utils/constants';
@@ -394,6 +394,21 @@ describe('rhs view actions', () => {
                             },
                         },
                     ],
+                },
+            ]);
+        });
+    });
+
+    describe('showChannelMembers', () => {
+        test('it dispatches the right actions', async () => {
+            await store.dispatch(showChannelMembers(currentChannelId));
+
+            expect(store.getActions()).toEqual([
+                {
+                    type: ActionTypes.UPDATE_RHS_STATE,
+                    channelId: currentChannelId,
+                    state: RHSStates.CHANNEL_MEMBERS,
+                    previousRhsState: null,
                 },
             ]);
         });
