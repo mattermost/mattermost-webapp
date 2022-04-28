@@ -2,9 +2,10 @@
 // See LICENSE.txt for license information.
 
 import {stripMarkdown} from 'utils/markdown';
-import getEnablePluginSetting from 'components/admin_console/custom_plugin_settings/enable_plugin_setting';
+import getEnablePluginSetting, {EnabledPluginSetting} from 'components/admin_console/custom_plugin_settings/enable_plugin_setting';
+import {PluginRedux, PluginSetting} from 'mattermost-redux/types/plugins';
 
-function extractTextsFromPlugin(plugin) {
+function extractTextsFromPlugin(plugin: PluginRedux) {
     const texts = extractTextFromSetting(getEnablePluginSetting(plugin));
     if (plugin.name) {
         texts.push(plugin.name);
@@ -24,7 +25,7 @@ function extractTextsFromPlugin(plugin) {
             const settings = Object.values(plugin.settings_schema.settings);
 
             for (const setting of settings) {
-                const settingsTexts = extractTextFromSetting(setting, texts);
+                const settingsTexts = extractTextFromSetting(setting);
                 texts.push(...settingsTexts);
             }
         }
@@ -32,7 +33,8 @@ function extractTextsFromPlugin(plugin) {
     return texts;
 }
 
-function extractTextFromSetting(setting) {
+// todo fix setting type
+function extractTextFromSetting(setting: EnabledPluginSetting | PluginSetting) {
     const texts = [];
     if (setting.label) {
         texts.push(setting.label);
@@ -49,8 +51,8 @@ function extractTextFromSetting(setting) {
     return texts;
 }
 
-export function getPluginEntries(pluginsObj = {}) {
-    const entries = {};
+export function getPluginEntries(pluginsObj?: Record<string, PluginRedux>) {
+    const entries: Record<string, string[]> = {};
     const plugins = pluginsObj || {};
     for (const pluginId of Object.keys(plugins)) {
         const url = `plugin_${pluginId}`;
