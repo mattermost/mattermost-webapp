@@ -30,11 +30,11 @@ export function getTopReactionsForTeam(teamId: string, page: number, perPage: nu
     };
 }
 
-export function getMyTopReactions(page: number, perPage: number, timeFrame: TimeFrame): ActionFunc {
+export function getMyTopReactions(teamId: string, page: number, perPage: number, timeFrame: TimeFrame): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let data;
         try {
-            data = await Client4.getMyTopReactions(page, perPage, timeFrame);
+            data = await Client4.getMyTopReactions(teamId, page, perPage, timeFrame);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(logError(error));
@@ -44,6 +44,7 @@ export function getMyTopReactions(page: number, perPage: number, timeFrame: Time
         dispatch({
             type: InsightTypes.RECEIVED_MY_TOP_REACTIONS,
             data: {data, timeFrame},
+            id: teamId,
         });
 
         return {data};

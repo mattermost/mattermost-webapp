@@ -2119,9 +2119,9 @@ export default class Client4 {
         );
     }
 
-    getMyTopReactions = (page: number, perPage: number, timeRange: string) => {
+    getMyTopReactions = (teamId: string, page: number, perPage: number, timeRange: string) => {
         return this.doFetch<TopReactionResponse>(
-            `${this.getUsersRoute()}/me/top/reactions${buildQueryString({page, per_page: perPage, time_range: timeRange})}`,
+            `${this.getUsersRoute()}/me/top/reactions${buildQueryString({page, per_page: perPage, time_range: timeRange, team_id: teamId})}`,
             {method: 'get'},
         );
     }

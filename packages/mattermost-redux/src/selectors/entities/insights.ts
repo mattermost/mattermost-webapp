@@ -46,9 +46,18 @@ export function getMyTopReactions(state: GlobalState) {
     return state.entities.insights.myTopReactions;
 }
 
-export const getMyTopReactionsByTime: (state: GlobalState, timeFrame: TimeFrame, maxResults?: number) => TopReaction[] = createSelector(
-    'getTopReactionsForCurrentTeam',
+export const getMyReactionTimeFramesForCurrentTeam: (state: GlobalState) => Record<TimeFrame, Record<string, TopReaction>> = createSelector(
+    'getMyReactionTimeFramesForCurrentTeam',
+    getCurrentTeamId,
     getMyTopReactions,
+    (currentTeamId, reactions) => {
+        return reactions[currentTeamId];
+    },
+);
+
+export const getMyTopReactionsForCurrentTeam: (state: GlobalState, timeFrame: TimeFrame, maxResults?: number) => TopReaction[] = createSelector(
+    'getMyTopReactionsForCurrentTeam',
+    getMyReactionTimeFramesForCurrentTeam,
     (state: GlobalState, timeFrame: TimeFrames) => timeFrame,
     (state: GlobalState, timeFrame: TimeFrames, maxResults = 5) => maxResults,
     (reactions, timeFrame, maxResults) => {

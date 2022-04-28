@@ -14,7 +14,7 @@ import RenderEmoji from 'components/emoji/render_emoji';
 import {InsightsScopes} from 'utils/constants';
 import {GlobalState} from '@mattermost/types/store';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getMyTopReactionsByTime, getTopReactionsForCurrentTeam} from 'mattermost-redux/selectors/entities/insights';
+import {getMyTopReactionsForCurrentTeam, getTopReactionsForCurrentTeam} from 'mattermost-redux/selectors/entities/insights';
 import {getTopReactionsForTeam, getMyTopReactions} from 'mattermost-redux/actions/insights';
 
 import './../../../activity_and_insights.scss';
@@ -30,7 +30,7 @@ const TopReactionsTable = (props: Props) => {
     const [loading, setLoading] = useState(true);
 
     const teamTopReactions = useSelector((state: GlobalState) => getTopReactionsForCurrentTeam(state, props.timeFrame, 10), shallowEqual);
-    const myTopReactions = useSelector((state: GlobalState) => getMyTopReactionsByTime(state, props.timeFrame, 10), shallowEqual);
+    const myTopReactions = useSelector((state: GlobalState) => getMyTopReactionsForCurrentTeam(state, props.timeFrame, 10), shallowEqual);
 
     const currentTeamId = useSelector(getCurrentTeamId);
 
@@ -49,7 +49,7 @@ const TopReactionsTable = (props: Props) => {
     const getMyTeamReactions = useCallback(async () => {
         if (props.filterType === InsightsScopes.MY) {
             setLoading(true);
-            await dispatch(getMyTopReactions(0, 10, props.timeFrame));
+            await dispatch(getMyTopReactions(currentTeamId, 0, 10, props.timeFrame));
             setLoading(false);
         }
     }, [props.timeFrame, props.filterType]);

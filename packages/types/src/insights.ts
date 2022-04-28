@@ -33,5 +33,5 @@ export type TopReactionResponse = {
 
 export type InsightsState = {
     topReactions: Record<string, Record<TimeFrame, Record<string, TopReaction>>>;
-    myTopReactions: Record<TimeFrame, Record<string, TopReaction>>;
+    myTopReactions: Record<string, Record<TimeFrame, Record<string, TopReaction>>>;
 }

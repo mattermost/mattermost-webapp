@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 
 import {getTopReactionsForTeam, getMyTopReactions} from 'mattermost-redux/actions/insights';
-import {getTopReactionsForCurrentTeam, getMyTopReactionsByTime} from 'mattermost-redux/selectors/entities/insights';
+import {getTopReactionsForCurrentTeam, getMyTopReactionsForCurrentTeam} from 'mattermost-redux/selectors/entities/insights';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {TopReaction} from '@mattermost/types/insights';
@@ -29,7 +29,7 @@ const TopReactions = (props: WidgetHocProps) => {
     const [topReactions, setTopReactions] = useState([] as TopReaction[]);
 
     const teamTopReactions = useSelector((state: GlobalState) => getTopReactionsForCurrentTeam(state, props.timeFrame, 5), shallowEqual);
-    const myTopReactions = useSelector((state: GlobalState) => getMyTopReactionsByTime(state, props.timeFrame, 5), shallowEqual);
+    const myTopReactions = useSelector((state: GlobalState) => getMyTopReactionsForCurrentTeam(state, props.timeFrame, 5), shallowEqual);
 
     useEffect(() => {
         if (props.filterType === InsightsScopes.TEAM) {
@@ -56,7 +56,7 @@ const TopReactions = (props: WidgetHocProps) => {
     const getMyTeamReactions = useCallback(async () => {
         if (props.filterType === InsightsScopes.MY) {
             setLoading(true);
-            await dispatch(getMyTopReactions(0, 10, props.timeFrame));
+            await dispatch(getMyTopReactions(currentTeamId, 0, 10, props.timeFrame));
             setLoading(false);
         }
     }, [props.timeFrame, props.filterType]);
