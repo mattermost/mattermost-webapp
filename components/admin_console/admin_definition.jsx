@@ -41,7 +41,7 @@ import SystemUsers from './system_users';
 import SystemUserDetail from './system_user_detail';
 import ServerLogs from './server_logs';
 import BrandImageSetting from './brand_image_setting/brand_image_setting';
-import GroupSettings from './group_settings/group_settings.jsx';
+import GroupSettings from './group_settings/group_settings';
 import GroupDetails from './group_settings/group_details';
 import TeamSettings from './team_channel_settings/team';
 import TeamDetails from './team_channel_settings/team/details';
@@ -101,7 +101,7 @@ const SAML_SETTINGS_CANONICAL_ALGORITHM_C14N11 = 'Canonical1.1';
 // configure (settings).
 //
 // All text fields contains a translation key, and the <field>_default string are the
-// default text when the translation is still not avaiable (the english version
+// default text when the translation is still not available (the english version
 // of the text).
 //
 // We can define different types of settings configuration widgets:
@@ -138,7 +138,7 @@ const SAML_SETTINGS_CANONICAL_ALGORITHM_C14N11 = 'Canonical1.1';
 //   - placeholder (and placeholder_default): Placeholder text to show in the input.
 //   - dynamic_value: function that generate the value of the field based on the current value, the config, the state and the license.
 //   - default_value: function that generate the default value of the field based on the config, the state and the license.
-//   - max_length: The maximun length allowed
+//   - max_length: The maximum length allowed
 //
 // Button Widget (extends from Setting Widget)
 //   - action: A redux action to execute on click.
