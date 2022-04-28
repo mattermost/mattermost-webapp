@@ -38,6 +38,7 @@ exports[`components/FileUpload should match snapshot 1`] = `
     type="button"
   >
     <PaperclipIcon
+      aria-label="Attachment Icon"
       color="currentColor"
       size={18}
     />
