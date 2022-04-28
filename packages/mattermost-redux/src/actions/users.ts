@@ -24,7 +24,6 @@ import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/pre
 import {removeUserFromList} from 'mattermost-redux/utils/user_utils';
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 import {General} from 'mattermost-redux/constants';
-import {TimeFrame} from '@mattermost/types/insights';
 
 export function checkMfa(loginId: string): ActionFunc {
     return async (dispatch: DispatchFunc) => {
@@ -835,10 +834,8 @@ export function getUserAudits(userId: string, page = 0, perPage: number = Genera
     });
 }
 
-export function autocompleteUsers(term: string, teamId = '', channelId = '', options: {
+export function autocompleteUsers(term: string, teamId = '', channelId = '', options?: {
     limit: number;
-} = {
-    limit: General.AUTOCOMPLETE_LIMIT_DEFAULT,
 }): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         dispatch({type: UserTypes.AUTOCOMPLETE_USERS_REQUEST, data: null});
@@ -1443,26 +1440,6 @@ export function checkForModifiedUsers() {
 
         await dispatch(getProfilesByIds(Object.keys(users), {since: lastDisconnectAt}));
         return {data: true};
-    };
-}
-
-export function getMyTopReactions(page: number, perPage: number, timeFrame: TimeFrame): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let data;
-        try {
-            data = await Client4.getMyTopReactions(page, perPage, timeFrame);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
-
-        dispatch({
-            type: UserTypes.RECEIVED_MY_TOP_REACTIONS,
-            data: {data, timeFrame},
-        });
-
-        return {data};
     };
 }
 

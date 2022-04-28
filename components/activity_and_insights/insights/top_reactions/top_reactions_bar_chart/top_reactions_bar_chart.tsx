@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import React, {memo, useCallback} from 'react';
 
-import {TopReaction} from '@mattermost/types/reactions';
+import {TopReaction} from '@mattermost/types/insights';
 
 import RenderEmoji from 'components/emoji/render_emoji';
 

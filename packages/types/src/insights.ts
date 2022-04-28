@@ -19,3 +19,19 @@ export enum TimeFrames {
 }
 
 export type TimeFrame = TimeFrames;
+
+export type TopReaction = {
+    emoji_name: string;
+    count: number;
+}
+
+export type TopReactionResponse = {
+    has_next: boolean;
+    items: TopReaction[];
+    timeFrame?: TimeFrame;
+}
+
+export type InsightsState = {
+    topReactions: Record<string, Record<TimeFrame, Record<string, TopReaction>>>;
+    myTopReactions: Record<string, Record<TimeFrame, Record<string, TopReaction>>>;
+}

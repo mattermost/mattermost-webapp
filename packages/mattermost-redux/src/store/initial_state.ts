@@ -33,11 +33,6 @@ const state: GlobalState = {
             statuses: {},
             stats: {},
             myUserAccessTokens: {},
-            myTopReactions: {
-                today: {},
-                '7_day': {},
-                '28_day': {},
-            },
         },
         teams: {
             currentTeamId: '',
@@ -47,7 +42,6 @@ const state: GlobalState = {
             stats: {},
             groupsAssociatedToTeam: {},
             totalCount: 0,
-            topReactions: {},
         },
         channels: {
             currentChannelId: '',
@@ -192,6 +186,10 @@ const state: GlobalState = {
         },
         cloud: {
             limits: {},
+        },
+        insights: {
+            topReactions: {},
+            myTopReactions: {},
         },
     },
     errors: [],
