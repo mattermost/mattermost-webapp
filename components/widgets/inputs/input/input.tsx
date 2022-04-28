@@ -21,7 +21,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     wrapperClassName?: string;
     inputClassName?: string;
     limit?: number;
-    noLegend?: boolean;
+    useLegend?: boolean;
 }
 
 function Input({
@@ -29,7 +29,7 @@ function Input({
     value,
     label,
     placeholder,
-    noLegend,
+    useLegend = true,
     className,
     info,
     error: propError,
@@ -100,7 +100,7 @@ function Input({
                     Input_fieldset___legend: showLegend,
                 })}
             >
-                {!noLegend && (
+                {useLegend && (
                     <legend className={classNames('Input_legend', {Input_legend___focus: showLegend})}>
                         {showLegend ? label || placeholder : null}
                     </legend>

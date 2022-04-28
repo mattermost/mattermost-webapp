@@ -45,7 +45,7 @@ const SearchBar = ({className, terms, onInput}: Props) => {
                     id: 'channel_members_rhs.search_bar.placeholder',
                     defaultMessage: 'Search members',
                 })}
-                noLegend={true}
+                useLegend={false}
             />
         </div>
     );
