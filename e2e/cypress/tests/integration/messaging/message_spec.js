@@ -155,7 +155,7 @@ describe('Message', () => {
         cy.get('#previewLink').click();
 
         // # Reply with enter
-        cy.type('{enter}');
+        cy.get('#reply_textbox').type('{enter}');
 
         // * Focus to remain in the RHS text box
         cy.get('#reply_textbox').should('be.focused');
