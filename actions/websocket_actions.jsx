@@ -219,7 +219,9 @@ export function reconnect(includeWebSocket = true) {
         } else {
             // if network timed-out the first time when loading a channel
             // we can request for getPosts again when socket is connected
-            dispatch(getPosts(currentChannelId));
+            if (currentChannelId) {
+                dispatch(getPosts(currentChannelId));
+            }
         }
         StatusActions.loadStatusesForChannelAndSidebar();
 
