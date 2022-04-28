@@ -12,7 +12,14 @@ import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions';
-import Constants, {StoragePrefixes, ModalIdentifiers, Locations, A11yClassNames} from 'utils/constants';
+import Constants, {
+    StoragePrefixes,
+    ModalIdentifiers,
+    Locations,
+    A11yClassNames,
+    Preferences,
+    AdvancedTextEditor,
+} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {
     containsAtChannel,
@@ -206,6 +213,8 @@ type Props = {
   */
     shouldShowPreview: boolean;
 
+    isFormattingBarVisible: boolean;
+
     actions: {
 
         /**
@@ -367,7 +376,7 @@ class CreatePost extends React.PureComponent<Props, State> {
             errorClass: null,
             serverError: null,
             showFormat: false,
-            isFormattingBarVisible: false,
+            isFormattingBarVisible: props.isFormattingBarVisible,
         };
 
         this.topDiv = React.createRef<HTMLFormElement>();
@@ -1322,6 +1331,18 @@ class CreatePost extends React.PureComponent<Props, State> {
             }
         });
     }
+    toggleAdvanceTextEditor = () => {
+        this.setState({
+            isFormattingBarVisible:
+                !this.state.isFormattingBarVisible,
+        });
+        this.props.actions.savePreferences(this.props.currentUserId, [{
+            category: Preferences.ADVANCED_TEXT_EDITOR,
+            user_id: this.props.currentUserId,
+            name: AdvancedTextEditor.POST,
+            value: String(!this.state.isFormattingBarVisible),
+        }]);
+    }
 
     render() {
         const {
@@ -1428,11 +1449,7 @@ class CreatePost extends React.PureComponent<Props, State> {
             );
             toggleFormattingBar = (
                 <ToggleFormattingBar
-                    onClick={() => {
-                        this.setState({
-                            isFormattingBarVisible: !this.state.isFormattingBarVisible,
-                        });
-                    }}
+                    onClick={this.toggleAdvanceTextEditor}
                     active={this.state.isFormattingBarVisible}
                 />
             );

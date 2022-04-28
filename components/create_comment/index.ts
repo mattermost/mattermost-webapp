@@ -12,6 +12,8 @@ import {ModalData} from 'types/actions.js';
 
 import {ActionFunc, ActionResult, DispatchFunc} from 'mattermost-redux/types/actions.js';
 
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
+
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getBool, isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
@@ -21,10 +23,12 @@ import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/action
 import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {Permissions, Preferences, Posts} from 'mattermost-redux/constants';
 import {getAssociatedGroupsForReferenceByMention} from 'mattermost-redux/selectors/entities/groups';
+import {PreferenceType} from '@mattermost/types/preferences';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
 
 import {connectionErrorCount} from 'selectors/views/system';
 
-import {Constants, StoragePrefixes} from 'utils/constants';
+import {AdvancedTextEditor, Constants, StoragePrefixes} from 'utils/constants';
 import {getCurrentLocale} from 'selectors/i18n';
 
 import {
@@ -66,6 +70,7 @@ function makeMapStateToProps() {
 
         const config = getConfig(state);
         const license = getLicense(state);
+        const currentUserId = getCurrentUserId(state);
         const enableConfirmNotificationsToChannel = config.EnableConfirmNotificationsToChannel === 'true';
         const enableEmojiPicker = config.EnableEmojiPicker === 'true';
         const enableGifPicker = config.EnableGifPicker === 'true';
@@ -78,11 +83,14 @@ function makeMapStateToProps() {
         const useLDAPGroupMentions = isLDAPEnabled && haveIChannelPermission(state, channel.team_id, channel.id, Permissions.USE_GROUP_MENTIONS);
         const channelMemberCountsByGroup = selectChannelMemberCountsByGroup(state, ownProps.channelId);
         const groupsWithAllowReference = useLDAPGroupMentions || useCustomGroupMentions ? getAssociatedGroupsForReferenceByMention(state, channel.team_id, channel.id) : null;
+        const isFormattingBarVisible = getBool(state, Constants.Preferences.ADVANCED_TEXT_EDITOR, AdvancedTextEditor.COMMENT);
 
         return {
             draft,
             messageInHistory,
             channelMembersCount,
+            currentUserId,
+            isFormattingBarVisible,
             codeBlockOnCtrlEnter: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'code_block_ctrl_enter', true),
             ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
             createPostErrorId: err.server_error_id,
@@ -127,6 +135,7 @@ type Actions = {
     setShowPreview: (showPreview: boolean) => void;
     getChannelMemberCountsByGroup: (channelID: string) => void;
     openModal: <P>(modalData: ModalData<P>) => void;
+    savePreferences: (userId: string, preferences: PreferenceType[]) => ActionResult;
 };
 
 function makeMapDispatchToProps() {
@@ -188,6 +197,7 @@ function makeMapDispatchToProps() {
                 setShowPreview: setShowPreviewOnCreateComment,
                 getChannelMemberCountsByGroup,
                 openModal,
+                savePreferences,
             },
             dispatch,
         );

@@ -130,6 +130,7 @@ export const Preferences = {
     AB_TEST_PREFERENCE_VALUE: 'ab_test_preference_value',
 
     ONBOARDING: 'onboarding',
+    ADVANCED_TEXT_EDITOR: 'advanced_text_editor',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -567,6 +568,12 @@ export const Threads = {
 export const CloudBanners = {
     HIDE: 'hide',
     TRIAL: 'trial',
+};
+
+export const AdvancedTextEditor = {
+    COMMENT: 'comment',
+    POST: 'post',
+    EDIT: 'edit',
 };
 
 export const TELEMETRY_CATEGORIES = {
