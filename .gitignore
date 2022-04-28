@@ -13,6 +13,7 @@ mattermost-webapp.iml
 junit.xml
 coverage
 config.override.mk
+*.tsbuildinfo
 
 # Environment variables
 .env*
