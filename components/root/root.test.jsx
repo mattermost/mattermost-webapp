@@ -56,6 +56,7 @@ describe('components/Root', () => {
                 data: true,
             })),
             getProfiles: jest.fn(),
+            savePreferences: jest.fn(),
         },
         location: {
             pathname: '/',
