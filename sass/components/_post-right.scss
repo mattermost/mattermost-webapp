@@ -149,6 +149,7 @@
         position: sticky;
         bottom: 0;
         width: 100%;
+        flex-basis: 50vh;
 
         .btn {
             margin-bottom: 10px;
@@ -161,7 +162,6 @@
 
         .custom-textarea {
             min-height: 100px;
-            max-height: calc(50vh - 80px);
         }
 
         .msg-typing {
