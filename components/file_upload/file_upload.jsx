@@ -594,7 +594,8 @@ export class FileUpload extends PureComponent {
         const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.fileCount;
 
         let bodyAction;
-        const ariaLabel = formatMessage({id: 'accessibility.button.attachment', defaultMessage: 'attachment'});
+        const buttonAriaLabel = formatMessage({id: 'accessibility.button.attachment', defaultMessage: 'attachment'});
+        const iconAriaLabel = formatMessage({id: 'generic_icons.attach', defaultMessage: 'Attachment Icon'});
 
         if (this.props.pluginFileUploadMethods.length === 0) {
             bodyAction = (
@@ -602,7 +603,7 @@ export class FileUpload extends PureComponent {
                     <button
                         type='button'
                         id='fileUploadButton'
-                        aria-label={ariaLabel}
+                        aria-label={buttonAriaLabel}
                         className={classNames('style--none post-action', {disabled: uploadsRemaining <= 0})}
                         onClick={this.simulateInputClick}
                         onTouchEnd={this.simulateInputClick}
@@ -610,6 +611,7 @@ export class FileUpload extends PureComponent {
                         <PaperclipIcon
                             size={18}
                             color={'currentColor'}
+                            aria-label={iconAriaLabel}
                         />
                     </button>
                     <input
@@ -663,7 +665,7 @@ export class FileUpload extends PureComponent {
                     <MenuWrapper>
                         <button
                             type='button'
-                            aria-label={ariaLabel}
+                            aria-label={buttonAriaLabel}
                             className='style--none post-action'
                         >
                             <div
