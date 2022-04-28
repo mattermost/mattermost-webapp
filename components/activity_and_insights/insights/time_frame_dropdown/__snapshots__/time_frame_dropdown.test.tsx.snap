@@ -4,7 +4,7 @@ exports[`components/activity_and_insights/insights/insights_title should match s
 <StateManager
   aria-labelledby="changeInsightsTemporal"
   className="react-select react-select-top"
-  classNamePrefix="react-select-insights-temporal"
+  classNamePrefix="react-select"
   clearable={false}
   components={
     Object {

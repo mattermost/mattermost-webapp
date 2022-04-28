@@ -44,6 +44,35 @@ describe('components/activity_and_insights/insights/top_reactions/top_reactions_
                         id: 'team_id1',
                         name: 'team1',
                     },
+                }
+            },
+            users: {
+                currentUserId: 'current_user_id',
+            },
+            insights: {
+                myTopReactions: {
+                    team_id1: {
+                        today: {},
+                        '7_day': {
+                            grinning: {
+                                emoji_name: 'grinning',
+                                count: 190,
+                            },
+                            tada: {
+                                emoji_name: 'tada',
+                                count: 180,
+                            },
+                            heart: {
+                                emoji_name: 'heart',
+                                count: 110,
+                            },
+                            laughing: {
+                                emoji_name: 'laughing',
+                                count: 80,
+                            },
+                        },
+                        '28_day': {},
+                    },
                 },
                 topReactions: {
                     team_id1: {
@@ -60,31 +89,6 @@ describe('components/activity_and_insights/insights/top_reactions/top_reactions_
                         },
                         '28_day': {},
                     },
-                },
-            },
-            users: {
-                currentUserId: 'current_user_id',
-                myTopReactions: {
-                    today: {},
-                    '7_day': {
-                        grinning: {
-                            emoji_name: 'grinning',
-                            count: 190,
-                        },
-                        tada: {
-                            emoji_name: 'tada',
-                            count: 180,
-                        },
-                        heart: {
-                            emoji_name: 'heart',
-                            count: 110,
-                        },
-                        laughing: {
-                            emoji_name: 'laughing',
-                            count: 80,
-                        },
-                    },
-                    '28_day': {},
                 },
             },
         },

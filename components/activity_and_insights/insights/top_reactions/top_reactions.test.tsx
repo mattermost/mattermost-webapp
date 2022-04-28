@@ -49,6 +49,41 @@ describe('components/activity_and_insights/insights/top_reactions', () => {
                         name: 'team1',
                     },
                 },
+            },
+            general: {
+                config: {},
+            },
+            emojis: {
+                customEmoji: {},
+            },
+            users: {
+                currentUserId: 'current_user_id',
+            },
+            insights: {
+                myTopReactions: {
+                    team_id1: {
+                        today: {},
+                        '7_day': {
+                            grinning: {
+                                emoji_name: 'grinning',
+                                count: 190,
+                            },
+                            tada: {
+                                emoji_name: 'tada',
+                                count: 180,
+                            },
+                            heart: {
+                                emoji_name: 'heart',
+                                count: 110,
+                            },
+                            laughing: {
+                                emoji_name: 'laughing',
+                                count: 80,
+                            },
+                        },
+                        '28_day': {},
+                    },
+                },
                 topReactions: {
                     team_id1: {
                         today: {},
@@ -66,37 +101,6 @@ describe('components/activity_and_insights/insights/top_reactions', () => {
                     },
                 },
             },
-            users: {
-                currentUserId: 'current_user_id',
-                myTopReactions: {
-                    today: {},
-                    '7_day': {
-                        grinning: {
-                            emoji_name: 'grinning',
-                            count: 190,
-                        },
-                        tada: {
-                            emoji_name: 'tada',
-                            count: 180,
-                        },
-                        heart: {
-                            emoji_name: 'heart',
-                            count: 110,
-                        },
-                        laughing: {
-                            emoji_name: 'laughing',
-                            count: 80,
-                        },
-                    },
-                    '28_day': {},
-                },
-            },
-            general: {
-                config: {},
-            },
-            emojis: {
-                customEmoji: {},
-            },
         },
     };
 
@@ -105,17 +109,14 @@ describe('components/activity_and_insights/insights/top_reactions', () => {
             entities: {
                 teams: {
                     currentTeamId: 'team_id1',
-                    topReactions: {
-                        team_id1: {},
-                    },
                 },
                 users: {
-                    myTopReactions: {
-                        today: {},
-                        '7_day': {},
-                        '28_day': {},
-                    },
+                    currentUserId: 'current_user_id',
                 },
+                insights: {
+                    topReactions: {},
+                    myTopReactions: {},
+                }
             },
         });
         const wrapper = mountWithIntl(
