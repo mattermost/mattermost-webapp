@@ -189,11 +189,7 @@ const state: GlobalState = {
         },
         insights: {
             topReactions: {},
-            myTopReactions: {
-                today: {},
-                '7_day': {},
-                '28_day': {},
-            },
+            myTopReactions: {},
         },
     },
     errors: [],
