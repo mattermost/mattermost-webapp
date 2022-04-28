@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`onboarding tasks manager Places all the elements when user is first admin or admin 1`] = `
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+>
+  <WrapperComponent>
+    <div>
+      <ul
+        key="channels_tour"
+      >
+        channels_tour
+      </ul>
+      <ul
+        key="invite_people"
+      >
+        invite_people
+      </ul>
+      <ul
+        key="download_app"
+      >
+        download_app
+      </ul>
+      <ul
+        key="complete_your_profile"
+      >
+        complete_your_profile
+      </ul>
+    </div>
+  </WrapperComponent>
+</Provider>
+`;
