@@ -38,7 +38,7 @@ import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
 import Pluggable from 'plugins/pluggable';
 import BrowserStore from 'stores/browser_store';
-import Constants, {StoragePrefixes, WindowSizes} from 'utils/constants';
+import Constants, {StoragePrefixes, WindowSizes, RecommendedNextSteps, Preferences} from 'utils/constants';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
@@ -384,6 +384,8 @@ export default class Root extends React.PureComponent {
 
     initOnboardingPrefs = async () => {
         // save to preferences the show/open-task-list to true
+        // also save the recomendedNextSteps-hide to true to avoid asserting to true
+        // the logic to firstTimeOnboarding
         await this.props.actions.savePreferences(this.props.userId, [
             {
                 category: OnboardingTaskCategory,
@@ -395,6 +397,12 @@ export default class Root extends React.PureComponent {
                 user_id: this.props.userId,
                 category: OnboardingTaskCategory,
                 name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
+                value: 'true',
+            },
+            {
+                user_id: this.props.userId,
+                category: Preferences.RECOMMENDED_NEXT_STEPS,
+                name: RecommendedNextSteps.HIDE,
                 value: 'true',
             },
         ]);
