@@ -301,6 +301,7 @@ var config = {
                 {from: 'images/payment-method-illustration.png', to: 'images'},
                 {from: 'images/trial-ending-soon.png', to: 'images'},
                 {from: 'images/cloud-laptop.png', to: 'images'},
+                {from: 'images/trial-ended.png', to: 'images'},
             ],
         }),
 
