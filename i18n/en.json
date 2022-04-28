@@ -2808,6 +2808,7 @@
   "channel_members_rhs.member.select_role_guest": "Guest",
   "channel_members_rhs.member.send_message": "Send message",
   "channel_members_rhs.search_bar.aria.cancel_search_button": "cancel members search",
+  "channel_members_rhs.search_bar.placeholder": "Search members",
   "channel_modal.alreadyExist": "A channel with that URL already exists",
   "channel_modal.cancel": "Cancel",
   "channel_modal.createNew": "Create channel",
