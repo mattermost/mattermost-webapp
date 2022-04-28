@@ -19,7 +19,7 @@ const sortReactionsIntoState = (existingState: Record<TimeFrame, Record<string, 
     }
 
     return newItems;
-}
+};
 
 function topReactions(state: Record<string, Record<TimeFrame, Record<string, TopReaction>>> = {}, action: GenericAction) {
     switch (action.type) {

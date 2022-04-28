@@ -216,12 +216,10 @@ export function reconnect(includeWebSocket = true) {
 
         if (mostRecentPost) {
             dispatch(syncPostsInChannel(currentChannelId, mostRecentPost.create_at));
-        } else {
+        } else if (currentChannelId) {
             // if network timed-out the first time when loading a channel
             // we can request for getPosts again when socket is connected
-            if (currentChannelId) {
-                dispatch(getPosts(currentChannelId));
-            }
+            dispatch(getPosts(currentChannelId));
         }
         StatusActions.loadStatusesForChannelAndSidebar();
 
