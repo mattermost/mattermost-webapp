@@ -621,7 +621,7 @@ export default class SwitchChannelProvider extends Provider {
                 continue;
             }
 
-            const unread = allUnreadChannelIdsSet.has(channel.id);
+            const unread = allUnreadChannelIdsSet.has(channel?.id);
             if (unread) {
                 wrappedChannel.unread = true;
             }
