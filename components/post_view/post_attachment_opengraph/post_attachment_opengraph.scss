@@ -29,14 +29,18 @@
     &:hover:not(:active) {
         border-color: rgba(var(--center-channel-color-rgb), 0.24);
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
+    }
+
+    &:hover {
+        .sitename,
+        .title,
+        .description, {
+            text-decoration: none;
+        }
 
         .remove-button {
             display: block;
         }
-    }
-
-    &:hover {
-        text-decoration: none;
     }
 
     &:active {
@@ -45,6 +49,7 @@
 
     .remove-button {
         position: absolute;
+        z-index: 10;
         left: -23px;
         display: none;
         padding: 4px;

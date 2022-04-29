@@ -100,12 +100,16 @@ const PostAttachmentOpenGraph = ({openGraphData, post, actions, link, ...rest}: 
 
     useEffect(() => setPreviewRemoved(post?.props?.[PostTypes.REMOVE_LINK_PREVIEW] === 'true'), [post]);
 
-    const handleRemovePreview = async () => {
+    const handleRemovePreview = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+
+        // prevent the button-click to trigger visiting the link
+        e.stopPropagation();
         const props = Object.assign({}, post.props);
         props[PostTypes.REMOVE_LINK_PREVIEW] = 'true';
 
         const patchedPost = {
-            id: props.post.id,
+            id: post.id,
             props,
         };
 
