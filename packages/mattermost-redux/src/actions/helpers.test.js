@@ -3,10 +3,11 @@
 
 import assert from 'assert';
 
+import {ClientError} from '@mattermost/client';
+
 import {UserTypes} from 'mattermost-redux/action_types';
 import {forceLogoutIfNecessary} from 'mattermost-redux/actions/helpers';
 import {Client4} from 'mattermost-redux/client';
-import {ClientError} from 'mattermost-redux/client/client4';
 import configureStore, {mockDispatch} from 'mattermost-redux/test/test_store';
 
 describe('Actions.Helpers', () => {

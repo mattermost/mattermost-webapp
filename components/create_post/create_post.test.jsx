@@ -68,6 +68,7 @@ const actionsProp = {
     setEditingPost: jest.fn(),
     openModal: jest.fn(),
     setShowPreview: jest.fn(),
+    savePreferences: jest.fn(),
     executeCommand: async () => {
         return {data: true};
     },
@@ -88,8 +89,7 @@ function createPost({
     currentChannel = currentChannelProp,
     currentTeamId = currentTeamIdProp,
     currentUserId = currentUserIdProp,
-    tutorialStep = Constants.TutorialSteps.POST_POPOVER + 1,
-    showTutorialTip = showTutorialTipProp,
+    showSendTutorialTip = showTutorialTipProp,
     currentChannelMembersCount = currentChannelMembersCountProp,
     fullWidthTextBox = fullWidthTextBoxProp,
     draft = draftProp,
@@ -102,7 +102,8 @@ function createPost({
     canUploadFiles = true,
     emojiMap = new EmojiMap(new Map()),
     isTimezoneEnabled = false,
-    useGroupMentions = true,
+    useLDAPGroupMentions = true,
+    useCustomGroupMentions = true,
     canPost = true,
     isMarkdownPreviewEnabled = false,
 } = {}) {
@@ -111,7 +112,7 @@ function createPost({
             currentChannel={currentChannel}
             currentTeamId={currentTeamId}
             currentUserId={currentUserId}
-            showTutorialTip={showTutorialTip}
+            showSendTutorialTip={showSendTutorialTip}
             fullWidthTextBox={fullWidthTextBox}
             currentChannelMembersCount={currentChannelMembersCount}
             draft={draft}
@@ -135,8 +136,8 @@ function createPost({
             isTimezoneEnabled={isTimezoneEnabled}
             canPost={canPost}
             useChannelMentions={true}
-            useGroupMentions={useGroupMentions}
-            tutorialStep={tutorialStep}
+            useLDAPGroupMentions={useLDAPGroupMentions}
+            useCustomGroupMentions={useCustomGroupMentions}
             isMarkdownPreviewEnabled={isMarkdownPreviewEnabled}
         />
     );
@@ -179,7 +180,7 @@ describe('components/create_post', () => {
         expect(clearDraftUploads).toHaveBeenCalled();
     });
 
-    it('Check for state change on channelId change with useGroupMentions = true', () => {
+    it('Check for state change on channelId change with useLDAPGroupMentions = true', () => {
         const wrapper = shallowWithIntl(createPost({}));
         const draft = {
             ...draftProp,
@@ -200,7 +201,7 @@ describe('components/create_post', () => {
         expect(wrapper.state('message')).toBe('test');
     });
 
-    it('Check for getChannelMemberCountsByGroup called on mount and when channel changed with useGroupMentions = true', () => {
+    it('Check for getChannelMemberCountsByGroup called on mount and when channel changed with useLDAPGroupMentions = true', () => {
         const getChannelMemberCountsByGroup = jest.fn();
         const actions = {
             ...actionsProp,
@@ -217,14 +218,14 @@ describe('components/create_post', () => {
         expect(getChannelMemberCountsByGroup).toHaveBeenCalled();
     });
 
-    it('Check for getChannelMemberCountsByGroup not called on mount and when channel changed with useGroupMentions = false', () => {
+    it('Check for getChannelMemberCountsByGroup not called on mount and when channel changed with useLDAPGroupMentions = false', () => {
         const getChannelMemberCountsByGroup = jest.fn();
-        const useGroupMentions = false;
+        const useLDAPGroupMentions = false;
         const actions = {
             ...actionsProp,
             getChannelMemberCountsByGroup,
         };
-        const wrapper = shallowWithIntl(createPost({actions, useGroupMentions}));
+        const wrapper = shallowWithIntl(createPost({actions, useLDAPGroupMentions}));
         expect(getChannelMemberCountsByGroup).not.toHaveBeenCalled();
         wrapper.setProps({
             currentChannel: {

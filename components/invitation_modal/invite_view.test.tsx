@@ -6,7 +6,6 @@ import React from 'react';
 import {mountWithThemedIntl} from 'tests/helpers/themed-intl-test-helper';
 
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
-import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
 import {Team} from 'mattermost-redux/types/teams';
 
 import InviteAs, {InviteType} from './invite_as';
@@ -25,7 +24,6 @@ const defaultProps: Props = deepFreeze({
     currentChannel: {
         display_name: 'some_channel',
     },
-    inviteToTeamTreatment: InviteToTeamTreatments.NONE,
     setCustomMessage: jest.fn(),
     toggleCustomMessage: jest.fn(),
     channelsLoader: jest.fn(),
@@ -34,7 +32,6 @@ const defaultProps: Props = deepFreeze({
     usersLoader: jest.fn(),
     onChangeUsersEmails: jest.fn(),
     isCloud: false,
-    cloudUserLimit: '10',
     emailInvitationsEnabled: true,
     onUsersInputChange: jest.fn(),
     headerClass: '',

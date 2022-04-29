@@ -235,7 +235,7 @@ export default function HelpFormatting(): JSX.Element {
             </p>
             <FormattedMessage
                 id='help.formatting.linkEx'
-                defaultMessage={'[Check out Mattermost!](https://about.mattermost.com/)'}
+                defaultMessage={'[Check out Mattermost!](https://mattermost.com/)'}
             >
                 {(example) => (
                     <div>

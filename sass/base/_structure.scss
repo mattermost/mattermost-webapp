@@ -20,6 +20,13 @@ body {
             -webkit-overflow-scrolling: touch;
         }
     }
+
+    &.admin-onboarding {
+        background-image: url('images/admin-onboarding-background.jpg');
+        background-position: 50%;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
 }
 
 *:focus {
@@ -82,7 +89,6 @@ body {
 
     position: relative;
     height: 100%;
-    flex: 1;
 
     #root {
         display: flex;
@@ -96,8 +102,4 @@ body {
 
 img {
     max-width: 100%;
-}
-
-.mainContentRow {
-    height: 100%;
 }

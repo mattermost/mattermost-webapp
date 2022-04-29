@@ -281,6 +281,7 @@ function sortChannelsByRecencyAndTypeAndDisplayName(wrappedA, wrappedB) {
         return 1;
     }
 
+    // MM-12677 When this is migrated this needs to be fixed to pull the user's locale
     return sortChannelsByTypeAndDisplayName('en', wrappedA.channel, wrappedB.channel);
 }
 
@@ -314,10 +315,10 @@ export function quickSwitchSorter(wrappedA, wrappedB) {
         bDisplayName = bDisplayName.substring(1);
     }
 
-    const aStartsWith = aDisplayName.startsWith(prefix);
-    const bStartsWith = bDisplayName.startsWith(prefix);
+    const aStartsWith = aDisplayName.startsWith(prefix) || wrappedA.name.toLowerCase().startsWith(prefix);
+    const bStartsWith = bDisplayName.startsWith(prefix) || wrappedB.name.toLowerCase().startsWith(prefix);
 
-    // Open channels user havent interacted should be at the  bottom of the list
+    // Open channels user haven't interacted should be at the  bottom of the list
     if (a.type === Constants.OPEN_CHANNEL && !wrappedA.last_viewed_at && (b.type !== Constants.OPEN_CHANNEL || wrappedB.last_viewed_at)) {
         return 1;
     } else if (b.type === Constants.OPEN_CHANNEL && !wrappedB.last_viewed_at) {
@@ -330,18 +331,7 @@ export function quickSwitchSorter(wrappedA, wrappedB) {
     } else if (!aStartsWith && bStartsWith) {
         return 1;
     }
-
-    // Sort recently viewed channels first
-    if (wrappedA.last_viewed_at && wrappedB.last_viewed_at) {
-        return wrappedB.last_viewed_at - wrappedA.last_viewed_at;
-    } else if (wrappedA.last_viewed_at) {
-        return -1;
-    } else if (wrappedB.last_viewed_at) {
-        return 1;
-    }
-
-    // MM-12677 When this is migrated this needs to be fixed to pull the user's locale
-    return sortChannelsByTypeAndDisplayName('en', a, b);
+    return sortChannelsByRecencyAndTypeAndDisplayName(wrappedA, wrappedB);
 }
 
 function makeChannelSearchFilter(channelPrefix) {

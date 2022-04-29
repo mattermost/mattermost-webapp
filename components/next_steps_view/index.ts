@@ -8,7 +8,7 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getProfiles} from 'mattermost-redux/actions/users';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, isFirstAdmin, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {selectChannel} from 'mattermost-redux/actions/channels';
 
@@ -19,7 +19,7 @@ import {GlobalState} from 'types/store';
 import {Preferences} from 'utils/constants';
 import {makeAsyncComponent} from 'components/async_load';
 
-import {getSteps, isFirstAdmin} from './steps';
+import {getSteps} from './steps';
 
 const NextStepsView = makeAsyncComponent('NextStepsView', React.lazy(() => import('./next_steps_view')));
 

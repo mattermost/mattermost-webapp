@@ -15,7 +15,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 
 import {GlobalState} from 'types/store';
 
-import {canManageMembers} from 'utils/channel_utils.jsx';
+import {canManageMembers} from 'utils/channel_utils';
 
 import {MentionKey} from 'utils/text_formatting';
 

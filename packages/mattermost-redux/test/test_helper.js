@@ -4,7 +4,7 @@
 import assert from 'assert';
 import nock from 'nock';
 
-import Client4 from 'mattermost-redux/client/client4';
+import {Client4} from '@mattermost/client';
 
 import {DEFAULT_LOCALE} from 'mattermost-redux/constants/general';
 import {generateId} from 'mattermost-redux/utils/helpers';
@@ -342,7 +342,7 @@ class TestHelper {
         };
     }
 
-    fakeGroup = (groupId) => {
+    fakeGroup = (groupId, source = 'ldap') => {
         const name = 'software-engineers';
 
         return {
@@ -350,6 +350,8 @@ class TestHelper {
             id: groupId,
             display_name: 'software engineers',
             delete_at: 0,
+            allow_reference: true,
+            source,
         };
     };
 
@@ -367,6 +369,10 @@ class TestHelper {
         nock(this.basicClient4.getBaseRoute()).
             post('/users/login').
             reply(200, this.basicUser, {'X-Version-Id': 'Server Version'});
+
+        nock(this.basicClient4.getBaseRoute()).
+            get('/users/me').
+            reply(200, this.basicUser);
 
         nock(this.basicClient4.getBaseRoute()).
             get('/users/me/teams/members').

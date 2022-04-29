@@ -21,7 +21,7 @@ describe('components/custom_status/custom_status_emoji', () => {
         return null;
     };
     (CustomStatusSelectors.makeGetCustomStatus as jest.Mock).mockReturnValue(getCustomStatus);
-    (CustomStatusSelectors.isCustomStatusEnabled as jest.Mock).mockReturnValue(true);
+    (CustomStatusSelectors.isCustomStatusEnabled as any as jest.Mock).mockReturnValue(true);
     it('should match snapshot', () => {
         const wrapper = mount(<CustomStatusEmoji/>, {wrappingComponent: Provider, wrappingComponentProps: {store}});
         expect(wrapper).toMatchSnapshot();
@@ -41,14 +41,14 @@ describe('components/custom_status/custom_status_emoji', () => {
     });
 
     it('should not render when EnableCustomStatus in config is false', () => {
-        (CustomStatusSelectors.isCustomStatusEnabled as jest.Mock).mockReturnValue(false);
+        (CustomStatusSelectors.isCustomStatusEnabled as any as jest.Mock).mockReturnValue(false);
         const wrapper = mount(<CustomStatusEmoji/>, {wrappingComponent: Provider, wrappingComponentProps: {store}});
 
         expect(wrapper.isEmptyRender()).toBeTruthy();
     });
 
     it('should not render when custom status is expired', () => {
-        (CustomStatusSelectors.isCustomStatusEnabled as jest.Mock).mockReturnValue(true);
+        (CustomStatusSelectors.isCustomStatusEnabled as any as jest.Mock).mockReturnValue(true);
         (CustomStatusSelectors.isCustomStatusExpired as jest.Mock).mockReturnValue(true);
         const wrapper = mount(<CustomStatusEmoji/>, {wrappingComponent: Provider, wrappingComponentProps: {store}});
 

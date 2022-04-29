@@ -1,5 +1,4 @@
 .backstage {
-    position: absolute;
     width: 100vw;
     height: 100vh;
 }
@@ -35,7 +34,12 @@
     display: inline-block;
     overflow: auto;
     width: 100%;
-    height: calc(100vh - 41px);
+    height: calc(100% - #{$announcement-bar-height});
+
+    body.announcement-bar--fixed & {
+        height: calc(100vh - #{$announcement-bar-height} - #{$backstage-bar-height});
+    }
+
     background-color: $bg--gray;
 }
 
@@ -556,6 +560,7 @@
 // global header style adjustments
 @media screen and (min-width: 769px) {
     .backstage {
+        position: relative;
         z-index: 110;
         margin-top: -40px;
     }

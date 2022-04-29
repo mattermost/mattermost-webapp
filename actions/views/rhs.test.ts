@@ -34,12 +34,14 @@ import {
     updateSearchType,
     suppressRHS,
     unsuppressRHS,
+    goBack, showChannelMembers,
 } from 'actions/views/rhs';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {ActionTypes, RHSStates, Constants} from 'utils/constants';
 import {getBrowserUtcOffset} from 'utils/timezone.jsx';
 import {GlobalState} from 'types/store';
 import {ViewsState} from 'types/store/views';
+import {RhsState} from 'types/store/rhs';
 
 const mockStore = configureStore<GlobalState, DispatchFunc>([thunk]);
 
@@ -125,13 +127,25 @@ describe('rhs view actions', () => {
     });
 
     describe('updateRhsState', () => {
-        test(`it dispatches ${ActionTypes.UPDATE_RHS_STATE} correctly`, () => {
+        test(`it dispatches ${ActionTypes.UPDATE_RHS_STATE} correctly with defaults`, () => {
             store.dispatch(updateRhsState(RHSStates.PIN));
 
             const action = {
                 type: ActionTypes.UPDATE_RHS_STATE,
                 state: RHSStates.PIN,
                 channelId: currentChannelId,
+            };
+
+            expect(store.getActions()).toEqual([action]);
+        });
+
+        test(`it dispatches ${ActionTypes.UPDATE_RHS_STATE} correctly`, () => {
+            store.dispatch(updateRhsState(RHSStates.PIN, 'channelId', RHSStates.CHANNEL_INFO as RhsState));
+            const action = {
+                type: ActionTypes.UPDATE_RHS_STATE,
+                state: RHSStates.PIN,
+                channelId: 'channelId',
+                previousRhsState: RHSStates.CHANNEL_INFO,
             };
 
             expect(store.getActions()).toEqual([action]);
@@ -310,6 +324,7 @@ describe('rhs view actions', () => {
                     type: ActionTypes.UPDATE_RHS_STATE,
                     channelId: currentChannelId,
                     state: RHSStates.PIN,
+                    previousRhsState: null,
                 },
                 {
                     type: 'MOCK_GET_PINNED_POSTS',
@@ -355,6 +370,7 @@ describe('rhs view actions', () => {
                     type: ActionTypes.UPDATE_RHS_STATE,
                     channelId,
                     state: RHSStates.PIN,
+                    previousRhsState: null,
                 },
                 {
                     type: 'MOCK_GET_PINNED_POSTS',
@@ -378,6 +394,21 @@ describe('rhs view actions', () => {
                             },
                         },
                     ],
+                },
+            ]);
+        });
+    });
+
+    describe('showChannelMembers', () => {
+        test('it dispatches the right actions', async () => {
+            await store.dispatch(showChannelMembers(currentChannelId));
+
+            expect(store.getActions()).toEqual([
+                {
+                    type: ActionTypes.UPDATE_RHS_STATE,
+                    channelId: currentChannelId,
+                    state: RHSStates.CHANNEL_MEMBERS,
+                    previousRhsState: null,
                 },
             ]);
         });
@@ -431,6 +462,12 @@ describe('rhs view actions', () => {
                     postId: '',
                     channelId: '',
                     timestamp: 0,
+                },
+                {
+                    type: ActionTypes.TOGGLE_EDITING_POST,
+                    data: {
+                        show: false,
+                    },
                 },
             ]));
 
@@ -642,6 +679,7 @@ describe('rhs view actions', () => {
                     type: ActionTypes.UPDATE_RHS_STATE,
                     channelId: currentChannelId,
                     state: RHSStates.PIN,
+                    previousRhsState: null,
                 },
                 {
                     type: 'MOCK_GET_PINNED_POSTS',
@@ -832,7 +870,7 @@ describe('rhs view actions', () => {
         });
     });
 
-    describe('rsh suppress actions', () => {
+    describe('rhs suppress actions', () => {
         it('should suppress rhs', () => {
             const store = mockStore(initialState);
             store.dispatch(suppressRHS);
@@ -846,6 +884,19 @@ describe('rhs view actions', () => {
             store.dispatch(unsuppressRHS);
             expect(store.getActions()).toEqual([{
                 type: ActionTypes.UNSUPPRESS_RHS,
+            }]);
+        });
+    });
+
+    describe('rhs go back', () => {
+        it('should be able to go back', () => {
+            const testState = {...initialState};
+            testState.views.rhs.previousRhsStates = [RHSStates.CHANNEL_FILES as RhsState];
+            const store = mockStore(testState);
+            store.dispatch(goBack());
+            expect(store.getActions()).toEqual([{
+                type: ActionTypes.RHS_GO_BACK,
+                state: RHSStates.CHANNEL_FILES as RhsState,
             }]);
         });
     });

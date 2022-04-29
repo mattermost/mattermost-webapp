@@ -1,20 +1,30 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useRef, useState} from 'react';
+import React, {useRef} from 'react';
 import styled from 'styled-components';
+import {useDispatch, useSelector} from 'react-redux';
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
+import {isSwitcherOpen} from 'selectors/views/product_menu';
+
+import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
+import {
+    OnboardingTaskCategory,
+    OnboardingTasksName,
+    TaskNameMapToSteps,
+    useHandleOnBoardingTaskData,
+} from 'components/onboarding_tasks';
+
 import {useClickOutsideRef, useCurrentProductId, useProducts} from '../../hooks';
 
 import ProductBranding from './product_branding';
 import ProductMenuItem from './product_menu_item';
 import ProductMenuList from './product_menu_list';
-import ProductMenuTip from './product_menu_tip';
 
 export const ProductMenuContainer = styled.nav`
     display: flex;
@@ -45,15 +55,23 @@ export const ProductMenuButton = styled(IconButton).attrs(() => ({
 
 const ProductMenu = (): JSX.Element => {
     const products = useProducts();
-    const [switcherOpen, setSwitcherOpen] = useState(false);
+    const dispatch = useDispatch();
+    const switcherOpen = useSelector(isSwitcherOpen);
     const menuRef = useRef<HTMLDivElement>(null);
-
     const currentProductID = useCurrentProductId(products);
 
-    const handleClick = () => setSwitcherOpen(!switcherOpen);
+    const handleClick = () => dispatch(setProductMenuSwitcherOpen(!switcherOpen));
+
+    const handleOnBoardingTaskData = useHandleOnBoardingTaskData();
+    const taskName = OnboardingTasksName.VISIT_SYSTEM_CONSOLE;
+    const handleVisitConsoleClick = () => {
+        const steps = TaskNameMapToSteps[taskName];
+        handleOnBoardingTaskData(taskName, steps.FINISHED, true, 'finish');
+        localStorage.setItem(OnboardingTaskCategory, 'true');
+    };
 
     useClickOutsideRef(menuRef, () => {
-        setSwitcherOpen(false);
+        dispatch(setProductMenuSwitcherOpen(false));
     });
 
     const productItems = products?.map((product) => (
@@ -77,10 +95,10 @@ const ProductMenu = (): JSX.Element => {
                         active={switcherOpen}
                         aria-label='Select to open product switch menu.'
                     />
-                    <ProductMenuTip/>
                     <ProductBranding/>
                 </ProductMenuContainer>
                 <Menu
+                    listId={'product-switcher-menu-dropdown'}
                     className={'product-switcher-menu'}
                     ariaLabel={'switcherOpen'}
                 >
@@ -95,6 +113,7 @@ const ProductMenu = (): JSX.Element => {
                     <ProductMenuList
                         isMessaging={currentProductID === null}
                         onClick={handleClick}
+                        handleVisitConsoleClick={handleVisitConsoleClick}
                     />
                 </Menu>
             </MenuWrapper>

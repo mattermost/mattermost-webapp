@@ -17,6 +17,8 @@ type Props = {
     loadMoreItems: (startIndex: number, stopIndex: number) => Promise<any>;
     selectedThreadId?: UserThread['id'];
     total: number;
+    isLoading?: boolean;
+    addNoMoreResultsItem?: boolean;
 };
 
 const style = {
@@ -28,6 +30,8 @@ function VirtualizedThreadList({
     selectedThreadId,
     loadMoreItems,
     total,
+    isLoading,
+    addNoMoreResultsItem,
 }: Props) {
     const infiniteLoaderRef = React.useRef<any>();
     const startIndexRef = React.useRef<number>(0);
@@ -43,9 +47,23 @@ function VirtualizedThreadList({
                 infiniteLoaderRef.current?._listRef.scrollToItem(index);
             }
         }
-    }, [selectedThreadId, ids]);
 
-    const data = useMemo(() => ({ids, selectedThreadId}), [ids, selectedThreadId]);
+        // ids should not be on the dependency list as
+        // it will auto scroll to selected item upon
+        // infinite loading
+        // when the selectedThreadId changes it will get
+        // the new ids so no issue there
+    }, [selectedThreadId]);
+
+    const data = useMemo(
+        () => (
+            {
+                ids: addNoMoreResultsItem && ids.length === total ? [...ids, Constants.THREADS_NO_RESULTS_ITEM_ID] : (isLoading && ids.length !== total && [...ids, Constants.THREADS_LOADING_INDICATOR_ITEM_ID]) || ids,
+                selectedThreadId,
+            }
+        ),
+        [ids, selectedThreadId, isLoading, addNoMoreResultsItem, total],
+    );
 
     const isItemLoaded = useCallback((index) => {
         return ids.length === total || index < ids.length;
@@ -81,15 +99,17 @@ function VirtualizedThreadList({
                                 }}
                                 ref={ref}
                                 height={height}
-                                itemCount={ids.length}
+                                itemCount={data.ids.length}
                                 itemData={data}
                                 itemKey={itemKey}
                                 itemSize={133}
                                 style={style}
                                 width={width}
+                                className='virtualized-thread-list'
                             >
                                 {Row}
-                            </FixedSizeList>);
+                            </FixedSizeList>
+                        );
                     }
                     }
                 </InfiniteLoader>
@@ -101,7 +121,9 @@ function VirtualizedThreadList({
 function areEqual(prevProps: Props, nextProps: Props) {
     return (
         prevProps.selectedThreadId === nextProps.selectedThreadId &&
-        prevProps.ids.join() === nextProps.ids.join()
+        prevProps.ids.join() === nextProps.ids.join() &&
+        prevProps.isLoading === nextProps.isLoading &&
+        prevProps.addNoMoreResultsItem === nextProps.addNoMoreResultsItem
     );
 }
 

@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {Permissions} from 'mattermost-redux/constants';
+import {Channel} from 'mattermost-redux/types/channels';
 
 import {GlobalState} from 'types/store';
 
@@ -59,12 +60,7 @@ describe('mapStateToProps', () => {
                     test_user_role: {permissions: [Permissions.INVITE_GUEST]},
                 },
             },
-            cloud: {
-                subscriptionStats: {
-                    is_paid_tier: 'false',
-                    remaining_seats: 1,
-                },
-            },
+            cloud: {},
         },
         views: {
             modals: {
@@ -93,7 +89,7 @@ describe('mapStateToProps', () => {
             },
         } as unknown as GlobalState;
 
-        const props = mapStateToProps(testState);
+        const props = mapStateToProps(testState, {});
         expect(props.canInviteGuests).toBe(false);
     });
 
@@ -117,7 +113,39 @@ describe('mapStateToProps', () => {
             },
         } as unknown as GlobalState;
 
-        const props = mapStateToProps(testState);
+        const props = mapStateToProps(testState, {});
         expect(props.canInviteGuests).toBe(true);
+    });
+
+    test('grabs the team info based on the ownProps channelToInvite value', () => {
+        const testState = {
+            ...initialState,
+            entities: {
+                ...initialState.entities,
+                teams: {
+                    ...initialState.entities.teams,
+                    myMembers: {
+                        ...initialState.entities.teams.myMembers,
+                    },
+                    teams: {
+                        [currentTeamId]: {
+                            id: currentTeamId,
+                            group_constrained: false,
+                        },
+                        currentTeamId: '',
+                    },
+                },
+            },
+        } as unknown as GlobalState;
+
+        const testChannel = {
+            display_name: 'team1',
+            channel_id: currentChannelId,
+            team_id: currentTeamId,
+        } as unknown as Channel;
+
+        const props = mapStateToProps(testState, {channelToInvite: testChannel});
+
+        expect(props.currentTeam.id).toBe(testChannel.team_id);
     });
 });

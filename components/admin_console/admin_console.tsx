@@ -10,6 +10,7 @@ import {Role} from 'mattermost-redux/types/roles';
 import {ConsoleAccess} from 'mattermost-redux/types/admin';
 import {CloudState} from 'mattermost-redux/types/cloud';
 import {Team} from 'mattermost-redux/types/teams';
+import {DeepPartial} from 'mattermost-redux/types/utilities';
 
 import AnnouncementBar from 'components/announcement_bar';
 import SystemNotice from 'components/system_notice';
@@ -24,7 +25,7 @@ import AdminSidebar from './admin_sidebar';
 import Highlight from './highlight';
 import AdminDefinition from './admin_definition';
 
-type Props = {
+export type Props = {
     config: DeepPartial<AdminConfig>;
     adminDefinition: typeof AdminDefinition;
     environmentConfig?: Partial<EnvironmentConfig>;

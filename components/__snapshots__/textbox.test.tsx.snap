@@ -35,6 +35,7 @@ exports[`components/TextBox should match snapshot with additional, optional prop
     providers={
       Array [
         AtMentionProvider {
+          "addLastViewAtToProfiles": [Function],
           "autocompleteGroups": Array [
             Object {
               "id": "gid1",
@@ -44,22 +45,16 @@ exports[`components/TextBox should match snapshot with additional, optional prop
             },
           ],
           "autocompleteUsersInChannel": [Function],
+          "channelId": "channelId",
           "currentUserId": "currentUserId",
           "data": null,
           "disableDispatches": false,
+          "getProfilesInChannel": [Function],
           "lastCompletedWord": "",
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
           "priorityProfiles": undefined,
-          "profilesInChannel": Array [
-            Object {
-              "id": "id1",
-            },
-            Object {
-              "id": "id2",
-            },
-          ],
           "requestStarted": false,
           "searchAssociatedGroupsForReference": [Function],
           "triggerCharacter": "@",
@@ -85,7 +80,11 @@ exports[`components/TextBox should match snapshot with additional, optional prop
         },
       ]
     }
-    renderDividers={true}
+    renderDividers={
+      Array [
+        "all",
+      ]
+    }
     spellCheck="true"
     style={
       Object {
@@ -143,6 +142,7 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
     providers={
       Array [
         AtMentionProvider {
+          "addLastViewAtToProfiles": [Function],
           "autocompleteGroups": Array [
             Object {
               "id": "gid1",
@@ -152,22 +152,16 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
             },
           ],
           "autocompleteUsersInChannel": [Function],
+          "channelId": "channelId",
           "currentUserId": "currentUserId",
           "data": null,
           "disableDispatches": false,
+          "getProfilesInChannel": [Function],
           "lastCompletedWord": "",
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
           "priorityProfiles": undefined,
-          "profilesInChannel": Array [
-            Object {
-              "id": "id1",
-            },
-            Object {
-              "id": "id2",
-            },
-          ],
           "requestStarted": false,
           "searchAssociatedGroupsForReference": [Function],
           "triggerCharacter": "@",
@@ -193,7 +187,11 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
         },
       ]
     }
-    renderDividers={true}
+    renderDividers={
+      Array [
+        "all",
+      ]
+    }
     spellCheck="true"
     style={
       Object {
@@ -236,6 +234,7 @@ exports[`components/TextBox should throw error when new property is too long 1`]
     providers={
       Array [
         AtMentionProvider {
+          "addLastViewAtToProfiles": [Function],
           "autocompleteGroups": Array [
             Object {
               "id": "gid1",
@@ -245,22 +244,16 @@ exports[`components/TextBox should throw error when new property is too long 1`]
             },
           ],
           "autocompleteUsersInChannel": [Function],
+          "channelId": "channelId",
           "currentUserId": "currentUserId",
           "data": null,
           "disableDispatches": false,
+          "getProfilesInChannel": [Function],
           "lastCompletedWord": "",
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
           "priorityProfiles": undefined,
-          "profilesInChannel": Array [
-            Object {
-              "id": "id1",
-            },
-            Object {
-              "id": "id2",
-            },
-          ],
           "requestStarted": false,
           "searchAssociatedGroupsForReference": [Function],
           "triggerCharacter": "@",
@@ -286,7 +279,11 @@ exports[`components/TextBox should throw error when new property is too long 1`]
         },
       ]
     }
-    renderDividers={true}
+    renderDividers={
+      Array [
+        "all",
+      ]
+    }
     spellCheck="true"
     style={
       Object {
@@ -329,6 +326,7 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
     providers={
       Array [
         AtMentionProvider {
+          "addLastViewAtToProfiles": [Function],
           "autocompleteGroups": Array [
             Object {
               "id": "gid1",
@@ -338,22 +336,16 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
             },
           ],
           "autocompleteUsersInChannel": [Function],
+          "channelId": "channelId",
           "currentUserId": "currentUserId",
           "data": null,
           "disableDispatches": false,
+          "getProfilesInChannel": [Function],
           "lastCompletedWord": "",
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
           "priorityProfiles": undefined,
-          "profilesInChannel": Array [
-            Object {
-              "id": "id1",
-            },
-            Object {
-              "id": "id2",
-            },
-          ],
           "requestStarted": false,
           "searchAssociatedGroupsForReference": [Function],
           "triggerCharacter": "@",
@@ -379,7 +371,11 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
         },
       ]
     }
-    renderDividers={true}
+    renderDividers={
+      Array [
+        "all",
+      ]
+    }
     spellCheck="true"
     style={
       Object {

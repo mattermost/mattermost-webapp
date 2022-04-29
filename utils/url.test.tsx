@@ -63,8 +63,8 @@ describe('Utils.URL', () => {
     describe('validateChannelUrl', () => {
         const testCases = [
             {
-                description: 'Called with a 1 character url',
-                url: 'a',
+                description: 'Called with an empty string',
+                url: '',
                 expectedErrors: ['change_url.longer'],
             },
             {
@@ -115,7 +115,7 @@ describe('Utils.URL', () => {
         ];
 
         testCases.forEach((testCase) => it(testCase.description, () => {
-            const returnedErrors = validateChannelUrl(testCase.url).map((component) => component.key);
+            const returnedErrors = validateChannelUrl(testCase.url).map((error) => (typeof error === 'string' ? error : error.key));
             assert.deepEqual(
                 returnedErrors.sort(),
                 testCase.expectedErrors.sort(),

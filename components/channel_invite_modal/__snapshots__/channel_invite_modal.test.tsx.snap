@@ -63,16 +63,21 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
     >
       <MultiSelect
         ariaLabelRenderer={[Function]}
+        backButtonClass="btn-cancel tertiary-button"
+        backButtonClick={[Function]}
+        backButtonText="Cancel"
         buttonSubmitLoadingText="Adding..."
         buttonSubmitText="Add"
+        customNoOptionsMessage={null}
+        focusOnLoad={true}
         handleAdd={[Function]}
+        handleCancel={[Function]}
         handleDelete={[Function]}
         handleInput={[Function]}
         handlePageChange={[Function]}
         handleSubmit={[Function]}
         key="addUsersToChannelKey"
         loading={true}
-        maxValues={20}
         optionRenderer={[Function]}
         options={
           Array [
@@ -94,6 +99,7 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
         placeholderText="Search for people"
         saveButtonPosition="bottom"
         saving={false}
+        savingEnabled={true}
         selectedItemRef={
           Object {
             "current": null,
@@ -117,6 +123,7 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
     hasMention={false}
     isEmoji={false}
     isRHS={false}
+    popoverPlacement="right"
     size="md"
     src="/api/v4/users/user-1/image"
     status="online"
@@ -223,16 +230,21 @@ exports[`components/channel_invite_modal should match snapshot with exclude and 
     >
       <MultiSelect
         ariaLabelRenderer={[Function]}
+        backButtonClass="btn-cancel tertiary-button"
+        backButtonClick={[Function]}
+        backButtonText="Cancel"
         buttonSubmitLoadingText="Adding..."
         buttonSubmitText="Add"
+        customNoOptionsMessage={null}
+        focusOnLoad={true}
         handleAdd={[Function]}
+        handleCancel={[Function]}
         handleDelete={[Function]}
         handleInput={[Function]}
         handlePageChange={[Function]}
         handleSubmit={[Function]}
         key="addUsersToChannelKey"
         loading={true}
-        maxValues={20}
         optionRenderer={[Function]}
         options={
           Array [
@@ -254,6 +266,7 @@ exports[`components/channel_invite_modal should match snapshot with exclude and 
         placeholderText="Search for people"
         saveButtonPosition="bottom"
         saving={false}
+        savingEnabled={true}
         selectedItemRef={
           Object {
             "current": null,

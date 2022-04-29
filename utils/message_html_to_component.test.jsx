@@ -33,6 +33,28 @@ That was some latex!`;
         expect(messageHtmlToComponent(html)).toMatchSnapshot();
     });
 
+    test('typescript', () => {
+        const input = `\`\`\`typescript
+const myFunction = () => {
+    console.log('This is a meaningful function');
+};
+\`\`\`
+`;
+        const html = TextFormatting.formatText(input);
+
+        expect(messageHtmlToComponent(html, false, {postId: 'randompostid'})).toMatchSnapshot();
+    });
+
+    test('html', () => {
+        const input = `\`\`\`html
+<div>This is a html div</div>
+\`\`\`
+`;
+        const html = TextFormatting.formatText(input);
+
+        expect(messageHtmlToComponent(html, false, {postId: 'randompostid'})).toMatchSnapshot();
+    });
+
     test('link without enabled tooltip plugins', () => {
         const input = 'lorem ipsum www.dolor.com sit amet';
         const html = TextFormatting.formatText(input);
@@ -51,7 +73,8 @@ That was some latex!`;
         const options = {markdown: true};
         const html = TextFormatting.formatText('![Mattermost](/images/icon.png) and a [link](link)', options);
 
-        const component = messageHtmlToComponent(html, false, {hasPluginTooltips: false,
+        const component = messageHtmlToComponent(html, false, {
+            hasPluginTooltips: false,
             postId: 'post_id',
             postType: Constants.PostTypes.HEADER_CHANGE,
         });
@@ -63,7 +86,8 @@ That was some latex!`;
         const options = {markdown: true};
         const html = TextFormatting.formatText('[![Mattermost](images/icon.png)](images/icon.png)', options);
 
-        const component = messageHtmlToComponent(html, false, {hasPluginTooltips: false,
+        const component = messageHtmlToComponent(html, false, {
+            hasPluginTooltips: false,
             postId: 'post_id',
             postType: Constants.PostTypes.HEADER_CHANGE,
         });
@@ -103,5 +127,19 @@ That was some latex!`;
         component = messageHtmlToComponent(html, false, {disableGroupHighlight: true});
         expect(component).toMatchSnapshot();
         expect(shallow(component).find(AtMention).prop('disableGroupHighlight')).toBe(true);
+    });
+
+    test('typescript', () => {
+        const input = `Text before typescript codeblock
+            \`\`\`typescript
+            const myFunction = () => {
+                console.log('This is a test function');
+            };
+            \`\`\`
+            text after typescript block`;
+
+        const html = TextFormatting.formatText(input);
+
+        expect(messageHtmlToComponent(html)).toMatchSnapshot();
     });
 });

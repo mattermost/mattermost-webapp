@@ -21,10 +21,13 @@ import channelSelectorModal from './channel_selector_modal';
 import settings from './settings';
 import marketplace from './marketplace';
 import channelSidebar from './channel_sidebar';
+import productMenu from './product_menu';
 import textbox from './textbox';
 import nextSteps from './next_steps';
 import statusDropdown from './status_dropdown';
+import addChannelDropdown from './add_channel_dropdown';
 import threads from './threads';
+import onboardingTasks from './onboarding_tasks';
 
 export default combineReducers({
     admin,
@@ -48,5 +51,8 @@ export default combineReducers({
     channelSidebar,
     nextSteps,
     statusDropdown,
+    addChannelDropdown,
+    onboardingTasks,
     threads,
+    productMenu,
 });

@@ -38,11 +38,6 @@ jest.mock('mattermost-redux/actions/posts', () => ({
     moveHistoryIndexForward: (...args) => ({type: 'MOCK_MOVE_MESSAGE_HISTORY_FORWARD', args}),
 }));
 
-jest.mock('dispatcher/app_dispatcher.jsx', () => ({
-    handleViewAction: jest.fn(),
-    register: jest.fn(),
-}));
-
 jest.mock('actions/command', () => ({
     executeCommand: jest.fn((...args) => ({type: 'MOCK_ACTIONS_COMMAND_EXECUTE', args})),
 }));
