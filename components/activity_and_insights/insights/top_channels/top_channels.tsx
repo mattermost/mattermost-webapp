@@ -1,17 +1,55 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {memo, useCallback, useState} from 'react';
+import React, {memo, useCallback, useEffect, useState} from 'react';
+import {useDispatch, useSelector, shallowEqual} from 'react-redux';
+
+import {InsightsScopes} from 'utils/constants';
 
 import CircleLoader from '../skeleton_loader/circle_loader/circle_loader';
 import TitleLoader from '../skeleton_loader/title_loader/title_loader';
 import LineChartLoader from '../skeleton_loader/line_chart_loader/line_chart_loader';
-import widgetHoc from '../widget_hoc/widget_hoc';
+import widgetHoc, {WidgetHocProps} from '../widget_hoc/widget_hoc';
 
 import './../../activity_and_insights.scss';
+import { getCurrentTeamId } from 'mattermost-redux/selectors/entities/teams';
+import {GlobalState} from 'mattermost-redux/types/store';
+import { getMyTopChannels, getTopChannelsForTeam } from 'mattermost-redux/actions/insights';
+import { getMyTopChannelsForCurrentTeam, getTopChannelsForCurrentTeam } from 'mattermost-redux/selectors/entities/insights';
 
 // eslint-disable-next-line no-empty-pattern
-const TopChannels = ({}) => {
-    const [loading] = useState(true);
+const TopChannels = (props: WidgetHocProps) => {
+    const dispatch = useDispatch();
+
+    const [loading, setLoading] = useState(true);
+
+    const teamTopChannels = useSelector((state: GlobalState) => getTopChannelsForCurrentTeam(state, props.timeFrame, 5), shallowEqual);
+    const myTopChannels = useSelector((state: GlobalState) => getMyTopChannelsForCurrentTeam(state, props.timeFrame, 5), shallowEqual);
+
+    const currentTeamId = useSelector(getCurrentTeamId);
+
+    const getTopTeamChannels = useCallback(async () => {
+        if (props.filterType === InsightsScopes.TEAM) {
+            setLoading(true);
+            await dispatch(getTopChannelsForTeam(currentTeamId, 0, 10, props.timeFrame));
+            setLoading(false);
+        }
+    }, [props.timeFrame, currentTeamId, props.filterType]);
+
+    useEffect(() => {
+        getTopTeamChannels();
+    }, [getTopTeamChannels]);
+
+    const getMyTeamChannels = useCallback(async () => {
+        if (props.filterType === InsightsScopes.MY) {
+            setLoading(true);
+            await dispatch(getMyTopChannels(currentTeamId, 0, 10, props.timeFrame));
+            setLoading(false);
+        }
+    }, [props.timeFrame, props.filterType]);
+
+    useEffect(() => {
+        getMyTeamChannels();
+    }, [getMyTeamChannels]);
 
     const skeletonTitle = useCallback(() => {
         const titles = [];

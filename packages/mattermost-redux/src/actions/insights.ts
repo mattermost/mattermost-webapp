@@ -50,3 +50,45 @@ export function getMyTopReactions(teamId: string, page: number, perPage: number,
         return {data};
     };
 }
+
+export function getTopChannelsForTeam(teamId: string, page: number, perPage: number, timeFrame: TimeFrame): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data;
+        try {
+            data = await Client4.getTopChannelsForTeam(teamId, page, perPage, timeFrame);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        dispatch({
+            type: InsightTypes.RECEIVED_TOP_CHANNELS,
+            data: {data, timeFrame},
+            id: teamId,
+        });
+
+        return {data};
+    };
+}
+
+export function getMyTopChannels(teamId: string, page: number, perPage: number, timeFrame: TimeFrame): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data;
+        try {
+            data = await Client4.getMyTopChannels(teamId, page, perPage, timeFrame);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        dispatch({
+            type: InsightTypes.RECEIVED_MY_TOP_CHANNELS,
+            data: {data, timeFrame},
+            id: teamId,
+        });
+
+        return {data};
+    };
+}

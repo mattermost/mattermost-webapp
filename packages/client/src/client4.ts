@@ -114,7 +114,7 @@ import {
 import {CompleteOnboardingRequest} from '@mattermost/types/setup';
 
 import {UserThreadList, UserThread, UserThreadWithPost} from '@mattermost/types/threads';
-import {TopReactionResponse} from '@mattermost/types/insights';
+import {TopChannelResponse, TopReactionResponse} from '@mattermost/types/insights';
 
 import {cleanUrlForLogging} from './errors';
 import {buildQueryString} from './helpers';
@@ -2125,6 +2125,20 @@ export default class Client4 {
     getMyTopReactions = (teamId: string, page: number, perPage: number, timeRange: string) => {
         return this.doFetch<TopReactionResponse>(
             `${this.getUsersRoute()}/me/top/reactions${buildQueryString({page, per_page: perPage, time_range: timeRange, team_id: teamId})}`,
+            {method: 'get'},
+        );
+    }
+
+    getTopChannelsForTeam = (teamId: string, page: number, perPage: number, timeRange: string) => {
+        return this.doFetch<TopChannelResponse>(
+            `${this.getTeamRoute(teamId)}/top/channels${buildQueryString({page, per_page: perPage, time_range: timeRange})}`,
+            {method: 'get'},
+        );
+    }
+
+    getMyTopChannels = (teamId: string, page: number, perPage: number, timeRange: string) => {
+        return this.doFetch<TopChannelResponse>(
+            `${this.getUsersRoute()}/me/top/channels${buildQueryString({page, per_page: perPage, time_range: timeRange, team_id: teamId})}`,
             {method: 'get'},
         );
     }
