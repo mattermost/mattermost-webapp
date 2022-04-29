@@ -169,10 +169,7 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
             Utils.loadImage(
                 previewUrl,
                 () => this.handleImageLoaded(index),
-
-                // TODO: This any is probably masking a legit bug.
-                // where a number is expected but an event is provided.
-                (completedPercentage) => this.handleImageProgress(index, completedPercentage as any),
+                (completedPercentage) => this.handleImageProgress(index, completedPercentage),
             );
         } else {
             // there's nothing to load for non-image files
