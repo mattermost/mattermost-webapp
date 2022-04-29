@@ -5,7 +5,7 @@ import React, {memo, useCallback} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch} from 'react-redux';
 
-import {openModal, closeModal} from 'actions/views/modals';
+import {openModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
 
 import Action from './action';
@@ -32,27 +32,23 @@ function DraftActions({
     const dispatch = useDispatch();
 
     const handleDelete = useCallback(() => {
-        const handleCancel = () => dispatch(closeModal(ModalIdentifiers.DELETE_DRAFT));
         dispatch(openModal({
             modalId: ModalIdentifiers.DELETE_DRAFT,
             dialogType: DeleteDraftModal,
             dialogProps: {
                 displayName,
                 onConfirm: () => onDelete(draftId),
-                onCancel: handleCancel,
             },
         }));
     }, [displayName]);
 
     const handleSend = useCallback(() => {
-        const handleCancel = () => dispatch(closeModal(ModalIdentifiers.SEND_DRAFT));
         dispatch(openModal({
             modalId: ModalIdentifiers.SEND_DRAFT,
             dialogType: SendDraftModal,
             dialogProps: {
                 displayName,
                 onConfirm: () => onSend(draftId),
-                onCancel: handleCancel,
             },
         }));
     }, [displayName]);

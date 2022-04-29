@@ -9,13 +9,13 @@ import GenericModal from 'components/generic_modal';
 type Props = {
     displayName: string;
     onConfirm: () => void;
-    onCancel: () => void;
+    onExited: () => void;
 }
 
 function SendDraftModal({
     displayName,
-    onCancel,
     onConfirm,
+    onExited,
 }: Props) {
     const {formatMessage} = useIntl();
 
@@ -46,7 +46,7 @@ function SendDraftModal({
             handleCancel={() => {}}
             handleConfirm={onConfirm}
             modalHeaderText={title}
-            onExited={onCancel}
+            onExited={onExited}
         >
             <div>{message}</div>
         </GenericModal>

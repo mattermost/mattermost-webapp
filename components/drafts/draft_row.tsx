@@ -32,6 +32,7 @@ function DraftRow({draft, user, status, displayName}: Props) {
         return (
             <ThreadDraft
                 {...draft}
+                rootId={draft.id}
                 draftId={String(draft.key)}
                 user={user}
                 status={status}

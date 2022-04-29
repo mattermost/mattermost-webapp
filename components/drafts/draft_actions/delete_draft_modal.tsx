@@ -9,12 +9,12 @@ import GenericModal from 'components/generic_modal';
 type Props = {
     displayName: string;
     onConfirm: () => void;
-    onCancel: () => void;
+    onExited: () => void;
 }
 
 function DeleteDraftModal({
     displayName,
-    onCancel,
+    onExited,
     onConfirm,
 }: Props) {
     const {formatMessage} = useIntl();
@@ -47,7 +47,7 @@ function DeleteDraftModal({
             handleCancel={() => {}}
             handleConfirm={onConfirm}
             modalHeaderText={title}
-            onExited={onCancel}
+            onExited={onExited}
         >
             <div>{message}</div>
         </GenericModal>

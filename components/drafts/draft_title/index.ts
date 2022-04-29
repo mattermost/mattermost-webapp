@@ -3,7 +3,8 @@
 
 import {connect} from 'react-redux';
 
-import {getUser, getUserIdsInChannels} from 'mattermost-redux/selectors/entities/users';
+import {getUser} from 'mattermost-redux/selectors/entities/users';
+import {makeGetGmChannelMemberCount} from 'mattermost-redux/selectors/entities/channels';
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 import {Constants} from 'utils/constants';
 
@@ -17,43 +18,34 @@ type OwnProps = {
     userId: string;
 };
 
-function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-    const {channel, userId} = ownProps;
+function makeMapStateToProps() {
+    const getMemberCount = makeGetGmChannelMemberCount();
+    return (state: GlobalState, ownProps: OwnProps) => {
+        const {channel, userId} = ownProps;
 
-    const channelName = channel.display_name;
-    let teammateId;
-    let teammate;
-    let membersCount;
+        const channelName = channel.display_name;
+        let teammateId;
+        let teammate;
+        let membersCount;
 
-    if (channel.type === Constants.GM_CHANNEL) {
-        const memberIds = getUserIdsInChannels(state);
-
-        membersCount = 0;
-        if (memberIds && memberIds[channel.id]) {
-            const groupMemberIds: Set<string> = memberIds[channel.id] as unknown as Set<string>;
-            membersCount = groupMemberIds.size;
-            if (groupMemberIds.has(userId)) {
-                membersCount--;
-            }
+        if (channel.type === Constants.GM_CHANNEL) {
+            membersCount = getMemberCount(state, channel);
         }
 
-        if (membersCount === 0) {
-            membersCount = channelName.split(',').length;
+        if (channel.type === Constants.DM_CHANNEL) {
+            teammateId = getUserIdFromChannelName(userId, channel.name);
+            teammate = getUser(state, teammateId);
         }
-    }
 
-    if (channel.type === Constants.DM_CHANNEL) {
-        teammateId = getUserIdFromChannelName(userId, channel.name);
-        teammate = getUser(state, teammateId);
-    }
-
-    return {
-        channelName,
-        channelType: channel.type,
-        membersCount,
-        selfDraft: teammateId === userId,
-        teammate,
-        teammateId,
+        return {
+            channelName,
+            channelType: channel.type,
+            membersCount,
+            selfDraft: teammateId === userId,
+            teammate,
+            teammateId,
+        };
     };
 }
-export default connect(mapStateToProps)(DraftTitle);
+
+export default connect(makeMapStateToProps)(DraftTitle);

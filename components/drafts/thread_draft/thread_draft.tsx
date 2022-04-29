@@ -26,7 +26,7 @@ type Props = {
     channel: Channel;
     displayName: string;
     draftId: string;
-    id: UserThread['id'] | UserThreadSynthetic['id'];
+    rootId: UserThread['id'] | UserThreadSynthetic['id'];
     status: UserStatus['status'];
     thread?: UserThread | UserThreadSynthetic;
     type: 'channel' | 'thread';
@@ -38,7 +38,7 @@ function ThreadDraft({
     channel,
     displayName,
     draftId,
-    id,
+    rootId,
     status,
     thread,
     type,
@@ -49,7 +49,7 @@ function ThreadDraft({
 
     useEffect(() => {
         if (!thread?.id) {
-            dispatch(getPost(id));
+            dispatch(getPost(rootId));
         }
     }, [thread?.id]);
 
@@ -63,10 +63,10 @@ function ThreadDraft({
 
     const handleOnDelete = useCallback((id: string) => {
         dispatch(removeDraft(id));
-    }, [id]);
+    }, []);
 
     const handleOnEdit = useCallback(() => {
-        dispatch(selectPost({id, channel_id: channel.id} as Post));
+        dispatch(selectPost({id: rootId, channel_id: channel.id} as Post));
     }, [channel]);
 
     const handleOnSend = useCallback(async (id: string) => {
