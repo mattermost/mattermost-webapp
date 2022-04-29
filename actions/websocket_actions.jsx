@@ -1516,10 +1516,16 @@ function handleCloudPaymentStatusUpdated() {
 
 export function handleCloudProductLimitsChanged(msg) {
     return (doDispatch) => {
-        return doDispatch({
+        doDispatch({
             type: CloudTypes.RECEIVED_CLOUD_LIMITS,
             data: msg.data.limits,
         });
+
+        doDispatch({
+            type: CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION,
+            data: msg.data.subscription,
+        });
+        return {data: true}
     };
 }
 
