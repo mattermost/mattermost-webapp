@@ -41,12 +41,16 @@
 
     .channel-archived-warning__content {
         padding: 24px;
+        padding-right: 47.5px;
+        padding-left: 46.5px;
+        margin: 0 auto;
         line-height: 20px;
         text-align: center;
 
         .icon {
-            margin-right: 7px;
-            font-size: 18px;
+            margin-right: 3.4px;
+            color: rgba(63, 67, 80, 0.56);
+            vertical-align: text-top;
         }
     }
 }
