@@ -94,6 +94,15 @@
             line-height: 20px;
             word-break: none;
         }
+
+        .inPermalink {
+            overflow: hidden;
+            width: 100%;
+            height: 1.5em;
+            line-height: 1.5em;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     }
 
     &__image {

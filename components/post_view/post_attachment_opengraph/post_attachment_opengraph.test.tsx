@@ -1,14 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {shallow} from 'enzyme';
+import {shallow, mount} from 'enzyme';
 import React from 'react';
 
 import {OpenGraphMetadata, Post} from 'mattermost-redux/types/posts';
 
-import ExternalImage from 'components/external_image';
-
-import PostAttachmentOpenGraph, {getBestImageUrl} from './post_attachment_opengraph';
+import PostAttachmentOpenGraph, {getBestImage, getIsLargeImage} from './post_attachment_opengraph';
 
 describe('PostAttachmentOpenGraph', () => {
     const imageUrl = 'http://mattermost.com/OpenGraphImage.jpg';
@@ -88,9 +86,7 @@ describe('PostAttachmentOpenGraph', () => {
 
     describe('isLargeImage', () => {
         test('should be a large image', () => {
-            const wrapper = shallow<PostAttachmentOpenGraph>(<PostAttachmentOpenGraph {...baseProps}/>);
-
-            expect(wrapper.instance().isLargeImage({
+            expect(getIsLargeImage({
                 format: 'png',
                 frameCount: 0,
                 height: 180,
@@ -99,9 +95,7 @@ describe('PostAttachmentOpenGraph', () => {
         });
 
         test('should not be a large image', () => {
-            const wrapper = shallow<PostAttachmentOpenGraph>(<PostAttachmentOpenGraph {...baseProps}/>);
-
-            expect(wrapper.instance().isLargeImage({
+            expect(getIsLargeImage({
                 format: 'png',
                 frameCount: 0,
                 height: 100,
@@ -111,11 +105,12 @@ describe('PostAttachmentOpenGraph', () => {
     });
 
     describe('image', () => {
-        test('should use an ExternalImage for a small image', () => {
-            const wrapper = shallow(<PostAttachmentOpenGraph {...baseProps}/>);
+        test('should render a small image without toggle', () => {
+            const wrapper = mount(<PostAttachmentOpenGraph {...baseProps}/>);
 
-            expect(wrapper.find(ExternalImage).exists()).toBe(true);
-            expect(wrapper.find('.post__embed-visibility').exists()).toBe(false);
+            expect(wrapper.find('.PostAttachmenOpenGraph__image').exists()).toBe(true);
+            expect(wrapper.find('.PostAttachmenOpenGraph__image.large').exists()).toBe(false);
+            expect(wrapper.find('.PostAttachmenOpenGraph__image .preview-toggle').exists()).toBe(false);
         });
 
         test('should render with large image and toggle', () => {
@@ -137,18 +132,18 @@ describe('PostAttachmentOpenGraph', () => {
                 },
             };
 
-            const wrapper = shallow(<PostAttachmentOpenGraph {...props}/>);
+            const wrapper = mount(<PostAttachmentOpenGraph {...props}/>);
 
-            expect(wrapper.find(ExternalImage).exists()).toBe(true);
-            expect(wrapper.find('.post__embed-visibility').exists()).toBe(true);
+            expect(wrapper.find('.PostAttachmenOpenGraph__image.large').exists()).toBe(true);
+            expect(wrapper.find('.PostAttachmenOpenGraph__image .preview-toggle').exists()).toBe(true);
         });
     });
 
     describe('remove preview button', () => {
         test('should not show button to remove preview for post made by another user', () => {
-            const wrapper = shallow(<PostAttachmentOpenGraph {...baseProps}/>);
+            const wrapper = mount(<PostAttachmentOpenGraph {...baseProps}/>);
 
-            expect(wrapper.find('.btn-close').exists()).toBe(false);
+            expect(wrapper.find('.remove-button').exists()).toBe(false);
         });
 
         test('should show button to remove preview for post made by current user', () => {
@@ -160,9 +155,9 @@ describe('PostAttachmentOpenGraph', () => {
                 },
             };
 
-            const wrapper = shallow(<PostAttachmentOpenGraph {...props}/>);
+            const wrapper = mount(<PostAttachmentOpenGraph {...props}/>);
 
-            expect(wrapper.find('.btn-close').exists()).toBe(true);
+            expect(wrapper.find('.remove-button').exists()).toBe(true);
         });
     });
 
@@ -172,22 +167,20 @@ describe('PostAttachmentOpenGraph', () => {
             isInPermalink: true,
         };
 
-        const wrapper = shallow(<PostAttachmentOpenGraph {...props}/>);
+        const wrapper = mount(<PostAttachmentOpenGraph {...props}/>);
 
-        expect(wrapper.find('.permalink__body--opengraph').exists()).toBe(true);
+        expect(wrapper.find('.inPermalink').exists()).toBe(true);
         expect(wrapper).toMatchSnapshot();
     });
 });
 
-describe('getBestImageUrl', () => {
-    test('should return nothing with no OpenGraph metadata or dimensions', () => {
-        expect(getBestImageUrl()).toBeFalsy();
-    });
-
+describe('getBestImage', () => {
     test('should return nothing with missing OpenGraph images', () => {
         const openGraphData = {} as OpenGraphMetadata;
+        const imageData = getBestImage(openGraphData);
+        const imageUrl = imageData?.secure_url || imageData?.url;
 
-        expect(getBestImageUrl(openGraphData)).toBeFalsy();
+        expect(imageUrl).toBeFalsy();
     });
 
     test('should return nothing with no OpenGraph images', () => {
@@ -195,7 +188,10 @@ describe('getBestImageUrl', () => {
             images: [],
         };
 
-        expect(getBestImageUrl(openGraphData)).toBeFalsy();
+        const imageData = getBestImage(openGraphData);
+        const imageUrl = imageData?.secure_url || imageData?.url;
+
+        expect(imageUrl).toBeFalsy();
     });
 
     test('should return secure_url if specified', () => {
@@ -206,7 +202,10 @@ describe('getBestImageUrl', () => {
             }],
         };
 
-        expect(getBestImageUrl(openGraphData)).toEqual(openGraphData.images[0].secure_url);
+        const imageData = getBestImage(openGraphData);
+        const imageUrl = imageData?.secure_url || imageData?.url;
+
+        expect(imageUrl).toEqual(openGraphData.images[0].secure_url);
     });
 
     test('should return url if secure_url is not specified', () => {
@@ -217,10 +216,13 @@ describe('getBestImageUrl', () => {
             }],
         };
 
-        expect(getBestImageUrl(openGraphData)).toEqual(openGraphData.images[0].url);
+        const imageData = getBestImage(openGraphData);
+        const imageUrl = imageData?.secure_url || imageData?.url;
+
+        expect(imageUrl).toEqual(openGraphData.images[0].url);
     });
 
-    test('should pick the last image if no dimensions are specified', () => {
+    test('should pick the first image if no dimensions are specified', () => {
         const openGraphData = {
             images: [{
                 url: 'http://example.com/image.png',
@@ -229,7 +231,10 @@ describe('getBestImageUrl', () => {
             }],
         };
 
-        expect(getBestImageUrl(openGraphData)).toEqual(openGraphData.images[1].url);
+        const imageData = getBestImage(openGraphData);
+        const imageUrl = imageData?.secure_url || imageData?.url;
+
+        expect(imageUrl).toEqual(openGraphData.images[0].url);
     });
 
     test('should prefer images with dimensions closer to 80 by 80', () => {
@@ -245,7 +250,10 @@ describe('getBestImageUrl', () => {
             }],
         };
 
-        expect(getBestImageUrl(openGraphData)).toEqual(openGraphData.images[0].url);
+        const imageData = getBestImage(openGraphData);
+        const imageUrl = imageData?.secure_url || imageData?.url;
+
+        expect(imageUrl).toEqual(openGraphData.images[0].url);
     });
 
     test('should use dimensions from post metadata if necessary', () => {
@@ -271,6 +279,9 @@ describe('getBestImageUrl', () => {
             },
         };
 
-        expect(getBestImageUrl(openGraphData, imagesMetadata)).toEqual(openGraphData.images[0].url);
+        const imageData = getBestImage(openGraphData, imagesMetadata);
+        const imageUrl = imageData?.secure_url || imageData?.url;
+
+        expect(imageUrl).toEqual(openGraphData.images[0].url);
     });
 });

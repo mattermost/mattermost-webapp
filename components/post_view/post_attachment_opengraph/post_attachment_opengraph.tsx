@@ -70,7 +70,7 @@ export function getBestImage(openGraphData?: OpenGraphMetadata, imagesMetadata?:
             ...image,
             height: image.height || imagesMetadata?.[imageUrl].height || -1,
             width: image.width || imagesMetadata?.[imageUrl].width || -1,
-            format: image.type?.split('/')[1] || image.type || '',
+            format: image.format || image.type?.split('/')[1] || image.type || '',
             frameCount: 0,
         };
     });
@@ -78,7 +78,7 @@ export function getBestImage(openGraphData?: OpenGraphMetadata, imagesMetadata?:
     return getNearestPoint<ImageData>(DIMENSIONS_NEAREST_POINT_IMAGE, images);
 }
 
-const getIsLargeImage = (data: ImageData) => {
+export const getIsLargeImage = (data: ImageData) => {
     const {height, width} = data;
 
     return width >= LARGE_IMAGE_WIDTH && (width / height) >= LARGE_IMAGE_RATIO;
@@ -156,13 +156,15 @@ const PostAttachmentOpenGraph = ({openGraphData, post, actions, link, ...rest}: 
                 </button>
             )}
             <PostAttachmentOpenGraphBody
-                siteName={(!rest.isInPermalink && openGraphData) ? openGraphData.site_name : ''}
+                isInPermalink={rest.isInPermalink}
+                siteName={openGraphData?.site_name}
                 title={openGraphData?.title || openGraphData?.url || link}
                 description={openGraphData?.description}
             />
             <PostAttachmenOpenGraphImage
                 src={imageUrl}
                 title={openGraphData?.title}
+                isInPermalink={rest.isInPermalink}
                 large={isLargeImage}
                 collapsed={!showImagePreview}
                 toggleImagePreviewHandler={toggleImagePreview}
@@ -173,14 +175,15 @@ const PostAttachmentOpenGraph = ({openGraphData, post, actions, link, ...rest}: 
 
 type BodyProps = {
     title: string;
+    isInPermalink?: boolean;
     siteName?: string;
     description?: string;
 }
 
-const PostAttachmentOpenGraphBody = memo(({title, siteName = '', description = ''}: BodyProps) => {
+const PostAttachmentOpenGraphBody = memo(({title, isInPermalink, siteName = '', description = ''}: BodyProps) => {
     return (
-        <div className='PostAttachmenOpenGraph__body'>
-            {siteName && <span className='sitename'>{siteName}</span>}
+        <div className={classNames('PostAttachmenOpenGraph__body', {inPermalink: isInPermalink})}>
+            {(!isInPermalink && siteName) && <span className='sitename'>{siteName}</span>}
             <span className='title'>{title}</span>
             {description && <span className='description'>{description}</span>}
         </div>
@@ -190,15 +193,16 @@ const PostAttachmentOpenGraphBody = memo(({title, siteName = '', description = '
 type ImageProps = {
     src?: string;
     title?: string;
+    isInPermalink?: boolean;
     large: boolean;
     collapsed: boolean;
     toggleImagePreviewHandler: (e: React.MouseEvent<HTMLButtonElement>, collapse: boolean) => void;
 }
 
-const PostAttachmenOpenGraphImage = memo(({large, collapsed, toggleImagePreviewHandler, src = '', title = ''}: ImageProps) => {
+const PostAttachmenOpenGraphImage = memo(({large, collapsed, isInPermalink, toggleImagePreviewHandler, src = '', title = ''}: ImageProps) => {
     const {formatMessage} = useIntl();
 
-    if (!src) {
+    if (!src || isInPermalink) {
         return null;
     }
 

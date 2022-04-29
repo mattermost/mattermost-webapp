@@ -1,43 +1,90 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[` 1`] = `
-<div
-  className="attachment attachment--opengraph"
+<Memo(PostAttachmentOpenGraph)
+  actions={
+    Object {
+      "editPost": [MockFunction],
+    }
+  }
+  currentUserId="1234"
+  enableLinkPreviews={true}
+  isEmbedVisible={true}
+  isInPermalink={true}
+  link="http://mattermost.com"
+  openGraphData={
+    Object {
+      "description": "description",
+      "images": Array [
+        Object {
+          "secure_url": "",
+          "url": "http://mattermost.com/OpenGraphImage.jpg",
+        },
+      ],
+      "site_name": "Mattermost",
+      "title": "Mattermost Private Cloud Messaging",
+    }
+  }
+  post={
+    Object {
+      "channel_id": "channel_id",
+      "create_at": 1,
+      "id": "post_id_1",
+      "message": "https://mattermost.com",
+      "metadata": Object {
+        "images": Object {
+          "http://mattermost.com/OpenGraphImage.jpg": Object {
+            "format": "png",
+            "frameCount": 0,
+            "height": 100,
+            "width": 100,
+          },
+        },
+      },
+      "root_id": "root_id",
+    }
+  }
+  postId=""
+  previewEnabled={true}
+  toggleEmbedVisibility={[MockFunction]}
 >
-  <div
-    className="attachment__content permalink--opengraph"
+  <a
+    className="PostAttachmenOpenGraph"
+    href="http://mattermost.com"
+    rel="noopener noreferrer"
+    role="link"
+    target="_blank"
+    title="Mattermost Private Cloud Messaging"
   >
-    <div
-      className="clearfix attachment__container attachment__container--opengraph permalink--opengraph"
+    <Memo()
+      description="description"
+      isInPermalink={true}
+      siteName="Mattermost"
+      title="Mattermost Private Cloud Messaging"
     >
       <div
-        className="attachment__body__wrap attachment__body__wrap--opengraph"
+        className="PostAttachmenOpenGraph__body inPermalink"
       >
-        <h1
-          className="attachment__title attachment__title--opengraph"
+        <span
+          className="title"
         >
-          <a
-            className="attachment__title-link attachment__title-link--opengraph"
-            href="http://mattermost.com"
-            rel="noopener noreferrer"
-            target="_blank"
-            title="Mattermost Private Cloud Messaging"
-          >
-            Mattermost Private Cloud Messaging
-          </a>
-        </h1>
-        <div
-          className="attachment__body attachment__body--opengraph"
+          Mattermost Private Cloud Messaging
+        </span>
+        <span
+          className="description"
         >
-          <div
-            className="permalink__body--opengraph"
-          >
-            description
-             
-          </div>
-        </div>
+          description
+        </span>
       </div>
-    </div>
-  </div>
-</div>
+    </Memo()>
+    <Memo()
+      collapsed={false}
+      isInPermalink={true}
+      large={false}
+      src="http://mattermost.com/OpenGraphImage.jpg"
+      title="Mattermost Private Cloud Messaging"
+      toggleImagePreviewHandler={[Function]}
+    />
+  </a>
+</Memo(PostAttachmentOpenGraph)>
 `;
