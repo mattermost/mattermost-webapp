@@ -544,6 +544,58 @@ describe('Selectors.Channels.getChannelByName', () => {
     });
 });
 
+describe('Selectors.Channels.getChannelByTeamIdAndChannelName', () => {
+    const team1 = TestHelper.fakeTeamWithId();
+    const team2 = TestHelper.fakeTeamWithId();
+
+    const channel1 = {
+        ...TestHelper.fakeChannelWithId(team1.id),
+        name: 'ch1',
+    };
+    const channel2 = {
+        ...TestHelper.fakeChannelWithId(team2.id),
+        name: 'ch2',
+    };
+    const channel3 = {
+        ...TestHelper.fakeChannelWithId(team1.id),
+        name: 'ch3',
+    };
+
+    const channels = {
+        [channel1.id]: channel1,
+        [channel2.id]: channel2,
+        [channel3.id]: channel3,
+    };
+
+    const testState = deepFreezeAndThrowOnMutation({
+        entities: {
+            channels: {
+                channels,
+            },
+        },
+    });
+
+    it('get channel1 matching team id and name', () => {
+        assert.deepEqual(Selectors.getChannelByTeamIdAndChannelName(testState, team1.id, channel1.name), channel1);
+    });
+
+    it('get channel2 matching team id and name', () => {
+        assert.deepEqual(Selectors.getChannelByTeamIdAndChannelName(testState, team2.id, channel2.name), channel2);
+    });
+
+    it('get channel3 matching team id and name', () => {
+        assert.deepEqual(Selectors.getChannelByTeamIdAndChannelName(testState, team1.id, channel3.name), channel3);
+    });
+
+    it('return null if no channel matches team id and name', () => {
+        assert.deepEqual(Selectors.getChannelByTeamIdAndChannelName(testState, team1.id, channel2.name), null);
+    });
+
+    it('return null on empty team id', () => {
+        assert.deepEqual(Selectors.getChannelByTeamIdAndChannelName(testState, '', channel1.name), null);
+    });
+});
+
 describe('Selectors.Channels.getChannelsNameMapInCurrentTeam', () => {
     const team1 = TestHelper.fakeTeamWithId();
     const team2 = TestHelper.fakeTeamWithId();

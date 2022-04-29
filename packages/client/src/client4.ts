@@ -1,16 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import FormData from 'form-data';
 
-import {SystemSetting} from 'mattermost-redux/types/general';
-import {ClusterInfo, AnalyticsRow, SchemaMigration} from 'mattermost-redux/types/admin';
-import type {AppBinding, AppCallRequest, AppCallResponse} from 'mattermost-redux/types/apps';
-import {Audit} from 'mattermost-redux/types/audits';
-import {UserAutocomplete, AutocompleteSuggestion} from 'mattermost-redux/types/autocomplete';
-import {Bot, BotPatch} from 'mattermost-redux/types/bots';
+import {SystemSetting} from '@mattermost/types/general';
+import {ClusterInfo, AnalyticsRow, SchemaMigration} from '@mattermost/types/admin';
+import type {AppBinding, AppCallRequest, AppCallResponse} from '@mattermost/types/apps';
+import {Audit} from '@mattermost/types/audits';
+import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
+import {Bot, BotPatch} from '@mattermost/types/bots';
 import {Product, Subscription, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits} from '@mattermost/types/cloud';
-import {ChannelCategory, OrderedChannelCategories} from 'mattermost-redux/types/channel_categories';
+import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
     Channel,
     ChannelMemberCountsByGroup,
@@ -24,9 +26,9 @@ import {
     ChannelWithTeamData,
     ChannelSearchOpts,
     ServerChannel,
-} from 'mattermost-redux/types/channels';
-import {Options, StatusOK, ClientResponse, LogLevel} from 'mattermost-redux/types/client4';
-import {Compliance} from 'mattermost-redux/types/compliance';
+} from '@mattermost/types/channels';
+import {Options, StatusOK, ClientResponse, LogLevel} from '@mattermost/types/client4';
+import {Compliance} from '@mattermost/types/compliance';
 import {
     ClientConfig,
     ClientLicense,
@@ -34,10 +36,10 @@ import {
     License,
     AdminConfig,
     EnvironmentConfig,
-} from 'mattermost-redux/types/config';
-import {CustomEmoji} from 'mattermost-redux/types/emojis';
-import {ServerError} from 'mattermost-redux/types/errors';
-import {FileInfo, FileUploadResponse, FileSearchResults} from 'mattermost-redux/types/files';
+} from '@mattermost/types/config';
+import {CustomEmoji} from '@mattermost/types/emojis';
+import {ServerError} from '@mattermost/types/errors';
+import {FileInfo, FileUploadResponse, FileSearchResults} from '@mattermost/types/files';
 import {
     Group,
     GroupPatch,
@@ -49,8 +51,8 @@ import {
     GroupCreateWithUserIds,
     GroupSearachParams,
     CustomGroupPatch,
-} from 'mattermost-redux/types/groups';
-import {PostActionResponse} from 'mattermost-redux/types/integration_actions';
+} from '@mattermost/types/groups';
+import {PostActionResponse} from '@mattermost/types/integration_actions';
 import {
     Command,
     CommandArgs,
@@ -60,26 +62,26 @@ import {
     OAuthApp,
     OutgoingWebhook,
     SubmitDialogResponse,
-} from 'mattermost-redux/types/integrations';
-import {Job} from 'mattermost-redux/types/jobs';
-import {MfaSecret} from 'mattermost-redux/types/mfa';
+} from '@mattermost/types/integrations';
+import {Job} from '@mattermost/types/jobs';
+import {MfaSecret} from '@mattermost/types/mfa';
 import {
     ClientPluginManifest,
     PluginManifest,
     PluginsResponse,
     PluginStatus,
-} from 'mattermost-redux/types/plugins';
+} from '@mattermost/types/plugins';
 import type {
     MarketplaceApp,
     MarketplacePlugin,
-} from 'mattermost-redux/types/marketplace';
-import {Post, PostList, PostSearchResults, OpenGraphMetadata} from 'mattermost-redux/types/posts';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
-import {Reaction} from 'mattermost-redux/types/reactions';
-import {Role} from 'mattermost-redux/types/roles';
-import {SamlCertificateStatus, SamlMetadataResponse} from 'mattermost-redux/types/saml';
-import {Scheme} from 'mattermost-redux/types/schemes';
-import {Session} from 'mattermost-redux/types/sessions';
+} from '@mattermost/types/marketplace';
+import {Post, PostList, PostSearchResults, OpenGraphMetadata} from '@mattermost/types/posts';
+import {PreferenceType} from '@mattermost/types/preferences';
+import {Reaction} from '@mattermost/types/reactions';
+import {Role} from '@mattermost/types/roles';
+import {SamlCertificateStatus, SamlMetadataResponse} from '@mattermost/types/saml';
+import {Scheme} from '@mattermost/types/schemes';
+import {Session} from '@mattermost/types/sessions';
 import {
     GetTeamMembersOpts,
     Team,
@@ -90,8 +92,8 @@ import {
     TeamsWithCount,
     TeamUnread,
     TeamSearchOpts,
-} from 'mattermost-redux/types/teams';
-import {TermsOfService} from 'mattermost-redux/types/terms_of_service';
+} from '@mattermost/types/teams';
+import {TermsOfService} from '@mattermost/types/terms_of_service';
 import {
     AuthChangeResponse,
     UserAccessToken,
@@ -100,24 +102,21 @@ import {
     UserStatus,
     GetFilteredUsersStatsOpts,
     UserCustomStatus,
-} from 'mattermost-redux/types/users';
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
-import {ProductNotices} from 'mattermost-redux/types/product_notices';
+} from '@mattermost/types/users';
+import {DeepPartial, RelationOneToOne} from '@mattermost/types/utilities';
+import {ProductNotices} from '@mattermost/types/product_notices';
 import {
     DataRetentionCustomPolicies,
     CreateDataRetentionCustomPolicy,
     PatchDataRetentionCustomPolicy,
     GetDataRetentionCustomPoliciesRequest,
-} from 'mattermost-redux/types/data_retention';
-import {CompleteOnboardingRequest} from 'mattermost-redux/types/setup';
+} from '@mattermost/types/data_retention';
+import {CompleteOnboardingRequest} from '@mattermost/types/setup';
 
-import {buildQueryString} from 'mattermost-redux/utils/helpers_client';
-import {cleanUrlForLogging} from 'mattermost-redux/utils/sentry';
-import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
-import {UserThreadList, UserThread, UserThreadWithPost} from 'mattermost-redux/types/threads';
+import {UserThreadList, UserThread, UserThreadWithPost} from '@mattermost/types/threads';
 
-import {General} from '../constants';
-
+import {cleanUrlForLogging} from './errors';
+import {buildQueryString} from './helpers';
 import {TelemetryHandler} from './telemetry';
 
 const HEADER_AUTH = 'Authorization';
@@ -128,10 +127,13 @@ const HEADER_USER_AGENT = 'User-Agent';
 export const HEADER_X_CLUSTER_ID = 'X-Cluster-Id';
 const HEADER_X_CSRF_TOKEN = 'X-CSRF-Token';
 export const HEADER_X_VERSION_ID = 'X-Version-Id';
+
+const AUTOCOMPLETE_LIMIT_DEFAULT = 25;
 const PER_PAGE_DEFAULT = 60;
 const LOGS_PER_PAGE_DEFAULT = 10000;
 export const DEFAULT_LIMIT_BEFORE = 30;
 export const DEFAULT_LIMIT_AFTER = 30;
+
 const GRAPHQL_ENDPOINT = '/api/v5/graphql';
 
 export default class Client4 {
@@ -153,7 +155,7 @@ export default class Client4 {
         connectionError: 'There appears to be a problem with your internet connection.',
         unknownError: 'We received an unexpected status code from the server.',
     };
-    userRoles?: string;
+    userRoles = '';
     telemetryHandler?: TelemetryHandler;
 
     getUrl() {
@@ -891,7 +893,7 @@ export default class Client4 {
     };
 
     autocompleteUsers = (name: string, teamId: string, channelId: string, options = {
-        limit: General.AUTOCOMPLETE_LIMIT_DEFAULT,
+        limit: AUTOCOMPLETE_LIMIT_DEFAULT,
     }) => {
         return this.doFetch<UserAutocomplete>(`${this.getUsersRoute()}/autocomplete${buildQueryString({
             in_team: teamId,
@@ -3908,15 +3910,13 @@ export default class Client4 {
 
     trackEvent(category: string, event: string, props?: any) {
         if (this.telemetryHandler) {
-            const userRoles = this.userRoles && isSystemAdmin(this.userRoles) ? 'system_admin, system_user' : 'system_user';
-            this.telemetryHandler.trackEvent(this.userId, userRoles, category, event, props);
+            this.telemetryHandler.trackEvent(this.userId, this.userRoles, category, event, props);
         }
     }
 
     pageVisited(category: string, name: string) {
         if (this.telemetryHandler) {
-            const userRoles = this.userRoles && isSystemAdmin(this.userRoles) ? 'system_admin, system_user' : 'system_user';
-            this.telemetryHandler.pageVisited(this.userId, userRoles, category, name);
+            this.telemetryHandler.pageVisited(this.userId, this.userRoles, category, name);
         }
     }
 }
