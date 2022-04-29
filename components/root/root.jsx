@@ -394,7 +394,7 @@ export default class Root extends React.PureComponent {
             function reloadOnFocus() {
                 location.reload();
             }
-            document.addEventListener('focus', reloadOnFocus, false);
+            window.addEventListener('focus', reloadOnFocus);
         }
     }
 
