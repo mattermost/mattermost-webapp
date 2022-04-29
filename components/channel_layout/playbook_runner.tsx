@@ -6,7 +6,7 @@ import {AnyAction, Dispatch} from 'redux';
 import {useDispatch, useSelector} from 'react-redux';
 import {useRouteMatch} from 'react-router-dom';
 
-import {getChannelByName} from 'mattermost-redux/selectors/entities/channels';
+import {getChannelByTeamIdAndChannelName} from 'mattermost-redux/selectors/entities/channels';
 import {Client4} from 'mattermost-redux/client';
 import {IntegrationTypes} from 'mattermost-redux/action_types';
 import {Channel} from 'mattermost-redux/types/channels';
@@ -32,7 +32,7 @@ const PlaybookRunner = () => {
     const team = useSelector((state: GlobalState) => getTeamByName(state, teamName));
 
     const lastViewedChannelName = useSelector((state: GlobalState) => getLastViewedChannelNameByTeamName(state, teamName));
-    const lastViewedChannel = useSelector((state: GlobalState) => getChannelByName(state, lastViewedChannelName));
+    const lastViewedChannel = useSelector((state: GlobalState) => getChannelByTeamIdAndChannelName(state, team?.id || '', lastViewedChannelName));
 
     useEffect(() => {
         const switchToChannelAndStartRun = async () => {
