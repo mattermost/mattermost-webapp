@@ -43,7 +43,7 @@ describe('AdminConsoleIndex.generateIndex', () => {
         expect(idx.search('notexistingword')).toEqual([]);
     });
 
-    it('should generate a index where I can search in other language', () => {
+    xit('should generate a index where I can search in other language', () => {
         const intl = createIntl({locale: 'es', messages: esMessages, defaultLocale: 'es'});
 
         const idx = generateIndex(AdminDefinition, {}, intl);

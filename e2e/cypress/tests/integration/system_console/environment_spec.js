@@ -278,9 +278,12 @@ describe('Environment', () => {
         const amazonS3BucketName = '12';
         cy.findByTestId('FileSettings.AmazonS3Bucketinput').clear().type(amazonS3BucketName);
 
+        // # Click Save button to save the settings
+        cy.get('#saveSetting').click().wait(TIMEOUTS.ONE_SEC);
+
         cy.get('#TestS3Connection').scrollIntoView().should('be.visible').within(() => {
             cy.findByText('Test Connection').should('be.visible').click().wait(TIMEOUTS.ONE_SEC);
-            waitForAlert('Connection unsuccessful: S3 Bucket is required');
+            waitForAlert('Connection unsuccessful: Unable to connect to S3. Verify your Amazon S3 connection authorization parameters and authentication settings.');
         });
     });
 
