@@ -12,6 +12,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       "header": "",
       "id": "channel_id",
       "last_post_at": 0,
+      "last_root_post_at": 0,
       "name": "",
       "purpose": "",
       "scheme_id": "",
@@ -27,6 +28,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       isEmoji={false}
       isRHS={false}
       newStatusIcon={true}
+      popoverPlacement="right"
       size="xs"
       src="/api/v4/users/user_id/image"
       statusClass="DirectChannel__status-icon "
@@ -52,6 +54,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       "header": "",
       "id": "channel_id",
       "last_post_at": 0,
+      "last_root_post_at": 0,
       "name": "",
       "purpose": "",
       "scheme_id": "",
@@ -67,6 +70,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       isEmoji={false}
       isRHS={false}
       newStatusIcon={true}
+      popoverPlacement="right"
       size="xs"
       src="/api/v4/users/user_id/image"
       status=""
@@ -93,6 +97,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       "header": "",
       "id": "channel_id",
       "last_post_at": 0,
+      "last_root_post_at": 0,
       "name": "",
       "purpose": "",
       "scheme_id": "",
@@ -108,6 +113,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       isEmoji={false}
       isRHS={false}
       newStatusIcon={true}
+      popoverPlacement="right"
       size="xs"
       src="/api/v4/users/user_id/image"
       statusClass="DirectChannel__status-icon "
@@ -133,6 +139,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       "header": "",
       "id": "channel_id",
       "last_post_at": 0,
+      "last_root_post_at": 0,
       "name": "",
       "purpose": "",
       "scheme_id": "",

@@ -10,7 +10,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
-import Input from 'components/input';
+import Input from 'components/widgets/inputs/input/input';
 import PictureSelector from 'components/picture_selector';
 import {AcceptedProfileImageTypes} from 'utils/constants';
 import * as Utils from 'utils/utils';
@@ -130,6 +130,20 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
         const pictureSrc = currentUser.last_picture_update ? Utils.imageURLForUser(currentUser.id, currentUser.last_picture_update) : undefined;
         const defaultSrc = Utils.defaultImageURLForUser(currentUser.id);
 
+        let finishMessage = (
+            <FormattedMessage
+                id={this.props.completeStepButtonText.id}
+                defaultMessage={this.props.completeStepButtonText.defaultMessage}
+            />);
+
+        if (this.props.isLastStep) {
+            finishMessage = (
+                <FormattedMessage
+                    id='next_steps_view.invite_members_step.finish'
+                    defaultMessage='Finish'
+                />);
+        }
+
         return (
             <div className='NextStepsView__stepWrapper'>
                 <div className='CompleteProfileStep'>
@@ -184,10 +198,7 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
                         onClick={this.onFinish}
                         disabled={this.isFinishDisabled()}
                     >
-                        <FormattedMessage
-                            id='next_steps_view.complete_profile_step.saveProfile'
-                            defaultMessage='Save profile'
-                        />
+                        {finishMessage}
                     </button>
                 </div>
             </div>

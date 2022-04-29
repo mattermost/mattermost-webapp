@@ -62,10 +62,8 @@ describe('components/post_view/PostAttachment', () => {
     test('should match snapshot, on edited post', () => {
         const props = {...baseProps, post: {...post, edit_at: 1}};
         const wrapper = shallow(<PostMessageView {...props}/>);
-        const instance = wrapper.instance() as PostMessageView;
 
         expect(wrapper).toMatchSnapshot();
-        expect(instance.renderEditedIndicator()).toMatchSnapshot();
     });
 
     test('should match snapshot, on ephemeral post', () => {

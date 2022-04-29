@@ -24,6 +24,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.ToggleFavoriteChannel', () =
             header: '',
             purpose: '',
             last_post_at: 0,
+            last_root_post_at: 0,
             creator_id: '',
             scheme_id: '',
             group_constrained: false,

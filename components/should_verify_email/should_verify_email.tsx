@@ -5,7 +5,10 @@ import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import BackButton from 'components/common/back_button';
+import LocalizedIcon from 'components/localized_icon';
 import SuccessIcon from 'components/widgets/icons/fa_success_icon';
+
+import {t} from 'utils/i18n';
 
 type Props = {
     location: {
@@ -77,17 +80,10 @@ export default class ShouldVerifyEmail extends React.PureComponent<Props, State>
                 <div>
                     <br/>
                     <p className='alert alert-danger'>
-                        <FormattedMessage
-                            id='generic_icons.fail'
-                            defaultMessage='Faliure Icon'
-                        >
-                            {(title: string) => (
-                                <i
-                                    className='fa fa-times'
-                                    title={title}
-                                />
-                            )}
-                        </FormattedMessage>
+                        <LocalizedIcon
+                            className='fa fa-times'
+                            title={{id: t('generic_icons.fail'), defaultMessage: 'Failure Icon'}}
+                        />
                         <FormattedMessage id='email_verify.failed'/>
                     </p>
                 </div>

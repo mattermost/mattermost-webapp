@@ -10,7 +10,7 @@ import {FormattedMessage} from 'react-intl';
 import {getFullName} from 'mattermost-redux/utils/user_utils';
 
 import SearchChannelWithPermissionsProvider from 'components/suggestion/search_channel_with_permissions_provider.jsx';
-import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import SuggestionBox from 'components/suggestion/suggestion_box';
 import ModalSuggestionList from 'components/suggestion/modal_suggestion_list';
 
 import {placeCaretAtEnd} from 'utils/utils.jsx';
@@ -247,7 +247,6 @@ export default class AddUserToChannelModal extends React.PureComponent {
                 providers={this.suggestionProviders}
                 listPosition='bottom'
                 completeOnTab={false}
-                renderDividers={false}
                 delayInputUpdate={true}
                 openWhenEmpty={false}
             />

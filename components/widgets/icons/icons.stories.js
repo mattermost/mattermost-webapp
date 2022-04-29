@@ -9,19 +9,16 @@ import {withKnobs} from '@storybook/addon-knobs';
 import AccordionToggleIcon from './accordion_toggle_icon';
 import AlertIcon from './alert_icon';
 import ArchiveIcon from './archive_icon';
-import ArrowRightIcon from './arrow_right_icon';
 import AtIcon from './at_icon';
 import AttachmentIcon from './attachment_icon';
 import BackIcon from './back_icon';
-import BotIcon from './bot_icon';
 import CheckboxCheckedIcon from './checkbox_checked_icon';
+import CheckCircleIcon from './check_circle_icon';
 import CheckboxPartialIcon from './checkbox_partial_icon';
 import CloseCircleIcon from './close_circle_icon';
 import CloseCircleSolidIcon from './close_circle_solid_icon';
 import CloseIcon from './close_icon';
 import DotsHorizontal from './dots_horizontal';
-import DownloadIcon from './download_icon';
-import DraftIcon from './draft_icon';
 import EmailIcon from './email_icon';
 import EmojiIcon from './emoji_icon';
 import FaAddIcon from './fa_add_icon';
@@ -32,9 +29,7 @@ import FaLogoutIcon from './fa_logout_icon';
 import FaNextIcon from './fa_next_icon';
 import FaPreviousIcon from './fa_previous_icon';
 import FaReloadIcon from './fa_reload_icon';
-import FaRemoveIcon from './fa_remove_icon';
 import FaSearchIcon from './fa_search_icon';
-import FaSelectIcon from './fa_select_icon';
 import FaSuccessIcon from './fa_success_icon';
 import FaWarningIcon from './fa_warning_icon';
 import FlagIconFilled from './flag_icon_filled';
@@ -45,16 +40,15 @@ import GifSearchClearIcon from './gif_search_clear_icon';
 import GifSearchIcon from './gif_search_icon';
 import GifTrendingIcon from './gif_trending_icon';
 import GlobeIcon from './globe_icon';
+import GlobeCircleSolidIcon from './globe_circle_solid_icon';
 import InfoIcon from './info_icon';
 import InfoSmallIcon from './info_small_icon';
-import InviteIcon from './invite_icon';
 import LeaveTeamIcon from './leave_team_icon';
-import LinkIcon from './link_icon';
 import LockIcon from './lock_icon';
+import LockCircleSolidIcon from './lock_circle_solid_icon';
 import MailIcon from './mail_icon';
 import MailPlusIcon from './mail_plus_icon';
 import MattermostLogo from './mattermost_logo';
-import MemberIcon from './member_icon';
 import MentionsIcon from './mentions_icon';
 import MenuIcon from './menu_icon';
 import MessageIcon from './message_icon';
@@ -73,22 +67,23 @@ import StatusOnlineAvatarIcon from './status_online_avatar_icon';
 import StatusOnlineIcon from './status_online_icon';
 import TeamInfoIcon from './team_info_icon';
 import UnreadBelowIcon from './unread_below_icon';
+import UpgradeBadgeIcon from './upgrade_badge_icon';
 
 const icons = [
-    AccordionToggleIcon, AlertIcon, ArchiveIcon, AtIcon, ArrowRightIcon,
-    AttachmentIcon, BackIcon, BotIcon, CheckboxCheckedIcon,
-    CheckboxPartialIcon, CloseCircleIcon, CloseCircleSolidIcon, CloseIcon,
-    DotsHorizontal, DownloadIcon, DraftIcon, EmailIcon, EmojiIcon, FaAddIcon, FaBackIcon, FaDropdownIcon,
+    AccordionToggleIcon, AlertIcon, ArchiveIcon, AtIcon,
+    AttachmentIcon, BackIcon, CheckboxCheckedIcon, CheckboxPartialIcon,
+    CheckCircleIcon, CloseCircleIcon, CloseCircleSolidIcon, CloseIcon,
+    DotsHorizontal, EmailIcon, EmojiIcon, FaAddIcon, FaBackIcon, FaDropdownIcon,
     FaEditIcon, FaLogoutIcon, FaNextIcon, FaPreviousIcon, FaReloadIcon,
-    FaRemoveIcon, FaSearchIcon, FaSelectIcon, FaSuccessIcon, FaWarningIcon,
+    FaSearchIcon, FaSuccessIcon, FaWarningIcon,
     FlagIconFilled, FlagIcon, GfycatIcon, GifReactionsIcon,
-    GifSearchClearIcon, GifSearchIcon, GifTrendingIcon, GlobeIcon, InfoIcon,
-    InfoSmallIcon, InviteIcon, LeaveTeamIcon, LinkIcon, LockIcon, MailIcon,
-    MailPlusIcon, MattermostLogo, MemberIcon, MentionsIcon, MenuIcon,
+    GifSearchClearIcon, GifSearchIcon, GifTrendingIcon, GlobeIcon, GlobeCircleSolidIcon,
+    InfoIcon, InfoSmallIcon, LeaveTeamIcon, LockIcon, LockCircleSolidIcon, MailIcon,
+    MailPlusIcon, MattermostLogo, MentionsIcon, MenuIcon,
     MessageIcon, PinIcon, ReplyIcon, ScrollToBottomIcon, SearchIcon, ShieldOutlineIcon,
     StatusAwayAvatarIcon, StatusAwayIcon, StatusDndAvatarIcon, StatusDndIcon,
     StatusOfflineAvatarIcon, StatusOfflineIcon, StatusOnlineAvatarIcon,
-    StatusOnlineIcon, TeamInfoIcon, UnreadBelowIcon,
+    StatusOnlineIcon, TeamInfoIcon, UnreadBelowIcon, UpgradeBadgeIcon,
 ];
 
 const stories = storiesOf('Widgets/Icons', module).addDecorator(withKnobs);

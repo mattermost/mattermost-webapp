@@ -20,7 +20,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             <EditChannelPurposeModal
                 channel={channel}
                 ctrlSend={true}
-                onHide={jest.fn()}
+                onExited={jest.fn()}
                 actions={{patchChannel: jest.fn()}}
             />,
             {disableLifecycleMethods: true},
@@ -39,7 +39,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             <EditChannelPurposeModal
                 channel={channelWithDisplayName}
                 ctrlSend={true}
-                onHide={jest.fn()}
+                onExited={jest.fn()}
                 actions={{patchChannel: jest.fn()}}
             />,
             {disableLifecycleMethods: true},
@@ -58,7 +58,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             <EditChannelPurposeModal
                 channel={privateChannel}
                 ctrlSend={true}
-                onHide={jest.fn()}
+                onExited={jest.fn()}
                 actions={{patchChannel: jest.fn()}}
             />,
             {disableLifecycleMethods: true},
@@ -72,7 +72,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             <EditChannelPurposeModal
                 channel={channel}
                 ctrlSend={true}
-                onHide={jest.fn()}
+                onExited={jest.fn()}
                 actions={{patchChannel: jest.fn()}}
             />,
             {disableLifecycleMethods: true},
@@ -91,7 +91,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             <EditChannelPurposeModal
                 channel={channel}
                 ctrlSend={false}
-                onHide={jest.fn()}
+                onExited={jest.fn()}
                 actions={{patchChannel: jest.fn().mockResolvedValue({error: serverError})}}
             />,
             {disableLifecycleMethods: true},
@@ -113,7 +113,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             <EditChannelPurposeModal
                 channel={channel}
                 ctrlSend={false}
-                onHide={jest.fn()}
+                onExited={jest.fn()}
                 actions={{patchChannel: jest.fn().mockResolvedValue({error: serverError})}}
             />,
             {disableLifecycleMethods: true},
@@ -130,7 +130,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             <EditChannelPurposeModal
                 channel={channel}
                 ctrlSend={false}
-                onHide={jest.fn()}
+                onExited={jest.fn()}
                 actions={{patchChannel: jest.fn().mockResolvedValue({data: true})}}
             />,
             {disableLifecycleMethods: true},
@@ -151,7 +151,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             <EditChannelPurposeModal
                 channel={channel}
                 ctrlSend={true}
-                onHide={jest.fn()}
+                onExited={jest.fn()}
                 actions={{patchChannel: jest.fn()}}
             />,
             {disableLifecycleMethods: true},
@@ -173,7 +173,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             <EditChannelPurposeModal
                 channel={channel}
                 ctrlSend={true}
-                onHide={jest.fn()}
+                onExited={jest.fn()}
                 actions={{patchChannel: jest.fn().mockResolvedValue({data: true})}}
             />,
             {disableLifecycleMethods: true},
@@ -191,7 +191,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             <EditChannelPurposeModal
                 channel={channel}
                 ctrlSend={true}
-                onHide={jest.fn()}
+                onExited={jest.fn()}
                 actions={{patchChannel}}
             />,
             {disableLifecycleMethods: true},
@@ -209,7 +209,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             <EditChannelPurposeModal
                 channel={channel}
                 ctrlSend={true}
-                onHide={jest.fn()}
+                onExited={jest.fn()}
                 actions={{patchChannel}}
             />,
             {disableLifecycleMethods: true},
@@ -232,7 +232,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             <EditChannelPurposeModal
                 channel={channel}
                 ctrlSend={false}
-                onHide={jest.fn()}
+                onExited={jest.fn()}
                 actions={{patchChannel}}
             />,
             {disableLifecycleMethods: true},
@@ -255,7 +255,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 purpose: value,
             }}
             ctrlSend={true}
-            onHide={jest.fn()}
+            onExited={jest.fn()}
             actions={{patchChannel: jest.fn()}}
         />
     ), (instance: EditChannelPurposeModalClass) => instance.state.purpose);

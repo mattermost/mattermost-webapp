@@ -4,6 +4,7 @@
 import {ChannelTypes, GeneralTypes, PostTypes, UserTypes, ThreadTypes} from 'mattermost-redux/action_types';
 
 import {Posts} from 'mattermost-redux/constants';
+import {PostTypes as PostConstant} from 'utils/constants';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {
@@ -16,14 +17,12 @@ import {
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Reaction} from 'mattermost-redux/types/reactions';
 import {
-    $ID,
     RelationOneToOne,
-    Dictionary,
     IDMappedObjects,
     RelationOneToMany,
 } from 'mattermost-redux/types/utilities';
 
-import {comparePosts, shouldUpdatePost} from 'mattermost-redux/utils/post_utils';
+import {comparePosts, isPermalink, shouldUpdatePost} from 'mattermost-redux/utils/post_utils';
 
 export function removeUnneededMetadata(post: Post) {
     if (!post.metadata) {
@@ -93,7 +92,7 @@ export function removeUnneededMetadata(post: Post) {
     };
 }
 
-export function nextPostsReplies(state: {[x in $ID<Post>]: number} = {}, action: GenericAction) {
+export function nextPostsReplies(state: {[x in Post['id']]: number} = {}, action: GenericAction) {
     switch (action.type) {
     case PostTypes.RECEIVED_POST:
     case PostTypes.RECEIVED_NEW_POST: {
@@ -272,45 +271,59 @@ export function handlePosts(state: RelationOneToOne<Post, Post> = {}, action: Ge
     }
 }
 
-function handlePostReceived(nextState: any, post: Post) {
-    if (!shouldUpdatePost(post, nextState[post.id])) {
-        return nextState;
+function handlePostReceived(nextState: any, post: Post, nestedPermalinkLevel?: number) {
+    let currentState = nextState;
+
+    // Check if post already exists in state or if nested permalink
+    if (!shouldUpdatePost(post, currentState[post.id]) || (nestedPermalinkLevel && nestedPermalinkLevel > 1)) {
+        return currentState;
+    }
+
+    // If post is a permalink and not nested (it links directly to the original message),
+    // and is missing embedded metadata, then update state with new post metadata
+    if (!nestedPermalinkLevel && isPermalink(post) && currentState[post.id] && !currentState[post.id].metadata && post.metadata) {
+        currentState[post.id] = {...currentState[post.id], ...post.metadata};
     }
 
     // Edited posts that don't have 'is_following' specified should maintain 'is_following' state
-    if (post.update_at > 0 && post.is_following == null && nextState[post.id]) {
-        post.is_following = nextState[post.id].is_following;
+    if (post.update_at > 0 && post.is_following == null && currentState[post.id]) {
+        post.is_following = currentState[post.id].is_following;
     }
 
     if (post.delete_at > 0) {
         // We've received a deleted post, so mark the post as deleted if we already have it
-        if (nextState[post.id]) {
-            nextState[post.id] = {
+        if (currentState[post.id]) {
+            currentState[post.id] = {
                 ...removeUnneededMetadata(post),
                 state: Posts.POST_DELETED,
                 file_ids: [],
                 has_reactions: false,
             };
         }
-    } else {
-        if (post.metadata && post.metadata.embeds) {
-            post.metadata.embeds.forEach((embed) => {
-                if (embed.type === 'permalink') {
-                    if (embed.data && 'post_id' in embed.data && embed.data.post) {
-                        nextState[embed.data.post_id] = removeUnneededMetadata(embed.data.post);
+    } else if (post.metadata && post.metadata.embeds) {
+        post.metadata.embeds.forEach((embed) => {
+            if (embed.type === 'permalink') {
+                if (embed.data && 'post_id' in embed.data && embed.data.post) {
+                    currentState = handlePostReceived(currentState, embed.data.post, nestedPermalinkLevel ? nestedPermalinkLevel + 1 : 1);
+
+                    if (isPermalink(embed.data.post)) {
+                        currentState[post.id] = removeUnneededMetadata(post);
                     }
                 }
-            });
-        }
-        nextState[post.id] = removeUnneededMetadata(post);
+            }
+        });
+
+        currentState[post.id] = post;
+    } else {
+        currentState[post.id] = removeUnneededMetadata(post);
     }
 
     // Delete any pending post that existed for this post
-    if (post.pending_post_id && post.id !== post.pending_post_id && nextState[post.pending_post_id]) {
-        Reflect.deleteProperty(nextState, post.pending_post_id);
+    if (post.pending_post_id && post.id !== post.pending_post_id && currentState[post.pending_post_id]) {
+        Reflect.deleteProperty(currentState, post.pending_post_id);
     }
 
-    const rootPost: Post = nextState[post.root_id];
+    const rootPost: Post = currentState[post.root_id];
     if (post.root_id && rootPost) {
         const participants = rootPost.participants || [];
         const nextRootPost = {...rootPost};
@@ -322,10 +335,10 @@ function handlePostReceived(nextState: any, post: Post) {
             nextRootPost.reply_count = post.reply_count;
         }
 
-        nextState[post.root_id] = nextRootPost;
+        currentState[post.root_id] = nextRootPost;
     }
 
-    return nextState;
+    return currentState;
 }
 
 export function handlePendingPosts(state: string[] = [], action: GenericAction) {
@@ -394,7 +407,7 @@ export function handlePendingPosts(state: string[] = [], action: GenericAction) 
     }
 }
 
-export function postsInChannel(state: Dictionary<PostOrderBlock[]> = {}, action: GenericAction, prevPosts: IDMappedObjects<Post>, nextPosts: Dictionary<Post>) {
+export function postsInChannel(state: Record<string, PostOrderBlock[]> = {}, action: GenericAction, prevPosts: IDMappedObjects<Post>, nextPosts: Record<string, Post>) {
     switch (action.type) {
     case PostTypes.RESET_POSTS_IN_CHANNEL: {
         return {};
@@ -402,7 +415,7 @@ export function postsInChannel(state: Dictionary<PostOrderBlock[]> = {}, action:
     case PostTypes.RECEIVED_NEW_POST: {
         const post = action.data as Post;
 
-        if (action.features?.crtEnabled && post.root_id) {
+        if (action.features?.crtEnabled && post.root_id && post.type !== PostConstant.EPHEMERAL) {
             return state;
         }
 
@@ -471,6 +484,10 @@ export function postsInChannel(state: Dictionary<PostOrderBlock[]> = {}, action:
 
     case PostTypes.RECEIVED_POST: {
         const post = action.data;
+
+        if (action.features?.crtEnabled && post.root_id) {
+            return state;
+        }
 
         // Receiving a single post doesn't usually affect the order of posts in a channel, except for when we've
         // received a newly created post that was previously stored as pending
@@ -799,7 +816,7 @@ export function removeNonRecentEmptyPostBlocks(blocks: PostOrderBlock[]) {
     return blocks.filter((block: PostOrderBlock) => block.order.length !== 0 || block.recent);
 }
 
-export function mergePostBlocks(blocks: PostOrderBlock[], posts: Dictionary<Post>) {
+export function mergePostBlocks(blocks: PostOrderBlock[], posts: Record<string, Post>) {
     let nextBlocks = [...blocks];
 
     // Remove any blocks that may have become empty by removing posts
@@ -856,7 +873,7 @@ export function mergePostBlocks(blocks: PostOrderBlock[], posts: Dictionary<Post
     return nextBlocks;
 }
 
-export function mergePostOrder(left: string[], right: string[], posts: Dictionary<Post>) {
+export function mergePostOrder(left: string[], right: string[], posts: Record<string, Post>) {
     const result = [...left];
 
     // Add without duplicates
@@ -880,7 +897,7 @@ export function mergePostOrder(left: string[], right: string[], posts: Dictionar
     return result;
 }
 
-export function postsInThread(state: RelationOneToMany<Post, Post> = {}, action: GenericAction, prevPosts: Dictionary<Post>) {
+export function postsInThread(state: RelationOneToMany<Post, Post> = {}, action: GenericAction, prevPosts: Record<string, Post>) {
     switch (action.type) {
     case PostTypes.RECEIVED_NEW_POST:
     case PostTypes.RECEIVED_POST: {
@@ -932,7 +949,7 @@ export function postsInThread(state: RelationOneToMany<Post, Post> = {}, action:
             return state;
         }
 
-        const nextState: Dictionary<string[]> = {};
+        const nextState: Record<string, string[]> = {};
 
         for (const post of newPosts) {
             if (!post.root_id) {
@@ -1101,11 +1118,11 @@ function currentFocusedPostId(state = '', action: GenericAction) {
     }
 }
 
-export function reactions(state: RelationOneToOne<Post, Dictionary<Reaction>> = {}, action: GenericAction) {
+export function reactions(state: RelationOneToOne<Post, Record<string, Reaction>> = {}, action: GenericAction) {
     switch (action.type) {
     case PostTypes.RECEIVED_REACTIONS: {
         const reactionsList = action.data;
-        const nextReactions: Dictionary<Reaction> = {};
+        const nextReactions: Record<string, Reaction> = {};
         reactionsList.forEach((reaction: Reaction) => {
             nextReactions[reaction.user_id + '-' + reaction.emoji_name] = reaction;
         });
@@ -1179,7 +1196,7 @@ function storeReactionsForPost(state: any, post: Post) {
         return state;
     }
 
-    const reactionsForPost: Dictionary<Reaction> = {};
+    const reactionsForPost: Record<string, Reaction> = {};
     if (post.metadata.reactions && post.metadata.reactions.length > 0) {
         for (const reaction of post.metadata.reactions) {
             reactionsForPost[reaction.user_id + '-' + reaction.emoji_name] = reaction;
@@ -1192,7 +1209,7 @@ function storeReactionsForPost(state: any, post: Post) {
     };
 }
 
-export function openGraph(state: RelationOneToOne<Post, Dictionary<OpenGraphMetadata>> = {}, action: GenericAction) {
+export function openGraph(state: RelationOneToOne<Post, Record<string, OpenGraphMetadata>> = {}, action: GenericAction) {
     switch (action.type) {
     case PostTypes.RECEIVED_OPEN_GRAPH_METADATA: {
         const nextState = {...state};
@@ -1226,6 +1243,24 @@ function storeOpenGraphForPost(state: any, post: Post) {
     }
 
     return post.metadata.embeds.reduce((nextState, embed) => {
+        // If post contains a permalink, we need to store opengraph data for the embedded message
+        if (embed.type === 'permalink' && embed.data && 'post' in embed.data && embed.data.post) {
+            const previewPost = embed.data.post;
+
+            if (previewPost.metadata && previewPost.metadata.embeds) {
+                return previewPost.metadata.embeds.reduce((nextState, embed) => {
+                    if (embed.type !== 'opengraph' || !embed.data || nextState[previewPost.id]) {
+                        return nextState;
+                    }
+
+                    return {
+                        ...nextState,
+                        [previewPost.id]: {[embed.url]: embed.data},
+                    };
+                }, nextState);
+            }
+        }
+
         if (embed.type !== 'opengraph' || !embed.data) {
             // Not an OpenGraph embed
             return nextState;
@@ -1239,10 +1274,16 @@ function storeOpenGraphForPost(state: any, post: Post) {
     }, state);
 }
 
-function messagesHistory(state: Partial<MessageHistory> = {}, action: GenericAction) {
+function messagesHistory(state: Partial<MessageHistory> = {
+    messages: [],
+    index: {
+        post: -1,
+        comment: -1,
+    },
+}, action: GenericAction) {
     switch (action.type) {
     case PostTypes.ADD_MESSAGE_INTO_HISTORY: {
-        const nextIndex: Dictionary<number> = {};
+        const nextIndex: Record<string, number> = {};
         let nextMessages = state.messages ? [...state.messages] : [];
         nextMessages.push(action.data);
         nextIndex[Posts.MESSAGE_TYPES.POST] = nextMessages.length;
@@ -1258,7 +1299,7 @@ function messagesHistory(state: Partial<MessageHistory> = {}, action: GenericAct
         };
     }
     case PostTypes.RESET_HISTORY_INDEX: {
-        const index: Dictionary<number> = {};
+        const index: Record<string, number> = {};
         index[Posts.MESSAGE_TYPES.POST] = -1;
         index[Posts.MESSAGE_TYPES.COMMENT] = -1;
 
@@ -1271,7 +1312,7 @@ function messagesHistory(state: Partial<MessageHistory> = {}, action: GenericAct
         };
     }
     case PostTypes.MOVE_HISTORY_INDEX_BACK: {
-        const index: Dictionary<number> = {};
+        const index: Record<string, number> = {};
         index[Posts.MESSAGE_TYPES.POST] = -1;
         index[Posts.MESSAGE_TYPES.COMMENT] = -1;
 
@@ -1285,7 +1326,7 @@ function messagesHistory(state: Partial<MessageHistory> = {}, action: GenericAct
         };
     }
     case PostTypes.MOVE_HISTORY_INDEX_FORWARD: {
-        const index: Dictionary<number> = {};
+        const index: Record<string, number> = {};
         index[Posts.MESSAGE_TYPES.POST] = -1;
         index[Posts.MESSAGE_TYPES.COMMENT] = -1;
 
@@ -1300,7 +1341,7 @@ function messagesHistory(state: Partial<MessageHistory> = {}, action: GenericAct
         };
     }
     case UserTypes.LOGOUT_SUCCESS: {
-        const index: Dictionary<number> = {};
+        const index: Record<string, number> = {};
         index[Posts.MESSAGE_TYPES.POST] = -1;
         index[Posts.MESSAGE_TYPES.COMMENT] = -1;
 
@@ -1314,7 +1355,7 @@ function messagesHistory(state: Partial<MessageHistory> = {}, action: GenericAct
     }
 }
 
-export function expandedURLs(state: Dictionary<string> = {}, action: GenericAction) {
+export function expandedURLs(state: Record<string, string> = {}, action: GenericAction) {
     switch (action.type) {
     case GeneralTypes.REDIRECT_LOCATION_SUCCESS:
         return {

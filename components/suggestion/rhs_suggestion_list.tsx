@@ -3,15 +3,12 @@
 
 import React, {useEffect, useState} from 'react';
 
-import AutosizeTextarea from 'components/autosize_textarea';
-import QuickInput from 'components/quick_input';
-
 import Constants from 'utils/constants';
 
 import SuggestionList from './suggestion_list';
 
 type Props = React.ComponentProps<typeof SuggestionList> & {
-    inputRef: React.RefObject<QuickInput>;
+    inputRef: React.RefObject<HTMLTextAreaElement>;
 }
 
 export default function RhsSuggestionList(props: Props): JSX.Element {
@@ -20,8 +17,8 @@ export default function RhsSuggestionList(props: Props): JSX.Element {
     useEffect(() => {
         const input = props.inputRef.current;
 
-        if (props.open) {
-            const inputTop = (input?.getInput() as AutosizeTextarea).getDOMNode()?.getBoundingClientRect().top || 0;
+        if (input && props.open) {
+            const inputTop = input.getBoundingClientRect().top ?? 0;
             const newPosition = (inputTop < Constants.SUGGESTION_LIST_SPACE_RHS) ? 'bottom' : 'top';
 
             if (newPosition !== position) {

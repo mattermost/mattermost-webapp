@@ -16,6 +16,7 @@ exports[`components/RhsThread should match snapshot 1`] = `
         "header": "",
         "id": "channel_id",
         "last_post_at": 0,
+        "last_root_post_at": 0,
         "name": "",
         "purpose": "",
         "scheme_id": "",
@@ -29,6 +30,7 @@ exports[`components/RhsThread should match snapshot 1`] = `
     rootPostId="id"
   />
   <Connect(ThreadViewer)
+    isThreadView={false}
     rootPostId="id"
     useRelativeTimestamp={false}
   />

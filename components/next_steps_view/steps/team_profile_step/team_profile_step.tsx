@@ -9,7 +9,7 @@ import {Team} from 'mattermost-redux/types/teams';
 
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import Input from 'components/input';
+import Input from 'components/widgets/inputs/input/input';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import PictureSelector from 'components/picture_selector';
 import {AcceptedProfileImageTypes} from 'utils/constants';
@@ -125,6 +125,20 @@ export default class TeamProfileStep extends React.PureComponent<Props, State> {
         // Make sure picture has been set
         const pictureSrc = team.last_team_icon_update && !this.state.removeProfilePicture ? Utils.imageURLForTeam(team) || undefined : undefined;
 
+        let finishMessage = (
+            <FormattedMessage
+                id={this.props.completeStepButtonText.id}
+                defaultMessage={this.props.completeStepButtonText.defaultMessage}
+            />);
+
+        if (this.props.isLastStep) {
+            finishMessage = (
+                <FormattedMessage
+                    id='next_steps_view.invite_members_step.finish'
+                    defaultMessage='Finish'
+                />);
+        }
+
         return (
             <div className='NextStepsView__stepWrapper'>
                 <div className='TeamProfileStep'>
@@ -187,10 +201,7 @@ export default class TeamProfileStep extends React.PureComponent<Props, State> {
                         onClick={this.onFinish}
                         disabled={this.isFinishDisabled()}
                     >
-                        <FormattedMessage
-                            id='next_steps_view.team_profile_step.saveTeam'
-                            defaultMessage='Save team'
-                        />
+                        {finishMessage}
                     </button>
                 </div>
             </div>

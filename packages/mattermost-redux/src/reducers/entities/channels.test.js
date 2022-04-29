@@ -114,6 +114,27 @@ describe('channels', () => {
         });
     });
 
+    describe('INCREMENT_FILE_COUNT', () => {
+        test('should change channel file count stats', () => {
+            const state = deepFreeze(channelsReducer({
+                stats: {
+                    channel1: {
+                        id: 'channel1',
+                        files_count: 1,
+                    },
+                },
+            }, {}));
+            const nextState = channelsReducer(state, {
+                type: ChannelTypes.INCREMENT_FILE_COUNT,
+                id: 'channel1',
+                amount: 3,
+            });
+
+            expect(nextState).not.toBe(state);
+            expect(nextState.stats.channel1.files_count).toEqual(4);
+        });
+    });
+
     describe('UPDATE_CHANNEL_HEADER', () => {
         test('should update channel header', () => {
             const state = deepFreeze(channelsReducer({
@@ -303,6 +324,7 @@ describe('channels', () => {
                     channel1: {
                         id: 'channel1',
                         last_post_at: 1234,
+                        last_root_post_at: 1234,
                     },
                     channel2: {
                         id: 'channel2',
@@ -315,17 +337,52 @@ describe('channels', () => {
                 data: {
                     channel_id: 'channel1',
                     create_at: 1235,
+                    root_id: '',
                 },
+                features: {crtEnabled: false},
             });
 
             expect(nextState).not.toBe(state);
             expect(nextState.channels.channel1).toEqual({
                 id: 'channel1',
                 last_post_at: 1235,
+                last_root_post_at: 1235,
             });
             expect(nextState.channels.channel2).toBe(state.channels.channel2);
         });
 
+        test('should not update channel last_root_post_at for threads with crtEnabled', () => {
+            const state = deepFreeze(channelsReducer({
+                channels: {
+                    channel1: {
+                        id: 'channel1',
+                        last_post_at: 1234,
+                        last_root_post_at: 1234,
+                    },
+                    channel2: {
+                        id: 'channel2',
+                    },
+                },
+            }, {}));
+
+            const nextState = channelsReducer(state, {
+                type: PostTypes.RECEIVED_NEW_POST,
+                data: {
+                    channel_id: 'channel1',
+                    create_at: 1235,
+                    root_id: 'post1',
+                },
+                features: {crtEnabled: true},
+            });
+
+            expect(nextState).not.toBe(state);
+            expect(nextState.channels.channel1).toEqual({
+                id: 'channel1',
+                last_post_at: 1235,
+                last_root_post_at: 1234,
+            });
+            expect(nextState.channels.channel2).toBe(state.channels.channel2);
+        });
         test('should do nothing for a channel that is not loaded', () => {
             const state = deepFreeze(channelsReducer({
                 channels: {
@@ -353,7 +410,8 @@ describe('channels', () => {
                 channels: {
                     channel1: {
                         id: 'channel1',
-                        last_post_at: 1236,
+                        last_post_at: 1237,
+                        last_root_post_at: 1236,
                     },
                     channel2: {
                         id: 'channel2',
@@ -372,7 +430,8 @@ describe('channels', () => {
             expect(nextState).not.toBe(state);
             expect(nextState.channels.channel1).toEqual({
                 id: 'channel1',
-                last_post_at: 1236,
+                last_post_at: 1237,
+                last_root_post_at: 1236,
             });
             expect(nextState.channels.channel2).toBe(state.channels.channel2);
         });

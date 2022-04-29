@@ -15,13 +15,6 @@ exports[`admin_console/team_channel_settings/team/TeamModes should match snapsho
     <div
       className="group-teams-and-channels--body"
     >
-      <SyncGroupsToggle
-        allAllowedChecked={false}
-        allowedDomains=""
-        allowedDomainsChecked={true}
-        onToggle={[MockFunction]}
-        syncChecked={false}
-      />
       <AllowAllToggle
         allAllowedChecked={false}
         allowedDomains=""

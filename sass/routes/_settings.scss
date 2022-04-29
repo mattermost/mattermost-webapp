@@ -119,9 +119,6 @@
         }
 
         .profile-img__remove {
-            @include border-radius(50%);
-            @include single-transition(all, 0.15s, ease);
-
             position: absolute;
             top: 4px;
             right: 8px;
@@ -133,8 +130,10 @@
             padding: 0;
             border: none;
             background: $black;
+            border-radius: 50%;
             color: $white;
             text-decoration: none;
+            transition: all 0.15s ease;
 
             span {
                 margin-top: -3px;
@@ -154,28 +153,23 @@
             }
 
             .img-preview__image {
-                @include border-radius(6px);
-
                 overflow: hidden;
                 border: 1px solid alpha-color($black, 0.15);
                 background-color: $white;
+                border-radius: 6px;
             }
 
             div {
-                @include background-size(cover);
-
                 width: 100%;
                 height: 100%;
                 background-color: $white;
                 background-position: center;
                 background-repeat: no-repeat;
+                background-size: cover;
             }
         }
 
         .team-img__remove {
-            @include border-radius(50%);
-            @include single-transition(all, 0.15s, ease);
-
             position: absolute;
             top: -8px;
             right: -8px;
@@ -184,10 +178,12 @@
             padding: 0;
             border: none;
             background: $black;
+            border-radius: 50%;
             color: $white;
             line-height: 23px;
             text-align: center;
             text-decoration: none;
+            transition: all 0.15s ease;
 
             span {
                 margin-top: -3px;
@@ -237,7 +233,7 @@
                 }
 
                 .section-max {
-                    @include legacy-pie-clearfix;
+                    @include pie-clearfix;
                     @include alpha-property('background', $black, 0.05);
 
                     padding: 1em 0 1.3em;
@@ -271,8 +267,6 @@
 
                     .group--code {
                         select {
-                            @include appearance(none);
-
                             padding-right: 25px;
                             appearance: none;
                         }
@@ -365,22 +359,21 @@
                         }
 
                         .header__icon {
-                            @include opacity(0.5);
-
                             float: right;
+                            opacity: 0.5;
                         }
                     }
 
                     .theme-elements__body {
-                        @include border-radius(0 0 3px 3px);
-                        @include legacy-pie-clearfix;
-                        @include alpha-property(background-color, $white, 0.05);
-
                         max-height: 0;
                         padding: 0 0 0 24px;
                         margin: 0 20px 0 0;
+                        background-color: rgba(255, 255, 255, 0.05);
+                        border-radius: 0 0 3px 3px;
                         overflow-y: hidden;
                         transition: all 0.4s ease-out;
+
+                        @include pie-clearfix;
 
                         &.open {
                             max-height: 1200px;
@@ -607,9 +600,8 @@
     }
 
     .post-profile-img {
-        @include border-radius(50px);
-
         margin-right: 8px;
+        border-radius: 50px;
     }
 }
 
@@ -644,14 +636,6 @@
 
 .member-page {
     padding-top: 50px;
-}
-
-.active-border {
-    border: 1px solid red;
-}
-
-.color-btn {
-    margin: 4px;
 }
 
 .no-resize {
@@ -700,18 +684,17 @@
     text-align: right;
 
     .fa {
-        @include opacity(0.5);
-
         display: none;
         margin-right: 5px;
         font-size: 12px;
+        opacity: 0.5;
     }
 }
 
 .section-min__describe {
     @include clearfix;
-    @include opacity(0.7);
 
+    opacity: 0.7;
     text-overflow: ellipsis;
     white-space: pre;
 }

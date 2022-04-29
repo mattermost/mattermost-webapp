@@ -16,6 +16,7 @@ import {
     isPostCommentMention,
     getEmbedFromMetadata,
     shouldUpdatePost,
+    isPermalink,
 } from 'mattermost-redux/utils/post_utils';
 
 describe('PostUtils', () => {
@@ -96,42 +97,10 @@ describe('PostUtils', () => {
     });
 
     describe('canEditPost', () => {
-        const notLicensed = {IsLicensed: 'false'};
         const licensed = {IsLicensed: 'true'};
         const teamId = 'team-id';
         const channelId = 'channel-id';
         const userId = 'user-id';
-
-        const state = {entities: {general: {serverVersion: ''}}};
-
-        it('should allow to edit my post without license', () => {
-            // Hasn't license
-            assert.ok(canEditPost(state, {PostEditTimeLimit: -1}, notLicensed, teamId, channelId, userId, {user_id: userId, type: 'normal'}));
-            assert.ok(!canEditPost(state, {PostEditTimeLimit: -1}, notLicensed, teamId, channelId, userId, {user_id: userId, type: 'system_test'}));
-            assert.ok(!canEditPost(state, {PostEditTimeLimit: -1}, notLicensed, teamId, channelId, userId, {user_id: 'other', type: 'normal'}));
-            assert.ok(!canEditPost(state, {PostEditTimeLimit: -1}, notLicensed, teamId, channelId, userId, {user_id: 'other', type: 'system_test'}));
-            assert.ok(!canEditPost(state, {PostEditTimeLimit: -1}, notLicensed, teamId, channelId, userId, null));
-        });
-
-        it('should work with old permissions version', () => {
-            const oldVersionState = {
-                entities: {
-                    general: {
-                        serverVersion: '4.3.0',
-                    },
-                },
-            };
-
-            // With old permissions
-            assert.ok(!canEditPost(oldVersionState, {PostEditTimeLimit: null, AllowEditPost: 'never'}, licensed, teamId, channelId, userId, {user_id: userId}));
-            assert.ok(canEditPost(oldVersionState, {PostEditTimeLimit: null, AllowEditPost: 'always'}, licensed, teamId, channelId, userId, {user_id: userId}));
-            assert.ok(canEditPost(oldVersionState, {PostEditTimeLimit: 300, AllowEditPost: 'time_limit'}, licensed, teamId, channelId, userId, {user_id: userId, create_at: Date.now() - 100}));
-            assert.ok(!canEditPost(oldVersionState, {PostEditTimeLimit: 300, AllowEditPost: 'time_limit'}, licensed, teamId, channelId, userId, {user_id: userId, create_at: Date.now() - 600000}));
-            assert.ok(!canEditPost(oldVersionState, {PostEditTimeLimit: null, AllowEditPost: 'never'}, licensed, teamId, channelId, userId, {user_id: 'other'}));
-            assert.ok(!canEditPost(oldVersionState, {PostEditTimeLimit: null, AllowEditPost: 'always'}, licensed, teamId, channelId, userId, {user_id: 'other'}));
-            assert.ok(!canEditPost(oldVersionState, {PostEditTimeLimit: 300, AllowEditPost: 'time_limit'}, licensed, teamId, channelId, userId, {user_id: 'other', create_at: Date.now() - 100}));
-            assert.ok(!canEditPost(oldVersionState, {PostEditTimeLimit: 300, AllowEditPost: 'time_limit'}, licensed, teamId, channelId, userId, {user_id: 'other', create_at: Date.now() - 600000}));
-        });
 
         it('should work with new permissions version', () => {
             let newVersionState = {
@@ -573,6 +542,29 @@ describe('PostUtils', () => {
         });
     });
 
+    describe('isPermalink', () => {
+        it('should return true if post contains permalink', () => {
+            const post = {
+                metadata: {embeds: [{type: 'permalink'}]},
+            };
+            expect(isPermalink(post)).toBe(true);
+        });
+
+        it('should return false if post contains an embed that is not a permalink', () => {
+            const post = {
+                metadata: {embeds: [{type: 'opengraph'}]},
+            };
+            expect(isPermalink(post)).toBe(false);
+        });
+
+        it('should return false if post has no embeds', () => {
+            const post = {
+                metadata: {embeds: []},
+            };
+            expect(isPermalink(post)).toBe(false);
+        });
+    });
+
     describe('shouldUpdatePost', () => {
         const storedPost = {
             id: 'post1',
@@ -638,6 +630,14 @@ describe('PostUtils', () => {
             const post = {
                 ...storedPost,
                 is_following: true,
+            };
+            expect(shouldUpdatePost(post, storedPost)).toBe(true);
+        });
+
+        it('should return true for same posts with metadata in received post and not in stored post', () => {
+            const post = {
+                ...storedPost,
+                metadata: {embeds: [{type: 'permalink'}]},
             };
             expect(shouldUpdatePost(post, storedPost)).toBe(true);
         });

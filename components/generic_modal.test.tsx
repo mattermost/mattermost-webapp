@@ -9,7 +9,7 @@ import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 describe('components/GenericModal', () => {
     const requiredProps = {
-        onHide: jest.fn(),
+        onExited: jest.fn(),
         modalHeaderText: 'Modal Header Text',
     };
 
@@ -52,7 +52,9 @@ describe('components/GenericModal', () => {
         expect(wrapper.find('.GenericModal__button.confirm.disabled')).toHaveLength(1);
     });
 
-    test('should hide and run handleConfirm on confirm button click', () => {
+    test('should hide and run handleConfirm on confirm button click', (done) => {
+        requiredProps.onExited.mockImplementation(() => done());
+
         const props = {
             ...requiredProps,
             handleConfirm: jest.fn(),
@@ -64,11 +66,12 @@ describe('components/GenericModal', () => {
 
         wrapper.find('.GenericModal__button.confirm').simulate('click');
 
-        expect(props.onHide).toHaveBeenCalled();
         expect(props.handleConfirm).toHaveBeenCalled();
     });
 
-    test('should hide and run handleCancel on cancel button click', () => {
+    test('should hide and run handleCancel on cancel button click', (done) => {
+        requiredProps.onExited.mockImplementation(() => done());
+
         const props = {
             ...requiredProps,
             handleCancel: jest.fn(),
@@ -80,7 +83,6 @@ describe('components/GenericModal', () => {
 
         wrapper.find('.GenericModal__button.cancel').simulate('click');
 
-        expect(props.onHide).toHaveBeenCalled();
         expect(props.handleCancel).toHaveBeenCalled();
     });
 });

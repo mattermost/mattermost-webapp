@@ -1,40 +1,40 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getProfiles} from 'mattermost-redux/actions/users';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
-import {getTeam, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentUser, isFirstAdmin, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {selectChannel} from 'mattermost-redux/actions/channels';
 
 import {setShowNextStepsView} from 'actions/views/next_steps';
 import {closeRightHandSide} from 'actions/views/rhs';
-import {getGlobalHeaderEnabled} from 'selectors/global_header';
+import {getIsMobileView} from 'selectors/views/browser';
 import {GlobalState} from 'types/store';
 import {Preferences} from 'utils/constants';
+import {makeAsyncComponent} from 'components/async_load';
 
-import {getSteps, isFirstAdmin} from './steps';
-import NextStepsView from './next_steps_view';
+import {getSteps} from './steps';
+
+const NextStepsView = makeAsyncComponent('NextStepsView', React.lazy(() => import('./next_steps_view')));
 
 function makeMapStateToProps() {
     const getCategory = makeGetCategory();
 
     return (state: GlobalState) => {
-        const teamId = getCurrentTeamId(state);
-        const team = getTeam(state, teamId || '');
         return {
             currentUser: getCurrentUser(state),
             isAdmin: isCurrentUserSystemAdmin(state),
             preferences: getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
             steps: getSteps(state),
             isFirstAdmin: isFirstAdmin(state),
-            team,
             isCloud: getLicense(state).Cloud === 'true',
-            globalHeaderEnabled: getGlobalHeaderEnabled(state),
+            isMobileView: getIsMobileView(state),
         };
     };
 }
@@ -47,6 +47,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
                 setShowNextStepsView,
                 getProfiles,
                 closeRightHandSide,
+                selectChannel,
             },
             dispatch,
         ),

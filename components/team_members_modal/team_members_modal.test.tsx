@@ -5,21 +5,27 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
 
-import TeamMembersModal from 'components/team_members_modal/team_members_modal';
+import {TestHelper} from 'utils/test_helper';
+
+import TeamMembersModal from './team_members_modal';
 
 describe('components/TeamMembersModal', () => {
-    test('should match snapshot', () => {
-        function emptyFunction() {} //eslint-disable-line no-empty-function
+    const baseProps = {
+        currentTeam: TestHelper.getTeamMock({
+            id: 'id',
+            display_name: 'display name',
+        }),
+        onExited: jest.fn(),
+        onLoad: jest.fn(),
+        actions: {
+            openModal: jest.fn(),
+        },
+    };
 
+    test('should match snapshot', () => {
         const wrapper = shallow(
             <TeamMembersModal
-                currentTeam={{
-                    id: 'id',
-                    display_name: 'display name',
-                }}
-                onHide={emptyFunction}
-                onLoad={emptyFunction}
-                actions={{openModal: jest.fn()}}
+                {...baseProps}
             />,
         );
 
@@ -27,18 +33,9 @@ describe('components/TeamMembersModal', () => {
     });
 
     test('should call onHide on Modal\'s onExited', () => {
-        function emptyFunction() {} //eslint-disable-line no-empty-function
-        const onHide = jest.fn();
-
         const wrapper = shallow(
             <TeamMembersModal
-                currentTeam={{
-                    id: 'id',
-                    display_name: 'display name',
-                }}
-                onHide={onHide}
-                onLoad={emptyFunction}
-                actions={{openModal: jest.fn()}}
+                {...baseProps}
             />,
         );
 
@@ -46,6 +43,7 @@ describe('components/TeamMembersModal', () => {
         if (modalProps.onExited) {
             modalProps.onExited(document.createElement('div'));
         }
-        expect(onHide).toHaveBeenCalledTimes(1);
+
+        expect(baseProps.onExited).toHaveBeenCalledTimes(1);
     });
 });

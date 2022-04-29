@@ -12,12 +12,12 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import GroupMembersModal from 'components/admin_console/team_channel_settings/group/group_members_modal';
 
+import {ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 
 interface GroupRowProps {
     group: Partial<Group>;
     removeGroup: (gid: string) => void;
-    key?: string;
     setNewGroupRole: (gid: string) => void;
     type: string;
     isDisabled?: boolean;
@@ -93,6 +93,7 @@ export default class GroupRow extends React.PureComponent<GroupRowProps> {
                         <ToggleModalButton
                             id={`${group.display_name}MembersToggle`}
                             className='color--link'
+                            modalId={ModalIdentifiers.GROUP_MEMBERS}
                             dialogType={GroupMembersModal}
                             dialogProps={{
                                 group,

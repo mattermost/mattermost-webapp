@@ -33,24 +33,11 @@ export function warnMetricsStatus(state: GlobalState): any {
     return state.entities.general.warnMetricsStatus;
 }
 
-export function getSubscriptionStats(state: GlobalState): any {
-    return state.entities.cloud.subscriptionStats;
-}
-
 export function isCompatibleWithJoinViewTeamPermissions(state: GlobalState): boolean {
     const version = state.entities.general.serverVersion;
     return isMinimumServerVersion(version, 5, 10, 0) ||
        (version.indexOf('dev') !== -1 && isMinimumServerVersion(version, 5, 8, 0)) ||
        (version.match(/^5.8.\d.\d\d\d\d.*$/) !== null && isMinimumServerVersion(version, 5, 8, 0));
-}
-
-export function hasNewPermissions(state: GlobalState): boolean {
-    const version = state.entities.general.serverVersion;
-
-    // FIXME This must be changed to 4, 9, 0 before we generate the 4.9.0 release
-    return isMinimumServerVersion(version, 4, 9, 0) ||
-           (version.indexOf('dev') !== -1 && isMinimumServerVersion(version, 4, 8, 0)) ||
-           (version.match(/^4.8.\d.\d\d\d\d.*$/) !== null && isMinimumServerVersion(version, 4, 8, 0));
 }
 
 export const canUploadFilesOnMobile: (a: GlobalState) => boolean = createSelector(
@@ -107,4 +94,12 @@ export const getServerVersion = (state: GlobalState): string => {
 
 export function getFirstAdminVisitMarketplaceStatus(state: GlobalState): boolean {
     return state.entities.general.firstAdminVisitMarketplaceStatus;
+}
+
+export function getFirstAdminSetupComplete(state: GlobalState): boolean {
+    return state.entities.general.firstAdminCompleteSetup;
+}
+
+export function isPerformanceDebuggingEnabled(state: GlobalState): boolean {
+    return state.entities.general.config.EnableClientPerformanceDebugging === 'true';
 }

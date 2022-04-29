@@ -16,6 +16,7 @@ interface Props {
     isDefault: boolean;
     onToggle: (isSynced: boolean, isPublic: boolean) => void;
     isDisabled?: boolean;
+    groupsSupported?: boolean;
 }
 
 const SyncGroupsToggle: React.SFC<Props> = (props: Props): JSX.Element => {
@@ -76,13 +77,12 @@ const AllowAllToggle: React.SFC<Props> = (props: Props): JSX.Element | null => {
                     id='admin.channel_settings.channel_details.isDefaultDescr'
                     defaultMessage='This default channel cannot be converted into a private channel.'
                 />
-            ) :
-                (
-                    <FormattedMessage
-                        id='admin.channel_settings.channel_details.isPublicDescr'
-                        defaultMessage='If `public` the channel is discoverable and any user can join, or if `private` invitations are required. Toggle to convert public channels to private. When Group Sync is enabled, private channels cannot be converted to public.'
-                    />
-                )
+            ) : (
+                <FormattedMessage
+                    id='admin.channel_settings.channel_details.isPublicDescr'
+                    defaultMessage='If `public` the channel is discoverable and any user can join, or if `private` invitations are required. Toggle to convert public channels to private. When Group Sync is enabled, private channels cannot be converted to public.'
+                />
+            )
             }
             onText={(
                 <FormattedMessage
@@ -101,7 +101,7 @@ const AllowAllToggle: React.SFC<Props> = (props: Props): JSX.Element | null => {
 };
 
 export const ChannelModes: React.SFC<Props> = (props: Props): JSX.Element => {
-    const {isPublic, isSynced, isDefault, onToggle, isDisabled} = props;
+    const {isPublic, isSynced, isDefault, onToggle, isDisabled, groupsSupported} = props;
     return (
         <AdminPanel
             id='channel_manage'
@@ -112,13 +112,14 @@ export const ChannelModes: React.SFC<Props> = (props: Props): JSX.Element => {
         >
             <div className='group-teams-and-channels'>
                 <div className='group-teams-and-channels--body'>
-                    <SyncGroupsToggle
-                        isPublic={isPublic}
-                        isSynced={isSynced}
-                        isDefault={isDefault}
-                        onToggle={onToggle}
-                        isDisabled={isDisabled}
-                    />
+                    {groupsSupported &&
+                        <SyncGroupsToggle
+                            isPublic={isPublic}
+                            isSynced={isSynced}
+                            isDefault={isDefault}
+                            onToggle={onToggle}
+                            isDisabled={isDisabled}
+                        /> }
                     <AllowAllToggle
                         isPublic={isPublic}
                         isSynced={isSynced}

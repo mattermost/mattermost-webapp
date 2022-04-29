@@ -6,6 +6,8 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
   data-a11y-sort-order="0"
   id="rhsPost_id"
   onClick={[Function]}
+  onMouseLeave={[Function]}
+  onMouseOver={[Function]}
   post={
     Object {
       "channel_id": "channel_id",
@@ -79,8 +81,7 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
             key="user_id"
             userId="user_id"
           />
-          <CustomStatusEmoji
-            emojiSize={16}
+          <Memo(CustomStatusEmoji)
             emojiStyle={
               Object {
                 "marginLeft": 4,
@@ -88,8 +89,6 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
               }
             }
             showTooltip={true}
-            spanStyle={Object {}}
-            tooltipDirection="top"
             userID="user_id"
           />
         </div>
@@ -148,17 +147,13 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
             location="RHS_ROOT"
             postId="id"
           />
-        </div>
-      </div>
-      <div
-        className="post__body"
-      >
-        <div
-          className=" post--edited"
-        >
-          <MessageWithAdditionalContent
-            isEmbedVisible={false}
-            pluginPostTypes={Object {}}
+          <Connect(injectIntl(ActionMenuClass))
+            handleDismissTip={[Function]}
+            handleDropdownOpened={[Function]}
+            handleNextTip={[Function]}
+            handleOpenTip={[Function]}
+            isMenuOpen={false}
+            location="RHS_ROOT"
             post={
               Object {
                 "channel_id": "channel_id",
@@ -177,8 +172,287 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
                 "user_id": "user_id",
               }
             }
-            previewCollapsed=""
-            previewEnabled={false}
+            showTutorialTip={false}
+          />
+        </div>
+      </div>
+      <div
+        className="post__body"
+      >
+        <div
+          className="post__body--transition post--edited"
+        >
+          <AutoHeightSwitcher
+            onTransitionEnd={[Function]}
+            showSlot={1}
+            slot1={
+              <MessageWithAdditionalContent
+                isEmbedVisible={false}
+                pluginPostTypes={Object {}}
+                post={
+                  Object {
+                    "channel_id": "channel_id",
+                    "create_at": 1502715365009,
+                    "delete_at": 0,
+                    "edit_at": 1502715372443,
+                    "id": "id",
+                    "is_pinned": false,
+                    "message": "post message",
+                    "original_id": "",
+                    "pending_post_id": "",
+                    "props": Object {},
+                    "root_id": "",
+                    "type": "",
+                    "update_at": 1502715372443,
+                    "user_id": "user_id",
+                  }
+                }
+                previewCollapsed=""
+                previewEnabled={false}
+              />
+            }
+            slot2={<Memo(Connect(EditPost)) />}
+          />
+        </div>
+        <Connect(ReactionList)
+          isReadOnly={false}
+          post={
+            Object {
+              "channel_id": "channel_id",
+              "create_at": 1502715365009,
+              "delete_at": 0,
+              "edit_at": 1502715372443,
+              "id": "id",
+              "is_pinned": false,
+              "message": "post message",
+              "original_id": "",
+              "pending_post_id": "",
+              "props": Object {},
+              "root_id": "",
+              "type": "",
+              "update_at": 1502715372443,
+              "user_id": "user_id",
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+</PostAriaLabelDiv>
+`;
+
+exports[`components/RhsRootPost should match snapshot hovered 1`] = `
+<PostAriaLabelDiv
+  className="thread__root a11y__section post post--root post--thread current--user post--compact"
+  data-a11y-sort-order="0"
+  id="rhsPost_id"
+  onClick={[Function]}
+  onMouseLeave={[Function]}
+  onMouseOver={[Function]}
+  post={
+    Object {
+      "channel_id": "channel_id",
+      "create_at": 1502715365009,
+      "delete_at": 0,
+      "edit_at": 1502715372443,
+      "id": "id",
+      "is_pinned": false,
+      "message": "post message",
+      "original_id": "",
+      "pending_post_id": "",
+      "props": Object {},
+      "root_id": "",
+      "type": "",
+      "update_at": 1502715372443,
+      "user_id": "user_id",
+    }
+  }
+  role="listitem"
+  tabIndex="-1"
+>
+  <Connect(injectIntl(PostPreHeader))
+    channelId="channel_id"
+    isFlagged={false}
+    isPinned={false}
+  />
+  <div
+    className="post__content"
+    role="application"
+  >
+    <div
+      className="post__img"
+    >
+      <Connect(PostProfilePicture)
+        channelId="channel_id"
+        compactDisplay={true}
+        isBusy={false}
+        isRHS={true}
+        post={
+          Object {
+            "channel_id": "channel_id",
+            "create_at": 1502715365009,
+            "delete_at": 0,
+            "edit_at": 1502715372443,
+            "id": "id",
+            "is_pinned": false,
+            "message": "post message",
+            "original_id": "",
+            "pending_post_id": "",
+            "props": Object {},
+            "root_id": "",
+            "type": "",
+            "update_at": 1502715372443,
+            "user_id": "user_id",
+          }
+        }
+        userId="user_id"
+      />
+    </div>
+    <div>
+      <div
+        className="post__header"
+      >
+        <div
+          className="col__name"
+        >
+          <Connect(UserProfile)
+            hasMention={true}
+            isBusy={false}
+            isRHS={true}
+            key="user_id"
+            userId="user_id"
+          />
+          <Memo(CustomStatusEmoji)
+            emojiStyle={
+              Object {
+                "marginLeft": 4,
+                "marginTop": 2,
+              }
+            }
+            showTooltip={true}
+            userID="user_id"
+          />
+        </div>
+        <div
+          className="col"
+        >
+          <Connect(PostTime)
+            eventTime={1502715365009}
+            isPermalink={true}
+            location="RHS_ROOT"
+            postId="id"
+          />
+        </div>
+        <div
+          className="col post-menu"
+        >
+          <Connect(injectIntl(DotMenuClass))
+            commentCount={0}
+            enableEmojiPicker={true}
+            handleAddReactionClick={[Function]}
+            handleDropdownOpened={[Function]}
+            isFlagged={false}
+            isMenuOpen={false}
+            isReadOnly={false}
+            location="RHS_ROOT"
+            post={
+              Object {
+                "channel_id": "channel_id",
+                "create_at": 1502715365009,
+                "delete_at": 0,
+                "edit_at": 1502715372443,
+                "id": "id",
+                "is_pinned": false,
+                "message": "post message",
+                "original_id": "",
+                "pending_post_id": "",
+                "props": Object {},
+                "root_id": "",
+                "type": "",
+                "update_at": 1502715372443,
+                "user_id": "user_id",
+              }
+            }
+          />
+          <Connect(PostReaction)
+            channelId="channel_id"
+            getDotMenuRef={[Function]}
+            location="RHS_ROOT"
+            postId="id"
+            showEmojiPicker={false}
+            teamId="team_id"
+            toggleEmojiPicker={[Function]}
+          />
+          <Connect(PostFlagIcon)
+            isFlagged={false}
+            location="RHS_ROOT"
+            postId="id"
+          />
+          <Connect(injectIntl(ActionMenuClass))
+            handleDismissTip={[Function]}
+            handleDropdownOpened={[Function]}
+            handleNextTip={[Function]}
+            handleOpenTip={[Function]}
+            isMenuOpen={false}
+            location="RHS_ROOT"
+            post={
+              Object {
+                "channel_id": "channel_id",
+                "create_at": 1502715365009,
+                "delete_at": 0,
+                "edit_at": 1502715372443,
+                "id": "id",
+                "is_pinned": false,
+                "message": "post message",
+                "original_id": "",
+                "pending_post_id": "",
+                "props": Object {},
+                "root_id": "",
+                "type": "",
+                "update_at": 1502715372443,
+                "user_id": "user_id",
+              }
+            }
+            showTutorialTip={false}
+          />
+        </div>
+      </div>
+      <div
+        className="post__body"
+      >
+        <div
+          className="post__body--transition post--edited"
+        >
+          <AutoHeightSwitcher
+            onTransitionEnd={[Function]}
+            showSlot={1}
+            slot1={
+              <MessageWithAdditionalContent
+                isEmbedVisible={false}
+                pluginPostTypes={Object {}}
+                post={
+                  Object {
+                    "channel_id": "channel_id",
+                    "create_at": 1502715365009,
+                    "delete_at": 0,
+                    "edit_at": 1502715372443,
+                    "id": "id",
+                    "is_pinned": false,
+                    "message": "post message",
+                    "original_id": "",
+                    "pending_post_id": "",
+                    "props": Object {},
+                    "root_id": "",
+                    "type": "",
+                    "update_at": 1502715372443,
+                    "user_id": "user_id",
+                  }
+                }
+                previewCollapsed=""
+                previewEnabled={false}
+              />
+            }
+            slot2={<Memo(Connect(EditPost)) />}
           />
         </div>
         <Connect(ReactionList)
@@ -214,6 +488,8 @@ exports[`components/RhsRootPost should match snapshot on CRT enabled 1`] = `
   data-a11y-sort-order="0"
   id="rhsPost_id"
   onClick={[Function]}
+  onMouseLeave={[Function]}
+  onMouseOver={[Function]}
   post={
     Object {
       "channel_id": "channel_id",
@@ -287,8 +563,7 @@ exports[`components/RhsRootPost should match snapshot on CRT enabled 1`] = `
             key="user_id"
             userId="user_id"
           />
-          <CustomStatusEmoji
-            emojiSize={16}
+          <Memo(CustomStatusEmoji)
             emojiStyle={
               Object {
                 "marginLeft": 4,
@@ -296,8 +571,6 @@ exports[`components/RhsRootPost should match snapshot on CRT enabled 1`] = `
               }
             }
             showTooltip={true}
-            spanStyle={Object {}}
-            tooltipDirection="top"
             userID="user_id"
           />
         </div>
@@ -327,6 +600,33 @@ exports[`components/RhsRootPost should match snapshot on CRT enabled 1`] = `
             isFlagged={false}
             location="RHS_ROOT"
             postId="id"
+          />
+          <Connect(injectIntl(ActionMenuClass))
+            handleDismissTip={[Function]}
+            handleDropdownOpened={[Function]}
+            handleNextTip={[Function]}
+            handleOpenTip={[Function]}
+            isMenuOpen={false}
+            location="RHS_ROOT"
+            post={
+              Object {
+                "channel_id": "channel_id",
+                "create_at": 1502715365009,
+                "delete_at": 0,
+                "edit_at": 1502715372443,
+                "id": "id",
+                "is_pinned": false,
+                "message": "post message",
+                "original_id": "",
+                "pending_post_id": "",
+                "props": Object {},
+                "root_id": "",
+                "type": "",
+                "update_at": 1502715372443,
+                "user_id": "user_id",
+              }
+            }
+            showTutorialTip={false}
           />
           <Connect(injectIntl(DotMenuClass))
             commentCount={0}
@@ -362,31 +662,38 @@ exports[`components/RhsRootPost should match snapshot on CRT enabled 1`] = `
         className="post__body"
       >
         <div
-          className=" post--edited"
+          className="post__body--transition post--edited"
         >
-          <MessageWithAdditionalContent
-            isEmbedVisible={false}
-            pluginPostTypes={Object {}}
-            post={
-              Object {
-                "channel_id": "channel_id",
-                "create_at": 1502715365009,
-                "delete_at": 0,
-                "edit_at": 1502715372443,
-                "id": "id",
-                "is_pinned": false,
-                "message": "post message",
-                "original_id": "",
-                "pending_post_id": "",
-                "props": Object {},
-                "root_id": "",
-                "type": "",
-                "update_at": 1502715372443,
-                "user_id": "user_id",
-              }
+          <AutoHeightSwitcher
+            onTransitionEnd={[Function]}
+            showSlot={1}
+            slot1={
+              <MessageWithAdditionalContent
+                isEmbedVisible={false}
+                pluginPostTypes={Object {}}
+                post={
+                  Object {
+                    "channel_id": "channel_id",
+                    "create_at": 1502715365009,
+                    "delete_at": 0,
+                    "edit_at": 1502715372443,
+                    "id": "id",
+                    "is_pinned": false,
+                    "message": "post message",
+                    "original_id": "",
+                    "pending_post_id": "",
+                    "props": Object {},
+                    "root_id": "",
+                    "type": "",
+                    "update_at": 1502715372443,
+                    "user_id": "user_id",
+                  }
+                }
+                previewCollapsed=""
+                previewEnabled={false}
+              />
             }
-            previewCollapsed=""
-            previewEnabled={false}
+            slot2={<Memo(Connect(EditPost)) />}
           />
         </div>
         <Connect(ReactionList)
@@ -422,6 +729,8 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
   data-a11y-sort-order="0"
   id="rhsPost_id"
   onClick={[Function]}
+  onMouseLeave={[Function]}
+  onMouseOver={[Function]}
   post={
     Object {
       "channel_id": "channel_id",
@@ -497,8 +806,7 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
             key="user_id"
             userId="user_id"
           />
-          <CustomStatusEmoji
-            emojiSize={16}
+          <Memo(CustomStatusEmoji)
             emojiStyle={
               Object {
                 "marginLeft": 4,
@@ -506,8 +814,6 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
               }
             }
             showTooltip={true}
-            spanStyle={Object {}}
-            tooltipDirection="top"
             userID="user_id"
           />
         </div>
@@ -526,32 +832,39 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
         className="post__body"
       >
         <div
-          className=" post--edited"
+          className="post__body--transition post--edited"
         >
-          <MessageWithAdditionalContent
-            isEmbedVisible={false}
-            pluginPostTypes={Object {}}
-            post={
-              Object {
-                "channel_id": "channel_id",
-                "create_at": 1502715365009,
-                "delete_at": 0,
-                "edit_at": 1502715372443,
-                "id": "id",
-                "is_pinned": false,
-                "message": "post message",
-                "original_id": "",
-                "pending_post_id": "",
-                "props": Object {},
-                "root_id": "",
-                "state": "DELETED",
-                "type": "",
-                "update_at": 1502715372443,
-                "user_id": "user_id",
-              }
+          <AutoHeightSwitcher
+            onTransitionEnd={[Function]}
+            showSlot={1}
+            slot1={
+              <MessageWithAdditionalContent
+                isEmbedVisible={false}
+                pluginPostTypes={Object {}}
+                post={
+                  Object {
+                    "channel_id": "channel_id",
+                    "create_at": 1502715365009,
+                    "delete_at": 0,
+                    "edit_at": 1502715372443,
+                    "id": "id",
+                    "is_pinned": false,
+                    "message": "post message",
+                    "original_id": "",
+                    "pending_post_id": "",
+                    "props": Object {},
+                    "root_id": "",
+                    "state": "DELETED",
+                    "type": "",
+                    "update_at": 1502715372443,
+                    "user_id": "user_id",
+                  }
+                }
+                previewCollapsed=""
+                previewEnabled={false}
+              />
             }
-            previewCollapsed=""
-            previewEnabled={false}
+            slot2={<Memo(Connect(EditPost)) />}
           />
         </div>
         <Connect(ReactionList)
@@ -588,6 +901,8 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
   data-a11y-sort-order="0"
   id="rhsPost_id"
   onClick={[Function]}
+  onMouseLeave={[Function]}
+  onMouseOver={[Function]}
   post={
     Object {
       "channel_id": "channel_id",
@@ -665,8 +980,7 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
             key="user_id"
             userId="user_id"
           />
-          <CustomStatusEmoji
-            emojiSize={16}
+          <Memo(CustomStatusEmoji)
             emojiStyle={
               Object {
                 "marginLeft": 4,
@@ -674,8 +988,6 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
               }
             }
             showTooltip={true}
-            spanStyle={Object {}}
-            tooltipDirection="top"
             userID="user_id"
           />
         </div>
@@ -694,33 +1006,40 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
         className="post__body"
       >
         <div
-          className=" post--edited"
+          className="post__body--transition post--edited"
         >
-          <MessageWithAdditionalContent
-            isEmbedVisible={false}
-            pluginPostTypes={Object {}}
-            post={
-              Object {
-                "channel_id": "channel_id",
-                "create_at": 1502715365009,
-                "delete_at": 0,
-                "edit_at": 1502715372443,
-                "id": "id",
-                "isFlagged": true,
-                "is_pinned": false,
-                "message": "post message",
-                "original_id": "",
-                "pending_post_id": "",
-                "props": Object {},
-                "root_id": "",
-                "state": "DELETED",
-                "type": "",
-                "update_at": 1502715372443,
-                "user_id": "user_id",
-              }
+          <AutoHeightSwitcher
+            onTransitionEnd={[Function]}
+            showSlot={1}
+            slot1={
+              <MessageWithAdditionalContent
+                isEmbedVisible={false}
+                pluginPostTypes={Object {}}
+                post={
+                  Object {
+                    "channel_id": "channel_id",
+                    "create_at": 1502715365009,
+                    "delete_at": 0,
+                    "edit_at": 1502715372443,
+                    "id": "id",
+                    "isFlagged": true,
+                    "is_pinned": false,
+                    "message": "post message",
+                    "original_id": "",
+                    "pending_post_id": "",
+                    "props": Object {},
+                    "root_id": "",
+                    "state": "DELETED",
+                    "type": "",
+                    "update_at": 1502715372443,
+                    "user_id": "user_id",
+                  }
+                }
+                previewCollapsed=""
+                previewEnabled={false}
+              />
             }
-            previewCollapsed=""
-            previewEnabled={false}
+            slot2={<Memo(Connect(EditPost)) />}
           />
         </div>
         <Connect(ReactionList)
@@ -758,6 +1077,8 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
   data-a11y-sort-order="0"
   id="rhsPost_id"
   onClick={[Function]}
+  onMouseLeave={[Function]}
+  onMouseOver={[Function]}
   post={
     Object {
       "channel_id": "channel_id",
@@ -831,8 +1152,7 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
             key="user_id"
             userId="user_id"
           />
-          <CustomStatusEmoji
-            emojiSize={16}
+          <Memo(CustomStatusEmoji)
             emojiStyle={
               Object {
                 "marginLeft": 4,
@@ -840,8 +1160,6 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
               }
             }
             showTooltip={true}
-            spanStyle={Object {}}
-            tooltipDirection="top"
             userID="user_id"
           />
         </div>
@@ -900,17 +1218,13 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
             location="RHS_ROOT"
             postId="id"
           />
-        </div>
-      </div>
-      <div
-        className="post__body"
-      >
-        <div
-          className=" post--edited"
-        >
-          <MessageWithAdditionalContent
-            isEmbedVisible={false}
-            pluginPostTypes={Object {}}
+          <Connect(injectIntl(ActionMenuClass))
+            handleDismissTip={[Function]}
+            handleDropdownOpened={[Function]}
+            handleNextTip={[Function]}
+            handleOpenTip={[Function]}
+            isMenuOpen={false}
+            location="RHS_ROOT"
             post={
               Object {
                 "channel_id": "channel_id",
@@ -929,8 +1243,46 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
                 "user_id": "user_id",
               }
             }
-            previewCollapsed=""
-            previewEnabled={false}
+            showTutorialTip={false}
+          />
+        </div>
+      </div>
+      <div
+        className="post__body"
+      >
+        <div
+          className="post__body--transition post--edited"
+        >
+          <AutoHeightSwitcher
+            onTransitionEnd={[Function]}
+            showSlot={1}
+            slot1={
+              <MessageWithAdditionalContent
+                isEmbedVisible={false}
+                pluginPostTypes={Object {}}
+                post={
+                  Object {
+                    "channel_id": "channel_id",
+                    "create_at": 1502715365009,
+                    "delete_at": 0,
+                    "edit_at": 1502715372443,
+                    "id": "id",
+                    "is_pinned": false,
+                    "message": "post message",
+                    "original_id": "",
+                    "pending_post_id": "",
+                    "props": Object {},
+                    "root_id": "",
+                    "type": "",
+                    "update_at": 1502715372443,
+                    "user_id": "user_id",
+                  }
+                }
+                previewCollapsed=""
+                previewEnabled={false}
+              />
+            }
+            slot2={<Memo(Connect(EditPost)) />}
           />
         </div>
         <Connect(ReactionList)

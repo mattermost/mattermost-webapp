@@ -10,6 +10,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getPost, makeGetPostIdsForThread} from 'mattermost-redux/selectors/entities/posts';
 import {getThread} from 'mattermost-redux/selectors/entities/threads';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 
 import {removePost, getPostThread} from 'mattermost-redux/actions/posts';
 import {getThread as fetchThread, updateThreadRead} from 'mattermost-redux/actions/threads';
@@ -20,7 +21,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 
 import {getSocketStatus} from 'selectors/views/websocket';
 import {selectPostCard} from 'actions/views/rhs';
-import {getHighlightedPostId} from 'selectors/rhs';
+import {getHighlightedPostId, getSelectedPostFocussedAt} from 'selectors/rhs';
 import {updateThreadLastOpened} from 'actions/views/threads';
 import {GlobalState} from 'types/store';
 
@@ -42,6 +43,7 @@ function makeMapStateToProps() {
         const selected = getPost(state, rootPostId);
         const socketStatus = getSocketStatus(state);
         const highlightedPostId = getHighlightedPostId(state);
+        const selectedPostFocusedAt = getSelectedPostFocussedAt(state);
 
         let postIds: string[] = [];
         let userThread: UserThread | null = null;
@@ -55,6 +57,7 @@ function makeMapStateToProps() {
 
         return {
             isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
+            appsEnabled: appsEnabled(state),
             currentUserId,
             currentTeamId,
             userThread,
@@ -63,6 +66,7 @@ function makeMapStateToProps() {
             socketConnectionStatus: socketStatus.connected,
             channel,
             highlightedPostId,
+            selectedPostFocusedAt,
         };
     };
 }

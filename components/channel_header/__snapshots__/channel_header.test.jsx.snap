@@ -61,9 +61,7 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -96,16 +94,48 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <Connect(PopoverListMembers)
-            channel={
-              Object {
-                "delete_at": 0,
-                "id": "channel_id",
-                "name": "Test",
-                "team_id": "team_id",
-              }
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                id="channelMembersTooltip"
+              >
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Members"
+                  id="channel_header.channelMembers"
+                />
+              </Tooltip>
             }
-          />
+            placement="bottom"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <button
+              className="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
+              id="member_rhs"
+              onClick={[Function]}
+            >
+              <div
+                className="d-flex align-items-center"
+              >
+                <i
+                  aria-hidden="true"
+                  className="icon icon-account-outline channel-header__members"
+                />
+                <span
+                  className="icon__text"
+                  id="channelMemberCountText"
+                >
+                  -
+                </span>
+              </div>
+            </button>
+          </OverlayTrigger>
           <HeaderIconWrapper
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
@@ -145,7 +175,7 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
               onClick={[Function]}
             >
               <MemoizedFormattedMessage
-                defaultMessage="Add a channel description"
+                defaultMessage="Add a channel header"
                 id="channel_header.addChannelHeader"
               />
               <MemoizedFormattedMessage
@@ -175,7 +205,17 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
         }
       }
     />
-    <Connect(RHSSearchNav) />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "delete_at": 0,
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
+        }
+      }
+    />
   </div>
 </div>
 `;
@@ -241,9 +281,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -276,16 +314,48 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <Connect(PopoverListMembers)
-            channel={
-              Object {
-                "delete_at": 0,
-                "id": "channel_id",
-                "name": "Test",
-                "team_id": "team_id",
-              }
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                id="channelMembersTooltip"
+              >
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Members"
+                  id="channel_header.channelMembers"
+                />
+              </Tooltip>
             }
-          />
+            placement="bottom"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <button
+              className="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
+              id="member_rhs"
+              onClick={[Function]}
+            >
+              <div
+                className="d-flex align-items-center"
+              >
+                <i
+                  aria-hidden="true"
+                  className="icon icon-account-outline channel-header__members"
+                />
+                <span
+                  className="icon__text"
+                  id="channelMemberCountText"
+                >
+                  -
+                </span>
+              </div>
+            </button>
+          </OverlayTrigger>
           <HeaderIconWrapper
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
@@ -325,7 +395,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
               onClick={[Function]}
             >
               <MemoizedFormattedMessage
-                defaultMessage="Add a channel description"
+                defaultMessage="Add a channel header"
                 id="channel_header.addChannelHeader"
               />
               <MemoizedFormattedMessage
@@ -355,7 +425,17 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
         }
       }
     />
-    <Connect(RHSSearchNav) />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "delete_at": 0,
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
+        }
+      }
+    />
   </div>
 </div>
 `;
@@ -421,9 +501,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -456,16 +534,48 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <Connect(PopoverListMembers)
-            channel={
-              Object {
-                "delete_at": 0,
-                "id": "channel_id",
-                "name": "Test",
-                "team_id": "team_id",
-              }
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                id="channelMembersTooltip"
+              >
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Members"
+                  id="channel_header.channelMembers"
+                />
+              </Tooltip>
             }
-          />
+            placement="bottom"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <button
+              className="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
+              id="member_rhs"
+              onClick={[Function]}
+            >
+              <div
+                className="d-flex align-items-center"
+              >
+                <i
+                  aria-hidden="true"
+                  className="icon icon-account-outline channel-header__members"
+                />
+                <span
+                  className="icon__text"
+                  id="channelMemberCountText"
+                >
+                  -
+                </span>
+              </div>
+            </button>
+          </OverlayTrigger>
           <HeaderIconWrapper
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
@@ -505,7 +615,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
               onClick={[Function]}
             >
               <MemoizedFormattedMessage
-                defaultMessage="Add a channel description"
+                defaultMessage="Add a channel header"
                 id="channel_header.addChannelHeader"
               />
               <MemoizedFormattedMessage
@@ -535,7 +645,17 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
         }
       }
     />
-    <Connect(RHSSearchNav) />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "delete_at": 0,
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
+        }
+      }
+    />
   </div>
 </div>
 `;
@@ -601,9 +721,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -636,16 +754,48 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <Connect(PopoverListMembers)
-            channel={
-              Object {
-                "delete_at": 0,
-                "id": "channel_id",
-                "name": "Test",
-                "team_id": "team_id",
-              }
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                id="channelMembersTooltip"
+              >
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Members"
+                  id="channel_header.channelMembers"
+                />
+              </Tooltip>
             }
-          />
+            placement="bottom"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <button
+              className="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
+              id="member_rhs"
+              onClick={[Function]}
+            >
+              <div
+                className="d-flex align-items-center"
+              >
+                <i
+                  aria-hidden="true"
+                  className="icon icon-account-outline channel-header__members"
+                />
+                <span
+                  className="icon__text"
+                  id="channelMemberCountText"
+                >
+                  -
+                </span>
+              </div>
+            </button>
+          </OverlayTrigger>
           <HeaderIconWrapper
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left channel-header__icon--active"
@@ -685,7 +835,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
               onClick={[Function]}
             >
               <MemoizedFormattedMessage
-                defaultMessage="Add a channel description"
+                defaultMessage="Add a channel header"
                 id="channel_header.addChannelHeader"
               />
               <MemoizedFormattedMessage
@@ -715,7 +865,17 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
         }
       }
     />
-    <Connect(RHSSearchNav) />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "delete_at": 0,
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
+        }
+      }
+    />
   </div>
 </div>
 `;
@@ -784,16 +944,48 @@ exports[`components/ChannelHeader should render archived view 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <Connect(PopoverListMembers)
-            channel={
-              Object {
-                "delete_at": 1234,
-                "id": "channel_id",
-                "name": "Test",
-                "team_id": "team_id",
-              }
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                id="channelMembersTooltip"
+              >
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Members"
+                  id="channel_header.channelMembers"
+                />
+              </Tooltip>
             }
-          />
+            placement="bottom"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <button
+              className="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
+              id="member_rhs"
+              onClick={[Function]}
+            >
+              <div
+                className="d-flex align-items-center"
+              >
+                <i
+                  aria-hidden="true"
+                  className="icon icon-account-outline channel-header__members"
+                />
+                <span
+                  className="icon__text"
+                  id="channelMemberCountText"
+                >
+                  -
+                </span>
+              </div>
+            </button>
+          </OverlayTrigger>
           <HeaderIconWrapper
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
@@ -838,7 +1030,17 @@ exports[`components/ChannelHeader should render archived view 1`] = `
         }
       }
     />
-    <Connect(RHSSearchNav) />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "delete_at": 1234,
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
+        }
+      }
+    />
   </div>
 </div>
 `;
@@ -904,9 +1106,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -939,9 +1139,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
             delayShow={400}
             overlay={
               <Tooltip
-                bsClass="tooltip"
                 id="channelMutedTooltip"
-                placement="right"
               >
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Unmute"
@@ -973,16 +1171,48 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <Connect(PopoverListMembers)
-            channel={
-              Object {
-                "delete_at": 0,
-                "id": "channel_id",
-                "name": "Test",
-                "team_id": "team_id",
-              }
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                id="channelMembersTooltip"
+              >
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Members"
+                  id="channel_header.channelMembers"
+                />
+              </Tooltip>
             }
-          />
+            placement="bottom"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <button
+              className="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
+              id="member_rhs"
+              onClick={[Function]}
+            >
+              <div
+                className="d-flex align-items-center"
+              >
+                <i
+                  aria-hidden="true"
+                  className="icon icon-account-outline channel-header__members"
+                />
+                <span
+                  className="icon__text"
+                  id="channelMemberCountText"
+                >
+                  -
+                </span>
+              </div>
+            </button>
+          </OverlayTrigger>
           <HeaderIconWrapper
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
@@ -1022,7 +1252,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
               onClick={[Function]}
             >
               <MemoizedFormattedMessage
-                defaultMessage="Add a channel description"
+                defaultMessage="Add a channel header"
                 id="channel_header.addChannelHeader"
               />
               <MemoizedFormattedMessage
@@ -1052,7 +1282,17 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
         }
       }
     />
-    <Connect(RHSSearchNav) />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "delete_at": 0,
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
+        }
+      }
+    />
   </div>
 </div>
 `;
@@ -1118,9 +1358,7 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -1153,16 +1391,48 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <Connect(PopoverListMembers)
-            channel={
-              Object {
-                "delete_at": 0,
-                "id": "channel_id",
-                "name": "Test",
-                "team_id": "team_id",
-              }
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                id="channelMembersTooltip"
+              >
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Members"
+                  id="channel_header.channelMembers"
+                />
+              </Tooltip>
             }
-          />
+            placement="bottom"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <button
+              className="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
+              id="member_rhs"
+              onClick={[Function]}
+            >
+              <div
+                className="d-flex align-items-center"
+              >
+                <i
+                  aria-hidden="true"
+                  className="icon icon-account-outline channel-header__members"
+                />
+                <span
+                  className="icon__text"
+                  id="channelMemberCountText"
+                >
+                  -
+                </span>
+              </div>
+            </button>
+          </OverlayTrigger>
           <HeaderIconWrapper
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
@@ -1202,7 +1472,7 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
               onClick={[Function]}
             >
               <MemoizedFormattedMessage
-                defaultMessage="Add a channel description"
+                defaultMessage="Add a channel header"
                 id="channel_header.addChannelHeader"
               />
               <MemoizedFormattedMessage
@@ -1232,7 +1502,17 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
         }
       }
     />
-    <Connect(RHSSearchNav) />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "delete_at": 0,
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
+        }
+      }
+    />
   </div>
 </div>
 `;
@@ -1443,7 +1723,16 @@ exports[`components/ChannelHeader should render properly when custom status is e
         }
       }
     />
-    <Connect(RHSSearchNav) />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "header": "not the bot description",
+          "status": "offline",
+          "type": "D",
+        }
+      }
+    />
   </div>
 </div>
 `;
@@ -1538,8 +1827,7 @@ exports[`components/ChannelHeader should render properly when custom status is s
               defaultMessage="Offline"
               id="status_dropdown.set_offline"
             />
-            <CustomStatusEmoji
-              emojiSize={16}
+            <Memo(CustomStatusEmoji)
               emojiStyle={
                 Object {
                   "margin": "0 4px 1px",
@@ -1547,7 +1835,6 @@ exports[`components/ChannelHeader should render properly when custom status is s
                 }
               }
               showTooltip={true}
-              spanStyle={Object {}}
               tooltipDirection="bottom"
               userID="user_id"
             />
@@ -1672,7 +1959,16 @@ exports[`components/ChannelHeader should render properly when custom status is s
         }
       }
     />
-    <Connect(RHSSearchNav) />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "header": "not the bot description",
+          "status": "offline",
+          "type": "D",
+        }
+      }
+    />
   </div>
 </div>
 `;
@@ -1744,9 +2040,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -1779,16 +2073,48 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <Connect(PopoverListMembers)
-            channel={
-              Object {
-                "delete_at": 0,
-                "id": "channel_id",
-                "name": "Test",
-                "team_id": "team_id",
-              }
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                id="channelMembersTooltip"
+              >
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Members"
+                  id="channel_header.channelMembers"
+                />
+              </Tooltip>
             }
-          />
+            placement="bottom"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <button
+              className="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
+              id="member_rhs"
+              onClick={[Function]}
+            >
+              <div
+                className="d-flex align-items-center"
+              >
+                <i
+                  aria-hidden="true"
+                  className="icon icon-account-outline channel-header__members"
+                />
+                <span
+                  className="icon__text"
+                  id="channelMemberCountText"
+                >
+                  -
+                </span>
+              </div>
+            </button>
+          </OverlayTrigger>
           <HeaderIconWrapper
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
@@ -1828,7 +2154,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
               onClick={[Function]}
             >
               <MemoizedFormattedMessage
-                defaultMessage="Add a channel description"
+                defaultMessage="Add a channel header"
                 id="channel_header.addChannelHeader"
               />
               <MemoizedFormattedMessage
@@ -1858,7 +2184,17 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
         }
       }
     />
-    <Connect(RHSSearchNav) />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "delete_at": 0,
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
+        }
+      }
+    />
   </div>
 </div>
 `;
@@ -1928,23 +2264,48 @@ exports[`components/ChannelHeader should render properly when populated with cha
           dir="auto"
           id="channelHeaderDescription"
         >
-          <Connect(PopoverListMembers)
-            channel={
-              Object {
-                "header": "See ~test",
-                "id": "channel_id",
-                "name": "Test",
-                "props": Object {
-                  "channel_mentions": Object {
-                    "test": Object {
-                      "display_name": "Test",
-                    },
-                  },
-                },
-                "team_id": "team_id",
-              }
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                id="channelMembersTooltip"
+              >
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Members"
+                  id="channel_header.channelMembers"
+                />
+              </Tooltip>
             }
-          />
+            placement="bottom"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <button
+              className="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
+              id="member_rhs"
+              onClick={[Function]}
+            >
+              <div
+                className="d-flex align-items-center"
+              >
+                <i
+                  aria-hidden="true"
+                  className="icon icon-account-outline channel-header__members"
+                />
+                <span
+                  className="icon__text"
+                  id="channelMemberCountText"
+                >
+                  -
+                </span>
+              </div>
+            </button>
+          </OverlayTrigger>
           <HeaderIconWrapper
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
@@ -2080,7 +2441,24 @@ exports[`components/ChannelHeader should render properly when populated with cha
         }
       }
     />
-    <Connect(RHSSearchNav) />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "header": "See ~test",
+          "id": "channel_id",
+          "name": "Test",
+          "props": Object {
+            "channel_mentions": Object {
+              "test": Object {
+                "display_name": "Test",
+              },
+            },
+          },
+          "team_id": "team_id",
+        }
+      }
+    />
   </div>
 </div>
 `;
@@ -2152,9 +2530,7 @@ exports[`components/ChannelHeader should render shared view 1`] = `
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -2187,18 +2563,48 @@ exports[`components/ChannelHeader should render shared view 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <Connect(PopoverListMembers)
-            channel={
-              Object {
-                "delete_at": 0,
-                "id": "channel_id",
-                "name": "Test",
-                "shared": true,
-                "team_id": "team_id",
-                "type": "O",
-              }
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                id="channelMembersTooltip"
+              >
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Members"
+                  id="channel_header.channelMembers"
+                />
+              </Tooltip>
             }
-          />
+            placement="bottom"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <button
+              className="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
+              id="member_rhs"
+              onClick={[Function]}
+            >
+              <div
+                className="d-flex align-items-center"
+              >
+                <i
+                  aria-hidden="true"
+                  className="icon icon-account-outline channel-header__members"
+                />
+                <span
+                  className="icon__text"
+                  id="channelMemberCountText"
+                >
+                  -
+                </span>
+              </div>
+            </button>
+          </OverlayTrigger>
           <HeaderIconWrapper
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
@@ -2238,7 +2644,7 @@ exports[`components/ChannelHeader should render shared view 1`] = `
               onClick={[Function]}
             >
               <MemoizedFormattedMessage
-                defaultMessage="Add a channel description"
+                defaultMessage="Add a channel header"
                 id="channel_header.addChannelHeader"
               />
               <MemoizedFormattedMessage
@@ -2270,7 +2676,19 @@ exports[`components/ChannelHeader should render shared view 1`] = `
         }
       }
     />
-    <Connect(RHSSearchNav) />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "delete_at": 0,
+          "id": "channel_id",
+          "name": "Test",
+          "shared": true,
+          "team_id": "team_id",
+          "type": "O",
+        }
+      }
+    />
   </div>
 </div>
 `;
@@ -2336,9 +2754,7 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
               onEntering={[Function]}
               overlay={
                 <Tooltip
-                  bsClass="tooltip"
                   id="favoriteTooltip"
-                  placement="right"
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Add to Favorites"
@@ -2371,16 +2787,48 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <Connect(PopoverListMembers)
-            channel={
-              Object {
-                "delete_at": 0,
-                "id": "channel_id",
-                "name": "Test",
-                "team_id": "team_id",
-              }
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                id="channelMembersTooltip"
+              >
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Members"
+                  id="channel_header.channelMembers"
+                />
+              </Tooltip>
             }
-          />
+            placement="bottom"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <button
+              className="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
+              id="member_rhs"
+              onClick={[Function]}
+            >
+              <div
+                className="d-flex align-items-center"
+              >
+                <i
+                  aria-hidden="true"
+                  className="icon icon-account-outline channel-header__members"
+                />
+                <span
+                  className="icon__text"
+                  id="channelMemberCountText"
+                >
+                  -
+                </span>
+              </div>
+            </button>
+          </OverlayTrigger>
           <HeaderIconWrapper
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
@@ -2428,7 +2876,7 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
               onClick={[Function]}
             >
               <MemoizedFormattedMessage
-                defaultMessage="Add a channel description"
+                defaultMessage="Add a channel header"
                 id="channel_header.addChannelHeader"
               />
               <MemoizedFormattedMessage
@@ -2458,7 +2906,17 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
         }
       }
     />
-    <Connect(RHSSearchNav) />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "delete_at": 0,
+          "id": "channel_id",
+          "name": "Test",
+          "team_id": "team_id",
+        }
+      }
+    />
   </div>
 </div>
 `;

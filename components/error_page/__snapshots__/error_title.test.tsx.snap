@@ -14,9 +14,17 @@ exports[`components/error_page/ErrorTitle should match snapshot, local_storage t
 />
 `;
 
-exports[`components/error_page/ErrorTitle should match snapshot, no type but with title 1`] = `"error title"`;
+exports[`components/error_page/ErrorTitle should match snapshot, no type but with title 1`] = `
+<Fragment>
+  error title
+</Fragment>
+`;
 
-exports[`components/error_page/ErrorTitle should match snapshot, no type nor title 1`] = `"Error"`;
+exports[`components/error_page/ErrorTitle should match snapshot, no type nor title 1`] = `
+<Fragment>
+  Error
+</Fragment>
+`;
 
 exports[`components/error_page/ErrorTitle should match snapshot, oauth_access_denied type 1`] = `
 <MemoizedFormattedMessage

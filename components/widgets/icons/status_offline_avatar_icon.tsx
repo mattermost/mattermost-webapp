@@ -4,7 +4,7 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-export default function StatusDndAvatarIcon(props: React.HTMLAttributes<HTMLSpanElement>) {
+export default function StatusOfflineAvatarIcon(props: React.HTMLAttributes<HTMLSpanElement>) {
     const {formatMessage} = useIntl();
     return (
         <span {...props}>

@@ -2,8 +2,7 @@
 
 exports[`components/MenuItemToggleModalRedux should match snapshot with extra text 1`] = `
 <Fragment>
-  <Connect(injectIntl(ModalToggleButtonRedux))
-    accessibilityLabel="Whatever"
+  <Connect(injectIntl(ToggleModalButton))
     className="MenuItem__with-help"
     dialogProps={
       Object {
@@ -23,6 +22,6 @@ exports[`components/MenuItemToggleModalRedux should match snapshot with extra te
     >
       Extra text
     </span>
-  </Connect(injectIntl(ModalToggleButtonRedux))>
+  </Connect(injectIntl(ToggleModalButton))>
 </Fragment>
 `;

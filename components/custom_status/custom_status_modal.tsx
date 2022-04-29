@@ -24,6 +24,7 @@ import {GlobalState} from 'types/store';
 import {getCurrentMomentForTimezone} from 'utils/timezone';
 import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
+import {localizeMessage} from 'utils/utils';
 
 import CustomStatusSuggestion from 'components/custom_status/custom_status_suggestion';
 import ExpiryMenu from 'components/custom_status/expiry_menu';
@@ -33,7 +34,7 @@ import 'components/category_modal.scss';
 import './custom_status.scss';
 
 type Props = {
-    onHide: () => void;
+    onExited: () => void;
 };
 
 // This is the same limit set
@@ -130,18 +131,28 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         dispatch(loadCustomEmojisIfNeeded(Array.from(emojisToLoad)));
     };
 
+    const handleStatusExpired = () => {
+        if (customStatusExpired && currentCustomStatus) {
+            dispatch(unsetCustomStatus());
+        }
+    };
+
     useEffect(() => {
         handleCustomStatusInitializationState();
         loadCustomEmojisForRecentStatuses();
+        handleStatusExpired();
     }, []);
 
     const handleSetStatus = () => {
-        const customStatus = {
+        const expiresAt = calculateExpiryTime();
+        const customStatus: UserCustomStatus = {
             emoji: emoji || 'speech_balloon',
             text: text.trim(),
             duration: duration === CUSTOM_DATE_TIME ? DATE_AND_TIME : duration,
-            expires_at: calculateExpiryTime(),
         };
+        if (expiresAt) {
+            customStatus.expires_at = expiresAt;
+        }
         dispatch(setCustomStatus(customStatus));
     };
 
@@ -292,7 +303,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     return (
         <GenericModal
             enforceFocus={false}
-            onHide={props.onHide}
+            onExited={props.onExited}
             modalHeaderText={
                 <FormattedMessage
                     id='custom_status.set_status'
@@ -315,8 +326,10 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
             id='custom_status_modal'
             className={'StatusModal'}
             handleConfirm={handleSetStatus}
+            handleEnterKeyPress={handleSetStatus}
             handleCancel={handleClearStatus}
             confirmButtonClassName='btn btn-primary'
+            ariaLabel={localizeMessage('custom_status.set_status', 'Set a status')}
         >
             <div className='StatusModal__body'>
                 <div className='StatusModal__input'>

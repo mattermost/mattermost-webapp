@@ -4,16 +4,19 @@ exports[`components/TextBox should match snapshot with additional, optional prop
 <div
   className="textarea-wrapper textarea-wrapper--preview"
 >
-  <SuggestionBox
+  <Connect(SuggestionBox)
     channelId="channelId"
     className="form-control custom-textarea custom-textarea--emoji-picker bad-connection custom-textarea--preview"
-    completeOnTab={true}
-    containerClass=""
     contextId="channelId"
     disabled={true}
-    forceSuggestionsWhenBlur={false}
     id="someid"
-    inputComponent={[Function]}
+    inputComponent={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "displayName": "AutosizeTextarea",
+        "render": [Function],
+      }
+    }
     isRHS={true}
     listComponent={[Function]}
     listPosition="top"
@@ -27,12 +30,12 @@ exports[`components/TextBox should match snapshot with additional, optional prop
     onKeyUp={[Function]}
     onMouseUp={[Function]}
     onSelect={[Function]}
-    openOnFocus={false}
     openWhenEmpty={true}
     placeholder="placeholder text"
     providers={
       Array [
         AtMentionProvider {
+          "addLastViewAtToProfiles": [Function],
           "autocompleteGroups": Array [
             Object {
               "id": "gid1",
@@ -42,22 +45,16 @@ exports[`components/TextBox should match snapshot with additional, optional prop
             },
           ],
           "autocompleteUsersInChannel": [Function],
+          "channelId": "channelId",
           "currentUserId": "currentUserId",
           "data": null,
           "disableDispatches": false,
+          "getProfilesInChannel": [Function],
           "lastCompletedWord": "",
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
           "priorityProfiles": undefined,
-          "profilesInChannel": Array [
-            Object {
-              "id": "id1",
-            },
-            Object {
-              "id": "id2",
-            },
-          ],
           "requestStarted": false,
           "searchAssociatedGroupsForReference": [Function],
           "triggerCharacter": "@",
@@ -83,10 +80,11 @@ exports[`components/TextBox should match snapshot with additional, optional prop
         },
       ]
     }
-    renderDividers={true}
-    renderNoResults={false}
-    replaceAllInputOnSelect={false}
-    requiredCharacters={1}
+    renderDividers={
+      Array [
+        "all",
+      ]
+    }
     spellCheck="true"
     style={
       Object {
@@ -117,18 +115,20 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
 <div
   className="textarea-wrapper"
 >
-  <SuggestionBox
+  <Connect(SuggestionBox)
     channelId="channelId"
     className="form-control custom-textarea"
-    completeOnTab={true}
-    containerClass=""
     contextId="channelId"
-    forceSuggestionsWhenBlur={false}
     id="someid"
-    inputComponent={[Function]}
+    inputComponent={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "displayName": "AutosizeTextarea",
+        "render": [Function],
+      }
+    }
     isRHS={false}
     listComponent={[Function]}
-    listPosition="top"
     listenForMentionKeyClick={false}
     onBlur={[Function]}
     onChange={[Function]}
@@ -138,12 +138,11 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
     onKeyUp={[Function]}
     onMouseUp={[Function]}
     onSelect={[Function]}
-    openOnFocus={false}
-    openWhenEmpty={false}
     placeholder="placeholder text"
     providers={
       Array [
         AtMentionProvider {
+          "addLastViewAtToProfiles": [Function],
           "autocompleteGroups": Array [
             Object {
               "id": "gid1",
@@ -153,22 +152,16 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
             },
           ],
           "autocompleteUsersInChannel": [Function],
+          "channelId": "channelId",
           "currentUserId": "currentUserId",
           "data": null,
           "disableDispatches": false,
+          "getProfilesInChannel": [Function],
           "lastCompletedWord": "",
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
           "priorityProfiles": undefined,
-          "profilesInChannel": Array [
-            Object {
-              "id": "id1",
-            },
-            Object {
-              "id": "id2",
-            },
-          ],
           "requestStarted": false,
           "searchAssociatedGroupsForReference": [Function],
           "triggerCharacter": "@",
@@ -194,10 +187,11 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
         },
       ]
     }
-    renderDividers={true}
-    renderNoResults={false}
-    replaceAllInputOnSelect={false}
-    requiredCharacters={1}
+    renderDividers={
+      Array [
+        "all",
+      ]
+    }
     spellCheck="true"
     style={
       Object {
@@ -213,18 +207,20 @@ exports[`components/TextBox should throw error when new property is too long 1`]
 <div
   className="textarea-wrapper"
 >
-  <SuggestionBox
+  <Connect(SuggestionBox)
     channelId="channelId"
     className="form-control custom-textarea"
-    completeOnTab={true}
-    containerClass=""
     contextId="channelId"
-    forceSuggestionsWhenBlur={false}
     id="someid"
-    inputComponent={[Function]}
+    inputComponent={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "displayName": "AutosizeTextarea",
+        "render": [Function],
+      }
+    }
     isRHS={false}
     listComponent={[Function]}
-    listPosition="top"
     listenForMentionKeyClick={false}
     onBlur={[Function]}
     onChange={[Function]}
@@ -234,12 +230,11 @@ exports[`components/TextBox should throw error when new property is too long 1`]
     onKeyUp={[Function]}
     onMouseUp={[Function]}
     onSelect={[Function]}
-    openOnFocus={false}
-    openWhenEmpty={false}
     placeholder="placeholder text"
     providers={
       Array [
         AtMentionProvider {
+          "addLastViewAtToProfiles": [Function],
           "autocompleteGroups": Array [
             Object {
               "id": "gid1",
@@ -249,22 +244,16 @@ exports[`components/TextBox should throw error when new property is too long 1`]
             },
           ],
           "autocompleteUsersInChannel": [Function],
+          "channelId": "channelId",
           "currentUserId": "currentUserId",
           "data": null,
           "disableDispatches": false,
+          "getProfilesInChannel": [Function],
           "lastCompletedWord": "",
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
           "priorityProfiles": undefined,
-          "profilesInChannel": Array [
-            Object {
-              "id": "id1",
-            },
-            Object {
-              "id": "id2",
-            },
-          ],
           "requestStarted": false,
           "searchAssociatedGroupsForReference": [Function],
           "triggerCharacter": "@",
@@ -290,10 +279,11 @@ exports[`components/TextBox should throw error when new property is too long 1`]
         },
       ]
     }
-    renderDividers={true}
-    renderNoResults={false}
-    replaceAllInputOnSelect={false}
-    requiredCharacters={1}
+    renderDividers={
+      Array [
+        "all",
+      ]
+    }
     spellCheck="true"
     style={
       Object {
@@ -309,18 +299,20 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
 <div
   className="textarea-wrapper"
 >
-  <SuggestionBox
+  <Connect(SuggestionBox)
     channelId="channelId"
     className="form-control custom-textarea"
-    completeOnTab={true}
-    containerClass=""
     contextId="channelId"
-    forceSuggestionsWhenBlur={false}
     id="someid"
-    inputComponent={[Function]}
+    inputComponent={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "displayName": "AutosizeTextarea",
+        "render": [Function],
+      }
+    }
     isRHS={false}
     listComponent={[Function]}
-    listPosition="top"
     listenForMentionKeyClick={false}
     onBlur={[Function]}
     onChange={[Function]}
@@ -330,12 +322,11 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
     onKeyUp={[Function]}
     onMouseUp={[Function]}
     onSelect={[Function]}
-    openOnFocus={false}
-    openWhenEmpty={false}
     placeholder="placeholder text"
     providers={
       Array [
         AtMentionProvider {
+          "addLastViewAtToProfiles": [Function],
           "autocompleteGroups": Array [
             Object {
               "id": "gid1",
@@ -345,22 +336,16 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
             },
           ],
           "autocompleteUsersInChannel": [Function],
+          "channelId": "channelId",
           "currentUserId": "currentUserId",
           "data": null,
           "disableDispatches": false,
+          "getProfilesInChannel": [Function],
           "lastCompletedWord": "",
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
           "priorityProfiles": undefined,
-          "profilesInChannel": Array [
-            Object {
-              "id": "id1",
-            },
-            Object {
-              "id": "id2",
-            },
-          ],
           "requestStarted": false,
           "searchAssociatedGroupsForReference": [Function],
           "triggerCharacter": "@",
@@ -386,10 +371,11 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
         },
       ]
     }
-    renderDividers={true}
-    renderNoResults={false}
-    replaceAllInputOnSelect={false}
-    requiredCharacters={1}
+    renderDividers={
+      Array [
+        "all",
+      ]
+    }
     spellCheck="true"
     style={
       Object {

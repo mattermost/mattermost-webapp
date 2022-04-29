@@ -8,16 +8,32 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {Team} from 'mattermost-redux/types/teams';
 import {UserThread, ThreadsState, UserThreadType, UserThreadSynthetic} from 'mattermost-redux/types/threads';
 import {Post} from 'mattermost-redux/types/posts';
-import {$ID, IDMappedObjects, RelationOneToMany} from 'mattermost-redux/types/utilities';
+import {IDMappedObjects, RelationOneToMany} from 'mattermost-redux/types/utilities';
 
 export function getThreadsInTeam(state: GlobalState): RelationOneToMany<Team, UserThread> {
     return state.entities.threads.threadsInTeam;
 }
 
-export const getThreadsInCurrentTeam: (state: GlobalState) => Array<$ID<UserThread>> = createSelector(
+export function getUnreadThreadsInTeam(state: GlobalState): RelationOneToMany<Team, UserThread> {
+    return state.entities.threads.unreadThreadsInTeam;
+}
+
+export const getThreadsInCurrentTeam: (state: GlobalState) => Array<UserThread['id']> = createSelector(
     'getThreadsInCurrentTeam',
     getCurrentTeamId,
     getThreadsInTeam,
+    (
+        currentTeamId,
+        threadsInTeam,
+    ) => {
+        return threadsInTeam?.[currentTeamId] ?? [];
+    },
+);
+
+export const getUnreadThreadsInCurrentTeam: (state: GlobalState) => Array<UserThread['id']> = createSelector(
+    'getUnreadThreadsInCurrentTeam',
+    getCurrentTeamId,
+    getUnreadThreadsInTeam,
     (
         currentTeamId,
         threadsInTeam,
@@ -30,14 +46,14 @@ export function getThreadCounts(state: GlobalState): ThreadsState['counts'] {
     return state.entities.threads.counts;
 }
 
-export function getTeamThreadCounts(state: GlobalState, teamId: $ID<Team>): ThreadsState['counts'][$ID<Team>] {
-    return getThreadCounts(state)[teamId];
+export function getThreadCountsIncludingDirect(state: GlobalState): ThreadsState['counts'] {
+    return state.entities.threads.countsIncludingDirect;
 }
 
-export const getThreadCountsInCurrentTeam: (state: GlobalState) => ThreadsState['counts'][$ID<Team>] = createSelector(
+export const getThreadCountsInCurrentTeam: (state: GlobalState) => ThreadsState['counts'][Team['id']] = createSelector(
     'getThreadCountsInCurrentTeam',
     getCurrentTeamId,
-    getThreadCounts,
+    getThreadCountsIncludingDirect,
     (
         currentTeamId,
         counts,
@@ -50,12 +66,13 @@ export function getThreads(state: GlobalState): IDMappedObjects<UserThread> {
     return state.entities.threads.threads;
 }
 
-export function getThread(state: GlobalState, threadId: $ID<UserThread> | undefined): UserThread | null {
-    if (!threadId || !getThreadsInCurrentTeam(state)?.includes(threadId)) {
+export function getThread(state: GlobalState, threadId?: UserThread['id']) {
+    if (!threadId) {
         return null;
     }
 
-    return getThreads(state)[threadId];
+    const threads = getThreads(state);
+    return threads[threadId];
 }
 
 export function getThreadOrSynthetic(state: GlobalState, rootPost: Post): UserThread | UserThreadSynthetic {
@@ -71,7 +88,7 @@ export function getThreadOrSynthetic(state: GlobalState, rootPost: Post): UserTh
         reply_count: rootPost.reply_count,
         participants: rootPost.participants,
         last_reply_at: rootPost.last_reply_at ?? 0,
-        is_following: thread?.is_following ?? rootPost.is_following ?? false,
+        is_following: thread?.is_following ?? rootPost.is_following ?? null,
         post: {
             user_id: rootPost.user_id,
             channel_id: rootPost.channel_id,
@@ -79,12 +96,11 @@ export function getThreadOrSynthetic(state: GlobalState, rootPost: Post): UserTh
     };
 }
 
-export const getThreadOrderInCurrentTeam: (state: GlobalState, selectedThreadIdInTeam?: $ID<UserThread>) => Array<$ID<UserThread>> = createSelector(
+export const getThreadOrderInCurrentTeam: (state: GlobalState, selectedThreadIdInTeam?: UserThread['id']) => Array<UserThread['id']> = createSelector(
     'getThreadOrderInCurrentTeam',
     getThreadsInCurrentTeam,
     getThreads,
-    (state: GlobalState, selectedThreadIdInTeam?: $ID<UserThread>) => selectedThreadIdInTeam,
-
+    (state: GlobalState, selectedThreadIdInTeam?: UserThread['id']) => selectedThreadIdInTeam,
     (
         threadsInTeam,
         threads,
@@ -100,14 +116,33 @@ export const getThreadOrderInCurrentTeam: (state: GlobalState, selectedThreadIdI
     },
 );
 
+export const getNewestThreadInTeam: (state: GlobalState, teamID: string,) => (UserThread | null) = createSelector(
+    'getNewestThreadInTeam',
+    getThreadsInTeam,
+    getThreads,
+    (state: GlobalState, teamID: string) => teamID,
+    (
+        threadsInTeam,
+        threads,
+        teamID: string,
+    ) => {
+        const threadsInGivenTeam = threadsInTeam?.[teamID] ?? [];
+        if (!threadsInGivenTeam) {
+            return null;
+        }
+        const ids = [...threadsInGivenTeam.filter((id) => threads[id].is_following)];
+        return threads[sortByLastReply(ids, threads)[0]];
+    },
+);
+
 export const getUnreadThreadOrderInCurrentTeam: (
     state: GlobalState,
-    selectedThreadIdInTeam?: $ID<UserThread>,
-) => Array<$ID<UserThread>> = createSelector(
+    selectedThreadIdInTeam?: UserThread['id'],
+) => Array<UserThread['id']> = createSelector(
     'getUnreadThreadOrderInCurrentTeam',
-    getThreadsInCurrentTeam,
+    getUnreadThreadsInCurrentTeam,
     getThreads,
-    (state: GlobalState, selectedThreadIdInTeam?: $ID<UserThread>) => selectedThreadIdInTeam,
+    (state: GlobalState, selectedThreadIdInTeam?: UserThread['id']) => selectedThreadIdInTeam,
     (
         threadsInTeam,
         threads,
@@ -115,7 +150,7 @@ export const getUnreadThreadOrderInCurrentTeam: (
     ) => {
         const ids = threadsInTeam.filter((id) => {
             const thread = threads[id];
-            return thread.is_following && (thread.unread_mentions || thread.unread_replies);
+            return thread.is_following && (thread.unread_replies || thread.unread_mentions);
         });
 
         if (selectedThreadIdInTeam && !ids.includes(selectedThreadIdInTeam)) {
@@ -126,14 +161,14 @@ export const getUnreadThreadOrderInCurrentTeam: (
     },
 );
 
-function sortByLastReply(ids: Array<$ID<UserThread>>, threads: ReturnType<typeof getThreads>) {
+function sortByLastReply(ids: Array<UserThread['id']>, threads: ReturnType<typeof getThreads>) {
     return ids.sort((a, b) => threads[b].last_reply_at - threads[a].last_reply_at);
 }
 
 export const getThreadsInChannel: (
     state: GlobalState,
     channelID: string,
-) => Array<$ID<UserThread>> = createSelector(
+) => Array<UserThread['id']> = createSelector(
     'getThreadsInChannel',
     getThreads,
     (state: GlobalState, channelID: string) => channelID,

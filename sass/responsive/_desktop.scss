@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 @media screen and (min-width: 1680px) {
     .sidebar--right {
@@ -33,6 +33,19 @@
                 >.post-create__container {
                     width: calc(100% - 500px);
                 }
+            }
+        }
+    }
+
+    // global header style adjustments
+    .channel__wrap {
+
+        // indicates the RHS is open
+        &.move--left {
+
+            // adjust channel header width
+            #channel-header {
+                width: calc(100% - 500px);
             }
         }
     }
@@ -89,17 +102,6 @@
 }
 
 @media screen and (max-width: 1140px) {
-    .tip-overlay {
-        &.tip-overlay--chat {
-            margin: -10px 0 0 -10px;
-
-            .arrow {
-                right: 15px;
-                left: auto;
-            }
-        }
-    }
-
     .inner-wrap {
         &.move--left {
             .file-overlay {
@@ -134,6 +136,21 @@
 
     .search-bar__container {
         padding: 0 4px 0 0;
+    }
+}
+
+// global header style adjustments
+@media screen and (max-width: 1020px) {
+    .channel__wrap {
+
+        // indicates the RHS is open
+        &.move--left {
+
+            // adjust channel header width
+            #channel-header {
+                width: 100%;
+            }
+        }
     }
 }
 

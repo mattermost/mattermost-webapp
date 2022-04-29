@@ -15,17 +15,11 @@ export function getCloudSubscription(): ActionFunc {
     });
 }
 
-export function getCloudProducts(): ActionFunc {
+export function getCloudProducts(includeLegacyProducts?: boolean): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getCloudProducts,
         onSuccess: [CloudTypes.RECEIVED_CLOUD_PRODUCTS],
-    });
-}
-
-export function getSubscriptionStats(): ActionFunc {
-    return bindClientFunc({
-        clientFunc: Client4.getSubscriptionStats,
-        onSuccess: CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION_STATS,
+        params: [includeLegacyProducts],
     });
 }
 

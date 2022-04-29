@@ -65,23 +65,10 @@ describe('PolicyRolesAdapter', () => {
         };
         const teamPolicies = {
             restrictTeamInvite: 'all',
-            restrictPublicChannelCreation: 'all',
-            restrictPrivateChannelCreation: 'all',
         };
-        const channelPolicies = {
-            restrictPublicChannelManagement: 'all',
-            restrictPublicChannelDeletion: 'all',
-            restrictPrivateChannelManagement: 'all',
-            restrictPrivateChannelManageMembers: 'all',
-            restrictPrivateChannelDeletion: 'all',
-        };
-        const restrictPostDelete = 'all';
-        const allowEditPost = 'always';
+
         policies = {
             ...teamPolicies,
-            ...channelPolicies,
-            restrictPostDelete,
-            allowEditPost,
         };
     });
 
@@ -126,26 +113,6 @@ describe('PolicyRolesAdapter', () => {
             });
         });
 
-        describe('enableOnlyAdminIntegrations', () => {
-            test('true', () => {
-                roles.system_user.permissions = [Permissions.MANAGE_OAUTH];
-                roles.team_user.permissions = [Permissions.MANAGE_INCOMING_WEBHOOKS, Permissions.MANAGE_OUTGOING_WEBHOOKS, Permissions.MANAGE_SLASH_COMMANDS];
-                const updatedRoles = rolesFromMapping({enableOnlyAdminIntegrations: 'true'}, roles);
-                expect(Object.values(updatedRoles).length).toEqual(2);
-                expect(updatedRoles.system_user.permissions).not.toEqual(expect.arrayContaining([Permissions.MANAGE_OAUTH]));
-                expect(updatedRoles.team_user.permissions).not.toEqual(expect.arrayContaining([Permissions.MANAGE_INCOMING_WEBHOOKS, Permissions.MANAGE_OUTGOING_WEBHOOKS, Permissions.MANAGE_SLASH_COMMANDS]));
-            });
-
-            test('false', () => {
-                roles.system_user.permissions = [];
-                roles.team_user.permissions = [];
-                const updatedRoles = rolesFromMapping({enableOnlyAdminIntegrations: 'false'}, roles);
-                expect(Object.values(updatedRoles).length).toEqual(2);
-                expect(updatedRoles.system_user.permissions).toEqual(expect.arrayContaining([Permissions.MANAGE_OAUTH]));
-                expect(updatedRoles.team_user.permissions).toEqual(expect.arrayContaining([Permissions.MANAGE_INCOMING_WEBHOOKS, Permissions.MANAGE_OUTGOING_WEBHOOKS, Permissions.MANAGE_SLASH_COMMANDS]));
-            });
-        });
-
         test('it only returns the updated roles', () => {
             const updatedRoles = rolesFromMapping(policies, roles);
             expect(Object.keys(updatedRoles).length).toEqual(0);
@@ -162,24 +129,6 @@ describe('PolicyRolesAdapter', () => {
                 removePermissionFromRole(Permissions.CREATE_TEAM, roles.system_user);
                 value = mappingValueFromRoles('enableTeamCreation', roles);
                 expect(value).toEqual('false');
-            });
-        });
-
-        describe('enableOnlyAdminIntegrations', () => {
-            test('returns the expected policy value for a enableOnlyAdminIntegrations policy', () => {
-                addPermissionToRole(Permissions.MANAGE_INCOMING_WEBHOOKS, roles.team_user);
-                addPermissionToRole(Permissions.MANAGE_OUTGOING_WEBHOOKS, roles.team_user);
-                addPermissionToRole(Permissions.MANAGE_SLASH_COMMANDS, roles.team_user);
-                addPermissionToRole(Permissions.MANAGE_OAUTH, roles.system_user);
-                let value = mappingValueFromRoles('enableOnlyAdminIntegrations', roles);
-                expect(value).toEqual('false');
-
-                removePermissionFromRole(Permissions.MANAGE_INCOMING_WEBHOOKS, roles.team_user);
-                removePermissionFromRole(Permissions.MANAGE_OUTGOING_WEBHOOKS, roles.team_user);
-                removePermissionFromRole(Permissions.MANAGE_SLASH_COMMANDS, roles.team_user);
-                removePermissionFromRole(Permissions.MANAGE_OAUTH, roles.system_user);
-                value = mappingValueFromRoles('enableOnlyAdminIntegrations', roles);
-                expect(value).toEqual('true');
             });
         });
     });

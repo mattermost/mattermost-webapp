@@ -12,6 +12,7 @@ import {trackEvent} from 'actions/telemetry_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
+import LocalizedIcon from 'components/localized_icon';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import SettingPicture from 'components/setting_picture.jsx';
@@ -22,6 +23,10 @@ const holders = defineMessages({
     usernameReserved: {
         id: t('user.settings.general.usernameReserved'),
         defaultMessage: 'This username is reserved, please choose a new one.',
+    },
+    usernameGroupNameUniqueness: {
+        id: t('user.settings.general.usernameGroupNameUniqueness'),
+        defaultMessage: 'This username conflicts with an existing group name.',
     },
     usernameRestrictions: {
         id: t('user.settings.general.usernameRestrictions'),
@@ -97,7 +102,6 @@ export type Props = {
     actions: {
         logError: ({message, type}: {message: any; type: string}, status: boolean) => void;
         clearErrors: () => void;
-        getMe: () => void;
         updateMe: (user: UserProfile) => Promise<{
             data: boolean;
             error?: {
@@ -303,7 +307,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
             then(({data, error: err}) => {
                 if (data) {
                     this.updateSection('');
-                    this.props.actions.getMe();
+
                     const verificationEnabled = this.props.requireEmailVerification && emailUpdated;
                     if (verificationEnabled) {
                         this.props.actions.clearErrors();
@@ -317,6 +321,8 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                     if (err.server_error_id &&
                         err.server_error_id === 'api.user.check_user_password.invalid.app_error') {
                         serverError = formatMessage(holders.incorrectPassword);
+                    } else if (err.server_error_id === 'app.user.group_name_conflict') {
+                        serverError = formatMessage(holders.usernameGroupNameUniqueness);
                     } else if (err.message) {
                         serverError = err.message;
                     } else {
@@ -1338,18 +1344,11 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                         ref='title'
                     >
                         <div className='modal-back'>
-                            <FormattedMessage
-                                id='generic_icons.collapse'
-                                defaultMessage='Collapse Icon'
-                            >
-                                {(title?: string) => (
-                                    <i
-                                        className='fa fa-angle-left'
-                                        title={title}
-                                        onClick={this.props.collapseModal}
-                                    />
-                                )}
-                            </FormattedMessage>
+                            <LocalizedIcon
+                                className='fa fa-angle-left'
+                                title={{id: t('generic_icons.collapse'), defaultMessage: 'Collapse Icon'}}
+                                onClick={this.props.collapseModal}
+                            />
                         </div>
                         <FormattedMessage
                             id='user.settings.modal.profile'

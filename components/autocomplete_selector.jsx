@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import SuggestionBox from 'components/suggestion/suggestion_box';
 import SuggestionList from 'components/suggestion/suggestion_list';
 
 export default class AutocompleteSelector extends React.PureComponent {
@@ -145,7 +145,6 @@ export default class AutocompleteSelector extends React.PureComponent {
                         onBlur={this.onBlur}
                         providers={providers}
                         completeOnTab={true}
-                        renderDividers={false}
                         renderNoResults={true}
                         openOnFocus={true}
                         openWhenEmpty={true}

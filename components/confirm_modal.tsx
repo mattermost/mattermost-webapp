@@ -55,12 +55,12 @@ type Props = {
     /*
      * Function called when the confirm button or ENTER is pressed. Passes `true` if the checkbox is checked
      */
-    onConfirm: (checked: boolean) => void;
+    onConfirm?: (checked: boolean) => void;
 
     /*
      * Function called when the cancel button is pressed or the modal is hidden. Passes `true` if the checkbox is checked
      */
-    onCancel: (checked: boolean) => void;
+    onCancel?: (checked: boolean) => void;
 
     /**
      * Function called when modal is dismissed
@@ -94,16 +94,6 @@ export default class ConfirmModal extends React.Component<Props, State> {
         };
     }
 
-    componentDidMount() {
-        if (this.props.show) {
-            document.addEventListener('keydown', this.handleKeypress);
-        }
-    }
-
-    componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleKeypress);
-    }
-
     shouldComponentUpdate(nextProps: Props, nextState: State) {
         return (
             nextProps.show !== this.props.show ||
@@ -111,35 +101,16 @@ export default class ConfirmModal extends React.Component<Props, State> {
         );
     }
 
-    componentDidUpdate(prevProps: Props) {
-        if (prevProps.show && !this.props.show) {
-            document.removeEventListener('keydown', this.handleKeypress);
-        } else if (!prevProps.show && this.props.show) {
-            document.addEventListener('keydown', this.handleKeypress);
-        }
-    }
-
-    handleKeypress = (e: KeyboardEvent) => {
-        if (e.key === 'Enter' && this.props.show) {
-            const cancelButton = document.getElementById('cancelModalButton');
-            if (cancelButton && cancelButton === document.activeElement) {
-                this.handleCancel();
-            } else {
-                this.handleConfirm();
-            }
-        }
-    }
-
     handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({checked: e.target.checked});
     }
 
     handleConfirm = () => {
-        this.props.onConfirm(this.state.checked);
+        this.props.onConfirm?.(this.state.checked);
     }
 
     handleCancel = () => {
-        this.props.onCancel(this.state.checked);
+        this.props.onCancel?.(this.state.checked);
     }
 
     render() {
@@ -190,7 +161,7 @@ export default class ConfirmModal extends React.Component<Props, State> {
                 className={'modal-confirm ' + this.props.modalClass}
                 dialogClassName='a11y__modal'
                 show={this.props.show}
-                onHide={this.props.onCancel}
+                onHide={this.handleCancel}
                 onExited={this.props.onExited}
                 id='confirmModal'
                 role='dialog'

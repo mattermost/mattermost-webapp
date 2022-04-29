@@ -175,7 +175,7 @@ var config = {
                         loader: 'sass-loader',
                         options: {
                             sassOptions: {
-                                includePaths: ['node_modules/compass-mixins/lib', 'sass'],
+                                includePaths: ['sass'],
                             },
                         },
                     },
@@ -235,10 +235,11 @@ var config = {
             path.resolve(__dirname),
         ],
         alias: {
+            '@mattermost/client': 'packages/client/src',
+            '@mattermost/types': 'packages/types/src',
             'mattermost-redux/test': 'packages/mattermost-redux/test',
             'mattermost-redux': 'packages/mattermost-redux/src',
             reselect: 'packages/reselect/src',
-            jquery: 'jquery/src/jquery',
             superagent: 'node_modules/superagent/lib/client',
         },
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
@@ -253,9 +254,6 @@ var config = {
     target: 'web',
     plugins: [
         new webpack.ProvidePlugin({
-            'window.jQuery': 'jquery',
-            $: 'jquery',
-            jQuery: 'jquery',
             process: 'process/browser',
         }),
         new webpack.DefinePlugin({
@@ -300,6 +298,11 @@ var config = {
                 {from: 'images/c_avatar.png', to: 'images'},
                 {from: 'images/c_download.png', to: 'images'},
                 {from: 'images/c_socket.png', to: 'images'},
+                {from: 'images/admin-onboarding-background.jpg', to: 'images'},
+                {from: 'images/payment-method-illustration.png', to: 'images'},
+                {from: 'images/trial-ending-soon.png', to: 'images'},
+                {from: 'images/cloud-laptop.png', to: 'images'},
+                {from: 'images/trial-ended.png', to: 'images'},
             ],
         }),
 
@@ -417,9 +420,7 @@ if (targetIsDevServer) {
         devtool: 'eval-cheap-module-source-map',
         devServer: {
             hot: true,
-            injectHot: true,
             liveReload: false,
-            overlay: true,
             proxy: [{
                 context: () => true,
                 bypass(req) {
@@ -442,8 +443,9 @@ if (targetIsDevServer) {
                 ws: true,
             }],
             port: 9005,
-            watchContentBase: true,
-            writeToDisk: false,
+            devMiddleware: {
+                writeToDisk: false,
+            },
         },
         performance: false,
         optimization: {

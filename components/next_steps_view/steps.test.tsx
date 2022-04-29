@@ -3,7 +3,6 @@
 
 import {showNextSteps, getSteps, isOnboardingHidden, nextStepsNotFinished} from './steps';
 
-//
 describe('components/next_steps_view/steps', () => {
     test('should show next steps', () => {
         const cloudState = {
@@ -94,6 +93,10 @@ describe('components/next_steps_view/steps', () => {
                             name: 'invite_members',
                             value: 'true',
                         },
+                        'recommended_next_steps--download_apps': {
+                            name: 'download_apps',
+                            value: 'true',
+                        },
                     },
                 },
                 users: {
@@ -125,10 +128,10 @@ describe('components/next_steps_view/steps', () => {
                 },
             },
         };
-        expect(getSteps(state as any)).toHaveLength(4);
+        expect(getSteps(state as any)).toHaveLength(5);
     });
 
-    test('should only show the complete_profile_step to guest users', () => {
+    test('should only show the complete_profile_step and download_apps to guest users', () => {
         const state = {
             entities: {
                 general: {
@@ -144,7 +147,10 @@ describe('components/next_steps_view/steps', () => {
                 },
             },
         };
-        expect(getSteps(state as any)).toHaveLength(1);
+        const steps = getSteps(state as any);
+        expect(steps).toHaveLength(2);
+        expect(steps[0].id).toEqual('complete_profile');
+        expect(steps[1].id).toEqual('download_apps');
     });
 
     test('should only show non-admin steps for non-admin users', () => {
@@ -163,6 +169,6 @@ describe('components/next_steps_view/steps', () => {
                 },
             },
         };
-        expect(getSteps(state as any)).toHaveLength(3);
+        expect(getSteps(state as any)).toHaveLength(4);
     });
 });

@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {MaxLengthInput} from 'components/quick_input';
+import {MaxLengthInput} from 'components/quick_input/index';
 
 describe('components/MaxLengthInput', () => {
     const requiredProps = {

@@ -4,8 +4,9 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getConfig, getLicense, getSubscriptionStats as subscriptionStatsSelector} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 import {getTeamInviteInfo} from 'mattermost-redux/actions/teams';
 
 import {getGlobalItem} from 'selectors/storage';
@@ -18,7 +19,6 @@ function mapStateToProps(state, ownProps) {
     const license = getLicense(state);
     const config = getConfig(state);
     const isCloud = license && license.Cloud === 'true';
-    const subscriptionStats = isCloud ? subscriptionStatsSelector(state) : {};
     const isLicensed = license && license.IsLicensed === 'true';
     const enableOpenServer = config.EnableOpenServer === 'true';
     const noAccounts = config.NoAccounts === 'true';
@@ -31,6 +31,8 @@ function mapStateToProps(state, ownProps) {
     const samlLoginButtonText = config.SamlLoginButtonText;
     const ldapLoginFieldName = config.LdapLoginFieldName;
     const siteName = config.SiteName;
+
+    const useCaseOnboarding = getUseCaseOnboarding(state);
 
     let usedBefore;
     if (ownProps.location.search) {
@@ -58,7 +60,7 @@ function mapStateToProps(state, ownProps) {
         ldapLoginFieldName,
         siteName,
         usedBefore,
-        subscriptionStats,
+        useCaseOnboarding,
     };
 }
 

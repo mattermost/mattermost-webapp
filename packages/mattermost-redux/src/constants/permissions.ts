@@ -218,6 +218,23 @@ const values = {
     SYSCONSOLE_READ_EXPERIMENTAL_BLEVE: 'sysconsole_read_experimental_bleve',
     SYSCONSOLE_WRITE_EXPERIMENTAL_BLEVE: 'sysconsole_write_experimental_bleve',
 
+    PLAYBOOK_PUBLIC_CREATE: 'playbook_public_create',
+    PLAYBOOK_PUBLIC_MANAGE_PROPERTIES: 'playbook_public_manage_properties',
+    PLAYBOOK_PUBLIC_MANAGE_MEMBERS: 'playbook_public_manage_members',
+    PLAYBOOK_PUBLIC_VIEW: 'playbook_public_view',
+    PLAYBOOK_PUBLIC_MAKE_PRIVATE: 'playbook_public_make_private',
+
+    PLAYBOOK_PRIVATE_CREATE: 'playbook_private_create',
+    PLAYBOOK_PRIVATE_MANAGE_PROPERTIES: 'playbook_private_manage_properties',
+    PLAYBOOK_PRIVATE_MANAGE_MEMBERS: 'playbook_private_manage_members',
+    PLAYBOOK_PRIVATE_VIEW: 'playbook_private_view',
+    PLAYBOOK_PRIVATE_MAKE_PUBLIC: 'playbook_private_make_public',
+
+    RUN_CREATE: 'run_create',
+    RUN_MANAGE_PROPERTIES: 'run_manage_properties',
+    RUN_MANAGE_MEMBERS: 'run_manage_members',
+    RUN_VIEW: 'run_view',
+
     CHANNEL_MODERATED_PERMISSIONS: {
         CREATE_POST: 'create_post',
         CREATE_REACTIONS: 'create_reactions',
@@ -230,6 +247,11 @@ const values = {
     SYSCONSOLE_WRITE_PERMISSIONS: [] as string[],
     MANAGE_SHARED_CHANNELS: 'manage_shared_channels',
     MANAGE_SECURE_CONNECTIONS: 'manage_secure_connections',
+
+    CREATE_CUSTOM_GROUP: 'create_custom_group',
+    MANAGE_CUSTOM_GROUP_MEMBERS: 'manage_custom_group_members',
+    EDIT_CUSTOM_GROUP: 'edit_custom_group',
+    DELETE_CUSTOM_GROUP: 'delete_custom_group',
 };
 
 values.SYSCONSOLE_READ_PERMISSIONS = [

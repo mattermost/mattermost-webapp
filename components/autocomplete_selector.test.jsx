@@ -28,15 +28,12 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
               <div
                 className=""
               >
-                <SuggestionBox
+                <Connect(SuggestionBox)
                   className="form-control"
                   completeOnTab={true}
                   containerClass="select-suggestion-container"
-                  forceSuggestionsWhenBlur={false}
-                  isRHS={false}
                   listComponent={[Function]}
                   listPosition="top"
-                  listenForMentionKeyClick={false}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -44,10 +41,8 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
                   openOnFocus={true}
                   openWhenEmpty={true}
                   providers={Array []}
-                  renderDividers={false}
                   renderNoResults={true}
                   replaceAllInputOnSelect={true}
-                  requiredCharacters={1}
                   value="some value"
                 />
               </div>
@@ -79,15 +74,12 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
               <div
                 className=""
               >
-                <SuggestionBox
+                <Connect(SuggestionBox)
                   className="form-control"
                   completeOnTab={true}
                   containerClass="select-suggestion-container"
-                  forceSuggestionsWhenBlur={false}
-                  isRHS={false}
                   listComponent={[Function]}
                   listPosition="top"
-                  listenForMentionKeyClick={false}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -95,10 +87,8 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
                   openOnFocus={true}
                   openWhenEmpty={true}
                   providers={Array []}
-                  renderDividers={false}
                   renderNoResults={true}
                   replaceAllInputOnSelect={true}
-                  requiredCharacters={1}
                   value="value from prop"
                 />
               </div>
@@ -121,15 +111,12 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
               <div
                 className=""
               >
-                <SuggestionBox
+                <Connect(SuggestionBox)
                   className="form-control"
                   completeOnTab={true}
                   containerClass="select-suggestion-container"
-                  forceSuggestionsWhenBlur={false}
-                  isRHS={false}
                   listComponent={[Function]}
                   listPosition="top"
-                  listenForMentionKeyClick={false}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -137,10 +124,8 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
                   openOnFocus={true}
                   openWhenEmpty={true}
                   providers={Array []}
-                  renderDividers={false}
                   renderNoResults={true}
                   replaceAllInputOnSelect={true}
-                  requiredCharacters={1}
                   value="value from input"
                 />
               </div>

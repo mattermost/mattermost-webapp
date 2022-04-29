@@ -14,9 +14,11 @@
         flex-direction: row;
         flex-grow: 1;
         flex-wrap: wrap;
+        align-content: center;
+        justify-content: center;
         padding: 77px 107px;
         color: var(--center-channel-color);
-        font-family: 'Open Sans';
+        font-family: "Open Sans";
         font-size: 16px;
         font-weight: 600;
 
@@ -246,6 +248,13 @@
                     }
                 }
 
+                .contact-sales-text {
+                    margin-top: 24px;
+                    margin-bottom: 24px;
+                    color: rgba(var(--center-channel-color-rgb), 0.72);
+                    font-size: 14px;
+                }
+
                 .footer-text {
                     margin-bottom: 24px;
                     font-size: 14px;
@@ -280,6 +289,7 @@
 
                 .price-decimals {
                     align-self: end;
+                    padding-bottom: 2px;
                     font-size: 16px;
 
                     &::before {
