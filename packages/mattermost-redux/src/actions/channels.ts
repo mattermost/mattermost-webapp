@@ -23,7 +23,7 @@ import {
 import {getConfig, getServerVersion} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
-import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc, ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {Channel, ChannelNotifyProps, ChannelMembership, ChannelModerationPatch, ChannelsWithTotalCount, ChannelSearchOpts} from 'mattermost-redux/types/channels';
 
@@ -1456,6 +1456,17 @@ export function getMyChannelMember(channelId: string) {
             channelId,
         ],
     });
+}
+
+export function loadMyChannelMemberAndRole(channelId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const result = await getMyChannelMember(channelId)(dispatch, getState) as ActionResult;
+        const roles = result.data?.roles.split(' ');
+        if (roles && roles.length > 0) {
+            dispatch(loadRolesIfNeeded(roles));
+        }
+        return {data: true};
+    };
 }
 
 // favoriteChannel moves the provided channel into the current team's Favorites category.

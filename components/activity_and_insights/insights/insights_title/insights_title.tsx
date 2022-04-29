@@ -9,6 +9,7 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
 import * as Utils from 'utils/utils.jsx';
+import {InsightsScopes} from 'utils/constants';
 
 type Props = {
     filterType: string;
@@ -20,7 +21,7 @@ const InsightsTitle = (props: Props) => {
     const {formatMessage} = useIntl();
 
     const title = useCallback(() => {
-        if (props.filterType === 'team') {
+        if (props.filterType === InsightsScopes.TEAM) {
             return (
                 formatMessage({
                     id: 'insights.teamHeading',
