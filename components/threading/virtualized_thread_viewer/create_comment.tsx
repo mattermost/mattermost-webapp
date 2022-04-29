@@ -64,6 +64,7 @@ const CreateComment = forwardRef<HTMLDivElement, Props>(({
             <div className='channel-archived-warning__container'>
                 <BasicSeparator/>
                 <div className='channel-archived-warning__content'>
+                    <i className='icon icon-archive-outline'/>
                     <FormattedMarkdownMessage
                         id='archivedChannelMessage'
                         defaultMessage='You are viewing an **archived channel**. New messages cannot be posted.'
