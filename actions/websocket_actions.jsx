@@ -1525,7 +1525,7 @@ export function handleCloudProductLimitsChanged(msg) {
             type: CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION,
             data: msg.data.subscription,
         });
-        return {data: true}
+        return {data: true};
     };
 }
 

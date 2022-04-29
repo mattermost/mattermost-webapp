@@ -1,13 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {LimitsReducer} from 'mattermost-redux/reducers/entities/cloud';
 
 export type CloudState = {
     subscription?: Subscription;
     products?: Record<string, Product>;
     customer?: CloudCustomer;
     invoices?: Record<string, Invoice>;
-    limits: LimitsReducer;
+    limits: {
+        limitsLoaded: boolean;
+        limits: Limits;
+    };
 }
 
 export type Subscription = {
