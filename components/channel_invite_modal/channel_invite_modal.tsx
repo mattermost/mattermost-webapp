@@ -12,7 +12,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {filterProfilesStartingWithTerm, isGuest} from 'mattermost-redux/utils/user_utils';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage, getLongDisplayNameParts} from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture';
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
@@ -49,7 +49,7 @@ export type Props = {
     actions: {
         addUsersToChannel: (channelId: string, userIds: string[]) => Promise<ActionResult>;
         getProfilesNotInChannel: (teamId: string, channelId: string, groupConstrained: boolean, page: number, perPage?: number) => Promise<ActionResult>;
-        getProfilesInChannel:(channelId: string, page: number, perPage: number, sort: string, options: {active?: boolean}) => Promise<ActionResult>;
+        getProfilesInChannel: (channelId: string, page: number, perPage: number, sort: string, options: {active?: boolean}) => Promise<ActionResult>;
         getTeamStats: (teamId: string) => void;
         loadStatusesForProfilesList: (users: UserProfile[]) => void;
         searchProfiles: (term: string, options: any) => Promise<ActionResult>;

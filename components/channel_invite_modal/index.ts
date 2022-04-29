@@ -90,6 +90,7 @@ type Actions = {
     loadStatusesForProfilesList: (users: UserProfile[]) => void;
     searchProfiles: (term: string, options: any) => Promise<ActionResult>;
     closeModal: (modalId: string) => void;
+    getProfilesInChannel: (channelId: string, page: number, perPage: number, sort: string, options: {active?: boolean}) => Promise<ActionResult>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
