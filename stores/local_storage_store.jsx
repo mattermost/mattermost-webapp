@@ -4,9 +4,11 @@ import {getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities
 
 import store from 'stores/redux_store.jsx';
 import {getBasePath} from 'selectors/general';
+import {PreviousViewedTypes} from 'utils/constants';
 
 const getPreviousTeamIdKey = (userId) => ['user_prev_team', userId].join(':');
 const getPreviousChannelNameKey = (userId, teamId) => ['user_team_prev_channel', userId, teamId].join(':');
+const getPreviousViewedTypeKey = (userId, teamId) => ['user_team_prev_viewed_type', userId, teamId].join(':');
 export const getPenultimateChannelNameKey = (userId, teamId) => ['user_team_penultimate_channel', userId, teamId].join(':');
 const getRecentEmojisKey = (userId) => ['recent_emojis', userId].join(':');
 const getWasLoggedInKey = () => 'was_logged_in';
@@ -46,6 +48,10 @@ class LocalStorageStoreClass {
         return this.getItem(getPreviousChannelNameKey(userId, teamId), state) || getRedirectChannelNameForTeam(state, teamId);
     }
 
+    getPreviousViewedType(userId, teamId, state = store.getState()) {
+        return this.getItem(getPreviousViewedTypeKey(userId, teamId), state) ?? PreviousViewedTypes.CHANNELS;
+    }
+
     removeItem(key) {
         const state = store.getState();
         const basePath = getBasePath(state);
@@ -55,6 +61,10 @@ class LocalStorageStoreClass {
 
     setPreviousChannelName(userId, teamId, channelName) {
         this.setItem(getPreviousChannelNameKey(userId, teamId), channelName);
+    }
+
+    setPreviousViewedType(userId, teamId, channelType) {
+        this.setItem(getPreviousViewedTypeKey(userId, teamId), channelType);
     }
 
     getPenultimateChannelName(userId, teamId, state = store.getState()) {

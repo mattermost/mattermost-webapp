@@ -39,6 +39,14 @@ export const getLastViewedChannelNameByTeamName = (state: GlobalState, teamName:
     return localStorageStore.getPreviousChannelName(userId, teamId);
 };
 
+export const getLastViewedTypeByTeamName = (state: GlobalState, teamName: string) => {
+    const userId = getCurrentUserId(state);
+    const team = getTeamByName(state, teamName);
+    const teamId = team && team.id;
+
+    return localStorageStore.getPreviousViewedType(userId, teamId);
+};
+
 export const getPreviousTeamId = (state: GlobalState) => {
     const userId = getCurrentUserId(state);
 

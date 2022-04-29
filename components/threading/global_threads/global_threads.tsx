@@ -25,6 +25,7 @@ import {setShowNextStepsView} from 'actions/views/next_steps';
 import {GlobalState} from 'types/store/index';
 
 import {useGlobalState} from 'stores/hooks';
+import LocalStorageStore from 'stores/local_storage_store';
 import {clearLastUnreadChannel} from 'actions/global_actions';
 import {setSelectedThreadId} from 'actions/views/threads';
 import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
@@ -35,7 +36,7 @@ import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferen
 import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {showNextSteps} from 'components/next_steps_view/steps';
 
-import {Constants} from 'utils/constants';
+import {Constants, PreviousViewedTypes} from 'utils/constants';
 
 import Header from 'components/widgets/header';
 import LoadingScreen from 'components/loading_screen';
@@ -80,6 +81,8 @@ const GlobalThreads = () => {
         dispatch(selectChannel(''));
         dispatch(clearLastUnreadChannel);
         loadProfilesForSidebar();
+
+        LocalStorageStore.setPreviousViewedType(currentUserId, currentTeamId, PreviousViewedTypes.THREADS);
 
         // unsuppresses RHS on navigating away (unmount)
         return () => {
