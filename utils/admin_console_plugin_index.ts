@@ -33,8 +33,7 @@ function extractTextsFromPlugin(plugin: PluginRedux) {
     return texts;
 }
 
-// todo fix setting type
-function extractTextFromSetting(setting: EnabledPluginSetting | PluginSetting) {
+function extractTextFromSetting(setting: Partial<EnabledPluginSetting & PluginSetting>) {
     const texts = [];
     if (setting.label) {
         texts.push(setting.label);
