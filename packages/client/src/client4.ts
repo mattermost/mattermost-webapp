@@ -1928,13 +1928,6 @@ export default class Client4 {
         );
     };
 
-    getPostThread = (postId: string, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false) => {
-        return this.doFetch<PostList>(
-            `${this.getPostRoute(postId)}/thread${buildQueryString({skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended})}`,
-            {method: 'get'},
-        );
-    };
-
     getPostThread = async (postId: string, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false, direction: 'up'|'down' = 'down', perPage: number = PER_PAGE_DEFAULT, fromCreateAt?: number, fromPost?: string, prevList?: PostList): Promise<PostList> => {
         const list: PostList = prevList || {
             order: [postId],
