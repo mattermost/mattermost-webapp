@@ -44,6 +44,10 @@
             .post__body {
                 background: transparent !important;
             }
+
+            &.post--compact {
+                padding-left: 1em;
+            }
         }
 
         .post-pre-header__icons-container {
