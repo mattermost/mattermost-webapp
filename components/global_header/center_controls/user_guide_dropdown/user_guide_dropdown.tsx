@@ -105,11 +105,13 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                     text={intl.formatMessage({id: 'navbar_dropdown.gettingStarted', defaultMessage: 'Getting Started'})}
                     icon={isMobileView && <i className='icon icon-play'/>}
                 />
-                <Menu.ItemExternalLink
-                    id='reportAProblemLink'
-                    url={this.props.reportAProblemLink}
-                    text={intl.formatMessage({id: 'userGuideHelp.reportAProblem', defaultMessage: 'Report a problem'})}
-                />
+                {this.props.reportAProblemLink && (
+                    <Menu.ItemExternalLink
+                        id='reportAProblemLink'
+                        url={this.props.reportAProblemLink}
+                        text={intl.formatMessage({id: 'userGuideHelp.reportAProblem', defaultMessage: 'Report a problem'})}
+                    />
+                )}
                 <Menu.ItemAction
                     id='keyboardShortcuts'
                     onClick={this.openKeyboardShortcutsModal}

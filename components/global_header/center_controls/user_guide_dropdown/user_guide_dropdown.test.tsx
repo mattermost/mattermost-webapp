@@ -118,4 +118,18 @@ describe('components/channel_header/components/UserGuideDropdown', () => {
         const pluginMenuItem = wrapper.find(Menu.ItemAction).last();
         expect(pluginMenuItem.prop('text')).toEqual('Test Plugin Item');
     });
+
+    test('should only render Report a Problem link when its value is non-empty', () => {
+        const wrapper = shallowWithIntl(
+            <UserGuideDropdown {...baseProps}/>,
+        );
+
+        expect(wrapper.find('#reportAProblemLink').exists()).toBe(true);
+
+        wrapper.setProps({
+            reportAProblemLink: '',
+        });
+
+        expect(wrapper.find('#reportAProblemLink').exists()).toBe(false);
+    });
 });
