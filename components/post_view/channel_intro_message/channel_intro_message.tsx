@@ -24,7 +24,7 @@ import EditIcon from 'components/widgets/icons/fa_edit_icon';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 
 import {getMonthLong, t} from 'utils/i18n.jsx';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {PluginComponent} from 'types/store/plugins';
 
 import AddMembersButton from './add_members_button';

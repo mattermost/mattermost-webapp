@@ -4,23 +4,23 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import CustomPluginSettings from 'components/admin_console/custom_plugin_settings/custom_plugin_settings.jsx';
+import CustomPluginSettings from 'components/admin_console/custom_plugin_settings/custom_plugin_settings';
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
 
-describe('components/admin_console/CustomPluginSettings', () => {
-    let plugin = null;
-    let config = null;
+import {PluginSettings} from 'mattermost-redux/types/config';
+import {PluginRedux} from 'mattermost-redux/types/plugins';
 
-    afterEach(() => {
-        plugin = null;
-        config = null;
-    });
+describe('components/admin_console/CustomPluginSettings', () => {
+    let plugin: PluginRedux = {} as PluginRedux;
+    let config: {PluginSettings: Partial<PluginSettings>} = {PluginSettings: {}};
 
     beforeEach(() => {
         plugin = {
             id: 'testplugin',
             name: 'testplugin',
             description: '',
+            version: '',
+            active: true,
             webapp: {
                 bundle_path: '/static/testplugin_bundle.js',
             },
@@ -42,6 +42,7 @@ describe('components/admin_console/CustomPluginSettings', () => {
                         type: 'bool',
                         default: true,
                         help_text: 'This is some help text for the bool field.',
+                        placeholder: 'e.g. some setting',
                     },
                     {
                         key: 'settingc',
@@ -54,6 +55,7 @@ describe('components/admin_console/CustomPluginSettings', () => {
                             {display_name: 'Option 3', value: 'option3'},
                         ],
                         help_text: 'This is some help text for the dropdown field.',
+                        placeholder: 'e.g. some setting',
                     },
                     {
                         key: 'settingd',
@@ -66,11 +68,13 @@ describe('components/admin_console/CustomPluginSettings', () => {
                             {display_name: 'Option 3', value: 'option3'},
                         ],
                         help_text: 'This is some help text for the radio field.',
+                        placeholder: 'e.g. some setting',
                     },
                     {
                         key: 'settinge',
                         display_name: 'Setting Five',
                         type: 'generated',
+                        default: 'option3',
                         help_text: 'This is some help text for the generated field.',
                         regenerate_help_text: 'This is help text for the regenerate button.',
                         placeholder: 'e.g. 47KyfOxtk5+ovi1MDHFyzMDHIA6esMWb',
@@ -79,6 +83,7 @@ describe('components/admin_console/CustomPluginSettings', () => {
                         key: 'settingf',
                         display_name: 'Setting Six',
                         type: 'username',
+                        default: 'option4',
                         help_text: 'This is some help text for the user autocomplete field.',
                         placeholder: 'Type a username here',
                     },

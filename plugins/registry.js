@@ -28,7 +28,7 @@ import {
 
 import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants';
-import {generateId} from 'utils/utils.jsx';
+import {generateId} from 'utils/utils';
 
 function dispatchPluginComponentAction(name, pluginId, component, id = generateId()) {
     store.dispatch({

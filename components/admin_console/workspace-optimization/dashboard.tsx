@@ -77,7 +77,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
     } = props.config;
     const {location} = document;
 
-    const sessionLengthWebInDays = ServiceSettings?.SessionLengthWebInDays || -1;
+    const sessionLengthWebInHours = ServiceSettings?.SessionLengthWebInHours || -1;
 
     const testURL = () => {
         if (!ServiceSettings?.SiteURL) {
@@ -208,7 +208,7 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         updates: getUpdatesData({serverVersion: versionData}),
         configuration: getConfigurationData({
             ssl: {status: location.protocol === 'https:' ? ItemStatus.OK : ItemStatus.ERROR},
-            sessionLength: {status: sessionLengthWebInDays === 30 ? ItemStatus.INFO : ItemStatus.OK},
+            sessionLength: {status: sessionLengthWebInHours === 720 ? ItemStatus.INFO : ItemStatus.OK},
         }),
         access: getAccessData({siteUrl: {status: liveUrlStatus}}),
         performance: getPerformanceData({
@@ -235,7 +235,8 @@ const WorkspaceOptimizationDashboard = (props: Props) => {
         current: 0,
     };
 
-    const accData: AccordionItemType[] = Object.entries(data).map(([accordionKey, accordionData]) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const accData: AccordionItemType[] = Object.entries(data).filter(([_, y]) => !y.hide).map(([accordionKey, accordionData]) => {
         const accordionDataChips: ChipsInfoType = {
             [ItemStatus.INFO]: 0,
             [ItemStatus.WARNING]: 0,

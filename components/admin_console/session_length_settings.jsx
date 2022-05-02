@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import AdminSettings from './admin_settings';
 import BooleanSetting from './boolean_setting';
@@ -17,9 +17,9 @@ export default class SessionLengthSettings extends AdminSettings {
         const MINIMUM_IDLE_TIMEOUT = 5;
 
         config.ServiceSettings.ExtendSessionLengthWithActivity = this.state.extendSessionLengthWithActivity;
-        config.ServiceSettings.SessionLengthWebInDays = this.parseIntNonZero(this.state.sessionLengthWebInDays);
-        config.ServiceSettings.SessionLengthMobileInDays = this.parseIntNonZero(this.state.sessionLengthMobileInDays);
-        config.ServiceSettings.SessionLengthSSOInDays = this.parseIntNonZero(this.state.sessionLengthSSOInDays);
+        config.ServiceSettings.SessionLengthWebInHours = this.parseIntNonZero(this.state.sessionLengthWebInHours);
+        config.ServiceSettings.SessionLengthMobileInHours = this.parseIntNonZero(this.state.sessionLengthMobileInHours);
+        config.ServiceSettings.SessionLengthSSOInHours = this.parseIntNonZero(this.state.sessionLengthSSOInHours);
         config.ServiceSettings.SessionCacheInMinutes = this.parseIntNonZero(this.state.sessionCacheInMinutes);
         config.ServiceSettings.SessionIdleTimeoutInMinutes = this.parseIntZeroOrMin(this.state.sessionIdleTimeoutInMinutes, MINIMUM_IDLE_TIMEOUT);
 
@@ -29,9 +29,9 @@ export default class SessionLengthSettings extends AdminSettings {
     getStateFromConfig(config) {
         return {
             extendSessionLengthWithActivity: config.ServiceSettings.ExtendSessionLengthWithActivity,
-            sessionLengthWebInDays: config.ServiceSettings.SessionLengthWebInDays,
-            sessionLengthMobileInDays: config.ServiceSettings.SessionLengthMobileInDays,
-            sessionLengthSSOInDays: config.ServiceSettings.SessionLengthSSOInDays,
+            sessionLengthWebInHours: config.ServiceSettings.SessionLengthWebInHours,
+            sessionLengthMobileInHours: config.ServiceSettings.SessionLengthMobileInHours,
+            sessionLengthSSOInHours: config.ServiceSettings.SessionLengthSSOInHours,
             sessionCacheInMinutes: config.ServiceSettings.SessionCacheInMinutes,
             sessionIdleTimeoutInMinutes: config.ServiceSettings.SessionIdleTimeoutInMinutes,
         };
@@ -54,39 +54,39 @@ export default class SessionLengthSettings extends AdminSettings {
         if (this.state.extendSessionLengthWithActivity) {
             sessionLengthWebHelpText = (
                 <FormattedMessage
-                    id='admin.service.webSessionDaysDesc.extendLength'
-                    defaultMessage='Set the number of days from the last activity in Mattermost to the expiry of the user’s session when using email and AD/LDAP authentication. After changing this setting, the new session length will take effect after the next time the user enters their credentials.'
+                    id='admin.service.webSessionHoursDesc.extendLength'
+                    defaultMessage="Set the number of hours from the last activity in Mattermost to the expiry of the user's session when using email and AD/LDAP authentication. After changing this setting, the new session length will take effect after the next time the user enters their credentials."
                 />
             );
             sessionLengthMobileHelpText = (
                 <FormattedMessage
-                    id='admin.service.mobileSessionDaysDesc.extendLength'
-                    defaultMessage='Set the number of days from the last activity in Mattermost to the expiry of the user’s session on mobile. After changing this setting, the new session length will take effect after the next time the user enters their credentials.'
+                    id='admin.service.mobileSessionHoursDesc.extendLength'
+                    defaultMessage="Set the number of hours from the last activity in Mattermost to the expiry of the user's session on mobile. After changing this setting, the new session length will take effect after the next time the user enters their credentials."
                 />
             );
             sessionLengthSSOHelpText = (
                 <FormattedMessage
-                    id='admin.service.ssoSessionDaysDesc.extendLength'
-                    defaultMessage='Set the number of days from the last activity in Mattermost to the expiry of the user’s session for SSO authentication, such as SAML, GitLab and OAuth 2.0. If the authentication method is SAML or GitLab, the user may automatically be logged back in to Mattermost if they are already logged in to SAML or GitLab. After changing this setting, the setting will take effect after the next time the user enters their credentials.'
+                    id='admin.service.ssoSessionHoursDesc.extendLength'
+                    defaultMessage="Set the number of hours from the last activity in Mattermost to the expiry of the user's session for SSO authentication, such as SAML, GitLab and OAuth 2.0. If the authentication method is SAML or GitLab, the user may automatically be logged back in to Mattermost if they are already logged in to SAML or GitLab. After changing this setting, the setting will take effect after the next time the user enters their credentials."
                 />
             );
         } else {
             sessionLengthWebHelpText = (
                 <FormattedMessage
-                    id='admin.service.webSessionDaysDesc'
-                    defaultMessage='The number of days from the last time a user entered their credentials to the expiry of the users session. After changing this setting, the new session length will take effect after the next time the user enters their credentials.'
+                    id='admin.service.webSessionHoursDesc'
+                    defaultMessage="The number of hours from the last time a user entered their credentials to the expiry of the user's session. After changing this setting, the new session length will take effect after the next time the user enters their credentials."
                 />
             );
             sessionLengthMobileHelpText = (
                 <FormattedMessage
-                    id='admin.service.mobileSessionDaysDesc'
-                    defaultMessage='The number of days from the last time a user entered their credentials to the expiry of the users session. After changing this setting, the new session length will take effect after the next time the user enters their credentials.'
+                    id='admin.service.mobileSessionHoursDesc'
+                    defaultMessage="The number of hours from the last time a user entered their credentials to the expiry of the user's session. After changing this setting, the new session length will take effect after the next time the user enters their credentials."
                 />
             );
             sessionLengthSSOHelpText = (
                 <FormattedMessage
-                    id='admin.service.ssoSessionDaysDesc'
-                    defaultMessage='The number of days from the last time a user entered their credentials to the expiry of the users session. If the authentication method is SAML or GitLab, the user may automatically be logged back in to Mattermost if they are already logged in to SAML or GitLab. After changing this setting, the setting will take effect after the next time the user enters their credentials.'
+                    id='admin.service.ssoSessionHoursDesc'
+                    defaultMessage="The number of hours from the last time a user entered their credentials to the expiry of the user's session. If the authentication method is SAML or GitLab, the user may automatically be logged back in to Mattermost if they are already logged in to SAML or GitLab. After changing this setting, the setting will take effect after the next time the user enters their credentials."
                 />
             );
         }
@@ -137,48 +137,48 @@ export default class SessionLengthSettings extends AdminSettings {
                     disabled={this.props.isDisabled}
                 />
                 <TextSetting
-                    id='sessionLengthWebInDays'
+                    id='sessionLengthWebInHours'
                     label={
                         <FormattedMessage
-                            id='admin.service.webSessionDays'
-                            defaultMessage='Session Length AD/LDAP and Email (days):'
+                            id='admin.service.webSessionHours'
+                            defaultMessage='Session Length AD/LDAP and Email (hours):'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.service.sessionDaysEx', 'E.g.: "30"')}
+                    placeholder={Utils.localizeMessage('admin.service.sessionHoursEx', 'E.g.: "720"')}
                     helpText={sessionLengthWebHelpText}
-                    value={this.state.sessionLengthWebInDays}
+                    value={this.state.sessionLengthWebInHours}
                     onChange={this.handleChange}
-                    setByEnv={this.isSetByEnv('ServiceSettings.SessionLengthWebInDays')}
+                    setByEnv={this.isSetByEnv('ServiceSettings.SessionLengthWebInHours')}
                     disabled={this.props.isDisabled}
                 />
                 <TextSetting
-                    id='sessionLengthMobileInDays'
+                    id='sessionLengthMobileInHours'
                     label={
                         <FormattedMessage
-                            id='admin.service.mobileSessionDays'
-                            defaultMessage='Session Length Mobile (days):'
+                            id='admin.service.mobileSessionHours'
+                            defaultMessage='Session Length Mobile (hours):'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.service.sessionDaysEx', 'E.g.: "30"')}
+                    placeholder={Utils.localizeMessage('admin.service.sessionHoursEx', 'E.g.: "720"')}
                     helpText={sessionLengthMobileHelpText}
-                    value={this.state.sessionLengthMobileInDays}
+                    value={this.state.sessionLengthMobileInHours}
                     onChange={this.handleChange}
-                    setByEnv={this.isSetByEnv('ServiceSettings.SessionLengthMobileInDays')}
+                    setByEnv={this.isSetByEnv('ServiceSettings.SessionLengthMobileInHours')}
                     disabled={this.props.isDisabled}
                 />
                 <TextSetting
-                    id='sessionLengthSSOInDays'
+                    id='sessionLengthSSOInHours'
                     label={
                         <FormattedMessage
-                            id='admin.service.ssoSessionDays'
-                            defaultMessage='Session Length SSO (days):'
+                            id='admin.service.ssoSessionHours'
+                            defaultMessage='Session Length SSO (hours):'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.service.sessionDaysEx', 'E.g.: "30"')}
+                    placeholder={Utils.localizeMessage('admin.service.sessionHoursEx', 'E.g.: "720"')}
                     helpText={sessionLengthSSOHelpText}
-                    value={this.state.sessionLengthSSOInDays}
+                    value={this.state.sessionLengthSSOInHours}
                     onChange={this.handleChange}
-                    setByEnv={this.isSetByEnv('ServiceSettings.SessionLengthSSOInDays')}
+                    setByEnv={this.isSetByEnv('ServiceSettings.SessionLengthSSOInHours')}
                     disabled={this.props.isDisabled}
                 />
                 <TextSetting
