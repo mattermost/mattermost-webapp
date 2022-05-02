@@ -51,6 +51,9 @@ export type TopChannelResponse = {
 export type InsightsState = {
     topReactions: Record<string, Record<TimeFrame, Record<string, TopReaction>>>;
     myTopReactions: Record<string, Record<TimeFrame, Record<string, TopReaction>>>;
-    topChannels: Record<string, Record<TimeFrame, Record<string, TopChannel>>>;
-    myTopChannels: Record<string, Record<TimeFrame, Record<string, TopChannel>>>;
 }
+
+export type TopChannelActionResult = {
+    data?: TopChannelResponse;
+    error?: any;
+};

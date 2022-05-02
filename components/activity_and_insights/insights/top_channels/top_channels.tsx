@@ -12,10 +12,8 @@ import widgetHoc, {WidgetHocProps} from '../widget_hoc/widget_hoc';
 
 import './../../activity_and_insights.scss';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {GlobalState} from 'mattermost-redux/types/store';
 import {getMyTopChannels, getTopChannelsForTeam} from 'mattermost-redux/actions/insights';
-import {getMyTopChannelsForCurrentTeam, getTopChannelsForCurrentTeam} from 'mattermost-redux/selectors/entities/insights';
-import {TopChannel} from '@mattermost/types/insights';
+import {TopChannel, TopChannelActionResult} from '@mattermost/types/insights';
 
 const TopChannels = (props: WidgetHocProps) => {
     const dispatch = useDispatch();
@@ -23,23 +21,15 @@ const TopChannels = (props: WidgetHocProps) => {
     const [loading, setLoading] = useState(true);
     const [topChannels, setTopChannels] = useState([] as TopChannel[]);
 
-    const teamTopChannels = useSelector((state: GlobalState) => getTopChannelsForCurrentTeam(state, props.timeFrame, 5), shallowEqual);
-    const myTopChannels = useSelector((state: GlobalState) => getMyTopChannelsForCurrentTeam(state, props.timeFrame, 5), shallowEqual);
-
     const currentTeamId = useSelector(getCurrentTeamId);
-
-    useEffect(() => {
-        if (props.filterType === InsightsScopes.TEAM) {
-            setTopChannels(teamTopChannels);
-        } else {
-            setTopChannels(myTopChannels);
-        }
-    }, [props.filterType, teamTopChannels, myTopChannels]);
 
     const getTopTeamChannels = useCallback(async () => {
         if (props.filterType === InsightsScopes.TEAM) {
             setLoading(true);
-            await dispatch(getTopChannelsForTeam(currentTeamId, 0, 10, props.timeFrame));
+            const data: any = await dispatch(getTopChannelsForTeam(currentTeamId, 0, 5, props.timeFrame));
+            if (data.data && data.data.items) {
+                setTopChannels(data.data.items);
+            }
             setLoading(false);
         }
     }, [props.timeFrame, currentTeamId, props.filterType]);
@@ -51,7 +41,10 @@ const TopChannels = (props: WidgetHocProps) => {
     const getMyTeamChannels = useCallback(async () => {
         if (props.filterType === InsightsScopes.MY) {
             setLoading(true);
-            await dispatch(getMyTopChannels(currentTeamId, 0, 10, props.timeFrame));
+            const data: any = await dispatch(getMyTopChannels(currentTeamId, 0, 5, props.timeFrame));
+            if (data.data && data.data.items) {
+                setTopChannels(data.data.items);
+            }
             setLoading(false);
         }
     }, [props.timeFrame, props.filterType]);
@@ -82,7 +75,7 @@ const TopChannels = (props: WidgetHocProps) => {
         <div className='top-channel-container'>
             <div className='top-channel-line-chart'>
                 {
-
+                    loading &&
                     <LineChartLoader/>
                 }
             </div>

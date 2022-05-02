@@ -13,12 +13,6 @@ function sortTopReactions(reactions: TopReaction[] = []): TopReaction[] {
     });
 }
 
-function sortTopChannels(channels: TopChannel[] = []): TopChannel[] {
-    return channels.sort((a, b) => {
-        return b.message_count - a.message_count;
-    });
-}
-
 export function getTeamReactions(state: GlobalState) {
     return state.entities.insights.topReactions;
 }
@@ -72,64 +66,6 @@ export const getMyTopReactionsForCurrentTeam: (state: GlobalState, timeFrame: Ti
             sortTopReactions(reactionArr);
 
             return reactionArr.slice(0, maxResults);
-        }
-        return [];
-    },
-);
-
-export function getTeamTopChannels(state: GlobalState) {
-    return state.entities.insights.topChannels;
-}
-
-export const getChannelTimeFramesForCurrentTeam: (state: GlobalState) => Record<TimeFrame, Record<string, TopChannel>> = createSelector(
-    'getChannelTimeFramesForCurrentTeam',
-    getCurrentTeamId,
-    getTeamTopChannels,
-    (currentTeamId, channels) => {
-        return channels[currentTeamId];
-    },
-);
-
-export const getTopChannelsForCurrentTeam: (state: GlobalState, timeFrame: TimeFrame, maxResults?: number) => TopChannel[] = createSelector(
-    'getTopChannelsForCurrentTeam',
-    getChannelTimeFramesForCurrentTeam,
-    (state: GlobalState, timeFrame: TimeFrames) => timeFrame,
-    (state: GlobalState, timeFrame: TimeFrames, maxResults = 5) => maxResults,
-    (channels, timeFrame, maxResults) => {
-        if (channels && channels[timeFrame]) {
-            const channelArr = Object.values(channels[timeFrame]);
-            sortTopChannels(channelArr);
-
-            return channelArr.slice(0, maxResults);
-        }
-        return [];
-    },
-);
-
-export function getMyTopChannels(state: GlobalState) {
-    return state.entities.insights.myTopChannels;
-}
-
-export const getMyChannelTimeFramesForCurrentTeam: (state: GlobalState) => Record<TimeFrame, Record<string, TopChannel>> = createSelector(
-    'getMyChannelTimeFramesForCurrentTeam',
-    getCurrentTeamId,
-    getMyTopChannels,
-    (currentTeamId, channels) => {
-        return channels[currentTeamId];
-    },
-);
-
-export const getMyTopChannelsForCurrentTeam: (state: GlobalState, timeFrame: TimeFrame, maxResults?: number) => TopChannel[] = createSelector(
-    'getMyTopChannelsForCurrentTeam',
-    getMyChannelTimeFramesForCurrentTeam,
-    (state: GlobalState, timeFrame: TimeFrames) => timeFrame,
-    (state: GlobalState, timeFrame: TimeFrames, maxResults = 5) => maxResults,
-    (channels, timeFrame, maxResults) => {
-        if (channels && channels[timeFrame]) {
-            const channelArr = Object.values(channels[timeFrame]);
-            sortTopChannels(channelArr);
-
-            return channelArr.slice(0, maxResults);
         }
         return [];
     },
