@@ -149,7 +149,7 @@
         position: sticky;
         bottom: 0;
         width: 100%;
-        flex-basis: 50vh;
+        max-height: 50vh;
 
         .btn {
             margin-bottom: 10px;
