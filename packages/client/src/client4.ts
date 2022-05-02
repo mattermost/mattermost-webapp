@@ -75,7 +75,7 @@ import type {
     MarketplaceApp,
     MarketplacePlugin,
 } from '@mattermost/types/marketplace';
-import {Post, PostList, PostSearchResults, OpenGraphMetadata} from '@mattermost/types/posts';
+import {Post, PostList, PostSearchResults, OpenGraphMetadata, PaginatedPostList} from '@mattermost/types/posts';
 import {PreferenceType} from '@mattermost/types/preferences';
 import {Reaction} from '@mattermost/types/reactions';
 import {Role} from '@mattermost/types/roles';
@@ -1933,6 +1933,32 @@ export default class Client4 {
             `${this.getPostRoute(postId)}/thread${buildQueryString({skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended})}`,
             {method: 'get'},
         );
+    };
+
+    getPostThread = async (postId: string, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false, direction: 'up'|'down' = 'down', perPage: number = PER_PAGE_DEFAULT, fromCreateAt?: number, fromPost?: string, prevList?: PostList): Promise<PostList> => {
+        const list: PostList = prevList || {
+            order: [postId],
+            posts: {},
+            prev_post_id: '',
+            next_post_id: '',
+        };
+
+        const result = await this.doFetch<PaginatedPostList>(
+            `${this.getPostRoute(postId)}/thread${buildQueryString({skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended, direction, perPage, fromPost, fromCreateAt})}`,
+            {method: 'get'},
+        );
+
+        list.order!.push(...result.order.slice(1));
+        list.posts = Object.assign(list.posts, result.posts);
+
+        if (result.has_next) {
+            const [nextPostId] = list.order!.slice(-1);
+            const nextPostPointer = list.posts[nextPostId];
+
+            return this.getPostThread(postId, fetchThreads, collapsedThreads, collapsedThreadsExtended, direction, perPage, nextPostPointer?.create_at, nextPostId, list);
+        }
+
+        return list;
     };
 
     getPosts = (channelId: string, page = 0, perPage = PER_PAGE_DEFAULT, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false) => {

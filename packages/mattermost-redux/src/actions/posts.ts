@@ -719,7 +719,7 @@ export function getPostThread(rootId: string, fetchThreads = true) {
         let posts;
         try {
             posts = await Client4.getPostThread(rootId, fetchThreads, collapsedThreadsEnabled);
-            getProfilesAndStatusesForPosts(posts.posts, dispatch, getState);
+            await getProfilesAndStatusesForPosts(posts.posts, dispatch, getState);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch({type: PostTypes.GET_POST_THREAD_FAILURE, error});
@@ -936,13 +936,13 @@ export function getThreadsForPosts(posts: Post[], fetchThreads = true) {
 }
 
 // Note that getProfilesAndStatusesForPosts can take either an array of posts or a map of ids to posts
-export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<string, Post>, dispatch: DispatchFunc, getState: GetStateFunc) {
+export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|PostList['posts'], dispatch: DispatchFunc, getState: GetStateFunc) {
     if (!postsArrayOrMap) {
         // Some API methods return {error} for no results
         return Promise.resolve();
     }
 
-    const postsArray: Post[] = Object.values(postsArrayOrMap);
+    const postsArray: Post[] = Array.isArray(postsArrayOrMap) ? postsArrayOrMap : Object.values(postsArrayOrMap);
 
     if (postsArray.length === 0) {
         return Promise.resolve();
