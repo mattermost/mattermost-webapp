@@ -19,9 +19,9 @@ import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 
 import {GenericAction, GetStateFunc} from 'mattermost-redux/types/actions';
 
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 
@@ -252,6 +252,7 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
                     isDraggable={true}
                     teamId={team.id}
                     teamIndex={index}
+                    isInProduct={Boolean(currentProduct)}
                 />
             );
         });

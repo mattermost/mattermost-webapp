@@ -8,7 +8,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {filterProfilesStartingWithTerm} from 'mattermost-redux/utils/user_utils';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 
 import Constants from 'utils/constants';

@@ -8,5 +8,7 @@ const content = JSON.parse(fs.readFileSync('package-lock.json', 'utf-8'));
 // @see https://github.com/npm/cli/issues/2846
 delete content.dependencies.mmjstool.integrity;
 delete content.packages['node_modules/mmjstool'].integrity;
+delete content.dependencies.marked.integrity;
+delete content.packages['node_modules/marked'].integrity;
 
 fs.writeFileSync('package-lock.json', JSON.stringify(content, null, 2) + '\n');

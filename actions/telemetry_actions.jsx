@@ -196,11 +196,11 @@ export function trackPluginInitialization(plugins) {
 }
 
 export function trackSelectorMetrics() {
-    if (!shouldTrackPerformance()) {
-        return;
-    }
-
     setTimeout(() => {
+        if (!shouldTrackPerformance()) {
+            return;
+        }
+
         const selectors = getSortedTrackedSelectors();
 
         trackEvent('performance', 'least_effective_selectors', {

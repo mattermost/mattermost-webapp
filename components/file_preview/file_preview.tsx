@@ -9,7 +9,7 @@ import {FileInfo} from 'mattermost-redux/types/files';
 
 import FilenameOverlay from 'components/file_attachment/filename_overlay';
 import Constants, {FileTypes} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import FileProgressPreview from './file_progress_preview';
 
