@@ -201,7 +201,7 @@ export function reconnect(includeWebSocket = true) {
     });
 
     const state = getState();
-    const currentTeamId = state.entities.teams.currentTeamId;
+    const currentTeamId = getCurrentTeamId(state);
     if (currentTeamId) {
         const currentUserId = getCurrentUserId(state);
         const currentChannelId = getCurrentChannelId(state);
@@ -226,8 +226,15 @@ export function reconnect(includeWebSocket = true) {
         const crtEnabled = isCollapsedThreadsEnabled(state);
         dispatch(TeamActions.getMyTeamUnreads(crtEnabled, true));
         if (crtEnabled) {
-            const newestThread = getNewestThreadInTeam(state, currentTeamId);
-            dispatch(getCountsAndThreadsSince(currentUserId, currentTeamId, newestThread ? newestThread.last_reply_at : 0));
+            const teams = getMyTeams(state);
+            syncThreads(currentTeamId, currentUserId);
+
+            for (const team of teams) {
+                if (team.id === currentTeamId) {
+                    continue;
+                }
+                syncThreads(team.id, currentUserId);
+            }
         }
     }
 
@@ -245,6 +252,17 @@ export function reconnect(includeWebSocket = true) {
 
     dispatch(resetWsErrorCount());
     dispatch(clearErrors());
+}
+
+function syncThreads(teamId, userId) {
+    const state = getState();
+    const newestThread = getNewestThreadInTeam(state, teamId);
+
+    // no need to sync if we have nothing yet
+    if (!newestThread) {
+        return;
+    }
+    dispatch(getCountsAndThreadsSince(userId, teamId, newestThread.last_reply_at));
 }
 
 let intervalId = '';

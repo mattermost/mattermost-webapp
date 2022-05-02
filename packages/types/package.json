@@ -1,6 +1,6 @@
 {
   "name": "@mattermost/types",
-  "version": "6.6.0-0",
+  "version": "6.7.0-0",
   "description": "Shared type definitions used by the Mattermost web app",
   "keywords": [
     "mattermost"
@@ -11,8 +11,9 @@
     "lib"
   ],
   "exports": {
-    "*": "./lib/*.js"
+    "./*": "./lib/*.js"
   },
+  "types": "./lib/*.d.ts",
   "respository": {
     "type": "git",
     "url": "github:mattermost/mattermost-webapp",
@@ -27,6 +28,7 @@
     }
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc -b -v",
+    "clean": "rm -rf tsconfig.tsbuildinfo ./lib"
   }
 }
