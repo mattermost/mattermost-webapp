@@ -3,7 +3,7 @@
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 
-import {InsightsScopes} from 'utils/constants';
+import Constants, {InsightsScopes} from 'utils/constants';
 
 import CircleLoader from '../skeleton_loader/circle_loader/circle_loader';
 import TitleLoader from '../skeleton_loader/title_loader/title_loader';
@@ -11,21 +11,30 @@ import LineChartLoader from '../skeleton_loader/line_chart_loader/line_chart_loa
 import widgetHoc, {WidgetHocProps} from '../widget_hoc/widget_hoc';
 
 import './../../activity_and_insights.scss';
-import { getCurrentTeamId } from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {GlobalState} from 'mattermost-redux/types/store';
-import { getMyTopChannels, getTopChannelsForTeam } from 'mattermost-redux/actions/insights';
-import { getMyTopChannelsForCurrentTeam, getTopChannelsForCurrentTeam } from 'mattermost-redux/selectors/entities/insights';
+import {getMyTopChannels, getTopChannelsForTeam} from 'mattermost-redux/actions/insights';
+import {getMyTopChannelsForCurrentTeam, getTopChannelsForCurrentTeam} from 'mattermost-redux/selectors/entities/insights';
+import {TopChannel} from '@mattermost/types/insights';
 
-// eslint-disable-next-line no-empty-pattern
 const TopChannels = (props: WidgetHocProps) => {
     const dispatch = useDispatch();
 
     const [loading, setLoading] = useState(true);
+    const [topChannels, setTopChannels] = useState([] as TopChannel[]);
 
     const teamTopChannels = useSelector((state: GlobalState) => getTopChannelsForCurrentTeam(state, props.timeFrame, 5), shallowEqual);
     const myTopChannels = useSelector((state: GlobalState) => getMyTopChannelsForCurrentTeam(state, props.timeFrame, 5), shallowEqual);
 
     const currentTeamId = useSelector(getCurrentTeamId);
+
+    useEffect(() => {
+        if (props.filterType === InsightsScopes.TEAM) {
+            setTopChannels(teamTopChannels);
+        } else {
+            setTopChannels(myTopChannels);
+        }
+    }, [props.filterType, teamTopChannels, myTopChannels]);
 
     const getTopTeamChannels = useCallback(async () => {
         if (props.filterType === InsightsScopes.TEAM) {
@@ -56,7 +65,7 @@ const TopChannels = (props: WidgetHocProps) => {
         for (let i = 0; i < 5; i++) {
             titles.push(
                 <div
-                    className='top-channel-row'
+                    className='top-channel-loading-row'
                     key={i}
                 >
                     <CircleLoader
@@ -73,7 +82,7 @@ const TopChannels = (props: WidgetHocProps) => {
         <div className='top-channel-container'>
             <div className='top-channel-line-chart'>
                 {
-                    loading &&
+
                     <LineChartLoader/>
                 }
             </div>
@@ -81,6 +90,45 @@ const TopChannels = (props: WidgetHocProps) => {
                 {
                     loading &&
                     skeletonTitle()
+                }
+                {
+                    (!loading && topChannels) &&
+                    <div className='channel-list'>
+                        {
+                            topChannels.map((channel) => {
+                                const barSize = (channel.message_count / topChannels[0].message_count);
+
+                                let iconToDisplay = <i className='icon icon-globe'/>;
+
+                                if (channel.type === Constants.PRIVATE_CHANNEL) {
+                                    iconToDisplay = <i className='icon icon-lock'/>;
+                                }
+                                return (
+                                    <div
+                                        className='channel-row'
+                                        key={channel.id}
+                                    >
+                                        <div className='channel-display-name'>
+                                            <span className='icon'>
+                                                {iconToDisplay}
+                                            </span>
+                                            <span className='display-name'>{channel.display_name}</span>
+                                        </div>
+                                        <div className='channel-message-count'>
+                                            <span className='message-count'>{channel.message_count}</span>
+                                            <span
+                                                className='horizontal-bar'
+                                                style={{
+                                                    flex: `${barSize} 0`,
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+                                );
+                            })
+                        }
+                    </div>
+
                 }
             </div>
         </div>

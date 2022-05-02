@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ChannelType} from "./channels";
+import {ChannelType} from './channels';
 
 export enum InsightsWidgetTypes {
     TOP_CHANNELS = 'TOP_CHANNELS',
