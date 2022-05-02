@@ -1,5 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import {isMobile} from 'utils/utils';
+
 import {createSelector} from 'reselect';
 
 import {makeGetCategory, getBool} from 'mattermost-redux/selectors/entities/preferences';
@@ -10,8 +12,6 @@ import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_
 import {GlobalState} from 'types/store';
 
 import {RecommendedNextStepsLegacy, Preferences} from 'utils/constants';
-
-import {isMobile} from 'utils/utils.jsx';
 
 const getCategory = makeGetCategory();
 export const getABTestPreferences = (() => {
