@@ -2,12 +2,16 @@
 // See LICENSE.txt for license information.
 import {createSelector} from 'reselect';
 
-import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {makeGetCategory, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
+
+import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks';
 
 import {GlobalState} from 'types/store';
 
-import {RecommendedNextSteps, Preferences} from 'utils/constants';
+import {RecommendedNextStepsLegacy, Preferences} from 'utils/constants';
+
+import {isMobile} from 'utils/utils.jsx';
 
 const getCategory = makeGetCategory();
 export const getABTestPreferences = (() => {
@@ -18,7 +22,7 @@ const getFirstChannelNamePref = createSelector(
     'getFirstChannelNamePref',
     getABTestPreferences,
     (preferences) => {
-        return preferences.find((pref) => pref.name === RecommendedNextSteps.CREATE_FIRST_CHANNEL);
+        return preferences.find((pref) => pref.name === RecommendedNextStepsLegacy.CREATE_FIRST_CHANNEL);
     },
 );
 
@@ -47,27 +51,27 @@ export type StepType = {
 
 export const Steps: StepType[] = [
     {
-        id: RecommendedNextSteps.COMPLETE_PROFILE,
+        id: RecommendedNextStepsLegacy.COMPLETE_PROFILE,
         roles: [],
     },
     {
-        id: RecommendedNextSteps.TEAM_SETUP,
+        id: RecommendedNextStepsLegacy.TEAM_SETUP,
         roles: ['first_admin'],
     },
     {
-        id: RecommendedNextSteps.NOTIFICATION_SETUP,
+        id: RecommendedNextStepsLegacy.NOTIFICATION_SETUP,
         roles: ['system_user'],
     },
     {
-        id: RecommendedNextSteps.PREFERENCES_SETUP,
+        id: RecommendedNextStepsLegacy.PREFERENCES_SETUP,
         roles: ['system_user'],
     },
     {
-        id: RecommendedNextSteps.INVITE_MEMBERS,
+        id: RecommendedNextStepsLegacy.INVITE_MEMBERS,
         roles: ['system_admin', 'system_user'],
     },
     {
-        id: RecommendedNextSteps.DOWNLOAD_APPS,
+        id: RecommendedNextStepsLegacy.DOWNLOAD_APPS,
         roles: [],
     },
 ];
@@ -97,11 +101,11 @@ export const showOnboardingTaskListToExistingUsers = createSelector(
     (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
     (state: GlobalState) => legacyNextStepsNotFinished(state),
     (stepPreferences, legacyNextStepsNotFinished) => {
-        if (stepPreferences.some((pref) => (pref.name === RecommendedNextSteps.SKIP && pref.value === 'true'))) {
+        if (stepPreferences.some((pref) => (pref.name === RecommendedNextStepsLegacy.SKIP && pref.value === 'true'))) {
             return false;
         }
 
-        if (stepPreferences.some((pref) => (pref.name === RecommendedNextSteps.HIDE && pref.value === 'true'))) {
+        if (stepPreferences.some((pref) => (pref.name === RecommendedNextStepsLegacy.HIDE && pref.value === 'true'))) {
             return false;
         }
 
@@ -120,5 +124,34 @@ export const legacyNextStepsNotFinished = createSelector(
         const roles = firstAdmin ? `first_admin ${currentUser?.roles}` : currentUser?.roles;
         const checkPref = (step: StepType) => stepPreferences.some((pref) => (pref.name === step.id && pref.value === 'true') || !isStepForUser(step, roles));
         return !mySteps.every(checkPref);
+    },
+);
+
+export const getShowTaskListBool = createSelector(
+    'getShowTaskListBool',
+    (state: GlobalState) => state,
+    (state: GlobalState) => getCategory(state, OnboardingTaskCategory),
+    (state: GlobalState) => getCategory(state, Preferences.RECOMMENDED_NEXT_STEPS),
+    (state, onboardingPreferences, legacyStepsPreferences) => {
+        // conditions to validate scenario where users (initially first_admins) had already set any of the onboarding task list preferences values.
+        // We check wether the preference value exists meaning the onboarding tasks list already started no matter what the state of the process is
+        const hasUserStartedOnboardingTaskListProcess = onboardingPreferences?.some((pref) =>
+            pref.name === OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW || pref.name === OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN);
+
+        // This condition verifies existing users hasn't finished nor skipped legacy next steps or there are still steps not completed
+        const hasLegacyNextStepsPrefs = legacyStepsPreferences?.some((pref) =>
+            pref.name === RecommendedNextStepsLegacy.SKIP || pref.name === RecommendedNextStepsLegacy.HIDE);
+
+        const existingUserHasntFinishedNorSkippedLegacyNextSteps = hasLegacyNextStepsPrefs && showOnboardingTaskListToExistingUsers(state);
+
+        const completelyNewUserForOnboarding = !hasUserStartedOnboardingTaskListProcess && !hasLegacyNextStepsPrefs;
+
+        const firstTimeOnboarding = completelyNewUserForOnboarding || existingUserHasntFinishedNorSkippedLegacyNextSteps;
+
+        const taskListStatus = getBool(state, OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW);
+        const isMobileView = isMobile();
+        const showTaskList = (firstTimeOnboarding || taskListStatus) && !isMobileView;
+
+        return [showTaskList, firstTimeOnboarding];
     },
 );

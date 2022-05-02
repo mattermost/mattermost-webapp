@@ -543,7 +543,7 @@ export const TopLevelProducts = {
     PLAYBOOKS: 'Playbooks',
 };
 
-export const RecommendedNextSteps = {
+export const RecommendedNextStepsLegacy = {
     COMPLETE_PROFILE: 'complete_profile',
     TEAM_SETUP: 'team_setup',
     INVITE_MEMBERS: 'invite_members',
