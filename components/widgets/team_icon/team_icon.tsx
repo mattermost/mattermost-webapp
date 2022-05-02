@@ -6,7 +6,7 @@ import classNames from 'classnames';
 
 import {Team} from 'mattermost-redux/types/teams';
 
-import {imageURLForTeam} from 'utils/utils.jsx';
+import {imageURLForTeam} from 'utils/utils';
 
 import './team_icon.scss';
 
