@@ -6,7 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import LoadingScreen from 'components/loading_screen';
 import Avatar from 'components/widgets/users/avatar';
