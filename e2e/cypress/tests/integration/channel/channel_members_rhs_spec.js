@@ -154,6 +154,31 @@ describe('Channel members RHS', () => {
         });
     });
 
+    it('should hide deactivated members', () => {
+        cy.apiCreateChannel(testTeam.id, 'hide-test-channel', 'Hide Test Channel', 'O').then(({channel}) => {
+            let testUser = null;
+            cy.apiCreateUser().then(({user: newUser}) => {
+                cy.apiAddUserToTeam(testTeam.id, newUser.id).then(() => {
+                    cy.apiAddUserToChannel(channel.id, newUser.id).then(() => {
+                        testUser = newUser;
+
+                        // # Open the Channel Members RHS
+                        openChannelMembersRhs(testTeam, channel);
+
+                        // * Ensure the member is visible
+                        cy.uiGetRHS().findByText(`@${testUser.username}`).should('be.visible');
+
+                        // # Deactivate the user
+                        cy.apiDeactivateUser(testUser.id);
+
+                        // * Ensure the user is not visible anymore
+                        cy.uiGetRHS().findByText(`@${testUser.username}`).should('not.exist');
+                    });
+                });
+            });
+        });
+    });
+
     describe('as an admin', () => {
         it('should be able to invite new members', () => {
             // # Open the Channel Members RHS
