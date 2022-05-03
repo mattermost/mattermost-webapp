@@ -1,0 +1,61 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+@import 'utils/mixins';
+
+.login-mfa {
+    display: flex;
+    max-width: 540px;
+    flex-flow: column;
+    justify-content: center;
+    border: none;
+    box-shadow: none;
+
+    .login-mfa-svg {
+        align-self: center;
+    }
+
+    .login-mfa-title {
+        color: #1e325c;
+        font-family: Metropolis;
+        font-size: 40px;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        line-height: 48px;
+        text-align: center;
+    }
+
+    .login-mfa-subtitle {
+        color: rgba(var(--center-channel-text-rgb), 0.72);
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: center;
+    }
+
+    .login-mfa-form {
+        display: flex;
+        flex: 1;
+        margin-top: 30px;
+
+        .login-mfa-form-input {
+            flex: 1;
+            background-color: var(--center-channel-bg);
+        }
+
+        .login-mfa-form-button-container {
+            display: flex;
+            width: 170px;
+            margin-left: 8px;
+            background-color: var(--center-channel-bg);
+
+            .login-mfa-form-button-submit {
+                @include primary-button;
+                @include button-large;
+
+                flex: 1;
+                margin: 0;
+            }
+        }
+    }
+}

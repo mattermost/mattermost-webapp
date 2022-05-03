@@ -1,53 +1,53 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/login/LoginMfa should match snapshot 1`] = `
-<form
-  onSubmit={[Function]}
+<div
+  className="login-mfa"
+  onKeyDown={[Function]}
+  tabIndex={0}
 >
   <div
-    className="signup__email-container"
+    className="login-mfa-svg"
   >
-    <p>
-      <MemoizedFormattedMessage
-        defaultMessage="To complete the sign in process, please enter a token from your smartphone's authenticator"
-        id="login_mfa.enterToken"
-      />
-    </p>
-    <div
-      className="form-group"
+    <Svg />
+  </div>
+  <h1
+    className="login-mfa-title"
+  >
+    Enter MFA Token
+  </h1>
+  <p
+    className="login-mfa-subtitle"
+  >
+    To complete the sign in process, please enter a token from your smartphone's authenticator
+  </p>
+  <div
+    className="login-mfa-form"
+  >
+    <ForwardRef
+      autoFocus={true}
+      containerClassName="login-mfa-form-input"
+      disabled={false}
+      inputSize="large"
+      name="token"
+      onChange={[Function]}
+      placeholder="Enter MFA Token"
+      type="text"
+      value=""
     />
     <div
-      className="form-group"
-    >
-      <LocalizedInput
-        autoComplete="off"
-        autoFocus={true}
-        className="form-control"
-        name="token"
-        onChange={[Function]}
-        placeholder={
-          Object {
-            "defaultMessage": "MFA Token",
-            "id": "login_mfa.token",
-          }
-        }
-        spellCheck="false"
-        type="text"
-      />
-    </div>
-    <div
-      className="form-group"
+      className="login-mfa-form-button-container"
     >
       <SaveButton
         btnClass="btn-primary"
         defaultMessage="Submit"
-        disabled={false}
-        extraClasses=""
+        disabled={true}
+        extraClasses="login-mfa-form-button-submit large"
         onClick={[Function]}
         saving={false}
-        savingMessage="Submitting..."
+        savingMessage="Logging in…"
       />
     </div>
   </div>
-</form>
+</div>
 `;

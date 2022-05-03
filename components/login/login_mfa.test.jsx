@@ -2,16 +2,18 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+import {shallow, mount} from 'enzyme';
 
-import LoginMfa from 'components/login/login_mfa.jsx';
+import LoginMfa from 'components/login/login_mfa';
+import SaveButton from 'components/save_button';
 
 describe('components/login/LoginMfa', () => {
     const baseProps = {
-        loginId: 'logid_id',
+        loginId: 'login_id',
         password: 'password',
-        submit: jest.fn(),
+        onSubmit: jest.fn(),
     };
+    const token = '123456';
 
     test('should match snapshot', () => {
         const wrapper = shallow(
@@ -21,36 +23,43 @@ describe('components/login/LoginMfa', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should have match state when handleChange is called', () => {
-        const wrapper = shallow(
+    test('should handle token entered', () => {
+        const wrapper = mount(
             <LoginMfa {...baseProps}/>,
         );
 
-        wrapper.setState({token: ''});
-        wrapper.instance().handleChange({preventDefault: jest.fn(), target: {value: '123456'}});
+        let input = wrapper.find('input').first();
+        expect(input.props().disabled).toEqual(false);
 
-        expect(wrapper.state('token')).toEqual('123456');
+        let button = wrapper.find(SaveButton).first();
+        expect(button.props().disabled).toEqual(true);
+
+        input.simulate('change', {target: {value: token}});
+
+        button = wrapper.find(SaveButton).first();
+        expect(button.props().disabled).toEqual(false);
+
+        input = wrapper.find('input').first();
+        expect(input.props().value).toEqual(token);
     });
 
-    test('should have match state when handleSubmit is called', () => {
-        const submit = jest.fn();
-        const props = {...baseProps, submit};
-        const wrapper = shallow(
-            <LoginMfa {...props}/>,
+    test('should handle submit', () => {
+        const wrapper = mount(
+            <LoginMfa {...baseProps}/>,
         );
 
-        wrapper.setState({token: '', serverError: '', saving: false});
-        wrapper.instance().handleSubmit({preventDefault: jest.fn()});
-        expect(wrapper.state('serverError')).toEqual('');
-        expect(wrapper.state('saving')).toEqual(true);
-        expect(submit).toBeCalled(); // This is not a bug. See https://github.com/mattermost/mattermost-server/pull/8881
-        expect(submit).toBeCalledWith(props.loginId, props.password, '');
+        let input = wrapper.find('input').first();
+        input.simulate('change', {target: {value: token}});
 
-        wrapper.setState({token: '123456', serverError: ''});
-        wrapper.instance().handleSubmit({preventDefault: jest.fn()});
-        expect(wrapper.state('serverError')).toEqual('');
-        expect(wrapper.state('saving')).toEqual(true);
-        expect(submit).toBeCalled();
-        expect(submit).toBeCalledWith(props.loginId, props.password, '123456');
+        wrapper.find(SaveButton).simulate('click');
+
+        const saveButton = wrapper.find(SaveButton).first().props();
+        expect(saveButton.disabled).toEqual(false);
+        expect(saveButton.saving).toEqual(true);
+
+        input = wrapper.find('input').first();
+        expect(input.props().disabled).toEqual(true);
+
+        expect(baseProps.onSubmit).toHaveBeenCalledWith(baseProps.loginId, baseProps.password, token);
     });
 });
