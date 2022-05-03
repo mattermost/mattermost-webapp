@@ -10,7 +10,7 @@ import {ReactComponentLike} from 'prop-types';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import AutosizeTextarea from 'components/autosize_textarea';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 export type Props = {
 

@@ -15,7 +15,7 @@ import {
 
 import Constants, {Locations, A11yCustomEventTypes, AppEvents} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
-import {isMobile} from 'utils/utils.jsx';
+import {isMobile} from 'utils/utils';
 import ActionsMenu from 'components/actions_menu';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';

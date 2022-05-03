@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import * as FileUtils from 'utils/file_utils';
 
 import {Constants} from 'utils/constants';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 
 import FormError from 'components/form_error';
 import OverlayTrigger from 'components/overlay_trigger';

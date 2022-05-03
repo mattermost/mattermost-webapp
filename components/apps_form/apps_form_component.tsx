@@ -18,7 +18,7 @@ import SpinnerButton from 'components/spinner_button';
 import SuggestionList from 'components/suggestion/suggestion_list';
 import ModalSuggestionList from 'components/suggestion/modal_suggestion_list';
 
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 
 import {filterEmptyOptions} from 'utils/apps';
 import Markdown from 'components/markdown';
