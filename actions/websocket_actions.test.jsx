@@ -42,7 +42,7 @@ import {
     reconnect,
     handleAppsPluginEnabled,
     handleAppsPluginDisabled,
-    handleCloudProductLimitsChanged,
+    handleCloudSubscriptionChanged,
 } from './websocket_actions';
 
 jest.mock('mattermost-redux/actions/posts', () => ({
@@ -767,7 +767,7 @@ describe('handleChannelUpdatedEvent', () => {
     });
 });
 
-describe('handleCloudProductLimitsChanged', () => {
+describe('handleCloudSubscriptionChanged', () => {
     test('entirely replaces cloud limits in store', () => {
         const initialState = {
             entities: {
@@ -796,11 +796,53 @@ describe('handleCloudProductLimitsChanged', () => {
         };
 
         const testStore = configureStore(initialState);
-        testStore.dispatch(handleCloudProductLimitsChanged(msg));
+        testStore.dispatch(handleCloudSubscriptionChanged(msg));
 
         expect(testStore.getActions()).toContainEqual({
             type: CloudTypes.RECEIVED_CLOUD_LIMITS,
             data: newLimits,
+        });
+    });
+
+    test('entirely replaces cloud limits in store', () => {
+        const baseSubscription = {
+            id: 'basesub',
+            customer_id: '',
+            product_id: '',
+            add_ons: [],
+            start_at: 0,
+            end_at: 0,
+            create_at: 0,
+            seats: 0,
+            is_paid_tier: '',
+            trial_end_at: 0,
+            is_free_trial: '',
+        };
+        const initialState = {
+            entities: {
+                cloud: {
+                    subscription: {...baseSubscription},
+                },
+            },
+        };
+        const newSubscription = {
+            ...baseSubscription,
+            id: 'newsub',
+        };
+
+        const msg = {
+            event: SocketEvents.CLOUD_PRODUCT_LIMITS_CHANGED,
+            data: {
+                subscription: newSubscription,
+            },
+        };
+
+        const testStore = configureStore(initialState);
+        testStore.dispatch(handleCloudSubscriptionChanged(msg));
+
+        expect(testStore.getActions()).toContainEqual({
+            type: CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION,
+            data: newSubscription,
         });
     });
 });

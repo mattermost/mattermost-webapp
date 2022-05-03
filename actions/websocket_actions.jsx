@@ -556,8 +556,8 @@ export function handleEvent(msg) {
     case SocketEvents.CLOUD_PAYMENT_STATUS_UPDATED:
         dispatch(handleCloudPaymentStatusUpdated(msg));
         break;
-    case SocketEvents.CLOUD_PRODUCT_LIMITS_CHANGED:
-        dispatch(handleCloudProductLimitsChanged(msg));
+    case SocketEvents.CLOUD_SUBSCRIPTION_CHANGED:
+        dispatch(handleCloudSubscriptionChanged(msg));
         break;
     case SocketEvents.FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED:
         handleFirstAdminVisitMarketplaceStatusReceivedEvent(msg);
@@ -1514,17 +1514,21 @@ function handleCloudPaymentStatusUpdated() {
     return (doDispatch) => doDispatch(getCloudSubscription());
 }
 
-export function handleCloudProductLimitsChanged(msg) {
+export function handleCloudSubscriptionChanged(msg) {
     return (doDispatch) => {
-        doDispatch({
-            type: CloudTypes.RECEIVED_CLOUD_LIMITS,
-            data: msg.data.limits,
-        });
+        if (msg.data.limits) {
+            doDispatch({
+                type: CloudTypes.RECEIVED_CLOUD_LIMITS,
+                data: msg.data.limits,
+            });
+        }
 
-        doDispatch({
-            type: CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION,
-            data: msg.data.subscription,
-        });
+        if (msg.data.subscription) {
+            doDispatch({
+                type: CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION,
+                data: msg.data.subscription,
+            });
+        }
         return {data: true};
     };
 }
