@@ -46,6 +46,8 @@ describe('Channel', () => {
     });
 
     it('MM-43881 Channel name already taken for public channel and changed allows to create', () => {
+        // # Create a new public channel
+        createNewChannel('other-public', false, testTeamId).as('channel');
         cy.reload();
 
         cy.get('@channel').then((channel) => {
