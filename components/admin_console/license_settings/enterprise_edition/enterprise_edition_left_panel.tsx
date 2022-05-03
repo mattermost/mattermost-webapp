@@ -67,8 +67,11 @@ const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
     useEffect(() => {
         async function fetchUnSanitizedLicense() {
             // This solves this the issue reported here: https://mattermost.atlassian.net/browse/MM-42906
-            const unsanitizedL = await Client4.getClientLicenseOld();
-            setUnsanitizedLicense(unsanitizedL);
+            try {
+                const unsanitizedL = await Client4.getClientLicenseOld();
+                setUnsanitizedLicense(unsanitizedL);
+            // eslint-disable-next-line no-empty
+            } catch {}
         }
         fetchUnSanitizedLicense();
     }, [license]);
