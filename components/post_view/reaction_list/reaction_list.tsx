@@ -18,7 +18,7 @@ import AddReactionIcon from 'components/widgets/icons/add_reaction_icon';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 
 const DEFAULT_EMOJI_PICKER_RIGHT_OFFSET = 15;
 const EMOJI_PICKER_WIDTH_OFFSET = 260;

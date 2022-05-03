@@ -10,7 +10,7 @@ import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {Command} from 'mattermost-redux/types/integrations';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
 import InstalledCommand, {matchesFilter} from '../installed_command.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';

@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Constants} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import BotBadge from 'components/widgets/badges/bot_badge';

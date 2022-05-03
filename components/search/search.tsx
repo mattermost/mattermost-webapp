@@ -11,7 +11,7 @@ import {getCurrentChannelNameForSearchShortcut} from 'mattermost-redux/selectors
 import {isServerVersionGreaterThanOrEqualTo} from 'utils/server_version';
 import {isDesktopApp, getDesktopVersion, isMacApp} from 'utils/user_agent';
 import Constants, {searchHintOptions, RHSStates, searchFilesHintOptions} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import SearchHint from 'components/search_hint/search_hint';

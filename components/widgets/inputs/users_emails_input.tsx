@@ -18,7 +18,7 @@ import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import Avatar from 'components/widgets/users/avatar';
-import {imageURLForUser, getDisplayName, getLongDisplayNameParts} from 'utils/utils.jsx';
+import {imageURLForUser, getDisplayName, getLongDisplayNameParts} from 'utils/utils';
 
 import {t} from 'utils/i18n.jsx';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
