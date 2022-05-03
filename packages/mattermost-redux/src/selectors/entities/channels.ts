@@ -353,6 +353,12 @@ export function getChannelByName(state: GlobalState, channelName: string): Chann
     return getChannelByNameHelper(getAllChannels(state), channelName);
 }
 
+export function getChannelByTeamIdAndChannelName(state: GlobalState, teamId: string, channelName: string): Channel | undefined | null {
+    return Object.values(getAllChannels(state)).find((channel) =>
+        channel.team_id === teamId && channel.name === channelName,
+    );
+}
+
 export const getChannelSetInCurrentTeam: (state: GlobalState) => string[] = createSelector(
     'getChannelSetInCurrentTeam',
     getCurrentTeamId,

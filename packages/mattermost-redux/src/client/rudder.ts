@@ -6,14 +6,16 @@
 import * as rudderAnalytics from 'rudder-sdk-js';
 export {rudderAnalytics};
 
-import {TelemetryHandler} from './telemetry';
+import {TelemetryHandler} from '@mattermost/client';
+
+import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 
 export class RudderTelemetryHandler implements TelemetryHandler {
     trackEvent(userId: string, userRoles: string, category: string, event: string, props?: any) {
         const properties = Object.assign({
             category,
             type: event,
-            user_actual_role: userRoles,
+            user_actual_role: getActualRoles(userRoles),
             user_actual_id: userId,
         }, props);
         const options = {
@@ -43,7 +45,7 @@ export class RudderTelemetryHandler implements TelemetryHandler {
                 search: '',
                 title: '',
                 url: '',
-                user_actual_role: userRoles,
+                user_actual_role: getActualRoles(userRoles),
                 user_actual_id: userId,
             },
             {
@@ -54,4 +56,8 @@ export class RudderTelemetryHandler implements TelemetryHandler {
             },
         );
     }
+}
+
+function getActualRoles(userRoles: string) {
+    return userRoles && isSystemAdmin(userRoles) ? 'system_admin, system_user' : 'system_user';
 }

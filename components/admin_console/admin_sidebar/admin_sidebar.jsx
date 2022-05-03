@@ -10,7 +10,7 @@ import isEqual from 'lodash/isEqual';
 
 import classNames from 'classnames';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {generateIndex} from 'utils/admin_console_index.jsx';
 import {browserHistory} from 'utils/browser_history';
 import {intlShape} from 'utils/react_intl';
