@@ -11,7 +11,7 @@ import Tooltip from 'components/tooltip';
 import TeamInfoIcon from 'components/widgets/icons/team_info_icon';
 
 import {t} from 'utils/i18n';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 type Props = {
     team: Team;

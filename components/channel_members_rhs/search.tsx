@@ -41,6 +41,11 @@ const SearchBar = ({className, terms, onInput}: Props) => {
                 onInput={(e) => onInput(e.currentTarget.value)}
                 inputPrefix={<i className={'icon icon-magnify'}/>}
                 inputSuffix={inputSuffix}
+                placeholder={formatMessage({
+                    id: 'channel_members_rhs.search_bar.placeholder',
+                    defaultMessage: 'Search members',
+                })}
+                useLegend={false}
             />
         </div>
     );

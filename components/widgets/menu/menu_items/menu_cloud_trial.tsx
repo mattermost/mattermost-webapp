@@ -10,7 +10,7 @@ import UpgradeLink from 'components/widgets/links/upgrade_link';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
-import {getRemainingDaysFromFutureTimestamp} from 'utils/utils.jsx';
+import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
 import {TrialPeriodDays} from 'utils/constants';
 
 import './menu_item.scss';

@@ -21,7 +21,7 @@ exports[`admin_console/team_channel_settings/team/TeamProfile should match snaps
         <div
           className="large-team-image-col"
         >
-          <TeamIcon
+          <injectIntl(TeamIcon)
             content="test"
             size="lg"
             url={null}
@@ -99,7 +99,7 @@ exports[`admin_console/team_channel_settings/team/TeamProfile should match snaps
         <div
           className="large-team-image-col"
         >
-          <TeamIcon
+          <injectIntl(TeamIcon)
             content="test"
             size="lg"
             url={null}
