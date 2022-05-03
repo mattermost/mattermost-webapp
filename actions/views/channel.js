@@ -112,6 +112,8 @@ export function switchToChannel(channel) {
         } else if (channel.type === Constants.GM_CHANNEL) {
             const gmChannel = getChannel(state, channel.id);
             browserHistory.push(`${teamUrl}/channels/${gmChannel.name}`);
+        } else if (channel.type === Constants.THREADS) {
+            browserHistory.push(`${teamUrl}/${channel.name}`);
         } else {
             browserHistory.push(`${teamUrl}/channels/${channel.name}`);
         }

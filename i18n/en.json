@@ -4489,6 +4489,7 @@
   "suggestion.mention.private.channels": "Private Channels",
   "suggestion.mention.recent.channels": "Recent",
   "suggestion.mention.special": "Special Mentions",
+  "suggestion.mention.unread": "Unread",
   "suggestion.mention.unread.channels": "Unread Channels",
   "suggestion.search.direct": "Direct Messages",
   "suggestion.search.group": "Group Messages",

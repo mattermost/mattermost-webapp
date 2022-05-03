@@ -1312,6 +1312,7 @@ export const Constants = {
     ARCHIVED_CHANNEL: 'archive',
     INVITE_TEAM: 'I',
     OPEN_TEAM: 'O',
+    THREADS: 'threads',
     MAX_POST_LEN: 4000,
     EMOJI_SIZE: 16,
     DEFAULT_EMOJI_PICKER_LEFT_OFFSET: 87,
@@ -1719,6 +1720,7 @@ export const Constants = {
     MENTION_CHANNELS: 'mention.channels',
     MENTION_MORE_CHANNELS: 'mention.morechannels',
     MENTION_UNREAD_CHANNELS: 'mention.unread.channels',
+    MENTION_UNREAD: 'mention.unread',
     MENTION_MEMBERS: 'mention.members',
     MENTION_MORE_MEMBERS: 'mention.moremembers',
     MENTION_NONMEMBERS: 'mention.nonmembers',
@@ -1810,6 +1812,7 @@ t('suggestion.archive');
 t('suggestion.mention.channels');
 t('suggestion.mention.morechannels');
 t('suggestion.mention.unread.channels');
+t('suggestion.mention.unread');
 t('suggestion.mention.members');
 t('suggestion.mention.moremembers');
 t('suggestion.mention.nonmembers');
