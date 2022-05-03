@@ -41,7 +41,7 @@ type Props = {
     reactions: { [x: string]: ReactionType } | undefined | null;
 
     /**
-     * Wether or not the user can add reactions to this post.
+     * Whether or not the user can add reactions to this post.
      */
     canAddReactions: boolean;
 

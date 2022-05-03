@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {noop} from 'lodash';
 import React, {useMemo} from 'react';
 import {Overlay} from 'react-bootstrap';
 import memoize from 'memoize-one';
+import {noop} from 'lodash';
 
 import {Emoji} from 'mattermost-redux/types/emojis';
 
