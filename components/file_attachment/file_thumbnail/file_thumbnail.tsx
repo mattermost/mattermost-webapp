@@ -11,7 +11,7 @@ import {
     getFileType,
     getIconClassName,
     isGIFImage,
-} from 'utils/utils.jsx';
+} from 'utils/utils';
 
 type Props = {
     enableSVGs: boolean;

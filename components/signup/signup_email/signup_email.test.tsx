@@ -9,7 +9,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import SignupEmail from 'components/signup/signup_email/signup_email';
 
 import {browserHistory} from 'utils/browser_history';
-import {PasswordConfig} from 'utils/utils';
+import * as Utils from 'utils/utils';
 
 describe('components/SignupEmail', () => {
     const requiredProps = {
@@ -21,7 +21,7 @@ describe('components/SignupEmail', () => {
         termsOfServiceLink: '',
         privacyPolicyLink: '',
         customDescriptionText: '',
-        passwordConfig: {} as PasswordConfig,
+        passwordConfig: {} as ReturnType<typeof Utils.getPasswordConfig>,
         actions: {
             createUser: jest.fn().mockResolvedValue({data: true}),
             loginById: jest.fn().mockResolvedValue({data: true}),

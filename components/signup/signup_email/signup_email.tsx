@@ -16,7 +16,7 @@ import {trackEvent} from 'actions/telemetry_actions.jsx';
 import * as GlobalActions from 'actions/global_actions';
 import {browserHistory} from 'utils/browser_history';
 import Constants, {ValidationErrors} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import logoImage from 'images/logo.png';
 
@@ -47,7 +47,7 @@ export type Props = {
     termsOfServiceLink?: string;
     privacyPolicyLink?: string;
     customDescriptionText?: string;
-    passwordConfig: Utils.PasswordConfig;
+    passwordConfig: ReturnType<typeof Utils.getPasswordConfig>;
     hasAccounts: boolean;
     actions: Actions;
     useCaseOnboarding: boolean;
