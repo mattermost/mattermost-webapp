@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {DownloadOutlineIcon, LinkVariantIcon, CheckIcon} from '@mattermost/compass-icons/components';
 
-import {localizeMessage, copyToClipboard} from 'utils/utils.jsx';
+import {localizeMessage, copyToClipboard} from 'utils/utils';
 import {t} from 'utils/i18n';
 import LoadingImagePreview from 'components/loading_image_preview';
 import Tooltip from 'components/tooltip';

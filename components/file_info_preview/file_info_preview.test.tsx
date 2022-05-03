@@ -4,6 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {FileInfo} from '@mattermost/types/files';
 import FileInfoPreview from 'components/file_info_preview/file_info_preview';
 
 describe('components/FileInfoPreview', () => {
@@ -11,7 +12,7 @@ describe('components/FileInfoPreview', () => {
         const wrapper = shallow(
             <FileInfoPreview
                 fileUrl='https://pre-release.mattermost.com/api/v4/files/rqir81f7a7ft8m6j6ej7g1txuo'
-                fileInfo={{name: 'Test Image', size: 100, extension: 'jpg'}}
+                fileInfo={{name: 'Test Image', size: 100, extension: 'jpg'} as FileInfo}
                 canDownloadFiles={true}
             />,
         );
@@ -23,7 +24,7 @@ describe('components/FileInfoPreview', () => {
         const wrapper = shallow(
             <FileInfoPreview
                 fileUrl='https://pre-release.mattermost.com/api/v4/files/aasf9afshaskj1asf91jasf0a0'
-                fileInfo={{name: 'Test Image 2', size: 200, extension: 'png'}}
+                fileInfo={{name: 'Test Image 2', size: 200, extension: 'png'} as FileInfo}
                 canDownloadFiles={false}
             />,
         );

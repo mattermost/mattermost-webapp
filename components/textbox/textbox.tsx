@@ -20,7 +20,7 @@ import SuggestionBox from 'components/suggestion/suggestion_box';
 import SuggestionBoxComponent from 'components/suggestion/suggestion_box/suggestion_box';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 type Props = {
     id: string;
@@ -306,7 +306,7 @@ export default class Textbox extends React.PureComponent<Props> {
                     providers={this.suggestionProviders}
                     channelId={this.props.channelId}
                     value={this.props.value}
-                    renderDividers={true}
+                    renderDividers={['all']}
                     isRHS={this.props.isRHS}
                     disabled={this.props.disabled}
                     contextId={this.props.channelId}

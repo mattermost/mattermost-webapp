@@ -13,7 +13,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 
-import {getPasswordConfig} from 'utils/utils.jsx';
+import {getPasswordConfig} from 'utils/utils';
 import {Preferences} from 'utils/constants';
 
 import SecurityTab from './user_settings_security';

@@ -15,7 +15,7 @@ import {Post} from 'mattermost-redux/types/posts';
 
 import {getFilesDropdownPluginMenuItems} from 'selectors/plugins';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {searchHintOptions} from 'utils/constants';
 
 import SearchResultsHeader from 'components/search_results_header';

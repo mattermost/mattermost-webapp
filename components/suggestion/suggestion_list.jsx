@@ -7,8 +7,9 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 import {cloneDeep} from 'lodash';
 
-import {isEmptyObject} from 'utils/utils.jsx';
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
+
+import {isEmptyObject} from 'utils/utils';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
@@ -20,7 +21,7 @@ export default class SuggestionList extends React.PureComponent {
         inputRef: PropTypes.object,
         open: PropTypes.bool.isRequired,
         position: PropTypes.oneOf(['top', 'bottom']),
-        renderDividers: PropTypes.bool,
+        renderDividers: PropTypes.arrayOf(PropTypes.string),
         renderNoResults: PropTypes.bool,
         onCompleteWord: PropTypes.func.isRequired,
         preventClose: PropTypes.func,
@@ -36,7 +37,7 @@ export default class SuggestionList extends React.PureComponent {
     };
 
     static defaultProps = {
-        renderDividers: false,
+        renderDividers: [],
         renderNoResults: false,
     };
 
@@ -218,6 +219,8 @@ export default class SuggestionList extends React.PureComponent {
     }
 
     render() {
+        const {renderDividers} = this.props;
+
         if (!this.props.open || this.props.cleared) {
             return null;
         }
@@ -232,7 +235,7 @@ export default class SuggestionList extends React.PureComponent {
             items.push(this.renderNoResults());
         }
 
-        let dividerRendered = false;
+        let prevItemType = null;
         for (let i = 0; i < this.props.items.length; i++) {
             const item = this.props.items[i];
             const term = this.props.terms[i];
@@ -240,10 +243,9 @@ export default class SuggestionList extends React.PureComponent {
 
             // ReactComponent names need to be upper case when used in JSX
             const Component = this.props.components[i];
-
-            if (!dividerRendered && item.type === 'mention.recent.channels') {
+            if ((renderDividers.includes('all') || renderDividers.includes(item.type)) && prevItemType !== item.type) {
                 items.push(this.renderDivider(item.type));
-                dividerRendered = true;
+                prevItemType = item.type;
             }
 
             if (item.loading) {

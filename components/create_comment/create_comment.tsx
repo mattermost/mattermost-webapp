@@ -15,7 +15,7 @@ import * as GlobalActions from 'actions/global_actions';
 
 import Constants, {Locations, ModalIdentifiers} from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {
     specialMentionsInText,
     postMessageOnKeyPress,
@@ -802,14 +802,13 @@ class CreateComment extends React.PureComponent<Props, State> {
     }
 
     handleMouseUpKeyUp = (e: React.MouseEvent | React.KeyboardEvent) => {
-        const caretPosition = Utils.getCaretPosition(e.target as HTMLElement);
         this.setState({
-            caretPosition,
+            caretPosition: (e.target as HTMLTextAreaElement).selectionStart || 0,
         });
     }
 
     handleSelect = (e: React.SyntheticEvent) => {
-        Utils.adjustSelection(this.textboxRef.current?.getInputBox(), e);
+        Utils.adjustSelection(this.textboxRef.current?.getInputBox(), e as React.KeyboardEvent);
     }
 
     handleKeyDown = (e: React.KeyboardEvent) => {
@@ -821,7 +820,7 @@ class CreateComment extends React.PureComponent<Props, State> {
             this.setState({
                 draft: {
                     ...this.state.draft!,
-                    message: Utils.insertLineBreakFromKeyEvent(e),
+                    message: Utils.insertLineBreakFromKeyEvent(e as React.KeyboardEvent<HTMLTextAreaElement>),
                 },
             });
             return;
@@ -929,7 +928,7 @@ class CreateComment extends React.PureComponent<Props, State> {
         this.setState({uploadsProgressPercent});
     }
 
-    handleFileUploadComplete = (fileInfos: FileInfo[], clientIds: string, channelId: string, rootId: string) => {
+    handleFileUploadComplete = (fileInfos: FileInfo[], clientIds: string, _: string, rootId: string) => {
         const draft = this.draftsForPost[rootId]!;
         const uploadsInProgress = [...draft.uploadsInProgress];
         const newFileInfos = sortFileInfos([...draft.fileInfos, ...fileInfos], this.props.locale);
@@ -955,7 +954,7 @@ class CreateComment extends React.PureComponent<Props, State> {
         }
     }
 
-    handleUploadError = (err: string | ServerError | null, clientId: string | number = -1, currentChannelId?: string, rootId = '') => {
+    handleUploadError = (err: string | ServerError | null, clientId: string | number = -1, _?: string, rootId = '') => {
         if (clientId !== -1) {
             const draft = {...this.draftsForPost[rootId]!};
             const uploadsInProgress = [...draft.uploadsInProgress];

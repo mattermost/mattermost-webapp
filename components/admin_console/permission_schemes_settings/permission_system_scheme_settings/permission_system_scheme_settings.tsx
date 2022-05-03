@@ -10,7 +10,7 @@ import {Role} from 'mattermost-redux/types/roles';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {PermissionsScope, DefaultRolePermissions} from 'utils/constants';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 import {t} from 'utils/i18n';
 
 import ConfirmModal from 'components/confirm_modal';

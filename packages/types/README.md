@@ -31,7 +31,7 @@ In the `tsconfig.json`, you can use `compilerOptions.paths` to add that alias. T
 
 ### Jest
 
-In your Jest config, you can use the `moduleNameMapper` field to adsd that alias.
+In your Jest config, you can use the `moduleNameMapper` field to add that alias.
 
 ```json
 {

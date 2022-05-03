@@ -138,8 +138,6 @@ export function loadMe(): ActionFunc {
         const serverVersion = Client4.getServerVersion() || getState().entities.general.serverVersion;
         dispatch(setServerVersion(serverVersion));
 
-        const isCollapsedThreads = isCollapsedThreadsEnabled(getState());
-
         try {
             await Promise.all([
                 dispatch(getClientConfig()),
@@ -150,6 +148,7 @@ export function loadMe(): ActionFunc {
                 dispatch(getMyTeamMembers()),
             ]);
 
+            const isCollapsedThreads = isCollapsedThreadsEnabled(getState());
             await dispatch(getMyTeamUnreads(isCollapsedThreads));
         } catch (error) {
             dispatch(logError(error));
@@ -834,10 +833,8 @@ export function getUserAudits(userId: string, page = 0, perPage: number = Genera
     });
 }
 
-export function autocompleteUsers(term: string, teamId = '', channelId = '', options: {
+export function autocompleteUsers(term: string, teamId = '', channelId = '', options?: {
     limit: number;
-} = {
-    limit: General.AUTOCOMPLETE_LIMIT_DEFAULT,
 }): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         dispatch({type: UserTypes.AUTOCOMPLETE_USERS_REQUEST, data: null});
