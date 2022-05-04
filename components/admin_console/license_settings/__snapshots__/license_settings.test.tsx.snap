@@ -373,11 +373,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             className="panel-card"
           >
             <Memo(EnterpriseEditionLeftPanel)
-              expiresAt={
-                <FormattedDate
-                  value={2021-05-06T21:10:43.650Z}
-                />
-              }
               fileInputRef={
                 Object {
                   "current": null,
@@ -387,17 +382,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               handleRemove={[Function]}
               isDisabled={false}
               isTrialLicense={false}
-              issued={
-                <React.Fragment>
-                  <FormattedDate
-                    value={2018-02-04T03:24:03.650Z}
-                  />
-                   
-                  <FormattedTime
-                    value={2018-02-04T03:24:03.650Z}
-                  />
-                </React.Fragment>
-              }
               license={
                 Object {
                   "Company": "Mattermost Inc.",
@@ -412,11 +396,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               }
               openEELicenseModal={[Function]}
               removing={false}
-              startsAt={
-                <FormattedDate
-                  value={2018-02-04T03:24:03.650Z}
-                />
-              }
               upgradedFromTE={false}
             />
           </div>
@@ -531,11 +510,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             className="panel-card"
           >
             <Memo(EnterpriseEditionLeftPanel)
-              expiresAt={
-                <FormattedDate
-                  value={2021-05-06T21:10:43.650Z}
-                />
-              }
               fileInputRef={
                 Object {
                   "current": null,
@@ -545,17 +519,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               handleRemove={[Function]}
               isDisabled={false}
               isTrialLicense={false}
-              issued={
-                <React.Fragment>
-                  <FormattedDate
-                    value={2018-02-04T03:24:03.650Z}
-                  />
-                   
-                  <FormattedTime
-                    value={2018-02-04T03:24:03.650Z}
-                  />
-                </React.Fragment>
-              }
               license={
                 Object {
                   "Company": "Mattermost Inc.",
@@ -570,11 +533,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               }
               openEELicenseModal={[Function]}
               removing={false}
-              startsAt={
-                <FormattedDate
-                  value={2018-02-04T03:24:03.650Z}
-                />
-              }
               upgradedFromTE={false}
             />
           </div>
@@ -676,11 +634,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             className="panel-card"
           >
             <Memo(EnterpriseEditionLeftPanel)
-              expiresAt={
-                <FormattedDate
-                  value={2021-05-06T21:10:43.650Z}
-                />
-              }
               fileInputRef={
                 Object {
                   "current": null,
@@ -690,17 +643,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               handleRemove={[Function]}
               isDisabled={false}
               isTrialLicense={false}
-              issued={
-                <React.Fragment>
-                  <FormattedDate
-                    value={2018-02-04T03:24:03.650Z}
-                  />
-                   
-                  <FormattedTime
-                    value={2018-02-04T03:24:03.650Z}
-                  />
-                </React.Fragment>
-              }
               license={
                 Object {
                   "Company": "Mattermost Inc.",
@@ -715,11 +657,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               }
               openEELicenseModal={[Function]}
               removing={false}
-              startsAt={
-                <FormattedDate
-                  value={2018-02-04T03:24:03.650Z}
-                />
-              }
               upgradedFromTE={false}
             />
           </div>
@@ -821,11 +758,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             className="panel-card"
           >
             <Memo(EnterpriseEditionLeftPanel)
-              expiresAt={
-                <FormattedDate
-                  value={2021-05-06T21:10:43.650Z}
-                />
-              }
               fileInputRef={
                 Object {
                   "current": null,
@@ -835,17 +767,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               handleRemove={[Function]}
               isDisabled={false}
               isTrialLicense={false}
-              issued={
-                <React.Fragment>
-                  <FormattedDate
-                    value={2018-02-04T03:24:03.650Z}
-                  />
-                   
-                  <FormattedTime
-                    value={2018-02-04T03:24:03.650Z}
-                  />
-                </React.Fragment>
-              }
               license={
                 Object {
                   "Company": "Mattermost Inc.",
@@ -860,11 +781,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               }
               openEELicenseModal={[Function]}
               removing={false}
-              startsAt={
-                <FormattedDate
-                  value={2018-02-04T03:24:03.650Z}
-                />
-              }
               upgradedFromTE={false}
             />
           </div>
@@ -966,11 +882,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             className="panel-card"
           >
             <Memo(EnterpriseEditionLeftPanel)
-              expiresAt={
-                <FormattedDate
-                  value={2021-05-06T21:10:43.650Z}
-                />
-              }
               fileInputRef={
                 Object {
                   "current": null,
@@ -980,17 +891,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               handleRemove={[Function]}
               isDisabled={true}
               isTrialLicense={false}
-              issued={
-                <React.Fragment>
-                  <FormattedDate
-                    value={2018-02-04T03:24:03.650Z}
-                  />
-                   
-                  <FormattedTime
-                    value={2018-02-04T03:24:03.650Z}
-                  />
-                </React.Fragment>
-              }
               license={
                 Object {
                   "Company": "Mattermost Inc.",
@@ -1005,11 +905,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               }
               openEELicenseModal={[Function]}
               removing={false}
-              startsAt={
-                <FormattedDate
-                  value={2018-02-04T03:24:03.650Z}
-                />
-              }
               upgradedFromTE={false}
             />
           </div>
@@ -1111,11 +1006,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             className="panel-card"
           >
             <Memo(EnterpriseEditionLeftPanel)
-              expiresAt={
-                <FormattedDate
-                  value={2021-05-06T21:10:43.650Z}
-                />
-              }
               fileInputRef={
                 Object {
                   "current": null,
@@ -1125,17 +1015,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               handleRemove={[Function]}
               isDisabled={false}
               isTrialLicense={false}
-              issued={
-                <React.Fragment>
-                  <FormattedDate
-                    value={2018-02-04T03:24:03.650Z}
-                  />
-                   
-                  <FormattedTime
-                    value={2018-02-04T03:24:03.650Z}
-                  />
-                </React.Fragment>
-              }
               license={
                 Object {
                   "Company": "Mattermost Inc.",
@@ -1150,11 +1029,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               }
               openEELicenseModal={[Function]}
               removing={false}
-              startsAt={
-                <FormattedDate
-                  value={2018-02-04T03:24:03.650Z}
-                />
-              }
               upgradedFromTE={true}
             />
           </div>
@@ -1249,11 +1123,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             className="panel-card"
           >
             <Memo(EnterpriseEditionLeftPanel)
-              expiresAt={
-                <FormattedDate
-                  value={2021-05-06T21:10:43.650Z}
-                />
-              }
               fileInputRef={
                 Object {
                   "current": null,
@@ -1263,17 +1132,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               handleRemove={[Function]}
               isDisabled={false}
               isTrialLicense={true}
-              issued={
-                <React.Fragment>
-                  <FormattedDate
-                    value={2021-04-06T13:10:43.650Z}
-                  />
-                   
-                  <FormattedTime
-                    value={2021-04-06T13:10:43.650Z}
-                  />
-                </React.Fragment>
-              }
               license={
                 Object {
                   "ExpiresAt": "1620335443650",
@@ -1284,11 +1142,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               }
               openEELicenseModal={[Function]}
               removing={false}
-              startsAt={
-                <FormattedDate
-                  value={2021-04-06T13:10:43.650Z}
-                />
-              }
               upgradedFromTE={false}
             />
           </div>
@@ -1911,11 +1764,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             className="panel-card"
           >
             <Memo(EnterpriseEditionLeftPanel)
-              expiresAt={
-                <FormattedDate
-                  value={2021-05-14T12:00:00.000Z}
-                />
-              }
               fileInputRef={
                 Object {
                   "current": null,
@@ -1925,17 +1773,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               handleRemove={[Function]}
               isDisabled={false}
               isTrialLicense={false}
-              issued={
-                <React.Fragment>
-                  <FormattedDate
-                    value={2018-02-04T03:24:03.650Z}
-                  />
-                   
-                  <FormattedTime
-                    value={2018-02-04T03:24:03.650Z}
-                  />
-                </React.Fragment>
-              }
               license={
                 Object {
                   "Cloud": "true",
@@ -1951,11 +1788,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               }
               openEELicenseModal={[Function]}
               removing={false}
-              startsAt={
-                <FormattedDate
-                  value={2018-02-04T03:24:03.650Z}
-                />
-              }
               upgradedFromTE={false}
             />
           </div>
@@ -2058,11 +1890,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             className="panel-card"
           >
             <Memo(EnterpriseEditionLeftPanel)
-              expiresAt={
-                <FormattedDate
-                  value={2021-05-14T12:00:00.000Z}
-                />
-              }
               fileInputRef={
                 Object {
                   "current": null,
@@ -2072,17 +1899,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               handleRemove={[Function]}
               isDisabled={false}
               isTrialLicense={false}
-              issued={
-                <React.Fragment>
-                  <FormattedDate
-                    value={2018-02-04T03:24:03.650Z}
-                  />
-                   
-                  <FormattedTime
-                    value={2018-02-04T03:24:03.650Z}
-                  />
-                </React.Fragment>
-              }
               license={
                 Object {
                   "Company": "Mattermost Inc.",
@@ -2097,11 +1913,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               }
               openEELicenseModal={[Function]}
               removing={false}
-              startsAt={
-                <FormattedDate
-                  value={2018-02-04T03:24:03.650Z}
-                />
-              }
               upgradedFromTE={false}
             />
           </div>
