@@ -16,7 +16,7 @@ import {getChannelIntroPluginComponents} from 'selectors/plugins';
 import {getTotalUsersStats} from 'mattermost-redux/actions/users';
 
 import {Preferences} from 'utils/constants';
-import {getDisplayNameByUser} from 'utils/utils.jsx';
+import {getDisplayNameByUser} from 'utils/utils';
 import {getCurrentLocale} from 'selectors/i18n';
 
 import {GlobalState} from 'types/store';

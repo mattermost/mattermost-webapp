@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {emailToOAuth} from 'actions/admin_actions.jsx';
 import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n.jsx';
 import LoginMfa from 'components/login/login_mfa.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';

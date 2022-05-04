@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {Preferences} from 'mattermost-redux/constants';
 
 import ConfirmModal from 'components/confirm_modal';
-import {toTitleCase} from 'utils/utils.jsx';
+import {toTitleCase} from 'utils/utils';
 import {UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {UserStatus} from 'mattermost-redux/types/users';

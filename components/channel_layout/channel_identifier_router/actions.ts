@@ -16,7 +16,7 @@ import {openDirectChannelToUserId} from 'actions/channel_actions';
 import * as GlobalActions from 'actions/global_actions';
 import {joinPrivateChannelPrompt} from 'utils/channel_utils';
 import {Constants} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
 import {Match, MatchAndHistory} from './channel_identifier_router';

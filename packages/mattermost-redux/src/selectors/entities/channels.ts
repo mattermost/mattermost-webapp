@@ -3,29 +3,29 @@
 
 /* eslint-disable max-lines */
 
-import {createSelector} from 'reselect';
-
 import {General, Permissions, Preferences} from 'mattermost-redux/constants';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
+import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
 
 import {getCategoryInTeamByType} from 'mattermost-redux/selectors/entities/channel_categories';
 import {
     getCurrentChannelId,
     getCurrentUser,
-    getUsers,
     getMyChannelMemberships,
     getMyCurrentChannelMembership,
+    getUsers,
 } from 'mattermost-redux/selectors/entities/common';
+import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {
     getTeammateNameDisplaySetting,
     isCollapsedThreadsEnabled,
 } from 'mattermost-redux/selectors/entities/preferences';
-import {haveICurrentChannelPermission, haveIChannelPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {
-    getCurrentTeamId,
-    getMyTeams,
-    getTeamMemberships,
-} from 'mattermost-redux/selectors/entities/teams';
+    haveIChannelPermission,
+    haveICurrentChannelPermission,
+    haveITeamPermission,
+} from 'mattermost-redux/selectors/entities/roles';
+import {getCurrentTeamId, getMyTeams, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {
     getCurrentUserId,
     getStatusForUserId,
@@ -43,9 +43,10 @@ import {
     ChannelSearchOpts,
     ChannelStats,
 } from 'mattermost-redux/types/channels';
+import {Post} from 'mattermost-redux/types/posts';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Team} from 'mattermost-redux/types/teams';
-import {UsersState, UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile, UsersState} from 'mattermost-redux/types/users';
 import {
     IDMappedObjects,
     RelationOneToMany,
@@ -54,26 +55,25 @@ import {
 } from 'mattermost-redux/types/utilities';
 
 import {
+    calculateUnreadCount,
+    completeDirectChannelDisplayName,
     completeDirectChannelInfo,
     completeDirectGroupInfo,
-    newCompleteDirectChannelInfo,
-    completeDirectChannelDisplayName,
-    getUserIdFromChannelName,
+    filterChannelsMatchingTerm,
     getChannelByName as getChannelByNameHelper,
+    getUserIdFromChannelName,
     isChannelMuted,
-    sortChannelsByDisplayName,
     isDefault,
     isDirectChannel,
-    filterChannelsMatchingTerm,
-    calculateUnreadCount,
+    newCompleteDirectChannelInfo,
+    sortChannelsByDisplayName,
 } from 'mattermost-redux/utils/channel_utils';
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
-import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
+import {createSelector} from 'reselect';
 
 import {getThreadCounts, getThreadCountsIncludingDirect} from './threads';
 
 export {getCurrentChannelId, getMyChannelMemberships, getMyCurrentChannelMembership};
-
 export function getAllChannels(state: GlobalState): IDMappedObjects<Channel> {
     return state.entities.channels.channels;
 }
@@ -831,6 +831,23 @@ export const getChannelIdsForCurrentTeam: (state: GlobalState) => string[] = cre
     },
 );
 
+export const getChannelIdsInAllTeams: (state: GlobalState) => string[] = createIdsSelector(
+    'getChannelIdsInAllTeams',
+    getChannelSetForAllTeams,
+    (channels): string[] => {
+        return Array.from(channels || []);
+    },
+);
+
+export const getChannelIdsForAllTeams: (state: GlobalState) => string[] = createIdsSelector(
+    'getChannelIdsForAllTeams',
+    getChannelIdsInAllTeams,
+    getAllDirectChannelIds,
+    (channels, direct) => {
+        return [...channels, ...direct];
+    },
+);
+
 export const getUnreadChannelIds: (state: GlobalState, lastUnreadChannel?: Channel | null) => string[] = createIdsSelector(
     'getUnreadChannelIds',
     isCollapsedThreadsEnabled,
@@ -854,6 +871,24 @@ export const getUnreadChannelIds: (state: GlobalState, lastUnreadChannel?: Chann
         }
 
         return unreadIds;
+    },
+);
+
+export const getAllTeamsUnreadChannelIds: (state: GlobalState) => string[] = createIdsSelector(
+    'getAllTeamsUnreadChannelIds',
+    isCollapsedThreadsEnabled,
+    getMyChannelMemberships,
+    getChannelMessageCounts,
+    getChannelIdsForAllTeams,
+    (
+        collapsedThreads,
+        members: RelationOneToOne<Channel, ChannelMembership>,
+        messageCounts: RelationOneToOne<Channel, ChannelMessageCount>,
+        allTeamsChannelIds: string[],
+    ): string[] => {
+        return allTeamsChannelIds.filter((id) => {
+            return calculateUnreadCount(messageCounts[id], members[id], collapsedThreads).showUnread;
+        });
     },
 );
 
@@ -882,6 +917,108 @@ export const getUnreadChannels: (state: GlobalState, lastUnreadChannel?: Channel
             return c;
         });
         return allUnreadChannels;
+    },
+);
+
+function maxDefined(a: number, b?: number) {
+    return typeof b === 'undefined' ? a : Math.max(a, b);
+}
+
+type LastUnreadChannel = (Channel & {hadMentions: boolean});
+
+export const getUnsortedAllTeamsUnreadChannels: (state: GlobalState) => Channel[] = createSelector(
+    'getAllTeamsUnreadChannels',
+    getCurrentUser,
+    getUsers,
+    getUserIdsInChannels,
+    getAllChannels,
+    getAllTeamsUnreadChannelIds,
+    getTeammateNameDisplaySetting,
+    (currentUser, profiles, userIdsInChannels, channels, allTeamsUnreadChannelIds, settings) => {
+        // If we receive an unread for a channel and then a mention the channel
+        // won't be sorted correctly until we receive a message in another channel
+        if (!currentUser) {
+            return [];
+        }
+
+        return allTeamsUnreadChannelIds.filter((id) => channels[id] && channels[id].delete_at === 0).map((id) => {
+            const c = channels[id];
+
+            if (c.type === General.DM_CHANNEL || c.type === General.GM_CHANNEL) {
+                return completeDirectChannelDisplayName(currentUser.id, profiles, userIdsInChannels[id], settings!, c);
+            }
+
+            return c;
+        });
+    },
+);
+
+export const sortUnreadChannels = (
+    channels: Channel[],
+    myMembers: RelationOneToOne<Channel, ChannelMembership>,
+    lastPosts: RelationOneToOne<Channel, Post>,
+    lastUnreadChannel: LastUnreadChannel | null,
+    crtEnabled: boolean,
+) => {
+    function isMuted(channel: Channel) {
+        return isChannelMuted(myMembers[channel.id]);
+    }
+
+    function hasMentions(channel: Channel) {
+        if (lastUnreadChannel && channel.id === lastUnreadChannel.id && lastUnreadChannel.hadMentions) {
+            return true;
+        }
+
+        const member = myMembers[channel.id];
+        return member?.mention_count !== 0;
+    }
+
+    // Sort channels with mentions first and then sort by recency
+    return [...channels].sort((a, b) => {
+        // Sort muted channels last
+        if (isMuted(a) && !isMuted(b)) {
+            return 1;
+        } else if (!isMuted(a) && isMuted(b)) {
+            return -1;
+        }
+
+        // Sort non-muted mentions first
+        if (hasMentions(a) && !hasMentions(b)) {
+            return -1;
+        } else if (!hasMentions(a) && hasMentions(b)) {
+            return 1;
+        }
+
+        let lastPostAt = {
+            a: a.last_post_at,
+            b: b.last_post_at,
+        };
+
+        if (crtEnabled) {
+            lastPostAt = {
+                a: a.last_root_post_at,
+                b: b.last_root_post_at,
+            };
+        }
+
+        // If available, get the last post time from the loaded posts for the channel, but fall back to the
+        // channel's last_post_at if that's not available. The last post time from the loaded posts is more
+        // accurate because channel.last_post_at is not updated on the client as new messages come in.
+        const aLastPostAt = maxDefined(lastPostAt.a, lastPosts[a.id]?.create_at);
+        const bLastPostAt = maxDefined(lastPostAt.b, lastPosts[b.id]?.create_at);
+
+        return bLastPostAt - aLastPostAt;
+    });
+};
+
+export const getSortedAllTeamsUnreadChannels: (state: GlobalState) => Channel[] = createSelector(
+    'getSortedAllTeamsUnreadChannels',
+    getUnsortedAllTeamsUnreadChannels,
+    getMyChannelMemberships,
+    getLastPostPerChannel,
+    isCollapsedThreadsEnabled,
+    (channels, myMembers, lastPosts, crtEnabled) => {
+        return sortUnreadChannels(channels, myMembers, lastPosts, null, crtEnabled);
     },
 );
 

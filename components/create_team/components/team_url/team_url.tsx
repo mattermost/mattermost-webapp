@@ -11,7 +11,7 @@ import {Client4Error} from 'mattermost-redux/types/client4';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as URL from 'utils/url';
 import logoImage from 'images/logo.png';
 
