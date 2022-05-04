@@ -25,7 +25,7 @@ import Menu from 'components/widgets/menu/menu';
 
 import {ModalData} from 'types/actions';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 type Props = {
     channel: Channel;

@@ -8,7 +8,7 @@ import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 
 import {TimeFrames} from '@mattermost/types/insights';
 
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 
 import './time_frame_dropdown.scss';
 

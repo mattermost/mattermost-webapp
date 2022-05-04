@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import statusGreen from 'images/status_green.png';
 import statusYellow from 'images/status_yellow.png';
 import ReloadIcon from 'components/widgets/icons/fa_reload_icon';

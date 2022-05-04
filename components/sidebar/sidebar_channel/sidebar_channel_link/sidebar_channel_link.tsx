@@ -144,7 +144,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
             return;
         }
 
-        if (cmdOrCtrlPressed(event)) {
+        if (cmdOrCtrlPressed(event as unknown as React.KeyboardEvent)) {
             event.preventDefault();
             this.props.actions.multiSelectChannelAdd(this.props.channel.id);
         } else if (event.shiftKey) {

@@ -12,7 +12,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {isDateLine, isStartOfNewMessages, isCreateComment} from 'mattermost-redux/utils/post_list';
 
 import DelayedAction from 'utils/delayed_action';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import Constants from 'utils/constants';
 import {FakePost} from 'types/store/rhs';
 import {getNewMessageIndex, getPreviousPostId, getLatestPostId} from 'utils/post_utils';

@@ -22,7 +22,7 @@ import {
     TrialPeriodDays,
 } from 'utils/constants';
 import {isCustomerCardExpired} from 'utils/cloud_utils';
-import {getRemainingDaysFromFutureTimestamp} from 'utils/utils.jsx';
+import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
 import {useQuery} from 'utils/http_utils';
 
 import BillingSummary from '../billing_summary';

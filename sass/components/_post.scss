@@ -311,6 +311,7 @@
     display: none;
     width: 100%;
     opacity: 0;
+    pointer-events: none;
     text-align: center;
     transform: translateY(-45px);
     transition: all 0.6s ease;
