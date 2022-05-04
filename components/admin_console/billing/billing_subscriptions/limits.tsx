@@ -6,7 +6,7 @@ import {useIntl, FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {getCloudLimits} from 'mattermost-redux/selectors/entities/cloud';
+import {getCloudLimits, getCloudLimitsLoaded} from 'mattermost-redux/selectors/entities/cloud';
 import {getCloudLimits as getCloudLimitsAction} from 'actions/cloud';
 import {FileSizes} from 'utils/file_utils';
 import {asGBString} from 'utils/limits';
@@ -33,6 +33,7 @@ const fakeUsage = {
 const Limits = (): JSX.Element | null => {
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
     const cloudLimits = useSelector(getCloudLimits);
+    const cloudLimitsReceived = useSelector(getCloudLimitsLoaded);
     const dispatch = useDispatch();
     const intl = useIntl();
     const [requestedLimits, setRequestedLimits] = useState(false);
@@ -44,7 +45,7 @@ const Limits = (): JSX.Element | null => {
         }
     }, [isCloudFreeEnabled, requestedLimits]);
 
-    if (!isCloudFreeEnabled || !(cloudLimits?.messages?.history)) {
+    if (!isCloudFreeEnabled || !cloudLimitsReceived) {
         return null;
     }
 
