@@ -44,7 +44,7 @@ describe('components/activity_and_insights/insights/top_reactions/top_reactions_
                         id: 'team_id1',
                         name: 'team1',
                     },
-                }
+                },
             },
             users: {
                 currentUserId: 'current_user_id',

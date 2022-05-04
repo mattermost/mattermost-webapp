@@ -116,7 +116,7 @@ describe('components/activity_and_insights/insights/top_reactions', () => {
                 insights: {
                     topReactions: {},
                     myTopReactions: {},
-                }
+                },
             },
         });
         const wrapper = mountWithIntl(
