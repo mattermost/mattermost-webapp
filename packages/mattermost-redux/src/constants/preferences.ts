@@ -61,6 +61,10 @@ const Preferences = {
     NAME_DISABLE_TELEMETRY: 'disable_telemetry',
     NAME_DISABLE_TYPING_MESSAGES: 'disable_typing_messages',
 
+    CATEGORY_INSIGHTS: 'insights',
+    NAME_INSIGHTS_TUTORIAL_STATE: 'insights_tutorial_state',
+    INSIGHTS_VIEWED: 'insights_modal_viewed',
+
     CATEGORY_THEME: 'theme',
     THEMES: {
         denim: {
