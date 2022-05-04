@@ -15,6 +15,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const LiveReloadPlugin = require('webpack-livereload-plugin');
 
+const deps = require('./package.json').dependencies;
+
 const NPM_TARGET = process.env.npm_lifecycle_event; //eslint-disable-line no-process-env
 
 const targetIsRun = NPM_TARGET === 'run';
@@ -475,6 +477,65 @@ if (process.env.PRODUCTION_PERF_DEBUG) { //eslint-disable-line no-process-env
 
         // Skip minification to make the profiled data more useful.
         minimize: false,
+    };
+}
+
+const isDesktopApp = true;
+if (isDesktopApp) {
+    config.plugins = [
+        new webpack.container.ModuleFederationPlugin({
+            name: 'mattermost_webapp',
+            filename: 'remoteEntry.js',
+            exposes: {
+                './root': 'components/root',
+                './crtWatcher': 'components/threading/channel_threads/posts_channel_reset_watcher',
+                './store': 'stores/redux_store.jsx',
+                './styles': 'sass/styles.scss',
+            },
+            shared: {
+                history: {
+                    singleton: true,
+                    eager: true,
+                    requiredVersion: deps.history,
+                },
+                react: {
+                    singleton: true,
+                    eager: true,
+                    requiredVersion: deps.react,
+                },
+                'react-dom': {
+                    singleton: true,
+                    eager: true,
+                    requiredVersion: deps['react-dom'],
+                },
+                'react-redux': {
+                    singleton: true,
+                    eager: true,
+                    requiredVersion: deps['react-redux'],
+                },
+                'react-router': {
+                    singleton: true,
+                    eager: true,
+                    requiredVersion: deps['react-router'],
+                },
+                'react-router-dom': {
+                    singleton: true,
+                    eager: true,
+                    requiredVersion: deps['react-router-dom'],
+                },
+                'utils/browser_history': {
+                    singleton: true,
+                    eager: true,
+                    import: false,
+                },
+            },
+        }),
+        ...config.plugins,
+    ];
+    config.output = {
+        ...config.output,
+        libraryTarget: 'umd',
+        publicPath: undefined,
     };
 }
 

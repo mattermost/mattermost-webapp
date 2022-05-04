@@ -21,7 +21,7 @@ import {GlobalState} from 'types/store';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
-import {browserHistory} from './browser_history';
+import {browserHistory} from 'utils/browser_history';
 
 import {cleanUpUrlable} from './url';
 
