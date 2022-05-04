@@ -68,10 +68,10 @@ export interface LimitsReducer {
     limits: Limits;
     limitsLoaded: boolean;
 }
-const emptyLimits = Object.freeze({
+const emptyLimits = {
     limits: {},
     limitsLoaded: false,
-});
+};
 export function limits(state: LimitsReducer = emptyLimits, action: GenericAction) {
     switch (action.type) {
     case CloudTypes.RECEIVED_CLOUD_LIMITS: {
