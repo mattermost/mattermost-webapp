@@ -5,7 +5,7 @@ import React from 'react';
 
 import GetLinkModal from 'components/get_link_modal';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import type {PropsFromRedux} from './index';
 

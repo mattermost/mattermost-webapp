@@ -6,7 +6,7 @@ import {
     getThreadsForPosts,
     receivedNewPost,
 } from 'mattermost-redux/actions/posts';
-import {ChannelTypes, UserTypes} from 'mattermost-redux/action_types';
+import {ChannelTypes, UserTypes, CloudTypes} from 'mattermost-redux/action_types';
 import {
     getMissingProfilesByIds,
     getStatusesByIds,
@@ -42,6 +42,7 @@ import {
     reconnect,
     handleAppsPluginEnabled,
     handleAppsPluginDisabled,
+    handleCloudSubscriptionChanged,
 } from './websocket_actions';
 
 jest.mock('mattermost-redux/actions/posts', () => ({
@@ -763,6 +764,86 @@ describe('handleChannelUpdatedEvent', () => {
         testStore.dispatch(handleChannelUpdatedEvent(msg));
 
         expect(browserHistory.replace).not.toHaveBeenCalled();
+    });
+});
+
+describe('handleCloudSubscriptionChanged', () => {
+    test('entirely replaces cloud limits in store', () => {
+        const initialState = {
+            entities: {
+                cloud: {
+                    limits: {
+                        messages: {
+                            history: 10000,
+                        },
+                        integrations: {
+                            enabled: 10,
+                        },
+                    },
+                },
+            },
+        };
+        const newLimits = {
+            messages: {
+                history: 10001,
+            },
+        };
+        const msg = {
+            event: SocketEvents.CLOUD_PRODUCT_LIMITS_CHANGED,
+            data: {
+                limits: newLimits,
+            },
+        };
+
+        const testStore = configureStore(initialState);
+        testStore.dispatch(handleCloudSubscriptionChanged(msg));
+
+        expect(testStore.getActions()).toContainEqual({
+            type: CloudTypes.RECEIVED_CLOUD_LIMITS,
+            data: newLimits,
+        });
+    });
+
+    test('entirely replaces cloud limits in store', () => {
+        const baseSubscription = {
+            id: 'basesub',
+            customer_id: '',
+            product_id: '',
+            add_ons: [],
+            start_at: 0,
+            end_at: 0,
+            create_at: 0,
+            seats: 0,
+            is_paid_tier: '',
+            trial_end_at: 0,
+            is_free_trial: '',
+        };
+        const initialState = {
+            entities: {
+                cloud: {
+                    subscription: {...baseSubscription},
+                },
+            },
+        };
+        const newSubscription = {
+            ...baseSubscription,
+            id: 'newsub',
+        };
+
+        const msg = {
+            event: SocketEvents.CLOUD_PRODUCT_LIMITS_CHANGED,
+            data: {
+                subscription: newSubscription,
+            },
+        };
+
+        const testStore = configureStore(initialState);
+        testStore.dispatch(handleCloudSubscriptionChanged(msg));
+
+        expect(testStore.getActions()).toContainEqual({
+            type: CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION,
+            data: newSubscription,
+        });
     });
 });
 

@@ -6,7 +6,7 @@ import {Group} from 'mattermost-redux/types/groups';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import Avatar from 'components/widgets/users/avatar';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
 import {ActionResult} from 'mattermost-redux/types/actions';

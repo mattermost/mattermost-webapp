@@ -4,6 +4,8 @@
 import {connect} from 'react-redux';
 import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 
+import {createSelector} from 'reselect';
+
 import {
     getCurrentChannel,
     getCurrentChannelStats,
@@ -24,7 +26,6 @@ import {openDirectChannelToUserId} from 'actions/channel_actions';
 import {openModal} from 'actions/views/modals';
 import {closeRightHandSide, goBack} from 'actions/views/rhs';
 import {getPreviousRhsState} from 'selectors/rhs';
-import {UserProfile} from 'mattermost-redux/types/users';
 import {setChannelMembersRhsSearchTerm} from 'actions/views/search';
 import {loadProfilesAndReloadChannelMembers} from 'actions/user_actions';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
@@ -32,6 +33,57 @@ import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {loadMyChannelMemberAndRole} from 'mattermost-redux/actions/channels';
 
 import RHS, {Props, ChannelMember} from './channel_members_rhs';
+
+const getProfiles = createSelector(
+    'getProfiles',
+    getProfilesInCurrentChannel,
+    getUserStatuses,
+    getTeammateNameDisplaySetting,
+    getMembersInCurrentChannel,
+    (profilesInCurrentChannel, userStatuses, teammateNameDisplaySetting, membersInCurrentChannel) => {
+        const channelAdmins: ChannelMember[] = [];
+        const channelMembers: ChannelMember[] = [];
+        profilesInCurrentChannel.forEach((profile) => {
+            const member = {
+                user: profile,
+                membership: membersInCurrentChannel[profile.id],
+                status: userStatuses[profile.id],
+                displayName: displayUsername(profile, teammateNameDisplaySetting),
+            } as ChannelMember;
+
+            if (member.membership) {
+                // group by role unless we are doing a search
+                if (isChannelAdmin(member.membership)) {
+                    channelAdmins.push(member);
+                    return;
+                }
+
+                channelMembers.push(member);
+            }
+        });
+        return [channelAdmins, channelMembers];
+    },
+);
+
+const searchProfiles = createSelector(
+    'searchProfiles',
+    (state: GlobalState, search: string) => searchProfilesInCurrentChannel(state, search, false),
+    getUserStatuses,
+    getTeammateNameDisplaySetting,
+    getMembersInCurrentChannel,
+    (profilesInCurrentChannel, userStatuses, teammateNameDisplaySetting, membersInCurrentChannel) => {
+        const channelMembers: ChannelMember[] = [];
+        profilesInCurrentChannel.forEach((profile) => {
+            channelMembers.push({
+                user: profile,
+                membership: membersInCurrentChannel[profile.id],
+                status: userStatuses[profile.id],
+                displayName: displayUsername(profile, teammateNameDisplaySetting),
+            });
+        });
+        return [[] as ChannelMember[], channelMembers];
+    },
+);
 
 function isChannelAdmin(channelMember: ChannelMembership) {
     return UserUtils.isChannelAdmin(channelMember.roles) || channelMember.scheme_admin;
@@ -59,38 +111,14 @@ function mapStateToProps(state: GlobalState) {
     const canManageMembers = haveIChannelPermission(state, currentTeam.id, channel.id, isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS);
 
     const searchTerms = state.views.search.channelMembersRhsSearch || '';
-    let profilesInCurrentChannel: UserProfile[];
 
+    let channelAdmins: ChannelMember[] = [];
+    let channelMembers: ChannelMember[] = [];
     if (searchTerms === '') {
-        profilesInCurrentChannel = getProfilesInCurrentChannel(state);
+        [channelAdmins, channelMembers] = getProfiles(state);
     } else {
-        profilesInCurrentChannel = searchProfilesInCurrentChannel(state, searchTerms.trim(), false);
+        [channelAdmins, channelMembers] = searchProfiles(state, searchTerms.trim());
     }
-
-    const userStatuses = getUserStatuses(state);
-    const teammateNameDisplaySetting = getTeammateNameDisplaySetting(state);
-    const membersInCurrentChannel = getMembersInCurrentChannel(state);
-
-    const channelAdmins: ChannelMember[] = [];
-    const channelMembers: ChannelMember[] = [];
-    profilesInCurrentChannel.forEach((profile) => {
-        const member = {
-            user: profile,
-            membership: membersInCurrentChannel[profile.id],
-            status: userStatuses[profile.id],
-            displayName: displayUsername(profile, teammateNameDisplaySetting),
-        } as ChannelMember;
-
-        if (member.membership) {
-            // group by role unless we are doing a search
-            if (isChannelAdmin(member.membership) && searchTerms === '') {
-                channelAdmins.push(member);
-                return;
-            }
-
-            channelMembers.push(member);
-        }
-    });
 
     const teamUrl = getCurrentRelativeTeamUrl(state);
     const canGoBack = Boolean(getPreviousRhsState(state));
