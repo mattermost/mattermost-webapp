@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState, memo} from 'react';
+import React, {useEffect, useState, memo, useRef} from 'react';
 import classNames from 'classnames';
 import {CloseIcon, MenuDownIcon, MenuRightIcon} from '@mattermost/compass-icons/components';
 
@@ -45,6 +45,7 @@ export type Props = {
         editPost: (post: { id: string; props: Record<string, any> }) => void;
     };
     isInPermalink?: boolean;
+    imageCollapsed?: boolean;
 };
 
 type ImageData = {
@@ -78,27 +79,34 @@ export function getBestImage(openGraphData?: OpenGraphMetadata, imagesMetadata?:
     return getNearestPoint<ImageData>(DIMENSIONS_NEAREST_POINT_IMAGE, images);
 }
 
-export const getIsLargeImage = (data: ImageData) => {
+export const getIsLargeImage = (data: ImageData|null) => {
+    if (!data) {
+        return false;
+    }
+
     const {height, width} = data;
 
     return width >= LARGE_IMAGE_WIDTH && (width / height) >= LARGE_IMAGE_RATIO;
 };
 
-const PostAttachmentOpenGraph = ({openGraphData, post, actions, link, ...rest}: Props) => {
-    const [imageUrl, setImageUrl] = useState<string>();
-    const [isLargeImage, setIsLargeImage] = useState<boolean>(false);
-    const [showImagePreview, setShowImagePreview] = useState<boolean>(true);
+const PostAttachmentOpenGraph = ({openGraphData, post, actions, link, isInPermalink, previewEnabled, ...rest}: Props) => {
     const [previewRemoved, setPreviewRemoved] = useState<boolean>(post?.props?.[PostTypes.REMOVE_LINK_PREVIEW] === 'true');
-
-    useEffect(() => {
-        const bestImageData = getBestImage(openGraphData, post.metadata.images);
-        if (bestImageData) {
-            setImageUrl(bestImageData.secure_url || bestImageData.url);
-            setIsLargeImage(getIsLargeImage(bestImageData));
-        }
-    }, [openGraphData, post.metadata.images]);
+    const {current: bestImageData} = useRef<ImageData>(getBestImage(openGraphData, post.metadata.images));
 
     useEffect(() => setPreviewRemoved(post?.props?.[PostTypes.REMOVE_LINK_PREVIEW] === 'true'), [post]);
+
+    // block of early return statements
+    if (!rest.enableLinkPreviews || !previewEnabled || previewRemoved) {
+        return null;
+    }
+
+    if (!post || isSystemMessage(post)) {
+        return null;
+    }
+
+    if (!openGraphData) {
+        return null;
+    }
 
     const handleRemovePreview = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -116,23 +124,9 @@ const PostAttachmentOpenGraph = ({openGraphData, post, actions, link, ...rest}: 
         return actions.editPost(patchedPost);
     };
 
-    const toggleImagePreview = (e: React.MouseEvent<HTMLButtonElement>, collapse: boolean) => {
-        e.preventDefault();
-
-        // prevent the button-click to trigger visiting the link
-        e.stopPropagation();
-        setShowImagePreview(collapse);
-    };
-
-    const doNotRender = !rest.previewEnabled ||
-        !rest.enableLinkPreviews ||
-        !post ||
-        !openGraphData ||
-        previewRemoved ||
-        isSystemMessage(post);
     const safeLink = makeUrlSafe(openGraphData?.url || link);
 
-    return doNotRender ? null : (
+    return (
         <a
             className='PostAttachmenOpenGraph'
             role='link'
@@ -141,7 +135,7 @@ const PostAttachmentOpenGraph = ({openGraphData, post, actions, link, ...rest}: 
             rel='noopener noreferrer'
             title={openGraphData?.title || openGraphData?.url || link}
         >
-            {rest.currentUserId === post.user_id && !rest.isInPermalink && (
+            {rest.currentUserId === post.user_id && !isInPermalink && (
                 <button
                     type='button'
                     className='remove-button style--none'
@@ -156,18 +150,17 @@ const PostAttachmentOpenGraph = ({openGraphData, post, actions, link, ...rest}: 
                 </button>
             )}
             <PostAttachmentOpenGraphBody
-                isInPermalink={rest.isInPermalink}
+                isInPermalink={isInPermalink}
                 siteName={openGraphData?.site_name}
                 title={openGraphData?.title || openGraphData?.url || link}
                 description={openGraphData?.description}
             />
             <PostAttachmenOpenGraphImage
-                src={imageUrl}
+                imageData={bestImageData}
                 title={openGraphData?.title}
-                isInPermalink={rest.isInPermalink}
-                large={isLargeImage}
-                collapsed={!showImagePreview}
-                toggleImagePreviewHandler={toggleImagePreview}
+                isInPermalink={isInPermalink}
+                isEmbedVisible={rest.isEmbedVisible}
+                toggleEmbedVisibility={rest.toggleEmbedVisibility}
             />
         </a>
     );
@@ -182,7 +175,7 @@ type BodyProps = {
 
 const PostAttachmentOpenGraphBody = memo(({title, isInPermalink, siteName = '', description = ''}: BodyProps) => {
     return (
-        <div className={classNames('PostAttachmenOpenGraph__body', {inPermalink: isInPermalink})}>
+        <div className={classNames('PostAttachmenOpenGraph__body', {isInPermalink})}>
             {(!isInPermalink && siteName) && <span className='sitename'>{siteName}</span>}
             <span className='title'>{title}</span>
             {description && <span className='description'>{description}</span>}
@@ -191,29 +184,44 @@ const PostAttachmentOpenGraphBody = memo(({title, isInPermalink, siteName = '', 
 });
 
 type ImageProps = {
-    src?: string;
+    imageData?: ImageData|null;
     title?: string;
-    isInPermalink?: boolean;
-    large: boolean;
-    collapsed: boolean;
-    toggleImagePreviewHandler: (e: React.MouseEvent<HTMLButtonElement>, collapse: boolean) => void;
+    isInPermalink: Props['isInPermalink'];
+    isEmbedVisible: Props['isEmbedVisible'];
+    toggleEmbedVisibility: Props['toggleEmbedVisibility'];
 }
 
-const PostAttachmenOpenGraphImage = memo(({large, collapsed, isInPermalink, toggleImagePreviewHandler, src = '', title = ''}: ImageProps) => {
+const PostAttachmenOpenGraphImage = memo(({imageData, isInPermalink, toggleEmbedVisibility, isEmbedVisible = true, title = ''}: ImageProps) => {
     const {formatMessage} = useIntl();
 
-    if (!src || isInPermalink) {
+    if (!imageData || isInPermalink) {
         return null;
     }
+
+    const large = getIsLargeImage(imageData);
+    const src = imageData.secure_url || imageData.url;
+
+    const toggleImagePreview = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+
+        // prevent the button-click to trigger visiting the link
+        e.stopPropagation();
+        toggleEmbedVisibility();
+    };
 
     const collapsedLabel = formatMessage({id: 'link_preview.image_preview', defaultMessage: 'Show image preview'});
 
     const imageCollapseButton = (
         <button
             className='preview-toggle style--none'
-            onClick={(e) => toggleImagePreviewHandler(e, collapsed)}
+            onClick={toggleImagePreview}
         >
-            {collapsed ? (
+            {isEmbedVisible ? (
+                <MenuDownIcon
+                    size={18}
+                    color='currentColor'
+                />
+            ) : (
                 <>
                     <MenuRightIcon
                         size={18}
@@ -221,11 +229,6 @@ const PostAttachmenOpenGraphImage = memo(({large, collapsed, isInPermalink, togg
                     />
                     {collapsedLabel}
                 </>
-            ) : (
-                <MenuDownIcon
-                    size={18}
-                    color='currentColor'
-                />
             )}
         </button>
     );
@@ -243,12 +246,12 @@ const PostAttachmenOpenGraphImage = memo(({large, collapsed, isInPermalink, togg
     );
 
     return (
-        <div className={classNames('PostAttachmenOpenGraph__image', {large, collapsed})}>
+        <div className={classNames('PostAttachmenOpenGraph__image', {large, collapsed: !isEmbedVisible})}>
             {large ? (
                 <AutoHeightSwitcher
-                    showSlot={collapsed ? 1 : 2}
-                    slot1={imageCollapseButton}
-                    slot2={image}
+                    showSlot={isEmbedVisible ? 1 : 2}
+                    slot1={image}
+                    slot2={imageCollapseButton}
                 />
             ) : image}
         </div>

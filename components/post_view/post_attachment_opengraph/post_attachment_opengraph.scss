@@ -3,6 +3,10 @@
     overflow: hidden;
     -webkit-box-orient: vertical;
     hyphens: auto;
+    -webkit-user-select: text;  /* Chrome all / Safari all */
+    -moz-user-select: text;     /* Firefox all */
+    -ms-user-select: text;      /* IE 10+ */
+    user-select: text;
 }
 
 .PostAttachmenOpenGraph {
@@ -24,23 +28,17 @@
      */
     grid-auto-columns: 80px;
     grid-template-columns: 1fr;
+
+    /** For some reason just setting this on :hover is not sufficient, therefore the !important */
+    text-decoration: none !important;
     transition: box-shadow;
 
     &:hover:not(:active) {
         border-color: rgba(var(--center-channel-color-rgb), 0.24);
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
-        text-decoration: none;
     }
 
     &:hover {
-        text-decoration: none;
-
-        .sitename,
-        .title,
-        .description, {
-            text-decoration: none;
-        }
-
         .remove-button {
             display: block;
         }
@@ -95,7 +93,7 @@
             word-break: none;
         }
 
-        .inPermalink {
+        .isInPermalink {
             overflow: hidden;
             width: 100%;
             height: 1.5em;
@@ -143,7 +141,7 @@
             position: absolute;
             top: -4px;
             left: -4px;
-            display: none;
+            display: flex;
             width: 24px;
             height: 24px;
             border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);

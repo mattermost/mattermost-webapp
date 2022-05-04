@@ -8,6 +8,7 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getOpenGraphMetadataForUrl} from 'mattermost-redux/selectors/entities/posts';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {arePreviewsCollapsed} from 'selectors/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
@@ -21,6 +22,7 @@ type OwnProps = Pick<Props, 'postId' | 'link'>;
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const config = getConfig(state);
+    const imageCollapsed = arePreviewsCollapsed(state);
 
     return {
         currentUserId: getCurrentUserId(state),
@@ -36,6 +38,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
             Preferences.LINK_PREVIEW_DISPLAY,
             true,
         ),
+        imageCollapsed,
     };
 }
 
