@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState, memo, useRef} from 'react';
+import React, {memo, useRef} from 'react';
 import classNames from 'classnames';
 import {CloseIcon, MenuDownIcon, MenuRightIcon} from '@mattermost/compass-icons/components';
 
@@ -89,14 +89,12 @@ export const getIsLargeImage = (data: ImageData|null) => {
     return width >= LARGE_IMAGE_WIDTH && (width / height) >= LARGE_IMAGE_RATIO;
 };
 
-const PostAttachmentOpenGraph = ({openGraphData, post, actions, link, isInPermalink, previewEnabled, ...rest}: Props) => {
-    const [previewRemoved, setPreviewRemoved] = useState<boolean>(post?.props?.[PostTypes.REMOVE_LINK_PREVIEW] === 'true');
+const PostAttachmentOpenGraph = memo(({openGraphData, post, actions, link, isInPermalink, previewEnabled, ...rest}: Props) => {
     const {current: bestImageData} = useRef<ImageData>(getBestImage(openGraphData, post.metadata.images));
-
-    useEffect(() => setPreviewRemoved(post?.props?.[PostTypes.REMOVE_LINK_PREVIEW] === 'true'), [post]);
+    const isPreviewRemoved = post?.props?.[PostTypes.REMOVE_LINK_PREVIEW] === 'true';
 
     // block of early return statements
-    if (!rest.enableLinkPreviews || !previewEnabled || previewRemoved) {
+    if (!rest.enableLinkPreviews || !previewEnabled || isPreviewRemoved) {
         return null;
     }
 
@@ -164,7 +162,7 @@ const PostAttachmentOpenGraph = ({openGraphData, post, actions, link, isInPermal
             />
         </a>
     );
-};
+});
 
 type BodyProps = {
     title: string;
@@ -258,4 +256,4 @@ const PostAttachmenOpenGraphImage = memo(({imageData, isInPermalink, toggleEmbed
     );
 });
 
-export default memo(PostAttachmentOpenGraph);
+export default PostAttachmentOpenGraph;
