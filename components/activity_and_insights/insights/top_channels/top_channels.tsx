@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React, {memo, useCallback, useEffect, useState} from 'react';
-import {useDispatch, useSelector, shallowEqual} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import Constants, {InsightsScopes} from 'utils/constants';
 
@@ -10,10 +10,11 @@ import TitleLoader from '../skeleton_loader/title_loader/title_loader';
 import LineChartLoader from '../skeleton_loader/line_chart_loader/line_chart_loader';
 import widgetHoc, {WidgetHocProps} from '../widget_hoc/widget_hoc';
 
-import './../../activity_and_insights.scss';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getMyTopChannels, getTopChannelsForTeam} from 'mattermost-redux/actions/insights';
-import {TopChannel, TopChannelActionResult} from '@mattermost/types/insights';
+import {TopChannel} from '@mattermost/types/insights';
+
+import './../../activity_and_insights.scss';
 
 const TopChannels = (props: WidgetHocProps) => {
     const dispatch = useDispatch();

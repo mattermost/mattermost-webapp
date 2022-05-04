@@ -3,7 +3,7 @@
 import {createSelector} from 'reselect';
 
 import {GlobalState} from 'mattermost-redux/types/store';
-import {TimeFrame, TimeFrames, TopChannel, TopReaction} from 'mattermost-redux/types/insights';
+import {TimeFrame, TimeFrames, TopReaction} from 'mattermost-redux/types/insights';
 
 import {getCurrentTeamId} from './teams';
 
