@@ -85,6 +85,10 @@ const NewChannelModal = () => {
     const [serverError, setServerError] = useState('');
 
     const handleOnModalConfirm = async () => {
+        if (!canCreate) {
+            return;
+        }
+
         const channel: Channel = {
             team_id: currentTeamId,
             name: url,
@@ -221,6 +225,7 @@ const NewChannelModal = () => {
             autoCloseOnConfirmButton={false}
             useCompassDesign={true}
             handleConfirm={handleOnModalConfirm}
+            handleEnterKeyPress={handleOnModalConfirm}
             handleCancel={handleOnModalCancel}
             onExited={handleOnModalCancel}
         >
