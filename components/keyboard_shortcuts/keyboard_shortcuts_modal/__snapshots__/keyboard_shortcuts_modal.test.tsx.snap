@@ -286,7 +286,7 @@ exports[`components/KeyboardShortcutsModal should match snapshot modal 1`] = `
                       "id": "shortcuts.nav.open_channel_info",
                     },
                     "mac": Object {
-                      "defaultMessage": "View channel info:	⌘|Alt|I",
+                      "defaultMessage": "View channel info:	⌘|Shift|I",
                       "id": "shortcuts.nav.open_channel_info.mac",
                     },
                   }
