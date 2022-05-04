@@ -82,6 +82,9 @@ const GlobalThreads = () => {
         dispatch(clearLastUnreadChannel);
         loadProfilesForSidebar();
 
+        const penultimateType = LocalStorageStore.getPreviousViewedType(currentUserId, currentTeamId);
+
+        LocalStorageStore.setPenultimateViewedType(currentUserId, currentTeamId, penultimateType);
         LocalStorageStore.setPreviousViewedType(currentUserId, currentTeamId, PreviousViewedTypes.THREADS);
 
         // unsuppresses RHS on navigating away (unmount)

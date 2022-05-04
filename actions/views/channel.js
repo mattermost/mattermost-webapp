@@ -146,7 +146,7 @@ export function leaveChannel(channelId) {
         const teamUrl = getCurrentRelativeTeamUrl(state);
 
         if (!isArchivedChannel(channel)) {
-            LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id, state);
+            LocalStorageStore.removePreviousChannel(currentUserId, currentTeam.id, state);
         }
         const {error} = await dispatch(leaveChannelRedux(channelId));
         if (error) {
@@ -158,7 +158,7 @@ export function leaveChannel(channelId) {
         const channelsInTeam = getChannelsNameMapInCurrentTeam(state);
         const prevChannel = getChannelByName(channelsInTeam, prevChannelName);
         if (!prevChannel || !getMyChannelMemberships(state)[prevChannel.id]) {
-            LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id, state);
+            LocalStorageStore.removePreviousChannel(currentUserId, currentTeam.id, state);
         }
         const selectedPost = getSelectedPost(state);
         const selectedPostId = getSelectedPostId(state);
@@ -167,7 +167,7 @@ export function leaveChannel(channelId) {
         }
 
         if (getMyChannels(getState()).filter((c) => c.type === Constants.OPEN_CHANNEL || c.type === Constants.PRIVATE_CHANNEL).length === 0) {
-            LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id, state);
+            LocalStorageStore.removePreviousChannel(currentUserId, currentTeam.id, state);
             dispatch(selectTeam(''));
             dispatch({type: TeamTypes.LEAVE_TEAM, data: currentTeam});
             browserHistory.push('/');
@@ -190,7 +190,7 @@ export function leaveDirectChannel(channelName) {
             const previousChannel = LocalStorageStore.getPreviousChannelName(currentUserId, currentTeam.id, state);
             const penultimateChannel = LocalStorageStore.getPenultimateChannelName(currentUserId, currentTeam.id, state);
             if (channelName === previousChannel) {
-                LocalStorageStore.removePreviousChannelName(currentUserId, currentTeam.id, state);
+                LocalStorageStore.removePreviousChannel(currentUserId, currentTeam.id, state);
             } else if (channelName === penultimateChannel) {
                 LocalStorageStore.removePenultimateChannelName(currentUserId, currentTeam.id, state);
             }

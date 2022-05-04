@@ -66,11 +66,13 @@ export function emitChannelClickEvent(channel: Channel) {
         dispatch(getChannelStats(chan.id));
 
         const penultimate = LocalStorageStore.getPreviousChannelName(userId, teamId);
+        const penultimateType = LocalStorageStore.getPreviousViewedType(userId, teamId);
         if (penultimate !== chan.name) {
             LocalStorageStore.setPenultimateChannelName(userId, teamId, penultimate);
             LocalStorageStore.setPreviousChannelName(userId, teamId, chan.name);
         }
         LocalStorageStore.setPreviousViewedType(userId, teamId, PreviousViewedTypes.CHANNELS);
+        LocalStorageStore.setPenultimateViewedType(userId, teamId, penultimateType);
 
         // When switching to a different channel if the pinned posts is showing
         // Update the RHS state to reflect the pinned post of the selected channel
