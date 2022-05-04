@@ -239,6 +239,11 @@ export default class Textbox extends React.PureComponent<Props> {
         }
     }
 
+    scrollDown = () => {
+        const textbox = this.getInputBox();
+        textbox.scrollTop = textbox.scrollHeight;
+    }
+
     blur = () => {
         this.getInputBox()?.blur();
     };
