@@ -8,27 +8,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCloudLimits, getCloudLimitsLoaded} from 'mattermost-redux/selectors/entities/cloud';
 import {getCloudLimits as getCloudLimitsAction} from 'actions/cloud';
-import {FileSizes} from 'utils/file_utils';
+import useGetUsage from 'components/common/hooks/useGetUsage';
 import {asGBString} from 'utils/limits';
 
 import LimitCard from './limit_card';
-
-// TODO: Replace this with actual usages stored in redux,
-// that ideally are updated with a websocket event in near real time.
-const fakeUsage = {
-    files: {
-        totalStorage: Number(FileSizes.Gigabyte) * 2,
-    },
-    messages: {
-        history: 11000,
-    },
-    boards: {
-        cards: 300,
-    },
-    integrations: {
-        enabled: 9,
-    },
-};
 
 const Limits = (): JSX.Element | null => {
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
@@ -36,6 +19,7 @@ const Limits = (): JSX.Element | null => {
     const cloudLimitsReceived = useSelector(getCloudLimitsLoaded);
     const dispatch = useDispatch();
     const intl = useIntl();
+    const usage = useGetUsage();
     const [requestedLimits, setRequestedLimits] = useState(false);
 
     useEffect(() => {
@@ -74,14 +58,14 @@ const Limits = (): JSX.Element | null => {
                                 id='workspace_limits.file_storage.usage'
                                 defaultMessage='{actual} of {limit} ({percent}%)'
                                 values={{
-                                    actual: asGBString(fakeUsage.files.totalStorage, intl.formatNumber),
+                                    actual: asGBString(usage.files.totalStorage, intl.formatNumber),
                                     limit: asGBString(cloudLimits.files.total_storage, intl.formatNumber),
-                                    percent: Math.floor((fakeUsage.files.totalStorage / cloudLimits.files.total_storage) * 100),
+                                    percent: Math.floor((usage.files.totalStorage / cloudLimits.files.total_storage) * 100),
 
                                 }}
                             />
                         )}
-                        percent={Math.floor((fakeUsage.files.totalStorage / cloudLimits.files.total_storage) * 100)}
+                        percent={Math.floor((usage.files.totalStorage / cloudLimits.files.total_storage) * 100)}
                         icon='icon-folder-outline'
                     />
                 )}
@@ -98,13 +82,13 @@ const Limits = (): JSX.Element | null => {
                                 id='workspace_limits.message_history.usage'
                                 defaultMessage='{actual} of {limit} ({percent}%)'
                                 values={{
-                                    actual: `${Math.floor(fakeUsage.messages.history / 1000)}K`,
+                                    actual: `${Math.floor(usage.messages.history / 1000)}K`,
                                     limit: `${Math.floor(cloudLimits.messages.history / 1000)}K`,
-                                    percent: Math.floor((fakeUsage.messages.history / cloudLimits.messages.history) * 100),
+                                    percent: Math.floor((usage.messages.history / cloudLimits.messages.history) * 100),
                                 }}
                             />
                         }
-                        percent={Math.floor((fakeUsage.messages.history / cloudLimits.messages.history) * 100)}
+                        percent={Math.floor((usage.messages.history / cloudLimits.messages.history) * 100)}
                         icon='icon-message-text-outline'
                     />
                 )}
@@ -121,13 +105,13 @@ const Limits = (): JSX.Element | null => {
                                 id='workspace_limits.boards_cards.usage'
                                 defaultMessage='{actual} of {limit} cards ({percent}%)'
                                 values={{
-                                    actual: fakeUsage.boards.cards,
+                                    actual: usage.boards.cards,
                                     limit: cloudLimits.boards.cards,
-                                    percent: Math.floor((fakeUsage.boards.cards / cloudLimits.boards.cards) * 100),
+                                    percent: Math.floor((usage.boards.cards / cloudLimits.boards.cards) * 100),
                                 }}
                             />
                         )}
-                        percent={Math.floor((fakeUsage.boards.cards / cloudLimits.boards.cards) * 100)}
+                        percent={Math.floor((usage.boards.cards / cloudLimits.boards.cards) * 100)}
                         icon='icon-product-boards'
                     />
 
@@ -145,13 +129,13 @@ const Limits = (): JSX.Element | null => {
                                 id='workspace_limits.integrations_enabled.usage'
                                 defaultMessage='{actual} of {limit} integrations ({percent}%)'
                                 values={{
-                                    actual: fakeUsage.integrations.enabled,
+                                    actual: usage.integrations.enabled,
                                     limit: cloudLimits.integrations.enabled,
-                                    percent: Math.floor((fakeUsage.integrations.enabled / cloudLimits.integrations.enabled) * 100),
+                                    percent: Math.floor((usage.integrations.enabled / cloudLimits.integrations.enabled) * 100),
                                 }}
                             />
                         )}
-                        percent={Math.floor((fakeUsage.integrations.enabled / cloudLimits.integrations.enabled) * 100)}
+                        percent={Math.floor((usage.integrations.enabled / cloudLimits.integrations.enabled) * 100)}
                         icon='icon-product-boards'
                     />
 
