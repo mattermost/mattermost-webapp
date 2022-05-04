@@ -12,7 +12,7 @@ import SettingItemMin from 'components/setting_item_min';
 import ImportThemeModal from 'components/user_settings/import_theme_modal.tsx';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import CustomThemeChooser from './custom_theme_chooser.jsx';
 import PremadeThemeChooser from './premade_theme_chooser';

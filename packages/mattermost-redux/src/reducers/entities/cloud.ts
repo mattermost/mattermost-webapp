@@ -64,11 +64,21 @@ function invoices(state: Record<string, Invoice> | null = null, action: GenericA
     }
 }
 
-const emptyLimits = Object.freeze({});
-export function limits(state: Limits = emptyLimits, action: GenericAction) {
+export interface LimitsReducer {
+    limits: Limits;
+    limitsLoaded: boolean;
+}
+const emptyLimits = {
+    limits: {},
+    limitsLoaded: false,
+};
+export function limits(state: LimitsReducer = emptyLimits, action: GenericAction) {
     switch (action.type) {
     case CloudTypes.RECEIVED_CLOUD_LIMITS: {
-        return action.data;
+        return {
+            limits: action.data,
+            limitsLoaded: true,
+        };
     }
     default:
         return state;

@@ -9,7 +9,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 
 import {isGuest} from 'mattermost-redux/utils/user_utils';
-import {displayEntireNameForUser} from 'utils/utils.jsx';
+import {displayEntireNameForUser} from 'utils/utils';
 import ProfilePicture from 'components/profile_picture';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';

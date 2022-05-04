@@ -36,6 +36,8 @@ export function getAppendEvent(e = {}) {
             selectionStart: INPUT.length,
             selectionEnd: INPUT.length,
             value: INPUT,
+            focus: jest.fn(),
+            setSelectionRange: jest.fn(),
         },
     };
 }
@@ -52,6 +54,8 @@ export function getReplaceEvent(e = {}) {
             selectionStart: REPLACE_START,
             selectionEnd: REPLACE_END,
             value: INPUT,
+            focus: jest.fn(),
+            setSelectionRange: jest.fn(),
         },
     };
 }

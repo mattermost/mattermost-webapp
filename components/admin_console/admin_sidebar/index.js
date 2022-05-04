@@ -8,7 +8,7 @@ import {getPlugins} from 'mattermost-redux/actions/admin';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 
-import {isMobile} from 'utils/utils.jsx';
+import {isMobile} from 'utils/utils';
 
 import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks';
 
