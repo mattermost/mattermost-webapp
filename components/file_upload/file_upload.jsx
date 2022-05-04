@@ -24,7 +24,7 @@ import {
     isFileTransfer,
     isUriDrop,
     localizeMessage,
-} from 'utils/utils.jsx';
+} from 'utils/utils';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';

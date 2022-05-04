@@ -495,6 +495,7 @@ export const SocketEvents = {
     SIDEBAR_CATEGORY_ORDER_UPDATED: 'sidebar_category_order_updated',
     USER_ACTIVATION_STATUS_CHANGED: 'user_activation_status_change',
     CLOUD_PAYMENT_STATUS_UPDATED: 'cloud_payment_status_updated',
+    CLOUD_SUBSCRIPTION_CHANGED: 'cloud_subscription_changed',
     APPS_FRAMEWORK_REFRESH_BINDINGS: 'custom_com.mattermost.apps_refresh_bindings',
     APPS_FRAMEWORK_PLUGIN_ENABLED: 'custom_com.mattermost.apps_plugin_enabled',
     APPS_FRAMEWORK_PLUGIN_DISABLED: 'custom_com.mattermost.apps_plugin_disabled',
@@ -1027,8 +1028,6 @@ export const DefaultRolePermissions = {
         Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
         Permissions.DELETE_POST,
         Permissions.EDIT_POST,
-        Permissions.MANAGE_CREATE_EMOJIS,
-        Permissions.MANAGE_DELETE_EMOJIS,
         Permissions.LIST_PUBLIC_TEAMS,
         Permissions.JOIN_PUBLIC_TEAMS,
         Permissions.USE_CHANNEL_MENTIONS,
@@ -1314,6 +1313,7 @@ export const Constants = {
     ARCHIVED_CHANNEL: 'archive',
     INVITE_TEAM: 'I',
     OPEN_TEAM: 'O',
+    THREADS: 'threads',
     MAX_POST_LEN: 4000,
     EMOJI_SIZE: 16,
     DEFAULT_EMOJI_PICKER_LEFT_OFFSET: 87,
@@ -1477,7 +1477,7 @@ export const Constants = {
     //  KeyboardEvent.code is used as primary check to support multiple keyborad layouts
     //  support of KeyboardEvent.code is just in chrome and firefox so using key and keyCode for better browser support
 
-    KeyCodes: {
+    KeyCodes: ({
         BACKSPACE: ['Backspace', 8],
         TAB: ['Tab', 9],
         ENTER: ['Enter', 13],
@@ -1574,7 +1574,7 @@ export const Constants = {
         BACK_SLASH: ['\\', 220],
         CLOSE_BRACKET: [']', 221],
         COMPOSING: ['Composing', 229],
-    },
+    } as Record<string, [string, number]>),
     CODE_PREVIEW_MAX_FILE_SIZE: 500000, // 500 KB
     HighlightedLanguages: {
         actionscript: {name: 'ActionScript', extensions: ['as'], aliases: ['as', 'as3']},
@@ -1721,6 +1721,7 @@ export const Constants = {
     MENTION_CHANNELS: 'mention.channels',
     MENTION_MORE_CHANNELS: 'mention.morechannels',
     MENTION_UNREAD_CHANNELS: 'mention.unread.channels',
+    MENTION_UNREAD: 'mention.unread',
     MENTION_MEMBERS: 'mention.members',
     MENTION_MORE_MEMBERS: 'mention.moremembers',
     MENTION_NONMEMBERS: 'mention.nonmembers',
@@ -1812,6 +1813,7 @@ t('suggestion.archive');
 t('suggestion.mention.channels');
 t('suggestion.mention.morechannels');
 t('suggestion.mention.unread.channels');
+t('suggestion.mention.unread');
 t('suggestion.mention.members');
 t('suggestion.mention.moremembers');
 t('suggestion.mention.nonmembers');

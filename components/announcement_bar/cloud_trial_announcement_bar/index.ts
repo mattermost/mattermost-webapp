@@ -19,7 +19,7 @@ import {GlobalState} from 'types/store';
 
 import {Preferences, TrialPeriodDays} from 'utils/constants';
 
-import {getRemainingDaysFromFutureTimestamp} from 'utils/utils.jsx';
+import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
 
 import CloudTrialAnnouncementBar from './cloud_trial_announcement_bar';
 

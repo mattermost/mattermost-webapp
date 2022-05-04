@@ -10,7 +10,7 @@ import {EmbargoedEntityTrialError} from 'components/admin_console/license_settin
 
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import {trackEvent} from 'actions/telemetry_actions';
 

@@ -12,7 +12,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {ServerError} from 'mattermost-redux/types/errors';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import ProfilePicture from 'components/profile_picture';
 import BotBadge from 'components/widgets/badges/bot_badge';
 
