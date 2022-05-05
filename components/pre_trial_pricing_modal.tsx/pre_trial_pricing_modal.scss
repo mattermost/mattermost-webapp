@@ -1,0 +1,260 @@
+.PreTrialPricingModal {
+    .modal-dialog {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: auto;
+        transform: translate(-50%, -50%) !important;
+        width: 1440px;
+    }
+
+    .modal-header,
+    .modal-footer {
+        padding: 24px;
+    }
+
+    .modal-body {
+        overflow: visible;
+        max-height: none;
+        padding: 0 24px;
+    }
+
+    .self-hosted-alert {
+        position: absolute;
+        right: 160px;
+        top: 37px;
+        height: 40px;
+
+        h1 {
+            color: #3F4350;
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 20px;
+            text-align: right;
+        }
+
+        p {
+            color: #1C58D9;
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 20px;
+        }
+    }
+
+    .PreTrialPricingModal__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: none;
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 50px;
+
+        h1 {
+            margin: 0;
+            margin-left: 260px;
+            color: #3F4350;
+            font-family: 'Metropolis', sans-serif;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 22px;
+            line-height: 28px;
+        }
+
+        &::before,
+        &::after {
+            display: none;
+        }
+
+        // beat regular modal-header in specificity
+        &.modal-header {
+            background-color: var(--center-channel-bg);
+            color: var(--center-channel-color);
+        }
+
+        .icon-close {
+            padding: 0;
+            border: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            appearance: none;
+            background: none;
+            color: rgb(var(--center-channel-color-rgb), 0.56);
+            cursor: pointer;
+            font: inherit;
+            outline: inherit;
+
+            &:hover,
+            &:active,
+            &:focus {
+                color: rgb(var(--center-channel-color-rgb), 0.56);
+            }
+        }
+    }
+
+    .PreTrialPricingModal__body {
+        display: flex;
+        gap: 12px;
+        align-self: center;
+
+        .PlanCard {
+            height: 490px;
+            width: 280px;
+            position: relative;
+
+            .planLabel {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                top: -48px;
+                left: 52px;
+                width: 184px;
+                padding: 14px;
+                border-radius: 13px 13px 0px 0px;
+                gap: 5px;
+            }
+
+            .top {
+                height: 18px;
+                border-radius: 4px 4px 0px 0px;
+            }
+
+            .bottom {
+                border: 1px solid #DADFE5;
+                border-radius: 0px 0px 4px 4px;
+                height: 472px;
+                background-color: #FFFFFF;
+                padding-left: 24px;
+                padding-right: 24px;
+
+                .plan_briefing {
+                    height: 200px;
+
+                    h4 {
+                        font-family: 'Metropolis';
+                        font-style: normal;
+                        font-weight: 600;
+                        font-size: 14px;
+                        line-height: 24px;
+                        color: #152234;
+                        letter-spacing: -0.02em;
+                    }
+
+                    .item {
+                        display: flex;
+                        height: 24px;
+
+                        .bullet {
+                            font-size: 10px;
+                            margin: 8px 8px 0 0;
+                            color: #0058CC;
+                            display: inline-block;
+                        }
+
+                        p {
+                            font-family: 'Metropolis';
+                            font-style: normal;
+                            font-weight: 400;
+                            font-size: 14px;
+                            line-height: 24px;
+                            letter-spacing: -0.02em;
+                            color: rgba(33, 63, 107, 0.8);
+                        }
+                    }
+
+                    .disclaimer {
+                        font-family: 'Open Sans';
+                        font-style: normal;
+                        font-weight: 600;
+                        font-size: 12px;
+                        line-height: 16px;
+                        color: #D24B4E;
+                        margin-top: 36px;
+                    }
+                }
+
+                .plan_action_btn {
+                    height: 40px;
+                    padding: 10px 24px;
+                    border: none;
+                    background: none;
+                    color: #1c58d9;
+                    font-weight: 700;
+                    width: 100%;
+                    border-radius: 4px;
+
+                    &.grayed {
+                        background: rgba(63, 67, 80, 0.08);
+                        color: rgba(63, 67, 80, 0.32);
+                    }
+
+                    &.active {
+                        border: 1px solid #1c58d9;
+                    }
+
+                    &.special {
+                        background: #1c58d9;
+                        color: #FFFFFF;
+                    }
+                }
+
+                .plan_price_rate_section {
+                    text-align: center;
+                    height: 150px;
+                    border-bottom: 1px solid #DADFE5;
+                    width: 100%;
+
+                    h4 {
+                        font-family: 'Metropolis';
+                        font-style: normal;
+                        font-weight: 400;
+                        font-size: 20px;
+                        line-height: 30px;
+                        color: rgba(33, 63, 107, 0.8);
+                        letter-spacing: -0.02em;
+                    }
+
+                    h1 {
+                        font-family: 'Metropolis';
+                        font-style: normal;
+                        font-weight: 700;
+                        font-size: 52px;
+                        line-height: 60px;
+                        color: #1E325C;
+                        letter-spacing: -0.02em;
+
+                        span {
+                            font-family: 'Metropolis';
+                        font-style: normal;
+                        font-weight: 400;
+                        font-size: 18px;
+                        line-height: 20px;
+                        color: #152234;
+                        letter-spacing: -0.02em;
+
+                        }
+                    }
+
+                    .enterprise_price {
+                        font-size: 32px;
+                    }
+
+                    p {
+                        font-family: 'Metropolis';
+                        font-style: normal;
+                        font-weight: 400;
+                        font-size: 18px;
+                        line-height: 20px;
+                        color: #152234;
+                        letter-spacing: -0.02em;
+                    }
+                }
+            }
+        }
+    }
+}

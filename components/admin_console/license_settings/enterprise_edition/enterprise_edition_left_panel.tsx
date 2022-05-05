@@ -8,11 +8,14 @@ import {ClientLicense} from 'mattermost-redux/types/config';
 import {LicenseSkus} from 'mattermost-redux/types/general';
 
 import {getRemainingDaysFromFutureTimestamp, toTitleCase} from 'utils/utils';
-import {FileTypes} from 'utils/constants';
+import {FileTypes, ModalIdentifiers} from 'utils/constants';
 
 import Badge from 'components/widgets/badges/badge';
 
 import './enterprise_edition.scss';
+import { useDispatch } from 'react-redux';
+import PreTrialPricingModal from 'components/pre_trial_pricing_modal.tsx';
+import { openModal } from 'actions/views/modals';
 
 export interface EnterpriseEditionProps {
     openEELicenseModal: () => void;
@@ -155,6 +158,14 @@ const renderLicenseContent = (
 
     const users = <FormattedNumber value={parseInt(license.Users, 10)}/>;
 
+    const dispatch = useDispatch();
+    const openPreTrialPricingModal = () => {
+        dispatch(openModal({
+            modalId: ModalIdentifiers.PRE_TRIAL_PRICING_MODAL,
+            dialogType: PreTrialPricingModal,
+        }));
+    };
+
     const licenseValues: Array<{
         legend: string;
         value: string;
@@ -187,6 +198,7 @@ const renderLicenseContent = (
             <hr/>
             {renderAddNewLicenseButton(fileInputRef, handleChange)}
             {renderRemoveButton(handleRemove, isDisabled, removing)}
+            <button onClick={openPreTrialPricingModal}>{'Open Pre trial pricing'}</button>
         </div>
     );
 };
