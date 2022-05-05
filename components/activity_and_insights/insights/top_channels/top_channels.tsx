@@ -16,7 +16,6 @@ import {TopChannel} from '@mattermost/types/insights';
 import WidgetEmptyState from '../widget_empty_state/widget_empty_state';
 
 import './../../activity_and_insights.scss';
-import { FormattedMessage } from 'react-intl';
 
 const TopChannels = (props: WidgetHocProps) => {
     const dispatch = useDispatch();
@@ -135,7 +134,7 @@ const TopChannels = (props: WidgetHocProps) => {
                 />
             }
         </>
-        
+
     );
 };
 

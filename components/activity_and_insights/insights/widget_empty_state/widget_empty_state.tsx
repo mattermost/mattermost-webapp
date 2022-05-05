@@ -8,7 +8,6 @@ type Props = {
 }
 
 const WidgetEmptyState = (props: Props) => {
-
     return (
         <div className='empty-state'>
             <div className='empty-state-emoticon'>
