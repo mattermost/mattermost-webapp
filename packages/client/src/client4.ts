@@ -27,7 +27,7 @@ import {
     ChannelSearchOpts,
     ServerChannel,
 } from '@mattermost/types/channels';
-import {Options, StatusOK, ClientResponse, LogLevel} from '@mattermost/types/client4';
+import {Options, StatusOK, ClientResponse, LogLevel, FetchPaginatedThreadOptions} from '@mattermost/types/client4';
 import {Compliance} from '@mattermost/types/compliance';
 import {
     ClientConfig,
@@ -1928,30 +1928,27 @@ export default class Client4 {
         );
     };
 
-    getPostThread = async (postId: string, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false, direction: 'up'|'down' = 'down', perPage: number = PER_PAGE_DEFAULT, fromCreateAt?: number, fromPost?: string, prevList?: PostList): Promise<PostList> => {
-        const list: PostList = prevList || {
-            order: [postId],
-            posts: {},
-            prev_post_id: '',
-            next_post_id: '',
-        };
+    getPostThread = (postId: string, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false) => {
+        // this is to ensure we have backwards compatibility for `getPostThread`
+        return this.getPaginatedPostThread(postId, {fetchThreads, collapsedThreads, collapsedThreadsExtended});
+    };
 
-        const result = await this.doFetch<PaginatedPostList>(
-            `${this.getPostRoute(postId)}/thread${buildQueryString({skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended, direction, perPage, fromPost, fromCreateAt})}`,
+    getPaginatedPostThread = async (postId: string, options: FetchPaginatedThreadOptions): Promise<PaginatedPostList> => {
+        // getting all option parameters with defaults from the options object and spread the rest
+        const {
+            fetchThreads = true,
+            collapsedThreads = false,
+            collapsedThreadsExtended = false,
+            direction = 'down',
+            fetchAll = false,
+            perPage = fetchAll ? undefined : PER_PAGE_DEFAULT,
+            ...rest
+        } = options;
+
+        return this.doFetch<PaginatedPostList>(
+            `${this.getPostRoute(postId)}/thread${buildQueryString({skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended, direction, perPage, ...rest})}`,
             {method: 'get'},
         );
-
-        list.order!.push(...result.order.slice(1));
-        list.posts = Object.assign(list.posts, result.posts);
-
-        if (result.has_next) {
-            const [nextPostId] = list.order!.slice(-1);
-            const nextPostPointer = list.posts[nextPostId];
-
-            return this.getPostThread(postId, fetchThreads, collapsedThreads, collapsedThreadsExtended, direction, perPage, nextPostPointer?.create_at, nextPostId, list);
-        }
-
-        return list;
     };
 
     getPosts = (channelId: string, page = 0, perPage = PER_PAGE_DEFAULT, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false) => {
