@@ -51,15 +51,7 @@ export type Props = {
     imageCollapsed?: boolean;
 };
 
-type ImageMetadata = {
-    url?: string;
-    secure_url?: string;
-    type?: string;
-    width: number;
-    height: number;
-    format: string;
-    frameCount: number;
-}
+type ImageMetadata = OpenGraphMetadataImage & PostImage;
 
 export function getBestImage(openGraphData?: OpenGraphMetadata, imagesMetadata?: Record<string, PostImage>) {
     if (!openGraphData?.images?.length) {
