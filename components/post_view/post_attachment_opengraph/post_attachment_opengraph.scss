@@ -51,11 +51,23 @@
     .remove-button {
         position: absolute;
         z-index: 10;
-        left: -23px;
+        top: -1px;
+        left: -28px;
         display: none;
-        padding: 4px;
-        margin: 0;
-        appearance: none;
+        padding: 5px;
+        background-color: rgba(var(--center-channel-color-rgb), 0);
+        border-radius: 4px;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+
+        &:hover:not(:active) {
+            background-color: rgba(var(--center-channel-color-rgb), 0.08);
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+        }
+
+        &:active {
+            background-color: rgba(var(--button-bg-rgb), 0.16);
+            color: rgba(var(--button-bg-rgb), 1);
+        }
     }
 
     &__body {

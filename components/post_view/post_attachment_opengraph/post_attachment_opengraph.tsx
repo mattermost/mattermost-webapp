@@ -15,9 +15,11 @@ import {
 } from 'mattermost-redux/types/posts';
 
 import AutoHeightSwitcher from 'components/common/auto_height_switcher';
-import {PostTypes} from 'utils/constants';
+import OverlayTrigger from 'components/overlay_trigger';
+import Constants, {PostTypes} from 'utils/constants';
 import {isSystemMessage} from 'utils/post_utils';
 import {makeUrlSafe} from 'utils/url';
+import Tooltip from 'components/tooltip';
 
 import {getNearestPoint} from './get_nearest_point';
 
@@ -90,6 +92,7 @@ export const getIsLargeImage = (data: ImageData|null) => {
 };
 
 const PostAttachmentOpenGraph = memo(({openGraphData, post, actions, link, isInPermalink, previewEnabled, ...rest}: Props) => {
+    const {formatMessage} = useIntl();
     const {current: bestImageData} = useRef<ImageData>(getBestImage(openGraphData, post.metadata.images));
     const isPreviewRemoved = post?.props?.[PostTypes.REMOVE_LINK_PREVIEW] === 'true';
 
@@ -122,6 +125,12 @@ const PostAttachmentOpenGraph = memo(({openGraphData, post, actions, link, isInP
         return actions.editPost(patchedPost);
     };
 
+    const removeButtonTooltip = (
+        <Tooltip id={`removeLinkPreview-${post.id}`}>
+            {formatMessage({id: 'link_preview.remove_link_preview', defaultMessage: 'Remove link preview'})}
+        </Tooltip>
+    );
+
     const safeLink = makeUrlSafe(openGraphData?.url || link);
 
     return (
@@ -134,18 +143,24 @@ const PostAttachmentOpenGraph = memo(({openGraphData, post, actions, link, isInP
             title={openGraphData?.title || openGraphData?.url || link}
         >
             {rest.currentUserId === post.user_id && !isInPermalink && (
-                <button
-                    type='button'
-                    className='remove-button style--none'
-                    aria-label='Remove'
-                    onClick={handleRemovePreview}
-                    data-testid='removeLinkPreviewButton'
+                <OverlayTrigger
+                    placement='top'
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    overlay={removeButtonTooltip}
                 >
-                    <CloseIcon
-                        size={14}
-                        color={'rgba(var(--center-channel-color-rgb), 0.56)'}
-                    />
-                </button>
+                    <button
+                        type='button'
+                        className='remove-button style--none'
+                        aria-label='Remove'
+                        onClick={handleRemovePreview}
+                        data-testid='removeLinkPreviewButton'
+                    >
+                        <CloseIcon
+                            size={14}
+                            color={'currentColor'}
+                        />
+                    </button>
+                </OverlayTrigger>
             )}
             <PostAttachmentOpenGraphBody
                 isInPermalink={isInPermalink}
