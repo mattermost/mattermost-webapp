@@ -131,12 +131,7 @@ const TopChannels = (props: WidgetHocProps) => {
             {
                 (topChannels.length === 0 && !loading) &&
                 <WidgetEmptyState
-                    emptyMessage={
-                        <FormattedMessage
-                            id='insights.topReactions.empty'
-                            defaultMessage='Not enough data yet for this insight'
-                        />
-                    }
+                    icon={'globe'}
                 />
             }
         </>
