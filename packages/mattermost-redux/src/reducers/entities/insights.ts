@@ -6,7 +6,7 @@ import {InsightTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {TopReaction, TimeFrame} from 'mattermost-redux/types/insights';
 
-const sortReactionsIntoState = (data: TopReaction[], timeFrame: TimeFrame) => {
+const sortReactionsIntoState = (data: TopReaction[]) => {
     const newItems: Record<string, TopReaction> = {};
 
     for (let i = 0; i < data.length; i++) {
@@ -23,7 +23,7 @@ function topReactions(state: Record<string, Record<TimeFrame, Record<string, Top
         const results = action.data.data.items || [];
         const timeFrame = action.data.timeFrame as TimeFrame;
 
-        const newItems = sortReactionsIntoState(results, timeFrame);
+        const newItems = sortReactionsIntoState(results);
 
         return {
             ...state,
@@ -44,7 +44,7 @@ function myTopReactions(state: Record<string, Record<TimeFrame, Record<string, T
         const results = action.data.data.items || [];
         const timeFrame = action.data.timeFrame as TimeFrame;
 
-        const newItems = sortReactionsIntoState(results, timeFrame);
+        const newItems = sortReactionsIntoState(results);
 
         return {
             ...state,
