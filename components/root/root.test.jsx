@@ -169,7 +169,7 @@ describe('components/Root', () => {
         });
 
         window.dispatchEvent(loginSignal);
-        document.dispatchEvent(new Event('visibilitychange'));
+        window.dispatchEvent(new Event('focus'));
         expect(window.location.reload).toBeCalledTimes(1);
         wrapper.unmount();
     });

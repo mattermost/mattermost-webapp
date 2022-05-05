@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import GroupSettings from 'components/admin_console/group_settings/group_settings.jsx';
+import GroupSettings from 'components/admin_console/group_settings/group_settings';
 
 describe('components/admin_console/group_settings/GroupSettings', () => {
     test('should match snapshot', () => {
