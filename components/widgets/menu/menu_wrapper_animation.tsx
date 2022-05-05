@@ -4,7 +4,7 @@
 import React from 'react';
 import {CSSTransition} from 'react-transition-group';
 
-import {isMobile} from 'utils/utils.jsx';
+import {isMobile} from 'utils/utils';
 
 const ANIMATION_DURATION = 80;
 

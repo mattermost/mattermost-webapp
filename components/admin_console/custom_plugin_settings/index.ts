@@ -11,7 +11,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {PluginRedux} from 'mattermost-redux/types/plugins';
 
 import {Constants} from 'utils/constants';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 
 import {getAdminConsoleCustomComponents} from 'selectors/admin_console';
 import SchemaAdminSettings from '../schema_admin_settings';

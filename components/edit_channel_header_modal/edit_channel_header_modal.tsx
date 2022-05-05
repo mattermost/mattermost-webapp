@@ -14,7 +14,7 @@ import TextboxClass from 'components/textbox/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 import Constants from 'utils/constants';
 import {isMobile} from 'utils/user_agent';
-import {insertLineBreakFromKeyEvent, isKeyPressed, isUnhandledLineBreakKeyCombo, localizeMessage} from 'utils/utils.jsx';
+import {insertLineBreakFromKeyEvent, isKeyPressed, isUnhandledLineBreakKeyCombo, localizeMessage} from 'utils/utils';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -84,7 +84,7 @@ export default class EditChannelHeaderModal extends React.PureComponent<Props, S
     }
 
     private handleModalKeyDown = (e: React.KeyboardEvent<Modal>): void => {
-        if (isKeyPressed(e, KeyCodes.ESCAPE)) {
+        if (isKeyPressed(e as unknown as React.KeyboardEvent, KeyCodes.ESCAPE)) {
             this.hideModal();
         }
     }
@@ -142,7 +142,7 @@ export default class EditChannelHeaderModal extends React.PureComponent<Props, S
 
         // listen for line break key combo and insert new line character
         if (isUnhandledLineBreakKeyCombo(e)) {
-            this.setState({header: insertLineBreakFromKeyEvent(e)});
+            this.setState({header: insertLineBreakFromKeyEvent(e as React.KeyboardEvent<HTMLTextAreaElement>)});
         } else if (ctrlSend && isKeyPressed(e, KeyCodes.ENTER) && e.ctrlKey === true) {
             this.handleKeyPress(e);
         }

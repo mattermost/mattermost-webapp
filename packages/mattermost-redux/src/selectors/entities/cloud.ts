@@ -5,5 +5,8 @@ import {Limits} from '@mattermost/types/cloud';
 import {GlobalState} from '@mattermost/types/store';
 
 export function getCloudLimits(state: GlobalState): Limits {
-    return state.entities.cloud.limits;
+    return state.entities.cloud.limits.limits;
+}
+export function getCloudLimitsLoaded(state: GlobalState): boolean {
+    return state.entities.cloud.limits.limitsLoaded;
 }

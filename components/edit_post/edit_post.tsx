@@ -270,7 +270,7 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
         // listen for line break key combo and insert new line character
         if (Utils.isUnhandledLineBreakKeyCombo(e)) {
             e.stopPropagation(); // perhaps this should happen in all of these cases? or perhaps Modal should not be listening?
-            setEditText(Utils.insertLineBreakFromKeyEvent(e));
+            setEditText(Utils.insertLineBreakFromKeyEvent(e as React.KeyboardEvent<HTMLTextAreaElement>));
         } else if (ctrlEnterKeyCombo) {
             handleEdit();
         } else if (Utils.isKeyPressed(e, KeyCodes.ESCAPE) && !showEmojiPicker) {
@@ -282,7 +282,7 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
 
     const handleSelect = (e: React.SyntheticEvent) => {
         if (textboxRef.current) {
-            Utils.adjustSelection(textboxRef.current.getInputBox(), e);
+            Utils.adjustSelection(textboxRef.current.getInputBox(), e as React.KeyboardEvent);
         }
     };
 

@@ -11,7 +11,7 @@ import {Team, TeamSearchOpts, TeamsWithCount} from 'mattermost-redux/types/teams
 
 import {browserHistory} from 'utils/browser_history';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import DataGrid, {Column} from 'components/admin_console/data_grid/data_grid';
 import {PAGE_SIZE} from 'components/admin_console/team_channel_settings/abstract_list.jsx';
