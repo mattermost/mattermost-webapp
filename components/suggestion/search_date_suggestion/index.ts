@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
+import {makeGetUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 
 import {getCurrentDateForTimezone} from 'utils/timezone';
 import {areTimezonesEnabledAndSupported} from 'selectors/general';
@@ -16,7 +16,7 @@ import SearchDateSuggestion from './search_date_suggestion';
 
 function mapStateToProps(state: GlobalState) {
     const currentUserId = getCurrentUserId(state);
-    const userTimezone = getUserTimezone(state, currentUserId);
+    const userTimezone = makeGetUserTimezone(state, currentUserId);
     const locale = getCurrentLocale(state);
 
     const enableTimezone = areTimezonesEnabledAndSupported(state);

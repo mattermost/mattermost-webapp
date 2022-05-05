@@ -37,6 +37,10 @@ describe('mapStateToProps', () => {
         },
     } as unknown as GlobalState;
 
+    function deepCopy(object: any) {
+        return JSON.parse(JSON.stringify(object));
+    }
+
     describe('hourCycle', () => {
         test('hourCycle should be h12 when military time is false and the prop was not set', () => {
             const props = mapStateToProps(initialState, {});
@@ -44,7 +48,7 @@ describe('mapStateToProps', () => {
         });
 
         test('hourCycle should be h23 when military time is true and the prop was not set', () => {
-            const testState = {...initialState};
+            const testState = deepCopy(initialState);
             testState.entities.preferences.myPreferences['display_settings--use_military_time'] = {
                 category: 'display_settings',
                 name: 'use_military_time',
@@ -57,7 +61,7 @@ describe('mapStateToProps', () => {
         });
 
         test('hourCycle should have the value of prop.hourCycle when given', () => {
-            const testState = {...initialState};
+            const testState = deepCopy(initialState);
             testState.entities.preferences.myPreferences['display_settings--use_military_time'] = {
                 category: 'display_settings',
                 name: 'use_military_time',
@@ -72,7 +76,7 @@ describe('mapStateToProps', () => {
 
     describe('timeZone', () => {
         test('timeZone should be the user TZ when the prop was not set', () => {
-            const testState = {...initialState};
+            const testState = deepCopy(initialState);
             testState.entities.users.profiles[currentUserId].timezone = {
                 useAutomaticTimezone: false,
                 manualTimezone: 'Europe/Paris',
@@ -83,7 +87,7 @@ describe('mapStateToProps', () => {
         });
 
         test('timeZone should be the value of prop.timeZone when given', () => {
-            const testState = {...initialState};
+            const testState = deepCopy(initialState);
             testState.entities.users.profiles[currentUserId].timezone = {
                 useAutomaticTimezone: false,
                 manualTimezone: 'Europe/Paris',
@@ -94,7 +98,7 @@ describe('mapStateToProps', () => {
         });
 
         test('timeZone should be the value of prop.timeZone when given, even when timezone are disabled', () => {
-            const testState = {...initialState};
+            const testState = deepCopy(initialState);
             testState.entities.general.config.ExperimentalTimezone = 'false';
 
             const props = mapStateToProps(testState, {timeZone: 'America/Chicago'});
@@ -104,7 +108,7 @@ describe('mapStateToProps', () => {
 
     describe('hour12, hourCycle unsupported', () => {
         test('hour12 should be false when using military time', () => {
-            const testState = {...initialState};
+            const testState = deepCopy(initialState);
             testState.entities.preferences.myPreferences['display_settings--use_military_time'] = {
                 category: 'display_settings',
                 name: 'use_military_time',
@@ -118,7 +122,7 @@ describe('mapStateToProps', () => {
         });
 
         test('hour12 should be true when not using military time', () => {
-            const testState = {...initialState};
+            const testState = deepCopy(initialState);
             testState.entities.preferences.myPreferences['display_settings--use_military_time'] = {
                 category: 'display_settings',
                 name: 'use_military_time',
@@ -132,7 +136,7 @@ describe('mapStateToProps', () => {
         });
 
         test('hour12 should equal props.hour12 when defined', () => {
-            const testState = {...initialState};
+            const testState = deepCopy(initialState);
             testState.entities.preferences.myPreferences['display_settings--use_military_time'] = {
                 category: 'display_settings',
                 name: 'use_military_time',

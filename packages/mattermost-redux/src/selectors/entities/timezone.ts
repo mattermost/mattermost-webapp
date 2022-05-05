@@ -11,11 +11,6 @@ import {createSelector} from 'reselect';
 
 import {getUserCurrentTimezone, getTimezoneLabel as getTimezoneLabelUtil} from 'mattermost-redux/utils/timezone_utils';
 
-export function getUserTimezone(state: GlobalState, id: string) {
-    const profile = state.entities.users.profiles[id];
-    return getTimezoneForUserProfile(profile);
-}
-
 export function getTimezoneForUserProfile(profile: UserProfile) {
     if (profile && profile.timezone) {
         return {

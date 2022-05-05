@@ -7,7 +7,7 @@ import {getCurrentLocale} from 'selectors/i18n';
 import {areTimezonesEnabledAndSupported} from 'selectors/general';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
+import {makeGetUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {GlobalState} from 'types/store';
 
 let prevTimezone: string | undefined;
@@ -20,7 +20,7 @@ export function applyLuxonDefaults(state: GlobalState) {
     }
 
     if (areTimezonesEnabledAndSupported(state)) {
-        const tz = getUserCurrentTimezone(getUserTimezone(state, getCurrentUserId(state))) ?? undefined;
+        const tz = getUserCurrentTimezone(makeGetUserTimezone(state, getCurrentUserId(state))) ?? undefined;
         if (tz !== prevTimezone) {
             prevTimezone = tz;
             Settings.defaultZone = tz ?? 'system';

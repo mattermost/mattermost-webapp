@@ -14,7 +14,7 @@ import {autoUpdateTimezone} from 'mattermost-redux/actions/timezone';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {get, isCollapsedThreadsAllowed, getCollapsedThreadsPreference} from 'mattermost-redux/selectors/entities/preferences';
-import {getTimezoneLabel, getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
+import {getTimezoneLabel, makeGetUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 
 import {GlobalState} from 'types/store';
@@ -25,7 +25,7 @@ import UserSettingsDisplay from './user_settings_display';
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const currentUserId = getCurrentUserId(state);
-    const userTimezone = getUserTimezone(state, currentUserId);
+    const userTimezone = makeGetUserTimezone(state, currentUserId);
     const automaticTimezoneNotSet = userTimezone && userTimezone.useAutomaticTimezone && !userTimezone.automaticTimezone;
     const shouldAutoUpdateTimezone = !userTimezone || automaticTimezoneNotSet;
     const timezoneLabel = getTimezoneLabel(state, currentUserId);
