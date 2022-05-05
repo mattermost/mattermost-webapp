@@ -611,23 +611,23 @@ export default class PostList extends React.PureComponent {
 
                                         <DynamicSizeList
                                             ref={this.listRef}
-                                            innerRef={this.postListRef}
                                             height={height}
                                             width={width}
                                             className='post-list__dynamic'
-                                            style={{...virtListStyles, ...dynamicListStyle}}
-                                            innerListStyle={postListStyle}
                                             itemData={this.state.postListIds}
                                             overscanCountForward={OVERSCAN_COUNT_FORWARD}
                                             overscanCountBackward={OVERSCAN_COUNT_BACKWARD}
-                                            loaderId={PostListRowListIds.OLDER_MESSAGES_LOADER}
-                                            canLoadMorePosts={this.props.actions.canLoadMorePosts}
-                                            initScrollToIndex={this.initScrollToIndex}
-                                            initRangeToRender={this.initRangeToRender}
                                             onScroll={this.onScroll}
-                                            scrollToFailed={this.scrollToFailed}
+                                            initScrollToIndex={this.initScrollToIndex}
+                                            canLoadMorePosts={this.props.actions.canLoadMorePosts}
+                                            innerRef={this.postListRef}
+                                            style={{...virtListStyles, ...dynamicListStyle}}
+                                            innerListStyle={postListStyle}
+                                            initRangeToRender={this.initRangeToRender}
+                                            loaderId={PostListRowListIds.OLDER_MESSAGES_LOADER}
                                             correctScrollToBottom={this.props.atLatestPost}
                                             onItemsRendered={this.onItemsRendered}
+                                            scrollToFailed={this.scrollToFailed}
                                         >
                                             {this.renderRow}
                                         </DynamicSizeList>

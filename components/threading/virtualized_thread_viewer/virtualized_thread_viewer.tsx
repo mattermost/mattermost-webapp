@@ -464,22 +464,22 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
                         {({width, height}) => (
                             <>
                                 <DynamicSizeList
-                                    ref={this.listRef}
-                                    innerRef={this.innerRef}
-                                    height={height}
-                                    width={width}
-                                    className={'post-list__dynamic--RHS'}
-                                    style={virtListStyles}
-                                    innerListStyle={this.getInnerStyles()}
-                                    itemData={this.props.replyListIds}
-                                    overscanCountBackward={OVERSCAN_COUNT_BACKWARD}
-                                    overscanCountForward={OVERSCAN_COUNT_FORWARD}
                                     canLoadMorePosts={this.canLoadMorePosts}
+                                    height={height}
                                     initRangeToRender={this.initRangeToRender}
                                     initScrollToIndex={this.initScrollToIndex}
+                                    innerListStyle={this.getInnerStyles()}
+                                    innerRef={this.innerRef}
+                                    itemData={this.props.replyListIds}
                                     scrollToFailed={this.handleScrollToFailed}
-                                    onScroll={this.handleScroll}
                                     onItemsRendered={this.onItemsRendered}
+                                    onScroll={this.handleScroll}
+                                    overscanCountBackward={OVERSCAN_COUNT_BACKWARD}
+                                    overscanCountForward={OVERSCAN_COUNT_FORWARD}
+                                    ref={this.listRef}
+                                    style={virtListStyles}
+                                    width={width}
+                                    className={'post-list__dynamic--RHS'}
                                 >
                                     {this.renderRow}
                                 </DynamicSizeList>
