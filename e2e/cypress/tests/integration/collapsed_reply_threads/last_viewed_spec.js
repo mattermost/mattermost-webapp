@@ -17,6 +17,7 @@ describe('Collapsed Reply Threads', () => {
     let teamA;
     let teamB;
     let offTopicUrlA;
+    let testChannel;
 
     before(() => {
         cy.apiUpdateConfig({
@@ -36,6 +37,11 @@ describe('Collapsed Reply Threads', () => {
             }).then(({team: otherTeam}) => {
                 teamB = otherTeam;
                 return cy.apiAddUserToTeam(teamB.id, userA.id);
+            }).then(() => {
+                return cy.apiCreateChannel(teamA.id, 'test', 'Test');
+            }).then(({channel}) => {
+                testChannel = channel;
+                return cy.apiAddUserToChannel(testChannel.id, userA.id);
             });
         });
     });
@@ -48,7 +54,7 @@ describe('Collapsed Reply Threads', () => {
         cy.visit(offTopicUrlA);
     });
 
-    it('MM-40908 should go to threads view when switching a team if that was the last view on that team', () => {
+    it('MM-40908_1 should go to threads view when switching a team if that was the last view on that team', () => {
         // # Go to the ‘Threads’ view on Team A
         cy.uiGetSidebarThreadsButton().click();
 
@@ -62,6 +68,20 @@ describe('Collapsed Reply Threads', () => {
         cy.get(`#${teamA.name}TeamButton`, {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
 
         // Verify url is set up for threads view
+        cy.url().should('include', `${teamA.name}/threads`);
+    });
+
+    it('MM-40908_2 should go to threads view when threads view is the penultimate view and leave the current channel', () => {
+        // # Go to the ‘Threads’ view on Team A
+        cy.uiGetSidebarThreadsButton().click();
+
+        // # Switch to Test Channel
+        cy.uiClickSidebarItem(testChannel.name);
+
+        // # Leave the current channel
+        cy.uiLeaveChannel();
+
+        // Verify url is set up for threads view when thread view is the penultimate view
         cy.url().should('include', `${teamA.name}/threads`);
     });
 });
