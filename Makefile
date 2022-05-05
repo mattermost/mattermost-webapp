@@ -110,6 +110,8 @@ restart: | stop run ## Restarts the app
 clean: ## Clears cached; deletes node_modules and dist directories
 	@echo Cleaning Webapp
 
+	npm run clean --workspaces --if-present
+
 	rm -rf dist
 	rm -rf node_modules
 
@@ -164,7 +166,7 @@ emojis: ## Creates emoji JSON, JSX and Go files and extracts emoji images from t
 
 ## Help documentatin à la https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 help:
-	@grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+	@grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' ./Makefile | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 update-dependencies: # Updates the dependencies
 	npm update --depth 9999

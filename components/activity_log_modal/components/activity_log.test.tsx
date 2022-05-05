@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {General} from 'mattermost-redux/constants';
 
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 import ActivityLog from 'components/activity_log_modal/components/activity_log';
 import {TestHelper} from 'utils/test_helper';
 

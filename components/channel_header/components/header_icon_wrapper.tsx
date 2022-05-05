@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
 import KeyboardShortcutSequence, {

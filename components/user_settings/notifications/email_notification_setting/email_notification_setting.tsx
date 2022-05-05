@@ -8,7 +8,7 @@ import {getEmailInterval} from 'mattermost-redux/utils/notify_props';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import {Preferences, NotificationLevels} from 'utils/constants';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 

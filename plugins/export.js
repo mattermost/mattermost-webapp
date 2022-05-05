@@ -7,7 +7,7 @@ import {browserHistory} from 'utils/browser_history';
 
 import {openModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
-import {imageURLForUser} from 'utils/utils.jsx';
+import {imageURLForUser} from 'utils/utils';
 
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';

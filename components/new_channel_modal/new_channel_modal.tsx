@@ -171,6 +171,7 @@ const NewChannelModal = () => {
 
         if (!urlModified) {
             setURL(cleanUpUrlable(displayName));
+            setURLError('');
         }
     };
 

@@ -9,7 +9,7 @@ import {Permissions} from 'mattermost-redux/constants';
 
 import BotAccountsIcon from 'images/bot_default_icon.png';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import IncomingWebhookIcon from 'images/incoming_webhook.jpg';
 import OAuthIcon from 'images/oauth_icon.png';
 import OutgoingWebhookIcon from 'images/outgoing_webhook.jpg';

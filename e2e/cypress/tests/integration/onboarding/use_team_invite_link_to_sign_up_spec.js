@@ -116,7 +116,7 @@ describe('Onboarding', () => {
 
         // * Check that 'Town Square' is currently being selected
         cy.get('.active').within(() => {
-            cy.get('#sidebarItem_town-square').should('exist');
+            cy.findByText('Town Square').should('exist');
         });
 
         // * Check that the 'Welcome to Mattermost' message is visible

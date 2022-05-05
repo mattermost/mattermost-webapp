@@ -19,7 +19,7 @@ import * as AdminActions from 'actions/admin_actions.jsx';
 
 const StatTypes = Constants.StatTypes;
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import ErrorLink from 'components/error_page/error_link';

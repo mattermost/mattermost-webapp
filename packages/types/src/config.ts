@@ -286,8 +286,11 @@ export type ServiceSettings = {
     AllowCookiesForSubdomains: boolean;
     ExtendSessionLengthWithActivity: boolean;
     SessionLengthWebInDays: number;
+    SessionLengthWebInHours: number;
     SessionLengthMobileInDays: number;
+    SessionLengthMobileInHours: number;
     SessionLengthSSOInDays: number;
+    SessionLengthSSOInHours: number;
     SessionCacheInMinutes: number;
     SessionIdleTimeoutInMinutes: number;
     WebsocketSecurePort: number;
