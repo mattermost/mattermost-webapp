@@ -4,7 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import GroupRow from 'components/admin_console/group_settings/group_row.jsx';
+import GroupRow from 'components/admin_console/group_settings/group_row';
+import LoadingSpinner from '../../widgets/loading/loading_spinner';
 
 describe('components/admin_console/group_settings/GroupRow', () => {
     test('should match snapshot, on linked and configured row', () => {
@@ -50,8 +51,8 @@ describe('components/admin_console/group_settings/GroupRow', () => {
             <GroupRow
                 primary_key='primary_key'
                 name='name'
-                mattermost_group_id={null}
-                has_syncables={null}
+                mattermost_group_id={undefined}
+                has_syncables={undefined}
                 checked={false}
                 failed={false}
                 onCheckToggle={jest.fn()}
@@ -69,8 +70,8 @@ describe('components/admin_console/group_settings/GroupRow', () => {
             <GroupRow
                 primary_key='primary_key'
                 name='name'
-                mattermost_group_id={null}
-                has_syncables={null}
+                mattermost_group_id={undefined}
+                has_syncables={undefined}
                 checked={true}
                 failed={false}
                 onCheckToggle={jest.fn()}
@@ -89,7 +90,7 @@ describe('components/admin_console/group_settings/GroupRow', () => {
                 primary_key='primary_key'
                 name='name'
                 mattermost_group_id='group-id'
-                has_syncables={null}
+                has_syncables={undefined}
                 checked={false}
                 failed={true}
                 onCheckToggle={jest.fn()}
@@ -107,8 +108,8 @@ describe('components/admin_console/group_settings/GroupRow', () => {
             <GroupRow
                 primary_key='primary_key'
                 name='name'
-                mattermost_group_id={null}
-                has_syncables={null}
+                mattermost_group_id={undefined}
+                has_syncables={undefined}
                 checked={false}
                 failed={true}
                 onCheckToggle={jest.fn()}
@@ -127,8 +128,8 @@ describe('components/admin_console/group_settings/GroupRow', () => {
             <GroupRow
                 primary_key='primary_key'
                 name='name'
-                mattermost_group_id={null}
-                has_syncables={null}
+                mattermost_group_id={undefined}
+                has_syncables={undefined}
                 checked={false}
                 failed={false}
                 onCheckToggle={onCheckToggle}
@@ -139,7 +140,7 @@ describe('components/admin_console/group_settings/GroupRow', () => {
             />,
         );
 
-        wrapper.instance().onRowClick();
+        wrapper.find('.group').prop('onClick')?.({} as unknown as React.MouseEvent);
         expect(onCheckToggle).toHaveBeenCalledWith('primary_key');
     });
 
@@ -149,8 +150,8 @@ describe('components/admin_console/group_settings/GroupRow', () => {
             <GroupRow
                 primary_key='primary_key'
                 name='name'
-                mattermost_group_id={null}
-                has_syncables={null}
+                mattermost_group_id={undefined}
+                has_syncables={undefined}
                 checked={false}
                 failed={false}
                 onCheckToggle={jest.fn()}
@@ -161,8 +162,8 @@ describe('components/admin_console/group_settings/GroupRow', () => {
             />,
         );
 
-        await wrapper.instance().linkHandler({stopPropagation: jest.fn(), preventDefault: jest.fn()});
-        expect(wrapper.state().loading).toBe(false);
+        await wrapper.find('a').prop('onClick')?.({stopPropagation: jest.fn(), preventDefault: jest.fn()} as unknown as React.MouseEvent);
+        expect(wrapper.find(LoadingSpinner).exists()).toBe(false);
         expect(link).toHaveBeenCalledWith('primary_key');
     });
 
@@ -172,8 +173,8 @@ describe('components/admin_console/group_settings/GroupRow', () => {
             <GroupRow
                 primary_key='primary_key'
                 name='name'
-                mattermost_group_id={null}
-                has_syncables={null}
+                mattermost_group_id='group-id'
+                has_syncables={undefined}
                 checked={false}
                 failed={false}
                 onCheckToggle={jest.fn()}
@@ -184,8 +185,8 @@ describe('components/admin_console/group_settings/GroupRow', () => {
             />,
         );
 
-        await wrapper.instance().unlinkHandler({stopPropagation: jest.fn(), preventDefault: jest.fn()});
-        expect(wrapper.state().loading).toBe(false);
+        await wrapper.find('a').prop('onClick')?.({stopPropagation: jest.fn(), preventDefault: jest.fn()} as unknown as React.MouseEvent);
+        expect(wrapper.find(LoadingSpinner).exists()).toBe(false);
         expect(unlink).toHaveBeenCalledWith('primary_key');
     });
 });

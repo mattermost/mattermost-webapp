@@ -11,7 +11,7 @@ import PluginState from 'mattermost-redux/constants/plugins';
 import {AdminConfig} from 'mattermost-redux/types/config';
 import {DeepPartial} from 'mattermost-redux/types/utilities';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import LoadingScreen from 'components/loading_screen';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import ConfirmModal from 'components/confirm_modal';

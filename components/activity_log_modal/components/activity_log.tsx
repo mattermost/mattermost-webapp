@@ -7,7 +7,7 @@ import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import {General} from 'mattermost-redux/constants';
 import {Session} from 'mattermost-redux/types/sessions';
 
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 import {getMonthLong, t} from 'utils/i18n';
 
 import MoreInfo from './more_info';

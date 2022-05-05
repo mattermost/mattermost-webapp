@@ -32,7 +32,7 @@ import EditPost from 'components/edit_post';
 
 import Constants, {AppEvents, Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 export default class SearchResultsItem extends React.PureComponent {
     static propTypes = {

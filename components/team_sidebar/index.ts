@@ -24,7 +24,7 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getIsLhsOpen} from 'selectors/lhs';
 import {switchTeam, updateTeamsOrderForUser} from 'actions/team_actions.jsx';
-import {Preferences} from 'utils/constants.jsx';
+import {Preferences} from 'utils/constants';
 import {GlobalState} from 'types/store';
 
 import {getThreadCounts} from 'mattermost-redux/selectors/entities/threads';

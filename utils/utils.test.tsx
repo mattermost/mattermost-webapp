@@ -6,10 +6,11 @@ import {GeneralTypes} from 'mattermost-redux/action_types';
 import store from 'stores/redux_store.jsx';
 
 import Constants, {ValidationErrors} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import * as lineBreakHelpers from 'tests/helpers/line_break_helpers.js';
 import {makeBoldHotkeyEvent, makeItalicHotkeyEvent, makeSelectionEvent} from 'tests/helpers/markdown_hotkey_helpers.js';
 import * as ua from 'tests/helpers/user_agent_mocks';
+import {UserProfile} from '@mattermost/types/users';
 
 describe('Utils.getDisplayNameByUser', () => {
     afterEach(() => {
@@ -39,7 +40,7 @@ describe('Utils.getDisplayNameByUser', () => {
         });
 
         [userA, userB, userC, userD, userE, userF, userG, userH, userI, userJ].forEach((user) => {
-            expect(Utils.getDisplayNameByUser(store.getState(), user)).toEqual(user.username);
+            expect(Utils.getDisplayNameByUser(store.getState(), user as UserProfile)).toEqual(user.username);
         });
     });
 
@@ -63,7 +64,7 @@ describe('Utils.getDisplayNameByUser', () => {
             {user: userI, result: userI.nickname},
             {user: userJ, result: userJ.first_name},
         ]) {
-            expect(Utils.getDisplayNameByUser(store.getState(), data.user)).toEqual(data.result);
+            expect(Utils.getDisplayNameByUser(store.getState(), data.user as UserProfile)).toEqual(data.result);
         }
     });
 
@@ -87,132 +88,7 @@ describe('Utils.getDisplayNameByUser', () => {
             {user: userI, result: userI.first_name},
             {user: userJ, result: userJ.first_name},
         ]) {
-            expect(Utils.getDisplayNameByUser(store.getState(), data.user)).toEqual(data.result);
-        }
-    });
-});
-
-describe('Utils.sortUsersByStatusAndDisplayName', () => {
-    afterEach(() => {
-        store.dispatch({
-            type: GeneralTypes.CLIENT_CONFIG_RESET,
-            data: {},
-        });
-    });
-
-    const userA = {id: 'a', username: 'a_user', nickname: 'ja_nickname', first_name: 'a_first_name', last_name: 'ja_last_name'};
-    const userB = {id: 'b', username: 'b_user', nickname: 'ib_nickname', first_name: 'a_first_name', last_name: 'ib_last_name'};
-    const userC = {id: 'c', username: 'c_user', nickname: 'hc_nickname', first_name: 'a_first_name', last_name: 'hc_last_name'};
-    const userD = {id: 'd', username: 'd_user', nickname: 'gd_nickname', first_name: 'a_first_name', last_name: 'gd_last_name'};
-    const userE = {id: 'e', username: 'e_user', nickname: 'fe_nickname', first_name: 'b_first_name', last_name: 'fe_last_name'};
-    const userF = {id: 'f', username: 'f_user', nickname: 'ef_nickname', first_name: 'b_first_name', last_name: 'ef_last_name'};
-    const userG = {id: 'g', username: 'g_user', nickname: 'dg_nickname', first_name: 'b_first_name', last_name: 'dg_last_name'};
-    const userH = {id: 'h', username: 'h_user', nickname: 'ch_nickname', first_name: 'c_first_name', last_name: 'ch_last_name'};
-    const userI = {id: 'i', username: 'i_user', nickname: 'bi_nickname', first_name: 'c_first_name', last_name: 'bi_last_name'};
-    const userJ = {id: 'j', username: 'j_user', nickname: 'aj_nickname', first_name: 'c_first_name', last_name: 'aj_last_name'};
-    const userK = {id: 'k', username: 'k_bot', nickname: 'ak_nickname', first_name: 'a_first_name', last_name: 'aABot_last_name', is_bot: true};
-    const userL = {id: 'l', username: 'l_bot', nickname: 'al_nickname', first_name: 'b_first_name', last_name: 'aBBot_last_name', is_bot: true};
-    const userM = {id: 'm', username: 'm_bot', nickname: 'am_nickname', first_name: 'c_first_name', last_name: 'aCBot_last_name', is_bot: true};
-    const statusesByUserId = {
-        a: 'dnd',
-        b: 'away',
-        c: 'offline',
-        d: 'online',
-        e: 'online',
-        f: 'online',
-        g: 'dnd',
-        h: 'away',
-        i: 'offline',
-        j: 'online',
-        k: 'offline',
-        l: 'offline',
-        m: 'offline',
-    };
-
-    test('Users sort by status and displayname, TeammateNameDisplay set to username', () => {
-        store.dispatch({
-            type: GeneralTypes.CLIENT_CONFIG_RECEIVED,
-            data: {
-                TeammateNameDisplay: 'username',
-            },
-        });
-
-        for (const data of [
-            {
-                users: [userM, userK, userL, userF, userA, userB, userC, userD, userE],
-                result: [userD, userE, userF, userB, userA, userC, userK, userL, userM],
-            },
-            {
-                users: [userM, userL, userK, userJ, userI, userH, userG, userF, userE],
-                result: [userE, userF, userJ, userH, userG, userI, userK, userL, userM],
-            },
-            {
-                users: [userL, userM, userK, userJ, userF, userE, userD],
-                result: [userD, userE, userF, userJ, userK, userL, userM],
-            },
-        ]) {
-            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId, 'username');
-            for (let i = 0; i < sortedUsers.length; i++) {
-                expect(sortedUsers[i]).toEqual(data.result[i]);
-            }
-        }
-    });
-
-    test('Users sort by status and displayname, TeammateNameDisplay set to nickname_full_name', () => {
-        store.dispatch({
-            type: GeneralTypes.CLIENT_CONFIG_RECEIVED,
-            data: {
-                TeammateNameDisplay: 'nickname_full_name',
-            },
-        });
-
-        for (const data of [
-            {
-                users: [userM, userK, userL, userF, userA, userB, userC, userD, userE],
-                result: [userF, userE, userD, userB, userA, userC, userK, userL, userM],
-            },
-            {
-                users: [userM, userL, userK, userJ, userI, userH, userG, userF, userE],
-                result: [userJ, userF, userE, userH, userG, userI, userK, userL, userM],
-            },
-            {
-                users: [userL, userM, userK, userJ, userF, userE, userD],
-                result: [userJ, userF, userE, userD, userK, userL, userM],
-            },
-        ]) {
-            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId, 'nickname_full_name');
-            for (let i = 0; i < sortedUsers.length; i++) {
-                expect(sortedUsers[i]).toEqual(data.result[i]);
-            }
-        }
-    });
-
-    test('Users sort by status and displayname, TeammateNameDisplay set to full_name', () => {
-        store.dispatch({
-            type: GeneralTypes.CLIENT_CONFIG_RECEIVED,
-            data: {
-                TeammateNameDisplay: 'full_name',
-            },
-        });
-
-        for (const data of [
-            {
-                users: [userM, userK, userL, userF, userA, userB, userC, userD, userE],
-                result: [userD, userF, userE, userB, userA, userC, userK, userL, userM],
-            },
-            {
-                users: [userM, userL, userK, userJ, userI, userH, userG, userF, userE],
-                result: [userF, userE, userJ, userH, userG, userI, userK, userL, userM],
-            },
-            {
-                users: [userL, userM, userK, userJ, userF, userE, userD],
-                result: [userD, userF, userE, userJ, userK, userL, userM],
-            },
-        ]) {
-            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId, 'full_name');
-            for (let i = 0; i < sortedUsers.length; i++) {
-                expect(sortedUsers[i]).toEqual(data.result[i]);
-            }
+            expect(Utils.getDisplayNameByUser(store.getState(), data.user as UserProfile)).toEqual(data.result);
         }
     });
 });
@@ -375,9 +251,6 @@ describe('Utils.isValidUsername', () => {
             testUserName: 'sonic.the.hedgehog',
             expectedError: undefined,
         }, {
-            testUserName: null,
-            expectedError: ValidationErrors.USERNAME_REQUIRED,
-        }, {
             testUserName: 'sanic.the.speedy.errored.hedgehog@10_10-10',
             expectedError: ValidationErrors.INVALID_LENGTH,
         }, {
@@ -422,16 +295,16 @@ describe('Utils.isKeyPressed', () => {
         for (const data of [
             {
                 event: new KeyboardEvent('keydown', {key: '/', keyCode: 55}),
-                key: ['/', 191, 'Slash'],
+                key: ['/', 191],
                 valid: true,
             },
             {
                 event: new KeyboardEvent('keydown', {key: 'ù', keyCode: 191}),
-                key: ['/', 191, 'Slash'],
+                key: ['/', 191],
                 valid: true,
             },
         ]) {
-            expect(Utils.isKeyPressed(data.event, data.key)).toEqual(data.valid);
+            expect(Utils.isKeyPressed(data.event, data.key as [string, number])).toEqual(data.valid);
         }
     });
 
@@ -439,16 +312,16 @@ describe('Utils.isKeyPressed', () => {
         for (const data of [
             {
                 event: new KeyboardEvent('keydown', {key: 'A', keyCode: 65, code: 'KeyA'}),
-                key: ['a', 65, 'KeyA'],
+                key: ['a', 65],
                 valid: true,
             },
             {
                 event: new KeyboardEvent('keydown', {key: 'a', keyCode: 65, code: 'KeyA'}),
-                key: ['a', 65, 'KeyA'],
+                key: ['a', 65],
                 valid: true,
             },
         ]) {
-            expect(Utils.isKeyPressed(data.event, data.key)).toEqual(data.valid);
+            expect(Utils.isKeyPressed(data.event, data.key as [string, number])).toEqual(data.valid);
         }
     });
 
@@ -475,7 +348,7 @@ describe('Utils.isKeyPressed', () => {
                 valid: false,
             },
         ]) {
-            expect(Utils.isKeyPressed(data.event, data.key)).toEqual(data.valid);
+            expect(Utils.isKeyPressed(data.event, data.key as [string, number])).toEqual(data.valid);
         }
     });
 
@@ -502,7 +375,7 @@ describe('Utils.isKeyPressed', () => {
                 valid: false,
             },
         ]) {
-            expect(Utils.isKeyPressed(data.event, data.key)).toEqual(data.valid);
+            expect(Utils.isKeyPressed(data.event, data.key as [string, number])).toEqual(data.valid);
         }
     });
 
@@ -529,7 +402,7 @@ describe('Utils.isKeyPressed', () => {
                 valid: false,
             },
         ]) {
-            expect(Utils.isKeyPressed(data.event, data.key)).toEqual(data.valid);
+            expect(Utils.isKeyPressed(data.event as KeyboardEvent, data.key as [string, number])).toEqual(data.valid);
         }
     });
 
@@ -546,15 +419,15 @@ describe('Utils.isKeyPressed', () => {
                 valid: true,
             },
         ]) {
-            expect(Utils.isKeyPressed(data.event, data.key)).toEqual(data.valid);
+            expect(Utils.isKeyPressed(data.event as KeyboardEvent, data.key as [string, number])).toEqual(data.valid);
         }
     });
 
     test('key should be tested as fallback for different layout of english keyboards', () => {
         //key will be k for keyboards like dvorak but code will be keyV as `v` is pressed
         const event = {key: 'k', code: 'KeyV'};
-        const key = ['k', 2221];
-        expect(Utils.isKeyPressed(event, key)).toEqual(true);
+        const key: [string, number] = ['k', 2221];
+        expect(Utils.isKeyPressed(event as KeyboardEvent, key)).toEqual(true);
     });
 });
 
@@ -746,25 +619,25 @@ describe('Utils.imageURLForUser', () => {
 describe('Utils.isUnhandledLineBreakKeyCombo', () => {
     test('isUnhandledLineBreakKeyCombo returns true for alt + enter for Chrome UA', () => {
         ua.mockChrome();
-        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getAltKeyEvent())).toBe(true);
+        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getAltKeyEvent() as KeyboardEvent)).toBe(true);
     });
 
     test('isUnhandledLineBreakKeyCombo returns false for alt + enter for Safari UA', () => {
         ua.mockSafari();
-        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getAltKeyEvent())).toBe(false);
+        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getAltKeyEvent() as KeyboardEvent)).toBe(false);
     });
 
     test('isUnhandledLineBreakKeyCombo returns false for shift + enter', () => {
-        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getShiftKeyEvent())).toBe(false);
+        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getShiftKeyEvent() as unknown as KeyboardEvent)).toBe(false);
     });
 
     test('isUnhandledLineBreakKeyCombo returns false for ctrl/command + enter', () => {
-        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getCtrlKeyEvent())).toBe(false);
-        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getMetaKeyEvent())).toBe(false);
+        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getCtrlKeyEvent() as unknown as KeyboardEvent)).toBe(false);
+        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.getMetaKeyEvent() as unknown as KeyboardEvent)).toBe(false);
     });
 
     test('isUnhandledLineBreakKeyCombo returns false for just enter', () => {
-        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.BASE_EVENT)).toBe(false);
+        expect(Utils.isUnhandledLineBreakKeyCombo(lineBreakHelpers.BASE_EVENT as unknown as KeyboardEvent)).toBe(false);
     });
 
     test('isUnhandledLineBreakKeyCombo returns false for f (random key)', () => {
@@ -773,7 +646,7 @@ describe('Utils.isUnhandledLineBreakKeyCombo', () => {
             key: Constants.KeyCodes.F[0],
             keyCode: Constants.KeyCodes.F[1],
         };
-        expect(Utils.isUnhandledLineBreakKeyCombo(e)).toBe(false);
+        expect(Utils.isUnhandledLineBreakKeyCombo(e as unknown as KeyboardEvent)).toBe(false);
     });
 
     // restore initial user agent
@@ -782,10 +655,10 @@ describe('Utils.isUnhandledLineBreakKeyCombo', () => {
 
 describe('Utils.insertLineBreakFromKeyEvent', () => {
     test('insertLineBreakFromKeyEvent returns with line break appending (no selection range)', () => {
-        expect(Utils.insertLineBreakFromKeyEvent(lineBreakHelpers.getAppendEvent())).toBe(lineBreakHelpers.OUTPUT_APPEND);
+        expect(Utils.insertLineBreakFromKeyEvent(lineBreakHelpers.getAppendEvent() as React.KeyboardEvent<HTMLInputElement>)).toBe(lineBreakHelpers.OUTPUT_APPEND);
     });
     test('insertLineBreakFromKeyEvent returns with line break replacing (with selection range)', () => {
-        expect(Utils.insertLineBreakFromKeyEvent(lineBreakHelpers.getReplaceEvent())).toBe(lineBreakHelpers.OUTPUT_REPLACE);
+        expect(Utils.insertLineBreakFromKeyEvent(lineBreakHelpers.getReplaceEvent() as React.KeyboardEvent<HTMLInputElement>)).toBe(lineBreakHelpers.OUTPUT_REPLACE);
     });
 });
 
@@ -794,7 +667,7 @@ describe('Utils.applyHotkeyMarkdown', () => {
         // "Fafda" is selected with ctrl + B hotkey
         const e = makeBoldHotkeyEvent('Jalebi Fafda & Sambharo', 7, 12);
 
-        expect(Utils.applyHotkeyMarkdown(e)).
+        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
             toEqual({
                 message: 'Jalebi **Fafda** & Sambharo',
                 selectionStart: 9,
@@ -806,7 +679,7 @@ describe('Utils.applyHotkeyMarkdown', () => {
         // "Fafda" is selected with ctrl + B hotkey
         const e = makeBoldHotkeyEvent('Jalebi **Fafda** & Sambharo', 9, 14);
 
-        expect(Utils.applyHotkeyMarkdown(e)).
+        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
             toEqual({
                 message: 'Jalebi Fafda & Sambharo',
                 selectionStart: 7,
@@ -818,7 +691,7 @@ describe('Utils.applyHotkeyMarkdown', () => {
         // "Fafda" is selected with ctrl + I hotkey
         const e = makeItalicHotkeyEvent('Jalebi Fafda & Sambharo', 7, 12);
 
-        expect(Utils.applyHotkeyMarkdown(e)).
+        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
             toEqual({
                 message: 'Jalebi *Fafda* & Sambharo',
                 selectionStart: 8,
@@ -830,7 +703,7 @@ describe('Utils.applyHotkeyMarkdown', () => {
         // "Fafda" is selected with ctrl + I hotkey
         const e = makeItalicHotkeyEvent('Jalebi *Fafda* & Sambharo', 8, 13);
 
-        expect(Utils.applyHotkeyMarkdown(e)).
+        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
             toEqual({
                 message: 'Jalebi Fafda & Sambharo',
                 selectionStart: 7,
@@ -842,7 +715,7 @@ describe('Utils.applyHotkeyMarkdown', () => {
         // Nothing is selected with ctrl + B hotkey and caret is just before "Fafda"
         const e = makeBoldHotkeyEvent('Jalebi Fafda & Sambharo', 7, 7);
 
-        expect(Utils.applyHotkeyMarkdown(e)).
+        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
             toEqual({
                 message: 'Jalebi ****Fafda & Sambharo',
                 selectionStart: 9,
@@ -854,7 +727,7 @@ describe('Utils.applyHotkeyMarkdown', () => {
         // Nothing is selected with ctrl + I hotkey and caret is just before "Fafda"
         const e = makeItalicHotkeyEvent('Jalebi Fafda & Sambharo', 7, 7);
 
-        expect(Utils.applyHotkeyMarkdown(e)).
+        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
             toEqual({
                 message: 'Jalebi **Fafda & Sambharo',
                 selectionStart: 8,
@@ -866,7 +739,7 @@ describe('Utils.applyHotkeyMarkdown', () => {
         // "Fafda" is selected with ctrl + I hotkey
         const e = makeItalicHotkeyEvent('Jalebi **Fafda** & Sambharo', 9, 14);
 
-        expect(Utils.applyHotkeyMarkdown(e)).
+        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
             toEqual({
                 message: 'Jalebi ***Fafda*** & Sambharo',
                 selectionStart: 10,
@@ -878,7 +751,7 @@ describe('Utils.applyHotkeyMarkdown', () => {
         // "Fafda" is selected with ctrl + B hotkey
         const e = makeBoldHotkeyEvent('Jalebi *Fafda* & Sambharo', 8, 13);
 
-        expect(Utils.applyHotkeyMarkdown(e)).
+        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
             toEqual({
                 message: 'Jalebi ***Fafda*** & Sambharo',
                 selectionStart: 10,
@@ -891,7 +764,7 @@ describe('Utils.applyHotkeyMarkdown', () => {
         const e = makeBoldHotkeyEvent('Jalebi ***Fafda*** & Sambharo', 10, 15);
 
         // Should undo bold
-        expect(Utils.applyHotkeyMarkdown(e)).
+        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
             toEqual({
                 message: 'Jalebi *Fafda* & Sambharo',
                 selectionStart: 8,
@@ -904,7 +777,7 @@ describe('Utils.applyHotkeyMarkdown', () => {
         const e = makeItalicHotkeyEvent('Jalebi ***Fafda*** & Sambharo', 10, 15);
 
         // Should undo italic
-        expect(Utils.applyHotkeyMarkdown(e)).
+        expect(Utils.applyHotkeyMarkdown(e as React.KeyboardEvent)).
             toEqual({
                 message: 'Jalebi **Fafda** & Sambharo',
                 selectionStart: 9,
@@ -920,9 +793,9 @@ describe('Utils.adjustSelection', () => {
         const input = {
             focus: jest.fn(),
             setSelectionRange: jest.fn(),
-        };
+        } as unknown as HTMLInputElement;
 
-        Utils.adjustSelection(input, e);
+        Utils.adjustSelection(input, e as React.KeyboardEvent);
         expect(input.setSelectionRange).toHaveBeenCalledWith(8, 13);
     });
 
@@ -932,9 +805,9 @@ describe('Utils.adjustSelection', () => {
         const input = {
             focus: jest.fn(),
             setSelectionRange: jest.fn(),
-        };
+        } as unknown as HTMLInputElement;
 
-        Utils.adjustSelection(input, e);
+        Utils.adjustSelection(input, e as React.KeyboardEvent);
         expect(input.setSelectionRange).not.toHaveBeenCalled();
     });
 
@@ -944,9 +817,9 @@ describe('Utils.adjustSelection', () => {
         const input = {
             focus: jest.fn(),
             setSelectionRange: jest.fn(),
-        };
+        } as unknown as HTMLInputElement;
 
-        Utils.adjustSelection(input, e);
+        Utils.adjustSelection(input, e as React.KeyboardEvent);
         expect(input.setSelectionRange).not.toHaveBeenCalled();
     });
 
@@ -956,9 +829,9 @@ describe('Utils.adjustSelection', () => {
         const input = {
             focus: jest.fn(),
             setSelectionRange: jest.fn(),
-        };
+        } as unknown as HTMLInputElement;
 
-        Utils.adjustSelection(input, e);
+        Utils.adjustSelection(input, e as React.KeyboardEvent);
         expect(input.setSelectionRange).toHaveBeenCalledWith(1, 7);
     });
 
@@ -968,9 +841,9 @@ describe('Utils.adjustSelection', () => {
         const input = {
             focus: jest.fn(),
             setSelectionRange: jest.fn(),
-        };
+        } as unknown as HTMLInputElement;
 
-        Utils.adjustSelection(input, e);
+        Utils.adjustSelection(input, e as React.KeyboardEvent);
         expect(input.setSelectionRange).toHaveBeenCalledWith(18, 26);
     });
 });
@@ -981,7 +854,7 @@ describe('Utils.copyTextAreaToDiv', () => {
     test('copyTextAreaToDiv actually creates a div element', () => {
         const copy = Utils.copyTextAreaToDiv(textArea);
 
-        expect(copy.nodeName).toEqual('DIV');
+        expect(copy!.nodeName).toEqual('DIV');
     });
 
     test('copyTextAreaToDiv copies the content into the div element', () => {
@@ -989,7 +862,7 @@ describe('Utils.copyTextAreaToDiv', () => {
 
         const copy = Utils.copyTextAreaToDiv(textArea);
 
-        expect(copy.innerHTML).toEqual('the content');
+        expect(copy!.innerHTML).toEqual('the content');
     });
 
     test('copyTextAreaToDiv correctly copies the styles of the textArea element', () => {
@@ -997,13 +870,14 @@ describe('Utils.copyTextAreaToDiv', () => {
 
         const copy = Utils.copyTextAreaToDiv(textArea);
 
-        expect(copy.style.fontFamily).toEqual('Sans-serif');
+        expect(copy!.style.fontFamily).toEqual('Sans-serif');
     });
 });
 
 describe('Utils.getCaretXYCoordinate', () => {
+    const tmpCreateRange = document.createRange;
     const cleanUp = () => {
-        document.createRange = undefined;
+        document.createRange = tmpCreateRange;
     };
 
     afterAll(cleanUp);
@@ -1016,7 +890,7 @@ describe('Utils.getCaretXYCoordinate', () => {
             return [{
                 top: 10,
                 left: 15,
-            }];
+            }] as unknown as DOMRectList;
         };
 
         return range;
@@ -1050,10 +924,10 @@ describe('Utils.getViewportSize', () => {
 
     test('getViewportSize returns the right viewport width with custom parameter', () => {
         const mockWindow = {document: {body: {}, compatMode: undefined}};
-        mockWindow.document.body.clientWidth = 1025;
-        mockWindow.document.body.clientHeight = 860;
+        (mockWindow.document.body as any).clientWidth = 1025;
+        (mockWindow.document.body as any).clientHeight = 860;
 
-        const viewportDimensions = Utils.getViewportSize(mockWindow);
+        const viewportDimensions = Utils.getViewportSize(mockWindow as unknown as Window);
 
         expect(viewportDimensions.w).toEqual(1025);
         expect(viewportDimensions.h).toEqual(860);
@@ -1062,7 +936,7 @@ describe('Utils.getViewportSize', () => {
     test('getViewportSize returns the right viewport width with custom parameter - innerWidth', () => {
         const mockWindow = {innerWidth: 1027, innerHeight: 767};
 
-        const viewportDimensions = Utils.getViewportSize(mockWindow);
+        const viewportDimensions = Utils.getViewportSize(mockWindow as unknown as Window);
 
         expect(viewportDimensions.w).toEqual(1027);
         expect(viewportDimensions.h).toEqual(767);
@@ -1076,7 +950,7 @@ describe('Utils.offsetTopLeft', () => {
         textArea.getBoundingClientRect = jest.fn(() => ({
             top: 967,
             left: 851,
-        }));
+        } as DOMRect));
 
         const offsetTopLeft = Utils.offsetTopLeft(textArea);
         expect(offsetTopLeft.top).toEqual(967);
@@ -1085,13 +959,14 @@ describe('Utils.offsetTopLeft', () => {
 });
 
 describe('Utils.getSuggestionBoxAlgn', () => {
+    const tmpCreateRange = document.createRange;
     const cleanUp = () => {
-        document.createRange = undefined;
+        document.createRange = tmpCreateRange;
     };
 
     afterAll(cleanUp);
 
-    const textArea = document.createElement('textArea');
+    const textArea: HTMLTextAreaElement = document.createElement('textArea') as HTMLTextAreaElement;
 
     textArea.value = 'a'.repeat(30);
 
@@ -1100,16 +975,16 @@ describe('Utils.getSuggestionBoxAlgn', () => {
 
     textArea.getBoundingClientRect = jest.fn(() => ({
         left: 50,
-    }));
+    } as DOMRect));
 
-    const createRange = (size) => {
+    const createRange = (size: number) => {
         document.createRange = () => {
             const range = new Range();
             range.getClientRects = () => {
                 return [{
                     top: 100,
                     left: size,
-                }];
+                }] as unknown as DOMRectList;
             };
             return range;
         };

@@ -10,7 +10,7 @@ import {DataRetentionCustomPolicies, DataRetentionCustomPolicy} from 'mattermost
 import {DeepPartial} from 'mattermost-redux/types/utilities';
 
 import {JobTypes} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
 import Card from 'components/card/card';
 import TitleAndButtonCardHeader from 'components/card/title_and_button_card_header/title_and_button_card_header';

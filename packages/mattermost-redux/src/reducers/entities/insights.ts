@@ -4,7 +4,7 @@ import {combineReducers} from 'redux';
 
 import {InsightTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {TopReaction, TimeFrame, TopChannel} from 'mattermost-redux/types/insights';
+import {TopReaction, TimeFrame} from 'mattermost-redux/types/insights';
 
 const sortReactionsIntoState = (existingState: Record<TimeFrame, Record<string, TopReaction>>, data: TopReaction[], timeFrame: TimeFrame) => {
     if (!existingState || !existingState[timeFrame]) {

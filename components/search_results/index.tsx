@@ -21,7 +21,7 @@ import {
     getIsSearchGettingMore,
 } from 'selectors/rhs';
 import {GlobalState} from 'types/store';
-import {Preferences} from 'utils/constants.jsx';
+import {Preferences} from 'utils/constants';
 
 import SearchResults from './search_results';
 import {StateProps, OwnProps} from './types';
