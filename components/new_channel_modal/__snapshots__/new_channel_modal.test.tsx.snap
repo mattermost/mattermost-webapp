@@ -11,6 +11,7 @@ exports[`components/new_channel_modal should match snapshot 1`] = `
   errorText=""
   handleCancel={[Function]}
   handleConfirm={[Function]}
+  handleEnterKeyPress={[Function]}
   id="new-channel-modal"
   isConfirmDisabled={true}
   modalHeaderText="Create a new channel"
