@@ -76,6 +76,7 @@ exports[`components/new_channel_modal should match snapshot 1`] = `
         id="new-channel-modal-purpose"
         maxLength={250}
         onChange={[Function]}
+        onKeyDown={[Function]}
         placeholder="Enter a purpose for this channel (optional)"
         rows={4}
         value=""
