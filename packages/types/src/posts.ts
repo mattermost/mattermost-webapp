@@ -139,7 +139,6 @@ export declare type OpenGraphMetadataImage = {
     secure_url?: string;
     url: string;
     type?: string;
-    format?: string;
     height?: number;
     width?: number;
 }

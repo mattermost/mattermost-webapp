@@ -15,11 +15,12 @@ import {
 } from 'mattermost-redux/types/posts';
 
 import AutoHeightSwitcher from 'components/common/auto_height_switcher';
+import ExternalImage from 'components/external_image';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import Constants, {PostTypes} from 'utils/constants';
 import {isSystemMessage} from 'utils/post_utils';
 import {makeUrlSafe} from 'utils/url';
-import Tooltip from 'components/tooltip';
 
 import {getNearestPoint} from './get_nearest_point';
 
@@ -50,7 +51,7 @@ export type Props = {
     imageCollapsed?: boolean;
 };
 
-type ImageData = {
+type ImageMetadata = {
     url?: string;
     secure_url?: string;
     type?: string;
@@ -73,15 +74,15 @@ export function getBestImage(openGraphData?: OpenGraphMetadata, imagesMetadata?:
             ...image,
             height: image.height || imagesMetadata?.[imageUrl].height || -1,
             width: image.width || imagesMetadata?.[imageUrl].width || -1,
-            format: image.format || image.type?.split('/')[1] || image.type || '',
+            format: image.type?.split('/')[1] || image.type || '',
             frameCount: 0,
         };
     });
 
-    return getNearestPoint<ImageData>(DIMENSIONS_NEAREST_POINT_IMAGE, images);
+    return getNearestPoint<ImageMetadata>(DIMENSIONS_NEAREST_POINT_IMAGE, images);
 }
 
-export const getIsLargeImage = (data: ImageData|null) => {
+export const getIsLargeImage = (data: ImageMetadata|null) => {
     if (!data) {
         return false;
     }
@@ -93,7 +94,7 @@ export const getIsLargeImage = (data: ImageData|null) => {
 
 const PostAttachmentOpenGraph = memo(({openGraphData, post, actions, link, isInPermalink, previewEnabled, ...rest}: Props) => {
     const {formatMessage} = useIntl();
-    const {current: bestImageData} = useRef<ImageData>(getBestImage(openGraphData, post.metadata.images));
+    const {current: bestImageData} = useRef<ImageMetadata>(getBestImage(openGraphData, post.metadata.images));
     const isPreviewRemoved = post?.props?.[PostTypes.REMOVE_LINK_PREVIEW] === 'true';
 
     // block of early return statements
@@ -169,7 +170,7 @@ const PostAttachmentOpenGraph = memo(({openGraphData, post, actions, link, isInP
                 description={openGraphData?.description}
             />
             <PostAttachmenOpenGraphImage
-                imageData={bestImageData}
+                imageMetadata={bestImageData}
                 title={openGraphData?.title}
                 isInPermalink={isInPermalink}
                 isEmbedVisible={rest.isEmbedVisible}
@@ -197,22 +198,22 @@ const PostAttachmentOpenGraphBody = memo(({title, isInPermalink, siteName = '', 
 });
 
 type ImageProps = {
-    imageData?: ImageData|null;
     title?: string;
+    imageMetadata?: ImageMetadata|null;
     isInPermalink: Props['isInPermalink'];
     isEmbedVisible: Props['isEmbedVisible'];
     toggleEmbedVisibility: Props['toggleEmbedVisibility'];
 }
 
-const PostAttachmenOpenGraphImage = memo(({imageData, isInPermalink, toggleEmbedVisibility, isEmbedVisible = true, title = ''}: ImageProps) => {
+const PostAttachmenOpenGraphImage = memo(({imageMetadata, isInPermalink, toggleEmbedVisibility, isEmbedVisible = true, title = ''}: ImageProps) => {
     const {formatMessage} = useIntl();
 
-    if (!imageData || isInPermalink) {
+    if (!imageMetadata || isInPermalink) {
         return null;
     }
 
-    const large = getIsLargeImage(imageData);
-    const src = imageData.secure_url || imageData.url;
+    const large = getIsLargeImage(imageMetadata);
+    const src = imageMetadata.secure_url || imageMetadata.url || '';
 
     const toggleImagePreview = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -247,15 +248,22 @@ const PostAttachmenOpenGraphImage = memo(({imageData, isInPermalink, toggleEmbed
     );
 
     const image = (
-        <>
-            {large && imageCollapseButton}
-            <figure>
-                <img
-                    src={src}
-                    alt={title}
-                />
-            </figure>
-        </>
+        <ExternalImage
+            src={src}
+            imageMetadata={imageMetadata}
+        >
+            {(source) => (
+                <>
+                    {large && imageCollapseButton}
+                    <figure>
+                        <img
+                            src={source}
+                            alt={title}
+                        />
+                    </figure>
+                </>
+            )}
+        </ExternalImage>
     );
 
     return (
