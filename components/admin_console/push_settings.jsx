@@ -170,7 +170,7 @@ export default class PushSettings extends AdminSettings {
             );
         } else if (this.state.pushNotificationServerType === PUSH_NOTIFICATIONS_MTPNS) {
             pushServerHelpText = (
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='admin.email.mtpnsHelp'
                     defaultMessage='Download <linkIOS>Mattermost iOS app</linkIOS> from iTunes. Download <linkAndroid>Mattermost Android app</linkAndroid> from Google Play. Learn more about the <linkHPNS>Mattermost Hosted Push Notification Service</linkHPNS>.'
                     values={{
@@ -316,7 +316,7 @@ export default class PushSettings extends AdminSettings {
                     }
                     placeholder={Utils.localizeMessage('admin.team.maxNotificationsPerChannelExample', 'E.g.: "1000"')}
                     helpText={
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='admin.team.maxNotificationsPerChannelDescription'
                             defaultMessage='Maximum total number of users in a channel before users typing messages, @all, @here, and @channel no longer send notifications because of performance.'
                         />

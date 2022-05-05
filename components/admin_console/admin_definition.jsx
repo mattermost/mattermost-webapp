@@ -5343,7 +5343,6 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
-                        help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                 ],
