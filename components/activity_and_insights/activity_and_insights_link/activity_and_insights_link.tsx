@@ -39,7 +39,7 @@ const screen = (
             className='insights-img'
         />
     </>
-    
+
 );
 
 const prevBtn = (
@@ -77,21 +77,21 @@ const ActivityAndInsightsLink = () => {
         return null;
     }
 
-    const handleDismiss = useCallback((e) => {
+    const handleDismiss = (e: React.MouseEvent) => {
         e.stopPropagation();
         dispatch(setInsightsInitialisationState({[Preferences.INSIGHTS_VIEWED]: true}));
         setTipOpened(false);
-    }, []);
+    };
 
-    const handleNext = useCallback(() => {
+    const handleNext = () => {
         dispatch(setInsightsInitialisationState({[Preferences.INSIGHTS_VIEWED]: true}));
         setTipOpened(false);
-    }, []);
+    };
 
-    const handleOpen = useCallback((e) => {
+    const handleOpen = (e: React.MouseEvent) => {
         e.stopPropagation();
         setTipOpened(true);
-    }, []);
+    };
 
     return (
         <ul className='SidebarInsights NavGroupContent nav nav-pills__container'>
@@ -123,7 +123,7 @@ const ActivityAndInsightsLink = () => {
                         </span>
                     </div>
                     {
-                        showTip && 
+                        showTip &&
                         <TourTip
                             show={tipOpened}
                             screen={screen}
@@ -144,7 +144,7 @@ const ActivityAndInsightsLink = () => {
                             offset={[140, 4]}
                         />
                     }
-                    
+
                 </Link>
             </li>
         </ul>
