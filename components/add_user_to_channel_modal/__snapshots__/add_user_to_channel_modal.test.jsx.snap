@@ -91,7 +91,6 @@ exports[`components/AddUserToChannelModal should match snapshot 1`] = `
               },
             ]
           }
-          renderDividers={false}
           value=""
         />
       </div>

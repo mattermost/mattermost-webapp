@@ -4,8 +4,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Constants from 'utils/constants.jsx';
-import * as Utils from 'utils/utils.jsx';
+import Constants from 'utils/constants';
+import * as Utils from 'utils/utils';
 
 export default class PermalinkView extends React.PureComponent {
     static propTypes = {

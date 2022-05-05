@@ -5,10 +5,12 @@ import {Stripe} from '@stripe/stripe-js';
 import {getCode} from 'country-list';
 
 import {Client4} from 'mattermost-redux/client';
+import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {getConfirmCardSetup} from 'components/payment_form/stripe';
 
 import {StripeSetupIntent, BillingDetails} from 'types/cloud/sku';
+import {CloudTypes} from 'mattermost-redux/action_types';
 
 // Returns true for success, and false for any error
 export function completeStripeAddPaymentMethod(
@@ -78,6 +80,23 @@ export function subscribeCloudSubscription(productId: string) {
     return async () => {
         try {
             await Client4.subscribeCloudProduct(productId);
+        } catch (error) {
+            return error;
+        }
+        return true;
+    };
+}
+
+export function getCloudLimits(): ActionFunc {
+    return async (dispatch: DispatchFunc) => {
+        try {
+            const result = await Client4.getCloudLimits();
+            if (result) {
+                dispatch({
+                    type: CloudTypes.RECEIVED_CLOUD_LIMITS,
+                    data: result,
+                });
+            }
         } catch (error) {
             return error;
         }

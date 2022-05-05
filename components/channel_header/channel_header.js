@@ -278,10 +278,12 @@ class ChannelHeader extends React.PureComponent {
         if (hasGuests) {
             hasGuestsText = (
                 <span className='has-guest-header'>
-                    <FormattedMessage
-                        id='channel_header.channelHasGuests'
-                        defaultMessage='This channel has guests'
-                    />
+                    <span tabIndex={0}>
+                        <FormattedMessage
+                            id='channel_header.channelHasGuests'
+                            defaultMessage='This channel has guests'
+                        />
+                    </span>
                 </span>
             );
         }

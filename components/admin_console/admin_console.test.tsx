@@ -21,7 +21,12 @@ describe('components/AdminConsole', () => {
         },
         adminDefinition: AdminDefinition,
         license: {},
-        cloud: {},
+        cloud: {
+            limits: {
+                limits: {},
+                limitsLoaded: false,
+            },
+        },
         buildEnterpriseReady: true,
         match: {
             url: '',

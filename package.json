@@ -235,6 +235,7 @@
       "text-summary"
     ],
     "moduleNameMapper": {
+      "^@mattermost/(client)$": "<rootDir>/packages/$1/src",
       "^@mattermost/(types)/(.*)$": "<rootDir>/packages/$1/src/$2",
       "^mattermost-redux/test/(.*)$": "<rootDir>/packages/mattermost-redux/test/$1",
       "^mattermost-redux/(.*)$": "<rootDir>/packages/mattermost-redux/src/$1",
@@ -300,10 +301,12 @@
     "i18n-check-empty-src": "npm run mmjstool -- i18n check-empty-src --webapp-dir .",
     "storybook": "start-storybook -p 6006 -s ./storybook/static",
     "build-storybook": "build-storybook -s ./storybook/static",
-    "check-types": "tsc",
+    "check-types": "tsc -b",
     "make-emojis": "node --experimental-json-modules build/emoji/emoji_gen.mjs"
   },
   "workspaces": [
+    "packages/client",
     "packages/types"
   ]
 }
+
