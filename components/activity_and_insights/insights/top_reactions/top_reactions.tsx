@@ -17,6 +17,7 @@ import CircleLoader from '../skeleton_loader/circle_loader/circle_loader';
 import widgetHoc, {WidgetHocProps} from '../widget_hoc/widget_hoc';
 
 import TopReactionsBarChart from './top_reactions_bar_chart/top_reactions_bar_chart';
+import WidgetEmptyState from '../widget_empty_state/widget_empty_state';
 
 import './../../activity_and_insights.scss';
 
@@ -95,17 +96,14 @@ const TopReactions = (props: WidgetHocProps) => {
             }
             {
                 (topReactions.length === 0 && !loading) &&
-                <div className='empty-state'>
-                    <div className='empty-state-emoticon'>
-                        <i className='icon icon-emoticon-outline'/>
-                    </div>
-                    <div className='empty-state-text'>
+                <WidgetEmptyState
+                    emptyMessage={
                         <FormattedMessage
                             id='insights.topReactions.empty'
                             defaultMessage='Not enough data yet for this insight'
                         />
-                    </div>
-                </div>
+                    }
+                />
             }
         </div>
     );
