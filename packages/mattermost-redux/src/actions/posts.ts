@@ -726,7 +726,7 @@ async function getPaginatedPostThread(rootId: string, options: FetchPaginatedThr
 
     const result = await Client4.getPaginatedPostThread(rootId, options);
 
-    list.order!.push(...result.order.slice(1));
+    list.order.push(...result.order.slice(1));
     list.posts = Object.assign(list.posts, result.posts);
 
     if (result.has_next) {
