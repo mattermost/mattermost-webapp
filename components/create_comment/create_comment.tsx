@@ -4,9 +4,7 @@
 /* eslint-disable max-lines */
 
 import React from 'react';
-import classNames from 'classnames';
-import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
-import {EmoticonOutlineIcon, SendIcon} from '@mattermost/compass-icons/components';
+import {injectIntl, IntlShape} from 'react-intl';
 
 import {ModalData} from 'types/actions.js';
 
@@ -29,16 +27,8 @@ import {
 import {getTable, formatMarkdownTableMessage, isGitHubCodeBlock, formatGithubCodePaste} from 'utils/paste';
 
 import NotifyConfirmModal from 'components/notify_confirm_modal';
-import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
-import FilePreview from 'components/file_preview';
-import FileUpload from 'components/file_upload';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
-import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal';
-import Textbox from 'components/textbox';
-import TextboxClass from 'components/textbox/textbox';
-import TextboxLinks from 'components/textbox/textbox_links';
-import MessageSubmitError from 'components/message_submit_error';
 import {PostDraft} from 'types/store/rhs';
 import {Group} from 'mattermost-redux/types/groups';
 import {ChannelMemberCountsByGroup} from 'mattermost-redux/types/channels';
@@ -47,21 +37,13 @@ import {Emoji} from 'mattermost-redux/types/emojis';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {ServerError} from 'mattermost-redux/types/errors';
 import {FileInfo} from 'mattermost-redux/types/files';
-
-import RhsSuggestionList from 'components/suggestion/rhs_suggestion_list';
-import {t} from '../../utils/i18n';
-import {ShowFormat} from 'components/show_format/show_format';
 import EmojiMap from 'utils/emoji_map';
-import {
-    MarkdownFormattedMessage,
-    MarkdownMessageType,
-} from 'components/markdown_formatted_message/markdown_formatted_message';
 import {
     applyMarkdown,
     ApplyMarkdownOptions,
 } from 'utils/markdown/apply_markdown';
-import {FormattingBar} from 'components/formatting_bar/formatting_bar';
-import {ToggleFormattingBar} from 'components/toggle_formatting_bar/toggle_formatting_bar';
+import AdvanceTextEditor from '../advance_text_editor/advance_text_editor';
+import {TextboxClass} from '../textbox';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -125,6 +107,8 @@ type Props = {
       * Create post error id
       */
     createPostErrorId?: string;
+
+    canUploadFiles: boolean;
 
     /**
       * Called to clear file uploads in progress
@@ -260,7 +244,7 @@ type Props = {
     useCustomGroupMentions: boolean;
     emojiMap: EmojiMap;
     markdownPreviewFeatureIsEnabled: boolean;
-    isFormattingBarVisible: boolean;
+    isFormattingBarHidden: boolean;
 }
 
 type State = {
@@ -277,7 +261,7 @@ type State = {
     errorClass: string | null;
     serverError: (ServerError & {submittedMessage?: string}) | null;
     showFormat: boolean;
-    isFormattingBarVisible: boolean;
+    isFormattingBarHidden: boolean;
 };
 
 class CreateComment extends React.PureComponent<Props, State> {
@@ -323,7 +307,7 @@ class CreateComment extends React.PureComponent<Props, State> {
             errorClass: null,
             serverError: null,
             showFormat: false,
-            isFormattingBarVisible: props.isFormattingBarVisible,
+            isFormattingBarHidden: props.isFormattingBarHidden,
         };
 
         this.textboxRef = React.createRef();
@@ -973,7 +957,7 @@ class CreateComment extends React.PureComponent<Props, State> {
         this.setState({uploadsProgressPercent});
     }
 
-    handleFileUploadComplete = (fileInfos: FileInfo[], clientIds: string, _: string, rootId: string) => {
+    handleFileUploadComplete = (fileInfos: FileInfo[], clientIds: string[], _: string, rootId: string) => {
         const draft = this.draftsForPost[rootId]!;
         const uploadsInProgress = [...draft.uploadsInProgress];
         const newFileInfos = sortFileInfos([...draft.fileInfos, ...fileInfos], this.props.locale);
@@ -1084,14 +1068,14 @@ class CreateComment extends React.PureComponent<Props, State> {
 
     toggleAdvanceTextEditor = () => {
         this.setState({
-            isFormattingBarVisible:
-                !this.state.isFormattingBarVisible,
+            isFormattingBarHidden:
+                !this.state.isFormattingBarHidden,
         });
         this.props.savePreferences(this.props.currentUserId, [{
             category: Preferences.ADVANCED_TEXT_EDITOR,
             user_id: this.props.currentUserId,
             name: AdvancedTextEditor.COMMENT,
-            value: String(!this.state.isFormattingBarVisible),
+            value: String(!this.state.isFormattingBarHidden),
         }]);
     }
 
@@ -1140,282 +1124,62 @@ class CreateComment extends React.PureComponent<Props, State> {
 
     render() {
         const draft = this.state.draft!;
-        const readOnlyChannel = !this.props.canPost;
-        const {formatMessage} = this.props.intl;
-        const enableAddButton = this.shouldEnableAddButton();
-        const {renderScrollbar} = this.state;
-        const ariaLabelReplyInput = Utils.localizeMessage('accessibility.sections.rhsFooter', 'reply input region');
-
-        let serverError = null;
-        if (this.state.serverError) {
-            serverError = (
-                <MessageSubmitError
-                    error={this.state.serverError}
-                    submittedMessage={this.state.serverError.submittedMessage}
-                    handleSubmit={this.handleSubmit}
-                />
-            );
-        }
-
-        let postError = null;
-        if (this.state.postError) {
-            const postErrorClass = 'post-error' + (this.state.errorClass ? (' ' + this.state.errorClass) : '');
-            postError = <label className={postErrorClass}>{this.state.postError}</label>;
-        }
-
-        let preview = null;
-        if (!readOnlyChannel && (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0)) {
-            preview = (
-                <FilePreview
-                    fileInfos={draft.fileInfos}
-                    onRemove={this.removePreview}
-                    uploadsInProgress={draft.uploadsInProgress}
-                    uploadsProgressPercent={this.state.uploadsProgressPercent}
-                />
-            );
-        }
-
-        let uploadsInProgressText = null;
-        if (draft.uploadsInProgress.length > 0) {
-            uploadsInProgressText = (
-                <span className='post-right-comments-upload-in-progress'>
-                    {draft.uploadsInProgress.length === 1 ? (
-                        <FormattedMessage
-                            id='create_comment.file'
-                            defaultMessage='File uploading'
-                        />
-                    ) : (
-                        <FormattedMessage
-                            id='create_comment.files'
-                            defaultMessage='Files uploading'
-                        />
-                    )}
-                </span>
-            );
-        }
-
-        let fileUpload;
-        let showFormat;
-        let toggleFormattingBar;
-        if (!readOnlyChannel && !this.props.shouldShowPreview) {
-            fileUpload = (
-                <FileUpload
-                    ref={this.fileUploadRef}
-                    fileCount={this.getFileCount()}
-                    getTarget={this.getFileUploadTarget}
-                    onFileUploadChange={this.handleFileUploadChange}
-                    onUploadStart={this.handleUploadStart}
-                    onFileUpload={this.handleFileUploadComplete}
-                    onUploadError={this.handleUploadError}
-                    onUploadProgress={this.handleUploadProgress}
-                    rootId={this.props.rootId}
-                    channelId={this.props.channelId}
-                    postType={this.props.isThreadView ? 'thread' : 'comment'}
-                />
-            );
-            showFormat = (
-                <ShowFormat
-                    onClick={() => {
-                        this.setState({showFormat: !this.state.showFormat});
-                    }}
-                    active={this.state.showFormat}
-                />
-            );
-            toggleFormattingBar = (
-                <ToggleFormattingBar
-                    onClick={this.toggleAdvanceTextEditor}
-                    active={this.state.isFormattingBarVisible}
-                />
-            );
-        }
-
-        let emojiPicker = null;
-        const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
-
-        if (this.props.enableEmojiPicker && !readOnlyChannel && !this.props.shouldShowPreview) {
-            emojiPicker = (
-                <>
-                    <EmojiPickerOverlay
-                        show={this.state.showEmojiPicker}
-                        target={this.getCreateCommentControls}
-                        onHide={this.hideEmojiPicker}
-                        onEmojiClose={this.hideEmojiPicker}
-                        onEmojiClick={this.handleEmojiClick}
-                        onGifClick={this.handleGifClick}
-                        enableGifPicker={this.props.enableGifPicker}
-                        topOffset={55}
-                    />
-                    <button
-                        aria-label={emojiButtonAriaLabel}
-                        type='button'
-                        onClick={this.toggleEmojiPicker}
-                        className={classNames('emoji-picker__container', 'post-action', {
-                            'post-action--active': this.state.showEmojiPicker,
-                        })}
-                        id='emojiPickerButton'
-                    >
-                        <EmoticonOutlineIcon
-                            size={18}
-                            color={'currentColor'}
-                        />
-                    </button>
-                </>
-            );
-        }
-
-        let createMessage;
-        if (readOnlyChannel) {
-            createMessage = Utils.localizeMessage(
-                'create_post.read_only',
-                'This channel is read-only. Only members with permission can post here.',
-            );
-        } else {
-            createMessage = Utils.localizeMessage('create_comment.addComment', 'Reply to this thread...');
-        }
-
-        let scrollbarClass = '';
-        if (renderScrollbar) {
-            scrollbarClass = ' scroll';
-        }
-        const isMobile = Utils.isMobile();
-        const message = readOnlyChannel ? '' : draft.message;
         return (
             <form onSubmit={this.handleSubmit}>
-                <div
-                    role='form'
-                    aria-label={ariaLabelReplyInput}
-                    tabIndex={-1}
-                    className={`post-create a11y__region${scrollbarClass}`}
-                    style={
-                        this.state.renderScrollbar && this.state.scrollbarWidth ? ({
-                            '--detected-scrollbar-width': `${this.state.scrollbarWidth}px`,
-                        } as any) : undefined
-                    }
-                    data-a11y-sort-order='4'
-                >
-                    <div
-                        id={this.props.rootId}
-                        className='post-create-body comment-create-body'
-                    >
-                        <div className='post-body__cell'>
-                            <Textbox
-                                onChange={this.handleChange}
-                                onKeyPress={this.commentMsgKeyPress}
-                                onKeyDown={this.handleKeyDown}
-                                onSelect={this.handleSelect}
-                                onMouseUp={this.handleMouseUpKeyUp}
-                                onKeyUp={this.handleMouseUpKeyUp}
-                                onComposition={this.emitTypingEvent}
-                                onHeightChange={this.handleHeightChange}
-                                handlePostError={this.handlePostError}
-                                value={message}
-                                onBlur={this.handleBlur}
-                                createMessage={createMessage}
-                                emojiEnabled={this.props.enableEmojiPicker}
-                                channelId={this.props.channelId}
-                                inputComponent={
-                                    this.state.showFormat ? () => (
-                                        <MarkdownFormattedMessage
-                                            messageType={
-                                                MarkdownMessageType.Comment
-                                            }
-                                            message={message}
-                                            emojiMap={this.props.emojiMap}
-                                        />
-                                    ) : undefined
-                                }
-                                rootId={this.props.rootId}
-                                isRHS={true}
-                                id='reply_textbox'
-                                ref={this.textboxRef}
-                                disabled={readOnlyChannel}
-                                characterLimit={this.props.maxPostSize}
-                                preview={this.props.shouldShowPreview}
-                                suggestionList={RhsSuggestionList}
-                                badConnection={this.props.badConnection}
-                                listenForMentionKeyClick={true}
-                                useChannelMentions={
-                                    this.props.useChannelMentions
-                                }
-                            />
-                            <FormattingBar
-                                applyMarkdown={this.applyMarkdown}
-                                value={message}
-                                textBox={this.textboxRef.current?.getInputBox()}
-                                isOpen={this.state.isFormattingBarVisible}
-                            />
-
-                            <span
-                                className={classNames('post-body__actions', {
-                                    formattingBarOpen:
-                                        this.state.isFormattingBarVisible,
-                                    '--top': true,
-                                })}
-                            >
-                                {showFormat}
-                            </span>
-                            <span
-                                ref={this.createCommentControlsRef}
-                                className={classNames('post-body__actions', {
-                                    '--bottom': true,
-                                })}
-                            >
-                                {toggleFormattingBar}
-                                {fileUpload}
-                                {emojiPicker}
-                                {isMobile && (
-                                    <button
-                                        tabIndex={0}
-                                        disabled={!enableAddButton}
-                                        aria-label={formatMessage({
-                                            id: 'create_post.send_message',
-                                            defaultMessage: 'Send a message',
-                                        })}
-                                        className={'btn btn-primary send-button theme'}
-                                        onClick={this.handleSubmit}
-                                    >
-                                        <SendIcon
-                                            size={18}
-                                            color='currentColor'
-                                            aria-label={formatMessage({
-                                                id: t('create_post.icon'),
-                                                defaultMessage: 'Create a post',
-                                            })}
-                                        />
-                                    </button>
-                                )}
-                            </span>
-                        </div>
-                    </div>
-                    <div className='post-create-footer'>
-                        <div className='d-flex justify-content-between'>
-                            <div className='col'>
-                                <MsgTyping
-                                    channelId={this.props.channelId}
-                                    postId={this.props.rootId}
-                                />
-                                {postError}
-                            </div>
-                            <div className='col col-auto'>
-                                <TextboxLinks
-                                    isMarkdownPreviewEnabled={this.props.canPost && this.props.markdownPreviewFeatureIsEnabled}
-                                    showPreview={this.props.shouldShowPreview}
-                                    updatePreview={this.setShowPreview}
-                                />
-                            </div>
-                        </div>
-                        {uploadsInProgressText || preview || serverError ? (
-                            <div className='text-right pt-2'>
-                                {uploadsInProgressText}
-                                {preview}
-                                {serverError}
-                            </div>
-                        ) : null}
-                    </div>
-                </div>
+                <AdvanceTextEditor
+                    textboxRef={this.textboxRef}
+                    currentUserId={this.props.currentUserId}
+                    message={draft.message}
+                    showEmojiPicker={this.state.showEmojiPicker}
+                    uploadsProgressPercent={this.state.uploadsProgressPercent}
+                    channelId={this.props.channelId}
+                    postId={this.props.rootId}
+                    errorClass={this.state.errorClass}
+                    serverError={this.state.serverError}
+                    isFormattingBarHidden={this.state.isFormattingBarHidden}
+                    draft={this.props.draft}
+                    handleSubmit={this.handleSubmit}
+                    removePreview={this.removePreview}
+                    setShowPreview={this.setShowPreview}
+                    shouldShowPreview={this.props.shouldShowPreview}
+                    maxPostSize={this.props.maxPostSize}
+                    markdownPreviewFeatureIsEnabled={this.props.markdownPreviewFeatureIsEnabled}
+                    canPost={this.props.canPost}
+                    createPostControlsRef={this.createCommentControlsRef}
+                    applyMarkdown={this.applyMarkdown}
+                    useChannelMentions={this.props.useChannelMentions}
+                    badConnection={this.props.badConnection}
+                    canUploadFiles={this.props.canUploadFiles}
+                    enableEmojiPicker={this.props.enableEmojiPicker}
+                    enableGifPicker={this.props.enableGifPicker}
+                    handleBlur={this.handleBlur}
+                    handlePostError={this.handlePostError}
+                    emitTypingEvent={this.emitTypingEvent}
+                    handleMouseUpKeyUp={this.handleMouseUpKeyUp}
+                    handleSelect={this.handleSelect}
+                    handleKeyDown={this.handleKeyDown}
+                    postMsgKeyPress={this.commentMsgKeyPress}
+                    handleChange={this.handleChange}
+                    toggleEmojiPicker={this.toggleEmojiPicker}
+                    handleGifClick={this.handleGifClick}
+                    handleEmojiClick={this.handleEmojiClick}
+                    handleEmojiClose={this.hideEmojiPicker}
+                    hideEmojiPicker={this.hideEmojiPicker}
+                    getCreatePostControls={this.getCreateCommentControls}
+                    toggleAdvanceTextEditor={this.toggleAdvanceTextEditor}
+                    handleUploadProgress={this.handleUploadProgress}
+                    handleUploadError={this.handleUploadError}
+                    handleFileUploadComplete={this.handleFileUploadComplete}
+                    handleUploadStart={this.handleUploadStart}
+                    handleFileUploadChange={this.handleFileUploadChange}
+                    getFileUploadTarget={this.getFileUploadTarget}
+                    fileCount={this.getFileCount()}
+                    fileUploadRef={this.fileUploadRef}
+                    isThreadView={this.props.isThreadView}
+                />
             </form>
         );
     }
 }
 
-export default injectIntl(CreateComment);
+export default CreateComment;

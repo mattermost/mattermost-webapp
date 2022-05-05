@@ -17,8 +17,8 @@ import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 
 export const Icon = styled.button`
     display: flex;
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     align-items: center;
     justify-content: center;
     border: none;
@@ -98,7 +98,7 @@ export const FormattingIcon = (props: FormattingIconProps): JSX.Element => {
                     onClick={onClick}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='top'
-                    trigger='hover'
+                    trigger={['hover', 'focus']}
                     overlay={<Tooltip id='upload-tooltip'>
                         <KeyboardShortcutSequence
                             shortcut={tooltip}

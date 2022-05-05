@@ -3,10 +3,7 @@
 
 /* eslint-disable max-lines */
 
-import React, {CSSProperties} from 'react';
-import classNames from 'classnames';
-import {injectIntl, IntlShape} from 'react-intl';
-import {SendIcon, EmoticonOutlineIcon} from '@mattermost/compass-icons/components';
+import React from 'react';
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
@@ -18,9 +15,8 @@ import Constants, {
     Locations,
     A11yClassNames,
     Preferences,
-    AdvancedTextEditor,
+    AdvancedTextEditor as AdvancedTextEditorConst,
 } from 'utils/constants';
-import {t} from 'utils/i18n';
 import {
     containsAtChannel,
     specialMentionsInText,
@@ -37,18 +33,10 @@ import * as Utils from 'utils/utils';
 import NotifyConfirmModal from 'components/notify_confirm_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
-import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
-import FilePreview from 'components/file_preview';
-import FileUpload from 'components/file_upload';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
-import MsgTyping from 'components/msg_typing';
 import ResetStatusModal from 'components/reset_status_modal';
-import Textbox from 'components/textbox';
 import TextboxClass from 'components/textbox/textbox';
-import TextboxLinks from 'components/textbox/textbox_links';
-import {ShowFormat} from 'components/show_format/show_format';
 
-import MessageSubmitError from 'components/message_submit_error';
 import {Channel, ChannelMemberCountsByGroup} from 'mattermost-redux/types/channels';
 import {PostDraft} from 'types/store/rhs';
 import {Post, PostMetadata} from 'mattermost-redux/types/posts';
@@ -62,15 +50,8 @@ import {ModalData} from 'types/actions';
 import {FileInfo} from 'mattermost-redux/types/files';
 import {Emoji} from 'mattermost-redux/types/emojis';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
-import {SendMessageTour} from 'components/onboarding_tour';
-
-import {
-    MarkdownFormattedMessage,
-    MarkdownMessageType,
-} from 'components/markdown_formatted_message/markdown_formatted_message';
-import {ToggleFormattingBar} from 'components/toggle_formatting_bar/toggle_formatting_bar';
-import {FormattingBar} from 'components/formatting_bar/formatting_bar';
 import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';
+import AdvanceTextEditor from '../advance_text_editor/advance_text_editor';
 const KeyCodes = Constants.KeyCodes;
 
 const CreatePostDraftTimeoutMilliseconds = 500;
@@ -206,8 +187,6 @@ type Props = {
   */
     useChannelMentions: boolean;
 
-    intl: IntlShape;
-
     /**
   * Should preview be showed
   */
@@ -328,7 +307,7 @@ type State = {
     serverError: (ServerError & {submittedMessage?: string}) | null;
     postError?: React.ReactNode;
     showFormat: boolean;
-    isFormattingBarVisible: boolean;
+    isFormattingBarHidden: boolean;
 };
 
 class CreatePost extends React.PureComponent<Props, State> {
@@ -376,7 +355,7 @@ class CreatePost extends React.PureComponent<Props, State> {
             errorClass: null,
             serverError: null,
             showFormat: false,
-            isFormattingBarVisible: props.isFormattingBarVisible,
+            isFormattingBarHidden: props.isFormattingBarVisible,
         };
 
         this.topDiv = React.createRef<HTMLFormElement>();
@@ -688,7 +667,7 @@ class CreatePost extends React.PureComponent<Props, State> {
             memberNotifyCount = currentChannelMembersCount - 1;
 
             for (const k in specialMentions) {
-                if (specialMentions[k] === true) {
+                if (specialMentions[k]) {
                     mentions.push('@' + k);
                 }
             }
@@ -966,7 +945,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         this.setState({uploadsProgressPercent});
     }
 
-    handleFileUploadComplete = (fileInfos: FileInfo[], clientIds: string[], channelId: string) => {
+    handleFileUploadComplete = (fileInfos: FileInfo[], clientIds: string[], channelId: string, rootId: string) => {
         const draft = {...this.draftsForChannel[channelId]!};
 
         // remove each finished file from uploads
@@ -1120,6 +1099,7 @@ class CreatePost extends React.PureComponent<Props, State> {
     }
 
     handleKeyDown = (e: React.KeyboardEvent) => {
+        console.log('handleKeyDown');
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const messageIsEmpty = this.state.message.length === 0;
         const draftMessageIsEmpty = this.props.draft.message.length === 0;
@@ -1316,203 +1296,24 @@ class CreatePost extends React.PureComponent<Props, State> {
         this.handleEmojiClose();
     }
 
-    shouldEnableSendButton() {
-        return this.state.message.trim().length !== 0 || this.props.draft.fileInfos.length !== 0;
-    }
-
-    handleHeightChange = (height: number, maxHeight: number) => {
-        this.setState({
-            renderScrollbar: height > maxHeight,
-        });
-
-        window.requestAnimationFrame(() => {
-            if (this.textboxRef.current) {
-                this.setState({scrollbarWidth: Utils.scrollbarWidth(this.textboxRef.current.getInputBox())});
-            }
-        });
-    }
     toggleAdvanceTextEditor = () => {
         this.setState({
-            isFormattingBarVisible:
-                !this.state.isFormattingBarVisible,
+            isFormattingBarHidden:
+                !this.state.isFormattingBarHidden,
         });
         this.props.actions.savePreferences(this.props.currentUserId, [{
             category: Preferences.ADVANCED_TEXT_EDITOR,
             user_id: this.props.currentUserId,
-            name: AdvancedTextEditor.POST,
-            value: String(!this.state.isFormattingBarVisible),
+            name: AdvancedTextEditorConst.POST,
+            value: String(!this.state.isFormattingBarHidden),
         }]);
     }
 
     render() {
-        const {
-            currentChannel,
-            draft,
-            fullWidthTextBox,
-            showSendTutorialTip,
-            canPost,
-        } = this.props;
-        const readOnlyChannel = !canPost;
-        const {formatMessage} = this.props.intl;
-        const {renderScrollbar} = this.state;
-        const ariaLabelMessageInput = Utils.localizeMessage(
-            'accessibility.sections.centerFooter',
-            'message input complimentary region',
-        );
-
-        let serverError = null;
-        if (this.state.serverError) {
-            serverError = (
-                <MessageSubmitError
-                    error={this.state.serverError}
-                    submittedMessage={this.state.serverError.submittedMessage}
-                    handleSubmit={this.handleSubmit}
-                />
-            );
-        }
-
-        let postError = null;
-        if (this.state.postError) {
-            const postErrorClass = 'post-error' + (this.state.errorClass ? ' ' + this.state.errorClass : '');
-            postError = <label className={postErrorClass}>{this.state.postError}</label>;
-        }
-
-        let preview = null;
-        if (!readOnlyChannel && (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0)) {
-            preview = (
-                <FilePreview
-                    fileInfos={draft.fileInfos}
-                    onRemove={this.removePreview}
-                    uploadsInProgress={draft.uploadsInProgress}
-                    uploadsProgressPercent={this.state.uploadsProgressPercent}
-                />
-            );
-        }
-
-        let postFooterClassName = 'post-create-footer';
-        if (postError) {
-            postFooterClassName += ' has-error';
-        }
-
-        let SendTutorialTip = null;
-        if (showSendTutorialTip) {
-            SendTutorialTip = (
-                <SendMessageTour
-                    prefillMessage={this.prefillMessage}
-                    currentChannel={this.props.currentChannel}
-                    currentUserId={this.props.currentUserId}
-                    currentChannelTeammateUsername={this.props.currentChannelTeammateUsername}
-                />
-            );
-        }
-
         let centerClass = '';
-        if (!fullWidthTextBox) {
+        if (!this.props.fullWidthTextBox) {
             centerClass = 'center';
         }
-
-        let sendButtonClass = 'send-button theme';
-        if (!this.shouldEnableSendButton()) {
-            sendButtonClass += ' disabled';
-        }
-
-        let attachmentsDisabled = '';
-        if (!this.props.canUploadFiles) {
-            attachmentsDisabled = ' post-create--attachment-disabled';
-        }
-
-        let fileUpload;
-        let showFormat;
-        let toggleFormattingBar;
-        if (!readOnlyChannel && !this.props.shouldShowPreview) {
-            fileUpload = (
-                <FileUpload
-                    ref={this.fileUploadRef}
-                    fileCount={this.getFileCount()}
-                    getTarget={this.getFileUploadTarget}
-                    onFileUploadChange={this.handleFileUploadChange}
-                    onUploadStart={this.handleUploadStart}
-                    onFileUpload={this.handleFileUploadComplete}
-                    onUploadError={this.handleUploadError}
-                    onUploadProgress={this.handleUploadProgress}
-                    postType='post'
-                    channelId={currentChannel.id}
-                />
-            );
-            showFormat = (
-                <ShowFormat
-                    onClick={() => {
-                        this.setState({showFormat: !this.state.showFormat});
-                    }}
-                    active={this.state.showFormat}
-                />
-            );
-            toggleFormattingBar = (
-                <ToggleFormattingBar
-                    onClick={this.toggleAdvanceTextEditor}
-                    active={this.state.isFormattingBarVisible}
-                />
-            );
-        }
-
-        let emojiPicker = null;
-        const emojiButtonAriaLabel = formatMessage({
-            id: 'emoji_picker.emojiPicker',
-            defaultMessage: 'Emoji Picker',
-        }).toLowerCase();
-
-        if (this.props.enableEmojiPicker && !readOnlyChannel && !this.props.shouldShowPreview) {
-            const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
-
-            emojiPicker = (
-                <>
-                    <EmojiPickerOverlay
-                        show={this.state.showEmojiPicker}
-                        target={this.getCreatePostControls}
-                        onHide={this.hideEmojiPicker}
-                        onEmojiClose={this.handleEmojiClose}
-                        onEmojiClick={this.handleEmojiClick}
-                        onGifClick={this.handleGifClick}
-                        enableGifPicker={this.props.enableGifPicker}
-                        topOffset={-7}
-                    />
-                    <button
-                        type='button'
-                        aria-label={emojiButtonAriaLabel}
-                        onClick={this.toggleEmojiPicker}
-                        className={classNames('emoji-picker__container', 'post-action', {
-                            'post-action--active': this.state.showEmojiPicker,
-                        })}
-                        id='emojiPickerButton'
-                    >
-                        <EmoticonOutlineIcon
-                            size={18}
-                            color={'currentColor'}
-                        />
-                    </button>
-                </>
-            );
-        }
-
-        let createMessage;
-        if (readOnlyChannel) {
-            createMessage = Utils.localizeMessage(
-                'create_post.read_only',
-                'This channel is read-only. Only members with permission can post here.',
-            );
-        } else {
-            createMessage = formatMessage(
-                {
-                    id: 'create_post.write',
-                    defaultMessage: 'Write to {channelDisplayName}',
-                },
-                {channelDisplayName: currentChannel.display_name},
-            );
-        }
-
-        const sendButtonEnabled = this.shouldEnableSendButton();
-
-        const message = readOnlyChannel ? '' : this.state.message;
 
         return (
             <form
@@ -1521,130 +1322,63 @@ class CreatePost extends React.PureComponent<Props, State> {
                 className={centerClass}
                 onSubmit={this.handleSubmit}
             >
-                <div
-                    className={classNames('post-create', {'post-create--attachment-disabled': !this.props.canUploadFiles, scroll: renderScrollbar})}
-                    style={this.state.renderScrollbar && this.state.scrollbarWidth ? {'--detected-scrollbar-width': `${this.state.scrollbarWidth}px`} as CSSProperties : undefined}
-                >
-                    <div className='post-create-body'>
-                        <div
-                            role='application'
-                            id='centerChannelFooter'
-                            aria-label={ariaLabelMessageInput}
-                            tabIndex={-1}
-                            className='post-body__cell a11y__region'
-                            data-a11y-sort-order='2'
-                        >
-                            <Textbox
-                                onChange={this.handleChange}
-                                onKeyPress={this.postMsgKeyPress}
-                                onKeyDown={this.handleKeyDown}
-                                onSelect={this.handleSelect}
-                                onMouseUp={this.handleMouseUpKeyUp}
-                                onKeyUp={this.handleMouseUpKeyUp}
-                                onComposition={this.emitTypingEvent}
-                                onHeightChange={this.handleHeightChange}
-                                handlePostError={this.handlePostError}
-                                value={message}
-                                onBlur={this.handleBlur}
-                                emojiEnabled={this.props.enableEmojiPicker}
-                                createMessage={createMessage}
-                                channelId={currentChannel.id}
-                                inputComponent={
-                                    this.state.showFormat ? () => (
-                                        <MarkdownFormattedMessage
-                                            messageType={MarkdownMessageType.Post}
-                                            message={message}
-                                            emojiMap={this.props.emojiMap}
-                                        />
-                                    ) : undefined
-                                }
-                                id='post_textbox'
-                                ref={this.textboxRef}
-                                disabled={readOnlyChannel}
-                                characterLimit={this.props.maxPostSize}
-                                preview={this.props.shouldShowPreview}
-                                badConnection={this.props.badConnection}
-                                listenForMentionKeyClick={true}
-                                useChannelMentions={this.props.useChannelMentions}
-                            />
-                            <FormattingBar
-                                applyMarkdown={this.applyMarkdown}
-                                value={message}
-                                textBox={this.textboxRef.current?.getInputBox()}
-                                isOpen={this.state.isFormattingBarVisible}
-                            />
-                            <span
-                                className={classNames('post-body__actions', {
-                                    formattingBarOpen: this.state.isFormattingBarVisible,
-                                    '--top': true,
-                                })}
-                            >
-                                {showFormat}
-                            </span>
-                            <span
-                                ref={this.createPostControlsRef}
-                                className={classNames('post-body__actions', {
-                                    '--bottom': true,
-                                })}
-                            >
-                                {toggleFormattingBar}
-                                {fileUpload}
-                                {emojiPicker}
-                                <button
-                                    tabIndex={0}
-                                    aria-label={formatMessage({
-                                        id: 'create_post.send_message',
-                                        defaultMessage: 'Send a message',
-                                    })}
-                                    disabled={!sendButtonEnabled}
-                                    className={classNames('btn btn-primary send-button theme', {
-                                        disabled: !sendButtonEnabled,
-                                        hidden: !Utils.isMobile(),
-                                    })}
-                                    onClick={this.handleSubmit}
-                                >
-                                    <SendIcon
-                                        size={18}
-                                        color='currentColor'
-                                        aria-label={formatMessage({
-                                            id: t('create_post.icon'),
-                                            defaultMessage: 'Create a post',
-                                        })}
-                                    />
-                                </button>
-                            </span>
-                        </div>
-                        {SendTutorialTip}
-                    </div>
-                    <div
-                        id='postCreateFooter'
-                        role='form'
-                        className={postFooterClassName}
-                    >
-                        <div className='d-flex justify-content-between'>
-                            <MsgTyping
-                                channelId={currentChannel.id}
-                                postId=''
-                            />
-                            <TextboxLinks
-                                isMarkdownPreviewEnabled={this.props.canPost && this.props.markdownPreviewFeatureIsEnabled}
-                                hasExceededCharacterLimit={readOnlyChannel ? false : this.state.message.length > this.props.maxPostSize}
-                                showPreview={this.props.shouldShowPreview}
-                                updatePreview={this.setShowPreview}
-                                hasText={readOnlyChannel ? false : this.state.message.length > 0}
-                            />
-                        </div>
-                        <div>
-                            {postError}
-                            {preview}
-                            {serverError}
-                        </div>
-                    </div>
-                </div>
+                <AdvanceTextEditor
+                    currentUserId={this.props.currentUserId}
+                    message={this.state.message}
+                    showEmojiPicker={this.state.showEmojiPicker}
+                    uploadsProgressPercent={this.state.uploadsProgressPercent}
+                    currentChannel={this.state.currentChannel}
+                    postId={''}
+                    channelId={this.props.currentChannel.id}
+                    errorClass={this.state.errorClass}
+                    serverError={this.state.serverError}
+                    isFormattingBarHidden={this.state.isFormattingBarHidden}
+                    draft={this.props.draft}
+                    showSendTutorialTip={this.props.showSendTutorialTip}
+                    handleSubmit={this.handleSubmit}
+                    removePreview={this.removePreview}
+                    setShowPreview={this.setShowPreview}
+                    shouldShowPreview={this.props.shouldShowPreview}
+                    maxPostSize={this.props.maxPostSize}
+                    markdownPreviewFeatureIsEnabled={this.props.markdownPreviewFeatureIsEnabled}
+                    canPost={this.props.canPost}
+                    createPostControlsRef={this.createPostControlsRef}
+                    applyMarkdown={this.applyMarkdown}
+                    useChannelMentions={this.props.useChannelMentions}
+                    badConnection={this.props.badConnection}
+                    canUploadFiles={this.props.canUploadFiles}
+                    enableEmojiPicker={this.props.enableEmojiPicker}
+                    enableGifPicker={this.props.enableGifPicker}
+                    handleBlur={this.handleBlur}
+                    handlePostError={this.handlePostError}
+                    emitTypingEvent={this.emitTypingEvent}
+                    handleMouseUpKeyUp={this.handleMouseUpKeyUp}
+                    handleSelect={this.handleSelect}
+                    handleKeyDown={this.handleKeyDown}
+                    postMsgKeyPress={this.postMsgKeyPress}
+                    handleChange={this.handleChange}
+                    toggleEmojiPicker={this.toggleEmojiPicker}
+                    handleGifClick={this.handleGifClick}
+                    handleEmojiClick={this.handleEmojiClick}
+                    handleEmojiClose={this.handleEmojiClose}
+                    hideEmojiPicker={this.hideEmojiPicker}
+                    getCreatePostControls={this.getCreatePostControls}
+                    toggleAdvanceTextEditor={this.toggleAdvanceTextEditor}
+                    handleUploadProgress={this.handleUploadProgress}
+                    handleUploadError={this.handleUploadError}
+                    handleFileUploadComplete={this.handleFileUploadComplete}
+                    handleUploadStart={this.handleUploadStart}
+                    handleFileUploadChange={this.handleFileUploadChange}
+                    getFileUploadTarget={this.getFileUploadTarget}
+                    fileCount={this.getFileCount()}
+                    fileUploadRef={this.fileUploadRef}
+                    prefillMessage={this.prefillMessage}
+                    textboxRef={this.textboxRef}
+                />
             </form>
         );
     }
 }
 
-export default injectIntl(CreatePost);
+export default CreatePost;
 /* eslint-enable react/no-string-refs */

@@ -46,6 +46,7 @@ import {openModal} from 'actions/views/modals';
 import {isFeatureEnabled} from 'utils/utils';
 
 import {getEmojiMap} from 'selectors/emojis';
+import {canUploadFiles} from 'utils/file_utils';
 
 import CreateComment from './create_comment';
 
@@ -83,14 +84,14 @@ function makeMapStateToProps() {
         const useLDAPGroupMentions = isLDAPEnabled && haveIChannelPermission(state, channel.team_id, channel.id, Permissions.USE_GROUP_MENTIONS);
         const channelMemberCountsByGroup = selectChannelMemberCountsByGroup(state, ownProps.channelId);
         const groupsWithAllowReference = useLDAPGroupMentions || useCustomGroupMentions ? getAssociatedGroupsForReferenceByMention(state, channel.team_id, channel.id) : null;
-        const isFormattingBarVisible = getBool(state, Constants.Preferences.ADVANCED_TEXT_EDITOR, AdvancedTextEditor.COMMENT);
+        const isFormattingBarHidden = getBool(state, Constants.Preferences.ADVANCED_TEXT_EDITOR, AdvancedTextEditor.COMMENT);
 
         return {
             draft,
             messageInHistory,
             channelMembersCount,
             currentUserId,
-            isFormattingBarVisible,
+            isFormattingBarHidden,
             codeBlockOnCtrlEnter: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'code_block_ctrl_enter', true),
             ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
             createPostErrorId: err.server_error_id,
@@ -111,6 +112,7 @@ function makeMapStateToProps() {
             channelMemberCountsByGroup,
             useCustomGroupMentions,
             emojiMap: getEmojiMap(state),
+            canUploadFiles: canUploadFiles(config),
             markdownPreviewFeatureIsEnabled: isFeatureEnabled(Constants.PRE_RELEASE_FEATURES.MARKDOWN_PREVIEW, state),
         };
     };

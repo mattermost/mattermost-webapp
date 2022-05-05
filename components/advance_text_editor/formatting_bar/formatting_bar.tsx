@@ -194,7 +194,7 @@ export const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                         setIsHiddenControlsVisible((isVisible) => !isVisible);
                     }}
                 >
-                    <i className='fa fa-ellipsis-h'/>
+                    <i className='icon icon-dots-horizontal'/>
                 </Icon>
             )}
 

@@ -12,7 +12,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 
 interface ShowFormatProps {
-    onClick?: (event: React.MouseEvent) => void;
+    onClick: (event: React.MouseEvent) => void;
     active: boolean;
 }
 
@@ -24,10 +24,9 @@ export const ShowFormat = (props: ShowFormatProps): JSX.Element => {
 
     return (
         <OverlayTrigger
-            onClick={onClick}
             delayShow={Constants.OVERLAY_TIME_DELAY}
             placement='top'
-            trigger='hover'
+            trigger={['hover', 'focus']}
             overlay={
                 <Tooltip id='PreviewInputTextButtonTooltip'>
                     <div aria-hidden={true}>
@@ -39,20 +38,16 @@ export const ShowFormat = (props: ShowFormatProps): JSX.Element => {
                 </Tooltip>
             }
         >
-            <div className={'style--none'}>
-                <div>
-                    <button
-                        type='button'
-                        id='PreviewInputTextButton'
-                        onClick={onClick}
-                        className={classNames('post-action',
-                            {'post-action--active': active},
-                        )}
-                    >
-                        <i className='icon icon-eye-outline'/>
-                    </button>
-                </div>
-            </div>
+            <button
+                type='button'
+                id='PreviewInputTextButton'
+                onClick={onClick}
+                className={classNames('adv-txt-editor__action-button',
+                    {'adv-txt-editor__action-button': active},
+                )}
+            >
+                <i className='icon icon-eye-outline'/>
+            </button>
         </OverlayTrigger>
     );
 };

@@ -602,7 +602,7 @@ export class FileUpload extends PureComponent {
                         type='button'
                         id='fileUploadButton'
                         aria-label={buttonAriaLabel}
-                        className={classNames('style--none post-action', {disabled: uploadsRemaining <= 0})}
+                        className={classNames('style--none adv-txt-editor__action-button', {disabled: uploadsRemaining <= 0})}
                         onClick={this.simulateInputClick}
                         onTouchEnd={this.simulateInputClick}
                     >
@@ -710,7 +710,7 @@ export class FileUpload extends PureComponent {
             <OverlayTrigger
                 delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement='top'
-                trigger='hover'
+                trigger={['hover', 'focus']}
                 overlay={
                     <Tooltip id='upload-tooltip'>
                         <KeyboardShortcutSequence
