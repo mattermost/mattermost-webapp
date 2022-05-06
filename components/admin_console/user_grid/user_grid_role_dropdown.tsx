@@ -9,7 +9,7 @@ import {TeamMembership} from 'mattermost-redux/types/teams';
 import {ChannelMembership} from 'mattermost-redux/types/channels';
 
 import {Constants} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';

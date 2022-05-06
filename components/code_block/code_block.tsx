@@ -11,7 +11,7 @@ import CopyButton from 'components/copy_button';
 import * as SyntaxHighlighting from 'utils/syntax_highlighting';
 
 import RootPortal from 'components/root_portal';
-import {copyToClipboard} from 'utils/utils.jsx';
+import {copyToClipboard} from 'utils/utils';
 
 type Props = {
     id: string;

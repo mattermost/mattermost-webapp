@@ -9,7 +9,7 @@ import {Post} from 'mattermost-redux/types/posts';
 
 import {Channel} from 'mattermost-redux/types/channels';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {TextFormattingOptions} from 'utils/text_formatting';
 
 import Markdown from 'components/markdown';

@@ -19,7 +19,7 @@ import {browserHistory} from 'utils/browser_history';
 import Constants, {NotificationLevels, UserStatuses} from 'utils/constants';
 import {showNotification} from 'utils/notifications';
 import {isDesktopApp, isMobileApp} from 'utils/user_agent';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
 import {stripMarkdown} from 'utils/markdown';
 

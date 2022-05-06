@@ -185,7 +185,10 @@ const state: GlobalState = {
             pluginEnabled: true,
         },
         cloud: {
-            limits: {},
+            limits: {
+                limits: {},
+                limitsLoaded: false,
+            },
         },
     },
     errors: [],

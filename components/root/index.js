@@ -18,7 +18,7 @@ import {loadConfigAndMe} from 'actions/views/root';
 import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks';
 
 import LocalStorageStore from 'stores/local_storage_store';
-import {isMobile} from 'utils/utils.jsx';
+import {isMobile} from 'utils/utils';
 
 import Root from './root.jsx';
 
