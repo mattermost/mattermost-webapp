@@ -86,11 +86,7 @@ function verifyExistingChannelError(newChannelName, makePrivate = false) {
     }
 
     // Type `newChannelName` in the input field for new channel
-    cy.get('#input_new-channel-modal-name').should('be.visible').click().type(newChannelName);
-    cy.wait(TIMEOUTS.HALF_SEC);
-
-    // Click 'Create Channel' button
-    cy.findByText('Create channel').click();
+    cy.get('#input_new-channel-modal-name').should('be.visible').click().type(`${newChannelName}{enter}`);
 
     // * User gets a message saying "A channel with that name already exists"
     cy.get('.url-input-error').contains('A channel with that URL already exists');
