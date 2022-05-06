@@ -1110,6 +1110,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const ctrlKeyCombo = Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey;
         const ctrlAltCombo = Utils.cmdOrCtrlPressed(e, true) && e.altKey;
+        const ctrlShiftCombo = Utils.cmdOrCtrlPressed(e, true) && e.shiftKey;
         const markdownLinkKey = Utils.isKeyPressed(e, KeyCodes.K);
 
         // listen for line break key combo and insert new line character
@@ -1142,6 +1143,41 @@ class CreatePost extends React.PureComponent<Props, State> {
         } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.I)) {
             this.applyMarkdown({
                 markdownMode: 'italic',
+                selectionStart: (e.target as any).selectionStart,
+                selectionEnd: (e.target as any).selectionEnd,
+                value: (e.target as any).value,
+            });
+        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.X)) {
+            this.applyMarkdown({
+                markdownMode: 'strike',
+                selectionStart: (e.target as any).selectionStart,
+                selectionEnd: (e.target as any).selectionEnd,
+                value: (e.target as any).value,
+            });
+        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.C)) {
+            this.applyMarkdown({
+                markdownMode: 'code',
+                selectionStart: (e.target as any).selectionStart,
+                selectionEnd: (e.target as any).selectionEnd,
+                value: (e.target as any).value,
+            });
+        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_9)) {
+            this.applyMarkdown({
+                markdownMode: 'quote',
+                selectionStart: (e.target as any).selectionStart,
+                selectionEnd: (e.target as any).selectionEnd,
+                value: (e.target as any).value,
+            });
+        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_8)) {
+            this.applyMarkdown({
+                markdownMode: 'ul',
+                selectionStart: (e.target as any).selectionStart,
+                selectionEnd: (e.target as any).selectionEnd,
+                value: (e.target as any).value,
+            });
+        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_7)) {
+            this.applyMarkdown({
+                markdownMode: 'ol',
                 selectionStart: (e.target as any).selectionStart,
                 selectionEnd: (e.target as any).selectionEnd,
                 value: (e.target as any).value,
@@ -1339,7 +1375,6 @@ class CreatePost extends React.PureComponent<Props, State> {
                     setShowPreview={this.setShowPreview}
                     shouldShowPreview={this.props.shouldShowPreview}
                     maxPostSize={this.props.maxPostSize}
-                    markdownPreviewFeatureIsEnabled={this.props.markdownPreviewFeatureIsEnabled}
                     canPost={this.props.canPost}
                     createPostControlsRef={this.createPostControlsRef}
                     applyMarkdown={this.applyMarkdown}

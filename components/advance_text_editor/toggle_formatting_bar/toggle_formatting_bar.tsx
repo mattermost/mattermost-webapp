@@ -3,11 +3,11 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import {FormattedMessage} from 'react-intl';
 
-import Constants from '../../../utils/constants';
-import OverlayTrigger from '../../overlay_trigger';
-import Tooltip from '../../tooltip';
+import Constants from 'utils/constants';
+import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from '../../keyboard_shortcuts/keyboard_shortcuts_sequence';
+import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 interface ToggleFormattingBarProps {
     onClick: React.MouseEventHandler;
@@ -23,12 +23,11 @@ export const ToggleFormattingBar = (props: ToggleFormattingBarProps): JSX.Elemen
             placement='top'
             trigger={['hover', 'focus']}
             overlay={<Tooltip id='toggleFormattingBarButtonTooltip'>
-                <div aria-hidden={true}>
-                    <FormattedMessage
-                        id='advance_text_editor.show_formatting_bar'
-                        defaultMessage='Show Formatting Tools'
-                    />
-                </div>
+                <KeyboardShortcutSequence
+                    shortcut={KEYBOARD_SHORTCUTS.msgShowFormatting}
+                    hoistDescription={true}
+                    isInsideTooltip={true}
+                />
             </Tooltip>}
         >
             <button

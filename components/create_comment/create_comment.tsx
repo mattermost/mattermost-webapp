@@ -812,6 +812,7 @@ class CreateComment extends React.PureComponent<Props, State> {
     handleKeyDown = (e: React.KeyboardEvent) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const lastMessageReactionKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
+        const ctrlShiftCombo = Utils.cmdOrCtrlPressed(e, true) && e.shiftKey;
 
         // listen for line break key combo and insert new line character
         if (Utils.isUnhandledLineBreakKeyCombo(e)) {
@@ -897,6 +898,41 @@ class CreateComment extends React.PureComponent<Props, State> {
             e.preventDefault();
             this.applyMarkdown({
                 markdownMode: 'link',
+                selectionStart: (e.target as any).selectionStart,
+                selectionEnd: (e.target as any).selectionEnd,
+                value: (e.target as any).value,
+            });
+        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.X)) {
+            this.applyMarkdown({
+                markdownMode: 'strike',
+                selectionStart: (e.target as any).selectionStart,
+                selectionEnd: (e.target as any).selectionEnd,
+                value: (e.target as any).value,
+            });
+        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.C)) {
+            this.applyMarkdown({
+                markdownMode: 'code',
+                selectionStart: (e.target as any).selectionStart,
+                selectionEnd: (e.target as any).selectionEnd,
+                value: (e.target as any).value,
+            });
+        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_9)) {
+            this.applyMarkdown({
+                markdownMode: 'quote',
+                selectionStart: (e.target as any).selectionStart,
+                selectionEnd: (e.target as any).selectionEnd,
+                value: (e.target as any).value,
+            });
+        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_8)) {
+            this.applyMarkdown({
+                markdownMode: 'ul',
+                selectionStart: (e.target as any).selectionStart,
+                selectionEnd: (e.target as any).selectionEnd,
+                value: (e.target as any).value,
+            });
+        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_7)) {
+            this.applyMarkdown({
+                markdownMode: 'ol',
                 selectionStart: (e.target as any).selectionStart,
                 selectionEnd: (e.target as any).selectionEnd,
                 value: (e.target as any).value,
@@ -1140,7 +1176,6 @@ class CreateComment extends React.PureComponent<Props, State> {
                     setShowPreview={this.setShowPreview}
                     shouldShowPreview={this.props.shouldShowPreview}
                     maxPostSize={this.props.maxPostSize}
-                    markdownPreviewFeatureIsEnabled={this.props.markdownPreviewFeatureIsEnabled}
                     canPost={this.props.canPost}
                     createPostControlsRef={this.createCommentControlsRef}
                     applyMarkdown={this.applyMarkdown}

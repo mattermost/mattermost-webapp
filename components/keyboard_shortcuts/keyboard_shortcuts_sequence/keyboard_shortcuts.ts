@@ -248,62 +248,92 @@ export const KEYBOARD_SHORTCUTS = {
     },
     msgMarkdownCode: {
         default: {
-            id: 'not supported yet', // Shortcut not yet supported
-            defaultMessage: 'default',
+            id: t('shortcuts.msgs.markdown.code'),
+            defaultMessage: 'Code:\tCtrl|Shift|C',
         },
         mac: {
-            id: 'not supported yet', // Shortcut not yet supported
-            defaultMessage: 'default',
+            id: t('shortcuts.msgs.markdown.code.mac'),
+            defaultMessage: 'Code:\t⌘|Shift|C',
         },
     },
     msgMarkdownStrike: {
         default: {
-            id: 'not supported yet', // Shortcut not yet supported
-            defaultMessage: 'default',
+            id: t('shortcuts.msgs.markdown.strike'),
+            defaultMessage: 'Strike:\tCtrl|Shift|X',
         },
         mac: {
-            id: 'not supported yet', // Shortcut not yet supported
-            defaultMessage: 'default',
+            id: t('shortcuts.msgs.markdown.strike.mac'),
+            defaultMessage: 'Strike:\t⌘|Shift|X',
         },
     },
-    msgMarkdownHeading: {
+    msgMarkdownH3: {
         default: {
-            id: 'not supported yet', // Shortcut not yet supported
-            defaultMessage: 'default',
+            id: t('shortcuts.msgs.markdown.h3'),
+            defaultMessage: 'Heading:\tCtrl|Alt|3',
         },
         mac: {
-            id: 'not supported yet', // Shortcut not yet supported
-            defaultMessage: 'default',
+            id: t('shortcuts.msgs.markdown.h3.mac'),
+            defaultMessage: 'Heading:\t⌘|Alt|3',
         },
     },
     msgMarkdownQuote: {
         default: {
-            id: 'not supported yet', // Shortcut not yet supported
-            defaultMessage: 'default',
+            id: t('shortcuts.msgs.markdown.quote'),
+            defaultMessage: 'Strike:\tCtrl|Shift|9',
         },
         mac: {
-            id: 'not supported yet', // Shortcut not yet supported
-            defaultMessage: 'default',
+            id: t('shortcuts.msgs.markdown.quote.mac'),
+            defaultMessage: 'Strike:\t⌘|Shift|9',
         },
     },
     msgMarkdownOl: {
         default: {
-            id: 'not supported yet', // Shortcut not yet supported
-            defaultMessage: 'default',
+            id: t('shortcuts.msgs.markdown.ordered'),
+            defaultMessage: 'Numbered List:\tCtrl|Shift|7',
         },
         mac: {
-            id: 'not supported yet', // Shortcut not yet supported
-            defaultMessage: 'default',
+            id: t('shortcuts.msgs.markdown.ordered.mac'),
+            defaultMessage: 'Numbered List:\t⌘|Shift|7',
         },
     },
     msgMarkdownUl: {
         default: {
-            id: 'not supported yet', // Shortcut not yet supported
-            defaultMessage: 'default',
+            id: t('shortcuts.msgs.markdown.unordered'),
+            defaultMessage: 'Bulleted List:\tCtrl|Shift|8',
         },
         mac: {
-            id: 'not supported yet', // Shortcut not yet supported
-            defaultMessage: 'default',
+            id: t('shortcuts.msgs.markdown.unordered.mac'),
+            defaultMessage: 'Bulleted List:\t⌘|Shift|8',
+        },
+    },
+    msgShowFormatting: {
+        default: {
+            id: t('shortcuts.msgs.markdown.formatting'),
+            defaultMessage: 'Show/Hide Formatting:\tCtrl|Alt|T',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.formatting.mac'),
+            defaultMessage: 'Show/Hide Formatting:\t⌘|Alt|T',
+        },
+    },
+    msgShowEmojiPicker: {
+        default: {
+            id: t('shortcuts.msgs.markdown.emoji'),
+            defaultMessage: 'Emoji / Gif picker:\tCtrl|Shift|E',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.emoji.mac'),
+            defaultMessage: 'Emoji / Gif picker:\t⌘|Shift|E',
+        },
+    },
+    msgMarkdownPreview: {
+        default: {
+            id: t('shortcuts.msgs.markdown.preview'),
+            defaultMessage: 'Emoji / Gif picker:\tCtrl|Shift|P',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.preview.mac'),
+            defaultMessage: 'Show/Hide Preview:\t⌘|Shift|P',
         },
     },
     msgMarkdownItalic: {

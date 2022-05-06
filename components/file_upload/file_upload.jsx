@@ -1,12 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
-import {PaperclipIcon} from '@mattermost/compass-icons/components';
-
 import classNames from 'classnames';
 
 import dragster from 'utils/dragster';
@@ -606,10 +604,9 @@ export class FileUpload extends PureComponent {
                         onClick={this.simulateInputClick}
                         onTouchEnd={this.simulateInputClick}
                     >
-                        <PaperclipIcon
-                            size={18}
-                            color={'currentColor'}
+                        <i
                             aria-label={iconAriaLabel}
+                            className='icon icon-paperclip'
                         />
                     </button>
                     <input
@@ -721,7 +718,9 @@ export class FileUpload extends PureComponent {
                     </Tooltip>
                 }
             >
-                {bodyAction}
+                <div className={uploadsRemaining <= 0 ? ' style--none btn-file__disabled' : 'style--none'}>
+                    {bodyAction}
+                </div>
             </OverlayTrigger>
         );
     }

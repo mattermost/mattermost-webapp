@@ -66,14 +66,13 @@ const MAP_MARKDOWN_TYPE_TO_KEYBOARD_SHORTCUTS: {
 } = {
     bold: KEYBOARD_SHORTCUTS.msgMarkdownBold,
     italic: KEYBOARD_SHORTCUTS.msgMarkdownItalic,
-
-    // link: KEYBOARD_SHORTCUTS.msgMarkdownLink,
-    // strike: KEYBOARD_SHORTCUTS.msgMarkdownStrike,
-    // code: KEYBOARD_SHORTCUTS.msgMarkdownCode,
-    // heading: KEYBOARD_SHORTCUTS.msgMarkdownHeading,
-    // quote: KEYBOARD_SHORTCUTS.msgMarkdownQuote,
-    // ul: KEYBOARD_SHORTCUTS.msgMarkdownUl,
-    // ol: KEYBOARD_SHORTCUTS.msgMarkdownOl,
+    link: KEYBOARD_SHORTCUTS.msgMarkdownLink,
+    strike: KEYBOARD_SHORTCUTS.msgMarkdownStrike,
+    code: KEYBOARD_SHORTCUTS.msgMarkdownCode,
+    heading: KEYBOARD_SHORTCUTS.msgMarkdownH3,
+    quote: KEYBOARD_SHORTCUTS.msgMarkdownQuote,
+    ul: KEYBOARD_SHORTCUTS.msgMarkdownUl,
+    ol: KEYBOARD_SHORTCUTS.msgMarkdownOl,
 };
 
 export const FormattingIcon = (props: FormattingIconProps): JSX.Element => {

@@ -16,7 +16,6 @@ import LocalizedIcon from 'components/localized_icon';
 import MsgTyping from 'components/msg_typing';
 import Textbox from 'components/textbox';
 import TextboxClass from 'components/textbox/textbox';
-import TextboxLinks from 'components/textbox/textbox_links';
 import {ShowFormat} from 'components/advance_text_editor/show_format/show_format';
 
 import MessageSubmitError from 'components/message_submit_error';
@@ -30,8 +29,12 @@ import {FormattingBar} from 'components/advance_text_editor/formatting_bar';
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 import {getIsMobileView} from 'selectors/views/browser';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
+import OverlayTrigger from 'components/overlay_trigger';
 
 import './advance_text_editor.scss';
+import Constants from '../../utils/constants';
+import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from '../keyboard_shortcuts/keyboard_shortcuts_sequence';
+import Tooltip from '../tooltip';
 
 type Props = {
     currentUserId: string;
@@ -50,7 +53,6 @@ type Props = {
     setShowPreview: (newPreviewValue: boolean) => void;
     shouldShowPreview: boolean;
     maxPostSize: number;
-    markdownPreviewFeatureIsEnabled: boolean;
     canPost: boolean;
     createPostControlsRef: React.RefObject<HTMLSpanElement>;
     applyMarkdown: (params: ApplyMarkdownOptions) => void;
@@ -108,7 +110,6 @@ const AdvanceTextEditor = ({
     setShowPreview,
     shouldShowPreview,
     maxPostSize,
-    markdownPreviewFeatureIsEnabled,
     canPost,
     createPostControlsRef,
     applyMarkdown,
@@ -251,28 +252,41 @@ const AdvanceTextEditor = ({
 
     if (enableEmojiPicker && !readOnlyChannel) {
         emojiPicker = (
-            <div>
-                <EmojiPickerOverlay
-                    show={showEmojiPicker}
-                    target={getCreatePostControls}
-                    onHide={hideEmojiPicker}
-                    onEmojiClose={handleEmojiClose}
-                    onEmojiClick={handleEmojiClick}
-                    onGifClick={handleGifClick}
-                    enableGifPicker={enableGifPicker}
-                    topOffset={-7}
-                />
-                <button
-                    type='button'
-                    aria-label={emojiButtonAriaLabel}
-                    onClick={toggleEmojiPicker}
-                    className={classNames('emoji-picker__container', 'adv-txt-editor__action-button', {
-                        'post-action--active': showEmojiPicker,
-                    })}
-                >
-                    <i className='icon icon-emoticon-happy-outline'/>
-                </button>
-            </div>
+            <OverlayTrigger
+                delayShow={Constants.OVERLAY_TIME_DELAY}
+                placement='left'
+                trigger={['hover', 'focus']}
+                overlay={<Tooltip id='upload-tooltip'>
+                    <KeyboardShortcutSequence
+                        shortcut={KEYBOARD_SHORTCUTS.msgShowEmojiPicker}
+                        hoistDescription={true}
+                        isInsideTooltip={true}
+                    />
+                </Tooltip>}
+            >
+                <div>
+                    <EmojiPickerOverlay
+                        show={showEmojiPicker}
+                        target={getCreatePostControls}
+                        onHide={hideEmojiPicker}
+                        onEmojiClose={handleEmojiClose}
+                        onEmojiClick={handleEmojiClick}
+                        onGifClick={handleGifClick}
+                        enableGifPicker={enableGifPicker}
+                        topOffset={-7}
+                    />
+                    <button
+                        type='button'
+                        aria-label={emojiButtonAriaLabel}
+                        onClick={toggleEmojiPicker}
+                        className={classNames('emoji-picker__container', 'adv-txt-editor__action-button', {
+                            'post-action--active': showEmojiPicker,
+                        })}
+                    >
+                        <i className='icon icon-emoticon-happy-outline'/>
+                    </button>
+                </div>
+            </OverlayTrigger>
         );
     }
 
@@ -406,13 +420,6 @@ const AdvanceTextEditor = ({
                     <MsgTyping
                         channelId={channelId}
                         postId={postId}
-                    />
-                    <TextboxLinks
-                        isMarkdownPreviewEnabled={canPost && markdownPreviewFeatureIsEnabled}
-                        hasExceededCharacterLimit={readOnlyChannel ? false : message.length > maxPostSize}
-                        showPreview={shouldShowPreview}
-                        updatePreview={setShowPreview}
-                        hasText={readOnlyChannel ? false : message.length > 0}
                     />
                 </div>
                 <div>

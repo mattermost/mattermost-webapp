@@ -2,6 +2,8 @@
 // See LICENSE.txt for license information.
 import classNames from 'classnames';
 import React, {useEffect, useRef, useState} from 'react';
+import {FormattedMessage} from 'react-intl';
+import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 
 import {usePopper} from 'react-popper';
@@ -9,6 +11,10 @@ import {usePopper} from 'react-popper';
 import {CSSTransition} from 'react-transition-group';
 
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
+import Constants from 'utils/constants';
+import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
+import {getCurrentLocale} from '../../../selectors/i18n';
 
 import {Icon} from './formatting_icon';
 
@@ -247,18 +253,29 @@ export const FormattingBar = (props: FormattingBarProps): JSX.Element => {
         </FormattingBarContainer>
     );
 };
-
 const Question = () => {
+    const currentLocale = useSelector(getCurrentLocale);
+    const onClick = () => {
+        window.open(`/help/messaging?locale=${currentLocale}`, '_blank', 'noopener,noreferrer');
+    };
     return (
-        <div
-            className='control'
-            onClick={(event) => {
-                event.preventDefault();
-            }}
+        <OverlayTrigger
+            onClick={onClick}
+            delayShow={Constants.OVERLAY_TIME_DELAY}
+            placement='top'
+            trigger={['hover', 'focus']}
+            overlay={
+                <Tooltip id='upload-tooltip'>
+                    <FormattedMessage
+                        id='textbox.help'
+                        defaultMessage='Help'
+                    />
+                </Tooltip>
+            }
         >
             <Icon>
                 <i className='icon icon-help-circle-outline'/>
             </Icon>
-        </div>
+        </OverlayTrigger>
     );
 };
