@@ -164,6 +164,19 @@
                 text-decoration: none;
             }
         }
+
+        .style-link {
+            color: var(--button-bg);
+            font-style: normal;
+            font-weight: 600;
+            &:hover {
+                color: var(--button-bg);
+                font-style: normal;
+                font-weight: 600;
+                background: none;
+                text-decoration: none;
+            }
+        }
     }
 
     .MenuStartTrial {
