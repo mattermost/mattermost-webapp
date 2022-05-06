@@ -373,6 +373,7 @@ export const ModalIdentifiers = {
     USERS_TO_BE_REMOVED: 'users_to_be_removed',
     UPLOAD_LICENSE: 'upload_license',
     INSIGHTS: 'insights',
+    CLOUD_LIMITS: 'cloud_limits',
 };
 
 export const UserStatuses = {

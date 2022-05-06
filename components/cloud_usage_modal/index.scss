@@ -1,0 +1,75 @@
+.CloudUsageModal {
+    .CloudUsageModal__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: none;
+
+        h1 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        &::before,
+        &::after {
+            display: none;
+        }
+
+        &.modal-header {
+            background-color: var(--center-channel-bg);
+
+            .modal-title {
+                color: var(--center-channel-color);
+                font-size: 22px;
+                font-weight: 600;
+            }
+        }
+
+        button.close {
+            padding: 0;
+            border: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            appearance: none;
+            background: none;
+            color: rgb(var(--center-channel-color-rgb), 0.56);
+            cursor: pointer;
+            font: inherit;
+            outline: inherit;
+
+            &:hover,
+            &:active,
+            &:focus {
+                color: rgb(var(--center-channel-color-rgb), 0.56);
+            }
+        }
+    }
+
+    &__footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-top: none;
+
+        &::before,
+        &::after {
+            display: none;
+        }
+
+        .btn {
+            border-radius: 4px;
+        }
+    }
+
+    .btn.btn-primary:disabled {
+        background-color: rgba(var(--center-channel-color-rgb), 0.08);
+        color: rgba(var(--center-channel-color-rgb), 0.32);
+
+        &:hover {
+            border-color: rgba(var(--center-channel-color-rgb), 0.08);
+            background-color: rgba(var(--center-channel-color-rgb), 0.08);
+            color: rgba(var(--center-channel-color-rgb), 0.32);
+        }
+    }
+}

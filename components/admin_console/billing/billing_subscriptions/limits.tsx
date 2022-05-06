@@ -1,15 +1,24 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {useIntl, FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {getCloudLimits, getCloudLimitsLoaded} from 'mattermost-redux/selectors/entities/cloud';
-import {getCloudLimits as getCloudLimitsAction} from 'actions/cloud';
+import {
+    getCloudProducts,
+    getCloudSubscription,
+} from 'mattermost-redux/selectors/entities/cloud';
+import {openModal, closeModal} from 'actions/views/modals';
 import {FileSizes} from 'utils/file_utils';
 import {asGBString} from 'utils/limits';
+import {ModalIdentifiers} from 'utils/constants';
+import CloudUsageModal from 'components/cloud_usage_modal';
+import MiniModal from 'components/cloud_usage_modal/mini_modal';
+import useGetLimits from 'components/common/hooks/useGetLimits';
+import useGetUsage from 'components/common/hooks/useGetUsage';
+import {t} from 'utils/i18n';
 
 import LimitCard from './limit_card';
 
@@ -30,22 +39,144 @@ const fakeUsage = {
     },
 };
 
-const Limits = (): JSX.Element | null => {
-    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
-    const cloudLimits = useSelector(getCloudLimits);
-    const cloudLimitsReceived = useSelector(getCloudLimitsLoaded);
+// TODO: To be removed once companents can be used from where they can belong, an effort for a separate ticket.
+// This allows for quicker prototyping, development, and review
+function TempLaunchModalsComponent() {
     const dispatch = useDispatch();
     const intl = useIntl();
-    const [requestedLimits, setRequestedLimits] = useState(false);
+    const subscription = useSelector(getCloudSubscription);
+    const products = useSelector(getCloudProducts);
+    const [limits] = useGetLimits();
+    const usage = useGetUsage();
 
-    useEffect(() => {
-        if (isCloudFreeEnabled && !requestedLimits) {
-            dispatch(getCloudLimitsAction());
-            setRequestedLimits(true);
-        }
-    }, [isCloudFreeEnabled, requestedLimits]);
+    return (
+        <div style={{marginTop: '30px'}}>
+            <button
+                onClick={() => {
+                    dispatch(openModal({
+                        modalId: ModalIdentifiers.CLOUD_LIMITS,
+                        dialogType: CloudUsageModal,
+                        dialogProps: {
+                            title: {
+                                id: t('workspace_limits.modals.informational.title'),
+                                defaultMessage: '{planName} limits',
+                                values: {
+                                    planName: products?.[subscription?.product_id || '']?.name || 'Unknown product',
+                                },
+                            },
+                            description: {
+                                id: t('workspace_limits.modals.informational.description.free'),
+                                defaultMessage: 'These are the limits on your free plan. You can delete items to free up space or contact your admin to upgrade to a paid plan.',
+                            },
+                            primaryAction: {
+                                message: {
+                                    id: t('workspace_limits.modals.view_plans'),
+                                    defaultMessage: 'View plans',
+                                },
+                                onClick: () => {},
+                            },
+                            secondaryAction: {
+                                message: {
+                                    id: t('workspace_limits.modals.close'),
+                                    defaultMessage: 'Close',
+                                },
+                                onClick: () => {
+                                    dispatch(closeModal(ModalIdentifiers.CLOUD_LIMITS));
+                                },
+                            },
+                            onClose: () => {
+                                dispatch(closeModal(ModalIdentifiers.CLOUD_LIMITS));
+                            },
+                            showIcons: true,
+                        },
+                    }));
+                }}
+            >
+                {'open informational cloud limits modal'}
+            </button>
+            <button
+                onClick={() => {
+                    dispatch(openModal({
+                        modalId: ModalIdentifiers.CLOUD_LIMITS,
+                        dialogType: CloudUsageModal,
+                        dialogProps: {
+                            title: {
+                                id: t('workspace_limits.modals.limits_reached.title'),
+                                defaultMessage: '{limitName} limit reached',
+                                values: {
+                                    limitName: intl.formatMessage({
+                                        id: 'workspace_limits.boards_cards.short',
+                                        defaultMessage: 'Board Cards',
+                                    }),
+                                },
+                            },
+                            description: {
+                                id: t('workspace_limits.modals.informational.description.free'),
+                                defaultMessage: 'These are the limits on your free plan. You can delete items to free up space or contact your admin to upgrade to a paid plan.',
+                            },
+                            primaryAction: {
+                                message: {
+                                    id: t('workspace_limits.modals.view_plans'),
+                                    defaultMessage: 'View plans',
+                                },
+                                onClick: () => {},
+                            },
+                            secondaryAction: {
+                                message: {
+                                    id: t('workspace_limits.modals.close'),
+                                    defaultMessage: 'Close',
+                                },
+                                onClick: () => {
+                                    dispatch(closeModal(ModalIdentifiers.CLOUD_LIMITS));
+                                },
+                            },
+                            onClose: () => {
+                                dispatch(closeModal(ModalIdentifiers.CLOUD_LIMITS));
+                            },
+                            showIcons: true,
+                        },
+                    }));
+                }}
+            >
+                {'open cloud limits reached modal'}
+            </button>
+            <button
+                onClick={() => {
+                    dispatch(openModal({
+                        modalId: ModalIdentifiers.CLOUD_LIMITS,
+                        dialogType: MiniModal,
+                        dialogProps: {
+                            limits,
+                            usage,
+                            showIcons: false,
+                            title: {
+                                id: 'workspace_limits.modals.informational.title',
+                                defaultMessage: '{planName} limits',
+                                values: {
+                                    planName: products?.[subscription?.product_id || '']?.name || 'Unknown product',
+                                },
+                            },
+                            onClose: () => {
+                                dispatch(closeModal(ModalIdentifiers.CLOUD_LIMITS));
+                            },
+                        },
+                    }));
+                }}
+            >
+                {'open cloud limits mini modal'}
+            </button>
+        </div>
+    );
+}
 
-    if (!isCloudFreeEnabled || !cloudLimitsReceived) {
+const Limits = (): JSX.Element | null => {
+    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
+    const intl = useIntl();
+    const subscription = useSelector(getCloudSubscription);
+    const products = useSelector(getCloudProducts);
+    const [cloudLimits, limitsLoaded] = useGetLimits();
+
+    if (!isCloudFreeEnabled || !limitsLoaded) {
         return null;
     }
 
@@ -56,7 +187,7 @@ const Limits = (): JSX.Element | null => {
                     id='workspace_limits.upgrade'
                     defaultMessage='Upgrade to avoid {planName} data limits'
                     values={{
-                        planName: 'Cloud Starter',
+                        planName: products?.[subscription?.product_id || '']?.name || 'Unknown product',
                     }}
                 />
             </div>
@@ -152,14 +283,14 @@ const Limits = (): JSX.Element | null => {
                             />
                         )}
                         percent={Math.floor((fakeUsage.integrations.enabled / cloudLimits.integrations.enabled) * 100)}
-                        icon='icon-product-boards'
+                        icon='icon-apps'
                     />
 
                 )}
             </div>
+            <TempLaunchModalsComponent/>
         </div>
     );
 };
 
 export default Limits;
-

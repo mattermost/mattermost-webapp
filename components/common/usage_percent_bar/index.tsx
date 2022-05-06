@@ -15,7 +15,7 @@ type Thresholds = {
 type Props = {
     percent: number;
     thresholds?: Thresholds;
-    barWidth?: number;
+    barWidth?: number | string;
 }
 
 const defaultThresholds = {
@@ -26,14 +26,14 @@ const defaultThresholds = {
 };
 
 type BarBackgroundProps = {
-    width: number;
+    width: number | string;
     thresholds: Thresholds;
     percent: number;
 }
 
 const BarBackground = styled.div<BarBackgroundProps>`
-    height: ${(props) => Math.ceil(props.width / 20)}px;
-    width: ${(props) => props.width}px;
+    height: ${(props) => (typeof props.width === 'number' ? Math.ceil(props.width / 20).toString() + 'px' : '8px')};
+    width: ${(props) => (typeof props.width === 'number' ? props.width.toString() + 'px' : props.width)};
     background: ${(props) => (
         isExceeded(props.percent, props.thresholds) ?
             'var(--dnd-indicator)' :
@@ -44,7 +44,7 @@ const BarBackground = styled.div<BarBackgroundProps>`
 `;
 
 type BarForegroundProps = {
-    width: number;
+    width: number | string;
     percent: number;
     thresholds: Thresholds;
 }
