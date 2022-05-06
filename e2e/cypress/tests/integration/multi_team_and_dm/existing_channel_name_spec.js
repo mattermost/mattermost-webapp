@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @multi_team_and_dm
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Channel', () => {
     let testTeamId;
 
