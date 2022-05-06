@@ -945,7 +945,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         this.setState({uploadsProgressPercent});
     }
 
-    handleFileUploadComplete = (fileInfos: FileInfo[], clientIds: string[], channelId: string, rootId: string) => {
+    handleFileUploadComplete = (fileInfos: FileInfo[], clientIds: string[], channelId: string) => {
         const draft = {...this.draftsForChannel[channelId]!};
 
         // remove each finished file from uploads
@@ -1099,7 +1099,6 @@ class CreatePost extends React.PureComponent<Props, State> {
     }
 
     handleKeyDown = (e: React.KeyboardEvent) => {
-        console.log('handleKeyDown');
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const messageIsEmpty = this.state.message.length === 0;
         const draftMessageIsEmpty = this.props.draft.message.length === 0;

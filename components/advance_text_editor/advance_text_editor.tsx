@@ -77,7 +77,7 @@ type Props = {
     toggleAdvanceTextEditor: () => void;
     handleUploadProgress: (filePreviewInfo: FilePreviewInfo) => void;
     handleUploadError: (err: string | ServerError, clientId: string, channelId: string) => void;
-    handleFileUploadComplete: (fileInfos: FileInfo[], clientIds: string[], channelId: string, rootId: string) => void;
+    handleFileUploadComplete: (fileInfos: FileInfo[], clientIds: string[], channelId: string, rootId?: string) => void;
     handleUploadStart: (clientIds: string[], channelId: string) => void;
     handleFileUploadChange: () => void;
     getFileUploadTarget: () => TextboxClass | null;
@@ -195,12 +195,14 @@ const AdvanceTextEditor = ({
     let attachmentPreview = null;
     if (!readOnlyChannel && (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0)) {
         attachmentPreview = (
-            <FilePreview
-                fileInfos={draft.fileInfos}
-                onRemove={removePreview}
-                uploadsInProgress={draft.uploadsInProgress}
-                uploadsProgressPercent={uploadsProgressPercent}
-            />
+            <div className={classNames({'adv-txt-editor__attachment-preview': isFormattingBarHidden})}>
+                <FilePreview
+                    fileInfos={draft.fileInfos}
+                    onRemove={removePreview}
+                    uploadsInProgress={draft.uploadsInProgress}
+                    uploadsProgressPercent={uploadsProgressPercent}
+                />
+            </div>
         );
     }
 
@@ -342,6 +344,7 @@ const AdvanceTextEditor = ({
                         listenForMentionKeyClick={true}
                         useChannelMentions={useChannelMentions}
                     />
+                    {attachmentPreview}
                     <FormattingBar
                         applyMarkdown={applyMarkdown}
                         value={messageValue}
@@ -391,7 +394,6 @@ const AdvanceTextEditor = ({
                         currentUserId={currentUserId}
                         currentChannelTeammateUsername={currentChannelTeammateUsername}
                     />}
-                {attachmentPreview}
             </div>
             <div
                 id='postCreateFooter'

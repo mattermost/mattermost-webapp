@@ -4,7 +4,6 @@
 /* eslint-disable max-lines */
 
 import React from 'react';
-import {injectIntl, IntlShape} from 'react-intl';
 
 import {ModalData} from 'types/actions.js';
 
@@ -114,8 +113,6 @@ type Props = {
       * Called to clear file uploads in progress
       */
     clearCommentDraftUploads: () => void;
-
-    intl: IntlShape;
 
     /**
       * Called when comment draft needs to be updated
@@ -493,7 +490,7 @@ class CreateComment extends React.PureComponent<Props, State> {
 
         const draft = this.state.draft!;
 
-        let newMessage = '';
+        let newMessage: string;
         if (draft.message === '') {
             newMessage = `:${emojiAlias}: `;
             this.setCaretPosition(newMessage.length);
@@ -525,7 +522,7 @@ class CreateComment extends React.PureComponent<Props, State> {
     handleGifClick = (gif: string) => {
         const draft = this.state.draft!;
 
-        let newMessage = '';
+        let newMessage: string;
         if (draft.message === '') {
             newMessage = gif;
         } else if ((/\s+$/).test(draft.message)) {
@@ -957,8 +954,8 @@ class CreateComment extends React.PureComponent<Props, State> {
         this.setState({uploadsProgressPercent});
     }
 
-    handleFileUploadComplete = (fileInfos: FileInfo[], clientIds: string[], _: string, rootId: string) => {
-        const draft = this.draftsForPost[rootId]!;
+    handleFileUploadComplete = (fileInfos: FileInfo[], clientIds: string[], _: string, rootId?: string) => {
+        const draft = this.draftsForPost[rootId!]!;
         const uploadsInProgress = [...draft.uploadsInProgress];
         const newFileInfos = sortFileInfos([...draft.fileInfos, ...fileInfos], this.props.locale);
 
@@ -976,8 +973,8 @@ class CreateComment extends React.PureComponent<Props, State> {
             fileInfos: newFileInfos,
             uploadsInProgress,
         };
-        this.props.updateCommentDraftWithRootId(rootId, modifiedDraft);
-        this.draftsForPost[rootId] = modifiedDraft;
+        this.props.updateCommentDraftWithRootId(rootId!, modifiedDraft);
+        this.draftsForPost[rootId!] = modifiedDraft;
         if (this.props.rootId === rootId) {
             this.setState({draft: modifiedDraft});
         }
