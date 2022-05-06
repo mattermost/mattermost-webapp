@@ -712,13 +712,13 @@ export function flagPost(postId: string) {
     };
 }
 
-export function getPostThread(rootId: string, fetchThreads = true, fromCreateAt?: number, fromPost?: string, direction?: 'up'|'down', perPage?: number) {
+export function getPostThread(rootId: string, fetchThreads = true, direction?: 'up'|'down', perPage?: number, fromCreateAt?: number, fromPost?: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         dispatch({type: PostTypes.GET_POST_THREAD_REQUEST});
         const collapsedThreadsEnabled = isCollapsedThreadsEnabled(getState());
         let posts;
         try {
-            posts = await Client4.getPostThread(rootId, fetchThreads, collapsedThreadsEnabled, false, fromCreateAt, fromPost, direction, perPage);
+            posts = await Client4.getPostThread(rootId, fetchThreads, collapsedThreadsEnabled, false, direction, perPage, fromCreateAt, fromPost);
             getProfilesAndStatusesForPosts(posts.posts, dispatch, getState);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
@@ -748,7 +748,7 @@ export function getNewestPostThread(rootId: string) {
         const latestReply = posts?.[0];
         const direction = latestReply ? 'down' : undefined;
 
-        return dispatch(getPostThread(rootId, true, latestReply?.create_at, latestReply?.id, direction));
+        return dispatch(getPostThread(rootId, true, direction, undefined, latestReply?.create_at, latestReply?.id));
     };
 }
 
