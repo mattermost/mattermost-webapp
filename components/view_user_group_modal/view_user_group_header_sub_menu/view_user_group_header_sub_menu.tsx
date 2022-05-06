@@ -9,7 +9,7 @@ import {Group} from 'mattermost-redux/types/groups';
 import {ModalIdentifiers} from 'utils/constants';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import UpdateUserGroupModal from 'components/update_user_group_modal';
 
