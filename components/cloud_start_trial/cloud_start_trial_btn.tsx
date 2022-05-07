@@ -5,14 +5,12 @@ import React, {useState} from 'react';
 
 import {useIntl} from 'react-intl';
 
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {getLicenseConfig} from 'mattermost-redux/actions/general';
 
-import {GlobalState} from 'types/store';
-
-import {requestCloudTrialLicense} from 'actions/admin_actions';
+import {requestCloudTrial} from 'actions/cloud';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -21,9 +19,11 @@ import {openModal} from 'actions/views/modals';
 import TrialBenefitsModal from 'components/trial_benefits_modal/trial_benefits_modal';
 
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
+import { requestCloudTrialLicense } from 'actions/admin_actions';
 
 export type CloudStartTrialBtnProps = {
     message: string;
+    linkStyle?: boolean;
     telemetryId: string;
     onClick?: () => void;
 };
@@ -39,23 +39,17 @@ enum TrialLoadStatus {
 const CloudStartTrialBtn = ({
     message,
     telemetryId,
+    linkStyle,
     onClick,
 }: CloudStartTrialBtnProps) => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch<DispatchFunc>();
-    const stats = useSelector((state: GlobalState) => state.entities.admin.analytics);
 
     const [status, setLoadStatus] = useState(TrialLoadStatus.NotStarted);
 
     const requestLicense = async (): Promise<TrialLoadStatus> => {
-        setLoadStatus(TrialLoadStatus.Started);
-        let users = 0;
-        if (stats && (typeof stats.TOTAL_USERS === 'number')) {
-            users = stats.TOTAL_USERS;
-        }
-        const requestedUsers = Math.max(users, 30);
-        const {error} = await dispatch(requestCloudTrialLicense(requestedUsers, true, true, 'start_cloud_trial'));
-        if (error) {
+        const productUpdated = await dispatch(requestCloudTrialLicense('start_trial_btn'));
+        if (!productUpdated) {
             setLoadStatus(TrialLoadStatus.Failed);
             return TrialLoadStatus.Failed;
         }
@@ -110,7 +104,7 @@ const CloudStartTrialBtn = ({
 
     return (
         <button
-            className='CloudStartTrialBtn start-trial-btn'
+            className={`CloudStartTrialBtn start-trial-btn ${linkStyle ? 'style-link' : ''}`}
             onClick={startCloudTrial}
         >
             {btnText(status)}

@@ -97,6 +97,7 @@ const MenuCloudTrial = ({id}: Props) => {
             <CloudStartTrialBtn
                 message={formatMessage({id: 'menu.cloudFree.tryEnterpriseFor30Days', defaultMessage: 'Try Enterprise free for 30 days'})}
                 telemetryId={'start_cloud_trial_from_main_menu'}
+                linkStyle={true}
             />
         </>
     );

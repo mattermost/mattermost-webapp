@@ -166,15 +166,17 @@
         }
 
         .style-link {
+            display: inline-block;
+            min-width: fit-content;
+            border: none;
+            background: none;
             color: var(--button-bg);
-            font-style: normal;
-            font-weight: 600;
-            &:hover {
-                color: var(--button-bg);
-                font-style: normal;
-                font-weight: 600;
+        
+            &:hover:not(.disabled) {
+                border: none;
                 background: none;
-                text-decoration: none;
+                color: var(--button-bg);
+                text-decoration: underline;
             }
         }
     }

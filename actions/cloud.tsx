@@ -87,6 +87,17 @@ export function subscribeCloudSubscription(productId: string) {
     };
 }
 
+export function requestCloudTrial() {
+    return async () => {
+        try {
+            await Client4.requestCloudTrial();
+        } catch (error) {
+            return error;
+        }
+        return true;
+    };
+}
+
 export function getCloudLimits(): ActionFunc {
     return async (dispatch: DispatchFunc) => {
         try {

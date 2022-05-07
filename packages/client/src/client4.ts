@@ -3730,6 +3730,13 @@ export default class Client4 {
         );
     }
 
+    requestCloudTrial = () => {
+        return this.doFetch<CloudCustomer>(
+            `${this.getCloudRoute()}/subscription/request_trial`,
+            {method: 'get'},
+        );
+    }
+
     getSubscription = () => {
         return this.doFetch<Subscription>(
             `${this.getCloudRoute()}/subscription`,

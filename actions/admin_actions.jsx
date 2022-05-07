@@ -471,12 +471,12 @@ export function requestTrialLicense(users, termsAccepted, receiveEmailsAccepted,
     };
 }
 
-export function requestCloudTrialLicense(users, termsAccepted, receiveEmailsAccepted, page) {
+export function requestCloudTrialLicense(page) {
     return async () => {
         try {
             trackEvent('api', 'api_request_cloud_trial_license', {from_page: page});
-            const response = await Client4.doFetchWithResponse(`${Client4.getBaseRoute()}/cloud-trial-license`, {
-                method: 'POST', body: JSON.stringify({users, terms_accepted: termsAccepted, receive_emails_accepted: receiveEmailsAccepted}),
+            const response = await Client4.doFetchWithResponse(`${Client4.getCloudRoute()}/request-trial`, {
+                method: 'GET',
             });
 
             return {data: response};
