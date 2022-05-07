@@ -276,9 +276,35 @@ export default class AboutBuildModal extends React.PureComponent<Props, State> {
                     </div>
                     <div className='about-modal__notice form-group pt-3'>
                         <p>
-                            <FormattedMarkdownMessage
+                            <FormattedMessage
                                 id='about.notice'
-                                defaultMessage='Mattermost is made possible by the open source software used in our [server](!https://github.com/mattermost/mattermost-server/blob/master/NOTICE.txt), [desktop](!https://github.com/mattermost/desktop/blob/master/NOTICE.txt) and [mobile](!https://github.com/mattermost/mattermost-mobile/blob/master/NOTICE.txt) apps.'
+                                defaultMessage='Mattermost is made possible by the open source software used in our <linkServer>server</linkServer>, <linkDesktop>desktop</linkDesktop> and <linkMobile>mobile</linkMobile> apps.'
+                                values={{
+                                    linkServer: (msg: React.ReactNode) => (
+                                        <a
+                                            href='https://github.com/mattermost/mattermost-server/blob/master/NOTICE.txt'
+                                            target='_blank'
+                                            rel='noreferrer'                                    >
+                                            {msg}
+                                        </a>
+                                    ),
+                                    linkDesktop: (msg: React.ReactNode) => (
+                                        <a
+                                            href='https://github.com/mattermost/desktop/blob/master/NOTICE.txt'
+                                            target='_blank'
+                                            rel='noreferrer'                                    >
+                                            {msg}
+                                        </a>
+                                    ),
+                                    linkMobile: (msg: React.ReactNode) => (
+                                        <a
+                                            href='https://github.com/mattermost/mattermost-mobile/blob/master/NOTICE.txt'
+                                            target='_blank'
+                                            rel='noreferrer'                                    >
+                                            {msg}
+                                        </a>
+                                    ),
+                                }}
                             />
                         </p>
                     </div>
