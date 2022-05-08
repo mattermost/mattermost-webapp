@@ -1981,3 +1981,14 @@ export function numberToFixedDynamic(num: number, places: number): string {
     }
     return str.slice(0, indexToExclude);
 }
+
+export const toggleColorScheme = (prefersDark: MediaQueryList) => {
+    const name = localStorage.getItem('mm-theme-name');
+    if (name === 'System') {
+        if (prefersDark.matches) {
+            applyTheme(Preferences.THEMES.onyx);
+        } else {
+            applyTheme(Preferences.THEMES.denim);
+        }
+    }
+};

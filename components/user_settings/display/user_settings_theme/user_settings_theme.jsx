@@ -102,6 +102,7 @@ export default class ThemeSetting extends React.PureComponent {
         this.props.setRequireConfirm(themeChanged);
 
         this.setState({theme});
+        localStorage.setItem('mm-theme-name', theme.type);
         Utils.applyTheme(theme);
     };
 

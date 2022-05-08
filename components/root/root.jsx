@@ -264,12 +264,20 @@ export default class Root extends React.PureComponent {
             BrowserStore.setLandingPageSeen(true);
         }
 
-        Utils.applyTheme(this.props.theme);
+        if (this.props.theme.type === 'system') {
+            Utils.toggleColorScheme(window.matchMedia('(prefers-color-scheme: dark)'));
+        } else {
+            Utils.applyTheme(this.props.theme);
+        }
     }
 
     componentDidUpdate(prevProps) {
         if (!deepEqual(prevProps.theme, this.props.theme)) {
-            Utils.applyTheme(this.props.theme);
+            if (this.props.theme.type === 'system') {
+                Utils.toggleColorScheme(window.matchMedia('(prefers-color-scheme: dark)'));
+            } else {
+                Utils.applyTheme(this.props.theme);
+            }
         }
         if (this.props.location.pathname === '/') {
             if (this.props.noAccounts) {
