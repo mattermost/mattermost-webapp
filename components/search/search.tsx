@@ -39,7 +39,7 @@ interface SearchHintOption {
     };
 }
 
-const determineVisibleSearchHintOptions = (searchTerms: string, searchType: SearchType): SearchHintOption[] => {
+const determineVisibleSearchHintOptions = (searchTerms: string, searchType: SearchType, inputCursorPosition?: number): SearchHintOption[] => {
     let newVisibleSearchHintOptions: SearchHintOption[] = [];
     let options = searchHintOptions;
     if (searchType === 'files') {
@@ -50,11 +50,13 @@ const determineVisibleSearchHintOptions = (searchTerms: string, searchType: Sear
         return options;
     }
 
+    const cursorPosition = inputCursorPosition || searchTerms.length;
     const pretextArray = searchTerms.split(/\s+/g);
     const pretext = pretextArray[pretextArray.length - 1];
-    const penultimatePretext = pretextArray[pretextArray.length - 2];
+    const blankBeforeCursor = searchTerms[cursorPosition - 1] === ' ';
+    const cursorAtEnd = cursorPosition === searchTerms.length;
 
-    const shouldShowHintOptions = penultimatePretext ? !options.some(({searchTerm}) => penultimatePretext.toLowerCase().endsWith(searchTerm.toLowerCase())) : !options.some(({searchTerm}) => searchTerms.toLowerCase().endsWith(searchTerm.toLowerCase()));
+    const shouldShowHintOptions = (blankBeforeCursor || cursorAtEnd) && !options.some(({searchTerm}) => searchTerms.toLowerCase().endsWith(searchTerm.toLowerCase()));
 
     if (shouldShowHintOptions) {
         try {
@@ -94,6 +96,8 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         determineVisibleSearchHintOptions(searchTerms, searchType),
     );
     const [searchFilterType, setSearchFilterType] = useState<SearchFilterType>('all');
+
+    const [inputCursorPosition, setInputCursorPosition] = useState(0);
 
     const suggestionProviders = useRef<Provider[]>([
         new SearchDateProvider(),
@@ -138,7 +142,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
 
     useEffect((): void => {
         if (!isMobileView) {
-            setVisibleSearchHintOptions(determineVisibleSearchHintOptions(searchTerms, searchType));
+            setVisibleSearchHintOptions(determineVisibleSearchHintOptions(searchTerms, searchType, inputCursorPosition));
         }
     }, [isMobileView, searchTerms, searchType]);
 
@@ -193,6 +197,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
         const term = e.target.value;
+        setInputCursorPosition(e.target.selectionEnd || term.length);
         actions.updateSearchTerms(term);
     };
 
