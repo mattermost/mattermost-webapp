@@ -145,6 +145,7 @@
         .top-reaction-container {
             display: flex;
             align-items: center;
+            justify-content: center;
             margin: 0 18px;
 
             .bar-chart-entry {
@@ -253,6 +254,7 @@
             }
 
             .empty-state-text {
+                max-width: 120px;
                 color: rgba(var(--center-channel-color-rgb), 0.72);
                 font-family: 'Open Sans';
                 font-size: 12px;
