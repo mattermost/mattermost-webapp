@@ -33,7 +33,7 @@ function mapStateToProps(state) {
     const taskListStatus = getBool(state, OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW);
     const isUserFirstAdmin = isFirstAdmin(state);
     const isMobileView = isMobile();
-    const showTaskList = true; // isUserFirstAdmin && taskListStatus && !isMobileView;
+    const showTaskList = isUserFirstAdmin && taskListStatus && !isMobileView;
 
     return {
         theme: getTheme(state),

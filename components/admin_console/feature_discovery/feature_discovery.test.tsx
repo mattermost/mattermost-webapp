@@ -24,6 +24,36 @@ describe('components/feature_discovery', () => {
                     stats={{TOTAL_USERS: 20}}
                     prevTrialLicense={{IsLicensed: 'false'}}
                     isCloud={false}
+                    isFreeTrial={false}
+                    hadPrevFreeTrial={false}
+                    isCloudFreeEnabled={false}
+                    actions={{
+                        requestTrialLicense: jest.fn(),
+                        getLicenseConfig: jest.fn(),
+                        getPrevTrialLicense: jest.fn(),
+                        openModal: jest.fn(),
+                    }}
+                />,
+            );
+            expect(wrapper).toMatchSnapshot();
+        });
+        test('should match snapshot when is cloud environment', () => {
+            const wrapper = shallow(
+                <FeatureDiscovery
+                    featureName='test'
+                    titleID='translation.test.title'
+                    titleDefault='Foo'
+                    copyID='translation.test.copy'
+                    copyDefault={'Bar'}
+                    learnMoreURL='https://test.mattermost.com/secondary/'
+                    featureDiscoveryImage={<SamlSVG/>}
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
+                    stats={{TOTAL_USERS: 20}}
+                    prevTrialLicense={{IsLicensed: 'false'}}
+                    isCloud={true}
+                    isFreeTrial={false}
+                    hadPrevFreeTrial={false}
+                    isCloudFreeEnabled={true}
                     actions={{
                         requestTrialLicense: jest.fn(),
                         getLicenseConfig: jest.fn(),
