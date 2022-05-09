@@ -24,10 +24,11 @@ import Highlight from 'components/admin_console/highlight';
 import SearchIcon from 'components/widgets/icons/search_icon';
 import QuickInput from 'components/quick_input';
 
-import { AdminConfig, ClientLicense } from 'mattermost-redux/types/config';
-import { ConsoleAccess } from 'mattermost-redux/types/admin';
-import { CloudState } from '@mattermost/types/cloud';
-import { PluginRedux, PluginsResponse } from '@mattermost/types/plugins';
+import {AdminConfig, ClientLicense} from 'mattermost-redux/types/config';
+import {ConsoleAccess} from 'mattermost-redux/types/admin';
+import {CloudState} from '@mattermost/types/cloud';
+import {DeepPartial} from 'mattermost-redux/types/utilities';
+import {PluginRedux, PluginsResponse} from '@mattermost/types/plugins';
 
 export type Props = {
     adminDefinition: typeof AdminDefinition;
@@ -81,28 +82,6 @@ class AdminSidebar extends React.PureComponent<Props, State> {
     searchRef: React.RefObject<HTMLInputElement>;
     idx: any; //todo replace with Index
 
-    static propTypes = {
-        license: PropTypes.object.isRequired,
-        config: PropTypes.object,
-        plugins: PropTypes.object,
-        adminDefinition: PropTypes.object,
-        cloud: PropTypes.object,
-        buildEnterpriseReady: PropTypes.bool,
-        siteName: PropTypes.string,
-        onFilterChange: PropTypes.func.isRequired,
-        navigationBlocked: PropTypes.bool.isRequired,
-        consoleAccess: PropTypes.object,
-        intl: intlShape.isRequired,
-        showTaskList: PropTypes.bool,
-        actions: PropTypes.shape({
-
-            /*
-             * Function to get installed plugins
-             */
-            getPlugins: PropTypes.func.isRequired,
-        }).isRequired,
-    }
-
     static defaultProps = {
         plugins: {},
     }
@@ -118,7 +97,7 @@ class AdminSidebar extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        if (this.props.config.PluginSettings.Enable) {
+        if (this.props.config.PluginSettings?.Enable) {
             this.props.actions.getPlugins();
         }
 
@@ -268,7 +247,7 @@ class AdminSidebar extends React.PureComponent<Props, State> {
                 // Special case for plugins entries
                 if ((section as typeof AdminDefinition['plugins']).id === 'plugins') {
                     const sidebarPluginItems = this.renderPluginsMenu();
-                    sidebarItems.push(...sidebarPluginItems)
+                    sidebarItems.push(...sidebarPluginItems);
                 }
 
                 // If no visible items, don't display this section
@@ -307,7 +286,7 @@ class AdminSidebar extends React.PureComponent<Props, State> {
 
     renderPluginsMenu = () => {
         const {config, plugins} = this.props;
-        if (config.PluginSettings.Enable && plugins) {
+        if (config.PluginSettings?.Enable && plugins) {
             return Object.values(plugins).sort((a, b) => {
                 const nameCompare = a.name.localeCompare(b.name);
                 if (nameCompare !== 0) {
