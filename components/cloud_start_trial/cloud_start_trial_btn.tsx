@@ -19,6 +19,8 @@ import TrialBenefitsModal from 'components/trial_benefits_modal/trial_benefits_m
 
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 
+import './cloud_start_trial_btn.scss';
+
 export type CloudStartTrialBtnProps = {
     message: string;
     linkStyle?: boolean;
@@ -100,7 +102,7 @@ const CloudStartTrialBtn = ({
 
     return (
         <button
-            className={`CloudStartTrialBtn start-trial-btn ${linkStyle ? 'style-link' : ''}`}
+            className={`CloudStartTrialBtn ${linkStyle ? 'style-link' : ''}`}
             onClick={startCloudTrial}
         >
             {btnText(status)}
