@@ -17,7 +17,7 @@ import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getNavigationBlocked} from 'selectors/views/admin';
 import {getAdminDefinition, getConsoleAccess} from 'selectors/admin_console';
 
-import AdminSidebar from './admin_sidebar.jsx';
+import AdminSidebar from './admin_sidebar';
 
 function mapStateToProps(state) {
     const license = getLicense(state);

@@ -8,7 +8,7 @@ import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
 import {samplePlugin1} from 'tests/helpers/admin_console_plugin_index_sample_pluings';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
-import AdminSidebar from 'components/admin_console/admin_sidebar/admin_sidebar.jsx';
+import AdminSidebar from 'components/admin_console/admin_sidebar/admin_sidebar';
 import AdminDefinition from 'components/admin_console/admin_definition';
 import {generateIndex} from 'utils/admin_console_index';
 
