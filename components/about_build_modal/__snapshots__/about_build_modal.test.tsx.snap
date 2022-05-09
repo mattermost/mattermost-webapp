@@ -359,9 +359,16 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
       className="about-modal__notice form-group pt-3"
     >
       <p>
-        <injectIntl(FormattedMarkdownMessage)
-          defaultMessage="Mattermost is made possible by the open source software used in our [server](!https://github.com/mattermost/mattermost-server/blob/master/NOTICE.txt), [desktop](!https://github.com/mattermost/desktop/blob/master/NOTICE.txt) and [mobile](!https://github.com/mattermost/mattermost-mobile/blob/master/NOTICE.txt) apps."
+        <MemoizedFormattedMessage
+          defaultMessage="Mattermost is made possible by the open source software used in our <linkServer>server</linkServer>, <linkDesktop>desktop</linkDesktop> and <linkMobile>mobile</linkMobile> apps."
           id="about.notice"
+          values={
+            Object {
+              "linkDesktop": [Function],
+              "linkMobile": [Function],
+              "linkServer": [Function],
+            }
+          }
         />
       </p>
     </div>
@@ -587,9 +594,16 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
       className="about-modal__notice form-group pt-3"
     >
       <p>
-        <injectIntl(FormattedMarkdownMessage)
-          defaultMessage="Mattermost is made possible by the open source software used in our [server](!https://github.com/mattermost/mattermost-server/blob/master/NOTICE.txt), [desktop](!https://github.com/mattermost/desktop/blob/master/NOTICE.txt) and [mobile](!https://github.com/mattermost/mattermost-mobile/blob/master/NOTICE.txt) apps."
+        <MemoizedFormattedMessage
+          defaultMessage="Mattermost is made possible by the open source software used in our <linkServer>server</linkServer>, <linkDesktop>desktop</linkDesktop> and <linkMobile>mobile</linkMobile> apps."
           id="about.notice"
+          values={
+            Object {
+              "linkDesktop": [Function],
+              "linkMobile": [Function],
+              "linkServer": [Function],
+            }
+          }
         />
       </p>
     </div>
@@ -825,9 +839,16 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
       className="about-modal__notice form-group pt-3"
     >
       <p>
-        <injectIntl(FormattedMarkdownMessage)
-          defaultMessage="Mattermost is made possible by the open source software used in our [server](!https://github.com/mattermost/mattermost-server/blob/master/NOTICE.txt), [desktop](!https://github.com/mattermost/desktop/blob/master/NOTICE.txt) and [mobile](!https://github.com/mattermost/mattermost-mobile/blob/master/NOTICE.txt) apps."
+        <MemoizedFormattedMessage
+          defaultMessage="Mattermost is made possible by the open source software used in our <linkServer>server</linkServer>, <linkDesktop>desktop</linkDesktop> and <linkMobile>mobile</linkMobile> apps."
           id="about.notice"
+          values={
+            Object {
+              "linkDesktop": [Function],
+              "linkMobile": [Function],
+              "linkServer": [Function],
+            }
+          }
         />
       </p>
     </div>
@@ -1052,9 +1073,16 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
       className="about-modal__notice form-group pt-3"
     >
       <p>
-        <injectIntl(FormattedMarkdownMessage)
-          defaultMessage="Mattermost is made possible by the open source software used in our [server](!https://github.com/mattermost/mattermost-server/blob/master/NOTICE.txt), [desktop](!https://github.com/mattermost/desktop/blob/master/NOTICE.txt) and [mobile](!https://github.com/mattermost/mattermost-mobile/blob/master/NOTICE.txt) apps."
+        <MemoizedFormattedMessage
+          defaultMessage="Mattermost is made possible by the open source software used in our <linkServer>server</linkServer>, <linkDesktop>desktop</linkDesktop> and <linkMobile>mobile</linkMobile> apps."
           id="about.notice"
+          values={
+            Object {
+              "linkDesktop": [Function],
+              "linkMobile": [Function],
+              "linkServer": [Function],
+            }
+          }
         />
       </p>
     </div>

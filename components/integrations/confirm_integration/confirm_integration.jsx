@@ -202,11 +202,24 @@ export default class ConfirmIntegration extends React.PureComponent {
             helpText = [];
             helpText.push(
                 <p key='add_oauth_app.doneHelp'>
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='add_oauth_app.doneHelp'
-                        defaultMessage='Your OAuth 2.0 application is set up. Please use the following Client ID and Client Secret when requesting authorization for your application (details at [oAuth 2 Applications](!https://developers.mattermost.com/integrate/admin-guide/admin-oauth2/)).'
+                        defaultMessage='Your OAuth 2.0 application is set up. Please use the following Client ID and Client Secret when requesting authorization for your application (details at <link>oAuth 2 Applications</link>).'
+                        values={{
+                            link: (msg) => (
+                                <a
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-oauth2/'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                          }}
                     />
                 </p>,
+            );
             helpText.push(
                 <p key='add_oauth_app.clientId'>
                     <FormattedMarkdownMessage
