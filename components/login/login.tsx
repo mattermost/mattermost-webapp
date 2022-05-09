@@ -52,7 +52,7 @@ type ExternalLoginButtonType = {
     style?: React.CSSProperties;
 };
 
-const ExternalLoginButton = ({
+export const ExternalLoginButton = ({
     id,
     url,
     icon,
@@ -369,16 +369,14 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                 LocalStorageStore.setWasLoggedIn(false);
             } else {
                 // Although the authority remains the local sessionExpired bit on the state, set this
-                // extra field in the querystring to signal the desktop app. And although eslint
-                // complains about this, it is allowed: https://reactjs.org/docs/react-component.html#componentdidmount.
-                // eslint-disable-next-line react/no-did-mount-set-state
+                // extra field in the querystring to signal the desktop app.
                 setSessionExpired(true);
                 const newSearchParam = new URLSearchParams(search);
                 newSearchParam.set('extra', Constants.SESSION_EXPIRED);
                 history.replace(`${pathname}?${newSearchParam}`);
             }
         }
-    }, [currentUser, emailParam, extraParam, history, pathname, search]);
+    }, []);
 
     useEffect(() => {
         configureTitle();
