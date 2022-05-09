@@ -3474,6 +3474,7 @@
   "insights.topChannels.myTitle": "My top channels",
   "insights.topChannels.subTitle": "Most active channels for the team",
   "insights.topChannels.title": "Top channels",
+  "insights.topReactions.empty": "Not enough data yet for this insight",
   "insights.topReactions.mySubTitle": "Reactions I've used the most",
   "insights.topReactions.myTitle": "My top reactions",
   "insights.topReactions.rank": "Rank",
