@@ -233,15 +233,13 @@ export default class Textbox extends React.PureComponent<Props> {
         if (textbox) {
             textbox.focus();
             Utils.placeCaretAtEnd(textbox);
+            setTimeout(() => {
+                Utils.scrollToCaret(textbox);
+            });
 
             // reset character count warning
             this.checkMessageLength(textbox.value);
         }
-    }
-
-    scrollDown = () => {
-        const textbox = this.getInputBox();
-        textbox.scrollTop = textbox.scrollHeight;
     }
 
     blur = () => {

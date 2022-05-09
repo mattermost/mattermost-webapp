@@ -368,7 +368,6 @@ class CreatePost extends React.PureComponent<Props, State> {
         actions.setShowPreview(false);
         actions.clearDraftUploads();
         this.focusTextbox();
-        this.scrollDownTexbox();
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.documentKeyHandler);
         window.addEventListener('beforeunload', this.unloadHandler);
@@ -384,7 +383,6 @@ class CreatePost extends React.PureComponent<Props, State> {
         if (prevProps.currentChannel.id !== currentChannel.id) {
             this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
-            this.scrollDownTexbox();
             this.saveDraft(prevProps);
             if (useLDAPGroupMentions) {
                 actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
@@ -802,14 +800,6 @@ class CreatePost extends React.PureComponent<Props, State> {
         if (this.textboxRef.current && (keepFocus || !UserAgent.isMobile())) {
             this.textboxRef.current.focus();
         }
-    }
-
-    scrollDownTexbox = () => {
-        setTimeout(() => {
-            if (this.textboxRef.current) {
-                this.textboxRef.current.scrollDown();
-            }
-        });
     }
 
     postMsgKeyPress = (e: React.KeyboardEvent<Element>) => {

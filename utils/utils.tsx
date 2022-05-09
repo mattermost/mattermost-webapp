@@ -783,6 +783,10 @@ export function placeCaretAtEnd(el: HTMLInputElement | HTMLTextAreaElement) {
     el.selectionEnd = el.value.length;
 }
 
+export function scrollToCaret(el: HTMLInputElement | HTMLTextAreaElement) {
+    el.scrollTop = el.scrollHeight;
+}
+
 function createHtmlElement(el: keyof HTMLElementTagNameMap) {
     return document.createElement(el);
 }
