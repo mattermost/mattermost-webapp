@@ -100,7 +100,20 @@ const MenuCloudTrial = ({id}: Props) => {
                 linkStyle={true}
             />
         </>
-    ) : null;
+    ) : (
+        <>
+            <FormattedMessage
+                id='menu.cloudFree.tryEnterprise'
+                defaultMessage='Interested in a limitless plan with high-security features?'
+            />
+
+            {/* Todo: modify this to be a link that open the see plans modal */}
+            <FormattedMessage
+                id='menu.cloudFree.seePlans'
+                defaultMessage='See plans'
+            />
+        </>
+    );
 
     return (
         <li
