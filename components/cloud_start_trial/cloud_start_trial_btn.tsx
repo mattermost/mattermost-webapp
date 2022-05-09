@@ -85,11 +85,8 @@ const CloudStartTrialBtn = ({
         }
     };
     const startCloudTrial = async () => {
-        // reading status from here instead of normal flow because
-        // by the time the function needs the updated value from requestLicense,
-        // it will be too late to wait for the render cycle to happen again
-        // to close over the updated value
         const updatedStatus = await requestLicense();
+
         await openTrialBenefitsModal(updatedStatus);
         if (onClick && updatedStatus === TrialLoadStatus.Success) {
             onClick();
