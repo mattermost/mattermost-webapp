@@ -8,7 +8,6 @@ import {useIntl} from 'react-intl';
 import {useDispatch} from 'react-redux';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {getLicenseConfig} from 'mattermost-redux/actions/general';
 
 import {requestCloudTrial} from 'actions/cloud';
 
@@ -19,7 +18,6 @@ import {openModal} from 'actions/views/modals';
 import TrialBenefitsModal from 'components/trial_benefits_modal/trial_benefits_modal';
 
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
-import { requestCloudTrialLicense } from 'actions/admin_actions';
 
 export type CloudStartTrialBtnProps = {
     message: string;
@@ -48,13 +46,11 @@ const CloudStartTrialBtn = ({
     const [status, setLoadStatus] = useState(TrialLoadStatus.NotStarted);
 
     const requestLicense = async (): Promise<TrialLoadStatus> => {
-        const productUpdated = await dispatch(requestCloudTrialLicense('start_trial_btn'));
+        const productUpdated = await requestCloudTrial('start_trial_btn')();
         if (!productUpdated) {
             setLoadStatus(TrialLoadStatus.Failed);
             return TrialLoadStatus.Failed;
         }
-
-        await dispatch(getLicenseConfig());
 
         setLoadStatus(TrialLoadStatus.Success);
         return TrialLoadStatus.Success;
@@ -97,7 +93,7 @@ const CloudStartTrialBtn = ({
             onClick();
         }
         trackEvent(
-            TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
+            TELEMETRY_CATEGORIES.CLOUD_START_TRIAL_MODAL,
             telemetryId,
         );
     };

@@ -3731,8 +3731,8 @@ export default class Client4 {
     }
 
     requestCloudTrial = () => {
-        return this.doFetch<CloudCustomer>(
-            `${this.getCloudRoute()}/subscription/request_trial`,
+        return this.doFetchWithResponse<CloudCustomer>(
+            `${this.getCloudRoute()}/request-trial`,
             {method: 'get'},
         );
     }

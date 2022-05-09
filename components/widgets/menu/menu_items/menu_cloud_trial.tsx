@@ -31,13 +31,9 @@ const MenuCloudTrial = ({id}: Props) => {
     const {formatMessage} = useIntl();
 
     const isCloud = license?.Cloud === 'true';
-    const isFreeTrial = false && subscription?.is_free_trial === 'true';
-    const isCloudFreeEnabled = true; //useSelector(cloudFreeEnabled);
-
-    // TODO fremmium check the limits to show the limit warning during the trial
-    // warning instead of the cta *** la cloud subscription tiene el trial end at, create a function to calculate that trial ended
-
-    // TODO fremium check if there was already a cloud trial and show the plans modal when is under 50% limit
+    const isFreeTrial = subscription?.is_free_trial === 'true';
+    const hadPrevFreeTrial = subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0;
+    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
 
     let daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at);
     if (daysLeftOnTrial > TrialPeriodDays.TRIAL_MAX_DAYS) {
@@ -58,21 +54,10 @@ const MenuCloudTrial = ({id}: Props) => {
         return null;
     }
 
-    const nonCloudFreeTrialContent = (
-        <>
-            <FormattedMessage
-                id='menu.nonCloudFree.daysLeftOnTrial'
-                defaultMessage='There are {daysLeftOnTrial} days left on your Cloud trial.'
-                values={{daysLeftOnTrial}}
-            />
-            <UpgradeLink
-                buttonText={formatMessage({id: 'menu.nonCloudFree.subscribeNow', defaultMessage: 'Subscribe Now'})}
-                styleLink={true}
-            />
-        </>
-    );
+    // menu content displayed when the workspace is running a trial, it depends also if cloudfree is enabled
+    const freeTrialContent = isCloudFreeEnabled ? (
 
-    const cloudFreeContent = isFreeTrial ? (
+        // Here go the limits calculation and refactor of the menu option
         <>
             <FormattedMessage
                 id='menu.cloudFree.tryEnterprise'
@@ -91,6 +76,21 @@ const MenuCloudTrial = ({id}: Props) => {
     ) : (
         <>
             <FormattedMessage
+                id='menu.nonCloudFree.daysLeftOnTrial'
+                defaultMessage='There are {daysLeftOnTrial} days left on your Cloud trial.'
+                values={{daysLeftOnTrial}}
+            />
+            <UpgradeLink
+                buttonText={formatMessage({id: 'menu.nonCloudFree.subscribeNow', defaultMessage: 'Subscribe Now'})}
+                styleLink={true}
+            />
+        </>
+    );
+
+    // menu option displayed when the workspace is not running any trial
+    const noTrialContent = (isCloudFreeEnabled && !hadPrevFreeTrial) ? (
+        <>
+            <FormattedMessage
                 id='menu.cloudFree.tryEnterprise'
                 defaultMessage='Interested in a limitless plan with high-security features?'
             />
@@ -100,7 +100,7 @@ const MenuCloudTrial = ({id}: Props) => {
                 linkStyle={true}
             />
         </>
-    );
+    ) : null;
 
     return (
         <li
@@ -108,7 +108,7 @@ const MenuCloudTrial = ({id}: Props) => {
             role='menuitem'
             id={id}
         >
-            {isCloudFreeEnabled ? cloudFreeContent : nonCloudFreeTrialContent}
+            {isFreeTrial ? freeTrialContent : noTrialContent}
         </li>
     );
 };
