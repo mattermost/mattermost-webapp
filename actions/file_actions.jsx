@@ -11,7 +11,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils';
 
-export function uploadFilez(file, name, channelId, clientId) {
+export function uploadFile(file, name, channelId, rootId, clientId) {
     return (dispatch) => {
         dispatch({type: FileTypes.UPLOAD_FILES_REQUEST});
 
@@ -26,72 +26,6 @@ export function uploadFilez(file, name, channelId, clientId) {
             field('client_ids', clientId).
             attach('files', file, name).
             accept('application/json');
-    };
-}
-
-function futch(url, opts = {}, onProgress) {
-    return new Promise((res, rej) => {
-        var xhr = new XMLHttpRequest();
-
-        xhr.open('POST', Client4.getFilesRoute(), true);
-        for (const header in Client4.getOptions().headers) {
-            if (Client4.getOptions().headers.hasOwnProperty(header)) {
-                xhr.setRequestHeader(header, Client4.getOptions().headers[header]);
-            }
-        }
-        xhr.setRequestHeader('Content-Type', 'application/json');
-
-        xhr.onload = (e) => res(e.target.responseText);
-        xhr.onerror = rej;
-        if (xhr.upload && onProgress) {
-            xhr.upload.onprogress = (e) => {
-                e.loaded
-            };
-            xhr.upload.onprogress = onProgress;
-        } // event.loaded / event.total * 100 ; //event.lengthComputable
-        xhr.send(opts.body);
-    });
-}
-
-export function uploadFile(file, name, channelId, clientId) {
-    return (dispatch) => {
-        dispatch({type: FileTypes.UPLOAD_FILES_REQUEST});
-
-        var xhr = new XMLHttpRequest();
-
-        xhr.open('POST', Client4.getFilesRoute(), true);
-        for (const header in Client4.getOptions({method: 'POST'}).headers) {
-            if (Client4.getOptions({method: 'POST'}).headers.hasOwnProperty(header)) {
-                xhr.setRequestHeader(header, Client4.getOptions({method: 'POST'}).headers[header]);
-            }
-        }
-        xhr.setRequestHeader('Accept', 'application/json');
-
-        const formData = new FormData();
-
-        formData.append('channel_id', channelId);
-        formData.append('client_ids', clientId);
-
-        // The order here is important:
-        // keeping the channel_id/client_ids fields before the files contents
-        // allows the server to stream the uploads instead of loading them in memory.
-        formData.append('files', file, name);
-
-        xhr.upload.onprogress = (progressEvent) => {
-            const percentCompleted = (progressEvent.loaded / progressEvent.total) * 100;
-
-            console.log('percentCompleted', percentCompleted, progressEvent.loaded, progressEvent.total);
-            // this.props.onUploadProgress({
-            //     clientId,
-            //     name: sortedFiles[i].name,
-            //     percent: percentCompleted,
-            //     type: sortedFiles[i].type,
-            // });
-        };
-
-        xhr.send(formData);
-
-        return xhr;
     };
 }
 

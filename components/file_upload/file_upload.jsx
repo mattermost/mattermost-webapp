@@ -273,54 +273,31 @@ export class FileUpload extends PureComponent {
                 clientId,
             );
 
-            // request.onload = (e) => {
-            //     console.log('xhr.onload', e);
-            // };
-
-            // request.onerror = () => {
-            //     console.log('error');
-            // };
-
-            // request.upload.onprogress = (progressEvent) => {
-            //     const percentCompleted = (progressEvent.loaded / progressEvent.total) * 100;
-
-            //     console.log('percentCompleted', percentCompleted);
-            //     this.props.onUploadProgress({
-            //         clientId,
-            //         name: sortedFiles[i].name,
-            //         percent: percentCompleted,
-            //         type: sortedFiles[i].type,
-            //     });
-            // };
-
-            request.upload.onprogress = (progressEvent) => {
-                const percentCompleted = (progressEvent.loaded / progressEvent.total) * 100;
-
-                console.log('percentCompleted', percentCompleted, progressEvent.loaded, progressEvent.total);
+            request.on('progress', (progressEvent) => {
                 this.props.onUploadProgress({
                     clientId,
                     name: sortedFiles[i].name,
-                    percent: percentCompleted,
+                    percent: progressEvent.percent,
                     type: sortedFiles[i].type,
                 });
-            };
+            });
 
-            // request.end((err, res) => {
-            //     const {error, data} = this.props.actions.handleFileUploadEnd(
-            //         sortedFiles[i],
-            //         sortedFiles[i].name,
-            //         channelId,
-            //         rootId,
-            //         clientId,
-            //         {err, res},
-            //     );
+            request.end((err, res) => {
+                const {error, data} = this.props.actions.handleFileUploadEnd(
+                    sortedFiles[i],
+                    sortedFiles[i].name,
+                    channelId,
+                    rootId,
+                    clientId,
+                    {err, res},
+                );
 
-            //     if (error) {
-            //         this.fileUploadFail(error, clientId, channelId, rootId);
-            //     } else if (data) {
-            //         this.fileUploadSuccess(data, channelId, rootId);
-            //     }
-            // });
+                if (error) {
+                    this.fileUploadFail(error, clientId, channelId, rootId);
+                } else if (data) {
+                    this.fileUploadSuccess(data, channelId, rootId);
+                }
+            });
 
             this.setState({requests: {...this.state.requests, [clientId]: request}});
             clientIds.push(clientId);
