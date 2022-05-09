@@ -470,18 +470,3 @@ export function requestTrialLicense(users, termsAccepted, receiveEmailsAccepted,
         }
     };
 }
-
-export function requestCloudTrialLicense(page) {
-    return async () => {
-        try {
-            trackEvent('api', 'api_request_cloud_trial_license', {from_page: page});
-            const response = await Client4.doFetchWithResponse(`${Client4.getCloudRoute()}/request-trial`, {
-                method: 'GET',
-            });
-
-            return {data: response};
-        } catch (e) {
-            return {error: e.message};
-        }
-    };
-}
