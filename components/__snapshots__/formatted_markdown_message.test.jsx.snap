@@ -322,7 +322,7 @@ exports[`components/FormattedMarkdownMessage should render message 1`] = `
       <span
         dangerouslySetInnerHTML={
           Object {
-            "__html": "<strong>bold</strong> <em>italic</em> <a href=\\"https://mattermost.com/\\">link</a> &lt;br/&gt; <a href=\\"https://mattermost.com/\\" rel=\\"noopener noreferrer\\" target=\\"_blank\\">link target blank</a>",
+            "__html": "<strong>bold</strong> <em>italic</em> <a href=\\"https://mattermost.com/\\" rel=\\"noopener noreferrer\\" target=\\"_blank\\">link</a> &lt;br/&gt; <a href=\\"https://mattermost.com/\\" rel=\\"noopener noreferrer\\" target=\\"_blank\\">link target blank</a>",
           }
         }
       />

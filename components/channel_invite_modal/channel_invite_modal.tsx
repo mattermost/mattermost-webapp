@@ -12,7 +12,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {filterProfilesStartingWithTerm, isGuest} from 'mattermost-redux/utils/user_utils';
-import {localizeMessage, getLongDisplayNameParts} from 'utils/utils.jsx';
+import {getLongDisplayNameParts, localizeMessage} from 'utils/utils';
 import ProfilePicture from 'components/profile_picture';
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import AddIcon from 'components/widgets/icons/fa_add_icon';

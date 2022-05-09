@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import {mark, trackEvent} from 'actions/telemetry_actions.jsx';
 import Constants from 'utils/constants';
 import {isDesktopApp} from 'utils/user_agent';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';

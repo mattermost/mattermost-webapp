@@ -8,6 +8,7 @@ import {
     getCurrentChannelId,
     getMyChannelMemberships,
     getUnreadChannelIds,
+    sortUnreadChannels,
 } from 'mattermost-redux/selectors/entities/channels';
 import {
     makeGetCategoriesForTeam,
@@ -20,7 +21,6 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {Channel} from 'mattermost-redux/types/channels';
 import {CategorySorting, ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
-import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import {DraggingState, GlobalState} from 'types/store';
@@ -147,55 +147,7 @@ export const getUnreadChannels = (() => {
         (state: GlobalState) => state.views.channel.lastUnreadChannel,
         isCollapsedThreadsEnabled,
         (channels, myMembers, lastPosts, lastUnreadChannel, crtEnabled) => {
-            function isMuted(channel: Channel) {
-                return isChannelMuted(myMembers[channel.id]);
-            }
-
-            function hasMentions(channel: Channel) {
-                if (lastUnreadChannel && channel.id === lastUnreadChannel.id && lastUnreadChannel.hadMentions) {
-                    return true;
-                }
-
-                const member = myMembers[channel.id];
-                return member?.mention_count !== 0;
-            }
-
-            // Sort channels with mentions first and then sort by recency
-            return [...channels].sort((a, b) => {
-                // Sort muted channels last
-                if (isMuted(a) && !isMuted(b)) {
-                    return 1;
-                } else if (!isMuted(a) && isMuted(b)) {
-                    return -1;
-                }
-
-                // Sort non-muted mentions first
-                if (hasMentions(a) && !hasMentions(b)) {
-                    return -1;
-                } else if (!hasMentions(a) && hasMentions(b)) {
-                    return 1;
-                }
-
-                let lastPostAt = {
-                    a: a.last_post_at,
-                    b: b.last_post_at,
-                };
-
-                if (crtEnabled) {
-                    lastPostAt = {
-                        a: a.last_root_post_at,
-                        b: b.last_root_post_at,
-                    };
-                }
-
-                // If available, get the last post time from the loaded posts for the channel, but fall back to the
-                // channel's last_post_at if that's not available. The last post time from the loaded posts is more
-                // accurate because channel.last_post_at is not updated on the client as new messages come in.
-                const aLastPostAt = maxDefined(lastPostAt.a, lastPosts[a.id]?.create_at);
-                const bLastPostAt = maxDefined(lastPostAt.b, lastPosts[b.id]?.create_at);
-
-                return bLastPostAt - aLastPostAt;
-            });
+            return sortUnreadChannels(channels, myMembers, lastPosts, lastUnreadChannel, crtEnabled);
         },
     );
 
@@ -204,10 +156,6 @@ export const getUnreadChannels = (() => {
         return sortChannels(state, channels);
     };
 })();
-
-function maxDefined(a: number, b?: number) {
-    return typeof b === 'undefined' ? a : Math.max(a, b);
-}
 
 // WARNING: below functions are used in getDisplayedChannels only. Do not use it elsewhere.
 function concatChannels(channelsA: Channel[], channelsB: Channel[]) {
