@@ -207,7 +207,6 @@ export default class ConfirmIntegration extends React.PureComponent {
                         defaultMessage='Your OAuth 2.0 application is set up. Please use the following Client ID and Client Secret when requesting authorization for your application (details at [oAuth 2 Applications](!https://developers.mattermost.com/integrate/admin-guide/admin-oauth2/)).'
                     />
                 </p>,
-            );
             helpText.push(
                 <p key='add_oauth_app.clientId'>
                     <FormattedMarkdownMessage
