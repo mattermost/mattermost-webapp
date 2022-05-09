@@ -137,19 +137,6 @@ const Completed = (props: Props): JSX.Element => {
 
     const {formatMessage} = useIntl();
 
-    const startTrialBtn = isCloud && isCloudFreeEnabled ? (
-        <CloudStartTrialBtn
-            message={formatMessage({id: 'menu.cloudFree.tryEnterpriseFor30Days', defaultMessage: 'Try Enterprise free for 30 days'})}
-            telemetryId={'start_cloud_trial_after_completing_steps'}
-        />
-    ) : (
-        <StartTrialBtn
-            message={formatMessage({id: 'start_trial.modal_btn.start_free_trial', defaultMessage: 'Start free 30-day trial'})}
-            telemetryId='start_trial_from_onboarding_completed_task'
-            onClick={dismissAction}
-        />
-    );
-
     return (
         <>
             <CSSTransition
@@ -187,7 +174,18 @@ const Completed = (props: Props): JSX.Element => {
                                     defaultMessage='Start your free Enterprise trial now!'
                                 />
                             </span>
-                            {startTrialBtn}
+                            {isCloud && isCloudFreeEnabled ? (
+                                <CloudStartTrialBtn
+                                    message={formatMessage({id: 'menu.cloudFree.tryEnterpriseFor30Days', defaultMessage: 'Try Enterprise free for 30 days'})}
+                                    telemetryId={'start_cloud_trial_after_completing_steps'}
+                                />
+                            ) : (
+                                <StartTrialBtn
+                                    message={formatMessage({id: 'start_trial.modal_btn.start_free_trial', defaultMessage: 'Start free 30-day trial'})}
+                                    telemetryId='start_trial_from_onboarding_completed_task'
+                                    onClick={dismissAction}
+                                />
+                            )}
                         </>
 
                     ) : (

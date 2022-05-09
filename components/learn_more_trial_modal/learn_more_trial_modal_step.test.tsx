@@ -26,9 +26,6 @@ describe('components/learn_more_trial_modal/learn_more_trial_modal_step', () => 
     const state = {
         entities: {
             admin: {
-                analytics: {
-                    TOTAL_USERS: 9,
-                },
                 prevTrialLicense: {
                     IsLicensed: 'false',
                 },
