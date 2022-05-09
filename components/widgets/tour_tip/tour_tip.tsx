@@ -12,7 +12,7 @@ import 'tippy.js/animations/scale-subtle.css';
 import 'tippy.js/animations/perspective-subtle.css';
 import PulsatingDot from 'components/widgets/pulsating_dot';
 
-import TourTipBackdrop, {TourTipOverlayPunchOut} from './tour_tip_backdrop';
+import {TourTipBackdrop, TourTipOverlayPunchOut} from './tour_tip_backdrop';
 import './tour_tip.scss';
 
 export type TourTipEventSource = 'next' | 'prev' | 'dismiss' | 'jump' | 'skipped' | 'open' | 'punchOut'
