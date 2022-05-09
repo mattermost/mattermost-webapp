@@ -29,7 +29,6 @@ import {
 } from 'mattermost-redux/utils/user_utils';
 
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
-import {Reaction} from 'mattermost-redux/types/reactions';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 import {Group} from 'mattermost-redux/types/groups';
@@ -40,6 +39,7 @@ import {
     RelationOneToManyUnique,
     RelationOneToOne,
 } from 'mattermost-redux/types/utilities';
+import {Reaction} from '@mattermost/types/reactions';
 
 export {getCurrentUser, getCurrentUserId, getUsers};
 

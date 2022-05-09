@@ -10,7 +10,7 @@ import {Team} from 'mattermost-redux/types/teams';
 
 import {Client4} from 'mattermost-redux/client';
 
-import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
+import {displayEntireNameForUser, localizeMessage} from 'utils/utils';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 import ProfilePicture from 'components/profile_picture';
 import GuestBadge from 'components/widgets/badges/guest_badge';

@@ -15,7 +15,7 @@ import {
 
 import Constants, {Locations, A11yCustomEventTypes, AppEvents} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
-import {isMobile} from 'utils/utils.jsx';
+import {isMobile} from 'utils/utils';
 import ActionsMenu from 'components/actions_menu';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
@@ -36,7 +36,6 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import UserProfile from 'components/user_profile';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
-import {Emoji} from 'mattermost-redux/types/emojis';
 import EditPost from 'components/edit_post';
 import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height_switcher';
 
@@ -104,7 +103,7 @@ export default class RhsComment extends React.PureComponent {
         shouldHighlight: PropTypes.bool,
 
         oneClickReactionsEnabled: PropTypes.bool,
-        recentEmojis: PropTypes.arrayOf(Emoji),
+        recentEmojis: PropTypes.arrayOf(PropTypes.object),
 
         isExpanded: PropTypes.bool,
 

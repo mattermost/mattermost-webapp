@@ -40,7 +40,7 @@ import BrowserStore from 'stores/browser_store';
 import Constants, {StoragePrefixes, WindowSizes} from 'utils/constants';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
 import * as UserAgent from 'utils/user_agent';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import webSocketClient from 'client/web_websocket_client.jsx';
 
 const LazyErrorPage = React.lazy(() => import('components/error_page'));
@@ -391,10 +391,10 @@ export default class Root extends React.PureComponent {
             }
 
             // detected login from a different tab
-            function onVisibilityChange() {
+            function reloadOnFocus() {
                 location.reload();
             }
-            document.addEventListener('visibilitychange', onVisibilityChange, false);
+            window.addEventListener('focus', reloadOnFocus);
         }
     }
 
