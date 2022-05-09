@@ -1062,11 +1062,6 @@ class CreatePost extends React.PureComponent<Props, State> {
         this.focusTextboxIfNecessary(e);
     }
 
-    getFileCount = () => {
-        const draft = this.props.draft;
-        return draft.fileInfos.length + draft.uploadsInProgress.length;
-    }
-
     getFileUploadTarget = () => {
         if (this.textboxRef.current) {
             return this.textboxRef.current;
@@ -1155,6 +1150,8 @@ class CreatePost extends React.PureComponent<Props, State> {
                 value: (e.target as any).value,
             });
         } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.C)) {
+            e.stopPropagation();
+            e.preventDefault();
             this.applyMarkdown({
                 markdownMode: 'code',
                 selectionStart: (e.target as any).selectionStart,
@@ -1182,6 +1179,12 @@ class CreatePost extends React.PureComponent<Props, State> {
                 selectionEnd: (e.target as any).selectionEnd,
                 value: (e.target as any).value,
             });
+        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.E)) {
+            this.toggleEmojiPicker();
+        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.P)) {
+            this.setShowPreview(!this.props.shouldShowPreview);
+        } else if (ctrlAltCombo && Utils.isKeyPressed(e, KeyCodes.T)) {
+            this.toggleAdvanceTextEditor();
         }
     }
 
@@ -1404,7 +1407,6 @@ class CreatePost extends React.PureComponent<Props, State> {
                     handleUploadStart={this.handleUploadStart}
                     handleFileUploadChange={this.handleFileUploadChange}
                     getFileUploadTarget={this.getFileUploadTarget}
-                    fileCount={this.getFileCount()}
                     fileUploadRef={this.fileUploadRef}
                     prefillMessage={this.prefillMessage}
                     textboxRef={this.textboxRef}

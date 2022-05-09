@@ -83,7 +83,6 @@ type Props = {
     handleUploadStart: (clientIds: string[], channelId: string) => void;
     handleFileUploadChange: () => void;
     getFileUploadTarget: () => TextboxClass | null;
-    fileCount: number;
     fileUploadRef: React.RefObject<FileUploadClass>;
     prefillMessage?: (message: string, shouldFocus?: boolean) => void;
     channelId: string;
@@ -140,7 +139,6 @@ const AdvanceTextEditor = ({
     handleUploadStart,
     handleFileUploadChange,
     getFileUploadTarget,
-    fileCount,
     fileUploadRef,
     prefillMessage,
     textboxRef,
@@ -207,6 +205,10 @@ const AdvanceTextEditor = ({
         );
     }
 
+    const getFileCount = () => {
+        return draft.fileInfos.length + draft.uploadsInProgress.length;
+    };
+
     let fileUploadJSX;
     let showFormatJSX;
     let toggleFormattingBarJSX;
@@ -218,7 +220,7 @@ const AdvanceTextEditor = ({
         fileUploadJSX = (
             <FileUpload
                 ref={fileUploadRef}
-                fileCount={fileCount}
+                fileCount={getFileCount()}
                 getTarget={getFileUploadTarget}
                 onFileUploadChange={handleFileUploadChange}
                 onUploadStart={handleUploadStart}
@@ -252,29 +254,29 @@ const AdvanceTextEditor = ({
 
     if (enableEmojiPicker && !readOnlyChannel) {
         emojiPicker = (
-            <OverlayTrigger
-                delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement='left'
-                trigger={['hover', 'focus']}
-                overlay={<Tooltip id='upload-tooltip'>
-                    <KeyboardShortcutSequence
-                        shortcut={KEYBOARD_SHORTCUTS.msgShowEmojiPicker}
-                        hoistDescription={true}
-                        isInsideTooltip={true}
-                    />
-                </Tooltip>}
-            >
-                <div>
-                    <EmojiPickerOverlay
-                        show={showEmojiPicker}
-                        target={getCreatePostControls}
-                        onHide={hideEmojiPicker}
-                        onEmojiClose={handleEmojiClose}
-                        onEmojiClick={handleEmojiClick}
-                        onGifClick={handleGifClick}
-                        enableGifPicker={enableGifPicker}
-                        topOffset={-7}
-                    />
+            <div>
+                <EmojiPickerOverlay
+                    show={showEmojiPicker}
+                    target={getCreatePostControls}
+                    onHide={hideEmojiPicker}
+                    onEmojiClose={handleEmojiClose}
+                    onEmojiClick={handleEmojiClick}
+                    onGifClick={handleGifClick}
+                    enableGifPicker={enableGifPicker}
+                    topOffset={-7}
+                />
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='left'
+                    trigger={['hover', 'focus']}
+                    overlay={<Tooltip id='upload-tooltip'>
+                        <KeyboardShortcutSequence
+                            shortcut={KEYBOARD_SHORTCUTS.msgShowEmojiPicker}
+                            hoistDescription={true}
+                            isInsideTooltip={true}
+                        />
+                    </Tooltip>}
+                >
                     <button
                         type='button'
                         aria-label={emojiButtonAriaLabel}
@@ -285,8 +287,8 @@ const AdvanceTextEditor = ({
                     >
                         <i className='icon icon-emoticon-happy-outline'/>
                     </button>
-                </div>
-            </OverlayTrigger>
+                </OverlayTrigger>
+            </div>
         );
     }
 
