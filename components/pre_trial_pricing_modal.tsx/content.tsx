@@ -146,12 +146,6 @@ function Card(props: CardProps) {
 function Content() {
     return (
         <div className='Content'>
-            <div style={{position: 'absolute', left: '143px'}}>
-                <LadySvg/>
-            </div>
-            <div style={{position: 'absolute', right: '157px'}}>
-                <ManSvg/>
-            </div>
             <div className='self-hosted-alert'>
                 <h1>{'Looking to self-host?'}</h1>
                 <p>{'Review deployment options'}</p>
@@ -169,6 +163,12 @@ function Content() {
                 />
             </Modal.Header>
             <Modal.Body className='PreTrialPricingModal__body'>
+                <div className='self-hosted-svg-left'>
+                    <LadySvg/>
+                </div>
+                <div className='self-hosted-svg-right'>
+                    <ManSvg/>
+                </div>
                 <Card
                     topColor='#9DA7B8'
                     plan='Starter'
