@@ -21,7 +21,7 @@ import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_tr
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
-import {get, makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {get, makeGetCategory, cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {GlobalState} from 'types/store';
@@ -98,8 +98,20 @@ export const useTasksList = () => {
     const isPrevLicensed = prevTrialLicense?.IsLicensed;
     const isCurrentLicensed = license?.IsLicensed;
 
+    // Cloud conditions
+    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
+    const isCloud = license?.Cloud === 'true';
+    const isFreeTrial = subscription?.is_free_trial === 'true';
+    const hadPrevFreeTrial = false; // subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0;
+    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
+
     // Show this CTA if the instance is currently not licensed and has never had a trial license loaded before
-    const showStartTrialTask = true; // TODO freemium validate the is cloud and prev cloud trial(isCurrentLicensed === 'false' && isPrevLicensed === 'false');
+    // if Cloud, show if isCloudFreeEnabled and is not in trial and had never been on trial
+    const selfHostedTrialCondition = isCurrentLicensed === 'false' && isPrevLicensed === 'false';
+    const cloudTrialCondition = isCloud && isCloudFreeEnabled && !isFreeTrial && !hadPrevFreeTrial;
+
+    const showStartTrialTask = selfHostedTrialCondition || cloudTrialCondition;
+
     const list: Record<string, string> = {...OnboardingTasksName};
     const pluginsPreferenceState = useSelector((state: GlobalState) => get(state, Constants.Preferences.ONBOARDING, OnboardingPreferences.USE_CASE));
     const pluginsPreference = pluginsPreferenceState && JSON.parse(pluginsPreferenceState);
