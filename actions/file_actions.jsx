@@ -11,7 +11,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils';
 
-export function uploadFile(file, name, channelId, rootId, clientId) {
+export function uploadFile(file, name, channelId, clientId) {
     return (dispatch) => {
         dispatch({type: FileTypes.UPLOAD_FILES_REQUEST});
 
