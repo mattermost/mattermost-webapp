@@ -10,6 +10,8 @@ import {Action, GenericAction} from 'mattermost-redux/types/actions';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCloudLicense} from 'utils/license_utils';
 
+import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
 import {openModal} from 'actions/views/modals';
 import {requestTrialLicense} from 'actions/admin_actions';
 
@@ -19,10 +21,14 @@ import {GlobalState} from 'types/store';
 import FeatureDiscovery from './feature_discovery';
 
 function mapStateToProps(state: GlobalState) {
+    const subscription = state.entities.cloud.subscription;
     return {
         stats: state.entities.admin.analytics,
         prevTrialLicense: state.entities.admin.prevTrialLicense,
         isCloud: isCloudLicense(getLicense(state)),
+        isCloudFreeEnabled: cloudFreeEnabled(state),
+        isFreeTrial: subscription?.is_free_trial === 'true',
+        hadPrevFreeTrial: subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0,
     };
 }
 
