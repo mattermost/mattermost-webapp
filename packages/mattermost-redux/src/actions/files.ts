@@ -1,10 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {batchActions} from 'redux-batched-actions';
+
 import {Client4} from 'mattermost-redux/client';
 import {FileTypes} from 'mattermost-redux/action_types';
 
 import {DispatchFunc, GetStateFunc, ActionFunc} from 'mattermost-redux/types/actions';
+
 import {FileUploadResponse, FileSearchResultItem} from 'mattermost-redux/types/files';
 import {Post} from 'mattermost-redux/types/posts';
 
@@ -60,6 +63,50 @@ export function getFilesForPost(postId: string): ActionFunc {
         });
 
         return {data: true};
+    };
+}
+
+export function uploadFile(channelId: string, rootId: string, clientIds: string[], fileFormData: File, formBoundary: string): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        dispatch({type: FileTypes.UPLOAD_FILES_REQUEST, data: {}});
+
+        let files: FileUploadResponse;
+        try {
+            files = await Client4.uploadFile(fileFormData, formBoundary);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+
+            dispatch({
+                type: FileTypes.UPLOAD_FILES_FAILURE,
+                clientIds,
+                channelId,
+                rootId,
+                error,
+            });
+            dispatch(logError(error));
+            return {error};
+        }
+
+        const data = files.file_infos.map((file, index) => {
+            return {
+                ...file,
+                clientId: files.client_ids[index],
+            };
+        });
+
+        dispatch(batchActions([
+            {
+                type: FileTypes.RECEIVED_UPLOAD_FILES,
+                data,
+                channelId,
+                rootId,
+            },
+            {
+                type: FileTypes.UPLOAD_FILES_SUCCESS,
+            },
+        ]));
+
+        return {data: files};
     };
 }
 
