@@ -7,7 +7,9 @@ import ReactSelect, {ValueType} from 'react-select';
 import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 
 import {InsightsTimeFrames} from 'utils/constants';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
+
+import './time_frame_dropdown.scss';
 
 type SelectOption = {
     value: string;
@@ -34,6 +36,10 @@ const TimeFrameDropdown = (props: Props) => {
         option: (provided: React.CSSProperties) => ({
             ...provided,
             cursor: 'pointer',
+        }),
+        menuPortal: (provided: React.CSSProperties) => ({
+            ...provided,
+            zIndex: 1100,
         }),
     };
 

@@ -6,7 +6,7 @@ import React from 'react';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import BlockableLink from 'components/admin_console/blockable_link';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 export default class AdminSidebarSection extends React.PureComponent {
     static get propTypes() {

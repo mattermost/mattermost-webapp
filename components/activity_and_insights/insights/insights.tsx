@@ -14,6 +14,11 @@ import TopReactions from './top_reactions/top_reactions';
 
 import './../activity_and_insights.scss';
 
+export enum InsightsWidgetTypes {
+    TOP_CHANNELS = 'TOP_CHANNELS',
+    TOP_REACTIONS = 'TOP_REACTIONS',
+}
+
 export enum CardSizes {
     large = 'lg',
     medium = 'md',
@@ -26,7 +31,7 @@ const Insights = () => {
     const [filterType, setFilterType] = useState(InsightsScopes.MY);
     const [timeFrame, setTimeFrame] = useState({
         value: InsightsTimeFrames.INSIGHTS_7_DAYS,
-        label: localizeMessage('insights.timeFrame.today', 'Today'),
+        label: localizeMessage('insights.timeFrame.mediumRange', 'Last 7 days'),
     });
 
     const setFilterTypeTeam = useCallback(() => {
@@ -58,13 +63,13 @@ const Insights = () => {
                 <TopChannels
                     size={CardSizes.large}
                     filterType={filterType}
-                    widgetType={'TOP_CHANNELS'}
+                    widgetType={InsightsWidgetTypes.TOP_CHANNELS}
                     class={'top-channels-card'}
                 />
                 <TopReactions
                     size={CardSizes.small}
                     filterType={filterType}
-                    widgetType={'TOP_REACTIONS'}
+                    widgetType={InsightsWidgetTypes.TOP_REACTIONS}
                     class={'top-reactions-card'}
                 />
             </div>

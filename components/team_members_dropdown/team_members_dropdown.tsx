@@ -10,7 +10,7 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 import type {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {browserHistory} from 'utils/browser_history';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {isGuest, isAdmin, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import ConfirmModal from 'components/confirm_modal';
 import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';

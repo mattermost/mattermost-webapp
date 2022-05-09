@@ -58,7 +58,7 @@ export type IndexedPluginAnalyticsRow = {
 
 export type PluginAnalyticsRow = {
     id: string;
-    name: string;
+    name: React.ReactNode;
     icon: string;
     value: number;
 };

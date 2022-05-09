@@ -17,6 +17,7 @@ type Props = {
     title: string;
     subTitle?: string;
     size: CardSize;
+    onClick: () => void;
 }
 
 const InsightsCard = (props: Props) => {
@@ -28,7 +29,9 @@ const InsightsCard = (props: Props) => {
                 small: props.size === CardSizes.small,
             })}
         >
-            <CardHeader>
+            <CardHeader
+                onClick={props.onClick}
+            >
                 <div className='title-and-subtitle'>
                     <div className='text-top'>
                         <h2>

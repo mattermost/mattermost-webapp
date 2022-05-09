@@ -9,7 +9,7 @@ import {getLogErrorAction} from 'mattermost-redux/actions/errors';
 import {forceLogoutIfNecessary} from 'mattermost-redux/actions/helpers';
 import {Client4} from 'mattermost-redux/client';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 export function uploadFilez(file, name, channelId, clientId) {
     return (dispatch) => {

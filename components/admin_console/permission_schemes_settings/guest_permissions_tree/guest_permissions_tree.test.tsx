@@ -4,27 +4,23 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import GuestPermissionsTree from 'components/admin_console/permission_schemes_settings/guest_permissions_tree/guest_permissions_tree.jsx';
+import {TestHelper} from 'utils/test_helper';
 
+import GuestPermissionsTree from 'components/admin_console/permission_schemes_settings/guest_permissions_tree/guest_permissions_tree';
 import PermissionGroup from 'components/admin_console/permission_schemes_settings/permission_group.jsx';
 
 describe('components/admin_console/permission_schemes_settings/permission_tree', () => {
     const defaultProps = {
         scope: 'channel_scope',
-        config: {
-            EnableIncomingWebhooks: 'true',
-            EnableOutgoingWebhooks: 'true',
-            EnableOAuthServiceProvider: 'true',
-            EnableCommands: 'true',
-            EnableCustomEmoji: 'true',
-        },
-        role: {
-            name: 'test',
-            permissions: [],
-        },
+        role: TestHelper.getRoleMock(
+            {
+                name: 'test',
+                permissions: [],
+            },
+        ),
         onToggle: jest.fn(),
         selectRow: jest.fn(),
-        parentRole: null,
+        parentRole: undefined,
         readOnly: false,
         license: {
             LDAPGroups: 'true',
@@ -70,10 +66,11 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
     });
 
     test('should match snapshot with parentRole with permissions', () => {
+        const defaultParentRole = TestHelper.getRoleMock({permissions: ['invite_user']});
         const wrapper = shallow(
             <GuestPermissionsTree
                 {...defaultProps}
-                parentRole={{permissions: 'invite_user'}}
+                parentRole={defaultParentRole}
                 scope={'system_scope'}
             />,
         );
@@ -90,22 +87,6 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
         );
         wrapper.find(PermissionGroup).first().prop('onChange')(['test_permission', 'test_permission2']);
         expect(onToggle).toBeCalledWith('test', ['test_permission', 'test_permission2']);
-    });
-
-    test('should hide disabbled integration options', () => {
-        const wrapper = shallow(
-            <GuestPermissionsTree
-                {...defaultProps}
-                config={{
-                    EnableIncomingWebhooks: 'false',
-                    EnableOutgoingWebhooks: 'false',
-                    EnableOAuthServicePrivder: 'false',
-                    EnableCommands: 'false',
-                    EnableCustomEmoji: 'false',
-                }}
-            />,
-        );
-        expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot on license without LDAPGroups', () => {
