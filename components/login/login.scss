@@ -182,24 +182,28 @@
                     column-gap: 8px;
                     row-gap: 8px;
 
-                    &.column {
-                        flex-direction: column;
-                        margin-top: 22px;
-                        row-gap: 24px;
-                    }
-
                     .login-body-card-form-login-option {
                         @include secondary-button;
                         @include button-medium;
 
-                        min-width: 138px;
-                        flex: 1 0 auto;
+                        min-width: 136px;
+                        flex: 1 1 0%;
                         border-color: rgba(var(--center-channel-text-rgb), 0.16);
                         color: rgba(var(--center-channel-text-rgb), 0.72);
                         text-decoration: none;
 
                         .login-body-card-form-login-option-label {
                             margin-left: 7px;
+                        }
+                    }
+
+                    &.column {
+                        flex-direction: column;
+                        margin-top: 22px;
+                        row-gap: 24px;
+
+                        .login-body-card-form-login-option {
+                            flex: 1 0 auto;
                         }
                     }
                 }
