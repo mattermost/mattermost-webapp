@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/admin_console/manage_tokens_modal/manage_tokens_modal.tsx should match snapshot 1`] = `
+exports[`ManageTeamsModal should match snapshot init 1`] = `
 <Modal
   animation={true}
-  aria-labelledby="manageTokensModalLabel"
+  aria-labelledby="manageTeamsModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  dialogClassName="a11y__modal manage-teams"
+  dialogClassName="a11y__modal manage-teams modal--overflow-visible"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -27,7 +27,7 @@ exports[`components/admin_console/manage_tokens_modal/manage_tokens_modal.tsx sh
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
-  show={false}
+  show={true}
 >
   <ModalHeader
     bsClass="modal-header"
@@ -37,11 +37,11 @@ exports[`components/admin_console/manage_tokens_modal/manage_tokens_modal.tsx sh
     <ModalTitle
       bsClass="modal-title"
       componentClass="h1"
-      id="manageTokensModalLabel"
+      id="manageTeamsModalLabel"
     >
       <MemoizedFormattedMessage
-        defaultMessage="Manage Personal Access Tokens"
-        id="admin.manage_tokens.manageTokensTitle"
+        defaultMessage="Manage Teams"
+        id="admin.user_item.manageTeams"
       />
     </ModalTitle>
   </ModalHeader>
@@ -55,8 +55,8 @@ exports[`components/admin_console/manage_tokens_modal/manage_tokens_modal.tsx sh
       >
         <Memo(Avatar)
           size="lg"
-          url="/api/v4/users/defaultuser/image"
-          username="some-user"
+          url="/api/v4/users/currentUserId/image?_=1234"
+          username="currentUsername"
         />
         <div
           className="manage-teams__info"
@@ -64,26 +64,14 @@ exports[`components/admin_console/manage_tokens_modal/manage_tokens_modal.tsx sh
           <div
             className="manage-teams__name"
           >
-            @some-user
+            @currentUsername
           </div>
           <div
             className="manage-teams__email"
-          />
+          >
+            currentUser@test.com
+          </div>
         </div>
-      </div>
-      <div
-        className="pt-3"
-      >
-        <MemoizedFormattedMessage
-          defaultMessage="Personal access tokens function similarly to session tokens and can be used by integrations to <linkAuthentication>interact with this Mattermost server</linkAuthentication>. Tokens are disabled if the user is deactivated. Learn more about <linkPersonalAccessTokens>personal access tokens</linkPersonalAccessTokens>."
-          id="admin.manage_tokens.userAccessTokensDescription"
-          values={
-            Object {
-              "linkAuthentication": [Function],
-              "linkPersonalAccessTokens": [Function],
-            }
-          }
-        />
       </div>
       <div
         className="manage-teams__teams"

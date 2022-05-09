@@ -65,6 +65,7 @@
         .top-reaction-container {
             display: flex;
             align-items: center;
+            justify-content: center;
             margin: 0 18px;
 
             .bar-chart-entry {
@@ -149,36 +150,36 @@
                     border-radius: 6px;
                 }
             }
+        }
 
-            .empty-state {
+        .empty-state {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            align-items: center;
+            margin: 70px 0;
+
+            .empty-state-emoticon {
                 display: flex;
-                flex: 1;
-                flex-direction: column;
-                align-items: center;
-                margin: 70px 0;
+                padding: 10px;
+                margin-bottom: 8px;
+                background: rgba(var(--center-channel-color-rgb), 0.08);
+                border-radius: 50px;
 
-                .empty-state-emoticon {
-                    display: flex;
-                    padding: 10px;
-                    margin-bottom: 8px;
-                    background: rgba(var(--center-channel-color-rgb), 0.08);
-                    border-radius: 50px;
-
-                    i.icon-emoticon-outline {
-                        width: 20px;
-                        color: rgba(var(--center-channel-color-rgb), 0.56);
-                        font-size: 20px;
-                    }
+                i {
+                    color: rgba(var(--center-channel-color-rgb), 0.56);
                 }
+            }
 
-                .empty-state-text {
-                    color: rgba(var(--center-channel-color-rgb), 0.72);
-                    font-family: 'Open Sans';
-                    font-size: 12px;
-                    font-style: normal;
-                    font-weight: 400;
-                    line-height: 16px;
-                }
+            .empty-state-text {
+                max-width: 120px;
+                color: rgba(var(--center-channel-color-rgb), 0.72);
+                font-family: 'Open Sans';
+                font-size: 12px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 16px;
+                text-align: center;
             }
         }
     }
