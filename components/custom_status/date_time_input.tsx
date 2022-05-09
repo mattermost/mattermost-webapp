@@ -143,7 +143,8 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
                     <i className='icon-calendar-outline'/>
                 </span>
                 <DayPickerInput
-                    value={time.toDate().toLocaleDateString('fr-CA')}
+                    value={time.toDate()}
+                    formatDate={(date) => date.toLocaleDateString('fr-CA')}
                     onDayChange={handleDayChange}
                     inputProps={{
                         readOnly: true,
