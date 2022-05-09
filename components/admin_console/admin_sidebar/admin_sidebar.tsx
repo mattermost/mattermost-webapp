@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
@@ -13,7 +12,6 @@ import classNames from 'classnames';
 import * as Utils from 'utils/utils';
 import {generateIndex} from 'utils/admin_console_index.jsx';
 import {browserHistory} from 'utils/browser_history';
-import {intlShape} from 'utils/react_intl';
 
 import AdminDefinition from '../admin_definition';
 
