@@ -105,9 +105,9 @@ describe('Onboarding', () => {
 
             // # Check that 'Email Verified' text should be visible, email is pre-filled, and password field is focused, then login
             cy.findByText('Email Verified', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
-            cy.get('#loginId').should('have.value', email);
-            cy.get('#loginPassword').should('be.visible').type(password);
-            cy.get('#loginButton').click();
+            cy.get('#input_loginId').should('have.value', email);
+            cy.get('#input_password-input').should('be.visible').type(password);
+            cy.get('#saveSetting').click();
             cy.findByText('Enter a valid email or username and/or password.').should('not.exist');
         });
 

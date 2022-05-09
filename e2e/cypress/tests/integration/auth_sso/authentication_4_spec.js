@@ -69,7 +69,7 @@ describe('Authentication', () => {
         cy.findByPlaceholderText('Password').clear().type(testUser.password);
 
         // # Hit enter to login
-        cy.findByText('Sign in').click();
+        cy.get('#saveSetting').should('not.be.disabled').click();
 
         cy.wait(TIMEOUTS.THREE_SEC);
 
@@ -89,7 +89,7 @@ describe('Authentication', () => {
             cy.findByPlaceholderText('Password').clear().type(testUser.password);
 
             // # Hit enter to login
-            cy.findByText('Sign in').click();
+            cy.get('#saveSetting').should('not.be.disabled').click();
 
             // * Should show the join team stuff
             cy.findByText('Teams you can join:', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');

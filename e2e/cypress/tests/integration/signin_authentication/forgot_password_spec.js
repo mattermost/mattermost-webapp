@@ -94,9 +94,9 @@ describe('Signin/Authentication', () => {
             cy.get('#passwordUpdatedSuccess').should('be.visible').and('have.text', ' Password updated successfully');
 
             // # Type email and new password, then click login button
-            cy.get('#loginId').should('be.visible').type(testUser.username);
-            cy.get('#loginPassword').should('be.visible').type(newPassword);
-            cy.get('#loginButton').click();
+            cy.get('#input_loginId').should('be.visible').type(testUser.username);
+            cy.get('#input_password-input').should('be.visible').type(newPassword);
+            cy.get('#saveSetting').click();
 
             // * Verify that it successfully logged in and redirects to /channels/town-square
             cy.url().should('contain', `/${teamName}/channels/town-square`);
