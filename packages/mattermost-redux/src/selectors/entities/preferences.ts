@@ -9,7 +9,7 @@ import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selec
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {Theme} from 'mattermost-redux/types/themes';
+import {Theme, ThemeKey} from 'mattermost-redux/types/themes';
 
 import {createShallowSelector} from 'mattermost-redux/utils/helpers';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
@@ -111,7 +111,7 @@ const getThemePreference = createSelector(
 
 const getDefaultTheme = createSelector('getDefaultTheme', getConfig, (config): Theme => {
     if (config.DefaultTheme && config.DefaultTheme in Preferences.THEMES) {
-        const theme: Theme = Preferences.THEMES[config.DefaultTheme];
+        const theme: Theme = Preferences.THEMES[config.DefaultTheme as ThemeKey];
         if (theme) {
             return theme;
         }
