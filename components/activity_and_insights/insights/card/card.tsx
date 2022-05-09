@@ -5,6 +5,8 @@ import classNames from 'classnames';
 
 import {CardSize, CardSizes} from 'mattermost-redux/types/insights';
 
+import {CardSize, CardSizes} from 'mattermost-redux/types/insights';
+
 import Card from 'components/card/card';
 import CardHeader from 'components/card/card_header';
 
