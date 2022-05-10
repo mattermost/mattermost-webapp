@@ -78,6 +78,60 @@
                             color: var(--center-channel-color);
                         }
 
+                        &:nth-of-type(2) {
+                            span.horizontal-bar {
+                                opacity: 0.9;
+                            }
+                        }
+
+                        &:nth-of-type(3) {
+                            span.horizontal-bar {
+                                opacity: 0.8;
+                            }
+                        }
+
+                        &:nth-of-type(4) {
+                            span.horizontal-bar {
+                                opacity: 0.7;
+                            }
+                        }
+
+                        &:nth-of-type(5) {
+                            span.horizontal-bar {
+                                opacity: 0.6;
+                            }
+                        }
+
+                        &:nth-of-type(6) {
+                            span.horizontal-bar {
+                                opacity: 0.5;
+                            }
+                        }
+
+                        &:nth-of-type(7) {
+                            span.horizontal-bar {
+                                opacity: 0.5;
+                            }
+                        }
+
+                        &:nth-of-type(8) {
+                            span.horizontal-bar {
+                                opacity: 0.4;
+                            }
+                        }
+
+                        &:nth-of-type(9) {
+                            span.horizontal-bar {
+                                opacity: 0.3;
+                            }
+                        }
+
+                        &:nth-of-type(10) {
+                            span.horizontal-bar {
+                                opacity: 0.3;
+                            }
+                        }
+
                         .DataGrid_cell {
                             padding: 0 16px;
                             margin: 0;
@@ -99,6 +153,23 @@
                                 font-style: normal;
                                 font-weight: 400;
                                 line-height: 20px;
+                            }
+
+                            .times-used-container {
+                                display: flex;
+                                align-items: center;
+
+                                span.cell-text {
+                                    flex: 0.1 0;
+                                    text-align: right;
+                                }
+
+                                span.horizontal-bar {
+                                    height: 8px;
+                                    margin-left: 16px;
+                                    background: var(--button-bg);
+                                    border-radius: 6px;
+                                }
                             }
                         }
                     }

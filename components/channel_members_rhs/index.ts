@@ -15,8 +15,8 @@ import {GlobalState} from 'types/store';
 import {Constants} from 'utils/constants';
 import {getCurrentRelativeTeamUrl, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {
-    getProfilesInCurrentChannel,
-    getUserStatuses, searchProfilesInCurrentChannel,
+    getActiveProfilesInCurrentChannel,
+    getUserStatuses, searchActiveProfilesInCurrentChannel,
 } from 'mattermost-redux/selectors/entities/users';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
@@ -36,7 +36,7 @@ import RHS, {Props, ChannelMember} from './channel_members_rhs';
 
 const getProfiles = createSelector(
     'getProfiles',
-    getProfilesInCurrentChannel,
+    getActiveProfilesInCurrentChannel,
     getUserStatuses,
     getTeammateNameDisplaySetting,
     getMembersInCurrentChannel,
@@ -67,7 +67,7 @@ const getProfiles = createSelector(
 
 const searchProfiles = createSelector(
     'searchProfiles',
-    (state: GlobalState, search: string) => searchProfilesInCurrentChannel(state, search, false),
+    (state: GlobalState, search: string) => searchActiveProfilesInCurrentChannel(state, search, false),
     getUserStatuses,
     getTeammateNameDisplaySetting,
     getMembersInCurrentChannel,
