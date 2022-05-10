@@ -436,7 +436,7 @@
   "admin.channel_settings.channel_details.isPublic": "Publik eller privat kanal",
   "admin.channel_settings.channel_details.isPublicDescr": "Om 'publik' så kan kanalen upptäckas och vem som helst kan ansluta, om 'privat' så behövs en inbjudan. Växla för konvertera publik kanal till privat. Om Group Sync är aktiverad kan privata kanaler inte konverteras till publik.",
   "admin.channel_settings.channel_details.syncGroupMembers": "Synkronisera gruppmedlemmar",
-  "admin.channel_settings.channel_details.syncGroupMembersDescr": "När aktiverad så kommer förändring i gruppmedlemsskap förändra närvaro i denna kanal. Enda sättet att bjuda in medlemmar i kanalen är att lägga till de grupper de är medlem i. [Läs mer](!https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "admin.channel_settings.channel_details.syncGroupMembersDescr": "När aktiverad så kommer förändring i gruppmedlemsskap förändra närvaro i denna kanal. Enda sättet att bjuda in medlemmar i kanalen är att lägga till de grupper de är medlem i. <link>Läs mer</link>",
   "admin.channel_settings.channel_details.unarchiveChannel": "Arkivera kanaler",
   "admin.channel_settings.channel_list.managementHeader": "Administration",
   "admin.channel_settings.channel_list.nameHeader": "Namn",

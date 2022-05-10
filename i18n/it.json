@@ -312,7 +312,7 @@
   "admin.channel_settings.channel_details.isPublic": "Canale publbico o canale privato",
   "admin.channel_settings.channel_details.isPublicDescr": "Se `pubblico` il canale sarà ricercabile e qualsiasi utente potrà entrarci, oppure se `privato` sarà richiesto un invito. Usare per convertire i canali pubblici in privati. Se è attiva la sincronia dei gruppi, i canali privati non possono essere convertiti in pubblici.",
   "admin.channel_settings.channel_details.syncGroupMembers": "Sincronizza Membri Gruppo",
-  "admin.channel_settings.channel_details.syncGroupMembersDescr": "Se attivo, aggiungere o rimuovere utente dai gruppi li aggiungerà o rimuoverà da questo canale. L'unico modo per invitare membri in questo canale è aggiungerli ai gruppi a cui appartiene in canale. [Scopri di più](!https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "admin.channel_settings.channel_details.syncGroupMembersDescr": "Se attivo, aggiungere o rimuovere utente dai gruppi li aggiungerà o rimuoverà da questo canale. L'unico modo per invitare membri in questo canale è aggiungerli ai gruppi a cui appartiene in canale. <link>Scopri di più</link>",
   "admin.channel_settings.channel_details.unarchiveChannel": "Archivia Canale",
   "admin.channel_settings.channel_list.managementHeader": "Gestione",
   "admin.channel_settings.channel_list.nameHeader": "Nome",

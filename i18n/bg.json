@@ -429,7 +429,7 @@
   "admin.channel_settings.channel_details.isPublic": "Публичен или частен канал",
   "admin.channel_settings.channel_details.isPublicDescr": "Ако е \"публичен\" каналът е откриваем и всеки потребител може да се присъедини, ако е \"частен\" са необходими покани. Превключете, за да преобразувате публични канали в частни. Когато е активирана груповата синхронизация, частните канали не могат да бъдат преобразувани в обществени.",
   "admin.channel_settings.channel_details.syncGroupMembers": "Синхронизиране членовете на групата",
-  "admin.channel_settings.channel_details.syncGroupMembersDescr": "Когато е разрешено, добавянето и премахването на потребители от групи ще ги добави или премахне от този канал. Единственият начин да поканите членове в този канал ще е чрез добавяне в групите, към които принадлежи. [Научете повече](!https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "admin.channel_settings.channel_details.syncGroupMembersDescr": "Когато е разрешено, добавянето и премахването на потребители от групи ще ги добави или премахне от този канал. Единственият начин да поканите членове в този канал ще е чрез добавяне в групите, към които принадлежи. <link>Научете повече</link>",
   "admin.channel_settings.channel_details.unarchiveChannel": "Разархивирай канал",
   "admin.channel_settings.channel_list.managementHeader": "Управление",
   "admin.channel_settings.channel_list.nameHeader": "Име",

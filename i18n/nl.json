@@ -436,7 +436,7 @@
   "admin.channel_settings.channel_details.isPublic": "Publiek kanaal of privé-kanaal",
   "admin.channel_settings.channel_details.isPublicDescr": "Als ` publiek ` is het kanaal vindbaar en kan elke gebruiker deelnemen, of als `privé` zijn uitnodigingen vereist. Schakel in om openbare kanalen te converteren naar privé. Als groepssynchronisatie is ingeschakeld, kunnen privé-kanalen niet worden geconverteerd naar het publieke.",
   "admin.channel_settings.channel_details.syncGroupMembers": "Syncronisatie Groepsleden",
-  "admin.channel_settings.channel_details.syncGroupMembersDescr": "Als deze optie is ingeschakeld, worden gebruikers aan groepen toevoegen of eruit verwijderden hen ook toevoegen of verwijderen uit dit kanaal. De enige manier om leden uit te nodigen voor dit kanaal is door ze toe te voegen aan de groepen waartoe ze behoren. [Meer Informatie] (! https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "admin.channel_settings.channel_details.syncGroupMembersDescr": "Als deze optie is ingeschakeld, worden gebruikers aan groepen toevoegen of eruit verwijderden hen ook toevoegen of verwijderen uit dit kanaal. De enige manier om leden uit te nodigen voor dit kanaal is door ze toe te voegen aan de groepen waartoe ze behoren. <link>Meer Informatie</link> ",
   "admin.channel_settings.channel_details.unarchiveChannel": "Kanaal Dearchiveren",
   "admin.channel_settings.channel_list.managementHeader": "Beheer",
   "admin.channel_settings.channel_list.nameHeader": "Naam",
