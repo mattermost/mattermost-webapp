@@ -2512,7 +2512,7 @@
   "help.commands.builtin.title": "빌트인 명령어",
   "help.commands.custom.description": "사용자 지정 슬래시 명령은 외부 애플리케이션과 통합됩니다. 예를 들어 팀에서는 '/patient joe smith' 를 통해 내부 건강 기록을 확인하거나 '/weather toronto week' 명령어를 사용하여 도시의 주간 기상 상태를 확인하도록 사용자 지정 슬래시 명령을 구성할 수 있습니다. 팀원이 사용자 지정 슬래시 명령을 구성했는지 확인하려면 시스템 관리자에게 문의하거나 '/'를 입력하여 자동 완성 목록을 여십시오.",
   "help.commands.custom.title": "커스텀 명령어",
-  "help.commands.custom2": "Custom slash commands are disabled by default and can be enabled by the System Admin in the **System Console** > **Integrations** > **Webhooks and Commands**. Learn about configuring custom slash commands on the [developer slash command documentation page](https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/).",
+  "help.commands.custom2": "Custom slash commands are disabled by default and can be enabled by the System Admin in the **System Console** > **Integrations** > **Webhooks and Commands**. Learn about configuring custom slash commands on the <link>developer slash command documentation page</link>(https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/).",
   "help.commands.title": "명령어 실행하기",
   "help.composing.deleting.description": "**[...]를 클릭하여 메시지 삭제]** 구성한 메시지 텍스트 옆에 있는 **삭제**를 누르십시오. 시스템 및 팀 관리자는 시스템 또는 팀의 메시지를 삭제할 수 있습니다.",
   "help.composing.deleting.title": "메시지 삭제",

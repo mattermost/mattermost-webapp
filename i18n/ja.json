@@ -3358,7 +3358,7 @@
   "help.commands.builtin2": "最初に`/`を入力するとスラッシュコマンドのリストがテキスト入力ボックスの上に表示されます。自動補完の提案では黒字での入力例と灰字での短い説明が表示されます。",
   "help.commands.custom.description": "カスタムスラッシュコマンドにより外部のアプリケーションを統合することができます。例えば、あるチームでは、健康記録を`/patient joe smith`でチェックしたり、ある都市の週間天気予報を`/weather toronto week`でチェックするためのカスタムスラッシュコマンドを設定しています。システム管理者に聞くか、`/`を入力して自動補完リストを開いて、あなたのチームでカスタムスラッシュコマンドが利用可能かどうか確認してみてください。",
   "help.commands.custom.title": "カスタムコマンド",
-  "help.commands.custom2": "カスタムスラッシュコマンドはデフォルトでは無効化されており、システム管理者によって**システムコンソール > 統合機能 > 統合機能管理**から有効化できます。カスタムスラッシュコマンドの設定については[開発者向けドキュメント](https://developers.mattermost.com/integrate/slash-commands)を参照してください。",
+  "help.commands.custom2": "カスタムスラッシュコマンドはデフォルトでは無効化されており、システム管理者によって**システムコンソール > 統合機能 > 統合機能管理**から有効化できます。カスタムスラッシュコマンドの設定については<link>開発者向けドキュメント</link>(https://developers.mattermost.com/integrate/slash-commands)を参照してください。",
   "help.commands.intro1": "テキスト入力欄からMattermostの操作を実行するスラッシュコマンドと呼ばれるコマンドを実行することができます。スラッシュコマンドを実行するには、`/`の後にコマンドと引数を入力してください。",
   "help.commands.intro2": "内蔵スラッシュコマンドはすべてのMattermostで利用可能です。利用可能な内蔵スラッシュコマンドの一覧は[製品ドキュメント](!https://docs.mattermost.com/messaging/executing-slash-commands.html)を参照ください。",
   "help.commands.title": "コマンドを実行する",

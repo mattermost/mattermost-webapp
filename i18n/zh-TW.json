@@ -2537,7 +2537,7 @@
   "help.commands.builtin2": "在訊息輸入框開頭輸入 `/` 將會顯示斜線命令列表。此列表會提供命令範例以及灰色的命令敘述。",
   "help.commands.custom.description": "自訂斜線命令以跟外部應用程式整合。舉例來說，團隊可以設定自訂斜線命令來看內部的健康資料 `/patient joe smith` 或看某城市的天氣周報 `/weather toronto week`。向系統管理員確認或是輸入 `/` 開啟自動完成列表來確認團隊有無設定任何自訂斜線命令。",
   "help.commands.custom.title": "自訂命令",
-  "help.commands.custom2": "自訂斜線命令預設為關閉，系統管理員可以在 **系統主控台** > **整合** > **Webhook 與命令** 中開啟。如需設定自訂斜線命令的詳細資訊，請參閱[開發者文件：斜線命令](!https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/)",
+  "help.commands.custom2": "自訂斜線命令預設為關閉，系統管理員可以在 **系統主控台** > **整合** > **Webhook 與命令** 中開啟。如需設定自訂斜線命令的詳細資訊，請參閱<link>開發者文件：斜線命令</link>",
   "help.commands.intro1": "斜線命令讓使用者在 Mattermost 下在文字輸入欄打字來執行作業。輸入 '/' 跟命令還有參數來執行動作。",
   "help.commands.intro2": "所有的 Mattermost 都有內建斜線命令，自訂斜線命令可設定以跟外部應用程式動作。如需設定自訂斜線命令的詳細資訊，請參閱[開發者文件：斜線命令](!https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/)。",
   "help.commands.title": "執行指令",
