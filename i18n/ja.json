@@ -1084,7 +1084,7 @@
   "admin.image.proxyOptions": "リモート画像プロキシオプション:",
   "admin.image.proxyOptionsDescription": "URL認証キーのような追加オプションです。どのオプションをサポートしているかについては、使用している画像プロキシの説明文章を参照してください。",
   "admin.image.proxyType": "画像プロキシタイプ:",
-  "admin.image.proxyTypeDescription": "Markdownの画像をロードする為の画像プロキシの設定です。画像プロキシは画像への安全でないリクエストを防ぎ、パフォーマンス向上の為のキャッシュを提供し、リサイズのような画像調整を自動化するものです。詳しくは[説明文書](!https://docs.mattermost.com/deploy/image-proxy.html)を参照してください。",
+  "admin.image.proxyTypeDescription": "Markdownの画像をロードする為の画像プロキシの設定です。画像プロキシは画像への安全でないリクエストを防ぎ、パフォーマンス向上の為のキャッシュを提供し、リサイズのような画像調整を自動化するものです。詳しくは<link>説明文書</link>を参照してください。",
   "admin.image.proxyURL": "リモート画像プロキシURL:",
   "admin.image.proxyURLDescription": "画像プロキシサーバーのURLです。",
   "admin.image.publicLinkDescription": "公開画像リンクの署名に32文字のソルトを付与します。これはインストールするたびにランダムに生成されます。新しいソルトを生成するには「再生成する」をクリックしてください。",

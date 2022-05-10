@@ -805,7 +805,7 @@
   "admin.image.proxyOptions": "遠端圖片代理伺服器選項：",
   "admin.image.proxyOptionsDescription": "額外選項如網址簽名金鑰。詳情請參照所使用的圖片代理伺服器文件。",
   "admin.image.proxyType": "圖像代理類型：",
-  "admin.image.proxyTypeDescription": "設定圖像代理以在讀取 Markdown 圖片時藉由代理讀取。圖像代理可以防止使用者以不安全的方式讀取圖片、提供快取機制以增進效能以及自動調整影像。請參閱[說明文件](!https://docs.mattermost.com/deploy/image-proxy.html)。",
+  "admin.image.proxyTypeDescription": "設定圖像代理以在讀取 Markdown 圖片時藉由代理讀取。圖像代理可以防止使用者以不安全的方式讀取圖片、提供快取機制以增進效能以及自動調整影像。請參閱<link>說明文件</link>。",
   "admin.image.proxyURL": "圖片代理伺服器 URL：",
   "admin.image.proxyURLDescription": "圖像代理伺服器網址。",
   "admin.image.publicLinkDescription": "32字元的 Salt 用來簽署公開的圖片連結。於安裝時隨機產生。按\"重新產生\"建立新的 Salt。",

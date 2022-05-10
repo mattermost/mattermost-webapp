@@ -1079,7 +1079,7 @@
   "admin.image.proxyOptions": "Paramètres du proxy d'images distant :",
   "admin.image.proxyOptionsDescription": "Paramètres additionnels tels que la clé de signature d'URL. Consultez la documentation du proxy d'images pour en savoir plus sur les paramètres supportés.",
   "admin.image.proxyType": "Type de proxy d'images :",
-  "admin.image.proxyTypeDescription": "Configurer un proxy d'images pour charger toutes les images Markdown via un proxy. Le proxy d'images empêche les utilisateurs de faire des appels non sécurisés à des images, permet d'augmenter les performances par le biais d'un cache et effectue des réglages automatiques d'image comme le redimensionnement. Consultez notre [documentation](!https://docs.mattermost.com/deploy/image-proxy.html) pour en savoir plus.",
+  "admin.image.proxyTypeDescription": "Configurer un proxy d'images pour charger toutes les images Markdown via un proxy. Le proxy d'images empêche les utilisateurs de faire des appels non sécurisés à des images, permet d'augmenter les performances par le biais d'un cache et effectue des réglages automatiques d'image comme le redimensionnement. Consultez notre <link>documentation</link> pour en savoir plus.",
   "admin.image.proxyURL": "URL du proxy d'images distant :",
   "admin.image.proxyURLDescription": "L'URL de votre serveur de proxy d'images distant.",
   "admin.image.publicLinkDescription": "Clé de salage de 32 caractères ajoutée aux e-mails d'invitation. Générée aléatoirement lors de l'installation. Veuillez cliquer sur « Regénérer » pour créer une nouvelle clé de salage.",

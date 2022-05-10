@@ -1084,7 +1084,7 @@
   "admin.image.proxyOptions": "Uzak görsel vekil sunucusu ayarları:",
   "admin.image.proxyOptionsDescription": "Adres imzalı anahtar gibi ek seçenekler. Desteklenen seçenekleri öğrenmek için kullandığınız görsel vekil sunucusu belgelerine bakabilirsiniz.",
   "admin.image.proxyType": "Görsel vekil sunucusu türü:",
-  "admin.image.proxyTypeDescription": "Kod imleri ile belirtilen tüm görsellerin yükleneceği bir görsel vekil sunucusu yapılandırın. Görsel vekil sunucusu kullanıcıların güvenli olmayan görsel istekleri yapmasını engeller, başarımı arttırmak için ön bellek kullanır ve boyutlandırma gibi görsel ayarlamalarını otomatik olarak yapar. Ayrıntılı bilgi almak için [belgeler](!https://docs.mattermost.com/deploy/image-proxy.html) bölümüne bakabilirsiniz.",
+  "admin.image.proxyTypeDescription": "Kod imleri ile belirtilen tüm görsellerin yükleneceği bir görsel vekil sunucusu yapılandırın. Görsel vekil sunucusu kullanıcıların güvenli olmayan görsel istekleri yapmasını engeller, başarımı arttırmak için ön bellek kullanır ve boyutlandırma gibi görsel ayarlamalarını otomatik olarak yapar. Ayrıntılı bilgi almak için <link>belgeler</link> bölümüne bakabilirsiniz.",
   "admin.image.proxyURL": "Uzak görsel vekil sunucusu adresi:",
   "admin.image.proxyURLDescription": "Uzak görsel vekil sunucunuzun adresi.",
   "admin.image.publicLinkDescription": "Herkese açık görsel bağlantılarını imzalamak için eklenecek 32 karakter uzunluğundaki çeşni. Kurulum sırasında rastgele olarak üretilir. Yeni bir çeşni oluşturmak için \"Yeniden oluştur\" üzerine tıklayın.",

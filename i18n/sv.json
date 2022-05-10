@@ -1084,7 +1084,7 @@
   "admin.image.proxyOptions": "Remote Image Proxy inställningar:",
   "admin.image.proxyOptionsDescription": "Ytterligare inställningar så som URL-signeringsnycklar. Läs mer om vilka konfigurationsmöjligheter som finns i dokumentationen för bild-proxy.",
   "admin.image.proxyType": "Bildproxytyp:",
-  "admin.image.proxyTypeDescription": "Konfigurera en bildproxy för att hämta alla Markdown bilder via en proxy. Bildproxyn ger användarna en säker källa för bilder, cachar för ökad prestanda och automatiserar bildhantering så som storleksanpassning. Se [dokumentation](!https://docs.mattermost.com/deploy/image-proxy.html) för mer information.",
+  "admin.image.proxyTypeDescription": "Konfigurera en bildproxy för att hämta alla Markdown bilder via en proxy. Bildproxyn ger användarna en säker källa för bilder, cachar för ökad prestanda och automatiserar bildhantering så som storleksanpassning. Se <link>dokumentation</link> för mer information.",
   "admin.image.proxyURL": "Extern bildproxy-URL:",
   "admin.image.proxyURLDescription": "URL till proxyserver för bilder.",
   "admin.image.publicLinkDescription": "Salt på 32-tecken för att skapa unika länkar till publika bilder. Skapas slumpmässigt vid installation. Tryck \"Omgenerera\" för att skapa nytt salt.",

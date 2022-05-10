@@ -1084,7 +1084,7 @@
   "admin.image.proxyOptions": "Optionen des Remote-Bild-Proxys:",
   "admin.image.proxyOptionsDescription": "Zusätzliche Optionen, wie der URL-Signierungsschlüssel. Beziehe dich auf die Dokumentation deines Image-Proxys, um mehr über die unterstützten Funktionen zu erfahren.",
   "admin.image.proxyType": "Bild-Proxy-Typ:",
-  "admin.image.proxyTypeDescription": "Konfiguriere einen Bilder-Proxy, um alle Markdown-Bilder durch einen Proxy zu laden. Der Bilder-Proxy verhindert, dass Benutzer unsichere Bildanfragen durchführen, stellt Caching für verbesserte Leistung zur Verfügung und automatisiert Bildanpassungen wie z.B. Größenänderungen. Erfahre mehr in der [Dokumentation](!https://docs.mattermost.com/deploy/image-proxy.html).",
+  "admin.image.proxyTypeDescription": "Konfiguriere einen Bilder-Proxy, um alle Markdown-Bilder durch einen Proxy zu laden. Der Bilder-Proxy verhindert, dass Benutzer unsichere Bildanfragen durchführen, stellt Caching für verbesserte Leistung zur Verfügung und automatisiert Bildanpassungen wie z.B. Größenänderungen. Erfahre mehr in der <link>Dokumentation</link>.",
   "admin.image.proxyURL": "URL des Remote-Bild-Proxys:",
   "admin.image.proxyURLDescription": "URL deines Remote-Image-Proxy-Servers.",
   "admin.image.publicLinkDescription": "32-Zeichen Salt um die öffentlich Links von Bildern zu signieren. Wird bei der Installation zufällig generiert. Klicke \"Neu generieren\" um einen neuen Salt zu erstellen.",

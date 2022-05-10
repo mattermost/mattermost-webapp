@@ -1251,8 +1251,20 @@ const AdminDefinition = {
                         label: t('admin.image.proxyType'),
                         label_default: 'Image Proxy Type:',
                         help_text: t('admin.image.proxyTypeDescription'),
-                        help_text_default: 'Configure an image proxy to load all Markdown images through a proxy. The image proxy prevents users from making insecure image requests, provides caching for increased performance, and automates image adjustments such as resizing. See [documentation](!https://docs.mattermost.com/deploy/image-proxy.html) to learn more.',
-                        help_text_markdown: true,
+                        help_text_default: 'Configure an image proxy to load all Markdown images through a proxy. The image proxy prevents users from making insecure image requests, provides caching for increased performance, and automates image adjustments such as resizing. See <link>documentation</link> to learn more.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/deploy/image-proxy.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
                         options: [
                             {
                                 value: 'atmos/camo',

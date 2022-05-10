@@ -1000,7 +1000,7 @@
   "admin.image.proxyOptions": "Opțiuni Proxy Imagine Remote:",
   "admin.image.proxyOptionsDescription": "Opțiuni suplimentare, cum ar fi cheia de semnare a adreselor URL. Consultați documentația pentru proxy-ul imaginilor pentru a afla mai multe despre opțiunile care sunt acceptate.",
   "admin.image.proxyType": "Tip proxy de tip imagine:",
-  "admin.image.proxyTypeDescription": "Configurați un proxy de imagine pentru a încărca toate imaginile Markdown printr-un proxy. Proxy-ul de imagine împiedică utilizatorii să facă cereri de imagini nesigure, oferă cache-uri pentru performanțe sporite și automatizează ajustările imaginilor, cum ar fi redimensionarea imaginilor. Vedeți [documentația](!https://docs.mattermost.com/deploy/image-proxy.html) pentru a afla mai multe.",
+  "admin.image.proxyTypeDescription": "Configurați un proxy de imagine pentru a încărca toate imaginile Markdown printr-un proxy. Proxy-ul de imagine împiedică utilizatorii să facă cereri de imagini nesigure, oferă cache-uri pentru performanțe sporite și automatizează ajustările imaginilor, cum ar fi redimensionarea imaginilor. Vedeți <link>documentația</link> pentru a afla mai multe.",
   "admin.image.proxyURL": "URL Imagine Remote Proxy:",
   "admin.image.proxyURLDescription": "Adresa URL a serverului tău pentru imagini remote.",
   "admin.image.publicLinkDescription": "Sare de 32 de caractere adăugată la semnarea legăturilor publice de imagine. Random generat la instalare. Faceți clic pe \"Regenerați\" pentru a crea sare nouă.",

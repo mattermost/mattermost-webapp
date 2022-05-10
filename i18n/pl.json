@@ -1084,7 +1084,7 @@
   "admin.image.proxyOptions": "Opcje Zdalnego Proxy dla Obrazów:",
   "admin.image.proxyOptionsDescription": "Dodatkowe opcje, takie jak klucz podpisywania URL. Zapoznaj się z dokumentacją serwera proxy, aby dowiedzieć się, jakie opcje są obsługiwane.",
   "admin.image.proxyType": "Typ proxy obrazków:",
-  "admin.image.proxyTypeDescription": "Skonfiguruj proxy obrazów aby ładować wszystkie obrazki Markdown poprzez proxy. Proxy obrazów zapobiega tworzeniu przez użytkowników niezabezpieczonych żądań, zapewnia również cacheowanie dla zwiększonej wydajności, oraz automatyzuje dostosowanie obrazów takie jak zmiana wielkości. Zobacz [dokumentację](!https://docs.mattermost.com/deploy/image-proxy.html) aby dowiedzieć się więcej.",
+  "admin.image.proxyTypeDescription": "Skonfiguruj proxy obrazów aby ładować wszystkie obrazki Markdown poprzez proxy. Proxy obrazów zapobiega tworzeniu przez użytkowników niezabezpieczonych żądań, zapewnia również cacheowanie dla zwiększonej wydajności, oraz automatyzuje dostosowanie obrazów takie jak zmiana wielkości. Zobacz <link>dokumentację</link> aby dowiedzieć się więcej.",
   "admin.image.proxyURL": "URL zdalnego proxy Obrazków:",
   "admin.image.proxyURLDescription": "Adres URL serwera proxy dla obrazków.",
   "admin.image.publicLinkDescription": "32-znakowa wartość losowa dodawana do podpisu zaproszeń email. Losowo generowana przy instalacji. Kliknij \"Regeneruj\" aby utworzyć nową wartość losową.",

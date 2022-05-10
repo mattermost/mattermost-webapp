@@ -1076,7 +1076,7 @@
   "admin.image.proxyOptions": "远程图片代理设定：",
   "admin.image.proxyOptionsDescription": "额外选项如签署密钥网址。参见您的图片代理文档了解更多支持的选项。",
   "admin.image.proxyType": "图片代理类型：",
-  "admin.image.proxyTypeDescription": "设置个代理服务器用于加载 Markdown 图片。图片代理能防止用户发起不安全的图片请求并提供缓存来提高性能和自动图片调整如改变大小。参见[文档](!https://docs.mattermost.com/deploy/image-proxy.html)了解更多。",
+  "admin.image.proxyTypeDescription": "设置个代理服务器用于加载 Markdown 图片。图片代理能防止用户发起不安全的图片请求并提供缓存来提高性能和自动图片调整如改变大小。参见<link>文档</link>了解更多。",
   "admin.image.proxyURL": "远程图片代理网址：",
   "admin.image.proxyURLDescription": "您的图片代理服务器网址。",
   "admin.image.publicLinkDescription": "32字盐值用来签署公开的图片链接。由安装时随机生成。点击 \"重新生成\" 生成新的盐。",

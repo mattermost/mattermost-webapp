@@ -1084,7 +1084,7 @@
   "admin.image.proxyOptions": "Távoli kép proxy beállítások:",
   "admin.image.proxyOptionsDescription": "További lehetőségek, például az URL aláíró kulcs. A támogatott lehetőségekről a kép proxy dokumentációjában talál további információt.",
   "admin.image.proxyType": "Kép proxy típus:",
-  "admin.image.proxyTypeDescription": "Állítson be egy kép proxyt, hogy az összes Markdown kép proxy szerverenn keresztül legyen betöltve. A kép proxy megakadályozza, hogy a felhasználók nem biztonságos kép kéréseket küldjenek, gyorsítótárazást biztosít a nagyobb teljesítmény érdekében, és automatizálja a kép manipulációkat, például az átméretezést. További információkért lásd a [dokumentációt](!https://docs.mattermost.com/deploy/image-proxy.html).",
+  "admin.image.proxyTypeDescription": "Állítson be egy kép proxyt, hogy az összes Markdown kép proxy szerverenn keresztül legyen betöltve. A kép proxy megakadályozza, hogy a felhasználók nem biztonságos kép kéréseket küldjenek, gyorsítótárazást biztosít a nagyobb teljesítmény érdekében, és automatizálja a kép manipulációkat, például az átméretezést. További információkért lásd a <link>dokumentációt</link>.",
   "admin.image.proxyURL": "Távoli kép proxy URL:",
   "admin.image.proxyURLDescription": "A távoli kép proxy szerver URL-je.",
   "admin.image.publicLinkDescription": "32 karakteres sót adtak a nyilvános képhivatkozások aláírásához. Véletlenszerűen generálódik telepítéskor. Új só létrehozásához kattintson az \"Újragenerálás\" gombra.",

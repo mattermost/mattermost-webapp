@@ -1084,7 +1084,7 @@
   "admin.image.proxyOptions": "Externe Afbeelding Proxy Opties:",
   "admin.image.proxyOptionsDescription": "Aanvullende opties zoals de URL-ondertekeningssleutel. Raadpleeg de documentatie van je afbeeldingsproxy voor meer informatie over de opties die worden ondersteund.",
   "admin.image.proxyType": "Type Afbeeldingsproxy:",
-  "admin.image.proxyTypeDescription": "Configureer een afbeeldingsproxy om alle Markdown-afbeeldingen te laden via een proxy. De image-proxy voorkomt dat gebruikers onveilige beeldaanvragen maken, biedt caching voor verhoogde prestaties, en automatiseert beeldaanpassingen zoals resizing. Zie [documentatie](!https://docs.mattermost.com/deploy/image-proxy.html) voor meer informatie.",
+  "admin.image.proxyTypeDescription": "Configureer een afbeeldingsproxy om alle Markdown-afbeeldingen te laden via een proxy. De image-proxy voorkomt dat gebruikers onveilige beeldaanvragen maken, biedt caching voor verhoogde prestaties, en automatiseert beeldaanpassingen zoals resizing. Zie <link>documentatie</link> voor meer informatie.",
   "admin.image.proxyURL": "Externe Afbeeldingen Proxy URL:",
   "admin.image.proxyURLDescription": "URL van uw externe afbeeldingen proxyserver.",
   "admin.image.publicLinkDescription": "'salt' van 32 tekens welke wordt gebruikt voor het signeren van publieke afbeeldingen. Deze worden willekeurig gegenereerd tijdens de installatie. Klik op \"Opnieuw genereren\" om een nieuwe 'salt' te maken.",

@@ -1084,7 +1084,7 @@
   "admin.image.proxyOptions": "Opciones para el Proxy de Imágenes Remoto:",
   "admin.image.proxyOptionsDescription": "Para opciones adicionales, tales como la firma de la URL. Consulte la documentación del proxy de imágenes para aprender más acerca de qué opciones son compatibles.",
   "admin.image.proxyType": "Tipo de Proxy de Imágenes:",
-  "admin.image.proxyTypeDescription": "Configurar un proxy de imágenes para cargar todas las imágenes en Markdown a través de un proxy. El proxy de imágenes impide que los usuarios realicen solicitudes a imágenes no seguras, proporciona almacenamiento en caché para mejorar el rendimiento, y automatiza los ajustes de la imagen, como el cambio de tamaño. Ver la [documentación](!https://docs.mattermost.com/deploy/image-proxy.html) para obtener más información.",
+  "admin.image.proxyTypeDescription": "Configurar un proxy de imágenes para cargar todas las imágenes en Markdown a través de un proxy. El proxy de imágenes impide que los usuarios realicen solicitudes a imágenes no seguras, proporciona almacenamiento en caché para mejorar el rendimiento, y automatiza los ajustes de la imagen, como el cambio de tamaño. Ver la <link>documentación</link> para obtener más información.",
   "admin.image.proxyURL": "URL del Proxy de Imágenes Remoto:",
   "admin.image.proxyURLDescription": "URL del servidor proxy de imágenes remoto.",
   "admin.image.publicLinkDescription": "Salt de 32-characteres agregado para firmar los enlaces para las imágenes públicas. Aleatoriamente generados en la instalación. Haz clic en \"Regenerar\" para crear un nuevo salt.",

@@ -972,7 +972,7 @@
   "admin.image.proxyOptions": "원격 이미지 프록시 옵션 :",
   "admin.image.proxyOptionsDescription": "URL 서명 키와 같이 부가적인 옵션들입니다. 지원되는 옵션들에 대한 더 많은 정보는 이미지 프록시 문서를 참고하세요.",
   "admin.image.proxyType": "이미지 프록시 형태 :",
-  "admin.image.proxyTypeDescription": "모든 마크다운 이미지를 불러오기 위한 이미지 프록시를 설정합니다. 이미지 프록시는 안전하지 않은 이미지 요청으로부터 사용자를 보호하며, 성능 개선을 위해 캐싱을 제공할 뿐만 아니라 이미지 크기 조정과 같은 이미지 조정을 자동화합니다. 자세한 내용은 [문서](!https://docs.mattermost.com/deploy/image-proxy.html)을 참고하세요.",
+  "admin.image.proxyTypeDescription": "모든 마크다운 이미지를 불러오기 위한 이미지 프록시를 설정합니다. 이미지 프록시는 안전하지 않은 이미지 요청으로부터 사용자를 보호하며, 성능 개선을 위해 캐싱을 제공할 뿐만 아니라 이미지 크기 조정과 같은 이미지 조정을 자동화합니다. 자세한 내용은 <link>문서</link>을 참고하세요.",
   "admin.image.proxyURL": "원격 이미지 프록시 URL :",
   "admin.image.proxyURLDescription": "원격 이미지 프록시 서버의 URL 입니다.",
   "admin.image.publicLinkDescription": "32개 문자열 솔트가 공개 이미지 링크의 서명에 추가되었습니다. 설치 시점에 임의로 생성됩니다. 새로운 솔트를 만들려면 \"재생성\" 버튼을 클릭하세요.",
