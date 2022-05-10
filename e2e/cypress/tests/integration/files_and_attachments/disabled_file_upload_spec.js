@@ -37,7 +37,7 @@ describe('Upload Files - Settings', () => {
         cy.visit(channelUrl);
     });
 
-    it('MM-T1149_1 Disallow file sharing in the channel', () => {
+    it('MM-T1147_1 Disallow file sharing in the channel', () => {
         // * Attachment input should not exist in the DOM
         cy.get('#centerChannelFooter').find('#fileUploadInput').should('not.exist');
 
@@ -75,7 +75,7 @@ describe('Upload Files - Settings', () => {
         cy.getLastPostId().then(cy.apiDeletePost);
     });
 
-    it('MM-T1149_2 drag and drop a file on center and RHS should produce an error', () => {
+    it('MM-T1147_2 drag and drop a file on center and RHS should produce an error', () => {
         const filename = 'mattermost-icon.png';
 
         // # Drag and drop file
@@ -94,7 +94,7 @@ describe('Upload Files - Settings', () => {
         });
     });
 
-    it('MM-T1149_3 copy a file and paste in message box and reply box should produce an error', () => {
+    it('MM-T1147_3 copy a file and paste in message box and reply box should produce an error', () => {
         const filename = 'mattermost-icon.png';
 
         // # Paste a file in the center channel
@@ -145,7 +145,7 @@ describe('Upload Files - Settings', () => {
         cy.getLastPostId().then(cy.apiDeletePost);
     });
 
-    it('MM-T1149_4 keyboard shortcut CMD/CTRL+U should produce an error', () => {
+    it('MM-T1147_4 keyboard shortcut CMD/CTRL+U should produce an error', () => {
         // # Type CMD/CRTL+U shortcut
         cy.get('#post_textbox').cmdOrCtrlShortcut('{U}');
 
