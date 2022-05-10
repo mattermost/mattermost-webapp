@@ -3452,7 +3452,7 @@
   "help.mentioning.usernameCont": "Jeśli wspomniany użytkownik nie należy do kanału, Wiadomość Systemowa zostanie opublikowana, aby Cię powiadomić. Jest to tymczasowy komunikat widziany tylko przez osobę, która go uruchomiła. Aby dodać wspomnianego użytkownika do kanału, przejdź do menu rozwijanego obok nazwy kanału i wybierz **Dodaj członków**.",
   "help.mentioning.usernameExample": "@alice jak twoja rozmowa z nowym kandydatem?",
   "help.messaging.attach": "**Załączaj Pliki** przeciągając i upuszczając je do Mattermost lub wybierz przycisk ikony \"Załacznik\" w polu wprowadzania wiadomości.",
-  "help.messaging.emoji": "**Dodawaj Emotikony:** Wpisz \":\", który otwiera autouzupełnianie emotikon. Jeśli istniejące emoji nie odzwierciedlają tego co chcesz wyrazić, można również stworzyć własne [niestandardowe emoji](!https://docs.mattermost.com/messaging/using-emoji.html#creating-custom-emojis).",
+  "help.messaging.emoji": "**Dodawaj Emotikony:** Wpisz \":\", który otwiera autouzupełnianie emotikon. Jeśli istniejące emoji nie odzwierciedlają tego co chcesz wyrazić, można również stworzyć własne <link>niestandardowe emoji</link>.",
   "help.messaging.format": "**Formatuj Swoje Wiadomości:** Użyj Markdown aby zastosować style tekstowe, nagłówki, linki, emotikony, bloki kodu, cytaty, tabele, listy i obrazy w twoich wiadomościach. Zobacz poniższą tabelę podstawowych przykładów formatowania tekstu.",
   "help.messaging.notify": "**Powiadom znajomych** Wpisz `@nick`aby powiadomić wybranych członków zespołu.",
   "help.messaging.reply": "**Odpowiadaj na wiadomości:** Wybierz ikonę **Strzałka Odpowiedzi** obok tekstu wiadomości.",

@@ -3447,7 +3447,7 @@
   "help.mentioning.usernameCont": "Als de door jouw genoemde gebruiker niet tot het kanaal behoort, wordt er een systeembericht geplaatst om je dit te laten weten. Dit is een tijdelijk bericht dat alleen wordt gezien door de persoon die het heeft geactiveerd. Om de genoemde gebruiker toe te voegen aan het kanaal, gaat u naar het vervolgkeuzemenu naast de naam van het kanaal en selecteer je **Leden toevoegen**.",
   "help.mentioning.usernameExample": "@alice hoe ging het sollicitatiegesprek met de nieuwe kandidaat?",
   "help.messaging.attach": "**Bestanden toevoegen:** Sleep bestanden naar Mattermost, of selecteer het pictogram Toevoegen** in het tekstinvoerveld.",
-  "help.messaging.emoji": "**Emoticon toevoegen:** Type \":\" om een emoticon autocomplete te openen. Als de bestaande emoticons niet zeggen wat je wilt uitdrukken, kunt je ook jouuw eigen [Aangepaste emoticons](!https://docs.mattermost.com/messaging/using-emoji.html#creating-custom-emojis) maken.",
+  "help.messaging.emoji": "**Emoticon toevoegen:** Type \":\" om een emoticon autocomplete te openen. Als de bestaande emoticons niet zeggen wat je wilt uitdrukken, kunt je ook jouuw eigen <link>Aangepaste emoticons</link> maken.",
   "help.messaging.format": "**Gebruik Markdown om tekst, koppen, links, emoticons, codeblokken, blokaanhalingstekens, tabellen, lijsten, en inline afbeeldingen in je berichten op te nemen. Zie de volgende tabel voor veelvoorkomende voorbeelden van opmaak.",
   "help.messaging.notify": "**Teamgenoten op de hoogte brengen:** Typ `@gebruikersnaam` om de aandacht van specifieke teamleden te trekken.",
   "help.messaging.reply": "**Berichten beantwoorden:** Selecteer het **Beantwoord-pijltje** naast het tekstinvoerveld.",

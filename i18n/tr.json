@@ -3443,7 +3443,7 @@
   "help.mentioning.usernameCont": "Andığınız kullanıcı kanala üye değil ise, size bu durumu bildiren bir sistem iletisi gönderilir. Bu ileti yalnız bildirimi tetikleyen kullanıcı tarafından görülebilen geçici bir iletidir. Anılan kullanıcıyı kanala eklemek için, kanal adının yanındaki açılan menüden **Üye ekle** seçeneğine tıklayın.",
   "help.mentioning.usernameExample": "@elvan yeni adayımızla görüşmen nasıl gitti?",
   "help.messaging.attach": "**Dosya ekleme:** Dosyaları sürükleyip Mattermost üzerine bırakabilir ya da ileti yazma kutusundaki **Ek dosya** simgesini seçebilirsiniz.",
-  "help.messaging.emoji": "**Emoji ekleme:** \":\" yazarak otomatik emoji tamamlama penceresini açabilirsiniz. Var olan emoji vermek istediğiniz duyguyu ifade etmiyorsa, kendiniz için [özel emoji](http://docs.mattermost.com/messaging/using-emoji.html#creating-custom-emojis) oluşturabilirsiniz.",
+  "help.messaging.emoji": "**Emoji ekleme:** \":\" yazarak otomatik emoji tamamlama penceresini açabilirsiniz. Var olan emoji vermek istediğiniz duyguyu ifade etmiyorsa, kendiniz için <link>özel emoji</link>(http://docs.mattermost.com/messaging/using-emoji.html#creating-custom-emojis) oluşturabilirsiniz.",
   "help.messaging.format": "**İletilerinizi biçimlendirmek**: Metin biçemleri, başlıklar, bağlantılar, emotikonlar, kod blokları, alıntı blokları, tablolar, liste ve satır arası görseller için kod imlerini kullanabilirsiniz. Biçimlendirme örnekleri için aşağıdaki tabloya bakın.",
   "help.messaging.notify": "**Takım üyelerine bildirim:** `@kullaniciadi` yazarak belirli takım üyelerinin dikkatini çekebilirsiniz.",
   "help.messaging.reply": "**İletileri yanıtlamak:** İleti yazma kutusunun yanındaki **Yanıtla oku** simgesini seçin.",

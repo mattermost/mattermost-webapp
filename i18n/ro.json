@@ -3067,7 +3067,7 @@
   "help.mentioning.usernameCont": "Dacă utilizatorul pe care l-ați menționat nu aparține canalului, va fi postat un mesaj de sistem pentru a vă anunța. Acesta este un mesaj temporar văzut doar de persoana care a declanșat-o. Pentru a adăuga utilizatorul menționat pe canal, accesați meniul derulant din dreptul numelui canalului și selectați ** Adăugați membri **.",
   "help.mentioning.usernameExample": "@alice cum a făcut interviul dumneavoastră să meargă cu noul candidat?",
   "help.messaging.attach": "** Atașați fișierele ** prin glisarea și plasarea în Mattermost sau făcând clic pe pictograma atașament din caseta de introducere a textului.",
-  "help.messaging.emoji": "** Adăugați rapid emoji ** tastând \":\", care va deschide un autocomplete emoji. Dacă emoji-urile existente nu acoperă ceea ce doriți să vă exprimați, puteți crea și propriul dvs. [Emoji personalizat] (http://docs.mattermost.com/help/settings/custom-emoji.html).",
+  "help.messaging.emoji": "** Adăugați rapid emoji ** tastând \":\", care va deschide un autocomplete emoji. Dacă emoji-urile existente nu acoperă ceea ce doriți să vă exprimați, puteți crea și propriul dvs. <link>Emoji personalizat</link> (http://docs.mattermost.com/help/settings/custom-emoji.html).",
   "help.messaging.format": "** Formatați-vă mesajele ** folosind Markdown care acceptă stilul de text, titlurile, link-urile, emoticoanele, blocurile de coduri, citatele de bloc, tabelele, listele și imaginile în linie.",
   "help.messaging.notify": "**Anunță colegii de echipă** atunci când sunt necesare introducând `@username`.",
   "help.messaging.reply": "** Răspundeți la mesaje ** făcând clic pe săgeata de răspuns din dreptul textului mesajului.",

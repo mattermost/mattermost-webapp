@@ -3452,7 +3452,7 @@
   "help.mentioning.usernameCont": "Ha az Ön által említett felhasználó nem tartozik a csatornához, akkor erről rendszerüzenetet küldünk. Ez egy ideiglenes üzenet, amelyet csak az látott, aki kiváltotta. Az említett felhasználó hozzáadásához a csatornához lépjen a csatorna neve melletti legördülő menübe, és válassza a **Tagok hozzáadása** lehetőséget.",
   "help.mentioning.usernameExample": "@alice hogy sikerült az interjú az új jelölttel?",
   "help.messaging.attach": "**Csatoljon fájlokat** Húzza be fájlokat a Mattermostba, vagy a szövegbeviteli mezőben található **melléklet** ikonra kattintva.",
-  "help.messaging.emoji": "**Adjon hozzá emojit:** A \":\" beírásával megnyitja az emoji kiválasztó ablakot. Ha a meglévő hangulatjelekkel nem tudja kifejezni azt, amit szeretne, akkor létrehozhatja saját [egyéni emojiját](!http://docs.mattermost.com/help/settings/custom-emoji.html) is.",
+  "help.messaging.emoji": "**Adjon hozzá emojit:** A \":\" beírásával megnyitja az emoji kiválasztó ablakot. Ha a meglévő hangulatjelekkel nem tudja kifejezni azt, amit szeretne, akkor létrehozhatja saját <link>egyéni emojiját</link> is.",
   "help.messaging.format": "**Formázza meg üzeneteit:** A Markdown segítségével formázhatja üzenete szövegeit: támogatja a szöveg stílust, a fejléceket, a linkeket, a hangulatjeleket, a kód blokkokat, a blokk idézeteket, a táblázatokat, a listákat és a beágyazott képeket. Az alábbi táblázatban bemutatjuk a leggyakrabban használt formázási műveleteket.",
   "help.messaging.notify": "**Értesítse a csapat társait:** Írja be a `@felhasználónév` szót, hogy felkeltse adott társa figyelmét.",
   "help.messaging.reply": "**Válaszoljon az üzenetekre:** Válassza a **Válasz nyíl** ikont a szövegbeviteli mező mellett.",

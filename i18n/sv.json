@@ -3375,7 +3375,7 @@
   "help.mentioning.usernameCont": "Om användaren som omnämndes inte är medlem av den aktuella kanalen kommer ett systemmeddelande publiceras för din information. Det är ett temporärt meddelande som endast visas för dig. För att lägga till den omnämnda användaren väljer du **Lägg till medlem** i menyn bredvid namnet på kanalen.",
   "help.mentioning.usernameExample": "@alice hur gick din intervju med den nya kandidaten?",
   "help.messaging.attach": "**Bifoga filer** Dra och släpp i Mattermost eller genom att välja symbolen för **Bilagor** i textfältet.",
-  "help.messaging.emoji": "**Lägg till en emoij** genom att skriva \":\" för att öppna autocomplete för emoijer. Om befintliga emoijer inte räcker till för att uttrycka din känsla går det att skapa [egen emoij](!https://docs.mattermost.com/messaging/using-emoji.html#creating-custom-emojis).",
+  "help.messaging.emoji": "**Lägg till en emoij** genom att skriva \":\" för att öppna autocomplete för emoijer. Om befintliga emoijer inte räcker till för att uttrycka din känsla går det att skapa <link>egen emoij</link>.",
   "help.messaging.format": "**Formatera meddelanden:** Använd Markdown för att formatera text, rubriker, länkar, emoticons, kodblock, citat, tabeller, listor och bilder i löpande text i dina meddelanden. Utforska tabellen för exempel på formatering.",
   "help.messaging.notify": "**Notifiera din teamkollega:** Skriv `@användarnamn` för att notifiera en specifik teamkollega.",
   "help.messaging.reply": "**Svara på meddelanden:** Välj **Svara-pilen** bredvid textfältet.",

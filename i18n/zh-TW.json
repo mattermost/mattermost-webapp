@@ -2631,7 +2631,7 @@
   "help.mentioning.usernameCont": "如果提及的使用者不屬於這頻道，系統將會發出訊息讓您知道。這會是個暫時訊息且只有您看的到。按頻道名稱旁邊的下拉選單並選**新增成員**將提及的使用者加進頻道。",
   "help.mentioning.usernameExample": "@alice 你跟應徵者的面試過得怎樣？",
   "help.messaging.attach": "拖放檔案到 Mattermost 或是按文字輸入框旁邊的附件圖示來**附加檔案**。",
-  "help.messaging.emoji": "輸入 \":\" 開啟繪文字的自動完成以**快速增加繪文字**。如果已有的繪文字不夠用，可以建立新的[自訂繪文字](!http://docs.mattermost.com/help/settings/custom-emoji.html)。",
+  "help.messaging.emoji": "輸入 \":\" 開啟繪文字的自動完成以**快速增加繪文字**。如果已有的繪文字不夠用，可以建立新的<link>自訂繪文字</link>。",
   "help.messaging.format": "使用 Markdown 來**設定訊息格式**，它支援文字樣式、標題、連結、表情符號、程式碼區塊、引述區塊、表格、清單跟內嵌圖片。",
   "help.messaging.notify": "當需要團隊成員時輸入 `@使用者名稱` 來**通知團隊成員**。",
   "help.messaging.reply": "按訊息文字旁邊的回覆箭頭以**回覆訊息**。",

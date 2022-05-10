@@ -2633,7 +2633,7 @@
   "help.mentioning.usernameCont": "Se l'utente citato non appartiene al canale, verrà visualizzato un Messaggio di Sistema. Questo è un messaggio temporaneo visibile solo alla persona che ha cercato di fare la citazione. Per aggiungere l'utente citato al canale, utilizzare la casella nel menu accanto al nome del canale e scegliere **Aggiungi membri**.",
   "help.mentioning.usernameExample": "@alice come è andata la tua intervista con il nuovo candidato?",
   "help.messaging.attach": "**Allegare file** trascinando i file in Mattermost o cliccando l'icona degli allegato nella casella del messaggio.",
-  "help.messaging.emoji": "**Aggiungere emoji velocemente** scrivendo \":\", che aprirà il pannello delle emoji. Se le emoji esistenti non contengono quella cercata è possibile creare delle [emoji personalizzate](http://docs.mattermost.com/help/settings/custom-emoji.html).",
+  "help.messaging.emoji": "**Aggiungere emoji velocemente** scrivendo \":\", che aprirà il pannello delle emoji. Se le emoji esistenti non contengono quella cercata è possibile creare delle <link>emoji personalizzate</link>(http://docs.mattermost.com/help/settings/custom-emoji.html).",
   "help.messaging.format": "**Formattare i messaggi** utilizzando la formattazione che supporta gli stili di testo, titoli, collegamenti, emoji, blocchi di codice, citazioni, tabelle, liste e immagini in linea.",
   "help.messaging.notify": "**Notificare i colleghi** quando serve scrivendo `@username`.",
   "help.messaging.reply": "**Rispondere ai messaggi** cliccando sulla freccia di risposta accanto al messaggio.",
