@@ -638,7 +638,7 @@
   "admin.experimental.experimentalEnableAutomaticReplies.title": "Attiva Risposte Automatiche:",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.desc": "Questa impostazione determina se i messaggi di sistema relativi a ingressi/uscite devono essere pubblicati nel canale predefinito.",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.title": "Abilita i messaggi di ingresso/uscita nel canale predefinito:",
-  "admin.experimental.experimentalEnableHardenedMode.desc": "Abilita una modalità restrittiva per Mattermost che rende l'esperienza dell'utente non compromessa in termini di sicurezza. Vedere la [documentazione](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental) per scoprire di più.",
+  "admin.experimental.experimentalEnableHardenedMode.desc": "Abilita una modalità restrittiva per Mattermost che rende l'esperienza dell'utente non compromessa in termini di sicurezza. Vedere la <link>documentazione</link> per scoprire di più.",
   "admin.experimental.experimentalEnableHardenedMode.title": "Attiva modalità restrittiva:",
   "admin.experimental.experimentalFeatures": "Funzioni sperimentali",
   "admin.experimental.experimentalPrimaryTeam.desc": "La squadra principale di cui sono membri gli utenti del server. Se una squadra principale è impostato, le opzioni per entrare in altre squadre o lasciare la squadra principale sono disattivate.",

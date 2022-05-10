@@ -855,7 +855,7 @@
   "admin.experimental.experimentalEnableAutomaticReplies.title": "Automatikus válaszok engedélyezése:",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.desc": "Ez a beállítás határozza meg, hogy a csapat kilépési/csatlakozási rendszer értesítései az alapértelmezett Főtér csatornán megjelenjenek-e.",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.title": "Alapértelmezett kilépés/csatlakozás üzenetek engedélyezése:",
-  "admin.experimental.experimentalEnableHardenedMode.desc": "Megerősített módot engedélyez a Mattermost számára, amely kompromisszumokat jelent a felhasználói élménnyel szemben a biztonság érdekében. További információkért lásd a [dokumentációt](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental).",
+  "admin.experimental.experimentalEnableHardenedMode.desc": "Megerősített módot engedélyez a Mattermost számára, amely kompromisszumokat jelent a felhasználói élménnyel szemben a biztonság érdekében. További információkért lásd a <link>dokumentációt</link>.",
   "admin.experimental.experimentalEnableHardenedMode.title": "Megerősített mód engedélyezése:",
   "admin.experimental.experimentalFeatures": "Kísérleti funkciók",
   "admin.experimental.experimentalPrimaryTeam.desc": "Az elsődleges csapat, amelynek a szerveren lévő felhasználók tagjai. Ha egy elsődleges csapat be van állítva, akkor le vannak tiltva a más csapatokhoz való csatlakozás vagy az elsődleges csapatból való kilépés lehetőségek.",

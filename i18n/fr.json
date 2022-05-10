@@ -851,7 +851,7 @@
   "admin.experimental.experimentalEnableAutomaticReplies.title": "Activer les réponses automatiques :",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.desc": "Ce paramètre détermine si les messages indiquant qu'un utilisateur rejoint/quitte l'équipe sont publiés dans le canal par défaut « Centre-ville ».",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.title": "Activer les messages systèmes indiquant qu'un utilisateur a rejoint/quitté le canal :",
-  "admin.experimental.experimentalEnableHardenedMode.desc": "Active le mode « hardened » de Mattermost qui effectue certains compromis dans l'expérience utilisateur à des fins de sécurité. Consultez notre [documentation](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental) pour en savoir plus.",
+  "admin.experimental.experimentalEnableHardenedMode.desc": "Active le mode « hardened » de Mattermost qui effectue certains compromis dans l'expérience utilisateur à des fins de sécurité. Consultez notre <link>documentation</link> pour en savoir plus.",
   "admin.experimental.experimentalEnableHardenedMode.title": "Active le mode « hardened » :",
   "admin.experimental.experimentalFeatures": "Fonctionnalités expérimentales",
   "admin.experimental.experimentalPrimaryTeam.desc": "L'équipe principale de laquelle les utilisateurs de ce serveur sont membres. Lorsqu'une équipe principale est définie, les options pour rejoindre d'autres équipes ou quitter l'équipe principale sont désactivées.",

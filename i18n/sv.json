@@ -855,7 +855,7 @@
   "admin.experimental.experimentalEnableAutomaticReplies.title": "Aktivera automatiskt svar:",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.desc": "Denna inställning styr om systemmeddelande när man lämnar/går med i grupp ska visas i standard-kanalen Town Square.",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.title": "Aktivera standardsystemmeddelanden när användare går med eller lämnar kanalen:",
-  "admin.experimental.experimentalEnableHardenedMode.desc": "Aktiverar ett härdat Mattermost som gör systemet säkrare på bekostnad av användarvänlighet. Läs [dokumentationen](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental) för att få reda på mer.",
+  "admin.experimental.experimentalEnableHardenedMode.desc": "Aktiverar ett härdat Mattermost som gör systemet säkrare på bekostnad av användarvänlighet. Läs <link>dokumentationen</link> för att få reda på mer.",
   "admin.experimental.experimentalEnableHardenedMode.title": "Aktivera härdat läge:",
   "admin.experimental.experimentalFeatures": "Experimentfunktioner",
   "admin.experimental.experimentalPrimaryTeam.desc": "Den primära gruppen där användare på servern är medlemmar. När en primär grupp är vald, är alternativet för att gå med i andra grupper eller lämna den primära gruppen inaktiverad.",

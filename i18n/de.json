@@ -855,7 +855,7 @@
   "admin.experimental.experimentalEnableAutomaticReplies.title": "Automatische Antworten aktivieren:",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.desc": "Diese Einstellung bestimmt, ob Team-verlassen/betreten-Systemnachrichten im Standard-Marktplatz-Kanal gepostet werden.",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.title": "Team-verlassen/betreten-Systemnachrichten aktivieren:",
-  "admin.experimental.experimentalEnableHardenedMode.desc": "Ermöglicht einen gehärteten Modus für Mattermost, der Abstriche bei der Benutzererfahrung für mehr Sicherheit macht. Erfahre mehr in der [Dokumentation](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental).",
+  "admin.experimental.experimentalEnableHardenedMode.desc": "Ermöglicht einen gehärteten Modus für Mattermost, der Abstriche bei der Benutzererfahrung für mehr Sicherheit macht. Erfahre mehr in der <link>Dokumentation</link>.",
   "admin.experimental.experimentalEnableHardenedMode.title": "Gehärteten Modus aktivieren:",
   "admin.experimental.experimentalFeatures": "Experimentelle Funktionen",
   "admin.experimental.experimentalPrimaryTeam.desc": "Das primäre Team, in dem Benutzer auf dem Server Mitglieder sind. Wenn ein primäres Team festgelegt ist, sind die Optionen, anderen Teams beizutreten oder das primäre Team zu verlassen, deaktiviert.",

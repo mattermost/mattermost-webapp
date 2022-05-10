@@ -855,7 +855,7 @@
   "admin.experimental.experimentalEnableAutomaticReplies.title": "Habilitar Respuestas Automáticas:",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.desc": "Este ajuste determina si los mensajes del sistema sobre usuarios que se unen o abandonan el equipo son publicados en el canal principal town-square.",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.title": "Habilitar Mensajes del Sistema de Union/Abandono en el Canal Principal:",
-  "admin.experimental.experimentalEnableHardenedMode.desc": "Habilitar el modo de endurecimiento para Mattermost que hace que la experiencia de usuario sea compensada por el interés en seguridad. Ver [documentation](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental) para aprender más.",
+  "admin.experimental.experimentalEnableHardenedMode.desc": "Habilitar el modo de endurecimiento para Mattermost que hace que la experiencia de usuario sea compensada por el interés en seguridad. Ver <link>documentation</link> para aprender más.",
   "admin.experimental.experimentalEnableHardenedMode.title": "Habilitar Modo de Endurecimiento:",
   "admin.experimental.experimentalFeatures": "Características Experimentales",
   "admin.experimental.experimentalPrimaryTeam.desc": "El equipo principal del cual los usuarios del servidor son miembros. Cuando se establece un equipo principal, las opciones de unirse a otros equipos o de abandonar el equipo principal están deshabilitadas.",

@@ -836,7 +836,7 @@
   "admin.experimental.experimentalEnableAutomaticReplies.title": "Разреши автоматичните отговори:",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.desc": "Тази настройка определя дали системните съобщения за напускане/присъединяване в екипа се публикуват в канала по подразбиране town-square.",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.title": "Разреши системните съобщения за напускане/присъединяване в канала по подразбиране:",
-  "admin.experimental.experimentalEnableHardenedMode.desc": "Активира втвърден режим за Mattermost, който прави компромиси с удобствата за потребителя в интерес на сигурността. Вижте [документация](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental), за да научите повече.",
+  "admin.experimental.experimentalEnableHardenedMode.desc": "Активира втвърден режим за Mattermost, който прави компромиси с удобствата за потребителя в интерес на сигурността. Вижте <link>документация</link>, за да научите повече.",
   "admin.experimental.experimentalEnableHardenedMode.title": "Активиране на втвърден режим:",
   "admin.experimental.experimentalFeatures": "Експериментални функции",
   "admin.experimental.experimentalPrimaryTeam.desc": "Основният екип, на който потребителите на сървъра се членове. Когато е зададен основен отбор, опциите за присъединяване към други отбори или напускане на основния отбор са деактивирани.",

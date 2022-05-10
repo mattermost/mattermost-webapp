@@ -757,7 +757,7 @@
   "admin.experimental.experimentalEnableAutomaticReplies.title": "자동 회신 :",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.desc": "이 설정은 팀 탈퇴/가입 시스템 메시지가 기본 타운스퀘어 채널에 게시되는지 여부를 결정합니다.",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.title": "기본 채널 탈퇴/가입 시스템 메시지 :",
-  "admin.experimental.experimentalEnableHardenedMode.desc": "사용자 경험을 트레이드오프로 하여 보안을 강화하는 강화 모드를 활성화합니다. 더 자세한 내용은 [문서](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental)를 참고하세요.",
+  "admin.experimental.experimentalEnableHardenedMode.desc": "사용자 경험을 트레이드오프로 하여 보안을 강화하는 강화 모드를 활성화합니다. 더 자세한 내용은 <link>문서</link>를 참고하세요.",
   "admin.experimental.experimentalEnableHardenedMode.title": "강화 모드 :",
   "admin.experimental.experimentalFeatures": "실험적인 기능들",
   "admin.experimental.experimentalPrimaryTeam.desc": "이 서버에 구성원으로 있는 사용자들의 기본 팀입니다. 기본 팀이 설정되면 다른 팀에 참여하거나 이 기본 팀을 떠날 수 없게 됩니다.",

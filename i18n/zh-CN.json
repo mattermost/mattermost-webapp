@@ -849,7 +849,7 @@
   "admin.experimental.experimentalEnableAutomaticReplies.title": "开启自动回复：",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.desc": "此设定决定团队离开/加入系统消息发布到默认的广场频道。",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.title": "开启默认频道离开/加入系统消息：",
-  "admin.experimental.experimentalEnableHardenedMode.desc": "开启 Mattermost 强化模式以用户体验做为代价强化安全。参见[文档](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental)了解更多。",
+  "admin.experimental.experimentalEnableHardenedMode.desc": "开启 Mattermost 强化模式以用户体验做为代价强化安全。参见<link>文档</link>了解更多。",
   "admin.experimental.experimentalEnableHardenedMode.title": "开启强化模式：",
   "admin.experimental.experimentalFeatures": "实验性功能",
   "admin.experimental.experimentalPrimaryTeam.desc": "用户在此服务器上的主要团队。当设置主要团队后，加入其他团队或退出主要团队选项将停用。",

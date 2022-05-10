@@ -855,7 +855,7 @@
   "admin.experimental.experimentalEnableAutomaticReplies.title": "Включить автоматические ответы:",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.desc": "Этот параметр определяет, будут ли системные сообщения \"покинул / присоединился к команде\" публиковаться в основном канале команды.",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.title": "Включение системных сообщений \"покинул/присоединился\" в канале по умолчанию:",
-  "admin.experimental.experimentalEnableHardenedMode.desc": "Включает усиленный режим для Mattermost, который жертвует удобством для пользователей в интересах безопасности. См. [Документация](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental), чтобы узнать больше.",
+  "admin.experimental.experimentalEnableHardenedMode.desc": "Включает усиленный режим для Mattermost, который жертвует удобством для пользователей в интересах безопасности. См. <link>Документация</link>, чтобы узнать больше.",
   "admin.experimental.experimentalEnableHardenedMode.title": "Включить усиленный режим:",
   "admin.experimental.experimentalFeatures": "Экспериментальные функции",
   "admin.experimental.experimentalPrimaryTeam.desc": "Основная команда, членами которой являются пользователи на сервере. Когда установлена основная команда, возможности присоединения к другим командам или выхода из основной команды отключены.",

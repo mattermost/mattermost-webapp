@@ -6013,8 +6013,20 @@ const AdminDefinition = {
                         label: t('admin.experimental.experimentalEnableHardenedMode.title'),
                         label_default: 'Enable Hardened Mode:',
                         help_text: t('admin.experimental.experimentalEnableHardenedMode.desc'),
-                        help_text_default: 'Enables a hardened mode for Mattermost that makes user experience trade-offs in the interest of security. See [documentation](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental) to learn more.',
-                        help_text_markdown: true,
+                        help_text_default: 'Enables a hardened mode for Mattermost that makes user experience trade-offs in the interest of security. See <link>documentation</link> to learn more.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {

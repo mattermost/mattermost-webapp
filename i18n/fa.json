@@ -808,7 +808,7 @@
   "admin.experimental.experimentalEnableAutomaticReplies.title": "فعال کردن پاسخ های خودکار:",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.desc": "این تنظیم تعیین می‌کند که آیا پیام‌های سیستم خروج/پیوستن تیم در کانال پیش‌فرض میدان شهر پست می‌شود یا خیر.",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.title": "فعال کردن پیام های سیستم خروج/پیوستن به کانال پیش فرض:",
-  "admin.experimental.experimentalEnableHardenedMode.desc": "یک حالت سخت‌شده را برای Mattermost فعال می‌کند که باعث می‌شود تجربه کاربر به نفع امنیت مبادله شود. برای کسب اطلاعات بیشتر به [Documentation](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental) مراجعه کنید.",
+  "admin.experimental.experimentalEnableHardenedMode.desc": "یک حالت سخت‌شده را برای Mattermost فعال می‌کند که باعث می‌شود تجربه کاربر به نفع امنیت مبادله شود. برای کسب اطلاعات بیشتر به <link>Documentation</link> مراجعه کنید.",
   "admin.experimental.experimentalEnableHardenedMode.title": "حالت سخت شده را فعال کنید:",
   "admin.experimental.experimentalFeatures": "ویژگی های تجربی",
   "admin.experimental.experimentalPrimaryTeam.desc": "تیم اصلی که کاربران روی سرور اعضای آن هستند. وقتی یک تیم اصلی تنظیم می‌شود، گزینه‌های پیوستن به تیم‌های دیگر یا ترک تیم اصلی غیرفعال می‌شوند.",

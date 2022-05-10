@@ -855,7 +855,7 @@
   "admin.experimental.experimentalEnableAutomaticReplies.title": "Automatische antwoorden inschakelen:",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.desc": "Deze instelling bepaalt of team verlaten/binnengekomen systeemberichten worden gepost in het standaard dorpspleinkanaal.",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.title": "Standaard Verlaten/binnengekomen systeemberichten Inschakelen:",
-  "admin.experimental.experimentalEnableHardenedMode.desc": "Hiermee schakelt je een geharde modus voor Mattermost in, waardoor de gebruikerervaring verandert in het belang van de beveiliging.  Bekijk de [documentatie](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental) om meer te leren.",
+  "admin.experimental.experimentalEnableHardenedMode.desc": "Hiermee schakelt je een geharde modus voor Mattermost in, waardoor de gebruikerervaring verandert in het belang van de beveiliging.  Bekijk de <link>documentatie</link> om meer te leren.",
   "admin.experimental.experimentalEnableHardenedMode.title": "Geharde Modus Inschakelen:",
   "admin.experimental.experimentalFeatures": "Experimentele Opties",
   "admin.experimental.experimentalPrimaryTeam.desc": "Het basisteam waarvan gebruikers op de server lid zijn. Als een basisteam is ingesteld, zijn de opties voor het samenvoegen van andere teams of het verlaten van het basisteam uitgeschakeld.",

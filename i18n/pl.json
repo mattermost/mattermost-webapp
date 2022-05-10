@@ -855,7 +855,7 @@
   "admin.experimental.experimentalEnableAutomaticReplies.title": "Włącz automatyczne odpowiedzi:",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.desc": "To ustawienie określa, czy komunikaty systemu opuść/dołącz są publikowane w domyślnym kanale town-square.",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.title": "Włącz domyślne wiadomości systemowe dołączył/opuścił kanał:",
-  "admin.experimental.experimentalEnableHardenedMode.desc": "Włącza wzmocniony tryb dla Mattermost, który sprawia, że użytkownik korzysta z kompromisów w interesie bezpieczeństwa. Zobacz [dokumentację](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental), aby dowiedzieć się więcej.",
+  "admin.experimental.experimentalEnableHardenedMode.desc": "Włącza wzmocniony tryb dla Mattermost, który sprawia, że użytkownik korzysta z kompromisów w interesie bezpieczeństwa. Zobacz <link>dokumentację</link>, aby dowiedzieć się więcej.",
   "admin.experimental.experimentalEnableHardenedMode.title": "Włącz tryb Hardened:",
   "admin.experimental.experimentalFeatures": "Funkcje eksperymentalne",
   "admin.experimental.experimentalPrimaryTeam.desc": "Podstawowy zespół, którego członkami są użytkownicy na serwerze. Po ustawieniu drużyny podstawowej opcje dołączenia do innych drużyn lub opuszczenia drużyny podstawowej są wyłączone.",

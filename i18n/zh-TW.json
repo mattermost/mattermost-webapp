@@ -592,7 +592,7 @@
   "admin.experimental.experimentalEnableAutomaticReplies.title": "啟用自動回覆：",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.desc": "此設定決定是否將團隊離開/加入的系統訊息發布至預設的公眾大廳頻道。",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.title": "啟用預設頻道離開/加入系統訊息：",
-  "admin.experimental.experimentalEnableHardenedMode.desc": "啟用 Mattermost 強化模式，該模式將弱化使用者體驗以強化安全性。詳情請參閱[文件](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental)。",
+  "admin.experimental.experimentalEnableHardenedMode.desc": "啟用 Mattermost 強化模式，該模式將弱化使用者體驗以強化安全性。詳情請參閱<link>文件</link>。",
   "admin.experimental.experimentalEnableHardenedMode.title": "啟用強化模式：",
   "admin.experimental.experimentalFeatures": "實驗性功能",
   "admin.experimental.experimentalPrimaryTeam.desc": "使用者在此伺服器上為成員的主團隊。當有設定主團隊時，加入其他團隊或離開主團隊的選項將被停用。",

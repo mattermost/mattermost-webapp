@@ -855,7 +855,7 @@
   "admin.experimental.experimentalEnableAutomaticReplies.title": "自動返信を有効にする:",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.desc": "この設定はチーム参加/脱退メッセージをタウンスクエアに投稿するかどうかを決定します。",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.title": "デフォルトチャンネルへの参加/脱退メッセージを有効にする:",
-  "admin.experimental.experimentalEnableHardenedMode.desc": "セキュリティの観点でユーザーエクスペリエンスとのトレードオフを作成する、Mattermost保護モードを有効にします。詳しくは、[説明文書](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental) を参照してください。",
+  "admin.experimental.experimentalEnableHardenedMode.desc": "セキュリティの観点でユーザーエクスペリエンスとのトレードオフを作成する、Mattermost保護モードを有効にします。詳しくは、<link>説明文書</link> を参照してください。",
   "admin.experimental.experimentalEnableHardenedMode.title": "保護モードを有効にする:",
   "admin.experimental.experimentalFeatures": "実験的機能",
   "admin.experimental.experimentalPrimaryTeam.desc": "サーバー上のユーザがメンバーとなるプライマリチーム。プライマリチームが設定されると、他のチームへの参加やプライマリチームの脱退オプションは無効になります。",

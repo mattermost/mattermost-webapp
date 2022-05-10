@@ -701,7 +701,7 @@
   "admin.experimental.experimentalEnableAutomaticReplies.title": "Ativa Respostas Automáticas:",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.desc": "Esta configuração determina se as mensagens do sistema de deixar/ingressar da equipe são publicadas no canal padrão town-square.",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.title": "Ativar Mensagens Padrão de Deixar/Juntar ao Canal:",
-  "admin.experimental.experimentalEnableHardenedMode.desc": "Habilita um modo endurecido para Mattermost que faz trocas de experiência do usuário no interesse da segurança. Veja a [documentação](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental) para saber mais.",
+  "admin.experimental.experimentalEnableHardenedMode.desc": "Habilita um modo endurecido para Mattermost que faz trocas de experiência do usuário no interesse da segurança. Veja a <link>documentação</link> para saber mais.",
   "admin.experimental.experimentalEnableHardenedMode.title": "Ativa Mode de Endurecimento:",
   "admin.experimental.experimentalFeatures": "Recursos Experimentais",
   "admin.experimental.experimentalPrimaryTeam.desc": "A equipe principal da qual os usuários no servidor são membros. Quando uma equipe principal é definida, as opções para ingressar em outras equipes ou deixar a equipe principal são desativadas.",

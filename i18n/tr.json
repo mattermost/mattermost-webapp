@@ -855,7 +855,7 @@
   "admin.experimental.experimentalEnableAutomaticReplies.title": "Otomatik yanıtlar kullanılabilsin:",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.desc": "Bu seçenek etkinleştirildiğinde, varsayılan meydan (town-square) kanalına takıma katılma ve ayrılma sistem iletileri gönderilir.",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.title": "Varsayılan kanala katılma ve ayrılma sistem iletileri gönderilsin:",
-  "admin.experimental.experimentalEnableHardenedMode.desc": "Bu seçenek etkinleştirildiğinde, Mattermost üzerinde, güvenliğinin arttırılması karşılığında kullanıcı deneyiminden ödün veren sıkılaştırılmış kip kullanılır. Ayrıntılı bilgi almak için [belgeler](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental) bölümüne bakabilirsiniz.",
+  "admin.experimental.experimentalEnableHardenedMode.desc": "Bu seçenek etkinleştirildiğinde, Mattermost üzerinde, güvenliğinin arttırılması karşılığında kullanıcı deneyiminden ödün veren sıkılaştırılmış kip kullanılır. Ayrıntılı bilgi almak için <link>belgeler</link> bölümüne bakabilirsiniz.",
   "admin.experimental.experimentalEnableHardenedMode.title": "Sıkılaştırılmış kip kullanılsın:",
   "admin.experimental.experimentalFeatures": "Deneysel özellikler",
   "admin.experimental.experimentalPrimaryTeam.desc": "Sunucudaki kullanıcıların üyesi olduğu birincil takım. Bir birincil takım belirlendiğinde, diğer takımlara katılma ya da birincil takımdan ayrılma seçenekleri devre dışı bırakılır.",

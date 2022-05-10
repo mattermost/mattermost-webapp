@@ -777,7 +777,7 @@
   "admin.experimental.experimentalEnableAutomaticReplies.title": "Activați răspunsurile automate:",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.desc": "Această setare determină dacă mesajele de sistem de plecare/intrare ale echipei sunt postate în canalul implicit al orașului pătrat.",
   "admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.title": "Activați mesajele implicite de ieșire/intrare a canalului implicit:",
-  "admin.experimental.experimentalEnableHardenedMode.desc": "Activează un mod întărit pentru Mattermost care face utilizatorilor compromisuri în interesul securității. Consultați [documentație](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental) pentru a afla mai multe.",
+  "admin.experimental.experimentalEnableHardenedMode.desc": "Activează un mod întărit pentru Mattermost care face utilizatorilor compromisuri în interesul securității. Consultați <link>documentație</link> pentru a afla mai multe.",
   "admin.experimental.experimentalEnableHardenedMode.title": "Activați Modul de Securitate ridicata:",
   "admin.experimental.experimentalFeatures": "Caracteristici experimentale",
   "admin.experimental.experimentalPrimaryTeam.desc": "Echipa principală din care fac parte utilizatorii de pe server. Când este stabilită o echipă primară, opțiunile de a se alătura altor echipe sau de a părăsi echipa primară sunt dezactivate.",
