@@ -13,6 +13,8 @@ import thunk from 'redux-thunk';
 
 import {act} from 'react-dom/test-utils';
 
+import * as cloudActions from 'actions/cloud';
+
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
@@ -34,7 +36,7 @@ jest.mock('mattermost-redux/actions/general', () => ({
     getLicenseConfig: () => ({type: 'adsf'}),
 }));
 
-describe('components/learn_more_trial_modal/start_trial_btn', () => {
+describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
     const state = {
         entities: {
             admin: {},
@@ -80,8 +82,11 @@ describe('components/learn_more_trial_modal/start_trial_btn', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should handle on click', async () => {
+    test('should handle on click and change button text on SUCCESSFUL trial request', async () => {
         const mockOnClick = jest.fn();
+        type RequestTrialFnType = (page: string) => () => Promise<boolean>;
+        const requestTrialFn = (() => () => true) as unknown as RequestTrialFnType;
+        jest.spyOn(cloudActions, 'requestCloudTrial').mockImplementation(requestTrialFn);
 
         let wrapper: ReactWrapper<any>;
 
@@ -98,11 +103,53 @@ describe('components/learn_more_trial_modal/start_trial_btn', () => {
         });
 
         await act(async () => {
+            expect(wrapper.find('.CloudStartTrialBtn').text().includes('Cloud Start trial')).toBe(true);
+        });
+
+        await act(async () => {
             wrapper.find('.CloudStartTrialBtn').simulate('click');
+        });
+
+        await act(async () => {
+            expect(wrapper.find('.CloudStartTrialBtn').text().includes('Loaded!')).toBe(true);
         });
 
         expect(mockOnClick).toHaveBeenCalled();
 
         expect(trackEvent).toHaveBeenCalledWith(TELEMETRY_CATEGORIES.CLOUD_START_TRIAL_MODAL, 'test_telemetry_id');
+    });
+
+    test('should handle on click and change button text on FAILED trial request', async () => {
+        const mockOnClick = jest.fn();
+        type RequestTrialFnType = (page: string) => () => Promise<boolean>;
+        const requestTrialFn = (() => () => false) as unknown as RequestTrialFnType;
+        jest.spyOn(cloudActions, 'requestCloudTrial').mockImplementation(requestTrialFn);
+
+        let wrapper: ReactWrapper<any>;
+
+        // Mount the component
+        await act(async () => {
+            wrapper = mountWithIntl(
+                <Provider store={store}>
+                    <CloudStartTrialBtn
+                        {...props}
+                        onClick={mockOnClick}
+                    />
+                </Provider>,
+            );
+        });
+
+        await act(async () => {
+            expect(wrapper.find('.CloudStartTrialBtn').text().includes('Cloud Start trial')).toBe(true);
+        });
+
+        await act(async () => {
+            wrapper.find('.CloudStartTrialBtn').simulate('click');
+        });
+
+        await act(async () => {
+            console.log(wrapper.find('.CloudStartTrialBtn').text());
+            expect(wrapper.find('.CloudStartTrialBtn').text().includes('Failed')).toBe(true);
+        });
     });
 });
