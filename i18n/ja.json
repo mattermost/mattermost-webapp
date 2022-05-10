@@ -733,7 +733,7 @@
   "admin.email.mtpns": "iOSとAndroidアプリに通知を送信するには、TPNS接続を使用してください",
   "admin.email.mtpnsHelp": "iTunesから <linkIOS>Mattermost iOS app</linkIOS> をダウンロードする。 Google Playから <linkAndroid>Mattermost Android app</linkAndroid> をダウンロードする。 <linkHPNS>TPNS</linkHPNS>について詳しく知る。",
   "admin.email.pushOff": "プッシュ通知を送らない",
-  "admin.email.pushOffHelp": "セットアップオプションについて詳しくは [プッシュ通知の説明文書](!https://docs.mattermost.com/deploy/mobile-hpns.html) を参照してください。",
+  "admin.email.pushOffHelp": "セットアップオプションについて詳しくは <link>プッシュ通知の説明文書</link> を参照してください。",
   "admin.email.pushServerEx": "例: \"https://push-test.mattermost.com\"",
   "admin.email.pushServerTitle": "プッシュ通知サーバー:",
   "admin.email.pushTitle": "プッシュ通知を有効にする: ",

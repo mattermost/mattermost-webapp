@@ -733,7 +733,7 @@
   "admin.email.mtpns": "TPNS-verbinding gebruiken voor het verzenden van meldingen naar iOS-en Android-apps",
   "admin.email.mtpnsHelp": "Download <linkIOS>Mattermost iOS-app</linkIOS>  van iTunes. Download <linkAndroid>Mattermost Android app</linkAndroid>  van Google Play. Meer informatie over <linkHPNS>TPNS</linkHPNS>.",
   "admin.email.pushOff": "Verstuur geen meldings-notificaties",
-  "admin.email.pushOffHelp": "Zie [documentatie over push-berichten] (!https://docs.mattermost.com/deploy/mobile-hpns.html) om meer te weten te komen over installatieopties.",
+  "admin.email.pushOffHelp": "Zie <link>documentatie over push-berichten</link>  om meer te weten te komen over installatieopties.",
   "admin.email.pushServerEx": "Bijv.: \"http://push-test.mattermost.com\"",
   "admin.email.pushServerTitle": "Push meldingen-server:",
   "admin.email.pushTitle": "Inschakelen Push Meldingen: ",

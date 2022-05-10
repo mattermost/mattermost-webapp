@@ -355,7 +355,7 @@
   "admin.email.mtpns": "Використовуйте TPNS-з'єднання для надсилання сповіщень до програм iOS та Android",
   "admin.email.mtpnsHelp": "Завантажте <linkIOS>Mattermost додаток для iOS</linkIOS>  з iTunes. Завантажте <linkAndroid>Mattermost додаток для Android</linkAndroid>  з Google Play. Дізнайтеся більше про <linkHPNS>TPNS</linkHPNS> .",
   "admin.email.pushOff": "Не відправляти push-повідомлення",
-  "admin.email.pushOffHelp": "Будь ласка, перегляньте [документацію на push-сповіщення] (!https://docs.mattermost.com/deploy/mobile-hpns.html), щоб дізнатись більше про параметри налаштування.",
+  "admin.email.pushOffHelp": "Будь ласка, перегляньте <link>документацію на push-сповіщення</link> , щоб дізнатись більше про параметри налаштування.",
   "admin.email.pushServerEx": "Наприклад: \"http://push-test.mattermost.com\" ",
   "admin.email.pushServerTitle": "Сервер push повідомлення:",
   "admin.email.pushTitle": "Ввімкнути push-повідомлення:",

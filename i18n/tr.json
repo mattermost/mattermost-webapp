@@ -733,7 +733,7 @@
   "admin.email.mtpns": "iOS ve Android uygulamalarına bildirim göndermek için TPNS bağlantısı kullanılsın",
   "admin.email.mtpnsHelp": "<linkIOS>Mattermost iOS uygulamasını</linkIOS> İTunes üzerinden indirin. <linkAndroid>Mattermost Android uygulamasını</linkAndroid> Google Play üzerinden indirin. <linkHPNS>TPNS</linkHPNS> hakkında ayrıntılı bilgi alın.",
   "admin.email.pushOff": "Anında bildirimler gönderilmesin",
-  "admin.email.pushOffHelp": "Kurulum seçenekleri hakkında ayrıntılı bilgi almak için [anında bildirim belgelerine](!https://docs.mattermost.com/deploy/mobile-hpns.html) bakabilirsiniz.",
+  "admin.email.pushOffHelp": "Kurulum seçenekleri hakkında ayrıntılı bilgi almak için <link>anında bildirim belgelerine</link> bakabilirsiniz.",
   "admin.email.pushServerEx": "Örnek: \"https://push-test.mattermost.com\"",
   "admin.email.pushServerTitle": "Anında bildirim sunucusu:",
   "admin.email.pushTitle": "Anında bildirimler kullanılsın: ",

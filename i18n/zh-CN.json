@@ -733,7 +733,7 @@
   "admin.email.mtpns": "使用 TPNS 连接发送通知到 iOS 和安卓应用",
   "admin.email.mtpnsHelp": "从 iTunes 下载 <linkIOS>Mattermost iOS 应用</linkIOS>。从 Google Play 下载 <linkAndroid>Mattermost 安卓应用</linkAndroid>。了解更多关于<linkHPNS>TPNS</linkHPNS>。",
   "admin.email.pushOff": "不发送推送通知",
-  "admin.email.pushOffHelp": "请参阅[推送通知文档](!https://docs.mattermost.com/deploy/mobile-hpns.html)了解更多关于设置选项。",
+  "admin.email.pushOffHelp": "请参阅<link>推送通知文档</link>了解更多关于设置选项。",
   "admin.email.pushServerEx": "例如：\"http://push-test.mattermost.com\"",
   "admin.email.pushServerTitle": "推送通知服务器：",
   "admin.email.pushTitle": "启动发送推送通知：",

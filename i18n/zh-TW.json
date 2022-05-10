@@ -484,7 +484,7 @@
   "admin.email.mtpns": "使用 TPNS 連線以發送推播通知給 iOS 與 Android 應用程式",
   "admin.email.mtpnsHelp": "自 iTunes 下載 <linkIOS>Mattermost iOS app</linkIOS>。 自 Google Play 下載 <linkAndroid>Mattermost Android app</linkAndroid>。了解更多關於 <linkHPNS>TPNS</linkHPNS>。",
   "admin.email.pushOff": "不要發送推播通知",
-  "admin.email.pushOffHelp": "詳細設置請參閱[推播通知文件](!https://docs.mattermost.com/deploy/mobile-hpns.html)。",
+  "admin.email.pushOffHelp": "詳細設置請參閱<link>推播通知文件</link>。",
   "admin.email.pushServerEx": "例如：\"https://push-test.mattermost.com\"",
   "admin.email.pushServerTitle": "推播通知伺服器：",
   "admin.email.pushTitle": "啟用推播通知：",

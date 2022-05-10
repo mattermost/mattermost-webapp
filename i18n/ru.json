@@ -733,7 +733,7 @@
   "admin.email.mtpns": "Используйте соединение TPNS для отправки уведомлений в приложения iOS и Android",
   "admin.email.mtpnsHelp": "Скачать <linkIOS>Mattermost для iOS</linkIOS> из iTunes. Скачать <linkAndroid>Mattermost для Android</linkAndroid> из Google Play. Узнать подробнее о <linkHPNS>TPNS</linkHPNS>.",
   "admin.email.pushOff": "Не отправлять push-уведомления",
-  "admin.email.pushOffHelp": "Пожалуйста, ознакомьтесь с [документацией по push-уведомлениям](!https://docs.mattermost.com/deploy/mobile-hpns.html), чтобы узнать больше о параметрах настройки.",
+  "admin.email.pushOffHelp": "Пожалуйста, ознакомьтесь с <link>документацией по push-уведомлениям</link>, чтобы узнать больше о параметрах настройки.",
   "admin.email.pushServerEx": "Например: \"https://push-test.mattermost.com\"",
   "admin.email.pushServerTitle": "Сервер push уведомлений:",
   "admin.email.pushTitle": "Включить push-уведомления: ",

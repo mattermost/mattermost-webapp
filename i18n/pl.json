@@ -733,7 +733,7 @@
   "admin.email.mtpns": "Użyj połączenia TPNS, aby wysyłać powiadomienia do aplikacji na iOS i Androida",
   "admin.email.mtpnsHelp": "Pobierz <linkIOS>aplikację Mattermost iOS</linkIOS> z iTunes. Pobierz <linkAndroid>aplikację Mattermost Android</linkAndroid> z Google Play. Dowiedz się więcej o <linkHPNS>TPNS</linkHPNS>.",
   "admin.email.pushOff": "Nie wysyłać powiadomień push",
-  "admin.email.pushOffHelp": "Więcej informacji o opcjach instalacji znajdziesz w [dokumentacja powiadomień push](!https://docs.mattermost.com/deploy/mobile-hpns.html).",
+  "admin.email.pushOffHelp": "Więcej informacji o opcjach instalacji znajdziesz w <link>dokumentacja powiadomień push</link>.",
   "admin.email.pushServerEx": "Np. \"http://push-test.mattermost.com\"",
   "admin.email.pushServerTitle": "Serwer powiadomień Push:",
   "admin.email.pushTitle": "Włącz powiadomienia Push: ",
