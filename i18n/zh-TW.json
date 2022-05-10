@@ -1205,7 +1205,7 @@
   "admin.permissions.systemScheme.allMembersTitle": "全體成員",
   "admin.permissions.systemScheme.channelAdminsDescription": "授予頻道建立者以及頻道管理員的權限。",
   "admin.permissions.systemScheme.channelAdminsTitle": "頻道管理員",
-  "admin.permissions.systemScheme.introBanner": "設定團隊、頻道管理員以及其他人的預設權限。此配置將被所有團隊繼承，除非個別團隊有[團隊覆蓋配置](!https://docs.mattermost.com/onboard/advanced-permissions.html)。",
+  "admin.permissions.systemScheme.introBanner": "設定團隊、頻道管理員以及其他人的預設權限。此配置將被所有團隊繼承，除非個別團隊有<link>團隊覆蓋配置</link>。",
   "admin.permissions.systemScheme.resetDefaultsButton": "重置為預設值",
   "admin.permissions.systemScheme.resetDefaultsButtonModalBody": "在此頁所有被選取的將被重置回預設值。請確認要重置。",
   "admin.permissions.systemScheme.resetDefaultsButtonModalTitle": "重置為預設值？",

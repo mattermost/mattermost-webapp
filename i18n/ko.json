@@ -1350,7 +1350,7 @@
   "admin.permissions.systemScheme.allMembersTitle": "모든 멤버",
   "admin.permissions.systemScheme.channelAdminsDescription": "채널 생성자와 채널 관리자로 승격된 사용자에게 부여된 권한.",
   "admin.permissions.systemScheme.channelAdminsTitle": "채널 관리자",
-  "admin.permissions.systemScheme.introBanner": "팀 관리자, 채널 관리자와 그 외 구성원들의 기본 권한을 설정하세요. 이 스킴은 [팀 오버라이드 스킴](!https://docs.mattermost.com/onboard/advanced-permissions.html)이 특정 팀에 적용되지 않는 한은 모든 팀에 상속됩니다.",
+  "admin.permissions.systemScheme.introBanner": "팀 관리자, 채널 관리자와 그 외 구성원들의 기본 권한을 설정하세요. 이 스킴은 <link>팀 오버라이드 스킴</link>이 특정 팀에 적용되지 않는 한은 모든 팀에 상속됩니다.",
   "admin.permissions.systemScheme.resetDefaultsButton": "기본값으로 초기화",
   "admin.permissions.systemScheme.resetDefaultsButtonModalTitle": "기본값으로 초기화하시겠습니까?",
   "admin.permissions.systemScheme.resetDefaultsConfirmationButton": "네, 리셋합니다",

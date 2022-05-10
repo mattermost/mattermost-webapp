@@ -1680,7 +1680,7 @@
   "admin.permissions.systemScheme.allMembersTitle": "Tous les membres",
   "admin.permissions.systemScheme.channelAdminsDescription": "Permissions accordées aux créateurs de canaux et à tous les utilisateurs promus au rôle d'administrateur de canal.",
   "admin.permissions.systemScheme.channelAdminsTitle": "Administrateurs de canal",
-  "admin.permissions.systemScheme.introBanner": "Configure les permissions par défaut des administrateurs d'équipe, des administrateurs de canal et des autres membres. Ce schéma de permissions est hérité par toutes les équipes à moins qu'un [schéma de permissions personnalisé](!https://docs.mattermost.com/onboard/advanced-permissions.html) ne soit appliqué à des équipes spécifiques.",
+  "admin.permissions.systemScheme.introBanner": "Configure les permissions par défaut des administrateurs d'équipe, des administrateurs de canal et des autres membres. Ce schéma de permissions est hérité par toutes les équipes à moins qu'un <link>schéma de permissions personnalisé</link> ne soit appliqué à des équipes spécifiques.",
   "admin.permissions.systemScheme.playbookAdmin": "Administrateur du playbook",
   "admin.permissions.systemScheme.playbookAdminSubtitle": "Permissions accordées aux administrateurs d'un playbook.",
   "admin.permissions.systemScheme.resetDefaultsButton": "Réinitialiser aux paramètres par défaut",

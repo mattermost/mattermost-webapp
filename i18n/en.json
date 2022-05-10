@@ -1706,7 +1706,7 @@
   "admin.permissions.systemScheme.channelAdminsTitle": "Channel Administrators",
   "admin.permissions.systemScheme.GuestsDescription": "Permissions granted to guest users.",
   "admin.permissions.systemScheme.GuestsTitle": "Guests",
-  "admin.permissions.systemScheme.introBanner": "Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a [Team Override Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html) is applied in specific teams.",
+  "admin.permissions.systemScheme.introBanner": "Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a <link>Team Override Scheme</link> is applied in specific teams.",
   "admin.permissions.systemScheme.playbookAdmin": "Playbook Administrator",
   "admin.permissions.systemScheme.playbookAdminSubtitle": "Permissions granted to administrators of a playbook.",
   "admin.permissions.systemScheme.resetDefaultsButton": "Reset to Defaults",

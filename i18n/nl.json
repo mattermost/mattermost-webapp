@@ -1687,7 +1687,7 @@
   "admin.permissions.systemScheme.allMembersTitle": "Alle leden",
   "admin.permissions.systemScheme.channelAdminsDescription": "Machtigingen die worden verleend aan kanaalmakers en gebruikers die zijn gepromoveerd naar Kanaalbeheerder.",
   "admin.permissions.systemScheme.channelAdminsTitle": "Kanaalbeheerders",
-  "admin.permissions.systemScheme.introBanner": "Configureer de standaardmachtigingen voor teambeheerders, kanaalbeheerders en andere leden. Deze regeling wordt door alle teams overgenomen, tenzij een [teamtoestemmingsschema] (!https://docs.mattermost.com/onboard/advanced-permissions.html) wordt toegepast in specifieke teams.",
+  "admin.permissions.systemScheme.introBanner": "Configureer de standaardmachtigingen voor teambeheerders, kanaalbeheerders en andere leden. Deze regeling wordt door alle teams overgenomen, tenzij een <link>teamtoestemmingsschema</link>  wordt toegepast in specifieke teams.",
   "admin.permissions.systemScheme.playbookAdmin": "Playbook beheerder",
   "admin.permissions.systemScheme.playbookAdminSubtitle": "Rechten toegekend aan beheerders van een playbook.",
   "admin.permissions.systemScheme.resetDefaultsButton": "Standaardwaarden opnieuw instellen",

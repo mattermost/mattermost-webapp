@@ -1687,7 +1687,7 @@
   "admin.permissions.systemScheme.allMembersTitle": "Minden tag",
   "admin.permissions.systemScheme.channelAdminsDescription": "A csatorna létrehozójának és a csatorna rendszergazdájává előléptetett felhasználóknak adott engedélyek.",
   "admin.permissions.systemScheme.channelAdminsTitle": "Csatorna adminisztrátorok",
-  "admin.permissions.systemScheme.introBanner": "Állítsa be az alapértelmezett engedélyeket a Csapat adminisztrátorok, Csatorna adminisztrátorok és más tagok számára. Ezt a sémát minden csapat örökli, hacsak nem alkalmaznak [csapat felülbírálási sémát](!https://docs.mattermost.com/onboard/advanced-permissions.html) bizonyos csapatokban.",
+  "admin.permissions.systemScheme.introBanner": "Állítsa be az alapértelmezett engedélyeket a Csapat adminisztrátorok, Csatorna adminisztrátorok és más tagok számára. Ezt a sémát minden csapat örökli, hacsak nem alkalmaznak <link>csapat felülbírálási sémát</link> bizonyos csapatokban.",
   "admin.permissions.systemScheme.playbookAdmin": "Forgatókönyv Adminisztrátor",
   "admin.permissions.systemScheme.playbookAdminSubtitle": "A forgatókönyv rendszergazdáinak megadott engedélyek.",
   "admin.permissions.systemScheme.resetDefaultsButton": "Visszaállítás alapértelmezettbe",

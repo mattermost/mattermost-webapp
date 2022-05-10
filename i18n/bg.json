@@ -1646,7 +1646,7 @@
   "admin.permissions.systemScheme.allMembersTitle": "Всички членове",
   "admin.permissions.systemScheme.channelAdminsDescription": "Права, давани на създателите на канала и всички потребители, повишени в администратор на канала.",
   "admin.permissions.systemScheme.channelAdminsTitle": "Администратори на канал",
-  "admin.permissions.systemScheme.introBanner": "Конфигурирайте разрешенията по подразбиране за администратори на екип, администратори на канали и други членове. Тази схема се наследява от всички екипи, освен ако [припокриваща схема за екип](!https://docs.mattermost.com/onboard/advanced-permissions.html) не се прилага в конкретни екипи.",
+  "admin.permissions.systemScheme.introBanner": "Конфигурирайте разрешенията по подразбиране за администратори на екип, администратори на канали и други членове. Тази схема се наследява от всички екипи, освен ако <link>припокриваща схема за екип</link> не се прилага в конкретни екипи.",
   "admin.permissions.systemScheme.playbookAdmin": "Администратор на книга за изпълнение",
   "admin.permissions.systemScheme.playbookAdminSubtitle": "Разрешенията са дадени на администраторите на книгата за изпълнение.",
   "admin.permissions.systemScheme.resetDefaultsButton": "Нулиране до подразбиращи",

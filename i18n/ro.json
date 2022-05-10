@@ -1533,7 +1533,7 @@
   "admin.permissions.systemScheme.allMembersTitle": "Toti membrii",
   "admin.permissions.systemScheme.channelAdminsDescription": "Permisiuni acordate creatorilor de canale și oricărui utilizator promovat la Administratorul canalului.",
   "admin.permissions.systemScheme.channelAdminsTitle": "Administratorii de canale",
-  "admin.permissions.systemScheme.introBanner": "Configurați permisiunile implicite pentru administratorii echipei, administratorii de canale și alți membri. Această schemă este moștenită de către toate echipele, cu excepția cazului în care este aplicată o echipă specifică [Team Override Scheme] (! Https: //about.mattermost.com/default-team-override-scheme).",
+  "admin.permissions.systemScheme.introBanner": "Configurați permisiunile implicite pentru administratorii echipei, administratorii de canale și alți membri. Această schemă este moștenită de către toate echipele, cu excepția cazului în care este aplicată o echipă specifică <link>Team Override Scheme</link> .",
   "admin.permissions.systemScheme.resetDefaultsButton": "Resetare la valorile prestabilite",
   "admin.permissions.systemScheme.resetDefaultsButtonModalBody": "Aceasta va reseta toate selecțiile din această pagină la setările lor implicite. Sigur doriți să resetați?",
   "admin.permissions.systemScheme.resetDefaultsButtonModalTitle": "Resetare la valorile implicite?",

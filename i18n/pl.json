@@ -1687,7 +1687,7 @@
   "admin.permissions.systemScheme.allMembersTitle": "Wszyscy Członkowie",
   "admin.permissions.systemScheme.channelAdminsDescription": "Uprawnienia przyznane twórcom kanału i wszystkim użytkownikom promowanym do Administratora Kanału.",
   "admin.permissions.systemScheme.channelAdminsTitle": "Administratorzy Kanału",
-  "admin.permissions.systemScheme.introBanner": "Skonfiguruj domyślne uprawnienia dla Administratorów Zespołu, Administratorów Kanału i innych członków. Ten system jest dziedziczony przez wszystkie zespoły, chyba że w określonych zespołach zastosowany zostanie [Nadpisanie Schematu Zespołu](!https://docs.mattermost.com/onboard/advanced-permissions.html).",
+  "admin.permissions.systemScheme.introBanner": "Skonfiguruj domyślne uprawnienia dla Administratorów Zespołu, Administratorów Kanału i innych członków. Ten system jest dziedziczony przez wszystkie zespoły, chyba że w określonych zespołach zastosowany zostanie <link>Nadpisanie Schematu Zespołu</link>.",
   "admin.permissions.systemScheme.playbookAdmin": "Administrator Playbooka",
   "admin.permissions.systemScheme.playbookAdminSubtitle": "Uprawnienia nadane administratorom playbooka.",
   "admin.permissions.systemScheme.resetDefaultsButton": "Przywróć Domyślne",

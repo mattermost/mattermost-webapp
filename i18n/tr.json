@@ -1687,7 +1687,7 @@
   "admin.permissions.systemScheme.allMembersTitle": "Tüm üyeler",
   "admin.permissions.systemScheme.channelAdminsDescription": "Kanal oluşturucularına ve kanal yöneticiliği rolüne yükseltilmiş diğer kullanıcılara verilmiş izinler.",
   "admin.permissions.systemScheme.channelAdminsTitle": "Kanal yöneticileri",
-  "admin.permissions.systemScheme.introBanner": "Takım yöneticileri, kanal yöneticileri ve diğer üyeler için varsayılan izinleri yapılandırın. Bu şema belirli takımlara uygulanan bir [takım değişiklik şeması](!https://docs.mattermost.com/onboard/advanced-permissions.html) olmadıkça tüm takımlar tarafından devir alınır.",
+  "admin.permissions.systemScheme.introBanner": "Takım yöneticileri, kanal yöneticileri ve diğer üyeler için varsayılan izinleri yapılandırın. Bu şema belirli takımlara uygulanan bir <link>takım değişiklik şeması</link> olmadıkça tüm takımlar tarafından devir alınır.",
   "admin.permissions.systemScheme.playbookAdmin": "Oyun kitabı yöneticisi",
   "admin.permissions.systemScheme.playbookAdminSubtitle": "Bir oyun kitabı yöneticisine verilen izinler.",
   "admin.permissions.systemScheme.resetDefaultsButton": "Varsayılan değerlere sıfırla",

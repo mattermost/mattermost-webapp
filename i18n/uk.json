@@ -861,7 +861,7 @@
   "admin.permissions.systemScheme.allMembersTitle": "Всі учасники ",
   "admin.permissions.systemScheme.channelAdminsDescription": "Дозволи, надані творцям каналів та будь-яким користувачам, яких підвищено до адміністратора каналу.",
   "admin.permissions.systemScheme.channelAdminsTitle": "Адміністратори каналу",
-  "admin.permissions.systemScheme.introBanner": "Налаштуйте дозволи за замовчуванням для адміністраторів команд, адміністраторів каналів та інших учасників. Ця схема успадковується всіма командами, якщо в певних команд не застосовується схема [Team Override Scheme] (!https://docs.mattermost.com/onboard/advanced-permissions.html).",
+  "admin.permissions.systemScheme.introBanner": "Налаштуйте дозволи за замовчуванням для адміністраторів команд, адміністраторів каналів та інших учасників. Ця схема успадковується всіма командами, якщо в певних команд не застосовується схема <link>Team Override Scheme</link> .",
   "admin.permissions.systemScheme.resetDefaultsButton": "Відновити значення за замовчуванням",
   "admin.permissions.systemScheme.resetDefaultsButtonModalBody": "Це призведе до скидання всіх вибраних на цій сторінці параметрів за замовчуванням. Ви впевнені, що хочете скинути?",
   "admin.permissions.systemScheme.resetDefaultsButtonModalTitle": "Скинути за замовчуванням?",

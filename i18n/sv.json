@@ -1687,7 +1687,7 @@
   "admin.permissions.systemScheme.allMembersTitle": "Alla medlemmar",
   "admin.permissions.systemScheme.channelAdminsDescription": "Behörighet ges till skapare av kanaler och användare som blivit kanaladministratör.",
   "admin.permissions.systemScheme.channelAdminsTitle": "Kanaladministratörer",
-  "admin.permissions.systemScheme.introBanner": "Konfigurera standardbehörighet för teamadministratörer, kanaladministratörer och andra medlemmar. Det här schemat ärvs av alla grupper om inte ett [Team Override Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html) är valt för vissa grupper.",
+  "admin.permissions.systemScheme.introBanner": "Konfigurera standardbehörighet för teamadministratörer, kanaladministratörer och andra medlemmar. Det här schemat ärvs av alla grupper om inte ett <link>Team Override Scheme</link> är valt för vissa grupper.",
   "admin.permissions.systemScheme.playbookAdmin": "Administratör för Playbook",
   "admin.permissions.systemScheme.playbookAdminSubtitle": "Behörigheter som ges till administratörer av en Playbook.",
   "admin.permissions.systemScheme.resetDefaultsButton": "Återställ till standardinställningar",

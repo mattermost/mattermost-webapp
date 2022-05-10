@@ -1687,7 +1687,7 @@
   "admin.permissions.systemScheme.allMembersTitle": "Все участники",
   "admin.permissions.systemScheme.channelAdminsDescription": "Разрешения, предоставленные создателям канала и любым пользователям, повышенным до Администратора канала.",
   "admin.permissions.systemScheme.channelAdminsTitle": "Администраторы канала",
-  "admin.permissions.systemScheme.introBanner": "Настройте разрешения по умолчанию для администраторов команд, администраторов каналов и других участников. Эта схема наследуется всеми командами, если [Командное переопределение схемы](!https://docs.mattermost.com/onboard/advanced-permissions.html) не применяется в определенных командах.",
+  "admin.permissions.systemScheme.introBanner": "Настройте разрешения по умолчанию для администраторов команд, администраторов каналов и других участников. Эта схема наследуется всеми командами, если <link>Командное переопределение схемы</link> не применяется в определенных командах.",
   "admin.permissions.systemScheme.playbookAdmin": "Администратор Сценария",
   "admin.permissions.systemScheme.playbookAdminSubtitle": "Разрешения, предоставленные администраторам сценария.",
   "admin.permissions.systemScheme.resetDefaultsButton": "Сбросить до значений по умолчанию",

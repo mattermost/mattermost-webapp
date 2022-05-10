@@ -1687,7 +1687,7 @@
   "admin.permissions.systemScheme.allMembersTitle": "Alle Mitglieder",
   "admin.permissions.systemScheme.channelAdminsDescription": "Berechtigung für Kanalersteller und alle Benutzer, die zu Kanaladministratoren heraufgestuft werden.",
   "admin.permissions.systemScheme.channelAdminsTitle": "Kanaladministratoren",
-  "admin.permissions.systemScheme.introBanner": "Konfiguriert die Standard-Berechtigungen für Teamadministratoren, Kanaladministratoren und andere Benutzer. Das Schema wird von allen Team geerbt, außer es wird ein [übergeordnetes Teamschema](!https://docs.mattermost.com/onboard/advanced-permissions.html) auf spezifische Teams angewendet.",
+  "admin.permissions.systemScheme.introBanner": "Konfiguriert die Standard-Berechtigungen für Teamadministratoren, Kanaladministratoren und andere Benutzer. Das Schema wird von allen Team geerbt, außer es wird ein <link>übergeordnetes Teamschema</link> auf spezifische Teams angewendet.",
   "admin.permissions.systemScheme.playbookAdmin": "Playbook Administrator",
   "admin.permissions.systemScheme.playbookAdminSubtitle": "Berechtigungen, die den Administratoren eines Playbook gewährt werden.",
   "admin.permissions.systemScheme.resetDefaultsButton": "Auf Voreinstellungen zurücksetzen",

@@ -1687,7 +1687,7 @@
   "admin.permissions.systemScheme.allMembersTitle": "すべてのメンバー",
   "admin.permissions.systemScheme.channelAdminsDescription": "チャンネル作成者やチャンネル管理者となったユーザーに付与される権限。",
   "admin.permissions.systemScheme.channelAdminsTitle": "チャンネル管理者",
-  "admin.permissions.systemScheme.introBanner": "チーム管理者、チャンネル管理者とその他のメンバーのデフォルトの権限を設定します。このスキームは[チーム上書きスキーム](!https://docs.mattermost.com/onboard/advanced-permissions.html)が適用されない限り、全チームに継承されます。",
+  "admin.permissions.systemScheme.introBanner": "チーム管理者、チャンネル管理者とその他のメンバーのデフォルトの権限を設定します。このスキームは<link>チーム上書きスキーム</link>が適用されない限り、全チームに継承されます。",
   "admin.permissions.systemScheme.playbookAdmin": "プレイブック管理者",
   "admin.permissions.systemScheme.playbookAdminSubtitle": "プレイブック管理者に付与される権限。",
   "admin.permissions.systemScheme.resetDefaultsButton": "デフォルト設定に戻す",

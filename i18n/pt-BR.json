@@ -1450,7 +1450,7 @@
   "admin.permissions.systemScheme.allMembersTitle": "Todos os Membros",
   "admin.permissions.systemScheme.channelAdminsDescription": "Permissões concedidas a criadores de canais e quaisquer usuários promovidos a Administrador de Canal.",
   "admin.permissions.systemScheme.channelAdminsTitle": "Administradores de Canal",
-  "admin.permissions.systemScheme.introBanner": "Configure as permissões padrão para Administradores de Equipe, Administradores de Canais e outros membros. Este esquema é herdado por todas as equipes, a menos que um [Esquema de Substituição de Equipe](!https://docs.mattermost.com/onboard/advanced-permissions.html) seja aplicado em equipes específicas.",
+  "admin.permissions.systemScheme.introBanner": "Configure as permissões padrão para Administradores de Equipe, Administradores de Canais e outros membros. Este esquema é herdado por todas as equipes, a menos que um <link>Esquema de Substituição de Equipe</link> seja aplicado em equipes específicas.",
   "admin.permissions.systemScheme.resetDefaultsButton": "Restaurar para o padrão",
   "admin.permissions.systemScheme.resetDefaultsButtonModalBody": "Isso redefinirá todas as seleções nesta página para as configurações padrão. Tem certeza de que deseja redefinir?",
   "admin.permissions.systemScheme.resetDefaultsButtonModalTitle": "Restaurar para Padrão?",

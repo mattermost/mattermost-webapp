@@ -1502,7 +1502,7 @@
   "admin.permissions.systemScheme.allMembersTitle": "همه اعضا",
   "admin.permissions.systemScheme.channelAdminsDescription": "مجوزهایی که به سازندگان کانال و هر کاربر ارتقا یافته به مدیر کانال اعطا شده است.",
   "admin.permissions.systemScheme.channelAdminsTitle": "مدیران کانال",
-  "admin.permissions.systemScheme.introBanner": "مجوزهای پیش فرض را برای مدیران تیم، مدیران کانال و سایر اعضا پیکربندی کنید. این طرح توسط همه تیم‌ها به ارث می‌رسد مگر اینکه در تیم‌های خاصی از [Team Override Scheme] (!https://docs.mattermost.com/onboard/advanced-permissions.html) استفاده شود.",
+  "admin.permissions.systemScheme.introBanner": "مجوزهای پیش فرض را برای مدیران تیم، مدیران کانال و سایر اعضا پیکربندی کنید. این طرح توسط همه تیم‌ها به ارث می‌رسد مگر اینکه در تیم‌های خاصی از <link>Team Override Scheme</link>  استفاده شود.",
   "admin.permissions.systemScheme.resetDefaultsButton": "به حالت پیش فرض بازنشانی کنید",
   "admin.permissions.systemScheme.resetDefaultsButtonModalBody": "با این کار همه انتخاب‌های این صفحه به تنظیمات پیش‌فرضشان بازنشانی می‌شود. آیا مطمئن هستید که می خواهید بازنشانی کنید؟",
   "admin.permissions.systemScheme.resetDefaultsButtonModalTitle": "تنظیم مجدد به حالت پیش فرض؟",

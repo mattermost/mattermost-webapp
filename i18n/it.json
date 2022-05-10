@@ -1216,7 +1216,7 @@
   "admin.permissions.systemScheme.allMembersTitle": "Tutti i membri",
   "admin.permissions.systemScheme.channelAdminsDescription": "Permessi garantiti ai creatori del canale e a tutti gli utenti promossi ad Amministratori di Canale.",
   "admin.permissions.systemScheme.channelAdminsTitle": "Amministratori di Canale",
-  "admin.permissions.systemScheme.introBanner": "Configura i permessi predefiniti per gli Amministratori di Squadra, gli Amministratori di Canale e gli altri membri. Questo schema viene ereditato da tutte le squadre a meno che non presentino un [Team Override Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html).",
+  "admin.permissions.systemScheme.introBanner": "Configura i permessi predefiniti per gli Amministratori di Squadra, gli Amministratori di Canale e gli altri membri. Questo schema viene ereditato da tutte le squadre a meno che non presentino un <link>Team Override Scheme</link>.",
   "admin.permissions.systemScheme.resetDefaultsButton": "Ripristinare i valori predefiniti",
   "admin.permissions.systemScheme.resetDefaultsButtonModalBody": "Questa operazione ripristinerà tutte le selezioni in questa pagina ai valori predefiniti. Sicuro di voler continuare?",
   "admin.permissions.systemScheme.resetDefaultsButtonModalTitle": "Ripristinare i valori predefiniti?",
