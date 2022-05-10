@@ -70,9 +70,20 @@ export default function HelpCommands(): JSX.Element {
             </p>
 
             <p>
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='help.commands.custom2'
-                    defaultMessage='Custom slash commands are disabled by default and can be enabled by the System Admin in the System Console by going to **Integrations > Integration Management**. Learn about configuring custom slash commands in the [developer   documentation](!https://developers.mattermost.com/integrate/slash-commands/).'
+                    defaultMessage='Custom slash commands are disabled by default and can be enabled by the System Admin in the System Console by going to **Integrations > Integration Management**. Learn about configuring custom slash commands in the <link>developer documentation</link>.'
+                    values={{
+                        link: (msg: React.ReactNode) => (
+                            <a
+                                href='https://developers.mattermost.com/integrate/slash-commands/'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                    }}
                 />
             </p>
 
