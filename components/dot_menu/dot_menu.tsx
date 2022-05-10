@@ -112,6 +112,7 @@ type Props = {
     canDelete: boolean;
     userId: string;
     threadId: UserThread['id'];
+    isPostForwardingEnabled: boolean;
     isCollapsedThreadsEnabled: boolean;
     isFollowingThread?: boolean;
     isMentionedInRootPost?: boolean;

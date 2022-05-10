@@ -11,7 +11,7 @@ import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/sele
 import {getCurrentTeamId, getCurrentTeam, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {isCollapsedThreadsEnabled, getIsPostForwardingEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
@@ -121,6 +121,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         threadId,
         isFollowingThread,
         isMentionedInRootPost,
+        isPostForwardingEnabled: getIsPostForwardingEnabled(state),
         isCollapsedThreadsEnabled: collapsedThreads,
         threadReplyCount,
         isMobileView: getIsMobileView(state),
