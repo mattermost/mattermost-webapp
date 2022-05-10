@@ -1021,7 +1021,7 @@
   "admin.group_settings.groups_list.no_groups_found": "Herhangi bir grup bulunamadı",
   "admin.group_settings.groups_list.paginatorCount": "{startCount, number} - {endCount, number} / {total, number}",
   "admin.group_settings.groups_list.unlink_selected": "Seçilmiş grupların bağlantısını kaldır",
-  "admin.group_settings.introBanner": "Gruplar, kullanıcıları düzenler ve bir gruptaki tüm kullanıcılar üzerinde toplu işlem yapılmasını sağlar.\nGruplar hakkında ayrıntılı bilgi almak için [belgeler bölümüne](!https://www.mattermost.com/default-ad-ldap-groups) bakabilirsiniz.",
+  "admin.group_settings.introBanner": "Gruplar, kullanıcıları düzenler ve bir gruptaki tüm kullanıcılar üzerinde toplu işlem yapılmasını sağlar.\nGruplar hakkında ayrıntılı bilgi almak için <link>belgeler bölümüne</link> bakabilirsiniz.",
   "admin.group_settings.ldapGroupsDescription": "AD/LDAP bağlantısı kurun ve Mattermost üzerinde gruplar oluşturun. Başlamak için [AD/LDAP]({siteURL}/admin_console/authentication/ldap) yapılandırma bölümünden grup özniteliklerini yapılandırın.",
   "admin.group_settings.ldapGroupsTitle": "AD/LDAP grupları",
   "admin.group_settings.need_groupname": "Bir grup anması belirtmelisiniz.",

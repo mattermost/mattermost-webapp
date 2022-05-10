@@ -1021,7 +1021,7 @@
   "admin.group_settings.groups_list.no_groups_found": "グループが見付かりませんでした",
   "admin.group_settings.groups_list.paginatorCount": "全 {total, number} 中: {startCount, number} - {endCount, number}",
   "admin.group_settings.groups_list.unlink_selected": "選択されたグループのリンクを解除しました",
-  "admin.group_settings.introBanner": "グループは、ユーザーを編制し、グループ内の全ユーザーにアクションを適用するための方法です。\nグループについて詳しくは[説明文書](!https://www.mattermost.com/default-ad-ldap-groups)を参照してください。",
+  "admin.group_settings.introBanner": "グループは、ユーザーを編制し、グループ内の全ユーザーにアクションを適用するための方法です。\nグループについて詳しくは<link>説明文書</link>を参照してください。",
   "admin.group_settings.ldapGroupsDescription": "AD/LDAPに接続し、Mattermost内にグループを作成します。まず最初に[AD/LDAP]({siteURL}/admin_console/authentication/ldap)設定ページでグループ属性の設定を行ってください。",
   "admin.group_settings.ldapGroupsTitle": "AD/LDAPグループ",
   "admin.group_settings.need_groupname": "グループメンションを指定しなくてはなりません。",

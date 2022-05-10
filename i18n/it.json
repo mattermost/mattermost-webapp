@@ -787,7 +787,7 @@
   "admin.group_settings.groups_list.no_groups_found": "Nessun gruppo trovato",
   "admin.group_settings.groups_list.paginatorCount": "{startCount, number}-{endCount, number} di {total, number}",
   "admin.group_settings.groups_list.unlink_selected": "Scollega Gruppi Selezionati",
-  "admin.group_settings.introBanner": "I gruppi sono un modo per organizzare gli utenti e applicare operazioni a tutti gli utenti in uno specifico gruppo.\nPer ulteriori informazioni sui Gruppi, vedere la [documentazione](!https://www.mattermost.com/default-ad-ldap-groups).",
+  "admin.group_settings.introBanner": "I gruppi sono un modo per organizzare gli utenti e applicare operazioni a tutti gli utenti in uno specifico gruppo.\nPer ulteriori informazioni sui Gruppi, vedere la <link>documentazione</link>.",
   "admin.group_settings.ldapGroupsDescription": "Connette AD/LDAP e crea i gruppi in Mattermost. Per iniziare, configurare gli attributi del gruppo nella pagina di configurazione [AD/LDAP]({siteURL}/admin_console/authentication/ldap).",
   "admin.group_settings.ldapGroupsTitle": "Gruppi AD/LDAP",
   "admin.group_settings.need_groupname": "Specificare una citazione di gruppo.",

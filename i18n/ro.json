@@ -941,7 +941,7 @@
   "admin.group_settings.groups_list.no_groups_found": "Nu au fost găsite grupuri",
   "admin.group_settings.groups_list.paginatorCount": "{startCount, number} - {endCount, number} din {total, number}",
   "admin.group_settings.groups_list.unlink_selected": "Deconectați grupurile selectate",
-  "admin.group_settings.introBanner": "Grupurile reprezintă o modalitate de a organiza utilizatorii și de a aplica acțiuni tuturor utilizatorilor din grupul respectiv.\nPentru mai multe informații despre Grupuri, consultați [documentația](!https://www.mattermost.com/default-ad-ldap-groups).",
+  "admin.group_settings.introBanner": "Grupurile reprezintă o modalitate de a organiza utilizatorii și de a aplica acțiuni tuturor utilizatorilor din grupul respectiv.\nPentru mai multe informații despre Grupuri, consultați <link>documentația</link>.",
   "admin.group_settings.ldapGroupsDescription": "Linkați și configurați grupurile din AD/LDAP la Mattermost. Asigurați-vă că ați configurat un filtru de grup (/admin_console/authentication/ldap).",
   "admin.group_settings.ldapGroupsTitle": "Grupurile AD/LDAP",
   "admin.group_settings.need_groupname": "Trebuie să specificați o mențiune de grup.",

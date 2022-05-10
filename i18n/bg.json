@@ -1000,7 +1000,7 @@
   "admin.group_settings.groups_list.no_groups_found": "Няма намерени групи",
   "admin.group_settings.groups_list.paginatorCount": "{startCount, number} - {endCount, number} от {total, number}",
   "admin.group_settings.groups_list.unlink_selected": "Прекратете връзката на избраните групи",
-  "admin.group_settings.introBanner": "Групите са начин да организирате потребители и да прилагате действия към всички потребители в тази група.\nЗа повече информация относно групите, моля вижте [документацията](!https://www.mattermost.com/default-ad-ldap-groups).",
+  "admin.group_settings.introBanner": "Групите са начин да организирате потребители и да прилагате действия към всички потребители в тази група.\nЗа повече информация относно групите, моля вижте <link>документацията</link>.",
   "admin.group_settings.ldapGroupsDescription": "Свържете AD/LDAP и създайте групи в Mattermost. За да започнете, конфигурирайте груповите атрибути на страницата за конфигуриране [AD/LDAP]({siteURL}/admin_console/authentication/ldap).",
   "admin.group_settings.ldapGroupsTitle": "AD/LDAP групи",
   "admin.group_settings.need_groupname": "Трябва да посочите групово споменаване.",

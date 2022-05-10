@@ -750,7 +750,7 @@
   "admin.group_settings.groups_list.no_groups_found": "沒有找到任何群組",
   "admin.group_settings.groups_list.paginatorCount": "{startCount, number} 至 {endCount, number} ，共 {total, number}",
   "admin.group_settings.groups_list.unlink_selected": "解除連結選擇的群組",
-  "admin.group_settings.introBanner": "群組是一種組織使用者並將操作套用於該群組中所有使用者的方法。\n詳情請參閱[文件](!https://www.mattermost.com/default-ad-ldap-groups)。",
+  "admin.group_settings.introBanner": "群組是一種組織使用者並將操作套用於該群組中所有使用者的方法。\n詳情請參閱<link>文件</link>。",
   "admin.group_settings.ldapGroupsDescription": "連接 AD/LDAP 並在 Mattermost 中建立群組。從 [AD/LDAP]({siteURL}/admin_console/authentication/ldap) 設定頁面設定群組屬性開始。",
   "admin.group_settings.ldapGroupsTitle": "AD/LDAP 群組",
   "admin.group_settings.need_groupname": "必須指定群組提及。",

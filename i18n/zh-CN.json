@@ -1013,7 +1013,7 @@
   "admin.group_settings.groups_list.no_groups_found": "未找到组",
   "admin.group_settings.groups_list.paginatorCount": "{startCount, number} - {endCount, number} 共 {total, number}",
   "admin.group_settings.groups_list.unlink_selected": "取消关联选择的组",
-  "admin.group_settings.introBanner": "组可以用来组织用户方便应用操作到整个组的用户。\n参见[文档](!!https://www.mattermost.com/default-ad-ldap-groups)了解更多关于组。",
+  "admin.group_settings.introBanner": "组可以用来组织用户方便应用操作到整个组的用户。\n参见<link>文档</link>了解更多关于组。",
   "admin.group_settings.ldapGroupsDescription": "连接 AD/LDAP 并在 Mattermost 创建组。从 [AD/LDAP]({siteURL}/admin_console/authentication/ldap) 页面中设定组属性。",
   "admin.group_settings.ldapGroupsTitle": "AD/LDAP 用户组",
   "admin.group_settings.need_groupname": "您必须指定个组。",

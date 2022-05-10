@@ -966,7 +966,7 @@
   "admin.group_settings.groups_list.no_groups_found": "هیچ گروهی پیدا نشد",
   "admin.group_settings.groups_list.paginatorCount": "{startCount, number} - {endCount, number} از {total, number}",
   "admin.group_settings.groups_list.unlink_selected": "لغو پیوند گروه های انتخاب شده",
-  "admin.group_settings.introBanner": "گروه ها راهی برای سازماندهی کاربران و اعمال اقدامات برای همه کاربران درون آن گروه هستند.\nبرای اطلاعات بیشتر درباره گروه‌ها، لطفاً به [اسناد] (!https://www.mattermost.com/default-ad-ldap-groups) مراجعه کنید.",
+  "admin.group_settings.introBanner": "گروه ها راهی برای سازماندهی کاربران و اعمال اقدامات برای همه کاربران درون آن گروه هستند.\nبرای اطلاعات بیشتر درباره گروه‌ها، لطفاً به <link>اسناد</link>  مراجعه کنید.",
   "admin.group_settings.ldapGroupsDescription": "AD/LDAP را وصل کنید و در Mattermost گروه ایجاد کنید. برای شروع، ویژگی های گروه را در صفحه پیکربندی [AD/LDAP]({siteURL}/admin_console/authentication/ldap) پیکربندی کنید.",
   "admin.group_settings.ldapGroupsTitle": "گروه های AD/LDAP",
   "admin.group_settings.need_groupname": "شما باید نام گروهی را مشخص کنید.",

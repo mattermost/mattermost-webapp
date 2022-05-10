@@ -1021,7 +1021,7 @@
   "admin.group_settings.groups_list.no_groups_found": "Geen groepen gevonden",
   "admin.group_settings.groups_list.paginatorCount": "{startCount, number} - {endCount, number} van {total, number}",
   "admin.group_settings.groups_list.unlink_selected": "Geselecteerde Groepen Ontkoppelen",
-  "admin.group_settings.introBanner": "Groepen zijn een manier om gebruikers te organiseren en opdrachten uit te voeren op alle gebruikers van deze groep.\nVoor meer informatie omtrent Groepen, bekijk de [documentatie](!https://www.mattermost.com/default-ad-ldap-groups).",
+  "admin.group_settings.introBanner": "Groepen zijn een manier om gebruikers te organiseren en opdrachten uit te voeren op alle gebruikers van deze groep.\nVoor meer informatie omtrent Groepen, bekijk de <link>documentatie</link>.",
   "admin.group_settings.ldapGroupsDescription": "Verbind AD/LDAP en maak groepen in Mattermost. Om aan de slag te gaan, configureert u de groepskenmerken op de configuratiepagina van [AD/LDAP] ({siteURL}/admin_console/authentication/ldap).",
   "admin.group_settings.ldapGroupsTitle": "AD/LDAP-groepen",
   "admin.group_settings.need_groupname": "Je moet een groep opgeven.",

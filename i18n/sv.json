@@ -1021,7 +1021,7 @@
   "admin.group_settings.groups_list.no_groups_found": "Hittade inga grupper",
   "admin.group_settings.groups_list.paginatorCount": "{startCount, number} - {endCount, number} av {total, number}",
   "admin.group_settings.groups_list.unlink_selected": "Ta bort länkning från valda grupper",
-  "admin.group_settings.introBanner": "Grupper är ett sätt att organisera användare och enkelt hantera åtgärder på alla användare i gruppen.\nMer information finns i [dokumentationen](!https://www.mattermost.com/default-ad-ldap-groups).",
+  "admin.group_settings.introBanner": "Grupper är ett sätt att organisera användare och enkelt hantera åtgärder på alla användare i gruppen.\nMer information finns i <link>dokumentationen</link>.",
   "admin.group_settings.ldapGroupsDescription": "Anslut AD/LDAP och skapa grupper i Mattermost. För att starta, konfigurera gruppattribut på konfigurationssidan för [AD/LDAP]({siteURL}/admin_console/authentication/ldap).",
   "admin.group_settings.ldapGroupsTitle": "AD/LDAP Grupper",
   "admin.group_settings.need_groupname": "Du måste ange en grupp för omnämnande.",

@@ -1021,7 +1021,7 @@
   "admin.group_settings.groups_list.no_groups_found": "Nem találhatóak csoportok",
   "admin.group_settings.groups_list.paginatorCount": "{startCount, number} - {endCount, number} / {total, number}",
   "admin.group_settings.groups_list.unlink_selected": "Kiválasztott csoportok leválasztása",
-  "admin.group_settings.introBanner": "A csoportok lehetővé teszik a felhasználók rendszerezését és a műveletek alkalmazását a csoport összes felhasználójára.\nA csoportokról további információt a [dokumentáció](!https://www.mattermost.com/default-ad-ldap-groups) oldalon talál.",
+  "admin.group_settings.introBanner": "A csoportok lehetővé teszik a felhasználók rendszerezését és a műveletek alkalmazását a csoport összes felhasználójára.\nA csoportokról további információt a <link>dokumentáció</link> oldalon talál.",
   "admin.group_settings.ldapGroupsDescription": "Csatlakoztassa az AD/LDAP-ot, és hozzon létre csoportokat a Mattermostban. A kezdéshez állítsa be a csoportattribútumokat az [AD/LDAP]({siteURL}/admin_console/authentication/ldap) lapon.",
   "admin.group_settings.ldapGroupsTitle": "AD/LDAP csoportok",
   "admin.group_settings.need_groupname": "Meg kell adnia egy csoportemlítést.",

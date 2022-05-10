@@ -1016,7 +1016,7 @@
   "admin.group_settings.groups_list.no_groups_found": "Aucun groupe n'a été trouvé",
   "admin.group_settings.groups_list.paginatorCount": "{startCount, number} - {endCount, number} de {total, number}",
   "admin.group_settings.groups_list.unlink_selected": "Dissocier les groupes sélectionnés",
-  "admin.group_settings.introBanner": "Les groupes sont un moyen d'organiser les utilisateurs et d'appliquer des actions à tous les utilisateurs de ce groupe.\nPour en savoir plus sur les groupes, consultez la [documentation](!https://www.mattermost.com/default-ad-ldap-groups).",
+  "admin.group_settings.introBanner": "Les groupes sont un moyen d'organiser les utilisateurs et d'appliquer des actions à tous les utilisateurs de ce groupe.\nPour en savoir plus sur les groupes, consultez la <link>documentation</link>.",
   "admin.group_settings.ldapGroupsDescription": "Connectez un annuaire AD/LDAP et créez des groupes dans Mattermost. Pour commencer, configurez les attributs de groupe dans les paramètres de configuration [AD/LDAP]({siteURL}/admin_console/authentication/ldap).",
   "admin.group_settings.ldapGroupsTitle": "Groupes AD/LDAP",
   "admin.group_settings.need_groupname": "Vous devez spécifier une mention de groupe.",

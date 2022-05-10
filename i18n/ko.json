@@ -917,7 +917,7 @@
   "admin.group_settings.groups_list.no_groups_found": "그룹을 찾을 수 없습니다",
   "admin.group_settings.groups_list.paginatorCount": "{total, number} 의 {startCount, number} - {endCount, number}",
   "admin.group_settings.groups_list.unlink_selected": "선택 그룹 연결 해제",
-  "admin.group_settings.introBanner": "그룹은 사용자를 구성하고 해당 그룹 내 모든 사용자에게 작업을 적용하는 방법입니다. \n그룹에 대한 자세한 내용은 [문서](!https://www.mattermost.com/default-ad-ldap-groups)를 참조해주세요.",
+  "admin.group_settings.introBanner": "그룹은 사용자를 구성하고 해당 그룹 내 모든 사용자에게 작업을 적용하는 방법입니다. \n그룹에 대한 자세한 내용은 <link>문서</link>를 참조해주세요.",
   "admin.group_settings.ldapGroupsDescription": "AD/LDAP를 연결하고 Mattermost에서 그룹을 만듭니다. 시작하려면 [AD/LDAP] ({siteURL}/admin_console/authentication/ldap) 구성 페이지에서 그룹 속성을 구성하십시오.",
   "admin.group_settings.ldapGroupsTitle": "AD/LDAP 그룹",
   "admin.group_settings.need_groupname": "그룹 언급을 지정해야합니다.",
