@@ -78,7 +78,7 @@ describe('Upload Files - Settings', () => {
     it('MM-T1147_2 drag and drop a file on center and RHS should produce an error', () => {
         const filename = 'mattermost-icon.png';
 
-        // # Drag and drop file
+        // # Drag and drop file in center channel
         cy.get('#channel_view').trigger('dragenter');
         cy.fixture(filename).then((img) => {
             const blob = Cypress.Blob.base64StringToBlob(img, 'image/png');
@@ -92,6 +92,30 @@ describe('Upload Files - Settings', () => {
                 cy.get('#postCreateFooter').find('.has-error').should('contain.text', 'File attachments are disabled.');
             });
         });
+
+        // # Post a message
+        cy.postMessage('sample');
+
+        // # Open RHS
+        cy.getLastPost().click();
+
+        // # Drag and drop file in RHS
+        cy.get('.ThreadViewer').trigger('dragenter');
+        cy.fixture(filename).then((img) => {
+            const blob = Cypress.Blob.base64StringToBlob(img, 'image/png');
+            cy.window().then((win) => {
+                const file = new win.File([blob], filename);
+                const dataTransfer = new win.DataTransfer();
+                dataTransfer.items.add(file);
+                cy.get('.ThreadViewer').trigger('drop', {dataTransfer});
+
+                // * An error should be visible saying 'File attachments are disabled'
+                cy.get('.ThreadViewer').find('.post-create-footer').find('.has-error').should('contain.text', 'File attachments are disabled.');
+            });
+        });
+
+        // # Delete the post
+        cy.getLastPostId().then(cy.apiDeletePost);
     });
 
     it('MM-T1147_3 copy a file and paste in message box and reply box should produce an error', () => {
