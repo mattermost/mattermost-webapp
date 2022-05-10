@@ -2144,7 +2144,7 @@
   "admin.team_settings.team_details.specificDomains": "Numai anumite domenii de e-mail se pot alătura acestei echipe",
   "admin.team_settings.team_details.specificDomainsDescr": "Utilizatorii se pot alătura echipei numai dacă adresa de e-mail se potrivește cu unul dintre domeniile specificate",
   "admin.team_settings.team_details.syncGroupMembers": "Sincronizați membrii grupului",
-  "admin.team_settings.team_details.syncGroupMembersDescr": "Când este activată, adăugarea și eliminarea utilizatorilor din grupuri le va adăuga sau elimina din această echipă. Singura modalitate de a invita membrii la această echipă este prin adăugarea grupurilor din care fac parte. [Aflați mai multe](!https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "admin.team_settings.team_details.syncGroupMembersDescr": "Când este activată, adăugarea și eliminarea utilizatorilor din grupuri le va adăuga sau elimina din această echipă. Singura modalitate de a invita membrii la această echipă este prin adăugarea grupurilor din care fac parte. <link>Aflați mai multe</link>",
   "admin.team_settings.team_list.mappingHeader": "Administrare",
   "admin.team_settings.team_list.nameHeader": "Nume",
   "admin.team_settings.team_list.no_teams_found": "Nu au fost găsite echipe",

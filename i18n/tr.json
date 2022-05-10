@@ -2363,7 +2363,7 @@
   "admin.team_settings.team_details.specificDomains": "Yalnız belirli e-posta etki alanları bu takıma katılabilir",
   "admin.team_settings.team_details.specificDomainsDescr": "Kullanıcılar yalnız e-posta adresleri belirtilen etki alanları ile eşleşiyorsa bu takıma katılabilir",
   "admin.team_settings.team_details.syncGroupMembers": "Grup üyeleri eşitlensin",
-  "admin.team_settings.team_details.syncGroupMembersDescr": "Bu seçenek etkinleştirildiğinde, gruplara eklenen ve çıkarılan kullanıcılar bu takıma da eklenir ya da çıkarılır. Bu takıma kullanıcıları çağırmanın tek yolu bulundukları grupları eklemektir. [Ayrıntılı bilgi almak için buraya bakabilirsiniz](!https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "admin.team_settings.team_details.syncGroupMembersDescr": "Bu seçenek etkinleştirildiğinde, gruplara eklenen ve çıkarılan kullanıcılar bu takıma da eklenir ya da çıkarılır. Bu takıma kullanıcıları çağırmanın tek yolu bulundukları grupları eklemektir. <link>Ayrıntılı bilgi almak için buraya bakabilirsiniz</link>",
   "admin.team_settings.team_details.unarchiveTeam": "Takımı arşivden çıkar",
   "admin.team_settings.team_list.mappingHeader": "Yönetim",
   "admin.team_settings.team_list.nameHeader": "Ad",

@@ -1788,7 +1788,7 @@
   "admin.team_settings.team_details.specificDomains": "Solo i domini email specificati possono entrare in questa squadra",
   "admin.team_settings.team_details.specificDomainsDescr": "Gli utenti possono entrare in questa squadra solo se il loro indirizzo email combacia con uno dei domini specificati",
   "admin.team_settings.team_details.syncGroupMembers": "Sincronizza Membri Gruppo",
-  "admin.team_settings.team_details.syncGroupMembersDescr": "Se attivo, aggiungere o rimuovere utenti ai gruppi li aggiungerà o rimuoverà da questa squadra. L'unico modo per invitare membri in questa squadra è aggiungerli ai gruppi a cui appartengono. [Ulteriori informazioni](https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "admin.team_settings.team_details.syncGroupMembersDescr": "Se attivo, aggiungere o rimuovere utenti ai gruppi li aggiungerà o rimuoverà da questa squadra. L'unico modo per invitare membri in questa squadra è aggiungerli ai gruppi a cui appartengono. <link>Ulteriori informazioni</link>(https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
   "admin.team_settings.team_list.mappingHeader": "Gestione",
   "admin.team_settings.team_list.nameHeader": "Nome",
   "admin.team_settings.team_list.no_teams_found": "Nessuna squadra trovata",

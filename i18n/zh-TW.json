@@ -1788,7 +1788,7 @@
   "admin.team_settings.team_details.specificDomains": "只有特定的電子郵件網域可加入此團隊",
   "admin.team_settings.team_details.specificDomainsDescr": "使用者只有在他們的電子郵件符合特定的網域時能加入團隊",
   "admin.team_settings.team_details.syncGroupMembers": "同步群組成員",
-  "admin.team_settings.team_details.syncGroupMembersDescr": "啟用時，從群組新增或移除使用者將會同時從此團隊新增或移除使用者。唯一邀請使用者至此團隊的方式為將他們加入至群組。[詳情請參閱此](!https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "admin.team_settings.team_details.syncGroupMembersDescr": "啟用時，從群組新增或移除使用者將會同時從此團隊新增或移除使用者。唯一邀請使用者至此團隊的方式為將他們加入至群組。<link>詳情請參閱此</link>",
   "admin.team_settings.team_list.mappingHeader": "管理",
   "admin.team_settings.team_list.nameHeader": "名字",
   "admin.team_settings.team_list.no_teams_found": "找不到團隊",

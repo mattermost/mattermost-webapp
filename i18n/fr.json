@@ -2352,7 +2352,7 @@
   "admin.team_settings.team_details.specificDomains": "Seul des noms de domaine d'adresses e-mail spécifiques peuvent rejoindre cette équipe",
   "admin.team_settings.team_details.specificDomainsDescr": "Les utilisateurs peuvent rejoindre cette équipe uniquement si leur adresse e-mail correspond à l'un des noms de domaine d'adresses e-mail spécifiés",
   "admin.team_settings.team_details.syncGroupMembers": "Synchroniser les membres du groupe",
-  "admin.team_settings.team_details.syncGroupMembersDescr": "Si activé, ajouter et retirer des utilisateurs de leurs groupes les ajouteront ou les retireront de cette équipe. Le seul moyen d'inviter des membres à cette équipe est d'ajouter à cette équipe les groupes auxquels ils appartiennent. [En savoir plus](!https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "admin.team_settings.team_details.syncGroupMembersDescr": "Si activé, ajouter et retirer des utilisateurs de leurs groupes les ajouteront ou les retireront de cette équipe. Le seul moyen d'inviter des membres à cette équipe est d'ajouter à cette équipe les groupes auxquels ils appartiennent. <link>En savoir plus</link>",
   "admin.team_settings.team_details.unarchiveTeam": "Désarchiver l'équipe",
   "admin.team_settings.team_list.mappingHeader": "Gestion",
   "admin.team_settings.team_list.nameHeader": "Nom",

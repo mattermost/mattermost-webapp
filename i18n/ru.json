@@ -2361,7 +2361,7 @@
   "admin.team_settings.team_details.specificDomains": "Только определенные почтовые домены могут присоединиться к этой команде",
   "admin.team_settings.team_details.specificDomainsDescr": "Пользователи могут присоединиться к команде, только если их адрес электронной почты соответствует одному из указанных доменов",
   "admin.team_settings.team_details.syncGroupMembers": "Синхронизация участников группы",
-  "admin.team_settings.team_details.syncGroupMembersDescr": "Когда включено, добавление и удаление пользователей из групп будет добавлять или удалять их из этой команды. Единственный способ пригласить участников в эту команду - добавить группы, к которым они принадлежат. [Узнать больше](!https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "admin.team_settings.team_details.syncGroupMembersDescr": "Когда включено, добавление и удаление пользователей из групп будет добавлять или удалять их из этой команды. Единственный способ пригласить участников в эту команду - добавить группы, к которым они принадлежат. <link>Узнать больше</link>",
   "admin.team_settings.team_details.unarchiveTeam": "Разархивировать команду",
   "admin.team_settings.team_list.mappingHeader": "Управление",
   "admin.team_settings.team_list.nameHeader": "Имя",

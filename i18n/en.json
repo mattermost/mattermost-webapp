@@ -2325,7 +2325,7 @@
   "admin.team_settings.team_details.specificDomains": "Only specific email domains can join this team",
   "admin.team_settings.team_details.specificDomainsDescr": "Users can only join the team if their email matches one of the specified domains",
   "admin.team_settings.team_details.syncGroupMembers": "Sync Group Members",
-  "admin.team_settings.team_details.syncGroupMembersDescr": "When enabled, adding and removing users from groups will add or remove them from this team. The only way of inviting members to this team is by adding the groups they belong to. [Learn More](!https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "admin.team_settings.team_details.syncGroupMembersDescr": "When enabled, adding and removing users from groups will add or remove them from this team. The only way of inviting members to this team is by adding the groups they belong to. <link>Learn More</link>",
   "admin.team_settings.team_details.unarchiveTeam": "Unarchive Team",
   "admin.team_settings.team_list.mappingHeader": "Management",
   "admin.team_settings.team_list.nameHeader": "Name",

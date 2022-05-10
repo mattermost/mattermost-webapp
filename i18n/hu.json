@@ -2371,7 +2371,7 @@
   "admin.team_settings.team_details.specificDomains": "Csak meghatározott e-mail domainek csatlakozhatnak ehhez a csapathoz",
   "admin.team_settings.team_details.specificDomainsDescr": "A felhasználók csak akkor csatlakozhatnak a csapathoz, ha e-mailjük megegyezik a megadott domainek valamelyikével",
   "admin.team_settings.team_details.syncGroupMembers": "Csoporttagok szinkronizálása",
-  "admin.team_settings.team_details.syncGroupMembersDescr": "Ha engedélyezve van, a felhasználók csoportokba való felvétele és eltávolítása hozzáadja vagy eltávolítja őket ebből a csapatból. A tagok meghívása csak a csoportok hozzáadásával lehetséges. [További információ](!https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "admin.team_settings.team_details.syncGroupMembersDescr": "Ha engedélyezve van, a felhasználók csoportokba való felvétele és eltávolítása hozzáadja vagy eltávolítja őket ebből a csapatból. A tagok meghívása csak a csoportok hozzáadásával lehetséges. <link>További információ</link>",
   "admin.team_settings.team_details.unarchiveTeam": "Csapat visszaállítása",
   "admin.team_settings.team_list.mappingHeader": "Kezelés",
   "admin.team_settings.team_list.nameHeader": "Név",

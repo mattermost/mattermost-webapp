@@ -2371,7 +2371,7 @@
   "admin.team_settings.team_details.specificDomains": "Tylko wybrane domeny adresów e-mail mogą dołączyć do tego zespołu",
   "admin.team_settings.team_details.specificDomainsDescr": "Użytkownicy mogą dołączyć do zespołu tylko wtedy, gdy ich email pasuje do jednej z określonych domen",
   "admin.team_settings.team_details.syncGroupMembers": "Synchronizuj członków grupy",
-  "admin.team_settings.team_details.syncGroupMembersDescr": "Jeśli włączone, dodawanie i usuwanie użytkowników z grup spowoduje dodanie lub usunięcie ich z tego zespołu. Jedynym sposobem na zaproszenie członków tego zespołu jest dodanie grup, do których należą. [Dowiedz się więcej](!https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "admin.team_settings.team_details.syncGroupMembersDescr": "Jeśli włączone, dodawanie i usuwanie użytkowników z grup spowoduje dodanie lub usunięcie ich z tego zespołu. Jedynym sposobem na zaproszenie członków tego zespołu jest dodanie grup, do których należą. <link>Dowiedz się więcej</link>",
   "admin.team_settings.team_details.unarchiveTeam": "Cofnij Archiwizację Zespołu",
   "admin.team_settings.team_list.mappingHeader": "Zarządzanie",
   "admin.team_settings.team_list.nameHeader": "Nazwa",

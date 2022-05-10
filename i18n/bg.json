@@ -2265,7 +2265,7 @@
   "admin.team_settings.team_details.specificDomains": "Само конкретни домейни на ел.поща могат да се присъединят към този екип",
   "admin.team_settings.team_details.specificDomainsDescr": "Потребителите могат да се присъединят към екипа само ако ел.поща съвпада с един от посочените домейни",
   "admin.team_settings.team_details.syncGroupMembers": "Синхронизиране на членове на групата",
-  "admin.team_settings.team_details.syncGroupMembersDescr": "Когато е активирано, добавянето и премахването на потребители от групи ще ги добави или премахне от този екип. Единственият начин да поканите членове в този екип е чрез добавяне на групите, към които принадлежат. [Научете повече](!https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "admin.team_settings.team_details.syncGroupMembersDescr": "Когато е активирано, добавянето и премахването на потребители от групи ще ги добави или премахне от този екип. Единственият начин да поканите членове в този екип е чрез добавяне на групите, към които принадлежат. <link>Научете повече</link>",
   "admin.team_settings.team_details.unarchiveTeam": "Разархивиране на екип",
   "admin.team_settings.team_list.mappingHeader": "Управление",
   "admin.team_settings.team_list.nameHeader": "Име",

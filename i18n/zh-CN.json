@@ -2255,7 +2255,7 @@
   "admin.team_settings.team_details.specificDomains": "只有指定的邮箱地址域名可加入到此团队",
   "admin.team_settings.team_details.specificDomainsDescr": "用户只有在他们的邮箱地址匹配指定的域名才可加入到该团队",
   "admin.team_settings.team_details.syncGroupMembers": "同步群组成员",
-  "admin.team_settings.team_details.syncGroupMembersDescr": "当开启时，从组添加或移除用户时将从此团队移除。添加用户到组将是唯一邀请成员到此团队的方法。[了解更多](!https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "admin.team_settings.team_details.syncGroupMembersDescr": "当开启时，从组添加或移除用户时将从此团队移除。添加用户到组将是唯一邀请成员到此团队的方法。<link>了解更多</link>",
   "admin.team_settings.team_details.unarchiveTeam": "取消归档团队",
   "admin.team_settings.team_list.mappingHeader": "管理",
   "admin.team_settings.team_list.nameHeader": "名称",

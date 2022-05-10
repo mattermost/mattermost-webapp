@@ -2092,7 +2092,7 @@
   "admin.team_settings.team_details.specificDomains": "فقط دامنه های ایمیل خاص می توانند به این تیم بپیوندند",
   "admin.team_settings.team_details.specificDomainsDescr": "کاربران تنها در صورتی می توانند به تیم ملحق شوند که ایمیل آنها با یکی از دامنه های مشخص شده مطابقت داشته باشد",
   "admin.team_settings.team_details.syncGroupMembers": "همگام سازی اعضای گروه",
-  "admin.team_settings.team_details.syncGroupMembersDescr": "وقتی فعال باشد، افزودن و حذف کاربران از گروه‌ها باعث اضافه یا حذف آنها از این تیم می‌شود. تنها راه دعوت اعضا به این تیم، اضافه کردن گروه هایی است که به آنها تعلق دارند. [بیشتر بیاموزید](!https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "admin.team_settings.team_details.syncGroupMembersDescr": "وقتی فعال باشد، افزودن و حذف کاربران از گروه‌ها باعث اضافه یا حذف آنها از این تیم می‌شود. تنها راه دعوت اعضا به این تیم، اضافه کردن گروه هایی است که به آنها تعلق دارند. <link>بیشتر بیاموزید</link>",
   "admin.team_settings.team_details.unarchiveTeam": "تیم لغو بایگانی",
   "admin.team_settings.team_list.mappingHeader": "مدیریت",
   "admin.team_settings.team_list.nameHeader": "نام",

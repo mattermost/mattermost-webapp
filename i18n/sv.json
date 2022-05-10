@@ -2368,7 +2368,7 @@
   "admin.team_settings.team_details.specificDomains": "Endast angivna e-postdomäner kan gå med i detta team",
   "admin.team_settings.team_details.specificDomainsDescr": "Användare kan gå med i teamet om deras e-postadresser matchar en av de angivna e-postdomänerna",
   "admin.team_settings.team_details.syncGroupMembers": "Synkronisera gruppmedlemmar",
-  "admin.team_settings.team_details.syncGroupMembersDescr": "När aktiverad så kommer förändring i gruppmedlemskap förändra medlemskap i detta team. Enda sättet att bjuda in medlemmar till teamet är att lägga till de grupper de är medlem i. [Läs mer](!https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "admin.team_settings.team_details.syncGroupMembersDescr": "När aktiverad så kommer förändring i gruppmedlemskap förändra medlemskap i detta team. Enda sättet att bjuda in medlemmar till teamet är att lägga till de grupper de är medlem i. <link>Läs mer</link>",
   "admin.team_settings.team_details.unarchiveTeam": "Återställ team från arkiv",
   "admin.team_settings.team_list.mappingHeader": "Hantering",
   "admin.team_settings.team_list.nameHeader": "Namn",

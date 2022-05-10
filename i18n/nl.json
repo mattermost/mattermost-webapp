@@ -2367,7 +2367,7 @@
   "admin.team_settings.team_details.specificDomains": "Alleen specifieke e-maildomeinen kunnen deelnemen aan dit team",
   "admin.team_settings.team_details.specificDomainsDescr": "Gebruikers kunnen alleen lid worden van het team als hun e-mail overeenkomt met een van de opgegeven domeinen",
   "admin.team_settings.team_details.syncGroupMembers": "Syncronisatie Groepsleden",
-  "admin.team_settings.team_details.syncGroupMembersDescr": "Als deze optie is ingeschakeld, worden gebruikers die aan groepen worden toegevoegd of verwijderd, ook toegevoegd of verwijderd uit dit team. De enige manier om leden uit te nodigen in dit team is door ze toe te voegen aan de groepen waartoe ze behoren. [Meer Informatie] (!https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "admin.team_settings.team_details.syncGroupMembersDescr": "Als deze optie is ingeschakeld, worden gebruikers die aan groepen worden toegevoegd of verwijderd, ook toegevoegd of verwijderd uit dit team. De enige manier om leden uit te nodigen in dit team is door ze toe te voegen aan de groepen waartoe ze behoren. <link>Meer Informatie</link> ",
   "admin.team_settings.team_details.unarchiveTeam": "Dearchiveer team",
   "admin.team_settings.team_list.mappingHeader": "Beheer",
   "admin.team_settings.team_list.nameHeader": "Naam",
