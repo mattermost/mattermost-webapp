@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 import FlexSearch from 'flexsearch/dist/flexsearch.es5';
 import {IntlShape} from 'react-intl';
 
@@ -107,7 +107,7 @@ export function adminDefinitionsToUrlsAndTexts(adminDefinition: typeof AdminDefi
 export function generateIndex(adminDefinition: typeof AdminDefinition, intl: IntlShape, plugins?: Record<string, PluginRedux>) {
     const idx: Index = new FlexSearch();
 
-    addToIndex(adminDefinitionsToUrlsAndTexts(AdminDefinition, intl), idx);
+    addToIndex(adminDefinitionsToUrlsAndTexts(adminDefinition, intl), idx);
 
     addToIndex(getPluginEntries(plugins), idx);
 
