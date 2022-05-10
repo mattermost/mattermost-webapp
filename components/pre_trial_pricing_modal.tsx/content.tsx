@@ -4,6 +4,9 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 
+import {trackEvent} from 'actions/telemetry_actions';
+import {CloudLinks, TELEMETRY_CATEGORIES} from 'utils/constants';
+
 import './content.scss';
 import LadySvg from './lady.svg';
 import ManSvg from './man.svg';
@@ -150,7 +153,17 @@ function Content() {
         <div className='Content'>
             <div className='self-hosted-alert'>
                 <h1>{formatMessage({id: 'pretrial_pricing_modal.lookingToSelfHost', defaultMessage: 'Looking to self-host?'})}</h1>
-                <p>{formatMessage({id: 'pretrial_pricing_modal.reviewDeploymentOptions', defaultMessage: 'Review deployment options'})}</p>
+                <a
+                    onClick={() =>
+                        trackEvent(
+                            TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+                            'click_looking_to_self_host',
+                        )
+                    }
+                    href={CloudLinks.DEPLOYMENT_OPTIONS}
+                    rel='noopener noreferrer'
+                    target='_blank'
+                >{formatMessage({id: 'pretrial_pricing_modal.reviewDeploymentOptions', defaultMessage: 'Review deployment options'})}</a>
             </div>
             <Modal.Header className='PreTrialPricingModal__header'>
                 <h1 className='title'>
