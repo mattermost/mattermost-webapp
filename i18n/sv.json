@@ -1036,7 +1036,7 @@
   "admin.guest_access.disableConfirmWarning": "Alla nuvarande gäst-sessioner kommer återkallas och markeras som inaktiva",
   "admin.guest_access.enableDescription": "När detta är aktiverat kan externa gäster bjudas in till olika gruppers kanaler. Läs [Permissions Schemes](../user_management/permissions/system_scheme) för att förstå vilka roller som kan bjuda in gäster.",
   "admin.guest_access.enableTitle": "Aktivera gäståtkomst: ",
-  "admin.guest_access.mfaDescription": "När detta är aktiverat så är [flerfaktorautentisering](!https://docs.mattermost.com/deployment/auth.html) nödvändig för inloggning. Då nya användare loggar in måste de konfigurera MFA vid registrering. Befintliga användare utan MFA konfigurerad kommer bli omdirigerade till inställningssidan för MFA tills konfigurationen är slutförd.\n \nOm ditt system har användare med annan inloggningsmetod än AD/LDAP eller e-post behöver du konfigurera MFA i din autentiseringstjänst, utanför Mattermost.",
+  "admin.guest_access.mfaDescription": "När detta är aktiverat så är <link>flerfaktorautentisering</link> nödvändig för inloggning. Då nya användare loggar in måste de konfigurera MFA vid registrering. Befintliga användare utan MFA konfigurerad kommer bli omdirigerade till inställningssidan för MFA tills konfigurationen är slutförd.\n \nOm ditt system har användare med annan inloggningsmetod än AD/LDAP eller e-post behöver du konfigurera MFA i din autentiseringstjänst, utanför Mattermost.",
   "admin.guest_access.mfaDescriptionMFANotEnabled": "[Flerfaktorautentisering](./mfa) är inte aktiverat.",
   "admin.guest_access.mfaDescriptionMFANotEnforced": "[Flerfaktorautentisering](./mfa) är inte tvingande.",
   "admin.guest_access.mfaTitle": "Tvinga flerfaktorsautentisering ",

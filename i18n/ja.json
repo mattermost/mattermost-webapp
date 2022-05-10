@@ -1036,7 +1036,7 @@
   "admin.guest_access.disableConfirmWarning": "現在のすべてのゲストアカウントのセッションを破棄し、無効なユーザーとしてマークする",
   "admin.guest_access.enableDescription": "有効な場合、外部のゲストをチーム内のチャンネルに招待することができます。ゲストを招待できる役割については、[権限スキーム](../user_management/permissions/system_scheme)を参照してください。",
   "admin.guest_access.enableTitle": "ゲストアカウントを有効にする: ",
-  "admin.guest_access.mfaDescription": "有効な場合、ゲストに対してログイン時に[多要素認証](!https://docs.mattermost.com/deployment/auth.html)が求められます。新しいゲストユーザーはサインアップ時に多要素認証の設定を求められます。多要素認証設定なしにログインしているゲストユーザーは設定が完了するまで多要素認証設定ページへリダイレクトされます。\n \nシステムにAD/LDAPと電子メール以外のログイン方法のゲストユーザーがいる場合、Mattermostの外部の認証プロバイダーで多要素認証が強制されます。",
+  "admin.guest_access.mfaDescription": "有効な場合、ゲストに対してログイン時に<link>多要素認証</link>が求められます。新しいゲストユーザーはサインアップ時に多要素認証の設定を求められます。多要素認証設定なしにログインしているゲストユーザーは設定が完了するまで多要素認証設定ページへリダイレクトされます。\n \nシステムにAD/LDAPと電子メール以外のログイン方法のゲストユーザーがいる場合、Mattermostの外部の認証プロバイダーで多要素認証が強制されます。",
   "admin.guest_access.mfaDescriptionMFANotEnabled": "現在、[多要素認証](./mfa)は有効化されていません。",
   "admin.guest_access.mfaDescriptionMFANotEnforced": "現在、[多要素認証](./mfa)は強制ではありません。",
   "admin.guest_access.mfaTitle": "多要素認証を強制する: ",

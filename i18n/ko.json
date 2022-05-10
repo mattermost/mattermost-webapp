@@ -930,7 +930,7 @@
   "admin.guest_access.disableConfirmWarning": "현재 존재하는 모든 게스트 계정의 세션이 만료되고, 계정이 비활성화됩니다",
   "admin.guest_access.enableDescription": "이 설정이 활성화되면 팀의 채널로 외부 게스트를 초대할 수 있게 됩니다. 게스트를 초대할 수 있는 권한에 대해서는 [권한 스키마](../user_management/permissions/system_scheme)를 참조하세요.",
   "admin.guest_access.enableTitle": "게스트 접근 활성화: ",
-  "admin.guest_access.mfaDescription": "활성화 시, 로그인시 게스트에 대한 [다단계 인증] (! https : //docs.mattermost.com/deployment/auth.html)이 필요합니다. 신규 게스트 사용자는 가입시 MFA를 구성해야합니다.\n\nMFA를 구성하지 않고 로그인 한 게스트 사용자는 구성이 완료 될 때까지 MFA 설정 페이지로 리디렉션됩니다. 시스템에 AD/LDAP 및 이메일 이외의 로그인 방법을 사용하는 게스트 사용자가있는 경우 Mattermost 외부의 인증 공급자를 사용하여 MFA를 적용해야합니다.",
+  "admin.guest_access.mfaDescription": "활성화 시, 로그인시 게스트에 대한 <link>다단계 인증</link> 이 필요합니다. 신규 게스트 사용자는 가입시 MFA를 구성해야합니다.\n\nMFA를 구성하지 않고 로그인 한 게스트 사용자는 구성이 완료 될 때까지 MFA 설정 페이지로 리디렉션됩니다. 시스템에 AD/LDAP 및 이메일 이외의 로그인 방법을 사용하는 게스트 사용자가있는 경우 Mattermost 외부의 인증 공급자를 사용하여 MFA를 적용해야합니다.",
   "admin.guest_access.mfaDescriptionMFANotEnabled": "[멀티팩터 인증](./mfa)이 비활성화되어 있습니다.",
   "admin.guest_access.mfaDescriptionMFANotEnforced": "[멀티팩터 인증](./mfa)이 적용되지 않고 있습니다.",
   "admin.guest_access.mfaTitle": "멀티팩터 인증 시행: ",

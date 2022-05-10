@@ -981,7 +981,7 @@
   "admin.guest_access.disableConfirmWarning": "تمام جلسات فعلی حساب مهمان لغو شده و به عنوان غیرفعال علامت گذاری می شود",
   "admin.guest_access.enableDescription": "وقتی درست باشد، مهمان خارجی را می توان به کانال های درون تیم ها دعوت کرد. لطفاً [Permissions Schemes] (../user_management/permissions/system_scheme) را ببینید که کدام نقش‌ها می‌توانند مهمانان را دعوت کنند.",
   "admin.guest_access.enableTitle": "فعال کردن دسترسی مهمان: ",
-  "admin.guest_access.mfaDescription": "وقتی درست است، برای ورود به سیستم، [احراز هویت چند عاملی](!https://docs.mattermost.com/deployment/auth.html) برای مهمانان لازم است. کاربران مهمان جدید باید MFA را هنگام ثبت نام پیکربندی کنند. کاربران مهمان وارد شده بدون پیکربندی MFA به صفحه راه اندازی MFA هدایت می شوند تا پیکربندی کامل شود.\n \nاگر سیستم شما دارای کاربران مهمان با روش‌های ورود به سیستم غیر از AD/LDAP و ایمیل است، MFA باید با ارائه‌دهنده احراز هویت خارج از Mattermost اجرا شود.",
+  "admin.guest_access.mfaDescription": "وقتی درست است، برای ورود به سیستم، <link>احراز هویت چند عاملی</link> برای مهمانان لازم است. کاربران مهمان جدید باید MFA را هنگام ثبت نام پیکربندی کنند. کاربران مهمان وارد شده بدون پیکربندی MFA به صفحه راه اندازی MFA هدایت می شوند تا پیکربندی کامل شود.\n \nاگر سیستم شما دارای کاربران مهمان با روش‌های ورود به سیستم غیر از AD/LDAP و ایمیل است، MFA باید با ارائه‌دهنده احراز هویت خارج از Mattermost اجرا شود.",
   "admin.guest_access.mfaDescriptionMFANotEnabled": "[تأیید هویت چند عاملی] (./mfa) در حال حاضر فعال نیست.",
   "admin.guest_access.mfaDescriptionMFANotEnforced": "[تأیید هویت چند عاملی] (./mfa) در حال حاضر اجرا نمی شود.",
   "admin.guest_access.mfaTitle": "اجرای احراز هویت چند عاملی: ",

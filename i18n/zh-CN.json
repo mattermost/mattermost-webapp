@@ -1028,7 +1028,7 @@
   "admin.guest_access.disableConfirmWarning": "所有当前访客会话将被撤销并标为停用",
   "admin.guest_access.enableDescription": "当为是时，外部游客可以在团队里被邀请到频道。请参见[权限方案](../user_management/permissions/system_scheme)了解哪些身份可以邀请游客。",
   "admin.guest_access.enableTitle": "开启访客访问： ",
-  "admin.guest_access.mfaDescription": "当设为是时，游客必须需要[多重验证](!https://docs.mattermost.com/deployment/auth.html)登入。新游客将在注册时候设置多重验证。已登入并未设置多重验证的游客将重指向多重验证设置页面直到配置完成。\n \n如果您的系统有 AD/LDAP 或电子邮件登入方式以外的游客，多重验证必须在 Mattermost 外的验证提供商设置。",
+  "admin.guest_access.mfaDescription": "当设为是时，游客必须需要<link>多重验证</link>登入。新游客将在注册时候设置多重验证。已登入并未设置多重验证的游客将重指向多重验证设置页面直到配置完成。\n \n如果您的系统有 AD/LDAP 或电子邮件登入方式以外的游客，多重验证必须在 Mattermost 外的验证提供商设置。",
   "admin.guest_access.mfaDescriptionMFANotEnabled": "[多重验证](./mfa)目前未开启。",
   "admin.guest_access.mfaDescriptionMFANotEnforced": "[多重验证](./mfa)目前未强制。",
   "admin.guest_access.mfaTitle": "强制多重身份验证：",

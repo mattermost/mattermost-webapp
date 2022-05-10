@@ -763,7 +763,7 @@
   "admin.guest_access.disableConfirmWarning": "將撤銷現行所有的訪客帳號工作階段，並標示訪客使用者為停用。",
   "admin.guest_access.enableDescription": "啟用時，可以邀請外部訪客至團隊的頻道。請參閱[權限配置](../user_management/permissions/system_scheme)以了解哪些角色可以邀請訪客。",
   "admin.guest_access.enableTitle": "啟用訪客存取：",
-  "admin.guest_access.mfaDescription": "啟用時，登入必須使用[多重要素驗證](!https://docs.mattermost.com/deployment/auth.html)。新的使用者將會在登錄時被要求設定多重要素驗證。已登入但沒有設定多重要素驗證的使用者將會被重新導向至多重要素驗證設定頁面直到完成設定為止。\n \n如果使用了 AD/LDAP 與電子郵件以外的登入方式，多重要素驗證必須要在認證提供者處設定。",
+  "admin.guest_access.mfaDescription": "啟用時，登入必須使用<link>多重要素驗證</link>。新的使用者將會在登錄時被要求設定多重要素驗證。已登入但沒有設定多重要素驗證的使用者將會被重新導向至多重要素驗證設定頁面直到完成設定為止。\n \n如果使用了 AD/LDAP 與電子郵件以外的登入方式，多重要素驗證必須要在認證提供者處設定。",
   "admin.guest_access.mfaDescriptionMFANotEnabled": "目前沒有啟用[多重要素驗證](./mfa)。",
   "admin.guest_access.mfaDescriptionMFANotEnforced": "目前沒有強制使用[多重要素驗證](./mfa)。",
   "admin.guest_access.mfaTitle": "強制使用多重要素驗證：",
