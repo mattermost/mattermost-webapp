@@ -36,6 +36,7 @@ import {
     License,
     AdminConfig,
     EnvironmentConfig,
+    RequestLicenseBody,
 } from '@mattermost/types/config';
 import {CustomEmoji} from '@mattermost/types/emojis';
 import {ServerError} from '@mattermost/types/errors';
@@ -3184,6 +3185,13 @@ export default class Client4 {
             request,
         );
     };
+
+    requestTrialLicense = (body: RequestLicenseBody) => {
+        return this.doFetchWithResponse<ClientLicense>(
+            `${this.getBaseRoute()}/trial-license`,
+            {method: 'POST', body: JSON.stringify(body)},
+        );
+    }
 
     removeLicense = () => {
         return this.doFetch<StatusOK>(
