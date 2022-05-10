@@ -1124,7 +1124,7 @@
   "admin.ldap.syncNowHelpText": "Inițiază imediat o sincronizare AD/LDAP. Consultați tabelul de mai jos pentru starea fiecărei sincronizări. Consultați \"Console de sistem > Jurnale\" și [documentația](!https://mattermost.com/default-ldap-docs) pentru a depana erorile.",
   "admin.ldap.sync_button": "AD/LDAP Sincronizați acum",
   "admin.ldap.testFailure": "Defecțiunea testului AD/LDAP: {error}",
-  "admin.ldap.testHelpText": "Tests if the Mattemost server can connect to the AD/LDAP server specified. Please review \"System Console > Logs\" and [documentation](!https://mattermost.com/default-ldap-docs) to troubleshoot errors.",
+  "admin.ldap.testHelpText": "Tests if the Mattemost server can connect to the AD/LDAP server specified. Please review \"System Console > Logs\" and <link>documentation</link> to troubleshoot errors.",
   "admin.ldap.testSuccess": "Testul AD/LDAP a reușit",
   "admin.ldap.uploading.certificate": "Se încarcă certificatul ...",
   "admin.ldap.uploading.privateKey": "Încărcarea cheii private ...",

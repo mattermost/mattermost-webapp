@@ -1208,7 +1208,7 @@
   "admin.ldap.syncNowHelpText": "Hemen bir AD/LDAP eşitlemesi başlatır. Her bir eşitleme işleminin durumunu aşağıdaki tabloda görebilirsiniz. Sorunları çözmek için \"Sistem panosu > Günlükler\" ve [belgeler](!https://mattermost.com/default-ldap-docs) bölümlerine bakabilirsiniz.",
   "admin.ldap.sync_button": "Şimdi AD/LDAP eşitle",
   "admin.ldap.testFailure": "AD/LDAP sınaması başarısız: {error}",
-  "admin.ldap.testHelpText": "Mattermost sunucusunun belirtilen AD/LDAP sunucusu ile bağlantı kurup kuramadığını denetler. Sorunları çözmek için \"Sistem panosu > Günlükler\" ve [belgeler](!https://mattermost.com/default-ldap-docs) bölümlerine bakabilirsiniz.",
+  "admin.ldap.testHelpText": "Mattermost sunucusunun belirtilen AD/LDAP sunucusu ile bağlantı kurup kuramadığını denetler. Sorunları çözmek için \"Sistem panosu > Günlükler\" ve <link>belgeler</link> bölümlerine bakabilirsiniz.",
   "admin.ldap.testSuccess": "AD/LDAP sınaması başarılı",
   "admin.ldap.uploading.certificate": "Sertifika güncelleniyor...",
   "admin.ldap.uploading.privateKey": "Kişisel anahtar yükleniyor...",

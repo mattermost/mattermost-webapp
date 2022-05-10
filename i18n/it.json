@@ -959,7 +959,7 @@
   "admin.ldap.syncNowHelpText": "Avvia una sincronizzazione AD/LDAP immediatamente. Vedere la tabella sottostante per lo stato di ciascuna sincronizzazione. Per esaminare gli errori controllare in \"Console di Sistema > Logs\" e vedere la [documentazione](!https://mattermost.com/default-ldap-docs).",
   "admin.ldap.sync_button": "Sincronizza AD/LDAP ora",
   "admin.ldap.testFailure": "Test AD/LDAP Fallito: {error}",
-  "admin.ldap.testHelpText": "Controlla se il server Mattermost può connettersi al server AD/LDAP specificato. Per esaminare gli errori controllare in \"Console di Sistema > Logs\" e vedere la [documentazione](!https://mattermost.com/default-ldap-docs) in caso di errori.",
+  "admin.ldap.testHelpText": "Controlla se il server Mattermost può connettersi al server AD/LDAP specificato. Per esaminare gli errori controllare in \"Console di Sistema > Logs\" e vedere la <link>documentazione</link> in caso di errori.",
   "admin.ldap.testSuccess": "Test AD/LDAP Avvenuto correttamente",
   "admin.ldap.uploading.certificate": "Caricamento Certificato...",
   "admin.ldap.uploading.privateKey": "Caricamento Chiave Privata...",

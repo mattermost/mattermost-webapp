@@ -1153,7 +1153,7 @@
   "admin.ldap.syncNowHelpText": "همگام سازی AD/LDAP را فوراً آغاز می کند. برای وضعیت هر همگام سازی به جدول زیر مراجعه کنید. لطفاً برای عیب‌یابی خطاها، «کنسول سیستم > گزارش‌ها» و [اسناد](!https://mattermost.com/default-ldap-docs) را مرور کنید.",
   "admin.ldap.sync_button": "AD/LDAP اکنون همگام سازی کنید",
   "admin.ldap.testFailure": "شکست تست AD/LDAP: {error}",
-  "admin.ldap.testHelpText": "آزمایش می کند که آیا سرور Mattermost می تواند به سرور AD/LDAP مشخص شده متصل شود یا خیر. لطفاً برای عیب‌یابی خطاها، «کنسول سیستم > گزارش‌ها» و [اسناد](!https://mattermost.com/default-ldap-docs) را مرور کنید.",
+  "admin.ldap.testHelpText": "آزمایش می کند که آیا سرور Mattermost می تواند به سرور AD/LDAP مشخص شده متصل شود یا خیر. لطفاً برای عیب‌یابی خطاها، «کنسول سیستم > گزارش‌ها» و <link>اسناد</link> را مرور کنید.",
   "admin.ldap.testSuccess": "تست AD/LDAP با موفقیت انجام شد",
   "admin.ldap.uploading.certificate": "در حال بارگذاری گواهی...",
   "admin.ldap.uploading.privateKey": "در حال بارگذاری کلید خصوصی...",

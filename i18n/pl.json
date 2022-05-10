@@ -1208,7 +1208,7 @@
   "admin.ldap.syncNowHelpText": "Natychmiast inicjuje synchronizację AD/LDAP. Zobacz tabelę poniżej, aby sprawdzić status każdej synchronizacji. Sprawdź \" Konsola Systemowa > Logi\" i [documentacje](!https://mattermost.com/default-ldap-docs), aby rozwiązać problemy.",
   "admin.ldap.sync_button": "Synchronizuj AD/LDAP Teraz",
   "admin.ldap.testFailure": "AD/LDAP Test nie powiódł się: {error}",
-  "admin.ldap.testHelpText": "Sprawdza, czy serwer Mattermost może łączyć się z określonym serwerem AD/LDAP. Przeczytaj \"Konsola Systemowa > Logi\" i [documentacje] (!https://mattermost.com/default-ldap-docs), aby rozwiązać problemy.",
+  "admin.ldap.testHelpText": "Sprawdza, czy serwer Mattermost może łączyć się z określonym serwerem AD/LDAP. Przeczytaj \"Konsola Systemowa > Logi\" i <link>documentacje</link> , aby rozwiązać problemy.",
   "admin.ldap.testSuccess": "AD/LDAP Test Sukces",
   "admin.ldap.uploading.certificate": "Wysyłanie Certyfikatu...",
   "admin.ldap.uploading.privateKey": "Wysyłanie Prywatnego Klucza...",

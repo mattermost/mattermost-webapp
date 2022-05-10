@@ -1208,7 +1208,7 @@
   "admin.ldap.syncNowHelpText": "AD/LDAP同期処理を今すぐ開始します。各同期処理のステータスは下記の表を参照してください。エラーが発生している場合、\"システムコンソール > ログ\"と[説明文書](!https://mattermost.com/default-ldap-docs)を参照してください。",
   "admin.ldap.sync_button": "AD/LDAP同期を今すぐ実行する",
   "admin.ldap.testFailure": "AD/LDAPのテストに失敗: {error}",
-  "admin.ldap.testHelpText": "Mattermostサーバーが指定されたAD/LDAPサーバーへ接続できるかテストします。エラーが発生した場合、\"システムコンソール > ログ\"と[説明文書](!https://mattermost.com/default-ldap-docs)を参照してください。",
+  "admin.ldap.testHelpText": "Mattermostサーバーが指定されたAD/LDAPサーバーへ接続できるかテストします。エラーが発生した場合、\"システムコンソール > ログ\"と<link>説明文書</link>を参照してください。",
   "admin.ldap.testSuccess": "AD/LDAPテストが成功しました",
   "admin.ldap.uploading.certificate": "証明書をアップロードしています...",
   "admin.ldap.uploading.privateKey": "秘密鍵をアップロードしています...",

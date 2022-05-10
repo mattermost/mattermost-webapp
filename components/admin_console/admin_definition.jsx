@@ -3576,7 +3576,19 @@ const AdminDefinition = {
                                 label_default: 'AD/LDAP Test',
                                 help_text: t('admin.ldap.testHelpText'),
                                 help_text_markdown: true,
-                                help_text_default: 'Tests if the Mattermost server can connect to the AD/LDAP server specified. Please review "System Console > Logs" and [documentation](!https://mattermost.com/default-ldap-docs) to troubleshoot errors.',
+                                help_text_default: 'Tests if the Mattermost server can connect to the AD/LDAP server specified. Please review "System Console > Logs" and <link>documentation</link> to troubleshoot errors.',
+                                help_text_values: {
+                                    link: (msg) => (
+                                        <a
+                                            href='https://mattermost.com/default-ldap-docs'
+                                            referrer='noreferrer'
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {msg}
+                                        </a>
+                                    ),
+                                },
                                 error_message: t('admin.ldap.testFailure'),
                                 error_message_default: 'AD/LDAP Test Failure: {error}',
                                 success_message: t('admin.ldap.testSuccess'),

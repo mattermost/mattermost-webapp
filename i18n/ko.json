@@ -1096,7 +1096,7 @@
   "admin.ldap.syncNowHelpText": "AD/LDAP 동기화를 바로 시작합니다. 각 동기화 상태는 아래 표를 참조하십시오. 오류를 해결하려면 \"시스템 콘솔 > 로그\" 및 [설명서](!https://mattermost.com/default-ldap-docs)를 확인하십시오.",
   "admin.ldap.sync_button": "지금 LDAP 동기화하기",
   "admin.ldap.testFailure": "AD/LDAP 테스트 실패: {error}",
-  "admin.ldap.testHelpText": "Mattermost 서버가 지정된 AD/LDAP 서버에 연결할 수 있는지 테스트합니다. 오류를 해결하려면 \"시스템 콘솔 > 로그\"및 [설명서](!https://mattermost.com/default-ldap-docs)를 확인하십시오.",
+  "admin.ldap.testHelpText": "Mattermost 서버가 지정된 AD/LDAP 서버에 연결할 수 있는지 테스트합니다. 오류를 해결하려면 \"시스템 콘솔 > 로그\"및 <link>설명서</link>를 확인하십시오.",
   "admin.ldap.testSuccess": "AD/LDAP 테스트가 성공하였습니다",
   "admin.ldap.uploading.certificate": "인증서 업로드 중...",
   "admin.ldap.uploading.privateKey": "개인 키 업로드 중...",

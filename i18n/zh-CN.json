@@ -1200,7 +1200,7 @@
   "admin.ldap.syncNowHelpText": "立刻开始 AD/LDAP 同步。查阅以下表格的同步状态。请检查 \"系统控制台>日志\" 以及[文档](!https://mattermost.com/default-ldap-docs) 以排错。",
   "admin.ldap.sync_button": "开始 AD/LDAP 同步",
   "admin.ldap.testFailure": "AD/LDAP 测试失败：{error}",
-  "admin.ldap.testHelpText": "测试 Mattermost 是否可以连接指定的 AD/LDAP 服务器。请检查 \"系统控制台>日志\" 以及[文档](!https://mattermost.com/default-ldap-docs) 排错。",
+  "admin.ldap.testHelpText": "测试 Mattermost 是否可以连接指定的 AD/LDAP 服务器。请检查 \"系统控制台>日志\" 以及<link>文档</link> 排错。",
   "admin.ldap.testSuccess": "AD/LDAP 测试成功",
   "admin.ldap.uploading.certificate": "上传证书中...",
   "admin.ldap.uploading.privateKey": "上传密钥中...",

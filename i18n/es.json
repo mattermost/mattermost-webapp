@@ -1208,7 +1208,7 @@
   "admin.ldap.syncNowHelpText": "Inicia una sincronización de AD/LDAP de forma inmediata. Observa la tabla que se encuentra más abajo para ver el estado de cada sincronización. Por favor revisa \"Consola del Sistema > Registros\" y la [documentación](!https://mattermost.com/default-ldap-docs) para solucionar problemas.",
   "admin.ldap.sync_button": "Sincronizar AD/LDAP Ahora",
   "admin.ldap.testFailure": "Falla de la Prueba AD/LDAP: {error}",
-  "admin.ldap.testHelpText": "Prueba si el servidor de Mattermost se puede conectar al servidor AD/LDAP especificado. Por favor revisa \"Consola del Sistema > Registros\" y la [documentación](!https://mattermost.com/default-ldap-docs) para solucionar problemas.",
+  "admin.ldap.testHelpText": "Prueba si el servidor de Mattermost se puede conectar al servidor AD/LDAP especificado. Por favor revisa \"Consola del Sistema > Registros\" y la <link>documentación</link> para solucionar problemas.",
   "admin.ldap.testSuccess": "Prueba de AD/LDAP Satisfactoria",
   "admin.ldap.uploading.certificate": "Cargando Certificado...",
   "admin.ldap.uploading.privateKey": "Cargando Llave Privada...",

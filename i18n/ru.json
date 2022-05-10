@@ -1208,7 +1208,7 @@
   "admin.ldap.syncNowHelpText": "Инициирует синхронизацию AD/LDAP немедленно. В таблице ниже приведено состояние каждой синхронизации. Пожалуйста, просмотрите «Системная консоль > Журналы» и [документацию](!https://mattermost.com/default-ldap-docs) для устранения ошибок.",
   "admin.ldap.sync_button": "Синхронизировать с AD/LDAP сейчас",
   "admin.ldap.testFailure": "Ошибка теста AD/LDAP: {error}",
-  "admin.ldap.testHelpText": "Проверяет, может ли сервер Mattermost подключаться к указанному серверу AD/LDAP. Пожалуйста, просмотрите «Системная консоль > Журналы» и [документацию](!https://mattermost.com/default-ldap-docs) для устранения ошибок.",
+  "admin.ldap.testHelpText": "Проверяет, может ли сервер Mattermost подключаться к указанному серверу AD/LDAP. Пожалуйста, просмотрите «Системная консоль > Журналы» и <link>документацию</link> для устранения ошибок.",
   "admin.ldap.testSuccess": "Тестирование подключения к AD/LDAP успешно завершено",
   "admin.ldap.uploading.certificate": "Загрузка сертификата...",
   "admin.ldap.uploading.privateKey": "Загрузка приватного ключа...",

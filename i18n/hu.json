@@ -1208,7 +1208,7 @@
   "admin.ldap.syncNowHelpText": "Azonnal elindítja az AD/LDAP szinkronizálást. Az egyes szinkronizálások állapotát az alábbi táblázat tartalmazza. A hibák elhárításához olvassa el a \"Rendszerkonzol > Naplók\" és a [dokumentációt](!https://mattermost.com/default-ldap-docs).",
   "admin.ldap.sync_button": "AD/LDAP Szinkronizálás most",
   "admin.ldap.testFailure": "AD/LDAP teszt sikertelen: {error}",
-  "admin.ldap.testHelpText": "Teszteli, hogy a Mattermost szerver képes-e csatlakozni a megadott AD/LDAP szerverhez. A hibák elhárításához olvassa el a \"Rendszerkonzol > Naplók\" és a [dokumentációt](!https://mattermost.com/default-ldap-docs).",
+  "admin.ldap.testHelpText": "Teszteli, hogy a Mattermost szerver képes-e csatlakozni a megadott AD/LDAP szerverhez. A hibák elhárításához olvassa el a \"Rendszerkonzol > Naplók\" és a <link>dokumentációt</link>.",
   "admin.ldap.testSuccess": "AD/LDAP teszt sikeres",
   "admin.ldap.uploading.certificate": "Tanúsítvány feltöltése...",
   "admin.ldap.uploading.privateKey": "Privát kulcs feltöltése...",

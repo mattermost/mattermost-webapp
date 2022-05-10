@@ -1208,7 +1208,7 @@
   "admin.ldap.syncNowHelpText": "Initierar en AD/LDAP synkronisering nu. Kontrollera tabellen nedan för status av respektive synkronisering. Kontrollera \"System Console > Loggar\" och [dokumentationen](!https://mattermost.com/default-ldap-docs) för felsökning vid fel.",
   "admin.ldap.sync_button": "Synkronisera AD/LDAP nu",
   "admin.ldap.testFailure": "AD/LDAP Test misslyckades: {error}",
-  "admin.ldap.testHelpText": "Testar om Mattermost kan ansluta till den angivna AD/LDAP-katalogen. Kontrollera \"System Console > Loggar\" och i [dokumentationen](!https://mattermost.com/default-ldap-docs) för felsökning.",
+  "admin.ldap.testHelpText": "Testar om Mattermost kan ansluta till den angivna AD/LDAP-katalogen. Kontrollera \"System Console > Loggar\" och i <link>dokumentationen</link> för felsökning.",
   "admin.ldap.testSuccess": "Lyckat AD/LDAP-test",
   "admin.ldap.uploading.certificate": "Laddar upp certifikat...",
   "admin.ldap.uploading.privateKey": "Laddar upp privat nyckel...",
