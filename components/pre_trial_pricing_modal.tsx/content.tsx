@@ -5,10 +5,11 @@ import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
 
-import {GlobalState} from '@mattermost/types/store';
+import {GlobalState} from 'types/store';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {CloudLinks, CloudProducts, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 
 import './content.scss';
 import LadySvg from './lady.svg';
@@ -155,6 +156,8 @@ function Card(props: CardProps) {
 function Content() {
     const {formatMessage} = useIntl();
 
+    const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
+
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
     const product = useSelector((state: GlobalState) => {
         if (state.entities.cloud.products && subscription) {
@@ -276,7 +279,9 @@ function Content() {
                         customClass: ButtonCustomiserClasses.special,
                     }}
                     extraAction={{
-                        action: () => {},
+                        action: () => {
+                            window.open(contactSalesLink, '_blank');
+                        },
                         text: formatMessage({id: 'pretrial_pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),
                     }}
                 />
