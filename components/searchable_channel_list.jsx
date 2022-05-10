@@ -10,7 +10,7 @@ import LoadingScreen from 'components/loading_screen';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import QuickInput from 'components/quick_input';
 import * as UserAgent from 'utils/user_agent';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 import ArchiveIcon from 'components/widgets/icons/archive_icon';

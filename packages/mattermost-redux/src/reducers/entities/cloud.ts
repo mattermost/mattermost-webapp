@@ -6,7 +6,7 @@ import {combineReducers} from 'redux';
 import {CloudTypes} from 'mattermost-redux/action_types';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Product, Subscription, CloudCustomer, Invoice} from 'mattermost-redux/types/cloud';
+import {Product, Subscription, CloudCustomer, Invoice, Limits} from 'mattermost-redux/types/cloud';
 
 function subscription(state: Subscription | null = null, action: GenericAction) {
     switch (action.type) {
@@ -64,6 +64,27 @@ function invoices(state: Record<string, Invoice> | null = null, action: GenericA
     }
 }
 
+export interface LimitsReducer {
+    limits: Limits;
+    limitsLoaded: boolean;
+}
+const emptyLimits = {
+    limits: {},
+    limitsLoaded: false,
+};
+export function limits(state: LimitsReducer = emptyLimits, action: GenericAction) {
+    switch (action.type) {
+    case CloudTypes.RECEIVED_CLOUD_LIMITS: {
+        return {
+            limits: action.data,
+            limitsLoaded: true,
+        };
+    }
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
 
     // represents the current cloud customer
@@ -77,4 +98,7 @@ export default combineReducers({
 
     // represents the invoices tied to the current subscription
     invoices,
+
+    // represents the usage limits associated with this workspace
+    limits,
 });

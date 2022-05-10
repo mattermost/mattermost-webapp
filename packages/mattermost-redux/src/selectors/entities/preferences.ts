@@ -214,6 +214,11 @@ export function insightsAreEnabled(state: GlobalState): boolean {
     return getFeatureFlagValue(state, 'InsightsEnabled') === 'true';
 }
 
+
 export function isGraphQLEnabled(state: GlobalState): boolean {
     return getFeatureFlagValue(state, 'GraphQL') === 'true';
+}
+
+export function cloudFreeEnabled(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'CloudFree') === 'true';
 }

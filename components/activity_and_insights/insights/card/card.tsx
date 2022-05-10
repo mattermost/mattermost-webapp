@@ -5,9 +5,10 @@ import classNames from 'classnames';
 
 import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 
+import {CardSize, CardSizes} from 'mattermost-redux/types/insights';
+
 import Card from 'components/card/card';
 import CardHeader from 'components/card/card_header';
-import {CardSize, CardSizes} from '../insights';
 
 import './card.scss';
 
@@ -17,6 +18,7 @@ type Props = {
     title: string;
     subTitle?: string;
     size: CardSize;
+    onClick: () => void;
 }
 
 const InsightsCard = (props: Props) => {
@@ -28,7 +30,9 @@ const InsightsCard = (props: Props) => {
                 small: props.size === CardSizes.small,
             })}
         >
-            <CardHeader>
+            <CardHeader
+                onClick={props.onClick}
+            >
                 <div className='title-and-subtitle'>
                     <div className='text-top'>
                         <h2>
