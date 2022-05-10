@@ -48,7 +48,8 @@ const SyncGroupsToggle: React.SFC<Props> = (props: Props): JSX.Element => {
                             <a
                                 href='https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html'
                                 target='_blank'
-                                rel='noreferrer'                                    >
+                                rel='noreferrer'
+                            >
                                 {msg}
                             </a>
                         ),

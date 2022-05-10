@@ -216,7 +216,7 @@ export default class ConfirmIntegration extends React.PureComponent {
                                     {msg}
                                 </a>
                             ),
-                          }}
+                        }}
                     />
                 </p>,
             );
@@ -318,7 +318,7 @@ export default class ConfirmIntegration extends React.PureComponent {
                                     {msg}
                                 </a>
                             ),
-                          }}
+                        }}
                     />
                 </p>
             );

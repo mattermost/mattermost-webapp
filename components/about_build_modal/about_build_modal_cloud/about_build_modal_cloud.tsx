@@ -6,7 +6,6 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 
 import './about_build_modal_cloud.scss';
@@ -97,7 +96,7 @@ export default function AboutBuildModalCloud(props: Props) {
                         </div>
                         {licensee}
                         <div className='about-footer'>
-                        <FormattedMessage
+                            <FormattedMessage
                                 id='about.notice'
                                 defaultMessage='Mattermost is made possible by the open source software used in our <linkServer>server</linkServer>, <linkDesktop>desktop</linkDesktop> and <linkMobile>mobile</linkMobile> apps.'
                                 values={{
@@ -105,7 +104,8 @@ export default function AboutBuildModalCloud(props: Props) {
                                         <a
                                             href='https://github.com/mattermost/mattermost-server/blob/master/NOTICE.txt'
                                             target='_blank'
-                                            rel='noreferrer'                                    >
+                                            rel='noreferrer'
+                                        >
                                             {msg}
                                         </a>
                                     ),
@@ -113,7 +113,8 @@ export default function AboutBuildModalCloud(props: Props) {
                                         <a
                                             href='https://github.com/mattermost/desktop/blob/master/NOTICE.txt'
                                             target='_blank'
-                                            rel='noreferrer'                                    >
+                                            rel='noreferrer'
+                                        >
                                             {msg}
                                         </a>
                                     ),
@@ -121,7 +122,8 @@ export default function AboutBuildModalCloud(props: Props) {
                                         <a
                                             href='https://github.com/mattermost/mattermost-mobile/blob/master/NOTICE.txt'
                                             target='_blank'
-                                            rel='noreferrer'                                    >
+                                            rel='noreferrer'
+                                        >
                                             {msg}
                                         </a>
                                     ),

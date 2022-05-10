@@ -111,9 +111,16 @@ exports[`components/AboutBuildModal should match snapshot for cloud edition 1`] 
         <div
           className="about-footer"
         >
-          <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="Mattermost is made possible by the open source software used in our [server](!https://github.com/mattermost/mattermost-server/blob/master/NOTICE.txt), [desktop](!https://github.com/mattermost/desktop/blob/master/NOTICE.txt) and [mobile](!https://github.com/mattermost/mattermost-mobile/blob/master/NOTICE.txt) apps."
+          <MemoizedFormattedMessage
+            defaultMessage="Mattermost is made possible by the open source software used in our <linkServer>server</linkServer>, <linkDesktop>desktop</linkDesktop> and <linkMobile>mobile</linkMobile> apps."
             id="about.notice"
+            values={
+              Object {
+                "linkDesktop": [Function],
+                "linkMobile": [Function],
+                "linkServer": [Function],
+              }
+            }
           />
           <div
             className="copy-right"

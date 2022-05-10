@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 import Nbsp from 'components/html_entities/nbsp';
 
@@ -284,7 +283,8 @@ export default class AboutBuildModal extends React.PureComponent<Props, State> {
                                         <a
                                             href='https://github.com/mattermost/mattermost-server/blob/master/NOTICE.txt'
                                             target='_blank'
-                                            rel='noreferrer'                                    >
+                                            rel='noreferrer'
+                                        >
                                             {msg}
                                         </a>
                                     ),
@@ -292,7 +292,8 @@ export default class AboutBuildModal extends React.PureComponent<Props, State> {
                                         <a
                                             href='https://github.com/mattermost/desktop/blob/master/NOTICE.txt'
                                             target='_blank'
-                                            rel='noreferrer'                                    >
+                                            rel='noreferrer'
+                                        >
                                             {msg}
                                         </a>
                                     ),
@@ -300,7 +301,8 @@ export default class AboutBuildModal extends React.PureComponent<Props, State> {
                                         <a
                                             href='https://github.com/mattermost/mattermost-mobile/blob/master/NOTICE.txt'
                                             target='_blank'
-                                            rel='noreferrer'                                    >
+                                            rel='noreferrer'
+                                        >
                                             {msg}
                                         </a>
                                     ),
