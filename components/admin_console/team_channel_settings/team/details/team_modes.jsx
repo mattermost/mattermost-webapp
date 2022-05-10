@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {t} from 'utils/i18n';
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
-git
+
 import LineSwitch from '../../line_switch.jsx';
 
 const SyncGroupsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked, allowedDomains, onToggle, isDisabled}) => (

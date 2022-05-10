@@ -1589,7 +1589,7 @@
   "admin.service.listenExample": "예시 \":8065\"",
   "admin.service.mfaDesc": "이 설정이 활성화되면, AD/LDAP 혹은 전자우편 로그인 사용자는 Google OTP를 사용하는 멀티 팩터 인증을 자신의 계정에 추가할 수 있습니다.",
   "admin.service.mfaTitle": "멀티팩터 인증:",
-  "admin.service.minimumHashtagLengthDescription": "해시 태그의 최소 문자수는 2보다 크거나 같아야합니다. MySQL 데이터베이스는 3보다 짧은 문자열 검색을 지원하도록 구성해야합니다. [참조문서](!https://dev.mysql.com/doc/refman/8.0/en/fulltext- fine-tuning.html).",
+  "admin.service.minimumHashtagLengthDescription": "해시 태그의 최소 문자수는 2보다 크거나 같아야합니다. MySQL 데이터베이스는 3보다 짧은 문자열 검색을 지원하도록 구성해야합니다. <link>참조문서</link>.",
   "admin.service.minimumHashtagLengthExample": "예시 \"30\"",
   "admin.service.minimumHashtagLengthTitle": "패스워드 최소 길이:",
   "admin.service.outWebhooksDesc": "활성화 시, 나가는 웹훅이 허용됩니다. 자세한 내용은 [문서](!https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-outgoing/)을 참조하십시오.",
