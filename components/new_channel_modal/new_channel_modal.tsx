@@ -85,6 +85,10 @@ const NewChannelModal = () => {
     const [serverError, setServerError] = useState('');
 
     const handleOnModalConfirm = async () => {
+        if (!canCreate) {
+            return;
+        }
+
         const channel: Channel = {
             team_id: currentTeamId,
             name: url,
@@ -208,6 +212,11 @@ const NewChannelModal = () => {
         setServerError('');
     };
 
+    const handleOnPurposeKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        // Avoid firing the handleEnterKeyPress in GenericModal from purpose textarea
+        e.stopPropagation();
+    };
+
     const canCreate = displayName && !displayNameError && url && !urlError && type && !purposeError && !serverError;
 
     return (
@@ -222,6 +231,7 @@ const NewChannelModal = () => {
             autoCloseOnConfirmButton={false}
             useCompassDesign={true}
             handleConfirm={handleOnModalConfirm}
+            handleEnterKeyPress={handleOnModalConfirm}
             handleCancel={handleOnModalCancel}
             onExited={handleOnModalCancel}
         >
@@ -277,6 +287,7 @@ const NewChannelModal = () => {
                         autoComplete='off'
                         value={purpose}
                         onChange={handleOnPurposeChange}
+                        onKeyDown={handleOnPurposeKeyDown}
                     />
                     {purposeError ? (
                         <div className='new-channel-modal-purpose-error'>

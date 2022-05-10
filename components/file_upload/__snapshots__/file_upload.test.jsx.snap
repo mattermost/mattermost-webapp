@@ -29,33 +29,30 @@ exports[`components/FileUpload should match snapshot 1`] = `
   placement="top"
   trigger="hover"
 >
-  <div
-    className="style--none"
+  <button
+    aria-label="attachment"
+    className="style--none post-action"
+    id="fileUploadButton"
+    onClick={[Function]}
+    onTouchEnd={[Function]}
+    type="button"
   >
-    <div>
-      <button
-        aria-label="attachment"
-        className="style--none post-action icon icon--attachment"
-        id="fileUploadButton"
-        onClick={[Function]}
-        onTouchEnd={[Function]}
-        type="button"
-      >
-        <AttachmentIcon
-          className="d-flex"
-        />
-      </button>
-      <input
-        accept=""
-        aria-label="Upload files"
-        id="fileUploadInput"
-        multiple={true}
-        onChange={[Function]}
-        onClick={[Function]}
-        tabIndex="-1"
-        type="file"
-      />
-    </div>
-  </div>
+    <PaperclipIcon
+      aria-label="Attachment Icon"
+      color="currentColor"
+      size={18}
+    />
+  </button>
+  <input
+    accept=""
+    aria-label="Upload files"
+    className="hidden"
+    id="fileUploadInput"
+    multiple={true}
+    onChange={[Function]}
+    onClick={[Function]}
+    tabIndex="-1"
+    type="file"
+  />
 </OverlayTrigger>
 `;
