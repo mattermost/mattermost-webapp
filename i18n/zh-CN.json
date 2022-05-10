@@ -3194,7 +3194,7 @@
   "help.formatting.headings2": "另外，您可以在文字下一行用 `===` 或 `---` 来创建标题。",
   "help.formatting.headings2Example": "大标题\n-------------",
   "help.formatting.headingsExample": "## 大标题\n### 小标题\n#### 更加小标题",
-  "help.formatting.images.description": "在 `!` 后面加方括号里带替代文字以及括号里带链接以创建内嵌图片。在链接后用带双引号的文字以添加悬浮文字。参见[产品文档](!https://docs.mattermost.com/messaging/formatting-text.html#in-line-images)了解更多关于内嵌图片。",
+  "help.formatting.images.description": "在 `!` 后面加方括号里带替代文字以及括号里带链接以创建内嵌图片。在链接后用带双引号的文字以添加悬浮文字。参见<link>产品文档</link>了解更多关于内嵌图片。",
   "help.formatting.images.title": "内嵌图片",
   "help.formatting.inline.description": "用反引号包围文字创建等宽文字。",
   "help.formatting.inline.title": "内嵌代码",

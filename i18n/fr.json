@@ -3350,7 +3350,7 @@
   "help.formatting.headings2": "Alternativement, vous pouvez souligner le texte à l'aide de `===` ou `---` pour créer des entêtes.",
   "help.formatting.headings2Example": "Grand en tête\n-------------",
   "help.formatting.headingsExample": "## Grand en tête\n### Plus petit en tête\n#### Encore plus petit en tête",
-  "help.formatting.images.description": "Créez des images intégrées au message en utilisant `!` suivi du texte alternatif placé entre crochets et du lien placé entre parenthèses. Pour ajouter un texte apparaissant au survol de la souris, placez-le entre guillemets après le lien. Visitez la [documentation du produit](!https://docs.mattermost.com/messaging/formatting-text.html#in-line-images) pour des détails sur l'utilisation des images intégrées.",
+  "help.formatting.images.description": "Créez des images intégrées au message en utilisant `!` suivi du texte alternatif placé entre crochets et du lien placé entre parenthèses. Pour ajouter un texte apparaissant au survol de la souris, placez-le entre guillemets après le lien. Visitez la <link>documentation du produit</link> pour des détails sur l'utilisation des images intégrées.",
   "help.formatting.images.title": "Images intégrées au message",
   "help.formatting.inline.description": "Créez un message formaté avec une police à chasse fixe (monospace) en l'entourant d'apostrophes inversées.",
   "help.formatting.inline.title": "Code intégré au message",

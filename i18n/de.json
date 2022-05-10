@@ -3392,7 +3392,7 @@
   "help.formatting.headings2": "Alternativ kannst du Überschriften durch Schreiben von `===` oder `---` unter dem Text erstellen.",
   "help.formatting.headings2Example": "Große Überschrift\n--------------",
   "help.formatting.headingsExample": "## Große Überschrift\n### Kleinere Überschrift\n#### Noch kleinere Überschrift",
-  "help.formatting.images.description": "Erstelle Inline-Bilder mit einem `!`, gefolgt von dem Alt-Text in eckigen Klammern und dem Link in normalen Klammern. Füge Hover-Text hinzu, indem du ihn nach dem Link in Anführungszeichen setzen. Siehe die [Produktdokumentation](!https://docs.mattermost.com/messaging/formatting-text.html#in-line-images) für mehr Details zum Arbeiten mit Inline-Bildern.",
+  "help.formatting.images.description": "Erstelle Inline-Bilder mit einem `!`, gefolgt von dem Alt-Text in eckigen Klammern und dem Link in normalen Klammern. Füge Hover-Text hinzu, indem du ihn nach dem Link in Anführungszeichen setzen. Siehe die <link>Produktdokumentation</link> für mehr Details zum Arbeiten mit Inline-Bildern.",
   "help.formatting.images.title": "Eingebettete Bilder",
   "help.formatting.inline.description": "Erstelle eingebetteten Monospaced Font durch die Verwendung von Backticks vor und nach dem Code.",
   "help.formatting.inline.title": "Eingebetteter Code",

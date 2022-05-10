@@ -3387,7 +3387,7 @@
   "help.formatting.headings2": "Je kan ook de tekst onderlijnen met `===` of `---` om kopteksten te maken.",
   "help.formatting.headings2Example": "Grote koptekst\n-------------",
   "help.formatting.headingsExample": "## Grote koptekst\n### Kleinere koptekst\n#### Nog kleinere koptekst",
-  "help.formatting.images.description": "Maak inline afbeeldingen met een `!` gevolgd door de alt tekst tussen vierkante haken en de link tussen normale haken. Voeg hover tekst toe door het tussen aanhalingstekens te plaatsen na de link. Zie de [documentatie](!https://docs.mattermost.com/messaging/formatting-text.html#in-line-images) voor details over het werken met inline afbeeldingen.",
+  "help.formatting.images.description": "Maak inline afbeeldingen met een `!` gevolgd door de alt tekst tussen vierkante haken en de link tussen normale haken. Voeg hover tekst toe door het tussen aanhalingstekens te plaatsen na de link. Zie de <link>documentatie</link> voor details over het werken met inline afbeeldingen.",
   "help.formatting.images.title": "In-line afbeeldingen",
   "help.formatting.inline.description": "Maak in-line monospaced lettertype door het te omgeven door backticks.",
   "help.formatting.inline.title": "In-line-code",

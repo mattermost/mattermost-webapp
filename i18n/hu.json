@@ -3392,7 +3392,7 @@
   "help.formatting.headings2": "Alternatív megoldásként aláhúzhatja a szöveget a \"===\" vagy a \"---\" gombbal a fejlécek létrehozásához.",
   "help.formatting.headings2Example": "Nagy fejléc\n-------------",
   "help.formatting.headingsExample": "## Nagy fejléc\n### Kisebb fejléc\n#### Még kisebb fejléc",
-  "help.formatting.images.description": "Készítsen üzenetbe ágyazott képeket a `!` használatával, amelyet szögletes zárójelben az alt szöveg és a normál zárójelben lévő link követ. Adjon hozzá lebegő szöveget úgy, hogy idézőjelbe teszi a hivatkozás után. Tekintse meg [a termék dokumentációjában](!https://docs.mattermost.com/messaging/formatting-text.html#in-line-images) hogyan kell részletesen alkalmazni a beágyazott képek funkciót.",
+  "help.formatting.images.description": "Készítsen üzenetbe ágyazott képeket a `!` használatával, amelyet szögletes zárójelben az alt szöveg és a normál zárójelben lévő link követ. Adjon hozzá lebegő szöveget úgy, hogy idézőjelbe teszi a hivatkozás után. Tekintse meg <link>a termék dokumentációjában</link> hogyan kell részletesen alkalmazni a beágyazott képek funkciót.",
   "help.formatting.images.title": "soron belüli képeket",
   "help.formatting.inline.description": "Soron belüli fix szélességű betűtípus készítése a visszafelé idézőjellel való körülvevéssel.",
   "help.formatting.inline.title": "Soron belüli kód",

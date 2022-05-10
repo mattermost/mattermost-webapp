@@ -3391,7 +3391,7 @@
   "help.formatting.headings2": "Alternatively, you can underline the text using `===` or `---` to create headings.",
   "help.formatting.headings2Example": "Large Heading\n-------------",
   "help.formatting.headingsExample": "## Large Heading\n### Smaller Heading\n#### Even Smaller Heading",
-  "help.formatting.images.description": "Create in-line images using an `!` followed by the alt text in square brackets and the link in normal brackets. Add hover text by placing it in quotes after the link. See the [product documentation](!https://docs.mattermost.com/messaging/formatting-text.html#in-line-images) for details on working with in-line images.",
+  "help.formatting.images.description": "Create in-line images using an `!` followed by the alt text in square brackets and the link in normal brackets. Add hover text by placing it in quotes after the link. See the <link>product documentation</link> for details on working with in-line images.",
   "help.formatting.images.title": "In-line Images",
   "help.formatting.inline.description": "Create in-line monospaced font by surrounding it with backticks.",
   "help.formatting.inline.title": "In-line Code",

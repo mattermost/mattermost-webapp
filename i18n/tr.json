@@ -3383,7 +3383,7 @@
   "help.formatting.headings2": "Alternatif olarak metnin altını çizmek için `===`, başlık oluşturmak için `---`kullanabilirsiniz.",
   "help.formatting.headings2Example": "Büyük başlık\n-------------",
   "help.formatting.headingsExample": "## Büyük başlık\n### Daha küçük başlık\n#### Daha da küçük başlık",
-  "help.formatting.images.description": "Köşeli parantez içindeki alt metinden sonra `!` yazarak satır arası görseller oluşturabilirsiniz. Bağlantıdan sonra tırnak içinde bağlantı üzerine gelindiğinde görüntülenmesini istediğiniz metni yazın. Satır arası görseller ile çalışmak hakkında ayrıntılı bilgi almak için [ürün belgelerine](!https://docs.mattermost.com/messaging/formatting-text.html#in-line-images) bakabilirsiniz.",
+  "help.formatting.images.description": "Köşeli parantez içindeki alt metinden sonra `!` yazarak satır arası görseller oluşturabilirsiniz. Bağlantıdan sonra tırnak içinde bağlantı üzerine gelindiğinde görüntülenmesini istediğiniz metni yazın. Satır arası görseller ile çalışmak hakkında ayrıntılı bilgi almak için <link>ürün belgelerine</link> bakabilirsiniz.",
   "help.formatting.images.title": "Satır arası görseller",
   "help.formatting.inline.description": "Sola yatık tırnak arasına alarak eş aralıklı yazı türü oluşturabilirsiniz.",
   "help.formatting.inline.title": "Satır arası kodlar",

@@ -3392,7 +3392,7 @@
   "help.formatting.headings2": "別の方法として、見出しを作成するために`===` や `---` を使ってテキストに下線を引くやり方もあります。",
   "help.formatting.headings2Example": "大きな見出し\n-------------",
   "help.formatting.headingsExample": "## 大きな見出し\n### 小さな見出し\n#### さらに小さな見出し",
-  "help.formatting.images.description": "`!`に続いて角括弧で囲んだ代替テキストと括弧で囲んだリンクを使用することでインライン画像を作成できます。リンクの後に引用符で囲んだテキストを書くことでホバーテキストを追加できます。インライン画像について詳しくは [製品ドキュメント](!https://docs.mattermost.com/messaging/formatting-text.html#in-line-images) を参照してください。",
+  "help.formatting.images.description": "`!`に続いて角括弧で囲んだ代替テキストと括弧で囲んだリンクを使用することでインライン画像を作成できます。リンクの後に引用符で囲んだテキストを書くことでホバーテキストを追加できます。インライン画像について詳しくは <link>製品ドキュメント</link> を参照してください。",
   "help.formatting.images.title": "インライン画像",
   "help.formatting.inline.description": "テキストをバッククォートで囲むとインライン等幅フォントを作成できます。",
   "help.formatting.inline.title": "インラインコード",

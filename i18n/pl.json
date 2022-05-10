@@ -3392,7 +3392,7 @@
   "help.formatting.headings2": "Alternatywnie można podkreślić tekst za pomocą `===` lub `---`, aby utworzyć nagłówki.",
   "help.formatting.headings2Example": "Duży nagłówek\n-------------",
   "help.formatting.headingsExample": "## Duży nagłówek\n### Mniejszy nagłówek\n#### Jeszcze mniejszy nagłówek",
-  "help.formatting.images.description": "Twórz obrazki w jednej linii używając `!` następnie alternatywny tekst w kwadratowych nawiasach i linku w normalnych nawiasach. Dodaj tekst podświetlający dodając cudzysłowy po linku. Zobacz [instrukcję obsługi](!https://docs.mattermost.com/messaging/formatting-text.html#in-line-images) aby poznać szczegóły.",
+  "help.formatting.images.description": "Twórz obrazki w jednej linii używając `!` następnie alternatywny tekst w kwadratowych nawiasach i linku w normalnych nawiasach. Dodaj tekst podświetlający dodając cudzysłowy po linku. Zobacz <link>instrukcję obsługi</link> aby poznać szczegóły.",
   "help.formatting.images.title": "Obrazki w linii",
   "help.formatting.inline.description": "Utwórz wbudowaną czcionkę o stałej szerokości, otaczając ją odskokami(`).",
   "help.formatting.inline.title": "Kod w jednej linii",

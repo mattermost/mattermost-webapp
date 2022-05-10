@@ -3315,7 +3315,7 @@
   "help.formatting.headings2": "Alternativt kan du göra understrykning med `===` eller `---`för att skapa rubriker.",
   "help.formatting.headings2Example": "Stor rubrik\n-------------",
   "help.formatting.headingsExample": "## Stor rubrik\n### Mindre rubrik\n#### Ännu mindre rubrik",
-  "help.formatting.images.description": "Lägg in bild i textflödet med hjälp av `!` följd av alt-text inom hakparenteser och länken inom vanliga parenteser. Lägg till hovringstext genom att skriva den inom citattecken efter länken. Läs [produktdoumentationen](!https://docs.mattermost.com/messaging/formatting-text.html#in-line-images) för mer information om bilder i text.",
+  "help.formatting.images.description": "Lägg in bild i textflödet med hjälp av `!` följd av alt-text inom hakparenteser och länken inom vanliga parenteser. Lägg till hovringstext genom att skriva den inom citattecken efter länken. Läs <link>produktdoumentationen</link> för mer information om bilder i text.",
   "help.formatting.images.title": "Bild i textflödet",
   "help.formatting.inline.description": "Skriv text med monospaced typsnitt i vanlig text genom att sätta backticks runt den.",
   "help.formatting.inline.title": "kodformattering i textflödet",
