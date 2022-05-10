@@ -3283,7 +3283,7 @@
   "help.commands.custom.title": "Egna kommandon",
   "help.commands.custom2": "Egna slash-kommandon är avaktiverade som standard men kan aktiveras av systemadministratören via Systemkonsollen under **Integrationer** > **Integrationsadministration**. Lär mer om att konfigurera egna slash-kommandon i <link>utvecklardocumentationen</link>.",
   "help.commands.intro1": "Du kan aktivera kommandon, så kallade slash-kommandon, genom att skriva dem i meddelanderutan för att utföra åtgärder i Mattermost. Skriv '/' följt av ett kommando och parametrar för att utföra åtgärder.",
-  "help.commands.intro2": "Inbyggda slash-kommandon finns i alla Mattermost-installationer. Läs [produktdokumentationen](!https://docs.mattermost.com/messaging/executing-slash-commands.html) för en lista på tillgängliga inbyggda slash-kommandon.",
+  "help.commands.intro2": "Inbyggda slash-kommandon finns i alla Mattermost-installationer. Läs <link>produktdokumentationen</link> för en lista på tillgängliga inbyggda slash-kommandon.",
   "help.commands.title": "Utför kommandon",
   "help.composing.deleting.description": "Radera ett meddelande genom att välja **Fler aktiviteter [...]**-ikonen bredvid ett meddelande som du skrivit och välj **Ta bort**. Systemadministratörer och teamadministratörer kan rader alla meddelanden i systemet respektive teamet.",
   "help.composing.deleting.title": "Radera ett meddelande",

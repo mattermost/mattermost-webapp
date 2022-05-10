@@ -3318,7 +3318,7 @@
   "help.commands.custom.title": "Commandes personnalisées",
   "help.commands.custom2": "Les commandes slash personnalisées sont désactivées par défaut et peuvent être activées par l'administrateur système dans la console système en allant dans **Intégrations > Gestion des intégrations**. Consultez la <link>page de documentation de développement de commandes slash</link> pour apprendre à configurer des commandes personnalisées.",
   "help.commands.intro1": "Vous pouvez exécuter des commandes, appelées commandes slash, en tapant dans la zone de saisie pour effectuer des opérations dans Mattermost. Saisissez `/` suivi d'une commande et de quelques arguments pour effectuer des actions.",
-  "help.commands.intro2": "Les commandes slash intégrées sont disponibles avec toutes les instances Mattermost. Consultez la [documentation du produit](!https://docs.mattermost.com/messaging/executing-slash-commands.html) pour voir la liste des commandes slash intégrées.",
+  "help.commands.intro2": "Les commandes slash intégrées sont disponibles avec toutes les instances Mattermost. Consultez la <link>documentation du produit</link> pour voir la liste des commandes slash intégrées.",
   "help.commands.title": "Exécuter des commandes",
   "help.composing.deleting.description": "Supprimez un message en cliquant sur l'icône **Plus d'actions** située à côté de chaque message que vous avez composé, puis cliquez sur **Supprimer**. Les administrateurs système et d'équipe peuvent supprimer n'importe quel message du système ou d'équipe.",
   "help.composing.deleting.title": "Supprimer un message",

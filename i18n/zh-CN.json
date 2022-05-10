@@ -3162,7 +3162,7 @@
   "help.commands.custom.title": "自定义命令",
   "help.commands.custom2": "自定义斜杠命令是默认关闭的，系统管理员可以在 **系统控制台** > **整合** > **Webhooks 与命令** 中开启。了解更多设置自定义斜杠命令到 <link>developer slash command documentation page</link>。",
   "help.commands.intro1": "在文本输入框使用斜杠命令执行操作。输入 `/` 紧跟着命令已经一些参数以执行操作。",
-  "help.commands.intro2": "所有 Mattermost 自带的斜杠命令以及自定义命令可配置与外部应用互动。请至[开发者斜杠命令文档页面](!https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/)了解关于配置斜杠命令。",
+  "help.commands.intro2": "所有 Mattermost 自带的斜杠命令以及自定义命令可配置与外部应用互动。请至<link>开发者斜杠命令文档页面</link>了解关于配置斜杠命令。",
   "help.commands.title": "执行命令",
   "help.composing.deleting.description": "点击您在自己发送的消息中想删除的消息旁的 **[...]** 文字图标，然后点击 **删除**。系统或团队管理员可以删除任何在系统或团队中的消息。",
   "help.composing.deleting.title": "删除消息",

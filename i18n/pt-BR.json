@@ -2838,7 +2838,7 @@
   "help.commands.custom.title": "Comandos Personalizados",
   "help.commands.custom2": "Comandos slash personalizados estão desativados por padrão e podem ser ativados pelo Administrador do Sistema em **Console do Sistema** > **Integrações** > **Webhooks e Comandos**. Leia sobre como configurar comando slash personalizado em <link>developer slash command documentation page</link>(https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/).",
   "help.commands.intro1": "Os comandos slash executam operações no Mattermost, digitando na caixa de entrada de texto. Digite `/` seguido por um comando e alguns argumentos para executar ações.",
-  "help.commands.intro2": "Os comandos slash nativos são fornecidos com todas as instalações do Mattermost e os comandos slash customizados são configuráveis para interagir com aplicativos externos. Aprenda sobre a configuração de comandos slash personalizados em [developer slash command documentation page](!https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/).",
+  "help.commands.intro2": "Os comandos slash nativos são fornecidos com todas as instalações do Mattermost e os comandos slash customizados são configuráveis para interagir com aplicativos externos. Aprenda sobre a configuração de comandos slash personalizados em <link>developer slash command documentation page</link>.",
   "help.commands.title": "Executando Comandos",
   "help.composing.deleting.description": "Excluir uma mensagem clicando no ícone **[...]** ao lado do texto da mensagem que você escreveu, em seguida, clique em **Excluir**. Administrador de Sistema e de Equipe podem excluir qualquer mensagem em seu sistema ou equipe.",
   "help.composing.deleting.title": "Excluindo uma mensagem",

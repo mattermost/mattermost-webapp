@@ -3360,7 +3360,7 @@
   "help.commands.custom.title": "Benutzerdefinierte Befehle",
   "help.commands.custom2": "Benutzerdefinierte Schrägstrich-Befehle sind standardmäßig deaktiviert und können vom Systemadministrator in der Systemkonsole unter **Integrationen > Integrationsmanagement** aktiviert werden. Erfahre mehr über die Konfiguration von benutzerdefinierten Schrägstrich-Befehlen in der <link>Entwicklerdokumentation</link>.",
   "help.commands.intro1": "Du kannst Kommandos, so genannte Schrägstrich-Befehle, durch Eingaben in das Texteingabefeld ausführen, um Operationen in Mattermost durchzuführen. Um einen Schrägstrich-Befehl auszuführen, gib `/` gefolgt von einem Befehl und einigen Argumenten ein, um Aktionen auszuführen.",
-  "help.commands.intro2": "Integrierte Slash-Befehle sind in allen Mattermost-Installationen enthalten. In der [Produktdokumentation](!https://docs.mattermost.com/messaging/executing-slash-commands.html) findest du eine Liste der verfügbaren integrierten Slash-Befehle.",
+  "help.commands.intro2": "Integrierte Slash-Befehle sind in allen Mattermost-Installationen enthalten. In der <link>Produktdokumentation</link> findest du eine Liste der verfügbaren integrierten Slash-Befehle.",
   "help.commands.title": "Befehle ausführen",
   "help.composing.deleting.description": "Lösche eine Nachricht, indem du das Symbol **Weitere Aktionen [...]** neben dem von dir verfassten Nachrichtentext auswählst und dann **Löschen** wählst. System- und Teamadministratoren können jede Nachricht in deinem System oder Team löschen.",
   "help.composing.deleting.title": "Eine Nachricht löschen",

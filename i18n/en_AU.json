@@ -3359,7 +3359,7 @@
   "help.commands.custom.title": "Custom Commands",
   "help.commands.custom2": "Custom slash commands are disabled by default and can be enabled by the System Admin in the System Console by going to **Integrations > Integration Management**. Learn about configuring custom slash commands in the <link>developer documentation</link>.",
   "help.commands.intro1": "You can execute commands, called slash commands, by typing into the text input box to perform operations in Mattermost. To run a slash command, type `/` followed by a command and arguments to perform actions.",
-  "help.commands.intro2": "Built-in slash commands come with all Mattermost installations. See the [product documentation](!https://docs.mattermost.com/messaging/executing-slash-commands.html) for a list of available built-in slash commands.",
+  "help.commands.intro2": "Built-in slash commands come with all Mattermost installations. See the <link>product documentation</link> for a list of available built-in slash commands.",
   "help.commands.title": "Executing Commands",
   "help.composing.deleting.description": "Delete a message by selecting the **More Actions [...]** icon next to any message text that you've composed, then select **Delete**. System and Team Admins can delete any message on their system or team.",
   "help.composing.deleting.title": "Delete a message",

@@ -2541,7 +2541,7 @@
   "help.commands.custom.title": "Comandi personalizzati",
   "help.commands.custom2": "I comandi slash personalizzati sono disattivati di default ma possono essere abilitati da un Amministratore di Sistema nella **Console di Sistema** > **Integrazioni** > **Webhooks e Comandi**. Scopri come configurare dei comandi slash personalizzati alla <link>pagina</link> (https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/).",
   "help.commands.intro1": "I comandi slash eseguono operazioni in Mattermost scrivendo nella casella di inserimento testo. Inserire una `/` seguita dal comando e alcuni argomenti per eseguire le operazioni.",
-  "help.commands.intro2": "I comandi slash integrati sono integrati nell'installazione di Mattermost e i comandi slash personalizzati possono essere configurati per interagire con applicazioni esterne. Scopri come configurare i comandi slash sulla [documentazione](!https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/).",
+  "help.commands.intro2": "I comandi slash integrati sono integrati nell'installazione di Mattermost e i comandi slash personalizzati possono essere configurati per interagire con applicazioni esterne. Scopri come configurare i comandi slash sulla <link>documentazione</link>.",
   "help.commands.title": "Eseguire comandi",
   "help.composing.deleting.description": "Cancellare un messaggio cliccando l'icona **[...]** vicino a ogni messaggio inviato, poi cliccare **Cancella**. Amministratori di Sistema e di Squadra possono cancellare qualsiasi messaggio sul loro sistema o squadra.",
   "help.composing.deleting.title": "Cancella un messaggio",

@@ -3360,7 +3360,7 @@
   "help.commands.custom.title": "カスタムコマンド",
   "help.commands.custom2": "カスタムスラッシュコマンドはデフォルトでは無効化されており、システム管理者によって**システムコンソール > 統合機能 > 統合機能管理**から有効化できます。カスタムスラッシュコマンドの設定については<link>開発者向けドキュメント</link>(https://developers.mattermost.com/integrate/slash-commands)を参照してください。",
   "help.commands.intro1": "テキスト入力欄からMattermostの操作を実行するスラッシュコマンドと呼ばれるコマンドを実行することができます。スラッシュコマンドを実行するには、`/`の後にコマンドと引数を入力してください。",
-  "help.commands.intro2": "内蔵スラッシュコマンドはすべてのMattermostで利用可能です。利用可能な内蔵スラッシュコマンドの一覧は[製品ドキュメント](!https://docs.mattermost.com/messaging/executing-slash-commands.html)を参照ください。",
+  "help.commands.intro2": "内蔵スラッシュコマンドはすべてのMattermostで利用可能です。利用可能な内蔵スラッシュコマンドの一覧は<link>製品ドキュメント</link>を参照ください。",
   "help.commands.title": "コマンドを実行する",
   "help.composing.deleting.description": "あなたが書いたメッセージの隣にある**その他 [...]**アイコンを選択し、**削除**を選択することでメッセージを削除できます。システム管理者とチーム管理者は彼らのシステムやチーム内のどんなメッセージでも削除できます。",
   "help.composing.deleting.title": "メッセージを削除する",

@@ -3355,7 +3355,7 @@
   "help.commands.custom.title": "Aangepaste Opdrachten",
   "help.commands.custom2": "Aangepaste slash commando's zijn standaard uitgeschakeld en kunnen worden ingeschakeld door de Systeembeheerder in de **Systeem Console** > **Integraties** > Integratiebeheer**. Lees meer over aangepaste commando's in de <link>ontwikkelaar documentatie</link>.",
   "help.commands.intro1": "Je kan commando's uitvoeren, slash commando's genoemd, door in het tekstinvoerveld te typen om bewerkingen in Mattermost uit te voeren. Om een slash commando uit te voeren, typ je `/` gevolgd door een commando en een aantal argumenten om acties uit te voeren.",
-  "help.commands.intro2": "Ingebouwde slash commando's worden geleverd bij alle Mattermost installaties. Zie de [productdocumentatie](!https://docs.mattermost.com/messaging/executing-slash-commands.html) voor een lijst van beschikbare ingebouwde slash commando's.",
+  "help.commands.intro2": "Ingebouwde slash commando's worden geleverd bij alle Mattermost installaties. Zie de <link>productdocumentatie</link> voor een lijst van beschikbare ingebouwde slash commando's.",
   "help.commands.title": "Commando's Uitvoeren",
   "help.composing.deleting.description": "Verwijder een bericht door op het **Meer acties [...]** pictogram naast een willekeurig bericht te selecteren, en selecteer dan **Verwijder**. Systeembeheerders en Teambeheerders kunnen ieder bericht verwijderen op het systeem.",
   "help.composing.deleting.title": "Een bericht verwijderen",

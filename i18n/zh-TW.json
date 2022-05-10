@@ -2539,7 +2539,7 @@
   "help.commands.custom.title": "自訂命令",
   "help.commands.custom2": "自訂斜線命令預設為關閉，系統管理員可以在 **系統主控台** > **整合** > **Webhook 與命令** 中開啟。如需設定自訂斜線命令的詳細資訊，請參閱<link>開發者文件：斜線命令</link>",
   "help.commands.intro1": "斜線命令讓使用者在 Mattermost 下在文字輸入欄打字來執行作業。輸入 '/' 跟命令還有參數來執行動作。",
-  "help.commands.intro2": "所有的 Mattermost 都有內建斜線命令，自訂斜線命令可設定以跟外部應用程式動作。如需設定自訂斜線命令的詳細資訊，請參閱[開發者文件：斜線命令](!https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/)。",
+  "help.commands.intro2": "所有的 Mattermost 都有內建斜線命令，自訂斜線命令可設定以跟外部應用程式動作。如需設定自訂斜線命令的詳細資訊，請參閱<link>開發者文件：斜線命令</link>。",
   "help.commands.title": "執行指令",
   "help.composing.deleting.description": "按下您所輸入之任何文字訊息邊上的 **[...]** 圖示然後按**刪除**來刪除訊息。系統跟團隊管理員可以刪除他們系統或團隊中的任何訊息。",
   "help.composing.deleting.title": "刪除訊息",

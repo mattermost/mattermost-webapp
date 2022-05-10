@@ -35,9 +35,20 @@ export default function HelpCommands(): JSX.Element {
             </h2>
 
             <p>
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='help.commands.intro2'
-                    defaultMessage='Built-in slash commands come with all Mattermost installations. See the [product documentation](!https://docs.mattermost.com/messaging/executing-slash-commands.html) for a list of available built-in slash commands.'
+                    defaultMessage='Built-in slash commands come with all Mattermost installations. See the <link>product documentation</link> for a list of available built-in slash commands.'
+                    values={{
+                        link: (msg: React.ReactNode) => (
+                            <a
+                                href='https://docs.mattermost.com/messaging/executing-slash-commands.html'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                    }}
                 />
             </p>
             <p>

@@ -3351,7 +3351,7 @@
   "help.commands.custom.title": "Özel komutlar",
   "help.commands.custom2": "Özel bölü komutları varsayılan olarak devre dışıdır ve sistem yöneticisi tarafından sistem panosundaki **Bütünleştirmeler > Bütünleştirme yönetimi** bölümünden etkinleştirilebilir. Özel bölü komutlarını yapılandırmak hakkında ayrıntılı bilgi almak için <link>geliştirici belgeleri</link>!https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/) bölümüne bakabilirsiniz.",
   "help.commands.intro1": "Mattermost üzerinde, bölü komutları denilen bir özellik vardır. İleti metni kutusuna `/` ile yazmaya başlayarak, bir komut ve ardından komut parametrelerini ekleyebilirsiniz.",
-  "help.commands.intro2": "İç bölü komutları, tüm Mattermost kurulumlarında bulunur. Kullanılabilecek bölü komutları hakkında ayrıntılı bilgi almak için [ürün belgeleri](!http: //docs.mattermost.com/developer/slash-commands.html) bölümüne bakabilirsiniz.",
+  "help.commands.intro2": "İç bölü komutları, tüm Mattermost kurulumlarında bulunur. Kullanılabilecek bölü komutları hakkında ayrıntılı bilgi almak için <link>ürün belgeleri</link> bölümüne bakabilirsiniz.",
   "help.commands.title": "Komut yürütme",
   "help.composing.deleting.description": "Yazdığınız herhangi bir iletiyi, ileti metninin yanındaki **[...]** simgesini seçtikten sonra **Sil** seçerek silebilirsiniz. Sistem ve takım yöneticileri kendi sistem ve takımlarındaki tüm iletileri silebilir.",
   "help.composing.deleting.title": "Bir iletiyi silmek",
