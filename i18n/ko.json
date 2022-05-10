@@ -722,7 +722,7 @@
   "admin.experimental.allowCustomThemes.title": "맞춤 테마 허용 :",
   "admin.experimental.clientSideCertCheck.desc": "**주**로 설정되면 클라이언트 측에서 인증서가 검증된 후에 그 인증서에서 사용자의 전자우편 주소를 찾아 비밀번호 없이 로그인에 사용됩니다. **부**로 설정되면 클라이언트 측에서 인증서가 검증된 후에 그 인증서에서 사용자의 전자우편 주소와 일치하는 것을 찾으며, 일치하는 전자우편 주소가 있다면 사용자는 일반적인 전자우편 주소/비밀번호 인증을 사용하여 로그인됩니다.",
   "admin.experimental.clientSideCertCheck.title": "클라이언트 인증 로그인 방법 :",
-  "admin.experimental.clientSideCertEnable.desc": "Mattermost 서버에 대한 클라이언트 인증을 활성화합니다. 자세한 내용은 [문서](!https://docs.mattermost.com/deployment/certificate-based-authentication.html)을 참조하십시오.",
+  "admin.experimental.clientSideCertEnable.desc": "Mattermost 서버에 대한 클라이언트 인증을 활성화합니다. 자세한 내용은 <link>문서</link>을 참조하십시오.",
   "admin.experimental.clientSideCertEnable.title": "Client-Side 인증 활성화 :",
   "admin.experimental.defaultTheme.desc": "시스템의 모든 신규 사용자에게 적용되는 기본 테마를 설정하십시오.",
   "admin.experimental.defaultTheme.title": "기본테마 :",

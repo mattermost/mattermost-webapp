@@ -813,7 +813,7 @@
   "admin.experimental.allowCustomThemes.title": "Benutzerdefiniertes Motive erlauben:",
   "admin.experimental.clientSideCertCheck.desc": "Wenn **primär**, wird die E-Mail-Adresse des Benutzers aus dem Zertifikat abgerufen, nachdem das Client-seitige Zertifikat verifiziert wurde und wird dafür verwendet, um eine Anmeldung ohne Passwort durchzuführen. Wenn **Sekundär**, wird die E-Mail-Adresse des Benutzers aus dem Zertifikat abgerufen und mit der durch den Benutzer angegebenen Adresse verglichen, nachdem das Client-seitige Zertifikat verifiziert wurde. Falls diese identisch sind, meldet sich der Benutzer mit regulär mit E-Mail/Passwort an.",
   "admin.experimental.clientSideCertCheck.title": "Anmeldemethode für Client-seitige Zertifizierung:",
-  "admin.experimental.clientSideCertEnable.desc": "Ermöglicht die client-seitige Zertifizierung deines Mattermost-Servers. Erfahre mehr in der [Dokumentation](!https://docs.mattermost.com/deployment/certificate-based-authentication.html).",
+  "admin.experimental.clientSideCertEnable.desc": "Ermöglicht die client-seitige Zertifizierung deines Mattermost-Servers. Erfahre mehr in der <link>Dokumentation</link>.",
   "admin.experimental.clientSideCertEnable.title": "Client-seitige Zertifizierung aktivieren:",
   "admin.experimental.collapsedThreads.default_off": "Aktiviert (Standard Aus)",
   "admin.experimental.collapsedThreads.desc": "Wenn aktiviert (Standard aus), können Benutzer Unterhaltungen in den Einstellungen aktivieren. Wenn ausgeschaltet, können Benutzer nicht auf Unterhaltungen zugreifen. Bitte lies die <linkKnownIssues>Dokumentation für bekannte Probleme</linkKnownIssues> und hilf, in dem du Feedback in unserem <linkCommunityChannel>Community Kanal</linkCommunityChannel> gibst.",

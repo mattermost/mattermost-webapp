@@ -604,7 +604,7 @@
   "admin.experimental.allowCustomThemes.title": "Permetti Temi Personalizzati:",
   "admin.experimental.clientSideCertCheck.desc": "Se **primario**, dopo la validazione del certificato client, l'email dell'utente è recuperata dal certificato e viene utilizzata per accedere senza password. Se **secondario**, dopo la validazione del certificato client, l'email dell'utente è recuperata dal certificato e verificata con quella fornita dall'utente. Se combaciano, l'utente accedere con le credenziali email/password.",
   "admin.experimental.clientSideCertCheck.title": "Metodo di Accesso Certificato lato client:",
-  "admin.experimental.clientSideCertEnable.desc": "Abilita la certificazione lato client per il server Mattermost. Vedere la [documentazione](!https://docs.mattermost.com/deployment/certificate-based-authentication.html) per scoprire di più.",
+  "admin.experimental.clientSideCertEnable.desc": "Abilita la certificazione lato client per il server Mattermost. Vedere la <link>documentazione</link> per scoprire di più.",
   "admin.experimental.clientSideCertEnable.title": "Abilita la certificazione lato client:",
   "admin.experimental.defaultTheme.desc": "Imposta un tema di default applicato a tutti i nuovi utenti del sistema.",
   "admin.experimental.defaultTheme.title": "Tema predefinito:",

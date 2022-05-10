@@ -5950,8 +5950,20 @@ const AdminDefinition = {
                         label: t('admin.experimental.clientSideCertEnable.title'),
                         label_default: 'Enable Client-Side Certification:',
                         help_text: t('admin.experimental.clientSideCertEnable.desc'),
-                        help_text_default: 'Enables client-side certification for your Mattermost server. See [documentation](!https://docs.mattermost.com/deployment/certificate-based-authentication.html) to learn more.',
-                        help_text_markdown: true,
+                        help_text_default: 'Enables client-side certification for your Mattermost server. See <link>documentation</link>) to learn more.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/deployment/certificate-based-authentication.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
                         isHidden: it.not(it.any(
                             it.licensedForSku(LicenseSkus.Enterprise),
                             it.licensedForSku(LicenseSkus.E20))),

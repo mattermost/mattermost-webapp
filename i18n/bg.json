@@ -794,7 +794,7 @@
   "admin.experimental.allowCustomThemes.title": "Разрешаване на персонализирани теми:",
   "admin.experimental.clientSideCertCheck.desc": "Когато е **primary**, след потвърждението на сертификата от страна на клиента, ел.поща на потребителя се извлича от сертификата и се използва за влизане без парола. Когато е **secondary**, след потвърждението на сертификата от страна на клиента, ел.поща на потребителя се извлича от сертификата и се сравнява с този, предоставен от потребителя. Ако те съвпадат, потребителят влиза в системата с обикновени имейл/парола.",
   "admin.experimental.clientSideCertCheck.title": "Метод за сертифициране на входа от страна на клиента:",
-  "admin.experimental.clientSideCertEnable.desc": "Активира сертифициране от страна на клиента за вашия Mattermost сървър. Вижте [документация](!https://docs.mattermost.com/deployment/certificate-based-authentication.html), за да научите повече.",
+  "admin.experimental.clientSideCertEnable.desc": "Активира сертифициране от страна на клиента за вашия Mattermost сървър. Вижте <link>документация</link>, за да научите повече.",
   "admin.experimental.clientSideCertEnable.title": "Разреши сертифициране от страна на клиента:",
   "admin.experimental.collapsedThreads.default_off": "Разрешено (изключено по подразбиране)",
   "admin.experimental.collapsedThreads.desc": "Когато е разрешено (по подразбиране е изключено), потребителите могат да разрешат свити отговори в разговорите от Настройки. Когато е забранено, потребителите нямат достъп до свити отговори в разговорите. Моля, прегледайте нашата <linkKnownIssues>документация за известни проблеми</linkKnownIssues> и помогнете за предоставянето на обратна връзка в нашия <linkCommunityChannel>канал на общността</linkCommunityChannel>.",

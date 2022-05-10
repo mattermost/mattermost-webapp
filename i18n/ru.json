@@ -813,7 +813,7 @@
   "admin.experimental.allowCustomThemes.title": "Разрешить пользовательские темы:",
   "admin.experimental.clientSideCertCheck.desc": "Когда **primary**, после проверки сертификата на стороне клиента электронная почта пользователя извлекается из сертификата и используется для входа без пароля. Когда **secondary**, после проверки сертификата на стороне клиента, электронная почта пользователя извлекается из сертификата и сопоставляется с той, которую предоставил пользователь. Если они совпадают, пользователь входит в систему с обычными учетными данными электронной почты/пароля.",
   "admin.experimental.clientSideCertCheck.title": "Метод авторизации на стороне клиента:",
-  "admin.experimental.clientSideCertEnable.desc": "Включает сертификацию на стороне клиента для вашего сервера Mattermost. См. [Документация](!https://docs.mattermost.com/deployment/certificate-based-authentication.html), чтобы узнать больше.",
+  "admin.experimental.clientSideCertEnable.desc": "Включает сертификацию на стороне клиента для вашего сервера Mattermost. См. <link>Документация</link>, чтобы узнать больше.",
   "admin.experimental.clientSideCertEnable.title": "Включить сертификацию на стороне клиента:",
   "admin.experimental.collapsedThreads.default_off": "Включено (по умолчанию Выкл)",
   "admin.experimental.collapsedThreads.desc": "Если этот параметр включен (по умолчанию выключен), пользователи должны включить свернутые цепочки ответов в Параметрах. Если этот параметр отключен, пользователи не могут получить доступ к цепочкам свернутых ответов. Просмотрите нашу <linkKnownIssues>документацию об известных проблемах</linkKnownIssues>  и помогите оставить отзыв на нашем <linkCommunityChannel>канале сообщества</linkCommunityChannel> .",

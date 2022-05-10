@@ -558,7 +558,7 @@
   "admin.experimental.allowCustomThemes.title": "允許自訂佈景主題：",
   "admin.experimental.clientSideCertCheck.desc": "選用**primary**時，在用戶端憑證被驗證後，將從憑證中取得使用者的電子郵件並用於無密碼登入。選用**secondary**時，在用戶端憑證被驗證後，將從憑證中取得使用者的電子郵件並跟使用者提供的電子郵件比對。如果相符，使用者用普通的電子郵件/密碼登入。",
   "admin.experimental.clientSideCertCheck.title": "用戶端憑證登入方式：",
-  "admin.experimental.clientSideCertEnable.desc": "為此 Mattermost 伺服器啟用用戶端憑證。詳情請參閱[文件](!https://docs.mattermost.com/deployment/certificate-based-authentication.html)。",
+  "admin.experimental.clientSideCertEnable.desc": "為此 Mattermost 伺服器啟用用戶端憑證。詳情請參閱<link>文件</link>。",
   "admin.experimental.clientSideCertEnable.title": "啟用用戶端憑證：",
   "admin.experimental.defaultTheme.desc": "設定將套用至所有新使用者的預設佈景主題。",
   "admin.experimental.defaultTheme.title": "預設佈景主題：",

@@ -813,7 +813,7 @@
   "admin.experimental.allowCustomThemes.title": "Egyéni témák engedélyezése:",
   "admin.experimental.clientSideCertCheck.desc": "Amikor **elsődleges**, az ügyféloldali tanúsítvány ellenőrzése után a felhasználó e-mailje lekérésre kerül a tanúsítványból, és jelszó nélkül jelentkezik be. Amikor **másodlagos**, az ügyféloldali tanúsítvány ellenőrzése után a felhasználó e-mailje lekérésre kerül a tanúsítványból, és egyeztetésre kerül a felhasználó által megadottal. Ha egyeznek, a felhasználó rendes e-mail/jelszó hitelesítő adatokkal jelentkezik be.",
   "admin.experimental.clientSideCertCheck.title": "Kliens oldali tanúsítvány bejelentkezési mód:",
-  "admin.experimental.clientSideCertEnable.desc": "Lehetővé teszi az ügyféloldali tanúsítást a Mattermost kiszolgálón. További információkért lásd a [dokumentációt](!https://docs.mattermost.com/deployment/certificate-based-authentication.html).",
+  "admin.experimental.clientSideCertEnable.desc": "Lehetővé teszi az ügyféloldali tanúsítást a Mattermost kiszolgálón. További információkért lásd a <link>dokumentációt</link>.",
   "admin.experimental.clientSideCertEnable.title": "Ügyféloldali tanúsítás engedélyezése:",
   "admin.experimental.collapsedThreads.default_off": "Engedélyezve (Alapértelmezetten Ki)",
   "admin.experimental.collapsedThreads.desc": "Ha engedélyezve van (alapértelmezetten tiltott), a felhasználóknak kötelező az összecsukott válaszszálakat bekapcsolniuk a beállításokban. Ha ki van kapcsolva, akkor a felhasználók nem érik el az összecsukott válasz szál megjelenítést. További információért kérjük látogasson el <linkKnownIssues>az ismert hibák dokumentációjára</linkKnownIssues> és segíthet visszajelzésével <linkCommunityChannel>a közösségi csatornánkon</linkCommunityChannel>.",

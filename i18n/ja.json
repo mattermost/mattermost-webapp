@@ -813,7 +813,7 @@
   "admin.experimental.allowCustomThemes.title": "カスタムテーマを許可する:",
   "admin.experimental.clientSideCertCheck.desc": "**プライマリ**の場合、クライアント証明書が検証された後、ユーザーの電子メールアドレスが証明書から取得され、パスワード無しのログインに使用されます。**セカンダリ**の場合、クライアント証明書が検証された後、ユーザーの電子メールアドレスが証明書から取得され、ユーザーから提供された電子メールアドレスとの一致確認が行われます。一致する場合、通常の電子メールアドレス/パスワード認証によるログインが行われます。",
   "admin.experimental.clientSideCertCheck.title": "クライアント証明書ログイン方法:",
-  "admin.experimental.clientSideCertEnable.desc": "Mattermostサーバーに対するクライアント証明書を有効にします。詳しくは[説明文書](!https://docs.mattermost.com/deployment/certificate-based-authentication.html)を参照してください。",
+  "admin.experimental.clientSideCertEnable.desc": "Mattermostサーバーに対するクライアント証明書を有効にします。詳しくは<link>説明文書</link>を参照してください。",
   "admin.experimental.clientSideCertEnable.title": "クライアント証明書を有効にする:",
   "admin.experimental.collapsedThreads.default_off": "有効 (デフォルトOff)",
   "admin.experimental.collapsedThreads.desc": "この設定が有効 (デフォルトは無効) の場合でも、ユーザーは設定から返信スレッドの折りたたみ機能を有効にしなければなりません。無効の場合、返信スレッドの折りたたみ機能を利用できません。<linkKnownIssues>説明文書と既知の問題</linkKnownIssues>を確認し、<linkCommunityChannel>コミュニティチャンネル</linkCommunityChannel>へのフィードバックのご協力をお願いします。",

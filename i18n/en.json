@@ -814,7 +814,7 @@
   "admin.experimental.allowCustomThemes.title": "Allow Custom Themes:",
   "admin.experimental.clientSideCertCheck.desc": "When **primary**, after the client side certificate is verified, user’s email is retrieved from the certificate and is used to log in without a password. When **secondary**, after the client side certificate is verified, user’s email is retrieved from the certificate and matched against the one supplied by the user. If they match, the user logs in with regular email/password credentials.",
   "admin.experimental.clientSideCertCheck.title": "Client-Side Certification Login Method:",
-  "admin.experimental.clientSideCertEnable.desc": "Enables client-side certification for your Mattermost server. See [documentation](!https://docs.mattermost.com/deployment/certificate-based-authentication.html) to learn more.",
+  "admin.experimental.clientSideCertEnable.desc": "Enables client-side certification for your Mattermost server. See <link>documentation</link> to learn more.",
   "admin.experimental.clientSideCertEnable.title": "Enable Client-Side Certification:",
   "admin.experimental.collapsedThreads.default_off": "Enabled (Default Off)",
   "admin.experimental.collapsedThreads.desc": "When enabled (default off), users must enable collapsed reply threads in Settings. When disabled, users cannot access Collapsed Reply Threads. Please review our <linkKnownIssues>documentation for known issues</linkKnownIssues> and help provide feedback in our <linkCommunityChannel>community channel</linkCommunityChannel>.",

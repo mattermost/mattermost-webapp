@@ -813,7 +813,7 @@
   "admin.experimental.allowCustomThemes.title": "Tillåt anpassade teman:",
   "admin.experimental.clientSideCertCheck.desc": "När **primär** är vald, efter att certifikatet på klient-sidan är bekräftat, hämtas användarens e-postadress från certifikatet och används för inloggning utan lösenord.När **sekundär** är vald, efter att certifikatet på klient-sidan är bekräftat, hämtas användarens e-postadress och matchas mot den som anges av användaren. Om de matchar kan användaren logga in med e-postadress/lösenord.",
   "admin.experimental.clientSideCertCheck.title": "Inloggningsmetod för klient-sidans certifikat:",
-  "admin.experimental.clientSideCertEnable.desc": "Aktiverar certifiering från klient-sidan för din Mattermost-server. Läs [dokumentation](!https://docs.mattermost.com/deployment/certificate-based-authentication.html) för mer information.",
+  "admin.experimental.clientSideCertEnable.desc": "Aktiverar certifiering från klient-sidan för din Mattermost-server. Läs <link>dokumentation</link> för mer information.",
   "admin.experimental.clientSideCertEnable.title": "Aktivera certifiering från klient-sidan:",
   "admin.experimental.collapsedThreads.default_off": "Aktiverad (Av som standard)",
   "admin.experimental.collapsedThreads.desc": "När inställningen är aktiverad (standard är av) måste användare aktivera utfällbara svarstrådar i Inställningar. När avaktiverad kan användare inte få tillgång till utfällbara svarstrådar. Läs vår <linkKnownIssues>dokumentation om kända problem</linkKnownIssues> och bidra med feedback i vår <linkCommunityChannel>community-kanal</linkCommunityChannel>.",

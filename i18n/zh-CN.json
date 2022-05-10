@@ -807,7 +807,7 @@
   "admin.experimental.allowCustomThemes.title": "允许自定义风格：",
   "admin.experimental.clientSideCertCheck.desc": "当为**主要**时，在客户端证书验证后，证书中的邮件地址将用于登入而无需密码。当为**次要**时，在客户端证书验证后，证书中的邮件地址将用于匹配用户提供的邮件地址。如果匹配，用户将可使用邮箱地址/密码登入。",
   "admin.experimental.clientSideCertCheck.title": "客户端证书登入方式：",
-  "admin.experimental.clientSideCertEnable.desc": "开启 Mattermost 上的客户在证书。参见[文档](!https://docs.mattermost.com/deployment/certificate-based-authentication.html)了解更多。",
+  "admin.experimental.clientSideCertEnable.desc": "开启 Mattermost 上的客户在证书。参见<link>文档</link>了解更多。",
   "admin.experimental.clientSideCertEnable.title": "开启客户端证书：",
   "admin.experimental.collapsedThreads.default_off": "已开启（默认关）",
   "admin.experimental.collapsedThreads.desc": "启用后（默认关闭），用户必须在设定中启用折叠回复。禁用后，用户无法访问折叠的回复。请查看我们的<linkKnownIssues>已知问题文档</linkKnownIssues>并在我们的<linkCommunityChannel>社区频道</linkCommunityChannel>提供反馈。",
