@@ -22,7 +22,21 @@ type PasswordInputProps = {
     inputSize?: SIZE;
 };
 
-const PasswordInput = React.forwardRef(({className, value, onChange, onBlur, onFocus, hasError, error, createMode, disabled, inputSize}: PasswordInputProps, ref?: React.Ref<HTMLInputElement>) => {
+const PasswordInput = React.forwardRef((
+    {
+        className,
+        value,
+        onChange,
+        onBlur,
+        onFocus,
+        hasError,
+        error,
+        createMode,
+        disabled,
+        inputSize,
+    }: PasswordInputProps,
+    ref?: React.Ref<HTMLInputElement>,
+) => {
     const {formatMessage} = useIntl();
 
     const [showPassword, setShowPassword] = useState(false);

@@ -4,7 +4,7 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-export default function LockCircleSolidIcon(props: React.HTMLAttributes<HTMLSpanElement>) {
+export default function LoginOpenIdIcon(props: React.HTMLAttributes<HTMLSpanElement>) {
     const {formatMessage} = useIntl();
 
     return (

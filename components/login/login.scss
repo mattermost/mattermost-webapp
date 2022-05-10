@@ -22,7 +22,7 @@
             justify-content: center;
 
             .login-body-no-login-title {
-                color: #1e325c;
+                color: var(--title-color-indigo-500);
                 font-family: Metropolis;
                 font-size: 40px;
                 font-weight: 600;
@@ -48,7 +48,7 @@
 
             .login-body-message-title {
                 padding-right: 60px;
-                color: #1e325c;
+                color: var(--title-color-indigo-500);
                 font-family: Metropolis;
                 font-size: 80px;
                 font-weight: 600;
@@ -115,6 +115,7 @@
                 box-shadow: none;
 
                 .login-body-card-title {
+                    color: var(--center-channel-text);
                     font-family: 'Metropolis';
                     font-size: 22px;
                     font-style: normal;
