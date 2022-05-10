@@ -4,10 +4,9 @@ import React, {memo, useState, useCallback} from 'react';
 
 import {Modal} from 'react-bootstrap';
 
-import {InsightsTimeFrames} from 'utils/constants';
-import {localizeMessage} from 'utils/utils';
+import {InsightsWidgetTypes, TimeFrame} from '@mattermost/types/insights';
+
 import TimeFrameDropdown from '../time_frame_dropdown/time_frame_dropdown';
-import {InsightsWidgetTypes} from '../insights';
 import TopReactionsTable from '../top_reactions/top_reactions_table/top_reactions_table';
 
 import './../../activity_and_insights.scss';
@@ -18,13 +17,16 @@ type Props = {
     widgetType: InsightsWidgetTypes;
     title: string;
     subtitle: string;
+    filterType: string;
+    timeFrame: TimeFrame;
+    timeFrameLabel: string;
 }
 
 const InsightsModal = (props: Props) => {
     const [show, setShow] = useState(true);
     const [timeFrame, setTimeFrame] = useState({
-        value: InsightsTimeFrames.INSIGHTS_7_DAYS,
-        label: localizeMessage('insights.timeFrame.mediumRange', 'Last 7 days'),
+        value: props.timeFrame,
+        label: props.timeFrameLabel,
     });
 
     const setTimeFrameValue = useCallback((value) => {
@@ -41,12 +43,15 @@ const InsightsModal = (props: Props) => {
             return null;
         case InsightsWidgetTypes.TOP_REACTIONS:
             return (
-                <TopReactionsTable/>
+                <TopReactionsTable
+                    filterType={props.filterType}
+                    timeFrame={timeFrame.value}
+                />
             );
         default:
             return null;
         }
-    }, [props.widgetType]);
+    }, [props.widgetType, timeFrame]);
 
     return (
         <Modal
