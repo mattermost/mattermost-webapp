@@ -1166,7 +1166,18 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                     helpText={
                                         <FormattedMarkdownMessage
                                             id='admin.plugins.settings.enableMarketplaceDesc'
-                                            defaultMessage='When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html).'
+                                            defaultMessage='When true, enables System Administrators to install plugins from the <link>marketplace</link>.'
+                                            values={{
+                                                link: (msg: React.ReactNode) => (
+                                                    <a
+                                                        href='https://mattermost.com/pl/default-mattermost-marketplace.html'
+                                                        target='_blank'
+                                                        rel='noreferrer'
+                                                    >
+                                                        {msg}
+                                                    </a>
+                                                ),
+                                            }}
                                         />
                                     }
                                     value={this.state.enableMarketplace}

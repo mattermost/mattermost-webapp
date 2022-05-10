@@ -924,7 +924,7 @@
   "admin.plugin.state.unknown": "Невідомий",
   "admin.plugin.upload": "Завантажити",
   "admin.plugin.uploadAndPluginDisabledDesc": "Щоб увімкнути плагіни, встановіть **Увімкнути плагіни** на істину. Дивіться <link>documentation</link> , щоб дізнатися більше.",
-  "admin.plugin.uploadDesc": "Завантажте плагін для вашого Mattermost сервера. Дивіться [documentation] (!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/), щоб дізнатися більше.",
+  "admin.plugin.uploadDesc": "Завантажте плагін для вашого Mattermost сервера. Дивіться <link>documentation</link> , щоб дізнатися більше.",
   "admin.plugin.uploadDisabledDesc": "Щоб увімкнути завантаження плагінів, перейдіть на сторінку **Плагіни> Конфігурація**. Дивіться [documentation] (!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/), щоб дізнатися більше.",
   "admin.plugin.uploadTitle": "Завантажити плагін:",
   "admin.plugin.uploading": "Завантаження...",
