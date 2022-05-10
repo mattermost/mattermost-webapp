@@ -3,9 +3,12 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
+import {useSelector} from 'react-redux';
+
+import {GlobalState} from '@mattermost/types/store';
 
 import {trackEvent} from 'actions/telemetry_actions';
-import {CloudLinks, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {CloudLinks, CloudProducts, TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import './content.scss';
 import LadySvg from './lady.svg';
@@ -25,6 +28,7 @@ enum ButtonCustomiserClasses {
 type ButtonDetails = {
     action: () => void;
     text: string;
+    disabled?: boolean;
     customClass?: ButtonCustomiserClasses;
 }
 
@@ -132,6 +136,7 @@ function Card(props: CardProps) {
                 <div>
                     <button
                         className={'plan_action_btn ' + props.buttonDetails.customClass}
+                        disabled={props.buttonDetails.disabled}
                         onClick={props.buttonDetails.action}
                     >{props.buttonDetails.text}</button>
                 </div>
@@ -149,6 +154,19 @@ function Card(props: CardProps) {
 
 function Content() {
     const {formatMessage} = useIntl();
+
+    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
+    const product = useSelector((state: GlobalState) => {
+        if (state.entities.cloud.products && subscription) {
+            return state.entities.cloud.products[subscription?.product_id];
+        }
+        return undefined;
+    });
+
+    let isStarter = false;
+    if (product?.sku === CloudProducts.STARTER) {
+        isStarter = true;
+    }
     return (
         <div className='Content'>
             <div className='self-hosted-alert'>
@@ -199,16 +217,18 @@ function Content() {
                     buttonDetails={{
                         action: () => {},
                         text: formatMessage({id: 'pretrial_pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
+                        disabled: isStarter,
                         customClass: ButtonCustomiserClasses.grayed,
                     }}
                     planDisclaimer={formatMessage({id: 'pretrial_pricing_modal.planDisclaimer.starter', defaultMessage: 'This plan has data restrictions.'})}
                     planLabel={
-                        <PlanLabel
-                            text={formatMessage({id: 'pretrial_pricing_modal.planLabel.currentPlan', defaultMessage: 'CURRENT PLAN'})}
-                            color='#3DB887'
-                            bgColor='#FFFFFF'
-                            firstSvg={<CheckMarkSvg/>}
-                        />}
+                        isStarter ? (
+                            <PlanLabel
+                                text={formatMessage({id: 'pretrial_pricing_modal.planLabel.currentPlan', defaultMessage: 'CURRENT PLAN'})}
+                                color='#3DB887'
+                                bgColor='#FFFFFF'
+                                firstSvg={<CheckMarkSvg/>}
+                            />) : undefined}
                 />
                 <Card
                     topColor='#4A69AC'
