@@ -15,7 +15,7 @@ import {browserHistory} from 'utils/browser_history';
 
 import AdminDefinition from '../admin_definition';
 
-import AdminSidebarCategory from 'components/admin_console/admin_sidebar_category.jsx';
+import AdminSidebarCategory from 'components/admin_console/admin_sidebar/admin_sidebar_category';
 import AdminSidebarHeader from 'components/admin_console/admin_sidebar_header';
 import AdminSidebarSection from 'components/admin_console/admin_sidebar_section.jsx';
 import Highlight from 'components/admin_console/highlight';
