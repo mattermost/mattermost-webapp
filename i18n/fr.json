@@ -1046,7 +1046,7 @@
   "admin.image.amazonS3EndpointDescription": "Le nom d'hôte de votre fournisseur de stockage compatible S3. Par défaut « s3.amazonaws.com ».",
   "admin.image.amazonS3EndpointExample": "Ex. : « s3.amazonaws.com »",
   "admin.image.amazonS3EndpointTitle": "Nœud d'Amazon S3 :",
-  "admin.image.amazonS3IdDescription": "(Facultatif) Seulement nécessaire si vous ne voulez pas vous authentifier sur S3 à l'aide d'un [rôle IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html). Spécifiez l'ID de clé d'accès fourni par votre administrateur Amazon EC2.",
+  "admin.image.amazonS3IdDescription": "(Facultatif) Seulement nécessaire si vous ne voulez pas vous authentifier sur S3 à l'aide d'un <link>rôle IAM</link>(https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html). Spécifiez l'ID de clé d'accès fourni par votre administrateur Amazon EC2.",
   "admin.image.amazonS3IdExample": "Ex. : « AKIADTOVBGERKLCBV »",
   "admin.image.amazonS3IdTitle": "ID de clé d'accès d'Amazon S3 :",
   "admin.image.amazonS3PathPrefixDescription": "Préfixe que vous avez sélectionné pour votre bucket S3 dans AWS.",

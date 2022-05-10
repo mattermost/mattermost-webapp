@@ -1051,7 +1051,7 @@
   "admin.image.amazonS3EndpointDescription": "Nazwa hosta dostawcy twojego magazynu danych kompatybilnego z S3. Domyślnie \"s3.amazonaws.com\".",
   "admin.image.amazonS3EndpointExample": "Np.: \"s3.amazonaws.com\"",
   "admin.image.amazonS3EndpointTitle": "Punkt końcowy Amazom S3:",
-  "admin.image.amazonS3IdDescription": "(Opcjonalnie) Wymagane tylko, jeśli nie chcesz uwierzytelniać się w S3 przy użyciu [roli IAM](!https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html). Wprowadź ID Klucza Dostępu dostarczony przez administratora Amazon EC2.",
+  "admin.image.amazonS3IdDescription": "(Opcjonalnie) Wymagane tylko, jeśli nie chcesz uwierzytelniać się w S3 przy użyciu <link>roli IAM</link>. Wprowadź ID Klucza Dostępu dostarczony przez administratora Amazon EC2.",
   "admin.image.amazonS3IdExample": "Np. \"AKIADTOVBGERKLCBV\"",
   "admin.image.amazonS3IdTitle": "Amazon S3 Access Key ID:",
   "admin.image.amazonS3PathPrefixDescription": "Nazwa którą wybrałeś dla swojego \"pojemnika S3\" w AWS.",

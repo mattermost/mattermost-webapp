@@ -512,7 +512,7 @@
   "admin.image.amazonS3EndpointDescription": "Ім'я хоста Вашого постачальника послуг сумісного зберігання S3. Значення за замовчуванням на \"s3.amazonaws.com\".",
   "admin.image.amazonS3EndpointExample": "Наприклад: \"s3.amazonaws.com\"",
   "admin.image.amazonS3EndpointTitle": "Кінцева точка Amazon S3:",
-  "admin.image.amazonS3IdDescription": "(Необов'язково) потрібні лише, якщо ви не хочете автентифікуватись до S3, використовуючи роль [IAM role] (!https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html). Введіть ідентифікатор ключа доступу, наданий вашим адміністратором Amazon EC2.",
+  "admin.image.amazonS3IdDescription": "(Необов'язково) потрібні лише, якщо ви не хочете автентифікуватись до S3, використовуючи роль <link>IAM role</link> . Введіть ідентифікатор ключа доступу, наданий вашим адміністратором Amazon EC2.",
   "admin.image.amazonS3IdExample": "Наприклад: \"AKIADTOVBGERKLCBV\"",
   "admin.image.amazonS3IdTitle": "ID ключа доступу Amazon S3:",
   "admin.image.amazonS3RegionDescription": "Ви вибрали регіон AWS при створенні ковша S3. Якщо жоден регіон не встановлений, Mattermost намагається отримати відповідний регіон від AWS або встановити його на 'us-east-1', якщо нічого не знайдено.",

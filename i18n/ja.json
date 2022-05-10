@@ -1051,7 +1051,7 @@
   "admin.image.amazonS3EndpointDescription": "S3と互換性のあるストレージプロバイダーのホスト名です。デフォルトは\"s3.amazonaws.com\"です。",
   "admin.image.amazonS3EndpointExample": "例: \"s3.amazonaws.com\"",
   "admin.image.amazonS3EndpointTitle": "Amazon S3 エンドポイント:",
-  "admin.image.amazonS3IdDescription": "(オプション) [IAM](!https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html)を使用したS3への認証をしたくない場合にのみ必要となります。Amazon EC2管理者によって提供されたアクセスキーIDを入力してください。",
+  "admin.image.amazonS3IdDescription": "(オプション) <link>IAM</link>を使用したS3への認証をしたくない場合にのみ必要となります。Amazon EC2管理者によって提供されたアクセスキーIDを入力してください。",
   "admin.image.amazonS3IdExample": "例: \"AKIADTOVBGERKLCBV\"",
   "admin.image.amazonS3IdTitle": "Amazon S3アクセスキーID:",
   "admin.image.amazonS3PathPrefixDescription": "AWSのS3バケットのプリフィックスです。",

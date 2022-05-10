@@ -1051,7 +1051,7 @@
   "admin.image.amazonS3EndpointDescription": "Адрес вашего совместимого хранилища S3. По умолчанию `s3.amazonaws.com`.",
   "admin.image.amazonS3EndpointExample": "Например: \"s3.amazonaws.com\"",
   "admin.image.amazonS3EndpointTitle": "Конечная точка Amazon S3:",
-  "admin.image.amazonS3IdDescription": "(Необязательно) Требуется, только если вы не хотите проходить аутентификацию на S3, используя [роль IAM](!https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html). Введите идентификатор ключа доступа, предоставленный администратором Amazon EC2.",
+  "admin.image.amazonS3IdDescription": "(Необязательно) Требуется, только если вы не хотите проходить аутентификацию на S3, используя <link>роль IAM</link>. Введите идентификатор ключа доступа, предоставленный администратором Amazon EC2.",
   "admin.image.amazonS3IdExample": "Например: \"AKIADTOVBGERKLCBV\"",
   "admin.image.amazonS3IdTitle": "ID ключа доступа Amazon S3:",
   "admin.image.amazonS3PathPrefixDescription": "Префикс, который вы выбрали для своей корзины S3 в AWS.",

@@ -996,7 +996,7 @@
   "admin.image.amazonS3EndpointDescription": "نام میزبان ارائه‌دهنده فضای ذخیره‌سازی سازگار با S3 شما. پیش‌فرض «s3.amazonaws.com» است.",
   "admin.image.amazonS3EndpointExample": "به عنوان مثال: \"s3.amazonaws.com\"",
   "admin.image.amazonS3EndpointTitle": "نقطه پایانی آمازون S3:",
-  "admin.image.amazonS3IdDescription": "(اختیاری) فقط در صورتی لازم است که نمی‌خواهید با استفاده از [نقش IAM] (!https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html) در S3 احراز هویت کنید. شناسه کلید دسترسی ارائه شده توسط سرپرست Amazon EC2 خود را وارد کنید.",
+  "admin.image.amazonS3IdDescription": "(اختیاری) فقط در صورتی لازم است که نمی‌خواهید با استفاده از <link>نقش IAM</link>  در S3 احراز هویت کنید. شناسه کلید دسترسی ارائه شده توسط سرپرست Amazon EC2 خود را وارد کنید.",
   "admin.image.amazonS3IdExample": "به عنوان مثال: \"AKIADTOVBGERKLCBV\"",
   "admin.image.amazonS3IdTitle": "شناسه کلید دسترسی آمازون S3:",
   "admin.image.amazonS3PathPrefixDescription": "پیشوندی که برای سطل S3 خود در AWS انتخاب کرده اید.",

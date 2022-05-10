@@ -1052,7 +1052,7 @@
   "admin.image.amazonS3EndpointDescription": "Hostname of your S3 Compatible Storage provider. Defaults to \"s3.amazonaws.com\".",
   "admin.image.amazonS3EndpointExample": "E.g.: \"s3.amazonaws.com\"",
   "admin.image.amazonS3EndpointTitle": "Amazon S3 Endpoint:",
-  "admin.image.amazonS3IdDescription": "(Optional) Only required if you do not want to authenticate to S3 using an [IAM role](!https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html). Enter the Access Key ID provided by your Amazon EC2 administrator.",
+  "admin.image.amazonS3IdDescription": "(Optional) Only required if you do not want to authenticate to S3 using an <link>IAM role</link>. Enter the Access Key ID provided by your Amazon EC2 administrator.",
   "admin.image.amazonS3IdExample": "E.g.: \"AKIADTOVBGERKLCBV\"",
   "admin.image.amazonS3IdTitle": "Amazon S3 Access Key ID:",
   "admin.image.amazonS3PathPrefixDescription": "Prefix you selected for your S3 bucket in AWS.",

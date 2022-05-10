@@ -1051,7 +1051,7 @@
   "admin.image.amazonS3EndpointDescription": "FQDN till din S3-kompatibla lagring. Standard är \"s3.amazonaws.com\".",
   "admin.image.amazonS3EndpointExample": "T.ex.: \"s3.amazonaws.com\"",
   "admin.image.amazonS3EndpointTitle": "Endpoint för Amazon S3:",
-  "admin.image.amazonS3IdDescription": "(Valfritt) Endast nödvändigt om du inte vill autentisera till S3 med hjälp av [IAM role](!https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html). Ange åtkomstnyckeln som du fått från din Amazon EC2-administratör.",
+  "admin.image.amazonS3IdDescription": "(Valfritt) Endast nödvändigt om du inte vill autentisera till S3 med hjälp av <link>IAM role</link>. Ange åtkomstnyckeln som du fått från din Amazon EC2-administratör.",
   "admin.image.amazonS3IdExample": "T.ex.: \"AKIADTOVBGERKLCBV\"",
   "admin.image.amazonS3IdTitle": "Amazon S3 Access Key ID:",
   "admin.image.amazonS3PathPrefixDescription": "Ange det prefix du valt för din S3 bucket i AWS.",

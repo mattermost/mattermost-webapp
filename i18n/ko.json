@@ -943,7 +943,7 @@
   "admin.image.amazonS3EndpointDescription": "S3 호환 스토리지 제공자의 호스트명 기본값은 \"s3.amazonaws.com\"입니다.",
   "admin.image.amazonS3EndpointExample": "예시: \"s3.amazonaws.com\"",
   "admin.image.amazonS3EndpointTitle": "Amazon S3 엔드포인트:",
-  "admin.image.amazonS3IdDescription": "(선택) [IAM 역할] (!https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html)을 사용하여 S3인증을 원하지 않는 경우에만 필요합니다. Amazon EC2 관리자가 제공한 액세스 키 ID를 입력하십시오.",
+  "admin.image.amazonS3IdDescription": "(선택) <link>IAM 역할</link> 을 사용하여 S3인증을 원하지 않는 경우에만 필요합니다. Amazon EC2 관리자가 제공한 액세스 키 ID를 입력하십시오.",
   "admin.image.amazonS3IdExample": "예시: \"AKIADTOVBGERKLCBV\"",
   "admin.image.amazonS3IdTitle": "아마존 S3 접근 키 식별자:",
   "admin.image.amazonS3PathPrefixDescription": "AWS에서 S3 버킷에 대해 선택한 접두사.",

@@ -1051,7 +1051,7 @@
   "admin.image.amazonS3EndpointDescription": "Hostnaam van uw S3 compatibele opslagprovider. De standaardwaarde is \"s3.amazonaws.com\".",
   "admin.image.amazonS3EndpointExample": "Bijv.: \"s3.amazonaws.com\"",
   "admin.image.amazonS3EndpointTitle": "Amazon S3-eindpunt:",
-  "admin.image.amazonS3IdDescription": "(Optioneel) Alleen vereist als u zich niet wilt verifiëren bij S3 met een [ AM-rol] (!https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html). Geef het toegangssleutel-ID op dat door de beheerder van Amazon EC2 is verstrekt.",
+  "admin.image.amazonS3IdDescription": "(Optioneel) Alleen vereist als u zich niet wilt verifiëren bij S3 met een <link> AM-rol</link> . Geef het toegangssleutel-ID op dat door de beheerder van Amazon EC2 is verstrekt.",
   "admin.image.amazonS3IdExample": "Bijv.: \"AKIADTOVBGERKLCBV\"",
   "admin.image.amazonS3IdTitle": "Amazon S3 toegangs sleutel ID:",
   "admin.image.amazonS3PathPrefixDescription": "Voorvoegsel dat je selecteerde voor je S3 bucket in AWS.",

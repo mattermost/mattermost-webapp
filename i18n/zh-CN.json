@@ -1043,7 +1043,7 @@
   "admin.image.amazonS3EndpointDescription": "您的 S3 兼容储存提供商的主机名称。默认为 \"s3.amazonaws.com\"。",
   "admin.image.amazonS3EndpointExample": "例如：\"s3.amazonaws.com\"",
   "admin.image.amazonS3EndpointTitle": "亚马逊 S3 连接点：",
-  "admin.image.amazonS3IdDescription": "(可选) 只有在您不想使用 [IAM role](!https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html) 验证 S3 时需要。输入您的 Amazon EC2 管理员提供的访问密钥 ID。",
+  "admin.image.amazonS3IdDescription": "(可选) 只有在您不想使用 <link>IAM role</link> 验证 S3 时需要。输入您的 Amazon EC2 管理员提供的访问密钥 ID。",
   "admin.image.amazonS3IdExample": "例如 \"AKIADTOVBGERKLCBV\"",
   "admin.image.amazonS3IdTitle": "Amazon S3 访问密钥 ID：",
   "admin.image.amazonS3PathPrefixDescription": "您为 S3 存储桶选择的前缀。",

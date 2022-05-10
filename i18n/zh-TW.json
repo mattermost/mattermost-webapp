@@ -776,7 +776,7 @@
   "admin.image.amazonS3EndpointDescription": "相容於 S3 的儲存提供者的主機名稱。預設為`s3.amazonaws.com`。",
   "admin.image.amazonS3EndpointExample": "如：\"s3.amazonaws.com\"",
   "admin.image.amazonS3EndpointTitle": "Amazon S3 端點：",
-  "admin.image.amazonS3IdDescription": "僅在不想用 [IAM 角色](!https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html) 與 S3 認證時需要設定。輸入您的 Amazon EC2 管理員所提供的存取金鑰 ID。(非必須)",
+  "admin.image.amazonS3IdDescription": "僅在不想用 <link>IAM 角色</link> 與 S3 認證時需要設定。輸入您的 Amazon EC2 管理員所提供的存取金鑰 ID。(非必須)",
   "admin.image.amazonS3IdExample": "如：\"AKIADTOVBGERKLCBV\"",
   "admin.image.amazonS3IdTitle": "Amazon S3 存取金鑰識別碼：",
   "admin.image.amazonS3PathPrefixDescription": "AWS S3 儲存貯體的路徑前綴",

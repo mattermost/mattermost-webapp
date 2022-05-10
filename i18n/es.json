@@ -1051,7 +1051,7 @@
   "admin.image.amazonS3EndpointDescription": "Nombre de host del proveedor de Almacenamiento compatible con S3. Por defecto \"s3.amazonaws.com\".",
   "admin.image.amazonS3EndpointExample": "Ej: \"s3.amazonaws.com\"",
   "admin.image.amazonS3EndpointTitle": "Extremo de Amazon S3:",
-  "admin.image.amazonS3IdDescription": "(Optional) Sólo se requiere si no deseas autenticar con S3 utilizando un [role IAM](!https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html). Ingresa el ID de acceso otorgado por tu administrador de Amazon EC2.",
+  "admin.image.amazonS3IdDescription": "(Optional) Sólo se requiere si no deseas autenticar con S3 utilizando un <link>role IAM</link>. Ingresa el ID de acceso otorgado por tu administrador de Amazon EC2.",
   "admin.image.amazonS3IdExample": "Ej.: \"AKIADTOVBGERKLCBV\"",
   "admin.image.amazonS3IdTitle": "ID de Llave de acceso Amazon S3:",
   "admin.image.amazonS3PathPrefixDescription": "Prefijo que seleccionó para su depósito S3 en AWS.",

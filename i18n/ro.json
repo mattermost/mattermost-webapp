@@ -967,7 +967,7 @@
   "admin.image.amazonS3EndpointDescription": "Numele gazdei furnizorului dvs. de stocare compatibil S3. Implicit la \"s3.amazonaws.com\".",
   "admin.image.amazonS3EndpointExample": "De exemplu: \"s3.amazonaws.com\"",
   "admin.image.amazonS3EndpointTitle": "Amazon S3 Punct final:",
-  "admin.image.amazonS3IdDescription": "(Opțional) Este necesară numai dacă nu doriți să vă autentificați la S3 utilizând un [rol IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html). Introduceți ID-ul cheie de acces furnizat de administratorul dvs Amazon EC2.",
+  "admin.image.amazonS3IdDescription": "(Opțional) Este necesară numai dacă nu doriți să vă autentificați la S3 utilizând un <link>rol IAM</link>(https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html). Introduceți ID-ul cheie de acces furnizat de administratorul dvs Amazon EC2.",
   "admin.image.amazonS3IdExample": "De exemplu: \"AKIADTOVBGERKLCBV\"",
   "admin.image.amazonS3IdTitle": "Amazon S3 ID-ul accesului:",
   "admin.image.amazonS3PathPrefixDescription": "Prefixul selectat pentru S3 bucket în AWS.",

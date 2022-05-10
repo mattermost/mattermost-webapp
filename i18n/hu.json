@@ -1051,7 +1051,7 @@
   "admin.image.amazonS3EndpointDescription": "Az S3 kompatibilis tároló szolgáltató hosztneve. Alapértelmezés szerint \"s3.amazonaws.com\".",
   "admin.image.amazonS3EndpointExample": "Pl.: \"s3.amazonaws.com\"",
   "admin.image.amazonS3EndpointTitle": "Amazon S3 végpont:",
-  "admin.image.amazonS3IdDescription": "(Nem kötelező) Csak akkor szükséges, ha nem kíván hitelesíteni az S3-ra az [IAM szerepkör](!https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html) használatával. Írja be az Amazon EC2 rendszergazdája által megadott hozzáférési kulcs azonosítóját.",
+  "admin.image.amazonS3IdDescription": "(Nem kötelező) Csak akkor szükséges, ha nem kíván hitelesíteni az S3-ra az <link>IAM szerepkör</link> használatával. Írja be az Amazon EC2 rendszergazdája által megadott hozzáférési kulcs azonosítóját.",
   "admin.image.amazonS3IdExample": "Pl.: \"AKIADTOVBGERKLCBV\"",
   "admin.image.amazonS3IdTitle": "Amazon S3 hozzáférési kulcs azonosító:",
   "admin.image.amazonS3PathPrefixDescription": "Az S3 bucket-hez kiválasztott előtag az AWS-ben.",

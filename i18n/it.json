@@ -813,7 +813,7 @@
   "admin.image.amazonS3EndpointDescription": "L'hostnamet del tuo fornitore di spazio compatibile S3. Impostazione Predefinita \"s3.amazonaws.com\".",
   "admin.image.amazonS3EndpointExample": "Es.: \"s3.amazonaws.com\"",
   "admin.image.amazonS3EndpointTitle": "Endpoint S3 Amazon:",
-  "admin.image.amazonS3IdDescription": "(Opzionale) Richiesto solo se non si desidera autenticarsi su S3 utilizzando un [ruolo IAM](!https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html). Inserire l'Access Key ID fornito dall'amministratore di Amazon EC2.",
+  "admin.image.amazonS3IdDescription": "(Opzionale) Richiesto solo se non si desidera autenticarsi su S3 utilizzando un <link>ruolo IAM</link>. Inserire l'Access Key ID fornito dall'amministratore di Amazon EC2.",
   "admin.image.amazonS3IdExample": "Es.: \"AKIADTOVBGERKLCBV\"",
   "admin.image.amazonS3IdTitle": "Chiave di Accesso ID Amazon S3:",
   "admin.image.amazonS3PathPrefixDescription": "Il prefisso selezionato del S3 bucket di AWS.",

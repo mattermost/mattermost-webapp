@@ -1121,7 +1121,19 @@ const AdminDefinition = {
                         label_default: 'Amazon S3 Access Key ID:',
                         help_text: t('admin.image.amazonS3IdDescription'),
                         help_text_markdown: true,
-                        help_text_default: '(Optional) Only required if you do not want to authenticate to S3 using an [IAM role](!https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html). Enter the Access Key ID provided by your Amazon EC2 administrator.',
+                        help_text_default: '(Optional) Only required if you do not want to authenticate to S3 using an <link>IAM role</link>. Enter the Access Key ID provided by your Amazon EC2 administrator.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
                         placeholder: t('admin.image.amazonS3IdExample'),
                         placeholder_default: 'E.g.: "AKIADTOVBGERKLCBV"',
                         isDisabled: it.any(

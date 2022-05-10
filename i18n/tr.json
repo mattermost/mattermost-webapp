@@ -1051,7 +1051,7 @@
   "admin.image.amazonS3EndpointDescription": "S3 uyumlu depolama hizmeti sağlayıcı sunucusunun adı. Varsayılan değer: `s3.amazonaws.com`.",
   "admin.image.amazonS3EndpointExample": "Örnek: \"s3.amazonaws.com\"",
   "admin.image.amazonS3EndpointTitle": "Amazon S3 noktası:",
-  "admin.image.amazonS3IdDescription": "(İsteğe bağlı) Yalnız [IAM rolünü](!https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html) kullanarak S3 kimlik doğrulaması yapmak istemediğiniz zaman gereklidir. Amazon EC2 yöneticinizin erişim anahtarı kodunu yazın.",
+  "admin.image.amazonS3IdDescription": "(İsteğe bağlı) Yalnız <link>IAM rolünü</link> kullanarak S3 kimlik doğrulaması yapmak istemediğiniz zaman gereklidir. Amazon EC2 yöneticinizin erişim anahtarı kodunu yazın.",
   "admin.image.amazonS3IdExample": "Örnek: \"AKIADTOVBGERKLCBV\"",
   "admin.image.amazonS3IdTitle": "Amazon S3 erişimi anahtar kodu:",
   "admin.image.amazonS3PathPrefixDescription": "AWS üzerindeki S3 klasörünüz için seçtiğiniz ön ek.",
