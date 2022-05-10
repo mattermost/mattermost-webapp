@@ -10,6 +10,28 @@
             .top-channel-line-chart {
                 flex: 0.67;
                 margin-right: 16px;
+
+                .col-sm-12 {
+                    padding: 0;
+
+                    .total-count {
+                        position: relative;
+
+                        .title {
+                            display: none;
+                        }
+
+                        .content {
+                            position: relative;
+                        }
+    
+                        .chartjs-render-monitor {
+                            max-height: 235px;
+                            width: 100% !important;
+                            height: auto !important;
+                        }
+                    }
+                }
             }
 
             .top-channel-list {

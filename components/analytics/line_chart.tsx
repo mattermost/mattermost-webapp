@@ -13,6 +13,7 @@ type Props = {
     height: number;
     data?: any;
     id: string;
+    options?: ChartOptions;
 }
 
 export default class LineChart extends React.PureComponent<Props> {
@@ -38,6 +39,11 @@ export default class LineChart extends React.PureComponent<Props> {
          * Chart data
          */
         data: PropTypes.object,
+
+        /*
+         * Chart options
+         */
+        options: PropTypes.object,
     };
 
     public chart: Chart | null = null;
@@ -86,7 +92,11 @@ export default class LineChart extends React.PureComponent<Props> {
 
         const ctx = this.canvasRef.current.getContext('2d') as CanvasRenderingContext2D;
         const dataCopy: any = JSON.parse(JSON.stringify(this.props.data));
-        this.chart = new Chart(ctx, {type: 'line', data: dataCopy, options: this.chartOptions || {}});
+        let options = this.chartOptions || {};
+        if (this.props.options) {
+            options = {...options, ...this.props.options};
+        }
+        this.chart = new Chart(ctx, {type: 'line', data: dataCopy, options: options || {}});
 
         if (update) {
             this.chart.update();
