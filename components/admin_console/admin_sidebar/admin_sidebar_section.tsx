@@ -16,7 +16,7 @@ type Props = {
     type?: string;
     parentLink?: string;
     subsection?: boolean;
-    tag?: JSX.Element;
+    tag?: string | JSX.Element;
 }
 
 const AdminSidebarSection = ({name, title, action, children = [], definitionKey, type, parentLink = '', subsection = false, tag}: Props) => {

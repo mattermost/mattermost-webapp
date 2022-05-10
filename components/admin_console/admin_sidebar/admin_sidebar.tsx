@@ -9,9 +9,11 @@ import isEqual from 'lodash/isEqual';
 
 import classNames from 'classnames';
 
-import * as Utils from 'utils/utils';
-import {generateIndex} from 'utils/admin_console_index.jsx';
+import {generateIndex} from 'utils/admin_console_index';
+
 import {browserHistory} from 'utils/browser_history';
+
+import {localizeMessage} from 'utils/utils';
 
 import AdminDefinition from '../admin_definition';
 
@@ -110,7 +112,7 @@ class AdminSidebar extends React.PureComponent<Props, State> {
         if (this.idx !== null &&
             (!isEqual(this.props.plugins, prevProps.plugins) ||
                 !isEqual(this.props.adminDefinition, prevProps.adminDefinition))) {
-            this.idx = generateIndex(this.props.adminDefinition, this.props.plugins, this.props.intl);
+            this.idx = generateIndex(this.props.adminDefinition, this.props.intl, this.props.plugins);
         }
     }
 
@@ -123,7 +125,7 @@ class AdminSidebar extends React.PureComponent<Props, State> {
         }
 
         if (this.idx === null) {
-            this.idx = generateIndex(this.props.adminDefinition, this.props.plugins, this.props.intl);
+            this.idx = generateIndex(this.props.adminDefinition, this.props.intl, this.props.plugins);
         }
         let query = '';
         for (const term of filter.split(' ')) {
@@ -159,7 +161,7 @@ class AdminSidebar extends React.PureComponent<Props, State> {
             currentSiteName = ' - ' + this.props.siteName;
         }
 
-        document.title = Utils.localizeMessage('sidebar_right_menu.console', 'System Console') + currentSiteName;
+        document.title = localizeMessage('sidebar_right_menu.console', 'System Console') + currentSiteName;
     }
 
     visibleSections = () => {
@@ -222,7 +224,7 @@ class AdminSidebar extends React.PureComponent<Props, State> {
                         }
                     }
                     const subDefinitionKey = `${key}.${subKey}`;
-                    let tag = <></>;
+                    let tag: string | JSX.Element = '';
                     if (item.tag?.shouldDisplay(license)) {
                         tag = item.tag.value;
                     }
@@ -328,7 +330,7 @@ class AdminSidebar extends React.PureComponent<Props, State> {
                         type='text'
                         onChange={this.onFilterChange}
                         value={this.state.filter}
-                        placeholder={Utils.localizeMessage('admin.sidebar.filter', 'Find settings')}
+                        placeholder={localizeMessage('admin.sidebar.filter', 'Find settings')}
                         ref={this.searchRef}
                         id='adminSidebarFilter'
                         clearable={true}
