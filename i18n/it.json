@@ -387,7 +387,7 @@
   "admin.compliance.directoryTitle": "Cartella per i Compliance Report:",
   "admin.compliance.enableDailyDesc": "Quando abilitato, Mattermost genererà un rapporto giornaliero.",
   "admin.compliance.enableDailyTitle": "Abilita rapporto giornaliero:",
-  "admin.compliance.enableDesc": "Se vero, Mattermost permette report conformi dalla scheda **Conformità e Revisione**. Vedere la [documentazione](!https://docs.mattermost.com/administration/compliance.html) per ulteriori informazioni.",
+  "admin.compliance.enableDesc": "Se vero, Mattermost permette report conformi dalla scheda **Conformità e Revisione**. Vedere la <link>documentazione</link> per ulteriori informazioni.",
   "admin.compliance.enableTitle": "Abilita rapporti di compliance:",
   "admin.compliance.newComplianceExportBanner": "Questa funzione è stata sostituita dalla nuova funzione di [Esportazione Conforme]({siteURL}/admin_console/compliance/export) e sarà rimossa nelle prossime versioni. Raccomandiamo di passare al nuovo sistema.",
   "admin.complianceExport.createJob.help": "Inizia un lavoro di esportazione conforme immediatamente.",

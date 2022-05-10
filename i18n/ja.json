@@ -516,7 +516,7 @@
   "admin.compliance.directoryTitle": "コンプライアンスリポートディレクトリー:",
   "admin.compliance.enableDailyDesc": "有効な場合、Mattermostが毎日コンプライアンスリポートを生成します。",
   "admin.compliance.enableDailyTitle": "日次リポートを有効にする:",
-  "admin.compliance.enableDesc": "有効な場合、**コンプライアンスと監査**タブからコンプライアンスレポートを設定できます。詳しくは[説明文書](!https://docs.mattermost.com/administration/compliance.html)を参照してください。",
+  "admin.compliance.enableDesc": "有効な場合、**コンプライアンスと監査**タブからコンプライアンスレポートを設定できます。詳しくは<link>説明文書</link>を参照してください。",
   "admin.compliance.enableTitle": "コンプライアンスリポートを有効にする:",
   "admin.compliance.newComplianceExportBanner": "この機能は新しい[コンプライアンスエクスポート]({siteURL}/admin_console/compliance/export)機能によって置き換えられ、将来のリリースで削除されます。新しいシステムへ移行することをオススメします。",
   "admin.complianceExport.createJob.help": "直ちにコンプライアンスエクスポート処理を開始します。",

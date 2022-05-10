@@ -516,7 +516,7 @@
   "admin.compliance.directoryTitle": "Megfelelőségi jelentés mappa:",
   "admin.compliance.enableDailyDesc": "Ha igaz, Mattermost napi megfelelősségi jelentést készít majd.",
   "admin.compliance.enableDailyTitle": "Napi jelentés engedélyezése:",
-  "admin.compliance.enableDesc": "Ha igaz, akkor a Mattermost engedélyezi a megfelelőségi jelentést a **Megfelelés és minősítés** fülön. További információkért lásd a [dokumentációt](!https://docs.mattermost.com/administration/compliance.html).",
+  "admin.compliance.enableDesc": "Ha igaz, akkor a Mattermost engedélyezi a megfelelőségi jelentést a **Megfelelés és minősítés** fülön. További információkért lásd a <link>dokumentációt</link>.",
   "admin.compliance.enableTitle": "Megfelelőségi jelentés engedélyezése:",
   "admin.compliance.newComplianceExportBanner": "Ezt a funkciót egy új [Megfelelősségi Export]({siteURL}/admin_console/compliance/export) funkció váltja fel, és egy későbbi kiadásban el is lesz távolítva. Javasoljuk az új rendszerre való áttérést.",
   "admin.complianceExport.createJob.help": "Megkezdi a megfelelőségi export munkát azonnal.",

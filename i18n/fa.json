@@ -481,7 +481,7 @@
   "admin.compliance.directoryTitle": "فهرست راهنمای گزارش انطباق:",
   "admin.compliance.enableDailyDesc": "هنگامی که درست باشد، Mattermost یک گزارش مطابقت روزانه ایجاد می کند.",
   "admin.compliance.enableDailyTitle": "فعال کردن گزارش روزانه:",
-  "admin.compliance.enableDesc": "هنگامی که درست است، Mattermost اجازه می دهد تا گزارش انطباق را از برگه **انطباق و حسابرسی** ارسال کنید. برای کسب اطلاعات بیشتر به [documentation](!https://docs.mattermost.com/administration/compliance.html) مراجعه کنید.",
+  "admin.compliance.enableDesc": "هنگامی که درست است، Mattermost اجازه می دهد تا گزارش انطباق را از برگه **انطباق و حسابرسی** ارسال کنید. برای کسب اطلاعات بیشتر به <link>documentation</link> مراجعه کنید.",
   "admin.compliance.enableTitle": "فعال کردن گزارش انطباق:",
   "admin.compliance.newComplianceExportBanner": "این ویژگی با ویژگی جدید [Compliance Export] ({siteURL}/admin_console/compliance/export) جایگزین شده است و در نسخه بعدی حذف خواهد شد. ما مهاجرت به سیستم جدید را توصیه می کنیم.",
   "admin.complianceExport.createJob.help": "یک کار Export Compliance را فوراً آغاز می کند.",

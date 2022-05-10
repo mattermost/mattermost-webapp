@@ -516,7 +516,7 @@
   "admin.compliance.directoryTitle": "Каталог комплаенс-отчетов:",
   "admin.compliance.enableDailyDesc": "При значении \"да\" Mattermost будет создавать ежедневные комплаенс-отчеты.",
   "admin.compliance.enableDailyTitle": "Включить ежедневный отчет:",
-  "admin.compliance.enableDesc": "При значении \"да\" Mattermost позволяет создавать комплаенс-отчеты на вкладке **Комплаенс и аудит**. См. [Документация](!https://docs.mattermost.com/administration/compliance.html), чтобы узнать больше.",
+  "admin.compliance.enableDesc": "При значении \"да\" Mattermost позволяет создавать комплаенс-отчеты на вкладке **Комплаенс и аудит**. См. <link>Документация</link>, чтобы узнать больше.",
   "admin.compliance.enableTitle": "Включить комплаенс-отчеты:",
   "admin.compliance.newComplianceExportBanner": "Эта функция заменена новой функцией [Экспорт комплаенса]({siteURL}/admin_console/compliance/export) и будет удалена в следующем выпуске. Мы рекомендуем перейти на новую систему.",
   "admin.complianceExport.createJob.help": "Инициирует задание экспорта комплаенса немедленно.",

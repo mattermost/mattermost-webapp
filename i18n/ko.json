@@ -501,7 +501,7 @@
   "admin.compliance.directoryTitle": "감사 보고서 경로:",
   "admin.compliance.enableDailyDesc": "활성화 시, Mattermost는 일간 컴플라이언스 보고서를 생성합니다.",
   "admin.compliance.enableDailyTitle": "일일 보고:",
-  "admin.compliance.enableDesc": "참이면 Mattermost는 **Compliance and Auditing** 탭에서 컴플라이언스 보고를 허용합니다. 자세한 내용은 [documentation](!https://docs.mattermost.com/administration/commission.html])를 참조하십시오.",
+  "admin.compliance.enableDesc": "참이면 Mattermost는 **Compliance and Auditing** 탭에서 컴플라이언스 보고를 허용합니다. 자세한 내용은 <link>documentation</link>를 참조하십시오.",
   "admin.compliance.enableTitle": "감사 보고:",
   "admin.compliance.newComplianceExportBanner": "이 기능이 새 [컴플라이언스 내보내기]({siteURL}/admin_console/commission/export)로 대체되고, 향후 릴리스에서 제거된다. 새로운 시스템으로 이송하는 것을 추천한다.",
   "admin.complianceExport.createJob.help": "컴플라이언스 내보내기를 즉시 시작 합니다.",

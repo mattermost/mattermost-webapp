@@ -516,7 +516,7 @@
   "admin.compliance.directoryTitle": "Compliance-Report-Verzeichnis:",
   "admin.compliance.enableDailyDesc": "Wenn wahr, erstellt Mattermost einen täglichen Compliance-Bericht.",
   "admin.compliance.enableDailyTitle": "Täglichen Bericht aktivieren:",
-  "admin.compliance.enableDesc": "Wenn wahr, erlaubt Mattermost Compliance-Reporting über den **Compliance und Prüfung*-Tab. Erfahren mehr in der [Dokumentation](!https://docs.mattermost.com/administration/compliance.html).",
+  "admin.compliance.enableDesc": "Wenn wahr, erlaubt Mattermost Compliance-Reporting über den **Compliance und Prüfung*-Tab. Erfahren mehr in der <link>Dokumentation</link>.",
   "admin.compliance.enableTitle": "Aktiviere Compliance-Reporting:",
   "admin.compliance.newComplianceExportBanner": "Diese Funktion wird durch eine neue [Compliance-Export]({siteURL}/admin_console/compliance/export)-Funktion ersetzt, und wird in einer zukünftigen Version entfernt werden. Wir empfehlen die Migration auf das neue System.",
   "admin.complianceExport.createJob.help": "Initiiert sofort einen Compliance-Export.",

@@ -516,7 +516,7 @@
   "admin.compliance.directoryTitle": "Nalevingsrapport Map:",
   "admin.compliance.enableDailyDesc": "Indien gekozen, dan zal Mattermost dagenlijks een \"compliance\" rapport genereren.",
   "admin.compliance.enableDailyTitle": "Schakel dagenlijkse rapportages in:",
-  "admin.compliance.enableDesc": "Wanneer het waar is, staat Mattermost nalevingsrapportage toe van het tabblad **Compliance en Auditing* * tab. Zie [documentatie](!https: //docs.mattermost.com/administration/compliance.html) om meer te weten te komen.",
+  "admin.compliance.enableDesc": "Wanneer het waar is, staat Mattermost nalevingsrapportage toe van het tabblad **Compliance en Auditing* * tab. Zie <link>documentatie</link> om meer te weten te komen.",
   "admin.compliance.enableTitle": "Inschakelen Nalevingsrapport:",
   "admin.compliance.newComplianceExportBanner": "Deze functie wordt vervangen door een nieuwe functie [Compliance Export] ({siteURL}/admin_console/compliance/export) en wordt in een toekomstige release verwijderd. We raden u aan te migreren naar het nieuwe systeem.",
   "admin.complianceExport.createJob.help": "Hiermee start u onmiddellijk een Nalevingseexporttaak.",

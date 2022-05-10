@@ -223,7 +223,7 @@
   "admin.compliance.directoryTitle": "Довідник про дотримання вимог:",
   "admin.compliance.enableDailyDesc": "Коли це правда, Mattermost створить щоденний звіт про дотримання.",
   "admin.compliance.enableDailyTitle": "Увімкнути щоденний звіт:",
-  "admin.compliance.enableDesc": "Коли це правда, Mattermost дозволяє звітувати про дотримання **на вкладці** Відповідність та аудит**. Щоб дізнатися більше, перегляньте [documentation] (!https://docs.mattermost.com/administration/compliance.html).",
+  "admin.compliance.enableDesc": "Коли це правда, Mattermost дозволяє звітувати про дотримання **на вкладці** Відповідність та аудит**. Щоб дізнатися більше, перегляньте <link>documentation</link> .",
   "admin.compliance.enableTitle": "Дозволити звіти про відповідність:",
   "admin.compliance.newComplianceExportBanner": "Ця функція замінюється новою функцією [Compliance Export]({siteURL}/admin_console/compliance/message_export) і буде видалена в майбутньому випуску. Ми рекомендуємо перейти на нову систему.",
   "admin.complianceExport.createJob.help": "Починає негайно виконувати експортну роботу.",

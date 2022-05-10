@@ -516,7 +516,7 @@
   "admin.compliance.directoryTitle": "Uygunluk raporu klasörü:",
   "admin.compliance.enableDailyDesc": "Bu seçenek etkinleştirildiğinde, Mattermost günlük uygunluk raporu oluşturur.",
   "admin.compliance.enableDailyTitle": "Günlük rapor oluşturulsun:",
-  "admin.compliance.enableDesc": "Bu seçenek etkinleştirildiğinde, Mattermost **Uyumluluk ve denetim** sekmesinden uyumluluk raporu işlemleri yapılabilir. Ayrıntılı bilgi almak için [belgeler](!https://docs.mattermost.com/administration/compliance.html) bölümüne bakabilirsiniz.",
+  "admin.compliance.enableDesc": "Bu seçenek etkinleştirildiğinde, Mattermost **Uyumluluk ve denetim** sekmesinden uyumluluk raporu işlemleri yapılabilir. Ayrıntılı bilgi almak için <link>belgeler</link> bölümüne bakabilirsiniz.",
   "admin.compliance.enableTitle": "Uygunluk raporu oluşturulsun:",
   "admin.compliance.newComplianceExportBanner": "Bu özellik yeni [uygunluk dışa aktarma]({siteURL}//admin_console/compliance/export) özelliği ile değiştirildi ve gelecek sürümlerde kaldırılacak. Yeni sisteme geçmeniz önerilir.",
   "admin.complianceExport.createJob.help": "Bir uygunluk dışa aktarma görevini başlatır.",

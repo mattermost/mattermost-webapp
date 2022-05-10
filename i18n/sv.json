@@ -516,7 +516,7 @@
   "admin.compliance.directoryTitle": "Katalog för efterlevnadsrapporter:",
   "admin.compliance.enableDailyDesc": "När satt till sant, skapar Mattermost en daglig efterlevnadsrapport.",
   "admin.compliance.enableDailyTitle": "Aktivera Daglig rapport:",
-  "admin.compliance.enableDesc": "När satt till sant, tillåter Mattermost efterlevnadsrapportering från sidan **Efterlevnad och Övervakning**. Se [dokumentation](!https://docs.mattermost.com/administration/compliance.html) för mer information.",
+  "admin.compliance.enableDesc": "När satt till sant, tillåter Mattermost efterlevnadsrapportering från sidan **Efterlevnad och Övervakning**. Se <link>dokumentation</link> för mer information.",
   "admin.compliance.enableTitle": "Aktivera efterlevnadsrapport:",
   "admin.compliance.newComplianceExportBanner": "Denna funktion är ersatt av en ny funktion för [Efterlevnadsrapport]({siteURL}/admin_console/compliance/export) och kommer tas bort i kommande versioner. Vi rekommenderar att migrera till det nya systemet.",
   "admin.complianceExport.createJob.help": "Skapar ett jobb för efterlevnadsexport omedelbart.",

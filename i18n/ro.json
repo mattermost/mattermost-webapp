@@ -468,7 +468,7 @@
   "admin.compliance.directoryTitle": "Director de raport de conformitate:",
   "admin.compliance.enableDailyDesc": "Când este adevărat, Mattermost va genera un raport zilnic de conformitate.",
   "admin.compliance.enableDailyTitle": "Activați raportul zilnic:",
-  "admin.compliance.enableDesc": "Când este adevărat, Mattermost permite raportarea conformității din fila **Conformitate și audit**. Vedeți [documentația](!https://docs.mattermost.com/administration/compliance.html) pentru a afla mai multe.",
+  "admin.compliance.enableDesc": "Când este adevărat, Mattermost permite raportarea conformității din fila **Conformitate și audit**. Vedeți <link>documentația</link> pentru a afla mai multe.",
   "admin.compliance.enableTitle": "Activați raportarea de conformitate:",
   "admin.compliance.newComplianceExportBanner": "Această caracteristică este înlocuit de un nou [de Conformitate Export]({siteURL}/admin_console/conformitate/message_export) caracteristică, și vor fi eliminate într-o versiune viitoare. Vă recomandăm migrarea la noul sistem.",
   "admin.complianceExport.createJob.help": "Inițiază imediat o lucrare de complianță.",

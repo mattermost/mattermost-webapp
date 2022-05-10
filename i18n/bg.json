@@ -509,7 +509,7 @@
   "admin.compliance.directoryTitle": "Директория с докладите за съответствие:",
   "admin.compliance.enableDailyDesc": "Когато е true, Mattermost ще генерира ежедневен отчет за съответствие.",
   "admin.compliance.enableDailyTitle": "Разреши дневния отчет:",
-  "admin.compliance.enableDesc": "Когато е true, Mattermost позволява отчитане на съответствието от раздела **Съответствие и одит**. Вижте [документация](!https://docs.mattermost.com/administration/compliance.html), за да научите повече.",
+  "admin.compliance.enableDesc": "Когато е true, Mattermost позволява отчитане на съответствието от раздела **Съответствие и одит**. Вижте <link>документация</link>, за да научите повече.",
   "admin.compliance.enableTitle": "Разреши докладите за съответствие:",
   "admin.compliance.newComplianceExportBanner": "Тази функция се заменя с новата [Експорт на съответствие] ({siteURL}/admin_console/compliance/export) и ще бъде премахната в бъдеща версия. Препоръчваме да преминете към новата система.",
   "admin.complianceExport.createJob.help": "Инициира незабавно, задание за експорт на съответствие.",

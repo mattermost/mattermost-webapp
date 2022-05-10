@@ -443,7 +443,7 @@
   "admin.compliance.directoryTitle": "Diretório de Relatórios de conformidade:",
   "admin.compliance.enableDailyDesc": "Quando verdadeiro, Mattermost irá gerar um relatório diário de conformidade.",
   "admin.compliance.enableDailyTitle": "Ativar Relatório Diário:",
-  "admin.compliance.enableDesc": "Quando verdadeiro, Mattermost permite relatórios de conformidade na guia **Conformidade e Auditoria**. Consulte a [documentação]!https://docs.mattermost.com/administration/compliance.html) para saber mais.",
+  "admin.compliance.enableDesc": "Quando verdadeiro, Mattermost permite relatórios de conformidade na guia **Conformidade e Auditoria**. Consulte a <link>documentação</link>!https://docs.mattermost.com/administration/compliance.html) para saber mais.",
   "admin.compliance.enableTitle": "Habilitar Relatórios de Conformidade:",
   "admin.compliance.newComplianceExportBanner": "Este recurso foi substituído por um novo recurso de [Compliance Export]({siteURL}/admin_console/compliance/export), e será removido em uma versão futura. Nós recomendamos migrar para o novo sistema.",
   "admin.complianceExport.createJob.help": "Inicia um trabalho de Conformidade de Exportação imediatamente.",

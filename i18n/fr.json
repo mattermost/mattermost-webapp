@@ -514,7 +514,7 @@
   "admin.compliance.directoryTitle": "Dossier des rapports de conformité :",
   "admin.compliance.enableDailyDesc": "Si activé, Mattermost génère un rapport quotidien de conformité.",
   "admin.compliance.enableDailyTitle": "Activer le rapport quotidien :",
-  "admin.compliance.enableDesc": "Lorsqu'activé, Mattermost autorise l'export de rapport de conformité via l'onglet **Conformité et vérification**. Consultez notre [documentation](!https://docs.mattermost.com/administration/compliance.html) pour en savoir plus.",
+  "admin.compliance.enableDesc": "Lorsqu'activé, Mattermost autorise l'export de rapport de conformité via l'onglet **Conformité et vérification**. Consultez notre <link>documentation</link> pour en savoir plus.",
   "admin.compliance.enableTitle": "Activer le rapport de conformité :",
   "admin.compliance.newComplianceExportBanner": "Cette fonctionnalité a été remplacée par la nouvelle fonction d'[Export de conformité]({siteURL}/admin_console/compliance/export) et sera supprimée dans une prochaine version. Nous vous recommandons de migrer vers la nouvelle fonctionnalité.",
   "admin.complianceExport.createJob.help": "Lance immédiatement une tâche vérifiant la conformité de l'exportation.",

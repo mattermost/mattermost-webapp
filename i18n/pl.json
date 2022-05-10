@@ -516,7 +516,7 @@
   "admin.compliance.directoryTitle": "Katalog raportu zgodności:",
   "admin.compliance.enableDailyDesc": "Kiedy włączony, Mattermost będzie generować dzienny raport zgodności.",
   "admin.compliance.enableDailyTitle": "Włącz dzienny raport:",
-  "admin.compliance.enableDesc": "Jeśli jest włączone, Mattermost umożliwia raportowanie zgodności z karty ** Zgodność i inspekcja **. zobacz [dokumentację](!https://docs.mattermost.com/administration/compliance.html) aby dowiedzieć się więcej.",
+  "admin.compliance.enableDesc": "Jeśli jest włączone, Mattermost umożliwia raportowanie zgodności z karty ** Zgodność i inspekcja **. zobacz <link>dokumentację</link> aby dowiedzieć się więcej.",
   "admin.compliance.enableTitle": "Włącz raport zgodności:",
   "admin.compliance.newComplianceExportBanner": "Ta funkcja została zastąpiona nową funkcją [Zgodności Eksportu]({siteURL}/admin_console/compliance/message_export) i zostanie usunięta w przyszłej wersji. Zalecamy migrację do nowego systemu.",
   "admin.complianceExport.createJob.help": "Uruchamia zadanie eksportu raportu zgodności natychmiast.",

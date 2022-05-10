@@ -516,7 +516,7 @@
   "admin.compliance.directoryTitle": "守规报告目录：",
   "admin.compliance.enableDailyDesc": "如果是正确的，Mattermost将生成一个每日合规报告。",
   "admin.compliance.enableDailyTitle": "启用每日报告：",
-  "admin.compliance.enableDesc": "当设为是时，Mattermost 允许**合规与审计**标签显示合规导出。参见[文档](!https://docs.mattermost.com/administration/compliance.html)了解更多。",
+  "admin.compliance.enableDesc": "当设为是时，Mattermost 允许**合规与审计**标签显示合规导出。参见<link>文档</link>了解更多。",
   "admin.compliance.enableTitle": "启动守规报告：",
   "admin.compliance.newComplianceExportBanner": "此功能已被新[合规导出]({siteURL}/admin_console/compliance/export)功能替代并将在今后删除。我们推荐您使用新的系统。",
   "admin.complianceExport.createJob.help": "立刻开始合规导出任务。",
