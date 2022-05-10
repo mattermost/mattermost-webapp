@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 import {Modal} from 'react-bootstrap';
+import {useIntl} from 'react-intl';
 
 import './content.scss';
 import LadySvg from './lady.svg';
@@ -144,15 +145,16 @@ function Card(props: CardProps) {
 }
 
 function Content() {
+    const {formatMessage} = useIntl();
     return (
         <div className='Content'>
             <div className='self-hosted-alert'>
-                <h1>{'Looking to self-host?'}</h1>
-                <p>{'Review deployment options'}</p>
+                <h1>{formatMessage({id: 'pretrial_pricing_modal.lookingToSelfHost', defaultMessage: 'Looking to self-host?'})}</h1>
+                <p>{formatMessage({id: 'pretrial_pricing_modal.reviewDeploymentOptions', defaultMessage: 'Review deployment options'})}</p>
             </div>
             <Modal.Header className='PreTrialPricingModal__header'>
                 <h1 className='title'>
-                    {'Select a plan'}
+                    {formatMessage({id: 'pretrial_pricing_modal.title', defaultMessage: 'Select a plan'})}
                 </h1>
                 <button
                     id='closeIcon'
@@ -172,20 +174,24 @@ function Content() {
                 <Card
                     topColor='#9DA7B8'
                     plan='Starter'
-                    price='Free'
+                    price={formatMessage({id: 'pretrial_pricing_modal.price.free', defaultMessage: 'Free'})}
                     briefing={{
-                        title: 'Starter comes with...',
-                        items: ['50GB file storage', 'Limited message history', '500 Boards cards per server', 'Limited to one team'],
+                        title: formatMessage({id: 'pretrial_pricing_modal.briefing.starter', defaultMessage: 'Starter comes with...'}),
+                        items: [
+                            formatMessage({id: 'pretrial_pricing_modal.briefing.storage', defaultMessage: '{storage}GB file storage'}, {storage: '50'}),
+                            formatMessage({id: 'pretrial_pricing_modal.briefing.starter.messageHistory', defaultMessage: 'Limited message history'}),
+                            formatMessage({id: 'pretrial_pricing_modal.briefing.starter.boardCards', defaultMessage: '{boards} Boards cards per server'}, {boards: '500'}),
+                            formatMessage({id: 'pretrial_pricing_modal.briefing.starter.teamCount', defaultMessage: 'Limited to one team'})],
                     }}
                     buttonDetails={{
                         action: () => {},
-                        text: 'Upgrade',
+                        text: formatMessage({id: 'pretrial_pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
                         customClass: ButtonCustomiserClasses.grayed,
                     }}
-                    planDisclaimer='This plan has data restrictions.'
+                    planDisclaimer={formatMessage({id: 'pretrial_pricing_modal.planDisclaimer.starter', defaultMessage: 'This plan has data restrictions.'})}
                     planLabel={
                         <PlanLabel
-                            text='CURRENT PLAN'
+                            text={formatMessage({id: 'pretrial_pricing_modal.planLabel.currentPlan', defaultMessage: 'CURRENT PLAN'})}
                             color='#3DB887'
                             bgColor='#FFFFFF'
                             firstSvg={<CheckMarkSvg/>}
@@ -195,19 +201,24 @@ function Content() {
                     topColor='#4A69AC'
                     plan='Professional'
                     price='$10'
-                    rate='/user/month'
+                    rate={formatMessage({id: 'pretrial_pricing_modal.rate.userPerMonth', defaultMessage: '/user/month'})}
                     briefing={{
-                        title: 'All the features of Starter, plus',
-                        items: ['100GB file storage', 'OneLogin / ADFS SAML 2.0', 'OpenID connect', 'Office365 suite integration', 'Read-only announcement channels'],
+                        title: formatMessage({id: 'pretrial_pricing_modal.briefing.professional', defaultMessage: 'All the features of Starter, plus'}),
+                        items: [
+                            formatMessage({id: 'pretrial_pricing_modal.briefing.storage', defaultMessage: '{storage}GB file storage'}, {storage: '100'}),
+                            'OneLogin / ADFS SAML 2.0',
+                            'OpenID connect',
+                            'Office365 suite integration',
+                            formatMessage({id: 'pretrial_pricing_modal.briefing.professional.readOnlyAnnoucementChannels', defaultMessage: 'Read-only announcement channels'})],
                     }}
                     buttonDetails={{
                         action: () => {},
-                        text: 'Upgrade',
+                        text: formatMessage({id: 'pretrial_pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
                         customClass: ButtonCustomiserClasses.active,
                     }}
                     planLabel={
                         <PlanLabel
-                            text='MOST POPULAR'
+                            text={formatMessage({id: 'pretrial_pricing_modal.planLabel.mostPopular', defaultMessage: 'MOST POPULAR'})}
                             bgColor='#1E325C'
                             color='#FFFFFF'
                             firstSvg={<StarMarkSvg/>}
@@ -217,19 +228,23 @@ function Content() {
                 <Card
                     topColor='#1C58D9'
                     plan='Enterprise'
-                    price='Contact sales'
+                    price={formatMessage({id: 'pretrial_pricing_modal.price.contactSales', defaultMessage: 'Contact sales'})}
                     briefing={{
-                        title: 'All the features of Professional, plus',
-                        items: ['LDAP group sync', 'High Availability', 'Advanced compliance', 'Advanced roles and permissions'],
+                        title: formatMessage({id: 'pretrial_pricing_modal.briefing.enterprise', defaultMessage: 'All the features of Professional, plus'}),
+                        items: [
+                            'LDAP group sync',
+                            formatMessage({id: 'pretrial_pricing_modal.briefing.professional.highAvailability', defaultMessage: 'High Availability'}),
+                            formatMessage({id: 'pretrial_pricing_modal.briefing.enterprise.advancedCompliance', defaultMessage: 'Advanced compliance'}),
+                            formatMessage({id: 'pretrial_pricing_modal.briefing.professional.advancedRolesAndPermissions', defaultMessage: 'Advanced roles and permissions'})],
                     }}
                     buttonDetails={{
                         action: () => {},
-                        text: 'Try free for 30 days',
+                        text: formatMessage({id: 'pretrial_pricing_modal.btn.tryDays', defaultMessage: 'Try free for {days} days'}, {days: '30'}),
                         customClass: ButtonCustomiserClasses.special,
                     }}
                     extraAction={{
                         action: () => {},
-                        text: 'Contact Sales',
+                        text: formatMessage({id: 'pretrial_pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),
                     }}
                 />
             </Modal.Body>
