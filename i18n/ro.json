@@ -173,7 +173,7 @@
   "add_outgoing_webhook.save": "Salvează",
   "add_outgoing_webhook.saving": "Salvez...",
   "add_outgoing_webhook.token": "**Simbol**: {token}",
-  "add_outgoing_webhook.token.message": "Asigurați-vă că adăugați acest cont de bot la echipele și canalele cu care doriți să interacționeze. Consultați [documentația](https://mattermost.com/pl/default-bot-accounts) pentru a afla mai multe.",
+  "add_outgoing_webhook.token.message": "Asigurați-vă că adăugați acest cont de bot la echipele și canalele cu care doriți să interacționeze. Consultați <link>documentația</link>(https://mattermost.com/pl/default-bot-accounts) pentru a afla mai multe.",
   "add_outgoing_webhook.triggerWords": "Cuvinte de declanșare (câte una pe linie)",
   "add_outgoing_webhook.triggerWords.help": "Mesajele care încep cu unul dintre cuvintele specificate vor declanșa căsuța de ieșire. Opțional dacă este selectat Canal.",
   "add_outgoing_webhook.triggerWordsOrChannelRequired": "Este necesar un canal valid sau o listă cu cuvinte de declanșare",

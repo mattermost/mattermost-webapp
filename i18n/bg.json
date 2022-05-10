@@ -173,7 +173,7 @@
   "add_outgoing_webhook.save": "Запиши",
   "add_outgoing_webhook.saving": "Запазва се...",
   "add_outgoing_webhook.token": "**Маркер**: {token}",
-  "add_outgoing_webhook.token.message": "Не забравяйте да добавите този ботов акаунт към екипи и канали, в които искате да взаимодейства. Вижте [документация](https://mattermost.com/pl/default-bot-accounts), за да научите повече.",
+  "add_outgoing_webhook.token.message": "Не забравяйте да добавите този ботов акаунт към екипи и канали, в които искате да взаимодейства. Вижте <link>документация</link>(https://mattermost.com/pl/default-bot-accounts), за да научите повече.",
   "add_outgoing_webhook.triggerWords": "Задействащи думи (една на ред)",
   "add_outgoing_webhook.triggerWords.help": "Посочете задействащите думи, които изпращат HTTP POST заявка към вашето приложение. Ако изберете само канал, това не е задължително. Задействането може да бъде за канала, изходящия webhook или и двете, но когато го зададете и за двете, съобщението трябва да съвпада и с двете стойности.",
   "add_outgoing_webhook.triggerWordsOrChannelRequired": "Необходим е валиден канал или списък на задействащи думи",

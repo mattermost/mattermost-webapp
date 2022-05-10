@@ -173,7 +173,7 @@
   "add_outgoing_webhook.save": "Salvar",
   "add_outgoing_webhook.saving": "Salvando...",
   "add_outgoing_webhook.token": "**Token**: {token}",
-  "add_outgoing_webhook.token.message": "Certifique-se de adicionar esta conta bot a equipes e canais nos quais você deseja interagir. Veja a [documentação](https://mattermost.com/pl/default-bot-accounts) para saber mais.",
+  "add_outgoing_webhook.token.message": "Certifique-se de adicionar esta conta bot a equipes e canais nos quais você deseja interagir. Veja a <link>documentação</link>(https://mattermost.com/pl/default-bot-accounts) para saber mais.",
   "add_outgoing_webhook.triggerWords": "Palavras Gatilho (Uma Por Linha)",
   "add_outgoing_webhook.triggerWords.help": "Especifique as palavras do gatilho que enviam um pedido HTTP POST para a sua aplicação.  Se você selecionar apenas canal, isso é opcional. O disparo pode ser para o canal, o webhook de saída, ou ambos, mas quando você configurar para ambos, a mensagem deve corresponder a ambos os valores.",
   "add_outgoing_webhook.triggerWordsOrChannelRequired": "Um canal válido ou uma lista de palavras gatilho é necessário",

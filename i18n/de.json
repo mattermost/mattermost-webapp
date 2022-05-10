@@ -175,7 +175,7 @@
   "add_outgoing_webhook.save": "Speichern",
   "add_outgoing_webhook.saving": "Speichere...",
   "add_outgoing_webhook.token": "**Token**: {token}",
-  "add_outgoing_webhook.token.message": "Stelle sicher, dass du diesen Bot-Account zu Teams und Kanälen hinzufügen, in denen er interagieren soll. Erfahre mehr in der [Dokumentation](https:/mattermost.com/pl/default-bot-accounts).",
+  "add_outgoing_webhook.token.message": "Stelle sicher, dass du diesen Bot-Account zu Teams und Kanälen hinzufügen, in denen er interagieren soll. Erfahre mehr in der <link>Dokumentation</link>(https:/mattermost.com/pl/default-bot-accounts).",
   "add_outgoing_webhook.triggerWords": "Auslösewörter (eins pro Zeile)",
   "add_outgoing_webhook.triggerWords.help": "Gib ein oder mehrere Wörter an, die das Senden einer HTTP-POST-Anforderung an deine Anwendung auslösen. Wenn Du nur den Kanal auswählst, ist dies optional. Die Wörter können für den Kanal, den ausgehenden Webhook oder beides sein, aber wenn du ihn für beide festlegen, muss die Nachricht mit beiden Werten übereinstimmen.",
   "add_outgoing_webhook.triggerWordsOrChannelRequired": "Ein gültiger Kanal oder eine Liste von Auslösewörtern wird benötigt",

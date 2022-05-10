@@ -175,7 +175,7 @@
   "add_outgoing_webhook.save": "保存",
   "add_outgoing_webhook.saving": "保存中...",
   "add_outgoing_webhook.token": "**令牌**：{token}",
-  "add_outgoing_webhook.token.message": "确保添加此机器人到您想互动的团队以及频道。参见[文档](https://mattermost.com/pl/default-bot-accounts)了解更多。",
+  "add_outgoing_webhook.token.message": "确保添加此机器人到您想互动的团队以及频道。参见<link>文档</link>(https://mattermost.com/pl/default-bot-accounts)了解更多。",
   "add_outgoing_webhook.triggerWords": "触发词（一行一个）",
   "add_outgoing_webhook.triggerWords.help": "指定将 HTTP POST 请求发送到您的应用程序的触发词。 如果仅选择频道，则这是可选的。 触发器可以是针对通道，传出的 webhook或两者同时，但当您设为两者同时时，消息必须匹配这两个值。",
   "add_outgoing_webhook.triggerWordsOrChannelRequired": "需要一个有效的频道或一个触发关键字列表",

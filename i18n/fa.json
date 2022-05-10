@@ -173,7 +173,7 @@
   "add_outgoing_webhook.save": "صرفه جویی",
   "add_outgoing_webhook.saving": "صرفه جویی در...",
   "add_outgoing_webhook.token": "**ژتون**: {token}",
-  "add_outgoing_webhook.token.message": "مطمئن شوید که این حساب ربات را به تیم‌ها و کانال‌هایی که می‌خواهید با آنها تعامل داشته باشد اضافه کنید. برای اطلاعات بیشتر به [مستندات](https://mattermost.com/pl/default-bot-accounts) مراجعه کنید.",
+  "add_outgoing_webhook.token.message": "مطمئن شوید که این حساب ربات را به تیم‌ها و کانال‌هایی که می‌خواهید با آنها تعامل داشته باشد اضافه کنید. برای اطلاعات بیشتر به <link>مستندات</link>(https://mattermost.com/pl/default-bot-accounts) مراجعه کنید.",
   "add_outgoing_webhook.triggerWords": "کلمات محرک (یکی در هر خط)",
   "add_outgoing_webhook.triggerWords.help": "کلمات محرکی را که درخواست HTTP POST را به برنامه شما ارسال می کنند، مشخص کنید. اگر فقط کانال را انتخاب کنید، این اختیاری است. ماشه می تواند برای کانال، وب هوک خروجی یا هر دو باشد، اما وقتی آن را برای هر دو تنظیم می کنید، پیام باید با هر دو مقدار مطابقت داشته باشد.",
   "add_outgoing_webhook.triggerWordsOrChannelRequired": "یک کانال معتبر یا فهرستی از کلمات محرک لازم است",

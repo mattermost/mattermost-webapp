@@ -175,7 +175,7 @@
   "add_outgoing_webhook.save": "Сохранить",
   "add_outgoing_webhook.saving": "Сохранение...",
   "add_outgoing_webhook.token": "**Токен**: {token}",
-  "add_outgoing_webhook.token.message": "Обязательно добавьте эту учетную запись бота в команды и каналы, с которыми вы хотите, чтобы он взаимодействовал. См. [Документация] (https://mattermost.com/pl/default-bot-accounts) чтобы узнать больше.",
+  "add_outgoing_webhook.token.message": "Обязательно добавьте эту учетную запись бота в команды и каналы, с которыми вы хотите, чтобы он взаимодействовал. См. <link>Документация</link> (https://mattermost.com/pl/default-bot-accounts) чтобы узнать больше.",
   "add_outgoing_webhook.triggerWords": "Ключевые слова (по одному на строку)",
   "add_outgoing_webhook.triggerWords.help": "Укажите триггерные слова, которые отправляют HTTP-запрос POST вашему приложению. Если вы выбираете только канал, это необязательно. Триггер может быть для канала, исходящего вебхука или обоих, но когда вы установите его для обоих, сообщение должно совпадать с обоими значениями.",
   "add_outgoing_webhook.triggerWordsOrChannelRequired": "Необходим действующий канал или список ключевых слов",

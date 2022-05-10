@@ -175,7 +175,7 @@
   "add_outgoing_webhook.save": "Spara",
   "add_outgoing_webhook.saving": "Sparar...",
   "add_outgoing_webhook.token": "**Token**: {token}",
-  "add_outgoing_webhook.token.message": "Kom ihåg att lägga till detta bot-konto i grupper och kanaler som du vill interagera med. Titta i [dokumentationen](https://mattermost.com/pl/default-bot-accounts) för mer information.",
+  "add_outgoing_webhook.token.message": "Kom ihåg att lägga till detta bot-konto i grupper och kanaler som du vill interagera med. Titta i <link>dokumentationen</link>(https://mattermost.com/pl/default-bot-accounts) för mer information.",
   "add_outgoing_webhook.triggerWords": "Aktiveringsorden (en per varje rad)",
   "add_outgoing_webhook.triggerWords.help": "Ange det aktiveringsord som sänder ett HTTP POST-anrop till din applikation. Om du valde endast kanal så är detta valfritt. Utlösaren kan vara för kanalen, den utgående webhooken eller båda men när du ställer in den för båda måste meddelandet matcha båda värdena.",
   "add_outgoing_webhook.triggerWordsOrChannelRequired": "Det krävs en giltig kanal eller en lista av aktiveringsord",

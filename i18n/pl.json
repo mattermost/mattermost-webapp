@@ -175,7 +175,7 @@
   "add_outgoing_webhook.save": "Zapisz",
   "add_outgoing_webhook.saving": "Zapisywanie...",
   "add_outgoing_webhook.token": "**Token**: {token}",
-  "add_outgoing_webhook.token.message": "Upewnij się, że dodasz to konto bota do zespołów i kanałów, w których chcesz współdziałać. Zobacz [dokumentacja] (https://mattermost.com/pl/default-bot-accounts), aby dowiedzieć się więcej.",
+  "add_outgoing_webhook.token.message": "Upewnij się, że dodasz to konto bota do zespołów i kanałów, w których chcesz współdziałać. Zobacz <link>dokumentacja</link> (https://mattermost.com/pl/default-bot-accounts), aby dowiedzieć się więcej.",
   "add_outgoing_webhook.triggerWords": "Słowa wyzwalacze (jeden na linię)",
   "add_outgoing_webhook.triggerWords.help": "Określa słowa wyzwalające, które wysyłają żądanie HTTP POST do aplikacji. Jest to opcjonalne, jeśli wybierzesz tylko kanał. Wyzwalacz może być dla kanału, dla wychodzącego webhooka lub dla obu, ale jeśli ustawisz go dla obu, wiadomość musi odpowiadać obu wartościom.",
   "add_outgoing_webhook.triggerWordsOrChannelRequired": "Wymagany jest poprawny kanał lub lista słów wyzwalaczy",

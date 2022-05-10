@@ -175,7 +175,7 @@
   "add_outgoing_webhook.save": "Kaydet",
   "add_outgoing_webhook.saving": "Kaydediliyor...",
   "add_outgoing_webhook.token": "**Kod**: {token}",
-  "add_outgoing_webhook.token.message": "Bu bot hesabını etkileşimde olmak istediğiniz takım ve kanallara eklediğinizden emin olun. Ayrıntılı bilgi almak için [belgeler](https://mattermost.com/pl/default-bot-accounts) bölümüne bakabilirsiniz.",
+  "add_outgoing_webhook.token.message": "Bu bot hesabını etkileşimde olmak istediğiniz takım ve kanallara eklediğinizden emin olun. Ayrıntılı bilgi almak için <link>belgeler</link>(https://mattermost.com/pl/default-bot-accounts) bölümüne bakabilirsiniz.",
   "add_outgoing_webhook.triggerWords": "Tetikleyici sözcükler (her satıra bir tane)",
   "add_outgoing_webhook.triggerWords.help": "Uygulamanıza bir HTTP POST iletisi gönderecek tetikleyici sözcükleri yazın.  Yalnız bir kanal seçerseniz, bu seçenek isteğe bağlıdır. Tetikleyici kanal için, giden web bağlantısı için ya da ikisi için olarak ayarladıysanız ikisi için de kullanılabilir. İleti iki değere de uymalıdır.",
   "add_outgoing_webhook.triggerWordsOrChannelRequired": "Geçerli bir kanal ya da tetikleyici sözcükler listesi zorunludur",

@@ -170,7 +170,7 @@
   "add_outgoing_webhook.save": "儲存",
   "add_outgoing_webhook.saving": "儲存中...",
   "add_outgoing_webhook.token": "**Token**：{token}",
-  "add_outgoing_webhook.token.message": "請確保將此機器人帳號加入至想要它互動的團隊與頻道。詳情請參閱[文件](https://mattermost.com/pl/default-bot-accounts)。",
+  "add_outgoing_webhook.token.message": "請確保將此機器人帳號加入至想要它互動的團隊與頻道。詳情請參閱<link>文件</link>(https://mattermost.com/pl/default-bot-accounts)。",
   "add_outgoing_webhook.triggerWords": "關鍵觸發字(一行一個)",
   "add_outgoing_webhook.triggerWords.help": "設定發送 HTTP POST 要求到應用程式的觸發關鍵字。 如果只選擇頻道，此為非必須。觸發可以針對頻道、外送 Webhook 或兩者，若設定為兩者，訊息必須同時符合兩邊的條件才會發送。",
   "add_outgoing_webhook.triggerWordsOrChannelRequired": "請填入有效的頻道或觸發關鍵字清單",

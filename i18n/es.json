@@ -175,7 +175,7 @@
   "add_outgoing_webhook.save": "Guardar",
   "add_outgoing_webhook.saving": "Guardando...",
   "add_outgoing_webhook.token": "**Token**: {token}",
-  "add_outgoing_webhook.token.message": "Asegúrate de agregar esta cuante bot a los equipos y canales con los que quieres que interactúe. Consulta la [documentación](https://mattermost.com/pl/default-bot-accounts) para obtener más información.",
+  "add_outgoing_webhook.token.message": "Asegúrate de agregar esta cuante bot a los equipos y canales con los que quieres que interactúe. Consulta la <link>documentación</link>(https://mattermost.com/pl/default-bot-accounts) para obtener más información.",
   "add_outgoing_webhook.triggerWords": "Palabras que disparan acciones (Una por Línea)",
   "add_outgoing_webhook.triggerWords.help": "Especifica las palabras disparadoras que enviarán una solicitud HTTP POST a tu aplicación. Si seleccionas un único canal, esto es opcional. El disparador puede ser para el canal, el webhook de salida, o ambos, pero cuando se especifica ambos, el mensaje debe coincidir con ambos valores.",
   "add_outgoing_webhook.triggerWordsOrChannelRequired": "Se require al menos un canal válido o una lista de palabras que disparan la acción",

@@ -175,7 +175,7 @@
   "add_outgoing_webhook.save": "Save",
   "add_outgoing_webhook.saving": "Saving...",
   "add_outgoing_webhook.token": "**Token**: {token}",
-  "add_outgoing_webhook.token.message": "Make sure to add this bot account to teams and channels you want it to interact in. See [documentation](https://mattermost.com/pl/default-bot-accounts) to learn more.",
+  "add_outgoing_webhook.token.message": "Make sure to add this bot account to teams and channels you want it to interact in. See <link>documentation</link>(https://mattermost.com/pl/default-bot-accounts) to learn more.",
   "add_outgoing_webhook.triggerWords": "Trigger Words (One Per Line)",
   "add_outgoing_webhook.triggerWords.help": "Specify the trigger words that send an HTTP POST request to your application.  If you select only channel, this is optional. The trigger can be for the channel, the outgoing webhook, or both but when you set it for both, the message must match both values.",
   "add_outgoing_webhook.triggerWordsOrChannelRequired": "A valid channel or a list of trigger words is required",

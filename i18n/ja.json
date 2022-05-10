@@ -175,7 +175,7 @@
   "add_outgoing_webhook.save": "保存する",
   "add_outgoing_webhook.saving": "保存しています...",
   "add_outgoing_webhook.token": "**トークン**: {token}",
-  "add_outgoing_webhook.token.message": "このBotアカウントを、連携させたいチームやチャンネルに追加してください。詳しくは[説明文書](https://mattermost.com/pl/default-bot-accounts)を参照してください。",
+  "add_outgoing_webhook.token.message": "このBotアカウントを、連携させたいチームやチャンネルに追加してください。詳しくは<link>説明文書</link>(https://mattermost.com/pl/default-bot-accounts)を参照してください。",
   "add_outgoing_webhook.triggerWords": "トリガーワード(1つにつき1行)",
   "add_outgoing_webhook.triggerWords.help": "あなたのアプリケーションへHTTP POSTリクエストを送信するトリガーワードを指定してください。  チャンネルのみを選択した場合、コレはオプションになります。トリガーはチャンネル、外向きのウェブフック、またはその両方に対して指定することができますが、両方に対して設定した場合、メッセージは両方の値に一致する必要があります。",
   "add_outgoing_webhook.triggerWordsOrChannelRequired": "有効なチャンネルまたはトリガーワードのリストが必要です",

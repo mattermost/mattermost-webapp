@@ -173,7 +173,7 @@
   "add_outgoing_webhook.save": "Enregistrer",
   "add_outgoing_webhook.saving": "Sauvegarde en cours...",
   "add_outgoing_webhook.token": "**Jeton** : {token}",
-  "add_outgoing_webhook.token.message": "Veuillez vous assurer d'ajouter ce compte utilisateur de bot aux équipes et canaux avec lesquels vous voulez voir ce bot interagir. Veuillez vous référer à notre [documentation](https://mattermost.com/pl/default-bot-accounts) pour en savoir plus.",
+  "add_outgoing_webhook.token.message": "Veuillez vous assurer d'ajouter ce compte utilisateur de bot aux équipes et canaux avec lesquels vous voulez voir ce bot interagir. Veuillez vous référer à notre <link>documentation</link>(https://mattermost.com/pl/default-bot-accounts) pour en savoir plus.",
   "add_outgoing_webhook.triggerWords": "Mot-clé (Un par ligne)",
   "add_outgoing_webhook.triggerWords.help": "Spécifie les mots-clés déclencheurs qui envoient des requêtes HTTP POST à votre application. Si vous sélectionnez seulement le canal, c'est facultatif. Le déclencheur peut être pour le canal, le webhook sortant, ou les deux, mais lorsque vous définissez les deux, le message doit correspondre aux deux valeurs.",
   "add_outgoing_webhook.triggerWordsOrChannelRequired": "Un canal valide ou une liste de mot-clés est requise",

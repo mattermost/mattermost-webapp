@@ -175,7 +175,7 @@
   "add_outgoing_webhook.save": "Mentés",
   "add_outgoing_webhook.saving": "Mentés...",
   "add_outgoing_webhook.token": "**Token**: {token}",
-  "add_outgoing_webhook.token.message": "Ne felejtse el hozzáadni ezt a bot fiókot azokhoz a csapatokhoz és csatornákhoz, amelyekben használni szeretné. További információkért lásd a [dokumentációt](https://mattermost.com/pl/default-bot-accounts).",
+  "add_outgoing_webhook.token.message": "Ne felejtse el hozzáadni ezt a bot fiókot azokhoz a csapatokhoz és csatornákhoz, amelyekben használni szeretné. További információkért lásd a <link>dokumentációt</link>(https://mattermost.com/pl/default-bot-accounts).",
   "add_outgoing_webhook.triggerWords": "Kulcsszavak (soronként egy)",
   "add_outgoing_webhook.triggerWords.help": "Adja meg azokat az aktivátor szavakat, amelyek HTTP POST kérést küldenek az alkalmazásához.  Ha csak csatornát választ, akkor ez opcionális. Az aktiválás lehet a csatorna számára, a kimenő webhorog számára vagy mindkettő számára, de ha mindkettőhöz beállítja, az üzenetnek meg kell egyeznie mindkét értékkel.",
   "add_outgoing_webhook.triggerWordsOrChannelRequired": "Érvényes csatorna vagy kulcsszavak listája szükséges",
