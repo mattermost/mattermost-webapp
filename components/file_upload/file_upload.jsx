@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
-import ReactDOM from 'react-dom';
 import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
 import {PaperclipIcon} from '@mattermost/compass-icons/components';
 
@@ -451,7 +450,7 @@ export class FileUpload extends PureComponent {
         }
 
         const target = this.props.getTarget();
-        const textarea = ReactDOM.findDOMNode(target);
+        const textarea = target?.wrapper?.current;
         if (!this.containsEventTarget(textarea, e.target)) {
             return;
         }
