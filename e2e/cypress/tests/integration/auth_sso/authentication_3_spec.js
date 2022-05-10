@@ -56,6 +56,9 @@ describe('Authentication', () => {
             // # Go to front page
             cy.visit('/login');
 
+            // # Remove autofocus from login input
+            cy.get('.login-body-card').should('be.visible').click();
+
             let expectedPlaceholderText;
             if (signinWithEmail && signinWithUsername) {
                 expectedPlaceholderText = 'Email or Username';

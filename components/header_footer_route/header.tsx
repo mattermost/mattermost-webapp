@@ -30,7 +30,7 @@ const Header = ({alternateMessage, alternateLinkPath, alternateLinkLabel, backBu
                     className='header-logo-link'
                     to='/'
                 >
-                    {(EnableCustomBrand === 'true' && SiteName) || <Logo/>}
+                    {EnableCustomBrand === 'true' || SiteName !== 'Mattermost' ? SiteName : <Logo/>}
                 </Link>
                 <div className='header-alternate-container'>
                     {alternateMessage && (

@@ -108,7 +108,7 @@ describe('Onboarding', () => {
             cy.get('#input_loginId').should('have.value', email);
             cy.get('#input_password-input').should('be.visible').type(password);
             cy.get('#saveSetting').click();
-            cy.findByText('Enter a valid email or username and/or password.').should('not.exist');
+            cy.findByText('The email/username or password is invalid.').should('not.exist');
         });
 
         // * Check that the display name of the team the user successfully joined is correct

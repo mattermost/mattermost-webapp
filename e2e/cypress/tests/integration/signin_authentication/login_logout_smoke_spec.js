@@ -20,12 +20,18 @@ describe('SignIn Authentication', () => {
 
             cy.apiLogout();
             cy.visit('/login');
+
+            // # Remove autofocus from login input
+            cy.get('.login-body-card').should('be.visible').click();
         });
     });
 
     it('MM-T3080 Sign in email/pwd account', () => {
         // # Enter actual user's email in the email field
         cy.apiGetClientLicense().then(({isLicensed}) => {
+            // # Remove autofocus from login input
+            cy.get('.login-body-card').should('be.visible').click();
+
             const loginPlaceholder = isLicensed ? 'Email, Username or AD/LDAP Username' : 'Email or Username';
             cy.findByPlaceholderText(loginPlaceholder).clear().type(testUser.email);
 

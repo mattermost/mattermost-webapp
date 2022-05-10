@@ -44,7 +44,7 @@ describe('Signin/Authentication', () => {
 
         // * Verify that forgot password link is present
         // # Click forgot password link
-        cy.get('#login_forgot > a').should('be.visible').and('have.text', 'I forgot my password.').click();
+        cy.findByText('Forgot your password?').should('be.visible').click();
 
         // * Verify that it redirects to /reset_password
         cy.url().should('contain', '/reset_password');

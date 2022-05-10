@@ -139,12 +139,17 @@ const verifyOAuthLogin = (text, color, href) => {
 
     cy.url().then((url) => {
         const withExtra = url.includes('?extra=expired') ? '?extra=expired' : '';
-        cy.findByRole('link', {name: `${text}`}).then((btn) => {
-            expect(btn[0].href).equal(`${href}${withExtra}`);
+
+        // * Verify oauth login link
+        cy.get('.login-body-card-form-login-option').then((btn) => {
+            expect(btn.prop('href')).equal(`${href}${withExtra}`);
+
             if (color) {
                 const rbgArr = hexToRgbArray(color);
                 expect(btn[0].style.backgroundColor).equal(rgbArrayToString(rbgArr));
             }
+
+            cy.get('.login-body-card-form-login-option-label').should('contain', text);
         });
     });
 };

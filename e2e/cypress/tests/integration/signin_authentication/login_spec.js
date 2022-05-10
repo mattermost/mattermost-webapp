@@ -35,12 +35,20 @@ describe('Login page', () => {
         });
     });
 
+    it('MM-T3306_2 Should autofocus on email field on page load', () => {
+        // * Check the focused element has the placeholder of email/username
+        cy.get('#input_loginId').should('have.focus');
+    });
+
     it('MM-T3306_1 Should render all elements of the page', () => {
         // * Verify URL is of login page
         cy.url().should('include', '/login');
 
         // * Verify title of the document is correct
         cy.title().should('include', config.TeamSettings.SiteName);
+
+        // # Remove autofocus from login id input
+        cy.get('.login-body-card').should('be.visible').click();
 
         // * Verify email/username field is present
         cy.findByPlaceholderText('Email or Username').should('exist').and('be.visible');
@@ -69,19 +77,19 @@ describe('Login page', () => {
 
             // * Check if about footer link is present
             cy.findByText('About').should('exist').
-                parent().and('have.attr', 'href', config.SupportSettings.AboutLink || ABOUT_LINK);
+                and('have.attr', 'href', config.SupportSettings.AboutLink || ABOUT_LINK);
 
             // * Check if privacy footer link is present
             cy.findByText('Privacy Policy').should('exist').
-                parent().and('have.attr', 'href', config.SupportSettings.PrivacyPolicyLink || PRIVACY_POLICY_LINK);
+                and('have.attr', 'href', config.SupportSettings.PrivacyPolicyLink || PRIVACY_POLICY_LINK);
 
             // * Check if terms footer link is present
             cy.findByText('Terms').should('exist').
-                parent().and('have.attr', 'href', config.SupportSettings.TermsOfServiceLink || TERMS_OF_SERVICE_LINK);
+                and('have.attr', 'href', config.SupportSettings.TermsOfServiceLink || TERMS_OF_SERVICE_LINK);
 
             // * Check if help footer link is present
             cy.findByText('Help').should('exist').
-                parent().and('have.attr', 'href', config.SupportSettings.HelpLink || HELP_LINK);
+                and('have.attr', 'href', config.SupportSettings.HelpLink || HELP_LINK);
 
             const todaysDate = new Date();
             const currentYear = todaysDate.getFullYear();
@@ -89,11 +97,6 @@ describe('Login page', () => {
             // * Check if copyright footer is present
             cy.findByText(`© ${currentYear} Mattermost Inc.`).should('exist');
         });
-    });
-
-    it('MM-T3306_2 Should autofocus on email field on page load', () => {
-        // * Check the focused element has the placeholder of email/username
-        cy.focused().should('have.attr', 'placeholder', 'Email or Username');
     });
 
     it('MM-T3306_3 Should disable Log in button when empty email/username and password field', () => {
@@ -192,6 +195,9 @@ describe('Login page', () => {
     });
 
     it('MM-42489 Should login with a valid email and password using enter key and logout', () => {
+        // # Remove autofocus from login id input
+        cy.get('.login-body-card').should('be.visible').click();
+
         // # Enter actual users email/username in the email field
         cy.findByPlaceholderText('Email or Username').clear().type(testUser.username);
 

@@ -340,8 +340,12 @@ export default class Client4 {
         return `${this.getBaseRoute()}/hooks/outgoing/${hookId}`;
     }
 
+    getOAuthPath() {
+        return '/oauth';
+    }
+
     getOAuthRoute() {
-        return `${this.url}/oauth`;
+        return `${this.url}${this.getOAuthPath()}`;
     }
 
     getOAuthAppsRoute() {
