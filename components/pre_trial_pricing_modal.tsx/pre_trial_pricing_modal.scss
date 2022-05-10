@@ -6,6 +6,10 @@
         margin: auto;
         transform: translate(-50%, -50%) !important;
         width: 1440px;
+
+        .modal-content {
+            background-color: var(--center-channel-bg);
+        }
     }
 
     .modal-header,
@@ -141,7 +145,7 @@
                 border: 1px solid #DADFE5;
                 border-radius: 0px 0px 4px 4px;
                 height: 472px;
-                background-color: #FFFFFF;
+                background-color: var(--center-channel-bg);
                 padding-left: 24px;
                 padding-right: 24px;
 
