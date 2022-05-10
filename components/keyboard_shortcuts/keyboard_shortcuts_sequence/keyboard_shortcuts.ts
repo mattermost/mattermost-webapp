@@ -179,7 +179,7 @@ export const KEYBOARD_SHORTCUTS = {
         },
         mac: {
             id: t('shortcuts.nav.open_channel_info.mac'),
-            defaultMessage: 'View channel info:\t⌘|Alt|I',
+            defaultMessage: 'View channel info:\t⌘|Shift|I',
         },
     },
     msgEdit: {
