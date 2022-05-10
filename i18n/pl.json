@@ -1778,7 +1778,7 @@
   "admin.plugin.upload.overwrite_modal.title": "Nadpisać istniejącą wtyczkę?",
   "admin.plugin.uploadAndPluginDisabledDesc": "Aby włączyć wtyczki, ustaw **Włącz Wtyczki** na prawda. Zobacz <link>dokumentacja</link>, aby dowiedzieć się więcej.",
   "admin.plugin.uploadDesc": "Prześlij wtyczkę do swojego serwera Mattermost. Zobacz <link>dokumentację</link>, aby dowiedzieć się więcej.",
-  "admin.plugin.uploadDisabledDesc": "Włącz ładowanie wtyczek w pliku config.json. Aby dowiedzieć się więcej, zobacz [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/).",
+  "admin.plugin.uploadDisabledDesc": "Włącz ładowanie wtyczek w pliku config.json. Aby dowiedzieć się więcej, zobacz <link>documentation</link>.",
   "admin.plugin.uploadTitle": "Wyślij Wtyczkę: ",
   "admin.plugin.uploading": "Wysyłanie..",
   "admin.plugin.version_title": "Wersja",

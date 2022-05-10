@@ -1778,7 +1778,7 @@
   "admin.plugin.upload.overwrite_modal.title": "Meglévő bővítmény felülírása?",
   "admin.plugin.uploadAndPluginDisabledDesc": "A bővítmények engedélyezéséhez állítsa a **Bővítmény engedélyezése** értéket igazra. További információkért lásd a <link>dokumentációt</link>.",
   "admin.plugin.uploadDesc": "Töltsön fel egy bővítményt a Mattermost szerveréhez. További információkért lásd a <link>dokumentációt</link>.",
-  "admin.plugin.uploadDisabledDesc": "Engedélyezze a bővítmények feltöltését a config.json fájlban. További információkért lásd a [dokumentációt](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/).",
+  "admin.plugin.uploadDisabledDesc": "Engedélyezze a bővítmények feltöltését a config.json fájlban. További információkért lásd a <link>dokumentációt</link>.",
   "admin.plugin.uploadTitle": "Bővítmény feltöltése: ",
   "admin.plugin.uploading": "Feltöltés...",
   "admin.plugin.version_title": "Verzió",

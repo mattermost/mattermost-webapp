@@ -1778,7 +1778,7 @@
   "admin.plugin.upload.overwrite_modal.title": "Overwrite existing plugin?",
   "admin.plugin.uploadAndPluginDisabledDesc": "To enable plugins, set **Enable Plugins** to true. See <link>documentation</link> to learn more.",
   "admin.plugin.uploadDesc": "Upload a plugin for your Mattermost server. See <link>documentation</link> to learn more.",
-  "admin.plugin.uploadDisabledDesc": "Enable plugin uploads in config.json. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more.",
+  "admin.plugin.uploadDisabledDesc": "Enable plugin uploads in config.json. See <link>documentation</link> to learn more.",
   "admin.plugin.uploadTitle": "Upload Plugin: ",
   "admin.plugin.uploading": "Uploading...",
   "admin.plugin.version_title": "Version",

@@ -1290,7 +1290,7 @@
   "admin.plugin.upload.overwrite_modal.title": "Sovrascrivere il plugin esistente?",
   "admin.plugin.uploadAndPluginDisabledDesc": "Per abilitare i plugin, impostare **Attiva Plugins** a vero . Vedere la <link>documentazione</link> per ulteriori informazioni.",
   "admin.plugin.uploadDesc": "Carica un plugin sul tuo server Mattermost. vedere la <link>documentazione</link> per ulteriori informazioni.",
-  "admin.plugin.uploadDisabledDesc": "Per abilitare il caricamento dei plugin in config.json. Vedere la [documentazione](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) per ulteriori informazioni.",
+  "admin.plugin.uploadDisabledDesc": "Per abilitare il caricamento dei plugin in config.json. Vedere la <link>documentazione</link> per ulteriori informazioni.",
   "admin.plugin.uploadTitle": "Carica Plugin: ",
   "admin.plugin.uploading": "Caricamento...",
   "admin.plugin.version_title": "Versione",

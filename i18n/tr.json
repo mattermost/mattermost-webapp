@@ -1778,7 +1778,7 @@
   "admin.plugin.upload.overwrite_modal.title": "Var olan uygulama ekinin üzerine yazılsın mı?",
   "admin.plugin.uploadAndPluginDisabledDesc": "Uygulama eklerini etkinleştirmek için **Uygulama ekleri etkinleştirilsin** seçeneğini etkinleştirin. Ayrıntılı bilgi almak için <link>belgeler</link> bölümüne bakabilirsiniz.",
   "admin.plugin.uploadDesc": "Mattermost sunucunuz için bir uygulama eki yükleyin. Ayrıntılı bilgi almak için <link>belgeler</link> bölümüne bakabilirsiniz.",
-  "admin.plugin.uploadDisabledDesc": "config.json dosyasında uygulama eklerinin yüklenebilmesini etkinleştirin. Ayrıntılı bilgi almak için [belgeler](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) bölümüne bakabilirsiniz.",
+  "admin.plugin.uploadDisabledDesc": "config.json dosyasında uygulama eklerinin yüklenebilmesini etkinleştirin. Ayrıntılı bilgi almak için <link>belgeler</link> bölümüne bakabilirsiniz.",
   "admin.plugin.uploadTitle": "Uygulama eki yükle: ",
   "admin.plugin.uploading": "Yükleniyor...",
   "admin.plugin.version_title": "Sürüm",

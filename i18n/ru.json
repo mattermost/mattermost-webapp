@@ -1778,7 +1778,7 @@
   "admin.plugin.upload.overwrite_modal.title": "Перезаписать существующий плагин?",
   "admin.plugin.uploadAndPluginDisabledDesc": "Чтобы включить плагины, установите для **Включить плагины** значение \"да\". См. <link>Документация</link>, чтобы узнать больше.",
   "admin.plugin.uploadDesc": "Загрузите плагин для вашего сервера Mattermost. См. <link>Документация</link>, чтобы узнать больше.",
-  "admin.plugin.uploadDisabledDesc": "Включите загрузку плагинов в config.json. См. [Документация](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/), чтобы узнать больше.",
+  "admin.plugin.uploadDisabledDesc": "Включите загрузку плагинов в config.json. См. <link>Документация</link>, чтобы узнать больше.",
   "admin.plugin.uploadTitle": "Загрузить плагин: ",
   "admin.plugin.uploading": "Загрузка…",
   "admin.plugin.version_title": "Версия",

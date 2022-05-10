@@ -1778,7 +1778,7 @@
   "admin.plugin.upload.overwrite_modal.title": "Existierendes Plugin überschreiben?",
   "admin.plugin.uploadAndPluginDisabledDesc": "Um Plugins zu aktivieren, setze **Plugins aktivieren** auf wahr. Erfahre mehr in der <link>Dokumentation</link>.",
   "admin.plugin.uploadDesc": "Lade ein Plugin für deinen Mattermost-Server hoch. Erfahre mehr in der <link>Dokumentation</link>.",
-  "admin.plugin.uploadDisabledDesc": "Aktiviere das Hochladen von Plugins in der Datei config.json. Erfahre mehr in der [Dokumentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/).",
+  "admin.plugin.uploadDisabledDesc": "Aktiviere das Hochladen von Plugins in der Datei config.json. Erfahre mehr in der <link>Dokumentation</link>.",
   "admin.plugin.uploadTitle": "Lade Plugin hoch: ",
   "admin.plugin.uploading": "Lade hoch...",
   "admin.plugin.version_title": "Version",

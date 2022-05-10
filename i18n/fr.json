@@ -1771,7 +1771,7 @@
   "admin.plugin.upload.overwrite_modal.title": "Écraser l'extension existante ?",
   "admin.plugin.uploadAndPluginDisabledDesc": "Pour activer les extensions, définissez **Activer les extensions** sur oui. Consultez notre <link>documentation</link> pour en savoir plus.",
   "admin.plugin.uploadDesc": "Importez une extension pour votre serveur Mattermost. Consultez notre <link>documentation</link> pour en savoir plus.",
-  "admin.plugin.uploadDisabledDesc": "Active l'import d'extensions dans le fichier config.json. Consultez notre [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) pour en savoir plus.",
+  "admin.plugin.uploadDisabledDesc": "Active l'import d'extensions dans le fichier config.json. Consultez notre <link>documentation</link> pour en savoir plus.",
   "admin.plugin.uploadTitle": "Importer une extension : ",
   "admin.plugin.uploading": "Import en cours…",
   "admin.plugin.version_title": "Version",

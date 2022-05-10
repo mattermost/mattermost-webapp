@@ -1279,7 +1279,7 @@
   "admin.plugin.upload.overwrite_modal.title": "覆蓋已存在的模組？",
   "admin.plugin.uploadAndPluginDisabledDesc": "要啟用模組，設定**啟用模組**為是。詳情請參閱<link>文件</link>。",
   "admin.plugin.uploadDesc": "上傳模組到 Mattermost。詳情請參閱<link>文件</link>。",
-  "admin.plugin.uploadDisabledDesc": "在 config.json 中啟用模組上傳。詳情請參閱[文件](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/)。",
+  "admin.plugin.uploadDisabledDesc": "在 config.json 中啟用模組上傳。詳情請參閱<link>文件</link>。",
   "admin.plugin.uploadTitle": "上傳模組：",
   "admin.plugin.uploading": "上傳中...",
   "admin.plugin.version_title": "版本",

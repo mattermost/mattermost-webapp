@@ -1576,7 +1576,7 @@
   "admin.plugin.upload.overwrite_modal.title": "افزونه موجود بازنویسی شود؟",
   "admin.plugin.uploadAndPluginDisabledDesc": "برای فعال کردن افزونه ها، **Enable Plugins** را روی true تنظیم کنید. برای کسب اطلاعات بیشتر به <link>اسناد</link>  مراجعه کنید.",
   "admin.plugin.uploadDesc": "یک افزونه برای سرور Mattermost خود آپلود کنید. برای کسب اطلاعات بیشتر به <link>اسناد</link>  مراجعه کنید.",
-  "admin.plugin.uploadDisabledDesc": "آپلود افزونه را در config.json فعال کنید. برای کسب اطلاعات بیشتر به [اسناد] (!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) مراجعه کنید.",
+  "admin.plugin.uploadDisabledDesc": "آپلود افزونه را در config.json فعال کنید. برای کسب اطلاعات بیشتر به <link>اسناد</link>  مراجعه کنید.",
   "admin.plugin.uploadTitle": "افزونه آپلود: ",
   "admin.plugin.uploading": "در حال آپلود...",
   "admin.plugin.version_title": "نسخه",

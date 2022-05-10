@@ -1727,7 +1727,7 @@
   "admin.plugin.upload.overwrite_modal.title": "覆盖现有的插件？",
   "admin.plugin.uploadAndPluginDisabledDesc": "设**开启插件**为是以开启插件。参见<link>文档</link>了解更多。",
   "admin.plugin.uploadDesc": "上传插件到您的 Mattermost 服务器。参见<link>文档</link>了解更多。",
-  "admin.plugin.uploadDisabledDesc": "在 config.json 开启插件上传。参见[文档](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/)了解更多。",
+  "admin.plugin.uploadDisabledDesc": "在 config.json 开启插件上传。参见<link>文档</link>了解更多。",
   "admin.plugin.uploadTitle": "上传插件：",
   "admin.plugin.uploading": "上传中...",
   "admin.plugin.version_title": "版本",

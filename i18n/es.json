@@ -1711,7 +1711,7 @@
   "admin.plugin.upload.overwrite_modal.title": "¿Sobre escribir el plugin existente?",
   "admin.plugin.uploadAndPluginDisabledDesc": "Para habilitar los plugins, asigna el valor **Activar Plugins** como verdadero. Ver la <link>documentación</link> para conocer más.",
   "admin.plugin.uploadDesc": "Carga un plugin en tu servidor de Mattermost. Ver la <link>documentación</link> para conocer más.",
-  "admin.plugin.uploadDisabledDesc": "Activa la carga de complements en el archivo config.json. Ver la [documentación](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) para conocer más.",
+  "admin.plugin.uploadDisabledDesc": "Activa la carga de complements en el archivo config.json. Ver la <link>documentación</link> para conocer más.",
   "admin.plugin.uploadTitle": "Cargar Plugin: ",
   "admin.plugin.uploading": "Cargando…",
   "admin.plugin.version_title": "Versión",

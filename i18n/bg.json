@@ -1737,7 +1737,7 @@
   "admin.plugin.upload.overwrite_modal.title": "Презаписване на съществуваща приставка?",
   "admin.plugin.uploadAndPluginDisabledDesc": "За да разрешите приставки, задайте **Разрешаване на приставки** на true. Вижте <link>документация</link>, за да научите повече.",
   "admin.plugin.uploadDesc": "Качете приставка за вашия Mattermost сървър. Вижте <link>документация</link>, за да научите повече.",
-  "admin.plugin.uploadDisabledDesc": "Разрешете качване на приставки в config.json. Вижте [документация](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/), за да научите повече.",
+  "admin.plugin.uploadDisabledDesc": "Разрешете качване на приставки в config.json. Вижте <link>документация</link>, за да научите повече.",
   "admin.plugin.uploadTitle": "Качване на приставка: ",
   "admin.plugin.uploading": "Качване...",
   "admin.plugin.version_title": "Версия",

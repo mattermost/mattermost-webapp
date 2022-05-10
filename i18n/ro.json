@@ -1622,7 +1622,7 @@
   "admin.plugin.upload.overwrite_modal.title": "Suprascrie pluginul existent?",
   "admin.plugin.uploadAndPluginDisabledDesc": "Pentru a activa pluginurile, setați **Activați pluginurile** la activat. Vedeți <link>documentația</link> pentru a afla mai multe.",
   "admin.plugin.uploadDesc": "Încarcă un plugin pentru Mattermost server. A se vedea <link>documentația</link> pentru a afla mai multe.",
-  "admin.plugin.uploadDisabledDesc": "Activați încărcarea pluginurilor în config.json. Vedeți [documentația](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) pentru a afla mai multe.",
+  "admin.plugin.uploadDisabledDesc": "Activați încărcarea pluginurilor în config.json. Vedeți <link>documentația</link> pentru a afla mai multe.",
   "admin.plugin.uploadTitle": "Încărcați pluginul: ",
   "admin.plugin.uploading": "Se încarcă...",
   "admin.plugin.version_title": "Versiune",

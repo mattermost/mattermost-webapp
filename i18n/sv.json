@@ -1778,7 +1778,7 @@
   "admin.plugin.upload.overwrite_modal.title": "Skriva över befintlig plugin?",
   "admin.plugin.uploadAndPluginDisabledDesc": "För att aktivera plugins, sätt **Aktivera Plugins** till på. Läs <link>dokumentationen</link> för mer information.",
   "admin.plugin.uploadDesc": "Ladda upp en plugin till din Mattermost-server. Läs <link>dokumentationen</link> för mer information.",
-  "admin.plugin.uploadDisabledDesc": "Tillåt att ladda upp plugins i config.json. Läs [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) för mer information.",
+  "admin.plugin.uploadDisabledDesc": "Tillåt att ladda upp plugins i config.json. Läs <link>documentation</link> för mer information.",
   "admin.plugin.uploadTitle": "Ladda upp plugin: ",
   "admin.plugin.uploading": "Laddar upp...",
   "admin.plugin.version_title": "Version",
