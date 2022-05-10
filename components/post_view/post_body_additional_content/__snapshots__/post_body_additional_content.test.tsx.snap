@@ -240,7 +240,7 @@ exports[`PostBodyAdditionalContent with an opengraph preview should render corre
   <span>
     some children
   </span>
-  <Connect(Component)
+  <Connect(PostAttachmentOpenGraph)
     isEmbedVisible={true}
     link="https://example.com/image.png"
     post={
@@ -271,7 +271,7 @@ exports[`PostBodyAdditionalContent with an opengraph preview should render the t
   <span>
     some children
   </span>
-  <Connect(Component)
+  <Connect(PostAttachmentOpenGraph)
     isEmbedVisible={true}
     link="https://example.com/image.png"
     post={

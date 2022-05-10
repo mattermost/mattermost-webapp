@@ -356,7 +356,7 @@ exports[`PostMessagePreview nested previews should render opengraph preview 1`] 
         }
       }
     />
-    <Connect(Component)
+    <Connect(PostAttachmentOpenGraph)
       isEmbedVisible={true}
       isInPermalink={true}
       link="https://example.com"
