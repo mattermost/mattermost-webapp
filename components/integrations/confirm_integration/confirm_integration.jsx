@@ -304,9 +304,21 @@ export default class ConfirmIntegration extends React.PureComponent {
                     />
                     <br/>
                     <br/>
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='add_outgoing_webhook.token.message'
-                        defaultMessage='Make sure to add this bot account to teams and channels you want it to interact in. See [documentation](https://mattermost.com/pl/default-bot-accounts) to learn more.'
+                        defaultMessage='Make sure to add this bot account to teams and channels you want it to interact in. See <link>documentation</link> to learn more.'
+                        values={{
+                            link: (msg) => (
+                                <a
+                                    href='https://mattermost.com/pl/default-bot-accounts'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                          }}
                     />
                 </p>
             );
