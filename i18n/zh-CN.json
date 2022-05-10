@@ -1426,7 +1426,7 @@
   "admin.permissions.group.teams_team_scope.description": "管理团队成员。",
   "admin.permissions.group.teams_team_scope.name": "团队",
   "admin.permissions.inherited_from": "从[{name}]()继承。",
-  "admin.permissions.introBanner": "给团队管理员、频道管理员、以及所有其他人设置默认权限方案。了解更多关于权限方案请至我们的[文档](!https://docs.mattermost.com/onboard/advanced-permissions.html)。",
+  "admin.permissions.introBanner": "给团队管理员、频道管理员、以及所有其他人设置默认权限方案。了解更多关于权限方案请至我们的<link>文档</link>。",
   "admin.permissions.loadMoreSchemes": "加载更多方案",
   "admin.permissions.loadingMoreSchemes": "加载中...",
   "admin.permissions.permission.assign_system_admin_role.description": "指派系统管理员身份",

@@ -1457,7 +1457,7 @@
   "admin.permissions.group.teams_team_scope.description": "Hantera teammedlemmar.",
   "admin.permissions.group.teams_team_scope.name": "Teams",
   "admin.permissions.inherited_from": "Ärvt av [{name}]().",
-  "admin.permissions.introBanner": "Behörighetsschema sätter standardbehörighet för gruppadministratörer, kanaladministratörer och alla andra. Läs mer om behörighetsscheman i [dokumentationen](!https://docs.mattermost.com/onboard/advanced-permissions.html).",
+  "admin.permissions.introBanner": "Behörighetsschema sätter standardbehörighet för gruppadministratörer, kanaladministratörer och alla andra. Läs mer om behörighetsscheman i <link>dokumentationen</link>.",
   "admin.permissions.loadMoreSchemes": "Ladda fler scheman",
   "admin.permissions.loadingMoreSchemes": "LAddar...",
   "admin.permissions.permission.assign_system_admin_role.description": "Tilldela systemadministratörsroll",

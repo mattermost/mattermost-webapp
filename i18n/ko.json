@@ -1234,7 +1234,7 @@
   "admin.permissions.group.teams_team_scope.description": "팀 멤버를 관리하세요.",
   "admin.permissions.group.teams_team_scope.name": "팀",
   "admin.permissions.inherited_from": "[{name}]()로 부터 상속됨.",
-  "admin.permissions.introBanner": "권한 체계는 팀 관리자, 채널 관리자 및 다른 모든 사람에 대한 기본 권한을 설정합니다. [문서] (!https://docs.mattermost.com/onboard/advanced-permissions.html)에서 권한 체계에 대해 자세히 알아보십시오.",
+  "admin.permissions.introBanner": "권한 체계는 팀 관리자, 채널 관리자 및 다른 모든 사람에 대한 기본 권한을 설정합니다. <link>문서</link> 에서 권한 체계에 대해 자세히 알아보십시오.",
   "admin.permissions.loadMoreSchemes": "더 많은 스키마 불러오기",
   "admin.permissions.loadingMoreSchemes": "로딩중...",
   "admin.permissions.permission.assign_system_admin_role.description": "시스템 관리자 역할 할당",

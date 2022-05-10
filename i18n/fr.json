@@ -1450,7 +1450,7 @@
   "admin.permissions.group.teams_team_scope.description": "Gérer les membres de l'équipe.",
   "admin.permissions.group.teams_team_scope.name": "Équipes",
   "admin.permissions.inherited_from": "Hérité de [{name}]().",
-  "admin.permissions.introBanner": "Les schémas de permissions définissent les permissions par défaut des administrateurs d'équipe, des administrateurs de canal et de tout autre utilisateur. Consultez notre [documentation](!https://docs.mattermost.com/onboard/advanced-permissions.html) pour en savoir plus sur les schémas de permissions.",
+  "admin.permissions.introBanner": "Les schémas de permissions définissent les permissions par défaut des administrateurs d'équipe, des administrateurs de canal et de tout autre utilisateur. Consultez notre <link>documentation</link> pour en savoir plus sur les schémas de permissions.",
   "admin.permissions.loadMoreSchemes": "Charger plus de schémas de permissions",
   "admin.permissions.loadingMoreSchemes": "Chargement…",
   "admin.permissions.permission.assign_system_admin_role.description": "Attribue un rôle d'administrateur système",

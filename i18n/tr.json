@@ -1457,7 +1457,7 @@
   "admin.permissions.group.teams_team_scope.description": "Takım üyelerini yönetebilir.",
   "admin.permissions.group.teams_team_scope.name": "Takımları yönetebilsin",
   "admin.permissions.inherited_from": "[{name}]() üzerinden devir alındı.",
-  "admin.permissions.introBanner": "Takım yöneticileri, kanal yöneticileri ve herkes için varsayılan izinleri belirleyen izin şemaları. İzin şemaları hakkında ayrıntılı bilgi almak için [belgeler] bölümüne bakabilirsiniz (!https://docs.mattermost.com/onboard/advanced-permissions.html).",
+  "admin.permissions.introBanner": "Takım yöneticileri, kanal yöneticileri ve herkes için varsayılan izinleri belirleyen izin şemaları. İzin şemaları hakkında ayrıntılı bilgi almak için <link>belgeler</link> bölümüne bakabilirsiniz .",
   "admin.permissions.loadMoreSchemes": "Başka şemalar yükle",
   "admin.permissions.loadingMoreSchemes": "Yükleniyor...",
   "admin.permissions.permission.assign_system_admin_role.description": "Sistem yöneticisi rolü atayabilir",

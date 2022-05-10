@@ -1321,7 +1321,7 @@
   "admin.permissions.group.teams_team_scope.description": "Gestionați membrii echipei.",
   "admin.permissions.group.teams_team_scope.name": "Echipe",
   "admin.permissions.inherited_from": "Moștenit de la [{name}]() .",
-  "admin.permissions.introBanner": "Schemele de permisiuni au stabilit permisiunile implicite pentru administratorii echipei, administratorii de canale și toți ceilalți. Aflați mai multe despre schemele de permisiune din [documentația] (! Https: //about.mattermost.com/default-advanced-permissions).",
+  "admin.permissions.introBanner": "Schemele de permisiuni au stabilit permisiunile implicite pentru administratorii echipei, administratorii de canale și toți ceilalți. Aflați mai multe despre schemele de permisiune din <link>documentația</link> .",
   "admin.permissions.loadMoreSchemes": "Încărcați mai multe scheme",
   "admin.permissions.loadingMoreSchemes": "Se incarca...",
   "admin.permissions.permission.assign_system_admin_role.description": "Atribuiți rolul administratorului de sistem",

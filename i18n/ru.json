@@ -1457,7 +1457,7 @@
   "admin.permissions.group.teams_team_scope.description": "Управление участниками команды.",
   "admin.permissions.group.teams_team_scope.name": "Команды",
   "admin.permissions.inherited_from": "Наследовано от [{name}]().",
-  "admin.permissions.introBanner": "Схемы прав доступа устанавливают права доступа по умолчанию для администраторов команд, администраторов каналов и всех остальных. Узнайте больше о схемах прав доступа в нашей [документации](!https://docs.mattermost.com/onboard/advanced-permissions.html).",
+  "admin.permissions.introBanner": "Схемы прав доступа устанавливают права доступа по умолчанию для администраторов команд, администраторов каналов и всех остальных. Узнайте больше о схемах прав доступа в нашей <link>документации</link>.",
   "admin.permissions.loadMoreSchemes": "Загрузить больше схем",
   "admin.permissions.loadingMoreSchemes": "Загрузка...",
   "admin.permissions.permission.assign_system_admin_role.description": "Назначить роль системного администратора",

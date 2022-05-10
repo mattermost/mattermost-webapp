@@ -1410,7 +1410,7 @@
   "admin.permissions.group.teams_team_scope.description": "Gestionar miembros de equipo.",
   "admin.permissions.group.teams_team_scope.name": "Equipos",
   "admin.permissions.inherited_from": "Heredado de [{name}]().",
-  "admin.permissions.introBanner": "Los Esquemas de Permisos establecen los permisos predeterminados para Administradores de Equipo, Administradores de Canales y a todos los demás. Aprende más acerca de los esquemas de permiso en nuestra [documentación](!https://docs.mattermost.com/onboard/advanced-permissions.html).",
+  "admin.permissions.introBanner": "Los Esquemas de Permisos establecen los permisos predeterminados para Administradores de Equipo, Administradores de Canales y a todos los demás. Aprende más acerca de los esquemas de permiso en nuestra <link>documentación</link>.",
   "admin.permissions.loadMoreSchemes": "Cargar más esquemas",
   "admin.permissions.loadingMoreSchemes": "Cargando...",
   "admin.permissions.permission.assign_system_admin_role.description": "Asignar rol de administrador del sistema",

@@ -1336,7 +1336,7 @@
   "admin.permissions.group.teams_team_scope.description": "اعضای تیم را مدیریت کنید.",
   "admin.permissions.group.teams_team_scope.name": "تیم ها",
   "admin.permissions.inherited_from": "به ارث رسیده از [{name}]().",
-  "admin.permissions.introBanner": "طرح‌های مجوز، مجوزهای پیش‌فرض را برای مدیران تیم، مدیران کانال و سایر افراد تنظیم می‌کنند. درباره طرح‌های مجوز در [اسناد] ما بیشتر بیاموزید (!https://docs.mattermost.com/onboard/advanced-permissions.html).",
+  "admin.permissions.introBanner": "طرح‌های مجوز، مجوزهای پیش‌فرض را برای مدیران تیم، مدیران کانال و سایر افراد تنظیم می‌کنند. درباره طرح‌های مجوز در <link>اسناد</link> ما بیشتر بیاموزید .",
   "admin.permissions.loadMoreSchemes": "بارگیری طرح های بیشتر",
   "admin.permissions.loadingMoreSchemes": "بارگذاری...",
   "admin.permissions.permission.assign_system_admin_role.description": "نقش مدیر سیستم را تعیین کنید",

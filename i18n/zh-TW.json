@@ -1087,7 +1087,7 @@
   "admin.permissions.group.teams_team_scope.description": "管理團隊成員。",
   "admin.permissions.group.teams_team_scope.name": "團隊",
   "admin.permissions.inherited_from": "繼承自[{name}]()",
-  "admin.permissions.introBanner": "權限配置對團隊、頻道管理員以及其他人設定預設權限。詳情請參閱[文件](!https://docs.mattermost.com/onboard/advanced-permissions.html)。",
+  "admin.permissions.introBanner": "權限配置對團隊、頻道管理員以及其他人設定預設權限。詳情請參閱<link>文件</link>。",
   "admin.permissions.loadMoreSchemes": "讀取更多配置",
   "admin.permissions.loadingMoreSchemes": "載入中…",
   "admin.permissions.permission.assign_system_admin_role.description": "指派系統管理員角色",

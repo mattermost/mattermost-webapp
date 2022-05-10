@@ -1457,7 +1457,7 @@
   "admin.permissions.group.teams_team_scope.description": "Beheer Teamleden.",
   "admin.permissions.group.teams_team_scope.name": "Teams",
   "admin.permissions.inherited_from": "Overgeërfd van [{name}]().",
-  "admin.permissions.introBanner": "Met machtigingsschema's worden de standaardmachtigingen ingesteld voor Teambeheerders, Kanaalbeheerders en alle anderen. Meer informatie over machtigingsschema's in onze [documentatie](!https://docs.mattermost.com/onboard/advanced-permissions.html).",
+  "admin.permissions.introBanner": "Met machtigingsschema's worden de standaardmachtigingen ingesteld voor Teambeheerders, Kanaalbeheerders en alle anderen. Meer informatie over machtigingsschema's in onze <link>documentatie</link>.",
   "admin.permissions.loadMoreSchemes": "Laad meer schema's",
   "admin.permissions.loadingMoreSchemes": "Laden...",
   "admin.permissions.permission.assign_system_admin_role.description": "Toekennen van een systeembeheerdersrol",

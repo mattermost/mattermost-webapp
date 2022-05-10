@@ -1457,7 +1457,7 @@
   "admin.permissions.group.teams_team_scope.description": "チームメンバーを管理する。",
   "admin.permissions.group.teams_team_scope.name": "チーム",
   "admin.permissions.inherited_from": "[{name}]()から継承する。",
-  "admin.permissions.introBanner": "権限スキームがチーム管理者、チャンネル管理者とのそのほかの全員にデフォルトの権限を設定します。権限スキームについて詳しくは[説明文書](!https://docs.mattermost.com/onboard/advanced-permissions.html)を確認してください。",
+  "admin.permissions.introBanner": "権限スキームがチーム管理者、チャンネル管理者とのそのほかの全員にデフォルトの権限を設定します。権限スキームについて詳しくは<link>説明文書</link>を確認してください。",
   "admin.permissions.loadMoreSchemes": "追加でスキームを読み込む",
   "admin.permissions.loadingMoreSchemes": "読み込み中です...",
   "admin.permissions.permission.assign_system_admin_role.description": "システム管理者にする",

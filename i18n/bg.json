@@ -1418,7 +1418,7 @@
   "admin.permissions.group.teams_team_scope.description": "Управление членовете на екипа.",
   "admin.permissions.group.teams_team_scope.name": "Екипи",
   "admin.permissions.inherited_from": "Наследено от [{name}]().",
-  "admin.permissions.introBanner": "Схемите за права задават правата по подразбиране за администратори на екип, администратори на канали и всички останали. Научете повече за схемите за права в нашата [документация](!https://docs.mattermost.com/onboard/advanced-permissions.html).",
+  "admin.permissions.introBanner": "Схемите за права задават правата по подразбиране за администратори на екип, администратори на канали и всички останали. Научете повече за схемите за права в нашата <link>документация</link>.",
   "admin.permissions.loadMoreSchemes": "Заредете още схеми",
   "admin.permissions.loadingMoreSchemes": "Зареждане...",
   "admin.permissions.permission.assign_system_admin_role.description": "Задайте роля на системен администратор",

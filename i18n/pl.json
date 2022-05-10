@@ -1457,7 +1457,7 @@
   "admin.permissions.group.teams_team_scope.description": "Zarządzaj członkami zespołu.",
   "admin.permissions.group.teams_team_scope.name": "Zespoły",
   "admin.permissions.inherited_from": "Odziedziczony po [{name}]().",
-  "admin.permissions.introBanner": "Schematy uprawnień ustawiają domyślne uprawnienia dla administratorów drużyn, administratorów kanałów i wszystkich pozostałych. Dowiedz się więcej o schematach uprawnień w naszej [dokumentacji](!https://docs.mattermost.com/onboard/advanced-permissions.html).",
+  "admin.permissions.introBanner": "Schematy uprawnień ustawiają domyślne uprawnienia dla administratorów drużyn, administratorów kanałów i wszystkich pozostałych. Dowiedz się więcej o schematach uprawnień w naszej <link>dokumentacji</link>.",
   "admin.permissions.loadMoreSchemes": "Załaduj więcej schematów",
   "admin.permissions.loadingMoreSchemes": "Ładowanie...",
   "admin.permissions.permission.assign_system_admin_role.description": "Przypisz rolę administratora systemu",
