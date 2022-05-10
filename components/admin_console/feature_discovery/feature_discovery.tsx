@@ -125,9 +125,9 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
             );
         }
         const {isCloud, isFreeTrial, isCloudFreeEnabled, hadPrevFreeTrial} = this.props;
-        const canRequestCloudFreTrial = isCloud && isCloudFreeEnabled && !isFreeTrial && !hadPrevFreeTrial;
+        const canRequestCloudFreeTrial = isCloud && isCloudFreeEnabled && !isFreeTrial && !hadPrevFreeTrial;
 
-        const ctaTrialButton = canRequestCloudFreTrial ? (
+        const ctaTrialButton = canRequestCloudFreeTrial ? (
             <CloudStartTrialBtn
                 message={Utils.localizeMessage('menu.cloudFree.tryEnterpriseFor30Days', 'Try Enterprise free for 30 days')}
                 telemetryId={'start_cloud_trial_after_completing_steps'}
@@ -163,7 +163,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                     />
                 </a>
                 {gettingTrialError}
-                {(!this.props.isCloud || canRequestCloudFreTrial) && <p className='trial-legal-terms'>
+                {(!this.props.isCloud || canRequestCloudFreeTrial) && <p className='trial-legal-terms'>
                     <FormattedMarkdownMessage
                         id='admin.license.trial-request.accept-terms'
                         defaultMessage='By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails.'

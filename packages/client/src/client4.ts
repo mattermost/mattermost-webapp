@@ -3733,7 +3733,7 @@ export default class Client4 {
     requestCloudTrial = () => {
         return this.doFetchWithResponse<CloudCustomer>(
             `${this.getCloudRoute()}/request-trial`,
-            {method: 'get'},
+            {method: 'put'},
         );
     }
 

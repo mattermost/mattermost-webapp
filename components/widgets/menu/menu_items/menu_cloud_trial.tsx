@@ -54,7 +54,8 @@ const MenuCloudTrial = ({id}: Props) => {
         return null;
     }
 
-    // menu content displayed when the workspace is running a trial, it depends also if cloudfree is enabled
+    // this is the menu content displayed when the workspace is running a trial. It would display a different option depending if
+    // cloudFree is enabled or not.
     const freeTrialContent = isCloudFreeEnabled ? (
 
         // Here go the limits calculation and refactor of the menu option

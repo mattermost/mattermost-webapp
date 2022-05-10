@@ -95,7 +95,7 @@ export function requestCloudTrial(page: string) {
         try {
             await Client4.requestCloudTrial();
         } catch (error) {
-            return error;
+            return false;
         }
         return true;
     };

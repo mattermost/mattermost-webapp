@@ -53,22 +53,11 @@ const LearnMoreTrialModalStep = (
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
 
     // close this modal once start trial btn is clicked and trial has started successfully
-    const dismissAction = async () => {
-        await dispatch(closeModal(ModalIdentifiers.LEARN_MORE_TRIAL_MODAL));
+    const dismissAction = () => {
+        dispatch(closeModal(ModalIdentifiers.LEARN_MORE_TRIAL_MODAL));
     };
 
-    if (isCloud) {
-        startTrialBtnMsg = formatMessage({id: 'menu.cloudFree.tryEnterpriseFor30Days', defaultMessage: 'Try Enterprise free for 30 days'});
-    }
-
-    // no need to check if is trial or if it have had prev trial cause the button that show this modal takes care of that
-    const startTrialBtn = isCloud && isCloudFreeEnabled ? (
-        <CloudStartTrialBtn
-            message={startTrialBtnMsg}
-            telemetryId={'start_cloud_trial_after_completing_steps'}
-            onClick={dismissAction}
-        />
-    ) : (
+    let startTrialBtn = (
         <StartTrialBtn
             message={startTrialBtnMsg}
             handleEmbargoError={handleEmbargoError}
@@ -76,6 +65,18 @@ const LearnMoreTrialModalStep = (
             onClick={dismissAction}
         />
     );
+
+    // no need to check if is cloud trial or if it have had prev cloud trial cause the button that show this modal takes care of that
+    if (isCloud && isCloudFreeEnabled) {
+        startTrialBtnMsg = formatMessage({id: 'menu.cloudFree.tryEnterpriseFor30Days', defaultMessage: 'Try Enterprise free for 30 days'});
+        startTrialBtn = (
+            <CloudStartTrialBtn
+                message={startTrialBtnMsg}
+                telemetryId={'start_cloud_trial_after_completing_steps'}
+                onClick={dismissAction}
+            />
+        );
+    }
 
     return (
         <div
