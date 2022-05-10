@@ -76,7 +76,6 @@ export default function CloudUsageModal(props: Props) {
                             className='btn btn-primary'
                             data-dismiss='modal'
                             onClick={props.primaryAction.onClick}
-                            autoFocus={true}
                             data-testid='closeLimitsModal'
                         >
                             {messageToElement(props.primaryAction.message)}

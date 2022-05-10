@@ -47,7 +47,7 @@ function LimitLine(props: LimitLineProps) {
                 <div className='WorkspaceLimitLine__bar-label'>{props.limitName}</div>
                 <UsagePercentBar
                     barWidth='auto'
-                    percent={props.percent}
+                    percent={Math.floor(props.percent * 100)}
                 />
             </div>
             <div className='WorkspaceLimitLine__text-status'>

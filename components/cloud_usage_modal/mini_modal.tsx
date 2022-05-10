@@ -9,6 +9,8 @@ import {CloudUsage} from 'components/common/hooks/useGetUsage';
 
 import WorkspaceLimitsPanel, {Message, messageToElement} from './workspace_limits_panel';
 
+import './mini_modal.scss';
+
 interface Props {
     limits: Limits;
     usage: CloudUsage;
@@ -28,8 +30,12 @@ export default function MiniModal(props: Props) {
             onExited={props.onClose}
             role='dialog'
             aria-labelledby='cloudUsageModalMiniLabel'
+            className='CloudUsageMiniModal'
         >
-            <Modal.Header closeButton={true}>
+            <Modal.Header
+                closeButton={true}
+                className='CloudUsageMiniModal__header'
+            >
                 <Modal.Title
                     componentClass='h1'
                     id='cloudUsageModalMiniLabel'

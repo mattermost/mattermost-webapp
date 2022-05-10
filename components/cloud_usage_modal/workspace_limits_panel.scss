@@ -5,7 +5,7 @@
         padding-bottom: 12px;
 
         &__icon {
-            color: rgba(var(--center-channel-text-rgb, 0.64));
+            color: rgba(var(--center-channel-text-rgb), 0.64);
             font-size: 24px;
         }
 
@@ -13,7 +13,7 @@
             flex-grow: 1;
             padding-right: 24px;
             padding-left: 12px;
-            color: rgba(var(--center-channel-text-rgb, 0.72));
+            color: rgba(var(--center-channel-text-rgb), 0.72);
 
             &:first-child {
                 padding-left: 0;

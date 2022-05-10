@@ -11,7 +11,6 @@ import {
     getCloudSubscription,
 } from 'mattermost-redux/selectors/entities/cloud';
 import {openModal, closeModal} from 'actions/views/modals';
-import {FileSizes} from 'utils/file_utils';
 import {asGBString} from 'utils/limits';
 import {ModalIdentifiers} from 'utils/constants';
 import CloudUsageModal from 'components/cloud_usage_modal';
@@ -22,24 +21,8 @@ import {t} from 'utils/i18n';
 
 import LimitCard from './limit_card';
 
-// TODO: Replace this with actual usages stored in redux,
-// that ideally are updated with a websocket event in near real time.
-const fakeUsage = {
-    files: {
-        totalStorage: Number(FileSizes.Gigabyte) * 2,
-    },
-    messages: {
-        history: 11000,
-    },
-    boards: {
-        cards: 300,
-    },
-    integrations: {
-        enabled: 9,
-    },
-};
-
-// TODO: To be removed once companents can be used from where they can belong, an effort for a separate ticket.
+// TODO: To be removed once components can be used from where they can belong,
+// an effort for a separate ticket.
 // This allows for quicker prototyping, development, and review
 function TempLaunchModalsComponent() {
     const dispatch = useDispatch();
@@ -175,6 +158,7 @@ const Limits = (): JSX.Element | null => {
     const subscription = useSelector(getCloudSubscription);
     const products = useSelector(getCloudProducts);
     const [cloudLimits, limitsLoaded] = useGetLimits();
+    const usage = useGetUsage();
 
     if (!isCloudFreeEnabled || !limitsLoaded) {
         return null;
@@ -205,14 +189,14 @@ const Limits = (): JSX.Element | null => {
                                 id='workspace_limits.file_storage.usage'
                                 defaultMessage='{actual} of {limit} ({percent}%)'
                                 values={{
-                                    actual: asGBString(fakeUsage.files.totalStorage, intl.formatNumber),
+                                    actual: asGBString(usage.files.totalStorage, intl.formatNumber),
                                     limit: asGBString(cloudLimits.files.total_storage, intl.formatNumber),
-                                    percent: Math.floor((fakeUsage.files.totalStorage / cloudLimits.files.total_storage) * 100),
+                                    percent: Math.floor((usage.files.totalStorage / cloudLimits.files.total_storage) * 100),
 
                                 }}
                             />
                         )}
-                        percent={Math.floor((fakeUsage.files.totalStorage / cloudLimits.files.total_storage) * 100)}
+                        percent={Math.floor((usage.files.totalStorage / cloudLimits.files.total_storage) * 100)}
                         icon='icon-folder-outline'
                     />
                 )}
@@ -229,13 +213,13 @@ const Limits = (): JSX.Element | null => {
                                 id='workspace_limits.message_history.usage'
                                 defaultMessage='{actual} of {limit} ({percent}%)'
                                 values={{
-                                    actual: `${Math.floor(fakeUsage.messages.history / 1000)}K`,
+                                    actual: `${Math.floor(usage.messages.history / 1000)}K`,
                                     limit: `${Math.floor(cloudLimits.messages.history / 1000)}K`,
-                                    percent: Math.floor((fakeUsage.messages.history / cloudLimits.messages.history) * 100),
+                                    percent: Math.floor((usage.messages.history / cloudLimits.messages.history) * 100),
                                 }}
                             />
                         }
-                        percent={Math.floor((fakeUsage.messages.history / cloudLimits.messages.history) * 100)}
+                        percent={Math.floor((usage.messages.history / cloudLimits.messages.history) * 100)}
                         icon='icon-message-text-outline'
                     />
                 )}
@@ -252,13 +236,13 @@ const Limits = (): JSX.Element | null => {
                                 id='workspace_limits.boards_cards.usage'
                                 defaultMessage='{actual} of {limit} cards ({percent}%)'
                                 values={{
-                                    actual: fakeUsage.boards.cards,
+                                    actual: usage.boards.cards,
                                     limit: cloudLimits.boards.cards,
-                                    percent: Math.floor((fakeUsage.boards.cards / cloudLimits.boards.cards) * 100),
+                                    percent: Math.floor((usage.boards.cards / cloudLimits.boards.cards) * 100),
                                 }}
                             />
                         )}
-                        percent={Math.floor((fakeUsage.boards.cards / cloudLimits.boards.cards) * 100)}
+                        percent={Math.floor((usage.boards.cards / cloudLimits.boards.cards) * 100)}
                         icon='icon-product-boards'
                     />
 
@@ -276,13 +260,13 @@ const Limits = (): JSX.Element | null => {
                                 id='workspace_limits.integrations_enabled.usage'
                                 defaultMessage='{actual} of {limit} integrations ({percent}%)'
                                 values={{
-                                    actual: fakeUsage.integrations.enabled,
+                                    actual: usage.integrations.enabled,
                                     limit: cloudLimits.integrations.enabled,
-                                    percent: Math.floor((fakeUsage.integrations.enabled / cloudLimits.integrations.enabled) * 100),
+                                    percent: Math.floor((usage.integrations.enabled / cloudLimits.integrations.enabled) * 100),
                                 }}
                             />
                         )}
-                        percent={Math.floor((fakeUsage.integrations.enabled / cloudLimits.integrations.enabled) * 100)}
+                        percent={Math.floor((usage.integrations.enabled / cloudLimits.integrations.enabled) * 100)}
                         icon='icon-apps'
                     />
 

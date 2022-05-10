@@ -7,6 +7,7 @@ import {useSelector} from 'react-redux';
 import {GlobalState} from 'types/store';
 import {AnalyticsRow} from '@mattermost/types/admin';
 import Constants from 'utils/constants';
+import {FileSizes} from 'utils/file_utils';
 
 export interface CloudUsage {
     files: {
@@ -34,11 +35,13 @@ function getStatValue(stat: number | AnalyticsRow[]): number | undefined {
     return stat[0].value;
 }
 
+// TODO: Replace this with actual usages stored in redux,
+// that ideally are updated with a websocket event in near real time.
 export default function useGetUsage(): CloudUsage {
-    const totalStorage = useSelector(() => 0);
-    const boardsCards = useSelector(() => 0);
-    const boardsViews = useSelector(() => 0);
-    const integrationsEnabled = useSelector(() => 0);
+    const totalStorage = useSelector(() => 3 * FileSizes.Gigabyte);
+    const boardsCards = useSelector(() => 400);
+    const boardsViews = useSelector(() => 2);
+    const integrationsEnabled = useSelector(() => 3);
     const adminStats = useSelector((state: GlobalState) => state.entities.admin.analytics);
 
     const messageHistory = getStatValue(adminStats![Constants.StatTypes.TOTAL_POSTS]);

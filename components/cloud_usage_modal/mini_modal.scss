@@ -1,19 +1,18 @@
 @import './mixins';
 
-.CloudUsageModal {
-    .CloudUsageModal__header {
+.CloudUsageMiniModal {
+    .CloudUsageMiniModal__header {
         border: none;
 
         @include hide-before-after;
 
         &.modal-header {
+            padding: 24px;
             background-color: var(--center-channel-bg);
 
             .modal-title {
                 @include title;
             }
-
-            @include larger-padding;
         }
 
         button.close {
@@ -22,23 +21,8 @@
     }
 
     .modal-body {
-        @include larger-padding-sides;
-
+        padding: 0 24px 24px;
         border-bottom: rgba(var(--center-channel-color-rgb), 0.16);
-    }
-
-    &__footer {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-top: none;
-
-        @include hide-before-after;
-        @include larger-padding;
-
-        .btn {
-            border-radius: 4px;
-        }
     }
 
     .btn.btn-primary:disabled {
