@@ -610,7 +610,7 @@
   "admin.customization.enableLatexTitle": "Latex renderelés engedélyezése:",
   "admin.customization.enableLinkPreviewsDesc": "Az üzenet alatt jelenítse meg a webhely tartalmának, kép linkjeinek és YouTube linkjeinek előnézetét amennyiben rendelkezésre állnak. A szervernek csatlakoznia kell az internethez, és a tűzfalon keresztül (ha van ilyen) hozzáféréssel kell rendelkeznie azokhoz a webhelyekhez, amelyektől előzetes verziót várnak. A felhasználók letilthatják ezeket az előnézeteket a Beállítások > Megjelenítés > Webhelylinkek előnézete részben.",
   "admin.customization.enableLinkPreviewsTitle": "Weboldal link előnézet engedélyezése:",
-  "admin.customization.enablePermalinkPreviewsDesc": "Ha engedélyezett, akkor a Mattermost üzenetekre mutató linkek előnézetet fognak mutatni azoknál a felhasználóknál, akiknek van hozzáférésük az eredeti üzenethez. További információért kérjük olvassék el a [dokumentációt](!https://docs.mattermost.com/messaging/sharing-messages.html).",
+  "admin.customization.enablePermalinkPreviewsDesc": "Ha engedélyezett, akkor a Mattermost üzenetekre mutató linkek előnézetet fognak mutatni azoknál a felhasználóknál, akiknek van hozzáférésük az eredeti üzenethez. További információért kérjük olvassék el a <link>dokumentációt</link>.",
   "admin.customization.enablePermalinkPreviewsTitle": "Üzenetek előnézetének engedélyezése:",
   "admin.customization.enableSVGsDesc": "Engedélyezze az SVG fájlmellékletek előnézeteit, és engedélyezze azok megjelenését az üzenetekben.",
   "admin.customization.enableSVGsTitle": "SVG-k engedélyezése:",

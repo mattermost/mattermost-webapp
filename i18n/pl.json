@@ -610,7 +610,7 @@
   "admin.customization.enableLatexTitle": "Włącz renderowanie LaTeX:",
   "admin.customization.enableLinkPreviewsDesc": "Wyświetlanie podglądu zawartości strony internetowej, linków obrazkowych i linków do serwisu YouTube poniżej wiadomości, jeśli są one dostępne. Serwer musi być podłączony do Internetu i mieć dostęp poprzez zaporę sieciową (jeśli dotyczy) do stron internetowych, z których oczekuje się podglądu. Użytkownicy mogą wyłączyć te podglądy z poziomu Ustawienia > Wygląd > Podglądy Linków do Witryn.",
   "admin.customization.enableLinkPreviewsTitle": "Włącz podgląd linków do stron:",
-  "admin.customization.enablePermalinkPreviewsDesc": "Po włączeniu tej funkcji, linki do wiadomości Mattermost będą generować podgląd dla wszystkich użytkowników, którzy mają dostęp do oryginalnej wiadomości. Proszę przejrzeć naszą [dokumentację](!https://docs.mattermost.com/messaging/sharing-messages.html) aby poznać szczegóły.",
+  "admin.customization.enablePermalinkPreviewsDesc": "Po włączeniu tej funkcji, linki do wiadomości Mattermost będą generować podgląd dla wszystkich użytkowników, którzy mają dostęp do oryginalnej wiadomości. Proszę przejrzeć naszą <link>dokumentację</link> aby poznać szczegóły.",
   "admin.customization.enablePermalinkPreviewsTitle": "Włączenie podglądu linków w wiadomościach:",
   "admin.customization.enableSVGsDesc": "Włącz podgląd dla załączników SVG i pozwól im pojawiać się w wiadomościach.",
   "admin.customization.enableSVGsTitle": "Włącz SVGs:",

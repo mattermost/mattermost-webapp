@@ -610,7 +610,7 @@
   "admin.customization.enableLatexTitle": "Aktivera tolkning av Latex:",
   "admin.customization.enableLinkPreviewsDesc": "Visa en förhandsvisning av websidor, bilder och YouTube-länkar under meddelandet. Servern måste ha tillgång till internet och webbsajten för att förhandsvisningen ska synas. Användaren kan avaktivera funktionen i Inställningar > Visning > Website Link Previews.",
   "admin.customization.enableLinkPreviewsTitle": "Aktivera förhandsgranskning av webblänkar:",
-  "admin.customization.enablePermalinkPreviewsDesc": "När aktiverad kommer länkar till Mattermost-meddelanden generera en förhandsvisning för de användare som har tillgång till originalmeddelandet. Läs [dokumentationen](!https://docs.mattermost.com/messaging/sharing-messages.html) för mer information.",
+  "admin.customization.enablePermalinkPreviewsDesc": "När aktiverad kommer länkar till Mattermost-meddelanden generera en förhandsvisning för de användare som har tillgång till originalmeddelandet. Läs <link>dokumentationen</link> för mer information.",
   "admin.customization.enablePermalinkPreviewsTitle": "Aktivera förhandsvisning av meddelanden:",
   "admin.customization.enableSVGsDesc": "Aktivera förhandsgranskning av bifogade SVG-filer och tillåt att de syns i meddelanden.",
   "admin.customization.enableSVGsTitle": "Aktivera SVGs:",

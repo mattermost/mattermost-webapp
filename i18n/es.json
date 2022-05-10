@@ -610,7 +610,7 @@
   "admin.customization.enableLatexTitle": "Habilitar Renderizado Latex:",
   "admin.customization.enableLinkPreviewsDesc": "Mostrar una vista previa del contenido del sitio web, enlaces de imágenes y enlaces de YouTube debajo del mensaje cuando estén disponibles. El servidor debe estar conectado a Internet y tener acceso a través del cortafuegos (si procede) a los sitios web de los que se esperan las vistas previas. Los usuarios pueden desactivar estas vistas previas desde Configuración > Mostrar > Vistas previas de enlaces de sitios web.",
   "admin.customization.enableLinkPreviewsTitle": "Habilitar la vista previa de los enlaces a sitios web:",
-  "admin.customization.enablePermalinkPreviewsDesc": "Cuando se activa, los enlaces a los mensajes de Mattermost generarán una vista previa para cualquier usuario que tenga acceso al mensaje original. Por favor, revise nuestra [documentación](!https://docs.mattermost.com/messaging/sharing-messages.html) para más detalles.",
+  "admin.customization.enablePermalinkPreviewsDesc": "Cuando se activa, los enlaces a los mensajes de Mattermost generarán una vista previa para cualquier usuario que tenga acceso al mensaje original. Por favor, revise nuestra <link>documentación</link> para más detalles.",
   "admin.customization.enablePermalinkPreviewsTitle": "Habilitar la vista previa de los enlaces de los mensajes:",
   "admin.customization.enableSVGsDesc": "Habilitar vista previa para archivos adjuntos SVG y permitir que aparezcan en mensajes.",
   "admin.customization.enableSVGsTitle": "Habilitar SVG:",

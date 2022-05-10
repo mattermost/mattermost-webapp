@@ -610,7 +610,7 @@
   "admin.customization.enableLatexTitle": "开启 Latex 渲染：",
   "admin.customization.enableLinkPreviewsDesc": "可用时在消息下发显示网址内容、图片链接以及 YouTube 链接的预览。服务必须可以连接到需要预览的内容的网站，必要时需要设定防火墙。用户可以在设定 > 显示 > 网址链接预览关闭此功能。",
   "admin.customization.enableLinkPreviewsTitle": "启用网站链接预览：",
-  "admin.customization.enablePermalinkPreviewsDesc": "启用后，指向 Mattermost 消息的链接将为有权访问原始消息的任何用户生成预览。请查看我们的[文档](!https://docs.mattermost.com/messaging/sharing-messages.html)了解详细信息。",
+  "admin.customization.enablePermalinkPreviewsDesc": "启用后，指向 Mattermost 消息的链接将为有权访问原始消息的任何用户生成预览。请查看我们的<link>文档</link>了解详细信息。",
   "admin.customization.enablePermalinkPreviewsTitle": "开启消息链接预览：",
   "admin.customization.enableSVGsDesc": "开启 SVG 附件预览并让它们显示在消息中。",
   "admin.customization.enableSVGsTitle": "开启 SVG：",

@@ -610,7 +610,7 @@
   "admin.customization.enableLatexTitle": "Latex Weergeven Inschakelen:",
   "admin.customization.enableLinkPreviewsDesc": "Een voorbeeld van de website, afbeeldingslinks en YouTube-links onder het bericht weergeven wanneer deze beschikbaar zijn. De server moet verbonden zijn met het internet en toegang hebben via de firewall (indien van toepassing) tot de websites waarvan de previews worden verwacht. Gebruikers kunnen deze previews uitschakelen via Instellingen > Weergave > Website Link Previews.",
   "admin.customization.enableLinkPreviewsTitle": "Previews van links naar websites inschakelen:",
-  "admin.customization.enablePermalinkPreviewsDesc": "Indien ingeschakeld, zullen links naar Mattermost berichten een preview genereren voor alle gebruikers die toegang hebben tot het originele bericht. Bekijk onze [documentatie](https://docs.mattermost.com/messaging/sharing-messages.html) voor details.",
+  "admin.customization.enablePermalinkPreviewsDesc": "Indien ingeschakeld, zullen links naar Mattermost berichten een preview genereren voor alle gebruikers die toegang hebben tot het originele bericht. Bekijk onze <link>documentatie</link>(https://docs.mattermost.com/messaging/sharing-messages.html) voor details.",
   "admin.customization.enablePermalinkPreviewsTitle": "Schakel previews van links naar berichten in:",
   "admin.customization.enableSVGsDesc": "Previews voor SVG-bestandsbijlagen inschakelen en deze in berichten laten verschijnen.",
   "admin.customization.enableSVGsTitle": "SVG's Inschakelen:",

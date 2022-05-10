@@ -608,7 +608,7 @@
   "admin.customization.enableLatexTitle": "Activer le rendu LaTeX :",
   "admin.customization.enableLinkPreviewsDesc": "Affiche une prévisualisation du contenu du site web, des images et des liens YouTube en-dessous du message lorsque cela est disponible. Le serveur doit être connecté à internet et le pare-feu (si activé) doit être configuré en adéquation pour que les prévisualisations puissent être récupérées. Les utilisateurs peuvent désactiver cette fonctionnalité à partir des Paramètres > Affichage > Aperçus des liens de site web.",
   "admin.customization.enableLinkPreviewsTitle": "Activer l'aperçu des liens :",
-  "admin.customization.enablePermalinkPreviewsDesc": "Si activé, les liens vers des messages Mattermost génèreront un aperçu pour les utilisateurs qui ont accès au message original. Veuillez consulter notre [documentation](!https://docs.mattermost.com/messaging/sharing-messages.html) pour plus d'informations.",
+  "admin.customization.enablePermalinkPreviewsDesc": "Si activé, les liens vers des messages Mattermost génèreront un aperçu pour les utilisateurs qui ont accès au message original. Veuillez consulter notre <link>documentation</link> pour plus d'informations.",
   "admin.customization.enablePermalinkPreviewsTitle": "Activer la prévisualisation des liens vers les messages :",
   "admin.customization.enableSVGsDesc": "Active l'aperçu des fichiers joints SVG et autorise à ce qu'ils apparaissent dans les messages.",
   "admin.customization.enableSVGsTitle": "Activer les SVGs :",

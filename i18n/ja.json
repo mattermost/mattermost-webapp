@@ -610,7 +610,7 @@
   "admin.customization.enableLatexTitle": "Latex描画を有効にする:",
   "admin.customization.enableLinkPreviewsDesc": "利用可能な場合、ウェブサイトの内容や画像リンク、YouTubeリンクのプレビューをメッセージの下に表示します。サーバーがインターネットに接続されており、(該当する場合) ファイアウォールを通じてそのウェブサイトにアクセスできなくてはなりません。ユーザーはこれらのプレビューを 設定 > ディスプレイ > ウェブサイトリンクプレビュー から無効化することができます。",
   "admin.customization.enableLinkPreviewsTitle": "ウェブサイトプレビューを有効にする:",
-  "admin.customization.enablePermalinkPreviewsDesc": "有効な場合、Mattermostメッセージへのリンクは、元のメッセージにアクセスできるすべてのユーザーにプレビューを生成します。詳しくは[ドキュメント](!https://docs.mattermost.com/messaging/sharing-messages.html)を参照してください。",
+  "admin.customization.enablePermalinkPreviewsDesc": "有効な場合、Mattermostメッセージへのリンクは、元のメッセージにアクセスできるすべてのユーザーにプレビューを生成します。詳しくは<link>ドキュメント</link>を参照してください。",
   "admin.customization.enablePermalinkPreviewsTitle": "メッセージリンクプレビューを有効にする:",
   "admin.customization.enableSVGsDesc": "SVGファイル添付のプレビューを有効にし、メッセージ内に表示するようにします。",
   "admin.customization.enableSVGsTitle": "SVGを有効にする:",

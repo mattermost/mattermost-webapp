@@ -575,7 +575,7 @@
   "admin.customization.enableLatexTitle": "رندر لاتکس را فعال کنید:",
   "admin.customization.enableLinkPreviewsDesc": "در صورت موجود بودن، پیش نمایشی از محتوای وب سایت، پیوندهای تصویری و پیوندهای YouTube را در زیر پیام نمایش دهید. سرور باید به اینترنت متصل باشد و از طریق فایروال (در صورت وجود) به وب سایت هایی که پیش نمایش از آنها انتظار می رود دسترسی داشته باشد. کاربران می توانند این پیش نمایش ها را از Settings > Display > Website Link Previews غیرفعال کنند.",
   "admin.customization.enableLinkPreviewsTitle": "فعال کردن پیش نمایش لینک وب سایت:",
-  "admin.customization.enablePermalinkPreviewsDesc": "وقتی فعال باشد، پیوندهای پیام‌های Mattermost یک پیش‌نمایش برای کاربرانی که به پیام اصلی دسترسی دارند ایجاد می‌کند. لطفاً [اسناد] (!https://docs.mattermost.com/messaging/sharing-messages.html) ما را برای جزئیات بررسی کنید.",
+  "admin.customization.enablePermalinkPreviewsDesc": "وقتی فعال باشد، پیوندهای پیام‌های Mattermost یک پیش‌نمایش برای کاربرانی که به پیام اصلی دسترسی دارند ایجاد می‌کند. لطفاً <link>اسناد</link>  ما را برای جزئیات بررسی کنید.",
   "admin.customization.enablePermalinkPreviewsTitle": "فعال کردن پیش‌نمایش پیوند پیام:",
   "admin.customization.enableSVGsDesc": "پیش نمایش ها را برای پیوست های فایل SVG فعال کنید و به آنها اجازه دهید در پیام ها ظاهر شوند.",
   "admin.customization.enableSVGsTitle": "SVG ها را فعال کنید:",

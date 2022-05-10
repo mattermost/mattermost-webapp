@@ -610,7 +610,7 @@
   "admin.customization.enableLatexTitle": "Включить отрисовку Latex:",
   "admin.customization.enableLinkPreviewsDesc": "Отображает предварительный просмотр содержимого сайта, ссылок на картинки и ролики Youtube ниже сообщения, когда это доступно. Сервер должен быть подключен к Интернету и иметь доступ через брандмауэр (если применимо) к веб-сайтам, с которых ожидаются предварительные просмотры. Пользователи могут отключить эти предварительные просмотры в разделе Параметры > Вид > Предпросмотр веб-ссылок.",
   "admin.customization.enableLinkPreviewsTitle": "Включить предпросмотр веб-ссылок:",
-  "admin.customization.enablePermalinkPreviewsDesc": "Если эта функция включена, ссылки на сообщения Mattermost будут создавать предварительный просмотр для всех пользователей, имеющих доступ к исходному сообщению. Подробности см. в нашей [документации](!https://docs.mattermost.com/messaging/sharing-messages.html).",
+  "admin.customization.enablePermalinkPreviewsDesc": "Если эта функция включена, ссылки на сообщения Mattermost будут создавать предварительный просмотр для всех пользователей, имеющих доступ к исходному сообщению. Подробности см. в нашей <link>документации</link>.",
   "admin.customization.enablePermalinkPreviewsTitle": "Включить предпросмотр веб-ссылок на сообщения:",
   "admin.customization.enableSVGsDesc": "Включить предварительный просмотр вложенных файлов SVG и разрешить им появляться в сообщениях.",
   "admin.customization.enableSVGsTitle": "Включить SVG:",

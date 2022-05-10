@@ -610,7 +610,7 @@
   "admin.customization.enableLatexTitle": "Latex görüntüsü oluşturulsun:",
   "admin.customization.enableLinkPreviewsDesc": "Bu seçenek etkinleştirildiğinde, olabiliyorsa web sitesi içeriğinin ön izlemesi, görsel bağlantıları ve YouTube bağlantıları iletinin altında görüntülenir. Sunucunun İnternet bağlantısı olmalı ve ön izlemesi görüntülenecek web siteleri için (olabiliyorsa) güvenlik duvarını geçebilmelidir. Kullanıcılar bu ön izlemeleri Ayarlar > Görünüm > Web sitesi bağlantı ön izlemeleri bölümünden devre dışı bırakabilir.",
   "admin.customization.enableLinkPreviewsTitle": "Bağlantı ön izlemeleri kullanılsın:",
-  "admin.customization.enablePermalinkPreviewsDesc": "Bu seçenek etkinleştirildiğinde, Mattermost iletilerine bağlantılar, özgün iletiye erişim izni olan tüm kullanıcılar için bir ön izleme oluşturur. Ayrıntılı bilgi almak için [belgeler](!https://docs.mattermost.com/messaging/sharing-messages.html) bölümüne bakabilirsiniz.",
+  "admin.customization.enablePermalinkPreviewsDesc": "Bu seçenek etkinleştirildiğinde, Mattermost iletilerine bağlantılar, özgün iletiye erişim izni olan tüm kullanıcılar için bir ön izleme oluşturur. Ayrıntılı bilgi almak için <link>belgeler</link> bölümüne bakabilirsiniz.",
   "admin.customization.enablePermalinkPreviewsTitle": "İleti bağlantısı ön izlemeleri kullanılsın:",
   "admin.customization.enableSVGsDesc": "SVG ek dosyalarının ön izlenebilmesini ve iletilerde görüntülenmesini sağlar.",
   "admin.customization.enableSVGsTitle": "SVG dosyaları görüntülensin:",

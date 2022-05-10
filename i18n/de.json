@@ -610,7 +610,7 @@
   "admin.customization.enableLatexTitle": "LaTeX-Rendern aktivieren:",
   "admin.customization.enableLinkPreviewsDesc": "Zeige eine Vorschau von Website-Inhalten, Bild-Links und YouTube-Links unterhalb der Nachricht an, wenn verfügbar. Der Server muss mit dem Internet verbunden sein und über die Firewall (falls zutreffend) Zugriff auf die Websites haben, von denen Vorschauen erwartet werden. Benutzer können diese Vorschauen über Einstellungen > Anzeige > Webseitenvorschauen deaktivieren.",
   "admin.customization.enableLinkPreviewsTitle": "Aktiviere die Vorschau von Website-Links:",
-  "admin.customization.enablePermalinkPreviewsDesc": "Wenn diese Funktion aktiviert ist, erzeugen Links zu Mattermost-Nachrichten eine Vorschau für alle Benutzer, die Zugriff auf die ursprüngliche Nachricht haben. Bitte lese unsere [Dokumentation](!https://docs.mattermost.com/messaging/sharing-messages.html) für weitere Details.",
+  "admin.customization.enablePermalinkPreviewsDesc": "Wenn diese Funktion aktiviert ist, erzeugen Links zu Mattermost-Nachrichten eine Vorschau für alle Benutzer, die Zugriff auf die ursprüngliche Nachricht haben. Bitte lese unsere <link>Dokumentation</link> für weitere Details.",
   "admin.customization.enablePermalinkPreviewsTitle": "Aktiviere die Vorschau von Nachrichtenlinks:",
   "admin.customization.enableSVGsDesc": "Vorschau für SVG-Dateianhänge aktivieren und erlauben, dass diese in Nachrichten angezeigt werden.",
   "admin.customization.enableSVGsTitle": "SVGs aktivieren:",
