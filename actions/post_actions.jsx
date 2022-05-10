@@ -144,16 +144,13 @@ export function toggleReaction(postId, emojiName) {
         const currentUserId = getState().entities.users.currentUserId;
 
         const getReactionsForPost = makeGetUniqueReactionsToPost();
-        const reactions = getReactionsForPost(getState(), postId);
+        const reactions = getReactionsForPost(getState(), postId) ?? {};
 
         let currentUserReacted = false;
-        for (const key in reactions) {
-            if ({}.hasOwnProperty.call(reactions, key)) {
-                const value = reactions[key];
-                if (value.user_id === currentUserId && value.emoji_name === emojiName) {
-                    currentUserReacted = true;
-                    break;
-                }
+        for (const value of Object.values(reactions)) {
+            if (value.user_id === currentUserId && value.emoji_name === emojiName) {
+                currentUserReacted = true;
+                break;
             }
         }
 
