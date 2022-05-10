@@ -604,7 +604,7 @@
   "admin.customization.enableEmojiPickerTitle": "絵文字選択機能を有効にする:",
   "admin.customization.enableGifPickerDesc": "Gfycat統合機能を利用して絵文字選択からGIFを選択できるようにする。",
   "admin.customization.enableGifPickerTitle": "GIF選択機能を有効にする:",
-  "admin.customization.enableInlineLatexDesc": "インラインLatexコードの描画を有効にします。無効な場合、Latexはシンタックスハイライトを使用したコードブロック内でのみ記述できます。テキストフォーマットの詳細について[説明文書](!https://docs.mattermost.com/messaging/formatting-text.html)を参照してください。",
+  "admin.customization.enableInlineLatexDesc": "インラインLatexコードの描画を有効にします。無効な場合、Latexはシンタックスハイライトを使用したコードブロック内でのみ記述できます。テキストフォーマットの詳細について<link>説明文書</link>を参照してください。",
   "admin.customization.enableInlineLatexTitle": "インラインLatexを有効にする:",
   "admin.customization.enableLatexDesc": "コードブロック内でのLatexの描画を有効にします。無効な場合、Latexコードはハイライト表示されます。",
   "admin.customization.enableLatexTitle": "Latex描画を有効にする:",

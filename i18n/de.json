@@ -604,7 +604,7 @@
   "admin.customization.enableEmojiPickerTitle": "Emojiauswahl aktivieren:",
   "admin.customization.enableGifPickerDesc": "Erlaubt Benutzern GIFs in der Emoji-Auswahl über eine Gfycat-Integration auszuwählen.",
   "admin.customization.enableGifPickerTitle": "GIF-Auswahl aktivieren:",
-  "admin.customization.enableInlineLatexDesc": "Aktiviert das Rendering von Latex Code innerhalb einer Zeile. Latex kann nur in einem Codeblock mit Syntax-Hervorhebung gerendert werden. Bitte prüfe unsere [Dokumentation](!https://docs.mattermost.com/messaging/formatting-text.html) zu Details über Textformatierung.",
+  "admin.customization.enableInlineLatexDesc": "Aktiviert das Rendering von Latex Code innerhalb einer Zeile. Latex kann nur in einem Codeblock mit Syntax-Hervorhebung gerendert werden. Bitte prüfe unsere <link>Dokumentation</link> zu Details über Textformatierung.",
   "admin.customization.enableInlineLatexTitle": "Aktiviere das Inline-Latex-Rendering:",
   "admin.customization.enableLatexDesc": "Aktiviert das Rendern von LaTeX in Codeblöcken. Wenn falsch, wird LaTeX-Code nur hervorgehoben.",
   "admin.customization.enableLatexTitle": "LaTeX-Rendern aktivieren:",

@@ -602,7 +602,7 @@
   "admin.customization.enableEmojiPickerTitle": "Activer le sélectionneur d'émoticônes :",
   "admin.customization.enableGifPickerDesc": "Autoriser les utilisateurs à sélectionner un GIF à partir du sélectionneur d'émoticônes via l'intégration Gfycat.",
   "admin.customization.enableGifPickerTitle": "Activer le sélectionneur de GIFs :",
-  "admin.customization.enableInlineLatexDesc": "Active le rendu de code LaTex en ligne. Si désactivé, LaTeX pourra seulement être utilisé dans un bloc de code utilisant la coloration syntaxique. Merci de consulter [notre documentation](!https://docs.mattermost.com/messaging/formatting-text.html) pour plus d'informations sur la mise en forme de texte.",
+  "admin.customization.enableInlineLatexDesc": "Active le rendu de code LaTex en ligne. Si désactivé, LaTeX pourra seulement être utilisé dans un bloc de code utilisant la coloration syntaxique. Merci de consulter <link>notre documentation</link> pour plus d'informations sur la mise en forme de texte.",
   "admin.customization.enableInlineLatexTitle": "Activer le rendu LaTeX en ligne :",
   "admin.customization.enableLatexDesc": "Active le rendu du code LaTeX dans les blocs de code. Si désactivé, le code LaTeX ne sera que colorié syntaxiquement.",
   "admin.customization.enableLatexTitle": "Activer le rendu LaTeX :",

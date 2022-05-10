@@ -604,7 +604,7 @@
   "admin.customization.enableEmojiPickerTitle": "Emoji seçici kullanılsın:",
   "admin.customization.enableGifPickerDesc": "Kullanıcıların Gfycat bütünleştirmesi ile emoji seçicisinden GIF dosyaları seçebilmesini sağlar.",
   "admin.customization.enableGifPickerTitle": "GIF seçici kullanılsın:",
-  "admin.customization.enableInlineLatexDesc": "Bu seçenek etkinleştirildiğinde, kullanıcılar metine Latex kodu ekleyebilir. Devre dışı bırakıldığında, Latex yalnız sözdizimi vurgulaması kullanılarak bir kod bloğunda eklenebilir. [Ayrıntılı bilgi almak için belgelerdeki metin biçimlendirme bölümüne bakabilirsiniz](!https://docs.mattermost.com/messaging/formatting-text.html).",
+  "admin.customization.enableInlineLatexDesc": "Bu seçenek etkinleştirildiğinde, kullanıcılar metine Latex kodu ekleyebilir. Devre dışı bırakıldığında, Latex yalnız sözdizimi vurgulaması kullanılarak bir kod bloğunda eklenebilir. <link>Ayrıntılı bilgi almak için belgelerdeki metin biçimlendirme bölümüne bakabilirsiniz</link>.",
   "admin.customization.enableInlineLatexTitle": "Satır arası Latex kodu eklenebilsin:",
   "admin.customization.enableLatexDesc": "Bu seçenek etkinleştirildiğinde, Latex kodlarının görüntüsü oluşturulur. Devre dışı bırakıldığında Latex kodu yalnızca vurgulanır.",
   "admin.customization.enableLatexTitle": "Latex görüntüsü oluşturulsun:",

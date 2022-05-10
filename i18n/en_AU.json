@@ -604,7 +604,7 @@
   "admin.customization.enableEmojiPickerTitle": "Enable Emoji Picker:",
   "admin.customization.enableGifPickerDesc": "Allow users to select GIFs from the emoji picker via a Gfycat integration.",
   "admin.customization.enableGifPickerTitle": "Enable GIF Picker:",
-  "admin.customization.enableInlineLatexDesc": "Enable rendering of inline LaTeX code. If false, LaTeX can only be rendered in a code block using syntax highlighting. Please review our [documentation](!https://docs.mattermost.com/messaging/formatting-text.html) for details about text formatting.",
+  "admin.customization.enableInlineLatexDesc": "Enable rendering of inline LaTeX code. If false, LaTeX can only be rendered in a code block using syntax highlighting. Please review our <link>documentation</link> for details about text formatting.",
   "admin.customization.enableInlineLatexTitle": "Enable Inline Latex Rendering:",
   "admin.customization.enableLatexDesc": "Enable rendering of LaTeX in code blocks. If false, LaTeX code will be highlighted only.",
   "admin.customization.enableLatexTitle": "Enable LaTeX Rendering:",

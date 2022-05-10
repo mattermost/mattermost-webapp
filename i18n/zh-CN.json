@@ -604,7 +604,7 @@
   "admin.customization.enableEmojiPickerTitle": "开启表情符选择器：",
   "admin.customization.enableGifPickerDesc": "允许用户在表情符选择器中选择 Gfycat 整合中的 GIF 图片。",
   "admin.customization.enableGifPickerTitle": "开启 GIF 选择器：",
-  "admin.customization.enableInlineLatexDesc": "当为是时，用户可在文本周围呈现带有美元符号的内联 Latex 代码。当为否时，Latex 只能使用语法高亮显示在代码块中。 [在我们的文档中了解有关文本格式的更多信息](!https://docs.mattermost.com/messaging/formatting-text.html)。",
+  "admin.customization.enableInlineLatexDesc": "当为是时，用户可在文本周围呈现带有美元符号的内联 Latex 代码。当为否时，Latex 只能使用语法高亮显示在代码块中。 <link>在我们的文档中了解有关文本格式的更多信息</link>。",
   "admin.customization.enableInlineLatexTitle": "启用内联 Latex 渲染：",
   "admin.customization.enableLatexDesc": "开启渲染 Latex 代码。如果否，Latex 代码将只会被高亮。",
   "admin.customization.enableLatexTitle": "开启 Latex 渲染：",

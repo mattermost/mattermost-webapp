@@ -604,7 +604,7 @@
   "admin.customization.enableEmojiPickerTitle": "Aktivera Emoij-väljare:",
   "admin.customization.enableGifPickerDesc": "Tillåt användare att välja GIF-ar från emoji-väljaren via en Gfycat-integration.",
   "admin.customization.enableGifPickerTitle": "Aktivera GIF-väljare:",
-  "admin.customization.enableInlineLatexDesc": "När aktiverad kan användare kunna skapa Latexkod i löpande text. När avaktiverad kommer Latexkod bara renderas i ett kodblock med syntaxmarkering. Läs [dokumentationen](!https://docs.mattermost.com/messaging/formatting-text.html) för detaljerad information om att formatera text.",
+  "admin.customization.enableInlineLatexDesc": "När aktiverad kan användare kunna skapa Latexkod i löpande text. När avaktiverad kommer Latexkod bara renderas i ett kodblock med syntaxmarkering. Läs <link>dokumentationen</link> för detaljerad information om att formatera text.",
   "admin.customization.enableInlineLatexTitle": "Aktivera Latexrendering i löpande text:",
   "admin.customization.enableLatexDesc": "Aktivera tolkning av Latex i kodblock. Om avaktiverad kommer Latexkod bli markerad.",
   "admin.customization.enableLatexTitle": "Aktivera tolkning av Latex:",

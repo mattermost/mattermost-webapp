@@ -604,7 +604,7 @@
   "admin.customization.enableEmojiPickerTitle": "Emoji választó engedélyezése:",
   "admin.customization.enableGifPickerDesc": "Lehetővé teszi a felhasználók számára, hogy a Gifycat integrációval válasszanak ki GIF-eket az emoji választóban.",
   "admin.customization.enableGifPickerTitle": "GIF választó engedélyezése:",
-  "admin.customization.enableInlineLatexDesc": "Engedélyezi a soron belüli Latex kód renderelést. Ha hamis, akkor Latex kódot csak kód blokkban lehet renderelni szintaxis kiemeléssel. [Tekintse meg a dokumentációt](!https://docs.mattermost.com/messaging/formatting-text.html) a text formázás részleteiért.",
+  "admin.customization.enableInlineLatexDesc": "Engedélyezi a soron belüli Latex kód renderelést. Ha hamis, akkor Latex kódot csak kód blokkban lehet renderelni szintaxis kiemeléssel. <link>Tekintse meg a dokumentációt</link> a text formázás részleteiért.",
   "admin.customization.enableInlineLatexTitle": "Soron belüli Latex renderelés engedélyezése:",
   "admin.customization.enableLatexDesc": "Latex kód renderelés engedélyezése kód blokkban. Ha hamis, akkor csak a Latex kód kerül kiemelésre.",
   "admin.customization.enableLatexTitle": "Latex renderelés engedélyezése:",

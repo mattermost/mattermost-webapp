@@ -2609,8 +2609,20 @@ const AdminDefinition = {
                         label: t('admin.customization.enableInlineLatexTitle'),
                         label_default: 'Enable Inline Latex Rendering:',
                         help_text: t('admin.customization.enableInlineLatexDesc'),
-                        help_text_default: 'Enable rendering of inline Latex code. If false, Latex can only be rendered in a code block using syntax highlighting. Please review our [documentation](!https://docs.mattermost.com/messaging/formatting-text.html) for details about text formatting.',
-                        help_text_markdown: true,
+                        help_text_default: 'Enable rendering of inline Latex code. If false, Latex can only be rendered in a code block using syntax highlighting. Please review our <link>documentation</link> for details about text formatting.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/messaging/formatting-text.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
                             it.configIsFalse('ServiceSettings', 'EnableLatex'),

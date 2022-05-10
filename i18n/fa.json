@@ -569,7 +569,7 @@
   "admin.customization.enableEmojiPickerTitle": "فعال کردن Emoji Picker:",
   "admin.customization.enableGifPickerDesc": "به کاربران اجازه دهید از طریق یکپارچه سازی Gfycat، GIF ها را از انتخابگر شکلک انتخاب کنند.",
   "admin.customization.enableGifPickerTitle": "فعال کردن GIF Picker:",
-  "admin.customization.enableInlineLatexDesc": "رندر کد لاتکس درون خطی را فعال کنید. اگر نادرست باشد، لاتکس را فقط می توان در یک بلوک کد با استفاده از برجسته کردن نحو ارائه کرد. لطفاً [اسناد] (!https://docs.mattermost.com/messaging/formatting-text.html) ما را برای جزئیات در مورد قالب بندی متن بررسی کنید.",
+  "admin.customization.enableInlineLatexDesc": "رندر کد لاتکس درون خطی را فعال کنید. اگر نادرست باشد، لاتکس را فقط می توان در یک بلوک کد با استفاده از برجسته کردن نحو ارائه کرد. لطفاً <link>اسناد</link>  ما را برای جزئیات در مورد قالب بندی متن بررسی کنید.",
   "admin.customization.enableInlineLatexTitle": "فعال کردن Inline Latex Rendering:",
   "admin.customization.enableLatexDesc": "رندر لاتکس را در بلوک های کد فعال کنید. اگر نادرست باشد، کد لاتکس فقط هایلایت می شود.",
   "admin.customization.enableLatexTitle": "رندر لاتکس را فعال کنید:",

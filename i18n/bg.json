@@ -597,7 +597,7 @@
   "admin.customization.enableEmojiPickerTitle": "Активиране на Emoji Picker:",
   "admin.customization.enableGifPickerDesc": "Позволете на потребителите да избират GIF-и от emoji picker-а чрез интеграция на Gfycat.",
   "admin.customization.enableGifPickerTitle": "Активиране на GIF Picker:",
-  "admin.customization.enableInlineLatexDesc": "Разрешава визуализирането на вграден код на Latex. Ако е false, Latex може да се визуализира само в блок с код, като се използва подчертаване на синтаксиса. Моля, прегледайте нашата [документация](!https://docs.mattermost.com/messaging/formatting-text.html) за подробности относно форматирането на текста.",
+  "admin.customization.enableInlineLatexDesc": "Разрешава визуализирането на вграден код на Latex. Ако е false, Latex може да се визуализира само в блок с код, като се използва подчертаване на синтаксиса. Моля, прегледайте нашата <link>документация</link> за подробности относно форматирането на текста.",
   "admin.customization.enableInlineLatexTitle": "Разрешаване на Latex визуализация:",
   "admin.customization.enableLatexDesc": "Разрешаване на изобразяването на Latex в блоковете с код. Ако е false, Latex кода ще бъде само маркиран.",
   "admin.customization.enableLatexTitle": "Активиране на Latex визуализация:",

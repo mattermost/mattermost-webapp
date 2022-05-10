@@ -604,7 +604,7 @@
   "admin.customization.enableEmojiPickerTitle": "Habilitar Selector de Emoticonos:",
   "admin.customization.enableGifPickerDesc": "Permitir a los usuarios seleccionar GIFs desde el selector de emoticones a través de la integración con Gfycat.",
   "admin.customization.enableGifPickerTitle": "Habilitar Selector de GIF:",
-  "admin.customization.enableInlineLatexDesc": "Habilitar la representación del código Latex en línea. Si es falso, Latex sólo puede ser representado en un bloque de código utilizando el resaltado de sintaxis. Por favor, revise nuestra [documentación](!https://docs.mattermost.com/messaging/formatting-text.html) para obtener detalles sobre el formato del texto.",
+  "admin.customization.enableInlineLatexDesc": "Habilitar la representación del código Latex en línea. Si es falso, Latex sólo puede ser representado en un bloque de código utilizando el resaltado de sintaxis. Por favor, revise nuestra <link>documentación</link> para obtener detalles sobre el formato del texto.",
   "admin.customization.enableInlineLatexTitle": "Activar el renderizado de Látex en línea:",
   "admin.customization.enableLatexDesc": "Habilitar la representación de Latex en los bloques de código. Si es falso, el código Latex sólo se resaltará.",
   "admin.customization.enableLatexTitle": "Habilitar Renderizado Latex:",

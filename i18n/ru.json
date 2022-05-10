@@ -604,7 +604,7 @@
   "admin.customization.enableEmojiPickerTitle": "Включить выбор смайликов:",
   "admin.customization.enableGifPickerDesc": "Разрешить пользователям выбирать GIFы из окна выбора смайликов через интеграцию с Gfycat.",
   "admin.customization.enableGifPickerTitle": "Включить выбор GIF:",
-  "admin.customization.enableInlineLatexDesc": "Включить рендеринг встроенного кода Latex. Если \"нет\", Latex может отображаться только в блоке кода с подсветкой синтаксиса. Подробную информацию о форматировании текста см. в нашей [документации](!https://docs.mattermost.com/messaging/formatting-text.html).",
+  "admin.customization.enableInlineLatexDesc": "Включить рендеринг встроенного кода Latex. Если \"нет\", Latex может отображаться только в блоке кода с подсветкой синтаксиса. Подробную информацию о форматировании текста см. в нашей <link>документации</link>.",
   "admin.customization.enableInlineLatexTitle": "Включить встроенный рендеринг Latex:",
   "admin.customization.enableLatexDesc": "Включение рендеринга кода Latex. Если \"Нет\", код Latex будет только подсвечен.",
   "admin.customization.enableLatexTitle": "Включить отрисовку Latex:",

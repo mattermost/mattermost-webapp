@@ -604,7 +604,7 @@
   "admin.customization.enableEmojiPickerTitle": "Emoticon Selectietool inschakelen:",
   "admin.customization.enableGifPickerDesc": "Gebruikers toestaan GIFs te selecteren uit de Emoticon Selectietool via een Gfycat-integratie.",
   "admin.customization.enableGifPickerTitle": "GIF-kiezer inschakelen:",
-  "admin.customization.enableInlineLatexDesc": "Inline Latex code laten renderen. Indien uitgeschakeld kan Latex alleen worden weergegeven in een codeblok met syntax highlighting. Bekijk onze [documentatie](!https://docs.mattermost.com/messaging/formatting-text.html) voor details over tekstopmaak.",
+  "admin.customization.enableInlineLatexDesc": "Inline Latex code laten renderen. Indien uitgeschakeld kan Latex alleen worden weergegeven in een codeblok met syntax highlighting. Bekijk onze <link>documentatie</link> voor details over tekstopmaak.",
   "admin.customization.enableInlineLatexTitle": "In Lijn Latex Weergave Inschakelen:",
   "admin.customization.enableLatexDesc": "Schakel de weergave van Latex in codeblokken in. Indien uitgeschakeld, zal Latex code alleen gemarkeerd worden.",
   "admin.customization.enableLatexTitle": "Latex Weergeven Inschakelen:",
