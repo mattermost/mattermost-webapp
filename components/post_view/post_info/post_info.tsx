@@ -26,6 +26,7 @@ import PostRecentReactions from 'components/post_view/post_recent_reactions';
 import PostTime from 'components/post_view/post_time';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import {Emoji} from 'mattermost-redux/types/emojis';
+import ForwardPost from '../forward_post';
 
 type Props = {
 
@@ -340,6 +341,8 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             );
         }
 
+        const forwardPost = <ForwardPost post={post}/>;
+
         return (
             <div
                 ref={this.dotMenuRef}
@@ -349,6 +352,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
                 {!collapsedThreadsEnabled && !showRecentlyUsedReactions && dotMenu}
                 {showRecentReacions}
                 {postReaction}
+                {forwardPost}
                 {postFlagIcon}
                 {actionsMenu}
                 {commentIcon}
