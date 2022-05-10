@@ -426,10 +426,10 @@ export default class Root extends React.PureComponent {
             }
 
             // detected login from a different tab
-            function onVisibilityChange() {
+            function reloadOnFocus() {
                 location.reload();
             }
-            document.addEventListener('visibilitychange', onVisibilityChange, false);
+            window.addEventListener('focus', reloadOnFocus);
         }
     }
 

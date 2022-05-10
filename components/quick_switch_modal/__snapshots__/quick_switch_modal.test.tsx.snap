@@ -91,6 +91,7 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
         }
         renderDividers={
           Array [
+            "mention.unread",
             "mention.recent.channels",
           ]
         }

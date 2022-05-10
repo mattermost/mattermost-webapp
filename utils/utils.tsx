@@ -590,6 +590,8 @@ export function applyTheme(theme: Theme) {
             // (do not apply opacity mutations here)
             'away-indicator-rgb': toRgbValues(theme.awayIndicator),
             'button-bg-rgb': toRgbValues(theme.buttonBg),
+            'button-bg-hover-rgb': toRgbValues(changeColor(theme.buttonBg, -0.15)),
+            'button-bg-active-rgb': toRgbValues(changeColor(theme.buttonBg, -0.25)),
             'button-color-rgb': toRgbValues(theme.buttonColor),
             'center-channel-bg-rgb': toRgbValues(theme.centerChannelBg),
             'center-channel-color-rgb': toRgbValues(theme.centerChannelColor),

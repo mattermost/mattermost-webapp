@@ -259,6 +259,14 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
 
         const joinableTeams = [];
 
+        const plusIcon = (
+            <i
+                className='icon icon-plus'
+                role={'img'}
+                aria-label={Utils.localizeMessage('sidebar.team_menu.button.plusIcon', 'Plus Icon')}
+            />
+        );
+
         if (this.props.moreTeamsToJoin && !this.props.experimentalPrimaryTeam) {
             joinableTeams.push(
                 <TeamButton
@@ -271,7 +279,7 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
                             defaultMessage='Other teams you can join'
                         />
                     }
-                    content={<i className='icon icon-plus'/>}
+                    content={plusIcon}
                     switchTeam={this.props.actions.switchTeam}
                 />,
             );
@@ -290,7 +298,7 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
                                 defaultMessage='Create a Team'
                             />
                         }
-                        content={<i className='icon icon-plus'/>}
+                        content={plusIcon}
                         switchTeam={this.props.actions.switchTeam}
                     />
                 </SystemPermissionGate>,
