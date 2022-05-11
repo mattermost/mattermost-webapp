@@ -76,21 +76,21 @@ describe('CloudUsageModal', () => {
         props = {
             title: '',
             onClose: jest.fn(),
-        }
+        };
     });
 
     test('renders text elements', () => {
         const store = setupStore(true);
 
-        props.title = "very important title";
-        props.description = "very important description";
+        props.title = 'very important title';
+        props.description = 'very important description';
 
         renderWithIntl(
             <Provider store={store}>
                 <CloudUsageModal
                     {...props}
                 />
-            </Provider>
+            </Provider>,
         );
         screen.getByText(props.title as string);
         screen.getByText(props.description as string);
@@ -102,14 +102,14 @@ describe('CloudUsageModal', () => {
         props.primaryAction = {
             message: 'primary action',
             onClick: jest.fn(),
-        }
+        };
 
         renderWithIntl(
             <Provider store={store}>
                 <CloudUsageModal
                     {...props}
                 />
-            </Provider>
+            </Provider>,
         );
         expect(props.primaryAction.onClick).not.toHaveBeenCalled();
         screen.getByText(props.primaryAction.message as string).click();
@@ -122,14 +122,14 @@ describe('CloudUsageModal', () => {
         props.secondaryAction = {
             message: 'secondary action',
             onClick: jest.fn(),
-        }
+        };
 
         renderWithIntl(
             <Provider store={store}>
                 <CloudUsageModal
                     {...props}
                 />
-            </Provider>
+            </Provider>,
         );
         expect(props.secondaryAction.onClick).not.toHaveBeenCalled();
         screen.getByText(props.secondaryAction.message as string).click();
@@ -144,8 +144,8 @@ describe('CloudUsageModal', () => {
                 <CloudUsageModal
                     {...props}
                 />
-            </Provider>
+            </Provider>,
         );
-        expect(screen.queryByTestId("limits-modal-footer")).not.toBeInTheDocument();
+        expect(screen.queryByTestId('limits-modal-footer')).not.toBeInTheDocument();
     });
 });

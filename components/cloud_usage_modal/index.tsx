@@ -59,7 +59,10 @@ export default function CloudUsageModal(props: Props) {
                 />
             </Modal.Body>
             {Boolean(props.primaryAction || props.secondaryAction) && (
-                <Modal.Footer className='CloudUsageModal__footer' data-testid="limits-modal-footer">
+                <Modal.Footer
+                    className='CloudUsageModal__footer'
+                    data-testid='limits-modal-footer'
+                >
                     {props.secondaryAction && (
                         <button
                             type='button'
