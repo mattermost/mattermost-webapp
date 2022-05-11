@@ -951,7 +951,7 @@
   "admin.gitlab.siteUrlExample": "例如 https://",
   "admin.gitlab.tokenTitle": "令牌端点：",
   "admin.gitlab.userTitle": "用户API 端点：",
-  "admin.google.EnableMarkdownDesc": "1. [登入](!https://accounts.google.com/login)您的 Google 帐号。\n2. 至[https://console.developers.google.com](!https://console.developers.google.com)，在左边点击**凭据**。\n3. 在**凭据**标签，点击**创建凭据**，选择**OAuth 客户端 ID**并选择**网页应用**。\n4. 在**项目名**输入 \"Mattermost - your-company-name\"。\n5. 在**已获授权的重定向 URI**下输入**mattermost域名/signup/google/complete** (例如：http://localhost:8065/signup/google/complete)。点击**创建**。\n6. 粘贴**客户端 ID**以及**客户端密钥**到下方后点击**保存**。\n7. 在 [Google People API](!https://console.developers.google.com/apis/library/people.googleapis.com) 点击*启用*。",
+  "admin.google.EnableMarkdownDesc": "1. <linkLogin>登入</linkLogin>您的 Google 帐号。\n2. 至<linkApi>https://console.developers.google.com</linkApi>，在左边点击**凭据**。\n3. 在**凭据**标签，点击**创建凭据**，选择**OAuth 客户端 ID**并选择**网页应用**。\n4. 在**项目名**输入 \"Mattermost - your-company-name\"。\n5. 在**已获授权的重定向 URI**下输入**mattermost域名/signup/google/complete** (例如：http://localhost:8065/signup/google/complete)。点击**创建**。\n6. 粘贴**客户端 ID**以及**客户端密钥**到下方后点击**保存**。\n7. 在 [Google People API](!https://console.developers.google.com/apis/library/people.googleapis.com) 点击*启用*。",
   "admin.google.authTitle": "认证端点：",
   "admin.google.clientIdDescription": "您在谷歌注册您的应用时收到的客户端ID。",
   "admin.google.clientIdExample": "例如 \"7602141235235-url0fhs1mayfasbmop5qlfns8dh4.apps.googleusercontent.com\"",
