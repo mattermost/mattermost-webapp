@@ -1144,7 +1144,7 @@
   "admin.ldap.guestFilterEx": "例如：\"(objectClass=user)\"",
   "admin.ldap.guestFilterFilterDesc": "（可选）需要访客访问开启才能倍应用。输入个搜索访客对象时使用的 AD/LDAP 过滤器。只有被查询到的用户可以访客访问 Mattermost。访客在被指定到至少一个团队和频道前将无法访问团队或频道。\n\n注：如果此过滤器被移除或更改，已启用的访客将不会升级到成员并停留在访客身份。访客可以在**系统控制台 > 用户管理**里进行升级。\n\n\n被此属性判为访客的现有成员将在下次登入时降级至访客。下次登入是根据**系统控制台 > 会话时长**决定。强烈推荐在**系统控制台 > 用户管理**里手动降级用户以确保权限马上受限。",
   "admin.ldap.guestFilterTitle": "访客过滤器：",
-  "admin.ldap.idAttrDesc": "AD/LDAP 服务器的属性做为 Mattermost 的唯一识别。它应该是个不会变动的 AD/LDAP 属性，例如 LDAP 的 `uid` 或活动目录的 `objectGUID` 。如果用户的 ID 属性变动，将会创建个新的 Mattermost 帐号并且不与旧帐号关联。\n \n如果您想在用户已登入后改动此栏，请使用 [mattermost ldap idmigrate](!https://about.mattermost.com/default-platform-ldap-idmigrate) 命令符工具。",
+  "admin.ldap.idAttrDesc": "AD/LDAP 服务器的属性做为 Mattermost 的唯一识别。它应该是个不会变动的 AD/LDAP 属性，例如 LDAP 的 `uid` 或活动目录的 `objectGUID` 。如果用户的 ID 属性变动，将会创建个新的 Mattermost 帐号并且不与旧帐号关联。\n \n如果您想在用户已登入后改动此栏，请使用 <link>mattermost ldap idmigrate</link> 命令符工具。",
   "admin.ldap.idAttrEx": "例如：\"objectGUID\" 或者 \"uid\"",
   "admin.ldap.idAttrTitle": "ID 属性： ",
   "admin.ldap.jobExtraInfo.addedGroupMembers": "已删除 {groupMemberAddCount, number} 位组成员。",

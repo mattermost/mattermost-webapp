@@ -873,7 +873,7 @@
   "admin.ldap.guestFilterEx": "例如：\"(objectClass=user)\"",
   "admin.ldap.guestFilterFilterDesc": "(非必須) 需要在套用前啟用訪客存取。輸入在搜索訪客物件時使用的 AD/LDAP 過濾器。只有該查詢選出的使用者才會被允許以訪客身份存取 Mattermost。訪客在被指派團隊與頻道之前無法存取團隊或頻道。\n \n註：如果過濾器被移除或變更，使用中的訪客不會因此被提昇為成員而將保持訪客身份。可以在 **系統控制台 > 使用者管理** 提昇訪客。\n \n \n被此過濾器標定的現有成員將在下次被要求登入時從成員降階成訪客。下次登入的時間可在 **系統控制台 > 工作階段長度** 設定。**高度建議** 在 **系統控制台 > 使用者管理** 手動降階使用者以確保權限馬上被限制。",
   "admin.ldap.guestFilterTitle": "訪客過濾器：",
-  "admin.ldap.idAttrDesc": "用於設定 Mattermost 唯一識別碼的 AD/LDAP 伺服器屬性。其應為 AD/LDAP 中不會改變的屬性，例如 LDAP 的 `entryUUID` 或 Active Directory 的 `objectGUID`。如果使用者的 ID 屬性改變了，將會產生一個跟舊帳號沒有關聯的新 Mattermost 帳號。\n \n如果需要在使用者已經登入後改變此欄位，請用 [platform ldap idmigrate](!https://about.mattermost.com/default-platform-ldap-idmigrate) 命令列工具。",
+  "admin.ldap.idAttrDesc": "用於設定 Mattermost 唯一識別碼的 AD/LDAP 伺服器屬性。其應為 AD/LDAP 中不會改變的屬性，例如 LDAP 的 `entryUUID` 或 Active Directory 的 `objectGUID`。如果使用者的 ID 屬性改變了，將會產生一個跟舊帳號沒有關聯的新 Mattermost 帳號。\n \n如果需要在使用者已經登入後改變此欄位，請用 <link>platform ldap idmigrate</link> 命令列工具。",
   "admin.ldap.idAttrEx": "如：\"objectGUID\" 或 \"uid\"",
   "admin.ldap.idAttrTitle": "ID 的屬性：",
   "admin.ldap.jobExtraInfo.addedGroupMembers": "已新增 {groupMemberAddCount, number} 位群組成員。",

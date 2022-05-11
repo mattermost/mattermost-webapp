@@ -1152,7 +1152,7 @@
   "admin.ldap.guestFilterEx": "例: \"(objectClass=user)\"",
   "admin.ldap.guestFilterFilterDesc": "(オプション) ゲストアクセスが有効になっている必要があります。ゲストオブジェクトを検索する際に使用するAD/LDAPフィルタを入力してください。クエリによって選択されたユーザーだけがMattermostにゲストとしてアクセスできるようになります。ゲストは一つ以上のチーム/チャンネルに割り当てられるまで、チームやチャンネルにアクセスできません。\n \n注意: このフィルターが削除/変更された場合でも、有効なゲストアカウントはメンバーには昇格せず、ゲストのままです。ゲストは **システムコンソール > ユーザー管理** から昇格することができます。\n \n \nこの属性によってゲストとして識別された既存のメンバーは、次にログインする際にメンバーからゲストへ降格し明日。次にログインを求められるタイミングは **システムコンソール > セッション維持期間** に基づきます。すぐにアクセス制限を行うためにも、**システムコンソール > ユーザー管理** から手動でユーザーをゲストに降格することを強く推奨します。",
   "admin.ldap.guestFilterTitle": "ゲストフィルター:",
-  "admin.ldap.idAttrDesc": "Mattermost内で一意識別子として使用されるAD/LDAPサーバーの属性です。LDAPにおける `uid` や Active Directory における `objectGUID` のように変更されない値を持つAD/LDAP属性を指定してください。もしユーザーのID属性が変更された場合、過去のものとは異なる別のアカウントが新たに作成されます。\n \nユーザーが一度でもログインした後にこのフィールドを変更する必要がある場合、CLIツールの[mattermost ldap idmigrate](!https://docs.mattermost.com/manage/command-line-tools.html)を使用してください。",
+  "admin.ldap.idAttrDesc": "Mattermost内で一意識別子として使用されるAD/LDAPサーバーの属性です。LDAPにおける `uid` や Active Directory における `objectGUID` のように変更されない値を持つAD/LDAP属性を指定してください。もしユーザーのID属性が変更された場合、過去のものとは異なる別のアカウントが新たに作成されます。\n \nユーザーが一度でもログインした後にこのフィールドを変更する必要がある場合、CLIツールの<link>mattermost ldap idmigrate</link>を使用してください。",
   "admin.ldap.idAttrEx": "例: \"objectGUID\", \"uid\"",
   "admin.ldap.idAttrTitle": "ID属性: ",
   "admin.ldap.jobExtraInfo.addedGroupMembers": "{groupMemberAddCount, number}グループメンバーを追加しました。",

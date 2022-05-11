@@ -1040,7 +1040,7 @@
   "admin.ldap.guestFilterEx": "예시: \"(objectClass=user)\"",
   "admin.ldap.guestFilterFilterDesc": "(선택 사항) 적용하기 전에 게스트 액세스를 활성화해야합니다. 게스트 개체를 검색 할 때 사용할 AD/LDAP 필터를 입력합니다. 쿼리에서 선택한 사용자 만 게스트로 Mattermost에 액세스 할 수 있습니다. 게스트는 팀과 하나 이상의 채널이 할당 될 때까지 로그인시 팀 또는 채널에 액세스 할 수 없습니다. \n\n참고 :이 필터를 제거/변경하면 활성 게스트가 구성원으로 승격되지 않고 게스트 역할이 유지됩니다. ** 시스템 콘솔 > 사용자 관리 **에서 게스트를 승격 할 수 있습니다. \n\n\n이 속성으로 게스트로 식별 된 기존 멤버는 다음에 로그인하라는 메시지가 표시 될 때 멤버에서 게스트로 강등됩니다. 다음 로그인은 ** 시스템 콘솔 > 세션 길이 **에 설정된 세션 길이를 기반으로합니다. 액세스가 즉시 제한되도록 ** 시스템 콘솔 > 사용자 관리 **에서 수동으로 사용자를 게스트로 강등하는 것이 좋습니다.",
   "admin.ldap.guestFilterTitle": "게스트 필터:",
-  "admin.ldap.idAttrDesc": "Mattermost에서 고유 식별자로 사용될 AD/LDAP 속성입니다. 이 속성은 LDAP의 `entryUUID` 혹은 액티브 디렉터리의 `objectGUID`와 같이 변경되지 않는 값을 갖는 AD/LDAP 속성이어야 합니다. 사용자의 식별자 속성이 변경된다면 기존 사용자와 관계가 없는 새로운 사용자의 Mattermost 계정이 만들어질 것입니다.\n \n사용자가 로그인한 후에 이 필드를 바꿀 필요가 있다면 [mattermost ldap migrate](!https://docs.mattermost.com/manage/command-line-tools.html] CLI 도구를 사용하세요.",
+  "admin.ldap.idAttrDesc": "Mattermost에서 고유 식별자로 사용될 AD/LDAP 속성입니다. 이 속성은 LDAP의 `entryUUID` 혹은 액티브 디렉터리의 `objectGUID`와 같이 변경되지 않는 값을 갖는 AD/LDAP 속성이어야 합니다. 사용자의 식별자 속성이 변경된다면 기존 사용자와 관계가 없는 새로운 사용자의 Mattermost 계정이 만들어질 것입니다.\n \n사용자가 로그인한 후에 이 필드를 바꿀 필요가 있다면 <link>mattermost ldap migrate</link>(!https://docs.mattermost.com/manage/command-line-tools.html] CLI 도구를 사용하세요.",
   "admin.ldap.idAttrEx": "예: \"objectGUID\" 혹은 \"uid\"",
   "admin.ldap.idAttrTitle": "ID 속성: ",
   "admin.ldap.jobExtraInfo.addedGroupMembers": "{groupMemberAddCount, number} 그룹 멤버를 추가했습니다.",
