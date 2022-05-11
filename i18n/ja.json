@@ -2031,7 +2031,7 @@
   "admin.service.forward80To443": "ポート80を443へ転送する:",
   "admin.service.forward80To443Description": "全ての安全でない通信をポート80から安全なポート443へ転送します。プロキシサーバーを使用している場合は推奨されません。",
   "admin.service.forward80To443Description.disabled": "全ての安全でない通信をポート80から安全なポート443へ転送します。プロキシサーバーを使用している場合は推奨されません。\n \nこの設定はポート443が[接続待ち](#ListenAddress)になるまで有効にできません。",
-  "admin.service.googleDescription": "このキーを設定することで、YouTube動画プレビューのタイトルが表示されます。キーを設定しない場合、投稿かコメントにハイパーリンクが含まれると、タイトルが表示されない形式でYouTube動画のプレビューが生成されます。キーを取得し、YouTube Data API v3を追加する方法については[Google Developers Tutorial](!https://www.youtube.com/watch?v=Im69kzhpR3I)を参照してください。",
+  "admin.service.googleDescription": "このキーを設定することで、YouTube動画プレビューのタイトルが表示されます。キーを設定しない場合、投稿かコメントにハイパーリンクが含まれると、タイトルが表示されない形式でYouTube動画のプレビューが生成されます。キーを取得し、YouTube Data API v3を追加する方法については<<link>>Google Developers Tutorial</<link>>を参照してください。",
   "admin.service.googleExample": "例: \"7rAh6iwQCkV4cA1Gsg3fgGOXJAQ43QV\"",
   "admin.service.googleTitle": "Google APIキー:",
   "admin.service.iconDescription": "有効な場合、ウェブフックとスラッシュコマンド、その他の統合機能(<link>Zapier</link>など)が、投稿に付属したプロフィール画像を変更することを許可します。注意: 統合機能にユーザー名の変更も許可した場合、フィッシング攻撃を許してしまう可能性があります。",

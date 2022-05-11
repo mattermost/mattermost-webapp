@@ -1931,7 +1931,7 @@
   "admin.service.forward80To443": "映射端口 80 到 443:",
   "admin.service.forward80To443Description": "将所有不安全的通讯从端口 80 转至端口 443。使用代理服务器时不推荐。",
   "admin.service.forward80To443Description.disabled": "将所有不安全的通讯从端口 80 转至端口 443。使用代理服务器时不推荐。\n \n此设定只有在服务器[监听](#ListenAddress)端口 443 时可以开启。",
-  "admin.service.googleDescription": "设置此钥匙以开启内嵌 YouTube 视频预览。如果没有此钥匙，YouTube 预览仍然会在消息或评论中显示但不会显示视频标题。参见 [Google Developers Tutorial](!https://www.youtube.com/watch?v=Im69kzhpR3I) 教程以获得钥匙。",
+  "admin.service.googleDescription": "设置此钥匙以开启内嵌 YouTube 视频预览。如果没有此钥匙，YouTube 预览仍然会在消息或评论中显示但不会显示视频标题。参见 <<link>>Google Developers Tutorial</<link>> 教程以获得钥匙。",
   "admin.service.googleExample": "例如 \"7rAh6iwQCkV4cA1Gsg3fgGOXJAQ43QV\"",
   "admin.service.googleTitle": "Google API 钥匙：",
   "admin.service.iconDescription": "当设为是时，webhooks、斜杠命令以及其他整合比如 <link>Zapier</link> 会允许修改发出信息的头像。注意：和允许整合覆盖用户名配合将可能造成用户被钓鱼攻击。",
