@@ -206,7 +206,7 @@ const TrialBanner: React.FC<TrialBannerProps> = ({
                             </a>
                         ),
                     }}
-                    />
+                />
             </>
         );
         upgradeTermsMessage = null;
@@ -254,7 +254,27 @@ const TrialBanner: React.FC<TrialBannerProps> = ({
                 <p className='upgrade-legal-terms'>
                     <FormattedMarkdownMessage
                         id='admin.license.upgrade-and-trial-request.accept-terms-initial-part'
-                        defaultMessage='By selecting **Upgrade Server And Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails. '
+                        defaultMessage='By selecting **Upgrade Server And Start trial**, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails. '
+                        values={{
+                            linkEvaluation: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://mattermost.com/software-evaluation-agreement/'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                            linkPrivacy: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://mattermost.com/privacy-policy/'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        }}
                     />
                     <FormattedMessage
                         id='admin.license.upgrade-and-trial-request.accept-terms-final-part'
