@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @system_console @enterprise @cloud_only
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
+import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {SupportSettings} from '../../../utils/constants';
 
 describe('SupportSettings', () => {

@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @system_console @enterprise @e20_only @not_cloud
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
+import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {TERMS_OF_SERVICE_LINK} from '../../../utils/constants';
 
 import {backToTeam, saveSetting} from './helper';
