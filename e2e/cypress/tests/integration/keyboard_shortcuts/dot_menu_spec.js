@@ -9,6 +9,7 @@
 
 // Stage: @prod
 // Group: @keyboard_shortcuts
+
 import {beUnread} from '../../support/assertions';
 import {stubClipboard} from '../../utils';
 
@@ -17,6 +18,7 @@ describe('Keyboard Shortcuts', () => {
     let testChannel;
     const postMessage = 'test for saved post';
     const postEditMessage = ' POST EDITED';
+
     before(() => {
         // # Login as test user and visit off-topic channel
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
@@ -27,7 +29,7 @@ describe('Keyboard Shortcuts', () => {
         cy.postMessage(postMessage);
     });
 
-    it('MM-42585 Dot Menu Shorcuts', () => {
+    it('MM-T4801 Dot menu keyboard shortcuts', () => {
         cy.getLastPostId().then((postId) => {
             stubClipboard().as('clipboard');
             const permalink = `${Cypress.config('baseUrl')}/${testTeam.name}/pl/${postId}`;
