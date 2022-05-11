@@ -15,13 +15,12 @@ interface ModalAction {
     message: Message | React.ReactNode;
     onClick: () => void;
 }
-interface Props {
+export interface Props {
     title: Message | React.ReactNode;
     description?: Message | React.ReactNode;
     primaryAction?: ModalAction;
     secondaryAction?: ModalAction;
     onClose: () => void;
-    showIcons?: boolean;
 }
 
 export default function CloudUsageModal(props: Props) {
@@ -60,12 +59,13 @@ export default function CloudUsageModal(props: Props) {
                 />
             </Modal.Body>
             {Boolean(props.primaryAction || props.secondaryAction) && (
-                <Modal.Footer className='CloudUsageModal__footer'>
+                <Modal.Footer className='CloudUsageModal__footer' data-testid="limits-modal-footer">
                     {props.secondaryAction && (
                         <button
                             type='button'
                             className='btn btn-link'
                             onClick={props.secondaryAction.onClick}
+                            data-testid='limits-modal-secondary-action'
                         >
                             {messageToElement(props.secondaryAction.message)}
                         </button>
@@ -76,7 +76,7 @@ export default function CloudUsageModal(props: Props) {
                             className='btn btn-primary'
                             data-dismiss='modal'
                             onClick={props.primaryAction.onClick}
-                            data-testid='closeLimitsModal'
+                            data-testid='limits-modal-primary-action'
                         >
                             {messageToElement(props.primaryAction.message)}
                         </button>

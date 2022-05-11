@@ -70,7 +70,6 @@ function TempLaunchModalsComponent() {
                             onClose: () => {
                                 dispatch(closeModal(ModalIdentifiers.CLOUD_LIMITS));
                             },
-                            showIcons: true,
                         },
                     }));
                 }}
@@ -116,7 +115,6 @@ function TempLaunchModalsComponent() {
                             onClose: () => {
                                 dispatch(closeModal(ModalIdentifiers.CLOUD_LIMITS));
                             },
-                            showIcons: true,
                         },
                     }));
                 }}
