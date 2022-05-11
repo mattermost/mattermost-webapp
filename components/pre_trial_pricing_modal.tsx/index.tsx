@@ -8,15 +8,20 @@ import Content from './content';
 import './pre_trial_pricing_modal.scss';
 
 function PreTrialPricingModal() {
+    const [show, setShow] = React.useState(true);
     return (
         <Modal
             className='PreTrialPricingModal'
-            show={true}
+            show={show}
             id='preTrialPricingModal'
-            onExited={() => {}}
+            onExited={() => {
+                setShow(true);
+            }}
             data-testid='preTrialPricingModal'
             dialogClassName='a11y__modal'
-            onHide={() => {}}
+            onHide={() => {
+                setShow(false);
+            }}
             role='dialog'
             aria-modal='true'
             aria-labelledby='pre_trial_pricing_modal_title'

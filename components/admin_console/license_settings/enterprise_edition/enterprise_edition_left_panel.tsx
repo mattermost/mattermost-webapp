@@ -9,14 +9,11 @@ import {LicenseSkus} from 'mattermost-redux/types/general';
 import {Client4} from 'mattermost-redux/client';
 
 import {getRemainingDaysFromFutureTimestamp, toTitleCase} from 'utils/utils';
-import {FileTypes, ModalIdentifiers} from 'utils/constants';
+import {FileTypes} from 'utils/constants';
 
 import Badge from 'components/widgets/badges/badge';
 
 import './enterprise_edition.scss';
-import { useDispatch } from 'react-redux';
-import PreTrialPricingModal from 'components/pre_trial_pricing_modal.tsx';
-import { openModal } from 'actions/views/modals';
 
 export interface EnterpriseEditionProps {
     openEELicenseModal: () => void;
@@ -159,14 +156,6 @@ const renderLicenseContent = (
     const sku = license.SkuShortName ? <>{`Mattermost ${toTitleCase(skuName)}${isTrialLicense ? ' License Trial' : ''}`}</> : null;
 
     const users = <FormattedNumber value={parseInt(license.Users, 10)}/>;
-
-    const dispatch = useDispatch();
-    const openPreTrialPricingModal = () => {
-        dispatch(openModal({
-            modalId: ModalIdentifiers.PRE_TRIAL_PRICING_MODAL,
-            dialogType: PreTrialPricingModal,
-        }));
-    };
     const startsAt = <FormattedDate value={new Date(parseInt(license.StartsAt, 10))}/>;
     const expiresAt = <FormattedDate value={new Date(parseInt(license.ExpiresAt, 10))}/>;
 
@@ -210,7 +199,6 @@ const renderLicenseContent = (
             <hr/>
             {renderAddNewLicenseButton(fileInputRef, handleChange)}
             {renderRemoveButton(handleRemove, isDisabled, removing)}
-            <button onClick={openPreTrialPricingModal}>{'Open Pre trial pricing'}</button>
         </div>
     );
 };
