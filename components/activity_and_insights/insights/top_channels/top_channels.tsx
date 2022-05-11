@@ -106,7 +106,10 @@ const TopChannels = (props: WidgetHocProps) => {
                                             className='channel-row'
                                             key={channel.id}
                                         >
-                                            <Link className='channel-display-name' to={`${currentTeamUrl}/channels/${channel.name}`}>
+                                            <Link
+                                                className='channel-display-name'
+                                                to={`${currentTeamUrl}/channels/${channel.name}`}
+                                            >
                                                 <span className='icon'>
                                                     {iconToDisplay}
                                                 </span>

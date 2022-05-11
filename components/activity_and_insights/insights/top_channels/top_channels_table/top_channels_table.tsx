@@ -117,8 +117,8 @@ const TopChannelsTable = (props: Props) => {
                             </span>
                         ),
                         channel: (
-                            <Link 
-                                className='channel-display-name' 
+                            <Link
+                                className='channel-display-name'
                                 to={`${currentTeamUrl}/channels/${channel.name}`}
                                 onClick={closeModal}
                             >
