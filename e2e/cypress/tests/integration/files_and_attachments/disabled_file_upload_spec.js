@@ -7,8 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
-// Group: @files_and_attachments
+// Group: @not_cloud @files_and_attachments
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
@@ -16,6 +15,8 @@ describe('Upload Files - Settings', () => {
     let channelUrl;
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         // # Go to system admin then verify admin console URL and header
         cy.visit('/admin_console/site_config/file_sharing_downloads');
         cy.url().should('include', '/admin_console/site_config/file_sharing_downloads');
