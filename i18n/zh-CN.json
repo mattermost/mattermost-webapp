@@ -1924,7 +1924,7 @@
   "admin.service.disableBotWhenOwnerIsDeactivated": "当用户被停用时，停用该用户管理的所有机器人帐号。如想重新开启机器人帐号，前往[整合 > 机器人帐号]({siteURL}/_redirect/integrations/bots)。",
   "admin.service.enableBotAccountCreation": "当为是时，用户可在[整合 > 机器人帐号]({siteURL}/_redirect/integrations/bots)创建用于整合的机器人帐号。机器人帐号类似于用户帐号但不能登入。参见[文档](https://mattermost.com/pl/default-bot-accounts)了解更多。",
   "admin.service.enableBotTitle": "开启机器人帐号创建：",
-  "admin.service.enforceMfaDesc": "当设为是时，必须需要[多重验证](!https://docs.mattermost.com/deployment/auth.html)登入。新用户将在注册时候设置多重验证。已登入并未设置多重验证的用户将重指向多重验证设置页面直到配置完成。\n \n如果您的系统有 AD/LDAP 或电子邮件登入方式以外的用户，多重验证必须在 Mattermost 外的验证提供商设置。",
+  "admin.service.enforceMfaDesc": "当设为是时，必须需要<<link>>多重验证</<link>>登入。新用户将在注册时候设置多重验证。已登入并未设置多重验证的用户将重指向多重验证设置页面直到配置完成。\n \n如果您的系统有 AD/LDAP 或电子邮件登入方式以外的用户，多重验证必须在 Mattermost 外的验证提供商设置。",
   "admin.service.enforceMfaTitle": "强制多重身份验证：",
   "admin.service.extendSessionLengthActivity.helpText": "当为是时，用户的会话将在使用 Mattermost 客户端时自动延期。用户的会话只会在以下栏指定的时间内未有客户端活动才会过期。当为否时，会话将不会因为活动而延期。用户的会话将在以下指定的超时时长时立刻过期。",
   "admin.service.extendSessionLengthActivity.label": "使用活动延长会话时长：",

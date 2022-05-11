@@ -2024,7 +2024,7 @@
   "admin.service.disableBotWhenOwnerIsDeactivated": "ユーザーが無効化された際、そのユーザーが管理していたすべてのBotアカウントを無効化します。Botアカウントを再び有効にするには、[統合機能 > Botアカウント]({siteURL}/_redirect/integrations/bots) から設定してください。",
   "admin.service.enableBotAccountCreation": "有効な場合、システム管理者は [統合機能 > Botアカウント]({siteURL}/_redirect/integrations/bots) から統合機能用のBotアカウントを作成できます。Botアカウントはログインに使用できないこと以外、ユーザーアカウントと同様のアカウントです。詳しくは[説明文書](https://mattermost.com/pl/default-bot-accounts)を参照してください。",
   "admin.service.enableBotTitle": "Botアカウントの作成を有効にする: ",
-  "admin.service.enforceMfaDesc": "有効の場合、[多要素認証](!https://docs.mattermost.com/deployment/auth.html)がログイン時に求められます。新しいユーザーはサインアップ時に多要素認証の設定を求められます。多要素認証設定なしにログインしているユーザーは設定が完了するまで多要素認証設定ページへリダイレクトされます。\n \nシステムにAD/LDAPと電子メール以外のログイン方法のユーザーがいる場合、Mattermostの外部の認証プロバイダーで多要素認証が強制されます。",
+  "admin.service.enforceMfaDesc": "有効の場合、<<link>>多要素認証</<link>>がログイン時に求められます。新しいユーザーはサインアップ時に多要素認証の設定を求められます。多要素認証設定なしにログインしているユーザーは設定が完了するまで多要素認証設定ページへリダイレクトされます。\n \nシステムにAD/LDAPと電子メール以外のログイン方法のユーザーがいる場合、Mattermostの外部の認証プロバイダーで多要素認証が強制されます。",
   "admin.service.enforceMfaTitle": "多要素認証を強制する:",
   "admin.service.extendSessionLengthActivity.helpText": "有効な場合、ユーザーがMattermostクライアント内でアクティブな時、セッションは自動で延長されます。以下のフィールドで定義されたセッション維持期間を通じてアクティブでない状態が続いた時に限り、ユーザーのセッションは期限切れになります。無効な場合、Mattermost内でアクティブであってもセッションは延長されません。以下で定義されたセッション維持期間かアイドルタイムアウト時間が終わるとすぐにユーザーセッションが期限切れになります。 ",
   "admin.service.extendSessionLengthActivity.label": "活動中はセッション維持期間を延長する: ",

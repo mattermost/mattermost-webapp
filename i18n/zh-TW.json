@@ -1474,7 +1474,7 @@
   "admin.service.disableBotWhenOwnerIsDeactivated": "當使用者被停用時，停用所有該使用者管理的機器人帳號。如要重新啟用，前往[整合 > 機器人帳號]({siteURL}//_redirect/integrations/bots)。",
   "admin.service.enableBotAccountCreation": "啟用時，使用者能在[整合功能 > 機器人帳號]({siteURL}/_redirect/integrations/bots)為外部整合建立機器人帳號。機器人帳號類似使用者帳號，但是不能登入。詳情請參閱[文件](https://mattermost.com/pl/default-bot-accounts)。",
   "admin.service.enableBotTitle": "啟用建立帳號：",
-  "admin.service.enforceMfaDesc": "啟用時，登入必須使用[多重要素驗證](!https://docs.mattermost.com/deployment/auth.html)。新的使用者將會在登錄時被要求設定多重要素驗證。已登入但沒有設定多重要素驗證的使用者將會被重新導向至多重要素驗證設定頁面直到完成設定為止。\n \n如果使用了 AD/LDAP 與電子郵件以外的登入方式，多重要素驗證必須要在認證提供者處設定。",
+  "admin.service.enforceMfaDesc": "啟用時，登入必須使用<<link>>多重要素驗證</<link>>。新的使用者將會在登錄時被要求設定多重要素驗證。已登入但沒有設定多重要素驗證的使用者將會被重新導向至多重要素驗證設定頁面直到完成設定為止。\n \n如果使用了 AD/LDAP 與電子郵件以外的登入方式，多重要素驗證必須要在認證提供者處設定。",
   "admin.service.enforceMfaTitle": "強制使用多重要素驗證：",
   "admin.service.extendSessionLengthActivity.helpText": "啟用時，如果使用者在使用他們的 Mattermost 客戶端，將會自動延長工作階段。只有在下面欄位定義的整個工作階段期限當中都沒有使用 Mattermost 客戶端，工作階段才會過期。停用時，使用 Mattermost 不會延長工作階段。在工作階段結尾或是超過下面定義的閒置逾時時，工作階段會馬上過期。",
   "admin.service.extendSessionLengthActivity.label": "活動會延長工作階段：",
