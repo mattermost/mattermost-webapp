@@ -2047,7 +2047,7 @@
   "admin.service.listenDescription": "Adress och port att använda och lyssna på. Ange \":8065\" för att nyttja alla nätverksinterface. Ange \"127.0.0.1:8065\" för att endast använda det nätverksinterface som har den IP-adressen. Om du väljer en port i den lägre regionen (s.k. \"system ports\" eller \"well-known ports\", i området 0-1023), måste du ha rättighet att ansluta till den porten. I Linux kan du använda: \"sudo setcap cap_net_bind_service=+ep ./bin/mattermost\" för att tillåta Mattermost att använda och ansluta till \"well-known ports\".",
   "admin.service.listenExample": "T.ex.: \":8065\"",
   "admin.service.managedResourcePaths": "Hantera sökvägar till resurser:",
-  "admin.service.managedResourcePathsDescription": "En kommaseparerad lista av sökvägar på Mattermost-servern som hanteras av en annan tjänst. Läs [här](!https://docs.mattermost.com/install/desktop-managed-resources.html) för mer information.",
+  "admin.service.managedResourcePathsDescription": "En kommaseparerad lista av sökvägar på Mattermost-servern som hanteras av en annan tjänst. Läs <<link>>här</<link>> för mer information.",
   "admin.service.mfaDesc": "När aktiverad kommer användare med AD/LDAP eller mejl-inloggning kunna lägga till flerfaktorsinloggning med hjälp av Google Authenticator.",
   "admin.service.mfaTitle": "Aktivera flerfaktorsautentisering:",
   "admin.service.minimumHashtagLengthDescription": "Minsta antal tecken i en hashtag. Antalet måste vara 2 eller större. MySQL-databasen måste konfigureras att hantera söksträngar kortare än tre tecken, <link>läs i dokumentationen</link>.",

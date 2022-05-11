@@ -2047,7 +2047,7 @@
   "admin.service.listenDescription": "Adres z którym się powiązać i nasłuchiwać. Podanie \":8065\" powiąże ze wszystkimi interfejsami sieci. Podanie \"127.0.0.1:8065\" powiąże tylko z podanym adresem IP. Jeśli wybierzesz niższy port (zwane \"portami systemowymi\" lub \"dobrze znanymi portami\", w zakresie 0-1023), musisz mieć uprawnienia sudo żeby powiązać z takim portem. Na Linuksie możesz użyć: \"sudo setcap cap_net_bind_service=+ep ./bin/platform\" aby pozwolić Mattermost na wiązanie z portami systemowymi.",
   "admin.service.listenExample": "Np. \":8065\"",
   "admin.service.managedResourcePaths": "Zarządzane ścieżki zasobów:",
-  "admin.service.managedResourcePathsDescription": "Lista oddzielonych przecinkami ścieżek na serwerze Mattermost, które są zarządzane przez inną usługę. Więcej informacji znajdziesz [tutaj](!https://docs.mattermost.com/install/desktop-managed-resources.html).",
+  "admin.service.managedResourcePathsDescription": "Lista oddzielonych przecinkami ścieżek na serwerze Mattermost, które są zarządzane przez inną usługę. Więcej informacji znajdziesz <<link>>tutaj</<link>>.",
   "admin.service.mfaDesc": "Gdy włączone, użytkownicy z logowaniem AD/LDAP albo email, mogą dodać do swojego konta uwierzytelnianie za pomocą Uwierzytelniania Google.",
   "admin.service.mfaTitle": "Włącz uwierzytelnianie wieloskładnikowe:",
   "admin.service.minimumHashtagLengthDescription": "Minimalna liczba znaków w hashtagu. Musi być większa lub równa 2. Bazy danych MySQL muszą być skonfigurowane do obsługi ciągów wyszukiwania krótszych niż trzy znaki, <link>patrz dokumentacja</link>.",

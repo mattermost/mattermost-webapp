@@ -2047,7 +2047,7 @@
   "admin.service.listenDescription": "Het adres en de poort om op te binden en te luisteren. Als je opgeeft \":8065\" zal dit koppelen aan alle netwerkinterfaces. Als je \"127.0.0.1:8065\" opgeeft, wordt er alleen gebonden op de netwerkinterface met dat IP-adres. Als u een poort kiest van een lager niveau (systeempoorten of bekende poorten, in het bereik van 0-1023), moet je gemachtigd zijn om aan die poort te binden. Op Linux kan je: \"sudo setcap cap_net_bind_service=+ep ./bin/mattermost\" gebruiken om Mattermost toe te staan te binden aan bekende poorten.",
   "admin.service.listenExample": "Bijv.: \":8065\"",
   "admin.service.managedResourcePaths": "Beheer gedeelde paden:",
-  "admin.service.managedResourcePathsDescription": "Een door komma's gescheiden lijst van paden op de Mattermost server die door een andere dienst worden beheerd. Zie [hier](! https://docs.mattermost.com/install/desktop-managed-resources.html) voor meer informatie.",
+  "admin.service.managedResourcePathsDescription": "Een door komma's gescheiden lijst van paden op de Mattermost server die door een andere dienst worden beheerd. Zie <<link>>hier</<link>> voor meer informatie.",
   "admin.service.mfaDesc": "Wanneer waar, kunnen gebruikers met AD/LDAP of e-mail login multi-factor authenticatie toevoegen aan hun account met behulp van Google Authenticator.",
   "admin.service.mfaTitle": "Aanzetten multi-factor authenticatie:",
   "admin.service.minimumHashtagLengthDescription": "Minimumaantal tekens in een hashtag. Dit moet groter zijn dan of gelijk zijn aan 2. MySQL-databases moeten worden geconfigureerd voor het ondersteunen van zoekreeksen van minder dan drie tekens, <link>zie documentatie</link> .",

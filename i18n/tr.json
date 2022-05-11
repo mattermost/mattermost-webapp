@@ -2047,7 +2047,7 @@
   "admin.service.listenDescription": "Bağlanılacak ve dinlenilecek adres ve kapı numarası. \":8065\" yazıldığında tüm ağ adreslerine bağlanılır. \"127.0.0.1:8065\" yazıldığında yalnız belirtilen IP adresine bağlanılır. Düşük düzeyli bir kapı numarası seçerseniz (0-1023 aralığındaki \"sistem kapıları\" ya da \"bilinen kapılar\"), bu kapı numarasına bağlanma izinleriniz olmalıdır. Linux üzerinde bilinen kapı numaralarına Mattermost tarafından bağlanılmasına izin vermek için şunu yazın: \"sudo setcap cap_net_bind_service=+ep ./bin/platform\".",
   "admin.service.listenExample": "Örnek: \":8065\"",
   "admin.service.managedResourcePaths": "Yönetilen kaynak yolları:",
-  "admin.service.managedResourcePathsDescription": "Mattermost sunucusu üzerinde başka bir hizmet tarafından yönetilen yolların virgül ile ayrılmış listesi. Ayrıntılı bilgi almak için [buraya bakabilirsiniz](!https://docs.mattermost.com/install/desktop-managed-resources.html).",
+  "admin.service.managedResourcePathsDescription": "Mattermost sunucusu üzerinde başka bir hizmet tarafından yönetilen yolların virgül ile ayrılmış listesi. Ayrıntılı bilgi almak için <<link>>buraya bakabilirsiniz</<link>>.",
   "admin.service.mfaDesc": "Bu seçenek etkinleştirildiğinde, AD/LDAP ya da e-posta ile oturum açan kullanıcılar, hesaplarına Google Authenticator çok aşamalı kimlik doğrulaması ekleyebilir.",
   "admin.service.mfaTitle": "Çok aşamalı kimlik doğrulaması kullanılsın:",
   "admin.service.minimumHashtagLengthDescription": "Bir hashtag için en az karakter sayısı. Bu, değer en az 2 olmalıdır. MySQL veritabanları, üç karakterden kısa arama dizgelerini destekleyecek şekilde yapılandırılmalıdır. Ayrıntılı bilgi almak için <link>belgeler</link> bölümüne bakabilirsiniz.",

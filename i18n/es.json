@@ -1931,7 +1931,7 @@
   "admin.service.listenDescription": "La dirección y el puerto al que se debe enlazar y escuchar. Si se especifica \":8065\" se enlaza a todas las interfaces de red. Al especificar \"127.0.0.1:8065\" sólo se enlaza a la interfaz de red que tiene esa dirección IP. Si eliges un puerto de un nivel inferior (llamado \"puertos de sistema\" o \"puertos conocidos\", en el rango de 0-1023), debes tener permisos para enlazar a ese puerto. En Linux puedes usar: \"sudo setcap cap_net_bind_service=+ep ./bin/mattermost\" para permitir que Mattermost sea enlazado a los puertos conocidos.",
   "admin.service.listenExample": "Ej.: \":8065\"",
   "admin.service.managedResourcePaths": "Rutas de recursos gestionadas:",
-  "admin.service.managedResourcePathsDescription": "Una lista separada por comas de las rutas en el servidor de Mattermost que son administradas por otro servicio. Ver [aquí](!https://docs.mattermost.com/install/desktop-managed-resources.html) para más información.",
+  "admin.service.managedResourcePathsDescription": "Una lista separada por comas de las rutas en el servidor de Mattermost que son administradas por otro servicio. Ver <<link>>aquí</<link>> para más información.",
   "admin.service.mfaDesc": "Cuando es verdadero, los usuarios con inicio de sesión AD/LDAP o correo electrónico podrán agregar la autenticación de múltiples factores a su cuenta utilizando Google Authenticator.",
   "admin.service.mfaTitle": "Habilitar Autenticación de Múltiples Factores:",
   "admin.service.minimumHashtagLengthDescription": "Número mínimo de caracteres en un hashtag. Debe ser mayor o igual a 2. Las bases de datos MySQL deben estar configuradas para soportar búsquedas de cadenas menores de 3 caracteres, <link>ver documentación</link>.",

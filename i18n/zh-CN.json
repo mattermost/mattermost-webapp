@@ -1947,7 +1947,7 @@
   "admin.service.listenDescription": "绑定和监听的地址和端口。指定 \":8065\" 将会绑定所有网络接口。指定 \"127.0.0.1:8065\" 将只绑定拥有此 IP 的网络接口。如果您选择一个低级端口 (叫 \"system ports\" 或 \"well-known ports\" 于 0-1023 之间)，您必须要拥有权限才能绑定到此端口。在 Linux 上您可以使用：\"sudo setcap cap_net_bind_service=+ep ./bin/mattermost\" 以允许 Mattermost 绑定知名端口。",
   "admin.service.listenExample": "例如 \":8065\"",
   "admin.service.managedResourcePaths": "托管资源路径：",
-  "admin.service.managedResourcePathsDescription": "Mattermost 服务器上由另一服务管理的路径的列表，以逗号分隔。有关更多信息，请参见[文档](!https://docs.mattermost.com/install/desktop-managed-resources.html)。",
+  "admin.service.managedResourcePathsDescription": "Mattermost 服务器上由另一服务管理的路径的列表，以逗号分隔。有关更多信息，请参见<<link>>文档</<link>>。",
   "admin.service.mfaDesc": "当设为是时，使用 AD/LDAP 或电子邮件登入的用户可以使用添加 Google Authenticator 多重验证到他们的帐号。",
   "admin.service.mfaTitle": "启用多重身份验证：",
   "admin.service.minimumHashtagLengthDescription": "主题标签最少字符数。必须至少 2 个。MySQL 数据库必须配置支持搜索字串小于 3 个字母，参见<link>文档</link>。",

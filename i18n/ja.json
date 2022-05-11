@@ -2047,7 +2047,7 @@
   "admin.service.listenDescription": "使用するIPアドレスとポート番号を設定します。\":8065\"と入力することで全てのインターフェイスのIPアドレスでアクセスを待ちます。\"127.0.0.1:8065\"と指定することで、一つのIPアドレスでアクセスを待ちます。\"システムポート\"や\"ウェルノウンポート\"と呼ばれる 0～1023 までの範囲のポート番号を選んだ場合、そのポートを使用する権限が必要になります。Linuxでは、Mattermostがウェルノウンポートを使用するために \"sudo setcap cap_net_bind_service=+ep ./bin/mattermost\" を利用することができます。",
   "admin.service.listenExample": "例: \":8065\"",
   "admin.service.managedResourcePaths": "リソースパスを管理する:",
-  "admin.service.managedResourcePathsDescription": "別のサービスによって管理されるMattermostサーバー上のカンマ区切りのパスのリストです。詳しくは[公式ドキュメント](!https://docs.mattermost.com/install/desktop-managed-resources.html)を確認してください。",
+  "admin.service.managedResourcePathsDescription": "別のサービスによって管理されるMattermostサーバー上のカンマ区切りのパスのリストです。詳しくは<<link>>公式ドキュメント</<link>>を確認してください。",
   "admin.service.mfaDesc": "有効な場合、AD/LDAPか電子メールログインのユーザーはGoogle Authenticatorを使用した多要素認証をアカウントに追加することができます。",
   "admin.service.mfaTitle": "多要素認証を有効にする:",
   "admin.service.minimumHashtagLengthDescription": "ハッシュタグの最小文字数です。これは2以上に設定する必要があります。MySQLで３文字未満の文字列の検索をサポートするには設定が必要です。<link>説明文書</link>を参照して下さい。",

@@ -1759,7 +1759,7 @@
   "admin.service.listenDescription": "O endereço e a porta à qual se ligar e ouvir. Especificando \":8065\" irá ligar-se a todas as interfaces de rede. Especificando \"127.0.0.1:8065\" só irá ligar à interface de rede com esse endereço IP. Se você escolher uma porta de um nível mais baixo (chamadas de \"portas do sistema\" ou \"portas conhecidas\", na faixa de 0-1023), você deve ter permissões para se ligar a essa porta. No Linux, você pode usar: \"sudo setcap cap_net_bind_service=+ep ./bin/mattermost\" para permitir o Mattermost vincular a portas conhecidas.",
   "admin.service.listenExample": "Ex.: \":8065\"",
   "admin.service.managedResourcePaths": "Caminhos de Recursos Gerenciados:",
-  "admin.service.managedResourcePathsDescription": "Uma lista separada por vírgulas de caminhos no servidor Mattermost que são gerenciados por outro serviço. Consulte [aqui](!https://docs.mattermost.com/install/desktop-managed-resources.html) para obter mais informações.",
+  "admin.service.managedResourcePathsDescription": "Uma lista separada por vírgulas de caminhos no servidor Mattermost que são gerenciados por outro serviço. Consulte <<link>>aqui</<link>> para obter mais informações.",
   "admin.service.mfaDesc": "Quando verdadeiro, usuários com AD/LDAP ou login por email poderão adicionar a autenticação multi-fator nas suas contas usando o Google Authenticator.",
   "admin.service.mfaTitle": "Ativar Autenticação Multi-Fator:",
   "admin.service.minimumHashtagLengthDescription": "Número mínimo de caracteres em uma hashtag. Isso deve ser maior ou igual a 2. Os bancos de dados MySQL devem ser configurados para suportar sequências de busca menores que três caracteres, <link>veja a documentação</link>.",

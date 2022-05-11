@@ -2047,7 +2047,7 @@
   "admin.service.listenDescription": "A cím és a port, amelyhez kötni és meghallgatni lehet. A \": 8065\" megadása megköti az összes hálózati interfészt. A \"127.0.0.1:8065\" megadása csak az adott IP-címmel rendelkező hálózati csatolóhoz kapcsolódik. Ha alacsonyabb szintű portot (ún. \"Rendszerportok\" vagy \"jól ismert portok\" neveznek, a 0-1023 tartományban van), akkor engedélyekkel kell rendelkeznie ahhoz, hogy az adott porthoz kapcsolódjon. Linuxon használhatja: \"sudo setcap cap_net_bind_service = + ep ./bin/mattermost\", hogy a Mattermost jól ismert portokhoz tudjon kapcsolódni.",
   "admin.service.listenExample": "Pl.: \":8065\"",
   "admin.service.managedResourcePaths": "Kezelt erőforrásútvonalak:",
-  "admin.service.managedResourcePathsDescription": "Vesszővel elválasztott utak listája a Mattermost szerveren, amelyeket egy másik szolgáltatás kezel. További információkat lásd [itt](!https://docs.mattermost.com/install/desktop-managed-resources.html).",
+  "admin.service.managedResourcePathsDescription": "Vesszővel elválasztott utak listája a Mattermost szerveren, amelyeket egy másik szolgáltatás kezel. További információkat lásd <<link>>itt</<link>>.",
   "admin.service.mfaDesc": "Ha igaz, az AD/LDAP vagy e-mail bejelentkezéssel rendelkező felhasználók a Google Hitelesítő segítségével többtényezős hitelesítést adhatnak hozzá a fiókjukhoz.",
   "admin.service.mfaTitle": "Többtényezős hitelesítés engedélyezése:",
   "admin.service.minimumHashtagLengthDescription": "A hashtagben szereplő karakterek minimális száma. Ennek nagyobbnak vagy egyenlőnek kell lennie, mint 2. A MySQL adatbázisokat úgy kell beállítani, hogy támogassák a háromnál rövidebb karakterláncok keresését, lásd a <link>dokumentációt</link>.",
