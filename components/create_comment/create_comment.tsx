@@ -1034,7 +1034,7 @@ class CreateComment extends React.PureComponent<Props, State> {
     }
 
     getFileUploadTarget = () => {
-        return this.textboxRef.current;
+        return this.textboxRef.current?.getInputBox();
     }
 
     getCreateCommentControls = () => {

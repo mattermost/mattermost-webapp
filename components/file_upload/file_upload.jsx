@@ -449,8 +449,7 @@ export class FileUpload extends PureComponent {
             return;
         }
 
-        const target = this.props.getTarget();
-        const textarea = target?.wrapper?.current;
+        const textarea = this.props.getTarget();
         if (!this.containsEventTarget(textarea, e.target)) {
             return;
         }
