@@ -14,26 +14,30 @@ import {GlobalState} from 'types/store';
 
 import SearchDateSuggestion from './search_date_suggestion';
 
-function mapStateToProps(state: GlobalState) {
-    const currentUserId = getCurrentUserId(state);
-    const userTimezone = makeGetUserTimezone(state, currentUserId);
-    const locale = getCurrentLocale(state);
+function makeMapStateToProps() {
+    const getUserTimezone = makeGetUserTimezone();
 
-    const enableTimezone = areTimezonesEnabledAndSupported(state);
+    return (state: GlobalState) => {
+        const currentUserId = getCurrentUserId(state);
+        const userTimezone = getUserTimezone(state, currentUserId);
+        const locale = getCurrentLocale(state);
 
-    let currentDate;
-    if (enableTimezone) {
-        if (userTimezone.useAutomaticTimezone) {
-            currentDate = getCurrentDateForTimezone(userTimezone.automaticTimezone);
-        } else {
-            currentDate = getCurrentDateForTimezone(userTimezone.manualTimezone);
+        const enableTimezone = areTimezonesEnabledAndSupported(state);
+
+        let currentDate;
+        if (enableTimezone) {
+            if (userTimezone.useAutomaticTimezone) {
+                currentDate = getCurrentDateForTimezone(userTimezone.automaticTimezone);
+            } else {
+                currentDate = getCurrentDateForTimezone(userTimezone.manualTimezone);
+            }
         }
-    }
 
-    return {
-        currentDate,
-        locale,
+        return {
+            currentDate,
+            locale,
+        };
     };
 }
 
-export default connect(mapStateToProps)(SearchDateSuggestion);
+export default connect(makeMapStateToProps)(SearchDateSuggestion);

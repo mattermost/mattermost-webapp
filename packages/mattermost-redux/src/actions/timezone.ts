@@ -10,7 +10,7 @@ import {updateMe} from './users';
 export function autoUpdateTimezone(deviceTimezone: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const currentUer = getCurrentUser(getState());
-        const currentTimezone = makeGetUserTimezone(getState(), currentUer.id);
+        const currentTimezone = makeGetUserTimezone()(getState(), currentUer.id);
         const newTimezoneExists = currentTimezone.automaticTimezone !== deviceTimezone;
 
         if (currentTimezone.useAutomaticTimezone && newTimezoneExists) {

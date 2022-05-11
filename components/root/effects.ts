@@ -20,7 +20,7 @@ export function applyLuxonDefaults(state: GlobalState) {
     }
 
     if (areTimezonesEnabledAndSupported(state)) {
-        const tz = getUserCurrentTimezone(makeGetUserTimezone(state, getCurrentUserId(state))) ?? undefined;
+        const tz = getUserCurrentTimezone(makeGetUserTimezone()(state, getCurrentUserId(state))) ?? undefined;
         if (tz !== prevTimezone) {
             prevTimezone = tz;
             Settings.defaultZone = tz ?? 'system';

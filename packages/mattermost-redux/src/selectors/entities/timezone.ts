@@ -31,7 +31,7 @@ export function isTimezoneEnabled(state: GlobalState) {
     return config.ExperimentalTimezone === 'true';
 }
 
-export const makeGetUserTimezone: (state: GlobalState, userId: string) => UserTimezone = createSelector(
+export const makeGetUserTimezone = () => createSelector(
     'makeGetUserTimezone',
     (state: GlobalState, userId: string) => getUser(state, userId),
     (user: UserProfile) => {
@@ -42,7 +42,7 @@ export const makeGetUserTimezone: (state: GlobalState, userId: string) => UserTi
 export const getTimezoneLabel: (state: GlobalState, userId: UserProfile['id']) => string = createSelector(
     'getTimezoneLabel',
     () => timezones,
-    makeGetUserTimezone,
+    makeGetUserTimezone(),
     (timezones: Timezone[], timezoneObject: UserTimezone) => {
         const timezone = getUserCurrentTimezone(timezoneObject);
         if (!timezone) {
