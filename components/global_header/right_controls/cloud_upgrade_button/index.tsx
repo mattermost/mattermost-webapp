@@ -13,7 +13,7 @@ import {GlobalState} from 'types/store';
 import {openModal} from 'actions/views/modals';
 import PreTrialPricingModal from 'components/pre_trial_pricing_modal.tsx';
 
-const StyledUpgradeButton = styled.button`
+const UpgradeButton = styled.button`
 background: #1C58D9;
 border-radius: 4px;
 border: none;
@@ -57,7 +57,12 @@ const UpgradeCloudButton = (): JSX.Element | null => {
     };
 
     return (
-        <StyledUpgradeButton onClick={openPreTrialPricingModal}>{formatMessage({id: 'pretrial_pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'})}</StyledUpgradeButton>
+        <UpgradeButton
+            id='UpgradeButton'
+            onClick={openPreTrialPricingModal}
+        >
+            {formatMessage({id: 'pretrial_pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'})}
+        </UpgradeButton>
     );
 };
 
