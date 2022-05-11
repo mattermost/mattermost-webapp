@@ -4873,29 +4873,7 @@ const AdminDefinition = {
                                 display_name: t('admin.openid.google'),
                                 display_name_default: 'Google Apps',
                                 help_text: t('admin.google.EnableMarkdownDesc'),
-                                help_text_default: '1. <linkLogin>Log in</linkLogin> to your Google account.\n2. Go to [https://console.developers.google.com](!https://console.developers.google.com), click **Credentials** in the left hand side.\n 3. Under the **Credentials** header, click **Create credentials**, choose **OAuth client ID** and select **Web Application**.\n 4. Enter "Mattermost - your-company-name" as the **Name**.\n 5. Under **Authorized redirect URIs** enter **your-mattermost-url/signup/google/complete** (example: http://localhost:8065/signup/google/complete). Click **Create**.\n 6. Paste the **Client ID** and **Client Secret** to the fields below, then click **Save**.\n 7. Go to the <linkAPI>Google People API</link1PI> and click *Enable*.',
-                                help_text_values: {
-                                    linkLogin: (msg) => (
-                                        <a
-                                            href='https://accounts.google.com/login'
-                                            referrer='noreferrer'
-                                            target='_blank'
-                                            rel='noreferrer'
-                                        >
-                                            {msg}
-                                        </a>
-                                    ),
-                                    linkApi: (msg) => (
-                                        <a
-                                            href='https://console.developers.google.com/apis/library/people.googleapis.com'
-                                            referrer='noreferrer'
-                                            target='_blank'
-                                            rel='noreferrer'
-                                        >
-                                            {msg}
-                                        </a>
-                                    ),
-                                },
+                                help_text_default: '1. [Log in](!https://accounts.google.com/login) to your Google account.\n2. Go to [https://console.developers.google.com](!https://console.developers.google.com), click **Credentials** in the left hand side.\n 3. Under the **Credentials** header, click **Create credentials**, choose **OAuth client ID** and select **Web Application**.\n 4. Enter "Mattermost - your-company-name" as the **Name**.\n 5. Under **Authorized redirect URIs** enter **your-mattermost-url/signup/google/complete** (example: http://localhost:8065/signup/google/complete). Click **Create**.\n 6. Paste the **Client ID** and **Client Secret** to the fields below, then click **Save**.\n 7. Go to the [Google People API](!https://console.developers.google.com/apis/library/people.googleapis.com) and click *Enable*.',
                                 help_text_markdown: true,
                             },
                             {
