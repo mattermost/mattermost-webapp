@@ -2450,7 +2450,7 @@
   "analytics.system.channelTypes": "Csatornatípusok",
   "analytics.system.dailyActiveUsers": "Napi aktív felhasználók",
   "analytics.system.info": "Csak a kiválasztott csapat adatait használja. Kizárja a közvetlen üzenetcsatornák bejegyzéseit, amelyek nincsenek csapathoz kötve.",
-  "analytics.system.infoAndSkippedIntensiveQueries": "Csak a kiválasztott csapat adatait használja. Kizárja a közvetlen üzenetcsatornák bejegyzéseit, amelyek nincsenek csapathoz kötve. \n\n A teljesítmény maximalizálása érdekében egyes statisztikák le vannak tiltva. [Újra engedélyezheti őket a config.json fájlban](!https://docs.mattermost.com/administration/statistics.html).",
+  "analytics.system.infoAndSkippedIntensiveQueries": "Csak a kiválasztott csapat adatait használja. Kizárja a közvetlen üzenetcsatornák bejegyzéseit, amelyek nincsenek csapathoz kötve. \n\n A teljesítmény maximalizálása érdekében egyes statisztikák le vannak tiltva. <<link>>Újra engedélyezheti őket a config.json fájlban</<link>>.",
   "analytics.system.monthlyActiveUsers": "Havi aktív felhasználók",
   "analytics.system.postTypes": "Bejegyzések, fájlok és ujjlenyomatok",
   "analytics.system.privateGroups": "Privát csatornák",

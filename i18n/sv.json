@@ -2447,7 +2447,7 @@
   "analytics.system.channelTypes": "Kanaltyper",
   "analytics.system.dailyActiveUsers": "Dagligen aktiva användare",
   "analytics.system.info": "Använd endast data för valt team. Exkludera meddelanden i direktmeddelandekanaler som inte är knutna till ett team.",
-  "analytics.system.infoAndSkippedIntensiveQueries": "Använd endast data för valt team. Exkludera meddelanden i direktmeddelandekanaler som inte är knutna till ett team.\n \nViss statistik är avaktiverad för att maximera prestanda. Du kan [aktivera den i config.json](!https://docs.mattermost.com/administration/statistics.html).",
+  "analytics.system.infoAndSkippedIntensiveQueries": "Använd endast data för valt team. Exkludera meddelanden i direktmeddelandekanaler som inte är knutna till ett team.\n \nViss statistik är avaktiverad för att maximera prestanda. Du kan <<link>>aktivera den i config.json</<link>>.",
   "analytics.system.monthlyActiveUsers": "Dagligen aktiva användare",
   "analytics.system.postTypes": "Meddelanden, filer och hashtags",
   "analytics.system.privateGroups": "Privat kanal",

@@ -2169,7 +2169,7 @@
   "analytics.system.channelTypes": "انواع کانال",
   "analytics.system.dailyActiveUsers": "کاربران فعال روزانه",
   "analytics.system.info": "از داده ها فقط برای تیم انتخاب شده استفاده کنید. پست‌هایی در کانال‌های پیام مستقیم که به یک تیم وابسته نیستند را حذف کنید.",
-  "analytics.system.infoAndSkippedIntensiveQueries": "از داده ها فقط برای تیم انتخاب شده استفاده کنید. پست‌هایی در کانال‌های پیام مستقیم که به یک تیم وابسته نیستند را حذف کنید.\n \n برای به حداکثر رساندن عملکرد، برخی از آمارها غیرفعال هستند. می‌توانید [آنها را دوباره در config.json فعال کنید](!https://docs.mattermost.com/administration/statistics.html).",
+  "analytics.system.infoAndSkippedIntensiveQueries": "از داده ها فقط برای تیم انتخاب شده استفاده کنید. پست‌هایی در کانال‌های پیام مستقیم که به یک تیم وابسته نیستند را حذف کنید.\n \n برای به حداکثر رساندن عملکرد، برخی از آمارها غیرفعال هستند. می‌توانید <<link>>آنها را دوباره در config.json فعال کنید</<link>>.",
   "analytics.system.monthlyActiveUsers": "کاربران فعال ماهانه",
   "analytics.system.postTypes": "پست ها، فایل ها و هشتگ ها",
   "analytics.system.privateGroups": "کانال های خصوصی",

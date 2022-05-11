@@ -2446,7 +2446,7 @@
   "analytics.system.channelTypes": "Kanaal types",
   "analytics.system.dailyActiveUsers": "Dagelijkse Actieve Gebruikers",
   "analytics.system.info": "Gebruik alleen gegevens voor het gekozen team. Sluit berichten uit in directe berichtenkanalen die niet aan een team gekoppeld zijn.",
-  "analytics.system.infoAndSkippedIntensiveQueries": "Gebruik van gegevens voor alleen het gekozen team. Uitgesloten zijn berichten in direct bericht kanalen die niet zijn gekoppeld aan een team.\n \nOm de prestaties te maximaliseren zijn sommige statistieken uitgeschakeld. Je kan [hen opnieuw activeren in de config.json](!https://docs.mattermost.com/administration/statistics.html).",
+  "analytics.system.infoAndSkippedIntensiveQueries": "Gebruik van gegevens voor alleen het gekozen team. Uitgesloten zijn berichten in direct bericht kanalen die niet zijn gekoppeld aan een team.\n \nOm de prestaties te maximaliseren zijn sommige statistieken uitgeschakeld. Je kan <<link>>hen opnieuw activeren in de config.json</<link>>.",
   "analytics.system.monthlyActiveUsers": "Maandelijks Actieve Gebruikers",
   "analytics.system.postTypes": "Berichten, bestanden en hashtags",
   "analytics.system.privateGroups": "Privé-kanalen",

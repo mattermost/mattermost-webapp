@@ -2334,7 +2334,7 @@
   "analytics.system.channelTypes": "频道类型",
   "analytics.system.dailyActiveUsers": "每日活动用户",
   "analytics.system.info": "只有被选中的团队的数据被计算。私信频道消息不会被包含因为它们不属于任何团队。",
-  "analytics.system.infoAndSkippedIntensiveQueries": "只有被选中的团队的数据被计算。私信频道消息不会被包含因为它们不属于任何团队。\n\n为了最大性能，部分统计将停用。您可以[在 config.json 重新开启](!https://docs.mattermost.com/administration/statistics.html)。",
+  "analytics.system.infoAndSkippedIntensiveQueries": "只有被选中的团队的数据被计算。私信频道消息不会被包含因为它们不属于任何团队。\n\n为了最大性能，部分统计将停用。您可以<<link>>在 config.json 重新开启</<link>>。",
   "analytics.system.monthlyActiveUsers": "每月活动用户",
   "analytics.system.postTypes": "发文，文件和标签",
   "analytics.system.privateGroups": "私有频道",

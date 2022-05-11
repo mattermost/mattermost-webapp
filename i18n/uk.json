@@ -1354,7 +1354,7 @@
   "analytics.system.activeUsers": "Активні користувачі з повідомленнями",
   "analytics.system.channelTypes": "Типи каналу",
   "analytics.system.dailyActiveUsers": "Активність користувачів за день",
-  "analytics.system.infoAndSkippedIntensiveQueries": "Вираховуються лише дані для обраної команди. За винятком публікацій, створених у прямих каналах повідомлень, які не прив'язані до команди.\n\nЩоб збільшити продуктивність, деякі статистичні дані вимкнено. Ви можете [повторно ввімкнути їх у config.json] (!https://docs.mattermost.com/administration/statistics.html).",
+  "analytics.system.infoAndSkippedIntensiveQueries": "Вираховуються лише дані для обраної команди. За винятком публікацій, створених у прямих каналах повідомлень, які не прив'язані до команди.\n\nЩоб збільшити продуктивність, деякі статистичні дані вимкнено. Ви можете <<link>>повторно ввімкнути їх у config.json</<link>> .",
   "analytics.system.monthlyActiveUsers": "Активність користувачів за місяць",
   "analytics.system.postTypes": "Повідомлення, файли і хештеги",
   "analytics.system.privateGroups": "Приватні канали",

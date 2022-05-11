@@ -2450,7 +2450,7 @@
   "analytics.system.channelTypes": "Kanaltypen",
   "analytics.system.dailyActiveUsers": "Tägliche aktive Benutzer",
   "analytics.system.info": "Verwendet die Daten nur für das ausgewählte Team. Schließt Beiträge in Direktnachrichtenkanälen aus, die nicht an ein Team gebunden sind.",
-  "analytics.system.infoAndSkippedIntensiveQueries": "Nur Daten des gewählten Teams werden verwendet. Schließt Nachrichten in Direktnachrichtenkanälen aus, die nicht ans Team gebunden sind. \n \n Um die Performance zu maximieren, sind einige Statistiken deaktiviert. Du kannst sie in der [config.json reaktivieren](!https://docs.mattermost.com/administration/statistics.html).",
+  "analytics.system.infoAndSkippedIntensiveQueries": "Nur Daten des gewählten Teams werden verwendet. Schließt Nachrichten in Direktnachrichtenkanälen aus, die nicht ans Team gebunden sind. \n \n Um die Performance zu maximieren, sind einige Statistiken deaktiviert. Du kannst sie in der <<link>>config.json reaktivieren</<link>>.",
   "analytics.system.monthlyActiveUsers": "Monatliche aktive Benutzer",
   "analytics.system.postTypes": "Nachrichten, Dateien und Hashtags",
   "analytics.system.privateGroups": "Private Kanäle",

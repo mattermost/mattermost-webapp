@@ -1861,7 +1861,7 @@
   "analytics.system.channelTypes": "Tipi di canale",
   "analytics.system.dailyActiveUsers": "Utenti attivi quotidianamente",
   "analytics.system.info": "Usa i dati solo per la squadra scelta. Esclude le pubblicazioni nei canali di messaggio diretto che non sono collegati a una squadra.",
-  "analytics.system.infoAndSkippedIntensiveQueries": "Solo i dati per la squadra scelta sono calcolati. Esclude le pubblicazioni nel canali di messaggio diretto che non sono collegati a una squadra.\n \n Per massimizzare le prestazioni alcune statistiche sono disattivate. Si possono [riattivare nel file config.json](!https://docs.mattermost.com/administration/statistics.html).",
+  "analytics.system.infoAndSkippedIntensiveQueries": "Solo i dati per la squadra scelta sono calcolati. Esclude le pubblicazioni nel canali di messaggio diretto che non sono collegati a una squadra.\n \n Per massimizzare le prestazioni alcune statistiche sono disattivate. Si possono <<link>>riattivare nel file config.json</<link>>.",
   "analytics.system.monthlyActiveUsers": "Utenti attivi mensilmente",
   "analytics.system.postTypes": "Pubblicazioni, File e Hashtag",
   "analytics.system.privateGroups": "Canali Privati",

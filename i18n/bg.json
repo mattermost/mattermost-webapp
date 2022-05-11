@@ -2343,7 +2343,7 @@
   "analytics.system.channelTypes": "Типове канали",
   "analytics.system.dailyActiveUsers": "Активни потребители по дни",
   "analytics.system.info": "Използвай данни само за избрания екип. Изключете публикации в канали за директни съобщения, които не са обвързани с екип.",
-  "analytics.system.infoAndSkippedIntensiveQueries": "Използвай данни само за избрания екип. Изключете публикации в канали за директни съобщения, които не са обвързани с екип.\n\nЗа да се увеличи ефективността, някои статистики са деактивирани. Можете да ги [активирате в config.json](!https://docs.mattermost.com/administration/statistics.html).",
+  "analytics.system.infoAndSkippedIntensiveQueries": "Използвай данни само за избрания екип. Изключете публикации в канали за директни съобщения, които не са обвързани с екип.\n\nЗа да се увеличи ефективността, някои статистики са деактивирани. Можете да ги <<link>>активирате в config.json</<link>>.",
   "analytics.system.monthlyActiveUsers": "Месечно активни потребители",
   "analytics.system.postTypes": "Публикации, файлове и хаштагове",
   "analytics.system.privateGroups": "Частни канали",

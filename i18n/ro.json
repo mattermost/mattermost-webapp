@@ -2220,7 +2220,7 @@
   "analytics.system.channelTypes": "Tipuri de canale",
   "analytics.system.dailyActiveUsers": "Utilizatori Activi Zilnic",
   "analytics.system.info": "Se calculează numai datele pentru echipa aleasă. Excludes posturile făcute în canalele directe de mesaje, care nu sunt legate de o echipă.",
-  "analytics.system.infoAndSkippedIntensiveQueries": "Doar datele alese de echipa este calculat. Exclude posturi făcute în direct un mesaj de canale, care nu sunt legate de o echipă. \n \n Pentru a maximiza performanța, unele statistici sunt dezactivate. Puteți [re-le permită în config.json](!https://docs.mattermost.com/administration/statistics.html).",
+  "analytics.system.infoAndSkippedIntensiveQueries": "Doar datele alese de echipa este calculat. Exclude posturi făcute în direct un mesaj de canale, care nu sunt legate de o echipă. \n \n Pentru a maximiza performanța, unele statistici sunt dezactivate. Puteți <<link>>re-le permită în config.json</<link>>.",
   "analytics.system.monthlyActiveUsers": "Utilizatori activi lunari",
   "analytics.system.postTypes": "Mesaje, Fișiere și Hashtags",
   "analytics.system.privateGroups": "Canale private",

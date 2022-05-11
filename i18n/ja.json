@@ -2450,7 +2450,7 @@
   "analytics.system.channelTypes": "チャンネル種別",
   "analytics.system.dailyActiveUsers": "日次アクティブユーザー",
   "analytics.system.info": "選択されたチームのデータのみが使用されます。チームに紐づかないダイレクトメッセージ内で行われた投稿は除外されます。",
-  "analytics.system.infoAndSkippedIntensiveQueries": "選択されたチームのデータのみが使用されます。チームに紐づかないダイレクトメッセージ内で行われた投稿は除外されます。\n \n パフォーマンスを最大化するため無効化された統計情報があります。 config.jsonから、[それらを再度有効にすること](!https://docs.mattermost.com/administration/statistics.html)ができます。",
+  "analytics.system.infoAndSkippedIntensiveQueries": "選択されたチームのデータのみが使用されます。チームに紐づかないダイレクトメッセージ内で行われた投稿は除外されます。\n \n パフォーマンスを最大化するため無効化された統計情報があります。 config.jsonから、<<link>>それらを再度有効にすること</<link>>ができます。",
   "analytics.system.monthlyActiveUsers": "月次アクティブユーザー",
   "analytics.system.postTypes": "投稿、ファイル、ハッシュタグ",
   "analytics.system.privateGroups": "非公開チャンネル",

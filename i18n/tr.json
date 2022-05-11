@@ -2442,7 +2442,7 @@
   "analytics.system.channelTypes": "Kanal türleri",
   "analytics.system.dailyActiveUsers": "Günlük etkin kullanıcılar",
   "analytics.system.info": "Veriler yalnız seçilmiş takım için kullanılsın. Bir takım ile bağlantısı olmayan doğrudan ileti kanallarındaki iletiler katılmasın.",
-  "analytics.system.infoAndSkippedIntensiveQueries": "Yalnız seçilmiş takımın verileri kullanılır. Bir takım ile bağlantısı olmayan doğrudan ileti kanallarındaki iletiler katılmaz. \n \n En iyi başarımı elde etmek için bazı istatistikler devre dışı bırakılmıştır. Bu istatistikleri [config.json içinden etkinleştirebilirsiniz](!https://docs.mattermost.com/administration/statistics.html).",
+  "analytics.system.infoAndSkippedIntensiveQueries": "Yalnız seçilmiş takımın verileri kullanılır. Bir takım ile bağlantısı olmayan doğrudan ileti kanallarındaki iletiler katılmaz. \n \n En iyi başarımı elde etmek için bazı istatistikler devre dışı bırakılmıştır. Bu istatistikleri <<link>>config.json içinden etkinleştirebilirsiniz</<link>>.",
   "analytics.system.monthlyActiveUsers": "Aylık etkin kullanıcılar",
   "analytics.system.postTypes": "İletiler, dosyalar ve hashtaglar",
   "analytics.system.privateGroups": "Özel kanallar",
