@@ -1919,7 +1919,7 @@
   "admin.saml.enableAdminAttrTitle": "管理者属性を有効にする:",
   "admin.saml.enableDescription": "有効な場合、MattermostはSAML 2.0 を使ったログインができるようになります。SAMLの設定について、詳しくは、[説明文書](!http://docs.mattermost.com/deployment/sso-saml.html)を参照してください。",
   "admin.saml.enableSyncWithLdapDescription": "有効な場合、Mattermostはユーザーの無効化や削除を含むSAMLユーザー属性をAD/LDAPサーバと定期的に同期します。**認証 > AD/LDAP**から同期の有効化や設定を行ってください。無効な場合、ユーザー属性はユーザーがログインしている間に更新されます。詳しくは <link>説明文書</link>を参照してください。",
-  "admin.saml.enableSyncWithLdapIncludeAuthDescription": "有効な場合、Mattermostは設定されたSAML ID属性をAD/LDAP ID属性で上書きます。SAML ID属性が存在しない場合、SAML電子メール属性をAD/LDAP電子メール属性で上書きます。  これにより、ユーザーの電子メールが変更された際に新規ユーザーアカウントの作成が行われなくなり、電子メールバインディングからIDバインディングへの自動マイグレートが可能になります。有効から無効に変更された場合、上書きは行われなくなります。\n \n**注意:** ユーザーアカウントの無効化を防ぐため、SAML IDはLDAP IDと一致している必要があります。  詳しくは、[説明文書](!https://docs.mattermost.com/deployment/sso-saml-ldapsync.html)を参照してください。",
+  "admin.saml.enableSyncWithLdapIncludeAuthDescription": "有効な場合、Mattermostは設定されたSAML ID属性をAD/LDAP ID属性で上書きます。SAML ID属性が存在しない場合、SAML電子メール属性をAD/LDAP電子メール属性で上書きます。  これにより、ユーザーの電子メールが変更された際に新規ユーザーアカウントの作成が行われなくなり、電子メールバインディングからIDバインディングへの自動マイグレートが可能になります。有効から無効に変更された場合、上書きは行われなくなります。\n \n**注意:** ユーザーアカウントの無効化を防ぐため、SAML IDはLDAP IDと一致している必要があります。  詳しくは、<<link>>説明文書</<link>>を参照してください。",
   "admin.saml.enableSyncWithLdapIncludeAuthTitle": "SAMLバインドデータをAD/LDAPの情報で上書きする:",
   "admin.saml.enableSyncWithLdapTitle": "AD/LDAPサーバーからのSAMLアカウント同期を有効にする:",
   "admin.saml.enableTitle": "SAML 2.0 でのログインを有効にする:",
