@@ -408,5 +408,5 @@ export function getInstalledIntegrations(): ActionFunc {
         });
 
         return {data: true};
-    }
+    };
 }
