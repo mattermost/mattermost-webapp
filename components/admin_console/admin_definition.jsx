@@ -1756,8 +1756,20 @@ const AdminDefinition = {
                         label: t('admin.log.enableDiagnostics'),
                         label_default: 'Enable Diagnostics and Error Reporting:',
                         help_text: t('admin.log.enableDiagnosticsDescription'),
-                        help_text_default: 'Enable this feature to improve the quality and performance of Mattermost by sending error reporting and diagnostic information to Mattermost, Inc. Read our [privacy policy](!https://mattermost.com/privacy-policy/) to learn more.',
-                        help_text_markdown: true,
+                        help_text_default: 'Enable this feature to improve the quality and performance of Mattermost by sending error reporting and diagnostic information to Mattermost, Inc. Read our <link>privacy policy</link> to learn more.',
+                        help_text_markdown: false,
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://mattermost.com/privacy-policy/'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
                         onConfigSave: (displayVal, previousVal) => {
                             if (previousVal && previousVal !== displayVal) {
                                 trackEvent('ui', 'diagnostics_disabled');
