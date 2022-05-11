@@ -2451,7 +2451,7 @@
   "analytics.system.postTypes": "Berichten, bestanden en hashtags",
   "analytics.system.privateGroups": "Privé-kanalen",
   "analytics.system.publicChannels": "Publieke kanalen",
-  "analytics.system.skippedIntensiveQueries": "Om de prestaties te maximaliseren, zijn sommige statistieken uitgeschakeld. Je kan deze [opnieuw inschakelen in config.json] (!https://docs.mattermost.com/administration/statistics.html).",
+  "analytics.system.skippedIntensiveQueries": "Om de prestaties te maximaliseren, zijn sommige statistieken uitgeschakeld. Je kan deze <<link>>opnieuw inschakelen in config.json</<link>> .",
   "analytics.system.textPosts": "Berichten met enkel tekst",
   "analytics.system.title": "Systeem-statistieken",
   "analytics.system.totalBotPosts": "Totaal aantal berichten van Bots",

@@ -1867,7 +1867,7 @@
   "analytics.system.postTypes": "發文,檔案與#標籤",
   "analytics.system.privateGroups": "私人頻道",
   "analytics.system.publicChannels": "公開頻道",
-  "analytics.system.skippedIntensiveQueries": "為了效能，部份統計已被停用。可以[在 config.json 中重新啟用](!https://docs.mattermost.com/administration/statistics.html)。",
+  "analytics.system.skippedIntensiveQueries": "為了效能，部份統計已被停用。可以<<link>>在 config.json 中重新啟用</<link>>。",
   "analytics.system.textPosts": "以純文字發文",
   "analytics.system.title": "系統統計",
   "analytics.system.totalBotPosts": "來自機器人的全部訊息",

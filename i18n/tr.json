@@ -2447,7 +2447,7 @@
   "analytics.system.postTypes": "İletiler, dosyalar ve hashtaglar",
   "analytics.system.privateGroups": "Özel kanallar",
   "analytics.system.publicChannels": "Herkese açık kanallar",
-  "analytics.system.skippedIntensiveQueries": "En iyi başarımı elde etmek için bazı istatistikler devre dışı bırakılmıştır. Bu istatistikleri [config.json içinden etkinleştirebilirsiniz](!https://docs.mattermost.com/administration/statistics.html).",
+  "analytics.system.skippedIntensiveQueries": "En iyi başarımı elde etmek için bazı istatistikler devre dışı bırakılmıştır. Bu istatistikleri <<link>>config.json içinden etkinleştirebilirsiniz</<link>>.",
   "analytics.system.textPosts": "Yalnız metin içeren iletiler",
   "analytics.system.title": "Sistem istatistikleri",
   "analytics.system.totalBotPosts": "Botların toplam ileti sayısı",

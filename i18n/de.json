@@ -2455,7 +2455,7 @@
   "analytics.system.postTypes": "Nachrichten, Dateien und Hashtags",
   "analytics.system.privateGroups": "Private Kanäle",
   "analytics.system.publicChannels": "Öffentliche Kanäle",
-  "analytics.system.skippedIntensiveQueries": "Um die Performance zu maximieren, sind einige Statistiken deaktiviert. Du kannst sie in der [config.json reaktivieren](!https://docs.mattermost.com/administration/statistics.html).",
+  "analytics.system.skippedIntensiveQueries": "Um die Performance zu maximieren, sind einige Statistiken deaktiviert. Du kannst sie in der <<link>>config.json reaktivieren</<link>>.",
   "analytics.system.textPosts": "Nur-Text Beiträge",
   "analytics.system.title": "Systemstatistiken",
   "analytics.system.totalBotPosts": "Anzahl der Nachrichten von Bots",

@@ -2140,7 +2140,7 @@
   "analytics.system.postTypes": "Posts, Arquivos e Hashtags",
   "analytics.system.privateGroups": "Canais Privados",
   "analytics.system.publicChannels": "Canais Públicos",
-  "analytics.system.skippedIntensiveQueries": "Para maximizar o desempenho, algumas estatísticas estão desativadas. Você pode [reativá-los em config.json](!https://docs.mattermost.com/administration/statistics.html).",
+  "analytics.system.skippedIntensiveQueries": "Para maximizar o desempenho, algumas estatísticas estão desativadas. Você pode <<link>>reativá-los em config.json</<link>>.",
   "analytics.system.textPosts": "Post com Texto somente",
   "analytics.system.title": "Estatísticas do Sistema",
   "analytics.system.totalBotPosts": "Total de Publicações dos Bots",

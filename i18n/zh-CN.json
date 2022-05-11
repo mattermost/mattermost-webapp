@@ -2339,7 +2339,7 @@
   "analytics.system.postTypes": "发文，文件和标签",
   "analytics.system.privateGroups": "私有频道",
   "analytics.system.publicChannels": "公共频道",
-  "analytics.system.skippedIntensiveQueries": "为了最大性能，部分统计已停用。您可以[在 config.json 重新开启](!https://docs.mattermost.com/administration/statistics.html)。",
+  "analytics.system.skippedIntensiveQueries": "为了最大性能，部分统计已停用。您可以<<link>>在 config.json 重新开启</<link>>。",
   "analytics.system.textPosts": "纯文字帖文",
   "analytics.system.title": "系统统计",
   "analytics.system.totalBotPosts": "机器人总消息数",

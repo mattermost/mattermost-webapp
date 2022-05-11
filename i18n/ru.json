@@ -2445,7 +2445,7 @@
   "analytics.system.postTypes": "Сообщения, файлы и хештэги",
   "analytics.system.privateGroups": "Приватные каналы",
   "analytics.system.publicChannels": "Публичные каналы",
-  "analytics.system.skippedIntensiveQueries": "Для обеспечения максимальной производительности некоторые статистические данные отключены. Вы можете [повторно включить их в config.json](!https://docs.mattermost.com/administration/statistics.html).",
+  "analytics.system.skippedIntensiveQueries": "Для обеспечения максимальной производительности некоторые статистические данные отключены. Вы можете <<link>>повторно включить их в config.json</<link>>.",
   "analytics.system.textPosts": "Только текстовые сообщения",
   "analytics.system.title": "Статистика системы",
   "analytics.system.totalBotPosts": "Всего сообщений от ботов",

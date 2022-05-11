@@ -2225,7 +2225,7 @@
   "analytics.system.postTypes": "Mesaje, Fișiere și Hashtags",
   "analytics.system.privateGroups": "Canale private",
   "analytics.system.publicChannels": "Canale publice",
-  "analytics.system.skippedIntensiveQueries": "Pentru a maximiza performanța, unele statistici sunt dezactivate. Puteți [re-le permită în config.json](!https://docs.mattermost.com/administration/statistics.html).",
+  "analytics.system.skippedIntensiveQueries": "Pentru a maximiza performanța, unele statistici sunt dezactivate. Puteți <<link>>re-le permită în config.json</<link>>.",
   "analytics.system.textPosts": "Mesaje cu text numai",
   "analytics.system.title": "Statistica sistemului",
   "analytics.system.totalBotPosts": "Numărul total de mesaje de la Boți",

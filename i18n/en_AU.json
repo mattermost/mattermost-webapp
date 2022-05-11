@@ -2455,7 +2455,7 @@
   "analytics.system.postTypes": "Posts, Files and Hashtags",
   "analytics.system.privateGroups": "Private Channels",
   "analytics.system.publicChannels": "Public Channels",
-  "analytics.system.skippedIntensiveQueries": "To maximise performance, some statistics are disabled. You can [re-enable them in config.json](!https://docs.mattermost.com/administration/statistics.html).",
+  "analytics.system.skippedIntensiveQueries": "To maximise performance, some statistics are disabled. You can <<link>>re-enable them in config.json</<link>>.",
   "analytics.system.textPosts": "Posts with Text-only",
   "analytics.system.title": "System Statistics",
   "analytics.system.totalBotPosts": "Total Posts from Bots",

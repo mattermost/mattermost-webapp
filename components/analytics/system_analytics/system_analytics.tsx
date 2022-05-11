@@ -107,9 +107,20 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
             banner = (
                 <div className='banner'>
                     <div className='banner__content'>
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='analytics.system.skippedIntensiveQueries'
-                            defaultMessage='To maximize performance, some statistics are disabled. You can [re-enable them in config.json](!https://docs.mattermost.com/administration/statistics.html).'
+                            defaultMessage='To maximize performance, some statistics are disabled. You can <link>re-enable them in config.json</link>.'
+                            values={{
+                                link: (msg: React.ReactNode) => (
+                                    <a
+                                        href='https://docs.mattermost.com/administration/statistics.html'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                            }}
                         />
                     </div>
                 </div>

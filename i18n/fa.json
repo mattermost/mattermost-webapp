@@ -2174,7 +2174,7 @@
   "analytics.system.postTypes": "پست ها، فایل ها و هشتگ ها",
   "analytics.system.privateGroups": "کانال های خصوصی",
   "analytics.system.publicChannels": "کانال های عمومی",
-  "analytics.system.skippedIntensiveQueries": "برای به حداکثر رساندن عملکرد، برخی از آمارها غیرفعال هستند. می‌توانید [آنها را دوباره در config.json فعال کنید](!https://docs.mattermost.com/administration/statistics.html).",
+  "analytics.system.skippedIntensiveQueries": "برای به حداکثر رساندن عملکرد، برخی از آمارها غیرفعال هستند. می‌توانید <<link>>آنها را دوباره در config.json فعال کنید</<link>>.",
   "analytics.system.textPosts": "پست هایی با متن فقط",
   "analytics.system.title": "آمار سیستم",
   "analytics.system.totalBotPosts": "مجموع پست های ربات ها",

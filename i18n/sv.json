@@ -2452,7 +2452,7 @@
   "analytics.system.postTypes": "Meddelanden, filer och hashtags",
   "analytics.system.privateGroups": "Privat kanal",
   "analytics.system.publicChannels": "Publika kanaler",
-  "analytics.system.skippedIntensiveQueries": "För att maximera prestanda så är viss statistik inaktiverad. Du kan [aktivera dem i config.json](!https://docs.mattermost.com/administration/statistics.html).",
+  "analytics.system.skippedIntensiveQueries": "För att maximera prestanda så är viss statistik inaktiverad. Du kan <<link>>aktivera dem i config.json</<link>>.",
   "analytics.system.textPosts": "Meddelanden med endast text",
   "analytics.system.title": "Site statistik",
   "analytics.system.totalBotPosts": "Totalt antal meddelanden från bottar",

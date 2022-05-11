@@ -2455,7 +2455,7 @@
   "analytics.system.postTypes": "投稿、ファイル、ハッシュタグ",
   "analytics.system.privateGroups": "非公開チャンネル",
   "analytics.system.publicChannels": "公開チャンネル",
-  "analytics.system.skippedIntensiveQueries": "パフォーマンスを最大化するため無効化された統計情報があります。 config.jsonから、[それらを再度有効にすること](!https://docs.mattermost.com/administration/statistics.html)ができます。",
+  "analytics.system.skippedIntensiveQueries": "パフォーマンスを最大化するため無効化された統計情報があります。 config.jsonから、<<link>>それらを再度有効にすること</<link>>ができます。",
   "analytics.system.textPosts": "テキストのみの投稿数",
   "analytics.system.title": "システムの使用統計",
   "analytics.system.totalBotPosts": "Botによる総投稿数",

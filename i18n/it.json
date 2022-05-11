@@ -1866,7 +1866,7 @@
   "analytics.system.postTypes": "Pubblicazioni, File e Hashtag",
   "analytics.system.privateGroups": "Canali Privati",
   "analytics.system.publicChannels": "Canali Pubblici",
-  "analytics.system.skippedIntensiveQueries": "Per massimizzare le prestazioni alcune statistiche sono disattivate. Si possono [riattivare nel file config.json](!https://docs.mattermost.com/administration/statistics.html).",
+  "analytics.system.skippedIntensiveQueries": "Per massimizzare le prestazioni alcune statistiche sono disattivate. Si possono <<link>>riattivare nel file config.json</<link>>.",
   "analytics.system.textPosts": "Pubblicazioni con solo testo",
   "analytics.system.title": "Statistiche di Sistema",
   "analytics.system.totalBotPosts": "Pubblicazioni totali dai Bot",
