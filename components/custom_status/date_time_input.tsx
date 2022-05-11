@@ -7,13 +7,13 @@ import {DayModifiers, NavbarElementProps} from 'react-day-picker';
 import {useIntl} from 'react-intl';
 
 import moment, {Moment} from 'moment-timezone';
+import {formatDate} from 'react-day-picker/moment';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import Timestamp from 'components/timestamp';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getCurrentMomentForTimezone} from 'utils/timezone';
-import {formatDate} from 'react-day-picker/moment';
 
 const CUSTOM_STATUS_TIME_PICKER_INTERVALS_IN_MINUTES = 30;
 
