@@ -1276,7 +1276,7 @@
   "admin.license.trialCard.purchase_license": "Licenc vásárlása",
   "admin.license.trialUpgradeAndRequest.submit": "Szerver frissítése és próbaidőszak megkezdése",
   "admin.license.upgrade-and-trial-request.accept-terms-final-part": "Továbbá elfogadom a Mattermost {eeModalTerms} feltételeit. A frissítés letölti a program állományát és frissíti a Team Kiadás telepítését.",
-  "admin.license.upgrade-and-trial-request.accept-terms-initial-part": "A **Szerver frissítése és próbaidőszak megkezdése** kiválasztásával elfogadom a [Mattermost szoftver felhasználási megállapodását](!https://mattermost.com/software-evaluation-agreement/), az [adatvédelmi irányelveket](!https://mattermost.com/privacy-policy/) és a termékről szóló e-mailek fogadását. ",
+  "admin.license.upgrade-and-trial-request.accept-terms-initial-part": "A **Szerver frissítése és próbaidőszak megkezdése** kiválasztásával elfogadom a <linkEvaluation>Mattermost szoftver felhasználási megállapodását</linkEvaluation>, az <linkPrivacy>adatvédelmi irányelveket</linkPrivacy> és a termékről szóló e-mailek fogadását. ",
   "admin.license.upgrade-and-trial-request.title": "Frissítsen az Enterprise kiadásra, és a következő 30 napban ingyenesen kipróbálhatja a Mattermost Enterprise kiadását. Nincs vásárlási kötelezettség és nincs szükség hitelkártyára. ",
   "admin.license.upgradeTitle": "Előfizetés megemelése a Professional csomagra",
   "admin.license.upgradeToEnterprise": "Előfizetés megemelése az Enterprise csomagra",

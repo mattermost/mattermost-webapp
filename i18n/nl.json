@@ -1276,7 +1276,7 @@
   "admin.license.trialCard.purchase_license": "Koop een licentie",
   "admin.license.trialUpgradeAndRequest.submit": "Upgraden en proefperiode starten",
   "admin.license.upgrade-and-trial-request.accept-terms-final-part": "Ik ga ook akkoord met de voorwaarden van de Mattermost {eeModalTerms}. Upgraden zal de binary downloaden en jouuw Team Edition instantie updaten.",
-  "admin.license.upgrade-and-trial-request.accept-terms-initial-part": "Door te klikken op **Upgrade server en start proefversie**, ga ik akkoord met de [Mattermost Software Evaluation Agreement] (!https://mattermost.com/software-evaluation-agreement/), de [Privacy Policy](!https://mattermost.com/privacy-policy/), en het ontvangen van emails van Mattermost. ",
+  "admin.license.upgrade-and-trial-request.accept-terms-initial-part": "Door te klikken op **Upgrade server en start proefversie**, ga ik akkoord met de <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation> , de <linkPrivacy>Privacy Policy</linkPrivacy>, en het ontvangen van emails van Mattermost. ",
   "admin.license.upgrade-and-trial-request.title": "Upgrade naar Enterprise Edition en ervaar Mattermost Enterprise Edition gratis voor de komende 30 dagen. Geen aankoopverplichting of creditcard vereist. ",
   "admin.license.upgradeTitle": "Upgrade naar het Professional Plan",
   "admin.license.upgradeToEnterprise": "Upgrade naar het Enterprise Plan",

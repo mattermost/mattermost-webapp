@@ -1269,7 +1269,7 @@
   "admin.license.trialCard.purchase_license": "Achetez une licence",
   "admin.license.trialUpgradeAndRequest.submit": "Mettre à niveau le serveur et commencer l'essai",
   "admin.license.upgrade-and-trial-request.accept-terms-final-part": "De plus, j'accepte les conditions de Mattermost {eeModalTerms}. Mettre à niveau téléchargera le binaire et remplacera votre instance Team Edition.",
-  "admin.license.upgrade-and-trial-request.accept-terms-initial-part": "En cliquant sur « Mettre à niveau le serveur et commencer l'essai », j'accepte le [contrat d'évaluation du logiciel Mattermost](!https://mattermost.com/software-evaluation-agreement/), la [politique de confidentialité](!https://mattermost.com/privacy-policy/), et la réception d'e-mails sur le produit. ",
+  "admin.license.upgrade-and-trial-request.accept-terms-initial-part": "En cliquant sur « Mettre à niveau le serveur et commencer l'essai », j'accepte le <linkEvaluation>contrat d'évaluation du logiciel Mattermost</linkEvaluation>, la <linkPrivacy>politique de confidentialité</linkPrivacy>, et la réception d'e-mails sur le produit. ",
   "admin.license.upgrade-and-trial-request.title": "Mettez à niveau vers Enterprise Edition et testez Mattermost Enterprise Edition gratuitement les 30 prochains jours. Pas d'obligation d'achat ni de carte de paiement demandée. ",
   "admin.license.upgradeTitle": "Mettre à jour vers la Version Professionnel",
   "admin.license.upgradeToEnterprise": "Mettez à jour vers la version Enterprise",

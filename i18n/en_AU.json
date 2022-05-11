@@ -1276,7 +1276,7 @@
   "admin.license.trialCard.purchase_license": "Purchase a licence",
   "admin.license.trialUpgradeAndRequest.submit": "Upgrade Server And Start Trial",
   "admin.license.upgrade-and-trial-request.accept-terms-final-part": "I agree to the terms of the Mattermost {eeModalTerms}. Upgrading will download the binary and update your Team Edition instance.",
-  "admin.license.upgrade-and-trial-request.accept-terms-initial-part": "By selecting **Upgrade Server and Start Trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails. ",
+  "admin.license.upgrade-and-trial-request.accept-terms-initial-part": "By selecting **Upgrade Server and Start Trial**, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails. ",
   "admin.license.upgrade-and-trial-request.title": "Upgrade to Enterprise Edition and Experience Mattermost Enterprise Edition for free for the next 30 days. No obligation to buy or credit card required. ",
   "admin.license.upgradeTitle": "Upgrade to the Professional Plan",
   "admin.license.upgradeToEnterprise": "Upgrade to the Enterprise Plan",

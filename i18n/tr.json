@@ -1276,7 +1276,7 @@
   "admin.license.trialCard.purchase_license": "Bir lisans satın alın",
   "admin.license.trialUpgradeAndRequest.submit": "Sunucuyu güncelle ve deneme süresini başlat",
   "admin.license.upgrade-and-trial-request.accept-terms-final-part": "Ayrıca Mattermost {eeModalTerms} koşullarını kabul ediyorum. Yükseltme sırasında, kurulum dosyası indirilecek ve Team sürümü kopyanız güncellenecek.",
-  "admin.license.upgrade-and-trial-request.accept-terms-initial-part": "**Sunucuyu yükselt ve deneme süresini başlat** seçerek [Mattermost yazılım deneme sözleşmesini](!https://mattermost.com/software-evaluation-agreement/), [Gizlilik ilkesini](!https://mattermost.com/privacy-policy/) ve ürün e-postalarını almayı kabul ediyorum. ",
+  "admin.license.upgrade-and-trial-request.accept-terms-initial-part": "**Sunucuyu yükselt ve deneme süresini başlat** seçerek <linkEvaluation>Mattermost yazılım deneme sözleşmesini</linkEvaluation>, <linkPrivacy>Gizlilik ilkesini</linkPrivacy> ve ürün e-postalarını almayı kabul ediyorum. ",
   "admin.license.upgrade-and-trial-request.title": "Enterprise sürüme yükselterek Mattermost Enterprise tarifesini 30 gün süreyle ücretsiz olarak deneyebilirsiniz. Herhangi bir taahhüt ya da kredi kartı bilgisi gerekmez. ",
   "admin.license.upgradeTitle": "Professional tarifesine yükseltin",
   "admin.license.upgradeToEnterprise": "Enterprise tarifesine yükseltin",

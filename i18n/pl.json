@@ -1276,7 +1276,7 @@
   "admin.license.trialCard.purchase_license": "Zakup licencji",
   "admin.license.trialUpgradeAndRequest.submit": "Aktualizacja Serwera i rozpoczęcie wersji próbnej",
   "admin.license.upgrade-and-trial-request.accept-terms-final-part": "Zgadzam się również na warunki regulaminu Mattermost {eeModalTerms}. Aktualizacja pobierze plik binarny i zaktualizuje instancję Team Edition.",
-  "admin.license.upgrade-and-trial-request.accept-terms-initial-part": "Wybierając **Aktualizuj Serwer i rozpocznij wersję próbną**, wyrażam zgodę na [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/) i otrzymywanie wiadomości e-mail dotyczących produktu. ",
+  "admin.license.upgrade-and-trial-request.accept-terms-initial-part": "Wybierając **Aktualizuj Serwer i rozpocznij wersję próbną**, wyrażam zgodę na <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy> i otrzymywanie wiadomości e-mail dotyczących produktu. ",
   "admin.license.upgrade-and-trial-request.title": "Uaktualnij do wersji Enterprise Edition i korzystaj z Mattermost Enterprise Edition za darmo przez następne 30 dni. Nie ma obowiązku zakupu lub dodawania karty kredytowej. ",
   "admin.license.upgradeTitle": "Zaktualizuj do Planu Profesjonalnego",
   "admin.license.upgradeToEnterprise": "Zaktualizuj do planu Enterprise",

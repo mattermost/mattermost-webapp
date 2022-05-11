@@ -1276,7 +1276,7 @@
   "admin.license.trialCard.purchase_license": "Köp en licens",
   "admin.license.trialUpgradeAndRequest.submit": "Uppgradera servern och starta prova-på",
   "admin.license.upgrade-and-trial-request.accept-terms-final-part": "Jag godkänner även villkoren för Mattermost {eeModalTerms}. Vid uppgradering kommer programfilen laddas ner och uppdatera din Teams-instans.",
-  "admin.license.upgrade-and-trial-request.accept-terms-initial-part": "Genom att klicka på **Upgrade Server And Start trial** godkänner jag [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/) och att jag får produktmejl. ",
+  "admin.license.upgrade-and-trial-request.accept-terms-initial-part": "Genom att klicka på **Upgrade Server And Start trial** godkänner jag <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy> och att jag får produktmejl. ",
   "admin.license.upgrade-and-trial-request.title": "Uppgradera till Enterprise Edition och upplev Mattermost Enterprise Edition gratis under de kommande 30 dagarna. Ingen köpskyldighet och inget kreditkort krävs. ",
   "admin.license.upgradeTitle": "Uppgradera till Professional-abonnemang",
   "admin.license.upgradeToEnterprise": "Uppgradera till Enterprise-abonnemang",

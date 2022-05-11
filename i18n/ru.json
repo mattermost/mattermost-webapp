@@ -1276,7 +1276,7 @@
   "admin.license.trialCard.purchase_license": "Приобрести лицензию",
   "admin.license.trialUpgradeAndRequest.submit": "Обновите сервер и начните пробную версию",
   "admin.license.upgrade-and-trial-request.accept-terms-final-part": "Кроме того, я согласен с условиями Mattermost {eeModalTerms}. Обновление загрузит двоичный файл и обновит Ваш экземпляр Team Edition.",
-  "admin.license.upgrade-and-trial-request.accept-terms-initial-part": "Выбирая **Обновить сервер и начать пробную версию**, я соглашаюсь с [Соглашением об оценке программного обеспечения Mattermost](!https://mattermost.com/software-evaluation-agreement/), [Политикой конфиденциальности](!https://mattermost .com/privacy-policy/) и получением электронных писем о продуктах. ",
+  "admin.license.upgrade-and-trial-request.accept-terms-initial-part": "Выбирая **Обновить сервер и начать пробную версию**, я соглашаюсь с <linkEvaluation>Соглашением об оценке программного обеспечения Mattermost</linkEvaluation>, <linkPrivacy>Политикой конфиденциальности</linkPrivacy> и получением электронных писем о продуктах. ",
   "admin.license.upgrade-and-trial-request.title": "Обновите до Enterprise Edition и пользуйтесь Mattermost Enterprise Edition бесплатно в течение следующих 30 дней. Никаких обязательств в покупке или кредитной карте не требуется. ",
   "admin.license.upgradeTitle": "Обновление до плана Professional",
   "admin.license.upgradeToEnterprise": "Обновление до плана Enterprise",

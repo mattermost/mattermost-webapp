@@ -1276,7 +1276,7 @@
   "admin.license.trialCard.purchase_license": "ライセンスを購入する",
   "admin.license.trialUpgradeAndRequest.submit": "サーバーをアップグレードし、トライアルを開始する",
   "admin.license.upgrade-and-trial-request.accept-terms-final-part": "また、Mattermost {eeModalTerms}の規約にも同意します。アップグレードすると、バイナリがダウンロードされ、あなたのTeam Editionのインスタンスが更新されます。",
-  "admin.license.upgrade-and-trial-request.accept-terms-initial-part": "**サーバーのアップグレードとトライアルの開始**を選択すると、[Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/)と[Privacy Policy](!https://mattermost.com/privacy-policy/)に同意し、製品に関するメールを受信するようになります。 ",
+  "admin.license.upgrade-and-trial-request.accept-terms-initial-part": "**サーバーのアップグレードとトライアルの開始**を選択すると、<linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>と<linkPrivacy>Privacy Policy</linkPrivacy>に同意し、製品に関するメールを受信するようになります。 ",
   "admin.license.upgrade-and-trial-request.title": "30日間無料でEnterprise Editionにアップグレードし、Mattermost Enterprise Editionを体験できます。購入の義務やクレジットカードは必要ありません。 ",
   "admin.license.upgradeTitle": "Professionalプランへのアップグレード",
   "admin.license.upgradeToEnterprise": "Enterpriseプランへのアップグレード",
