@@ -5,7 +5,7 @@ import {combineReducers} from 'redux';
 
 import {IntegrationTypes, UserTypes, ChannelTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Command, IncomingWebhook, OutgoingWebhook, OAuthApp} from 'mattermost-redux/types/integrations';
+import {Command, IncomingWebhook, OutgoingWebhook, OAuthApp, InstalledIntegration} from 'mattermost-redux/types/integrations';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 
 function incomingHooks(state: IDMappedObjects<IncomingWebhook> = {}, action: GenericAction) {
@@ -255,6 +255,18 @@ function appsBotIDs(state: string[] = [], action: GenericAction) {
     }
 }
 
+// installedIntegrations tracks the set of integrations installed on the server
+function installedIntegrations(state: InstalledIntegration[] = [], action: GenericAction): InstalledIntegration[] {
+    switch (action.type) {
+    case IntegrationTypes.RECEIVED_INSTALLED_INTEGRATIONS:
+        return action.data ? action.data : [];
+    case UserTypes.LOGOUT_SUCCESS:
+        return [];
+    default:
+        return state;
+    }
+}
+
 function dialogTriggerId(state = '', action: GenericAction) {
     switch (action.type) {
     case IntegrationTypes.RECEIVED_DIALOG_TRIGGER_ID:
@@ -286,6 +298,9 @@ export default combineReducers({
 
     // object to represent registered oauth apps with app id as the key
     oauthApps,
+
+    // array of installed integrations
+    installedIntegrations,
 
     // object to represent the list of ids for oauth apps associated to apps
     appsOAuthAppIDs,

@@ -398,3 +398,15 @@ export function submitInteractiveDialog(submission: DialogSubmission): ActionFun
         return {data};
     };
 }
+
+export function getInstalledIntegrations(): ActionFunc {
+    return async (dispatch) => {
+        const data = await Client4.getInstalledIntegrations();
+        dispatch({
+            type: IntegrationTypes.RECEIVED_INSTALLED_INTEGRATIONS,
+            data,
+        });
+
+        return {data: true};
+    }
+}

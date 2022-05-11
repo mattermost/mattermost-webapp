@@ -496,6 +496,10 @@ export function handleEvent(msg) {
         handlePluginStatusesChangedEvent(msg);
         break;
 
+    case SocketEvents.INSTALLED_INTEGRATIONS_CHANGED:
+        handleInstalledIntegrationsChangedEvent(msg);
+        break;
+
     case SocketEvents.OPEN_DIALOG:
         handleOpenDialogEvent(msg);
         break;
@@ -1334,6 +1338,10 @@ function handleLicenseChanged(msg) {
 
 function handlePluginStatusesChangedEvent(msg) {
     store.dispatch({type: AdminTypes.RECEIVED_PLUGIN_STATUSES, data: msg.data.plugin_statuses});
+}
+
+function handleInstalledIntegrationsChangedEvent(msg) {
+    store.dispatch({type: IntegrationTypes.RECEIVED_INSTALLED_INTEGRATIONS, data: msg.data.integrations});
 }
 
 function handleOpenDialogEvent(msg) {

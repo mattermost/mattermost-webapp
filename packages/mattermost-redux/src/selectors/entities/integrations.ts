@@ -5,7 +5,7 @@ import {createSelector} from 'reselect';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
-import {OutgoingWebhook, Command} from 'mattermost-redux/types/integrations';
+import {OutgoingWebhook, Command, InstalledIntegration} from 'mattermost-redux/types/integrations';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 
@@ -44,6 +44,17 @@ export const getAppsBotIDs: (state: GlobalState) => string[] = createSelector(
         return apps ? ids : [];
     },
 );
+
+export function getInstalledIntegrations(state: GlobalState): InstalledIntegration[] {
+    return state.entities.integrations.installedIntegrations;
+};
+
+export const getEnabledIntegrations = createSelector(
+    'getEnabledIntegrations',
+    getInstalledIntegrations,
+    (integrations) => integrations.filter((integration) => integration.enabled),
+);
+
 
 export function getSystemCommands(state: GlobalState) {
     return state.entities.integrations.systemCommands;

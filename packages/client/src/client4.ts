@@ -62,6 +62,7 @@ import {
     OAuthApp,
     OutgoingWebhook,
     SubmitDialogResponse,
+    InstalledIntegration,
 } from '@mattermost/types/integrations';
 import {Job} from '@mattermost/types/jobs';
 import {MfaSecret} from '@mattermost/types/mfa';
@@ -3701,6 +3702,12 @@ export default class Client4 {
         }
         return this.doFetch<Product[]>(
             `${this.getCloudRoute()}/products${query}`, {method: 'get'},
+        );
+    };
+
+    getInstalledIntegrations = () => {
+        return this.doFetch<InstalledIntegration[]>(
+            `${this.getCloudRoute()}/installed_integrations`, {method: 'get'},
         );
     };
 

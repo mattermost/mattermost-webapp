@@ -479,6 +479,7 @@ export const SocketEvents = {
     LICENSE_CHANGED: 'license_changed',
     CONFIG_CHANGED: 'config_changed',
     PLUGIN_STATUSES_CHANGED: 'plugin_statuses_changed',
+    INSTALLED_INTEGRATIONS_CHANGED: 'installed_integrations_changed',
     OPEN_DIALOG: 'open_dialog',
     RECEIVED_GROUP: 'received_group',
     GROUP_MEMBER_ADD: 'group_member_add',
