@@ -47,7 +47,11 @@ function mapStateToProps(state: GlobalState) {
         isSearchingTerm: getIsSearchingTerm(state),
         searchTerms: getSearchTerms(state),
         searchType: getSearchType(state),
-        searchVisible: Boolean(rhsState) && (rhsState !== RHSStates.PLUGIN && rhsState !== RHSStates.CHANNEL_INFO),
+        searchVisible: rhsState !== null && (![
+            RHSStates.PLUGIN,
+            RHSStates.CHANNEL_INFO,
+            RHSStates.CHANNEL_MEMBERS,
+        ].includes(rhsState)),
         hideMobileSearchBarInRHS: isMobileView && isRhsOpen && rhsState === RHSStates.CHANNEL_INFO,
         isMentionSearch: rhsState === RHSStates.MENTION,
         isFlaggedPosts: rhsState === RHSStates.FLAG,

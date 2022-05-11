@@ -14,7 +14,7 @@ import {ExtendedPost} from 'mattermost-redux/actions/posts';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import * as PostUtils from 'utils/post_utils';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import Constants, {EventTypes, TELEMETRY_CATEGORIES, TELEMETRY_LABELS, Locations} from 'utils/constants';
 import CommentIcon from 'components/post_view/comment_icon';
 import DotMenu from 'components/dot_menu';
@@ -212,7 +212,9 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         if (this.props.showActionsMenuPulsatingDot) {
             return;
         }
+        this.props.handleDropdownOpened(open);
         this.setState({showActionsMenu: open});
+        this.props.handleDropdownOpened(open);
     };
 
     handleActionsMenuTipOpened = (): void => {
@@ -227,8 +229,9 @@ export default class PostInfo extends React.PureComponent<Props, State> {
     };
 
     handleTipDismissed = () => {
-        this.setState({showActionTip: false});
+        this.props.actions.setActionsMenuInitialisationState({[Preferences.ACTIONS_MENU_VIEWED]: false});
         this.props.handleDropdownOpened(false);
+        this.setState({showActionTip: false});
     };
 
     handleCommentClick = (e: any) => {

@@ -45,10 +45,10 @@ const FilePreviewModalMainActions: React.FC<Props> = (props: Props) => {
     const [publicLinkCopied, setPublicLinkCopied] = useState(false);
 
     useEffect(() => {
-        if (isFileInfo(props.fileInfo)) {
+        if (isFileInfo(props.fileInfo) && props.enablePublicLink) {
             dispatch(getFilePublicLink(props.fileInfo.id));
         }
-    }, [props.fileInfo]);
+    }, [props.fileInfo, props.enablePublicLink]);
     const copyPublicLink = () => {
         copyToClipboard(selectedFilePublicLink ?? '');
         setPublicLinkCopied(true);

@@ -13,12 +13,13 @@ import Menu from './menu';
 describe('channel_info_rhs/menu', () => {
     const defaultProps = {
         channel: {type: Constants.OPEN_CHANNEL} as Channel,
-        channelStats: {files_count: 3, pinnedpost_count: 12} as ChannelStats,
+        channelStats: {files_count: 3, pinnedpost_count: 12, member_count: 32} as ChannelStats,
         isArchived: false,
         actions: {
             openNotificationSettings: jest.fn(),
             showChannelFiles: jest.fn(),
             showPinnedPosts: jest.fn(),
+            showChannelMembers: jest.fn(),
         },
     };
 
@@ -27,6 +28,7 @@ describe('channel_info_rhs/menu', () => {
             openNotificationSettings: jest.fn(),
             showChannelFiles: jest.fn(),
             showPinnedPosts: jest.fn(),
+            showChannelMembers: jest.fn(),
         };
     });
 
@@ -110,5 +112,39 @@ describe('channel_info_rhs/menu', () => {
 
         fireEvent.click(fileItem);
         expect(props.actions.showPinnedPosts).toHaveBeenCalled();
+    });
+
+    test('should display members', () => {
+        const props = {...defaultProps};
+        props.actions.showChannelMembers = jest.fn();
+
+        renderWithIntl(
+            <Menu
+                {...props}
+            />,
+        );
+
+        const membersItem = screen.getByText('Members');
+        expect(membersItem).toBeInTheDocument();
+        expect(membersItem.parentElement).toHaveTextContent('32');
+
+        fireEvent.click(membersItem);
+        expect(props.actions.showChannelMembers).toHaveBeenCalled();
+    });
+
+    test('should NOT display members in DM', () => {
+        const props = {
+            ...defaultProps,
+            channel: {type: Constants.DM_CHANNEL} as Channel,
+        };
+
+        renderWithIntl(
+            <Menu
+                {...props}
+            />,
+        );
+
+        const membersItem = screen.queryByText('Members');
+        expect(membersItem).not.toBeInTheDocument();
     });
 });

@@ -165,22 +165,7 @@ export function countsIncludingDirectReducer(state: ThreadsState['counts'] = {},
     case ChannelTypes.RECEIVED_CHANNEL_DELETED:
     case ChannelTypes.LEAVE_CHANNEL:
         return handleLeaveChannel(state, action, extra);
-    case ThreadTypes.RECEIVED_UNREAD_THREADS: {
-        if (isEqual(state, action, true)) {
-            return state;
-        }
-
-        const counts = state[action.data.team_id] ?? {};
-        return {
-            ...state,
-            [action.data.team_id]: {
-                ...counts,
-                total_unread_threads: action.data.total_unread_threads,
-                total_unread_mentions: action.data.total_unread_mentions,
-            },
-        };
-    }
-    case ThreadTypes.RECEIVED_THREADS:
+    case ThreadTypes.RECEIVED_THREAD_COUNTS:
         if (isEqual(state, action, false)) {
             return state;
         }

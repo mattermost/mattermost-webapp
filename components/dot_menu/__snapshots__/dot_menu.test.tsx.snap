@@ -3,7 +3,7 @@
 exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
 <MenuWrapper
   animationComponent={[Function]}
-  className=""
+  className="dropdown-menu__dotmenu"
   onToggle={[Function]}
 >
   <OverlayTrigger
@@ -44,12 +44,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
   </OverlayTrigger>
   <Menu
     ariaLabel="Post extra options"
-    className="status-dropdown-menu-global-header"
+    className="Menu__content dropdown-menu"
     id="CENTER_dropdown_post_id_1"
     openLeft={true}
     openUp={false}
   >
     <MenuItemAction
+      className="MenuItem"
       icon={
         <span
           className="icon-reply-outline MenuItem__compass-icon"
@@ -262,7 +263,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
 exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
 <MenuWrapper
   animationComponent={[Function]}
-  className=""
+  className="dropdown-menu__dotmenu"
   onToggle={[Function]}
 >
   <OverlayTrigger
@@ -303,12 +304,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
   </OverlayTrigger>
   <Menu
     ariaLabel="Post extra options"
-    className="status-dropdown-menu-global-header"
+    className="Menu__content dropdown-menu"
     id="CENTER_dropdown_post_id_1"
     openLeft={true}
     openUp={false}
   >
     <MenuItemAction
+      className="MenuItem"
       icon={
         <span
           className="icon-reply-outline MenuItem__compass-icon"

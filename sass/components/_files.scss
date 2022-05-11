@@ -706,6 +706,10 @@
         box-shadow: 0 2px 5px 0 rgba($black, 0.1), 0 2px 5px 0 rgba($black, 0.1);
         transition: all 0.1s linear;
     }
+
+    &:hover .image-preview-utility-buttons-container {
+        display: inline-block;
+    }
 }
 
 .small-image__container--min-width {

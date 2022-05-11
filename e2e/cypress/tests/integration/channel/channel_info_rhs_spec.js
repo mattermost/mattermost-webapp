@@ -268,6 +268,29 @@ describe('Channel Info RHS', () => {
                     cy.wrap(rhsContainer).findByText(testChannel.display_name).should('be.visible');
                 });
             });
+            it('should be able to view channel members and come back', () => {
+                // # Go to test channel
+                cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+                // # Click on the channel info button
+                cy.get('#channel-info-btn').click();
+
+                // # Click on "Members"
+                cy.uiGetRHS().findByTestId('channel_info_rhs-menu').findByText('Members').should('be.visible').click();
+
+                // * Ensure we see the members
+                cy.uiGetRHS().findByText('@sysadmin').should('be.visible');
+                cy.uiGetRHS().findByText(`@${admin.username}`).should('be.visible');
+
+                // # Click the Back Icon
+                cy.uiGetRHS().get('[aria-label="Back Icon"]').click();
+
+                // * Make sure we are back in the channel info rhs
+                cy.get('#rhsContainer').then((rhsContainer) => {
+                    cy.wrap(rhsContainer).findByText('Info').should('be.visible');
+                    cy.wrap(rhsContainer).findByText(testChannel.display_name).should('be.visible');
+                });
+            });
         });
     });
 

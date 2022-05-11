@@ -11,8 +11,11 @@ import CloseCircleIcon from 'components/widgets/icons/close_circle_icon';
 import ChannelsInput from 'components/widgets/inputs/channels_input';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-import './add_to_channels.scss';
 import Constants from 'utils/constants';
+
+import {InviteType} from './invite_as';
+
+import './add_to_channels.scss';
 
 export type CustomMessageProps = {
     message: string;
@@ -45,6 +48,11 @@ export type Props = {
     currentChannel?: Channel;
     titleClass?: string;
     townSquareDisplayName: string;
+
+    inviteType: InviteType;
+
+    // this prop is only sent when inviting members to channels
+    channelToInvite?: Channel;
 }
 
 const RENDER_TIMEOUT_GUESS = 100;
@@ -78,10 +86,17 @@ export default function AddToChannels(props: Props) {
             />
             {' '}
             <span className='InviteView__sectionTitleParenthetical'>
-                <FormattedMarkdownMessage
-                    id='invite_modal.add_channels_title_b'
-                    defaultMessage='**(required)**'
-                />
+                {(props.channelToInvite && props.inviteType === InviteType.MEMBER) ? (
+                    <FormattedMarkdownMessage
+                        id='invite_modal.add_channels_title_c'
+                        defaultMessage='**(Optional)**'
+                    />
+                ) : (
+                    <FormattedMarkdownMessage
+                        id='invite_modal.add_channels_title_b'
+                        defaultMessage='**(required)**'
+                    />
+                )}
             </span>
         </div>
         <ChannelsInput
@@ -140,12 +155,6 @@ export default function AddToChannels(props: Props) {
                     />
                 </React.Fragment>
             )}
-            <div className='help-text'>
-                <FormattedMessage
-                    id='invitation_modal.guests.custom-message.description'
-                    defaultMessage='Create a custom message to make your invite more personal.'
-                />
-            </div>
         </div>
     </div>);
 }

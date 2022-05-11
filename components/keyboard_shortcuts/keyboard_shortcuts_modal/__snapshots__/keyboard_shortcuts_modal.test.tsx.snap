@@ -278,6 +278,20 @@ exports[`components/KeyboardShortcutsModal should match snapshot modal 1`] = `
                   }
                 }
               />
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "View channel info:	Ctrl|Alt|I",
+                      "id": "shortcuts.nav.open_channel_info",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "View channel info:	⌘|Shift|I",
+                      "id": "shortcuts.nav.open_channel_info.mac",
+                    },
+                  }
+                }
+              />
             </div>
           </div>
         </div>

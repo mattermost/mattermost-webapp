@@ -23,6 +23,19 @@ function modalSearch(state = '', action: GenericAction) {
     }
 }
 
+function channelMembersRhsSearch(state = '', action: GenericAction) {
+    switch (action.type) {
+    case SearchTypes.SET_CHANNEL_MEMBERS_RHS_SEARCH: {
+        return action.data;
+    }
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return '';
+    default:
+        return state;
+    }
+}
+
 function modalFilters(state: ViewsState['search']['modalFilters'] = {}, action: GenericAction) {
     switch (action.type) {
     case SearchTypes.SET_MODAL_FILTERS: {
@@ -115,6 +128,7 @@ function channelListSearch(state: Partial<ViewsState['search']['channelListSearc
 
 export default combineReducers({
     modalSearch,
+    channelMembersRhsSearch,
     modalFilters,
     systemUsersSearch,
     userGridSearch,

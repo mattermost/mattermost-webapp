@@ -81,9 +81,6 @@ describe('Messaging', () => {
             cy.get('@replyTextBox').type(`post ${i}`).type('{enter}');
         }
 
-        // * Check if "Reply" button is visible
-        cy.uiGetReply().should('be.visible');
-
         // # Reset the viewport
         cy.viewport(1280, 900);
     });
@@ -800,41 +797,6 @@ describe('Messaging', () => {
                 // # Verify that the sysadmin user name is mentioned
                 cy.findByText('@sysadmin').should('be.visible').click();
             });
-
-            // # Close the modal
-            cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).type('{enter}');
-        });
-    });
-
-    it('MM-T2227 Channel shortlinking - can edit', () => {
-        // # Click the channel header
-        cy.uiOpenChannelMenu('View Info');
-
-        // # Channel URL is listed
-        cy.url().then((loc) => {
-            cy.contains('div[class^="ChannelLink"]', loc).should('be.visible').then((el) => {
-                const channelUrl = el.text();
-
-                // # Close the rhs
-                cy.findAllByLabelText('Close').should('be.visible').first().click();
-
-                // # Post message containing channel link
-                cy.get('#post_textbox').type(channelUrl).type('{enter}').wait(TIMEOUTS.HALF_SEC);
-            });
-        });
-
-        // # Edit post containing channel link
-        cy.getLastPostId().then((postId) => {
-            cy.clickPostDotMenu(postId);
-
-            // # Click edit post
-            cy.get(`#edit_post_${postId}`).scrollIntoView().should('be.visible').click();
-
-            // * Edit Post Input should appear
-            cy.get('#edit_textbox').should('be.visible');
-
-            // # Mention first two letters of sysadmin user name
-            cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).type(' test').wait(TIMEOUTS.HALF_SEC);
 
             // # Close the modal
             cy.get('#edit_textbox', {timeout: TIMEOUTS.FIVE_SEC}).type('{enter}');

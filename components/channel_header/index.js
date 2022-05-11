@@ -37,6 +37,7 @@ import {
     showChannelFiles,
     showMentions,
     closeRightHandSide,
+    showChannelMembers,
 } from 'actions/views/rhs';
 import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from 'selectors/views/custom_status';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
@@ -77,6 +78,7 @@ function makeMapStateToProps() {
             teamId: getCurrentTeamId(state),
             channel,
             channelMember: getMyCurrentChannelMembership(state),
+            memberCount: stats.member_count,
             currentUser: user,
             dmUser,
             gmMembers,
@@ -114,6 +116,7 @@ const mapDispatchToProps = (dispatch) => ({
         goToLastViewedChannel,
         openModal,
         closeModal,
+        showChannelMembers,
     }, dispatch),
 });
 

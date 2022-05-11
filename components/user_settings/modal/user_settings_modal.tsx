@@ -21,7 +21,7 @@ import store from 'stores/redux_store.jsx';
 import CollapsedReplyThreadsBetaModal from 'components/collapsed_reply_threads_beta_modal';
 import {ModalData} from 'types/actions';
 import Constants, {ModalIdentifiers} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
 import ConfirmModal from 'components/confirm_modal';
 

@@ -43,17 +43,9 @@ export const getChannelHeaderPluginComponents = createSelector(
 
 export const getChannelIntroPluginComponents = createSelector(
     'getChannelIntroPluginComponents',
-    (state: GlobalState) => appBarEnabled(state),
     (state: GlobalState) => state.plugins.components.ChannelIntroButton,
-    (state: GlobalState) => state.plugins.components.AppBar,
-    (enabled, channelIntroComponents = [], appBarComponents = []) => {
-        if (!enabled || !appBarComponents.length) {
-            return channelIntroComponents as unknown as PluginComponent[];
-        }
-
-        // Remove channel header icons for plugins that have also registered an app bar component
-        const appBarPluginIds = appBarComponents.map((appBarComponent) => appBarComponent.pluginId);
-        return channelIntroComponents.filter((channelIntroComponents) => !appBarPluginIds.includes(channelIntroComponents.pluginId));
+    (components = []) => {
+        return components;
     },
 );
 

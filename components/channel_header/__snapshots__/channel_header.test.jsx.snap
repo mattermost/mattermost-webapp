@@ -94,15 +94,26 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <Connect(PopoverListMembers)
-            channel={
-              Object {
-                "delete_at": 0,
-                "id": "channel_id",
-                "name": "Test",
-                "team_id": "team_id",
-              }
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide"
+            buttonId="member_rhs"
+            iconComponent={
+              <React.Fragment>
+                <i
+                  aria-hidden="true"
+                  className="icon icon-account-outline channel-header__members"
+                />
+                <span
+                  className="icon__text"
+                  id="channelMemberCountText"
+                >
+                  -
+                </span>
+              </React.Fragment>
             }
+            onClick={[Function]}
+            tooltipKey="channelMembers"
           />
           <HeaderIconWrapper
             ariaLabel={true}
@@ -282,15 +293,26 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <Connect(PopoverListMembers)
-            channel={
-              Object {
-                "delete_at": 0,
-                "id": "channel_id",
-                "name": "Test",
-                "team_id": "team_id",
-              }
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide"
+            buttonId="member_rhs"
+            iconComponent={
+              <React.Fragment>
+                <i
+                  aria-hidden="true"
+                  className="icon icon-account-outline channel-header__members"
+                />
+                <span
+                  className="icon__text"
+                  id="channelMemberCountText"
+                >
+                  -
+                </span>
+              </React.Fragment>
             }
+            onClick={[Function]}
+            tooltipKey="channelMembers"
           />
           <HeaderIconWrapper
             ariaLabel={true}
@@ -470,15 +492,26 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <Connect(PopoverListMembers)
-            channel={
-              Object {
-                "delete_at": 0,
-                "id": "channel_id",
-                "name": "Test",
-                "team_id": "team_id",
-              }
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide"
+            buttonId="member_rhs"
+            iconComponent={
+              <React.Fragment>
+                <i
+                  aria-hidden="true"
+                  className="icon icon-account-outline channel-header__members"
+                />
+                <span
+                  className="icon__text"
+                  id="channelMemberCountText"
+                >
+                  -
+                </span>
+              </React.Fragment>
             }
+            onClick={[Function]}
+            tooltipKey="channelMembers"
           />
           <HeaderIconWrapper
             ariaLabel={true}
@@ -658,15 +691,26 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <Connect(PopoverListMembers)
-            channel={
-              Object {
-                "delete_at": 0,
-                "id": "channel_id",
-                "name": "Test",
-                "team_id": "team_id",
-              }
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide"
+            buttonId="member_rhs"
+            iconComponent={
+              <React.Fragment>
+                <i
+                  aria-hidden="true"
+                  className="icon icon-account-outline channel-header__members"
+                />
+                <span
+                  className="icon__text"
+                  id="channelMemberCountText"
+                >
+                  -
+                </span>
+              </React.Fragment>
             }
+            onClick={[Function]}
+            tooltipKey="channelMembers"
           />
           <HeaderIconWrapper
             ariaLabel={true}
@@ -816,15 +860,26 @@ exports[`components/ChannelHeader should render archived view 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <Connect(PopoverListMembers)
-            channel={
-              Object {
-                "delete_at": 1234,
-                "id": "channel_id",
-                "name": "Test",
-                "team_id": "team_id",
-              }
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide"
+            buttonId="member_rhs"
+            iconComponent={
+              <React.Fragment>
+                <i
+                  aria-hidden="true"
+                  className="icon icon-account-outline channel-header__members"
+                />
+                <span
+                  className="icon__text"
+                  id="channelMemberCountText"
+                >
+                  -
+                </span>
+              </React.Fragment>
             }
+            onClick={[Function]}
+            tooltipKey="channelMembers"
           />
           <HeaderIconWrapper
             ariaLabel={true}
@@ -1011,15 +1066,26 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <Connect(PopoverListMembers)
-            channel={
-              Object {
-                "delete_at": 0,
-                "id": "channel_id",
-                "name": "Test",
-                "team_id": "team_id",
-              }
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide"
+            buttonId="member_rhs"
+            iconComponent={
+              <React.Fragment>
+                <i
+                  aria-hidden="true"
+                  className="icon icon-account-outline channel-header__members"
+                />
+                <span
+                  className="icon__text"
+                  id="channelMemberCountText"
+                >
+                  -
+                </span>
+              </React.Fragment>
             }
+            onClick={[Function]}
+            tooltipKey="channelMembers"
           />
           <HeaderIconWrapper
             ariaLabel={true}
@@ -1199,15 +1265,26 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <Connect(PopoverListMembers)
-            channel={
-              Object {
-                "delete_at": 0,
-                "id": "channel_id",
-                "name": "Test",
-                "team_id": "team_id",
-              }
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide"
+            buttonId="member_rhs"
+            iconComponent={
+              <React.Fragment>
+                <i
+                  aria-hidden="true"
+                  className="icon icon-account-outline channel-header__members"
+                />
+                <span
+                  className="icon__text"
+                  id="channelMemberCountText"
+                >
+                  -
+                </span>
+              </React.Fragment>
             }
+            onClick={[Function]}
+            tooltipKey="channelMembers"
           />
           <HeaderIconWrapper
             ariaLabel={true}
@@ -1849,15 +1926,26 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <Connect(PopoverListMembers)
-            channel={
-              Object {
-                "delete_at": 0,
-                "id": "channel_id",
-                "name": "Test",
-                "team_id": "team_id",
-              }
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide"
+            buttonId="member_rhs"
+            iconComponent={
+              <React.Fragment>
+                <i
+                  aria-hidden="true"
+                  className="icon icon-account-outline channel-header__members"
+                />
+                <span
+                  className="icon__text"
+                  id="channelMemberCountText"
+                >
+                  -
+                </span>
+              </React.Fragment>
             }
+            onClick={[Function]}
+            tooltipKey="channelMembers"
           />
           <HeaderIconWrapper
             ariaLabel={true}
@@ -2008,22 +2096,26 @@ exports[`components/ChannelHeader should render properly when populated with cha
           dir="auto"
           id="channelHeaderDescription"
         >
-          <Connect(PopoverListMembers)
-            channel={
-              Object {
-                "header": "See ~test",
-                "id": "channel_id",
-                "name": "Test",
-                "props": Object {
-                  "channel_mentions": Object {
-                    "test": Object {
-                      "display_name": "Test",
-                    },
-                  },
-                },
-                "team_id": "team_id",
-              }
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide"
+            buttonId="member_rhs"
+            iconComponent={
+              <React.Fragment>
+                <i
+                  aria-hidden="true"
+                  className="icon icon-account-outline channel-header__members"
+                />
+                <span
+                  className="icon__text"
+                  id="channelMemberCountText"
+                >
+                  -
+                </span>
+              </React.Fragment>
             }
+            onClick={[Function]}
+            tooltipKey="channelMembers"
           />
           <HeaderIconWrapper
             ariaLabel={true}
@@ -2282,17 +2374,26 @@ exports[`components/ChannelHeader should render shared view 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <Connect(PopoverListMembers)
-            channel={
-              Object {
-                "delete_at": 0,
-                "id": "channel_id",
-                "name": "Test",
-                "shared": true,
-                "team_id": "team_id",
-                "type": "O",
-              }
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide"
+            buttonId="member_rhs"
+            iconComponent={
+              <React.Fragment>
+                <i
+                  aria-hidden="true"
+                  className="icon icon-account-outline channel-header__members"
+                />
+                <span
+                  className="icon__text"
+                  id="channelMemberCountText"
+                >
+                  -
+                </span>
+              </React.Fragment>
             }
+            onClick={[Function]}
+            tooltipKey="channelMembers"
           />
           <HeaderIconWrapper
             ariaLabel={true}
@@ -2476,15 +2577,26 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <Connect(PopoverListMembers)
-            channel={
-              Object {
-                "delete_at": 0,
-                "id": "channel_id",
-                "name": "Test",
-                "team_id": "team_id",
-              }
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide"
+            buttonId="member_rhs"
+            iconComponent={
+              <React.Fragment>
+                <i
+                  aria-hidden="true"
+                  className="icon icon-account-outline channel-header__members"
+                />
+                <span
+                  className="icon__text"
+                  id="channelMemberCountText"
+                >
+                  -
+                </span>
+              </React.Fragment>
             }
+            onClick={[Function]}
+            tooltipKey="channelMembers"
           />
           <HeaderIconWrapper
             ariaLabel={true}

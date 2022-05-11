@@ -30,6 +30,8 @@ describe('components/admin_console/license_settings/enterprise_edition/enterpris
         handleRemove: jest.fn(),
         isDisabled: false,
         removing: false,
+        handleChange: jest.fn(),
+        fileInputRef: React.createRef(),
     } as EnterpriseEditionProps;
 
     test('should format the Users field', () => {

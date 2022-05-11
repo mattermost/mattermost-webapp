@@ -63,8 +63,8 @@ describe('Utils.URL', () => {
     describe('validateChannelUrl', () => {
         const testCases = [
             {
-                description: 'Called with a 1 character url',
-                url: 'a',
+                description: 'Called with an empty string',
+                url: '',
                 expectedErrors: ['change_url.longer'],
             },
             {

@@ -5,6 +5,10 @@
   },
   "version": "5.36.0-0",
   "private": true,
+  "engines": {
+    "npm": ">=7.0.0",
+    "node": ">=16.4.0"
+  },
   "dependencies": {
     "@mattermost/compass-components": "^0.2.12",
     "@mattermost/compass-icons": "0.1.22",
@@ -231,6 +235,8 @@
       "text-summary"
     ],
     "moduleNameMapper": {
+      "^@mattermost/(client)$": "<rootDir>/packages/$1/src",
+      "^@mattermost/(types)/(.*)$": "<rootDir>/packages/$1/src/$2",
       "^mattermost-redux/test/(.*)$": "<rootDir>/packages/mattermost-redux/test/$1",
       "^mattermost-redux/(.*)$": "<rootDir>/packages/mattermost-redux/src/$1",
       "^reselect$": "<rootDir>/packages/reselect/src",
@@ -295,8 +301,12 @@
     "i18n-check-empty-src": "npm run mmjstool -- i18n check-empty-src --webapp-dir .",
     "storybook": "start-storybook -p 6006 -s ./storybook/static",
     "build-storybook": "build-storybook -s ./storybook/static",
-    "check-types": "tsc",
+    "check-types": "tsc -b",
     "make-emojis": "node --experimental-json-modules build/emoji/emoji_gen.mjs"
   },
-  "workspaces": []
+  "workspaces": [
+    "packages/client",
+    "packages/types"
+  ]
 }
+

@@ -51,7 +51,7 @@ import {getSelectedPost, getSelectedPostId} from 'selectors/rhs';
 
 import {browserHistory} from 'utils/browser_history';
 import {Constants, ActionTypes, EventTypes, PostRequestTypes} from 'utils/constants';
-import {isMobile} from 'utils/utils.jsx';
+import {isMobile} from 'utils/utils';
 import LocalStorageStore from 'stores/local_storage_store.jsx';
 import {isArchivedChannel} from 'utils/channel_utils';
 import {unsetEditingPost} from '../post_actions';
@@ -112,6 +112,8 @@ export function switchToChannel(channel) {
         } else if (channel.type === Constants.GM_CHANNEL) {
             const gmChannel = getChannel(state, channel.id);
             browserHistory.push(`${teamUrl}/channels/${gmChannel.name}`);
+        } else if (channel.type === Constants.THREADS) {
+            browserHistory.push(`${teamUrl}/${channel.name}`);
         } else {
             browserHistory.push(`${teamUrl}/channels/${channel.name}`);
         }

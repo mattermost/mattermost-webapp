@@ -11,9 +11,8 @@ import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {Preferences} from 'utils/constants';
 import EmojiMap from 'utils/emoji_map';
 
-import {RecentEmojiData} from 'mattermost-redux/types/emojis';
-
 import {GlobalState} from 'types/store';
+import {RecentEmojiData} from '@mattermost/types/emojis';
 
 export const getEmojiMap = createSelector(
     'getEmojiMap',
