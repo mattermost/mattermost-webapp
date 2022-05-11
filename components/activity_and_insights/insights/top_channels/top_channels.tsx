@@ -202,65 +202,80 @@ const TopChannels = (props: WidgetHocProps) => {
 
     const getGraphData = () => {
         const data = sortGraphData();
+        const dataset = [];
+
+        if (topChannels[0]) {
+            dataset.push({
+                fillColor: theme.buttonBg,
+                borderColor: theme.buttonBg,
+                pointBackgroundColor: theme.buttonBg,
+                pointBorderColor: theme.buttonBg,
+                backgroundColor: 'transparent',
+                pointRadius: 2,
+                hoverBackgroundColor: theme.buttonBg,
+                label: topChannels[0].display_name,
+                data: data.values[topChannels[0].id],
+            });
+        }
+
+        if (topChannels[1]) {
+            dataset.push({
+                fillColor: theme.onlineIndicator,
+                borderColor: theme.onlineIndicator,
+                pointBackgroundColor: theme.onlineIndicator,
+                pointBorderColor: theme.onlineIndicator,
+                backgroundColor: 'transparent',
+                pointRadius: 2,
+                hoverBackgroundColor: theme.onlineIndicator,
+                label: topChannels[1].display_name,
+                data: data.values[topChannels[1].id],
+            });
+        }
+
+        if (topChannels[2]) {
+            dataset.push({
+                fillColor: theme.awayIndicator,
+                borderColor: theme.awayIndicator,
+                pointBackgroundColor: theme.awayIndicator,
+                pointBorderColor: theme.awayIndicator,
+                backgroundColor: 'transparent',
+                pointRadius: 2,
+                hoverBackgroundColor: theme.awayIndicator,
+                label: topChannels[2].display_name,
+                data: data.values[topChannels[2].id],
+            });
+        }
+
+        if (topChannels[3]) {
+            dataset.push({
+                fillColor: theme.dndIndicator,
+                borderColor: theme.dndIndicator,
+                pointBackgroundColor: theme.dndIndicator,
+                pointBorderColor: theme.dndIndicator,
+                backgroundColor: 'transparent',
+                pointRadius: 2,
+                hoverBackgroundColor: theme.dndIndicator,
+                label: topChannels[3].display_name,
+                data: data.values[topChannels[3].id],
+            });
+        }
+
+        if (topChannels[4]) {
+            dataset.push({
+                fillColor: theme.newMessageSeparator,
+                borderColor: theme.newMessageSeparator,
+                pointBackgroundColor: theme.newMessageSeparator,
+                pointBorderColor: theme.newMessageSeparator,
+                backgroundColor: 'transparent',
+                pointRadius: 2,
+                hoverBackgroundColor: theme.newMessageSeparator,
+                label: topChannels[4].display_name,
+                data: data.values[topChannels[4].id],
+            });
+        }
 
         return {
-            datasets: [
-                {
-                    fillColor: theme.buttonBg,
-                    borderColor: theme.buttonBg,
-                    pointBackgroundColor: theme.buttonBg,
-                    pointBorderColor: theme.buttonBg,
-                    backgroundColor: 'transparent',
-                    pointRadius: 2,
-                    hoverBackgroundColor: theme.buttonBg,
-                    label: topChannels[0].display_name,
-                    data: data.values[topChannels[0].id],
-                },
-                {
-                    fillColor: theme.onlineIndicator,
-                    borderColor: theme.onlineIndicator,
-                    pointBackgroundColor: theme.onlineIndicator,
-                    pointBorderColor: theme.onlineIndicator,
-                    backgroundColor: 'transparent',
-                    pointRadius: 2,
-                    hoverBackgroundColor: theme.onlineIndicator,
-                    label: topChannels[1].display_name,
-                    data: data.values[topChannels[1].id],
-                },
-                {
-                    fillColor: theme.awayIndicator,
-                    borderColor: theme.awayIndicator,
-                    pointBackgroundColor: theme.awayIndicator,
-                    pointBorderColor: theme.awayIndicator,
-                    backgroundColor: 'transparent',
-                    pointRadius: 2,
-                    hoverBackgroundColor: theme.awayIndicator,
-                    label: topChannels[2].display_name,
-                    data: data.values[topChannels[2].id],
-                },
-                {
-                    fillColor: theme.dndIndicator,
-                    borderColor: theme.dndIndicator,
-                    pointBackgroundColor: theme.dndIndicator,
-                    pointBorderColor: theme.dndIndicator,
-                    backgroundColor: 'transparent',
-                    pointRadius: 2,
-                    hoverBackgroundColor: theme.dndIndicator,
-                    label: topChannels[3].display_name,
-                    data: data.values[topChannels[3].id],
-                },
-                {
-                    fillColor: theme.newMessageSeparator,
-                    borderColor: theme.newMessageSeparator,
-                    pointBackgroundColor: theme.newMessageSeparator,
-                    pointBorderColor: theme.newMessageSeparator,
-                    backgroundColor: 'transparent',
-                    pointRadius: 2,
-                    hoverBackgroundColor: theme.newMessageSeparator,
-                    label: topChannels[4].display_name,
-                    data: data.values[topChannels[4].id],
-                },
-            ],
+            datasets: dataset,
             labels: data.labels,
         };
     }
@@ -274,7 +289,7 @@ const TopChannels = (props: WidgetHocProps) => {
                         <LineChartLoader/>
                     }
                     {
-                        !loading &&
+                        (!loading && topChannels.length !== 0) &&
                         <>
                             <LineChart
                                 title={
@@ -336,7 +351,7 @@ const TopChannels = (props: WidgetHocProps) => {
                         skeletonTitle()
                     }
                     {
-                        (!loading && topChannels) &&
+                        (!loading && topChannels.length !== 0) &&
                         <div className='channel-list'>
                             {
                                 topChannels.map((channel) => {
