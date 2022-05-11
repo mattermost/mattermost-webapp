@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {Link} from 'react-router-dom';
 
 import Constants, {InsightsScopes} from 'utils/constants';
 
@@ -10,7 +11,7 @@ import TitleLoader from '../skeleton_loader/title_loader/title_loader';
 import LineChartLoader from '../skeleton_loader/line_chart_loader/line_chart_loader';
 import widgetHoc, {WidgetHocProps} from '../widget_hoc/widget_hoc';
 
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getMyTopChannels, getTopChannelsForTeam} from 'mattermost-redux/actions/insights';
 import {TopChannel} from '@mattermost/types/insights';
 import WidgetEmptyState from '../widget_empty_state/widget_empty_state';
@@ -24,6 +25,7 @@ const TopChannels = (props: WidgetHocProps) => {
     const [topChannels, setTopChannels] = useState([] as TopChannel[]);
 
     const currentTeamId = useSelector(getCurrentTeamId);
+    const currentTeamUrl = useSelector(getCurrentRelativeTeamUrl);
 
     const getTopTeamChannels = useCallback(async () => {
         if (props.filterType === InsightsScopes.TEAM) {
@@ -104,12 +106,12 @@ const TopChannels = (props: WidgetHocProps) => {
                                             className='channel-row'
                                             key={channel.id}
                                         >
-                                            <div className='channel-display-name'>
+                                            <Link className='channel-display-name' to={`${currentTeamUrl}/channels/${channel.name}`}>
                                                 <span className='icon'>
                                                     {iconToDisplay}
                                                 </span>
                                                 <span className='display-name'>{channel.display_name}</span>
-                                            </div>
+                                            </Link>
                                             <div className='channel-message-count'>
                                                 <span className='message-count'>{channel.message_count}</span>
                                                 <span

@@ -45,6 +45,7 @@ const InsightsModal = (props: Props) => {
                 <TopChannelsTable
                     filterType={props.filterType}
                     timeFrame={timeFrame.value}
+                    closeModal={doHide}
                 />
             );
         case InsightsWidgetTypes.TOP_REACTIONS:

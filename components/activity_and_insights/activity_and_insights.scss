@@ -98,6 +98,10 @@
                     .channel-display-name {
                         flex: 1 0;
 
+                        &:hover {
+                            text-decoration: none;
+                        }
+
                         i.icon {
                             width: 14px;
                             height: 14px;
