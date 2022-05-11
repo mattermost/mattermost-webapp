@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useState} from 'react';
+import React, {memo, useCallback, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -54,21 +54,21 @@ const InsightsTourTip = () => {
 
     const [tipOpened, setTipOpened] = useState(showTip);
 
-    const handleDismiss = (e: React.MouseEvent) => {
+    const handleDismiss = useCallback((e: React.MouseEvent) => {
         e.stopPropagation();
         dispatch(setInsightsInitialisationState({[Preferences.INSIGHTS_VIEWED]: true}));
         setTipOpened(false);
-    };
+    }, []);
 
-    const handleNext = () => {
+    const handleNext = useCallback(() => {
         dispatch(setInsightsInitialisationState({[Preferences.INSIGHTS_VIEWED]: true}));
         setTipOpened(false);
-    };
+    }, []);
 
-    const handleOpen = (e: React.MouseEvent) => {
+    const handleOpen = useCallback((e: React.MouseEvent) => {
         e.stopPropagation();
         setTipOpened(true);
-    };
+    }, []);
 
     return (
         <>
