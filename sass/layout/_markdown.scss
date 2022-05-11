@@ -76,6 +76,15 @@ h6.markdown__heading {
     .markdown-inline-img__container {
         display: inline-block;
         width: calc(100% - 5px);
+
+        .markdown-image-expand__collapse-button {
+            z-index: 3;
+        }
+
+        .image-preview-utility-buttons-container {
+            top: 14px;
+            right: 12px;
+        }
     }
 
     .markdown-inline-img--loading {
@@ -175,7 +184,7 @@ h6.markdown__heading {
         background-color: inherit;
         font-size: 13px;
         text-align: left;
-        white-space: pre-wrap;
+        white-space: pre;
     }
 
     &:hover .post-code__clipboard {

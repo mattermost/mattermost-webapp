@@ -5,8 +5,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useSelector} from 'react-redux';
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-
 import {getCurrentLocale} from 'selectors/i18n';
 import {GlobalState} from 'types/store';
 
@@ -28,7 +26,6 @@ type PlanDetailsProps = {
 const PlanDetails: React.FC<PlanDetailsProps> = ({isFreeTrial, subscriptionPlan}) => {
     const locale = useSelector((state: GlobalState) => getCurrentLocale(state));
     const userCount = useSelector((state: GlobalState) => state.entities.admin.analytics!.TOTAL_USERS) as number;
-    const userLimit = parseInt(useSelector((state: GlobalState) => getConfig(state).ExperimentalCloudUserLimit) || '0', 10);
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
     const product = useSelector((state: GlobalState) => {
         if (state.entities.cloud.products && subscription) {
@@ -44,11 +41,11 @@ const PlanDetails: React.FC<PlanDetailsProps> = ({isFreeTrial, subscriptionPlan}
     const showSeatsAndSubscriptionDates = false;
     const isPaidTier = Boolean(subscription?.is_paid_tier === 'true');
 
-    const planPricing = getPlanPricing(userLimit, isPaidTier, product);
+    const planPricing = getPlanPricing(isPaidTier, product);
 
     return (
         <div className='PlanDetails'>
-            {planDetailsTopElements(userCount, isPaidTier, isFreeTrial, userLimit, subscriptionPlan)}
+            {planDetailsTopElements(userCount, isPaidTier, isFreeTrial, subscriptionPlan)}
             {planPricing}
             {showSeatsAndSubscriptionDates && seatsAndSubscriptionDates(locale, userCount, subscription.seats, new Date(subscription.start_at), new Date(subscription.end_at))}
             <div className='PlanDetails__teamAndChannelCount'>

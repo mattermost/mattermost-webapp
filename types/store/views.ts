@@ -104,6 +104,7 @@ export type ViewsState = {
 
     search: {
         modalSearch: string;
+        channelMembersRhsSearch: string;
         modalFilters: ModalFilters;
         systemUsersSearch: {
             term: string;

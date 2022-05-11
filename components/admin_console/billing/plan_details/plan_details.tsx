@@ -116,7 +116,6 @@ export const planDetailsTopElements = (
     userCount: number,
     isPaidTier: boolean,
     isFreeTrial: boolean,
-    userLimit: number,
     subscriptionPlan: string | undefined,
 ) => {
     let userCountDisplay;
@@ -168,21 +167,6 @@ export const planDetailsTopElements = (
             break;
         }
     } else {
-        userCountDisplay = (
-            <div
-                className={classNames('PlanDetails__userCount', {
-                    withinLimit: (userLimit - userCount) <= 5,
-                    overLimit: userCount > userLimit,
-                })}
-            >
-                <FormattedMarkdownMessage
-                    id='admin.billing.subscription.planDetails.userCountWithLimit'
-                    defaultMessage='{userCount} / {userLimit} users'
-                    values={{userCount, userLimit}}
-                />
-            </div>
-        );
-
         productName = (
             <FormattedMessage
                 id='admin.billing.subscription.planDetails.productName.mmCloud'
@@ -229,7 +213,6 @@ export const currentPlanText = (isFreeTrial: boolean) => {
 };
 
 export const getPlanPricing = (
-    userLimit: number,
     isPaidTier: boolean,
     product: Product,
 ) => {
@@ -261,13 +244,6 @@ export const getPlanPricing = (
                     <FormattedMessage
                         id='admin.billing.subscription.planDetails.tiers.free'
                         defaultMessage='Free'
-                    />
-                </div>
-                <div className='PlanDetails__planCaveat'>
-                    <FormattedMarkdownMessage
-                        id='admin.billing.subscription.planDetails.upToXUsers'
-                        defaultMessage='up to {userLimit} users'
-                        values={{userLimit}}
                     />
                 </div>
             </div>

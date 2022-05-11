@@ -85,7 +85,7 @@ const languages = {
     },
     'pt-BR': {
         value: 'pt-BR',
-        name: 'Português (Brasil)',
+        name: 'Português (Brasil) (Beta)',
         order: 9,
         url: ptBR,
     },

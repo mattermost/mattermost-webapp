@@ -11,14 +11,7 @@
 // Group: @accessibility
 
 describe('Verify Accessibility Support in different Buttons', () => {
-    let usersLimit;
-
     before(() => {
-        cy.apiGetConfig().then(({config}) => {
-            const defaultLimit = 10;
-            usersLimit = config.ExperimentalSettings.CloudLimit || defaultLimit;
-        });
-
         // # Login as test user and visit off-topic
         cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
             cy.visit(offTopicUrl);
@@ -84,13 +77,5 @@ describe('Verify Accessibility Support in different Buttons', () => {
             should('be.focused').
             and('have.attr', 'aria-label', 'Pinned posts').
             tab().tab().tab().tab();
-
-        cy.apiGetTotalUsers().then((totalUsers) => {
-            const buttonText = totalUsers < usersLimit ?
-                'Set a Header' :
-                'Add members to this channel';
-
-            cy.focused().should('have.text', buttonText);
-        });
     });
 });

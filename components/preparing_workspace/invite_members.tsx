@@ -43,7 +43,11 @@ const InviteMembers = (props: Props) => {
         className += ' ' + props.className;
     }
 
-    useEffect(props.onPageView, []);
+    useEffect(() => {
+        if (props.show) {
+            props.onPageView();
+        }
+    }, [props.show]);
 
     const placeholder = formatMessage({
         id: 'onboarding_wizard.invite_members.placeholder',

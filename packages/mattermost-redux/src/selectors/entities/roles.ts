@@ -7,8 +7,9 @@ import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/common';
 import {
     getMySystemPermissions,
     getMySystemRoles,
+    getPermissionsForRoles,
     getRoles,
-    PermissionsOptions,
+    haveISystemPermission,
 } from 'mattermost-redux/selectors/entities/roles_helpers';
 import {getTeamMemberships, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
@@ -19,7 +20,7 @@ import {Role} from 'mattermost-redux/types/roles';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GroupMembership, GroupPermissions} from 'mattermost-redux/types/groups';
 
-export {getMySystemPermissions, getMySystemRoles, getRoles};
+export {getMySystemPermissions, getMySystemRoles, getRoles, haveISystemPermission};
 
 export const getGroupMemberships: (state: GlobalState) => Record<string, GroupMembership> = createSelector(
     'getGroupMemberships',
@@ -111,24 +112,6 @@ export function getMyChannelRoles(state: GlobalState): Record<string, Set<string
     return state.entities.channels.roles;
 }
 
-export const getMyRoles: (state: GlobalState) => {
-    system: Set<string>;
-    team: Record<string, Set<string>>;
-    channel: Record<string, Set<string>>;
-} = createSelector(
-    'getMyRoles',
-    getMySystemRoles,
-    getMyTeamRoles,
-    getMyChannelRoles,
-    (systemRoles, teamRoles, channelRoles) => {
-        return {
-            system: systemRoles,
-            team: teamRoles,
-            channel: channelRoles,
-        };
-    },
-);
-
 export const getRolesById: (state: GlobalState) => Record<string, Role> = createSelector(
     'getRolesById',
     getRoles,
@@ -141,179 +124,77 @@ export const getRolesById: (state: GlobalState) => Record<string, Role> = create
     },
 );
 
-export const getMyCurrentTeamPermissions: (state: GlobalState) => Set<string> = createSelector(
-    'getMyCurrentTeamPermissions',
+const getMyPermissionsByTeam = createSelector(
+    'getMyPermissionsByTeam',
     getMyTeamRoles,
     getRoles,
-    getMySystemPermissions,
-    getCurrentTeamId,
-    (myTeamRoles, roles, systemPermissions, teamId) => {
-        const permissions = new Set<string>();
-        if (myTeamRoles[teamId]) {
-            for (const roleName of myTeamRoles[teamId]) {
-                if (roles[roleName]) {
-                    for (const permission of roles[roleName].permissions) {
-                        permissions.add(permission);
-                    }
-                }
-            }
+    (myTeamRoles, allRoles) => {
+        const permissionsByTeam: Record<string, Set<string>> = {};
+
+        for (const [teamId, roles] of Object.entries(myTeamRoles)) {
+            permissionsByTeam[teamId] = getPermissionsForRoles(allRoles, roles);
         }
-        for (const permission of systemPermissions) {
-            permissions.add(permission);
-        }
-        return permissions;
+
+        return permissionsByTeam;
     },
 );
 
-export const getMyCurrentChannelPermissions: (state: GlobalState) => Set<string> = createSelector(
-    'getMyCurrentChannelPermissions',
-    getMyChannelRoles,
-    getRoles,
-    getMyCurrentTeamPermissions,
-    getCurrentChannelId,
-    (myChannelRoles, roles, teamPermissions, channelId) => {
-        const permissions = new Set<string>();
-        if (myChannelRoles[channelId]) {
-            for (const roleName of myChannelRoles[channelId]) {
-                if (roles[roleName]) {
-                    for (const permission of roles[roleName].permissions) {
-                        permissions.add(permission);
-                    }
-                }
-            }
-        }
-        for (const permission of teamPermissions) {
-            permissions.add(permission);
-        }
-        return permissions;
-    },
-);
-
-export const getMyTeamPermissions: (state: GlobalState, team: string) => Set<string> = createSelector(
-    'getMyTeamPermissions',
-    getMyTeamRoles,
-    getRoles,
-    getMySystemPermissions,
-    (state: GlobalState, team: string) => team,
-    (myTeamRoles, roles, systemPermissions, teamId) => {
-        const permissions = new Set<string>();
-        if (myTeamRoles[teamId!]) {
-            for (const roleName of myTeamRoles[teamId!]) {
-                if (roles[roleName]) {
-                    for (const permission of roles[roleName].permissions) {
-                        permissions.add(permission);
-                    }
-                }
-            }
-        }
-        for (const permission of systemPermissions) {
-            permissions.add(permission);
-        }
-        return permissions;
-    },
-);
-
-export const getMyGroupPermissions: (state: GlobalState, groupID: string) => Set<string> = createSelector(
-    'getMyGroupPermissions',
+const getMyPermissionsByGroup = createSelector(
+    'getMyPermissionsByGroup',
     getMyGroupRoles,
     getRoles,
-    getMySystemPermissions,
-    (state: GlobalState, groupID: string) => groupID,
-    (myGroupRoles, roles, systemPermissions, groupID) => {
-        const permissions = new Set<string>();
-        if (myGroupRoles[groupID!]) {
-            for (const roleName of myGroupRoles[groupID!]) {
-                if (roles[roleName]) {
-                    for (const permission of roles[roleName].permissions) {
-                        permissions.add(permission);
-                    }
-                }
-            }
+    (myGroupRoles, allRoles) => {
+        const permissionsByGroup: Record<string, Set<string>> = {};
+
+        for (const [groupId, roles] of Object.entries(myGroupRoles)) {
+            permissionsByGroup[groupId] = getPermissionsForRoles(allRoles, roles);
         }
-        for (const permission of systemPermissions) {
-            permissions.add(permission);
-        }
-        return permissions;
+
+        return permissionsByGroup;
     },
 );
 
-const myChannelPermissions: Record<string, ReturnType<typeof makeGetMyChannelPermissions>> = {};
+const getMyPermissionsByChannel = createSelector(
+    'getMyPermissionsByChannel',
+    getMyChannelRoles,
+    getRoles,
+    (myChannelRoles, allRoles) => {
+        const permissionsByChannel: Record<string, Set<string>> = {};
 
-export function getMyChannelPermissions(state: GlobalState, team: string, channel: string): Set<string> {
-    let selector = myChannelPermissions[channel];
-    if (!selector) {
-        selector = makeGetMyChannelPermissions(channel);
-        myChannelPermissions[channel] = selector;
-    }
-    return selector(state, team, channel);
-}
+        for (const [channelId, roles] of Object.entries(myChannelRoles)) {
+            permissionsByChannel[channelId] = getPermissionsForRoles(allRoles, roles);
+        }
 
-function makeGetMyChannelPermissions(channel: string): (state: GlobalState, team: string, channel: string) => Set<string> {
-    return createSelector(
-        'getMyChannelPermissions_' + channel,
-        getMyChannelRoles,
-        getRoles,
-        getMyTeamPermissions,
-        (state, team: string, channel: string) => channel,
-        (myChannelRoles, roles, teamPermissions, channelId) => {
-            const permissions = new Set<string>();
-            if (myChannelRoles[channelId!]) {
-                for (const roleName of myChannelRoles[channelId!]) {
-                    if (roles[roleName]) {
-                        for (const permission of roles[roleName].permissions) {
-                            permissions.add(permission);
-                        }
-                    }
-                }
-            }
-            for (const permission of teamPermissions) {
-                permissions.add(permission);
-            }
-            return permissions;
-        },
+        return permissionsByChannel;
+    },
+);
+
+export function haveITeamPermission(state: GlobalState, teamId: string, permission: string) {
+    return (
+        getMySystemPermissions(state).has(permission) ||
+        getMyPermissionsByTeam(state)[teamId]?.has(permission)
     );
 }
 
-export const haveISystemPermission: (state: GlobalState, options: PermissionsOptions) => boolean = createSelector(
-    'haveISystemPermission',
-    getMySystemPermissions,
-    (state: GlobalState, options: PermissionsOptions) => options.permission,
-    (permissions, permission) => {
-        return permissions.has(permission);
-    },
-);
-
-export const haveITeamPermission: (state: GlobalState, team: string, permission: string) => boolean = createSelector(
-    'haveITeamPermission',
-    getMyTeamPermissions,
-    (state, team, permission) => permission,
-    (permissions, permission) => {
-        return permissions.has(permission);
-    },
-);
-
-export const haveIGroupPermission: (state: GlobalState, groupID: string, permission: string) => boolean = createSelector(
-    'haveIGroupPermission',
-    getMyGroupPermissions,
-    (state: GlobalState, groupID: string, permission: string) => permission,
-    (groupPermissions, permission) => {
-        return groupPermissions.has(permission);
-    },
-);
-
-export function haveIChannelPermission(state: GlobalState, team: string, channel: string, permission: string): boolean {
-    return getMyChannelPermissions(state, team, channel).has(permission);
+export function haveIGroupPermission(state: GlobalState, groupID: string, permission: string) {
+    return (
+        getMySystemPermissions(state).has(permission) ||
+        getMyPermissionsByGroup(state)[groupID]?.has(permission)
+    );
 }
 
-export const haveICurrentTeamPermission: (state: GlobalState, permission: string) => boolean = createSelector(
-    'haveICurrentTeamPermission',
-    getMyCurrentTeamPermissions,
-    (state: GlobalState, permission: string) => permission,
-    (permissions, permission) => {
-        return permissions.has(permission);
-    },
-);
+export function haveIChannelPermission(state: GlobalState, teamId: string, channelId: string, permission: string): boolean {
+    return (
+        getMySystemPermissions(state).has(permission) ||
+        getMyPermissionsByTeam(state)[teamId]?.has(permission) ||
+        getMyPermissionsByChannel(state)[channelId]?.has(permission)
+    );
+}
+
+export function haveICurrentTeamPermission(state: GlobalState, permission: string): boolean {
+    return haveITeamPermission(state, getCurrentTeamId(state), permission);
+}
 
 export function haveICurrentChannelPermission(state: GlobalState, permission: string): boolean {
-    return getMyCurrentChannelPermissions(state).has(permission);
+    return haveIChannelPermission(state, getCurrentTeamId(state), getCurrentChannelId(state), permission);
 }

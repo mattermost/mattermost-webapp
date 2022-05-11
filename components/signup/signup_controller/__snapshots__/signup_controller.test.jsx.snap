@@ -381,10 +381,3 @@ exports[`components/SignupController should match snapshot for all signup option
   </div>
 </div>
 `;
-
-exports[`components/SignupController should redirect user to the restricted screen when workspace out of free seats 1`] = `
-<LoadingScreen
-  position="relative"
-  style={Object {}}
-/>
-`;

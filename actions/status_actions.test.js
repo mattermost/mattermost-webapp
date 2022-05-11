@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import clone from 'clone';
+import {cloneDeep} from 'lodash';
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
@@ -71,14 +71,14 @@ describe('actions/status_actions', () => {
 
     describe('loadStatusesForChannelAndSidebar', () => {
         test('load statuses with posts in channel and user in sidebar', () => {
-            const state = clone(initialState);
+            const state = cloneDeep(initialState);
             const testStore = mockStore(state);
             testStore.dispatch(Actions.loadStatusesForChannelAndSidebar());
             expect(getStatusesByIds).toHaveBeenCalledWith(expect.arrayContainingExactly(['current_user_id', 'user_id2', 'user_id3']));
         });
 
         test('load statuses with empty channel and user in sidebar', () => {
-            const state = clone(initialState);
+            const state = cloneDeep(initialState);
             state.entities.channels.currentChannelId = 'channel_id2';
             const testStore = mockStore(state);
             testStore.dispatch(Actions.loadStatusesForChannelAndSidebar());
@@ -86,7 +86,7 @@ describe('actions/status_actions', () => {
         });
 
         test('load statuses with empty channel and no users in sidebar', () => {
-            const state = clone(initialState);
+            const state = cloneDeep(initialState);
             state.entities.channels.currentChannelId = 'channel_id2';
             state.entities.preferences.myPreferences = {};
             const testStore = mockStore(state);
@@ -97,21 +97,21 @@ describe('actions/status_actions', () => {
 
     describe('loadStatusesForProfilesList', () => {
         test('load statuses for users array', () => {
-            const state = clone(initialState);
+            const state = cloneDeep(initialState);
             const testStore = mockStore(state);
             testStore.dispatch(Actions.loadStatusesForProfilesList([{id: 'user_id2', username: 'user2'}, {id: 'user_id4', username: 'user4'}]));
             expect(getStatusesByIds).toHaveBeenCalledWith(expect.arrayContainingExactly(['user_id2', 'user_id4']));
         });
 
         test('load statuses for empty users array', () => {
-            const state = clone(initialState);
+            const state = cloneDeep(initialState);
             const testStore = mockStore(state);
             testStore.dispatch(Actions.loadStatusesForProfilesList([]));
             expect(getStatusesByIds).not.toHaveBeenCalled();
         });
 
         test('load statuses for null users array', () => {
-            const state = clone(initialState);
+            const state = cloneDeep(initialState);
             const testStore = mockStore(state);
             testStore.dispatch(Actions.loadStatusesForProfilesList(null));
             expect(getStatusesByIds).not.toHaveBeenCalled();
@@ -120,21 +120,21 @@ describe('actions/status_actions', () => {
 
     describe('loadStatusesForProfilesMap', () => {
         test('load statuses for users map', () => {
-            const state = clone(initialState);
+            const state = cloneDeep(initialState);
             const testStore = mockStore(state);
             testStore.dispatch(Actions.loadStatusesForProfilesMap({user_id2: {id: 'user_id2', username: 'user2'}, user_id3: {id: 'user_id3', username: 'user3'}, user_id4: {id: 'user_id4', username: 'user4'}}));
             expect(getStatusesByIds).toHaveBeenCalledWith(expect.arrayContainingExactly(['user_id2', 'user_id3', 'user_id4']));
         });
 
         test('load statuses for empty users map', () => {
-            const state = clone(initialState);
+            const state = cloneDeep(initialState);
             const testStore = mockStore(state);
             testStore.dispatch(Actions.loadStatusesForProfilesMap({}));
             expect(getStatusesByIds).not.toHaveBeenCalled();
         });
 
         test('load statuses for null users map', () => {
-            const state = clone(initialState);
+            const state = cloneDeep(initialState);
             const testStore = mockStore(state);
             testStore.dispatch(Actions.loadStatusesForProfilesMap(null));
             expect(getStatusesByIds).not.toHaveBeenCalled();

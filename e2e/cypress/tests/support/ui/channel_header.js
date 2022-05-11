@@ -16,7 +16,7 @@ Cypress.Commands.add('uiGetMuteButton', () => {
 });
 
 Cypress.Commands.add('uiGetChannelMemberButton', () => {
-    return cy.get('#member_popover').should('be.visible');
+    return cy.get('#member_rhs').should('be.visible');
 });
 
 Cypress.Commands.add('uiGetChannelPinButton', () => {

@@ -6,6 +6,8 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 
+import * as FileUtils from 'utils/file_utils';
+
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {General} from 'mattermost-redux/constants';
 
@@ -19,8 +21,7 @@ import SpinnerButton from 'components/spinner_button';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import FormError from 'components/form_error';
 import {AcceptedProfileImageTypes, Constants, ValidationErrors} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
-import * as FileUtils from 'utils/file_utils.jsx';
+import * as Utils from 'utils/utils';
 
 const roleOptionSystemAdmin = 'System Admin';
 const roleOptionMember = 'Member';

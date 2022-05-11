@@ -1,170 +1,73 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`plugins/MainMenuActions should match snapshot in mobile view with some plugin and ability to click plugin 1`] = `
-<Menu
-  ariaLabel="main menu"
+<div
+  aria-label="main menu"
+  className="a11y__popup Menu"
+  role="menu"
 >
-  <MenuGroup>
-    <Connect(SystemPermissionGate)
-      permissions={
-        Array [
-          "sysconsole_write_billing",
-        ]
-      }
-    >
-      <MenuCloudTrial
-        id="menuCloudTrial"
-      />
-    </Connect(SystemPermissionGate)>
-  </MenuGroup>
-  <MenuGroup>
-    <Connect(SystemPermissionGate)
-      permissions={
-        Array [
-          "sysconsole_write_about_edition_and_license",
-        ]
-      }
-    >
-      <MenuStartTrial
-        id="startTrial"
-      />
-    </Connect(SystemPermissionGate)>
-  </MenuGroup>
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <i
-          className="mentions"
-        >
-          @
-        </i>
-      }
-      id="recentMentions"
-      onClick={[Function]}
-      show={true}
-      text="Recent Mentions"
-    />
-    <MenuItemAction
-      icon={
-        <i
-          className="fa fa-bookmark"
+  <ul
+    className="Menu__content dropdown-menu"
+    onClick={[Function]}
+    style={Object {}}
+  >
+    <MenuGroup>
+      <Connect(SystemPermissionGate)
+        permissions={
+          Array [
+            "sysconsole_write_billing",
+          ]
+        }
+      >
+        <MenuCloudTrial
+          id="menuCloudTrial"
         />
-      }
-      id="flaggedPosts"
-      onClick={[Function]}
-      show={true}
-      text="Saved Posts"
-    />
-  </MenuGroup>
-  <MenuGroup>
-    <MenuItemToggleModalRedux
-      dialogProps={
-        Object {
-          "isContentProductSettings": true,
+      </Connect(SystemPermissionGate)>
+    </MenuGroup>
+    <MenuGroup>
+      <Connect(SystemPermissionGate)
+        permissions={
+          Array [
+            "sysconsole_write_about_edition_and_license",
+          ]
         }
-      }
-      dialogType={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(injectIntl(UserSettingsModal))",
-          "type": [Function],
-        }
-      }
-      icon={
-        <i
-          className="fa fa-cog"
+      >
+        <MenuStartTrial
+          id="startTrial"
         />
-      }
-      id="accountSettings"
-      modalId="user_settings"
-      show={true}
-      text="Profile"
-    />
-  </MenuGroup>
-  <MenuGroup>
-    <Connect(TeamPermissionGate)
-      permissions={
-        Array [
-          "manage_team",
-        ]
-      }
-      teamId="someteamid"
-    >
-      <MenuItemToggleModalRedux
-        dialogType={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(AddGroupsToTeamModal)",
-            "type": [Function],
-          }
-        }
+      </Connect(SystemPermissionGate)>
+    </MenuGroup>
+    <MenuGroup>
+      <MenuItemAction
         icon={
           <i
-            className="fa fa-user-plus"
-          />
+            className="mentions"
+          >
+            @
+          </i>
         }
-        id="addGroupsToTeam"
-        modalId="add_groups_to_team"
+        id="recentMentions"
+        onClick={[Function]}
         show={true}
-        text="Add Groups to Team"
+        text="Recent Mentions"
       />
-    </Connect(TeamPermissionGate)>
-    <Connect(TeamPermissionGate)
-      permissions={
-        Array [
-          "add_user_to_team",
-          "invite_guest",
-        ]
-      }
-      teamId="someteamid"
-    />
-  </MenuGroup>
-  <MenuGroup>
-    <Connect(TeamPermissionGate)
-      permissions={
-        Array [
-          "manage_team",
-        ]
-      }
-      teamId="someteamid"
-    >
-      <MenuItemToggleModalRedux
-        dialogType={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(TeamSettingsModal)",
-            "type": [Function],
-          }
-        }
+      <MenuItemAction
         icon={
           <i
-            className="fa fa-globe"
+            className="fa fa-bookmark"
           />
         }
-        id="teamSettings"
-        modalId="team_settings"
+        id="flaggedPosts"
+        onClick={[Function]}
         show={true}
-        text="Team Settings"
+        text="Saved Posts"
       />
-    </Connect(TeamPermissionGate)>
-    <Connect(TeamPermissionGate)
-      permissions={
-        Array [
-          "manage_team",
-        ]
-      }
-      teamId="someteamid"
-    >
+    </MenuGroup>
+    <MenuGroup>
       <MenuItemToggleModalRedux
         dialogProps={
           Object {
-            "teamID": "someteamid",
+            "isContentProductSettings": true,
           }
         }
         dialogType={
@@ -172,418 +75,531 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(injectIntl(TeamGroupsManageModal))",
+            "displayName": "Connect(injectIntl(UserSettingsModal))",
             "type": [Function],
           }
         }
         icon={
           <i
-            className="fa fa-user-plus"
+            className="fa fa-cog"
           />
         }
-        id="manageGroups"
-        modalId="manage_team_groups"
+        id="accountSettings"
+        modalId="user_settings"
         show={true}
-        text="Manage Groups"
+        text="Profile"
       />
-    </Connect(TeamPermissionGate)>
-    <Connect(TeamPermissionGate)
-      permissions={
-        Array [
-          "remove_user_from_team",
-          "manage_team_roles",
-        ]
-      }
-      teamId="someteamid"
-    >
-      <MenuItemToggleModalRedux
-        dialogType={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(TeamMembersModal)",
-            "type": [Function],
+    </MenuGroup>
+    <MenuGroup>
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "manage_team",
+          ]
+        }
+        teamId="someteamid"
+      >
+        <MenuItemToggleModalRedux
+          dialogType={
+            Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(AddGroupsToTeamModal)",
+              "type": [Function],
+            }
           }
-        }
-        icon={
-          <i
-            className="fa fa-users"
-          />
-        }
-        id="manageMembers"
-        modalId="team_members"
-        show={true}
-        text="Manage Members"
-      />
-    </Connect(TeamPermissionGate)>
-    <Connect(TeamPermissionGate)
-      invert={true}
-      permissions={
-        Array [
-          "remove_user_from_team",
-          "manage_team_roles",
-        ]
-      }
-      teamId="someteamid"
-    >
-      <MenuItemToggleModalRedux
-        dialogType={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(TeamMembersModal)",
-            "type": [Function],
+          icon={
+            <i
+              className="fa fa-user-plus"
+            />
           }
+          id="addGroupsToTeam"
+          modalId="add_groups_to_team"
+          show={true}
+          text="Add Groups to Team"
+        />
+      </Connect(TeamPermissionGate)>
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "add_user_to_team",
+            "invite_guest",
+          ]
         }
-        icon={
-          <i
-            className="fa fa-users"
-          />
-        }
-        id="viewMembers"
-        modalId="team_members"
-        show={true}
-        text="View Members"
+        teamId="someteamid"
       />
-    </Connect(TeamPermissionGate)>
-  </MenuGroup>
-  <MenuGroup>
-    <Connect(SystemPermissionGate)
-      permissions={
-        Array [
-          "create_team",
-        ]
-      }
-    >
+    </MenuGroup>
+    <MenuGroup>
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "manage_team",
+          ]
+        }
+        teamId="someteamid"
+      >
+        <MenuItemToggleModalRedux
+          dialogType={
+            Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(TeamSettingsModal)",
+              "type": [Function],
+            }
+          }
+          icon={
+            <i
+              className="fa fa-globe"
+            />
+          }
+          id="teamSettings"
+          modalId="team_settings"
+          show={true}
+          text="Team Settings"
+        />
+      </Connect(TeamPermissionGate)>
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "manage_team",
+          ]
+        }
+        teamId="someteamid"
+      >
+        <MenuItemToggleModalRedux
+          dialogProps={
+            Object {
+              "teamID": "someteamid",
+            }
+          }
+          dialogType={
+            Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(injectIntl(TeamGroupsManageModal))",
+              "type": [Function],
+            }
+          }
+          icon={
+            <i
+              className="fa fa-user-plus"
+            />
+          }
+          id="manageGroups"
+          modalId="manage_team_groups"
+          show={true}
+          text="Manage Groups"
+        />
+      </Connect(TeamPermissionGate)>
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "remove_user_from_team",
+            "manage_team_roles",
+          ]
+        }
+        teamId="someteamid"
+      >
+        <MenuItemToggleModalRedux
+          dialogType={
+            Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(TeamMembersModal)",
+              "type": [Function],
+            }
+          }
+          icon={
+            <i
+              className="fa fa-users"
+            />
+          }
+          id="manageMembers"
+          modalId="team_members"
+          show={true}
+          text="Manage Members"
+        />
+      </Connect(TeamPermissionGate)>
+      <Connect(TeamPermissionGate)
+        invert={true}
+        permissions={
+          Array [
+            "remove_user_from_team",
+            "manage_team_roles",
+          ]
+        }
+        teamId="someteamid"
+      >
+        <MenuItemToggleModalRedux
+          dialogType={
+            Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(TeamMembersModal)",
+              "type": [Function],
+            }
+          }
+          icon={
+            <i
+              className="fa fa-users"
+            />
+          }
+          id="viewMembers"
+          modalId="team_members"
+          show={true}
+          text="View Members"
+        />
+      </Connect(TeamPermissionGate)>
+    </MenuGroup>
+    <MenuGroup>
+      <Connect(SystemPermissionGate)
+        permissions={
+          Array [
+            "create_team",
+          ]
+        }
+      >
+        <MenuItemLink
+          icon={
+            <i
+              className="fa fa-plus-square"
+            />
+          }
+          id="createTeam"
+          show={true}
+          text="Create a Team"
+          to="/create_team"
+        />
+      </Connect(SystemPermissionGate)>
       <MenuItemLink
         icon={
           <i
             className="fa fa-plus-square"
           />
         }
-        id="createTeam"
+        id="joinTeam"
         show={true}
-        text="Create a Team"
-        to="/create_team"
+        text="Join Another Team"
+        to="/select_team"
       />
-    </Connect(SystemPermissionGate)>
-    <MenuItemLink
-      icon={
-        <i
-          className="fa fa-plus-square"
-        />
-      }
-      id="joinTeam"
-      show={true}
-      text="Join Another Team"
-      to="/select_team"
-    />
-    <MenuItemToggleModalRedux
-      dialogType={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(LeaveTeamModal)",
-          "type": [Function],
+      <MenuItemToggleModalRedux
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(LeaveTeamModal)",
+            "type": [Function],
+          }
         }
-      }
-      icon={<LeaveTeamIcon />}
-      id="leaveTeam"
-      modalId="leave_team"
-      show={false}
-      text="Leave Team"
-    />
-  </MenuGroup>
-  <MenuGroup>
-    <MenuItemAction
-      id="someplugin_pluginmenuitem"
-      key="someplugin_pluginmenuitem"
-      onClick={[Function]}
-      show={true}
-      text="some plugin text"
-    />
-  </MenuGroup>
-  <MenuGroup>
-    <MenuItemLink
-      id="integrations"
-      show={false}
-      text="Integrations"
-      to="/somename/integrations"
-    />
-  </MenuGroup>
-  <MenuGroup>
-    <MenuItemExternalLink
-      icon={
-        <i
-          className="fa fa-question"
-        />
-      }
-      id="helpLink"
-      show={false}
-      text="Help"
-    />
-    <MenuItemAction
-      icon={
-        <i
-          className="icon icon-play"
-        />
-      }
-      id="gettingStarted"
-      onClick={[Function]}
-      show={false}
-      text="Getting Started"
-    />
-    <MenuItemExternalLink
-      icon={
-        <i
-          className="fa fa-phone"
-        />
-      }
-      id="reportLink"
-      show={false}
-      text="Report a Problem"
-    />
-    <MenuItemExternalLink
-      icon={
-        <i
-          className="fa fa-mobile"
-        />
-      }
-      id="nativeAppLink"
-      show={true}
-      text="Download Apps"
-      url=""
-    />
-    <MenuItemToggleModalRedux
-      dialogType={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(AboutBuildModal)",
-          "type": [Function],
+        icon={<LeaveTeamIcon />}
+        id="leaveTeam"
+        modalId="leave_team"
+        show={false}
+        text="Leave Team"
+      />
+    </MenuGroup>
+    <MenuGroup>
+      <MenuItemAction
+        id="someplugin_pluginmenuitem"
+        key="someplugin_pluginmenuitem"
+        onClick={[Function]}
+        show={true}
+        text="some plugin text"
+      />
+    </MenuGroup>
+    <MenuGroup>
+      <MenuItemLink
+        id="integrations"
+        show={false}
+        text="Integrations"
+        to="/somename/integrations"
+      />
+    </MenuGroup>
+    <MenuGroup>
+      <MenuItemExternalLink
+        icon={
+          <i
+            className="fa fa-question"
+          />
         }
-      }
-      icon={
-        <i
-          className="fa fa-info"
-        />
-      }
-      id="about"
-      modalId="about"
-      show={true}
-      text="About Mattermost"
-    />
-  </MenuGroup>
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <i
-          className="fa fa-sign-out"
-        />
-      }
-      id="logout"
-      onClick={[Function]}
-      show={true}
-      text="Log Out"
-    />
-  </MenuGroup>
-</Menu>
+        id="helpLink"
+        show={false}
+        text="Help"
+      />
+      <MenuItemAction
+        icon={
+          <i
+            className="icon icon-play"
+          />
+        }
+        id="gettingStarted"
+        onClick={[Function]}
+        show={false}
+        text="Getting Started"
+      />
+      <MenuItemExternalLink
+        icon={
+          <i
+            className="fa fa-phone"
+          />
+        }
+        id="reportLink"
+        show={false}
+        text="Report a Problem"
+      />
+      <MenuItemExternalLink
+        icon={
+          <i
+            className="fa fa-mobile"
+          />
+        }
+        id="nativeAppLink"
+        show={true}
+        text="Download Apps"
+        url=""
+      />
+      <MenuItemToggleModalRedux
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(AboutBuildModal)",
+            "type": [Function],
+          }
+        }
+        icon={
+          <i
+            className="fa fa-info"
+          />
+        }
+        id="about"
+        modalId="about"
+        show={true}
+        text="About Mattermost"
+      />
+    </MenuGroup>
+    <MenuGroup>
+      <MenuItemAction
+        icon={
+          <i
+            className="fa fa-sign-out"
+          />
+        }
+        id="logout"
+        onClick={[Function]}
+        show={true}
+        text="Log Out"
+      />
+    </MenuGroup>
+  </ul>
+</div>
 `;
 
 exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
-<Menu
-  ariaLabel="team menu"
+<div
+  aria-label="team menu"
+  className="a11y__popup Menu"
+  role="menu"
 >
-  <MenuGroup>
-    <Connect(TeamPermissionGate)
-      permissions={
-        Array [
-          "manage_team",
-        ]
-      }
-      teamId="someteamid"
-    >
-      <MenuItemToggleModalRedux
-        dialogType={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(AddGroupsToTeamModal)",
-            "type": [Function],
-          }
+  <ul
+    className="Menu__content dropdown-menu"
+    onClick={[Function]}
+    style={Object {}}
+  >
+    <MenuGroup>
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "manage_team",
+          ]
         }
-        id="addGroupsToTeam"
-        modalId="add_groups_to_team"
-        show={true}
-        text="Add Groups to Team"
+        teamId="someteamid"
+      >
+        <MenuItemToggleModalRedux
+          dialogType={
+            Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(AddGroupsToTeamModal)",
+              "type": [Function],
+            }
+          }
+          id="addGroupsToTeam"
+          modalId="add_groups_to_team"
+          show={true}
+          text="Add Groups to Team"
+        />
+      </Connect(TeamPermissionGate)>
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "add_user_to_team",
+            "invite_guest",
+          ]
+        }
+        teamId="someteamid"
       />
-    </Connect(TeamPermissionGate)>
-    <Connect(TeamPermissionGate)
-      permissions={
-        Array [
-          "add_user_to_team",
-          "invite_guest",
-        ]
-      }
-      teamId="someteamid"
-    />
-    <Connect(TeamPermissionGate)
-      permissions={
-        Array [
-          "manage_team",
-        ]
-      }
-      teamId="someteamid"
-    >
-      <MenuItemToggleModalRedux
-        dialogType={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(TeamSettingsModal)",
-            "type": [Function],
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "manage_team",
+          ]
+        }
+        teamId="someteamid"
+      >
+        <MenuItemToggleModalRedux
+          dialogType={
+            Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(TeamSettingsModal)",
+              "type": [Function],
+            }
           }
+          id="teamSettings"
+          modalId="team_settings"
+          show={true}
+          text="Team Settings"
+        />
+      </Connect(TeamPermissionGate)>
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "manage_team",
+          ]
         }
-        id="teamSettings"
-        modalId="team_settings"
-        show={true}
-        text="Team Settings"
-      />
-    </Connect(TeamPermissionGate)>
-    <Connect(TeamPermissionGate)
-      permissions={
-        Array [
-          "manage_team",
-        ]
-      }
-      teamId="someteamid"
-    >
-      <MenuItemToggleModalRedux
-        dialogProps={
-          Object {
-            "teamID": "someteamid",
+        teamId="someteamid"
+      >
+        <MenuItemToggleModalRedux
+          dialogProps={
+            Object {
+              "teamID": "someteamid",
+            }
           }
-        }
-        dialogType={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(injectIntl(TeamGroupsManageModal))",
-            "type": [Function],
+          dialogType={
+            Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(injectIntl(TeamGroupsManageModal))",
+              "type": [Function],
+            }
           }
+          id="manageGroups"
+          modalId="manage_team_groups"
+          show={true}
+          text="Manage Groups"
+        />
+      </Connect(TeamPermissionGate)>
+      <Connect(TeamPermissionGate)
+        permissions={
+          Array [
+            "remove_user_from_team",
+            "manage_team_roles",
+          ]
         }
-        id="manageGroups"
-        modalId="manage_team_groups"
-        show={true}
-        text="Manage Groups"
-      />
-    </Connect(TeamPermissionGate)>
-    <Connect(TeamPermissionGate)
-      permissions={
-        Array [
-          "remove_user_from_team",
-          "manage_team_roles",
-        ]
-      }
-      teamId="someteamid"
-    >
-      <MenuItemToggleModalRedux
-        dialogType={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(TeamMembersModal)",
-            "type": [Function],
+        teamId="someteamid"
+      >
+        <MenuItemToggleModalRedux
+          dialogType={
+            Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(TeamMembersModal)",
+              "type": [Function],
+            }
           }
+          id="manageMembers"
+          modalId="team_members"
+          show={true}
+          text="Manage Members"
+        />
+      </Connect(TeamPermissionGate)>
+      <Connect(TeamPermissionGate)
+        invert={true}
+        permissions={
+          Array [
+            "remove_user_from_team",
+            "manage_team_roles",
+          ]
         }
-        id="manageMembers"
-        modalId="team_members"
-        show={true}
-        text="Manage Members"
-      />
-    </Connect(TeamPermissionGate)>
-    <Connect(TeamPermissionGate)
-      invert={true}
-      permissions={
-        Array [
-          "remove_user_from_team",
-          "manage_team_roles",
-        ]
-      }
-      teamId="someteamid"
-    >
-      <MenuItemToggleModalRedux
-        dialogType={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(TeamMembersModal)",
-            "type": [Function],
+        teamId="someteamid"
+      >
+        <MenuItemToggleModalRedux
+          dialogType={
+            Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(TeamMembersModal)",
+              "type": [Function],
+            }
           }
-        }
-        id="viewMembers"
-        modalId="team_members"
-        show={true}
-        text="View Members"
-      />
-    </Connect(TeamPermissionGate)>
-    <MenuItemLink
-      id="joinTeam"
-      show={true}
-      text="Join Another Team"
-      to="/select_team"
-    />
-    <MenuItemToggleModalRedux
-      className="destructive"
-      dialogType={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(LeaveTeamModal)",
-          "type": [Function],
-        }
-      }
-      id="leaveTeam"
-      modalId="leave_team"
-      show={false}
-      text="Leave Team"
-    />
-  </MenuGroup>
-  <MenuGroup>
-    <Connect(SystemPermissionGate)
-      permissions={
-        Array [
-          "create_team",
-        ]
-      }
-    >
+          id="viewMembers"
+          modalId="team_members"
+          show={true}
+          text="View Members"
+        />
+      </Connect(TeamPermissionGate)>
       <MenuItemLink
-        id="createTeam"
+        id="joinTeam"
         show={true}
-        text="Create a Team"
-        to="/create_team"
+        text="Join Another Team"
+        to="/select_team"
       />
-    </Connect(SystemPermissionGate)>
-  </MenuGroup>
-  <MenuGroup>
-    <MenuItemAction
-      icon={false}
-      id="someplugin_pluginmenuitem"
-      key="someplugin_pluginmenuitem"
-      onClick={[Function]}
-      show={true}
-      text="some plugin text"
-    />
-  </MenuGroup>
-</Menu>
+      <MenuItemToggleModalRedux
+        className="destructive"
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(LeaveTeamModal)",
+            "type": [Function],
+          }
+        }
+        id="leaveTeam"
+        modalId="leave_team"
+        show={false}
+        text="Leave Team"
+      />
+    </MenuGroup>
+    <MenuGroup>
+      <Connect(SystemPermissionGate)
+        permissions={
+          Array [
+            "create_team",
+          ]
+        }
+      >
+        <MenuItemLink
+          id="createTeam"
+          show={true}
+          text="Create a Team"
+          to="/create_team"
+        />
+      </Connect(SystemPermissionGate)>
+    </MenuGroup>
+    <MenuGroup>
+      <MenuItemAction
+        icon={false}
+        id="someplugin_pluginmenuitem"
+        key="someplugin_pluginmenuitem"
+        onClick={[Function]}
+        show={true}
+        text="some plugin text"
+      />
+    </MenuGroup>
+  </ul>
+</div>
 `;

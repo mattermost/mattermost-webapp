@@ -8,7 +8,7 @@ import {Link} from 'react-router-dom';
 
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
 import LocalizedInput from 'components/localized_input/localized_input';
@@ -436,7 +436,7 @@ export default class AbstractCommand extends React.PureComponent {
                                         values={{
                                             link: (
                                                 <a
-                                                    href='https://docs.mattermost.com/help/messaging/executing-commands.html#built-in-commands'
+                                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/#built-in-commands'
                                                     target='_blank'
                                                     rel='noopener noreferrer'
                                                 >

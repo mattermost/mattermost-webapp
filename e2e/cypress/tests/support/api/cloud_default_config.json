@@ -219,8 +219,7 @@
     },
     "ExperimentalSettings": {
         "RestrictSystemAdmin": true,
-        "CloudBilling": true,
-        "CloudUserLimit": 10
+        "CloudBilling": true
     },
     "DataRetentionSettings": {
         "EnableMessageDeletion": false,

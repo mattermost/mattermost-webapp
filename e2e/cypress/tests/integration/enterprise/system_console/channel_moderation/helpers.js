@@ -201,15 +201,10 @@ export const deleteOrEditTeamScheme = (schemeDisplayName, editOrDelete) => {
     }
 };
 
-// # Clicks the View/Manage channel members for a channel (Text changes between View and Manage depending on your role in the channel)
-export const viewManageChannelMembersModal = (viewOrManage) => {
-    // # Click member count to open member list popover
-    cy.get('#member_popover').click();
-
-    cy.get('#member-list-popover').should('be.visible').within(() => {
-        // # Click "View/Manage Members"
-        cy.findByText(`${viewOrManage} Members`).click();
-    });
+// # Open channel members rhs
+export const viewManageChannelMembersRHS = () => {
+    // # Click member count to open member list rhs
+    cy.get('.member-rhs__trigger').click();
 };
 
 // # Enable (check) all the permissions in the channel moderation widget through the API

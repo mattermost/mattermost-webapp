@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from 'types/store';
 
 import SystemAnalytics from './system_analytics';
 
@@ -16,6 +16,7 @@ function mapStateToProps(state: GlobalState) {
     return {
         isLicensed,
         stats: state.entities.admin.analytics,
+        pluginStatHandlers: state.plugins.siteStatsHandlers,
     };
 }
 

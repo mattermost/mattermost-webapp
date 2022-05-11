@@ -27,9 +27,7 @@ const Icon = styled.i`
     justify-content: center;
 `;
 
-const ChannelInfoButton = (props: Props) => {
-    const {channel} = props;
-
+const ChannelInfoButton = ({channel}: Props) => {
     const dispatch = useDispatch();
 
     const isRhsOpen: boolean = useSelector(getIsRhsOpen);
@@ -44,6 +42,8 @@ const ChannelInfoButton = (props: Props) => {
         }
     };
 
+    const tooltipKey = rhsOpenOnChannelInfo ? 'closeChannelInfo' : 'openChannelInfo';
+
     let buttonClass = 'channel-header__icon';
     if (rhsOpenOnChannelInfo) {
         buttonClass += ' channel-header__icon--active-inverted';
@@ -55,8 +55,7 @@ const ChannelInfoButton = (props: Props) => {
             buttonId='channel-info-btn'
             onClick={toggleRHS}
             iconComponent={<Icon className='icon-information-outline'/>}
-            tooltipKey='channelInfo'
-            isRhsOpen={isRhsOpen}
+            tooltipKey={tooltipKey}
         />
     );
 };

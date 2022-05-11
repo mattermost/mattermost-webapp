@@ -238,3 +238,41 @@ describe('Selectors.Threads.getThreadsInChannel', () => {
         assert.deepEqual(Selectors.getThreadsInChannel(testState, channel1.id), ['a', 'b']);
     });
 });
+
+describe('Selectors.Threads.getNewestThreadInTeam', () => {
+    const team1 = TestHelper.fakeTeamWithId();
+    const team2 = TestHelper.fakeTeamWithId();
+
+    it('should return newest thread in team', () => {
+        const user = TestHelper.fakeUserWithId();
+        const threadB = {last_reply_at: 2, is_following: true};
+
+        const profiles = {
+            [user.id]: user,
+        };
+
+        const testState = deepFreezeAndThrowOnMutation({
+            entities: {
+                users: {
+                    currentUserId: user.id,
+                    profiles,
+                },
+                teams: {
+                    currentTeamId: team1.id,
+                },
+                threads: {
+                    threads: {
+                        a: {last_reply_at: 1, is_following: true},
+                        b: threadB,
+                    },
+                    threadsInTeam: {
+                        [team1.id]: ['a', 'b'],
+                        [team2.id]: ['c', 'd'],
+                    },
+                },
+            },
+        });
+
+        assert.deepEqual(Selectors.getNewestThreadInTeam(testState, team1.id), threadB);
+    });
+});

@@ -32,7 +32,6 @@ const defaultProps: Props = deepFreeze({
     usersLoader: jest.fn(),
     onChangeUsersEmails: jest.fn(),
     isCloud: false,
-    cloudUserLimit: '10',
     emailInvitationsEnabled: true,
     onUsersInputChange: jest.fn(),
     headerClass: '',

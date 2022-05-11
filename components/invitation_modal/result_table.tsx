@@ -126,7 +126,11 @@ export default function ResultTable(props: Props) {
                         }
 
                         let reason: React.ReactNode = invitation.reason;
-                        if (typeof invitation.reason !== 'string') {
+                        if (typeof invitation?.reason !== 'string' &&
+                                invitation.reason?.id &&
+                                    invitation.reason?.message &&
+                                        invitation.reason?.values
+                        ) {
                             reason = (
                                 <FormattedMessage
                                     id={invitation.reason.id}

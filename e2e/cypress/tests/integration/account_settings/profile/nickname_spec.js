@@ -101,18 +101,6 @@ describe('Settings > Sidebar > General', () => {
             // # Close modal
             cy.get('body').type('{esc}');
 
-            // # Go to manage members modal
-            cy.get('#channelMember').click();
-            cy.get('#member-list-popover').should('be.visible').within(() => {
-                cy.findByTestId('membersModal').click();
-            });
-
-            // * Verify that the username span contains the '@' symbol and the dark colour
-            cy.findByTestId('userListItemDetails').find('.more-modal__name').should('be.visible').should('contain', '@').and('have.css', 'color', 'rgb(63, 67, 80)');
-
-            // # Close modal
-            cy.get('body').type('{esc}');
-
             // # Open DM modal from the sidebar
             cy.uiAddDirectMessage().click();
 

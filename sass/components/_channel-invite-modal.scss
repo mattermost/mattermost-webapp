@@ -1,5 +1,8 @@
 @charset "UTF-8";
 
+@import 'utils/variables';
+@import 'utils/mixins';
+
 .modal .channel-invite__content,
 .modal .user-groups-modal__content {
     .multi-select__container {
@@ -40,13 +43,13 @@
         position: absolute;
         z-index: 5;
         overflow: auto;
-        width: calc(100% - 48px);
+        width: calc(100% - 28px);
         height: auto;
         max-height: 272px;
         padding: 12px 0;
-        margin: -28px 0 0 24px;
+        margin: -10px 0 0 14px;
         border-radius: 4px;
-        box-shadow: $elevation-4;
+        box-shadow: var(--elevation-4);
     }
 
     .multi-select__footer {
@@ -116,6 +119,55 @@
 
     .more-modal__details {
         padding-left: 12px;
+    }
+}
+
+.modal .channel-invite__content {
+    display: flex;
+    flex-direction: column;
+
+    .filtered-user-list {
+        order: 0;
+    }
+
+    .invite-as-guest {
+        width: fit-content;
+        order: 1;
+        padding-top: 8px;
+        margin-right: 2.4rem;
+        margin-bottom: 22px;
+        margin-left: auto;
+        font-weight: 600;
+    }
+
+    .multi-select__footer {
+        order: 2;
+        margin-top: 10px;
+
+        .btn-cancel {
+            @include tertiary-button;
+
+            width: 80px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .save-button {
+            width: 67px;
+            padding: 0;
+        }
+    }
+
+    .custom-no-options-message {
+        padding: 12px 15px;
+        font-size: 16px;
+        line-height: 24px;
+
+        button {
+            padding: 0;
+            margin-top: -3px;
+            font-size: 16px;
+        }
     }
 }
 

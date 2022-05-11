@@ -7,12 +7,13 @@ import classNames from 'classnames';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import FileUploadOverlay from 'components/file_upload_overlay';
 import RhsThread from 'components/rhs_thread';
 import RhsCard from 'components/rhs_card';
 import ChannelInfoRhs from 'components/channel_info_rhs';
+import ChannelMembersRhs from 'components/channel_members_rhs';
 import Search from 'components/search/index.tsx';
 
 import RhsPlugin from 'plugins/rhs_plugin';
@@ -28,6 +29,7 @@ export default class SidebarRight extends React.PureComponent {
         isPinnedPosts: PropTypes.bool,
         isChannelFiles: PropTypes.bool,
         isChannelInfo: PropTypes.bool,
+        isChannelMembers: PropTypes.bool,
         isPluginView: PropTypes.bool,
         previousRhsState: PropTypes.string,
         rhsChannel: PropTypes.object,
@@ -41,6 +43,7 @@ export default class SidebarRight extends React.PureComponent {
             openAtPrevious: PropTypes.func.isRequired,
             updateSearchTerms: PropTypes.func.isRequired,
             showChannelFiles: PropTypes.func.isRequired,
+            showChannelInfo: PropTypes.func.isRequired,
         }),
     };
 
@@ -63,6 +66,7 @@ export default class SidebarRight extends React.PureComponent {
             isPinnedPosts: this.props.isPinnedPosts,
             isChannelFiles: this.props.isChannelFiles,
             isChannelInfo: this.props.isChannelInfo,
+            isChannelMembers: this.props.isChannelMembers,
             selectedPostId: this.props.selectedPostId,
             selectedPostCardId: this.props.selectedPostCardId,
             previousRhsState: this.props.previousRhsState,
@@ -70,7 +74,10 @@ export default class SidebarRight extends React.PureComponent {
     }
 
     handleShortcut = (e) => {
-        if (Utils.cmdOrCtrlPressed(e)) {
+        const channelInfoShortcutMac = Utils.isMac() && e.shiftKey;
+        const channelInfoShortcut = !Utils.isMac() && e.altKey;
+
+        if (Utils.cmdOrCtrlPressed(e, true)) {
             if (e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.PERIOD)) {
                 e.preventDefault();
                 if (this.props.isOpen) {
@@ -88,6 +95,13 @@ export default class SidebarRight extends React.PureComponent {
                     this.props.actions.closeRightHandSide();
                 } else {
                     this.props.actions.openAtPrevious(this.previous);
+                }
+            } else if (Utils.isKeyPressed(e, Constants.KeyCodes.I) && (channelInfoShortcutMac || channelInfoShortcut)) {
+                e.preventDefault();
+                if (this.props.isOpen && this.props.isChannelInfo) {
+                    this.props.actions.closeRightHandSide();
+                } else {
+                    this.props.actions.showChannelInfo(this.props.channel.id);
                 }
             }
         }
@@ -185,6 +199,7 @@ export default class SidebarRight extends React.PureComponent {
             isPluginView,
             isOpen,
             isChannelInfo,
+            isChannelMembers,
             isExpanded,
         } = this.props;
 
@@ -213,6 +228,11 @@ export default class SidebarRight extends React.PureComponent {
         case isChannelInfo:
             content = (
                 <ChannelInfoRhs channel={rhsChannel}/>
+            );
+            break;
+        case isChannelMembers:
+            content = (
+                <ChannelMembersRhs/>
             );
             break;
         }

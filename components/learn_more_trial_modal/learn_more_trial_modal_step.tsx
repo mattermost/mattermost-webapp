@@ -5,8 +5,6 @@ import React from 'react';
 
 import {FormattedMessage, useIntl} from 'react-intl';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-
 import StartTrialBtn from './start_trial_btn';
 
 import './learn_more_trial_modal_step.scss';
@@ -18,6 +16,7 @@ export type LearnMoreTrialModalStepProps = {
     svgWrapperClassName: string;
     svgElement: React.ReactNode;
     bottomLeftMessage?: string;
+    handleEmbargoError?: () => void;
 }
 
 const LearnMoreTrialModalStep = (
@@ -28,6 +27,7 @@ const LearnMoreTrialModalStep = (
         svgWrapperClassName,
         svgElement,
         bottomLeftMessage,
+        handleEmbargoError,
     }: LearnMoreTrialModalStepProps) => {
     const {formatMessage} = useIntl();
 
@@ -55,13 +55,34 @@ const LearnMoreTrialModalStep = (
             </div>
             <StartTrialBtn
                 message={startTrialBtnMsg}
+                handleEmbargoError={handleEmbargoError}
                 telemetryId='start_trial_from_learn_more_about_trial_modal'
             />
             <div className='disclaimer'>
                 <span>
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='start_trial.modal.disclaimer'
-                        defaultMessage='By clicking “Start trial”, I agree to the [Mattermost Software Evaluation Agreement,](!https://mattermost.com/software-evaluation-agreement) [privacy policy,](!https://mattermost.com/privacy-policy/) and receiving product emails.'
+                        defaultMessage='By clicking “Start trial”, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
+                        values={{
+                            linkEvaluation: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://mattermost.com/software-evaluation-agreement'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                            linkPrivacy: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://mattermost.com/privacy-policy/'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        }}
                     />
                 </span>
             </div>

@@ -3,6 +3,7 @@
 
 import fs from 'fs';
 
+import FormData from 'form-data';
 import assert from 'assert';
 import nock from 'nock';
 
@@ -12,8 +13,6 @@ import {Client4} from 'mattermost-redux/client';
 import {RequestStatus} from '../constants';
 import TestHelper from 'mattermost-redux/test/test_helper';
 import configureStore from 'mattermost-redux/test/test_store';
-
-const FormData = require('form-data');
 
 describe('Actions.Files', () => {
     let store;

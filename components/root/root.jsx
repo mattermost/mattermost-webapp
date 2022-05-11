@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
-
 import deepEqual from 'fast-deep-equal';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -42,7 +40,7 @@ import BrowserStore from 'stores/browser_store';
 import Constants, {StoragePrefixes, WindowSizes} from 'utils/constants';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
 import * as UserAgent from 'utils/user_agent';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import webSocketClient from 'client/web_websocket_client.jsx';
 
 const LazyErrorPage = React.lazy(() => import('components/error_page'));
@@ -116,10 +114,10 @@ export default class Root extends React.PureComponent {
         showTermsOfService: PropTypes.bool,
         permalinkRedirectTeamName: PropTypes.string,
         actions: PropTypes.shape({
-            loadMeAndConfig: PropTypes.func.isRequired,
             emitBrowserWindowResized: PropTypes.func.isRequired,
             getFirstAdminSetupComplete: PropTypes.func.isRequired,
             getProfiles: PropTypes.func.isRequired,
+            loadConfigAndMe: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
         products: PropTypes.array,
@@ -323,18 +321,20 @@ export default class Root extends React.PureComponent {
         GlobalActions.redirectUserToDefaultTeam();
     }
 
+    initiateMeRequests = async () => {
+        const {data: isMeLoaded} = await this.props.actions.loadConfigAndMe();
+
+        if (isMeLoaded && this.props.location.pathname === '/') {
+            this.redirectToOnboardingOrDefaultTeam();
+        }
+
+        this.onConfigLoaded();
+    }
+
     componentDidMount() {
         this.mounted = true;
-        this.props.actions.loadMeAndConfig().then((response) => {
-            const successfullyLoadedMe = response[2] && response[2].data;
-            if (this.props.location.pathname === '/' && successfullyLoadedMe) {
-                this.redirectToOnboardingOrDefaultTeam();
-            }
-            this.onConfigLoaded();
-        });
 
-        measurePageLoadTelemetry();
-        trackSelectorMetrics();
+        this.initiateMeRequests();
 
         if (this.desktopMediaQuery.addEventListener) {
             this.desktopMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
@@ -349,6 +349,9 @@ export default class Root extends React.PureComponent {
         } else {
             window.addEventListener('resize', this.handleWindowResizeEvent);
         }
+
+        measurePageLoadTelemetry();
+        trackSelectorMetrics();
     }
 
     componentWillUnmount() {
@@ -388,10 +391,10 @@ export default class Root extends React.PureComponent {
             }
 
             // detected login from a different tab
-            function onVisibilityChange() {
+            function reloadOnFocus() {
                 location.reload();
             }
-            document.addEventListener('visibilitychange', onVisibilityChange, false);
+            window.addEventListener('focus', reloadOnFocus);
         }
     }
 

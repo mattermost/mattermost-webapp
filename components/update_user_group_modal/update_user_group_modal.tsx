@@ -7,7 +7,7 @@ import {Modal} from 'react-bootstrap';
 
 import {FormattedMessage} from 'react-intl';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {CustomGroupPatch, Group} from 'mattermost-redux/types/groups';
 
 import 'components/user_groups_modal/user_groups_modal.scss';
@@ -43,9 +43,13 @@ const UpdateUserGroupModal = (props: Props) => {
     const [showUnknownError, setShowUnknownError] = useState(false);
     const [mentionUpdatedManually, setMentionUpdatedManually] = useState(false);
 
-    const isSaveEnabled = () => {
+    const doHide = useCallback(() => {
+        setShow(false);
+    }, []);
+
+    const isSaveEnabled = useCallback(() => {
         return name.length > 0 && mention.length > 0 && hasUpdated && !saving;
-    };
+    }, [name, mention, hasUpdated, saving]);
 
     const handleKeyDown = useCallback((e: KeyboardEvent) => {
         if (Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) && isSaveEnabled()) {
@@ -58,11 +62,7 @@ const UpdateUserGroupModal = (props: Props) => {
         return () => document.removeEventListener('keydown', handleKeyDown);
     }, [handleKeyDown]);
 
-    const doHide = () => {
-        setShow(false);
-    };
-
-    const updateNameState = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const updateNameState = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         let newMention = mention;
         if (!mentionUpdatedManually) {
@@ -74,16 +74,21 @@ const UpdateUserGroupModal = (props: Props) => {
         setName(value);
         setHasUpdated(true);
         setMention(newMention);
-    };
+    }, [mention]);
 
-    const updateMentionState = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const updateMentionState = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setHasUpdated(true);
         setMention(value);
         setMentionUpdatedManually(true);
-    };
+    }, []);
 
-    const patchGroup = async () => {
+    const goBack = useCallback(() => {
+        props.backButtonCallback();
+        props.onExited();
+    }, [props.backButtonCallback, props.onExited]);
+
+    const patchGroup = useCallback(async () => {
         setSaving(true);
         let newMention = mention;
         const displayName = name;
@@ -136,11 +141,7 @@ const UpdateUserGroupModal = (props: Props) => {
         } else {
             goBack();
         }
-    };
-    const goBack = () => {
-        props.backButtonCallback();
-        props.onExited();
-    };
+    }, [name, mention, goBack, props.groupId, props.actions.patchGroup]);
 
     return (
         <Modal
@@ -157,9 +158,7 @@ const UpdateUserGroupModal = (props: Props) => {
                     type='button'
                     className='modal-header-back-button btn-icon'
                     aria-label='Close'
-                    onClick={() => {
-                        goBack();
-                    }}
+                    onClick={goBack}
                 >
                     <LocalizedIcon
                         className='icon icon-arrow-left'
@@ -239,4 +238,4 @@ const UpdateUserGroupModal = (props: Props) => {
     );
 };
 
-export default UpdateUserGroupModal;
+export default React.memo(UpdateUserGroupModal);

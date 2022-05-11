@@ -389,6 +389,8 @@ describe('PostBodyAdditionalContent', () => {
                             post_id: 'post_id123',
                             channel_display_name: 'channel1',
                             team_name: 'core',
+                            channel_type: 'O',
+                            channel_id: 'channel_id',
                         },
                     }],
                     images: {},

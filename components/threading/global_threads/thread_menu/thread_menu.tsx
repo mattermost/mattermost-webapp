@@ -9,7 +9,7 @@ import {Preferences} from 'mattermost-redux/constants';
 import {UserThread} from 'mattermost-redux/types/threads';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
-import {setThreadFollow, updateThreadRead} from 'mattermost-redux/actions/threads';
+import {setThreadFollow, updateThreadRead, markThreadAsUnread} from 'mattermost-redux/actions/threads';
 import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
 
 import {
@@ -62,7 +62,11 @@ function ThreadMenu({
         const lastViewedAt = hasUnreads ? Date.now() : unreadTimestamp;
 
         dispatch(manuallyMarkThreadAsUnread(threadId, lastViewedAt));
-        dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, lastViewedAt));
+        if (hasUnreads) {
+            dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, Date.now()));
+        } else {
+            dispatch(markThreadAsUnread(currentUserId, currentTeamId, threadId, threadId));
+        }
     }, [
         currentUserId,
         currentTeamId,

@@ -138,12 +138,12 @@ describe('Multi-user group messages', () => {
         cy.contains('p.channel-intro-text span', 'This is the start of your group message history with');
 
         // * New user is added to the GM
-        cy.get('#member_popover').click();
-        cy.get('.more-modal__name').contains(testUser.username).should('be.visible');
+        cy.get('.member-rhs__trigger').click();
+        cy.uiGetRHS().contains(testUser.username).should('be.visible');
 
         // * Other users are still there
         userList.forEach((user) => {
-            cy.get('.more-modal__name').contains(user.username).scrollIntoView().should('be.visible');
+            cy.uiGetRHS().contains(user.username).scrollIntoView().should('be.visible');
         });
     });
 });

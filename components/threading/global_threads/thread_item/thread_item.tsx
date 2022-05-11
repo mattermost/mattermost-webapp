@@ -30,6 +30,9 @@ import Markdown from 'components/markdown';
 import {THREADING_TIME} from '../../common/options';
 import {useThreadRouting} from '../../hooks';
 import ThreadMenu from '../thread_menu';
+
+import Attachment from './attachments';
+
 import './thread_item.scss';
 
 export type OwnProps = {
@@ -206,12 +209,16 @@ function ThreadItem({
                 tabIndex={0}
                 onClick={handleFormattedTextClick}
             >
-                <Markdown
-                    message={post.state === Posts.POST_DELETED ? msgDeleted : post.message}
-                    options={markdownPreviewOptions}
-                    imagesMetadata={post?.metadata && post?.metadata?.images}
-                    imageProps={imageProps}
-                />
+                {post.message ? (
+                    <Markdown
+                        message={post.state === Posts.POST_DELETED ? msgDeleted : post.message}
+                        options={markdownPreviewOptions}
+                        imagesMetadata={post?.metadata && post?.metadata?.images}
+                        imageProps={imageProps}
+                    />
+                ) : (
+                    <Attachment post={post}/>
+                )}
             </div>
             <div className='activity'>
                 {participantIds?.length ? (
