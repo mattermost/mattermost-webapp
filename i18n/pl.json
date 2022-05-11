@@ -2038,7 +2038,7 @@
   "admin.service.iconTitle": "Włącz integracje pozwalające na nadpisanie ikon zdjęć profilowych:",
   "admin.service.insecureTlsDesc": "Jeśli włączone, wszystkie wychodzące zapytania HTTPS będą akceptowały niezweryfikowane, samo-podpisane certyfikaty. Na przykład, wychodzące połączenia webhook do serwera z samo-podpisanym certyfikatem TLS, używające dowolnej domeny, będą dozwolone. Zauważ że to czyni te połączenia podatnymi na ataki man-in-the-middle.",
   "admin.service.insecureTlsTitle": "Włącz Niezabezpieczone Wychodzące Połączenia: ",
-  "admin.service.internalConnectionsDesc": "Biała lista lokalnych adresów sieciowych, która może być proszona przez serwer Mattermost w imieniu klienta. Należy zachować ostrożność podczas konfigurowania tych ustawień, by uniknąć niezamierzonego dostępu do twojej sieci lokalnej. Zobacz [Dokumentacja](https://mattermost.com/pl/default-allow-untrusted-internal-connections) aby dowiedzieć się więcej.",
+  "admin.service.internalConnectionsDesc": "Biała lista lokalnych adresów sieciowych, która może być proszona przez serwer Mattermost w imieniu klienta. Należy zachować ostrożność podczas konfigurowania tych ustawień, by uniknąć niezamierzonego dostępu do twojej sieci lokalnej. Zobacz <<link>>Dokumentacja</<link>>(https://mattermost.com/pl/default-allow-untrusted-internal-connections) aby dowiedzieć się więcej.",
   "admin.service.internalConnectionsEx": "webhooks.internal.example.com 127.0.0.1 10.0.16.0/28",
   "admin.service.internalConnectionsTitle": "Pozwól na niezaufane połączenia wewnętrzne do: ",
   "admin.service.letsEncryptCertificateCacheFile": "Plik Pamięci Podręcznej Certyfikatu Let's Encrypt:",

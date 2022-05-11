@@ -1488,7 +1488,7 @@
   "admin.service.iconTitle": "允許外部整合功能置換個人圖像：",
   "admin.service.insecureTlsDesc": "允許時，所有的對外 HTTPS 請求將會接受未驗證、自簽章的憑證。如：將允許外寄 Webhook 連至任意網域下使用自簽章的 TLS 憑證的伺服器。註：這樣將產生中間人攻擊的危險性。",
   "admin.service.insecureTlsTitle": "啟用不安全的對外連線：",
-  "admin.service.internalConnectionsDesc": "本地網路位址白名單，Mattermost 將在用戶端有需求的時候發送要求至此名單上的位址。設定此設定時請特別注意以避免意外存取本地網路。詳情請參閱[文件](!https://mattermost.com/pl/default-allow-untrusted-internal-connections)。",
+  "admin.service.internalConnectionsDesc": "本地網路位址白名單，Mattermost 將在用戶端有需求的時候發送要求至此名單上的位址。設定此設定時請特別注意以避免意外存取本地網路。詳情請參閱<<link>>文件</<link>>。",
   "admin.service.internalConnectionsEx": "webhooks.internal.example.com 127.0.0.1 10.0.16.0/28",
   "admin.service.internalConnectionsTitle": "允許不受信任的內部連線連往：",
   "admin.service.letsEncryptCertificateCacheFile": "Let's Encrypt 憑證快取檔案：",

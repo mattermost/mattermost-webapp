@@ -1785,7 +1785,7 @@
   "admin.service.iconTitle": "ادغام ها را برای لغو نمادهای عکس نمایه فعال کنید:",
   "admin.service.insecureTlsDesc": "وقتی درست باشد، هر درخواست HTTPS خروجی گواهی‌های تأیید نشده و خودامضا را می‌پذیرد. به عنوان مثال، وبکهک‌های خروجی به سروری با گواهینامه TLS خودامضا، با استفاده از هر دامنه، مجاز خواهند بود. توجه داشته باشید که این باعث می شود این اتصالات مستعد حملات انسان در وسط باشند.",
   "admin.service.insecureTlsTitle": "اتصالات خروجی ناامن را فعال کنید: ",
-  "admin.service.internalConnectionsDesc": "لیست سفید آدرس های شبکه محلی که می تواند توسط سرور Mattermost از طرف یک مشتری درخواست شود. هنگام پیکربندی این تنظیم باید مراقب باشید تا از دسترسی ناخواسته به شبکه محلی خود جلوگیری کنید. برای کسب اطلاعات بیشتر به [documentation](!https://mattermost.com/pl/default-allow-untrusted-internal-connections) مراجعه کنید.",
+  "admin.service.internalConnectionsDesc": "لیست سفید آدرس های شبکه محلی که می تواند توسط سرور Mattermost از طرف یک مشتری درخواست شود. هنگام پیکربندی این تنظیم باید مراقب باشید تا از دسترسی ناخواسته به شبکه محلی خود جلوگیری کنید. برای کسب اطلاعات بیشتر به <<link>>documentation</<link>> مراجعه کنید.",
   "admin.service.internalConnectionsEx": "webhooks.internal.example.com 127.0.0.1 10.0.16.0/28",
   "admin.service.internalConnectionsTitle": "اتصالات داخلی غیرقابل اعتماد را مجاز کنید: ",
   "admin.service.letsEncryptCertificateCacheFile": "بیایید فایل حافظه پنهان گواهی را رمزگذاری کنیم:",

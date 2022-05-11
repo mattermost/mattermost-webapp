@@ -1499,7 +1499,7 @@
   "admin.service.iconTitle": "Abilita integrazioni per l'override delle immagini profilo:",
   "admin.service.insecureTlsDesc": "Se vero, qualsiasi richiesta HTTPS in uscita, accetterà senza verifica certificati self-signed. Per esempio, verranno ammessi webhook in uscita verso server provvisti di certificato self-signed per un qualsiasi dominio. Da notare che questo renderà queste eventuali connessioni suscettibili ad attacchi di tipo man-in-the-middle.",
   "admin.service.insecureTlsTitle": "Abilita Connessioni in Uscita Non Sicure: ",
-  "admin.service.internalConnectionsDesc": "Una lista di indirizzi locali che possono essere richiesti dal server Mattermost per conto di un client. Prestare attenzione configurando questa impostazione per prevenire accessi indesiderati alla rete locale. Vedere la [documentazione](https://mattermost.com/pl/default-allow-untrusted-internal-connections) per ulteriori infomazioni.",
+  "admin.service.internalConnectionsDesc": "Una lista di indirizzi locali che possono essere richiesti dal server Mattermost per conto di un client. Prestare attenzione configurando questa impostazione per prevenire accessi indesiderati alla rete locale. Vedere la <<link>>documentazione</<link>>(https://mattermost.com/pl/default-allow-untrusted-internal-connections) per ulteriori infomazioni.",
   "admin.service.internalConnectionsEx": "webhooks.interno.esempio.com 127.0.0.1 10.10.16.0/28",
   "admin.service.internalConnectionsTitle": "Consenti connessioni interne non verificate a: ",
   "admin.service.letsEncryptCertificateCacheFile": "File di Cache del certificato Let's Encrypt:",

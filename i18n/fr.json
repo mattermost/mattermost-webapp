@@ -2029,7 +2029,7 @@
   "admin.service.iconTitle": "Permettre aux intégrations de redéfinir les images de profil utilisateur :",
   "admin.service.insecureTlsDesc": "Si activé, toute requête sortante HTTPS accepte les certificats non-vérifiés et auto-signés. Par exemple, les requêtes webhook sortantes avec un certificat TLS auto-signé, vers n'importe quel domaine, sont alors autorisées. Attention, cela rend votre serveur vulnérable aux attaques de l'homme du milieu (« man-in-the-middle » ou « MITM », en anglais).",
   "admin.service.insecureTlsTitle": "Autoriser les connexions sortantes non-sécurisées : ",
-  "admin.service.internalConnectionsDesc": "Une liste banche des adresses des réseaux locaux qui peuvent être demandées par Mattermost pour le compte d'un client. Une attention toute particulière doit être apportée à ce paramètre afin d'éviter que des accès non autorisés ne se produisent sur votre réseau local. Consultez notre [documentation](!https://mattermost.com/pl/default-allow-untrusted-internal-connections) pour en savoir plus.",
+  "admin.service.internalConnectionsDesc": "Une liste banche des adresses des réseaux locaux qui peuvent être demandées par Mattermost pour le compte d'un client. Une attention toute particulière doit être apportée à ce paramètre afin d'éviter que des accès non autorisés ne se produisent sur votre réseau local. Consultez notre <<link>>documentation</<link>> pour en savoir plus.",
   "admin.service.internalConnectionsEx": "webhooks.interne.exemple.com 127.0.0.1 10.0.16.0/28",
   "admin.service.internalConnectionsTitle": "Autoriser les connexions internes non approuvées à : ",
   "admin.service.letsEncryptCertificateCacheFile": "Fichier de cache du certificat Let's Encrypt :",

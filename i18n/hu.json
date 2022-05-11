@@ -2038,7 +2038,7 @@
   "admin.service.iconTitle": "Integrációk engedélyezése profilképek felülírásához:",
   "admin.service.insecureTlsDesc": "Ha igaz, minden kimenő HTTPS-kérés elfogadja a nem ellenőrzött, saját aláírású tanúsítványokat. Például az önaláírt TLS-tanúsítvánnyal rendelkező, bármely tartományt használó kiszolgálóra kimenő webhook engedélyezett. Ne feledje, hogy ezáltal ezek a kapcsolatok érzékenyek a közbeékelődéses támadásra.",
   "admin.service.insecureTlsTitle": "Nem biztonságos kimenő kapcsolatok engedélyezése: ",
-  "admin.service.internalConnectionsDesc": "Egy engedélyezőlista a helyi hálózati címekről, amelyeket a Mattermost szerver kérhet egy ügyfél nevében. A beállításakor körültekintően kell eljárni, a helyi hálózathoz való nem kívánt hozzáférés megakadályozásához. További információkért lásd a [dokumentációt](!https://mattermost.com/pl/default-allow-untrusted-internal-connections).",
+  "admin.service.internalConnectionsDesc": "Egy engedélyezőlista a helyi hálózati címekről, amelyeket a Mattermost szerver kérhet egy ügyfél nevében. A beállításakor körültekintően kell eljárni, a helyi hálózathoz való nem kívánt hozzáférés megakadályozásához. További információkért lásd a <<link>>dokumentációt</<link>>.",
   "admin.service.internalConnectionsEx": "webhooks.internal.example.com 127.0.0.1 10.0.16.0/28",
   "admin.service.internalConnectionsTitle": "Nem megbízható belső kapcsolatok engedélyezése ide: ",
   "admin.service.letsEncryptCertificateCacheFile": "Let's Encrypt tanúsítvány gyorsítótár fájl:",

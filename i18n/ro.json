@@ -1833,7 +1833,7 @@
   "admin.service.iconTitle": "Activați integrațiile pentru a înlocui pictogramele de imagini de profil:",
   "admin.service.insecureTlsDesc": "Când este adevărat, orice solicitare HTTPS trimisă va accepta certificate neconfirmate, semnate cu auto-semnare. De exemplu, vor fi permise găuri de ieșire la un server cu un certificat TLS auto-semnat, utilizând orice domeniu. Rețineți că acest lucru face ca aceste conexiuni să fie susceptibile la atacurile de tip man-in-the-middle.",
   "admin.service.insecureTlsTitle": "Activați conexiunile de ieșire nesigure: ",
-  "admin.service.internalConnectionsDesc": "A whitelist of local network addresses that can be requested by the Mattermost server on behalf of a client. Care should be used when configuring this setting to prevent unintended access to your local network. See [documentation](https://mattermost.com/pl/default-allow-untrusted-internal-connections) to learn more.",
+  "admin.service.internalConnectionsDesc": "A whitelist of local network addresses that can be requested by the Mattermost server on behalf of a client. Care should be used when configuring this setting to prevent unintended access to your local network. See <<link>>documentation</<link>>(https://mattermost.com/pl/default-allow-untrusted-internal-connections) to learn more.",
   "admin.service.internalConnectionsEx": "webhooks.internal.example.com 127.0.0.1 10.0.16.0/28",
   "admin.service.internalConnectionsTitle": "Permiteți conexiunile interne de neîncrederi la: ",
   "admin.service.letsEncryptCertificateCacheFile": "Să ștergeți fișierul cache al certificatului:",

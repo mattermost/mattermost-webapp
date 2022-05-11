@@ -2038,7 +2038,7 @@
   "admin.service.iconTitle": "Profil görseli simgelerini değiştirmek için bütünleştirmeleri etkinleştirin:",
   "admin.service.insecureTlsDesc": "Bu seçenek etkinleştirildiğinde, giden tüm HTTPS istekleri, doğrulanmamış, kendinden imzalı sertifikaları kabul eder. Örnek: kendinden imzalı bir TLS sertifikası kullanan bir sunucuya giden bağlantılardaki tüm etki alanlarına izin verilir. Bu durumun bu bağlantıları ortadaki adam saldırılarına açık kılacağını unutmayın.",
   "admin.service.insecureTlsTitle": "Güvenli olmayan dışa giden bağlantılar kullanılsın: ",
-  "admin.service.internalConnectionsDesc": "İstemci adına Mattermost sunucusu tarafından yerel ağ adreslerinin beyaz listesi istenebilir. Bu ayarı yapılandırırken yerel ağınıza istenmeyen şekilde erişilmesini engellemek için özen gösterilmelidir. Ayrıntılı bilgi almak için [belgeler](https://mattermost.com/pl/default-allow-untrusted-internal-connections) bölümüne bakabilirsiniz.",
+  "admin.service.internalConnectionsDesc": "İstemci adına Mattermost sunucusu tarafından yerel ağ adreslerinin beyaz listesi istenebilir. Bu ayarı yapılandırırken yerel ağınıza istenmeyen şekilde erişilmesini engellemek için özen gösterilmelidir. Ayrıntılı bilgi almak için <<link>>belgeler</<link>>(https://mattermost.com/pl/default-allow-untrusted-internal-connections) bölümüne bakabilirsiniz.",
   "admin.service.internalConnectionsEx": "webbaglantilari.ic.ornek.com 127.0.0.1 10.0.16.0/28",
   "admin.service.internalConnectionsTitle": "Şuraya yapılan güvenilmemiş iç bağlantılara izin verilsin: ",
   "admin.service.letsEncryptCertificateCacheFile": "Let's Encrypt sertifika ön bellek dosyası:",

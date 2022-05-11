@@ -2038,7 +2038,7 @@
   "admin.service.iconTitle": "Erlaube Integrationen das Profilbild zu ändern:",
   "admin.service.insecureTlsDesc": "Wenn wahr, werden alle ausgehenden HTTPS-Anfragen von selbst-signierten Zertifikaten ungeprüft angenommen. Zum Beispiel werden ausgehende Webhooks an einen Server mit einem selbst-signiertem TLS Zertifikat an eine beliebige Domain zugelassen. Hinweis: das macht diese Verbindungen anfällig für Man-In-The-Middle Attacken.",
   "admin.service.insecureTlsTitle": "Erlaube unsichere ausgehende Verbindungen: ",
-  "admin.service.internalConnectionsDesc": "Eine Whitelist von lokalen Netzwerkadressen, die vom Mattermost-Server im Namen eines Clients angefordert werden können. Bei der Konfiguration dieser Einstellung ist Vorsicht geboten, um unbeabsichtigten Zugriff auf dein lokales Netzwerk zu verhindern. Erfahre mehr in der [Dokumentation](https://mattermost.com/pl/default-allow-untrusted-internal-connections).",
+  "admin.service.internalConnectionsDesc": "Eine Whitelist von lokalen Netzwerkadressen, die vom Mattermost-Server im Namen eines Clients angefordert werden können. Bei der Konfiguration dieser Einstellung ist Vorsicht geboten, um unbeabsichtigten Zugriff auf dein lokales Netzwerk zu verhindern. Erfahre mehr in der <<link>>Dokumentation</<link>>(https://mattermost.com/pl/default-allow-untrusted-internal-connections).",
   "admin.service.internalConnectionsEx": "webhooks.intern.beispiel.de 127.0.0.1 10.0.16.0/28",
   "admin.service.internalConnectionsTitle": "Erlaube ungesicherte interne Verbindungen zu: ",
   "admin.service.letsEncryptCertificateCacheFile": "Let's Encrypt Zertifikat Cache Datei:",

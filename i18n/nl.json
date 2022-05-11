@@ -2038,7 +2038,7 @@
   "admin.service.iconTitle": "Aanzetten van integraties die overschrijven van profiel afbeeldingen mogelijk maakt:",
   "admin.service.insecureTlsDesc": "Als dit ingeschakeld is, worden alle uitgaande HTTPS verzoeken zullen ongeverifieerde en self-signed certificaten accepteren. Bijvoorbeeld, uitgaande webhooks naar een server met een self-signed TLS certificaat, gebruik makend van een willekeurig domein, zullen worden toegestaan. Let op, dit maakt deze verbindingen vatbaar voor man-in-the-middle aanvallen.",
   "admin.service.insecureTlsTitle": "Schakel onbeveiligde uitgaande verbindingen in: ",
-  "admin.service.internalConnectionsDesc": "Een goedgekeurde lijst van lokale netwerkadressen die namens een client door de Mattermost-server kan worden aangesproken. Bij het configureren van deze instelling dient u voorzichtig te zijn om onbedoelde toegang tot uw lokale netwerk te voorkomen. Zie [documentatie](!https://mattermost.com/pl/default-allow-untrusted-internal-connections) voor meer informatie.",
+  "admin.service.internalConnectionsDesc": "Een goedgekeurde lijst van lokale netwerkadressen die namens een client door de Mattermost-server kan worden aangesproken. Bij het configureren van deze instelling dient u voorzichtig te zijn om onbedoelde toegang tot uw lokale netwerk te voorkomen. Zie <<link>>documentatie</<link>> voor meer informatie.",
   "admin.service.internalConnectionsEx": "webhooks.intern.voorbeeld.com 127.0.0.1 10.0.16.0/28",
   "admin.service.internalConnectionsTitle": "Niet-vertrouwde interne verbindingen toestaan naar: ",
   "admin.service.letsEncryptCertificateCacheFile": "Let's Encrypt Certificaat Cache Bestand:",

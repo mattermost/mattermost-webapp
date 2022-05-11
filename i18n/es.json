@@ -1922,7 +1922,7 @@
   "admin.service.iconTitle": "Permitir a las integraciones reescribir imágenes de perfil:",
   "admin.service.insecureTlsDesc": "Cuando es verdadero, cualquier solicitud de salida por HTTPS será aceptada incluso si posee certificados no verificados o autofirmados. Por ejemplo, webhooks de salida a un servidor con un certificado TLS autofirmado, utilizando cualquier dominio, será permitido. Tenga en cuenta que esto hace que estas conexiones susceptibles a los ataques hombre-en-el-medio.",
   "admin.service.insecureTlsTitle": "Habilitar Conexiones de Salida Inseguras: ",
-  "admin.service.internalConnectionsDesc": "Una lista blanca de direcciones de red locales que podrán ser solicitadas por el servidor Mattermost en nombre de algún cliente. Se debe tener cuidado al configurar estos ajustes para prevenir el acceso sin intención a tu red local. Ver la [documentación](!https://mattermost.com/pl/default-allow-untrusted-internal-connections) para conocer más.",
+  "admin.service.internalConnectionsDesc": "Una lista blanca de direcciones de red locales que podrán ser solicitadas por el servidor Mattermost en nombre de algún cliente. Se debe tener cuidado al configurar estos ajustes para prevenir el acceso sin intención a tu red local. Ver la <<link>>documentación</<link>> para conocer más.",
   "admin.service.internalConnectionsEx": "webhooks.internal.example.com 127.0.0.1 10.0.16.0/28",
   "admin.service.internalConnectionsTitle": "Permitir conexiones internas no son de confianza: ",
   "admin.service.letsEncryptCertificateCacheFile": "Archivo de Caché de Let's Encrypt:",

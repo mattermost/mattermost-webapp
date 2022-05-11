@@ -1938,7 +1938,7 @@
   "admin.service.iconTitle": "允许整合覆盖头像：",
   "admin.service.insecureTlsDesc": "当设为是时，所有对外的 HTTPS 请求将接受未验证，自签名的证书。例如，对外 webhooks 到任意域名用自签名 TLS 证书的服务器将被允许。注意，这会使得这些连接产生中间人攻击危险。",
   "admin.service.insecureTlsTitle": "启用不安全的对外连接：",
-  "admin.service.internalConnectionsDesc": "Mattermost 服务器代表客户端请求可用的局域网地址白名单。使用此设定需要注意防止意外访问您的本地网络。参见[文档](https://mattermost.com/pl/default-allow-untrusted-internal-connections)了解更多。",
+  "admin.service.internalConnectionsDesc": "Mattermost 服务器代表客户端请求可用的局域网地址白名单。使用此设定需要注意防止意外访问您的本地网络。参见<<link>>文档</<link>>(https://mattermost.com/pl/default-allow-untrusted-internal-connections)了解更多。",
   "admin.service.internalConnectionsEx": "webhooks.internal.example.com 127.0.0.1 10.0.16.0/28",
   "admin.service.internalConnectionsTitle": "允许不受信任的内部连接到：",
   "admin.service.letsEncryptCertificateCacheFile": "Let's Encrypt 证书缓存文件：",

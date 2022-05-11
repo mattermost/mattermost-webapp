@@ -2038,7 +2038,7 @@
   "admin.service.iconTitle": "Aktivera att integrationer kan skriva över profilbilder:",
   "admin.service.insecureTlsDesc": "När aktiverad kommer utgående HTTPS-anrop acceptera overifierade självsignerade certifikat. Exempelvis kan utgående webhooks till en server med ett självsignerat TLS-certifikat för viken domän som helst accepteras. Notera att sådana anslutningar öppnar en risk för man-in-the-middle-attacker.",
   "admin.service.insecureTlsTitle": "Tillåt osäkra utgående anslutningar: ",
-  "admin.service.internalConnectionsDesc": "En whitelist med lokala nätverksadresser som kan anropas av Mattermost server på uppdrag av klienten. Kontrollera konfigurationen för att inte ge obehörig tillgång till ditt lokala nätverk. Läs [dokumentationen](!https://mattermost.com/pl/default-allow-untrusted-internal-connections) för mer information.",
+  "admin.service.internalConnectionsDesc": "En whitelist med lokala nätverksadresser som kan anropas av Mattermost server på uppdrag av klienten. Kontrollera konfigurationen för att inte ge obehörig tillgång till ditt lokala nätverk. Läs <<link>>dokumentationen</<link>> för mer information.",
   "admin.service.internalConnectionsEx": "webhooks.internal.example.com 127.0.0.1 10.0.16.0/28",
   "admin.service.internalConnectionsTitle": "Tillåt osäkra interna anslutningar till: ",
   "admin.service.letsEncryptCertificateCacheFile": "Let's Encrypt Certificate Cache Fil:",

@@ -2038,7 +2038,7 @@
   "admin.service.iconTitle": "統合機能によるプロフィール画像アイコンの上書きを許可する:",
   "admin.service.insecureTlsDesc": "有効な場合、外向きのHTTPSリクエストは未確認の自己署名証明書を受け入れます。例えば、自己署名TLS証明書を使ったサーバーへの外向きのウェブフックが全てのドメインで許可されます。注意: これによって、man-in-the-middle攻撃の危険性が生じます。",
   "admin.service.insecureTlsTitle": "安全でない外向きの接続を有効にする: ",
-  "admin.service.internalConnectionsDesc": "クライアントに代わりMattermostサーバーからリクエスト可能なローカルネットワークアドレスのホワイトリストです。ローカルネットワークへの意図しないアクセスを防ぐためにこの設定を利用する場合、注意が必要です。詳しくは、[説明文書](!https://mattermost.com/pl/default-allow-untrusted-internal-connections)を参照してください。",
+  "admin.service.internalConnectionsDesc": "クライアントに代わりMattermostサーバーからリクエスト可能なローカルネットワークアドレスのホワイトリストです。ローカルネットワークへの意図しないアクセスを防ぐためにこの設定を利用する場合、注意が必要です。詳しくは、<<link>>説明文書</<link>>を参照してください。",
   "admin.service.internalConnectionsEx": "webhooks.internal.example.com 127.0.0.1 10.0.16.0/28",
   "admin.service.internalConnectionsTitle": "信頼されていない内部接続を許可する: ",
   "admin.service.letsEncryptCertificateCacheFile": "Let's Encrypt証明書キャッシュファイル:",
