@@ -1427,7 +1427,7 @@
   "admin.plugins.settings.marketplaceUrlDesc": "마켓 플레이스 서버의 URL입니다.",
   "admin.plugins.settings.marketplaceUrlDesc.empty": " 마켓플레이스 URL은 필수 항목입니다.",
   "admin.plugins.settings.requirePluginSignature": "플러그인 서명 필요:",
-  "admin.plugins.settings.requirePluginSignatureDesc": "이 설정이 활성화되면, 플러그인 업로드가 비활성화되며, 마켓플레이스를 통해서만 설치할 수 있게 됩니다. 플러그인들은 Mattermost 서버가 시작 및 초기화되면서 항상 검증됩니다. 더 자세한 내용은 [문서](!https://mattermost.com/pl/default-plugin-signing)을 참고하세요.",
+  "admin.plugins.settings.requirePluginSignatureDesc": "이 설정이 활성화되면, 플러그인 업로드가 비활성화되며, 마켓플레이스를 통해서만 설치할 수 있게 됩니다. 플러그인들은 Mattermost 서버가 시작 및 초기화되면서 항상 검증됩니다. 더 자세한 내용은 <<link>>문서</<link>>을 참고하세요.",
   "admin.privacy.showEmailDescription": "비활성화 시, 시스템 관리자를 제외한 전체 멤버의 전자우편 주소를 숨깁니다.",
   "admin.privacy.showEmailTitle": "표시할 전자우편 주소: ",
   "admin.privacy.showFullNameDescription": "비활성화 시, 시스템 관리자를 제외한 모든 멤버의 이름을 숨깁니다. 이름 대신 사용자명이 보여집니다.",
