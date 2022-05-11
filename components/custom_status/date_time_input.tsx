@@ -7,7 +7,7 @@ import {DayModifiers, NavbarElementProps} from 'react-day-picker';
 import {useIntl} from 'react-intl';
 
 import moment, {Moment} from 'moment-timezone';
-import {formatDate} from 'react-day-picker/moment';
+import MomentUtils from 'react-day-picker/moment';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
@@ -146,7 +146,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
                 <DayPickerInput
                     value={time.toDate()}
                     format='yyyy-MM-DD'
-                    formatDate={formatDate}
+                    formatDate={MomentUtils.formatDate}
                     onDayChange={handleDayChange}
                     inputProps={{
                         readOnly: true,
