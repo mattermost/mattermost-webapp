@@ -988,7 +988,7 @@
   "admin.log.consoleJsonTitle": "Log su console in formato JSON:",
   "admin.log.consoleTitle": "Scrive i logs sulla console: ",
   "admin.log.enableDiagnostics": "Abilita Diagnostica e Invio Errori:",
-  "admin.log.enableDiagnosticsDescription": "Abilita questa opzione per aumentare la qualità e le funzionalità di Mattermost inviando informazioni diagnostiche ed errori a Mattermost, Inc. Leggi la nosta [politica sulla privacy](!https://mattermost.com/privacy-policy/) per avere maggiori informazioni.",
+  "admin.log.enableDiagnosticsDescription": "Abilita questa opzione per aumentare la qualità e le funzionalità di Mattermost inviando informazioni diagnostiche ed errori a Mattermost, Inc. Leggi la nosta <<link>>politica sulla privacy</<link>> per avere maggiori informazioni.",
   "admin.log.enableWebhookDebugging": "Attiva il debug di Webhook:",
   "admin.log.enableWebhookDebuggingDescription": "Se vero, invia i messaggi di debug del webhook al log del server. Fornisce anche il corpo della richiesta dei webhook in ingresso, impostando {boldedLogLevel} a 'DEBUG'.",
   "admin.log.fileDescription": "Tipicamente abilitato in produzione. Quando attivo, i log registrati vengono scritti nel file mattermost.log all'interno della directory specificata nel campo File Log Directory. I log vengono ruotati ogni 10,000 linee ed archiviati in un file presente nella stessa directory, con un nome ed una data comprendente un numero di serie. Per esempio, mattermost.2017-03-31.001. Cambiare questa impostazione richiedo un riavvio del server.",

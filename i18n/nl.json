@@ -1295,7 +1295,7 @@
   "admin.log.consoleJsonTitle": "Uitvoer logs in de console als JSON:",
   "admin.log.consoleTitle": "Log naar console: ",
   "admin.log.enableDiagnostics": "Aanzetten van Diagnostiek en Fout Rapporteren:",
-  "admin.log.enableDiagnosticsDescription": "Schakel deze functie in om de kwaliteit en prestaties van Mattermost te verbeteren door het verzenden van foutmeldingen en diagnosegegevens naar Mattermost, Inc. Lees onze [privacy policy] (!https://mattermost.com/privacy-policy/) om meer te leren.",
+  "admin.log.enableDiagnosticsDescription": "Schakel deze functie in om de kwaliteit en prestaties van Mattermost te verbeteren door het verzenden van foutmeldingen en diagnosegegevens naar Mattermost, Inc. Lees onze <<link>>privacy policy</<link>>  om meer te leren.",
   "admin.log.enableWebhookDebugging": "Webhook debugging inschakelen:",
   "admin.log.enableWebhookDebuggingDescription": "Als dit waar is, worden webhook-foutopsporingsberichten verzonden naar de serverlogboeken. Om ook de lopende webhooks aan te geven, stelt u het {boldedLogLevel} in op 'DEBUG'.",
   "admin.log.fileDescription": "Standaard ingeschakeld in productie. Wanneer dit ingeschakeld is, worden de vastgelegde events weggeschreven naar het bestand mattermost.log in de directory die is opgegeven in het veld Bestandlogdirectory. De logs worden vernieuwd na 100 MB en gearchiveerd naar een bestand in dezelfde directory, en krijgen een naam met een datestamp en serienummer. Bijvoorbeeld Mattermost.2017-03-31.001. Als je deze instelling wijzigt, moet je de server eerst herstarten.",

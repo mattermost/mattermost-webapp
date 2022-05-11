@@ -1256,7 +1256,7 @@
   "admin.log.consoleJsonTitle": "Salida de los registros por consola como JSON:",
   "admin.log.consoleTitle": "Imprimir registros en la consola: ",
   "admin.log.enableDiagnostics": "Habilitar Diagnósticos e Informes de error:",
-  "admin.log.enableDiagnosticsDescription": "Activa esta función para mejorar la calidad y el rendimiento de Mattermost mediante el envío de informes de error y la información de diagnóstico a Mattermost, Inc. Lee nuestra [política de privacidad](!https://mattermost.com/privacy-policy/) para obtener más información.",
+  "admin.log.enableDiagnosticsDescription": "Activa esta función para mejorar la calidad y el rendimiento de Mattermost mediante el envío de informes de error y la información de diagnóstico a Mattermost, Inc. Lee nuestra <<link>>política de privacidad</<link>> para obtener más información.",
   "admin.log.enableWebhookDebugging": "Habilitar Depuración de Webhook:",
   "admin.log.enableWebhookDebuggingDescription": "Cuando es verdadero, se mostrarán mensajes de depuración del webhook en los registros del servidor. Para que también sea incluido el cuerpo de la solicitud, se debe asignar {boldedLogLevel} a 'DEBUG'.",
   "admin.log.fileDescription": "Normalmente se asigna como verdadero en producción. Cuando es verdadero, los eventos son registrados en el archivo mattermost.log en el directorio especificado en el campo Directorio del Archivo de Registro. Los registros rotan cada 10.000 líneas y son archivados en el mismo directorio, y se les asigna como nombre de archivo una fecha y un número de serie. Por ejemplo, mattermost.2017-03-31.001. Cambiar este ajuste require que el servidor sea reiniciado para surgir efecto.",

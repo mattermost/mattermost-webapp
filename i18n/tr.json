@@ -1295,7 +1295,7 @@
   "admin.log.consoleJsonTitle": "Konsol günlüğü kayıtları JSON olarak kaydedilsin:",
   "admin.log.consoleTitle": "Günlükler konsola gönderilsin: ",
   "admin.log.enableDiagnostics": "Tanılama ve hata bildirme işlemleri yapılsın:",
-  "admin.log.enableDiagnosticsDescription": "Bu seçenek etkinleştirildiğinde, Mattermost kalitesini ve başarımını arttırmaya yardımcı olacak hata bildirimleri ve tanılama bilgileri gönderilir. Ayrıntılı bilgi almak için [kişisel verilerin gizliliği ilkemize](!https://mattermost.com/privacy-policy/) bakabilirsiniz.",
+  "admin.log.enableDiagnosticsDescription": "Bu seçenek etkinleştirildiğinde, Mattermost kalitesini ve başarımını arttırmaya yardımcı olacak hata bildirimleri ve tanılama bilgileri gönderilir. Ayrıntılı bilgi almak için <<link>>kişisel verilerin gizliliği ilkemize</<link>> bakabilirsiniz.",
   "admin.log.enableWebhookDebugging": "Web bağlantısı hata ayıklaması kullanılsın:",
   "admin.log.enableWebhookDebuggingDescription": "Bu seçenek etkinleştirildiğinde, web bağlantı hata ayıklama iletileri sunucu günlüklerine gönderilir. Ayrıca gelen web bağlantılarının istek gövdesinin de gönderilmesi için {boldedLogLevel} seçeneğini \"DEBUG\" olarak ayarlayın.",
   "admin.log.fileDescription": "Bu seçenek genel olarak üretim ortamında etkinleştirilir. Etkinleştirildiğinde, günlüğe kaydedilen işlemler Dosya Günlüğü Klasörü alanında belirtilen klasördeki mattermost.log dosyasına yazılır. Günlük kayıtları 100MB boyutuna ulaştığında aynı klasörde tarih damgası ve seri numarası ile adlandırılarak arşivlenir. Örnek: mattermost.2017-03-31.001. Bu seçenek değiştirildiğinde yeni ayarın etkili olması için sunucunun yeniden başlatılması gerekir.",

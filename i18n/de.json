@@ -1295,7 +1295,7 @@
   "admin.log.consoleJsonTitle": "Konsolen-Logs als JSON ausgeben:",
   "admin.log.consoleTitle": "Logs auf der Konsole ausgeben: ",
   "admin.log.enableDiagnostics": "Aktiviere Diagnose und Fehlerübermittlung:",
-  "admin.log.enableDiagnosticsDescription": "Durch Aktivieren dieser Funktion kann die Qualität und Performance von Mattermost verbessert werden, indem Diagnose und Fehler an Mattermost, Inc. übermittelt werden. Lies unsere [Datenschutzbestimmungen](!https://mattermost.com/privacy-policy/), um mehr darüber zu erfahren.",
+  "admin.log.enableDiagnosticsDescription": "Durch Aktivieren dieser Funktion kann die Qualität und Performance von Mattermost verbessert werden, indem Diagnose und Fehler an Mattermost, Inc. übermittelt werden. Lies unsere <<link>>Datenschutzbestimmungen</<link>>, um mehr darüber zu erfahren.",
   "admin.log.enableWebhookDebugging": "Aktiviere Webhook-Debugging:",
   "admin.log.enableWebhookDebuggingDescription": "Wenn \"wahr\", sendet Mattermost Debug-Nachrichten an die Server-Logs. Um den Anforderungs-Body eingehender Webhooks ebenfalls auszugeben, setze {boldedLogLevel} auf 'DEBUG'.",
   "admin.log.fileDescription": "Normalerweise \"wahr\" in Produktionsumgebungen. Wenn \"wahr\", werden Ereignisse in die mattermost.log in den unter Log-Verzeichnis angegebene Ordner geschrieben. Die Logs werden bei 100 MB rotiert, in eine Datei im selben Verzeichnis archiviert und mit einem Datumsstempel und Seriennummer versehen (z.B. mattermost.2022-01-31.001). Das Ändern dieser Einstellung benötigt einen Server-Neustart zur Aktivierung.",

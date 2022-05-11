@@ -1272,7 +1272,7 @@
   "admin.log.consoleJsonTitle": "以 JSON 输出控制台日志：",
   "admin.log.consoleTitle": "日志输出到控制台：",
   "admin.log.enableDiagnostics": "开启诊断和错误报告：",
-  "admin.log.enableDiagnosticsDescription": "开启此功能将发送错误报告和诊断信息到 Mattermost, Inc 以帮助提高 Mattermost 的质量和性能。请阅读我们的[隐私政策](!https://mattermost.com/privacy-policy/)了解更多。",
+  "admin.log.enableDiagnosticsDescription": "开启此功能将发送错误报告和诊断信息到 Mattermost, Inc 以帮助提高 Mattermost 的质量和性能。请阅读我们的<<link>>隐私政策</<link>>了解更多。",
   "admin.log.enableWebhookDebugging": "启用Webhook调试：",
   "admin.log.enableWebhookDebuggingDescription": "当设为是时，发送 webhook 调式消息至服务器日志。如想同时输出传入的 webhook 请求内容，设定 {boldedLogLevel} 至 'DEBUG'。",
   "admin.log.fileDescription": "通常在正常环境设为是。当设为是时，事件日志将写入到文件日志目录栏指定的目录下的 mattermost.log 文件。日志将在 100 MB 行后归档到同一目录下的一个文件并以时间和序列号为命名。例如：mattermost.2017-03-31.001。",

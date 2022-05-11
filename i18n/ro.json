@@ -1169,7 +1169,7 @@
   "admin.log.consoleJsonTitle": "Înregistrează consola de ieșire ca JSON:",
   "admin.log.consoleTitle": "Ieșiri de ieșire la consola: ",
   "admin.log.enableDiagnostics": "Activați diagnosticarea și raportarea erorilor:",
-  "admin.log.enableDiagnosticsDescription": "Activați această caracteristică pentru a îmbunătăți calitatea și performanța companiei Mattermost, trimițând informații de raportare și diagnosticare a erorilor către Mattermost, Inc. Citiți [politica de confidențialitate](!https://mattermost.com/privacy-policy/) pentru a afla mai multe.",
+  "admin.log.enableDiagnosticsDescription": "Activați această caracteristică pentru a îmbunătăți calitatea și performanța companiei Mattermost, trimițând informații de raportare și diagnosticare a erorilor către Mattermost, Inc. Citiți <<link>>politica de confidențialitate</<link>> pentru a afla mai multe.",
   "admin.log.enableWebhookDebugging": "Activați depanarea Webhook:",
   "admin.log.enableWebhookDebuggingDescription": "Când este adevărat, trimite mesaje de depanare webhook la jurnalele de server. De asemenea, pentru a scoate corpul de solicitare a huburilor de intrare, setați {boldedLogLevel} la 'DEBUG'.",
   "admin.log.fileDescription": "În mod tipic este setat la adevărat în producție. Când sunt adevărate, evenimentele înregistrate sunt scrise în fișierul mattermost.log din directorul specificat în câmpul File Log Directory. Jurnalele sunt rotite la 10.000 de linii și sunt arhivate într-un fișier din același director și li se dă un nume cu un număr de dată și un număr de serie. De exemplu, cele mai importante.2017-03-31.001. Modificarea acestei setări necesită o repornire a serverului înainte de a intra în vigoare.",

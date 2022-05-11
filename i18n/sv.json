@@ -1295,7 +1295,7 @@
   "admin.log.consoleJsonTitle": "Output console logs som JSON:",
   "admin.log.consoleTitle": "Skicka loggar till konsolen: ",
   "admin.log.enableDiagnostics": "Aktiverar diagnos- och felrapporter:",
-  "admin.log.enableDiagnosticsDescription": "Aktivera denna funktion för att förbättra kvalitet och prestanda i Mattermost genom att skicka felrapporter och diagnostik till Mattermost Inc. Läs [integritetspolicyn](!https://mattermost.com/privacy-policy/) för att veta mer.",
+  "admin.log.enableDiagnosticsDescription": "Aktivera denna funktion för att förbättra kvalitet och prestanda i Mattermost genom att skicka felrapporter och diagnostik till Mattermost Inc. Läs <<link>>integritetspolicyn</<link>> för att veta mer.",
   "admin.log.enableWebhookDebugging": "Aktiverar Webhook-debugg:",
   "admin.log.enableWebhookDebuggingDescription": "När denna är true skrivs debuggmeddelanden till serverloggen. För att även skriva hela meddelandet i inkommande webhooks, sätt {boldedLogLevel} till 'DEBUG'.",
   "admin.log.fileDescription": "I en produktionsmiljö bör denna vara aktiverad. När aktiverad skrivs loggar till filen mattermost.log i katalogen angiven i fältet Logfilskatalog. Loggen roteras efter 100MB rader och arkiveras i samma katalog med datumstämpel och serienummer. Exempel mattermost.2017-03-31.001. En omstart av Mattermost krävs för att förändring av denna konfiguration ska ske.",

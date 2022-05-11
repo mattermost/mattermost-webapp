@@ -963,7 +963,7 @@
   "admin.log.consoleJsonTitle": "控制台記錄以 JSON 格式輸出：",
   "admin.log.consoleTitle": "輸出記錄到主控台：",
   "admin.log.enableDiagnostics": "啟用診斷與錯誤報告：",
-  "admin.log.enableDiagnosticsDescription": "啟用此功能以傳送錯誤報告以及診斷訊息給 Mattermost 公司用以改進 Mattermost 的效能跟品質。如需關於隱私政策的詳細資訊，請至[隱私政策](!https://mattermost.com/privacy-policy/)。",
+  "admin.log.enableDiagnosticsDescription": "啟用此功能以傳送錯誤報告以及診斷訊息給 Mattermost 公司用以改進 Mattermost 的效能跟品質。如需關於隱私政策的詳細資訊，請至<<link>>隱私政策</<link>>。",
   "admin.log.enableWebhookDebugging": "啟用 Webhook 除錯：",
   "admin.log.enableWebhookDebuggingDescription": "啟用時，發送 Webhook 除錯訊息至伺服器紀錄。設定{boldedLogLevel} 為 'DEBUG' 以輸出內送 Webhook 的請求內文。",
   "admin.log.fileDescription": "正式環境通常設為啟用。啟用時被記錄的事件將會被寫入至記錄檔案目錄下的 mattermost.log 檔案。記錄檔會在一萬行時交替並封存至同目錄下，以時間及序號命名該封存檔案。如：mattermost.2017-03-31.001。修改此設定後需要重新啟動伺服器以生效。",

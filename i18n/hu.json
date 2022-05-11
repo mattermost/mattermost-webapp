@@ -1295,7 +1295,7 @@
   "admin.log.consoleJsonTitle": "Konzol kimenet naplózása JSON formátumban:",
   "admin.log.consoleTitle": "Kimenet naplózása konzolra: ",
   "admin.log.enableDiagnostics": "Diagnosztika és hibajelentés engedélyezése:",
-  "admin.log.enableDiagnosticsDescription": "Engedélyezze ezt a funkciót a Mattermost minőségének és teljesítményének javításához azáltal, hogy hibajelentéseket és diagnosztikai információkat küld a Mattermost, Inc. számára. Olvassa el az [adatvédelmi irányelveket](!https://mattermost.com/privacy-policy/) a bővebb információkért.",
+  "admin.log.enableDiagnosticsDescription": "Engedélyezze ezt a funkciót a Mattermost minőségének és teljesítményének javításához azáltal, hogy hibajelentéseket és diagnosztikai információkat küld a Mattermost, Inc. számára. Olvassa el az <<link>>adatvédelmi irányelveket</<link>> a bővebb információkért.",
   "admin.log.enableWebhookDebugging": "Webhook hibakeresés engedélyezése:",
   "admin.log.enableWebhookDebuggingDescription": "Ha igaz, webhook hibakeresési üzeneteket küld a kiszolgáló naplóinak. A bejövő webhookok kérelem törzsének kiadásához állítsa a {boldedLogLevel} beállítást 'DEBUG' értékre.",
   "admin.log.fileDescription": "Tipikusan igazra van állítva az éles környezetben. Ha igaz, a naplózott események a mattermost.log fájlba íródnak a File Log Directory mezőben megadott könyvtárba. A naplófájlok 100 MB-os méretnél rotálódnak, és archiválásra kerülnek egy ugyanabban a könyvtárban lévő fájlba, amelyet dátumbélyegzővel és sorszámmal ellátott névvel látnak el. Például: mattermost.2017-03-31.001. A beállítás megváltoztatása a szerver újraindítását igényli, mielőtt érvénybe lépne.",

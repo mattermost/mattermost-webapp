@@ -1129,7 +1129,7 @@
   "admin.log.consoleJsonTitle": "JSON 으로 콘솔 로그 출력 :",
   "admin.log.consoleTitle": "콘솔로 로그를 출력: ",
   "admin.log.enableDiagnostics": "진단 및 오류 보고 사용하기 :",
-  "admin.log.enableDiagnosticsDescription": "활성화하면 Mattermost에 진단 및 오류 보고를 전송하여 Mattermost의 품질과 성능을 개선에 사용합니다. 자세히 알아보려면 [개인정보 보호정책](!https://mattermost.com/privacy-policy/)을 읽어보세요.",
+  "admin.log.enableDiagnosticsDescription": "활성화하면 Mattermost에 진단 및 오류 보고를 전송하여 Mattermost의 품질과 성능을 개선에 사용합니다. 자세히 알아보려면 <<link>>개인정보 보호정책</<link>>을 읽어보세요.",
   "admin.log.enableWebhookDebugging": "Webhook 디버깅 활성화:",
   "admin.log.enableWebhookDebuggingDescription": "활성화 시, 웹훅 디버그 메시지를 서버 로그로 보냅니다. 들어오는 웹훅의 요청 본문을 출력하려면 {boldedLogLevel}을 'DEBUG'로 설정하십시오.",
   "admin.log.fileDescription": "일반적으로 프로덕션에서 true로 설정됩니다. True이면 기록된 이벤트는 파일 로그 경로 필드에 지정된 디렉토리의 mattermost.log 파일에 기록됩니다. 로그는 100MB로 순환되고 동일한 디렉터리의 파일에 보관되며, 이름과 타임스탬프 및 일련 번호가 지정됩니다. 예를 들어 mattermost.2017-03-31.001입니다. 이 설정을 변경하면 서버를 재시작해야 적용됩니다.",

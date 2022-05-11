@@ -1295,7 +1295,7 @@
   "admin.log.consoleJsonTitle": "コンソールログをJSONで出力する:",
   "admin.log.consoleTitle": "ログをコンソールに出力する: ",
   "admin.log.enableDiagnostics": "診断とエラーレポートを有効にする:",
-  "admin.log.enableDiagnosticsDescription": "Mattermost, Incへエラーレポートと診断情報を送信し、Mattermostの品質とパフォーマンスを改善するために、この機能を有効にしてください。 詳しくは[プライバシーポリシー](!https://mattermost.com/privacy-policy/)を参照してください。",
+  "admin.log.enableDiagnosticsDescription": "Mattermost, Incへエラーレポートと診断情報を送信し、Mattermostの品質とパフォーマンスを改善するために、この機能を有効にしてください。 詳しくは<<link>>プライバシーポリシー</<link>>を参照してください。",
   "admin.log.enableWebhookDebugging": "ウェブフックのデバッグを有効にする:",
   "admin.log.enableWebhookDebuggingDescription": "有効な場合、ウェブフックのデバッグメッセージがサーバーログへ送信されます。内向きのウェブフックのリクエストボディを出力するためには、{boldedLogLevel}を 'DEBUG' に設定してください。",
   "admin.log.fileDescription": "本番環境では有効に設定してください。有効な場合、イベントはログファイルの出力ディレクトリーに指定されたディレクトリーの mattermost.log ファイルに書き込まれます。ログファイルは100MBでローテーションされ、元のファイルはファイル名に日付とシリアルナンバーが付与されて同じディレクトリにアーカイブされます。例えば mattermost.2017-03-31.001 です。この設定を有効にするにはサーバーを再起動する必要があります。",
