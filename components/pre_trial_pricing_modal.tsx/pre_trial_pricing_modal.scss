@@ -12,11 +12,6 @@
         }
     }
 
-    .modal-header,
-    .modal-footer {
-        padding: 24px;
-    }
-
     .modal-body {
         overflow: visible;
         max-height: none;
@@ -26,7 +21,7 @@
     .self-hosted-alert {
         position: absolute;
         right: 160px;
-        top: 37px;
+        top: 96px;
         height: 40px;
 
         h1 {
@@ -54,19 +49,36 @@
         align-items: center;
         justify-content: space-between;
         border: none;
+        border-bottom: 1px solid rgba(63, 67, 80, 0.08);
         font-size: 22px;
         font-weight: 600;
-        margin-bottom: 50px;
+        margin-bottom: 118px;
 
-        h1 {
-            margin: 0;
-            margin-left: calc((100% - 840px - 24px)/2); /* calculated based on the total width of the cards including the gap between them */
-            color: #3F4350;
-            font-family: 'Metropolis', sans-serif;
-            font-style: normal;
-            font-weight: 600;
-            font-size: 22px;
-            line-height: 28px;
+        .header_lhs {
+            display: flex;
+            align-items: center;
+            h1 {
+                margin: 0;
+                // margin-left: calc((100% - 840px - 24px)/2); /* calculated based on the total width of the cards including the gap between them */
+                color: #3F4350;
+                font-family: 'Metropolis', sans-serif;
+                font-style: normal;
+                font-weight: 600;
+                font-size: 22px;
+                line-height: 28px;
+            }
+
+            div {
+                margin-left: 8px;
+                padding-left: 8px;
+                border-left: 1px solid rgba(63, 67, 80, 0.16);
+                font-family: 'Open Sans';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 12px;
+                line-height: 20px;
+                color: rgba(63, 67, 80, 0.56);
+            }
         }
 
         &::before,

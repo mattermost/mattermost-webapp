@@ -187,9 +187,12 @@ function Content() {
                 >{formatMessage({id: 'pretrial_pricing_modal.reviewDeploymentOptions', defaultMessage: 'Review deployment options'})}</a>
             </div>
             <Modal.Header className='PreTrialPricingModal__header'>
-                <h1 className='title'>
-                    {formatMessage({id: 'pretrial_pricing_modal.title', defaultMessage: 'Select a plan'})}
-                </h1>
+                <div className='header_lhs'>
+                    <h1 className='title'>
+                        {formatMessage({id: 'pretrial_pricing_modal.title', defaultMessage: 'Select a plan'})}
+                    </h1>
+                    <div>{'Choose a plan to get started'}</div>
+                </div>
                 <button
                     id='closeIcon'
                     className='icon icon-close'
