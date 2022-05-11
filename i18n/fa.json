@@ -1189,7 +1189,7 @@
   "admin.license.starterEdition.subtitle": "حرفه ای یا شرکتی را خریداری کنید تا قفل سرنوشت سازمانی را باز کنید.",
   "admin.license.starterEdition.title": "شروع کننده",
   "admin.license.title": "نسخه و مجوز",
-  "admin.license.trial-request.accept-terms": "با کلیک بر روی **شروع آزمایشی**، با [موافقتنامه ارزیابی نرم افزار Mattermost](!https://mattermost.com/software-evaluation-agreement/)، [خط مشی رازداری](!https://mattermost.com) موافقت می کنم /privacy-policy/)، و دریافت ایمیل های محصول.",
+  "admin.license.trial-request.accept-terms": "با کلیک بر روی **شروع آزمایشی**، با <linkEvaluation>موافقتنامه ارزیابی نرم افزار Mattermost</linkEvaluation>، <linkPrivacy>خط مشی رازداری</linkPrivacy> موافقت می کنم /privacy-policy/)، و دریافت ایمیل های محصول.",
   "admin.license.trial-request.error": "مجوز آزمایشی بازیابی نشد. برای درخواست مجوز به [https://mattermost.com/trial/](https://mattermost.com/trial/) مراجعه کنید.",
   "admin.license.trial-request.loading": "محاکمه شدن",
   "admin.license.trial-request.submit": "شروع آزمایشی",

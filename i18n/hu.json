@@ -1262,7 +1262,7 @@
   "admin.license.starterEdition.subtitle": "Vásárolja meg a Professional vagy az Enterprise kiadást a vállalati funkciók feloldásához.",
   "admin.license.starterEdition.title": "Starter Kiadás",
   "admin.license.title": "Kiadás és licenc",
-  "admin.license.trial-request.accept-terms": "A **Próbaidőszak indítása** gombra kattintva elfogadom a [Mattermost szoftver felhasználási megállapodást](!https://mattermost.com/software-evaluation-agreement/), [Adatvédelmi irányelveket](!https://mattermost.com/privacy-policy/), valamint a termékről szóló e-mailek fogadását.",
+  "admin.license.trial-request.accept-terms": "A **Próbaidőszak indítása** gombra kattintva elfogadom a <linkEvaluation>Mattermost szoftver felhasználási megállapodást</linkEvaluation>, <linkPrivacy>Adatvédelmi irányelveket</linkPrivacy>, valamint a termékről szóló e-mailek fogadását.",
   "admin.license.trial-request.embargoed": "Az embargóval sújtott országokra vonatkozó korlátozások miatt nem tudtuk feldolgozni a kérelmet. <link>Tudjon meg többet a dokumentációnkban</link>, vagy forduljon a legal@mattermost.com címhez az exportkorlátozásokkal kapcsolatos kérdésekkel kapcsolatban.",
   "admin.license.trial-request.error": "A próba licencet nem sikerült lekérni. Látogasson el a [https://mattermost.com/trial/](https://mattermost.com/trial/) oldalra licenc igényléséhez.",
   "admin.license.trial-request.loading": "Licenc igénylés",

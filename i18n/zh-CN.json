@@ -1246,7 +1246,7 @@
   "admin.license.renewalCard.usersNumbers": "**活跃用户：** {activeUsersNum}",
   "admin.license.starterEdition.title": "入门",
   "admin.license.title": "版本和许可证",
-  "admin.license.trial-request.accept-terms": "点击**开始试用**即表示您接受 [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/)、[隐私政策](!https://mattermost.com/privacy-policy/)并接收产品邮件。",
+  "admin.license.trial-request.accept-terms": "点击**开始试用**即表示您接受 <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>、<linkPrivacy>隐私政策</linkPrivacy>并接收产品邮件。",
   "admin.license.trial-request.error": "无法获取试用许可证。请访问 [https://mattermost.com/trial/](https://mattermost.com/trial/) 请求许可证。",
   "admin.license.trial-request.loading": "获取试用",
   "admin.license.trial-request.submit": "开始试用",

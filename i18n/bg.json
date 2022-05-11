@@ -1234,7 +1234,7 @@
   "admin.license.starterEdition.subtitle": "Закупете Професионална или Корпоративна, за да отключите функциите на корпоративната версия.",
   "admin.license.starterEdition.title": "Начална",
   "admin.license.title": "Издание и лиценз",
-  "admin.license.trial-request.accept-terms": "С натискане върху **Започни пробен период**, приемам [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Политика за поверителност](!https://mattermost.com/privacy-policy/) и получаване на ел.поща за продукти.",
+  "admin.license.trial-request.accept-terms": "С натискане върху **Започни пробен период**, приемам <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Политика за поверителност</linkPrivacy> и получаване на ел.поща за продукти.",
   "admin.license.trial-request.error": "Пробния лиценз не може да бъде извлечен. Посетете [https://mattermost.com/trial/Sense(https://mattermost.com/trial/), за да поискате лиценз.",
   "admin.license.trial-request.loading": "Вземи пробно",
   "admin.license.trial-request.submit": "Започни пробен период",

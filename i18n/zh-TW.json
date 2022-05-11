@@ -952,7 +952,7 @@
   "admin.license.keyRemove": "移除企業授權並降級伺服器",
   "admin.license.removing": "授權移除中...",
   "admin.license.title": "版本與授權",
-  "admin.license.trial-request.accept-terms": "點擊 **開始試用** 代表同意 [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/)，[隱私政策](!https://mattermost.com/privacy-policy/)跟收到產品郵件。",
+  "admin.license.trial-request.accept-terms": "點擊 **開始試用** 代表同意 <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>，<linkPrivacy>隱私政策</linkPrivacy>跟收到產品郵件。",
   "admin.license.trial-request.error": "無法取得試用授權。請前往 [https://mattermost.com/trial/](https://mattermost.com/trial/) 要求授權。",
   "admin.license.trial-request.loading": "開始試用",
   "admin.license.trial-request.submit": "要求測試",

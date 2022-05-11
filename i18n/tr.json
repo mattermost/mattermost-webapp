@@ -1262,7 +1262,7 @@
   "admin.license.starterEdition.subtitle": "Enterprise özelliklerini kullanabilmek için Professional ya da Enterprise tarifesi satın alın.",
   "admin.license.starterEdition.title": "Starter",
   "admin.license.title": "Sürüm ve lisans",
-  "admin.license.trial-request.accept-terms": "**Denemeyi başlat** üzerine tıklayarak, [Mattermost yazılım değerlendirme sözleşmesi](!https://mattermost.com/software-evaluation-agreement/) ve [kişisel verilerin gizliliği ilkesini](!https://mattermost.com/privacy-policy/) metinlerini ve ürün ile ilgili e-postaları almayı kabul ediyorum.",
+  "admin.license.trial-request.accept-terms": "**Denemeyi başlat** üzerine tıklayarak, <linkEvaluation>Mattermost yazılım değerlendirme sözleşmesi</linkEvaluation> ve <linkPrivacy>kişisel verilerin gizliliği ilkesini</linkPrivacy> metinlerini ve ürün ile ilgili e-postaları almayı kabul ediyorum.",
   "admin.license.trial-request.embargoed": "Ambargo altındaki ülkelere uygulanan kısıtlamalar nedeniyle istek işlenemedi.<link>Belgeler bölümünden ayrıntılı bilgi alabilir</link> ya da ihracat sınırlamaları ile ilgili sorularınız için legal@mattermost.com adresine yazabilirsiniz.",
   "admin.license.trial-request.error": "Deneme lisansı alınamadı.Lisans isteğinde bulunmak için [https://mattermost.com/trial/](https://mattermost.com/trial/) adresine gidin.",
   "admin.license.trial-request.loading": "Deneme sürümünü edinmek",

@@ -1256,7 +1256,7 @@
   "admin.license.starterEdition.subtitle": "Achetez la version Professional ou Enterprise pour débloquer les fonctionnalités d'entreprise.",
   "admin.license.starterEdition.title": "Starter",
   "admin.license.title": "Édition et licence",
-  "admin.license.trial-request.accept-terms": "En cliquant sur **Démarrer l'essai**, vous acceptez le [Contrat d'évaluation du logiciel Mattermost](!https://mattermost.com/software-evaluation-agreement/), [Politique de confidentialité](!https://mattermost.com/privacy-policy/), et la réception d'e-mails sur le produit.",
+  "admin.license.trial-request.accept-terms": "En cliquant sur **Démarrer l'essai**, vous acceptez le <linkEvaluation>Contrat d'évaluation du logiciel Mattermost</linkEvaluation>, <linkPrivacy>Politique de confidentialité</linkPrivacy>, et la réception d'e-mails sur le produit.",
   "admin.license.trial-request.error": "La licence d'essai n'a pas pu être récupérée. Visitez le site [https://mattermost.com/trial/](https://mattermost.com/trial/) pour demander une licence.",
   "admin.license.trial-request.loading": "Obtention d'une licence d'essai en cours",
   "admin.license.trial-request.submit": "Request trial",

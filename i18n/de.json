@@ -1262,7 +1262,7 @@
   "admin.license.starterEdition.subtitle": "Kaufe Professional oder Enterprise, um Unternehmensfunktionen freizuschalten.",
   "admin.license.starterEdition.title": "Starter",
   "admin.license.title": "Edition und Lizenz",
-  "admin.license.trial-request.accept-terms": "Durch Anklicken von **Starte Test**, stimmst du dem [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/) und der [Datenschutzrichtlinie](!https://mattermost.com/privacy-policy/) zu, und erhältst E-Mails zum Produkt.",
+  "admin.license.trial-request.accept-terms": "Durch Anklicken von **Starte Test**, stimmst du dem <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation> und der <linkPrivacy>Datenschutzrichtlinie</linkPrivacy> zu, und erhältst E-Mails zum Produkt.",
   "admin.license.trial-request.embargoed": "Wir konnten die Anfrage auf Grund von Embargo-Beschränkungen für bestimmte Länder nicht verarbeiten. <link>Lerne mehr in unserer Dokumentation</link>, oder kontaktiere legal@mattermost.com für Fragen rund um Exportbeschränkungen.",
   "admin.license.trial-request.error": "Test Lizenz wurde nicht erhalten. Besuche [https://mattermost.com/trial/](https://mattermost.com/trial/) um eine Lizenz anzufragen.",
   "admin.license.trial-request.loading": "Test abrufen",

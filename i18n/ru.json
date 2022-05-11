@@ -1262,7 +1262,7 @@
   "admin.license.starterEdition.subtitle": "Приобретите версию Professional или Enterprise, чтобы разблокировать корпоративные функции.",
   "admin.license.starterEdition.title": "Стартовый",
   "admin.license.title": "Редакция и лицензия",
-  "admin.license.trial-request.accept-terms": "Нажав **Попробовать**, я принимаю [Соглашение об оценке программного обеспечения Mattermost](!https://mattermost.com/software-evaluation-agreement/), [Политику конфиденциальности](!https://mattermost.com/privacy-policy/), и получение сообщений электронной почты о продукте.",
+  "admin.license.trial-request.accept-terms": "Нажав **Попробовать**, я принимаю <linkEvaluation>Соглашение об оценке программного обеспечения Mattermost</linkEvaluation>, <linkPrivacy>Политику конфиденциальности</linkPrivacy>, и получение сообщений электронной почты о продукте.",
   "admin.license.trial-request.embargoed": "Нам не удалось обработать запрос из-за ограничений для стран, на которые распространяется эмбарго. <link>Подробнее читайте в нашей документации</link> или обращайтесь по адресу legal@mattermost.com, если у вас есть вопросы об экспортных ограничениях.",
   "admin.license.trial-request.error": "Пробная лицензия не может быть получена. Посетите [https://mattermost.com/trial/](https://mattermost.com/trial/), чтобы запросить лицензию.",
   "admin.license.trial-request.loading": "Получение пробной версии",

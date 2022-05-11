@@ -1262,7 +1262,7 @@
   "admin.license.starterEdition.subtitle": "Koop een Professional of Enterprise licentie om de enterprise functies te ontgrendelen.",
   "admin.license.starterEdition.title": "Starter",
   "admin.license.title": "Editie en Licentie",
-  "admin.license.trial-request.accept-terms": "Door te klikken op **Probeerversie starten**, ga ik akkoord met de [Mattermost Software Evaluation Agreement] (!https://mattermost.com/software-evaluation-agreement/), de [Privacy Policy](!https://mattermost.com/privacy-policy/), en het ontvangen van emails van Mattermost.",
+  "admin.license.trial-request.accept-terms": "Door te klikken op **Probeerversie starten**, ga ik akkoord met de <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation> , de <linkPrivacy>Privacy Policy</linkPrivacy>, en het ontvangen van emails van Mattermost.",
   "admin.license.trial-request.embargoed": "We konden de aanvraag niet verwerken wegens beperkingen voor landen onder embargo. <link>Lees meer in onze documentatie</link>, of neem contact op met legal@mattermost.com voor vragen over exportbeperkingen.",
   "admin.license.trial-request.error": "Een proeflicentie kon niet worden verkregen. Bezoek [https://mattermost.com/trial/](https://mattermost.com/trial/) om een licentie aan te vragen.",
   "admin.license.trial-request.loading": "Bezig met proeflicentie aan te vragen",

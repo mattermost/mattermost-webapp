@@ -1153,7 +1153,7 @@
   "admin.license.renewalCard.reviewNumbers": "Examinați numerele de mai jos pentru a vă asigura că vă reînnoiți pentru numărul potrivit de utilizatori.",
   "admin.license.renewalCard.usersNumbers": "**Utilizatori activi:** {activeUsersNum}",
   "admin.license.title": "Ediție și licență",
-  "admin.license.trial-request.accept-terms": "Făcând clic pe **Incepe varianta de test**, sunt de acord cu [Acordul de evaluare software Mattermost](!https: //mattermost.com/software-evaluation-agreement/), [Politica de confidențialitate](!https: //mattermost.com/privacy-policy/) și primirea de e-mailuri ale produsului.",
+  "admin.license.trial-request.accept-terms": "Făcând clic pe **Incepe varianta de test**, sunt de acord cu <linkEvaluation>Acordul de evaluare software Mattermost</linkEvaluation>, <linkPrivacy>Politica de confidențialitate</linkPrivacy> și primirea de e-mailuri ale produsului.",
   "admin.license.trial-request.error": "Licența de încercare nu a putut fi recuperată. Accesați [https://mattermost.com/trial/](https://mattermost.com/trial/) pentru a solicita o licență.",
   "admin.license.trial-request.loading": "Primeste versiune de test",
   "admin.license.trial-request.submit": "Incepe licența de încercare",

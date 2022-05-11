@@ -1262,7 +1262,7 @@
   "admin.license.starterEdition.subtitle": "Kup wersję Professional lub Enterprise, aby odblokować dodatkowe funkcje.",
   "admin.license.starterEdition.title": "Startowa",
   "admin.license.title": "Edycja i licencja",
-  "admin.license.trial-request.accept-terms": "Klikając **Uruchomienie wersji próbnej**, wyrażam zgodę na [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Politykę prywatności](!https://mattermost.com/privacy-policy/) oraz otrzymywanie wiadomości e-mail dotyczących produktu.",
+  "admin.license.trial-request.accept-terms": "Klikając **Uruchomienie wersji próbnej**, wyrażam zgodę na <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Politykę prywatności</linkPrivacy> oraz otrzymywanie wiadomości e-mail dotyczących produktu.",
   "admin.license.trial-request.embargoed": "Nie mogliśmy przetworzyć tego żądania z powodu ograniczeń dotyczących krajów objętych embargiem. <link> Dowiedz się więcej w naszej dokumentacji</link> lub wyślij wiadomość na adres legal@mattermost.com, aby uzyskać odpowiedzi na pytania dotyczące ograniczeń eksportowych.",
   "admin.license.trial-request.error": "Nie można pobrać licencji próbnej. Odwiedź stronę [https://mattermost.com/trial/](https://mattermost.com/trial/), aby zamówić licencję.",
   "admin.license.trial-request.loading": "Pobieranie wersji testowej",
