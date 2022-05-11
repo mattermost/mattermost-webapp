@@ -959,7 +959,7 @@
   "admin.gitlab.siteUrlExample": "例: https://",
   "admin.gitlab.tokenTitle": "トークンエンドポイント:",
   "admin.gitlab.userTitle": "ユーザーAPIエンドポイント:",
-  "admin.google.EnableMarkdownDesc": "1. あなたのGoogleアカウントで[ログイン](!https://accounts.google.com/login)してください。\n2. [https://console.developers.google.com](!https://console.developers.google.com)へ移動し、左メニューの **認証情報** をクリックしてください。\n3. **認証情報** ヘッダー配下の **認証情報を作成** をクリックし、 **OAuth クライアント ID** を選択し、 **ウェブ アプリケーション** を選んでください。\n4. **名前** に \"Mattermost-your-company-name\" を入力してください。\n5. **承認済みのリダイレクト URI** に **your-mattermost-url/signup/google/complete** (example: http://localhost:8065/signup/google/complete)を入力し、**作成** をクリックしてください。\n6. **クライアント ID** と **クライアント シークレット** を下記の欄にペーストし、**Save** をクリックしてください。\n7. [Google People API](!https://console.developers.google.com/apis/library/people.googleapis.com)へ移動し、*Enable* をクリックしてください。",
+  "admin.google.EnableMarkdownDesc": "1. あなたのGoogleアカウントで<linkLogin>ログイン</linkLogin>してください。\n2. <linkConsole>https://console.developers.google.com</linkConsole>へ移動し、左メニューの **認証情報** をクリックしてください。\n3. **認証情報** ヘッダー配下の **認証情報を作成** をクリックし、 **OAuth クライアント ID** を選択し、 **ウェブ アプリケーション** を選んでください。\n4. **名前** に \"Mattermost-your-company-name\" を入力してください。\n5. **承認済みのリダイレクト URI** に **your-mattermost-url/signup/google/complete** (example: http://localhost:8065/signup/google/complete)を入力し、**作成** をクリックしてください。\n6. **クライアント ID** と **クライアント シークレット** を下記の欄にペーストし、**Save** をクリックしてください。\n7. <linkApi>Google People API</linkApi>へ移動し、*Enable* をクリックしてください。",
   "admin.google.authTitle": "認証エンドポイント:",
   "admin.google.clientIdDescription": "Googleにアプリケーションを登録したときに受け取るクライアントIDです。",
   "admin.google.clientIdExample": "例: \"7602141235235-url0fhs1mayfasbmop5qlfns8dh4.apps.googleusercontent.com\"",

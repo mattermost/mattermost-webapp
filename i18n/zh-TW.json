@@ -689,7 +689,7 @@
   "admin.gitlab.siteUrlExample": "如：https://",
   "admin.gitlab.tokenTitle": "Token 端點：",
   "admin.gitlab.userTitle": "使用者 API 端點：",
-  "admin.google.EnableMarkdownDesc": "1. [登入](!https://accounts.google.com/login) Google帳號。\n2. 前往 [https://console.developers.google.com](!https://console.developers.google.com)，按左側邊列的**憑證**並輸入\"Mattermost - 您的公司名稱\"作為**專案名稱**，按**建立**。\n3. 按 **OAuth 同意畫面**  標題並輸入 \"Mattermost\" 作為 **向使用者顯示的產品名稱**。 按 **儲存**。\n4. 在 **憑證** 標題下，按 **建立憑證**，選擇 **OAuth 用戶端 ID** 並選擇 **網路應用程式**。\n5. 在 **限制** 的 **已授權的重新導向 URI** 中輸入 **您的 Mattermost 網址/signup/google/complete** (如： http://localhost:8065/signup/google/complete)。 按 **建立**。\n6. 將 **用戶端 ID** 跟 **用戶端密鑰** 貼至下面的欄位，按下**儲存**。\n7. 前往 [Google People API](!https://console.developers.google.com/apis/library/people.googleapis.com)。按*啟用*。",
+  "admin.google.EnableMarkdownDesc": "1. <linkLogin>登入</linkLogin> Google帳號。\n2. 前往 <linkConsole>https://console.developers.google.com</linkConsole>，按左側邊列的**憑證**並輸入\"Mattermost - 您的公司名稱\"作為**專案名稱**，按**建立**。\n3. 按 **OAuth 同意畫面**  標題並輸入 \"Mattermost\" 作為 **向使用者顯示的產品名稱**。 按 **儲存**。\n4. 在 **憑證** 標題下，按 **建立憑證**，選擇 **OAuth 用戶端 ID** 並選擇 **網路應用程式**。\n5. 在 **限制** 的 **已授權的重新導向 URI** 中輸入 **您的 Mattermost 網址/signup/google/complete** (如： http://localhost:8065/signup/google/complete)。 按 **建立**。\n6. 將 **用戶端 ID** 跟 **用戶端密鑰** 貼至下面的欄位，按下**儲存**。\n7. 前往 <linkApi>Google People API</linkApi>。按*啟用*。",
   "admin.google.authTitle": "認證端點：",
   "admin.google.clientIdDescription": "在 Google 註冊應用程式時收到的用戶端 ID。",
   "admin.google.clientIdExample": "如：\"7602141235235-url0fhs1mayfasbmop5qlfns8dh4.apps.googleusercontent.com\"",
