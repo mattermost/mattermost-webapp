@@ -83,22 +83,10 @@ describe('User Management', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Click Channel Members
-        cy.get('#channelMember').should('be.visible').click();
-
-        // # Click View Members
-        cy.get('#member-list-popover').within(() => {
-            cy.findByText('Manage Members').click();
-        });
+        cy.get('.member-rhs__trigger').should('be.visible').click();
 
         // * Deactivated user does not show up in View Members for channels
-        cy.get('#channelMembersModal').should('be.visible').within(() => {
-            cy.get('#searchUsersInput').
-                should('be.visible').
-                click().
-                type(otherUser.email, {force: true});
-            cy.findByTestId('noUsersFound');
-            cy.uiClose();
-        });
+        cy.uiGetRHS().findByText(otherUser.username).should('not.exist');
 
         // * User does show up in DM More menu so that DM channels can be viewed.
         cy.uiGetLhsSection('DIRECT MESSAGES').findByText(otherUser.username).should('not.exist');

@@ -48,6 +48,7 @@ export interface Props {
         goBack: () => void;
         setChannelMembersRhsSearchTerm: (terms: string) => void;
         loadProfilesAndReloadChannelMembers: (channelId: string) => void;
+        loadMyChannelMemberAndRole: (channelId: string) => void;
     };
 }
 
@@ -88,6 +89,7 @@ export default function ChannelMembersRHS({channel, searchTerms, membersCount, c
         actions.setChannelMembersRhsSearchTerm('');
         setEditing(false);
         actions.loadProfilesAndReloadChannelMembers(channel.id);
+        actions.loadMyChannelMemberAndRole(channel.id);
     }, [channel.id, channel.type]);
 
     const doSearch = async (terms: string) => {

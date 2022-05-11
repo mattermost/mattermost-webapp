@@ -58,19 +58,6 @@ describe('Verify Guest User Identification in different screens', () => {
     it('MM-T1370 Verify Guest Badge in Channel Members dropdown and dialog', () => {
         cy.get('#sidebarItem_town-square').click({force: true});
 
-        // # Open Channel Members List
-        cy.get('#member_popover').click();
-        cy.get('#member-list-popover').should('be.visible').within(($el) => {
-            cy.wrap($el).findAllByTestId('popoverListMembersItem').each(($elChild) => {
-                cy.wrap($elChild).invoke('attr', 'aria-label').then((username) => {
-                    if (username === guest.username) {
-                        // * Verify Guest Badge in Channel Members List
-                        cy.wrap($elChild).find('.Badge').should('be.visible').and('have.text', 'GUEST');
-                    }
-                });
-            });
-        });
-
         // # Open Channel Members Dialog
         cy.get('#channelHeaderDropdownIcon').click();
         cy.get('#channelViewMembers').click().wait(TIMEOUTS.HALF_SEC);

@@ -412,52 +412,6 @@ describe('rhs view actions', () => {
                 },
             ]);
         });
-
-        test('it dispatches the right actions for a specific channel', async () => {
-            const channelId = 'channel1';
-
-            (SearchActions.getPinnedPosts as jest.Mock).mockReturnValue((dispatch: DispatchFunc) => {
-                dispatch({type: 'MOCK_GET_PINNED_POSTS'});
-
-                return {data: 'data'};
-            });
-
-            await store.dispatch(showPinnedPosts(channelId));
-
-            expect(SearchActions.getPinnedPosts).toHaveBeenCalledWith(channelId);
-
-            expect(store.getActions()).toEqual([
-                {
-                    type: ActionTypes.UPDATE_RHS_STATE,
-                    channelId,
-                    state: RHSStates.PIN,
-                    previousRhsState: null,
-                },
-                {
-                    type: 'MOCK_GET_PINNED_POSTS',
-                },
-                {
-                    type: 'BATCHING_REDUCER.BATCH',
-                    meta: {
-                        batch: true,
-                    },
-                    payload: [
-                        {
-                            type: SearchTypes.RECEIVED_SEARCH_POSTS,
-                            data: 'data',
-                        },
-                        {
-                            type: SearchTypes.RECEIVED_SEARCH_TERM,
-                            data: {
-                                teamId: currentTeamId,
-                                terms: null,
-                                isOrSearch: false,
-                            },
-                        },
-                    ],
-                },
-            ]);
-        });
     });
 
     describe('showMentions', () => {

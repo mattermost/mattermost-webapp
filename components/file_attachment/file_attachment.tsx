@@ -20,7 +20,7 @@ import {
     getFileType,
     loadImage,
     localizeMessage,
-} from 'utils/utils.jsx';
+} from 'utils/utils';
 
 import FilenameOverlay from './filename_overlay';
 import FileThumbnail from './file_thumbnail';

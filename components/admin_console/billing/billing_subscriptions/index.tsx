@@ -15,21 +15,24 @@ import FormattedAdminHeader from 'components/widgets/admin_console/formatted_adm
 import PurchaseModal from 'components/purchase_modal';
 
 import {getCloudContactUsLink, InquiryType, InquiryIssue} from 'selectors/cloud';
+import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {GlobalState} from 'types/store';
 import {
     ModalIdentifiers,
     TrialPeriodDays,
 } from 'utils/constants';
 import {isCustomerCardExpired} from 'utils/cloud_utils';
-import {getRemainingDaysFromFutureTimestamp} from 'utils/utils.jsx';
+import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
 import {useQuery} from 'utils/http_utils';
 
 import BillingSummary from '../billing_summary';
 import PlanDetails from '../plan_details';
 
+import ContactSalesCard from './contact_sales_card';
+import CancelSubscription from './cancel_subscription';
+import Limits from './limits';
+
 import {
-    contactSalesCard,
-    cancelSubscription,
     creditCardExpiredBanner,
     paymentFailedBanner,
 } from './billing_subscriptions';
@@ -48,6 +51,7 @@ const BillingSubscriptions: React.FC = () => {
     const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
     const cancelAccountLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, InquiryIssue.CancelAccount));
     const trialQuestionsLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, InquiryIssue.TrialQuestions));
+    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
 
     const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
 
@@ -132,8 +136,22 @@ const BillingSubscriptions: React.FC = () => {
                             onUpgradeMattermostCloud={onUpgradeMattermostCloud}
                         />
                     </div>
-                    {contactSalesCard(contactSalesLink, isFreeTrial, trialQuestionsLink, product?.sku, onUpgradeMattermostCloud, productsLength)}
-                    {cancelSubscription(cancelAccountLink, isFreeTrial, isPaidTier)}
+                    {isCloudFreeEnabled ?
+                        <Limits/> :
+                        <ContactSalesCard
+                            contactSalesLink={contactSalesLink}
+                            isFreeTrial={isFreeTrial}
+                            trialQuestionsLink={trialQuestionsLink}
+                            subscriptionPlan={product?.sku}
+                            onUpgradeMattermostCloud={onUpgradeMattermostCloud}
+                            productsLength={productsLength}
+                        />
+                    }
+                    <CancelSubscription
+                        cancelAccountLink={cancelAccountLink}
+                        isFreeTrial={isFreeTrial}
+                        isPaidTier={isPaidTier}
+                    />
                 </div>
             </div>
         </div>

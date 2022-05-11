@@ -6,6 +6,10 @@ export type CloudState = {
     products?: Record<string, Product>;
     customer?: CloudCustomer;
     invoices?: Record<string, Invoice>;
+    limits: {
+        limitsLoaded: boolean;
+        limits: Limits;
+    };
 }
 
 export type Subscription = {
@@ -119,4 +123,23 @@ export type InvoiceLineItem = {
     description: string;
     type: typeof InvoiceLineItemType[keyof typeof InvoiceLineItemType];
     metadata: Record<string, string>;
+}
+
+export type Limits = {
+    integrations?: {
+        enabled?: number;
+    };
+    messages?: {
+        history?: number;
+    };
+    files?: {
+        total_storage?: number;
+    };
+    teams?: {
+        active?: number;
+    };
+    boards?: {
+        cards?: number;
+        views?: number;
+    };
 }

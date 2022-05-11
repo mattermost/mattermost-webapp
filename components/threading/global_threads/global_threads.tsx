@@ -15,7 +15,7 @@ import {
     getThread,
 } from 'mattermost-redux/selectors/entities/threads';
 
-import {getThreads} from 'mattermost-redux/actions/threads';
+import {getThreadCounts, getThreads} from 'mattermost-redux/actions/threads';
 import {selectChannel} from 'mattermost-redux/actions/channels';
 
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
@@ -86,6 +86,10 @@ const GlobalThreads = () => {
             dispatch(unsuppressRHS);
         };
     }, []);
+
+    useEffect(() => {
+        dispatch(getThreadCounts(currentUserId, currentTeamId));
+    }, [currentTeamId, currentUserId]);
 
     useEffect(() => {
         if (!selectedThreadId || selectedThreadId !== threadIdentifier) {

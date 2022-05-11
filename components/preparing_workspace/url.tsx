@@ -46,8 +46,12 @@ const Url = (props: Props) => {
 
     useEffect(() => {
         urlValidator.validate(props.url);
-        props.onPageView();
     }, []);
+    useEffect(() => {
+        if (props.show) {
+            props.onPageView();
+        }
+    }, [props.show]);
 
     useEffect(() => {
         reportValidationError(props.url, urlValidator.result.valid);

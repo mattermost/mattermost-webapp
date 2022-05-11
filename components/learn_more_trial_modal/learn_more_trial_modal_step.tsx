@@ -5,8 +5,6 @@ import React from 'react';
 
 import {FormattedMessage, useIntl} from 'react-intl';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-
 import StartTrialBtn from './start_trial_btn';
 
 import './learn_more_trial_modal_step.scss';
@@ -62,9 +60,29 @@ const LearnMoreTrialModalStep = (
             />
             <div className='disclaimer'>
                 <span>
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='start_trial.modal.disclaimer'
-                        defaultMessage='By clicking “Start trial”, I agree to the [Mattermost Software Evaluation Agreement,](!https://mattermost.com/software-evaluation-agreement) [privacy policy,](!https://mattermost.com/privacy-policy/) and receiving product emails.'
+                        defaultMessage='By clicking “Start trial”, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
+                        values={{
+                            linkEvaluation: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://mattermost.com/software-evaluation-agreement'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                            linkPrivacy: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://mattermost.com/privacy-policy/'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        }}
                     />
                 </span>
             </div>

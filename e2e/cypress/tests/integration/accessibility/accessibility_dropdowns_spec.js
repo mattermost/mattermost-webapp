@@ -74,11 +74,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
 
         menuItems.forEach((item) => {
             // * Verify that the menu item is focused
-            if (item === 'View Info' || item === 'Mute Channel' || item === 'Leave Channel') {
-                cy.uiGetChannelMenu().findByText(item).parent().parent().should('be.focused');
-            } else {
-                cy.uiGetChannelMenu().findByText(item).parent().should('be.focused');
-            }
+            cy.uiGetChannelMenu().findByText(item).parent().should('be.focused');
 
             // # Press tab for next item
             cy.focused().tab();
