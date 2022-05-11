@@ -913,7 +913,7 @@
   "admin.image.archiveRecursionTitle": "Ative a pesquisa de conteúdo de documentos em arquivos ZIP:",
   "admin.image.enableProxy": "Ativar Proxy de Imagem:",
   "admin.image.enableProxyDescription": "Quando verdadeiro, ativa um proxy de imagem para carregar todas as images em Markdown.",
-  "admin.image.extractContentDescription": "Quando ativo, os tipos de documentos suportados podem ser pesquisados por seu conteúdo. Os resultados da pesquisa de documentos existentes podem estar incompletos [até que uma migração de dados seja executada](!https://www.mattermost.com/file-content-extraction).",
+  "admin.image.extractContentDescription": "Quando ativo, os tipos de documentos suportados podem ser pesquisados por seu conteúdo. Os resultados da pesquisa de documentos existentes podem estar incompletos <link>até que uma migração de dados seja executada</link>.",
   "admin.image.extractContentTitle": "Habilite a pesquisa de documentos por conteúdo:",
   "admin.image.localDescription": "Diretório o qual arquivos e imagens são arquivados. Se vazio, padrão ./data/.",
   "admin.image.localExample": "Ex.: \"./data/\"",

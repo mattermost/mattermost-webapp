@@ -1018,7 +1018,7 @@
   "admin.image.archiveRecursionTitle": "فعال کردن جستجوی محتوای اسناد در فایل های ZIP:",
   "admin.image.enableProxy": "فعال کردن پروکسی تصویر:",
   "admin.image.enableProxyDescription": "وقتی درست است، یک پراکسی تصویر را برای بارگیری همه تصاویر Markdown فعال می کند.",
-  "admin.image.extractContentDescription": "وقتی فعال باشد، انواع سند پشتیبانی شده بر اساس محتوایشان قابل جستجو هستند. نتایج جستجو برای اسناد موجود ممکن است [تا زمانی که انتقال داده اجرا نشود] ناقص باشد (!https://www.mattermost.com/file-content-extraction).",
+  "admin.image.extractContentDescription": "وقتی فعال باشد، انواع سند پشتیبانی شده بر اساس محتوایشان قابل جستجو هستند. نتایج جستجو برای اسناد موجود ممکن است <link>تا زمانی که انتقال داده اجرا نشود</link> ناقص باشد .",
   "admin.image.extractContentTitle": "فعال کردن جستجوی سند بر اساس محتوا:",
   "admin.image.localDescription": "دایرکتوری که فایل ها و تصاویر در آن نوشته می شوند. اگر خالی باشد، پیش‌فرض روی ./data/ است.",
   "admin.image.localExample": "به عنوان مثال: \"./data/\"",

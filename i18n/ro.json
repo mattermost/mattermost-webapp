@@ -989,7 +989,7 @@
   "admin.image.archiveRecursionTitle": "Permite căutarea în conținutul documentelor din fișierele ZIP:",
   "admin.image.enableProxy": "Activează Proxy Imagine:",
   "admin.image.enableProxyDescription": "Când este bifat, activează un proxy de imagine pentru încărcarea tuturor imaginilor Markdown.",
-  "admin.image.extractContentDescription": "Atunci când este activată, tipurile de documente acceptate pot fi căutate în funcție de conținutul lor. Rezultatele căutării pentru documentele existente pot fi incomplete [până la executarea unei migrări de date](!https://www.mattermost.com/file-content-extraction).",
+  "admin.image.extractContentDescription": "Atunci când este activată, tipurile de documente acceptate pot fi căutate în funcție de conținutul lor. Rezultatele căutării pentru documentele existente pot fi incomplete <link>până la executarea unei migrări de date</link>.",
   "admin.image.extractContentTitle": "Activați căutarea documentelor în funcție de conținut:",
   "admin.image.localDescription": "Directorul la care sunt scrise fișierele și imaginile. Dacă este necompletată, implicit este ./data/.",
   "admin.image.localExample": "De exemplu: \"./data/\"",

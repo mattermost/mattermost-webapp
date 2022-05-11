@@ -1073,7 +1073,7 @@
   "admin.image.archiveRecursionTitle": "ZIPファイル内の文書の内容を検索可能にする:",
   "admin.image.enableProxy": "画像プロキシを有効にする:",
   "admin.image.enableProxyDescription": "有効な場合、Markdownの画像を読み込む際の画像プロキシが有効になります。",
-  "admin.image.extractContentDescription": "有効な場合、サポートされているドキュメント種別は、その内容を検索できるようになります。既存のドキュメントの検索結果は[データ移行が実行されるまで](!https://www.mattermost.com/file-content-extraction)不完全である可能性があります。",
+  "admin.image.extractContentDescription": "有効な場合、サポートされているドキュメント種別は、その内容を検索できるようになります。既存のドキュメントの検索結果は<link>データ移行が実行されるまで</link>不完全である可能性があります。",
   "admin.image.extractContentTitle": "内容によるドキュメント検索を有効にする:",
   "admin.image.localDescription": "ファイルと画像を書き込むディレクトリー。空欄の場合には、既定値として、./data/ が使用されます。",
   "admin.image.localExample": "例: \"./data/\"",

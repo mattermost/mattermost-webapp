@@ -1073,7 +1073,7 @@
   "admin.image.archiveRecursionTitle": "ZIP dosyalarındaki belge içerikleri aranabilsin:",
   "admin.image.enableProxy": "Görsel vekil sunucusu kullanılsın:",
   "admin.image.enableProxyDescription": "Bu seçenek etkinleştirildiğinde, tüm Markdown görsellerinin yüklenmesi için bir görsel vekil sunucusu kullanılır.",
-  "admin.image.extractContentDescription": "Bu seçenek etkinleştirildiğinde, desteklenen belge türlerinin içerikleri aranabilir. Var olan belgelerin arama sonuçları [bir veri aktarımı yapılana kadar](!https://www.mattermost.com/file-content-extraction) eksik olabilir.",
+  "admin.image.extractContentDescription": "Bu seçenek etkinleştirildiğinde, desteklenen belge türlerinin içerikleri aranabilir. Var olan belgelerin arama sonuçları <link>bir veri aktarımı yapılana kadar</link> eksik olabilir.",
   "admin.image.extractContentTitle": "Belgeler içeriklerine göre aranabilsin:",
   "admin.image.localDescription": "Dosya ve görsellerin yazılacağı klasörü seçin. Boş bırakılırsa varsayılan değer ./data/ kullanılır.",
   "admin.image.localExample": "Örnek: \"./data/\"",

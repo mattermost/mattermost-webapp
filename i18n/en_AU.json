@@ -1073,7 +1073,7 @@
   "admin.image.archiveRecursionTitle": "Enable searching content of documents within ZIP files:",
   "admin.image.enableProxy": "Enable Image Proxy:",
   "admin.image.enableProxyDescription": "When true, enables an image proxy for loading all Markdown images.",
-  "admin.image.extractContentDescription": "When enabled, supported document types are searchable by their content. Search results for existing documents may be incomplete [until a data migration is executed](!https://www.mattermost.com/file-content-extraction).",
+  "admin.image.extractContentDescription": "When enabled, supported document types are searchable by their content. Search results for existing documents may be incomplete <link>until a data migration is executed</link>.",
   "admin.image.extractContentTitle": "Enable document search by content:",
   "admin.image.localDescription": "Directory to which files and images are written. If blank, defaults to ./data/.",
   "admin.image.localExample": "E.g.: './data/'",

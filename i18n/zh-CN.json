@@ -1065,7 +1065,7 @@
   "admin.image.archiveRecursionTitle": "启用在 ZIP 文件中搜索文档内容：",
   "admin.image.enableProxy": "开启图片代理：",
   "admin.image.enableProxyDescription": "当设为是时，加载 Markdown 图片时开启图片代理。",
-  "admin.image.extractContentDescription": "启用后，支持的文档类型可按其内容进行搜索。现有文档的搜索结果可能不完整[直到执行数据迁移](!https://www.mattermost.com/file-content-extraction)。",
+  "admin.image.extractContentDescription": "启用后，支持的文档类型可按其内容进行搜索。现有文档的搜索结果可能不完整<link>直到执行数据迁移</link>。",
   "admin.image.extractContentTitle": "启用按内容搜索文档：",
   "admin.image.localDescription": "存储文件和图像的目录。如果为空则默认为./data/。",
   "admin.image.localExample": "例如 \"./data/\"",

@@ -1073,7 +1073,7 @@
   "admin.image.archiveRecursionTitle": "ZIP fájlokban lévő dokumentumok tartalmában történő keresés engedélyezése:",
   "admin.image.enableProxy": "Kép proxy engedélyezése:",
   "admin.image.enableProxyDescription": "Ha igaz, akkor engedélyez egy kép proxyt az összes Markdown kép betöltéséhez.",
-  "admin.image.extractContentDescription": "Ha engedélyezve van, a támogatott dokumentumtípusok tartalmuk alapján kereshetők. A meglévő dokumentumok keresési eredményei hiányosak lehetnek [az adatok migrálásáig](!https://www.mattermost.com/file-content-extraction).",
+  "admin.image.extractContentDescription": "Ha engedélyezve van, a támogatott dokumentumtípusok tartalmuk alapján kereshetők. A meglévő dokumentumok keresési eredményei hiányosak lehetnek <link>az adatok migrálásáig</link>.",
   "admin.image.extractContentTitle": "Dokumentum keresés engedélyezése tartalom szerint:",
   "admin.image.localDescription": "Könyvtár, ahová fájlokat és képeket írják. Ha üres, akkor alapértelmezés szerint ./data/.",
   "admin.image.localExample": "Pl.: \"./data/\"",

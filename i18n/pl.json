@@ -1073,7 +1073,7 @@
   "admin.image.archiveRecursionTitle": "Umożliwia przeszukiwanie zawartości dokumentów w plikach ZIP:",
   "admin.image.enableProxy": "Włącz Proxy dla Obrazów:",
   "admin.image.enableProxyDescription": "Jeśli włączone, ładowanie wszystkich obrazów Markdown odbywa się poprzez proxy.",
-  "admin.image.extractContentDescription": "Po włączeniu tej funkcji obsługiwane typy dokumentów można przeszukiwać według ich zawartości. Wyniki wyszukiwania dla istniejących dokumentów mogą być niekompletne [do czasu wykonania migracji danych](!https://www.mattermost.com/file-content-extraction).",
+  "admin.image.extractContentDescription": "Po włączeniu tej funkcji obsługiwane typy dokumentów można przeszukiwać według ich zawartości. Wyniki wyszukiwania dla istniejących dokumentów mogą być niekompletne <link>do czasu wykonania migracji danych</link>.",
   "admin.image.extractContentTitle": "Włącz wyszukiwanie dokumentów według zawartości:",
   "admin.image.localDescription": "Katalog, do którego zapisywane są pliki i obrazy. Jeśli puste, domyślnie będzie ./data/.",
   "admin.image.localExample": "Np. \"./data/\"",

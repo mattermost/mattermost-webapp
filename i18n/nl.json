@@ -1073,7 +1073,7 @@
   "admin.image.archiveRecursionTitle": "Het zoeken in de inhoud van documenten binnen ZIP-bestanden inschakelen:",
   "admin.image.enableProxy": "Afbeeldingsproxy inschakelen:",
   "admin.image.enableProxyDescription": "Als dit waar is, schakelt u een afbeeldingsproxy in voor het laden van alle Markdown-afbeeldingen.",
-  "admin.image.extractContentDescription": "Indien ingeschakeld, kunnen ondersteunde documenttypes worden doorzocht op hun inhoud. Zoekresultaten voor bestaande documenten kunnen onvolledig zijn [totdat een gegevensmigratie is uitgevoerd](!https://www.mattermost.com/file-content-extraction).",
+  "admin.image.extractContentDescription": "Indien ingeschakeld, kunnen ondersteunde documenttypes worden doorzocht op hun inhoud. Zoekresultaten voor bestaande documenten kunnen onvolledig zijn <link>totdat een gegevensmigratie is uitgevoerd</link>.",
   "admin.image.extractContentTitle": "Document zoeken op inhoud inschakelen:",
   "admin.image.localDescription": "Map waar bestanden en afbeeldingen worden bewaard. Wanneer leeg, standaard is ./data/.",
   "admin.image.localExample": "Bijv.: \"./data/\"",

@@ -1073,7 +1073,7 @@
   "admin.image.archiveRecursionTitle": "Aktivera möjligheten att söka efter innehåll i dokument inuti ZIP-filer:",
   "admin.image.enableProxy": "Aktivera bildproxy:",
   "admin.image.enableProxyDescription": "När aktiverad så aktiveras en bildproxy för att ladda alla Markdown-bilder.",
-  "admin.image.extractContentDescription": "När aktiverad är innehållet i dokumenttyper som stöds sökbara. Sökresultaten för befintliga dokument kan vara ofullständiga [tills en datamigrering har utförts](!https://www.mattermost.com/file-content-extraction).",
+  "admin.image.extractContentDescription": "När aktiverad är innehållet i dokumenttyper som stöds sökbara. Sökresultaten för befintliga dokument kan vara ofullständiga <link>tills en datamigrering har utförts</link>.",
   "admin.image.extractContentTitle": "Aktivera dokumentsökning efter innehåll:",
   "admin.image.localDescription": "Katalog till vilken filer och bilder skrivs. Om blank så används standardvärdet ./data/.",
   "admin.image.localExample": "T.ex.: \"./data/\"",

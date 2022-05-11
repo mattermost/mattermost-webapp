@@ -1068,7 +1068,7 @@
   "admin.image.archiveRecursionTitle": "Activer la recherche à l'intérieur des fichiers contenu dans une archive ZIP :",
   "admin.image.enableProxy": "Activer le proxy d'images :",
   "admin.image.enableProxyDescription": "Si activé, un proxy d'images pour charger toutes les images Markdown est utilisé.",
-  "admin.image.extractContentDescription": "Si activé, la recherche porte aussi dans le contenu pour les types de documents supportés. Les résultats de la recherche pour les documents existants peuvent être incomplets [tant qu'une migration des données n'a pas été exécutée](!https://www.mattermost.com/file-content-extraction).",
+  "admin.image.extractContentDescription": "Si activé, la recherche porte aussi dans le contenu pour les types de documents supportés. Les résultats de la recherche pour les documents existants peuvent être incomplets <link>tant qu'une migration des données n'a pas été exécutée</link>.",
   "admin.image.extractContentTitle": "Activer la recherche dans le contenu des documents :",
   "admin.image.localDescription": "Dossier dans lequel les fichiers et images sont enregistrés. Si ce paramètre n'est pas spécifié, ./data/ est défini par défaut.",
   "admin.image.localExample": "Ex. : « ./data/ »",
