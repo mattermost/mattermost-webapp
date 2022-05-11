@@ -1045,7 +1045,7 @@
   "admin.ldap.skipCertificateVerificationDesc": "Ignora a etapa de verificação do certificado para conexões TLS ou STARTTLS. Ignorar a verificação de certificado não é recomendado para ambientes de produção em que o TLS é necessário.",
   "admin.ldap.syncIntervalHelpText": "Sincronização AD/LDAP atualiza as informações do usuário Mattermost para refletir atualizações no servidor AD/LDAP. Por exemplo, quando o nome de um usuário muda no servidor AD/LDAP, a mudança atualiza o Mattermost quando a sincronização é executada. Contas removidas ou desativas no servidor AD/LDAP tem suas contas definidas como \"Inativa\" e suas sessões revogadas. Mattermos executa a sincronização no intervalo digitado. Por exemplo, se 60 for digitado, Mattermost irá sincronizar a cada 60 minutos.",
   "admin.ldap.syncIntervalTitle": "Intervalo de sincronização (minutos):",
-  "admin.ldap.syncNowHelpText": "Inicia uma sincronização AD/LDAP imediatamente. Veja a tabela abaixo para o status de cada sincronização. Por favor, revise \"Console do Sistema > Logs\" e a [documentação](!https://mattermost.com/default-ldap-docs) para solucionar erros.",
+  "admin.ldap.syncNowHelpText": "Inicia uma sincronização AD/LDAP imediatamente. Veja a tabela abaixo para o status de cada sincronização. Por favor, revise \"Console do Sistema > Logs\" e a <link>documentação</link> para solucionar erros.",
   "admin.ldap.sync_button": "Sincronizar AD/LDAP Agora",
   "admin.ldap.testFailure": "Falha Teste AD/LDAP: {error}",
   "admin.ldap.testHelpText": "Testa se o servidor Mattermost pode se conectar ao servidor AD/LDAP especificado. Por favor, revise \"Console do Sistema > Logs\" e a <link>documentação</link> para solucionar erros.",

@@ -1205,7 +1205,7 @@
   "admin.ldap.skipCertificateVerificationDesc": "TLS もしくは STARTTLS 接続における証明書の検証手順をスキップします。証明書検証のスキップはTLS必須の本番環境では推奨されません。",
   "admin.ldap.syncIntervalHelpText": "AD/LDAPの同期は、AD/LDAPサーバでの更新を反映するためにMattermostのユーザー情報を更新します。例えば、AD/LDAPサーバー上でユーザーの名前が変更された場合、その変更はAD/LDAPの同期が実行された時にMattermostへ反映されます。AD/LDAPサーバ上で削除もしくは無効化されたアカウントは、Mattermost上で\"無効\"となり、そのアカウントのセッションは破棄されます。Mattermostは入力された同期間隔で同期を実行します。例えば、60が入力された場合、Mattermostは60分ごとに同期を行います。",
   "admin.ldap.syncIntervalTitle": "同期間隔(分):",
-  "admin.ldap.syncNowHelpText": "AD/LDAP同期処理を今すぐ開始します。各同期処理のステータスは下記の表を参照してください。エラーが発生している場合、\"システムコンソール > ログ\"と[説明文書](!https://mattermost.com/default-ldap-docs)を参照してください。",
+  "admin.ldap.syncNowHelpText": "AD/LDAP同期処理を今すぐ開始します。各同期処理のステータスは下記の表を参照してください。エラーが発生している場合、\"システムコンソール > ログ\"と<link>説明文書</link>を参照してください。",
   "admin.ldap.sync_button": "AD/LDAP同期を今すぐ実行する",
   "admin.ldap.testFailure": "AD/LDAPのテストに失敗: {error}",
   "admin.ldap.testHelpText": "Mattermostサーバーが指定されたAD/LDAPサーバーへ接続できるかテストします。エラーが発生した場合、\"システムコンソール > ログ\"と<link>説明文書</link>を参照してください。",

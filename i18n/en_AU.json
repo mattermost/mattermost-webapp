@@ -1205,7 +1205,7 @@
   "admin.ldap.skipCertificateVerificationDesc": "Skips the certificate verification step for TLS or STARTTLS connections. Skipping certificate verification is not recommended for production environments where TLS is required.",
   "admin.ldap.syncIntervalHelpText": "AD/LDAP Synchronisation updates Mattermost user information to reflect updates on the AD/LDAP server. For example, when a user's name changes on the AD/LDAP server, the change updates in Mattermost when synchronisation is performed. Accounts removed from or disabled in the AD/LDAP server have their Mattermost accounts set to 'Inactive' and have their account sessions revoked. Mattermost performs synchronisation on the interval entered. For example, if 60 is entered, Mattermost synchronises every 60 minutes.",
   "admin.ldap.syncIntervalTitle": "Synchronisation Interval (minutes):",
-  "admin.ldap.syncNowHelpText": "Initiates an AD/LDAP synchronisation immediately. See the table below for status of each synchronisation. Please review 'System Console > Logs' and [documentation](!https://mattermost.com/default-ldap-docs) to troubleshoot errors.",
+  "admin.ldap.syncNowHelpText": "Initiates an AD/LDAP synchronisation immediately. See the table below for status of each synchronisation. Please review 'System Console > Logs' and <link>documentation</link> to troubleshoot errors.",
   "admin.ldap.sync_button": "AD/LDAP Synchronise Now",
   "admin.ldap.testFailure": "AD/LDAP Test Failure: {error}",
   "admin.ldap.testHelpText": "Tests if the Mattermost server can connect to the AD/LDAP server specified. Please review 'System Console > Logs' and <link>documentation</link> to troubleshoot errors.",

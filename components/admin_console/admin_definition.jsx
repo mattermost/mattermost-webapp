@@ -3370,17 +3370,17 @@ const AdminDefinition = {
                                 help_text_markdown: true,
                                 help_text_default: 'The attribute in the AD/LDAP server used as a unique identifier in Mattermost. It should be an AD/LDAP attribute with a value that does not change such as `uid` for LDAP or `objectGUID` for Active Directory. If a user\'s ID Attribute changes, it will create a new Mattermost account unassociated with their old one.\n \nIf you need to change this field after users have already logged in, use the <link>mattermost ldap idmigrate</link> CLI tool.',
                                 help_text_values: {
-                                    link: (msg) => (
-                                        <a
-                                            href='https://docs.mattermost.com/manage/command-line-tools.html#mattermost-ldap-idmigrate'
-                                            referrer='noreferrer'
-                                            target='_blank'
-                                            rel='noreferrer'
-                                        >
-                                            {msg}
-                                        </a>
-                                    ),
-                                },
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/manage/command-line-tools.html#mattermost-ldap-idmigrate'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
                                 isDisabled: it.any(
                                     it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                                     it.all(
@@ -3397,7 +3397,7 @@ const AdminDefinition = {
                                 placeholder: t('admin.ldap.loginIdAttrEx'),
                                 placeholder_default: 'E.g.: "sAMAccountName"',
                                 help_text: t('admin.ldap.loginAttrDesc'),
-                                help_text_markdown: true,
+                                help_text_markdown: false,
                                 help_text_default: 'The attribute in the AD/LDAP server used to log in to Mattermost. Normally this attribute is the same as the "Username Attribute" field above.\n \nIf your team typically uses domain/username to log in to other services with AD/LDAP, you may enter domain/username in this field to maintain consistency between sites.',
                                 isDisabled: it.any(
                                     it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
@@ -3661,8 +3661,20 @@ const AdminDefinition = {
                                 label: t('admin.ldap.sync_button'),
                                 label_default: 'AD/LDAP Synchronize Now',
                                 help_text: t('admin.ldap.syncNowHelpText'),
-                                help_text_markdown: true,
-                                help_text_default: 'Initiates an AD/LDAP synchronization immediately. See the table below for status of each synchronization. Please review "System Console > Logs" and [documentation](!https://mattermost.com/default-ldap-docs) to troubleshoot errors.',
+                                help_text_markdown: false,
+                                help_text_default: 'Initiates an AD/LDAP synchronization immediately. See the table below for status of each synchronization. Please review "System Console > Logs" and <link>documentation</link> to troubleshoot errors.',
+                                help_text_values: {
+                                    link: (msg) => (
+                                        <a
+                                            href='https://mattermost.com/default-ldap-docs'
+                                            referrer='noreferrer'
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {msg}
+                                        </a>
+                                    ),
+                                },
                                 isDisabled: it.any(
                                     it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                                     it.stateIsFalse('LdapSettings.EnableSync'),

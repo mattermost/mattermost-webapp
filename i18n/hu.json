@@ -1205,7 +1205,7 @@
   "admin.ldap.skipCertificateVerificationDesc": "A tanúsítvány-ellenőrzési lépést kihagyja TLS vagy STARTTLS kapcsolatok esetén. A tanúsítványellenőrzés kihagyása nem ajánlott olyan termelési környezetekben, ahol TLS szükséges.",
   "admin.ldap.syncIntervalHelpText": "AD/LDAP szinkronizálás frissíti a Mattermost felhasználói információkat az AD/LDAP kiszolgáló frissítéseinek tükrözése érdekében. Például, amikor egy felhasználó neve megváltozik az AD/LDAP kiszolgálón, a változás a szinkronizáláskor a Mattermost részben frissül. Az AD/LDAP szerverről eltávolított vagy letiltott fiókok Mattermost fiókja \"Inaktív\" értékre van állítva, és a fiók munkameneteket visszavonásra kerülnek. A Mattermost szinkronizálást végez a megadott időközönként. Például, ha 60 van megadva, akkor az Mattermost 60 percenként szinkronizál.",
   "admin.ldap.syncIntervalTitle": "Szinkronizálási időköz (perc):",
-  "admin.ldap.syncNowHelpText": "Azonnal elindítja az AD/LDAP szinkronizálást. Az egyes szinkronizálások állapotát az alábbi táblázat tartalmazza. A hibák elhárításához olvassa el a \"Rendszerkonzol > Naplók\" és a [dokumentációt](!https://mattermost.com/default-ldap-docs).",
+  "admin.ldap.syncNowHelpText": "Azonnal elindítja az AD/LDAP szinkronizálást. Az egyes szinkronizálások állapotát az alábbi táblázat tartalmazza. A hibák elhárításához olvassa el a \"Rendszerkonzol > Naplók\" és a <link>dokumentációt</link>.",
   "admin.ldap.sync_button": "AD/LDAP Szinkronizálás most",
   "admin.ldap.testFailure": "AD/LDAP teszt sikertelen: {error}",
   "admin.ldap.testHelpText": "Teszteli, hogy a Mattermost szerver képes-e csatlakozni a megadott AD/LDAP szerverhez. A hibák elhárításához olvassa el a \"Rendszerkonzol > Naplók\" és a <link>dokumentációt</link>.",

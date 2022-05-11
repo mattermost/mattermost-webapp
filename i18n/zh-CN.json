@@ -1197,7 +1197,7 @@
   "admin.ldap.skipCertificateVerificationDesc": "跳过 TLS 或 STARTTLS 证书验证。当 TLS 为必须时不推荐在正式环境下跳过证书验证。",
   "admin.ldap.syncIntervalHelpText": "AD/LDAP 的同步机制会将 Mattermost 中的用户信息同步以反映在 AD/LDAP 服务器上进行的更新。例如，当 AD/LDAP 服务器上一个用户姓名更改时，这一改变将在 Mattermost 同步执行。在 AD/LDAP 服务器中删除或禁用账户时将他们的 Mattermost 账号设置为\"停用\"并且吊销会话。Mattermost 会按照一定的时间频率定期进行同步。例如，如果设置为 60，那么会在每 60 分钟进行同步。",
   "admin.ldap.syncIntervalTitle": "同步间隔（分钟）：",
-  "admin.ldap.syncNowHelpText": "立刻开始 AD/LDAP 同步。查阅以下表格的同步状态。请检查 \"系统控制台>日志\" 以及[文档](!https://mattermost.com/default-ldap-docs) 以排错。",
+  "admin.ldap.syncNowHelpText": "立刻开始 AD/LDAP 同步。查阅以下表格的同步状态。请检查 \"系统控制台>日志\" 以及<link>文档</link> 以排错。",
   "admin.ldap.sync_button": "开始 AD/LDAP 同步",
   "admin.ldap.testFailure": "AD/LDAP 测试失败：{error}",
   "admin.ldap.testHelpText": "测试 Mattermost 是否可以连接指定的 AD/LDAP 服务器。请检查 \"系统控制台>日志\" 以及<link>文档</link> 排错。",

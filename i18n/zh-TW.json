@@ -926,7 +926,7 @@
   "admin.ldap.skipCertificateVerificationDesc": "略過 TLS 或 STARTTLS 連線的憑證驗證步驟。不建議在需要 TLS 的正式環境中停用。",
   "admin.ldap.syncIntervalHelpText": "AD/LDAP 同步更新 Mattermost 使用者資料以反應 AD/LDAP 伺服器上的變更。舉例來說，當 AD/LDAP 伺服器上一個使用者名字有所改變，這個改變會在執行同步的時更新 Mattermost。在 AD/LDAP 伺服器上被移除或是停用的帳號，其對應的 Mattermost 帳號會被設定成“停用”，並且撤銷帳號的工作階段。Mattermost 根據輸入的間隔執行同步。如，如果輸入60，Mattermost將會每 60 分鐘同步一次。",
   "admin.ldap.syncIntervalTitle": "同步間隔(分)：",
-  "admin.ldap.syncNowHelpText": "馬上開始 AD/LDAP 同步。下面表格為每次同步的狀態。請看 \"系統控制台 > 紀錄\" 跟[文件](!https://mattermost.com/default-ldap-docs)以解決問題。",
+  "admin.ldap.syncNowHelpText": "馬上開始 AD/LDAP 同步。下面表格為每次同步的狀態。請看 \"系統控制台 > 紀錄\" 跟<link>文件</link>以解決問題。",
   "admin.ldap.sync_button": "開始 AD/LDAP 同步",
   "admin.ldap.testFailure": "AD/LDAP 測試失敗：{error}",
   "admin.ldap.testHelpText": "測試 Mattermost 伺服器是否能連線至指定的 AD/LDAP 伺服器。請看 \"系統控制台 > 紀錄\" 跟<link>文件</link>以解決問題。 ",

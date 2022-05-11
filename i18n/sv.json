@@ -1205,7 +1205,7 @@
   "admin.ldap.skipCertificateVerificationDesc": "Hoppa över verifiering av certifikat för TLS eller STARTTLS-kommunikation. Att hoppa över verifieringen är inte rekommenderat i en produktionsinstallation där TLS krävs.",
   "admin.ldap.syncIntervalHelpText": "Vid en AD/LDAP-synkronisering uppdateras Mattermost med användarinformation från AD/LDAP-katalogen. När exempelvis en användares namn är ändrat i AD/LDAP-katalogen så kommer användarkontot i Mattermost uppdateras när en synkronisering sker. Användare som tas bort eller spärras i AD/LDAP-katalogen får sitt Mattermostkonto inaktiverat och alla sessioner spärras. Mattermost utför synkronisering på intervall som anges. Om 60 anges sker synkronisering var 60:e minut.",
   "admin.ldap.syncIntervalTitle": "Synkroniseringsintervall (minuter):",
-  "admin.ldap.syncNowHelpText": "Initierar en AD/LDAP synkronisering nu. Kontrollera tabellen nedan för status av respektive synkronisering. Kontrollera \"System Console > Loggar\" och [dokumentationen](!https://mattermost.com/default-ldap-docs) för felsökning vid fel.",
+  "admin.ldap.syncNowHelpText": "Initierar en AD/LDAP synkronisering nu. Kontrollera tabellen nedan för status av respektive synkronisering. Kontrollera \"System Console > Loggar\" och <link>dokumentationen</link> för felsökning vid fel.",
   "admin.ldap.sync_button": "Synkronisera AD/LDAP nu",
   "admin.ldap.testFailure": "AD/LDAP Test misslyckades: {error}",
   "admin.ldap.testHelpText": "Testar om Mattermost kan ansluta till den angivna AD/LDAP-katalogen. Kontrollera \"System Console > Loggar\" och i <link>dokumentationen</link> för felsökning.",

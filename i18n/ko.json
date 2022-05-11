@@ -1093,7 +1093,7 @@
   "admin.ldap.skipCertificateVerificationDesc": "TLS 또는 STARTTLS 연결에 대한 인증서 확인 단계를 건너 뜁니다. TLS가 필요한 프로덕션 환경에서는 인증서 확인을 건너 뛰지 않는 것이 좋습니다.",
   "admin.ldap.syncIntervalHelpText": "LDAP Synchronization updates Mattermost user information to reflect updates on the LDAP server. For example, when a user’s name changes on the LDAP server, the change updates in Mattermost when synchronization is performed. Accounts removed from or disabled in the LDAP server have their Mattermost accounts set to “Inactive” and have their account sessions revoked. Mattermost performs synchronization on the interval entered. For example, if 60 is entered, Mattermost synchronizes every 60 minutes.",
   "admin.ldap.syncIntervalTitle": "동기화 간격 (분):",
-  "admin.ldap.syncNowHelpText": "AD/LDAP 동기화를 바로 시작합니다. 각 동기화 상태는 아래 표를 참조하십시오. 오류를 해결하려면 \"시스템 콘솔 > 로그\" 및 [설명서](!https://mattermost.com/default-ldap-docs)를 확인하십시오.",
+  "admin.ldap.syncNowHelpText": "AD/LDAP 동기화를 바로 시작합니다. 각 동기화 상태는 아래 표를 참조하십시오. 오류를 해결하려면 \"시스템 콘솔 > 로그\" 및 <link>설명서</link>를 확인하십시오.",
   "admin.ldap.sync_button": "지금 LDAP 동기화하기",
   "admin.ldap.testFailure": "AD/LDAP 테스트 실패: {error}",
   "admin.ldap.testHelpText": "Mattermost 서버가 지정된 AD/LDAP 서버에 연결할 수 있는지 테스트합니다. 오류를 해결하려면 \"시스템 콘솔 > 로그\"및 <link>설명서</link>를 확인하십시오.",

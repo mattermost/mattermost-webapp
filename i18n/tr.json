@@ -1205,7 +1205,7 @@
   "admin.ldap.skipCertificateVerificationDesc": "Bu seçenek TLS ya da STARTTLS bağlantıları için sertifika doğrulama adımını atlar. TLS kullanımının gerekli olduğu üretim ortamlarında sertifika doğrulamasının atlanması önerilmez.",
   "admin.ldap.syncIntervalHelpText": "AD/LDAP Eşitleme güncellemeleri, AD/LDAP sunucusunda yapılan değişikliklerin Mattermost kullanıcılarına aktarılmasını sağlar. Örneğin AD/LDAP sunucusu üzerinde bir kullanıcının adı değiştirildiğinde eşitleme sonrasında kullanıcının Mattermost üzerindeki adı da güncellenir. AD/LDAP sunucusu üzerinden silinen ya da devre dışı bırakılan kullanıcı hesapları Mattermost üzerinde \"Devre dışı\" olarak ayarlanır ve oturumları kapatılır. Mattermost buraya yazılan aralıklara göre eşitleme yapar. 60 yazıldığında 60 dakikada bir eşitleme yapılır.",
   "admin.ldap.syncIntervalTitle": "Eşitleme aralığı (dakika):",
-  "admin.ldap.syncNowHelpText": "Hemen bir AD/LDAP eşitlemesi başlatır. Her bir eşitleme işleminin durumunu aşağıdaki tabloda görebilirsiniz. Sorunları çözmek için \"Sistem panosu > Günlükler\" ve [belgeler](!https://mattermost.com/default-ldap-docs) bölümlerine bakabilirsiniz.",
+  "admin.ldap.syncNowHelpText": "Hemen bir AD/LDAP eşitlemesi başlatır. Her bir eşitleme işleminin durumunu aşağıdaki tabloda görebilirsiniz. Sorunları çözmek için \"Sistem panosu > Günlükler\" ve <link>belgeler</link> bölümlerine bakabilirsiniz.",
   "admin.ldap.sync_button": "Şimdi AD/LDAP eşitle",
   "admin.ldap.testFailure": "AD/LDAP sınaması başarısız: {error}",
   "admin.ldap.testHelpText": "Mattermost sunucusunun belirtilen AD/LDAP sunucusu ile bağlantı kurup kuramadığını denetler. Sorunları çözmek için \"Sistem panosu > Günlükler\" ve <link>belgeler</link> bölümlerine bakabilirsiniz.",
