@@ -13,6 +13,7 @@ import Menu from 'components/widgets/menu/menu';
 import Timestamp from 'components/timestamp';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getCurrentMomentForTimezone} from 'utils/timezone';
+import {formatDate} from 'react-day-picker/moment';
 
 const CUSTOM_STATUS_TIME_PICKER_INTERVALS_IN_MINUTES = 30;
 
@@ -144,7 +145,8 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
                 </span>
                 <DayPickerInput
                     value={time.toDate()}
-                    formatDate={(date) => date.toLocaleDateString('fr-CA')}
+                    format='yyyy-MM-DD'
+                    formatDate={formatDate}
                     onDayChange={handleDayChange}
                     inputProps={{
                         readOnly: true,
