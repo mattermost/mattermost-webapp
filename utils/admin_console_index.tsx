@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 import FlexSearch from 'flexsearch/dist/flexsearch.es5';
 import {IntlShape} from 'react-intl';
 
