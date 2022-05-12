@@ -50,7 +50,7 @@ function extractTextsFromSection(section: Record<string, any>, intl: IntlShape) 
         if (section.schema.settings) {
             texts.push(extractTextFromSettings(section.schema.settings, intl));
         } else if (section.schema.sections) {
-            section.schema.sections.forEach((schemaSection: any) => { // todo: check any
+            section.schema.sections.forEach((schemaSection: any) => {
                 texts.push(...extractTextFromSettings(schemaSection.settings, intl));
             });
         }
