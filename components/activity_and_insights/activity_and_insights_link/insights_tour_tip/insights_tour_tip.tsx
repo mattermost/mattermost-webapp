@@ -79,7 +79,7 @@ const InsightsTourTip = () => {
                     screen={screen}
                     title={title}
                     overlayPunchOut={null}
-                    placement='right'
+                    placement='right-start'
                     pulsatingDotPlacement='right'
                     step={1}
                     singleTip={true}
@@ -91,7 +91,7 @@ const InsightsTourTip = () => {
                     handlePrevious={handleDismiss}
                     nextBtn={nextBtn}
                     prevBtn={prevBtn}
-                    offset={[140, 4]}
+                    offset={[-30, 5]}
                 />
             }
         </>
