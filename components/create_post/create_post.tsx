@@ -28,6 +28,7 @@ import {
 } from 'utils/post_utils';
 import {getTable, formatMarkdownTableMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
 import * as UserAgent from 'utils/user_agent';
+import {isMac} from 'utils/utils';
 import * as Utils from 'utils/utils';
 
 import NotifyConfirmModal from 'components/notify_confirm_modal';
@@ -1102,7 +1103,7 @@ class CreatePost extends React.PureComponent<Props, State> {
             Utils.isKeyPressed(e, KeyCodes.ENTER) &&
             ctrlOrMetaKeyPressed;
         const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
-        const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
+        const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey;
         const ctrlKeyCombo = Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey;
         const ctrlAltCombo = Utils.cmdOrCtrlPressed(e, true) && e.altKey;
         const ctrlShiftCombo = Utils.cmdOrCtrlPressed(e, true) && e.shiftKey;
@@ -1175,6 +1176,13 @@ class CreatePost extends React.PureComponent<Props, State> {
         } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_7)) {
             this.applyMarkdown({
                 markdownMode: 'ol',
+                selectionStart: (e.target as any).selectionStart,
+                selectionEnd: (e.target as any).selectionEnd,
+                value: (e.target as any).value,
+            });
+        } else if (((isMac() && e.ctrlKey && e.shiftKey) || (e.altKey && e.shiftKey)) && Utils.isKeyPressed(e, KeyCodes.NUMPAD_3)) {
+            this.applyMarkdown({
+                markdownMode: 'heading',
                 selectionStart: (e.target as any).selectionStart,
                 selectionEnd: (e.target as any).selectionEnd,
                 value: (e.target as any).value,

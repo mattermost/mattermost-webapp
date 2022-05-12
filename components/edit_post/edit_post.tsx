@@ -26,6 +26,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Textbox, {TextboxClass} from 'components/textbox';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import {ModalData} from 'types/actions';
+import AdvanceTextEditor from '../advance_text_editor/advance_text_editor';
 
 type DialogProps = {
     post?: Post;

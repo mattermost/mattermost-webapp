@@ -185,12 +185,6 @@ const AdvanceTextEditor = ({
         );
     }
 
-    let postErrorJsx = null;
-    if (postError) {
-        const postErrorClass = 'post-error' + (errorClass ? ' ' + errorClass : '');
-        postErrorJsx = <label className={postErrorClass}>{postError}</label>;
-    }
-
     let attachmentPreview = null;
     if (!readOnlyChannel && (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0)) {
         attachmentPreview = (
@@ -425,7 +419,7 @@ const AdvanceTextEditor = ({
                     />
                 </div>
                 <div>
-                    {postErrorJsx}
+                    {postError && <label className={classNames('post-error', {errorClass})}>{postError}</label>}
                     {serverErrorJsx}
                 </div>
             </div>

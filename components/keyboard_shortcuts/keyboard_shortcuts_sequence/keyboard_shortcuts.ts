@@ -259,31 +259,31 @@ export const KEYBOARD_SHORTCUTS = {
     msgMarkdownStrike: {
         default: {
             id: t('shortcuts.msgs.markdown.strike'),
-            defaultMessage: 'Strike:\tCtrl|Shift|X',
+            defaultMessage: 'Strikethrough:\tCtrl|Shift|X',
         },
         mac: {
             id: t('shortcuts.msgs.markdown.strike.mac'),
-            defaultMessage: 'Strike:\t⌘|Shift|X',
+            defaultMessage: 'Strikethrough:\t⌘|Shift|X',
         },
     },
     msgMarkdownH3: {
         default: {
             id: t('shortcuts.msgs.markdown.h3'),
-            defaultMessage: 'Heading:\tCtrl|Alt|3',
+            defaultMessage: 'Heading:\tAlt|Shift|3',
         },
         mac: {
             id: t('shortcuts.msgs.markdown.h3.mac'),
-            defaultMessage: 'Heading:\t⌘|Alt|3',
+            defaultMessage: 'Heading:\tCtrl[^]|Alt|3',
         },
     },
     msgMarkdownQuote: {
         default: {
             id: t('shortcuts.msgs.markdown.quote'),
-            defaultMessage: 'Strike:\tCtrl|Shift|9',
+            defaultMessage: 'Quote:\tCtrl|Shift|9',
         },
         mac: {
             id: t('shortcuts.msgs.markdown.quote.mac'),
-            defaultMessage: 'Strike:\t⌘|Shift|9',
+            defaultMessage: 'Quote:\t⌘|Shift|9',
         },
     },
     msgMarkdownOl: {

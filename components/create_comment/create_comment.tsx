@@ -14,6 +14,7 @@ import * as GlobalActions from 'actions/global_actions';
 import Constants, {AdvancedTextEditor, Locations, ModalIdentifiers, Preferences} from 'utils/constants';
 import {PreferenceType} from '@mattermost/types/preferences';
 import * as UserAgent from 'utils/user_agent';
+import {isMac} from 'utils/utils';
 import * as Utils from 'utils/utils';
 import {
     specialMentionsInText,
@@ -935,6 +936,13 @@ class CreateComment extends React.PureComponent<Props, State> {
         } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_7)) {
             this.applyMarkdown({
                 markdownMode: 'ol',
+                selectionStart: (e.target as any).selectionStart,
+                selectionEnd: (e.target as any).selectionEnd,
+                value: (e.target as any).value,
+            });
+        } else if (((isMac() && e.ctrlKey && e.shiftKey) || (e.altKey && e.shiftKey)) && Utils.isKeyPressed(e, KeyCodes.NUMPAD_3)) {
+            this.applyMarkdown({
+                markdownMode: 'heading',
                 selectionStart: (e.target as any).selectionStart,
                 selectionEnd: (e.target as any).selectionEnd,
                 value: (e.target as any).value,

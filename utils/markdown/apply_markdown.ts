@@ -42,7 +42,7 @@ export function applyMarkdown(params: ApplyMarkdownOptions): {
             selectionEnd,
             selectionStart,
             value,
-            delimiter: '`',
+            delimiter: '```',
         });
     }
 
@@ -109,7 +109,7 @@ const applyOlMarkdown = ({selectionEnd, selectionStart, value}: Omit<ApplyMarkdo
         getDelimiter.counter = num || getDelimiter.counter;
         return `${getDelimiter.counter++}. `;
     };
-    getDelimiter.counter = 0;
+    getDelimiter.counter = 1;
 
     const multilinePrefix = prefix.includes('\n') ? prefix.substring(prefix.lastIndexOf('\n')) : prefix;
     let multilineSelection = multilinePrefix + selection + multilineSuffix;
