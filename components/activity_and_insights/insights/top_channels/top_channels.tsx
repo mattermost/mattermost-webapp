@@ -3,6 +3,8 @@
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
+import {FormattedMessage} from 'react-intl';
+
 import Constants, {InsightsScopes} from 'utils/constants';
 
 import CircleLoader from '../skeleton_loader/circle_loader/circle_loader';
@@ -17,116 +19,65 @@ import WidgetEmptyState from '../widget_empty_state/widget_empty_state';
 
 import './../../activity_and_insights.scss';
 import LineChart from 'components/analytics/line_chart';
-import { FormattedMessage } from 'react-intl';
-import { getTheme } from 'mattermost-redux/selectors/entities/preferences';
+import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 const TopChannels = (props: WidgetHocProps) => {
     const dispatch = useDispatch();
 
     const [loading, setLoading] = useState(true);
     const [topChannels, setTopChannels] = useState([] as TopChannel[]);
-    const [channelLineChartData, setChannelLineChartData] = useState([
-        {
-            day: "2022-05-01",
-            channels: [
-                {
-                    channel_id: "4r98uzxe4b8t5g9ntt9zcdzktw",
-                    post_count: 93,
-                },
-                {
-                    channel_id: "mn6xbu3bxfrs8d6kwbciza7erw",
-                    post_count: 114,
-                },
-                {
-                    channel_id: "hu3n1di5e3rtzkcchpzcx4yuic",
-                    post_count: 324,
-                },
-                {
-                    channel_id: "xxr6kgw3rtr39kwy5bujpfpcae",
-                    post_count: 342,
-                },
-                {
-                    channel_id: "45rsohaxtjg8tqogbb8mshp88a",
-                    post_count: 169,
-                },
-            ]
+    const [channelLineChartData] = useState({
+        '2022-05-01': {
+            '4r98uzxe4b8t5g9ntt9zcdzktw': 93,
+            'mn6xbu3bxfrs8d6kwbciza7erw': 114,
+            'hu3n1di5e3rtzkcchpzcx4yuic': 324,
+            'xxr6kgw3rtr39kwy5bujpfpcae': 342,
+            '45rsohaxtjg8tqogbb8mshp88a': 169,
         },
-        {
-            day: "2022-05-02",
-            channels: [
-                {
-                    channel_id: "4r98uzxe4b8t5g9ntt9zcdzktw",
-                    post_count: 203,
-                },
-                {
-                    channel_id: "mn6xbu3bxfrs8d6kwbciza7erw",
-                    post_count: 14,
-                },
-                {
-                    channel_id: "hu3n1di5e3rtzkcchpzcx4yuic",
-                    post_count: 304,
-                },
-                {
-                    channel_id: "xxr6kgw3rtr39kwy5bujpfpcae",
-                    post_count: 302,
-                },
-                {
-                    channel_id: "45rsohaxtjg8tqogbb8mshp88a",
-                    post_count: 109,
-                },
-            ]
+        '2022-05-02': {
+            '4r98uzxe4b8t5g9ntt9zcdzktw': 203,
+            'mn6xbu3bxfrs8d6kwbciza7erw': 14,
+            'hu3n1di5e3rtzkcchpzcx4yuic': 304,
+            'xxr6kgw3rtr39kwy5bujpfpcae': 267,
+            '45rsohaxtjg8tqogbb8mshp88a': 109,
         },
-        {
-            day: "2022-05-03",
-            channels: [
-                {
-                    channel_id: "4r98uzxe4b8t5g9ntt9zcdzktw",
-                    post_count: 230,
-                },
-                {
-                    channel_id: "mn6xbu3bxfrs8d6kwbciza7erw",
-                    post_count: 140,
-                },
-                {
-                    channel_id: "hu3n1di5e3rtzkcchpzcx4yuic",
-                    post_count: 340,
-                },
-                {
-                    channel_id: "xxr6kgw3rtr39kwy5bujpfpcae",
-                    post_count: 320,
-                },
-                {
-                    channel_id: "45rsohaxtjg8tqogbb8mshp88a",
-                    post_count: 190,
-                },
-            ]
+        '2022-05-03': {
+            '4r98uzxe4b8t5g9ntt9zcdzktw': 230,
+            'mn6xbu3bxfrs8d6kwbciza7erw': 140,
+            'hu3n1di5e3rtzkcchpzcx4yuic': 340,
+            'xxr6kgw3rtr39kwy5bujpfpcae': 190,
+            '45rsohaxtjg8tqogbb8mshp88a': 110,
         },
-        {
-            day: "2022-05-04",
-            channels: [
-                {
-                    channel_id: "4r98uzxe4b8t5g9ntt9zcdzktw",
-                    post_count: 123,
-                },
-                {
-                    channel_id: "mn6xbu3bxfrs8d6kwbciza7erw",
-                    post_count: 114,
-                },
-                {
-                    channel_id: "hu3n1di5e3rtzkcchpzcx4yuic",
-                    post_count: 134,
-                },
-                {
-                    channel_id: "xxr6kgw3rtr39kwy5bujpfpcae",
-                    post_count: 132,
-                },
-                {
-                    channel_id: "45rsohaxtjg8tqogbb8mshp88a",
-                    post_count: 219,
-                },
-            ]
+        '2022-05-04': {
+            '4r98uzxe4b8t5g9ntt9zcdzktw': 123,
+            'mn6xbu3bxfrs8d6kwbciza7erw': 114,
+            'hu3n1di5e3rtzkcchpzcx4yuic': 134,
+            'xxr6kgw3rtr39kwy5bujpfpcae': 100,
+            '45rsohaxtjg8tqogbb8mshp88a': 219,
         },
-    ]);
+        '2022-05-05': {
+            '4r98uzxe4b8t5g9ntt9zcdzktw': 430,
+            'mn6xbu3bxfrs8d6kwbciza7erw': 119,
+            'hu3n1di5e3rtzkcchpzcx4yuic': 234,
+            'xxr6kgw3rtr39kwy5bujpfpcae': 160,
+            '45rsohaxtjg8tqogbb8mshp88a': 284,
+        },
+        '2022-05-06': {
+            '4r98uzxe4b8t5g9ntt9zcdzktw': 123,
+            'mn6xbu3bxfrs8d6kwbciza7erw': 114,
+            'hu3n1di5e3rtzkcchpzcx4yuic': 134,
+            'xxr6kgw3rtr39kwy5bujpfpcae': 100,
+            '45rsohaxtjg8tqogbb8mshp88a': 219,
+        },
+        '2022-05-07': {
+            '4r98uzxe4b8t5g9ntt9zcdzktw': 203,
+            'mn6xbu3bxfrs8d6kwbciza7erw': 14,
+            'hu3n1di5e3rtzkcchpzcx4yuic': 304,
+            'xxr6kgw3rtr39kwy5bujpfpcae': 267,
+            '45rsohaxtjg8tqogbb8mshp88a': 109,
+        },
+    });
+
 
     const currentTeamId = useSelector(getCurrentTeamId);
     const theme = useSelector(getTheme);
@@ -180,17 +131,19 @@ const TopChannels = (props: WidgetHocProps) => {
     }, []);
 
     const sortGraphData = () => {
-        const labels = [];
+        const labels = Object.keys(channelLineChartData);
         const values = {} as any;
-        for (let i = 0; i < channelLineChartData.length; i++) {
-            const item = channelLineChartData[i];
-            labels.push(item.day);
-            for (let j = 0; j < item.channels.length; j++) {
-                const channel = item.channels[j];
-                if (values[channel.channel_id]) {
-                    values[channel.channel_id].push(channel.post_count);
+        for (let i = 0; i < labels.length; i++) {
+            const item = channelLineChartData[labels[i]];
+
+            const channelIds = Object.keys(item);
+            
+            for (let j = 0; j < channelIds.length; j++) {
+                const count = item[channelIds[j]];
+                if (values[channelIds[j]]) {
+                    values[channelIds[j]].push(count);
                 } else {
-                    values[channel.channel_id] = [channel.post_count];
+                    values[channelIds[j]] = [count];
                 }
             }
         }
@@ -278,7 +231,7 @@ const TopChannels = (props: WidgetHocProps) => {
             datasets: dataset,
             labels: data.labels,
         };
-    }
+    };
 
     return (
         <>
@@ -317,20 +270,19 @@ const TopChannels = (props: WidgetHocProps) => {
                                     },
                                     tooltips: {
                                         callbacks: {
-                                            label: function(tooltipItem, data) {
+                                            label(tooltipItem, data) {
                                                 const index = tooltipItem.datasetIndex;
                                                 if (typeof index !== 'undefined' && data.datasets && data.datasets[index] && data.datasets[index].label) {
-                                                    console.log(data.datasets[index].label);
                                                     return data.datasets[index].label || '';
                                                 }
                                                 return '';
                                             },
-                                            title: function() {
+                                            title() {
                                                 return '';
                                             },
-                                            footer: function(tooltipItem) {
+                                            footer(tooltipItem) {
                                                 return `${tooltipItem[0].value} messages`;
-                                            }
+                                            },
                                         },
                                         bodyFontStyle: 'bold',
                                         bodyAlign: 'center',
