@@ -1,14 +1,14 @@
 .adv-txt-editor {
-    &__ctr{
-        form{
+    &__ctr {
+        form {
             padding: unset;
             margin: unset;
         }
     }
+
     width: 100%;
     padding: 0 24px;
     margin: 0 auto;
-
 
     .custom-textarea {
         box-shadow: none;
