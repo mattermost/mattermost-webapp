@@ -20,6 +20,9 @@ describe('SignIn Authentication', () => {
 
             cy.apiLogout();
             cy.visit('/login');
+
+            // # Remove autofocus from login input
+            cy.get('.login-body-card-content').should('be.visible').focus();
         });
     });
 
@@ -33,7 +36,7 @@ describe('SignIn Authentication', () => {
             cy.findByPlaceholderText('Password').clear().type(testUser.password);
 
             // # Click Sign In to login
-            cy.findByText('Sign in').click();
+            cy.get('#saveSetting').should('not.be.disabled').click();
 
             // * Check that it login successfully and it redirects into the main channel page
             cy.url().should('include', '/channels/town-square');
@@ -44,6 +47,9 @@ describe('SignIn Authentication', () => {
             // * Check that it logout successfully and it redirects into the login page
             cy.url().should('include', '/login');
 
+            // # Remove autofocus from login input
+            cy.get('.login-body-card-content').should('be.visible').focus();
+
             // # Enter actual user's username in the email field
             cy.findByPlaceholderText(loginPlaceholder).clear().type(testUser.username);
 
@@ -51,7 +57,7 @@ describe('SignIn Authentication', () => {
             cy.findByPlaceholderText('Password').clear().type(testUser.password);
 
             // # Click Sign In to login
-            cy.findByText('Sign in').click();
+            cy.get('#saveSetting').should('not.be.disabled').click();
 
             // * Check that it login successfully and it redirects into the main channel page
             cy.url().should('include', '/channels/town-square');
