@@ -26,7 +26,7 @@ export class SignupPage {
 
         const description =
             serverConfig.TeamSettings.CustomDescriptionText ||
-            'Collaborate with your team in real-time';
+            'All team communication in one place, searchable and accessible anywhere';
 
         this.siteNameHeader = page.locator(`h1:has-text("${serverConfig.TeamSettings.SiteName}")`);
         this.siteDescription = page.locator(`text=${description}`);

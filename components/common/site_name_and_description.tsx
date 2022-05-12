@@ -26,7 +26,7 @@ export default class SiteNameAndDescription extends React.PureComponent<Props> {
             description = (
                 <FormattedMessage
                     id='web.root.signup_info'
-                    defaultMessage='Collaborate with your team in real-time'
+                    defaultMessage='All team communication in one place, searchable and accessible anywhere'
                 />
             );
         }

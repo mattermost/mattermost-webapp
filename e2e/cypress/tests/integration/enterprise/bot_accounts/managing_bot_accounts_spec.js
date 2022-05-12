@@ -39,7 +39,7 @@ describe('Managing bot accounts', () => {
         cy.visit('/login');
 
         // # Remove autofocus from login input
-        cy.get('.login-body-card').should('be.visible').click();
+        cy.get('.login-body-card-content').should('be.visible').focus();
 
         // # Enter bot name in the email field
         cy.findByPlaceholderText('Email, Username or AD/LDAP Username', {timeout: TIMEOUTS.ONE_MIN}).clear().type(botName);

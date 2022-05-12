@@ -163,7 +163,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                 url: `${Client4.getOAuthPath()}/gitlab/login${search}`,
                 icon: <LoginGitlabIcon/>,
                 label: GitLabButtonText || formatMessage({id: 'login.gitlab', defaultMessage: 'GitLab'}),
-                style: {backgroundColor: GitLabButtonColor},
+                style: {color: GitLabButtonColor, borderColor: GitLabButtonColor},
             });
         }
 
@@ -191,7 +191,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                 url: `${Client4.getOAuthPath()}/openid/login${search}`,
                 icon: <LoginOpenIDIcon/>,
                 label: OpenIdButtonText || formatMessage({id: 'login.openid', defaultMessage: 'Open ID'}),
-                style: {backgroundColor: OpenIdButtonColor},
+                style: {color: OpenIdButtonColor, borderColor: OpenIdButtonColor},
             });
         }
 
@@ -340,7 +340,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                         id: 'login.noAccount',
                         defaultMessage: 'Don\'t have an account?',
                     }),
-                    alternateLinkPath: `/signup_user_complete${search}`,
+                    alternateLinkPath: '/signup_user_complete',
                     alternateLinkLabel: formatMessage({
                         id: 'login.create',
                         defaultMessage: 'Create an account',
@@ -400,7 +400,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     const getInputPlaceholder = () => {
         const loginPlaceholders = [];
 
-        if (enableSignUpWithEmail) {
+        if (enableSignInWithEmail) {
             loginPlaceholders.push(formatMessage({id: 'login.email', defaultMessage: 'Email'}));
         }
 
@@ -556,6 +556,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                     mode: 'danger',
                     title: error.message,
                 });
+                setHasError(true);
             }
 
             return;
@@ -640,7 +641,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     };
 
     const getCardTitle = () => {
-        if (enableCustomBrand && CustomDescriptionText) {
+        if (CustomDescriptionText) {
             return CustomDescriptionText;
         }
 
@@ -651,14 +652,24 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
         return formatMessage({id: 'login.cardtitle', defaultMessage: 'Log in'});
     };
 
-    const getCustomBrandingMarkdown = () => (
-        <div className='login-body-custom-branding-markdown'>
-            <Markdown
-                message={CustomBrandText || ''}
-                options={{mentionHighlight: false}}
-            />
-        </div>
-    );
+    const getMessageSubtitle = () => {
+        if (enableCustomBrand && CustomBrandText) {
+            return (
+                <div className='login-body-custom-branding-markdown'>
+                    <Markdown
+                        message={CustomBrandText}
+                        options={{mentionHighlight: false}}
+                    />
+                </div>
+            );
+        }
+
+        return (
+            <p className='login-body-message-subtitle'>
+                {formatMessage({id: 'login.subtitle', defaultMessage: 'Collaborate with your team in real-time'})}
+            </p>
+        );
+    };
 
     const getContent = () => {
         if (showMfa) {
@@ -696,16 +707,10 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                         />
                     ) : (
                         <h1 className='login-body-message-title'>
-                            {formatMessage({id: 'login.title', defaultMessage: 'Log in to Your Account'})}
+                            {formatMessage({id: 'login.title', defaultMessage: 'Log in to your account'})}
                         </h1>
                     )}
-                    {enableCustomBrand ? (
-                        getCustomBrandingMarkdown()
-                    ) : (
-                        <p className='login-body-message-subtitle'>
-                            {CustomDescriptionText || formatMessage({id: 'web.root.signup_info', defaultMessage: 'Collaborate with your team in real-time'})}
-                        </p>
-                    )}
+                    {getMessageSubtitle()}
                     {!enableCustomBrand && (
                         <div className='login-body-message-svg'>
                             <WomanWithChatsSVG width={270}/>
@@ -721,7 +726,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                         <p className='login-body-card-title'>
                             {getCardTitle()}
                         </p>
-                        {enableCustomBrand && getCustomBrandingMarkdown()}
+                        {enableCustomBrand && getMessageSubtitle()}
                         {alertBanner && (
                             <AlertBanner
                                 className='login-body-card-banner'

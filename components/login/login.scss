@@ -40,6 +40,13 @@
             }
         }
 
+        .login-body-message-subtitle {
+            color: rgba(var(--center-channel-text-rgb), 0.72);
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 28px;
+        }
+
         .login-body-message {
             display: flex;
             width: 540px;
@@ -54,13 +61,6 @@
                 font-weight: 600;
                 letter-spacing: -0.05em;
                 line-height: 88px;
-            }
-
-            .login-body-message-subtitle {
-                color: rgba(var(--center-channel-text-rgb), 0.72);
-                font-size: 18px;
-                font-weight: 400;
-                line-height: 28px;
             }
 
             .login-body-message-svg {
@@ -84,7 +84,9 @@
                 }
 
                 .login-body-custom-branding-image {
+                    max-height: 540px;
                     flex: 1;
+                    align-self: center;
                     border-radius: 8px;
                 }
             }
@@ -123,7 +125,8 @@
                     line-height: 28px;
                 }
 
-                .login-body-custom-branding-markdown {
+                .login-body-custom-branding-markdown,
+                .login-body-message-subtitle {
                     display: none;
                 }
 
@@ -276,6 +279,7 @@
 
         .login-body-message .login-body-message-title {
             padding-right: 130px;
+            margin-top: 48px;
         }
     }
 }
@@ -350,7 +354,8 @@
                         line-height: 40px;
                     }
 
-                    .login-body-custom-branding-markdown {
+                    .login-body-custom-branding-markdown,
+                    .login-body-message-subtitle {
                         display: block;
                         margin: 0 0 32px;
                     }

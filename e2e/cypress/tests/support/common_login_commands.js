@@ -5,14 +5,15 @@ import * as TIMEOUTS from '../fixtures/timeouts';
 
 Cypress.Commands.add('checkLoginPage', (settings = {}) => {
     // # Remove autofocus from login input
-    cy.get('.login-body-card').should('be.visible').click();
+    cy.get('.login-body-card-content').should('be.visible').focus();
 
     // * Check elements in the body
     cy.get('#input_loginId', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and(($loginTextbox) => {
         const placeholder = $loginTextbox[0].placeholder;
         expect(placeholder).to.match(/Email/);
         expect(placeholder).to.match(/Username/);
-    });
+    }).focus();
+
     cy.get('#input_password-input').should('be.visible').and('have.attr', 'placeholder', 'Password');
     cy.get('#saveSetting').should('be.visible');
 

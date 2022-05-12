@@ -48,7 +48,7 @@ describe('Login page', () => {
         cy.title().should('include', config.TeamSettings.SiteName);
 
         // # Remove autofocus from login id input
-        cy.get('.login-body-card').should('be.visible').click();
+        cy.get('.login-body-card-content').should('be.visible').focus();
 
         // * Verify email/username field is present
         cy.findByPlaceholderText('Email or Username').should('exist').and('be.visible');
@@ -196,7 +196,7 @@ describe('Login page', () => {
 
     it('MM-42489 Should login with a valid email and password using enter key and logout', () => {
         // # Remove autofocus from login id input
-        cy.get('.login-body-card').should('be.visible').click();
+        cy.get('.login-body-card-content').should('be.visible').focus();
 
         // # Enter actual users email/username in the email field
         cy.findByPlaceholderText('Email or Username').clear().type(testUser.username);

@@ -57,7 +57,7 @@ describe('Authentication', () => {
             cy.visit('/login');
 
             // # Remove autofocus from login input
-            cy.get('.login-body-card').should('be.visible').click();
+            cy.focused().tab();
 
             let expectedPlaceholderText;
             if (signinWithEmail && signinWithUsername) {

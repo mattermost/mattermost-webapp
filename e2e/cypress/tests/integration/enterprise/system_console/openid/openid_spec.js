@@ -81,7 +81,7 @@ describe('System Console OpenId Connect', () => {
             expect(config.GoogleSettings.DiscoveryEndpoint).to.equal('https://accounts.google.com/.well-known/openid-configuration');
         });
 
-        verifyOAuthLogin('Google Apps', '', Cypress.config('baseUrl') + '/oauth/google/login');
+        verifyOAuthLogin('Google', '', Cypress.config('baseUrl') + '/oauth/google/login');
     });
 
     it('MM-T3621 - Set to Gitlab OpenId', () => {

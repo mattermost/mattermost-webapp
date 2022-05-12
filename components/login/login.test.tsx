@@ -263,7 +263,7 @@ describe('components/login/Login', () => {
         const externalLoginButton = wrapper.find(ExternalLoginButton).first();
         expect(externalLoginButton.props().url).toEqual('/oauth/gitlab/login');
         expect(externalLoginButton.props().label).toEqual('GitLab 2');
-        expect(externalLoginButton.props().style).toEqual({backgroundColor: '#00ff00'});
+        expect(externalLoginButton.props().style).toEqual({color: '#00ff00', borderColor: '#00ff00'});
     });
 
     it('should handle openid text and color props', () => {
@@ -279,6 +279,6 @@ describe('components/login/Login', () => {
         const externalLoginButton = wrapper.find(ExternalLoginButton).first();
         expect(externalLoginButton.props().url).toEqual('/oauth/openid/login');
         expect(externalLoginButton.props().label).toEqual('OpenID 2');
-        expect(externalLoginButton.props().style).toEqual({backgroundColor: '#00ff00'});
+        expect(externalLoginButton.props().style).toEqual({color: '#00ff00', borderColor: '#00ff00'});
     });
 });

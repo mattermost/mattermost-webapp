@@ -159,7 +159,7 @@ export default class DoVerifyEmail extends React.PureComponent<Props, State> {
                             <h4 className='color--light'>
                                 <FormattedMessage
                                     id='web.root.signup_info'
-                                    defaultMessage='Collaborate with your team in real-time'
+                                    defaultMessage='All team communication in one place, searchable and accessible anywhere'
                                 />
                             </h4>
                             {serverError}

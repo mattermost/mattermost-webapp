@@ -61,12 +61,15 @@ describe('Authentication', () => {
         cy.visit('/login');
 
         // # Remove autofocus from login input
-        cy.get('.login-body-card').should('be.visible').click();
+        cy.focused().tab();
 
         // # Clear email/username field and type username
         cy.apiGetClientLicense().then(({isLicensed}) => {
             cy.findByPlaceholderText(isLicensed ? 'Email, Username or AD/LDAP Username' : 'Email or Username', {timeout: TIMEOUTS.ONE_MIN}).clear().type(testUser.username);
         });
+
+        // # Remove focus from password input
+        cy.focused().tab();
 
         // # Clear password field and type password
         cy.findByPlaceholderText('Password').clear().type(testUser.password);
@@ -89,7 +92,7 @@ describe('Authentication', () => {
             cy.visit(permalink);
 
             // # Clear password field and type password
-            cy.findByPlaceholderText('Password').clear().type(testUser.password);
+            cy.get('#input_password-input').clear().type(testUser.password);
 
             // # Hit enter to login
             cy.get('#saveSetting').should('not.be.disabled').click();

@@ -38,7 +38,7 @@ exports[`components/login/Login should match snapshot with base login 1`] = `
       <h1
         className="login-body-message-title"
       >
-        Log in to Your Account
+        Log in to your account
       </h1>
       <p
         className="login-body-message-subtitle"

@@ -12,7 +12,7 @@ exports[`/components/common/SiteNameAndDescription should match snapshot, defaul
     id="site_description"
   >
     <MemoizedFormattedMessage
-      defaultMessage="Collaborate with your team in real-time"
+      defaultMessage="All team communication in one place, searchable and accessible anywhere"
       id="web.root.signup_info"
     />
   </h3>

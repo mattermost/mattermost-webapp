@@ -22,7 +22,7 @@ describe('SignIn Authentication', () => {
             cy.visit('/login');
 
             // # Remove autofocus from login input
-            cy.get('.login-body-card').should('be.visible').click();
+            cy.get('.login-body-card-content').should('be.visible').focus();
         });
     });
 
@@ -30,7 +30,7 @@ describe('SignIn Authentication', () => {
         // # Enter actual user's email in the email field
         cy.apiGetClientLicense().then(({isLicensed}) => {
             // # Remove autofocus from login input
-            cy.get('.login-body-card').should('be.visible').click();
+            cy.get('.login-body-card-content').should('be.visible').focus();
 
             const loginPlaceholder = isLicensed ? 'Email, Username or AD/LDAP Username' : 'Email or Username';
             cy.findByPlaceholderText(loginPlaceholder).clear().type(testUser.email);
