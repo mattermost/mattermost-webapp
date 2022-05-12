@@ -11,7 +11,7 @@ import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/user
 import {GlobalState} from 'types/store';
 
 import {openModal} from 'actions/views/modals';
-import PreTrialPricingModal from 'components/pre_trial_pricing_modal.tsx';
+import PricingModal from 'components/pricing_modal';
 
 const UpgradeButton = styled.button`
 background: #1C58D9;
@@ -49,19 +49,19 @@ const UpgradeCloudButton = (): JSX.Element | null => {
         return null;
     }
 
-    const openPreTrialPricingModal = () => {
+    const openPricingModal = () => {
         dispatch(openModal({
-            modalId: ModalIdentifiers.PRE_TRIAL_PRICING_MODAL,
-            dialogType: PreTrialPricingModal,
+            modalId: ModalIdentifiers.PRICING_MODAL,
+            dialogType: PricingModal,
         }));
     };
 
     return (
         <UpgradeButton
             id='UpgradeButton'
-            onClick={openPreTrialPricingModal}
+            onClick={openPricingModal}
         >
-            {formatMessage({id: 'pretrial_pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'})}
+            {formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'})}
         </UpgradeButton>
     );
 };

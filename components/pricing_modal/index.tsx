@@ -5,9 +5,9 @@ import {Modal} from 'react-bootstrap';
 
 import Content from './content';
 
-import './pre_trial_pricing_modal.scss';
+import './pricing_modal.scss';
 
-function PreTrialPricingModal() {
+function PricingModal() {
     const [show, setShow] = React.useState(true);
     return (
         <Modal
@@ -32,4 +32,4 @@ function PreTrialPricingModal() {
     );
 }
 
-export default PreTrialPricingModal;
+export default PricingModal;
