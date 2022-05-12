@@ -396,7 +396,7 @@ export default class SwitchChannelProvider extends Provider {
             const users = Object.assign([], searchProfilesMatchingWithTerm(getState(), channelPrefix, false));
             const formattedData = this.formatList(channelPrefix, channels, users, true, true);
             if (formattedData) {
-                resultsCallback(this.limitChannelsAmount(formattedData));
+                resultsCallback(formattedData);
             }
 
             // Fetch data from the server and dispatch
@@ -456,13 +456,13 @@ export default class SwitchChannelProvider extends Provider {
         const combinedTerms = [...localFormattedData.terms, ...remoteFormattedData.terms.filter((term) => !localFormattedData.terms.includes(term))];
         const combinedItems = [...localFormattedData.items, ...remoteFormattedData.items.filter((item) => !localFormattedData.terms.includes(item.channel.userId || item.channel.id))];
 
-        resultsCallback(this.limitChannelsAmount({
+        resultsCallback({
             ...localFormattedData,
             ...{
                 items: combinedItems,
                 terms: combinedTerms,
             },
-        }));
+        });
     }
 
     userWrappedChannel(user, channel) {
@@ -628,12 +628,12 @@ export default class SwitchChannelProvider extends Provider {
         }
         const sortedChannels = channels.sort(sortChannelsByRecencyAndTypeAndDisplayName).slice(0, 20);
         const channelNames = sortedChannels.map((wrappedChannel) => wrappedChannel.channel.id);
-        resultsCallback(this.limitChannelsAmount({
+        resultsCallback({
             matchedPretext: '',
             terms: channelNames,
             items: sortedChannels,
             component: ConnectedSwitchChannelSuggestion,
-        }));
+        });
     }
     getTimestampFromPrefs(myPreferences, category, name) {
         const pref = myPreferences[getPreferenceKey(category, name)];
