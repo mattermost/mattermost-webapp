@@ -4,6 +4,8 @@
 import React, {memo, forwardRef, useMemo} from 'react';
 import {useSelector} from 'react-redux';
 
+import {isAdvanceTextEditor} from 'mattermost-redux/selectors/entities/preferences';
+
 import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {UserProfile} from 'mattermost-redux/types/users';
@@ -14,6 +16,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Constants from 'utils/constants';
 import {Posts} from 'mattermost-redux/constants';
 import {GlobalState} from 'types/store';
+import CreateCommentAdvance from '../../create_comment_advance';
 
 type Props = {
     focusOnMount: boolean;
@@ -34,6 +37,7 @@ const CreateComment = forwardRef<HTMLDivElement, Props>(({
 }: Props, ref) => {
     const getChannel = useMemo(makeGetChannel, []);
     const rootPost = useSelector((state: GlobalState) => getPost(state, threadId));
+    const isAdvanceTextEditorEnabled = useSelector(isAdvanceTextEditor);
     const channel = useSelector((state: GlobalState) => getChannel(state, {id: rootPost.channel_id}));
     const rootDeleted = (rootPost as Post).state === Posts.POST_DELETED;
     const isFakeDeletedPost = rootPost.type === Constants.PostTypes.FAKE_PARENT_DELETED;
@@ -64,6 +68,24 @@ const CreateComment = forwardRef<HTMLDivElement, Props>(({
                 <FormattedMarkdownMessage
                     id='archivedChannelMessage'
                     defaultMessage='You are viewing an **archived channel**. New messages cannot be posted.'
+                />
+            </div>
+        );
+    }
+    if (isAdvanceTextEditorEnabled) {
+        return (
+            <div
+                className='post-create__container'
+                ref={ref}
+            >
+                <CreateCommentAdvance
+                    focusOnMount={focusOnMount}
+                    channelId={channel.id}
+                    latestPostId={latestPostId}
+                    onHeightChange={onHeightChange}
+                    rootDeleted={rootDeleted}
+                    rootId={threadId}
+                    isThreadView={isThreadView}
                 />
             </div>
         );

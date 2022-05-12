@@ -44,16 +44,8 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
           useChannelMentions={true}
           value=""
         />
-        <FormattingBar
-          applyMarkdown={[Function]}
-          isOpen={false}
-          value=""
-        />
         <span
-          className="post-body__actions --top"
-        />
-        <span
-          className="post-body__actions --bottom"
+          className="post-body__actions"
         />
       </div>
     </div>
@@ -130,24 +122,9 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           useChannelMentions={true}
           value="Test message"
         />
-        <FormattingBar
-          applyMarkdown={[Function]}
-          isOpen={false}
-          value="Test message"
-        />
         <span
-          className="post-body__actions --top"
+          className="post-body__actions"
         >
-          <ShowFormat
-            onClick={[Function]}
-          />
-        </span>
-        <span
-          className="post-body__actions --bottom"
-        >
-          <ToggleFormattingBar
-            onClick={[Function]}
-          />
           <Connect(injectIntl(FileUpload))
             channelId="g6139tbospd18cmxroesdk3kkc"
             fileCount={0}
@@ -259,24 +236,9 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           useChannelMentions={true}
           value="Test message"
         />
-        <FormattingBar
-          applyMarkdown={[Function]}
-          isOpen={false}
-          value="Test message"
-        />
         <span
-          className="post-body__actions --top"
+          className="post-body__actions"
         >
-          <ShowFormat
-            onClick={[Function]}
-          />
-        </span>
-        <span
-          className="post-body__actions --bottom"
-        >
-          <ToggleFormattingBar
-            onClick={[Function]}
-          />
           <Connect(injectIntl(FileUpload))
             channelId="g6139tbospd18cmxroesdk3kkc"
             fileCount={3}
@@ -380,24 +342,9 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           useChannelMentions={true}
           value=""
         />
-        <FormattingBar
-          applyMarkdown={[Function]}
-          isOpen={false}
-          value=""
-        />
         <span
-          className="post-body__actions --top"
+          className="post-body__actions"
         >
-          <ShowFormat
-            onClick={[Function]}
-          />
-        </span>
-        <span
-          className="post-body__actions --bottom"
-        >
-          <ToggleFormattingBar
-            onClick={[Function]}
-          />
           <Connect(injectIntl(FileUpload))
             channelId="g6139tbospd18cmxroesdk3kkc"
             fileCount={0}
@@ -509,24 +456,9 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           useChannelMentions={true}
           value="Test message"
         />
-        <FormattingBar
-          applyMarkdown={[Function]}
-          isOpen={false}
-          value="Test message"
-        />
         <span
-          className="post-body__actions --top"
+          className="post-body__actions"
         >
-          <ShowFormat
-            onClick={[Function]}
-          />
-        </span>
-        <span
-          className="post-body__actions --bottom"
-        >
-          <ToggleFormattingBar
-            onClick={[Function]}
-          />
           <Connect(injectIntl(FileUpload))
             channelId="g6139tbospd18cmxroesdk3kkc"
             fileCount={4}

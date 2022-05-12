@@ -12,6 +12,8 @@ import {ModalData} from 'types/actions.js';
 
 import {ActionFunc, ActionResult, DispatchFunc} from 'mattermost-redux/types/actions.js';
 
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
+
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getBool, isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
@@ -21,10 +23,12 @@ import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/action
 import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {Permissions, Preferences, Posts} from 'mattermost-redux/constants';
 import {getAssociatedGroupsForReferenceByMention} from 'mattermost-redux/selectors/entities/groups';
+import {PreferenceType} from '@mattermost/types/preferences';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
 
 import {connectionErrorCount} from 'selectors/views/system';
 
-import {Constants, StoragePrefixes} from 'utils/constants';
+import {AdvancedTextEditor, Constants, StoragePrefixes} from 'utils/constants';
 import {getCurrentLocale} from 'selectors/i18n';
 
 import {
@@ -41,13 +45,16 @@ import {setShowPreviewOnCreateComment} from 'actions/views/textbox';
 import {openModal} from 'actions/views/modals';
 import {isFeatureEnabled} from 'utils/utils';
 
-import CreateComment from './create_comment';
+import {getEmojiMap} from 'selectors/emojis';
+import {canUploadFiles} from 'utils/file_utils';
+
+import CreateCommentAdvance from './create_comment_advance';
 
 type OwnProps = {
     rootId: string;
     channelId: string;
     latestPostId: string;
-}
+};
 
 function makeMapStateToProps() {
     const getMessageInHistoryItem = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.COMMENT as 'comment');
@@ -64,6 +71,7 @@ function makeMapStateToProps() {
 
         const config = getConfig(state);
         const license = getLicense(state);
+        const currentUserId = getCurrentUserId(state);
         const enableConfirmNotificationsToChannel = config.EnableConfirmNotificationsToChannel === 'true';
         const enableEmojiPicker = config.EnableEmojiPicker === 'true';
         const enableGifPicker = config.EnableGifPicker === 'true';
@@ -76,11 +84,14 @@ function makeMapStateToProps() {
         const useLDAPGroupMentions = isLDAPEnabled && haveIChannelPermission(state, channel.team_id, channel.id, Permissions.USE_GROUP_MENTIONS);
         const channelMemberCountsByGroup = selectChannelMemberCountsByGroup(state, ownProps.channelId);
         const groupsWithAllowReference = useLDAPGroupMentions || useCustomGroupMentions ? getAssociatedGroupsForReferenceByMention(state, channel.team_id, channel.id) : null;
+        const isFormattingBarHidden = getBool(state, Constants.Preferences.ADVANCED_TEXT_EDITOR, AdvancedTextEditor.COMMENT);
 
         return {
             draft,
             messageInHistory,
             channelMembersCount,
+            currentUserId,
+            isFormattingBarHidden,
             codeBlockOnCtrlEnter: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'code_block_ctrl_enter', true),
             ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
             createPostErrorId: err.server_error_id,
@@ -100,6 +111,8 @@ function makeMapStateToProps() {
             useLDAPGroupMentions,
             channelMemberCountsByGroup,
             useCustomGroupMentions,
+            emojiMap: getEmojiMap(state),
+            canUploadFiles: canUploadFiles(config),
             markdownPreviewFeatureIsEnabled: isFeatureEnabled(Constants.PRE_RELEASE_FEATURES.MARKDOWN_PREVIEW, state),
         };
     };
@@ -124,13 +137,23 @@ type Actions = {
     setShowPreview: (showPreview: boolean) => void;
     getChannelMemberCountsByGroup: (channelID: string) => void;
     openModal: <P>(modalData: ModalData<P>) => void;
-}
+    savePreferences: (userId: string, preferences: PreferenceType[]) => ActionResult;
+};
 
 function makeMapDispatchToProps() {
     let onUpdateCommentDraft: (draft?: PostDraft) => void;
-    let onSubmit: (draft: PostDraft, options: {ignoreSlash: boolean}) => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
-    let onMoveHistoryIndexBack: () => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
-    let onMoveHistoryIndexForward: () => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
+    let onSubmit: (
+        draft: PostDraft,
+        options: {ignoreSlash: boolean},
+    ) => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
+    let onMoveHistoryIndexBack: () => (
+        dispatch: DispatchFunc,
+        getState: () => GlobalState,
+    ) => Promise<ActionResult | ActionResult[]> | ActionResult;
+    let onMoveHistoryIndexForward: () => (
+        dispatch: DispatchFunc,
+        getState: () => GlobalState,
+    ) => Promise<ActionResult | ActionResult[]> | ActionResult;
     let onEditLatestPost: () => ActionFunc;
 
     function onResetHistoryIndex() {
@@ -160,23 +183,27 @@ function makeMapDispatchToProps() {
         channelId = ownProps.channelId;
         latestPostId = ownProps.latestPostId;
 
-        return bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
-            clearCommentDraftUploads,
-            onUpdateCommentDraft,
-            updateCommentDraftWithRootId: updateCommentDraft,
-            onSubmit,
-            onResetHistoryIndex,
-            onMoveHistoryIndexBack,
-            onMoveHistoryIndexForward,
-            onEditLatestPost,
-            resetCreatePostRequest,
-            getChannelTimezones,
-            emitShortcutReactToLastPostFrom,
-            setShowPreview: setShowPreviewOnCreateComment,
-            getChannelMemberCountsByGroup,
-            openModal,
-        }, dispatch);
+        return bindActionCreators<ActionCreatorsMapObject<any>, Actions>(
+            {
+                clearCommentDraftUploads,
+                onUpdateCommentDraft,
+                updateCommentDraftWithRootId: updateCommentDraft,
+                onSubmit,
+                onResetHistoryIndex,
+                onMoveHistoryIndexBack,
+                onMoveHistoryIndexForward,
+                onEditLatestPost,
+                resetCreatePostRequest,
+                getChannelTimezones,
+                emitShortcutReactToLastPostFrom,
+                setShowPreview: setShowPreviewOnCreateComment,
+                getChannelMemberCountsByGroup,
+                openModal,
+                savePreferences,
+            },
+            dispatch,
+        );
     };
 }
 
-export default connect(makeMapStateToProps, makeMapDispatchToProps, null, {forwardRef: true})(CreateComment);
+export default connect(makeMapStateToProps, makeMapDispatchToProps, null, {forwardRef: true})(CreateCommentAdvance);
