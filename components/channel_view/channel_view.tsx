@@ -13,6 +13,7 @@ import PostView from 'components/post_view';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import {browserHistory} from 'utils/browser_history';
+import CreatePostAdvance from 'components/create_post_advance';
 
 type Props = {
     channelId: string;
@@ -33,6 +34,7 @@ type Props = {
     isCloud: boolean;
     isFirstAdmin: boolean;
     useCaseOnboarding: boolean;
+    isAdvanceTextEditorEnabled: boolean;
     actions: {
         goToLastViewedChannel: () => Promise<{data: boolean}>;
         setShowNextStepsView: (x: boolean) => void;
@@ -172,16 +174,29 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                 </div>
             );
         } else if (!this.props.channelRolesLoading) {
-            createPost = (
-                <div
-                    className='post-create__container'
-                    id='post-create'
-                >
-                    <CreatePost
-                        getChannelView={this.getChannelView}
-                    />
-                </div>
-            );
+            if (this.props.isAdvanceTextEditorEnabled) {
+                createPost = (
+                    <div
+                        className='post-create__container'
+                        id='post-create'
+                    >
+                        <CreatePostAdvance
+                            getChannelView={this.getChannelView}
+                        />
+                    </div>
+                );
+            } else {
+                createPost = (
+                    <div
+                        className='post-create__container'
+                        id='post-create'
+                    >
+                        <CreatePost
+                            getChannelView={this.getChannelView}
+                        />
+                    </div>
+                );
+            }
         }
 
         const DeferredPostView = this.state.deferredPostView;

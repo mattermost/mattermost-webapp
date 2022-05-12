@@ -162,8 +162,6 @@
 
         .custom-textarea {
             min-height: 100px;
-            max-height: calc(50vh - 80px);
-            // padding-bottom: 50px;
         }
 
         .msg-typing {
@@ -189,6 +187,10 @@
             position: absolute;
             top: -361px;
             right: 0;
+        }
+
+        form {
+            padding: 0;
         }
 
         .post-create {

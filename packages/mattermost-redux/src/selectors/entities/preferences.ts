@@ -218,3 +218,7 @@ export function insightsAreEnabled(state: GlobalState): boolean {
 export function cloudFreeEnabled(state: GlobalState): boolean {
     return getFeatureFlagValue(state, 'CloudFree') === 'true';
 }
+
+export function isAdvanceTextEditor(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'AdvanceTextEditor') === 'true' || true;
+}

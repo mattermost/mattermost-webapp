@@ -56,12 +56,12 @@ import {getCurrentLocale} from 'selectors/i18n';
 import {getEmojiMap, getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {openModal} from 'actions/views/modals';
-import {Constants, Preferences, StoragePrefixes, UserStatuses} from 'utils/constants';
+import {AdvancedTextEditor, Constants, Preferences, StoragePrefixes, UserStatuses} from 'utils/constants';
 import {canUploadFiles} from 'utils/file_utils';
 import {isFeatureEnabled} from 'utils/utils';
 import {OnboardingTourSteps, TutorialTourName} from 'components/onboarding_tour';
 
-import CreatePost from './create_post';
+import CreatePostAdvance from './create_post_advance';
 
 function makeMapStateToProps() {
     const getMessageInHistoryItem = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.POST as any);
@@ -93,6 +93,7 @@ function makeMapStateToProps() {
         const enableTutorial = config.EnableTutorial === 'true';
         const tutorialStep = getInt(state, TutorialTourName.ONBOARDING_TUTORIAL_STEP, currentUserId, 0);
         const showSendTutorialTip = enableTutorial && tutorialStep === OnboardingTourSteps.SEND_MESSAGE;
+        const isFormattingBarVisible = getBool(state, Preferences.ADVANCED_TEXT_EDITOR, AdvancedTextEditor.POST);
 
         return {
             currentTeamId,
@@ -100,6 +101,7 @@ function makeMapStateToProps() {
             currentChannelTeammateUsername,
             currentChannelMembersCount,
             currentUserId,
+            isFormattingBarVisible,
             codeBlockOnCtrlEnter: getBool(state, PreferencesRedux.CATEGORY_ADVANCED_SETTINGS, 'code_block_ctrl_enter', true),
             ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
             fullWidthTextBox: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
@@ -211,4 +213,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(CreatePost);
+export default connect(makeMapStateToProps, mapDispatchToProps)(CreatePostAdvance);
