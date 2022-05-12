@@ -109,10 +109,15 @@ const MenuCloudTrial = ({id}: Props) => {
             />
 
             {/* Todo: modify this to be a link that open the see plans modal */}
-            <FormattedMessage
-                id='menu.cloudFree.seePlans'
-                defaultMessage='See plans'
-            />
+            <a
+                className='open-see-plans-modal style-link'
+                onClick={() => null}
+            >
+                <FormattedMessage
+                    id='menu.cloudFree.seePlans'
+                    defaultMessage='See plans'
+                />
+            </a>
         </>
     );
 
