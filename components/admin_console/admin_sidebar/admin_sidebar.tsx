@@ -9,7 +9,7 @@ import isEqual from 'lodash/isEqual';
 
 import classNames from 'classnames';
 
-import {generateIndex} from 'utils/admin_console_index';
+import {generateIndex, Index} from 'utils/admin_console_index';
 
 import {browserHistory} from 'utils/browser_history';
 
@@ -80,7 +80,7 @@ const renderScrollThumbVertical = (props: Props) => (
 
 class AdminSidebar extends React.PureComponent<Props, State> {
     searchRef: React.RefObject<HTMLInputElement>;
-    idx: any; //todo replace with Index
+    idx: Index | null
 
     static defaultProps = {
         plugins: {},
