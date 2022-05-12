@@ -408,7 +408,7 @@ const AdvanceTextEditor = ({
             <div
                 id='postCreateFooter'
                 role='form'
-                className={classNames('post-create-footer', {
+                className={classNames('adv-txt-editor__footer', {
                     'has-error': postError,
                 })}
             >

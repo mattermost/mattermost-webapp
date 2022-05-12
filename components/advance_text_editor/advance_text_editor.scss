@@ -1,10 +1,21 @@
 .adv-txt-editor {
+    &__ctr{
+        form{
+            padding: unset;
+            margin: unset;
+        }
+    }
     width: 100%;
-    padding: 0 15px 0;
+    padding: 0 24px;
     margin: 0 auto;
+
 
     .custom-textarea {
         box-shadow: none;
+
+        &:focus {
+            box-shadow: none;
+        }
 
         .custom-textarea--emoji-picker {
             box-shadow: none;
