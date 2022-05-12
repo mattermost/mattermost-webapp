@@ -68,9 +68,6 @@ describe('Authentication', () => {
             cy.findByPlaceholderText(isLicensed ? 'Email, Username or AD/LDAP Username' : 'Email or Username', {timeout: TIMEOUTS.ONE_MIN}).clear().type(testUser.username);
         });
 
-        // # Remove focus from password input
-        cy.focused().tab();
-
         // # Clear password field and type password
         cy.findByPlaceholderText('Password').clear().type(testUser.password);
 

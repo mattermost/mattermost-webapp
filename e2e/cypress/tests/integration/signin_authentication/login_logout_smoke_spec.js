@@ -29,9 +29,6 @@ describe('SignIn Authentication', () => {
     it('MM-T3080 Sign in email/pwd account', () => {
         // # Enter actual user's email in the email field
         cy.apiGetClientLicense().then(({isLicensed}) => {
-            // # Remove autofocus from login input
-            cy.get('.login-body-card-content').should('be.visible').focus();
-
             const loginPlaceholder = isLicensed ? 'Email, Username or AD/LDAP Username' : 'Email or Username';
             cy.findByPlaceholderText(loginPlaceholder).clear().type(testUser.email);
 
@@ -49,6 +46,9 @@ describe('SignIn Authentication', () => {
 
             // * Check that it logout successfully and it redirects into the login page
             cy.url().should('include', '/login');
+
+            // # Remove autofocus from login input
+            cy.get('.login-body-card-content').should('be.visible').focus();
 
             // # Enter actual user's username in the email field
             cy.findByPlaceholderText(loginPlaceholder).clear().type(testUser.username);

@@ -146,7 +146,8 @@ const verifyOAuthLogin = (text, color, href) => {
 
             if (color) {
                 const rbgArr = hexToRgbArray(color);
-                expect(btn[0].style.backgroundColor).equal(rgbArrayToString(rbgArr));
+                expect(btn[0].style.color).equal(rgbArrayToString(rbgArr));
+                expect(btn[0].style.borderColor).equal(rgbArrayToString(rbgArr));
             }
 
             cy.get('.login-body-card-form-login-option-label').should('contain', text);

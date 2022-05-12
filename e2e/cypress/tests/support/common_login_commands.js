@@ -25,13 +25,13 @@ Cypress.Commands.add('checkLoginFailed', () => {
     // * Check the alert banner
     cy.get('.AlertBanner.danger', {timeout: TIMEOUTS.ONE_MIN}).then(() => {
         // * Check the login input in error
-        find('.login-body-card-form-input .Input_fieldset').should('have.class', 'Input_fieldset___error');
+        cy.get('.login-body-card-form-input .Input_fieldset').should('have.class', 'Input_fieldset___error');
 
         // * Check the password input in error
-        find('.login-body-card-form-password-input .Input_fieldset').should('have.class', 'Input_fieldset___error');
+        cy.get('.login-body-card-form-password-input .Input_fieldset').should('have.class', 'Input_fieldset___error');
 
         // * Check the Log in button disabled
-        find('#saveSetting').should('be.disabled');
+        cy.get('#saveSetting').should('be.disabled');
     });
 });
 

@@ -47,7 +47,7 @@ describe('Customization', () => {
 
         // * Ensure Site Name and Description are shown the updated values in the login screen
         cy.findByRole('link', {name: siteName}).should('be.visible');
-        cy.get('.login-body-message-subtitle').should('have.text', siteDescription);
+        cy.get('.login-body-card-title').should('have.text', siteDescription);
     });
 
     it('MM-T1025 - Site Name - Product Menu ➜ About and About Modal show custom name', () => {
