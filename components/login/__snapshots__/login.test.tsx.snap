@@ -77,7 +77,7 @@ exports[`components/login/Login should match snapshot with base login 1`] = `
             inputSize="large"
             name="loginId"
             onChange={[Function]}
-            placeholder=""
+            placeholder="Email"
             type="text"
             value=""
           />
