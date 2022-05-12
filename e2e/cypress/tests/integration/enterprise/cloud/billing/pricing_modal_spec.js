@@ -26,7 +26,7 @@ describe('Pricing modal', () => {
         cy.get('#UpgradeButton').should('not.exist');
     });
 
-    it('should not show Upgrade button in global header for non admin users', () => {
+    it('should show Upgrade button in global header for non admin users', () => {
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);

@@ -1,3 +1,8 @@
+$denim: #3F4350;
+$bigStone: #152234;
+$lightDenim: #1c58d9;
+$geyser: #DADFE5;
+
 .PreTrialPricingModal {
     .modal-dialog {
         position: absolute;
@@ -25,7 +30,7 @@
         height: 40px;
 
         h1 {
-            color: #3F4350;
+            color: $denim;
             font-family: 'Open Sans';
             font-style: normal;
             font-weight: 600;
@@ -35,7 +40,7 @@
         }
 
         a {
-            color: #1C58D9;
+            color: $lightDenim;
             font-family: 'Open Sans';
             font-style: normal;
             font-weight: 600;
@@ -59,8 +64,7 @@
             align-items: center;
             h1 {
                 margin: 0;
-                // margin-left: calc((100% - 840px - 24px)/2); /* calculated based on the total width of the cards including the gap between them */
-                color: #3F4350;
+                color: $denim;
                 font-family: 'Metropolis', sans-serif;
                 font-style: normal;
                 font-weight: 600;
@@ -154,7 +158,7 @@
             }
 
             .bottom {
-                border: 1px solid #DADFE5;
+                border: 1px solid $geyser;
                 border-radius: 0px 0px 4px 4px;
                 height: 472px;
                 background-color: var(--center-channel-bg);
@@ -170,7 +174,7 @@
                         font-weight: 600;
                         font-size: 14px;
                         line-height: 24px;
-                        color: #152234;
+                        color: $bigStone;
                         letter-spacing: -0.02em;
                     }
 
@@ -212,7 +216,7 @@
                     padding: 10px 24px;
                     border: none;
                     background: none;
-                    color: #1c58d9;
+                    color: $lightDenim;
                     font-weight: 700;
                     width: 100%;
                     border-radius: 4px;
@@ -223,11 +227,11 @@
                     }
 
                     &.active {
-                        border: 1px solid #1c58d9;
+                        border: 1px solid $lightDenim;
                     }
 
                     &.special {
-                        background: #1c58d9;
+                        background: $lightDenim;
                         color: #FFFFFF;
                     }
                 }
@@ -235,7 +239,7 @@
                 .plan_price_rate_section {
                     text-align: center;
                     height: 150px;
-                    border-bottom: 1px solid #DADFE5;
+                    border-bottom: 1px solid $geyser;
                     width: 100%;
 
                     h4 {
@@ -258,12 +262,12 @@
                         letter-spacing: -0.02em;
 
                         span {
-                            font-family: 'Metropolis';
+                        font-family: 'Metropolis';
                         font-style: normal;
                         font-weight: 400;
                         font-size: 18px;
                         line-height: 20px;
-                        color: #152234;
+                        color: $bigStone;
                         letter-spacing: -0.02em;
 
                         }
@@ -279,7 +283,7 @@
                         font-weight: 400;
                         font-size: 18px;
                         line-height: 20px;
-                        color: #152234;
+                        color: $bigStone;
                         letter-spacing: -0.02em;
                     }
                 }

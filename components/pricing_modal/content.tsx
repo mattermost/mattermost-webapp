@@ -3,17 +3,24 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {GlobalState} from 'types/store';
 
 import {trackEvent} from 'actions/telemetry_actions';
-import {CloudLinks, CloudProducts, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {CloudLinks, CloudProducts, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
+import {openModal} from 'actions/views/modals';
 
-import './content.scss';
+import PurchaseModal from 'components/purchase_modal';
+import {makeAsyncComponent} from 'components/async_load';
+
+const LearnMoreTrialModal = makeAsyncComponent('LearnMoreTrialModal', React.lazy(() => import('components/learn_more_trial_modal/learn_more_trial_modal')));
+
 import LadySvg from './lady.svg';
 import ManSvg from './man.svg';
+
+import './content.scss';
 
 type PlanBriefing = {
     title: string;
@@ -43,6 +50,10 @@ type CardProps = {
     buttonDetails: ButtonDetails;
     extraAction?: ButtonDetails;
     planLabel?: JSX.Element;
+}
+
+type ContentProps = {
+    onHide: () => void;
 }
 
 type PlanLabelProps = {
@@ -153,12 +164,14 @@ function Card(props: CardProps) {
     );
 }
 
-function Content() {
+function Content(props: ContentProps) {
     const {formatMessage} = useIntl();
+    const dispatch = useDispatch();
 
     const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
 
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
+    const products = useSelector((state: GlobalState) => state.entities.cloud.products);
     const product = useSelector((state: GlobalState) => {
         if (state.entities.cloud.products && subscription) {
             return state.entities.cloud.products[subscription?.product_id];
@@ -166,10 +179,41 @@ function Content() {
         return undefined;
     });
 
+    const enterpriseProduct = Object.values(products || {}).find(((product) => {
+        return product.sku === CloudProducts.ENTERPRISE;
+    }));
+
     let isStarter = false;
+    let isPostTrial = false;
     if (product?.sku === CloudProducts.STARTER) {
         isStarter = true;
     }
+
+    if (subscription?.trial_end_at && isStarter) {
+        isPostTrial = true;
+    }
+
+    const openPurchaseModal = () => {
+        trackEvent('cloud_admin', 'click_open_purchase_modal');
+        props.onHide();
+        dispatch(openModal({
+            modalId: ModalIdentifiers.CLOUD_PURCHASE,
+            dialogType: PurchaseModal,
+        }));
+    };
+
+    const openLearnMoreTrialModal = () => {
+        trackEvent(
+            TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
+            'open_learn_more_trial_modal',
+        );
+        props.onHide();
+        dispatch(openModal({
+            modalId: ModalIdentifiers.LEARN_MORE_TRIAL_MODAL,
+            dialogType: LearnMoreTrialModal,
+        }));
+    };
+
     return (
         <div className='Content'>
             <div className='self-hosted-alert'>
@@ -198,7 +242,7 @@ function Content() {
                     className='icon icon-close'
                     aria-label='Close'
                     title='Close'
-                    onClick={() => {}}
+                    onClick={props.onHide}
                 />
             </Modal.Header>
             <Modal.Body className='PreTrialPricingModal__body'>
@@ -215,15 +259,15 @@ function Content() {
                     briefing={{
                         title: formatMessage({id: 'pricing_modal.briefing.starter', defaultMessage: 'Starter comes with...'}),
                         items: [
-                            formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage}GB file storage'}, {storage: '50'}),
+                            formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage}GB file storage'}, {storage: '10'}),
                             formatMessage({id: 'pricing_modal.briefing.starter.messageHistory', defaultMessage: 'Limited message history'}),
                             formatMessage({id: 'pricing_modal.briefing.starter.boardCards', defaultMessage: '{boards} Boards cards per server'}, {boards: '500'}),
                             formatMessage({id: 'pricing_modal.briefing.starter.teamCount', defaultMessage: 'Limited to one team'})],
                     }}
                     buttonDetails={{
-                        action: () => {},
+                        action: () => {}, // noop until we support downgrade
                         text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
-                        disabled: isStarter,
+                        disabled: true, // disabled until we have functionality to downgrade
                         customClass: ButtonCustomiserClasses.grayed,
                     }}
                     planDisclaimer={formatMessage({id: 'pricing_modal.planDisclaimer.starter', defaultMessage: 'This plan has data restrictions.'})}
@@ -239,21 +283,23 @@ function Content() {
                 <Card
                     topColor='#4A69AC'
                     plan='Professional'
-                    price='$10'
+                    price={`${enterpriseProduct ? enterpriseProduct.price_per_seat : '10'}`}
                     rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: '/user/month'})}
                     briefing={{
                         title: formatMessage({id: 'pricing_modal.briefing.professional', defaultMessage: 'All the features of Starter, plus'}),
                         items: [
-                            formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage}GB file storage'}, {storage: '100'}),
+                            formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage}GB file storage'}, {storage: '250'}),
                             'OneLogin / ADFS SAML 2.0',
                             'OpenID connect',
                             'Office365 suite integration',
                             formatMessage({id: 'pricing_modal.briefing.professional.readOnlyAnnoucementChannels', defaultMessage: 'Read-only announcement channels'})],
                     }}
                     buttonDetails={{
-                        action: () => {},
+                        action: () => {
+                            openPurchaseModal();
+                        },
                         text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
-                        customClass: ButtonCustomiserClasses.active,
+                        customClass: isPostTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,
                     }}
                     planLabel={
                         <PlanLabel
@@ -276,12 +322,20 @@ function Content() {
                             formatMessage({id: 'pricing_modal.briefing.enterprise.advancedCompliance', defaultMessage: 'Advanced compliance'}),
                             formatMessage({id: 'pricing_modal.briefing.professional.advancedRolesAndPermissions', defaultMessage: 'Advanced roles and permissions'})],
                     }}
-                    buttonDetails={{
-                        action: () => {},
+                    buttonDetails={isPostTrial ? {
+                        action: () => {
+                            window.open(contactSalesLink, '_blank');
+                        },
+                        text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),
+                        customClass: ButtonCustomiserClasses.active,
+                    } : {
+                        action: () => {
+                            openLearnMoreTrialModal();
+                        },
                         text: formatMessage({id: 'pricing_modal.btn.tryDays', defaultMessage: 'Try free for {days} days'}, {days: '30'}),
                         customClass: ButtonCustomiserClasses.special,
                     }}
-                    extraAction={{
+                    extraAction={isPostTrial ? undefined : {
                         action: () => {
                             window.open(contactSalesLink, '_blank');
                         },
