@@ -260,7 +260,6 @@ const Question = () => {
     };
     return (
         <OverlayTrigger
-            onClick={onClick}
             delayShow={Constants.OVERLAY_TIME_DELAY}
             placement='top'
             trigger={['hover', 'focus']}
@@ -273,9 +272,14 @@ const Question = () => {
                 </Tooltip>
             }
         >
-            <Icon>
-                <i className='icon icon-help-circle-outline'/>
-            </Icon>
+            <div
+                onClick={onClick}
+                className={'style--none'}
+            >
+                <Icon>
+                    <i className='icon icon-help-circle-outline'/>
+                </Icon>
+            </div>
         </OverlayTrigger>
     );
 };

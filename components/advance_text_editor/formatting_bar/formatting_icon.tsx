@@ -94,7 +94,6 @@ export const FormattingIcon = (props: FormattingIconProps): JSX.Element => {
         <>
             {tooltip ? (
                 <OverlayTrigger
-                    onClick={onClick}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='top'
                     trigger={['hover', 'focus']}
@@ -106,7 +105,10 @@ export const FormattingIcon = (props: FormattingIconProps): JSX.Element => {
                         />
                     </Tooltip>}
                 >
-                    <div className={'style--none'}>
+                    <div
+                        onClick={onClick}
+                        className={'style--none'}
+                    >
                         {bodyAction}
                     </div>
                 </OverlayTrigger>) : (<div className={'style--none'}>{bodyAction}</div>)

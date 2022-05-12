@@ -18,7 +18,6 @@ export const ToggleFormattingBar = (props: ToggleFormattingBarProps): JSX.Elemen
     const {onClick, active} = props;
     return (
         <OverlayTrigger
-            onClick={onClick}
             delayShow={Constants.OVERLAY_TIME_DELAY}
             placement='top'
             trigger={['hover', 'focus']}
