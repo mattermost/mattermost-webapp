@@ -17,7 +17,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import PurchaseModal from 'components/purchase_modal';
-import CloudStartTrialBtn from 'components/cloud_start_trial/cloud_start_trial_btn';
+import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 
 import {ModalData} from 'types/actions';
 
@@ -46,9 +46,9 @@ type Props = {
         openModal: <P>(modalData: ModalData<P>) => void;
     };
     isCloud: boolean;
-    isFreeTrial: boolean;
+    isCloudTrial: boolean;
     isCloudFreeEnabled: boolean;
-    hadPrevFreeTrial: boolean;
+    hadPrevCloudTrial: boolean;
 }
 
 type State = {
@@ -124,13 +124,13 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                 />
             );
         }
-        const {isCloud, isFreeTrial, isCloudFreeEnabled, hadPrevFreeTrial} = this.props;
-        const canRequestCloudFreeTrial = isCloud && isCloudFreeEnabled && !isFreeTrial && !hadPrevFreeTrial;
+        const {isCloud, isCloudTrial, isCloudFreeEnabled, hadPrevCloudTrial} = this.props;
+        const canRequestCloudFreeTrial = isCloud && isCloudFreeEnabled && !isCloudTrial && !hadPrevCloudTrial;
 
         const ctaTrialButton = canRequestCloudFreeTrial ? (
-            <CloudStartTrialBtn
+            <CloudStartTrialButton
                 message={Utils.localizeMessage('menu.cloudFree.tryEnterpriseFor30Days', 'Try Enterprise free for 30 days')}
-                telemetryId={'start_cloud_trial_after_completing_steps'}
+                telemetryId={'start_cloud_trial_feature_discovery'}
             />
         ) : (
             <button

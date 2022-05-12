@@ -102,13 +102,13 @@ export const useTasksList = () => {
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
     const isCloud = license?.Cloud === 'true';
     const isFreeTrial = subscription?.is_free_trial === 'true';
-    const hadPrevFreeTrial = subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0;
+    const hadPrevCloudTrial = subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0;
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
 
     // Show this CTA if the instance is currently not licensed and has never had a trial license loaded before
     // if Cloud, show if isCloudFreeEnabled and is not in trial and had never been on trial
     const selfHostedTrialCondition = isCurrentLicensed === 'false' && isPrevLicensed === 'false';
-    const cloudTrialCondition = isCloud && isCloudFreeEnabled && !isFreeTrial && !hadPrevFreeTrial;
+    const cloudTrialCondition = isCloud && isCloudFreeEnabled && !isFreeTrial && !hadPrevCloudTrial;
 
     const showStartTrialTask = selfHostedTrialCondition || cloudTrialCondition;
 

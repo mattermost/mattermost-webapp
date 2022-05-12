@@ -27,8 +27,8 @@ function mapStateToProps(state: GlobalState) {
         prevTrialLicense: state.entities.admin.prevTrialLicense,
         isCloud: isCloudLicense(getLicense(state)),
         isCloudFreeEnabled: cloudFreeEnabled(state),
-        isFreeTrial: subscription?.is_free_trial === 'true',
-        hadPrevFreeTrial: subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0,
+        isCloudTrial: subscription?.is_free_trial === 'true',
+        hadPrevCloudTrial: subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0,
     };
 }
 

@@ -2,17 +2,13 @@
 // See LICENSE.txt for license information.
 
 import React, {useState} from 'react';
-
 import {useIntl} from 'react-intl';
-
 import {useDispatch} from 'react-redux';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {requestCloudTrial} from 'actions/cloud';
-
 import {trackEvent} from 'actions/telemetry_actions';
-
 import {openModal} from 'actions/views/modals';
 
 import TrialBenefitsModal from 'components/trial_benefits_modal/trial_benefits_modal';
@@ -36,7 +32,7 @@ enum TrialLoadStatus {
     Embargoed = 'EMBARGOED',
 }
 
-const CloudStartTrialBtn = ({
+const CloudStartTrialButton = ({
     message,
     telemetryId,
     linkStyle,
@@ -47,7 +43,7 @@ const CloudStartTrialBtn = ({
 
     const [status, setLoadStatus] = useState(TrialLoadStatus.NotStarted);
 
-    const requestLicense = async (): Promise<TrialLoadStatus> => {
+    const requestStartTrial = async (): Promise<TrialLoadStatus> => {
         const productUpdated = await requestCloudTrial('start_trial_btn')();
         if (!productUpdated) {
             setLoadStatus(TrialLoadStatus.Failed);
@@ -85,21 +81,21 @@ const CloudStartTrialBtn = ({
         }
     };
     const startCloudTrial = async () => {
-        const updatedStatus = await requestLicense();
+        const updatedStatus = await requestStartTrial();
 
         await openTrialBenefitsModal(updatedStatus);
         if (onClick && updatedStatus === TrialLoadStatus.Success) {
             onClick();
         }
         trackEvent(
-            TELEMETRY_CATEGORIES.CLOUD_START_TRIAL_MODAL,
+            TELEMETRY_CATEGORIES.CLOUD_START_TRIAL_BUTTON,
             telemetryId,
         );
     };
 
     return (
         <button
-            className={`CloudStartTrialBtn ${linkStyle ? 'style-link' : ''}`}
+            className={`CloudStartTrialButton ${linkStyle ? 'style-link' : ''}`}
             onClick={startCloudTrial}
         >
             {btnText(status)}
@@ -107,4 +103,4 @@ const CloudStartTrialBtn = ({
     );
 };
 
-export default CloudStartTrialBtn;
+export default CloudStartTrialButton;

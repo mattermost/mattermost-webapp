@@ -32,7 +32,7 @@ exports[`components/cloud_start_trial_btn/cloud_start_trial_btn should match sna
     }
   }
 >
-  <CloudStartTrialBtn
+  <CloudStartTrialButton
     message="Cloud Start trial"
     onClick={[MockFunction]}
     telemetryId="test_telemetry_id"

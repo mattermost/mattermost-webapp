@@ -21,7 +21,7 @@ import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import {TELEMETRY_CATEGORIES} from 'utils/constants';
 
-import CloudStartTrialBtn from './cloud_start_trial_btn';
+import CloudStartTrialButton from './cloud_start_trial_btn';
 
 jest.mock('actions/telemetry_actions.jsx', () => {
     const original = jest.requireActual('actions/telemetry_actions.jsx');
@@ -76,7 +76,7 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
     test('should match snapshot', () => {
         const wrapper = shallow(
             <Provider store={store}>
-                <CloudStartTrialBtn {...props}/>
+                <CloudStartTrialButton {...props}/>
             </Provider>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -94,7 +94,7 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
         await act(async () => {
             wrapper = mountWithIntl(
                 <Provider store={store}>
-                    <CloudStartTrialBtn
+                    <CloudStartTrialButton
                         {...props}
                         onClick={mockOnClick}
                     />
@@ -103,20 +103,20 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
         });
 
         await act(async () => {
-            expect(wrapper.find('.CloudStartTrialBtn').text().includes('Cloud Start trial')).toBe(true);
+            expect(wrapper.find('.CloudStartTrialButton').text().includes('Cloud Start trial')).toBe(true);
         });
 
         await act(async () => {
-            wrapper.find('.CloudStartTrialBtn').simulate('click');
+            wrapper.find('.CloudStartTrialButton').simulate('click');
         });
 
         await act(async () => {
-            expect(wrapper.find('.CloudStartTrialBtn').text().includes('Loaded!')).toBe(true);
+            expect(wrapper.find('.CloudStartTrialButton').text().includes('Loaded!')).toBe(true);
         });
 
         expect(mockOnClick).toHaveBeenCalled();
 
-        expect(trackEvent).toHaveBeenCalledWith(TELEMETRY_CATEGORIES.CLOUD_START_TRIAL_MODAL, 'test_telemetry_id');
+        expect(trackEvent).toHaveBeenCalledWith(TELEMETRY_CATEGORIES.CLOUD_START_TRIAL_BUTTON, 'test_telemetry_id');
     });
 
     test('should handle on click and change button text on FAILED trial request', async () => {
@@ -131,7 +131,7 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
         await act(async () => {
             wrapper = mountWithIntl(
                 <Provider store={store}>
-                    <CloudStartTrialBtn
+                    <CloudStartTrialButton
                         {...props}
                         onClick={mockOnClick}
                     />
@@ -140,16 +140,16 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
         });
 
         await act(async () => {
-            expect(wrapper.find('.CloudStartTrialBtn').text().includes('Cloud Start trial')).toBe(true);
+            expect(wrapper.find('.CloudStartTrialButton').text().includes('Cloud Start trial')).toBe(true);
         });
 
         await act(async () => {
-            wrapper.find('.CloudStartTrialBtn').simulate('click');
+            wrapper.find('.CloudStartTrialButton').simulate('click');
         });
 
         await act(async () => {
-            console.log(wrapper.find('.CloudStartTrialBtn').text());
-            expect(wrapper.find('.CloudStartTrialBtn').text().includes('Failed')).toBe(true);
+            console.log(wrapper.find('.CloudStartTrialButton').text());
+            expect(wrapper.find('.CloudStartTrialButton').text().includes('Failed')).toBe(true);
         });
     });
 });

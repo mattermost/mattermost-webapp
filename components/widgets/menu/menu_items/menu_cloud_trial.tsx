@@ -19,7 +19,7 @@ import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
 import {TrialPeriodDays, ModalIdentifiers} from 'utils/constants';
 
 import './menu_item.scss';
-import CloudStartTrialBtn from 'components/cloud_start_trial/cloud_start_trial_btn';
+import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 
 type Props = {
     id: string;
@@ -32,7 +32,7 @@ const MenuCloudTrial = ({id}: Props) => {
 
     const isCloud = license?.Cloud === 'true';
     const isFreeTrial = subscription?.is_free_trial === 'true';
-    const hadPrevFreeTrial = subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0;
+    const hadPrevCloudTrial = subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0;
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
 
     let daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at);
@@ -61,7 +61,7 @@ const MenuCloudTrial = ({id}: Props) => {
         // Here go the limits calculation and refactor of the menu option
         <>
             <FormattedMessage
-                id='menu.cloudFree.tryEnterprise'
+                id='menu.cloudFree.reviewEnterpriseFeaturesTitle'
                 defaultMessage='Are you making the most of your Enterprise trial? '
             />
             <a
@@ -89,13 +89,13 @@ const MenuCloudTrial = ({id}: Props) => {
     );
 
     // menu option displayed when the workspace is not running any trial
-    const noTrialContent = (isCloudFreeEnabled && !hadPrevFreeTrial) ? (
+    const noTrialContent = (isCloudFreeEnabled && !hadPrevCloudTrial) ? (
         <>
             <FormattedMessage
                 id='menu.cloudFree.tryEnterprise'
                 defaultMessage='Interested in a limitless plan with high-security features?'
             />
-            <CloudStartTrialBtn
+            <CloudStartTrialButton
                 message={formatMessage({id: 'menu.cloudFree.tryEnterpriseFor30Days', defaultMessage: 'Try Enterprise free for 30 days'})}
                 telemetryId={'start_cloud_trial_from_main_menu'}
                 linkStyle={true}

@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 import {FormattedMessage, useIntl} from 'react-intl';
 
@@ -11,10 +11,7 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {closeModal} from 'actions/views/modals';
 
-import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {getLicense} from 'mattermost-redux/selectors/entities/general';
-
-import CloudStartTrialBtn from 'components/cloud_start_trial/cloud_start_trial_btn';
+import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 
 import {ModalIdentifiers} from 'utils/constants';
 
@@ -30,6 +27,7 @@ export type LearnMoreTrialModalStepProps = {
     svgElement: React.ReactNode;
     bottomLeftMessage?: string;
     handleEmbargoError?: () => void;
+    isCloudFree?: boolean;
 }
 
 const LearnMoreTrialModalStep = (
@@ -41,16 +39,12 @@ const LearnMoreTrialModalStep = (
         svgElement,
         bottomLeftMessage,
         handleEmbargoError,
+        isCloudFree,
     }: LearnMoreTrialModalStepProps) => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch<DispatchFunc>();
 
     let startTrialBtnMsg = formatMessage({id: 'start_trial.modal_btn.start_free_trial', defaultMessage: 'Start free 30-day trial'});
-
-    // Cloud conditions
-    const license = useSelector(getLicense);
-    const isCloud = license?.Cloud === 'true';
-    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
 
     // close this modal once start trial btn is clicked and trial has started successfully
     const dismissAction = () => {
@@ -67,10 +61,10 @@ const LearnMoreTrialModalStep = (
     );
 
     // no need to check if is cloud trial or if it have had prev cloud trial cause the button that show this modal takes care of that
-    if (isCloud && isCloudFreeEnabled) {
+    if (isCloudFree) {
         startTrialBtnMsg = formatMessage({id: 'menu.cloudFree.tryEnterpriseFor30Days', defaultMessage: 'Try Enterprise free for 30 days'});
         startTrialBtn = (
-            <CloudStartTrialBtn
+            <CloudStartTrialButton
                 message={startTrialBtnMsg}
                 telemetryId={'start_cloud_trial_after_completing_steps'}
                 onClick={dismissAction}

@@ -18,7 +18,7 @@ import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences'
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 
 import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
-import CloudStartTrialBtn from 'components/cloud_start_trial/cloud_start_trial_btn';
+import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 
 const CompletedWrapper = styled.div`
     display: flex;
@@ -125,13 +125,13 @@ const Completed = (props: Props): JSX.Element => {
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
     const isCloud = license?.Cloud === 'true';
     const isFreeTrial = subscription?.is_free_trial === 'true';
-    const hadPrevFreeTrial = subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0;
+    const hadPrevCloudTrial = subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0;
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
 
     // Show this CTA if the instance is currently not licensed and has never had a trial license loaded before
     // if Cloud, show if isCloudFreeEnabled and is not in trial and had never been on trial
     const selfHostedTrialCondition = isCurrentLicensed === 'false' && isPrevLicensed === 'false';
-    const cloudTrialCondition = isCloud && isCloudFreeEnabled && !isFreeTrial && !hadPrevFreeTrial;
+    const cloudTrialCondition = isCloud && isCloudFreeEnabled && !isFreeTrial && !hadPrevCloudTrial;
 
     const showStartTrialBtn = selfHostedTrialCondition || cloudTrialCondition;
 
@@ -175,7 +175,7 @@ const Completed = (props: Props): JSX.Element => {
                                 />
                             </span>
                             {isCloud && isCloudFreeEnabled ? (
-                                <CloudStartTrialBtn
+                                <CloudStartTrialButton
                                     message={formatMessage({id: 'menu.cloudFree.tryEnterpriseFor30Days', defaultMessage: 'Try Enterprise free for 30 days'})}
                                     telemetryId={'start_cloud_trial_after_completing_steps'}
                                 />

@@ -24,8 +24,8 @@ describe('components/feature_discovery', () => {
                     stats={{TOTAL_USERS: 20}}
                     prevTrialLicense={{IsLicensed: 'false'}}
                     isCloud={false}
-                    isFreeTrial={false}
-                    hadPrevFreeTrial={false}
+                    isCloudTrial={false}
+                    hadPrevCloudTrial={false}
                     isCloudFreeEnabled={false}
                     actions={{
                         requestTrialLicense: jest.fn(),
@@ -51,8 +51,8 @@ describe('components/feature_discovery', () => {
                     stats={{TOTAL_USERS: 20}}
                     prevTrialLicense={{IsLicensed: 'false'}}
                     isCloud={true}
-                    isFreeTrial={false}
-                    hadPrevFreeTrial={false}
+                    isCloudTrial={false}
+                    hadPrevCloudTrial={false}
                     isCloudFreeEnabled={true}
                     actions={{
                         requestTrialLicense: jest.fn(),
