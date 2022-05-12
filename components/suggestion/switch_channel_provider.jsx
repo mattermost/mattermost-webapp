@@ -609,12 +609,12 @@ export default class SwitchChannelProvider extends Provider {
             });
         }
 
-        return {
+        return this.limitChannelsAmount({
             matchedPretext: channelPrefix,
             terms: channelNames,
             items: channels,
             component: ConnectedSwitchChannelSuggestion,
-        };
+        });
     }
 
     fetchAndFormatRecentlyViewedChannels(resultsCallback) {
@@ -709,12 +709,12 @@ export default class SwitchChannelProvider extends Provider {
         const sortedChannels = this.wrapChannels(channels, Constants.MENTION_PUBLIC_CHANNELS).slice(0, 20);
         const channelNames = sortedChannels.map((wrappedChannel) => wrappedChannel.channel.id);
 
-        resultsCallback(this.limitChannelsAmount({
+        resultsCallback({
             matchedPretext: '',
             terms: channelNames,
             items: sortedChannels,
             component: ConnectedSwitchChannelSuggestion,
-        }));
+        });
     }
 
     limitChannelsAmount(result, limit = 50) {
