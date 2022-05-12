@@ -5,6 +5,7 @@ import React, {useRef} from 'react';
 import {FormattedMessage} from 'react-intl';
 import Tippy from '@tippyjs/react';
 import {Placement} from 'tippy.js';
+import classNames from 'classnames';
 
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light-border.css';
@@ -38,6 +39,7 @@ type Props = {
     offset?: [number, number];
     width?: string | number;
     zIndex?: number;
+    className?: string;
 
     // if you don't want punchOut just assign null, keep null as hook may return null first than actual value
     overlayPunchOut: TourTipOverlayPunchOut | null;
@@ -75,6 +77,7 @@ const TourTip = ({
     pulsatingDotPlacement,
     nextBtn,
     prevBtn,
+    className,
     offset = [-18, 4],
     placement = 'right-start',
     showOptOut = true,
@@ -218,7 +221,7 @@ const TourTip = ({
                     interactive={true}
                     appendTo={rootPortal!}
                     offset={offset}
-                    className={'tour-tip__box'}
+                    className={classNames('tour-tip__box', className)}
                     placement={placement}
                 />
             )}

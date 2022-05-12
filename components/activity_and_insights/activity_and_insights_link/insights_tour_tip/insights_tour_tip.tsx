@@ -92,6 +92,7 @@ const InsightsTourTip = () => {
                     nextBtn={nextBtn}
                     prevBtn={prevBtn}
                     offset={[-30, 5]}
+                    className={'insights-tip'}
                 />
             }
         </>
