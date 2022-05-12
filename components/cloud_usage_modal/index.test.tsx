@@ -59,6 +59,13 @@ function setupStore(hasLimits: boolean) {
                     [Constants.StatTypes.TOTAL_POSTS]: 1234,
                 } as GlobalState['entities']['admin']['analytics'],
             },
+            teams: {
+                currentTeamId: ''
+            },
+            preferences: {
+                myPreferences: {
+                }
+            },
         },
     } as GlobalState;
     const store = mockStore(state);
@@ -76,6 +83,7 @@ describe('CloudUsageModal', () => {
         props = {
             title: '',
             onClose: jest.fn(),
+            needsTheme: true,
         };
     });
 

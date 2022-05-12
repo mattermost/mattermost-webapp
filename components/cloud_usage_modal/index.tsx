@@ -1,15 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
-import {Modal} from 'react-bootstrap';
+import React from 'react';
+
+import {useSelector} from 'react-redux';
+
+import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
+import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
+
+import GenericModal from 'components/generic_modal';
 
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import useGetUsage from 'components/common/hooks/useGetUsage';
 
 import WorkspaceLimitsPanel, {Message, messageToElement} from './workspace_limits_panel';
-
-import './index.scss';
 
 interface ModalAction {
     message: Message | React.ReactNode;
@@ -21,34 +25,27 @@ export interface Props {
     primaryAction?: ModalAction;
     secondaryAction?: ModalAction;
     onClose: () => void;
+
+    // e.g. in contexts where the CompassThemeProvider isn't already applied, like the system console
+    needsTheme?: boolean;
 }
 
 export default function CloudUsageModal(props: Props) {
     const [limits] = useGetLimits();
     const usage = useGetUsage();
-    const [show, setShow] = useState(true);
-    return (
-        <Modal
-            dialogClassName='a11y__modal'
-            show={show}
-            onHide={() => setShow(false)}
+    const theme = useSelector(getTheme);
+
+    const modal = (
+        <GenericModal
+            handleCancel={props.onClose}
+            useCompassDesign={true}
             onExited={props.onClose}
-            role='dialog'
-            aria-labelledby='cloudUsageModalLabel'
-            className='CloudUsageModal'
+            modalHeaderText={messageToElement(props.title)}
+            cancelButtonText={props.secondaryAction && messageToElement(props.secondaryAction.message)}
+            handleConfirm={props.primaryAction?.onClick}
+            confirmButtonText={props.primaryAction && messageToElement(props.primaryAction.message)}
         >
-            <Modal.Header
-                closeButton={true}
-                className='CloudUsageModal__header'
-            >
-                <Modal.Title
-                    componentClass='h1'
-                    id='cloudUsageModalLabel'
-                >
-                    {messageToElement(props.title)}
-                </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
+            <>
                 <p>
                     {props.description && messageToElement(props.description)}
                 </p>
@@ -57,35 +54,17 @@ export default function CloudUsageModal(props: Props) {
                     limits={limits}
                     usage={usage}
                 />
-            </Modal.Body>
-            {Boolean(props.primaryAction || props.secondaryAction) && (
-                <Modal.Footer
-                    className='CloudUsageModal__footer'
-                    data-testid='limits-modal-footer'
-                >
-                    {props.secondaryAction && (
-                        <button
-                            type='button'
-                            className='btn btn-link'
-                            onClick={props.secondaryAction.onClick}
-                            data-testid='limits-modal-secondary-action'
-                        >
-                            {messageToElement(props.secondaryAction.message)}
-                        </button>
-                    )}
-                    {props.primaryAction && (
-                        <button
-                            type='button'
-                            className='btn btn-primary'
-                            data-dismiss='modal'
-                            onClick={props.primaryAction.onClick}
-                            data-testid='limits-modal-primary-action'
-                        >
-                            {messageToElement(props.primaryAction.message)}
-                        </button>
-                    )}
-                </Modal.Footer>
-            )}
-        </Modal>
+            </>
+        </GenericModal>
+    );
+
+    if (!props.needsTheme) {
+        return modal;
+    }
+
+    return (
+        <CompassThemeProvider theme={theme}>
+            {modal}
+        </CompassThemeProvider>
     );
 }
