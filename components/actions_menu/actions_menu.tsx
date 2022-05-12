@@ -118,7 +118,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         >
             <FormattedMessage
                 id='post_info.tooltip.actions'
-                defaultMessage='Actions'
+                defaultMessage='Message actions'
             />
         </Tooltip>
     )
