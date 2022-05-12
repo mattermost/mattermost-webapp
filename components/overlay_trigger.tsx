@@ -18,7 +18,6 @@ export type BaseOverlayTrigger = OriginalOverlayTrigger & {
 type Props = OverlayTriggerProps & {
     disabled?: boolean;
     className?: string;
-    onClick?: (event: React.MouseEvent) => void;
 };
 
 const OverlayTrigger = React.forwardRef((props: Props, ref?: React.Ref<OriginalOverlayTrigger>) => {

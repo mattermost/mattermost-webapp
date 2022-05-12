@@ -220,5 +220,5 @@ export function cloudFreeEnabled(state: GlobalState): boolean {
 }
 
 export function isAdvanceTextEditor(state: GlobalState): boolean {
-    return getFeatureFlagValue(state, 'AdvanceTextEditor') === 'true' || true;
+    return getFeatureFlagValue(state, 'AdvanceTextEditor') === 'true';
 }

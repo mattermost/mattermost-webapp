@@ -18,7 +18,7 @@ describe('applyMarkdown', () => {
         });
 
         expect(result).toEqual({
-            message: '0. brown\n1. fox jumps over lazy dog',
+            message: '1. brown\n2. fox jumps over lazy dog',
             selectionStart: 8,
             selectionEnd: 12,
         });
@@ -34,7 +34,7 @@ describe('applyMarkdown', () => {
         });
 
         expect(result).toEqual({
-            message: '0. brown\n1. fox jumps over lazy dog',
+            message: '1. brown\n2. fox jumps over lazy dog',
             selectionStart: 3,
             selectionEnd: 16,
         });
