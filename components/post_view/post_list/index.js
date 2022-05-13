@@ -50,7 +50,7 @@ function makeMapStateToProps() {
         const isPrefetchingInProcess = channelViewState.channelPrefetchStatus[channelId] === RequestStatus.STARTED;
         const channelManuallyUnread = isManuallyUnread(state, channelId);
 
-        const focusedPost = getPost(state, focusedPostId)
+        const focusedPost = getPost(state, focusedPostId);
 
         if (focusedPostId && focusedPost !== undefined && unreadChunkTimeStamp !== '') {
             chunk = getPostsChunkAroundPost(state, focusedPostId, channelId);
