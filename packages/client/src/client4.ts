@@ -114,6 +114,7 @@ import {
 import {CompleteOnboardingRequest} from '@mattermost/types/setup';
 
 import {UserThreadList, UserThread, UserThreadWithPost} from '@mattermost/types/threads';
+import {TopReactionResponse} from '@mattermost/types/insights';
 
 import {cleanUrlForLogging} from './errors';
 import {buildQueryString} from './helpers';
@@ -340,8 +341,12 @@ export default class Client4 {
         return `${this.getBaseRoute()}/hooks/outgoing/${hookId}`;
     }
 
+    getOAuthPath() {
+        return '/oauth';
+    }
+
     getOAuthRoute() {
-        return `${this.url}/oauth`;
+        return `${this.url}${this.getOAuthPath()}`;
     }
 
     getOAuthAppsRoute() {
@@ -1928,9 +1933,9 @@ export default class Client4 {
         );
     };
 
-    getPostThread = (postId: string, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false) => {
+    getPostThread = (postId: string, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false, direction?: 'up'|'down', perPage?: number, fromCreateAt?: number, fromPost?: string) => {
         return this.doFetch<PostList>(
-            `${this.getPostRoute(postId)}/thread${buildQueryString({skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended})}`,
+            `${this.getPostRoute(postId)}/thread${buildQueryString({skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended, direction, fromPost, fromCreateAt, perPage})}`,
             {method: 'get'},
         );
     };
@@ -2113,6 +2118,20 @@ export default class Client4 {
             {method: 'get'},
         );
     };
+
+    getTopReactionsForTeam = (teamId: string, page: number, perPage: number, timeRange: string) => {
+        return this.doFetch<TopReactionResponse>(
+            `${this.getTeamRoute(teamId)}/top/reactions${buildQueryString({page, per_page: perPage, time_range: timeRange})}`,
+            {method: 'get'},
+        );
+    }
+
+    getMyTopReactions = (teamId: string, page: number, perPage: number, timeRange: string) => {
+        return this.doFetch<TopReactionResponse>(
+            `${this.getUsersRoute()}/me/top/reactions${buildQueryString({page, per_page: perPage, time_range: timeRange, team_id: teamId})}`,
+            {method: 'get'},
+        );
+    }
 
     searchPostsWithParams = (teamId: string, params: any) => {
         this.trackEvent('api', 'api_posts_search', {team_id: teamId});

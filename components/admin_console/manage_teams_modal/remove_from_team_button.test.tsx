@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import RemoveFromTeamButton from 'components/admin_console/manage_teams_modal/remove_from_team_button.jsx';
+import RemoveFromTeamButton from 'components/admin_console/manage_teams_modal/remove_from_team_button';
 
 describe('RemoveFromTeamButton', () => {
     const baseProps = {
@@ -24,7 +24,7 @@ describe('RemoveFromTeamButton', () => {
         const wrapper = shallow(
             <RemoveFromTeamButton {...baseProps}/>,
         );
-        wrapper.find('button').prop('onClick')({preventDefault: jest.fn()});
+        wrapper.find('button').prop('onClick')!({preventDefault: jest.fn()} as unknown as React.MouseEvent);
         expect(baseProps.handleRemoveUserFromTeam).toHaveBeenCalledTimes(1);
     });
 });
