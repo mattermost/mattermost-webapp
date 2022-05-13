@@ -6167,7 +6167,7 @@ const AdminDefinition = {
                         label: t('admin.experimental.clientSideCertEnable.title'),
                         label_default: 'Enable Client-Side Certification:',
                         help_text: t('admin.experimental.clientSideCertEnable.desc'),
-                        help_text_default: 'Enables client-side certification for your Mattermost server. See <link>documentation</link>) to learn more.',
+                        help_text_default: 'Enables client-side certification for your Mattermost server. See <link>documentation</link> to learn more.',
                         help_text_values: {
                             link: (msg) => (
                                 <a
