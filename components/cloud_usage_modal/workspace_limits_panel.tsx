@@ -6,10 +6,9 @@ import {FormattedMessage, useIntl} from 'react-intl';
 
 import {Limits} from '@mattermost/types/cloud';
 import {CloudUsage} from 'components/common/hooks/useGetUsage';
-import UsagePercentBar from 'components/common/usage_percent_bar';
 import {asGBString, inK} from 'utils/limits';
 
-import './workspace_limits_panel.scss';
+import LimitLine from './limit_line';
 
 export interface Message {
     id: string;
@@ -31,32 +30,6 @@ export function messageToElement(x: Message | React.ReactNode): React.ReactNode 
     return x;
 }
 
-interface LimitLineProps {
-    icon: string;
-    limitName: React.ReactNode;
-    limitStatus: React.ReactNode;
-    percent: number;
-    showIcons?: boolean;
-}
-
-function LimitLine(props: LimitLineProps) {
-    return (
-        <div className='WorkspaceLimitLine'>
-            {props.showIcons && <i className={`WorkspaceLimitLine__icon ${props.icon}`}/>}
-            <div className='WorkspaceLimitLine__bar'>
-                <div className='WorkspaceLimitLine__bar-label'>{props.limitName}</div>
-                <UsagePercentBar
-                    barWidth='auto'
-                    percent={Math.floor(props.percent * 100)}
-                />
-            </div>
-            <div className='WorkspaceLimitLine__text-status'>
-                {props.limitStatus}
-            </div>
-        </div>
-    );
-}
-
 interface Props {
     limits: Limits;
     usage: CloudUsage;
@@ -66,7 +39,7 @@ interface Props {
 export default function WorkspaceLimitsPanel(props: Props) {
     const intl = useIntl();
     return (
-        <div className='WorkspaceLimitsPanel'>
+        <div>
             <LimitLine
                 icon='icon-message-text-outline'
                 showIcons={props.showIcons}

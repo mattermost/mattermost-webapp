@@ -1,0 +1,31 @@
+.WorkspaceLimitLine {
+    display: flex;
+    align-items: center;
+    padding-bottom: 12px;
+
+    &__icon {
+        color: rgba(var(--center-channel-text-rgb), 0.64);
+        font-size: 24px;
+    }
+
+    &__bar {
+        flex-grow: 1;
+        padding-right: 24px;
+        padding-left: 12px;
+        color: rgba(var(--center-channel-text-rgb), 0.72);
+
+        &:first-child {
+            padding-left: 0;
+        }
+    }
+
+    &__bar-label {
+        padding-bottom: 4px;
+    }
+
+    &__text-status {
+        flex-basis: 121px;
+        align-self: end;
+        color: var(--center-channel-text);
+    }
+}
