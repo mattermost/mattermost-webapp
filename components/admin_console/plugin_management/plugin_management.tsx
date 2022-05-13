@@ -655,7 +655,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                 }
                 {
                     !enableUploads &&
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='admin.plugin.uploadDisabledDesc'
                         defaultMessage='Enable plugin uploads in config.json. See <link>documentation</link> to learn more.'
                         values={{
