@@ -1,4 +1,10 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 @charset 'UTF-8';
+
+@import 'utils/variables';
+@import 'utils/mixins';
 
 .app__body .modal .GenericModal {
     &.modal-dialog {
@@ -185,9 +191,8 @@
                 border: none;
                 border-radius: 4px;
                 box-shadow: none;
-                font-size: 14px;
-                font-weight: 600;
-                line-height: 14px;
+
+                @include button-medium;
 
                 &.cancel {
                     margin-right: 8px;
@@ -211,27 +216,11 @@
                 }
 
                 &.confirm {
-                    background: var(--button-bg);
-                    color: var(--button-color);
-
-                    &:hover {
-                        background: linear-gradient(0deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.08)), var(--button-bg);
-                    }
-
-                    &:active {
-                        background: linear-gradient(0deg, rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.16)), var(--button-bg);
-                    }
+                    @include primary-button;
+                    @include button-medium;
 
                     &:focus {
-                        box-sizing: border-box;
                         padding: 11px 18px;
-                        border: 2px solid var(--sidebar-text-active-border);
-                    }
-
-                    &.disabled {
-                        background: rgba(var(--center-channel-color-rgb), 0.08);
-                        color: rgba(var(--center-channel-color-rgb), 0.32);
-                        cursor: not-allowed;
                     }
                 }
             }

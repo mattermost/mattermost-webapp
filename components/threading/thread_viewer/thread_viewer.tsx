@@ -37,7 +37,7 @@ export type Props = Attrs & {
     actions: {
         removePost: (post: ExtendedPost) => void;
         selectPostCard: (post: Post) => void;
-        getPostThread: (rootId: string, root?: boolean) => Promise<any>|ActionFunc;
+        getNewestPostThread: (rootId: string) => Promise<any>|ActionFunc;
         getThread: (userId: string, teamId: string, threadId: string, extended: boolean) => Promise<any>|ActionFunc;
         updateThreadRead: (userId: string, teamId: string, threadId: string, timestamp: number) => unknown;
         updateThreadLastOpened: (threadId: string, lastViewedAt: number) => unknown;
@@ -160,10 +160,8 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
     // fetches the thread/posts if needed and
     // scrolls to either bottom or new messages line
     private onInit = async (reconnected = false): Promise<void> => {
-        if (reconnected || this.morePostsToFetch()) {
-            this.setState({isLoading: !reconnected});
-            await this.props.actions.getPostThread(this.props.selected.id, !reconnected);
-        }
+        this.setState({isLoading: !reconnected});
+        await this.props.actions.getNewestPostThread(this.props.selected.id);
 
         if (
             this.props.isCollapsedThreadsEnabled &&
@@ -199,7 +197,7 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
             );
         }
 
-        if (this.state.isLoading) {
+        if (this.state.isLoading && this.props.postIds.length < 2) {
             return (
                 <LoadingScreen
                     style={{

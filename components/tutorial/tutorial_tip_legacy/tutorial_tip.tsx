@@ -451,7 +451,10 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                     onHide={this.dismiss}
                     target={this.getTarget}
                 >
-                    <div className={'tip-overlay ' + this.props.overlayClass}>
+                    <div
+                        className={'tip-overlay ' + this.props.overlayClass}
+                        data-testid={'current_tutorial_tip'}
+                    >
                         <div className='arrow'/>
                         <div className='tutorial-tip__header'>
                             <h4 className='tutorial-tip__header__title'>
@@ -460,6 +463,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                             <button
                                 className='tutorial-tip__header__close'
                                 onClick={this.dismiss}
+                                data-testid={'close_tutorial_tip'}
                             >
                                 <i className='icon icon-close'/>
                             </button>

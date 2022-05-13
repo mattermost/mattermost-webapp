@@ -99,10 +99,10 @@ describe('Profile', () => {
         cy.apiLogout();
 
         // * Verify that user cannot login with the cancelled password
-        cy.get('#loginId').type(testUser.username);
-        cy.get('#loginPassword').type('newPasswd');
-        cy.findByText('Sign in').click();
-        cy.findByText('Enter a valid email or username and/or password.').should('be.visible');
+        cy.get('#input_loginId').type(testUser.username);
+        cy.get('#input_password-input').type('newPasswd');
+        cy.get('#saveSetting').should('not.be.disabled').click();
+        cy.findByText('The email/username or password is invalid.').should('be.visible');
 
         // * Verify that user can successfully login with the old password
         cy.apiLogin(testUser);
