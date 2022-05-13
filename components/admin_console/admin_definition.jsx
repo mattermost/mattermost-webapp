@@ -3682,7 +3682,6 @@ const AdminDefinition = {
                                 label: t('admin.ldap.ldap_test_button'),
                                 label_default: 'AD/LDAP Test',
                                 help_text: t('admin.ldap.testHelpText'),
-                                help_text_markdown: true,
                                 help_text_default: 'Tests if the Mattermost server can connect to the AD/LDAP server specified. Please review "System Console > Logs" and <link>documentation</link> to troubleshoot errors.',
                                 help_text_values: {
                                     link: (msg) => (
