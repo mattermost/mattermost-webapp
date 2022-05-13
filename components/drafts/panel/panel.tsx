@@ -25,7 +25,7 @@ function Panel({children, onClick}: Props) {
     };
 
     const handleOnClick = (e: React.MouseEvent<HTMLElement>) => {
-        if (isEligibleForClick(e as unknown as MouseEvent)) {
+        if (isEligibleForClick(e)) {
             onClick();
         }
     };
