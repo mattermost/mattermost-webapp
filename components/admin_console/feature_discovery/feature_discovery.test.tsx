@@ -27,6 +27,7 @@ describe('components/feature_discovery', () => {
                     isCloudTrial={false}
                     hadPrevCloudTrial={false}
                     isCloudFreeEnabled={false}
+                    isCloudFreePaidSubscription={false}
                     actions={{
                         requestTrialLicense: jest.fn(),
                         getLicenseConfig: jest.fn(),
@@ -54,6 +55,7 @@ describe('components/feature_discovery', () => {
                     isCloudTrial={false}
                     hadPrevCloudTrial={false}
                     isCloudFreeEnabled={true}
+                    isCloudFreePaidSubscription={false}
                     actions={{
                         requestTrialLicense: jest.fn(),
                         getLicenseConfig: jest.fn(),

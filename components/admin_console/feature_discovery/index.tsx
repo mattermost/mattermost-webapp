@@ -11,6 +11,7 @@ import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCloudLicense} from 'utils/license_utils';
 
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {LicenseSkus} from '@mattermost/types/general';
 
 import {openModal} from 'actions/views/modals';
 import {requestTrialLicense} from 'actions/admin_actions';
@@ -22,13 +23,18 @@ import FeatureDiscovery from './feature_discovery';
 
 function mapStateToProps(state: GlobalState) {
     const subscription = state.entities.cloud.subscription;
+    const license = getLicense(state);
+    const isCloud = isCloudLicense(license);
+    const isCloudFreeEnabled = cloudFreeEnabled(state);
+    const isCloudTrial = subscription?.is_free_trial === 'true';
     return {
         stats: state.entities.admin.analytics,
         prevTrialLicense: state.entities.admin.prevTrialLicense,
-        isCloud: isCloudLicense(getLicense(state)),
-        isCloudFreeEnabled: cloudFreeEnabled(state),
-        isCloudTrial: subscription?.is_free_trial === 'true',
+        isCloud,
+        isCloudFreeEnabled,
+        isCloudTrial,
         hadPrevCloudTrial: subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0,
+        isCloudFreePaidSubscription: isCloud && isCloudFreeEnabled && license?.SkuShortName !== LicenseSkus.Starter && !isCloudTrial,
     };
 }
 

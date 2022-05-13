@@ -49,6 +49,7 @@ type Props = {
     isCloudTrial: boolean;
     isCloudFreeEnabled: boolean;
     hadPrevCloudTrial: boolean;
+    isCloudFreePaidSubscription: boolean;
 }
 
 type State = {
@@ -124,8 +125,14 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                 />
             );
         }
-        const {isCloud, isCloudTrial, isCloudFreeEnabled, hadPrevCloudTrial} = this.props;
-        const canRequestCloudFreeTrial = isCloud && isCloudFreeEnabled && !isCloudTrial && !hadPrevCloudTrial;
+        const {
+            isCloud,
+            isCloudTrial,
+            isCloudFreeEnabled,
+            hadPrevCloudTrial,
+            isCloudFreePaidSubscription,
+        } = this.props;
+        const canRequestCloudFreeTrial = isCloud && isCloudFreeEnabled && !isCloudTrial && !hadPrevCloudTrial && !isCloudFreePaidSubscription;
 
         const ctaTrialButton = canRequestCloudFreeTrial ? (
             <CloudStartTrialButton

@@ -12,6 +12,7 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {LicenseSkus} from '@mattermost/types/general';
 
 import {openModal} from 'actions/views/modals';
 
@@ -34,13 +35,13 @@ const MenuCloudTrial = ({id}: Props) => {
     const isFreeTrial = subscription?.is_free_trial === 'true';
     const hadPrevCloudTrial = subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0;
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
+    const isCloudFreePaidSubscription = isCloud && isCloudFreeEnabled && license?.SkuShortName !== LicenseSkus.Starter && !isFreeTrial;
+    const isCloudPaidSubscription = isCloud && Boolean(subscription?.is_paid_tier === 'true');
 
     let daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at);
     if (daysLeftOnTrial > TrialPeriodDays.TRIAL_MAX_DAYS) {
         daysLeftOnTrial = TrialPeriodDays.TRIAL_MAX_DAYS;
     }
-
-    const nonCloudFreeButIsFreeTrial = !isCloudFreeEnabled && isFreeTrial;
 
     const openTrialBenefitsModal = async () => {
         await dispatch(openModal({
@@ -49,7 +50,7 @@ const MenuCloudTrial = ({id}: Props) => {
         }));
     };
 
-    const show = isCloud && (nonCloudFreeButIsFreeTrial || isCloudFreeEnabled);
+    const show = isCloud && !isCloudFreePaidSubscription && !isCloudPaidSubscription;
     if (!show) {
         return null;
     }
@@ -57,8 +58,6 @@ const MenuCloudTrial = ({id}: Props) => {
     // this is the menu content displayed when the workspace is running a trial. It would display a different option depending if
     // cloudFree is enabled or not.
     const freeTrialContent = isCloudFreeEnabled ? (
-
-        // Here go the limits calculation and refactor of the menu option
         <>
             <FormattedMessage
                 id='menu.cloudFree.reviewEnterpriseFeaturesTitle'
@@ -89,7 +88,7 @@ const MenuCloudTrial = ({id}: Props) => {
     );
 
     // menu option displayed when the workspace is not running any trial
-    const noTrialContent = (isCloudFreeEnabled && !hadPrevCloudTrial) ? (
+    const noFreeTrialContent = (isCloudFreeEnabled && !hadPrevCloudTrial) ? (
         <>
             <FormattedMessage
                 id='menu.cloudFree.tryEnterprise'
@@ -108,7 +107,7 @@ const MenuCloudTrial = ({id}: Props) => {
                 defaultMessage='Interested in a limitless plan with high-security features?'
             />
 
-            {/* Todo: modify this to be a link that open the see plans modal */}
+            {/* Todo: modify this to open the see plans modal */}
             <a
                 className='open-see-plans-modal style-link'
                 onClick={() => null}
@@ -127,7 +126,7 @@ const MenuCloudTrial = ({id}: Props) => {
             role='menuitem'
             id={id}
         >
-            {isFreeTrial ? freeTrialContent : noTrialContent}
+            {isFreeTrial ? freeTrialContent : noFreeTrialContent}
         </li>
     );
 };

@@ -16,6 +16,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
+import {LicenseSkus} from '@mattermost/types/general';
 
 import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
@@ -127,11 +128,12 @@ const Completed = (props: Props): JSX.Element => {
     const isFreeTrial = subscription?.is_free_trial === 'true';
     const hadPrevCloudTrial = subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0;
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
+    const isCloudFreePaidSubscription = isCloud && isCloudFreeEnabled && license?.SkuShortName !== LicenseSkus.Starter && !isFreeTrial;
 
     // Show this CTA if the instance is currently not licensed and has never had a trial license loaded before
     // if Cloud, show if isCloudFreeEnabled and is not in trial and had never been on trial
     const selfHostedTrialCondition = isCurrentLicensed === 'false' && isPrevLicensed === 'false';
-    const cloudTrialCondition = isCloud && isCloudFreeEnabled && !isFreeTrial && !hadPrevCloudTrial;
+    const cloudTrialCondition = isCloud && isCloudFreeEnabled && !isFreeTrial && !hadPrevCloudTrial && !isCloudFreePaidSubscription;
 
     const showStartTrialBtn = selfHostedTrialCondition || cloudTrialCondition;
 

@@ -75,13 +75,14 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
         expect(wrapper.find('UpgradeLink').exists()).toEqual(false);
     });
 
-    test('should invite to start trial when cloud free is enabled, there are not paid subscription and havent had trial before', () => {
+    test('should NOT render when is cloudFree enabled but is a paid customer', () => {
         const state = {
             entities: {
                 general: {
                     license: {
                         IsLicensed: 'true',
                         Cloud: 'true',
+                        SkuShortName: 'enterprise',
                     },
                     config: {
                         FeatureFlagCloudFree: 'true',
@@ -90,6 +91,7 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                 cloud: {
                     subscription: {
                         is_free_trial: 'false',
+                        is_paid_tier: 'false',
                         trial_end_at: 0,
                     },
                 },
@@ -97,7 +99,34 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
         };
         const store = mockStore(state);
         const wrapper = mountWithIntl(<Provider store={store}><MenuCloudTrial id='menuCloudTrial'/></Provider>);
+        expect(wrapper.find('CloudStartTrialButton').exists()).toEqual(false);
+        expect(wrapper.find('UpgradeLink').exists()).toEqual(false);
+    });
 
+    test('should invite to start trial when cloud free is enabled, there are not paid subscription and havent had trial before', () => {
+        const state = {
+            entities: {
+                general: {
+                    license: {
+                        IsLicensed: 'true',
+                        Cloud: 'true',
+                        SkuShortName: 'starter',
+                    },
+                    config: {
+                        FeatureFlagCloudFree: 'true',
+                    },
+                },
+                cloud: {
+                    subscription: {
+                        is_free_trial: 'false',
+                        is_paid_tier: 'false',
+                        trial_end_at: 0,
+                    },
+                },
+            },
+        };
+        const store = mockStore(state);
+        const wrapper = mountWithIntl(<Provider store={store}><MenuCloudTrial id='menuCloudTrial'/></Provider>);
         expect(wrapper.find('CloudStartTrialButton').exists()).toEqual(true);
     });
 
@@ -135,6 +164,7 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                     license: {
                         IsLicensed: 'true',
                         Cloud: 'true',
+                        SkuShortName: 'starter',
                     },
                     config: {
                         FeatureFlagCloudFree: 'true',
@@ -143,7 +173,8 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                 cloud: {
                     subscription: {
                         is_free_trial: 'false',
-                        trial_end_at: 12345,
+                        is_paid_tier: 'false',
+                        trial_end_at: 232434,
                     },
                 },
             },
