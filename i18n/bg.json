@@ -1030,7 +1030,7 @@
   "admin.image.amazonS3EndpointDescription": "Име на хост на вашия доставчик на S3 Съвместимо хранилище. По подразбиране е \"s3.amazonaws.com\".",
   "admin.image.amazonS3EndpointExample": "Например: \"s3.amazonaws.com\"",
   "admin.image.amazonS3EndpointTitle": "Крайна точка на Amazon S3:",
-  "admin.image.amazonS3IdDescription": "(Незадължително) Необходимо е само ако не искате да се удостоверите със S3, използвайки <link>IAM роля</link> . Въведете идентификационния номер на ключа за достъп, предоставен от вашия администратор на Amazon EC2.",
+  "admin.image.amazonS3IdDescription": "(Незадължително) Необходимо е само ако не искате да се удостоверите със S3, използвайки <link>IAM роля</link>. Въведете идентификационния номер на ключа за достъп, предоставен от вашия администратор на Amazon EC2.",
   "admin.image.amazonS3IdExample": "Например: \"AKIADTOVBGERKLCBV\"",
   "admin.image.amazonS3IdTitle": "Идентификационен ключ за достъп на Amazon S3:",
   "admin.image.amazonS3PathPrefixDescription": "Префикс, който сте избрали за вашия S3 bucket в AWS.",
