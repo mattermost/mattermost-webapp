@@ -340,7 +340,7 @@
   "admin.compliance.directoryTitle": "規範報告目錄：",
   "admin.compliance.enableDailyDesc": "若啟用，Mattermost 會每日產生規範報告。",
   "admin.compliance.enableDailyTitle": "啟用每日報告：",
-  "admin.compliance.enableDesc": "啟用時，Mattermost 允許從**規範與審計**分頁產生規範報告。詳情請閱<link>文件</link>。",
+  "admin.compliance.enableDesc": "啟用時，Mattermost 允許從<strong>規範與審計</strong>分頁產生規範報告。詳情請閱<link>文件</link>。",
   "admin.compliance.enableTitle": "啟用規範報告：",
   "admin.compliance.newComplianceExportBanner": "此功能已被新功能[規範報告匯出]({siteURL}/admin_console/compliance/message_export)取代，在未來將被移除。我們建議移轉至新系統。",
   "admin.complianceExport.createJob.help": "立刻開始規範報告匯出工作",
