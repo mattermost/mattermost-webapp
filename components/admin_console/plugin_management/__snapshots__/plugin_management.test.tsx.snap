@@ -3143,7 +3143,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             disabled={true}
             helpText={
               <div>
-                <injectIntl(FormattedMarkdownMessage)
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Enable plugin uploads in config.json. See <link>documentation</link> to learn more."
                   id="admin.plugin.uploadDisabledDesc"
                   values={
