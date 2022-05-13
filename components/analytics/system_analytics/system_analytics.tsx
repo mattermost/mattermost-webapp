@@ -9,8 +9,6 @@ import {AnalyticsRow, PluginAnalyticsRow, IndexedPluginAnalyticsRow} from '@matt
 import * as AdminActions from 'actions/admin_actions.jsx';
 import Constants from 'utils/constants';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
 import {GlobalState} from 'types/store';
