@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
 import deepEqual from 'fast-deep-equal';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -27,6 +28,7 @@ import CompassThemeProvider from 'components/compass_theme_provider/compass_them
 import GlobalHeader from 'components/global_header/global_header';
 import ModalController from 'components/modal_controller';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
+import {HFRoute} from 'components/header_footer_route/header_footer_route';
 import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
 import OnBoardingTaskList from 'components/onboarding_tasklist';
@@ -40,11 +42,11 @@ import BrowserStore from 'stores/browser_store';
 import Constants, {StoragePrefixes, WindowSizes} from 'utils/constants';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
 import * as UserAgent from 'utils/user_agent';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import webSocketClient from 'client/web_websocket_client.jsx';
 
 const LazyErrorPage = React.lazy(() => import('components/error_page'));
-const LazyLoginController = React.lazy(() => import('components/login/login_controller'));
+const LazyLogin = React.lazy(() => import('components/login/login'));
 const LazyAdminConsole = React.lazy(() => import('components/admin_console'));
 const LazyLoggedIn = React.lazy(() => import('components/logged_in'));
 const LazyPasswordResetSendLink = React.lazy(() => import('components/password_reset_send_link'));
@@ -75,7 +77,7 @@ import RootRedirect from './root_redirect';
 const CreateTeam = makeAsyncComponent('CreateTeam', LazyCreateTeam);
 const ErrorPage = makeAsyncComponent('ErrorPage', LazyErrorPage);
 const TermsOfService = makeAsyncComponent('TermsOfService', LazyTermsOfService);
-const LoginController = makeAsyncComponent('LoginController', LazyLoginController);
+const Login = makeAsyncComponent('LoginController', LazyLogin);
 const AdminConsole = makeAsyncComponent('AdminConsole', LazyAdminConsole);
 const LoggedIn = makeAsyncComponent('LoggedIn', LazyLoggedIn);
 const PasswordResetSendLink = makeAsyncComponent('PasswordResedSendLink', LazyPasswordResetSendLink);
@@ -391,10 +393,10 @@ export default class Root extends React.PureComponent {
             }
 
             // detected login from a different tab
-            function onVisibilityChange() {
+            function reloadOnFocus() {
                 location.reload();
             }
-            document.addEventListener('visibilitychange', onVisibilityChange, false);
+            window.addEventListener('focus', reloadOnFocus);
         }
     }
 
@@ -437,9 +439,9 @@ export default class Root extends React.PureComponent {
                         path={'/error'}
                         component={ErrorPage}
                     />
-                    <HFTRoute
+                    <HFRoute
                         path={'/login'}
-                        component={LoginController}
+                        component={Login}
                     />
                     <HFTRoute
                         path={'/reset_password'}

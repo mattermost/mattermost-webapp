@@ -19,8 +19,14 @@
             color: rgba(var(--center-channel-color-rgb), 0.64);
         }
 
-        &.Input__focus.a11y--focused {
+        &.Input__focus {
             box-shadow: none;
+        }
+
+        &.large {
+            height: 42px;
+            font-size: 16px;
+            line-height: 24px;
         }
     }
 
@@ -81,6 +87,7 @@
     .Input_fieldset {
         position: relative;
         z-index: 3;
+        display: flex;
         width: 100%;
         box-sizing: border-box;
         padding: 0 1px;
@@ -151,5 +158,12 @@
         padding: 0 4px;
         opacity: 1;
         transform: translateY(0);
+    }
+
+    &.disabled {
+        .Input_fieldset {
+            border-color: rgba(var(--center-channel-color-rgb), 0.16);
+            background-color: rgba(var(--center-channel-color-rgb), 0.04);
+        }
     }
 }

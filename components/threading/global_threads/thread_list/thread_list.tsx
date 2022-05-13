@@ -218,7 +218,10 @@ const ThreadList = ({
                     </div>
                 )}
             />
-            <div className='threads'>
+            <div
+                className='threads'
+                data-testid={'threads_list'}
+            >
                 <VirtualizedThreadList
                     key={`threads_list_${currentFilter}`}
                     loadMoreItems={handleLoadMoreItems}

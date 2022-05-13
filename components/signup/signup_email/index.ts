@@ -14,7 +14,7 @@ import {getTeamInviteInfo} from 'mattermost-redux/actions/teams';
 
 import {setGlobalItem} from 'actions/storage';
 import {loginById} from 'actions/views/login';
-import {getPasswordConfig} from 'utils/utils.jsx';
+import {getPasswordConfig} from 'utils/utils';
 
 import {GlobalState} from '../../../types/store';
 

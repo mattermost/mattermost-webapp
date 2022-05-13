@@ -750,10 +750,16 @@
             padding: 0;
 
             .send-button {
-                display: block;
+                display: flex;
             }
 
             .custom-textarea {
+                min-height: 0;
+                border-right: none;
+                border-bottom: none;
+                border-left: none;
+                border-radius: 0;
+
                 &.custom-textarea--emoji-picker {
                     max-height: 162px;
                     padding-right: 135px;
@@ -1687,10 +1693,6 @@
 
         .browser--ie & {
             display: none;
-            -webkit-transform: none !important;
-            -moz-transform: none !important;
-            -ms-transform: none !important;
-            -o-transform: none !important;
             transform: none !important;
         }
 
@@ -1703,10 +1705,6 @@
         }
 
         .post-create__container {
-            form {
-                padding: 0.5em 1em;
-            }
-
             .post-create {
                 padding: 0;
             }
@@ -1724,7 +1722,7 @@
             }
 
             .post-create-footer {
-                padding: 6px 0 0;
+                padding: 0;
 
                 .post-error {
                     margin-bottom: 8px;

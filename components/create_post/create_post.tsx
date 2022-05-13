@@ -3,9 +3,10 @@
 
 /* eslint-disable max-lines */
 
-import React from 'react';
+import React, {CSSProperties} from 'react';
 import classNames from 'classnames';
 import {injectIntl, IntlShape} from 'react-intl';
+import {SendIcon, EmoticonOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
@@ -24,7 +25,7 @@ import {
 } from 'utils/post_utils';
 import {getTable, formatMarkdownTableMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
 import * as UserAgent from 'utils/user_agent';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import NotifyConfirmModal from 'components/notify_confirm_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
@@ -33,10 +34,8 @@ import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx
 import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
-import LocalizedIcon from 'components/localized_icon';
 import MsgTyping from 'components/msg_typing';
 import ResetStatusModal from 'components/reset_status_modal';
-import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Textbox from 'components/textbox';
 import TextboxClass from 'components/textbox/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
@@ -1109,14 +1108,13 @@ class CreatePost extends React.PureComponent<Props, State> {
     }
 
     handleMouseUpKeyUp = (e: React.MouseEvent | React.KeyboardEvent) => {
-        const caretPosition = Utils.getCaretPosition(e.target as HTMLElement);
         this.setState({
-            caretPosition,
+            caretPosition: (e.target as HTMLTextAreaElement).selectionStart || 0,
         });
     }
 
     handleSelect = (e: React.SyntheticEvent) => {
-        Utils.adjustSelection(this.textboxRef.current?.getInputBox(), e);
+        Utils.adjustSelection(this.textboxRef.current?.getInputBox(), e as React.KeyboardEvent);
     }
 
     handleKeyDown = (e: React.KeyboardEvent) => {
@@ -1133,7 +1131,7 @@ class CreatePost extends React.PureComponent<Props, State> {
 
         // listen for line break key combo and insert new line character
         if (Utils.isUnhandledLineBreakKeyCombo(e)) {
-            this.setState({message: Utils.insertLineBreakFromKeyEvent(e)});
+            this.setState({message: Utils.insertLineBreakFromKeyEvent(e as React.KeyboardEvent<HTMLTextAreaElement>)});
         } else if (ctrlEnterKeyCombo) {
             this.postMsgKeyPress(e);
         } else if (upKeyOnly && messageIsEmpty) {
@@ -1374,40 +1372,27 @@ class CreatePost extends React.PureComponent<Props, State> {
             centerClass = 'center';
         }
 
-        let sendButtonClass = 'send-button theme';
-        if (!this.shouldEnableSendButton()) {
-            sendButtonClass += ' disabled';
-        }
-
-        let attachmentsDisabled = '';
-        if (!this.props.canUploadFiles) {
-            attachmentsDisabled = ' post-create--attachment-disabled';
-        }
-
-        let fileUpload;
-        if (!readOnlyChannel && !this.props.shouldShowPreview) {
-            fileUpload = (
-                <FileUpload
-                    ref={this.fileUploadRef}
-                    fileCount={this.getFileCount()}
-                    getTarget={this.getFileUploadTarget}
-                    onFileUploadChange={this.handleFileUploadChange}
-                    onUploadStart={this.handleUploadStart}
-                    onFileUpload={this.handleFileUploadComplete}
-                    onUploadError={this.handleUploadError}
-                    onUploadProgress={this.handleUploadProgress}
-                    postType='post'
-                    channelId={currentChannel.id}
-                />
-            );
-        }
+        const fileUpload = !readOnlyChannel && !this.props.shouldShowPreview ? (
+            <FileUpload
+                ref={this.fileUploadRef}
+                fileCount={this.getFileCount()}
+                getTarget={this.getFileUploadTarget}
+                onFileUploadChange={this.handleFileUploadChange}
+                onUploadStart={this.handleUploadStart}
+                onFileUpload={this.handleFileUploadComplete}
+                onUploadError={this.handleUploadError}
+                onUploadProgress={this.handleUploadProgress}
+                postType='post'
+                channelId={currentChannel.id}
+            />
+        ) : null;
 
         let emojiPicker = null;
-        const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
-
         if (this.props.enableEmojiPicker && !readOnlyChannel && !this.props.shouldShowPreview) {
+            const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
+
             emojiPicker = (
-                <div>
+                <>
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
                         target={this.getCreatePostControls}
@@ -1425,13 +1410,14 @@ class CreatePost extends React.PureComponent<Props, State> {
                         className={classNames('emoji-picker__container', 'post-action', {
                             'post-action--active': this.state.showEmojiPicker,
                         })}
+                        id='emojiPickerButton'
                     >
-                        <EmojiIcon
-                            id='emojiPickerButton'
-                            className={'icon icon--emoji '}
+                        <EmoticonOutlineIcon
+                            size={18}
+                            color={'currentColor'}
                         />
                     </button>
-                </div>
+                </>
             );
         }
 
@@ -1445,10 +1431,7 @@ class CreatePost extends React.PureComponent<Props, State> {
             );
         }
 
-        let scrollbarClass = '';
-        if (renderScrollbar) {
-            scrollbarClass = ' scroll';
-        }
+        const sendButtonEnabled = this.shouldEnableSendButton();
 
         return (
             <form
@@ -1458,8 +1441,8 @@ class CreatePost extends React.PureComponent<Props, State> {
                 onSubmit={this.handleSubmit}
             >
                 <div
-                    className={'post-create' + attachmentsDisabled + scrollbarClass}
-                    style={this.state.renderScrollbar && this.state.scrollbarWidth ? {'--detected-scrollbar-width': `${this.state.scrollbarWidth}px`} as any : undefined}
+                    className={classNames('post-create', {'post-create--attachment-disabled': !this.props.canUploadFiles, scroll: renderScrollbar})}
+                    style={this.state.renderScrollbar && this.state.scrollbarWidth ? {'--detected-scrollbar-width': `${this.state.scrollbarWidth}px`} as CSSProperties : undefined}
                 >
                     <div className='post-create-body'>
                         <div
@@ -1500,24 +1483,28 @@ class CreatePost extends React.PureComponent<Props, State> {
                             >
                                 {fileUpload}
                                 {emojiPicker}
-                                <a
-                                    role='button'
+                                <button
                                     tabIndex={0}
                                     aria-label={formatMessage({
                                         id: 'create_post.send_message',
                                         defaultMessage: 'Send a message',
                                     })}
-                                    className={sendButtonClass}
+                                    disabled={!sendButtonEnabled}
+                                    className={classNames('btn btn-primary send-button theme', {
+                                        disabled: !sendButtonEnabled,
+                                        hidden: !Utils.isMobile(),
+                                    })}
                                     onClick={this.handleSubmit}
                                 >
-                                    <LocalizedIcon
-                                        className='fa fa-paper-plane'
-                                        title={{
+                                    <SendIcon
+                                        size={18}
+                                        color='currentColor'
+                                        aria-label={formatMessage({
                                             id: t('create_post.icon'),
                                             defaultMessage: 'Create a post',
-                                        }}
+                                        })}
                                     />
-                                </a>
+                                </button>
                             </span>
                         </div>
                         {SendTutorialTip}

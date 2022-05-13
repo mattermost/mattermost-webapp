@@ -7,8 +7,9 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 import {cloneDeep} from 'lodash';
 
-import {isEmptyObject} from 'utils/utils.jsx';
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
+
+import {isEmptyObject} from 'utils/utils';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
@@ -242,7 +243,6 @@ export default class SuggestionList extends React.PureComponent {
 
             // ReactComponent names need to be upper case when used in JSX
             const Component = this.props.components[i];
-
             if ((renderDividers.includes('all') || renderDividers.includes(item.type)) && prevItemType !== item.type) {
                 items.push(this.renderDivider(item.type));
                 prevItemType = item.type;

@@ -29,6 +29,7 @@ import {ThreadsState} from './threads';
 import {Typing} from './typing';
 import {UsersState} from './users';
 import {AppsState} from './apps';
+import {InsightsState} from './insights';
 
 export type GlobalState = {
     entities: {
@@ -65,6 +66,7 @@ export type GlobalState = {
         channelCategories: ChannelCategoriesState;
         apps: AppsState;
         cloud: CloudState;
+        insights: InsightsState;
     };
     errors: any[];
     requests: {

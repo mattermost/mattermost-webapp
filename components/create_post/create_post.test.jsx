@@ -14,7 +14,7 @@ import * as GlobalActions from 'actions/global_actions';
 import EmojiMap from 'utils/emoji_map';
 
 import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import FileUpload from 'components/file_upload';
 import Textbox from 'components/textbox';
@@ -1243,21 +1243,21 @@ describe('components/create_post', () => {
 
     it('should not enable the save button when message empty', () => {
         const wrapper = shallowWithIntl(createPost());
-        const saveButton = wrapper.find('.post-body__actions a');
+        const saveButton = wrapper.find('.post-body__actions .send-button');
 
         expect(saveButton.hasClass('disabled')).toBe(true);
     });
 
     it('should enable the save button when message not empty', () => {
         const wrapper = shallowWithIntl(createPost({draft: {...draftProp, message: 'a message'}}));
-        const saveButton = wrapper.find('.post-body__actions a');
+        const saveButton = wrapper.find('.post-body__actions .send-button');
 
         expect(saveButton.hasClass('disabled')).toBe(false);
     });
 
     it('should enable the save button when a file is available for upload', () => {
         const wrapper = shallowWithIntl(createPost({draft: {...draftProp, fileInfos: [{id: '1'}]}}));
-        const saveButton = wrapper.find('.post-body__actions a');
+        const saveButton = wrapper.find('.post-body__actions .send-button');
 
         expect(saveButton.hasClass('disabled')).toBe(false);
     });

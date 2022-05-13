@@ -94,35 +94,12 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <OverlayTrigger
-            defaultOverlayShown={false}
-            delayShow={400}
-            overlay={
-              <Tooltip
-                id="channelMembersTooltip"
-              >
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Members"
-                  id="channel_header.channelMembers"
-                />
-              </Tooltip>
-            }
-            placement="bottom"
-            trigger={
-              Array [
-                "hover",
-                "focus",
-              ]
-            }
-          >
-            <button
-              className="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
-              id="member_rhs"
-              onClick={[Function]}
-            >
-              <div
-                className="d-flex align-items-center"
-              >
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide"
+            buttonId="member_rhs"
+            iconComponent={
+              <React.Fragment>
                 <i
                   aria-hidden="true"
                   className="icon icon-account-outline channel-header__members"
@@ -133,9 +110,11 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
                 >
                   -
                 </span>
-              </div>
-            </button>
-          </OverlayTrigger>
+              </React.Fragment>
+            }
+            onClick={[Function]}
+            tooltipKey="channelMembers"
+          />
           <HeaderIconWrapper
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
@@ -314,35 +293,12 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <OverlayTrigger
-            defaultOverlayShown={false}
-            delayShow={400}
-            overlay={
-              <Tooltip
-                id="channelMembersTooltip"
-              >
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Members"
-                  id="channel_header.channelMembers"
-                />
-              </Tooltip>
-            }
-            placement="bottom"
-            trigger={
-              Array [
-                "hover",
-                "focus",
-              ]
-            }
-          >
-            <button
-              className="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
-              id="member_rhs"
-              onClick={[Function]}
-            >
-              <div
-                className="d-flex align-items-center"
-              >
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide"
+            buttonId="member_rhs"
+            iconComponent={
+              <React.Fragment>
                 <i
                   aria-hidden="true"
                   className="icon icon-account-outline channel-header__members"
@@ -353,9 +309,11 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
                 >
                   -
                 </span>
-              </div>
-            </button>
-          </OverlayTrigger>
+              </React.Fragment>
+            }
+            onClick={[Function]}
+            tooltipKey="channelMembers"
+          />
           <HeaderIconWrapper
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
@@ -534,35 +492,12 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <OverlayTrigger
-            defaultOverlayShown={false}
-            delayShow={400}
-            overlay={
-              <Tooltip
-                id="channelMembersTooltip"
-              >
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Members"
-                  id="channel_header.channelMembers"
-                />
-              </Tooltip>
-            }
-            placement="bottom"
-            trigger={
-              Array [
-                "hover",
-                "focus",
-              ]
-            }
-          >
-            <button
-              className="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
-              id="member_rhs"
-              onClick={[Function]}
-            >
-              <div
-                className="d-flex align-items-center"
-              >
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide"
+            buttonId="member_rhs"
+            iconComponent={
+              <React.Fragment>
                 <i
                   aria-hidden="true"
                   className="icon icon-account-outline channel-header__members"
@@ -573,9 +508,11 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
                 >
                   -
                 </span>
-              </div>
-            </button>
-          </OverlayTrigger>
+              </React.Fragment>
+            }
+            onClick={[Function]}
+            tooltipKey="channelMembers"
+          />
           <HeaderIconWrapper
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
@@ -754,35 +691,12 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <OverlayTrigger
-            defaultOverlayShown={false}
-            delayShow={400}
-            overlay={
-              <Tooltip
-                id="channelMembersTooltip"
-              >
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Members"
-                  id="channel_header.channelMembers"
-                />
-              </Tooltip>
-            }
-            placement="bottom"
-            trigger={
-              Array [
-                "hover",
-                "focus",
-              ]
-            }
-          >
-            <button
-              className="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
-              id="member_rhs"
-              onClick={[Function]}
-            >
-              <div
-                className="d-flex align-items-center"
-              >
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide"
+            buttonId="member_rhs"
+            iconComponent={
+              <React.Fragment>
                 <i
                   aria-hidden="true"
                   className="icon icon-account-outline channel-header__members"
@@ -793,9 +707,11 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
                 >
                   -
                 </span>
-              </div>
-            </button>
-          </OverlayTrigger>
+              </React.Fragment>
+            }
+            onClick={[Function]}
+            tooltipKey="channelMembers"
+          />
           <HeaderIconWrapper
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left channel-header__icon--active"
@@ -944,35 +860,12 @@ exports[`components/ChannelHeader should render archived view 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <OverlayTrigger
-            defaultOverlayShown={false}
-            delayShow={400}
-            overlay={
-              <Tooltip
-                id="channelMembersTooltip"
-              >
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Members"
-                  id="channel_header.channelMembers"
-                />
-              </Tooltip>
-            }
-            placement="bottom"
-            trigger={
-              Array [
-                "hover",
-                "focus",
-              ]
-            }
-          >
-            <button
-              className="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
-              id="member_rhs"
-              onClick={[Function]}
-            >
-              <div
-                className="d-flex align-items-center"
-              >
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide"
+            buttonId="member_rhs"
+            iconComponent={
+              <React.Fragment>
                 <i
                   aria-hidden="true"
                   className="icon icon-account-outline channel-header__members"
@@ -983,9 +876,11 @@ exports[`components/ChannelHeader should render archived view 1`] = `
                 >
                   -
                 </span>
-              </div>
-            </button>
-          </OverlayTrigger>
+              </React.Fragment>
+            }
+            onClick={[Function]}
+            tooltipKey="channelMembers"
+          />
           <HeaderIconWrapper
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
@@ -1171,35 +1066,12 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <OverlayTrigger
-            defaultOverlayShown={false}
-            delayShow={400}
-            overlay={
-              <Tooltip
-                id="channelMembersTooltip"
-              >
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Members"
-                  id="channel_header.channelMembers"
-                />
-              </Tooltip>
-            }
-            placement="bottom"
-            trigger={
-              Array [
-                "hover",
-                "focus",
-              ]
-            }
-          >
-            <button
-              className="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
-              id="member_rhs"
-              onClick={[Function]}
-            >
-              <div
-                className="d-flex align-items-center"
-              >
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide"
+            buttonId="member_rhs"
+            iconComponent={
+              <React.Fragment>
                 <i
                   aria-hidden="true"
                   className="icon icon-account-outline channel-header__members"
@@ -1210,9 +1082,11 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
                 >
                   -
                 </span>
-              </div>
-            </button>
-          </OverlayTrigger>
+              </React.Fragment>
+            }
+            onClick={[Function]}
+            tooltipKey="channelMembers"
+          />
           <HeaderIconWrapper
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
@@ -1391,35 +1265,12 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <OverlayTrigger
-            defaultOverlayShown={false}
-            delayShow={400}
-            overlay={
-              <Tooltip
-                id="channelMembersTooltip"
-              >
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Members"
-                  id="channel_header.channelMembers"
-                />
-              </Tooltip>
-            }
-            placement="bottom"
-            trigger={
-              Array [
-                "hover",
-                "focus",
-              ]
-            }
-          >
-            <button
-              className="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
-              id="member_rhs"
-              onClick={[Function]}
-            >
-              <div
-                className="d-flex align-items-center"
-              >
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide"
+            buttonId="member_rhs"
+            iconComponent={
+              <React.Fragment>
                 <i
                   aria-hidden="true"
                   className="icon icon-account-outline channel-header__members"
@@ -1430,9 +1281,11 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
                 >
                   -
                 </span>
-              </div>
-            </button>
-          </OverlayTrigger>
+              </React.Fragment>
+            }
+            onClick={[Function]}
+            tooltipKey="channelMembers"
+          />
           <HeaderIconWrapper
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
@@ -2073,35 +1926,12 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <OverlayTrigger
-            defaultOverlayShown={false}
-            delayShow={400}
-            overlay={
-              <Tooltip
-                id="channelMembersTooltip"
-              >
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Members"
-                  id="channel_header.channelMembers"
-                />
-              </Tooltip>
-            }
-            placement="bottom"
-            trigger={
-              Array [
-                "hover",
-                "focus",
-              ]
-            }
-          >
-            <button
-              className="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
-              id="member_rhs"
-              onClick={[Function]}
-            >
-              <div
-                className="d-flex align-items-center"
-              >
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide"
+            buttonId="member_rhs"
+            iconComponent={
+              <React.Fragment>
                 <i
                   aria-hidden="true"
                   className="icon icon-account-outline channel-header__members"
@@ -2112,9 +1942,11 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
                 >
                   -
                 </span>
-              </div>
-            </button>
-          </OverlayTrigger>
+              </React.Fragment>
+            }
+            onClick={[Function]}
+            tooltipKey="channelMembers"
+          />
           <HeaderIconWrapper
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
@@ -2264,35 +2096,12 @@ exports[`components/ChannelHeader should render properly when populated with cha
           dir="auto"
           id="channelHeaderDescription"
         >
-          <OverlayTrigger
-            defaultOverlayShown={false}
-            delayShow={400}
-            overlay={
-              <Tooltip
-                id="channelMembersTooltip"
-              >
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Members"
-                  id="channel_header.channelMembers"
-                />
-              </Tooltip>
-            }
-            placement="bottom"
-            trigger={
-              Array [
-                "hover",
-                "focus",
-              ]
-            }
-          >
-            <button
-              className="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
-              id="member_rhs"
-              onClick={[Function]}
-            >
-              <div
-                className="d-flex align-items-center"
-              >
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide"
+            buttonId="member_rhs"
+            iconComponent={
+              <React.Fragment>
                 <i
                   aria-hidden="true"
                   className="icon icon-account-outline channel-header__members"
@@ -2303,9 +2112,11 @@ exports[`components/ChannelHeader should render properly when populated with cha
                 >
                   -
                 </span>
-              </div>
-            </button>
-          </OverlayTrigger>
+              </React.Fragment>
+            }
+            onClick={[Function]}
+            tooltipKey="channelMembers"
+          />
           <HeaderIconWrapper
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
@@ -2563,35 +2374,12 @@ exports[`components/ChannelHeader should render shared view 1`] = `
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <OverlayTrigger
-            defaultOverlayShown={false}
-            delayShow={400}
-            overlay={
-              <Tooltip
-                id="channelMembersTooltip"
-              >
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Members"
-                  id="channel_header.channelMembers"
-                />
-              </Tooltip>
-            }
-            placement="bottom"
-            trigger={
-              Array [
-                "hover",
-                "focus",
-              ]
-            }
-          >
-            <button
-              className="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
-              id="member_rhs"
-              onClick={[Function]}
-            >
-              <div
-                className="d-flex align-items-center"
-              >
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide"
+            buttonId="member_rhs"
+            iconComponent={
+              <React.Fragment>
                 <i
                   aria-hidden="true"
                   className="icon icon-account-outline channel-header__members"
@@ -2602,9 +2390,11 @@ exports[`components/ChannelHeader should render shared view 1`] = `
                 >
                   -
                 </span>
-              </div>
-            </button>
-          </OverlayTrigger>
+              </React.Fragment>
+            }
+            onClick={[Function]}
+            tooltipKey="channelMembers"
+          />
           <HeaderIconWrapper
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
@@ -2787,35 +2577,12 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
           className="channel-header__description light"
           id="channelHeaderDescription"
         >
-          <OverlayTrigger
-            defaultOverlayShown={false}
-            delayShow={400}
-            overlay={
-              <Tooltip
-                id="channelMembersTooltip"
-              >
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Members"
-                  id="channel_header.channelMembers"
-                />
-              </Tooltip>
-            }
-            placement="bottom"
-            trigger={
-              Array [
-                "hover",
-                "focus",
-              ]
-            }
-          >
-            <button
-              className="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
-              id="member_rhs"
-              onClick={[Function]}
-            >
-              <div
-                className="d-flex align-items-center"
-              >
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide"
+            buttonId="member_rhs"
+            iconComponent={
+              <React.Fragment>
                 <i
                   aria-hidden="true"
                   className="icon icon-account-outline channel-header__members"
@@ -2826,9 +2593,11 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
                 >
                   -
                 </span>
-              </div>
-            </button>
-          </OverlayTrigger>
+              </React.Fragment>
+            }
+            onClick={[Function]}
+            tooltipKey="channelMembers"
+          />
           <HeaderIconWrapper
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
