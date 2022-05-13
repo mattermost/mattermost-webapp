@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
@@ -13,6 +13,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
+import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
 
 import {openModal} from 'actions/views/modals';
 import PricingModal from 'components/pricing_modal';
@@ -36,6 +37,11 @@ color: #FFFFFF;
 const UpgradeCloudButton = (): JSX.Element | null => {
     const dispatch = useDispatch();
     const {formatMessage} = useIntl();
+
+    useEffect(() => {
+        dispatch(getCloudSubscription());
+        dispatch(getCloudProducts());
+    });
 
     const openPricingModal = () => {
         trackEvent('cloud_admin', 'click_open_pricing_modal');
