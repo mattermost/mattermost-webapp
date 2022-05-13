@@ -1120,7 +1120,6 @@ const AdminDefinition = {
                         label: t('admin.image.amazonS3IdTitle'),
                         label_default: 'Amazon S3 Access Key ID:',
                         help_text: t('admin.image.amazonS3IdDescription'),
-                        help_text_markdown: true,
                         help_text_default: '(Optional) Only required if you do not want to authenticate to S3 using an <link>IAM role</link>. Enter the Access Key ID provided by your Amazon EC2 administrator.',
                         help_text_values: {
                             link: (msg) => (
