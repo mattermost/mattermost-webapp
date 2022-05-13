@@ -37,6 +37,14 @@ const UpgradeCloudButton = (): JSX.Element | null => {
     const dispatch = useDispatch();
     const {formatMessage} = useIntl();
 
+    const openPricingModal = () => {
+        trackEvent('cloud_admin', 'click_open_pricing_modal');
+        dispatch(openModal({
+            modalId: ModalIdentifiers.PRICING_MODAL,
+            dialogType: PricingModal,
+        }));
+    };
+
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
     const isAdmin = useSelector((state: GlobalState) => isCurrentUserSystemAdmin(state));
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
@@ -63,26 +71,22 @@ const UpgradeCloudButton = (): JSX.Element | null => {
         return null;
     }
 
-    if (!isCloud || !isAdmin || !isStarter || !isEnterpriseTrial) {
+    if (!isCloud || !isAdmin) {
         return null;
     }
 
-    const openPricingModal = () => {
-        trackEvent('cloud_admin', 'click_open_pricing_modal');
-        dispatch(openModal({
-            modalId: ModalIdentifiers.PRICING_MODAL,
-            dialogType: PricingModal,
-        }));
-    };
+    let btn = null;
+    if (isStarter || isEnterpriseTrial) {
+        btn = (
+            <UpgradeButton
+                id='UpgradeButton'
+                onClick={openPricingModal}
+            >
+                {formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'})}
+            </UpgradeButton>);
+    }
 
-    return (
-        <UpgradeButton
-            id='UpgradeButton'
-            onClick={openPricingModal}
-        >
-            {formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'})}
-        </UpgradeButton>
-    );
+    return btn;
 };
 
 export default UpgradeCloudButton;
