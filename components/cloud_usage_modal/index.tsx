@@ -17,7 +17,7 @@ import WorkspaceLimitsPanel, {Message, messageToElement} from './workspace_limit
 
 interface ModalAction {
     message: Message | React.ReactNode;
-    onClick: () => void;
+    onClick?: () => void;
 }
 export interface Props {
     title: Message | React.ReactNode;

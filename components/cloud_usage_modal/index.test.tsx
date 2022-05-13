@@ -129,7 +129,6 @@ describe('CloudUsageModal', () => {
 
         props.secondaryAction = {
             message: 'secondary action',
-            onClick: jest.fn(),
         };
 
         renderWithIntl(
@@ -139,9 +138,9 @@ describe('CloudUsageModal', () => {
                 />
             </Provider>,
         );
-        expect(props.secondaryAction.onClick).not.toHaveBeenCalled();
+        expect(props.onClose).not.toHaveBeenCalled();
         screen.getByText(props.secondaryAction.message as string).click();
-        expect(props.secondaryAction.onClick).toHaveBeenCalled();
+        expect(props.onClose).toHaveBeenCalled();
     });
 
     test('hides footer when there are no actions', () => {
