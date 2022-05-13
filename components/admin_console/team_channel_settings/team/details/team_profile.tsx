@@ -2,33 +2,35 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
 import {t} from 'utils/i18n';
+
+import {localizeMessage, imageURLForTeam} from 'utils/utils';
+
+import {Team} from '@mattermost/types/teams';
 
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import UnarchiveIcon from 'components/widgets/icons/unarchive_icon';
 
-import * as Utils from 'utils/utils';
-
 import TeamIcon from 'components/widgets/team_icon/team_icon';
 
-export function TeamProfile({team, isArchived, isDisabled, onToggleArchive}) {
-    const teamIconUrl = Utils.imageURLForTeam(team);
+type Props = {
+    team: Team;
+    onToggleArchive: () => void;
+    isArchived: boolean;
+    isDisabled?: boolean;
+}
 
-    let archiveBtnID;
-    let archiveBtnDefault;
-    if (isArchived) {
-        archiveBtnID = t('admin.team_settings.team_details.unarchiveTeam');
-        archiveBtnDefault = 'Unarchive Team';
-    } else {
-        archiveBtnID = t('admin.team_settings.team_details.archiveTeam');
-        archiveBtnDefault = 'Archive Team';
-    }
+export const TeamProfile = ({team, isArchived, isDisabled, onToggleArchive}: Props) => {
+    const teamIconUrl = imageURLForTeam(team);
+
+    const archiveBtnID = isArchived ? t('admin.team_settings.team_details.unarchiveTeam') : t('admin.team_settings.team_details.archiveTeam');
+    const archiveBtnDefault = isArchived ? 'Unarchive Team' : 'Archive Team';
+
     return (
         <AdminPanel
             id='team_profile'
@@ -64,7 +66,7 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive}) {
                                     defaultMessage='**Team Description**:'
                                 />
                                 <br/>
-                                {team.description || <span className='greyed-out'>{Utils.localizeMessage('admin.team_settings.team_detail.profileNoDescription', 'No team description added.')}</span>}
+                                {team.description || <span className='greyed-out'>{localizeMessage('admin.team_settings.team_detail.profileNoDescription', 'No team description added.')}</span>}
                             </div>
 
                         </div>
@@ -100,11 +102,4 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive}) {
 
         </AdminPanel>
     );
-}
-
-TeamProfile.propTypes = {
-    team: PropTypes.object.isRequired,
-    onToggleArchive: PropTypes.func,
-    isArchived: PropTypes.bool.isRequired,
-    isDisabled: PropTypes.bool,
 };
