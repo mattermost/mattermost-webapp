@@ -289,7 +289,7 @@ function Content(props: ContentProps) {
                         title: formatMessage({id: 'pricing_modal.briefing.professional', defaultMessage: 'All the features of Starter, plus'}),
                         items: [
                             formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage}GB file storage'}, {storage: '250'}),
-                            'OneLogin / ADFS SAML 2.0',
+                            'OneLogin/ADFS SAML 2.0',
                             'OpenID connect',
                             'Office365 suite integration',
                             formatMessage({id: 'pricing_modal.briefing.professional.readOnlyAnnoucementChannels', defaultMessage: 'Read-only announcement channels'})],

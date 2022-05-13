@@ -58,6 +58,7 @@ $geyser: #DADFE5;
         font-size: 22px;
         font-weight: 600;
         margin-bottom: 118px;
+        padding: 28px 32px;
 
         .header_lhs {
             display: flex;
@@ -176,6 +177,7 @@ $geyser: #DADFE5;
                         line-height: 24px;
                         color: $bigStone;
                         letter-spacing: -0.02em;
+                        white-space: nowrap;
                     }
 
                     .item {
