@@ -9,7 +9,7 @@ import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {imageURLForUser} from 'utils/utils.jsx';
+import {imageURLForUser} from 'utils/utils';
 import {Constants} from 'utils/constants';
 
 import Avatar from 'components/widgets/users/avatar';
