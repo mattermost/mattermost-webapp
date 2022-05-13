@@ -22,8 +22,8 @@ type Props = {
 
 const defaultThresholds = {
     ok: 0,
-    warn: 40,
-    danger: 80,
+    warn: 50,
+    danger: 66,
     exceeded: 100.0000001,
 };
 
