@@ -179,6 +179,7 @@ function Content(props: ContentProps) {
         return undefined;
     });
 
+    const isEnterprise = product?.sku === CloudProducts.ENTERPRISE;
     const enterpriseProduct = Object.values(products || {}).find(((product) => {
         return product.sku === CloudProducts.ENTERPRISE;
     }));
@@ -189,7 +190,7 @@ function Content(props: ContentProps) {
         isStarter = true;
     }
 
-    if (subscription?.trial_end_at && isStarter) {
+    if (subscription?.trial_end_at && (isStarter || isEnterprise)) {
         isPostTrial = true;
     }
 
@@ -283,7 +284,7 @@ function Content(props: ContentProps) {
                 <Card
                     topColor='#4A69AC'
                     plan='Professional'
-                    price={`${enterpriseProduct ? enterpriseProduct.price_per_seat : '10'}`}
+                    price={`$${enterpriseProduct ? enterpriseProduct.price_per_seat : '10'}`}
                     rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: '/user/month'})}
                     briefing={{
                         title: formatMessage({id: 'pricing_modal.briefing.professional', defaultMessage: 'All the features of Starter, plus'}),
