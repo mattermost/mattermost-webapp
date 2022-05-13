@@ -83,7 +83,7 @@ export default function HelpCommands(): JSX.Element {
             <p>
                 <FormattedMessage
                     id='help.commands.custom2'
-                    defaultMessage='Custom slash commands are disabled by default and can be enabled by the System Admin in the System Console by going to **Integrations > Integration Management**. Learn about configuring custom slash commands in the <link>developer documentation</link>.'
+                    defaultMessage='Custom slash commands are disabled by default and can be enabled by the System Admin in the System Console by going to <strong>Integrations > Integration Management</strong>. Learn about configuring custom slash commands in the <link>developer documentation</link>.'
                     values={{
                         link: (msg: React.ReactNode) => (
                             <a
@@ -94,6 +94,7 @@ export default function HelpCommands(): JSX.Element {
                                 {msg}
                             </a>
                         ),
+                        strong: (msg) => <strong>{msg}</strong>,
                     }}
                 />
             </p>
