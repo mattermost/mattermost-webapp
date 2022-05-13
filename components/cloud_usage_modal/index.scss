@@ -1,0 +1,13 @@
+.CloudUsageModal {
+    &__description {
+        padding-bottom: 24px;
+        margin-bottom: 0;
+    }
+
+    .modal-body:not(:last-child) {
+        // not overridden with classes because the classes needed depend on the context of where this is used
+        // and the existing rule is already 5 selectors deep
+        padding-bottom: 28px !important;
+        border-bottom: 1px solid rgba(var(--center-channel-text-rgb), 0.08);
+    }
+}

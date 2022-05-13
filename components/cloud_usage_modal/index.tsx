@@ -15,6 +15,8 @@ import useGetUsage from 'components/common/hooks/useGetUsage';
 
 import WorkspaceLimitsPanel, {Message, messageToElement} from './workspace_limits_panel';
 
+import './index.scss';
+
 interface ModalAction {
     message: Message | React.ReactNode;
     onClick?: () => void;
@@ -44,9 +46,10 @@ export default function CloudUsageModal(props: Props) {
             cancelButtonText={props.secondaryAction && messageToElement(props.secondaryAction.message)}
             handleConfirm={props.primaryAction?.onClick}
             confirmButtonText={props.primaryAction && messageToElement(props.primaryAction.message)}
+            className='CloudUsageModal'
         >
             <>
-                <p>
+                <p className='CloudUsageModal__description'>
                     {props.description && messageToElement(props.description)}
                 </p>
                 <WorkspaceLimitsPanel
