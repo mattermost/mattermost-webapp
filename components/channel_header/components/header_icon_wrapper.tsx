@@ -90,6 +90,12 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
             messageID: t('channel_header.closeChannelInfo'),
             message: 'Close info',
         },
+        channelMembers: {
+            class: 'channel-info',
+            id: 'channelMembersTooltip',
+            messageID: t('channel_header.channelMembers'),
+            message: 'Members',
+        },
     };
 
     function getTooltip(key: string) {

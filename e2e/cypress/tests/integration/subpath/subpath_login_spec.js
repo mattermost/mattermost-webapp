@@ -38,12 +38,12 @@ describe('Cookie with Subpath', () => {
                 }
 
                 // * Check login page is loaded
-                cy.get('#login_section').should('be.visible');
+                cy.get('.login-body-card').should('be.visible');
 
                 // # Login as testUser
-                cy.get('#loginId').should('be.visible').type(testUser.username);
-                cy.get('#loginPassword').should('be.visible').type(testUser.password);
-                cy.get('#loginButton').should('be.visible').click();
+                cy.get('#input_loginId').should('be.visible').type(testUser.username);
+                cy.get('#input_password-input').should('be.visible').type(testUser.password);
+                cy.get('#saveSetting').should('be.visible').click();
 
                 // * Check login success
                 cy.get('#channel_view').should('be.visible');
