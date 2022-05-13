@@ -5737,7 +5737,7 @@ const AdminDefinition = {
                         label: t('admin.compliance.enableTitle'),
                         label_default: 'Enable Compliance Reporting:',
                         help_text: t('admin.compliance.enableDesc'),
-                        help_text_default: 'When true, Mattermost allows compliance reporting from the **Compliance and Auditing** tab. See <link>documentation</link> to learn more.',
+                        help_text_default: 'When true, Mattermost allows compliance reporting from the <strong>Compliance and Auditing</strong> tab. See <link>documentation</link> to learn more.',
                         help_text_values: {
                             link: (msg) => (
                                 <a
@@ -5749,6 +5749,7 @@ const AdminDefinition = {
                                     {msg}
                                 </a>
                             ),
+                            strong: (msg) => <strong>{msg}</strong>,
                         },
                         help_text_markdown: false,
                         isHidden: it.not(it.licensedForFeature('Compliance')),
