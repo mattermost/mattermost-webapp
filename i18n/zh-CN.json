@@ -3254,7 +3254,7 @@
   "help.mentioning.usernameCont": "如果您提及的用户不属于这频道，系统会发信息告知您。这只是个临时的信息且只有触发的人看见。如想添加提及的用户到频道，点击频道名旁的下拉菜单中的 **添加成员**。",
   "help.mentioning.usernameExample": "@alice 新候选人的面试怎么样？",
   "help.messaging.attach": "用拖放或点击消息输入框里的附件图标以**附上文件**。",
-  "help.messaging.emoji": "输入 \":\" 打开表情符自动完成以 **快速添加表情符**。如果没有想使用的表情符，您也可以创建您自己的<link>自定义表情符</link>。",
+  "help.messaging.emoji": "输入 \":\" 打开表情符自动完成以 <strong>快速添加表情符</strong>。如果没有想使用的表情符，您也可以创建您自己的<link>自定义表情符</link>。",
   "help.messaging.format": "使用 Markdown 来 **格式您的消息**，它支持文字样式，标题，链接，表情符，代码块，块引用，表格，列表和内嵌图片。",
   "help.messaging.notify": "**通知团友** 当他们需要时输入 `@用户名`。",
   "help.messaging.reply": "点击消息文字旁的的回复图标来**回复消息**。",
