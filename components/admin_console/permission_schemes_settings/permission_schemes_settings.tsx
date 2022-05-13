@@ -220,7 +220,7 @@ export default class PermissionSchemesSettings extends React.PureComponent<Props
                                 <span>
                                     <FormattedMessage
                                         id='admin.permissions.introBanner'
-                                        defaultMessage='Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our [documentation](!).'
+                                        defaultMessage='Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our <link>documentation</link>.'
                                         values={{
                                             link: (msg: React.ReactNode) => (
                                                 <a
