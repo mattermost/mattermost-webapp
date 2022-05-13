@@ -1933,9 +1933,9 @@ export default class Client4 {
         );
     };
 
-    getPostThread = (postId: string, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false) => {
+    getPostThread = (postId: string, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false, direction?: 'up'|'down', perPage?: number, fromCreateAt?: number, fromPost?: string) => {
         return this.doFetch<PostList>(
-            `${this.getPostRoute(postId)}/thread${buildQueryString({skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended})}`,
+            `${this.getPostRoute(postId)}/thread${buildQueryString({skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended, direction, fromPost, fromCreateAt, perPage})}`,
             {method: 'get'},
         );
     };

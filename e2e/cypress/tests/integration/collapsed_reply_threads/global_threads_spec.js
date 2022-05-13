@@ -140,7 +140,7 @@ describe('Collapsed Reply Threads', () => {
         cy.get('article.ThreadItem').should('have.lengthOf', 1).should('contain.text', '(message deleted)');
 
         // # Refresh the page
-        cy.reload();
+        cy.reload(true);
 
         // * There should be no thread item anymore
         cy.get('article.ThreadItem').should('have.lengthOf', 0);
@@ -182,7 +182,7 @@ describe('Collapsed Reply Threads', () => {
             cy.get(`#rhsPost_${replyPost1.id}`).should('be.visible').should('contain.text', '(message deleted)');
 
             // # Reload to re-render UI
-            cy.reload();
+            cy.reload(true);
 
             // * There should be a single thread item with no reply
             cy.get('article.ThreadItem').should('have.lengthOf', 1);
@@ -237,7 +237,7 @@ describe('Collapsed Reply Threads', () => {
             cy.apiDeletePost(replyPost2.id);
 
             // # Reload to re-render UI
-            cy.reload();
+            cy.reload(true);
 
             // * There should be a single thread item
             cy.get('article.ThreadItem').should('have.lengthOf', 1).first().click().within(() => {
