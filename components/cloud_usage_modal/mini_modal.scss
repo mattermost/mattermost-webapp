@@ -1,22 +1,39 @@
-@import './mixins';
-
 .CloudUsageMiniModal {
     .CloudUsageMiniModal__header {
         border: none;
 
-        @include hide-before-after;
+        &::before,
+        &::after {
+            display: none;
+        }
 
         &.modal-header {
             padding: 24px;
             background-color: var(--center-channel-bg);
 
             .modal-title {
-                @include title;
+                margin: 0;
+                color: var(--center-channel-color);
+                font-size: 22px;
+                font-weight: 600;
             }
         }
 
         button.close {
-            @include close-modal-btn;
+            padding: 0;
+            border: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            appearance: none;
+            background: none;
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+            cursor: pointer;
+
+            &:hover,
+            &:active,
+            &:focus {
+                color: rgba(var(--center-channel-color-rgb), 0.56);
+            }
         }
     }
 

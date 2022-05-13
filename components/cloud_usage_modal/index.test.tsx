@@ -60,11 +60,11 @@ function setupStore(hasLimits: boolean) {
                 } as GlobalState['entities']['admin']['analytics'],
             },
             teams: {
-                currentTeamId: ''
+                currentTeamId: '',
             },
             preferences: {
                 myPreferences: {
-                }
+                },
             },
         },
     } as GlobalState;
