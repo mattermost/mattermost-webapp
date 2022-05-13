@@ -326,7 +326,7 @@ export type ServiceSettings = {
     EnableLatex: boolean;
     EnableLocalMode: boolean;
     LocalModeSocketLocation: string;
-    CollapsedThreads: 'disabled' | 'default_on' | 'default_off';
+    CollapsedThreads: CollapsedThreads;
     ThreadAutoFollow: boolean;
 };
 
@@ -739,7 +739,7 @@ export type PluginSettings = {
     Directory: string;
     ClientDirectory: string;
     Plugins: Record<string, any>;
-    PluginStates: Record<string, {Enable: boolean}>;
+    PluginStates: Record<string, { Enable: boolean }>;
     EnableMarketplace: boolean;
     EnableRemoteMarketplace: boolean;
     AutomaticPrepackagedPlugins: boolean;
@@ -829,4 +829,5 @@ export enum CollapsedThreads {
     DISABLED = 'disabled',
     DEFAULT_ON = 'default_on',
     DEFAULT_OFF = 'default_off',
+    ALWAYS_ON = 'always_on',
 }

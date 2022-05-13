@@ -341,8 +341,12 @@ export default class Client4 {
         return `${this.getBaseRoute()}/hooks/outgoing/${hookId}`;
     }
 
+    getOAuthPath() {
+        return '/oauth';
+    }
+
     getOAuthRoute() {
-        return `${this.url}/oauth`;
+        return `${this.url}${this.getOAuthPath()}`;
     }
 
     getOAuthAppsRoute() {
@@ -1929,9 +1933,9 @@ export default class Client4 {
         );
     };
 
-    getPostThread = (postId: string, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false) => {
+    getPostThread = (postId: string, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false, direction?: 'up'|'down', perPage?: number, fromCreateAt?: number, fromPost?: string) => {
         return this.doFetch<PostList>(
-            `${this.getPostRoute(postId)}/thread${buildQueryString({skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended})}`,
+            `${this.getPostRoute(postId)}/thread${buildQueryString({skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended, direction, fromPost, fromCreateAt, perPage})}`,
             {method: 'get'},
         );
     };

@@ -28,6 +28,6 @@ describe('Authentication', () => {
 
     it('MM-T1760 - Enable Open Server false: Create account link is hidden', () => {
         // * Assert that create account button is not visible
-        cy.findByText('Create one now.', {timeout: TIMEOUTS.TEN_SEC}).should('not.exist');
+        cy.findByText('Create an account', {timeout: TIMEOUTS.TEN_SEC}).should('not.exist');
     });
 });
