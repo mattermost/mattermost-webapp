@@ -3160,7 +3160,7 @@
   "help.commands.builtin2": "在开始输入 `/` 时将会在输入框上方显示斜杠命令列表。此自动完成建议列表将以黑色字体显示例子以及灰色字体显示说明。",
   "help.commands.custom.description": "自定义斜杠命令于外部应用整合。比如，一个团队可以设定自定义斜杠命令检查内部健康资料 `/patient joe smith` 或检查一城市的天气周报 `/weather toronto week`。向系统管理员确认或输入 `/` 打开自动完成列表确认您的团队是否有设置任何自定义斜杠命令。",
   "help.commands.custom.title": "自定义命令",
-  "help.commands.custom2": "自定义斜杠命令是默认关闭的，系统管理员可以在 **系统控制台** > **整合** > **Webhooks 与命令** 中开启。了解更多设置自定义斜杠命令到 <link>developer slash command documentation page</link>。",
+  "help.commands.custom2": "自定义斜杠命令是默认关闭的，系统管理员可以在 <strong>系统控制台 > 整合 > Webhooks 与命令</strong> 中开启。了解更多设置自定义斜杠命令到 <link>developer slash command documentation page</link>。",
   "help.commands.intro1": "在文本输入框使用斜杠命令执行操作。输入 `/` 紧跟着命令已经一些参数以执行操作。",
   "help.commands.intro2": "所有 Mattermost 自带的斜杠命令以及自定义命令可配置与外部应用互动。请至<link>开发者斜杠命令文档页面</link>了解关于配置斜杠命令。",
   "help.commands.title": "执行命令",
