@@ -19,7 +19,7 @@ exports[`components/actions_menu/ActionsMenu has actions - end user - should not
         placement="right"
       >
         <Memo(MemoizedFormattedMessage)
-          defaultMessage="Actions"
+          defaultMessage="Message actions"
           id="post_info.tooltip.actions"
         />
       </Tooltip>
@@ -87,7 +87,7 @@ exports[`components/actions_menu/ActionsMenu has actions - sysadmin - should sho
         placement="right"
       >
         <Memo(MemoizedFormattedMessage)
-          defaultMessage="Actions"
+          defaultMessage="Message actions"
           id="post_info.tooltip.actions"
         />
       </Tooltip>
@@ -174,7 +174,7 @@ exports[`components/actions_menu/ActionsMenu no actions - sysadmin - menu should
         placement="right"
       >
         <Memo(MemoizedFormattedMessage)
-          defaultMessage="Actions"
+          defaultMessage="Message actions"
           id="post_info.tooltip.actions"
         />
       </Tooltip>
