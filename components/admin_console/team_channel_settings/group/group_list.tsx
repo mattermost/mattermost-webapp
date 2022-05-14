@@ -9,6 +9,8 @@ import {Channel} from 'mattermost-redux/types/channels';
 
 import AbstractList from 'components/admin_console/team_channel_settings/abstract_list.jsx';
 
+import {Team} from '@mattermost/types/teams';
+
 import GroupRow from './group_row';
 
 const Header = () => {
@@ -52,6 +54,7 @@ interface Props {
     setNewGroupRole: (gid: string) => void;
     type: string;
     channel?: Partial<Channel>;
+    team?: Team;
     isDisabled?: boolean;
 }
 

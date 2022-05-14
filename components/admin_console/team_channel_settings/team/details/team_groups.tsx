@@ -1,9 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
+import {Team} from '@mattermost/types/teams';
+import {Group} from '@mattermost/types/groups';
 
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 import ToggleModalButton from 'components/toggle_modal_button';
@@ -14,7 +16,19 @@ import {t} from 'utils/i18n';
 
 import GroupList from '../../group';
 
-export const TeamGroups = ({onGroupRemoved, syncChecked, team, onAddCallback, totalGroups, groups, removedGroups, setNewGroupRole, isDisabled}) => (
+type Props = {
+    groups: Group[];
+    onAddCallback: () => void;
+    onGroupRemoved: () => void;
+    removedGroups: Group[];
+    setNewGroupRole: () => void;
+    syncChecked: boolean;
+    team: Team;
+    totalGroups: number;
+    isDisabled?: boolean;
+};
+
+export const TeamGroups = ({onGroupRemoved, syncChecked, team, onAddCallback, totalGroups, groups, removedGroups, setNewGroupRole, isDisabled}: Props) => (
     <AdminPanel
         id='team_groups'
         titleId={syncChecked ? t('admin.team_settings.team_detail.syncedGroupsTitle') : t('admin.team_settings.team_detail.groupsTitle')}
@@ -54,15 +68,3 @@ export const TeamGroups = ({onGroupRemoved, syncChecked, team, onAddCallback, to
             isDisabled={isDisabled}
         />
     </AdminPanel>);
-
-TeamGroups.propTypes = {
-    syncChecked: PropTypes.bool.isRequired,
-    team: PropTypes.object.isRequired,
-    totalGroups: PropTypes.number.isRequired,
-    groups: PropTypes.arrayOf(PropTypes.object).isRequired,
-    removedGroups: PropTypes.arrayOf(PropTypes.object).isRequired,
-    onAddCallback: PropTypes.func.isRequired,
-    onGroupRemoved: PropTypes.func.isRequired,
-    setNewGroupRole: PropTypes.func.isRequired,
-    isDisabled: PropTypes.bool,
-};

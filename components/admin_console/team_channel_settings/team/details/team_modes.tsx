@@ -41,7 +41,7 @@ const SyncGroupsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked
     />);
 
 const AllowAllToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked, allowedDomains, onToggle, isDisabled}: ToggleProps) =>
-    !syncChecked ? (
+    (syncChecked ? null : (
         <LineSwitch
             id='allowAllToggleSwitch'
             disabled={isDisabled}
@@ -60,10 +60,10 @@ const AllowAllToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked, 
                     defaultMessage='This team can be discovered allowing anyone with an account to join this team.'
                 />
             )}
-        />) : null;
+        />));
 
 const AllowedDomainsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked, allowedDomains, onToggle, isDisabled}: ToggleProps) =>
-    !syncChecked ? (
+    (syncChecked ? null : (
         <LineSwitch
             disabled={isDisabled}
             toggled={allowedDomainsChecked}
@@ -97,7 +97,7 @@ const AllowedDomainsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChe
                 onChange={(e) => onToggle(syncChecked, allAllowedChecked, allowedDomainsChecked, e.currentTarget.value)}
                 disabled={isDisabled}
             />
-        </LineSwitch>) : null;
+        </LineSwitch>));
 
 type TeamModesProps = ToggleProps & {
     isLicensedForLDAPGroups?: boolean;
