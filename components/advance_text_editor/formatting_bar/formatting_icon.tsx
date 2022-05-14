@@ -1,11 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-
+import React, {memo} from 'react';
 import styled from 'styled-components';
-
-import Constants from 'utils/constants';
+import {
+    FormatBoldIcon,
+    FormatItalicIcon,
+    LinkVariantIcon,
+    FormatStrikethroughVariantIcon,
+    CodeTagsIcon,
+    FormatHeaderIcon,
+    FormatQuoteOpenIcon,
+    FormatListBulletedIcon,
+    FormatListNumberedIcon,
+} from '@mattermost/compass-icons/components';
+import IconProps from '@mattermost/compass-icons/components/props';
 
 import KeyboardShortcutSequence, {
     KeyboardShortcutDescriptor,
@@ -13,57 +22,56 @@ import KeyboardShortcutSequence, {
 } from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
-import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 
-export const Icon = styled.button`
+import {MarkdownMode} from 'utils/markdown/apply_markdown';
+import Constants from 'utils/constants';
+
+export const IconContainer = styled.button`
     display: flex;
     width: 32px;
     height: 32px;
-    align-items: center;
-    justify-content: center;
+    place-items: center;
+    place-content: center;
     border: none;
     background: transparent;
     border-radius: 4px;
     color: rgba(var(--center-channel-color-rgb), 0.56);
-    fill: rgba(var(--center-channel-color-rgb), 0.56);
+    fill: currentColor;
 
     &:hover {
         background: rgba(var(--center-channel-color-rgb), 0.08);
         color: rgba(var(--center-channel-color-rgb), 0.72);
-        fill: rgba(var(--center-channel-color-rgb), 0.72);
+        fill: currentColor;
     }
 
     &:active,
     &--active,
     &--active:hover {
         background: rgba(var(--button-bg-rgb), 0.08);
-        color: v(button-bg);
-        fill: v(button-bg);
+        color: var(--button-bg);
+        fill: currentColor;
     }
 `;
 
 interface FormattingIconProps {
-    type: ApplyMarkdownOptions['markdownMode'];
+    mode: MarkdownMode;
     onClick?: () => void;
+    className?: string;
 }
 
-const MAP_MARKDOWN_TYPE_TO_ICON: {
-    [key in FormattingIconProps['type']]: string;
-} = {
-    bold: 'icon icon-format-bold',
-    italic: 'icon icon-format-italic',
-    link: 'icon icon-link-variant',
-    strike: 'icon icon-format-strikethrough-variant',
-    code: 'icon icon-code-tags',
-    heading: 'icon icon-format-header',
-    quote: 'icon icon-format-quote-open',
-    ul: 'icon icon-format-list-bulleted',
-    ol: 'icon icon-format-list-numbered',
+const MAP_MARKDOWN_MODE_TO_ICON: Record<FormattingIconProps['mode'], React.FC<IconProps>> = {
+    bold: FormatBoldIcon,
+    italic: FormatItalicIcon,
+    link: LinkVariantIcon,
+    strike: FormatStrikethroughVariantIcon,
+    code: CodeTagsIcon,
+    heading: FormatHeaderIcon,
+    quote: FormatQuoteOpenIcon,
+    ul: FormatListBulletedIcon,
+    ol: FormatListNumberedIcon,
 };
 
-const MAP_MARKDOWN_TYPE_TO_KEYBOARD_SHORTCUTS: {
-    [key in FormattingIconProps['type']]?: KeyboardShortcutDescriptor;
-} = {
+const MAP_MARKDOWN_MODE_TO_KEYBOARD_SHORTCUTS: Record<FormattingIconProps['mode'], KeyboardShortcutDescriptor> = {
     bold: KEYBOARD_SHORTCUTS.msgMarkdownBold,
     italic: KEYBOARD_SHORTCUTS.msgMarkdownItalic,
     link: KEYBOARD_SHORTCUTS.msgMarkdownLink,
@@ -75,44 +83,52 @@ const MAP_MARKDOWN_TYPE_TO_KEYBOARD_SHORTCUTS: {
     ol: KEYBOARD_SHORTCUTS.msgMarkdownOl,
 };
 
-export const FormattingIcon = (props: FormattingIconProps): JSX.Element => {
-    const {type, onClick} = props;
+const FormattingIcon = (props: FormattingIconProps): JSX.Element => {
+    /**
+     * by passing in the otherProps spread we guarantee that accessibility
+     * properties like aria-label, etc. get added to the DOM
+     */
+    const {mode, onClick, ...otherProps} = props;
+
+    /* get the correct Icon from the IconMap */
+    const Icon = MAP_MARKDOWN_MODE_TO_ICON[mode];
 
     const bodyAction = (
-        <div>
+        <IconContainer
+            type='button'
+            id={`FormattingControl_${mode}`}
+            onClick={onClick}
+            {...otherProps}
+        >
             <Icon
-                type='button'
-                id='fileUploadButton'
-                aria-label={MAP_MARKDOWN_TYPE_TO_ICON[type]}
-            >
-                <i className={MAP_MARKDOWN_TYPE_TO_ICON[type]}/>
-            </Icon>
-        </div>
+                color={'currentColor'}
+                size={18}
+            />
+        </IconContainer>
     );
-    const tooltip = MAP_MARKDOWN_TYPE_TO_KEYBOARD_SHORTCUTS[type];
+
+    /* get the correct tooltip from the ShortcutsMap */
+    const shortcut = MAP_MARKDOWN_MODE_TO_KEYBOARD_SHORTCUTS[mode];
+    const tooltip = (
+        <Tooltip id='upload-tooltip'>
+            <KeyboardShortcutSequence
+                shortcut={shortcut}
+                hoistDescription={true}
+                isInsideTooltip={true}
+            />
+        </Tooltip>
+    );
+
     return (
-        <>
-            {tooltip ? (
-                <OverlayTrigger
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='top'
-                    trigger={['hover', 'focus']}
-                    overlay={<Tooltip id='upload-tooltip'>
-                        <KeyboardShortcutSequence
-                            shortcut={tooltip}
-                            hoistDescription={true}
-                            isInsideTooltip={true}
-                        />
-                    </Tooltip>}
-                >
-                    <div
-                        onClick={onClick}
-                        className={'style--none'}
-                    >
-                        {bodyAction}
-                    </div>
-                </OverlayTrigger>) : (<div className={'style--none'}>{bodyAction}</div>)
-            }
-        </>
+        <OverlayTrigger
+            delayShow={Constants.OVERLAY_TIME_DELAY}
+            placement='top'
+            trigger={['hover', 'focus']}
+            overlay={tooltip}
+        >
+            {bodyAction}
+        </OverlayTrigger>
     );
 };
+
+export default memo(FormattingIcon);

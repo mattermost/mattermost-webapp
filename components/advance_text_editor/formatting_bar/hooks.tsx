@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useEffect, useState} from 'react';
+import React, {ReactElement, useEffect, useState} from 'react';
 import {Instance} from '@popperjs/core';
 
 import {debounce} from 'lodash';
 
-import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
+import {ApplyMarkdownOptions, MarkdownMode} from 'utils/markdown/apply_markdown';
 
 import {FormattingIcon} from './formatting_icon';
 
@@ -41,11 +41,6 @@ const useResponsiveFormattingBar = (ref: React.RefObject<HTMLDivElement>): WideM
     return wideMode;
 };
 
-interface Control {
-    markdownMode: ApplyMarkdownOptions['markdownMode'];
-    icon: React.ReactNode;
-}
-
 const MAP_WIDE_MODE_TO_CONTROLS_QUANTITY: {[key in WideMode]: number} = {
     wide: 9,
     normal: 5,
@@ -55,50 +50,13 @@ const MAP_WIDE_MODE_TO_CONTROLS_QUANTITY: {[key in WideMode]: number} = {
 export const useFormattingBarControls = (
     formattingBarRef: React.RefObject<HTMLDivElement>,
 ): {
-    controls: Control[];
-    hiddenControls: Control[];
+    controls: MarkdownMode[];
+    hiddenControls: MarkdownMode[];
     wideMode: WideMode;
 } => {
     const wideMode = useResponsiveFormattingBar(formattingBarRef);
 
-    const allControls: Control[] = [
-        {
-            markdownMode: 'bold',
-            icon: <FormattingIcon type='bold'/>,
-        },
-        {
-            markdownMode: 'italic',
-            icon: <FormattingIcon type='italic'/>,
-        },
-        {
-            markdownMode: 'strike',
-            icon: <FormattingIcon type='strike'/>,
-        },
-        {
-            markdownMode: 'heading',
-            icon: <FormattingIcon type='heading'/>,
-        },
-        {
-            markdownMode: 'link',
-            icon: <FormattingIcon type='link'/>,
-        },
-        {
-            markdownMode: 'code',
-            icon: <FormattingIcon type='code'/>,
-        },
-        {
-            markdownMode: 'quote',
-            icon: <FormattingIcon type='quote'/>,
-        },
-        {
-            markdownMode: 'ul',
-            icon: <FormattingIcon type='ul'/>,
-        },
-        {
-            markdownMode: 'ol',
-            icon: <FormattingIcon type='ol'/>,
-        },
-    ];
+    const allControls: MarkdownMode[] = ['bold', 'italic', 'strike', 'heading', 'link', 'code', 'quote', 'ul', 'ol'];
 
     const controlsLength = MAP_WIDE_MODE_TO_CONTROLS_QUANTITY[wideMode];
 
