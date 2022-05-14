@@ -1,13 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {ReactElement, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Instance} from '@popperjs/core';
 
 import {debounce} from 'lodash';
 
-import {ApplyMarkdownOptions, MarkdownMode} from 'utils/markdown/apply_markdown';
-
-import {FormattingIcon} from './formatting_icon';
+import {MarkdownMode} from 'utils/markdown/apply_markdown';
 
 type WideMode = 'wide' | 'normal' | 'narrow';
 
