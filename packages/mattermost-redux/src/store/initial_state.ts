@@ -190,6 +190,10 @@ const state: GlobalState = {
                 limitsLoaded: false,
             },
         },
+        insights: {
+            topReactions: {},
+            myTopReactions: {},
+        },
     },
     errors: [],
     requests: {
