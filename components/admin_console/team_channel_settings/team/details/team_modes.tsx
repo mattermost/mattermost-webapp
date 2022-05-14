@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import {t} from 'utils/i18n';
@@ -11,7 +10,16 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 
 import LineSwitch from '../../line_switch.jsx';
 
-const SyncGroupsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked, allowedDomains, onToggle, isDisabled}) => (
+type ToggleProps = {
+    syncChecked: boolean;
+    allAllowedChecked: boolean;
+    allowedDomainsChecked: boolean;
+    allowedDomains: string;
+    onToggle: (syncChecked: boolean, allAllowedChecked: boolean, allowedDomainsChecked: boolean, allowedDomains: string) => void;
+    isDisabled?: boolean;
+}
+
+const SyncGroupsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked, allowedDomains, onToggle, isDisabled}: ToggleProps) => (
     <LineSwitch
         id='syncGroupSwitch'
         disabled={isDisabled}
@@ -32,16 +40,7 @@ const SyncGroupsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked
         )}
     />);
 
-SyncGroupsToggle.propTypes = {
-    syncChecked: PropTypes.bool.isRequired,
-    allAllowedChecked: PropTypes.bool.isRequired,
-    allowedDomainsChecked: PropTypes.bool.isRequired,
-    allowedDomains: PropTypes.string.isRequired,
-    onToggle: PropTypes.func.isRequired,
-    isDisabled: PropTypes.bool,
-};
-
-const AllowAllToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked, allowedDomains, onToggle, isDisabled}) =>
+const AllowAllToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked, allowedDomains, onToggle, isDisabled}: ToggleProps) =>
     !syncChecked && (
         <LineSwitch
             id='allowAllToggleSwitch'
@@ -63,16 +62,7 @@ const AllowAllToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked, 
             )}
         />);
 
-AllowAllToggle.propTypes = {
-    syncChecked: PropTypes.bool.isRequired,
-    allAllowedChecked: PropTypes.bool.isRequired,
-    allowedDomainsChecked: PropTypes.bool.isRequired,
-    allowedDomains: PropTypes.string.isRequired,
-    onToggle: PropTypes.func.isRequired,
-    isDisabled: PropTypes.bool,
-};
-
-const AllowedDomainsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked, allowedDomains, onToggle, isDisabled}) =>
+const AllowedDomainsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked, allowedDomains, onToggle, isDisabled}: ToggleProps) =>
     !syncChecked && (
         <LineSwitch
             disabled={isDisabled}
@@ -109,16 +99,11 @@ const AllowedDomainsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChe
             />
         </LineSwitch>);
 
-AllowedDomainsToggle.propTypes = {
-    syncChecked: PropTypes.bool.isRequired,
-    allAllowedChecked: PropTypes.bool.isRequired,
-    allowedDomainsChecked: PropTypes.bool.isRequired,
-    allowedDomains: PropTypes.string.isRequired,
-    onToggle: PropTypes.func.isRequired,
-    isDisabled: PropTypes.bool,
-};
+type TeamModesProps = ToggleProps & {
+    isLicensedForLDAPGroups?: boolean;
+}
 
-export const TeamModes = ({allAllowedChecked, syncChecked, allowedDomains, allowedDomainsChecked, onToggle, isDisabled, isLicensedForLDAPGroups}) => (
+export const TeamModes = ({allAllowedChecked, syncChecked, allowedDomains, allowedDomainsChecked, onToggle, isDisabled, isLicensedForLDAPGroups}: TeamModesProps) => (
     <AdminPanel
         id='team_manage'
         titleId={t('admin.team_settings.team_detail.manageTitle')}
@@ -157,13 +142,3 @@ export const TeamModes = ({allAllowedChecked, syncChecked, allowedDomains, allow
             </div>
         </div>
     </AdminPanel>);
-
-TeamModes.propTypes = {
-    syncChecked: PropTypes.bool.isRequired,
-    allAllowedChecked: PropTypes.bool.isRequired,
-    allowedDomainsChecked: PropTypes.bool.isRequired,
-    onToggle: PropTypes.func.isRequired,
-    allowedDomains: PropTypes.string.isRequired,
-    isDisabled: PropTypes.bool,
-    isLicensedForLDAPGroups: PropTypes.bool,
-};

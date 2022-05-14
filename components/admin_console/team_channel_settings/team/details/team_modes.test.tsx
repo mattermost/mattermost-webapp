@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {TeamModes} from './team_modes.jsx';
+import {TeamModes} from './team_modes';
 
 describe('admin_console/team_channel_settings/team/TeamModes', () => {
     test('should match snapshot', () => {
