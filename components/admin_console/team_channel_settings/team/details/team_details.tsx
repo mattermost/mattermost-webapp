@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {cloneDeep} from 'lodash';
 
@@ -11,51 +10,75 @@ import {Groups} from 'mattermost-redux/constants';
 import {browserHistory} from 'utils/browser_history';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
+
 import BlockableLink from 'components/admin_console/blockable_link';
 import ConfirmModal from 'components/confirm_modal';
 import FormError from 'components/form_error';
 
 import RemoveConfirmModal from '../../remove_confirm_modal';
 import {NeedDomainsError, NeedGroupsError, UsersWillBeRemovedError} from '../../errors';
-
 import SaveChangesPanel from '../../save_changes_panel';
+
+import {Team} from '@mattermost/types/teams';
+import {Group, SyncablePatch, SyncableType} from '@mattermost/types/groups';
+import {ServerError} from '@mattermost/types/errors';
 
 import {TeamProfile} from './team_profile';
 import {TeamModes} from './team_modes';
 import {TeamGroups} from './team_groups';
 import TeamMembers from './team_members/index';
 
-export default class TeamDetails extends React.PureComponent {
-    static propTypes = {
-        teamID: PropTypes.string.isRequired,
-        team: PropTypes.object.isRequired,
-        totalGroups: PropTypes.number.isRequired,
-        groups: PropTypes.arrayOf(PropTypes.object),
-        allGroups: PropTypes.object.isRequired,
-        isDisabled: PropTypes.bool,
-        isLicensedForLDAPGroups: PropTypes.bool,
-        actions: PropTypes.shape({
-            setNavigationBlocked: PropTypes.func.isRequired,
-            getTeam: PropTypes.func.isRequired,
-            linkGroupSyncable: PropTypes.func.isRequired,
-            unlinkGroupSyncable: PropTypes.func.isRequired,
-            membersMinusGroupMembers: PropTypes.func.isRequired,
-            getGroups: PropTypes.func.isRequired,
-            patchTeam: PropTypes.func.isRequired,
-            patchGroupSyncable: PropTypes.func.isRequired,
-            addUserToTeam: PropTypes.func.isRequired,
-            removeUserFromTeam: PropTypes.func.isRequired,
-            updateTeamMemberSchemeRoles: PropTypes.func.isRequired,
-            deleteTeam: PropTypes.func.isRequired,
-            unarchiveTeam: PropTypes.func.isRequired,
-        }).isRequired,
+type Props = {
+    teamID: string;
+    team: Team;
+    totalGroups: number;
+    groups: Group[];
+    allGroups: any; // TODO
+    isDisabled?: boolean;
+    isLicensedForLDAPGroups?: boolean;
+    actions: {
+        setNavigationBlocked: (blocked: boolean) => void;
+        getTeam: (teamId: string) => Promise<{ error?: ServerError; data?: null }>;
+        linkGroupSyncable: (groupId: string, syncableId: string, syncableType: SyncableType, patch: SyncablePatch) => Promise<{ error?: ServerError; data?: null }>;
+        unlinkGroupSyncable: (groupId: string, syncableId: string, syncableType: SyncableType) => Promise<{ error?: ServerError; data?: null }>;
+        membersMinusGroupMembers: (teamId: string, groupIds: string[], page?: number, perPage?: number) => Promise<{ error?: ServerError; data?: null }>;
+        getGroups: (teamId: string, q?: string, page?: number, perPage?: number, filterAllowReference?: boolean) => Promise<{ error?: ServerError; data?: null }>;
+        patchTeam: (team: Team) => Promise<{ error?: ServerError; data?: null }>;
+        patchGroupSyncable: (groupId: string, syncableId: string, syncableType: SyncableType, patch: SyncablePatch) => Promise<{ error?: ServerError; data?: null }>;
+        addUserToTeam: (teamId: string, userId: string) => Promise<{ error?: ServerError; data?: null }>;
+        removeUserFromTeam: (teamId: string, userId: string) => Promise<{ error?: ServerError; data?: null }>;
+        updateTeamMemberSchemeRoles: (teamId: string, userId: string, isSchemeUser: boolean, isSchemeAdmin: boolean) => Promise<{ error?: ServerError; data?: null }>;
+        deleteTeam: (teamId: string) => Promise<{ error?: ServerError; data?: null }>;
+        unarchiveTeam: (teamId: string) => Promise<{ error?: ServerError; data?: null }>;
     };
+};
 
+type State = {
+    groups: Group[];
+    syncChecked: boolean;
+    allAllowedChecked: boolean;
+    allowedDomainsChecked: boolean;
+    allowedDomains: string;
+    saving: boolean;
+    showRemoveConfirmation: boolean;
+    usersToRemoveCount: number;
+    usersToRemove: any; //todo
+    usersToAdd: any; //todo
+    rolesToUpdate: any; //todo
+    totalGroups: number;
+    saveNeeded: boolean;
+    serverError: any; //todo
+    previousServerError: any; //todo
+    isLocalArchived: boolean;
+    showArchiveConfirmModal: boolean;
+};
+
+export default class TeamDetails extends React.PureComponent<Props, State> {
     static defaultProps = {
         team: {display_name: '', id: ''},
     };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         const team = props.team;
         this.state = {
@@ -79,7 +102,7 @@ export default class TeamDetails extends React.PureComponent {
         };
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         const {totalGroups, team} = this.props;
         if (prevProps.team.id !== team.id || totalGroups !== prevProps.totalGroups) {
             // eslint-disable-next-line react/no-did-update-set-state
@@ -101,7 +124,7 @@ export default class TeamDetails extends React.PureComponent {
             then(() => this.setState({groups: this.props.groups}));
     }
 
-    setNewGroupRole = (gid) => {
+    setNewGroupRole = (gid: string) => {
         const groups = cloneDeep(this.state.groups).map((g) => {
             if (g.id === gid) {
                 g.scheme_admin = !g.scheme_admin;
@@ -115,7 +138,7 @@ export default class TeamDetails extends React.PureComponent {
         this.setState({showRemoveConfirmation: false, saving: true});
         const {groups, allAllowedChecked, allowedDomainsChecked, allowedDomains, syncChecked, usersToAdd, usersToRemove, rolesToUpdate} = this.state;
 
-        let serverError = null;
+        let serverError: JSX.Element = null;
 
         const {team, groups: origGroups, teamID, actions} = this.props;
         if (this.teamToBeArchived()) {
