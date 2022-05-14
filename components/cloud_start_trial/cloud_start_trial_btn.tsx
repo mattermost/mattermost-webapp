@@ -6,6 +6,7 @@ import {useIntl} from 'react-intl';
 import {useDispatch} from 'react-redux';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
+import {getLicenseConfig} from 'mattermost-redux/actions/general';
 
 import {requestCloudTrial} from 'actions/cloud';
 import {trackEvent} from 'actions/telemetry_actions';
@@ -49,7 +50,7 @@ const CloudStartTrialButton = ({
             setLoadStatus(TrialLoadStatus.Failed);
             return TrialLoadStatus.Failed;
         }
-
+        await dispatch(getLicenseConfig());
         setLoadStatus(TrialLoadStatus.Success);
         return TrialLoadStatus.Success;
     };
