@@ -1,172 +1,136 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import React, {useState, useEffect} from 'react';
+import {useIntl} from 'react-intl';
+import {useSelector, useDispatch} from 'react-redux';
+import {useLocation, useHistory} from 'react-router-dom';
 
-import {ServerError} from 'mattermost-redux/types/errors';
-
-import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
-
+import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
-import {browserHistory} from 'utils/browser_history';
-import {AnnouncementBarTypes, AnnouncementBarMessages, VerifyEmailErrors} from 'utils/constants';
-import logoImage from 'images/logo.png';
-import BackButton from 'components/common/back_button';
+
+import LaptopAlertSVG from 'components/common/svg_images_components/laptop_alert_svg';
+import ColumnLayout from 'components/header_footer_route/content_layouts/column';
 import LoadingScreen from 'components/loading_screen';
 
-import * as GlobalActions from 'actions/global_actions';
+import {clearErrors, logError} from 'mattermost-redux/actions/errors';
+import {verifyUserEmail, getMe} from 'mattermost-redux/actions/users';
+import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
 
-type Props = {
-    location: {
-        search: string;
-    };
-    siteName?: string;
-    actions: {
-        verifyUserEmail: (token: string) => ActionFunc | ActionResult;
-        getMe: () => ActionFunc | ActionResult;
-        logError: (error: ServerError, displayable: boolean) => void;
-        clearErrors: () => void;
-    };
-    isLoggedIn: boolean;
-    useCaseOnboarding: boolean;
-}
+import {AnnouncementBarTypes, AnnouncementBarMessages, Constants} from 'utils/constants';
 
-type State = {
-    verifyStatus: string;
-    serverError: JSX.Element | null;
-}
+import './do_verify_email.scss';
 
-export default class DoVerifyEmail extends React.PureComponent<Props, State> {
-    public constructor(props: Props) {
-        super(props);
+const DoVerifyEmail = () => {
+    const {formatMessage} = useIntl();
+    const dispatch = useDispatch<DispatchFunc>();
+    const history = useHistory();
+    const {search} = useLocation();
 
-        this.state = {
-            verifyStatus: 'pending',
-            serverError: null,
-        };
-    }
+    const params = new URLSearchParams(search);
+    const token = params.get('token') ?? '';
 
-    public componentDidMount(): void {
-        this.verifyEmail();
-    }
+    const loggedIn = Boolean(useSelector(getCurrentUserId));
+    const useCaseOnboarding = useSelector(getUseCaseOnboarding);
 
-    handleRedirect() {
-        if (this.props.isLoggedIn) {
-            if (this.props.useCaseOnboarding) {
+    const [verifyStatus, setVerifyStatus] = useState('pending');
+    const [serverError, setServerError] = useState('');
+
+    useEffect(() => {
+        verifyEmail();
+    }, []);
+
+    const handleRedirect = () => {
+        if (loggedIn) {
+            if (useCaseOnboarding) {
                 // need info about whether admin or not,
                 // and whether admin has already completed
                 // first tiem onboarding. Instead of fetching and orchestrating that here,
                 // let the default root component handle it.
-                browserHistory.push('/');
-            } else {
-                GlobalActions.redirectUserToDefaultTeam();
+                history.push('/');
+                return;
             }
-        } else {
-            let link = '/login?extra=verified';
-            const email = (new URLSearchParams(this.props.location.search)).get('email');
-            if (email) {
-                link += '&email=' + encodeURIComponent(email);
-            }
-            const redirectTo = (new URLSearchParams(this.props.location.search)).get('redirect_to');
-            if (redirectTo) {
-                link += '&redirect_to=' + redirectTo;
-            }
-            browserHistory.push(link);
-        }
-    }
 
-    async handleSuccess() {
-        this.setState({verifyStatus: 'success'});
-        this.props.actions.clearErrors();
-        if (this.props.isLoggedIn) {
-            this.props.actions.logError({
-                message: AnnouncementBarMessages.EMAIL_VERIFIED,
-                type: AnnouncementBarTypes.SUCCESS,
-            } as any, true);
-            trackEvent('settings', 'verify_email');
-            const me = await this.props.actions.getMe();
-            if ('data' in me) {
-                this.handleRedirect();
-            } else if ('error' in me) {
-                this.handleError(VerifyEmailErrors.FAILED_USER_STATE_GET);
-            }
-        } else {
-            this.handleRedirect();
-        }
-    }
-
-    handleError(type: string) {
-        let serverError = null;
-        if (type === VerifyEmailErrors.FAILED_EMAIL_VERIFICATION) {
-            serverError = (
-                <FormattedMessage
-                    id='signup_user_completed.invalid_invite'
-                    defaultMessage='The invite link was invalid. Please speak with your Administrator to receive an invitation.'
-                />
-            );
-        } else if (type === VerifyEmailErrors.FAILED_USER_STATE_GET) {
-            serverError = (
-                <FormattedMessage
-                    id='signup_user_completed.failed_update_user_state'
-                    defaultMessage='Please clear your cache and try to log in.'
-                />
-            );
-        }
-        this.setState({
-            verifyStatus: 'failure',
-            serverError,
-        });
-    }
-
-    verifyEmail = async () => {
-        const {actions: {verifyUserEmail}} = this.props;
-        const verify = await verifyUserEmail((new URLSearchParams(this.props.location.search)).get('token') || '');
-
-        if ('data' in verify) {
-            this.handleSuccess();
-        } else if ('error' in verify) {
-            this.handleError(VerifyEmailErrors.FAILED_EMAIL_VERIFICATION);
-        }
-    }
-
-    render() {
-        if (this.state.verifyStatus !== 'failure') {
-            return (<LoadingScreen/>);
+            redirectUserToDefaultTeam();
+            return;
         }
 
-        let serverError = null;
-        if (this.state.serverError) {
-            serverError = (
-                <div className={'form-group has-error'}>
-                    <label className='control-label'>{this.state.serverError}</label>
-                </div>
-            );
+        const newSearchParam = new URLSearchParams(search);
+        newSearchParam.set('extra', Constants.SIGNIN_VERIFIED);
+
+        history.push(`/login?${newSearchParam}`);
+    };
+
+    const verifyEmail = async () => {
+        const {error} = await dispatch(verifyUserEmail(token));
+
+        if (error) {
+            setVerifyStatus('failure');
+            setServerError(formatMessage({
+                id: 'signup_user_completed.invalid_invite.message',
+                defaultMessage: 'Please speak with your Administrator to receive an invitation.',
+            }));
+            return;
         }
 
-        return (
-            <div>
-                <BackButton/>
-                <div className='col-sm-12'>
-                    <div className='signup-team__container'>
-                        <img
-                            alt={'signup team logo'}
-                            className='signup-team-logo'
-                            src={logoImage}
-                        />
-                        <div className='signup__content'>
-                            <h1>{this.props.siteName}</h1>
-                            <h4 className='color--light'>
-                                <FormattedMessage
-                                    id='web.root.signup_info'
-                                    defaultMessage='All team communication in one place, searchable and accessible anywhere'
-                                />
-                            </h4>
-                            {serverError}
-                        </div>
-                    </div>
+        setVerifyStatus('success');
+        await dispatch(clearErrors());
+
+        if (!loggedIn) {
+            handleRedirect();
+            return;
+        }
+
+        dispatch(logError({
+            message: AnnouncementBarMessages.EMAIL_VERIFIED,
+            type: AnnouncementBarTypes.SUCCESS,
+        } as any, true));
+
+        trackEvent('settings', 'verify_email');
+
+        const {error: getMeError} = await dispatch(getMe());
+
+        if (getMeError) {
+            setVerifyStatus('failure');
+            setServerError(formatMessage({
+                id: 'signup_user_completed.failed_update_user_state',
+                defaultMessage: 'Please clear your cache and try to log in.',
+            }));
+            return;
+        }
+
+        handleRedirect();
+    };
+
+    const handleReturnButtonOnClick = () => history.replace('/');
+
+    return (
+        verifyStatus === 'failure' ? (
+            <div className='do-verify-body'>
+                <div className='do-verify-body-content'>
+                    <ColumnLayout
+                        title={formatMessage({id: 'signup_user_completed.invalid_invite.title', defaultMessage: 'This invite link is invalid'})}
+                        message={serverError}
+                        SVGElement={<LaptopAlertSVG/>}
+                        extraContent={(
+                            <div className='do-verify-body-content-button-container'>
+                                <button
+                                    className='do-verify-body-content-button-return'
+                                    onClick={handleReturnButtonOnClick}
+                                >
+                                    {formatMessage({id: 'signup_user_completed.return', defaultMessage: 'Return to log in'})}
+                                </button>
+                            </div>
+                        )}
+                    />
                 </div>
             </div>
-        );
-    }
-}
+        ) : (
+            <LoadingScreen/>
+        )
+    );
+};
+
+export default DoVerifyEmail;

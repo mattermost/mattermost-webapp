@@ -3,32 +3,58 @@
 
 @import 'utils/mixins';
 
-.login-body {
+.signup-body {
     display: flex;
     flex: 1;
     align-items: center;
 
-    .login-body-content {
+    .signup-body-content {
         display: flex;
         height: fit-content;
         flex: 1;
         align-items: center;
         justify-content: center;
 
-        .login-body-message-subtitle {
+        .signup-body-no-login {
+            display: flex;
+            max-width: 540px;
+            flex-flow: column;
+            justify-content: center;
+
+            .signup-body-no-login-title {
+                color: var(--title-color-indigo-500);
+                font-family: Metropolis;
+                font-size: 40px;
+                font-weight: 600;
+                letter-spacing: -0.02em;
+                line-height: 48px;
+                text-align: center;
+            }
+
+            .signup-body-no-login-subtitle {
+                color: rgba(var(--center-channel-text-rgb), 0.72);
+                font-size: 18px;
+                font-weight: 400;
+                line-height: 28px;
+                text-align: center;
+            }
+        }
+
+        .signup-body-message-subtitle {
+            padding-right: 170px;
             color: rgba(var(--center-channel-text-rgb), 0.72);
             font-size: 18px;
             font-weight: 400;
             line-height: 28px;
         }
 
-        .login-body-message {
+        .signup-body-message {
             display: flex;
             width: 540px;
             flex-flow: column;
             align-self: flex-start;
 
-            .login-body-message-title {
+            .signup-body-message-title {
                 padding-right: 60px;
                 color: var(--title-color-indigo-500);
                 font-family: Metropolis;
@@ -38,15 +64,15 @@
                 line-height: 88px;
             }
 
-            .login-body-message-svg {
+            .signup-body-message-svg {
                 position: relative;
                 align-self: flex-end;
 
                 svg {
                     position: absolute;
                     z-index: 2;
-                    bottom: -210px;
-                    left: -178px;
+                    bottom: -220px;
+                    left: -267px;
                     display: block;
                 }
             }
@@ -58,7 +84,7 @@
                     align-self: center;
                 }
 
-                .login-body-custom-branding-image {
+                .signup-body-custom-branding-image {
                     max-height: 540px;
                     flex: 1;
                     align-self: center;
@@ -67,7 +93,7 @@
             }
         }
 
-        .login-body-card {
+        .signup-body-card {
             width: 540px;
             box-sizing: border-box;
             border: 1px solid rgba(var(--center-channel-text-rgb), 0.08);
@@ -83,7 +109,7 @@
                 transform: translate3d(0, 0, 0);
             }
 
-            .login-body-card-content {
+            .signup-body-card-content {
                 display: flex;
                 flex: 1;
                 flex-flow: column;
@@ -91,7 +117,7 @@
                 border: none;
                 box-shadow: none;
 
-                .login-body-card-title {
+                .signup-body-card-title {
                     color: var(--center-channel-text);
                     font-family: 'Metropolis';
                     font-size: 22px;
@@ -100,34 +126,22 @@
                     line-height: 28px;
                 }
 
-                .login-body-custom-branding-markdown,
-                .login-body-message-subtitle {
+                .signup-body-custom-branding-markdown,
+                .signup-body-message-subtitle {
                     display: none;
                 }
 
-                .login-body-card-banner {
+                .signup-body-card-banner {
                     margin: 20px 0 10px;
                 }
 
-                .login-body-card-form {
-                    .login-body-card-form-input {
+                .signup-body-card-form {
+                    .signup-body-card-form-input,
+                    .signup-body-card-form-password-input {
                         margin-top: 22px;
                     }
 
-                    .login-body-card-form-password-input {
-                        margin-top: 24px;
-                    }
-
-                    .login-body-card-form-link {
-                        display: inline-flex;
-                        margin-top: 17px;
-
-                        a {
-                            @include link;
-                        }
-                    }
-
-                    .login-body-card-form-button-submit {
+                    .signup-body-card-form-button-submit {
                         @include primary-button;
                         @include button-large;
 
@@ -136,7 +150,7 @@
                     }
                 }
 
-                .login-body-card-form-divider {
+                .signup-body-card-form-divider {
                     display: flex;
                     height: 1px;
                     justify-content: center;
@@ -144,7 +158,7 @@
                     background: rgba(var(--center-channel-text-rgb), 0.08);
                     text-align: center;
 
-                    .login-body-card-form-divider-label {
+                    .signup-body-card-form-divider-label {
                         padding: 0 10px;
                         background-color: var(--center-channel-bg);
                         color: rgba(var(--center-channel-text-rgb), 0.56);
@@ -153,7 +167,7 @@
                     }
                 }
 
-                .login-body-card-form-login-options {
+                .signup-body-card-form-login-options {
                     display: flex;
                     flex: 1;
                     flex-wrap: wrap;
@@ -167,10 +181,23 @@
                         row-gap: 24px;
                     }
                 }
+
+                .signup-body-card-agreement {
+                    margin-top: 32px;
+                    color: rgba(var(--center-channel-text-rgb), 0.56);
+                    font-size: 11px;
+                    line-height: 16px;
+
+                    a {
+                        @include link;
+
+                        font-size: 11px;
+                    }
+                }
             }
         }
 
-        .login-body-custom-branding-markdown {
+        .signup-body-custom-branding-markdown {
             flex: 1;
             margin-top: 28px;
 
@@ -197,6 +224,17 @@
                 line-height: 28px;
                 white-space: pre-wrap;
                 word-break: break-word;
+            }
+        }
+
+        .signup-body-content-button-container {
+            display: flex;
+            flex: 1;
+            justify-content: center;
+
+            .signup-body-content-button-return {
+                @include primary-button;
+                @include button-medium;
             }
         }
     }
@@ -226,13 +264,14 @@
 }
 
 @media screen and (min-width: 1680px) {
-    .login-body .login-body-content {
-        .login-body-message,
-        .login-body-card {
+    .signup-body .signup-body-content {
+        .signup-body-message,
+        .signup-body-card,
+        .signup-body-no-login {
             width: 610px;
         }
 
-        .login-body-message .login-body-message-title {
+        .signup-body-message .signup-body-message-title {
             padding-right: 130px;
             margin-top: 48px;
         }
@@ -240,29 +279,30 @@
 }
 
 @media screen and (max-width: 1199px) {
-    .login-body .login-body-content {
+    .signup-body .signup-body-content {
         flex-direction: column;
 
-        .login-body-message,
-        .login-body-card {
+        .signup-body-message,
+        .signup-body-card,
+        .signup-body-no-login {
             width: 640px;
         }
 
-        .login-body-message {
+        .signup-body-message {
             align-self: center;
             padding: 24px;
 
-            .login-body-message-title {
+            .signup-body-message-title {
                 padding-right: 210px;
                 font-size: 64px;
                 line-height: 76px;
             }
 
-            .login-body-message-subtitle {
+            .signup-body-message-subtitle {
                 margin: 0;
             }
 
-            .login-body-message-svg {
+            .signup-body-message-svg {
                 display: none;
             }
 
@@ -271,45 +311,45 @@
             }
         }
 
-        .login-body-card {
+        .signup-body-card {
             border: none;
             margin: 0;
             background-color: unset;
             box-shadow: none;
 
-            .login-body-card-content {
+            .signup-body-card-content {
                 padding: 16px 24px;
 
-                .login-body-card-title {
+                .signup-body-card-title {
                     display: none;
                 }
 
-                .login-body-card-banner {
+                .signup-body-card-banner {
                     margin: 0 0 32px;
                 }
 
-                .login-body-card-form {
-                    .login-body-card-form-input {
+                .signup-body-card-form {
+                    .signup-body-card-form-input {
                         margin-top: 0;
                     }
 
-                    .login-body-card-form-input,
-                    .login-body-card-form-password-input {
+                    .signup-body-card-form-input,
+                    .signup-body-card-form-password-input {
                         background-color: var(--center-channel-bg);
                     }
                 }
             }
 
             &.custom-branding {
-                .login-body-card-content {
-                    .login-body-card-title {
+                .signup-body-card-content {
+                    .signup-body-card-title {
                         display: block;
                         font-size: 32px;
                         line-height: 40px;
                     }
 
-                    .login-body-custom-branding-markdown,
-                    .login-body-message-subtitle {
+                    .signup-body-custom-branding-markdown,
+                    .signup-body-message-subtitle {
                         display: block;
                         margin: 0 0 32px;
                     }
@@ -320,19 +360,20 @@
 }
 
 @media screen and (max-width: 699px) {
-    .login-body .login-body-content {
+    .signup-body .signup-body-content {
         min-width: 414px;
 
-        .login-body-card {
+        .signup-body-card,
+        .signup-body-no-login {
             width: 100%;
         }
 
-        .login-body-message {
+        .signup-body-message {
             width: auto;
             align-self: flex-start;
             padding: 24px;
 
-            .login-body-message-title {
+            .signup-body-message-title {
                 max-width: 271px;
                 padding-right: 0;
                 font-size: 45px;

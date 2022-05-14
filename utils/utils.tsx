@@ -3,7 +3,7 @@
 /* eslint-disable max-lines */
 
 import React, {LinkHTMLAttributes} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, IntlShape} from 'react-intl';
 
 import cssVars from 'css-vars-ponyfill';
 
@@ -1376,7 +1376,7 @@ export function getPasswordConfig(config: Partial<ClientConfig>) {
     };
 }
 
-export function isValidPassword(password: string, passwordConfig: ReturnType<typeof getPasswordConfig>) {
+export function isValidPassword(password: string, passwordConfig: ReturnType<typeof getPasswordConfig>, intl?: IntlShape) {
     let errorId = t('user.settings.security.passwordError');
     let valid = true;
     const minimumLength = passwordConfig.minimumLength || Constants.MIN_PASSWORD_LENGTH;
@@ -1419,7 +1419,18 @@ export function isValidPassword(password: string, passwordConfig: ReturnType<typ
 
     let error;
     if (!valid) {
-        error = (
+        error = intl ? (
+            intl.formatMessage(
+                {
+                    id: errorId,
+                    defaultMessage: 'Your password must contain between {min} and {max} characters.',
+                },
+                {
+                    min: minimumLength,
+                    max: Constants.MAX_PASSWORD_LENGTH,
+                },
+            )
+        ) : (
             <FormattedMessage
                 id={errorId}
                 defaultMessage='Your password must contain between {min} and {max} characters.'
