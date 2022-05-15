@@ -51,185 +51,188 @@ const CreateCommentDraftTimeoutMilliseconds = 500;
 type Props = {
 
     /**
-         * The channel for which this comment is a part of
-         */
+     * The channel for which this comment is a part of
+     */
     channelId: string;
 
     currentUserId: string;
 
     /**
-      * The number of channel members
-      */
+     * The number of channel members
+     */
     channelMembersCount: number;
 
     /**
-      * The id of the parent post
-      */
+     * The id of the parent post
+     */
     rootId: string;
 
     /**
-      * True if the root message was deleted
-      */
+     * True if the root message was deleted
+     */
     rootDeleted: boolean;
 
     /**
-      * The current history message selected
-      */
+     * The current history message selected
+     */
     messageInHistory?: string;
 
     /**
-      * The current draft of the comment
-      */
+     * The current draft of the comment
+     */
     draft: PostDraft;
 
     /**
-      * Whether the submit button is enabled
-      */
+     * Whether the submit button is enabled
+     */
     enableAddButton?: boolean;
 
     /**
-      * Force message submission on CTRL/CMD + ENTER
-      */
+     * Force message submission on CTRL/CMD + ENTER
+     */
     codeBlockOnCtrlEnter?: boolean;
 
     /**
-      * Set to force form submission on CTRL/CMD + ENTER instead of ENTER
-      */
+     * Set to force form submission on CTRL/CMD + ENTER instead of just ENTER
+     */
     ctrlSend?: boolean;
 
     /**
-      * The id of the latest post in this channel
-      */
+     * The id of the latest post in this channel
+     */
     latestPostId?: string;
     locale: string;
 
     /**
-      * Create post error id
-      */
+     * Create post error id
+     */
     createPostErrorId?: string;
 
     canUploadFiles: boolean;
 
     /**
-      * Called to clear file uploads in progress
-      */
+     * Called to clear file uploads in progress
+     */
     clearCommentDraftUploads: () => void;
 
     /**
-      * Called when comment draft needs to be updated
-      */
+     * Called when comment draft needs to be updated
+     */
     onUpdateCommentDraft: (draft?: PostDraft) => void;
 
     /**
-      * Called when comment draft needs to be updated for an specific root ID
-      */
+     * Called when comment draft needs to be updated for an specific root ID
+     */
     updateCommentDraftWithRootId: (rootID: string, draft: PostDraft) => void;
 
     /**
-      * Called when submitting the comment
-      */
+     * Called when submitting the comment
+     */
     onSubmit: (draft: PostDraft, options: {ignoreSlash: boolean}) => void;
 
     /**
-      * Called when resetting comment message history index
-      */
+     * Called when resetting comment message history index
+     */
     onResetHistoryIndex: () => void;
 
     /**
-      * Called when navigating back through comment message history
-      */
+     * Called when navigating back through comment message history
+     */
     onMoveHistoryIndexBack: () => void;
 
     /**
-      * Called when navigating forward through comment message history
-      */
+     * Called when navigating forward through comment message history
+     */
     onMoveHistoryIndexForward: () => void;
 
     /**
-      * Called to initiate editing the user's latest post
-      */
+     * Called to initiate editing the user's latest post
+     */
     onEditLatestPost: () => ActionResult;
 
     /**
-      * Function to get the users timezones in the channel
-      */
+     * Function to get the users timezones in the channel
+     */
     getChannelTimezones: (channelId: string) => Promise<ActionResult>;
 
     /**
-      * Reset state of createPost request
-      */
+     * Reset state of createPost request
+     */
     resetCreatePostRequest: () => void;
 
     /**
-      * Set if @channel should warn in this channel.
-      */
+     * Set if @channel should warn in this channel.
+     */
     enableConfirmNotificationsToChannel: boolean;
 
     /**
-      * Set if the emoji picker is enabled.
-      */
+     * Set if the emoji picker is enabled.
+     */
     enableEmojiPicker: boolean;
 
     /**
-      * Set if the gif picker is enabled.
-      */
+     * Set if the gif picker is enabled.
+     */
     enableGifPicker: boolean;
 
     /**
-      * Set if the connection may be bad to warn user
-      */
+     * Set if the connection may be bad to warn user
+     */
     badConnection: boolean;
 
     /**
-      * The maximum length of a post
-      */
+     * The maximum length of a post
+     */
     maxPostSize: number;
     rhsExpanded: boolean;
 
     /**
-      * To check if the timezones are enable on the server.
-      */
+     * To check if the timezones are enable on the server.
+     */
     isTimezoneEnabled: boolean;
 
     /**
-      * The last time, if any, when the selected post changed. Will be 0 if no post selected.
-      */
+     * The last time, if any, when the selected post changed. Will be 0 if no post selected.
+     */
     selectedPostFocussedAt: number;
 
     /**
-      * Function to set or unset emoji picker for last message
-      */
+     * Function to set or unset emoji picker for last message
+     */
     emitShortcutReactToLastPostFrom: (location: string) => void;
 
+    /**
+     * Determines if the current user can edit the post
+     */
     canPost: boolean;
 
     /**
-      * To determine if the current user can send special channel mentions
-      */
+     * Determines if the current user can send special channel mentions
+     */
     useChannelMentions: boolean;
 
     /**
-      * To determine if the current user can send LDAP group mentions
-      */
+     * Determines if the current user can send LDAP group mentions
+     */
     useLDAPGroupMentions: boolean;
 
     /**
-      * Set show preview for textbox
-      */
+     * Set show preview for textbox
+     */
     setShowPreview: (showPreview: boolean) => void;
 
     /**
-      * Should preview be showed
-      */
+     * Should preview be shown
+     */
     shouldShowPreview: boolean;
 
-    /***
-      * Called when parent component should be scrolled to bottom
-      */
+    /**
+     * Called when parent component should be scrolled to bottom
+     */
     scrollToBottom?: () => void;
 
-    /*
-         Group member mention
+    /**
+     * Group member mention
      */
     getChannelMemberCountsByGroup: (channelID: string) => void;
     groupsWithAllowReference: Map<string, Group> | null;
