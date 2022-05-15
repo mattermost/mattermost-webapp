@@ -308,6 +308,12 @@ const AdvanceTextEditor = ({
 
     const messageValue = readOnlyChannel ? '' : message;
 
+    /**
+     * by getting the value directly from the textbox we eliminate all unnecessary
+     * re-renders for the FormattingBar component. The previous method of always passing
+     * down the current message value that came from the parents state was not optimal,
+     * although still working as expected
+     */
     const getCurrentValue = useCallback(() => textboxRef.current?.getInputBox().value, [textboxRef]);
     const getCurrentSelection = useCallback(() => {
         const input = textboxRef.current?.getInputBox();
