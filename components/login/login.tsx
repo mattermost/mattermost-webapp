@@ -59,17 +59,17 @@ export const ExternalLoginButton = ({
     label,
     style,
 }: ExternalLoginButtonType) => (
-    <Link
+    <a
         id={id}
         className={classNames('login-body-card-form-login-option', id)}
-        to={url}
+        href={url}
         style={style}
     >
         {icon}
         <span className='login-body-card-form-login-option-label'>
             {label}
         </span>
-    </Link>
+    </a>
 );
 
 type LoginProps = {
@@ -160,7 +160,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
         if (enableSignUpWithGitLab) {
             externalLoginOptions.push({
                 id: 'gitlab',
-                url: `${Client4.getOAuthPath()}/gitlab/login${search}`,
+                url: `${Client4.getOAuthRoute()}/gitlab/login${search}`,
                 icon: <LoginGitlabIcon/>,
                 label: GitLabButtonText || formatMessage({id: 'login.gitlab', defaultMessage: 'GitLab'}),
                 style: {color: GitLabButtonColor, borderColor: GitLabButtonColor},
@@ -170,7 +170,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
         if (enableSignUpWithGoogle) {
             externalLoginOptions.push({
                 id: 'google',
-                url: `${Client4.getOAuthPath()}/google/login${search}`,
+                url: `${Client4.getOAuthRoute()}/google/login${search}`,
                 icon: <LoginGoogleIcon/>,
                 label: formatMessage({id: 'login.google', defaultMessage: 'Google'}),
             });
@@ -179,7 +179,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
         if (enableSignUpWithOffice365) {
             externalLoginOptions.push({
                 id: 'office365',
-                url: `${Client4.getOAuthPath()}/office365/login${search}`,
+                url: `${Client4.getOAuthRoute()}/office365/login${search}`,
                 icon: <LoginOffice365Icon/>,
                 label: formatMessage({id: 'login.office365', defaultMessage: 'Office 365'}),
             });
@@ -188,7 +188,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
         if (enableSignUpWithOpenId) {
             externalLoginOptions.push({
                 id: 'openid',
-                url: `${Client4.getOAuthPath()}/openid/login${search}`,
+                url: `${Client4.getOAuthRoute()}/openid/login${search}`,
                 icon: <LoginOpenIDIcon/>,
                 label: OpenIdButtonText || formatMessage({id: 'login.openid', defaultMessage: 'Open ID'}),
                 style: {color: OpenIdButtonColor, borderColor: OpenIdButtonColor},
@@ -198,7 +198,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
         if (enableSignUpWithSaml) {
             externalLoginOptions.push({
                 id: 'saml',
-                url: `/login/sso/saml${search}`,
+                url: `${Client4.getUrl()}/login/sso/saml${search}`,
                 icon: <LockIcon/>,
                 label: SamlLoginButtonText || formatMessage({id: 'login.saml', defaultMessage: 'SAML'}),
             });
