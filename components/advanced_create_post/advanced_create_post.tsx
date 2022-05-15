@@ -52,7 +52,7 @@ import {FileInfo} from 'mattermost-redux/types/files';
 import {Emoji} from 'mattermost-redux/types/emojis';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';
-import AdvanceTextEditor from '../advance_text_editor/advance_text_editor';
+import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
 const KeyCodes = Constants.KeyCodes;
 
 const CreatePostDraftTimeoutMilliseconds = 500;
@@ -311,7 +311,7 @@ type State = {
     isFormattingBarHidden: boolean;
 };
 
-class CreatePostAdvance extends React.PureComponent<Props, State> {
+class AdvancedCreatePost extends React.PureComponent<Props, State> {
     static defaultProps = {
         latestReplyablePostId: '',
     };
@@ -1424,5 +1424,5 @@ class CreatePostAdvance extends React.PureComponent<Props, State> {
     }
 }
 
-export default CreatePostAdvance;
+export default AdvancedCreatePost;
 /* eslint-enable react/no-string-refs */

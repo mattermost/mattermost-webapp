@@ -42,7 +42,7 @@ import {
     applyMarkdown,
     ApplyMarkdownOptions,
 } from 'utils/markdown/apply_markdown';
-import AdvanceTextEditor from '../advance_text_editor/advance_text_editor';
+import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
 import {TextboxClass} from '../textbox';
 
 const KeyCodes = Constants.KeyCodes;
@@ -262,7 +262,7 @@ type State = {
     isFormattingBarHidden: boolean;
 };
 
-class CreateCommentAdvance extends React.PureComponent<Props, State> {
+class AdvancedCreateComment extends React.PureComponent<Props, State> {
     private lastBlurAt = 0;
     private draftsForPost: {[postID: string]: PostDraft | null} = {};
     private doInitialScrollToBottom = false;
@@ -1224,4 +1224,4 @@ class CreateCommentAdvance extends React.PureComponent<Props, State> {
     }
 }
 
-export default CreateCommentAdvance;
+export default AdvancedCreateComment;

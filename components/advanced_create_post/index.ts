@@ -61,7 +61,7 @@ import {canUploadFiles} from 'utils/file_utils';
 import {isFeatureEnabled} from 'utils/utils';
 import {OnboardingTourSteps, TutorialTourName} from 'components/onboarding_tour';
 
-import CreatePostAdvance from './create_post_advance';
+import AdvancedCreatePost from './advanced_create_post';
 
 function makeMapStateToProps() {
     const getMessageInHistoryItem = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.POST as any);
@@ -213,4 +213,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(CreatePostAdvance);
+export default connect(makeMapStateToProps, mapDispatchToProps)(AdvancedCreatePost);

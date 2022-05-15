@@ -16,7 +16,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Constants from 'utils/constants';
 import {Posts} from 'mattermost-redux/constants';
 import {GlobalState} from 'types/store';
-import CreateCommentAdvance from '../../create_comment_advance';
+import AdvancedCreateComment from 'components/advanced_create_comment';
 
 type Props = {
     focusOnMount: boolean;
@@ -78,7 +78,7 @@ const CreateComment = forwardRef<HTMLDivElement, Props>(({
                 className='post-create__container'
                 ref={ref}
             >
-                <CreateCommentAdvance
+                <AdvancedCreateComment
                     focusOnMount={focusOnMount}
                     channelId={channel.id}
                     latestPostId={latestPostId}

@@ -16,7 +16,7 @@ import LocalizedIcon from 'components/localized_icon';
 import MsgTyping from 'components/msg_typing';
 import Textbox from 'components/textbox';
 import TextboxClass from 'components/textbox/textbox';
-import {ShowFormat} from 'components/advance_text_editor/show_format/show_format';
+import {ShowFormat} from 'components/advanced_text_editor/show_format/show_format';
 
 import MessageSubmitError from 'components/message_submit_error';
 import {Channel} from 'mattermost-redux/types/channels';
@@ -24,14 +24,14 @@ import {PostDraft} from 'types/store/rhs';
 import {ServerError} from 'mattermost-redux/types/errors';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import {SendMessageTour} from 'components/onboarding_tour';
-import {ToggleFormattingBar} from 'components/advance_text_editor/toggle_formatting_bar/toggle_formatting_bar';
-import {FormattingBar} from 'components/advance_text_editor/formatting_bar';
+import {ToggleFormattingBar} from 'components/advanced_text_editor/toggle_formatting_bar/toggle_formatting_bar';
+import {FormattingBar} from 'components/advanced_text_editor/formatting_bar';
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 import {getIsMobileView} from 'selectors/views/browser';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
 import OverlayTrigger from 'components/overlay_trigger';
 
-import './advance_text_editor.scss';
+import './advanced_text_editor.scss';
 import Constants from '../../utils/constants';
 import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from '../keyboard_shortcuts/keyboard_shortcuts_sequence';
 import Tooltip from '../tooltip';

@@ -48,7 +48,7 @@ import {isFeatureEnabled} from 'utils/utils';
 import {getEmojiMap} from 'selectors/emojis';
 import {canUploadFiles} from 'utils/file_utils';
 
-import CreateCommentAdvance from './create_comment_advance';
+import AdvancedCreateComment from './advanced_create_comment';
 
 type OwnProps = {
     rootId: string;
@@ -206,4 +206,4 @@ function makeMapDispatchToProps() {
     };
 }
 
-export default connect(makeMapStateToProps, makeMapDispatchToProps, null, {forwardRef: true})(CreateCommentAdvance);
+export default connect(makeMapStateToProps, makeMapDispatchToProps, null, {forwardRef: true})(AdvancedCreateComment);

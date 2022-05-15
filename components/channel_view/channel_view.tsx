@@ -13,7 +13,7 @@ import PostView from 'components/post_view';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import {browserHistory} from 'utils/browser_history';
-import CreatePostAdvance from 'components/create_post_advance';
+import AdvancedCreatePost from 'components/advanced_create_post';
 
 type Props = {
     channelId: string;
@@ -180,7 +180,7 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                         className='post-create__container adv-txt-editor__ctr'
                         id='post-create'
                     >
-                        <CreatePostAdvance
+                        <AdvancedCreatePost
                             getChannelView={this.getChannelView}
                         />
                     </div>
