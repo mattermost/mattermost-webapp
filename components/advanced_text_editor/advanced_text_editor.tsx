@@ -5,36 +5,38 @@ import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
 
-import {t} from 'utils/i18n';
-import * as Utils from 'utils/utils';
 import {Emoji} from '@mattermost/types/emojis';
 import {FileInfo} from '@mattermost/types/files';
+import {ServerError} from 'mattermost-redux/types/errors';
+import {Channel} from 'mattermost-redux/types/channels';
+import {PostDraft} from 'types/store/rhs';
+import {getIsMobileView} from 'selectors/views/browser';
+
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
 import LocalizedIcon from 'components/localized_icon';
 import MsgTyping from 'components/msg_typing';
 import Textbox from 'components/textbox';
-import TextboxClass from 'components/textbox/textbox';
 import {ShowFormat} from 'components/advanced_text_editor/show_format/show_format';
-
+import TextboxClass from 'components/textbox/textbox';
 import MessageSubmitError from 'components/message_submit_error';
-import {Channel} from 'mattermost-redux/types/channels';
-import {PostDraft} from 'types/store/rhs';
-import {ServerError} from 'mattermost-redux/types/errors';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import {SendMessageTour} from 'components/onboarding_tour';
 import {ToggleFormattingBar} from 'components/advanced_text_editor/toggle_formatting_bar/toggle_formatting_bar';
-import {FormattingBar} from 'components/advanced_text_editor/formatting_bar';
-import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
-import {getIsMobileView} from 'selectors/views/browser';
+import FormattingBar from 'components/advanced_text_editor/formatting_bar';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
 import OverlayTrigger from 'components/overlay_trigger';
+import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
+
+import {t} from 'utils/i18n';
+import * as Utils from 'utils/utils';
+import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
+import Constants from 'utils/constants';
+
+import Tooltip from '../tooltip';
 
 import './advanced_text_editor.scss';
-import Constants from '../../utils/constants';
-import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from '../keyboard_shortcuts/keyboard_shortcuts_sequence';
-import Tooltip from '../tooltip';
 
 type Props = {
     currentUserId: string;
@@ -90,6 +92,7 @@ type Props = {
     textboxRef: React.RefObject<TextboxClass>;
     isThreadView?: boolean;
 }
+
 const AdvanceTextEditor = ({
     message,
     showEmojiPicker,
@@ -143,7 +146,6 @@ const AdvanceTextEditor = ({
     prefillMessage,
     textboxRef,
     isThreadView,
-
 }: Props) => {
     const readOnlyChannel = !canPost;
     const {formatMessage} = useIntl();
@@ -306,6 +308,16 @@ const AdvanceTextEditor = ({
 
     const messageValue = readOnlyChannel ? '' : message;
 
+    const getCurrentValue = useCallback(() => textboxRef.current?.getInputBox().value, [textboxRef]);
+    const getCurrentSelection = useCallback(() => {
+        const input = textboxRef.current?.getInputBox();
+
+        return {
+            start: input.selectionStart,
+            end: input.selectionEnd,
+        };
+    }, [textboxRef]);
+
     return (
         <div
             className={classNames('adv-txt-editor', {
@@ -357,8 +369,8 @@ const AdvanceTextEditor = ({
                     {attachmentPreview}
                     <FormattingBar
                         applyMarkdown={applyMarkdown}
-                        value={messageValue}
-                        textBox={textboxRef.current?.getInputBox()}
+                        getCurrentMessage={getCurrentValue}
+                        getCurrentSelection={getCurrentSelection}
                         isOpen={!isFormattingBarHidden}
                     />
                     <span

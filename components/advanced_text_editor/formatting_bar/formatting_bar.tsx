@@ -1,22 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {DotsHorizontalIcon, HelpCircleOutlineIcon} from '@mattermost/compass-icons/components';
-import classNames from 'classnames';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
-
 import {usePopper} from 'react-popper';
-
 import {CSSTransition} from 'react-transition-group';
+import {DotsHorizontalIcon, HelpCircleOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 import Constants from 'utils/constants';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
-import {getCurrentLocale} from '../../../selectors/i18n';
+import {getCurrentLocale} from 'selectors/i18n';
 
 import FormattingIcon, {IconContainer} from './formatting_icon';
 
@@ -151,7 +148,7 @@ interface FormattingBarProps {
      * the current inputValue
      * This is needed to apply the markdown to the correct place
      */
-    value: string;
+    getCurrentMessage: () => string;
 
     /**
      * The textbox element tied to the advanced texteditor
@@ -159,7 +156,7 @@ interface FormattingBarProps {
      *       range we should probably refactor this and only pass down the
      *       selectionStart and selectionEnd values
      */
-    textBox: HTMLInputElement;
+    getCurrentSelection: () => {start: number; end: number};
 
     /**
      * the handler function that applies the markdown to the value
@@ -167,12 +164,12 @@ interface FormattingBarProps {
     applyMarkdown: (options: ApplyMarkdownOptions) => void;
 }
 
-export const FormattingBar = (props: FormattingBarProps): JSX.Element => {
+const FormattingBar = (props: FormattingBarProps): JSX.Element => {
     const {
         isOpen,
         applyMarkdown,
-        textBox,
-        value,
+        getCurrentSelection,
+        getCurrentMessage,
     } = props;
     const [showHiddenControls, setShowHiddenControls] = useState(false);
     const popperRef = React.useRef<HTMLDivElement | null>(null);
@@ -210,22 +207,21 @@ export const FormattingBar = (props: FormattingBarProps): JSX.Element => {
      * the FormattingIcon component. This should improve render-performance
      */
     const makeFormattingHandler = useCallback((mode) => () => {
-        const selectionStart = textBox.selectionStart;
-        const selectionEnd = textBox.selectionEnd;
-        if (
-            selectionStart === null ||
-            selectionEnd === null
-        ) {
+        const {start, end} = getCurrentSelection();
+
+        if (start === null || end === null) {
             return;
         }
 
+        const value = getCurrentMessage();
+
         applyMarkdown({
             markdownMode: mode,
-            selectionStart,
-            selectionEnd,
+            selectionStart: start,
+            selectionEnd: end,
             value,
         });
-    }, [textBox, value, applyMarkdown]);
+    }, [getCurrentSelection, getCurrentMessage, applyMarkdown]);
 
     return (
         <FormattingBarContainer
@@ -235,14 +231,10 @@ export const FormattingBar = (props: FormattingBarProps): JSX.Element => {
             {controls.map((mode) => {
                 const insertSeparator = mode === 'heading' || mode === 'code' || mode === 'ol';
                 return (
-                    <React.Fragment
-                        key={mode}
-                    >
+                    <React.Fragment key={mode}>
                         <FormattingIcon
                             mode={mode}
-                            className={classNames('control', {
-                                [mode]: mode,
-                            })}
+                            className='control'
                             onClick={makeFormattingHandler(mode)}
                         />
                         {insertSeparator && <Separator show={wideMode === 'wide'}/>}
@@ -296,3 +288,5 @@ export const FormattingBar = (props: FormattingBarProps): JSX.Element => {
         </FormattingBarContainer>
     );
 };
+
+export default memo(FormattingBar);
