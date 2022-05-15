@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useCallback, useState} from 'react';
+import React, {CSSProperties, useCallback, useState} from 'react';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
@@ -333,7 +333,7 @@ const AdvanceTextEditor = ({
             style={
                 renderScrollbar && scrollbarWidth ? ({
                     '--detected-scrollbar-width': `${scrollbarWidth}px`,
-                } as any) : undefined
+                } as CSSProperties) : undefined
             }
         >
             <div
