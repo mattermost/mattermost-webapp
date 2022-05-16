@@ -772,6 +772,19 @@ export function getPostThread(rootId: string, fetchThreads = true) {
     };
 }
 
+export function getNewestPostThread(rootId: string) {
+    const getPostsForThread = Selectors.makeGetPostsForThread();
+
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const posts = getPostsForThread(getState(), rootId);
+
+        const latestReply = posts?.[0];
+        const direction = latestReply ? 'down' : undefined;
+
+        return dispatch(getPostThread(rootId, true, direction, undefined, latestReply?.create_at, latestReply?.id));
+    };
+}
+
 export function getPosts(channelId: string, page = 0, perPage = Posts.POST_CHUNK_SIZE, fetchThreads = true, collapsedThreadsExtended = false) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let posts;
