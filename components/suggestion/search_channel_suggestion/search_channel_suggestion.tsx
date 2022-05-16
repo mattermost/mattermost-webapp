@@ -3,7 +3,7 @@
 import React from 'react';
 
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
-import {imageURLForUser} from 'utils/utils.jsx';
+import {imageURLForUser} from 'utils/utils';
 import Constants from 'utils/constants';
 import Avatar from 'components/widgets/users/avatar';
 import BotBadge from 'components/widgets/badges/bot_badge';

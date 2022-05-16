@@ -9,10 +9,6 @@
     padding: 0;
     transform: translateX(100%);
 
-    body.announcement-bar--fixed & {
-        height: calc(100% - #{$announcement-bar-height});
-    }
-
     &.move--left {
         transition: width 0.25s 0s ease-in, z-index 0.25s 0s step-end;
     }
@@ -97,7 +93,7 @@
 
     .sidebar-right__body {
         display: flex;
-        height: calc(100% - 56px);
+        height: 100%;
         flex: 1 1 auto;
         flex-direction: column;
         border-left: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
