@@ -5,7 +5,6 @@
 import React, {CSSProperties, useCallback, useEffect, useState} from 'react';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
-import {SendIcon} from '@mattermost/compass-icons/components';
 
 import {Emoji} from '@mattermost/types/emojis';
 import {FileInfo} from '@mattermost/types/files';
@@ -29,7 +28,6 @@ import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload'
 import OverlayTrigger from 'components/overlay_trigger';
 import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 
-import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils';
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 import Constants from 'utils/constants';
@@ -37,6 +35,8 @@ import Constants from 'utils/constants';
 import Tooltip from '../tooltip';
 
 import './advanced_text_editor.scss';
+import SendButton from './send_button/send_button';
+import TexteditorActions from './texteditor_actions/texteditor_actions';
 
 type Props = {
     currentUserId: string;
@@ -383,42 +383,26 @@ const AdvanceTextEditor = ({
                         getCurrentSelection={getCurrentSelection}
                         isOpen={!isFormattingBarHidden}
                     />
-                    <span
-                        className={classNames('AdvancedTextEditor__actions', 'AdvancedTextEditor__actions--top', {
-                            formattingBarOpen: !isFormattingBarHidden,
-                        })}
+                    <TexteditorActions
+                        show={!isFormattingBarHidden}
+                        placement='top'
                     >
                         {showFormatJSX}
-                    </span>
-                    <span
+                    </TexteditorActions>
+                    <TexteditorActions
                         ref={createPostControlsRef}
-                        className={classNames('AdvancedTextEditor__actions', 'AdvancedTextEditor__actions--bottom')}
+                        placement='bottom'
                     >
                         {toggleFormattingBarJSX}
                         {fileUploadJSX}
                         {emojiPicker}
-                        <button
-                            tabIndex={0}
-                            aria-label={formatMessage({
-                                id: 'create_post.send_message',
-                                defaultMessage: 'Send a message',
-                            })}
-                            disabled={!showSendButton}
-                            className={classNames('AdvancedTextEditor__send-button', {
-                                hidden: !Utils.isMobile(),
-                            })}
-                            onClick={handleSubmit}
-                        >
-                            <SendIcon
-                                size={18}
-                                color='currentColor'
-                                aria-label={formatMessage({
-                                    id: t('create_post.icon'),
-                                    defaultMessage: 'Create a post',
-                                })}
+                        {Utils.isMobile() && (
+                            <SendButton
+                                disabled={!showSendButton}
+                                handleSubmit={handleSubmit}
                             />
-                        </button>
-                    </span>
+                        )}
+                    </TexteditorActions>
                 </div>
                 {showSendTutorialTip && currentChannel && prefillMessage &&
                     <SendMessageTour
