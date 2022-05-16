@@ -18,10 +18,10 @@ import GroupList from '../../group';
 
 type Props = {
     groups: Group[];
-    onAddCallback: () => void;
-    onGroupRemoved: () => void;
+    onAddCallback: (groupIDs: string) => void;
+    onGroupRemoved: (gid: string) => void;
     removedGroups: Group[];
-    setNewGroupRole: () => void;
+    setNewGroupRole: (gid: string) => void;
     syncChecked: boolean;
     team: Team;
     totalGroups: number;
