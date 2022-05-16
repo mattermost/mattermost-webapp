@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {memo} from 'react';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 import {EyeOutlineIcon} from '@mattermost/compass-icons/components';
@@ -16,33 +16,33 @@ interface ShowFormatProps {
     active: boolean;
 }
 
-export const ShowFormat = (props: ShowFormatProps): JSX.Element => {
+const ShowFormat = (props: ShowFormatProps): JSX.Element => {
     const {formatMessage} = useIntl();
     const {onClick, active} = props;
     const iconAriaLabel = formatMessage({id: 'generic_icons.format_letter_case', defaultMessage: 'Format letter Case Icon'});
 
+    const tooltip = (
+        <Tooltip id='PreviewInputTextButtonTooltip'>
+            <KeyboardShortcutSequence
+                shortcut={KEYBOARD_SHORTCUTS.msgMarkdownPreview}
+                hoistDescription={true}
+                isInsideTooltip={true}
+            />
+        </Tooltip>
+    );
+
     return (
         <OverlayTrigger
-            delayShow={Constants.OVERLAY_TIME_DELAY}
             placement='left'
-            trigger={['hover', 'focus']}
-            overlay={
-                <Tooltip id='PreviewInputTextButtonTooltip'>
-                    <KeyboardShortcutSequence
-                        shortcut={KEYBOARD_SHORTCUTS.msgMarkdownPreview}
-                        hoistDescription={true}
-                        isInsideTooltip={true}
-                    />
-                </Tooltip>
-            }
+            delayShow={Constants.OVERLAY_TIME_DELAY}
+            trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
+            overlay={tooltip}
         >
             <button
                 type='button'
                 id='PreviewInputTextButton'
                 onClick={onClick}
-                className={classNames('AdvancedTextEditor__action-button',
-                    {'AdvancedTextEditor__action-button--active': active},
-                )}
+                className={classNames({active})}
             >
                 <EyeOutlineIcon
                     size={18}
@@ -53,3 +53,5 @@ export const ShowFormat = (props: ShowFormatProps): JSX.Element => {
         </OverlayTrigger>
     );
 };
+
+export default memo(ShowFormat);

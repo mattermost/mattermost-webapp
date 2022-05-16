@@ -17,13 +17,10 @@ import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
 import MsgTyping from 'components/msg_typing';
 import Textbox, {TextboxElement} from 'components/textbox';
-import {ShowFormat} from 'components/advanced_text_editor/show_format/show_format';
 import TextboxClass from 'components/textbox/textbox';
 import MessageSubmitError from 'components/message_submit_error';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import {SendMessageTour} from 'components/onboarding_tour';
-import {ToggleFormattingBar} from 'components/advanced_text_editor/toggle_formatting_bar/toggle_formatting_bar';
-import FormattingBar from 'components/advanced_text_editor/formatting_bar';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
 import OverlayTrigger from 'components/overlay_trigger';
 import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
@@ -34,10 +31,14 @@ import Constants from 'utils/constants';
 
 import Tooltip from '../tooltip';
 
-import './advanced_text_editor.scss';
+import TexteditorActions from './texteditor_actions';
+import ToggleFormattingBar from './toggle_formatting_bar';
+import FormattingBar from './formatting_bar';
+import ShowFormat from './show_format';
+import SendButton from './send_button';
 import {IconContainer} from './formatting_bar/formatting_icon';
-import SendButton from './send_button/send_button';
-import TexteditorActions from './texteditor_actions/texteditor_actions';
+
+import './advanced_text_editor.scss';
 
 type Props = {
     currentUserId: string;

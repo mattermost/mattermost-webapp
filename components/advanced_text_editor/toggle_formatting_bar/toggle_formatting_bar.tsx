@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {memo} from 'react';
 import classNames from 'classnames';
 import {FormatLetterCaseIcon} from '@mattermost/compass-icons/components';
 import {useIntl} from 'react-intl';
@@ -16,31 +16,33 @@ interface ToggleFormattingBarProps {
     active: boolean;
 }
 
-export const ToggleFormattingBar = (props: ToggleFormattingBarProps): JSX.Element => {
+const ToggleFormattingBar = (props: ToggleFormattingBarProps): JSX.Element => {
     const {onClick, active} = props;
     const {formatMessage} = useIntl();
     const iconAriaLabel = formatMessage({id: 'generic_icons.format_letter_case', defaultMessage: 'Format letter Case Icon'});
 
+    const tooltip = (
+        <Tooltip id='toggleFormattingBarButtonTooltip'>
+            <KeyboardShortcutSequence
+                shortcut={KEYBOARD_SHORTCUTS.msgShowFormatting}
+                hoistDescription={true}
+                isInsideTooltip={true}
+            />
+        </Tooltip>
+    );
+
     return (
         <OverlayTrigger
-            delayShow={Constants.OVERLAY_TIME_DELAY}
             placement='top'
-            trigger={['hover', 'focus']}
-            overlay={<Tooltip id='toggleFormattingBarButtonTooltip'>
-                <KeyboardShortcutSequence
-                    shortcut={KEYBOARD_SHORTCUTS.msgShowFormatting}
-                    hoistDescription={true}
-                    isInsideTooltip={true}
-                />
-            </Tooltip>}
+            delayShow={Constants.OVERLAY_TIME_DELAY}
+            trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
+            overlay={tooltip}
         >
             <button
                 type='button'
                 id='toggleFormattingBarButton'
                 onClick={onClick}
-                className={classNames('AdvancedTextEditor__action-button',
-                    {'AdvancedTextEditor__action-button--active': active},
-                )}
+                className={classNames({active})}
             >
                 <FormatLetterCaseIcon
                     size={18}
@@ -51,3 +53,5 @@ export const ToggleFormattingBar = (props: ToggleFormattingBarProps): JSX.Elemen
         </OverlayTrigger>
     );
 };
+
+export default memo(ToggleFormattingBar);
