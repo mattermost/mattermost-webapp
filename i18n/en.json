@@ -4336,7 +4336,7 @@
   "shortcuts.nav.next": "Next channel:\tAlt|Down",
   "shortcuts.nav.next.mac": "Next channel:\t⌥|Down",
   "shortcuts.nav.open_channel_info": "View channel info:\tCtrl|Alt|I",
-  "shortcuts.nav.open_channel_info.mac": "View channel info:\t⌘|Alt|I",
+  "shortcuts.nav.open_channel_info.mac": "View channel info:\t⌘|Shift|I",
   "shortcuts.nav.open_close_sidebar": "Open or close the right sidebar\tCtrl|.",
   "shortcuts.nav.open_close_sidebar.mac": "Open or close the right sidebar\t⌘|.",
   "shortcuts.nav.prev": "Previous channel:\tAlt|Up",
