@@ -6,21 +6,7 @@ import {useSelector} from 'react-redux';
 
 import {FileSizes} from 'utils/file_utils';
 
-export interface CloudUsage {
-    files: {
-        totalStorage: number;
-    };
-    messages: {
-        history: number;
-    };
-    boards: {
-        cards: number;
-        views: number;
-    };
-    integrations: {
-        enabled: number;
-    };
-}
+import {CloudUsage} from '@mattermost/types/cloud';
 
 // TODO: Replace this with actual usages stored in redux,
 // that ideally are updated with a websocket event in near real time.

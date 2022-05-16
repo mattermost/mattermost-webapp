@@ -1,7 +1,15 @@
 .CloudUsageModal {
+    .GenericModal__body {
+        color: var(--center-channel-text);
+    }
+
     &__description {
         padding-bottom: 24px;
         margin-bottom: 0;
+    }
+
+    .modal-body {
+        color: var(--center-channel-text);
     }
 
     .modal-body:not(:last-child) {

@@ -1,11 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
-import {Modal} from 'react-bootstrap';
+import React from 'react';
+import {useSelector} from 'react-redux';
 
-import {Limits} from '@mattermost/types/cloud';
-import {CloudUsage} from 'components/common/hooks/useGetUsage';
+import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
+import {Limits, CloudUsage} from '@mattermost/types/cloud';
+
+import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
+import GenericModal from 'components/generic_modal';
 
 import WorkspaceLimitsPanel, {Message, messageToElement} from './workspace_limits_panel';
 
@@ -17,39 +20,34 @@ interface Props {
     showIcons?: boolean;
     title: Message | React.ReactNode;
     onClose: () => void;
+    needsTheme?: boolean;
 }
 
 export default function MiniModal(props: Props) {
-    const [show, setShow] = useState(true);
+    const theme = useSelector(getTheme);
 
-    return (
-        <Modal
-            dialogClassName='a11y__modal'
-            show={show}
-            onHide={() => setShow(false)}
+    const modal = (
+        <GenericModal
+            useCompassDesign={true}
             onExited={props.onClose}
-            role='dialog'
-            aria-labelledby='cloudUsageModalMiniLabel'
+            modalHeaderText={messageToElement(props.title)}
             className='CloudUsageMiniModal'
         >
-            <Modal.Header
-                closeButton={true}
-                className='CloudUsageMiniModal__header'
-            >
-                <Modal.Title
-                    componentClass='h1'
-                    id='cloudUsageModalMiniLabel'
-                >
-                    {messageToElement(props.title)}
-                </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <WorkspaceLimitsPanel
-                    limits={props.limits}
-                    usage={props.usage}
-                    showIcons={false}
-                />
-            </Modal.Body>
-        </Modal>
+            <WorkspaceLimitsPanel
+                showIcons={true}
+                limits={props.limits}
+                usage={props.usage}
+            />
+        </GenericModal>
+    );
+
+    if (!props.needsTheme) {
+        return modal;
+    }
+
+    return (
+        <CompassThemeProvider theme={theme}>
+            {modal}
+        </CompassThemeProvider>
     );
 }

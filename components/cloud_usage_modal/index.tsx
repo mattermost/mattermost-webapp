@@ -6,10 +6,9 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
+
 import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
-
 import GenericModal from 'components/generic_modal';
-
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import useGetUsage from 'components/common/hooks/useGetUsage';
 

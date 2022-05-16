@@ -4,8 +4,7 @@
 import React from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 
-import {Limits} from '@mattermost/types/cloud';
-import {CloudUsage} from 'components/common/hooks/useGetUsage';
+import {CloudUsage, Limits} from '@mattermost/types/cloud';
 import {asGBString, inK} from 'utils/limits';
 
 import LimitLine from './limit_line';

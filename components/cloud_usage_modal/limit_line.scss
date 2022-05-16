@@ -1,7 +1,14 @@
+@import 'utils/variables';
+
 .WorkspaceLimitLine {
     display: flex;
     align-items: center;
-    padding-bottom: 12px;
+    padding-bottom: 16px;
+    font-weight: $font-weight--semibold;
+
+    &:last-child {
+        padding-bottom: 0;
+    }
 
     &__icon {
         color: rgba(var(--center-channel-text-rgb), 0.64);
@@ -27,5 +34,7 @@
         flex-basis: 121px;
         align-self: end;
         color: var(--center-channel-text);
+        font-size: 11px;
+        line-height: 11px;
     }
 }

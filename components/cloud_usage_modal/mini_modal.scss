@@ -1,55 +1,11 @@
 .CloudUsageMiniModal {
-    .CloudUsageMiniModal__header {
-        border: none;
-
-        &::before,
-        &::after {
-            display: none;
-        }
-
-        &.modal-header {
-            padding: 24px;
-            background-color: var(--center-channel-bg);
-
-            .modal-title {
-                margin: 0;
-                color: var(--center-channel-color);
-                font-size: 22px;
-                font-weight: 600;
-            }
-        }
-
-        button.close {
-            padding: 0;
-            border: none;
-            -moz-appearance: none;
-            -webkit-appearance: none;
-            appearance: none;
-            background: none;
-            color: rgba(var(--center-channel-color-rgb), 0.56);
-            cursor: pointer;
-
-            &:hover,
-            &:active,
-            &:focus {
-                color: rgba(var(--center-channel-color-rgb), 0.56);
-            }
-        }
-    }
-
     .modal-body {
-        padding: 0 24px 24px;
-        border-bottom: rgba(var(--center-channel-color-rgb), 0.16);
+        // not overridden with classes because the classes needed depend on the context of where this is used
+        // and the existing rule is already 5 selectors deep
+        padding-bottom: 26px !important;
     }
 
-    .btn.btn-primary:disabled {
-        background-color: rgba(var(--center-channel-color-rgb), 0.08);
-        color: rgba(var(--center-channel-color-rgb), 0.32);
-
-        &:hover {
-            border-color: rgba(var(--center-channel-color-rgb), 0.08);
-            background-color: rgba(var(--center-channel-color-rgb), 0.08);
-            color: rgba(var(--center-channel-color-rgb), 0.32);
-        }
+    .GenericModal__body {
+        color: var(--center-channel-text);
     }
 }
