@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
 import classNames from 'classnames';
+import {PaperclipIcon} from '@mattermost/compass-icons/components';
 
 import dragster from 'utils/dragster';
 import Constants from 'utils/constants';
@@ -32,6 +33,7 @@ import Menu from 'components/widgets/menu/menu';
 import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
+import AttachmentIcon from '../widgets/icons/attachment_icon';
 
 const holders = defineMessages({
     limited: {
@@ -604,9 +606,10 @@ export class FileUpload extends PureComponent {
                         onClick={this.simulateInputClick}
                         onTouchEnd={this.simulateInputClick}
                     >
-                        <i
+                        <PaperclipIcon
+                            size={18}
+                            color={'currentColor'}
                             aria-label={iconAriaLabel}
-                            className='icon icon-paperclip'
                         />
                     </button>
                     <input
@@ -660,15 +663,15 @@ export class FileUpload extends PureComponent {
                     <MenuWrapper>
                         <button
                             type='button'
+                            id='fileUploadButton'
                             aria-label={buttonAriaLabel}
-                            className='style--none post-action'
+                            className={'style--none AdvancedTextEditor__action-button'}
                         >
-                            <div
-                                id='fileUploadButton'
-                                className='icon icon--attachment'
-                            >
-                                <i className='icon icon-paperclip'/>
-                            </div>
+                            <PaperclipIcon
+                                size={18}
+                                color={'currentColor'}
+                                aria-label={iconAriaLabel}
+                            />
                         </button>
                         <Menu
                             id='fileUploadOptions'

@@ -93,7 +93,7 @@ function makeMapStateToProps() {
         const enableTutorial = config.EnableTutorial === 'true';
         const tutorialStep = getInt(state, TutorialTourName.ONBOARDING_TUTORIAL_STEP, currentUserId, 0);
         const showSendTutorialTip = enableTutorial && tutorialStep === OnboardingTourSteps.SEND_MESSAGE;
-        const isFormattingBarVisible = getBool(state, Preferences.ADVANCED_TEXT_EDITOR, AdvancedTextEditor.POST);
+        const isFormattingBarHidden = getBool(state, Preferences.ADVANCED_TEXT_EDITOR, AdvancedTextEditor.POST);
 
         return {
             currentTeamId,
@@ -101,7 +101,7 @@ function makeMapStateToProps() {
             currentChannelTeammateUsername,
             currentChannelMembersCount,
             currentUserId,
-            isFormattingBarVisible,
+            isFormattingBarHidden,
             codeBlockOnCtrlEnter: getBool(state, PreferencesRedux.CATEGORY_ADVANCED_SETTINGS, 'code_block_ctrl_enter', true),
             ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
             fullWidthTextBox: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,

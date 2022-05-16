@@ -3,10 +3,10 @@
 
 import React from 'react';
 import classNames from 'classnames';
+import {useIntl} from 'react-intl';
+import {EyeOutlineIcon} from '@mattermost/compass-icons/components';
 
 import Constants from 'utils/constants';
-import {isMobileApp} from 'utils/user_agent';
-
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from '../../keyboard_shortcuts/keyboard_shortcuts_sequence';
@@ -17,10 +17,9 @@ interface ShowFormatProps {
 }
 
 export const ShowFormat = (props: ShowFormatProps): JSX.Element => {
+    const {formatMessage} = useIntl();
     const {onClick, active} = props;
-    if (isMobileApp()) {
-        return <></>;
-    }
+    const iconAriaLabel = formatMessage({id: 'generic_icons.format_letter_case', defaultMessage: 'Format letter Case Icon'});
 
     return (
         <OverlayTrigger
@@ -45,7 +44,11 @@ export const ShowFormat = (props: ShowFormatProps): JSX.Element => {
                     {'AdvancedTextEditor__action-button--active': active},
                 )}
             >
-                <i className='icon icon-eye-outline'/>
+                <EyeOutlineIcon
+                    size={18}
+                    color={'currentColor'}
+                    aria-label={iconAriaLabel}
+                />
             </button>
         </OverlayTrigger>
     );

@@ -3,6 +3,8 @@
 
 import React from 'react';
 import classNames from 'classnames';
+import {FormatLetterCaseIcon} from '@mattermost/compass-icons/components';
+import {useIntl} from 'react-intl';
 
 import Constants from 'utils/constants';
 import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
@@ -16,6 +18,9 @@ interface ToggleFormattingBarProps {
 
 export const ToggleFormattingBar = (props: ToggleFormattingBarProps): JSX.Element => {
     const {onClick, active} = props;
+    const {formatMessage} = useIntl();
+    const iconAriaLabel = formatMessage({id: 'generic_icons.format_letter_case', defaultMessage: 'Format letter Case Icon'});
+
     return (
         <OverlayTrigger
             delayShow={Constants.OVERLAY_TIME_DELAY}
@@ -37,7 +42,11 @@ export const ToggleFormattingBar = (props: ToggleFormattingBarProps): JSX.Elemen
                     {'AdvancedTextEditor__action-button--active': active},
                 )}
             >
-                <i className='icon icon-format-letter-case'/>
+                <FormatLetterCaseIcon
+                    size={18}
+                    color={'currentColor'}
+                    aria-label={iconAriaLabel}
+                />
             </button>
         </OverlayTrigger>
     );
