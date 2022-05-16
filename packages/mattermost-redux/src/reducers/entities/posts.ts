@@ -899,7 +899,48 @@ export function mergePostOrder(left: string[], right: string[], posts: Record<st
 
 export function postsInThread(state: RelationOneToMany<Post, Post> = {}, action: GenericAction, prevPosts: Record<string, Post>) {
     switch (action.type) {
-    case PostTypes.RECEIVED_NEW_POST:
+    case PostTypes.RECEIVED_NEW_POST: {
+        const post = action.data;
+
+        if (!post.root_id) {
+            // Only store comments, not the root post
+            return state;
+        }
+
+        const postsForThread = state[post.root_id];
+        if (!postsForThread) {
+            // Don't save newly created replies until the thread has been loaded
+            return state;
+        }
+
+        const nextPostsForThread = [...postsForThread];
+
+        let changed = false;
+
+        if (!postsForThread.includes(post.id)) {
+            nextPostsForThread.push(post.id);
+            changed = true;
+        }
+
+        // If this is a new non-pending post, remove any pending post that exists for it
+        if (post.pending_post_id && post.id !== post.pending_post_id) {
+            const index = nextPostsForThread.indexOf(post.pending_post_id);
+
+            if (index !== -1) {
+                nextPostsForThread.splice(index, 1);
+                changed = true;
+            }
+        }
+
+        if (!changed) {
+            return state;
+        }
+
+        return {
+            ...state,
+            [post.root_id]: nextPostsForThread,
+        };
+    }
     case PostTypes.RECEIVED_POST: {
         const post = action.data;
 

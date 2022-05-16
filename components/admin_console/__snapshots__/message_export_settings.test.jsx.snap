@@ -28,9 +28,14 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
           />
         }
         helpText={
-          <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See [the documentation](!https://docs.mattermost.com/comply/compliance-export.html) to learn more."
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See <link>the documentation</link> to learn more."
             id="admin.service.complianceExportDesc"
+            values={
+              Object {
+                "link": [Function],
+              }
+            }
           />
         }
         id="enableComplianceExport"
@@ -200,9 +205,14 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
           />
         }
         helpText={
-          <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See [the documentation](!https://docs.mattermost.com/comply/compliance-export.html) to learn more."
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See <link>the documentation</link> to learn more."
             id="admin.service.complianceExportDesc"
+            values={
+              Object {
+                "link": [Function],
+              }
+            }
           />
         }
         id="enableComplianceExport"
@@ -469,9 +479,14 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
           />
         }
         helpText={
-          <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See [the documentation](!https://docs.mattermost.com/comply/compliance-export.html) to learn more."
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See <link>the documentation</link> to learn more."
             id="admin.service.complianceExportDesc"
+            values={
+              Object {
+                "link": [Function],
+              }
+            }
           />
         }
         id="enableComplianceExport"
@@ -641,9 +656,14 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
           />
         }
         helpText={
-          <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See [the documentation](!https://docs.mattermost.com/comply/compliance-export.html) to learn more."
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See <link>the documentation</link> to learn more."
             id="admin.service.complianceExportDesc"
+            values={
+              Object {
+                "link": [Function],
+              }
+            }
           />
         }
         id="enableComplianceExport"

@@ -74,7 +74,7 @@ exports[`component/update_user_group_modal should match snapshot 1`] = `
       <div
         className="group-name-input-wrapper"
       >
-        <Input
+        <ForwardRef
           autoFocus={true}
           data-testid="nameInput"
           error=""
@@ -87,7 +87,7 @@ exports[`component/update_user_group_modal should match snapshot 1`] = `
       <div
         className="group-mention-input-wrapper"
       >
-        <Input
+        <ForwardRef
           data-testid="nameInput"
           error=""
           onChange={[Function]}

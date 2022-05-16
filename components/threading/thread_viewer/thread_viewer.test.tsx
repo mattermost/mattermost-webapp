@@ -47,7 +47,7 @@ describe('components/threading/ThreadViewer', () => {
     const actions = {
         removePost: jest.fn(),
         selectPostCard: jest.fn(),
-        getPostThread: jest.fn(),
+        getNewestPostThread: jest.fn(),
         getThread: jest.fn(),
         updateThreadRead: jest.fn(),
         updateThreadLastOpened: jest.fn(),
@@ -86,7 +86,7 @@ describe('components/threading/ThreadViewer', () => {
         wrapper.setProps({socketConnectionStatus: false});
         wrapper.setProps({socketConnectionStatus: true});
 
-        return expect(actions.getPostThread).toHaveBeenCalledWith(post.id, false);
+        return expect(actions.getNewestPostThread).toHaveBeenCalledWith(post.id);
     });
 
     test('should not break if root post is a fake post', () => {

@@ -48,10 +48,10 @@ describe('Authentication', () => {
         cy.visit('/login').wait(timeouts.FIVE_SEC);
 
         // # Verify focus is in first login field
-        cy.focused().should('have.id', 'loginId');
+        cy.focused().should('have.id', 'input_loginId');
 
         // # Click "I forgot my password"
-        cy.findByText('I forgot my password.').should('be.visible').click();
+        cy.findByText('Forgot your password?').should('be.visible').click();
         cy.url().should('contain', '/reset_password');
 
         // # Enter an email that doesn't have an account on the server (but that you CAN receive email at)
