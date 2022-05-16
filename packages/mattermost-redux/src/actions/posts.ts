@@ -738,7 +738,7 @@ async function getPaginatedPostThread(rootId: string, options: FetchPaginatedThr
             fromPost: nextPostId,
         };
 
-        return getPaginatedPostThread(rootId, newOptions, prevList);
+        return getPaginatedPostThread(rootId, newOptions, list);
     }
 
     return list;
@@ -776,12 +776,40 @@ export function getNewestPostThread(rootId: string) {
     const getPostsForThread = Selectors.makeGetPostsForThread();
 
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const posts = getPostsForThread(getState(), rootId);
+        dispatch({type: PostTypes.GET_POST_THREAD_REQUEST});
+        const collapsedThreadsEnabled = isCollapsedThreadsEnabled(getState());
+        const savedPosts = getPostsForThread(getState(), rootId);
 
-        const latestReply = posts?.[0];
-        const direction = latestReply ? 'down' : undefined;
+        const latestReply = savedPosts?.[0];
 
-        return dispatch(getPostThread(rootId, true, direction, undefined, latestReply?.create_at, latestReply?.id));
+        const options: FetchPaginatedThreadOptions = {
+            fetchThreads: true,
+            collapsedThreads: collapsedThreadsEnabled,
+            direction: 'down',
+            fromCreateAt: latestReply?.create_at,
+            fromPost: latestReply?.id,
+        };
+
+        let posts;
+        try {
+            posts = await getPaginatedPostThread(rootId, options);
+            getProfilesAndStatusesForPosts(posts.posts, dispatch, getState);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch({type: PostTypes.GET_POST_THREAD_FAILURE, error});
+            dispatch(logError(error));
+            return {error};
+        }
+
+        dispatch(batchActions([
+            receivedPosts(posts),
+            receivedPostsInThread(posts, rootId),
+            {
+                type: PostTypes.GET_POST_THREAD_SUCCESS,
+            },
+        ]));
+
+        return {data: posts};
     };
 }
 
