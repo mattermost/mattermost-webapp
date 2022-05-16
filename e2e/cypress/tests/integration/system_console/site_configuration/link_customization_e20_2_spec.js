@@ -102,13 +102,13 @@ describe('SupportSettings', () => {
         cy.url().should('include', '/login');
 
         // * Verify no privacy link
-        cy.get('#privacy_link').should('not.exist');
+        cy.findByText('Privacy Policy').should('not.exist');
 
         // # Visit signup page
-        cy.get('#signup').click();
+        cy.findByText('Create an account', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
 
         // * Verify no privacy link
-        cy.get('#privacy_link').should('not.exist');
+        cy.findByText('Privacy Policy').should('not.exist');
     });
 
     it('MM-T1039 - Customization App download link - Remove', () => {
