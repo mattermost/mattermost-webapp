@@ -50,7 +50,7 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
           <div
             className="CustomPolicy__fields"
           >
-            <Input
+            <ForwardRef
               aria-label="Policy name"
               error=""
               name="policyName"
@@ -305,7 +305,7 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
           <div
             className="CustomPolicy__fields"
           >
-            <Input
+            <ForwardRef
               aria-label="Policy name"
               error=""
               name="policyName"

@@ -41,7 +41,7 @@ exports[`components/next_steps_view/steps/team_profile_step should match snapsho
           id="next_steps_view.team_profile_step.enterYourNameAndURL"
         />
       </h3>
-      <Input
+      <ForwardRef
         info="Your team name will be displayed in your sidebar"
         name="teamName"
         onChange={[Function]}

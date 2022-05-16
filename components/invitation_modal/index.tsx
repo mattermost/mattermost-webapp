@@ -5,7 +5,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeam, getCurrentTeamId, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannel, getChannelsInCurrentTeam, getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
 import {haveIChannelPermission, haveICurrentTeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
@@ -45,14 +45,19 @@ const searchChannels = (teamId: string, term: string) => {
     return reduxSearchChannels(teamId, term);
 };
 
-export function mapStateToProps(state: GlobalState) {
+type OwnProps = {
+    channelToInvite?: Channel;
+}
+
+export function mapStateToProps(state: GlobalState, props: OwnProps) {
     const config = getConfig(state);
     const license = getLicense(state);
     const channels = getChannelsInCurrentTeam(state);
     const channelsByName = getChannelsNameMapInCurrentTeam(state);
     const townSquareDisplayName = channelsByName[Constants.DEFAULT_CHANNEL]?.display_name || Constants.DEFAULT_CHANNEL_UI_NAME;
 
-    const currentTeam = getCurrentTeam(state);
+    const currentTeamId = getCurrentTeamId(state);
+    const currentTeam = currentTeamId === '' && props.channelToInvite ? getTeam(state, props.channelToInvite.team_id) : getCurrentTeam(state);
     const currentChannel = getCurrentChannel(state);
     const invitableChannels = channels.filter((channel) => {
         if (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL) {

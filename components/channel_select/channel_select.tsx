@@ -6,7 +6,7 @@ import React from 'react';
 import {Channel} from 'mattermost-redux/types/channels';
 
 import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 type Props = {
     channels: Channel[];

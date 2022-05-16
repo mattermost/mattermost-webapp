@@ -8,7 +8,6 @@ import crtBetaImg from 'images/crt-beta.gif';
 
 import GenericModal from 'components/generic_modal';
 import AlertBanner from 'components/alert_banner';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {ModalIdentifiers} from 'utils/constants';
 
 import './collapsed_reply_threads_beta_modal.scss';
@@ -43,9 +42,20 @@ function CollapsedReplyThreadsBetaModal(props: Props) {
                     variant='app'
                     mode='info'
                     title={(
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='collapsed_reply_threads_beta_modal.banner.title'
-                            defaultMessage='Please  [review the list of known issues](!https://docs.mattermost.com/messaging/organizing-conversations.html#known-issues) as we work on stabilizing the feature.'
+                            defaultMessage='Please <link>review the list of known issues</link> as we work on stabilizing the feature.'
+                            values={{
+                                link: (msg: React.ReactNode) => (
+                                    <a
+                                        href='https://docs.mattermost.com/messaging/organizing-conversations.html#known-issues'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                            }}
                         />
                     )}
                     message={(

@@ -278,10 +278,12 @@ class ChannelHeader extends React.PureComponent {
         if (hasGuests) {
             hasGuestsText = (
                 <span className='has-guest-header'>
-                    <FormattedMessage
-                        id='channel_header.channelHasGuests'
-                        defaultMessage='This channel has guests'
-                    />
+                    <span tabIndex={0}>
+                        <FormattedMessage
+                            id='channel_header.channelHasGuests'
+                            defaultMessage='This channel has guests'
+                        />
+                    </span>
                 </span>
             );
         }
@@ -440,38 +442,47 @@ class ChannelHeader extends React.PureComponent {
 
         let memberListButton = null;
         if (!isDirect) {
-            memberListButton = (
-                <OverlayTrigger
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='bottom'
-                    overlay={
-                        <Tooltip id='channelMembersTooltip'>
-                            <FormattedMessage
-                                id='channel_header.channelMembers'
-                                defaultMessage='Members'
-                            />
-                        </Tooltip>
-                    }
-                >
-                    <button
-                        id='member_rhs'
-                        className={'member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide ' + (this.props.rhsState === RHSStates.CHANNEL_MEMBERS ? 'channel-header__icon--active' : '')}
-                        onClick={this.toggleChannelMembersRHS}
+            let membersIconClass = 'member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide';
+            if (rhsState === RHSStates.CHANNEL_MEMBERS) {
+                membersIconClass += ' channel-header__icon--active';
+            }
+            const membersIcon = this.props.memberCount ? (
+                <>
+                    <i
+                        aria-hidden='true'
+                        className='icon icon-account-outline channel-header__members'
+                    />
+                    <span
+                        id='channelMemberCountText'
+                        className='icon__text'
                     >
-                        <div className='d-flex align-items-center'>
-                            <i
-                                aria-hidden='true'
-                                className='icon icon-account-outline channel-header__members'
-                            />
-                            <span
-                                id='channelMemberCountText'
-                                className='icon__text'
-                            >
-                                {this.props.memberCount > 0 ? this.props.memberCount.toString() : '-'}
-                            </span>
-                        </div>
-                    </button>
-                </OverlayTrigger>
+                        {this.props.memberCount}
+                    </span>
+                </>
+            ) : (
+                <>
+                    <i
+                        aria-hidden='true'
+                        className='icon icon-account-outline channel-header__members'
+                    />
+                    <span
+                        id='channelMemberCountText'
+                        className='icon__text'
+                    >
+                        {'-'}
+                    </span>
+                </>
+            );
+
+            memberListButton = (
+                <HeaderIconWrapper
+                    iconComponent={membersIcon}
+                    ariaLabel={true}
+                    buttonClass={membersIconClass}
+                    buttonId={'member_rhs'}
+                    onClick={this.toggleChannelMembersRHS}
+                    tooltipKey={'channelMembers'}
+                />
             );
         }
 

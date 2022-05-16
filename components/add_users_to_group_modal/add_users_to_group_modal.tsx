@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 import {Group} from 'mattermost-redux/types/groups';
 
 import 'components/user_groups_modal/user_groups_modal.scss';

@@ -253,6 +253,10 @@
         }
     }
 
+    .suggestion-list__unread {
+        font-weight: bold;
+    }
+
     .suggestion-list__icon {
         display: inline-flex;
         flex: 0 0 1.6rem;

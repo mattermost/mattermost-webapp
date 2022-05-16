@@ -12,11 +12,8 @@ import 'tippy.js/animations/scale-subtle.css';
 import 'tippy.js/animations/perspective-subtle.css';
 import PulsatingDot from 'components/widgets/pulsating_dot';
 
-import TourTipBackdrop, {TourTipOverlayPunchOut} from './tour_tip_backdrop';
+import {TourTipBackdrop, TourTipOverlayPunchOut} from './tour_tip_backdrop';
 import './tour_tip.scss';
-
-// This needs to be changed if root-portal node isn't available to maybe body
-const rootPortal = document.getElementById('root-portal');
 
 export type TourTipEventSource = 'next' | 'prev' | 'dismiss' | 'jump' | 'skipped' | 'open' | 'punchOut'
 
@@ -87,6 +84,10 @@ const TourTip = ({
             handleJump(event, jumpToStep);
         }
     };
+
+    // This needs to be changed if root-portal node isn't available to maybe body
+    const rootPortal = document.getElementById('root-portal');
+
     const dots = [];
     if (!singleTip && tourSteps) {
         for (let dot = 0; dot < (Object.values(tourSteps).length - 1); dot++) {

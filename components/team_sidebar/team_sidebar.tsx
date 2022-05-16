@@ -19,9 +19,9 @@ import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 
 import {GenericAction, GetStateFunc} from 'mattermost-redux/types/actions';
 
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 
@@ -252,11 +252,20 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
                     isDraggable={true}
                     teamId={team.id}
                     teamIndex={index}
+                    isInProduct={Boolean(currentProduct)}
                 />
             );
         });
 
         const joinableTeams = [];
+
+        const plusIcon = (
+            <i
+                className='icon icon-plus'
+                role={'img'}
+                aria-label={Utils.localizeMessage('sidebar.team_menu.button.plusIcon', 'Plus Icon')}
+            />
+        );
 
         if (this.props.moreTeamsToJoin && !this.props.experimentalPrimaryTeam) {
             joinableTeams.push(
@@ -270,7 +279,7 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
                             defaultMessage='Other teams you can join'
                         />
                     }
-                    content={<i className='icon icon-plus'/>}
+                    content={plusIcon}
                     switchTeam={this.props.actions.switchTeam}
                 />,
             );
@@ -289,7 +298,7 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
                                 defaultMessage='Create a Team'
                             />
                         }
-                        content={<i className='icon icon-plus'/>}
+                        content={plusIcon}
                         switchTeam={this.props.actions.switchTeam}
                     />
                 </SystemPermissionGate>,

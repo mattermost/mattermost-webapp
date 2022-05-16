@@ -16,6 +16,7 @@ export type FileInfo = {
     has_preview_image: boolean;
     clientId: string;
     post_id?: string;
+    mini_preview?: string;
 };
 export type FilesState = {
     files: Record<string, FileInfo>;

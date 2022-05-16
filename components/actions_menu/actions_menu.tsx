@@ -22,7 +22,7 @@ import {ModalData} from 'types/actions';
 import MarketplaceModal from 'components/plugin_marketplace';
 import OverlayTrigger from 'components/overlay_trigger';
 import * as PostUtils from 'utils/post_utils';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import Pluggable from 'plugins/pluggable';
 import Menu from 'components/widgets/menu/menu';
@@ -118,7 +118,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         >
             <FormattedMessage
                 id='post_info.tooltip.actions'
-                defaultMessage='Actions'
+                defaultMessage='Message actions'
             />
         </Tooltip>
     )

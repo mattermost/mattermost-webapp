@@ -422,6 +422,7 @@ export function showChannelInfo(channelId: string) {
             channelId,
             state: RHSStates.CHANNEL_INFO,
         });
+        return {data: true};
     };
 }
 
@@ -528,6 +529,14 @@ export function openAtPrevious(previous: any) { // TODO Could not find the prope
             return openRHSSearch()(dispatch);
         }
 
+        if (previous.isChannelInfo) {
+            const currentChannelId = getCurrentChannelId(getState());
+            return showChannelInfo(currentChannelId)(dispatch);
+        }
+        if (previous.isChannelMembers) {
+            const currentChannelId = getCurrentChannelId(getState());
+            return showChannelMembers(currentChannelId)(dispatch, getState);
+        }
         if (previous.isMentionSearch) {
             return showMentions()(dispatch, getState);
         }

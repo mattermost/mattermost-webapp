@@ -7,7 +7,7 @@ import classNames from 'classnames';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import FileUploadOverlay from 'components/file_upload_overlay';
 import RhsThread from 'components/rhs_thread';
@@ -43,6 +43,7 @@ export default class SidebarRight extends React.PureComponent {
             openAtPrevious: PropTypes.func.isRequired,
             updateSearchTerms: PropTypes.func.isRequired,
             showChannelFiles: PropTypes.func.isRequired,
+            showChannelInfo: PropTypes.func.isRequired,
         }),
     };
 
@@ -73,7 +74,10 @@ export default class SidebarRight extends React.PureComponent {
     }
 
     handleShortcut = (e) => {
-        if (Utils.cmdOrCtrlPressed(e)) {
+        const channelInfoShortcutMac = Utils.isMac() && e.shiftKey;
+        const channelInfoShortcut = !Utils.isMac() && e.altKey;
+
+        if (Utils.cmdOrCtrlPressed(e, true)) {
             if (e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.PERIOD)) {
                 e.preventDefault();
                 if (this.props.isOpen) {
@@ -91,6 +95,13 @@ export default class SidebarRight extends React.PureComponent {
                     this.props.actions.closeRightHandSide();
                 } else {
                     this.props.actions.openAtPrevious(this.previous);
+                }
+            } else if (Utils.isKeyPressed(e, Constants.KeyCodes.I) && (channelInfoShortcutMac || channelInfoShortcut)) {
+                e.preventDefault();
+                if (this.props.isOpen && this.props.isChannelInfo) {
+                    this.props.actions.closeRightHandSide();
+                } else {
+                    this.props.actions.showChannelInfo(this.props.channel.id);
                 }
             }
         }

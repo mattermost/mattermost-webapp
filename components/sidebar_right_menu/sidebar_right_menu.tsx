@@ -8,7 +8,7 @@ import {CSSTransition} from 'react-transition-group';
 
 import * as GlobalActions from 'actions/global_actions';
 import {Constants} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import MainMenu from 'components/main_menu';
 

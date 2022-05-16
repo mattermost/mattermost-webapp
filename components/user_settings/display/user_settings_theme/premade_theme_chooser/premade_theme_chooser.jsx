@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {Preferences} from 'mattermost-redux/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {changeOpacity} from 'mattermost-redux/utils/theme_utils';
 
 import ThemeThumbnail from '../theme_thumbnail';

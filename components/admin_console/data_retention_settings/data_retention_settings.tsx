@@ -7,9 +7,10 @@ import ReactSelect from 'react-select';
 
 import {AdminConfig} from 'mattermost-redux/types/config';
 import {DataRetentionCustomPolicies, DataRetentionCustomPolicy} from 'mattermost-redux/types/data_retention';
+import {DeepPartial} from 'mattermost-redux/types/utilities';
 
 import {JobTypes} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
 import Card from 'components/card/card';
 import TitleAndButtonCardHeader from 'components/card/title_and_button_card_header/title_and_button_card_header';
