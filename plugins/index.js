@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* global __webpack_init_sharing__, __webpack_share_scopes__ */
+
 import regeneratorRuntime from 'regenerator-runtime';
 
 import {Client4} from 'mattermost-redux/client';
@@ -138,6 +140,25 @@ export function loadPlugin(manifest) {
             resolve();
         }
 
+        async function onLoadFederated() {
+            const scope = manifest.id;
+
+            // Initializes the core app's sharing scope
+            await __webpack_init_sharing__('default');
+            const container = window[scope];
+
+            await container.init(__webpack_share_scopes__.default);
+
+            // This loads the plugin using the module federation dealy
+            const plugin = await window[scope].get('plugin');
+            await plugin();
+
+            initializePlugin(manifest);
+
+            console.log('Loaded ' + describePlugin(manifest) + ' with federation'); //eslint-disable-line no-console
+            resolve();
+        }
+
         function onError() {
             reject(new Error('Unable to load bundle for ' + describePlugin(manifest)));
         }
@@ -154,7 +175,7 @@ export function loadPlugin(manifest) {
         script.id = 'plugin_' + manifest.id;
         script.type = 'text/javascript';
         script.src = getSiteURL() + bundlePath;
-        script.onload = onLoad;
+        script.onload = manifest?.props?.federated ? onLoadFederated : onLoad; // TODO move federated out of props
         script.onerror = onError;
 
         document.getElementsByTagName('head')[0].appendChild(script);

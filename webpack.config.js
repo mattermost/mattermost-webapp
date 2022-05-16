@@ -9,11 +9,14 @@ const url = require('url');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
+const {ModuleFederationPlugin} = require('webpack').container;
 const nodeExternals = require('webpack-node-externals');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const LiveReloadPlugin = require('webpack-livereload-plugin');
+
+const packageJson = require('./package.json');
 
 const NPM_TARGET = process.env.npm_lifecycle_event; //eslint-disable-line no-process-env
 
@@ -372,6 +375,39 @@ var config = {
                 type: 'image/png',
                 sizes: '96x96',
             }],
+        }),
+
+        new ModuleFederationPlugin({
+            name: 'mattermost-web-app',
+            shared: {
+                luxon: {
+                    version: packageJson.dependencies.luxon,
+                },
+                react: {
+                    version: packageJson.dependencies.react,
+                    singleton: true,
+                },
+                'react-bootstrap': {
+                    version: packageJson.dependencies['react-bootstrap'],
+                    singleton: true,
+                },
+                'react-dom': {
+                    version: packageJson.dependencies['react-dom'],
+                    singleton: true,
+                },
+                'react-intl': {
+                    version: packageJson.dependencies['react-intl'],
+                    singleton: true,
+                },
+                'react-redux': {
+                    version: packageJson.dependencies['react-redux'],
+                    singleton: true,
+                },
+                'react-router-dom': {
+                    version: packageJson.dependencies['react-router-dom'],
+                    singleton: true,
+                },
+            },
         }),
     ],
 };
