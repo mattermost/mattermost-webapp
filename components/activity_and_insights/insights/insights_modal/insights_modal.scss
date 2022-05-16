@@ -156,10 +156,18 @@
                             }
 
                             .channel-display-name {
+                                display: flex;
+                                overflow: hidden;
                                 color: var(--center-channel-color);
 
                                 &:hover {
                                     text-decoration: none;
+                                }
+
+                                span.cell-text {
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap;
                                 }
                             }
 

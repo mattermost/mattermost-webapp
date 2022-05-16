@@ -96,6 +96,8 @@
                     }
 
                     .channel-display-name {
+                        display: flex;
+                        overflow: hidden;
                         flex: 1 0;
 
                         &:hover {
@@ -110,6 +112,7 @@
                         }
 
                         .display-name {
+                            overflow: hidden;
                             margin-left: 7px;
                             color: var(--center-channel-text);
                             font-family: 'Open Sans';
@@ -117,6 +120,8 @@
                             font-style: normal;
                             font-weight: 600;
                             line-height: 16px;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
                         }
                     }
 

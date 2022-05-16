@@ -229,6 +229,7 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
 
     const handleEditKeyPress = (e: React.KeyboardEvent) => {
         const {ctrlSend, codeBlockOnCtrlEnter} = rest;
+        const inputBox = textboxRef.current?.getInputBox();
 
         const {allowSending, ignoreKeyPress} = postMessageOnKeyPress(
             e,
@@ -237,7 +238,7 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
             codeBlockOnCtrlEnter,
             Date.now(),
             0,
-            selectionRange.start,
+            inputBox.selectionStart,
         );
 
         if (ignoreKeyPress) {
