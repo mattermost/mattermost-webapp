@@ -69,6 +69,7 @@ exports[`components/threading/global_threads/thread_list should match snapshot 1
   />
   <div
     className="threads"
+    data-testid="threads_list"
   >
     <Memo(VirtualizedThreadList)
       addNoMoreResultsItem={false}
