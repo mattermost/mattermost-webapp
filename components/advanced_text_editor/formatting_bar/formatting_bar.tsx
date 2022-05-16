@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import classNames from 'classnames';
 import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useSelector} from 'react-redux';
@@ -246,6 +247,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
             {hasHiddenControls && (
                 <IconContainer
                     ref={triggerRef}
+                    className={classNames({active: showHiddenControls})}
                     onClick={(event) => {
                         event.preventDefault();
                         setShowHiddenControls((isVisible) => !isVisible);
