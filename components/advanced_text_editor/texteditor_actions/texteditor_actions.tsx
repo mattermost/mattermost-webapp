@@ -20,10 +20,10 @@ const TexteditorActions = styled.span<TexteditorActionsProps>`
 
     /* define the position based on the placement prop */
     ${({placement}) => (placement === 'top' ? css`
-        top: 6px;
-        right: 8px;
+        top: 7px;
+        right: 7px;
     ` : css`
-        right: 4px;
+        right: 7px;
         bottom: 7px;
     `)}
 

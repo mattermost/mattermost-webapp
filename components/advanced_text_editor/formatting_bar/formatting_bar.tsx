@@ -36,17 +36,18 @@ const Separator = styled.div<SeparatorProps>`
 type FormattingBarContainerProps = {
     open: boolean;
 }
+
 const FormattingBarContainer = styled.div<FormattingBarContainerProps>`
     display: flex;
-    max-height: ${(props) => (props.open ? '100px' : 0)};
-    transform-origin: top;
-    overflow: hidden;
-    transition: max-height 0.25s ease;
-    background: rgba(61, 60, 64, 0.04);
     height: 48px;
+    max-height: ${(props) => (props.open ? '100px' : 0)};
+    padding-left: 7px;
+    overflow: hidden;
+    background: rgba(61, 60, 64, 0.04);
     align-items: center;
-    padding-left: 4px;
     gap: 4px;
+    transform-origin: top;
+    transition: max-height 0.25s ease;
 
     &.wide ${Separator} {
         display: block;
