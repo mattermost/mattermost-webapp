@@ -600,7 +600,7 @@ export class FileUpload extends PureComponent {
                         type='button'
                         id='fileUploadButton'
                         aria-label={buttonAriaLabel}
-                        className={classNames('style--none adv-txt-editor__action-button', {disabled: uploadsRemaining <= 0})}
+                        className={classNames('style--none AdvancedTextEditor__action-button', {disabled: uploadsRemaining <= 0})}
                         onClick={this.simulateInputClick}
                         onTouchEnd={this.simulateInputClick}
                     >

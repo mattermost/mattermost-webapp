@@ -1,4 +1,4 @@
-.adv-txt-editor {
+.AdvancedTextEditor {
     &__ctr {
         form {
             padding: unset;
@@ -28,7 +28,6 @@
 
     &__body {
         position: relative;
-        box-sizing: border-box;
         border: 2px solid rgba(var(--center-channel-color-rgb), 0.16);
         border-radius: 4px;
 
@@ -51,31 +50,30 @@
     }
 
     &__send-button {
-        display: none;
-        width: 45px;
-        height: 100%;
-        padding-right: 4px;
-        border-left: 1px solid transparent;
+        display: flex;
+        height: 32px;
+        padding: 0 16px;
+        border: none;
+        background: var(--button-bg);
+        border-radius: 4px;
+        color: var(--button-color);
         cursor: pointer;
-        font-size: 17px;
-        line-height: 49px;
-        text-align: center;
-        transition: all 0.15s;
-        vertical-align: bottom;
+        place-content: center;
+        place-items: center;
+        transition: color 150ms;
 
-        &:active {
-            opacity: 0.75;
-        }
+        &--disabled,
+        &[disabled] {
+            background: rgba(var(--center-channel-color-rgb), 0.08);
 
-        &.disabled {
-            i {
-                color: inherit;
+            svg {
+                fill: rgba(var(--center-channel-color-rgb), 0.32);
             }
         }
 
         .android &,
         .ios & {
-            display: block;
+            display: flex;
         }
     }
 
@@ -84,6 +82,7 @@
         z-index: 2;
         display: flex;
         align-items: center;
+        gap: 4px;
 
         &--edit {
             top: 0;
@@ -93,13 +92,14 @@
         &--bottom {
             right: 4px;
             bottom: 7px;
+            transition: opacity 0.3s linear;
         }
 
         &--top {
             top: 6px;
             right: 8px;
             opacity: 0;
-            transition: visibility 0.3s linear, opacity 0.3s linear;
+            transition: opacity 0.3s linear;
             visibility: hidden;
 
             &.formattingBarOpen {
@@ -108,11 +108,7 @@
             }
         }
 
-        > div {
-            margin: 0 4px 0 0;
-        }
-
-        &.btn-file__disabled {
+        .btn-file__disabled {
             opacity: 0.1;
 
             &:hover,
@@ -131,17 +127,16 @@
         justify-content: center;
         padding: 0;
         border: none;
-        margin: 0 0 0 4px;
         background: transparent;
         border-radius: 4px;
         color: rgba(var(--center-channel-color-rgb), 0.56);
         cursor: pointer;
-        fill: rgba(var(--center-channel-color-rgb), 0.56);
+        fill: currentColor;
 
         &:hover {
             background: rgba(var(--center-channel-color-rgb), 0.08);
             color: rgba(var(--center-channel-color-rgb), 0.72);
-            fill: rgba(var(--center-channel-color-rgb), 0.72);
+            fill: currentColor;
             text-decoration: none;
         }
 
@@ -167,7 +162,7 @@
     &__action-button--active {
         background: rgba(var(--button-bg-rgb), 0.08);
         color: rgb(var(--button-bg-rgb));
-        fill: rgb(var(--button-bg-rgb));
+        fill: currentColor;
     }
 
     &__icon {
@@ -196,8 +191,10 @@
 
     &__footer {
         position: relative;
-        padding: 6px 0 0;
+        display: flex;
+        flex-direction: column;
         font-size: 13px;
+        gap: 8px;
 
         .help__text {
             text-align: right;
@@ -208,6 +205,10 @@
             }
         }
 
+        &--has-error {
+            padding: 6px 0 0;
+        }
+
         .post-error {
             position: absolute;
             top: 4px;
@@ -216,6 +217,24 @@
             font-size: 0.85em;
             font-weight: normal;
             opacity: 0.55;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .AdvancedTextEditor {
+        padding: 0;
+
+        &__body {
+            border-right: none;
+            border-left: none;
+            border-radius: 0;
+
+            &:focus-visible,
+            &:focus-within {
+                border-right: none;
+                border-left: none;
+            }
         }
     }
 }

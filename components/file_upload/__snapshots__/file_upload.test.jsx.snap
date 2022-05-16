@@ -39,7 +39,7 @@ exports[`components/FileUpload should match snapshot 1`] = `
   >
     <button
       aria-label="attachment"
-      className="style--none adv-txt-editor__action-button"
+      className="style--none AdvancedTextEditor__action-button"
       id="fileUploadButton"
       onClick={[Function]}
       onTouchEnd={[Function]}

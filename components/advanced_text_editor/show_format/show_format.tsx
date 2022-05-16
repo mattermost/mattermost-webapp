@@ -41,8 +41,8 @@ export const ShowFormat = (props: ShowFormatProps): JSX.Element => {
                 type='button'
                 id='PreviewInputTextButton'
                 onClick={onClick}
-                className={classNames('adv-txt-editor__action-button',
-                    {'adv-txt-editor__action-button--active': active},
+                className={classNames('AdvancedTextEditor__action-button',
+                    {'AdvancedTextEditor__action-button--active': active},
                 )}
             >
                 <i className='icon icon-eye-outline'/>
