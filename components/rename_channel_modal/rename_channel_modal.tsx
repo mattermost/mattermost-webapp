@@ -13,10 +13,10 @@ import LocalizedInput from 'components/localized_input/localized_input';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import {browserHistory} from 'utils/browser_history';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import {t} from 'utils/i18n';
 import {getShortenedURL, validateChannelUrl} from 'utils/url';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 const holders = defineMessages({
     maxLength: {
@@ -254,7 +254,7 @@ export class RenameChannelModal extends React.PureComponent<Props, State> {
         }
 
         const fullUrl = this.props.currentTeamUrl + '/channels';
-        const shortUrl = getShortenedURL(fullUrl, 35);
+        const shortUrl = `${getShortenedURL(fullUrl, 35)}/`;
         const urlTooltip = (
             <Tooltip id='urlTooltip'>{fullUrl}</Tooltip>
         );

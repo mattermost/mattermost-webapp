@@ -9,7 +9,6 @@ import nock from 'nock';
 import * as Actions from 'mattermost-redux/actions/emojis';
 import {Client4} from 'mattermost-redux/client';
 
-import {GeneralTypes} from 'mattermost-redux/action_types';
 import TestHelper from 'mattermost-redux/test/test_helper';
 import configureStore from 'mattermost-redux/test/test_store';
 
@@ -78,87 +77,6 @@ describe('Actions.Emojis', () => {
         const emojis = state.entities.emojis.customEmoji;
         assert.ok(emojis);
         assert.ok(emojis[created.id]);
-    });
-
-    it('getAllCustomEmojis', async () => {
-        store.dispatch({type: GeneralTypes.RECEIVED_SERVER_VERSION, data: '4.0.0'});
-
-        nock(Client4.getBaseRoute()).
-            post('/emoji').
-            reply(201, {id: TestHelper.generateId(), create_at: 1507918415696, update_at: 1507918415696, delete_at: 0, creator_id: TestHelper.basicUser.id, name: TestHelper.generateId()});
-        const {data: created1} = await Actions.createCustomEmoji(
-            {
-                name: TestHelper.generateId(),
-                creator_id: TestHelper.basicUser.id,
-            },
-            fs.createReadStream('packages/mattermost-redux/test/assets/images/test.png'),
-        )(store.dispatch, store.getState);
-
-        nock(Client4.getBaseRoute()).
-            post('/emoji').
-            reply(201, {id: TestHelper.generateId(), create_at: 1507918415696, update_at: 1507918415696, delete_at: 0, creator_id: TestHelper.basicUser.id, name: TestHelper.generateId()});
-        const {data: created2} = await Actions.createCustomEmoji(
-            {
-                name: TestHelper.generateId(),
-                creator_id: TestHelper.basicUser.id,
-            },
-            fs.createReadStream('packages/mattermost-redux/test/assets/images/test.png'),
-        )(store.dispatch, store.getState);
-
-        nock(Client4.getBaseRoute()).
-            get('/emoji').
-            query(true).
-            reply(200, [created1]);
-
-        nock(Client4.getBaseRoute()).
-            get('/emoji').
-            query(true).
-            reply(200, [created2]);
-
-        nock(Client4.getBaseRoute()).
-            get('/emoji').
-            query(true).
-            reply(200, []);
-        await Actions.getAllCustomEmojis(1)(store.dispatch, store.getState);
-
-        let state = store.getState();
-
-        let emojis = state.entities.emojis.customEmoji;
-        assert.ok(emojis);
-        assert.ok(emojis[created1.id]);
-        assert.ok(emojis[created2.id]);
-
-        nock(Client4.getBaseRoute()).
-            delete(`/emoji/${created2.id}`).
-            reply(200, OK_RESPONSE);
-
-        // Should have all emojis minus the deleted one
-        await Client4.deleteCustomEmoji(created2.id);
-
-        nock(Client4.getBaseRoute()).
-            get('/emoji').
-            query(true).
-            reply(200, [created1]);
-
-        nock(Client4.getBaseRoute()).
-            get('/emoji').
-            query(true).
-            reply(200, []);
-        await Actions.getAllCustomEmojis(1)(store.dispatch, store.getState);
-
-        state = store.getState();
-
-        emojis = state.entities.emojis.customEmoji;
-        assert.ok(emojis);
-        assert.ok(emojis[created1.id]);
-        assert.ok(!emojis[created2.id]);
-
-        nock(Client4.getBaseRoute()).
-            delete(`/emoji/${created1.id}`).
-            reply(200, OK_RESPONSE);
-
-        // Cleanup
-        Client4.deleteCustomEmoji(created1.id);
     });
 
     it('deleteCustomEmoji', async () => {

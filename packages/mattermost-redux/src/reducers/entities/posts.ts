@@ -22,7 +22,7 @@ import {
     RelationOneToMany,
 } from 'mattermost-redux/types/utilities';
 
-import {comparePosts, shouldUpdatePost} from 'mattermost-redux/utils/post_utils';
+import {comparePosts, isPermalink, shouldUpdatePost} from 'mattermost-redux/utils/post_utils';
 
 export function removeUnneededMetadata(post: Post) {
     if (!post.metadata) {
@@ -271,45 +271,59 @@ export function handlePosts(state: RelationOneToOne<Post, Post> = {}, action: Ge
     }
 }
 
-function handlePostReceived(nextState: any, post: Post) {
-    if (!shouldUpdatePost(post, nextState[post.id])) {
-        return nextState;
+function handlePostReceived(nextState: any, post: Post, nestedPermalinkLevel?: number) {
+    let currentState = nextState;
+
+    // Check if post already exists in state or if nested permalink
+    if (!shouldUpdatePost(post, currentState[post.id]) || (nestedPermalinkLevel && nestedPermalinkLevel > 1)) {
+        return currentState;
+    }
+
+    // If post is a permalink and not nested (it links directly to the original message),
+    // and is missing embedded metadata, then update state with new post metadata
+    if (!nestedPermalinkLevel && isPermalink(post) && currentState[post.id] && !currentState[post.id].metadata && post.metadata) {
+        currentState[post.id] = {...currentState[post.id], ...post.metadata};
     }
 
     // Edited posts that don't have 'is_following' specified should maintain 'is_following' state
-    if (post.update_at > 0 && post.is_following == null && nextState[post.id]) {
-        post.is_following = nextState[post.id].is_following;
+    if (post.update_at > 0 && post.is_following == null && currentState[post.id]) {
+        post.is_following = currentState[post.id].is_following;
     }
 
     if (post.delete_at > 0) {
         // We've received a deleted post, so mark the post as deleted if we already have it
-        if (nextState[post.id]) {
-            nextState[post.id] = {
+        if (currentState[post.id]) {
+            currentState[post.id] = {
                 ...removeUnneededMetadata(post),
                 state: Posts.POST_DELETED,
                 file_ids: [],
                 has_reactions: false,
             };
         }
-    } else {
-        if (post.metadata && post.metadata.embeds) {
-            post.metadata.embeds.forEach((embed) => {
-                if (embed.type === 'permalink') {
-                    if (embed.data && 'post_id' in embed.data && embed.data.post) {
-                        nextState[embed.data.post_id] = removeUnneededMetadata(embed.data.post);
+    } else if (post.metadata && post.metadata.embeds) {
+        post.metadata.embeds.forEach((embed) => {
+            if (embed.type === 'permalink') {
+                if (embed.data && 'post_id' in embed.data && embed.data.post) {
+                    currentState = handlePostReceived(currentState, embed.data.post, nestedPermalinkLevel ? nestedPermalinkLevel + 1 : 1);
+
+                    if (isPermalink(embed.data.post)) {
+                        currentState[post.id] = removeUnneededMetadata(post);
                     }
                 }
-            });
-        }
-        nextState[post.id] = removeUnneededMetadata(post);
+            }
+        });
+
+        currentState[post.id] = post;
+    } else {
+        currentState[post.id] = removeUnneededMetadata(post);
     }
 
     // Delete any pending post that existed for this post
-    if (post.pending_post_id && post.id !== post.pending_post_id && nextState[post.pending_post_id]) {
-        Reflect.deleteProperty(nextState, post.pending_post_id);
+    if (post.pending_post_id && post.id !== post.pending_post_id && currentState[post.pending_post_id]) {
+        Reflect.deleteProperty(currentState, post.pending_post_id);
     }
 
-    const rootPost: Post = nextState[post.root_id];
+    const rootPost: Post = currentState[post.root_id];
     if (post.root_id && rootPost) {
         const participants = rootPost.participants || [];
         const nextRootPost = {...rootPost};
@@ -321,10 +335,10 @@ function handlePostReceived(nextState: any, post: Post) {
             nextRootPost.reply_count = post.reply_count;
         }
 
-        nextState[post.root_id] = nextRootPost;
+        currentState[post.root_id] = nextRootPost;
     }
 
-    return nextState;
+    return currentState;
 }
 
 export function handlePendingPosts(state: string[] = [], action: GenericAction) {
@@ -885,7 +899,48 @@ export function mergePostOrder(left: string[], right: string[], posts: Record<st
 
 export function postsInThread(state: RelationOneToMany<Post, Post> = {}, action: GenericAction, prevPosts: Record<string, Post>) {
     switch (action.type) {
-    case PostTypes.RECEIVED_NEW_POST:
+    case PostTypes.RECEIVED_NEW_POST: {
+        const post = action.data;
+
+        if (!post.root_id) {
+            // Only store comments, not the root post
+            return state;
+        }
+
+        const postsForThread = state[post.root_id];
+        if (!postsForThread) {
+            // Don't save newly created replies until the thread has been loaded
+            return state;
+        }
+
+        const nextPostsForThread = [...postsForThread];
+
+        let changed = false;
+
+        if (!postsForThread.includes(post.id)) {
+            nextPostsForThread.push(post.id);
+            changed = true;
+        }
+
+        // If this is a new non-pending post, remove any pending post that exists for it
+        if (post.pending_post_id && post.id !== post.pending_post_id) {
+            const index = nextPostsForThread.indexOf(post.pending_post_id);
+
+            if (index !== -1) {
+                nextPostsForThread.splice(index, 1);
+                changed = true;
+            }
+        }
+
+        if (!changed) {
+            return state;
+        }
+
+        return {
+            ...state,
+            [post.root_id]: nextPostsForThread,
+        };
+    }
     case PostTypes.RECEIVED_POST: {
         const post = action.data;
 
@@ -1229,6 +1284,24 @@ function storeOpenGraphForPost(state: any, post: Post) {
     }
 
     return post.metadata.embeds.reduce((nextState, embed) => {
+        // If post contains a permalink, we need to store opengraph data for the embedded message
+        if (embed.type === 'permalink' && embed.data && 'post' in embed.data && embed.data.post) {
+            const previewPost = embed.data.post;
+
+            if (previewPost.metadata && previewPost.metadata.embeds) {
+                return previewPost.metadata.embeds.reduce((nextState, embed) => {
+                    if (embed.type !== 'opengraph' || !embed.data || nextState[previewPost.id]) {
+                        return nextState;
+                    }
+
+                    return {
+                        ...nextState,
+                        [previewPost.id]: {[embed.url]: embed.data},
+                    };
+                }, nextState);
+            }
+        }
+
         if (embed.type !== 'opengraph' || !embed.data) {
             // Not an OpenGraph embed
             return nextState;
@@ -1242,7 +1315,13 @@ function storeOpenGraphForPost(state: any, post: Post) {
     }, state);
 }
 
-function messagesHistory(state: Partial<MessageHistory> = {}, action: GenericAction) {
+function messagesHistory(state: Partial<MessageHistory> = {
+    messages: [],
+    index: {
+        post: -1,
+        comment: -1,
+    },
+}, action: GenericAction) {
     switch (action.type) {
     case PostTypes.ADD_MESSAGE_INTO_HISTORY: {
         const nextIndex: Record<string, number> = {};

@@ -23,6 +23,7 @@ import {ModalIdentifiers, RecommendedNextSteps, Preferences} from 'utils/constan
 import {localizeMessage} from 'utils/utils';
 
 import './sidebar_next_steps.scss';
+import {GenericTaskSteps, OnboardingTaskCategory, OnboardingTasksName} from 'components/onboarding_tasks';
 
 import RemoveNextStepsModal from './remove_next_steps_modal';
 
@@ -37,6 +38,8 @@ type Props = {
     location: {
         pathname: string;
     };
+    useCaseOnboarding: boolean;
+    isFirstAdmin: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         openModal: <P>(modalData: ModalData<P>) => void;
@@ -85,12 +88,20 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
     }
 
     onConfirmModal = () => {
-        this.props.actions.savePreferences(this.props.currentUserId, [{
-            user_id: this.props.currentUserId,
-            category: Preferences.RECOMMENDED_NEXT_STEPS,
-            name: RecommendedNextSteps.HIDE,
-            value: 'true',
-        }]);
+        this.props.actions.savePreferences(this.props.currentUserId, [
+            {
+                user_id: this.props.currentUserId,
+                category: Preferences.RECOMMENDED_NEXT_STEPS,
+                name: RecommendedNextSteps.HIDE,
+                value: 'true',
+            },
+            {
+                user_id: this.props.currentUserId,
+                category: OnboardingTaskCategory,
+                name: OnboardingTasksName.CHANNELS_TOUR,
+                value: GenericTaskSteps.STARTED.toString(),
+            },
+        ]);
 
         this.onCloseModal();
 
@@ -98,6 +109,9 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
     }
 
     render() {
+        if (this.props.useCaseOnboarding && this.props.isFirstAdmin) {
+            return null;
+        }
         if (!this.props.enableOnboardingFlow) {
             return null;
         }

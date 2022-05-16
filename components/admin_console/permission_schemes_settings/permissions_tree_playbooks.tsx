@@ -5,6 +5,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import Permissions from 'mattermost-redux/constants/permissions';
+import {ClientLicense} from 'mattermost-redux/types/config';
+import {isEnterpriseLicense, isNonEnterpriseLicense} from 'mattermost-redux/types/general';
 
 import {Role} from 'mattermost-redux/types/roles';
 
@@ -17,9 +19,18 @@ interface Props {
     selectRow: any;
     readOnly: boolean;
     onToggle: (a: string, b: string[]) => void;
+    license: ClientLicense;
 }
 
-export const playbooksGroups: any[] = [
+const groups = [
+    {
+        id: 'playbook_public',
+        permissions: [
+            Permissions.PLAYBOOK_PUBLIC_MANAGE_PROPERTIES,
+            Permissions.PLAYBOOK_PUBLIC_MANAGE_MEMBERS,
+        ],
+        isVisible: isNonEnterpriseLicense,
+    },
     {
         id: 'playbook_public',
         permissions: [
@@ -27,13 +38,16 @@ export const playbooksGroups: any[] = [
             Permissions.PLAYBOOK_PUBLIC_MANAGE_MEMBERS,
             Permissions.PLAYBOOK_PUBLIC_MAKE_PRIVATE,
         ],
+        isVisible: isEnterpriseLicense,
     },
     {
         id: 'playbook_private',
         permissions: [
             Permissions.PLAYBOOK_PRIVATE_MANAGE_PROPERTIES,
             Permissions.PLAYBOOK_PRIVATE_MANAGE_MEMBERS,
+            Permissions.PLAYBOOK_PRIVATE_MAKE_PUBLIC,
         ],
+        isVisible: isEnterpriseLicense,
     },
     {
         id: 'runs',
@@ -50,6 +64,14 @@ const PermissionsTreePlaybooks = (props: Props) => {
         }
         props.onToggle(props.role?.name || '', ids);
     };
+
+    const filteredGroups = groups.filter((group) => {
+        if (group.isVisible) {
+            return group.isVisible(props.license);
+        }
+
+        return true;
+    });
 
     return (
         <div className='permissions-tree'>
@@ -75,7 +97,7 @@ const PermissionsTreePlaybooks = (props: Props) => {
                     uniqId={props.role?.name}
                     selectRow={props.selectRow}
                     readOnly={props.readOnly}
-                    permissions={playbooksGroups}
+                    permissions={filteredGroups}
                     role={props.role}
                     scope={props.scope}
                     combined={false}

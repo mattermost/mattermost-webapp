@@ -21,6 +21,7 @@ import FileAttachmentList from './file_attachment_list';
 export type OwnProps = {
     post: Post;
     compactDisplay?: boolean;
+    isInPermalink?: boolean;
     handleFileDropdownOpened: (open: boolean) => void;
 }
 

@@ -15,7 +15,7 @@ import {
     getThread,
 } from 'mattermost-redux/selectors/entities/threads';
 
-import {getThreads} from 'mattermost-redux/actions/threads';
+import {getThreadCounts, getThreads} from 'mattermost-redux/actions/threads';
 import {selectChannel} from 'mattermost-redux/actions/channels';
 
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
@@ -31,7 +31,11 @@ import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
 import {loadProfilesForSidebar} from 'actions/user_actions';
 import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
+import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {showNextSteps} from 'components/next_steps_view/steps';
+
+import {Constants} from 'utils/constants';
 
 import Header from 'components/widgets/header';
 import LoadingScreen from 'components/loading_screen';
@@ -63,6 +67,8 @@ const GlobalThreads = () => {
     const selectedPost = useSelector((state: GlobalState) => getPost(state, threadIdentifier!));
     const showNextStepsEphemeral = useSelector((state: GlobalState) => state.views.nextSteps.show);
     const showSteps = useSelector((state: GlobalState) => showNextSteps(state));
+    const useCaseOnboarding = useSelector(getUseCaseOnboarding);
+    const isUserFirstAdmin = useSelector(isFirstAdmin);
     const config = useSelector(getConfig);
     const teamUrl = useSelector((state: GlobalState) => getCurrentRelativeTeamUrl(state));
     const threadIds = useSelector((state: GlobalState) => getThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
@@ -82,6 +88,10 @@ const GlobalThreads = () => {
     }, []);
 
     useEffect(() => {
+        dispatch(getThreadCounts(currentUserId, currentTeamId));
+    }, [currentTeamId, currentUserId]);
+
+    useEffect(() => {
         if (!selectedThreadId || selectedThreadId !== threadIdentifier) {
             dispatch(setSelectedThreadId(currentTeamId, selectedThread?.id));
         }
@@ -97,7 +107,7 @@ const GlobalThreads = () => {
             currentTeamId,
             {
                 unread,
-                perPage: 25,
+                perPage: Constants.THREADS_PAGE_SIZE,
             },
         ));
 
@@ -105,18 +115,21 @@ const GlobalThreads = () => {
     }, [currentUserId, currentTeamId]);
 
     const isOnlySelectedThreadInList = (list: string[]) => {
-        return selectedThreadId && list.length === 1 && list.includes(selectedThreadId);
+        return selectedThreadId && list.length === 1 && list[0] === selectedThreadId;
     };
+
+    const shouldLoadThreads = isEmpty(threadIds) || isOnlySelectedThreadInList(threadIds);
+    const shouldLoadUnreadThreads = isEmpty(unreadThreadIds) || isOnlySelectedThreadInList(unreadThreadIds);
 
     useEffect(() => {
         const promises = [];
 
         // this is needed to jump start threads fetching
-        if (isEmpty(threadIds) || isOnlySelectedThreadInList(threadIds)) {
+        if (shouldLoadThreads) {
             promises.push(fetchThreads(false));
         }
 
-        if (filter === ThreadFilter.unread && (isEmpty(unreadThreadIds) || isOnlySelectedThreadInList(unreadThreadIds))) {
+        if (filter === ThreadFilter.unread && shouldLoadUnreadThreads) {
             promises.push(fetchThreads(true));
         }
 
@@ -144,7 +157,7 @@ const GlobalThreads = () => {
 
     useEffect(() => {
         const enableOnboardingFlow = config.EnableOnboardingFlow === 'true';
-        if (enableOnboardingFlow && showSteps && !showNextStepsEphemeral) {
+        if (enableOnboardingFlow && showSteps && !showNextStepsEphemeral && !(useCaseOnboarding && isUserFirstAdmin)) {
             dispatch(setShowNextStepsView(true));
             browserHistory.push(`${teamUrl}/tips`);
         }

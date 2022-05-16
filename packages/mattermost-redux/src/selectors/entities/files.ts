@@ -14,6 +14,10 @@ function getAllFiles(state: GlobalState) {
     return state.entities.files.files;
 }
 
+export function getFile(state: GlobalState, id: string) {
+    return state.entities.files.files?.[id];
+}
+
 function getAllFilesFromSearch(state: GlobalState) {
     return state.entities.files.filesFromSearch;
 }

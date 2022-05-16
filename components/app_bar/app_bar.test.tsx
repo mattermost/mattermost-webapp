@@ -42,6 +42,7 @@ describe('components/app_bar/app_bar', () => {
                     main: {
                         bindings: channelHeaderAppBindings,
                     } as {bindings: AppBinding[]},
+                    pluginEnabled: true,
                 },
                 general: {
                     config: {

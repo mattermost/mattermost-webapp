@@ -13,12 +13,12 @@ import {browserHistory} from 'utils/browser_history';
 import * as GlobalActions from 'actions/global_actions';
 import Constants, {ModalIdentifiers, UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {isGuest, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import Pluggable from 'plugins/pluggable';
 import AddUserToChannelModal from 'components/add_user_to_channel_modal';
 import LocalizedIcon from 'components/localized_icon';
-import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
+import ToggleModalButton from 'components/toggle_modal_button';
 import Avatar from 'components/widgets/users/avatar';
 import Popover from 'components/widgets/popover';
 import SharedUserIndicator from 'components/shared_user_indicator';
@@ -43,6 +43,11 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
      * Source URL from the image that should override default image
      */
     overwriteIcon?: string;
+
+    /**
+     * Set to true of the popover was opened from a webhook post
+     */
+    fromWebhook?: boolean;
 
     /**
      * User the popover is being opened for
@@ -454,12 +459,13 @@ ProfilePopoverState
                 user={this.props.user}
                 hide={this.props.hide}
                 status={this.props.hideStatus ? null : this.props.status}
+                fromWebhook={this.props.fromWebhook}
             />,
         );
         if (
             this.props.enableTimezone &&
-      this.props.user.timezone &&
-      !haveOverrideProp
+            this.props.user.timezone &&
+            !haveOverrideProp
         ) {
             dataContent.push(
                 <div
@@ -579,7 +585,7 @@ ProfilePopoverState
             );
             if (
                 this.props.canManageAnyChannelMembersInCurrentTeam &&
-        this.props.isInCurrentTeam
+                this.props.isInCurrentTeam
             ) {
                 const addToChannelMessage = formatMessage({
                     id: 'user_profile.add_user_to_channel',
@@ -596,7 +602,7 @@ ProfilePopoverState
                             className='text-nowrap'
                             onClick={this.handleAddToChannel}
                         >
-                            <ToggleModalButtonRedux
+                            <ToggleModalButton
                                 ariaLabel={addToChannelMessage}
                                 modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
                                 role='menuitem'
@@ -612,7 +618,7 @@ ProfilePopoverState
                                     }}
                                 />
                                 {addToChannelMessage}
-                            </ToggleModalButtonRedux>
+                            </ToggleModalButton>
                         </a>
                     </div>,
                 );

@@ -608,8 +608,10 @@ function dataRetentionCustomPolicies(state: IDMappedObjects<DataRetentionCustomP
 
     case AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICIES: {
         const nextState = {...state};
-        for (const dataRetention of action.data.policies) {
-            nextState[dataRetention.id] = dataRetention;
+        if (action.data.policies) {
+            for (const dataRetention of action.data.policies) {
+                nextState[dataRetention.id] = dataRetention;
+            }
         }
         return nextState;
     }

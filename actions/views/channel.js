@@ -27,7 +27,13 @@ import {
     isFavoriteChannel,
     isManuallyUnread,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentRelativeTeamUrl, getCurrentTeam, getCurrentTeamId, getTeamsList} from 'mattermost-redux/selectors/entities/teams';
+import {
+    getCurrentRelativeTeamUrl,
+    getCurrentTeam,
+    getCurrentTeamId,
+    getTeam,
+    getTeamsList,
+} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getUserByUsername} from 'mattermost-redux/selectors/entities/users';
 import {getMostRecentPostIdInChannel, getPost} from 'mattermost-redux/selectors/entities/posts';
 import {makeAddLastViewAtToProfiles} from 'mattermost-redux/selectors/entities/utils';
@@ -45,9 +51,10 @@ import {getSelectedPost, getSelectedPostId} from 'selectors/rhs';
 
 import {browserHistory} from 'utils/browser_history';
 import {Constants, ActionTypes, EventTypes, PostRequestTypes} from 'utils/constants';
-import {isMobile} from 'utils/utils.jsx';
+import {isMobile} from 'utils/utils';
 import LocalStorageStore from 'stores/local_storage_store.jsx';
 import {isArchivedChannel} from 'utils/channel_utils';
+import {unsetEditingPost} from '../post_actions';
 
 export function checkAndSetMobileView() {
     return (dispatch) => {
@@ -87,7 +94,8 @@ export function switchToChannelById(channelId) {
 export function switchToChannel(channel) {
     return async (dispatch, getState) => {
         const state = getState();
-        const teamUrl = getCurrentRelativeTeamUrl(state);
+        const selectedTeamId = channel.team_id;
+        const teamUrl = selectedTeamId ? `/${getTeam(state, selectedTeamId).name}` : getCurrentRelativeTeamUrl(state);
 
         if (channel.userId) {
             const username = channel.userId ? channel.name : channel.display_name;
@@ -104,9 +112,13 @@ export function switchToChannel(channel) {
         } else if (channel.type === Constants.GM_CHANNEL) {
             const gmChannel = getChannel(state, channel.id);
             browserHistory.push(`${teamUrl}/channels/${gmChannel.name}`);
+        } else if (channel.type === Constants.THREADS) {
+            browserHistory.push(`${teamUrl}/${channel.name}`);
         } else {
             browserHistory.push(`${teamUrl}/channels/${channel.name}`);
         }
+
+        dispatch(unsetEditingPost());
 
         return {data: true};
     };
@@ -197,11 +209,12 @@ export function autocompleteUsersInChannel(prefix, channelId) {
         const state = getState();
         const currentTeamId = getCurrentTeamId(state);
 
-        const respose = await dispatch(autocompleteUsers(prefix, currentTeamId, channelId));
-        const data = respose.data;
+        const response = await dispatch(autocompleteUsers(prefix, currentTeamId, channelId));
+
+        const data = response.data;
         if (data) {
             return {
-                ...respose,
+                ...response,
                 data: {
                     ...data,
                     users: addLastViewAtToProfiles(state, data.users || []),
@@ -210,7 +223,7 @@ export function autocompleteUsersInChannel(prefix, channelId) {
             };
         }
 
-        return respose;
+        return response;
     };
 }
 

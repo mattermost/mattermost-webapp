@@ -16,7 +16,7 @@ import InstalledIncomingWebhook, {matchesFilter} from 'components/integrations/i
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 type Props = {
     team: Team;
@@ -135,7 +135,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent<Props
                                 <a
                                     target='_blank'
                                     rel='noopener noreferrer'
-                                    href='http://docs.mattermost.com/developer/webhooks-incoming.html'
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-incoming/'
                                 >
                                     <FormattedMessage
                                         id='installed_incoming_webhooks.help.buildYourOwn'
@@ -147,7 +147,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent<Props
                                 <a
                                     target='_blank'
                                     rel='noopener noreferrer'
-                                    href='https://about.mattermost.com/default-app-directory/'
+                                    href='https://mattermost.com/marketplace'
                                 >
                                     <FormattedMessage
                                         id='installed_incoming_webhooks.help.appDirectory'

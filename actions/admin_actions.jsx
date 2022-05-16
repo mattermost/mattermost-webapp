@@ -455,11 +455,17 @@ export function requestTrialLicense(users, termsAccepted, receiveEmailsAccepted,
     return async () => {
         try {
             trackEvent('api', 'api_request_trial_license', {from_page: page});
-            const response = await Client4.doFetch(`${Client4.getBaseRoute()}/trial-license`, {
+            const response = await Client4.doFetchWithResponse(`${Client4.getBaseRoute()}/trial-license`, {
                 method: 'POST', body: JSON.stringify({users, terms_accepted: termsAccepted, receive_emails_accepted: receiveEmailsAccepted}),
             });
+
             return {data: response};
         } catch (e) {
+            // In the event that the status code returned is 451, this request has been blocked because it originated from an embargoed country_dropdown
+            // The response code is passed back as part of the data attribute so that the requesting component can render the proper error
+            if (e.status_code === 451) {
+                return {error: e.message, data: {status: e.status_code}};
+            }
             return {error: e.message};
         }
     };

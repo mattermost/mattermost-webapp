@@ -15,6 +15,7 @@ const state: GlobalState = {
             serverVersion: '',
             warnMetricsStatus: {},
             firstAdminVisitMarketplaceStatus: false,
+            firstAdminCompleteSetup: false,
         },
         users: {
             currentUserId: '',
@@ -28,6 +29,7 @@ const state: GlobalState = {
             profilesInChannel: {},
             profilesNotInChannel: {},
             profilesInGroup: {},
+            profilesNotInGroup: {},
             statuses: {},
             stats: {},
             myUserAccessTokens: {},
@@ -164,7 +166,7 @@ const state: GlobalState = {
         groups: {
             groups: {},
             syncables: {},
-            myGroups: {},
+            myGroups: [],
             stats: {},
         },
         channelCategories: {
@@ -180,8 +182,18 @@ const state: GlobalState = {
                 bindings: [],
                 forms: {},
             },
+            pluginEnabled: true,
         },
-        cloud: {},
+        cloud: {
+            limits: {
+                limits: {},
+                limitsLoaded: false,
+            },
+        },
+        insights: {
+            topReactions: {},
+            myTopReactions: {},
+        },
     },
     errors: [],
     requests: {

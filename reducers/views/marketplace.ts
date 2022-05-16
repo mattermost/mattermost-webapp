@@ -3,6 +3,7 @@
 
 import {combineReducers} from 'redux';
 
+import {UserTypes} from 'mattermost-redux/action_types';
 import type {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketplace';
 import type {GenericAction} from 'mattermost-redux/types/actions';
 
@@ -21,6 +22,8 @@ function plugins(state: MarketplacePlugin[] = [], action: GenericAction): Market
 
         return [];
 
+    case UserTypes.LOGOUT_SUCCESS:
+        return [];
     default:
         return state;
     }
@@ -39,6 +42,8 @@ function apps(state: MarketplaceApp[] = [], action: GenericAction): MarketplaceA
 
         return [];
 
+    case UserTypes.LOGOUT_SUCCESS:
+        return [];
     default:
         return state;
     }
@@ -76,6 +81,8 @@ function installing(state: {[id: string]: boolean} = {}, action: GenericAction):
 
         return {};
 
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
     default:
         return state;
     }
@@ -109,6 +116,8 @@ function errors(state: {[id: string]: string} = {}, action: GenericAction): {[id
 
         return {};
 
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
     default:
         return state;
     }
@@ -127,6 +136,8 @@ function filter(state = '', action: GenericAction): string {
 
         return '';
 
+    case UserTypes.LOGOUT_SUCCESS:
+        return '';
     default:
         return state;
     }

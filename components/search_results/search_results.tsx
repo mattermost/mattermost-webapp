@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React, {useEffect, useRef, useState} from 'react';
 import {MessageDescriptor, useIntl, FormattedMessage} from 'react-intl';
@@ -11,11 +10,12 @@ import classNames from 'classnames';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {FileSearchResultItem as FileSearchResultItemType} from 'mattermost-redux/types/files';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {Post} from 'mattermost-redux/types/posts';
 
 import {getFilesDropdownPluginMenuItems} from 'selectors/plugins';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {searchHintOptions} from 'utils/constants';
 
 import SearchResultsHeader from 'components/search_results_header';
@@ -27,6 +27,8 @@ import FlagIcon from 'components/widgets/icons/flag_icon';
 import FileSearchResultItem from 'components/file_search_results';
 
 import {NoResultsVariant} from 'components/no_results_indicator/types';
+import {isFileAttachmentsEnabled} from 'utils/file_utils';
+import {t} from 'utils/i18n';
 
 import MessageOrFileSelector from './messages_or_files_selector';
 import FilesFilterMenu from './files_filter_menu';
@@ -77,6 +79,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
     const scrollbars = useRef<Scrollbars|null>(null);
     const [searchType, setSearchType] = useState<string>(props.searchType);
     const filesDropdownPluginMenuItems = useSelector(getFilesDropdownPluginMenuItems);
+    const config = useSelector(getConfig);
     const intl = useIntl();
 
     useEffect(() => {
@@ -86,6 +89,11 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         setSearchType(props.searchType);
         scrollbars.current?.scrollToTop();
     }, [props.searchTerms]);
+
+    useEffect(() => {
+        // reset search type when switching views
+        setSearchType(props.searchType);
+    }, [props.isFlaggedPosts, props.isPinnedPosts, props.isMentionSearch]);
 
     useEffect(() => {
         // after the first page of search results, there is no way to
@@ -174,13 +182,13 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
     if (isMentionSearch) {
         noResultsProps.variant = NoResultsVariant.Mentions;
 
-        titleDescriptor.id = 'search_header.title2';
+        titleDescriptor.id = t('search_header.title2');
         titleDescriptor.defaultMessage = 'Recent Mentions';
     } else if (isFlaggedPosts) {
         noResultsProps.variant = NoResultsVariant.FlaggedPosts;
         noResultsProps.subtitleValues = {icon: <FlagIcon className='icon  no-results__mini_icon'/>};
 
-        titleDescriptor.id = 'search_header.title3';
+        titleDescriptor.id = t('search_header.title3');
         titleDescriptor.defaultMessage = 'Saved Posts';
     } else if (isPinnedPosts) {
         noResultsProps.variant = NoResultsVariant.PinnedPosts;
@@ -189,7 +197,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         sortedResults = [...results];
         sortedResults.sort((postA: Post|FileSearchResultItemType, postB: Post|FileSearchResultItemType) => postB.create_at - postA.create_at);
 
-        titleDescriptor.id = 'search_header.pinnedPosts';
+        titleDescriptor.id = t('search_header.pinnedPosts');
         titleDescriptor.defaultMessage = 'Pinned Posts';
     } else if (isChannelFiles) {
         if (searchFilterType === 'all') {
@@ -198,18 +206,18 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
             noResultsProps.variant = NoResultsVariant.ChannelFilesFiltered;
         }
 
-        titleDescriptor.id = 'search_header.channelFiles';
+        titleDescriptor.id = t('search_header.channelFiles');
         titleDescriptor.defaultMessage = 'Files';
     } else if (isCard) {
-        titleDescriptor.id = 'search_header.title5';
+        titleDescriptor.id = t('search_header.title5');
         titleDescriptor.defaultMessage = 'Extra information';
     } else if (!searchTerms && noResults && noFileResults) {
-        titleDescriptor.id = 'search_header.search';
+        titleDescriptor.id = t('search_header.search');
         titleDescriptor.defaultMessage = 'Search';
     } else {
         noResultsProps.titleValues = {channelName: `"${searchTerms}"`};
 
-        titleDescriptor.id = 'search_header.results';
+        titleDescriptor.id = t('search_header.results');
         titleDescriptor.defaultMessage = 'Search Results';
     }
 
@@ -320,6 +328,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                 <MessageOrFileSelector
                     selected={searchType}
                     selectedFilter={searchFilterType}
+                    isFileAttachmentsEnabled={isFileAttachmentsEnabled(config)}
                     messagesCounter={isSearchAtEnd || props.searchPage === 0 ? `${results.length}` : `${results.length}+`}
                     filesCounter={isSearchFilesAtEnd || props.searchPage === 0 ? `${fileResults.length}` : `${fileResults.length}+`}
                     onChange={setSearchType}

@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {AppType} from 'mattermost-redux/types/apps';
 import {AuthorType, MarketplaceApp, MarketplacePlugin, ReleaseStage} from 'mattermost-redux/types/marketplace';
 
 import {
@@ -57,9 +56,7 @@ describe('marketplace', () => {
         enterprise: false,
         manifest: {
             app_id: 'some.id',
-            app_type: AppType.HTTP,
             display_name: 'Some App',
-            root_url: 'https://example.org/install',
         },
     };
 
@@ -70,9 +67,7 @@ describe('marketplace', () => {
         enterprise: false,
         manifest: {
             app_id: 'some.other.id',
-            app_type: AppType.HTTP,
             display_name: 'Some other App',
-            root_url: 'https://example.org/install2',
         },
     };
 

@@ -4,37 +4,42 @@
 import React, {memo, useCallback, useEffect, MouseEvent, useMemo} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import classNames from 'classnames';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {Post} from 'mattermost-redux/types/posts';
 import {UserThread} from 'mattermost-redux/types/threads';
-
 import {getChannel as fetchChannel} from 'mattermost-redux/actions/channels';
+import {getInt} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
+import {Posts} from 'mattermost-redux/constants';
 
 import * as Utils from 'utils/utils';
-
-import './thread_item.scss';
-
+import {Constants, CrtTutorialSteps, Preferences} from 'utils/constants';
+import {GlobalState} from 'types/store';
+import {getIsMobileView} from 'selectors/views/browser';
 import Badge from 'components/widgets/badges/badge';
 import Timestamp from 'components/timestamp';
 import Avatars from 'components/widgets/users/avatars';
 import Button from 'components/threading/common/button';
 import SimpleTooltip from 'components/widgets/simple_tooltip';
-
+import CRTListTutorialTip from 'components/crt_tour/crt_list_tutorial_tip/crt_list_tutorial_tip';
 import Markdown from 'components/markdown';
-
-import ThreadMenu from '../thread_menu';
 
 import {THREADING_TIME} from '../../common/options';
 import {useThreadRouting} from '../../hooks';
-import {Posts} from 'mattermost-redux/constants';
+import ThreadMenu from '../thread_menu';
+
+import Attachment from './attachments';
+
+import './thread_item.scss';
 
 export type OwnProps = {
     isSelected: boolean;
     threadId: UserThread['id'];
     style?: any;
+    isFirstThreadInList: boolean;
 };
 
 type Props = {
@@ -62,11 +67,16 @@ function ThreadItem({
     style,
     thread,
     threadId,
+    isFirstThreadInList,
 }: Props & OwnProps): React.ReactElement|null {
     const dispatch = useDispatch();
     const {select, goToInChannel} = useThreadRouting();
     const {formatMessage} = useIntl();
-
+    const isMobileView = useSelector(getIsMobileView);
+    const currentUserId = useSelector(getCurrentUserId);
+    const tipStep = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_STEP, currentUserId));
+    const tutorialTipAutoTour = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_AUTO_TOUR_STATUS, currentUserId, Constants.AutoTourStatus.ENABLED)) === Constants.AutoTourStatus.ENABLED;
+    const showListTutorialTip = tipStep === CrtTutorialSteps.LIST_POPOVER;
     const msgDeleted = formatMessage({id: 'post_body.deleted', defaultMessage: '(message deleted)'});
     const postAuthor = post.props?.override_username || displayName;
 
@@ -92,7 +102,7 @@ function ThreadItem({
         return [post.user_id, ...ids];
     }, [thread?.participants]);
 
-    const selectHandler = useCallback(() => select(threadId), []);
+    const selectHandler = useCallback(() => select(threadId), [threadId]);
 
     const imageProps = useMemo(() => ({
         onImageHeightChanged: () => {},
@@ -137,6 +147,7 @@ function ThreadItem({
                 'is-selected': isSelected,
             })}
             tabIndex={0}
+            id={isFirstThreadInList ? 'tutorial-threads-mobile-list' : ''}
             onClick={selectHandler}
         >
             <h1>
@@ -198,12 +209,16 @@ function ThreadItem({
                 tabIndex={0}
                 onClick={handleFormattedTextClick}
             >
-                <Markdown
-                    message={post.state === Posts.POST_DELETED ? msgDeleted : post.message}
-                    options={markdownPreviewOptions}
-                    imagesMetadata={post?.metadata && post?.metadata?.images}
-                    imageProps={imageProps}
-                />
+                {post.message ? (
+                    <Markdown
+                        message={post.state === Posts.POST_DELETED ? msgDeleted : post.message}
+                        options={markdownPreviewOptions}
+                        imagesMetadata={post?.metadata && post?.metadata?.images}
+                        imageProps={imageProps}
+                    />
+                ) : (
+                    <Attachment post={post}/>
+                )}
             </div>
             <div className='activity'>
                 {participantIds?.length ? (
@@ -230,6 +245,7 @@ function ThreadItem({
                     </>
                 )}
             </div>
+            {showListTutorialTip && isFirstThreadInList && isMobileView && (<CRTListTutorialTip autoTour={tutorialTipAutoTour}/>)}
         </article>
     );
 }

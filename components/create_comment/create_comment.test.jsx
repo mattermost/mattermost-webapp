@@ -66,7 +66,8 @@ describe('components/CreateComment', () => {
         canPost: true,
         useChannelMentions: true,
         getChannelMemberCountsByGroup: jest.fn(),
-        useGroupMentions: true,
+        useLDAPGroupMentions: true,
+        useCustomGroupMentions: true,
         openModal: jest.fn(),
     };
 
@@ -116,9 +117,11 @@ describe('components/CreateComment', () => {
     });
 
     test('should not call getChannelMemberCountsByGroup, without group mentions permission or license', () => {
-        const useGroupMentions = false;
+        const useLDAPGroupMentions = false;
+        const useCustomGroupMentions = false;
+
         const getChannelMemberCountsByGroup = jest.fn();
-        const props = {...baseProps, useGroupMentions, getChannelMemberCountsByGroup};
+        const props = {...baseProps, useLDAPGroupMentions, useCustomGroupMentions, getChannelMemberCountsByGroup};
 
         shallowWithIntl(<CreateComment {...props}/>);
 

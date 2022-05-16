@@ -108,7 +108,7 @@ const PaymentInfoEdit: React.FC = () => {
                                         defaultMessage='Your credit card will be charged based on the number of users you have at the end of the monthly billing cycle. '
                                     />
                                     <a
-                                        target='_new'
+                                        target='_blank'
                                         rel='noopener noreferrer'
                                         href={CloudLinks.BILLING_DOCS}
                                     >

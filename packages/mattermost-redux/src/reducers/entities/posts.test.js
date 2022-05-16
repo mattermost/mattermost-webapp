@@ -38,6 +38,27 @@ describe('posts', () => {
                 });
             });
 
+            it('should add a new permalink post and remove stored nested permalink data', () => {
+                const state = deepFreeze({
+                    post1: {id: 'post1'},
+                    post2: {id: 'post2', metadata: {embeds: [{type: 'permalink', data: {post_id: 'post1', post: {id: 'post1'}}}]}},
+                });
+
+                const nextState = reducers.handlePosts(state, {
+                    type: actionType,
+                    data: {id: 'post3', metadata: {embeds: [{type: 'permalink', data: {post_id: 'post2', post: {id: 'post2', metadata: {embeds: [{type: 'permalink', data: {post_id: 'post1', post: {id: 'post1'}}}]}}}}]}},
+                });
+
+                expect(nextState).not.toEqual(state);
+                expect(nextState.post1).toEqual(state.post1);
+                expect(nextState.post2).toEqual(state.post2);
+                expect(nextState).toEqual({
+                    post1: {id: 'post1'},
+                    post2: {id: 'post2', metadata: {embeds: [{type: 'permalink', data: {post_id: 'post1', post: {id: 'post1'}}}]}},
+                    post3: {id: 'post3', metadata: {embeds: [{type: 'permalink', data: {post_id: 'post2'}}]}},
+                });
+            });
+
             it('should add a new pending post', () => {
                 const state = deepFreeze({
                     post1: {id: 'post1'},
@@ -2810,6 +2831,29 @@ describe('mergePostOrder', () => {
 });
 
 describe('postsInThread', () => {
+    it('should store a comment without other comments loaded for the thread when RECEIVED_POST', () => {
+        const state = deepFreeze({});
+        const nextState = reducers.postsInThread(state, {
+            type: PostTypes.RECEIVED_POST,
+            data: {id: 'comment1', root_id: 'root1'},
+        });
+
+        expect(nextState).not.toBe(state);
+        expect(nextState).toEqual({
+            root1: ['comment1'],
+        });
+    });
+
+    it('should NOT store a comment without other comments loaded for the thread when RECEIVED_NEW_POST', () => {
+        const state = deepFreeze({});
+        const nextState = reducers.postsInThread(state, {
+            type: PostTypes.RECEIVED_NEW_POST,
+            data: {id: 'comment1', root_id: 'root1'},
+        });
+
+        expect(nextState).toBe(state);
+    });
+
     for (const actionType of [
         PostTypes.RECEIVED_POST,
         PostTypes.RECEIVED_NEW_POST,
@@ -2860,20 +2904,6 @@ describe('postsInThread', () => {
                 expect(nextState).not.toBe(state);
                 expect(nextState).toEqual({
                     root1: ['comment1', 'comment2', 'comment3'],
-                });
-            });
-
-            it('should store a comment without other comments loaded for the thread', () => {
-                const state = deepFreeze({});
-
-                const nextState = reducers.postsInThread(state, {
-                    type: actionType,
-                    data: {id: 'comment1', root_id: 'root1'},
-                });
-
-                expect(nextState).not.toBe(state);
-                expect(nextState).toEqual({
-                    root1: ['comment1'],
                 });
             });
 

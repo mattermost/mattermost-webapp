@@ -26,13 +26,15 @@ export function files(state: Record<string, FileInfo> = {}, action: GenericActio
     case PostTypes.RECEIVED_POST: {
         const post = action.data;
 
-        return storeFilesForPost(state, post);
+        return storeAllFilesForPost(storeFilesForPost, state, post);
     }
 
     case PostTypes.RECEIVED_POSTS: {
         const posts: Post[] = Object.values(action.data.posts);
 
-        return posts.reduce(storeFilesForPost, state);
+        return posts.reduce((nextState, post) => {
+            return storeAllFilesForPost(storeFilesForPost, nextState, post);
+        }, state);
     }
 
     case PostTypes.POST_DELETED:
@@ -72,6 +74,25 @@ export function filesFromSearch(state: Record<string, FileSearchResultItem> = {}
     }
 }
 
+function storeAllFilesForPost(storeFilesCallback: (state: Record<string, any>, post: Post) => any, state: any, post: Post) {
+    let currentState = state;
+
+    // Handle permalink embedded files
+    if (post.metadata && post.metadata.embeds) {
+        const embeds = post.metadata.embeds;
+
+        currentState = embeds.reduce((nextState, embed) => {
+            if (embed && embed.type === 'permalink' && embed.data && 'post' in embed.data && embed.data.post) {
+                return storeFilesCallback(nextState, embed.data.post);
+            }
+
+            return nextState;
+        }, currentState);
+    }
+
+    return storeFilesCallback(currentState, post);
+}
+
 function storeFilesForPost(state: Record<string, FileInfo>, post: Post) {
     if (!post.metadata || !post.metadata.files) {
         return state;
@@ -104,13 +125,15 @@ export function fileIdsByPostId(state: Record<string, string[]> = {}, action: Ge
     case PostTypes.RECEIVED_POST: {
         const post = action.data;
 
-        return storeFilesIdsForPost(state, post);
+        return storeAllFilesForPost(storeFilesIdsForPost, state, post);
     }
 
     case PostTypes.RECEIVED_POSTS: {
         const posts: Post[] = Object.values(action.data.posts);
 
-        return posts.reduce(storeFilesIdsForPost, state);
+        return posts.reduce((nextState, post) => {
+            return storeAllFilesForPost(storeFilesIdsForPost, nextState, post);
+        }, state);
     }
 
     case PostTypes.POST_DELETED:

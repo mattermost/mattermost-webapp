@@ -53,6 +53,8 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     categoryTitleRef: React.RefObject<HTMLButtonElement>;
     newDropBoxRef: React.RefObject<HTMLDivElement>;
 
+    a11yKeyDownRegistered: boolean;
+
     constructor(props: Props) {
         super(props);
 
@@ -62,6 +64,8 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         this.state = {
             isMenuOpen: false,
         };
+
+        this.a11yKeyDownRegistered = false;
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -71,30 +75,29 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        // Refs can be null when this component is shallowly rendered for testing
-        if (this.categoryTitleRef.current) {
-            this.categoryTitleRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
-            this.categoryTitleRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
-        }
+        this.categoryTitleRef.current?.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+        this.categoryTitleRef.current?.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
     }
 
     componentWillUnmount() {
-        if (this.categoryTitleRef.current) {
-            this.categoryTitleRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
-            this.categoryTitleRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+        this.categoryTitleRef.current?.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+        this.categoryTitleRef.current?.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+
+        if (this.a11yKeyDownRegistered) {
+            this.handleA11yDeactivateEvent();
         }
     }
 
     handleA11yActivateEvent = () => {
-        if (this.categoryTitleRef.current) {
-            this.categoryTitleRef.current.addEventListener('keydown', this.handleA11yKeyDown);
-        }
+        this.categoryTitleRef.current?.addEventListener('keydown', this.handleA11yKeyDown);
+
+        this.a11yKeyDownRegistered = true;
     }
 
     handleA11yDeactivateEvent = () => {
-        if (this.categoryTitleRef.current) {
-            this.categoryTitleRef.current.removeEventListener('keydown', this.handleA11yKeyDown);
-        }
+        this.categoryTitleRef.current?.removeEventListener('keydown', this.handleA11yKeyDown);
+
+        this.a11yKeyDownRegistered = false;
     }
 
     handleA11yKeyDown = (e: KeyboardEvent) => {

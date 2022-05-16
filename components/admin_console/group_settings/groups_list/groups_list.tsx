@@ -99,15 +99,17 @@ export default class GroupsList extends React.PureComponent<Props, State> {
     public async previousPage(e: any): Promise<void> {
         e.preventDefault();
         const page = this.state.page < 1 ? 0 : this.state.page - 1;
-        this.setState({checked: {}, page, loading: true});
-        this.searchGroups(page);
+        this.setState({checked: {}, page, loading: true}, () => {
+            this.searchGroups(page);
+        });
     }
 
     public async nextPage(e: any): Promise<void> {
         e.preventDefault();
         const page = this.state.page + 1;
-        this.setState({checked: {}, page, loading: true});
-        this.searchGroups(page);
+        this.setState({checked: {}, page, loading: true}, () => {
+            this.searchGroups(page);
+        });
     }
 
     public onCheckToggle(key: string) {

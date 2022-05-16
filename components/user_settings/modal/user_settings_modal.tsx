@@ -18,14 +18,12 @@ import {StatusOK} from 'mattermost-redux/types/client4';
 
 import store from 'stores/redux_store.jsx';
 
-import CollapsedReplyThreadsModal from 'components/collapsed_reply_threads_modal';
-
+import CollapsedReplyThreadsBetaModal from 'components/collapsed_reply_threads_beta_modal';
 import {ModalData} from 'types/actions';
-
 import Constants, {ModalIdentifiers} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
-import ConfirmModal from '../../confirm_modal';
+import ConfirmModal from 'components/confirm_modal';
 
 const UserSettings = React.lazy(() => import(/* webpackPrefetch: true */ 'components/user_settings'));
 const SettingsSidebar = React.lazy(() => import(/* webpackPrefetch: true */ '../../settings_sidebar'));
@@ -194,8 +192,8 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
 
         if (this.showCRTBetaModal) {
             this.props.actions.openModal({
-                modalId: ModalIdentifiers.COLLAPSED_REPLY_THREADS_MODAL,
-                dialogType: CollapsedReplyThreadsModal,
+                modalId: ModalIdentifiers.COLLAPSED_REPLY_THREADS_BETA_MODAL,
+                dialogType: CollapsedReplyThreadsBetaModal,
             });
         }
     }

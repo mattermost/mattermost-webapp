@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {
-    getMe,
     updateMe,
     sendVerificationEmail,
     setDefaultProfileImage,
@@ -54,7 +53,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Props['actions']>({
             logError,
             clearErrors,
-            getMe,
             updateMe,
             sendVerificationEmail,
             setDefaultProfileImage,

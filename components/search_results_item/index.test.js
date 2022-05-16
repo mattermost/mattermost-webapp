@@ -105,6 +105,9 @@ describe('components/SearchResultsItem/WithStore', () => {
             rhs: {
                 rhsState: RHSStates.SEARCH,
             },
+            posts: {
+                editingPost: {},
+            },
         },
     };
 

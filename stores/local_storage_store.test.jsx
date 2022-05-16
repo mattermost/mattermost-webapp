@@ -51,10 +51,10 @@ describe('stores/LocalStorageStore', () => {
         LocalStorageStore.setRecentEmojis(userId1, recentEmojis1);
         LocalStorageStore.setRecentEmojis(userId2, recentEmojis2);
 
-        const recentEmojisForUser1 = LocalStorageStore.getRecentEmojis(userId1);
+        const recentEmojisForUser1 = JSON.parse(LocalStorageStore.getRecentEmojis(userId1));
         assert.deepEqual(recentEmojisForUser1, recentEmojis1);
 
-        const recentEmojisForUser2 = LocalStorageStore.getRecentEmojis(userId2);
+        const recentEmojisForUser2 = JSON.parse(LocalStorageStore.getRecentEmojis(userId2));
         assert.deepEqual(recentEmojisForUser2, recentEmojis2);
     });
 
@@ -102,21 +102,21 @@ describe('stores/LocalStorageStore', () => {
 
             // After set
             LocalStorageStore.setRecentEmojis(userId, recentEmojis1);
-            assert.deepEqual(LocalStorageStore.getRecentEmojis(userId), recentEmojis1);
+            assert.deepEqual(JSON.parse(LocalStorageStore.getRecentEmojis(userId)), recentEmojis1);
 
             // Still set when basename explicitly set
             window.basename = '/';
-            assert.deepEqual(LocalStorageStore.getRecentEmojis(userId), recentEmojis1);
+            assert.deepEqual(JSON.parse(LocalStorageStore.getRecentEmojis(userId)), recentEmojis1);
 
             // Different with different basename
             window.basename = '/subpath';
             assert.equal(LocalStorageStore.getRecentEmojis(userId), null);
             LocalStorageStore.setRecentEmojis(userId, recentEmojis2);
-            assert.deepEqual(LocalStorageStore.getRecentEmojis(userId), recentEmojis2);
+            assert.deepEqual(JSON.parse(LocalStorageStore.getRecentEmojis(userId)), recentEmojis2);
 
             // Back to old value with original basename
             window.basename = '/';
-            assert.deepEqual(LocalStorageStore.getRecentEmojis(userId), recentEmojis1);
+            assert.deepEqual(JSON.parse(LocalStorageStore.getRecentEmojis(userId)), recentEmojis1);
         });
     });
 

@@ -12,8 +12,8 @@ interface Props extends WidgetTextSettingProps {
     disabled?: boolean;
 }
 
-const AdminTextSetting: React.SFC<Props> = (props: Props): JSX.Element => {
-    const {setByEnv, disabled, ...sharedProps} = props;
+const AdminTextSetting: React.FunctionComponent<Props> = (props: Props): JSX.Element => {
+    const {setByEnv, disabled, footer, ...sharedProps} = props;
     const isTextDisabled = disabled || setByEnv;
 
     return (
@@ -22,7 +22,7 @@ const AdminTextSetting: React.SFC<Props> = (props: Props): JSX.Element => {
             labelClassName='col-sm-4'
             inputClassName='col-sm-8'
             disabled={isTextDisabled}
-            footer={setByEnv ? <SetByEnv/> : null}
+            footer={setByEnv ? <SetByEnv/> : footer}
         />
     );
 };

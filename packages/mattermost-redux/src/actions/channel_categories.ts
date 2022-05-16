@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {batchActions} from 'redux-batched-actions';
+
 import {ChannelCategoryTypes, ChannelTypes} from 'mattermost-redux/action_types';
 
 import {Client4} from 'mattermost-redux/client';
@@ -22,7 +24,6 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {
     ActionFunc,
-    batchActions,
     DispatchFunc,
     GetStateFunc,
 } from 'mattermost-redux/types/actions';

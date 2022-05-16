@@ -1,11 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {GroupTypes} from 'mattermost-redux/action_types';
+
+import {AnyAction} from 'redux';
+import {batchActions} from 'redux-batched-actions';
+
+import {GroupTypes, UserTypes} from 'mattermost-redux/action_types';
 import {General, Groups} from '../constants';
 import {Client4} from 'mattermost-redux/client';
 
-import {Action, ActionFunc, batchActions, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {GroupPatch, SyncableType, SyncablePatch} from 'mattermost-redux/types/groups';
+import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {GroupPatch, SyncableType, SyncablePatch, GroupCreateWithUserIds, CustomGroupPatch, GroupSearachParams} from 'mattermost-redux/types/groups';
+
+import Constants from 'utils/constants';
 
 import {logError} from './errors';
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
@@ -21,7 +27,7 @@ export function linkGroupSyncable(groupID: string, syncableID: string, syncableT
             return {error};
         }
 
-        const dispatches: Action[] = [];
+        const dispatches: AnyAction[] = [];
         let type = '';
         switch (syncableType) {
         case Groups.SYNCABLE_TYPE_TEAM:
@@ -52,7 +58,7 @@ export function unlinkGroupSyncable(groupID: string, syncableID: string, syncabl
             return {error};
         }
 
-        const dispatches: Action[] = [];
+        const dispatches: AnyAction[] = [];
 
         let type = '';
         const data = {group_id: groupID, syncable_id: syncableID};
@@ -118,7 +124,7 @@ export function patchGroupSyncable(groupID: string, syncableID: string, syncable
             return {error};
         }
 
-        const dispatches: Action[] = [];
+        const dispatches: AnyAction[] = [];
 
         let type = '';
         switch (syncableType) {
@@ -141,20 +147,21 @@ export function patchGroupSyncable(groupID: string, syncableID: string, syncable
     };
 }
 
-export function getGroup(id: string): ActionFunc {
+export function getGroup(id: string, includeMemberCount = false): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getGroup,
         onSuccess: [GroupTypes.RECEIVED_GROUP],
         params: [
             id,
+            includeMemberCount,
         ],
     });
 }
 
-export function getGroups(filterAllowReference: false, page = 0, perPage: number = General.PAGE_SIZE_DEFAULT): ActionFunc {
+export function getGroups(filterAllowReference: false, page = 0, perPage = 10, includeMemberCount = false): ActionFunc {
     return bindClientFunc({
-        clientFunc: async (param1, param2, param3) => {
-            const result = await Client4.getGroups(param1, param2, param3);
+        clientFunc: async (param1, param2, param3, param4) => {
+            const result = await Client4.getGroups(param1, param2, param3, param4);
             return result;
         },
         onSuccess: [GroupTypes.RECEIVED_GROUPS],
@@ -162,11 +169,12 @@ export function getGroups(filterAllowReference: false, page = 0, perPage: number
             filterAllowReference,
             page,
             perPage,
+            includeMemberCount,
         ],
     });
 }
 
-export function getGroupsNotAssociatedToTeam(teamID: string, q = '', page = 0, perPage: number = General.PAGE_SIZE_DEFAULT): ActionFunc {
+export function getGroupsNotAssociatedToTeam(teamID: string, q = '', page = 0, perPage: number = General.PAGE_SIZE_DEFAULT, source = Constants.LDAP_SERVICE): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getGroupsNotAssociatedToTeam,
         onSuccess: [GroupTypes.RECEIVED_GROUPS],
@@ -175,11 +183,12 @@ export function getGroupsNotAssociatedToTeam(teamID: string, q = '', page = 0, p
             q,
             page,
             perPage,
+            source,
         ],
     });
 }
 
-export function getGroupsNotAssociatedToChannel(channelID: string, q = '', page = 0, perPage: number = General.PAGE_SIZE_DEFAULT, filterParentTeamPermitted = false): ActionFunc {
+export function getGroupsNotAssociatedToChannel(channelID: string, q = '', page = 0, perPage: number = General.PAGE_SIZE_DEFAULT, filterParentTeamPermitted = false, source = Constants.LDAP_SERVICE): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getGroupsNotAssociatedToChannel,
         onSuccess: [GroupTypes.RECEIVED_GROUPS],
@@ -189,6 +198,7 @@ export function getGroupsNotAssociatedToChannel(channelID: string, q = '', page 
             page,
             perPage,
             filterParentTeamPermitted,
+            source,
         ],
     });
 }
@@ -273,7 +283,7 @@ export function getGroupsAssociatedToChannel(channelID: string, q = '', page = 0
     });
 }
 
-export function patchGroup(groupID: string, patch: GroupPatch): ActionFunc {
+export function patchGroup(groupID: string, patch: GroupPatch | CustomGroupPatch): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.patchGroup,
         onSuccess: [GroupTypes.PATCHED_GROUP],
@@ -294,6 +304,23 @@ export function getGroupsByUserId(userID: string): ActionFunc {
     });
 }
 
+export function getGroupsByUserIdPaginated(userId: string, filterAllowReference = false, page = 0, perPage: number = General.PAGE_SIZE_DEFAULT, includeMemberCount = false): ActionFunc {
+    return bindClientFunc({
+        clientFunc: async (param1, param2, param3, param4, param5) => {
+            const result = await Client4.getGroups(param1, param2, param3, param4, param5);
+            return result;
+        },
+        onSuccess: [GroupTypes.RECEIVED_MY_GROUPS, GroupTypes.RECEIVED_GROUPS],
+        params: [
+            filterAllowReference,
+            page,
+            perPage,
+            includeMemberCount,
+            userId,
+        ],
+    });
+}
+
 export function getGroupStats(groupID: string): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getGroupStats,
@@ -302,4 +329,109 @@ export function getGroupStats(groupID: string): ActionFunc {
             groupID,
         ],
     });
+}
+
+export function createGroupWithUserIds(group: GroupCreateWithUserIds): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data;
+        try {
+            data = await Client4.createGroupWithUserIds(group);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            return {error};
+        }
+
+        dispatch(
+            {type: GroupTypes.CREATE_GROUP_SUCCESS, data},
+        );
+
+        return {data};
+    };
+}
+
+export function addUsersToGroup(groupId: string, userIds: string[]): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data;
+        try {
+            data = await Client4.addUsersToGroup(groupId, userIds);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            return {error};
+        }
+
+        dispatch(
+            {
+                type: UserTypes.RECEIVED_PROFILES_FOR_GROUP,
+                data,
+                id: groupId,
+            },
+        );
+
+        return {data};
+    };
+}
+
+export function removeUsersFromGroup(groupId: string, userIds: string[]): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data;
+        try {
+            data = await Client4.removeUsersFromGroup(groupId, userIds);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            return {error};
+        }
+
+        dispatch(
+            {
+                type: UserTypes.RECEIVED_PROFILES_LIST_TO_REMOVE_FROM_GROUP,
+                data,
+                id: groupId,
+            },
+        );
+
+        return {data};
+    };
+}
+
+export function searchGroups(params: GroupSearachParams): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data;
+        try {
+            data = await Client4.searchGroups(params);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        const dispatches: AnyAction[] = [{type: GroupTypes.RECEIVED_GROUPS, data}];
+
+        if (params.user_id) {
+            dispatches.push({type: GroupTypes.RECEIVED_MY_GROUPS, data});
+        }
+        dispatch(batchActions(dispatches));
+
+        return {data: true};
+    };
+}
+
+export function archiveGroup(groupId: string): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data;
+        try {
+            data = await Client4.archiveGroup(groupId);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            return {error};
+        }
+
+        dispatch(
+            {
+                type: GroupTypes.ARCHIVED_GROUP,
+                id: groupId,
+            },
+        );
+
+        return {data};
+    };
 }

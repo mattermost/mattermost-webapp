@@ -292,7 +292,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
       href="#"
       onClick={[Function]}
     >
-      <Connect(injectIntl(ModalToggleButtonRedux))
+      <Connect(injectIntl(ToggleModalButton))
         ariaLabel="Add to a Channel"
         dialogProps={
           Object {
@@ -364,7 +364,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
           }
         />
         Add to a Channel
-      </Connect(injectIntl(ModalToggleButtonRedux))>
+      </Connect(injectIntl(ToggleModalButton))>
     </a>
   </div>
   <Connect(Pluggable)
@@ -584,7 +584,7 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
       href="#"
       onClick={[Function]}
     >
-      <Connect(injectIntl(ModalToggleButtonRedux))
+      <Connect(injectIntl(ToggleModalButton))
         ariaLabel="Add to a Channel"
         dialogProps={
           Object {
@@ -657,7 +657,7 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
           }
         />
         Add to a Channel
-      </Connect(injectIntl(ModalToggleButtonRedux))>
+      </Connect(injectIntl(ToggleModalButton))>
     </a>
   </div>
   <Connect(Pluggable)
@@ -835,8 +835,7 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
       <span
         className="d-flex"
       >
-        <CustomStatusEmoji
-          emojiSize={16}
+        <Memo(CustomStatusEmoji)
           emojiStyle={
             Object {
               "marginRight": 4,
@@ -844,8 +843,6 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
             }
           }
           showTooltip={false}
-          spanStyle={Object {}}
-          tooltipDirection="top"
           userID="user_id"
         />
       </span>
@@ -891,7 +888,7 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
       href="#"
       onClick={[Function]}
     >
-      <Connect(injectIntl(ModalToggleButtonRedux))
+      <Connect(injectIntl(ToggleModalButton))
         ariaLabel="Add to a Channel"
         dialogProps={
           Object {
@@ -963,7 +960,7 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
           }
         />
         Add to a Channel
-      </Connect(injectIntl(ModalToggleButtonRedux))>
+      </Connect(injectIntl(ToggleModalButton))>
     </a>
   </div>
   <Connect(Pluggable)
@@ -1151,7 +1148,7 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
       href="#"
       onClick={[Function]}
     >
-      <Connect(injectIntl(ModalToggleButtonRedux))
+      <Connect(injectIntl(ToggleModalButton))
         ariaLabel="Add to a Channel"
         dialogProps={
           Object {
@@ -1223,7 +1220,7 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
           }
         />
         Add to a Channel
-      </Connect(injectIntl(ModalToggleButtonRedux))>
+      </Connect(injectIntl(ToggleModalButton))>
     </a>
   </div>
   <Connect(Pluggable)

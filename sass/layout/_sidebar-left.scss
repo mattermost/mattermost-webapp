@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+/* Height durations for height and opacity of sidebar channels needs to be different for optimum fps see PR #9732 */
+$sidebarHeightTransitionDuration: 0.18s;
+$sidebarOpacityAnimationDuration: 0.15s;
+
 #TeamSidebar {
     position: fixed;
     z-index: 13;
@@ -325,7 +329,7 @@
     .AddChannelDropdown_dropdownButton:hover,
     .AddChannelDropdown_dropdownButton:active,
     .AddChannelDropdown_dropdownButton:focus {
-        background: rgba(255, 255, 255, 0.08);
+        background-color: rgba(var(--sidebar-text-rgb), 0.16);
         color: var(--sidebar-text);
         cursor: pointer;
     }
@@ -351,31 +355,8 @@
     }
 
     .AddChannelDropdown_dropdownButton {
-        &--by-team-name {
-            background-color: rgba(var(--sidebar-text-rgb), 0.08);
-            color: rgba(var(--sidebar-text-rgb), 0.72);
-
-            &:hover,
-            &:active,
-            &:focus {
-                background-color: rgba(var(--sidebar-text-rgb), 0.16);
-                color: var(--sidebar-text);
-            }
-        }
-
-        &--inverted-sidebar-bg-color {
-            background-color: var(--sidebar-text);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
-            color: var(--sidebar-bg);
-
-            &:hover,
-            &:active,
-            &:focus {
-                background-color: rgba(var(--sidebar-text-rgb), 0.88);
-                box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
-                color: rgb(var(--sidebar-bg-rgb));
-            }
-        }
+        background-color: rgba(var(--sidebar-text-rgb), 0.08);
+        color: rgba(var(--sidebar-text-rgb), 0.72);
     }
 
     .SidebarMenu {
@@ -1024,6 +1005,9 @@
         color: rgba(var(--sidebar-text-rgb), 0.6);
         list-style-type: none;
         opacity: 1;
+        transition-duration: $sidebarHeightTransitionDuration;
+        transition-property: height;
+        transition-timing-function: ease;
         visibility: visible;
 
         &:hover {
@@ -1117,30 +1101,27 @@
                 text-overflow: ellipsis;
             }
         }
-    }
 
-    .SidebarChannel.animating {
-        transition-duration: 0.15s, 0.15s, 0.15s, 0.15s, 0.15s; /* collapse animation speed */
-        transition-property: height, padding, color, opacity, visibility;
-        transition-timing-function: ease, ease, ease, ease-in, step-start;
+        &.expanded {
+            animation-direction: normal;
+            animation-duration: $sidebarOpacityAnimationDuration;
+            animation-iteration-count: 1;
+            animation-name: toOpaqueAnimation;
+            animation-play-state: running;
+        }
 
         &.collapsed {
-            transition-timing-function: ease, ease, ease, ease-out, step-end;
+            height: 0 !important;
+            animation-direction: normal;
+            animation-duration: $sidebarOpacityAnimationDuration;
+            animation-iteration-count: 1;
+            animation-name: toTransparentAnimation;
+            animation-play-state: running;
         }
     }
 
     .SidebarChannel.invisible {
         opacity: 0;
-    }
-
-    .SidebarChannel.collapsed {
-        height: 0 !important;
-        padding-top: 0;
-        padding-bottom: 0;
-        border-top: none;
-        border-bottom: none;
-        opacity: 0;
-        visibility: hidden;
     }
 
     /* fade out collapsing list item */
@@ -1394,5 +1375,25 @@
             margin-top: 0;
             margin-bottom: 11px;
         }
+    }
+}
+
+@keyframes toOpaqueAnimation {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes toTransparentAnimation {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
     }
 }

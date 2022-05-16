@@ -14,7 +14,7 @@ export function show(state = false, action: GenericAction) {
         return action.show;
 
     case UserTypes.LOGOUT_SUCCESS:
-        return true;
+        return false;
     default:
         return state;
     }

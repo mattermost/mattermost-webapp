@@ -14,7 +14,6 @@ import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Avatar from 'components/widgets/users/avatar';
 import {isSuccess} from 'types/actions';
@@ -167,9 +166,20 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
             additionalRoles = (
                 <div>
                     <p>
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='admin.manage_roles.additionalRoles'
-                            defaultMessage='Select additional permissions for the account. [Read more about roles and permissions](!https://about.mattermost.com/default-permissions).'
+                            defaultMessage='Select additional permissions for the account. <link>Read more about roles and permissions</link>.'
+                            values={{
+                                link: (msg: React.ReactNode) => (
+                                    <a
+                                        href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                            }}
                         />
                     </p>
                     <div className='checkbox'>
@@ -240,9 +250,20 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
                                     disabled={this.state.isSystemAdmin}
                                     onChange={this.handleUserAccessTokenChange}
                                 />
-                                <FormattedMarkdownMessage
+                                <FormattedMessage
                                     id='admin.manage_roles.allowUserAccessTokens'
-                                    defaultMessage='Allow this account to generate [personal access tokens](!https://about.mattermost.com/default-user-access-tokens).'
+                                    defaultMessage='Allow this account to generate <link>personal access tokens</link>.'
+                                    values={{
+                                        link: (msg: React.ReactNode) => (
+                                            <a
+                                                href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token'
+                                                target='_blank'
+                                                rel='noreferrer'
+                                            >
+                                                {msg}
+                                            </a>
+                                        ),
+                                    }}
                                 />
                                 <span className='d-block pt-2 pb-2 light'>
                                     <FormattedMessage

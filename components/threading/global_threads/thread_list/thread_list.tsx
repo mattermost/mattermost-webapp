@@ -13,7 +13,7 @@ import {getThreads, markAllThreadsInTeamRead} from 'mattermost-redux/actions/thr
 import {UserThread} from 'mattermost-redux/types/threads';
 import {trackEvent} from 'actions/telemetry_actions';
 
-import {Constants} from 'utils/constants';
+import {Constants, CrtTutorialSteps, Preferences} from 'utils/constants';
 
 import NoResultsIndicator from 'components/no_results_indicator';
 import SimpleTooltip from 'components/widgets/simple_tooltip';
@@ -23,10 +23,16 @@ import Button from '../../common/button';
 import BalloonIllustration from '../../common/balloon_illustration';
 
 import {useThreadRouting} from '../../hooks';
+import './thread_list.scss';
+import CRTListTutorialTip from 'components/crt_tour/crt_list_tutorial_tip/crt_list_tutorial_tip';
+import {GlobalState} from 'types/store';
+import {getInt} from 'mattermost-redux/selectors/entities/preferences';
+import CRTUnreadTutorialTip
+    from 'components/crt_tour/crt_unread_tutorial_tip/crt_unread_tutorial_tip';
+
+import {getIsMobileView} from 'selectors/views/browser';
 
 import VirtualizedThreadList from './virtualized_thread_list';
-
-import './thread_list.scss';
 
 export enum ThreadFilter {
     none = '',
@@ -52,24 +58,32 @@ const ThreadList = ({
     unreadIds,
     ids,
 }: PropsWithChildren<Props>) => {
+    const isMobileView = useSelector(getIsMobileView);
     const unread = ThreadFilter.unread === currentFilter;
     const data = unread ? unreadIds : ids;
     const ref = React.useRef<HTMLDivElement>(null);
-
+    const {currentTeamId, currentUserId, clear, select} = useThreadRouting();
+    const tipStep = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_STEP, currentUserId));
+    const showListTutorialTip = tipStep === CrtTutorialSteps.LIST_POPOVER;
+    const showUnreadTutorialTip = tipStep === CrtTutorialSteps.UNREAD_POPOVER;
+    const tutorialTipAutoTour = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_AUTO_TOUR_STATUS, currentUserId, Constants.AutoTourStatus.ENABLED)) === Constants.AutoTourStatus.ENABLED;
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
-    const {currentTeamId, currentUserId, clear, select} = useThreadRouting();
 
     const {total = 0, total_unread_threads: totalUnread} = useSelector(getThreadCountsInCurrentTeam);
+
+    const [isLoading, setLoading] = React.useState<boolean>(false);
+    const [hasLoaded, setHasLoaded] = React.useState<boolean>(false);
 
     const handleKeyDown = useCallback((e: KeyboardEvent) => {
         // Ensure that arrow keys navigation is not triggered if the textbox is focused
         const target = e.target as HTMLElement;
-        if (target?.id === 'reply_textbox') {
+        const tagName = target?.tagName?.toLowerCase();
+        if (tagName === 'input' || tagName === 'textarea' || tagName === 'select') {
             return;
         }
-
-        if (!Utils.isKeyPressed(e, Constants.KeyCodes.DOWN) && !Utils.isKeyPressed(e, Constants.KeyCodes.UP)) {
+        const comboKeyPressed = e.altKey || e.metaKey || e.shiftKey || e.ctrlKey;
+        if (comboKeyPressed || (!Utils.isKeyPressed(e, Constants.KeyCodes.DOWN) && !Utils.isKeyPressed(e, Constants.KeyCodes.UP))) {
             return;
         }
 
@@ -117,6 +131,7 @@ const ThreadList = ({
     }, [setFilter]);
 
     const handleLoadMoreItems = useCallback(async (startIndex) => {
+        setLoading(true);
         let before = data[startIndex - 1];
 
         if (before === selectedThreadId) {
@@ -124,6 +139,10 @@ const ThreadList = ({
         }
 
         await dispatch(getThreads(currentUserId, currentTeamId, {unread, perPage: Constants.THREADS_PAGE_SIZE, before}));
+
+        setLoading(false);
+        setHasLoaded(true);
+
         return {data: true};
     }, [currentTeamId, data, unread, selectedThreadId]);
 
@@ -140,31 +159,41 @@ const ThreadList = ({
             tabIndex={0}
             ref={ref}
             className={'ThreadList'}
+            id={'threads-list-container'}
         >
             <Header
+                id={'tutorial-threads-mobile-header'}
                 heading={(
                     <>
-                        <Button
-                            className={'Button___large Margined'}
-                            isActive={currentFilter === ThreadFilter.none}
-                            onClick={handleRead}
+                        <div className={'tab-button-wrapper'}>
+                            <Button
+                                className={'Button___large Margined'}
+                                isActive={currentFilter === ThreadFilter.none}
+                                onClick={handleRead}
+                            >
+                                <FormattedMessage
+                                    id='threading.filters.allThreads'
+                                    defaultMessage='All your threads'
+                                />
+                            </Button>
+                        </div>
+                        <div
+                            id={'threads-list-unread-button'}
+                            className={'tab-button-wrapper'}
                         >
-                            <FormattedMessage
-                                id='threading.filters.allThreads'
-                                defaultMessage='All your threads'
-                            />
-                        </Button>
-                        <Button
-                            className={'Button___large Margined'}
-                            isActive={currentFilter === ThreadFilter.unread}
-                            hasDot={someUnread}
-                            onClick={handleUnread}
-                        >
-                            <FormattedMessage
-                                id='threading.filters.unreads'
-                                defaultMessage='Unreads'
-                            />
-                        </Button>
+                            <Button
+                                className={'Button___large Margined'}
+                                isActive={currentFilter === ThreadFilter.unread}
+                                hasDot={someUnread}
+                                onClick={handleUnread}
+                            >
+                                <FormattedMessage
+                                    id='threading.filters.unreads'
+                                    defaultMessage='Unreads'
+                                />
+                            </Button>
+                            {showUnreadTutorialTip && <CRTUnreadTutorialTip autoTour={tutorialTipAutoTour}/>}
+                        </div>
                     </>
                 )}
                 right={(
@@ -177,6 +206,7 @@ const ThreadList = ({
                             })}
                         >
                             <Button
+                                id={'threads-list__mark-all-as-read'}
                                 className={'Button___large Button___icon'}
                                 onClick={handleAllMarkedRead}
                             >
@@ -188,14 +218,20 @@ const ThreadList = ({
                     </div>
                 )}
             />
-            <div className='threads'>
+            <div
+                className='threads'
+                data-testid={'threads_list'}
+            >
                 <VirtualizedThreadList
                     key={`threads_list_${currentFilter}`}
                     loadMoreItems={handleLoadMoreItems}
                     ids={data}
                     selectedThreadId={selectedThreadId}
                     total={unread ? totalUnread : total}
+                    isLoading={isLoading}
+                    addNoMoreResultsItem={hasLoaded && !unread}
                 />
+                {showListTutorialTip && !isMobileView && <CRTListTutorialTip autoTour={tutorialTipAutoTour}/>}
                 {unread && !someUnread && isEmpty(unreadIds) ? (
                     <NoResultsIndicator
                         expanded={true}
@@ -210,5 +246,4 @@ const ThreadList = ({
         </div>
     );
 };
-
 export default memo(ThreadList);

@@ -12,12 +12,12 @@ import {
 import {Team} from 'mattermost-redux/types/teams';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import TitleAndButtonCardHeader from 'components/card/title_and_button_card_header/title_and_button_card_header';
 import Card from 'components/card/card';
 import BlockableLink from 'components/admin_console/blockable_link';
-import Input from 'components/input';
+import Input from 'components/widgets/inputs/input/input';
 import TeamSelectorModal from 'components/team_selector_modal';
 import ChannelSelectorModal from 'components/channel_selector_modal';
 import DropdownInputHybrid from 'components/widgets/inputs/dropdown_input_hybrid';

@@ -13,7 +13,7 @@ import EventEmitter from 'mattermost-redux/utils/event_emitter';
 import Constants, {PostListRowListIds, EventTypes, PostRequestTypes} from 'utils/constants';
 import DelayedAction from 'utils/delayed_action';
 import {getPreviousPostId, getLatestPostId, getNewMessageIndex} from 'utils/post_utils';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import FloatingTimestamp from 'components/post_view/floating_timestamp';
 import PostListRow from 'components/post_view/post_list_row';
@@ -289,7 +289,7 @@ export default class PostList extends React.PureComponent {
         if (this.props.isMobileView) {
             dynamicListStyle = {
                 ...dynamicListStyle,
-                opened: opened ? 'unset' : 'transform',
+                willChange: opened ? 'unset' : 'transform',
             };
         }
 

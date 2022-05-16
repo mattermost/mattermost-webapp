@@ -10,7 +10,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import Constants from 'utils/constants';
 import {isMobile} from 'utils/user_agent';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import ConfirmModal from 'components/confirm_modal';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
@@ -436,18 +436,58 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
         if (isMobile()) {
             extraInfo = (
                 <span>
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='user.settings.tokens.description_mobile'
-                        defaultMessage='[Personal access tokens](!https://about.mattermost.com/default-user-access-tokens) function similarly to session tokens and can be used by integrations to [authenticate against the REST API](!https://about.mattermost.com/default-api-authentication). Create new tokens on your desktop.'
+                        defaultMessage='<linktokens>Personal access tokens</linktokens> function similarly to session tokens and can be used by integrations to <linkAPI>authenticate against the REST API</linkAPI>. Create new tokens on your desktop.'
+                        values={{
+                            linktokens: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                            linkAPI: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://api.mattermost.com/#tag/authentication'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        }}
                     />
                 </span>
             );
         } else {
             extraInfo = (
                 <span>
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='user.settings.tokens.description'
-                        defaultMessage='[Personal access tokens](!https://about.mattermost.com/default-user-access-tokens) function similarly to session tokens and can be used by integrations to [authenticate against the REST API](!https://about.mattermost.com/default-api-authentication).'
+                        defaultMessage='<linkTokens>Personal access tokens</linkTokens> function similarly to session tokens and can be used by integrations to <linkAPI>authenticate against the REST API</linkAPI>.'
+                        values={{
+                            linkTokens: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                            linkApi: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://api.mattermost.com/#tag/authentication'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        }}
                     />
                 </span>
             );

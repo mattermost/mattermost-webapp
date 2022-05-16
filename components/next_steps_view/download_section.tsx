@@ -10,7 +10,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 
 import Card from 'components/card/card';
 
-import DownloadApps from './images/download-apps.svg';
+import DownloadApps from './images/download-apps-svg';
 import {getAnalyticsCategory} from './step_helpers';
 
 type Props = {

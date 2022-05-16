@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import GenericModal from 'components/generic_modal';
 import closeNextStepsArrow from 'images/close_next_steps_arrow.svg';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import './remove_next_steps_modal.scss';
 
@@ -51,6 +51,7 @@ export default function RemoveNextStepsModal(props: Props) {
                 className='RemoveNextStepsModal'
                 onExited={onCancel}
                 handleConfirm={onConfirm}
+                handleEnterKeyPress={onConfirm}
                 handleCancel={onCancel}
                 container={modalRoot}
                 modalHeaderText={(

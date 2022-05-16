@@ -3,8 +3,9 @@
 
 import React from 'react';
 
-import {Provider} from 'react-redux';
+import * as reactRedux from 'react-redux';
 import configureStore from 'redux-mock-store';
+import {act} from 'react-dom/test-utils';
 
 import thunk from 'redux-thunk';
 
@@ -58,6 +59,7 @@ describe('components/admin_console/license_settings/modals/upload_license_modal'
 
     const props = {
         onExited: mockOnExited,
+        fileObjFromProps: {name: 'Test license file'} as File,
     };
 
     const mockStore = configureStore([thunk]);
@@ -65,9 +67,9 @@ describe('components/admin_console/license_settings/modals/upload_license_modal'
 
     test('should match snapshot when is not licensed', () => {
         const wrapper = shallow(
-            <Provider store={store}>
+            <reactRedux.Provider store={store}>
                 <UploadLicenseModal {...props}/>
-            </Provider>,
+            </reactRedux.Provider>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -82,18 +84,20 @@ describe('components/admin_console/license_settings/modals/upload_license_modal'
         const mockStore = configureStore([thunk]);
         const store = mockStore(localStore);
         const wrapper = shallow(
-            <Provider store={store}>
+            <reactRedux.Provider store={store}>
                 <UploadLicenseModal {...props}/>
-            </Provider>,
+            </reactRedux.Provider>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should display upload btn Disabled on initial load and no file selected', () => {
+        const newProps = {...props};
+        newProps.fileObjFromProps = {} as File;
         const wrapper = mountWithIntl(
-            <Provider store={store}>
-                <UploadLicenseModal {...props}/>
-            </Provider>,
+            <reactRedux.Provider store={store}>
+                <UploadLicenseModal {...newProps}/>
+            </reactRedux.Provider>,
         );
         const uploadButton = wrapper.find('UploadLicenseModal').find('button#upload-button');
         expect(uploadButton.prop('disabled')).toBe(true);
@@ -105,9 +109,9 @@ describe('components/admin_console/license_settings/modals/upload_license_modal'
 
         jest.spyOn(React, 'useState').mockImplementationOnce(() => realUseState(initialStateForFileObj as any));
         const wrapper = mountWithIntl(
-            <Provider store={store}>
+            <reactRedux.Provider store={store}>
                 <UploadLicenseModal {...props}/>
-            </Provider>,
+            </reactRedux.Provider>,
         );
         const uploadButton = wrapper.find('UploadLicenseModal').find('button#upload-button');
         expect(uploadButton.prop('disabled')).toBe(false);
@@ -115,9 +119,9 @@ describe('components/admin_console/license_settings/modals/upload_license_modal'
 
     test('should display no file selected text when no file is loaded', () => {
         const wrapper = mountWithIntl(
-            <Provider store={store}>
+            <reactRedux.Provider store={store}>
                 <UploadLicenseModal {...props}/>
-            </Provider>,
+            </reactRedux.Provider>,
         );
         const fileText = wrapper.find('UploadLicenseModal').find('.file-name-section span');
         expect(fileText.text()).toEqual('No file selected');
@@ -129,9 +133,9 @@ describe('components/admin_console/license_settings/modals/upload_license_modal'
 
         jest.spyOn(React, 'useState').mockImplementationOnce(() => realUseState(initialStateForFileObj as any));
         const wrapper = mountWithIntl(
-            <Provider store={store}>
+            <reactRedux.Provider store={store}>
                 <UploadLicenseModal {...props}/>
-            </Provider>,
+            </reactRedux.Provider>,
         );
         const fileTextName = wrapper.find('UploadLicenseModal').find('.file-name-section span.file-name');
         const fileTextSize = wrapper.find('UploadLicenseModal').find('.file-name-section span.file-size');
@@ -140,7 +144,7 @@ describe('components/admin_console/license_settings/modals/upload_license_modal'
         expect(fileTextSize.text()).toEqual('5KB');
     });
 
-    test('should show success image when open and there is a license (successful license upload)', () => {
+    test('should show success image when open and there is a license (successful license upload)', async () => {
         const licensedState = {
             general: {
                 license: {...license},
@@ -149,13 +153,62 @@ describe('components/admin_console/license_settings/modals/upload_license_modal'
         const localStore = {...state, entities: licensedState};
         const mockStore = configureStore([thunk]);
         const store = mockStore(localStore);
+
+        const useDispatchMock = jest.spyOn(reactRedux, 'useDispatch');
+
+        const dummyDispatch = jest.fn();
+        useDispatchMock.mockReturnValue(dummyDispatch.mockImplementation(() => new Promise((resolve) => {
+            resolve('');
+        })));
+
         const wrapper = mountWithIntl(
-            <Provider store={store}>
+            <reactRedux.Provider store={store}>
                 <UploadLicenseModal {...props}/>
-            </Provider>,
+            </reactRedux.Provider>,
         );
+
+        await act(async () => {
+            wrapper.find('UploadLicenseModal').find('#upload-button').simulate('click'); // simulate successful upload of license
+        });
+
+        wrapper.update();
         expect(wrapper.find('UploadLicenseModal').find('.hands-svg')).toHaveLength(1);
         expect(wrapper.find('UploadLicenseModal').find('#done-button')).toHaveLength(1);
+
+        useDispatchMock.mockClear();
+    });
+
+    test('should format users number', async () => {
+        const licensedState = {
+            general: {
+                license: {...license, Users: '123456789'},
+            },
+        };
+        const localStore = {...state, entities: licensedState};
+        const mockStore = configureStore([thunk]);
+        const store = mockStore(localStore);
+
+        const useDispatchMock = jest.spyOn(reactRedux, 'useDispatch');
+
+        const dummyDispatch = jest.fn();
+        useDispatchMock.mockReturnValue(dummyDispatch.mockImplementation(() => new Promise((resolve) => {
+            resolve('');
+        })));
+
+        const wrapper = mountWithIntl(
+            <reactRedux.Provider store={store}>
+                <UploadLicenseModal {...props}/>
+            </reactRedux.Provider>,
+        );
+
+        await act(async () => {
+            wrapper.find('UploadLicenseModal').find('#upload-button').simulate('click'); // simulate successful upload of license
+        });
+
+        const modalSubtitle = wrapper.find('UploadLicenseModal').find('.subtitle').text();
+        expect(modalSubtitle).toContain('123,456,789');
+
+        useDispatchMock.mockClear();
     });
 
     test('should hide the upload modal', () => {
@@ -168,9 +221,9 @@ describe('components/admin_console/license_settings/modals/upload_license_modal'
         const mockStore = configureStore([thunk]);
         const store = mockStore(localStore);
         const wrapper = mountWithIntl(
-            <Provider store={store}>
+            <reactRedux.Provider store={store}>
                 <UploadLicenseModal {...props}/>
-            </Provider>,
+            </reactRedux.Provider>,
         );
 
         expect(wrapper.find('UploadLicenseModal').find('content-body')).toHaveLength(0);

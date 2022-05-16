@@ -19,7 +19,7 @@ describe('components/MenuItemToggleModalRedux', () => {
 
         expect(wrapper).toMatchInlineSnapshot(`
             <Fragment>
-              <Connect(injectIntl(ModalToggleButtonRedux))
+              <Connect(injectIntl(ToggleModalButton))
                 className=""
                 dialogProps={
                   Object {
@@ -34,7 +34,7 @@ describe('components/MenuItemToggleModalRedux', () => {
                 >
                   Whatever
                 </span>
-              </Connect(injectIntl(ModalToggleButtonRedux))>
+              </Connect(injectIntl(ToggleModalButton))>
             </Fragment>
         `);
     });
