@@ -6,10 +6,12 @@ import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 import {EyeOutlineIcon} from '@mattermost/compass-icons/components';
 
-import Constants from 'utils/constants';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
-import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from '../../keyboard_shortcuts/keyboard_shortcuts_sequence';
+import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
+import Constants from 'utils/constants';
+
+import {IconContainer} from '../formatting_bar/formatting_icon';
 
 interface ShowFormatProps {
     onClick: (event: React.MouseEvent) => void;
@@ -38,7 +40,7 @@ const ShowFormat = (props: ShowFormatProps): JSX.Element => {
             trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
             overlay={tooltip}
         >
-            <button
+            <IconContainer
                 type='button'
                 id='PreviewInputTextButton'
                 onClick={onClick}
@@ -49,7 +51,7 @@ const ShowFormat = (props: ShowFormatProps): JSX.Element => {
                     color={'currentColor'}
                     aria-label={iconAriaLabel}
                 />
-            </button>
+            </IconContainer>
         </OverlayTrigger>
     );
 };

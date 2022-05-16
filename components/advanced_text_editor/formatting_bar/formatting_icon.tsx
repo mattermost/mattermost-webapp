@@ -27,6 +27,7 @@ import {MarkdownMode} from 'utils/markdown/apply_markdown';
 import Constants from 'utils/constants';
 
 export const IconContainer = styled.button`
+    @include .style--none;
     display: flex;
     width: 32px;
     height: 32px;

@@ -6,10 +6,12 @@ import classNames from 'classnames';
 import {FormatLetterCaseIcon} from '@mattermost/compass-icons/components';
 import {useIntl} from 'react-intl';
 
-import Constants from 'utils/constants';
 import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
+import Constants from 'utils/constants';
+
+import {IconContainer} from '../formatting_bar/formatting_icon';
 
 interface ToggleFormattingBarProps {
     onClick: React.MouseEventHandler;
@@ -38,7 +40,7 @@ const ToggleFormattingBar = (props: ToggleFormattingBarProps): JSX.Element => {
             trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
             overlay={tooltip}
         >
-            <button
+            <IconContainer
                 type='button'
                 id='toggleFormattingBarButton'
                 onClick={onClick}
@@ -49,7 +51,7 @@ const ToggleFormattingBar = (props: ToggleFormattingBarProps): JSX.Element => {
                     color={'currentColor'}
                     aria-label={iconAriaLabel}
                 />
-            </button>
+            </IconContainer>
         </OverlayTrigger>
     );
 };
