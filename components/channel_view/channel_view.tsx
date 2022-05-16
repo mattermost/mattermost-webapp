@@ -34,7 +34,7 @@ type Props = {
     isCloud: boolean;
     isFirstAdmin: boolean;
     useCaseOnboarding: boolean;
-    isAdvanceTextEditorEnabled: boolean;
+    isAdvancedTextEditorEnabled: boolean;
     actions: {
         goToLastViewedChannel: () => Promise<{data: boolean}>;
         setShowNextStepsView: (x: boolean) => void;
@@ -174,7 +174,7 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                 </div>
             );
         } else if (!this.props.channelRolesLoading) {
-            if (this.props.isAdvanceTextEditorEnabled) {
+            if (this.props.isAdvancedTextEditorEnabled) {
                 createPost = (
                     <div
                         className='post-create__container AdvancedTextEditor__ctr'

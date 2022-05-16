@@ -37,7 +37,7 @@ const CreateComment = forwardRef<HTMLDivElement, Props>(({
 }: Props, ref) => {
     const getChannel = useMemo(makeGetChannel, []);
     const rootPost = useSelector((state: GlobalState) => getPost(state, threadId));
-    const isAdvanceTextEditorEnabled = useSelector(isAdvanceTextEditor);
+    const isAdvancedTextEditorEnabled = useSelector(isAdvanceTextEditor);
     const channel = useSelector((state: GlobalState) => getChannel(state, {id: rootPost.channel_id}));
     const rootDeleted = (rootPost as Post).state === Posts.POST_DELETED;
     const isFakeDeletedPost = rootPost.type === Constants.PostTypes.FAKE_PARENT_DELETED;
@@ -72,7 +72,7 @@ const CreateComment = forwardRef<HTMLDivElement, Props>(({
             </div>
         );
     }
-    if (isAdvanceTextEditorEnabled) {
+    if (isAdvancedTextEditorEnabled) {
         return (
             <div
                 className='post-create__container'
