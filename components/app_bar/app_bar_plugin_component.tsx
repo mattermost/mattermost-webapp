@@ -4,6 +4,7 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import classNames from 'classnames';
+import styled from 'styled-components';
 
 import {Tooltip} from 'react-bootstrap';
 
@@ -67,6 +68,14 @@ const AppBarPluginComponent = (props: PluginComponentProps) => {
         </div>
     );
 
+    if (!iconUrl) {
+        content = (
+            <OldIcon className='app-bar__icon-inner'>
+                {component.icon}
+            </OldIcon>
+        );
+    }
+
     if (imageLoadState === ImageLoadState.ERROR) {
         content = (
             <PluginIcon className='icon__plugin'/>
@@ -94,5 +103,12 @@ const AppBarPluginComponent = (props: PluginComponentProps) => {
         </OverlayTrigger>
     );
 };
+
+const OldIcon = styled.div`
+    &&& {
+        display: grid;
+        place-items: center;
+    }
+`;
 
 export default AppBarPluginComponent;
