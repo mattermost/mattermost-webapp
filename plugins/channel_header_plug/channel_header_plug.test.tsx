@@ -35,6 +35,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                 }}
                 appBindings={[]}
                 appsEnabled={false}
+                shouldShowAppBar={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -55,6 +56,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                 }}
                 appBindings={[]}
                 appsEnabled={false}
+                shouldShowAppBar={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -91,6 +93,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                 }}
                 appBindings={[]}
                 appsEnabled={false}
+                shouldShowAppBar={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();

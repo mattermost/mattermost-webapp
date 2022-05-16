@@ -49,6 +49,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with no extended compon
       "timeZone": "Etc/UTC",
     }
   }
+  shouldShowAppBar={false}
   sidebarOpen={false}
   theme={Object {}}
 />
@@ -116,6 +117,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
       "timeZone": "Etc/UTC",
     }
   }
+  shouldShowAppBar={false}
   sidebarOpen={false}
   theme={Object {}}
 >
@@ -429,6 +431,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
       "timeZone": "Etc/UTC",
     }
   }
+  shouldShowAppBar={false}
   sidebarOpen={false}
   theme={Object {}}
 >
