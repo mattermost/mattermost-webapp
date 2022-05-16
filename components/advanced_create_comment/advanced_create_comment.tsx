@@ -50,190 +50,124 @@ const KeyCodes = Constants.KeyCodes;
 const CreateCommentDraftTimeoutMilliseconds = 500;
 type Props = {
 
-    /**
-     * The channel for which this comment is a part of
-     */
+    // The channel for which this comment is a part of
     channelId: string;
 
+    // The id of the current user
     currentUserId: string;
 
-    /**
-     * The number of channel members
-     */
-    channelMembersCount: number;
-
-    /**
-     * The id of the parent post
-     */
+    // The id of the parent post
     rootId: string;
 
-    /**
-     * True if the root message was deleted
-     */
+    // The root message is deleted
     rootDeleted: boolean;
 
-    /**
-     * The current history message selected
-     */
+    // The number of channel members
+    channelMembersCount: number;
+
+    // The current history message selected
     messageInHistory?: string;
 
-    /**
-     * The current draft of the comment
-     */
+    // The current draft of the comment
     draft: PostDraft;
 
-    /**
-     * Whether the submit button is enabled
-     */
+    // Determines if the submit button should be rendered
     enableAddButton?: boolean;
 
-    /**
-     * Force message submission on CTRL/CMD + ENTER
-     */
+    // Force message submission on CTRL/CMD + ENTER
     codeBlockOnCtrlEnter?: boolean;
 
-    /**
-     * Set to force form submission on CTRL/CMD + ENTER instead of just ENTER
-     */
+    // Set to force form submission on CTRL/CMD + ENTER instead of just ENTER
     ctrlSend?: boolean;
 
-    /**
-     * The id of the latest post in this channel
-     */
+    // The id of the latest post in this channel
     latestPostId?: string;
+
+    // The current user locale
     locale: string;
 
-    /**
-     * Create post error id
-     */
+    // Error id, if the post creation fails
     createPostErrorId?: string;
 
-    canUploadFiles: boolean;
-
-    /**
-     * Called to clear file uploads in progress
-     */
-    clearCommentDraftUploads: () => void;
-
-    /**
-     * Called when comment draft needs to be updated
-     */
-    onUpdateCommentDraft: (draft?: PostDraft) => void;
-
-    /**
-     * Called when comment draft needs to be updated for a specific root ID
-     */
-    updateCommentDraftWithRootId: (rootID: string, draft: PostDraft) => void;
-
-    /**
-     * Called when submitting the comment
-     */
-    onSubmit: (draft: PostDraft, options: {ignoreSlash: boolean}) => void;
-
-    /**
-     * Called when resetting comment message history index
-     */
-    onResetHistoryIndex: () => void;
-
-    /**
-     * Called when navigating back through comment message history
-     */
-    onMoveHistoryIndexBack: () => void;
-
-    /**
-     * Called when navigating forward through comment message history
-     */
-    onMoveHistoryIndexForward: () => void;
-
-    /**
-     * Called to initiate editing the user's latest post
-     */
-    onEditLatestPost: () => ActionResult;
-
-    /**
-     * Function to get the users timezones in the channel
-     */
-    getChannelTimezones: (channelId: string) => Promise<ActionResult>;
-
-    /**
-     * Reset state of createPost request
-     */
-    resetCreatePostRequest: () => void;
-
-    /**
-     * Set if @channel should warn in this channel.
-     */
-    enableConfirmNotificationsToChannel: boolean;
-
-    /**
-     * Set if the emoji picker is enabled.
-     */
-    enableEmojiPicker: boolean;
-
-    /**
-     * Set if the gif picker is enabled.
-     */
-    enableGifPicker: boolean;
-
-    /**
-     * Set if the connection may be bad to warn user
-     */
-    badConnection: boolean;
-
-    /**
-     * The maximum length of a post
-     */
-    maxPostSize: number;
-    rhsExpanded: boolean;
-
-    /**
-     * check if timezones are enabled on the server.
-     */
-    isTimezoneEnabled: boolean;
-
-    /**
-     * The last time, if any, when the selected post changed. Will be 0 if no post selected.
-     */
-    selectedPostFocussedAt: number;
-
-    /**
-     * Function to set or unset emoji picker for last message
-     */
-    emitShortcutReactToLastPostFrom: (location: string) => void;
-
-    /**
-     * Determines if the current user can edit the post
-     */
+    // Determines if the current user can edit the post
     canPost: boolean;
 
-    /**
-     * Determines if the current user can send special channel mentions
-     */
+    // Determines if the user is allowed to upload files
+    canUploadFiles: boolean;
+
+    // Called to clear file uploads in progress
+    clearCommentDraftUploads: () => void;
+
+    // Called when comment draft needs to be updated
+    onUpdateCommentDraft: (draft?: PostDraft) => void;
+
+    // Called when comment draft needs to be updated for a specific root ID
+    updateCommentDraftWithRootId: (rootID: string, draft: PostDraft) => void;
+
+    // Called when submitting the comment
+    onSubmit: (draft: PostDraft, options: {ignoreSlash: boolean}) => void;
+
+    // Called when resetting comment message history index
+    onResetHistoryIndex: () => void;
+
+    // Called when navigating back through comment message history
+    onMoveHistoryIndexBack: () => void;
+
+    // Called when navigating forward through comment message history
+    onMoveHistoryIndexForward: () => void;
+
+    // Called to initiate editing the user's latest post
+    onEditLatestPost: () => ActionResult;
+
+    // Function to get the users timezones in the channel
+    getChannelTimezones: (channelId: string) => Promise<ActionResult>;
+
+    // Reset state of createPost request
+    resetCreatePostRequest: () => void;
+
+    // Determines if @channel should warn in this channel
+    enableConfirmNotificationsToChannel: boolean;
+
+    // Determines if the emoji picker is enabled
+    enableEmojiPicker: boolean;
+
+    // Determines if the gif picker is enabled.
+    enableGifPicker: boolean;
+
+    // Determines if the connection may be bad to warn user
+    badConnection: boolean;
+
+    // Determines the maximum length of a post
+    maxPostSize: number;
+
+    // Determines if the RHS is in expanded state
+    rhsExpanded: boolean;
+
+    // Determines if timezones are enabled on the server.
+    isTimezoneEnabled: boolean;
+
+    // The last time, if any, the selected post changed. Will be 0 if no post is selected.
+    selectedPostFocussedAt: number;
+
+    // Function to set or unset emoji picker for last message
+    emitShortcutReactToLastPostFrom: (location: string) => void;
+
+    // Determines if the current user can send special channel mentions
     useChannelMentions: boolean;
 
-    /**
-     * Determines if the current user can send LDAP group mentions
-     */
+    // Determines if the current user can send LDAP group mentions
     useLDAPGroupMentions: boolean;
 
-    /**
-     * Set show preview for textbox
-     */
+    // Set show preview for textbox
     setShowPreview: (showPreview: boolean) => void;
 
-    /**
-     * Should preview be shown
-     */
+    // Determines if the preview should be shown
     shouldShowPreview: boolean;
 
-    /**
-     * Called when parent component should be scrolled to bottom
-     */
+    // Called when parent component should be scrolled to bottom
     scrollToBottom?: () => void;
 
-    /**
-     * Group member mention
-     */
+    // Group member mention
     getChannelMemberCountsByGroup: (channelID: string) => void;
     groupsWithAllowReference: Map<string, Group> | null;
     channelMemberCountsByGroup: ChannelMemberCountsByGroup;
