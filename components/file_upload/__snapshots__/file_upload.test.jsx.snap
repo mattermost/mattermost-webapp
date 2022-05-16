@@ -27,7 +27,12 @@ exports[`components/FileUpload should match snapshot 1`] = `
     </Tooltip>
   }
   placement="top"
-  trigger="hover"
+  trigger={
+    Array [
+      "hover",
+      "focus",
+    ]
+  }
 >
   <button
     aria-label="attachment"

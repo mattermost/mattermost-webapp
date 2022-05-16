@@ -150,6 +150,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
         trigger={
           Array [
             "hover",
+            "focus",
           ]
         }
       >
@@ -206,13 +207,16 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
           trigger={
             Array [
               "hover",
+              "focus",
             ]
           }
         >
           <button
             className="channel-header__icon"
             id="someid"
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
@@ -463,6 +467,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         trigger={
           Array [
             "hover",
+            "focus",
           ]
         }
       >
@@ -519,13 +524,16 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           trigger={
             Array [
               "hover",
+              "focus",
             ]
           }
         >
           <button
             className="channel-header__icon"
             id="someid"
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
@@ -568,6 +576,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         trigger={
           Array [
             "hover",
+            "focus",
           ]
         }
       >
@@ -624,13 +633,16 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           trigger={
             Array [
               "hover",
+              "focus",
             ]
           }
         >
           <button
             className="channel-header__icon"
             id="someid2"
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
@@ -673,6 +685,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         trigger={
           Array [
             "hover",
+            "focus",
           ]
         }
       >
@@ -729,13 +742,16 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           trigger={
             Array [
               "hover",
+              "focus",
             ]
           }
         >
           <button
             className="channel-header__icon"
             id="someid3"
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
@@ -778,6 +794,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         trigger={
           Array [
             "hover",
+            "focus",
           ]
         }
       >
@@ -834,13 +851,16 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           trigger={
             Array [
               "hover",
+              "focus",
             ]
           }
         >
           <button
             className="channel-header__icon"
             id="someid4"
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
@@ -883,6 +903,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         trigger={
           Array [
             "hover",
+            "focus",
           ]
         }
       >
@@ -939,13 +960,16 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           trigger={
             Array [
               "hover",
+              "focus",
             ]
           }
         >
           <button
             className="channel-header__icon"
             id="someid5"
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
@@ -988,6 +1012,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         trigger={
           Array [
             "hover",
+            "focus",
           ]
         }
       >
@@ -1044,13 +1069,16 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           trigger={
             Array [
               "hover",
+              "focus",
             ]
           }
         >
           <button
             className="channel-header__icon"
             id="someid6"
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
@@ -1093,6 +1121,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         trigger={
           Array [
             "hover",
+            "focus",
           ]
         }
       >
@@ -1149,13 +1178,16 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           trigger={
             Array [
               "hover",
+              "focus",
             ]
           }
         >
           <button
             className="channel-header__icon"
             id="someid7"
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
@@ -1198,6 +1230,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         trigger={
           Array [
             "hover",
+            "focus",
           ]
         }
       >
@@ -1254,13 +1287,16 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           trigger={
             Array [
               "hover",
+              "focus",
             ]
           }
         >
           <button
             className="channel-header__icon"
             id="someid8"
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
@@ -1303,6 +1339,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         trigger={
           Array [
             "hover",
+            "focus",
           ]
         }
       >
@@ -1359,13 +1396,16 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           trigger={
             Array [
               "hover",
+              "focus",
             ]
           }
         >
           <button
             className="channel-header__icon"
             id="someid9"
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
@@ -1408,6 +1448,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         trigger={
           Array [
             "hover",
+            "focus",
           ]
         }
       >
@@ -1464,13 +1505,16 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           trigger={
             Array [
               "hover",
+              "focus",
             ]
           }
         >
           <button
             className="channel-header__icon"
             id="someid10"
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
@@ -1513,6 +1557,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         trigger={
           Array [
             "hover",
+            "focus",
           ]
         }
       >
@@ -1569,13 +1614,16 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           trigger={
             Array [
               "hover",
+              "focus",
             ]
           }
         >
           <button
             className="channel-header__icon"
             id="someid11"
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
@@ -1618,6 +1666,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         trigger={
           Array [
             "hover",
+            "focus",
           ]
         }
       >
@@ -1674,13 +1723,16 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           trigger={
             Array [
               "hover",
+              "focus",
             ]
           }
         >
           <button
             className="channel-header__icon"
             id="someid12"
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
@@ -1723,6 +1775,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         trigger={
           Array [
             "hover",
+            "focus",
           ]
         }
       >
@@ -1779,13 +1832,16 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           trigger={
             Array [
               "hover",
+              "focus",
             ]
           }
         >
           <button
             className="channel-header__icon"
             id="someid13"
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
@@ -1828,6 +1884,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         trigger={
           Array [
             "hover",
+            "focus",
           ]
         }
       >
@@ -1884,13 +1941,16 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           trigger={
             Array [
               "hover",
+              "focus",
             ]
           }
         >
           <button
             className="channel-header__icon"
             id="someid14"
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
@@ -1933,6 +1993,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         trigger={
           Array [
             "hover",
+            "focus",
           ]
         }
       >
@@ -1989,13 +2050,16 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
           trigger={
             Array [
               "hover",
+              "focus",
             ]
           }
         >
           <button
             className="channel-header__icon"
             id="someid15"
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
