@@ -34,7 +34,7 @@ import Tooltip from '../tooltip';
 import TexteditorActions from './texteditor_actions';
 import ToggleFormattingBar from './toggle_formatting_bar';
 import FormattingBar from './formatting_bar';
-import ShowFormat from './show_format';
+import ShowFormat from './show_formatting';
 import SendButton from './send_button';
 import {IconContainer} from './formatting_bar/formatting_icon';
 

@@ -18,7 +18,7 @@ interface ShowFormatProps {
     active: boolean;
 }
 
-const ShowFormat = (props: ShowFormatProps): JSX.Element => {
+const ShowFormatting = (props: ShowFormatProps): JSX.Element => {
     const {formatMessage} = useIntl();
     const {onClick, active} = props;
     const iconAriaLabel = formatMessage({id: 'generic_icons.format_letter_case', defaultMessage: 'Format letter Case Icon'});
@@ -56,4 +56,4 @@ const ShowFormat = (props: ShowFormatProps): JSX.Element => {
     );
 };
 
-export default memo(ShowFormat);
+export default memo(ShowFormatting);
