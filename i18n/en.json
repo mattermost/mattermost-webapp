@@ -359,7 +359,7 @@
   "admin.billing.subscription.proratedPayment.tooltipText": "If you upgrade to {selectedProductName} from Cloud Starter mid-month, you will be charged a prorated amount for both plans.",
   "admin.billing.subscription.proratedPayment.tooltipTitle": "Prorated Payments",
   "admin.billing.subscription.proratedPaymentBegins": "Prorated payment begins: {beginDate}. ",
-  "admin.billing.subscription.providePaymentDetails": "Provide Your Payment Details",
+  "admin.billing.subscription.providePaymentDetails": "Provide your payment details",
   "admin.billing.subscription.purchaseModal.currentPlan": "Current Plan",
   "admin.billing.subscription.stateprovince": "State/Province",
   "admin.billing.subscription.title": "Subscription",

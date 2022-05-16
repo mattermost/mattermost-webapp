@@ -1,0 +1,99 @@
+.IconMessage {
+    .content {
+        &.success {
+            padding-bottom: 2px;
+            padding-left: 7px;
+
+            > .IconMessage__svg-wrapper {
+                margin-left: 68px;
+            }
+        }
+
+        &.failed {
+            > .IconMessage__svg-wrapper {
+                margin-left: 60px;
+            }
+        }
+
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        justify-content: center;
+        text-align: center;
+
+        .IconMessage-h3 {
+            margin-top: 43px;
+            color: var(--center-channel-color);
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 32px;
+
+            @media screen and (max-width: 600px) {
+                font-size: 36px;
+                letter-spacing: -0.13px;
+                line-height: 42px;
+            }
+        }
+
+        .IconMessage-sub {
+            &.error {
+                color: #db3214;
+            }
+
+            margin-top: 16px;
+            color: var(--center-channel-color);
+            font-size: 14px;
+            font-style: normal;
+            font-weight: normal;
+            line-height: 20px;
+        }
+
+        .IconMessage-progress {
+            width: 387px;
+            height: 4px;
+            margin: 0 auto;
+            margin-top: 90px;
+            background: rgba(34, 64, 109, 0.12);
+            border-radius: 4px;
+        }
+
+        .IconMessage-progress-fill {
+            height: 100%;
+            background: #0058cc;
+            border-radius: 4px;
+        }
+
+        .IconMessage-button {
+            min-width: 95px;
+            height: 40px;
+            align-self: center;
+            margin-top: 16px;
+            margin-right: auto;
+            margin-left: auto;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 14px;
+            text-align: center;
+        }
+
+        .IconMessage-link {
+            margin-top: 21px;
+            margin-left: -10px;
+            color: #0058cc;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 14px;
+            text-align: center;
+        }
+    }
+
+    &__svg-wrapper {
+        align-self: center;
+
+        svg {
+            @media screen and (max-width: 600px) {
+                width: 150%;
+            }
+        }
+    }
+}

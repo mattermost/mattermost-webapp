@@ -1,0 +1,358 @@
+.PurchaseModal {
+    overflow: hidden;
+    height: 100%;
+
+    >div {
+        &.processing {
+            display: none;
+        }
+
+        display: flex;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        flex-direction: row;
+        flex-grow: 1;
+        flex-wrap: wrap;
+        align-content: center;
+        justify-content: center;
+        padding: 77px 107px;
+        color: var(--center-channel-color);
+        font-family: "Open Sans";
+        font-size: 16px;
+        font-weight: 600;
+
+        .footer-text {
+            .normal-payment-text {
+                color: rgba(var(--center-channel-color-rgb), 0.72);
+                font-size: 14px;
+            }
+
+            .prorrated-payment-text {
+                div {
+                    display: inline-block;
+                    margin-right: 4px;
+                    font-family: "compass-icons";
+                    font-size: 16px;
+                }
+            }
+
+            a {
+                color: var(--button-bg) !important;
+            }
+        }
+
+        .fineprint-text {
+            margin-top: 24px;
+            color: rgba(var(--center-channel-color-rgb), 0.72);
+            font-size: 12px;
+            line-height: 16px;
+        }
+
+        .bold-text {
+            font-weight: 600;
+        }
+
+        .normal-text {
+            font-weight: normal;
+        }
+
+        .LHS {
+            width: 25%;
+
+            .title {
+                font-weight: 600;
+            }
+
+            .image {
+                padding: 32px 0;
+            }
+        }
+
+        .central-panel {
+            width: 50%;
+
+            .PaymentDetails {
+                padding: 10px 0 0 10%;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: normal;
+                line-height: 20px;
+
+                .PaymentInfoDisplay__paymentInfo-text {
+                    width: 416px;
+                    height: 318px;
+                    box-sizing: border-box;
+                    padding: 32px;
+                    border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+                    margin: 24px 0;
+                    background-color: #fff;
+                    border-radius: 4px;
+                    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);
+
+                    .CardImage {
+                        max-width: 55px !important;
+                        max-height: 37px !important;
+                    }
+
+                    .PaymentInfoDisplay__paymentInfo-cardInfo {
+                        margin: 10px 0;
+                    }
+                }
+
+                .title {
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: 24px;
+                }
+
+                .editPaymentButton {
+                    padding-left: 20px !important;
+                    border: none;
+                    background: none;
+                    color: var(--button-bg);
+                    font-size: 14px;
+                    font-weight: 600;
+                    line-height: 24px;
+                }
+            }
+        }
+
+        .full-width {
+            border-color: rgba(var(--center-channel-color-rgb), 0.16);
+        }
+
+        .RHS {
+            position: sticky;
+            width: 25%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .price-text {
+                display: flex;
+                align-items: baseline;
+                padding: 8px 0;
+                font-size: 32px;
+                font-weight: 600;
+                line-height: 1;
+
+                .price-decimals {
+                    align-self: end;
+                    padding-bottom: 2px;
+                    font-size: 16px;
+
+                    &::before {
+                        content: '.';
+                    }
+                }
+            }
+
+            .monthly-text {
+                align-self: center;
+                margin-left: 5px;
+                font-size: 14px;
+                font-weight: normal;
+            }
+
+            .plan_comparison {
+                margin-bottom: 51px;
+                text-align: center;
+
+                button, a {
+                    height: 40px;
+                    padding: 10px 24px;
+                    border: none;
+                    background: none;
+                    color: #1C58D9;
+                    font-weight: 600;
+                    width: 100%;
+                    font-size: 14px;
+                    line-height: 20px;
+                }
+            }
+
+            .PlanCard {
+                width: 280px;
+                height: 428px;
+                position: relative;
+    
+                .planLabel {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    position: absolute;
+                    top: -44px;
+                    left: 52px;
+                    width: 184px;
+                    padding: 14px;
+                    border-radius: 13px 13px 0px 0px;
+                    gap: 5px;
+                    font-family: 'Open Sans';
+                    font-style: normal;
+                    font-weight: 600;
+                    font-size: 12px;
+                    line-height: 16px;
+                }
+    
+                .top {
+                    height: 18px;
+                    border-radius: 4px 4px 0px 0px;
+                }
+    
+                .bottom {
+                    border: 1px solid #DADFE5;
+                    border-radius: 0px 0px 4px 4px;
+                    height: 363px;
+                    background-color: var(--center-channel-bg);
+                    padding-left: 24px;
+                    padding-right: 24px;
+    
+                    .plan_action_btn {
+                        height: 40px;
+                        padding: 10px 24px;
+                        border: none;
+                        background: none;
+                        color: #1c58d9;
+                        font-weight: 700;
+                        width: 100%;
+                        border-radius: 4px;
+                        font-size: 14px;
+                        line-height: 14px;
+    
+                        &.grayed {
+                            background: rgba(63, 67, 80, 0.08);
+                            color: rgba(63, 67, 80, 0.32);
+                        }
+    
+                        &.active {
+                            border: 1px solid #1c58d9;
+                        }
+    
+                        &.special {
+                            background: #1c58d9;
+                            color: #FFFFFF;
+                        }
+                    }
+    
+                    .plan_price_rate_section {
+                        text-align: center;
+                        height: 150px;
+                        border-bottom: 1px solid #DADFE5;
+                        width: 100%;
+    
+                        h4 {
+                            font-family: 'Metropolis';
+                            font-style: normal;
+                            font-weight: 400;
+                            font-size: 20px;
+                            line-height: 30px;
+                            color: rgba(33, 63, 107, 0.8);
+                            letter-spacing: -0.02em;
+                        }
+    
+                        h1 {
+                            font-family: 'Metropolis';
+                            font-style: normal;
+                            font-weight: 700;
+                            font-size: 52px;
+                            line-height: 60px;
+                            color: #1E325C;
+                            letter-spacing: -0.02em;
+                        }
+    
+                        .enterprise_price {
+                            font-size: 32px;
+                        }
+    
+                        p {
+                            font-family: 'Metropolis';
+                            font-style: normal;
+                            font-weight: 400;
+                            font-size: 18px;
+                            line-height: 20px;
+                            color:  #152234;
+                            letter-spacing: -0.02em;
+                        }
+                    }
+
+                    .plan_payment_commencement {
+                        font-family: 'Open Sans';
+                        font-style: normal;
+                        font-weight: 400;
+                        font-size: 14px;
+                        line-height: 20px;
+                        color: #3F4350;
+                        margin-top: 16px;
+                        margin-bottom: 24px;
+                    }
+
+                    .plan_billing_cycle {
+                        font-family: 'Open Sans';
+                        font-style: normal;
+                        font-weight: 400;
+                        font-size: 12px;
+                        line-height: 16px;
+                        color: rgba(63, 67, 80, 0.72);
+                        margin-top: 24px;
+                    }
+                }
+            }
+        }
+
+        .logo {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+        }
+
+        button {
+            width: fit-content;
+            height: 40px;
+            border: 0;
+            background: var(--button-bg);
+            border-radius: 4px;
+            color: var(--button-color);
+            font-size: 14px;
+            font-weight: 600;
+
+            &:disabled {
+                background: rgba(var(--center-channel-color-rgb), 0.08);
+                color: rgba(var(--center-channel-color-rgb), 0.32);
+            }
+        }
+    }
+}
+
+.background-svg {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+
+    >div {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+}
+
+.FullScreenModal {
+    .close-x {
+        top: 12px;
+        right: 12px;
+    }
+}
+
+.tooltipTitle {
+    font-weight: 700;
+}
+
+.tooltipText {
+    color: #9a9a9a !important;
+    text-align: left;
+}
+
+.proratedTooltip > .tooltip-inner {
+    min-width: 300px;
+}
