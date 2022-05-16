@@ -2661,7 +2661,7 @@
   "create_team.team_url.hint3": "Trebuie să înceapă cu o literă și nu se poate termina într-un strop",
   "create_team.team_url.regex": "Utilizați numai litere mici, numere și liniuțe. Trebuie să înceapă cu o literă și nu se poate termina într-o linie.",
   "create_team.team_url.required": "Acest câmp este obligatoriu",
-  "create_team.team_url.taken": "Acest URL [începe cu un cuvânt rezervat](!https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url) sau este indisponibil. Vă rugăm să încercați un alt.",
+  "create_team.team_url.taken": "Acest URL <<link>>începe cu un cuvânt rezervat</<link>> sau este indisponibil. Vă rugăm să încercați un alt.",
   "create_team.team_url.teamUrl": "Adresa URL a echipei",
   "create_team.team_url.unavailable": "Această adresă URL este preluată sau indisponibilă. Încercați alta adresa.",
   "create_team.team_url.webAddress": "Alegeți adresa web a noii tale echipe:",

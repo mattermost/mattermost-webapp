@@ -2535,7 +2535,7 @@
   "create_team.team_url.hint3": "Deve iniciar com uma letra e não pode terminar com um traço",
   "create_team.team_url.regex": "Utilize apenas letras minúsculas, números e traços. Deve começar com uma letra e não pode terminar em um traço.",
   "create_team.team_url.required": "Este campo é obrigatório",
-  "create_team.team_url.taken": "Esta URL [inicia com uma palavra reservada](!https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url) ou está indisponível. Por favor tente outra.",
+  "create_team.team_url.taken": "Esta URL <<link>>inicia com uma palavra reservada</<link>> ou está indisponível. Por favor tente outra.",
   "create_team.team_url.teamUrl": "Equipe URL",
   "create_team.team_url.unavailable": "Esta URL foi usada ou está indisponível. Por favor tente outra.",
   "create_team.team_url.webAddress": "Escolha o endereço web para sua nova equipe:",

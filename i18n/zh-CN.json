@@ -2809,7 +2809,7 @@
   "create_team.team_url.hint3": "必须以字母开头且不能横杠结尾",
   "create_team.team_url.regex": "只使用小写字母，数字和连字符。必须以字母开头且不能以连字符结尾。",
   "create_team.team_url.required": "此栏必须填写",
-  "create_team.team_url.taken": "网址[以预留词开头](!https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url)或无法使用。请重新尝试。",
+  "create_team.team_url.taken": "网址<<link>>以预留词开头</<link>>或无法使用。请重新尝试。",
   "create_team.team_url.teamUrl": "团队URL",
   "create_team.team_url.unavailable": "此网址不可用。请重新尝试。",
   "create_team.team_url.webAddress": "选择您的新团队网址：",

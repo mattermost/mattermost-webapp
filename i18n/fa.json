@@ -2630,7 +2630,7 @@
   "create_team.team_url.hint3": "باید با یک حرف شروع شود و نمی تواند به خط تیره ختم شود",
   "create_team.team_url.regex": "فقط از حروف کوچک، اعداد و خط تیره استفاده کنید. باید با یک حرف شروع شود و نمی تواند به خط تیره ختم شود.",
   "create_team.team_url.required": "این فیلد الزامی است",
-  "create_team.team_url.taken": "این URL [با یک کلمه رزرو شده شروع می شود](!https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url) یا در دسترس نیست. لطفا دیگری را امتحان کنید.",
+  "create_team.team_url.taken": "این URL <<link>>با یک کلمه رزرو شده شروع می شود</<link>> یا در دسترس نیست. لطفا دیگری را امتحان کنید.",
   "create_team.team_url.teamUrl": "آدرس تیم",
   "create_team.team_url.unavailable": "این URL گرفته شده یا در دسترس نیست. لطفا دیگری را امتحان کنید.",
   "create_team.team_url.webAddress": "آدرس وب تیم جدید خود را انتخاب کنید:",
