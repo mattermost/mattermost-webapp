@@ -4,21 +4,35 @@
 import * as TIMEOUTS from '../fixtures/timeouts';
 
 Cypress.Commands.add('checkLoginPage', (settings = {}) => {
+    // # Remove autofocus from login input
+    cy.get('.login-body-card-content').should('be.visible').focus();
+
     // * Check elements in the body
-    cy.get('#loginId', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and(($loginTextbox) => {
+    cy.get('#input_loginId', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and(($loginTextbox) => {
         const placeholder = $loginTextbox[0].placeholder;
         expect(placeholder).to.match(/Email/);
         expect(placeholder).to.match(/Username/);
-    });
-    cy.get('#loginPassword').should('be.visible').and('have.attr', 'placeholder', 'Password');
-    cy.findByText('Sign in').should('be.visible');
+    }).focus();
+
+    cy.get('#input_password-input').should('be.visible').and('have.attr', 'placeholder', 'Password');
+    cy.get('#saveSetting').should('be.visible');
 
     // * Check the title
     cy.title().should('include', settings.siteName);
 });
 
 Cypress.Commands.add('checkLoginFailed', () => {
-    cy.get('#login_section', {timeout: TIMEOUTS.ONE_MIN}).find('.form-group').should('have.class', 'has-error');
+    // * Check the alert banner
+    cy.get('.AlertBanner.danger', {timeout: TIMEOUTS.ONE_MIN}).then(() => {
+        // * Check the login input in error
+        cy.get('.login-body-card-form-input .Input_fieldset').should('have.class', 'Input_fieldset___error');
+
+        // * Check the password input in error
+        cy.get('.login-body-card-form-password-input .Input_fieldset').should('have.class', 'Input_fieldset___error');
+
+        // * Check the Log in button disabled
+        cy.get('#saveSetting').should('be.disabled');
+    });
 });
 
 Cypress.Commands.add('checkGuestNoChannels', () => {

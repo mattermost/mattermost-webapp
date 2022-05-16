@@ -60,6 +60,9 @@ describe('Authentication', () => {
         // # Login as test user and make sure it goes to team selection
         cy.visit('/login');
 
+        // # Remove autofocus from login input
+        cy.focused().tab();
+
         // # Clear email/username field and type username
         cy.apiGetClientLicense().then(({isLicensed}) => {
             cy.findByPlaceholderText(isLicensed ? 'Email, Username or AD/LDAP Username' : 'Email or Username', {timeout: TIMEOUTS.ONE_MIN}).clear().type(testUser.username);
@@ -69,7 +72,7 @@ describe('Authentication', () => {
         cy.findByPlaceholderText('Password').clear().type(testUser.password);
 
         // # Hit enter to login
-        cy.findByText('Sign in').click();
+        cy.get('#saveSetting').should('not.be.disabled').click();
 
         cy.wait(TIMEOUTS.THREE_SEC);
 
@@ -86,10 +89,10 @@ describe('Authentication', () => {
             cy.visit(permalink);
 
             // # Clear password field and type password
-            cy.findByPlaceholderText('Password').clear().type(testUser.password);
+            cy.get('#input_password-input').clear().type(testUser.password);
 
             // # Hit enter to login
-            cy.findByText('Sign in').click();
+            cy.get('#saveSetting').should('not.be.disabled').click();
 
             // * Should show the join team stuff
             cy.findByText('Teams you can join:', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
@@ -176,7 +179,7 @@ describe('Authentication', () => {
         cy.visit('/login');
 
         // * Assert that create account button is visible
-        cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        cy.findByText('Create an account', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Go to sign up with email page
         cy.visit('/signup_email');
@@ -208,7 +211,7 @@ describe('Authentication', () => {
         cy.visit('/login');
 
         // * Assert that create account button is visible
-        cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        cy.findByText('Create an account', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Go to sign up with email page
         cy.visit('/signup_email');
@@ -241,7 +244,7 @@ describe('Authentication', () => {
         cy.visit('/login');
 
         // * Assert that create account button is visible
-        cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        cy.findByText('Create an account', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Go to sign up with email page
         cy.visit('/signup_email');

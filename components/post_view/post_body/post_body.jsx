@@ -7,9 +7,9 @@ import React from 'react';
 import {Posts} from 'mattermost-redux/constants';
 
 import * as PostUtils from 'utils/post_utils';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import DelayedAction from 'utils/delayed_action';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 import CommentedOn from 'components/post_view/commented_on';
 import FileAttachmentListContainer from 'components/file_attachment_list';
