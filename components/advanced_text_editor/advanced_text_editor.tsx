@@ -1,21 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {CSSProperties, useCallback, useState} from 'react';
+
+// See LICENSE.txt for license information.
+import React, {CSSProperties, useCallback, useEffect, useState} from 'react';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
-import {useSelector} from 'react-redux';
+import {SendIcon} from '@mattermost/compass-icons/components';
 
 import {Emoji} from '@mattermost/types/emojis';
 import {FileInfo} from '@mattermost/types/files';
 import {ServerError} from 'mattermost-redux/types/errors';
 import {Channel} from 'mattermost-redux/types/channels';
 import {PostDraft} from 'types/store/rhs';
-import {getIsMobileView} from 'selectors/views/browser';
 
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
-import LocalizedIcon from 'components/localized_icon';
 import MsgTyping from 'components/msg_typing';
 import Textbox from 'components/textbox';
 import {ShowFormat} from 'components/advanced_text_editor/show_format/show_format';
@@ -153,14 +153,18 @@ const AdvanceTextEditor = ({
         'accessibility.sections.centerFooter',
         'message input complimentary region',
     );
-    const isMobileView = useSelector(getIsMobileView);
 
     const [scrollbarWidth, setScrollbarWidth] = useState(0);
     const [renderScrollbar, setRenderScrollbar] = useState(false);
+    const [showSendButton, setShowSendButton] = useState(false);
 
-    const getSendButtonVisibilityState = () => {
-        return !(isMobileView && (message.trim().length !== 0 || draft.fileInfos.length !== 0));
-    };
+    useEffect(() => {
+        if (message.trim().length !== 0 || draft.fileInfos.length !== 0) {
+            setShowSendButton(true);
+        } else {
+            setShowSendButton(false);
+        }
+    }, [message, draft]);
 
     const handleHeightChange = (height: number, maxHeight: number) => {
         setRenderScrollbar(height > maxHeight);
@@ -190,7 +194,7 @@ const AdvanceTextEditor = ({
     let attachmentPreview = null;
     if (!readOnlyChannel && (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0)) {
         attachmentPreview = (
-            <div className={classNames({'adv-txt-editor__attachment-preview': isFormattingBarHidden})}>
+            <div className={classNames({'AdvancedTextEditor__attachment-preview': isFormattingBarHidden})}>
                 <FilePreview
                     fileInfos={draft.fileInfos}
                     onRemove={removePreview}
@@ -277,7 +281,7 @@ const AdvanceTextEditor = ({
                         type='button'
                         aria-label={emojiButtonAriaLabel}
                         onClick={toggleEmojiPicker}
-                        className={classNames('emoji-picker__container', 'adv-txt-editor__action-button', {
+                        className={classNames('emoji-picker__container', 'AdvancedTextEditor__action-button', {
                             'post-action--active': showEmojiPicker,
                         })}
                     >
@@ -326,8 +330,8 @@ const AdvanceTextEditor = ({
 
     return (
         <div
-            className={classNames('adv-txt-editor', {
-                'adv-txt-editor__attachment-disabled': !canUploadFiles,
+            className={classNames('AdvancedTextEditor', {
+                'AdvancedTextEditor__attachment-disabled': !canUploadFiles,
                 scroll: renderScrollbar,
             })}
             style={
@@ -337,8 +341,8 @@ const AdvanceTextEditor = ({
             }
         >
             <div
-                className={classNames('adv-txt-editor__body', {
-                    'adv-txt-editor__body--collapsed': isFormattingBarHidden,
+                className={classNames('AdvancedTextEditor__body', {
+                    'AdvancedTextEditor__body--collapsed': isFormattingBarHidden,
                 })}
             >
                 <div
@@ -346,7 +350,7 @@ const AdvanceTextEditor = ({
                     id='centerChannelFooter'
                     aria-label={ariaLabelMessageInput}
                     tabIndex={-1}
-                    className='adv-txt-editor__cell a11y__region'
+                    className='AdvancedTextEditor__cell a11y__region'
                 >
                     <Textbox
                         onChange={handleChange}
@@ -380,7 +384,7 @@ const AdvanceTextEditor = ({
                         isOpen={!isFormattingBarHidden}
                     />
                     <span
-                        className={classNames('adv-txt-editor__actions', 'adv-txt-editor__actions--top', {
+                        className={classNames('AdvancedTextEditor__actions', 'AdvancedTextEditor__actions--top', {
                             formattingBarOpen: !isFormattingBarHidden,
                         })}
                     >
@@ -388,31 +392,32 @@ const AdvanceTextEditor = ({
                     </span>
                     <span
                         ref={createPostControlsRef}
-                        className={classNames('adv-txt-editor__actions', 'adv-txt-editor__actions--bottom')}
+                        className={classNames('AdvancedTextEditor__actions', 'AdvancedTextEditor__actions--bottom')}
                     >
                         {toggleFormattingBarJSX}
                         {fileUploadJSX}
                         {emojiPicker}
-                        <a
-                            role='button'
+                        <button
                             tabIndex={0}
                             aria-label={formatMessage({
                                 id: 'create_post.send_message',
                                 defaultMessage: 'Send a message',
                             })}
-                            className={classNames('adv-txt-editor__action-button', {
-                                hidden: getSendButtonVisibilityState(),
+                            disabled={!showSendButton}
+                            className={classNames('AdvancedTextEditor__send-button', {
+                                hidden: !Utils.isMobile(),
                             })}
                             onClick={handleSubmit}
                         >
-                            <LocalizedIcon
-                                className='icon icon-send'
-                                title={{
+                            <SendIcon
+                                size={18}
+                                color='currentColor'
+                                aria-label={formatMessage({
                                     id: t('create_post.icon'),
                                     defaultMessage: 'Create a post',
-                                }}
+                                })}
                             />
-                        </a>
+                        </button>
                     </span>
                 </div>
                 {showSendTutorialTip && currentChannel && prefillMessage &&
@@ -426,20 +431,16 @@ const AdvanceTextEditor = ({
             <div
                 id='postCreateFooter'
                 role='form'
-                className={classNames('adv-txt-editor__footer', {
-                    'has-error': postError,
+                className={classNames('AdvancedTextEditor__footer', {
+                    'AdvancedTextEditor__footer--has-error': postError || serverError,
                 })}
             >
-                <div className='d-flex justify-content-between'>
-                    <MsgTyping
-                        channelId={channelId}
-                        postId={postId}
-                    />
-                </div>
-                <div>
-                    {postError && <label className={classNames('post-error', {errorClass})}>{postError}</label>}
-                    {serverErrorJsx}
-                </div>
+                {postError && <label className={classNames('post-error', {errorClass})}>{postError}</label>}
+                {serverErrorJsx}
+                <MsgTyping
+                    channelId={channelId}
+                    postId={postId}
+                />
             </div>
         </div>
     );

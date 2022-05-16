@@ -177,7 +177,7 @@ export default class ChannelView extends React.PureComponent<Props, State> {
             if (this.props.isAdvanceTextEditorEnabled) {
                 createPost = (
                     <div
-                        className='post-create__container adv-txt-editor__ctr'
+                        className='post-create__container AdvancedTextEditor__ctr'
                         id='post-create'
                     >
                         <AdvancedCreatePost

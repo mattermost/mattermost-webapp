@@ -33,8 +33,8 @@ export const ToggleFormattingBar = (props: ToggleFormattingBarProps): JSX.Elemen
                 type='button'
                 id='toggleFormattingBarButton'
                 onClick={onClick}
-                className={classNames('adv-txt-editor__action-button',
-                    {'adv-txt-editor__action-button--active': active},
+                className={classNames('AdvancedTextEditor__action-button',
+                    {'AdvancedTextEditor__action-button--active': active},
                 )}
             >
                 <i className='icon icon-format-letter-case'/>
