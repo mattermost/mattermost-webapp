@@ -45,8 +45,8 @@ export const IconContainer = styled.button`
     }
 
     &:active,
-    &--active,
-    &--active:hover {
+    &.active,
+    &.active:hover {
         background: rgba(var(--button-bg-rgb), 0.08);
         color: var(--button-bg);
         fill: currentColor;

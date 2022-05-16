@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-// See LICENSE.txt for license information.
-import React, {CSSProperties, useCallback, useEffect, useState} from 'react';
+import React, {CSSProperties, useCallback, useState} from 'react';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
+import {EmoticonHappyOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {Emoji} from '@mattermost/types/emojis';
 import {FileInfo} from '@mattermost/types/files';
@@ -35,6 +35,7 @@ import Constants from 'utils/constants';
 import Tooltip from '../tooltip';
 
 import './advanced_text_editor.scss';
+import {IconContainer} from './formatting_bar/formatting_icon';
 import SendButton from './send_button/send_button';
 import TexteditorActions from './texteditor_actions/texteditor_actions';
 
@@ -156,15 +157,6 @@ const AdvanceTextEditor = ({
 
     const [scrollbarWidth, setScrollbarWidth] = useState(0);
     const [renderScrollbar, setRenderScrollbar] = useState(false);
-    const [showSendButton, setShowSendButton] = useState(false);
-
-    useEffect(() => {
-        if (message.trim().length !== 0 || draft.fileInfos.length !== 0) {
-            setShowSendButton(true);
-        } else {
-            setShowSendButton(false);
-        }
-    }, [message, draft]);
 
     const handleHeightChange = (height: number, maxHeight: number) => {
         setRenderScrollbar(height > maxHeight);
@@ -253,8 +245,17 @@ const AdvanceTextEditor = ({
     }).toLowerCase();
 
     if (enableEmojiPicker && !readOnlyChannel) {
+        const emojiPickerTooltip = (
+            <Tooltip id='upload-tooltip'>
+                <KeyboardShortcutSequence
+                    shortcut={KEYBOARD_SHORTCUTS.msgShowEmojiPicker}
+                    hoistDescription={true}
+                    isInsideTooltip={true}
+                />
+            </Tooltip>
+        );
         emojiPicker = (
-            <div>
+            <>
                 <EmojiPickerOverlay
                     show={showEmojiPicker}
                     target={getCreatePostControls}
@@ -266,31 +267,34 @@ const AdvanceTextEditor = ({
                     topOffset={-7}
                 />
                 <OverlayTrigger
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='left'
-                    trigger={['hover', 'focus']}
-                    overlay={<Tooltip id='upload-tooltip'>
-                        <KeyboardShortcutSequence
-                            shortcut={KEYBOARD_SHORTCUTS.msgShowEmojiPicker}
-                            hoistDescription={true}
-                            isInsideTooltip={true}
-                        />
-                    </Tooltip>}
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
+                    overlay={emojiPickerTooltip}
                 >
-                    <button
+                    <IconContainer
+                        onClick={toggleEmojiPicker}
                         type='button'
                         aria-label={emojiButtonAriaLabel}
-                        onClick={toggleEmojiPicker}
-                        className={classNames('emoji-picker__container', 'AdvancedTextEditor__action-button', {
-                            'post-action--active': showEmojiPicker,
-                        })}
+                        className={classNames({active: showEmojiPicker})}
                     >
-                        <i className='icon icon-emoticon-happy-outline'/>
-                    </button>
+                        <EmoticonHappyOutlineIcon
+                            color={'currentColor'}
+                            size={18}
+                        />
+                    </IconContainer>
                 </OverlayTrigger>
-            </div>
+            </>
         );
     }
+
+    const disableSendButton = !message.trim().length && !draft.fileInfos.length;
+    const sendButton = Utils.isMobile() && (
+        <SendButton
+            disabled={disableSendButton}
+            handleSubmit={handleSubmit}
+        />
+    );
 
     let createMessage;
     if (currentChannel && !readOnlyChannel) {
@@ -396,12 +400,7 @@ const AdvanceTextEditor = ({
                         {toggleFormattingBarJSX}
                         {fileUploadJSX}
                         {emojiPicker}
-                        {Utils.isMobile() && (
-                            <SendButton
-                                disabled={!showSendButton}
-                                handleSubmit={handleSubmit}
-                            />
-                        )}
+                        {sendButton}
                     </TexteditorActions>
                 </div>
                 {showSendTutorialTip && currentChannel && prefillMessage &&
