@@ -34,7 +34,7 @@ import FileUpload from 'components/file_upload';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
 import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal';
-import Textbox from 'components/textbox';
+import Textbox, {TextboxElement} from 'components/textbox';
 import TextboxClass from 'components/textbox/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 import MessageSubmitError from 'components/message_submit_error';
@@ -422,7 +422,8 @@ class CreateComment extends React.PureComponent<Props, State> {
     }
 
     pasteHandler = (e: ClipboardEvent) => {
-        if (!e.clipboardData || !e.clipboardData.items || (e.target as any).id !== 'reply_textbox') {
+        // we need to cast the TextboxElement type onto the EventTarget here since the ClipboardEvent is not generic
+        if (!e.clipboardData || !e.clipboardData.items || (e.currentTarget as TextboxElement).id !== 'reply_textbox') {
             return;
         }
 
@@ -780,7 +781,7 @@ class CreateComment extends React.PureComponent<Props, State> {
         GlobalActions.emitLocalUserTypingEvent(channelId, rootId);
     }
 
-    handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleChange = (e: React.ChangeEvent<TextboxElement>) => {
         const message = e.target.value;
 
         let serverError = this.state.serverError;
@@ -812,11 +813,11 @@ class CreateComment extends React.PureComponent<Props, State> {
         });
     }
 
-    handleSelect = (e: React.SyntheticEvent) => {
-        Utils.adjustSelection(this.textboxRef.current?.getInputBox(), e as React.KeyboardEvent);
+    handleSelect = (e: React.SyntheticEvent<TextboxElement>) => {
+        Utils.adjustSelection(this.textboxRef.current?.getInputBox(), e);
     }
 
-    handleKeyDown = (e: React.KeyboardEvent) => {
+    handleKeyDown = (e: React.KeyboardEvent<TextboxElement>) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const lastMessageReactionKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
 
@@ -876,17 +877,17 @@ class CreateComment extends React.PureComponent<Props, State> {
                 e.preventDefault();
                 this.applyMarkdown({
                     markdownMode: 'bold',
-                    selectionStart: (e.target as any).selectionStart,
-                    selectionEnd: (e.target as any).selectionEnd,
-                    value: (e.target as any).value,
+                    selectionStart: e.currentTarget.selectionStart,
+                    selectionEnd: e.currentTarget.selectionEnd,
+                    message: e.currentTarget.value,
                 });
             } else if (Utils.isKeyPressed(e, Constants.KeyCodes.I)) {
                 e.preventDefault();
                 this.applyMarkdown({
                     markdownMode: 'italic',
-                    selectionStart: (e.target as any).selectionStart,
-                    selectionEnd: (e.target as any).selectionEnd,
-                    value: (e.target as any).value,
+                    selectionStart: e.currentTarget.selectionStart,
+                    selectionEnd: e.currentTarget.selectionEnd,
+                    message: e.currentTarget.value,
                 });
             }
         }
@@ -895,9 +896,9 @@ class CreateComment extends React.PureComponent<Props, State> {
             e.preventDefault();
             this.applyMarkdown({
                 markdownMode: 'link',
-                selectionStart: (e.target as any).selectionStart,
-                selectionEnd: (e.target as any).selectionEnd,
-                value: (e.target as any).value,
+                selectionStart: e.currentTarget.selectionStart,
+                selectionEnd: e.currentTarget.selectionEnd,
+                message: e.currentTarget.value,
             });
         }
 

@@ -11,7 +11,7 @@ describe('applyMarkdown', () => {
     test('should add ordered list to selected newline', () => {
         const value = 'brown\nfox jumps over lazy dog';
         const result = applyMarkdown({
-            value,
+            message: value,
             selectionStart: 5,
             selectionEnd: 6,
             markdownMode: 'ol',
@@ -27,7 +27,7 @@ describe('applyMarkdown', () => {
     test('should add ordered list', () => {
         const value = 'brown\nfox jumps over lazy dog';
         const result = applyMarkdown({
-            value,
+            message: value,
             selectionStart: 0,
             selectionEnd: 10,
             markdownMode: 'ol',
@@ -43,7 +43,7 @@ describe('applyMarkdown', () => {
     test('should remove ordered list', () => {
         const value = '0. brown\n1. fox jumps over lazy dog';
         const result = applyMarkdown({
-            value,
+            message: value,
             selectionStart: 0,
             selectionEnd: 0,
             markdownMode: 'ol',
@@ -60,7 +60,7 @@ describe('applyMarkdown', () => {
         // '0. brown\n2. f'
         const value = '0. brown\n1. fox jumps over lazy dog';
         const result = applyMarkdown({
-            value,
+            message: value,
             selectionStart: 0,
             selectionEnd: 13,
             markdownMode: 'ol',
@@ -80,7 +80,7 @@ describe('applyMarkdown', () => {
     test('should apply unordered list', () => {
         const value = 'brown fox jumps over lazy dog';
         const result = applyMarkdown({
-            value,
+            message: value,
             selectionStart: 0,
             selectionEnd: 0,
             markdownMode: 'ul',
@@ -96,7 +96,7 @@ describe('applyMarkdown', () => {
     test('should remove markdown, and not remove text similar to markdown signs from the string content', () => {
         const value = '- brown fox - jumps - over lazy dog';
         const result = applyMarkdown({
-            value,
+            message: value,
             selectionStart: 0,
             selectionEnd: 0,
             markdownMode: 'ul',
@@ -112,7 +112,7 @@ describe('applyMarkdown', () => {
     test('should remove markdown, and not remove text similar to markdown signs from the string content', () => {
         const value = '- brown fox - jumps - over lazy dog';
         const result = applyMarkdown({
-            value,
+            message: value,
             selectionStart: 0,
             selectionEnd: 0,
             markdownMode: 'ul',
@@ -133,7 +133,7 @@ describe('applyMarkdown', () => {
         const result = applyMarkdown({
             selectionStart: 0,
             selectionEnd: 10,
-            value,
+            message: value,
             markdownMode: 'heading',
         });
 
@@ -149,7 +149,7 @@ describe('applyMarkdown', () => {
         const result = applyMarkdown({
             selectionStart: 9,
             selectionEnd: 14,
-            value,
+            message: value,
             markdownMode: 'heading',
         });
 
@@ -165,7 +165,7 @@ describe('applyMarkdown', () => {
         const result = applyMarkdown({
             selectionStart: 8,
             selectionEnd: 15,
-            value,
+            message: value,
             markdownMode: 'heading',
         });
 
@@ -182,7 +182,7 @@ describe('applyMarkdown', () => {
         const result = applyMarkdown({
             selectionStart: 12,
             selectionEnd: 23,
-            value,
+            message: value,
             markdownMode: 'heading',
         });
 
@@ -198,7 +198,7 @@ describe('applyMarkdown', () => {
         const result = applyMarkdown({
             selectionStart: 1,
             selectionEnd: 23,
-            value,
+            message: value,
             markdownMode: 'heading',
         });
 
@@ -215,7 +215,7 @@ describe('applyMarkdown', () => {
         const result = applyMarkdown({
             selectionStart: 5,
             selectionEnd: 14,
-            value,
+            message: value,
             markdownMode: 'heading',
         });
 
@@ -234,7 +234,7 @@ describe('applyMarkdown', () => {
         const result = applyMarkdown({
             selectionStart: 0,
             selectionEnd: 0,
-            value,
+            message: value,
             markdownMode: 'quote',
         });
 
@@ -250,7 +250,7 @@ describe('applyMarkdown', () => {
         const result = applyMarkdown({
             selectionStart: 0,
             selectionEnd: 10,
-            value,
+            message: value,
             markdownMode: 'quote',
         });
 
@@ -266,7 +266,7 @@ describe('applyMarkdown', () => {
         const result = applyMarkdown({
             selectionStart: 9,
             selectionEnd: 14,
-            value,
+            message: value,
             markdownMode: 'quote',
         });
 
@@ -283,7 +283,7 @@ describe('applyMarkdown', () => {
     test('applyMarkdown returns correct markdown for bold hotkey', () => {
         // "Fafda" is selected with ctrl + B hotkey
         const result = applyMarkdown({
-            value: 'Jalebi Fafda & Sambharo',
+            message: 'Jalebi Fafda & Sambharo',
             selectionStart: 7,
             selectionEnd: 12,
             markdownMode: 'bold',
@@ -299,7 +299,7 @@ describe('applyMarkdown', () => {
     test('applyMarkdown returns correct markdown for undo bold', () => {
         // "Fafda" is selected with ctrl + B hotkey
         const result = applyMarkdown({
-            value: 'Jalebi **Fafda** & Sambharo',
+            message: 'Jalebi **Fafda** & Sambharo',
             selectionStart: 9,
             selectionEnd: 14,
             markdownMode: 'bold',
@@ -315,7 +315,7 @@ describe('applyMarkdown', () => {
     test('applyMarkdown returns correct markdown for italic hotkey', () => {
         // "Fafda" is selected with ctrl + I hotkey
         const result = applyMarkdown({
-            value: 'Jalebi Fafda & Sambharo',
+            message: 'Jalebi Fafda & Sambharo',
             selectionStart: 7,
             selectionEnd: 12,
             markdownMode: 'italic',
@@ -331,7 +331,7 @@ describe('applyMarkdown', () => {
     test('applyMarkdown returns correct markdown for undo italic', () => {
         // "Fafda" is selected with ctrl + I hotkey
         const result = applyMarkdown({
-            value: 'Jalebi *Fafda* & Sambharo',
+            message: 'Jalebi *Fafda* & Sambharo',
             selectionStart: 8,
             selectionEnd: 13,
             markdownMode: 'italic',
@@ -347,7 +347,7 @@ describe('applyMarkdown', () => {
     test('applyMarkdown returns correct markdown for bold hotkey and empty', () => {
         // Nothing is selected with ctrl + B hotkey and caret is just before "Fafda"
         const result = applyMarkdown({
-            value: 'Jalebi Fafda & Sambharo',
+            message: 'Jalebi Fafda & Sambharo',
             selectionStart: 7,
             selectionEnd: 7,
             markdownMode: 'bold',
@@ -363,7 +363,7 @@ describe('applyMarkdown', () => {
     test('applyMarkdown returns correct markdown for italic hotkey and empty', () => {
         // Nothing is selected with ctrl + I hotkey and caret is just before "Fafda"
         const result = applyMarkdown({
-            value: 'Jalebi Fafda & Sambharo',
+            message: 'Jalebi Fafda & Sambharo',
             selectionStart: 7,
             selectionEnd: 7,
             markdownMode: 'italic',
@@ -379,7 +379,7 @@ describe('applyMarkdown', () => {
     test('applyMarkdown returns correct markdown for italic with bold', () => {
         // "Fafda" is selected with ctrl + I hotkey
         const result = applyMarkdown({
-            value: 'Jalebi **Fafda** & Sambharo',
+            message: 'Jalebi **Fafda** & Sambharo',
             selectionStart: 9,
             selectionEnd: 14,
             markdownMode: 'italic',
@@ -395,7 +395,7 @@ describe('applyMarkdown', () => {
     test('applyMarkdown returns correct markdown for bold with italic', () => {
         // "Fafda" is selected with ctrl + B hotkey
         const result = applyMarkdown({
-            value: 'Jalebi *Fafda* & Sambharo',
+            message: 'Jalebi *Fafda* & Sambharo',
             selectionStart: 8,
             selectionEnd: 13,
             markdownMode: 'bold',
@@ -411,7 +411,7 @@ describe('applyMarkdown', () => {
     test('applyMarkdown returns correct markdown for bold with italic+bold', () => {
         // "Fafda" is selected with ctrl + B hotkey
         const result = applyMarkdown({
-            value: 'Jalebi ***Fafda*** & Sambharo',
+            message: 'Jalebi ***Fafda*** & Sambharo',
             selectionStart: 10,
             selectionEnd: 15,
             markdownMode: 'bold',
@@ -428,7 +428,7 @@ describe('applyMarkdown', () => {
     test('applyMarkdown returns correct markdown for italic with italic+bold', () => {
         // "Fafda" is selected with ctrl + I hotkey
         const result = applyMarkdown({
-            value: 'Jalebi ***Fafda*** & Sambharo',
+            message: 'Jalebi ***Fafda*** & Sambharo',
             selectionStart: 10,
             selectionEnd: 15,
             markdownMode: 'italic',

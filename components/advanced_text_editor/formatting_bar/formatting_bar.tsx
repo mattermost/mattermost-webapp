@@ -219,7 +219,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
             markdownMode: mode,
             selectionStart: start,
             selectionEnd: end,
-            value,
+            message: value,
         });
     }, [getCurrentSelection, getCurrentMessage, applyMarkdown]);
 

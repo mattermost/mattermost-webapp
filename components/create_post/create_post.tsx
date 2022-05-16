@@ -34,7 +34,7 @@ import FileUpload from 'components/file_upload';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
 import MsgTyping from 'components/msg_typing';
 import ResetStatusModal from 'components/reset_status_modal';
-import Textbox from 'components/textbox';
+import Textbox, {TextboxElement} from 'components/textbox';
 import TextboxClass from 'components/textbox/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 
@@ -854,7 +854,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         GlobalActions.emitLocalUserTypingEvent(channelId, '');
     }
 
-    handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleChange = (e: React.ChangeEvent<TextboxElement>) => {
         const message = e.target.value;
         const channelId = this.props.currentChannel.id;
 
@@ -1080,17 +1080,17 @@ class CreatePost extends React.PureComponent<Props, State> {
         }
     }
 
-    handleMouseUpKeyUp = (e: React.MouseEvent | React.KeyboardEvent) => {
+    handleMouseUpKeyUp = (e: React.MouseEvent<TextboxElement> | React.KeyboardEvent<TextboxElement>) => {
         this.setState({
-            caretPosition: (e.target as HTMLTextAreaElement).selectionStart || 0,
+            caretPosition: e.currentTarget.selectionStart || 0,
         });
     }
 
-    handleSelect = (e: React.SyntheticEvent) => {
-        Utils.adjustSelection(this.textboxRef.current?.getInputBox(), e as React.KeyboardEvent);
+    handleSelect = (e: React.SyntheticEvent<TextboxElement>) => {
+        Utils.adjustSelection(this.textboxRef.current?.getInputBox(), e);
     }
 
-    handleKeyDown = (e: React.KeyboardEvent) => {
+    handleKeyDown = (e: React.KeyboardEvent<TextboxElement>) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const messageIsEmpty = this.state.message.length === 0;
         const draftMessageIsEmpty = this.props.draft.message.length === 0;
@@ -1117,23 +1117,23 @@ class CreatePost extends React.PureComponent<Props, State> {
         } else if (ctrlAltCombo && markdownLinkKey) {
             this.applyMarkdown({
                 markdownMode: 'link',
-                selectionStart: (e.target as any).selectionStart,
-                selectionEnd: (e.target as any).selectionEnd,
-                value: (e.target as any).value,
+                selectionStart: e.currentTarget.selectionStart,
+                selectionEnd: e.currentTarget.selectionEnd,
+                message: e.currentTarget.value,
             });
         } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.B)) {
             this.applyMarkdown({
                 markdownMode: 'bold',
-                selectionStart: (e.target as any).selectionStart,
-                selectionEnd: (e.target as any).selectionEnd,
-                value: (e.target as any).value,
+                selectionStart: e.currentTarget.selectionStart,
+                selectionEnd: e.currentTarget.selectionEnd,
+                message: e.currentTarget.value,
             });
         } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.I)) {
             this.applyMarkdown({
                 markdownMode: 'italic',
-                selectionStart: (e.target as any).selectionStart,
-                selectionEnd: (e.target as any).selectionEnd,
-                value: (e.target as any).value,
+                selectionStart: e.currentTarget.selectionStart,
+                selectionEnd: e.currentTarget.selectionEnd,
+                message: e.currentTarget.value,
             });
         }
     }

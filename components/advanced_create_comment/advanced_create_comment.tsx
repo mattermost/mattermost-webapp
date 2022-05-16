@@ -43,7 +43,7 @@ import {
     ApplyMarkdownOptions,
 } from 'utils/markdown/apply_markdown';
 import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
-import {TextboxClass} from '../textbox';
+import {TextboxClass, TextboxElement} from '../textbox';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -121,7 +121,7 @@ type Props = {
     onUpdateCommentDraft: (draft?: PostDraft) => void;
 
     /**
-     * Called when comment draft needs to be updated for an specific root ID
+     * Called when comment draft needs to be updated for a specific root ID
      */
     updateCommentDraftWithRootId: (rootID: string, draft: PostDraft) => void;
 
@@ -187,7 +187,7 @@ type Props = {
     rhsExpanded: boolean;
 
     /**
-     * To check if the timezones are enable on the server.
+     * check if timezones are enabled on the server.
      */
     isTimezoneEnabled: boolean;
 
@@ -272,9 +272,9 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
     private saveDraftFrame?: number | null;
 
-    private textboxRef: React.RefObject<TextboxClass>;
-    private fileUploadRef: React.RefObject<FileUploadClass>;
-    private createCommentControlsRef: React.RefObject<HTMLSpanElement>;
+    private readonly textboxRef: React.RefObject<TextboxClass>;
+    private readonly fileUploadRef: React.RefObject<FileUploadClass>;
+    private readonly createCommentControlsRef: React.RefObject<HTMLSpanElement>;
 
     static defaultProps = {
         focusOnMount: true,
@@ -401,7 +401,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             return;
         }
 
-        // Bit of a hack to not steal focus from the channel switch modal if it's open
+        // A bit of a hack to not steal focus from the channel switch modal if it's open
         // This is a special case as the channel switch modal does not enforce focus like
         // most modals do
         if (document.getElementsByClassName('channel-switch-modal').length) {
@@ -424,7 +424,8 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
     }
 
     pasteHandler = (e: ClipboardEvent) => {
-        if (!e.clipboardData || !e.clipboardData.items || (e.target as any).id !== 'reply_textbox') {
+        // we need to cast the TextboxElement type onto the EventTarget here since the ClipboardEvent is not generic
+        if (!e.clipboardData || !e.clipboardData.items || (e.target as TextboxElement).id !== 'reply_textbox') {
             return;
         }
 
@@ -488,7 +489,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         const emojiAlias = ('short_name' in emoji && emoji.short_name) || emoji.name;
 
         if (!emojiAlias) {
-            //Oops.. There went something wrong
+            //Oops... There went something wrong
             return;
         }
 
@@ -620,7 +621,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             hasSpecialMentions) {
             memberNotifyCount = channelMembersCount - 1;
             for (const k in specialMentions) {
-                if (specialMentions[k] === true) {
+                if (specialMentions[k]) {
                     mentions.push('@' + k);
                 }
             }
@@ -717,41 +718,24 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         this.draftsForPost[this.props.rootId] = null;
     }
 
-    commentMsgKeyPress = (e: React.KeyboardEvent) => {
+    commentMsgKeyPress = (e: React.KeyboardEvent<TextboxElement>) => {
         const {ctrlSend, codeBlockOnCtrlEnter} = this.props;
 
-        const {allowSending, withClosedCodeBlock, message} =
-            postMessageOnKeyPress(
-                e,
-                this.state.draft!.message,
-                Boolean(ctrlSend),
-                Boolean(codeBlockOnCtrlEnter),
-                0,
-                0,
-                this.state.caretPosition,
-            ) as {
-                allowSending: boolean;
-                withClosedCodeBlock?: boolean;
-                message?: string;
-            };
+        const {allowSending} = postMessageOnKeyPress(
+            e,
+            this.state.draft!.message,
+            Boolean(ctrlSend),
+            Boolean(codeBlockOnCtrlEnter),
+            0,
+            0,
+            this.state.caretPosition,
+        );
 
         if (allowSending) {
-            if (e.persist) {
-                e.persist();
-            }
-            if (this.textboxRef.current) {
-                this.textboxRef.current.blur();
-            }
+            e.persist?.();
 
-            if (withClosedCodeBlock && message) {
-                const draft = this.state.draft!;
-                const updatedDraft = {...draft, message};
-                this.props.onUpdateCommentDraft(updatedDraft);
-                this.setState({draft: updatedDraft}, () => this.handleSubmit(e));
-                this.draftsForPost[this.props.rootId] = updatedDraft;
-            } else {
-                this.handleSubmit(e);
-            }
+            this.textboxRef.current?.blur();
+            this.handleSubmit(e);
 
             this.setShowPreview(false);
             setTimeout(() => {
@@ -762,12 +746,12 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         this.emitTypingEvent();
     }
 
-    reactToLastMessage = (e: React.KeyboardEvent) => {
+    reactToLastMessage = (e: React.KeyboardEvent<TextboxElement>) => {
         e.preventDefault();
 
         const {emitShortcutReactToLastPostFrom} = this.props;
 
-        // Here we are not handling conditions such as check for modals,  popups etc as shortcut is only trigger on
+        // Here we are not handling conditions such as check for modals,  popups etc. as shortcut is only trigger on
         // textbox input focus. Since all of them will already be closed as soon as they loose focus.
         emitShortcutReactToLastPostFrom(Locations.RHS_ROOT);
     }
@@ -777,7 +761,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         GlobalActions.emitLocalUserTypingEvent(channelId, rootId);
     }
 
-    handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleChange = (e: React.ChangeEvent<TextboxElement>) => {
         const message = e.target.value;
 
         let serverError = this.state.serverError;
@@ -809,11 +793,11 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         });
     }
 
-    handleSelect = (e: React.SyntheticEvent) => {
-        Utils.adjustSelection(this.textboxRef.current?.getInputBox(), e as React.KeyboardEvent);
+    handleSelect = (e: React.SyntheticEvent<TextboxElement>) => {
+        Utils.adjustSelection(this.textboxRef.current?.getInputBox(), e);
     }
 
-    handleKeyDown = (e: React.KeyboardEvent) => {
+    handleKeyDown = (e: React.KeyboardEvent<TextboxElement>) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const lastMessageReactionKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
         const ctrlShiftCombo = Utils.cmdOrCtrlPressed(e, true) && e.shiftKey;
@@ -843,9 +827,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         const {message} = draft;
 
         if (Utils.isKeyPressed(e, Constants.KeyCodes.ESCAPE)) {
-            if (this.textboxRef.current) {
-                this.textboxRef.current.blur();
-            }
+            this.textboxRef.current?.blur();
         }
 
         if (
@@ -867,8 +849,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             }
         }
 
-        const ctrlKeyCombo =
-            Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey;
+        const ctrlKeyCombo = Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey;
         const ctrlAltCombo = Utils.cmdOrCtrlPressed(e, true) && e.altKey;
 
         if (ctrlKeyCombo) {
@@ -882,17 +863,17 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                 e.preventDefault();
                 this.applyMarkdown({
                     markdownMode: 'bold',
-                    selectionStart: (e.target as any).selectionStart,
-                    selectionEnd: (e.target as any).selectionEnd,
-                    value: (e.target as any).value,
+                    selectionStart: e.currentTarget.selectionStart,
+                    selectionEnd: e.currentTarget.selectionEnd,
+                    message: e.currentTarget.value,
                 });
             } else if (Utils.isKeyPressed(e, Constants.KeyCodes.I)) {
                 e.preventDefault();
                 this.applyMarkdown({
                     markdownMode: 'italic',
-                    selectionStart: (e.target as any).selectionStart,
-                    selectionEnd: (e.target as any).selectionEnd,
-                    value: (e.target as any).value,
+                    selectionStart: e.currentTarget.selectionStart,
+                    selectionEnd: e.currentTarget.selectionEnd,
+                    message: e.currentTarget.value,
                 });
             }
         } else if (
@@ -902,53 +883,53 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             e.preventDefault();
             this.applyMarkdown({
                 markdownMode: 'link',
-                selectionStart: (e.target as any).selectionStart,
-                selectionEnd: (e.target as any).selectionEnd,
-                value: (e.target as any).value,
+                selectionStart: e.currentTarget.selectionStart,
+                selectionEnd: e.currentTarget.selectionEnd,
+                message: e.currentTarget.value,
             });
         } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.X)) {
             this.applyMarkdown({
                 markdownMode: 'strike',
-                selectionStart: (e.target as any).selectionStart,
-                selectionEnd: (e.target as any).selectionEnd,
-                value: (e.target as any).value,
+                selectionStart: e.currentTarget.selectionStart,
+                selectionEnd: e.currentTarget.selectionEnd,
+                message: e.currentTarget.value,
             });
         } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.C)) {
             e.preventDefault();
             e.stopPropagation();
             this.applyMarkdown({
                 markdownMode: 'code',
-                selectionStart: (e.target as any).selectionStart,
-                selectionEnd: (e.target as any).selectionEnd,
-                value: (e.target as any).value,
+                selectionStart: e.currentTarget.selectionStart,
+                selectionEnd: e.currentTarget.selectionEnd,
+                message: e.currentTarget.value,
             });
         } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_9)) {
             this.applyMarkdown({
                 markdownMode: 'quote',
-                selectionStart: (e.target as any).selectionStart,
-                selectionEnd: (e.target as any).selectionEnd,
-                value: (e.target as any).value,
+                selectionStart: e.currentTarget.selectionStart,
+                selectionEnd: e.currentTarget.selectionEnd,
+                message: e.currentTarget.value,
             });
         } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_8)) {
             this.applyMarkdown({
                 markdownMode: 'ul',
-                selectionStart: (e.target as any).selectionStart,
-                selectionEnd: (e.target as any).selectionEnd,
-                value: (e.target as any).value,
+                selectionStart: e.currentTarget.selectionStart,
+                selectionEnd: e.currentTarget.selectionEnd,
+                message: e.currentTarget.value,
             });
         } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_7)) {
             this.applyMarkdown({
                 markdownMode: 'ol',
-                selectionStart: (e.target as any).selectionStart,
-                selectionEnd: (e.target as any).selectionEnd,
-                value: (e.target as any).value,
+                selectionStart: e.currentTarget.selectionStart,
+                selectionEnd: e.currentTarget.selectionEnd,
+                message: e.currentTarget.value,
             });
         } else if (((isMac() && e.ctrlKey && e.shiftKey) || (e.altKey && e.shiftKey)) && Utils.isKeyPressed(e, KeyCodes.NUMPAD_3)) {
             this.applyMarkdown({
                 markdownMode: 'heading',
-                selectionStart: (e.target as any).selectionStart,
-                selectionEnd: (e.target as any).selectionEnd,
-                value: (e.target as any).value,
+                selectionStart: e.currentTarget.selectionStart,
+                selectionEnd: e.currentTarget.selectionEnd,
+                message: e.currentTarget.value,
             });
         } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.E)) {
             this.toggleEmojiPicker();
@@ -1154,19 +1135,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
     handleBlur = () => {
         this.lastBlurAt = Date.now();
-    }
-
-    handleHeightChange = (height: number, maxHeight: number) => {
-        this.setState({renderScrollbar: height > maxHeight});
-        window.requestAnimationFrame(() => {
-            if (this.textboxRef.current) {
-                this.setState({scrollbarWidth: Utils.scrollbarWidth(this.textboxRef.current.getInputBox())});
-            }
-        });
-
-        if (this.props.onHeightChange) {
-            this.props.onHeightChange(height, maxHeight);
-        }
     }
 
     render() {

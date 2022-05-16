@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {GeneralTypes} from 'mattermost-redux/action_types';
+import React from 'react';
 
+import {GeneralTypes} from 'mattermost-redux/action_types';
 import store from 'stores/redux_store.jsx';
 
 import Constants, {ValidationErrors} from 'utils/constants';
@@ -11,6 +12,7 @@ import * as lineBreakHelpers from 'tests/helpers/line_break_helpers.js';
 import {makeSelectionEvent} from 'tests/helpers/markdown_hotkey_helpers.js';
 import * as ua from 'tests/helpers/user_agent_mocks';
 import {UserProfile} from '@mattermost/types/users';
+import {TextboxElement} from 'components/textbox';
 
 describe('Utils.getDisplayNameByUser', () => {
     afterEach(() => {
@@ -671,7 +673,7 @@ describe('Utils.adjustSelection', () => {
             setSelectionRange: jest.fn(),
         } as unknown as HTMLInputElement;
 
-        Utils.adjustSelection(input, e as React.KeyboardEvent);
+        Utils.adjustSelection(input, e as React.KeyboardEvent<TextboxElement>);
         expect(input.setSelectionRange).toHaveBeenCalledWith(8, 13);
     });
 
@@ -683,7 +685,7 @@ describe('Utils.adjustSelection', () => {
             setSelectionRange: jest.fn(),
         } as unknown as HTMLInputElement;
 
-        Utils.adjustSelection(input, e as React.KeyboardEvent);
+        Utils.adjustSelection(input, e as React.KeyboardEvent<TextboxElement>);
         expect(input.setSelectionRange).not.toHaveBeenCalled();
     });
 
@@ -695,7 +697,7 @@ describe('Utils.adjustSelection', () => {
             setSelectionRange: jest.fn(),
         } as unknown as HTMLInputElement;
 
-        Utils.adjustSelection(input, e as React.KeyboardEvent);
+        Utils.adjustSelection(input, e as React.KeyboardEvent<TextboxElement>);
         expect(input.setSelectionRange).not.toHaveBeenCalled();
     });
 
@@ -707,7 +709,7 @@ describe('Utils.adjustSelection', () => {
             setSelectionRange: jest.fn(),
         } as unknown as HTMLInputElement;
 
-        Utils.adjustSelection(input, e as React.KeyboardEvent);
+        Utils.adjustSelection(input, e as React.KeyboardEvent<TextboxElement>);
         expect(input.setSelectionRange).toHaveBeenCalledWith(1, 7);
     });
 
@@ -719,7 +721,7 @@ describe('Utils.adjustSelection', () => {
             setSelectionRange: jest.fn(),
         } as unknown as HTMLInputElement;
 
-        Utils.adjustSelection(input, e as React.KeyboardEvent);
+        Utils.adjustSelection(input, e as React.KeyboardEvent<TextboxElement>);
         expect(input.setSelectionRange).toHaveBeenCalledWith(18, 26);
     });
 });

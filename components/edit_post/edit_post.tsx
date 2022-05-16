@@ -23,7 +23,7 @@ import * as Utils from 'utils/utils';
 import DeletePostModal from 'components/delete_post_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import Textbox, {TextboxClass} from 'components/textbox';
+import Textbox, {TextboxClass, TextboxElement} from 'components/textbox';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import {ModalData} from 'types/actions';
 
@@ -167,6 +167,10 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
     };
 
     const applyHotkeyMarkdown = (params: ApplyMarkdownOptions) => {
+        if (params.selectionStart === null || params.selectionEnd === null) {
+            return;
+        }
+
         const res = applyMarkdown(params);
 
         setEditText(res.message);
@@ -255,7 +259,7 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
         }
     };
 
-    const handleKeyDown = (e: React.KeyboardEvent) => {
+    const handleKeyDown = (e: React.KeyboardEvent<TextboxElement>) => {
         const {ctrlSend, codeBlockOnCtrlEnter} = rest;
 
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
@@ -278,34 +282,34 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
         } else if (ctrlAltCombo && markdownLinkKey) {
             applyHotkeyMarkdown({
                 markdownMode: 'link',
-                selectionStart: (e.target as any).selectionStart,
-                selectionEnd: (e.target as any).selectionEnd,
-                value: (e.target as any).value,
+                selectionStart: e.currentTarget.selectionStart,
+                selectionEnd: e.currentTarget.selectionEnd,
+                message: e.currentTarget.value,
             });
         } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.B)) {
             applyHotkeyMarkdown({
                 markdownMode: 'bold',
-                selectionStart: (e.target as any).selectionStart,
-                selectionEnd: (e.target as any).selectionEnd,
-                value: (e.target as any).value,
+                selectionStart: e.currentTarget.selectionStart,
+                selectionEnd: e.currentTarget.selectionEnd,
+                message: e.currentTarget.value,
             });
         } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.I)) {
             applyHotkeyMarkdown({
                 markdownMode: 'italic',
-                selectionStart: (e.target as any).selectionStart,
-                selectionEnd: (e.target as any).selectionEnd,
-                value: (e.target as any).value,
+                selectionStart: e.currentTarget.selectionStart,
+                selectionEnd: e.currentTarget.selectionEnd,
+                message: e.currentTarget.value,
             });
         }
     };
 
-    const handleSelect = (e: React.SyntheticEvent) => {
+    const handleSelect = (e: React.SyntheticEvent<TextboxElement>) => {
         if (textboxRef.current) {
-            Utils.adjustSelection(textboxRef.current.getInputBox(), e as React.KeyboardEvent);
+            Utils.adjustSelection(textboxRef.current.getInputBox(), e);
         }
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setEditText(e.target.value);
+    const handleChange = (e: React.ChangeEvent<TextboxElement>) => setEditText(e.target.value);
 
     const handleHeightChange = (height: number, maxHeight: number) => setRenderScrollbar(height > maxHeight);
 

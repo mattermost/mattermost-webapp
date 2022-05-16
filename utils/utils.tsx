@@ -70,6 +70,7 @@ import {Theme} from 'mattermost-redux/types/themes';
 import {ClientConfig} from 'mattermost-redux/types/config';
 
 import {GlobalState} from '@mattermost/types/store';
+import {TextboxElement} from '../components/textbox';
 
 import {joinPrivateChannelPrompt} from './channel_utils';
 
@@ -145,8 +146,8 @@ export function isUnhandledLineBreakKeyCombo(e: React.KeyboardEvent | KeyboardEv
  * insert a new line character at keyboard cursor (or overwrites selection)
  * WARNING: HAS DOM SIDE EFFECTS
  */
-export function insertLineBreakFromKeyEvent(e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>): string {
-    const el = e.target as HTMLInputElement | HTMLTextAreaElement;
+export function insertLineBreakFromKeyEvent(e: React.KeyboardEvent<TextboxElement>): string {
+    const el = e.currentTarget;
     const {selectionEnd, selectionStart, value} = el;
 
     // replace text selection (or insert if no selection) with new line character
@@ -1679,8 +1680,8 @@ export function getClosestParent(elem: HTMLElement, selector: string) {
 /**
  * Adjust selection to correct text when there is Italic markdown (_) around selected text.
  */
-export function adjustSelection(inputBox: HTMLInputElement, e: React.KeyboardEvent) {
-    const el = e.target as HTMLInputElement;
+export function adjustSelection(inputBox: HTMLInputElement, e: React.SyntheticEvent<TextboxElement>) {
+    const el = e.currentTarget;
     const {selectionEnd, selectionStart, value} = el;
 
     if (selectionStart === selectionEnd) {

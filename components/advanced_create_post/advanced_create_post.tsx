@@ -66,6 +66,8 @@ function trimRight(str: string) {
     return str.replace(/\s*$/, '');
 }
 
+type TextboxElement = HTMLInputElement | HTMLTextAreaElement;
+
 type Props = {
 
     /**
@@ -809,7 +811,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }
     }
 
-    postMsgKeyPress = (e: React.KeyboardEvent<Element>) => {
+    postMsgKeyPress = (e: React.KeyboardEvent<TextboxElement>) => {
         const {ctrlSend, codeBlockOnCtrlEnter} = this.props;
 
         const {allowSending, withClosedCodeBlock, ignoreKeyPress, message} = postMessageOnKeyPress(
@@ -858,7 +860,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         GlobalActions.emitLocalUserTypingEvent(channelId, '');
     }
 
-    handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleChange = (e: React.ChangeEvent<TextboxElement>) => {
         const message = e.target.value;
         const channelId = this.props.currentChannel.id;
 
@@ -876,6 +878,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             ...this.props.draft,
             message,
         };
+
         if (this.saveDraftFrame) {
             clearTimeout(this.saveDraftFrame);
         }
@@ -887,7 +890,11 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     pasteHandler = (e: ClipboardEvent) => {
-        if (!e.clipboardData || !e.clipboardData.items || (e.target && (e.target as any).id !== 'post_textbox')) {
+        /**
+         * casting HTMLInputElement on the EventTarget was necessary here
+         * since the ClipboardEvent type is not generic
+         */
+        if (!e.clipboardData || !e.clipboardData.items || ((e.target as TextboxElement)?.id !== 'post_textbox')) {
             return;
         }
 
@@ -1053,8 +1060,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
     documentKeyHandler = (e: KeyboardEvent) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
-        const lastMessageReactionKeyCombo =
-            ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
+        const lastMessageReactionKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
         if (lastMessageReactionKeyCombo) {
             this.reactToLastMessage(e);
             return;
@@ -1086,15 +1092,15 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
     handleMouseUpKeyUp = (e: React.MouseEvent | React.KeyboardEvent) => {
         this.setState({
-            caretPosition: (e.target as HTMLTextAreaElement).selectionStart || 0,
+            caretPosition: (e.target as HTMLInputElement).selectionStart || 0,
         });
     }
 
-    handleSelect = (e: React.SyntheticEvent) => {
-        Utils.adjustSelection(this.textboxRef.current?.getInputBox(), e as React.KeyboardEvent);
+    handleSelect = (e: React.SyntheticEvent<Element, Event>) => {
+        Utils.adjustSelection(this.textboxRef.current?.getInputBox(), e as React.KeyboardEvent<HTMLInputElement>);
     }
 
-    handleKeyDown = (e: React.KeyboardEvent) => {
+    handleKeyDown = (e: React.KeyboardEvent<TextboxElement>) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const messageIsEmpty = this.state.message.length === 0;
         const draftMessageIsEmpty = this.props.draft.message.length === 0;
@@ -1109,9 +1115,15 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         const ctrlShiftCombo = Utils.cmdOrCtrlPressed(e, true) && e.shiftKey;
         const markdownLinkKey = Utils.isKeyPressed(e, KeyCodes.K);
 
+        const {
+            selectionStart,
+            selectionEnd,
+            value,
+        } = e.currentTarget as HTMLInputElement;
+
         // listen for line break key combo and insert new line character
         if (Utils.isUnhandledLineBreakKeyCombo(e)) {
-            this.setState({message: Utils.insertLineBreakFromKeyEvent(e as React.KeyboardEvent<HTMLTextAreaElement>)});
+            this.setState({message: Utils.insertLineBreakFromKeyEvent(e)});
         } else if (ctrlEnterKeyCombo) {
             this.postMsgKeyPress(e);
         } else if (upKeyOnly && messageIsEmpty) {
@@ -1125,67 +1137,67 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         } else if (ctrlAltCombo && markdownLinkKey) {
             this.applyMarkdown({
                 markdownMode: 'link',
-                selectionStart: (e.target as any).selectionStart,
-                selectionEnd: (e.target as any).selectionEnd,
-                value: (e.target as any).value,
+                selectionStart,
+                selectionEnd,
+                message: value,
             });
         } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.B)) {
             this.applyMarkdown({
                 markdownMode: 'bold',
-                selectionStart: (e.target as any).selectionStart,
-                selectionEnd: (e.target as any).selectionEnd,
-                value: (e.target as any).value,
+                selectionStart,
+                selectionEnd,
+                message: value,
             });
         } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.I)) {
             this.applyMarkdown({
                 markdownMode: 'italic',
-                selectionStart: (e.target as any).selectionStart,
-                selectionEnd: (e.target as any).selectionEnd,
-                value: (e.target as any).value,
+                selectionStart,
+                selectionEnd,
+                message: value,
             });
         } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.X)) {
             this.applyMarkdown({
                 markdownMode: 'strike',
-                selectionStart: (e.target as any).selectionStart,
-                selectionEnd: (e.target as any).selectionEnd,
-                value: (e.target as any).value,
+                selectionStart,
+                selectionEnd,
+                message: value,
             });
         } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.C)) {
             e.stopPropagation();
             e.preventDefault();
             this.applyMarkdown({
                 markdownMode: 'code',
-                selectionStart: (e.target as any).selectionStart,
-                selectionEnd: (e.target as any).selectionEnd,
-                value: (e.target as any).value,
+                selectionStart,
+                selectionEnd,
+                message: value,
             });
         } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_9)) {
             this.applyMarkdown({
                 markdownMode: 'quote',
-                selectionStart: (e.target as any).selectionStart,
-                selectionEnd: (e.target as any).selectionEnd,
-                value: (e.target as any).value,
+                selectionStart,
+                selectionEnd,
+                message: value,
             });
         } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_8)) {
             this.applyMarkdown({
                 markdownMode: 'ul',
-                selectionStart: (e.target as any).selectionStart,
-                selectionEnd: (e.target as any).selectionEnd,
-                value: (e.target as any).value,
+                selectionStart,
+                selectionEnd,
+                message: value,
             });
         } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_7)) {
             this.applyMarkdown({
                 markdownMode: 'ol',
-                selectionStart: (e.target as any).selectionStart,
-                selectionEnd: (e.target as any).selectionEnd,
-                value: (e.target as any).value,
+                selectionStart,
+                selectionEnd,
+                message: value,
             });
         } else if (((isMac() && e.ctrlKey && e.shiftKey) || (e.altKey && e.shiftKey)) && Utils.isKeyPressed(e, KeyCodes.NUMPAD_3)) {
             this.applyMarkdown({
                 markdownMode: 'heading',
-                selectionStart: (e.target as any).selectionStart,
-                selectionEnd: (e.target as any).selectionEnd,
-                value: (e.target as any).value,
+                selectionStart,
+                selectionEnd,
+                message: value,
             });
         } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.E)) {
             this.toggleEmojiPicker();
