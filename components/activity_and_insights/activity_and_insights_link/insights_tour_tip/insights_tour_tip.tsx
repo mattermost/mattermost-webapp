@@ -11,6 +11,7 @@ import {showInsightsPulsatingDot} from 'selectors/insights';
 import insightsPreview from 'images/Insights-Preview-Image.jpg';
 
 import TourTip from 'components/widgets/tour_tip';
+import {useMeasurePunchouts} from 'components/widgets/tour_tip';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {showNextSteps} from 'components/next_steps_view/steps';
@@ -89,6 +90,7 @@ const InsightsTourTip = () => {
         }
         return false;
     }, [config.EnableOnboardingFlow, nextSteps, useCaseOnboarding, firstAdmin, showTaskList, showNextStepsEphemeral]);
+    const overlayPunchOut = useMeasurePunchouts(['sidebar-insights-button'], [], {y: 0, height: 0, x: 0, width: 0});
 
     return (
         <>
@@ -98,7 +100,7 @@ const InsightsTourTip = () => {
                     show={tipOpened}
                     screen={screen}
                     title={title}
-                    overlayPunchOut={null}
+                    overlayPunchOut={overlayPunchOut}
                     placement='right-start'
                     pulsatingDotPlacement='right'
                     step={1}
