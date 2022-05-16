@@ -90,7 +90,8 @@ const InsightsTourTip = () => {
         }
         return false;
     }, [config.EnableOnboardingFlow, nextSteps, useCaseOnboarding, firstAdmin, showTaskList, showNextStepsEphemeral]);
-    const overlayPunchOut = useMeasurePunchouts(['sidebar-insights-button'], [], {y: 0, height: 0, x: 0, width: 0});
+
+    const overlayPunchOut = useMeasurePunchouts(['sidebar-insights-button'], []);
 
     return (
         <>
