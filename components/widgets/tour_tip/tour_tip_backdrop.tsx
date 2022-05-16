@@ -27,7 +27,7 @@ const TourTipRootPortal = ({children, show, element}: {children: React.ReactNode
         element,
     ) : null);
 
-const TourTipBackdrop = ({
+export const TourTipBackdrop = ({
     show,
     overlayPunchOut,
     interactivePunchOut,
@@ -86,4 +86,3 @@ const TourTipBackdrop = ({
     );
 };
 
-export default TourTipBackdrop;

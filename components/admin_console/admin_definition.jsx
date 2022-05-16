@@ -6492,12 +6492,16 @@ const AdminDefinition = {
                                 display_name: t('admin.experimental.collapsedThreads.default_off'),
                                 display_name_default: 'Enabled (Default Off)',
                             },
-
-                            /* {
+                            {
+                                value: 'default_on',
+                                display_name: t('admin.experimental.collapsedThreads.default_on'),
+                                display_name_default: 'Enabled (Default On)',
+                            },
+                            {
                                 value: 'always_on',
-                                display_name: t('admin.experimental.collapsedThreads.alwaysOn'),
+                                display_name: t('admin.experimental.collapsedThreads.always_on'),
                                 display_name_default: 'Always On',
-                            }, */
+                            },
                         ],
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                         isHidden: it.configIsFalse('FeatureFlags', 'CollapsedThreads'),
