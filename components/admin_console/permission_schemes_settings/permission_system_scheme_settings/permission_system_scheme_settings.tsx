@@ -10,7 +10,7 @@ import {Role} from 'mattermost-redux/types/roles';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {PermissionsScope, DefaultRolePermissions} from 'utils/constants';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 import {t} from 'utils/i18n';
 
 import ConfirmModal from 'components/confirm_modal';
@@ -19,7 +19,6 @@ import LoadingScreen from 'components/loading_screen';
 import FormError from 'components/form_error';
 import BlockableLink from 'components/admin_console/blockable_link';
 import AdminPanelTogglable from 'components/widgets/admin_console/admin_panel_togglable';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import PermissionsTree, {EXCLUDED_PERMISSIONS} from '../permissions_tree';
 import GuestPermissionsTree, {GUEST_INCLUDED_PERMISSIONS} from '../guest_permissions_tree';
@@ -369,9 +368,20 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent<
                         <div className={'banner info'}>
                             <div className='banner__content'>
                                 <span>
-                                    <FormattedMarkdownMessage
+                                    <FormattedMessage
                                         id='admin.permissions.systemScheme.introBanner'
-                                        defaultMessage='Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a [Team Override Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html) is applied in specific teams.'
+                                        defaultMessage='Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a <link>Team Override Scheme</link>is applied in specific teams.'
+                                        values={{
+                                            link: (msg: React.ReactNode) => (
+                                                <a
+                                                    href='https://docs.mattermost.com/onboard/advanced-permissions.html'
+                                                    target='_blank'
+                                                    rel='noreferrer'
+                                                >
+                                                    {msg}
+                                                </a>
+                                            ),
+                                        }}
                                     />
                                 </span>
                             </div>

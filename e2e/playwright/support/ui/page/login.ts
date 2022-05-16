@@ -35,11 +35,11 @@ export class LoginPage {
         this.siteDescription = page.locator(`text=${description}`);
         this.loginInput = page.locator(`[placeholder="${loginInputPlaceholder}"]`);
         this.passwordInput = page.locator('[placeholder="Password"]');
-        this.signInButton = page.locator('button:has-text("Sign in")');
-        this.createAccountLink = page.locator('text=Create one now.');
-        this.forgotPasswordLink = page.locator('text=I forgot my password.');
+        this.signInButton = page.locator('button:has-text("Log in")');
+        this.createAccountLink = page.locator('text=Create an account');
+        this.forgotPasswordLink = page.locator('text=Forgot your password?');
         this.userErrorLabel = page.locator('text=Please enter your email or username');
-        this.fieldWithError = page.locator('.has-error');
+        this.fieldWithError = page.locator('.with-error');
         this.formContainer = page.locator('.signup-team__container');
     }
 

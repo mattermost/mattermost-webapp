@@ -12,7 +12,7 @@ import {NoResultsVariant} from 'components/no_results_indicator/types';
 
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import * as UserAgent from 'utils/user_agent';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import SuggestionBox from 'components/suggestion/suggestion_box';
@@ -220,7 +220,7 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
                             openWhenEmpty={true}
                             onSuggestionsReceived={this.handleSuggestionsReceived}
                             forceSuggestionsWhenBlur={true}
-                            renderDividers={true}
+                            renderDividers={[Constants.MENTION_UNREAD, Constants.MENTION_RECENT_CHANNELS]}
                             shouldSearchCompleteText={true}
                         />
                         {!this.state.shouldShowLoadingSpinner && !this.state.hasSuggestions && this.state.text &&

@@ -32,11 +32,11 @@ import {getIsMobileView} from 'selectors/views/browser';
 
 import {GlobalState} from 'types/store';
 
-import {getDisplayNameByUser} from 'utils/utils.jsx';
+import {getDisplayNameByUser} from 'utils/utils';
 
 import {General} from 'mattermost-redux/constants';
 
-import {RHSStates} from 'utils/constants.jsx';
+import {RHSStates} from 'utils/constants';
 import {getIsPostBeingEditedInRHS} from '../../selectors/posts';
 
 import SearchResultsItem from './search_results_item.jsx';

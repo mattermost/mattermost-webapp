@@ -5,7 +5,7 @@ import React, {useEffect} from 'react';
 
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {showNotification} from 'utils/notifications';
 import {t} from 'utils/i18n';
 

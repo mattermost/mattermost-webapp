@@ -57,48 +57,43 @@ exports[`components/create_post Show tutorial 1`] = `
             onUploadStart={[Function]}
             postType="post"
           />
-          <div>
-            <EmojiPickerOverlay
-              enableGifPicker={true}
-              onEmojiClick={[Function]}
-              onEmojiClose={[Function]}
-              onGifClick={[Function]}
-              onHide={[Function]}
-              show={false}
-              spaceRequiredAbove={476}
-              spaceRequiredBelow={497}
-              target={[Function]}
-              topOffset={-7}
-            />
-            <button
-              aria-label="emoji picker"
-              className="emoji-picker__container post-action"
-              onClick={[Function]}
-              type="button"
-            >
-              <EmojiIcon
-                className="icon icon--emoji "
-                id="emojiPickerButton"
-              />
-            </button>
-          </div>
-          <a
-            aria-label="Send a message"
-            className="send-button theme disabled"
+          <EmojiPickerOverlay
+            enableGifPicker={true}
+            onEmojiClick={[Function]}
+            onEmojiClose={[Function]}
+            onGifClick={[Function]}
+            onHide={[Function]}
+            show={false}
+            spaceRequiredAbove={476}
+            spaceRequiredBelow={497}
+            target={[Function]}
+            topOffset={-7}
+          />
+          <button
+            aria-label="emoji picker"
+            className="emoji-picker__container post-action"
+            id="emojiPickerButton"
             onClick={[Function]}
-            role="button"
+            type="button"
+          >
+            <EmoticonOutlineIcon
+              color="currentColor"
+              size={18}
+            />
+          </button>
+          <button
+            aria-label="Send a message"
+            className="btn btn-primary send-button theme disabled hidden"
+            disabled={true}
+            onClick={[Function]}
             tabIndex={0}
           >
-            <LocalizedIcon
-              className="fa fa-paper-plane"
-              title={
-                Object {
-                  "defaultMessage": "Create a post",
-                  "id": "create_post.icon",
-                }
-              }
+            <SendIcon
+              aria-label="Create a post"
+              color="currentColor"
+              size={18}
             />
-          </a>
+          </button>
         </span>
       </div>
     </div>
@@ -184,48 +179,43 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
             onUploadStart={[Function]}
             postType="post"
           />
-          <div>
-            <EmojiPickerOverlay
-              enableGifPicker={true}
-              onEmojiClick={[Function]}
-              onEmojiClose={[Function]}
-              onGifClick={[Function]}
-              onHide={[Function]}
-              show={false}
-              spaceRequiredAbove={476}
-              spaceRequiredBelow={497}
-              target={[Function]}
-              topOffset={-7}
-            />
-            <button
-              aria-label="emoji picker"
-              className="emoji-picker__container post-action"
-              onClick={[Function]}
-              type="button"
-            >
-              <EmojiIcon
-                className="icon icon--emoji "
-                id="emojiPickerButton"
-              />
-            </button>
-          </div>
-          <a
-            aria-label="Send a message"
-            className="send-button theme disabled"
+          <EmojiPickerOverlay
+            enableGifPicker={true}
+            onEmojiClick={[Function]}
+            onEmojiClose={[Function]}
+            onGifClick={[Function]}
+            onHide={[Function]}
+            show={false}
+            spaceRequiredAbove={476}
+            spaceRequiredBelow={497}
+            target={[Function]}
+            topOffset={-7}
+          />
+          <button
+            aria-label="emoji picker"
+            className="emoji-picker__container post-action"
+            id="emojiPickerButton"
             onClick={[Function]}
-            role="button"
+            type="button"
+          >
+            <EmoticonOutlineIcon
+              color="currentColor"
+              size={18}
+            />
+          </button>
+          <button
+            aria-label="Send a message"
+            className="btn btn-primary send-button theme disabled hidden"
+            disabled={true}
+            onClick={[Function]}
             tabIndex={0}
           >
-            <LocalizedIcon
-              className="fa fa-paper-plane"
-              title={
-                Object {
-                  "defaultMessage": "Create a post",
-                  "id": "create_post.icon",
-                }
-              }
+            <SendIcon
+              aria-label="Create a post"
+              color="currentColor"
+              size={18}
             />
-          </a>
+          </button>
         </span>
       </div>
     </div>
@@ -300,23 +290,19 @@ exports[`components/create_post should match snapshot when cannot post 1`] = `
         <span
           className="post-body__actions"
         >
-          <a
+          <button
             aria-label="Send a message"
-            className="send-button theme disabled"
+            className="btn btn-primary send-button theme disabled hidden"
+            disabled={true}
             onClick={[Function]}
-            role="button"
             tabIndex={0}
           >
-            <LocalizedIcon
-              className="fa fa-paper-plane"
-              title={
-                Object {
-                  "defaultMessage": "Create a post",
-                  "id": "create_post.icon",
-                }
-              }
+            <SendIcon
+              aria-label="Create a post"
+              color="currentColor"
+              size={18}
             />
-          </a>
+          </button>
         </span>
       </div>
     </div>
@@ -403,48 +389,43 @@ exports[`components/create_post should match snapshot when file upload disabled 
             onUploadStart={[Function]}
             postType="post"
           />
-          <div>
-            <EmojiPickerOverlay
-              enableGifPicker={true}
-              onEmojiClick={[Function]}
-              onEmojiClose={[Function]}
-              onGifClick={[Function]}
-              onHide={[Function]}
-              show={false}
-              spaceRequiredAbove={476}
-              spaceRequiredBelow={497}
-              target={[Function]}
-              topOffset={-7}
-            />
-            <button
-              aria-label="emoji picker"
-              className="emoji-picker__container post-action"
-              onClick={[Function]}
-              type="button"
-            >
-              <EmojiIcon
-                className="icon icon--emoji "
-                id="emojiPickerButton"
-              />
-            </button>
-          </div>
-          <a
-            aria-label="Send a message"
-            className="send-button theme disabled"
+          <EmojiPickerOverlay
+            enableGifPicker={true}
+            onEmojiClick={[Function]}
+            onEmojiClose={[Function]}
+            onGifClick={[Function]}
+            onHide={[Function]}
+            show={false}
+            spaceRequiredAbove={476}
+            spaceRequiredBelow={497}
+            target={[Function]}
+            topOffset={-7}
+          />
+          <button
+            aria-label="emoji picker"
+            className="emoji-picker__container post-action"
+            id="emojiPickerButton"
             onClick={[Function]}
-            role="button"
+            type="button"
+          >
+            <EmoticonOutlineIcon
+              color="currentColor"
+              size={18}
+            />
+          </button>
+          <button
+            aria-label="Send a message"
+            className="btn btn-primary send-button theme disabled hidden"
+            disabled={true}
+            onClick={[Function]}
             tabIndex={0}
           >
-            <LocalizedIcon
-              className="fa fa-paper-plane"
-              title={
-                Object {
-                  "defaultMessage": "Create a post",
-                  "id": "create_post.icon",
-                }
-              }
+            <SendIcon
+              aria-label="Create a post"
+              color="currentColor"
+              size={18}
             />
-          </a>
+          </button>
         </span>
       </div>
     </div>
@@ -530,48 +511,43 @@ exports[`components/create_post should match snapshot, can post; preview disable
             onUploadStart={[Function]}
             postType="post"
           />
-          <div>
-            <EmojiPickerOverlay
-              enableGifPicker={true}
-              onEmojiClick={[Function]}
-              onEmojiClose={[Function]}
-              onGifClick={[Function]}
-              onHide={[Function]}
-              show={false}
-              spaceRequiredAbove={476}
-              spaceRequiredBelow={497}
-              target={[Function]}
-              topOffset={-7}
-            />
-            <button
-              aria-label="emoji picker"
-              className="emoji-picker__container post-action"
-              onClick={[Function]}
-              type="button"
-            >
-              <EmojiIcon
-                className="icon icon--emoji "
-                id="emojiPickerButton"
-              />
-            </button>
-          </div>
-          <a
-            aria-label="Send a message"
-            className="send-button theme disabled"
+          <EmojiPickerOverlay
+            enableGifPicker={true}
+            onEmojiClick={[Function]}
+            onEmojiClose={[Function]}
+            onGifClick={[Function]}
+            onHide={[Function]}
+            show={false}
+            spaceRequiredAbove={476}
+            spaceRequiredBelow={497}
+            target={[Function]}
+            topOffset={-7}
+          />
+          <button
+            aria-label="emoji picker"
+            className="emoji-picker__container post-action"
+            id="emojiPickerButton"
             onClick={[Function]}
-            role="button"
+            type="button"
+          >
+            <EmoticonOutlineIcon
+              color="currentColor"
+              size={18}
+            />
+          </button>
+          <button
+            aria-label="Send a message"
+            className="btn btn-primary send-button theme disabled hidden"
+            disabled={true}
+            onClick={[Function]}
             tabIndex={0}
           >
-            <LocalizedIcon
-              className="fa fa-paper-plane"
-              title={
-                Object {
-                  "defaultMessage": "Create a post",
-                  "id": "create_post.icon",
-                }
-              }
+            <SendIcon
+              aria-label="Create a post"
+              color="currentColor"
+              size={18}
             />
-          </a>
+          </button>
         </span>
       </div>
     </div>
@@ -657,48 +633,43 @@ exports[`components/create_post should match snapshot, can post; preview enabled
             onUploadStart={[Function]}
             postType="post"
           />
-          <div>
-            <EmojiPickerOverlay
-              enableGifPicker={true}
-              onEmojiClick={[Function]}
-              onEmojiClose={[Function]}
-              onGifClick={[Function]}
-              onHide={[Function]}
-              show={false}
-              spaceRequiredAbove={476}
-              spaceRequiredBelow={497}
-              target={[Function]}
-              topOffset={-7}
-            />
-            <button
-              aria-label="emoji picker"
-              className="emoji-picker__container post-action"
-              onClick={[Function]}
-              type="button"
-            >
-              <EmojiIcon
-                className="icon icon--emoji "
-                id="emojiPickerButton"
-              />
-            </button>
-          </div>
-          <a
-            aria-label="Send a message"
-            className="send-button theme disabled"
+          <EmojiPickerOverlay
+            enableGifPicker={true}
+            onEmojiClick={[Function]}
+            onEmojiClose={[Function]}
+            onGifClick={[Function]}
+            onHide={[Function]}
+            show={false}
+            spaceRequiredAbove={476}
+            spaceRequiredBelow={497}
+            target={[Function]}
+            topOffset={-7}
+          />
+          <button
+            aria-label="emoji picker"
+            className="emoji-picker__container post-action"
+            id="emojiPickerButton"
             onClick={[Function]}
-            role="button"
+            type="button"
+          >
+            <EmoticonOutlineIcon
+              color="currentColor"
+              size={18}
+            />
+          </button>
+          <button
+            aria-label="Send a message"
+            className="btn btn-primary send-button theme disabled hidden"
+            disabled={true}
+            onClick={[Function]}
             tabIndex={0}
           >
-            <LocalizedIcon
-              className="fa fa-paper-plane"
-              title={
-                Object {
-                  "defaultMessage": "Create a post",
-                  "id": "create_post.icon",
-                }
-              }
+            <SendIcon
+              aria-label="Create a post"
+              color="currentColor"
+              size={18}
             />
-          </a>
+          </button>
         </span>
       </div>
     </div>
@@ -773,23 +744,19 @@ exports[`components/create_post should match snapshot, cannot post; preview disa
         <span
           className="post-body__actions"
         >
-          <a
+          <button
             aria-label="Send a message"
-            className="send-button theme disabled"
+            className="btn btn-primary send-button theme disabled hidden"
+            disabled={true}
             onClick={[Function]}
-            role="button"
             tabIndex={0}
           >
-            <LocalizedIcon
-              className="fa fa-paper-plane"
-              title={
-                Object {
-                  "defaultMessage": "Create a post",
-                  "id": "create_post.icon",
-                }
-              }
+            <SendIcon
+              aria-label="Create a post"
+              color="currentColor"
+              size={18}
             />
-          </a>
+          </button>
         </span>
       </div>
     </div>
@@ -865,23 +832,19 @@ exports[`components/create_post should match snapshot, cannot post; preview enab
         <span
           className="post-body__actions"
         >
-          <a
+          <button
             aria-label="Send a message"
-            className="send-button theme disabled"
+            className="btn btn-primary send-button theme disabled hidden"
+            disabled={true}
             onClick={[Function]}
-            role="button"
             tabIndex={0}
           >
-            <LocalizedIcon
-              className="fa fa-paper-plane"
-              title={
-                Object {
-                  "defaultMessage": "Create a post",
-                  "id": "create_post.icon",
-                }
-              }
+            <SendIcon
+              aria-label="Create a post"
+              color="currentColor"
+              size={18}
             />
-          </a>
+          </button>
         </span>
       </div>
     </div>
@@ -968,48 +931,43 @@ exports[`components/create_post should match snapshot, init 1`] = `
             onUploadStart={[Function]}
             postType="post"
           />
-          <div>
-            <EmojiPickerOverlay
-              enableGifPicker={true}
-              onEmojiClick={[Function]}
-              onEmojiClose={[Function]}
-              onGifClick={[Function]}
-              onHide={[Function]}
-              show={false}
-              spaceRequiredAbove={476}
-              spaceRequiredBelow={497}
-              target={[Function]}
-              topOffset={-7}
-            />
-            <button
-              aria-label="emoji picker"
-              className="emoji-picker__container post-action"
-              onClick={[Function]}
-              type="button"
-            >
-              <EmojiIcon
-                className="icon icon--emoji "
-                id="emojiPickerButton"
-              />
-            </button>
-          </div>
-          <a
-            aria-label="Send a message"
-            className="send-button theme disabled"
+          <EmojiPickerOverlay
+            enableGifPicker={true}
+            onEmojiClick={[Function]}
+            onEmojiClose={[Function]}
+            onGifClick={[Function]}
+            onHide={[Function]}
+            show={false}
+            spaceRequiredAbove={476}
+            spaceRequiredBelow={497}
+            target={[Function]}
+            topOffset={-7}
+          />
+          <button
+            aria-label="emoji picker"
+            className="emoji-picker__container post-action"
+            id="emojiPickerButton"
             onClick={[Function]}
-            role="button"
+            type="button"
+          >
+            <EmoticonOutlineIcon
+              color="currentColor"
+              size={18}
+            />
+          </button>
+          <button
+            aria-label="Send a message"
+            className="btn btn-primary send-button theme disabled hidden"
+            disabled={true}
+            onClick={[Function]}
             tabIndex={0}
           >
-            <LocalizedIcon
-              className="fa fa-paper-plane"
-              title={
-                Object {
-                  "defaultMessage": "Create a post",
-                  "id": "create_post.icon",
-                }
-              }
+            <SendIcon
+              aria-label="Create a post"
+              color="currentColor"
+              size={18}
             />
-          </a>
+          </button>
         </span>
       </div>
     </div>

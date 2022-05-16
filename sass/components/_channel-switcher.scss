@@ -81,6 +81,12 @@
             padding-top: 0.6rem;
             border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
             margin-top: 2.3rem;
+
+            &:first-child {
+                padding-top: 0;
+                border: none;
+                margin-top: 1rem;
+            }
         }
 
         .suggestion-list__content {

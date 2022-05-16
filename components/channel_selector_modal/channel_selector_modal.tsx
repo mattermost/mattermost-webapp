@@ -10,7 +10,7 @@ import {ChannelSearchOpts, ChannelWithTeamData} from 'mattermost-redux/types/cha
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import Constants from 'utils/constants';
-import {localizeMessage, compareChannels} from 'utils/utils.jsx';
+import {localizeMessage, compareChannels} from 'utils/utils';
 
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 

@@ -8,7 +8,7 @@ import {Link} from 'react-router-dom';
 import {OAuthApp} from 'mattermost-redux/types/integrations';
 import {Team} from 'mattermost-redux/types/teams';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import FormError from 'components/form_error';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import CopyText from 'components/copy_text';

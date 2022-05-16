@@ -8,7 +8,7 @@ import {getOptionValue} from 'react-select/src/builtins';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Constants from 'utils/constants';
-import {cmdOrCtrlPressed} from 'utils/utils.jsx';
+import {cmdOrCtrlPressed} from 'utils/utils';
 
 import LoadingScreen from 'components/loading_screen';
 

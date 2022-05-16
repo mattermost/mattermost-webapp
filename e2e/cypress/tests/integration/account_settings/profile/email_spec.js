@@ -204,12 +204,14 @@ describe('Profile > Profile Settings > Email', () => {
             cy.visit(permalink);
 
             // * Verify login text
-            cy.get('#login_section .alert-success').should('contain.text', 'Email Verified');
+            cy.get('.AlertBanner.success').should('be.visible').within(() => {
+                cy.get('.AlertBanner__title').should('contain.text', 'Email Verified');
+            });
 
             // # Do login
-            cy.get('#loginId').should('be.visible').clear().type(email);
-            cy.get('#loginPassword').should('be.visible').type(testUser.password);
-            cy.get('#loginButton').should('be.visible').click();
+            cy.get('#input_loginId').should('be.visible').clear().type(email);
+            cy.get('#input_password-input').should('be.visible').type(testUser.password);
+            cy.get('#saveSetting').should('not.be.disabled').click();
 
             // * Check that the email verification message is not showed.
             cy.get('.announcement-bar').should('not.exist');
