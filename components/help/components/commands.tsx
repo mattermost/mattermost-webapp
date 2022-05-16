@@ -94,7 +94,7 @@ export default function HelpCommands(): JSX.Element {
                                 {msg}
                             </a>
                         ),
-                        strong: (msg) => <strong>{msg}</strong>,
+                        strong: (msg: React.ReactNode) => <strong>{msg}</strong>,
                     }}
                 />
             </p>
