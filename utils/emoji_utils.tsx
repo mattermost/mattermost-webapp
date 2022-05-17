@@ -195,7 +195,7 @@ export function convertEmojisToUserSkinTone(unnormalizedNames: string[], emojiMa
         }
 
         if (emoji.skins && emoji.skins.length > 1) {
-            // Don't change the skin tone of emojis without one or with multiple skin tones applied
+            // Don't change the skin tone of emojis affected by multiple skin tones
             return name;
         }
 
