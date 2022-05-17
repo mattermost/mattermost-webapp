@@ -4,6 +4,8 @@ import React, {memo, useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 
+import {FormattedMessage} from 'react-intl';
+
 import Constants, {InsightsScopes} from 'utils/constants';
 
 import CircleLoader from '../skeleton_loader/circle_loader/circle_loader';
@@ -15,6 +17,8 @@ import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/sele
 import {getMyTopChannels, getTopChannelsForTeam} from 'mattermost-redux/actions/insights';
 import {TopChannel} from '@mattermost/types/insights';
 import WidgetEmptyState from '../widget_empty_state/widget_empty_state';
+import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 import './../../activity_and_insights.scss';
 
@@ -75,6 +79,22 @@ const TopChannels = (props: WidgetHocProps) => {
         return titles;
     }, []);
 
+    const tooltip = useCallback((messageCount: number) => {
+        return (
+            <Tooltip
+                id='total-messages'
+            >
+                <FormattedMessage
+                    id='insights.topChannels.messageCount'
+                    defaultMessage='{messageCount} total messages'
+                    values={{
+                        messageCount,
+                    }}
+                />
+            </Tooltip>
+        );
+    }, []);
+
     return (
         <>
             <div className='top-channel-container'>
@@ -94,29 +114,36 @@ const TopChannels = (props: WidgetHocProps) => {
                         <div className='channel-list'>
                             {
                                 topChannels.map((channel) => {
-                                    const barSize = (channel.message_count / topChannels[0].message_count);
+                                    const barSize = ((channel.message_count / topChannels[0].message_count) * 0.8);
 
                                     let iconToDisplay = <i className='icon icon-globe'/>;
 
                                     if (channel.type === Constants.PRIVATE_CHANNEL) {
-                                        iconToDisplay = <i className='icon icon-lock'/>;
+                                        iconToDisplay = <i className='icon icon-lock-outline'/>;
                                     }
                                     return (
-                                        <div
+                                        <Link
                                             className='channel-row'
+                                            to={`${currentTeamUrl}/channels/${channel.name}`}
                                             key={channel.id}
                                         >
-                                            <Link
+                                            <div
                                                 className='channel-display-name'
-                                                to={`${currentTeamUrl}/channels/${channel.name}`}
                                             >
                                                 <span className='icon'>
                                                     {iconToDisplay}
                                                 </span>
                                                 <span className='display-name'>{channel.display_name}</span>
-                                            </Link>
+                                            </div>
                                             <div className='channel-message-count'>
-                                                <span className='message-count'>{channel.message_count}</span>
+                                                <OverlayTrigger
+                                                    trigger={['hover']}
+                                                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                                                    placement='right'
+                                                    overlay={tooltip(channel.message_count)}
+                                                >
+                                                    <span className='message-count'>{channel.message_count}</span>
+                                                </OverlayTrigger>
                                                 <span
                                                     className='horizontal-bar'
                                                     style={{
@@ -124,7 +151,7 @@ const TopChannels = (props: WidgetHocProps) => {
                                                     }}
                                                 />
                                             </div>
-                                        </div>
+                                        </Link>
                                     );
                                 })
                             }

@@ -106,7 +106,7 @@ const TopChannelsTable = (props: Props) => {
             let iconToDisplay = <i className='icon icon-globe'/>;
 
             if (channel.type === Constants.PRIVATE_CHANNEL) {
-                iconToDisplay = <i className='icon icon-lock'/>;
+                iconToDisplay = <i className='icon icon-lock-outline'/>;
             }
             return (
                 {
