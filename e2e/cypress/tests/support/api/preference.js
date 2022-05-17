@@ -273,3 +273,14 @@ Cypress.Commands.add('apiSaveShowStartTrialModal', (userId, value = 'true') => {
 
     return cy.apiSaveUserPreference([preference], userId);
 });
+
+Cypress.Commands.add('apiSaveOnboardingTaskListPreference', (userId, name, value) => {
+    const preference = {
+        user_id: userId,
+        category: 'onboarding_task_list',
+        name,
+        value,
+    };
+
+    return cy.apiSaveUserPreference([preference], userId);
+});

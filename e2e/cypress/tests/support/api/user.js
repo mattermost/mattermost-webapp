@@ -253,7 +253,8 @@ Cypress.Commands.add('apiCreateUser', ({
         }
 
         if (hideOnboarding) {
-            cy.apiSaveOnboardingPreference(createdUser.id, 'hide', 'true');
+            cy.apiSaveOnboardingTaskListPreference(createdUser.id, 'onboarding_task_list_open', 'false');
+            cy.apiSaveOnboardingTaskListPreference(createdUser.id, 'onboarding_task_list_show', 'false');
         }
 
         if (hideActionsMenu) {
