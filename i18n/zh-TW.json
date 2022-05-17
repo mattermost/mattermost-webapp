@@ -2247,7 +2247,7 @@
   "create_team.team_url.hint3": "請以小寫英字母開頭，請不要以連接號結尾",
   "create_team.team_url.regex": "請只用小寫英字母、數字及連接號。必須以小寫英字母開頭且不能以連接號結尾。",
   "create_team.team_url.required": "此欄位是必需的",
-  "create_team.team_url.taken": "此網址[以保留字起始](!https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url)或是已被使用。請嘗試其他的網址。",
+  "create_team.team_url.taken": "此網址<link>以保留字起始</link>或是已被使用。請嘗試其他的網址。",
   "create_team.team_url.teamUrl": "團隊網址",
   "create_team.team_url.unavailable": "不能使用這網址或是已被使用。請嘗試其他的。",
   "create_team.team_url.webAddress": "為新團隊選取網址：",

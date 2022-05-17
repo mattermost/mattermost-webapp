@@ -2930,7 +2930,7 @@
   "create_team.team_url.hint3": "Måste börja med en bokstav och får inte sluta med ett streck",
   "create_team.team_url.regex": "Använd gemener, siffror och streck. Måste börja med en bokstav och får inte sluta med ett streck.",
   "create_team.team_url.required": "Fältet är obligatoriskt",
-  "create_team.team_url.taken": "Denna URL [börjar med ett reserverat ord](!https://docs.mattermost.com/messaging/creating-teams.html#team-url) eller är inte tillgänglig. Testa en annan.",
+  "create_team.team_url.taken": "Denna URL <link>börjar med ett reserverat ord</link> eller är inte tillgänglig. Testa en annan.",
   "create_team.team_url.teamUrl": "Team URL",
   "create_team.team_url.unavailable": "Denna URL används redan eller är inte tillgänglig. Testa en annan.",
   "create_team.team_url.webAddress": "Välj webbadress för ditt nya team:",

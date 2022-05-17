@@ -2999,7 +2999,7 @@
   "create_team.team_url.hint3": "Betűvel kell kezdődnie, és nem végződhet kötőjellel",
   "create_team.team_url.regex": "Csak kisbetűket, számokat és kötőjeleket használjon. Betűvel kell kezdődnie, és nem végződhet kötőjellel.",
   "create_team.team_url.required": "Ez a mező kötelező",
-  "create_team.team_url.taken": "Ez az URL [fenntartott szóval kezdődik](!https://docs.mattermost.com/messaging/creating-teams.html#team-url), vagy nem érhető el. Kérjük, próbálkozzon másikkal.",
+  "create_team.team_url.taken": "Ez az URL <link>fenntartott szóval kezdődik</link>, vagy nem érhető el. Kérjük, próbálkozzon másikkal.",
   "create_team.team_url.teamUrl": "Csapat URL",
   "create_team.team_url.unavailable": "Ez az URL foglalt vagy nem elérhető. Kérjük, próbálkozzon másikkal.",
   "create_team.team_url.webAddress": "Válassza ki új csapata webcímét:",

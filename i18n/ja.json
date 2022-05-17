@@ -2999,7 +2999,7 @@
   "create_team.team_url.hint3": "文字で開始し、ダッシュで終わらないようにしてください",
   "create_team.team_url.regex": "英小文字、数字、ダッシュのみ使用できます。英小文字で始めてください。ダッシュで終わることはできません。",
   "create_team.team_url.required": "この項目は必須です",
-  "create_team.team_url.taken": "このURLは[予約語で開始されている](!https://docs.mattermost.com/messaging/creating-teams.html#team-url)か利用できません。別のURLを試してみてください。",
+  "create_team.team_url.taken": "このURLは<link>予約語で開始されている</link>か利用できません。別のURLを試してみてください。",
   "create_team.team_url.teamUrl": "チームURL",
   "create_team.team_url.unavailable": "このURLは既に使用されているか使用できません。他のものを試してください。",
   "create_team.team_url.webAddress": "あなたの新しいチームのウェブアドレスを選択してください:",

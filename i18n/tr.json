@@ -2990,7 +2990,7 @@
   "create_team.team_url.hint3": "Bir harf ile başlamalıdır ve tire ile bitemez",
   "create_team.team_url.regex": "Yalnız küçük harf, rakam ve tire kullanın. Bir harf ile başlamalı ve tire ile bitmemelidir.",
   "create_team.team_url.required": "Bu alan zorunludur",
-  "create_team.team_url.taken": "Bu adres [ayrılmış bir sözcük ile başlıyor](!https://docs.mattermost.com/messaging/creating-teams.html#team-url) ya da kullanılamaz. Lütfen başka bir adres deneyin.",
+  "create_team.team_url.taken": "Bu adres <link>ayrılmış bir sözcük ile başlıyor</link> ya da kullanılamaz. Lütfen başka bir adres deneyin.",
   "create_team.team_url.teamUrl": "Takım adresi",
   "create_team.team_url.unavailable": "Adres alınmış ya da kullanılamıyor. Lütfen başka bir adres deneyin.",
   "create_team.team_url.webAddress": "Yeni takımınızın web adresini seçin:",

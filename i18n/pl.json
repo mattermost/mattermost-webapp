@@ -2999,7 +2999,7 @@
   "create_team.team_url.hint3": "Musi się zaczyna literą i nie może się kończyć myślnikiem",
   "create_team.team_url.regex": "Używaj tylko małych liter, cyfr i myślników. Musi się zaczynać od litery i nie może się kończyć na myślniku.",
   "create_team.team_url.required": "To pole jest wymagane",
-  "create_team.team_url.taken": "Ten adres URL [zaczyna się od zastrzeżonego słowa](!https://docs.mattermost.com/messaging/creating-teams.html#team-url) lub jest niedostępny. Proszę spróbować innego.",
+  "create_team.team_url.taken": "Ten adres URL <link>zaczyna się od zastrzeżonego słowa</link> lub jest niedostępny. Proszę spróbować innego.",
   "create_team.team_url.teamUrl": "Adres URL zespołu",
   "create_team.team_url.unavailable": "Ten adres URL jest nie dostępny. Proszę, spróbuj innego.",
   "create_team.team_url.webAddress": "Wybierz adres strony internetowej swojego nowego zespołu:",

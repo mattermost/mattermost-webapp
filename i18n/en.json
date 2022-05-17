@@ -3003,7 +3003,7 @@
   "create_team.team_url.hint3": "Must start with a letter and can't end in a dash",
   "create_team.team_url.regex": "Use only lower case letters, numbers and dashes. Must start with a letter and can't end in a dash.",
   "create_team.team_url.required": "This field is required",
-  "create_team.team_url.taken": "This URL [starts with a reserved word](!https://docs.mattermost.com/messaging/creating-teams.html#team-url) or is unavailable. Please try another.",
+  "create_team.team_url.taken": "This URL <link>starts with a reserved word</link> or is unavailable. Please try another.",
   "create_team.team_url.teamUrl": "Team URL",
   "create_team.team_url.unavailable": "This URL is taken or unavailable. Please try another.",
   "create_team.team_url.webAddress": "Choose the web address of your new team:",

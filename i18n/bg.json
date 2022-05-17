@@ -2819,7 +2819,7 @@
   "create_team.team_url.hint3": "Трябва да започва с буква и да не може да завършва с тире",
   "create_team.team_url.regex": "Използвайте само малки букви, цифри и тирета. Трябва да започва с буква и да не може да завършва с тире.",
   "create_team.team_url.required": "Това поле е задължително",
-  "create_team.team_url.taken": "Този URL адрес [започва със запазена дума](!https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url) или не е наличен. Моля, опитайте друго.",
+  "create_team.team_url.taken": "Този URL адрес <link>започва със запазена дума</link> или не е наличен. Моля, опитайте друго.",
   "create_team.team_url.teamUrl": "URL адрес на екип",
   "create_team.team_url.unavailable": "Този URL адрес е зает или недостъпен. Моля, опитайте друг.",
   "create_team.team_url.webAddress": "Изберете уеб адреса на новия си екип:",
