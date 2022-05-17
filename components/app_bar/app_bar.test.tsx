@@ -46,7 +46,7 @@ describe('components/app_bar/app_bar', () => {
                 },
                 general: {
                     config: {
-                        FeatureFlagAppBarEnabled: 'true',
+                        EnableAppBar: 'true',
                         FeatureFlagAppsEnabled: 'true',
                     } as any,
                 },
