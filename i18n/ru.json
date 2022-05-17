@@ -2989,7 +2989,7 @@
   "create_team.team_url.hint3": "Должен начинаться с буквы и не может заканчиваться тире",
   "create_team.team_url.regex": "Используйте строчные буквы, цифры и тире. Должно начинаться с буквы и не может заканчиваться на тире.",
   "create_team.team_url.required": "Обязательное поле",
-  "create_team.team_url.taken": "Этот URL-адрес <<link>>начинается с зарезервированного слова</<link>> или недоступен. Пожалуйста, попробуйте другой.",
+  "create_team.team_url.taken": "Этот URL-адрес [начинается с зарезервированного слова](!https://docs.mattermost.com/messaging/creating-teams.html#team-url) или недоступен. Пожалуйста, попробуйте другой.",
   "create_team.team_url.teamUrl": "URL команды",
   "create_team.team_url.unavailable": "Этот URL занят или недоступен. Пожалуйста, попробуйте другой.",
   "create_team.team_url.webAddress": "Выберите адрес вашей новой команды:",

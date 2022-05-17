@@ -1691,7 +1691,7 @@
   "create_team.team_url.hint3": "Потрібно почати з листа і не можна закінчувати тире",
   "create_team.team_url.regex": "Використовуйте малі літери, цифри і тире. Має починатися з літери і не може закінчуватися на тире.",
   "create_team.team_url.required": "Обов'язкове поле",
-  "create_team.team_url.taken": "Ця URL-адреса <<link>>починається зі зареєстрованого слова</<link>>  або недоступна. Будь-ласка, спробуйте інший.",
+  "create_team.team_url.taken": "Ця URL-адреса [починається зі зареєстрованого слова] (!https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url) або недоступна. Будь-ласка, спробуйте інший.",
   "create_team.team_url.teamUrl": "URL команди",
   "create_team.team_url.unavailable": "Цей URL зайнятий або недоступний. Будь-ласка, спробуйте інший.",
   "create_team.team_url.webAddress": "Виберіть адресу вашої нової команди:",

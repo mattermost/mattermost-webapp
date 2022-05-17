@@ -126,20 +126,9 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
         for (let index = 0; index < Constants.RESERVED_TEAM_NAMES.length; index++) {
             if (cleanedName.indexOf(Constants.RESERVED_TEAM_NAMES[index]) === 0) {
                 this.setState({nameError: (
-                    <FormattedMessage
+                    <FormattedMarkdownMessage
                         id='create_team.team_url.taken'
-                        defaultMessage='This URL <link>starts with a reserved word</link> or is unavailable. Please try another.'
-                        values={{
-                            link: (msg:React.ReactNode) => (
-                                <a
-                                    href='https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url'
-                                    target='_blank'
-                                    rel='noreferrer'
-                                >
-                                    {msg}
-                                </a>
-                            ),
-                          }}
+                        defaultMessage='This URL [starts with a reserved word](!https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url) or is unavailable. Please try another.'
                     />),
                 });
                 return;

@@ -2994,7 +2994,7 @@
   "create_team.team_url.hint3": "Moet beginnen met een letter en kan niet eindigen in een streepje",
   "create_team.team_url.regex": "Gebruik enkel kleine letters, nummers en streepjes. De naam moet met een letter beginnen en mag niet met een streepje eindigen.",
   "create_team.team_url.required": "Dit is een verplicht veld",
-  "create_team.team_url.taken": "Deze URL <<link>>begint met een gereserveerd woord</<link>>  of is niet beschikbaar. Probeer nog een keer.",
+  "create_team.team_url.taken": "Deze URL [begint met een gereserveerd woord] (!https://docs.mattermost.com/messaging/creating-teams.html#team-url) of is niet beschikbaar. Probeer nog een keer.",
   "create_team.team_url.teamUrl": "Team URL",
   "create_team.team_url.unavailable": "Deze URL is al in gebruik of niet beschikbaar. Probeer het nog eens.",
   "create_team.team_url.webAddress": "Kies het web adres van uw nieuw team:",
