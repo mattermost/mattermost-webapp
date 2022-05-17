@@ -2844,7 +2844,7 @@
   "deactivate_member_modal.deactivate": "停用",
   "deactivate_member_modal.desc": "此操作将停用 {username}。他们将被注销并无法访问此系统上的任何团队或频道。\n",
   "deactivate_member_modal.desc.confirm": "您确定要注销 {username}？",
-  "deactivate_member_modal.desc.for_users_with_bot_accounts": "此操作将停用 {username}。\n\n * 他们将被注销并无法访问此系统上的任何团队或频道。\n * 他们管理的机器人帐号以及整合将被停用。如想重新开启，转至[整合 > 机器人帐号]({siteURL}/_redirect/integrations/bots)。[了解更多关于机器人帐号](!https://mattermost.com/pl/default-bot-accounts)。\n\n\n",
+  "deactivate_member_modal.desc.for_users_with_bot_accounts": "此操作将停用 {username}。\n\n * 他们将被注销并无法访问此系统上的任何团队或频道。\n * 他们管理的机器人帐号以及整合将被停用。如想重新开启，转至<link>整合 > 机器人帐号</link>({siteURL}/_redirect/integrations/bots)。[了解更多关于机器人帐号]。\n\n\n",
   "deactivate_member_modal.sso_warning": "您必须在 SSO 提供商停用此用户否则他们将在下次登入或同步时重新启用。",
   "deactivate_member_modal.title": "停用 {username}",
   "delete_category_modal.delete": "删除",

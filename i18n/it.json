@@ -2260,7 +2260,7 @@
   "deactivate_member_modal.deactivate": "Disattiva",
   "deactivate_member_modal.desc": "Questa operazione disattiva {username}. Non potrà più accedere o avere accesso alle squadre e ai canali di questo sistema.\n",
   "deactivate_member_modal.desc.confirm": " Disattivare {username}?",
-  "deactivate_member_modal.desc.for_users_with_bot_accounts": "Questa operazione disattiva {username}.\n \n * Non potrà più accedere o avere accesso ale squadra e ai canali di questo sistema.\n * Gli account bot gestiti da questo utente saranno disattivati, così come le loro integrazioni. Per riattivarli, andare in [Integrazioni > Account Bot]({siteURL}/_redirect/integrations/bots). [Ulteriori informazioni](!https://mattermost.com/pl/default-bot-accounts).\n \n \n",
+  "deactivate_member_modal.desc.for_users_with_bot_accounts": "Questa operazione disattiva {username}.\n \n * Non potrà più accedere o avere accesso ale squadra e ai canali di questo sistema.\n * Gli account bot gestiti da questo utente saranno disattivati, così come le loro integrazioni. Per riattivarli, andare in <link>Integrazioni > Account Bot</link>({siteURL}/_redirect/integrations/bots). [Ulteriori informazioni].\n \n \n",
   "deactivate_member_modal.sso_warning": "Disattivare il provider SSO di questo utente o verrà riattivato al prossimo login o sincronizzazione.",
   "deactivate_member_modal.title": "Disattiva {username}",
   "delete_category_modal.delete": "Elimina",
