@@ -10,8 +10,7 @@ import {setInsightsInitialisationState} from 'mattermost-redux/actions/preferenc
 import {showInsightsPulsatingDot} from 'selectors/insights';
 import insightsPreview from 'images/Insights-Preview-Image.jpg';
 
-import TourTip from 'components/widgets/tour_tip';
-import {useMeasurePunchouts} from 'components/widgets/tour_tip';
+import TourTip, {useMeasurePunchouts} from 'components/widgets/tour_tip';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {showNextSteps} from 'components/next_steps_view/steps';
@@ -84,8 +83,8 @@ const InsightsTourTip = () => {
         setTipOpened(true);
     }, []);
 
-    const isOnboardingOpen =useCallback(() => {
-        if (config.EnableOnboardingFlow === 'true' && nextSteps && !showNextStepsEphemeral && !(useCaseOnboarding && firstAdmin) || (firstAdmin && showTaskList) || showNextStepsEphemeral) {
+    const isOnboardingOpen = useCallback(() => {
+        if ((config.EnableOnboardingFlow === 'true' && nextSteps && !showNextStepsEphemeral && !(useCaseOnboarding && firstAdmin)) || (firstAdmin && showTaskList) || showNextStepsEphemeral) {
             return true;
         }
         return false;
