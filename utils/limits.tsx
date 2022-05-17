@@ -16,3 +16,10 @@ export function inK(num: number): string {
 export function toUsagePercent(usage: number, limit: number): number {
     return Math.floor((usage / limit) * 100);
 }
+
+export const limitThresholds = Object.freeze({
+    ok: 0,
+    warn: 50,
+    danger: 66,
+    exceeded: 100.0000001,
+});
