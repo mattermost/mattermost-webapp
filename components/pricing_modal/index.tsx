@@ -20,18 +20,18 @@ function PricingModal() {
 
     return (
         <Modal
-            className='PreTrialPricingModal'
+            className='PricingModal'
             show={show}
-            id='preTrialPricingModal'
+            id='pricingModal'
             onExited={() => {}}
-            data-testid='preTrialPricingModal'
+            data-testid='pricingModal'
             dialogClassName='a11y__modal'
             onHide={() => {
                 dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
             }}
             role='dialog'
             aria-modal='true'
-            aria-labelledby='pre_trial_pricing_modal_title'
+            aria-labelledby='pricing_modal_title'
         >
             <Content
                 onHide={() => {

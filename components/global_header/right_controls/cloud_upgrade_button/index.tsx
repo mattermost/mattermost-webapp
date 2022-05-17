@@ -71,11 +71,11 @@ const UpgradeCloudButton = (): JSX.Element | null => {
         isEnterpriseTrial = true;
     }
 
-    const isStarter = product?.sku === CloudProducts.STARTER;
+    const isStarter = true;
 
-    if (!isCloudFreeEnabled) {
-        return null;
-    }
+    // if (!isCloudFreeEnabled) {
+    //     return null;
+    // }
 
     if (!isCloud || !isAdmin) {
         return null;
