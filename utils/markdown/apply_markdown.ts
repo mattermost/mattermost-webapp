@@ -107,7 +107,7 @@ const applyOlMarkdown = ({selectionEnd, selectionStart, message}: ApplySpecificM
     const newSuffix = getNewSuffix(suffix);
 
     const delimiterLength = 3;
-    const getDelimiter = (num?: numberf) => {
+    const getDelimiter = (num?: number) => {
         getDelimiter.counter = num || getDelimiter.counter;
         return `${getDelimiter.counter++}. `;
     };
