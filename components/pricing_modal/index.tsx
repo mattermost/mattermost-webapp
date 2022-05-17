@@ -3,11 +3,9 @@
 
 import React, {useState} from 'react';
 import {Modal} from 'react-bootstrap';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
-// import {isModalOpen} from 'selectors/views/modals';
 import {closeModal} from 'actions/views/modals';
-// import {GlobalState} from 'types/store';
 import {ModalIdentifiers} from 'utils/constants';
 
 import Content from './content';
@@ -17,13 +15,10 @@ import './pricing_modal.scss';
 function PricingModal() {
     const [showModal, setShowModal] = useState(true);
     const dispatch = useDispatch();
-    // const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.PRICING_MODAL));
 
     return (
         <Modal
             className='PricingModal'
-
-            // show={show}
             show={showModal}
             id='pricingModal'
             onExited={() => {

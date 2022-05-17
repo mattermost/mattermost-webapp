@@ -189,7 +189,7 @@ function Content(props: ContentProps) {
         isStarter = true;
     }
 
-    if (subscription?.trial_end_at && (isStarter || isEnterprise)) {
+    if (subscription?.trial_end_at && !subscription.is_free_trial && (isStarter || isEnterprise)) {
         isPostTrial = true;
     }
 

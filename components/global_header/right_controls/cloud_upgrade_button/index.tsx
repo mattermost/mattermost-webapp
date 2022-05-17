@@ -60,7 +60,7 @@ const UpgradeCloudButton = (): JSX.Element | null => {
     const isEnterprise = product?.sku === CloudProducts.ENTERPRISE;
     let isEnterpriseTrial = false;
     const daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at);
-    if (isEnterprise && daysLeftOnTrial > 0) {
+    if (isEnterprise && daysLeftOnTrial > 0 && subscription?.is_free_trial) {
         isEnterpriseTrial = true;
     }
 

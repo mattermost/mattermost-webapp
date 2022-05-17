@@ -40,9 +40,9 @@ const RightControls = ({productId = null}: Props): JSX.Element => {
         <RightControlsContainer
             id={'RightControlsContainer'}
         >
+            <CloudUpgradeButton/>
             {productId === null ? (
                 <>
-                    <CloudUpgradeButton/>
                     <AtMentionsButton/>
                     <SavedPostsButton/>
                     <SettingsButton/>
