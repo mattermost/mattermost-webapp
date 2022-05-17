@@ -723,7 +723,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
     handleMouseUpKeyUp = (e: React.MouseEvent | React.KeyboardEvent) => {
         this.setState({
-            caretPosition: (e.target as HTMLTextAreaElement).selectionStart || 0,
+            caretPosition: (e.target as TextboxElement).selectionStart || 0,
         });
     }
 

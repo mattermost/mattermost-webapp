@@ -147,7 +147,7 @@ export function isUnhandledLineBreakKeyCombo(e: React.KeyboardEvent | KeyboardEv
  * WARNING: HAS DOM SIDE EFFECTS
  */
 export function insertLineBreakFromKeyEvent(e: React.KeyboardEvent<TextboxElement>): string {
-    const el = e.currentTarget;
+    const el = e.target as TextboxElement;
     const {selectionEnd, selectionStart, value} = el;
 
     // replace text selection (or insert if no selection) with new line character

@@ -423,7 +423,7 @@ class CreateComment extends React.PureComponent<Props, State> {
 
     pasteHandler = (e: ClipboardEvent) => {
         // we need to cast the TextboxElement type onto the EventTarget here since the ClipboardEvent is not generic
-        if (!e.clipboardData || !e.clipboardData.items || (e.currentTarget as TextboxElement).id !== 'reply_textbox') {
+        if (!e.clipboardData || !e.clipboardData.items || (e.target as TextboxElement).id !== 'reply_textbox') {
             return;
         }
 
@@ -809,7 +809,7 @@ class CreateComment extends React.PureComponent<Props, State> {
 
     handleMouseUpKeyUp = (e: React.MouseEvent | React.KeyboardEvent) => {
         this.setState({
-            caretPosition: (e.target as HTMLTextAreaElement).selectionStart || 0,
+            caretPosition: (e.target as TextboxElement).selectionStart || 0,
         });
     }
 
