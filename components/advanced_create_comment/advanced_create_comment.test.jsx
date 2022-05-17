@@ -10,7 +10,7 @@ import {testComponentForMarkdownHotkeys} from 'tests/helpers/markdown_hotkey_hel
 import Constants, {ModalIdentifiers} from 'utils/constants';
 
 import AdvancedCreateComment from 'components/advanced_create_comment/advanced_create_comment';
-import Textbox from 'components/textbox';
+import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
 
 describe('components/AdvancedCreateComment', () => {
     jest.useFakeTimers();
@@ -1162,11 +1162,18 @@ describe('components/AdvancedCreateComment', () => {
 
         instance.textboxRef.current = {blur, focus, getInputBox: jest.fn(mockImpl)};
 
+        const mockTarget = {
+            selectionStart: 0,
+            selectionEnd: 0,
+            value: 'brown\nfox jumps over lazy dog',
+        };
+
         const commentMsgKey = {
             preventDefault: jest.fn(),
             ctrlKey: true,
             key: Constants.KeyCodes.ENTER[0],
             keyCode: Constants.KeyCodes.ENTER[1],
+            target: mockTarget,
         };
         instance.handleKeyDown(commentMsgKey);
         expect(instance.commentMsgKeyPress).toHaveBeenCalledTimes(1);
@@ -1176,6 +1183,7 @@ describe('components/AdvancedCreateComment', () => {
             ctrlKey: true,
             key: Constants.KeyCodes.UP[0],
             keyCode: Constants.KeyCodes.UP[1],
+            target: mockTarget,
         };
         instance.handleKeyDown(upKey);
         expect(upKey.preventDefault).toHaveBeenCalledTimes(1);
@@ -1186,6 +1194,7 @@ describe('components/AdvancedCreateComment', () => {
             ctrlKey: true,
             key: Constants.KeyCodes.DOWN[0],
             keyCode: Constants.KeyCodes.DOWN[1],
+            target: mockTarget,
         };
         instance.handleKeyDown(downKey);
         expect(downKey.preventDefault).toHaveBeenCalledTimes(1);
@@ -1197,6 +1206,7 @@ describe('components/AdvancedCreateComment', () => {
             ctrlKey: false,
             key: Constants.KeyCodes.UP[0],
             keyCode: Constants.KeyCodes.UP[1],
+            target: mockTarget,
         };
         instance.handleKeyDown(upKeyForEdit);
         expect(upKeyForEdit.preventDefault).toHaveBeenCalledTimes(1);
@@ -1452,7 +1462,7 @@ describe('components/AdvancedCreateComment', () => {
             }}
             ctrlSend={true}
         />
-    ), (instance) => instance.state().draft.message);
+    ), (instance) => instance.state().draft.message, false);
 
     testComponentForMarkdownHotkeys(
         (value) => (
@@ -1481,8 +1491,9 @@ describe('components/AdvancedCreateComment', () => {
                 },
             };
         },
-        (instance) => instance.find(Textbox),
+        (instance) => instance.find(AdvanceTextEditor),
         (instance) => instance.state().draft.message,
+        false,
     );
 
     it('should blur when ESCAPE is pressed', () => {
@@ -1503,11 +1514,18 @@ describe('components/AdvancedCreateComment', () => {
 
         instance.textboxRef.current = {blur, getInputBox: jest.fn(mockImpl)};
 
+        const mockTarget = {
+            selectionStart: 0,
+            selectionEnd: 0,
+            value: 'brown\nfox jumps over lazy dog',
+        };
+
         const commentEscapeKey = {
             preventDefault: jest.fn(),
             ctrlKey: true,
             key: Constants.KeyCodes.ESCAPE[0],
             keyCode: Constants.KeyCodes.ESCAPE[1],
+            target: mockTarget,
         };
 
         instance.handleKeyDown(commentEscapeKey);
