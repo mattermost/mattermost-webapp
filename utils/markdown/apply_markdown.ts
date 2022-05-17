@@ -58,21 +58,17 @@ export function applyMarkdown(options: ApplyMarkdownOptions): ApplyMarkdownRetur
     case 'ul':
         delimiter = '- ';
         return applyMarkdownToSelectedLines({selectionEnd, selectionStart, message, delimiter});
-    case 'strike':
-        delimiter = '~~';
-        break;
-    case 'code':
-        delimiter = '```';
-        break;
     case 'heading':
         delimiter = '### ';
-        break;
+        return applyMarkdownToSelectedLines({selectionEnd, selectionStart, message, delimiter});
     case 'quote':
-        delimiter = '>';
-        break;
-    }
-
-    if (delimiter) {
+        delimiter = '> ';
+        return applyMarkdownToSelectedLines({selectionEnd, selectionStart, message, delimiter});
+    case 'strike':
+        delimiter = '~~';
+        return applyMarkdownToSelection({selectionEnd, selectionStart, message, delimiter});
+    case 'code':
+        delimiter = '```';
         return applyMarkdownToSelection({selectionEnd, selectionStart, message, delimiter});
     }
 
