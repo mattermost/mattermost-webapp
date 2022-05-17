@@ -97,7 +97,7 @@ const InsightsTourTip = () => {
         if (showTip && isOnboardingOngoing()) {
             dispatch(setInsightsInitialisationState({[Preferences.INSIGHTS_VIEWED]: true}));
         }
-    }, [showTip, isOnboardingOngoing])
+    }, [showTip, isOnboardingOngoing]);
 
     return (
         <>
