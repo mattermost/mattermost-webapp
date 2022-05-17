@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useCallback, useState} from 'react';
+import React, {memo, useCallback, useEffect, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -83,7 +83,7 @@ const InsightsTourTip = () => {
         setTipOpened(true);
     }, []);
 
-    const isOnboardingOpen = useCallback(() => {
+    const isOnboardingOngoing = useCallback(() => {
         if ((config.EnableOnboardingFlow === 'true' && nextSteps && !showNextStepsEphemeral && !(useCaseOnboarding && firstAdmin)) || (firstAdmin && showTaskList) || showNextStepsEphemeral) {
             return true;
         }
@@ -92,10 +92,17 @@ const InsightsTourTip = () => {
 
     const overlayPunchOut = useMeasurePunchouts(['sidebar-insights-button'], []);
 
+    useEffect(() => {
+        // If the user has ongoing onboarding steps we want to just remove the insights intro modal in order to not overburden with tips
+        if (showTip && isOnboardingOngoing()) {
+            dispatch(setInsightsInitialisationState({[Preferences.INSIGHTS_VIEWED]: true}));
+        }
+    }, [showTip, isOnboardingOngoing])
+
     return (
         <>
             {
-                (showTip && !isOnboardingOpen()) &&
+                (showTip && !isOnboardingOngoing()) &&
                 <TourTip
                     show={tipOpened}
                     screen={screen}
