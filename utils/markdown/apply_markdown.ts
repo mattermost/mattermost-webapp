@@ -58,7 +58,6 @@ export function applyMarkdown(options: ApplyMarkdownOptions): ApplyMarkdownRetur
     case 'ul':
         delimiter = '- ';
         return applyMarkdownToSelectedLines({selectionEnd, selectionStart, message, delimiter});
-        break;
     case 'strike':
         delimiter = '~~';
         break;
