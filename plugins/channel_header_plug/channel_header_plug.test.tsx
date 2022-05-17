@@ -98,4 +98,30 @@ describe('plugins/ChannelHeaderPlug', () => {
         );
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match snapshot when the App Bar is visible', () => {
+        const wrapper = mountWithIntl(
+            <ChannelHeaderPlug
+                components={[
+                    testPlug,
+                    {...testPlug, id: 'someid2'},
+                    {...testPlug, id: 'someid3'},
+                    {...testPlug, id: 'someid4'},
+                ]}
+                channel={{} as Channel}
+                channelMember={{} as ChannelMembership}
+                theme={{} as Theme}
+                sidebarOpen={false}
+                actions={{
+                    handleBindingClick: jest.fn(),
+                    postEphemeralCallResponseForChannel: jest.fn(),
+                    openAppsModal: jest.fn(),
+                }}
+                appBindings={[]}
+                appsEnabled={false}
+                shouldShowAppBar={true}
+            />,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
 });
