@@ -2,3 +2,8 @@
 // See LICENSE.txt for license information.
 
 export * from '@mattermost/types/admin';
+
+export type ConsoleAccess = {
+    read: Record<string, boolean>;
+    write: Record<string, boolean>;
+}
