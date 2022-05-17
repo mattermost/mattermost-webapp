@@ -164,10 +164,16 @@
                                     text-decoration: none;
                                 }
 
+                                .icon {
+                                    color: rgba(var(--center-channel-color-rgb), 0.56);
+                                }
+
                                 span.cell-text {
                                     overflow: hidden;
                                     text-overflow: ellipsis;
                                     white-space: nowrap;
+                                    font-weight: 600;
+                                    margin-left: 4px;
                                 }
                             }
 
