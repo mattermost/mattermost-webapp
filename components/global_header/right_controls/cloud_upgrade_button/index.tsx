@@ -10,10 +10,10 @@ import {CloudProducts, ModalIdentifiers} from 'utils/constants';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {GlobalState} from 'types/store';
 import {trackEvent} from 'actions/telemetry_actions';
-import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
 import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
+import {getCloudSubscription as selectCloudSubscription, getCloudProduct as selectCloudProduct, isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 
 import {openModal} from 'actions/views/modals';
 import PricingModal from 'components/pricing_modal';
@@ -41,7 +41,7 @@ const UpgradeCloudButton = (): JSX.Element | null => {
     useEffect(() => {
         dispatch(getCloudSubscription());
         dispatch(getCloudProducts());
-    });
+    }, []);
 
     const openPricingModal = () => {
         trackEvent('cloud_admin', 'click_open_pricing_modal');
@@ -53,16 +53,9 @@ const UpgradeCloudButton = (): JSX.Element | null => {
 
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
     const isAdmin = useSelector((state: GlobalState) => isCurrentUserSystemAdmin(state));
-    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
-    const product = useSelector((state: GlobalState) => {
-        if (state.entities.cloud.products && subscription) {
-            return state.entities.cloud.products[subscription?.product_id];
-        }
-        return undefined;
-    });
-
-    const license = useSelector(getLicense);
-    const isCloud = license?.Cloud === 'true';
+    const subscription = useSelector(selectCloudSubscription);
+    const product = useSelector(selectCloudProduct);
+    const isCloud = useSelector(isCurrentLicenseCloud);
 
     const isEnterprise = product?.sku === CloudProducts.ENTERPRISE;
     let isEnterpriseTrial = false;
@@ -71,11 +64,11 @@ const UpgradeCloudButton = (): JSX.Element | null => {
         isEnterpriseTrial = true;
     }
 
-    const isStarter = true;
+    const isStarter = product?.sku === CloudProducts.STARTER;
 
-    // if (!isCloudFreeEnabled) {
-    //     return null;
-    // }
+    if (!isCloudFreeEnabled) {
+        return null;
+    }
 
     if (!isCloud || !isAdmin) {
         return null;

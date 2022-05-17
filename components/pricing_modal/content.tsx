@@ -11,6 +11,10 @@ import {trackEvent} from 'actions/telemetry_actions';
 import {CloudLinks, CloudProducts, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 import {openModal} from 'actions/views/modals';
+import {
+    getCloudSubscription as selectCloudSubscription,
+    getCloudProduct as selectCloudProduct,
+    getCloudProducts as selectCloudProducts} from 'mattermost-redux/selectors/entities/cloud';
 
 import PurchaseModal from 'components/purchase_modal';
 import {makeAsyncComponent} from 'components/async_load';
@@ -170,18 +174,13 @@ function Content(props: ContentProps) {
 
     const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
 
-    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
-    const products = useSelector((state: GlobalState) => state.entities.cloud.products);
-    const product = useSelector((state: GlobalState) => {
-        if (state.entities.cloud.products && subscription) {
-            return state.entities.cloud.products[subscription?.product_id];
-        }
-        return undefined;
-    });
+    const subscription = useSelector(selectCloudSubscription);
+    const product = useSelector(selectCloudProduct);
+    const products = useSelector(selectCloudProducts);
 
     const isEnterprise = product?.sku === CloudProducts.ENTERPRISE;
-    const enterpriseProduct = Object.values(products || {}).find(((product) => {
-        return product.sku === CloudProducts.ENTERPRISE;
+    const professionalProduct = Object.values(products || {}).find(((product) => {
+        return product.sku === CloudProducts.PROFESSIONAL;
     }));
 
     let isStarter = false;
@@ -284,7 +283,7 @@ function Content(props: ContentProps) {
                 <Card
                     topColor='#4A69AC'
                     plan='Professional'
-                    price={`$${enterpriseProduct ? enterpriseProduct.price_per_seat : '10'}`}
+                    price={`$${professionalProduct ? professionalProduct.price_per_seat : '10'}`}
                     rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: '/user/month'})}
                     briefing={{
                         title: formatMessage({id: 'pricing_modal.briefing.professional', defaultMessage: 'All the features of Starter, plus'}),
@@ -296,9 +295,7 @@ function Content(props: ContentProps) {
                             formatMessage({id: 'pricing_modal.briefing.professional.readOnlyAnnoucementChannels', defaultMessage: 'Read-only announcement channels'})],
                     }}
                     buttonDetails={{
-                        action: () => {
-                            openPurchaseModal();
-                        },
+                        action: openPurchaseModal,
                         text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
                         customClass: isPostTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,
                     }}
@@ -330,9 +327,7 @@ function Content(props: ContentProps) {
                         text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),
                         customClass: ButtonCustomiserClasses.active,
                     } : {
-                        action: () => {
-                            openLearnMoreTrialModal();
-                        },
+                        action: openLearnMoreTrialModal,
                         text: formatMessage({id: 'pricing_modal.btn.tryDays', defaultMessage: 'Try free for {days} days'}, {days: '30'}),
                         customClass: ButtonCustomiserClasses.special,
                     }}
