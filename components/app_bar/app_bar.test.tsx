@@ -112,4 +112,14 @@ describe('components/app_bar/app_bar', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match snapshot on mount when App Bar is disabled', async () => {
+        mockState.entities.general.config.EnableAppBar = 'false';
+
+        const wrapper = mount(
+            <AppBar/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
 });
