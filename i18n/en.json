@@ -3477,6 +3477,7 @@
   "insights.timeFrame.mediumRange": "Last 7 days",
   "insights.timeFrame.today": "Today",
   "insights.topChannels.channel": "Channel",
+  "insights.topChannels.messageCount": "{messageCount} total messages",
   "insights.topChannels.mySubTitle": "Most active channels that I'm a member of",
   "insights.topChannels.myTitle": "My top channels",
   "insights.topChannels.subTitle": "Most active channels for the team",

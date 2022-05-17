@@ -4,6 +4,12 @@
     .insights-body {
         padding: 24px;
 
+        .top-channels-card {
+            .Card__body {
+                padding-right: 12px;
+            }
+        }
+
         .top-channel-container {
             display: flex;
 
@@ -19,7 +25,7 @@
                 .top-channel-loading-row {
                     display: flex;
                     align-items: center;
-                    padding: 12px 0;
+                    padding: 12px 12px 12px 0;
 
                     &:nth-of-type(2) {
                         .skeleton-loader {
@@ -63,7 +69,7 @@
                 .channel-row {
                     display: flex;
                     align-items: center;
-                    margin-bottom: 20px;
+                    padding: 10px 12px;
 
                     &:nth-of-type(1) {
                         span.horizontal-bar {
@@ -95,14 +101,20 @@
                         }
                     }
 
+                    &:hover {
+                        background-color: rgba(var(--center-channel-text-rgb), 0.08);
+                        border-radius: 4px;
+                        text-decoration: none;
+                    }
+
+                    &:focus {
+                        text-decoration: none;
+                    }
+
                     .channel-display-name {
                         display: flex;
                         overflow: hidden;
                         flex: 1 0;
-
-                        &:hover {
-                            text-decoration: none;
-                        }
 
                         i.icon {
                             width: 14px;
@@ -131,7 +143,9 @@
                         align-items: center;
 
                         .message-count {
-                            flex: 0.1 0;
+                            display: inline-flex;
+                            flex: 0.2 0;
+                            justify-content: flex-end;
                             color: rgba(var(--center-channel-color-rgb), 0.72);
                             font-family: 'Open Sans';
                             font-size: 11px;
