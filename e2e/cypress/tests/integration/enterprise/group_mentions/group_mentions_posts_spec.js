@@ -266,8 +266,7 @@ describe('Group Mentions', () => {
                 // # Login to create the dev user
                 cy.apiLogin({username: 'dev.one', password: 'Password1'}).then(({user: devOne}) => {
                     cy.apiAdminLogin();
-                    cy.apiSaveOnboardingTaskListPreference(boardOne.id, 'onboarding_task_list_open', 'false');
-                    cy.apiSaveOnboardingTaskListPreference(boardOne.id, 'onboarding_task_list_show', 'false');
+
                     cy.apiAddUserToTeam(testTeam.id, devOne.id);
 
                     cy.apiLogin({username: 'board.one', password: 'Password1'});

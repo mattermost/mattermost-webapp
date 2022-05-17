@@ -284,3 +284,14 @@ Cypress.Commands.add('apiSaveOnboardingTaskListPreference', (userId, name, value
 
     return cy.apiSaveUserPreference([preference], userId);
 });
+
+Cypress.Commands.add('apiSaveSkipStepsPreference', (userId, value) => {
+    const preference = {
+        user_id: userId,
+        category: 'recommended_next_steps',
+        name: 'skip',
+        value,
+    };
+
+    return cy.apiSaveUserPreference([preference], userId);
+});

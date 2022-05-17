@@ -178,8 +178,6 @@ describe('System Console', () => {
             });
 
             cy.apiSaveTutorialStep(user.id, '999');
-            cy.apiSaveOnboardingTaskListPreference(user.id, 'onboarding_task_list_open', 'false');
-            cy.apiSaveOnboardingTaskListPreference(user.id, 'onboarding_task_list_show', 'false');
         });
     });
 

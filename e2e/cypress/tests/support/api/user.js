@@ -230,7 +230,7 @@ function generateRandomUser(prefix = 'user') {
 Cypress.Commands.add('apiCreateUser', ({
     prefix = 'user',
     bypassTutorial = true,
-    hideOnboarding = true,
+    showOnboarding = false,
     hideActionsMenu = true,
     user = null,
 } = {}) => {
@@ -248,13 +248,17 @@ Cypress.Commands.add('apiCreateUser', ({
 
         const createdUser = userRes.body;
 
+        // // hide the onboarding task list by default so it doesn't block the execution of subsequent tests
+        cy.apiSaveSkipStepsPreference(createdUser.id, 'true');
+
         if (bypassTutorial) {
             cy.apiSaveTutorialStep(createdUser.id, '999');
         }
 
-        if (hideOnboarding) {
+        if (showOnboarding) {
+            cy.apiSaveSkipStepsPreference(createdUser.id, 'false');
             cy.apiSaveOnboardingTaskListPreference(createdUser.id, 'onboarding_task_list_open', 'false');
-            cy.apiSaveOnboardingTaskListPreference(createdUser.id, 'onboarding_task_list_show', 'false');
+            cy.apiSaveOnboardingTaskListPreference(createdUser.id, 'onboarding_task_list_show', 'true');
         }
 
         if (hideActionsMenu) {
@@ -268,9 +272,8 @@ Cypress.Commands.add('apiCreateUser', ({
 Cypress.Commands.add('apiCreateGuestUser', ({
     prefix = 'guest',
     bypassTutorial = true,
-    hideOnboarding = true,
 } = {}) => {
-    return cy.apiCreateUser({prefix, bypassTutorial, hideOnboarding}).then(({user}) => {
+    return cy.apiCreateUser({prefix, bypassTutorial}).then(({user}) => {
         cy.apiDemoteUserToGuest(user.id);
 
         return cy.wrap({guest: user});
