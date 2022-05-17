@@ -12,6 +12,7 @@ import {CategorySorting, ChannelCategory} from 'mattermost-redux/types/channel_c
 import {Command, IncomingWebhook} from 'mattermost-redux/types/integrations';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {Session} from 'mattermost-redux/types/sessions';
+import {CustomEmoji} from 'mattermost-redux/types/emojis';
 import {ProductComponent} from 'types/store/plugins';
 
 export class TestHelper {
@@ -366,6 +367,19 @@ export class TestHelper {
             headerCentreComponent: () => null,
             headerRightComponent: () => null,
             showTeamSidebar: false,
+        };
+    }
+
+    public static getCustomEmojiMock(override: Partial<CustomEmoji>): CustomEmoji {
+        return {
+            id: 'emoji_id',
+            name: 'emoji',
+            category: 'custom',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            creator_id: 'user_id',
+            ...override,
         };
     }
 }

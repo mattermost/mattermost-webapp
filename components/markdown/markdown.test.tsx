@@ -37,7 +37,7 @@ describe('components/Markdown', () => {
         }),
         hasImageProxy: false,
         minimumHashtagLength: 3,
-        emojiMap: new EmojiMap([]),
+        emojiMap: new EmojiMap(new Map()),
         metadata: {},
     };
 

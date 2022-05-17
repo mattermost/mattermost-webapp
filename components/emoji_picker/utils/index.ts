@@ -162,7 +162,7 @@ export function getUpdatedCategoriesAndAllEmojis(
                     return emojiMap.has(name);
                 }).
                 map((name) => {
-                    return emojiMap.get(name);
+                    return emojiMap.get(name)!;
                 });
         } else {
             const indices = (EmojiIndicesByCategory.get(userSkinTone) as Map<string, number[]>).get(categoryName) || [];

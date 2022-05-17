@@ -8,7 +8,8 @@ import {Team} from 'mattermost-redux/types/teams';
 import {CustomEmoji} from 'mattermost-redux/types/emojis';
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import EmojiMap from 'utils/emoji_map.js';
+import EmojiMap from 'utils/emoji_map';
+import {TestHelper} from 'utils/test_helper';
 
 import AddEmoji, {AddEmojiProps} from './add_emoji';
 
@@ -24,7 +25,7 @@ const image = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAYAAABV7bN
 
 describe('components/emoji/components/AddEmoji', () => {
     const baseProps: AddEmojiProps = {
-        emojiMap: new EmojiMap(new Map<string, unknown>([['mycustomemoji', {}]])),
+        emojiMap: new EmojiMap(new Map([['mycustomemoji', TestHelper.getCustomEmojiMock({name: 'mycustomemoji'})]])),
         team: {
             id: 'team-id',
         } as Team,
