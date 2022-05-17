@@ -34,8 +34,6 @@ test('/login', async ({page, isMobile, browserName}, testInfo) => {
     }
 
     // Should match default login page
-    await loginPage.siteNameHeader.waitFor();
-    await wait(duration.one_sec);
     if (!testConfig.percyEnabled || !testConfig.applitoolsEnabled) {
         expect(await page.screenshot({fullPage: true})).toMatchSnapshot('login.png');
     }

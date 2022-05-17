@@ -176,7 +176,7 @@ export const getCurrentUserRoles: (a: GlobalState) => UserProfile['roles'] = cre
     },
 );
 
-export type UserMentionKey= {
+export type UserMentionKey = {
     key: string;
     caseSensitive?: boolean;
 }
@@ -319,6 +319,15 @@ export const getProfilesInCurrentChannel: (state: GlobalState) => UserProfile[] 
     },
 );
 
+export const getActiveProfilesInCurrentChannel: (state: GlobalState) => UserProfile[] = createSelector(
+    'getProfilesInCurrentChannel',
+    getUsers,
+    getProfileSetInCurrentChannel,
+    (profiles, currentChannelProfileSet) => {
+        return sortAndInjectProfiles(profiles, currentChannelProfileSet).filter((user) => user.delete_at === 0);
+    },
+);
+
 export const getProfilesNotInCurrentChannel: (state: GlobalState) => UserProfile[] = createSelector(
     'getProfilesNotInCurrentChannel',
     getUsers,
@@ -453,6 +462,10 @@ export function searchProfilesInCurrentChannel(state: GlobalState, term: string,
     }
 
     return profiles;
+}
+
+export function searchActiveProfilesInCurrentChannel(state: GlobalState, term: string, skipCurrent = false): UserProfile[] {
+    return searchProfilesInCurrentChannel(state, term, skipCurrent).filter((user) => user.delete_at === 0);
 }
 
 export function searchProfilesNotInCurrentChannel(state: GlobalState, term: string, skipCurrent = false): UserProfile[] {

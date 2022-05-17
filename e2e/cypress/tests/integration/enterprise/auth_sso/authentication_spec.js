@@ -83,7 +83,7 @@ describe('Authentication', () => {
             cy.visit('/');
 
             // * Assert that create account button is visible
-            cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+            cy.findByText('Create an account', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
         });
     });
 
