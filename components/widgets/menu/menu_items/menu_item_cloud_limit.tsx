@@ -18,6 +18,8 @@ import {TrialPeriodDays} from 'utils/constants';
 import {t} from 'utils/i18n';
 
 import './menu_item.scss';
+import useGetLimits from 'components/common/hooks/useGetLimits';
+import useGetUsage from 'components/common/hooks/useGetUsage';
 
 type Props = {
     id: string;
@@ -210,10 +212,12 @@ function useWords(usage: CloudUsage, limits: Limits, isAdminUser: boolean): Word
     }
 }
 
-const MenuCloudTrial= ({id}: Props) => {
+const MenuItemCloudLimit = ({id}: Props) => {
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
     const isCloud = useSelector(isCloudLicense);
     const isFreeTrial = subscription?.is_free_trial === 'true';
+    const [limits] = useGetLimits();
+    const usage = useGetUsage();
 
     let daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at);
     if (daysLeftOnTrial > TrialPeriodDays.TRIAL_MAX_DAYS) {
@@ -224,9 +228,9 @@ const MenuCloudTrial= ({id}: Props) => {
     if (!show) {
         return null;
     }
-    const words = useWords('usage' as any, 'limits' as any, false);
+    const words = useWords(usage, limits, false);
     if (!words) {
-        return false
+        return null;
     }
 
     return (
@@ -247,5 +251,5 @@ const MenuCloudTrial= ({id}: Props) => {
         </li>
     );
 };
-export default MenuCloudTrial;
 
+export default MenuItemCloudLimit;

@@ -6,7 +6,7 @@ import {combineReducers} from 'redux';
 import {CloudTypes} from 'mattermost-redux/action_types';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Product, Subscription, CloudCustomer, Invoice, Limits} from 'mattermost-redux/types/cloud';
+import {Product, Subscription, CloudCustomer, Invoice, Limits, CloudUsage} from 'mattermost-redux/types/cloud';
 
 function subscription(state: Subscription | null = null, action: GenericAction) {
     switch (action.type) {
@@ -85,6 +85,70 @@ export function limits(state: LimitsReducer = emptyLimits, action: GenericAction
     }
 }
 
+const emptyUsage = {
+    files: {
+        totalStorage: 0,
+        totalStorageLoaded: false,
+    },
+    messages: {
+        history: 0,
+        historyLoaded: false,
+    },
+    boards: {
+        cards: 0,
+        cardsLoaded: false,
+        views: 0,
+        viewsLoaded: false
+    },
+    integrations: {
+        enabled: 0,
+        enabledLoaded: false,
+    },
+};
+export function usage(state: CloudUsage = emptyUsage, action: GenericAction) {
+    switch (action.type) {
+    case CloudTypes.RECEIVED_MESSAGES_USAGE: {
+        return {
+            ...state,
+            messages: {
+                history: action.data,
+                historyLoaded: true,
+            },
+        };
+    }
+    case CloudTypes.RECEIVED_FILES_USAGE: {
+        return {
+            ...state,
+            files: {
+                totalStorage: action.data,
+                totalStorageLoaded: true,
+            },
+        };
+    }
+    case CloudTypes.RECEIVED_INTEGRATIONS_USAGE: {
+        return {
+            ...state,
+            integrations: {
+                enabled: action.data,
+                enabledLoaded: true,
+            },
+        };
+    }
+    case CloudTypes.RECEIVED_BOARDS_USAGE: {
+        return {
+            ...state,
+            boards: {
+                ...action.data,
+                cardsLoaded: true,
+                viewsLoaded: true,
+            },
+        };
+    }
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
 
     // represents the current cloud customer
@@ -101,4 +165,7 @@ export default combineReducers({
 
     // represents the usage limits associated with this workspace
     limits,
+
+    // represents the usage associated with this workspace
+    usage,
 });

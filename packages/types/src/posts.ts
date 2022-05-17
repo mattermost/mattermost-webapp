@@ -143,3 +143,7 @@ export declare type PostPreviewMetadata = {
     channel_type: ChannelType;
     channel_id: string;
 };
+
+export declare type PostsUsageResponse = {
+    count: number;
+};

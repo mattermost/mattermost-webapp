@@ -4,6 +4,8 @@
 import {Stripe} from '@stripe/stripe-js';
 import {getCode} from 'country-list';
 
+import {FileSizes} from 'utils/file_utils';
+
 import {Client4} from 'mattermost-redux/client';
 import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
 
@@ -101,5 +103,58 @@ export function getCloudLimits(): ActionFunc {
             return error;
         }
         return true;
+    };
+}
+
+export function getMessagesUsage(): ActionFunc {
+    return async (dispatch: DispatchFunc) => {
+        try {
+            const result = await Client4.getPostsUsage();
+            if (result) {
+                dispatch({
+                    type: CloudTypes.RECEIVED_MESSAGES_USAGE,
+                    data: result,
+                });
+            }
+        } catch (error) {
+            return error;
+        }
+        return true;
+    };
+}
+
+export function getFilesUsage(): ActionFunc {
+    return async (dispatch: DispatchFunc) => {
+        dispatch({
+            type: CloudTypes.RECEIVED_FILES_USAGE,
+            // TODO: Fill this in with the backing client API method once it is available in the server
+            data: 3 * FileSizes.Gigabyte,
+        });
+        return {data: true};
+    };
+}
+
+export function getIntegrationsUsage(): ActionFunc {
+    return async (dispatch: DispatchFunc) => {
+        dispatch({
+            type: CloudTypes.RECEIVED_INTEGRATIONS_USAGE,
+            // TODO: Fill this in with the backing client API method once it is available in the server
+            data: 3,
+        });
+        return {data: true};
+    };
+}
+
+export function getBoardsUsage(): ActionFunc {
+    return async (dispatch: DispatchFunc) => {
+        dispatch({
+            type: CloudTypes.RECEIVED_BOARDS_USAGE,
+            // TODO: Fill this in with the backing client API method once it is available in the server
+            data: {
+                cards: 400,
+                views: 2,
+            },
+        });
+        return {data: true};
     };
 }

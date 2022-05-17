@@ -10,6 +10,7 @@ export type CloudState = {
         limitsLoaded: boolean;
         limits: Limits;
     };
+    usage: CloudUsage
 }
 
 export type Subscription = {
@@ -147,15 +148,20 @@ export type Limits = {
 export interface CloudUsage {
     files: {
         totalStorage: number;
+        totalStorageLoaded: boolean;
     };
     messages: {
         history: number;
+        historyLoaded: boolean;
     };
     boards: {
         cards: number;
+        cardsLoaded: boolean;
         views: number;
+        viewsLoaded: boolean;
     };
     integrations: {
         enabled: number;
+        enabledLoaded: boolean
     };
 }
