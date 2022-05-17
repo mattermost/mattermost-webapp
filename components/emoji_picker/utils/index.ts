@@ -4,7 +4,7 @@
 import isEmpty from 'lodash/isEmpty';
 
 import {isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
-import {Emoji, EmojiCategory, SystemEmoji} from 'mattermost-redux/types/emojis';
+import {Emoji, EmojiCategory} from 'mattermost-redux/types/emojis';
 
 import {
     Categories,
@@ -16,8 +16,7 @@ import {
     EmojiCursor,
 } from 'components/emoji_picker/types';
 
-import {EmojiIndicesByCategory, Emojis as EmojisJson, EmojiIndicesByUnicode} from 'utils/emoji.jsx';
-import {getSkin} from 'utils/emoticons';
+import {EmojiIndicesByCategory, Emojis as EmojisJson} from 'utils/emoji';
 import {compareEmojis} from 'utils/emoji_utils';
 import EmojiMap from 'utils/emoji_map';
 
@@ -73,70 +72,14 @@ export function getFilteredEmojis(allEmojis: Record<string, Emoji>, filter: stri
     return filteredEmojis;
 }
 
-// Note : This function is not an idea implementation, a more better and efficeint way to do this come when we make changes to emoji json.
-function convertEmojiToUserSkinTone(emoji: SystemEmoji, emojiSkin: string, userSkinTone: string) {
-    let newEmojiId = '';
-
-    // If its a default (yellow) emoji, get the skin variation from its property
-    if (emojiSkin === 'default') {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const variation = Object.keys(emoji?.skin_variations).find((skinVariation) => skinVariation.includes(userSkinTone));
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        newEmojiId = variation ? emoji.skin_variations[variation].unified : emoji.unified;
-    } else if (userSkinTone === 'default') {
-        // If default (yellow) skin is selected, remove the skin code from emoji id
-        newEmojiId = emoji.unified.replaceAll(/-(1F3FB|1F3FC|1F3FD|1F3FE|1F3FF)/g, '');
-    } else {
-        // If non default skin is selected, add the new skin selected code to emoji id
-        newEmojiId = emoji.unified.replaceAll(/(1F3FB|1F3FC|1F3FD|1F3FE|1F3FF)/g, userSkinTone);
-    }
-
-    const emojiIndex = EmojiIndicesByUnicode.get(newEmojiId.toLowerCase()) as number;
-    return EmojisJson[emojiIndex];
-}
-
-export function getEmojisByCategory(
+function getEmojisByCategory(
     allEmojis: Record<string, Emoji>,
     category: Category,
-    categoryName: EmojiCategory,
-    userSkinTone: string,
 ): Emoji[] {
     const emojiIds = category?.emojiIds ?? [];
 
     if (emojiIds.length === 0) {
         return [];
-    }
-
-    // For recent category, perform checks for skin tone uniformity
-    if (categoryName === 'recent') {
-        const emojiIds = category?.emojiIds ?? [];
-
-        const recentEmojis = new Map();
-
-        emojiIds.forEach((emojiId) => {
-            const emoji = allEmojis[emojiId];
-
-            // Its a custom emoji
-            if (emoji.category === 'custom') {
-                recentEmojis.set(emojiId, emoji);
-            } else {
-                // Its a system emoji
-                const emojiSkin = getSkin(emoji);
-                if (emojiSkin && emojiSkin !== userSkinTone) {
-                    const emojiWithUserSkin = convertEmojiToUserSkinTone(emoji, emojiSkin, userSkinTone);
-                    if (emojiWithUserSkin && emojiWithUserSkin.unified) {
-                        recentEmojis.set(emojiWithUserSkin.unified, emojiWithUserSkin);
-                    }
-                } else {
-                    // Emojis skin is same as userskin tone
-                    recentEmojis.set(emojiId, emoji);
-                }
-            }
-        });
-
-        return Array.from(recentEmojis.values());
     }
 
     // For all other categories, return emojis of the categoryies from allEmojis
@@ -278,7 +221,6 @@ export function createCategoryAndEmojiRows(
     allEmojis: Record<string, Emoji>,
     categories: Categories,
     filter: string,
-    userSkinTone: string,
 ): [CategoryOrEmojiRow[], EmojiPosition[]] {
     if (isEmpty(allEmojis) || isEmpty(categories)) {
         return [[], []];
@@ -317,8 +259,6 @@ export function createCategoryAndEmojiRows(
         const emojis = getEmojisByCategory(
             allEmojis,
             categories[categoryName as EmojiCategory],
-            categoryName as EmojiCategory,
-            userSkinTone,
         );
 
         sortedEmojis = [...sortedEmojis, ...emojis];

@@ -4,7 +4,11 @@
 import emojiRegex from 'emoji-regex';
 import React from 'react';
 
-import {Emoji} from 'mattermost-redux/types/emojis';
+import {Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
+import {isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
+
+import {EmojiIndicesByUnicode, Emojis} from 'utils/emoji';
+import EmojiMap from 'utils/emoji_map';
 
 const defaultRule = (aName: string, bName: string, emojiA: Emoji, emojiB: Emoji) => {
     if (emojiA.category === 'custom' && emojiB.category !== 'custom') {
@@ -111,4 +115,99 @@ export function wrapEmojis(text: string): React.ReactNode {
 
     // Only return an array if we're returning multiple nodes
     return nodes.length === 1 ? nodes[0] : nodes;
+}
+
+// Note : This function is not an idea implementation, a more better and efficeint way to do this come when we make changes to emoji json.
+function convertEmojiToUserSkinTone(emoji: SystemEmoji, emojiSkin: string, userSkinTone: string): SystemEmoji {
+    let newEmojiId = '';
+
+    // If its a default (yellow) emoji, get the skin variation from its property
+    if (emojiSkin === 'default') {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const variation = Object.keys(emoji?.skin_variations).find((skinVariation) => skinVariation.includes(userSkinTone));
+
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        newEmojiId = variation ? emoji.skin_variations[variation].unified : emoji.unified;
+    } else if (userSkinTone === 'default') {
+        // If default (yellow) skin is selected, remove the skin code from emoji id
+        newEmojiId = emoji.unified.replaceAll(/-(1F3FB|1F3FC|1F3FD|1F3FE|1F3FF)/g, '');
+    } else {
+        // If non default skin is selected, add the new skin selected code to emoji id
+        newEmojiId = emoji.unified.replaceAll(/(1F3FB|1F3FC|1F3FD|1F3FE|1F3FF)/g, userSkinTone);
+    }
+
+    let emojiIndex = EmojiIndicesByUnicode.get(newEmojiId.toLowerCase()) as number;
+    let newEmoji = Emojis[emojiIndex];
+
+    if (!newEmoji) {
+        // The emoji wasn't found, possibly because it needs a variation selector appended (FE0F) appended for some reason.
+        // This is needed for certain emojis like point_up which is 261d-fe0f instead of just 261d
+        emojiIndex = EmojiIndicesByUnicode.get(newEmojiId.toLowerCase() + '-fe0f') as number;
+        newEmoji = Emojis[emojiIndex];
+    }
+
+    return newEmoji ?? emoji;
+}
+
+// if an emoji
+// - has `skin_variations` then it uses the default skin (yellow)
+// - has `skins` it's first value is considered the skin version (it can contain more values)
+// - any other case it doesn't have variations or is a custom emoji.
+function getSkin(emoji: Emoji) {
+    if ('skin_variations' in emoji) {
+        return 'default';
+    }
+    if ('skins' in emoji) {
+        const skin = emoji?.skins?.[0] ?? '';
+
+        if (skin.length !== 0) {
+            return skin;
+        }
+    }
+    return 'default';
+}
+
+export function emojiMatchesSkin(emoji: Emoji, skin: string) {
+    const emojiSkin = getSkin(emoji);
+    return !emojiSkin || emojiSkin === skin;
+}
+
+/**
+ * Given a list of emoji names, returns a corresponding array with the user's skin tone applied and duplicates removed.
+ */
+export function convertEmojisToUserSkinTone(unnormalizedNames: string[], emojiMap: EmojiMap, userSkinTone: string) {
+    let names = unnormalizedNames;
+
+    // Remove the skin tones from any emojis that have one
+    names = names.map((name) => {
+        let emoji = emojiMap.get(name);
+
+        if (!emoji || !isSystemEmoji(emoji)) {
+            // Don't change the skin tones of custom emoji
+            return name;
+        }
+
+        if (!emoji.skins && !emoji.skin_variations) {
+            // Don't change the skin tone of an emoji without skin tone variations
+            return name;
+        }
+
+        if (emoji.skins && emoji.skins.length > 1) {
+            // Don't change the skin tone of emojis without one or with multiple skin tones applied
+            return name;
+        }
+
+        const skin = getSkin(emoji);
+
+        emoji = convertEmojiToUserSkinTone(emoji, skin, userSkinTone);
+
+        return emoji.short_name;
+    });
+
+    // Remove any duplicates
+    names = [...new Set(names)];
+
+    return names;
 }

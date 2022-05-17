@@ -33,9 +33,22 @@ export type SystemEmoji = {
     short_names: string[];
     batch: number;
     skins?: string[];
-    skin_variations?: Record<string, Emoji>; // we currently don't have a use for it other than knowing the field exists.
+    skin_variations?: Record<string, SystemEmojiVariation>;
     unified: string;
 };
+
+export type SystemEmojiVariation = {
+    unified: string;
+    non_qualified: null;
+    image: string;
+    sheet_x: number;
+    sheet_y: number;
+    added_in: string;
+    has_img_apple: boolean;
+    has_img_google: boolean;
+    has_img_twitter: boolean;
+    has_img_facebook: boolean;
+}
 
 export type Emoji = SystemEmoji | CustomEmoji;
 

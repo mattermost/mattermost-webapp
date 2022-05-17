@@ -12,6 +12,7 @@ import LocalStorageStore from 'stores/local_storage_store';
 
 import {Preferences} from 'utils/constants';
 import EmojiMap from 'utils/emoji_map';
+import {convertEmojisToUserSkinTone} from 'utils/emoji_utils';
 
 import type {GlobalState} from 'types/store';
 
@@ -28,13 +29,14 @@ export const getShortcutReactToLastPostEmittedFrom = (state: GlobalState) => sta
 export const getRecentEmojis = createSelector(
     'getRecentEmojis',
     (state: GlobalState) => LocalStorageStore.getRecentEmojis(getCurrentUserId(state)),
-    (recentEmojis) => {
+    getEmojiMap,
+    getUserSkinTone,
+    (recentEmojis, emojiMap, userSkinTone) => {
         if (!recentEmojis) {
             return [];
         }
 
-        const recentEmojisArray: string[] = JSON.parse(recentEmojis);
-        return recentEmojisArray;
+        return convertEmojisToUserSkinTone(JSON.parse(recentEmojis), emojiMap, userSkinTone);
     },
 );
 
@@ -56,6 +58,13 @@ export const getOneClickReactionEmojis = createSelector(
             return [];
         }
 
-        return recentEmojis.map((recentEmoji) => emojiMap.get(recentEmoji)).filter(Boolean).slice(-3).reverse();
+        return recentEmojis.
+            flatMap((name) => {
+                const emoji = emojiMap.get(name);
+
+                return emoji ? [emoji] : [];
+            }).
+            slice(-3).
+            reverse();
     },
 );
