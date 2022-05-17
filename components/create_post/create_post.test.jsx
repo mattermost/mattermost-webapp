@@ -1240,21 +1240,21 @@ describe('components/create_post', () => {
 
     it('should not enable the save button when message empty', () => {
         const wrapper = shallowWithIntl(createPost());
-        const saveButton = wrapper.find('.post-body__actions .send-button');
+        const saveButton = wrapper.find('.post-body__actions a');
 
         expect(saveButton.hasClass('disabled')).toBe(true);
     });
 
     it('should enable the save button when message not empty', () => {
         const wrapper = shallowWithIntl(createPost({draft: {...draftProp, message: 'a message'}}));
-        const saveButton = wrapper.find('.post-body__actions .send-button');
+        const saveButton = wrapper.find('.post-body__actions a');
 
         expect(saveButton.hasClass('disabled')).toBe(false);
     });
 
     it('should enable the save button when a file is available for upload', () => {
         const wrapper = shallowWithIntl(createPost({draft: {...draftProp, fileInfos: [{id: '1'}]}}));
-        const saveButton = wrapper.find('.post-body__actions .send-button');
+        const saveButton = wrapper.find('.post-body__actions a');
 
         expect(saveButton.hasClass('disabled')).toBe(false);
     });
