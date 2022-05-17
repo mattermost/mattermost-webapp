@@ -225,9 +225,9 @@ export const applyMarkdownToSelectedLines = ({
         return linesQuantity === newLinesWithDelimitersQuantity && multilineSelection.startsWith(delimiter);
     };
 
-    let newValue = '';
-    let newStart = 0;
-    let newEnd = 0;
+    let newValue: string;
+    let newStart: number;
+    let newEnd: number;
 
     if (getHasCurrentMarkdown()) {
         // clear first line from delimiter
