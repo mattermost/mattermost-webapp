@@ -72,12 +72,9 @@ exports[`components/app_bar/app_bar should match snapshot on mount 1`] = `
             onMouseOver={[Function]}
           >
             <div
-              className="app-bar__icon-inner"
+              className="app-bar__icon-inner app-bar__icon-inner--centered"
             >
-              <img
-                onError={[Function]}
-                onLoad={[Function]}
-              />
+              fallback_component
             </div>
           </div>
         </OverlayTrigger>
