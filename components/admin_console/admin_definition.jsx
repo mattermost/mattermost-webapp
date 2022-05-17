@@ -6279,6 +6279,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.enableAppBar.desc'),
                         help_text_default: 'When true, the experimental App Bar is enabled. Any remaining channel header buttons from plugins that do not explicitly register an App Bar button will be automatically moved to the App Bar, which may cause rendering issues.',
                         help_text_markdown: false,
+                        isHidden: it.licensedForFeature('Cloud'),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                 ],
