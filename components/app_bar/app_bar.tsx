@@ -24,39 +24,26 @@ export default function AppBar() {
         return null;
     }
 
-    let playbooksComponent;
-    let boardsComponent;
-
-    // Extract the Playbooks and Boards components so they can be reordered at the beginning of the list
-    const filteredComponents = appBarPluginComponents.filter((component) => {
-        switch (component.pluginId) {
+    // Order the plugin components so that Playbooks is the first one,
+    // Boards is the second one, and the others remain in the same place.
+    const orderedAppBarPluginComponents = [...appBarPluginComponents];
+    orderedAppBarPluginComponents.sort((a, b) => {
+        switch (a.pluginId) {
         case 'playbooks':
-            playbooksComponent = component;
-            return false;
+            return -1;
 
         case 'focalboard':
-            boardsComponent = component;
-            return false;
+            return b.pluginId === 'playbooks' ? 1 : -1;
 
         default:
-            return true;
+            return 0;
         }
     });
 
-    const pluginComponents = filteredComponents.concat(channelHeaderComponents);
+    const pluginComponents = orderedAppBarPluginComponents.concat(channelHeaderComponents);
 
     return (
         <div className={'app-bar'}>
-            {playbooksComponent &&
-            <AppBarPluginComponent
-                component={playbooksComponent}
-            />
-            }
-            {boardsComponent &&
-            <AppBarPluginComponent
-                component={boardsComponent}
-            />
-            }
             {pluginComponents.map((component) => (
                 <AppBarPluginComponent
                     key={component.id}
