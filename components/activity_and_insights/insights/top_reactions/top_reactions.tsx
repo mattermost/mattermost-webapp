@@ -4,8 +4,6 @@ import React, {memo, useEffect, useState, useCallback} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
 
-import Icon from '@mattermost/compass-components/foundations/icon/Icon';
-
 import {getTopReactionsForTeam, getMyTopReactions} from 'mattermost-redux/actions/insights';
 import {getTopReactionsForCurrentTeam, getMyTopReactionsForCurrentTeam} from 'mattermost-redux/selectors/entities/insights';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -99,9 +97,7 @@ const TopReactions = (props: WidgetHocProps) => {
                 (topReactions.length === 0 && !loading) &&
                 <div className='empty-state'>
                     <div className='empty-state-emoticon'>
-                        <Icon
-                            glyph={'emoticon-outline'}
-                        />
+                        <i className='icon icon-emoticon-outline'/>
                     </div>
                     <div className='empty-state-text'>
                         <FormattedMessage
