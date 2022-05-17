@@ -55,6 +55,10 @@ export function applyMarkdown(options: ApplyMarkdownOptions): ApplyMarkdownRetur
         return applyLinkMarkdown({selectionEnd, selectionStart, message});
     case 'ol':
         return applyOlMarkdown({selectionEnd, selectionStart, message});
+    case 'ul':
+        delimiter = '- ';
+        return applyMarkdownToSelectedLines({selectionEnd, selectionStart, message, delimiter});
+        break;
     case 'strike':
         delimiter = '~~';
         break;
@@ -66,9 +70,6 @@ export function applyMarkdown(options: ApplyMarkdownOptions): ApplyMarkdownRetur
         break;
     case 'quote':
         delimiter = '>';
-        break;
-    case 'ul':
-        delimiter = '- ';
         break;
     }
 
@@ -106,7 +107,7 @@ const applyOlMarkdown = ({selectionEnd, selectionStart, message}: ApplySpecificM
     const newSuffix = getNewSuffix(suffix);
 
     const delimiterLength = 3;
-    const getDelimiter = (num?: number) => {
+    const getDelimiter = (num?: numberf) => {
         getDelimiter.counter = num || getDelimiter.counter;
         return `${getDelimiter.counter++}. `;
     };
@@ -170,6 +171,92 @@ const applyOlMarkdown = ({selectionEnd, selectionStart, message}: ApplySpecificM
 
         newStart = selectionStart + delimiterLength;
         newEnd = selectionEnd + (delimiterLength * count);
+    }
+
+    return {
+        message: newValue,
+        selectionStart: newStart,
+        selectionEnd: newEnd,
+    };
+};
+
+export const applyMarkdownToSelectedLines = ({
+    selectionEnd,
+    selectionStart,
+    message,
+    delimiter,
+}: ApplySpecificMarkdownOptions) => {
+    if (!delimiter) {
+        /**
+         * in case no delimiter is set return the values without changing anything
+         */
+        return {
+            message,
+            selectionStart,
+            selectionEnd,
+        };
+    }
+
+    const prefix = message.slice(0, selectionStart);
+    const selection = message.slice(selectionStart, selectionEnd);
+    const suffix = message.slice(selectionEnd);
+
+    const newPrefix = prefix.includes('\n') ? prefix.slice(0, prefix.lastIndexOf('\n')) : '';
+    const multilinePrefix = prefix.includes('\n') ? prefix.slice(prefix.lastIndexOf('\n')) : prefix;
+
+    const multilineSuffix = getMultilineSuffix(suffix);
+    const newSuffix = getNewSuffix(suffix);
+    let multilineSelection: string = multilinePrefix + selection + multilineSuffix;
+
+    const isFirstLineSelected = !multilineSelection.startsWith('\n');
+
+    if (selection.startsWith('\n')) {
+        multilineSelection = prefix.slice(prefix.lastIndexOf('\n')) + selection + multilineSuffix;
+    }
+
+    const getHasCurrentMarkdown = (): boolean => {
+        const linesQuantity = (multilineSelection.match(/\n/g) || []).length;
+        const newLinesWithDelimitersQuantity = (multilineSelection.match(new RegExp(`\n${delimiter}`, 'g')) || []).
+            length;
+
+        if (newLinesWithDelimitersQuantity === linesQuantity && !isFirstLineSelected) {
+            return true;
+        }
+
+        return linesQuantity === newLinesWithDelimitersQuantity && multilineSelection.startsWith(delimiter);
+    };
+
+    let newValue = '';
+    let newStart = 0;
+    let newEnd = 0;
+
+    if (getHasCurrentMarkdown()) {
+        // clear first line from delimiter
+        if (isFirstLineSelected) {
+            multilineSelection = multilineSelection.slice(delimiter.length);
+        }
+
+        newValue = newPrefix + multilineSelection.replace(new RegExp(`\n${delimiter}`, 'g'), '\n') + newSuffix;
+        let count = 0;
+        if (isFirstLineSelected) {
+            count++;
+        }
+        count += (multilineSelection.match(/\n/g) || []).length;
+
+        newStart = Math.max(selectionStart - delimiter.length, 0);
+        newEnd = Math.max(selectionEnd - (delimiter.length * count), 0);
+    } else {
+        newValue = newPrefix + multilineSelection.replace(/\n/g, `\n${delimiter}`) + newSuffix;
+        let count = 0;
+        if (isFirstLineSelected) {
+            newValue = delimiter + newValue;
+            count++;
+        }
+
+        count += (multilineSelection.match(new RegExp('\\n', 'g')) || []).length;
+
+        newStart = selectionStart + delimiter.length;
+        newEnd = selectionEnd + (delimiter.length * count);
     }
 
     return {
