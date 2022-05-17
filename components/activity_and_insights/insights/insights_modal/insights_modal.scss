@@ -170,10 +170,10 @@
 
                                 span.cell-text {
                                     overflow: hidden;
+                                    margin-left: 4px;
+                                    font-weight: 600;
                                     text-overflow: ellipsis;
                                     white-space: nowrap;
-                                    font-weight: 600;
-                                    margin-left: 4px;
                                 }
                             }
 
