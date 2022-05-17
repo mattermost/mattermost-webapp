@@ -137,16 +137,26 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
             postType="comment"
             rootId=""
           />
-          <div>
-            <EmojiPickerOverlay
-              enableGifPicker={true}
-              onEmojiClick={[Function]}
-              onEmojiClose={[Function]}
-              onGifClick={[Function]}
-              onHide={[Function]}
-              show={false}
-              target={null}
-              topOffset={55}
+          <EmojiPickerOverlay
+            enableGifPicker={true}
+            onEmojiClick={[Function]}
+            onEmojiClose={[Function]}
+            onGifClick={[Function]}
+            onHide={[Function]}
+            show={false}
+            target={null}
+            topOffset={55}
+          />
+          <button
+            aria-label="emoji picker"
+            className="emoji-picker__container post-action"
+            id="emojiPickerButton"
+            onClick={[Function]}
+            type="button"
+          >
+            <EmoticonOutlineIcon
+              color="currentColor"
+              size={18}
             />
           </button>
         </span>
@@ -345,16 +355,26 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
             postType="comment"
             rootId=""
           />
-          <div>
-            <EmojiPickerOverlay
-              enableGifPicker={true}
-              onEmojiClick={[Function]}
-              onEmojiClose={[Function]}
-              onGifClick={[Function]}
-              onHide={[Function]}
-              show={false}
-              target={null}
-              topOffset={55}
+          <EmojiPickerOverlay
+            enableGifPicker={true}
+            onEmojiClick={[Function]}
+            onEmojiClose={[Function]}
+            onGifClick={[Function]}
+            onHide={[Function]}
+            show={false}
+            target={null}
+            topOffset={55}
+          />
+          <button
+            aria-label="emoji picker"
+            className="emoji-picker__container post-action"
+            id="emojiPickerButton"
+            onClick={[Function]}
+            type="button"
+          >
+            <EmoticonOutlineIcon
+              color="currentColor"
+              size={18}
             />
           </button>
         </span>
@@ -447,16 +467,26 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
             postType="comment"
             rootId=""
           />
-          <div>
-            <EmojiPickerOverlay
-              enableGifPicker={true}
-              onEmojiClick={[Function]}
-              onEmojiClose={[Function]}
-              onGifClick={[Function]}
-              onHide={[Function]}
-              show={false}
-              target={null}
-              topOffset={55}
+          <EmojiPickerOverlay
+            enableGifPicker={true}
+            onEmojiClick={[Function]}
+            onEmojiClose={[Function]}
+            onGifClick={[Function]}
+            onHide={[Function]}
+            show={false}
+            target={null}
+            topOffset={55}
+          />
+          <button
+            aria-label="emoji picker"
+            className="emoji-picker__container post-action"
+            id="emojiPickerButton"
+            onClick={[Function]}
+            type="button"
+          >
+            <EmoticonOutlineIcon
+              color="currentColor"
+              size={18}
             />
           </button>
         </span>
