@@ -3034,7 +3034,7 @@
   "deactivate_member_modal.deactivate": "Dezaktywuj",
   "deactivate_member_modal.desc": "Ta akcja dezaktywuje {username}. Będą wylogowani i nie będą mieli dostępu do żadnych zespołów lub kanałów w tym systemie. \n",
   "deactivate_member_modal.desc.confirm": " Czy na pewno chcesz dezaktywować {username}?",
-  "deactivate_member_modal.desc.for_users_with_bot_accounts": "Ta akcja dezaktywuje {username}.\n \n * Zostaną wylogowani i nie będą mieli dostępu do żadnych zespołów ani kanałów w tym systemie.\n * Konta botów, którymi zarządzają, zostaną wyłączone wraz z ich integracją. Aby włączyć je ponownie, przejdź do zakładki <link>Integracje > Konta Botów</link>({siteURL}/_redirect/integrations/bots). [Dowiedz się więcej o kontach botów]..\n \n \n",
+  "deactivate_member_modal.desc.for_users_with_bot_accounts": "Ta akcja dezaktywuje {username}.\n \n * Zostaną wylogowani i nie będą mieli dostępu do żadnych zespołów ani kanałów w tym systemie.\n * Konta botów, którymi zarządzają, zostaną wyłączone wraz z ich integracją. Aby włączyć je ponownie, przejdź do zakładki [Integracje > Konta Botów]({siteURL}/_redirect/integrations/bots). [Dowiedz się więcej o kontach botów](!https://mattermost.com/pl/default-bot-accounts)..\n \n \n",
   "deactivate_member_modal.sso_warning": "Musisz również dezaktywować tego użytkownika u dostawcy SSO inaczej zostanie on reaktywowany przy następnym logowaniu lub synchronizacji.",
   "deactivate_member_modal.title": "Dezaktywuj {username}",
   "delete_category_modal.delete": "Usuń",

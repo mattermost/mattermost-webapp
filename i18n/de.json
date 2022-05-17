@@ -3034,7 +3034,7 @@
   "deactivate_member_modal.deactivate": "Deaktivieren",
   "deactivate_member_modal.desc": "Diese Aktion deaktiviert {username}. Benutzer wird abgemeldet und hat keinen Zugriff auf Teams oder Kanäle in diesem System.\n",
   "deactivate_member_modal.desc.confirm": " Bist du sicher, dass du {username} deaktivieren möchtest?",
-  "deactivate_member_modal.desc.for_users_with_bot_accounts": "Diese Aktion deaktiviert {username}.\n \n * Benutzer wird abgemeldet und hat keinen Zugriff auf Teams oder Kanäle in diesem System..\n * Bot-Konten, die der Benutzer verwaltet, werden zusammen mit seinen Integrationen deaktiviert. Um diese wieder zu aktivieren, gehe zu <link>Integrationen > Bot -Konten</link>({siteURL}/_redirect/integrations/bots). [Erfahre mehr über Bot-Konten].\n \n \n",
+  "deactivate_member_modal.desc.for_users_with_bot_accounts": "Diese Aktion deaktiviert {username}.\n \n * Benutzer wird abgemeldet und hat keinen Zugriff auf Teams oder Kanäle in diesem System..\n * Bot-Konten, die der Benutzer verwaltet, werden zusammen mit seinen Integrationen deaktiviert. Um diese wieder zu aktivieren, gehe zu [Integrationen > Bot -Konten]({siteURL}/_redirect/integrations/bots). [Erfahre mehr über Bot-Konten](!https://mattermost.com/pl/default-bot-accounts).\n \n \n",
   "deactivate_member_modal.sso_warning": "Du musst diesen Benutzer ebenfalls beim SSO-Anbieter deaktivieren oder er wird beim nächsten Anmelden oder der nächsten Synchronisierung wieder aktiviert.",
   "deactivate_member_modal.title": "{username} deaktivieren",
   "delete_category_modal.delete": "Löschen",

@@ -194,19 +194,10 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                     messageForUsersWithBotAccounts = (
                         <FormattedMarkdownMessage
                             id='deactivate_member_modal.desc.for_users_with_bot_accounts'
-                            defaultMessage='This action deactivates {username}.\n \n * They will be logged out and not have access to any teams or channels on this system.\n * Bot accounts they manage will be disabled along with their integrations. To enable them again, go to [Integrations > Bot Accounts]({siteURL}/_redirect/integrations/bots). <link>Learn more about bot accounts</link>.\n \n \n'
+                            defaultMessage='This action deactivates {username}.\n \n * They will be logged out and not have access to any teams or channels on this system.\n * Bot accounts they manage will be disabled along with their integrations. To enable them again, go to [Integrations > Bot Accounts]({siteURL}/_redirect/integrations/bots). [Learn more about bot accounts](!https://mattermost.com/pl/default-bot-accounts).\n \n \n'
                             values={{
                                 username: user.username,
                                 siteURL: getSiteURL(),
-                                link: (msg: React.ReactNode) => (
-                                    <a
-                                        href='https://mattermost.com/pl/default-bot-accounts'
-                                        target='_blank'
-                                        rel='noreferrer'
-                                    >
-                                        {msg}
-                                    </a>
-                                ),
                             }}
                         />);
                     break;

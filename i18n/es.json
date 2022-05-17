@@ -2814,7 +2814,7 @@
   "deactivate_member_modal.deactivate": "Desactivar",
   "deactivate_member_modal.desc": "Esta acción desactiva a {username}. Se le cerrará la sesión y no tendrá acceso a ninguno de los equipos o canales en este sistema.\n",
   "deactivate_member_modal.desc.confirm": " Está seguro de que desea desactivar a {username}?",
-  "deactivate_member_modal.desc.for_users_with_bot_accounts": "Esta acción desactiva a {username}.\n \n * Se le cerrará la sesión y no tendrá acceso a ninguno de los equipos o canales en este sistema.\n * Las cuentas de bots s que administran serán desactivadas junto con sus integraciones. Para habilitar de nuevo, ir a <link>Integraciones > Cuentas de Bots</link>({siteURL}/_redirect/integrations/bots). [Lea más acerca de las cuentas de bot]. \n \n \n",
+  "deactivate_member_modal.desc.for_users_with_bot_accounts": "Esta acción desactiva a {username}.\n \n * Se le cerrará la sesión y no tendrá acceso a ninguno de los equipos o canales en este sistema.\n * Las cuentas de bots s que administran serán desactivadas junto con sus integraciones. Para habilitar de nuevo, ir a [Integraciones > Cuentas de Bots]({siteURL}/_redirect/integrations/bots). [Lea más acerca de las cuentas de bot](!https://mattermost.com/pl/default-bot-accounts). \n \n \n",
   "deactivate_member_modal.sso_warning": "También debes desactivar este usuario en el proveedor de SSO o ellos podrán ser reactivados la próxima vez que inicien sesión u ocurra una sincronización.",
   "deactivate_member_modal.title": "Descativar a {username}",
   "delete_category_modal.delete": "Eliminar",

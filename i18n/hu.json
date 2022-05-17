@@ -3034,7 +3034,7 @@
   "deactivate_member_modal.deactivate": "Deaktiválás",
   "deactivate_member_modal.desc": "Ez a művelet deaktiválja a {username} felhasználót . Ki lesz jelentkeztetve, és nem férhet hozzá a rendszer egyetlen csapatához vagy csatornájához sem.\n",
   "deactivate_member_modal.desc.confirm": " Biztosan le szeretné tiltani a {username} felhasználót?",
-  "deactivate_member_modal.desc.for_users_with_bot_accounts": "Ez a művelet deaktiválja a {username} felhasználót.\n \n* Ki lesz jelentkeztetve, és nem férhet hozzá a rendszer egyetlen csapatához vagy csatornájához sem. \n* Az általuk kezelt bot fiókokat az integrációikkal együtt letiltjuk. Ha újra engedélyezni szeretné őket, lépjen az <link>Integrációk > Botfiókok</link>({siteURL}/_ redirect/integrations/bots) oldalra. [További információ a bot fiókokról].\n \n \n",
+  "deactivate_member_modal.desc.for_users_with_bot_accounts": "Ez a művelet deaktiválja a {username} felhasználót.\n \n* Ki lesz jelentkeztetve, és nem férhet hozzá a rendszer egyetlen csapatához vagy csatornájához sem. \n* Az általuk kezelt bot fiókokat az integrációikkal együtt letiltjuk. Ha újra engedélyezni szeretné őket, lépjen az [Integrációk > Botfiókok]({siteURL}/_ redirect/integrations/bots) oldalra. [További információ a bot fiókokról](!https://mattermost.com/pl/default-bot-accounts).\n \n \n",
   "deactivate_member_modal.sso_warning": "Deaktiválnia kell ezt a felhasználót az egyszeri bejelentkezés szolgáltatójában is, különben a következő bejelentkezéskor vagy szinkronizáláskor újraaktiválódik.",
   "deactivate_member_modal.title": "{username} letiltása",
   "delete_category_modal.delete": "Törlés",

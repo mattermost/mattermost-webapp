@@ -2663,7 +2663,7 @@
   "deactivate_member_modal.deactivate": "از کار انداختن",
   "deactivate_member_modal.desc": "این عمل {username} را غیرفعال می‌کند. آنها از سیستم خارج می شوند و به هیچ تیم یا کانالی در این سیستم دسترسی نخواهند داشت.\n",
   "deactivate_member_modal.desc.confirm": " آیا مطمئنید که می خواهید {username} را غیرفعال کنید؟",
-  "deactivate_member_modal.desc.for_users_with_bot_accounts": "این عمل {username} را غیرفعال می‌کند.\n \n * آنها از سیستم خارج می شوند و به هیچ تیم یا کانالی در این سیستم دسترسی نخواهند داشت.\n * حساب های رباتی که آنها مدیریت می کنند همراه با یکپارچه سازی آنها غیرفعال می شود. برای فعال کردن دوباره آنها، به <link>Integrations > Bot Accounts</link> ({siteURL}/_redirect/integrations/bots) بروید. [درباره حساب های ربات بیشتر بیاموزید].\n \n \n",
+  "deactivate_member_modal.desc.for_users_with_bot_accounts": "این عمل {username} را غیرفعال می‌کند.\n \n * آنها از سیستم خارج می شوند و به هیچ تیم یا کانالی در این سیستم دسترسی نخواهند داشت.\n * حساب های رباتی که آنها مدیریت می کنند همراه با یکپارچه سازی آنها غیرفعال می شود. برای فعال کردن دوباره آنها، به [Integrations > Bot Accounts] ({siteURL}/_redirect/integrations/bots) بروید. [درباره حساب های ربات بیشتر بیاموزید](!https://mattermost.com/pl/default-bot-accounts).\n \n \n",
   "deactivate_member_modal.sso_warning": "همچنین باید این کاربر را در ارائه‌دهنده SSO غیرفعال کنید، در غیر این صورت با ورود یا همگام‌سازی بعدی دوباره فعال می‌شوند.",
   "deactivate_member_modal.title": "غیرفعال کردن {username}",
   "delete_category_modal.delete": "حذف",

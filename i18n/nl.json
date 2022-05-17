@@ -3029,7 +3029,7 @@
   "deactivate_member_modal.deactivate": "Deactiveren",
   "deactivate_member_modal.desc": "Deze actie deactiveert {username}. Deze zal uitgelogd worden en geen toegang meer hebben tot teams of kanalen op dit systeem.\n",
   "deactivate_member_modal.desc.confirm": " Weet je zeker dat je de {username} wilt deactiveren?",
-  "deactivate_member_modal.desc.for_users_with_bot_accounts": "Deze actie deactiveert {username}.\n \n* Deze zal uitgelogd worden en geen toegang meer hebben tot teams of kanalen op dit systeem.\n* Bot-accounts die zij beheren, zullen worden uitgeschakeld, samen met de integraties. Om deze opnieuw inschakelen, gaat u naar <link>Integraties >Bot-Accounts</link>({siteURL}/_redirect/integratie/bots). [Meer informatie over bot-accounts].\n \n \n",
+  "deactivate_member_modal.desc.for_users_with_bot_accounts": "Deze actie deactiveert {username}.\n \n* Deze zal uitgelogd worden en geen toegang meer hebben tot teams of kanalen op dit systeem.\n* Bot-accounts die zij beheren, zullen worden uitgeschakeld, samen met de integraties. Om deze opnieuw inschakelen, gaat u naar [Integraties >Bot-Accounts]({siteURL}/_redirect/integratie/bots). [Meer informatie over bot-accounts](!https://mattermost.com/pl/default-bot-accounts).\n \n \n",
   "deactivate_member_modal.sso_warning": "Je moet deze gebruiker ook deactiveren in de SSO-provider, anders wordt deze opnieuw geactiveerd bij de volgende aanmelding of synchronisatie.",
   "deactivate_member_modal.title": "{username} deactiveren",
   "delete_category_modal.delete": "Verwijderen",

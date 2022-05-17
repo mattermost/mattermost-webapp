@@ -2965,7 +2965,7 @@
   "deactivate_member_modal.deactivate": "Avaktivera",
   "deactivate_member_modal.desc": "Detta avaktiverar [username]. Användaren kommer loggas ut och kommer inte ha tillgång till några team eller kanaler på detta system.\n",
   "deactivate_member_modal.desc.confirm": " Är du säker på att du vill avaktivera [username]?",
-  "deactivate_member_modal.desc.for_users_with_bot_accounts": "Detta kommer avaktivera {username}.\n \n * Användaren kommer loggas ut och kommer inte ha åtkomst till något team eller kanal.\n * Bot-konton som kontot hanterar kommer avaktiveras likaså integrationer. För att aktivera dem igen går du till <link>Integrationer > Bot-konton</link>({siteURL}/_redirect/integrations/bots). [Läs mer om bot-konton].\n \n \n",
+  "deactivate_member_modal.desc.for_users_with_bot_accounts": "Detta kommer avaktivera {username}.\n \n * Användaren kommer loggas ut och kommer inte ha åtkomst till något team eller kanal.\n * Bot-konton som kontot hanterar kommer avaktiveras likaså integrationer. För att aktivera dem igen går du till [Integrationer > Bot-konton]({siteURL}/_redirect/integrations/bots). [Läs mer om bot-konton](!https://mattermost.com/pl/default-bot-accounts).\n \n \n",
   "deactivate_member_modal.sso_warning": "Du måste stänga av denna användare i din SSO-tjänst, annars blir kontot akiverat vid nästa inloggning eller sync.",
   "deactivate_member_modal.title": "Deaktivera {username}",
   "delete_category_modal.delete": "Ta bort",

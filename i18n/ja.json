@@ -3034,7 +3034,7 @@
   "deactivate_member_modal.deactivate": "無効にする",
   "deactivate_member_modal.desc": "これにより{username}は無効化されます。このユーザーはログアウトされ、このシステムのどのチームやチャンネルにもアクセスできなくなります。\n",
   "deactivate_member_modal.desc.confirm": " 本当に{username}を無効化しますか？",
-  "deactivate_member_modal.desc.for_users_with_bot_accounts": "これにより{username}は無効化されます。\n \n * このユーザーはログアウトされ、このシステムのどのチームやチャンネルにもアクセスできなくなります。\n * このユーザーが管理していたBotアカウントは統合機能とともに無効化されます。再び有効かするには、<link>統合機能 > Botアカウント</link>({siteURL}/_redirect/integrations/bots)から設定してください。詳しくは[Botアカウントについて]を参照してください。\n \n \n",
+  "deactivate_member_modal.desc.for_users_with_bot_accounts": "これにより{username}は無効化されます。\n \n * このユーザーはログアウトされ、このシステムのどのチームやチャンネルにもアクセスできなくなります。\n * このユーザーが管理していたBotアカウントは統合機能とともに無効化されます。再び有効かするには、[統合機能 > Botアカウント]({siteURL}/_redirect/integrations/bots)から設定してください。詳しくは[Botアカウントについて](!https://mattermost.com/pl/default-bot-accounts)を参照してください。\n \n \n",
   "deactivate_member_modal.sso_warning": "シングルサインオンプロバイダーでこのユーザーを無効化する必要があります。無効化しないと次回ログインした際、もしくは同期が行われた際にこのユーザーは再び有効かされます。",
   "deactivate_member_modal.title": "{username} を無効にする",
   "delete_category_modal.delete": "削除する",

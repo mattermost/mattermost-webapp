@@ -2854,7 +2854,7 @@
   "deactivate_member_modal.deactivate": "Деактивирй",
   "deactivate_member_modal.desc": "Това действие деактивира {username}. Ще излезе от системата без достъп до екипи или канали в тази система.\n",
   "deactivate_member_modal.desc.confirm": " Наистина ли искате да деактивирате {username}?",
-  "deactivate_member_modal.desc.for_users_with_bot_accounts": "Това действие деактивира {username}.\n\n * Ще излезе от системата без достъп до екипи или канали в тази система.\n * Управляваните него бот акаунти ще бъдат деактивирани заедно с техните интеграции. За да ги активирате отново, отидете на <link>Интеграции>Бот профили</link>({siteURL}/_redirect/integrations/bots). [Прочетете повече за бот профилите на].\n \n \n",
+  "deactivate_member_modal.desc.for_users_with_bot_accounts": "Това действие деактивира {username}.\n\n * Ще излезе от системата без достъп до екипи или канали в тази система.\n * Управляваните него бот акаунти ще бъдат деактивирани заедно с техните интеграции. За да ги активирате отново, отидете на [Интеграции>Бот профили]({siteURL}/_redirect/integrations/bots). [Прочетете повече за бот профилите на](!https://mattermost.com/pl/default-bot-accounts).\n \n \n",
   "deactivate_member_modal.sso_warning": "Трябва също да деактивирате този потребител в SSO доставчика или той ще бъде активиран отново при следващо влизане или синхронизиране.",
   "deactivate_member_modal.title": "Деактивирай {username}",
   "delete_category_modal.delete": "Изтрий",

@@ -2995,7 +2995,7 @@
   "deactivate_member_modal.deactivate": "Désactiver",
   "deactivate_member_modal.desc": "Cette action désactive {username}. L'utilisateur sera déconnecté et n'aura plus accès aux équipes et canaux de ce système.\n",
   "deactivate_member_modal.desc.confirm": " Voulez-vous vraiment désactiver {username} ?",
-  "deactivate_member_modal.desc.for_users_with_bot_accounts": "Cette action désactive {username}.\n \n * L'utilisateur sera déconnecté et n'aura plus accès aux équipes et canaux de ce système.\n * Les comptes de bot qu'il gère seront désactivés de même que les intégrations liées à ces comptes. Pour les réactiver dans le futur, rendez-vous dans <link>Intégrations > Comptes de bot</link>({siteURL}/_redirect/integrations/bots). Consultez notre [documentation] pour en savoir plus sur les comptes de bot.\n \n \n",
+  "deactivate_member_modal.desc.for_users_with_bot_accounts": "Cette action désactive {username}.\n \n * L'utilisateur sera déconnecté et n'aura plus accès aux équipes et canaux de ce système.\n * Les comptes de bot qu'il gère seront désactivés de même que les intégrations liées à ces comptes. Pour les réactiver dans le futur, rendez-vous dans [Intégrations > Comptes de bot]({siteURL}/_redirect/integrations/bots). Consultez notre [documentation](!https://mattermost.com/pl/default-bot-accounts) pour en savoir plus sur les comptes de bot.\n \n \n",
   "deactivate_member_modal.sso_warning": "Vous devez également désactiver cet utilisateur dans le fournisseur d'authentification unique (SSO) sinon il sera réactivé à sa prochaine connexion ou à la prochaine synchronisation.",
   "deactivate_member_modal.title": "Désactiver {username}",
   "delete_category_modal.delete": "Supprimer",

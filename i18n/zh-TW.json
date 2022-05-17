@@ -2257,7 +2257,7 @@
   "deactivate_member_modal.deactivate": "停用",
   "deactivate_member_modal.desc": "此動作停用 {username}。他們將被登出且無法存取此系統上任何的團隊或頻道。\n",
   "deactivate_member_modal.desc.confirm": " 確定要停用 {username} ？",
-  "deactivate_member_modal.desc.for_users_with_bot_accounts": "此動作停用 {username}。\n \n * 他們將被登出且無法存取此系統上任何的團隊或頻道。\n * 他們管理的機器人帳號將被停用。如要再次啟用，前往<link>外部整合 > 機器人帳號</link>({siteURL}/_redirect/integrations/bots)。[詳情請參閱此]。\n \n \n",
+  "deactivate_member_modal.desc.for_users_with_bot_accounts": "此動作停用 {username}。\n \n * 他們將被登出且無法存取此系統上任何的團隊或頻道。\n * 他們管理的機器人帳號將被停用。如要再次啟用，前往[外部整合 > 機器人帳號]({siteURL}/_redirect/integrations/bots)。[詳情請參閱此](!https://mattermost.com/pl/default-bot-accounts)。\n \n \n",
   "deactivate_member_modal.sso_warning": "必須同時停用在 SSO 提供者當中的此使用者帳號，不然該帳號將會在下次登入或同步時被重新啟用。",
   "deactivate_member_modal.title": "停用 {username}",
   "delete_category_modal.delete": "刪除",

@@ -2681,7 +2681,7 @@
   "deactivate_member_modal.deactivate": "Dezactivați",
   "deactivate_member_modal.desc": "Această acțiune dezactivează {username}. Ei vor fi deconectați și nu vor avea acces la niciun echipă sau canal din acest sistem.\n",
   "deactivate_member_modal.desc.confirm": " Ești sigur ca dezactivezi {username}?",
-  "deactivate_member_modal.desc.for_users_with_bot_accounts": "Această acțiune dezactivează {username}.\n \n * Vor fi deconectați și nu vor avea acces la vreo echipă sau canal din acest sistem.\n * Conturile de Bot pe care le administrează vor fi dezactivate împreună cu integrarea acestora. Pentru a le permite din nou, accesați Integrări > Conturi Boți({siteURL}/_redirect/integrations/bots). <link>Aflați mai multe despre conturile bot</link>.\n \n \n",
+  "deactivate_member_modal.desc.for_users_with_bot_accounts": "Această acțiune dezactivează {username}.\n \n * Vor fi deconectați și nu vor avea acces la vreo echipă sau canal din acest sistem.\n * Conturile de Bot pe care le administrează vor fi dezactivate împreună cu integrarea acestora. Pentru a le permite din nou, accesați Integrări > Conturi Boți({siteURL}/_redirect/integrations/bots). [Aflați mai multe despre conturile bot](!https://mattermost.com/pl/default-bot-accounts).\n \n \n",
   "deactivate_member_modal.sso_warning": "De asemenea, trebuie să dezactivați acest utilizator din furnizorul SSO sau să fie reactivat la următoarea conectare sau sincronizare.",
   "deactivate_member_modal.title": "Dezactivați {username}",
   "delete_category_modal.delete": "Șterge",
