@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {CSSProperties} from 'react';
+import React, {CSSProperties, SyntheticEvent} from 'react';
 import classNames from 'classnames';
 import {injectIntl, IntlShape} from 'react-intl';
 import {SendIcon, EmoticonOutlineIcon} from '@mattermost/compass-icons/components';
@@ -1086,7 +1086,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         });
     }
 
-    handleSelect = (e: React.SyntheticEvent<TextboxElement>) => {
+    handleSelect = (e: SyntheticEvent<TextboxElement>) => {
         Utils.adjustSelection(this.textboxRef.current?.getInputBox(), e);
     }
 
@@ -1100,6 +1100,12 @@ class CreatePost extends React.PureComponent<Props, State> {
         const ctrlKeyCombo = Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey;
         const ctrlAltCombo = Utils.cmdOrCtrlPressed(e, true) && e.altKey;
         const markdownLinkKey = Utils.isKeyPressed(e, KeyCodes.K);
+
+        const {
+            selectionStart,
+            selectionEnd,
+            value,
+        } = e.target as TextboxElement;
 
         // listen for line break key combo and insert new line character
         if (Utils.isUnhandledLineBreakKeyCombo(e)) {
@@ -1117,23 +1123,23 @@ class CreatePost extends React.PureComponent<Props, State> {
         } else if (ctrlAltCombo && markdownLinkKey) {
             this.applyMarkdown({
                 markdownMode: 'link',
-                selectionStart: e.currentTarget.selectionStart,
-                selectionEnd: e.currentTarget.selectionEnd,
-                message: e.currentTarget.value,
+                selectionStart,
+                selectionEnd,
+                message: value,
             });
         } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.B)) {
             this.applyMarkdown({
                 markdownMode: 'bold',
-                selectionStart: e.currentTarget.selectionStart,
-                selectionEnd: e.currentTarget.selectionEnd,
-                message: e.currentTarget.value,
+                selectionStart,
+                selectionEnd,
+                message: value,
             });
         } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.I)) {
             this.applyMarkdown({
                 markdownMode: 'italic',
-                selectionStart: e.currentTarget.selectionStart,
-                selectionEnd: e.currentTarget.selectionEnd,
-                message: e.currentTarget.value,
+                selectionStart,
+                selectionEnd,
+                message: value,
             });
         }
     }

@@ -786,6 +786,12 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         const ctrlKeyCombo = Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey;
         const ctrlAltCombo = Utils.cmdOrCtrlPressed(e, true) && e.altKey;
 
+        const {
+            selectionStart,
+            selectionEnd,
+            value,
+        } = e.target as TextboxElement;
+
         if (ctrlKeyCombo) {
             if (Utils.isKeyPressed(e, Constants.KeyCodes.UP)) {
                 e.preventDefault();
@@ -797,17 +803,17 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                 e.preventDefault();
                 this.applyMarkdown({
                     markdownMode: 'bold',
-                    selectionStart: e.currentTarget.selectionStart,
-                    selectionEnd: e.currentTarget.selectionEnd,
-                    message: e.currentTarget.value,
+                    selectionStart,
+                    selectionEnd,
+                    message: value,
                 });
             } else if (Utils.isKeyPressed(e, Constants.KeyCodes.I)) {
                 e.preventDefault();
                 this.applyMarkdown({
                     markdownMode: 'italic',
-                    selectionStart: e.currentTarget.selectionStart,
-                    selectionEnd: e.currentTarget.selectionEnd,
-                    message: e.currentTarget.value,
+                    selectionStart,
+                    selectionEnd,
+                    message: value,
                 });
             }
         } else if (
@@ -817,53 +823,53 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             e.preventDefault();
             this.applyMarkdown({
                 markdownMode: 'link',
-                selectionStart: e.currentTarget.selectionStart,
-                selectionEnd: e.currentTarget.selectionEnd,
-                message: e.currentTarget.value,
+                selectionStart,
+                selectionEnd,
+                message: value,
             });
         } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.X)) {
             this.applyMarkdown({
                 markdownMode: 'strike',
-                selectionStart: e.currentTarget.selectionStart,
-                selectionEnd: e.currentTarget.selectionEnd,
-                message: e.currentTarget.value,
+                selectionStart,
+                selectionEnd,
+                message: value,
             });
         } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.C)) {
             e.preventDefault();
             e.stopPropagation();
             this.applyMarkdown({
                 markdownMode: 'code',
-                selectionStart: e.currentTarget.selectionStart,
-                selectionEnd: e.currentTarget.selectionEnd,
-                message: e.currentTarget.value,
+                selectionStart,
+                selectionEnd,
+                message: value,
             });
         } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_9)) {
             this.applyMarkdown({
                 markdownMode: 'quote',
-                selectionStart: e.currentTarget.selectionStart,
-                selectionEnd: e.currentTarget.selectionEnd,
-                message: e.currentTarget.value,
+                selectionStart,
+                selectionEnd,
+                message: value,
             });
         } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_8)) {
             this.applyMarkdown({
                 markdownMode: 'ul',
-                selectionStart: e.currentTarget.selectionStart,
-                selectionEnd: e.currentTarget.selectionEnd,
-                message: e.currentTarget.value,
+                selectionStart,
+                selectionEnd,
+                message: value,
             });
         } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_7)) {
             this.applyMarkdown({
                 markdownMode: 'ol',
-                selectionStart: e.currentTarget.selectionStart,
-                selectionEnd: e.currentTarget.selectionEnd,
-                message: e.currentTarget.value,
+                selectionStart,
+                selectionEnd,
+                message: value,
             });
         } else if (((isMac() && e.ctrlKey && e.shiftKey) || (e.altKey && e.shiftKey)) && Utils.isKeyPressed(e, KeyCodes.NUMPAD_3)) {
             this.applyMarkdown({
                 markdownMode: 'heading',
-                selectionStart: e.currentTarget.selectionStart,
-                selectionEnd: e.currentTarget.selectionEnd,
-                message: e.currentTarget.value,
+                selectionStart,
+                selectionEnd,
+                message: value,
             });
         } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.E)) {
             this.toggleEmojiPicker();

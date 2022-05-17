@@ -1681,7 +1681,7 @@ export function getClosestParent(elem: HTMLElement, selector: string) {
  * Adjust selection to correct text when there is Italic markdown (_) around selected text.
  */
 export function adjustSelection(inputBox: HTMLInputElement, e: React.SyntheticEvent<TextboxElement>) {
-    const el = e.currentTarget;
+    const el = e.target as TextboxElement;
     const {selectionEnd, selectionStart, value} = el;
 
     if (selectionStart === selectionEnd) {

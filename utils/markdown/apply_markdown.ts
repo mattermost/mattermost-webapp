@@ -113,7 +113,7 @@ const applyOlMarkdown = ({selectionEnd, selectionStart, message}: ApplySpecificM
     const isFirstLineSelected = !multilineSelection.startsWith('\n');
 
     if (selection.startsWith('\n')) {
-        multilineSelection = prefix.slice(prefix.lastIndexOf('\n')) + selection + multilineSuffix;
+        multilineSelection = prefix + selection + multilineSuffix;
     }
 
     const getHasCurrentMarkdown = (): boolean => {
@@ -206,7 +206,7 @@ export const applyMarkdownToSelectedLines = ({
     const isFirstLineSelected = !multilineSelection.startsWith('\n');
 
     if (selection.startsWith('\n')) {
-        multilineSelection = prefix.slice(prefix.lastIndexOf('\n')) + selection + multilineSuffix;
+        multilineSelection = prefix + selection + multilineSuffix;
     }
 
     const getHasCurrentMarkdown = (): boolean => {

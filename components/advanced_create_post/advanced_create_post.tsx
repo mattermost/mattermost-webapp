@@ -1037,7 +1037,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             selectionStart,
             selectionEnd,
             value,
-        } = e.currentTarget as HTMLInputElement;
+        } = e.target as TextboxElement;
 
         // listen for line break key combo and insert new line character
         if (Utils.isUnhandledLineBreakKeyCombo(e)) {
