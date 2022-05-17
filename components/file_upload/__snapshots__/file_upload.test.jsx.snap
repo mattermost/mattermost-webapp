@@ -45,9 +45,10 @@ exports[`components/FileUpload should match snapshot 1`] = `
       onTouchEnd={[Function]}
       type="button"
     >
-      <i
+      <PaperclipIcon
         aria-label="Attachment Icon"
-        className="icon icon-paperclip"
+        color="currentColor"
+        size={18}
       />
     </button>
     <input

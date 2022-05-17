@@ -97,8 +97,6 @@ exports[`components/TextBox should match snapshot with additional, optional prop
     className="form-control custom-textarea textbox-preview-area"
     onBlur={[Function]}
     onKeyDown={[Function]}
-    onKeyPress={[Function]}
-    onSelect={[Function]}
     tabIndex={0}
   >
     <Connect(PostMarkdown)
