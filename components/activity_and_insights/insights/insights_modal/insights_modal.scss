@@ -1,6 +1,6 @@
 .insights-modal {
     &.modal-dialog {
-        margin-top: calc(50vh - 240px);
+        margin-top: calc(50vh - 340px);
     }
 
     .modal-content {
@@ -153,6 +153,28 @@
                                 font-style: normal;
                                 font-weight: 400;
                                 line-height: 20px;
+                            }
+
+                            .channel-display-name {
+                                display: flex;
+                                overflow: hidden;
+                                color: var(--center-channel-color);
+
+                                &:hover {
+                                    text-decoration: none;
+                                }
+
+                                .icon {
+                                    color: rgba(var(--center-channel-color-rgb), 0.56);
+                                }
+
+                                span.cell-text {
+                                    overflow: hidden;
+                                    margin-left: 4px;
+                                    font-weight: 600;
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap;
+                                }
                             }
 
                             .times-used-container {
