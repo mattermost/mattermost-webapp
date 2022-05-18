@@ -9,6 +9,12 @@ import {MarkdownMode} from 'utils/markdown/apply_markdown';
 
 type WideMode = 'wide' | 'normal' | 'narrow';
 
+export function useGetLatest<T>(val: T) {
+    const ref = React.useRef<T>(val);
+    ref.current = val;
+    return React.useCallback(() => ref.current, []);
+}
+
 const useResponsiveFormattingBar = (ref: React.RefObject<HTMLDivElement>): WideMode => {
     const [wideMode, setWideMode] = useState<WideMode>('wide');
     const handleResize = debounce(() => {

@@ -18,7 +18,7 @@ import {getCurrentLocale} from 'selectors/i18n';
 
 import FormattingIcon, {IconContainer} from './formatting_icon';
 
-import {useFormattingBarControls, useUpdateOnVisibilityChange} from './hooks';
+import {useFormattingBarControls, useGetLatest, useUpdateOnVisibilityChange} from './hooks';
 
 /** eslint-disable no-confusing-arrow */
 
@@ -190,10 +190,35 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
     const popperRef = React.useRef<HTMLDivElement | null>(null);
     const triggerRef = useRef<HTMLButtonElement>(null);
     const formattingBarRef = useRef<HTMLDivElement>(null);
-    const {controls, hiddenControls, wideMode} =
-        useFormattingBarControls(formattingBarRef);
+    const {controls, hiddenControls, wideMode} = useFormattingBarControls(formattingBarRef);
 
-    const hasHiddenControls = wideMode !== 'wide';
+    // this little helper hook always returns the latest refs and does not mess with the popper placement calculation
+    const getLatest = useGetLatest({
+        showHiddenControls,
+        triggerRef,
+        popperRef,
+    });
+
+    useEffect(() => {
+        const handleClickOutside: EventListener = (event) => {
+            const {popperRef, triggerRef} = getLatest();
+            const target = event.composedPath?.()?.[0] || event.target;
+            if (target instanceof Node) {
+                if (
+                    popperRef != null &&
+                    triggerRef != null &&
+                    !popperRef.current?.contains(target) &&
+                    !triggerRef.current?.contains(target)
+                ) {
+                    setShowHiddenControls(false);
+                }
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [getLatest, setShowHiddenControls]);
 
     useEffect(() => {
         if (!isOpen) {
@@ -214,9 +239,12 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
             },
         ],
     });
+
     useUpdateOnVisibilityChange(update, showHiddenControls);
 
-    const hideHiddenControls = useCallback((event?) => {
+    const hasHiddenControls = wideMode !== 'wide';
+
+    const closeHiddenControls = useCallback((event?) => {
         if (event) {
             event.preventDefault();
         }
@@ -229,10 +257,12 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
      * the FormattingIcon component. This should improve render-performance
      */
     const makeFormattingHandler = useCallback((mode) => () => {
+        // if the formatting is disabled just return without doing anything
         if (disableControls) {
             return;
         }
 
+        // get the current selection values and return early (doing nothing) when we don't get valid values
         const {start, end} = getCurrentSelection();
 
         if (start === null || end === null) {
@@ -247,10 +277,12 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
             selectionEnd: end,
             message: value,
         });
+
+        // if hidden controls are currently open close them
         if (showHiddenControls) {
-            hideHiddenControls();
+            closeHiddenControls();
         }
-    }, [getCurrentSelection, getCurrentMessage, applyMarkdown, showHiddenControls, hideHiddenControls, disableControls]);
+    }, [getCurrentSelection, getCurrentMessage, applyMarkdown, showHiddenControls, closeHiddenControls, disableControls]);
 
     return (
         <FormattingBarContainer
@@ -276,7 +308,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                 <IconContainer
                     ref={triggerRef}
                     className={classNames({active: showHiddenControls})}
-                    onClick={hideHiddenControls}
+                    onClick={closeHiddenControls}
                 >
                     <DotsHorizontalIcon
                         color={'currentColor'}
