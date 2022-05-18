@@ -1331,12 +1331,16 @@
   "admin.manage_roles.systemMember": "Member",
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   "admin.manage_teams.makeAdminError": "Unable to remove admin status from user.",
 =======
   "admin.manage_teams.makeAdminError": "",
 >>>>>>> 791efd37e (Translated using Weblate (English (Australia)))
 =======
 >>>>>>> 149e86213 (Update translation files)
+=======
+  "admin.manage_teams.makeAdminError": "Unable to remove admin status from user.",
+>>>>>>> 307abdb95 (Translated using Weblate (English (Australia)))
   "admin.manage_teams.makeMemberError": "Unable to make user a member.",
   "admin.manage_teams.removeError": "Unable to remove user from team.",
   "admin.manage_tokens.manageTokensTitle": "Manage Personal Access Tokens",
@@ -3719,20 +3723,29 @@
   "login.noEmailUsernameLdapUsername": "Please enter your email, username or {ldapUsername}",
   "login.noLdapUsername": "Please enter your {ldapUsername}",
 <<<<<<< HEAD
+<<<<<<< HEAD
   "login.noMethods.subtitle": "Please contact your System Administrator to resolve this.",
   "login.noMethods.title": "This server doesn’t have any sign-in methods enabled",
 =======
 >>>>>>> 149e86213 (Update translation files)
+=======
+  "login.noMethods.subtitle": "Please contact your System Administrator to resolve this.",
+  "login.noMethods.title": "This server doesn’t have any sign-in methods enabled",
+>>>>>>> 307abdb95 (Translated using Weblate (English (Australia)))
   "login.noPassword": "Please enter your password",
   "login.noUsername": "Please enter your username",
   "login.noUsernameLdapUsername": "Please enter your username or {ldapUsername}",
   "login.office365": "Office 365",
   "login.openid": "Open ID",
 <<<<<<< HEAD
+<<<<<<< HEAD
   "login.or": "or log in with",
 =======
   "login.or": "or",
 >>>>>>> 149e86213 (Update translation files)
+=======
+  "login.or": "or log in with",
+>>>>>>> 307abdb95 (Translated using Weblate (English (Australia)))
   "login.passwordChanged": " Password updated successfully",
   "login.placeholderOr": " or ",
   "login.saml": "SAML",
@@ -3740,18 +3753,26 @@
   "login.session_expired.notification": "Session Expired: Please sign in to continue receiving notifications.",
   "login.session_expired.title": "* {siteName} - Session Expired",
 <<<<<<< HEAD
+<<<<<<< HEAD
   "login.subtitle": "Collaborate with your team in real-time",
 =======
 >>>>>>> 149e86213 (Update translation files)
+=======
+  "login.subtitle": "Collaborate with your team in real-time",
+>>>>>>> 307abdb95 (Translated using Weblate (English (Australia)))
   "login.terms_rejected": "You must agree to the Terms of Use before accessing {siteName}. Please contact your System Administrator for more details.",
   "login.title": "Log in to your account",
   "login.userNotFound": "An account matching your login credentials could not be found.",
   "login.username": "Username",
   "login.verified": " Email Verified",
 <<<<<<< HEAD
+<<<<<<< HEAD
   "login_mfa.saving": "Logging in…",
 =======
 >>>>>>> 149e86213 (Update translation files)
+=======
+  "login_mfa.saving": "Logging in…",
+>>>>>>> 307abdb95 (Translated using Weblate (English (Australia)))
   "login_mfa.submit": "Submit",
   "login_mfa.token": "MFA Token",
   "manage_channel_groups_modal.search_placeholder": "Search groups",
