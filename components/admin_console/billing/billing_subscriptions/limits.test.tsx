@@ -9,10 +9,10 @@ import * as redux from 'react-redux';
 
 import {renderWithIntl} from 'tests/react_testing_utils';
 
-import {InstalledIntegration} from '@mattermost/types/integrations';
+import {IntegrationsUsage} from '@mattermost/types/usage';
 import {GlobalState} from '@mattermost/types/store';
 
-import {getEnabledIntegrations} from 'mattermost-redux/selectors/entities/integrations';
+import {getIntegrationsUsage} from 'mattermost-redux/selectors/entities/usage';
 
 import * as cloudActions from 'actions/cloud';
 
@@ -22,7 +22,7 @@ import Limits from './limits';
 
 const limits = {
     integrations: {
-        enabled: 10,
+        enabled: 5,
     },
     messages: {
         history: 10000,
@@ -39,27 +39,14 @@ const limits = {
     },
 };
 
-const installedIntegrations: InstalledIntegration[] = [
-    {
-        id: 'github',
-        enabled: true,
-        name: 'GitHub',
-        type: 'plugin',
-        version: '2.1.1',
-    },
-    {
-        id: 'jira',
-        enabled: false,
-        name: 'Jira',
-        type: 'plugin',
-        version: '3.2.0',
-    },
-];
+const integrationsUsage: IntegrationsUsage = {
+    count: 3,
+};
 
-const integrationsState = {
+const usageState = {
     entities: {
-        integrations: {
-            installedIntegrations,
+        usage: {
+            integrations: integrationsUsage,
         },
     },
 } as GlobalState;
@@ -75,7 +62,7 @@ function mockUseSelector(spy: jest.SpyInstance, hasLimits: boolean) {
     spy.mockImplementationOnce(() => hasLimits);
     spy.mockImplementationOnce(() => (hasLimits ? limits : {}));
     spy.mockImplementationOnce(() => hasLimits);
-    spy.mockImplementationOnce(() => getEnabledIntegrations(integrationsState));
+    spy.mockImplementationOnce(() => getIntegrationsUsage(usageState));
 }
 
 describe('Limits', () => {
@@ -106,7 +93,7 @@ describe('Limits', () => {
 
         renderWithIntl(<Limits/>);
         screen.getByText('Enabled Integrations');
-        screen.getByText('1 of 10 integrations (10%)');
+        screen.getByText('3 of 5 integrations (60%)');
     });
 
     test('requests limits when cloud free feature is enabled', () => {
