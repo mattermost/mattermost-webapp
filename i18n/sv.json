@@ -3713,27 +3713,40 @@
   "login.noEmailUsername": "Ange din e-postadress eller användarnamn",
   "login.noEmailUsernameLdapUsername": "Ange din e-postadress, användarnamn eller {ldapUsername}",
   "login.noLdapUsername": "Ange ditt {ldapUsername}",
+<<<<<<< HEAD
   "login.noMethods.subtitle": "Kontakta din systemadministratör för att lösa problemet.",
   "login.noMethods.title": "Den här servern har inga inloggningsmetoder aktiverade",
+=======
+>>>>>>> 149e86213 (Update translation files)
   "login.noPassword": "Ange ditt lösenord",
   "login.noUsername": "Vänligen ange ditt användarnamn",
   "login.noUsernameLdapUsername": "Vänligen ange ditt användarnamn eller {ldapUsername}",
   "login.office365": "Office 365",
   "login.openid": "Open ID",
+<<<<<<< HEAD
   "login.or": "eller logga in med",
+=======
+  "login.or": "eller",
+>>>>>>> 149e86213 (Update translation files)
   "login.passwordChanged": " Lösenordsuppdateringen lyckades",
   "login.placeholderOr": " eller ",
   "login.saml": "SAML",
   "login.session_expired": "Din session har avslutats. Var vänlig och logga in igen.",
   "login.session_expired.notification": "Sessionen har upphört: Logga in igen för att ta emot notifieringar.",
   "login.session_expired.title": "* {siteName} - Sessionen har gått ut",
+<<<<<<< HEAD
   "login.subtitle": "Samarbeta med ditt team i realtid",
+=======
+>>>>>>> 149e86213 (Update translation files)
   "login.terms_rejected": "Du måste godkänna användarvillkoren innan du använder {siteName}. Kontakta systemadministratören för detaljer.",
   "login.title": "Logga in på ditt konto",
   "login.userNotFound": "Inget konto hittades med de kontouppgifter som angetts.",
   "login.username": "Användarnamn",
   "login.verified": " E-postadress verifierad",
+<<<<<<< HEAD
   "login_mfa.saving": "Loggar in…",
+=======
+>>>>>>> 149e86213 (Update translation files)
   "login_mfa.submit": "Skicka",
   "login_mfa.token": "MFA Token",
   "manage_channel_groups_modal.search_placeholder": "Sök grupper",

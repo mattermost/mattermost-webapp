@@ -3710,27 +3710,40 @@
   "login.noEmailUsername": "Kérjük adja meg az e-mail címét vagy felhasználónevét",
   "login.noEmailUsernameLdapUsername": "Kérjük, adja meg e-mail címét, felhasználónevét vagy {ldapUsername}",
   "login.noLdapUsername": "Kérjük adja meg {ldapUsername}",
+<<<<<<< HEAD
   "login.noMethods.subtitle": "Kérjük lépjen kapcsolatba a rendszergazdájával ennek a megoldásához.",
   "login.noMethods.title": "Ezen a kiszolgálón nincsen semmilyen bejelentkezési módszer engedélyezve",
+=======
+>>>>>>> 149e86213 (Update translation files)
   "login.noPassword": "Kérjük adja meg a jelszavát",
   "login.noUsername": "Kérjük adja meg a felhasználónevét",
   "login.noUsernameLdapUsername": "Kérjük, adja meg felhasználónevét vagy {ldapUsername}",
   "login.office365": "Office 365",
   "login.openid": "Open ID",
+<<<<<<< HEAD
   "login.or": "vagy bejelentkezés mint",
+=======
+  "login.or": "vagy",
+>>>>>>> 149e86213 (Update translation files)
   "login.passwordChanged": " Jelszó sikeresen frissítve",
   "login.placeholderOr": " vagy ",
   "login.saml": "SAML",
   "login.session_expired": "A munkamenete lejárt. Kérjük, jelentkezzen be újra.",
   "login.session_expired.notification": "A munkamenet lejárt: Jelentkezzen be, hogy továbbra is kapjon értesítéseket.",
   "login.session_expired.title": "* {siteName} - Munkamenet lejárt",
+<<<<<<< HEAD
   "login.subtitle": "Valós idejű együttműködés a csapatával",
+=======
+>>>>>>> 149e86213 (Update translation files)
   "login.terms_rejected": "A {siteName} rendszer használata előtt el kell fogadnia a felhasználási feltételeket. További részletekért forduljon a rendszergazdához.",
   "login.title": "Bejelentkezés a fiókjába",
   "login.userNotFound": "Nem találtunk olyan fiókot, amely megfelel a bejelentkezési adatoknak.",
   "login.username": "Felhasználónév",
   "login.verified": " E-mail megerősítve",
+<<<<<<< HEAD
   "login_mfa.saving": "Bejelentkezés folyamatban…",
+=======
+>>>>>>> 149e86213 (Update translation files)
   "login_mfa.submit": "Küldés",
   "login_mfa.token": "Többtényezős hitelesítés (MFA) token",
   "manage_channel_groups_modal.search_placeholder": "Csoportok keresése",

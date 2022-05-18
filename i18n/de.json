@@ -3710,27 +3710,40 @@
   "login.noEmailUsername": "Bitte gib deine E-Mail-Adresse oder deinen Benutzernamen ein",
   "login.noEmailUsernameLdapUsername": "Bitte gib deine E-Mail-Adresse, dein Benutzername oder dein {ldapUsername} ein",
   "login.noLdapUsername": "Bitte gib deinen {ldapUsername} ein",
+<<<<<<< HEAD
   "login.noMethods.subtitle": "Bitte kontaktiere den System Administrator um dies zu lösen.",
   "login.noMethods.title": "Dieser Server hat keine Anmeldemethoden aktiviert",
+=======
+>>>>>>> 149e86213 (Update translation files)
   "login.noPassword": "Bitte gib dein Passwort ein",
   "login.noUsername": "Bitte gib deinen Benutzernamen ein",
   "login.noUsernameLdapUsername": "Bitte gib deinen Benutzernamen oder {ldapUsername} ein",
   "login.office365": "Office 365",
   "login.openid": "Open ID",
+<<<<<<< HEAD
   "login.or": "oder meld dich an mit",
+=======
+  "login.or": "oder",
+>>>>>>> 149e86213 (Update translation files)
   "login.passwordChanged": " Passwort erfolgreich aktualisiert",
   "login.placeholderOr": " oder ",
   "login.saml": "SAML",
   "login.session_expired": "Deine Sitzung ist abgelaufen. Bitte melde dich erneut an.",
   "login.session_expired.notification": "Sitzung abgelaufen: Bitte anmelden um weiterhin Benachrichtigungen zu erhalten.",
   "login.session_expired.title": "* {siteName} - Sitzung abgelaufen",
+<<<<<<< HEAD
   "login.subtitle": "Arbeite mit deinem Team in Echtzeit zusammen",
+=======
+>>>>>>> 149e86213 (Update translation files)
   "login.terms_rejected": "Du musst die Nutzungsbedingungen akzeptieren, bevor du {siteName} verwenden kannst. Bitte kontaktiere deinen Systemadministrator für mehr Details.",
   "login.title": "Mit deinem Konto anmelden",
   "login.userNotFound": "Es konnte kein Konto mit den angegebenen Zugangsdaten gefunden werden.",
   "login.username": "Benutzername",
   "login.verified": " E-Mail-Adresse bestätigt",
+<<<<<<< HEAD
   "login_mfa.saving": "Melde an…",
+=======
+>>>>>>> 149e86213 (Update translation files)
   "login_mfa.submit": "Absenden",
   "login_mfa.token": "MFA Token",
   "manage_channel_groups_modal.search_placeholder": "Gruppen suchen",

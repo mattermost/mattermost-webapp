@@ -3710,27 +3710,40 @@
   "login.noEmailUsername": "Proszę, wpisz adres e-mail lub nazwę użytkownika",
   "login.noEmailUsernameLdapUsername": "Proszę, wpisz adres e-mail, nazwa użytkownika lub {ldapUsername}",
   "login.noLdapUsername": "Proszę wprowadzić {ldapUsername}",
+<<<<<<< HEAD
   "login.noMethods.subtitle": "Aby rozwiązać ten problem, należy skontaktować się z Administratorem Systemu.",
   "login.noMethods.title": "Ten serwer nie ma włączonych żadnych metod logowania",
+=======
+>>>>>>> 149e86213 (Update translation files)
   "login.noPassword": "Proszę wprowadzić hasło",
   "login.noUsername": "Proszę wprowadź nazwę użytkownika",
   "login.noUsernameLdapUsername": "Proszę, wpisz login lub {ldapUsername}",
   "login.office365": "Office 365",
   "login.openid": "Open ID",
+<<<<<<< HEAD
   "login.or": "lub zalogować się za pomocą",
+=======
+  "login.or": "lub",
+>>>>>>> 149e86213 (Update translation files)
   "login.passwordChanged": " Hasło zostało pomyślnie zaktualizowane",
   "login.placeholderOr": " lub ",
   "login.saml": "SAML",
   "login.session_expired": "Twoja sesja wygasła. Zaloguj się ponownie.",
   "login.session_expired.notification": "Sesja wygasła: zaloguj się, aby kontynuować otrzymywanie powiadomień.",
   "login.session_expired.title": "* {siteName} - Sesja wygasła",
+<<<<<<< HEAD
   "login.subtitle": "Współpracuj z zespołem w czasie rzeczywistym",
+=======
+>>>>>>> 149e86213 (Update translation files)
   "login.terms_rejected": "Musisz zgodzić się z warunkami użytkowania {siteName}. Proszę skontaktować się ze swoim Administratorem Systemu aby uzyskać więcej szczegółów.",
   "login.title": "Zaloguj się na swoje konto",
   "login.userNotFound": "Nie mogliśmy znaleźć konta pasującego do danych logowania.",
   "login.username": "Nazwa użytkownika",
   "login.verified": " E-Mail został zweryfikowany",
+<<<<<<< HEAD
   "login_mfa.saving": "Loguje się…",
+=======
+>>>>>>> 149e86213 (Update translation files)
   "login_mfa.submit": "Wyślij",
   "login_mfa.token": "MFA Token",
   "manage_channel_groups_modal.search_placeholder": "Szukaj grup",
