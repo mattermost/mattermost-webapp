@@ -1329,7 +1329,11 @@
   "admin.manage_roles.saveError": "Unable to save roles.",
   "admin.manage_roles.systemAdmin": "System Admin",
   "admin.manage_roles.systemMember": "Member",
+<<<<<<< HEAD
   "admin.manage_teams.makeAdminError": "Unable to remove admin status from user.",
+=======
+  "admin.manage_teams.makeAdminError": "",
+>>>>>>> 791efd37e (Translated using Weblate (English (Australia)))
   "admin.manage_teams.makeMemberError": "Unable to make user a member.",
   "admin.manage_teams.removeError": "Unable to remove user from team.",
   "admin.manage_tokens.manageTokensTitle": "Manage Personal Access Tokens",
@@ -3408,7 +3412,7 @@
   "help.formatting.intro": "Markdown makes it easy to format messages. Type a message as you normally would, then use the following syntax options to format your message a specific way.",
   "help.formatting.lines.description": "Create a line by using three `*`, `_`, or `-`.",
   "help.formatting.lines.title": "Lines",
-  "help.formatting.linkEx": "<link>Check out Mattermost!</link>(https://mattermost.com/)",
+  "help.formatting.linkEx": "[Check out Mattermost!](https://mattermost.com/)",
   "help.formatting.links.description": "Create labelled links by putting the desired text in square brackets and the associated link in normal brackets.",
   "help.formatting.links.title": "Links",
   "help.formatting.listExample": "* list item one\n* list item two\n    * item two sub-point",
