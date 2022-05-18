@@ -31,7 +31,7 @@ const Separator = styled.div<SeparatorProps>`
     position: relative;
     width: 1px;
     height: 24px;
-    background: rgba(61, 60, 64, 0.16);
+    background: rgba(var(--center-channel-color-rgb), 0.32);
 `;
 
 type FormattingBarContainerProps = {
@@ -44,7 +44,7 @@ const FormattingBarContainer = styled.div<FormattingBarContainerProps>`
     max-height: ${(props) => (props.open ? '100px' : 0)};
     padding-left: 7px;
     overflow: hidden;
-    background: rgba(61, 60, 64, 0.04);
+    background: var(--sidebar-bg);
     align-items: center;
     gap: 4px;
     transform-origin: top;
@@ -60,8 +60,8 @@ const HiddenControlsContainer = styled.div`
         padding: 5px;
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
         border-radius: 4px;
-        border: 1px solid rgba(61, 60, 64, 0.16);
-        background: #fff;
+        border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+        background: var(--sidebar-bg);
         z-index: 2;
 
         transition: transform 0.25s ease, opacity 0.25s ease;
@@ -244,8 +244,8 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
 
     const appendix = appendControls.length && (
         <>
-            <Separator show={wideMode === 'wide'}/>
             {appendControls}
+            <Separator show={wideMode === 'wide'}/>
         </>
     );
 
