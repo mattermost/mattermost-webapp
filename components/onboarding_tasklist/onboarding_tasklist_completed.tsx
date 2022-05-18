@@ -16,7 +16,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
-import {LicenseSkus} from '@mattermost/types/general';
+import {LicenseSkus} from 'mattermost-redux/types/general';
 
 import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';

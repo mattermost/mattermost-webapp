@@ -1,5 +1,5 @@
 .CloudStartTrialButton {
-    button:not(.style-link) {
+    &:not(.style-link) {
         display: block;
         width: fit-content;
         padding: 13px 20px;
@@ -27,5 +27,9 @@
     &:focus {
         box-shadow: inset 0 0 0 2px var(--sys-button-bg);
         text-decoration: none;
+    }
+
+    &.style-link {
+        padding-left: 0;
     }
 }

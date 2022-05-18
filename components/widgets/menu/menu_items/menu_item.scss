@@ -171,6 +171,7 @@
             border: none;
             background: none;
             color: var(--button-bg);
+            font-weight: 600;
 
             &:hover:not(.disabled) {
                 border: none;
@@ -178,6 +179,10 @@
                 color: var(--button-bg);
                 text-decoration: underline;
             }
+        }
+
+        .open-see-plans-modal {
+            display: block;
         }
     }
 

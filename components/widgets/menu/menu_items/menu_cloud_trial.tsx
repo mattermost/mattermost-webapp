@@ -12,7 +12,7 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {LicenseSkus} from '@mattermost/types/general';
+import {LicenseSkus} from 'mattermost-redux/types/general';
 
 import {openModal} from 'actions/views/modals';
 

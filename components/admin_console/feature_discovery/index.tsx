@@ -11,7 +11,7 @@ import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCloudLicense} from 'utils/license_utils';
 
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {LicenseSkus} from '@mattermost/types/general';
+import {LicenseSkus} from 'mattermost-redux/types/general';
 
 import {openModal} from 'actions/views/modals';
 import {requestTrialLicense} from 'actions/admin_actions';
