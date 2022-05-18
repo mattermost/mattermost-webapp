@@ -3482,7 +3482,14 @@
   "insights.topChannels.myTitle": "Meine Top-Kanäle",
   "insights.topChannels.subTitle": "Aktivsten Kanäle für das Team",
   "insights.topChannels.title": "Top Kanäle",
+<<<<<<< HEAD
   "insights.topChannels.totalMessages": "Summe Nachrichten",
+=======
+<<<<<<< HEAD
+=======
+  "insights.topChannels.totalMessages": "Summe Nachrichten",
+>>>>>>> 2607ba28e (Translated using Weblate (German))
+>>>>>>> fa29ae122 (Translated using Weblate (German))
   "insights.topReactions.empty": "Noch nicht genügend Daten für diesen Insight",
   "insights.topReactions.mySubTitle": "Reaktionen, die ich am meisten verwendet habe",
   "insights.topReactions.myTitle": "Meine Top-Reaktionen",
@@ -3696,7 +3703,11 @@
   "login.forgot": "Passwort vergessen?",
   "login.get_terms_error": "Konnte Nutzungsbedingungen nicht abrufen. Falls der Fehler weiterhin besteht, frage den Systemadministrator.",
   "login.gitlab": "GitLab",
+<<<<<<< HEAD
   "login.google": "Google",
+=======
+  "login.google": "Google Apps",
+>>>>>>> 2607ba28e (Translated using Weblate (German))
   "login.invalidCredentials": "Die Email oder der Benutzername oder das Passwort ist ungültig.",
   "login.invalidPassword": "Dein Passwort ist falsch.",
   "login.ldapCreate": " Gebe deinen AD/LDAP-Benutzernamen und -Passwort ein, um ein Konto zu erstellen.",
@@ -3704,17 +3715,26 @@
   "login.ldapUsernameLower": "AD/LDAP-Benutzername",
   "login.logIn": "Anmelden",
   "login.logingIn": "Melde an…",
+<<<<<<< HEAD
   "login.noAccount": "Du hast kein Konto?",
+=======
+  "login.noAccount": "Du hast kein Konto? ",
+>>>>>>> 2607ba28e (Translated using Weblate (German))
   "login.noEmail": "Bitte gib deine E-Mail-Adresse ein",
   "login.noEmailLdapUsername": "Bitte gib deine E-Mail-Adresse oder deinen {ldapUsername} ein",
   "login.noEmailUsername": "Bitte gib deine E-Mail-Adresse oder deinen Benutzernamen ein",
   "login.noEmailUsernameLdapUsername": "Bitte gib deine E-Mail-Adresse, dein Benutzername oder dein {ldapUsername} ein",
   "login.noLdapUsername": "Bitte gib deinen {ldapUsername} ein",
 <<<<<<< HEAD
+<<<<<<< HEAD
   "login.noMethods.subtitle": "Bitte kontaktiere den System Administrator um dies zu lösen.",
   "login.noMethods.title": "Dieser Server hat keine Anmeldemethoden aktiviert",
 =======
 >>>>>>> 149e86213 (Update translation files)
+=======
+  "login.noMethods.subtitle": "Bitte kontaktiere den System Administrator um dies zu lösen.",
+  "login.noMethods.title": "Dieser Server hat keine Anmeldemethoden aktiviert",
+>>>>>>> 2607ba28e (Translated using Weblate (German))
   "login.noPassword": "Bitte gib dein Passwort ein",
   "login.noUsername": "Bitte gib deinen Benutzernamen ein",
   "login.noUsernameLdapUsername": "Bitte gib deinen Benutzernamen oder {ldapUsername} ein",
@@ -3732,18 +3752,26 @@
   "login.session_expired.notification": "Sitzung abgelaufen: Bitte anmelden um weiterhin Benachrichtigungen zu erhalten.",
   "login.session_expired.title": "* {siteName} - Sitzung abgelaufen",
 <<<<<<< HEAD
+<<<<<<< HEAD
   "login.subtitle": "Arbeite mit deinem Team in Echtzeit zusammen",
 =======
 >>>>>>> 149e86213 (Update translation files)
+=======
+  "login.subtitle": "Arbeite mit deinem Team in Echtzeit zusammen",
+>>>>>>> 2607ba28e (Translated using Weblate (German))
   "login.terms_rejected": "Du musst die Nutzungsbedingungen akzeptieren, bevor du {siteName} verwenden kannst. Bitte kontaktiere deinen Systemadministrator für mehr Details.",
   "login.title": "Mit deinem Konto anmelden",
   "login.userNotFound": "Es konnte kein Konto mit den angegebenen Zugangsdaten gefunden werden.",
   "login.username": "Benutzername",
   "login.verified": " E-Mail-Adresse bestätigt",
 <<<<<<< HEAD
+<<<<<<< HEAD
   "login_mfa.saving": "Melde an…",
 =======
 >>>>>>> 149e86213 (Update translation files)
+=======
+  "login_mfa.saving": "Melde an…",
+>>>>>>> 2607ba28e (Translated using Weblate (German))
   "login_mfa.submit": "Absenden",
   "login_mfa.token": "MFA Token",
   "manage_channel_groups_modal.search_placeholder": "Gruppen suchen",
