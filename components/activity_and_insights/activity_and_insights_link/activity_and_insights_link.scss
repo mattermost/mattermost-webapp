@@ -51,8 +51,19 @@
     }
 }
 
-.tour-tip__body {
-    img.insights-img {
-        margin-top: 2.4rem;
+.tippy-box[data-placement^=right] {
+    &.tour-tip__box {
+        &.insights-tip {
+            .tour-tip__body {
+                img.insights-img {
+                    margin-top: 2.4rem;
+                }
+            }
+
+            .tippy-arrow::before {
+                border-width: 0;
+                transform-origin: 6px 6px;
+            }
+        }
     }
 }

@@ -2831,6 +2831,29 @@ describe('mergePostOrder', () => {
 });
 
 describe('postsInThread', () => {
+    it('should store a comment without other comments loaded for the thread when RECEIVED_POST', () => {
+        const state = deepFreeze({});
+        const nextState = reducers.postsInThread(state, {
+            type: PostTypes.RECEIVED_POST,
+            data: {id: 'comment1', root_id: 'root1'},
+        });
+
+        expect(nextState).not.toBe(state);
+        expect(nextState).toEqual({
+            root1: ['comment1'],
+        });
+    });
+
+    it('should NOT store a comment without other comments loaded for the thread when RECEIVED_NEW_POST', () => {
+        const state = deepFreeze({});
+        const nextState = reducers.postsInThread(state, {
+            type: PostTypes.RECEIVED_NEW_POST,
+            data: {id: 'comment1', root_id: 'root1'},
+        });
+
+        expect(nextState).toBe(state);
+    });
+
     for (const actionType of [
         PostTypes.RECEIVED_POST,
         PostTypes.RECEIVED_NEW_POST,
@@ -2881,20 +2904,6 @@ describe('postsInThread', () => {
                 expect(nextState).not.toBe(state);
                 expect(nextState).toEqual({
                     root1: ['comment1', 'comment2', 'comment3'],
-                });
-            });
-
-            it('should store a comment without other comments loaded for the thread', () => {
-                const state = deepFreeze({});
-
-                const nextState = reducers.postsInThread(state, {
-                    type: actionType,
-                    data: {id: 'comment1', root_id: 'root1'},
-                });
-
-                expect(nextState).not.toBe(state);
-                expect(nextState).toEqual({
-                    root1: ['comment1'],
                 });
             });
 

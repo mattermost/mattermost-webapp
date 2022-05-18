@@ -1,17 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React, {memo, useCallback, useEffect, useMemo, useState} from 'react';
-
 import {FormattedMessage} from 'react-intl';
-
 import {useDispatch, useSelector} from 'react-redux';
+import {Link} from 'react-router-dom';
 
 import {TimeFrame, TopChannel} from '@mattermost/types/insights';
 
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
 
 import Constants, {InsightsScopes} from 'utils/constants';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getMyTopChannels, getTopChannelsForTeam} from 'mattermost-redux/actions/insights';
 
 import './../../../activity_and_insights.scss';
@@ -19,6 +18,7 @@ import './../../../activity_and_insights.scss';
 type Props = {
     filterType: string;
     timeFrame: TimeFrame;
+    closeModal: () => void;
 }
 
 const TopChannelsTable = (props: Props) => {
@@ -28,6 +28,7 @@ const TopChannelsTable = (props: Props) => {
     const [topChannels, setTopChannels] = useState([] as TopChannel[]);
 
     const currentTeamId = useSelector(getCurrentTeamId);
+    const currentTeamUrl = useSelector(getCurrentRelativeTeamUrl);
 
     const getTopTeamChannels = useCallback(async () => {
         if (props.filterType === InsightsScopes.TEAM) {
@@ -58,6 +59,10 @@ const TopChannelsTable = (props: Props) => {
     useEffect(() => {
         getMyTeamChannels();
     }, [getMyTeamChannels]);
+
+    const closeModal = useCallback(() => {
+        props.closeModal();
+    }, [props.closeModal]);
 
     const getColumns = useMemo((): Column[] => {
         const columns: Column[] = [
@@ -101,7 +106,7 @@ const TopChannelsTable = (props: Props) => {
             let iconToDisplay = <i className='icon icon-globe'/>;
 
             if (channel.type === Constants.PRIVATE_CHANNEL) {
-                iconToDisplay = <i className='icon icon-lock'/>;
+                iconToDisplay = <i className='icon icon-lock-outline'/>;
             }
             return (
                 {
@@ -112,14 +117,18 @@ const TopChannelsTable = (props: Props) => {
                             </span>
                         ),
                         channel: (
-                            <>
+                            <Link
+                                className='channel-display-name'
+                                to={`${currentTeamUrl}/channels/${channel.name}`}
+                                onClick={closeModal}
+                            >
                                 <span className='icon'>
                                     {iconToDisplay}
                                 </span>
                                 <span className='cell-text'>
                                     {channel.display_name}
                                 </span>
-                            </>
+                            </Link>
                         ),
                         message_count: (
                             <div className='times-used-container'>
