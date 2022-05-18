@@ -29,7 +29,7 @@ import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_
 
 import * as Utils from 'utils/utils';
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
-import Constants from 'utils/constants';
+import Constants, {Locations} from 'utils/constants';
 import {getIsMobileView} from '../../selectors/views/browser';
 
 import Tooltip from '../tooltip';
@@ -44,6 +44,7 @@ import {IconContainer} from './formatting_bar/formatting_icon';
 import './advanced_text_editor.scss';
 
 type Props = {
+    location: string;
     currentUserId: string;
     message: string;
     showEmojiPicker: boolean;
@@ -99,6 +100,7 @@ type Props = {
 }
 
 const AdvanceTextEditor = ({
+    location,
     message,
     showEmojiPicker,
     uploadsProgressPercent,
@@ -335,6 +337,8 @@ const AdvanceTextEditor = ({
         };
     }, [textboxRef]);
 
+    const textboxId = location === Locations.CENTER ? 'post_textbox' : 'reply_textbox';
+
     return (
         <div
             className={classNames('AdvancedTextEditor', {
@@ -374,7 +378,7 @@ const AdvanceTextEditor = ({
                         emojiEnabled={enableEmojiPicker}
                         createMessage={createMessage}
                         channelId={channelId}
-                        id='post_textbox'
+                        id={textboxId}
                         ref={textboxRef!}
                         disabled={readOnlyChannel}
                         characterLimit={maxPostSize}
@@ -389,7 +393,7 @@ const AdvanceTextEditor = ({
                         getCurrentMessage={getCurrentValue}
                         getCurrentSelection={getCurrentSelection}
                         isOpen={!isFormattingBarHidden}
-                        appendControls={[fileUploadJSX, emojiPicker]}
+                        appendControls={[fileUploadJSX]}
                     />
                     <TexteditorActions
                         ref={createPostControlsRef}
@@ -397,6 +401,7 @@ const AdvanceTextEditor = ({
                     >
                         {showFormatJSX}
                         {toggleFormattingBarJSX}
+                        {emojiPicker}
                         {sendButton}
                     </TexteditorActions>
                 </div>

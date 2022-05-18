@@ -1299,6 +1299,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 onSubmit={this.handleSubmit}
             >
                 <AdvanceTextEditor
+                    location={Locations.CENTER}
                     currentUserId={this.props.currentUserId}
                     message={this.state.message}
                     showEmojiPicker={this.state.showEmojiPicker}

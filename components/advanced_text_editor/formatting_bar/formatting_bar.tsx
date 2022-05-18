@@ -242,13 +242,6 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
         }
     }, [getCurrentSelection, getCurrentMessage, applyMarkdown, showHiddenControls, hideHiddenControls]);
 
-    const appendix = appendControls.length && (
-        <>
-            {appendControls}
-            <Separator show={wideMode === 'wide'}/>
-        </>
-    );
-
     return (
         <FormattingBarContainer
             open={isOpen}
@@ -305,7 +298,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                         })}
                         {hasHiddenControls && (
                             <>
-                                {appendix}
+                                {appendControls}
                                 <Question/>
                             </>
                         )}
@@ -315,7 +308,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
 
             {!hasHiddenControls && (
                 <>
-                    {appendix}
+                    {appendControls}
                     <Question/>
                 </>
             )}

@@ -1082,6 +1082,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         return (
             <form onSubmit={this.handleSubmit}>
                 <AdvanceTextEditor
+                    location={Locations.RHS_COMMENT}
                     textboxRef={this.textboxRef}
                     currentUserId={this.props.currentUserId}
                     message={draft.message}
