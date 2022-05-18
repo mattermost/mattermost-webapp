@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {mount} from 'enzyme';
-import {Provider} from 'react-redux';
+import * as reactRedux from 'react-redux';
 import configureStore from 'redux-mock-store';
 
 import {CloudProducts} from 'utils/constants';
@@ -11,6 +11,11 @@ import {CloudProducts} from 'utils/constants';
 import CloudUpgradeButton from './index';
 
 describe('components/global/CloudUpgradeButton', () => {
+    const useDispatchMock = jest.spyOn(reactRedux, 'useDispatch');
+
+    beforeEach(() => {
+        useDispatchMock.mockClear();
+    });
     const initialState = {
         entities: {
             general: {
@@ -50,30 +55,30 @@ describe('components/global/CloudUpgradeButton', () => {
         const mockStore = configureStore();
         const store = mockStore(state);
 
+        const dummyDispatch = jest.fn();
+        useDispatchMock.mockReturnValue(dummyDispatch);
+
         const wrapper = mount(
-            <Provider store={store}>
+            <reactRedux.Provider store={store}>
                 <CloudUpgradeButton/>
-            </Provider>,
+            </reactRedux.Provider>,
         );
 
         expect(wrapper.find('UpgradeButton').exists()).toEqual(true);
     });
 
     it('should show Upgrade button in global header for admin users, cloud and enterprise trial subscription', () => {
-        const FOURTEEN_DAYS = 1209600000; // in milliseconds
-        const subscriptionCreateAt = Date.now();
-        const subscriptionEndAt = subscriptionCreateAt + FOURTEEN_DAYS;
         const state = JSON.parse(JSON.stringify(initialState));
         state.entities.cloud = {
             subscription: {
                 product_id: 'test_prod_2',
-                trial_end_at: subscriptionEndAt, // enterprise trial with 14 days left
+                is_free_trial: true,
             },
             products: {
                 test_prod_2: {
                     id: 'test_prod_2',
                     sku: CloudProducts.ENTERPRISE,
-                    price_per_seat: 0,
+                    price_per_seat: 10,
                 },
             },
         };
@@ -81,13 +86,78 @@ describe('components/global/CloudUpgradeButton', () => {
         const mockStore = configureStore();
         const store = mockStore(state);
 
+        const dummyDispatch = jest.fn();
+        useDispatchMock.mockReturnValue(dummyDispatch);
+
         const wrapper = mount(
-            <Provider store={store}>
+            <reactRedux.Provider store={store}>
                 <CloudUpgradeButton/>
-            </Provider>,
+            </reactRedux.Provider>,
         );
 
         expect(wrapper.find('UpgradeButton').exists()).toEqual(true);
+    });
+
+    it('should not show for enterprise non-trial', () => {
+        const state = JSON.parse(JSON.stringify(initialState));
+        state.entities.cloud = {
+            subscription: {
+                product_id: 'test_prod_3',
+                is_free_trial: false,
+            },
+            products: {
+                test_prod_3: {
+                    id: 'test_prod_3',
+                    sku: CloudProducts.ENTERPRISE,
+                    price_per_seat: 10,
+                },
+            },
+        };
+
+        const mockStore = configureStore();
+        const store = mockStore(state);
+
+        const dummyDispatch = jest.fn();
+        useDispatchMock.mockReturnValue(dummyDispatch);
+
+        const wrapper = mount(
+            <reactRedux.Provider store={store}>
+                <CloudUpgradeButton/>
+            </reactRedux.Provider>,
+        );
+
+        expect(wrapper.find('UpgradeButton').exists()).toEqual(false);
+    });
+
+    it('should not show for professional product', () => {
+        const state = JSON.parse(JSON.stringify(initialState));
+        state.entities.cloud = {
+            subscription: {
+                product_id: 'test_prod_4',
+                is_free_trial: false,
+            },
+            products: {
+                test_prod_4: {
+                    id: 'test_prod_4',
+                    sku: CloudProducts.PROFESSIONAL,
+                    price_per_seat: 10,
+                },
+            },
+        };
+
+        const mockStore = configureStore();
+        const store = mockStore(state);
+
+        const dummyDispatch = jest.fn();
+        useDispatchMock.mockReturnValue(dummyDispatch);
+
+        const wrapper = mount(
+            <reactRedux.Provider store={store}>
+                <CloudUpgradeButton/>
+            </reactRedux.Provider>,
+        );
+
+        expect(wrapper.find('UpgradeButton').exists()).toEqual(false);
     });
 
     it('should not show Upgrade button in global header for non admin users', () => {
@@ -102,10 +172,13 @@ describe('components/global/CloudUpgradeButton', () => {
         const mockStore = configureStore();
         const store = mockStore(state);
 
+        const dummyDispatch = jest.fn();
+        useDispatchMock.mockReturnValue(dummyDispatch);
+
         const wrapper = mount(
-            <Provider store={store}>
+            <reactRedux.Provider store={store}>
                 <CloudUpgradeButton/>
-            </Provider>,
+            </reactRedux.Provider>,
         );
 
         expect(wrapper.find('UpgradeButton').exists()).toEqual(false);
@@ -121,10 +194,13 @@ describe('components/global/CloudUpgradeButton', () => {
         const mockStore = configureStore();
         const store = mockStore(state);
 
+        const dummyDispatch = jest.fn();
+        useDispatchMock.mockReturnValue(dummyDispatch);
+
         const wrapper = mount(
-            <Provider store={store}>
+            <reactRedux.Provider store={store}>
                 <CloudUpgradeButton/>
-            </Provider>,
+            </reactRedux.Provider>,
         );
 
         expect(wrapper.find('UpgradeButton').exists()).toEqual(false);
