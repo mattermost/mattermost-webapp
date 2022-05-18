@@ -188,7 +188,7 @@ Cypress.Commands.add('apiCreateCustomAdmin', ({loginAfter = false} = {}) => {
     });
 });
 
-Cypress.Commands.add('apiCreateAdmin', () => {
+Cypress.Commands.add('apiCreateAdmin', ({showOnboarding = false}) => {
     const {username, password} = getAdminAccount();
 
     const sysadminUser = {
@@ -209,6 +209,17 @@ Cypress.Commands.add('apiCreateAdmin', () => {
     // # Create a new user
     return cy.request(options).then((res) => {
         expect(res.status).to.equal(201);
+
+        const createdUser = res.body;
+
+        // hide the onboarding task list by default so it doesn't block the execution of subsequent tests
+        cy.apiSaveSkipStepsPreference(createdUser.id, 'true');
+
+        if (showOnboarding) {
+            cy.apiSaveSkipStepsPreference(createdUser.id, 'false');
+            cy.apiSaveOnboardingTaskListPreference(createdUser.id, 'onboarding_task_list_open', 'false');
+            cy.apiSaveOnboardingTaskListPreference(createdUser.id, 'onboarding_task_list_show', 'true');
+        }
 
         return cy.wrap({sysadmin: {...res.body, password}});
     });
