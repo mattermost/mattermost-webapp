@@ -20,6 +20,7 @@ function integrations(state = {count: 0}, action: GenericAction): IntegrationsUs
 }
 
 export default combineReducers({
+
     // usage of integrations
     integrations,
 });

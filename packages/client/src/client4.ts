@@ -62,7 +62,6 @@ import {
     OAuthApp,
     OutgoingWebhook,
     SubmitDialogResponse,
-    IntegrationsUsage,
 } from '@mattermost/types/integrations';
 import {Job} from '@mattermost/types/jobs';
 import {MfaSecret} from '@mattermost/types/mfa';
@@ -116,6 +115,7 @@ import {CompleteOnboardingRequest} from '@mattermost/types/setup';
 
 import {UserThreadList, UserThread, UserThreadWithPost} from '@mattermost/types/threads';
 import {TopReactionResponse} from '@mattermost/types/insights';
+import {IntegrationsUsage} from '@mattermost/types/usage';
 
 import {cleanUrlForLogging} from './errors';
 import {buildQueryString} from './helpers';
