@@ -615,6 +615,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                                         defaultMessage: 'Choose a Username',
                                     })}
                                     disabled={isWaiting}
+                                    autoFocus={Boolean(parsedEmail)}
                                     info={formatMessage({
                                         id: 'signup_user_completed.userHelp',
                                         defaultMessage: 'You can use lowercase letters, numbers, periods, dashes, and underscores.',

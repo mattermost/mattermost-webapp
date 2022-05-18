@@ -52,8 +52,6 @@ const LazyLoggedIn = React.lazy(() => import('components/logged_in'));
 const LazyPasswordResetSendLink = React.lazy(() => import('components/password_reset_send_link'));
 const LazyPasswordResetForm = React.lazy(() => import('components/password_reset_form'));
 const LazySignup = React.lazy(() => import('components/signup/signup'));
-const LazySignupController = React.lazy(() => import('components/signup/signup_controller'));
-const LazySignupEmail = React.lazy(() => import('components/signup/signup_email'));
 const LazyTermsOfService = React.lazy(() => import('components/terms_of_service'));
 const LazyShouldVerifyEmail = React.lazy(() => import('components/should_verify_email/should_verify_email'));
 const LazyDoVerifyEmail = React.lazy(() => import('components/do_verify_email/do_verify_email'));
@@ -84,8 +82,6 @@ const LoggedIn = makeAsyncComponent('LoggedIn', LazyLoggedIn);
 const PasswordResetSendLink = makeAsyncComponent('PasswordResedSendLink', LazyPasswordResetSendLink);
 const PasswordResetForm = makeAsyncComponent('PasswordResetForm', LazyPasswordResetForm);
 const Signup = makeAsyncComponent('SignupController', LazySignup);
-const SignupController = makeAsyncComponent('SignupController', LazySignupController);
-const SignupEmail = makeAsyncComponent('SignupEmail', LazySignupEmail);
 const ShouldVerifyEmail = makeAsyncComponent('ShouldVerifyEmail', LazyShouldVerifyEmail);
 const DoVerifyEmail = makeAsyncComponent('DoVerifyEmail', LazyDoVerifyEmail);
 const ClaimController = makeAsyncComponent('ClaimController', LazyClaimController);
@@ -454,16 +450,8 @@ export default class Root extends React.PureComponent {
                         component={PasswordResetForm}
                     />
                     <HFRoute
-                        path={'/signup'}
-                        component={Signup}
-                    />
-                    <HFTRoute
                         path={'/signup_user_complete'}
-                        component={SignupController}
-                    />
-                    <HFTRoute
-                        path={'/signup_email'}
-                        component={SignupEmail}
+                        component={Signup}
                     />
                     <HFRoute
                         path={'/should_verify_email'}
