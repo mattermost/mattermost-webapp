@@ -27,11 +27,13 @@ width: 67px;
 font-family: 'Open Sans';
 font-style: normal;
 font-weight: 600;
-font-size: 11px;
+font-size: 11px !important;
 line-height: 10px;
 letter-spacing: 0.02em;
 color: #FFFFFF;
 `;
+
+let openPricingModal: () => void;
 
 const UpgradeCloudButton = (): JSX.Element | null => {
     const dispatch = useDispatch();
@@ -42,7 +44,7 @@ const UpgradeCloudButton = (): JSX.Element | null => {
         dispatch(getCloudProducts());
     }, []);
 
-    const openPricingModal = () => {
+    openPricingModal = () => {
         trackEvent('cloud_admin', 'click_open_pricing_modal');
         dispatch(openModal({
             modalId: ModalIdentifiers.PRICING_MODAL,
@@ -78,3 +80,4 @@ const UpgradeCloudButton = (): JSX.Element | null => {
 };
 
 export default UpgradeCloudButton;
+export {openPricingModal};
