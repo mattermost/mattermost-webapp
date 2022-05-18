@@ -45,16 +45,6 @@ export const getAppsBotIDs: (state: GlobalState) => string[] = createSelector(
     },
 );
 
-export function getInstalledIntegrations(state: GlobalState): InstalledIntegration[] {
-    return state.entities.integrations.installedIntegrations;
-}
-
-export const getEnabledIntegrations = createSelector(
-    'getEnabledIntegrations',
-    getInstalledIntegrations,
-    (integrations) => integrations.filter((integration) => integration.enabled),
-);
-
 export function getSystemCommands(state: GlobalState) {
     return state.entities.integrations.systemCommands;
 }

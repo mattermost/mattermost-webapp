@@ -18,6 +18,7 @@ import {
     PreferenceTypes,
     AppsTypes,
     CloudTypes,
+    UsageTypes,
 } from 'mattermost-redux/action_types';
 import {WebsocketEvents, General, Permissions, Preferences} from 'mattermost-redux/constants';
 import {addChannelToInitialCategory, fetchMyCategories, receivedCategoryOrder} from 'mattermost-redux/actions/channel_categories';
@@ -496,8 +497,8 @@ export function handleEvent(msg) {
         handlePluginStatusesChangedEvent(msg);
         break;
 
-    case SocketEvents.INSTALLED_INTEGRATIONS_CHANGED:
-        handleInstalledIntegrationsChangedEvent(msg);
+    case SocketEvents.INTEGRATIONS_USAGE_CHANGED:
+        handleIntegrationsUsageChangedEvent(msg);
         break;
 
     case SocketEvents.OPEN_DIALOG:
@@ -1340,8 +1341,8 @@ function handlePluginStatusesChangedEvent(msg) {
     store.dispatch({type: AdminTypes.RECEIVED_PLUGIN_STATUSES, data: msg.data.plugin_statuses});
 }
 
-function handleInstalledIntegrationsChangedEvent(msg) {
-    store.dispatch({type: IntegrationTypes.RECEIVED_INSTALLED_INTEGRATIONS, data: msg.data.integrations});
+function handleIntegrationsUsageChangedEvent(msg) {
+    store.dispatch({type: UsageTypes.RECEIVED_INTEGRATIONS_USAGE, data: msg.data.usage});
 }
 
 function handleOpenDialogEvent(msg) {

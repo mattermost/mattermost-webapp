@@ -20,7 +20,6 @@ export default keyMirror({
     DELETED_OAUTH_APP: null,
     RECEIVED_APPS_OAUTH_APP_IDS: null,
     RECEIVED_APPS_BOT_IDS: null,
-    RECEIVED_INSTALLED_INTEGRATIONS: null,
 
     RECEIVED_DIALOG_TRIGGER_ID: null,
     RECEIVED_DIALOG: null,

@@ -109,7 +109,6 @@ export type IntegrationsState = {
     oauthApps: IDMappedObjects<OAuthApp>;
     appsOAuthAppIDs: string[];
     appsBotIDs: string[];
-    installedIntegrations: InstalledIntegration[];
     systemCommands: IDMappedObjects<Command>;
     commands: IDMappedObjects<Command>;
 };
@@ -165,11 +164,3 @@ export type SubmitDialogResponse = {
     error?: string;
     errors?: Record<string, string>;
 };
-
-export interface InstalledIntegration {
-    type: string;
-    id: string;
-    name: string;
-    version: string;
-    enabled: boolean;
-}

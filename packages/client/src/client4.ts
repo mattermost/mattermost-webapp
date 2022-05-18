@@ -62,7 +62,7 @@ import {
     OAuthApp,
     OutgoingWebhook,
     SubmitDialogResponse,
-    InstalledIntegration,
+    IntegrationsUsage,
 } from '@mattermost/types/integrations';
 import {Job} from '@mattermost/types/jobs';
 import {MfaSecret} from '@mattermost/types/mfa';
@@ -424,6 +424,10 @@ export default class Client4 {
 
     getCloudRoute() {
         return `${this.getBaseRoute()}/cloud`;
+    }
+
+    getUsageRoute() {
+        return `${this.getBaseRoute()}/usage`;
     }
 
     getPermissionsRoute() {
@@ -3705,9 +3709,9 @@ export default class Client4 {
         );
     };
 
-    getInstalledIntegrations = () => {
-        return this.doFetch<InstalledIntegration[]>(
-            `${this.getCloudRoute()}/installed_integrations`, {method: 'get'},
+    getIntegrationsUsage = () => {
+        return this.doFetch<IntegrationsUsage>(
+            `${this.getUsageRoute()}/integrations`, {method: 'get'},
         );
     };
 

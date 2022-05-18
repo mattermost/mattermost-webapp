@@ -255,18 +255,6 @@ function appsBotIDs(state: string[] = [], action: GenericAction) {
     }
 }
 
-// installedIntegrations tracks the set of integrations installed on the server
-function installedIntegrations(state: InstalledIntegration[] = [], action: GenericAction): InstalledIntegration[] {
-    switch (action.type) {
-    case IntegrationTypes.RECEIVED_INSTALLED_INTEGRATIONS:
-        return action.data ? action.data : [];
-    case UserTypes.LOGOUT_SUCCESS:
-        return [];
-    default:
-        return state;
-    }
-}
-
 function dialogTriggerId(state = '', action: GenericAction) {
     switch (action.type) {
     case IntegrationTypes.RECEIVED_DIALOG_TRIGGER_ID:
@@ -298,9 +286,6 @@ export default combineReducers({
 
     // object to represent registered oauth apps with app id as the key
     oauthApps,
-
-    // array of installed integrations
-    installedIntegrations,
 
     // object to represent the list of ids for oauth apps associated to apps
     appsOAuthAppIDs,

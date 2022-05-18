@@ -117,7 +117,6 @@ const state: GlobalState = {
             commands: {},
             appsBotIDs: [],
             appsOAuthAppIDs: [],
-            installedIntegrations: [],
         },
         files: {
             files: {},
@@ -189,6 +188,11 @@ const state: GlobalState = {
             limits: {
                 limits: {},
                 limitsLoaded: false,
+            },
+        },
+        usage: {
+            integrations: {
+                count: 0,
             },
         },
         insights: {

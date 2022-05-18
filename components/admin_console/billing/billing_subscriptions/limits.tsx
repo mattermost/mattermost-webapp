@@ -8,8 +8,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCloudLimits, getCloudLimitsLoaded} from 'mattermost-redux/selectors/entities/cloud';
 import {getCloudLimits as getCloudLimitsAction} from 'actions/cloud';
-import {getInstalledIntegrations as fetchInstalledIntegrations} from 'mattermost-redux/actions/integrations';
-import {getEnabledIntegrations} from 'mattermost-redux/selectors/entities/integrations';
+import {getIntegrationsUsage as fetchIntegrationsUsage} from 'mattermost-redux/actions/usage';
+import {getIntegrationsUsage} from 'mattermost-redux/selectors/entities/usage';
 
 import {FileSizes} from 'utils/file_utils';
 import {asGBString} from 'utils/limits';
@@ -37,13 +37,13 @@ const Limits = (): JSX.Element | null => {
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
     const cloudLimits = useSelector(getCloudLimits);
     const cloudLimitsReceived = useSelector(getCloudLimitsLoaded);
-    const enabledIntegrations = useSelector(getEnabledIntegrations);
+    const integrationsUsage = useSelector(getIntegrationsUsage);
     const dispatch = useDispatch();
     const intl = useIntl();
     const [requestedLimits, setRequestedLimits] = useState(false);
 
     useEffect(() => {
-        dispatch(fetchInstalledIntegrations());
+        dispatch(fetchIntegrationsUsage());
     }, []);
 
     useEffect(() => {
@@ -153,13 +153,13 @@ const Limits = (): JSX.Element | null => {
                                 id='workspace_limits.integrations_enabled.usage'
                                 defaultMessage='{actual} of {limit} integrations ({percent}%)'
                                 values={{
-                                    actual: enabledIntegrations.length,
+                                    actual: integrationsUsage.count,
                                     limit: cloudLimits.integrations.enabled,
-                                    percent: Math.floor((enabledIntegrations.length / cloudLimits.integrations.enabled) * 100),
+                                    percent: Math.floor((integrationsUsage.count / cloudLimits.integrations.enabled) * 100),
                                 }}
                             />
                         )}
-                        percent={Math.floor((enabledIntegrations.length / cloudLimits.integrations.enabled) * 100)}
+                        percent={Math.floor((integrationsUsage.count / cloudLimits.integrations.enabled) * 100)}
                         icon='icon-product-boards'
                     />
 

@@ -26,6 +26,7 @@ import apps from './apps';
 import cloud from './cloud';
 import threads from './threads';
 import insights from './insights';
+import usage from './usage';
 
 export default combineReducers({
     general,
@@ -51,4 +52,5 @@ export default combineReducers({
     apps,
     cloud,
     insights,
+    usage,
 });
