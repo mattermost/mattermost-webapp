@@ -1,13 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
-import {PaperclipIcon} from '@mattermost/compass-icons/components';
-
 import classNames from 'classnames';
+import {PaperclipIcon} from '@mattermost/compass-icons/components';
 
 import dragster from 'utils/dragster';
 import Constants from 'utils/constants';
@@ -31,8 +30,6 @@ import {
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
-import AttachmentIcon from 'components/widgets/icons/attachment_icon';
-
 import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
@@ -604,7 +601,7 @@ export class FileUpload extends PureComponent {
                         type='button'
                         id='fileUploadButton'
                         aria-label={buttonAriaLabel}
-                        className={classNames('style--none post-action', {disabled: uploadsRemaining <= 0})}
+                        className={classNames('style--none AdvancedTextEditor__action-button', {disabled: uploadsRemaining <= 0})}
                         onClick={this.simulateInputClick}
                         onTouchEnd={this.simulateInputClick}
                     >
@@ -665,15 +662,15 @@ export class FileUpload extends PureComponent {
                     <MenuWrapper>
                         <button
                             type='button'
+                            id='fileUploadButton'
                             aria-label={buttonAriaLabel}
-                            className='style--none post-action'
+                            className={'style--none AdvancedTextEditor__action-button'}
                         >
-                            <div
-                                id='fileUploadButton'
-                                className='icon icon--attachment'
-                            >
-                                <AttachmentIcon className='d-flex'/>
-                            </div>
+                            <PaperclipIcon
+                                size={18}
+                                color={'currentColor'}
+                                aria-label={iconAriaLabel}
+                            />
                         </button>
                         <Menu
                             id='fileUploadOptions'
@@ -712,7 +709,7 @@ export class FileUpload extends PureComponent {
             <OverlayTrigger
                 delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement='top'
-                trigger='hover'
+                trigger={['hover', 'focus']}
                 overlay={
                     <Tooltip id='upload-tooltip'>
                         <KeyboardShortcutSequence
@@ -723,7 +720,9 @@ export class FileUpload extends PureComponent {
                     </Tooltip>
                 }
             >
-                {bodyAction}
+                <div className={uploadsRemaining <= 0 ? ' style--none btn-file__disabled' : 'style--none'}>
+                    {bodyAction}
+                </div>
             </OverlayTrigger>
         );
     }
