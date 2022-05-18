@@ -230,7 +230,7 @@ function Content(props: ContentProps) {
                     target='_blank'
                 >{formatMessage({id: 'pricing_modal.reviewDeploymentOptions', defaultMessage: 'Review deployment options'})}</a>
             </div>
-            <Modal.Header className='PreTrialPricingModal__header'>
+            <Modal.Header className='PricingModal__header'>
                 <div className='header_lhs'>
                     <h1 className='title'>
                         {formatMessage({id: 'pricing_modal.title', defaultMessage: 'Select a plan'})}
@@ -245,7 +245,7 @@ function Content(props: ContentProps) {
                     onClick={props.onHide}
                 />
             </Modal.Header>
-            <Modal.Body className='PreTrialPricingModal__body'>
+            <Modal.Body className='PricingModal__body'>
                 <div className='self-hosted-svg-left'>
                     <LadySvg/>
                 </div>

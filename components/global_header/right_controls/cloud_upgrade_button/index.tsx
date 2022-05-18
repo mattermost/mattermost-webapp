@@ -11,7 +11,6 @@ import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/user
 import {GlobalState} from 'types/store';
 import {trackEvent} from 'actions/telemetry_actions';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
 import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {getCloudSubscription as selectCloudSubscription, getCloudProduct as selectCloudProduct, isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 
@@ -57,20 +56,10 @@ const UpgradeCloudButton = (): JSX.Element | null => {
     const product = useSelector(selectCloudProduct);
     const isCloud = useSelector(isCurrentLicenseCloud);
 
-    const isEnterprise = product?.sku === CloudProducts.ENTERPRISE;
-    let isEnterpriseTrial = false;
-    const daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at);
-    if (isEnterprise && daysLeftOnTrial > 0 && subscription?.is_free_trial) {
-        isEnterpriseTrial = true;
-    }
-
+    const isEnterpriseTrial = subscription?.is_free_trial;
     const isStarter = product?.sku === CloudProducts.STARTER;
 
-    if (!isCloudFreeEnabled) {
-        return null;
-    }
-
-    if (!isCloud || !isAdmin) {
+    if (!isCloud || !isAdmin || !isCloudFreeEnabled) {
         return null;
     }
 
