@@ -18,6 +18,8 @@ import {
 
 import PurchaseModal from 'components/purchase_modal';
 import {makeAsyncComponent} from 'components/async_load';
+import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
+import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
 
 const LearnMoreTrialModal = makeAsyncComponent('LearnMoreTrialModal', React.lazy(() => import('components/learn_more_trial_modal/learn_more_trial_modal')));
 
@@ -67,41 +69,6 @@ type PlanLabelProps = {
     color: string;
     firstSvg: JSX.Element;
     secondSvg?: JSX.Element;
-}
-
-function CheckMarkSvg() {
-    return (
-        <svg
-            width='16'
-            height='16'
-            viewBox='0 0 16 16'
-            fill='none'
-            xmlns='http://www.w3.org/2000/svg'
-        >
-            <path
-                d='M8 0.493804C6.644 0.493804 5.384 0.835804 4.22 1.5198C3.08 2.1798 2.18 3.0798 1.52 4.2198C0.836 5.3838 0.494 6.6438 0.494 7.9998C0.494 9.3558 0.836 10.6158 1.52 11.7798C2.18 12.9198 3.08 13.8198 4.22 14.4798C5.384 15.1638 6.644 15.5058 8 15.5058C9.356 15.5058 10.616 15.1638 11.78 14.4798C12.92 13.8198 13.82 12.9198 14.48 11.7798C15.164 10.6158 15.506 9.3558 15.506 7.9998C15.506 6.6438 15.164 5.3838 14.48 4.2198C13.82 3.0798 12.92 2.1798 11.78 1.5198C10.616 0.835804 9.356 0.493804 8 0.493804ZM6.686 11.5098L5.624 10.4658L3.5 8.3418L4.562 7.2798L6.686 9.4038L11.456 4.6158L12.518 5.6778L6.686 11.5098Z'
-                fill='#3DB887'
-            />
-        </svg>
-    );
-}
-
-function StarMarkSvg() {
-    return (
-        <svg
-            width='12'
-            height='12'
-            viewBox='0 0 12 12'
-            fill='none'
-            xmlns='http://www.w3.org/2000/svg'
-        >
-            <path
-                d='M6.55906 9.74587C6.5135 9.72672 6.45882 9.72672 6.41325 9.74587L3.30554 11C3.22352 11.0191 3.15973 11 3.09593 10.9617C3.04125 10.9234 3.01391 10.8564 3.01391 10.7702L3.18707 7.26632C3.18707 7.21845 3.16884 7.16101 3.1415 7.11314L1.04539 4.38468C0.999826 4.31767 0.981599 4.25065 1.00894 4.18364C1.03628 4.11662 1.08185 4.06876 1.14564 4.03046L4.37182 3.1114C4.41739 3.1114 4.46296 3.08268 4.4903 3.03481L6.313 0.105309C6.35857 0.0382942 6.42236 0 6.49527 0C6.56818 0 6.63197 0.0382942 6.67754 0.105309L8.50024 3.03481C8.51847 3.08268 8.55492 3.12097 8.61872 3.14012L11.8267 4.03046C11.9087 4.06876 11.9634 4.11662 11.9816 4.18364C12.0089 4.25065 11.9907 4.31767 11.9451 4.38468L9.86727 7.11314C9.83081 7.16101 9.8217 7.21845 9.8217 7.26632L9.99486 10.7607C9.99486 10.8468 9.9584 10.9138 9.89461 10.9521C9.83081 10.9904 9.76702 11.0096 9.70322 10.9904L6.55906 9.74587Z'
-                fill='#FFBC1F'
-            />
-        </svg>
-
-    );
 }
 
 function PlanLabel(props: PlanLabelProps) {
@@ -189,12 +156,9 @@ function Content(props: ContentProps) {
         return product.sku === CloudProducts.PROFESSIONAL;
     }));
 
-    let isStarter = false;
-    let isPostTrial = false;
-    if (product?.sku === CloudProducts.STARTER) {
-        isStarter = true;
-    }
+    const isStarter = product?.sku === CloudProducts.STARTER;
 
+    let isPostTrial = false;
     if (subscription?.trial_end_at && !subscription.is_free_trial && (isStarter || isEnterprise)) {
         isPostTrial = true;
     }
