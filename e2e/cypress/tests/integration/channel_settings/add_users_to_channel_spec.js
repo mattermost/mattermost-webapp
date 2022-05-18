@@ -142,11 +142,10 @@ describe('Channel Settings', () => {
         // # Type into the input box to search for already added user
         cy.get('#selectItems input').type(firstUser.username);
 
-        // * Verify users list does not exist
-        cy.get('#multiSelectList').should('not.exist');
-        cy.contains('.custom-no-options-message', 'No matches found').should('be.visible');
-        cy.contains('.custom-no-options-message', 'Invite them to the team').should('be.visible');
-
+        // * Verify users list exist
+        cy.get('#multiSelectList').should('exist').within(() => {
+            cy.findByText('Already in channel').should('be.visible');
+        });
         cy.get('body').type('{esc}');
     });
 });

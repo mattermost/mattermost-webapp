@@ -17,6 +17,7 @@ import Constants from 'utils/constants';
 import {Posts} from 'mattermost-redux/constants';
 import {GlobalState} from 'types/store';
 import AdvancedCreateComment from 'components/advanced_create_comment';
+import BasicSeparator from 'components/widgets/separator/basic-separator';
 
 type Props = {
     focusOnMount: boolean;
@@ -64,11 +65,15 @@ const CreateComment = forwardRef<HTMLDivElement, Props>(({
 
     if (channelIsArchived) {
         return (
-            <div className='channel-archived-warning'>
-                <FormattedMarkdownMessage
-                    id='archivedChannelMessage'
-                    defaultMessage='You are viewing an **archived channel**. New messages cannot be posted.'
-                />
+            <div className='channel-archived-warning__container'>
+                <BasicSeparator/>
+                <div className='channel-archived-warning__content'>
+                    <i className='icon icon-archive-outline'/>
+                    <FormattedMarkdownMessage
+                        id='threadFromArchivedChannelMessage'
+                        defaultMessage='You are viewing a thread from an **archived channel**. New messages cannot be posted.'
+                    />
+                </div>
             </div>
         );
     }

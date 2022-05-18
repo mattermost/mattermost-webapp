@@ -4,6 +4,7 @@
 import React, {ClipboardEventHandler, memo, useCallback, useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
+import {EmoticonPlusOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {Post} from 'mattermost-redux/types/posts';
 import {Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
@@ -24,7 +25,6 @@ import DeletePostModal from 'components/delete_post_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Textbox, {TextboxClass, TextboxElement} from 'components/textbox';
-import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import {ModalData} from 'types/actions';
 
 type DialogProps = {
@@ -402,7 +402,10 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
                     className='style--none post-action'
                     onClick={toggleEmojiPicker}
                 >
-                    <EmojiIcon className='icon icon--emoji'/>
+                    <EmoticonPlusOutlineIcon
+                        size={18}
+                        color='currentColor'
+                    />
                 </button>
             </>
         );
