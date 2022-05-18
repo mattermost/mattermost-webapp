@@ -2808,6 +2808,8 @@
   "channel_members_rhs.header.title": "Members",
   "channel_members_rhs.list.channel_admin_title": "CHANNEL ADMINS",
   "channel_members_rhs.list.channel_members_title": "MEMBERS",
+  "channel_members_rhs.list.load-more": "Load More",
+  "channel_members_rhs.list.loading": "Loading",
   "channel_members_rhs.member.select_role_channel_admin": "Admin",
   "channel_members_rhs.member.select_role_channel_member": "Member",
   "channel_members_rhs.member.select_role_guest": "Guest",
