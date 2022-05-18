@@ -31,7 +31,7 @@ type Props = {
     tabIndex?: number;
     value: string;
     onChange: (e: ChangeEvent<TextboxElement>) => void;
-    onKeyPress: (e: KeyboardEvent<TextboxElement>) => void;
+    onKeyPress: (e: KeyboardEvent<any>) => void;
     onComposition?: () => void;
     onHeightChange?: (height: number, maxHeight: number) => void;
     createMessage: string;
@@ -263,6 +263,7 @@ export default class Textbox extends React.PureComponent<Props> {
                     tabIndex={this.props.tabIndex || 0}
                     ref={this.preview}
                     className='form-control custom-textarea textbox-preview-area'
+                    onKeyPress={this.props.onKeyPress}
                     onKeyDown={this.handleKeyDown}
                     onBlur={this.handleBlur}
                 >
