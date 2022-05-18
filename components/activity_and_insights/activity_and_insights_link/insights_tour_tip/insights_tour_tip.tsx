@@ -5,19 +5,22 @@ import React, {memo, useCallback, useEffect, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {Preferences} from 'mattermost-redux/constants';
 import {setInsightsInitialisationState} from 'mattermost-redux/actions/preferences';
+
+import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+
+import {GlobalState as EntitiesGlobalState} from 'mattermost-redux/types/store';
+
+import {Preferences} from 'mattermost-redux/constants';
+
 import {showInsightsPulsatingDot} from 'selectors/insights';
+
+import {GlobalState} from 'types/store';
+
 import insightsPreview from 'images/Insights-Preview-Image.jpg';
 
 import TourTip, {useMeasurePunchouts} from 'components/widgets/tour_tip';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {showNextSteps} from 'components/next_steps_view/steps';
-import {GlobalState} from 'types/store';
-import {GlobalState as EntitiesGlobalState} from 'mattermost-redux/types/store';
-import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
-import {getBool, getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks';
 
 const title = (
@@ -43,26 +46,22 @@ const screen = (
 
 const prevBtn = (
     <FormattedMessage
-        id={'activityAndInsights.tutorial_tip.notNow'}
-        defaultMessage={'Not now'}
+        id='activityAndInsights.tutorial_tip.notNow'
+        defaultMessage='Not now'
     />
 );
 
 const nextBtn = (
     <FormattedMessage
-        id={'activityAndInsights.tutorial_tip.viewInsights'}
-        defaultMessage={'View insights'}
+        id='activityAndInsights.tutorial_tip.viewInsights'
+        defaultMessage='View insights'
     />
 );
 
 const InsightsTourTip = () => {
     const dispatch = useDispatch();
     const showTip = useSelector(showInsightsPulsatingDot);
-    const config = useSelector(getConfig);
-    const nextSteps = useSelector((state: GlobalState) => showNextSteps(state));
     const showNextStepsEphemeral = useSelector((state: GlobalState) => state.views.nextSteps.show);
-    const firstAdmin = useSelector(isFirstAdmin);
-    const useCaseOnboarding = useSelector(getUseCaseOnboarding);
     const showTaskList = useSelector((state: EntitiesGlobalState) => getBool(state, OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW));
 
     const [tipOpened, setTipOpened] = useState(showTip);
@@ -84,11 +83,11 @@ const InsightsTourTip = () => {
     }, []);
 
     const isOnboardingOngoing = useCallback(() => {
-        if ((config.EnableOnboardingFlow === 'true' && nextSteps && !showNextStepsEphemeral && !(useCaseOnboarding && firstAdmin)) || (firstAdmin && showTaskList) || showNextStepsEphemeral) {
+        if (showTaskList || showNextStepsEphemeral) {
             return true;
         }
         return false;
-    }, [config.EnableOnboardingFlow, nextSteps, useCaseOnboarding, firstAdmin, showTaskList, showNextStepsEphemeral]);
+    }, [showTaskList, showNextStepsEphemeral]);
 
     const overlayPunchOut = useMeasurePunchouts(['sidebar-insights-button'], []);
 
