@@ -11,6 +11,7 @@ exports[`components/new_channel_modal should match snapshot 1`] = `
   errorText=""
   handleCancel={[Function]}
   handleConfirm={[Function]}
+  handleEnterKeyPress={[Function]}
   id="new-channel-modal"
   isConfirmDisabled={true}
   modalHeaderText="Create a new channel"
@@ -21,7 +22,7 @@ exports[`components/new_channel_modal should match snapshot 1`] = `
   <div
     className="new-channel-modal-body"
   >
-    <Input
+    <ForwardRef
       autoComplete="off"
       autoFocus={true}
       containerClassName="new-channel-modal-name-container"
@@ -75,6 +76,7 @@ exports[`components/new_channel_modal should match snapshot 1`] = `
         id="new-channel-modal-purpose"
         maxLength={250}
         onChange={[Function]}
+        onKeyDown={[Function]}
         placeholder="Enter a purpose for this channel (optional)"
         rows={4}
         value=""

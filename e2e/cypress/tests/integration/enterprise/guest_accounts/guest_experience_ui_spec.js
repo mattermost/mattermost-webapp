@@ -218,9 +218,9 @@ describe('Guest Account - Guest User Experience', () => {
         cy.visit('/');
 
         // # Login with guest user credentials and check the error message
-        cy.get('#loginId').type(guestUser.username);
-        cy.get('#loginPassword').type('passwd');
-        cy.findByText('Sign in').click();
+        cy.get('#input_loginId').type(guestUser.username);
+        cy.get('#input_password-input').type('passwd');
+        cy.get('#saveSetting').should('not.be.disabled').click();
 
         // * Verify if guest account is deactivated
         cy.findByText('Login failed because your account has been deactivated. Please contact an administrator.').should('be.visible');

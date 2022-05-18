@@ -5,8 +5,8 @@ import {useDispatch} from 'react-redux';
 import {useIntl} from 'react-intl';
 
 import {openModal} from 'actions/views/modals';
+import {CardSize, InsightsWidgetTypes, TimeFrame} from '@mattermost/types/insights';
 
-import {CardSize, InsightsWidgetTypes} from '../insights';
 import InsightsCard from '../card/card';
 import InsightsModal from '../insights_modal/insights_modal';
 
@@ -18,6 +18,8 @@ export interface WidgetHocProps {
     widgetType: InsightsWidgetTypes;
     filterType: string;
     class: string;
+    timeFrame: TimeFrame;
+    timeFrameLabel: string;
 }
 
 function widgetHoc<T>(WrappedComponent: ComponentType<T>) {
@@ -39,7 +41,7 @@ function widgetHoc<T>(WrappedComponent: ComponentType<T>) {
             return formatMessage(InsightsCardTitles[props.widgetType].teamSubTitle);
         }, [props.filterType, props.widgetType]);
 
-        const openInsightsModal = () => {
+        const openInsightsModal = useCallback(() => {
             dispatch(openModal({
                 modalId: ModalIdentifiers.INSIGHTS,
                 dialogType: InsightsModal,
@@ -47,9 +49,12 @@ function widgetHoc<T>(WrappedComponent: ComponentType<T>) {
                     widgetType: props.widgetType,
                     title: title(),
                     subtitle: subTitle(),
+                    filterType: props.filterType,
+                    timeFrame: props.timeFrame,
+                    timeFrameLabel: props.timeFrameLabel,
                 },
             }));
-        };
+        }, [props.widgetType, title, subTitle, props.filterType, props.timeFrame, props.timeFrameLabel]);
 
         return (
             <InsightsCard

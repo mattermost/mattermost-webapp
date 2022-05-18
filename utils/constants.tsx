@@ -1871,12 +1871,6 @@ export const durationValues = {
     },
 };
 
-export const InsightsTimeFrames = {
-    INSIGHTS_1_DAY: '1_day',
-    INSIGHTS_7_DAYS: '7_day',
-    INSIGHTS_28_DAYS: '28_day',
-};
-
 export const InsightsScopes = {
     MY: 'MY',
     TEAM: 'TEAM',
