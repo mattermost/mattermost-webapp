@@ -3704,10 +3704,14 @@
   "login.get_terms_error": "Konnte Nutzungsbedingungen nicht abrufen. Falls der Fehler weiterhin besteht, frage den Systemadministrator.",
   "login.gitlab": "GitLab",
 <<<<<<< HEAD
+<<<<<<< HEAD
   "login.google": "Google",
 =======
   "login.google": "Google Apps",
 >>>>>>> 2607ba28e (Translated using Weblate (German))
+=======
+  "login.google": "Google",
+>>>>>>> ddb375fac (Translated using Weblate (German))
   "login.invalidCredentials": "Die Email oder der Benutzername oder das Passwort ist ungültig.",
   "login.invalidPassword": "Dein Passwort ist falsch.",
   "login.ldapCreate": " Gebe deinen AD/LDAP-Benutzernamen und -Passwort ein, um ein Konto zu erstellen.",
@@ -3716,10 +3720,14 @@
   "login.logIn": "Anmelden",
   "login.logingIn": "Melde an…",
 <<<<<<< HEAD
+<<<<<<< HEAD
   "login.noAccount": "Du hast kein Konto?",
 =======
   "login.noAccount": "Du hast kein Konto? ",
 >>>>>>> 2607ba28e (Translated using Weblate (German))
+=======
+  "login.noAccount": "Du hast kein Konto?",
+>>>>>>> ddb375fac (Translated using Weblate (German))
   "login.noEmail": "Bitte gib deine E-Mail-Adresse ein",
   "login.noEmailLdapUsername": "Bitte gib deine E-Mail-Adresse oder deinen {ldapUsername} ein",
   "login.noEmailUsername": "Bitte gib deine E-Mail-Adresse oder deinen Benutzernamen ein",
@@ -3741,10 +3749,14 @@
   "login.office365": "Office 365",
   "login.openid": "Open ID",
 <<<<<<< HEAD
+<<<<<<< HEAD
   "login.or": "oder meld dich an mit",
 =======
   "login.or": "oder",
 >>>>>>> 149e86213 (Update translation files)
+=======
+  "login.or": "oder meld dich an mit",
+>>>>>>> ddb375fac (Translated using Weblate (German))
   "login.passwordChanged": " Passwort erfolgreich aktualisiert",
   "login.placeholderOr": " oder ",
   "login.saml": "SAML",
