@@ -31,7 +31,6 @@ exports[`components/channel_view Should match snapshot if channel is archived wi
     }
     showTutorial={false}
     teamUrl="/team"
-    useCaseOnboarding={false}
     viewArchivedChannels={false}
   />
   <DeferredRenderWrapper
@@ -94,7 +93,6 @@ exports[`components/channel_view Should match snapshot if channel roles loading 
     }
     showTutorial={false}
     teamUrl="/team"
-    useCaseOnboarding={false}
     viewArchivedChannels={false}
   />
   <DeferredRenderWrapper
@@ -134,7 +132,6 @@ exports[`components/channel_view Should match snapshot with base props 1`] = `
     }
     showTutorial={false}
     teamUrl="/team"
-    useCaseOnboarding={false}
     viewArchivedChannels={false}
   />
   <DeferredRenderWrapper

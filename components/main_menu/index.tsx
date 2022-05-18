@@ -16,7 +16,6 @@ import {
     getCurrentRelativeTeamUrl,
 } from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
-import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 import {haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 
 import {Permissions} from 'mattermost-redux/constants';
@@ -79,7 +78,6 @@ function mapStateToProps(state: GlobalState) {
         guestAccessEnabled: config.EnableGuestAccounts === 'true',
         canInviteTeamMember,
         isFirstAdmin: isFirstAdmin(state),
-        useCaseOnboarding: getUseCaseOnboarding(state),
     };
 }
 
