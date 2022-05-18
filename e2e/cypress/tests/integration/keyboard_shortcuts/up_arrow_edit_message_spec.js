@@ -307,6 +307,8 @@ describe('Keyboard Shortcuts', () => {
         cy.wait(TIMEOUTS.FIVE_SEC);
 
         cy.getLastPost().within(() => {
+            cy.wait(TIMEOUTS.ONE_SEC);
+
             // * Posted message should be correct
             cy.get('.post-message__text').should('contain.text', 'Test');
 
