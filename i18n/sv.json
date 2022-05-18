@@ -3275,12 +3275,18 @@
   "generic_icons.loading": "Laddarikon",
   "generic_icons.lock.circleSolid": "Ikon med lås i cirkel",
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 2856d458f (Translated using Weblate (Swedish))
   "generic_icons.login.gitlab": "ikon för Gitlab",
   "generic_icons.login.google": "Ikon för Google",
   "generic_icons.login.oneLogin": "Ikon för One Login",
   "generic_icons.login.openid": "Ikon för OpenID",
+<<<<<<< HEAD
 =======
 >>>>>>> 457f9b0bb (Translated using Weblate (Swedish))
+=======
+>>>>>>> 2856d458f (Translated using Weblate (Swedish))
   "generic_icons.logout": "Logg ut-ikon",
   "generic_icons.mail": "Mejl-ikon",
   "generic_icons.mattermost": "Mattermost logo",
@@ -3714,20 +3720,29 @@
   "login.noEmailUsernameLdapUsername": "Ange din e-postadress, användarnamn eller {ldapUsername}",
   "login.noLdapUsername": "Ange ditt {ldapUsername}",
 <<<<<<< HEAD
+<<<<<<< HEAD
   "login.noMethods.subtitle": "Kontakta din systemadministratör för att lösa problemet.",
   "login.noMethods.title": "Den här servern har inga inloggningsmetoder aktiverade",
 =======
 >>>>>>> 149e86213 (Update translation files)
+=======
+  "login.noMethods.subtitle": "Kontakta din systemadministratör för att lösa problemet.",
+  "login.noMethods.title": "Den här servern har inga inloggningsmetoder aktiverade",
+>>>>>>> 2856d458f (Translated using Weblate (Swedish))
   "login.noPassword": "Ange ditt lösenord",
   "login.noUsername": "Vänligen ange ditt användarnamn",
   "login.noUsernameLdapUsername": "Vänligen ange ditt användarnamn eller {ldapUsername}",
   "login.office365": "Office 365",
   "login.openid": "Open ID",
 <<<<<<< HEAD
+<<<<<<< HEAD
   "login.or": "eller logga in med",
 =======
   "login.or": "eller",
 >>>>>>> 149e86213 (Update translation files)
+=======
+  "login.or": "eller logga in med",
+>>>>>>> 2856d458f (Translated using Weblate (Swedish))
   "login.passwordChanged": " Lösenordsuppdateringen lyckades",
   "login.placeholderOr": " eller ",
   "login.saml": "SAML",
@@ -3735,18 +3750,26 @@
   "login.session_expired.notification": "Sessionen har upphört: Logga in igen för att ta emot notifieringar.",
   "login.session_expired.title": "* {siteName} - Sessionen har gått ut",
 <<<<<<< HEAD
+<<<<<<< HEAD
   "login.subtitle": "Samarbeta med ditt team i realtid",
 =======
 >>>>>>> 149e86213 (Update translation files)
+=======
+  "login.subtitle": "Samarbeta med ditt team i realtid",
+>>>>>>> 2856d458f (Translated using Weblate (Swedish))
   "login.terms_rejected": "Du måste godkänna användarvillkoren innan du använder {siteName}. Kontakta systemadministratören för detaljer.",
   "login.title": "Logga in på ditt konto",
   "login.userNotFound": "Inget konto hittades med de kontouppgifter som angetts.",
   "login.username": "Användarnamn",
   "login.verified": " E-postadress verifierad",
 <<<<<<< HEAD
+<<<<<<< HEAD
   "login_mfa.saving": "Loggar in…",
 =======
 >>>>>>> 149e86213 (Update translation files)
+=======
+  "login_mfa.saving": "Loggar in…",
+>>>>>>> 2856d458f (Translated using Weblate (Swedish))
   "login_mfa.submit": "Skicka",
   "login_mfa.token": "MFA Token",
   "manage_channel_groups_modal.search_placeholder": "Sök grupper",
@@ -3946,6 +3969,9 @@
   "onboardingTask.checklist.task_invite": "Bjud in teammedlemmar till arbetsytan",
   "onboardingTask.checklist.task_playbooks_tour": "Utforska arbetsflöden med din första Playbook",
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 2856d458f (Translated using Weblate (Swedish))
   "onboardingTask.checklist.task_start_trial": "Läs mer om funktioner för hög säkerhet på Enterprisenivå",
   "onboardingTask.checklist.task_system_console": "Gå till Systemkonsolen för att konfigurera arbetsytan",
   "onboardingTask.checklist.video_title": "Översikt av Watch",
@@ -3966,8 +3992,11 @@
   "onboardingTour.invitePeople.title": "Lägg till personer till teamet",
   "onboardingTour.sendMessage.Description": "Börja samarbeta med andra genom att skriva eller välja ett av meddelandena nedan. Du kan också dra och släppa bilagor till textfältet eller ladda upp dem med hjälp av gem-ikonen.",
   "onboardingTour.sendMessage.title": "Skicka meddelanden",
+<<<<<<< HEAD
 =======
 >>>>>>> 457f9b0bb (Translated using Weblate (Swedish))
+=======
+>>>>>>> 2856d458f (Translated using Weblate (Swedish))
   "onboarding_wizard.channel.description": "I kanaler kan du kommunicera med ditt team om ett ämne eller projekt. Vad arbetar du med just nu?",
   "onboarding_wizard.channel.empty": "Ange ett namn på kanalen",
   "onboarding_wizard.channel.input": "Ange ett namn på kanalen",
@@ -4155,12 +4184,18 @@
   "promote_to_user_modal.promote": "Höj",
   "promote_to_user_modal.title": "Gör gästen {username} till användare",
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 2856d458f (Translated using Weblate (Swedish))
   "public_private_selector.private.description": "Endast inbjudna medlemmar",
   "public_private_selector.private.title": "Privat",
   "public_private_selector.public.description": "Vem som helt",
   "public_private_selector.public.title": "Publik",
+<<<<<<< HEAD
 =======
 >>>>>>> 457f9b0bb (Translated using Weblate (Swedish))
+=======
+>>>>>>> 2856d458f (Translated using Weblate (Swedish))
   "quick_switch_modal.help_mobile": "Skriv för att söka en kanal.",
   "quick_switch_modal.help_no_team": "Skriv något för att hitta en kanal. Använd **UPP/NER** för att rulla, **RETUR** för att välja, **ESC** för att avbryta.",
   "quick_switch_modal.input": "Inmatningsfält för snabba byten",
