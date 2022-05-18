@@ -489,8 +489,9 @@ if (isDesktopApp) {
             exposes: {
                 './root': 'components/root',
                 './crtWatcher': 'components/threading/channel_threads/posts_channel_reset_watcher',
-                './store': 'stores/redux_store.jsx',
                 './styles': 'sass/styles.scss',
+                './store': './stores/redux_store.jsx',
+                './websocket': 'client/web_websocket_client.jsx',
             },
             shared: {
                 history: {
@@ -522,6 +523,11 @@ if (isDesktopApp) {
                     singleton: true,
                     eager: true,
                     requiredVersion: deps['react-router-dom'],
+                },
+                'stores/redux_store.jsx': {
+                    singleton: true,
+                    eager: true,
+                    import: false,
                 },
                 'utils/browser_history': {
                     singleton: true,
