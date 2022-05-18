@@ -93,7 +93,7 @@ export default function ChannelMembersRHS({channel, searchTerms, membersCount, c
             actions.setChannelMembersRhsSearchTerm('');
         };
     }, []);
-   
+
     useEffect(() => {
         if (channel.type === Constants.DM_CHANNEL) {
             let rhsAction = actions.closeRightHandSide;
