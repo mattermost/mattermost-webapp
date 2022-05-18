@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @channel @rhs @channel_members
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 function openChannelMembersRhs(testTeam, testChannel) {
     // # Go to test channel
     cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
@@ -194,6 +196,8 @@ describe('Channel members RHS', () => {
         it('should be able to manage members', () => {
             // # Open the Channel Members RHS
             openChannelMembersRhs(testTeam, testChannel);
+
+            cy.wait(TIMEOUTS.ONE_SEC);
 
             // # Click on the Manage button
             cy.uiGetRHS().findByText('Manage').should('be.visible').click();
