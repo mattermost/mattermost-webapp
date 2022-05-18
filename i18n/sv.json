@@ -3274,10 +3274,13 @@
   "generic_icons.info": "Info-ikon",
   "generic_icons.loading": "Laddarikon",
   "generic_icons.lock.circleSolid": "Ikon med lås i cirkel",
+<<<<<<< HEAD
   "generic_icons.login.gitlab": "ikon för Gitlab",
   "generic_icons.login.google": "Ikon för Google",
   "generic_icons.login.oneLogin": "Ikon för One Login",
   "generic_icons.login.openid": "Ikon för OpenID",
+=======
+>>>>>>> 457f9b0bb (Translated using Weblate (Swedish))
   "generic_icons.logout": "Logg ut-ikon",
   "generic_icons.mail": "Mejl-ikon",
   "generic_icons.mattermost": "Mattermost logo",
@@ -3929,6 +3932,7 @@
   "onboardingTask.checklist.task_download_apps": "Ladda ner dator- och mobilappar",
   "onboardingTask.checklist.task_invite": "Bjud in teammedlemmar till arbetsytan",
   "onboardingTask.checklist.task_playbooks_tour": "Utforska arbetsflöden med din första Playbook",
+<<<<<<< HEAD
   "onboardingTask.checklist.task_start_trial": "Läs mer om funktioner för hög säkerhet på Enterprisenivå",
   "onboardingTask.checklist.task_system_console": "Gå till Systemkonsolen för att konfigurera arbetsytan",
   "onboardingTask.checklist.video_title": "Översikt av Watch",
@@ -3949,6 +3953,8 @@
   "onboardingTour.invitePeople.title": "Lägg till personer till teamet",
   "onboardingTour.sendMessage.Description": "Börja samarbeta med andra genom att skriva eller välja ett av meddelandena nedan. Du kan också dra och släppa bilagor till textfältet eller ladda upp dem med hjälp av gem-ikonen.",
   "onboardingTour.sendMessage.title": "Skicka meddelanden",
+=======
+>>>>>>> 457f9b0bb (Translated using Weblate (Swedish))
   "onboarding_wizard.channel.description": "I kanaler kan du kommunicera med ditt team om ett ämne eller projekt. Vad arbetar du med just nu?",
   "onboarding_wizard.channel.empty": "Ange ett namn på kanalen",
   "onboarding_wizard.channel.input": "Ange ett namn på kanalen",
@@ -4135,10 +4141,13 @@
   "promote_to_user_modal.desc": "Detta kommer omvandla gästkontot {username} till ett medlemskonto. Det kommer tillåta användaren att gå med i publika kanaler och interagera med användare som inte är medlem i användarens kanaler. Är du säker på att du vill omvandla gästkontot {username} till ett användarkonto?",
   "promote_to_user_modal.promote": "Höj",
   "promote_to_user_modal.title": "Gör gästen {username} till användare",
+<<<<<<< HEAD
   "public_private_selector.private.description": "Endast inbjudna medlemmar",
   "public_private_selector.private.title": "Privat",
   "public_private_selector.public.description": "Vem som helt",
   "public_private_selector.public.title": "Publik",
+=======
+>>>>>>> 457f9b0bb (Translated using Weblate (Swedish))
   "quick_switch_modal.help_mobile": "Skriv för att söka en kanal.",
   "quick_switch_modal.help_no_team": "Skriv något för att hitta en kanal. Använd **UPP/NER** för att rulla, **RETUR** för att välja, **ESC** för att avbryta.",
   "quick_switch_modal.input": "Inmatningsfält för snabba byten",
