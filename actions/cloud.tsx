@@ -113,7 +113,7 @@ export function getMessagesUsage(): ActionFunc {
             if (result) {
                 dispatch({
                     type: CloudTypes.RECEIVED_MESSAGES_USAGE,
-                    data: result,
+                    data: result.count,
                 });
             }
         } catch (error) {
