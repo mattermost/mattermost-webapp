@@ -18,7 +18,7 @@ export function getTeamReactions(state: GlobalState) {
 }
 
 export const getReactionTimeFramesForCurrentTeam: (state: GlobalState) => Record<TimeFrame, Record<string, TopReaction>> = createSelector(
-    'getReactionsForCurrentTeam',
+    'getReactionTimeFramesForCurrentTeam',
     getCurrentTeamId,
     getTeamReactions,
     (currentTeamId, reactions) => {
