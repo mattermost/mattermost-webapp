@@ -10,6 +10,7 @@
 // Stage: @prod
 // Group: @onboarding
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getRandomId} from '../../utils';
 
 const uniqueUserId = getRandomId();
@@ -19,7 +20,7 @@ function signupWithEmail(name, pw) {
     cy.visit('/login');
 
     // # Click on sign up button
-    cy.get('#signup').click();
+    cy.findByText('Create an account', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
 
     // # Type email address (by adding the uniqueUserId in the email address)
     cy.get('#email').type('unique.' + uniqueUserId + '@sample.mattermost.com');

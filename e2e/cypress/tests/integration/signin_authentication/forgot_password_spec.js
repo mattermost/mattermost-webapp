@@ -44,7 +44,7 @@ describe('Signin/Authentication', () => {
 
         // * Verify that forgot password link is present
         // # Click forgot password link
-        cy.get('#login_forgot > a').should('be.visible').and('have.text', 'I forgot my password.').click();
+        cy.findByText('Forgot your password?').should('be.visible').click();
 
         // * Verify that it redirects to /reset_password
         cy.url().should('contain', '/reset_password');
@@ -91,12 +91,12 @@ describe('Signin/Authentication', () => {
             cy.url().should('contain', '/login?extra=password_change');
 
             // * Should show that the password is updated successfully
-            cy.get('#passwordUpdatedSuccess').should('be.visible').and('have.text', ' Password updated successfully');
+            cy.get('.AlertBanner.success').should('be.visible').and('have.text', ' Password updated successfully');
 
             // # Type email and new password, then click login button
-            cy.get('#loginId').should('be.visible').type(testUser.username);
-            cy.get('#loginPassword').should('be.visible').type(newPassword);
-            cy.get('#loginButton').click();
+            cy.get('#input_loginId').should('be.visible').type(testUser.username);
+            cy.get('#input_password-input').should('be.visible').type(newPassword);
+            cy.get('#saveSetting').click();
 
             // * Verify that it successfully logged in and redirects to /channels/town-square
             cy.url().should('contain', `/${teamName}/channels/town-square`);
