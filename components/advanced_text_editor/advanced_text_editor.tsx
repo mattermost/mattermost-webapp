@@ -281,6 +281,7 @@ const AdvanceTextEditor = ({
                         onClick={toggleEmojiPicker}
                         type='button'
                         aria-label={emojiButtonAriaLabel}
+                        disabled={shouldShowPreview}
                         className={classNames({active: showEmojiPicker})}
                     >
                         <EmoticonHappyOutlineIcon

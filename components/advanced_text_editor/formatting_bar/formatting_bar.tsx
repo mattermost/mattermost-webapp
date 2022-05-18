@@ -44,7 +44,7 @@ const FormattingBarContainer = styled.div<FormattingBarContainerProps>`
     max-height: ${(props) => (props.open ? '100px' : 0)};
     padding-left: 7px;
     overflow: hidden;
-    background: var(--sidebar-bg);
+    background: rgba(var(--center-channel-color-rgb), 0.08);
     align-items: center;
     gap: 4px;
     transform-origin: top;
