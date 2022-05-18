@@ -188,7 +188,7 @@ Cypress.Commands.add('apiCreateCustomAdmin', ({loginAfter = false} = {}) => {
     });
 });
 
-Cypress.Commands.add('apiCreateAdmin', ({showOnboarding = false}) => {
+Cypress.Commands.add('apiCreateAdmin', ({showOnboarding = false} = {}) => {
     const {username, password} = getAdminAccount();
 
     const sysadminUser = {
