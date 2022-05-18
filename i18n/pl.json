@@ -1,4 +1,4 @@
-	{
+{
   "about.buildnumber": "Numer Kompilacji:",
   "about.cloudEdition": "Chmura",
   "about.copyright": "Copyright 2015 - {currentYear} Mattermost, Inc. Wszystkie prawa zastrzeżone",
@@ -2957,7 +2957,6 @@
   "create_category_modal.create": "Utwórz",
   "create_category_modal.createCategory": "Utwórz Nową Kategorię",
   "create_comment.addComment": "Odpowiedz w tym wątku...",
-  "create_comment.comment": "Odpowiedź",
   "create_comment.commentTitle": "Komentarz",
   "create_comment.file": "Wysyłanie pliku",
   "create_comment.files": "Wysyłanie plików",
