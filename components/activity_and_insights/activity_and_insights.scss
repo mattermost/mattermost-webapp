@@ -124,7 +124,7 @@
                     }
 
                     &:hover {
-                        background-color: rgba(var(--center-channel-text-rgb), 0.08);
+                        background-color: rgba(var(--center-channel-color-rgb), 0.08);
                         border-radius: 4px;
                         text-decoration: none;
                     }
@@ -148,7 +148,7 @@
                         .display-name {
                             overflow: hidden;
                             margin-left: 7px;
-                            color: var(--center-channel-text);
+                            color: var(--center-channel-color);
                             font-family: 'Open Sans';
                             font-size: 12px;
                             font-style: normal;
