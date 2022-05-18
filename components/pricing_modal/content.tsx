@@ -45,6 +45,7 @@ type ButtonDetails = {
 }
 
 type CardProps = {
+    id: string;
     topColor: string;
     plan: string;
     price: string;
@@ -121,7 +122,10 @@ function PlanLabel(props: PlanLabelProps) {
 
 function Card(props: CardProps) {
     return (
-        <div className='PlanCard'>
+        <div
+            id={props.id}
+            className='PlanCard'
+        >
             {props.planLabel && props.planLabel}
             <div
                 className='top'
@@ -151,6 +155,7 @@ function Card(props: CardProps) {
                 </div>
                 <div>
                     <button
+                        id={props.id + '_action'}
                         className={'plan_action_btn ' + props.buttonDetails.customClass}
                         disabled={props.buttonDetails.disabled}
                         onClick={props.buttonDetails.action}
@@ -179,6 +184,7 @@ function Content(props: ContentProps) {
     const products = useSelector(selectCloudProducts);
 
     const isEnterprise = product?.sku === CloudProducts.ENTERPRISE;
+    const isEnterpriseTrial = Boolean(subscription?.is_free_trial);
     const professionalProduct = Object.values(products || {}).find(((product) => {
         return product.sku === CloudProducts.PROFESSIONAL;
     }));
@@ -253,6 +259,7 @@ function Content(props: ContentProps) {
                     <ManSvg/>
                 </div>
                 <Card
+                    id='starter'
                     topColor='#9DA7B8'
                     plan='Starter'
                     price={formatMessage({id: 'pricing_modal.price.free', defaultMessage: 'Free'})}
@@ -281,6 +288,7 @@ function Content(props: ContentProps) {
                             />) : undefined}
                 />
                 <Card
+                    id='professional'
                     topColor='#4A69AC'
                     plan='Professional'
                     price={`$${professionalProduct ? professionalProduct.price_per_seat : '10'}`}
@@ -309,6 +317,7 @@ function Content(props: ContentProps) {
                         />}
                 />
                 <Card
+                    id='enterprise'
                     topColor='#1C58D9'
                     plan='Enterprise'
                     price={formatMessage({id: 'pricing_modal.price.contactSales', defaultMessage: 'Contact sales'})}
@@ -329,7 +338,8 @@ function Content(props: ContentProps) {
                     } : {
                         action: openLearnMoreTrialModal,
                         text: formatMessage({id: 'pricing_modal.btn.tryDays', defaultMessage: 'Try free for {days} days'}, {days: '30'}),
-                        customClass: ButtonCustomiserClasses.special,
+                        customClass: isEnterpriseTrial ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special,
+                        disabled: isEnterpriseTrial,
                     }}
                     extraAction={isPostTrial ? undefined : {
                         action: () => {
