@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {memo, useCallback, useEffect, useState} from 'react';
+import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 
@@ -23,6 +23,7 @@ import './../../activity_and_insights.scss';
 import LineChart from 'components/analytics/line_chart';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import Tooltip from 'components/tooltip';
+import tinycolor from 'tinycolor2';
 
 const TopChannels = (props: WidgetHocProps) => {
     const dispatch = useDispatch();
@@ -31,56 +32,55 @@ const TopChannels = (props: WidgetHocProps) => {
     const [topChannels, setTopChannels] = useState([] as TopChannel[]);
     const [channelLineChartData] = useState({
         '2022-05-01': {
-            '4r98uzxe4b8t5g9ntt9zcdzktw': 93,
-            'mn6xbu3bxfrs8d6kwbciza7erw': 114,
-            'hu3n1di5e3rtzkcchpzcx4yuic': 324,
-            'xxr6kgw3rtr39kwy5bujpfpcae': 342,
-            '45rsohaxtjg8tqogbb8mshp88a': 169,
+            'sia4n8chebbimdjreqpjtqq4th': 93,
+            'kf8hegqirty38c1eoqr8gbar4c': 114,
+            'josruzafdpy67xrp9akhujumoc': 324,
+            'a5dqixb9xbfjzfy3t5bjt6swjc': 342,
+            '7sembkzk5jf9bkzxahdaydetee': 169,
         },
         '2022-05-02': {
-            '4r98uzxe4b8t5g9ntt9zcdzktw': 203,
-            'mn6xbu3bxfrs8d6kwbciza7erw': 14,
-            'hu3n1di5e3rtzkcchpzcx4yuic': 304,
-            'xxr6kgw3rtr39kwy5bujpfpcae': 267,
-            '45rsohaxtjg8tqogbb8mshp88a': 109,
+            'sia4n8chebbimdjreqpjtqq4th': 203,
+            'kf8hegqirty38c1eoqr8gbar4c': 14,
+            'josruzafdpy67xrp9akhujumoc': 304,
+            'a5dqixb9xbfjzfy3t5bjt6swjc': 267,
+            '7sembkzk5jf9bkzxahdaydetee': 109,
         },
         '2022-05-03': {
-            '4r98uzxe4b8t5g9ntt9zcdzktw': 230,
-            'mn6xbu3bxfrs8d6kwbciza7erw': 140,
-            'hu3n1di5e3rtzkcchpzcx4yuic': 340,
-            'xxr6kgw3rtr39kwy5bujpfpcae': 190,
-            '45rsohaxtjg8tqogbb8mshp88a': 110,
+            'sia4n8chebbimdjreqpjtqq4th': 230,
+            'kf8hegqirty38c1eoqr8gbar4c': 140,
+            'josruzafdpy67xrp9akhujumoc': 340,
+            'a5dqixb9xbfjzfy3t5bjt6swjc': 190,
+            '7sembkzk5jf9bkzxahdaydetee': 110,
         },
         '2022-05-04': {
-            '4r98uzxe4b8t5g9ntt9zcdzktw': 123,
-            'mn6xbu3bxfrs8d6kwbciza7erw': 114,
-            'hu3n1di5e3rtzkcchpzcx4yuic': 134,
-            'xxr6kgw3rtr39kwy5bujpfpcae': 100,
-            '45rsohaxtjg8tqogbb8mshp88a': 219,
+            'sia4n8chebbimdjreqpjtqq4th': 123,
+            'kf8hegqirty38c1eoqr8gbar4c': 114,
+            'josruzafdpy67xrp9akhujumoc': 134,
+            'a5dqixb9xbfjzfy3t5bjt6swjc': 100,
+            '7sembkzk5jf9bkzxahdaydetee': 219,
         },
         '2022-05-05': {
-            '4r98uzxe4b8t5g9ntt9zcdzktw': 430,
-            'mn6xbu3bxfrs8d6kwbciza7erw': 119,
-            'hu3n1di5e3rtzkcchpzcx4yuic': 234,
-            'xxr6kgw3rtr39kwy5bujpfpcae': 160,
-            '45rsohaxtjg8tqogbb8mshp88a': 284,
+            'sia4n8chebbimdjreqpjtqq4th': 430,
+            'kf8hegqirty38c1eoqr8gbar4c': 119,
+            'josruzafdpy67xrp9akhujumoc': 234,
+            'a5dqixb9xbfjzfy3t5bjt6swjc': 160,
+            '7sembkzk5jf9bkzxahdaydetee': 284,
         },
         '2022-05-06': {
-            '4r98uzxe4b8t5g9ntt9zcdzktw': 123,
-            'mn6xbu3bxfrs8d6kwbciza7erw': 114,
-            'hu3n1di5e3rtzkcchpzcx4yuic': 134,
-            'xxr6kgw3rtr39kwy5bujpfpcae': 100,
-            '45rsohaxtjg8tqogbb8mshp88a': 219,
+            'sia4n8chebbimdjreqpjtqq4th': 123,
+            'kf8hegqirty38c1eoqr8gbar4c': 114,
+            'josruzafdpy67xrp9akhujumoc': 134,
+            'a5dqixb9xbfjzfy3t5bjt6swjc': 100,
+            '7sembkzk5jf9bkzxahdaydetee': 219,
         },
         '2022-05-07': {
-            '4r98uzxe4b8t5g9ntt9zcdzktw': 203,
-            'mn6xbu3bxfrs8d6kwbciza7erw': 14,
-            'hu3n1di5e3rtzkcchpzcx4yuic': 304,
-            'xxr6kgw3rtr39kwy5bujpfpcae': 267,
-            '45rsohaxtjg8tqogbb8mshp88a': 109,
+            'sia4n8chebbimdjreqpjtqq4th': 203,
+            'kf8hegqirty38c1eoqr8gbar4c': 14,
+            'josruzafdpy67xrp9akhujumoc': 304,
+            'a5dqixb9xbfjzfy3t5bjt6swjc': 267,
+            '7sembkzk5jf9bkzxahdaydetee': 109,
         },
     });
-
 
     const currentTeamId = useSelector(getCurrentTeamId);
     const theme = useSelector(getTheme);
@@ -168,10 +168,11 @@ const TopChannels = (props: WidgetHocProps) => {
                 pointBackgroundColor: theme.buttonBg,
                 pointBorderColor: theme.buttonBg,
                 backgroundColor: 'transparent',
-                pointRadius: 2,
+                pointRadius: 0,
                 hoverBackgroundColor: theme.buttonBg,
                 label: topChannels[0].display_name,
                 data: data.values[topChannels[0].id],
+                hitRadius: 10,
             });
         }
 
@@ -182,10 +183,11 @@ const TopChannels = (props: WidgetHocProps) => {
                 pointBackgroundColor: theme.onlineIndicator,
                 pointBorderColor: theme.onlineIndicator,
                 backgroundColor: 'transparent',
-                pointRadius: 2,
+                pointRadius: 0,
                 hoverBackgroundColor: theme.onlineIndicator,
                 label: topChannels[1].display_name,
                 data: data.values[topChannels[1].id],
+                hitRadius: 10,
             });
         }
 
@@ -196,10 +198,11 @@ const TopChannels = (props: WidgetHocProps) => {
                 pointBackgroundColor: theme.awayIndicator,
                 pointBorderColor: theme.awayIndicator,
                 backgroundColor: 'transparent',
-                pointRadius: 2,
+                pointRadius: 0,
                 hoverBackgroundColor: theme.awayIndicator,
                 label: topChannels[2].display_name,
                 data: data.values[topChannels[2].id],
+                hitRadius: 10,
             });
         }
 
@@ -210,10 +213,11 @@ const TopChannels = (props: WidgetHocProps) => {
                 pointBackgroundColor: theme.dndIndicator,
                 pointBorderColor: theme.dndIndicator,
                 backgroundColor: 'transparent',
-                pointRadius: 2,
+                pointRadius: 0,
                 hoverBackgroundColor: theme.dndIndicator,
                 label: topChannels[3].display_name,
                 data: data.values[topChannels[3].id],
+                hitRadius: 10,
             });
         }
 
@@ -224,10 +228,11 @@ const TopChannels = (props: WidgetHocProps) => {
                 pointBackgroundColor: theme.newMessageSeparator,
                 pointBorderColor: theme.newMessageSeparator,
                 backgroundColor: 'transparent',
-                pointRadius: 2,
+                pointRadius: 0,
                 hoverBackgroundColor: theme.newMessageSeparator,
                 label: topChannels[4].display_name,
                 data: data.values[topChannels[4].id],
+                hitRadius: 10,
             });
         }
 
@@ -271,10 +276,12 @@ const TopChannels = (props: WidgetHocProps) => {
                                     />
                                 }
                                 id='totalPostsPerChannel'
-                                width={740}
-                                height={225}
                                 options={{
                                     responsive: true,
+                                    hover: {
+                                        mode: 'point',
+                                    },
+                                    maintainAspectRatio: false,
                                     scales: {
                                         xAxes: [{
                                             gridLines: {
@@ -284,6 +291,10 @@ const TopChannels = (props: WidgetHocProps) => {
                                         yAxes: [{
                                             gridLines: {
                                                 drawOnChartArea: true,
+                                            },
+                                            ticks: {
+                                                maxTicksLimit: 5,
+                                                beginAtZero: true,
                                             },
                                         }],
                                     },

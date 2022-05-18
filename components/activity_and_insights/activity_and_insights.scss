@@ -32,9 +32,13 @@
                         }
     
                         .chartjs-render-monitor {
-                            max-height: 235px;
+                            max-height: 192px;
                             width: 100% !important;
-                            height: auto !important;
+                            min-height: 192px !important;
+
+                            &:hover {
+                                cursor: pointer;
+                            }
                         }
                     }
                 }

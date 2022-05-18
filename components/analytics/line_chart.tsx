@@ -9,8 +9,8 @@ import Chart, {ChartOptions} from 'chart.js';
 
 type Props = {
     title: React.ReactNode;
-    width: number;
-    height: number;
+    width?: number;
+    height?: number;
     data?: any;
     id: string;
     options?: ChartOptions;
@@ -28,12 +28,12 @@ export default class LineChart extends React.PureComponent<Props> {
         /*
          * Chart width
          */
-        width: PropTypes.number.isRequired,
+        width: PropTypes.number,
 
         /*
          * Chart height
          */
-        height: PropTypes.number.isRequired,
+        height: PropTypes.number,
 
         /*
          * Chart data
