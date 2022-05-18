@@ -62,6 +62,7 @@ const HiddenControlsContainer = styled.div`
         border-radius: 4px;
         border: 1px solid rgba(61, 60, 64, 0.16);
         background: #fff;
+        z-index: 2;
 
         transition: transform 0.25s ease, opacity 0.25s ease;
         transform: scale(0);
@@ -203,6 +204,13 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
     });
     useUpdateOnVisibilityChange(update, showHiddenControls);
 
+    const hideHiddenControls = useCallback((event?) => {
+        if (event) {
+            event.preventDefault();
+        }
+        setShowHiddenControls(!showHiddenControls);
+    }, [showHiddenControls]);
+
     /**
      * wrapping this factory in useCallback prevents it from constantly getting a new
      * function signature as if we would define it directly in the props of
@@ -223,7 +231,10 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
             selectionEnd: end,
             message: value,
         });
-    }, [getCurrentSelection, getCurrentMessage, applyMarkdown]);
+        if (showHiddenControls) {
+            hideHiddenControls();
+        }
+    }, [getCurrentSelection, getCurrentMessage, applyMarkdown, showHiddenControls, hideHiddenControls]);
 
     return (
         <FormattingBarContainer
@@ -248,10 +259,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                 <IconContainer
                     ref={triggerRef}
                     className={classNames({active: showHiddenControls})}
-                    onClick={(event) => {
-                        event.preventDefault();
-                        setShowHiddenControls((isVisible) => !isVisible);
-                    }}
+                    onClick={hideHiddenControls}
                 >
                     <DotsHorizontalIcon
                         color={'currentColor'}
@@ -262,7 +270,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
 
             <HiddenControlsContainer
                 ref={popperRef}
-                style={popper}
+                style={{...popper, zIndex: 2}}
                 {...attributes.popper}
             >
                 <CSSTransition

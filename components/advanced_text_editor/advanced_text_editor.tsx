@@ -6,6 +6,8 @@ import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 import {EmoticonHappyOutlineIcon} from '@mattermost/compass-icons/components';
 
+import {useSelector} from 'react-redux';
+
 import {Emoji} from '@mattermost/types/emojis';
 import {FileInfo} from '@mattermost/types/files';
 import {ServerError} from 'mattermost-redux/types/errors';
@@ -28,6 +30,7 @@ import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_
 import * as Utils from 'utils/utils';
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 import Constants from 'utils/constants';
+import {getIsMobileView} from '../../selectors/views/browser';
 
 import Tooltip from '../tooltip';
 
@@ -155,6 +158,7 @@ const AdvanceTextEditor = ({
         'accessibility.sections.centerFooter',
         'message input complimentary region',
     );
+    const isMobileView = useSelector(getIsMobileView);
 
     const [scrollbarWidth, setScrollbarWidth] = useState(0);
     const [renderScrollbar, setRenderScrollbar] = useState(false);
@@ -290,7 +294,7 @@ const AdvanceTextEditor = ({
     }
 
     const disableSendButton = !message.trim().length && !draft.fileInfos.length;
-    const sendButton = Utils.isMobile() && (
+    const sendButton = isMobileView && (
         <SendButton
             disabled={disableSendButton}
             handleSubmit={handleSubmit}
