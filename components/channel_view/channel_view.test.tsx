@@ -31,6 +31,7 @@ describe('components/channel_view', () => {
         },
         isFirstAdmin: false,
         useCaseOnboarding: false,
+        isAdvancedTextEditorEnabled: false,
     };
 
     it('Should match snapshot with base props', () => {
