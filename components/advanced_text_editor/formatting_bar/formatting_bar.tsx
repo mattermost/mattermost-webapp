@@ -61,7 +61,7 @@ const HiddenControlsContainer = styled.div`
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
         border-radius: 4px;
         border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
-        background: var(--sidebar-bg);
+        background: var(--center-channel-bg);
         z-index: 2;
 
         transition: transform 0.25s ease, opacity 0.25s ease;
