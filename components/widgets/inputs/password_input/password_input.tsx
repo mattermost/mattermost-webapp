@@ -47,7 +47,7 @@ const PasswordInput = React.forwardRef((
 
     return (
         <Input
-            containerClassName={classNames('password-input', className)}
+            className={classNames('password-input', className)}
             wrapperClassName={'password-input-with-toggle'}
             name='password-input'
             type={showPassword && !disabled ? 'text' : 'password'}

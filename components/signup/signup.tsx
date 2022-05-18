@@ -198,6 +198,22 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
         history.goBack();
     }, [noAccounts, history]);
 
+    const handleInvalidInvite = ({
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        server_error_id,
+        message,
+    }: {server_error_id: string; message: string}) => {
+        let errorMessage;
+
+        if (server_error_id === 'store.sql_user.save.max_accounts.app_error' ||
+            server_error_id === 'api.team.add_user_to_team_from_invite.guest.app_error') {
+            errorMessage = message;
+        }
+
+        setServerError(errorMessage || formatMessage({id: 'signup_user_completed.invalid_invite.title', defaultMessage: 'This invite link is invalid'}));
+        setLoading(false);
+    };
+
     const handleAddUserToTeamFromInvite = async (token: string, inviteId: string) => {
         const {data: team, error} = await dispatch(addUserToTeamFromInvite(token, inviteId));
 
@@ -206,6 +222,19 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
         } else if (error) {
             handleInvalidInvite(error);
         }
+    };
+
+    const getInviteInfo = async (inviteId: string) => {
+        const {data, error} = await dispatch(getTeamInviteInfo(inviteId));
+
+        if (data) {
+            setServerError('');
+            setTeamName(data.name);
+        } else if (error) {
+            handleInvalidInvite(error);
+        }
+
+        setLoading(false);
     };
 
     useEffect(() => {
@@ -245,7 +274,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                     id: 'signup_user_completed.haveAccount',
                     defaultMessage: 'Already have an account?',
                 }),
-                alternateLinkPath: `/login${search}`,
+                alternateLinkPath: '/login',
                 alternateLinkLabel: formatMessage({
                     id: 'signup_user_completed.signIn',
                     defaultMessage: 'Log in',
@@ -258,19 +287,6 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
         return (<LoadingScreen/>);
     }
 
-    const getInviteInfo = async (inviteId: string) => {
-        const {data, error} = await dispatch(getTeamInviteInfo(inviteId));
-
-        if (data) {
-            setServerError('');
-            setTeamName(data.name);
-        } else if (error) {
-            handleInvalidInvite(error);
-        }
-
-        setLoading(false);
-    };
-
     const handleBrandImageError = () => {
         setBrandImageError(true);
     };
@@ -279,22 +295,6 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
         if (e.key === Constants.KeyCodes.ENTER[0] && canSubmit) {
             handleSubmit(e);
         }
-    };
-
-    const handleInvalidInvite = ({
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        server_error_id,
-        message,
-    }: {server_error_id: string; message: string}) => {
-        let errorMessage;
-
-        if (server_error_id === 'store.sql_user.save.max_accounts.app_error' ||
-            server_error_id === 'api.team.add_user_to_team_from_invite.guest.app_error') {
-            errorMessage = message;
-        }
-
-        setServerError(errorMessage || formatMessage({id: 'signup_user_completed.invalid_invite.title', defaultMessage: 'This invite link is invalid'}));
-        setLoading(false);
     };
 
     const getCardTitle = () => {
@@ -582,7 +582,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                                 <Input
                                     ref={emailInput}
                                     name='email'
-                                    containerClassName='signup-body-card-form-input'
+                                    className='signup-body-card-form-email-input'
                                     type='text'
                                     inputSize={SIZE.LARGE}
                                     value={email}
@@ -605,7 +605,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                                 <Input
                                     ref={nameInput}
                                     name='name'
-                                    containerClassName='signup-body-card-form-input'
+                                    className='signup-body-card-form-name-input'
                                     type='text'
                                     inputSize={SIZE.LARGE}
                                     value={name}
