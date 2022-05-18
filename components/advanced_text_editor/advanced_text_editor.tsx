@@ -394,6 +394,7 @@ const AdvanceTextEditor = ({
                         getCurrentSelection={getCurrentSelection}
                         isOpen={!isFormattingBarHidden}
                         appendControls={[fileUploadJSX]}
+                        disableControls={shouldShowPreview}
                     />
                     <TexteditorActions
                         ref={createPostControlsRef}

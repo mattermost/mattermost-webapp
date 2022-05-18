@@ -170,6 +170,11 @@ interface FormattingBarProps {
      * controls that need outside
      */
     appendControls: Array<JSX.Element|null>;
+
+    /**
+     * disable formatting controls when the texteditor is in preview state
+     */
+    disableControls: boolean;
 }
 
 const FormattingBar = (props: FormattingBarProps): JSX.Element => {
@@ -179,6 +184,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
         getCurrentSelection,
         getCurrentMessage,
         appendControls,
+        disableControls,
     } = props;
     const [showHiddenControls, setShowHiddenControls] = useState(false);
     const popperRef = React.useRef<HTMLDivElement | null>(null);
@@ -223,6 +229,10 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
      * the FormattingIcon component. This should improve render-performance
      */
     const makeFormattingHandler = useCallback((mode) => () => {
+        if (disableControls) {
+            return;
+        }
+
         const {start, end} = getCurrentSelection();
 
         if (start === null || end === null) {
@@ -240,7 +250,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
         if (showHiddenControls) {
             hideHiddenControls();
         }
-    }, [getCurrentSelection, getCurrentMessage, applyMarkdown, showHiddenControls, hideHiddenControls]);
+    }, [getCurrentSelection, getCurrentMessage, applyMarkdown, showHiddenControls, hideHiddenControls, disableControls]);
 
     return (
         <FormattingBarContainer
@@ -255,6 +265,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                             mode={mode}
                             className='control'
                             onClick={makeFormattingHandler(mode)}
+                            disabled={disableControls}
                         />
                         {insertSeparator && <Separator show={wideMode === 'wide'}/>}
                     </React.Fragment>
@@ -293,6 +304,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                                     mode={mode}
                                     className='control'
                                     onClick={makeFormattingHandler(mode)}
+                                    disabled={disableControls}
                                 />
                             );
                         })}

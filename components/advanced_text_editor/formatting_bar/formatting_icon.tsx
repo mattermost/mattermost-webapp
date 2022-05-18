@@ -52,12 +52,28 @@ export const IconContainer = styled.button`
         color: var(--button-bg);
         fill: currentColor;
     }
+
+    &[disabled] {
+        pointer-events: none;
+        cursor: not-allowed;
+        color: rgba(var(--center-channel-color-rgb), 0.32);
+
+        &:hover,
+        &:active,
+        &.active,
+        &.active:hover {
+            background: inherit;
+            color: inherit;
+            fill: inherit;
+        }
+    }
 `;
 
 interface FormattingIconProps {
     mode: MarkdownMode;
     onClick?: () => void;
     className?: string;
+    disabled?: boolean;
 }
 
 const MAP_MARKDOWN_MODE_TO_ICON: Record<FormattingIconProps['mode'], React.FC<IconProps>> = {
