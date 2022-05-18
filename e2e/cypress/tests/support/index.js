@@ -229,4 +229,5 @@ function resetUserPreference(userId) {
     cy.apiSaveOnboardingTaskListPreference(userId, 'onboarding_task_list_show', 'false');
     cy.apiSaveCloudTrialBannerPreference(userId, 'trial', '14_days_banner');
     cy.apiSaveActionsMenuPreference(userId);
+    cy.apiSaveSkipStepsPreference(userId, 'true');
 }
