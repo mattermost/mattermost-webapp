@@ -1027,7 +1027,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             Utils.isKeyPressed(e, KeyCodes.ENTER) &&
             ctrlOrMetaKeyPressed;
         const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
-        const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey;
+        const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const ctrlKeyCombo = Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey;
         const ctrlAltCombo = Utils.cmdOrCtrlPressed(e, true) && e.altKey;
         const ctrlShiftCombo = Utils.cmdOrCtrlPressed(e, true) && e.shiftKey;
