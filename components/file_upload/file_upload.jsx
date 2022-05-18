@@ -705,7 +705,7 @@ export class FileUpload extends PureComponent {
         }
 
         if (!this.props.canUploadFiles) {
-            bodyAction = null;
+            return null;
         }
 
         return (

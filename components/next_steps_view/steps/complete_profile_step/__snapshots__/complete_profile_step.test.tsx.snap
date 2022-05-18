@@ -33,7 +33,7 @@ exports[`components/next_steps_view/steps/complete_profile_step should match sna
           id="next_steps_view.complete_profile_step.enterYourName"
         />
       </h4>
-      <Input
+      <ForwardRef
         info="Your name will be displayed with your messages"
         name="fullName"
         onChange={[Function]}
