@@ -59,6 +59,7 @@ exports[`components/advanced_create_post Show tutorial 1`] = `
     handleUploadStart={[Function]}
     hideEmojiPicker={[Function]}
     isFormattingBarHidden={false}
+    location="CENTER"
     maxPostSize={4000}
     message=""
     postId=""
@@ -142,6 +143,7 @@ exports[`components/advanced_create_post should match snapshot for center textbo
     handleUploadStart={[Function]}
     hideEmojiPicker={[Function]}
     isFormattingBarHidden={false}
+    location="CENTER"
     maxPostSize={4000}
     message=""
     postId=""
@@ -225,6 +227,7 @@ exports[`components/advanced_create_post should match snapshot when cannot post 
     handleUploadStart={[Function]}
     hideEmojiPicker={[Function]}
     isFormattingBarHidden={false}
+    location="CENTER"
     maxPostSize={4000}
     message=""
     postId=""
@@ -308,6 +311,7 @@ exports[`components/advanced_create_post should match snapshot when file upload 
     handleUploadStart={[Function]}
     hideEmojiPicker={[Function]}
     isFormattingBarHidden={false}
+    location="CENTER"
     maxPostSize={4000}
     message=""
     postId=""
@@ -391,6 +395,7 @@ exports[`components/advanced_create_post should match snapshot, can post; previe
     handleUploadStart={[Function]}
     hideEmojiPicker={[Function]}
     isFormattingBarHidden={false}
+    location="CENTER"
     maxPostSize={4000}
     message=""
     postId=""
@@ -474,6 +479,7 @@ exports[`components/advanced_create_post should match snapshot, can post; previe
     handleUploadStart={[Function]}
     hideEmojiPicker={[Function]}
     isFormattingBarHidden={false}
+    location="CENTER"
     maxPostSize={4000}
     message=""
     postId=""
@@ -557,6 +563,7 @@ exports[`components/advanced_create_post should match snapshot, cannot post; pre
     handleUploadStart={[Function]}
     hideEmojiPicker={[Function]}
     isFormattingBarHidden={false}
+    location="CENTER"
     maxPostSize={4000}
     message=""
     postId=""
@@ -640,6 +647,7 @@ exports[`components/advanced_create_post should match snapshot, cannot post; pre
     handleUploadStart={[Function]}
     hideEmojiPicker={[Function]}
     isFormattingBarHidden={false}
+    location="CENTER"
     maxPostSize={4000}
     message=""
     postId=""
@@ -723,6 +731,7 @@ exports[`components/advanced_create_post should match snapshot, init 1`] = `
     handleUploadStart={[Function]}
     hideEmojiPicker={[Function]}
     isFormattingBarHidden={false}
+    location="CENTER"
     maxPostSize={4000}
     message=""
     postId=""
