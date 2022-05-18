@@ -164,6 +164,11 @@ interface FormattingBarProps {
      * the handler function that applies the markdown to the value
      */
     applyMarkdown: (options: ApplyMarkdownOptions) => void;
+
+    /**
+     * controls that need outside
+     */
+    appendControls: Array<JSX.Element|null>;
 }
 
 const FormattingBar = (props: FormattingBarProps): JSX.Element => {
@@ -172,6 +177,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
         applyMarkdown,
         getCurrentSelection,
         getCurrentMessage,
+        appendControls,
     } = props;
     const [showHiddenControls, setShowHiddenControls] = useState(false);
     const popperRef = React.useRef<HTMLDivElement | null>(null);
@@ -224,6 +230,13 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
             message: value,
         });
     }, [getCurrentSelection, getCurrentMessage, applyMarkdown]);
+
+    const appendix = appendControls.length && (
+        <>
+            <Separator show={wideMode === 'wide'}/>
+            {appendControls}
+        </>
+    );
 
     return (
         <FormattingBarContainer
@@ -282,12 +295,22 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                                 />
                             );
                         })}
-                        {hasHiddenControls && <Question/>}
+                        {hasHiddenControls && (
+                            <>
+                                {appendix}
+                                <Question/>
+                            </>
+                        )}
                     </div>
                 </CSSTransition>
             </HiddenControlsContainer>
 
-            {!hasHiddenControls && <Question/>}
+            {!hasHiddenControls && (
+                <>
+                    {appendix}
+                    <Question/>
+                </>
+            )}
         </FormattingBarContainer>
     );
 };

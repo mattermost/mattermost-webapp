@@ -202,42 +202,40 @@ const AdvanceTextEditor = ({
         return draft.fileInfos.length + draft.uploadsInProgress.length;
     };
 
-    let fileUploadJSX;
-    let showFormatJSX;
-    let toggleFormattingBarJSX;
-    if (!readOnlyChannel) {
-        let postType = 'post';
-        if (postId) {
-            postType = isThreadView ? 'thread' : 'comment';
-        }
-        fileUploadJSX = (
-            <FileUpload
-                ref={fileUploadRef}
-                fileCount={getFileCount()}
-                getTarget={getFileUploadTarget}
-                onFileUploadChange={handleFileUploadChange}
-                onUploadStart={handleUploadStart}
-                onFileUpload={handleFileUploadComplete}
-                onUploadError={handleUploadError}
-                onUploadProgress={handleUploadProgress}
-                rootId={postId}
-                channelId={channelId}
-                postType={postType}
-            />
-        );
-        showFormatJSX = (
-            <ShowFormat
-                onClick={handleShowFormat}
-                active={shouldShowPreview}
-            />
-        );
-        toggleFormattingBarJSX = (
-            <ToggleFormattingBar
-                onClick={toggleAdvanceTextEditor}
-                active={!isFormattingBarHidden}
-            />
-        );
+    let postType = 'post';
+    if (postId) {
+        postType = isThreadView ? 'thread' : 'comment';
     }
+
+    const fileUploadJSX = readOnlyChannel ? null : (
+        <FileUpload
+            ref={fileUploadRef}
+            fileCount={getFileCount()}
+            getTarget={getFileUploadTarget}
+            onFileUploadChange={handleFileUploadChange}
+            onUploadStart={handleUploadStart}
+            onFileUpload={handleFileUploadComplete}
+            onUploadError={handleUploadError}
+            onUploadProgress={handleUploadProgress}
+            rootId={postId}
+            channelId={channelId}
+            postType={postType}
+        />
+    );
+
+    const showFormatJSX = readOnlyChannel ? null : (
+        <ShowFormat
+            onClick={handleShowFormat}
+            active={shouldShowPreview}
+        />
+    );
+
+    const toggleFormattingBarJSX = readOnlyChannel ? null : (
+        <ToggleFormattingBar
+            onClick={toggleAdvanceTextEditor}
+            active={!isFormattingBarHidden}
+        />
+    );
 
     let emojiPicker = null;
     const emojiButtonAriaLabel = formatMessage({
@@ -387,20 +385,14 @@ const AdvanceTextEditor = ({
                         getCurrentMessage={getCurrentValue}
                         getCurrentSelection={getCurrentSelection}
                         isOpen={!isFormattingBarHidden}
+                        appendControls={[fileUploadJSX, emojiPicker]}
                     />
-                    <TexteditorActions
-                        show={!isFormattingBarHidden}
-                        placement='top'
-                    >
-                        {showFormatJSX}
-                    </TexteditorActions>
                     <TexteditorActions
                         ref={createPostControlsRef}
                         placement='bottom'
                     >
+                        {showFormatJSX}
                         {toggleFormattingBarJSX}
-                        {fileUploadJSX}
-                        {emojiPicker}
                         {sendButton}
                     </TexteditorActions>
                 </div>
