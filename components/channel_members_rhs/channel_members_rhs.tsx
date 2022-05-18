@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState} from 'react';
+import React, {SyntheticEvent, useEffect, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import styled from 'styled-components';
 
@@ -12,11 +12,14 @@ import MoreDirectChannels from 'components/more_direct_channels';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import {ModalData} from 'types/actions';
 import {browserHistory} from 'utils/browser_history';
+import {debounce} from 'mattermost-redux/actions/helpers';
 
 import ActionBar from './action_bar';
 import Header from './header';
 import MemberList from './member_list';
 import SearchBar from './search';
+
+const USERS_PER_PAGE = 100;
 
 export interface ChannelMember {
     user: UserProfile;
@@ -29,6 +32,18 @@ const MembersContainer = styled.div`
     flex: 1;
     padding: 0 4px 16px;
     overflow-y: auto;
+`;
+
+const LoadMoreButton = styled.button`
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--button-bg);
+    margin: 0 auto;
+    display: block;
+    &:disabled {
+        color: rgba(var(--center-channel-color-rgb),0.56);
+    }
 `;
 
 export interface Props {
@@ -47,13 +62,16 @@ export interface Props {
         closeRightHandSide: () => void;
         goBack: () => void;
         setChannelMembersRhsSearchTerm: (terms: string) => void;
-        loadProfilesAndReloadChannelMembers: (channelId: string) => void;
+        loadProfilesAndReloadChannelMembers: (page: number, perParge: number, channelId: string) => void;
         loadMyChannelMemberAndRole: (channelId: string) => void;
+        searchProfilesAndChannelMembers: (term: string, options: any) => Promise<{data: UserProfile[]}>;
     };
 }
 
 export default function ChannelMembersRHS({channel, searchTerms, membersCount, canGoBack, teamUrl, channelAdmins, channelMembers, canManageMembers, actions}: Props) {
     const [editing, setEditing] = useState(false);
+    const [page, setPage] = useState(0);
+    const [loadingMore, setLoadingMore] = useState(false);
 
     const searching = searchTerms !== '';
 
@@ -75,7 +93,7 @@ export default function ChannelMembersRHS({channel, searchTerms, membersCount, c
             actions.setChannelMembersRhsSearchTerm('');
         };
     }, []);
-
+   
     useEffect(() => {
         if (channel.type === Constants.DM_CHANNEL) {
             let rhsAction = actions.closeRightHandSide;
@@ -88,9 +106,31 @@ export default function ChannelMembersRHS({channel, searchTerms, membersCount, c
 
         actions.setChannelMembersRhsSearchTerm('');
         setEditing(false);
-        actions.loadProfilesAndReloadChannelMembers(channel.id);
+        setPage(0);
+        setLoadingMore(false);
+
+        actions.loadProfilesAndReloadChannelMembers(0, USERS_PER_PAGE, channel.id);
         actions.loadMyChannelMemberAndRole(channel.id);
     }, [channel.id, channel.type]);
+
+    const searchDebounced = debounce(
+        async () => {
+            if (searchTerms) {
+                setEditing(false);
+                setPage(0);
+                setLoadingMore(false);
+
+                await actions.searchProfilesAndChannelMembers(searchTerms, {in_team_id: channel.team_id, in_channel_id: channel.id});
+                actions.loadProfilesAndReloadChannelMembers(0, USERS_PER_PAGE, channel.id);
+                actions.loadMyChannelMemberAndRole(channel.id);
+            }
+        },
+        Constants.SEARCH_TIMEOUT_MILLISECONDS,
+    );
+
+    useEffect(() => {
+        searchDebounced();
+    }, [searchTerms]);
 
     const doSearch = async (terms: string) => {
         actions.setChannelMembersRhsSearchTerm(terms);
@@ -120,6 +160,28 @@ export default function ChannelMembersRHS({channel, searchTerms, membersCount, c
         browserHistory.push(teamUrl + '/messages/@' + user.username);
 
         await actions.closeRightHandSide();
+    };
+
+    const loadMore = async () => {
+        const nextPage = page + 1;
+        setPage(nextPage);
+        setLoadingMore(true);
+
+        await actions.loadProfilesAndReloadChannelMembers(nextPage, USERS_PER_PAGE, channel.id);
+        await actions.loadMyChannelMemberAndRole(channel.id);
+
+        setLoadingMore(false);
+    };
+
+    const onMembersContainerSroll = (e: SyntheticEvent) => {
+        if (loadingMore) {
+            return;
+        }
+
+        // loading more when we are two "page scroll" away from the end.
+        if (e.currentTarget.scrollTop > e.currentTarget.scrollHeight - (2 * e.currentTarget.clientHeight)) {
+            loadMore();
+        }
     };
 
     return (
@@ -154,7 +216,9 @@ export default function ChannelMembersRHS({channel, searchTerms, membersCount, c
                 />
             )}
 
-            <MembersContainer>
+            <MembersContainer
+                onScroll={onMembersContainerSroll}
+            >
                 {channelAdmins.length > 0 && (
                     <MemberList
                         members={channelAdmins}
@@ -178,6 +242,26 @@ export default function ChannelMembersRHS({channel, searchTerms, membersCount, c
                         channel={channel}
                         actions={{openDirectMessage}}
                     />
+                )}
+
+                {(!searching && (channelAdmins.length + channelMembers.length < membersCount)) && (
+                    <LoadMoreButton
+                        onClick={loadMore}
+                        disabled={loadingMore}
+                    >
+                        {loadingMore ? (
+                            <FormattedMessage
+                                id='channel_members_rhs.list.loading'
+                                defaultMessage='Loading'
+                            />
+                        ) : (
+                            <FormattedMessage
+                                id='channel_members_rhs.list.load-more'
+                                defaultMessage='Load More'
+                            />
+
+                        )}
+                    </LoadMoreButton>
                 )}
             </MembersContainer>
         </div>
