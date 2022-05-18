@@ -45,9 +45,7 @@ export type Props = {
     siteName?: string;
     actions: {
 
-        /*
-        * Function to get installed plugins
-        */
+        // Function to get installed plugins
         getPlugins: () => Promise<{data: PluginsResponse}>;
     };
 }
@@ -255,25 +253,23 @@ class AdminSidebar extends React.PureComponent<Props, State> {
                     return null;
                 }
 
-                if (sidebarItems.length) {
-                    sidebarSections.push((
-                        <AdminSidebarCategory
-                            key={key}
-                            definitionKey={key}
-                            parentLink='/admin_console'
-                            icon={section.icon}
-                            sectionClass=''
-                            title={
-                                <FormattedMessage
-                                    id={section.sectionTitle}
-                                    defaultMessage={section.sectionTitleDefault}
-                                />
-                            }
-                        >
-                            {sidebarItems}
-                        </AdminSidebarCategory>
-                    ));
-                }
+                sidebarSections.push((
+                    <AdminSidebarCategory
+                        key={key}
+                        definitionKey={key}
+                        parentLink='/admin_console'
+                        icon={section.icon}
+                        sectionClass=''
+                        title={
+                            <FormattedMessage
+                                id={section.sectionTitle}
+                                defaultMessage={section.sectionTitleDefault}
+                            />
+                        }
+                    >
+                        {sidebarItems}
+                    </AdminSidebarCategory>
+                ));
             }
             return null;
         });

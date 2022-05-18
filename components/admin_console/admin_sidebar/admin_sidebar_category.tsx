@@ -42,24 +42,25 @@ const AdminSidebarCategory = ({icon, title, action, children, definitionKey, nam
 
     let clonedChildren = null;
     if (children) {
+        const renderedChildren = () => (
+            <ul className={'sections ' + sectionClass}>
+                {
+                    React.Children.map(children, (child) => {
+                        if (child === null) {
+                            return null;
+                        }
+
+                        return React.cloneElement(child, {
+                            parentLink: link,
+                        });
+                    })
+                }
+            </ul>
+        );
         clonedChildren = (
             <Route
                 path={link}
-                render={() => (
-                    <ul className={'sections ' + sectionClass}>
-                        {
-                            React.Children.map(children, (child) => {
-                                if (child === null) {
-                                    return null;
-                                }
-
-                                return React.cloneElement(child, {
-                                    parentLink: link,
-                                });
-                            })
-                        }
-                    </ul>
-                )}
+                render={renderedChildren}
             />
         );
     }

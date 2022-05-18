@@ -2,10 +2,13 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import classNames from 'classnames';
+
+import {createSafeId} from 'utils/utils';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
+
 import BlockableLink from 'components/admin_console/blockable_link';
-import * as Utils from 'utils/utils';
 
 type Props = {
     name: string;
@@ -44,26 +47,21 @@ const AdminSidebarSection = ({name, title, action, children = [], definitionKey,
         );
     }
 
-    let className = 'sidebar-section';
-    if (subsection) {
-        className += ' sidebar-subsection';
-    }
-    let tagDiv = <></>;
-    if (tag) {
-        tagDiv = (
-            <span className={`${className}-tag`}>
-                {tag}
-            </span>
-        );
-    }
-    const sidebarItemSafeId = Utils.createSafeId(name);
+    const className = classNames('sidebar-section', {'sidebar-subsection': subsection});
+    const tagDiv = tag ? (
+        <span className={`${className}-tag`}>
+            {tag}
+        </span>
+    ) : null;
+    const sidebarItemSafeId = createSafeId(name);
+    const sidebarItemClickHandler = () => trackEvent('admin', sidebarItemSafeId);
     let sidebarItem = (
         <BlockableLink
             id={sidebarItemSafeId}
             className={`${className}-title`}
             activeClassName={`${className}-title ${className}-title--active`}
             to={link}
-            onClick={() => trackEvent('admin', sidebarItemSafeId)}
+            onClick={sidebarItemClickHandler}
         >
             <span className={`${className}-title__text`}>
                 {title}{tagDiv}
@@ -74,9 +72,7 @@ const AdminSidebarSection = ({name, title, action, children = [], definitionKey,
 
     if (type === 'text') {
         sidebarItem = (
-            <div
-                className={`${className}-title`}
-            >
+            <div className={`${className}-title`}>
                 <span className={`${className}-title__text`}>
                     {title}
                 </span>

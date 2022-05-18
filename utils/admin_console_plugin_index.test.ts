@@ -11,7 +11,7 @@ describe('AdminConsolePluginsIndex.getPluginEntries', () => {
         expect(entries).toEqual({});
     });
 
-    it('should return an empty map in case of plugins is null', () => {
+    it('should return an empty map in case of plugins is undefined', () => {
         const entries = getPluginEntries(undefined);
         expect(entries).toEqual({});
     });
