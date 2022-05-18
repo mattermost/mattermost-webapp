@@ -3408,7 +3408,7 @@
   "help.formatting.intro": "Markdown makes it easy to format messages. Type a message as you normally would, then use the following syntax options to format your message a specific way.",
   "help.formatting.lines.description": "Create a line by using three `*`, `_`, or `-`.",
   "help.formatting.lines.title": "Lines",
-  "help.formatting.linkEx": "[Check out Mattermost!](https://mattermost.com/)",
+  "help.formatting.linkEx": "<link>Check out Mattermost!</link>(https://mattermost.com/)",
   "help.formatting.links.description": "Create labelled links by putting the desired text in square brackets and the associated link in normal brackets.",
   "help.formatting.links.title": "Links",
   "help.formatting.listExample": "* list item one\n* list item two\n    * item two sub-point",
