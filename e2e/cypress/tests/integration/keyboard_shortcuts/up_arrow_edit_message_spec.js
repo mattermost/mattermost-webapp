@@ -214,6 +214,7 @@ describe('Keyboard Shortcuts', () => {
         cy.getLastPostId().then((postID) => {
             // # Press UP arrow
             cy.get('#post_textbox').type('{uparrow}');
+            cy.wait(TIMEOUTS.HALF_SEC);
 
             // # Clear message and type ENTER
             cy.get('#edit_textbox').clear().type('{enter}');
