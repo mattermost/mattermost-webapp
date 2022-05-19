@@ -56,6 +56,15 @@ const CloudFreemiumTrialEndAnnouncementBar: React.FC = () => {
         if (isFreeTrial) {
             return false;
         }
+
+        const trialEnd = new Date(subscription.trial_end_at * 1000);
+        const now = new Date();
+
+        // trial_end_at values will be 0 for all freemium subscriptions after June 6
+        // Subscriptions created prior to that will almost always have a trial_end_at value, guaranteed.
+        if (subscription.trial_end_at === 0 || trialEnd < new Date('2022-06-15') || trialEnd > now) {
+            return false;
+        }
         if (!isSystemAdmin(currentUser.roles)) {
             return false;
         }
