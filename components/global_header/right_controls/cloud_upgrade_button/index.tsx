@@ -18,7 +18,7 @@ import {openModal} from 'actions/views/modals';
 import PricingModal from 'components/pricing_modal';
 
 const UpgradeButton = styled.button`
-background: #1C58D9;
+background: var(--denim-button-bg);
 border-radius: 4px;
 border: none;
 box-shadow: none;
@@ -30,7 +30,7 @@ font-weight: 600;
 font-size: 11px !important;
 line-height: 10px;
 letter-spacing: 0.02em;
-color: #FFFFFF;
+color: var(--center-channel-bg);
 `;
 
 let openPricingModal: () => void;
