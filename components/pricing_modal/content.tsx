@@ -4,6 +4,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
+import styled from 'styled-components';
 
 import {GlobalState} from 'types/store';
 
@@ -71,21 +72,33 @@ type PlanLabelProps = {
     secondSvg?: JSX.Element;
 }
 
+type StyledProps = {
+    bgColor?: string;
+    color?: string;
+}
+
+const StyledPlanLabel = styled.div<StyledProps>`
+background-color: ${(props) => props.bgColor};
+color: ${(props) => props.color};
+`;
+
 function PlanLabel(props: PlanLabelProps) {
     return (
-        <div
+        <StyledPlanLabel
             className='planLabel'
-            style={{
-                backgroundColor: props.bgColor,
-                color: props.color,
-            }}
+            bgColor={props.bgColor}
+            color={props.color}
         >
             {props.firstSvg}
             {props.text}
             {props.secondSvg}
-        </div>
+        </StyledPlanLabel>
     );
 }
+
+const StyledDiv = styled.div<StyledProps>`
+background-color: ${(props) => props.bgColor};
+`;
 
 function Card(props: CardProps) {
     return (
@@ -94,9 +107,9 @@ function Card(props: CardProps) {
             className='PlanCard'
         >
             {props.planLabel && props.planLabel}
-            <div
+            <StyledDiv
                 className='top'
-                style={{backgroundColor: props.topColor}}
+                bgColor={props.topColor}
             />
             <div className='bottom'>
                 <div className='plan_price_rate_section'>
@@ -247,7 +260,7 @@ function Content(props: ContentProps) {
                             <PlanLabel
                                 text={formatMessage({id: 'pricing_modal.planLabel.currentPlan', defaultMessage: 'CURRENT PLAN'})}
                                 color='#3DB887'
-                                bgColor='#FFFFFF'
+                                bgColor='var(--center-channel-bg)'
                                 firstSvg={<CheckMarkSvg/>}
                             />) : undefined}
                 />
@@ -274,15 +287,15 @@ function Content(props: ContentProps) {
                     planLabel={
                         <PlanLabel
                             text={formatMessage({id: 'pricing_modal.planLabel.mostPopular', defaultMessage: 'MOST POPULAR'})}
-                            bgColor='#1E325C'
-                            color='#FFFFFF'
+                            bgColor='var(--title-color-indigo-500)'
+                            color='var(--center-channel-bg)'
                             firstSvg={<StarMarkSvg/>}
                             secondSvg={<StarMarkSvg/>}
                         />}
                 />
                 <Card
                     id='enterprise'
-                    topColor='#1C58D9'
+                    topColor='var(--denim-button-bg)'
                     plan='Enterprise'
                     price={formatMessage({id: 'pricing_modal.price.contactSales', defaultMessage: 'Contact sales'})}
                     briefing={{

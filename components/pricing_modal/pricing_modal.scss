@@ -1,6 +1,4 @@
-$denim: #3f4350;
 $bigStone: #152234;
-$lightDenim: #1c58d9;
 $geyser: #dadfe5;
 
 .PricingModal {
@@ -32,7 +30,7 @@ $geyser: #dadfe5;
         flex-direction: column;
 
         span {
-            color: $denim;
+            color: var(--center-channel-text);
             font-family: 'Open Sans';
             font-size: 14px;
             font-style: normal;
@@ -42,7 +40,7 @@ $geyser: #dadfe5;
         }
 
         a {
-            color: $lightDenim;
+            color: var(--denim-button-bg);
             font-family: 'Open Sans';
             font-size: 14px;
             font-style: normal;
@@ -57,7 +55,7 @@ $geyser: #dadfe5;
         justify-content: space-between;
         padding: 28px 32px;
         border: none;
-        border-bottom: 1px solid rgba(63, 67, 80, 0.08);
+        border-bottom: 1px solid rgba(var(--center-channel-text-rgb), 0.08);
         margin-bottom: 118px;
         font-size: 22px;
         font-weight: 600;
@@ -68,7 +66,7 @@ $geyser: #dadfe5;
 
             h1 {
                 margin: 0;
-                color: $denim;
+                color: var(--center-channel-text);
                 font-family: 'Metropolis', sans-serif;
                 font-size: 22px;
                 font-style: normal;
@@ -78,9 +76,9 @@ $geyser: #dadfe5;
 
             div {
                 padding-left: 8px;
-                border-left: 1px solid rgba(63, 67, 80, 0.16);
+                border-left: 1px solid rgba(var(--center-channel-text-rgb), 0.16);
                 margin-left: 8px;
-                color: rgba(63, 67, 80, 0.56);
+                color: rgba(var(--center-channel-text-rgb), 0.56);
                 font-family: 'Open Sans';
                 font-size: 12px;
                 font-style: normal;
@@ -210,7 +208,7 @@ $geyser: #dadfe5;
 
                     .disclaimer {
                         margin-top: 36px;
-                        color: #d24b4e;
+                        color: var(--error-text);
                         font-family: 'Open Sans';
                         font-size: 12px;
                         font-style: normal;
@@ -226,21 +224,21 @@ $geyser: #dadfe5;
                     border: none;
                     background: none;
                     border-radius: 4px;
-                    color: $lightDenim;
+                    color: var(--denim-button-bg);
                     font-weight: 700;
 
                     &.grayed {
-                        background: rgba(63, 67, 80, 0.08);
-                        color: rgba(63, 67, 80, 0.32);
+                        background: rgba(var(--center-channel-text-rgb), 0.08);
+                        color: rgba(var(--center-channel-text-rgb), 0.32);
                     }
 
                     &.active {
-                        border: 1px solid $lightDenim;
+                        border: 1px solid var(--denim-button-bg);
                     }
 
                     &.special {
-                        background: $lightDenim;
-                        color: #fff;
+                        background: var(--denim-button-bg);
+                        color: var(--button-color);
                     }
                 }
 
@@ -261,7 +259,7 @@ $geyser: #dadfe5;
                     }
 
                     h1 {
-                        color: #1e325c;
+                        color: var(--title-color-indigo-500);
                         font-family: 'Metropolis';
                         font-size: 52px;
                         font-style: normal;
