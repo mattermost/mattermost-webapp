@@ -27,6 +27,7 @@ describe('components/channel_view', () => {
             getProfiles: jest.fn(),
         },
         isFirstAdmin: false,
+        isAdvancedTextEditorEnabled: false,
     };
 
     it('Should match snapshot with base props', () => {

@@ -238,6 +238,7 @@ const OnBoardingTaskList = (): JSX.Element => {
                 onClick={toggleTaskList}
                 ref={trigger}
                 open={open}
+                data-cy='onboarding-task-list-action-button'
             >
                 <Icon glyph={open ? 'close' : 'playlist-check'}/>
                 {itemsLeft !== 0 && (<span>{itemsLeft}</span>)}

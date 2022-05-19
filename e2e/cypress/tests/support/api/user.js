@@ -250,6 +250,8 @@ Cypress.Commands.add('apiCreateUser', ({
 
         // // hide the onboarding task list by default so it doesn't block the execution of subsequent tests
         cy.apiSaveSkipStepsPreference(createdUser.id, 'true');
+        cy.apiSaveOnboardingTaskListPreference(createdUser.id, 'onboarding_task_list_open', 'false');
+        cy.apiSaveOnboardingTaskListPreference(createdUser.id, 'onboarding_task_list_show', 'false');
 
         if (bypassTutorial) {
             cy.apiSaveTutorialStep(createdUser.id, '999');
