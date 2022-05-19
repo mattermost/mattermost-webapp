@@ -240,6 +240,7 @@ const AdvanceTextEditor = ({
         <ToggleFormattingBar
             onClick={toggleAdvanceTextEditor}
             active={!isFormattingBarHidden}
+            disabled={shouldShowPreview}
         />
     );
 
@@ -389,6 +390,14 @@ const AdvanceTextEditor = ({
                         useChannelMentions={useChannelMentions}
                     />
                     {attachmentPreview}
+                    {!isFormattingBarHidden &&
+                        <TexteditorActions
+                            ref={createPostControlsRef}
+                            placement='top'
+                        >
+                            {showFormatJSX}
+                        </TexteditorActions>
+                    }
                     <FormattingBar
                         applyMarkdown={applyMarkdown}
                         getCurrentMessage={getCurrentValue}
@@ -400,7 +409,6 @@ const AdvanceTextEditor = ({
                         ref={createPostControlsRef}
                         placement='bottom'
                     >
-                        {showFormatJSX}
                         {toggleFormattingBarJSX}
                         {fileUploadJSX}
                         {emojiPicker}
