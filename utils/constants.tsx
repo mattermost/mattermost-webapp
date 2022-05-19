@@ -582,6 +582,7 @@ export const TELEMETRY_CATEGORIES = {
     POST_INFO: 'post_info',
     SELF_HOSTED_START_TRIAL_AUTO_MODAL: 'self_hosted_start_trial_auto_modal',
     SELF_HOSTED_START_TRIAL_MODAL: 'self_hosted_start_trial_modal',
+    CLOUD_START_TRIAL_BUTTON: 'cloud_start_trial_button',
     SELF_HOSTED_START_TRIAL_TASK_LIST: 'self_hosted_start_trial_task_list',
     WORKSPACE_OPTIMIZATION_DASHBOARD: 'workspace_optimization_dashboard',
 };
