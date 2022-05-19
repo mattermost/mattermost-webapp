@@ -1,0 +1,85 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+@import 'utils/mixins';
+
+.header {
+    position: relative;
+    display: block;
+    min-height: 100px;
+    padding: 0 40px;
+
+    .header-main {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        flex-flow: wrap;
+        align-items: center;
+        justify-content: space-between;
+
+        .header-logo-link {
+            @include link;
+
+            display: flex;
+            color: var(--center-channel-text);
+            font-family: 'Metropolis';
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 28px;
+            text-decoration: none;
+
+            svg {
+                width: 170px;
+                fill: var(--center-channel-text);
+            }
+        }
+
+        .header-alternate-container {
+            margin-left: auto;
+
+            .header-alternate-message {
+                color: var(--center-channel-text-rgb);
+                font-size: 12px;
+                line-height: 16px;
+            }
+
+            .header-alternate-link {
+                padding-left: 4px;
+
+                @include link;
+            }
+        }
+    }
+
+    .header-back-button {
+        position: absolute;
+        top: unset;
+        bottom: 0;
+        width: auto;
+        padding: 0 0 0 40px;
+
+        a {
+            @include link;
+        }
+    }
+}
+
+@media screen and (max-width: 699px) {
+    .header {
+        padding: 0 24px;
+
+        .header-main {
+            .header-logo-link svg {
+                width: 145px;
+            }
+
+            .header-alternate-container {
+                margin-left: 0;
+
+                .header-alternate-message {
+                    display: none;
+                }
+            }
+        }
+    }
+}

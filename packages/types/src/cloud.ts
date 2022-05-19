@@ -143,3 +143,19 @@ export type Limits = {
         views?: number;
     };
 }
+
+export interface CloudUsage {
+    files: {
+        totalStorage: number;
+    };
+    messages: {
+        history: number;
+    };
+    boards: {
+        cards: number;
+        views: number;
+    };
+    integrations: {
+        enabled: number;
+    };
+}

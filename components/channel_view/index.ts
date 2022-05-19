@@ -14,7 +14,10 @@ import {showNextSteps} from 'components/next_steps_view/steps';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {setShowNextStepsView} from 'actions/views/next_steps';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
-import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
+import {
+    getIsAdvancesTextEditorEnabled,
+    getUseCaseOnboarding,
+} from 'mattermost-redux/selectors/entities/preferences';
 import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import {goToLastViewedChannel} from 'actions/views/channel';
@@ -71,6 +74,7 @@ function mapStateToProps(state: GlobalState) {
         teamUrl: getCurrentRelativeTeamUrl(state),
         isFirstAdmin: isFirstAdmin(state),
         useCaseOnboarding: getUseCaseOnboarding(state),
+        isAdvancedTextEditorEnabled: getIsAdvancesTextEditorEnabled(state),
     };
 }
 

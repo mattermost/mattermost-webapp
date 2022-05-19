@@ -246,4 +246,22 @@ storiesOf('Widgets/Inputs/Input', module).
                 <WrapperComponent/>
             );
         },
+    ).
+    add(
+        'Disabled',
+        () => {
+            const WrapperComponent = () => {
+                return (
+                    <Input
+                        type='text'
+                        value='lorem ipsum'
+                        disabled={true}
+                    />
+                );
+            };
+
+            return (
+                <WrapperComponent/>
+            );
+        },
     );

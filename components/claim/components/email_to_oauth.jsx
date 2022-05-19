@@ -9,7 +9,7 @@ import {emailToOAuth} from 'actions/admin_actions.jsx';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n.jsx';
-import LoginMfa from 'components/login/login_mfa.jsx';
+import LoginMfa from 'components/login/login_mfa.tsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 export default class EmailToOAuth extends React.PureComponent {
@@ -87,77 +87,85 @@ export default class EmailToOAuth extends React.PureComponent {
                 <LoginMfa
                     loginId={this.props.email}
                     password={this.state.password}
-                    submit={this.submit}
+                    title={{
+                        id: t('claim.email_to_oauth.title'),
+                        defaultMessage: 'Switch Email/Password Account to {uiType}',
+                        values: {
+                            uiType,
+                        }}}
+                    onSubmit={this.submit}
                 />
             );
         } else {
             content = (
-                <form onSubmit={this.preSubmit}>
-                    <p>
+                <>
+                    <h3>
                         <FormattedMessage
-                            id='claim.email_to_oauth.ssoType'
-                            defaultMessage='Upon claiming your account, you will only be able to login with {type} SSO'
-                            values={{
-                                type,
-                            }}
-                        />
-                    </p>
-                    <p>
-                        <FormattedMessage
-                            id='claim.email_to_oauth.ssoNote'
-                            defaultMessage='You must already have a valid {type} account'
-                            values={{
-                                type,
-                            }}
-                        />
-                    </p>
-                    <p>
-                        <FormattedMessage
-                            id='claim.email_to_oauth.enterPwd'
-                            defaultMessage='Enter the password for your {site} account'
-                            values={{
-                                site: this.props.siteName,
-                            }}
-                        />
-                    </p>
-                    <div className={formClass}>
-                        <LocalizedInput
-                            type='password'
-                            className='form-control'
-                            name='password'
-                            ref={this.passwordInput}
-                            placeholder={{id: t('claim.email_to_oauth.pwd'), defaultMessage: 'Password'}}
-                            spellCheck='false'
-                        />
-                    </div>
-                    {error}
-                    <button
-                        type='submit'
-                        className='btn btn-primary'
-                    >
-                        <FormattedMessage
-                            id='claim.email_to_oauth.switchTo'
-                            defaultMessage='Switch Account to {uiType}'
+                            id='claim.email_to_oauth.title'
+                            defaultMessage='Switch Email/Password Account to {uiType}'
                             values={{
                                 uiType,
                             }}
                         />
-                    </button>
-                </form>
+                    </h3>
+                    <form onSubmit={this.preSubmit}>
+                        <p>
+                            <FormattedMessage
+                                id='claim.email_to_oauth.ssoType'
+                                defaultMessage='Upon claiming your account, you will only be able to login with {type} SSO'
+                                values={{
+                                    type,
+                                }}
+                            />
+                        </p>
+                        <p>
+                            <FormattedMessage
+                                id='claim.email_to_oauth.ssoNote'
+                                defaultMessage='You must already have a valid {type} account'
+                                values={{
+                                    type,
+                                }}
+                            />
+                        </p>
+                        <p>
+                            <FormattedMessage
+                                id='claim.email_to_oauth.enterPwd'
+                                defaultMessage='Enter the password for your {site} account'
+                                values={{
+                                    site: this.props.siteName,
+                                }}
+                            />
+                        </p>
+                        <div className={formClass}>
+                            <LocalizedInput
+                                type='password'
+                                className='form-control'
+                                name='password'
+                                ref={this.passwordInput}
+                                placeholder={{id: t('claim.email_to_oauth.pwd'), defaultMessage: 'Password'}}
+                                spellCheck='false'
+                            />
+                        </div>
+                        {error}
+                        <button
+                            type='submit'
+                            className='btn btn-primary'
+                        >
+                            <FormattedMessage
+                                id='claim.email_to_oauth.switchTo'
+                                defaultMessage='Switch Account to {uiType}'
+                                values={{
+                                    uiType,
+                                }}
+                            />
+                        </button>
+                    </form>
+                </>
             );
         }
 
         return (
             <div>
-                <h3>
-                    <FormattedMessage
-                        id='claim.email_to_oauth.title'
-                        defaultMessage='Switch Email/Password Account to {uiType}'
-                        values={{
-                            uiType,
-                        }}
-                    />
-                </h3>
                 {content}
             </div>
         );
