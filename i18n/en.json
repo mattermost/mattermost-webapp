@@ -5078,7 +5078,10 @@
   "workspace_limits.modals.informational.description.free": "These are the limits on your free plan. You can delete items to free up space or contact your admin to upgrade to a paid plan.",
   "workspace_limits.modals.informational.title": "{planName} limits",
   "workspace_limits.modals.limits_reached.title": "{limitName} limit reached",
+  "workspace_limits.modals.view_plan_options": "View plan options",
   "workspace_limits.modals.view_plans": "View plans",
   "workspace_limits.upgrade": "Upgrade to avoid {planName} data limits",
+  "workspace_limits.upgrade_reasons.professional": "On the Professional plan you can only view the most recent {fileStorage} of files. With Enterprise, experience unlimited file storage.",
+  "workspace_limits.upgrade_reasons.starter": "You need a better plan",
   "yourcomputer": "Your computer"
 }

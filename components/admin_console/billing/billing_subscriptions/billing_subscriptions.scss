@@ -153,6 +153,10 @@
         @include cloud-card-title;
     }
 
+    &__description {
+        font-size: 14px;
+    }
+
     &__limits {
         display: flex;
     }

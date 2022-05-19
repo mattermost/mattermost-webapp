@@ -9,14 +9,16 @@ import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences'
 import {
     getCloudProducts,
     getCloudSubscription,
+    getSubscriptionProduct,
 } from 'mattermost-redux/selectors/entities/cloud';
 import {openModal, closeModal} from 'actions/views/modals';
 import {asGBString} from 'utils/limits';
-import {ModalIdentifiers} from 'utils/constants';
+import {ModalIdentifiers, CloudProducts} from 'utils/constants';
 import CloudUsageModal from 'components/cloud_usage_modal';
 import MiniModal from 'components/cloud_usage_modal/mini_modal';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import useGetUsage from 'components/common/hooks/useGetUsage';
+import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';
 import {t} from 'utils/i18n';
 
 import LimitCard from './limit_card';
@@ -157,11 +159,31 @@ const Limits = (): JSX.Element | null => {
     const intl = useIntl();
     const subscription = useSelector(getCloudSubscription);
     const products = useSelector(getCloudProducts);
+    const subscriptionProduct = useSelector(getSubscriptionProduct);
     const [cloudLimits, limitsLoaded] = useGetLimits();
     const usage = useGetUsage();
+    const openSalesLink = useOpenSalesLink();
 
-    if (!isCloudFreeEnabled || !limitsLoaded) {
+    if (!isCloudFreeEnabled || !limitsLoaded || !subscriptionProduct || subscriptionProduct.sku === CloudProducts.STARTER_LEGACY) {
         return null;
+    }
+
+    let description: React.ReactNode = null;
+    if (subscriptionProduct.sku === CloudProducts.STARTER) {
+        description = intl.formatMessage({
+            id: 'workspace_limits.upgrade_reasons.starter',
+            defaultMessage: 'You need a better plan',
+        });
+    } else if (subscriptionProduct.sku === CloudProducts.PROFESSIONAL) {
+        description = intl.formatMessage(
+            {
+                id: 'workspace_limits.upgrade_reasons.professional',
+                defaultMessage: 'On the Professional plan you can only view the most recent {fileStorage} of files. With Enterprise, experience unlimited file storage.',
+            },
+            {
+                fileStorage: (cloudLimits?.files?.total_storage && asGBString(cloudLimits?.files?.total_storage, intl.formatNumber)) || '250GB',
+            },
+        );
     }
 
     return (
@@ -175,6 +197,9 @@ const Limits = (): JSX.Element | null => {
                     }}
                 />
             </div>
+            {description && <div className='ProductLimitsPanel__description'>
+                {description}
+            </div>}
             <div className='ProductLimitsPanel__limits'>
                 {cloudLimits?.files?.total_storage && (
                     <LimitCard
@@ -271,6 +296,26 @@ const Limits = (): JSX.Element | null => {
                     />
 
                 )}
+            </div>
+            <div>
+                <button
+                    onClick={() => {/*TODO: Fill in with action to view plan options*/}}
+                    className='btn btn-primary'
+                >
+                    {intl.formatMessage({
+                        id: 'workspace_limits.modals.view_plan_options',
+                        defaultMessage: 'View plan options',
+                    })}
+                </button>
+                <button
+                    onClick={openSalesLink}
+                    className='btn btn-secondary'
+                >
+                    {intl.formatMessage({
+                        id: 'admin.license.trialCard.contactSales',
+                        defaultMessage: 'Contact sales',
+                    })}
+                </button>
             </div>
             <TempLaunchModalsComponent/>
         </div>

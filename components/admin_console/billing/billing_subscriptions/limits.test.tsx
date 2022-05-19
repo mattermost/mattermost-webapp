@@ -16,9 +16,10 @@ import * as cloudActions from 'actions/cloud';
 import {FileSizes} from 'utils/file_utils';
 
 import {GlobalState} from '@mattermost/types/store';
+import {UserProfile, UsersState} from '@mattermost/types/users';
 import {Constants} from 'utils/constants';
 
-import {Subscription} from 'mattermost-redux/types/cloud';
+import {Subscription, Product} from 'mattermost-redux/types/cloud';
 
 import Limits from './limits';
 
@@ -50,7 +51,16 @@ function setupStore(hasLimits: boolean) {
                     limitsLoaded: hasLimits,
                     limits: hasLimits ? freeLimits : {},
                 },
-                subscription: {} as Subscription,
+                subscription: {
+                    product_id: 'prod_starter',
+                } as Subscription,
+                products: {
+                    prod_starter: {
+                        id: 'prod_starter',
+                        name: 'Cloud Starter',
+                        sku: 'cloud-starter',
+                    } as Product,
+                } as Record<string, Product>,
             },
             general: {
                 config: {
@@ -62,6 +72,12 @@ function setupStore(hasLimits: boolean) {
                     [Constants.StatTypes.TOTAL_POSTS]: 1234,
                 } as GlobalState['entities']['admin']['analytics'],
             },
+            users: {
+                currentUserId: 'userid',
+                profiles: {
+                    userid: {} as UserProfile,
+                },
+            } as unknown as UsersState,
         },
     } as GlobalState;
     const store = mockStore(state);
