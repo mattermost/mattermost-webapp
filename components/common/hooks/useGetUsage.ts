@@ -14,8 +14,6 @@ import {
     getBoardsUsage,
 } from 'actions/cloud';
 
-// TODO: Replace this with actual usages stored in redux,
-// that ideally are updated with a websocket event in near real time.
 export default function useGetUsage(): CloudUsage {
     const usage = useSelector(getUsage);
 
