@@ -48,7 +48,7 @@ describe('plugins/MainMenuActions', () => {
         subscription: {},
         userIsAdmin: true,
         isFirstAdmin: false,
-        useCaseOnboarding: false,
+        canInviteTeamMember: false,
     };
 
     test('should match snapshot in web view', () => {

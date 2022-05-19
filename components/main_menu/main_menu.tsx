@@ -57,7 +57,6 @@ export type Props = {
     intl: IntlShape;
     teamUrl: string;
     isFirstAdmin: boolean;
-    useCaseOnboarding: boolean;
     location: {
         pathname: string;
     };

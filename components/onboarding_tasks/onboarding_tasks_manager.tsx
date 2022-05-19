@@ -21,7 +21,7 @@ import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_tr
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
-import {get, makeGetCategory, cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {get, makeGetCategory, cloudFreeEnabled, getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentUserSystemAdmin, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 
@@ -101,6 +101,9 @@ export const useTasksList = () => {
     const isUserAdmin = useSelector((state: GlobalState) => isCurrentUserSystemAdmin(state));
     const isUserFirstAdmin = useSelector(isFirstAdmin);
 
+    // feature flag for ab test over the effectiveness of the onboarding workspace wizard
+    const useCaseOnboarding = useSelector(getUseCaseOnboarding);
+
     // Cloud conditions
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
     const isCloud = license?.Cloud === 'true';
@@ -118,10 +121,10 @@ export const useTasksList = () => {
     const list: Record<string, string> = {...OnboardingTasksName};
     const pluginsPreferenceState = useSelector((state: GlobalState) => get(state, Constants.Preferences.ONBOARDING, OnboardingPreferences.USE_CASE));
     const pluginsPreference = pluginsPreferenceState && JSON.parse(pluginsPreferenceState);
-    if ((pluginsPreference && !pluginsPreference.boards) || !pluginsList.focalboard) {
+    if ((pluginsPreference && !pluginsPreference.boards) || !pluginsList.focalboard || !useCaseOnboarding) {
         delete list.BOARDS_TOUR;
     }
-    if ((pluginsPreference && !pluginsPreference.playbooks) || !pluginsList.playbooks) {
+    if ((pluginsPreference && !pluginsPreference.playbooks) || !pluginsList.playbooks || !useCaseOnboarding) {
         delete list.PLAYBOOKS_TOUR;
     }
     if (!showStartTrialTask) {
