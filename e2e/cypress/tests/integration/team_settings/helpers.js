@@ -60,7 +60,7 @@ export const verifyEmailInviteAndVisitLink = (sender, username, email, team, sit
         cy.visit(permalink);
 
         // * Verify it redirects into the signup page
-        cy.get('#signup_email_section', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
+        cy.get('.signup-body', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
     });
 };
 
