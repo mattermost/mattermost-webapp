@@ -45,6 +45,7 @@ const CloudStartTrialButton = ({
     const [status, setLoadStatus] = useState(TrialLoadStatus.NotStarted);
 
     const requestStartTrial = async (): Promise<TrialLoadStatus> => {
+        setLoadStatus(TrialLoadStatus.Started);
         const productUpdated = await requestCloudTrial('start_trial_btn')();
         if (!productUpdated) {
             setLoadStatus(TrialLoadStatus.Failed);
