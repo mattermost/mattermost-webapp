@@ -109,8 +109,8 @@ export const Preferences = {
     INTERVAL_NEVER: 0,
     NAME_NAME_FORMAT: 'name_format',
     CATEGORY_SYSTEM_NOTICE: 'system_notice',
-    TEAMS_ORDER: 'teams_order',
     RECOMMENDED_NEXT_STEPS: 'recommended_next_steps',
+    TEAMS_ORDER: 'teams_order',
     CLOUD_UPGRADE_BANNER: 'cloud_upgrade_banner',
     CLOUD_TRIAL_BANNER: 'cloud_trial_banner',
     START_TRIAL_MODAL: 'start_trial_modal',
@@ -274,7 +274,6 @@ export const ActionTypes = keyMirror({
 
     PREFETCH_POSTS_FOR_CHANNEL: null,
 
-    SET_SHOW_NEXT_STEPS_VIEW: null,
     SET_FILES_FILTER_BY_EXT: null,
 
     SUPPRESS_RHS: null,
@@ -547,7 +546,7 @@ export const TopLevelProducts = {
     PLAYBOOKS: 'Playbooks',
 };
 
-export const RecommendedNextSteps = {
+export const RecommendedNextStepsLegacy = {
     COMPLETE_PROFILE: 'complete_profile',
     TEAM_SETUP: 'team_setup',
     INVITE_MEMBERS: 'invite_members',
