@@ -9,6 +9,8 @@ import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {getConfirmCardSetup} from 'components/payment_form/stripe';
 
+import {trackEvent} from 'actions/telemetry_actions.jsx';
+
 import {StripeSetupIntent, BillingDetails} from 'types/cloud/sku';
 import {CloudTypes} from 'mattermost-redux/action_types';
 
@@ -82,6 +84,18 @@ export function subscribeCloudSubscription(productId: string) {
             await Client4.subscribeCloudProduct(productId);
         } catch (error) {
             return error;
+        }
+        return true;
+    };
+}
+
+export function requestCloudTrial(page: string) {
+    trackEvent('api', 'api_request_cloud_trial_license', {from_page: page});
+    return async () => {
+        try {
+            await Client4.requestCloudTrial();
+        } catch (error) {
+            return false;
         }
         return true;
     };

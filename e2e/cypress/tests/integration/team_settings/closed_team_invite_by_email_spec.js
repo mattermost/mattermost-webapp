@@ -111,10 +111,13 @@ describe('Team Settings', () => {
         // # Attempt to create an account by clicking on the 'Create Account' button
         cy.findByText('Create Account').click();
 
+        // # Close the onboarding tutorial
+        cy.uiCloseOnboardingTaskList();
+
         // * Check that the display name of the team the user was invited to is being correctly displayed
         cy.uiGetLHSHeader().findByText(testTeam.display_name);
 
-        // * Check that the 'Welcome to Mattermost' message is visible
-        cy.findByText(`Welcome to ${siteName}`).should('be.visible');
+        // * Check that the 'Beginning of Town Square' message is visible
+        cy.findByText('Beginning of Town Square').should('be.visible');
     });
 });

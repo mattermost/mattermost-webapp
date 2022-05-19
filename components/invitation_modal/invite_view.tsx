@@ -14,9 +14,10 @@ import {getSiteURL} from 'utils/url';
 import {Constants} from 'utils/constants';
 
 import {trackEvent} from 'actions/telemetry_actions';
-import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import useCopyText from 'components/common/hooks/useCopyText';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input';
+import {getAnalyticsCategory} from 'components/onboarding_tasks';
+
 import {t} from 'utils/i18n.jsx';
 
 import AddToChannels, {CustomMessageProps, InviteChannels, defaultCustomMessage, defaultInviteChannels} from './add_to_channels';
