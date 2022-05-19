@@ -99,7 +99,7 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
         };
         const store = mockStore(state);
         const wrapper = mountWithIntl(<Provider store={store}><MenuCloudTrial id='menuCloudTrial'/></Provider>);
-        expect(wrapper.find('CloudStartTrialButton').exists()).toEqual(false);
+        expect(wrapper.find('.open-learn-more-trial-modal').exists()).toEqual(false);
         expect(wrapper.find('UpgradeLink').exists()).toEqual(false);
     });
 
@@ -127,7 +127,7 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
         };
         const store = mockStore(state);
         const wrapper = mountWithIntl(<Provider store={store}><MenuCloudTrial id='menuCloudTrial'/></Provider>);
-        expect(wrapper.find('CloudStartTrialButton').exists()).toEqual(true);
+        expect(wrapper.find('.open-learn-more-trial-modal').exists()).toEqual(true);
     });
 
     test('should show the open trial benefits modal when is cloudFree and is free trial', () => {

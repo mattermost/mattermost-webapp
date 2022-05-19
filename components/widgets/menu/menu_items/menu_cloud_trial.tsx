@@ -7,6 +7,7 @@ import {useSelector, useDispatch} from 'react-redux';
 
 import UpgradeLink from 'components/widgets/links/upgrade_link';
 import TrialBenefitsModal from 'components/trial_benefits_modal/trial_benefits_modal';
+import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_trial_modal';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'mattermost-redux/types/store';
@@ -20,7 +21,6 @@ import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
 import {TrialPeriodDays, ModalIdentifiers} from 'utils/constants';
 
 import './menu_item.scss';
-import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 
 type Props = {
     id: string;
@@ -47,6 +47,13 @@ const MenuCloudTrial = ({id}: Props) => {
         await dispatch(openModal({
             modalId: ModalIdentifiers.TRIAL_BENEFITS_MODAL,
             dialogType: TrialBenefitsModal,
+        }));
+    };
+
+    const openLearnMoreTrialModal = async () => {
+        await dispatch(openModal({
+            modalId: ModalIdentifiers.TRIAL_BENEFITS_MODAL,
+            dialogType: LearnMoreTrialModal,
         }));
     };
 
@@ -94,11 +101,15 @@ const MenuCloudTrial = ({id}: Props) => {
                 id='menu.cloudFree.tryEnterprise'
                 defaultMessage='Interested in a limitless plan with high-security features?'
             />
-            <CloudStartTrialButton
-                message={formatMessage({id: 'menu.cloudFree.tryEnterpriseFor30Days', defaultMessage: 'Try Enterprise free for 30 days'})}
-                telemetryId={'start_cloud_trial_from_main_menu'}
-                extraClass={'style-link'}
-            />
+            <a
+                className='open-learn-more-trial-modal style-link'
+                onClick={openLearnMoreTrialModal}
+            >
+                <FormattedMessage
+                    id='menu.cloudFree.tryEnterpriseFor30Days'
+                    defaultMessage='Try Enterprise free for 30 days'
+                />
+            </a>
         </>
     ) : (
         <>
