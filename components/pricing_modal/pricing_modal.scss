@@ -1,16 +1,16 @@
-$denim: #3F4350;
+$denim: #3f4350;
 $bigStone: #152234;
 $lightDenim: #1c58d9;
-$geyser: #DADFE5;
+$geyser: #dadfe5;
 
 .PricingModal {
     .modal-dialog {
         position: absolute;
         top: 50%;
         left: 50%;
+        width: 1440px;
         margin: auto;
         transform: translate(-50%, -50%) !important;
-        width: 1440px;
 
         .modal-content {
             background-color: var(--center-channel-bg);
@@ -25,16 +25,16 @@ $geyser: #DADFE5;
 
     .self-hosted-alert {
         position: absolute;
-        right: 160px;
         top: 96px;
+        right: 160px;
         height: 40px;
 
         h1 {
             color: $denim;
             font-family: 'Open Sans';
+            font-size: 14px;
             font-style: normal;
             font-weight: 600;
-            font-size: 14px;
             line-height: 20px;
             text-align: right;
         }
@@ -42,9 +42,9 @@ $geyser: #DADFE5;
         a {
             color: $lightDenim;
             font-family: 'Open Sans';
+            font-size: 14px;
             font-style: normal;
             font-weight: 600;
-            font-size: 14px;
             line-height: 20px;
         }
     }
@@ -53,36 +53,37 @@ $geyser: #DADFE5;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        padding: 28px 32px;
         border: none;
         border-bottom: 1px solid rgba(63, 67, 80, 0.08);
+        margin-bottom: 118px;
         font-size: 22px;
         font-weight: 600;
-        margin-bottom: 118px;
-        padding: 28px 32px;
 
         .header_lhs {
             display: flex;
             align-items: center;
+
             h1 {
                 margin: 0;
                 color: $denim;
                 font-family: 'Metropolis', sans-serif;
+                font-size: 22px;
                 font-style: normal;
                 font-weight: 600;
-                font-size: 22px;
                 line-height: 28px;
             }
 
             div {
-                margin-left: 8px;
                 padding-left: 8px;
                 border-left: 1px solid rgba(63, 67, 80, 0.16);
+                margin-left: 8px;
+                color: rgba(63, 67, 80, 0.56);
                 font-family: 'Open Sans';
+                font-size: 12px;
                 font-style: normal;
                 font-weight: 400;
-                font-size: 12px;
                 line-height: 20px;
-                color: rgba(63, 67, 80, 0.56);
             }
         }
 
@@ -118,65 +119,65 @@ $geyser: #DADFE5;
     }
 
     .PricingModal__body {
-        display: flex;
-        gap: 12px;
-        align-self: center;
         position: relative;
+        display: flex;
+        align-self: center;
+        gap: 12px;
 
         .self-hosted-svg-left {
             position: absolute;
-            left: -145px;
             top: 36px;
+            left: -145px;
         }
 
         .self-hosted-svg-right {
             position: absolute;
-            right: -130px;
             top: 36px;
+            right: -130px;
         }
 
         .PlanCard {
-            height: 490px;
-            width: 280px;
             position: relative;
+            width: 280px;
+            height: 490px;
 
             .planLabel {
-                display: flex;
-                justify-content: center;
-                align-items: center;
                 position: absolute;
                 top: -48px;
                 left: 52px;
+                display: flex;
                 width: 184px;
+                align-items: center;
+                justify-content: center;
                 padding: 14px;
-                border-radius: 13px 13px 0px 0px;
+                border-radius: 13px 13px 0 0;
                 gap: 5px;
             }
 
             .top {
                 height: 18px;
-                border-radius: 4px 4px 0px 0px;
+                border-radius: 4px 4px 0 0;
             }
 
             .bottom {
-                border: 1px solid $geyser;
-                border-radius: 0px 0px 4px 4px;
                 height: 472px;
-                background-color: var(--center-channel-bg);
-                padding-left: 24px;
                 padding-right: 24px;
+                padding-left: 24px;
+                border: 1px solid $geyser;
+                background-color: var(--center-channel-bg);
+                border-radius: 0 0 4px 4px;
 
                 .plan_briefing {
                     height: 200px;
 
                     h4 {
+                        color: $bigStone;
                         font-family: 'Metropolis';
+                        font-size: 14px;
                         font-style: normal;
                         font-weight: 600;
-                        font-size: 14px;
-                        line-height: 24px;
-                        color: $bigStone;
                         letter-spacing: -0.02em;
+                        line-height: 24px;
                         white-space: nowrap;
                     }
 
@@ -185,43 +186,43 @@ $geyser: #DADFE5;
                         height: 24px;
 
                         .bullet {
-                            font-size: 10px;
-                            margin: 8px 8px 0 0;
-                            color: #0058CC;
                             display: inline-block;
+                            margin: 8px 8px 0 0;
+                            color: #0058cc;
+                            font-size: 10px;
                         }
 
                         p {
+                            color: rgba(33, 63, 107, 0.8);
                             font-family: 'Metropolis';
+                            font-size: 14px;
                             font-style: normal;
                             font-weight: 400;
-                            font-size: 14px;
-                            line-height: 24px;
                             letter-spacing: -0.02em;
-                            color: rgba(33, 63, 107, 0.8);
+                            line-height: 24px;
                         }
                     }
 
                     .disclaimer {
+                        margin-top: 36px;
+                        color: #d24b4e;
                         font-family: 'Open Sans';
+                        font-size: 12px;
                         font-style: normal;
                         font-weight: 600;
-                        font-size: 12px;
                         line-height: 16px;
-                        color: #D24B4E;
-                        margin-top: 36px;
                     }
                 }
 
                 .plan_action_btn {
+                    width: 100%;
                     height: 40px;
                     padding: 10px 24px;
                     border: none;
                     background: none;
+                    border-radius: 4px;
                     color: $lightDenim;
                     font-weight: 700;
-                    width: 100%;
-                    border-radius: 4px;
 
                     &.grayed {
                         background: rgba(63, 67, 80, 0.08);
@@ -234,44 +235,43 @@ $geyser: #DADFE5;
 
                     &.special {
                         background: $lightDenim;
-                        color: #FFFFFF;
+                        color: #fff;
                     }
                 }
 
                 .plan_price_rate_section {
-                    text-align: center;
+                    width: 100%;
                     height: 150px;
                     border-bottom: 1px solid $geyser;
-                    width: 100%;
+                    text-align: center;
 
                     h4 {
+                        color: rgba(33, 63, 107, 0.8);
                         font-family: 'Metropolis';
+                        font-size: 20px;
                         font-style: normal;
                         font-weight: 400;
-                        font-size: 20px;
-                        line-height: 30px;
-                        color: rgba(33, 63, 107, 0.8);
                         letter-spacing: -0.02em;
+                        line-height: 30px;
                     }
 
                     h1 {
+                        color: #1e325c;
                         font-family: 'Metropolis';
+                        font-size: 52px;
                         font-style: normal;
                         font-weight: 700;
-                        font-size: 52px;
-                        line-height: 60px;
-                        color: #1E325C;
                         letter-spacing: -0.02em;
+                        line-height: 60px;
 
                         span {
-                        font-family: 'Metropolis';
-                        font-style: normal;
-                        font-weight: 400;
-                        font-size: 18px;
-                        line-height: 20px;
-                        color: $bigStone;
-                        letter-spacing: -0.02em;
-
+                            color: $bigStone;
+                            font-family: 'Metropolis';
+                            font-size: 18px;
+                            font-style: normal;
+                            font-weight: 400;
+                            letter-spacing: -0.02em;
+                            line-height: 20px;
                         }
                     }
 
@@ -280,13 +280,13 @@ $geyser: #DADFE5;
                     }
 
                     p {
+                        color: $bigStone;
                         font-family: 'Metropolis';
+                        font-size: 18px;
                         font-style: normal;
                         font-weight: 400;
-                        font-size: 18px;
-                        line-height: 20px;
-                        color: $bigStone;
                         letter-spacing: -0.02em;
+                        line-height: 20px;
                     }
                 }
             }
