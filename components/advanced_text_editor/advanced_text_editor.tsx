@@ -394,7 +394,6 @@ const AdvanceTextEditor = ({
                         getCurrentMessage={getCurrentValue}
                         getCurrentSelection={getCurrentSelection}
                         isOpen={!isFormattingBarHidden}
-                        appendControls={[fileUploadJSX]}
                         disableControls={shouldShowPreview}
                     />
                     <TexteditorActions
@@ -403,6 +402,7 @@ const AdvanceTextEditor = ({
                     >
                         {showFormatJSX}
                         {toggleFormattingBarJSX}
+                        {fileUploadJSX}
                         {emojiPicker}
                         {sendButton}
                     </TexteditorActions>
