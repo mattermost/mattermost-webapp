@@ -119,6 +119,7 @@ export const Preferences = {
     EMOJI_SKINTONE: 'emoji_skintone',
     ONE_CLICK_REACTIONS_ENABLED: 'one_click_reactions_enabled',
     ONE_CLICK_REACTIONS_ENABLED_DEFAULT: 'true',
+    FREEMIUM_TRIAL_END_BANNER: 'freemium_trial_end_banner',
 
     // For one off things that have a special, attention-grabbing UI until you interact with them
     TOUCHED: 'touched',
