@@ -36,6 +36,7 @@ import {
     License,
     AdminConfig,
     EnvironmentConfig,
+    RequestLicenseBody,
 } from '@mattermost/types/config';
 import {CustomEmoji} from '@mattermost/types/emojis';
 import {ServerError} from '@mattermost/types/errors';
@@ -3199,6 +3200,13 @@ export default class Client4 {
         );
     };
 
+    requestTrialLicense = (body: RequestLicenseBody) => {
+        return this.doFetchWithResponse<ClientLicense>(
+            `${this.getBaseRoute()}/trial-license`,
+            {method: 'POST', body: JSON.stringify(body)},
+        );
+    }
+
     removeLicense = () => {
         return this.doFetch<StatusOK>(
             `${this.getBaseRoute()}/license`,
@@ -3759,6 +3767,13 @@ export default class Client4 {
         );
     }
 
+    requestCloudTrial = () => {
+        return this.doFetchWithResponse<CloudCustomer>(
+            `${this.getCloudRoute()}/request-trial`,
+            {method: 'put'},
+        );
+    }
+
     getSubscription = () => {
         return this.doFetch<Subscription>(
             `${this.getCloudRoute()}/subscription`,
@@ -3877,13 +3892,13 @@ export default class Client4 {
 
     // Client Helpers
 
-    doFetch = async <ClientDataResponse>(url: string, options: Options): Promise<ClientDataResponse> => {
+    private doFetch = async <ClientDataResponse>(url: string, options: Options): Promise<ClientDataResponse> => {
         const {data} = await this.doFetchWithResponse<ClientDataResponse>(url, options);
 
         return data;
     };
 
-    doFetchWithResponse = async <ClientDataResponse>(url: string, options: Options): Promise<ClientResponse<ClientDataResponse>> => {
+    private doFetchWithResponse = async <ClientDataResponse>(url: string, options: Options): Promise<ClientResponse<ClientDataResponse>> => {
         const response = await fetch(url, this.getOptions(options));
         const headers = parseAndMergeNestedHeaders(response.headers);
 
