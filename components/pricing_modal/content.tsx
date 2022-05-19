@@ -105,7 +105,7 @@ function Card(props: CardProps) {
                     <p>{props.rate}</p>
                 </div>
                 <div className='plan_briefing'>
-                    <h4>{props.briefing.title}</h4>
+                    <span>{props.briefing.title}</span>
                     {props.briefing.items.map((i) => {
                         return (
                             <div
@@ -187,7 +187,7 @@ function Content(props: ContentProps) {
     return (
         <div className='Content'>
             <div className='self-hosted-alert'>
-                <h1>{formatMessage({id: 'pricing_modal.lookingToSelfHost', defaultMessage: 'Looking to self-host?'})}</h1>
+                <span>{formatMessage({id: 'pricing_modal.lookingToSelfHost', defaultMessage: 'Looking to self-host?'})}</span>
                 <a
                     onClick={() =>
                         trackEvent(

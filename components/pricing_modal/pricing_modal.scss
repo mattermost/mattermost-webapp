@@ -27,9 +27,11 @@ $geyser: #dadfe5;
         position: absolute;
         top: 96px;
         right: 160px;
+        display: flex;
         height: 40px;
+        flex-direction: column;
 
-        h1 {
+        span {
             color: $denim;
             font-family: 'Open Sans';
             font-size: 14px;
@@ -143,14 +145,16 @@ $geyser: #dadfe5;
 
             .planLabel {
                 position: absolute;
-                top: -48px;
+                top: -36px;
                 left: 52px;
                 display: flex;
                 width: 184px;
+                height: 36px;
                 align-items: center;
                 justify-content: center;
                 padding: 14px;
                 border-radius: 13px 13px 0 0;
+                font-weight: 600;
                 gap: 5px;
             }
 
@@ -169,8 +173,9 @@ $geyser: #dadfe5;
 
                 .plan_briefing {
                     height: 200px;
+                    margin-top: 16px;
 
-                    h4 {
+                    span {
                         color: $bigStone;
                         font-family: 'Metropolis';
                         font-size: 14px;
