@@ -12,10 +12,7 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
-import {
-    getIsAdvancesTextEditorEnabled,
-    getUseCaseOnboarding,
-} from 'mattermost-redux/selectors/entities/preferences';
+import {getIsAdvancesTextEditorEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import {goToLastViewedChannel} from 'actions/views/channel';
@@ -68,7 +65,6 @@ function mapStateToProps(state: GlobalState) {
         isCloud: getLicense(state).Cloud === 'true',
         teamUrl: getCurrentRelativeTeamUrl(state),
         isFirstAdmin: isFirstAdmin(state),
-        useCaseOnboarding: getUseCaseOnboarding(state),
         isAdvancedTextEditorEnabled: getIsAdvancesTextEditorEnabled(state),
     };
 }

@@ -30,7 +30,6 @@ type Props = {
     viewArchivedChannels: boolean;
     isCloud: boolean;
     isFirstAdmin: boolean;
-    useCaseOnboarding: boolean;
     isAdvancedTextEditorEnabled: boolean;
     actions: {
         goToLastViewedChannel: () => Promise<{data: boolean}>;
