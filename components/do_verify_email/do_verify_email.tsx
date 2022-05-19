@@ -23,6 +23,12 @@ import {AnnouncementBarTypes, AnnouncementBarMessages, Constants} from 'utils/co
 
 import './do_verify_email.scss';
 
+const enum VerifyStatus {
+    PENDING = 'pending',
+    SUCCESS = 'success',
+    FAILURE = 'failure',
+}
+
 const DoVerifyEmail = () => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch<DispatchFunc>();
@@ -35,7 +41,7 @@ const DoVerifyEmail = () => {
     const loggedIn = Boolean(useSelector(getCurrentUserId));
     const useCaseOnboarding = useSelector(getUseCaseOnboarding);
 
-    const [verifyStatus, setVerifyStatus] = useState('pending');
+    const [verifyStatus, setVerifyStatus] = useState(VerifyStatus.PENDING);
     const [serverError, setServerError] = useState('');
 
     useEffect(() => {
@@ -67,7 +73,7 @@ const DoVerifyEmail = () => {
         const {error} = await dispatch(verifyUserEmail(token));
 
         if (error) {
-            setVerifyStatus('failure');
+            setVerifyStatus(VerifyStatus.FAILURE);
             setServerError(formatMessage({
                 id: 'signup_user_completed.invalid_invite.message',
                 defaultMessage: 'Please speak with your Administrator to receive an invitation.',
@@ -75,7 +81,7 @@ const DoVerifyEmail = () => {
             return;
         }
 
-        setVerifyStatus('success');
+        setVerifyStatus(VerifyStatus.SUCCESS);
         await dispatch(clearErrors());
 
         if (!loggedIn) {
@@ -93,7 +99,7 @@ const DoVerifyEmail = () => {
         const {error: getMeError} = await dispatch(getMe());
 
         if (getMeError) {
-            setVerifyStatus('failure');
+            setVerifyStatus(VerifyStatus.FAILURE);
             setServerError(formatMessage({
                 id: 'signup_user_completed.failed_update_user_state',
                 defaultMessage: 'Please clear your cache and try to log in.',
@@ -107,7 +113,7 @@ const DoVerifyEmail = () => {
     const handleReturnButtonOnClick = () => history.replace('/');
 
     return (
-        verifyStatus === 'failure' ? (
+        verifyStatus === VerifyStatus.FAILURE ? (
             <div className='do-verify-body'>
                 <div className='do-verify-body-content'>
                     <ColumnLayout

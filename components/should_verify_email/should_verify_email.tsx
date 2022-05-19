@@ -16,6 +16,12 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import './should_verify_email.scss';
 
+const enum ResendStatus {
+    PENDING = 'pending',
+    SUCCESS = 'success',
+    FAILURE = 'failure',
+}
+
 const ShouldVerifyEmail = () => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch<DispatchFunc>();
@@ -25,7 +31,7 @@ const ShouldVerifyEmail = () => {
     const params = new URLSearchParams(search);
     const email = params.get('email') ?? '';
 
-    const [resendStatus, setResendStatus] = useState('');
+    const [resendStatus, setResendStatus] = useState(ResendStatus.PENDING);
     const [isWaiting, setIsWaiting] = useState(false);
 
     const handleReturnButtonOnClick = useCallback(() => {
@@ -35,16 +41,17 @@ const ShouldVerifyEmail = () => {
     const handleResendButtonOnClick = async () => {
         if (email) {
             setIsWaiting(true);
+            setResendStatus(ResendStatus.PENDING);
 
             const {error} = await dispatch(sendVerificationEmail(email));
 
             if (error) {
-                setResendStatus('failure');
+                setResendStatus(ResendStatus.FAILURE);
                 setIsWaiting(false);
                 return;
             }
 
-            setResendStatus('success');
+            setResendStatus(ResendStatus.SUCCESS);
             setIsWaiting(false);
         }
     };
@@ -75,12 +82,23 @@ const ShouldVerifyEmail = () => {
                                 </button>
                             </div>
                             <div className={classNames('should-verify-body-content-message', resendStatus)}>
-                                <i className={classNames('should-verify-body-content-message-icon', 'icon', 'icon-12', resendStatus === 'success' ? 'icon-check' : 'icon-alert-outline')}/>
+                                <i
+                                    className={classNames(
+                                        'should-verify-body-content-message-icon',
+                                        'icon',
+                                        'icon-12',
+                                        {
+                                            'icon-check': resendStatus === ResendStatus.SUCCESS,
+                                            'icon-alert-outline': resendStatus === ResendStatus.FAILURE,
+                                        },
+                                    )}
+                                />
                                 <span className='should-verify-body-content-message-label'>
-                                    {resendStatus === 'success' ? (
+                                    {resendStatus === ResendStatus.SUCCESS ? (
                                         formatMessage({id: 'email_verify.sent', defaultMessage: 'Verification email sent'})
                                     ) : (
-                                        formatMessage({id: 'email_verify.failed', defaultMessage: 'Failed to send verification email'})
+                                        (resendStatus === ResendStatus.FAILURE && formatMessage({id: 'email_verify.failed', defaultMessage: 'Failed to send verification email'})) ||
+                                        ''
                                     )}
                                 </span>
                             </div>

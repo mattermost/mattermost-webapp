@@ -514,13 +514,16 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
         }
 
         if (noOpenServer || serverError || usedBefore) {
+            const titleColumn = noOpenServer ? (
+                formatMessage({id: 'signup_user_completed.no_open_server.title', defaultMessage: 'This server doesn’t allow open signups'})
+            ) : (
+                serverError ||
+                formatMessage({id: 'signup_user_completed.invalid_invite.title', defaultMessage: 'This invite link is invalid'})
+            );
+
             return (
                 <ColumnLayout
-                    title={noOpenServer ? (
-                        formatMessage({id: 'signup_user_completed.no_open_server.title', defaultMessage: 'This server doesn’t allow open signups'})
-                    ) : (
-                        serverError || formatMessage({id: 'signup_user_completed.invalid_invite.title', defaultMessage: 'This invite link is invalid'})
-                    )}
+                    title={titleColumn}
                     message={formatMessage({id: 'signup_user_completed.invalid_invite.message', defaultMessage: 'Please speak with your Administrator to receive an invitation.'})}
                     SVGElement={<LaptopAlertSVG/>}
                     extraContent={(

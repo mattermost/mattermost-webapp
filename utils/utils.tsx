@@ -1424,7 +1424,7 @@ export function isValidPassword(password: string, passwordConfig: ReturnType<typ
             intl.formatMessage(
                 {
                     id: errorId,
-                    defaultMessage: 'Your password must contain between {min} and {max} characters.',
+                    defaultMessage: 'Must be {min}-{max} characters long.',
                 },
                 {
                     min: minimumLength,
@@ -1434,7 +1434,7 @@ export function isValidPassword(password: string, passwordConfig: ReturnType<typ
         ) : (
             <FormattedMessage
                 id={errorId}
-                defaultMessage='Your password must contain between {min} and {max} characters.'
+                defaultMessage='Must be {min}-{max} characters long.'
                 values={{
                     min: minimumLength,
                     max: Constants.MAX_PASSWORD_LENGTH,
