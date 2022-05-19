@@ -108,7 +108,9 @@ describe('SupportSettings', () => {
         cy.findByText('Create an account', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
 
         // * Verify no privacy link
-        cy.findByText('Privacy Policy').should('not.exist');
+        cy.get('.footer').scrollIntoView().should('be.visible').within(() => {
+            cy.findByText('Privacy Policy').should('not.exist');
+        });
     });
 
     it('MM-T1039 - Customization App download link - Remove', () => {

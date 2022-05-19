@@ -29,15 +29,15 @@ describe('Signup Email page', () => {
         cy.apiLogout();
 
         // # Go to signup email page
-        cy.visit('/signup_email');
+        cy.visit('/signup_user_complete');
     });
 
     it('should render', () => {
         // * check the initialUrl
-        cy.url().should('include', '/signup_email');
+        cy.url().should('include', '/signup_user_complete');
 
         // * Check that the login section is loaded
-        cy.get('#signup_email_section').should('be.visible');
+        cy.get('.signup-body').should('be.visible');
 
         // * Check the title
         cy.title().should('include', config.TeamSettings.SiteName);
@@ -58,33 +58,29 @@ describe('Signup Email page', () => {
         } = FixedCloudConfig.SupportSettings;
 
         // * Check elements in the body
-        cy.get('#signup_email_section').should('be.visible');
-        cy.get('#site_name').should('contain', config.TeamSettings.SiteName);
-        cy.get('#site_description').should('contain', config.TeamSettings.CustomDescriptionText);
-        cy.get('#create_account').should('contain', 'Let\'s create your account');
-        cy.get('#signin_account').should('contain', 'Already have an account?');
-        cy.get('#signin_account').should('contain', 'Click here to sign in.');
-        cy.get('#signin_account_link').should('contain', 'Click here to sign in.');
-        cy.get('#signin_account_link').should('have.attr', 'href', '/login');
+        cy.get('.signup-body').should('be.visible');
+        cy.get('.header-logo-link').should('be.visible');
+        cy.get('.signup-body-card-title').should('contain', config.TeamSettings.CustomDescriptionText);
+        cy.get('.signup-body-message-title').should('contain', 'Let’s get started');
+        cy.get('.header-alternate-message').should('contain', 'Already have an account?');
+        cy.get('.header-alternate-link').should('contain', 'Log in');
+        cy.get('.header-alternate-link').should('have.attr', 'href', '/login');
 
-        cy.get('#email_label').should('contain', 'What\'s your email address?');
-        cy.get('#email').should('be.visible');
-        cy.focused().should('have.attr', 'id', 'email');
-        cy.get('#valid_email').should('contain', 'Valid email required for sign-up');
+        cy.get('#input_email').should('be.visible');
+        cy.focused().should('have.attr', 'id', 'input_email');
 
-        cy.get('#name_label').should('contain', 'Choose your username');
-        cy.get('#name').should('be.visible');
-        cy.get('#valid_name').should('contain', 'You can use lowercase letters, numbers, periods, dashes, and underscores.');
+        cy.get('#input_name').should('be.visible').and('have.attr', 'placeholder', 'Choose a Username');
+        cy.findByText('You can use lowercase letters, numbers, periods, dashes, and underscores.').should('be.visible');
 
-        cy.get('#password_label').should('contain', 'Choose your password');
-        cy.get('#password').should('be.visible');
+        cy.get('#input_password-input').should('be.visible').and('have.attr', 'placeholder', 'Choose a Password');
+        cy.findByText('Your password must contain between 5 and 64 characters.').should('be.visible');
 
-        cy.get('#createAccountButton').scrollIntoView().should('be.visible');
-        cy.get('#createAccountButton').should('contain', 'Create Account');
+        cy.get('#saveSetting').scrollIntoView().should('be.visible');
+        cy.get('#saveSetting').should('contain', 'Create Account');
 
-        cy.get('#signup_agreement').should('contain', `By proceeding to create your account and use ${config.TeamSettings.SiteName}, you agree to our Terms of Use and Privacy Policy. If you do not agree, you cannot use ${config.TeamSettings.SiteName}.`);
-        cy.get(`#signup_agreement > span > [href="${config.SupportSettings.TermsOfServiceLink || TERMS_OF_SERVICE_LINK}"]`).should('be.visible');
-        cy.get(`#signup_agreement > span > [href="${config.SupportSettings.PrivacyPolicyLink || PRIVACY_POLICY_LINK}"]`).should('be.visible');
+        cy.get('.signup-body-card-agreement').should('contain', `By proceeding to create your account and use ${config.TeamSettings.SiteName}, you agree to our Terms of Use and Privacy Policy. If you do not agree, you cannot use ${config.TeamSettings.SiteName}.`);
+        cy.get(`.signup-body-card-agreement > span > [href="${config.SupportSettings.TermsOfServiceLink || TERMS_OF_SERVICE_LINK}"]`).should('be.visible');
+        cy.get(`.signup-body-card-agreement > span > [href="${config.SupportSettings.PrivacyPolicyLink || PRIVACY_POLICY_LINK}"]`).should('be.visible');
     });
 
     it('should match elements, footer', () => {
@@ -96,17 +92,27 @@ describe('Signup Email page', () => {
         } = FixedCloudConfig.SupportSettings;
 
         // * Check elements in the footer
-        cy.get('#footer_section').scrollIntoView().should('be.visible');
-        cy.get('#company_name').should('contain', 'Mattermost');
-        cy.get('#copyright').should('contain', '© 2015-');
-        cy.get('#copyright').should('contain', 'Mattermost, Inc.');
-        cy.get('#about_link').should('contain', 'About');
-        cy.get('#about_link').should('have.attr', 'href', config.SupportSettings.AboutLink || ABOUT_LINK);
-        cy.get('#privacy_link').should('contain', 'Privacy');
-        cy.get('#privacy_link').should('have.attr', 'href', config.SupportSettings.PrivacyPolicyLink || PRIVACY_POLICY_LINK);
-        cy.get('#terms_link').should('contain', 'Terms');
-        cy.get('#terms_link').should('have.attr', 'href', config.SupportSettings.TermsOfServiceLink || TERMS_OF_SERVICE_LINK);
-        cy.get('#help_link').should('contain', 'Help');
-        cy.get('#help_link').should('have.attr', 'href', config.SupportSettings.HelpLink || HELP_LINK);
+        cy.get('.footer').scrollIntoView().should('be.visible').within(() => {
+            // * Check if about footer link is present
+            cy.findByText('About').should('exist').
+                and('have.attr', 'href', config.SupportSettings.AboutLink || ABOUT_LINK);
+
+            // * Check if privacy footer link is present
+            cy.findByText('Privacy Policy').should('exist').
+                and('have.attr', 'href', config.SupportSettings.PrivacyPolicyLink || PRIVACY_POLICY_LINK);
+
+            // * Check if terms footer link is present
+            cy.findByText('Terms').should('exist').
+                and('have.attr', 'href', config.SupportSettings.TermsOfServiceLink || TERMS_OF_SERVICE_LINK);
+
+            // * Check if help footer link is present
+            cy.findByText('Help').should('exist').
+                and('have.attr', 'href', config.SupportSettings.HelpLink || HELP_LINK);
+
+            const todaysDate = new Date();
+            const currentYear = todaysDate.getFullYear();
+
+            cy.get('.footer-copyright').should('contain', `© ${currentYear} Mattermost Inc.`);
+        });
     });
 });

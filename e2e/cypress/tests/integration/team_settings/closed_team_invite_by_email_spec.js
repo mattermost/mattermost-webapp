@@ -104,12 +104,12 @@ describe('Team Settings', () => {
 
         // # Type username and password
         cy.wait(TIMEOUTS.HALF_SEC);
-        cy.get('#name').type(username);
+        cy.get('#input_name').type(username);
         cy.wait(TIMEOUTS.HALF_SEC);
-        cy.get('#password').type(password);
+        cy.get('#input_password-input').type(password);
 
         // # Attempt to create an account by clicking on the 'Create Account' button
-        cy.get('#createAccountButton').click();
+        cy.findByText('Create Account').click();
 
         // * Check that the display name of the team the user was invited to is being correctly displayed
         cy.uiGetLHSHeader().findByText(testTeam.display_name);

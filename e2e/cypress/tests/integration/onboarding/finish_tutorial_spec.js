@@ -49,10 +49,10 @@ describe('Onboarding', () => {
 
         // # Attempt to create a new account
         cy.findByText('Create an account', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
-        cy.get('#email').should('be.focused').and('be.visible').type(email);
-        cy.get('#name').should('be.visible').type(username);
-        cy.get('#password').should('be.visible').type(password);
-        cy.get('#createAccountButton').should('be.visible').click();
+        cy.get('#input_email').should('be.focused').and('be.visible').type(email);
+        cy.get('#input_name').should('be.visible').type(username);
+        cy.get('#input_password-input').should('be.visible').type(password);
+        cy.findByText('Create Account').click();
 
         // * Check that the display name of the team the user was invited to is being correctly displayed
         cy.uiGetLHSHeader().findByText(testTeam.display_name);
