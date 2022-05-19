@@ -22,11 +22,11 @@ Cypress.Commands.add('doLDAPLogin', (settings = {}, useEmail = false) => {
 
 Cypress.Commands.add('performLDAPLogin', (settings = {}, useEmail = false) => {
     const loginId = useEmail ? settings.user.email : settings.user.username;
-    cy.get('#loginId').type(loginId);
-    cy.get('#loginPassword').type(settings.user.password);
+    cy.get('#input_loginId').type(loginId);
+    cy.get('#input_password-input').type(settings.user.password);
 
     //click the login button
-    cy.findByText('Sign in').should('be.visible').click();
+    cy.get('#saveSetting').should('not.be.disabled').click();
 });
 
 Cypress.Commands.add('doLDAPLogout', (settings = {}) => {

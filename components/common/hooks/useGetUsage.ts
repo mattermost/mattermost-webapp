@@ -3,51 +3,25 @@
 
 import {useMemo} from 'react';
 import {useSelector} from 'react-redux';
-import {GlobalState} from 'types/store';
-import {AnalyticsRow} from '@mattermost/types/admin';
-import Constants from 'utils/constants';
 
-interface CloudUsage {
-    files: {
-        totalStorage: number;
-    };
-    messages: {
-        history: number;
-    };
-    boards: {
-        cards: number;
-        views: number;
-    };
-    integrations: {
-        enabled: number;
-    };
-}
+import {FileSizes} from 'utils/file_utils';
 
-function getStatValue(stat: number | AnalyticsRow[]): number | undefined {
-    if (typeof stat === 'number') {
-        return stat;
-    }
-    if (!stat || stat.length === 0) {
-        return undefined;
-    }
-    return stat[0].value;
-}
+import {CloudUsage} from '@mattermost/types/cloud';
 
 export default function useGetUsage(): CloudUsage {
-    const totalStorage = useSelector(() => 0)
-    const boardsCards = useSelector(() => 0)
-    const boardsViews = useSelector(() => 0)
-    const integrationsEnabled = useSelector(() => 0)
-    const adminStats = useSelector((state: GlobalState) => state.entities.admin.analytics);
-    
-    const messageHistory = getStatValue(adminStats![Constants.StatTypes.TOTAL_POSTS]);
+    const totalStorage = useSelector(() => 3 * FileSizes.Gigabyte);
+    const boardsCards = useSelector(() => 400);
+    const boardsViews = useSelector(() => 2);
+    const integrationsEnabled = useSelector(() => 3);
+    const messageHistory = useSelector(() => 6000);
+
     const usage = useMemo(() => (
         {
             files: {
                 totalStorage,
             },
             messages: {
-                history: messageHistory || 0,
+                history: messageHistory,
             },
             boards: {
                 cards: boardsCards,
@@ -57,6 +31,6 @@ export default function useGetUsage(): CloudUsage {
                 enabled: integrationsEnabled,
             },
         }
-    ), [totalStorage, messageHistory, boardsCards, boardsViews, integrationsEnabled])
-    return usage
+    ), [totalStorage, messageHistory, boardsCards, boardsViews, integrationsEnabled]);
+    return usage;
 }
