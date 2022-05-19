@@ -75,7 +75,7 @@ import type {
     MarketplaceApp,
     MarketplacePlugin,
 } from '@mattermost/types/marketplace';
-import {Post, PostList, PostSearchResults, OpenGraphMetadata} from '@mattermost/types/posts';
+import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse} from '@mattermost/types/posts';
 import {PreferenceType} from '@mattermost/types/preferences';
 import {Reaction} from '@mattermost/types/reactions';
 import {Role} from '@mattermost/types/roles';
@@ -423,6 +423,10 @@ export default class Client4 {
 
     getCloudRoute() {
         return `${this.getBaseRoute()}/cloud`;
+    }
+
+    getUsageRoute() {
+        return `${this.getBaseRoute()}/usage`;
     }
 
     getPermissionsRoute() {
@@ -3787,6 +3791,13 @@ export default class Client4 {
     getCloudLimits = () => {
         return this.doFetch<Limits>(
             `${this.getCloudRoute()}/limits`,
+            {method: 'get'},
+        );
+    }
+
+    getPostsUsage = () => {
+        return this.doFetch<PostsUsageResponse>(
+            `${this.getUsageRoute()}/posts`,
             {method: 'get'},
         );
     }

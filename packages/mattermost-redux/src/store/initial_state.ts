@@ -190,6 +190,26 @@ const state: GlobalState = {
                 limitsLoaded: false,
             },
         },
+        usage: {
+            files: {
+                totalStorage: 0,
+                totalStorageLoaded: false,
+            },
+            messages: {
+                history: 0,
+                historyLoaded: false,
+            },
+            boards: {
+                cards: 0,
+                cardsLoaded: false,
+                views: 0,
+                viewsLoaded: false,
+            },
+            integrations: {
+                enabled: 0,
+                enabledLoaded: false,
+            },
+        },
         insights: {
             topReactions: {},
             myTopReactions: {},
