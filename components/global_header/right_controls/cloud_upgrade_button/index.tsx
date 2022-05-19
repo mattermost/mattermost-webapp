@@ -58,7 +58,7 @@ const UpgradeCloudButton = (): JSX.Element | null => {
     const product = useSelector(selectCloudProduct);
     const isCloud = useSelector(isCurrentLicenseCloud);
 
-    const isEnterpriseTrial = subscription?.is_free_trial;
+    const isEnterpriseTrial = subscription?.is_free_trial === 'true';
     const isStarter = product?.sku === CloudProducts.STARTER;
 
     if (!isCloud || !isAdmin || !isCloudFreeEnabled) {

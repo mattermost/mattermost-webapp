@@ -151,7 +151,7 @@ function Content(props: ContentProps) {
     const products = useSelector(selectCloudProducts);
 
     const isEnterprise = product?.sku === CloudProducts.ENTERPRISE;
-    const isEnterpriseTrial = Boolean(subscription?.is_free_trial);
+    const isEnterpriseTrial = subscription?.is_free_trial === 'true';
     const professionalProduct = Object.values(products || {}).find(((product) => {
         return product.sku === CloudProducts.PROFESSIONAL;
     }));
@@ -159,7 +159,7 @@ function Content(props: ContentProps) {
     const isStarter = product?.sku === CloudProducts.STARTER;
 
     let isPostTrial = false;
-    if (subscription?.trial_end_at && !subscription.is_free_trial && (isStarter || isEnterprise)) {
+    if ((subscription && subscription.trial_end_at > 0) && !isEnterpriseTrial && (isStarter || isEnterprise)) {
         isPostTrial = true;
     }
 
