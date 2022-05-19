@@ -1822,6 +1822,7 @@ export function numberToFixedDynamic(num: number, places: number): string {
     return str.slice(0, indexToExclude);
 }
 
+// A negative usage value means they are over the limit. This function simply tells you whether ANY LIMIT has been reached/surpassed.
 export function anyUsageDeltaValueIsNegative(deltas: CloudUsage) {
     let foundANegative = false;
 
