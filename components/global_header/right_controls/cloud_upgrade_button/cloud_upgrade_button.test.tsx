@@ -72,7 +72,7 @@ describe('components/global/CloudUpgradeButton', () => {
         state.entities.cloud = {
             subscription: {
                 product_id: 'test_prod_2',
-                is_free_trial: true,
+                is_free_trial: 'true',
             },
             products: {
                 test_prod_2: {
@@ -103,7 +103,7 @@ describe('components/global/CloudUpgradeButton', () => {
         state.entities.cloud = {
             subscription: {
                 product_id: 'test_prod_3',
-                is_free_trial: false,
+                is_free_trial: 'false',
             },
             products: {
                 test_prod_3: {
@@ -134,7 +134,7 @@ describe('components/global/CloudUpgradeButton', () => {
         state.entities.cloud = {
             subscription: {
                 product_id: 'test_prod_4',
-                is_free_trial: false,
+                is_free_trial: 'false',
             },
             products: {
                 test_prod_4: {
