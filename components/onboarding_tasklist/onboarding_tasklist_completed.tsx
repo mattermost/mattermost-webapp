@@ -103,6 +103,8 @@ const CompletedWrapper = styled.div`
 
 interface Props {
     dismissAction: () => void;
+    isCurrentUserSystemAdmin: boolean;
+    isFirstAdmin: boolean;
 }
 
 const Completed = (props: Props): JSX.Element => {
@@ -120,7 +122,8 @@ const Completed = (props: Props): JSX.Element => {
     const isCurrentLicensed = license?.IsLicensed;
 
     // Show this CTA if the instance is currently not licensed and has never had a trial license loaded before
-    const showStartTrialBtn = (isCurrentLicensed === 'false' && isPrevLicensed === 'false');
+    const showStartTrialBtn = (isCurrentLicensed === 'false' && isPrevLicensed === 'false') &&
+        (props.isCurrentUserSystemAdmin || props.isFirstAdmin);
 
     const {formatMessage} = useIntl();
 

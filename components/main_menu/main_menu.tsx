@@ -3,7 +3,6 @@
 
 import React from 'react';
 import {injectIntl, IntlShape} from 'react-intl';
-import {matchPath} from 'react-router-dom';
 
 import {Permissions} from 'mattermost-redux/constants';
 
@@ -33,8 +32,6 @@ import {ModalData} from 'types/actions';
 import {PluginComponent} from 'types/store/plugins';
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {browserHistory} from 'utils/browser_history';
-
 export type Props = {
     mobile: boolean;
     id?: string;
@@ -57,7 +54,6 @@ export type Props = {
     isMentionSearch?: boolean;
     teamIsGroupConstrained: boolean;
     isLicensedForLDAPGroups?: boolean;
-    showDueToStepsNotFinished: boolean;
     intl: IntlShape;
     teamUrl: string;
     isFirstAdmin: boolean;
@@ -73,7 +69,6 @@ export type Props = {
         showFlaggedPosts: () => void;
         closeRightHandSide: () => void;
         closeRhsMenu: () => void;
-        unhideNextSteps: () => void;
     };
 
 };
@@ -120,11 +115,6 @@ export class MainMenu extends React.PureComponent<Props> {
         }
     }
 
-    unhideNextStepsAndNavigateToTipsView = () => {
-        this.props.actions.unhideNextSteps();
-        browserHistory.push(`${this.props.teamUrl}/tips`);
-    }
-
     render() {
         const {
             appDownloadLink,
@@ -158,7 +148,6 @@ export class MainMenu extends React.PureComponent<Props> {
 
         const someIntegrationEnabled = this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots;
         const showIntegrations = !this.props.mobile && someIntegrationEnabled && this.props.canManageIntegrations;
-        const inTipsView = matchPath(this.props.location.pathname, {path: '/:team/tips'}) != null;
 
         const {formatMessage} = this.props.intl;
 
@@ -348,13 +337,6 @@ export class MainMenu extends React.PureComponent<Props> {
                         url={this.props.helpLink}
                         text={formatMessage({id: 'navbar_dropdown.help', defaultMessage: 'Help'})}
                         icon={<i className='fa fa-question'/>}
-                    />
-                    <Menu.ItemAction
-                        id='gettingStarted'
-                        show={!(this.props.useCaseOnboarding && this.props.isFirstAdmin) && this.props.showDueToStepsNotFinished && !inTipsView}
-                        onClick={() => this.unhideNextStepsAndNavigateToTipsView()}
-                        text={formatMessage({id: 'navbar_dropdown.gettingStarted', defaultMessage: 'Getting Started'})}
-                        icon={<i className='icon icon-play'/>}
                     />
                     <Menu.ItemExternalLink
                         id='reportLink'
