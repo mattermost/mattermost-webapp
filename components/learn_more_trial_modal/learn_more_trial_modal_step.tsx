@@ -62,12 +62,13 @@ const LearnMoreTrialModalStep = (
 
     // no need to check if is cloud trial or if it have had prev cloud trial cause the button that show this modal takes care of that
     if (isCloudFree) {
-        startTrialBtnMsg = formatMessage({id: 'menu.cloudFree.tryEnterpriseFor30Days', defaultMessage: 'Try Enterprise free for 30 days'});
+        startTrialBtnMsg = formatMessage({id: 'menu.cloudFree.tryFreeFor30Days', defaultMessage: 'Try free for 30 days'});
         startTrialBtn = (
             <CloudStartTrialButton
                 message={startTrialBtnMsg}
                 telemetryId={'start_cloud_trial_after_completing_steps'}
                 onClick={dismissAction}
+                extraClass={'btn btn-primary start-cloud-trial-btn'}
             />
         );
     }

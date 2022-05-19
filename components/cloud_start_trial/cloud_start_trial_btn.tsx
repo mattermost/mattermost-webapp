@@ -20,9 +20,9 @@ import './cloud_start_trial_btn.scss';
 
 export type CloudStartTrialBtnProps = {
     message: string;
-    linkStyle?: boolean;
     telemetryId: string;
     onClick?: () => void;
+    extraClass?: string;
 };
 
 enum TrialLoadStatus {
@@ -36,7 +36,7 @@ enum TrialLoadStatus {
 const CloudStartTrialButton = ({
     message,
     telemetryId,
-    linkStyle,
+    extraClass,
     onClick,
 }: CloudStartTrialBtnProps) => {
     const {formatMessage} = useIntl();
@@ -96,7 +96,7 @@ const CloudStartTrialButton = ({
 
     return (
         <button
-            className={`CloudStartTrialButton ${linkStyle ? 'style-link' : ''}`}
+            className={`CloudStartTrialButton ${extraClass}`}
             onClick={startCloudTrial}
         >
             {btnText(status)}

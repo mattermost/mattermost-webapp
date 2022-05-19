@@ -146,7 +146,7 @@
     }
 
     .MenuCloudTrial {
-        padding: 8px;
+        padding: 8px 12px;
         margin: 8px;
         margin-top: 0;
         background-color: rgba(var(--button-bg-rgb), 0.04);
@@ -179,6 +179,11 @@
                 color: var(--button-bg);
                 text-decoration: underline;
             }
+        }
+
+        .open-trial-benefits-modal {
+            display: inline !important;
+            margin-left: 2px;
         }
 
         .open-see-plans-modal {

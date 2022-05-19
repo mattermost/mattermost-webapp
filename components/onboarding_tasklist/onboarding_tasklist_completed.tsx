@@ -178,8 +178,9 @@ const Completed = (props: Props): JSX.Element => {
                             </span>
                             {isCloud && isCloudFreeEnabled ? (
                                 <CloudStartTrialButton
-                                    message={formatMessage({id: 'menu.cloudFree.tryEnterpriseFor30Days', defaultMessage: 'Try Enterprise free for 30 days'})}
+                                    message={formatMessage({id: 'menu.cloudFree.tryFreeFor30Days', defaultMessage: 'Try free for 30 days'})}
                                     telemetryId={'start_cloud_trial_after_completing_steps'}
+                                    extraClass={'btn btn-primary'}
                                 />
                             ) : (
                                 <StartTrialBtn

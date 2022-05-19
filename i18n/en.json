@@ -3759,6 +3759,7 @@
   "menu.cloudFree.seePlans": "See plans",
   "menu.cloudFree.tryEnterprise": "Interested in a limitless plan with high-security features?",
   "menu.cloudFree.tryEnterpriseFor30Days": "Try Enterprise free for 30 days",
+  "menu.cloudFree.tryFreeFor30Days": "Try free for 30 days",
   "menu.nonCloudFree.daysLeftOnTrial": "There are {daysLeftOnTrial} days left on your Cloud trial.",
   "menu.nonCloudFree.subscribeNow": "Subscribe Now",
   "message_submit_error.invalidCommand": "Command with a trigger of ''{command}'' not found. ",

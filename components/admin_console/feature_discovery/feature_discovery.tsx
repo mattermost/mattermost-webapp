@@ -136,8 +136,9 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
 
         const ctaTrialButton = canRequestCloudFreeTrial ? (
             <CloudStartTrialButton
-                message={Utils.localizeMessage('menu.cloudFree.tryEnterpriseFor30Days', 'Try Enterprise free for 30 days')}
+                message={Utils.localizeMessage('admin.ldap_feature_discovery.call_to_action.primary', 'Start trial')}
                 telemetryId={'start_cloud_trial_feature_discovery'}
+                extraClass='btn btn-primary'
             />
         ) : (
             <button
