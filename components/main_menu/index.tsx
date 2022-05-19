@@ -23,15 +23,9 @@ import {Permissions} from 'mattermost-redux/constants';
 
 import {RHSStates} from 'utils/constants';
 
-import {unhideNextSteps} from 'actions/views/next_steps';
 import {showMentions, showFlaggedPosts, closeRightHandSide, closeMenu as closeRhsMenu} from 'actions/views/rhs';
 import {openModal} from 'actions/views/modals';
 import {getRhsState} from 'selectors/rhs';
-
-import {
-    showOnboarding,
-    showNextSteps,
-} from 'components/next_steps_view/steps';
 
 import {GlobalState} from 'types/store';
 
@@ -81,8 +75,6 @@ function mapStateToProps(state: GlobalState) {
         isMentionSearch: rhsState === RHSStates.MENTION,
         teamIsGroupConstrained: Boolean(currentTeam.group_constrained),
         isLicensedForLDAPGroups: state.entities.general.license.LDAPGroups === 'true',
-        showGettingStarted: showOnboarding(state),
-        showDueToStepsNotFinished: showNextSteps(state),
         teamUrl: getCurrentRelativeTeamUrl(state),
         guestAccessEnabled: config.EnableGuestAccounts === 'true',
         canInviteTeamMember,
@@ -99,7 +91,6 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             showFlaggedPosts,
             closeRightHandSide,
             closeRhsMenu,
-            unhideNextSteps,
         }, dispatch),
     };
 }

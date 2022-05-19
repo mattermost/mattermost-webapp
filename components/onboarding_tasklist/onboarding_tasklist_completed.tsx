@@ -106,6 +106,8 @@ const CompletedWrapper = styled.div`
 
 interface Props {
     dismissAction: () => void;
+    isCurrentUserSystemAdmin: boolean;
+    isFirstAdmin: boolean;
 }
 
 const Completed = (props: Props): JSX.Element => {
@@ -131,8 +133,11 @@ const Completed = (props: Props): JSX.Element => {
     const isCloudFreePaidSubscription = isCloud && isCloudFreeEnabled && license?.SkuShortName !== LicenseSkus.Starter && !isFreeTrial;
 
     // Show this CTA if the instance is currently not licensed and has never had a trial license loaded before
+    // also check that the user is a system admin (this after the onboarding task list is shown to all users)
+    const selfHostedTrialCondition = (isCurrentLicensed === 'false' && isPrevLicensed === 'false') &&
+    (props.isCurrentUserSystemAdmin || props.isFirstAdmin);
+
     // if Cloud, show if isCloudFreeEnabled and is not in trial and had never been on trial
-    const selfHostedTrialCondition = isCurrentLicensed === 'false' && isPrevLicensed === 'false';
     const cloudTrialCondition = isCloud && isCloudFreeEnabled && !isFreeTrial && !hadPrevCloudTrial && !isCloudFreePaidSubscription;
 
     const showStartTrialBtn = selfHostedTrialCondition || cloudTrialCondition;

@@ -23,6 +23,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
 import {get, makeGetCategory, cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {isCurrentUserSystemAdmin, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
 import {browserHistory} from 'utils/browser_history';
@@ -97,6 +98,8 @@ export const useTasksList = () => {
     const license = useSelector(getLicense);
     const isPrevLicensed = prevTrialLicense?.IsLicensed;
     const isCurrentLicensed = license?.IsLicensed;
+    const isUserAdmin = useSelector((state: GlobalState) => isCurrentUserSystemAdmin(state));
+    const isUserFirstAdmin = useSelector(isFirstAdmin);
 
     // Cloud conditions
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
@@ -122,6 +125,11 @@ export const useTasksList = () => {
         delete list.PLAYBOOKS_TOUR;
     }
     if (!showStartTrialTask) {
+        delete list.START_TRIAL;
+    }
+
+    if (!isUserFirstAdmin && !isUserAdmin) {
+        delete list.VISIT_SYSTEM_CONSOLE;
         delete list.START_TRIAL;
     }
 
