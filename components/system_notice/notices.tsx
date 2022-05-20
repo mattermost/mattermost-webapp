@@ -148,9 +148,20 @@ const notices: Notice[] = [
         icon: mattermostIcon,
         allowForget: false,
         body: (
-            <FormattedMarkdownMessage
+            <FormattedMessage
                 id='system_notice.body.ie11_deprecation'
-                defaultMessage='Your browser, IE11, will no longer be supported in an upcoming release. [Find out how to move to another browser in one simple step](!https://forum.mattermost.com/t/mattermost-is-dropping-support-for-internet-explorer-ie11-in-v5-16/7575).'
+                defaultMessage='Your browser, IE11, will no longer be supported in an upcoming release. <link>Find out how to move to another browser in one simple step</link>.'
+                values={{
+                    link: (msg: React.ReactNode) => (
+                        <a
+                            href='https://forum.mattermost.com/t/mattermost-is-dropping-support-for-internet-explorer-ie11-in-v5-16/7575'
+                            target='_blank'
+                            rel='noreferrer'
+                        >
+                            {msg}
+                        </a>
+                    ),
+                }}
             />
         ),
         show: (serverVersion) => {
