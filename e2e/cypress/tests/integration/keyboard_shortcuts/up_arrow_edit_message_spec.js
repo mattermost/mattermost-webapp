@@ -301,9 +301,9 @@ describe('Keyboard Shortcuts', () => {
         cy.get('#post_textbox').type('{uparrow}');
 
         // # Add some text to the previous message and save
-        cy.get('#edit_textbox').type('Test{enter}');
+        cy.get('#edit_textbox').type('Test').type('{enter}');
 
-        cy.wait(TIMEOUTS.TEN_SEC);
+        cy.wait(TIMEOUTS.ONE_SEC);
         cy.getLastPost().within(() => {
             // * Posted message should be correct
             cy.get('.post-message__text').should('contain.text', 'Test');
