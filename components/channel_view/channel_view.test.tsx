@@ -27,7 +27,6 @@ describe('components/channel_view', () => {
             getProfiles: jest.fn(),
         },
         isFirstAdmin: false,
-        useCaseOnboarding: false,
         isAdvancedTextEditorEnabled: false,
     };
 

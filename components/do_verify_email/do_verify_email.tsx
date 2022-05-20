@@ -56,7 +56,7 @@ export default class DoVerifyEmail extends React.PureComponent<Props, State> {
             if (this.props.useCaseOnboarding) {
                 // need info about whether admin or not,
                 // and whether admin has already completed
-                // first tiem onboarding. Instead of fetching and orchestrating that here,
+                // first time onboarding. Instead of fetching and orchestrating that here,
                 // let the default root component handle it.
                 browserHistory.push('/');
             } else {

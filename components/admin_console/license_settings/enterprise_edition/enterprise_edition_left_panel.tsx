@@ -156,7 +156,6 @@ const renderLicenseContent = (
     const sku = license.SkuShortName ? <>{`Mattermost ${toTitleCase(skuName)}${isTrialLicense ? ' License Trial' : ''}`}</> : null;
 
     const users = <FormattedNumber value={parseInt(license.Users, 10)}/>;
-
     const startsAt = <FormattedDate value={new Date(parseInt(license.StartsAt, 10))}/>;
     const expiresAt = <FormattedDate value={new Date(parseInt(license.ExpiresAt, 10))}/>;
 

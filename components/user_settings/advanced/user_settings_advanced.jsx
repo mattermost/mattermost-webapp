@@ -24,6 +24,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
     static propTypes = {
         currentUser: PropTypes.object.isRequired,
         advancedSettingsCategory: PropTypes.array.isRequired,
+        isAdvancedTextEditorEnabled: PropTypes.bool,
         sendOnCtrlEnter: PropTypes.string.isRequired,
         codeBlockOnCtrlEnter: PropTypes.bool,
         formatting: PropTypes.string.isRequired,
@@ -459,7 +460,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             );
         }
 
-        const formattingSection = this.renderFormattingSection();
+        const formattingSection = this.props.isAdvancedTextEditorEnabled ? null : this.renderFormattingSection();
         let formattingSectionDivider = null;
         if (formattingSection) {
             formattingSectionDivider = <div className='divider-light'/>;
