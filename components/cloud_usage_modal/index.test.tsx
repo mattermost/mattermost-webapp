@@ -62,8 +62,6 @@ function setupStore(hasLimits: boolean) {
                 boards: {
                     cards: 0,
                     cardsLoaded: true,
-                    views: 0,
-                    viewsLoaded: true,
                 },
                 integrations: {
                     enabled: 0,

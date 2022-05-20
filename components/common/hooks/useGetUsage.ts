@@ -46,11 +46,11 @@ export default function useGetUsage(): CloudUsage {
 
     const [requestedBoardsUsage, setRequestedBoardsUsage] = useState(false);
     useEffect(() => {
-        if (isCloudFreeEnabled && !requestedBoardsUsage && (!usage.boards.cardsLoaded || !usage.boards.viewsLoaded)) {
+        if (isCloudFreeEnabled && !requestedBoardsUsage && !usage.boards.cardsLoaded) {
             dispatch(getBoardsUsage());
             setRequestedBoardsUsage(true);
         }
-    }, [isCloudFreeEnabled, requestedBoardsUsage, usage.boards.cardsLoaded, usage.boards.viewsLoaded]);
+    }, [isCloudFreeEnabled, requestedBoardsUsage, usage.boards.cardsLoaded]);
 
     return usage;
 }
