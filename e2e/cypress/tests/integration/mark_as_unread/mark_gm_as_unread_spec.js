@@ -69,6 +69,8 @@ describe('Mark as Unread', () => {
             // * Verify the notification separator line exists and present before the unread message
             verifyPostNextToNewMessageSeparator(`this is from user: ${otherUser1.id}, 7`);
 
+            cy.wait(TIMEOUTS.ONE_SEC);
+
             // * Verify the group message in LHS is unread
             cy.get(`#sidebarItem_${gmChannel.name}`).should('have.class', 'unread-title');
 
