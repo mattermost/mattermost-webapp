@@ -49,7 +49,7 @@ describe('Authentication', () => {
 
         cy.uiSave();
 
-        cy.findByText('Your password must contain between 7 and 64 characters.').should('be.visible');
+        cy.findByText('Must be 7-64 characters long.').should('be.visible');
 
         cy.apiLogout();
 
@@ -65,7 +65,7 @@ describe('Authentication', () => {
         cy.findByText('Create Account').click();
 
         // * Assert the error is what is expected;
-        cy.findByText('Your password must contain between 7 and 64 characters.').should('be.visible');
+        cy.findByText('Must be 5-64 characters long.').should('be.visible');
 
         cy.get('#input_password-input').clear().type('greaterthan7');
 
@@ -118,7 +118,7 @@ describe('Authentication', () => {
             cy.findByText('Create Account').click();
 
             // * Assert the error is what is expected;
-            cy.findByText('Your password must contain between 5 and 64 characters made up of at least one lowercase letter, at least one uppercase letter, at least one number, and at least one symbol (e.g. "~!@#$%^&*()").').should('be.visible');
+            cy.findByText('Must be 5-64 characters long and include both lowercase and uppercase letters, numbers, and special characters.').should('be.visible');
         });
     });
 
