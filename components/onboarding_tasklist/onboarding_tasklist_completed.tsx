@@ -212,14 +212,14 @@ const Completed = (props: Props): JSX.Element => {
                             />
                         </span>
                     </div>
-                    <div className='disclaimer'>
+                    {showStartTrialBtn && <div className='disclaimer'>
                         <span>
                             <FormattedMarkdownMessage
                                 id='onboardingTask.checklist.disclaimer'
                                 defaultMessage='By clicking “Start trial”, I agree to the [Mattermost Software Evaluation Agreement,](!https://mattermost.com/software-evaluation-agreement) [privacy policy,](!https://mattermost.com/privacy-policy/) and receiving product emails.'
                             />
                         </span>
-                    </div>
+                    </div>}
                 </CompletedWrapper>
             </CSSTransition>
         </>
