@@ -2861,7 +2861,7 @@
   "help.formatting.code.description": "Criar um bloco de código pelo recuo cada linha por quatro espaços, ou colocando ``` na linha acima e abaixo de seu código.",
   "help.formatting.code.title": "Bloco de Código",
   "help.formatting.codeBlock": "Bloco de código",
-  "help.formatting.emojis.description": "Abra o preenchimento automático de emoji digitando `:`. A lista completa de emojis pode ser encontrada [aqui](http://www.emoji-cheat-sheet.com/). Também é possível criar seu próprio [Emoji Personalizado](http://docs.mattermost.com/help/settings/custom-emoji.html) se o emoji que pretende utilizar não existir.",
+  "help.formatting.emojis.description": "Abra o preenchimento automático de emoji digitando `:`. A lista completa de emojis pode ser encontrada <linkEmoji>aqui</linkEmoji>(http://www.emoji-cheat-sheet.com/). Também é possível criar seu próprio <linkCustomEmoji>Emoji Personalizado</linkCustomEmoji>(http://docs.mattermost.com/help/settings/custom-emoji.html) se o emoji que pretende utilizar não existir.",
   "help.formatting.emojis.title": "Emojis",
   "help.formatting.example": "Exemplo:",
   "help.formatting.githubTheme": "**Tema GitHub**",

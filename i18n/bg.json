@@ -3194,7 +3194,7 @@
   "help.formatting.code.description": "Създайте блок с код, като отстъпите всеки ред с четири интервала или поставите ``` на реда над и под кода.",
   "help.formatting.code.title": "Блок с код",
   "help.formatting.codeBlock": "Блок с код",
-  "help.formatting.emojis.description": "Отворете автоматично завършване на емотикон, като напишете `:`. Пълен списък с емотикони можете да намерите [тук](!http: //www.emoji-cheat-sheet.com/). Възможно е също да създадете свой собствен [Персонализиран емотикон](!http://docs.mattermost.com/help/settings/custom-emoji.html), ако емотикона, които искате да използвате не съществува.",
+  "help.formatting.emojis.description": "Отворете автоматично завършване на емотикон, като напишете `:`. Пълен списък с емотикони можете да намерите <linkEmoji>тук</linkEmoji>. Възможно е също да създадете свой собствен <linkCustomEmoji>Персонализиран емотикон</linkCustomEmoji>, ако емотикона, които искате да използвате не съществува.",
   "help.formatting.emojis.title": "Емотикони",
   "help.formatting.example": "Пример:",
   "help.formatting.githubTheme": "**Тема на GitHub**",

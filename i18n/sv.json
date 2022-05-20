@@ -3306,7 +3306,7 @@
   "help.formatting.code.description": "Skapa ett kodblock genom att börja varje rad med fyra mellanslag eller genom att placera ``` på raden före och efter ditt kodblock.",
   "help.formatting.code.title": "Kod-block",
   "help.formatting.codeBlock": "Kod-block",
-  "help.formatting.emojis.description": "Öppna automatavslutaren för emoijer genom att skriva \":\". En fullständig lista på emoijer finns [online](!http://www.emoji-cheat-sheet.com/). Det är också möjligt att skapa dina egna [Anpassade Emoji](!https://docs.mattermost.com/messaging/using-emoji.html#creatings/-custom-emoji.htmls) om just den emoij du behöver saknas.",
+  "help.formatting.emojis.description": "Öppna automatavslutaren för emoijer genom att skriva \":\". En fullständig lista på emoijer finns <linkEmoji>online</linkEmoji>. Det är också möjligt att skapa dina egna <linkCustomEmoji>Anpassade Emoji</linkCustomEmoji> om just den emoij du behöver saknas.",
   "help.formatting.emojis.title": "Emoji",
   "help.formatting.example": "Exempel:",
   "help.formatting.githubTheme": "**GitHub-tema**",

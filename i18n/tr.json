@@ -3374,7 +3374,7 @@
   "help.formatting.code.description": "Her satırın başında dört boşluk bırakarak ya da önceki ve sonraki satıra ``` yazarak bir kod bloğu oluşturabilirsiniz.",
   "help.formatting.code.title": "Kod bloğu",
   "help.formatting.codeBlock": "Kod bloğu",
-  "help.formatting.emojis.description": "\":\" yazarak otomatik emoji tamamlayıcı açılabilir. Emojilerin tam listesi [çevrimiçi olarak](http://www.emoji-cheat-sheet.com/) bulunabilir. Ayrıca kullanmak istediğiniz emoji eksikse [özel emoji ayarları](http://docs.mattermost.com/messaging/using-emoji.html#creating-custom-emojis) yapabilirsiniz.",
+  "help.formatting.emojis.description": "\":\" yazarak otomatik emoji tamamlayıcı açılabilir. Emojilerin tam listesi <linkEmoji>çevrimiçi olarak</linkEmoji>(http://www.emoji-cheat-sheet.com/) bulunabilir. Ayrıca kullanmak istediğiniz emoji eksikse <linkCustomEmoji>özel emoji ayarları</linkCustomEmoji>(http://docs.mattermost.com/messaging/using-emoji.html#creating-custom-emojis) yapabilirsiniz.",
   "help.formatting.emojis.title": "Emojiler",
   "help.formatting.example": "Örnek:",
   "help.formatting.githubTheme": "**GitHub teması**",

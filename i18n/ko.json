@@ -2528,7 +2528,7 @@
   "help.formatting.code.description": "각 행을 네 칸씩 삽입하거나 코드 위아래 줄에 ```를 배치하여 코드 블록을 만드십시오.",
   "help.formatting.code.title": "code block",
   "help.formatting.codeBlock": "code block",
-  "help.formatting.emojis.description": "\":\"를 입력하여 이모티콘 목록을 여십시오. 이모티콘의 전체 목록은 [여기](http://www.emoji-cheat-sheet.com/)에서 찾을 수 있습니다. 사용하고자 하는 이모지가 존재하지 않는 경우, 본인만의 [사용자 정의 이모지](http://docs.mattermost.com/help/settings/custom-emoji.html)를 만들 수도 있습니다.",
+  "help.formatting.emojis.description": "\":\"를 입력하여 이모티콘 목록을 여십시오. 이모티콘의 전체 목록은 <linkEmoji>여기</linkEmoji>(http://www.emoji-cheat-sheet.com/)에서 찾을 수 있습니다. 사용하고자 하는 이모지가 존재하지 않는 경우, 본인만의 <linkCustomEmoji>사용자 정의 이모지</linkCustomEmoji>(http://docs.mattermost.com/help/settings/custom-emoji.html)를 만들 수도 있습니다.",
   "help.formatting.emojis.title": "이모지",
   "help.formatting.example": "예시:",
   "help.formatting.headings.description": "제목 앞에 #를 입력하고 공백으로 제목을 만드세요. 작은 머리글의 경우, 더 많은 #를 사용하십시오.",

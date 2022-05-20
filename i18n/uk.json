@@ -1944,7 +1944,7 @@
   "help.formatting.code.description": "## Блоки коду\n\nБлоки коду відбиваються 4 пробілами на початку рядка або ставляться три апострофа на початку і кінці блоку коду.",
   "help.formatting.code.title": "Блок коду ",
   "help.formatting.codeBlock": "Блок коду ",
-  "help.formatting.emojis.description": "## Смайли\n\nДля відкриття переліку автопідстановки смайлів введіть `:`. Повний перелік смайлів - [тут] (http://www.emoji-cheat-sheet.com/). Так само можливе створення призначених для користувача смайлів - [Custom Emoji] (http://docs.mattermost.com/help/settings/custom-emoji.html) якщо бажаний смайл відсутній.",
+  "help.formatting.emojis.description": "## Смайли\n\nДля відкриття переліку автопідстановки смайлів введіть `:`. Повний перелік смайлів - <linkEmoji>тут</linkEmoji> (http://www.emoji-cheat-sheet.com/). Так само можливе створення призначених для користувача смайлів - <linkCustomEmoji>Custom Emoji</linkCustomEmoji> (http://docs.mattermost.com/help/settings/custom-emoji.html) якщо бажаний смайл відсутній.",
   "help.formatting.emojis.title": "Емоції",
   "help.formatting.example": "Приклад:",
   "help.formatting.githubTheme": "**Тема GitHub**",

@@ -3150,7 +3150,7 @@
   "help.formatting.code.description": "Crea un bloque de código al dejar una sangría de cuatro espacios en cada línea, o mediante la colocación de ``` en la línea de arriba y debajo del código.",
   "help.formatting.code.title": "Bloque de código",
   "help.formatting.codeBlock": "Bloque de código",
-  "help.formatting.emojis.description": "Abra el auto completado de emoticonos escribiendo `:`. Una lista completa de los emoticonos se puede encontrar [aquí](http://www.emoji-cheat-sheet.com/). También es posible crear tu propio [Emoticono Personalizado](http://docs.mattermost.com/help/settings/custom-emoji.html) si el emoticono que deseas utilizar no existe.",
+  "help.formatting.emojis.description": "Abra el auto completado de emoticonos escribiendo `:`. Una lista completa de los emoticonos se puede encontrar <linkEmoji>aquí</linkEmoji>(http://www.emoji-cheat-sheet.com/). También es posible crear tu propio <linkCustomEmoji>Emoticono Personalizado</linkCustomEmoji>(http://docs.mattermost.com/help/settings/custom-emoji.html) si el emoticono que deseas utilizar no existe.",
   "help.formatting.emojis.title": "Emoticonos",
   "help.formatting.example": "Ejemplo:",
   "help.formatting.githubTheme": "**Tema de GitHub**",

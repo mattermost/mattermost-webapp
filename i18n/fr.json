@@ -3341,7 +3341,7 @@
   "help.formatting.code.description": "Créez un bloc de code en décalant chaque ligne par quatre espaces, ou en utilisant ``` sur la ligne précédent et celle suivant votre code.",
   "help.formatting.code.title": "Bloc de code",
   "help.formatting.codeBlock": "Bloc de code",
-  "help.formatting.emojis.description": "Ouvrez les suggestions d'émoticônes en tapant `:`. Une liste complète d'émoticônes peut être trouvée [en ligne](!http://www.emoji-cheat-sheet.com/). Il est également possible de créer votre propre [émoticône personnalisée](!https://docs.mattermost.com/messaging/using-emoji.html#creating-custom-emojis) si l'émoticône que vous souhaitez utiliser n'existe pas.",
+  "help.formatting.emojis.description": "Ouvrez les suggestions d'émoticônes en tapant `:`. Une liste complète d'émoticônes peut être trouvée <linkEmoji>en ligne</linkEmoji>. Il est également possible de créer votre propre <linkCustomEmoji>émoticône personnalisée</linkCustomEmoji> si l'émoticône que vous souhaitez utiliser n'existe pas.",
   "help.formatting.emojis.title": "Émoticônes",
   "help.formatting.example": "Exemple :",
   "help.formatting.githubTheme": "**Thèmes GitHub**",

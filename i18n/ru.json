@@ -3373,7 +3373,7 @@
   "help.formatting.code.description": "Блоки кода отбиваются 4 пробелами в начале строки или ставятся три апострофа в начале и конце блока кода.",
   "help.formatting.code.title": "Блок кода",
   "help.formatting.codeBlock": "Блок кода",
-  "help.formatting.emojis.description": "Откройте автозаполнение эмодзи, набрав «:». Полный список смайликов можно найти [онлайн](!http://www.emoji-cheat-sheet.com/). Также можно создать свой собственный [Пользовательский эмодзи](!https://docs.mattermost.com/messaging/using-emoji.html#creating-custom-emojis), если эмодзи, которое вы хотите использовать, не существует.",
+  "help.formatting.emojis.description": "Откройте автозаполнение эмодзи, набрав «:». Полный список смайликов можно найти <linkEmoji>онлайн</linkEmoji>. Также можно создать свой собственный <linkCustomEmoji>Пользовательский эмодзи</linkCustomEmoji>, если эмодзи, которое вы хотите использовать, не существует.",
   "help.formatting.emojis.title": "Смайлики",
   "help.formatting.example": "Пример:",
   "help.formatting.githubTheme": "**Тема GitHub**",

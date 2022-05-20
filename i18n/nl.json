@@ -3378,7 +3378,7 @@
   "help.formatting.code.description": "Maak een code blok door iedere lijn te beginnen met vier spaties of door ``` op de lijn boven en onder jouw code blok te plaatsen.",
   "help.formatting.code.title": "Codeblok",
   "help.formatting.codeBlock": "Codeblok",
-  "help.formatting.emojis.description": "Open het emoticon autocomplete door een \":\" te typen. Een lijst met emoticons vind je [online](http://www.emoji-cheat-sheet.com/). Het is ook mogelijk om een [Aangepaste emoticon](http://docs.mattermost.com/help/settings/custom-emoji.html) te maken als het emoticon dat je wil niet bestaat.",
+  "help.formatting.emojis.description": "Open het emoticon autocomplete door een \":\" te typen. Een lijst met emoticons vind je <linkEmoji>online</linkEmoji>(http://www.emoji-cheat-sheet.com/). Het is ook mogelijk om een <linkCustomEmoji>Aangepaste emoticon</linkCustomEmoji>(http://docs.mattermost.com/help/settings/custom-emoji.html) te maken als het emoticon dat je wil niet bestaat.",
   "help.formatting.emojis.title": "Emoticons",
   "help.formatting.example": "Voorbeeld:",
   "help.formatting.githubTheme": "**GitHub Thema**",

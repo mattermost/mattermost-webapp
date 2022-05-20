@@ -2564,7 +2564,7 @@
   "help.formatting.code.description": "Per creare un blocco di codice indentare ogni linea di quattro spazi, oppure utilizzare ``` sulle linea prima e dopo quella del codice.",
   "help.formatting.code.title": "Blocco di codice",
   "help.formatting.codeBlock": "Blocco di codice",
-  "help.formatting.emojis.description": "Aprire il pannello delle Emoji scrivendo `:`. Una lista completa delle emoji si può trovare [qui](http://www.emoji-cheat-sheet.com/). E' possibile creare delle [Emoji Personalizzate](http://docs.mattermost.com/help/settings/custom-emoji.html) se l'emoji che si vuole usare non esiste.",
+  "help.formatting.emojis.description": "Aprire il pannello delle Emoji scrivendo `:`. Una lista completa delle emoji si può trovare <linkEmoji>qui</linkEmoji>(http://www.emoji-cheat-sheet.com/). E' possibile creare delle <linkCustomEmoji>Emoji Personalizzate</linkCustomEmoji>(http://docs.mattermost.com/help/settings/custom-emoji.html) se l'emoji che si vuole usare non esiste.",
   "help.formatting.emojis.title": "Emoji",
   "help.formatting.example": "Esempio:",
   "help.formatting.githubTheme": "**GitHub Theme**",

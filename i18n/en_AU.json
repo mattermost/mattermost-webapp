@@ -3382,7 +3382,7 @@
   "help.formatting.code.description": "Create a code block by indenting each line by four spaces, or by placing ``` on the line above and below your code.",
   "help.formatting.code.title": "Code Block",
   "help.formatting.codeBlock": "Code block",
-  "help.formatting.emojis.description": "pen the emoji autocomplete by typing ':'. A full list of emojis can be found [online](!http://www.emoji-cheat-sheet.com/). It is also possible to create your own [Custom Emoji](!https://docs.mattermost.com/messaging/using-emoji.html#creating-custom-emojis) if the emoji you want to use doesn't exist.",
+  "help.formatting.emojis.description": "pen the emoji autocomplete by typing ':'. A full list of emojis can be found <linkEmoji>online</linkEmoji>. It is also possible to create your own <linkCustomEmoji>Custom Emoji</linkCustomEmoji> if the emoji you want to use doesn't exist.",
   "help.formatting.emojis.title": "Emojis",
   "help.formatting.example": "Example:",
   "help.formatting.githubTheme": "**GitHub Theme**",

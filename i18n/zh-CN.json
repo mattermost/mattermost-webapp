@@ -3185,7 +3185,7 @@
   "help.formatting.code.description": "用四个空格缩进每行，或在代码上下方放上 ``` 创建代码块。",
   "help.formatting.code.title": "代码块",
   "help.formatting.codeBlock": "代码块",
-  "help.formatting.emojis.description": "输入 `:` 打开表情符自动完成。完整的表情符列表在[这里](http://www.emoji-cheat-sheet.com/)。您页可以创建您自己的[自定义表情符](http://docs.mattermost.com/help/settings/custom-emoji.html)如果没有您想使用的表情符。",
+  "help.formatting.emojis.description": "输入 `:` 打开表情符自动完成。完整的表情符列表在<linkEmoji>这里</linkEmoji>(http://www.emoji-cheat-sheet.com/)。您页可以创建您自己的<linkCustomEmoji>自定义表情符</linkCustomEmoji>(http://docs.mattermost.com/help/settings/custom-emoji.html)如果没有您想使用的表情符。",
   "help.formatting.emojis.title": "表情符",
   "help.formatting.example": "示例：",
   "help.formatting.githubTheme": "**GitHub 主题风格**",

@@ -2562,7 +2562,7 @@
   "help.formatting.code.description": "以 4 個空白縮排每一行或是在程式碼的上下方放上 ``` 以建立程式碼區塊",
   "help.formatting.code.title": "程式碼區塊",
   "help.formatting.codeBlock": "程式碼區塊",
-  "help.formatting.emojis.description": "輸入 `:` 打開繪文字自動完成。完整的繪文字列表在[這裡](http://www.emoji-cheat-sheet.com/)。如果您想要用的繪文字不存在，也可以自己建立[自訂繪文字](http://docs.mattermost.com/help/settings/custom-emoji.html)。",
+  "help.formatting.emojis.description": "輸入 `:` 打開繪文字自動完成。完整的繪文字列表在<linkEmoji>這裡</linkEmoji>(http://www.emoji-cheat-sheet.com/)。如果您想要用的繪文字不存在，也可以自己建立<linkCustomEmoji>自訂繪文字</linkCustomEmoji>(http://docs.mattermost.com/help/settings/custom-emoji.html)。",
   "help.formatting.emojis.title": "繪文字",
   "help.formatting.example": "如：",
   "help.formatting.githubTheme": "**GitHub 主題配色**",

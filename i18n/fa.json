@@ -3004,7 +3004,7 @@
   "help.formatting.code.description": "با تورفتگی در هر خط با چهار فاصله، یا با قرار دادن ``` در خط بالا و پایین کد خود، یک بلوک کد ایجاد کنید.",
   "help.formatting.code.title": "بلوک کد",
   "help.formatting.codeBlock": "بلوک کد",
-  "help.formatting.emojis.description": "تکمیل خودکار ایموجی را با تایپ \":\" باز کنید. لیست کامل ایموجی ها را می توانید [آنلاین] (!http://www.emoji-cheat-sheet.com/) پیدا کنید. همچنین در صورتی که شکلک مورد نظر شما وجود نداشته باشد، می‌توانید [Emoji سفارشی] (!https://docs.mattermost.com/messaging/using-emoji.html#creating-custom-emojis) خود را ایجاد کنید.",
+  "help.formatting.emojis.description": "تکمیل خودکار ایموجی را با تایپ \":\" باز کنید. لیست کامل ایموجی ها را می توانید <linkEmoji>آنلاین</linkEmoji>  پیدا کنید. همچنین در صورتی که شکلک مورد نظر شما وجود نداشته باشد، می‌توانید <linkCustomEmoji>Emoji سفارشی</linkCustomEmoji>  خود را ایجاد کنید.",
   "help.formatting.emojis.title": "ایموجی ها",
   "help.formatting.example": "مثال:",
   "help.formatting.githubTheme": "**تم GitHub**",

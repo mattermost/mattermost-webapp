@@ -2998,7 +2998,7 @@
   "help.formatting.code.description": "Creați un bloc de cod prin indentarea fiecărei linii cu patru spații sau plasând ``` pe linia de deasupra și dedesubtul codului.",
   "help.formatting.code.title": "Blocul de coduri",
   "help.formatting.codeBlock": "Blocul de coduri",
-  "help.formatting.emojis.description": "Deschideți completarea automată a imaginii emoji tastând `:`. O listă completă a emojis poate fi găsită [aici](https://www.emoji-cheat-sheet.com/). De asemenea, este posibil să creați propria dvs [Emoji Customizat](https://docs.mattermost.com/help/settings/custom-emoji.html) dacă emoji-ul pe care doriți să-l utilizați nu există.",
+  "help.formatting.emojis.description": "Deschideți completarea automată a imaginii emoji tastând `:`. O listă completă a emojis poate fi găsită <linkEmoji>aici</linkEmoji>(https://www.emoji-cheat-sheet.com/). De asemenea, este posibil să creați propria dvs <linkCustomEmoji>Emoji Customizat</linkCustomEmoji>(https://docs.mattermost.com/help/settings/custom-emoji.html) dacă emoji-ul pe care doriți să-l utilizați nu există.",
   "help.formatting.emojis.title": "Emoji",
   "help.formatting.example": "Exemplu:",
   "help.formatting.githubTheme": "** Tema GitHub **",

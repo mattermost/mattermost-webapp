@@ -3383,7 +3383,7 @@
   "help.formatting.code.description": "それぞれの行を4つのスペースでインデントするか、コードの上下の行に```を書くことでコードブロックを作成できます。",
   "help.formatting.code.title": "コードブロック",
   "help.formatting.codeBlock": "コードブロック",
-  "help.formatting.emojis.description": "\":\" を入力することで絵文字自動補完を開くことができます。全絵文字のリストは [オンライン](http://www.emoji-cheat-sheet.com/)で見ることができます。使いたい絵文字がない場合、あなた自身の[カスタム絵文字](https://docs.mattermost.com/messaging/using-emoji.html#creating-custom-emojis)を作成することができます。",
+  "help.formatting.emojis.description": "\":\" を入力することで絵文字自動補完を開くことができます。全絵文字のリストは <linkEmoji>オンライン</linkEmoji>(http://www.emoji-cheat-sheet.com/)で見ることができます。使いたい絵文字がない場合、あなた自身の<linkCustomEmoji>カスタム絵文字</linkCustomEmoji>(https://docs.mattermost.com/messaging/using-emoji.html#creating-custom-emojis)を作成することができます。",
   "help.formatting.emojis.title": "絵文字",
   "help.formatting.example": "例:",
   "help.formatting.githubTheme": "**GitHubテーマ**",

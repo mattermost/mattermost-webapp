@@ -3383,7 +3383,7 @@
   "help.formatting.code.description": "Hozzon létre egy kódblokkot úgy, hogy mindegyik sort négy szóközzel behúzza, vagy a ``` fölé és alá írja be a kódot.",
   "help.formatting.code.title": "Kódblokk",
   "help.formatting.codeBlock": "Kódblokk",
-  "help.formatting.emojis.description": "Nyissa meg az emoji automatikus kiegészítését a \":\" beírásával. A hangulatjelek teljes listája megtalálható [online](!http://www.emoji-cheat-sheet.com/). [Egyéni Emoji](!https://docs.mattermost.com/messaging/using-emoji.html#creating-custom-emojis) létrehozására is van lehetőség, ha a használni kívánt emoji nem létezik.",
+  "help.formatting.emojis.description": "Nyissa meg az emoji automatikus kiegészítését a \":\" beírásával. A hangulatjelek teljes listája megtalálható <linkEmoji>online</linkEmoji>. <linkCustomEmoji>Egyéni Emoji</linkCustomEmoji> létrehozására is van lehetőség, ha a használni kívánt emoji nem létezik.",
   "help.formatting.emojis.title": "Emojik",
   "help.formatting.example": "Példa:",
   "help.formatting.githubTheme": "**GitHub téma**",
