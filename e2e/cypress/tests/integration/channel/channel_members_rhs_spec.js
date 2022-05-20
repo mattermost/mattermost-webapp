@@ -212,7 +212,7 @@ describe('Channel members RHS', () => {
             // the user line is going to be removed and re-added in another category,
             // cypress struggle to realize this so we have to wait a few ms
             // eslint-disable-next-line cypress/no-unnecessary-waiting
-            cy.wait(500);
+            cy.wait(TIMEOUTS.ONE_SEC);
 
             // * Can see the user with his new admin role, and change it back
             cy.uiGetRHS().findByTestId(`memberline-${user.id}`).should('be.visible').within(() => {
