@@ -4482,7 +4482,7 @@
   "suggestion_list.no_matches": "__{value}__ ile eşleşen bir öge bulunamadı",
   "system_notice.adminVisible": "Yalnız sistem yöneticileri görebilir",
   "system_notice.adminVisible.icon": "Yalnız sistem yöneticileri görebilir simgesi",
-  "system_notice.body.api3": "Son iki yılda bazı bütünleştirmeler eklediyseniz ya da kurduysanız, [son değişiklikler](!https://api.mattermost.com/#tag/APIv3-Deprecation) bölümüne bakarak bu bütünleştirmelerin nasıl etkileneceğine bakabilirsiniz.",
+  "system_notice.body.api3": "Son iki yılda bazı bütünleştirmeler eklediyseniz ya da kurduysanız, <link>son değişiklikler</link> bölümüne bakarak bu bütünleştirmelerin nasıl etkileneceğine bakabilirsiniz.",
   "system_notice.body.ee_upgrade_advice": "En iyi işlerlik ve güvenlik için Enterprise sürümü önerilir. [Ayrıntılı bilgiler](!https://mattermost.com/performance).",
   "system_notice.body.ie11_deprecation": "IE11 web tarayıcısını kullanıyorsunuz. Bu tarayıcı gelecek sürümlerde desteklenmeyecek. [Tek adımda başka bir web tarayıcıya nasıl geçebileceğinizi buradan öğrenebilirsiniz](!https://forum.mattermost.com/t/mattermost-is-dropping-support-for-internet-explorer-ie11-in-v5-16/7575).",
   "system_notice.body.permissions": "Sistem panosunda bulunan bazı ilke ve izin ayarları Mattermost Starter ve Professional tarifelerinde [gelişmiş izinler](!https://docs.mattermost.com/onboard/advanced-permissions.html) bölümü altına taşındı.",

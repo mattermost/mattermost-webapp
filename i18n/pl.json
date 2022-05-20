@@ -4498,7 +4498,7 @@
   "suggestion_list.no_matches": "Żadne rzeczy nie pasują do __{value}__",
   "system_notice.adminVisible": "Widoczne tylko dla Administratorów Systemu",
   "system_notice.adminVisible.icon": "Ikona widoczne tylko dla administratorów",
-  "system_notice.body.api3": "Jeśli utworzyłeś lub zainstalowałeś integracje w ciągu ostatnich dwóch lat, dowiedz się, jak [ostatnie zmiany](!https://api.mattermost.com/#tag/APIv3-Deprecation) mogły na nie wpłynąć.",
+  "system_notice.body.api3": "Jeśli utworzyłeś lub zainstalowałeś integracje w ciągu ostatnich dwóch lat, dowiedz się, jak <link>ostatnie zmiany</link> mogły na nie wpłynąć.",
   "system_notice.body.ee_upgrade_advice": "Edycja Enterprise jest zalecana w celu zapewnienia optymalnego działania i niezawodności. [Dowiedz się więcej](!https://mattermost.com/performance).",
   "system_notice.body.ie11_deprecation": "Twoja przeglądarka IE11 nie będzie już obsługiwana w nadchodzącym wydaniu. [Dowiedz się, jak przejść do innej przeglądarki w jednym prostym kroku](!https://forum.mattermost.com/t/mattermost-is-dropping-support-for-internet-explorer-ie11-in-v5-16/7575).",
   "system_notice.body.permissions": "Niektóre ustawienia zasad i uprawnień zostały przeniesione wraz z wydaniem [zaawansowanych uprawnień](!https://docs.mattermost.com/onboard/advanced-permissions.html) wMattermost Starter and Professional.",

@@ -4484,7 +4484,7 @@
   "suggestion_list.no_matches": "Нет элементов, соответствующих __{value}__",
   "system_notice.adminVisible": "Видно только системным администраторам",
   "system_notice.adminVisible.icon": "Значок \"Видно только системным администраторам\"",
-  "system_notice.body.api3": "Если вы создавали или устанавливали интеграции за последние два года, узнайте, как [недавние изменения](!https://api.mattermost.com/#tag/APIv3-Deprecation) могли на них повлиять.",
+  "system_notice.body.api3": "Если вы создавали или устанавливали интеграции за последние два года, узнайте, как <link>недавние изменения</link> могли на них повлиять.",
   "system_notice.body.ee_upgrade_advice": "Корпоративная редакция рекомендуется для обеспечения оптимальной работы и надежности. [Узнать больше](!https://mattermost.com/performance).",
   "system_notice.body.ie11_deprecation": "Ваш браузер IE11 больше не будет поддерживаться в следующем выпуске. [Узнайте, как перейти в другой браузер за один простой шаг](!https://forum.mattermost.com/t/mattermost-is-dropping-support-for-internet-explorer-ie11-in-v5-16/7575).",
   "system_notice.body.permissions": "Некоторые параметры системной консоли политики и разрешений изменились с выпуском [расширенных разрешений](!https://docs.mattermost.com/onboard/advanced-permissions.html) в Enterprise E10 и E20.",

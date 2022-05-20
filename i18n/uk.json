@@ -2547,7 +2547,7 @@
   "suggestion_list.no_matches": "Немає елементів, які відповідають __{значення}__",
   "system_notice.adminVisible": "Доступно лише для системних адміністраторів",
   "system_notice.adminVisible.icon": "Значок доступний лише для системних адміністраторів",
-  "system_notice.body.api3": "Якщо ви створили або встановили інтеграцію протягом останніх двох років, дізнайтеся, як [останні зміни] (!https://about.mattermost.com/default-apiv3-deprecation-guide), можливо, вплинули на них.",
+  "system_notice.body.api3": "Якщо ви створили або встановили інтеграцію протягом останніх двох років, дізнайтеся, як <link>останні зміни</link> , можливо, вплинули на них.",
   "system_notice.body.ee_upgrade_advice": "Enterprise Edition рекомендується забезпечити оптимальну роботу та надійність. [Додаткова інформація] (!https://mattermost.com/performance).",
   "system_notice.body.permissions": "Деяка політика та дозвіл налаштування System Console перейшли з випуском [розширених дозволів] (!https://docs.mattermost.com/onboard/advanced-permissions.html) в Enterprise E10 і E20.",
   "system_notice.dont_show": "Не показувати знову",

@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {FormattedMessage, useIntl} from 'react-intl';
+
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import * as ServerVersion from 'utils/server_version';
@@ -34,9 +36,20 @@ const notices: Notice[] = [
         ),
         icon: mattermostIcon,
         body: (
-            <FormattedMarkdownMessage
+            <FormattedMessage
                 id='system_notice.body.api3'
-                defaultMessage='If you’ve created or installed integrations in the last two years, find out how [recent changes](!https://api.mattermost.com/#tag/APIv3-Deprecation) may have affected them.'
+                defaultMessage='If you’ve created or installed integrations in the last two years, find out how <link>recent changes</link> may have affected them.'
+                values={{
+                    link: (msg: React.ReactNode) => (
+                        <a
+                            href='https://api.mattermost.com/#tag/APIv3-Deprecation'
+                            target='_blank'
+                            rel='noreferrer'
+                        >
+                            {msg}
+                        </a>
+                    ),
+                }}
             />
         ),
         allowForget: true,

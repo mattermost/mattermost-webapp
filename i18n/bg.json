@@ -4080,7 +4080,7 @@
   "suggestion_list.no_matches": "Нито един продукт не съвпада __ {value} __",
   "system_notice.adminVisible": "Вижда се само от системните администратори",
   "system_notice.adminVisible.icon": "Икона за Видимо само за системните администратори",
-  "system_notice.body.api3": "Ако сте създали или инсталирали интеграции през последните две години, разберете как [последните промени](!https://about.mattermost.com/default-apiv3-deprecation-guide) може да са се отразили върху тях.",
+  "system_notice.body.api3": "Ако сте създали или инсталирали интеграции през последните две години, разберете как <link>последните промени</link> може да са се отразили върху тях.",
   "system_notice.body.ee_upgrade_advice": "Корпоративна версия се препоръчва, за да се гарантира оптимална работа и надеждност. [Научете повече](!https://mattermost.com/performance).",
   "system_notice.body.ie11_deprecation": "Вашият браузър, IE11, вече няма да се поддържа в предстояща версия. [Разберете как да преминете към друг браузър с една проста стъпка](!https://forum.mattermost.org/t/mattermost-is-dropping-support-for-internet-explorer-ie11-in-v5-16/ 7575).",
   "system_notice.body.permissions": "Някои правила и настройки на системната конзола се преместиха с въвеждането на [разширени права](!https://docs.mattermost.com/onboard/advanced-permissions.html) в Enterprise E10 и E20.",

@@ -3314,7 +3314,7 @@
   "suggestion_list.no_matches": "Nessuna corrispondenza __{value}__",
   "system_notice.adminVisible": "Visibile solo agli Amministratori di Sistema",
   "system_notice.adminVisible.icon": "Icona Visibile solo agli Amministratori di Sistema",
-  "system_notice.body.api3": "Se hai creato o installato delle integrazioni negli ultimi due anni, scopri come i [prossimi aggiornamenti](!https://about.mattermost.com/default-apiv3-deprecation-guide) possono influenzarle.",
+  "system_notice.body.api3": "Se hai creato o installato delle integrazioni negli ultimi due anni, scopri come i <link>prossimi aggiornamenti</link> possono influenzarle.",
   "system_notice.body.ee_upgrade_advice": "La versione Enterprise è raccomandata perché assicura operatività e sicurezza ottimali. [Scopri di più](!https://mattermost.com/performance).",
   "system_notice.body.ie11_deprecation": "Il tuo browser, IE11, non sarà più supportato nei prossimi rilasci. [Scopri come spostarti su un altro browser in un semplice passaggio](!https://forum.mattermost.com/t/mattermost-is-dropping-support-for-internet-explorer-ie11-in-v5-16/7575).",
   "system_notice.body.permissions": "Alcune politiche e permessi nelle impostazioni della Console di Sistema sono state spostate con il rilascio dei [permessi avanzati](!https://docs.mattermost.com/onboard/advanced-permissions.html) in Enterprise E10 and E20.",

@@ -4511,7 +4511,7 @@
   "suggestion.user.isCurrent": "(you)",
   "system_notice.adminVisible": "Only visible to System Admins",
   "system_notice.adminVisible.icon": "Only visible to System Admins Icon",
-  "system_notice.body.api3": "If you’ve created or installed integrations in the last two years, find out how [recent changes](!https://api.mattermost.com/#tag/APIv3-Deprecation) may have affected them.",
+  "system_notice.body.api3": "If you’ve created or installed integrations in the last two years, find out how <link>recent changes</link> may have affected them.",
   "system_notice.body.ee_upgrade_advice": "Enterprise Edition is recommended to ensure optimal operation and reliability. [Learn more](!https://mattermost.com/performance).",
   "system_notice.body.ie11_deprecation": "Your browser, IE11, will no longer be supported in an upcoming release. [Find out how to move to another browser in one simple step](!https://forum.mattermost.com/t/mattermost-is-dropping-support-for-internet-explorer-ie11-in-v5-16/7575).",
   "system_notice.body.permissions": "Some policy and permission System Console settings have moved with the release of [advanced permissions](!https://docs.mattermost.com/onboard/advanced-permissions.html) into Mattermost Starter and Professional.",

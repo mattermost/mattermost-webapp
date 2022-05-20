@@ -4434,7 +4434,7 @@
   "suggestion_list.no_matches": "Aucun élément ne correspond à __{value}__",
   "system_notice.adminVisible": "Uniquement visible des administrateurs système",
   "system_notice.adminVisible.icon": "Icône uniquement visible des administrateurs système",
-  "system_notice.body.api3": "Si vous avez créé ou installé des intégrations durant les deux dernières années, veuillez consulter les [changements récents](!https://api.mattermost.com/#tag/APIv3-Deprecation) qui pourraient les affecter.",
+  "system_notice.body.api3": "Si vous avez créé ou installé des intégrations durant les deux dernières années, veuillez consulter les <link>changements récents</link> qui pourraient les affecter.",
   "system_notice.body.ee_upgrade_advice": "L'Edition Entreprise est recommandée pour vous assurer un fonctionnement optimal et une fiabilité accrue. [En savoir plus](!https://mattermost.com/performance).",
   "system_notice.body.ie11_deprecation": "Votre navigateur, Internet Explorer 11, ne sera plus supporté dans une future version de Mattermost. Consultez notre [documentation](!https://forum.mattermost.com/t/mattermost-is-dropping-support-for-internet-explorer-ie11-in-v5-16/7575) pour trouver comment passer facilement à un autre navigateur.",
   "system_notice.body.permissions": "Suite à la sortie de la fonctionnalité des [permissions avancées](!https://docs.mattermost.com/onboard/advanced-permissions.html), certains paramètres accessibles via console système sont désormais réservés aux éditions Mattermost Starter et Professional.",

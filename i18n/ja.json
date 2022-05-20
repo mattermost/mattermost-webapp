@@ -4498,7 +4498,7 @@
   "suggestion_list.no_matches": "__{value}__に一致するアイテムがありません",
   "system_notice.adminVisible": "システム管理者のみ閲覧可能",
   "system_notice.adminVisible.icon": "システム管理者のみ閲覧可能アイコン",
-  "system_notice.body.api3": "過去２年間に統合機能を作成もしくはインストールしている場合、[最近行われた変更](!https://api.mattermost.com/#tag/APIv3-Deprecation)によるそれら統合機能への影響について確認してください。",
+  "system_notice.body.api3": "過去２年間に統合機能を作成もしくはインストールしている場合、<link>最近行われた変更</link>によるそれら統合機能への影響について確認してください。",
   "system_notice.body.ee_upgrade_advice": "最適なオペレーションと信頼性を担保するためにEnterprise Editionが推奨されています。[詳細](!https://mattermost.com/performance).",
   "system_notice.body.ie11_deprecation": "あなたの使用しているブラウザーである Internet Explorer 11は、今後のリリースでサポートされなくなります。[他のブラウザに移行する方法について確認してください](!https://forum.mattermost.com/t/mattermost-is-dropping-support-for-internet-explorer-ie11-in-v5-16/7575)。",
   "system_notice.body.permissions": "システムコンソールのいくつかポリシーや権限設定はMattermost Starter/Professionalの[高度な権限設定](!https://docs.mattermost.com/onboard/advanced-permissions.html)機能のリリースにより移動されました。",
