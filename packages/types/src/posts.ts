@@ -80,11 +80,6 @@ export type Post = {
     exists?: boolean;
 };
 
-export type UserActivityPost = Post & {
-    system_post_ids: string[];
-    user_activity_posts: Post[];
-}
-
 export type PostList = {
     order: Array<Post['id']>;
     posts: Map<string, Post>;
@@ -94,17 +89,6 @@ export type PostList = {
 
 export type PostSearchResults = PostList & {
     matches: RelationOneToOne<Post, string[]>;
-};
-
-export type PostWithFormatData = Post & {
-    isFirstReply: boolean;
-    isLastReply: boolean;
-    previousPostIsComment: boolean;
-    commentedOnPost?: Post;
-    consecutivePostByUser: boolean;
-    replyCount: number;
-    isCommentMention: boolean;
-    highlight: boolean;
 };
 
 export type PostOrderBlock = {

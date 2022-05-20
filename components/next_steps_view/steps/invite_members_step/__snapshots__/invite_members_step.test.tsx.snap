@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`components/next_steps_view/steps/invite_members_step should match snapshot 1`] = `
-<ContextConsumer>
-  <Component />
-</ContextConsumer>
-`;
