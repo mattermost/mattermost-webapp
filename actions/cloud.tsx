@@ -141,6 +141,7 @@ export function getFilesUsage(): ActionFunc {
     return async (dispatch: DispatchFunc) => {
         dispatch({
             type: CloudTypes.RECEIVED_FILES_USAGE,
+
             // TODO: Fill this in with the backing client API method once it is available in the server
             data: 3 * FileSizes.Gigabyte,
         });
@@ -152,6 +153,7 @@ export function getIntegrationsUsage(): ActionFunc {
     return async (dispatch: DispatchFunc) => {
         dispatch({
             type: CloudTypes.RECEIVED_INTEGRATIONS_USAGE,
+
             // TODO: Fill this in with the backing client API method once it is available in the server
             data: 3,
         });

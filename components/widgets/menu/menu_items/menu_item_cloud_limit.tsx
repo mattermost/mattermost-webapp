@@ -2,24 +2,22 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {useIntl, FormattedMessage} from 'react-intl';
+import {useIntl} from 'react-intl';
 import {PrimitiveType, FormatXMLElementFn} from 'intl-messageformat';
 import {useSelector} from 'react-redux';
-
-import UpgradeLink from 'components/widgets/links/upgrade_link';
-import {CloudUsage, Limits} from '@mattermost/types/cloud';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 import {isCloudLicense} from 'mattermost-redux/selectors/entities/general';
 
-import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
-import {limitThresholds, asGBString} from 'utils/limits';
-import {TrialPeriodDays} from 'utils/constants';
+import {limitThresholds, asGBString, inK} from 'utils/limits';
 import {t} from 'utils/i18n';
 
 import './menu_item.scss';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import useGetUsage from 'components/common/hooks/useGetUsage';
+import useOpenPricingPage from 'components/common/hooks/useOpenPricingPage';
+import UsagePercentBar from 'components/common/usage_percent_bar';
+import useGetHighestThresholdCloudLimit, {LimitTypes, LimitSummary} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
 
 type Props = {
     id: string;
@@ -28,86 +26,13 @@ type Props = {
 interface Words {
     title: React.ReactNode;
     description: React.ReactNode;
+    status: React.ReactNode;
 }
 
-interface MaybeLimitType {
-    id: string;
-    limit: number | undefined;
-    usage: number;
-}
-interface LimitType {
-    id: string;
-    limit: number;
-    usage: number;
-}
-
-function refineToDefined(...args: MaybeLimitType[]): LimitType[] {
-    return args.reduce((acc: LimitType[], maybeLimitType: MaybeLimitType) => {
-        if (maybeLimitType.limit) {
-            acc.push(maybeLimitType as LimitType);
-        }
-        return acc;
-    }, []);
-}
-
-function useWords(usage: CloudUsage, limits: Limits, isAdminUser: boolean): Words | false {
+function useWords(highestLimit: LimitSummary | false, isAdminUser: boolean): Words | false {
     const intl = useIntl();
-    if (Object.keys(limits).length === 0) {
-        return false;
-    }
-    const maybeMessageHistoryLimit = limits.messages?.history;
-    const messageHistoryUsage = usage.messages.history;
-
-    const maybeBoardsCardsLimit = limits.boards?.cards;
-    const boardsCardsUsage = usage.messages.history;
-
-    const maybeFileStorageLimit = limits.files?.total_storage;
-    const fileStorageUsage = usage.files.totalStorage;
-
-    const maybeEnabledIntegrationsLimit = limits.integrations?.enabled;
-    const enabledIntegrationsUsage = usage.integrations.enabled;
-
-    // Order matters for this array. The designs specify:
-    // > Show the plan limit that is the highest.
-    // > Otherwise if there is a tie,
-    // > default to showing Message History first,
-    // > File storage second,
-    // > and App limit third.
-    const highestLimit = refineToDefined(
-        {
-            id: 'messageHistory',
-            limit: maybeMessageHistoryLimit,
-            usage: messageHistoryUsage,
-        },
-        {
-            id: 'fileStorage',
-            limit: maybeFileStorageLimit,
-            usage: fileStorageUsage,
-        },
-        {
-            id: 'enabledIntegrations',
-            limit: maybeEnabledIntegrationsLimit,
-            usage: enabledIntegrationsUsage,
-        },
-        {
-            id: 'boardsCards',
-            limit: maybeBoardsCardsLimit,
-            usage: boardsCardsUsage,
-        },
-    ).
-        reduce((acc: LimitType | false, curr: LimitType) => {
-            if (!acc) {
-                if (curr.limit && curr.limit > 0) {
-                    return curr;
-                }
-                return acc;
-            }
-            if ((curr.usage / curr.limit) > (acc.usage / acc.limit)) {
-                return curr;
-            }
-            return acc;
-        }, false);
-    if (!highestLimit || highestLimit.usage / highestLimit.limit < limitThresholds.warn) {
+    const openPricingPage = useOpenPricingPage();
+    if (!highestLimit) {
         return false;
     }
     const usageRatio = highestLimit.usage / highestLimit.limit;
@@ -124,10 +49,12 @@ function useWords(usage: CloudUsage, limits: Limits, isAdminUser: boolean): Word
 
     const values: Record<string, PrimitiveType | FormatXMLElementFn<string, string> | ((chunks: React.ReactNode | React.ReactNodeArray) => JSX.Element)> = {
         callToAction,
-        a: (chunks: React.ReactNode | React.ReactNodeArray) => <a>{chunks}</a>,
+        a: (chunks: React.ReactNode | React.ReactNodeArray) => (<a
+            onClick={openPricingPage}
+                                                                >{chunks}</a>),
     };
     switch (highestLimit.id) {
-    case 'messageHistory': {
+    case LimitTypes.messageHistory: {
         let id = t('workspace_limits.menu_limit.warn.messages_history');
         let defaultMessage = 'You’re getting closer to the free message limit. Upgrade to unlock unlimited messages. <a>{callToAction}</a>';
         if (usageRatio >= limitThresholds.danger) {
@@ -137,7 +64,7 @@ function useWords(usage: CloudUsage, limits: Limits, isAdminUser: boolean): Word
         }
         if (usageRatio >= limitThresholds.exceeded) {
             id = t('workspace_limits.menu_limit.over.messages_history');
-            defaultMessage = 'You’re over the free message history limit. You can only view up to the last {limit} messages in your history. <a>{callToAction}</a>.';
+            defaultMessage = 'You’re over the free message history limit. You can only view up to the last {limit} messages in your history. <a>{callToAction}.</a>';
         }
         return {
             title: intl.formatMessage({
@@ -151,9 +78,10 @@ function useWords(usage: CloudUsage, limits: Limits, isAdminUser: boolean): Word
                 },
                 values,
             ),
+            status: inK(highestLimit.limit),
         };
     }
-    case 'fileStorage': {
+    case LimitTypes.fileStorage: {
         let id = t('workspace_limits.menu_limit.warn.files_storage');
         let defaultMessage = 'You’re getting closer to the free file storage limit. Upgrade to increase storage limit. <a>{callToAction}</a>';
         if (usageRatio >= limitThresholds.danger) {
@@ -163,7 +91,7 @@ function useWords(usage: CloudUsage, limits: Limits, isAdminUser: boolean): Word
         }
         if (usageRatio >= limitThresholds.exceeded) {
             id = t('workspace_limits.menu_limit.over.files_storage');
-            defaultMessage = 'You’re over the free {limit} file storage limit. Older files are automatically archived. <a>{callToAction}</a>.';
+            defaultMessage = 'You’re over the free {limit} file storage limit. Older files are automatically archived. <a>{callToAction}.</a>';
         }
         return {
             title: intl.formatMessage({
@@ -177,9 +105,10 @@ function useWords(usage: CloudUsage, limits: Limits, isAdminUser: boolean): Word
                 },
                 values,
             ),
+            status: asGBString(highestLimit.limit, intl.formatNumber),
         };
     }
-    case 'enabledIntegrations': {
+    case LimitTypes.enabledIntegrations: {
         let id = t('workspace_limits.menu_limit.warn.integrations_enabled');
         let defaultMessage = 'You’re getting closer to the free integrations limit. Upgrade to unlock unlimited integrations. <a>{callToAction}</a>';
         if (usageRatio >= limitThresholds.danger) {
@@ -189,7 +118,7 @@ function useWords(usage: CloudUsage, limits: Limits, isAdminUser: boolean): Word
         }
         if (usageRatio >= limitThresholds.exceeded) {
             id = 'workspace_limits.menu_limit.over.integrations_enabled';
-            defaultMessage = 'You’re over the free enabled integrations limit. You can only have {limit} integrations enabled. <a>{callToAction}</a>.';
+            defaultMessage = 'You’re over the free enabled integrations limit. You can only have {limit} integrations enabled. <a>{callToAction}.</a>';
         }
         return {
             title: intl.formatMessage({
@@ -203,10 +132,36 @@ function useWords(usage: CloudUsage, limits: Limits, isAdminUser: boolean): Word
                 },
                 values,
             ),
+            status: highestLimit.limit,
         };
     }
-
-    // TODO: Add case for boards cards
+    case LimitTypes.boardsCards: {
+        let id = t('workspace_limits.menu_limit.warn.boards_cards');
+        let defaultMessage = 'You’re getting closer to the free Boards cards limit. Upgrade to unlock unlimited Boards cards. <a>{callToAction}</a>';
+        if (usageRatio >= limitThresholds.danger) {
+            id = t('workspace_limits.menu_limit.critical.boards_cards');
+            defaultMessage = 'You’re close to hitting the free {limit} Boards cards limit <a>{callToAction}</a>.';
+            values.limit = asGBString(highestLimit.limit, intl.formatNumber);
+        }
+        if (usageRatio >= limitThresholds.exceeded) {
+            id = 'workspace_limits.menu_limit.over.boards_cards';
+            defaultMessage = 'You’re over the free Boards cards limit. You can only view the last {limit} Boards cards. <a>{callToAction}.</a>';
+        }
+        return {
+            title: intl.formatMessage({
+                id: 'workspace_limits.integrations_enabled',
+                defaultMessage: 'Enabled Integrations',
+            }),
+            description: intl.formatMessage(
+                {
+                    id,
+                    defaultMessage,
+                },
+                values,
+            ),
+            status: highestLimit.limit,
+        };
+    }
     default:
         return false;
     }
@@ -218,36 +173,32 @@ const MenuItemCloudLimit = ({id}: Props) => {
     const isFreeTrial = subscription?.is_free_trial === 'true';
     const [limits] = useGetLimits();
     const usage = useGetUsage();
+    const highestLimit = useGetHighestThresholdCloudLimit(usage, limits);
+    const words = useWords(highestLimit, false);
 
-    let daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at);
-    if (daysLeftOnTrial > TrialPeriodDays.TRIAL_MAX_DAYS) {
-        daysLeftOnTrial = TrialPeriodDays.TRIAL_MAX_DAYS;
-    }
-
-    const show = isCloud && isFreeTrial;
-    if (!show) {
-        return null;
-    }
-    const words = useWords(usage, limits, false);
-    if (!words) {
+    const show = isCloud && !isFreeTrial;
+    if (!show || !words || !highestLimit) {
         return null;
     }
 
+    let itemClass = 'MenuItemCloudLimit';
+    if (((highestLimit.usage / highestLimit.limit) * 100) >= limitThresholds.danger) {
+        itemClass += ' MenuItemCloudLimit--critical';
+    }
     return (
         <li
-            className={'MenuCloudTrial'}
+            className={itemClass}
             role='menuitem'
             id={id}
         >
-            <FormattedMessage
-                id='admin.billing.subscription.cloudTrial.menuCloudTrial'
-                defaultMessage='There are {daysLeftOnTrial} days left on your Cloud trial.'
-                values={{daysLeftOnTrial}}
-            />
-            <UpgradeLink
-                buttonText='Subscribe Now'
-                styleLink={true}
-            />
+            <div className='MenuItemCloudLimit__title'>{words.title} <i className='icon icon-information-outline'/></div>
+            <div className='MenuItemCloudLimit__description'>{words.description}</div>
+            <div className='MenuItemCloudLimit__usage'>
+                <UsagePercentBar
+                    percent={Math.floor((highestLimit.usage / highestLimit.limit) * 100)}
+                />
+                <span className='MenuItemCloudLimit__usage-label'>{words.status}</span>
+            </div>
         </li>
     );
 };

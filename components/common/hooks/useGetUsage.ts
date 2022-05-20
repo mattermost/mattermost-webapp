@@ -14,7 +14,6 @@ import {
     getBoardsUsage,
 } from 'actions/cloud';
 
-
 export default function useGetUsage(): CloudUsage {
     const usage = useSelector(getUsage);
 

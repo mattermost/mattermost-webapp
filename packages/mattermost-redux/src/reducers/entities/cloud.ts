@@ -98,7 +98,7 @@ const emptyUsage = {
         cards: 0,
         cardsLoaded: false,
         views: 0,
-        viewsLoaded: false
+        viewsLoaded: false,
     },
     integrations: {
         enabled: 0,

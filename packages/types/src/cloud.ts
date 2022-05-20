@@ -10,7 +10,7 @@ export type CloudState = {
         limitsLoaded: boolean;
         limits: Limits;
     };
-    usage: CloudUsage
+    usage: CloudUsage;
 }
 
 export type Subscription = {

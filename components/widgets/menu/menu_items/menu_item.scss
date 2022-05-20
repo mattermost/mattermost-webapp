@@ -1,5 +1,8 @@
 @import '../../../../sass/utils/module';
 
+$menu_item_warn: #FFD47029;
+$menu_item_critical: #D24B4E29;
+
 .Menu {
     .MenuItem {
         display: flex;
@@ -188,6 +191,51 @@
 
         .open-see-plans-modal {
             display: block;
+        }
+    }
+
+    .MenuItemCloudLimit {
+        margin-top: 0;
+        background-color: $menu_item_warn;
+        padding: 16px 20px;
+
+        &--critical {
+            background-color: $menu_item_critical;
+        }
+
+        .icon-information-outline {
+            color: var(--denim-button-bg);
+        }
+
+        a {
+            // overriding 4 deep selector
+            color: var(--denim-button-bg) !important;
+            font-weight: bold;
+        }
+
+        &__title {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--center-channel-text);
+            padding-bottom: 5px;
+            align-items: center;
+            display: flex;
+        }
+
+        &__description {
+            font-size: 12px;
+            padding-bottom: 12px;
+        }
+
+        &__usage {
+            display: flex;
+        }
+
+        &__usage-label {
+            font-size: 11px;
+            font-weight: bold;
+            color: rgba(var(--center-channel-text-rgb), 0.56);
+            padding-left: 18px;
         }
     }
 

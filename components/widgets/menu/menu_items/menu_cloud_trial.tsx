@@ -19,6 +19,9 @@ import {openModal} from 'actions/views/modals';
 
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
 import {TrialPeriodDays, ModalIdentifiers} from 'utils/constants';
+import useGetHighestThresholdCloudLimit from 'components/common/hooks/useGetHighestThresholdCloudLimit';
+import useGetLimits from 'components/common/hooks/useGetLimits';
+import useGetUsage from 'components/common/hooks/useGetUsage';
 
 import './menu_item.scss';
 
@@ -57,7 +60,8 @@ const MenuCloudTrial = ({id}: Props) => {
         }));
     };
 
-    const show = isCloud && !isCloudFreePaidSubscription && !isCloudPaidSubscription;
+    const someLimitNeedsAttention = Boolean(useGetHighestThresholdCloudLimit(useGetUsage(), useGetLimits()[0]));
+    const show = isCloud && !isCloudFreePaidSubscription && !isCloudPaidSubscription && !someLimitNeedsAttention;
     if (!show) {
         return null;
     }
