@@ -69,8 +69,6 @@ describe('Mark as Unread', () => {
             // * Verify the notification separator line exists and present before the unread message
             verifyPostNextToNewMessageSeparator(`this is from user: ${otherUser1.id}, 7`);
 
-            cy.wait(TIMEOUTS.ONE_SEC);
-
             // * Verify the group message in LHS is unread
             cy.get(`#sidebarItem_${gmChannel.name}`).should('have.class', 'unread-title');
 
@@ -81,7 +79,7 @@ describe('Mark as Unread', () => {
             cy.get(`#sidebarItem_${gmChannel.name}`).should('have.class', 'unread-title');
 
             // # Go to the group message channel
-            cy.get(`#sidebarItem_${gmChannel.name}`).click().wait(TIMEOUTS.ONE_SEC);
+            cy.get(`#sidebarItem_${gmChannel.name}`).click().wait(TIMEOUTS.FIVE_SEC);
 
             // * Verify the group message in LHS is read
             cy.get(`#sidebarItem_${gmChannel.name}`).should('exist').should('not.have.class', 'unread-title');
