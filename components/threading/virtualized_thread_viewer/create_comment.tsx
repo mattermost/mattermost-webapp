@@ -4,7 +4,7 @@
 import React, {memo, forwardRef, useMemo} from 'react';
 import {useSelector} from 'react-redux';
 
-import {getIsAdvancesTextEditorEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getIsAdvancedTextEditorEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
@@ -38,7 +38,7 @@ const CreateComment = forwardRef<HTMLDivElement, Props>(({
 }: Props, ref) => {
     const getChannel = useMemo(makeGetChannel, []);
     const rootPost = useSelector((state: GlobalState) => getPost(state, threadId));
-    const isAdvancedTextEditorEnabled = useSelector(getIsAdvancesTextEditorEnabled);
+    const isAdvancedTextEditorEnabled = useSelector(getIsAdvancedTextEditorEnabled);
     const channel = useSelector((state: GlobalState) => getChannel(state, {id: rootPost.channel_id}));
     const rootDeleted = (rootPost as Post).state === Posts.POST_DELETED;
     const isFakeDeletedPost = rootPost.type === Constants.PostTypes.FAKE_PARENT_DELETED;
