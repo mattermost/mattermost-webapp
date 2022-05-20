@@ -100,7 +100,7 @@ const CloudFreemiumTrialEndAnnouncementBar: React.FC = () => {
             type={AnnouncementBarTypes.CRITICAL}
             showCloseButton={true}
             onButtonClick={() => {
-                // Eventually this will open the pricing modal
+                // TODO: Open the new Pricing modal.
             }}
             modalButtonText={'more.details'}
             modalButtonDefaultText={'More details'}
