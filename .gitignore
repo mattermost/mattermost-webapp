@@ -47,3 +47,4 @@ Session.vim
 .netrwhist
 *~
 .eslintcache
+.stylelintcache
