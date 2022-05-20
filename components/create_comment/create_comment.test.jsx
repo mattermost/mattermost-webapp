@@ -1185,11 +1185,18 @@ describe('components/CreateComment', () => {
 
         instance.textboxRef.current = {blur, focus, getInputBox: jest.fn(mockImpl)};
 
+        const mockTarget = {
+            selectionStart: 0,
+            selectionEnd: 0,
+            value: 'brown\nfox jumps over lazy dog',
+        };
+
         const commentMsgKey = {
             preventDefault: jest.fn(),
             ctrlKey: true,
             key: Constants.KeyCodes.ENTER[0],
             keyCode: Constants.KeyCodes.ENTER[1],
+            target: mockTarget,
         };
         instance.handleKeyDown(commentMsgKey);
         expect(instance.commentMsgKeyPress).toHaveBeenCalledTimes(1);
@@ -1199,6 +1206,7 @@ describe('components/CreateComment', () => {
             ctrlKey: true,
             key: Constants.KeyCodes.UP[0],
             keyCode: Constants.KeyCodes.UP[1],
+            target: mockTarget,
         };
         instance.handleKeyDown(upKey);
         expect(upKey.preventDefault).toHaveBeenCalledTimes(1);
@@ -1209,6 +1217,7 @@ describe('components/CreateComment', () => {
             ctrlKey: true,
             key: Constants.KeyCodes.DOWN[0],
             keyCode: Constants.KeyCodes.DOWN[1],
+            target: mockTarget,
         };
         instance.handleKeyDown(downKey);
         expect(downKey.preventDefault).toHaveBeenCalledTimes(1);
@@ -1220,6 +1229,7 @@ describe('components/CreateComment', () => {
             ctrlKey: false,
             key: Constants.KeyCodes.UP[0],
             keyCode: Constants.KeyCodes.UP[1],
+            target: mockTarget,
         };
         instance.handleKeyDown(upKeyForEdit);
         expect(upKeyForEdit.preventDefault).toHaveBeenCalledTimes(1);
@@ -1561,11 +1571,18 @@ describe('components/CreateComment', () => {
 
         instance.textboxRef.current = {blur, getInputBox: jest.fn(mockImpl)};
 
+        const mockTarget = {
+            selectionStart: 0,
+            selectionEnd: 0,
+            value: 'brown\nfox jumps over lazy dog',
+        };
+
         const commentEscapeKey = {
             preventDefault: jest.fn(),
             ctrlKey: true,
             key: Constants.KeyCodes.ESCAPE[0],
             keyCode: Constants.KeyCodes.ESCAPE[1],
+            target: mockTarget,
         };
 
         instance.handleKeyDown(commentEscapeKey);

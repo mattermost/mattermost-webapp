@@ -105,11 +105,14 @@ describe('Onboarding', () => {
 
             // # Check that 'Email Verified' text should be visible, email is pre-filled, and password field is focused, then login
             cy.findByText('Email Verified', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
-            cy.get('#loginId').should('have.value', email);
-            cy.get('#loginPassword').should('be.visible').type(password);
-            cy.get('#loginButton').click();
-            cy.findByText('Enter a valid email or username and/or password.').should('not.exist');
+            cy.get('#input_loginId').should('have.value', email);
+            cy.get('#input_password-input').should('be.visible').type(password);
+            cy.get('#saveSetting').click();
+            cy.findByText('The email/username or password is invalid.').should('not.exist');
         });
+
+        // # Close the onboarding tutorial
+        cy.uiCloseOnboardingTaskList();
 
         // * Check that the display name of the team the user successfully joined is correct
         cy.uiGetLHSHeader().findByText(testTeam.display_name);
@@ -119,7 +122,7 @@ describe('Onboarding', () => {
             cy.findByText('Town Square').should('exist');
         });
 
-        // * Check that the 'Welcome to Mattermost' message is visible
-        cy.findByText('Welcome to Mattermost').should('be.visible').wait(TIMEOUTS.ONE_SEC);
+        // * Check that the 'Beginning of Town Square' message is visible
+        cy.findByText('Beginning of Town Square').should('be.visible').wait(TIMEOUTS.ONE_SEC);
     });
 });

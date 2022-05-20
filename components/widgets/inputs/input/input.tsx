@@ -7,6 +7,11 @@ import classNames from 'classnames';
 
 import './input.scss';
 
+export enum SIZE {
+    MEDIUM = 'medium',
+    LARGE = 'large',
+}
+
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     info?: string;
     error?: string;
@@ -22,33 +27,39 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     inputClassName?: string;
     limit?: number;
     useLegend?: boolean;
+    inputSize?: SIZE;
 }
 
-function Input({
-    name,
-    value,
-    label,
-    placeholder,
-    useLegend = true,
-    className,
-    info,
-    error: propError,
-    hasError,
-    required,
-    addon,
-    textPrefix,
-    inputPrefix,
-    inputSuffix,
-    containerClassName,
-    wrapperClassName,
-    inputClassName,
-    limit,
-    maxLength,
-    onFocus,
-    onBlur,
-    onChange,
-    ...otherProps
-}: InputProps) {
+const Input = React.forwardRef((
+    {
+        name,
+        value,
+        label,
+        placeholder,
+        useLegend = true,
+        className,
+        info,
+        error: propError,
+        hasError,
+        required,
+        addon,
+        textPrefix,
+        inputPrefix,
+        inputSuffix,
+        containerClassName,
+        wrapperClassName,
+        inputClassName,
+        limit,
+        maxLength,
+        inputSize = SIZE.MEDIUM,
+        disabled,
+        onFocus,
+        onBlur,
+        onChange,
+        ...otherProps
+    }: InputProps,
+    ref?: React.Ref<HTMLInputElement>,
+) => {
     const {formatMessage} = useIntl();
 
     const [focused, setFocused] = useState(false);
@@ -93,7 +104,7 @@ function Input({
     const limitExceeded = limit && value && !Array.isArray(value) ? value.toString().length - limit : 0;
 
     return (
-        <div className={classNames('Input_container', containerClassName)}>
+        <div className={classNames('Input_container', containerClassName, {disabled})}>
             <fieldset
                 className={classNames('Input_fieldset', className, {
                     Input_fieldset___error: error || hasError || limitExceeded > 0,
@@ -109,11 +120,13 @@ function Input({
                     {inputPrefix}
                     {textPrefix && <span>{textPrefix}</span>}
                     <input
+                        ref={ref}
                         id={`input_${name || ''}`}
-                        className={classNames('Input form-control', inputClassName, {Input__focus: showLegend})}
+                        className={classNames('Input form-control', inputSize, inputClassName, {Input__focus: showLegend})}
                         value={value}
                         placeholder={focused ? (label && placeholder) || label : label || placeholder}
                         name={name}
+                        disabled={disabled}
                         {...otherProps}
                         maxLength={limit ? undefined : maxLength}
                         onFocus={handleOnFocus}
@@ -141,6 +154,6 @@ function Input({
             )}
         </div>
     );
-}
+});
 
 export default Input;
