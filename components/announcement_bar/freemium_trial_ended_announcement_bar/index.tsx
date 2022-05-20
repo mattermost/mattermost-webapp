@@ -9,7 +9,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {t} from 'utils/i18n';
 
 import AnnouncementBar from '../default_announcement_bar';
-import {AnnouncementBarTypes, Preferences, CloudBanners} from 'utils/constants';
+import {AnnouncementBarTypes, Preferences, CloudBanners, CloudLinks} from 'utils/constants';
 import useGetUsageDeltas from 'components/common/hooks/useGetUsageDeltas';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import {GlobalState} from 'types/store';
@@ -21,6 +21,7 @@ import {
     getCurrentUser,
 } from 'mattermost-redux/selectors/entities/users';
 import {anyUsageDeltaValueIsNegative} from 'utils/utils';
+import {getSiteURL} from 'utils/url';
 import './freemium_trial_ended_announcement_bar.scss';
 
 const CloudFreemiumTrialEndAnnouncementBar: React.FC = () => {
@@ -88,13 +89,26 @@ const CloudFreemiumTrialEndAnnouncementBar: React.FC = () => {
         );
     };
 
-    let message = {
+    let message: {id: string; defaultMessage: string; values?: Record<string, any>} = {
         id: t('freemium.banner.trial_ended.premium_features'),
         defaultMessage:
             'Your trial has ended. Upgrade to regain access to paid features',
     };
     if (anyUsageDeltaValueIsNegative(usageDeltas)) {
-        message = {id: t('freemium.banner.trial_ended.archived_data'), defaultMessage: 'Your trial has ended. Upgrade to regain access to archived data'};
+        message = {
+            id: t('freemium.banner.trial_ended.archived_data'),
+            defaultMessage: 'Your trial has ended. Upgrade to regain access to <a>archived data</a>',
+            values: {
+                a: (chunks: React.ReactNode | React.ReactNodeArray) => (
+                    <a
+                        style={{fontWeight: 'bold', textDecoration: 'underline'}}
+                        href={CloudLinks.adminLimitsPanel(getSiteURL())}
+                    >
+                        {chunks}
+                    </a>
+                ),
+            },
+        };
     }
 
     return (

@@ -888,6 +888,7 @@ export const CloudLinks = {
     PRORATED_PAYMENT: 'https://mattermost.com/pl/mattermost-cloud-prorate-documentation',
     DEPLOYMENT_OPTIONS: 'https://mattermost.com/deploy/',
     DOWNLOAD_UPDATE: 'https://mattermost.com/deploy/',
+    adminLimitsPanel: (siteUrl: string) => `${siteUrl}/admin_console/billing/subscription#ProductLimitsPanel`,
 };
 
 export const DocLinks = {

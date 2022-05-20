@@ -3210,7 +3210,7 @@
   "filtered_user_list.userStatus": "User Status:",
   "flag_post.flag": "Save",
   "flag_post.unflag": "Remove from Saved",
-  "freemium.banner.trial_ended.archived_data": "Your trial has ended. Upgrade to regain access to archived data",
+  "freemium.banner.trial_ended.archived_data": "Your trial has ended. Upgrade to regain access to <a>archived data</a>",
   "freemium.banner.trial_ended.premium_features": "Your trial has ended. Upgrade to regain access to paid features",
   "full_screen_modal.back": "Back",
   "full_screen_modal.close": "Close",

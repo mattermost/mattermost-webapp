@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useMemo} from 'react';
 import {useIntl, FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -17,6 +17,7 @@ import CloudUsageModal from 'components/cloud_usage_modal';
 import MiniModal from 'components/cloud_usage_modal/mini_modal';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import useGetUsage from 'components/common/hooks/useGetUsage';
+import useScrollToAnchor from 'components/common/hooks/useScrollToAnchor';
 import {t} from 'utils/i18n';
 
 import LimitCard from './limit_card';
@@ -152,6 +153,7 @@ function TempLaunchModalsComponent() {
     );
 }
 
+const panelId = 'ProductLimitsPanel';
 const Limits = (): JSX.Element | null => {
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
     const intl = useIntl();
@@ -160,12 +162,23 @@ const Limits = (): JSX.Element | null => {
     const [cloudLimits, limitsLoaded] = useGetLimits();
     const usage = useGetUsage();
 
+    const hasPanelAnchor = useMemo(() => (
+
+        // test environment may not have this value
+        window.location?.hash?.replace('#', '') === panelId
+    ), []);
+
+    useScrollToAnchor('ProductLimitsPanel', isCloudFreeEnabled && limitsLoaded && hasPanelAnchor, {alignToTop: true});
+
     if (!isCloudFreeEnabled || !limitsLoaded) {
         return null;
     }
 
     return (
-        <div className='ProductLimitsPanel'>
+        <div
+            className='ProductLimitsPanel'
+            id='ProductLimitsPanel'
+        >
             <div className='ProductLimitsPanel__title'>
                 <FormattedMessage
                     id='workspace_limits.upgrade'
