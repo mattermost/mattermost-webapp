@@ -109,8 +109,8 @@ export const Preferences = {
     INTERVAL_NEVER: 0,
     NAME_NAME_FORMAT: 'name_format',
     CATEGORY_SYSTEM_NOTICE: 'system_notice',
-    TEAMS_ORDER: 'teams_order',
     RECOMMENDED_NEXT_STEPS: 'recommended_next_steps',
+    TEAMS_ORDER: 'teams_order',
     CLOUD_UPGRADE_BANNER: 'cloud_upgrade_banner',
     CLOUD_TRIAL_BANNER: 'cloud_trial_banner',
     START_TRIAL_MODAL: 'start_trial_modal',
@@ -130,6 +130,7 @@ export const Preferences = {
     AB_TEST_PREFERENCE_VALUE: 'ab_test_preference_value',
 
     ONBOARDING: 'onboarding',
+    ADVANCED_TEXT_EDITOR: 'advanced_text_editor',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -273,7 +274,6 @@ export const ActionTypes = keyMirror({
 
     PREFETCH_POSTS_FOR_CHANNEL: null,
 
-    SET_SHOW_NEXT_STEPS_VIEW: null,
     SET_FILES_FILTER_BY_EXT: null,
 
     SUPPRESS_RHS: null,
@@ -374,6 +374,7 @@ export const ModalIdentifiers = {
     USERS_TO_BE_REMOVED: 'users_to_be_removed',
     UPLOAD_LICENSE: 'upload_license',
     INSIGHTS: 'insights',
+    CLOUD_LIMITS: 'cloud_limits',
 };
 
 export const UserStatuses = {
@@ -547,7 +548,7 @@ export const TopLevelProducts = {
     PLAYBOOKS: 'Playbooks',
 };
 
-export const RecommendedNextSteps = {
+export const RecommendedNextStepsLegacy = {
     COMPLETE_PROFILE: 'complete_profile',
     TEAM_SETUP: 'team_setup',
     INVITE_MEMBERS: 'invite_members',
@@ -570,6 +571,12 @@ export const CloudBanners = {
     TRIAL: 'trial',
 };
 
+export const AdvancedTextEditor = {
+    COMMENT: 'comment',
+    POST: 'post',
+    EDIT: 'edit',
+};
+
 export const TELEMETRY_CATEGORIES = {
     CLOUD_PURCHASING: 'cloud_purchasing',
     CLOUD_ADMIN: 'cloud_admin',
@@ -577,6 +584,7 @@ export const TELEMETRY_CATEGORIES = {
     POST_INFO: 'post_info',
     SELF_HOSTED_START_TRIAL_AUTO_MODAL: 'self_hosted_start_trial_auto_modal',
     SELF_HOSTED_START_TRIAL_MODAL: 'self_hosted_start_trial_modal',
+    CLOUD_START_TRIAL_BUTTON: 'cloud_start_trial_button',
     SELF_HOSTED_START_TRIAL_TASK_LIST: 'self_hosted_start_trial_task_list',
     WORKSPACE_OPTIMIZATION_DASHBOARD: 'workspace_optimization_dashboard',
 };
@@ -1672,6 +1680,7 @@ export const Constants = {
     },
     OVERLAY_TIME_DELAY_SMALL: 100,
     OVERLAY_TIME_DELAY: 400,
+    OVERLAY_DEFAULT_TRIGGER: ['hover', 'focus'],
     PERMALINK_FADEOUT: 5000,
     DEFAULT_MAX_USERS_PER_TEAM: 50,
     DEFAULT_MAX_CHANNELS_PER_TEAM: 2000,
