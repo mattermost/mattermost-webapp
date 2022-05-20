@@ -329,7 +329,7 @@ export const KEYBOARD_SHORTCUTS = {
     msgMarkdownPreview: {
         default: {
             id: t('shortcuts.msgs.markdown.preview'),
-            defaultMessage: 'Emoji / Gif picker:\tCtrl|Shift|P',
+            defaultMessage: 'Show/Hide Preview:\tCtrl|Shift|P',
         },
         mac: {
             id: t('shortcuts.msgs.markdown.preview.mac'),
