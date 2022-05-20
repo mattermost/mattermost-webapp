@@ -16,7 +16,7 @@ export interface EnterpriseEditionProps {
     license: ClientLicense;
 }
 
-const EnterpriseEditionRightPanel: React.FC<EnterpriseEditionProps> = ({
+const EnterpriseEditionRightPanel = ({
     isTrialLicense,
     license,
 

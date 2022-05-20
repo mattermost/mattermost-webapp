@@ -22,7 +22,7 @@ export interface UpgradeLinkProps {
     styleLink?: boolean; // show as a anchor link
 }
 
-const UpgradeLink: React.FC<UpgradeLinkProps> = (props: UpgradeLinkProps) => {
+const UpgradeLink = (props: UpgradeLinkProps) => {
     const dispatch = useDispatch<DispatchFunc>();
     const styleButton = props.styleButton ? ' style-button' : '';
     const styleLink = props.styleLink ? ' style-link' : '';

@@ -18,12 +18,13 @@ import {
 } from 'utils/paste';
 import {postMessageOnKeyPress, splitMessageBasedOnCaretPosition} from 'utils/post_utils';
 import {isMac} from 'utils/utils';
+import {applyMarkdown, ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 import * as Utils from 'utils/utils';
 
 import DeletePostModal from 'components/delete_post_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import Textbox, {TextboxClass} from 'components/textbox';
+import Textbox, {TextboxClass, TextboxElement} from 'components/textbox';
 import {ModalData} from 'types/actions';
 
 type DialogProps = {
@@ -165,8 +166,12 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
         return !rest.canDeletePost;
     };
 
-    const applyHotkeyMarkdown = (e: React.KeyboardEvent) => {
-        const res = Utils.applyHotkeyMarkdown(e);
+    const applyHotkeyMarkdown = (params: ApplyMarkdownOptions) => {
+        if (params.selectionStart === null || params.selectionEnd === null) {
+            return;
+        }
+
+        const res = applyMarkdown(params);
 
         setEditText(res.message);
         setSelectionRange({start: res.selectionStart, end: res.selectionEnd});
@@ -254,7 +259,7 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
         }
     };
 
-    const handleKeyDown = (e: React.KeyboardEvent) => {
+    const handleKeyDown = (e: React.KeyboardEvent<TextboxElement>) => {
         const {ctrlSend, codeBlockOnCtrlEnter} = rest;
 
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
@@ -264,8 +269,6 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
             (ctrlSend || codeBlockOnCtrlEnter) &&
             Utils.isKeyPressed(e, KeyCodes.ENTER) &&
             ctrlOrMetaKeyPressed;
-        const markdownHotkey =
-            Utils.isKeyPressed(e, KeyCodes.B) || Utils.isKeyPressed(e, KeyCodes.I);
         const markdownLinkKey = Utils.isKeyPressed(e, KeyCodes.K);
 
         // listen for line break key combo and insert new line character
@@ -276,18 +279,37 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
             handleEdit();
         } else if (Utils.isKeyPressed(e, KeyCodes.ESCAPE) && !showEmojiPicker) {
             handleRefocusAndExit(editingPost.refocusId || null);
-        } else if ((ctrlKeyCombo && markdownHotkey) || (ctrlAltCombo && markdownLinkKey)) {
-            applyHotkeyMarkdown(e);
+        } else if (ctrlAltCombo && markdownLinkKey) {
+            applyHotkeyMarkdown({
+                markdownMode: 'link',
+                selectionStart: e.currentTarget.selectionStart,
+                selectionEnd: e.currentTarget.selectionEnd,
+                message: e.currentTarget.value,
+            });
+        } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.B)) {
+            applyHotkeyMarkdown({
+                markdownMode: 'bold',
+                selectionStart: e.currentTarget.selectionStart,
+                selectionEnd: e.currentTarget.selectionEnd,
+                message: e.currentTarget.value,
+            });
+        } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.I)) {
+            applyHotkeyMarkdown({
+                markdownMode: 'italic',
+                selectionStart: e.currentTarget.selectionStart,
+                selectionEnd: e.currentTarget.selectionEnd,
+                message: e.currentTarget.value,
+            });
         }
     };
 
-    const handleSelect = (e: React.SyntheticEvent) => {
+    const handleSelect = (e: React.SyntheticEvent<TextboxElement>) => {
         if (textboxRef.current) {
-            Utils.adjustSelection(textboxRef.current.getInputBox(), e as React.KeyboardEvent);
+            Utils.adjustSelection(textboxRef.current.getInputBox(), e);
         }
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setEditText(e.target.value);
+    const handleChange = (e: React.ChangeEvent<TextboxElement>) => setEditText(e.target.value);
 
     const handleHeightChange = (height: number, maxHeight: number) => setRenderScrollbar(height > maxHeight);
 
