@@ -6,6 +6,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
 
+import {t} from 'utils/i18n';
+
 import AnnouncementBar from '../default_announcement_bar';
 import {AnnouncementBarTypes, Preferences, CloudBanners} from 'utils/constants';
 import useGetUsageDeltas from 'components/common/hooks/useGetUsageDeltas';
@@ -87,12 +89,12 @@ const CloudFreemiumTrialEndAnnouncementBar: React.FC = () => {
     };
 
     let message = {
-        id: 'freemium.banner.trial_ended.premium_features',
+        id: t('freemium.banner.trial_ended.premium_features'),
         defaultMessage:
             'Your trial has ended. Upgrade to regain access to paid features',
     };
     if (anyUsageDeltaValueIsNegative(usageDeltas)) {
-        message = {id: 'freemium.banner.trial_ended.archived_data', defaultMessage: 'Your trial has ended. Upgrade to regain access to archived data'};
+        message = {id: t('freemium.banner.trial_ended.archived_data'), defaultMessage: 'Your trial has ended. Upgrade to regain access to archived data'};
     }
 
     return (
@@ -102,7 +104,7 @@ const CloudFreemiumTrialEndAnnouncementBar: React.FC = () => {
             onButtonClick={() => {
                 // TODO: Open the new Pricing modal.
             }}
-            modalButtonText={'more.details'}
+            modalButtonText={t('more.details')}
             modalButtonDefaultText={'More details'}
             message={(
                 <FormattedMessage
