@@ -13,7 +13,6 @@ exports[`components/channel_view Should match snapshot if channel is archived wi
       Object {
         "getProfiles": [MockFunction],
         "goToLastViewedChannel": [MockFunction],
-        "setShowNextStepsView": [MockFunction],
       }
     }
     channelId="channelId"
@@ -31,11 +30,8 @@ exports[`components/channel_view Should match snapshot if channel is archived wi
         "url": "/team/channel/channelId",
       }
     }
-    showNextSteps={false}
-    showNextStepsEphemeral={false}
     showTutorial={false}
     teamUrl="/team"
-    useCaseOnboarding={false}
     viewArchivedChannels={false}
   />
   <DeferredRenderWrapper
@@ -80,7 +76,6 @@ exports[`components/channel_view Should match snapshot if channel roles loading 
       Object {
         "getProfiles": [MockFunction],
         "goToLastViewedChannel": [MockFunction],
-        "setShowNextStepsView": [MockFunction],
       }
     }
     channelId="channelId"
@@ -98,11 +93,8 @@ exports[`components/channel_view Should match snapshot if channel roles loading 
         "url": "/team/channel/channelId",
       }
     }
-    showNextSteps={false}
-    showNextStepsEphemeral={false}
     showTutorial={false}
     teamUrl="/team"
-    useCaseOnboarding={false}
     viewArchivedChannels={false}
   />
   <DeferredRenderWrapper
@@ -124,7 +116,6 @@ exports[`components/channel_view Should match snapshot with base props 1`] = `
       Object {
         "getProfiles": [MockFunction],
         "goToLastViewedChannel": [MockFunction],
-        "setShowNextStepsView": [MockFunction],
       }
     }
     channelId="channelId"
@@ -142,11 +133,8 @@ exports[`components/channel_view Should match snapshot with base props 1`] = `
         "url": "/team/channel/channelId",
       }
     }
-    showNextSteps={false}
-    showNextStepsEphemeral={false}
     showTutorial={false}
     teamUrl="/team"
-    useCaseOnboarding={false}
     viewArchivedChannels={false}
   />
   <DeferredRenderWrapper

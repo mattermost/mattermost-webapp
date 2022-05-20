@@ -36,6 +36,7 @@ import {
     License,
     AdminConfig,
     EnvironmentConfig,
+    RequestLicenseBody,
 } from '@mattermost/types/config';
 import {CustomEmoji} from '@mattermost/types/emojis';
 import {ServerError} from '@mattermost/types/errors';
@@ -76,6 +77,7 @@ import type {
     MarketplacePlugin,
 } from '@mattermost/types/marketplace';
 import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse} from '@mattermost/types/posts';
+import {BoardsUsageResponse} from '@mattermost/types/boards';
 import {PreferenceType} from '@mattermost/types/preferences';
 import {Reaction} from '@mattermost/types/reactions';
 import {Role} from '@mattermost/types/roles';
@@ -136,6 +138,17 @@ export const DEFAULT_LIMIT_BEFORE = 30;
 export const DEFAULT_LIMIT_AFTER = 30;
 
 const GRAPHQL_ENDPOINT = '/api/v5/graphql';
+
+// placed here because currently not supported
+// to import from outside the package from main bundle
+const suitePluginIds = {
+    playbooks: 'playbooks',
+    focalboard: 'focalboard',
+    apps: 'com.mattermost.apps',
+    calls: 'com.mattermost.calls',
+    nps: 'com.mattermost.nps',
+    channelExport: 'com.mattermost.plugin-channel-export',
+};
 
 export default class Client4 {
     logToConsole = false;
@@ -3203,6 +3216,13 @@ export default class Client4 {
         );
     };
 
+    requestTrialLicense = (body: RequestLicenseBody) => {
+        return this.doFetchWithResponse<ClientLicense>(
+            `${this.getBaseRoute()}/trial-license`,
+            {method: 'POST', body: JSON.stringify(body)},
+        );
+    }
+
     removeLicense = () => {
         return this.doFetch<StatusOK>(
             `${this.getBaseRoute()}/license`,
@@ -3417,6 +3437,13 @@ export default class Client4 {
             {method: 'post'},
         );
     };
+
+    getBoardsUsage = () => {
+        return this.doFetch<BoardsUsageResponse>(
+            `/plugins/${suitePluginIds.focalboard}/api/v1/limits`,
+            {method: 'get'},
+        );
+    }
 
     // Groups
 
@@ -3763,6 +3790,13 @@ export default class Client4 {
         );
     }
 
+    requestCloudTrial = () => {
+        return this.doFetchWithResponse<CloudCustomer>(
+            `${this.getCloudRoute()}/request-trial`,
+            {method: 'put'},
+        );
+    }
+
     getSubscription = () => {
         return this.doFetch<Subscription>(
             `${this.getCloudRoute()}/subscription`,
@@ -3888,13 +3922,13 @@ export default class Client4 {
 
     // Client Helpers
 
-    doFetch = async <ClientDataResponse>(url: string, options: Options): Promise<ClientDataResponse> => {
+    private doFetch = async <ClientDataResponse>(url: string, options: Options): Promise<ClientDataResponse> => {
         const {data} = await this.doFetchWithResponse<ClientDataResponse>(url, options);
 
         return data;
     };
 
-    doFetchWithResponse = async <ClientDataResponse>(url: string, options: Options): Promise<ClientResponse<ClientDataResponse>> => {
+    private doFetchWithResponse = async <ClientDataResponse>(url: string, options: Options): Promise<ClientResponse<ClientDataResponse>> => {
         const response = await fetch(url, this.getOptions(options));
         const headers = parseAndMergeNestedHeaders(response.headers);
 

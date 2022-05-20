@@ -157,11 +157,9 @@ export interface CloudUsage {
     boards: {
         cards: number;
         cardsLoaded: boolean;
-        views: number;
-        viewsLoaded: boolean;
     };
     integrations: {
         enabled: number;
-        enabledLoaded: boolean
+        enabledLoaded: boolean;
     };
 }

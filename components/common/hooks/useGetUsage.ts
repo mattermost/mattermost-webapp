@@ -2,12 +2,11 @@
 // See LICENSE.txt for license information.
 
 import {useEffect, useState} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {CloudUsage} from '@mattermost/types/cloud';
-
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {getUsage} from 'mattermost-redux/selectors/entities/cloud';
+import {getUsage} from 'mattermost-redux/selectors/entities/usage';
 import {
     getMessagesUsage,
     getFilesUsage,
@@ -15,8 +14,9 @@ import {
     getBoardsUsage,
 } from 'actions/cloud';
 
+
 export default function useGetUsage(): CloudUsage {
-    const usage = useSelector(getUsage)
+    const usage = useSelector(getUsage);
 
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
     const dispatch = useDispatch();
@@ -47,11 +47,11 @@ export default function useGetUsage(): CloudUsage {
 
     const [requestedBoardsUsage, setRequestedBoardsUsage] = useState(false);
     useEffect(() => {
-        if (isCloudFreeEnabled && !requestedBoardsUsage && (!usage.boards.cardsLoaded || !usage.boards.viewsLoaded)) {
+        if (isCloudFreeEnabled && !requestedBoardsUsage && !usage.boards.cardsLoaded) {
             dispatch(getBoardsUsage());
             setRequestedBoardsUsage(true);
         }
-    }, [isCloudFreeEnabled, requestedBoardsUsage, usage.boards.cardsLoaded, usage.boards.viewsLoaded]);
+    }, [isCloudFreeEnabled, requestedBoardsUsage, usage.boards.cardsLoaded]);
 
     return usage;
 }

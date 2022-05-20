@@ -16,9 +16,7 @@ describe('components/channel_view', () => {
             params: {},
         },
         showTutorial: false,
-        showNextSteps: false,
         isOnboardingHidden: true,
-        showNextStepsEphemeral: false,
         enableOnboardingFlow: true,
         teamUrl: '/team',
         channelIsArchived: false,
@@ -26,11 +24,9 @@ describe('components/channel_view', () => {
         isCloud: false,
         actions: {
             goToLastViewedChannel: jest.fn(),
-            setShowNextStepsView: jest.fn(),
             getProfiles: jest.fn(),
         },
         isFirstAdmin: false,
-        useCaseOnboarding: false,
         isAdvancedTextEditorEnabled: false,
     };
 

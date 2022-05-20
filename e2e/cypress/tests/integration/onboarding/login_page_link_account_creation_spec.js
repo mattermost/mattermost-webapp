@@ -87,6 +87,9 @@ describe('Onboarding', () => {
         // # Click on the login button
         cy.get('#saveSetting').click();
 
+        // # Close the onboarding tutorial
+        cy.uiCloseOnboardingTaskList();
+
         // * Check that the display name of the team the user was invited to is being correctly displayed
         cy.uiGetLHSHeader().findByText(testTeam.display_name);
 
@@ -95,8 +98,8 @@ describe('Onboarding', () => {
             cy.get('#sidebarItem_town-square').should('exist');
         });
 
-        // * Check that the 'Welcome to Mattermost' message is visible
-        cy.findByText(`Welcome to ${siteName}`).should('be.visible');
+        // * Check that the 'Beginning of Town Square' message is visible
+        cy.findByText('Beginning of Town Square').should('be.visible');
     });
 
     // eslint-disable-next-line no-shadow
