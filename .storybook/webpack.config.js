@@ -53,7 +53,6 @@ module.exports = async ({config, mode}) => {
 
     config.resolve.alias['mattermost-redux'] = path.join(path.resolve(__dirname), '..', 'packages', 'mattermost-redux', 'src')
     config.resolve.alias['reselect'] = path.join(path.resolve(__dirname), '..', 'packages', 'reselect', 'src')
-    config.resolve.alias['@mattermost/types'] = path.join(path.resolve(__dirname), '..', 'packages', 'types', 'src')
 
     return config;
 };
