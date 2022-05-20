@@ -5,6 +5,8 @@ import React from 'react';
 
 import UsagePercentBar from 'components/common/usage_percent_bar';
 
+import './limit_card.scss';
+
 type Props = {
     name: JSX.Element;
     status: JSX.Element;
@@ -18,7 +20,7 @@ const LimitCard = (props: Props) => {
             <i className={props.icon}/>
             {props.name}
         </div>
-        <div className=''>
+        <div className='ProductLimitCard__status'>
             {props.status}
         </div>
         <UsagePercentBar

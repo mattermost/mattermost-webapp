@@ -12,6 +12,7 @@ import {
     getSubscriptionProduct,
 } from 'mattermost-redux/selectors/entities/cloud';
 import {openModal, closeModal} from 'actions/views/modals';
+import {trackEvent} from 'actions/telemetry_actions';
 import {asGBString} from 'utils/limits';
 import {ModalIdentifiers, CloudProducts} from 'utils/constants';
 import CloudUsageModal from 'components/cloud_usage_modal';
@@ -19,9 +20,13 @@ import MiniModal from 'components/cloud_usage_modal/mini_modal';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import useGetUsage from 'components/common/hooks/useGetUsage';
 import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';
+import PricingModal from 'components/pricing_modal';
 import {t} from 'utils/i18n';
+import {FileSizes} from 'utils/file_utils';
 
 import LimitCard from './limit_card';
+
+import './limits.scss';
 
 // TODO: To be removed once components can be used from where they can belong,
 // an effort for a separate ticket.
@@ -158,6 +163,7 @@ const Limits = (): JSX.Element | null => {
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
     const intl = useIntl();
     const subscription = useSelector(getCloudSubscription);
+    const dispatch = useDispatch();
     const products = useSelector(getCloudProducts);
     const subscriptionProduct = useSelector(getSubscriptionProduct);
     const [cloudLimits, limitsLoaded] = useGetLimits();
@@ -170,10 +176,19 @@ const Limits = (): JSX.Element | null => {
 
     let description: React.ReactNode = null;
     if (subscriptionProduct.sku === CloudProducts.STARTER) {
-        description = intl.formatMessage({
-            id: 'workspace_limits.upgrade_reasons.starter',
-            defaultMessage: 'You need a better plan',
-        });
+        description = intl.formatMessage(
+            {
+                id: 'workspace_limits.upgrade_reasons.starter',
+                defaultMessage: '{planName} is restricted to {messagesLimit} message history, {storageLimit} file storage, {appsLimit} apps, and {boardsCardsLimit} board cards.  You can delete items to free up space or upgrade to a paid plan.',
+            },
+            {
+                planName: subscriptionProduct.name,
+                messagesLimit: intl.formatNumber(cloudLimits?.messages?.history || 10000),
+                storageLimit: asGBString(cloudLimits?.files?.total_storage || FileSizes.Gigabyte * 10, intl.formatNumber),
+                appsLimit: cloudLimits?.integrations?.enabled || 10,
+                boardsCardsLimit: cloudLimits?.boards?.cards || 500,
+            },
+        );
     } else if (subscriptionProduct.sku === CloudProducts.PROFESSIONAL) {
         description = intl.formatMessage(
             {
@@ -181,7 +196,7 @@ const Limits = (): JSX.Element | null => {
                 defaultMessage: 'On the Professional plan you can only view the most recent {fileStorage} of files. With Enterprise, experience unlimited file storage.',
             },
             {
-                fileStorage: (cloudLimits?.files?.total_storage && asGBString(cloudLimits?.files?.total_storage, intl.formatNumber)) || '250GB',
+                fileStorage: asGBString(cloudLimits?.files?.total_storage || FileSizes.Gigabyte * 250, intl.formatNumber),
             },
         );
     }
@@ -297,9 +312,15 @@ const Limits = (): JSX.Element | null => {
 
                 )}
             </div>
-            <div>
+            <div className='ProductLimitsPanel__actions'>
                 <button
-                    onClick={() => {/*TODO: Fill in with action to view plan options*/}}
+                    onClick={() => {
+                        trackEvent('cloud_admin', 'click_open_pricing_modal');
+                        dispatch(openModal({
+                            modalId: ModalIdentifiers.PRICING_MODAL,
+                            dialogType: PricingModal,
+                        }));
+                    }}
                     className='btn btn-primary'
                 >
                     {intl.formatMessage({

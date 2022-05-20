@@ -1,0 +1,20 @@
+.ProductLimitCard {
+    width: 208px;
+    flex: 0 0 auto;
+    padding: 22px 0 42px 16px;
+    border: 1px solid rgba(var(--center-channel-text-rgb), 0.16);
+    margin-right: 8px;
+    border-radius: 4px;
+
+    &:last-child {
+        margin-right: 0;
+    }
+
+    &__name {
+        padding-bottom: 8px;
+    }
+
+    &__status {
+        padding-bottom: 8px;
+    }
+}

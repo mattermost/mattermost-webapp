@@ -5105,6 +5105,6 @@
   "workspace_limits.modals.view_plans": "View plans",
   "workspace_limits.upgrade": "Upgrade to avoid {planName} data limits",
   "workspace_limits.upgrade_reasons.professional": "On the Professional plan you can only view the most recent {fileStorage} of files. With Enterprise, experience unlimited file storage.",
-  "workspace_limits.upgrade_reasons.starter": "You need a better plan",
+  "workspace_limits.upgrade_reasons.starter": "{planName} is restricted to {messagesLimit} message history, {storageLimit} file storage, {appsLimit} apps, and {boardsCardsLimit} board cards.  You can delete items to free up space or upgrade to a paid plan.",
   "yourcomputer": "Your computer"
 }
