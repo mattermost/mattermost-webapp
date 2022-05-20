@@ -4489,7 +4489,7 @@
   "system_notice.body.api3": "Als je de laatste twee jaar integraties hebt gemaakt of geïnstalleerd, kan je er achter komen hoe <link>recente wijzigingen</link>  dezekunnen hebben beïnvloed .",
   "system_notice.body.ee_upgrade_advice": "Enterprise Editie wordt aanbevolen om een optimale werking en betrouwbaarheid te garanderen. <link>Meer informatie</link> .",
   "system_notice.body.ie11_deprecation": "Jouw browser, IE11, wordt niet meer ondersteund in een volgende release. <link>Ontdek hoe je in een eenvoudige stap naar een andere browser kan overschakelen</link> .",
-  "system_notice.body.permissions": "Sommige beleid-en machtigingsinstellingen voor de Systeemconsole zijn verplaatst met de release van [geavanceerde machtigingen] (!https://docs.mattermost.com/onboard/advanced-permissions.html) in Mattermost Starter en Professional.",
+  "system_notice.body.permissions": "Sommige beleid-en machtigingsinstellingen voor de Systeemconsole zijn verplaatst met de release van <link>geavanceerde machtigingen</link>  in Mattermost Starter en Professional.",
   "system_notice.dont_show": "Niet Meer Weergeven",
   "system_notice.remind_me": "Herinner me later",
   "system_notice.title": "**Melding**\nvan Mattermost",

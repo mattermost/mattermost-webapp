@@ -4112,7 +4112,7 @@
   "system_notice.body.api3": "如果您在上两年创建或安装了整合，请了解<link>近期的更改</link>带来的影响。",
   "system_notice.body.ee_upgrade_advice": "推荐企业版本以确保最佳运作和稳定。<link>了解更多</link>。",
   "system_notice.body.ie11_deprecation": "您的浏览器，IE11，将今后不再支持。<link>了解如和轻松转移到其他浏览器</link>。",
-  "system_notice.body.permissions": "部分策略以及权限设定随着 Mattermost 入门和专业版中的[高级权限](!https://docs.mattermost.com/onboard/advanced-permissions.html)发布而转移。",
+  "system_notice.body.permissions": "部分策略以及权限设定随着 Mattermost 入门和专业版中的<link>高级权限</link>发布而转移。",
   "system_notice.dont_show": "不再显示",
   "system_notice.remind_me": "稍后提醒",
   "system_notice.title": "**注意**\n来自 Mattermost",

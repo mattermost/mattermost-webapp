@@ -4487,7 +4487,7 @@
   "system_notice.body.api3": "Если вы создавали или устанавливали интеграции за последние два года, узнайте, как <link>недавние изменения</link> могли на них повлиять.",
   "system_notice.body.ee_upgrade_advice": "Корпоративная редакция рекомендуется для обеспечения оптимальной работы и надежности. <link>Узнать больше</link>.",
   "system_notice.body.ie11_deprecation": "Ваш браузер IE11 больше не будет поддерживаться в следующем выпуске. <link>Узнайте, как перейти в другой браузер за один простой шаг</link>.",
-  "system_notice.body.permissions": "Некоторые параметры системной консоли политики и разрешений изменились с выпуском [расширенных разрешений](!https://docs.mattermost.com/onboard/advanced-permissions.html) в Enterprise E10 и E20.",
+  "system_notice.body.permissions": "Некоторые параметры системной консоли политики и разрешений изменились с выпуском <link>расширенных разрешений</link> в Enterprise E10 и E20.",
   "system_notice.dont_show": "Больше не показывать",
   "system_notice.remind_me": "Напомни мне позже",
   "system_notice.title": "**Уведомление**\nот Mattermost",

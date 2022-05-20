@@ -3317,7 +3317,7 @@
   "system_notice.body.api3": "Se hai creato o installato delle integrazioni negli ultimi due anni, scopri come i <link>prossimi aggiornamenti</link> possono influenzarle.",
   "system_notice.body.ee_upgrade_advice": "La versione Enterprise è raccomandata perché assicura operatività e sicurezza ottimali. <link>Scopri di più</link>.",
   "system_notice.body.ie11_deprecation": "Il tuo browser, IE11, non sarà più supportato nei prossimi rilasci. <link>Scopri come spostarti su un altro browser in un semplice passaggio</link>.",
-  "system_notice.body.permissions": "Alcune politiche e permessi nelle impostazioni della Console di Sistema sono state spostate con il rilascio dei [permessi avanzati](!https://docs.mattermost.com/onboard/advanced-permissions.html) in Enterprise E10 and E20.",
+  "system_notice.body.permissions": "Alcune politiche e permessi nelle impostazioni della Console di Sistema sono state spostate con il rilascio dei <link>permessi avanzati</link> in Enterprise E10 and E20.",
   "system_notice.dont_show": "Non visualizzare di nuovo",
   "system_notice.remind_me": "Ricordamelo più tardi",
   "system_notice.title": "**Notifica**\nda Mattermost",

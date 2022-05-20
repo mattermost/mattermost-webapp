@@ -2549,7 +2549,7 @@
   "system_notice.adminVisible.icon": "Значок доступний лише для системних адміністраторів",
   "system_notice.body.api3": "Якщо ви створили або встановили інтеграцію протягом останніх двох років, дізнайтеся, як <link>останні зміни</link> , можливо, вплинули на них.",
   "system_notice.body.ee_upgrade_advice": "Enterprise Edition рекомендується забезпечити оптимальну роботу та надійність. <link>Додаткова інформація</link> .",
-  "system_notice.body.permissions": "Деяка політика та дозвіл налаштування System Console перейшли з випуском [розширених дозволів] (!https://docs.mattermost.com/onboard/advanced-permissions.html) в Enterprise E10 і E20.",
+  "system_notice.body.permissions": "Деяка політика та дозвіл налаштування System Console перейшли з випуском <link>розширених дозволів</link>  в Enterprise E10 і E20.",
   "system_notice.dont_show": "Не показувати знову",
   "system_notice.remind_me": "Нагадай мені пізніше",
   "system_notice.title": "**Примітка**\nвід Mattermost",

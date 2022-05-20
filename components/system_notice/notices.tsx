@@ -71,9 +71,20 @@ const notices: Notice[] = [
         ),
         icon: mattermostIcon,
         body: (
-            <FormattedMarkdownMessage
+            <FormattedMessage
                 id='system_notice.body.permissions'
-                defaultMessage='Some policy and permission System Console settings have moved with the release of [advanced permissions](!https://docs.mattermost.com/deployment/advanced-permissions.html) into Mattermost Starter and Professional.'
+                defaultMessage='Some policy and permission System Console settings have moved with the release of <link>advanced permissions</link> into Mattermost Starter and Professional.'
+                values={{
+                    link: (msg: React.ReactNode) => (
+                        <a
+                            href='https://docs.mattermost.com/deployment/advanced-permissions.html'
+                            target='_blank'
+                            rel='noreferrer'
+                        >
+                            {msg}
+                        </a>
+                    ),
+                }}
             />
         ),
         allowForget: true,
