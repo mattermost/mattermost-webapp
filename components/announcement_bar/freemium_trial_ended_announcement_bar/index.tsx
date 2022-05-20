@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {useIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
 
 import AnnouncementBar from '../default_announcement_bar';
@@ -24,7 +24,6 @@ import './freemium_trial_ended_announcement_bar.scss';
 const CloudFreemiumTrialEndAnnouncementBar: React.FC = () => {
     const usageDeltas = useGetUsageDeltas();
     const limits = useGetLimits();
-    const {formatMessage} = useIntl();
     const subscription = useGetSubscription();
     const getCategory = makeGetCategory();
     const dispatch = useDispatch();
@@ -47,7 +46,6 @@ const CloudFreemiumTrialEndAnnouncementBar: React.FC = () => {
         if (!preferences) {
             return false;
         }
-
         if (preferences.some((pref) => pref.name === CloudBanners.HIDE && pref.value === 'true')) {
             return false;
         }
@@ -62,7 +60,7 @@ const CloudFreemiumTrialEndAnnouncementBar: React.FC = () => {
 
         // trial_end_at values will be 0 for all freemium subscriptions after June 6
         // Subscriptions created prior to that will almost always have a trial_end_at value, guaranteed.
-        if (subscription.trial_end_at === 0 || trialEnd < new Date('2022-06-15') || trialEnd > now) {
+        if (subscription.trial_end_at === 0 || trialEnd > now) {
             return false;
         }
         if (!isSystemAdmin(currentUser.roles)) {
@@ -88,9 +86,13 @@ const CloudFreemiumTrialEndAnnouncementBar: React.FC = () => {
         );
     };
 
-    let message = formatMessage({id: 'freemium.banner.trial_ended.premium_features'});
+    let message = {
+        id: 'freemium.banner.trial_ended.premium_features',
+        defaultMessage:
+            'Your trial has ended. Upgrade to regain access to paid features',
+    };
     if (anyUsageDeltaValueIsNegative(usageDeltas)) {
-        message = formatMessage({id: 'freemium.banner.trial_ended.archived_data'});
+        message = {id: 'freemium.banner.trial_ended.archived_data', defaultMessage: 'Your trial has ended. Upgrade to regain access to archived data'};
     }
 
     return (
@@ -100,9 +102,13 @@ const CloudFreemiumTrialEndAnnouncementBar: React.FC = () => {
             onButtonClick={() => {
                 // Eventually this will open the pricing modal
             }}
-            modalButtonText={'hello 1'}
-            modalButtonDefaultText={formatMessage({id: 'more.details'})}
-            message={message}
+            modalButtonText={'more.details'}
+            modalButtonDefaultText={'More details'}
+            message={(
+                <FormattedMessage
+                    id={message.id}
+                    defaultMessage={message.defaultMessage}
+                />)}
             showLinkAsButton={true}
             isTallBanner={true}
             icon={<i className='alert-icon'>{'\u{F002A}'}</i>}
