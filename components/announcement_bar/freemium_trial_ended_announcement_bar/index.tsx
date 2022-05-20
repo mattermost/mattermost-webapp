@@ -106,8 +106,7 @@ const CloudFreemiumTrialEndAnnouncementBar: React.FC = () => {
             modalButtonDefaultText={'More details'}
             message={(
                 <FormattedMessage
-                    id={message.id}
-                    defaultMessage={message.defaultMessage}
+                    {...message}
                 />)}
             showLinkAsButton={true}
             isTallBanner={true}
