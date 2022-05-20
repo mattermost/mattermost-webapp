@@ -4499,7 +4499,7 @@
   "system_notice.adminVisible": "Nur sichtbar für Systemadministratoren",
   "system_notice.adminVisible.icon": "\"Nur sichtbar für Systemadministratoren\"-Symbol",
   "system_notice.body.api3": "Falls du innerhalb der letzten zwei Jahre Erweiterungen erstellt oder installiert hast, finde heraus, wie <link>kürzliche Änderungen</link> diese beeinflusst haben könnten.",
-  "system_notice.body.ee_upgrade_advice": "Enterprise Edition ist empfohlen um optimalen Betrieb und Verlässlichkeit sicherzustellen. [Mehr lernen](!https://mattermost.com/performance).",
+  "system_notice.body.ee_upgrade_advice": "Enterprise Edition ist empfohlen um optimalen Betrieb und Verlässlichkeit sicherzustellen. <link>Mehr lernen</link>.",
   "system_notice.body.ie11_deprecation": "Dein Browser, IE11, wird in einer zukünftigen Version nicht mehr unterstützt. Erfahre, wie du in einem einfachen Schritt zu einem anderen Browser wechseln kannst](!https://forum.mattermost.com/t/mattermost-is-dropping-support-for-internet-explorer-ie11-in-v5-16/7575).",
   "system_notice.body.permissions": "Einige Richtlinien- und Berechtigungseinstellungen der Systemkonsole wurden mit der Freigabe von [advanced permissions](!https://docs.mattermost.com/onboard/advanced-permissions.html) zu Mattermost Starter und Professional verschoben.",
   "system_notice.dont_show": "Nicht erneut anzeigen",

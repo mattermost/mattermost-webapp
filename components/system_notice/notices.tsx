@@ -101,9 +101,20 @@ const notices: Notice[] = [
         ),
         icon: mattermostIcon,
         body: (
-            <FormattedMarkdownMessage
+            <FormattedMessage
                 id='system_notice.body.ee_upgrade_advice'
-                defaultMessage='Enterprise Edition is recommended to ensure optimal operation and reliability. [Learn more](!https://mattermost.com/performance).'
+                defaultMessage='Enterprise Edition is recommended to ensure optimal operation and reliability. <link>Learn more</link>.'
+                values={{
+                    link: (msg: React.ReactNode) => (
+                        <a
+                            href='https://mattermost.com/performance'
+                            target='_blank'
+                            rel='noreferrer'
+                        >
+                            {msg}
+                        </a>
+                    ),
+                }}
             />
         ),
         allowForget: false,

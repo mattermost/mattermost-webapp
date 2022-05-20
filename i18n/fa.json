@@ -3924,7 +3924,7 @@
   "system_notice.adminVisible": "فقط برای مدیران سیستم قابل مشاهده است",
   "system_notice.adminVisible.icon": "فقط برای نماد مدیران سیستم قابل مشاهده است",
   "system_notice.body.api3": "اگر در دو سال گذشته ادغام هایی ایجاد یا نصب کرده اید، دریابید که چگونه <link>تغییرات اخیر</link>  چه تاثیری بر آنها داشته است.",
-  "system_notice.body.ee_upgrade_advice": "نسخه Enterprise برای اطمینان از عملکرد بهینه و قابلیت اطمینان توصیه می شود. [بیشتر بیاموزید](!https://mattermost.com/performance).",
+  "system_notice.body.ee_upgrade_advice": "نسخه Enterprise برای اطمینان از عملکرد بهینه و قابلیت اطمینان توصیه می شود. <link>بیشتر بیاموزید</link>.",
   "system_notice.body.ie11_deprecation": "مرورگر شما، IE11، دیگر در نسخه آینده پشتیبانی نخواهد شد. [در یک مرحله ساده نحوه انتقال به مرورگر دیگر را بیابید](!https://forum.mattermost.org/t/mattermost-is-dropping-support-for-internet-explorer-ie11-in-v5-16/ 7575).",
   "system_notice.body.permissions": "برخی از تنظیمات کنسول سیستم خط‌مشی و مجوز با انتشار [مجوزهای پیشرفته] (!https://docs.mattermost.com/onboard/advanced-permissions.html) به Mattermost Starter و Professional منتقل شده‌اند.",
   "system_notice.dont_show": "دوباره نمایش داده نشود",

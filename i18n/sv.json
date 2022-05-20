@@ -4261,7 +4261,7 @@
   "system_notice.adminVisible": "Visas endast för systemadministratörer",
   "system_notice.adminVisible.icon": "Ikon för Visas endast för systemadministratörer",
   "system_notice.body.api3": "Om du har skapat eller installerat integrationer de senaste två åren bör du kolla hur <link>de senaste förändringar</link> kan ha påverkat dem.",
-  "system_notice.body.ee_upgrade_advice": "Enterprise Edition är rekommenderad för optimal funktionalitet och tillförlitlighet. [Läs mer](!https://mattermost.com/performance).",
+  "system_notice.body.ee_upgrade_advice": "Enterprise Edition är rekommenderad för optimal funktionalitet och tillförlitlighet. <link>Läs mer</link>.",
   "system_notice.body.ie11_deprecation": "Din webbläsare, IE11, kommer inte stödjas i kommande versioner. [Läs mer om hur du byter till annan webbläsare i ett enkelt steg](!https://forum.mattermost.com/t/mattermost-is-dropping-support-for-internet-explorer-ie11-in-v5-16/7575).",
   "system_notice.body.permissions": "Några inställningar för policy och behörigheter har flyttats i konsolinställningar efter versionen med [avancerade rättigheter](!https://docs.mattermost.com/onboard/advanced-permissions.html) in i Mattermost Starter och Professional.",
   "system_notice.dont_show": "Visa inte igen",

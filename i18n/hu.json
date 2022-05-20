@@ -4499,7 +4499,7 @@
   "system_notice.adminVisible": "Csak rendszergazdák számára látható",
   "system_notice.adminVisible.icon": "Csak rendszergazdák számára látható ikon",
   "system_notice.body.api3": "Ha az elmúlt két évben létrehozott vagy telepített integrációkat, megtudhatja, hogy a <link>legutóbbi módosítások</link> hogyan befolyásolhatták őket.",
-  "system_notice.body.ee_upgrade_advice": "Az Enterprise Edition ajánlott az optimális működés és megbízhatóság biztosítása érdekében. [További információ](!https://mattermost.com/performance).",
+  "system_notice.body.ee_upgrade_advice": "Az Enterprise Edition ajánlott az optimális működés és megbízhatóság biztosítása érdekében. <link>További információ</link>.",
   "system_notice.body.ie11_deprecation": "Az Ön böngészőjét, az IE11-et, egy következő kiadás már nem támogatja. [Tudja meg, hogyan válthat át egy másik böngészőbe egyetlen egyszerű lépésben](!https://forum.mattermost.com/t/mattermost-is-dropping-support-for-internet-explorer-ie11-in-v5-16/7575).",
   "system_notice.body.permissions": "Egyes házirendek és engedélyek a rendszerkonzolban áthelyeződtek a [speciális engedélyek kiadásával](!https://docs.mattermost.com/onboard/advanced-permissions.html) az Enterprise Starter és Professional rendszerekben.",
   "system_notice.dont_show": "Ne mutassa újra",
