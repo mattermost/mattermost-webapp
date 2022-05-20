@@ -214,6 +214,7 @@ describe('Keyboard Shortcuts', () => {
         cy.getLastPostId().then((postID) => {
             // # Press UP arrow
             cy.get('#post_textbox').type('{uparrow}');
+            cy.wait(TIMEOUTS.HALF_SEC);
 
             // # Clear message and type ENTER
             cy.get('#edit_textbox').clear().type('{enter}');
@@ -302,10 +303,10 @@ describe('Keyboard Shortcuts', () => {
         // # Add some text to the previous message and save
         cy.get('#edit_textbox').type('Test{enter}');
 
-        // # Wait for the editing mode to close
-        cy.wait(TIMEOUTS.TEN_SEC);
-
         cy.getLastPost().within(() => {
+            // # Wait for the editing mode to close
+            cy.wait(TIMEOUTS.TEN_SEC);
+
             // * Posted message should be correct
             cy.get('.post-message__text').should('contain.text', 'Test');
 
