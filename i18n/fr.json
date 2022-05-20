@@ -4471,7 +4471,7 @@
   "team_members_dropdown.teamAdmins": "Administrateurs d'équipe",
   "team_members_dropdown.teamMembers": "Membres d'équipe",
   "team_settings.openInviteDescription.ariaLabel": "Code d'invitation",
-  "team_settings.openInviteDescription.groupConstrained": "Non, les membres de cette équipe sont ajoutés et retirés par groupes liés. [En savoir plus](!https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "team_settings.openInviteDescription.groupConstrained": "Non, les membres de cette équipe sont ajoutés et retirés par groupes liés. <link>En savoir plus</link>",
   "team_settings.openInviteSetting.groupConstrained": "Non, les membres de cette équipe sont ajoutés et retirés par groupes liés.",
   "team_settings_modal.generalTab": "Général",
   "team_settings_modal.title": "Paramètres d'équipe",

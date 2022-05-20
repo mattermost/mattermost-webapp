@@ -4297,7 +4297,7 @@
   "team_members_dropdown.teamAdmins": "Gruppadministratör",
   "team_members_dropdown.teamMembers": "Team-medlemskap",
   "team_settings.openInviteDescription.ariaLabel": "Kod för inbjudan",
-  "team_settings.openInviteDescription.groupConstrained": "Nej, medlemmar i detta team läggs till och tas bort med hjälp av länkade grupper. [Läs mer](!https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "team_settings.openInviteDescription.groupConstrained": "Nej, medlemmar i detta team läggs till och tas bort med hjälp av länkade grupper. <link>Läs mer</link>",
   "team_settings.openInviteSetting.groupConstrained": "Nej, medlemmar i detta team läggs till och tas bort med hjälp av länkade grupper.",
   "team_settings_modal.generalTab": "Allmänt",
   "team_settings_modal.title": "Inställningar för team",

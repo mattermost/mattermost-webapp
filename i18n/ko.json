@@ -3178,7 +3178,7 @@
   "team_members_dropdown.teamAdmins": "팀 관리자",
   "team_members_dropdown.teamMembers": "팀 회원들",
   "team_settings.openInviteDescription.ariaLabel": "가입 링크",
-  "team_settings.openInviteDescription.groupConstrained": "잠깐, 연결된 그룹들 때문에 이 팀의 구성원들이 추가되거나 제거됩니다. [자세히 알아보기](!https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "team_settings.openInviteDescription.groupConstrained": "잠깐, 연결된 그룹들 때문에 이 팀의 구성원들이 추가되거나 제거됩니다. <link>자세히 알아보기</link>",
   "team_settings.openInviteSetting.groupConstrained": "잠깐, 연결된 그룹들 때문에 이 팀의 구성원들이 추가되거나 제거됩니다.",
   "team_settings_modal.generalTab": "일반",
   "team_settings_modal.title": "팀 설정",

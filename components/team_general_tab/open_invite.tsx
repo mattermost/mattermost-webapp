@@ -77,9 +77,20 @@ const OpenInvite = (props: Props) => {
         inputs = [
             <div key='userOpenInviteOptions'>
                 <div>
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='team_settings.openInviteDescription.groupConstrained'
-                        defaultMessage='No, members of this team are added and removed by linked groups. [Learn More](!https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html)'
+                        defaultMessage='No, members of this team are added and removed by linked groups. <link>Learn More</link>'
+                        values={{
+                            link: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        }}
                     />
                 </div>
             </div>,

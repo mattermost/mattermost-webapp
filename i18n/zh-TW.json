@@ -3395,7 +3395,7 @@
   "team_members_dropdown.teamAdmins": "團隊管理員",
   "team_members_dropdown.teamMembers": "團隊成員",
   "team_settings.openInviteDescription.ariaLabel": "邀請碼",
-  "team_settings.openInviteDescription.groupConstrained": "不，此團隊的成員將由連結群組新增或移除。[詳情請看此](!https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "team_settings.openInviteDescription.groupConstrained": "不，此團隊的成員將由連結群組新增或移除。<link>詳情請看此</link>",
   "team_settings.openInviteSetting.groupConstrained": "此團隊的成員由連結的群組增減。",
   "team_settings_modal.generalTab": "一般",
   "team_settings_modal.title": "團隊設定",

@@ -4521,7 +4521,7 @@
   "team_members_dropdown.teamAdmins": "Администраторы команды",
   "team_members_dropdown.teamMembers": "Участники команды",
   "team_settings.openInviteDescription.ariaLabel": "Код приглашения",
-  "team_settings.openInviteDescription.groupConstrained": "Нет, участники этой команды добавляются и удаляются через связанные группы. [Подробнее](!https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "team_settings.openInviteDescription.groupConstrained": "Нет, участники этой команды добавляются и удаляются через связанные группы. <link>Подробнее</link>",
   "team_settings.openInviteSetting.groupConstrained": "Нет, участники этой команды добавляются и удаляются связанными группами.",
   "team_settings_modal.generalTab": "Общие",
   "team_settings_modal.title": "Настройки команды",

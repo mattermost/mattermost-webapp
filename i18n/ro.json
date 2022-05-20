@@ -3919,7 +3919,7 @@
   "team_members_dropdown.teamAdmins": "Administratorii echipei",
   "team_members_dropdown.teamMembers": "Membrii echipei",
   "team_settings.openInviteDescription.ariaLabel": "Cod de invitație",
-  "team_settings.openInviteDescription.groupConstrained": "Nu, membrii acestei echipe sunt adăugați și eliminați prin grupuri legate. [Aflați mai multe](!https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "team_settings.openInviteDescription.groupConstrained": "Nu, membrii acestei echipe sunt adăugați și eliminați prin grupuri legate. <link>Aflați mai multe</link>",
   "team_settings.openInviteSetting.groupConstrained": "Nu, membrii acestei echipe sunt adăugați și eliminați de grupuri legate.",
   "team_settings_modal.generalTab": "General",
   "team_settings_modal.title": "Setările echipei",

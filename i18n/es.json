@@ -4076,7 +4076,7 @@
   "team_members_dropdown.teamAdmins": "Administradores de Equipo",
   "team_members_dropdown.teamMembers": "Miembros del equipo",
   "team_settings.openInviteDescription.ariaLabel": "Código de Invitación",
-  "team_settings.openInviteDescription.groupConstrained": "No, los miembros de este equipo son agregados y eliminados por grupos vinculados. [Saber Más](https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "team_settings.openInviteDescription.groupConstrained": "No, los miembros de este equipo son agregados y eliminados por grupos vinculados. <link>Saber Más</link>(https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
   "team_settings.openInviteSetting.groupConstrained": "No, los miembros en este equipo son agregados y eliminados por grupos enlazados.",
   "team_settings_modal.generalTab": "General",
   "team_settings_modal.title": "Configurar Equipo",

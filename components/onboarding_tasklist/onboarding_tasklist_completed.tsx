@@ -8,8 +8,6 @@ import {FormattedMessage, useIntl} from 'react-intl';
 
 import {useSelector, useDispatch} from 'react-redux';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-
 import completedImg from 'images/completed.svg';
 
 import {GlobalState} from 'mattermost-redux/types/store';

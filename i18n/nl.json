@@ -4523,7 +4523,7 @@
   "team_members_dropdown.teamAdmins": "Teambeheerders",
   "team_members_dropdown.teamMembers": "Teamleden",
   "team_settings.openInviteDescription.ariaLabel": "Uitnodigings-code",
-  "team_settings.openInviteDescription.groupConstrained": "Nee, leden van dit team worden toegevoegd en verwijderd door gekoppelde groepen. [Meer Informatie] (! https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "team_settings.openInviteDescription.groupConstrained": "Nee, leden van dit team worden toegevoegd en verwijderd door gekoppelde groepen. <link>Meer Informatie</link> ",
   "team_settings.openInviteSetting.groupConstrained": "Nee, leden van dit team worden toegevoegd en verwijderd door gekoppelde groepen.",
   "team_settings_modal.generalTab": "Algemeen",
   "team_settings_modal.title": "Team instellingen",

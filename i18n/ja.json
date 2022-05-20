@@ -4535,7 +4535,7 @@
   "team_members_dropdown.teamAdmins": "チーム管理者",
   "team_members_dropdown.teamMembers": "チームメンバー",
   "team_settings.openInviteDescription.ariaLabel": "招待コード",
-  "team_settings.openInviteDescription.groupConstrained": "いいえ、このチームのメンバーはリンクされたグループによって追加、削除されます。[詳細](https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "team_settings.openInviteDescription.groupConstrained": "いいえ、このチームのメンバーはリンクされたグループによって追加、削除されます。<link>詳細</link>(https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
   "team_settings.openInviteSetting.groupConstrained": "いいえ、このチームのメンバーはリンクされたグループによって追加/削除されます。",
   "team_settings_modal.generalTab": "全般",
   "team_settings_modal.title": "チームの設定",

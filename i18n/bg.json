@@ -4117,7 +4117,7 @@
   "team_members_dropdown.teamAdmins": "Администратори на екип",
   "team_members_dropdown.teamMembers": "Членове на екипа",
   "team_settings.openInviteDescription.ariaLabel": "Код за покана",
-  "team_settings.openInviteDescription.groupConstrained": "Не, членовете на този екип се добавят и премахват от свързани групи. [Научете повече](!https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "team_settings.openInviteDescription.groupConstrained": "Не, членовете на този екип се добавят и премахват от свързани групи. <link>Научете повече</link>",
   "team_settings.openInviteSetting.groupConstrained": "Не, членовете на този екип се добавят и премахват от свързани групи.",
   "team_settings_modal.generalTab": "Общ",
   "team_settings_modal.title": "Настройки на екипа",

@@ -3960,7 +3960,7 @@
   "team_members_dropdown.teamAdmins": "ادمین های تیم",
   "team_members_dropdown.teamMembers": "اعضای تیم",
   "team_settings.openInviteDescription.ariaLabel": "کد دعوت",
-  "team_settings.openInviteDescription.groupConstrained": "خیر، اعضای این تیم توسط گروه های مرتبط اضافه و حذف می شوند. [بیشتر بیاموزید](!https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "team_settings.openInviteDescription.groupConstrained": "خیر، اعضای این تیم توسط گروه های مرتبط اضافه و حذف می شوند. <link>بیشتر بیاموزید</link>",
   "team_settings.openInviteSetting.groupConstrained": "خیر، اعضای این تیم توسط گروه های مرتبط اضافه و حذف می شوند.",
   "team_settings_modal.generalTab": "عمومی",
   "team_settings_modal.title": "تنظیمات تیم",

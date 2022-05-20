@@ -4535,7 +4535,7 @@
   "team_members_dropdown.teamAdmins": "Csapat adminok",
   "team_members_dropdown.teamMembers": "Csapattagok",
   "team_settings.openInviteDescription.ariaLabel": "Meghívó kód",
-  "team_settings.openInviteDescription.groupConstrained": "Nem, a csapat tagjait összekapcsolt csoportok adják hozzá és távolítják el. [További információ](!https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "team_settings.openInviteDescription.groupConstrained": "Nem, a csapat tagjait összekapcsolt csoportok adják hozzá és távolítják el. <link>További információ</link>",
   "team_settings.openInviteSetting.groupConstrained": "Nem, a csapat tagjait összekapcsolt csoportok adják hozzá és távolítják el.",
   "team_settings_modal.generalTab": "Általános",
   "team_settings_modal.title": "Csapat beállítások",

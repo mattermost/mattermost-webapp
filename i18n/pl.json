@@ -4535,7 +4535,7 @@
   "team_members_dropdown.teamAdmins": "Administrator Zespołu",
   "team_members_dropdown.teamMembers": "Członek zespołu",
   "team_settings.openInviteDescription.ariaLabel": "Kod Zaproszenia",
-  "team_settings.openInviteDescription.groupConstrained": "Nie, członkowie tego zespołu są dodawani i usuwani przez powiązane grupy. [Dowiedz się więcej](!https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "team_settings.openInviteDescription.groupConstrained": "Nie, członkowie tego zespołu są dodawani i usuwani przez powiązane grupy. <link>Dowiedz się więcej</link>",
   "team_settings.openInviteSetting.groupConstrained": "Nie, członkowie tego zespołu są dodawani i usuwani poprzez przypisane grupy.",
   "team_settings_modal.generalTab": "Ogólne",
   "team_settings_modal.title": "Ustawienia zespołu",

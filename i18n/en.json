@@ -4544,7 +4544,7 @@
   "team_settings_modal.generalTab": "General",
   "team_settings_modal.title": "Team Settings",
   "team_settings.openInviteDescription.ariaLabel": "Invite Code",
-  "team_settings.openInviteDescription.groupConstrained": "No, members of this team are added and removed by linked groups. [Learn More](!https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html)",
+  "team_settings.openInviteDescription.groupConstrained": "No, members of this team are added and removed by linked groups. <link>Learn More</link>",
   "team_settings.openInviteSetting.groupConstrained": "No, members of this team are added and removed by linked groups.",
   "team_sidebar.join": "Other teams you can join",
   "team.button.ariaLabel": "{teamName} team",
