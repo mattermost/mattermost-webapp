@@ -20,6 +20,13 @@ body {
             -webkit-overflow-scrolling: touch;
         }
     }
+
+    &.admin-onboarding {
+        background-image: url('images/admin-onboarding-background.jpg');
+        background-position: 50%;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
 }
 
 *:focus {

@@ -11,13 +11,12 @@ import {trackEvent} from 'actions/telemetry_actions';
 import {ModalData} from 'types/actions';
 
 import {
+    LicenseLinks,
     ModalIdentifiers,
 } from 'utils/constants';
 
 import NoInternetConnection from '../no_internet_connection/no_internet_connection';
 import './renew_link.scss';
-
-const CONTACT_SALES_LINK = 'https://mattermost.com/contact-sales/';
 
 export interface RenewalLinkProps {
     telemetryInfo?: {success: string; error: string};
@@ -55,7 +54,7 @@ const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
                 }
                 window.open(renewalLink, '_blank');
             } else if (manualInterventionRequired) {
-                window.open(CONTACT_SALES_LINK, '_blank');
+                window.open(LicenseLinks.CONTACT_SALES, '_blank');
             } else {
                 showConnectionErrorModal();
             }

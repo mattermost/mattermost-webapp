@@ -29,7 +29,6 @@ import {
 } from 'mattermost-redux/utils/user_utils';
 
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
-import {Reaction} from 'mattermost-redux/types/reactions';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 import {Group} from 'mattermost-redux/types/groups';
@@ -40,6 +39,7 @@ import {
     RelationOneToManyUnique,
     RelationOneToOne,
 } from 'mattermost-redux/types/utilities';
+import {Reaction} from '@mattermost/types/reactions';
 
 export {getCurrentUser, getCurrentUserId, getUsers};
 
@@ -75,6 +75,10 @@ export function getUserIdsWithoutTeam(state: GlobalState): Set<UserProfile['id']
 
 export function getUserIdsInGroups(state: GlobalState): RelationOneToMany<Group, UserProfile> {
     return state.entities.users.profilesInGroup;
+}
+
+export function getUserIdsNotInGroups(state: GlobalState): RelationOneToMany<Group, UserProfile> {
+    return state.entities.users.profilesNotInGroup;
 }
 
 export function getUserStatuses(state: GlobalState): RelationOneToOne<UserProfile, string> {
@@ -172,7 +176,7 @@ export const getCurrentUserRoles: (a: GlobalState) => UserProfile['roles'] = cre
     },
 );
 
-export type UserMentionKey= {
+export type UserMentionKey = {
     key: string;
     caseSensitive?: boolean;
 }
@@ -315,6 +319,15 @@ export const getProfilesInCurrentChannel: (state: GlobalState) => UserProfile[] 
     },
 );
 
+export const getActiveProfilesInCurrentChannel: (state: GlobalState) => UserProfile[] = createSelector(
+    'getProfilesInCurrentChannel',
+    getUsers,
+    getProfileSetInCurrentChannel,
+    (profiles, currentChannelProfileSet) => {
+        return sortAndInjectProfiles(profiles, currentChannelProfileSet).filter((user) => user.delete_at === 0);
+    },
+);
+
 export const getProfilesNotInCurrentChannel: (state: GlobalState) => UserProfile[] = createSelector(
     'getProfilesNotInCurrentChannel',
     getUsers,
@@ -451,6 +464,10 @@ export function searchProfilesInCurrentChannel(state: GlobalState, term: string,
     return profiles;
 }
 
+export function searchActiveProfilesInCurrentChannel(state: GlobalState, term: string, skipCurrent = false): UserProfile[] {
+    return searchProfilesInCurrentChannel(state, term, skipCurrent).filter((user) => user.delete_at === 0);
+}
+
 export function searchProfilesNotInCurrentChannel(state: GlobalState, term: string, skipCurrent = false): UserProfile[] {
     const profiles = filterProfilesStartingWithTerm(getProfilesNotInCurrentChannel(state), term);
     if (skipCurrent) {
@@ -552,6 +569,11 @@ export function makeGetProfilesForReactions(): (state: GlobalState, reactions: R
     );
 }
 
+/**
+ * Returns a selector that returns all profiles in a given channel with the given filters applied.
+ *
+ * Note that filters, if provided, must be either a constant or memoized to prevent constant recomputation of the selector.
+ */
 export function makeGetProfilesInChannel(): (state: GlobalState, channelId: Channel['id'], filters?: Filters) => UserProfile[] {
     return createSelector(
         'makeGetProfilesInChannel',
@@ -572,20 +594,20 @@ export function makeGetProfilesInChannel(): (state: GlobalState, channelId: Chan
     );
 }
 
+/**
+ * Returns a selector that returns all profiles not in a given channel.
+ */
 export function makeGetProfilesNotInChannel(): (state: GlobalState, channelId: Channel['id'], filters?: Filters) => UserProfile[] {
     return createSelector(
         'makeGetProfilesNotInChannel',
         getUsers,
         getUserIdsNotInChannels,
         (state: GlobalState, channelId: string) => channelId,
-        (state, channelId, filters) => filters,
-        (users, userIds, channelId, filters = {}) => {
+        (users, userIds, channelId) => {
             const userIdsInChannel = userIds[channelId];
 
             if (!userIdsInChannel) {
                 return [];
-            } else if (filters) {
-                return sortAndInjectProfiles(filterProfiles(users, filters), userIdsInChannel);
             }
 
             return sortAndInjectProfiles(users, userIdsInChannel);
@@ -668,6 +690,17 @@ export const getProfilesInGroup: (state: GlobalState, groupId: Group['id'], filt
     },
 );
 
+export const getProfilesNotInCurrentGroup: (state: GlobalState, groupId: Group['id'], filters?: Filters) => UserProfile[] = createSelector(
+    'getProfilesNotInGroup',
+    getUsers,
+    getUserIdsNotInGroups,
+    (state: GlobalState, groupId: string) => groupId,
+    (state: GlobalState, groupId: string, filters: Filters) => filters,
+    (profiles, usersNotInGroups, groupId, filters) => {
+        return sortAndInjectProfiles(filterProfiles(profiles, filters), usersNotInGroups[groupId] || new Set());
+    },
+);
+
 export function searchProfilesInGroup(state: GlobalState, groupId: Group['id'], term: string, skipCurrent = false, filters?: Filters): UserProfile[] {
     const profiles = filterProfilesStartingWithTerm(getProfilesInGroup(state, groupId, filters), term);
     if (skipCurrent) {
@@ -676,3 +709,26 @@ export function searchProfilesInGroup(state: GlobalState, groupId: Group['id'], 
 
     return profiles;
 }
+
+export function checkIsFirstAdmin(currentUser: UserProfile, users: IDMappedObjects<UserProfile>): boolean {
+    if (!currentUser) {
+        return false;
+    }
+    if (!currentUser.roles.includes('system_admin')) {
+        return false;
+    }
+    for (const user of Object.values(users)) {
+        if (user.roles.includes('system_admin') && user.create_at < currentUser.create_at) {
+            // If the user in the list is an admin with create_at less than our user, than that user is older than the current one, so it can't be the first admin.
+            return false;
+        }
+    }
+    return true;
+}
+
+export const isFirstAdmin = createSelector(
+    'isFirstAdmin',
+    (state: GlobalState) => getCurrentUser(state),
+    (state: GlobalState) => getUsers(state),
+    checkIsFirstAdmin,
+);

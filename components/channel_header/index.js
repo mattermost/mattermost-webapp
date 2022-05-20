@@ -37,6 +37,7 @@ import {
     showChannelFiles,
     showMentions,
     closeRightHandSide,
+    showChannelMembers,
 } from 'actions/views/rhs';
 import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from 'selectors/views/custom_status';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
@@ -47,12 +48,15 @@ import {isFileAttachmentsEnabled} from 'utils/file_utils';
 
 import ChannelHeader from './channel_header';
 
+const EMPTY_CHANNEL = {};
+const EMPTY_CHANNEL_STATS = {member_count: 0, guest_count: 0, pinnedpost_count: 0, files_count: 0};
+
 function makeMapStateToProps() {
     const doGetProfilesInChannel = makeGetProfilesInChannel();
     const getCustomStatus = makeGetCustomStatus();
 
     return function mapStateToProps(state) {
-        const channel = getCurrentChannel(state) || {};
+        const channel = getCurrentChannel(state) || EMPTY_CHANNEL;
         const user = getCurrentUser(state);
         const teams = getMyTeams(state);
         const hasMoreThanOneTeam = teams.length > 1;
@@ -66,14 +70,15 @@ function makeMapStateToProps() {
             dmUser = getUser(state, dmUserId);
             customStatus = dmUser && getCustomStatus(state, dmUser.id);
         } else if (channel && channel.type === General.GM_CHANNEL) {
-            gmMembers = doGetProfilesInChannel(state, channel.id, false);
+            gmMembers = doGetProfilesInChannel(state, channel.id);
         }
-        const stats = getCurrentChannelStats(state) || {member_count: 0, guest_count: 0, pinnedpost_count: 0};
+        const stats = getCurrentChannelStats(state) || EMPTY_CHANNEL_STATS;
 
         return {
             teamId: getCurrentTeamId(state),
             channel,
             channelMember: getMyCurrentChannelMembership(state),
+            memberCount: stats.member_count,
             currentUser: user,
             dmUser,
             gmMembers,
@@ -111,6 +116,7 @@ const mapDispatchToProps = (dispatch) => ({
         goToLastViewedChannel,
         openModal,
         closeModal,
+        showChannelMembers,
     }, dispatch),
 });
 

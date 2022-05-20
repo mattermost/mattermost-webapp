@@ -12,17 +12,20 @@ import {StoragePrefixes} from 'utils/constants';
 
 import type {GlobalState} from 'types/store';
 
+export function getIsPostBeingEdited(state: GlobalState, postId: string) {
+    return state.views.posts.editingPost.postId === postId && state.views.posts.editingPost.show;
+}
+export function getIsPostBeingEditedInRHS(state: GlobalState, postId: string) {
+    const editingPost = getEditingPost(state);
+
+    return editingPost.isRHS && editingPost.postId === postId && state.views.posts.editingPost.show;
+}
+
 export const getEditingPost = createSelector(
     'getEditingPost',
-    (state: GlobalState) => {
-        if (state.views.posts.editingPost && state.views.posts.editingPost.postId) {
-            return getPost(state, state.views.posts.editingPost.postId);
-        }
-
-        return null;
-    },
     (state: GlobalState) => state.views.posts.editingPost,
-    (post, editingPost) => {
+    (state: GlobalState) => getPost(state, state.views.posts.editingPost.postId),
+    (editingPost, post) => {
         return {
             ...editingPost,
             post,

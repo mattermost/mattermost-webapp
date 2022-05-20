@@ -4,7 +4,6 @@
 import React from 'react';
 import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
 import IconButton from '@mattermost/compass-components/components/icon-button';
-import {matchPath} from 'react-router-dom';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -15,8 +14,6 @@ import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
-
-import {browserHistory} from 'utils/browser_history';
 
 import type {PropsFromRedux} from './index';
 
@@ -58,18 +55,22 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
         trackEvent('ui', 'help_ask_the_community');
     }
 
-    unhideNextStepsAndNavigateToTipsView = () => {
-        this.props.actions.unhideNextSteps();
-        browserHistory.push(`${this.props.teamUrl}/tips`);
-    }
-
     renderDropdownItems = (): React.ReactNode => {
         const {
             intl,
-            isMobileView,
-            showDueToStepsNotFinished,
+            pluginMenuItems,
         } = this.props;
-        const inTipsView = matchPath(this.props.location.pathname, {path: '/:team/tips'}) != null;
+
+        const pluginItems = pluginMenuItems?.map((item) => {
+            return (
+                <Menu.ItemAction
+                    id={item.id + '_pluginmenuitem'}
+                    key={item.id + '_pluginmenuitem'}
+                    onClick={item.action}
+                    text={item.text}
+                />
+            );
+        });
 
         return (
             <Menu.Group>
@@ -86,23 +87,19 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                     url={this.props.helpLink}
                     text={intl.formatMessage({id: 'userGuideHelp.helpResources', defaultMessage: 'Help resources'})}
                 />
-                <Menu.ItemAction
-                    id='gettingStarted'
-                    show={showDueToStepsNotFinished && !inTipsView}
-                    onClick={() => this.unhideNextStepsAndNavigateToTipsView()}
-                    text={intl.formatMessage({id: 'navbar_dropdown.gettingStarted', defaultMessage: 'Getting Started'})}
-                    icon={isMobileView && <i className='icon icon-play'/>}
-                />
-                <Menu.ItemExternalLink
-                    id='reportAProblemLink'
-                    url={this.props.reportAProblemLink}
-                    text={intl.formatMessage({id: 'userGuideHelp.reportAProblem', defaultMessage: 'Report a problem'})}
-                />
+                {this.props.reportAProblemLink && (
+                    <Menu.ItemExternalLink
+                        id='reportAProblemLink'
+                        url={this.props.reportAProblemLink}
+                        text={intl.formatMessage({id: 'userGuideHelp.reportAProblem', defaultMessage: 'Report a problem'})}
+                    />
+                )}
                 <Menu.ItemAction
                     id='keyboardShortcuts'
                     onClick={this.openKeyboardShortcutsModal}
                     text={intl.formatMessage({id: 'userGuideHelp.keyboardShortcuts', defaultMessage: 'Keyboard shortcuts'})}
                 />
+                {pluginItems}
             </Menu.Group>
         );
     }

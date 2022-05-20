@@ -18,7 +18,7 @@ import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import UserGrid from 'components/admin_console/user_grid/user_grid';
 import {BaseMembership} from 'components/admin_console/user_grid/user_grid_role_dropdown';
 import ChannelInviteModal from 'components/channel_invite_modal';
-import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
+import ToggleModalButton from 'components/toggle_modal_button';
 import {FilterOptions} from 'components/admin_console/filter/filter';
 
 type Props = {
@@ -253,7 +253,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                 subtitleId={t('admin.channel_settings.channel_detail.membersDescription')}
                 subtitleDefault='A list of users who are currently in the channel right now'
                 button={
-                    <ToggleModalButtonRedux
+                    <ToggleModalButton
                         id='addChannelMembers'
                         className='btn btn-primary'
                         modalId={ModalIdentifiers.CHANNEL_INVITE}
@@ -273,7 +273,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                             id='admin.team_settings.team_details.add_members'
                             defaultMessage='Add Members'
                         />
-                    </ToggleModalButtonRedux>
+                    </ToggleModalButton>
                 }
             >
                 <UserGrid

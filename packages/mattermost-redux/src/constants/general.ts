@@ -13,7 +13,6 @@ export default {
     JOBS_CHUNK_SIZE: 50,
     SEARCH_TIMEOUT_MILLISECONDS: 100,
     STATUS_INTERVAL: 60000,
-    AUTOCOMPLETE_LIMIT_DEFAULT: 25,
     AUTOCOMPLETE_SPLIT_CHARACTERS: ['.', '-', '_'],
     OUT_OF_OFFICE: 'ooo',
     OFFLINE: 'offline',
@@ -59,8 +58,6 @@ export default {
     PUSH_NOTIFY_APPLE_REACT_NATIVE: 'apple_rn',
     PUSH_NOTIFY_ANDROID_REACT_NATIVE: 'android_rn',
     STORE_REHYDRATION_COMPLETE: 'store_hydation_complete',
-    OFFLINE_STORE_RESET: 'offline_store_reset',
-    OFFLINE_STORE_PURGE: 'offline_store_purge',
     TEAMMATE_NAME_DISPLAY: {
         SHOW_USERNAME: 'username',
         SHOW_NICKNAME_FULLNAME: 'nickname_full_name',
@@ -77,4 +74,5 @@ export default {
     DEFAULT_OFF: 'default_off',
     ALWAYS_ON: 'always_on',
     DEFAULT_GROUP: 'board',
+    CUSTOM_GROUP_USER_ROLE: 'custom_group_user',
 };

@@ -16,7 +16,7 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {getTotalUsersStats} from 'mattermost-redux/actions/users';
 
-import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
+import ToggleModalButton from 'components/toggle_modal_button';
 import InvitationModal from 'components/invitation_modal';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
@@ -56,7 +56,7 @@ const InviteMembersButton: React.FC<Props> = (props: Props): JSX.Element | null 
             teamId={currentTeamId}
             permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
         >
-            <ToggleModalButtonRedux
+            <ToggleModalButton
                 ariaLabel={intl.formatMessage({id: 'sidebar_left.inviteUsers', defaultMessage: 'Invite Users'})}
                 id='introTextInvite'
                 className={`intro-links color--link cursor--pointer${props.className ? ` ${props.className}` : ''}`}
@@ -74,7 +74,7 @@ const InviteMembersButton: React.FC<Props> = (props: Props): JSX.Element | null 
                         defaultMessage='Invite Members'
                     />
                 </li>
-            </ToggleModalButtonRedux>
+            </ToggleModalButton>
         </TeamPermissionGate>
     );
 };

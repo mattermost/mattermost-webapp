@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants/index';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
+import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height_switcher';
 import PostMessageContainer from 'components/post_view/post_message_view';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import CommentIcon from 'components/common/comment_icon';
@@ -27,10 +28,11 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
+import EditPost from 'components/edit_post';
 
-import Constants, {Locations} from 'utils/constants';
+import Constants, {AppEvents, Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 export default class SearchResultsItem extends React.PureComponent {
     static propTypes = {
@@ -109,6 +111,11 @@ export default class SearchResultsItem extends React.PureComponent {
          * Is the search results item from the pinned posts list.
          */
         isPinnedPosts: PropTypes.bool,
+
+        /**
+         * is the current post being edited in RHS?
+         */
+        isPostBeingEditedInRHS: PropTypes.bool,
 
         teamDisplayName: PropTypes.string,
         teamName: PropTypes.string,
@@ -189,14 +196,20 @@ export default class SearchResultsItem extends React.PureComponent {
     };
 
     getClassName = () => {
+        const {compactDisplay, isPostBeingEditedInRHS} = this.props;
+
         let className = 'post post--thread';
 
-        if (this.props.compactDisplay) {
+        if (compactDisplay) {
             className += ' post--compact';
         }
 
-        if (this.state.dropdownOpened || this.state.fileDropdownOpened) {
+        if ((this.state.dropdownOpened || this.state.fileDropdownOpened) && !isPostBeingEditedInRHS) {
             className += ' post--hovered';
+        }
+
+        if (isPostBeingEditedInRHS) {
+            className += ' post--editing';
         }
 
         return className;
@@ -245,7 +258,7 @@ export default class SearchResultsItem extends React.PureComponent {
     }
 
     render() {
-        const {post, channelIsArchived, teamDisplayName, canReply} = this.props;
+        const {post, channelIsArchived, teamDisplayName, canReply, isPostBeingEditedInRHS} = this.props;
         const channelName = this.getChannelName();
 
         let overrideUsername;
@@ -396,6 +409,7 @@ export default class SearchResultsItem extends React.PureComponent {
         }
 
         const currentPostDay = Utils.getDateForUnixTicks(post.create_at);
+        const showSlot = isPostBeingEditedInRHS ? AutoHeightSlots.SLOT2 : AutoHeightSlots.SLOT1;
 
         return (
             <div
@@ -458,13 +472,19 @@ export default class SearchResultsItem extends React.PureComponent {
                                     {this.renderPostTime()}
                                     {postInfoIcon}
                                 </div>
-                                {rhsControls}
+                                {!isPostBeingEditedInRHS && rhsControls}
                             </div>
                             <div className='search-item-snippet post__body'>
                                 <div className={postClass}>
-                                    {message}
-                                    {fileAttachment}
+                                    <AutoHeightSwitcher
+                                        showSlot={showSlot}
+                                        shouldScrollIntoView={isPostBeingEditedInRHS}
+                                        slot1={message}
+                                        slot2={<EditPost/>}
+                                        onTransitionEnd={() => document.dispatchEvent(new Event(AppEvents.FOCUS_EDIT_TEXTBOX))}
+                                    />
                                 </div>
+                                {fileAttachment}
                             </div>
                             {hasCRTFooter ? (
                                 <ThreadFooter

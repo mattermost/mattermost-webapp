@@ -8,7 +8,9 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 import isEqual from 'lodash/isEqual';
 
-import * as Utils from 'utils/utils.jsx';
+import classNames from 'classnames';
+
+import * as Utils from 'utils/utils';
 import {generateIndex} from 'utils/admin_console_index.jsx';
 import {browserHistory} from 'utils/browser_history';
 import {intlShape} from 'utils/react_intl';
@@ -54,6 +56,7 @@ class AdminSidebar extends React.PureComponent {
         navigationBlocked: PropTypes.bool.isRequired,
         consoleAccess: PropTypes.object,
         intl: intlShape.isRequired,
+        showTaskList: PropTypes.bool,
         actions: PropTypes.shape({
 
             /*
@@ -297,6 +300,7 @@ class AdminSidebar extends React.PureComponent {
     }
 
     render() {
+        const {showTaskList} = this.props;
         return (
             <div className='admin-sidebar'>
                 <AdminSidebarHeader/>
@@ -328,7 +332,7 @@ class AdminSidebar extends React.PureComponent {
                 >
                     <div className='nav-pills__container'>
                         <Highlight filter={this.state.filter}>
-                            <ul className='nav nav-pills nav-stacked'>
+                            <ul className={classNames('nav nav-pills nav-stacked', {'task-list-shown': showTaskList})}>
                                 {this.renderRootMenu(this.props.adminDefinition)}
                             </ul>
                         </Highlight>

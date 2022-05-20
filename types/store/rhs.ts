@@ -31,7 +31,7 @@ export type RhsViewState = {
     selectedPostCardId: Post['id'];
     selectedChannelId: Channel['id'];
     highlightedPostId: Post['id'];
-    previousRhsState: RhsState;
+    previousRhsStates: RhsState[];
     filesSearchExtFilter: string[];
     rhsState: RhsState;
     searchTerms: string;
@@ -45,4 +45,4 @@ export type RhsViewState = {
     isMenuOpen: boolean;
 };
 
-export type RhsState = 'mention' | 'search' | 'flag' | 'pin' | 'plugin' | null;
+export type RhsState = 'mention' | 'search' | 'flag' | 'pin' | 'plugin' | 'channel-info' | 'channel-files' |'channel-members' | null;

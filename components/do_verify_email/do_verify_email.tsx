@@ -29,7 +29,7 @@ type Props = {
         clearErrors: () => void;
     };
     isLoggedIn: boolean;
-
+    useCaseOnboarding: boolean;
 }
 
 type State = {
@@ -53,7 +53,15 @@ export default class DoVerifyEmail extends React.PureComponent<Props, State> {
 
     handleRedirect() {
         if (this.props.isLoggedIn) {
-            GlobalActions.redirectUserToDefaultTeam();
+            if (this.props.useCaseOnboarding) {
+                // need info about whether admin or not,
+                // and whether admin has already completed
+                // first time onboarding. Instead of fetching and orchestrating that here,
+                // let the default root component handle it.
+                browserHistory.push('/');
+            } else {
+                GlobalActions.redirectUserToDefaultTeam();
+            }
         } else {
             let link = '/login?extra=verified';
             const email = (new URLSearchParams(this.props.location.search)).get('email');

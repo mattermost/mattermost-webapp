@@ -5,20 +5,24 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Pluggable from 'plugins/pluggable';
-import {TutorialSteps} from '../../../utils/constants';
-import StatusDropdown from '../../status_dropdown';
-import {useShowTutorialStep} from '../hooks';
+import {
+    CustomizeYourExperienceTour,
+    OnboardingTourSteps,
+    useShowOnboardingTutorialStep,
+} from 'components/onboarding_tour';
+import StatusDropdown from 'components/status_dropdown';
 
-import SettingsTip from './settings_tip';
 import AtMentionsButton from './at_mentions_button/at_mentions_button';
 import SavedPostsButton from './saved_posts_button/saved_posts_button';
 import SettingsButton from './settings_button';
+import CloudUpgradeButton from './cloud_upgrade_button';
 
 const RightControlsContainer = styled.div`
     display: flex;
     align-items: center;
     height: 40px;
     flex-shrink: 0;
+    position: relative;
 
     > * + * {
         margin-left: 8px;
@@ -30,16 +34,19 @@ export type Props = {
 }
 
 const RightControls = ({productId = null}: Props): JSX.Element => {
-    const showSettingsTip = useShowTutorialStep(TutorialSteps.SETTINGS);
+    const showCustomizeTip = useShowOnboardingTutorialStep(OnboardingTourSteps.CUSTOMIZE_EXPERIENCE);
 
     return (
-        <RightControlsContainer>
+        <RightControlsContainer
+            id={'RightControlsContainer'}
+        >
+            <CloudUpgradeButton/>
             {productId === null ? (
                 <>
                     <AtMentionsButton/>
                     <SavedPostsButton/>
                     <SettingsButton/>
-                    {showSettingsTip && <SettingsTip/>}
+                    {showCustomizeTip && <CustomizeYourExperienceTour/>}
                 </>
             ) : (
                 <Pluggable
@@ -48,7 +55,7 @@ const RightControls = ({productId = null}: Props): JSX.Element => {
                     pluggableId={productId}
                 />
             )}
-            <StatusDropdown globalHeader={true}/>
+            <StatusDropdown/>
         </RightControlsContainer>
     );
 };

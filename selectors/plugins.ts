@@ -17,6 +17,14 @@ export const getFilesDropdownPluginMenuItems = createSelector(
     },
 );
 
+export const getUserGuideDropdownPluginMenuItems = createSelector(
+    'getUserGuideDropdownPluginMenuItems',
+    (state: GlobalState) => state.plugins.components.UserGuideDropdown,
+    (components) => {
+        return components;
+    },
+);
+
 export const getChannelHeaderPluginComponents = createSelector(
     'getChannelHeaderPluginComponents',
     (state: GlobalState) => appBarEnabled(state),
@@ -30,6 +38,14 @@ export const getChannelHeaderPluginComponents = createSelector(
         // Remove channel header icons for plugins that have also registered an app bar component
         const appBarPluginIds = appBarComponents.map((appBarComponent) => appBarComponent.pluginId);
         return channelHeaderComponents.filter((channelHeaderComponent) => !appBarPluginIds.includes(channelHeaderComponent.pluginId));
+    },
+);
+
+export const getChannelIntroPluginComponents = createSelector(
+    'getChannelIntroPluginComponents',
+    (state: GlobalState) => state.plugins.components.ChannelIntroButton,
+    (components = []) => {
+        return components;
     },
 );
 

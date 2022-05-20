@@ -6,7 +6,7 @@ import {GlobalState} from 'types/store';
 import {AppBinding} from 'mattermost-redux/types/apps';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 
-const makeNewState = (flag?: string, bindings?: AppBinding[]) => ({
+const makeNewState = (pluginEnabled: boolean, flag?: string, bindings?: AppBinding[]) => ({
     entities: {
         general: {
             config: {
@@ -18,6 +18,7 @@ const makeNewState = (flag?: string, bindings?: AppBinding[]) => ({
                 bindings,
                 forms: {},
             },
+            pluginEnabled,
         },
     },
 }) as unknown as GlobalState;
@@ -25,21 +26,25 @@ const makeNewState = (flag?: string, bindings?: AppBinding[]) => ({
 describe('Selectors.Apps', () => {
     describe('appsEnabled', () => {
         it('should return true when feature flag is enabled', () => {
-            const state: GlobalState = makeNewState('true');
+            const state: GlobalState = makeNewState(true, 'true');
             const result = Selectors.appsEnabled(state);
             expect(result).toEqual(true);
         });
 
         it('should return false when feature flag is disabled', () => {
-            let state: GlobalState = makeNewState('false');
+            let state: GlobalState = makeNewState(true, 'false');
             let result = Selectors.appsEnabled(state);
             expect(result).toEqual(false);
 
-            state = makeNewState('');
+            state = makeNewState(false, 'false');
             result = Selectors.appsEnabled(state);
             expect(result).toEqual(false);
 
-            state = makeNewState();
+            state = makeNewState(true, '');
+            result = Selectors.appsEnabled(state);
+            expect(result).toEqual(false);
+
+            state = makeNewState(true);
             result = Selectors.appsEnabled(state);
             expect(result).toEqual(false);
         });
@@ -94,15 +99,22 @@ describe('Selectors.Apps', () => {
             },
         ] as AppBinding[];
 
+        it('should return an empty array when plugin is disabled', () => {
+            const state = makeNewState(false, 'true', allBindings);
+            const selector = Selectors.makeAppBindingsSelector(AppBindingLocations.POST_MENU_ITEM);
+            const result = selector(state);
+            expect(result).toEqual([]);
+        });
+
         it('should return an empty array when feature flag is false', () => {
-            const state = makeNewState('false', allBindings);
+            const state = makeNewState(true, 'false', allBindings);
             const selector = Selectors.makeAppBindingsSelector(AppBindingLocations.POST_MENU_ITEM);
             const result = selector(state);
             expect(result).toEqual([]);
         });
 
         it('should return post menu bindings', () => {
-            const state = makeNewState('true', allBindings);
+            const state = makeNewState(true, 'true', allBindings);
             const selector = Selectors.makeAppBindingsSelector(AppBindingLocations.POST_MENU_ITEM);
             const result = selector(state);
             expect(result).toEqual([
@@ -120,7 +132,7 @@ describe('Selectors.Apps', () => {
         });
 
         it('should return channel header bindings', () => {
-            const state = makeNewState('true', allBindings);
+            const state = makeNewState(true, 'true', allBindings);
             const selector = Selectors.makeAppBindingsSelector(AppBindingLocations.CHANNEL_HEADER_ICON);
             const result = selector(state);
             expect(result).toEqual([
@@ -138,7 +150,7 @@ describe('Selectors.Apps', () => {
         });
 
         it('should return command bindings', () => {
-            const state = makeNewState('true', allBindings);
+            const state = makeNewState(true, 'true', allBindings);
             const selector = Selectors.makeAppBindingsSelector(AppBindingLocations.COMMAND);
             const result = selector(state);
             expect(result).toEqual([

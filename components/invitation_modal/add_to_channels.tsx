@@ -11,6 +11,10 @@ import CloseCircleIcon from 'components/widgets/icons/close_circle_icon';
 import ChannelsInput from 'components/widgets/inputs/channels_input';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
+import Constants from 'utils/constants';
+
+import {InviteType} from './invite_as';
+
 import './add_to_channels.scss';
 
 export type CustomMessageProps = {
@@ -41,9 +45,14 @@ export type Props = {
     onChannelsChange: (channels: Channel[]) => void;
     onChannelsInputChange: (search: string) => void;
     channelsLoader: (value: string, callback?: (channels: Channel[]) => void) => Promise<Channel[]>;
-    currentChannel: Channel;
+    currentChannel?: Channel;
     titleClass?: string;
     townSquareDisplayName: string;
+
+    inviteType: InviteType;
+
+    // this prop is only sent when inviting members to channels
+    channelToInvite?: Channel;
 }
 
 const RENDER_TIMEOUT_GUESS = 100;
@@ -59,13 +68,14 @@ export default function AddToChannels(props: Props) {
 
     const {formatMessage} = useIntl();
 
-    let placeholderChannelName = props.currentChannel.display_name;
+    let placeholderChannelName = props.townSquareDisplayName;
 
-    // If the user is in a direct or group message, then we want to say
-    // 'e.g. Town Square' rather than e.g {username},
-    // as inviting to direct or group message channels on a team is not currently supported.
-    if (props.currentChannel.type !== 'O' && props.currentChannel.type !== 'P') {
-        placeholderChannelName = props.townSquareDisplayName;
+    // If the user is in a public or private channel,
+    // use this channel name as a placeholder.
+    // Inviting to direct or group message channels
+    // on a team is not currently supported.
+    if (props.currentChannel && [Constants.OPEN_CHANNEL, Constants.PRIVATE_CHANNEL].includes(props.currentChannel.type)) {
+        placeholderChannelName = props.currentChannel.display_name;
     }
 
     return (<div className='AddToChannels'>
@@ -76,10 +86,17 @@ export default function AddToChannels(props: Props) {
             />
             {' '}
             <span className='InviteView__sectionTitleParenthetical'>
-                <FormattedMarkdownMessage
-                    id='invite_modal.add_channels_title_b'
-                    defaultMessage='**(required)**'
-                />
+                {(props.channelToInvite && props.inviteType === InviteType.MEMBER) ? (
+                    <FormattedMarkdownMessage
+                        id='invite_modal.add_channels_title_c'
+                        defaultMessage='**(Optional)**'
+                    />
+                ) : (
+                    <FormattedMarkdownMessage
+                        id='invite_modal.add_channels_title_b'
+                        defaultMessage='**(required)**'
+                    />
+                )}
             </span>
         </div>
         <ChannelsInput
@@ -138,12 +155,6 @@ export default function AddToChannels(props: Props) {
                     />
                 </React.Fragment>
             )}
-            <div className='help-text'>
-                <FormattedMessage
-                    id='invitation_modal.guests.custom-message.description'
-                    defaultMessage='Create a custom message to make your invite more personal.'
-                />
-            </div>
         </div>
     </div>);
 }

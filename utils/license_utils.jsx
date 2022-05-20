@@ -2,6 +2,8 @@
 // See LICENSE.txt for license information.
 import moment from 'moment';
 
+import {LicenseSkus} from 'mattermost-redux/types/general';
+
 const LICENSE_EXPIRY_NOTIFICATION = 1000 * 60 * 60 * 24 * 60; // 60 days
 const LICENSE_GRACE_PERIOD = 1000 * 60 * 60 * 24 * 10; // 10 days
 
@@ -68,4 +70,12 @@ export function isTrialLicense(license) {
 
 export function isCloudLicense(license) {
     return license?.Cloud === 'true';
+}
+
+export function getIsStarterLicense(license) {
+    return license?.SkuShortName === LicenseSkus.Starter;
+}
+
+export function isEnterpriseOrE20License(license) {
+    return license?.SkuShortName === LicenseSkus.Enterprise || license?.SkuShortName === LicenseSkus.E20;
 }

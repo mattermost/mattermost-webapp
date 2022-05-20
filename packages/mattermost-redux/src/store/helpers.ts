@@ -1,42 +1,31 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {combineReducers, AnyAction} from 'redux';
+import {AnyAction, combineReducers, Reducer} from 'redux';
+import {enableBatching} from 'redux-batched-actions';
 
-import {General} from '../constants';
-
-import {enableBatching, Action, Reducer} from 'mattermost-redux/types/actions';
-import {GlobalState} from 'mattermost-redux/types/store';
 import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
 
-import reducerRegistry from './reducer_registry';
+export function createReducer(...reducerSets: Array<Record<string, Reducer>>) {
+    // Merge each dictionary of reducers into a single combined reducer
+    let reducer: Reducer = combineReducers(reducerSets.reduce((fullSet, reducerSet) => {
+        return {...fullSet, ...reducerSet};
+    }, {}));
 
-export function createReducer(baseState: GlobalState, ...reducers: Reducer[]): Reducer<GlobalState, Action> {
-    reducerRegistry.setReducers(Object.assign({}, ...reducers));
-    const baseReducer = combineReducers(reducerRegistry.getReducers());
+    reducer = enableBatching(reducer);
+    reducer = enableFreezing(reducer);
 
-    // Root reducer wrapper that listens for reset events.
-    // Returns whatever is passed for the data property
-    // as the new state.
-    const offlineReducer = (state: GlobalState, action: Action) => {
-        if ('type' in action && 'data' in action && action.type === General.OFFLINE_STORE_RESET) {
-            return baseReducer(action.data || baseState, action);
-        }
-
-        return baseReducer(state, action as AnyAction);
-    };
-
-    return enableFreezing(enableBatching(offlineReducer as Reducer<GlobalState, Action>));
+    return reducer;
 }
 
-function enableFreezing(reducer: Reducer) {
+function enableFreezing<S, A extends AnyAction>(reducer: Reducer<S, A>) {
     // Skip the overhead of freezing in production.
     // eslint-disable-next-line no-process-env
     if (process.env.NODE_ENV === 'production') {
         return reducer;
     }
 
-    const frozenReducer = (state: GlobalState, action: Action) => {
+    const frozenReducer = (state: S | undefined, action: A): S => {
         const nextState = reducer(state, action);
 
         if (nextState !== state) {
@@ -46,5 +35,5 @@ function enableFreezing(reducer: Reducer) {
         return nextState;
     };
 
-    return frozenReducer as Reducer<GlobalState, Action>;
+    return frozenReducer;
 }

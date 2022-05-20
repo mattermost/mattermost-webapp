@@ -7,7 +7,6 @@ import {General} from 'mattermost-redux/constants';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 import {ClientConfig, FeatureFlags, ClientLicense} from 'mattermost-redux/types/config';
-import {SubscriptionStats} from 'mattermost-redux/types/cloud';
 
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 
@@ -32,10 +31,6 @@ export function getCurrentUrl(state: GlobalState): string {
 
 export function warnMetricsStatus(state: GlobalState): any {
     return state.entities.general.warnMetricsStatus;
-}
-
-export function getSubscriptionStats(state: GlobalState): SubscriptionStats | undefined | null {
-    return state.entities.cloud.subscriptionStats;
 }
 
 export function isCompatibleWithJoinViewTeamPermissions(state: GlobalState): boolean {
@@ -99,4 +94,12 @@ export const getServerVersion = (state: GlobalState): string => {
 
 export function getFirstAdminVisitMarketplaceStatus(state: GlobalState): boolean {
     return state.entities.general.firstAdminVisitMarketplaceStatus;
+}
+
+export function getFirstAdminSetupComplete(state: GlobalState): boolean {
+    return state.entities.general.firstAdminCompleteSetup;
+}
+
+export function isPerformanceDebuggingEnabled(state: GlobalState): boolean {
+    return state.entities.general.config.EnableClientPerformanceDebugging === 'true';
 }

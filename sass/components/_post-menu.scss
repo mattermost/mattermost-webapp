@@ -61,6 +61,10 @@
     user-select: none;
 }
 
+.post-menu__emoticon {
+    cursor: pointer;
+}
+
 @media (min-width: 768px) {
     .post-menu__item {
         display: none;

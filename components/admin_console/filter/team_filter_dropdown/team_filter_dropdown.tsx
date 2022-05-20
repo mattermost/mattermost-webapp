@@ -11,7 +11,7 @@ import {debounce} from 'mattermost-redux/actions/helpers';
 
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import InfiniteScroll from 'components/gif_picker/components/InfiniteScroll';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import {FilterOption, FilterValues} from '../filter';
 

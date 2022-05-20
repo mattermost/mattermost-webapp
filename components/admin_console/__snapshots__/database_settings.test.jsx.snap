@@ -315,6 +315,34 @@ exports[`components/DatabaseSettings should match snapshot 1`] = `
         }
         value={true}
       />
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+        >
+          <MemoizedFormattedMessage
+            defaultMessage="Schema Migrations:"
+            id="admin.database.migrations_table.title"
+          />
+        </label>
+        <div
+          className="col-sm-8"
+        >
+          <div
+            className="migrations-table-setting"
+          >
+            <Connect(MigrationsTable)
+              createHelpText={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="All applied migrations."
+                  id="admin.database.migrations_table.help_text"
+                />
+              }
+            />
+          </div>
+        </div>
+      </div>
     </SettingsGroup>
     <div
       className="admin-console-save"

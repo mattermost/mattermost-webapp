@@ -2,9 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {Client4} from 'mattermost-redux/client';
-import {Action, ActionFunc} from 'mattermost-redux/types/actions';
-import {AppCallResponse, AppForm, AppCallType, AppCallRequest, AppContext, AppBinding} from 'mattermost-redux/types/apps';
-import {AppCallTypes, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
+import {Action, ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
+import {AppCallResponse, AppForm, AppCallRequest, AppContext, AppBinding} from 'mattermost-redux/types/apps';
+import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 import {Post} from 'mattermost-redux/types/posts';
 import {CommandArgs} from 'mattermost-redux/types/integrations';
 
@@ -15,16 +15,74 @@ import AppsForm from 'components/apps_form';
 import {ModalIdentifiers} from 'utils/constants';
 import {getSiteURL, shouldOpenInNewTab} from 'utils/url';
 import {browserHistory} from 'utils/browser_history';
-import {makeCallErrorResponse} from 'utils/apps';
+import {createCallRequest, makeCallErrorResponse} from 'utils/apps';
 
 import {cleanForm} from 'mattermost-redux/utils/apps';
 
 import {sendEphemeralPost} from './global_actions';
 
-export function doAppCall<Res=unknown>(call: AppCallRequest, type: AppCallType, intl: any): ActionFunc {
+export function handleBindingClick<Res=unknown>(binding: AppBinding, context: AppContext, intl: any): ActionFunc {
+    return async (dispatch: DispatchFunc) => {
+        // Fetch form
+        let form = binding.form;
+        if (form?.source) {
+            const callRequest = createCallRequest(form.source, context);
+            const res = await dispatch(doAppFetchForm<Res>(callRequest, intl));
+            if (res.error) {
+                return res;
+            }
+            form = res.data.form;
+        }
+
+        // Open form
+        if (form) {
+            // This should come properly formed, but using preventive checks
+            if (!form?.submit) {
+                const errMsg = intl.formatMessage({
+                    id: 'apps.error.malformed_binding',
+                    defaultMessage: 'This binding is not properly formed. Contact the App developer.',
+                });
+                return {error: makeCallErrorResponse(errMsg)};
+            }
+
+            const res: AppCallResponse = {
+                type: AppCallResponseTypes.FORM,
+                form,
+            };
+            return {data: res};
+        }
+
+        // Submit binding
+        // This should come properly formed, but using preventive checks
+        if (!binding.submit) {
+            const errMsg = intl.formatMessage({
+                id: 'apps.error.malformed_binding',
+                defaultMessage: 'This binding is not properly formed. Contact the App developer.',
+            });
+            return {error: makeCallErrorResponse(errMsg)};
+        }
+
+        const callRequest = createCallRequest(
+            binding.submit,
+            context,
+        );
+
+        const res = await dispatch(doAppSubmit<Res>(callRequest, intl));
+        return res;
+    };
+}
+
+export function doAppSubmit<Res=unknown>(inCall: AppCallRequest, intl: any): ActionFunc {
     return async () => {
         try {
-            const res = await Client4.executeAppCall(call, type) as AppCallResponse<Res>;
+            const call: AppCallRequest = {
+                ...inCall,
+                context: {
+                    ...inCall.context,
+                    track_as_submit: true,
+                },
+            };
+            const res = await Client4.executeAppCall(call, true) as AppCallResponse<Res>;
             const responseType = res.type || AppCallResponseTypes.OK;
 
             switch (responseType) {
@@ -33,18 +91,18 @@ export function doAppCall<Res=unknown>(call: AppCallRequest, type: AppCallType, 
             case AppCallResponseTypes.ERROR:
                 return {error: res};
             case AppCallResponseTypes.FORM:
-                if (!res.form) {
+                if (!res.form?.submit) {
                     const errMsg = intl.formatMessage({
                         id: 'apps.error.responses.form.no_form',
-                        defaultMessage: 'Response type is `form`, but no form was included in response.',
+                        defaultMessage: 'Response type is `form`, but no valid form was included in response.',
                     });
                     return {error: makeCallErrorResponse(errMsg)};
                 }
 
                 cleanForm(res.form);
-
                 return {data: res};
-            case AppCallResponseTypes.NAVIGATE:
+
+            case AppCallResponseTypes.NAVIGATE: {
                 if (!res.navigate_to_url) {
                     const errMsg = intl.formatMessage({
                         id: 'apps.error.responses.navigate.no_url',
@@ -52,21 +110,52 @@ export function doAppCall<Res=unknown>(call: AppCallRequest, type: AppCallType, 
                     });
                     return {error: makeCallErrorResponse(errMsg)};
                 }
-
-                if (type !== AppCallTypes.SUBMIT) {
-                    const errMsg = intl.formatMessage({
-                        id: 'apps.error.responses.navigate.no_submit',
-                        defaultMessage: 'Response type is `navigate`, but the call was not a submission.',
-                    });
-                    return {error: makeCallErrorResponse(errMsg)};
-                }
-
                 if (shouldOpenInNewTab(res.navigate_to_url, getSiteURL())) {
                     window.open(res.navigate_to_url);
                     return {data: res};
                 }
+                const navigateURL = res.navigate_to_url.startsWith(getSiteURL()) ?
+                    res.navigate_to_url.slice(getSiteURL().length) :
+                    res.navigate_to_url;
+                browserHistory.push(navigateURL);
+                return {data: res};
+            }
+            default: {
+                const errMsg = intl.formatMessage({
+                    id: 'apps.error.responses.unknown_type',
+                    defaultMessage: 'App response type not supported. Response type: {type}.',
+                }, {type: responseType});
+                return {error: makeCallErrorResponse(errMsg)};
+            }
+            }
+        } catch (error: any) {
+            const errMsg = error.message || intl.formatMessage({
+                id: 'apps.error.responses.unexpected_error',
+                defaultMessage: 'Received an unexpected error.',
+            });
+            return {error: makeCallErrorResponse(errMsg)};
+        }
+    };
+}
 
-                browserHistory.push(res.navigate_to_url.slice(getSiteURL().length));
+export function doAppFetchForm<Res=unknown>(call: AppCallRequest, intl: any): ActionFunc {
+    return async () => {
+        try {
+            const res = await Client4.executeAppCall(call, false) as AppCallResponse<Res>;
+            const responseType = res.type || AppCallResponseTypes.OK;
+
+            switch (responseType) {
+            case AppCallResponseTypes.ERROR:
+                return {error: res};
+            case AppCallResponseTypes.FORM:
+                if (!res.form?.submit) {
+                    const errMsg = intl.formatMessage({
+                        id: 'apps.error.responses.form.no_form',
+                        defaultMessage: 'Response type is `form`, but no valid form was included in response.',
+                    });
+                    return {error: makeCallErrorResponse(errMsg)};
+                }
+                cleanForm(res.form);
                 return {data: res};
             default: {
                 const errMsg = intl.formatMessage({
@@ -76,7 +165,37 @@ export function doAppCall<Res=unknown>(call: AppCallRequest, type: AppCallType, 
                 return {error: makeCallErrorResponse(errMsg)};
             }
             }
-        } catch (error) {
+        } catch (error: any) {
+            const errMsg = error.message || intl.formatMessage({
+                id: 'apps.error.responses.unexpected_error',
+                defaultMessage: 'Received an unexpected error.',
+            });
+            return {error: makeCallErrorResponse(errMsg)};
+        }
+    };
+}
+
+export function doAppLookup<Res=unknown>(call: AppCallRequest, intl: any): ActionFunc {
+    return async () => {
+        try {
+            const res = await Client4.executeAppCall(call, false) as AppCallResponse<Res>;
+            const responseType = res.type || AppCallResponseTypes.OK;
+
+            switch (responseType) {
+            case AppCallResponseTypes.OK:
+                return {data: res};
+            case AppCallResponseTypes.ERROR:
+                return {error: res};
+
+            default: {
+                const errMsg = intl.formatMessage({
+                    id: 'apps.error.responses.unknown_type',
+                    defaultMessage: 'App response type not supported. Response type: {type}.',
+                }, {type: responseType});
+                return {error: makeCallErrorResponse(errMsg)};
+            }
+            }
+        } catch (error: any) {
             const errMsg = error.message || intl.formatMessage({
                 id: 'apps.error.responses.unexpected_error',
                 defaultMessage: 'Received an unexpected error.',
@@ -101,13 +220,13 @@ export function makeFetchBindings(location: string): (userId: string, channelId:
     };
 }
 
-export function openAppsModal(form: AppForm, call: AppCallRequest): Action {
+export function openAppsModal(form: AppForm, context: AppContext): Action {
     return openModal({
         modalId: ModalIdentifiers.APPS_MODAL,
         dialogType: AppsForm,
         dialogProps: {
             form,
-            call,
+            context,
         },
     });
 }

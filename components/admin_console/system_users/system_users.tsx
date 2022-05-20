@@ -353,6 +353,7 @@ export default class SystemUsers extends React.PureComponent<Props, State> {
                         <option value=''>{Utils.localizeMessage('admin.system_users.allUsers', 'All Users')}</option>
                         <option value={UserFilters.SYSTEM_ADMIN}>{Utils.localizeMessage('admin.system_users.system_admin', 'System Admin')}</option>
                         <option value={UserFilters.SYSTEM_GUEST}>{Utils.localizeMessage('admin.system_users.guest', 'Guest')}</option>
+                        <option value={UserFilters.ACTIVE}>{Utils.localizeMessage('admin.system_users.active', 'Active')}</option>
                         <option value={UserFilters.INACTIVE}>{Utils.localizeMessage('admin.system_users.inactive', 'Inactive')}</option>
                     </select>
                 </label>

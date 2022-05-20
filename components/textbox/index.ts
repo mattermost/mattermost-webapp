@@ -12,8 +12,7 @@ import {makeGetProfilesForThread} from 'mattermost-redux/selectors/entities/post
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {getCurrentUserId, makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
-import {makeAddLastViewAtToProfiles} from 'mattermost-redux/selectors/entities/utils';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
@@ -29,13 +28,9 @@ type Props = {
     rootId?: string;
 };
 
-/* eslint-disable camelcase */
-
-const getProfilesInChannelOptions = {active: true};
+export type TextboxElement = HTMLInputElement | HTMLTextAreaElement;
 
 const makeMapStateToProps = () => {
-    const getProfilesInChannel = makeGetProfilesInChannel();
-    const addLastViewAtToProfiles = makeAddLastViewAtToProfiles();
     const getProfilesForThread = makeGetProfilesForThread();
     return (state: GlobalState, ownProps: Props) => {
         const teamId = getCurrentTeamId(state);
@@ -46,13 +41,10 @@ const makeMapStateToProps = () => {
             Permissions.USE_GROUP_MENTIONS,
         );
         const autocompleteGroups = useGroupMentions ? getAssociatedGroupsForReference(state, teamId, ownProps.channelId) : null;
-        const profilesInChannel = getProfilesInChannel(state, ownProps.channelId, getProfilesInChannelOptions);
-        const profilesWithLastViewAtInChannel = addLastViewAtToProfiles(state, profilesInChannel);
 
         return {
             currentUserId: getCurrentUserId(state),
             currentTeamId: teamId,
-            profilesInChannel: profilesWithLastViewAtInChannel,
             autocompleteGroups,
             priorityProfiles: getProfilesForThread(state, ownProps.rootId ?? ''),
         };
@@ -66,5 +58,7 @@ const mapDispatchToProps = (dispatch: Dispatch<GenericAction>) => ({
         searchAssociatedGroupsForReference,
     }, dispatch),
 });
+
+export {Textbox as TextboxClass};
 
 export default connect(makeMapStateToProps, mapDispatchToProps, null, {forwardRef: true})(Textbox);

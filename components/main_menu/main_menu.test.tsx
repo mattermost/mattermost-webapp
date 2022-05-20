@@ -56,21 +56,20 @@ describe('components/Menu', () => {
         moreTeamsToJoin: false,
         pluginMenuItems: [],
         isMentionSearch: false,
-        showGettingStarted: false,
+        isFirstAdmin: false,
         intl: createIntl({locale: 'en', defaultLocale: 'en', timeZone: 'Etc/UTC', textComponent: 'span'}),
-        showDueToStepsNotFinished: false,
         teamUrl: '/team',
         location: {
             pathname: '/team',
         },
+        guestAccessEnabled: true,
+        canInviteTeamMember: true,
         actions: {
             openModal: jest.fn(),
             showMentions: jest.fn(),
             showFlaggedPosts: jest.fn(),
             closeRightHandSide: jest.fn(),
             closeRhsMenu: jest.fn(),
-            unhideNextSteps: jest.fn(),
-            getSubscriptionStats: jest.fn(),
         },
         teamIsGroupConstrained: false,
         isCloud: false,
@@ -275,5 +274,15 @@ describe('components/Menu', () => {
         );
 
         expect(wrapper.find('#startTrial')).toHaveLength(0);
+    });
+
+    test('should match snapshot with guest access disabled and no team invite permission', () => {
+        const props = {
+            ...defaultProps,
+            guestAccessEnabled: false,
+            canInviteTeamMember: false,
+        };
+        const wrapper = getMainMenuWrapper(props);
+        expect(wrapper).toMatchSnapshot();
     });
 });

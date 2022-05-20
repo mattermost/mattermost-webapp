@@ -2,3 +2,4 @@ e2e/results
 storybook-static
 node_modules
 dist
+lib

@@ -14,7 +14,7 @@ import * as GlobalActions from 'actions/global_actions';
 import EmojiMap from 'utils/emoji_map';
 
 import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import FileUpload from 'components/file_upload';
 import Textbox from 'components/textbox';
@@ -68,6 +68,7 @@ const actionsProp = {
     setEditingPost: jest.fn(),
     openModal: jest.fn(),
     setShowPreview: jest.fn(),
+    savePreferences: jest.fn(),
     executeCommand: async () => {
         return {data: true};
     },
@@ -88,8 +89,7 @@ function createPost({
     currentChannel = currentChannelProp,
     currentTeamId = currentTeamIdProp,
     currentUserId = currentUserIdProp,
-    tutorialStep = Constants.TutorialSteps.POST_POPOVER + 1,
-    showTutorialTip = showTutorialTipProp,
+    showSendTutorialTip = showTutorialTipProp,
     currentChannelMembersCount = currentChannelMembersCountProp,
     fullWidthTextBox = fullWidthTextBoxProp,
     draft = draftProp,
@@ -102,7 +102,8 @@ function createPost({
     canUploadFiles = true,
     emojiMap = new EmojiMap(new Map()),
     isTimezoneEnabled = false,
-    useGroupMentions = true,
+    useLDAPGroupMentions = true,
+    useCustomGroupMentions = true,
     canPost = true,
     isMarkdownPreviewEnabled = false,
 } = {}) {
@@ -111,7 +112,7 @@ function createPost({
             currentChannel={currentChannel}
             currentTeamId={currentTeamId}
             currentUserId={currentUserId}
-            showTutorialTip={showTutorialTip}
+            showSendTutorialTip={showSendTutorialTip}
             fullWidthTextBox={fullWidthTextBox}
             currentChannelMembersCount={currentChannelMembersCount}
             draft={draft}
@@ -135,8 +136,8 @@ function createPost({
             isTimezoneEnabled={isTimezoneEnabled}
             canPost={canPost}
             useChannelMentions={true}
-            useGroupMentions={useGroupMentions}
-            tutorialStep={tutorialStep}
+            useLDAPGroupMentions={useLDAPGroupMentions}
+            useCustomGroupMentions={useCustomGroupMentions}
             isMarkdownPreviewEnabled={isMarkdownPreviewEnabled}
         />
     );
@@ -179,7 +180,7 @@ describe('components/create_post', () => {
         expect(clearDraftUploads).toHaveBeenCalled();
     });
 
-    it('Check for state change on channelId change with useGroupMentions = true', () => {
+    it('Check for state change on channelId change with useLDAPGroupMentions = true', () => {
         const wrapper = shallowWithIntl(createPost({}));
         const draft = {
             ...draftProp,
@@ -200,7 +201,7 @@ describe('components/create_post', () => {
         expect(wrapper.state('message')).toBe('test');
     });
 
-    it('Check for getChannelMemberCountsByGroup called on mount and when channel changed with useGroupMentions = true', () => {
+    it('Check for getChannelMemberCountsByGroup called on mount and when channel changed with useLDAPGroupMentions = true', () => {
         const getChannelMemberCountsByGroup = jest.fn();
         const actions = {
             ...actionsProp,
@@ -217,14 +218,14 @@ describe('components/create_post', () => {
         expect(getChannelMemberCountsByGroup).toHaveBeenCalled();
     });
 
-    it('Check for getChannelMemberCountsByGroup not called on mount and when channel changed with useGroupMentions = false', () => {
+    it('Check for getChannelMemberCountsByGroup not called on mount and when channel changed with useLDAPGroupMentions = false', () => {
         const getChannelMemberCountsByGroup = jest.fn();
-        const useGroupMentions = false;
+        const useLDAPGroupMentions = false;
         const actions = {
             ...actionsProp,
             getChannelMemberCountsByGroup,
         };
-        const wrapper = shallowWithIntl(createPost({actions, useGroupMentions}));
+        const wrapper = shallowWithIntl(createPost({actions, useLDAPGroupMentions}));
         expect(getChannelMemberCountsByGroup).not.toHaveBeenCalled();
         wrapper.setProps({
             currentChannel: {
@@ -884,7 +885,22 @@ describe('components/create_post', () => {
         const instance = wrapper.instance();
         instance.textboxRef.current = {blur: jest.fn()};
 
-        instance.handleKeyDown({ctrlKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn(), persist: jest.fn()});
+        const target = {
+            selectionStart: 0,
+            selectionEnd: 0,
+            value: 'brown\nfox jumps over lazy dog',
+        };
+
+        const event = {
+            ctrlKey: true,
+            key: Constants.KeyCodes.ENTER[0],
+            keyCode: Constants.KeyCodes.ENTER[1],
+            preventDefault: jest.fn(),
+            persist: jest.fn(),
+            target,
+        };
+
+        instance.handleKeyDown(event);
         setTimeout(() => {
             expect(GlobalActions.emitLocalUserTypingEvent).toHaveBeenCalledWith(currentChannelProp.id, '');
         }, 0);
@@ -900,7 +916,22 @@ describe('components/create_post', () => {
         }));
         const instance = wrapper.instance();
         const type = Utils.localizeMessage('create_post.comment', Posts.MESSAGE_TYPES.COMMENT);
-        instance.handleKeyDown({key: Constants.KeyCodes.UP[0], preventDefault: jest.fn()});
+
+        const target = {
+            selectionStart: 0,
+            selectionEnd: 0,
+            value: 'brown\nfox jumps over lazy dog',
+        };
+
+        const event = {
+            key: Constants.KeyCodes.UP[0],
+            keyCode: Constants.KeyCodes.UP[1],
+            preventDefault: jest.fn(),
+            persist: jest.fn(),
+            target,
+        };
+
+        instance.handleKeyDown(event);
         expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, 'post_textbox', type);
     });
 
@@ -919,7 +950,22 @@ describe('components/create_post', () => {
         });
 
         const type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
-        instance.handleKeyDown({key: Constants.KeyCodes.UP[0], preventDefault: jest.fn()});
+
+        const target = {
+            selectionStart: 0,
+            selectionEnd: 0,
+            value: 'brown\nfox jumps over lazy dog',
+        };
+
+        const event = {
+            key: Constants.KeyCodes.UP[0],
+            keyCode: Constants.KeyCodes.UP[1],
+            preventDefault: jest.fn(),
+            persist: jest.fn(),
+            target,
+        };
+
+        instance.handleKeyDown(event);
         expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, 'post_textbox', type);
     });
 
@@ -939,7 +985,22 @@ describe('components/create_post', () => {
         }));
         const instance = wrapper.instance();
 
-        instance.handleKeyDown({key: Constants.KeyCodes.DOWN[0], ctrlKey: true, preventDefault: jest.fn()});
+        const target = {
+            selectionStart: 0,
+            selectionEnd: 0,
+            value: 'brown\nfox jumps over lazy dog',
+        };
+
+        const event = {
+            ctrlKey: true,
+            key: Constants.KeyCodes.DOWN[0],
+            keyCode: Constants.KeyCodes.DOWN[1],
+            preventDefault: jest.fn(),
+            persist: jest.fn(),
+            target,
+        };
+
+        instance.handleKeyDown(event);
         expect(moveHistoryIndexForward).toHaveBeenCalled();
     });
 
@@ -959,7 +1020,22 @@ describe('components/create_post', () => {
         }));
         const instance = wrapper.instance();
 
-        instance.handleKeyDown({key: Constants.KeyCodes.UP[0], ctrlKey: true, preventDefault: jest.fn()});
+        const target = {
+            selectionStart: 0,
+            selectionEnd: 0,
+            value: 'brown\nfox jumps over lazy dog',
+        };
+
+        const event = {
+            ctrlKey: true,
+            key: Constants.KeyCodes.UP[0],
+            keyCode: Constants.KeyCodes.UP[1],
+            preventDefault: jest.fn(),
+            persist: jest.fn(),
+            target,
+        };
+
+        instance.handleKeyDown(event);
         expect(moveHistoryIndexBack).toHaveBeenCalled();
     });
 
@@ -1239,21 +1315,21 @@ describe('components/create_post', () => {
 
     it('should not enable the save button when message empty', () => {
         const wrapper = shallowWithIntl(createPost());
-        const saveButton = wrapper.find('.post-body__actions a');
+        const saveButton = wrapper.find('.post-body__actions .send-button');
 
         expect(saveButton.hasClass('disabled')).toBe(true);
     });
 
     it('should enable the save button when message not empty', () => {
         const wrapper = shallowWithIntl(createPost({draft: {...draftProp, message: 'a message'}}));
-        const saveButton = wrapper.find('.post-body__actions a');
+        const saveButton = wrapper.find('.post-body__actions .send-button');
 
         expect(saveButton.hasClass('disabled')).toBe(false);
     });
 
     it('should enable the save button when a file is available for upload', () => {
         const wrapper = shallowWithIntl(createPost({draft: {...draftProp, fileInfos: [{id: '1'}]}}));
-        const saveButton = wrapper.find('.post-body__actions a');
+        const saveButton = wrapper.find('.post-body__actions .send-button');
 
         expect(saveButton.hasClass('disabled')).toBe(false);
     });

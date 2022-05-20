@@ -8,9 +8,14 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {shouldShowTermsOfService, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
+import {getFirstAdminSetupComplete} from 'mattermost-redux/actions/general';
+import {getProfiles} from 'mattermost-redux/actions/users';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
 
-import {loadMeAndConfig} from 'actions/views/root';
+import {getShowLaunchingWorkspace, getShowTaskListBool} from 'selectors/onboarding';
 import {emitBrowserWindowResized} from 'actions/views/browser';
+import {loadConfigAndMe} from 'actions/views/root';
+
 import LocalStorageStore from 'stores/local_storage_store';
 
 import Root from './root.jsx';
@@ -20,9 +25,18 @@ function mapStateToProps(state) {
     const showTermsOfService = shouldShowTermsOfService(state);
     const plugins = state.plugins.components.CustomRouteComponent;
     const products = state.plugins.components.Product;
+    const userId = getCurrentUserId(state);
 
-    const teamId = LocalStorageStore.getPreviousTeamId(getCurrentUserId(state));
+    const teamId = LocalStorageStore.getPreviousTeamId(userId);
     const permalinkRedirectTeam = getTeam(state, teamId);
+
+    let showTaskList = false;
+    let firstTimeOnboarding = false;
+
+    // validation to avoid execute logic on first load which has no preferences values on global store
+    if (Object.keys(state.entities.preferences.myPreferences).length > 0) {
+        [showTaskList, firstTimeOnboarding] = getShowTaskListBool(state);
+    }
 
     return {
         theme: getTheme(state),
@@ -33,14 +47,21 @@ function mapStateToProps(state) {
         showTermsOfService,
         plugins,
         products,
+        showTaskList,
+        showLaunchingWorkspace: getShowLaunchingWorkspace(state),
+        firstTimeOnboarding,
+        userId,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            loadMeAndConfig,
+            loadConfigAndMe,
             emitBrowserWindowResized,
+            getFirstAdminSetupComplete,
+            getProfiles,
+            savePreferences,
         }, dispatch),
     };
 }

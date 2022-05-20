@@ -43,7 +43,7 @@ export type Props = {
     * The mode by which direct messages are restricted, if at all.
     */
     restrictDirectMessage?: string;
-    onModalDismissed: () => void;
+    onModalDismissed?: () => void;
     onExited?: () => void;
     actions: {
         getProfiles: (page?: number | undefined, perPage?: number | undefined, options?: any) => Promise<any>;

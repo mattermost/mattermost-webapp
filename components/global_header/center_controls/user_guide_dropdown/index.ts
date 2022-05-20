@@ -8,15 +8,14 @@ import {withRouter} from 'react-router-dom';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
+import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
+import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
+
+import {getUserGuideDropdownPluginMenuItems} from 'selectors/plugins';
 
 import {GlobalState} from 'types/store';
 
-import {unhideNextSteps} from 'actions/views/next_steps';
 import {openModal} from 'actions/views/modals';
-
-import {
-    showNextSteps,
-} from 'components/next_steps_view/steps';
 
 import {getIsMobileView} from 'selectors/views/browser';
 
@@ -30,15 +29,16 @@ function mapStateToProps(state: GlobalState) {
         isMobileView: getIsMobileView(state),
         reportAProblemLink: ReportAProblemLink || '',
         enableAskCommunityLink: EnableAskCommunityLink || '',
-        showDueToStepsNotFinished: showNextSteps(state),
         teamUrl: getCurrentRelativeTeamUrl(state),
+        pluginMenuItems: getUserGuideDropdownPluginMenuItems(state),
+        isFirstAdmin: isFirstAdmin(state),
+        useCaseOnboarding: getUseCaseOnboarding(state),
     };
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
-            unhideNextSteps,
             openModal,
         }, dispatch),
     };

@@ -2,7 +2,8 @@
   "root": true,
   "extends": [
     "plugin:mattermost/react",
-    "plugin:cypress/recommended"
+    "plugin:cypress/recommended",
+    "plugin:react-hooks/recommended"
   ],
   "plugins": [
     "babel",
@@ -131,7 +132,7 @@
       }
     },
     {
-      "files": ["tests/**", "**/*.test.*", "tests/*.js"],
+      "files": ["tests/**", "**/*.test.*", "tests/*.js", "packages/mattermost-redux/test/*"],
       "env": {
         "jest": true
       },
@@ -140,6 +141,7 @@
         "global-require": 0,
         "max-lines": 0,
         "new-cap": 0,
+        "no-empty-function": 0,
         "no-import-assign": 0,
         "no-process-env": 0,
         "prefer-arrow-callback": 0
