@@ -17,8 +17,6 @@ const emptyUsage = {
     boards: {
         cards: 0,
         cardsLoaded: false,
-        views: 0,
-        viewsLoaded: false,
     },
     integrations: {
         enabled: 0,
@@ -60,9 +58,8 @@ export default function usage(state: CloudUsage = emptyUsage, action: GenericAct
         return {
             ...state,
             boards: {
-                ...action.data,
+                cards: action.data,
                 cardsLoaded: true,
-                viewsLoaded: true,
             },
         };
     }

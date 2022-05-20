@@ -149,15 +149,20 @@ export function getIntegrationsUsage(): ActionFunc {
 
 export function getBoardsUsage(): ActionFunc {
     return async (dispatch: DispatchFunc) => {
-        dispatch({
-            type: CloudTypes.RECEIVED_BOARDS_USAGE,
+        try {
+            const result = await Client4.getBoardsUsage();
+            if (result) {
+                dispatch({
+                    type: CloudTypes.RECEIVED_BOARDS_USAGE,
 
-            // TODO: Fill this in with the backing client API method once it is available in the server
-            data: {
-                cards: 400,
-                views: 2,
-            },
-        });
-        return {data: true};
+                    // the views and cards properties are the limits, not usage.
+                    // So they are not passed in to the usage.
+                    data: result.used_cards,
+                });
+            }
+        } catch (error) {
+            return error;
+        }
+        return {data: false};
     };
 }

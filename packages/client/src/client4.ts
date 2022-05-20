@@ -76,6 +76,7 @@ import type {
     MarketplacePlugin,
 } from '@mattermost/types/marketplace';
 import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse} from '@mattermost/types/posts';
+import {BoardsUsageResponse} from '@mattermost/types/boards';
 import {PreferenceType} from '@mattermost/types/preferences';
 import {Reaction} from '@mattermost/types/reactions';
 import {Role} from '@mattermost/types/roles';
@@ -136,6 +137,17 @@ export const DEFAULT_LIMIT_BEFORE = 30;
 export const DEFAULT_LIMIT_AFTER = 30;
 
 const GRAPHQL_ENDPOINT = '/api/v5/graphql';
+
+// placed here because currently not supported
+// to import from outside the package from main bundle
+const suitePluginIds = {
+    playbooks: 'playbooks',
+    focalboard: 'focalboard',
+    apps: 'com.mattermost.apps',
+    calls: 'com.mattermost.calls',
+    nps: 'com.mattermost.nps',
+    channelExport: 'com.mattermost.plugin-channel-export',
+};
 
 export default class Client4 {
     logToConsole = false;
@@ -3417,6 +3429,13 @@ export default class Client4 {
             {method: 'post'},
         );
     };
+
+    getBoardsUsage = () => {
+        return this.doFetch<BoardsUsageResponse>(
+            `/plugins/${suitePluginIds.focalboard}/api/v1/limits`,
+            {method: 'get'},
+        );
+    }
 
     // Groups
 
