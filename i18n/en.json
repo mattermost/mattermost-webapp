@@ -4279,7 +4279,7 @@
   "shortcuts.msgs.markdown.link.mac": "Link:\t⌘|Alt|K",
   "shortcuts.msgs.markdown.ordered": "Numbered List:\tCtrl|Shift|7",
   "shortcuts.msgs.markdown.ordered.mac": "Numbered List:\t⌘|Shift|7",
-  "shortcuts.msgs.markdown.preview": "Emoji / Gif picker:\tCtrl|Shift|P",
+  "shortcuts.msgs.markdown.preview": "Show/Hide Preview:\tCtrl|Shift|P",
   "shortcuts.msgs.markdown.preview.mac": "Show/Hide Preview:\t⌘|Shift|P",
   "shortcuts.msgs.markdown.quote": "Quote:\tCtrl|Shift|9",
   "shortcuts.msgs.markdown.quote.mac": "Quote:\t⌘|Shift|9",
