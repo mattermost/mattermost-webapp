@@ -2873,7 +2873,7 @@
   "mfa.setup.required": "**{siteName}要求使用多重要素驗證。**",
   "mfa.setup.save": "儲存",
   "mfa.setup.secret": "密碼：{secret}",
-  "mfa.setup.step1": "**步驟一：**在手機上從 [iTunes](!https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8') 或 [Google Play](!https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en) 下載 Google Authenticator",
+  "mfa.setup.step1": "**步驟一：**在手機上從 <linkiTunes>iTunes</linkiTunes> 或 <linkGooglePlay>Google Play</linkGooglePlay> 下載 Google Authenticator",
   "mfa.setup.step2": "**步驟二：**使用 Google Authenticator 掃描此 QR 碼或是手動輸入密碼",
   "mfa.setup.step3": "**步驟三：**輸入 Google Authenticator 產生的代碼",
   "mfa.setupTitle": "多重要素驗證設定",

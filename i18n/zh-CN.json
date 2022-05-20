@@ -3512,7 +3512,7 @@
   "mfa.setup.required": "**{siteName} 强制要求使用多重验证。**",
   "mfa.setup.save": "保存",
   "mfa.setup.secret": "密码：{secret}",
-  "mfa.setup.step1": "**步骤 1：**在您的手机，从 [iTunes](!https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8') 或 [Google Play](!https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en) 下载 Google Authenticator",
+  "mfa.setup.step1": "**步骤 1：**在您的手机，从 <linkiTunes>iTunes</linkiTunes> 或 <linkGooglePlay>Google Play</linkGooglePlay> 下载 Google Authenticator",
   "mfa.setup.step2": "**第二布：**使用 Google Authenticator 扫描此 QR 码，或手动输入密码",
   "mfa.setup.step3": "**第三步：**输入 Google Authenticator 生成的令牌",
   "mfa.setupTitle": "多重验证设置",

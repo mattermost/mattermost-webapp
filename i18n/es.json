@@ -3477,7 +3477,7 @@
   "mfa.setup.required": "**La autenticación de múltiples factores es requerida en {siteName}.**",
   "mfa.setup.save": "Guardar",
   "mfa.setup.secret": "Llave secreta: {secret}",
-  "mfa.setup.step1": "** Paso 1: **En tu móvil, descarga Google Authenticator desde [iTunes](!https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8') o [Google Play](!https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en)",
+  "mfa.setup.step1": "** Paso 1: **En tu móvil, descarga Google Authenticator desde <linkiTunes>iTunes</linkiTunes> o <linkGooglePlay>Google Play</linkGooglePlay>",
   "mfa.setup.step2": "**Paso 2: **Utiliza Google Authenticator para escanear este código QR, o ingresar esta llave secreta manualmente",
   "mfa.setup.step3": "**Paso 3: **Ingresa el código generado por Google Authenticator",
   "mfa.setupTitle": "Configurar Autenticación de Múltiples Factores",

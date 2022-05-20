@@ -2187,7 +2187,7 @@
   "mfa.setup.required": "**На {siteName} потрібна багатофакторна перевірка справжності.**",
   "mfa.setup.save": "Зберегти",
   "mfa.setup.secret": "Секретний ключ: {secret}",
-  "mfa.setup.step1": "** Крок 1: **На своєму телефоні завантажте Генератор кодів Google із [iTunes] (!https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8 ') або [Google Play] (!https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=ru)",
+  "mfa.setup.step1": "** Крок 1: **На своєму телефоні завантажте Генератор кодів Google із <linkiTunes>iTunes</linkiTunes>  або <linkGooglePlay>Google Play</linkGooglePlay> ",
   "mfa.setup.step2": "**Крок 2:** Використовуйте Google Authenticator для сканування QR коду або вручну введіть секретний ключ",
   "mfa.setup.step3": "**Крок 3: **Введіть код, згенерований Google Authenticator",
   "mfa.setupTitle": "Налаштування багатофакторної перевірки автентичності ",

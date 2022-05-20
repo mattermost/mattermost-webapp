@@ -3183,7 +3183,7 @@
   "mfa.setup.required": "**Autenticação multi-fator é obrigatória em {siteName}.**",
   "mfa.setup.save": "Salvar",
   "mfa.setup.secret": "Chave Secreta: {secret}",
-  "mfa.setup.step1": "**Passo 1: **No seu telefone, faça download do Google Authenticator no [iTunes](!https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8') ou [Google Play](!https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en)",
+  "mfa.setup.step1": "**Passo 1: **No seu telefone, faça download do Google Authenticator no <linkiTunes>iTunes</linkiTunes> ou <linkGooglePlay>Google Play</linkGooglePlay>",
   "mfa.setup.step2": "**Passo 2: **Use o Google Authenticator para escanear este QR code, ou manualmente digite a chave",
   "mfa.setup.step3": "**Passo 3: **Digite o código gerado pelo Google Authenticator",
   "mfa.setupTitle": "Configuração Autenticação Multi-fator",

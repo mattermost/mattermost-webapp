@@ -2872,7 +2872,7 @@
   "mfa.setup.required": "**Autenticazione multifattore attiva per {siteName}.**",
   "mfa.setup.save": "Salva",
   "mfa.setup.secret": "Segreto: {secret}",
-  "mfa.setup.step1": "**Passo 1: **Sul tuo telefono, scarica Google Authenticator da [iTunes](!https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8') o da [Google Play](!https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en)",
+  "mfa.setup.step1": "**Passo 1: **Sul tuo telefono, scarica Google Authenticator da <linkiTunes>iTunes</linkiTunes> o da <linkGooglePlay>Google Play</linkGooglePlay>",
   "mfa.setup.step2": "**Punto 2: **Utilizza Google Authenticator per scansionare questo codice QR, o inserisci manualmente la chiave segreta",
   "mfa.setup.step3": "**Punto 3: **Inserisci il codice generato da Google Authenticato",
   "mfa.setupTitle": "Impostazioni Autenticazione Multi-fattore",

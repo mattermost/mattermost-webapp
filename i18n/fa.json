@@ -3346,7 +3346,7 @@
   "mfa.setup.required": "** احراز هویت چند عاملی در {siteName} مورد نیاز است.**",
   "mfa.setup.save": "صرفه جویی",
   "mfa.setup.secret": "راز: {مخفی}",
-  "mfa.setup.step1": "**مرحله 1: **در تلفن خود، Google Authenticator را از [iTunes] (!https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8') یا [Google Play] دانلود کنید. (!https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en)",
+  "mfa.setup.step1": "**مرحله 1: **در تلفن خود، Google Authenticator را از <linkiTunes>iTunes</linkiTunes>  یا <linkGooglePlay>Google Play</linkGooglePlay> دانلود کنید. ",
   "mfa.setup.step2": "**مرحله 2: **از Google Authenticator برای اسکن این کد QR استفاده کنید، یا به صورت دستی کلید مخفی را تایپ کنید",
   "mfa.setup.step3": "**مرحله 3: **کد ایجاد شده توسط Google Authenticator را وارد کنید",
   "mfa.setupTitle": "تنظیم احراز هویت چند عاملی",

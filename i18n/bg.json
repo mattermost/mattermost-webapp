@@ -3521,7 +3521,7 @@
   "mfa.setup.required": "**Необходимо е многофакторно удостоверяване за {siteName}.**",
   "mfa.setup.save": "Запиши",
   "mfa.setup.secret": "Тайна: {secret}",
-  "mfa.setup.step1": "**Стъпка 1:** На телефона си изтеглете Google Authenticator от [iTunes](!https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8') или [Google Play](!https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en)",
+  "mfa.setup.step1": "**Стъпка 1:** На телефона си изтеглете Google Authenticator от <linkiTunes>iTunes</linkiTunes> или <linkGooglePlay>Google Play</linkGooglePlay>",
   "mfa.setup.step2": "** Стъпка 2: ** Използвайте Google Удостоверител, за да сканирате този QR код или ръчно въведете секретния ключ",
   "mfa.setup.step3": "**Стъпка 3:** Въведете кода, генериран от Google Удостоверител",
   "mfa.setupTitle": "Настройка на многофакторно удостоверяване",

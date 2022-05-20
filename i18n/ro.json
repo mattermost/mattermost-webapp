@@ -3325,7 +3325,7 @@
   "mfa.setup.required": "**Multi-factor de autentificare este necesară pe {siteName}.**",
   "mfa.setup.save": "Salvează",
   "mfa.setup.secret": "Secret: {secret}",
-  "mfa.setup.step1": "**Pasul 1: **de Pe telefonul dvs., descărcați aplicația Google Authenticator de [iTunes](!https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8') sau [Google Play](!https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en)",
+  "mfa.setup.step1": "**Pasul 1: **de Pe telefonul dvs., descărcați aplicația Google Authenticator de <linkiTunes>iTunes</linkiTunes> sau <linkGooglePlay>Google Play</linkGooglePlay>",
   "mfa.setup.step2": "**Pasul 2: **Utilizați aplicația Google Authenticator pentru a scana acest cod QR sau introduceți manual cheia secretă",
   "mfa.setup.step3": "**Pasul 3: **Introduceți codul generat de Google Authenticator",
   "mfa.setupTitle": "Configurarea autentificării multi-factor",
