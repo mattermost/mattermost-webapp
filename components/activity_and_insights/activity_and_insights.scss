@@ -10,6 +10,21 @@
             }
         }
 
+        .top-reactions-card {
+            .Card__header {
+                padding-bottom: 16px;
+            }
+        }
+
+        .top-threads-card {
+            .Card__header {
+                padding-bottom: 16px;
+            }
+            .Card__body {
+                padding: 0 12px 12px;
+            }
+        }
+
         .top-channel-container {
             display: flex;
 
@@ -277,6 +292,120 @@
                     width: 8px;
                     margin-bottom: 6px;
                     border-radius: 6px;
+                }
+            }
+        }
+
+        .top-thread-container {
+            .top-thread-loading-container {
+                &:nth-of-type(2) {
+                    margin-top: 20px;
+                }
+
+                &:nth-of-type(3) {
+                    margin-top: 20px;
+                }
+                
+                .top-thread-loading-row {
+                    display: flex;
+                    align-items: center;
+                    padding-bottom: 8px;
+    
+                    .skeleton-loader {
+                        &.title {
+                            margin-left: 8px;
+                            flex: 0.5;
+                        }
+                    }
+                }
+                .loading-lines {
+                    .skeleton-loader {
+                        &.title {
+                            height: 8px;
+                            margin-bottom: 8px;
+                        }
+                    }
+                }
+            }
+            .thread-list {
+                .thread-item {
+                    padding: 8px 12px;
+
+                    &:nth-of-type(3) {
+                        .preview {
+                            margin-bottom: 0;
+                        }
+                    }
+
+                    &:hover {
+                        background: rgba(var(--center-channel-color-rgb), 0.08);
+                        border-radius: 4px;
+                        cursor: pointer;
+                    }
+
+                    .thread-details {
+                        display: flex;
+                        align-items: center;
+                        margin-bottom: 4px;
+
+                        .display-name {
+                            font-family: 'Open Sans';
+                            font-style: normal;
+                            font-weight: 600;
+                            font-size: 12px;
+                            line-height: 16px;
+                            color: var(--center-channel-color);
+                            margin-left: 8px;
+                        }
+
+                        .reply-count {
+                            margin-left: auto;
+
+                            i.icon {
+                                width: 12px;
+                                height: 12px;
+                                font-size: 12px;
+                                color: rgba(var(--center-channel-color-rgb), 0.56);
+                            }
+
+                            span {
+                                font-family: 'Open Sans';
+                                font-style: normal;
+                                font-weight: 600;
+                                font-size: 11px;
+                                line-height: 16px;
+                                color: rgba(var(--center-channel-color-rgb), 0.64);
+                            }
+                        }
+                    }
+                    .preview {
+                        height: 32px;
+                        margin: 0;
+                        color: rgba(var(--center-channel-color-rgb), 0.72);
+                        display: -webkit-box;
+                        overflow: hidden;
+                        -webkit-box-orient: vertical;
+                        -webkit-line-clamp: 2;
+                        max-height: 32px;
+                        font-family: 'Open Sans';
+                        font-style: normal;
+                        font-weight: 400;
+                        font-size: 12px;
+                        line-height: 16px;
+
+                        .file_card {
+                            width: auto;
+                            margin: 0;
+                            height: 32px;
+
+                            img.file_card__image {
+                                min-width: 24px;
+                                max-width: 24px;
+                                min-height: 24px;
+                                max-height: 24px;
+                            }
+                        }
+                    }
                 }
             }
         }

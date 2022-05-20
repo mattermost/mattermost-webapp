@@ -1,0 +1,171 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+import React, {memo, useEffect, useState, useCallback, useMemo} from 'react';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+
+import {getTopReactionsForTeam, getMyTopReactions, getMyTopThreads, getTopThreadsForTeam} from 'mattermost-redux/actions/insights';
+import {getTopReactionsForCurrentTeam, getMyTopReactionsForCurrentTeam} from 'mattermost-redux/selectors/entities/insights';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {GlobalState} from 'mattermost-redux/types/store';
+import {TopThread} from '@mattermost/types/insights';
+
+import Badge from 'components/widgets/badges/badge';
+import Avatar from 'components/widgets/users/avatar';
+
+import {InsightsScopes} from 'utils/constants';
+
+import TitleLoader from '../skeleton_loader/title_loader/title_loader';
+import CircleLoader from '../skeleton_loader/circle_loader/circle_loader';
+import widgetHoc, {WidgetHocProps} from '../widget_hoc/widget_hoc';
+
+import WidgetEmptyState from '../widget_empty_state/widget_empty_state';
+
+import './../../activity_and_insights.scss';
+import { imageURLForUser } from 'utils/utils';
+import Markdown from 'components/markdown';
+import Attachment from 'components/threading/global_threads/thread_item/attachments';
+import { selectPost } from 'actions/views/rhs';
+import { Post } from '@mattermost/types/posts';
+
+const TopThreads = (props: WidgetHocProps) => {
+    const dispatch = useDispatch();
+
+    const [loading, setLoading] = useState(true);
+    const [topThreads, setTopThreads] = useState([] as TopThread[]);
+
+    const currentTeamId = useSelector(getCurrentTeamId);
+
+    const getTopTeamThreads = useCallback(async () => {
+        if (props.filterType === InsightsScopes.TEAM) {
+            setLoading(true);
+            const data: any = await dispatch(getTopThreadsForTeam(currentTeamId, 0, 3, props.timeFrame));
+            if (data.data && data.data.items) {
+                setTopThreads(data.data.items);
+            }
+            setLoading(false);
+        }
+    }, [props.timeFrame, currentTeamId, props.filterType]);
+
+    useEffect(() => {
+        getTopTeamThreads();
+    }, [getTopTeamThreads]);
+
+    const getMyTeamThreads = useCallback(async () => {
+        if (props.filterType === InsightsScopes.MY) {
+            setLoading(true);
+            const data: any = await dispatch(getMyTopThreads(currentTeamId, 0, 3, props.timeFrame));
+            if (data.data && data.data.items) {
+                setTopThreads(data.data.items);
+            }
+            setLoading(false);
+        }
+    }, [props.timeFrame, props.filterType]);
+
+    useEffect(() => {
+        getMyTeamThreads();
+    }, [getMyTeamThreads]);
+
+    const imageProps = useMemo(() => ({
+        onImageHeightChanged: () => {},
+        onImageLoaded: () => {},
+    }), []);
+
+    const skeletonLoader = useCallback(() => {
+        const entries = [];
+        for (let i = 0; i < 3; i++) {
+            entries.push(
+                <div
+                    className='top-thread-loading-container'
+                    key={i}
+                >
+                    <div className='top-thread-loading-row'>
+                        <CircleLoader
+                            size={20}
+                        />
+                        <TitleLoader/>
+                    </div>
+                    <div className='loading-lines'>
+                        <TitleLoader/>
+                        <TitleLoader/>
+                    </div>
+                </div>,
+            );
+        }
+        return entries;
+    }, []);
+
+    const openRHS = (post: Post) => {
+        dispatch(selectPost(post));
+    }
+
+    return (
+        <div className='top-thread-container'>
+            {
+                loading &&
+                skeletonLoader()
+            }
+            {
+                (topThreads && !loading) &&
+                <div className='thread-list'>
+                    {
+                        topThreads.map((thread, key) => {
+                            return (
+                                <div
+                                    className='thread-item'
+                                    onClick={() => {
+                                        console.log('thus is a rst');
+                                        openRHS(thread.post);
+                                    }}
+                                    key={key}
+                                >
+                                    <div className='thread-details'>
+                                        <Avatar
+                                            url={imageURLForUser(thread.user_id)}
+                                            size={'xs'}
+                                        />
+                                        <span className='display-name'>{`${thread.user_information.first_name} ${thread.user_information.last_name}`}</span>
+                                        <Badge>
+                                            {thread.channel_display_name}
+                                        </Badge>
+                                        <div className='reply-count'>
+                                            <i className='icon icon-reply-outline'/>
+                                            <span>{thread.reply_count}</span>
+                                        </div>
+                                    </div>
+                                    <div
+                                        aria-readonly='true'
+                                        className='preview'
+                                    >
+                                        {thread.post.message ? (
+                                            <Markdown
+                                                message={thread.post.message}
+                                                options={{
+                                                    singleline: true,
+                                                    mentionHighlight: false,
+                                                    atMentions: false,
+                                                }}
+                                                imagesMetadata={thread.post?.metadata && thread.post?.metadata?.images}
+                                                imageProps={imageProps}
+                                            />
+                                        ) : (
+                                            <Attachment post={thread.post}/>
+                                        )}
+                                    </div>
+                                </div>
+                            );
+                        })
+                    }
+                </div>
+                
+            }
+            {
+                (topThreads.length === 0 && !loading) &&
+                <WidgetEmptyState
+                    icon={'message-text-outline'}
+                />
+            }
+        </div>
+    );
+};
+
+export default memo(widgetHoc(TopThreads));
