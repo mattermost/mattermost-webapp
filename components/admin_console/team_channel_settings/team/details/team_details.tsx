@@ -29,7 +29,7 @@ import {TeamModes} from './team_modes';
 import {TeamGroups} from './team_groups';
 import TeamMembers from './team_members/index';
 
-type Props = {
+export type Props = {
     teamID: string;
     team: Team;
     totalGroups: number;
