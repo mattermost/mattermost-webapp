@@ -18,7 +18,7 @@ import GroupList from '../../group';
 
 type Props = {
     groups: Group[];
-    onAddCallback: (groupIDs: string) => void;
+    onAddCallback: (groupIDs: string[]) => void;
     onGroupRemoved: (gid: string) => void;
     removedGroups: Group[];
     setNewGroupRole: (gid: string) => void;

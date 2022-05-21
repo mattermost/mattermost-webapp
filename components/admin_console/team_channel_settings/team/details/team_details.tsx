@@ -20,7 +20,8 @@ import {NeedDomainsError, NeedGroupsError, UsersWillBeRemovedError} from '../../
 import SaveChangesPanel from '../../save_changes_panel';
 
 import {Team} from '@mattermost/types/teams';
-import {Group, SyncablePatch, SyncableType} from '@mattermost/types/groups';
+import {UserProfile} from '@mattermost/types/users';
+import {Group, SyncablePatch, SyncableType, UsersWithGroupsAndCount} from '@mattermost/types/groups';
 import {ServerError} from '@mattermost/types/errors';
 
 import {TeamProfile} from './team_profile';
@@ -41,10 +42,10 @@ type Props = {
         getTeam: (teamId: string) => Promise<{ error?: ServerError; data?: null }>;
         linkGroupSyncable: (groupId: string, syncableId: string, syncableType: SyncableType, patch: SyncablePatch) => Promise<{ error?: ServerError; data?: null }>;
         unlinkGroupSyncable: (groupId: string, syncableId: string, syncableType: SyncableType) => Promise<{ error?: ServerError; data?: null }>;
-        membersMinusGroupMembers: (teamId: string, groupIds: string[], page?: number, perPage?: number) => Promise<{ error?: ServerError; data?: null }>;
+        membersMinusGroupMembers: (teamId: string, groupIds: string[], page?: number, perPage?: number) => Promise<{ error?: ServerError; data?: UsersWithGroupsAndCount }>;
         getGroups: (teamId: string, q?: string, page?: number, perPage?: number, filterAllowReference?: boolean) => Promise<{ error?: ServerError; data?: null }>;
         patchTeam: (team: Team) => Promise<{ error?: ServerError; data?: null }>;
-        patchGroupSyncable: (groupId: string, syncableId: string, syncableType: SyncableType, patch: SyncablePatch) => Promise<{ error?: ServerError; data?: null }>;
+        patchGroupSyncable: (groupId: string, syncableId: string, syncableType: SyncableType, patch: Partial<SyncablePatch>) => Promise<{ error?: ServerError; data?: null }>;
         addUserToTeam: (teamId: string, userId: string) => Promise<{ error?: ServerError; data?: null }>;
         removeUserFromTeam: (teamId: string, userId: string) => Promise<{ error?: ServerError; data?: null }>;
         updateTeamMemberSchemeRoles: (teamId: string, userId: string, isSchemeUser: boolean, isSchemeAdmin: boolean) => Promise<{ error?: ServerError; data?: null }>;
@@ -62,8 +63,8 @@ type State = {
     saving: boolean;
     showRemoveConfirmation: boolean;
     usersToRemoveCount: number;
-    usersToRemove: any; //todo
-    usersToAdd: any; //todo
+    usersToRemove: {[id: string]: UserProfile};
+    usersToAdd: {[id: string]: UserProfile};
     rolesToUpdate: any; //todo
     totalGroups: number;
     saveNeeded: boolean;
@@ -138,14 +139,14 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
         this.setState({showRemoveConfirmation: false, saving: true});
         const {groups, allAllowedChecked, allowedDomainsChecked, allowedDomains, syncChecked, usersToAdd, usersToRemove, rolesToUpdate} = this.state;
 
-        let serverError: JSX.Element = null;
+        let serverError: JSX.Element | null = null;
 
         const {team, groups: origGroups, teamID, actions} = this.props;
         if (this.teamToBeArchived()) {
             let saveNeeded = false;
             const result = await actions.deleteTeam(team.id);
             if ('error' in result) {
-                serverError = <FormError error={result.error.message}/>;
+                serverError = <FormError error={result.error?.message}/>;
                 saveNeeded = true;
             }
             this.setState({serverError, saving: false, saveNeeded, usersToRemoveCount: 0, rolesToUpdate: {}, usersToAdd: {}, usersToRemove: {}}, () => {
@@ -158,7 +159,7 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
         } else if (this.teamToBeRestored() && this.state.serverError === null) {
             const result = await actions.unarchiveTeam(team.id);
             if ('error' in result) {
-                serverError = <FormError error={result.error.message}/>;
+                serverError = <FormError error={result.error?.message}/>;
             }
             this.setState({serverError, previousServerError: null});
         }
@@ -195,7 +196,7 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
             const result = await Promise.all([patchTeamPromise, ...patchTeamSyncable, ...unlink, ...link]);
             const resultWithError = result.find((r) => r.error);
             if (resultWithError) {
-                serverError = <FormError error={resultWithError.error.message}/>;
+                serverError = <FormError error={resultWithError.error?.message}/>;
             } else {
                 if (unlink.length > 0) {
                     trackEvent('admin_team_config_page', 'groups_removed_from_team', {count: unlink.length, team_id: teamID});
@@ -212,10 +213,10 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
         const userRolesToUpdate = Object.keys(rolesToUpdate);
         const usersToUpdate = usersToAddList.length > 0 || usersToRemoveList.length > 0 || userRolesToUpdate.length > 0;
         if (usersToUpdate && !syncChecked) {
-            const addUserActions = [];
-            const removeUserActions = [];
+            const addUserActions: Array<Promise<{error?: ServerError; data?: null}>> = [];
+            const removeUserActions: Array<Promise<{error?: ServerError; data?: null}>> = [];
             const {addUserToTeam, removeUserFromTeam, updateTeamMemberSchemeRoles} = this.props.actions;
-            usersToAddList.forEach((user) => {
+            usersToAddList.forEach((user: UserProfile) => {
                 addUserActions.push(addUserToTeam(teamID, user.id));
             });
             usersToRemoveList.forEach((user) => {
@@ -227,7 +228,7 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
                 const resultWithError = result.find((r) => r.error);
                 const count = result.filter((r) => r.data).length;
                 if (resultWithError) {
-                    serverError = <FormError error={resultWithError.error.message}/>;
+                    serverError = <FormError error={resultWithError.error?.message}/>;
                 }
                 if (count > 0) {
                     trackEvent('admin_team_config_page', 'members_added_to_team', {count, team_id: teamID});
@@ -239,15 +240,15 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
                 const resultWithError = result.find((r) => r.error);
                 const count = result.filter((r) => r.data).length;
                 if (resultWithError) {
-                    serverError = <FormError error={resultWithError.error.message}/>;
+                    serverError = <FormError error={resultWithError.error?.message}/>;
                 }
                 if (count > 0) {
                     trackEvent('admin_team_config_page', 'members_removed_from_team', {count, team_id: teamID});
                 }
             }
 
-            const rolesToPromote = [];
-            const rolesToDemote = [];
+            const rolesToPromote: Array<Promise<{error?: ServerError; data?: null}>> = [];
+            const rolesToDemote: Array<Promise<{error?: ServerError; data?: null}>> = [];
             userRolesToUpdate.forEach((userId) => {
                 const {schemeUser, schemeAdmin} = rolesToUpdate[userId];
                 if (schemeAdmin) {
@@ -262,7 +263,7 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
                 const resultWithError = result.find((r) => r.error);
                 const count = result.filter((r) => r.data).length;
                 if (resultWithError) {
-                    serverError = <FormError error={resultWithError.error.message}/>;
+                    serverError = <FormError error={resultWithError.error?.message}/>;
                 }
                 if (count > 0) {
                     trackEvent('admin_team_config_page', 'members_elevated_to_team_admin', {count, team_id: teamID});
@@ -274,7 +275,7 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
                 const resultWithError = result.find((r) => r.error);
                 const count = result.filter((r) => r.data).length;
                 if (resultWithError) {
-                    serverError = <FormError error={resultWithError.error.message}/>;
+                    serverError = <FormError error={resultWithError.error?.message}/>;
                 }
                 if (count > 0) {
                     trackEvent('admin_team_config_page', 'admins_demoted_to_team_member', {count, team_id: teamID});
@@ -290,7 +291,7 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
         });
     }
 
-    setToggles = (syncChecked, allAllowedChecked, allowedDomainsChecked, allowedDomains) => {
+    setToggles = (syncChecked: boolean, allAllowedChecked: boolean, allowedDomainsChecked: boolean, allowedDomains: string) => {
         this.setState({
             saveNeeded: true,
             syncChecked,
@@ -301,7 +302,7 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
         this.props.actions.setNavigationBlocked(true);
     }
 
-    async processGroupsChange(groups) {
+    async processGroupsChange(groups: Group[]) {
         const {teamID, actions} = this.props;
         actions.setNavigationBlocked(true);
 
@@ -313,12 +314,12 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
                     serverError = <NeedGroupsError warning={true}/>;
                 } else {
                     const result = await actions.membersMinusGroupMembers(teamID, groups.map((g) => g.id));
-                    usersToRemoveCount = result.data.total_count;
+                    usersToRemoveCount = result.data ? result.data.total_count : 0;
                     if (usersToRemoveCount > 0) {
                         serverError = (
                             <UsersWillBeRemovedError
                                 total={usersToRemoveCount}
-                                users={result.data.users}
+                                users={result.data?.users}
                                 scope={'team'}
                                 scopeId={this.props.teamID}
                             />
@@ -332,49 +333,51 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
         this.setState({groups, usersToRemoveCount, saveNeeded: true, serverError});
     }
 
-    addUsersToAdd = (users) => {
+    addUsersToAdd = (users: UserProfile[]) => {
         let {usersToRemoveCount} = this.state;
         const {usersToAdd, usersToRemove} = this.state;
+        const newUsersToAdd = {...usersToAdd};
         users.forEach((user) => {
             if (usersToRemove[user.id]?.id === user.id) {
                 delete usersToRemove[user.id];
                 usersToRemoveCount -= 1;
             } else {
-                usersToAdd[user.id] = user;
+                newUsersToAdd[user.id] = user;
             }
         });
-        this.setState({usersToAdd: {...usersToAdd}, usersToRemove: {...usersToRemove}, usersToRemoveCount, saveNeeded: true});
+        this.setState({usersToAdd: {...newUsersToAdd}, usersToRemove: {...usersToRemove}, usersToRemoveCount, saveNeeded: true});
         this.props.actions.setNavigationBlocked(true);
     }
 
-    addUserToRemove = (user) => {
+    addUserToRemove = (user: UserProfile) => {
         let {usersToRemoveCount} = this.state;
         const {usersToAdd, usersToRemove, rolesToUpdate} = this.state;
+        const newUsersToRemove = {...usersToRemove};
         if (usersToAdd[user.id]?.id === user.id) {
             delete usersToAdd[user.id];
-        } else if (usersToRemove[user.id]?.id !== user.id) {
+        } else if (newUsersToRemove[user.id]?.id !== user.id) {
             usersToRemoveCount += 1;
-            usersToRemove[user.id] = user;
+            newUsersToRemove[user.id] = user;
         }
         delete rolesToUpdate[user.id];
-        this.setState({usersToRemove: {...usersToRemove}, usersToAdd: {...usersToAdd}, rolesToUpdate: {...rolesToUpdate}, usersToRemoveCount, saveNeeded: true});
+        this.setState({usersToRemove: {...newUsersToRemove}, usersToAdd: {...usersToAdd}, rolesToUpdate: {...rolesToUpdate}, usersToRemoveCount, saveNeeded: true});
         this.props.actions.setNavigationBlocked(true);
     }
 
-    addRolesToUpdate = (userId, schemeUser, schemeAdmin) => {
+    addRolesToUpdate = (userId: string, schemeUser: boolean, schemeAdmin: boolean) => {
         const {rolesToUpdate} = this.state;
         rolesToUpdate[userId] = {schemeUser, schemeAdmin};
         this.setState({rolesToUpdate: {...rolesToUpdate}, saveNeeded: true});
         this.props.actions.setNavigationBlocked(true);
     }
 
-    handleGroupRemoved = (gid) => {
+    handleGroupRemoved = (gid: string) => {
         const groups = this.state.groups.filter((g) => g.id !== gid);
         this.setState({totalGroups: this.state.totalGroups - 1});
         this.processGroupsChange(groups);
     }
 
-    handleGroupChange = (groupIDs) => {
+    handleGroupChange = (groupIDs: string[]) => {
         const groups = [...this.state.groups, ...groupIDs.map((gid) => this.props.allGroups[gid])];
         this.setState({totalGroups: this.state.totalGroups + groupIDs.length});
         this.processGroupsChange(groups);
@@ -419,6 +422,8 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
         const newState = {
             saveNeeded: true,
             isLocalArchived: !isLocalArchived,
+            previousServerError: null, // todo
+            serverError: null, // todo
         };
 
         if (newState.isLocalArchived) {
@@ -440,7 +445,7 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
     render = () => {
         const {team, isLicensedForLDAPGroups} = this.props;
         const {totalGroups, saving, saveNeeded, serverError, groups, allAllowedChecked, allowedDomainsChecked, allowedDomains, syncChecked, showRemoveConfirmation, usersToRemoveCount, isLocalArchived, showArchiveConfirmModal} = this.state;
-        const missingGroup = (og) => !groups.find((g) => g.id === og.id);
+        const missingGroup = (og: {id: string}) => !groups.find((g) => g.id === og.id);
         const removedGroups = this.props.groups.filter(missingGroup);
         const nonArchivedContent = (
             <>
