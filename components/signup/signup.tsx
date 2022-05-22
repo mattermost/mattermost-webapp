@@ -497,8 +497,6 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
 
             await handleSignupSuccess(user, data as UserProfile);
         }
-
-        setIsWaiting(false);
     };
 
     const handleReturnButtonOnClick = () => history.replace('/');

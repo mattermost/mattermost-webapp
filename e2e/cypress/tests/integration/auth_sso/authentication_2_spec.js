@@ -65,7 +65,7 @@ describe('Authentication', () => {
         cy.findByText('Create Account').click();
 
         // * Assert the error is what is expected;
-        cy.findByText('Must be 5-64 characters long.').should('be.visible');
+        cy.findByText('Must be 7-64 characters long.').should('be.visible');
 
         cy.get('#input_password-input').clear().type('greaterthan7');
 
