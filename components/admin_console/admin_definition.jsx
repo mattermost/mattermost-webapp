@@ -1,8 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable indent */
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
+import {AccountMultipleOutlineIcon, ChartBarIcon, CogOutlineIcon, CreditCardOutlineIcon, FlaskOutlineIcon, FormatListBulletedIcon, InformationOutlineIcon, PowerPlugOutlineIcon, ServerVariantIcon, ShieldOutlineIcon, SitemapIcon} from '@mattermost/compass-icons/components';
 
 import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
 import {LicenseSkus} from 'mattermost-redux/types/general';
@@ -243,7 +246,11 @@ const usesLegacyOauth = (config, state, license, enterpriseReady, consoleAccess,
 
 const AdminDefinition = {
     about: {
-        icon: 'fa-info-circle',
+        icon: <InformationOutlineIcon
+            size={16}
+            className={'category-icon fa'}
+            color={'currentColor'}
+              />,
         sectionTitle: t('admin.sidebar.about'),
         sectionTitleDefault: 'About',
         isHidden: it.any(
@@ -273,7 +280,11 @@ const AdminDefinition = {
         },
     },
     billing: {
-        icon: 'fa-credit-card', // TODO: Need compass icon
+        icon: <CreditCardOutlineIcon
+            size={16}
+            className={'category-icon fa'}
+            color={'currentColor'}
+              />,
         sectionTitle: t('admin.sidebar.billing'),
         sectionTitleDefault: 'Billing & Account',
         isHidden: it.any(
@@ -352,7 +363,11 @@ const AdminDefinition = {
         },
     },
     reporting: {
-        icon: 'fa-bar-chart',
+        icon: <ChartBarIcon
+            size={16}
+            className={'category-icon fa'}
+            color={'currentColor'}
+              />,
         sectionTitle: t('admin.sidebar.reporting'),
         sectionTitleDefault: 'Reporting',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.REPORTING)),
@@ -439,7 +454,11 @@ const AdminDefinition = {
         },
     },
     user_management: {
-        icon: 'fa-users',
+        icon: <AccountMultipleOutlineIcon
+            size={16}
+            className={'category-icon fa'}
+            color={'currentColor'}
+              />,
         sectionTitle: t('admin.sidebar.userManagement'),
         sectionTitleDefault: 'User Management',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.USER_MANAGEMENT)),
@@ -650,7 +669,11 @@ const AdminDefinition = {
         },
     },
     environment: {
-        icon: 'fa-server',
+        icon: <ServerVariantIcon
+            size={16}
+            className={'category-icon fa'}
+            color={'currentColor'}
+              />,
         sectionTitle: t('admin.sidebar.environment'),
         sectionTitleDefault: 'Environment',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.ENVIRONMENT)),
@@ -1861,7 +1884,11 @@ const AdminDefinition = {
         },
     },
     site: {
-        icon: 'fa-cogs',
+        icon: <CogOutlineIcon
+            size={16}
+            className={'category-icon fa'}
+            color={'currentColor'}
+              />,
         sectionTitle: t('admin.sidebar.site'),
         sectionTitleDefault: 'Site Configuration',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.SITE)),
@@ -2774,7 +2801,11 @@ const AdminDefinition = {
         },
     },
     authentication: {
-        icon: 'fa-shield',
+        icon: <ShieldOutlineIcon
+            size={16}
+            className={'category-icon fa'}
+            color={'currentColor'}
+              />,
         sectionTitle: t('admin.sidebar.authentication'),
         sectionTitleDefault: 'Authentication',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.AUTHENTICATION)),
@@ -5162,7 +5193,11 @@ const AdminDefinition = {
         },
     },
     plugins: {
-        icon: 'fa-plug',
+        icon: <PowerPlugOutlineIcon
+            size={16}
+            className={'category-icon fa'}
+            color={'currentColor'}
+              />,
         sectionTitle: t('admin.sidebar.plugins'),
         sectionTitleDefault: 'Plugins',
         id: 'plugins',
@@ -5205,7 +5240,11 @@ const AdminDefinition = {
         },
     },
     integrations: {
-        icon: 'fa-sitemap',
+        icon: <SitemapIcon
+            size={16}
+            className={'category-icon fa'}
+            color={'currentColor'}
+              />,
         sectionTitle: t('admin.sidebar.integrations'),
         sectionTitleDefault: 'Integrations',
         id: 'integrations',
@@ -5486,7 +5525,11 @@ const AdminDefinition = {
         },
     },
     compliance: {
-        icon: 'fa-list',
+        icon: <FormatListBulletedIcon
+            size={16}
+            className={'category-icon fa'}
+            color={'currentColor'}
+              />,
         sectionTitle: t('admin.sidebar.compliance'),
         sectionTitleDefault: 'Compliance',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.COMPLIANCE)),
@@ -5751,7 +5794,11 @@ const AdminDefinition = {
         },
     },
     experimental: {
-        icon: 'fa-flask',
+        icon: <FlaskOutlineIcon
+            size={16}
+            className={'category-icon fa'}
+            color={'currentColor'}
+              />,
         sectionTitle: t('admin.sidebar.experimental'),
         sectionTitleDefault: 'Experimental',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.EXPERIMENTAL)),
