@@ -16,10 +16,11 @@ import {IconContainer} from '../formatting_bar/formatting_icon';
 interface ToggleFormattingBarProps {
     onClick: React.MouseEventHandler;
     active: boolean;
+    disabled: boolean;
 }
 
 const ToggleFormattingBar = (props: ToggleFormattingBarProps): JSX.Element => {
-    const {onClick, active} = props;
+    const {onClick, active, disabled} = props;
     const {formatMessage} = useIntl();
     const iconAriaLabel = formatMessage({id: 'generic_icons.format_letter_case', defaultMessage: 'Format letter Case Icon'});
 
@@ -44,6 +45,7 @@ const ToggleFormattingBar = (props: ToggleFormattingBarProps): JSX.Element => {
                 type='button'
                 id='toggleFormattingBarButton'
                 onClick={onClick}
+                disabled={disabled}
                 className={classNames({active})}
             >
                 <FormatLetterCaseIcon
