@@ -496,6 +496,8 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
             }
 
             await handleSignupSuccess(user, data as UserProfile);
+        } else {
+            setIsWaiting(false);
         }
     };
 
