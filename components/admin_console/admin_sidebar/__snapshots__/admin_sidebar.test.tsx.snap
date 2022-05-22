@@ -51,7 +51,13 @@ exports[`components/AdminSidebar Plugins should filter plugins 1`] = `
         >
           <AdminSidebarCategory
             definitionKey="plugins"
-            icon="fa-plug"
+            icon={
+              <PowerPlugOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="plugins"
             parentLink="/admin_console"
             sectionClass=""
@@ -126,7 +132,13 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
         >
           <AdminSidebarCategory
             definitionKey="user_management"
-            icon="fa-users"
+            icon={
+              <AccountMultipleOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="user_management"
             parentLink="/admin_console"
             sectionClass=""
@@ -164,7 +176,13 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="site"
-            icon="fa-cogs"
+            icon={
+              <CogOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="site"
             parentLink="/admin_console"
             sectionClass=""
@@ -190,7 +208,13 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="authentication"
-            icon="fa-shield"
+            icon={
+              <ShieldOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="authentication"
             parentLink="/admin_console"
             sectionClass=""
@@ -252,7 +276,13 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="plugins"
-            icon="fa-plug"
+            icon={
+              <PowerPlugOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="plugins"
             parentLink="/admin_console"
             sectionClass=""
@@ -283,7 +313,13 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="compliance"
-            icon="fa-list"
+            icon={
+              <FormatListBulletedIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="compliance"
             parentLink="/admin_console"
             sectionClass=""
@@ -389,7 +425,13 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
         >
           <AdminSidebarCategory
             definitionKey="about"
-            icon="fa-info-circle"
+            icon={
+              <InformationOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="about"
             parentLink="/admin_console"
             sectionClass=""
@@ -415,7 +457,13 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="reporting"
-            icon="fa-bar-chart"
+            icon={
+              <ChartBarIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="reporting"
             parentLink="/admin_console"
             sectionClass=""
@@ -477,7 +525,13 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="user_management"
-            icon="fa-users"
+            icon={
+              <AccountMultipleOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="user_management"
             parentLink="/admin_console"
             sectionClass=""
@@ -539,7 +593,13 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="environment"
-            icon="fa-server"
+            icon={
+              <ServerVariantIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="environment"
             parentLink="/admin_console"
             sectionClass=""
@@ -685,7 +745,13 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="site"
-            icon="fa-cogs"
+            icon={
+              <CogOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="site"
             parentLink="/admin_console"
             sectionClass=""
@@ -807,7 +873,13 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="authentication"
-            icon="fa-shield"
+            icon={
+              <ShieldOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="authentication"
             parentLink="/admin_console"
             sectionClass=""
@@ -881,7 +953,13 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="plugins"
-            icon="fa-plug"
+            icon={
+              <PowerPlugOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="plugins"
             parentLink="/admin_console"
             sectionClass=""
@@ -912,7 +990,13 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="integrations"
-            icon="fa-sitemap"
+            icon={
+              <SitemapIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="integrations"
             parentLink="/admin_console"
             sectionClass=""
@@ -974,7 +1058,13 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="experimental"
-            icon="fa-flask"
+            icon={
+              <FlaskOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="experimental"
             parentLink="/admin_console"
             sectionClass=""
@@ -1080,7 +1170,13 @@ exports[`components/AdminSidebar should match snapshot with workspace optimizati
         >
           <AdminSidebarCategory
             definitionKey="about"
-            icon="fa-info-circle"
+            icon={
+              <InformationOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="about"
             parentLink="/admin_console"
             sectionClass=""
@@ -1106,7 +1202,13 @@ exports[`components/AdminSidebar should match snapshot with workspace optimizati
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="reporting"
-            icon="fa-bar-chart"
+            icon={
+              <ChartBarIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="reporting"
             parentLink="/admin_console"
             sectionClass=""
@@ -1168,7 +1270,13 @@ exports[`components/AdminSidebar should match snapshot with workspace optimizati
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="user_management"
-            icon="fa-users"
+            icon={
+              <AccountMultipleOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="user_management"
             parentLink="/admin_console"
             sectionClass=""
@@ -1230,7 +1338,13 @@ exports[`components/AdminSidebar should match snapshot with workspace optimizati
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="environment"
-            icon="fa-server"
+            icon={
+              <ServerVariantIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="environment"
             parentLink="/admin_console"
             sectionClass=""
@@ -1376,7 +1490,13 @@ exports[`components/AdminSidebar should match snapshot with workspace optimizati
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="site"
-            icon="fa-cogs"
+            icon={
+              <CogOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="site"
             parentLink="/admin_console"
             sectionClass=""
@@ -1498,7 +1618,13 @@ exports[`components/AdminSidebar should match snapshot with workspace optimizati
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="authentication"
-            icon="fa-shield"
+            icon={
+              <ShieldOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="authentication"
             parentLink="/admin_console"
             sectionClass=""
@@ -1572,7 +1698,13 @@ exports[`components/AdminSidebar should match snapshot with workspace optimizati
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="plugins"
-            icon="fa-plug"
+            icon={
+              <PowerPlugOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="plugins"
             parentLink="/admin_console"
             sectionClass=""
@@ -1603,7 +1735,13 @@ exports[`components/AdminSidebar should match snapshot with workspace optimizati
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="integrations"
-            icon="fa-sitemap"
+            icon={
+              <SitemapIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="integrations"
             parentLink="/admin_console"
             sectionClass=""
@@ -1665,7 +1803,13 @@ exports[`components/AdminSidebar should match snapshot with workspace optimizati
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="experimental"
-            icon="fa-flask"
+            icon={
+              <FlaskOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="experimental"
             parentLink="/admin_console"
             sectionClass=""
@@ -1826,7 +1970,13 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
         >
           <AdminSidebarCategory
             definitionKey="about"
-            icon="fa-info-circle"
+            icon={
+              <InformationOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="about"
             parentLink="/admin_console"
             sectionClass=""
@@ -1852,7 +2002,13 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="reporting"
-            icon="fa-bar-chart"
+            icon={
+              <ChartBarIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="reporting"
             parentLink="/admin_console"
             sectionClass=""
@@ -1914,7 +2070,13 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="user_management"
-            icon="fa-users"
+            icon={
+              <AccountMultipleOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="user_management"
             parentLink="/admin_console"
             sectionClass=""
@@ -1976,7 +2138,13 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="environment"
-            icon="fa-server"
+            icon={
+              <ServerVariantIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="environment"
             parentLink="/admin_console"
             sectionClass=""
@@ -2122,7 +2290,13 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="site"
-            icon="fa-cogs"
+            icon={
+              <CogOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="site"
             parentLink="/admin_console"
             sectionClass=""
@@ -2244,7 +2418,13 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="authentication"
-            icon="fa-shield"
+            icon={
+              <ShieldOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="authentication"
             parentLink="/admin_console"
             sectionClass=""
@@ -2318,7 +2498,13 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="plugins"
-            icon="fa-plug"
+            icon={
+              <PowerPlugOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="plugins"
             parentLink="/admin_console"
             sectionClass=""
@@ -2349,7 +2535,13 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="integrations"
-            icon="fa-sitemap"
+            icon={
+              <SitemapIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="integrations"
             parentLink="/admin_console"
             sectionClass=""
@@ -2411,7 +2603,13 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="experimental"
-            icon="fa-flask"
+            icon={
+              <FlaskOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="experimental"
             parentLink="/admin_console"
             sectionClass=""
@@ -2517,7 +2715,13 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
         >
           <AdminSidebarCategory
             definitionKey="about"
-            icon="fa-info-circle"
+            icon={
+              <InformationOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="about"
             parentLink="/admin_console"
             sectionClass=""
@@ -2543,7 +2747,13 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="reporting"
-            icon="fa-bar-chart"
+            icon={
+              <ChartBarIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="reporting"
             parentLink="/admin_console"
             sectionClass=""
@@ -2605,7 +2815,13 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="user_management"
-            icon="fa-users"
+            icon={
+              <AccountMultipleOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="user_management"
             parentLink="/admin_console"
             sectionClass=""
@@ -2667,7 +2883,13 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="environment"
-            icon="fa-server"
+            icon={
+              <ServerVariantIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="environment"
             parentLink="/admin_console"
             sectionClass=""
@@ -2813,7 +3035,13 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="site"
-            icon="fa-cogs"
+            icon={
+              <CogOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="site"
             parentLink="/admin_console"
             sectionClass=""
@@ -2935,7 +3163,13 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="authentication"
-            icon="fa-shield"
+            icon={
+              <ShieldOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="authentication"
             parentLink="/admin_console"
             sectionClass=""
@@ -3009,7 +3243,13 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="plugins"
-            icon="fa-plug"
+            icon={
+              <PowerPlugOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="plugins"
             parentLink="/admin_console"
             sectionClass=""
@@ -3040,7 +3280,13 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="integrations"
-            icon="fa-sitemap"
+            icon={
+              <SitemapIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="integrations"
             parentLink="/admin_console"
             sectionClass=""
@@ -3102,7 +3348,13 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="experimental"
-            icon="fa-flask"
+            icon={
+              <FlaskOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="experimental"
             parentLink="/admin_console"
             sectionClass=""
@@ -3208,7 +3460,13 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
         >
           <AdminSidebarCategory
             definitionKey="about"
-            icon="fa-info-circle"
+            icon={
+              <InformationOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="about"
             parentLink="/admin_console"
             sectionClass=""
@@ -3234,7 +3492,13 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="reporting"
-            icon="fa-bar-chart"
+            icon={
+              <ChartBarIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="reporting"
             parentLink="/admin_console"
             sectionClass=""
@@ -3296,7 +3560,13 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="user_management"
-            icon="fa-users"
+            icon={
+              <AccountMultipleOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="user_management"
             parentLink="/admin_console"
             sectionClass=""
@@ -3382,7 +3652,13 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="environment"
-            icon="fa-server"
+            icon={
+              <ServerVariantIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="environment"
             parentLink="/admin_console"
             sectionClass=""
@@ -3552,7 +3828,13 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="site"
-            icon="fa-cogs"
+            icon={
+              <CogOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="site"
             parentLink="/admin_console"
             sectionClass=""
@@ -3686,7 +3968,13 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="authentication"
-            icon="fa-shield"
+            icon={
+              <ShieldOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="authentication"
             parentLink="/admin_console"
             sectionClass=""
@@ -3813,7 +4101,13 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="plugins"
-            icon="fa-plug"
+            icon={
+              <PowerPlugOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="plugins"
             parentLink="/admin_console"
             sectionClass=""
@@ -3844,7 +4138,13 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="integrations"
-            icon="fa-sitemap"
+            icon={
+              <SitemapIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="integrations"
             parentLink="/admin_console"
             sectionClass=""
@@ -3906,7 +4206,13 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="compliance"
-            icon="fa-list"
+            icon={
+              <FormatListBulletedIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="compliance"
             parentLink="/admin_console"
             sectionClass=""
@@ -3968,7 +4274,13 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="experimental"
-            icon="fa-flask"
+            icon={
+              <FlaskOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="experimental"
             parentLink="/admin_console"
             sectionClass=""
@@ -4074,7 +4386,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
         >
           <AdminSidebarCategory
             definitionKey="about"
-            icon="fa-info-circle"
+            icon={
+              <InformationOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="about"
             parentLink="/admin_console"
             sectionClass=""
@@ -4100,7 +4418,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="reporting"
-            icon="fa-bar-chart"
+            icon={
+              <ChartBarIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="reporting"
             parentLink="/admin_console"
             sectionClass=""
@@ -4162,7 +4486,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="user_management"
-            icon="fa-users"
+            icon={
+              <AccountMultipleOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="user_management"
             parentLink="/admin_console"
             sectionClass=""
@@ -4248,7 +4578,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="environment"
-            icon="fa-server"
+            icon={
+              <ServerVariantIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="environment"
             parentLink="/admin_console"
             sectionClass=""
@@ -4394,7 +4730,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="site"
-            icon="fa-cogs"
+            icon={
+              <CogOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="site"
             parentLink="/admin_console"
             sectionClass=""
@@ -4528,7 +4870,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="authentication"
-            icon="fa-shield"
+            icon={
+              <ShieldOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="authentication"
             parentLink="/admin_console"
             sectionClass=""
@@ -4650,7 +4998,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="plugins"
-            icon="fa-plug"
+            icon={
+              <PowerPlugOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="plugins"
             parentLink="/admin_console"
             sectionClass=""
@@ -4681,7 +5035,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="integrations"
-            icon="fa-sitemap"
+            icon={
+              <SitemapIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="integrations"
             parentLink="/admin_console"
             sectionClass=""
@@ -4743,7 +5103,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="compliance"
-            icon="fa-list"
+            icon={
+              <FormatListBulletedIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="compliance"
             parentLink="/admin_console"
             sectionClass=""
@@ -4793,7 +5159,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="experimental"
-            icon="fa-flask"
+            icon={
+              <FlaskOutlineIcon
+                className="category-icon fa"
+                color="currentColor"
+                size={16}
+              />
+            }
             key="experimental"
             parentLink="/admin_console"
             sectionClass=""
