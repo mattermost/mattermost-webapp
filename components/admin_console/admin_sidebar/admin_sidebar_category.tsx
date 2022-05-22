@@ -5,7 +5,7 @@ import React from 'react';
 import {NavLink, Route} from 'react-router-dom';
 
 type Props = {
-    icon: string;
+    icon: JSX.Element;
     title: JSX.Element;
     action?: JSX.Element;
     children?: JSX.Element[];
