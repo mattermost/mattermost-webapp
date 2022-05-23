@@ -5104,5 +5104,7 @@
   "workspace_limits.modals.limits_reached.title": "{limitName} limit reached",
   "workspace_limits.modals.view_plans": "View plans",
   "workspace_limits.upgrade": "Upgrade to avoid {planName} data limits",
+  "workspace_limits.banner_upgrade": "Upgrade to one of our paid plans to avoid {planName} plan data limits",
+  "workspace_limits.banner_upgrade_reason": "Your workspace has exceeded {planName} plan data limits. Upgrade to one of our paid plans with no limits.",
   "yourcomputer": "Your computer"
 }

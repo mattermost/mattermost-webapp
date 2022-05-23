@@ -36,6 +36,7 @@ import {
     creditCardExpiredBanner,
     paymentFailedBanner,
 } from './billing_subscriptions';
+import StarterUpgradeBanner from './starter_upgrade_banner';
 
 import './billing_subscriptions.scss';
 
@@ -122,6 +123,12 @@ const BillingSubscriptions: React.FC = () => {
             />
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
+                    <StarterUpgradeBanner
+                        onDismiss={() => {}}
+                        planName="CLOUD STARTER YELLY CASE!"
+                    />
+                    {paymentFailedBanner()}
+                    {creditCardExpiredBanner(() => {})}
                     {shouldShowPaymentFailedBanner() && paymentFailedBanner()}
                     {showCreditCardBanner && isCardExpired && creditCardExpiredBanner(setShowCreditCardBanner)}
                     <div className='BillingSubscriptions__topWrapper'>

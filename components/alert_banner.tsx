@@ -12,12 +12,13 @@ export type AlertBannerProps = {
     mode: ModeType;
     title?: React.ReactNode;
     message?: React.ReactNode;
+    children?: React.ReactNode;
     className?: string;
     onDismiss?: () => void;
     variant?: 'sys' | 'app';
 }
 
-const AlertBanner: React.FC<AlertBannerProps> = ({mode, title, message, className, variant = 'sys', onDismiss}: AlertBannerProps) => (
+const AlertBanner: React.FC<AlertBannerProps> = ({mode, title, message, children, className, variant = 'sys', onDismiss}: AlertBannerProps) => (
     <div className={classNames('AlertBanner', mode, className, `AlertBanner--${variant}`)}>
         <div className='AlertBanner__icon'>
             <i
@@ -43,6 +44,7 @@ const AlertBanner: React.FC<AlertBannerProps> = ({mode, title, message, classNam
                     {message}
                 </div>
             )}
+            {children}
         </div>
         {onDismiss &&
             <button

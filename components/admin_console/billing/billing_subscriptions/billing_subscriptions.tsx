@@ -53,3 +53,37 @@ export const paymentFailedBanner = () => {
         />
     );
 };
+
+interface Props {
+    planName: React.ReactNode;
+    onDismiss: () => void;
+}
+
+export const StarterUpgradeBanner = (props: Props) => {
+    return (
+        <AlertBanner
+            mode='danger'
+            title={
+                <FormattedMessage
+                    id='workspace_limits.banner_upgrade'
+                    defaultMessage='Upgrade to one of our paid plans to avoid {planName} plan data limits'
+                    values={{
+                        planName: props.planName,
+                    }}
+                />
+            }
+            message={
+                <FormattedMessage
+                    id='workspace_limits.banner_upgrade_reason'
+                    defaultMessage='Your workspace has exceeded {planName} plan data limits. Upgrade to one of our paid plans with no limits.'
+                    values={{
+                        planName: props.planName,
+                    }}
+                />
+            }
+            onDismiss={props.onDismiss}
+        >
+            {'asdf'}
+        </AlertBanner>
+    );
+};
