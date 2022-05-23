@@ -5,24 +5,28 @@ import React from 'react';
 import {useIntl, FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {
     getCloudProducts,
     getCloudSubscription,
     getSubscriptionProduct,
 } from 'mattermost-redux/selectors/entities/cloud';
+import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
 import {openModal, closeModal} from 'actions/views/modals';
 import {trackEvent} from 'actions/telemetry_actions';
-import {asGBString} from 'utils/limits';
+
 import {ModalIdentifiers, CloudProducts} from 'utils/constants';
-import CloudUsageModal from 'components/cloud_usage_modal';
-import MiniModal from 'components/cloud_usage_modal/mini_modal';
+import {FileSizes} from 'utils/file_utils';
+import {t} from 'utils/i18n';
+import {asGBString, fallbackStarterLimits} from 'utils/limits';
+
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import useGetUsage from 'components/common/hooks/useGetUsage';
 import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';
+
+import CloudUsageModal from 'components/cloud_usage_modal';
+import MiniModal from 'components/cloud_usage_modal/mini_modal';
 import PricingModal from 'components/pricing_modal';
-import {t} from 'utils/i18n';
-import {FileSizes} from 'utils/file_utils';
 
 import LimitCard from './limit_card';
 
@@ -183,10 +187,10 @@ const Limits = (): JSX.Element | null => {
             },
             {
                 planName: subscriptionProduct.name,
-                messagesLimit: intl.formatNumber(cloudLimits?.messages?.history || 10000),
-                storageLimit: asGBString(cloudLimits?.files?.total_storage || FileSizes.Gigabyte * 10, intl.formatNumber),
-                appsLimit: cloudLimits?.integrations?.enabled || 10,
-                boardsCardsLimit: cloudLimits?.boards?.cards || 500,
+                messagesLimit: intl.formatNumber(cloudLimits?.messages?.history || fallbackStarterLimits.messages.history),
+                storageLimit: asGBString(cloudLimits?.files?.total_storage || fallbackStarterLimits.files.totalStorage, intl.formatNumber),
+                appsLimit: cloudLimits?.integrations?.enabled || fallbackStarterLimits.integrations.enabled,
+                boardsCardsLimit: cloudLimits?.boards?.cards || fallbackStarterLimits.boards.cards,
             },
         );
     } else if (subscriptionProduct.sku === CloudProducts.PROFESSIONAL) {
