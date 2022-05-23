@@ -481,12 +481,11 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                 </div>
                 <div className='RHS'>
                     <div className='plan_comparison'>
-                        {/* <button onClick={openPriceModal}>{'Compare plans'}</button> */}
                         {this.comparePlan}
                     </div>
                     <Card
                         topColor='#4A69AC'
-                        plan={this.state.selectedProduct?.name.split(' ')[1]}
+                        plan={this.state.selectedProduct ? this.state.selectedProduct.name.split(' ')[1] : ''}
                         price={`$${this.state.selectedProduct?.price_per_seat.toString()}`}
                         rate='/user/month'
                         planBriefing={this.paymentFooterText()}

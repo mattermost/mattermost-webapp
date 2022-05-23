@@ -125,8 +125,8 @@
 
         .RHS {
             position: sticky;
-            width: 25%;
             display: flex;
+            width: 25%;
             flex-direction: column;
             align-items: center;
 
@@ -160,142 +160,143 @@
                 margin-bottom: 51px;
                 text-align: center;
 
-                button, a {
+                button,
+                a {
+                    width: 100%;
                     height: 40px;
                     padding: 10px 24px;
                     border: none;
                     background: none;
-                    color: #1C58D9;
-                    font-weight: 600;
-                    width: 100%;
+                    color: #1c58d9;
                     font-size: 14px;
+                    font-weight: 600;
                     line-height: 20px;
                 }
             }
 
             .PlanCard {
+                position: relative;
                 width: 280px;
                 height: 428px;
-                position: relative;
-    
+
                 .planLabel {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
                     position: absolute;
                     top: -44px;
                     left: 52px;
+                    display: flex;
                     width: 184px;
+                    align-items: center;
+                    justify-content: center;
                     padding: 14px;
-                    border-radius: 13px 13px 0px 0px;
-                    gap: 5px;
+                    border-radius: 13px 13px 0 0;
                     font-family: 'Open Sans';
+                    font-size: 12px;
                     font-style: normal;
                     font-weight: 600;
-                    font-size: 12px;
+                    gap: 5px;
                     line-height: 16px;
                 }
-    
+
                 .top {
                     height: 18px;
-                    border-radius: 4px 4px 0px 0px;
+                    border-radius: 4px 4px 0 0;
                 }
-    
+
                 .bottom {
-                    border: 1px solid #DADFE5;
-                    border-radius: 0px 0px 4px 4px;
                     height: 363px;
-                    background-color: var(--center-channel-bg);
-                    padding-left: 24px;
                     padding-right: 24px;
-    
+                    padding-left: 24px;
+                    border: 1px solid #dadfe5;
+                    background-color: var(--center-channel-bg);
+                    border-radius: 0 0 4px 4px;
+
                     .plan_action_btn {
+                        width: 100%;
                         height: 40px;
                         padding: 10px 24px;
                         border: none;
                         background: none;
-                        color: #1c58d9;
-                        font-weight: 700;
-                        width: 100%;
                         border-radius: 4px;
+                        color: #1c58d9;
                         font-size: 14px;
+                        font-weight: 700;
                         line-height: 14px;
-    
+
                         &.grayed {
                             background: rgba(63, 67, 80, 0.08);
                             color: rgba(63, 67, 80, 0.32);
                         }
-    
+
                         &.active {
                             border: 1px solid #1c58d9;
                         }
-    
+
                         &.special {
                             background: #1c58d9;
-                            color: #FFFFFF;
+                            color: #fff;
                         }
                     }
-    
+
                     .plan_price_rate_section {
-                        text-align: center;
-                        height: 150px;
-                        border-bottom: 1px solid #DADFE5;
                         width: 100%;
-    
+                        height: 150px;
+                        border-bottom: 1px solid #dadfe5;
+                        text-align: center;
+
                         h4 {
+                            color: rgba(33, 63, 107, 0.8);
                             font-family: 'Metropolis';
+                            font-size: 20px;
                             font-style: normal;
                             font-weight: 400;
-                            font-size: 20px;
-                            line-height: 30px;
-                            color: rgba(33, 63, 107, 0.8);
                             letter-spacing: -0.02em;
+                            line-height: 30px;
                         }
-    
+
                         h1 {
+                            color: #1e325c;
                             font-family: 'Metropolis';
+                            font-size: 52px;
                             font-style: normal;
                             font-weight: 700;
-                            font-size: 52px;
-                            line-height: 60px;
-                            color: #1E325C;
                             letter-spacing: -0.02em;
+                            line-height: 60px;
                         }
-    
+
                         .enterprise_price {
                             font-size: 32px;
                         }
-    
+
                         p {
+                            color: #152234;
                             font-family: 'Metropolis';
+                            font-size: 18px;
                             font-style: normal;
                             font-weight: 400;
-                            font-size: 18px;
-                            line-height: 20px;
-                            color:  #152234;
                             letter-spacing: -0.02em;
+                            line-height: 20px;
                         }
                     }
 
                     .plan_payment_commencement {
-                        font-family: 'Open Sans';
-                        font-style: normal;
-                        font-weight: 400;
-                        font-size: 14px;
-                        line-height: 20px;
-                        color: #3F4350;
                         margin-top: 16px;
                         margin-bottom: 24px;
+                        color: #3f4350;
+                        font-family: 'Open Sans';
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: 20px;
                     }
 
                     .plan_billing_cycle {
+                        margin-top: 24px;
+                        color: rgba(63, 67, 80, 0.72);
                         font-family: 'Open Sans';
+                        font-size: 12px;
                         font-style: normal;
                         font-weight: 400;
-                        font-size: 12px;
                         line-height: 16px;
-                        color: rgba(63, 67, 80, 0.72);
-                        margin-top: 24px;
                     }
                 }
             }
