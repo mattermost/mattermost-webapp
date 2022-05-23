@@ -580,7 +580,7 @@
   "admin.customization.enableSVGsDesc": "پیش نمایش ها را برای پیوست های فایل SVG فعال کنید و به آنها اجازه دهید در پیام ها ظاهر شوند.",
   "admin.customization.enableSVGsTitle": "SVG ها را فعال کنید:",
   "admin.customization.gfycatApiKey": "کلید Gfycat API:",
-  "admin.customization.gfycatApiKeyDescription": "یک کلید API در [https://developers.gfycat.com/signup/#](!https://developers.gfycat.com/signup/#) درخواست کنید. شناسه مشتری که از طریق ایمیل دریافت می کنید را در این قسمت وارد کنید. وقتی خالی است، از کلید API پیش‌فرض ارائه شده توسط Gfycat استفاده می‌کند.",
+  "admin.customization.gfycatApiKeyDescription": "یک کلید API در <link>https://developers.gfycat.com/signup/#</link> درخواست کنید. شناسه مشتری که از طریق ایمیل دریافت می کنید را در این قسمت وارد کنید. وقتی خالی است، از کلید API پیش‌فرض ارائه شده توسط Gfycat استفاده می‌کند.",
   "admin.customization.gfycatApiSecret": "Gfycat API Secret:",
   "admin.customization.gfycatApiSecretDescription": "راز API ایجاد شده توسط Gfycat برای کلید API شما. وقتی خالی است، از رمز پیش فرض API ارائه شده توسط Gfycat استفاده می کند.",
   "admin.customization.iosAppDownloadLinkDesc": "پیوندی برای دانلود اپلیکیشن iOS اضافه کنید. از کاربرانی که از طریق مرورگر وب تلفن همراه به سایت دسترسی پیدا می کنند، صفحه ای نمایش داده می شود که به آنها امکان دانلود برنامه را می دهد. برای جلوگیری از ظاهر شدن صفحه، این قسمت را خالی بگذارید.",

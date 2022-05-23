@@ -9,7 +9,6 @@ import type {Team} from 'mattermost-redux/types/teams';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 type Props = {
     teamId: string;

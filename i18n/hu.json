@@ -615,7 +615,7 @@
   "admin.customization.enableSVGsDesc": "Engedélyezze az SVG fájlmellékletek előnézeteit, és engedélyezze azok megjelenését az üzenetekben.",
   "admin.customization.enableSVGsTitle": "SVG-k engedélyezése:",
   "admin.customization.gfycatApiKey": "Gfycat API kulcs:",
-  "admin.customization.gfycatApiKeyDescription": "Kérjen API kulcsot a következő címen: [https://developers.gfycat.com/signup/#](!https://developers.gfycat.com/signup/#). Írja be e-mailben kapott ügyfél-azonosítót ebbe a mezőre. Ha üres, akkor a Gfycat által biztosított alapértelmezett API kulcsot használja.",
+  "admin.customization.gfycatApiKeyDescription": "Kérjen API kulcsot a következő címen: <link>https://developers.gfycat.com/signup/#</link>. Írja be e-mailben kapott ügyfél-azonosítót ebbe a mezőre. Ha üres, akkor a Gfycat által biztosított alapértelmezett API kulcsot használja.",
   "admin.customization.gfycatApiSecret": "Gfycat API jelszó:",
   "admin.customization.gfycatApiSecretDescription": "A Gfycat által generált API jelszó az Ön API kulcsához. Ha üres, akkor a Gfycat által biztosított alapértelmezett API jelszó lesz használva.",
   "admin.customization.iosAppDownloadLinkDesc": "Link hozzáadása az iOS alkalmazás letöltéséhez. Azok a felhasználók, akik megtekintik a webes felületet mobil böngészőt használva egy olyan oldalt fognak látni, amely felkínálja számukra az alkalmazás letöltését. Hagyja üresen ezt a mezőt, hogy megakadályozza az oldal megjelenését.",

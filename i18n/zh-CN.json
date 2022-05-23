@@ -615,7 +615,7 @@
   "admin.customization.enableSVGsDesc": "开启 SVG 附件预览并让它们显示在消息中。",
   "admin.customization.enableSVGsTitle": "开启 SVG：",
   "admin.customization.gfycatApiKey": "Gfycat API Key：",
-  "admin.customization.gfycatApiKeyDescription": "在 [https://developers.gfycat.com/signup/#](!https://developers.gfycat.com/signup/#) 请求 API 密钥。在此栏输入您在邮件里收到的客户端 ID。当留空时，将使用 Gfycat 提供的缺省 API 密钥。",
+  "admin.customization.gfycatApiKeyDescription": "在 <link>https://developers.gfycat.com/signup/#</link> 请求 API 密钥。在此栏输入您在邮件里收到的客户端 ID。当留空时，将使用 Gfycat 提供的缺省 API 密钥。",
   "admin.customization.gfycatApiSecret": "Gfycat API 密码：",
   "admin.customization.gfycatApiSecretDescription": "Gfycat 生成的对应您的 API 键的钥匙。当留空时，将使用 Gfycat 提供的默认钥匙。",
   "admin.customization.iosAppDownloadLinkDesc": "添加iOS应用下载链接。用移动设备访问的用户将看到应用下载提示页面。此栏留空将不显示。",

@@ -425,7 +425,7 @@
   "admin.customization.enableSVGsDesc": "啟用 SVG 附加檔案的預覽並允許在訊息中顯示。",
   "admin.customization.enableSVGsTitle": "啟用 SVG：",
   "admin.customization.gfycatApiKey": "Gfycat API 鍵：",
-  "admin.customization.gfycatApiKeyDescription": "於 [https://developers.gfycat.com/signup/#](!https://developers.gfycat.com/signup/#) 要求 API 金鑰。在此欄位輸入經由電子郵件傳送的用戶端 ID。空白時使用 Gfycat 提供的預設 API 金鑰。",
+  "admin.customization.gfycatApiKeyDescription": "於 <link>https://developers.gfycat.com/signup/#</link> 要求 API 金鑰。在此欄位輸入經由電子郵件傳送的用戶端 ID。空白時使用 Gfycat 提供的預設 API 金鑰。",
   "admin.customization.gfycatApiSecret": "Gfycat API 金鑰：",
   "admin.customization.gfycatApiSecretDescription": "Gfycat 為了 API 鍵產生的 API 金鑰。空白時，使用 Gfycat 提供的預設 API 金鑰。",
   "admin.customization.iosAppDownloadLinkDesc": "新增下載 iOS 應用程式的連結。用行動網頁瀏覽器存取站台的使用者將會看到提示頁面以下載應用程式。此欄留空則不會出現提示頁面。",

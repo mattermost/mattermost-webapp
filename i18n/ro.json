@@ -553,7 +553,7 @@
   "admin.customization.enableSVGsDesc": "Activați previzualizările pentru fișierele SVG atașate și permiteți-le să apară în mesaje.",
   "admin.customization.enableSVGsTitle": "Activați SVG-uri:",
   "admin.customization.gfycatApiKey": "Cheia API-ului Gfycat:",
-  "admin.customization.gfycatApiKeyDescription": "Cerere o cheie API de la [https://developers.gfycat.com/signup/#](!https://developers.gfycat.com/signup/#). Introduceți ID-ul de client veți primi prin e-mail la acest domeniu. Atunci când gol, foloseste default cheie API furnizate de Gfycat.",
+  "admin.customization.gfycatApiKeyDescription": "Cerere o cheie API de la <link>https://developers.gfycat.com/signup/#</link>. Introduceți ID-ul de client veți primi prin e-mail la acest domeniu. Atunci când gol, foloseste default cheie API furnizate de Gfycat.",
   "admin.customization.gfycatApiSecret": "Secret Gfycat API:",
   "admin.customization.gfycatApiSecretDescription": "Secretul API generat de Gfycat pentru cheia API. Când este gol, utilizează secretul implicit API furnizat de Gfycat.",
   "admin.customization.iosAppDownloadLinkDesc": "Adăugați un link pentru a descărca aplicația iOS. Utilizatorii care accesează site-ul într-un browser web mobil vor primi o pagină care le oferă opțiunea de a descărca aplicația. Lăsați acest câmp necompletat pentru a împiedica apariția paginii.",

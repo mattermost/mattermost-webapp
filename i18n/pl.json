@@ -615,7 +615,7 @@
   "admin.customization.enableSVGsDesc": "Włącz podgląd dla załączników SVG i pozwól im pojawiać się w wiadomościach.",
   "admin.customization.enableSVGsTitle": "Włącz SVGs:",
   "admin.customization.gfycatApiKey": "Gfycat Klucz API:",
-  "admin.customization.gfycatApiKeyDescription": "Poproś o klucz API na stronie [https://developers.gfycat.com/signup/#](!https://developers.gfycat.com/signup/#). Wprowadź identyfikator klienta otrzymany pocztą e-mail do tego pola. Gdy jest pusta, używa domyślnego klucza API dostarczonego przez Gfycat.",
+  "admin.customization.gfycatApiKeyDescription": "Poproś o klucz API na stronie <link>https://developers.gfycat.com/signup/#</link>. Wprowadź identyfikator klienta otrzymany pocztą e-mail do tego pola. Gdy jest pusta, używa domyślnego klucza API dostarczonego przez Gfycat.",
   "admin.customization.gfycatApiSecret": "Sekret API Gfycat:",
   "admin.customization.gfycatApiSecretDescription": "Sekret API wygenerowany przez Gfycat dla twojego klucza API. Gdy jest pusta, używa domyślnego klucza API udostępnionego przez Gfycat.",
   "admin.customization.iosAppDownloadLinkDesc": "Dodaj link służący do pobrania aplikacji iOS. Użytkownicy, którzy korzystają ze strony na przeglądarce mobilnej zobaczą stronę z możliwością pobrania aplikacji. Jeśli zostawisz to pole puste ta strona nie pokaże się.",

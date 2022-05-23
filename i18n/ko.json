@@ -585,7 +585,7 @@
   "admin.customization.enableSVGsDesc": "SVG 파일 첨부에 대한 미리보기를 활성화하고 메시지에 표시 되도록 합니다.",
   "admin.customization.enableSVGsTitle": "SVGs 활성화:",
   "admin.customization.gfycatApiKey": "Gfycat API 키:",
-  "admin.customization.gfycatApiKeyDescription": "[https://developers.gfycat.com/signup/#](!https://developers.gfycat.com/signup/#)에서 API 키를 요청하세요. 전자우편을 통해 받은 Client ID를 이 필드에 적어주세요. 비어있을 시, Gfycat에서 제공한 기본 API 키를 사용합니다.",
+  "admin.customization.gfycatApiKeyDescription": "<link>https://developers.gfycat.com/signup/#</link>에서 API 키를 요청하세요. 전자우편을 통해 받은 Client ID를 이 필드에 적어주세요. 비어있을 시, Gfycat에서 제공한 기본 API 키를 사용합니다.",
   "admin.customization.gfycatApiSecret": "Gfycat API 시크릿:",
   "admin.customization.gfycatApiSecretDescription": "API 키를 위해 Gfycat에서 생성한 API 시크릿입니다. 비어있으면, Gfycat에서 제공한 기본 API 시크릿을 사용합니다.",
   "admin.customization.iosAppDownloadLinkDesc": "iOS 앱을 다운로드할 수 있는 주소를 추가하세요. 모바일 웹 브라우저를 통해 사이트에 접속하는 사용자에게는 다운로드 옵션을 제공하는 페이지가 표시됩니다. 사용하지 않으려면 이 항목을 비워두세요.",

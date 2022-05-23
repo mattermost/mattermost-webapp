@@ -615,7 +615,7 @@
   "admin.customization.enableSVGsDesc": "SVG ek dosyalarının ön izlenebilmesini ve iletilerde görüntülenmesini sağlar.",
   "admin.customization.enableSVGsTitle": "SVG dosyaları görüntülensin:",
   "admin.customization.gfycatApiKey": "Gfycat API anahtarı:",
-  "admin.customization.gfycatApiKeyDescription": "[https://developers.gfycat.com/signup/#](!https://developers.gfycat.com/signup/#) adresinden bir API anahtarı alın. Size e-posta ile gönderilecek istemci kodunu bu alana yazın. Boş bırakıldığında varsayılan Gfycat API anahtarı kullanılır.",
+  "admin.customization.gfycatApiKeyDescription": "<link>https://developers.gfycat.com/signup/#</link> adresinden bir API anahtarı alın. Size e-posta ile gönderilecek istemci kodunu bu alana yazın. Boş bırakıldığında varsayılan Gfycat API anahtarı kullanılır.",
   "admin.customization.gfycatApiSecret": "Gfycat API parolası:",
   "admin.customization.gfycatApiSecretDescription": "API anahtarınızın Gfycat tarafından oluşturulmuş parolası. Boş bırakıldığında Gfycat tarafından verilen varsayılan API parolası kullanılır.",
   "admin.customization.iosAppDownloadLinkDesc": "iOS uygulamasının indirilebileceği bir bağlantı ekler. Siteye mobil tarayıcı üzerinden erişen kullanıcılara uygulamayı indirebilecekleri bir sayfa görüntülenir. Sayfanın görüntülenmemesi için bu alanı boş bırakın.",

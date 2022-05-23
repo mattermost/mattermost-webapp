@@ -615,7 +615,7 @@
   "admin.customization.enableSVGsDesc": "SVGファイル添付のプレビューを有効にし、メッセージ内に表示するようにします。",
   "admin.customization.enableSVGsTitle": "SVGを有効にする:",
   "admin.customization.gfycatApiKey": "Gfycat APIキー:",
-  "admin.customization.gfycatApiKeyDescription": "[https://developers.gfycat.com/signup/#](!https://developers.gfycat.com/signup/#)でAPIキーをリクエストしてください。この項目には電子メールで受け取ったクライアントIDを入力してください。空欄の場合、Gfycatから提供されたデフォルトのAPIキーが使用されます。",
+  "admin.customization.gfycatApiKeyDescription": "<link>https://developers.gfycat.com/signup/#</link>でAPIキーをリクエストしてください。この項目には電子メールで受け取ったクライアントIDを入力してください。空欄の場合、Gfycatから提供されたデフォルトのAPIキーが使用されます。",
   "admin.customization.gfycatApiSecret": "Gfycat APIシークレット:",
   "admin.customization.gfycatApiSecretDescription": "APIキーに対してGfycatによって生成されたAPIシークレットです。空欄の場合、Gfycatにより提供されるデフォルトのAPIシークレットを使用します。",
   "admin.customization.iosAppDownloadLinkDesc": "iOSアプリのダウンロードリンクを追加してください。モバイル用ウェブブラウザーでサイトにアクセスしたユーザへ、アプリをダウンロードするか選択するページを表示します。空欄にした場合、そのページは表示されません。",

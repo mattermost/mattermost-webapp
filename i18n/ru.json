@@ -615,7 +615,7 @@
   "admin.customization.enableSVGsDesc": "Включить предварительный просмотр вложенных файлов SVG и разрешить им появляться в сообщениях.",
   "admin.customization.enableSVGsTitle": "Включить SVG:",
   "admin.customization.gfycatApiKey": "Ключ API Gfycat:",
-  "admin.customization.gfycatApiKeyDescription": "Запросите ключ API по адресу [https://developers.gfycat.com/signup/#](!https://developers.gfycat.com/signup/#). Введите идентификатор клиента, который вы получите по электронной почте, в это поле. Если поле пустое, используется ключ API по умолчанию, предоставленный Gfycat.",
+  "admin.customization.gfycatApiKeyDescription": "Запросите ключ API по адресу <link>https://developers.gfycat.com/signup/#</link>. Введите идентификатор клиента, который вы получите по электронной почте, в это поле. Если поле пустое, используется ключ API по умолчанию, предоставленный Gfycat.",
   "admin.customization.gfycatApiSecret": "Секрет API Gfycat:",
   "admin.customization.gfycatApiSecretDescription": "Секрет API, сгенерированный Gfycat для вашего ключа API. Если поле пустое, используется секрет API по умолчанию, предоставленный Gfycat.",
   "admin.customization.iosAppDownloadLinkDesc": "Добавляет ссылку для скачивания приложения для IOS. Пользователям, которые посещают сайт через мобильный браузер, на специальной странице будет предложена возможность скачать приложение. Оставьте это поле пустым, чтобы предотвратить появление этой страницы.",

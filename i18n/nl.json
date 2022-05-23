@@ -615,7 +615,7 @@
   "admin.customization.enableSVGsDesc": "Previews voor SVG-bestandsbijlagen inschakelen en deze in berichten laten verschijnen.",
   "admin.customization.enableSVGsTitle": "SVG's Inschakelen:",
   "admin.customization.gfycatApiKey": "Gfycat API-sleutel:",
-  "admin.customization.gfycatApiKeyDescription": "Vraag een API-sleutel aan op [https: //developers.gfycat.com/signup/#] (!https://developers.gfycat.com/signup/#). Voer het client-ID in dat u ontvangt via e-mail in dit veld. Als dit veld leeg is, gebruikt Gfycat de standaard API-sleutel.",
+  "admin.customization.gfycatApiKeyDescription": "Vraag een API-sleutel aan op <link>https: //developers.gfycat.com/signup/#</link> . Voer het client-ID in dat u ontvangt via e-mail in dit veld. Als dit veld leeg is, gebruikt Gfycat de standaard API-sleutel.",
   "admin.customization.gfycatApiSecret": "Gfycat API Geheim:",
   "admin.customization.gfycatApiSecretDescription": "Het API-geheim dat is gegenereerd door Gfycat voor jouw API-sleutel. Als dit veld leeg is, gebruikt Gfycat het standaard-API-geheim.",
   "admin.customization.iosAppDownloadLinkDesc": "Voeg een link toe naar de iOs app. Gebruikers die via een mobiele webbrowser de site bezoeken zullen een pagina krijgen met de optie om de app te downloaden. Laat dit veld leeg om deze pagina niet weer te geven.",

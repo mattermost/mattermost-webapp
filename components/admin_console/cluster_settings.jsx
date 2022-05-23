@@ -131,7 +131,7 @@ export default class ClusterSettings extends AdminSettings {
                                     {msg}
                                 </a>
                             ),
-                          }}
+                        }}
                     />
                 </div>
             );

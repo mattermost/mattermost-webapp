@@ -613,7 +613,7 @@
   "admin.customization.enableSVGsDesc": "Active l'aperçu des fichiers joints SVG et autorise à ce qu'ils apparaissent dans les messages.",
   "admin.customization.enableSVGsTitle": "Activer les SVGs :",
   "admin.customization.gfycatApiKey": "Clé d'API Gfycat :",
-  "admin.customization.gfycatApiKeyDescription": "Demande une clé d'API sur [https://developers.gfycat.com/signup/#](!https://developers.gfycat.com/signup/#). Entrez l'ID client que vous recevez par e-mail dans ce champ. Lorsqu'il est vide, la clé d'API par défaut fournie par Gfycat sera utilisée.",
+  "admin.customization.gfycatApiKeyDescription": "Demande une clé d'API sur <link>https://developers.gfycat.com/signup/#</link>. Entrez l'ID client que vous recevez par e-mail dans ce champ. Lorsqu'il est vide, la clé d'API par défaut fournie par Gfycat sera utilisée.",
   "admin.customization.gfycatApiSecret": "Clé secrète d'API Gfycat :",
   "admin.customization.gfycatApiSecretDescription": "La clé secrète d'API générée par Gfycat pour votre clé d'API. Laisser vide utilise la clé secrète d'API par défaut fournie par Gfycat.",
   "admin.customization.iosAppDownloadLinkDesc": "Ajoute un lien pour télécharger l'application iOS. Les utilisateurs qui visitent le site avec un navigateur web mobile sont accueillis avec une page leur permettant de télécharger l'application. Laissez ce champ vide pour ne pas afficher cette page.",

@@ -300,7 +300,7 @@
   "admin.customization.enableGifPickerTitle": "Увімкнути GIF-збирач:",
   "admin.customization.enableLinkPreviewsTitle": "Включити попередній перегляд посилань:",
   "admin.customization.gfycatApiKey": "Ключ API Gfycat:",
-  "admin.customization.gfycatApiKeyDescription": "Запишіть ключ API на [https://developers.gfycat.com/signup/#](https://developers.gfycat.com/signup/#). Введіть ідентифікатор клієнта, який ви отримуєте електронною поштою в цьому полі. Якщо порожній, використовується стандартний ключ API, наданий Gfycat.",
+  "admin.customization.gfycatApiKeyDescription": "Запишіть ключ API на <link>https://developers.gfycat.com/signup/#</link>(https://developers.gfycat.com/signup/#). Введіть ідентифікатор клієнта, який ви отримуєте електронною поштою в цьому полі. Якщо порожній, використовується стандартний ключ API, наданий Gfycat.",
   "admin.customization.gfycatApiSecretDescription": "Секретне API, створене Gfycat для вашого ключа API. Якщо порожній, використовується таємниця API за замовчуванням, надана Gfycat.",
   "admin.customization.iosAppDownloadLinkDesc": "Додає посилання для завантаження програми для Android. Користувачам, які відвідують сайт через мобільний браузер, на спеціальній сторінці буде запропонована можливість завантажити додаток. Залиште, це поле порожнім, щоб запобігти появі цієї сторінки.",
   "admin.customization.iosAppDownloadLinkTitle": "Посилання на завантаження додатка для iOS:",

@@ -528,7 +528,7 @@
   "admin.customization.enableSVGsDesc": "Ativa pré-visualização para arquivos anexados SVG e permite que eles apareçam nas mensagens.",
   "admin.customization.enableSVGsTitle": "Ativar SVGs:",
   "admin.customization.gfycatApiKey": "Gfycat API Key:",
-  "admin.customization.gfycatApiKeyDescription": "Solicite uma chave de API em [https://developers.gfycat.com/signup/#](!https://developers.gfycat.com/signup/#). Digite o ID do cliente que você recebe por e-mail neste campo. Quando em branco, usa a chave de API padrão fornecida pelo Gfycat.",
+  "admin.customization.gfycatApiKeyDescription": "Solicite uma chave de API em <link>https://developers.gfycat.com/signup/#</link>. Digite o ID do cliente que você recebe por e-mail neste campo. Quando em branco, usa a chave de API padrão fornecida pelo Gfycat.",
   "admin.customization.gfycatApiSecret": "Gfycat API Secret:",
   "admin.customization.gfycatApiSecretDescription": "A API secret gerado pelo Gfycat com a sua API key. Quando em branch, utiliza a API secret padrão fornecida pelo Gfycat.",
   "admin.customization.iosAppDownloadLinkDesc": "Adiciona um link para download do app iOS. Usuários que acessarem o site em um navegador móvel serão perguntados com uma página dando a opção para download do app. Deixe este campo em branco para evitar que a página apareça.",

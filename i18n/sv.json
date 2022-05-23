@@ -615,7 +615,7 @@
   "admin.customization.enableSVGsDesc": "Aktivera förhandsgranskning av bifogade SVG-filer och tillåt att de syns i meddelanden.",
   "admin.customization.enableSVGsTitle": "Aktivera SVGs:",
   "admin.customization.gfycatApiKey": "Gfycat API nyckel:",
-  "admin.customization.gfycatApiKeyDescription": "Fråga om en API-nyckel på [https://developers.gfycat.com/signup/#](!https://developers.gfycat.com/signup/#). Ange det Client ID du fått via epost i detta fält. Om fältet är blankt kommer standard-API-nyckeln som distribuerats med Gfycat att användas.",
+  "admin.customization.gfycatApiKeyDescription": "Fråga om en API-nyckel på <link>https://developers.gfycat.com/signup/#</link>. Ange det Client ID du fått via epost i detta fält. Om fältet är blankt kommer standard-API-nyckeln som distribuerats med Gfycat att användas.",
   "admin.customization.gfycatApiSecret": "Gfycat API hemlighet:",
   "admin.customization.gfycatApiSecretDescription": "Den API-hemlighet som genererats av Gfycat till din API-nyckel. Om det är tomt så används standard-API-hemligheten som du fått av Gfycat.",
   "admin.customization.iosAppDownloadLinkDesc": "Lägg till an länk för iOS appar. Användare som använder webbläsare i mobilen kommer till en sida där de kan välja att ladda ner appen. Lämna fältet tomt för att förhindra sidan från att visas.",
