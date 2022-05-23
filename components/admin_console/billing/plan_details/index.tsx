@@ -22,8 +22,7 @@ type PlanDetailsProps = {
     isFreeTrial: boolean;
     subscriptionPlan: string | undefined;
 }
-/* eslint-disable react/prop-types */
-const PlanDetails: React.FC<PlanDetailsProps> = ({isFreeTrial, subscriptionPlan}) => {
+const PlanDetails = ({isFreeTrial, subscriptionPlan}: PlanDetailsProps) => {
     const locale = useSelector((state: GlobalState) => getCurrentLocale(state));
     const userCount = useSelector((state: GlobalState) => state.entities.admin.analytics!.TOTAL_USERS) as number;
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);

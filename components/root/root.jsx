@@ -34,12 +34,13 @@ import NeedsTeam from 'components/needs_team';
 import OnBoardingTaskList from 'components/onboarding_tasklist';
 import LaunchingWorkspace, {LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX} from 'components/preparing_workspace/launching_workspace';
 import {Animations} from 'components/preparing_workspace/steps';
+import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks';
 
 import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
 import Pluggable from 'plugins/pluggable';
 import BrowserStore from 'stores/browser_store';
-import Constants, {StoragePrefixes, WindowSizes} from 'utils/constants';
+import Constants, {StoragePrefixes, WindowSizes, RecommendedNextStepsLegacy, Preferences} from 'utils/constants';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
@@ -120,11 +121,14 @@ export default class Root extends React.PureComponent {
             getFirstAdminSetupComplete: PropTypes.func.isRequired,
             getProfiles: PropTypes.func.isRequired,
             loadConfigAndMe: PropTypes.func.isRequired,
+            savePreferences: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
         products: PropTypes.array,
         showTaskList: PropTypes.bool,
         showLaunchingWorkspace: PropTypes.bool,
+        firstTimeOnboarding: PropTypes.bool,
+        userId: PropTypes.string,
     }
 
     constructor(props) {
@@ -280,6 +284,11 @@ export default class Root extends React.PureComponent {
                 prevProps.history.push('/terms_of_service');
             }
         }
+        if (prevProps.userId !== this.props.userId) {
+            if (this.props.firstTimeOnboarding) {
+                this.initOnboardingPrefs();
+            }
+        }
     }
 
     async redirectToOnboardingOrDefaultTeam() {
@@ -373,6 +382,32 @@ export default class Root extends React.PureComponent {
         } else {
             window.removeEventListener('resize', this.handleWindowResizeEvent);
         }
+    }
+
+    initOnboardingPrefs = async () => {
+        // save to preferences the show/open-task-list to true
+        // also save the recomendedNextSteps-hide to true to avoid asserting to true
+        // the logic to firstTimeOnboarding
+        await this.props.actions.savePreferences(this.props.userId, [
+            {
+                category: OnboardingTaskCategory,
+                user_id: this.props.userId,
+                name: OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW,
+                value: 'true',
+            },
+            {
+                user_id: this.props.userId,
+                category: OnboardingTaskCategory,
+                name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
+                value: 'true',
+            },
+            {
+                user_id: this.props.userId,
+                category: Preferences.RECOMMENDED_NEXT_STEPS,
+                name: RecommendedNextStepsLegacy.HIDE,
+                value: 'true',
+            },
+        ]);
     }
 
     handleLogoutLoginSignal = (e) => {
