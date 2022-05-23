@@ -17,7 +17,7 @@ import {
     getCloudProduct as selectCloudProduct,
     getCloudProducts as selectCloudProducts} from 'mattermost-redux/selectors/entities/cloud';
 
-import BillingPage from 'components/purchase_modal';
+import PurchaseModal from 'components/purchase_modal';
 import {makeAsyncComponent} from 'components/async_load';
 import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
 import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
@@ -176,11 +176,12 @@ function Content(props: ContentProps) {
         isPostTrial = true;
     }
 
-    const onBillingPage = () => {
+    const openPurchaseModal = () => {
+        trackEvent('cloud_admin', 'click_open_purchase_modal');
         props.onHide();
         dispatch(openModal({
             modalId: ModalIdentifiers.CLOUD_PURCHASE,
-            dialogType: BillingPage,
+            dialogType: PurchaseModal,
         }));
     };
 
@@ -279,7 +280,7 @@ function Content(props: ContentProps) {
                             formatMessage({id: 'pricing_modal.briefing.professional.readOnlyAnnoucementChannels', defaultMessage: 'Read-only announcement channels'})],
                     }}
                     buttonDetails={{
-                        action: onBillingPage,
+                        action: openPurchaseModal,
                         text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
                         customClass: isPostTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,
                     }}
