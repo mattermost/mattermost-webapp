@@ -12,10 +12,17 @@ type Props = {
     status: JSX.Element;
     percent: number;
     icon: string;
+    barWidth?: string;
+    fullWidth?: boolean;
 };
 
 const LimitCard = (props: Props) => {
-    return (<div className='ProductLimitCard'>
+    const barWidth = props.barWidth === undefined ? 155 : props.barWidth;
+    let className = 'ProductLimitCard';
+    if (props.fullWidth) {
+        className += ' ProductLimitCard--full-width';
+    }
+    return (<div className={className}>
         <div className='ProductLimitCard__name'>
             <i className={props.icon}/>
             {props.name}
@@ -25,7 +32,7 @@ const LimitCard = (props: Props) => {
         </div>
         <UsagePercentBar
             percent={props.percent}
-            barWidth={155}
+            barWidth={barWidth}
         />
     </div>);
 };

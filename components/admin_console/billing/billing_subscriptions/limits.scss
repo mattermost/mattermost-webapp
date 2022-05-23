@@ -4,6 +4,15 @@
 .ProductLimitsPanel {
     @include cloud-card;
 
+    &--left-panel {
+        max-width: 568px;
+        padding: 24px 32px;
+    }
+
+    &--single-panel {
+        padding: 24px calc(100% - 536px) 24px 32px;
+    }
+
     &__title {
         @include cloud-card-title;
 
@@ -21,6 +30,10 @@
 
     &__actions {
         padding-top: 20px;
+
+        &--single {
+            padding-top: 30px;
+        }
     }
 
     .btn {
@@ -44,5 +57,9 @@
             background: rgba(var(--denim-button-bg-rgb), 0.08);
             color: var(--denim-button-bg);
         }
+    }
+
+    &__contact-link {
+        font-weight: bold;
     }
 }

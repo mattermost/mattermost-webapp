@@ -29,6 +29,7 @@ import MiniModal from 'components/cloud_usage_modal/mini_modal';
 import PricingModal from 'components/pricing_modal';
 
 import LimitCard from './limit_card';
+import SingleInlineLimit from './single_inline_limit';
 
 import './limits.scss';
 
@@ -163,7 +164,11 @@ function TempLaunchModalsComponent() {
     );
 }
 
-const Limits = (): JSX.Element | null => {
+interface Props {
+    showAnnualCard: boolean;
+}
+
+const Limits = (props: Props): JSX.Element | null => {
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
     const intl = useIntl();
     const subscription = useSelector(getCloudSubscription);
@@ -178,8 +183,21 @@ const Limits = (): JSX.Element | null => {
         return null;
     }
 
+    const singleLimitPanel = subscriptionProduct.sku === CloudProducts.PROFESSIONAL;
+
+    let title: React.ReactNode = null;
     let description: React.ReactNode = null;
+    let currentUsage: React.ReactNode = null;
     if (subscriptionProduct.sku === CloudProducts.STARTER) {
+        title = (
+            <FormattedMessage
+                id='workspace_limits.upgrade'
+                defaultMessage='Upgrade to avoid {planName} data limits'
+                values={{
+                    planName: products?.[subscription?.product_id || '']?.name || 'Unknown product',
+                }}
+            />
+        );
         description = intl.formatMessage(
             {
                 id: 'workspace_limits.upgrade_reasons.starter',
@@ -193,32 +211,7 @@ const Limits = (): JSX.Element | null => {
                 boardsCardsLimit: cloudLimits?.boards?.cards || fallbackStarterLimits.boards.cards,
             },
         );
-    } else if (subscriptionProduct.sku === CloudProducts.PROFESSIONAL) {
-        description = intl.formatMessage(
-            {
-                id: 'workspace_limits.upgrade_reasons.professional',
-                defaultMessage: 'On the Professional plan you can only view the most recent {fileStorage} of files. With Enterprise, experience unlimited file storage.',
-            },
-            {
-                fileStorage: asGBString(cloudLimits?.files?.total_storage || FileSizes.Gigabyte * 250, intl.formatNumber),
-            },
-        );
-    }
-
-    return (
-        <div className='ProductLimitsPanel'>
-            <div className='ProductLimitsPanel__title'>
-                <FormattedMessage
-                    id='workspace_limits.upgrade'
-                    defaultMessage='Upgrade to avoid {planName} data limits'
-                    values={{
-                        planName: products?.[subscription?.product_id || '']?.name || 'Unknown product',
-                    }}
-                />
-            </div>
-            {description && <div className='ProductLimitsPanel__description'>
-                {description}
-            </div>}
+        currentUsage = (
             <div className='ProductLimitsPanel__limits'>
                 {cloudLimits?.files?.total_storage && (
                     <LimitCard
@@ -316,33 +309,108 @@ const Limits = (): JSX.Element | null => {
 
                 )}
             </div>
-            <div className='ProductLimitsPanel__actions'>
-                <button
-                    onClick={() => {
-                        trackEvent('cloud_admin', 'click_open_pricing_modal');
-                        dispatch(openModal({
-                            modalId: ModalIdentifiers.PRICING_MODAL,
-                            dialogType: PricingModal,
-                        }));
-                    }}
-                    className='btn btn-primary'
-                >
-                    {intl.formatMessage({
-                        id: 'workspace_limits.modals.view_plan_options',
-                        defaultMessage: 'View plan options',
-                    })}
-                </button>
-                <button
-                    onClick={openSalesLink}
-                    className='btn btn-secondary'
-                >
-                    {intl.formatMessage({
-                        id: 'admin.license.trialCard.contactSales',
-                        defaultMessage: 'Contact sales',
-                    })}
-                </button>
+        );
+    } else if (subscriptionProduct.sku === CloudProducts.PROFESSIONAL) {
+        title = (
+            <FormattedMessage
+                id='workspace_limits.upgrade_professional'
+                defaultMessage='Professional plan data limit'
+            />
+        );
+        description = intl.formatMessage(
+            {
+                id: 'workspace_limits.upgrade_reasons.professional',
+                defaultMessage: 'On the Professional plan you can only view the most recent {fileStorage} of files. With Enterprise, experience unlimited file storage.',
+            },
+            {
+                fileStorage: asGBString(cloudLimits?.files?.total_storage || FileSizes.Gigabyte * 250, intl.formatNumber),
+            },
+        );
+        currentUsage = cloudLimits?.files?.total_storage && (
+            <SingleInlineLimit
+                name={(
+                    <FormattedMessage
+                        id='workspace_limits.file_storage'
+                        defaultMessage='File Storage'
+                    />
+                )}
+                status={(
+                    <FormattedMessage
+                        id='workspace_limits.file_storage.single_usage'
+                        defaultMessage='{actual} of {limit}'
+                        values={{
+                            actual: asGBString(usage.files.totalStorage, intl.formatNumber),
+                            limit: asGBString(cloudLimits.files.total_storage, intl.formatNumber),
+
+                        }}
+                    />
+                )}
+                percent={Math.floor((usage.files.totalStorage / cloudLimits.files.total_storage) * 100)}
+                icon='icon-folder-outline'
+            />
+        );
+    }
+
+    let panelClassname = 'ProductLimitsPanel'
+    if (singleLimitPanel) {
+        if (props.showAnnualCard) {
+            panelClassname += ' ProductLimitsPanel--left-panel'
+        } else {
+            panelClassname += ' ProductLimitsPanel--single-panel'
+        }
+    }
+    let actionsClassname = 'ProductLimitsPanel__actions'
+    if (singleLimitPanel) {
+        actionsClassname += ' ProductLimitsPanel__actions--single'
+    }
+    return (
+        <div className={panelClassname}>
+            {title && <div className='ProductLimitsPanel__title'>
+                {title}
+            </div>}
+            {description && <div className='ProductLimitsPanel__description'>
+                {description}
+            </div>}
+            {currentUsage}
+            <div className={actionsClassname}>
+                {subscriptionProduct.sku === CloudProducts.STARTER && (
+                    <>
+                        <button
+                            onClick={() => {
+                                trackEvent('cloud_admin', 'click_open_pricing_modal');
+                                dispatch(openModal({
+                                    modalId: ModalIdentifiers.PRICING_MODAL,
+                                    dialogType: PricingModal,
+                                }));
+                            }}
+                            className='btn btn-primary'
+                        >
+                            {intl.formatMessage({
+                                id: 'workspace_limits.modals.view_plan_options',
+                                defaultMessage: 'View plan options',
+                            })}
+                        </button>
+                        <button
+                            onClick={openSalesLink}
+                            className='btn btn-secondary'
+                        >
+                            {intl.formatMessage({
+                                id: 'admin.license.trialCard.contactSales',
+                                defaultMessage: 'Contact sales',
+                            })}
+                        </button>
+                    </>
+                )}
+                {subscriptionProduct.sku === CloudProducts.PROFESSIONAL && (
+                    <a onClick={openSalesLink} className="ProductLimitsPanel__contact-link">
+                        <FormattedMessage
+                            id="workspace_limits.contact_to_upgrade"
+                            defaultMessage="Contact us to upgrade"
+                        />
+                    </a>
+                )}
             </div>
-            <TempLaunchModalsComponent/>
+            {!singleLimitPanel && <TempLaunchModalsComponent/>}
         </div>
     );
 };

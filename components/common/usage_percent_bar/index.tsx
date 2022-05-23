@@ -13,8 +13,7 @@ type Thresholds = {
 }
 
 type Props = {
-
-    // 0-100, i.e. not a fraction
+    // 0-100, i.e. not a 0-1 decimal
     percent: number;
     thresholds?: Thresholds;
     barWidth?: number | string;

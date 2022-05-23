@@ -1,0 +1,31 @@
+.SingleInlineLimit {
+    display: flex;
+    flex: 0 0 auto;
+
+    i {
+        color: rgba(var(--center-channel-text-rgb), 0.64);
+        font-size: 22px;
+    }
+
+    &__center {
+        padding-left: 12px;
+        padding-right: 24px;
+        flex: 1 0 auto;
+    }
+
+    &__name {
+        padding-bottom: 4px;
+        font-weight: 600;
+        font-size: 14px;
+        color: rgba(var(--center-channel-text-rgb), 0.72);
+    }
+
+    &__status {
+        font-size: 11px;
+        line-height: 11px;
+        font-weight: bold;
+        color: var(--center-channel-text-rgb);
+        align-self: flex-end;
+    }
+}
+
