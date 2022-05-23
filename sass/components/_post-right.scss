@@ -137,19 +137,8 @@
         border: none;
     }
 
-    .post-right__content--inner-wrapper {
-        position: absolute;
-        display: flex;
-        overflow: hidden;
-        flex-direction: column;
-        inset: 0;
-    }
-
     .post-create__container {
-        position: sticky;
-        bottom: 0;
         width: 100%;
-        max-height: 50vh;
 
         .btn {
             margin-bottom: 10px;
@@ -162,6 +151,7 @@
 
         .custom-textarea {
             min-height: 100px;
+            max-height: calc(50vh - 80px);
         }
 
         .msg-typing {
