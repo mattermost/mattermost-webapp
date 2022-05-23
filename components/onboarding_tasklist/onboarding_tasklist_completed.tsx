@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import {FormattedMessage, useIntl} from 'react-intl';
 
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
@@ -125,7 +125,7 @@ const Completed = (props: Props): JSX.Element => {
     const isCurrentLicensed = license?.IsLicensed;
 
     // Cloud conditions
-    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
+    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription, shallowEqual);
     const isCloud = license?.Cloud === 'true';
     const isFreeTrial = subscription?.is_free_trial === 'true';
     const hadPrevCloudTrial = subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0;

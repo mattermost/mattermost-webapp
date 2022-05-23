@@ -92,10 +92,12 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                 this.setState({gettingTrialError: error, gettingTrialResponseCode: data.status});
             }
         }
+        this.handleAfterTrialRequest();
+    }
+    handleAfterTrialRequest = () => {
         this.setState({gettingTrial: false});
         this.props.actions.getLicenseConfig();
     }
-
     openUpgradeModal = (e: React.MouseEvent) => {
         e.preventDefault();
 
@@ -139,6 +141,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                 message={Utils.localizeMessage('admin.ldap_feature_discovery.call_to_action.primary', 'Start trial')}
                 telemetryId={'start_cloud_trial_feature_discovery'}
                 extraClass='btn btn-primary'
+                afterTrialRequest={this.handleAfterTrialRequest}
             />
         ) : (
             <button
