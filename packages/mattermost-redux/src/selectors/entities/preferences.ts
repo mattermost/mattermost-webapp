@@ -222,3 +222,7 @@ export function isGraphQLEnabled(state: GlobalState): boolean {
 export function cloudFreeEnabled(state: GlobalState): boolean {
     return getFeatureFlagValue(state, 'CloudFree') === 'true';
 }
+
+export function getIsAdvancedTextEditorEnabled(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'AdvancedTextEditor') === 'true';
+}
