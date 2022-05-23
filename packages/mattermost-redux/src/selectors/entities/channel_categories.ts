@@ -339,8 +339,8 @@ export function makeSortChannelsByRecency(): (state: GlobalState, channels: Chan
         isCollapsedThreadsEnabled,
         (channels, lastPosts, crtEnabled) => {
             return [...channels].sort((a, b) => {
-                let aLastPostAt = Math.max(crtEnabled ? (a.last_root_post_at || a.last_post_at) : a.last_post_at, a.create_at);
-                let bLastPostAt = Math.max(crtEnabled ? (b.last_root_post_at || b.last_post_at) : b.last_post_at, b.create_at);
+                const aLastPostAt = Math.max(crtEnabled ? (a.last_root_post_at || a.last_post_at) : a.last_post_at, a.create_at);
+                const bLastPostAt = Math.max(crtEnabled ? (b.last_root_post_at || b.last_post_at) : b.last_post_at, b.create_at);
                 return bLastPostAt - aLastPostAt;
             });
         },
@@ -353,11 +353,11 @@ export function makeUnshiftCurrentUserWithDMs(): (state: GlobalState, channels: 
         (_state: GlobalState, channels: Channel[]) => channels,
         getCurrentUserId,
         (channels: Channel[], currentUserId: string) => {
-            let sortedChannels = [...channels];
+            const sortedChannels = [...channels];
             for (let i = 0; i < channels.length; i++) {
                 const channel = channels[i];
                 const teammateId = getUserIdFromChannelName(currentUserId, channel.name);
-                if(teammateId && teammateId === currentUserId){
+                if (teammateId && teammateId === currentUserId) {
                     // DM (you) need to be on top of the list of reads DMs
                     sortedChannels.splice(i, 1);
                     sortedChannels.unshift(channel);
@@ -366,7 +366,7 @@ export function makeUnshiftCurrentUserWithDMs(): (state: GlobalState, channels: 
             }
 
             return sortedChannels;
-        }
+        },
     );
 }
 
@@ -379,15 +379,13 @@ export function makeSortChannels() {
     return (state: GlobalState, originalChannels: Channel[], category: ChannelCategory) => {
         let channels = originalChannels;
 
-
         // While this function isn't memoized, sortChannelsByX should be since they know what parts of state
         // will affect sort order.
-        
 
         if (category.sorting === CategorySorting.Recency) {
             channels = sortChannelsByRecency(state, channels);
-            if(channels.some((channel) => channel.type === General.DM_CHANNEL)){
-                channels = unshiftCurrentUserWithDMs(state, channels)
+            if (channels.some((channel) => channel.type === General.DM_CHANNEL)) {
+                channels = unshiftCurrentUserWithDMs(state, channels);
             }
         } else if (category.sorting === CategorySorting.Alphabetical || category.sorting === CategorySorting.Default) {
             if (channels.some((channel) => channel.type === General.DM_CHANNEL || channel.type === General.GM_CHANNEL)) {
