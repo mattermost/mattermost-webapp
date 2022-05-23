@@ -80,11 +80,6 @@ export type Post = {
     exists?: boolean;
 };
 
-export type UserActivityPost = Post & {
-    system_post_ids: string[];
-    user_activity_posts: Post[];
-}
-
 export type PostList = {
     order: Array<Post['id']>;
     posts: Record<string, Post>;
@@ -98,17 +93,6 @@ export type PaginatedPostList = PostList & {
 
 export type PostSearchResults = PostList & {
     matches: RelationOneToOne<Post, string[]>;
-};
-
-export type PostWithFormatData = Post & {
-    isFirstReply: boolean;
-    isLastReply: boolean;
-    previousPostIsComment: boolean;
-    commentedOnPost?: Post;
-    consecutivePostByUser: boolean;
-    replyCount: number;
-    isCommentMention: boolean;
-    highlight: boolean;
 };
 
 export type PostOrderBlock = {
@@ -162,4 +146,8 @@ export declare type PostPreviewMetadata = {
     team_name: string;
     channel_type: ChannelType;
     channel_id: string;
+};
+
+export declare type PostsUsageResponse = {
+    count: number;
 };
